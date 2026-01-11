@@ -5,6 +5,8 @@ ThemisDB PDF - Mermaid für Buchdruck optimiert
 - Max 4 Objekte pro Zeile
 - Bessere Lesbarkeit
 - Robuste Fehlerbehandlung
+- UPDATED: Improved page layout with widow/orphan control, running headers, 
+  and professional typography (v1.3.4)
 """
 
 import sys, re, subprocess, base64, time, os
@@ -183,9 +185,9 @@ def clean_md(content, chapter_title=""):
             full_caption = f"Abb. {diagram_id}: {caption}"
             figure_list.append((diagram_id, caption, chapter_title))
             return f'''
-<figure id="fig{diagram_id}" style="margin: 15pt 0; page-break-inside: avoid; text-align: center;">
-  <img src="data:image/svg+xml;base64,{svg_b64}" alt="{full_caption}" style="max-width:100%; height:auto; display:block; margin:0 auto;" />
-  <figcaption style="font-size:9pt; color:#666; margin-top:5pt; font-weight:600;">{full_caption}</figcaption>
+<figure id="fig{diagram_id}" class="figure-container">
+  <img src="data:image/svg+xml;base64,{svg_b64}" alt="{full_caption}" class="figure-image" />
+  <figcaption class="figure-caption">{full_caption}</figcaption>
 </figure>
 '''
 
@@ -196,9 +198,9 @@ def clean_md(content, chapter_title=""):
             full_caption = f"Abb. {diagram_id}: {caption}"
             figure_list.append((diagram_id, caption, chapter_title))
             return f'''
-<figure id="fig{diagram_id}" style="margin: 15pt 0; page-break-inside: avoid; text-align: center;">
-  <img src="data:image/png;base64,{png_b64}" alt="{full_caption}" style="max-width:100%; height:auto; display:block; margin:0 auto;" />
-  <figcaption style="font-size:9pt; color:#666; margin-top:5pt; font-weight:600;">{full_caption}</figcaption>
+<figure id="fig{diagram_id}" class="figure-container">
+  <img src="data:image/png;base64,{png_b64}" alt="{full_caption}" class="figure-image" />
+  <figcaption class="figure-caption">{full_caption}</figcaption>
 </figure>
 '''
 
@@ -256,41 +258,291 @@ md_converter = markdown.Markdown(extensions=['tables', 'codehilite', 'fenced_cod
 html = """<!DOCTYPE html><html><head><meta charset="utf-8">
 <title>ThemisDB v1.3.4</title>
 <style>
-@page { size: A4; margin: 2cm; @bottom-center { content: counter(page); font-size: 9pt; } }
-@page :first { @bottom-center { content: ""; } }
+/* Improved page setup with widow/orphan control */
+@page { 
+    size: A4; 
+    margin: 2.5cm 2cm 2cm 2cm; 
+    @top-center {
+        content: "ThemisDB v1.3.4";
+        font-size: 9pt;
+        font-style: italic;
+        color: #666;
+    }
+    @bottom-center { 
+        content: counter(page); 
+        font-size: 10pt; 
+        font-weight: 500;
+    } 
+}
+@page :first { 
+    @top-center { content: ""; }
+    @bottom-center { content: ""; } 
+}
+@page toc {
+    @bottom-center {
+        content: counter(page, lower-roman);
+        font-size: 10pt;
+    }
+}
+
+/* Base styles with widow/orphan control */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; line-height: 1.5; color: #222; font-size: 11pt; }
+html { orphans: 3; widows: 3; }
+body { 
+    font-family: 'Georgia', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; 
+    line-height: 1.6; 
+    color: #222; 
+    font-size: 11pt; 
+    text-align: justify;
+    hyphens: auto;
+}
 .container { max-width: 100%; }
-.title-page { page-break-after: always; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 29.7cm; text-align: center; background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%); color: white; padding: 4cm 2cm; }
-.title-page h1 { font-size: 48pt; font-weight: 700; margin-bottom: 20pt; border: none; color: white; }
-.title-page .subtitle { font-size: 18pt; margin-bottom: 40pt; opacity: 0.95; }
-.title-page .meta { font-size: 11pt; margin-top: 80pt; opacity: 0.85; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 30pt; line-height: 1.8; }
-.toc-page { page-break-after: always; }
-.toc-page h2 { font-size: 20pt; color: #1e3a5f; border-bottom: 2pt solid #7c4dff; padding-bottom: 12pt; margin-bottom: 20pt; margin-top: 0; font-weight: 700; }
-.toc-list { list-style: none; margin-left: 0; font-size: 10pt; line-height: 1.8; }
-.toc-list li { display: flex; justify-content: space-between; margin-bottom: 6pt; padding-bottom: 4pt; border-bottom: 1px dotted #ddd; }
-.toc-list a { color: #2c5aa0; text-decoration: none; flex: 1; padding-right: 10pt; }
-.toc-page-num { color: #666; font-weight: 500; text-align: right; min-width: 35pt; }
-h1 { page-break-before: always; font-size: 18pt; font-weight: 700; color: #1e3a5f; border-bottom: 2pt solid #7c4dff; padding-bottom: 8pt; margin-bottom: 12pt; margin-top: 0; line-height: 1.2; }
-h2 { font-size: 13pt; font-weight: 700; color: #2c5aa0; margin-top: 10pt; margin-bottom: 6pt; border-left: 3pt solid #7c4dff; padding-left: 10pt; }
-h3 { font-size: 11pt; font-weight: 700; color: #444; margin-top: 8pt; margin-bottom: 4pt; }
-h4, h5, h6 { font-size: 10.5pt; font-weight: 600; color: #555; margin-top: 6pt; margin-bottom: 2pt; }
-p { margin-bottom: 8pt; text-align: justify; line-height: 1.6; }
-code { background: #f5f5f5; padding: 2pt 4pt; border-radius: 2pt; font-family: 'Courier New', monospace; font-size: 9.5pt; color: #d63384; }
-pre { background: #f9f9f9; border: 1pt solid #e0e0e0; border-left: 3pt solid #7c4dff; padding: 8pt; margin: 10pt 0; font-family: 'Courier New', monospace; font-size: 8.5pt; line-height: 1.4; page-break-inside: avoid; }
-pre code { background: none; padding: 0; color: #222; }
-blockquote { border-left: 3pt solid #7c4dff; padding-left: 10pt; margin: 8pt 0; color: #666; font-style: italic; font-size: 10pt; page-break-inside: avoid; }
-table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 9pt; page-break-inside: avoid; }
-table th, table td { border: 1pt solid #ddd; padding: 5pt; text-align: left; }
-table th { background: #1e3a5f; color: white; font-weight: 600; }
-table tr:nth-child(even) { background: #f9f9f9; }
-ul, ol { margin-left: 20pt; margin-bottom: 8pt; margin-top: 4pt; }
-li { margin-bottom: 2pt; line-height: 1.5; }
+
+/* Title page */
+.title-page { 
+    page-break-after: always; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 29.7cm; 
+    text-align: center; 
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%); 
+    color: white; 
+    padding: 4cm 2cm; 
+}
+.title-page h1 { 
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 48pt; 
+    font-weight: 700; 
+    margin-bottom: 20pt; 
+    border: none; 
+    color: white; 
+}
+.title-page .subtitle { 
+    font-size: 18pt; 
+    margin-bottom: 40pt; 
+    opacity: 0.95; 
+}
+.title-page .meta { 
+    font-size: 11pt; 
+    margin-top: 80pt; 
+    opacity: 0.85; 
+    border-top: 1px solid rgba(255,255,255,0.3); 
+    padding-top: 30pt; 
+    line-height: 1.8; 
+}
+
+/* TOC with page numbers */
+.toc-page { 
+    page: toc;
+    page-break-after: always; 
+}
+.toc-page h2 { 
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 20pt; 
+    color: #1e3a5f; 
+    border-bottom: 2pt solid #7c4dff; 
+    padding-bottom: 12pt; 
+    margin-bottom: 20pt; 
+    margin-top: 0; 
+    font-weight: 700;
+    page-break-after: avoid;
+}
+.toc-list { 
+    list-style: none; 
+    margin-left: 0; 
+    font-size: 10pt; 
+    line-height: 1.8; 
+}
+.toc-list li { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 6pt; 
+    padding-bottom: 4pt; 
+    border-bottom: 1px dotted #ddd;
+    page-break-inside: avoid;
+}
+.toc-list a { 
+    color: #2c5aa0; 
+    text-decoration: none; 
+    flex: 1; 
+    padding-right: 10pt; 
+}
+.toc-page-num { 
+    color: #666; 
+    font-weight: 500; 
+    text-align: right; 
+    min-width: 35pt; 
+}
+
+/* Headings with proper page break control */
+h1, h2, h3, h4, h5, h6 { 
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    page-break-after: avoid; 
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+}
+h1 { 
+    page-break-before: always; 
+    font-size: 18pt; 
+    font-weight: 700; 
+    color: #1e3a5f; 
+    border-bottom: 2pt solid #7c4dff; 
+    padding-bottom: 8pt; 
+    margin-bottom: 12pt; 
+    margin-top: 0; 
+    line-height: 1.2; 
+}
+h2 { 
+    font-size: 13pt; 
+    font-weight: 700; 
+    color: #2c5aa0; 
+    margin-top: 10pt; 
+    margin-bottom: 6pt; 
+    border-left: 3pt solid #7c4dff; 
+    padding-left: 10pt; 
+}
+h3 { 
+    font-size: 11pt; 
+    font-weight: 700; 
+    color: #444; 
+    margin-top: 8pt; 
+    margin-bottom: 4pt; 
+}
+h4, h5, h6 { 
+    font-size: 10.5pt; 
+    font-weight: 600; 
+    color: #555; 
+    margin-top: 6pt; 
+    margin-bottom: 2pt; 
+}
+
+/* Paragraphs with widow/orphan control */
+p { 
+    margin-bottom: 8pt; 
+    text-align: justify; 
+    line-height: 1.6;
+    orphans: 3;
+    widows: 3;
+}
+
+/* Code blocks */
+code { 
+    background: #f5f5f5; 
+    padding: 2pt 4pt; 
+    border-radius: 2pt; 
+    font-family: 'Courier New', monospace; 
+    font-size: 9.5pt; 
+    color: #d63384; 
+}
+pre { 
+    background: #f9f9f9; 
+    border: 1pt solid #e0e0e0; 
+    border-left: 3pt solid #7c4dff; 
+    padding: 8pt; 
+    margin: 10pt 0; 
+    font-family: 'Courier New', monospace; 
+    font-size: 8.5pt; 
+    line-height: 1.4; 
+    page-break-inside: avoid;
+    orphans: 4;
+    widows: 4;
+}
+pre code { 
+    background: none; 
+    padding: 0; 
+    color: #222; 
+}
+
+/* Blockquotes and tables */
+blockquote { 
+    border-left: 3pt solid #7c4dff; 
+    padding-left: 10pt; 
+    margin: 8pt 0; 
+    color: #666; 
+    font-style: italic; 
+    font-size: 10pt; 
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+}
+table { 
+    border-collapse: collapse; 
+    width: 100%; 
+    margin: 10pt 0; 
+    font-size: 9pt; 
+    page-break-inside: avoid; 
+}
+table th, table td { 
+    border: 1pt solid #ddd; 
+    padding: 5pt; 
+    text-align: left; 
+}
+table th { 
+    background: #1e3a5f; 
+    color: white; 
+    font-weight: 600;
+    page-break-after: avoid;
+}
+table tr:nth-child(even) { 
+    background: #f9f9f9; 
+}
+thead { display: table-header-group; }
+
+/* Lists with widow/orphan control */
+ul, ol { 
+    margin-left: 20pt; 
+    margin-bottom: 8pt; 
+    margin-top: 4pt;
+    orphans: 3;
+    widows: 3;
+}
+li { 
+    margin-bottom: 2pt; 
+    line-height: 1.5;
+    page-break-inside: avoid;
+}
+
+/* Figures */
+.figure-container {
+    margin: 15pt 0;
+    padding: 10pt;
+    text-align: center;
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+    border: 1pt solid #e0e0e0;
+    background: #fafafa;
+}
+.figure-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 8pt auto;
+}
+.figure-caption {
+    font-size: 9pt;
+    color: #555;
+    font-style: italic;
+    margin-top: 8pt;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Links and other elements */
 a { color: #2c5aa0; text-decoration: none; }
-figure { margin: 15pt 0; page-break-inside: avoid; text-align: center; }
-figcaption { font-size: 9pt; color: #666; margin-top: 5pt; font-weight: 600; }
-.chapter-footer { margin-top: 20pt; padding-top: 8pt; border-top: 1pt solid #ddd; text-align: center; font-size: 8pt; color: #999; page-break-after: always; }
 svg { max-width: 100%; height: auto; }
+.chapter-footer { 
+    margin-top: 20pt; 
+    padding-top: 8pt; 
+    border-top: 1pt solid #ddd; 
+    text-align: center; 
+    font-size: 8pt; 
+    color: #999; 
+    page-break-after: always; 
+}
 </style></head><body><div class="container">
 <div class="title-page">
 <h1>ThemisDB</h1>
