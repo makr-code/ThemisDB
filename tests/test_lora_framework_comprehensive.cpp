@@ -35,6 +35,9 @@
 #include <vector>
 #include <future>
 #include <random>
+#include <algorithm>
+#include <sstream>
+#include <cctype>
 
 using namespace themis::llm::lora;
 using namespace themis::llm;
@@ -697,11 +700,31 @@ TEST_F(LoRAFrameworkComprehensiveTest, ErrorHandling_InvalidVersion_Format) {
     };
     
     for (const auto& version : invalid_versions) {
-        // In real implementation, this would validate version format
-        bool is_valid = !version.empty() && version[0] == 'v' && version.find('.') != std::string::npos;
-        if (version == "" || version == "invalid" || version == "v" || version == "v1.0.0.0") {
-            EXPECT_FALSE(is_valid) << "Version should be invalid: " << version;
-        }
+        // Robust version validation: v<major>.<minor> or v<major>.<minor>.<patch>
+        auto validate_version = [](const std::string& v) -> bool {
+            if (v.empty() || v[0] != 'v') return false;
+            std::string num_part = v.substr(1);
+            if (num_part.empty()) return false;
+            
+            // Check format: digits.digits or digits.digits.digits
+            int dot_count = std::count(num_part.begin(), num_part.end(), '.');
+            if (dot_count < 1 || dot_count > 2) return false;
+            
+            // Verify all parts are numeric
+            std::istringstream ss(num_part);
+            std::string part;
+            int part_count = 0;
+            while (std::getline(ss, part, '.')) {
+                if (part.empty() || !std::all_of(part.begin(), part.end(), ::isdigit)) {
+                    return false;
+                }
+                part_count++;
+            }
+            return part_count >= 2 && part_count <= 3;
+        };
+        
+        bool is_valid = validate_version(version);
+        EXPECT_FALSE(is_valid) << "Version should be invalid: " << version;
     }
 }
 
@@ -842,7 +865,9 @@ TEST_F(LoRAFrameworkComprehensiveTest, Performance_LoadTime_SmallAdapter) {
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     
     EXPECT_TRUE(loaded.has_value());
-    std::cout << "Small adapter load time: " << duration.count() << " µs" << std::endl;
+    
+    // Log performance metric
+    SCOPED_TRACE("Performance: Small adapter load time: " + std::to_string(duration.count()) + " µs");
     
     // Should be very fast (< 1ms)
     EXPECT_LT(duration.count(), 1000);
@@ -860,7 +885,9 @@ TEST_F(LoRAFrameworkComprehensiveTest, Performance_LoadTime_LargeAdapter) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
     EXPECT_TRUE(loaded.has_value());
-    std::cout << "Large adapter load time: " << duration.count() << " ms" << std::endl;
+    
+    // Log performance metric
+    SCOPED_TRACE("Performance: Large adapter load time: " + std::to_string(duration.count()) + " ms");
 }
 
 TEST_F(LoRAFrameworkComprehensiveTest, Performance_CacheHitRate) {
@@ -885,7 +912,8 @@ TEST_F(LoRAFrameworkComprehensiveTest, Performance_CacheHitRate) {
     float hit_rate = static_cast<float>(cache_hits) / requests.size();
     EXPECT_GT(hit_rate, 0.0f);
     
-    std::cout << "Cache hit rate: " << (hit_rate * 100) << "%" << std::endl;
+    // Log performance metric
+    SCOPED_TRACE("Performance: Cache hit rate: " + std::to_string(hit_rate * 100) + "%");
 }
 
 TEST_F(LoRAFrameworkComprehensiveTest, Performance_ThroughputTest) {
@@ -903,7 +931,9 @@ TEST_F(LoRAFrameworkComprehensiveTest, Performance_ThroughputTest) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
     float ops_per_second = (num_operations * 1000.0f) / duration.count();
-    std::cout << "Throughput: " << ops_per_second << " ops/sec" << std::endl;
+    
+    // Log performance metric
+    SCOPED_TRACE("Performance: Throughput: " + std::to_string(ops_per_second) + " ops/sec");
     
     EXPECT_GT(ops_per_second, 0);
 }
