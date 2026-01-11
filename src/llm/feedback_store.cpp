@@ -479,7 +479,9 @@ void FeedbackStore::clear() {
 
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
     // Configurable spam keywords list
-    // In production, this could be loaded from a configuration file
+    // TODO: In production, load these from a configuration file or database
+    // for runtime updates without recompilation
+    // Example: config/spam_keywords.txt or themisdb.spam_detection.keywords table
     static const std::vector<std::string> spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
