@@ -1,6 +1,8 @@
 /**
  * @file test_docs_assistant_aql.cpp
  * @brief Unit tests for documentation assistant AQL functions
+ * 
+ * Tests both the unified HELP() function and individual functions.
  */
 
 #include <gtest/gtest.h>
@@ -157,7 +159,107 @@ TEST_F(DocsAssistantAQLTest, DocsSearchWithLimit) {
 }
 
 /**
- * @brief Test DOCS_QUERY function (requires LLM)
+ * @brief Test unified HELP() function - General query
+ */
+TEST_F(DocsAssistantAQLTest, HelpGeneralQuery) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // General question should route to RAG query
+        auto answer = docs_func.help("How do I enable sharding?");
+        
+        EXPECT_FALSE(answer.empty());
+        EXPECT_TRUE(
+            answer.find("shard") != std::string::npos ||
+            answer.find("distribute") != std::string::npos ||
+            answer.find("enable") != std::string::npos
+        );
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test unified HELP() function - Configuration intent
+ */
+TEST_F(DocsAssistantAQLTest, HelpConfigurationIntent) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // Query with "configure" should route to config help
+        auto answer = docs_func.help("Configure security settings");
+        
+        EXPECT_FALSE(answer.empty());
+        EXPECT_TRUE(
+            answer.find("security") != std::string::npos ||
+            answer.find("TLS") != std::string::npos ||
+            answer.find("auth") != std::string::npos
+        );
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test unified HELP() function - Troubleshooting intent
+ */
+TEST_F(DocsAssistantAQLTest, HelpTroubleshootingIntent) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // Query with "error" should route to troubleshooting
+        auto answer = docs_func.help("Server hangs at startup");
+        
+        EXPECT_FALSE(answer.empty());
+        EXPECT_TRUE(
+            answer.find("port") != std::string::npos ||
+            answer.find("startup") != std::string::npos ||
+            answer.find("hang") != std::string::npos
+        );
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test unified HELP() function - Search intent
+ */
+TEST_F(DocsAssistantAQLTest, HelpSearchIntent) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    // Query with "search" should route to document search
+    auto answer = docs_func.help("Search for sharding documentation");
+    
+    EXPECT_FALSE(answer.empty());
+    // Should contain search results formatting
+    EXPECT_TRUE(
+        answer.find("Found") != std::string::npos ||
+        answer.find("relevant") != std::string::npos ||
+        answer.find("document") != std::string::npos
+    );
+}
+
+/**
+ * @brief Test DOCS_QUERY function (explicit) (requires LLM)
  */
 TEST_F(DocsAssistantAQLTest, DocsQuery) {
     auto& docs_func = themis::aql::getDocsAssistantFunctions();

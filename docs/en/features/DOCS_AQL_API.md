@@ -4,7 +4,64 @@
 
 ThemisDB provides integrated documentation assistance through AQL functions that leverage a pre-compiled documentation database and LLM capabilities. These functions enable users to query documentation, get configuration help, and troubleshoot issues directly from AQL queries.
 
-## Available Functions
+**NEW: Unified HELP() Function** - A single intelligent function that automatically detects your intent and provides the most appropriate response. This is the **recommended** way to access documentation assistance.
+
+## Primary Function (Recommended)
+
+### HELP(query: string) -> string
+
+**The unified intelligent helper function that automatically determines intent from your query.**
+
+**Syntax:**
+```sql
+SELECT HELP(question_or_query) AS answer;
+```
+
+**Parameters:**
+- `question_or_query` (string): Any question, problem description, or search request
+
+**Returns:**
+- String containing the appropriate response (answer, guidance, search results, or solution)
+
+**How it works:**
+The `HELP()` function analyzes your query and automatically routes it to the appropriate underlying function:
+- **Configuration questions** (contains: "config", "configure", "setting", "setup") → Configuration help
+- **Troubleshooting** (contains: "error", "fail", "problem", "issue", "hang", "crash") → Troubleshooting help
+- **Search requests** (contains: "search", "find", "look for") → Document search
+- **General questions** → RAG-powered query with context
+
+**Examples:**
+```sql
+-- General documentation questions (RAG-powered)
+SELECT HELP('How do I enable sharding?') AS answer;
+SELECT HELP('What is vector search?') AS info;
+SELECT HELP('Explain RAID configuration') AS explanation;
+
+-- Configuration help (auto-detected)
+SELECT HELP('Configure security settings') AS guide;
+SELECT HELP('Setup replication') AS setup_guide;
+SELECT HELP('How to configure sharding?') AS config;
+
+-- Troubleshooting (auto-detected)
+SELECT HELP('Server hangs at startup') AS solution;
+SELECT HELP('Connection error on port 8529') AS fix;
+SELECT HELP('Database fails to start') AS troubleshooting;
+
+-- Document search (auto-detected)
+SELECT HELP('Search for RAID documentation') AS search_results;
+SELECT HELP('Find information about vector embeddings') AS docs;
+SELECT HELP('Look for security best practices') AS references;
+
+-- Works with compound queries
+SELECT HELP('I have an error: server not responding') AS solution;
+SELECT HELP('Need to configure TLS, how?') AS guide;
+```
+
+---
+
+## Advanced Functions (For Explicit Control)
+
+These functions are available when you need explicit control over the type of operation. The `HELP()` function uses these internally.
 
 ### DOCS_QUERY(query: string) -> string
 

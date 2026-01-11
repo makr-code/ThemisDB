@@ -3,6 +3,7 @@
  * @brief AQL function wrappers for Documentation Assistant
  * 
  * Exposes DocsAssistant functionality as AQL functions:
+ * - HELP(query: string) -> string - Unified intelligent helper (RECOMMENDED)
  * - DOCS_QUERY(query: string) -> string
  * - DOCS_SEARCH(query: string, limit: int) -> array<object>
  * - DOCS_CONFIG_HELP(topic: string) -> string
@@ -10,6 +11,12 @@
  * 
  * Usage examples:
  * ```sql
+ * -- Unified helper (automatically detects intent)
+ * SELECT HELP('How do I enable sharding?') AS answer;
+ * SELECT HELP('Server hangs at startup') AS solution;
+ * SELECT HELP('Configure security settings') AS guide;
+ * 
+ * -- Explicit function calls (for advanced use)
  * SELECT DOCS_QUERY('How do I enable sharding?') AS answer;
  * SELECT DOCS_SEARCH('RAID configuration', 10) AS relevant_docs;
  * SELECT DOCS_CONFIG_HELP('security') AS config_guide;
@@ -46,6 +53,27 @@ public:
      * @brief Destructor
      */
     ~DocsAssistantFunctions();
+    
+    /**
+     * @brief Unified intelligent helper function (RECOMMENDED)
+     * 
+     * Automatically determines the intent from the query and routes to the
+     * appropriate function:
+     * - Configuration questions → configuration help
+     * - Error/problem descriptions → troubleshooting help
+     * - Search requests → document search
+     * - General questions → RAG-powered query
+     * 
+     * @param query User query or question
+     * @return Generated answer, search results, or guidance as string
+     * 
+     * Examples:
+     * - HELP('How do I enable sharding?') → RAG query
+     * - HELP('Configure security') → Configuration help
+     * - HELP('Server hangs at startup') → Troubleshooting
+     * - HELP('Search for RAID documentation') → Document search
+     */
+    std::string help(const std::string& query);
     
     /**
      * @brief Query documentation for assistance
