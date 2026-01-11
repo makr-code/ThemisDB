@@ -1,0 +1,216 @@
+# ============================================================================
+# ThemisDB LoRA Framework - Docker Compose Configuration
+# ============================================================================
+# Complete development and testing environment for LoRA framework
+# Services: ThemisDB, Prometheus, Grafana, Test DB, vcpkg Builder
+#
+# Quick Start:
+#   docker-compose up -d
+#
+# Access:
+#   - ThemisDB:  http://localhost:8529
+#   - Prometheus: http://localhost:9091
+#   - Grafana:   http://localhost:3000 (admin/admin)
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # ThemisDB with LoRA Framework
+  # ==========================================================================
+  themisdb:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.themisdb
+      args:
+        BUILD_TYPE: Release
+        ENABLE_LLM: "ON"
+        ENABLE_LORA: "ON"
+        BUILD_TESTS: "ON"
+    image: themisdb:lora-latest
+    container_name: themisdb-lora
+    hostname: themisdb
+    ports:
+      - "8529:8529"  # HTTP API
+      - "8765:8765"  # AQL endpoint
+      - "9090:9090"  # Metrics endpoint
+    volumes:
+      - themisdb-data:/var/lib/themisdb/data
+      - themisdb-logs:/var/lib/themisdb/logs
+      - ./config:/etc/themisdb:ro
+    environment:
+      - THEMIS_ENABLE_LLM=true
+      - THEMIS_LORA_ENABLED=true
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_METRICS_PORT=9090
+      - THEMIS_LOG_LEVEL=info
+      - THEMIS_DATA_DIR=/var/lib/themisdb/data
+      - THEMIS_LOG_DIR=/var/lib/themisdb/logs
+    depends_on:
+      - prometheus
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # ==========================================================================
+  # Prometheus - Metrics Collection
+  # ==========================================================================
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    container_name: prometheus-lora
+    hostname: prometheus
+    ports:
+      - "9091:9090"  # Prometheus UI (offset to avoid conflict with ThemisDB)
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  # ==========================================================================
+  # Grafana - Metrics Visualization
+  # ==========================================================================
+  grafana:
+    image: grafana/grafana:10.2.3
+    container_name: grafana-lora
+    hostname: grafana
+    ports:
+      - "3000:3000"  # Grafana UI
+    volumes:
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - GF_INSTALL_PLUGINS=
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/lora-overview.json
+    depends_on:
+      - prometheus
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  # ==========================================================================
+  # Test Database - For Integration Tests
+  # ==========================================================================
+  test-db:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.themisdb
+      args:
+        BUILD_TYPE: Debug
+        ENABLE_LLM: "ON"
+        ENABLE_LORA: "ON"
+        BUILD_TESTS: "ON"
+    image: themisdb:lora-test
+    container_name: themisdb-test
+    hostname: test-db
+    ports:
+      - "8530:8529"  # Offset port for test instance
+    volumes:
+      - test-db-data:/var/lib/themisdb/data
+    environment:
+      - THEMIS_ENABLE_LLM=true
+      - THEMIS_LORA_ENABLED=true
+      - THEMIS_HTTP_PORT=8529
+      - THEMIS_LOG_LEVEL=debug
+      - THEMIS_DATA_DIR=/var/lib/themisdb/data
+    networks:
+      - themis-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8529/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # ==========================================================================
+  # vcpkg Builder - Dependency Cache Service
+  # ==========================================================================
+  vcpkg-builder:
+    image: ubuntu:22.04
+    container_name: vcpkg-builder
+    hostname: vcpkg-builder
+    volumes:
+      - vcpkg-cache:/opt/vcpkg
+      - vcpkg-downloads:/opt/vcpkg/downloads
+      - vcpkg-packages:/opt/vcpkg/packages
+    environment:
+      - VCPKG_ROOT=/opt/vcpkg
+      - VCPKG_DOWNLOADS=/opt/vcpkg/downloads
+    command: /bin/bash -c "echo 'vcpkg builder ready' && tail -f /dev/null"
+    networks:
+      - themis-network
+    restart: unless-stopped
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  themis-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ============================================================================
+# Volumes
+# ============================================================================
+volumes:
+  # ThemisDB data and logs
+  themisdb-data:
+    driver: local
+  themisdb-logs:
+    driver: local
+  
+  # Test database data (ephemeral for testing)
+  test-db-data:
+    driver: local
+  
+  # Prometheus data
+  prometheus-data:
+    driver: local
+  
+  # Grafana data
+  grafana-data:
+    driver: local
+  
+  # vcpkg cache volumes (shared across builds)
+  vcpkg-cache:
+    driver: local
+  vcpkg-downloads:
+    driver: local
+  vcpkg-packages:
+    driver: local
