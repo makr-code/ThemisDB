@@ -1097,8 +1097,19 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
             feedback.adapter_version = json_value_to<std::string>(body->at("adapter_version"));
         }
         
-        // Create feedback store (placeholder - in production, this should be a member)
-        // For now, we'll return a simulated response
+        // TODO: Integrate with actual FeedbackStore
+        // This requires passing a RocksDB instance to LLMApiHandler
+        // For now, return a placeholder response
+        // 
+        // Example integration:
+        // if (feedback_store_) {
+        //     auto stored = feedback_store_->createFeedback(feedback);
+        //     json response_data = stored.toJson();
+        //     response_data["message"] = "Feedback recorded successfully";
+        //     return createJsonResponse(response_data, http::status::created);
+        // }
+        
+        // Placeholder response
         json response_data = {
             {"id", "feedback-" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())},
             {"type", type_str},
@@ -1106,7 +1117,7 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
             {"answer", feedback.answer},
             {"validation_status", "pending"},
             {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
-            {"message", "Feedback recorded successfully"}
+            {"message", "Feedback recorded successfully (placeholder - FeedbackStore integration pending)"}
         };
         
         return createJsonResponse(response_data, http::status::created);

@@ -8,7 +8,6 @@
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <memory>
-#include <thread>
 #include <chrono>
 
 namespace themis {
@@ -382,7 +381,7 @@ TEST_F(FeedbackStoreTest, ListUnusedForTraining) {
 
 // Test: Pagination with limit
 TEST_F(FeedbackStoreTest, PaginationWithLimit) {
-    // Create 20 feedback entries
+    // Create 20 feedback entries with incrementing IDs
     for (int i = 0; i < 20; i++) {
         FeedbackStore::FeedbackEntry feedback;
         feedback.type = FeedbackType::POSITIVE;
@@ -390,9 +389,6 @@ TEST_F(FeedbackStoreTest, PaginationWithLimit) {
         feedback.question = "Question " + std::to_string(i);
         feedback.answer = "Answer " + std::to_string(i);
         feedback_store_->createFeedback(feedback);
-        
-        // Small delay to ensure different timestamps
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     
     // List with limit of 5

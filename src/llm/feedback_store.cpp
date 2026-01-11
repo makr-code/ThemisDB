@@ -24,7 +24,7 @@ static std::string feedbackTypeToString(FeedbackType type) {
 static FeedbackType feedbackTypeFromString(const std::string& str) {
     if (str == "positive") return FeedbackType::POSITIVE;
     if (str == "negative") return FeedbackType::NEGATIVE;
-    return FeedbackType::POSITIVE; // Default
+    throw std::invalid_argument("Invalid feedback type: " + str + " (must be 'positive' or 'negative')");
 }
 
 static std::string validationStatusToString(ValidationStatus status) {
@@ -42,7 +42,7 @@ static ValidationStatus validationStatusFromString(const std::string& str) {
     if (str == "approved") return ValidationStatus::APPROVED;
     if (str == "rejected") return ValidationStatus::REJECTED;
     if (str == "flagged") return ValidationStatus::FLAGGED;
-    return ValidationStatus::PENDING; // Default
+    throw std::invalid_argument("Invalid validation status: " + str);
 }
 
 // ===== FeedbackEntry JSON Serialization =====
@@ -73,13 +73,29 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
     entry.id = j.value("id", "");
     entry.interaction_id = j.value("interaction_id", "");
     entry.user_id = j.value("user_id", "");
-    entry.type = feedbackTypeFromString(j.value("type", "positive"));
+    
+    // Use default value with error handling for type
+    std::string type_str = j.value("type", "positive");
+    try {
+        entry.type = feedbackTypeFromString(type_str);
+    } catch (const std::exception&) {
+        entry.type = FeedbackType::POSITIVE; // Fallback for corrupted data
+    }
+    
     entry.question = j.value("question", "");
     entry.answer = j.value("answer", "");
     entry.correction = j.value("correction", "");
     entry.comment = j.value("comment", "");
     entry.timestamp_ms = j.value("timestamp_ms", int64_t(0));
-    entry.validation_status = validationStatusFromString(j.value("validation_status", "pending"));
+    
+    // Use default value with error handling for validation status
+    std::string status_str = j.value("validation_status", "pending");
+    try {
+        entry.validation_status = validationStatusFromString(status_str);
+    } catch (const std::exception&) {
+        entry.validation_status = ValidationStatus::PENDING; // Fallback for corrupted data
+    }
+    
     entry.model_version = j.value("model_version", "");
     entry.adapter_id = j.value("adapter_id", "");
     entry.adapter_version = j.value("adapter_version", "");
@@ -461,6 +477,17 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
+const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
+    // Configurable spam keywords list
+    // In production, this could be loaded from a configuration file
+    static const std::vector<std::string> spam_keywords = {
+        "buy now", "click here", "viagra", "casino", "lottery", 
+        "free money", "million dollars", "nigerian prince",
+        "weight loss", "work from home", "make money fast"
+    };
+    return spam_keywords;
+}
+
 bool FeedbackStore::isLikelySpam(const std::string& text) {
     if (text.empty()) {
         return false; // Empty is not spam, just low quality
@@ -483,10 +510,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    std::vector<std::string> spam_keywords = {
-        "buy now", "click here", "viagra", "casino", "lottery", 
-        "free money", "million dollars", "nigerian prince"
-    };
+    const auto& spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);

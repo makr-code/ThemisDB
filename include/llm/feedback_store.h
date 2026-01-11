@@ -188,7 +188,8 @@ private:
     std::string makeKey(const std::string& id) const;
     std::string generateId() const;
     
-    // Helper for spam detection
+    // Spam detection configuration
+    static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
 };
 
