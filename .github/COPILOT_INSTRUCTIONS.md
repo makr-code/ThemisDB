@@ -154,8 +154,9 @@ Wenn du Issues erstellst, PRs vorschlägst, oder Skripte zur Issue-Erstellung ü
    ```
 
 5. **Bei Scripts zur Issue-Erstellung**
-   - Skripte wie `.github/create_github_issues.py` und `create_missing_issues.py` sollten Labels validieren
-   - Prüfe Labels gegen `labels.yml` bevor Issues erstellt werden
+   - Das primäre Skript ist: `.github/scripts/create_issues_from_templates.py`
+   - Dieses Skript erstellt Issues aus Templates in `.github/ISSUE_TEMPLATE/`
+   - Alle Labels in Templates sollten gegen `labels.yml` validiert werden
    - Gib klare Fehlermeldungen wenn ungültige Labels verwendet werden
 
 6. **Label-Validierung in Python**

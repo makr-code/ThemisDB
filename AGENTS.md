@@ -79,6 +79,7 @@ When guiding users to create issues or when reviewing issue creation scripts:
 - **ALWAYS** reference [.github/labels.yml](.github/labels.yml) for valid label names
 - Direct users to [.github/LABELS_GUIDE.md](.github/LABELS_GUIDE.md) for comprehensive label documentation
 - Ensure that any labels used in issues, PRs, or scripts match the labels defined in `labels.yml`
+- The primary issue creation script is located at: `.github/scripts/create_issues_from_templates.py`
 - Common label categories include:
   - Priority: `priority:P0`, `priority:P1`, `priority:P2`, `priority:P3`
   - Type: `type:bug`, `type:feature`, `type:enhancement`, `type:documentation`, etc.
@@ -91,6 +92,7 @@ When guiding users to create issues or when reviewing issue creation scripts:
 - "Please check [.github/labels.yml](.github/labels.yml) to see the available labels"
 - "Use the label format specified in `.github/LABELS_GUIDE.md`, for example `priority:P1` and `type:bug`"
 - "Make sure to use valid labels from `.github/labels.yml` - see the guide at `.github/LABELS_GUIDE.md` for details"
+- "When creating issue templates, use labels from `.github/labels.yml`. The script `.github/scripts/create_issues_from_templates.py` will read these labels."
 
 ## Merge Strategy for Pull Requests
 

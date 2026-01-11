@@ -3,6 +3,17 @@
 GitHub Issues Generator from Templates
 Creates issues from .github/ISSUE_TEMPLATE/*.md files and optionally deletes templates after creation.
 
+IMPORTANT: Label Validation
+    All labels used in issue templates MUST be valid labels defined in .github/labels.yml
+    See .github/LABELS_GUIDE.md for the complete list of available labels.
+    
+    Common label categories:
+    - priority:P0, priority:P1, priority:P2, priority:P3
+    - type:bug, type:feature, type:enhancement, type:documentation, etc.
+    - area:llm, area:storage, area:aql, area:api, etc.
+    
+    Before creating issue templates with labels, verify they exist in .github/labels.yml
+
 Usage:
     python create_issues_from_templates.py [--delete-templates] [--dry-run]
 
@@ -124,6 +135,8 @@ class IssueTemplateProcessor:
                         issue_data['title'] = value
                     elif key == 'labels':
                         # Parse labels - can be comma-separated or array
+                        # NOTE: Labels should be valid labels from .github/labels.yml
+                        # See .github/LABELS_GUIDE.md for available labels
                         if value.startswith('['):
                             labels = re.findall(r"'([^']*)'|\"([^\"]*)\"", value)
                             issue_data['labels'] = [l[0] or l[1] for l in labels]

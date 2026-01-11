@@ -2,17 +2,6 @@
 """
 Auto-create GitHub Issues from .github/issues/*.md files
 Usage: python create_github_issues.py
-
-IMPORTANT: This script reads labels from issue markdown files.
-           Ensure that labels used in issue files are valid labels defined in .github/labels.yml
-           See .github/LABELS_GUIDE.md for the complete list of available labels.
-           
-           Common label categories:
-           - priority:P0, priority:P1, priority:P2, priority:P3
-           - type:bug, type:feature, type:enhancement, type:documentation, etc.
-           - area:llm, area:storage, area:aql, area:api, etc.
-           
-           For label validation, consider adding a check against .github/labels.yml
 """
 
 import os
@@ -67,8 +56,6 @@ def extract_frontmatter(content):
             frontmatter['title'] = title_match.group(1).strip('"\'')
         
         # Extract labels
-        # NOTE: Labels should be valid labels from .github/labels.yml
-        # See .github/LABELS_GUIDE.md for available labels
         labels_match = re.search(r'^labels:\s*(.+?)\s*$', frontmatter_text, re.MULTILINE)
         if labels_match:
             labels_text = labels_match.group(1)
