@@ -1,0 +1,132 @@
+# ============================================================================
+# ThemisDB Configuration - LoRA Framework Development
+# ============================================================================
+# Configuration for Docker Compose development environment
+# ============================================================================
+
+# Server Configuration
+server:
+  host: "0.0.0.0"
+  http_port: 8529
+  aql_port: 8765
+  metrics_port: 9090
+  max_connections: 1000
+  request_timeout: 300  # seconds
+
+# Storage Configuration
+storage:
+  data_dir: "/var/lib/themisdb/data"
+  wal_dir: "/var/lib/themisdb/data/wal"
+  backup_dir: "/var/lib/themisdb/backups"
+  
+  # RocksDB Configuration
+  rocksdb:
+    block_cache_size_mb: 512
+    write_buffer_size_mb: 128
+    max_open_files: 1000
+    compression: "lz4"
+    enable_statistics: true
+
+# Logging Configuration
+logging:
+  level: "info"  # trace, debug, info, warn, error
+  output: "/var/lib/themisdb/logs/themisdb.log"
+  max_size_mb: 100
+  max_files: 10
+  console: true
+
+# LLM Configuration
+llm:
+  enabled: true
+  
+  # Model Storage
+  model_storage:
+    enabled: true
+    max_models: 10
+    cache_size_mb: 2048
+  
+  # LoRA Framework Configuration
+  lora:
+    enabled: true
+    
+    # Adapter Management
+    adapters:
+      max_loaded: 5
+      cache_size_mb: 1024
+      hot_swap_enabled: true
+      preload_on_startup: []
+    
+    # Training Configuration
+    training:
+      enabled: true
+      max_batch_size: 32
+      learning_rate: 0.0001
+      num_epochs: 3
+      validation_split: 0.2
+    
+    # Storage Configuration
+    storage:
+      enable_encryption: true
+      enable_signatures: true
+      enable_versioning: true
+      enable_deduplication: true
+    
+    # Metrics Configuration
+    metrics:
+      enabled: true
+      collection_interval_seconds: 10
+      detailed_metrics: true
+
+# Metrics Configuration
+metrics:
+  enabled: true
+  prometheus:
+    enabled: true
+    port: 9090
+    path: "/metrics"
+  
+  # Metric Collection
+  collection:
+    interval_seconds: 10
+    buffer_size: 1000
+  
+  # Exported Metrics
+  export:
+    - "lora_adapter_load_time"
+    - "lora_adapter_memory_usage"
+    - "lora_inference_latency"
+    - "lora_cache_hit_rate"
+    - "lora_training_progress"
+
+# Security Configuration
+security:
+  enabled: false  # Disabled for development
+  
+  # Authentication (disabled in dev)
+  authentication:
+    enabled: false
+  
+  # Encryption (enabled for LoRA)
+  encryption:
+    at_rest: true
+    in_transit: false
+
+# Performance Configuration
+performance:
+  # Thread Pool
+  thread_pool_size: 4
+  
+  # Query Optimization
+  query_cache_size_mb: 256
+  max_query_time_seconds: 60
+  
+  # Resource Limits
+  max_memory_mb: 4096
+  max_cpu_percent: 80
+
+# Development Configuration
+development:
+  enable_profiling: true
+  enable_debug_endpoints: true
+  hot_reload: false  # Not supported yet
+  verbose_logging: true
