@@ -321,23 +321,23 @@ TEST_F(ErrorRegistryTest, NewErrorCodesInJSON) {
     auto& errors = json_data["errors"];
     
     // Check for presence of new error codes
-    bool found_2005 = false;
-    bool found_2006 = false;
-    bool found_2105 = false;
-    bool found_3004 = false;
+    bool found_invalid_handle = false;
+    bool found_vision_failed = false;
+    bool found_lora_mismatch = false;
+    bool found_stdio_failed = false;
     
     for (const auto& error : errors) {
         int code = error["code"].get<int>();
-        if (code == 2005) found_2005 = true;
-        if (code == 2006) found_2006 = true;
-        if (code == 2105) found_2105 = true;
-        if (code == 3004) found_3004 = true;
+        if (code == static_cast<int>(ErrorCode::ERR_LLM_INVALID_HANDLE)) found_invalid_handle = true;
+        if (code == static_cast<int>(ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED)) found_vision_failed = true;
+        if (code == static_cast<int>(ErrorCode::ERR_LORA_MODEL_MISMATCH)) found_lora_mismatch = true;
+        if (code == static_cast<int>(ErrorCode::ERR_MCP_STDIO_INIT_FAILED)) found_stdio_failed = true;
     }
     
-    EXPECT_TRUE(found_2005) << "Error code 2005 (ERR_LLM_INVALID_HANDLE) not found in JSON";
-    EXPECT_TRUE(found_2006) << "Error code 2006 (ERR_LLM_VISION_INFERENCE_FAILED) not found in JSON";
-    EXPECT_TRUE(found_2105) << "Error code 2105 (ERR_LORA_MODEL_MISMATCH) not found in JSON";
-    EXPECT_TRUE(found_3004) << "Error code 3004 (ERR_MCP_STDIO_INIT_FAILED) not found in JSON";
+    EXPECT_TRUE(found_invalid_handle) << "ERR_LLM_INVALID_HANDLE not found in JSON";
+    EXPECT_TRUE(found_vision_failed) << "ERR_LLM_VISION_INFERENCE_FAILED not found in JSON";
+    EXPECT_TRUE(found_lora_mismatch) << "ERR_LORA_MODEL_MISMATCH not found in JSON";
+    EXPECT_TRUE(found_stdio_failed) << "ERR_MCP_STDIO_INIT_FAILED not found in JSON";
 }
 
 TEST_F(ErrorRegistryTest, SearchNewErrorCodes) {
