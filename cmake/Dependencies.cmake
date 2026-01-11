@@ -20,7 +20,7 @@ if(NOT OpenSSL_FOUND)
 endif()
 message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 
-find_package(ZLIB 1.3.1 REQUIRED)
+find_package(ZLIB 1.3 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
 find_package(RocksDB REQUIRED CONFIG)

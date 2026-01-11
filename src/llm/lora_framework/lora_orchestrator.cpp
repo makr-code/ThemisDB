@@ -5,13 +5,24 @@
 #include "llm/lora_framework/lora_audit_logger.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
+#include <chrono>
 
 namespace themis {
 namespace llm {
+namespace lora {
 
 // ═══════════════════════════════════════════════════════════
 // Implementation Details
 // ═══════════════════════════════════════════════════════════
+
+// Helper function to generate job IDs
+static std::string generateJobId(const std::string& operation, const std::string& adapter_id) {
+    auto now = std::chrono::system_clock::now();
+    auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+    ).count();
+    return operation + "_" + adapter_id + "_" + std::to_string(timestamp);
+}
 
 class LoRAOrchestrator::Impl {
 public:
@@ -37,32 +48,18 @@ public:
             spdlog::info("Initializing LoRA Orchestrator...");
             
             // Initialize storage service
-            LoRAStorageService::Config storage_config;
-            storage_config.db = config.db;
-            storage_config.blob_manager = config.blob_manager;
-            storage_config.signature_manager = config.signature_manager;
-            storage_config.enable_encryption = config.enable_encryption;
-            storage_config.enable_signatures = config.enable_signatures;
-            
-            storage_service = std::make_unique<LoRAStorageService>(storage_config);
+            storage_service = std::make_unique<LoRAStorageService>(config.storage_config);
             
             // Initialize adapter manager
-            LoRAAdapterManager::Config adapter_config;
-            adapter_config.cache_size = config.max_cached_adapters;
-            adapter_config.enable_cache = true;
-            
-            adapter_manager = std::make_unique<LoRAAdapterManager>(adapter_config);
+            adapter_manager = std::make_unique<LoRAAdapterManager>(config.adapter_config);
             
             // Initialize training service
-            LoRATrainingService::Config training_config;
-            training_config.enable_on_the_fly = true;
-            
-            training_service = std::make_unique<LoRATrainingService>(training_config);
+            training_service = std::make_unique<LoRATrainingService>(config.training_config);
             
             // Initialize audit logger
             utils::AuditLoggerConfig audit_config;
             audit_config.log_file = "logs/lora_orchestrator_audit.jsonl";
-            audit_config.enable_encryption = config.enable_encryption;
+            audit_config.enable_encryption = config.storage_config.enable_encryption;
             
             audit_logger = std::make_unique<LoRAAuditLogger>(audit_config);
             
@@ -91,9 +88,11 @@ LoRAOrchestrator::~LoRAOrchestrator() = default;
 // CRUD Operations
 // ═══════════════════════════════════════════════════════════
 
-bool LoRAOrchestrator::createAdapter(
+std::string LoRAOrchestrator::createAdapter(
     const std::string& adapter_id,
-    const TrainingData& training_data
+    const TrainingData& training_data,
+    const std::optional<LoRAHyperparameters>& hyperparameters,
+    bool async
 ) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     
@@ -112,11 +111,11 @@ bool LoRAOrchestrator::createAdapter(
         
         if (!result.success) {
             spdlog::error("Training failed for adapter: {}", adapter_id);
-            return false;
+            return "";  // Empty string indicates failure
         }
         
         // Save adapter
-        LoRAMetadata metadata;
+        AdapterMetadata metadata;
         metadata.adapter_id = adapter_id;
         metadata.base_model = training_data.base_model_id;
         metadata.version = "v1.0";
@@ -132,15 +131,17 @@ bool LoRAOrchestrator::createAdapter(
         
         if (!saved) {
             spdlog::error("Failed to save adapter: {}", adapter_id);
-            return false;
+            return "";  // Empty string indicates failure
         }
         
         spdlog::info("Adapter created successfully: {}", adapter_id);
-        return true;
+        
+        // Return job ID for async, or "success" for sync
+        return async ? generateJobId("create", adapter_id) : "success";
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to create adapter {}: {}", adapter_id, e.what());
-        return false;
+        return "";  // Empty string indicates failure
     }
 }
 
@@ -170,9 +171,11 @@ std::optional<AdapterInfo> LoRAOrchestrator::getAdapter(const std::string& adapt
     }
 }
 
-bool LoRAOrchestrator::updateAdapter(
+std::string LoRAOrchestrator::updateAdapter(
     const std::string& adapter_id,
-    const TrainingData& additional_data
+    const TrainingData& training_data,
+    bool incremental,
+    bool async
 ) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     
@@ -183,26 +186,26 @@ bool LoRAOrchestrator::updateAdapter(
         auto metadata = impl_->storage_service->loadMetadata(adapter_id);
         if (!metadata) {
             spdlog::error("Adapter not found: {}", adapter_id);
-            return false;
+            return "";  // Empty string indicates failure
         }
         
         // Log update event
         impl_->audit_logger->logEvent(
             LoRAAuditEventType::ADAPTER_UPDATED,
             adapter_id,
-            {{"additional_samples", additional_data.samples.size()}}
+            {{"additional_samples", training_data.samples.size()}}
         );
         
         // Incremental training
-        auto result = impl_->training_service->trainBatch(additional_data.samples);
+        auto result = impl_->training_service->trainBatch(training_data.samples);
         
         if (!result.success) {
             spdlog::error("Training failed for adapter update: {}", adapter_id);
-            return false;
+            return "";  // Empty string indicates failure
         }
         
         // Update metadata
-        metadata->training_samples += additional_data.samples.size();
+        metadata->training_samples += training_data.samples.size();
         metadata->validation_accuracy = result.final_loss;
         
         // Save updated adapter
@@ -214,15 +217,17 @@ bool LoRAOrchestrator::updateAdapter(
         
         if (!saved) {
             spdlog::error("Failed to save updated adapter: {}", adapter_id);
-            return false;
+            return "";  // Empty string indicates failure
         }
         
         spdlog::info("Adapter updated successfully: {}", adapter_id);
-        return true;
+        
+        // Return job ID for async, or "success" for sync
+        return async ? generateJobId("update", adapter_id) : "success";
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to update adapter {}: {}", adapter_id, e.what());
-        return false;
+        return "";  // Empty string indicates failure
     }
 }
 
@@ -278,21 +283,21 @@ std::vector<std::string> LoRAOrchestrator::listAdapters(
 // Adapter Management
 // ═══════════════════════════════════════════════════════════
 
-bool LoRAOrchestrator::loadAdapter(const std::string& adapter_id) {
+std::string LoRAOrchestrator::loadAdapter(const std::string& adapter_id, bool async) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     
     try {
         // Check if already loaded
         if (impl_->adapter_manager->isLoaded(adapter_id)) {
             spdlog::debug("Adapter already loaded: {}", adapter_id);
-            return true;
+            return async ? generateJobId("load", adapter_id) : "success";
         }
         
         // Load from storage
         auto weights = impl_->storage_service->loadAdapter(adapter_id);
         if (!weights) {
             spdlog::error("Failed to load adapter from storage: {}", adapter_id);
-            return false;
+            return "";  // Empty string indicates failure
         }
         
         // Load into manager
@@ -307,13 +312,14 @@ bool LoRAOrchestrator::loadAdapter(const std::string& adapter_id) {
             );
             
             spdlog::info("Adapter loaded successfully: {}", adapter_id);
+            return async ? generateJobId("load", adapter_id) : "success";
         }
         
-        return loaded;
+        return "";  // Empty string indicates failure
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to load adapter {}: {}", adapter_id, e.what());
-        return false;
+        return "";  // Empty string indicates failure
     }
 }
 
@@ -403,5 +409,6 @@ bool LoRAOrchestrator::healthCheck() const {
            impl_->training_service != nullptr;
 }
 
+} // namespace lora
 } // namespace llm
 } // namespace themis
