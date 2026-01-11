@@ -1,4 +1,5 @@
 #include "llm/feedback_store.h"
+#include "llm/lora_framework/lora_graph.h"
 #include "utils/logger.h"
 #include <random>
 #include <sstream>
@@ -113,15 +114,35 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
 
 FeedbackStore::FeedbackStore(rocksdb::TransactionDB* db, 
                              rocksdb::ColumnFamilyHandle* cf)
-    : db_(db), cf_(cf) {
+    : db_(db), cf_(cf), validation_plugin_(nullptr) {
     if (!db_) {
         throw std::invalid_argument("FeedbackStore: db cannot be null");
     }
 }
 
+void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin) {
+    validation_plugin_ = plugin;
+    if (plugin) {
+        THEMIS_INFO("FeedbackStore: validation plugin set to '{}'", plugin->getName());
+    } else {
+        THEMIS_INFO("FeedbackStore: validation plugin disabled");
+    }
+}
+
+std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
+    return validation_plugin_;
+}
+
+
 std::string FeedbackStore::makeKey(const std::string& id) const {
     return std::string(KEY_PREFIX) + id;
 }
+
+std::string FeedbackStore::makeGraphEdgeKey(const std::string& feedback_id,
+                                             const std::string& adapter_id) const {
+    return std::string(GRAPH_EDGE_PREFIX) + feedback_id + ":" + adapter_id;
+}
+
 
 std::string FeedbackStore::generateId() const {
     // Simple UUID-like ID generation (timestamp + random)
@@ -153,9 +174,9 @@ FeedbackStore::FeedbackEntry FeedbackStore::createFeedback(FeedbackEntry feedbac
         feedback.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
     }
     
-    // Auto-validate feedback if status is pending
+    // Apply validation (plugin or basic)
     if (feedback.validation_status == ValidationStatus::PENDING) {
-        feedback.validation_status = validateFeedback(feedback);
+        feedback.validation_status = applyPluginValidation(feedback);
     }
     
     // Serialize to JSON
@@ -556,5 +577,234 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
     return ValidationStatus::APPROVED;
 }
 
+// ===== Plugin Integration =====
+
+ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedback) {
+    if (!validation_plugin_) {
+        // No plugin, use basic validation
+        return validateFeedback(feedback);
+    }
+    
+    // Convert to plugin format
+    FeedbackData data;
+    data.question = feedback.question;
+    data.answer = feedback.answer;
+    data.correction = feedback.correction;
+    data.comment = feedback.comment;
+    data.user_id = feedback.user_id;
+    data.adapter_id = feedback.adapter_id;
+    data.model_version = feedback.model_version;
+    data.is_positive = (feedback.type == FeedbackType::POSITIVE);
+    data.metadata = feedback.metadata;
+    
+    // Validate through plugin
+    try {
+        auto result = validation_plugin_->validate(data);
+        
+        switch (result.result) {
+            case FeedbackValidationResult::ACCEPT:
+                return ValidationStatus::APPROVED;
+            case FeedbackValidationResult::REJECT:
+                return ValidationStatus::REJECTED;
+            case FeedbackValidationResult::FLAG:
+                return ValidationStatus::FLAGGED;
+            case FeedbackValidationResult::MODIFY:
+                // TODO(feedback-plugin): Apply modifications if provided
+                // For now, accept modified feedback as approved
+                // Future: Apply modified_comment and modified_metadata from result
+                return ValidationStatus::APPROVED;
+            default:
+                return ValidationStatus::PENDING;
+        }
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Plugin validation failed: {}", e.what());
+        // Fallback to basic validation
+        return validateFeedback(feedback);
+    }
+}
+
+// ===== Graph Link Methods =====
+
+bool FeedbackStore::createAdapterLink(
+    const std::string& feedback_id,
+    const std::string& adapter_id,
+    const nlohmann::json& metadata) {
+    
+    // Check if feedback exists
+    if (!getFeedback(feedback_id)) {
+        THEMIS_ERROR("Cannot create adapter link: feedback {} not found", feedback_id);
+        return false;
+    }
+    
+    // Create graph edge
+    lora::LoRAGraphEdge edge;
+    edge.from_id = feedback_id;
+    edge.to_id = adapter_id;
+    edge.edge_type = lora::LoRAEdgeType::FEEDBACK_FOR;
+    edge.weight = 1.0f;
+    edge.metadata = metadata;
+    edge.created_at = std::chrono::system_clock::now();
+    
+    // Serialize edge
+    std::string key = makeGraphEdgeKey(feedback_id, adapter_id);
+    std::string value = edge.toJSON().dump();
+    
+    // Store in RocksDB
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s;
+    
+    if (cf_) {
+        s = db_->Put(write_opts, cf_, key, value);
+    } else {
+        s = db_->Put(write_opts, key, value);
+    }
+    
+    if (!s.ok()) {
+        THEMIS_ERROR("Failed to create adapter link: {}", s.ToString());
+        return false;
+    }
+    
+    THEMIS_DEBUG("Created FEEDBACK_FOR link: {} -> {}", feedback_id, adapter_id);
+    return true;
+}
+
+std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
+    const std::string& adapter_id,
+    const ListOptions& options) const {
+    
+    std::vector<FeedbackEntry> results;
+    
+    // First, find all feedback IDs linked to this adapter
+    std::vector<std::string> feedback_ids;
+    
+    rocksdb::ReadOptions read_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+    
+    // Scan graph edges
+    std::string edge_prefix = GRAPH_EDGE_PREFIX;
+    it->Seek(edge_prefix);
+    
+    while (it->Valid()) {
+        std::string key = it->key().ToString();
+        
+        if (key.substr(0, edge_prefix.length()) != edge_prefix) {
+            break;
+        }
+        
+        try {
+            nlohmann::json edge_json = nlohmann::json::parse(it->value().ToString());
+            std::string to_id = edge_json.value("to", "");
+            
+            if (to_id == adapter_id) {
+                std::string from_id = edge_json.value("from", "");
+                feedback_ids.push_back(from_id);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse graph edge: {}", e.what());
+        }
+        
+        it->Next();
+    }
+    
+    // Now fetch feedback entries for these IDs
+    for (const auto& feedback_id : feedback_ids) {
+        auto feedback = getFeedback(feedback_id);
+        if (feedback) {
+            // Apply filters
+            bool matches = true;
+            
+            if (options.filter_type && feedback->type != *options.filter_type) {
+                matches = false;
+            }
+            
+            if (options.filter_status && feedback->validation_status != *options.filter_status) {
+                matches = false;
+            }
+            
+            if (options.since_timestamp_ms && feedback->timestamp_ms < *options.since_timestamp_ms) {
+                matches = false;
+            }
+            
+            if (options.unused_for_training && *options.unused_for_training && feedback->used_for_training) {
+                matches = false;
+            }
+            
+            if (matches) {
+                results.push_back(*feedback);
+                if (results.size() >= options.limit) {
+                    break;
+                }
+            }
+        }
+    }
+    
+    return results;
+}
+
+std::vector<std::string> FeedbackStore::getLinkedAdapters(const std::string& feedback_id) const {
+    std::vector<std::string> adapter_ids;
+    
+    rocksdb::ReadOptions read_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+    
+    // Search for edges starting with this feedback ID
+    std::string edge_prefix = std::string(GRAPH_EDGE_PREFIX) + feedback_id + ":";
+    it->Seek(edge_prefix);
+    
+    while (it->Valid()) {
+        std::string key = it->key().ToString();
+        
+        if (key.substr(0, edge_prefix.length()) != edge_prefix) {
+            break;
+        }
+        
+        try {
+            nlohmann::json edge_json = nlohmann::json::parse(it->value().ToString());
+            std::string to_id = edge_json.value("to", "");
+            if (!to_id.empty()) {
+                adapter_ids.push_back(to_id);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse graph edge: {}", e.what());
+        }
+        
+        it->Next();
+    }
+    
+    return adapter_ids;
+}
+
+bool FeedbackStore::isLinkedToAdapter(
+    const std::string& feedback_id,
+    const std::string& adapter_id) const {
+    
+    std::string key = makeGraphEdgeKey(feedback_id, adapter_id);
+    std::string value;
+    
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+    
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, key, &value);
+    } else {
+        s = db_->Get(read_opts, key, &value);
+    }
+    
+    return s.ok();
+}
+
 } // namespace llm
 } // namespace themis
+

@@ -48,8 +48,10 @@ public:
     // Configuration
     Config config;
     
-    // Components (using simplified initialization)
-    std::shared_ptr<LoRAOrchestrator> orchestrator;
+    // Components
+    std::shared_ptr<lora::LoRAOrchestrator> orchestrator;
+    std::shared_ptr<lora::LoRAAuditLogger> lora_audit;
+    std::shared_ptr<LLMModelAuditLogger> llm_audit;
     
     // State
     std::string current_adapter_version;
@@ -65,12 +67,24 @@ public:
         : config(cfg)
         , current_adapter_version("v1.0")
     {
-        // Initialize orchestrator with default config
-        // The orchestrator will use its own defaults for storage, training, etc.
-        LoRAOrchestrator::Config orch_config;
-        // Note: In a production environment, these would be configured
-        // based on the application's requirements
-        orchestrator = std::make_shared<LoRAOrchestrator>(orch_config);
+        // Initialize orchestrator
+        lora::LoRAOrchestrator::Config orch_config;
+        orch_config.db = config.db;
+        orch_config.blob_manager = config.blob_manager;
+        orch_config.enable_encryption = true;
+        orch_config.enable_signatures = true;
+        
+        orchestrator = std::make_shared<lora::LoRAOrchestrator>(orch_config);
+        
+        // Initialize audit loggers
+        utils::AuditLoggerConfig audit_config;
+        audit_config.log_file = "logs/themis_help_lora_audit.jsonl";
+        audit_config.enable_encryption = true;
+        
+        lora_audit = std::make_shared<lora::LoRAAuditLogger>(audit_config);
+        
+        audit_config.log_file = "logs/themis_help_llm_audit.jsonl";
+        llm_audit = std::make_shared<LLMModelAuditLogger>(audit_config);
         
         spdlog::info("ThemisHelpLoRA initialized with adapter: {}", config.adapter_id);
     }
@@ -218,7 +232,15 @@ lora::TrainingResult ThemisHelpLoRA::trainFromFeedback() {
     spdlog::info("Starting training from {} feedback items", impl_->feedback_buffer.size());
     
     try {
-        auto start = std::chrono::system_clock::now();
+        // Log training started
+        impl_->lora_audit->logTraining(
+            lora::LoRAAuditEventType::TRAINING_STARTED,
+            impl_->config.adapter_id,
+            impl_->config.base_model_id,
+            static_cast<int>(impl_->feedback_buffer.size()),
+            0.0f,
+            {{"source", "user_feedback"}}
+        );
         
         // TODO: Implement actual training
         // For now, simulate training completion
@@ -236,22 +258,37 @@ lora::TrainingResult ThemisHelpLoRA::trainFromFeedback() {
         // Clear feedback buffer
         impl_->feedback_buffer.clear();
         
-        // Populate result
-        result.success = true;
-        result.version = impl_->current_adapter_version;
-        result.final_loss = 0.85f;  // Simulated
-        result.validation_accuracy = 0.92f;  // Simulated
-        result.epochs_completed = 10;
-        result.training_time = duration;
-        result.metrics["num_samples"] = num_samples;
-        result.metrics["source"] = "user_feedback";
+        // Log training completed
+        impl_->lora_audit->logTraining(
+            lora::LoRAAuditEventType::TRAINING_COMPLETED,
+            impl_->config.adapter_id,
+            impl_->config.base_model_id,
+            static_cast<int>(num_samples),
+            0.85f,  // Simulated final loss
+            {
+                {"source", "user_feedback"},
+                {"new_version", impl_->current_adapter_version},
+                {"duration_ms", duration.count()}
+            }
+        );
         
         spdlog::info("Training completed. New version: {}", impl_->current_adapter_version);
         
     } catch (const std::exception& e) {
         spdlog::error("Training failed: {}", e.what());
-        result.success = false;
-        result.error_message = e.what();
+        
+        impl_->lora_audit->logTraining(
+            lora::LoRAAuditEventType::TRAINING_FAILED,
+            impl_->config.adapter_id,
+            impl_->config.base_model_id,
+            static_cast<int>(impl_->feedback_buffer.size()),
+            0.0f,
+            {
+                {"error", e.what()}
+            }
+        );
+        
+        return false;
     }
     
     return result;
@@ -264,7 +301,15 @@ lora::TrainingResult ThemisHelpLoRA::trainFromDocumentation() {
     spdlog::info("Starting training from documentation corpus");
     
     try {
-        auto start = std::chrono::system_clock::now();
+        // Log training started
+        impl_->lora_audit->logTraining(
+            lora::LoRAAuditEventType::TRAINING_STARTED,
+            impl_->config.adapter_id,
+            impl_->config.base_model_id,
+            1151,  // Documentation count from requirements
+            0.0f,
+            {{"source", "documentation_corpus"}}
+        );
         
         // TODO: Implement actual documentation corpus training
         // For now, simulate training
@@ -276,22 +321,34 @@ lora::TrainingResult ThemisHelpLoRA::trainFromDocumentation() {
         
         impl_->is_trained = true;
         
-        // Populate result
-        result.success = true;
-        result.version = impl_->current_adapter_version;
-        result.final_loss = 0.78f;  // Simulated
-        result.validation_accuracy = 0.88f;  // Simulated
-        result.epochs_completed = 20;
-        result.training_time = duration;
-        result.metrics["num_samples"] = 1151;
-        result.metrics["source"] = "documentation_corpus";
+        // Log training completed
+        impl_->lora_audit->logTraining(
+            lora::LoRAAuditEventType::TRAINING_COMPLETED,
+            impl_->config.adapter_id,
+            impl_->config.base_model_id,
+            1151,
+            0.78f,  // Simulated final loss
+            {
+                {"source", "documentation_corpus"},
+                {"version", impl_->current_adapter_version}
+            }
+        );
         
         spdlog::info("Documentation training completed");
         
     } catch (const std::exception& e) {
         spdlog::error("Documentation training failed: {}", e.what());
-        result.success = false;
-        result.error_message = e.what();
+        
+        impl_->lora_audit->logTraining(
+            lora::LoRAAuditEventType::TRAINING_FAILED,
+            impl_->config.adapter_id,
+            impl_->config.base_model_id,
+            1151,
+            0.0f,
+            {{"error", e.what()}}
+        );
+        
+        return false;
     }
     
     return result;

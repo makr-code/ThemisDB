@@ -3,13 +3,19 @@
 #include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_storage_service.h"
+#include "llm/feedback_store.h"
 #include <memory>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {
 namespace applications {
+
+using json = nlohmann::json;
+using llm::FeedbackType;  // Make FeedbackType available in this namespace
 
 /**
  * @brief ThemisDB Documentation Assistant with LoRA fine-tuning
@@ -27,8 +33,12 @@ public:
      */
     struct Config {
         std::string adapter_id = "themis_help_lora";
-        std::string base_model = "llama-2-7b";
+        std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
+        
+        // Dependencies (to be injected)
+        rocksdb::TransactionDB* db = nullptr;
+        std::shared_ptr<storage::BlobStorageManager> blob_manager;
         
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
@@ -51,77 +61,73 @@ public:
     /**
      * @brief Query with LoRA adapter
      * @param question User question
+     * @param user_id Optional user ID for logging (default: "anonymous")
      * @return Generated answer
      */
-    std::string query(const std::string& question);
+    std::string query(const std::string& question, const std::string& user_id = "anonymous");
     
     /**
      * @brief Add positive feedback for an answer
      * @param question User question
      * @param answer System answer
+     * @param user_id Optional user ID (default: "anonymous")
      */
-    void addPositiveFeedback(const std::string& question, const std::string& answer);
+    void addPositiveFeedback(
+        const std::string& question, 
+        const std::string& answer,
+        const std::string& user_id = "anonymous"
+    );
     
     /**
      * @brief Add negative feedback with correction
      * @param question User question
      * @param answer System answer (incorrect)
      * @param correction User's correction
+     * @param user_id Optional user ID (default: "anonymous")
      */
     void addNegativeFeedback(
         const std::string& question, 
         const std::string& answer,
-        const std::string& correction
+        const std::string& correction,
+        const std::string& user_id = "anonymous"
     );
     
     /**
      * @brief Trigger training from accumulated feedback
-     * @return Training result
+     * @return true if training successful
      */
-    lora::TrainingResult trainFromFeedback();
+    bool trainFromFeedback();
     
     /**
      * @brief Train from documentation corpus
-     * @return Training result
+     * @return true if training successful
      */
-    lora::TrainingResult trainFromDocumentation();
+    bool trainFromDocumentation();
     
     /**
      * @brief Get performance metrics
-     * @return Metrics as JSON
+     * @return Metrics structure
      */
-    json getMetrics() const;
+    PerformanceMetrics getMetrics() const;
     
     /**
      * @brief Get feedback statistics
-     * @return Statistics as JSON
+     * @return Statistics structure
      */
-    json getFeedbackStats() const;
-    
-    /**
-     * @brief Check if adapter is loaded
-     * @return true if loaded
-     */
-    bool isAdapterLoaded() const;
-    
-    /**
-     * @brief Reload adapter (e.g., after training)
-     * @return true if reloaded successfully
-     */
-    bool reloadAdapter();
+    FeedbackStats getFeedbackStats() const;
     
     /**
      * @brief Get current adapter version
      * @return Version string
      */
-    std::string getAdapterVersion() const;
+    std::string getVersion() const;
     
     /**
-     * @brief Rollback to previous version
-     * @return true if rolled back successfully
+     * @brief Check if adapter is trained
+     * @return true if trained
      */
-    bool rollbackToPreviousVersion();
-
+    bool isTrained() const;
+    
 private:
     /**
      * @brief Helper to increment version string
@@ -139,31 +145,55 @@ private:
 
     class Impl;
     std::unique_ptr<Impl> impl_;
+    
+    // Helper function
+    static std::string incrementVersion(const std::string& version);
 };
 
 /**
- * @brief Feedback entry structure
+ * @brief Feedback item for internal buffering
  */
-struct FeedbackEntry {
+struct FeedbackItem {
     std::string question;
     std::string answer;
-    bool is_positive;
-    std::string correction;  // Only for negative feedback
+    std::string correction;
+    FeedbackType feedback_type;
+    std::string user_id;
     std::chrono::system_clock::time_point timestamp;
     bool used_for_training = false;
-    
-    json toJSON() const {
-        auto time_t = std::chrono::system_clock::to_time_t(timestamp);
-        return json{
-            {"question", question},
-            {"answer", answer},
-            {"is_positive", is_positive},
-            {"correction", correction},
-            {"timestamp", time_t},
-            {"used_for_training", used_for_training}
-        };
-    }
 };
+
+/**
+ * @brief Performance metrics for ThemisHelpLoRA
+ */
+struct PerformanceMetrics {
+    int64_t total_queries = 0;
+    int64_t successful_queries = 0;
+    int64_t failed_queries = 0;
+    double success_rate = 0.0;
+    double average_latency_ms = 0.0;
+    double cache_hit_rate = 0.0;
+};
+
+/**
+ * @brief Feedback statistics
+ */
+struct FeedbackStats {
+    size_t total_feedback = 0;
+    size_t positive_feedback = 0;
+    size_t negative_feedback = 0;
+    double positive_ratio = 0.0;
+};
+
+/**
+ * @brief Helper function to generate unique request IDs
+ */
+inline std::string generateModelRequestId() {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    return "req_" + std::to_string(millis);
+}
 
 } // namespace applications
 } // namespace llm
