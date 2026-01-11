@@ -8,6 +8,7 @@
 
 namespace themis {
 namespace llm {
+namespace lora {
 
 // ═══════════════════════════════════════════════════════════
 // Implementation Details
@@ -37,32 +38,18 @@ public:
             spdlog::info("Initializing LoRA Orchestrator...");
             
             // Initialize storage service
-            LoRAStorageService::Config storage_config;
-            storage_config.db = config.db;
-            storage_config.blob_manager = config.blob_manager;
-            storage_config.signature_manager = config.signature_manager;
-            storage_config.enable_encryption = config.enable_encryption;
-            storage_config.enable_signatures = config.enable_signatures;
-            
-            storage_service = std::make_unique<LoRAStorageService>(storage_config);
+            storage_service = std::make_unique<LoRAStorageService>(config.storage_config);
             
             // Initialize adapter manager
-            LoRAAdapterManager::Config adapter_config;
-            adapter_config.cache_size = config.max_cached_adapters;
-            adapter_config.enable_cache = true;
-            
-            adapter_manager = std::make_unique<LoRAAdapterManager>(adapter_config);
+            adapter_manager = std::make_unique<LoRAAdapterManager>(config.adapter_config);
             
             // Initialize training service
-            LoRATrainingService::Config training_config;
-            training_config.enable_on_the_fly = true;
-            
-            training_service = std::make_unique<LoRATrainingService>(training_config);
+            training_service = std::make_unique<LoRATrainingService>(config.training_config);
             
             // Initialize audit logger
             utils::AuditLoggerConfig audit_config;
             audit_config.log_file = "logs/lora_orchestrator_audit.jsonl";
-            audit_config.enable_encryption = config.enable_encryption;
+            audit_config.enable_encryption = config.storage_config.enable_encryption;
             
             audit_logger = std::make_unique<LoRAAuditLogger>(audit_config);
             
@@ -403,5 +390,6 @@ bool LoRAOrchestrator::healthCheck() const {
            impl_->training_service != nullptr;
 }
 
+} // namespace lora
 } // namespace llm
 } // namespace themis
