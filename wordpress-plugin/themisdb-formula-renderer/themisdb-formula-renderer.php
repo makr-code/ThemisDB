@@ -119,8 +119,14 @@ function themisdb_formula_enqueue_scripts() {
     wp_localize_script('themisdb-formula-script', 'themisdbFormula', array(
         'autoRender' => (bool) $auto_render,
         'inlineDelimiter' => get_option('themisdb_formula_inline_delimiter', '$'),
-        'blockDelimiter' => get_option('themisdb_formula_block_delimiter', '$$')
+        'blockDelimiter' => get_option('themisdb_formula_block_delimiter', '$$'),
+        'ajaxDelay' => 500 // Configurable delay for AJAX content
     ));
+    
+    // Add integrity attributes for CDN resources (security enhancement)
+    // Note: While WordPress doesn't natively support SRI via wp_enqueue_*,
+    // we recommend using a security plugin or custom filter for production environments
+    // Example filter for SRI: add_filter('script_loader_tag', 'add_sri_attributes', 10, 3);
 }
 add_action('wp_enqueue_scripts', 'themisdb_formula_enqueue_scripts');
 

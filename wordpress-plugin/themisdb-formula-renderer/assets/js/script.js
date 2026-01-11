@@ -18,9 +18,11 @@
         }
         
         // Get settings from localized script
-        var autoRender = themisdbFormula.autoRender || true;
-        var inlineDelim = themisdbFormula.inlineDelimiter || '$';
-        var blockDelim = themisdbFormula.blockDelimiter || '$$';
+        var autoRender = typeof themisdbFormula !== 'undefined' && typeof themisdbFormula.autoRender !== 'undefined' 
+            ? themisdbFormula.autoRender 
+            : true;
+        var inlineDelim = typeof themisdbFormula !== 'undefined' ? themisdbFormula.inlineDelimiter : '$';
+        var blockDelim = typeof themisdbFormula !== 'undefined' ? themisdbFormula.blockDelimiter : '$$';
         
         if (!autoRender) {
             console.log('ThemisDB Formula Renderer: Auto-render is disabled');
@@ -111,8 +113,18 @@
     });
     
     // Re-render on AJAX complete (for dynamic content)
+    // Use a more intelligent approach with configurable timeout
+    var ajaxCompleteTimeout = null;
     $(document).ajaxComplete(function() {
-        setTimeout(initFormulaRendering, 500);
+        // Clear any pending timeout
+        if (ajaxCompleteTimeout) {
+            clearTimeout(ajaxCompleteTimeout);
+        }
+        // Set new timeout with configurable delay
+        var delay = typeof themisdbFormula !== 'undefined' && themisdbFormula.ajaxDelay 
+            ? themisdbFormula.ajaxDelay 
+            : 500;
+        ajaxCompleteTimeout = setTimeout(initFormulaRendering, delay);
     });
     
     // Support for Gutenberg editor

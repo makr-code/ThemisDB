@@ -45,6 +45,37 @@ class ThemisDB_Formula_Renderer {
     }
     
     /**
+     * Sanitize delimiter input
+     * 
+     * @param string $delimiter The delimiter to sanitize
+     * @return string The sanitized delimiter
+     */
+    public function sanitize_delimiter($delimiter) {
+        // Remove any HTML and trim whitespace
+        $delimiter = sanitize_text_field($delimiter);
+        
+        // Ensure delimiter is not empty
+        if (empty($delimiter)) {
+            return '$';
+        }
+        
+        // Limit length to prevent abuse
+        if (strlen($delimiter) > 10) {
+            $delimiter = substr($delimiter, 0, 10);
+        }
+        
+        // Only allow safe characters: $, \, {, }, [, ], (, ), and alphanumeric
+        $delimiter = preg_replace('/[^$\\\{\}\[\]\(\)a-zA-Z0-9]/', '', $delimiter);
+        
+        // If delimiter becomes empty after sanitization, use default
+        if (empty($delimiter)) {
+            return '$';
+        }
+        
+        return $delimiter;
+    }
+    
+    /**
      * Add settings page to WordPress admin
      */
     public function add_settings_page() {
@@ -61,9 +92,21 @@ class ThemisDB_Formula_Renderer {
      * Register plugin settings
      */
     public function register_settings() {
-        register_setting('themisdb_formula_settings', 'themisdb_formula_auto_render');
-        register_setting('themisdb_formula_settings', 'themisdb_formula_inline_delimiter');
-        register_setting('themisdb_formula_settings', 'themisdb_formula_block_delimiter');
+        register_setting('themisdb_formula_settings', 'themisdb_formula_auto_render', array(
+            'type' => 'integer',
+            'sanitize_callback' => 'absint',
+            'default' => 1
+        ));
+        register_setting('themisdb_formula_settings', 'themisdb_formula_inline_delimiter', array(
+            'type' => 'string',
+            'sanitize_callback' => array($this, 'sanitize_delimiter'),
+            'default' => '$'
+        ));
+        register_setting('themisdb_formula_settings', 'themisdb_formula_block_delimiter', array(
+            'type' => 'string',
+            'sanitize_callback' => array($this, 'sanitize_delimiter'),
+            'default' => '$$'
+        ));
         
         add_settings_section(
             'themisdb_formula_main_section',
@@ -125,8 +168,9 @@ class ThemisDB_Formula_Renderer {
      */
     public function render_inline_delimiter_field() {
         $delimiter = get_option('themisdb_formula_inline_delimiter', '$');
+        $delimiter = sanitize_text_field($delimiter);
         ?>
-        <input type="text" name="themisdb_formula_inline_delimiter" value="<?php echo esc_attr($delimiter); ?>" />
+        <input type="text" name="themisdb_formula_inline_delimiter" value="<?php echo esc_attr($delimiter); ?>" maxlength="10" />
         <p class="description">
             <?php _e('Trennzeichen für Inline-Formeln (Standard: $). Beispiel: $E = mc^2$', 'themisdb-formula-renderer'); ?>
         </p>
@@ -138,8 +182,9 @@ class ThemisDB_Formula_Renderer {
      */
     public function render_block_delimiter_field() {
         $delimiter = get_option('themisdb_formula_block_delimiter', '$$');
+        $delimiter = sanitize_text_field($delimiter);
         ?>
-        <input type="text" name="themisdb_formula_block_delimiter" value="<?php echo esc_attr($delimiter); ?>" />
+        <input type="text" name="themisdb_formula_block_delimiter" value="<?php echo esc_attr($delimiter); ?>" maxlength="10" />
         <p class="description">
             <?php _e('Trennzeichen für Block-Formeln (Standard: $$). Beispiel: $$D = (t_n - t_{n-1}) - (t_{n-1} - t_{n-2})$$', 'themisdb-formula-renderer'); ?>
         </p>
@@ -155,7 +200,7 @@ class ThemisDB_Formula_Renderer {
         }
         
         // Check if settings were saved
-        if (isset($_GET['settings-updated'])) {
+        if (isset($_GET['settings-updated']) && $_GET['settings-updated']) {
             add_settings_error(
                 'themisdb_formula_messages',
                 'themisdb_formula_message',

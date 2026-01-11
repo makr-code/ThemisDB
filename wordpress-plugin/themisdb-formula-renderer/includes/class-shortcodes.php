@@ -82,6 +82,6 @@ class ThemisDB_Formula_Shortcodes {
      * @return bool
      */
     private function starts_with($haystack, $needle) {
-        return substr($haystack, 0, strlen($needle)) === $needle;
+        return strpos($haystack, $needle) === 0;
     }
 }
