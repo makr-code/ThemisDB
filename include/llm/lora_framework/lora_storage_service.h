@@ -1,6 +1,11 @@
 #pragma once
 
 #include "lora_config.h"
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
+#include "storage/blob_storage_manager.h"
+#include "storage/security_signature_manager.h"
+#include "security/encryption.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -52,12 +57,25 @@ public:
      * @brief Configuration for storage service
      */
     struct Config {
-        Backend backend = Backend::FileSystem;  // Start with filesystem for simplicity
+        Backend backend = Backend::ThemisDB;  // Use ThemisDB as primary backend
         std::string collection_name = "lora_adapters";
         std::string filesystem_path = "data/lora_adapters";
         bool enable_versioning = true;
         int max_versions = 5;
         bool enable_compression = true;
+        
+        // ThemisDB integration
+        std::shared_ptr<RocksDBWrapper> db;  // RocksDB instance
+        std::shared_ptr<storage::BlobStorageManager> blob_manager;  // Blob storage
+        std::shared_ptr<storage::SecuritySignatureManager> signature_manager;  // Signatures
+        
+        // Security features
+        bool enable_encryption = false;  // Encrypt adapter weights
+        std::string encryption_key_id = "lora_adapters";  // Key ID for encryption
+        bool enable_signatures = true;  // Digital signatures for integrity
+        
+        // RAID/Redundancy (automatically detected from environment)
+        bool auto_detect_raid = true;  // Auto-detect RAID configuration
     };
     
     explicit LoRAStorageService(const Config& config = Config{});
