@@ -20,7 +20,7 @@ if(NOT OpenSSL_FOUND)
 endif()
 message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 
-find_package(ZLIB 1.3.1 REQUIRED)
+find_package(ZLIB 1.3 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
 # RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
