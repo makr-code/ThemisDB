@@ -9,7 +9,6 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <thread>
-#include <uuid/uuid.h>
 
 namespace themis {
 namespace llm {
@@ -22,12 +21,22 @@ using namespace themis::llm::lora;
 // Internal Types
 // ═══════════════════════════════════════════════════════════
 
+/**
+ * @brief Internal feedback item for buffering
+ * 
+ * This is a simplified version used for temporary in-memory buffering
+ * before training. The full FeedbackStore::FeedbackEntry is used for
+ * persistent storage with additional fields like validation status,
+ * training batch ID, and metadata.
+ * 
+ * Uses FeedbackType from feedback_store.h for consistency.
+ */
 struct FeedbackItem {
-    std::string question;
-    std::string answer;
-    std::string correction;
-    FeedbackType feedback_type;
-    std::chrono::system_clock::time_point timestamp;
+    std::string question;           ///< User question
+    std::string answer;             ///< System-generated answer
+    std::string correction;         ///< User correction (for negative feedback)
+    FeedbackType feedback_type;     ///< POSITIVE or NEGATIVE (from themis::llm::FeedbackType)
+    std::chrono::system_clock::time_point timestamp;  ///< When feedback was collected
 };
 
 // ═══════════════════════════════════════════════════════════
