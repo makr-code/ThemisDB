@@ -8,20 +8,31 @@
 
 ## Summary Statistics
 
-- **Total Markers**: 229
-- **Files Affected**: 92
+- **Total Markers**: 229 (source code)
+- **Documentation Markers**: 5,221 (markdown files)
+- **Combined Total**: 5,450 markers
+- **Files Affected**: 442 (92 code + 350 docs)
 - **Component Directories**: 40+
 
-### By Type
+### Source Code (229 markers)
 - TODO: 178
 - STUB/MOCK: 37
 - HACK/XXX: 5
 - PLACEHOLDER/NOT_IMPL/SIMULATION: 9
 
+### Documentation (5,221 markers)
+- Unchecked Checkboxes: ~2,800
+- TODO: ~1,300
+- TBD: ~800
+- Other: ~321
+
 ### By Priority (Estimated)
-- HIGH (in created issues): 53 markers
-- MEDIUM (in created issues): 24 markers  
-- LOWER (catalogued, not yet issues): 152 markers
+- HIGH (in created issues): 53 markers (code)
+- MEDIUM (in created issues): 24 markers (code)
+- LOWER (catalogued, not yet issues): 152 markers (code)
+- DOCUMENTATION: 5,221 markers (strategic plans, roadmaps, TODOs)
+
+**Total Opportunity**: 5,450 markers across entire project (code + docs)
 
 ---
 
@@ -361,5 +372,59 @@ This inventory represents **100% coverage** of the ThemisDB codebase for TODO/ST
 
 **Generated**: 2026-01-11  
 **Method**: Exhaustive search + manual categorization  
-**Verified**: All 229 markers confirmed with line numbers  
+**Verified**: All 229 code markers confirmed with line numbers  
 **Source**: `/tmp/all_markers_exhaustive.txt`
+
+---
+
+## Documentation Analysis (NEW)
+
+### Documentation TODOs: 5,221 Markers
+
+**Coverage**: Complete docs/ directory (1,112 markdown files)  
+**Files with Markers**: 350 (31%)
+
+#### Top Strategic Documents
+1. **SYSTEMATISCHER_REVIEWPLAN.md** (403 markers)
+   - Systematic review plan for all stubs/implementations
+   - Comprehensive checklist framework
+
+2. **todo.md** (387 markers)
+   - Master development TODO list
+   - Historical completed tasks + pending backlog
+
+3. **DOCUMENTATION_RENEWAL_TODO.md** (220 markers)
+   - Documentation update and renewal tasks
+
+4. **v1.4_DEVELOPMENT_ROADMAP.md** (multiple checklists)
+   - Release roadmap (March 31, 2026)
+   - Performance targets, enterprise features
+
+5. **ENTERPRISE_FEATURE_ANALYSIS.md** (57 markers)
+   - Enterprise feature gaps
+
+#### Categories
+- **Development/Implementation**: 800+ markers
+- **Roadmaps/Strategy**: 300+ markers
+- **Security/Compliance**: 200+ markers
+- **Enterprise Features**: 150+ markers
+- **Documentation**: 500+ markers
+- **Analytics/Process Mining**: 100+ markers
+- **Performance**: 100+ markers
+
+**Full Analysis**: See `DOCUMENTATION_TODOS_ANALYSIS.md`
+
+---
+
+## Combined Project Statistics
+
+### Overall Metrics
+- **Total Markers**: 5,450 (229 code + 5,221 docs)
+- **Total Files**: 442 (92 code + 350 docs)
+- **Coverage**: Complete (100% source code + 100% documentation)
+
+### Issue Coverage
+- **Code Issues Created**: 7 (covering 68 markers, 30% of code)
+- **Documentation Issues**: Recommended (5-10 strategic issues)
+- **Current Overall Coverage**: 1.2% (68/5,450)
+- **Opportunity**: Extensive strategic planning work catalogued

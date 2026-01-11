@@ -7,8 +7,10 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 
 **Generated**: 2026-01-11  
 **Source Analysis**:
-- **229 markers found** (complete exhaustive search)
-- **92 files** with TODOs/stubs across entire codebase
+- **229 code markers** (complete exhaustive code search)
+- **5,221 documentation markers** (complete docs/ directory)
+- **5,450 total markers** across entire project
+- **92 code files** + **350 documentation files**
 - **40+ component directories** analyzed
 - All gaps verified before issue creation
 
@@ -33,7 +35,8 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 - ✅ **All issues verified** - features confirmed as missing before issue creation
 - ✅ **No duplicate issues** - each represents unique gap
 - ✅ **All issues actionable** - include implementation details, tasks, timelines
-- ✅ **Exhaustive search** - Complete codebase scan found **229 markers** (all files, all directories)
+- ✅ **Exhaustive search** - Complete codebase scan + documentation analysis
+- ✅ **5,450 total markers found** (229 code + 5,221 docs)
 
 ---
 
@@ -207,9 +210,11 @@ Complete task scheduler with 16 missing features for task management, scheduling
 
 ### Not Yet Converted to Issues (Lower Priority)
 
-**Total catalogued**: 222 additional markers across:
+**Total catalogued**: 222 code markers + 5,221 documentation markers = **5,443 additional items**
 
-#### By Component (Top Categories)
+#### Code TODOs (222 remaining)
+
+**By Component (Top Categories)**
 - **LLM TODOs** (73 total): CUDA kernels, async loading, grammar support, vision integration, production validator tests (31 TODOs)
 - **Server/API TODOs** (41 total): RPC implementation (17), WebSocket integration, Postgres queries, HTTP optimizations
 - **Security** (20 total): USB admin authenticator (6), stubs already covered in Issue #003
@@ -220,7 +225,7 @@ Complete task scheduler with 16 missing features for task management, scheduling
 - **Analytics/AQL** (4 total): LLM integration, batch inference
 - **Others** (38 total): Storage, sharding, temporal, timeseries, updates, exporters, etc.
 
-#### Newly Found Categories (23 additional markers)
+**Newly Found Categories** (23 additional markers):
 - `benchmarks/` (3): Performance benchmark completion
 - `src/analytics/` (1): LLM API integration  
 - `src/aql/` (3): Batch inference, vector search integration
@@ -231,6 +236,48 @@ Complete task scheduler with 16 missing features for task management, scheduling
 - `tools/themis_docs_builder/` (7): Documentation builder TODOs
 - Additional markers in security (usb_admin_authenticator)
 - Additional test files with markers
+
+#### Documentation TODOs (5,221 markers) ✨ NEW
+
+**Coverage**: 350 markdown files in docs/ directory
+
+**Top Strategic Documents**:
+1. **SYSTEMATISCHER_REVIEWPLAN.md** (403 markers)
+   - Systematic review framework for all modules
+   - Comprehensive checklist for finding stubs/implementations
+   
+2. **todo.md** (387 markers)
+   - Master development TODO list
+   - Completed tasks + pending backlog
+
+3. **DOCUMENTATION_RENEWAL_TODO.md** (220 markers)
+   - Documentation update campaign
+   - API docs, tutorials, examples
+
+4. **v1.4_DEVELOPMENT_ROADMAP.md** (checklists)
+   - Release roadmap (March 31, 2026)
+   - Performance targets: 880M queries/sec, 8.5GB memory
+
+5. **ENTERPRISE_FEATURE_ANALYSIS.md** (57 markers)
+   - Enterprise feature gaps
+
+**Categories**:
+- **Development/Implementation**: 800+ markers (todo.md, implementation plans)
+- **Roadmaps/Strategy**: 300+ markers (v1.4 roadmap, client roadmaps)
+- **Security/Compliance**: 200+ markers (audit TODOs, incident response)
+- **Enterprise Features**: 150+ markers (feature analysis)
+- **Documentation**: 500+ markers (renewal, API docs)
+- **Analytics/Process Mining**: 100+ markers (research, roadmaps)
+- **Performance**: 100+ markers (benchmarking, optimization)
+
+**Full Analysis**: See `DOCUMENTATION_TODOS_ANALYSIS.md`
+
+**Recommended Actions**:
+1. Execute systematic review from SYSTEMATISCHER_REVIEWPLAN.md
+2. Track v1.4 roadmap milestones
+3. Documentation renewal campaign
+4. Enterprise features completion
+5. Security/compliance task completion
 
 ---
 
