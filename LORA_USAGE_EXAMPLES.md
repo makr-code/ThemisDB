@@ -10,6 +10,7 @@ This document provides practical examples for using the unified LLM + LoRA frame
 4. [themis_help_lora Application](#themis_help_lora-application)
 5. [Audit Logging](#audit-logging)
 6. [Advanced Queries](#advanced-queries)
+7. [AQL Function Examples](#aql-function-examples)
 
 ---
 
@@ -545,3 +546,440 @@ For more information, see:
 - `LORA_FRAMEWORK_ANALYSIS.md` - Architecture overview
 - `LLM_LORA_UNIFIED_ARCHITECTURE.md` - Unified architecture guide
 - `BASEENTITY_PRINCIPLE.md` - BaseEntity compliance
+
+---
+
+## AQL Function Examples
+
+### Basic LORA_TRAIN Usage
+
+Train a new adapter from a dataset:
+
+```aql
+// Train adapter with basic configuration
+LET result = LORA_TRAIN(
+  "documentation_assistant",
+  "llama-2-7b",
+  {
+    "task": "documentation_qa",
+    "samples": [
+      {
+        "input": "How do I enable sharding?",
+        "output": "To enable sharding in ThemisDB, use the CREATE COLLECTION command..."
+      },
+      {
+        "input": "What is replication?",
+        "output": "Replication in ThemisDB provides data redundancy..."
+      }
+    ]
+  },
+  {
+    "rank": 8,
+    "alpha": 16,
+    "learning_rate": 0.0003,
+    "epochs": 3
+  }
+)
+
+RETURN result
+```
+
+### Batch Training from Collection
+
+Train multiple adapters from a collection of datasets:
+
+```aql
+FOR dataset IN training_datasets
+  FILTER dataset.status == "ready"
+  FILTER dataset.sample_count >= 1000
+  LET job = LORA_TRAIN(
+    CONCAT(dataset.task_type, "_lora_", DATE_ISO8601(DATE_NOW())),
+    dataset.base_model,
+    dataset,
+    {
+      "rank": dataset.config.rank || 8,
+      "alpha": dataset.config.alpha || 16,
+      "learning_rate": 0.0003,
+      "epochs": 3
+    }
+  )
+  RETURN {
+    adapter_id: job.adapter_id,
+    job_id: job.job_id,
+    status: job.status,
+    estimated_completion: job.estimated_completion
+  }
+```
+
+### Simple LORA_QUERY Usage
+
+Execute inference with a LoRA adapter:
+
+```aql
+// Single query
+LET answer = LORA_QUERY(
+  "llama-2-7b",
+  "documentation_assistant",
+  "How do I configure backups?",
+  {
+    "max_tokens": 500,
+    "temperature": 0.7
+  }
+)
+
+RETURN {
+  question: "How do I configure backups?",
+  answer: answer,
+  timestamp: DATE_NOW()
+}
+```
+
+### Batch Query Processing
+
+Process multiple questions:
+
+```aql
+FOR question IN user_questions
+  FILTER question.status == "pending"
+  FILTER question.category == "documentation"
+  
+  LET answer = LORA_QUERY(
+    "llama-2-7b",
+    "documentation_assistant",
+    question.text,
+    {
+      "max_tokens": 500,
+      "temperature": 0.7
+    }
+  )
+  
+  UPDATE question WITH {
+    answer: answer,
+    status: "answered",
+    answered_at: DATE_NOW()
+  } IN user_questions
+  
+  RETURN {
+    question_id: question._key,
+    question: question.text,
+    answer: answer
+  }
+```
+
+### Adaptive Query Routing
+
+Automatically select best adapter for each query:
+
+```aql
+FOR query IN user_queries
+  // Get recommendation for best adapter
+  LET recommendation = LORA_RECOMMEND(
+    query.text,
+    query.preferred_model || "llama-2-7b",
+    query.category,
+    {
+      "min_accuracy": 0.85,
+      "max_latency_ms": 100
+    }
+  )
+  
+  // Execute query with recommended adapter
+  LET answer = recommendation.adapter_id != null 
+    ? LORA_QUERY(
+        query.preferred_model || "llama-2-7b",
+        recommendation.adapter_id,
+        query.text,
+        {}
+      )
+    : "No suitable adapter found"
+  
+  RETURN {
+    query_id: query._key,
+    query: query.text,
+    answer: answer,
+    adapter_used: recommendation.adapter_id,
+    confidence: recommendation.confidence,
+    reason: recommendation.reason
+  }
+```
+
+### Find Similar Adapters
+
+Discover related adapters:
+
+```aql
+// Find adapters similar to a specific adapter
+LET similar = LORA_SIMILAR("documentation_assistant", 5, 0.85)
+
+FOR adapter IN similar
+  LET stats = LORA_STATS(adapter.adapter_id, ["validation_accuracy", "inference_count"])
+  RETURN {
+    adapter_id: adapter.adapter_id,
+    similarity_score: adapter.score,
+    task: adapter.task,
+    accuracy: stats.validation_accuracy,
+    usage_count: stats.inference_count
+  }
+```
+
+### Adapter Performance Analysis
+
+Analyze and rank adapters by performance:
+
+```aql
+FOR adapter IN lora_adapters
+  FILTER adapter.base_model == "llama-2-7b"
+  FILTER adapter.status == "ready"
+  
+  LET stats = LORA_STATS(
+    adapter.adapter_id,
+    ["validation_accuracy", "inference_count", "avg_latency", "cache_hit_rate"]
+  )
+  
+  // Calculate composite performance score
+  LET performance_score = (
+    stats.validation_accuracy * 0.5 +
+    (MIN([stats.cache_hit_rate, 1.0])) * 0.3 +
+    (1.0 - MIN([stats.avg_latency_ms / 1000, 1.0])) * 0.2
+  )
+  
+  SORT performance_score DESC
+  LIMIT 10
+  
+  RETURN {
+    rank: ROW_NUMBER(),
+    adapter_id: adapter.adapter_id,
+    task: adapter.task,
+    performance_score: ROUND(performance_score, 3),
+    accuracy: ROUND(stats.validation_accuracy, 3),
+    latency_ms: stats.avg_latency_ms,
+    usage: stats.inference_count,
+    cache_hit_rate: ROUND(stats.cache_hit_rate, 2)
+  }
+```
+
+### Track Adapter Evolution
+
+Monitor adapter improvements over versions:
+
+```aql
+FOR adapter IN lora_adapters
+  FILTER adapter.adapter_id == "documentation_assistant"
+  
+  LET lineage = LORA_LINEAGE(adapter.adapter_id, 20)
+  
+  FOR version IN lineage
+    LET stats = LORA_STATS(
+      CONCAT(adapter.adapter_id, "@", version.version),
+      ["validation_accuracy"]
+    )
+    
+    LET parent_stats = version.parent != null
+      ? LORA_STATS(
+          CONCAT(adapter.adapter_id, "@", version.parent),
+          ["validation_accuracy"]
+        )
+      : null
+    
+    LET improvement = parent_stats != null
+      ? stats.validation_accuracy - parent_stats.validation_accuracy
+      : 0
+    
+    RETURN {
+      version: version.version,
+      created: version.created,
+      accuracy: ROUND(stats.validation_accuracy, 4),
+      improvement: ROUND(improvement, 4),
+      improvement_pct: parent_stats != null 
+        ? ROUND((improvement / parent_stats.validation_accuracy) * 100, 2)
+        : null
+    }
+```
+
+### Model Adaptation Path Discovery
+
+Find paths between models using adapters:
+
+```aql
+FOR source_model IN ["llama-2-7b", "mistral-7b"]
+  FOR target_model IN ["llama-2-13b", "llama-2-70b"]
+    FILTER source_model != target_model
+    
+    LET path = LORA_PATH(source_model, target_model, 5)
+    FILTER LENGTH(path) > 0
+    
+    LET adapters_in_path = (
+      FOR step IN path
+        FILTER step.type == "adapter"
+        RETURN step.node
+    )
+    
+    RETURN {
+      from: source_model,
+      to: target_model,
+      path_length: LENGTH(path),
+      adapters_used: adapters_in_path,
+      full_path: path[*].node
+    }
+```
+
+### Multi-Task Adapter Recommendation
+
+Compare adapters across different tasks:
+
+```aql
+FOR task IN ["documentation_qa", "code_generation", "sql_translation"]
+  LET sample_query = task == "documentation_qa"
+    ? "How do I configure replication?"
+    : task == "code_generation"
+    ? "Generate a Python function to parse JSON"
+    : "Convert this query to SQL"
+  
+  LET recommendation = LORA_RECOMMEND(
+    sample_query,
+    "llama-2-7b",
+    task,
+    {
+      "min_accuracy": 0.80,
+      "max_latency_ms": 150
+    }
+  )
+  
+  RETURN {
+    task: task,
+    recommended_adapter: recommendation.adapter_id,
+    confidence: ROUND(recommendation.confidence, 3),
+    reason: recommendation.reason,
+    metrics: recommendation.metrics
+  }
+```
+
+### Comprehensive Adapter Dashboard
+
+Create a complete overview of adapter ecosystem:
+
+```aql
+LET total_adapters = LENGTH(lora_adapters)
+
+LET by_model = (
+  FOR adapter IN lora_adapters
+    COLLECT model = adapter.base_model WITH COUNT INTO count
+    RETURN {
+      model: model,
+      adapter_count: count
+    }
+)
+
+LET by_task = (
+  FOR adapter IN lora_adapters
+    COLLECT task = adapter.task WITH COUNT INTO count
+    SORT count DESC
+    LIMIT 10
+    RETURN {
+      task: task,
+      adapter_count: count
+    }
+)
+
+LET top_performers = (
+  FOR adapter IN lora_adapters
+    FILTER adapter.status == "ready"
+    LET stats = LORA_STATS(adapter.adapter_id, ["validation_accuracy", "inference_count"])
+    FILTER stats.validation_accuracy >= 0.85
+    SORT stats.inference_count DESC
+    LIMIT 5
+    RETURN {
+      adapter_id: adapter.adapter_id,
+      accuracy: ROUND(stats.validation_accuracy, 3),
+      usage: stats.inference_count
+    }
+)
+
+LET recent_training = (
+  FOR adapter IN lora_adapters
+    FILTER adapter.created_at >= DATE_SUBTRACT(DATE_NOW(), 7, "days")
+    SORT adapter.created_at DESC
+    LIMIT 10
+    RETURN {
+      adapter_id: adapter.adapter_id,
+      task: adapter.task,
+      created: adapter.created_at
+    }
+)
+
+RETURN {
+  overview: {
+    total_adapters: total_adapters,
+    by_model: by_model,
+    by_task: by_task
+  },
+  top_performers: top_performers,
+  recent_training: recent_training,
+  generated_at: DATE_ISO8601(DATE_NOW())
+}
+```
+
+### A/B Testing Adapters
+
+Compare performance of different adapters on the same queries:
+
+```aql
+LET test_queries = [
+  "How do I enable sharding?",
+  "What is replication?",
+  "Configure backup settings"
+]
+
+LET adapters_to_test = [
+  "documentation_assistant_v1",
+  "documentation_assistant_v2",
+  "documentation_assistant_v3"
+]
+
+FOR query IN test_queries
+  LET results = (
+    FOR adapter_id IN adapters_to_test
+      LET start_time = DATE_NOW()
+      
+      LET answer = LORA_QUERY(
+        "llama-2-7b",
+        adapter_id,
+        query,
+        {"max_tokens": 500, "temperature": 0.7}
+      )
+      
+      LET end_time = DATE_NOW()
+      LET latency_ms = DATE_DIFF(start_time, end_time, "millisecond", true)
+      
+      LET stats = LORA_STATS(adapter_id, ["validation_accuracy"])
+      
+      RETURN {
+        adapter_id: adapter_id,
+        answer: answer,
+        latency_ms: latency_ms,
+        accuracy: stats.validation_accuracy
+      }
+  )
+  
+  RETURN {
+    query: query,
+    results: results,
+    winner: FIRST(
+      FOR r IN results
+        SORT r.accuracy DESC, r.latency_ms ASC
+        RETURN r.adapter_id
+    )
+  }
+```
+
+---
+
+## Related Documentation
+
+- [LoRA AQL Reference](LORA_AQL_REFERENCE.md) - Complete function reference
+- [LoRA Framework Analysis](LORA_FRAMEWORK_ANALYSIS.md) - Architecture overview
+- [AQL Documentation](docs/aql_reference.md) - AQL language reference
+
+---
+
+Last updated: 2026-01-11
