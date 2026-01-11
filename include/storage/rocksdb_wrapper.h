@@ -52,6 +52,12 @@ public:
         struct DbPath { std::string path; uint64_t target_size_bytes; };
         std::vector<DbPath> db_paths; // für SSTables auf mehreren NVMe-Mounts
 
+        // Read-Only Mode (v1.4.0+)
+        // Öffnet Datenbank im Read-Only-Modus - keine Schreiboperationen möglich
+        // Verhindert WAL-Updates und Compactions
+        // Ideal für: Dokumentations-Datenbanken, Archiv-Daten, Backup-Verification
+        bool read_only = false;
+
         size_t memtable_size_mb = 256;
         size_t block_cache_size_mb = 1024;
         int block_cache_shard_bits = -1;  // -1 = auto, 4 = 16 shards, 6 = 64 shards (better for 8+ threads)

@@ -4,6 +4,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
 #include "llm/embedded_llm.h"
+#include "llm/docs_assistant.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -98,6 +99,12 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         return handleClearCache(req);
     } else if (target == "/api/v1/llm/health" && method == http::verb::get) {
         return handleHealth(req);
+    } else if (target == "/api/v1/llm/docs/query" && method == http::verb::post) {
+        return handleDocsQuery(req);
+    } else if (target == "/api/v1/llm/docs/config" && method == http::verb::post) {
+        return handleDocsConfig(req);
+    } else if (target == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) {
+        return handleDocsTroubleshoot(req);
     }
     
     return createErrorResponse(
@@ -820,6 +827,198 @@ std::optional<json> LLMApiHandler::parseRequestBody(
     }
     
     return std::nullopt;
+}
+
+// Documentation Assistant Endpoints
+
+http::response<http::string_body> LLMApiHandler::handleDocsQuery(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    std::string query;
+    
+    try {
+        if (body->contains("query")) {
+            query = json_value_to<std::string>(body->at("query"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'query' field");
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid query parameters", e.what());
+    }
+    
+    try {
+        // Create and configure documentation assistant
+        static llm::DocsAssistant assistant;
+        static bool initialized = false;
+        
+        if (!initialized) {
+            if (!assistant.loadDatabase()) {
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "Documentation database not available",
+                    "docs_database.json not found or failed to load"
+                );
+            }
+            initialized = true;
+        }
+        
+        // Query documentation
+        auto result = assistant.query(query);
+        
+        // Build response
+        json response_data = {
+            {"query", query},
+            {"answer", result.generated_answer},
+            {"confidence_score", result.confidence_score},
+            {"documents_searched", result.total_docs_searched},
+            {"documents_used", result.docs_included_in_context},
+            {"search_time_ms", result.search_time_ms.count()},
+            {"generation_time_ms", result.generation_time_ms.count()}
+        };
+        
+        // Include relevant documents metadata
+        json docs_array = json::array();
+        for (const auto& doc : result.relevant_docs) {
+            docs_array.push_back({
+                {"file_name", doc.file_name},
+                {"relevance_score", doc.relevance_score},
+                {"content_preview", doc.text_content.substr(0, 200) + "..."}
+            });
+        }
+        response_data["relevant_documents"] = docs_array;
+        
+        return createJsonResponse(response_data);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Documentation query failed",
+            e.what()
+        );
+    }
+}
+
+http::response<http::string_body> LLMApiHandler::handleDocsConfig(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    std::string topic;
+    
+    try {
+        if (body->contains("topic")) {
+            topic = json_value_to<std::string>(body->at("topic"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'topic' field");
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid parameters", e.what());
+    }
+    
+    try {
+        // Create and configure documentation assistant
+        static llm::DocsAssistant assistant;
+        static bool initialized = false;
+        
+        if (!initialized) {
+            if (!assistant.loadDatabase()) {
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "Documentation database not available",
+                    "docs_database.json not found or failed to load"
+                );
+            }
+            initialized = true;
+        }
+        
+        // Get configuration help
+        auto result = assistant.getConfigHelp(topic);
+        
+        // Build response
+        json response_data = {
+            {"topic", topic},
+            {"configuration_help", result.generated_answer},
+            {"confidence_score", result.confidence_score},
+            {"documents_used", result.docs_included_in_context}
+        };
+        
+        return createJsonResponse(response_data);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Configuration help failed",
+            e.what()
+        );
+    }
+}
+
+http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    std::string error_description;
+    
+    try {
+        if (body->contains("error")) {
+            error_description = json_value_to<std::string>(body->at("error"));
+        } else if (body->contains("issue")) {
+            error_description = json_value_to<std::string>(body->at("issue"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'error' or 'issue' field");
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid parameters", e.what());
+    }
+    
+    try {
+        // Create and configure documentation assistant
+        static llm::DocsAssistant assistant;
+        static bool initialized = false;
+        
+        if (!initialized) {
+            if (!assistant.loadDatabase()) {
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "Documentation database not available",
+                    "docs_database.json not found or failed to load"
+                );
+            }
+            initialized = true;
+        }
+        
+        // Get troubleshooting help
+        auto result = assistant.getTroubleshootingHelp(error_description);
+        
+        // Build response
+        json response_data = {
+            {"error", error_description},
+            {"troubleshooting_help", result.generated_answer},
+            {"confidence_score", result.confidence_score},
+            {"documents_used", result.docs_included_in_context}
+        };
+        
+        return createJsonResponse(response_data);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Troubleshooting help failed",
+            e.what()
+        );
+    }
 }
 
 } // namespace themis::server
