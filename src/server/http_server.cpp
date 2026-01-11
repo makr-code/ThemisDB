@@ -1087,6 +1087,53 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
 }
 
 namespace {
+    // Helper function to URL decode a string
+    std::string urlDecode(const std::string& str) {
+        std::string result;
+        result.reserve(str.size());
+        for (size_t i = 0; i < str.size(); ++i) {
+            if (str[i] == '%' && i + 2 < str.size()) {
+                int value;
+                std::istringstream is(str.substr(i + 1, 2));
+                if (is >> std::hex >> value) {
+                    result += static_cast<char>(value);
+                    i += 2;
+                } else {
+                    result += str[i];
+                }
+            } else if (str[i] == '+') {
+                result += ' ';
+            } else {
+                result += str[i];
+            }
+        }
+        return result;
+    }
+
+    // Helper function to parse query parameters from URL
+    nlohmann::json parseQueryParams(const std::string& target_str) {
+        nlohmann::json query_params = nlohmann::json::object();
+        auto query_pos = target_str.find('?');
+        if (query_pos == std::string::npos) {
+            return query_params;
+        }
+        
+        std::string query_string = target_str.substr(query_pos + 1);
+        size_t pos = 0;
+        while (pos < query_string.size()) {
+            auto eq_pos = query_string.find('=', pos);
+            if (eq_pos == std::string::npos) break;
+            auto amp_pos = query_string.find('&', eq_pos);
+            if (amp_pos == std::string::npos) amp_pos = query_string.size();
+            
+            std::string key = urlDecode(query_string.substr(pos, eq_pos - pos));
+            std::string value = urlDecode(query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1));
+            query_params[key] = value;
+            pos = amp_pos + 1;
+        }
+        return query_params;
+    }
+
     enum class Route {
         Health,
         Version,
@@ -12507,27 +12554,9 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
     const http::request<http::string_body>& req
 ) {
     try {
-        // Parse query parameters
+        // Parse query parameters using helper
         std::string target_str = std::string(req.target());
-        nlohmann::json query_params = nlohmann::json::object();
-        
-        auto query_pos = target_str.find('?');
-        if (query_pos != std::string::npos) {
-            std::string query_string = target_str.substr(query_pos + 1);
-            // Simple query parameter parsing
-            size_t pos = 0;
-            while (pos < query_string.size()) {
-                auto eq_pos = query_string.find('=', pos);
-                if (eq_pos == std::string::npos) break;
-                auto amp_pos = query_string.find('&', eq_pos);
-                if (amp_pos == std::string::npos) amp_pos = query_string.size();
-                
-                std::string key = query_string.substr(pos, eq_pos - pos);
-                std::string value = query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1);
-                query_params[key] = value;
-                pos = amp_pos + 1;
-            }
-        }
+        nlohmann::json query_params = parseQueryParams(target_str);
         
         // Create Request object for handler
         server::Request handler_req;
@@ -12631,27 +12660,9 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
     const http::request<http::string_body>& req
 ) {
     try {
-        // Parse query parameters
+        // Parse query parameters using helper
         std::string target_str = std::string(req.target());
-        nlohmann::json query_params = nlohmann::json::object();
-        
-        auto query_pos = target_str.find('?');
-        if (query_pos != std::string::npos) {
-            std::string query_string = target_str.substr(query_pos + 1);
-            // Simple query parameter parsing
-            size_t pos = 0;
-            while (pos < query_string.size()) {
-                auto eq_pos = query_string.find('=', pos);
-                if (eq_pos == std::string::npos) break;
-                auto amp_pos = query_string.find('&', eq_pos);
-                if (amp_pos == std::string::npos) amp_pos = query_string.size();
-                
-                std::string key = query_string.substr(pos, eq_pos - pos);
-                std::string value = query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1);
-                query_params[key] = value;
-                pos = amp_pos + 1;
-            }
-        }
+        nlohmann::json query_params = parseQueryParams(target_str);
         
         // Create Request object for handler
         server::Request handler_req;
