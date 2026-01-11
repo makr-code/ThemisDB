@@ -2,13 +2,11 @@ Project: Themis (Database System)
 Language: C++
 > **📋 WICHTIG: Build-Pipeline Modernisierung (Jan 2026)**
 > 
-> Die Build-Struktur wurde reorganisiert! Bitte lies die **[neue Anleitung](COPILOT_INSTRUCTIONS_v2.md)** für:
+> Die Build-Struktur wurde reorganisiert! Siehe **[Build-Guides](../docs/build-guide/README.md)** für:
 > - ✅ Neue Verzeichnisstruktur (cmake/, docker/, docs/build-guide/)
 > - ✅ CMakePresets verwenden (nicht manuelle Konfiguration)
 > - ✅ Links zu Build/Deployment/Release-Guides
 > - ✅ Platform-spezifische Anweisungen (Windows, Linux, Docker, ARM, RPi, QNAP)
->
-> Diese Datei (v1) wird nicht mehr aktiv gepflegt. Nutze **COPILOT_INSTRUCTIONS_v2.md** für alle neuen Anweisungen.
 
 Purpose:
 - High-performance C++ vector database with RocksDB integration, AQL and MVCC.
