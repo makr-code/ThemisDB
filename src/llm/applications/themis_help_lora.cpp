@@ -168,7 +168,7 @@ public:
                 request.max_tokens = 500;
                 request.temperature = 0.7f;
                 request.top_p = 0.9f;
-                request.request_id = generateModelRequestId();
+                request.request_id = themis::llm::applications::generateModelRequestId();
                 
                 // Add LoRA adapter if loaded
                 if (orchestrator->isLoaded(config.adapter_id)) {
@@ -383,7 +383,8 @@ lora::TrainingResult ThemisHelpLoRA::trainFromFeedback() {
         spdlog::info("Training completed. New version: {}", impl_->current_adapter_version);
         
         result.success = true;
-        result.new_version = impl_->current_adapter_version;
+        result.version = impl_->current_adapter_version;
+        result.training_time = duration;
         
     } catch (const std::exception& e) {
         spdlog::error("Training failed: {}", e.what());
@@ -468,7 +469,8 @@ lora::TrainingResult ThemisHelpLoRA::trainFromDocumentation() {
         spdlog::info("Documentation training completed");
         
         result.success = true;
-        result.new_version = impl_->current_adapter_version;
+        result.version = impl_->current_adapter_version;
+        result.training_time = duration;
         
     } catch (const std::exception& e) {
         spdlog::error("Documentation training failed: {}", e.what());
