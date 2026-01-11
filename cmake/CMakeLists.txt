@@ -1194,6 +1194,7 @@ set(THEMIS_CORE_SOURCES
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
+    ../src/analytics/nlp_text_analyzer.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)
