@@ -543,51 +543,38 @@ pip install themisdb-client
 
 ### Ihr erstes Programm
 
-```python
-# examples/01_hello_world/main.py
+Das folgende Hello-World-Beispiel zeigt die grundlegenden CRUD-Operationen (Create, Read, Update, Delete) in ThemisDB. Der Code demonstriert, wie einfach es ist, eine Collection zu erstellen, Dokumente einzufügen, Queries auszuführen und Daten zu verwalten.
 
+📁 **Vollständiger Code:** `examples/01_hello_world/main.py`
+
+```python
 from themisdb import Client
 
 # Verbindung zu ThemisDB
 client = Client("localhost", 8765)
 
-# 1. Collection erstellen
+# Collection erstellen
 client.create_collection("users")
 
-# 2. Dokument einfügen
-user = {
-    "_key": "alice",
-    "name": "Alice Smith",
-    "email": "alice@example.com",
-    "age": 28,
-    "city": "Berlin"
-}
-
+# Dokument einfügen
+user = {"_key": "alice", "name": "Alice Smith", "age": 28, "city": "Berlin"}
 result = client.insert("users", user)
 print(f"✓ User erstellt: {result['_id']}")
 
-# 3. Dokument abfragen
-alice = client.get("users", "alice")
-print(f"✓ User abgerufen: {alice['name']}")
-
-# 4. Query ausführen
-query = """
-FOR user IN users
-    FILTER user.city == "Berlin"
-    RETURN user
-"""
-
+# Query ausführen
+query = "FOR user IN users FILTER user.city == 'Berlin' RETURN user"
 results = client.query(query)
 print(f"✓ {len(results)} Benutzer in Berlin gefunden")
 
-# 5. Dokument aktualisieren
+# Dokument aktualisieren und löschen
 client.update("users", "alice", {"age": 29})
-print("✓ User aktualisiert")
-
-# 6. Dokument löschen
 client.delete("users", "alice")
-print("✓ User gelöscht")
 ```
+
+**Weitere Operationen im vollständigen Beispiel:**
+- GET-Abfrage für einzelnes Dokument
+- Batch-Operationen für mehrere Dokumente
+- Error-Handling und Validierung
 
 **Ausführen:**
 
@@ -617,62 +604,44 @@ Ein komplexeres Beispiel, das alle vier Modelle nutzt:
 
 ### Szenario: Social E-Commerce
 
+Dieses Beispiel zeigt die Leistungsfähigkeit der Multi-Model-Architektur: Es kombiniert relationale Daten (Benutzer), Graph-Beziehungen (Freundschaften), Dokumente (Produkte mit nested Objects) und Vektoren (Embeddings für Semantic Search) in einer einzigen Query.
+
+📁 **Vollständiger Code:** `examples/01_hello_world/multi_model_demo.py` (~85 Zeilen)
+
 ```python
-# Benutzer (Relational)
-client.insert("users", {
-    "_key": "alice",
-    "email": "alice@example.com",
-    "city": "Berlin"
-})
+# 1. Benutzer (Relational)
+client.insert("users", {"_key": "alice", "email": "alice@example.com"})
 
-# Freundschaft (Graph)
-client.insert("friends", {
-    "_from": "users/alice",
-    "_to": "users/bob",
-    "since": "2024-01-15"
-})
+# 2. Freundschaft (Graph)
+client.insert("friends", {"_from": "users/alice", "_to": "users/bob"})
 
-# Produkt (Dokument)
+# 3. Produkt mit nested Specs (Dokument)
 client.insert("products", {
     "_key": "laptop-x1",
     "name": "Developer Laptop X1",
-    "specs": {
-        "cpu": "Intel i7",
-        "ram_gb": 32
-    },
-    "tags": ["developer", "high-end"]
-})
-
-# Embedding (Vektor)
-client.update("products", "laptop-x1", {
+    "specs": {"cpu": "Intel i7", "ram_gb": 32},
     "embedding": [0.1, 0.5, -0.3, ...]  # 768-dim Vektor
 })
 
-# Multi-Model Query: Finde Produkte,
-# die Freunde von Alice gekauft haben
-# und die ähnlich zu ihrem letzten Kauf sind
+# 4. Multi-Model Query: Graph-Traversierung + Vektor-Ähnlichkeit
 query = """
 FOR friend IN 1..2 OUTBOUND "users/alice" friends
   FOR order IN orders
     FILTER order.user_id == friend.user_id
     FOR product IN products
       FILTER product.sku == order.sku
-      LET similarity = COSINE_SIMILARITY(
-        product.embedding,
-        @alice_last_embedding
-      )
+      LET similarity = COSINE_SIMILARITY(product.embedding, @alice_last_embedding)
       FILTER similarity > 0.7
-      RETURN {
-        friend: friend.user_id,
-        product: product.name,
-        similarity: similarity
-      }
+      RETURN {friend: friend.user_id, product: product.name, similarity}
 """
 
-recommendations = client.query(query, {
-    "alice_last_embedding": alice_last_purchase_embedding
-})
+recommendations = client.query(query, {"alice_last_embedding": alice_vector})
 ```
+
+**Zusätzliche Features im vollständigen Beispiel:**
+- Batch-Insert für Testdaten (100 Produkte, 50 Benutzer)
+- Fallback-Logik bei niedrigen Similarity-Scores
+- Performance-Metriken (Query-Zeit, Result-Count)
 
 **Was passiert hier?**
 

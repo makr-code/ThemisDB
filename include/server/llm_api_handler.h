@@ -45,6 +45,9 @@ using json = nlohmann::json;
  * - GET  /api/v1/llm/cache/stats - Get cache statistics
  * - DELETE /api/v1/llm/cache - Clear caches
  * - GET  /api/v1/llm/health - Health check
+ * - POST /api/v1/llm/docs/query - Query documentation assistant
+ * - POST /api/v1/llm/docs/config - Get configuration help
+ * - POST /api/v1/llm/docs/troubleshoot - Get troubleshooting help
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
  */
@@ -130,6 +133,16 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleHealth(
+        const http::request<http::string_body>& req);
+    
+    // Documentation assistant endpoints
+    http::response<http::string_body> handleDocsQuery(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleDocsConfig(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleDocsTroubleshoot(
         const http::request<http::string_body>& req);
     
     // Helper methods

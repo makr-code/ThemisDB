@@ -1,0 +1,179 @@
+# ThemisDB Documentation Assistant Configuration
+# Auto-loaded if present in config/ directory
+
+docs_assistant:
+  # Enable/disable documentation assistant
+  enabled: true
+  
+  # Database Configuration
+  database:
+    # Path to documentation database
+    # Leave empty for auto-discovery
+    path: ""  # Auto-discover: data/docs.db or data/docs_database.json
+    
+    # Database type: "rocksdb" or "json"
+    # Leave empty for auto-detection based on path
+    type: ""  # Auto-detect from file extension
+    
+    # Auto-discover database if path is empty
+    # Search order:
+    #   1. data/docs.db (RocksDB - preferred)
+    #   2. data/docs_database.json (JSON - fallback)
+    #   3. ./docs.db
+    #   4. ./docs_database.json
+    auto_discover: true
+    
+    # Read-Only Mode (NEW in v1.4.0)
+    # true = Database opened in read-only mode
+    # - No write operations allowed
+    # - No WAL updates
+    # - No compactions
+    # - Prevents accidental or malicious modifications
+    # RECOMMENDED: Always true for production documentation databases!
+    read_only: true
+  
+  # LLM Configuration
+  llm:
+    # Model ID to use (empty = use default from llm config)
+    model_id: ""
+    
+    # Maximum number of documents to include in RAG context
+    max_context_docs: 5
+    
+    # Characters to include per document in context
+    context_preview_length: 1000
+    
+    # Enable semantic search (requires vector embeddings)
+    enable_semantic_search: true
+    
+    # Enable response caching
+    enable_caching: true
+    
+    # Cache TTL in seconds
+    cache_ttl_seconds: 300
+  
+  # Access Control
+  access:
+    # Enable RBAC for documentation assistant
+    enable_rbac: true
+    
+    # Default role if not specified
+    default_role: "user"
+    
+    # Role-based limits
+    roles:
+      administrator:
+        requests_per_minute: 100
+        max_context_docs: 10
+        cache_ttl_seconds: 300
+        allowed_endpoints:
+          - query
+          - search
+          - config
+          - troubleshoot
+          - stats
+      
+      superuser:
+        requests_per_minute: 50
+        max_context_docs: 7
+        cache_ttl_seconds: 600
+        allowed_endpoints:
+          - query
+          - search
+          - config  # read-only
+      
+      user:
+        requests_per_minute: 20
+        max_context_docs: 3
+        cache_ttl_seconds: 900
+        allowed_endpoints:
+          - query
+          - search
+      
+      anonymous:
+        requests_per_minute: 5
+        max_context_docs: 1
+        cache_ttl_seconds: 1800
+        allowed_endpoints:
+          - search  # only search, no LLM queries
+  
+  # REST API Configuration
+  api:
+    # Enable REST API endpoints
+    enabled: true
+    
+    # API endpoints base path
+    base_path: "/api/v1/llm/docs"
+    
+    # Require authentication
+    require_auth: true
+    
+    # Enable CORS
+    enable_cors: true
+    
+    # CORS allowed origins
+    cors_origins:
+      - "*"
+  
+  # AQL Functions
+  aql:
+    # Enable AQL functions (DOCS_QUERY, DOCS_SEARCH, etc.)
+    enabled: true
+    
+    # Function prefix (e.g., DOCS_QUERY, THEMIS_DOCS_QUERY)
+    function_prefix: "DOCS_"
+    
+    # Available functions
+    functions:
+      - QUERY        # DOCS_QUERY(query: string) -> string
+      - SEARCH       # DOCS_SEARCH(query: string, limit: int) -> array
+      - CONFIG_HELP  # DOCS_CONFIG_HELP(topic: string) -> string
+      - TROUBLESHOOT # DOCS_TROUBLESHOOT(error: string) -> string
+  
+  # Monitoring and Logging
+  monitoring:
+    # Enable Prometheus metrics
+    enable_metrics: true
+    
+    # Metrics prefix
+    metrics_prefix: "themis_docs_"
+    
+    # Enable audit logging
+    enable_audit_log: true
+    
+    # Audit log path
+    audit_log_path: "./logs/docs_assistant_audit.log"
+    
+    # Log all queries (warning: may contain sensitive info)
+    log_queries: false
+    
+    # Log only failed queries
+    log_failed_queries: true
+  
+  # Performance Tuning
+  performance:
+    # Number of worker threads for doc search
+    worker_threads: 4
+    
+    # Search timeout in milliseconds
+    search_timeout_ms: 5000
+    
+    # LLM generation timeout in milliseconds
+    generation_timeout_ms: 30000
+    
+    # Enable async processing
+    enable_async: true
+    
+    # Queue size for async requests
+    async_queue_size: 100
+
+# Example explicit configuration (overrides auto-discovery):
+# docs_assistant:
+#   enabled: true
+#   database:
+#     path: "/var/lib/themisdb/docs.db"
+#     type: "rocksdb"
+#     auto_discover: false
+#   llm:
+#     max_context_docs: 7
+#     enable_caching: true

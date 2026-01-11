@@ -2,12 +2,41 @@
 
 Professional PDF generation with modern book layout and typography.
 
+> **✨ NEU (v1.3.4):** Professionelles Buchlayout mit intelligenter Seitenverwaltung!  
+> Siehe [PDF_LAYOUT_IMPROVEMENTS.md](PDF_LAYOUT_IMPROVEMENTS.md) für Details.
+
 ## 📚 Current Status
 
 - **Word Count:** ~135,500 words
 - **Pages:** ~271 pages (A4 format)
 - **Target:** 1,000 pages comprehensive technical book
 - **Version:** 1.3.4
+
+## 🆕 Professional Book Layout (NEU v1.3.4)
+
+### Schnellstart (step1-5 Pipeline)
+```bash
+cd compendium
+python3 step1_generate_svgs.py
+python3 step2_generate_html.py    # ← Mit professionellem Layout
+python3 step3_generate_pdf.py
+python3 step4_add_bookmarks.py
+python3 step5_cleanup.py
+```
+
+### Neue Features
+- ✅ **Durchgehende Seitennummerierung** - Alle Seiten korrekt nummeriert
+- ✅ **Seitenzahlen im Inhaltsverzeichnis** - Automatisch mit CSS target-counter
+- ✅ **Widow/Orphan Control** - Keine abgeschnittenen Absätze (min. 3 Zeilen)
+- ✅ **Intelligente Seitenumbrüche** - Kapitel und Absätze werden nicht getrennt
+- ✅ **Running Headers** - Buchtitel in Kopfzeile
+- ✅ **Professionelle Typografie** - Serif für Text, Sans-Serif für Überschriften
+- ✅ **Buchdruck-Ränder** - Unterschiedliche Ränder für linke/rechte Seiten
+- ✅ **Automatische Silbentrennung** - Blocksatz wie in professionellen Büchern
+
+**Orientiert an:** Microsoft Word Buchvorlagen und professionellen Verlagsstandards
+
+Für detaillierte Informationen siehe: [PDF_LAYOUT_IMPROVEMENTS.md](PDF_LAYOUT_IMPROVEMENTS.md)
 
 ## 🎨 Features
 

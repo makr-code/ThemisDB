@@ -604,12 +604,22 @@ def update_daily_metrics(date):
 
 ### 15.7.1 Erstellen eines OLAP-Würfels
 
+
+### 15.7.1 Erstellen eines OLAP-Würfels
+
+OLAP-Würfel (Online Analytical Processing) ermöglichen multidimensionale Analysen über verschiedene Dimensionen (Zeit, Kunde, Produkt, Region). ThemisDB kann durch geschicktes Kombinieren von Dokumenten und Aggregationen OLAP-ähnliche Analysen durchführen, ohne separate OLAP-Systeme zu benötigen.
+
+> **📁 Vollständiger Code:** `examples/15_analytics/olap_cube.py` (ca. 100 Zeilen)
+
+**OLAP-Würfel Konstruktion:**
+
 ```python
 import pandas as pd
 
 def create_sales_cube(db):
-    """OLAP-Würfel für Verkaufsanalysen"""
+    """Erstellt multidimensionalen OLAP-Würfel für Verkaufsanalysen"""
     
+    # Daten mit allen Dimensionen aggregieren
     query = """
     FOR order IN orders
         LET customer = DOCUMENT('customers', order.customer_id)
@@ -620,87 +630,89 @@ def create_sales_cube(db):
                     category: product.category,
                     brand: product.brand,
                     price: item.price,
-                    quantity: item.quantity
+                    quantity: item.quantity,
+                    revenue: item.price * item.quantity
                 }
         )
         RETURN {
             date: order.order_date,
+            year: DATE_YEAR(order.order_date),
+            quarter: DATE_QUARTER(order.order_date),
+            month: DATE_MONTH(order.order_date),
             customer_segment: customer.segment,
             customer_region: customer.region,
-            items: items
+            items: items,
+            total_amount: order.total_amount
         }
     """
     
-    # Daten laden
-    orders = list(db.query(query))
+    # In Pandas DataFrame laden
+    data = db.query(query)
+    df = pd.DataFrame(data)
     
-    # In flache Struktur umwandeln
-    rows = []
-    for order in orders:
-        for item in order['items']:
-            rows.append({
-                'date': pd.to_datetime(order['date']),
-                'year': pd.to_datetime(order['date']).year,
-                'quarter': pd.to_datetime(order['date']).quarter,
-                'month': pd.to_datetime(order['date']).month,
-                'customer_segment': order['customer_segment'],
-                'customer_region': order['customer_region'],
-                'category': item['category'],
-                'brand': item['brand'],
-                'revenue': item['price'] * item['quantity'],
-                'quantity': item['quantity']
-            })
+    # Explode items für granulare Analyse
+    df_items = df.explode('items')
+    df_items = pd.concat([
+        df_items.drop('items', axis=1),
+        df_items['items'].apply(pd.Series)
+    ], axis=1)
     
-    # DataFrame erstellen
-    df = pd.DataFrame(rows)
-    
-    # Pivot-Tabellen
-    cube = {
-        'by_region_category': df.pivot_table(
-            values='revenue',
-            index='customer_region',
-            columns='category',
-            aggfunc='sum',
-            fill_value=0
-        ),
-        'by_segment_month': df.pivot_table(
-            values='revenue',
-            index='customer_segment',
-            columns='month',
-            aggfunc='sum',
-            fill_value=0
-        ),
-        'by_brand_quarter': df.pivot_table(
-            values='revenue',
-            index='brand',
-            columns='quarter',
-            aggfunc='sum',
-            fill_value=0
-        )
-    }
-    
-    return cube
-
-# Würfel erstellen
-cube = create_sales_cube(db)
-
-# Drill-Down: Region -> Kategorie -> Brand
-region = 'Europe'
-category = 'Electronics'
-
-drill_down = db.query("""
-    FOR order IN orders
-        LET customer = DOCUMENT('customers', order.customer_id)
-        FILTER customer.region == @region
-        FOR item IN order.items
-            LET product = DOCUMENT('products', item.product_id)
-            FILTER product.category == @category
-            COLLECT brand = product.brand
-            AGGREGATE revenue = SUM(item.price * item.quantity)
-            SORT revenue DESC
-            RETURN {brand, revenue}
-""", {'region': region, 'category': category})
+    return df_items
 ```
+
+**Slice & Dice Operationen:**
+
+```python
+def analyze_cube(cube_df):
+    """Verschiedene OLAP-Operationen auf dem Würfel"""
+    
+    # Slice: Nur eine Region
+    region_slice = cube_df[cube_df['customer_region'] == 'Europe']
+    
+    # Dice: Mehrere Dimensionen filtern
+    dice = cube_df[
+        (cube_df['year'] == 2024) &
+        (cube_df['category'] == 'Electronics')
+    ]
+    
+    # Drill-down: Von Jahr zu Monat
+    monthly = cube_df.groupby(['year', 'month', 'category'])['revenue'].sum()
+    
+    # Roll-up: Von Monat zu Quarter
+    quarterly = cube_df.groupby(['year', 'quarter'])['revenue'].sum()
+    
+    # Pivot: Cross-tabulation
+    pivot = cube_df.pivot_table(
+        values='revenue',
+        index='category',
+        columns='customer_segment',
+        aggfunc='sum'
+    )
+    
+    return {
+        'region_slice': region_slice,
+        'dice': dice,
+        'monthly': monthly,
+        'quarterly': quarterly,
+        'pivot': pivot
+    }
+```
+
+**Wichtige OLAP-Konzepte:**
+
+1. **Dimensionen**: Zeit, Kunde, Produkt, Region (Was analysiert wird)
+2. **Measures**: Revenue, Quantity, Count (Was gemessen wird)
+3. **Slice**: Einzelne Dimension filtern (z.B. nur 2024)
+4. **Dice**: Mehrere Dimensionen kombiniert filtern
+5. **Drill-down**: Von aggregiert zu detailliert (Jahr → Monat → Tag)
+6. **Roll-up**: Von detailliert zu aggregiert (Tag → Monat → Jahr)
+7. **Pivot**: Dimensionen als Zeilen/Spalten darstellen
+
+Die vollständige Implementierung unterstützt zusätzlich:
+- Hierarchische Dimensionen (Jahr/Quarter/Monat/Tag)
+- Calculated Measures (Profit Margin, Growth Rate)
+- Time Intelligence (YTD, MTD, Same Period Last Year)
+- Ranking (Top 10 Products)
 
 ### 15.7.2 Slice und Dice Operationen
 
@@ -729,17 +741,26 @@ diced = dice_cube(df, filters)
 
 ### 15.8.1 KPI-Berechnung
 
+
+### 15.8.1 KPI-Berechnung
+
+Echtzeit-KPI-Dashboards benötigen schnelle Abfragen über aktuelle Daten. ThemisDB ermöglicht effiziente Berechnung von Key Performance Indicators durch optimierte AQL-Queries mit Aggregationen und Zeitfiltern. Die Dashboard-Klasse zeigt typische Metriken wie tägliche Verkäufe, Conversion Rate und Top-Produkte.
+
+> **📁 Vollständiger Code:** `examples/15_analytics/realtime_dashboard.py` (ca. 130 Zeilen)
+
+**Dashboard-Klasse mit KPI-Berechnung:**
+
 ```python
 class RealtimeDashboard:
     def __init__(self, db):
         self.db = db
     
     def get_current_metrics(self):
-        """Aktuelle KPIs abrufen"""
+        """Berechnet aktuelle KPIs für Dashboard"""
         
         metrics = {}
         
-        # Heutige Verkäufe
+        # Heutige Verkäufe - mit AGGREGATE für Effizienz
         today = self.db.query("""
             LET today = DATE_FORMAT(DATE_NOW(), '%Y-%m-%d')
             FOR order IN orders
@@ -753,106 +774,112 @@ class RealtimeDashboard:
         
         metrics['today'] = today
         
-        # Gestern zum Vergleich
+        # Vergleich zu gestern (Growth Rate)
         yesterday = self.db.query("""
-            LET yesterday = DATE_FORMAT(
-                DATE_SUBTRACT(DATE_NOW(), 1, 'day'), 
-                '%Y-%m-%d'
-            )
+            LET yesterday = DATE_SUBTRACT(DATE_NOW(), 1, 'day')
             FOR order IN orders
-                FILTER DATE_FORMAT(order.order_date, '%Y-%m-%d') == yesterday
-                COLLECT AGGREGATE 
-                    count = COUNT(1),
-                    revenue = SUM(order.total_amount)
-                RETURN {count, revenue}
+                FILTER DATE_FORMAT(order.order_date, '%Y-%m-%d') == 
+                       DATE_FORMAT(yesterday, '%Y-%m-%d')
+                COLLECT AGGREGATE revenue = SUM(order.total_amount)
+                RETURN revenue
         """)[0]
         
-        metrics['yesterday'] = yesterday
+        metrics['growth_rate'] = (
+            (today['revenue'] - yesterday) / yesterday * 100
+            if yesterday > 0 else 0
+        )
         
-        # Prozentuale Veränderung
-        metrics['change'] = {
-            'orders': (today['count'] - yesterday['count']) / yesterday['count'] * 100,
-            'revenue': (today['revenue'] - yesterday['revenue']) / yesterday['revenue'] * 100
-        }
+        # Top 5 Produkte heute
+        top_products = self.db.query("""
+            LET today = DATE_FORMAT(DATE_NOW(), '%Y-%m-%d')
+            FOR order IN orders
+                FILTER DATE_FORMAT(order.order_date, '%Y-%m-%d') == today
+                FOR item IN order.items
+                    LET product = DOCUMENT('products', item.product_id)
+                    COLLECT p = product INTO items
+                    LET total = SUM(items[*].item.quantity * items[*].item.price)
+                    SORT total DESC
+                    LIMIT 5
+                    RETURN {
+                        product: p.name,
+                        revenue: total,
+                        units: SUM(items[*].item.quantity)
+                    }
+        """)
         
-        # Aktive Benutzer
-        metrics['active_users'] = self.db.query("""
-            LET last_hour = DATE_SUBTRACT(DATE_NOW(), 1, 'hour')
-            FOR session IN user_sessions
-                FILTER session.last_activity >= last_hour
-                RETURN DISTINCT session.user_id
-        """).count()
+        metrics['top_products'] = top_products
         
-        # Conversion Rate
-        metrics['conversion_rate'] = self.db.query("""
-            LET last_hour = DATE_SUBTRACT(DATE_NOW(), 1, 'hour')
-            LET visits = (
-                FOR visit IN page_views
-                    FILTER visit.timestamp >= last_hour
-                    RETURN DISTINCT visit.session_id
-            )
-            LET purchases = (
-                FOR order IN orders
-                    FILTER order.order_date >= last_hour
-                    RETURN DISTINCT order.session_id
-            )
-            RETURN LENGTH(purchases) / LENGTH(visits) * 100
-        """)[0]
+        # Conversion Rate (Orders / Visitors)
+        metrics['conversion_rate'] = self._calculate_conversion_rate()
         
         return metrics
-    
-    def get_top_products(self, limit=10):
-        """Top-Produkte der letzten 24 Stunden"""
-        return self.db.query("""
-            LET last_24h = DATE_SUBTRACT(DATE_NOW(), 24, 'hour')
-            FOR order IN orders
-                FILTER order.order_date >= last_24h
-                FOR item IN order.items
-                    COLLECT product_id = item.product_id
-                    AGGREGATE 
-                        quantity_sold = SUM(item.quantity),
-                        revenue = SUM(item.price * item.quantity)
-                    LET product = DOCUMENT('products', product_id)
-                    SORT revenue DESC
-                    LIMIT @limit
-                    RETURN {
-                        product_id,
-                        name: product.name,
-                        quantity_sold,
-                        revenue
-                    }
-        """, {'limit': limit})
-    
-    def get_geographic_distribution(self):
-        """Geografische Verteilung der Verkäufe"""
-        return self.db.query("""
-            FOR order IN orders
-                FILTER order.order_date >= DATE_SUBTRACT(DATE_NOW(), 7, 'day')
-                LET customer = DOCUMENT('customers', order.customer_id)
-                COLLECT 
-                    country = customer.country,
-                    region = customer.region
-                AGGREGATE 
-                    orders = COUNT(1),
-                    revenue = SUM(order.total_amount)
-                SORT revenue DESC
-                RETURN {
-                    country,
-                    region,
-                    orders,
-                    revenue
-                }
-        """)
-
-# Dashboard verwenden
-dashboard = RealtimeDashboard(db)
-metrics = dashboard.get_current_metrics()
-
-print(f"Heute: {metrics['today']['count']} Bestellungen, €{metrics['today']['revenue']:.2f}")
-print(f"Veränderung: {metrics['change']['orders']:+.1f}% Bestellungen, {metrics['change']['revenue']:+.1f}% Umsatz")
-print(f"Aktive Benutzer: {metrics['active_users']}")
-print(f"Conversion Rate: {metrics['conversion_rate']:.2f}%")
 ```
+
+**Conversion Rate Berechnung:**
+
+```python
+    def _calculate_conversion_rate(self):
+        """Berechnet Conversion Rate für heute"""
+        
+        result = self.db.query("""
+            LET today = DATE_FORMAT(DATE_NOW(), '%Y-%m-%d')
+            
+            LET orders = (
+                FOR o IN orders
+                    FILTER DATE_FORMAT(o.order_date, '%Y-%m-%d') == today
+                    RETURN 1
+            )
+            
+            LET visitors = (
+                FOR v IN visitors
+                    FILTER DATE_FORMAT(v.visit_date, '%Y-%m-%d') == today
+                    RETURN 1
+            )
+            
+            RETURN {
+                orders: LENGTH(orders),
+                visitors: LENGTH(visitors),
+                rate: LENGTH(orders) / LENGTH(visitors) * 100
+            }
+        """)[0]
+        
+        return result['rate']
+```
+
+**Dashboard Update (WebSocket-basiert):**
+
+```python
+    def stream_updates(self, websocket):
+        """Streamt KPI-Updates in Echtzeit"""
+        
+        while True:
+            metrics = self.get_current_metrics()
+            
+            # An WebSocket-Clients senden
+            websocket.send(json.dumps({
+                'timestamp': datetime.now().isoformat(),
+                'metrics': metrics
+            }))
+            
+            time.sleep(5)  # Update alle 5 Sekunden
+```
+
+**Typische Dashboard-Metriken:**
+
+| Metric | Beschreibung | Query-Strategie |
+|--------|--------------|-----------------|
+| Daily Revenue | Summe aller Orders heute | `COLLECT AGGREGATE SUM(total)` |
+| Growth Rate | Vergleich zu gestern | Zwei Queries mit Zeitfilter |
+| Top Products | Best-seller heute | `COLLECT` + `SORT` + `LIMIT` |
+| Conversion Rate | Orders / Visitors | Zwei Subqueries mit `LENGTH()` |
+| Avg Order Value | Durchschnitt pro Order | `COLLECT AGGREGATE AVG(total)` |
+
+Die vollständige Implementierung enthält zusätzlich:
+- Caching für häufig abgefragte Metriken
+- Materialized Views für komplexe Berechnungen
+- Alerting bei Schwellwert-Überschreitungen
+- Historische Trend-Visualisierung
+- Drill-down für Detail-Analysen
 
 ### 15.8.2 Change Data Capture für Live-Updates
 
