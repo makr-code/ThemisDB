@@ -119,6 +119,72 @@ Wenn du Pull Requests erstellst:
 
 ---
 
+## GitHub Labels System
+
+### Label Verwendung für Issues und PRs
+
+ThemisDB verwendet ein strukturiertes Label-System zur Kategorisierung von Issues und Pull Requests.
+
+**Wichtig für Copilot:**
+
+Wenn du Issues erstellst, PRs vorschlägst, oder Skripte zur Issue-Erstellung überprüfst/erstellst:
+
+1. **Verwende NUR Labels aus `.github/labels.yml`**
+   - Diese Datei ist die einzige Quelle der Wahrheit für gültige Labels
+   - Erfinde keine neuen Labels - schlage dem Maintainer vor, `labels.yml` zu erweitern
+
+2. **Konsultiere die Label-Dokumentation**
+   - Vollständiger Leitfaden: `.github/LABELS_GUIDE.md`
+   - Label-Definitionen: `.github/labels.yml`
+
+3. **Label-Kategorien und Beispiele**
+   - **Priorität (erforderlich):** `priority:P0`, `priority:P1`, `priority:P2`, `priority:P3`
+   - **Typ (erforderlich):** `type:bug`, `type:feature`, `type:enhancement`, `type:documentation`, `type:security`, `type:performance`, etc.
+   - **Bereich (optional, mehrere möglich):** `area:llm`, `area:storage`, `area:aql`, `area:api`, `area:networking`, `area:build`, `area:docker`, etc.
+   - **Status (optional):** `status:ready`, `status:in-progress`, `status:needs-review`, `status:blocked`, etc.
+   - **Aufwand (optional):** `effort:small`, `effort:medium`, `effort:large`, `effort:x-large`
+   - **Spezial (optional):** `good first issue`, `help wanted`, `breaking-change`, `regression`, etc.
+
+4. **Issue-Erstellungs-Beispiel**
+   ```yaml
+   ---
+   title: "Fix RocksDB memory leak in snapshot cleanup"
+   labels: priority:P1 type:bug area:storage regression
+   ---
+   ```
+
+5. **Bei Scripts zur Issue-Erstellung**
+   - Skripte wie `.github/create_github_issues.py` und `create_missing_issues.py` sollten Labels validieren
+   - Prüfe Labels gegen `labels.yml` bevor Issues erstellt werden
+   - Gib klare Fehlermeldungen wenn ungültige Labels verwendet werden
+
+6. **Label-Validierung in Python**
+   ```python
+   # Beispiel: Labels aus labels.yml laden und validieren
+   import yaml
+   
+   with open('.github/labels.yml', 'r') as f:
+       valid_labels = {label['name'] for label in yaml.safe_load(f)}
+   
+   # Validiere Labels
+   for label in issue_labels:
+       if label not in valid_labels:
+           print(f"ERROR: Invalid label '{label}'. Check .github/labels.yml")
+   ```
+
+**Best Practices:**
+- Jedes Issue sollte mindestens ein Priority- und ein Type-Label haben
+- Area-Labels helfen Maintainern, Issues zu routen
+- Effort-Labels unterstützen Sprint-Planung
+- Status-Labels werden typischerweise von Maintainern gesetzt
+
+**Referenzen:**
+- Label-Konfiguration: `.github/labels.yml`
+- Vollständiger Guide: `.github/LABELS_GUIDE.md`
+- Quick Reference: `.github/LABELS_QUICK_REF.md` (falls vorhanden)
+
+---
+
 ## ThemisDB Build-System Übersicht
 
 ## ThemisDB Build-System (v2.1 - Moderne Pipeline)

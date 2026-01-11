@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 Create missing GitHub Issues from templates
+
+IMPORTANT: This script creates issues with predefined labels.
+           Ensure that all labels used are valid labels defined in .github/labels.yml
+           See .github/LABELS_GUIDE.md for the complete list of available labels.
+           
+           Common label categories:
+           - priority:P0, priority:P1, priority:P2, priority:P3
+           - type:bug, type:feature, type:enhancement, type:documentation, etc.
+           - area:llm, area:storage, area:aql, area:api, etc.
+           
+           Before adding new labels here, verify they exist in .github/labels.yml
 """
 
 import subprocess
@@ -44,6 +55,9 @@ def create_issue(title, labels, body):
 def main():
     print("=== Erstelle 3 fehlende GitHub Issues ===\n")
     
+    # NOTE: All labels used below MUST be valid labels from .github/labels.yml
+    # Verify labels at: .github/LABELS_GUIDE.md
+    # Common categories: priority:*, type:*, area:*, status:*, effort:*
     issues_to_create = [
         {
             "title": "[FEATURE] Phase 1: Named Snapshots (Semantic Tagging)",
