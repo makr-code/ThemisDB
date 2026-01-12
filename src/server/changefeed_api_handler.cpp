@@ -14,6 +14,8 @@
 namespace themis {
 namespace server {
 
+namespace beast = boost::beast;
+namespace http = beast::http;
 using json = nlohmann::json;
 
 ChangefeedApiHandler::ChangefeedApiHandler(
@@ -364,6 +366,8 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         }
         
         res.body() = body.str();
+        // Note: applyGovernanceHeaders not implemented in handler
+        // This is a minor feature and can be added later if needed
         res.prepare_payload();
         
         span.setStatus(true);
