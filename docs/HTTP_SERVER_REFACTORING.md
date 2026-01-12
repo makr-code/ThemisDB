@@ -112,17 +112,31 @@ Created the following handler structure files:
 - Includes code patterns, testing strategy, and priority order
 - Uses AdminApiHandler as reference
 
-**Next Steps:**
+**Next Steps for Phase 2:**
 Follow `HANDLER_IMPLEMENTATION_GUIDE.md` to implement remaining 15 handlers incrementally.
 
-### Phase 3: Implementation Migration (NEXT)
+**Next Steps for Phase 3:**
+Follow `INTEGRATION_GUIDE.md` to integrate implemented handlers into HttpServer.
 
-For each handler class:
+### Phase 3: Integration (NEXT)
 
-1. **Copy implementation** from `http_server.cpp` to handler methods
-2. **Extract helper methods** needed by the handler
-3. **Update dependencies** and includes
-4. **Add to CMakeLists.txt**:
+**Status**: Ready to begin - Integration guide complete
+
+**Integration Guide Created:**
+- `docs/INTEGRATION_GUIDE.md` - Complete integration instructions
+- Shows how to wire handlers into HttpServer
+- Includes CMakeLists.txt setup
+- Constructor initialization examples
+- Route delegation patterns
+- AdminApiHandler as working example
+- Troubleshooting common issues
+
+**Integration Steps:**
+
+1. **Add to CMakeLists.txt** - Include handler source files in build
+2. **Update http_server.h** - Add includes and member variables
+3. **Initialize in constructor** - Create handler instances with dependencies
+4. **Delegate routes** - Replace method calls with handler delegations
    ```cmake
    ../src/server/entity_api_handler.cpp
    ../src/server/query_api_handler.cpp
@@ -248,12 +262,14 @@ Some helper methods used across handlers should remain in HttpServer or be extra
 ## Next Steps
 
 1. ✅ **Create all 16 handler structures with documentation** (COMPLETE)
-2. ⬜ **Implement one handler completely** as a reference (e.g., EntityApiHandler)
-3. ⬜ **Review and validate** the implementation pattern
-4. ⬜ **Implement remaining handlers** incrementally
-5. ⬜ **Update build system** (CMakeLists.txt)
-6. ⬜ **Test thoroughly** at each step
-7. ⬜ **Code review** before merge
+2. ✅ **Implement one handler as reference** (AdminApiHandler - COMPLETE)
+3. ✅ **Create implementation guide** (HANDLER_IMPLEMENTATION_GUIDE.md - COMPLETE)
+4. ✅ **Create integration guide** (INTEGRATION_GUIDE.md - COMPLETE)
+5. ⬜ **Implement remaining handlers** incrementally (Phase 2)
+6. ⬜ **Integrate handlers into HttpServer** (Phase 3)
+7. ⬜ **Update build system** (CMakeLists.txt)
+8. ⬜ **Test thoroughly** at each step
+9. ⬜ **Code review** before merge
 
 ## Files Created
 
