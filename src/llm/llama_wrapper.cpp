@@ -2,6 +2,7 @@
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -289,7 +290,7 @@ bool LlamaWrapper::loadModel(
     );
     
     if (!model) {
-        spdlog::error("Failed to load model: {}", model_path);
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
         if (metrics_collector_) {
             metrics_collector_->recordError("model_load_failed", "model_loader");
@@ -375,7 +376,7 @@ bool LlamaWrapper::loadLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
-        spdlog::error("Cannot load LoRA: no model loaded");
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no_base_model_loaded");
         return false;
     }
     
@@ -850,7 +851,7 @@ bool LlamaWrapper::importLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
-        spdlog::error("Cannot import LoRA: no model loaded");
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no_base_model_loaded");
         return false;
     }
     
@@ -1388,7 +1389,7 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     draft_context_ = llama_new_context_with_model(draft_model_, draft_ctx_params);
     
     if (!draft_context_) {
-        spdlog::error("Failed to create context for draft model");
+        errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, "draft model");
         llama_free_model(draft_model_);
         draft_model_ = nullptr;
         return false;

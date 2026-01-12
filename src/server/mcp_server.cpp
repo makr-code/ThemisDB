@@ -190,7 +190,7 @@ json McpServer::handleRequest(const json& request) {
             return createError(-32601, "Method not found: " + method);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Error handling MCP request: {}", e.what());
+        errors::logError(ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
         return createError(-32603, std::string("Internal error: ") + e.what());
     }
 }
@@ -1309,7 +1309,7 @@ void StdioTransport::readStdin() {
     asio::post(io_context_, [this]() {
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
-            spdlog::error("Failed to get stdin handle");
+            errors::logError(ErrorCode::ERR_MCP_STDIO_INIT_FAILED, "stdin handle");
             return;
         }
 
@@ -1653,7 +1653,7 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
             sendToSession(session_id, response);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Error handling WebSocket message from session {}: {}", session_id, e.what());
+        errors::logError(ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
         
         // Send error response
         json error_response = {
