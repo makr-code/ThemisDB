@@ -51,7 +51,9 @@ public:
             event.type = Changefeed::ChangeEventType::EVENT_PUT;
             event.key = "users:" + std::to_string(i);
             event.value = "User " + std::to_string(i) + " data " + std::to_string(dis(gen));
-            event.timestamp_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+            // Use proper chrono conversion for timestamp
+            auto now = std::chrono::system_clock::now();
+            event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
             changefeed_->recordEvent(event);
         }
         

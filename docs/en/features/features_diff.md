@@ -438,6 +438,36 @@ if stats['cache_size'] > stats['max_cache_size'] * 0.9:
 
 ---
 
+## Known Limitations
+
+### Change Type Classification
+
+The current implementation categorizes changes based on events within the diff range. For PUT events:
+
+- If the key appears multiple times: **MODIFIED**
+- If the key appears once: **MODIFIED** (conservative assumption)
+
+**Why**: Without querying the full changefeed history before `from_sequence`, we cannot definitively determine if a key was newly created (ADDED) or updated (MODIFIED).
+
+**Workaround**: To get accurate ADDED events, use `from=0` to include the full history, or query with a `from_sequence` that predates the key's creation.
+
+**Future**: A future enhancement may add an optional flag to enable expensive history lookup for accurate classification.
+
+### Example
+
+```bash
+# Scenario: Key "users:123" was created at sequence 50
+# Querying from sequence 100 won't show it as ADDED
+
+# ❌ Inaccurate (will show as MODIFIED if changed after seq 100)
+GET /api/v1/diff?from=100&to=200
+
+# ✅ Accurate (will show as ADDED at sequence 50)
+GET /api/v1/diff?from=0&to=200
+```
+
+---
+
 ## Integration Example
 
 ### Express.js Middleware

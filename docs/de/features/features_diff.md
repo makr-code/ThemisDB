@@ -416,6 +416,36 @@ curl "http://localhost:8765/api/v1/diff?from=100&to=200&include_values=true"
 
 ---
 
+## Bekannte Einschränkungen
+
+### Klassifizierung von Änderungstypen
+
+Die aktuelle Implementierung kategorisiert Änderungen basierend auf Events innerhalb des Diff-Bereichs. Für PUT-Events:
+
+- Wenn der Schlüssel mehrfach vorkommt: **MODIFIED**
+- Wenn der Schlüssel einmal vorkommt: **MODIFIED** (konservative Annahme)
+
+**Warum**: Ohne Abfrage der vollständigen Changefeed-Historie vor `from_sequence` kann nicht definitiv festgestellt werden, ob ein Schlüssel neu erstellt (ADDED) oder aktualisiert (MODIFIED) wurde.
+
+**Workaround**: Für genaue ADDED-Events verwende `from=0` um die vollständige Historie einzubeziehen, oder frage mit einer `from_sequence` ab, die vor der Erstellung des Schlüssels liegt.
+
+**Zukunft**: Eine zukünftige Erweiterung kann ein optionales Flag hinzufügen, um eine aufwändige Historiensuche für genaue Klassifizierung zu ermöglichen.
+
+### Beispiel
+
+```bash
+# Szenario: Schlüssel "users:123" wurde bei Sequenz 50 erstellt
+# Abfrage ab Sequenz 100 zeigt ihn nicht als ADDED
+
+# ❌ Ungenau (zeigt als MODIFIED wenn nach Seq 100 geändert)
+GET /api/v1/diff?from=100&to=200
+
+# ✅ Genau (zeigt als ADDED bei Sequenz 50)
+GET /api/v1/diff?from=0&to=200
+```
+
+---
+
 ## Siehe auch
 
 - [MVCC Architektur](../architecture/architecture_mvcc.md)

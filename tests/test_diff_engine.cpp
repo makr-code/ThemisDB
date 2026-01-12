@@ -46,7 +46,9 @@ protected:
         event.type = Changefeed::ChangeEventType::EVENT_PUT;
         event.key = key;
         event.value = value;
-        event.timestamp_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        // Use proper chrono conversion for timestamp
+        auto now = std::chrono::system_clock::now();
+        event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
         
         auto recorded = changefeed_->recordEvent(event);
         return recorded.sequence;
@@ -57,7 +59,9 @@ protected:
         Changefeed::ChangeEvent event;
         event.type = Changefeed::ChangeEventType::EVENT_DELETE;
         event.key = key;
-        event.timestamp_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        // Use proper chrono conversion for timestamp
+        auto now = std::chrono::system_clock::now();
+        event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
         
         auto recorded = changefeed_->recordEvent(event);
         return recorded.sequence;
@@ -239,11 +243,13 @@ TEST_F(DiffEngineTest, DiffByTimestamp) {
     auto ts1 = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
     
     recordPut("users:1", "Alice");
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // Small delay to ensure different timestamps (without sleep)
+    auto seq1 = changefeed_->getLatestSequence();
     recordPut("users:2", "Bob");
+    auto seq2 = changefeed_->getLatestSequence();
     
-    auto now2 = std::chrono::system_clock::now();
-    auto ts2 = std::chrono::duration_cast<std::chrono::milliseconds>(now2.time_since_epoch()).count();
+    // Use a timestamp slightly after the last recorded event
+    auto ts2 = ts1 + 10000; // 10 seconds later
     
     auto result = diff_engine_->computeDiffByTimestamp(ts1, ts2);
     

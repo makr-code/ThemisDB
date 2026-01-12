@@ -302,10 +302,15 @@ DiffEngine::DiffResult DiffEngine::processEvents(
                 result.stats.deleted_count++;
             } else if (last_event.type == Changefeed::ChangeEventType::EVENT_PUT) {
                 // Key was added or modified
+                // Note: Without querying changefeed history before from_sequence,
+                // we cannot definitively distinguish between ADDED and MODIFIED.
+                // This implementation conservatively assumes MODIFIED for all PUT events
+                // in the diff range. For more accurate categorization, the caller should
+                // use a from_sequence of 0 or query the full changefeed history.
+                // TODO: Consider adding a flag to enable expensive history lookup for
+                // accurate ADDED vs MODIFIED classification.
                 if (key_event_list.size() == 1 && first_event.type == Changefeed::ChangeEventType::EVENT_PUT) {
-                    // Could be either ADDED or MODIFIED
-                    // Without history before from_sequence, we assume MODIFIED for existing keys
-                    // This is a simplification; proper implementation would check changefeed before from_sequence
+                    // Single PUT event - likely MODIFIED (could be ADDED if key didn't exist before)
                     change.type = ChangeType::MODIFIED;
                     change.new_value = last_event.value;
                     
