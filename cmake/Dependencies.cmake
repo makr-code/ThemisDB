@@ -272,11 +272,6 @@ else()
     message(WARNING "yaml-cpp not found - configuration features may be limited")
 endif()
 
-<<<<<<< HEAD
-=======
-# (zstd is handled earlier, before RocksDB)
-
->>>>>>> 739aeca6425c339f9821226d6039211438dbc241
 # HNSW library (vector indexing)
 find_package(hnswlib QUIET CONFIG)
 if(hnswlib_FOUND AND NOT THEMIS_ENABLE_GPU)
