@@ -483,6 +483,11 @@ curl -X POST http://localhost:8765/query \
 curl http://localhost:8765/metrics
 ```
 
+**💡 Want to learn more?**
+- 🚀 **[10-Minute Quickstart](docs/EXAMPLES_QUICKSTART.md)** - Get started with Hello World and CRUD operations
+- 📚 **[Examples Index](docs/EXAMPLES_INDEX.md)** - Browse 37+ examples by difficulty and feature
+- 🎓 **[Learning Paths](docs/EXAMPLES_INDEX.md#-learning-paths)** - Guided paths for Web Dev, Data Engineer, ML Engineer, and more
+
 ---
 
 ## Architecture
