@@ -1,12 +1,43 @@
-# Stub Audit & Implementation Roadmap - Index
+# ThemisDB Documentation Index
 
-**Datum:** 4. Januar 2026  
-**Version:** 1.0  
-**Status:** ✅ Vollständig
+**Last Updated:** 2026-01-12  
+**Status:** ✅ Comprehensive
 
 ---
 
-## 📚 Dokumentations-Übersicht
+## 🚀 Quick Start
+
+- **[README.md](../README.md)** - Project overview and getting started
+- **[TOOLS_INDEX.md](TOOLS_INDEX.md)** - Complete guide to all 30+ tools and utilities
+- **[BUILD_GUIDE](build-guide/)** - How to build and install ThemisDB
+- **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Contribution guidelines
+
+---
+
+## 🔧 Tools & Utilities
+
+ThemisDB includes 30+ tools for administration, operations, development, and data ingestion:
+
+- **[📖 Tools & Utilities Index](TOOLS_INDEX.md)** - **START HERE** for complete tools documentation
+- **[Admin Tools](TOOLS_INDEX.md#-administration-tools)** - 11 desktop applications for DB administration
+- **[Operations Tools](TOOLS_INDEX.md#-operations--monitoring)** - 5 scripts for ops and monitoring
+- **[Development Tools](TOOLS_INDEX.md#-development-utilities)** - 9 utilities for developers
+- **[Ingestion Tools](TOOLS_INDEX.md#-data-ingestion)** - 4 tools for data import
+
+### Featured Tools
+
+- [Themis.AqlQueryBuilder](tools/admin/aql-query-builder.md) - Visual AQL query builder
+- [shard_bench.py](tools/operations/shard-bench.md) - Sharding performance benchmarks
+- [namespace_analyzer.py](tools/development/namespace-analyzer.md) - Codebase structure analysis
+- [Themis.IngestionTool](tools/ingestion/ingestion-tool.md) - Enterprise data ingestion
+- [fault_injector.py](tools/operations/fault-injector.md) - Fault tolerance testing
+- [plugin_signer](tools/development/plugin-signer.md) - Plugin digital signatures
+
+---
+
+## 📚 Core Documentation
+
+### Stub Audit & Implementation Roadmap
 
 Dieser Index verweist auf alle Dokumente zur systematischen Identifizierung und Behebung von Stubs, fehlenden Implementierungen und Simulationen im ThemisDB-Projekt.
 

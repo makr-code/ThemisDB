@@ -1,8 +1,18 @@
 # ThemisDB Admin Tools
 
+> 📚 **Complete Documentation:** See [Tools & Utilities Index](../docs/TOOLS_INDEX.md) for comprehensive documentation of all 30+ tools.
+
 ## Übersicht
 
 Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen und Python-Tools zur Verwaltung, Überwachung, Analyse und Compliance-Prüfung der ThemisDB-Datenbank.
+
+## Quick Links
+
+- **[📖 Tools Index](../docs/TOOLS_INDEX.md)** - Complete catalog of all tools with documentation links
+- **[🔧 Admin Tools](../docs/TOOLS_INDEX.md#-administration-tools)** - Desktop applications (.NET)
+- **[🔄 Operations Tools](../docs/TOOLS_INDEX.md#-operations--monitoring)** - Scripts for operations and monitoring
+- **[📦 Ingestion Tools](../docs/TOOLS_INDEX.md#-data-ingestion)** - Data import utilities
+- **[💻 Development Tools](../docs/TOOLS_INDEX.md#-development-utilities)** - Developer utilities
 
 ## Python-Tools
 
