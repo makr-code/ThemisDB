@@ -158,6 +158,15 @@ function Checkout-Tag {
         git stash push -m "Auto-stash before retroactive build"
     }
     
+    # Check if tag exists
+    $tagExists = git rev-parse $TagName 2>$null
+    if (-not $tagExists) {
+        Print-Error "Tag does not exist: $TagName"
+        Print-Info "Available tags:"
+        git tag -l "v*" | Select-Object -First 10
+        return $false
+    }
+    
     # Checkout the tag
     try {
         git checkout $TagName 2>&1 | Out-Null
@@ -169,6 +178,14 @@ function Checkout-Tag {
         }
         
         Print-Success "Checked out tag: $TagName"
+        
+        # Show which branch/commit the tag points to
+        $commit = git rev-parse HEAD
+        $branch = git branch -r --contains $commit | Select-String -Pattern "(main|master|release/)" | Select-Object -First 1
+        if ($branch) {
+            Print-Info "Tag $TagName is from branch: $($branch.Line.Trim())"
+        }
+        
         return $true
     }
     catch {

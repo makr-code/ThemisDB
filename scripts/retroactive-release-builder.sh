@@ -131,6 +131,14 @@ checkout_tag() {
         git stash push -m "Auto-stash before retroactive build"
     fi
     
+    # Check if tag exists
+    if ! git rev-parse "$tag" >/dev/null 2>&1; then
+        print_error "Tag does not exist: $tag"
+        print_info "Available tags:"
+        git tag -l "v*" | head -10
+        return 1
+    fi
+    
     # Checkout the tag
     git checkout "$tag" 2>&1 || {
         print_error "Failed to checkout tag: $tag"
@@ -144,6 +152,13 @@ checkout_tag() {
     fi
     
     print_success "Checked out tag: $tag"
+    
+    # Show which branch/commit the tag points to
+    local commit=$(git rev-parse HEAD)
+    local branch=$(git branch -r --contains "$commit" | grep -E "(main|master|release/)" | head -1 | xargs)
+    if [ -n "$branch" ]; then
+        print_info "Tag $tag is from branch: $branch"
+    fi
 }
 
 restore_original_branch() {

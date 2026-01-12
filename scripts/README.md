@@ -42,6 +42,29 @@ Build binaries for historical version tags retroactively.
 - **`create-github-release.ps1`** - Create GitHub releases
 - **`build-release-packages.sh`** - Build Linux packages
 
+### Complete Release (Git Flow)
+
+Automate the entire Git Flow release process: `develop` → `release/vX.X.X` → `main` (+ tag) → retroactive build
+
+- **`complete-release.sh`** - Linux/macOS automated release
+- **`complete-release.ps1`** - Windows automated release
+
+**Purpose:** Complete release workflow following Git Flow branching strategy
+
+**Documentation:** See [RETROACTIVE_RELEASE_GITFLOW.md](../docs/RETROACTIVE_RELEASE_GITFLOW.md)
+
+**Quick Start:**
+```bash
+# Complete release workflow
+./scripts/complete-release.sh 1.5.0
+
+# Dry run to preview
+./scripts/complete-release.sh 1.5.0 --dry-run
+
+# Skip retroactive build
+./scripts/complete-release.sh 1.5.0 --skip-build
+```
+
 ### Deployment Scripts
 Scripts for deploying ThemisDB in various environments.
 
