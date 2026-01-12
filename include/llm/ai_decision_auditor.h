@@ -6,7 +6,13 @@
 #include <vector>
 #include <optional>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
+
+// Forward declarations
+namespace themis {
+    class VCCPKIClient;
+}
 
 namespace themis {
 namespace llm {

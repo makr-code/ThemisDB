@@ -353,26 +353,41 @@ std::string ExplanationGenerator::generateComplianceExplanation(
 // Helper methods
 
 std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string& text) {
-    std::vector<std::string> keywords;
-    std::string word;
-    std::istringstream stream(text);
+    // Early return for empty or very short text
+    if (text.empty() || text.length() < 3) {
+        return {};
+    }
     
-    // Simple word extraction (could be enhanced with NLP)
-    while (stream >> word) {
-        // Remove punctuation
-        word.erase(std::remove_if(word.begin(), word.end(), 
-                   [](char c) { return !std::isalnum(c); }), word.end());
-        
-        // Convert to lowercase
-        std::transform(word.begin(), word.end(), word.begin(),
-                      [](unsigned char c) { return std::tolower(c); });
-        
-        // Skip short words and common stop words
-        if (word.length() >= 3 && 
-            word != "the" && word != "and" && word != "for" && 
-            word != "are" && word != "was" && word != "with") {
-            keywords.push_back(word);
+    // Reserve space to reduce allocations
+    std::vector<std::string> keywords;
+    keywords.reserve(text.length() / 6); // Rough estimate: avg 6 chars per word
+    
+    // Common stop words to skip (could be expanded or made configurable)
+    static const std::set<std::string> stop_words = {
+        "the", "and", "for", "are", "was", "with", "this", "that",
+        "from", "they", "have", "been", "will", "their", "what"
+    };
+    
+    // Process text character by character to avoid istringstream overhead
+    std::string word;
+    word.reserve(20); // Most words are < 20 chars
+    
+    for (char c : text) {
+        if (std::isalnum(static_cast<unsigned char>(c))) {
+            word += std::tolower(static_cast<unsigned char>(c));
+        } else if (!word.empty()) {
+            // Word boundary - process accumulated word
+            if (word.length() >= 3 && stop_words.find(word) == stop_words.end()) {
+                keywords.push_back(word);
+            }
+            word.clear();
         }
+    }
+    
+    // Process last word if any
+    if (!word.empty() && word.length() >= 3 && 
+        stop_words.find(word) == stop_words.end()) {
+        keywords.push_back(word);
     }
     
     return keywords;

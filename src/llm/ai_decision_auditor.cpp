@@ -509,7 +509,12 @@ AIDecisionAuditor::Stats AIDecisionAuditor::getStats() const {
     float total_confidence = 0.0f;
     int64_t total_latency = 0;
     
-    for (; it->Valid(); it->Next()) {
+    // Limit iteration to prevent performance issues with large logs
+    // For very large datasets, consider maintaining stats incrementally
+    const size_t MAX_SCAN_LIMIT = 10000;
+    size_t scanned = 0;
+    
+    for (; it->Valid() && scanned < MAX_SCAN_LIMIT; it->Next(), ++scanned) {
         std::string key = it->key().ToString();
         
         if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
@@ -534,6 +539,11 @@ AIDecisionAuditor::Stats AIDecisionAuditor::getStats() const {
             THEMIS_WARN("Failed to parse decision for stats: {}", e.what());
             continue;
         }
+    }
+    
+    if (scanned == MAX_SCAN_LIMIT) {
+        THEMIS_WARN("Stats scan limited to {} entries for performance. "
+                   "Consider maintaining incremental statistics.", MAX_SCAN_LIMIT);
     }
     
     if (stats.total_decisions > 0) {
