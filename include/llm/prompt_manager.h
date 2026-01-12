@@ -12,6 +12,7 @@ namespace rocksdb { class ColumnFamilyHandle; }
 
 namespace themis {
 class RocksDBWrapper;
+class SchemaManager;
 
 class PromptManager {
 public:
@@ -20,6 +21,7 @@ public:
         std::string name;         // human readable name
         std::string version;      // version string, e.g. "v1", "2.3"
         std::string content;      // template body
+        std::string description;  // description of the prompt
         nlohmann::json metadata;  // arbitrary metadata (experiment flags etc.)
         bool active = true;
 
@@ -29,6 +31,7 @@ public:
             j["name"] = name;
             j["version"] = version;
             j["content"] = content;
+            j["description"] = description;
             j["metadata"] = metadata;
             j["active"] = active;
             return j;
@@ -56,6 +59,29 @@ public:
 
     // Assign an experiment id to a template (stores in metadata["experiment_id"])
     bool assignExperiment(const std::string& id, const std::string& experiment_id);
+
+    // Load prompts from YAML configuration file
+    // Returns number of prompts loaded successfully
+    size_t loadFromYAML(const std::string& yaml_path);
+
+    // Inject context variables into a prompt template
+    // Replaces {variable} with values from context map
+    // Example: "{version}" -> "1.5.0", "{table_count}" -> "5"
+    std::string injectContext(const std::string& template_str, 
+                             const std::unordered_map<std::string, std::string>& context) const;
+
+    // Get a prompt with context injection
+    // Retrieves template by id and injects context variables
+    std::optional<std::string> getPromptWithContext(
+        const std::string& id,
+        const std::unordered_map<std::string, std::string>& context) const;
+
+    // Build context map from SchemaManager
+    // Creates standard context variables: {version}, {table_count}, {schema}, etc.
+    static std::unordered_map<std::string, std::string> buildContextFromSchema(
+        SchemaManager* schema_mgr,
+        const std::string& edition = "Community",
+        const std::string& version = "1.5.0");
 
 private:
     std::string generateId() const;

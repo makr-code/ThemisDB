@@ -6,6 +6,7 @@
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
 #include "llm/embedded_llm.h"
+#include "llm/prompt_manager.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include <spdlog/spdlog.h>
@@ -116,7 +117,19 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         // Create SchemaManager with database and index manager
         schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
         
-        spdlog::info("MCP Server attached to RocksDB database with SchemaManager initialized");
+        // Initialize PromptManager and load system prompts
+        prompt_mgr_ = std::make_unique<PromptManager>();
+        
+        // Try to load prompts from YAML file
+        std::string prompt_file = "config/llm_system_prompts.yaml";
+        size_t loaded = prompt_mgr_->loadFromYAML(prompt_file);
+        if (loaded > 0) {
+            spdlog::info("MCP Server loaded {} system prompts from {}", loaded, prompt_file);
+        } else {
+            spdlog::warn("MCP Server could not load system prompts from {}", prompt_file);
+        }
+        
+        spdlog::info("MCP Server attached to RocksDB database with SchemaManager and PromptManager initialized");
     } else {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
@@ -1002,47 +1015,113 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         return {{"status", "error"}, {"message", "No question provided"}};
     }
     
-    std::string answer;
+    // If PromptManager or SchemaManager not available, fall back to basic response
+    if (!prompt_mgr_ || !schema_mgr_) {
+        spdlog::warn("PromptManager or SchemaManager not initialized, using fallback response");
+        return {
+            {"status", "success"},
+            {"question", question},
+            {"answer", "Schema introspection not available. Database may not be fully initialized."}
+        };
+    }
     
-    // Error-related questions (support both English and German)
+    // Build context from SchemaManager
+    auto context = PromptManager::buildContextFromSchema(
+        schema_mgr_.get(),
+        "Community",  // TODO: Get from build config
+        "1.5.0"       // TODO: Get from version info
+    );
+    
+    std::string answer;
+    std::string prompt_id;
+    
+    // Determine question type and select appropriate prompt
+    // Error-related questions (preserve existing functionality)
     if (utils::containsCaseInsensitive(question, "fehler") ||
         utils::containsCaseInsensitive(question, "error") ||
         utils::containsCaseInsensitive(question, "problem")) {
+        // Keep existing error handling
         answer = generateErrorAnswer(question);
+        return {
+            {"status", "success"},
+            {"question", question},
+            {"answer", answer}
+        };
     }
-    // Database capability questions
+    // "What can you do?" / "Was kannst du?"
     else if (utils::containsCaseInsensitive(question, "what can") ||
+             utils::containsCaseInsensitive(question, "was kannst") ||
              utils::containsCaseInsensitive(question, "capabilities") ||
              utils::containsCaseInsensitive(question, "features")) {
-        answer = "ThemisDB is a distributed multi-model database supporting:\n\n"
-                "**Core Features:**\n"
-                "- Multi-model: Graph, Document, Key-Value, Time-Series, Vector\n"
-                "- AQL query language (similar to Cypher)\n"
-                "- Full-text search with BM25 ranking\n"
-                "- Vector similarity search\n"
-                "- Geospatial queries\n"
-                "- ACID transactions\n\n"
-                "**Advanced Features:**\n"
-                "- Integrated LLM inference (llama.cpp)\n"
-                "- Multi-LoRA adapter support\n"
-                "- MCP (Model Context Protocol) integration\n"
-                "- Sharding and replication\n"
-                "- Real-time change feeds\n\n"
-                "Ask me about specific features for more details!";
+        prompt_id = "what_can_you_do_prompt";
     }
+    // "How is data structured?" / "Wie sind die Daten aufgebaut?"
+    else if (utils::containsCaseInsensitive(question, "data structure") ||
+             utils::containsCaseInsensitive(question, "aufgebaut") ||
+             utils::containsCaseInsensitive(question, "tables") ||
+             utils::containsCaseInsensitive(question, "schema") ||
+             utils::containsCaseInsensitive(question, "how is") ||
+             utils::containsCaseInsensitive(question, "wie sind")) {
+        prompt_id = "data_structure_prompt";
+    }
+    // "What is your purpose?" / "Was ist deine Aufgabe?"
+    else if (utils::containsCaseInsensitive(question, "purpose") ||
+             utils::containsCaseInsensitive(question, "aufgabe") ||
+             utils::containsCaseInsensitive(question, "why") ||
+             utils::containsCaseInsensitive(question, "warum")) {
+        prompt_id = "purpose_prompt";
+    }
+    // Specific table inquiry
+    else if (utils::containsCaseInsensitive(question, "table ") ||
+             utils::containsCaseInsensitive(question, "about ")) {
+        prompt_id = "table_inquiry_prompt";
+        
+        // Try to extract table name from question
+        // This is a simple implementation - could be enhanced
+        auto tables = schema_mgr_->getAllTables();
+        for (const auto& table : tables) {
+            if (utils::containsCaseInsensitive(question, table.name)) {
+                auto table_json = table.toJSON();
+                context["table_details"] = table_json.dump(2);
+                break;
+            }
+        }
+    }
+    // Schema introspection
+    else if (utils::containsCaseInsensitive(question, "introspect") ||
+             utils::containsCaseInsensitive(question, "analyze") ||
+             utils::containsCaseInsensitive(question, "describe")) {
+        prompt_id = "schema_introspection_prompt";
+    }
+    // Default: self-awareness
     else {
-        answer = "I can help you understand ThemisDB's features, capabilities, and error handling. "
-                "Try asking:\n"
-                "- 'What errors can occur?'\n"
-                "- 'What does error 2000 mean?'\n"
-                "- 'What are the database capabilities?'\n"
-                "- 'How do I fix GPU out of memory errors?'";
+        prompt_id = "self_awareness_prompt";
+    }
+    
+    // Get prompt with context injection
+    auto prompt_opt = prompt_mgr_->getPromptWithContext(prompt_id, context);
+    
+    if (prompt_opt.has_value()) {
+        answer = *prompt_opt;
+        spdlog::debug("Used prompt '{}' for introspection query", prompt_id);
+    } else {
+        // Fallback if prompt not found
+        prompt_id = "unknown_query_prompt";
+        prompt_opt = prompt_mgr_->getPromptWithContext(prompt_id, context);
+        
+        if (prompt_opt.has_value()) {
+            answer = *prompt_opt;
+        } else {
+            answer = "I don't have enough information to answer this question. "
+                    "Please try asking about my capabilities, data structure, or purpose.";
+        }
     }
     
     return {
         {"status", "success"},
         {"question", question},
-        {"answer", answer}
+        {"answer", answer},
+        {"prompt_used", prompt_id}
     };
 }
 
