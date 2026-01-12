@@ -14,6 +14,8 @@
 namespace themis {
 namespace auth {
     class JWTValidator;
+    class GSSAPIAuthenticator;
+    struct KerberosConfig;
 }
 namespace security {
     class USBAdminAuthenticator;
@@ -64,6 +66,10 @@ public:
     
     /// Enable JWT validation
     void enableJWT(const JWTConfig& config);
+    
+    /// Enable Kerberos/GSSAPI authentication
+    /// @param config Kerberos configuration
+    void enableKerberos(const auth::KerberosConfig& config);
     
     /// Enable USB-based admin authentication
     /// When enabled, configured admin scopes require a valid USB device to be present
@@ -120,6 +126,10 @@ private:
     JWTConfig jwt_config_;
     bool jwt_enabled_ = false;
     
+    // Kerberos/GSSAPI authentication
+    std::unique_ptr<auth::GSSAPIAuthenticator> kerberos_auth_;
+    bool kerberos_enabled_ = false;
+    
     // USB Admin Authentication
     std::unique_ptr<security::USBAdminAuthenticator> usb_admin_auth_;
     bool usb_admin_enabled_ = false;
@@ -130,6 +140,9 @@ private:
     
     // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
+    
+    // Helper: try to authorize via Kerberos
+    AuthResult authorizeViaKerberos(std::string_view token, std::string_view required_scope) const;
 };
 
 } // namespace themis

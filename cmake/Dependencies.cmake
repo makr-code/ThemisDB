@@ -192,6 +192,65 @@ else()
     message(WARNING "CURL not found - some HTTP features will be disabled")
 endif()
 
+# Kerberos/GSSAPI (enterprise SSO authentication - optional)
+option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
+
+if(THEMIS_ENABLE_KERBEROS)
+    # Try to find Kerberos using pkg-config first (most reliable on Unix)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(KRB5 QUIET krb5 krb5-gssapi)
+        if(KRB5_FOUND)
+            message(STATUS "Kerberos found via pkg-config")
+            add_compile_definitions(THEMIS_HAS_KERBEROS=1)
+            
+            # Create imported target for compatibility
+            if(NOT TARGET KRB5::krb5)
+                add_library(KRB5::krb5 INTERFACE IMPORTED)
+                set_target_properties(KRB5::krb5 PROPERTIES
+                    INTERFACE_INCLUDE_DIRECTORIES "${KRB5_INCLUDE_DIRS}"
+                    INTERFACE_LINK_LIBRARIES "${KRB5_LIBRARIES}"
+                )
+            endif()
+            
+            if(NOT TARGET KRB5::gssapi)
+                add_library(KRB5::gssapi INTERFACE IMPORTED)
+                set_target_properties(KRB5::gssapi PROPERTIES
+                    INTERFACE_INCLUDE_DIRECTORIES "${KRB5_INCLUDE_DIRS}"
+                    INTERFACE_LINK_LIBRARIES "${KRB5_LIBRARIES}"
+                )
+            endif()
+        endif()
+    endif()
+    
+    # If pkg-config didn't work, try FindKerberos module
+    if(NOT KRB5_FOUND)
+        find_package(Kerberos QUIET)
+        if(Kerberos_FOUND)
+            message(STATUS "Kerberos found via FindKerberos")
+            add_compile_definitions(THEMIS_HAS_KERBEROS=1)
+            
+            # Create aliases for consistency
+            if(NOT TARGET KRB5::krb5)
+                add_library(KRB5::krb5 ALIAS Kerberos::Kerberos)
+            endif()
+            if(NOT TARGET KRB5::gssapi)
+                add_library(KRB5::gssapi ALIAS Kerberos::Kerberos)
+            endif()
+        endif()
+    endif()
+    
+    if(NOT KRB5_FOUND AND NOT Kerberos_FOUND)
+        message(WARNING "Kerberos not found - enterprise SSO authentication disabled")
+        message(STATUS "Install with: apt-get install libkrb5-dev (Ubuntu/Debian)")
+        message(STATUS "            : yum install krb5-devel (RHEL/CentOS)")
+        message(STATUS "            : brew install krb5 (macOS)")
+        set(THEMIS_ENABLE_KERBEROS OFF)
+    endif()
+else()
+    message(STATUS "Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF)")
+endif()
+
 # Arrow + Parquet (Parquet export support)
 find_package(Arrow QUIET CONFIG)
 find_package(Parquet QUIET CONFIG)

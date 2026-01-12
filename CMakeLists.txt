@@ -60,6 +60,7 @@ option(THEMIS_ENABLE_MIMALLOC "Enable mimalloc" OFF)
 option(THEMIS_ENABLE_HSM_REAL "Enable real HSM provider" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors" OFF)
 option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID benchmark" OFF)
+option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
 
 # Phase 2 optimization features
 option(THEMIS_ENABLE_WISCKEY "Enable WiscKey" OFF)
