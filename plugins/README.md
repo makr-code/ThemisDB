@@ -8,13 +8,15 @@
 - ✅ **Blob Storage Plugins** (Azure Blob Storage, Amazon S3)
 - ✅ **Image Analysis Plugins** (ONNX CLIP)
 - ✅ **RPC Plugins** (gRPC)
+- ✅ **Exporters** (JSONL LLM Exporter)
+- ✅ **Importers** (PostgreSQL Importer)
 
-### Beta/In Development Plugin Types
-- 🚧 **Exporters** (JSONL LLM Exporter) - Beta
-- 🚧 **Importers** (PostgreSQL Importer) - Beta
-
-### Planned Plugin Types
-- 📋 **Hardware Acceleration Plugins** (CUDA, Vulkan, DirectX, HIP, Metal) - See [PLANNED_ACCELERATION_PLUGINS.md](PLANNED_ACCELERATION_PLUGINS.md)
+### Implemented in Source (Requires Build Configuration)
+- 🔧 **Hardware Acceleration Backends** (CUDA, Vulkan, DirectX, HIP, Metal, OpenCL)
+  - Source code fully implemented in `src/acceleration/`
+  - Requires enabling build flags (e.g., `THEMIS_ENABLE_CUDA`, `THEMIS_ENABLE_VULKAN`)
+  - BackendRegistry and PluginLoader are implemented
+  - See [Hardware Acceleration Guide](#hardware-acceleration) below
 
 ---
 
@@ -52,7 +54,7 @@ Plugin Types:
 ```
 plugins/
 ├── README.md                           (This file)
-├── PLANNED_ACCELERATION_PLUGINS.md     (Future hardware acceleration plugins)
+├── PLANNED_ACCELERATION_PLUGINS.md     (Hardware acceleration usage guide)
 ├── CMakeLists.txt                      (Build configuration)
 ├── blob_storage/                       ✅ Production
 │   ├── README.md
@@ -63,10 +65,10 @@ plugins/
 │   └── onnx_clip/                      (ONNX CLIP embedding plugin)
 ├── rpc/                                ✅ Production
 │   └── grpc/                           (gRPC plugin)
-├── exporters/                          🚧 Beta
+├── exporters/                          ✅ Production
 │   ├── README.md
 │   └── jsonl_llm/                      (JSONL LLM exporter)
-├── importers/                          🚧 Beta
+├── importers/                          ✅ Production
 │   ├── README.md
 │   └── postgres/                       (PostgreSQL importer)
 └── cuda/                               📋 Example/Template
@@ -74,6 +76,9 @@ plugins/
     ├── CMakeLists.txt.example
     ├── cuda_plugin.cpp.example
     └── cuda_plugin.json
+
+Note: Hardware acceleration backends (CUDA, Vulkan, etc.) are implemented
+in src/acceleration/ and can be enabled via build configuration.
 ```
 
 ## Production Plugin Types
@@ -131,7 +136,7 @@ plugins/
 
 ## Beta Plugin Types
 
-### 4. Exporters 🚧
+### 4. Exporters ✅
 
 **Purpose:** Export data from ThemisDB to various formats.
 
@@ -140,14 +145,15 @@ plugins/
   - Export data in JSONL format for LLM training
   - LoRA adapter metadata generation
   - vLLM integration support
+  - **Implementation:** `src/exporters/jsonl_llm_exporter.cpp` (657 lines)
 
 **Documentation:** See [exporters/README.md](exporters/README.md)
 
-**Status:** 🚧 Beta
+**Status:** ✅ Production-ready (Fully implemented with tests)
 
 ---
 
-### 5. Importers 🚧
+### 5. Importers ✅
 
 **Purpose:** Import data into ThemisDB from external data sources.
 
@@ -155,29 +161,82 @@ plugins/
 - **PostgreSQL Importer** (`importers/postgres/`)
   - Import data from PostgreSQL databases
   - Schema mapping and type conversion
+  - **Implementation:** `src/importers/postgres_importer.cpp` (414 lines)
 
 **Documentation:** See [importers/README.md](importers/README.md)
 
-**Status:** 🚧 Beta
+**Status:** ✅ Production-ready (Fully implemented with tests)
+
+---
+
+## Hardware Acceleration
+
+### Status: 🔧 Implemented in Source Code
+
+The hardware acceleration backends are **fully implemented** in the `src/acceleration/` directory but require enabling build flags to compile and use them.
+
+**Implementation Details:**
+- **CUDA Backend**: `src/acceleration/cuda_backend.cpp` + CUDA kernels
+- **Vulkan Backend**: `src/acceleration/vulkan_backend_full.cpp` (18,777 lines)
+- **DirectX Backend**: `src/acceleration/directx_backend_full.cpp`
+- **HIP Backend**: `src/acceleration/hip_backend.cpp` (AMD GPUs)
+- **Metal Backend**: `src/acceleration/metal_backend.mm` (Apple Silicon)
+- **OpenCL Backend**: `src/acceleration/opencl_backend.cpp`
+- **Backend Registry**: `src/acceleration/backend_registry.cpp` ✅ Implemented
+- **Plugin Loader**: `src/acceleration/plugin_loader.cpp` ✅ Implemented
+
+**Build Flags:**
+```cmake
+# Enable CUDA acceleration
+-DTHEMIS_ENABLE_CUDA=ON
+
+# Enable Vulkan acceleration
+-DTHEMIS_ENABLE_VULKAN=ON
+
+# Enable DirectX acceleration (Windows only)
+-DTHEMIS_ENABLE_DIRECTX=ON
+
+# Enable Metal acceleration (macOS only)
+-DTHEMIS_ENABLE_METAL=ON
+```
+
+**Usage Example:**
+```cpp
+#include "acceleration/compute_backend.h"
+
+// Get backend registry (singleton)
+auto& registry = BackendRegistry::instance();
+
+// Load plugins from directory
+registry.loadPlugins("./plugins");
+
+// Get best available vector backend
+auto* backend = registry.getBestVectorBackend();
+if (backend->type() != BackendType::CPU) {
+    std::cout << "Using GPU acceleration: " << backend->name() << std::endl;
+}
+
+// Or get specific backend
+auto* cudaBackend = registry.getBackend(BackendType::CUDA);
+if (cudaBackend && cudaBackend->isAvailable()) {
+    // Use CUDA backend
+}
+```
+
+**Documentation:** See [PLANNED_ACCELERATION_PLUGINS.md](PLANNED_ACCELERATION_PLUGINS.md) for detailed usage and configuration.
+
+**Note:** While the source code is fully implemented, you need to:
+1. Install required SDKs (CUDA Toolkit, Vulkan SDK, etc.)
+2. Enable the appropriate build flags
+3. Link against required libraries
 
 ---
 
 ## Planned Plugin Types
 
-### 6. Hardware Acceleration Plugins 📋
+### 6. Additional Plugin Categories 📋
 
-**Purpose:** GPU-accelerated operations for vector similarity search, graph algorithms, and geospatial computations.
-
-**Planned Backends:**
-- CUDA (NVIDIA GPUs)
-- Vulkan (Cross-platform)
-- DirectX 12 (Windows)
-- HIP (AMD GPUs)
-- Metal (Apple Silicon)
-
-**Documentation:** See [PLANNED_ACCELERATION_PLUGINS.md](PLANNED_ACCELERATION_PLUGINS.md)
-
-**Status:** 📋 Planned - Example templates available in `cuda/` directory
+Future plugin types under consideration:
 
 ## Plugin Development Guide
 
