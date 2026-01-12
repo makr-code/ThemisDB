@@ -192,11 +192,30 @@ SnapshotManager::SnapshotStats SnapshotManager::getStats() const {
     stats.oldest_timestamp_ms = INT64_MAX;
     stats.newest_timestamp_ms = 0;
 
-    auto snapshots = listTags();
-    stats.total_tags = snapshots.size();
+    // Scan all keys directly instead of calling listTags() to avoid mutex deadlock
+    auto iter = db_.newIterator();
+    if (!iter) {
+        return stats;
+    }
 
-    if (!snapshots.empty()) {
-        for (const auto& snapshot : snapshots) {
+    std::string prefix = KEY_PREFIX;
+    iter->Seek(prefix);
+    
+    while (iter->Valid()) {
+        std::string key = iter->key().ToString();
+        
+        // Check if key starts with our prefix
+        if (key.substr(0, prefix.length()) != prefix) {
+            break;
+        }
+
+        try {
+            std::string value = iter->value().ToString();
+            auto json = nlohmann::json::parse(value);
+            auto snapshot = Snapshot::fromJson(json);
+            
+            stats.total_tags++;
+            
             if (snapshot.sequence_number < stats.oldest_sequence) {
                 stats.oldest_sequence = snapshot.sequence_number;
             }
@@ -209,8 +228,14 @@ SnapshotManager::SnapshotStats SnapshotManager::getStats() const {
             if (snapshot.timestamp_ms > stats.newest_timestamp_ms) {
                 stats.newest_timestamp_ms = snapshot.timestamp_ms;
             }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse snapshot JSON for key '{}': {}", key, e.what());
         }
-    } else {
+
+        iter->Next();
+    }
+
+    if (stats.total_tags == 0) {
         // No snapshots, reset to 0
         stats.oldest_sequence = 0;
         stats.newest_sequence = 0;

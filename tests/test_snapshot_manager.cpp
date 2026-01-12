@@ -4,6 +4,8 @@
 #include "cdc/changefeed.h"
 #include "utils/logger.h"
 #include <filesystem>
+#include <thread>
+#include <atomic>
 
 using namespace themis;
 

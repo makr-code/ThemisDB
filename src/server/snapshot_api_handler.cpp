@@ -3,6 +3,7 @@
 #include "utils/logger.h"
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
+#include <sstream>
 
 namespace themis {
 
@@ -96,6 +97,15 @@ void SnapshotApiHandler::handleGetTag(const http::request<http::string_body>& re
             tag_name = tag_name.substr(0, qpos);
         }
         
+        // URL decode the tag name
+        tag_name = urlDecode(tag_name);
+        
+        // Validate non-empty
+        if (tag_name.empty()) {
+            sendErrorResponse(res, 400, "Tag name cannot be empty");
+            return;
+        }
+        
         auto snapshot = snapshot_mgr_.getTag(tag_name);
         
         if (!snapshot) {
@@ -127,6 +137,15 @@ void SnapshotApiHandler::handleDeleteTag(const http::request<http::string_body>&
         auto qpos = tag_name.find('?');
         if (qpos != std::string::npos) {
             tag_name = tag_name.substr(0, qpos);
+        }
+        
+        // URL decode the tag name
+        tag_name = urlDecode(tag_name);
+        
+        // Validate non-empty
+        if (tag_name.empty()) {
+            sendErrorResponse(res, 400, "Tag name cannot be empty");
+            return;
         }
         
         auto status = snapshot_mgr_.deleteTag(tag_name);
@@ -182,6 +201,32 @@ void SnapshotApiHandler::sendErrorResponse(http::response<http::string_body>& re
     nlohmann::json json;
     json["error"] = error;
     sendJsonResponse(res, status, json);
+}
+
+// URL decode helper
+std::string SnapshotApiHandler::urlDecode(const std::string& encoded) {
+    std::string decoded;
+    decoded.reserve(encoded.size());
+    
+    for (size_t i = 0; i < encoded.size(); ++i) {
+        if (encoded[i] == '%' && i + 2 < encoded.size()) {
+            // Convert hex to char
+            int value = 0;
+            std::istringstream is(encoded.substr(i + 1, 2));
+            if (is >> std::hex >> value) {
+                decoded += static_cast<char>(value);
+                i += 2;
+            } else {
+                decoded += encoded[i];
+            }
+        } else if (encoded[i] == '+') {
+            decoded += ' ';
+        } else {
+            decoded += encoded[i];
+        }
+    }
+    
+    return decoded;
 }
 
 } // namespace themis

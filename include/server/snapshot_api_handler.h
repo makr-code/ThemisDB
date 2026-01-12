@@ -139,6 +139,9 @@ private:
                          int status, const nlohmann::json& json);
     void sendErrorResponse(boost::beast::http::response<boost::beast::http::string_body>& res, 
                           int status, const std::string& error);
+    
+    // URL decode helper
+    static std::string urlDecode(const std::string& encoded);
 };
 
 } // namespace themis
