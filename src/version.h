@@ -13,6 +13,11 @@
 #define THEMIS_VERSION_STRING "1.4.0"
 #endif
 
+// Edition string (e.g., "COMMUNITY", "ENTERPRISE", "HYPERSCALER")
+#ifndef THEMIS_EDITION_STRING
+#define THEMIS_EDITION_STRING "COMMUNITY"
+#endif
+
 // Numeric version components
 #ifndef THEMIS_VERSION_MAJOR
 #define THEMIS_VERSION_MAJOR 1
@@ -77,6 +82,14 @@ inline int getPatchVersion() {
  */
 inline int getVersionNumber() {
     return THEMIS_VERSION_NUMBER;
+}
+
+/**
+ * Get edition string
+ * @return Edition name (e.g., "COMMUNITY", "ENTERPRISE", "HYPERSCALER")
+ */
+inline const char* getEditionString() {
+    return THEMIS_EDITION_STRING;
 }
 
 } // namespace version

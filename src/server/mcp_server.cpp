@@ -9,6 +9,7 @@
 #include "llm/prompt_manager.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
+#include "version.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
@@ -1028,8 +1029,8 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     // Build context from SchemaManager
     auto context = PromptManager::buildContextFromSchema(
         schema_mgr_.get(),
-        "Community",  // TODO: Get from build config
-        "1.5.0"       // TODO: Get from version info
+        themis::version::getEditionString(),
+        themis::version::getVersionString()
     );
     
     std::string answer;
