@@ -1,11 +1,15 @@
 # Exporter Plugins
 
+## Status: 🚧 Beta
+
 Data export plugins for ThemisDB.
 
 ## Available Exporters
 
-### JSONL LLM Exporter
+### JSONL LLM Exporter 🚧
 **Path:** `jsonl_llm/`
+
+**Status:** Beta
 
 Export data in JSONL format optimized for Large Language Model (LLM) training.
 

@@ -1,11 +1,15 @@
 # Importer Plugins
 
+## Status: 🚧 Beta
+
 Data import plugins for ThemisDB.
 
 ## Available Importers
 
-### PostgreSQL Importer
+### PostgreSQL Importer 🚧
 **Path:** `postgres/`
+
+**Status:** Beta
 
 Import data from PostgreSQL databases into ThemisDB.
 
