@@ -445,13 +445,6 @@ http::response<http::string_body> IndexApiHandler::handleRecordPattern(
         int64_t execution_time_ms = body.value("execution_time_ms", int64_t(0));
         
         // Validate required fields
-        if (collection.empty()) {
-            return makeErrorResponse(http::status::bad_request, "collection is required", req);
-        }
-        if (field.empty()) {
-            return makeErrorResponse(http::status::bad_request, "field is required", req);
-        }
-        
         if (collection.empty() || field.empty()) {
             span.setStatus(false, "missing_fields");
             return makeErrorResponse(http::status::bad_request, 
