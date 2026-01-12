@@ -1,6 +1,18 @@
 # Image Analysis Plugins for ThemisDB
 
-This directory contains image analysis AI plugins that can be loaded dynamically as DLLs/shared libraries.
+## Status Overview
+
+This directory contains image analysis plugins that enable ThemisDB to process and analyze image data.
+
+### Production Status
+- ✅ **ONNX CLIP Plugin** - Production-ready, actively used
+
+### Planned Plugins
+- 📋 llama.cpp Vision Plugin - Planned
+- 📋 OpenCV DNN Plugin - Planned
+- 📋 Stable Diffusion Plugin - Planned
+
+---
 
 ## Overview
 
@@ -15,9 +27,9 @@ Image analysis plugins enable ThemisDB to process and analyze image data in para
 
 ## Available Plugins
 
-### 1. ONNX CLIP Plugin (`onnx_clip/`)
+### 1. ONNX CLIP Plugin (`onnx_clip/`) ✅
 
-**Status**: ⏳ In Development
+**Status**: ✅ Production-Ready
 
 CLIP-based image embedding generation using ONNX Runtime.
 
@@ -48,11 +60,9 @@ manager.loadPlugin("onnx_clip", config);
 EmbeddingResult result = manager.generateEmbedding(image_bytes);
 ```
 
----
+### 2. llama.cpp Vision Plugin (`llamacpp_vision/`) 📋
 
-### 2. llama.cpp Vision Plugin (`llamacpp_vision/`)
-
-**Status**: ⏳ Planned
+**Status**: 📋 Planned
 
 Vision-language models (LLaVA) using llama.cpp.
 
@@ -63,11 +73,9 @@ Vision-language models (LLaVA) using llama.cpp.
 - Unified memory with LLM system
 - GGML quantization (4-bit, 5-bit, 8-bit)
 
----
+### 3. OpenCV DNN Plugin (`opencv_dnn/`) 📋
 
-### 3. OpenCV DNN Plugin (`opencv_dnn/`)
-
-**Status**: ⏳ Planned
+**Status**: 📋 Planned
 
 CPU-optimized image analysis using OpenCV DNN module.
 
@@ -77,11 +85,9 @@ CPU-optimized image analysis using OpenCV DNN module.
 - Lightweight and fast
 - Object detection and classification
 
----
+### 4. Stable Diffusion ONNX Plugin (`stable_diffusion_onnx/`) 📋
 
-### 4. Stable Diffusion ONNX Plugin (`stable_diffusion_onnx/`)
-
-**Status**: ⏳ Planned
+**Status**: 📋 Planned
 
 Image generation using Stable Diffusion via ONNX Runtime.
 
