@@ -1431,6 +1431,299 @@ paths:
                     properties:
                       vectorCount: { type: integer }
         '500': { $ref: '#/components/responses/InternalError' }
+  
+  # ============================================================================
+  # MVCC Features: Named Snapshots (Phase 1)
+  # ============================================================================
+  /api/v1/snapshots/tags:
+    post:
+      summary: Create a new snapshot tag
+      operationId: createSnapshotTag
+      tags: [mvcc, snapshots]
+      description: |
+        Creates a named snapshot/tag for the current database state.
+        Tags are persistent and survive database restarts.
+        Used for audit trails, deployment checkpoints, and point-in-time recovery.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tag_name:
+                  type: string
+                  pattern: '^[a-zA-Z0-9_.-]{1,128}$'
+                  description: Unique tag identifier (1-128 chars, alphanumeric, hyphens, underscores, periods)
+                  example: 'v1.0.0'
+                description:
+                  type: string
+                  minLength: 1
+                  description: Human-readable description
+                  example: 'Release 1.0 - Initial production release'
+                created_by:
+                  type: string
+                  description: User/service that created the tag
+                  default: 'system'
+                  example: 'admin'
+              required: [tag_name, description]
+      responses:
+        '201':
+          description: Snapshot tag created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotTag'
+        '400':
+          description: Invalid request (missing fields or invalid tag name)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Tag already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500': { $ref: '#/components/responses/InternalError' }
+    get:
+      summary: List all snapshot tags
+      operationId: listSnapshotTags
+      tags: [mvcc, snapshots]
+      description: |
+        Returns all snapshot tags with optional sorting and pagination.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Maximum tags to return (0 = all)
+        - in: query
+          name: sort_by
+          schema:
+            type: string
+            enum: [timestamp, sequence, name]
+            default: timestamp
+          description: Sort field
+        - in: query
+          name: ascending
+          schema:
+            type: boolean
+            default: false
+          description: Sort direction
+      responses:
+        '200':
+          description: List of snapshot tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SnapshotTag'
+        '500': { $ref: '#/components/responses/InternalError' }
+  
+  /api/v1/snapshots/tags/{name}:
+    get:
+      summary: Get a specific snapshot tag
+      operationId: getSnapshotTag
+      tags: [mvcc, snapshots]
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Tag name
+      responses:
+        '200':
+          description: Snapshot tag details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotTag'
+        '404':
+          description: Tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500': { $ref: '#/components/responses/InternalError' }
+    delete:
+      summary: Delete a snapshot tag
+      operationId: deleteSnapshotTag
+      tags: [mvcc, snapshots]
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Tag name
+      responses:
+        '200':
+          description: Tag deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'success'
+                  message:
+                    type: string
+                    example: 'Tag v1.0.0 deleted successfully'
+        '404':
+          description: Tag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500': { $ref: '#/components/responses/InternalError' }
+  
+  /api/v1/snapshots/stats:
+    get:
+      summary: Get snapshot statistics
+      operationId: getSnapshotStats
+      tags: [mvcc, snapshots]
+      description: |
+        Returns statistics about all snapshots including counts and sequence ranges.
+      responses:
+        '200':
+          description: Snapshot statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotStats'
+        '500': { $ref: '#/components/responses/InternalError' }
+  
+  # ============================================================================
+  # MVCC Features: Diff API (Phase 2)
+  # ============================================================================
+  /api/v1/diff:
+    get:
+      summary: Compute structured diff between two database states
+      operationId: computeDiff
+      tags: [mvcc, diff]
+      description: |
+        Computes differences between two points in time with categorization into Added/Modified/Deleted.
+        Supports diff by sequence numbers, timestamps, or tags.
+        Results are cached for 5 minutes for repeated queries.
+      parameters:
+        - in: query
+          name: from
+          schema:
+            oneOf:
+              - type: integer
+                description: Start sequence number
+              - type: string
+                format: date-time
+                description: Start timestamp (ISO 8601)
+          description: Start point (sequence or timestamp)
+        - in: query
+          name: to
+          schema:
+            oneOf:
+              - type: integer
+                description: End sequence number
+              - type: string
+                format: date-time
+                description: End timestamp (ISO 8601)
+          description: End point (sequence or timestamp)
+        - in: query
+          name: from_tag
+          schema:
+            type: string
+          description: Start tag name (alternative to from)
+        - in: query
+          name: to_tag
+          schema:
+            type: string
+          description: End tag name (alternative to to)
+        - in: query
+          name: table
+          schema:
+            type: string
+          description: Filter by table name
+        - in: query
+          name: key_prefix
+          schema:
+            type: string
+          description: Filter by key prefix
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Maximum changes to return (0 = all)
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Skip first N changes
+      responses:
+        '200':
+          description: Diff result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiffResult'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500': { $ref: '#/components/responses/InternalError' }
+  
+  /api/v1/diff/cache/stats:
+    get:
+      summary: Get diff cache statistics
+      operationId: getDiffCacheStats
+      tags: [mvcc, diff]
+      responses:
+        '200':
+          description: Cache statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cached_entries:
+                    type: integer
+                  cache_hit_rate:
+                    type: number
+                  ttl_seconds:
+                    type: integer
+        '500': { $ref: '#/components/responses/InternalError' }
+  
+  /api/v1/diff/cache:
+    delete:
+      summary: Clear diff cache
+      operationId: clearDiffCache
+      tags: [mvcc, diff]
+      responses:
+        '200':
+          description: Cache cleared successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'success'
+                  message:
+                    type: string
+                    example: 'Cache cleared'
+        '500': { $ref: '#/components/responses/InternalError' }
+
 components:
   securitySchemes:
     bearerAuth:
@@ -2424,3 +2717,145 @@ components:
             last_global_cleanup: { type: string, format: date-time, nullable: true }
           required: [total_collections, collections_with_policy, total_expired_records]
       required: [policies, summary]
+    
+    # ============================================================================
+    # MVCC Features Schemas
+    # ============================================================================
+    SnapshotTag:
+      type: object
+      properties:
+        tag_name:
+          type: string
+          example: 'v1.0.0'
+        sequence_number:
+          type: integer
+          format: int64
+          example: 12345
+        timestamp_ms:
+          type: integer
+          format: int64
+          description: Unix timestamp in milliseconds
+          example: 1736657231000
+        description:
+          type: string
+          example: 'Release 1.0 - Initial production release'
+        created_by:
+          type: string
+          example: 'admin'
+      required: [tag_name, sequence_number, timestamp_ms, description, created_by]
+    
+    SnapshotStats:
+      type: object
+      properties:
+        total_snapshots:
+          type: integer
+          example: 5
+        oldest_timestamp_ms:
+          type: integer
+          format: int64
+          example: 1736657231000
+        newest_timestamp_ms:
+          type: integer
+          format: int64
+          example: 1736744231000
+        oldest_sequence:
+          type: integer
+          format: int64
+          example: 12345
+        newest_sequence:
+          type: integer
+          format: int64
+          example: 50000
+      required: [total_snapshots, oldest_timestamp_ms, newest_timestamp_ms, oldest_sequence, newest_sequence]
+    
+    DiffChange:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [added, modified, deleted]
+          example: 'modified'
+        key:
+          type: string
+          example: 'users:1'
+        old_value:
+          type: string
+          nullable: true
+          description: Value before change (for modified/deleted)
+        new_value:
+          type: string
+          nullable: true
+          description: Value after change (for added/modified)
+        sequence:
+          type: integer
+          format: int64
+          example: 150
+        timestamp_ms:
+          type: integer
+          format: int64
+          example: 1736657250000
+        metadata:
+          type: object
+          additionalProperties: true
+      required: [type, key, sequence]
+    
+    DiffStats:
+      type: object
+      properties:
+        added_count:
+          type: integer
+          example: 5
+        modified_count:
+          type: integer
+          example: 10
+        deleted_count:
+          type: integer
+          example: 2
+        total_changes:
+          type: integer
+          example: 17
+      required: [added_count, modified_count, deleted_count, total_changes]
+    
+    DiffResult:
+      type: object
+      properties:
+        added:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiffChange'
+        modified:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiffChange'
+        deleted:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiffChange'
+        stats:
+          $ref: '#/components/schemas/DiffStats'
+        from_sequence:
+          type: integer
+          format: int64
+          example: 100
+        to_sequence:
+          type: integer
+          format: int64
+          example: 200
+        from_timestamp_ms:
+          type: integer
+          format: int64
+          nullable: true
+        to_timestamp_ms:
+          type: integer
+          format: int64
+          nullable: true
+      required: [added, modified, deleted, stats, from_sequence, to_sequence]
+    
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        status:
+          type: integer
+      required: [error, status]
