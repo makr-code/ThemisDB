@@ -3,6 +3,8 @@
 #include "server/mcp_server.h"
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
+#include "metadata/schema_manager.h"
+#include "index/secondary_index.h"
 #include "llm/embedded_llm.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
@@ -105,7 +107,19 @@ void McpServer::attachHttpServer(std::shared_ptr<HttpServer> http_server) {
 
 void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
     db_ = db;
-    spdlog::info("MCP Server attached to RocksDB database");
+    
+    // Initialize SchemaManager with the database
+    if (db && db->isOpen()) {
+        // Create SecondaryIndexManager for index metadata
+        index_mgr_ = std::make_shared<SecondaryIndexManager>(*db);
+        
+        // Create SchemaManager with database and index manager
+        schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
+        
+        spdlog::info("MCP Server attached to RocksDB database with SchemaManager initialized");
+    } else {
+        spdlog::info("MCP Server attached to RocksDB database (not open yet)");
+    }
 }
 
 // ============================================================================
@@ -709,16 +723,36 @@ json McpServer::toolGetSchema(const json& args) {
         };
     }
 
-    // Minimal integration: return basic info
-    return {
-        {"status", "success"},
-        {"message", "Schema discovery requires full query engine integration"},
-        {"integration_level", "minimal"},
-        {"nodes", json::array()},
-        {"edges", json::array()},
-        {"properties", json::object()},
-        {"note", "Full schema discovery available in production integration"}
-    };
+    if (!schema_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "SchemaManager not initialized"},
+            {"integration_level", "minimal"},
+            {"nodes", json::array()},
+            {"edges", json::array()},
+            {"properties", json::object()}
+        };
+    }
+
+    // Full integration: return real schema data from SchemaManager
+    try {
+        auto schema_json = schema_mgr_->toJSON();
+        
+        // Add integration level indicator
+        schema_json["integration_level"] = "full";
+        
+        return schema_json;
+    } catch (const std::exception& e) {
+        spdlog::error("Error retrieving schema: {}", e.what());
+        return {
+            {"status", "error"},
+            {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"integration_level", "full"},
+            {"nodes", json::array()},
+            {"edges", json::array()},
+            {"properties", json::object()}
+        };
+    }
 }
 
 json McpServer::toolGetStats(const json& args) {
@@ -732,6 +766,30 @@ json McpServer::toolGetStats(const json& args) {
             {"edge_count", 0},
             {"storage_size_bytes", 0}
         };
+    }
+
+    // Full integration: return real statistics from SchemaManager
+    if (schema_mgr_) {
+        try {
+            auto metadata = schema_mgr_->getDatabaseMetadata();
+            return {
+                {"status", "success"},
+                {"database_connected", db_->isOpen()},
+                {"integration_level", "full"},
+                {"version", metadata.version},
+                {"table_count", metadata.table_count},
+                {"total_rows", metadata.total_rows},
+                {"capabilities", metadata.capabilities}
+            };
+        } catch (const std::exception& e) {
+            spdlog::error("Error retrieving stats: {}", e.what());
+            return {
+                {"status", "error"},
+                {"message", std::string("Failed to retrieve stats: ") + e.what()},
+                {"database_connected", db_->isOpen()},
+                {"integration_level", "full"}
+            };
+        }
     }
 
     // Minimal integration: return connection status
@@ -1122,41 +1180,91 @@ void McpServer::registerDefaultResources() {
 }
 
 json McpServer::resourceSchema(const std::string& uri) {
-    // For minimal integration, return basic schema information
-    // Full schema discovery would require query engine integration
-    return {
-        {"nodes", json::array()},
-        {"edges", json::array()},
-        {"message", "Schema discovery available in full integration"},
-        {"note", "Minimal integration supports key-value operations only"}
-    };
-}
-
-json McpServer::resourceStats(const std::string& uri) {
-    // For minimal integration, we can provide basic stats if database is attached
-    if (db_ && db_->isOpen()) {
+    // Full integration: return real schema data from SchemaManager
+    if (!schema_mgr_) {
         return {
-            {"status", "connected"},
-            {"database_open", true},
-            {"message", "Database statistics available in full integration"},
-            {"note", "Minimal integration provides basic connectivity status only"}
+            {"status", "error"},
+            {"message", "SchemaManager not initialized"},
+            {"nodes", json::array()},
+            {"edges", json::array()}
         };
     }
     
+    try {
+        return schema_mgr_->toJSON();
+    } catch (const std::exception& e) {
+        spdlog::error("Error retrieving schema resource: {}", e.what());
+        return {
+            {"status", "error"},
+            {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"nodes", json::array()},
+            {"edges", json::array()}
+        };
+    }
+}
+
+json McpServer::resourceStats(const std::string& uri) {
+    // Provide real statistics if SchemaManager is available
+    if (!db_ || !db_->isOpen()) {
+        return {
+            {"status", "disconnected"},
+            {"database_open", false},
+            {"message", "Database not attached or not open"}
+        };
+    }
+    
+    if (schema_mgr_) {
+        try {
+            auto metadata = schema_mgr_->getDatabaseMetadata();
+            return {
+                {"status", "connected"},
+                {"database_open", true},
+                {"version", metadata.version},
+                {"table_count", metadata.table_count},
+                {"total_rows", metadata.total_rows},
+                {"capabilities", metadata.capabilities},
+                {"last_refresh", metadata.toJSON()["last_refresh"]}
+            };
+        } catch (const std::exception& e) {
+            spdlog::error("Error retrieving stats: {}", e.what());
+            return {
+                {"status", "connected"},
+                {"database_open", true},
+                {"message", std::string("Error retrieving stats: ") + e.what()}
+            };
+        }
+    }
+    
     return {
-        {"status", "disconnected"},
-        {"database_open", false},
-        {"message", "Database not attached or not open"}
+        {"status", "connected"},
+        {"database_open", true},
+        {"message", "Database statistics available in full integration"},
+        {"note", "Minimal integration provides basic connectivity status only"}
     };
 }
 
 json McpServer::resourceMetadata(const std::string& uri) {
+    // Determine integration level based on SchemaManager availability
+    std::string integration_level = schema_mgr_ ? "full" : "minimal";
+    
+    json supported_ops = {"put_entity", "get_entity", "delete_entity", "create_index"};
+    json pending_ops = json::array();
+    
+    if (schema_mgr_) {
+        supported_ops.push_back("get_schema");
+        supported_ops.push_back("schema_discovery");
+        supported_ops.push_back("full_query");
+    } else {
+        pending_ops.push_back("full_query");
+        pending_ops.push_back("schema_discovery");
+    }
+    
     return {
         {"version", config_.server_version},
         {"name", config_.server_name},
-        {"integration_level", "minimal"},
-        {"supported_operations", {"put_entity", "get_entity", "delete_entity"}},
-        {"pending_operations", {"full_query", "schema_discovery", "advanced_stats"}},
+        {"integration_level", integration_level},
+        {"supported_operations", supported_ops},
+        {"pending_operations", pending_ops},
         {"database_attached", db_ != nullptr},
         {"database_open", db_ && db_->isOpen()}
     };
