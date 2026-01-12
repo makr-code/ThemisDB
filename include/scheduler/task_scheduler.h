@@ -314,6 +314,13 @@ private:
     // Helpers
     int64_t getCurrentTimeMs() const;
     std::string generateTaskId(const ScheduledTask& task) const;
+    
+    // Security & Validation helpers
+    void validateAqlQuery(const std::string& aql) const;
+    void validateResourceLimits(const ScheduledTask& task) const;
+    ScheduledTask sanitizeTask(const ScheduledTask& task) const;
+    void enforceQueryComplexityLimits(const std::string& aql) const;
+    bool checkRateLimit(const std::string& task_id) const;
 };
 
 } // namespace themis

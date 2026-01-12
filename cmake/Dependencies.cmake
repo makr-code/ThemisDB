@@ -23,30 +23,36 @@ message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 find_package(ZLIB 1.3 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
-# zstd must be found BEFORE RocksDB (RocksDB's CMake config checks for zstd::zstd target)
+# zstd (compression codec) - must be found before RocksDB
 find_package(zstd QUIET CONFIG)
-if(NOT zstd_FOUND)
+if(zstd_FOUND)
+    message(STATUS "zstd found - enabling Zstandard compression")
+    # Create zstd::zstd alias for RocksDB compatibility
+    if(TARGET zstd::libzstd_shared AND NOT TARGET zstd::zstd)
+        add_library(zstd::zstd ALIAS zstd::libzstd_shared)
+    elseif(TARGET zstd::libzstd_static AND NOT TARGET zstd::zstd)
+        add_library(zstd::zstd ALIAS zstd::libzstd_static)
+    endif()
+else()
+    # Try pkg-config as fallback
     find_package(PkgConfig QUIET)
     if(PkgConfig_FOUND)
-        pkg_check_modules(ZSTD QUIET libzstd)
-        if(ZSTD_FOUND)
-            add_library(zstd::zstd INTERFACE IMPORTED GLOBAL)
-            target_include_directories(zstd::zstd INTERFACE ${ZSTD_INCLUDE_DIRS})
-            target_link_libraries(zstd::zstd INTERFACE ${ZSTD_LIBRARIES})
-            set(zstd_FOUND TRUE)
-            message(STATUS "zstd found via pkg-config - enabling Zstandard compression")
-            add_compile_definitions(THEMIS_HAS_ZSTD=1)
+        pkg_check_modules(zstd QUIET libzstd)
+        if(zstd_FOUND)
+            message(STATUS "zstd found via pkg-config")
+            # Create imported target for compatibility
+            add_library(zstd::zstd INTERFACE IMPORTED)
+            set_target_properties(zstd::zstd PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${zstd_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${zstd_LIBRARIES}"
+            )
+        else()
+            message(STATUS "zstd not found - using fallback compression")
         endif()
+    else()
+        message(STATUS "zstd not found - using fallback compression")
     endif()
 endif()
-
-if(zstd_FOUND AND NOT ZSTD_FOUND)
-    message(STATUS "zstd found - enabling Zstandard compression")
-    add_compile_definitions(THEMIS_HAS_ZSTD=1)
-elseif(NOT zstd_FOUND)
-    message(STATUS "zstd not found - using fallback compression")
-endif()
-
 # RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
@@ -99,27 +105,34 @@ find_package(OpenMP REQUIRED)
 message(STATUS "OpenMP found")
 
 # Protobuf (required for gRPC and general serialization)
-find_package(Protobuf REQUIRED CONFIG)
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+    find_package(Protobuf REQUIRED)
+endif()
 message(STATUS "Protobuf found: ${Protobuf_VERSION}")
 
 # gRPC (inter-shard communication)
 # Priority: CONFIG, then pkg-config, then fallback
-find_package(gRPC QUIET CONFIG)
-if(NOT gRPC_FOUND)
-    find_package(PkgConfig QUIET)
-    if(PkgConfig_FOUND)
-        pkg_check_modules(gRPC QUIET grpc++ grpc)
-        if(gRPC_FOUND)
-            message(STATUS "gRPC found via pkg-config")
+if(THEMIS_ENABLE_GRPC)
+    find_package(gRPC QUIET CONFIG)
+    if(NOT gRPC_FOUND)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(gRPC QUIET grpc++ grpc)
+            if(gRPC_FOUND)
+                message(STATUS "gRPC found via pkg-config")
+            endif()
         endif()
     endif()
+    
+    if(NOT gRPC_FOUND)
+        message(FATAL_ERROR "gRPC not found. Install grpc-devel or configure VCPKG_ROOT")
+    endif()
+    
+    message(STATUS "gRPC found")
+else()
+    message(STATUS "gRPC support disabled (THEMIS_ENABLE_GRPC=OFF)")
 endif()
-
-if(NOT gRPC_FOUND)
-    message(FATAL_ERROR "gRPC not found. Install grpc-devel or configure VCPKG_ROOT")
-endif()
-
-message(STATUS "gRPC found")
 
 # GTest (unit testing framework - required for tests)
 if(THEMIS_BUILD_TESTS)
@@ -178,6 +191,65 @@ else()
     message(WARNING "CURL not found - some HTTP features will be disabled")
 endif()
 
+# Kerberos/GSSAPI (enterprise SSO authentication - optional)
+option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
+
+if(THEMIS_ENABLE_KERBEROS)
+    # Try to find Kerberos using pkg-config first (most reliable on Unix)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(KRB5 QUIET krb5 krb5-gssapi)
+        if(KRB5_FOUND)
+            message(STATUS "Kerberos found via pkg-config")
+            add_compile_definitions(THEMIS_HAS_KERBEROS=1)
+            
+            # Create imported target for compatibility
+            if(NOT TARGET KRB5::krb5)
+                add_library(KRB5::krb5 INTERFACE IMPORTED)
+                set_target_properties(KRB5::krb5 PROPERTIES
+                    INTERFACE_INCLUDE_DIRECTORIES "${KRB5_INCLUDE_DIRS}"
+                    INTERFACE_LINK_LIBRARIES "${KRB5_LIBRARIES}"
+                )
+            endif()
+            
+            if(NOT TARGET KRB5::gssapi)
+                add_library(KRB5::gssapi INTERFACE IMPORTED)
+                set_target_properties(KRB5::gssapi PROPERTIES
+                    INTERFACE_INCLUDE_DIRECTORIES "${KRB5_INCLUDE_DIRS}"
+                    INTERFACE_LINK_LIBRARIES "${KRB5_LIBRARIES}"
+                )
+            endif()
+        endif()
+    endif()
+    
+    # If pkg-config didn't work, try FindKerberos module
+    if(NOT KRB5_FOUND)
+        find_package(Kerberos QUIET)
+        if(Kerberos_FOUND)
+            message(STATUS "Kerberos found via FindKerberos")
+            add_compile_definitions(THEMIS_HAS_KERBEROS=1)
+            
+            # Create aliases for consistency
+            if(NOT TARGET KRB5::krb5)
+                add_library(KRB5::krb5 ALIAS Kerberos::Kerberos)
+            endif()
+            if(NOT TARGET KRB5::gssapi)
+                add_library(KRB5::gssapi ALIAS Kerberos::Kerberos)
+            endif()
+        endif()
+    endif()
+    
+    if(NOT KRB5_FOUND AND NOT Kerberos_FOUND)
+        message(WARNING "Kerberos not found - enterprise SSO authentication disabled")
+        message(STATUS "Install with: apt-get install libkrb5-dev (Ubuntu/Debian)")
+        message(STATUS "            : yum install krb5-devel (RHEL/CentOS)")
+        message(STATUS "            : brew install krb5 (macOS)")
+        set(THEMIS_ENABLE_KERBEROS OFF)
+    endif()
+else()
+    message(STATUS "Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF)")
+endif()
+
 # Arrow + Parquet (Parquet export support)
 find_package(Arrow QUIET CONFIG)
 find_package(Parquet QUIET CONFIG)
@@ -200,6 +272,11 @@ else()
     message(WARNING "yaml-cpp not found - configuration features may be limited")
 endif()
 
+<<<<<<< HEAD
+=======
+# (zstd is handled earlier, before RocksDB)
+
+>>>>>>> 739aeca6425c339f9821226d6039211438dbc241
 # HNSW library (vector indexing)
 find_package(hnswlib QUIET CONFIG)
 if(hnswlib_FOUND AND NOT THEMIS_ENABLE_GPU)

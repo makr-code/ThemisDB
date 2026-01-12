@@ -972,6 +972,9 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     
+    ../src/metadata/schema_manager.cpp
+    ../src/server/schema_api_handler.cpp
+    
     ../src/index/secondary_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
@@ -996,6 +999,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
+    ../src/transaction/snapshot_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1036,6 +1040,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/feedback_api_handler.cpp
+    ../src/server/snapshot_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1127,6 +1133,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
@@ -1209,6 +1216,15 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    
+    # Git-like MVCC Features
+    # Phase 1: Named Snapshots
+    ../src/transaction/snapshot_manager.cpp
+    ../src/server/snapshot_api_handler.cpp
+    
+    # Phase 2: Diff Engine
+    ../src/analytics/diff_engine.cpp
+    ../src/server/diff_api_handler.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)
@@ -1525,6 +1541,24 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     message(STATUS "Office support linked: libzip and pugixml")
 endif()
 
+# Link Kerberos/GSSAPI if enabled
+if(THEMIS_ENABLE_KERBEROS)
+    if(TARGET KRB5::krb5)
+        target_link_libraries(themis_core PUBLIC KRB5::krb5)
+        message(STATUS "Kerberos support linked: KRB5::krb5")
+    endif()
+    if(TARGET KRB5::gssapi)
+        target_link_libraries(themis_core PUBLIC KRB5::gssapi)
+        message(STATUS "Kerberos support linked: KRB5::gssapi")
+    endif()
+    if(TARGET Kerberos::Kerberos)
+        target_link_libraries(themis_core PUBLIC Kerberos::Kerberos)
+        message(STATUS "Kerberos support linked: Kerberos::Kerberos")
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_KERBEROS)
+    message(STATUS "Kerberos/GSSAPI authentication enabled")
+endif()
+
 # Link ZSTD if available and define compile flag
 if(DEFINED THEMIS_ZSTD_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_ZSTD_TARGET})
@@ -1781,6 +1815,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
         ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
+        ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
+        ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
+        ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -1802,6 +1839,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        
+        # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
+        ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
+        ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
@@ -2014,6 +2055,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_audit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_transaction_manager.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_transaction_isolation.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_snapshot_manager.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
@@ -2083,6 +2125,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
@@ -2095,6 +2138,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>

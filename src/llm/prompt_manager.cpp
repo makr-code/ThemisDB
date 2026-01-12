@@ -1,11 +1,15 @@
 #include "llm/prompt_manager.h"
 #include "storage/rocksdb_wrapper.h"
+#include "metadata/schema_manager.h"
 #include "utils/logger.h"
+#include <yaml-cpp/yaml.h>
 #include <random>
 #include <sstream>
 #include <iomanip>
 #include <vector>
 #include <cstring>
+#include <regex>
+#include <filesystem>
 
 namespace themis {
 
@@ -164,6 +168,161 @@ std::string PromptManager::generateId() const {
         << "-"
         << std::setw(16) << dis(gen);
     return oss.str();
+}
+
+size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
+    try {
+        if (!std::filesystem::exists(yaml_path)) {
+            THEMIS_WARN("YAML prompt file not found: {}", yaml_path);
+            return 0;
+        }
+
+        YAML::Node config = YAML::LoadFile(yaml_path);
+        
+        if (!config["prompts"]) {
+            THEMIS_WARN("No 'prompts' section found in {}", yaml_path);
+            return 0;
+        }
+
+        size_t loaded = 0;
+        const YAML::Node& prompts = config["prompts"];
+        
+        for (YAML::const_iterator it = prompts.begin(); it != prompts.end(); ++it) {
+            std::string prompt_id = it->first.as<std::string>();
+            const YAML::Node& prompt_node = it->second;
+            
+            PromptTemplate pt;
+            pt.id = prompt_id;
+            pt.name = prompt_node["name"].as<std::string>("");
+            pt.version = prompt_node["version"].as<std::string>("1.0");
+            pt.content = prompt_node["content"].as<std::string>("");
+            pt.description = prompt_node["description"].as<std::string>("");
+            pt.active = prompt_node["active"].as<bool>(true);
+            
+            // Load metadata if present
+            if (prompt_node["metadata"]) {
+                try {
+                    // Convert YAML node to JSON string then parse
+                    YAML::Emitter emitter;
+                    emitter << prompt_node["metadata"];
+                    pt.metadata = nlohmann::json::parse(emitter.c_str());
+                } catch (...) {
+                    pt.metadata = nlohmann::json::object();
+                }
+            }
+            
+            createTemplate(pt);
+            loaded++;
+            
+            THEMIS_DEBUG("Loaded prompt '{}' ({})", pt.name, prompt_id);
+        }
+        
+        THEMIS_INFO("Loaded {} prompts from {}", loaded, yaml_path);
+        return loaded;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to load prompts from YAML {}: {}", yaml_path, e.what());
+        return 0;
+    }
+}
+
+std::string PromptManager::injectContext(
+    const std::string& template_str,
+    const std::unordered_map<std::string, std::string>& context) const {
+    
+    std::string result = template_str;
+    
+    // Replace all {variable} patterns with context values
+    for (const auto& [key, value] : context) {
+        std::string placeholder = "{" + key + "}";
+        size_t pos = 0;
+        while ((pos = result.find(placeholder, pos)) != std::string::npos) {
+            result.replace(pos, placeholder.length(), value);
+            pos += value.length();
+        }
+    }
+    
+    return result;
+}
+
+std::optional<std::string> PromptManager::getPromptWithContext(
+    const std::string& id,
+    const std::unordered_map<std::string, std::string>& context) const {
+    
+    auto template_opt = getTemplate(id);
+    if (!template_opt.has_value()) {
+        return std::nullopt;
+    }
+    
+    if (!template_opt->active) {
+        THEMIS_WARN("Prompt '{}' is inactive", id);
+        return std::nullopt;
+    }
+    
+    return injectContext(template_opt->content, context);
+}
+
+std::unordered_map<std::string, std::string> PromptManager::buildContextFromSchema(
+    SchemaManager* schema_mgr,
+    const std::string& edition,
+    const std::string& version) {
+    
+    std::unordered_map<std::string, std::string> context;
+    
+    // Basic info
+    context["version"] = version;
+    context["edition"] = edition;
+    
+    if (!schema_mgr) {
+        context["table_count"] = "0";
+        context["total_rows"] = "0";
+        context["tables"] = "[]";
+        context["capabilities"] = "[]";
+        context["schema"] = "{}";
+        return context;
+    }
+    
+    try {
+        // Get database metadata
+        auto metadata = schema_mgr->getDatabaseMetadata();
+        context["table_count"] = std::to_string(metadata.table_count);
+        context["total_rows"] = std::to_string(metadata.total_rows);
+        
+        // Get capabilities as JSON array string
+        nlohmann::json caps_array = nlohmann::json::array();
+        for (const auto& cap : metadata.capabilities) {
+            caps_array.push_back(cap);
+        }
+        context["capabilities"] = caps_array.dump();
+        
+        // Get all tables
+        auto tables = schema_mgr->getAllTables();
+        nlohmann::json tables_array = nlohmann::json::array();
+        for (const auto& table : tables) {
+            nlohmann::json table_info;
+            table_info["name"] = table.name;
+            table_info["type"] = table.type;
+            table_info["row_count"] = table.estimated_row_count;
+            tables_array.push_back(table_info);
+        }
+        context["tables"] = tables_array.dump(2);
+        
+        // Get full schema (may be large, so we'll limit it)
+        auto schema_json = schema_mgr->toJSON();
+        std::string schema_str = schema_json.dump(2);
+        
+        // Limit schema size to avoid context overflow
+        const size_t MAX_SCHEMA_LENGTH = 10000;
+        if (schema_str.length() > MAX_SCHEMA_LENGTH) {
+            schema_str = schema_str.substr(0, MAX_SCHEMA_LENGTH) + "\n... (truncated)";
+        }
+        context["schema"] = schema_str;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to build context from schema: {}", e.what());
+    }
+    
+    return context;
 }
 
 } // namespace themis

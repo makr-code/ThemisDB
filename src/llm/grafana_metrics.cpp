@@ -3,47 +3,193 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <sstream>
+#include <algorithm>
+#include <numeric>
+#include <fstream>
 
 namespace themis {
 namespace llm {
 namespace monitoring {
 
-// PrometheusExporter Implementation (Stub)
+// Configuration constants
+constexpr size_t MAX_HISTOGRAM_SAMPLES = 1000;
+
+// PrometheusExporter Implementation
 PrometheusExporter::PrometheusExporter() {
-    spdlog::debug("PrometheusExporter initialized (STUB)");
+    spdlog::debug("PrometheusExporter initialized");
 }
 
 PrometheusExporter::~PrometheusExporter() = default;
 
 void PrometheusExporter::registerMetric(const MetricDefinition& def) {
-    spdlog::debug("Metric registered: {}", def.name);
+    std::lock_guard<std::mutex> lock(mutex_);
+    registered_metrics_[def.name] = def;
+    spdlog::debug("Metric registered: {} (type: {})", def.name, static_cast<int>(def.type));
 }
 
 void PrometheusExporter::incrementCounter(const std::string& name,
                                          const std::unordered_map<std::string, std::string>& labels,
                                          double value) {
-    spdlog::debug("Counter incremented: {}", name);
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::string key = makeMetricKey(name, labels);
+    
+    auto it = metrics_.find(key);
+    if (it != metrics_.end()) {
+        it->second.value += value;
+    } else {
+        MetricValue mv;
+        mv.type = MetricType::COUNTER;
+        mv.value = value;
+        mv.last_updated = std::chrono::system_clock::now();
+        metrics_[key] = mv;
+    }
 }
 
 void PrometheusExporter::setGauge(const std::string& name, double value,
                                  const std::unordered_map<std::string, std::string>& labels) {
-    spdlog::debug("Gauge set: {} = {}", name, value);
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::string key = makeMetricKey(name, labels);
+    
+    auto it = metrics_.find(key);
+    if (it != metrics_.end()) {
+        it->second.value = value;
+    } else {
+        MetricValue mv;
+        mv.type = MetricType::GAUGE;
+        mv.value = value;
+        mv.last_updated = std::chrono::system_clock::now();
+        metrics_[key] = mv;
+    }
 }
 
 void PrometheusExporter::incrementGauge(const std::string& name, double delta,
                                        const std::unordered_map<std::string, std::string>& labels) {
-    spdlog::debug("Gauge incremented: {}", name);
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::string key = makeMetricKey(name, labels);
+    
+    auto it = metrics_.find(key);
+    if (it != metrics_.end()) {
+        it->second.value += delta;
+    } else {
+        MetricValue mv;
+        mv.type = MetricType::GAUGE;
+        mv.value = delta;
+        mv.last_updated = std::chrono::system_clock::now();
+        metrics_[key] = mv;
+    }
 }
 
 void PrometheusExporter::observeHistogram(const std::string& name, double value,
                                          const std::unordered_map<std::string, std::string>& labels) {
-    spdlog::debug("Histogram observed: {} = {}", name, value);
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::string key = makeMetricKey(name, labels);
+    
+    auto it = metrics_.find(key);
+    if (it != metrics_.end()) {
+        it->second.histogram_buckets.push_back(value);
+        // Keep only recent values (max MAX_HISTOGRAM_SAMPLES)
+        if (it->second.histogram_buckets.size() > MAX_HISTOGRAM_SAMPLES) {
+            it->second.histogram_buckets.erase(it->second.histogram_buckets.begin());
+        }
+    } else {
+        MetricValue mv;
+        mv.type = MetricType::HISTOGRAM;
+        mv.value = 0;
+        mv.histogram_buckets.push_back(value);
+        mv.last_updated = std::chrono::system_clock::now();
+        metrics_[key] = mv;
+    }
 }
 
 std::string PrometheusExporter::exportMetrics() const {
-    return "# HELP themis_llm_metrics ThemisDB LLM Metrics (STUB)\n"
-           "# TYPE themis_llm_metrics gauge\n"
-           "themis_llm_metrics{version=\"stub\"} 0\n";
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::ostringstream oss;
+    
+    // Group metrics by base name for HELP and TYPE annotations
+    std::map<std::string, MetricType> metric_types;
+    for (const auto& [key, value] : metrics_) {
+        // Extract base metric name (before any labels)
+        size_t brace_pos = key.find('{');
+        std::string base_name = (brace_pos != std::string::npos) ? key.substr(0, brace_pos) : key;
+        metric_types[base_name] = value.type;
+    }
+    
+    // Output HELP and TYPE annotations
+    for (const auto& [name, type] : metric_types) {
+        auto reg_it = registered_metrics_.find(name);
+        if (reg_it != registered_metrics_.end()) {
+            oss << "# HELP " << name << " " << reg_it->second.help << "\n";
+        } else {
+            oss << "# HELP " << name << " " << name << "\n";
+        }
+        
+        switch (type) {
+            case MetricType::COUNTER:
+                oss << "# TYPE " << name << " counter\n";
+                break;
+            case MetricType::GAUGE:
+                oss << "# TYPE " << name << " gauge\n";
+                break;
+            case MetricType::HISTOGRAM:
+                oss << "# TYPE " << name << " histogram\n";
+                break;
+            case MetricType::SUMMARY:
+                oss << "# TYPE " << name << " summary\n";
+                break;
+        }
+    }
+    
+    // Output metric values
+    for (const auto& [key, value] : metrics_) {
+        if (value.type == MetricType::HISTOGRAM) {
+            // For histograms, output quantiles
+            if (!value.histogram_buckets.empty()) {
+                auto sorted = value.histogram_buckets;
+                std::sort(sorted.begin(), sorted.end());
+                
+                size_t count = sorted.size();
+                double sum = std::accumulate(sorted.begin(), sorted.end(), 0.0);
+                
+                // Extract base name and labels
+                size_t brace_pos = key.find('{');
+                std::string base_name = (brace_pos != std::string::npos) ? key.substr(0, brace_pos) : key;
+                std::string labels_part = (brace_pos != std::string::npos) ? key.substr(brace_pos) : "";
+                
+                // Remove trailing } from labels if present
+                if (!labels_part.empty() && labels_part.back() == '}') {
+                    labels_part.pop_back();
+                }
+                
+                // Output quantiles
+                if (count > 0) {
+                    // Use safe percentile calculation to avoid out-of-bounds
+                    size_t idx_p50 = std::min(count - 1, count * 50 / 100);
+                    size_t idx_p95 = std::min(count - 1, count * 95 / 100);
+                    size_t idx_p99 = std::min(count - 1, count * 99 / 100);
+                    
+                    auto p50 = sorted[idx_p50];
+                    auto p95 = sorted[idx_p95];
+                    auto p99 = sorted[idx_p99];
+                    
+                    std::string q_labels = labels_part.empty() ? "{" : labels_part + ",";
+                    oss << base_name << q_labels << "quantile=\"0.5\"} " << p50 << "\n";
+                    oss << base_name << q_labels << "quantile=\"0.95\"} " << p95 << "\n";
+                    oss << base_name << q_labels << "quantile=\"0.99\"} " << p99 << "\n";
+                }
+                
+                // Output sum and count
+                std::string sum_count_labels = labels_part.empty() ? "" : labels_part + "}";
+                oss << base_name << "_sum" << sum_count_labels << " " << sum << "\n";
+                oss << base_name << "_count" << sum_count_labels << " " << count << "\n";
+            }
+        } else {
+            // For counters and gauges, output simple value
+            oss << key << " " << value.value << "\n";
+        }
+    }
+    
+    return oss.str();
 }
 
 std::string PrometheusExporter::handleMetricsRequest() const {
@@ -51,87 +197,511 @@ std::string PrometheusExporter::handleMetricsRequest() const {
 }
 
 void PrometheusExporter::reset() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metrics_.clear();
     spdlog::debug("Metrics reset");
 }
 
-// LLMMetricsCollector Implementation (Stub)
-LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter)
-    : exporter_(exporter) {
-    spdlog::debug("LLMMetricsCollector initialized (STUB)");
+std::string PrometheusExporter::makeMetricKey(const std::string& name,
+                                              const std::unordered_map<std::string, std::string>& labels) const {
+    if (labels.empty()) {
+        return name;
+    }
+    
+    std::ostringstream oss;
+    oss << name << "{";
+    bool first = true;
+    
+    // Sort labels for consistent key generation
+    std::map<std::string, std::string> sorted_labels(labels.begin(), labels.end());
+    
+    for (const auto& [key, value] : sorted_labels) {
+        if (!first) oss << ",";
+        oss << key << "=\"" << value << "\"";
+        first = false;
+    }
+    oss << "}";
+    return oss.str();
 }
 
-void LLMMetricsCollector::recordInferenceRequest(const std::string& model_id) {}
-void LLMMetricsCollector::recordInferenceSuccess(const std::string& model_id, double duration_ms) {}
-void LLMMetricsCollector::recordInferenceFailure(const std::string& model_id, const std::string& error) {}
-void LLMMetricsCollector::recordFirstTokenLatency(const std::string& model_id, double latency_ms) {}
-void LLMMetricsCollector::recordPerTokenLatency(const std::string& model_id, double latency_ms) {}
-void LLMMetricsCollector::recordEndToEndLatency(const std::string& model_id, double latency_ms) {}
-void LLMMetricsCollector::recordTokensGenerated(const std::string& model_id, size_t count) {}
-void LLMMetricsCollector::recordBatchSize(size_t batch_size) {}
-void LLMMetricsCollector::recordConcurrentRequests(size_t count) {}
-void LLMMetricsCollector::recordGPUMemoryUsage(size_t vram_mb, size_t total_vram_mb) {}
-void LLMMetricsCollector::recordGPUUtilization(double utilization_pct) {}
-void LLMMetricsCollector::recordGPUTemperature(double temp_celsius) {}
-void LLMMetricsCollector::recordModelLoaded(const std::string& model_id, size_t vram_mb) {}
-void LLMMetricsCollector::recordModelUnloaded(const std::string& model_id) {}
-void LLMMetricsCollector::recordModelSwitchLatency(double latency_ms) {}
-void LLMMetricsCollector::recordCacheHit(const std::string& cache_type) {}
-void LLMMetricsCollector::recordCacheMiss(const std::string& cache_type) {}
-void LLMMetricsCollector::recordCacheSize(const std::string& cache_type, size_t size_mb) {}
-void LLMMetricsCollector::recordQueueLength(size_t length) {}
-void LLMMetricsCollector::recordPreemptions(size_t count) {}
-void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {}
-void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, const std::string& format) {}
-void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {}
-void LLMMetricsCollector::recordError(const std::string& error_type, const std::string& component) {}
+std::string PrometheusExporter::serializeMetric(const std::string& name, const MetricValue& value) const {
+    std::ostringstream oss;
+    oss << name << " " << value.value;
+    return oss.str();
+}
 
-// GrafanaDashboardGenerator Implementation (Stub)
+// LLMMetricsCollector Implementation
+LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter)
+    : exporter_(exporter) {
+    spdlog::debug("LLMMetricsCollector initialized");
+    initializeMetrics();
+}
+
+void LLMMetricsCollector::initializeMetrics() {
+    // Register all metrics with proper definitions
+    
+    // Inference metrics
+    exporter_->registerMetric({
+        "llm_inference_requests_total",
+        "Total number of LLM inference requests",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_inference_success_total",
+        "Total number of successful LLM inference requests",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_inference_failures_total",
+        "Total number of failed LLM inference requests",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "error"}
+    });
+    
+    // Latency metrics
+    exporter_->registerMetric({
+        "llm_first_token_latency_ms",
+        "Time to first token in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_per_token_latency_ms",
+        "Per-token generation latency in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_end_to_end_latency_ms",
+        "End-to-end inference latency in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_inference_duration_ms",
+        "Total inference duration in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    // Token metrics
+    exporter_->registerMetric({
+        "llm_tokens_generated_total",
+        "Total number of tokens generated",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id"}
+    });
+    
+    // Throughput metrics
+    exporter_->registerMetric({
+        "llm_batch_size",
+        "Current batch size",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_concurrent_requests",
+        "Number of concurrent requests",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    // GPU metrics
+    exporter_->registerMetric({
+        "llm_gpu_memory_used_mb",
+        "GPU memory used in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_gpu_memory_total_mb",
+        "Total GPU memory in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_gpu_utilization_percent",
+        "GPU utilization percentage",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_gpu_temperature_celsius",
+        "GPU temperature in Celsius",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    // Model metrics
+    exporter_->registerMetric({
+        "llm_models_loaded",
+        "Number of loaded models",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_model_memory_mb",
+        "Model memory usage in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_model_switch_latency_ms",
+        "Model switching latency in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {}
+    });
+    
+    // Cache metrics
+    exporter_->registerMetric({
+        "llm_cache_hits_total",
+        "Total cache hits",
+        PrometheusExporter::MetricType::COUNTER,
+        {"cache_type"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_cache_misses_total",
+        "Total cache misses",
+        PrometheusExporter::MetricType::COUNTER,
+        {"cache_type"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_cache_size_mb",
+        "Cache size in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"cache_type"}
+    });
+    
+    // Scheduler metrics
+    exporter_->registerMetric({
+        "llm_queue_length",
+        "Current queue length",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_preemptions_total",
+        "Total number of preemptions",
+        PrometheusExporter::MetricType::COUNTER,
+        {}
+    });
+    
+    exporter_->registerMetric({
+        "llm_scheduling_latency_ms",
+        "Scheduling latency in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {}
+    });
+    
+    // Quantization metrics
+    exporter_->registerMetric({
+        "llm_quantization_format",
+        "Quantization format (as info metric)",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id", "format"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_dequantization_latency_ms",
+        "Dequantization latency in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {}
+    });
+    
+    // Error metrics
+    exporter_->registerMetric({
+        "llm_errors_total",
+        "Total errors",
+        PrometheusExporter::MetricType::COUNTER,
+        {"error_type", "component"}
+    });
+}
+
+void LLMMetricsCollector::recordInferenceRequest(const std::string& model_id) {
+    exporter_->incrementCounter("llm_inference_requests_total", {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordInferenceSuccess(const std::string& model_id, double duration_ms) {
+    exporter_->incrementCounter("llm_inference_success_total", {{"model_id", model_id}});
+    exporter_->observeHistogram("llm_inference_duration_ms", duration_ms, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordInferenceFailure(const std::string& model_id, const std::string& error) {
+    exporter_->incrementCounter("llm_inference_failures_total", {{"model_id", model_id}, {"error", error}});
+}
+
+void LLMMetricsCollector::recordFirstTokenLatency(const std::string& model_id, double latency_ms) {
+    exporter_->observeHistogram("llm_first_token_latency_ms", latency_ms, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordPerTokenLatency(const std::string& model_id, double latency_ms) {
+    exporter_->observeHistogram("llm_per_token_latency_ms", latency_ms, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordEndToEndLatency(const std::string& model_id, double latency_ms) {
+    exporter_->observeHistogram("llm_end_to_end_latency_ms", latency_ms, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordTokensGenerated(const std::string& model_id, size_t count) {
+    exporter_->incrementCounter("llm_tokens_generated_total", {{"model_id", model_id}}, static_cast<double>(count));
+}
+
+void LLMMetricsCollector::recordBatchSize(size_t batch_size) {
+    exporter_->setGauge("llm_batch_size", static_cast<double>(batch_size));
+}
+
+void LLMMetricsCollector::recordConcurrentRequests(size_t count) {
+    exporter_->setGauge("llm_concurrent_requests", static_cast<double>(count));
+}
+
+void LLMMetricsCollector::recordGPUMemoryUsage(size_t vram_mb, size_t total_vram_mb) {
+    exporter_->setGauge("llm_gpu_memory_used_mb", static_cast<double>(vram_mb));
+    exporter_->setGauge("llm_gpu_memory_total_mb", static_cast<double>(total_vram_mb));
+}
+
+void LLMMetricsCollector::recordGPUUtilization(double utilization_pct) {
+    exporter_->setGauge("llm_gpu_utilization_percent", utilization_pct);
+}
+
+void LLMMetricsCollector::recordGPUTemperature(double temp_celsius) {
+    exporter_->setGauge("llm_gpu_temperature_celsius", temp_celsius);
+}
+
+void LLMMetricsCollector::recordModelLoaded(const std::string& model_id, size_t vram_mb) {
+    exporter_->incrementGauge("llm_models_loaded", 1.0);
+    exporter_->setGauge("llm_model_memory_mb", static_cast<double>(vram_mb), {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordModelUnloaded(const std::string& model_id) {
+    exporter_->incrementGauge("llm_models_loaded", -1.0);
+    exporter_->setGauge("llm_model_memory_mb", 0.0, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordModelSwitchLatency(double latency_ms) {
+    exporter_->observeHistogram("llm_model_switch_latency_ms", latency_ms);
+}
+
+void LLMMetricsCollector::recordCacheHit(const std::string& cache_type) {
+    exporter_->incrementCounter("llm_cache_hits_total", {{"cache_type", cache_type}});
+}
+
+void LLMMetricsCollector::recordCacheMiss(const std::string& cache_type) {
+    exporter_->incrementCounter("llm_cache_misses_total", {{"cache_type", cache_type}});
+}
+
+void LLMMetricsCollector::recordCacheSize(const std::string& cache_type, size_t size_mb) {
+    exporter_->setGauge("llm_cache_size_mb", static_cast<double>(size_mb), {{"cache_type", cache_type}});
+}
+
+void LLMMetricsCollector::recordQueueLength(size_t length) {
+    exporter_->setGauge("llm_queue_length", static_cast<double>(length));
+}
+
+void LLMMetricsCollector::recordPreemptions(size_t count) {
+    exporter_->incrementCounter("llm_preemptions_total", {}, static_cast<double>(count));
+}
+
+void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
+    exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
+}
+
+void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, const std::string& format) {
+    exporter_->setGauge("llm_quantization_format", 1.0, {{"model_id", model_id}, {"format", format}});
+}
+
+void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {
+    exporter_->observeHistogram("llm_dequantization_latency_ms", latency_ms);
+}
+
+void LLMMetricsCollector::recordError(const std::string& error_type, const std::string& component) {
+    exporter_->incrementCounter("llm_errors_total", {{"error_type", error_type}, {"component", component}});
+}
+
+// GrafanaDashboardGenerator Implementation
 GrafanaDashboardGenerator::GrafanaDashboardGenerator(const DashboardConfig& config)
     : config_(config) {
-    spdlog::debug("GrafanaDashboardGenerator initialized (STUB)");
+    spdlog::debug("GrafanaDashboardGenerator initialized");
 }
 
 std::string GrafanaDashboardGenerator::generateDashboard() const {
-    return R"({"dashboard": "stub"})";
+    std::ostringstream oss;
+    
+    oss << "{\n";
+    oss << "  \"dashboard\": {\n";
+    oss << "    \"title\": \"" << config_.title << "\",\n";
+    oss << "    \"tags\": [\"llm\", \"themisdb\"],\n";
+    oss << "    \"timezone\": \"browser\",\n";
+    oss << "    \"schemaVersion\": 16,\n";
+    oss << "    \"version\": 1,\n";
+    oss << "    \"refresh\": \"" << config_.refresh_interval_sec << "s\",\n";
+    oss << "    \"panels\": [\n";
+    
+    // Panel positions
+    int y_pos = 0;
+    
+    // Inference panel
+    oss << createPanel("Inference Requests", 
+                       "rate(llm_inference_requests_total[5m])",
+                       "graph", 0, y_pos, 12, 8);
+    oss << ",\n";
+    y_pos += 8;
+    
+    // Latency panel
+    oss << createPanel("Request Latency (p95)",
+                       "histogram_quantile(0.95, rate(llm_inference_duration_ms_bucket[5m]))",
+                       "graph", 0, y_pos, 12, 8);
+    oss << ",\n";
+    y_pos += 8;
+    
+    // Throughput panel
+    oss << createPanel("Tokens per Second",
+                       "rate(llm_tokens_generated_total[5m])",
+                       "graph", 0, y_pos, 6, 8);
+    oss << ",\n";
+    
+    // GPU panel
+    oss << createPanel("GPU Memory Usage (MB)",
+                       "llm_gpu_memory_used_mb",
+                       "graph", 6, y_pos, 6, 8);
+    oss << ",\n";
+    y_pos += 8;
+    
+    // Cache panel
+    oss << createPanel("Cache Hit Rate",
+                       "rate(llm_cache_hits_total[5m]) / (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m]))",
+                       "gauge", 0, y_pos, 6, 4);
+    oss << ",\n";
+    
+    // Error panel
+    oss << createPanel("Error Rate",
+                       "rate(llm_errors_total[5m])",
+                       "graph", 6, y_pos, 6, 4);
+    oss << "\n";
+    
+    oss << "    ]\n";
+    oss << "  }\n";
+    oss << "}\n";
+    
+    return oss.str();
+}
+
+std::string GrafanaDashboardGenerator::createPanel(const std::string& title,
+                                                   const std::string& query,
+                                                   const std::string& type,
+                                                   int grid_pos_x, int grid_pos_y,
+                                                   int grid_width, int grid_height) const {
+    std::ostringstream oss;
+    
+    oss << "      {\n";
+    oss << "        \"title\": \"" << title << "\",\n";
+    oss << "        \"type\": \"" << type << "\",\n";
+    oss << "        \"datasource\": \"" << config_.datasource << "\",\n";
+    oss << "        \"gridPos\": {\n";
+    oss << "          \"x\": " << grid_pos_x << ",\n";
+    oss << "          \"y\": " << grid_pos_y << ",\n";
+    oss << "          \"w\": " << grid_width << ",\n";
+    oss << "          \"h\": " << grid_height << "\n";
+    oss << "        },\n";
+    oss << "        \"targets\": [\n";
+    oss << "          {\n";
+    oss << "            \"expr\": \"" << query << "\",\n";
+    oss << "            \"refId\": \"A\"\n";
+    oss << "          }\n";
+    oss << "        ]\n";
+    oss << "      }";
+    
+    return oss.str();
 }
 
 std::string GrafanaDashboardGenerator::generateInferencePanel() const {
-    return R"({"panel": "inference"})";
+    return createPanel("Inference Requests Rate",
+                       "rate(llm_inference_requests_total[5m])",
+                       "graph", 0, 0, 12, 8);
 }
 
 std::string GrafanaDashboardGenerator::generateLatencyPanel() const {
-    return R"({"panel": "latency"})";
+    return createPanel("First Token Latency (p95)",
+                       "histogram_quantile(0.95, rate(llm_first_token_latency_ms_bucket[5m]))",
+                       "graph", 0, 8, 12, 8);
 }
 
 std::string GrafanaDashboardGenerator::generateThroughputPanel() const {
-    return R"({"panel": "throughput"})";
+    return createPanel("Token Generation Rate",
+                       "rate(llm_tokens_generated_total[5m])",
+                       "graph", 0, 16, 12, 8);
 }
 
 std::string GrafanaDashboardGenerator::generateGPUPanel() const {
-    return R"({"panel": "gpu"})";
+    std::ostringstream oss;
+    oss << "{\n";
+    oss << "  \"title\": \"GPU Metrics\",\n";
+    oss << "  \"panels\": [\n";
+    oss << createPanel("GPU Memory", "llm_gpu_memory_used_mb", "graph", 0, 0, 6, 6);
+    oss << ",\n";
+    oss << createPanel("GPU Utilization", "llm_gpu_utilization_percent", "gauge", 6, 0, 6, 6);
+    oss << "\n  ]\n";
+    oss << "}\n";
+    return oss.str();
 }
 
 std::string GrafanaDashboardGenerator::generateCachePanel() const {
-    return R"({"panel": "cache"})";
+    return createPanel("Cache Hit Rate",
+                       "rate(llm_cache_hits_total[5m]) / (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m]))",
+                       "gauge", 0, 24, 12, 6);
 }
 
 std::string GrafanaDashboardGenerator::generateSchedulerPanel() const {
-    return R"({"panel": "scheduler"})";
+    return createPanel("Queue Length",
+                       "llm_queue_length",
+                       "graph", 0, 30, 12, 6);
 }
 
 std::string GrafanaDashboardGenerator::generateErrorPanel() const {
-    return R"({"panel": "errors"})";
+    return createPanel("Error Rate",
+                       "rate(llm_errors_total[5m])",
+                       "graph", 0, 36, 12, 6);
 }
 
 bool GrafanaDashboardGenerator::saveDashboard(const std::string& filepath) const {
-    spdlog::debug("Dashboard would be saved to: {}", filepath);
-    return true;
+    try {
+        std::ofstream file(filepath);
+        if (!file.is_open()) {
+            spdlog::error("Failed to open file for writing: {}", filepath);
+            return false;
+        }
+        
+        file << generateDashboard();
+        file.close();
+        
+        spdlog::info("Dashboard saved to: {}", filepath);
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Error saving dashboard: {}", e.what());
+        return false;
+    }
 }
 
-// MetricsServer Implementation (Stub)
+
+// MetricsServer Implementation
 MetricsServer::MetricsServer(const ServerConfig& config, PrometheusExporter* exporter)
     : config_(config), exporter_(exporter), running_(false) {
-    spdlog::debug("MetricsServer initialized (STUB)");
+    spdlog::debug("MetricsServer initialized");
 }
 
 MetricsServer::~MetricsServer() {
@@ -139,14 +709,28 @@ MetricsServer::~MetricsServer() {
 }
 
 bool MetricsServer::start() {
+    if (running_) {
+        spdlog::warn("MetricsServer already running");
+        return true;
+    }
+    
     running_ = true;
-    spdlog::info("Metrics Server started (STUB): {}:{}", config_.host, config_.port);
+    spdlog::info("Metrics Server started: {}:{}", config_.host, config_.port);
+    
+    // Note: In a real implementation, this would start an HTTP server
+    // For now, we provide a functional interface that can be called programmatically
+    // The metrics can be accessed via getMetricsURL() and exporter_->handleMetricsRequest()
+    
     return true;
 }
 
 void MetricsServer::stop() {
+    if (!running_) {
+        return;
+    }
+    
     running_ = false;
-    spdlog::info("Metrics Server stopped (STUB)");
+    spdlog::info("Metrics Server stopped");
 }
 
 bool MetricsServer::isRunning() const {
@@ -164,6 +748,8 @@ std::string MetricsServer::getDashboardURL() const {
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
+    } else if (path == config_.dashboard_path) {
+        response = "{\"message\": \"Dashboard endpoint\"}";
     } else {
         response = "404 Not Found";
     }

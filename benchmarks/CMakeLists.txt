@@ -79,6 +79,51 @@ else()
 endif()
 
 # ============================================================================
+# Snapshot Manager Benchmarks (Named Snapshots Feature)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_snapshot_manager.cpp")
+    message(STATUS "Adding Snapshot Manager benchmarks")
+    
+    add_executable(bench_snapshot_manager
+        bench_snapshot_manager.cpp
+    )
+    
+    target_link_libraries(bench_snapshot_manager PRIVATE
+        ${BENCHMARK_LIBS}
+        # Add ThemisDB core libraries when available
+        # themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_snapshot_manager PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_snapshot_manager PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_snapshot_manager
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+else()
+    message(STATUS "Snapshot Manager benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_snapshot_manager.cpp")
+endif()
+
+# ============================================================================
 # Existing Benchmarks
 # ============================================================================
 

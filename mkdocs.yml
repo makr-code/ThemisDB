@@ -439,6 +439,8 @@ nav:
   - license: de/legal/license.md
 - Llm:
   - Übersicht: de/llm/README.md
+  - LoRA Framework Dokumentation:
+    - Dokumentations-Hub: de/llm/LORA_DOKUMENTATIONS_HUB.md
   - AI ECOSYSTEM SHARDING ARCHITECTURE: de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md
   - AQL LANGUAGE EXTENSION: de/llm/AQL_LANGUAGE_EXTENSION.md
   - ASYNC INFERENCE ARCHITECTURE: de/llm/ASYNC_INFERENCE_ARCHITECTURE.md

@@ -517,3 +517,408 @@ TEST_F(ProcessGraphTest, ProcessEdgeTypesRegistered) {
     EXPECT_TRUE(registry.isRegistered("ASSIGNED_TO"));
     EXPECT_TRUE(registry.isRegistered("CALLS_PROCESS"));
 }
+
+// ============================================================================
+// Process Mining Features Tests (8 TODO markers resolved)
+// ============================================================================
+
+TEST_F(ProcessGraphTest, ConditionEvaluation) {
+    pgm_->registerProcess("cond-test", "Condition Test Process");
+    
+    // Create a process with conditional gateway
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo gateway{.node_id = "gateway", .name = "Decision", .node_type = themis::BPMNNodeType::EXCLUSIVE_GATEWAY};
+    themis::ProcessNodeInfo taskHigh{.node_id = "task_high", .name = "High Value", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo taskLow{.node_id = "task_low", .name = "Low Value", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End", .node_type = themis::BPMNNodeType::END_EVENT};
+    
+    pgm_->addProcessNode("cond-test", start);
+    pgm_->addProcessNode("cond-test", gateway);
+    pgm_->addProcessNode("cond-test", taskHigh);
+    pgm_->addProcessNode("cond-test", taskLow);
+    pgm_->addProcessNode("cond-test", end);
+    
+    // Add edges
+    themis::ProcessEdgeInfo flow1{.edge_id = "f1", .from_node = "start", .to_node = "gateway"};
+    themis::ProcessEdgeInfo flowHigh{
+        .edge_id = "f_high",
+        .edge_type = themis::ProcessEdgeType::CONDITIONAL_FLOW,
+        .from_node = "gateway",
+        .to_node = "task_high",
+        .condition_expression = "amount > 1000",
+        .priority = 1
+    };
+    themis::ProcessEdgeInfo flowLow{
+        .edge_id = "f_low",
+        .edge_type = themis::ProcessEdgeType::DEFAULT_FLOW,
+        .from_node = "gateway",
+        .to_node = "task_low",
+        .is_default = true,
+        .priority = 0
+    };
+    themis::ProcessEdgeInfo flowEnd1{.edge_id = "f_end1", .from_node = "task_high", .to_node = "end"};
+    themis::ProcessEdgeInfo flowEnd2{.edge_id = "f_end2", .from_node = "task_low", .to_node = "end"};
+    
+    pgm_->addProcessEdge("cond-test", flow1);
+    pgm_->addProcessEdge("cond-test", flowHigh);
+    pgm_->addProcessEdge("cond-test", flowLow);
+    pgm_->addProcessEdge("cond-test", flowEnd1);
+    pgm_->addProcessEdge("cond-test", flowEnd2);
+    
+    // Test with high amount (should go to task_high)
+    nlohmann::json vars1 = {{"amount", 2000}};
+    auto [st1, instanceId1] = pgm_->startProcess("cond-test", vars1);
+    ASSERT_TRUE(st1.ok);
+    
+    auto [st2, instance1] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(st2.ok);
+    ASSERT_FALSE(instance1.tokens.empty());
+    
+    // Advance to gateway
+    auto st3 = pgm_->advanceToken(instanceId1, instance1.tokens[0].token_id);
+    ASSERT_TRUE(st3.ok);
+    
+    // Advance through gateway (should choose high value path)
+    auto [st4, instance2] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(st4.ok);
+    auto st5 = pgm_->advanceToken(instanceId1, instance2.tokens[0].token_id);
+    ASSERT_TRUE(st5.ok);
+    
+    auto [st6, instance3] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(st6.ok);
+    EXPECT_EQ(instance3.tokens[0].current_node, "task_high");
+    
+    // Test with low amount (should go to task_low)
+    nlohmann::json vars2 = {{"amount", 500}};
+    auto [st7, instanceId2] = pgm_->startProcess("cond-test", vars2);
+    ASSERT_TRUE(st7.ok);
+    
+    auto [st8, instance4] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(st8.ok);
+    
+    // Advance to gateway and through it
+    pgm_->advanceToken(instanceId2, instance4.tokens[0].token_id);
+    auto [st9, instance5] = pgm_->getProcessInstance(instanceId2);
+    pgm_->advanceToken(instanceId2, instance5.tokens[0].token_id);
+    
+    auto [st10, instance6] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(st10.ok);
+    EXPECT_EQ(instance6.tokens[0].current_node, "task_low");
+}
+
+TEST_F(ProcessGraphTest, EventHandling) {
+    pgm_->registerProcess("event-test", "Event Test Process");
+    
+    // Create process with intermediate event
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo event{
+        .node_id = "event1",
+        .name = "Wait for Message",
+        .description = "",
+        .node_type = themis::BPMNNodeType::INTERMEDIATE_EVENT,
+        .subtype = "MESSAGE"
+    };
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End", .node_type = themis::BPMNNodeType::END_EVENT};
+    
+    pgm_->addProcessNode("event-test", start);
+    pgm_->addProcessNode("event-test", task1);
+    pgm_->addProcessNode("event-test", event);
+    pgm_->addProcessNode("event-test", task2);
+    pgm_->addProcessNode("event-test", end);
+    
+    // Add event_name to event node
+    std::string eventKey = "process:node:event-test:event1";
+    auto eventBlob = db_->get(eventKey);
+    if (eventBlob) {
+        themis::BaseEntity eventEntity = themis::BaseEntity::deserialize("event1", *eventBlob);
+        eventEntity.setField("event_name", "approval_received");
+        db_->put(eventKey, eventEntity.serialize());
+    }
+    
+    // Add edges
+    themis::ProcessEdgeInfo flow1{.edge_id = "f1", .from_node = "start", .to_node = "task1"};
+    themis::ProcessEdgeInfo flow2{.edge_id = "f2", .from_node = "task1", .to_node = "event1"};
+    themis::ProcessEdgeInfo flow3{.edge_id = "f3", .from_node = "event1", .to_node = "task2"};
+    themis::ProcessEdgeInfo flow4{.edge_id = "f4", .from_node = "task2", .to_node = "end"};
+    
+    pgm_->addProcessEdge("event-test", flow1);
+    pgm_->addProcessEdge("event-test", flow2);
+    pgm_->addProcessEdge("event-test", flow3);
+    pgm_->addProcessEdge("event-test", flow4);
+    
+    // Start process
+    auto [st1, instanceId] = pgm_->startProcess("event-test");
+    ASSERT_TRUE(st1.ok);
+    
+    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(st2.ok);
+    
+    // Advance to task1
+    pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
+    
+    // Advance to event (token should be at event now)
+    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    pgm_->advanceToken(instanceId, instance2.tokens[0].token_id);
+    
+    auto [st4, instance3] = pgm_->getProcessInstance(instanceId);
+    EXPECT_EQ(instance3.tokens[0].current_node, "event1");
+    
+    // Set token to WAITING state to simulate waiting for event
+    std::string tokenKey = "process:token:" + instanceId + ":" + instance3.tokens[0].token_id;
+    auto tokenBlob = db_->get(tokenKey);
+    if (tokenBlob) {
+        themis::BaseEntity tokenEntity = themis::BaseEntity::deserialize(instance3.tokens[0].token_id, *tokenBlob);
+        tokenEntity.setField("state", "WAITING");
+        db_->put(tokenKey, tokenEntity.serialize());
+    }
+    
+    // Signal the event
+    nlohmann::json payload = {{"approved", true}, {"approver", "manager"}};
+    auto st5 = pgm_->signalEvent(instanceId, "approval_received", payload);
+    ASSERT_TRUE(st5.ok) << st5.message;
+    
+    // Verify token is now READY
+    auto [st6, instance4] = pgm_->getProcessInstance(instanceId);
+    EXPECT_EQ(instance4.tokens[0].state, themis::ProcessToken::State::READY);
+    EXPECT_TRUE(instance4.tokens[0].variables.contains("approved"));
+    EXPECT_EQ(instance4.tokens[0].variables["approved"], true);
+}
+
+TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
+    pgm_->registerProcess("assign-test", "Assignment Test Process");
+    
+    // Create process with tasks
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End", .node_type = themis::BPMNNodeType::END_EVENT};
+    
+    pgm_->addProcessNode("assign-test", start);
+    pgm_->addProcessNode("assign-test", task1);
+    pgm_->addProcessNode("assign-test", task2);
+    pgm_->addProcessNode("assign-test", end);
+    
+    // Add edges
+    themis::ProcessEdgeInfo flow1{.edge_id = "f1", .from_node = "start", .to_node = "task1"};
+    themis::ProcessEdgeInfo flow2{.edge_id = "f2", .from_node = "task1", .to_node = "task2"};
+    themis::ProcessEdgeInfo flow3{.edge_id = "f3", .from_node = "task2", .to_node = "end"};
+    
+    pgm_->addProcessEdge("assign-test", flow1);
+    pgm_->addProcessEdge("assign-test", flow2);
+    pgm_->addProcessEdge("assign-test", flow3);
+    
+    // Start process
+    auto [st1, instanceId] = pgm_->startProcess("assign-test");
+    ASSERT_TRUE(st1.ok);
+    
+    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(st2.ok);
+    
+    // Advance to task1
+    pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
+    
+    // Add assignment metadata to token at task1
+    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    std::string tokenKey = "process:token:" + instanceId + ":" + instance2.tokens[0].token_id;
+    auto tokenBlob = db_->get(tokenKey);
+    if (tokenBlob) {
+        themis::BaseEntity tokenEntity = themis::BaseEntity::deserialize(instance2.tokens[0].token_id, *tokenBlob);
+        tokenEntity.setField("assignee", "john");
+        tokenEntity.setField("role", "manager");
+        db_->put(tokenKey, tokenEntity.serialize());
+    }
+    
+    // Query tasks by assignee
+    auto [st4, tasks] = pgm_->findActiveTasks("john");
+    ASSERT_TRUE(st4.ok) << st4.message;
+    EXPECT_FALSE(tasks.empty());
+    
+    if (!tasks.empty()) {
+        EXPECT_EQ(tasks[0].current_node, "task1");
+    }
+    
+    // Query by role
+    auto [st5, tasks2] = pgm_->findActiveTasks("manager");
+    ASSERT_TRUE(st5.ok);
+    EXPECT_FALSE(tasks2.empty());
+}
+
+TEST_F(ProcessGraphTest, NodeHistory) {
+    pgm_->registerProcess("history-test", "History Test Process");
+    
+    // Create simple process
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task{.node_id = "task", .name = "Task", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End", .node_type = themis::BPMNNodeType::END_EVENT};
+    
+    pgm_->addProcessNode("history-test", start);
+    pgm_->addProcessNode("history-test", task);
+    pgm_->addProcessNode("history-test", end);
+    
+    themis::ProcessEdgeInfo flow1{.edge_id = "f1", .from_node = "start", .to_node = "task"};
+    themis::ProcessEdgeInfo flow2{.edge_id = "f2", .from_node = "task", .to_node = "end"};
+    
+    pgm_->addProcessEdge("history-test", flow1);
+    pgm_->addProcessEdge("history-test", flow2);
+    
+    // Start multiple instances
+    auto [st1, instanceId1] = pgm_->startProcess("history-test");
+    auto [st2, instanceId2] = pgm_->startProcess("history-test");
+    
+    ASSERT_TRUE(st1.ok);
+    ASSERT_TRUE(st2.ok);
+    
+    // Advance both to task
+    auto [st3, instance1] = pgm_->getProcessInstance(instanceId1);
+    pgm_->advanceToken(instanceId1, instance1.tokens[0].token_id);
+    
+    auto [st4, instance2] = pgm_->getProcessInstance(instanceId2);
+    pgm_->advanceToken(instanceId2, instance2.tokens[0].token_id);
+    
+    // Query history for task node
+    auto [st5, history] = pgm_->getNodeHistory("history-test", "task", std::nullopt);
+    ASSERT_TRUE(st5.ok) << st5.message;
+    EXPECT_GE(history.size(), 2u); // At least 2 tokens should have visited this node
+}
+
+TEST_F(ProcessGraphTest, ProcessMetrics) {
+    pgm_->registerProcess("metrics-test", "Metrics Test Process");
+    
+    // Create process
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task{.node_id = "task", .name = "Task", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End", .node_type = themis::BPMNNodeType::END_EVENT};
+    
+    pgm_->addProcessNode("metrics-test", start);
+    pgm_->addProcessNode("metrics-test", task);
+    pgm_->addProcessNode("metrics-test", end);
+    
+    themis::ProcessEdgeInfo flow1{.edge_id = "f1", .from_node = "start", .to_node = "task"};
+    themis::ProcessEdgeInfo flow2{.edge_id = "f2", .from_node = "task", .to_node = "end"};
+    
+    pgm_->addProcessEdge("metrics-test", flow1);
+    pgm_->addProcessEdge("metrics-test", flow2);
+    
+    // Start an instance and complete it
+    auto [st1, instanceId] = pgm_->startProcess("metrics-test");
+    ASSERT_TRUE(st1.ok);
+    
+    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
+    
+    // Advance and complete task
+    pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
+    
+    // Add completed_at timestamp to simulate completion
+    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    std::string tokenKey = "process:token:" + instanceId + ":" + instance2.tokens[0].token_id;
+    auto tokenBlob = db_->get(tokenKey);
+    if (tokenBlob) {
+        themis::BaseEntity tokenEntity = themis::BaseEntity::deserialize(instance2.tokens[0].token_id, *tokenBlob);
+        int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        tokenEntity.setField("started_at", now - 1000);
+        tokenEntity.setField("completed_at", now);
+        tokenEntity.setField("state", "COMPLETED");
+        db_->put(tokenKey, tokenEntity.serialize());
+    }
+    
+    // Get metrics
+    auto [st4, metrics] = pgm_->getProcessMetrics("metrics-test");
+    ASSERT_TRUE(st4.ok) << st4.message;
+    EXPECT_FALSE(metrics.empty());
+    
+    // Verify metrics structure
+    for (const auto& m : metrics) {
+        EXPECT_FALSE(m.node_id.empty());
+        EXPECT_GE(m.execution_count, 0u);
+    }
+}
+
+TEST_F(ProcessGraphTest, CriticalPath) {
+    pgm_->registerProcess("critical-test", "Critical Path Test Process");
+    
+    // Create process
+    themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo end{.node_id = "end", .name = "End", .node_type = themis::BPMNNodeType::END_EVENT};
+    
+    pgm_->addProcessNode("critical-test", start);
+    pgm_->addProcessNode("critical-test", task1);
+    pgm_->addProcessNode("critical-test", task2);
+    pgm_->addProcessNode("critical-test", end);
+    
+    themis::ProcessEdgeInfo flow1{.edge_id = "f1", .from_node = "start", .to_node = "task1"};
+    themis::ProcessEdgeInfo flow2{.edge_id = "f2", .from_node = "task1", .to_node = "task2"};
+    themis::ProcessEdgeInfo flow3{.edge_id = "f3", .from_node = "task2", .to_node = "end"};
+    
+    pgm_->addProcessEdge("critical-test", flow1);
+    pgm_->addProcessEdge("critical-test", flow2);
+    pgm_->addProcessEdge("critical-test", flow3);
+    
+    // Find critical path (may be empty if no executions yet)
+    auto [st, path] = pgm_->findCriticalPath("critical-test");
+    ASSERT_TRUE(st.ok) << st.message;
+    // Path can be empty if no metrics available, which is ok
+}
+
+TEST_F(ProcessGraphTest, HyperedgeStatus) {
+    pgm_->registerProcess("hyperedge-test", "Hyperedge Test Process");
+    
+    // Create nodes
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo join{.node_id = "join", .name = "Join", .node_type = themis::BPMNNodeType::PARALLEL_GATEWAY};
+    
+    pgm_->addProcessNode("hyperedge-test", task1);
+    pgm_->addProcessNode("hyperedge-test", task2);
+    pgm_->addProcessNode("hyperedge-test", join);
+    
+    // Add hyperedge
+    themis::Hyperedge hyperedge{
+        .hyperedge_id = "he1",
+        .name = "AND Join",
+        .source_nodes = {"task1", "task2"},
+        .target_nodes = {"join"},
+        .sync_type = themis::Hyperedge::SyncType::AND_JOIN
+    };
+    
+    pgm_->addHyperedge("hyperedge-test", hyperedge);
+    
+    // Get hyperedge status
+    auto [st, retrievedHe] = pgm_->getHyperedgeStatus("he1");
+    ASSERT_TRUE(st.ok) << st.message;
+    EXPECT_EQ(retrievedHe.hyperedge_id, "he1");
+    EXPECT_EQ(retrievedHe.source_nodes.size(), 2u);
+}
+
+TEST_F(ProcessGraphTest, HyperedgeReadiness) {
+    pgm_->registerProcess("ready-test", "Readiness Test Process");
+    
+    // Create nodes
+    themis::ProcessNodeInfo task1{.node_id = "task1", .name = "Task 1", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo task2{.node_id = "task2", .name = "Task 2", .node_type = themis::BPMNNodeType::TASK};
+    themis::ProcessNodeInfo join{.node_id = "join", .name = "Join", .node_type = themis::BPMNNodeType::PARALLEL_GATEWAY};
+    
+    pgm_->addProcessNode("ready-test", task1);
+    pgm_->addProcessNode("ready-test", task2);
+    pgm_->addProcessNode("ready-test", join);
+    
+    // Add hyperedge
+    themis::Hyperedge hyperedge{
+        .hyperedge_id = "he2",
+        .name = "AND Join",
+        .source_nodes = {"task1", "task2"},
+        .target_nodes = {"join"},
+        .sync_type = themis::Hyperedge::SyncType::AND_JOIN
+    };
+    
+    pgm_->addHyperedge("ready-test", hyperedge);
+    
+    // Check readiness (should not be ready as no sources activated)
+    auto [st, ready] = pgm_->isHyperedgeReady("he2");
+    ASSERT_TRUE(st.ok) << st.message;
+    EXPECT_FALSE(ready); // Not ready yet as no sources activated
+}

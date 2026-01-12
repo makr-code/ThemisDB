@@ -231,3 +231,175 @@ TEST_F(ErrorRegistryTest, ErrorCodeRanges) {
         EXPECT_LT(code, 2200);
     }
 }
+
+// ============================================================================
+// New Error Code Tests
+// ============================================================================
+
+TEST_F(ErrorRegistryTest, NewLLMErrorCodes) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Test ERR_LLM_INVALID_HANDLE
+    auto invalid_handle = registry.getError(ErrorCode::ERR_LLM_INVALID_HANDLE);
+    EXPECT_EQ(invalid_handle.code, ErrorCode::ERR_LLM_INVALID_HANDLE);
+    EXPECT_EQ(invalid_handle.category, "LLM");
+    EXPECT_EQ(invalid_handle.severity, "Error");
+    EXPECT_FALSE(invalid_handle.message_template.empty());
+    
+    // Test ERR_LLM_VISION_INFERENCE_FAILED
+    auto vision_failed = registry.getError(ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED);
+    EXPECT_EQ(vision_failed.code, ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED);
+    EXPECT_EQ(vision_failed.category, "LLM");
+    EXPECT_EQ(vision_failed.severity, "Error");
+    
+    // Test ERR_LLM_DRAFT_MODEL_LOAD_FAILED
+    auto draft_failed = registry.getError(ErrorCode::ERR_LLM_DRAFT_MODEL_LOAD_FAILED);
+    EXPECT_EQ(draft_failed.code, ErrorCode::ERR_LLM_DRAFT_MODEL_LOAD_FAILED);
+    EXPECT_EQ(draft_failed.category, "LLM");
+    EXPECT_EQ(draft_failed.severity, "Error");
+    
+    // Test ERR_LLM_RAM_OOM
+    auto ram_oom = registry.getError(ErrorCode::ERR_LLM_RAM_OOM);
+    EXPECT_EQ(ram_oom.code, ErrorCode::ERR_LLM_RAM_OOM);
+    EXPECT_EQ(ram_oom.category, "LLM");
+    EXPECT_EQ(ram_oom.severity, "Critical");
+    
+    // Test ERR_LLM_GPU_NOT_AVAILABLE
+    auto gpu_not_available = registry.getError(ErrorCode::ERR_LLM_GPU_NOT_AVAILABLE);
+    EXPECT_EQ(gpu_not_available.code, ErrorCode::ERR_LLM_GPU_NOT_AVAILABLE);
+    EXPECT_EQ(gpu_not_available.category, "LLM");
+    EXPECT_EQ(gpu_not_available.severity, "Error");
+    
+    // Test ERR_LLM_GPU_ALLOC_FAILED
+    auto gpu_alloc_failed = registry.getError(ErrorCode::ERR_LLM_GPU_ALLOC_FAILED);
+    EXPECT_EQ(gpu_alloc_failed.code, ErrorCode::ERR_LLM_GPU_ALLOC_FAILED);
+    EXPECT_EQ(gpu_alloc_failed.category, "LLM");
+    EXPECT_EQ(gpu_alloc_failed.severity, "Critical");
+    
+    // Test ERR_LLM_GPU_PEER_ACCESS_FAILED
+    auto peer_access_failed = registry.getError(ErrorCode::ERR_LLM_GPU_PEER_ACCESS_FAILED);
+    EXPECT_EQ(peer_access_failed.code, ErrorCode::ERR_LLM_GPU_PEER_ACCESS_FAILED);
+    EXPECT_EQ(peer_access_failed.category, "LLM");
+    EXPECT_EQ(peer_access_failed.severity, "Warning");
+}
+
+TEST_F(ErrorRegistryTest, NewLoRAErrorCodes) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Test ERR_LORA_MODEL_MISMATCH
+    auto model_mismatch = registry.getError(ErrorCode::ERR_LORA_MODEL_MISMATCH);
+    EXPECT_EQ(model_mismatch.code, ErrorCode::ERR_LORA_MODEL_MISMATCH);
+    EXPECT_EQ(model_mismatch.category, "LoRA");
+    EXPECT_EQ(model_mismatch.severity, "Error");
+    EXPECT_FALSE(model_mismatch.message_template.empty());
+    
+    // Test ERR_LORA_GPU_LOAD_FAILED
+    auto gpu_load_failed = registry.getError(ErrorCode::ERR_LORA_GPU_LOAD_FAILED);
+    EXPECT_EQ(gpu_load_failed.code, ErrorCode::ERR_LORA_GPU_LOAD_FAILED);
+    EXPECT_EQ(gpu_load_failed.category, "LoRA");
+    EXPECT_EQ(gpu_load_failed.severity, "Error");
+}
+
+TEST_F(ErrorRegistryTest, NewMCPErrorCodes) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Test ERR_MCP_STDIO_INIT_FAILED
+    auto stdio_init_failed = registry.getError(ErrorCode::ERR_MCP_STDIO_INIT_FAILED);
+    EXPECT_EQ(stdio_init_failed.code, ErrorCode::ERR_MCP_STDIO_INIT_FAILED);
+    EXPECT_EQ(stdio_init_failed.category, "MCP");
+    EXPECT_EQ(stdio_init_failed.severity, "Error");
+    EXPECT_FALSE(stdio_init_failed.message_template.empty());
+}
+
+TEST_F(ErrorRegistryTest, NewErrorCodesInJSON) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Test that new error codes are included in JSON output
+    auto json_data = registry.toJSON();
+    
+    EXPECT_TRUE(json_data.contains("errors"));
+    auto& errors = json_data["errors"];
+    
+    // Check for presence of new error codes
+    bool found_invalid_handle = false;
+    bool found_vision_failed = false;
+    bool found_lora_mismatch = false;
+    bool found_stdio_failed = false;
+    
+    for (const auto& error : errors) {
+        int code = error["code"].get<int>();
+        if (code == static_cast<int>(ErrorCode::ERR_LLM_INVALID_HANDLE)) found_invalid_handle = true;
+        if (code == static_cast<int>(ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED)) found_vision_failed = true;
+        if (code == static_cast<int>(ErrorCode::ERR_LORA_MODEL_MISMATCH)) found_lora_mismatch = true;
+        if (code == static_cast<int>(ErrorCode::ERR_MCP_STDIO_INIT_FAILED)) found_stdio_failed = true;
+    }
+    
+    EXPECT_TRUE(found_invalid_handle) << "ERR_LLM_INVALID_HANDLE not found in JSON";
+    EXPECT_TRUE(found_vision_failed) << "ERR_LLM_VISION_INFERENCE_FAILED not found in JSON";
+    EXPECT_TRUE(found_lora_mismatch) << "ERR_LORA_MODEL_MISMATCH not found in JSON";
+    EXPECT_TRUE(found_stdio_failed) << "ERR_MCP_STDIO_INIT_FAILED not found in JSON";
+}
+
+TEST_F(ErrorRegistryTest, SearchNewErrorCodes) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Test searching for vision-related errors
+    auto vision_errors = registry.searchErrors("vision");
+    EXPECT_GT(vision_errors.size(), 0);
+    
+    bool found_vision_error = false;
+    for (const auto& error : vision_errors) {
+        if (error.code == ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED) {
+            found_vision_error = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_vision_error) << "ERR_LLM_VISION_INFERENCE_FAILED not found via search";
+    
+    // Test searching for RAM OOM errors
+    auto ram_errors = registry.searchErrors("ram");
+    bool found_ram_oom = false;
+    for (const auto& error : ram_errors) {
+        if (error.code == ErrorCode::ERR_LLM_RAM_OOM) {
+            found_ram_oom = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_ram_oom) << "ERR_LLM_RAM_OOM not found via search";
+    
+    // Test searching for stdio errors
+    auto stdio_errors = registry.searchErrors("stdio");
+    bool found_stdio_error = false;
+    for (const auto& error : stdio_errors) {
+        if (error.code == ErrorCode::ERR_MCP_STDIO_INIT_FAILED) {
+            found_stdio_error = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_stdio_error) << "ERR_MCP_STDIO_INIT_FAILED not found via search";
+}
+
+TEST_F(ErrorRegistryTest, VerifyLLMCategoryCount) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Verify LLM category now has at least 12 errors (5 original + 7 new)
+    auto llm_errors = registry.getErrorsByCategory("LLM");
+    EXPECT_GE(llm_errors.size(), 12);
+}
+
+TEST_F(ErrorRegistryTest, VerifyLoRACategoryCount) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Verify LoRA category now has at least 7 errors (5 original + 2 new)
+    auto lora_errors = registry.getErrorsByCategory("LoRA");
+    EXPECT_GE(lora_errors.size(), 7);
+}
+
+TEST_F(ErrorRegistryTest, VerifyMCPCategoryCount) {
+    auto& registry = ErrorRegistry::getInstance();
+    
+    // Verify MCP category now has at least 5 errors (4 original + 1 new)
+    auto mcp_errors = registry.getErrorsByCategory("MCP");
+    EXPECT_GE(mcp_errors.size(), 5);
+}
+
