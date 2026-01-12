@@ -124,6 +124,42 @@ else()
 endif()
 
 # ============================================================================
+# Snapshot Manager Tests (Phase 1: Named Snapshots)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
+    message(STATUS "Adding SnapshotManager tests")
+    
+    add_executable(test_snapshot_manager
+        test_snapshot_manager.cpp
+    )
+    
+    target_link_libraries(test_snapshot_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_snapshot_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME SnapshotManagerTests COMMAND test_snapshot_manager)
+    
+    # Set test properties
+    set_tests_properties(SnapshotManagerTests PROPERTIES
+        LABELS "snapshot;transaction;mvcc"
+        TIMEOUT 300
+    )
+else()
+    message(STATUS "SnapshotManager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
+endif()
+
+# ============================================================================
 # Diff Engine Tests (Phase 2: Git-like features)
 # ============================================================================
 
