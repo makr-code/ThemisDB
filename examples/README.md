@@ -1,5 +1,10 @@
 # ThemisDB Examples
 
+> **📚 New to ThemisDB?** Check out our comprehensive guides:
+> - **[Examples Quickstart Guide](../docs/EXAMPLES_QUICKSTART.md)** - Get started in 10 minutes
+> - **[Examples Index](../docs/EXAMPLES_INDEX.md)** - Complete catalog of all examples
+> - **[Learning Paths](../docs/EXAMPLES_INDEX.md#-learning-paths)** - Guided learning for your role
+
 Diese Sammlung enthält umfassende Beispiele für ThemisDB mit Python und Tkinter-Visualisierungen, die die Fähigkeiten der Datenbank an realen Aufgabenstellungen demonstrieren.
 
 ## 📚 Übersicht

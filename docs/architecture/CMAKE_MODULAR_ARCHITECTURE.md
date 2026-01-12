@@ -485,6 +485,7 @@ Create distribution templates:
   - [BUILD_WINDOWS.md](../build-guide/BUILD_WINDOWS.md)
   - [BUILD_LINUX.md](../build-guide/BUILD_LINUX.md)
 - [Feature Flags Reference](FEATURE_FLAGS_REFERENCE.md)
+- [Source Directory Guide](SOURCE_DIRECTORY_GUIDE.md) - Comprehensive guide to all 35 src/ directories
 - [Documentation Gap Analysis](../DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md)
 
 **For accurate current implementation details, always verify against the actual source code.**
