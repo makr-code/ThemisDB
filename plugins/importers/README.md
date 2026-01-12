@@ -1,11 +1,17 @@
 # Importer Plugins
 
+## Status: ✅ Production-Ready
+
 Data import plugins for ThemisDB.
 
 ## Available Importers
 
-### PostgreSQL Importer
+### PostgreSQL Importer ✅
 **Path:** `postgres/`
+
+**Status:** Production-ready (Fully implemented)
+
+**Implementation:** `src/importers/postgres_importer.cpp` (414 lines)
 
 Import data from PostgreSQL databases into ThemisDB.
 
