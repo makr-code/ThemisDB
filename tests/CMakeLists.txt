@@ -30,8 +30,6 @@ include_directories(
 set(TEST_LIBS
     GTest::gtest
     GTest::gtest_main
-    GTest::gmock
-    GTest::gmock_main
 )
 
 # ============================================================================
@@ -124,21 +122,23 @@ else()
 endif()
 
 # ============================================================================
-# Snapshot Manager Tests (Phase 1: Named Snapshots)
+# PITR (Point-in-Time Recovery) Tests - Phase 3
 # ============================================================================
 
+# Test: Snapshot Manager
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
-    message(STATUS "Adding SnapshotManager tests")
+    message(STATUS "Adding Snapshot Manager tests")
     
     add_executable(test_snapshot_manager
         test_snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/cdc/changefeed.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
     )
     
     target_link_libraries(test_snapshot_manager PRIVATE
         ${TEST_LIBS}
-        themis_core
         spdlog::spdlog
-        fmt::fmt
         nlohmann_json::nlohmann_json
         RocksDB::rocksdb
     )
@@ -147,88 +147,84 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    # Add to CTest
     add_test(NAME SnapshotManagerTests COMMAND test_snapshot_manager)
     
-    # Set test properties
     set_tests_properties(SnapshotManagerTests PROPERTIES
-        LABELS "snapshot;transaction;mvcc"
-        TIMEOUT 300
+        LABELS "pitr;snapshot;mvcc"
+        TIMEOUT 60
     )
 else()
-    message(STATUS "SnapshotManager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
+    message(STATUS "Snapshot Manager tests not found")
 endif()
 
-# ============================================================================
-# Snapshot Manager Integration Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_integration.cpp")
-    message(STATUS "Adding SnapshotManager integration tests")
+# Test: PITR Manager
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager.cpp")
+    message(STATUS "Adding PITR Manager tests")
     
-    add_executable(test_snapshot_integration
-        test_snapshot_integration.cpp
+    add_executable(test_pitr_manager
+        test_pitr_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/pitr_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/cdc/changefeed.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
     )
     
-    target_link_libraries(test_snapshot_integration PRIVATE
+    target_link_libraries(test_pitr_manager PRIVATE
         ${TEST_LIBS}
-        themis_core
         spdlog::spdlog
-        fmt::fmt
         nlohmann_json::nlohmann_json
         RocksDB::rocksdb
     )
     
-    target_compile_definitions(test_snapshot_integration PRIVATE
+    target_compile_definitions(test_pitr_manager PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
-    # Add to CTest
-    add_test(NAME SnapshotIntegrationTests COMMAND test_snapshot_integration)
+    add_test(NAME PITRManagerTests COMMAND test_pitr_manager)
     
-    # Set test properties
-    set_tests_properties(SnapshotIntegrationTests PROPERTIES
-        LABELS "snapshot;transaction;mvcc;integration"
-        TIMEOUT 600
+    set_tests_properties(PITRManagerTests PROPERTIES
+        LABELS "pitr;recovery;mvcc"
+        TIMEOUT 120
     )
 else()
-    message(STATUS "SnapshotManager integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_integration.cpp")
+    message(STATUS "PITR Manager tests not found")
 endif()
 
 # ============================================================================
-# Diff Engine Tests (Phase 2: Git-like features)
+# Schema Manager Tests (Issue makr-code/ThemisDB#1)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
-    message(STATUS "Adding Diff Engine tests")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
+    message(STATUS "Adding Schema Manager tests")
     
-    add_executable(test_diff_engine
-        test_diff_engine.cpp
+    add_executable(test_schema_manager
+        test_schema_manager.cpp
     )
     
-    target_link_libraries(test_diff_engine PRIVATE
+    target_link_libraries(test_schema_manager PRIVATE
         ${TEST_LIBS}
         themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
         spdlog::spdlog
-        fmt::fmt
         nlohmann_json::nlohmann_json
         RocksDB::rocksdb
     )
     
-    target_compile_definitions(test_diff_engine PRIVATE
+    target_compile_definitions(test_schema_manager PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
     # Add to CTest
-    add_test(NAME DiffEngineTests COMMAND test_diff_engine)
+    add_test(NAME SchemaManagerTests COMMAND test_schema_manager)
     
     # Set test properties
-    set_tests_properties(DiffEngineTests PROPERTIES
-        LABELS "diff;analytics;mvcc"
+    set_tests_properties(SchemaManagerTests PROPERTIES
+        LABELS "schema;metadata;self-awareness"
         TIMEOUT 300
     )
 else()
-    message(STATUS "Diff Engine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
+    message(STATUS "Schema Manager tests not found")
 endif()
 
 # ============================================================================

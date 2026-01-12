@@ -55,6 +55,7 @@
 #include "llm/llm_interaction_store.h"
 #include "llm/prompt_manager.h"
 #include "cdc/changefeed.h"
+#include "transaction/snapshot_manager.h"
 #include <algorithm>
 
 // Sprint B features
@@ -70,6 +71,7 @@
 #include "server/keys_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
+#include "server/snapshot_api_handler.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
@@ -98,6 +100,8 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 #include "server/feedback_api_handler.h"
+#include "server/schema_api_handler.h"
+#include "metadata/schema_manager.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
@@ -305,6 +309,12 @@ HttpServer::HttpServer(
             cdc_cf_handle_
         );
         THEMIS_INFO("Changefeed initialized using default CF");
+        
+        // Initialize SnapshotManager (Named Snapshots feature)
+        snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
+        snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
+        THEMIS_INFO("SnapshotManager initialized");
+        
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
         {
@@ -661,6 +671,20 @@ HttpServer::HttpServer(
         THEMIS_INFO("Feedback API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
+    }
+
+    // Initialize SchemaManager and Schema API Handler
+    try {
+        if (storage_ && storage_->isOpen()) {
+            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_mgr_.get());
+            schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
+                storage_, secondary_index_mgr_, schema_manager_.get());
+            THEMIS_INFO("SchemaManager and Schema API Handler initialized");
+        } else {
+            THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
 
     // Initialize Policy Engine (Governance)
@@ -1087,6 +1111,53 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
 }
 
 namespace {
+    // Helper function to URL decode a string
+    std::string urlDecode(const std::string& str) {
+        std::string result;
+        result.reserve(str.size());
+        for (size_t i = 0; i < str.size(); ++i) {
+            if (str[i] == '%' && i + 2 < str.size()) {
+                int value;
+                std::istringstream is(str.substr(i + 1, 2));
+                if (is >> std::hex >> value) {
+                    result += static_cast<char>(value);
+                    i += 2;
+                } else {
+                    result += str[i];
+                }
+            } else if (str[i] == '+') {
+                result += ' ';
+            } else {
+                result += str[i];
+            }
+        }
+        return result;
+    }
+
+    // Helper function to parse query parameters from URL
+    nlohmann::json parseQueryParams(const std::string& target_str) {
+        nlohmann::json query_params = nlohmann::json::object();
+        auto query_pos = target_str.find('?');
+        if (query_pos == std::string::npos) {
+            return query_params;
+        }
+        
+        std::string query_string = target_str.substr(query_pos + 1);
+        size_t pos = 0;
+        while (pos < query_string.size()) {
+            auto eq_pos = query_string.find('=', pos);
+            if (eq_pos == std::string::npos) break;
+            auto amp_pos = query_string.find('&', eq_pos);
+            if (amp_pos == std::string::npos) amp_pos = query_string.size();
+            
+            std::string key = urlDecode(query_string.substr(pos, eq_pos - pos));
+            std::string value = urlDecode(query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1));
+            query_params[key] = value;
+            pos = amp_pos + 1;
+        }
+        return query_params;
+    }
+
     enum class Route {
         Health,
         Version,
@@ -1224,6 +1295,18 @@ namespace {
     SpatialIndexStatsGet,
     SpatialIndexMetricsGet,
        
+    // Named Snapshots
+    SnapshotsTagsPost,          // POST /api/v1/snapshots/tags
+    SnapshotsTagsGet,           // GET /api/v1/snapshots/tags
+    SnapshotsTagGet,            // GET /api/v1/snapshots/tags/:name
+    SnapshotsTagDelete,         // DELETE /api/v1/snapshots/tags/:name
+    SnapshotsStatsGet,          // GET /api/v1/snapshots/stats
+       
+    // Schema API
+    SchemaGetFull,            // GET /api/v1/schema
+    SchemaGetTables,          // GET /api/v1/schema/tables
+    SchemaGetTable,           // GET /api/v1/schema/tables/:name
+       
         NotFound
     };
 
@@ -1297,6 +1380,14 @@ namespace {
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
     if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
     if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
+    
+    // Snapshot API endpoints
+    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) return Route::SnapshotsTagsPost;
+    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::get) return Route::SnapshotsTagsGet;
+    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::get) return Route::SnapshotsTagGet;
+    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::delete_) return Route::SnapshotsTagDelete;
+    if (path_only == "/api/v1/snapshots/stats" && method == http::verb::get) return Route::SnapshotsStatsGet;
+    
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
     if (target == "/ts/query" && method == http::verb::post) return Route::TimeSeriesQuery;
@@ -1412,6 +1503,17 @@ namespace {
     // Encryption schema config
     if (target == "/config/encryption-schema" && method == http::verb::get) return Route::EncryptionSchemaGet;
     if (target == "/config/encryption-schema" && (method == http::verb::put || method == http::verb::post)) return Route::EncryptionSchemaPut;
+    
+    // Error API endpoints
+    if (path_only == "/api/v1/errors/categories" && method == http::verb::get) return Route::ErrorApiCategoriesGet;
+    if (path_only == "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiSearchGet;
+    if (path_only.rfind("/api/v1/errors/", 0) == 0 && path_only != "/api/v1/errors/categories" && path_only != "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiGetByCode;
+    if (path_only == "/api/v1/errors" && method == http::verb::get) return Route::ErrorApiListGet;
+    
+    // Schema API routes
+    if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
+    if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
+    if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
 
         return Route::NotFound;
     }
@@ -1649,6 +1751,49 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ChangefeedRetentionPost:
             response = handleChangefeedRetention(req);
             break;
+        
+        // Snapshot API
+        case Route::SnapshotsTagsPost:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleCreateTag(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsTagsGet:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleListTags(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsTagGet:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleGetTag(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsTagDelete:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleDeleteTag(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsStatsGet:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleGetStats(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        
         case Route::TimeSeriesPut:
             response = handleTimeSeriesPut(req);
             break;
@@ -1947,6 +2092,27 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::EncryptionSchemaPut:
             response = handleEncryptionSchemaPut(req);
+            break;
+        case Route::ErrorApiListGet:
+            response = handleErrorApiList(req);
+            break;
+        case Route::ErrorApiGetByCode:
+            response = handleErrorApiGetByCode(req);
+            break;
+        case Route::ErrorApiCategoriesGet:
+            response = handleErrorApiCategories(req);
+            break;
+        case Route::ErrorApiSearchGet:
+            response = handleErrorApiSearch(req);
+            break;
+        case Route::SchemaGetFull:
+            response = handleSchemaGetFull(req);
+            break;
+        case Route::SchemaGetTables:
+            response = handleSchemaGetTables(req);
+            break;
+        case Route::SchemaGetTable:
+            response = handleSchemaGetTable(req);
             break;
         case Route::PoliciesImportRangerPost:
             response = handlePoliciesImportRanger(req);
@@ -3459,6 +3625,28 @@ http::response<http::string_body> HttpServer::handleCapabilities(
         {"version", "1.0.0"},
         {"threads", config_.num_threads}
     };
+
+    // Schema awareness (if available)
+    if (schema_manager_) {
+        try {
+            auto schema_caps = schema_manager_->getCapabilitiesJSON();
+            if (schema_caps.contains("capabilities")) {
+                caps["schema_awareness"] = {
+                    {"enabled", true},
+                    {"capabilities", schema_caps["capabilities"]}
+                };
+            }
+        } catch (...) {
+            // If schema manager fails, continue without schema capabilities
+            caps["schema_awareness"] = {
+                {"enabled", false}
+            };
+        }
+    } else {
+        caps["schema_awareness"] = {
+            {"enabled", false}
+        };
+    }
 
     return makeResponse(http::status::ok, caps.dump(), req);
 }
@@ -12476,6 +12664,181 @@ http::response<http::string_body> HttpServer::handleQueryEnhanced(
         return makeErrorResponse(http::status::internal_server_error, 
             std::string("Error: ") + e.what(), req);
     }
+}
+
+// Error API handlers
+http::response<http::string_body> HttpServer::handleErrorApiList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        // Parse query parameters using helper
+        std::string target_str = std::string(req.target());
+        nlohmann::json query_params = parseQueryParams(target_str);
+        
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = target_str;
+        handler_req.query = query_params;
+        handler_req.params = nlohmann::json::object();
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleGetErrors(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
+    const http::request<http::string_body>& req
+) {
+    try {
+        std::string target_str = std::string(req.target());
+        std::string path_only = target_str;
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        
+        // Extract error code from path: /api/v1/errors/:code
+        std::string code_str;
+        if (path_only.rfind("/api/v1/errors/", 0) == 0) {
+            code_str = path_only.substr(std::string("/api/v1/errors/").size());
+        }
+        
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = target_str;
+        handler_req.query = nlohmann::json::object();
+        handler_req.params = nlohmann::json::object();
+        handler_req.params["code"] = code_str;
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleGetError(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleErrorApiCategories(
+    const http::request<http::string_body>& req
+) {
+    try {
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = std::string(req.target());
+        handler_req.query = nlohmann::json::object();
+        handler_req.params = nlohmann::json::object();
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleGetCategories(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleErrorApiSearch(
+    const http::request<http::string_body>& req
+) {
+    try {
+        // Parse query parameters using helper
+        std::string target_str = std::string(req.target());
+        nlohmann::json query_params = parseQueryParams(target_str);
+        
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = target_str;
+        handler_req.query = query_params;
+        handler_req.params = nlohmann::json::object();
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleSearchErrors(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// ============================================================================
+// Schema API Handlers
+// ============================================================================
+
+http::response<http::string_body> HttpServer::handleSchemaGetFull(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaGetTables(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetTables(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaGetTable(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetTable(req);
 }
 
 } // namespace server

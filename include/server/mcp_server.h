@@ -21,6 +21,9 @@ namespace asio = boost::asio;
 class McpTransport;
 class HttpServer;
 class RocksDBWrapper;
+class SecondaryIndexManager;
+class SchemaManager;
+class PromptManager;
 
 /**
  * @brief MCP (Model Context Protocol) Server Implementation
@@ -196,6 +199,13 @@ private:
 
     // Database reference
     std::shared_ptr<RocksDBWrapper> db_;
+    
+    // Schema management
+    std::shared_ptr<SecondaryIndexManager> index_mgr_;
+    std::unique_ptr<SchemaManager> schema_mgr_;
+    
+    // Prompt management for natural language queries
+    std::unique_ptr<PromptManager> prompt_mgr_;
 
     // Session state
     bool initialized_ = false;

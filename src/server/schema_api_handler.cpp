@@ -1,0 +1,255 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 ThemisDB Contributors
+
+#include "server/schema_api_handler.h"
+#include "metadata/schema_manager.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
+#include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace server {
+
+using json = nlohmann::json;
+
+SchemaApiHandler::SchemaApiHandler(
+    std::shared_ptr<RocksDBWrapper> storage,
+    std::shared_ptr<SecondaryIndexManager> secondary_index,
+    SchemaManager* schema_mgr
+)
+    : storage_(storage)
+    , secondary_index_(secondary_index)
+    , schema_mgr_(schema_mgr)
+{
+    spdlog::info("SchemaApiHandler initialized");
+}
+
+SchemaApiHandler::~SchemaApiHandler() {
+    spdlog::info("SchemaApiHandler destroyed");
+}
+
+http::response<http::string_body> SchemaApiHandler::handleGetSchema(
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+
+    try {
+        if (!schema_mgr_) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Schema manager not available";
+            res.body() = error_resp.dump();
+            res.result(http::status::service_unavailable);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Get full schema from SchemaManager
+        auto schema_json = schema_mgr_->toJSON();
+        res.body() = schema_json.dump(2);  // Pretty print with 2-space indent
+        res.prepare_payload();
+        
+        spdlog::debug("Schema API: Returned full schema");
+        return res;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Schema API error: {}", e.what());
+        
+        json error_resp;
+        error_resp["status"] = "error";
+        error_resp["message"] = std::string("Failed to retrieve schema: ") + e.what();
+        res.body() = error_resp.dump();
+        res.result(http::status::internal_server_error);
+        res.prepare_payload();
+        return res;
+    }
+}
+
+http::response<http::string_body> SchemaApiHandler::handleGetTables(
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+
+    try {
+        if (!schema_mgr_) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Schema manager not available";
+            res.body() = error_resp.dump();
+            res.result(http::status::service_unavailable);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Get all tables from SchemaManager
+        auto tables = schema_mgr_->getAllTables();
+        
+        json response;
+        response["status"] = "success";
+        response["tables"] = json::array();
+        
+        for (const auto& table : tables) {
+            json table_info;
+            table_info["name"] = table.name;
+            table_info["type"] = table.type;
+            table_info["estimated_row_count"] = table.estimated_row_count;
+            table_info["property_count"] = table.properties.size();
+            table_info["index_count"] = table.indexes.size();
+            response["tables"].push_back(table_info);
+        }
+        
+        res.body() = response.dump(2);
+        res.prepare_payload();
+        
+        spdlog::debug("Schema API: Returned {} tables", tables.size());
+        return res;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Schema API error (get tables): {}", e.what());
+        
+        json error_resp;
+        error_resp["status"] = "error";
+        error_resp["message"] = std::string("Failed to retrieve tables: ") + e.what();
+        res.body() = error_resp.dump();
+        res.result(http::status::internal_server_error);
+        res.prepare_payload();
+        return res;
+    }
+}
+
+http::response<http::string_body> SchemaApiHandler::handleGetTable(
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+
+    try {
+        if (!schema_mgr_) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Schema manager not available";
+            res.body() = error_resp.dump();
+            res.result(http::status::service_unavailable);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Extract table name from path: /api/v1/schema/tables/:name
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/v1/schema/tables/";
+        
+        if (target.find(prefix) != 0) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Invalid URL format";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+        
+        std::string table_name = target.substr(prefix.length());
+        
+        // Remove query string if present
+        size_t query_pos = table_name.find('?');
+        if (query_pos != std::string::npos) {
+            table_name = table_name.substr(0, query_pos);
+        }
+        
+        if (table_name.empty()) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Table name is required";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+        
+        // Get specific table schema
+        auto table_opt = schema_mgr_->getTable(table_name);
+        
+        if (!table_opt.has_value()) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Table not found: " + table_name;
+            res.body() = error_resp.dump();
+            res.result(http::status::not_found);
+            res.prepare_payload();
+            return res;
+        }
+        
+        json response;
+        response["status"] = "success";
+        response["table"] = table_opt->toJSON();
+        
+        res.body() = response.dump(2);
+        res.prepare_payload();
+        
+        spdlog::debug("Schema API: Returned schema for table '{}'", table_name);
+        return res;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Schema API error (get table): {}", e.what());
+        
+        json error_resp;
+        error_resp["status"] = "error";
+        error_resp["message"] = std::string("Failed to retrieve table schema: ") + e.what();
+        res.body() = error_resp.dump();
+        res.result(http::status::internal_server_error);
+        res.prepare_payload();
+        return res;
+    }
+}
+
+http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+
+    try {
+        if (!schema_mgr_) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Schema manager not available";
+            res.body() = error_resp.dump();
+            res.result(http::status::service_unavailable);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Get capabilities from SchemaManager
+        auto capabilities_json = schema_mgr_->getCapabilitiesJSON();
+        res.body() = capabilities_json.dump(2);
+        res.prepare_payload();
+        
+        spdlog::debug("Schema API: Returned capabilities");
+        return res;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Schema API error (capabilities): {}", e.what());
+        
+        json error_resp;
+        error_resp["status"] = "error";
+        error_resp["message"] = std::string("Failed to retrieve capabilities: ") + e.what();
+        res.body() = error_resp.dump();
+        res.result(http::status::internal_server_error);
+        res.prepare_payload();
+        return res;
+    }
+}
+
+} // namespace server
+} // namespace themis

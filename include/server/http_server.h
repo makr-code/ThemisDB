@@ -42,6 +42,8 @@
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
 #include "server/feedback_api_handler.h"
+#include "server/error_api_handler.h"
+#include "server/schema_api_handler.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -66,6 +68,8 @@ class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PromptManager;
+class SnapshotManager;
+class SnapshotApiHandler;
 
 namespace sharding {
 class WALApplier;
@@ -461,6 +465,17 @@ private:
     // Reports API endpoints (Skeleton)
     http::response<http::string_body> handleReportsCompliance(const http::request<http::string_body>& req);
 
+    // Error API endpoints
+    http::response<http::string_body> handleErrorApiList(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleErrorApiGetByCode(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleErrorApiCategories(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleErrorApiSearch(const http::request<http::string_body>& req);
+
+    // Schema API endpoints
+    http::response<http::string_body> handleSchemaGetFull(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaGetTables(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaGetTable(const http::request<http::string_body>& req);
+
     // Utility methods
     http::response<http::string_body> makeResponse(
         http::status status,
@@ -552,6 +567,10 @@ private:
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
     
+    // Snapshot Manager (Named Snapshots feature)
+    std::unique_ptr<SnapshotManager> snapshot_manager_;
+    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE
     std::unique_ptr<SseConnectionManager> sse_manager_;
@@ -613,6 +632,13 @@ private:
     
     // Feedback API Handler
     std::unique_ptr<themis::server::FeedbackAPIHandler> feedback_api_handler_;
+    
+    // Error API Handler
+    std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
+    
+    // Schema API Handler
+    std::unique_ptr<themis::server::SchemaApiHandler> schema_api_handler_;
+    std::unique_ptr<SchemaManager> schema_manager_;
     
     // Adaptive Index Manager (Sprint C)
     std::unique_ptr<AdaptiveIndexManager> adaptive_index_;

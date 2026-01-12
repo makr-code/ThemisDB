@@ -972,6 +972,9 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     
+    ../src/metadata/schema_manager.cpp
+    ../src/server/schema_api_handler.cpp
+    
     ../src/index/secondary_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
@@ -996,6 +999,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
+    ../src/transaction/snapshot_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1037,6 +1041,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
     ../src/server/feedback_api_handler.cpp
+    ../src/server/snapshot_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -2027,6 +2032,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_audit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_transaction_manager.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_transaction_isolation.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_snapshot_manager.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
