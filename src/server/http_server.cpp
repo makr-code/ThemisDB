@@ -55,6 +55,7 @@
 #include "llm/llm_interaction_store.h"
 #include "llm/prompt_manager.h"
 #include "cdc/changefeed.h"
+#include "transaction/snapshot_manager.h"
 #include <algorithm>
 
 // Sprint B features
@@ -70,6 +71,7 @@
 #include "server/keys_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
+#include "server/snapshot_api_handler.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
@@ -307,6 +309,12 @@ HttpServer::HttpServer(
             cdc_cf_handle_
         );
         THEMIS_INFO("Changefeed initialized using default CF");
+        
+        // Initialize SnapshotManager (Named Snapshots feature)
+        snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
+        snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
+        THEMIS_INFO("SnapshotManager initialized");
+        
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
         {
@@ -1287,11 +1295,12 @@ namespace {
     SpatialIndexStatsGet,
     SpatialIndexMetricsGet,
        
-    // Error API
-    ErrorApiListGet,          // GET /api/v1/errors
-    ErrorApiGetByCode,        // GET /api/v1/errors/:code
-    ErrorApiCategoriesGet,    // GET /api/v1/errors/categories
-    ErrorApiSearchGet,        // GET /api/v1/errors/search
+    // Named Snapshots
+    SnapshotsTagsPost,          // POST /api/v1/snapshots/tags
+    SnapshotsTagsGet,           // GET /api/v1/snapshots/tags
+    SnapshotsTagGet,            // GET /api/v1/snapshots/tags/:name
+    SnapshotsTagDelete,         // DELETE /api/v1/snapshots/tags/:name
+    SnapshotsStatsGet,          // GET /api/v1/snapshots/stats
        
     // Schema API
     SchemaGetFull,            // GET /api/v1/schema
@@ -1371,6 +1380,14 @@ namespace {
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
     if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
     if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
+    
+    // Snapshot API endpoints
+    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) return Route::SnapshotsTagsPost;
+    if (path_only == "/api/v1/snapshots/tags" && method == http::verb::get) return Route::SnapshotsTagsGet;
+    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::get) return Route::SnapshotsTagGet;
+    if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::delete_) return Route::SnapshotsTagDelete;
+    if (path_only == "/api/v1/snapshots/stats" && method == http::verb::get) return Route::SnapshotsStatsGet;
+    
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
     if (target == "/ts/query" && method == http::verb::post) return Route::TimeSeriesQuery;
@@ -1734,6 +1751,49 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ChangefeedRetentionPost:
             response = handleChangefeedRetention(req);
             break;
+        
+        // Snapshot API
+        case Route::SnapshotsTagsPost:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleCreateTag(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsTagsGet:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleListTags(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsTagGet:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleGetTag(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsTagDelete:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleDeleteTag(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::SnapshotsStatsGet:
+            if (snapshot_api_handler_) {
+                snapshot_api_handler_->handleGetStats(req, response);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        
         case Route::TimeSeriesPut:
             response = handleTimeSeriesPut(req);
             break;

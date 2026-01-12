@@ -68,7 +68,8 @@ class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PromptManager;
-class SchemaManager;
+class SnapshotManager;
+class SnapshotApiHandler;
 
 namespace sharding {
 class WALApplier;
@@ -565,6 +566,10 @@ private:
     // Changefeed (Sprint A CDC)
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
+    
+    // Snapshot Manager (Named Snapshots feature)
+    std::unique_ptr<SnapshotManager> snapshot_manager_;
+    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE

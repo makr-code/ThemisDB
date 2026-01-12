@@ -1,15 +1,13 @@
 #include "transaction/snapshot_manager.h"
+#include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
 #include "utils/logger.h"
-#include <rocksdb/db.h>
-#include <rocksdb/utilities/transaction_db.h>
 #include <regex>
 #include <algorithm>
-#include <chrono>
 
 namespace themis {
 
-// Serialization for Snapshot
+// Snapshot serialization
 nlohmann::json SnapshotManager::Snapshot::toJson() const {
     return {
         {"tag_name", tag_name},
@@ -21,216 +19,283 @@ nlohmann::json SnapshotManager::Snapshot::toJson() const {
 }
 
 SnapshotManager::Snapshot SnapshotManager::Snapshot::fromJson(const nlohmann::json& j) {
-    Snapshot s;
-    s.tag_name = j.at("tag_name").get<std::string>();
-    s.sequence_number = j.at("sequence_number").get<uint64_t>();
-    s.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
-    s.description = j.at("description").get<std::string>();
-    s.created_by = j.at("created_by").get<std::string>();
-    return s;
+    Snapshot snapshot;
+    snapshot.tag_name = j.at("tag_name").get<std::string>();
+    snapshot.sequence_number = j.at("sequence_number").get<uint64_t>();
+    snapshot.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
+    snapshot.description = j.value("description", "");
+    snapshot.created_by = j.value("created_by", "system");
+    return snapshot;
 }
 
-SnapshotManager::SnapshotManager(rocksdb::TransactionDB* db,
-                                rocksdb::ColumnFamilyHandle* cf,
-                                Changefeed* changefeed)
-    : db_(db), cf_(cf), changefeed_(changefeed) {
-    if (!db_) {
-        throw std::invalid_argument("SnapshotManager: db cannot be null");
-    }
-    if (!cf_) {
-        throw std::invalid_argument("SnapshotManager: cf cannot be null");
-    }
-    if (!changefeed_) {
-        throw std::invalid_argument("SnapshotManager: changefeed cannot be null");
-    }
+// Constructor
+SnapshotManager::SnapshotManager(RocksDBWrapper& db, Changefeed& changefeed)
+    : db_(db), changefeed_(changefeed) {
+    THEMIS_INFO("SnapshotManager initialized");
 }
 
-SnapshotManager::Status SnapshotManager::createTag(const std::string& tag_name,
-                                                   const std::string& description,
-                                                   const std::string& created_by) {
-    // Validate inputs
-    if (!isValidTagName(tag_name)) {
-        return Status::Error("Invalid tag name: must be 1-64 characters, lowercase alphanumeric, "
-                           "hyphens, underscores, and start with a letter");
+// Create a named snapshot
+SnapshotManager::Status SnapshotManager::createTag(
+    const std::string& tag_name,
+    const std::string& description,
+    const std::string& created_by
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Validate tag name
+    auto validation = validateTagName(tag_name);
+    if (!validation.ok) {
+        return validation;
     }
+
+    // Validate description length
+    if (description.length() > MAX_DESCRIPTION_LENGTH) {
+        return Status::Error("Description too long (max " + 
+                           std::to_string(MAX_DESCRIPTION_LENGTH) + " characters)");
+    }
+
+    // Check if tag already exists (without calling tagExists to avoid deadlock)
+    std::string key = makeKey(tag_name);
+    std::string existing_value;
+    if (db_.get(key, existing_value).ok()) {
+        return Status::Error("Tag '" + tag_name + "' already exists");
+    }
+
+    // Get current sequence from changefeed
+    uint64_t current_sequence = changefeed_.getLatestSequence();
     
-    if (!isValidDescription(description)) {
-        return Status::Error("Invalid description: must be 0-500 characters");
-    }
-
-    // Check if tag already exists
-    if (getTag(tag_name).has_value()) {
-        return Status::Error("Tag already exists: " + tag_name);
-    }
-
-    // Get current sequence number from changefeed
-    uint64_t sequence = changefeed_->getLatestSequence();
-    
-    // Get current timestamp
-    auto now = std::chrono::system_clock::now();
-    int64_t timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now.time_since_epoch()
-    ).count();
-
     // Create snapshot
-    Snapshot snapshot{
-        tag_name,
-        sequence,
-        timestamp_ms,
-        description,
-        created_by
-    };
+    Snapshot snapshot;
+    snapshot.tag_name = tag_name;
+    snapshot.sequence_number = current_sequence;
+    snapshot.timestamp_ms = getCurrentTimestampMs();
+    snapshot.description = description;
+    snapshot.created_by = created_by;
 
     // Serialize to JSON
-    std::string value = snapshot.toJson().dump();
-    
+    std::string json_value = snapshot.toJson().dump();
+
     // Store in RocksDB
-    std::string key = makeKey(tag_name);
-    rocksdb::WriteOptions write_opts;
-    rocksdb::Status s = db_->Put(write_opts, cf_, key, value);
+    auto status = db_.put(key, json_value);
     
-    if (!s.ok()) {
-        return Status::Error("Failed to create tag: " + s.ToString());
+    if (!status.ok()) {
+        THEMIS_ERROR("Failed to create snapshot tag '{}': {}", tag_name, status.ToString());
+        return Status::Error("Failed to store snapshot: " + status.ToString());
     }
 
-    THEMIS_INFO("Snapshot created: tag={}, sequence={}, user={}", 
-                tag_name, sequence, created_by);
-
+    THEMIS_INFO("Created snapshot tag '{}' at sequence {} by {}", 
+                tag_name, current_sequence, created_by);
+    
     return Status::OK();
 }
 
+// Get a specific snapshot
 std::optional<SnapshotManager::Snapshot> SnapshotManager::getTag(const std::string& tag_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
     std::string key = makeKey(tag_name);
     std::string value;
     
-    rocksdb::ReadOptions read_opts;
-    rocksdb::Status s = db_->Get(read_opts, cf_, key, &value);
-    
-    if (s.IsNotFound()) {
-        return std::nullopt;
-    }
-    
-    if (!s.ok()) {
-        THEMIS_ERROR("Failed to get tag {}: {}", tag_name, s.ToString());
+    auto status = db_.get(key, value);
+    if (!status.ok()) {
         return std::nullopt;
     }
 
     try {
-        nlohmann::json j = nlohmann::json::parse(value);
-        return Snapshot::fromJson(j);
+        auto json = nlohmann::json::parse(value);
+        return Snapshot::fromJson(json);
     } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to parse snapshot JSON for tag {}: {}", tag_name, e.what());
+        THEMIS_ERROR("Failed to parse snapshot JSON for tag '{}': {}", tag_name, e.what());
         return std::nullopt;
     }
 }
 
-std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags(bool sort_by_time) const {
+// List all snapshots
+std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
     std::vector<Snapshot> snapshots;
     
-    // Iterate over all keys with TAG_PREFIX
-    rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, cf_));
-    
-    std::string prefix = TAG_PREFIX;
-    for (it->Seek(prefix); it->Valid() && it->key().starts_with(prefix); it->Next()) {
-        try {
-            nlohmann::json j = nlohmann::json::parse(it->value().ToString());
-            snapshots.push_back(Snapshot::fromJson(j));
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to parse snapshot JSON: {}", e.what());
-            // Continue with next snapshot
-        }
+    // Scan all keys with prefix "tags:"
+    auto iter = db_.newIterator();
+    if (!iter) {
+        THEMIS_ERROR("Failed to create iterator for listing snapshots");
+        return snapshots;
     }
 
-    // Sort by time if requested
-    if (sort_by_time) {
-        std::sort(snapshots.begin(), snapshots.end(),
-            [](const Snapshot& a, const Snapshot& b) {
-                return a.timestamp_ms > b.timestamp_ms; // Newest first
-            });
-    } else {
-        std::sort(snapshots.begin(), snapshots.end(),
-            [](const Snapshot& a, const Snapshot& b) {
-                return a.tag_name < b.tag_name; // Alphabetical
-            });
+    std::string prefix = KEY_PREFIX;
+    iter->Seek(prefix);
+    
+    while (iter->Valid()) {
+        std::string key = iter->key().ToString();
+        
+        // Check if key starts with our prefix
+        if (key.substr(0, prefix.length()) != prefix) {
+            break;
+        }
+
+        try {
+            std::string value = iter->value().ToString();
+            auto json = nlohmann::json::parse(value);
+            snapshots.push_back(Snapshot::fromJson(json));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse snapshot JSON for key '{}': {}", key, e.what());
+        }
+
+        iter->Next();
     }
+
+    // Sort by timestamp (newest first)
+    std::sort(snapshots.begin(), snapshots.end(), 
+              [](const Snapshot& a, const Snapshot& b) {
+                  return a.timestamp_ms > b.timestamp_ms;
+              });
 
     return snapshots;
 }
 
+// Delete a snapshot
 SnapshotManager::Status SnapshotManager::deleteTag(const std::string& tag_name) {
-    // Check if tag exists
-    if (!getTag(tag_name).has_value()) {
-        return Status::Error("Tag not found: " + tag_name);
-    }
+    std::lock_guard<std::mutex> lock(mutex_);
 
-    // Delete from RocksDB
+    // Check if tag exists (without calling tagExists to avoid deadlock)
     std::string key = makeKey(tag_name);
-    rocksdb::WriteOptions write_opts;
-    rocksdb::Status s = db_->Delete(write_opts, cf_, key);
-    
-    if (!s.ok()) {
-        return Status::Error("Failed to delete tag: " + s.ToString());
+    std::string value;
+    if (!db_.get(key, value).ok()) {
+        return Status::Error("Tag '" + tag_name + "' does not exist");
     }
 
-    THEMIS_INFO("Snapshot deleted: tag={}", tag_name);
+    auto status = db_.erase(key);
+    
+    if (!status.ok()) {
+        THEMIS_ERROR("Failed to delete snapshot tag '{}': {}", tag_name, status.ToString());
+        return Status::Error("Failed to delete snapshot: " + status.ToString());
+    }
 
+    THEMIS_INFO("Deleted snapshot tag '{}'", tag_name);
     return Status::OK();
 }
 
-SnapshotManager::Stats SnapshotManager::getStats() const {
-    Stats stats{0, 0, INT64_MAX, 0};
-    
-    std::vector<Snapshot> snapshots = listTags(false);
-    stats.total_snapshots = snapshots.size();
-    
-    if (snapshots.empty()) {
-        stats.oldest_timestamp_ms = 0;
-        stats.newest_timestamp_ms = 0;
+// Check if tag exists
+bool SnapshotManager::tagExists(const std::string& tag_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::string key = makeKey(tag_name);
+    std::string value;
+    return db_.get(key, value).ok();
+}
+
+// Get statistics
+SnapshotManager::SnapshotStats SnapshotManager::getStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    SnapshotStats stats{};
+    stats.total_tags = 0;
+    stats.oldest_sequence = UINT64_MAX;
+    stats.newest_sequence = 0;
+    stats.oldest_timestamp_ms = INT64_MAX;
+    stats.newest_timestamp_ms = 0;
+
+    // Scan all keys directly instead of calling listTags() to avoid mutex deadlock
+    auto iter = db_.newIterator();
+    if (!iter) {
         return stats;
     }
 
-    // Find oldest and newest timestamps
-    for (const auto& snap : snapshots) {
-        if (snap.timestamp_ms < stats.oldest_timestamp_ms) {
-            stats.oldest_timestamp_ms = snap.timestamp_ms;
-        }
-        if (snap.timestamp_ms > stats.newest_timestamp_ms) {
-            stats.newest_timestamp_ms = snap.timestamp_ms;
-        }
+    std::string prefix = KEY_PREFIX;
+    iter->Seek(prefix);
+    
+    while (iter->Valid()) {
+        std::string key = iter->key().ToString();
         
-        // Approximate size: key + value JSON size
-        stats.total_size_bytes += makeKey(snap.tag_name).size() + snap.toJson().dump().size();
+        // Check if key starts with our prefix
+        if (key.substr(0, prefix.length()) != prefix) {
+            break;
+        }
+
+        try {
+            std::string value = iter->value().ToString();
+            auto json = nlohmann::json::parse(value);
+            auto snapshot = Snapshot::fromJson(json);
+            
+            stats.total_tags++;
+            
+            if (snapshot.sequence_number < stats.oldest_sequence) {
+                stats.oldest_sequence = snapshot.sequence_number;
+            }
+            if (snapshot.sequence_number > stats.newest_sequence) {
+                stats.newest_sequence = snapshot.sequence_number;
+            }
+            if (snapshot.timestamp_ms < stats.oldest_timestamp_ms) {
+                stats.oldest_timestamp_ms = snapshot.timestamp_ms;
+            }
+            if (snapshot.timestamp_ms > stats.newest_timestamp_ms) {
+                stats.newest_timestamp_ms = snapshot.timestamp_ms;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse snapshot JSON for key '{}': {}", key, e.what());
+        }
+
+        iter->Next();
+    }
+
+    if (stats.total_tags == 0) {
+        // No snapshots, reset to 0
+        stats.oldest_sequence = 0;
+        stats.newest_sequence = 0;
+        stats.oldest_timestamp_ms = 0;
+        stats.newest_timestamp_ms = 0;
     }
 
     return stats;
 }
 
-bool SnapshotManager::isValidTagName(const std::string& tag_name) {
+// Validate tag name
+SnapshotManager::Status SnapshotManager::validateTagName(const std::string& tag_name) {
     // Check length
-    if (tag_name.empty() || tag_name.size() > MAX_TAG_NAME_LENGTH) {
-        return false;
+    if (tag_name.empty()) {
+        return Status::Error("Tag name cannot be empty");
+    }
+    if (tag_name.length() > MAX_TAG_NAME_LENGTH) {
+        return Status::Error("Tag name too long (max " + 
+                           std::to_string(MAX_TAG_NAME_LENGTH) + " characters)");
     }
 
-    // Check format: lowercase alphanumeric, hyphens, underscores, start with letter
-    // Pattern: ^[a-z][a-z0-9_-]*$
-    std::regex pattern("^[a-z][a-z0-9_-]*$");
-    return std::regex_match(tag_name, pattern);
+    // Check format: alphanumeric, hyphens, underscores only
+    // Pattern: ^[a-zA-Z0-9_-]+$
+    static const std::regex valid_pattern("^[a-zA-Z0-9_-]+$");
+    if (!std::regex_match(tag_name, valid_pattern)) {
+        return Status::Error("Tag name contains invalid characters (use only alphanumeric, hyphens, underscores)");
+    }
+
+    return Status::OK();
 }
 
-bool SnapshotManager::isValidDescription(const std::string& description) {
-    return description.size() <= MAX_DESCRIPTION_LENGTH;
+// Get sequence for tag
+std::optional<uint64_t> SnapshotManager::getSequenceForTag(const std::string& tag_name) const {
+    auto snapshot = getTag(tag_name);
+    if (snapshot) {
+        return snapshot->sequence_number;
+    }
+    return std::nullopt;
 }
 
+// Helper methods
 std::string SnapshotManager::makeKey(const std::string& tag_name) const {
-    return std::string(TAG_PREFIX) + tag_name;
+    return std::string(KEY_PREFIX) + tag_name;
 }
 
 std::string SnapshotManager::extractTagName(const std::string& key) const {
-    if (key.starts_with(TAG_PREFIX)) {
-        return key.substr(std::strlen(TAG_PREFIX));
+    std::string prefix = KEY_PREFIX;
+    if (key.substr(0, prefix.length()) == prefix) {
+        return key.substr(prefix.length());
     }
-    return "";
+    return key;
+}
+
+int64_t SnapshotManager::getCurrentTimestampMs() {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
 } // namespace themis

@@ -1,332 +1,298 @@
 #include <gtest/gtest.h>
 #include "transaction/snapshot_manager.h"
-#include "cdc/changefeed.h"
 #include "storage/rocksdb_wrapper.h"
+#include "cdc/changefeed.h"
+#include "utils/logger.h"
 #include <filesystem>
-#include <rocksdb/db.h>
-#include <rocksdb/utilities/transaction_db.h>
+#include <thread>
+#include <atomic>
 
 using namespace themis;
 
 class SnapshotManagerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create temp directory for test database
-        test_dir_ = std::filesystem::temp_directory_path() / "snapshot_manager_test";
-        std::filesystem::remove_all(test_dir_);
-        std::filesystem::create_directories(test_dir_);
-
+        // Create temporary database
+        test_db_path_ = "./test_snapshot_db_" + std::to_string(::testing::UnitTest::GetInstance()->random_seed());
+        std::filesystem::create_directories(test_db_path_);
+        
         // Initialize RocksDB
         RocksDBWrapper::Config config;
-        config.path = test_dir_.string();
+        config.db_path = test_db_path_;
+        config.enable_wal = false;  // Faster for tests
         config.enable_statistics = false;
         
-        db_wrapper_ = std::make_unique<RocksDBWrapper>(config);
-        ASSERT_TRUE(db_wrapper_->open().ok);
-
-        // Create "tags" column family
-        auto* raw_db = db_wrapper_->getRawDB();
-        rocksdb::ColumnFamilyHandle* cf_handle = nullptr;
-        rocksdb::ColumnFamilyOptions cf_opts;
-        auto s = raw_db->CreateColumnFamily(cf_opts, "tags", &cf_handle);
-        ASSERT_TRUE(s.ok()) << s.ToString();
-        tags_cf_ = cf_handle;
-
+        db_ = std::make_unique<RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open().ok());
+        
         // Initialize Changefeed
-        changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
-
+        changefeed_ = std::make_unique<Changefeed>(db_->getTransactionDB(), nullptr);
+        
         // Initialize SnapshotManager
-        snapshot_mgr_ = std::make_unique<SnapshotManager>(raw_db, tags_cf_, changefeed_.get());
+        snapshot_mgr_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
     }
 
     void TearDown() override {
         snapshot_mgr_.reset();
         changefeed_.reset();
+        db_->close();
+        db_.reset();
         
-        if (tags_cf_) {
-            delete tags_cf_;
-            tags_cf_ = nullptr;
-        }
-        
-        db_wrapper_.reset();
-        std::filesystem::remove_all(test_dir_);
+        // Clean up test database
+        std::filesystem::remove_all(test_db_path_);
     }
 
-    std::filesystem::path test_dir_;
-    std::unique_ptr<RocksDBWrapper> db_wrapper_;
-    rocksdb::ColumnFamilyHandle* tags_cf_ = nullptr;
+    // Helper: Create some changefeed events to advance sequence
+    void createChangefeedEvents(size_t count) {
+        for (size_t i = 0; i < count; ++i) {
+            Changefeed::ChangeEvent event;
+            event.type = Changefeed::ChangeEventType::EVENT_PUT;
+            event.key = "test:key_" + std::to_string(i);
+            event.value = "value_" + std::to_string(i);
+            event.timestamp_ms = 0;
+            changefeed_->recordEvent(event);
+        }
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<Changefeed> changefeed_;
     std::unique_ptr<SnapshotManager> snapshot_mgr_;
 };
 
-// Test: Create a valid tag
-TEST_F(SnapshotManagerTest, CreateValidTag) {
-    auto status = snapshot_mgr_->createTag("test_snapshot", "Test snapshot description");
+// Test: Create and retrieve a snapshot tag
+TEST_F(SnapshotManagerTest, CreateAndRetrieveTag) {
+    // Create some events first
+    createChangefeedEvents(10);
+    
+    auto status = snapshot_mgr_->createTag("test_tag", "Test snapshot", "test_user");
     ASSERT_TRUE(status.ok) << status.message;
-}
-
-// Test: Create tag with invalid name (uppercase)
-TEST_F(SnapshotManagerTest, CreateTagInvalidName_Uppercase) {
-    auto status = snapshot_mgr_->createTag("TestSnapshot", "Description");
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("Invalid tag name"));
-}
-
-// Test: Create tag with invalid name (starts with digit)
-TEST_F(SnapshotManagerTest, CreateTagInvalidName_StartsWithDigit) {
-    auto status = snapshot_mgr_->createTag("1test", "Description");
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("Invalid tag name"));
-}
-
-// Test: Create tag with invalid name (special characters)
-TEST_F(SnapshotManagerTest, CreateTagInvalidName_SpecialChars) {
-    auto status = snapshot_mgr_->createTag("test@snapshot", "Description");
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("Invalid tag name"));
-}
-
-// Test: Create tag with empty name
-TEST_F(SnapshotManagerTest, CreateTagInvalidName_Empty) {
-    auto status = snapshot_mgr_->createTag("", "Description");
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("Invalid tag name"));
-}
-
-// Test: Create tag with too long name
-TEST_F(SnapshotManagerTest, CreateTagInvalidName_TooLong) {
-    std::string long_name(100, 'a'); // 100 characters
-    auto status = snapshot_mgr_->createTag(long_name, "Description");
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("Invalid tag name"));
-}
-
-// Test: Create tag with valid name containing hyphens and underscores
-TEST_F(SnapshotManagerTest, CreateTagValidName_WithHyphensUnderscores) {
-    auto status = snapshot_mgr_->createTag("test-snapshot_v1", "Description");
-    ASSERT_TRUE(status.ok) << status.message;
-}
-
-// Test: Create tag with too long description
-TEST_F(SnapshotManagerTest, CreateTagInvalidDescription_TooLong) {
-    std::string long_desc(600, 'x'); // 600 characters
-    auto status = snapshot_mgr_->createTag("test", long_desc);
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("Invalid description"));
-}
-
-// Test: Create duplicate tag
-TEST_F(SnapshotManagerTest, CreateDuplicateTag) {
-    auto status1 = snapshot_mgr_->createTag("duplicate", "First");
-    ASSERT_TRUE(status1.ok) << status1.message;
-
-    auto status2 = snapshot_mgr_->createTag("duplicate", "Second");
-    ASSERT_FALSE(status2.ok);
-    EXPECT_THAT(status2.message, ::testing::HasSubstr("already exists"));
-}
-
-// Test: Get existing tag
-TEST_F(SnapshotManagerTest, GetExistingTag) {
-    auto status = snapshot_mgr_->createTag("my_tag", "My description", "testuser");
-    ASSERT_TRUE(status.ok) << status.message;
-
-    auto snapshot = snapshot_mgr_->getTag("my_tag");
+    
+    auto snapshot = snapshot_mgr_->getTag("test_tag");
     ASSERT_TRUE(snapshot.has_value());
-    EXPECT_EQ(snapshot->tag_name, "my_tag");
-    EXPECT_EQ(snapshot->description, "My description");
-    EXPECT_EQ(snapshot->created_by, "testuser");
+    EXPECT_EQ(snapshot->tag_name, "test_tag");
+    EXPECT_EQ(snapshot->description, "Test snapshot");
+    EXPECT_EQ(snapshot->created_by, "test_user");
+    EXPECT_EQ(snapshot->sequence_number, 10);
     EXPECT_GT(snapshot->timestamp_ms, 0);
 }
 
-// Test: Get non-existent tag
-TEST_F(SnapshotManagerTest, GetNonExistentTag) {
-    auto snapshot = snapshot_mgr_->getTag("nonexistent");
-    ASSERT_FALSE(snapshot.has_value());
-}
-
-// Test: List empty snapshots
-TEST_F(SnapshotManagerTest, ListEmptySnapshots) {
-    auto snapshots = snapshot_mgr_->listTags();
-    EXPECT_EQ(snapshots.size(), 0);
-}
-
-// Test: List multiple snapshots sorted by time
-TEST_F(SnapshotManagerTest, ListSnapshotsSortedByTime) {
-    // Create snapshots - timestamps will be captured automatically
-    snapshot_mgr_->createTag("first", "First snapshot");
-    snapshot_mgr_->createTag("second", "Second snapshot");
-    snapshot_mgr_->createTag("third", "Third snapshot");
-
-    auto snapshots = snapshot_mgr_->listTags(true); // Sort by time
-    ASSERT_EQ(snapshots.size(), 3);
+// Test: Duplicate tag creation should fail
+TEST_F(SnapshotManagerTest, DuplicateTagFails) {
+    auto status1 = snapshot_mgr_->createTag("duplicate_tag", "First");
+    ASSERT_TRUE(status1.ok);
     
-    // Verify timestamps are in descending order (newest first)
-    EXPECT_GE(snapshots[0].timestamp_ms, snapshots[1].timestamp_ms);
-    EXPECT_GE(snapshots[1].timestamp_ms, snapshots[2].timestamp_ms);
+    auto status2 = snapshot_mgr_->createTag("duplicate_tag", "Second");
+    EXPECT_FALSE(status2.ok);
+    EXPECT_NE(status2.message.find("already exists"), std::string::npos);
 }
 
-// Test: List snapshots sorted by name
-TEST_F(SnapshotManagerTest, ListSnapshotsSortedByName) {
-    snapshot_mgr_->createTag("zebra", "Zebra");
-    snapshot_mgr_->createTag("alpha", "Alpha");
-    snapshot_mgr_->createTag("beta", "Beta");
-
-    auto snapshots = snapshot_mgr_->listTags(false); // Sort by name
-    ASSERT_EQ(snapshots.size(), 3);
+// Test: Invalid tag names should be rejected
+TEST_F(SnapshotManagerTest, InvalidTagNames) {
+    // Empty name
+    auto status1 = snapshot_mgr_->createTag("", "Test");
+    EXPECT_FALSE(status1.ok);
     
-    EXPECT_EQ(snapshots[0].tag_name, "alpha");
-    EXPECT_EQ(snapshots[1].tag_name, "beta");
-    EXPECT_EQ(snapshots[2].tag_name, "zebra");
+    // Name with spaces
+    auto status2 = snapshot_mgr_->createTag("invalid tag", "Test");
+    EXPECT_FALSE(status2.ok);
+    
+    // Name with special characters
+    auto status3 = snapshot_mgr_->createTag("invalid@tag", "Test");
+    EXPECT_FALSE(status3.ok);
+    
+    // Valid names should work
+    auto status4 = snapshot_mgr_->createTag("valid-tag_123", "Test");
+    EXPECT_TRUE(status4.ok);
 }
 
-// Test: Delete existing tag
-TEST_F(SnapshotManagerTest, DeleteExistingTag) {
+// Test: Tag name length validation
+TEST_F(SnapshotManagerTest, TagNameLengthValidation) {
+    // Too long (> 128 chars)
+    std::string long_name(200, 'a');
+    auto status = snapshot_mgr_->createTag(long_name, "Test");
+    EXPECT_FALSE(status.ok);
+    EXPECT_NE(status.message.find("too long"), std::string::npos);
+}
+
+// Test: Description length validation
+TEST_F(SnapshotManagerTest, DescriptionLengthValidation) {
+    // Too long (> 1024 chars)
+    std::string long_desc(2000, 'x');
+    auto status = snapshot_mgr_->createTag("test_tag", long_desc);
+    EXPECT_FALSE(status.ok);
+    EXPECT_NE(status.message.find("too long"), std::string::npos);
+}
+
+// Test: List all tags
+TEST_F(SnapshotManagerTest, ListTags) {
+    // Create multiple tags
+    snapshot_mgr_->createTag("tag1", "First tag");
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    snapshot_mgr_->createTag("tag2", "Second tag");
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    snapshot_mgr_->createTag("tag3", "Third tag");
+    
+    auto tags = snapshot_mgr_->listTags();
+    ASSERT_EQ(tags.size(), 3);
+    
+    // Should be sorted by timestamp (newest first)
+    EXPECT_EQ(tags[0].tag_name, "tag3");
+    EXPECT_EQ(tags[1].tag_name, "tag2");
+    EXPECT_EQ(tags[2].tag_name, "tag1");
+}
+
+// Test: List tags when empty
+TEST_F(SnapshotManagerTest, ListTagsEmpty) {
+    auto tags = snapshot_mgr_->listTags();
+    EXPECT_TRUE(tags.empty());
+}
+
+// Test: Delete a tag
+TEST_F(SnapshotManagerTest, DeleteTag) {
     snapshot_mgr_->createTag("to_delete", "Will be deleted");
+    ASSERT_TRUE(snapshot_mgr_->tagExists("to_delete"));
     
-    auto snapshot = snapshot_mgr_->getTag("to_delete");
-    ASSERT_TRUE(snapshot.has_value());
-
     auto status = snapshot_mgr_->deleteTag("to_delete");
     ASSERT_TRUE(status.ok) << status.message;
-
-    snapshot = snapshot_mgr_->getTag("to_delete");
-    EXPECT_FALSE(snapshot.has_value());
+    
+    EXPECT_FALSE(snapshot_mgr_->tagExists("to_delete"));
 }
 
-// Test: Delete non-existent tag
+// Test: Delete non-existent tag should fail
 TEST_F(SnapshotManagerTest, DeleteNonExistentTag) {
     auto status = snapshot_mgr_->deleteTag("nonexistent");
-    ASSERT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::HasSubstr("not found"));
+    EXPECT_FALSE(status.ok);
+    EXPECT_NE(status.message.find("does not exist"), std::string::npos);
 }
 
-// Test: Get statistics with no snapshots
-TEST_F(SnapshotManagerTest, GetStatsEmpty) {
-    auto stats = snapshot_mgr_->getStats();
-    EXPECT_EQ(stats.total_snapshots, 0);
-    EXPECT_EQ(stats.total_size_bytes, 0);
-    EXPECT_EQ(stats.oldest_timestamp_ms, 0);
-    EXPECT_EQ(stats.newest_timestamp_ms, 0);
-}
-
-// Test: Get statistics with multiple snapshots
-TEST_F(SnapshotManagerTest, GetStatsWithSnapshots) {
-    snapshot_mgr_->createTag("tag1", "Description 1");
-    snapshot_mgr_->createTag("tag2", "Description 2");
-    snapshot_mgr_->createTag("tag3", "Description 3");
-
-    auto stats = snapshot_mgr_->getStats();
-    EXPECT_EQ(stats.total_snapshots, 3);
-    EXPECT_GT(stats.total_size_bytes, 0);
-    EXPECT_GT(stats.oldest_timestamp_ms, 0);
-    EXPECT_GT(stats.newest_timestamp_ms, 0);
-    EXPECT_LE(stats.oldest_timestamp_ms, stats.newest_timestamp_ms);
-}
-
-// Test: Snapshot persistence across restarts
-TEST_F(SnapshotManagerTest, SnapshotPersistence) {
-    // Create a snapshot
-    snapshot_mgr_->createTag("persistent", "Persistent snapshot", "testuser");
+// Test: Tag existence check
+TEST_F(SnapshotManagerTest, TagExists) {
+    EXPECT_FALSE(snapshot_mgr_->tagExists("nonexistent"));
     
-    // Get and verify
-    auto snapshot1 = snapshot_mgr_->getTag("persistent");
-    ASSERT_TRUE(snapshot1.has_value());
-    uint64_t seq1 = snapshot1->sequence_number;
-    int64_t ts1 = snapshot1->timestamp_ms;
-
-    // Simulate restart by recreating SnapshotManager
-    snapshot_mgr_.reset();
-    snapshot_mgr_ = std::make_unique<SnapshotManager>(
-        db_wrapper_->getRawDB(), tags_cf_, changefeed_.get()
-    );
-
-    // Verify snapshot still exists with same data
-    auto snapshot2 = snapshot_mgr_->getTag("persistent");
-    ASSERT_TRUE(snapshot2.has_value());
-    EXPECT_EQ(snapshot2->tag_name, "persistent");
-    EXPECT_EQ(snapshot2->description, "Persistent snapshot");
-    EXPECT_EQ(snapshot2->created_by, "testuser");
-    EXPECT_EQ(snapshot2->sequence_number, seq1);
-    EXPECT_EQ(snapshot2->timestamp_ms, ts1);
+    snapshot_mgr_->createTag("exists", "Test");
+    EXPECT_TRUE(snapshot_mgr_->tagExists("exists"));
 }
 
-// Test: Concurrent tag creation (race condition check)
+// Test: Get statistics
+TEST_F(SnapshotManagerTest, GetStats) {
+    // Empty stats
+    auto stats1 = snapshot_mgr_->getStats();
+    EXPECT_EQ(stats1.total_tags, 0);
+    EXPECT_EQ(stats1.oldest_sequence, 0);
+    EXPECT_EQ(stats1.newest_sequence, 0);
+    
+    // Create some tags at different sequences
+    createChangefeedEvents(10);
+    snapshot_mgr_->createTag("tag1", "First");
+    
+    createChangefeedEvents(10);
+    snapshot_mgr_->createTag("tag2", "Second");
+    
+    createChangefeedEvents(10);
+    snapshot_mgr_->createTag("tag3", "Third");
+    
+    auto stats2 = snapshot_mgr_->getStats();
+    EXPECT_EQ(stats2.total_tags, 3);
+    EXPECT_EQ(stats2.oldest_sequence, 10);
+    EXPECT_EQ(stats2.newest_sequence, 30);
+    EXPECT_GT(stats2.newest_timestamp_ms, stats2.oldest_timestamp_ms);
+}
+
+// Test: Get sequence for tag
+TEST_F(SnapshotManagerTest, GetSequenceForTag) {
+    createChangefeedEvents(5);
+    snapshot_mgr_->createTag("tag_at_5", "At sequence 5");
+    
+    auto seq = snapshot_mgr_->getSequenceForTag("tag_at_5");
+    ASSERT_TRUE(seq.has_value());
+    EXPECT_EQ(*seq, 5);
+    
+    // Non-existent tag
+    auto seq2 = snapshot_mgr_->getSequenceForTag("nonexistent");
+    EXPECT_FALSE(seq2.has_value());
+}
+
+// Test: Snapshot JSON serialization
+TEST_F(SnapshotManagerTest, SnapshotSerialization) {
+    SnapshotManager::Snapshot original;
+    original.tag_name = "test";
+    original.sequence_number = 123;
+    original.timestamp_ms = 1234567890123;
+    original.description = "Test description";
+    original.created_by = "user";
+    
+    // Serialize to JSON
+    auto json = original.toJson();
+    EXPECT_EQ(json["tag_name"], "test");
+    EXPECT_EQ(json["sequence_number"], 123);
+    EXPECT_EQ(json["timestamp_ms"], 1234567890123);
+    EXPECT_EQ(json["description"], "Test description");
+    EXPECT_EQ(json["created_by"], "user");
+    
+    // Deserialize from JSON
+    auto restored = SnapshotManager::Snapshot::fromJson(json);
+    EXPECT_EQ(restored.tag_name, original.tag_name);
+    EXPECT_EQ(restored.sequence_number, original.sequence_number);
+    EXPECT_EQ(restored.timestamp_ms, original.timestamp_ms);
+    EXPECT_EQ(restored.description, original.description);
+    EXPECT_EQ(restored.created_by, original.created_by);
+}
+
+// Test: Concurrent tag creation (thread safety)
 TEST_F(SnapshotManagerTest, ConcurrentTagCreation) {
     const int num_threads = 10;
     std::vector<std::thread> threads;
     std::atomic<int> success_count{0};
-
+    
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([this, i, &success_count]() {
-            std::string tag_name = "concurrent_" + std::to_string(i);
-            auto status = snapshot_mgr_->createTag(tag_name, "Concurrent test");
+            auto status = snapshot_mgr_->createTag(
+                "concurrent_tag_" + std::to_string(i),
+                "Created by thread " + std::to_string(i)
+            );
             if (status.ok) {
                 success_count++;
             }
         });
     }
-
+    
     for (auto& thread : threads) {
         thread.join();
     }
-
+    
     EXPECT_EQ(success_count, num_threads);
     
-    auto snapshots = snapshot_mgr_->listTags();
-    EXPECT_EQ(snapshots.size(), num_threads);
+    auto tags = snapshot_mgr_->listTags();
+    EXPECT_EQ(tags.size(), num_threads);
 }
 
-// Test: Tag name validation static method
-TEST_F(SnapshotManagerTest, IsValidTagName) {
-    EXPECT_TRUE(SnapshotManager::isValidTagName("valid"));
-    EXPECT_TRUE(SnapshotManager::isValidTagName("valid-tag"));
-    EXPECT_TRUE(SnapshotManager::isValidTagName("valid_tag"));
-    EXPECT_TRUE(SnapshotManager::isValidTagName("valid123"));
-    EXPECT_TRUE(SnapshotManager::isValidTagName("v"));
+// Test: Default values
+TEST_F(SnapshotManagerTest, DefaultValues) {
+    auto status = snapshot_mgr_->createTag("default_test");
+    ASSERT_TRUE(status.ok);
     
-    EXPECT_FALSE(SnapshotManager::isValidTagName(""));
-    EXPECT_FALSE(SnapshotManager::isValidTagName("Invalid")); // uppercase
-    EXPECT_FALSE(SnapshotManager::isValidTagName("1invalid")); // starts with digit
-    EXPECT_FALSE(SnapshotManager::isValidTagName("invalid tag")); // space
-    EXPECT_FALSE(SnapshotManager::isValidTagName("invalid@tag")); // special char
-    EXPECT_FALSE(SnapshotManager::isValidTagName(std::string(100, 'a'))); // too long
-}
-
-// Test: Description validation static method
-TEST_F(SnapshotManagerTest, IsValidDescription) {
-    EXPECT_TRUE(SnapshotManager::isValidDescription(""));
-    EXPECT_TRUE(SnapshotManager::isValidDescription("Short description"));
-    EXPECT_TRUE(SnapshotManager::isValidDescription(std::string(500, 'x'))); // exactly 500
-    
-    EXPECT_FALSE(SnapshotManager::isValidDescription(std::string(501, 'x'))); // 501 chars
-}
-
-// Test: Snapshot captures current sequence number
-TEST_F(SnapshotManagerTest, SnapshotCapturesSequence) {
-    // Record some changefeed events to advance sequence
-    Changefeed::ChangeEvent event;
-    event.type = Changefeed::ChangeEventType::EVENT_PUT;
-    event.key = "test:key1";
-    event.value = "value1";
-    event.timestamp_ms = 1000;
-    
-    changefeed_->recordEvent(event);
-    changefeed_->recordEvent(event);
-    changefeed_->recordEvent(event);
-    
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    EXPECT_GT(current_seq, 0);
-
-    // Create snapshot
-    snapshot_mgr_->createTag("with_sequence", "Snapshot with sequence");
-    
-    // Verify snapshot captured current sequence
-    auto snapshot = snapshot_mgr_->getTag("with_sequence");
+    auto snapshot = snapshot_mgr_->getTag("default_test");
     ASSERT_TRUE(snapshot.has_value());
-    EXPECT_EQ(snapshot->sequence_number, current_seq);
+    EXPECT_EQ(snapshot->description, "");
+    EXPECT_EQ(snapshot->created_by, "system");
 }
 
-int main(int argc, char **argv) {
+// Test: Tag name validation function
+TEST_F(SnapshotManagerTest, ValidateTagNameFunction) {
+    EXPECT_TRUE(SnapshotManager::validateTagName("valid_tag").ok);
+    EXPECT_TRUE(SnapshotManager::validateTagName("valid-tag").ok);
+    EXPECT_TRUE(SnapshotManager::validateTagName("valid123").ok);
+    EXPECT_TRUE(SnapshotManager::validateTagName("Valid_Tag-123").ok);
+    
+    EXPECT_FALSE(SnapshotManager::validateTagName("").ok);
+    EXPECT_FALSE(SnapshotManager::validateTagName("invalid tag").ok);
+    EXPECT_FALSE(SnapshotManager::validateTagName("invalid@tag").ok);
+    EXPECT_FALSE(SnapshotManager::validateTagName("invalid.tag").ok);
+}
+
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
+    Logger::instance().initialize();
     return RUN_ALL_TESTS();
 }
