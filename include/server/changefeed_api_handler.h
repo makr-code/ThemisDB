@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <optional>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -46,12 +47,14 @@ public:
      * @param changefeed Changefeed manager
      * @param sse_manager SSE connection manager (optional)
      * @param auth Authentication/authorization middleware
+     * @param feature_cdc Whether CDC feature is enabled
      */
     ChangefeedApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<Changefeed> changefeed,
         std::shared_ptr<SseConnectionManager> sse_manager,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        bool feature_cdc
     );
 
     /**
@@ -87,12 +90,17 @@ private:
     std::shared_ptr<Changefeed> changefeed_;
     std::shared_ptr<SseConnectionManager> sse_manager_;
     std::shared_ptr<AuthMiddleware> auth_;
+    bool feature_cdc_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+    
+    // Authorization helper
+    std::optional<http::response<http::string_body>> checkAuth(
+        const http::request<http::string_body>& req, const std::string& required_scope);
 };
 
 } // namespace server
