@@ -1210,6 +1210,10 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    
+    # Diff Engine (Phase 2: Git-like features)
+    ../src/analytics/diff_engine.cpp
+    ../src/server/diff_api_handler.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)

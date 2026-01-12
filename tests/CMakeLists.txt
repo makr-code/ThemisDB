@@ -124,6 +124,42 @@ else()
 endif()
 
 # ============================================================================
+# Diff Engine Tests (Phase 2: Git-like features)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
+    message(STATUS "Adding Diff Engine tests")
+    
+    add_executable(test_diff_engine
+        test_diff_engine.cpp
+    )
+    
+    target_link_libraries(test_diff_engine PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_diff_engine PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME DiffEngineTests COMMAND test_diff_engine)
+    
+    # Set test properties
+    set_tests_properties(DiffEngineTests PROPERTIES
+        LABELS "diff;analytics;mvcc"
+        TIMEOUT 300
+    )
+else()
+    message(STATUS "Diff Engine tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_diff_engine.cpp")
+endif()
+
+# ============================================================================
 # Existing Tests
 # ============================================================================
 
