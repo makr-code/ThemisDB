@@ -278,7 +278,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         body << "retry: " << retry_ms << "\n\n";
         
         // Production streaming path via SSE manager (only when enabled)
-    #ifdef THEMIS_ENABLE_SSE
+#ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
             // Production mode: Register connection for streaming
             // Note: Current Beast setup limits us to batch-based streaming
@@ -339,7 +339,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 conn_id, total_events, heartbeats);
             
         } else
-    #endif
+#endif
         {
             // MVP mode: Send one batch and close (backward compatible)
             Changefeed::ListOptions options;
@@ -383,7 +383,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
 http::response<http::string_body> ChangefeedApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
-    // Authorization check  
+    // Authorization check
     if (auto auth_resp = checkAuth(req, "cdc:admin")) {
         return *auth_resp;
     }
