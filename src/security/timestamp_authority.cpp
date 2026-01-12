@@ -35,6 +35,11 @@ TimestampAuthority::TimestampAuthority(TimestampAuthority&&) noexcept = default;
 TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept = default;
 
 TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data) {
+    // WARNING: This is a STUB implementation for development only
+    // For production, build with -DTHEMIS_USE_OPENSSL_TSA=ON
+    // This stub does NOT provide cryptographic timestamps!
+    THEMIS_WARN("Using TimestampAuthority STUB - NOT SECURE for production!");
+    
     auto hash = computeHash(data);
     TimestampToken tok;
     tok.success = true;

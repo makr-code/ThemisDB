@@ -1,232 +1,182 @@
 #include "server/snapshot_api_handler.h"
-#include "transaction/snapshot_manager.h"
-#include "utils/logger.h"
-#include <boost/beast/http.hpp>
-#include <nlohmann/json.hpp>
-#include <sstream>
+#include <spdlog/spdlog.h>
+#include <fmt/format.h>
 
 namespace themis {
+namespace server {
 
-namespace http = boost::beast::http;
-
-SnapshotApiHandler::SnapshotApiHandler(SnapshotManager& snapshot_mgr)
-    : snapshot_mgr_(snapshot_mgr) {
-    THEMIS_INFO("SnapshotApiHandler initialized");
+SnapshotApiHandler::SnapshotApiHandler(transaction::SnapshotManager& snapshot_manager)
+    : snapshot_manager_(snapshot_manager) {
 }
 
-void SnapshotApiHandler::handleCreateTag(const http::request<http::string_body>& req, 
-                                          http::response<http::string_body>& res) {
+void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
+    // POST /api/v1/snapshots/tags - Create tag
+    server.Post("/api/v1/snapshots/tags", [this](const httplib::Request& req, httplib::Response& res) {
+        handleCreateTag(req, res);
+    });
+
+    // GET /api/v1/snapshots/tags - List tags
+    server.Get("/api/v1/snapshots/tags", [this](const httplib::Request& req, httplib::Response& res) {
+        handleListTags(req, res);
+    });
+
+    // GET /api/v1/snapshots/tags/:name - Get specific tag
+    server.Get(R"(/api/v1/snapshots/tags/([^/]+))", [this](const httplib::Request& req, httplib::Response& res) {
+        handleGetTag(req, res);
+    });
+
+    // DELETE /api/v1/snapshots/tags/:name - Delete tag
+    server.Delete(R"(/api/v1/snapshots/tags/([^/]+))", [this](const httplib::Request& req, httplib::Response& res) {
+        handleDeleteTag(req, res);
+    });
+
+    // GET /api/v1/snapshots/stats - Get statistics
+    server.Get("/api/v1/snapshots/stats", [this](const httplib::Request& req, httplib::Response& res) {
+        handleGetStats(req, res);
+    });
+
+    spdlog::info("Snapshot API routes registered");
+}
+
+void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::Response& res) {
     try {
         // Parse request body
-        auto json = nlohmann::json::parse(req.body());
+        json body = json::parse(req.body);
         
-        // Extract parameters
-        if (!json.contains("tag_name")) {
-            sendErrorResponse(res, 400, "Missing required field: tag_name");
+        if (!body.contains("tag_name") || !body.contains("description")) {
+            sendError(res, 400, "Missing required fields: tag_name and description");
             return;
         }
-
-        std::string tag_name = json["tag_name"].get<std::string>();
-        std::string description = json.value("description", "");
-        std::string created_by = json.value("created_by", "system");
-
-        // Create snapshot
-        auto status = snapshot_mgr_.createTag(tag_name, description, created_by);
         
-        if (!status.ok) {
-            sendErrorResponse(res, 400, status.message);
+        std::string tag_name = body["tag_name"];
+        std::string description = body["description"];
+        std::string created_by = body.value("created_by", "system");
+        
+        // Create tag
+        auto snapshot = snapshot_manager_.createTag(tag_name, description, created_by);
+        
+        if (!snapshot.has_value()) {
+            sendError(res, 409, fmt::format("Failed to create tag '{}'. Tag may already exist or name is invalid.", tag_name));
             return;
         }
-
-        // Get the created snapshot
-        auto snapshot = snapshot_mgr_.getTag(tag_name);
-        if (!snapshot) {
-            sendErrorResponse(res, 500, "Failed to retrieve created snapshot");
-            return;
-        }
-
-        // Return success response
-        sendJsonResponse(res, 201, snapshot->toJson());
         
-        THEMIS_INFO("API: Created snapshot tag '{}' by {}", tag_name, created_by);
+        // Return created snapshot
+        sendJson(res, snapshot->toJson(), 201);
         
-    } catch (const nlohmann::json::exception& e) {
-        sendErrorResponse(res, 400, "Invalid JSON: " + std::string(e.what()));
+    } catch (const json::exception& e) {
+        sendError(res, 400, fmt::format("Invalid JSON: {}", e.what()));
     } catch (const std::exception& e) {
-        sendErrorResponse(res, 500, "Internal error: " + std::string(e.what()));
+        sendError(res, 500, fmt::format("Internal error: {}", e.what()));
     }
 }
 
-void SnapshotApiHandler::handleListTags(const http::request<http::string_body>& req, 
-                                         http::response<http::string_body>& res) {
+void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Response& res) {
     try {
-        auto snapshots = snapshot_mgr_.listTags();
+        // Parse query parameters
+        size_t limit = 0;
+        if (req.has_param("limit")) {
+            try {
+                limit = std::stoull(req.get_param_value("limit"));
+            } catch (...) {
+                sendError(res, 400, "Invalid limit parameter");
+                return;
+            }
+        }
         
-        nlohmann::json response;
-        response["tags"] = nlohmann::json::array();
+        std::string sort_by = req.get_param_value("sort_by");
+        if (sort_by.empty()) {
+            sort_by = "timestamp";
+        }
         
+        bool ascending = false;
+        if (req.has_param("ascending")) {
+            std::string asc_str = req.get_param_value("ascending");
+            ascending = (asc_str == "true" || asc_str == "1");
+        }
+        
+        // List tags
+        auto snapshots = snapshot_manager_.listTags(limit, sort_by, ascending);
+        
+        // Convert to JSON array
+        json result = json::array();
         for (const auto& snapshot : snapshots) {
-            response["tags"].push_back(snapshot.toJson());
+            result.push_back(snapshot.toJson());
         }
         
-        response["total"] = snapshots.size();
-        
-        sendJsonResponse(res, 200, response);
+        sendJson(res, result);
         
     } catch (const std::exception& e) {
-        sendErrorResponse(res, 500, "Internal error: " + std::string(e.what()));
+        sendError(res, 500, fmt::format("Internal error: {}", e.what()));
     }
 }
 
-void SnapshotApiHandler::handleGetTag(const http::request<http::string_body>& req, 
-                                       http::response<http::string_body>& res) {
+void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Response& res) {
     try {
-        // Extract tag name from URL path
-        std::string path = std::string(req.target());
-        std::string prefix = "/api/v1/snapshots/tags/";
+        // Extract tag name from URL
+        std::string tag_name = req.matches[1];
         
-        if (path.find(prefix) != 0) {
-            sendErrorResponse(res, 400, "Invalid tag path");
+        // Get tag
+        auto snapshot = snapshot_manager_.getTag(tag_name);
+        
+        if (!snapshot.has_value()) {
+            sendError(res, 404, fmt::format("Tag '{}' not found", tag_name));
             return;
         }
         
-        std::string tag_name = path.substr(prefix.length());
-        // Remove query string if present
-        auto qpos = tag_name.find('?');
-        if (qpos != std::string::npos) {
-            tag_name = tag_name.substr(0, qpos);
-        }
-        
-        // URL decode the tag name
-        tag_name = urlDecode(tag_name);
-        
-        // Validate non-empty
-        if (tag_name.empty()) {
-            sendErrorResponse(res, 400, "Tag name cannot be empty");
-            return;
-        }
-        
-        auto snapshot = snapshot_mgr_.getTag(tag_name);
-        
-        if (!snapshot) {
-            sendErrorResponse(res, 404, "Tag '" + tag_name + "' not found");
-            return;
-        }
-        
-        sendJsonResponse(res, 200, snapshot->toJson());
+        sendJson(res, snapshot->toJson());
         
     } catch (const std::exception& e) {
-        sendErrorResponse(res, 500, "Internal error: " + std::string(e.what()));
+        sendError(res, 500, fmt::format("Internal error: {}", e.what()));
     }
 }
 
-void SnapshotApiHandler::handleDeleteTag(const http::request<http::string_body>& req, 
-                                          http::response<http::string_body>& res) {
+void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::Response& res) {
     try {
-        // Extract tag name from URL path
-        std::string path = std::string(req.target());
-        std::string prefix = "/api/v1/snapshots/tags/";
+        // Extract tag name from URL
+        std::string tag_name = req.matches[1];
         
-        if (path.find(prefix) != 0) {
-            sendErrorResponse(res, 400, "Invalid tag path");
+        // Delete tag
+        bool success = snapshot_manager_.deleteTag(tag_name);
+        
+        if (!success) {
+            sendError(res, 404, fmt::format("Tag '{}' not found", tag_name));
             return;
         }
         
-        std::string tag_name = path.substr(prefix.length());
-        // Remove query string if present
-        auto qpos = tag_name.find('?');
-        if (qpos != std::string::npos) {
-            tag_name = tag_name.substr(0, qpos);
-        }
-        
-        // URL decode the tag name
-        tag_name = urlDecode(tag_name);
-        
-        // Validate non-empty
-        if (tag_name.empty()) {
-            sendErrorResponse(res, 400, "Tag name cannot be empty");
-            return;
-        }
-        
-        auto status = snapshot_mgr_.deleteTag(tag_name);
-        
-        if (!status.ok) {
-            if (status.message.find("does not exist") != std::string::npos) {
-                sendErrorResponse(res, 404, status.message);
-            } else {
-                sendErrorResponse(res, 500, status.message);
-            }
-            return;
-        }
-        
-        nlohmann::json response;
-        response["message"] = "Tag '" + tag_name + "' deleted successfully";
-        sendJsonResponse(res, 200, response);
-        
-        THEMIS_INFO("API: Deleted snapshot tag '{}'", tag_name);
+        json response;
+        response["status"] = "success";
+        response["message"] = fmt::format("Tag '{}' deleted successfully", tag_name);
+        sendJson(res, response);
         
     } catch (const std::exception& e) {
-        sendErrorResponse(res, 500, "Internal error: " + std::string(e.what()));
+        sendError(res, 500, fmt::format("Internal error: {}", e.what()));
     }
 }
 
-void SnapshotApiHandler::handleGetStats(const http::request<http::string_body>& req, 
-                                         http::response<http::string_body>& res) {
+void SnapshotApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
     try {
-        auto stats = snapshot_mgr_.getStats();
-        
-        nlohmann::json response;
-        response["total_tags"] = stats.total_tags;
-        response["oldest_sequence"] = stats.oldest_sequence;
-        response["newest_sequence"] = stats.newest_sequence;
-        response["oldest_timestamp_ms"] = stats.oldest_timestamp_ms;
-        response["newest_timestamp_ms"] = stats.newest_timestamp_ms;
-        
-        sendJsonResponse(res, 200, response);
-        
+        auto stats = snapshot_manager_.getStats();
+        sendJson(res, stats.toJson());
     } catch (const std::exception& e) {
-        sendErrorResponse(res, 500, "Internal error: " + std::string(e.what()));
+        sendError(res, 500, fmt::format("Failed to get stats: {}", e.what()));
     }
 }
 
-// Helper methods
-void SnapshotApiHandler::sendJsonResponse(http::response<http::string_body>& res, int status, const nlohmann::json& json) {
-    res.result(static_cast<http::status>(status));
-    res.set(http::field::content_type, "application/json");
-    res.body() = json.dump(2);
-    res.prepare_payload();
-}
-
-void SnapshotApiHandler::sendErrorResponse(http::response<http::string_body>& res, int status, const std::string& error) {
-    nlohmann::json json;
-    json["error"] = error;
-    sendJsonResponse(res, status, json);
-}
-
-// URL decode helper
-std::string SnapshotApiHandler::urlDecode(const std::string& encoded) {
-    std::string decoded;
-    decoded.reserve(encoded.size());
+void SnapshotApiHandler::sendError(httplib::Response& res, int status_code, const std::string& message) const {
+    json error;
+    error["error"] = message;
+    error["status"] = status_code;
     
-    for (size_t i = 0; i < encoded.size(); ++i) {
-        if (encoded[i] == '%' && i + 2 < encoded.size()) {
-            // Convert hex to char - ensure we have both hex digits
-            int value = 0;
-            std::istringstream is(encoded.substr(i + 1, 2));
-            if (is >> std::hex >> value) {
-                decoded += static_cast<char>(value);
-                i += 2;
-            } else {
-                decoded += encoded[i];
-            }
-        } else if (encoded[i] == '+') {
-            decoded += ' ';
-        } else {
-            decoded += encoded[i];
-        }
-    }
+    res.status = status_code;
+    res.set_content(error.dump(2), "application/json");
     
-    return decoded;
+    spdlog::warn("Snapshot API error ({}): {}", status_code, message);
 }
 
+void SnapshotApiHandler::sendJson(httplib::Response& res, const json& data, int status_code) const {
+    res.status = status_code;
+    res.set_content(data.dump(2), "application/json");
+}
+
+} // namespace server
 } // namespace themis

@@ -73,12 +73,10 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
     const char* env_mount = std::getenv("THEMIS_VAULT_TRANSIT_MOUNT");
 
     if (!env_addr || std::string(env_addr).empty()) {
-        // Mock: compute SHA256(data) and return as signature (deterministic, no key material leakage)
-        unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        // When Vault is not configured, return an error instead of mock signature
+        // This prevents silent security degradation in production
         SigningResult res;
-        res.signature.assign(hash, hash + SHA256_DIGEST_LENGTH);
-        res.algorithm = "MOCK+SHA256";
+        res.error = "Vault not configured: THEMIS_VAULT_ADDR not set. Cannot generate cryptographic signature.";
         return res;
     }
 
@@ -117,12 +115,10 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
     curl_easy_cleanup(curl);
 
     if (rc != CURLE_OK) {
-        // Fall back to mock signature to keep prototype usable even when Vault unreachable
-        unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(), data.size(), hash);
+        // Return error instead of falling back to mock signature
+        // This ensures production systems fail visibly rather than silently using insecure fallback
         SigningResult res;
-        res.signature.assign(hash, hash + SHA256_DIGEST_LENGTH);
-        res.algorithm = "MOCK+SHA256";
+        res.error = std::string("Vault request failed: ") + curl_easy_strerror(rc);
         return res;
     }
 
@@ -160,16 +156,16 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
             res.algorithm = "VAULT+TRANSIT";
             return res;
         }
-    } catch (...) {
-        // ignore parse errors and fall through to mock
+    } catch (const std::exception& e) {
+        // Return error instead of silently falling back to mock
+        SigningResult res;
+        res.error = std::string("Failed to parse Vault response: ") + e.what();
+        return res;
     }
 
-    // If we couldn't extract a signature, return a mock SHA256 as deterministic fallback
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data.data(), data.size(), hash);
+    // If we couldn't extract a signature, return error
     SigningResult res;
-    res.signature.assign(hash, hash + SHA256_DIGEST_LENGTH);
-    res.algorithm = "MOCK+SHA256";
+    res.error = "Vault response did not contain a valid signature";
     return res;
 }
 

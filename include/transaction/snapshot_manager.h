@@ -1,159 +1,193 @@
-#pragma once
+#ifndef THEMIS_SNAPSHOT_MANAGER_H
+#define THEMIS_SNAPSHOT_MANAGER_H
 
+#include "storage/rocksdb_wrapper.h"
+#include "cdc/changefeed.h"
 #include <string>
-#include <string_view>
 #include <vector>
 #include <optional>
-#include <memory>
-#include <mutex>
 #include <chrono>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
-// Forward declarations
-namespace rocksdb {
-    class TransactionDB;
-    class ColumnFamilyHandle;
-}
-
 namespace themis {
+namespace transaction {
 
-class RocksDBWrapper;
-class Changefeed;
+using json = nlohmann::json;
 
 /**
- * @brief Named Snapshots Manager for MVCC System
+ * @brief SnapshotManager provides Git-like named snapshots for ThemisDB's MVCC system
  * 
- * Enables semantic tagging of important database states for:
- * - Disaster recovery (before critical operations)
- * - Compliance (quarterly backups, audit points)
- * - Schema migrations (rollback points)
- * - Testing (repeatable test states)
+ * Enables semantic tagging of database states for:
+ * - Audit/compliance checkpoints
+ * - Pre-deployment safe points
+ * - Point-in-time recovery markers
+ * - Tag-based diff operations
  * 
- * Tags are stored persistently in RocksDB column family "tags"
- * Key format: "tags:{tag_name}"
- * Value format: JSON with {sequence, timestamp, description, created_by}
- * 
- * Thread-Safety: All methods are thread-safe
+ * Features:
+ * - Named tags with descriptions
+ * - Persistent storage in RocksDB
+ * - Tag CRUD operations
+ * - Integration with Changefeed for sequence mapping
+ * - REST API endpoints
  */
 class SnapshotManager {
 public:
-    struct Status {
-        bool ok = true;
-        std::string message;
-        
-        static Status OK() { return Status{true, ""}; }
-        static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
-    };
-
+    /**
+     * @brief Snapshot metadata
+     */
     struct Snapshot {
-        std::string tag_name;           // Unique tag name (e.g., "before_migration_2026_q1")
-        uint64_t sequence_number;       // Changefeed sequence at snapshot time
+        std::string tag_name;           // Unique tag identifier
+        uint64_t sequence_number;       // Changefeed sequence at tag creation
         int64_t timestamp_ms;           // Unix timestamp in milliseconds
         std::string description;        // Human-readable description
-        std::string created_by;         // User or system that created the snapshot
+        std::string created_by;         // User/service that created the tag
         
-        // Serialization
-        nlohmann::json toJson() const;
-        static Snapshot fromJson(const nlohmann::json& j);
+        json toJson() const;
+        static Snapshot fromJson(const json& j);
     };
-
+    
+    /**
+     * @brief Statistics about snapshots
+     */
     struct SnapshotStats {
-        size_t total_tags;              // Total number of tags
-        uint64_t oldest_sequence;       // Sequence of oldest snapshot
-        uint64_t newest_sequence;       // Sequence of newest snapshot
-        int64_t oldest_timestamp_ms;    // Timestamp of oldest snapshot
-        int64_t newest_timestamp_ms;    // Timestamp of newest snapshot
+        size_t total_snapshots = 0;
+        int64_t oldest_timestamp_ms = 0;
+        int64_t newest_timestamp_ms = 0;
+        uint64_t oldest_sequence = 0;
+        uint64_t newest_sequence = 0;
+        
+        json toJson() const;
     };
-
+    
     /**
      * @brief Construct SnapshotManager
-     * @param db RocksDB wrapper instance
-     * @param changefeed Changefeed for sequence tracking
+     * @param db Reference to RocksDB wrapper
+     * @param changefeed Reference to Changefeed for sequence numbers
      */
     explicit SnapshotManager(RocksDBWrapper& db, Changefeed& changefeed);
     
     ~SnapshotManager() = default;
 
-    // Prevent copying, allow moving
+    // Disable copy, allow move
     SnapshotManager(const SnapshotManager&) = delete;
     SnapshotManager& operator=(const SnapshotManager&) = delete;
-    SnapshotManager(SnapshotManager&&) noexcept = default;
-    SnapshotManager& operator=(SnapshotManager&&) noexcept = default;
+    SnapshotManager(SnapshotManager&&) = default;
+    SnapshotManager& operator=(SnapshotManager&&) = default;
 
     /**
-     * @brief Create a named snapshot at current sequence
-     * @param tag_name Unique tag name (alphanumeric, hyphens, underscores only)
-     * @param description Human-readable description (optional)
-     * @param created_by User identifier (optional, defaults to "system")
-     * @return Status indicating success or failure
+     * @brief Create a new named snapshot/tag
+     * @param tag_name Unique tag name (alphanumeric, hyphens, underscores)
+     * @param description Human-readable description
+     * @param created_by Optional user/service identifier
+     * @return Snapshot metadata if successful, nullopt on error
+     * 
+     * Error conditions:
+     * - Tag name already exists
+     * - Invalid tag name format
+     * - Database write failure
      */
-    Status createTag(
+    std::optional<Snapshot> createTag(
         const std::string& tag_name,
-        const std::string& description = "",
+        const std::string& description,
         const std::string& created_by = "system"
     );
-
+    
     /**
-     * @brief Get a specific snapshot by tag name
-     * @param tag_name Tag name to retrieve
-     * @return Snapshot if exists, nullopt otherwise
+     * @brief Get snapshot metadata by tag name
+     * @param tag_name Tag to retrieve
+     * @return Snapshot metadata if found, nullopt otherwise
      */
     std::optional<Snapshot> getTag(const std::string& tag_name) const;
-
+    
     /**
      * @brief List all snapshots
-     * @return Vector of all snapshots, sorted by timestamp (newest first)
+     * @param limit Maximum number of snapshots to return (0 = all)
+     * @param sort_by Sort order: "timestamp" (default), "sequence", "name"
+     * @param ascending Sort direction (default: false = newest first)
+     * @return Vector of snapshot metadata
      */
-    std::vector<Snapshot> listTags() const;
-
+    std::vector<Snapshot> listTags(
+        size_t limit = 0,
+        const std::string& sort_by = "timestamp",
+        bool ascending = false
+    ) const;
+    
     /**
-     * @brief Delete a snapshot tag
-     * @param tag_name Tag name to delete
-     * @return Status indicating success or failure
+     * @brief Delete a snapshot/tag
+     * @param tag_name Tag to delete
+     * @return true if deleted, false if not found or error
      */
-    Status deleteTag(const std::string& tag_name);
-
+    bool deleteTag(const std::string& tag_name);
+    
     /**
      * @brief Check if a tag exists
-     * @param tag_name Tag name to check
-     * @return true if tag exists, false otherwise
+     * @param tag_name Tag to check
+     * @return true if exists, false otherwise
      */
     bool tagExists(const std::string& tag_name) const;
-
+    
     /**
-     * @brief Get snapshot statistics
-     * @return Stats about all snapshots
+     * @brief Get statistics about all snapshots
+     * @return Snapshot statistics
      */
     SnapshotStats getStats() const;
-
-    /**
-     * @brief Validate tag name format
-     * @param tag_name Tag name to validate
-     * @return Status indicating if name is valid
-     */
-    static Status validateTagName(const std::string& tag_name);
-
+    
     /**
      * @brief Get sequence number for a tag
-     * @param tag_name Tag name
-     * @return Sequence number if tag exists, nullopt otherwise
+     * @param tag_name Tag to query
+     * @return Sequence number if found, nullopt otherwise
      */
     std::optional<uint64_t> getSequenceForTag(const std::string& tag_name) const;
+    
+    /**
+     * @brief Get timestamp for a tag
+     * @param tag_name Tag to query
+     * @return Timestamp in milliseconds if found, nullopt otherwise
+     */
+    std::optional<int64_t> getTimestampForTag(const std::string& tag_name) const;
+    
+    /**
+     * @brief Validate tag name format
+     * @param tag_name Tag to validate
+     * @return true if valid, false otherwise
+     * 
+     * Valid format: alphanumeric, hyphens, underscores, periods
+     * Length: 1-128 characters
+     */
+    static bool isValidTagName(const std::string& tag_name);
 
 private:
     RocksDBWrapper& db_;
     Changefeed& changefeed_;
-    mutable std::mutex mutex_;  // For thread-safe access
-
-    static constexpr const char* KEY_PREFIX = "tags:";
-    static constexpr size_t MAX_TAG_NAME_LENGTH = 128;
-    static constexpr size_t MAX_DESCRIPTION_LENGTH = 1024;
-
+    
+    mutable std::mutex mutex_;
+    
+    // Key prefix for snapshot storage in RocksDB
+    static constexpr const char* SNAPSHOT_PREFIX = "snapshot:";
+    
+    /**
+     * @brief Make RocksDB key for a tag
+     */
     std::string makeKey(const std::string& tag_name) const;
+    
+    /**
+     * @brief Extract tag name from RocksDB key
+     */
     std::string extractTagName(const std::string& key) const;
     
-    // Helper to get current timestamp
-    static int64_t getCurrentTimestampMs();
+    /**
+     * @brief Serialize snapshot to bytes
+     */
+    std::vector<uint8_t> serialize(const Snapshot& snapshot) const;
+    
+    /**
+     * @brief Deserialize snapshot from bytes
+     */
+    std::optional<Snapshot> deserialize(const std::vector<uint8_t>& data) const;
 };
 
+} // namespace transaction
 } // namespace themis
+
+#endif // THEMIS_SNAPSHOT_MANAGER_H
