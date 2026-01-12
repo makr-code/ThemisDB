@@ -18,10 +18,18 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[🆕 Source Directory Guide](architecture/SOURCE_DIRECTORY_GUIDE.md)** - **NEU:** Comprehensive guide to all 35 src/ directories (100% coverage)
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
+- **[🆕 Examples Index](EXAMPLES_INDEX.md)** - **NEU:** Vollständiger Index aller 37+ Beispiele
+- **[🆕 Examples Quickstart](EXAMPLES_QUICKSTART.md)** - **NEU:** In 10 Minuten mit ThemisDB starten
 
 ---
 
 ## 🎯 Nach Zielgruppe
+
+### Für neue Nutzer & Lernende
+- **[🚀 Examples Quickstart Guide](EXAMPLES_QUICKSTART.md)** - **START HERE:** In 10 Minuten mit ThemisDB beginnen
+- **[📚 Examples Index](EXAMPLES_INDEX.md)** - Vollständiger Katalog aller 37+ Beispiele
+- **[🎓 Learning Paths](EXAMPLES_INDEX.md#-learning-paths)** - Geführte Lernpfade nach Rolle (Web Dev, Data Engineer, ML Engineer, etc.)
+- **[Main Examples](../examples/)** - 22 vollständige Beispielanwendungen
 
 ### Für Stakeholder & Management
 - **[Themis Sachstandsbericht 2025](de/reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
