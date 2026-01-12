@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <deque>
+#include <cctype>
 
 #ifndef _WIN32
 #include <sys/stat.h>
@@ -736,13 +737,15 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
     const auto MIN_TIMEOUT = std::chrono::seconds(1);
     
     if (task.timeout > MAX_TIMEOUT) {
+        auto max_timeout_ms = std::chrono::duration_cast<std::chrono::milliseconds>(MAX_TIMEOUT).count();
         throw std::invalid_argument("Task timeout exceeds maximum allowed: " + 
-                                   std::to_string(MAX_TIMEOUT.count()) + " milliseconds");
+                                   std::to_string(max_timeout_ms) + " milliseconds");
     }
     
     if (task.timeout < MIN_TIMEOUT) {
+        auto min_timeout_ms = std::chrono::duration_cast<std::chrono::milliseconds>(MIN_TIMEOUT).count();
         throw std::invalid_argument("Task timeout is too short. Minimum: " + 
-                                   std::to_string(MIN_TIMEOUT.count()) + " milliseconds");
+                                   std::to_string(min_timeout_ms) + " milliseconds");
     }
     
     // Validate max_retries
@@ -755,8 +758,9 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
     // Validate interval
     const auto MIN_INTERVAL = std::chrono::seconds(1);
     if (task.interval < MIN_INTERVAL) {
+        auto min_interval_ms = std::chrono::duration_cast<std::chrono::milliseconds>(MIN_INTERVAL).count();
         throw std::invalid_argument("Task interval is too short. Minimum: " + 
-                                   std::to_string(MIN_INTERVAL.count()) + " milliseconds");
+                                   std::to_string(min_interval_ms) + " milliseconds");
     }
 }
 
@@ -801,6 +805,7 @@ ScheduledTask TaskScheduler::sanitizeTask(const ScheduledTask& task) const {
 
 void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
     // Basic complexity checks to prevent resource exhaustion
+    // Note: These are heuristic checks and may have false positives
     
     // Count nested levels (approximate complexity)
     int nesting_level = 0;
@@ -821,14 +826,20 @@ void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
                                    std::to_string(MAX_NESTING_LEVEL));
     }
     
-    // Count number of FOR loops (can indicate complexity)
+    // Count number of FOR loops (heuristic - may have false positives in comments/strings)
+    // This is acceptable as overly complex queries in comments would still indicate
+    // potential issues. The limit is set high enough to allow legitimate queries.
     size_t for_count = 0;
     size_t pos = 0;
     std::string aql_upper = aql;
     std::transform(aql_upper.begin(), aql_upper.end(), aql_upper.begin(), ::toupper);
     
     while ((pos = aql_upper.find("FOR ", pos)) != std::string::npos) {
-        for_count++;
+        // Check word boundary: must be at start or preceded by non-alphanumeric
+        bool valid_start = (pos == 0 || !std::isalnum(static_cast<unsigned char>(aql_upper[pos - 1])));
+        if (valid_start) {
+            for_count++;
+        }
         pos += 4;
     }
     
