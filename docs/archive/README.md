@@ -32,8 +32,14 @@ For language-specific archives, see:
 | PITR_IMPLEMENTATION_COMPLETE.md | 2026-01-12 | Implementation completed | [PITR Feature Guide](../en/features/features_pitr.md) |
 | NLP_INTEGRATION_PHASE1_COMPLETE.md | 2026-01-12 | Phase 1 completed | [NLP Features](../en/features/) |
 | NLP_INTEGRATION_PHASE2_COMPLETE.md | 2026-01-12 | Phase 2 completed | [NLP Features](../en/features/) |
+| NLP_INTEGRATION_FINAL_SUMMARY.md | 2026-01-12 | Implementation completed | [NLP Features](../en/features/) |
 | DURABILITY_TESTING_COMPLETE.md | 2026-01-12 | Testing completed | [Testing Docs](../testing/) |
 | LORA_IMPLEMENTATION_SUMMARY.md | 2026-01-12 | Implementation completed | [LoRA Docs](../../LORA_DOCUMENTATION_SUMMARY.md) |
+| LORA_API_IMPLEMENTATION_SUMMARY.md | 2026-01-12 | API implemented | [API Reference](../../API_REFERENCE.md) |
+| LORA_AQL_IMPLEMENTATION_SUMMARY.md | 2026-01-12 | AQL functions implemented | [LoRA AQL Reference](../../LORA_AQL_REFERENCE.md) |
+| LORA_HELP_INTEGRATION_SUMMARY.md | 2026-01-12 | Help integration completed | [LoRA Docs](../../LORA_DOCUMENTATION_SUMMARY.md) |
+| THEMIS_HELP_LORA_IMPLEMENTATION_SUMMARY.md | 2026-01-12 | Feature completed | [LoRA Docs](../../LORA_DOCUMENTATION_SUMMARY.md) |
+| KERBEROS_IMPLEMENTATION_SUMMARY.md | 2026-01-12 | Authentication implemented | [Security Docs](../../SECURITY.md) |
 
 ## ℹ️ About Archives
 

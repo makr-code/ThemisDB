@@ -1,3 +1,33 @@
+# ARCHIVED: Kerberos/GSSAPI Authentication Implementation Summary
+
+**Archived Date:** 2026-01-12  
+**Reason:** Implementation completed - Security features documented  
+**Replaced By:** [Security Documentation](../../SECURITY.md) and [Authentication Guide](../en/security/)  
+**Last Valid Version:** 536e15d (2026-01-12)
+
+---
+
+## Context
+
+This document was an implementation summary for Kerberos/GSSAPI authentication. The authentication system has been fully implemented and is now documented in security guides.
+
+## Historical Information
+
+- **Implementation Phase:** Kerberos authentication integration
+- **Status:** Feature complete and production-ready
+- **Authentication:** Enterprise-grade Kerberos/GSSAPI support
+
+## See Also
+
+- [Security Documentation](../../SECURITY.md)
+- [Kerberos Future Issues](../../KERBEROS_FUTURE_ISSUES.md) (for planned enhancements)
+
+---
+
+**Note:** This document is preserved for historical reference only.
+
+---
+
 # Kerberos/GSSAPI Authentication Implementation Summary
 
 ## Overview
