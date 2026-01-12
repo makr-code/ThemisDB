@@ -124,6 +124,75 @@ else()
 endif()
 
 # ============================================================================
+# PITR (Point-in-Time Recovery) Tests - Phase 3
+# ============================================================================
+
+# Test: Snapshot Manager
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
+    message(STATUS "Adding Snapshot Manager tests")
+    
+    add_executable(test_snapshot_manager
+        test_snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/cdc/changefeed.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
+    )
+    
+    target_link_libraries(test_snapshot_manager PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_snapshot_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME SnapshotManagerTests COMMAND test_snapshot_manager)
+    
+    set_tests_properties(SnapshotManagerTests PROPERTIES
+        LABELS "pitr;snapshot;mvcc"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Snapshot Manager tests not found")
+endif()
+
+# Test: PITR Manager
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager.cpp")
+    message(STATUS "Adding PITR Manager tests")
+    
+    add_executable(test_pitr_manager
+        test_pitr_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/pitr_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/cdc/changefeed.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
+    )
+    
+    target_link_libraries(test_pitr_manager PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_pitr_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PITRManagerTests COMMAND test_pitr_manager)
+    
+    set_tests_properties(PITRManagerTests PROPERTIES
+        LABELS "pitr;recovery;mvcc"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "PITR Manager tests not found")
+endif()
+
+# ============================================================================
 # Existing Tests
 # ============================================================================
 
