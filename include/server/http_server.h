@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/saga_api_handler.h"
+#include "server/cache_api_handler.h"
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
@@ -351,9 +352,6 @@ private:
     http::response<http::string_body> handleCapabilities(const http::request<http::string_body>& req);
 
     // Sprint A beta endpoints (feature-flagged)
-    http::response<http::string_body> handleCacheQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleCachePut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleCacheStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionPost(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
@@ -607,6 +605,9 @@ private:
     
     // SAGA API Handler
     std::unique_ptr<themis::server::SAGAApiHandler> saga_api_;
+
+    // Cache API Handler
+    std::unique_ptr<themis::server::CacheApiHandler> cache_api_;
 
     // PII API Handler
     std::unique_ptr<themis::server::PIIApiHandler> pii_api_;

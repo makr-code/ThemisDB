@@ -287,6 +287,13 @@ HttpServer::HttpServer(
             3600 // default TTL: 1 hour
         );
         THEMIS_INFO("Semantic Cache initialized (TTL: 3600s) using default CF");
+        
+        // Initialize Cache API Handler
+        cache_api_ = std::make_unique<themis::server::CacheApiHandler>(
+            semantic_cache_,
+            auth_
+        );
+        THEMIS_INFO("Cache API Handler initialized");
     }
     
     // Initialize LLM Interaction Store (Sprint A) if feature enabled
@@ -1704,7 +1711,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleVectorDeleteByFilter(req);
             break;
         case Route::CacheQueryPost:
-            response = handleCacheQuery(req);
+            if (cache_api_) {
+                response = cache_api_->handleQuery(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
             break;
         case Route::PromptTemplatePost:
             response = handlePromptTemplatePost(req);
@@ -1719,10 +1730,18 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handlePromptTemplatePut(req);
             break;
         case Route::CachePutPost:
-            response = handleCachePut(req);
+            if (cache_api_) {
+                response = cache_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
             break;
         case Route::CacheStatsGet:
-            response = handleCacheStats(req);
+            if (cache_api_) {
+                response = cache_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
             break;
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
@@ -4770,157 +4789,6 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     applyGovernanceHeaders(req, res);
     res.prepare_payload();
     return res;
-}
-http::response<http::string_body> HttpServer::handleCacheQuery(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_semantic_cache) {
-        return makeErrorResponse(http::status::not_found, "Feature 'semantic_cache' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleCacheQuery");
-    span.setAttribute("http.path", "/cache/query");
-    
-    if (!semantic_cache_) {
-        span.setStatus(false, "cache_not_initialized");
-        return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
-    }
-    
-    try {
-        nlohmann::json body = nlohmann::json::parse(req.body());
-        
-        if (!body.contains("prompt")) {
-            span.setStatus(false, "missing_prompt");
-            return makeErrorResponse(http::status::bad_request, "Missing 'prompt' field", req);
-        }
-        
-        std::string prompt = body["prompt"].get<std::string>();
-        nlohmann::json params = body.value("params", nlohmann::json::object());
-        
-        span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
-        
-        auto result = semantic_cache_->query(prompt, params);
-        
-        if (result) {
-            // Cache hit
-            span.setAttribute("cache.hit", true);
-            nlohmann::json response = {
-                {"hit", true},
-                {"response", result->response},
-                {"metadata", result->metadata},
-                {"timestamp_ms", result->timestamp_ms}
-            };
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        } else {
-            // Cache miss
-            span.setAttribute("cache.hit", false);
-            nlohmann::json response = {
-                {"hit", false}
-            };
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        }
-        
-    } catch (const nlohmann::json::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "json_parse_error");
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleCachePut(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_semantic_cache) {
-        return makeErrorResponse(http::status::not_found, "Feature 'semantic_cache' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleCachePut");
-    span.setAttribute("http.path", "/cache/put");
-    
-    if (!semantic_cache_) {
-        span.setStatus(false, "cache_not_initialized");
-        return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
-    }
-    
-    try {
-        nlohmann::json body = nlohmann::json::parse(req.body());
-        
-        if (!body.contains("prompt") || !body.contains("response")) {
-            span.setStatus(false, "missing_fields");
-            return makeErrorResponse(http::status::bad_request, "Missing 'prompt' or 'response' field", req);
-        }
-        
-        std::string prompt = body["prompt"].get<std::string>();
-        std::string response = body["response"].get<std::string>();
-        nlohmann::json params = body.value("params", nlohmann::json::object());
-        nlohmann::json metadata = body.value("metadata", nlohmann::json::object());
-        int ttl_seconds = body.value("ttl_seconds", 0);
-        
-        span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
-        span.setAttribute("response.length", static_cast<int64_t>(response.size()));
-        
-        bool success = semantic_cache_->put(prompt, params, response, metadata, ttl_seconds);
-        
-        if (success) {
-            nlohmann::json result = {
-                {"success", true},
-                {"message", "Response cached successfully"}
-            };
-            span.setStatus(true);
-            return makeResponse(http::status::ok, result.dump(), req);
-        } else {
-            span.setStatus(false, "cache_put_failed");
-            return makeErrorResponse(http::status::internal_server_error, "Failed to cache response", req);
-        }
-        
-    } catch (const nlohmann::json::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "json_parse_error");
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleCacheStats(
-    const http::request<http::string_body>& req
-) {
-    if (!config_.feature_semantic_cache) {
-        return makeErrorResponse(http::status::not_found, "Feature 'semantic_cache' disabled", req);
-    }
-    
-    auto span = Tracer::startSpan("handleCacheStats");
-    span.setAttribute("http.path", "/cache/stats");
-    
-    if (!semantic_cache_) {
-        span.setStatus(false, "cache_not_initialized");
-        return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
-    }
-    
-    try {
-        auto stats = semantic_cache_->getStats();
-        nlohmann::json response = stats.toJson();
-        
-        span.setAttribute("cache.hit_count", static_cast<int64_t>(stats.hit_count));
-        span.setAttribute("cache.miss_count", static_cast<int64_t>(stats.miss_count));
-        span.setAttribute("cache.hit_rate", stats.hit_rate);
-        
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-        
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
 }
 
 http::response<http::string_body> HttpServer::handleLlmInteractionPost(
