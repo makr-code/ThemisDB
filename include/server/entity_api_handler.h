@@ -92,7 +92,7 @@ public:
      * @param key_provider Cryptographic key provider
      * @param auth Authentication/authorization middleware
      * @param config Feature configuration flags
-     * @param spatial_index Optional: Spatial/geo index manager
+     * @param spatial_index Optional: Spatial/geo index manager (raw pointer, not owned)
      * @param changefeed Optional: CDC changefeed manager
      * @param wal_manager Optional: WAL manager for replication
      * @param replication_coordinator Optional: Replication coordinator
@@ -107,7 +107,7 @@ public:
         std::shared_ptr<security::KeyProvider> key_provider,
         std::shared_ptr<AuthMiddleware> auth,
         const EntityApiConfig& config = EntityApiConfig{},
-        std::shared_ptr<index::SpatialIndexManager> spatial_index = nullptr,
+        index::SpatialIndexManager* spatial_index = nullptr,
         std::shared_ptr<Changefeed> changefeed = nullptr,
         std::shared_ptr<sharding::WALManager> wal_manager = nullptr,
         std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator = nullptr,
@@ -167,7 +167,7 @@ private:
     EntityApiConfig config_;
     
     // Optional features
-    std::shared_ptr<index::SpatialIndexManager> spatial_index_;
+    index::SpatialIndexManager* spatial_index_;  // Not owned
     std::shared_ptr<Changefeed> changefeed_;
     std::shared_ptr<sharding::WALManager> wal_manager_;
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;

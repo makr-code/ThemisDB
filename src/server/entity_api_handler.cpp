@@ -37,7 +37,7 @@ EntityApiHandler::EntityApiHandler(
     std::shared_ptr<security::KeyProvider> key_provider,
     std::shared_ptr<AuthMiddleware> auth,
     const EntityApiConfig& config,
-    std::shared_ptr<index::SpatialIndexManager> spatial_index,
+    index::SpatialIndexManager* spatial_index,
     std::shared_ptr<Changefeed> changefeed,
     std::shared_ptr<sharding::WALManager> wal_manager,
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
@@ -51,7 +51,7 @@ EntityApiHandler::EntityApiHandler(
     , key_provider_(std::move(key_provider))
     , auth_(std::move(auth))
     , config_(config)
-    , spatial_index_(std::move(spatial_index))
+    , spatial_index_(spatial_index)
     , changefeed_(std::move(changefeed))
     , wal_manager_(std::move(wal_manager))
     , replication_coordinator_(std::move(replication_coordinator))
@@ -474,7 +474,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         if (spatial_index_ && config_.feature_geo) {
             try {
                 std::vector<uint8_t> blob_bytes(blob_str.begin(), blob_str.end());
-                api::GeoIndexHooks::onEntityPut(*storage_, spatial_index_.get(), table, pk, blob_bytes);
+                api::GeoIndexHooks::onEntityPut(*storage_, spatial_index_, table, pk, blob_bytes);
             } catch (const std::exception& e) {
                 // Log but don't fail the request - geo index is best-effort
                 THEMIS_WARN("Geo index hook failed for {}:{}: {}", table, pk, e.what());
@@ -613,7 +613,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
                 std::string entity_key = "entity:" + table + ":" + pk;
                 auto old_blob = storage_->get(entity_key);
                 if (old_blob) {
-                    api::GeoIndexHooks::onEntityDelete(*storage_, spatial_index_.get(), table, pk, *old_blob);
+                    api::GeoIndexHooks::onEntityDelete(*storage_, spatial_index_, table, pk, *old_blob);
                 }
             } catch (const std::exception& e) {
                 // Log but don't fail the request - geo index is best-effort
@@ -821,7 +821,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                     if (spatial_index_ && config_.feature_geo) {
                         try {
                             std::vector<uint8_t> blob_bytes(vop.blob.begin(), vop.blob.end());
-                            api::GeoIndexHooks::onEntityPut(*storage_, spatial_index_.get(), 
+                            api::GeoIndexHooks::onEntityPut(*storage_, spatial_index_, 
                                 vop.table, vop.pk, blob_bytes);
                         } catch (const std::exception& e) {
                             THEMIS_WARN("Geo index hook failed for {}:{}: {}", vop.table, vop.pk, e.what());
@@ -835,7 +835,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                             std::string entity_key = "entity:" + vop.table + ":" + vop.pk;
                             auto old_blob = storage_->get(entity_key);
                             if (old_blob) {
-                                api::GeoIndexHooks::onEntityDelete(*storage_, spatial_index_.get(), 
+                                api::GeoIndexHooks::onEntityDelete(*storage_, spatial_index_, 
                                     vop.table, vop.pk, *old_blob);
                             }
                         } catch (const std::exception& e) {
