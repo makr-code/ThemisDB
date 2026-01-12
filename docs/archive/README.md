@@ -27,11 +27,13 @@ For language-specific archives, see:
 
 ## 📚 Archived Documents
 
-Currently, this root-level archive is empty. As language-agnostic documents are archived, they will be listed here.
-
 | Document | Archived Date | Reason | Replaced By |
 |----------|---------------|--------|-------------|
-| (None yet) | - | - | - |
+| PITR_IMPLEMENTATION_COMPLETE.md | 2026-01-12 | Implementation completed | [PITR Feature Guide](../en/features/features_pitr.md) |
+| NLP_INTEGRATION_PHASE1_COMPLETE.md | 2026-01-12 | Phase 1 completed | [NLP Features](../en/features/) |
+| NLP_INTEGRATION_PHASE2_COMPLETE.md | 2026-01-12 | Phase 2 completed | [NLP Features](../en/features/) |
+| DURABILITY_TESTING_COMPLETE.md | 2026-01-12 | Testing completed | [Testing Docs](../testing/) |
+| LORA_IMPLEMENTATION_SUMMARY.md | 2026-01-12 | Implementation completed | [LoRA Docs](../../LORA_DOCUMENTATION_SUMMARY.md) |
 
 ## ℹ️ About Archives
 

@@ -1,3 +1,38 @@
+# ARCHIVED: LoRA Implementation Summary
+
+**Archived Date:** 2026-01-12  
+**Reason:** Implementation completed - Feature documented in comprehensive guides  
+**Replaced By:** [LoRA Documentation Summary](../../LORA_DOCUMENTATION_SUMMARY.md) and [LoRA Usage Examples](../../LORA_USAGE_EXAMPLES.md)  
+**Last Valid Version:** 536e15d (2026-01-12)
+
+---
+
+## Context
+
+This document was an implementation summary for LoRA (Low-Rank Adaptation) Framework support in ThemisDB's LLM integration. The feature has been fully implemented and is now documented in comprehensive user guides and API references.
+
+## Historical Information
+
+- **Implementation Date:** January 11, 2026
+- **Implementation Phases:** Phase 1 & 2A Complete
+- **Status:** Feature complete and production-ready
+- **Key Components:** LoRA Framework Core, Adapter Manager, Storage Service, Training Service, Orchestrator
+
+LoRA enables efficient fine-tuning of large language models with minimal memory overhead.
+
+## See Also
+
+- [LoRA Documentation Summary](../../LORA_DOCUMENTATION_SUMMARY.md)
+- [LoRA Usage Examples](../../LORA_USAGE_EXAMPLES.md)
+- [LoRA Build Guide](../../LORA_BUILD_GUIDE.md)
+- [LoRA Testing Guide](../../LORA_TESTING_AND_METRICS_GUIDE.md)
+
+---
+
+**Note:** This document is preserved for historical reference only.
+
+---
+
 # LoRA Framework Implementation Summary
 
 **Date**: 2026-01-11
