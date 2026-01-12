@@ -697,13 +697,16 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
     }
     
     // Check for suspicious patterns that might indicate injection attempts
+    // Note: We focus on SQL-style injection patterns that would be unusual in AQL
     std::vector<std::string> dangerous_patterns = {
         ";--",           // SQL comment injection
-        "'; DROP",       // SQL injection attempt
+        "'; DROP",       // SQL injection attempt with quote
+        "; DROP",        // SQL DROP injection
         "\\x00",         // Null byte injection
         "../",           // Path traversal
         "SYSTEM(",       // System command execution
         "EXEC(",         // Command execution
+        "'; EXEC",       // Command injection with quote
     };
     
     std::string aql_upper = aql;

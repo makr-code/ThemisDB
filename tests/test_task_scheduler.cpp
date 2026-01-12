@@ -324,10 +324,10 @@ TEST_F(TaskSchedulerTest, TaskStatistics) {
 TEST_F(TaskSchedulerTest, ValidateAqlQueryInjectionProtection) {
     TaskScheduler scheduler(query_engine_.get());
     
-    // Test SQL injection patterns
+    // Test SQL injection patterns (these should be rejected)
     std::vector<std::string> malicious_queries = {
-        "FOR d IN test RETURN d; DROP COLLECTION test",
         "FOR d IN test RETURN d'; DROP TABLE users; --",
+        "FOR d IN test RETURN d; DROP COLLECTION test",
         "FOR d IN test FILTER d.value = '\\x00' RETURN d",
         "FOR d IN test RETURN SYSTEM('rm -rf /')",
         "FOR d IN test RETURN d; EXEC('malicious_command')"
@@ -552,12 +552,13 @@ TEST_F(TaskSchedulerTest, SecureTaskPersistence) {
 TEST_F(TaskSchedulerTest, ValidAqlQueryAccepted) {
     TaskScheduler scheduler(query_engine_.get());
     
-    // Test that valid queries are accepted
+    // Test that valid queries are accepted (including REMOVE which is valid AQL)
     std::vector<std::string> valid_queries = {
         "FOR d IN test RETURN d",
         "FOR d IN test FILTER d.value > 10 RETURN d",
         "FOR d IN test COLLECT metric = d.metric RETURN metric",
-        "INSERT { name: 'test', value: 42 } INTO test"
+        "INSERT { name: 'test', value: 42 } INTO test",
+        "FOR d IN timeseries FILTER d.timestamp < DATE_SUB(NOW(), 30, 'days') REMOVE d IN timeseries"
     };
     
     for (const auto& query : valid_queries) {
