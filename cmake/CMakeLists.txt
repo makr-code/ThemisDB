@@ -1133,6 +1133,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
@@ -1538,6 +1539,24 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     endif()
     
     message(STATUS "Office support linked: libzip and pugixml")
+endif()
+
+# Link Kerberos/GSSAPI if enabled
+if(THEMIS_ENABLE_KERBEROS)
+    if(TARGET KRB5::krb5)
+        target_link_libraries(themis_core PUBLIC KRB5::krb5)
+        message(STATUS "Kerberos support linked: KRB5::krb5")
+    endif()
+    if(TARGET KRB5::gssapi)
+        target_link_libraries(themis_core PUBLIC KRB5::gssapi)
+        message(STATUS "Kerberos support linked: KRB5::gssapi")
+    endif()
+    if(TARGET Kerberos::Kerberos)
+        target_link_libraries(themis_core PUBLIC Kerberos::Kerberos)
+        message(STATUS "Kerberos support linked: Kerberos::Kerberos")
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_KERBEROS)
+    message(STATUS "Kerberos/GSSAPI authentication enabled")
 endif()
 
 # Link ZSTD if available and define compile flag
@@ -2102,6 +2121,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
