@@ -48,7 +48,7 @@ Both archive directories have README files that:
 - ✅ Provide navigation to current documentation
 
 **Example from `docs/de/archive/README.md`:**
-```markdown
+```text
 ## Archivierte Dokumente
 
 | Dokument | Beschreibung | Ersetzt durch |
@@ -80,7 +80,7 @@ Archives were created as part of recent documentation organization efforts:
 
 **Location checked:** `CONTRIBUTING.md`
 
-**Finding:** The CONTRIBUTING.md file has a "Documentation" section (line 947) but:
+**Finding:** The CONTRIBUTING.md file has a "Documentation" section but:
 - ❌ No mention of documentation archival
 - ❌ No reference to `#documentation-archival` anchor
 - ❌ No guidelines for when/how to archive documents
@@ -125,12 +125,12 @@ Archives were created as part of recent documentation organization efforts:
 **Current structure:** Flat archive directories
 
 **Issue template proposes:**
-```
+```text
 docs/archive/[YEAR]/[CATEGORY]/[document-name].md
 ```
 
 **Current structure:** 
-```
+```text
 docs/de/archive/[document-name].md
 ```
 
