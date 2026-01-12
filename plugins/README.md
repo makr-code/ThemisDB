@@ -20,7 +20,7 @@
 
 ## Overview
 
-ThemisDB uses a flexible plugin system that allows extending functionality through dynamically-loadable DLLs/shared libraries. The plugin architecture supports multiple plugin types for different purposes.
+ThemisDB uses a flexible plugin system that allows extending functionality through dynamically loadable DLLs/shared libraries. The plugin architecture supports multiple plugin types for different purposes.
 
 ## Plugin Architecture
 
