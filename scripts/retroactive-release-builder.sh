@@ -2,14 +2,15 @@
 # =============================================================================
 # ThemisDB Retroactive Release Builder
 # =============================================================================
-# Purpose: Extract source code at specific version tags and build/package
-#          binaries retroactively for all past releases.
+# Purpose: Extract source code at specific version tags, commits, or branches
+#          and build/package binaries retroactively for all past releases.
 #
 # Usage:
 #   ./retroactive-release-builder.sh [OPTIONS]
 #
 # Options:
 #   --tag TAG              Build specific tag (e.g., v1.3.4)
+#   --commit COMMIT        Build specific commit SHA or branch name
 #   --all-tags             Build all version tags
 #   --list-tags            List available version tags
 #   --platform PLATFORM    Target platform (linux|windows|macos|all) [default: linux]
@@ -21,6 +22,12 @@
 # Examples:
 #   # Build specific tag for Linux
 #   ./retroactive-release-builder.sh --tag v1.3.4 --platform linux
+#
+#   # Build from specific commit (intermediate release)
+#   ./retroactive-release-builder.sh --commit a1b2c3d --platform linux
+#
+#   # Build from merge commit
+#   ./retroactive-release-builder.sh --commit release/v1.3.4 --platform linux
 #
 #   # Build all tags for all platforms
 #   ./retroactive-release-builder.sh --all-tags --platform all
@@ -45,6 +52,7 @@ OUTPUT_DIR="./release-retroactive"
 SKIP_BUILD=false
 CLEAN_BUILD=false
 SPECIFIC_TAG=""
+SPECIFIC_COMMIT=""
 BUILD_ALL_TAGS=false
 LIST_TAGS=false
 
@@ -87,6 +95,7 @@ Usage: $0 [OPTIONS]
 
 Options:
     --tag TAG              Build specific tag (e.g., v1.3.4)
+    --commit COMMIT        Build specific commit SHA or branch name
     --all-tags             Build all version tags
     --list-tags            List available version tags
     --platform PLATFORM    Target platform (linux|windows|macos|all) [default: linux]
@@ -98,6 +107,12 @@ Options:
 Examples:
     # Build specific tag for Linux
     $0 --tag v1.3.4 --platform linux
+
+    # Build from specific commit (intermediate release)
+    $0 --commit a1b2c3d --platform linux
+
+    # Build from merge commit or branch
+    $0 --commit release/v1.3.4 --platform linux
 
     # Build all tags for all platforms
     $0 --all-tags --platform all
@@ -121,9 +136,11 @@ get_all_version_tags() {
     git tag -l "v*" | sort -V
 }
 
-checkout_tag() {
-    local tag=$1
-    print_info "Checking out tag: $tag"
+checkout_ref() {
+    local ref=$1
+    local ref_type=$2  # "tag" or "commit"
+    
+    print_info "Checking out $ref_type: $ref"
     
     # Stash any local changes
     if ! git diff-index --quiet HEAD --; then
@@ -131,17 +148,19 @@ checkout_tag() {
         git stash push -m "Auto-stash before retroactive build"
     fi
     
-    # Check if tag exists
-    if ! git rev-parse "$tag" >/dev/null 2>&1; then
-        print_error "Tag does not exist: $tag"
-        print_info "Available tags:"
-        git tag -l "v*" | head -10
+    # Check if ref exists
+    if ! git rev-parse "$ref" >/dev/null 2>&1; then
+        print_error "$ref_type does not exist: $ref"
+        if [ "$ref_type" = "tag" ]; then
+            print_info "Available tags:"
+            git tag -l "v*" | head -10
+        fi
         return 1
     fi
     
-    # Checkout the tag
-    git checkout "$tag" 2>&1 || {
-        print_error "Failed to checkout tag: $tag"
+    # Checkout the ref
+    git checkout "$ref" 2>&1 || {
+        print_error "Failed to checkout $ref_type: $ref"
         return 1
     }
     
@@ -151,14 +170,22 @@ checkout_tag() {
         git submodule update --init --recursive
     fi
     
-    print_success "Checked out tag: $tag"
+    print_success "Checked out $ref_type: $ref"
     
-    # Show which branch/commit the tag points to
+    # Show commit information
     local commit=$(git rev-parse HEAD)
-    local branch=$(git branch -r --contains "$commit" | grep -E "(main|master|release/)" | head -1 | xargs)
+    local short_commit=$(git rev-parse --short HEAD)
+    print_info "Commit: $short_commit ($commit)"
+    
+    # Show which branch contains this commit
+    local branch=$(git branch -r --contains "$commit" | grep -E "(main|master|release/|develop)" | head -1 | xargs)
     if [ -n "$branch" ]; then
-        print_info "Tag $tag is from branch: $branch"
+        print_info "Ref is from branch: $branch"
     fi
+    
+    # Show commit message
+    local commit_msg=$(git log -1 --pretty=format:"%s")
+    print_info "Commit message: $commit_msg"
 }
 
 restore_original_branch() {
@@ -297,48 +324,63 @@ build_platform() {
 # =============================================================================
 
 package_artifacts() {
-    local tag=$1
-    local version=${tag#v}
+    local ref=$1
     local platform=$2
     
-    print_info "Packaging artifacts for $tag ($platform)..."
+    # Determine version from ref
+    local version
+    if [[ "$ref" =~ ^v[0-9] ]]; then
+        # It's a version tag
+        version=${ref#v}
+    else
+        # It's a commit or branch - try to get version from VERSION file
+        if [ -f "VERSION" ]; then
+            version=$(cat VERSION | tr -d '[:space:]')
+        else
+            # Use commit SHA as version
+            version=$(git rev-parse --short HEAD)
+        fi
+    fi
     
-    local tag_output_dir="${OUTPUT_DIR}/${tag}"
-    mkdir -p "$tag_output_dir"
+    print_info "Packaging artifacts for $ref (version: $version, platform: $platform)..."
+    
+    local ref_output_dir="${OUTPUT_DIR}/${ref//\//-}"  # Replace / with - for directory name
+    mkdir -p "$ref_output_dir"
     
     # Find and copy build artifacts
     local build_dir="build-retroactive"
     
     if [ -d "$build_dir" ]; then
         # Copy packages
-        find "$build_dir" -maxdepth 1 \( -name "*.tar.gz" -o -name "*.deb" -o -name "*.rpm" -o -name "*.zip" \) -exec cp {} "$tag_output_dir/" \;
+        find "$build_dir" -maxdepth 1 \( -name "*.tar.gz" -o -name "*.deb" -o -name "*.rpm" -o -name "*.zip" \) -exec cp {} "$ref_output_dir/" \;
         
         # Generate SHA256 checksums
         print_info "Generating SHA256 checksums..."
-        (cd "$tag_output_dir" && sha256sum * > SHA256SUMS.txt 2>/dev/null || true)
+        (cd "$ref_output_dir" && sha256sum * > SHA256SUMS.txt 2>/dev/null || true)
         
         # Create release notes
-        create_release_notes "$tag" "$tag_output_dir"
+        create_release_notes "$ref" "$version" "$ref_output_dir"
         
-        print_success "Artifacts packaged in: $tag_output_dir"
+        print_success "Artifacts packaged in: $ref_output_dir"
         
         # List generated files
         print_info "Generated files:"
-        ls -lh "$tag_output_dir"
+        ls -lh "$ref_output_dir"
     else
         print_warning "Build directory not found: $build_dir"
     fi
 }
 
 create_release_notes() {
-    local tag=$1
-    local output_dir=$2
-    local version=${tag#v}
+    local ref=$1
+    local version=$2
+    local output_dir=$3
     
-    local notes_file="${output_dir}/RELEASE_NOTES_${tag}.md"
+    local safe_ref=${ref//\//-}  # Replace / with - for filename
+    local notes_file="${output_dir}/RELEASE_NOTES_${safe_ref}.md"
     
     cat > "$notes_file" << EOF
-# ThemisDB ${tag} - Retroactive Build
+# ThemisDB ${ref} - Retroactive Build
 
 **Version:** ${version}  
 **Build Date:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')  
@@ -348,10 +390,11 @@ create_release_notes() {
 
 ## Build Information
 
-This release was built retroactively from the source code at tag ${tag}.
+This release was built retroactively from the source code at ref ${ref}.
 
-- **Git Tag:** ${tag}
+- **Git Ref:** ${ref}
 - **Git Commit:** $(git rev-parse HEAD)
+- **Commit Message:** $(git log -1 --pretty=format:"%s")
 - **Build Date:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')
 
 ## Artifacts
@@ -418,37 +461,38 @@ EOF
 # Main Build Process
 # =============================================================================
 
-build_tag() {
-    local tag=$1
+build_ref() {
+    local ref=$1
+    local ref_type=$2  # "tag" or "commit"
     
     print_header
-    print_info "Processing tag: $tag"
+    print_info "Processing $ref_type: $ref"
     print_info "Platform: $PLATFORM"
     print_info "Output directory: $OUTPUT_DIR"
     echo
     
-    # Checkout the tag
-    checkout_tag "$tag" || {
-        print_error "Failed to checkout tag: $tag"
+    # Checkout the ref
+    checkout_ref "$ref" "$ref_type" || {
+        print_error "Failed to checkout $ref_type: $ref"
         return 1
     }
     
     # Build unless skipped
     if [ "$SKIP_BUILD" = false ]; then
-        build_platform "$tag" "$PLATFORM" || {
-            print_error "Build failed for tag: $tag"
+        build_platform "$ref" "$PLATFORM" || {
+            print_error "Build failed for $ref_type: $ref"
             restore_original_branch
             return 1
         }
     fi
     
     # Package artifacts
-    package_artifacts "$tag" "$PLATFORM"
+    package_artifacts "$ref" "$PLATFORM"
     
     # Restore original branch
     restore_original_branch
     
-    print_success "Completed processing tag: $tag"
+    print_success "Completed processing $ref_type: $ref"
     echo
 }
 
@@ -461,6 +505,10 @@ parse_arguments() {
         case $1 in
             --tag)
                 SPECIFIC_TAG="$2"
+                shift 2
+                ;;
+            --commit)
+                SPECIFIC_COMMIT="$2"
                 shift 2
                 ;;
             --all-tags)
@@ -517,8 +565,15 @@ main() {
     fi
     
     # Validate options
-    if [ "$BUILD_ALL_TAGS" = false ] && [ -z "$SPECIFIC_TAG" ]; then
-        print_error "Either --tag or --all-tags must be specified"
+    if [ "$BUILD_ALL_TAGS" = false ] && [ -z "$SPECIFIC_TAG" ] && [ -z "$SPECIFIC_COMMIT" ]; then
+        print_error "Either --tag, --commit, or --all-tags must be specified"
+        show_help
+        exit 1
+    fi
+    
+    # Validate mutually exclusive options
+    if [ -n "$SPECIFIC_TAG" ] && [ -n "$SPECIFIC_COMMIT" ]; then
+        print_error "Cannot specify both --tag and --commit"
         show_help
         exit 1
     fi
@@ -526,9 +581,11 @@ main() {
     # Create output directory
     mkdir -p "$OUTPUT_DIR"
     
-    # Build specific tag or all tags
+    # Build specific tag, commit, or all tags
     if [ -n "$SPECIFIC_TAG" ]; then
-        build_tag "$SPECIFIC_TAG"
+        build_ref "$SPECIFIC_TAG" "tag"
+    elif [ -n "$SPECIFIC_COMMIT" ]; then
+        build_ref "$SPECIFIC_COMMIT" "commit"
     elif [ "$BUILD_ALL_TAGS" = true ]; then
         local tags=($(get_all_version_tags))
         
@@ -541,7 +598,7 @@ main() {
         echo
         
         for tag in "${tags[@]}"; do
-            build_tag "$tag" || {
+            build_ref "$tag" "tag" || {
                 print_error "Failed to build tag: $tag"
                 print_warning "Continuing with next tag..."
                 echo

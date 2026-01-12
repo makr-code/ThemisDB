@@ -49,7 +49,65 @@ release-retroactive/v1.3.4/
 └── RELEASE_NOTES_v1.3.4.md
 ```
 
-## Example 2: Build Single Tag for Windows
+## Example 2: Build from Specific Commit (Intermediate Release)
+
+Build release from a specific commit SHA (useful for intermediate releases between tags):
+
+```bash
+# Navigate to repository root
+cd /path/to/ThemisDB
+
+# Find the commit SHA you want to build
+git log --oneline | grep "Merge"
+# Example output: a1b2c3d Merge branch 'release/v1.3.5' into main
+
+# Build from that commit
+./scripts/retroactive-release-builder.sh \
+    --commit a1b2c3d \
+    --platform linux \
+    --clean
+
+# Check output
+ls -lh release-retroactive/a1b2c3d/
+```
+
+Expected output:
+```
+release-retroactive/a1b2c3d/
+├── themisdb-1.3.5-Linux.tar.gz  (version from VERSION file)
+├── themisdb-1.3.5-Linux.deb
+├── themisdb-1.3.5-Linux.rpm
+├── SHA256SUMS.txt
+└── RELEASE_NOTES_a1b2c3d.md
+```
+
+## Example 3: Build from Release Branch
+
+Build from a release branch before it's merged:
+
+```bash
+# Build from release branch
+./scripts/retroactive-release-builder.sh \
+    --commit release/v1.4.0 \
+    --platform linux
+
+# Or use branch name directly
+./scripts/retroactive-release-builder.sh \
+    --commit origin/release/v1.4.0 \
+    --platform linux
+```
+
+Expected output:
+```
+release-retroactive/release-v1.4.0/
+├── themisdb-1.4.0-Linux.tar.gz
+├── themisdb-1.4.0-Linux.deb
+├── themisdb-1.4.0-Linux.rpm
+├── SHA256SUMS.txt
+└── RELEASE_NOTES_release-v1.4.0.md
+```
+
+## Example 4: Build Single Tag for Windows
 
 Build release packages for version v1.3.4 on Windows:
 
@@ -75,7 +133,36 @@ release-retroactive\v1.3.4\
 └── RELEASE_NOTES_v1.3.4.md
 ```
 
-## Example 3: Build All Tags
+## Example 5: Build from Merge Commit (Windows)
+
+Build release packages from a merge commit on Windows:
+
+```powershell
+# Navigate to repository root
+cd C:\path\to\ThemisDB
+
+# Find merge commits
+git log --oneline --merges | Select-Object -First 10
+
+# Build from specific merge commit
+.\scripts\retroactive-release-builder.ps1 `
+    -Commit abc1234 `
+    -Platform windows `
+    -Clean
+
+# Check output
+Get-ChildItem release-retroactive\abc1234\
+```
+
+Expected output:
+```
+release-retroactive\abc1234\
+├── ThemisDB-1.3.5-Win64.zip
+├── SHA256SUMS.txt
+└── RELEASE_NOTES_abc1234.md
+```
+
+## Example 6: Build All Tags
 
 Build all available version tags:
 

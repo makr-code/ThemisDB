@@ -1,11 +1,13 @@
 # Retroactive Release Building Guide
 
-This guide explains how to extract source code at specific version tags and build/package binaries retroactively for all past releases of ThemisDB.
+This guide explains how to extract source code at specific version tags, commits, or branches and build/package binaries retroactively for all past releases of ThemisDB.
 
 ## Overview
 
 The retroactive release building system allows you to:
 - Extract source code at any version tag
+- **Build from specific commits (intermediate releases)**
+- **Build from merge commits or branch names**
 - Build binaries for that specific version
 - Package the binaries in release formats (TGZ, DEB, RPM, ZIP)
 - Generate SHA256 checksums
@@ -13,6 +15,7 @@ The retroactive release building system allows you to:
 
 This is useful for:
 - Regenerating binaries for past releases
+- **Building intermediate releases from merge commits**
 - Building releases for new platforms retroactively
 - Creating consistent release artifacts across all versions
 - Supporting older versions with new builds
@@ -50,6 +53,18 @@ This is useful for:
 ./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform all
 ```
 
+#### Build from Specific Commit (NEW)
+```bash
+# Build from a specific commit SHA (intermediate release)
+./scripts/retroactive-release-builder.sh --commit a1b2c3d4 --platform linux
+
+# Build from a merge commit
+./scripts/retroactive-release-builder.sh --commit abc123 --platform linux
+
+# Build from a branch name (e.g., release branch)
+./scripts/retroactive-release-builder.sh --commit release/v1.3.4 --platform linux
+```
+
 #### Build All Tags
 ```bash
 # Build all version tags for Linux
@@ -85,6 +100,15 @@ This is useful for:
 
 # Build with clean
 .\scripts\retroactive-release-builder.ps1 -Tag v1.3.4 -Clean
+```
+
+#### Build from Specific Commit (NEW)
+```powershell
+# Build from a specific commit SHA
+.\scripts\retroactive-release-builder.ps1 -Commit a1b2c3d4
+
+# Build from a merge commit or branch
+.\scripts\retroactive-release-builder.ps1 -Commit release/v1.3.4 -Clean
 ```
 
 #### Build All Tags

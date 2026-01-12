@@ -60,6 +60,8 @@
 
 **Key Features:**
 - ✅ Build any historical version from Git tags
+- ✅ **Build from specific commits (intermediate releases)**
+- ✅ **Build from merge commits or branch names**
 - ✅ Generate consistent release packages retroactively
 - ✅ Support for multiple package formats (DEB, RPM, TGZ, ZIP)
 - ✅ Automatic checksum and release notes generation
@@ -71,6 +73,8 @@
 
 **Use Cases:**
 - Regenerate binaries for past releases
+- **Build intermediate releases from merge commits**
+- **Build releases from specific commits without tags**
 - Build releases for new platforms retroactively
 - Create consistent release artifacts across all versions
 - Support older versions with updated build configurations
@@ -81,6 +85,12 @@
 # Retroactive build for existing tag
 ./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform linux
 
+# Build from specific commit (intermediate release)
+./scripts/retroactive-release-builder.sh --commit a1b2c3d --platform linux
+
+# Build from merge commit or branch
+./scripts/retroactive-release-builder.sh --commit release/v1.3.4 --platform linux
+
 # Complete Git Flow release (develop → main + build)
 ./scripts/complete-release.sh 1.5.0
 
@@ -88,6 +98,7 @@
 ./scripts/complete-release.sh 1.5.0 --dry-run
 
 # Windows
+.\scripts\retroactive-release-builder.ps1 -Commit abc123 -Clean
 .\scripts\complete-release.ps1 -Version 1.5.0 -DryRun
 ```
 

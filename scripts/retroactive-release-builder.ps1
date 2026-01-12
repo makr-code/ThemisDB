@@ -1,14 +1,15 @@
 # =============================================================================
 # ThemisDB Retroactive Release Builder (PowerShell)
 # =============================================================================
-# Purpose: Extract source code at specific version tags and build/package
-#          binaries retroactively for all past releases (Windows).
+# Purpose: Extract source code at specific version tags, commits, or branches
+#          and build/package binaries retroactively for all past releases (Windows).
 #
 # Usage:
 #   .\retroactive-release-builder.ps1 [OPTIONS]
 #
 # Parameters:
 #   -Tag              Build specific tag (e.g., v1.3.4)
+#   -Commit           Build specific commit SHA or branch name
 #   -AllTags          Build all version tags
 #   -ListTags         List available version tags
 #   -Platform         Target platform (windows|all) [default: windows]
@@ -20,6 +21,12 @@
 # Examples:
 #   # Build specific tag for Windows
 #   .\retroactive-release-builder.ps1 -Tag v1.3.4
+#
+#   # Build from specific commit (intermediate release)
+#   .\retroactive-release-builder.ps1 -Commit a1b2c3d
+#
+#   # Build from merge commit or branch
+#   .\retroactive-release-builder.ps1 -Commit release/v1.3.4
 #
 #   # Build all tags
 #   .\retroactive-release-builder.ps1 -AllTags
@@ -33,6 +40,9 @@
 param(
     [Parameter(Mandatory=$false)]
     [string]$Tag = "",
+    
+    [Parameter(Mandatory=$false)]
+    [string]$Commit = "",
     
     [Parameter(Mandatory=$false)]
     [switch]$AllTags,
@@ -108,6 +118,7 @@ Usage: .\retroactive-release-builder.ps1 [OPTIONS]
 
 Parameters:
     -Tag              Build specific tag (e.g., v1.3.4)
+    -Commit           Build specific commit SHA or branch name
     -AllTags          Build all version tags
     -ListTags         List available version tags
     -Platform         Target platform (windows|all) [default: windows]
@@ -119,6 +130,12 @@ Parameters:
 Examples:
     # Build specific tag for Windows
     .\retroactive-release-builder.ps1 -Tag v1.3.4
+
+    # Build from specific commit (intermediate release)
+    .\retroactive-release-builder.ps1 -Commit a1b2c3d
+
+    # Build from merge commit or branch
+    .\retroactive-release-builder.ps1 -Commit release/v1.3.4
 
     # Build all tags
     .\retroactive-release-builder.ps1 -AllTags
@@ -146,10 +163,13 @@ function Show-VersionTags {
     }
 }
 
-function Checkout-Tag {
-    param([string]$TagName)
+function Checkout-Ref {
+    param(
+        [string]$RefName,
+        [string]$RefType  # "tag" or "commit"
+    )
     
-    Print-Info "Checking out tag: $TagName"
+    Print-Info "Checking out $RefType`: $RefName"
     
     # Stash any local changes
     $status = git status --porcelain
@@ -158,18 +178,20 @@ function Checkout-Tag {
         git stash push -m "Auto-stash before retroactive build"
     }
     
-    # Check if tag exists
-    $tagExists = git rev-parse $TagName 2>$null
-    if (-not $tagExists) {
-        Print-Error "Tag does not exist: $TagName"
-        Print-Info "Available tags:"
-        git tag -l "v*" | Select-Object -First 10
+    # Check if ref exists
+    $refExists = git rev-parse $RefName 2>$null
+    if (-not $refExists) {
+        Print-Error "$RefType does not exist: $RefName"
+        if ($RefType -eq "tag") {
+            Print-Info "Available tags:"
+            git tag -l "v*" | Select-Object -First 10
+        }
         return $false
     }
     
-    # Checkout the tag
+    # Checkout the ref
     try {
-        git checkout $TagName 2>&1 | Out-Null
+        git checkout $RefName 2>&1 | Out-Null
         
         # Update submodules if any
         if (Test-Path ".gitmodules") {
@@ -177,19 +199,27 @@ function Checkout-Tag {
             git submodule update --init --recursive 2>&1 | Out-Null
         }
         
-        Print-Success "Checked out tag: $TagName"
+        Print-Success "Checked out $RefType`: $RefName"
         
-        # Show which branch/commit the tag points to
+        # Show commit information
         $commit = git rev-parse HEAD
-        $branch = git branch -r --contains $commit | Select-String -Pattern "(main|master|release/)" | Select-Object -First 1
+        $shortCommit = git rev-parse --short HEAD
+        Print-Info "Commit: $shortCommit ($commit)"
+        
+        # Show which branch contains this commit
+        $branch = git branch -r --contains $commit | Select-String -Pattern "(main|master|release/|develop)" | Select-Object -First 1
         if ($branch) {
-            Print-Info "Tag $TagName is from branch: $($branch.Line.Trim())"
+            Print-Info "Ref is from branch: $($branch.Line.Trim())"
         }
+        
+        # Show commit message
+        $commitMsg = git log -1 --pretty=format:"%s"
+        Print-Info "Commit message: $commitMsg"
         
         return $true
     }
     catch {
-        Print-Error "Failed to checkout tag: $TagName"
+        Print-Error "Failed to checkout $RefType`: $RefName"
         return $false
     }
 }
@@ -350,12 +380,12 @@ function Package-Artifacts {
         # Copy packages
         Get-ChildItem -Path $buildDir -Filter "*.zip" -Recurse | 
             Where-Object { $_.Directory.Name -eq $buildDir -or $_.Directory.Parent.Name -eq $buildDir } |
-            Copy-Item -Destination $tagOutputDir -Force
+            Copy-Item -Destination $refOutputDir -Force
         
         # Generate SHA256 checksums
         Print-Info "Generating SHA256 checksums..."
-        $checksumFile = Join-Path $tagOutputDir "SHA256SUMS.txt"
-        Get-ChildItem -Path $tagOutputDir -File | 
+        $checksumFile = Join-Path $refOutputDir "SHA256SUMS.txt"
+        Get-ChildItem -Path $refOutputDir -File | 
             Where-Object { $_.Name -ne "SHA256SUMS.txt" } | 
             ForEach-Object {
                 $hash = Get-FileHash -Path $_.FullName -Algorithm SHA256
@@ -363,13 +393,13 @@ function Package-Artifacts {
             }
         
         # Create release notes
-        Create-ReleaseNotes $TagName $tagOutputDir
+        Create-ReleaseNotes $RefName $version $refOutputDir
         
-        Print-Success "Artifacts packaged in: $tagOutputDir"
+        Print-Success "Artifacts packaged in: $refOutputDir"
         
         # List generated files
         Print-Info "Generated files:"
-        Get-ChildItem -Path $tagOutputDir | ForEach-Object {
+        Get-ChildItem -Path $refOutputDir | ForEach-Object {
             Write-Host "  $($_.Name) ($([math]::Round($_.Length / 1MB, 2)) MB)"
         }
     }
@@ -380,20 +410,22 @@ function Package-Artifacts {
 
 function Create-ReleaseNotes {
     param(
-        [string]$TagName,
+        [string]$RefName,
+        [string]$Version,
         [string]$OutputPath
     )
     
-    $version = $TagName -replace '^v', ''
-    $notesFile = Join-Path $OutputPath "RELEASE_NOTES_${TagName}.md"
+    $safeRef = $RefName -replace '/', '-'
+    $notesFile = Join-Path $OutputPath "RELEASE_NOTES_${safeRef}.md"
     
     $commit = git rev-parse HEAD
+    $commitMsg = git log -1 --pretty=format:"%s"
     $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC"
     
     $content = @"
-# ThemisDB ${TagName} - Retroactive Build
+# ThemisDB ${RefName} - Retroactive Build
 
-**Version:** ${version}  
+**Version:** ${Version}  
 **Build Date:** ${date}  
 **Build Type:** Retroactive Release Build  
 **Build Host:** $env:COMPUTERNAME  
@@ -401,10 +433,11 @@ function Create-ReleaseNotes {
 
 ## Build Information
 
-This release was built retroactively from the source code at tag ${TagName}.
+This release was built retroactively from the source code at ref ${RefName}.
 
-- **Git Tag:** ${TagName}
+- **Git Ref:** ${RefName}
 - **Git Commit:** ${commit}
+- **Commit Message:** ${commitMsg}
 - **Build Date:** ${date}
 
 ## Artifacts
@@ -460,37 +493,40 @@ For more information, visit the [ThemisDB GitHub repository](https://github.com/
 # Main Build Process
 # =============================================================================
 
-function Build-Tag {
-    param([string]$TagName)
+function Build-Ref {
+    param(
+        [string]$RefName,
+        [string]$RefType  # "tag" or "commit"
+    )
     
     Print-Header
-    Print-Info "Processing tag: $TagName"
+    Print-Info "Processing $RefType`: $RefName"
     Print-Info "Platform: $Platform"
     Print-Info "Output directory: $OutputDir"
     Write-Host ""
     
-    # Checkout the tag
-    if (-not (Checkout-Tag $TagName)) {
-        Print-Error "Failed to checkout tag: $TagName"
+    # Checkout the ref
+    if (-not (Checkout-Ref $RefName $RefType)) {
+        Print-Error "Failed to checkout $RefType`: $RefName"
         return $false
     }
     
     # Build unless skipped
     if (-not $SkipBuild) {
-        if (-not (Build-Platform $TagName $Platform)) {
-            Print-Error "Build failed for tag: $TagName"
+        if (-not (Build-Platform $RefName $Platform)) {
+            Print-Error "Build failed for $RefType`: $RefName"
             Restore-OriginalBranch
             return $false
         }
     }
     
     # Package artifacts
-    Package-Artifacts $TagName $Platform
+    Package-Artifacts $RefName $Platform
     
     # Restore original branch
     Restore-OriginalBranch
     
-    Print-Success "Completed processing tag: $TagName"
+    Print-Success "Completed processing $RefType`: $RefName"
     Write-Host ""
     
     return $true
@@ -516,8 +552,15 @@ function Main {
     }
     
     # Validate options
-    if (-not $AllTags -and -not $Tag) {
-        Print-Error "Either -Tag or -AllTags must be specified"
+    if (-not $AllTags -and -not $Tag -and -not $Commit) {
+        Print-Error "Either -Tag, -Commit, or -AllTags must be specified"
+        Show-Help
+        return
+    }
+    
+    # Validate mutually exclusive options
+    if ($Tag -and $Commit) {
+        Print-Error "Cannot specify both -Tag and -Commit"
         Show-Help
         return
     }
@@ -525,9 +568,12 @@ function Main {
     # Create output directory
     New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
     
-    # Build specific tag or all tags
+    # Build specific tag, commit, or all tags
     if ($Tag) {
-        Build-Tag $Tag
+        Build-Ref $Tag "tag"
+    }
+    elseif ($Commit) {
+        Build-Ref $Commit "commit"
     }
     elseif ($AllTags) {
         $tags = Get-VersionTags
@@ -541,7 +587,7 @@ function Main {
         Write-Host ""
         
         foreach ($t in $tags) {
-            if (-not (Build-Tag $t)) {
+            if (-not (Build-Ref $t "tag")) {
                 Print-Error "Failed to build tag: $t"
                 Print-Warning "Continuing with next tag..."
                 Write-Host ""
