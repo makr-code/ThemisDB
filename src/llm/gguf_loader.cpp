@@ -1,4 +1,5 @@
 #include "llm/gguf_loader.h"
+#include "storage/rocksdb_wrapper.h"
 #ifndef _WIN32
 #include <fcntl.h>
 #include <sys/mman.h>
@@ -10,12 +11,18 @@
 #include <cstring>
 #include <stdexcept>
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 
 namespace themis {
 namespace llm {
 
 GGUFLoader::GGUFLoader() 
-    : fd_(-1), mmap_base_(nullptr), mmap_size_(0) {
+    : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(nullptr) {
+}
+
+GGUFLoader::GGUFLoader(RocksDBWrapper* db)
+    : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(db) {
 }
 
 GGUFLoader::~GGUFLoader() {
@@ -170,9 +177,125 @@ bool GGUFLoader::parseTensorInfo() {
 }
 
 std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
-    // TODO: Implement actual loading to RocksDB Blob Store
-    // For now, return URN
-    return "urn:themis:model:" + model_name + ":v1";
+    if (!db_) {
+        throw std::runtime_error("RocksDBWrapper not set. Use setDatabase() or constructor with db parameter.");
+    }
+    
+    if (filepath_.empty() || mmap_base_ == nullptr) {
+        throw std::runtime_error("No GGUF file parsed. Call parseFile() first.");
+    }
+    
+    // Generate model URN
+    std::string model_urn = "urn:themis:model:" + model_name + ":v1";
+    std::string metadata_key = "llm:model:" + model_name + ":metadata";
+    
+    // 1. Store metadata
+    std::ostringstream metadata_json;
+    metadata_json << "{"
+                  << "\"version\":\"" << metadata_.version << "\","
+                  << "\"architecture\":\"" << metadata_.architecture << "\","
+                  << "\"total_size\":" << metadata_.total_size << ","
+                  << "\"num_tensors\":" << metadata_.tensors.size() << ","
+                  << "\"urn\":\"" << model_urn << "\","
+                  << "\"config\":{";
+    
+    bool first = true;
+    for (const auto& [key, value] : metadata_.config) {
+        if (!first) metadata_json << ",";
+        metadata_json << "\"" << key << "\":\"" << value << "\"";
+        first = false;
+    }
+    metadata_json << "},\"tensors\":[";
+    
+    first = true;
+    for (const auto& tensor : metadata_.tensors) {
+        if (!first) metadata_json << ",";
+        metadata_json << "{"
+                     << "\"name\":\"" << tensor.name << "\","
+                     << "\"dtype\":\"" << tensor.dtype << "\","
+                     << "\"size\":" << tensor.size << ","
+                     << "\"offset\":" << tensor.offset << ","
+                     << "\"shape\":[";
+        for (size_t i = 0; i < tensor.shape.size(); ++i) {
+            if (i > 0) metadata_json << ",";
+            metadata_json << tensor.shape[i];
+        }
+        metadata_json << "]}";
+        first = false;
+    }
+    metadata_json << "]}";
+    
+    std::string metadata_str = metadata_json.str();
+    std::vector<uint8_t> metadata_bytes(metadata_str.begin(), metadata_str.end());
+    
+    if (!db_->put(metadata_key, metadata_bytes)) {
+        throw std::runtime_error("Failed to store model metadata in RocksDB");
+    }
+    
+    // 2. Store tensor data in chunks (64 MB chunks to avoid memory exhaustion)
+    const size_t CHUNK_SIZE = 64 * 1024 * 1024; // 64 MB
+    
+    for (const auto& tensor : metadata_.tensors) {
+        if (!storeTensorInChunks(model_name, tensor, CHUNK_SIZE)) {
+            throw std::runtime_error("Failed to store tensor: " + tensor.name);
+        }
+    }
+    
+    // 3. Store model URN mapping
+    std::string urn_key = "llm:model:urn:" + model_urn;
+    std::vector<uint8_t> model_name_bytes(model_name.begin(), model_name.end());
+    if (!db_->put(urn_key, model_name_bytes)) {
+        throw std::runtime_error("Failed to store URN mapping in RocksDB");
+    }
+    
+    return model_urn;
+}
+
+bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
+                                     const TensorMetadata& tensor,
+                                     size_t chunk_size) {
+    // Get pointer to tensor data in mmap region
+    void* tensor_ptr = static_cast<char*>(mmap_base_) + tensor.offset;
+    
+    size_t remaining = tensor.size;
+    size_t chunk_index = 0;
+    size_t offset = 0;
+    
+    while (remaining > 0) {
+        size_t current_chunk_size = std::min(remaining, chunk_size);
+        
+        // Create chunk key: llm:model:{model_name}:tensor:{tensor_name}:chunk:{index}
+        std::ostringstream chunk_key;
+        chunk_key << "llm:model:" << model_name 
+                  << ":tensor:" << tensor.name 
+                  << ":chunk:" << chunk_index;
+        
+        // Copy chunk data
+        std::vector<uint8_t> chunk_data(current_chunk_size);
+        std::memcpy(chunk_data.data(), 
+                   static_cast<char*>(tensor_ptr) + offset, 
+                   current_chunk_size);
+        
+        // Store chunk in RocksDB (will automatically use BlobDB for large chunks)
+        if (!db_->put(chunk_key.str(), chunk_data)) {
+            return false;
+        }
+        
+        remaining -= current_chunk_size;
+        offset += current_chunk_size;
+        chunk_index++;
+    }
+    
+    // Store chunk count for this tensor
+    std::ostringstream count_key;
+    count_key << "llm:model:" << model_name 
+              << ":tensor:" << tensor.name 
+              << ":chunk_count";
+    
+    std::string count_str = std::to_string(chunk_index);
+    std::vector<uint8_t> count_bytes(count_str.begin(), count_str.end());
+    
+    return db_->put(count_key.str(), count_bytes);
 }
 
 void* GGUFLoader::mmapTensor(const std::string& tensor_name) {
