@@ -2,13 +2,10 @@
 
 #include <string>
 #include <memory>
+#include <boost/beast/http.hpp>
+#include <nlohmann/json.hpp>
 
 // Forward declarations
-namespace httplib {
-    class Request;
-    class Response;
-}
-
 namespace themis {
 
 class SnapshotManager;
@@ -55,7 +52,8 @@ public:
      *   "created_by": "admin"
      * }
      */
-    void handleCreateTag(const httplib::Request& req, httplib::Response& res);
+    void handleCreateTag(const boost::beast::http::request<boost::beast::http::string_body>& req, 
+                        boost::beast::http::response<boost::beast::http::string_body>& res);
 
     /**
      * @brief Handle GET /api/v1/snapshots/tags
@@ -76,7 +74,8 @@ public:
      *   "total": 5
      * }
      */
-    void handleListTags(const httplib::Request& req, httplib::Response& res);
+    void handleListTags(const boost::beast::http::request<boost::beast::http::string_body>& req, 
+                       boost::beast::http::response<boost::beast::http::string_body>& res);
 
     /**
      * @brief Handle GET /api/v1/snapshots/tags/:name
@@ -96,7 +95,8 @@ public:
      *   "error": "Tag not found"
      * }
      */
-    void handleGetTag(const httplib::Request& req, httplib::Response& res);
+    void handleGetTag(const boost::beast::http::request<boost::beast::http::string_body>& req, 
+                     boost::beast::http::response<boost::beast::http::string_body>& res);
 
     /**
      * @brief Handle DELETE /api/v1/snapshots/tags/:name
@@ -112,7 +112,8 @@ public:
      *   "error": "Tag not found"
      * }
      */
-    void handleDeleteTag(const httplib::Request& req, httplib::Response& res);
+    void handleDeleteTag(const boost::beast::http::request<boost::beast::http::string_body>& req, 
+                        boost::beast::http::response<boost::beast::http::string_body>& res);
 
     /**
      * @brief Handle GET /api/v1/snapshots/stats
@@ -127,14 +128,17 @@ public:
      *   "newest_timestamp_ms": 1736629200000
      * }
      */
-    void handleGetStats(const httplib::Request& req, httplib::Response& res);
+    void handleGetStats(const boost::beast::http::request<boost::beast::http::string_body>& req, 
+                       boost::beast::http::response<boost::beast::http::string_body>& res);
 
 private:
     SnapshotManager& snapshot_mgr_;
 
     // Helper methods
-    void sendJsonResponse(httplib::Response& res, int status, const nlohmann::json& json);
-    void sendErrorResponse(httplib::Response& res, int status, const std::string& error);
+    void sendJsonResponse(boost::beast::http::response<boost::beast::http::string_body>& res, 
+                         int status, const nlohmann::json& json);
+    void sendErrorResponse(boost::beast::http::response<boost::beast::http::string_body>& res, 
+                          int status, const std::string& error);
 };
 
 } // namespace themis
