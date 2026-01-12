@@ -22,6 +22,77 @@
 ### Added
 
 <details open>
+<summary><b>📚 Documentation Archival System</b> (Feature: Documentation Management)</summary>
+
+- 📚 **Complete Documentation Archival System** - Formal system for archiving outdated documentation:
+  - `docs/DOCUMENTATION_ARCHIVAL_PROCESS.md` - Complete 6-phase archival workflow (340 lines)
+  - `docs/archive/ARCHIVE_NOTE_TEMPLATE.md` - Standardized template for archive notes
+  - `docs/DOCUMENTATION_ARCHIVAL_INVESTIGATION.md` - Investigation and analysis report
+  - **CONTRIBUTING.md § Documentation Archival** - Formal archival policy
+  - Multi-language archive structure (EN, DE, FR, ES, JA)
+
+- 🗂️ **Archive Directory Structure** - Complete archive organization:
+  - `docs/archive/` - Root-level archive for language-agnostic documents
+  - `docs/en/archive/` - English documentation archives
+  - `docs/de/archive/` - German documentation archives (27 existing documents)
+  - `docs/fr/archive/` - French documentation archives
+  - `docs/es/archive/` - Spanish documentation archives
+  - `docs/ja/archive/` - Japanese documentation archives
+  - Each with README and metadata tables
+
+- 🔄 **Archived Implementation Summaries** - 11 outdated documents archived with full history:
+  - PITR, NLP Integration (Phases 1, 2, Final), Durability Testing
+  - LoRA Implementation, LoRA API, LoRA AQL, LoRA Help Integration
+  - ThemisHelp LoRA, Kerberos/GSSAPI Authentication
+  - All with standardized archive notes, git history preserved, migration paths documented
+
+**Key Features:**
+- ✅ Formal archival policy in CONTRIBUTING.md
+- ✅ Standardized archive note template with required fields
+- ✅ 6-phase archival workflow (Assessment, Preparation, Archival, Update References, Verification, Communication)
+- ✅ Multi-language support across 6 languages
+- ✅ Git history preservation using `git mv`
+- ✅ Archive notes with context, migration paths, and replacement documentation
+- ✅ Organized metadata tables in archive READMEs
+- ✅ Complete process documentation with examples
+
+**Archive Statistics:**
+- 38 total archived documents (27 German + 11 root-level)
+- 11 implementation summaries archived in 2 batches
+- Archive notes include: date, reason, replacement links, commit SHA, historical context
+- Git history preserved for all archived files
+
+**Use Cases:**
+- Archive outdated documentation while preserving history
+- Move completed implementation summaries to archives
+- Document superseded features and configurations
+- Maintain clean active documentation structure
+- Provide migration paths to current documentation
+
+**Example Archival:**
+```bash
+# Move document to archive
+git mv OLD_DOCUMENT.md docs/archive/OLD_DOCUMENT.md
+
+# Add archive note at top of document
+# (use template from docs/archive/ARCHIVE_NOTE_TEMPLATE.md)
+
+# Update archive README
+vim docs/archive/README.md
+
+# Commit with descriptive message
+git commit -m "docs: Archive OLD_DOCUMENT (superseded by new-guide)"
+```
+
+**Documentation:**
+- Process Guide: `docs/DOCUMENTATION_ARCHIVAL_PROCESS.md`
+- Policy: `CONTRIBUTING.md#documentation-archival`
+- Template: `docs/archive/ARCHIVE_NOTE_TEMPLATE.md`
+- Investigation: `docs/DOCUMENTATION_ARCHIVAL_INVESTIGATION.md`
+
+</details>
+
+<details open>
 <summary><b>📦 Retroactive Release Building System</b> (Feature: Build & Release)</summary>
 
 - 📦 **Retroactive Release Building System** - Extract and build binaries from historical version tags:
