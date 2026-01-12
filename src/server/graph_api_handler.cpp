@@ -7,6 +7,8 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
+using json = nlohmann::json;
+
 namespace themis {
 namespace server {
 
@@ -30,7 +32,7 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
     span.setAttribute("http.path", "/graph/traverse");
     
     try {
-        auto body_json = nlohmann::json::parse(req.body());
+        json body_json = json::parse(req.body());
         
         if (!body_json.contains("start_vertex") || !body_json.contains("max_depth")) {
             span.setAttribute("error", "missing_required_fields");
@@ -58,7 +60,7 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         span.setAttribute("graph.visited_count", static_cast<int64_t>(visited.size()));
         span.setStatus(true);
 
-        nlohmann::json response = {
+        json response = {
             {"start_vertex", start_vertex},
             {"max_depth", max_depth},
             {"visited_count", visited.size()},
@@ -66,7 +68,7 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         };
         return makeResponse(http::status::ok, response.dump(), req);
 
-    } catch (const nlohmann::json::exception& e) {
+    } catch (const json::exception& e) {
         span.recordError("JSON parse error: " + std::string(e.what()));
         span.setStatus(false);
         return makeErrorResponse(http::status::bad_request,
@@ -87,7 +89,7 @@ http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
     span.setAttribute("http.path", "/graph/edge");
     
     try {
-        auto body_json = nlohmann::json::parse(req.body());
+        json body_json = json::parse(req.body());
         
         // Validate required fields for edge creation
         if (!body_json.contains("id") || !body_json.contains("_from") || !body_json.contains("_to")) {
@@ -140,13 +142,13 @@ http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
         }
 
         span.setStatus(true);
-        nlohmann::json response = {
+        json response = {
             {"status", "ok"},
             {"edge_id", edge_id}
         };
         return makeResponse(http::status::created, response.dump(), req);
 
-    } catch (const nlohmann::json::exception& e) {
+    } catch (const json::exception& e) {
         span.recordError("JSON parse error: " + std::string(e.what()));
         span.setStatus(false);
         return makeErrorResponse(http::status::bad_request,
@@ -200,7 +202,7 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
         }
 
         span.setStatus(true);
-        nlohmann::json response = {
+        json response = {
             {"status", "ok"},
             {"edge_id", edge_id}
         };
@@ -234,7 +236,7 @@ http::response<http::string_body> GraphApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
     // Helper implementation following AdminApiHandler pattern
-    nlohmann::json error_body = {
+    json error_body = {
         {"error", true},
         {"message", message},
         {"status_code", static_cast<int>(status)}
