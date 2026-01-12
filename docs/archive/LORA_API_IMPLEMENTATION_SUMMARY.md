@@ -1,3 +1,34 @@
+# ARCHIVED: LoRA REST API Endpoints Implementation Summary
+
+**Archived Date:** 2026-01-12  
+**Reason:** Implementation completed - API documented in comprehensive guides  
+**Replaced By:** [LoRA API Documentation](../../API_REFERENCE.md#lora-api) and [LoRA Usage Examples](../../LORA_USAGE_EXAMPLES.md)  
+**Last Valid Version:** 536e15d (2026-01-12)
+
+---
+
+## Context
+
+This document was an implementation delivery summary for LoRA REST API endpoints. The API has been fully implemented and is now documented in comprehensive API references and usage guides.
+
+## Historical Information
+
+- **Implementation Date:** January 11, 2026
+- **Status:** Feature complete and production-ready
+- **API Coverage:** Complete REST endpoints for LoRA management
+
+## See Also
+
+- [LoRA Usage Examples](../../LORA_USAGE_EXAMPLES.md)
+- [API Reference](../../API_REFERENCE.md)
+- [LoRA Documentation](../../LORA_DOCUMENTATION_SUMMARY.md)
+
+---
+
+**Note:** This document is preserved for historical reference only.
+
+---
+
 # REST API Endpoints Implementation - Delivery Summary
 
 **Date:** 2026-01-11  

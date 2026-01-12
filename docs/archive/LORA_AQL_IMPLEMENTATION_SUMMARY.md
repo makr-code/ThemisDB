@@ -1,3 +1,33 @@
+# ARCHIVED: LoRA AQL Functions Implementation Summary
+
+**Archived Date:** 2026-01-12  
+**Reason:** Implementation completed - AQL functions documented in reference  
+**Replaced By:** [LoRA AQL Reference](../../LORA_AQL_REFERENCE.md)  
+**Last Valid Version:** 536e15d (2026-01-12)
+
+---
+
+## Context
+
+This document was an implementation summary for LoRA AQL (Advanced Query Language) functions. The AQL functions have been fully implemented and are now documented in the LoRA AQL reference guide.
+
+## Historical Information
+
+- **Implementation Date:** January 11, 2026
+- **Status:** Feature complete
+- **AQL Functions:** Complete integration with ThemisDB query language
+
+## See Also
+
+- [LoRA AQL Reference](../../LORA_AQL_REFERENCE.md)
+- [LoRA Usage Examples](../../LORA_USAGE_EXAMPLES.md)
+
+---
+
+**Note:** This document is preserved for historical reference only.
+
+---
+
 # LoRA AQL Functions - Implementation Summary
 
 **Date:** 2026-01-11  

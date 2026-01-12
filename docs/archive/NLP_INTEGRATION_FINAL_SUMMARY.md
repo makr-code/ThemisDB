@@ -1,3 +1,34 @@
+# ARCHIVED: NLP Text Analyzer Complete Implementation Summary
+
+**Archived Date:** 2026-01-12  
+**Reason:** Implementation completed - NLP features documented  
+**Replaced By:** [NLP Features Documentation](../en/features/) (see NLP-related features)  
+**Last Valid Version:** 536e15d (2026-01-12)
+
+---
+
+## Context
+
+This document was a complete implementation summary for the NLP Text Analyzer. The NLP integration has been fully completed and is now documented in comprehensive feature guides.
+
+## Historical Information
+
+- **Implementation Date:** January 11, 2026
+- **PR Reference:** #317
+- **Status:** Complete implementation
+- **Features:** Lightweight CPU-efficient text analysis, multi-language support, AQL integration
+
+## See Also
+
+- [NLP Features](../en/features/)
+- [Query Optimizer Documentation](../en/architecture/)
+
+---
+
+**Note:** This document is preserved for historical reference only.
+
+---
+
 # NLP Text Analyzer - Complete Implementation Summary
 
 **PR:** #317  

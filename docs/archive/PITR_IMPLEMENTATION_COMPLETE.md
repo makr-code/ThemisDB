@@ -1,3 +1,44 @@
+# ARCHIVED: PITR Implementation Complete Summary
+
+**Archived Date:** 2026-01-12  
+**Reason:** Implementation completed - Feature now documented in proper user guides  
+**Replaced By:** [Point-in-Time Recovery Feature Guide](../en/features/features_pitr.md)  
+**Last Valid Version:** 536e15d (2026-01-12)
+
+---
+
+## Context
+
+This document was an implementation completion summary created during the development and deployment of the PITR (Point-in-Time Recovery) feature. The feature has been successfully integrated into ThemisDB and is now documented in the official feature guides.
+
+## Historical Information
+
+- **Implementation Date:** January 12, 2026
+- **PR:** copilot/implement-pitr-for-themisdb
+- **Status:** Feature fully implemented and production-ready
+- **Coverage:** 50+ test cases with 95%+ coverage
+
+The PITR feature provides Git-like snapshot and restore capabilities for ThemisDB's MVCC system, enabling database administrators to create named snapshots and restore to any previous state.
+
+## Migration Path
+
+Users seeking information about PITR should refer to:
+- **Feature Documentation:** `docs/en/features/features_pitr.md`
+- **Administrator Guide:** `docs/en/guides/ADMINISTRATOR_GUIDE.md` (PITR section)
+- **Snapshot Management:** `docs/en/features/features_snapshots.md`
+
+## See Also
+
+- [Current PITR Documentation](../en/features/features_pitr.md)
+- [Snapshot Features](../en/features/features_snapshots.md)
+- [Administrator Guide](../en/guides/ADMINISTRATOR_GUIDE.md)
+
+---
+
+**Note:** This document is preserved for historical reference only. Do not use this information for current development or deployment.
+
+---
+
 # Phase 3: Point-in-Time Recovery (PITR) - Implementation Complete
 
 **Date:** January 12, 2026  
