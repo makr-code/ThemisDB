@@ -34,7 +34,7 @@ This action plan provides concrete steps to complete the remaining 25% of docume
 
 2. Run link checker on documentation:
    ```bash
-   cd /home/runner/work/ThemisDB/ThemisDB
+   cd "$(git rev-parse --show-toplevel)"
    find docs -name "*.md" -exec markdown-link-check {} \; > link_check_results.txt 2>&1
    ```
 
@@ -72,7 +72,7 @@ This action plan provides concrete steps to complete the remaining 25% of docume
 **Steps:**
 1. Identify implementation summaries older than 3 months:
    ```bash
-   cd /home/runner/work/ThemisDB/ThemisDB
+   cd "$(git rev-parse --show-toplevel)"
    find docs -name "*IMPLEMENTATION_SUMMARY*" -o -name "*COMPLETE*" -o -name "*FINAL*" | \
      xargs ls -lt | head -50
    ```
@@ -442,7 +442,7 @@ UPDATE_SUMMARY_LLM_AS_JUDGE.md
 ### Quick Start
 ```bash
 # 1. Create working branch
-cd /home/runner/work/ThemisDB/ThemisDB
+cd "$(git rev-parse --show-toplevel)"
 git checkout -b docs/cleanup-consolidation
 
 # 2. Start with Task 1.1 (Link Verification)
