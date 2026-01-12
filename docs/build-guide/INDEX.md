@@ -25,12 +25,19 @@
   - Homebrew dependencies
   - M1/M2/M3 optimization
 
-### CMake Architecture (New!)
+### CMake Architecture (Updated!)
 - 🏗️ **[../architecture/CMAKE_MODULAR_ARCHITECTURE.md](../architecture/CMAKE_MODULAR_ARCHITECTURE.md)**
-  - Modular structure overview
-  - Feature system explanation
+  - **TARGET** modular architecture (PLANNED)
+  - Current state vs. future roadmap
+  - Feature modules (PLANNED): cmake/Features/*.cmake
+  - Target modules (PLANNED): cmake/Targets/*.cmake
   - Edition system (MINIMAL/COMMUNITY/ENTERPRISE/HYPERSCALER)
-  - Path resolution (KEY FIX)
+
+- 🗺️ **[../architecture/MODULAR_ARCHITECTURE_ROADMAP.md](../architecture/MODULAR_ARCHITECTURE_ROADMAP.md)** ⭐ NEW!
+  - Implementation plan for modular architecture
+  - Phase 1: Feature module extraction (2-3 weeks)
+  - Phase 2: Target module extraction (1-2 weeks)
+  - Timeline, risk assessment, and success metrics
 
 - 🔧 **[../architecture/FEATURE_FLAGS_REFERENCE.md](../architecture/FEATURE_FLAGS_REFERENCE.md)**
   - ALL 40+ feature flags documented
@@ -61,7 +68,9 @@
 
 **Build on Linux** → [BUILD_LINUX.md](BUILD_LINUX.md)
 
-**Understand the CMake system** → [CMAKE_MODULAR_ARCHITECTURE.md](../architecture/CMAKE_MODULAR_ARCHITECTURE.md)
+**Understand the CMake system** → [CMAKE_MODULAR_ARCHITECTURE.md](../architecture/CMAKE_MODULAR_ARCHITECTURE.md) (current state + roadmap)
+
+**See CMake refactoring plan** → [MODULAR_ARCHITECTURE_ROADMAP.md](../architecture/MODULAR_ARCHITECTURE_ROADMAP.md) ⭐ NEW!
 
 **Use advanced features (LLM, GPU)** → [FEATURE_FLAGS_REFERENCE.md](../architecture/FEATURE_FLAGS_REFERENCE.md)
 
@@ -77,18 +86,21 @@
 
 ## 🆕 What's New in v1.4.0
 
-### CMake Refactoring ✨
-- ✅ **Modular Architecture** - 7 new files replacing 2679-line monolith
-- ✅ **Path Resolution Fixed** - Root CMAKE_SOURCE_DIR issue solved
-- ✅ **Feature Isolation** - Independent cmake/Features/ modules
+### CMake Status ✅ / ⚠️
+- ✅ **Clean Orchestration** - Root CMakeLists.txt (241 lines)
+- ✅ **Modular Dependencies** - cmake/Versions.cmake, CompilerOptions.cmake, Dependencies.cmake
+- ⚠️ **Monolithic Build Logic** - cmake/CMakeLists.txt (3115 lines - needs refactoring)
+- 📋 **Planned**: Feature modules (cmake/Features/) - See [MODULAR_ARCHITECTURE_ROADMAP.md](../architecture/MODULAR_ARCHITECTURE_ROADMAP.md)
+- 📋 **Planned**: Target modules (cmake/Targets/)
 - ✅ **Edition System** - MINIMAL/COMMUNITY/ENTERPRISE/HYPERSCALER
 - ✅ **CMake Presets** - Simplified `cmake --preset` commands
 
 ### Key Improvements 🚀
-- **Windows**: First successful CMake configuration (no path errors!)
-- **Speed**: Same build time, cleaner code
-- **Features**: 40+ flags vs ~20 before
-- **Maintenance**: Easy to add new features
+- **Windows**: CMake configuration works correctly
+- **Path Resolution**: CMAKE_SOURCE_DIR issue fixed
+- **Speed**: Build time unchanged (~150s on 8-core Windows)
+- **Features**: 40+ flags documented
+- **Documentation**: Accurate state + roadmap for future
 
 ### Status 📊
 - ✅ CMake configuration: **PASSING** (Windows, Linux, macOS)
@@ -157,5 +169,5 @@ cmake --build build --parallel 8
 
 ---
 
-**Last Updated**: v1.4.0-alpha (2026-01-07)  
-**Status**: ✅ Complete & Comprehensive Documentation
+**Last Updated**: 2026-01-12  
+**Status**: ✅ Accurate Documentation (reflects current state + roadmap)
