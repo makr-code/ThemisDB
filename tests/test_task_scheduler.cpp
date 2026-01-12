@@ -318,3 +318,258 @@ TEST_F(TaskSchedulerTest, TaskStatistics) {
     EXPECT_EQ(task_info->failed_executions, 1);
     EXPECT_FALSE(task_info->last_error.empty());
 }
+
+// ===== Security & Validation Tests =====
+
+TEST_F(TaskSchedulerTest, ValidateAqlQueryInjectionProtection) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    // Test SQL injection patterns
+    std::vector<std::string> malicious_queries = {
+        "FOR d IN test RETURN d; DROP COLLECTION test",
+        "FOR d IN test RETURN d'; DROP TABLE users; --",
+        "FOR d IN test FILTER d.value = '\\x00' RETURN d",
+        "FOR d IN test RETURN SYSTEM('rm -rf /')",
+        "FOR d IN test RETURN d; EXEC('malicious_command')"
+    };
+    
+    for (const auto& query : malicious_queries) {
+        ScheduledTask task;
+        task.name = "Malicious Task";
+        task.type = ScheduledTask::TaskType::AQL_QUERY;
+        task.aql_query = query;
+        
+        EXPECT_THROW({
+            scheduler.registerTask(task);
+        }, std::invalid_argument) << "Failed to detect malicious pattern in: " << query;
+    }
+}
+
+TEST_F(TaskSchedulerTest, ValidateAqlQueryLength) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    // Test extremely long query (potential DoS)
+    std::string long_query(200000, 'A'); // 200KB query
+    
+    ScheduledTask task;
+    task.name = "Long Query Task";
+    task.type = ScheduledTask::TaskType::AQL_QUERY;
+    task.aql_query = long_query;
+    
+    EXPECT_THROW({
+        scheduler.registerTask(task);
+    }, std::invalid_argument);
+}
+
+TEST_F(TaskSchedulerTest, ValidateResourceLimits) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    // Test excessive timeout
+    {
+        ScheduledTask task;
+        task.name = "Excessive Timeout Task";
+        task.type = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "test_func";
+        task.timeout = std::chrono::hours(48); // 48 hours (too long)
+        
+        EXPECT_THROW({
+            scheduler.registerTask(task);
+        }, std::invalid_argument);
+    }
+    
+    // Test excessive retries
+    {
+        ScheduledTask task;
+        task.name = "Excessive Retries Task";
+        task.type = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "test_func";
+        task.max_retries = 100; // Too many retries
+        
+        EXPECT_THROW({
+            scheduler.registerTask(task);
+        }, std::invalid_argument);
+    }
+    
+    // Test interval too short
+    {
+        ScheduledTask task;
+        task.name = "Fast Task";
+        task.type = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "test_func";
+        task.interval = std::chrono::milliseconds(100); // Too fast
+        
+        EXPECT_THROW({
+            scheduler.registerTask(task);
+        }, std::invalid_argument);
+    }
+}
+
+TEST_F(TaskSchedulerTest, SanitizeTaskInputs) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    // Register function to test with
+    scheduler.registerFunction("test_func", [](const nlohmann::json& params) {
+        return nlohmann::json{{"result", "ok"}};
+    });
+    
+    // Test with control characters and null bytes
+    ScheduledTask task;
+    task.name = "Test\x00Task\x01With\x02Control"; // Includes null bytes and control chars
+    task.description = "Description\nWith\x00Null\x03Bytes";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "test_func";
+    
+    std::string task_id = scheduler.registerTask(task);
+    
+    auto registered_task = scheduler.getTask(task_id);
+    ASSERT_NE(registered_task, nullptr);
+    
+    // Verify control characters were removed (except newline/tab)
+    EXPECT_EQ(registered_task->name.find('\x00'), std::string::npos);
+    EXPECT_EQ(registered_task->name.find('\x01'), std::string::npos);
+    EXPECT_EQ(registered_task->description.find('\x00'), std::string::npos);
+    
+    // Newline should be preserved
+    EXPECT_NE(registered_task->description.find('\n'), std::string::npos);
+}
+
+TEST_F(TaskSchedulerTest, QueryComplexityLimits) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    // Test excessive nesting
+    {
+        std::string deeply_nested = "FOR d IN test FILTER ((((((((((((((((((((d.value > 0)))))))))))))))))))) RETURN d";
+        
+        ScheduledTask task;
+        task.name = "Deeply Nested Task";
+        task.type = ScheduledTask::TaskType::AQL_QUERY;
+        task.aql_query = deeply_nested;
+        
+        EXPECT_THROW({
+            scheduler.registerTask(task);
+        }, std::invalid_argument);
+    }
+    
+    // Test too many FOR loops
+    {
+        std::string query = "FOR a IN c1 FOR b IN c2 FOR c IN c3 FOR d IN c4 FOR e IN c5 FOR f IN c6 RETURN a";
+        
+        ScheduledTask task;
+        task.name = "Many Loops Task";
+        task.type = ScheduledTask::TaskType::AQL_QUERY;
+        task.aql_query = query;
+        
+        EXPECT_THROW({
+            scheduler.registerTask(task);
+        }, std::invalid_argument);
+    }
+}
+
+TEST_F(TaskSchedulerTest, RateLimiting) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    int execution_count = 0;
+    scheduler.registerFunction("rate_test", [&execution_count](const nlohmann::json& params) {
+        execution_count++;
+        return nlohmann::json{{"count", execution_count}};
+    });
+    
+    ScheduledTask task;
+    task.name = "Rate Test Task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "rate_test";
+    
+    std::string task_id = scheduler.registerTask(task);
+    
+    // Execute task multiple times rapidly
+    int successful_executions = 0;
+    int rate_limited = 0;
+    
+    for (int i = 0; i < 15; i++) {
+        auto result = scheduler.executeTaskNow(task_id);
+        
+        if (result.contains("error") && 
+            result["error"].get<std::string>().find("Rate limit") != std::string::npos) {
+            rate_limited++;
+        } else {
+            successful_executions++;
+        }
+    }
+    
+    // Should have hit rate limit at least once (max 10 per minute)
+    EXPECT_GT(rate_limited, 0) << "Rate limiting did not trigger";
+    EXPECT_LE(successful_executions, 10) << "Too many executions allowed";
+}
+
+TEST_F(TaskSchedulerTest, SecureTaskPersistence) {
+    TaskScheduler::Config config;
+    config.persist_tasks = true;
+    config.persistence_path = "./data/test_task_scheduler_secure";
+    
+    // Clean up any existing test data
+    std::string test_path = "./data/test_task_scheduler_secure";
+    if (std::filesystem::exists(test_path)) {
+        std::filesystem::remove_all(test_path);
+    }
+    std::filesystem::create_directories(test_path);
+    
+    {
+        TaskScheduler scheduler(query_engine_.get(), config);
+        
+        scheduler.registerFunction("test_func", [](const nlohmann::json& params) {
+            return nlohmann::json{{"result", "ok"}};
+        });
+        
+        ScheduledTask task;
+        task.name = "Persistent Task";
+        task.type = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "test_func";
+        
+        scheduler.registerTask(task);
+        
+        // Scheduler destructor should save tasks
+    }
+    
+    // Verify file was created
+    std::string tasks_file = test_path + "/tasks.json";
+    EXPECT_TRUE(std::filesystem::exists(tasks_file));
+    
+    // Check file permissions on Unix systems
+    #ifndef _WIN32
+    struct stat st;
+    if (stat(tasks_file.c_str(), &st) == 0) {
+        // Check that only owner has read/write, no group/other permissions
+        mode_t expected = S_IRUSR | S_IWUSR;
+        mode_t actual = st.st_mode & 0777;
+        EXPECT_EQ(actual, expected) << "File permissions not set correctly";
+    }
+    #endif
+    
+    // Clean up
+    std::filesystem::remove_all(test_path);
+}
+
+TEST_F(TaskSchedulerTest, ValidAqlQueryAccepted) {
+    TaskScheduler scheduler(query_engine_.get());
+    
+    // Test that valid queries are accepted
+    std::vector<std::string> valid_queries = {
+        "FOR d IN test RETURN d",
+        "FOR d IN test FILTER d.value > 10 RETURN d",
+        "FOR d IN test COLLECT metric = d.metric RETURN metric",
+        "INSERT { name: 'test', value: 42 } INTO test"
+    };
+    
+    for (const auto& query : valid_queries) {
+        ScheduledTask task;
+        task.name = "Valid Task";
+        task.type = ScheduledTask::TaskType::AQL_QUERY;
+        task.aql_query = query;
+        
+        EXPECT_NO_THROW({
+            std::string id = scheduler.registerTask(task);
+            EXPECT_FALSE(id.empty());
+            scheduler.unregisterTask(id);
+        }) << "Valid query rejected: " << query;
+    }
+}

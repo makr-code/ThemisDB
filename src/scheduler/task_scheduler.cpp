@@ -7,6 +7,11 @@
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
+#include <deque>
+
+#ifndef _WIN32
+#include <sys/stat.h>
+#endif
 
 // ⚠️ SECURITY WARNING: This implementation executes arbitrary AQL queries and functions.
 // Production deployments MUST implement proper security controls:
@@ -112,19 +117,32 @@ void TaskScheduler::stop() {
 
 std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     // ⚠️ SECURITY: In production, add authentication/authorization checks here
-    // TODO: Validate task.aql_query for SQL injection patterns
-    // TODO: Check user permissions for task registration
-    // TODO: Validate resource limits (timeout, max_retries)
-    // TODO: Sanitize task parameters
+    
+    // Validate AQL query for SQL injection patterns
+    if (task.type == ScheduledTask::TaskType::AQL_QUERY) {
+        validateAqlQuery(task.aql_query);
+    }
+    
+    // Validate resource limits (timeout, max_retries)
+    validateResourceLimits(task);
+    
+    // Sanitize task parameters
+    auto sanitized_task = sanitizeTask(task);
+    
+    // Note: User permission checks should be added here when authentication
+    // system is integrated. Example:
+    // if (!auth_context || !auth_context->hasPermission("task:register")) {
+    //     throw std::runtime_error("Unauthorized: User lacks permission to register tasks");
+    // }
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
-    std::string id = task.id;
+    std::string id = sanitized_task.id;
     if (id.empty()) {
-        id = generateTaskId(task);
+        id = generateTaskId(sanitized_task);
     }
     
-    auto task_ptr = std::make_shared<ScheduledTask>(task);
+    auto task_ptr = std::make_shared<ScheduledTask>(sanitized_task);
     task_ptr->id = id;
     
     // Initialize next_run if not set
@@ -135,9 +153,9 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     tasks_[id] = task_ptr;
     
     THEMIS_INFO("Registered task: {} (name={}, type={}, interval={}ms)",
-                id, task.name, 
-                task.type == ScheduledTask::TaskType::AQL_QUERY ? "AQL" : "FUNCTION",
-                task.interval.count());
+                id, sanitized_task.name, 
+                sanitized_task.type == ScheduledTask::TaskType::AQL_QUERY ? "AQL" : "FUNCTION",
+                sanitized_task.interval.count());
     
     if (config_.persist_tasks) {
         saveTasks();
@@ -215,9 +233,23 @@ void TaskScheduler::updateTask(const ScheduledTask& task) {
 
 nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     // ⚠️ SECURITY: In production, add authentication/authorization checks here
-    // TODO: Verify user has permission to execute this task
-    // TODO: Log execution attempt for audit trail
-    // TODO: Implement rate limiting to prevent abuse
+    
+    // Log execution attempt for audit trail
+    THEMIS_INFO("Manual task execution requested: task_id={}", task_id);
+    
+    // Check rate limiting to prevent abuse
+    if (!checkRateLimit(task_id)) {
+        THEMIS_WARN("Rate limit exceeded for task execution: task_id={}", task_id);
+        return nlohmann::json{{"error", "Rate limit exceeded. Please try again later."}};
+    }
+    
+    // Note: User permission verification should be added here when authentication
+    // system is integrated. Example:
+    // if (!auth_context || !auth_context->hasPermission("task:execute")) {
+    //     THEMIS_WARN("Unauthorized task execution attempt: task_id={}, user={}", 
+    //                 task_id, auth_context ? auth_context->user_id : "unknown");
+    //     return nlohmann::json{{"error", "Unauthorized: User lacks permission to execute tasks"}};
+    // }
     
     auto span = Tracer::startSpan("TaskScheduler.executeTaskNow");
     span.setAttribute("task_id", task_id);
@@ -271,9 +303,21 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
 void TaskScheduler::registerFunction(const std::string& name, TaskFunction func) {
     // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution
-    // TODO: Implement strict access controls - only system admins should call this
-    // TODO: Audit log all function registrations
-    // TODO: Consider sandboxing function execution
+    
+    // Audit log all function registrations
+    THEMIS_INFO("Function registration attempt: name={}", name);
+    
+    // Note: Strict access controls should be enforced here when authentication
+    // system is integrated. Example:
+    // if (!auth_context || !auth_context->hasPermission("task:register_function") || 
+    //     !auth_context->hasRole("system_admin")) {
+    //     THEMIS_ERROR("Unauthorized function registration attempt: name={}, user={}", 
+    //                  name, auth_context ? auth_context->user_id : "unknown");
+    //     throw std::runtime_error("Unauthorized: Only system administrators can register functions");
+    // }
+    
+    // TODO: Consider sandboxing function execution in future versions
+    // Functions should run with limited privileges and resource constraints
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_[name] = func;
@@ -478,9 +522,19 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
 
 nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {
     // ⚠️ SECURITY: AQL queries can read/write any data
-    // TODO: Implement query validation and sanitization
-    // TODO: Enforce query complexity limits
-    // TODO: Apply row/resource limits to prevent DoS
+    
+    // Implement query validation and sanitization
+    validateAqlQuery(aql);
+    
+    // Apply query complexity limits to prevent resource exhaustion
+    enforceQueryComplexityLimits(aql);
+    
+    // Note: Row/resource limits should be enforced at query engine level
+    // The query engine should have configurable limits for:
+    // - Maximum execution time
+    // - Maximum memory usage
+    // - Maximum result set size
+    // - Maximum number of operations
     
     auto span = Tracer::startSpan("TaskScheduler.executeAqlQuery");
     span.setAttribute("aql", aql);
@@ -525,9 +579,11 @@ void TaskScheduler::updateNextRun(ScheduledTask& task) {
 
 void TaskScheduler::saveTasks() {
     // ⚠️ SECURITY: Task definitions may contain sensitive data (queries, parameters)
-    // TODO: Encrypt task definitions at rest
-    // TODO: Set proper file permissions (600 or 400)
-    // TODO: Consider using a secure key-value store instead of plain JSON files
+    
+    // Note: For production deployments, implement:
+    // 1. Encryption of task definitions at rest using a secure key management system
+    // 2. Proper file permissions (600 or 400) to restrict access to task files
+    // 3. Consider using a secure key-value store (e.g., encrypted RocksDB) instead of plain JSON files
     
     // Simple JSON-based persistence
     nlohmann::json tasks_json = nlohmann::json::array();
@@ -548,9 +604,21 @@ void TaskScheduler::saveTasks() {
     }
     
     try {
-        std::ofstream file(config_.persistence_path + "/tasks.json");
+        std::string filepath = config_.persistence_path + "/tasks.json";
+        std::ofstream file(filepath);
+        if (!file.good()) {
+            throw std::runtime_error("Failed to open file for writing: " + filepath);
+        }
+        
         file << tasks_json.dump(2);
-        THEMIS_DEBUG("Saved {} tasks to disk", tasks_.size());
+        file.close();
+        
+        // Set restrictive file permissions (owner read/write only)
+        #ifndef _WIN32
+        chmod(filepath.c_str(), S_IRUSR | S_IWUSR);
+        #endif
+        
+        THEMIS_DEBUG("Saved {} tasks to disk with secure permissions", tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to save tasks: {}", e.what());
     }
@@ -619,6 +687,184 @@ std::string TaskScheduler::generateTaskId(const ScheduledTask& task) const {
         oss << "func_" << task.function_name;
         return oss.str();
     }
+}
+
+// ===== Security & Validation Helpers =====
+
+void TaskScheduler::validateAqlQuery(const std::string& aql) const {
+    if (aql.empty()) {
+        throw std::invalid_argument("AQL query cannot be empty");
+    }
+    
+    // Check for suspicious patterns that might indicate injection attempts
+    std::vector<std::string> dangerous_patterns = {
+        ";--",           // SQL comment injection
+        "'; DROP",       // SQL injection attempt
+        "\\x00",         // Null byte injection
+        "../",           // Path traversal
+        "SYSTEM(",       // System command execution
+        "EXEC(",         // Command execution
+    };
+    
+    std::string aql_upper = aql;
+    std::transform(aql_upper.begin(), aql_upper.end(), aql_upper.begin(), ::toupper);
+    
+    for (const auto& pattern : dangerous_patterns) {
+        std::string pattern_upper = pattern;
+        std::transform(pattern_upper.begin(), pattern_upper.end(), pattern_upper.begin(), ::toupper);
+        
+        if (aql_upper.find(pattern_upper) != std::string::npos) {
+            THEMIS_ERROR("Suspicious pattern detected in AQL query: {}", pattern);
+            throw std::invalid_argument("AQL query contains potentially dangerous pattern: " + pattern);
+        }
+    }
+    
+    // Check for reasonable length limit (prevent DoS)
+    const size_t MAX_QUERY_LENGTH = 100000; // 100KB
+    if (aql.length() > MAX_QUERY_LENGTH) {
+        throw std::invalid_argument("AQL query exceeds maximum length of " + 
+                                   std::to_string(MAX_QUERY_LENGTH) + " characters");
+    }
+}
+
+void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
+    // Validate timeout
+    const auto MAX_TIMEOUT = std::chrono::hours(24);
+    const auto MIN_TIMEOUT = std::chrono::seconds(1);
+    
+    if (task.timeout > MAX_TIMEOUT) {
+        throw std::invalid_argument("Task timeout exceeds maximum allowed: " + 
+                                   std::to_string(MAX_TIMEOUT.count()) + " milliseconds");
+    }
+    
+    if (task.timeout < MIN_TIMEOUT) {
+        throw std::invalid_argument("Task timeout is too short. Minimum: " + 
+                                   std::to_string(MIN_TIMEOUT.count()) + " milliseconds");
+    }
+    
+    // Validate max_retries
+    const size_t MAX_RETRIES = 10;
+    if (task.max_retries > MAX_RETRIES) {
+        throw std::invalid_argument("Task max_retries exceeds maximum allowed: " + 
+                                   std::to_string(MAX_RETRIES));
+    }
+    
+    // Validate interval
+    const auto MIN_INTERVAL = std::chrono::seconds(1);
+    if (task.interval < MIN_INTERVAL) {
+        throw std::invalid_argument("Task interval is too short. Minimum: " + 
+                                   std::to_string(MIN_INTERVAL.count()) + " milliseconds");
+    }
+}
+
+ScheduledTask TaskScheduler::sanitizeTask(const ScheduledTask& task) const {
+    ScheduledTask sanitized = task;
+    
+    // Sanitize string fields to prevent injection
+    auto sanitizeString = [](const std::string& input) -> std::string {
+        std::string output;
+        output.reserve(input.size());
+        
+        for (char c : input) {
+            // Remove null bytes and other control characters except newline and tab
+            if (c == '\0' || (c < 32 && c != '\n' && c != '\t')) {
+                continue;
+            }
+            output += c;
+        }
+        
+        return output;
+    };
+    
+    sanitized.id = sanitizeString(task.id);
+    sanitized.name = sanitizeString(task.name);
+    sanitized.description = sanitizeString(task.description);
+    sanitized.function_name = sanitizeString(task.function_name);
+    
+    // Limit field lengths
+    const size_t MAX_NAME_LENGTH = 255;
+    const size_t MAX_DESC_LENGTH = 1000;
+    
+    if (sanitized.name.length() > MAX_NAME_LENGTH) {
+        sanitized.name = sanitized.name.substr(0, MAX_NAME_LENGTH);
+    }
+    
+    if (sanitized.description.length() > MAX_DESC_LENGTH) {
+        sanitized.description = sanitized.description.substr(0, MAX_DESC_LENGTH);
+    }
+    
+    return sanitized;
+}
+
+void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
+    // Basic complexity checks to prevent resource exhaustion
+    
+    // Count nested levels (approximate complexity)
+    int nesting_level = 0;
+    int max_nesting = 0;
+    
+    for (char c : aql) {
+        if (c == '(' || c == '{' || c == '[') {
+            nesting_level++;
+            max_nesting = std::max(max_nesting, nesting_level);
+        } else if (c == ')' || c == '}' || c == ']') {
+            nesting_level--;
+        }
+    }
+    
+    const int MAX_NESTING_LEVEL = 20;
+    if (max_nesting > MAX_NESTING_LEVEL) {
+        throw std::invalid_argument("Query nesting level exceeds maximum allowed: " + 
+                                   std::to_string(MAX_NESTING_LEVEL));
+    }
+    
+    // Count number of FOR loops (can indicate complexity)
+    size_t for_count = 0;
+    size_t pos = 0;
+    std::string aql_upper = aql;
+    std::transform(aql_upper.begin(), aql_upper.end(), aql_upper.begin(), ::toupper);
+    
+    while ((pos = aql_upper.find("FOR ", pos)) != std::string::npos) {
+        for_count++;
+        pos += 4;
+    }
+    
+    const size_t MAX_FOR_LOOPS = 5;
+    if (for_count > MAX_FOR_LOOPS) {
+        throw std::invalid_argument("Query contains too many FOR loops. Maximum: " + 
+                                   std::to_string(MAX_FOR_LOOPS));
+    }
+}
+
+bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
+    // Simple rate limiting implementation
+    // In production, use a more sophisticated rate limiter (e.g., token bucket, sliding window)
+    
+    static std::mutex rate_limit_mutex;
+    static std::map<std::string, std::deque<std::chrono::steady_clock::time_point>> execution_times;
+    
+    std::lock_guard<std::mutex> lock(rate_limit_mutex);
+    
+    const auto now = std::chrono::steady_clock::now();
+    const auto window = std::chrono::minutes(1);
+    const size_t max_executions = 10; // Max 10 manual executions per minute per task
+    
+    auto& times = execution_times[task_id];
+    
+    // Remove old entries outside the time window
+    while (!times.empty() && (now - times.front()) > window) {
+        times.pop_front();
+    }
+    
+    // Check if limit is exceeded
+    if (times.size() >= max_executions) {
+        return false;
+    }
+    
+    // Add current execution time
+    times.push_back(now);
+    
+    return true;
 }
 
 } // namespace themis
