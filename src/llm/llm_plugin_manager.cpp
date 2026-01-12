@@ -1,5 +1,6 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/llama_wrapper.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
@@ -423,7 +424,7 @@ bool createLlamaWrapper(
         // Load model if path provided
         if (!model_path.empty()) {
             if (!plugin->loadModel(model_path, config)) {
-                spdlog::error("Failed to load model: {}", model_path);
+                errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
                 return false;
             }
         }

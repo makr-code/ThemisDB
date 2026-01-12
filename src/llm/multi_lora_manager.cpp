@@ -204,7 +204,7 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, void* context_handle) {
     auto* lora = getLoRA(lora_id);
     if (!lora) {
-        spdlog::error("LoRA not loaded: {}", lora_id);
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
         return false;
     }
     
@@ -357,7 +357,7 @@ bool MultiLoRAManager::fuseLoRAs(
     for (size_t i = 0; i < lora_ids.size(); ++i) {
         auto it = loras_.find(lora_ids[i]);
         if (it == loras_.end()) {
-            spdlog::error("LoRA {} not loaded", lora_ids[i]);
+            errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_ids[i]);
             return false;
         }
         
@@ -653,7 +653,7 @@ MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
 std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     auto* lora = getLoRA(lora_id);
     if (!lora) {
-        spdlog::error("Cannot export LoRA: {} not loaded", lora_id);
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
         return {};
     }
     

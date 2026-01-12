@@ -1,4 +1,5 @@
 #include "llm/embedded_llm.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -38,7 +39,7 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     // Load model
     if (!config.model_path.empty()) {
         if (!wrapper_->loadModel(config.model_path)) {
-            spdlog::error("Failed to load model: {}", config.model_path);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, config.model_path);
         } else {
             spdlog::info("EmbeddedLLM initialized with model: {}", config.model_path);
         }

@@ -305,7 +305,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
 
     // Check if file exists
     if (!fs::exists(model_path)) {
-        spdlog::error("Model file not found: {}", model_path);
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_path);
         return nullptr;
     }
 
@@ -339,7 +339,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
     llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
     
     if (!lmodel) {
-        spdlog::error("Failed to load model from file: {}", model_path);
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         return nullptr;
     }
     
