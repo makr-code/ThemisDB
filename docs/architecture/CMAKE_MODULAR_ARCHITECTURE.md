@@ -2,46 +2,81 @@
 
 **Version**: 1.4.0+  
 **Date**: 2026-01-07  
-**Status**: Production Ready
+**Status**: ⚠️ **Partially Implemented - Under Development**
+
+> **⚠️ IMPORTANT NOTE:**  
+> This document describes the **planned modular architecture** for ThemisDB's build system. Some features described here are **not yet fully implemented**. Please refer to the [Current Implementation Status](#current-implementation-status) section below for accurate information about what exists today.
 
 ## Overview
 
-ThemisDB v1.4.0 features a **complete CMake refactoring** from a monolithic 2700-line single file to a **modular, maintainable architecture**.
+ThemisDB v1.4.0 is transitioning towards a **modular CMake architecture** from a monolithic 2700-line single file to a maintainable, feature-based structure.
 
-### Before vs After
+## Current Implementation Status
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| **Structure** | cmake/CMakeLists.txt (2679 lines) | Root + cmake/Versions + cmake/Dependencies + cmake/Features/* + cmake/Targets/* |
-| **Maintainability** | ⭐ Difficult | ⭐⭐⭐⭐⭐ Excellent |
-| **Feature Management** | Implicit, scattered | Explicit, modular |
-| **Path Resolution** | ❌ Broken (relative paths) | ✅ Fixed (CMAKE_SOURCE_DIR) |
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Root CMakeLists.txt (150 lines) | ✅ **Implemented** | Clean orchestration |
+| cmake/Versions.cmake | ✅ **Implemented** | Version management |
+| cmake/CompilerOptions.cmake | ✅ **Implemented** | Compiler setup |
+| cmake/Dependencies.cmake | ✅ **Implemented** | Dependency management |
+| cmake/ModularBuild.cmake | ✅ **Implemented** | Some modular logic |
+| cmake/CMakeLists.txt | ⚠️ **Monolithic** | Still 3076 lines (not refactored) |
+| cmake/Features/ directory | ❌ **Not Implemented** | Planned feature |
+| cmake/Features/*.cmake modules | ❌ **Not Implemented** | Planned feature |
+| cmake/Targets/ directory | ❌ **Not Implemented** | Planned feature |
+| cmake/Targets/*.cmake modules | ❌ **Not Implemented** | Planned feature |
+
+### Before vs After (Planned)
+
+| Aspect | Current (v1.4.0) | Planned Goal |
+|--------|------------------|--------------|
+| **Structure** | Root + cmake/Versions + cmake/Dependencies + cmake/CMakeLists.txt (3076 lines) | Root + cmake/Versions + cmake/Dependencies + cmake/Features/* + cmake/Targets/* |
+| **Maintainability** | ⭐⭐ Moderate | ⭐⭐⭐⭐⭐ Excellent (goal) |
+| **Feature Management** | Conditional blocks in monolithic file | Explicit, modular (goal) |
+| **Path Resolution** | ✅ Fixed (CMAKE_SOURCE_DIR) | ✅ Already Fixed |
 | **Build Time** | ~150s (Windows) | ~150s (Windows, same) |
-| **Extensibility** | Hard to add features | Easy - add .cmake module |
+| **Extensibility** | Moderate - edit large file | Easy - add .cmake module (goal) |
 
 ---
 
 ## Directory Structure
 
+### Current Implementation (v1.4.0)
+
 ```
 themis/
-├── CMakeLists.txt                    ← Root (150 lines) - NEW ARCHITECTURE
+├── CMakeLists.txt                    ← Root (150 lines) ✅ IMPLEMENTED
 ├── cmake/
-│   ├── CMakeLists.txt               ← Delegated build logic (from old 2679-line file)
-│   ├── Versions.cmake               ← Version parsing, Edition management
-│   ├── CompilerOptions.cmake        ← C++ standards, compiler flags, optimization
-│   ├── Dependencies.cmake           ← ALL external dependencies (vcpkg, find_package)
-│   ├── Features/
+│   ├── CMakeLists.txt               ← Build logic (3076 lines - still monolithic) ⚠️
+│   ├── ModularBuild.cmake           ← Some modular logic ✅ IMPLEMENTED
+│   ├── Versions.cmake               ← Version parsing, Edition management ✅ IMPLEMENTED
+│   ├── CompilerOptions.cmake        ← C++ standards, compiler flags ✅ IMPLEMENTED
+│   ├── Dependencies.cmake           ← External dependencies ✅ IMPLEMENTED
+│   ├── FindWhisper.cmake            ← Custom find module ✅ IMPLEMENTED
+│   └── FindPiper.cmake              ← Custom find module ✅ IMPLEMENTED
+```
+
+### Planned Modular Architecture (Future)
+
+```
+themis/
+├── CMakeLists.txt                    ← Root (150 lines) ✅ ALREADY DONE
+├── cmake/
+│   ├── CMakeLists.txt               ← Refactored to <500 lines 📋 PLANNED
+│   ├── Versions.cmake               ← ✅ ALREADY DONE
+│   ├── CompilerOptions.cmake        ← ✅ ALREADY DONE
+│   ├── Dependencies.cmake           ← ✅ ALREADY DONE
+│   ├── Features/                    ← 📋 PLANNED
 │   │   ├── LLM.cmake               ← LLM plugin sources (~20 files)
 │   │   ├── GPU.cmake               ← GPU acceleration (CUDA, HIP, FAISS)
 │   │   ├── gRPC.cmake              ← Inter-shard communication, proto generation
 │   │   ├── Protocols.cmake         ← HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL, MCP
 │   │   └── Tracing.cmake           ← OpenTelemetry integration
-│   └── Targets/
-│       ├── CoreLibrary.cmake       ← (Future) themis_core library definition
-│       ├── Executables.cmake       ← (Future) themis_server, themis_demo
-│       ├── Tests.cmake             ← (Future) Test executables
-│       └── Benchmarks.cmake        ← (Future) Benchmark targets
+│   └── Targets/                     ← 📋 PLANNED
+│       ├── CoreLibrary.cmake       ← themis_core library definition
+│       ├── Executables.cmake       ← themis_server, themis_demo
+│       ├── Tests.cmake             ← Test executables
+│       └── Benchmarks.cmake        ← Benchmark targets
 │
 ├── src/
 │   ├── storage/                     ← RocksDB wrapper, key-value storage
@@ -360,13 +395,32 @@ option(THEMIS_ENABLE_MY_OPTIMIZATION "Enable My Optimization" OFF)
 
 ## Future Roadmap
 
-### Phase 2: Extract Targets (v1.4.1)
+### Phase 1: Feature Module Extraction (Planned)
+
+Extract feature-specific sources to separate modules:
+- Create cmake/Features/ directory
+- Extract LLM sources to cmake/Features/LLM.cmake (~20 files)
+- Extract GPU sources to cmake/Features/GPU.cmake
+- Extract gRPC sources to cmake/Features/gRPC.cmake
+- Extract Protocol sources to cmake/Features/Protocols.cmake
+- Extract Tracing sources to cmake/Features/Tracing.cmake
+
+**Goal:** Reduce cmake/CMakeLists.txt from 3076 lines to ~1500 lines  
+**Effort:** 40-60 hours  
+**Status:** 📋 Planned
+
+### Phase 2: Target Module Extraction (Planned)
 
 Move target definitions to separate modules:
-- `cmake/Targets/CoreLibrary.cmake` - themis_core library
-- `cmake/Targets/Executables.cmake` - themis_server, themis_demo
-- `cmake/Targets/Tests.cmake` - Test suite
-- `cmake/Targets/Benchmarks.cmake` - Benchmarks
+- Create cmake/Targets/ directory
+- Extract to cmake/Targets/CoreLibrary.cmake
+- Extract to cmake/Targets/Executables.cmake
+- Extract to cmake/Targets/Tests.cmake
+- Extract to cmake/Targets/Benchmarks.cmake
+
+**Goal:** Reduce cmake/CMakeLists.txt from ~1500 lines to <500 lines  
+**Effort:** 20-30 hours  
+**Status:** 📋 Planned
 
 ### Phase 3: Plugin Architecture (v1.5.0)
 
@@ -375,6 +429,8 @@ Enable runtime-loadable plugins:
 - Protocol handlers as plugins
 - Hardware backends as plugins
 
+**Status:** 📋 Planned for v1.5.0
+
 ### Phase 4: Package Templates (v1.5.0+)
 
 Create distribution templates:
@@ -382,33 +438,24 @@ Create distribution templates:
 - Kubernetes Helm charts
 - Ansible deployment playbooks
 
+**Status:** 📋 Planned for v1.5.0+
+
 ---
 
-## Troubleshooting
+## Current Limitations
 
-### "Cannot find source file" error
+**As of v1.4.0, the following limitations exist:**
 
-**Old problem** (v1.3.x): Relative path issues
+1. **Monolithic cmake/CMakeLists.txt:** Still 3076 lines, all feature logic in one file
+2. **No Feature Modules:** cmake/Features/ directory does not exist
+3. **No Target Modules:** cmake/Targets/ directory does not exist
+4. **Manual Feature Management:** Adding features requires editing large monolithic file
+5. **Limited Modularity:** Only Versions, CompilerOptions, and Dependencies are modular
 
-**Solution** (v1.4.0+): All source paths use `${CMAKE_SOURCE_DIR}` prefix
-
-### "Feature X not found" when enabled
-
-Check dependencies in `cmake/Dependencies.cmake`:
-
-```bash
-# Example: LLM not found
-cmake -DTHEMIS_ENABLE_LLM=ON -Dllama_DIR=/path/to/llama/build
-```
-
-### Build times too long
-
-Use presets for faster configuration:
-
-```bash
-cmake --preset linux-gcc-release  # Uses cached settings
-cmake --build build-wsl --parallel 16  # Maximum parallelization
-```
+**Migration to Modular Architecture:**
+- Phase 1 and Phase 2 (above) address these limitations
+- Tracking issue: TBD (to be created)
+- Expected completion: v1.5.0 or v1.6.0
 
 ---
 
@@ -419,3 +466,7 @@ cmake --build build-wsl --parallel 16  # Maximum parallelization
 - [ThemisDB Build Guides](../build-guide/)
   - [BUILD_WINDOWS.md](../build-guide/BUILD_WINDOWS.md)
   - [BUILD_LINUX.md](../build-guide/BUILD_LINUX.md)
+- [Feature Flags Reference](FEATURE_FLAGS_REFERENCE.md)
+- [Documentation Gap Analysis](../DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md)
+
+**For accurate current implementation details, always verify against the actual source code.**
