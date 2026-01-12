@@ -255,7 +255,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
     
     if (!config_.enable_multi_lora_batch) {
-        spdlog::error("Multi-LoRA batching is disabled");
+        errors::logError(errors::ErrorCode::ERR_LORA_BATCHING_DISABLED);
         return {};
     }
     
@@ -334,13 +334,13 @@ bool MultiLoRAManager::fuseLoRAs(
     }
     
     if (lora_ids.empty()) {
-        spdlog::error("No LoRAs provided for fusion");
+        errors::logError(errors::ErrorCode::ERR_LORA_FUSION_FAILED, "no LoRAs provided");
         return false;
     }
     
     if (lora_ids.size() != weights.size()) {
-        spdlog::error("Number of LoRAs ({}) doesn't match number of weights ({})", 
-                     lora_ids.size(), weights.size());
+        errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
+                        lora_ids.size(), weights.size());
         return false;
     }
     
@@ -705,7 +705,7 @@ bool MultiLoRAManager::importLoRA(
     
     // Deserialize LoRA adapter
     if (data.empty()) {
-        spdlog::error("Empty LoRA data");
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "empty data");
         return false;
     }
     
@@ -716,7 +716,7 @@ bool MultiLoRAManager::importLoRA(
     size_t id_len, path_len;
     
     if (data.size() < sizeof(size_t)) {
-        spdlog::error("Invalid LoRA data: too small");
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "too small");
         return false;
     }
     
@@ -724,7 +724,7 @@ bool MultiLoRAManager::importLoRA(
     offset += sizeof(size_t);
     
     if (offset + id_len > data.size()) {
-        spdlog::error("Invalid LoRA data: invalid id_len");
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid id_len");
         return false;
     }
     
@@ -735,7 +735,7 @@ bool MultiLoRAManager::importLoRA(
     offset += sizeof(size_t);
     
     if (offset + path_len > data.size()) {
-        spdlog::error("Invalid LoRA data: invalid path_len");
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid path_len");
         return false;
     }
     

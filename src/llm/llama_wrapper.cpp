@@ -1389,7 +1389,7 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     draft_context_ = llama_new_context_with_model(draft_model_, draft_ctx_params);
     
     if (!draft_context_) {
-        spdlog::error("Failed to create context for draft model");
+        errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, "draft model");
         llama_free_model(draft_model_);
         draft_model_ = nullptr;
         return false;

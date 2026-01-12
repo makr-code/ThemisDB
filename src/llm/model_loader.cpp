@@ -413,7 +413,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
     llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
     
     if (!lctx) {
-        spdlog::error("Failed to create context for model: {}", model_id);
+        errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
         llama_free_model(lmodel);
         return nullptr;
     }
