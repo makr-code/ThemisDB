@@ -160,6 +160,42 @@ else()
 endif()
 
 # ============================================================================
+# Snapshot Manager Integration Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_integration.cpp")
+    message(STATUS "Adding SnapshotManager integration tests")
+    
+    add_executable(test_snapshot_integration
+        test_snapshot_integration.cpp
+    )
+    
+    target_link_libraries(test_snapshot_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_snapshot_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME SnapshotIntegrationTests COMMAND test_snapshot_integration)
+    
+    # Set test properties
+    set_tests_properties(SnapshotIntegrationTests PROPERTIES
+        LABELS "snapshot;transaction;mvcc;integration"
+        TIMEOUT 600
+    )
+else()
+    message(STATUS "SnapshotManager integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_integration.cpp")
+endif()
+
+# ============================================================================
 # Diff Engine Tests (Phase 2: Git-like features)
 # ============================================================================
 
