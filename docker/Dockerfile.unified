@@ -86,7 +86,7 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     export CURL_TIMEOUT=600; \
     export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
     export X_VCPKG_ASSET_SOURCES="clear;x-azurl,file:///opt/vcpkg/downloads,,read"; \
-    mkdir -p /build/vcpkg_installed; \
+    mkdir -p /opt/vcpkg/installed; \
         # remove any stale partial boost archives that can poison the cache
         find /opt/vcpkg/downloads -name '*.part' -delete || true; \
     echo "Installing packages for ${TRIPLET} with aria2..."; \
@@ -95,7 +95,7 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
         if ${VCPKG_ROOT}/vcpkg install \
             --triplet="${TRIPLET}" \
             --x-manifest-root=/build \
-            --x-install-root=/build/vcpkg_installed \
+            --x-install-root=/opt/vcpkg/installed \
             --allow-unsupported \
             --clean-after-build; then \
             INSTALL_SUCCESS=1; \
@@ -108,7 +108,7 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
         if ! ${VCPKG_ROOT}/vcpkg install \
             --triplet="${TRIPLET}" \
             --x-manifest-root=/build \
-            --x-install-root=/build/vcpkg_installed \
+            --x-install-root=/opt/vcpkg/installed \
             --allow-unsupported \
             --clean-after-build; then \
             echo "ERROR: vcpkg install failed after 3 attempts. Packages not installed."; \
@@ -116,9 +116,9 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
         fi; \
         INSTALL_SUCCESS=1; \
     fi; \
-    echo "✓ Packages installed in /build/vcpkg_installed"; \
-    ls -la /build/vcpkg_installed/lib/ || echo "WARNING: No lib dir"; \
-    find /build/vcpkg_installed -name "*openssl*" -o -name "*curl*" | head -20
+    echo " Packages installed in /opt/vcpkg/installed"; \
+    ls -la /opt/vcpkg/installed/lib/ || echo "WARNING: No lib dir"; \
+    find /opt/vcpkg/installed -name "*openssl*" -o -name "*curl*" | head -20
 
 # ============================================================================
 # Stage 3: llama - Build llama.cpp (optional, for LLM support)
@@ -164,24 +164,28 @@ COPY include ./include
 COPY src ./src
 COPY proto ./proto
 COPY internal ./internal
+COPY scripts ./scripts
+COPY tools ./tools
+
+# Copy prebuilt docs database (if present)
+COPY data ./data
+
 
 # Copy vcpkg config from deps stage (not from host!)
 COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
 
-# Copy vcpkg installed packages
-COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
-
 # Copy llama.cpp
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 COPY --from=llama /opt/llama-install /opt/llama-install
 
-# Ensure system RocksDB dev headers/libs for build
+# Ensure system dependencies for build
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         libzip-dev \
-        librocksdb-dev && \
+        librocksdb-dev \
+        libzstd-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Build ThemisDB
@@ -190,20 +194,19 @@ RUN set -eux; \
     VCPKG_ROOT=/opt/vcpkg; \
     echo "Building ThemisDB ${THEMIS_EDITION} (LLM=${ENABLE_LLM})..."; \
     echo "TRIPLET=$TRIPLET"; \
-    ls -la /build/vcpkg_installed/${TRIPLET} 2>/dev/null | head -20 || echo "No vcpkg_installed"; \
+    ls -la /opt/vcpkg/installed/${TRIPLET} 2>/dev/null | head -20 || echo "No vcpkg_installed"; \
+    ln -sf /opt/vcpkg/installed/${TRIPLET}/include /opt/vcpkg/include || true; \
+    ln -sf /opt/vcpkg/installed/${TRIPLET}/lib /opt/vcpkg/lib || true; \
     cmake -S . -B build -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
+        -DTHEMIS_BUILD_DOCS_DB=OFF \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_BUILD_BENCHMARKS=OFF \
         -DTHEMIS_BUILD_TESTS=OFF \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
-        -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
-        -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
-        -DOPENSSL_ROOT_DIR=/build/vcpkg_installed/${TRIPLET} \
-        -DOpenSSL_DIR=/build/vcpkg_installed/${TRIPLET}/share/openssl \
         -Dllama_DIR=/opt/llama-install/lib/cmake/llama \
         -DVCPKG_MANIFEST_MODE=OFF && \
     ninja -C build -j$(nproc)

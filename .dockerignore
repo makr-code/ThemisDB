@@ -50,7 +50,9 @@ logs/
 tests/
 benchmarks/
 fuzz/
-data/
+data/**
+!data/
+!data/docs.db
 test_geo_integration_db/
 test_replication_loopback_data/
 
