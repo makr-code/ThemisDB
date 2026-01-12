@@ -1821,6 +1821,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         
+        # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
+        ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
+        ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
+        
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
