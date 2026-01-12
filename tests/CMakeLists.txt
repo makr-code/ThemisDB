@@ -30,8 +30,6 @@ include_directories(
 set(TEST_LIBS
     GTest::gtest
     GTest::gtest_main
-    GTest::gmock
-    GTest::gmock_main
 )
 
 # ============================================================================
@@ -205,6 +203,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
     
     target_link_libraries(test_schema_manager PRIVATE
         ${TEST_LIBS}
+        themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
