@@ -22,6 +22,94 @@
 ### Added
 
 <details open>
+<summary><b>📦 Retroactive Release Building System</b> (Feature: Build & Release)</summary>
+
+- 📦 **Retroactive Release Building System** - Extract and build binaries from historical version tags:
+  - `scripts/retroactive-release-builder.sh` - Bash script for Linux/macOS
+  - `scripts/retroactive-release-builder.ps1` - PowerShell script for Windows
+  - Support for building specific tags or all tags at once
+  - Multi-platform support (Linux, Windows, macOS)
+  - Automatic package generation (TGZ, DEB, RPM, ZIP)
+  - SHA256 checksum generation for all artifacts
+  - Automatic release notes generation
+
+- 🔄 **Complete Git Flow Release Automation** - End-to-end release workflow:
+  - `scripts/complete-release.sh` - Bash script for automated Git Flow releases
+  - `scripts/complete-release.ps1` - PowerShell script for Windows
+  - Automates: `develop` → `release/vX.X.X` → `main` → tag → retroactive build
+  - VERSION file management
+  - Branch creation, merging, and cleanup
+  - Automatic tag creation on `main` branch
+  - Integration with retroactive builder
+  - Dry-run mode for safety
+
+- 🤖 **GitHub Actions Workflow** - Automated retroactive builds:
+  - `.github/workflows/retroactive-release.yml` - Workflow for CI/CD integration
+  - Manual trigger via workflow_dispatch
+  - Configurable tag and platform selection
+  - Optional upload to existing GitHub releases
+  - Parallel builds for multiple platforms
+  - Artifact retention for 90 days
+
+- 📚 **Comprehensive Documentation** - Complete guide for retroactive builds:
+  - `docs/RETROACTIVE_RELEASE_BUILDING.md` - User guide with examples
+  - Usage instructions for all platforms
+  - Troubleshooting section
+  - Best practices and security considerations
+  - CI/CD integration examples
+
+**Key Features:**
+- ✅ Build any historical version from Git tags
+- ✅ **Build from specific commits (intermediate releases)**
+- ✅ **Build from merge commits or branch names**
+- ✅ Generate consistent release packages retroactively
+- ✅ Support for multiple package formats (DEB, RPM, TGZ, ZIP)
+- ✅ Automatic checksum and release notes generation
+- ✅ Clean build isolation per version
+- ✅ Parallel multi-platform builds in CI/CD
+- ✅ Direct upload to GitHub releases
+- ✅ **Git Flow compatible**: Works with `develop` → `release/vX.X.X` → `main` workflow
+- ✅ **Complete automation**: `complete-release.sh` script for entire release process
+
+**Use Cases:**
+- Regenerate binaries for past releases
+- **Build intermediate releases from merge commits**
+- **Build releases from specific commits without tags**
+- Build releases for new platforms retroactively
+- Create consistent release artifacts across all versions
+- Support older versions with updated build configurations
+- Automate Git Flow release workflow
+
+**Example Usage:**
+```bash
+# Retroactive build for existing tag
+./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform linux
+
+# Build from specific commit (intermediate release)
+./scripts/retroactive-release-builder.sh --commit a1b2c3d --platform linux
+
+# Build from merge commit or branch
+./scripts/retroactive-release-builder.sh --commit release/v1.3.4 --platform linux
+
+# Complete Git Flow release (develop → main + build)
+./scripts/complete-release.sh 1.5.0
+
+# Dry run to preview changes
+./scripts/complete-release.sh 1.5.0 --dry-run
+
+# Windows
+.\scripts\retroactive-release-builder.ps1 -Commit abc123 -Clean
+.\scripts\complete-release.ps1 -Version 1.5.0 -DryRun
+```
+
+**Documentation:**
+- [Retroactive Release Building Guide](docs/RETROACTIVE_RELEASE_BUILDING.md)
+- [Git Flow Integration Guide](docs/RETROACTIVE_RELEASE_GITFLOW.md)
+- [Quick Start Examples](docs/RETROACTIVE_RELEASE_EXAMPLES.md)
+
+</details>
+
+<details open>
 <summary><b>🧠 Schema Manager for Database Self-Awareness</b> (Feature: Agentic AI)</summary>
 
 - 🔍 **SchemaManager Class** - Core infrastructure for schema introspection:

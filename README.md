@@ -619,6 +619,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 <summary><b>Development</b></summary>
 
 - 🔨 [Build Guide](docs/guides/guides_build_strategy.md)
+- 📦 [Retroactive Release Building](docs/RETROACTIVE_RELEASE_BUILDING.md) - Build binaries from historical tags
 - 🌿 [Branching Strategy](BRANCHING_STRATEGY.md) | [EN](BRANCHING_STRATEGY_EN.md)
 - 🤝 [Contributing](CONTRIBUTING.md)
 - 📖 [API Reference](docs/api/api_reference.md)

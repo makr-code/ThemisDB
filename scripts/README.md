@@ -1,6 +1,6 @@
 # ThemisDB Scripts
 
-This directory contains utility scripts for deployment, operations, and automation.
+This directory contains utility scripts for deployment, operations, automation, and release management.
 
 ## Directory Structure
 
@@ -8,6 +8,62 @@ This directory contains utility scripts for deployment, operations, and automati
 - **systemd/** - systemd service files for Linux deployments
 
 ## Script Categories
+
+### Release Scripts
+
+#### Retroactive Release Builder (NEW)
+Build binaries for historical version tags retroactively.
+
+- **`retroactive-release-builder.sh`** - Linux/macOS version
+- **`retroactive-release-builder.ps1`** - Windows (PowerShell) version
+
+**Purpose:** Extract source code at specific version tags and build/package binaries for all past releases.
+
+**Documentation:** See [RETROACTIVE_RELEASE_BUILDING.md](../docs/RETROACTIVE_RELEASE_BUILDING.md)
+
+**Quick Start:**
+```bash
+# List available tags
+./scripts/retroactive-release-builder.sh --list-tags
+
+# Build specific tag
+./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform linux
+
+# Build all tags
+./scripts/retroactive-release-builder.sh --all-tags
+```
+
+#### Standard Release Scripts
+- **`orchestrate-release.ps1`** - Multi-edition release orchestrator
+- **`build-community-release.ps1`** - Build Community Edition
+- **`build-enterprise-release.ps1`** - Build Enterprise Edition
+- **`build-hyperscaler-release.ps1`** - Build Hyperscaler Edition
+- **`prepare-release.sh`** / **`prepare-release.ps1`** - Prepare releases
+- **`create-github-release.ps1`** - Create GitHub releases
+- **`build-release-packages.sh`** - Build Linux packages
+
+### Complete Release (Git Flow)
+
+Automate the entire Git Flow release process: `develop` → `release/vX.X.X` → `main` (+ tag) → retroactive build
+
+- **`complete-release.sh`** - Linux/macOS automated release
+- **`complete-release.ps1`** - Windows automated release
+
+**Purpose:** Complete release workflow following Git Flow branching strategy
+
+**Documentation:** See [RETROACTIVE_RELEASE_GITFLOW.md](../docs/RETROACTIVE_RELEASE_GITFLOW.md)
+
+**Quick Start:**
+```bash
+# Complete release workflow
+./scripts/complete-release.sh 1.5.0
+
+# Dry run to preview
+./scripts/complete-release.sh 1.5.0 --dry-run
+
+# Skip retroactive build
+./scripts/complete-release.sh 1.5.0 --skip-build
+```
 
 ### Deployment Scripts
 Scripts for deploying ThemisDB in various environments.
