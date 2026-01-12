@@ -27,76 +27,133 @@ Refactor the HTTP server from Boost.Beast to cpp-httplib and split the large `ht
 
 ## Architektur-Prinzipien
 
-### 1. Layered Architecture (Schichtenarchitektur)
+### 1. Multi-Protocol Layered Architecture (Mehrschichtige Multi-Protokoll-Architektur)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     HTTP Layer (cpp-httplib)                │
-│  • Request/Response Handling                                │
-│  • SSL/TLS Termination                                      │
-│  • Connection Management                                    │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│                   Middleware Layer                          │
-│  • Authentication & Authorization                           │
-│  • Rate Limiting & Throttling                              │
-│  • CORS, Compression, Logging                              │
-│  • Request Validation                                       │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│                    Routing Layer                            │
-│  • Route Registration                                       │
-│  • Path Matching & Parameters                              │
-│  • Method Routing (GET/POST/PUT/DELETE)                    │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│                    Handler Layer                            │
-│  • Business Logic                                           │
-│  • Request Processing                                       │
-│  • Response Formatting                                      │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│                    Service Layer                            │
-│  • Business Services                                        │
-│  • Domain Logic                                             │
-│  • Transaction Management                                   │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────────┐
-│                   Data Access Layer                         │
-│  • RocksDB Access                                           │
-│  • Cache Management                                         │
-│  • Index Operations                                         │
-└─────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│                        Protocol Abstraction Layer                                     │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐    │
+│  │ HTTP/1.1   │  │ HTTP/2     │  │ HTTP/3     │  │   gRPC     │  │   MCP      │    │
+│  │ (cpp-      │  │ (nghttp2)  │  │ (nghttp3   │  │(protobuf)  │  │(model ctx) │    │
+│  │  httplib)  │  │  + ALPN    │  │ + ngtcp2)  │  │            │  │            │    │
+│  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘  └─────┬──────┘    │
+│        │               │               │               │               │            │
+│        └───────────────┴───────────────┴───────────────┴───────────────┘            │
+│                                        │                                             │
+└────────────────────────────────────────┼─────────────────────────────────────────────┘
+                                         │
+┌────────────────────────────────────────▼─────────────────────────────────────────────┐
+│                        Protocol Adapter Layer (NEW)                                   │
+│  • Unified Request/Response Interface                                                 │
+│  • Protocol-specific handling (HTTP/2 streams, gRPC bidirectional, HTTP/3 QUIC)     │
+│  • Header normalization across protocols                                             │
+│  • Connection multiplexing and pooling                                               │
+│  • Protocol-specific features (Server Push, 0-RTT, Streaming)                       │
+└────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                         │
+┌────────────────────────────────────────▼─────────────────────────────────────────────┐
+│                           Middleware Layer                                            │
+│  • Authentication & Authorization                                                     │
+│  • Rate Limiting & Throttling (per-protocol adaptive)                                │
+│  • CORS, Compression (Brotli for HTTP/2+, gzip fallback)                            │
+│  • Request Validation & Sanitization                                                 │
+│  • Protocol-aware logging (include protocol version, stream IDs)                     │
+└────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                         │
+┌────────────────────────────────────────▼─────────────────────────────────────────────┐
+│                            Routing Layer                                              │
+│  • Unified route registration for all protocols                                      │
+│  • Path matching & parameter extraction                                              │
+│  • Method routing (GET/POST/PUT/DELETE for HTTP, RPC methods for gRPC)              │
+│  • Protocol-specific route optimization                                              │
+└────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                         │
+┌────────────────────────────────────────▼─────────────────────────────────────────────┐
+│                            Handler Layer                                              │
+│  • Protocol-agnostic business logic                                                  │
+│  • Request processing using unified interface                                        │
+│  • Response formatting (JSON, Protobuf, MessagePack)                                 │
+└────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                         │
+┌────────────────────────────────────────▼─────────────────────────────────────────────┐
+│                            Service Layer                                              │
+│  • Business services (CRUD, Query, Transaction)                                      │
+│  • Domain logic                                                                      │
+│  • Transaction & MVCC management                                                     │
+└────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                         │
+┌────────────────────────────────────────▼─────────────────────────────────────────────┐
+│                         Data Access Layer                                             │
+│  • RocksDB access                                                                    │
+│  • Changefeed & MVCC                                                                 │
+│  • Cache management                                                                  │
+│  • Index operations                                                                  │
+└───────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Unterstützte Protokolle
+
+| Protokoll | Status | Use Case | Library | Port |
+|-----------|--------|----------|---------|------|
+| **HTTP/1.1** | ✅ Production | REST API, Debugging | cpp-httplib | 8080 |
+| **HTTP/2** | ✅ Production | Multiplexing, Server Push, CDC | nghttp2 + ALPN | 8443 (TLS) |
+| **HTTP/3** | 🧪 Experimental | Low latency, Mobile, 0-RTT | nghttp3 + ngtcp2 | 8443 (QUIC/UDP) |
+| **gRPC** | ✅ Production | Inter-shard, High throughput | gRPC (protobuf) | 50051 |
+| **MCP** | 🚧 Planned | LLM context, Model serving | Custom/SSE | 8080 (HTTP/1.1) |
 
 ---
 
-## 📁 Vorgeschlagene Verzeichnisstruktur
+## 📁 Vorgeschlagene Verzeichnisstruktur (Multi-Protokoll)
 
 ```
 src/server/
-├── http_server.h                      # Main server interface
-├── http_server.cpp                    # Main server implementation (300-500 LOC)
+├── http_server.h                      # Main unified server interface
+├── http_server.cpp                    # Main server orchestrator (300-500 LOC)
+│
+├── protocols/                         # Protocol-specific implementations
+│   ├── protocol_adapter.h             # Unified protocol adapter interface
+│   │
+│   ├── http1/                         # HTTP/1.1 (cpp-httplib)
+│   │   ├── http1_server.h/.cpp        # HTTP/1.1 server
+│   │   └── http1_adapter.h/.cpp       # HTTP/1.1 → Unified adapter
+│   │
+│   ├── http2/                         # HTTP/2 (nghttp2)
+│   │   ├── http2_session.h/.cpp       # HTTP/2 session handler (existing)
+│   │   ├── http2_server.h/.cpp        # HTTP/2 server wrapper
+│   │   ├── http2_adapter.h/.cpp       # HTTP/2 → Unified adapter
+│   │   └── http2_push.h/.cpp          # Server Push für CDC
+│   │
+│   ├── http3/                         # HTTP/3 (nghttp3 + ngtcp2)
+│   │   ├── http3_session.h/.cpp       # HTTP/3 session handler (existing)
+│   │   ├── http3_server.h/.cpp        # HTTP/3/QUIC server wrapper
+│   │   ├── http3_adapter.h/.cpp       # HTTP/3 → Unified adapter
+│   │   └── quic_connection.h/.cpp     # QUIC connection management
+│   │
+│   ├── grpc/                          # gRPC (existing)
+│   │   ├── grpc_service_impl.h/.cpp   # gRPC service implementations
+│   │   ├── grpc_adapter.h/.cpp        # gRPC → Unified adapter
+│   │   └── streaming.h/.cpp           # Bidirectional streaming
+│   │
+│   └── mcp/                           # Model Context Protocol
+│       ├── mcp_server.h/.cpp          # MCP server (existing stub)
+│       ├── mcp_adapter.h/.cpp         # MCP → Unified adapter
+│       └── sse_stream.h/.cpp          # Server-Sent Events
 │
 ├── core/                              # Core server components
 │   ├── server_config.h/.cpp           # Configuration management
 │   ├── server_context.h/.cpp          # Shared server context
-│   ├── request_context.h/.cpp         # Per-request context
-│   ├── response_builder.h/.cpp        # Response builder utility
-│   └── error_handler.h/.cpp           # Centralized error handling
+│   ├── request_context.h/.cpp         # Protocol-agnostic request context
+│   ├── response_builder.h/.cpp        # Protocol-agnostic response builder
+│   ├── error_handler.h/.cpp           # Centralized error handling
+│   └── connection_pool.h/.cpp         # Multi-protocol connection pooling
 │
-├── middleware/                        # Middleware components
+├── middleware/                        # Protocol-agnostic middleware
 │   ├── middleware_base.h              # Base middleware interface
 │   ├── auth_middleware.h/.cpp         # Authentication
 │   ├── cors_middleware.h/.cpp         # CORS handling
-│   ├── compression_middleware.h/.cpp  # Gzip/Brotli compression
-│   ├── rate_limit_middleware.h/.cpp   # Rate limiting
-│   ├── logging_middleware.h/.cpp      # Request/response logging
+│   ├── compression_middleware.h/.cpp  # Brotli/Gzip compression (adaptive)
+│   ├── rate_limit_middleware.h/.cpp   # Rate limiting (per-protocol adaptive)
+│   ├── logging_middleware.h/.cpp      # Protocol-aware logging
 │   ├── validation_middleware.h/.cpp   # Input validation
 │   ├── cache_middleware.h/.cpp        # Response caching
 │   └── middleware_chain.h/.cpp        # Middleware chain executor
@@ -972,4 +1029,556 @@ void HttpServer::stop() {
 
 ---
 
-**Labels**: `type:refactoring`, `area:api`, `priority:P2`, `effort:x-large`, `technical-debt`
+## 🌐 Multi-Protokoll-Support Integration
+
+### Protocol Adapter Interface
+
+```cpp
+// protocols/protocol_adapter.h
+#pragma once
+#include <memory>
+#include <string>
+#include <functional>
+#include "core/request_context.h"
+
+namespace themis::server {
+
+enum class Protocol {
+    HTTP1_1,
+    HTTP2,
+    HTTP3,
+    GRPC,
+    MCP
+};
+
+/**
+ * Unified interface for all protocol adapters.
+ * Allows protocol-agnostic request handling.
+ */
+class ProtocolAdapter {
+public:
+    virtual ~ProtocolAdapter() = default;
+    
+    /**
+     * Start the protocol server
+     */
+    virtual bool start() = 0;
+    
+    /**
+     * Stop the protocol server gracefully
+     */
+    virtual void stop() = 0;
+    
+    /**
+     * Get protocol type
+     */
+    virtual Protocol getProtocol() const = 0;
+    
+    /**
+     * Get protocol-specific port
+     */
+    virtual uint16_t getPort() const = 0;
+    
+    /**
+     * Check if protocol is secure (TLS/QUIC)
+     */
+    virtual bool isSecure() const = 0;
+    
+    /**
+     * Convert protocol-specific request to unified RequestContext
+     */
+    virtual std::unique_ptr<RequestContext> createRequestContext(
+        const void* native_request,
+        void* native_response
+    ) = 0;
+    
+    /**
+     * Register route handler (protocol-specific implementation)
+     */
+    virtual void registerRoute(
+        const std::string& method,
+        const std::string& path,
+        std::function<void(RequestContext&)> handler
+    ) = 0;
+    
+    /**
+     * Get protocol-specific statistics
+     */
+    virtual nlohmann::json getStats() const = 0;
+};
+
+} // namespace themis::server
+```
+
+### HTTP/2 Adapter Implementation
+
+```cpp
+// protocols/http2/http2_adapter.cpp
+#include "protocols/http2/http2_adapter.h"
+#include "protocols/http2/http2_session.h"
+
+namespace themis::server {
+
+Http2Adapter::Http2Adapter(const ServerConfig& config)
+    : config_(config)
+    , session_(std::make_unique<Http2Handler>(
+          config.ioc,
+          config.host,
+          config.https_port,
+          nullptr  // http_server pointer
+      ))
+{}
+
+bool Http2Adapter::start() {
+    THEMIS_INFO("Starting HTTP/2 server on port {}", config_.https_port);
+    
+    // Configure ALPN for h2 negotiation
+    Http2Handler::configureAlpn(ssl_ctx_);
+    
+    // Start listening
+    session_->start();
+    
+    THEMIS_INFO("HTTP/2 server started successfully");
+    return true;
+}
+
+void Http2Adapter::stop() {
+    THEMIS_INFO("Stopping HTTP/2 server");
+    session_->stop();
+}
+
+Protocol Http2Adapter::getProtocol() const {
+    return Protocol::HTTP2;
+}
+
+std::unique_ptr<RequestContext> Http2Adapter::createRequestContext(
+    const void* native_request,
+    void* native_response
+) {
+    // Convert nghttp2 frame to RequestContext
+    auto* frame = static_cast<const nghttp2_frame*>(native_request);
+    
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->setProtocol(Protocol::HTTP2);
+    ctx->setStreamId(frame->hd.stream_id);
+    
+    // Extract headers from HEADERS frame
+    if (frame->hd.type == NGHTTP2_HEADERS) {
+        for (auto& header : frame->headers.nva) {
+            std::string name(reinterpret_cast<const char*>(header.name), header.namelen);
+            std::string value(reinterpret_cast<const char*>(header.value), header.valuelen);
+            
+            if (name == ":method") ctx->setMethod(value);
+            else if (name == ":path") ctx->setPath(value);
+            else if (name == ":scheme") ctx->setScheme(value);
+            else ctx->setHeader(name, value);
+        }
+    }
+    
+    return ctx;
+}
+
+void Http2Adapter::registerRoute(
+    const std::string& method,
+    const std::string& path,
+    std::function<void(RequestContext&)> handler
+) {
+    // Register route with HTTP/2 session
+    routes_[method + ":" + path] = std::move(handler);
+}
+
+nlohmann::json Http2Adapter::getStats() const {
+    return {
+        {"protocol", "HTTP/2"},
+        {"port", config_.https_port},
+        {"secure", true},
+        {"active_streams", session_->getActiveStreamCount()},
+        {"max_concurrent_streams", config_.http2_max_concurrent_streams},
+        {"bytes_sent", session_->getBytesSent()},
+        {"bytes_received", session_->getBytesReceived()}
+    };
+}
+
+} // namespace themis::server
+```
+
+### gRPC Adapter Implementation
+
+```cpp
+// protocols/grpc/grpc_adapter.cpp
+#include "protocols/grpc/grpc_adapter.h"
+#include "server/rpc_service_impl.h"
+
+namespace themis::server {
+
+GrpcAdapter::GrpcAdapter(const ServerConfig& config)
+    : config_(config)
+    , server_address_(config.host + ":" + std::to_string(config.grpc_port))
+{}
+
+bool GrpcAdapter::start() {
+    THEMIS_INFO("Starting gRPC server on {}", server_address_);
+    
+    grpc::ServerBuilder builder;
+    
+    // Listen on the specified address without authentication (or with TLS)
+    if (config_.enable_tls) {
+        grpc::SslServerCredentialsOptions ssl_opts;
+        ssl_opts.pem_root_certs = "";  // Load from config
+        ssl_opts.pem_key_cert_pairs.push_back({
+            config_.tls_key,
+            config_.tls_cert
+        });
+        builder.AddListeningPort(server_address_, grpc::SslServerCredentials(ssl_opts));
+    } else {
+        builder.AddListeningPort(server_address_, grpc::InsecureServerCredentials());
+    }
+    
+    // Register gRPC services
+    builder.RegisterService(&themis_service_);
+    builder.RegisterService(&llm_service_);
+    builder.RegisterService(&wal_service_);
+    
+    // Build and start server
+    server_ = builder.BuildAndStart();
+    
+    if (!server_) {
+        THEMIS_ERROR("Failed to start gRPC server");
+        return false;
+    }
+    
+    THEMIS_INFO("gRPC server started successfully");
+    return true;
+}
+
+void GrpcAdapter::stop() {
+    THEMIS_INFO("Stopping gRPC server");
+    if (server_) {
+        server_->Shutdown();
+        server_->Wait();
+    }
+}
+
+Protocol GrpcAdapter::getProtocol() const {
+    return Protocol::GRPC;
+}
+
+std::unique_ptr<RequestContext> GrpcAdapter::createRequestContext(
+    const void* native_request,
+    void* native_response
+) {
+    // gRPC uses different request model (ServerContext + Request/Response messages)
+    // This adapter focuses on registering services rather than individual routes
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->setProtocol(Protocol::GRPC);
+    return ctx;
+}
+
+void GrpcAdapter::registerRoute(
+    const std::string& method,
+    const std::string& path,
+    std::function<void(RequestContext&)> handler
+) {
+    // gRPC uses service registration, not individual route registration
+    THEMIS_WARN("gRPC adapter does not support individual route registration");
+}
+
+nlohmann::json GrpcAdapter::getStats() const {
+    return {
+        {"protocol", "gRPC"},
+        {"address", server_address_},
+        {"secure", config_.enable_tls},
+        {"services_registered", 3}  // themis_core, llm, wal
+    };
+}
+
+} // namespace themis::server
+```
+
+### Unified Server Orchestrator
+
+```cpp
+// http_server.cpp (simplified main implementation)
+#include "server/http_server.h"
+#include "protocols/http1/http1_adapter.h"
+#include "protocols/http2/http2_adapter.h"
+#include "protocols/http3/http3_adapter.h"
+#include "protocols/grpc/grpc_adapter.h"
+#include "protocols/mcp/mcp_adapter.h"
+
+namespace themis::server {
+
+HttpServer::HttpServer(const Config& config)
+    : config_(config)
+    , context_(std::make_shared<ServerContext>())
+{
+    // Initialize protocol adapters based on configuration
+    if (config_.enable_http1) {
+        adapters_.push_back(std::make_unique<Http1Adapter>(config_));
+    }
+    
+    if (config_.enable_http2) {
+        adapters_.push_back(std::make_unique<Http2Adapter>(config_));
+    }
+    
+    if (config_.enable_http3) {
+        adapters_.push_back(std::make_unique<Http3Adapter>(config_));
+    }
+    
+    if (config_.enable_grpc) {
+        adapters_.push_back(std::make_unique<GrpcAdapter>(config_));
+    }
+    
+    if (config_.enable_mcp) {
+        adapters_.push_back(std::make_unique<McpAdapter>(config_));
+    }
+    
+    THEMIS_INFO("Initialized {} protocol adapter(s)", adapters_.size());
+}
+
+bool HttpServer::start() {
+    THEMIS_INFO("Starting ThemisDB Multi-Protocol Server");
+    
+    // Start all configured protocol adapters
+    for (auto& adapter : adapters_) {
+        if (!adapter->start()) {
+            THEMIS_ERROR("Failed to start {} adapter", 
+                         protocolToString(adapter->getProtocol()));
+            return false;
+        }
+        
+        THEMIS_INFO("{} adapter started on port {}",
+                    protocolToString(adapter->getProtocol()),
+                    adapter->getPort());
+    }
+    
+    THEMIS_INFO("All protocol adapters started successfully");
+    return true;
+}
+
+void HttpServer::stop() {
+    THEMIS_INFO("Stopping all protocol adapters");
+    
+    for (auto& adapter : adapters_) {
+        adapter->stop();
+    }
+    
+    THEMIS_INFO("All protocol adapters stopped");
+}
+
+void HttpServer::registerHandler(std::unique_ptr<HandlerBase> handler) {
+    // Register handler routes with all compatible protocol adapters
+    for (auto& adapter : adapters_) {
+        // Each handler registers its routes with the adapter
+        handler->registerRoutes(*adapter);
+    }
+    
+    handlers_.push_back(std::move(handler));
+}
+
+nlohmann::json HttpServer::getStats() const {
+    nlohmann::json stats;
+    stats["server"] = "ThemisDB Multi-Protocol Server";
+    stats["version"] = THEMIS_VERSION;
+    stats["adapters"] = nlohmann::json::array();
+    
+    for (const auto& adapter : adapters_) {
+        stats["adapters"].push_back(adapter->getStats());
+    }
+    
+    return stats;
+}
+
+std::string HttpServer::protocolToString(Protocol proto) const {
+    switch (proto) {
+        case Protocol::HTTP1_1: return "HTTP/1.1";
+        case Protocol::HTTP2: return "HTTP/2";
+        case Protocol::HTTP3: return "HTTP/3";
+        case Protocol::GRPC: return "gRPC";
+        case Protocol::MCP: return "MCP";
+        default: return "Unknown";
+    }
+}
+
+} // namespace themis::server
+```
+
+### Configuration Example
+
+```yaml
+# config/server.yaml
+server:
+  host: "0.0.0.0"
+  
+  # Protocol enablement (explicit opt-in)
+  protocols:
+    http1:
+      enabled: true
+      port: 8080
+      
+    http2:
+      enabled: true              # Requires TLS
+      port: 8443
+      max_concurrent_streams: 128
+      initial_window_size: 65535
+      server_push_enabled: true  # For CDC
+      
+    http3:
+      enabled: false             # Experimental
+      port: 8443                 # QUIC on UDP
+      max_idle_timeout_ms: 30000
+      max_streams_bidi: 100
+      
+    grpc:
+      enabled: true
+      port: 50051
+      max_concurrent_calls: 1000
+      
+    mcp:
+      enabled: false             # Planned
+      port: 8080                 # Reuses HTTP/1.1
+      sse_heartbeat_interval: 30
+      
+  # TLS configuration (required for HTTP/2, optional for gRPC)
+  tls:
+    enabled: true
+    cert_file: "/etc/themisdb/certs/server.crt"
+    key_file: "/etc/themisdb/certs/server.key"
+    ca_file: "/etc/themisdb/certs/ca.crt"
+    
+  # Performance tuning
+  thread_pool_size: 16
+  max_connections: 10000
+```
+
+---
+
+## Protocol-Specific Features
+
+### HTTP/2 Server Push für CDC
+
+```cpp
+// protocols/http2/http2_push.cpp
+namespace themis::server {
+
+void Http2PushHandler::enableServerPush(
+    int32_t stream_id,
+    const std::string& changefeed_id
+) {
+    // Subscribe to changefeed events
+    changefeed_subscriptions_[stream_id] = changefeed_id;
+    
+    // Register callback for new events
+    changefeed_->subscribe(changefeed_id, [this, stream_id](const Event& event) {
+        // Push event to client via HTTP/2 Server Push
+        pushEvent(stream_id, event);
+    });
+}
+
+void Http2PushHandler::pushEvent(int32_t stream_id, const Event& event) {
+    // Create PUSH_PROMISE frame
+    nghttp2_nv headers[] = {
+        {":method", "GET"},
+        {":path", "/api/v1/changefeed/events"},
+        {":scheme", "https"},
+        {":authority", "themisdb.local"}
+    };
+    
+    // Submit push promise
+    session_->submitPushPromise(stream_id, headers, 4);
+    
+    // Send event data
+    std::string json_data = event.toJson().dump();
+    session_->submitData(promised_stream_id, json_data);
+}
+
+} // namespace themis::server
+```
+
+### HTTP/3 0-RTT Support
+
+```cpp
+// protocols/http3/http3_adapter.cpp
+bool Http3Adapter::handle0RTT(const QuicConnection& conn) {
+    // Check if client sent early data
+    if (!conn.hasEarlyData()) {
+        return false;
+    }
+    
+    // Validate 0-RTT ticket
+    if (!validateEarlyDataTicket(conn.getTicket())) {
+        THEMIS_WARN("Invalid 0-RTT ticket, rejecting early data");
+        conn.rejectEarlyData();
+        return false;
+    }
+    
+    // Accept 0-RTT and process early data
+    THEMIS_DEBUG("Accepting 0-RTT connection");
+    conn.acceptEarlyData();
+    
+    // Process early data requests
+    processEarlyData(conn);
+    return true;
+}
+```
+
+### gRPC Bidirectional Streaming
+
+```cpp
+// protocols/grpc/grpc_adapter.cpp
+grpc::Status GrpcAdapter::StreamChangefeed(
+    grpc::ServerContext* context,
+    grpc::ServerReaderWriter<ChangefeedEvent, ChangefeedRequest>* stream
+) {
+    ChangefeedRequest request;
+    
+    // Read client requests
+    while (stream->Read(&request)) {
+        std::string changefeed_id = request.changefeed_id();
+        
+        // Subscribe to changefeed
+        auto subscription = changefeed_->subscribe(changefeed_id);
+        
+        // Stream events back to client
+        for (const auto& event : subscription) {
+            ChangefeedEvent response;
+            response.set_sequence(event.sequence);
+            response.set_key(event.key);
+            response.set_value(event.value);
+            response.set_operation_type(event.op_type);
+            
+            if (!stream->Write(response)) {
+                // Client disconnected
+                break;
+            }
+        }
+    }
+    
+    return grpc::Status::OK;
+}
+```
+
+---
+
+## 📚 References
+
+- [cpp-httplib Documentation](https://github.com/yhirose/cpp-httplib)
+- [nghttp2 - HTTP/2 C Library](https://nghttp2.org/)
+- [nghttp3/ngtcp2 - HTTP/3 Implementation](https://github.com/ngtcp2/nghttp3)
+- [gRPC C++ Guide](https://grpc.io/docs/languages/cpp/)
+- [HTTP/2 RFC 7540](https://tools.ietf.org/html/rfc7540)
+- [HTTP/3 RFC 9114](https://www.rfc-editor.org/rfc/rfc9114.html)
+- [QUIC RFC 9000](https://www.rfc-editor.org/rfc/rfc9000.html)
+- [REST API Best Practices](https://restfulapi.net/rest-architectural-constraints/)
+- [Clean Code Principles](https://clean-code-developer.com/)
+- [SOLID Principles](https://en.wikipedia.org/wiki/SOLID)
+
+---
+
+**Created**: 2026-01-12  
+**Last Updated**: 2026-01-12  
+**Version**: 2.0 (Multi-Protocol)
+
+---
+
+**Labels**: `type:refactoring`, `area:api`, `priority:P2`, `effort:x-large`, `technical-debt`, `multi-protocol`
