@@ -46,10 +46,10 @@ Für jede gefundene Datei:
 #### 1.1 Storage Layer
 **Priorität:** P0 (Kritisch)
 
-- [ ] **RocksDB Wrapper** (`src/storage/rocksdb_wrapper.cpp`)
-  - [ ] Überprüfen: Column Families, Transactions, Backup
-  - [ ] Status: ✅ Vollständig implementiert (Audit-Report bestätigt)
-  - [ ] Findings: Keine relevanten Stubs
+- [x] **RocksDB Wrapper** (`src/storage/rocksdb_wrapper.cpp`) ✅ Complete
+  - [x] Column Families, Transactions, Backup implemented
+  - Status: ✅ Vollständig implementiert (Audit-Report bestätigt)
+  - Findings: Keine relevanten Stubs
 
 - [ ] **MVCC Implementation** (`src/storage/mvcc_*.cpp`)
   - [ ] Überprüfen: Snapshot Isolation, Conflict Resolution
@@ -69,10 +69,10 @@ Für jede gefundene Datei:
 #### 1.2 Query Engine
 **Priorität:** P0 (Kritisch)
 
-- [ ] **AQL Parser** (`src/query/aql_parser.cpp`)
-  - [ ] Überprüfen: Syntax-Vollständigkeit, Error Handling
-  - [ ] Status: ✅ Vollständig (1.200+ Zeilen)
-  - [ ] Findings: Keine Stubs
+- [x] **AQL Parser** (`src/query/aql_parser.cpp`) ✅ Complete
+  - [x] Syntax-Vollständigkeit, Error Handling verified
+  - Status: ✅ Vollständig (1.200+ Zeilen)
+  - Findings: Keine Stubs
 
 - [ ] **Query Optimizer** (`src/query/query_optimizer.cpp`)
   - [ ] Überprüfen: Cost Model, Index Selection
@@ -124,30 +124,30 @@ Für jede gefundene Datei:
   - [ ] Status: TBD
   - [ ] Findings: TBD
 
-- [ ] **Key Providers** (`src/security/*_key_provider.cpp`)
-  - [ ] **MockKeyProvider** - Status: ✅ Test-Only, korrekt isoliert
-  - [ ] **VaultKeyProvider** - Status: ✅ Vollständig (713 Zeilen)
+- [x] **Key Providers** (`src/security/*_key_provider.cpp`)
+  - [x] **MockKeyProvider** - Status: ✅ Test-Only, korrekt isoliert
+  - [x] **VaultKeyProvider** - Status: ✅ Vollständig (713 Zeilen)
   - [ ] **PKIKeyProvider** - Status: TBD
-  - [ ] **HSMProvider** - Status: ✅ Stub + Real (PKCS#11)
+  - [x] **HSMProvider** - Status: ✅ Stub + Real (PKCS#11)
 
 #### 2.2 PKI/Signing
 **Priorität:** P1 (Wichtig)
 
-- [ ] **PKI Client** (`src/utils/pki_client.cpp`)
-  - [ ] Status: ✅ Reviewed - OpenSSL-Integration vorhanden
-  - [ ] Known: Fallback zu Base64(hash) ohne Zertifikate
+- [x] **PKI Client** (`src/utils/pki_client.cpp`) ✅ Reviewed
+  - Status: ✅ Reviewed - OpenSSL-Integration vorhanden
+  - Known: Fallback zu Base64(hash) ohne Zertifikate
 
-- [ ] **HSM Provider** (`src/security/hsm_provider*.cpp`)
-  - [ ] Status: ✅ Reviewed - Stub + PKCS#11 Real
-  - [ ] Known: Auto-Fallback bei PKCS#11-Fehler
+- [x] **HSM Provider** (`src/security/hsm_provider*.cpp`) ✅ Reviewed
+  - Status: ✅ Reviewed - Stub + PKCS#11 Real
+  - Known: Auto-Fallback bei PKCS#11-Fehler
 
-- [ ] **Timestamp Authority** (`src/security/timestamp_authority.cpp`)
-  - [ ] Status: ✅ Reviewed - Stub für Dev, Real geplant
-  - [ ] Priority: P1 für Enterprise
+- [x] **Timestamp Authority** (`src/security/timestamp_authority.cpp`) ✅ Reviewed
+  - Status: ✅ Reviewed - Stub für Dev, Real geplant
+  - Priority: P1 für Enterprise
 
-- [ ] **Signing Providers** (`src/security/*_signing_provider.cpp`)
-  - [ ] **VaultSigningProvider** - Status: ✅ Mit Mock-Fallback
-  - [ ] Findings: TBD
+- [x] **Signing Providers** (`src/security/*_signing_provider.cpp`)
+  - [x] **VaultSigningProvider** - Status: ✅ Mit Mock-Fallback
+  - Findings: Reviewed and verified
 
 #### 2.3 Authentication
 **Priorität:** P1 (Wichtig)
