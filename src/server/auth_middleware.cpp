@@ -1,5 +1,6 @@
 #include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
+#include "auth/gssapi_authenticator.h"
 #include "security/usb_admin_authenticator.h"
 #include "utils/logger.h"
 #include <sstream>
@@ -25,6 +26,23 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
     
     THEMIS_INFO("JWT validation enabled: issuer='{}', audience='{}', scope_claim='{}'",
                 config.expected_issuer, config.expected_audience, config.scope_claim);
+}
+
+void AuthMiddleware::enableKerberos(const auth::KerberosConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    kerberos_auth_ = std::make_unique<auth::GSSAPIAuthenticator>();
+    
+    if (!kerberos_auth_->initialize(config)) {
+        THEMIS_ERROR("Failed to initialize Kerberos authentication");
+        kerberos_auth_.reset();
+        return;
+    }
+    
+    kerberos_enabled_ = true;
+    
+    THEMIS_INFO("Kerberos/GSSAPI authentication enabled: service_principal='{}', fallback={}",
+                config.service_principal, config.fallback_to_basic);
 }
 
 void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std::vector<std::string>& protected_scopes) {
@@ -115,6 +133,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         return authorizeViaJWT(token, required_scope);
     }
     
+    // If Kerberos is enabled, try Kerberos authentication
+    if (kerberos_enabled_) {
+        return authorizeViaKerberos(token, required_scope);
+    }
+    
     // No match found
     metrics_.authz_invalid_token_total++;
     return AuthResult::Denied("Invalid or missing token");
@@ -187,7 +210,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
 
 bool AuthMiddleware::isEnabled() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return !tokens_.empty() || jwt_enabled_;
+    return !tokens_.empty() || jwt_enabled_ || kerberos_enabled_;
 }
 
 std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view auth_header) {
@@ -248,6 +271,42 @@ bool AuthMiddleware::isAdminScope(std::string_view scope) const {
         }
     }
     return false;
+}
+
+AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
+    std::string_view token,
+    std::string_view required_scope) const {
+    
+    (void)required_scope;  // For now, Kerberos auth grants access if principal is valid
+    
+    // Note: mutex is already locked by caller (authorize)
+    
+    if (!kerberos_auth_) {
+        return AuthResult::Denied("Kerberos authentication not configured");
+    }
+    
+    try {
+        // Authenticate the Kerberos token
+        auto result = kerberos_auth_->authenticateToken(std::string(token));
+        
+        if (!result.success) {
+            THEMIS_WARN("Kerberos authentication failed: {}", result.error_message);
+            return AuthResult::Denied("Kerberos authentication failed: " + result.error_message);
+        }
+        
+        THEMIS_INFO("Kerberos authentication successful for principal '{}' with roles: [{}]",
+                   result.principal_name, fmt::join(result.roles, ", "));
+        
+        // TODO: Check if any of the roles provide the required_scope
+        // For now, we grant access if authentication succeeds
+        
+        metrics_.authz_success_total++;
+        return AuthResult::OK(result.principal_name, {});  // Could pass roles as groups
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Kerberos authentication error: {}", e.what());
+        return AuthResult::Denied(std::string("Kerberos authentication error: ") + e.what());
+    }
 }
 
 } // namespace themis

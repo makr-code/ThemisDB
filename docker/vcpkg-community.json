@@ -17,7 +17,6 @@
     "curl",
     "openssl",
     "zlib",
-    "zstd",
     "lz4",
     "snappy"
   ]
