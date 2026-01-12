@@ -11,12 +11,21 @@
  * - Concurrency: Thread-safe operations under load
  * - Validation: Input validation overhead
  * 
+ * Dependencies:
+ *   - Google Benchmark (required): Install via vcpkg or system package manager
+ *     vcpkg: vcpkg install benchmark
+ *     apt: sudo apt-get install libbenchmark-dev
+ *     brew: brew install google-benchmark
+ * 
  * Build:
  *   cmake -B build -DTHEMIS_BUILD_BENCHMARKS=ON
  *   cmake --build build --target bench_snapshot_manager
  * 
  * Run:
  *   ./build/benchmarks/bench_snapshot_manager
+ * 
+ * Note: Benchmarks are optional. If Google Benchmark is not found,
+ *       the build will continue without benchmarks.
  */
 
 #include <benchmark/benchmark.h>

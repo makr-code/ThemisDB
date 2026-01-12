@@ -178,6 +178,7 @@ SnapshotManager::Status SnapshotManager::deleteTag(const std::string& tag_name) 
 
 // Check if tag exists
 bool SnapshotManager::tagExists(const std::string& tag_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
     std::string key = makeKey(tag_name);
     std::string value;
     return db_.get(key, value).ok();

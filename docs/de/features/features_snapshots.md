@@ -318,6 +318,28 @@ Tag-Namen müssen folgende Regeln einhalten:
 - List-Operation bleibt schnell (<50ms) mit 1000 Snapshots
 - Thread-sicher ohne Lock-Contention unter normaler Last
 
+### Performance-Benchmarks
+
+Eine umfassende Benchmark-Suite ist verfügbar, um Performance-Charakteristiken zu validieren:
+
+**Voraussetzungen:**
+- Google Benchmark Bibliothek (optional)
+  - Installation via vcpkg: `vcpkg install benchmark`
+  - Installation via apt: `sudo apt-get install libbenchmark-dev`
+  - Installation via brew: `brew install google-benchmark`
+
+**Benchmarks Ausführen:**
+```bash
+# Build mit aktivierten Benchmarks
+cmake -B build -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build build --target bench_snapshot_manager
+
+# Benchmark-Suite ausführen
+./build/benchmarks/bench_snapshot_manager
+```
+
+**Hinweis:** Benchmarks sind optional. Wenn Google Benchmark nicht installiert ist, wird der Build ohne Benchmarks fortgesetzt.
+
 ---
 
 ## Best Practices
@@ -497,7 +519,6 @@ Alle Snapshot-Operationen werden im Audit-Trail protokolliert:
 
 - [Implementierungsplan](../../research/IMPLEMENTATION_PLAN_GIT_FEATURES.md)
 - [Git-ähnliche Features Research](../../research/GIT_LIKE_FEATURES_FOR_MVCC.md)
-- [MVCC-Architektur](../../architecture/architecture_mvcc.md)
 - [Changefeed-Dokumentation](features_cdc.md)
 
 ---
