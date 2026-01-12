@@ -196,7 +196,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
             return makeErrorResponse(http::status::internal_server_error, "Stored entity JSON parse failed", req);
         }
 
-        // Tabelle aus Key extrahieren (table:pk Format)
+        // Extract table from key (table:pk format)
         auto pos = key.find(':');
         if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
             span.setStatus(false, "Invalid key format");
@@ -251,21 +251,21 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                 }
                                 auto plain_bytes = field_encryption_->decryptWithKey(blob, raw_key);
                                 
-                                // Deserialisierung basierend auf Datenformat
-                                // Versuche JSON-Deserialisierung für strukturierte Typen
+                                // Deserialization based on data format
+                                // Try JSON deserialization for structured types
                                 std::string plain_str(plain_bytes.begin(), plain_bytes.end());
                                 
-                                // Heuristik: Wenn es wie JSON aussieht, parse es
+                                // Heuristic: If it looks like JSON, parse it
                                 if (!plain_str.empty() && (plain_str[0] == '[' || plain_str[0] == '{')) {
                                     try {
                                         auto parsed = nlohmann::json::parse(plain_str);
-                                        entity_json[f] = parsed; // JSON-Struktur übernehmen
+                                        entity_json[f] = parsed; // Take JSON structure
                                     } catch (...) {
-                                        // Kein valides JSON → als String behandeln
+                                        // Not valid JSON → treat as string
                                         entity_json[f] = plain_str;
                                     }
                                 } else {
-                                    // Primitive Typen als String zurückgeben
+                                    // Return primitive types as string
                                     entity_json[f] = plain_str;
                                 }
                             } catch (const std::exception& e) {
@@ -371,14 +371,14 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                             auto auth_ctx = extractAuthContext(req);
                             std::string user_id = auth_ctx.user_id;
                             std::vector<std::string> groups_claim = auth_ctx.groups;
-                            // Hole DEK / Group-DEK aus PKIKeyProvider (dynamic_cast für Group-Funktionalität)
+                            // Get DEK / Group-DEK from PKIKeyProvider (dynamic_cast for group functionality)
                             auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
                             for (const auto& f : fields) {
-                                if (!entity.hasField(f)) continue; // Feld existiert nicht
+                                if (!entity.hasField(f)) continue; // Field does not exist
                                 auto valOpt = entity.getField(f);
                                 if (!valOpt.has_value()) continue;
                                 
-                                // Serialisierung des Values für alle unterstützten Typen
+                                // Serialization of value for all supported types
                                 std::vector<uint8_t> plain_bytes;
                                 const auto& v = *valOpt;
                                 
@@ -395,20 +395,20 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     std::string str = std::get<bool>(v) ? "true" : "false";
                                     plain_bytes.assign(str.begin(), str.end());
                                 } else if (std::holds_alternative<std::vector<float>>(v)) {
-                                    // Vector<float>: Serialize als JSON-Array
+                                    // Vector<float>: Serialize as JSON array
                                     const auto& vec = std::get<std::vector<float>>(v);
                                     nlohmann::json j_arr = nlohmann::json::array();
                                     for (float val : vec) j_arr.push_back(val);
                                     std::string json_str = j_arr.dump();
                                     plain_bytes.assign(json_str.begin(), json_str.end());
                                 } else if (std::holds_alternative<std::vector<uint8_t>>(v)) {
-                                    // Binary blob: direkt als Byte-Array
+                                    // Binary blob: directly as byte array
                                     plain_bytes = std::get<std::vector<uint8_t>>(v);
                                 } else if (std::holds_alternative<std::monostate>(v)) {
-                                    // Null-Wert überspringen
+                                    // Skip null value
                                     continue;
                                 } else {
-                                    // Unbekannter Typ überspringen
+                                    // Skip unknown type
                                     THEMIS_WARN("Field encryption: Unknown type for field {}", f);
                                     continue;
                                 }
