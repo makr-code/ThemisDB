@@ -23,6 +23,37 @@ message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 find_package(ZLIB 1.3 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
+# zstd (compression codec) - must be found before RocksDB
+find_package(zstd QUIET CONFIG)
+if(zstd_FOUND)
+    message(STATUS "zstd found - enabling Zstandard compression")
+    # Create zstd::zstd alias for RocksDB compatibility
+    if(TARGET zstd::libzstd_shared AND NOT TARGET zstd::zstd)
+        add_library(zstd::zstd ALIAS zstd::libzstd_shared)
+    elseif(TARGET zstd::libzstd_static AND NOT TARGET zstd::zstd)
+        add_library(zstd::zstd ALIAS zstd::libzstd_static)
+    endif()
+else()
+    # Try pkg-config as fallback
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(zstd QUIET libzstd)
+        if(zstd_FOUND)
+            message(STATUS "zstd found via pkg-config")
+            # Create imported target for compatibility
+            add_library(zstd::zstd INTERFACE IMPORTED)
+            set_target_properties(zstd::zstd PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${zstd_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${zstd_LIBRARIES}"
+            )
+        else()
+            message(STATUS "zstd not found - using fallback compression")
+        endif()
+    else()
+        message(STATUS "zstd not found - using fallback compression")
+    endif()
+endif()
+
 # RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
@@ -75,27 +106,34 @@ find_package(OpenMP REQUIRED)
 message(STATUS "OpenMP found")
 
 # Protobuf (required for gRPC and general serialization)
-find_package(Protobuf REQUIRED CONFIG)
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+    find_package(Protobuf REQUIRED)
+endif()
 message(STATUS "Protobuf found: ${Protobuf_VERSION}")
 
 # gRPC (inter-shard communication)
 # Priority: CONFIG, then pkg-config, then fallback
-find_package(gRPC QUIET CONFIG)
-if(NOT gRPC_FOUND)
-    find_package(PkgConfig QUIET)
-    if(PkgConfig_FOUND)
-        pkg_check_modules(gRPC QUIET grpc++ grpc)
-        if(gRPC_FOUND)
-            message(STATUS "gRPC found via pkg-config")
+if(THEMIS_ENABLE_GRPC)
+    find_package(gRPC QUIET CONFIG)
+    if(NOT gRPC_FOUND)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(gRPC QUIET grpc++ grpc)
+            if(gRPC_FOUND)
+                message(STATUS "gRPC found via pkg-config")
+            endif()
         endif()
     endif()
+    
+    if(NOT gRPC_FOUND)
+        message(FATAL_ERROR "gRPC not found. Install grpc-devel or configure VCPKG_ROOT")
+    endif()
+    
+    message(STATUS "gRPC found")
+else()
+    message(STATUS "gRPC support disabled (THEMIS_ENABLE_GRPC=OFF)")
 endif()
-
-if(NOT gRPC_FOUND)
-    message(FATAL_ERROR "gRPC not found. Install grpc-devel or configure VCPKG_ROOT")
-endif()
-
-message(STATUS "gRPC found")
 
 # GTest (unit testing framework - required for tests)
 if(THEMIS_BUILD_TESTS)
@@ -176,14 +214,7 @@ else()
     message(WARNING "yaml-cpp not found - configuration features may be limited")
 endif()
 
-# zstd (compression codec)
-find_package(zstd QUIET CONFIG)
-if(zstd_FOUND)
-    message(STATUS "zstd found - enabling Zstandard compression")
-    add_compile_definitions(THEMIS_HAS_ZSTD=1)
-else()
-    message(STATUS "zstd not found - using fallback compression")
-endif()
+# (zstd is handled earlier, before RocksDB)
 
 # HNSW library (vector indexing)
 find_package(hnswlib QUIET CONFIG)

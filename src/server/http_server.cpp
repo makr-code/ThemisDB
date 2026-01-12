@@ -100,6 +100,8 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 #include "server/feedback_api_handler.h"
+#include "server/schema_api_handler.h"
+#include "metadata/schema_manager.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
@@ -669,6 +671,20 @@ HttpServer::HttpServer(
         THEMIS_INFO("Feedback API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
+    }
+
+    // Initialize SchemaManager and Schema API Handler
+    try {
+        if (storage_ && storage_->isOpen()) {
+            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_mgr_.get());
+            schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
+                storage_, secondary_index_mgr_, schema_manager_.get());
+            THEMIS_INFO("SchemaManager and Schema API Handler initialized");
+        } else {
+            THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
 
     // Initialize Policy Engine (Governance)
@@ -1286,6 +1302,11 @@ namespace {
     SnapshotsTagDelete,         // DELETE /api/v1/snapshots/tags/:name
     SnapshotsStatsGet,          // GET /api/v1/snapshots/stats
        
+    // Schema API
+    SchemaGetFull,            // GET /api/v1/schema
+    SchemaGetTables,          // GET /api/v1/schema/tables
+    SchemaGetTable,           // GET /api/v1/schema/tables/:name
+       
         NotFound
     };
 
@@ -1488,6 +1509,11 @@ namespace {
     if (path_only == "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiSearchGet;
     if (path_only.rfind("/api/v1/errors/", 0) == 0 && path_only != "/api/v1/errors/categories" && path_only != "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiGetByCode;
     if (path_only == "/api/v1/errors" && method == http::verb::get) return Route::ErrorApiListGet;
+    
+    // Schema API routes
+    if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
+    if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
+    if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
 
         return Route::NotFound;
     }
@@ -2078,6 +2104,15 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ErrorApiSearchGet:
             response = handleErrorApiSearch(req);
+            break;
+        case Route::SchemaGetFull:
+            response = handleSchemaGetFull(req);
+            break;
+        case Route::SchemaGetTables:
+            response = handleSchemaGetTables(req);
+            break;
+        case Route::SchemaGetTable:
+            response = handleSchemaGetTable(req);
             break;
         case Route::PoliciesImportRangerPost:
             response = handlePoliciesImportRanger(req);
@@ -3590,6 +3625,28 @@ http::response<http::string_body> HttpServer::handleCapabilities(
         {"version", "1.0.0"},
         {"threads", config_.num_threads}
     };
+
+    // Schema awareness (if available)
+    if (schema_manager_) {
+        try {
+            auto schema_caps = schema_manager_->getCapabilitiesJSON();
+            if (schema_caps.contains("capabilities")) {
+                caps["schema_awareness"] = {
+                    {"enabled", true},
+                    {"capabilities", schema_caps["capabilities"]}
+                };
+            }
+        } catch (...) {
+            // If schema manager fails, continue without schema capabilities
+            caps["schema_awareness"] = {
+                {"enabled", false}
+            };
+        }
+    } else {
+        caps["schema_awareness"] = {
+            {"enabled", false}
+        };
+    }
 
     return makeResponse(http::status::ok, caps.dump(), req);
 }
@@ -12748,6 +12805,40 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
+}
+
+// ============================================================================
+// Schema API Handlers
+// ============================================================================
+
+http::response<http::string_body> HttpServer::handleSchemaGetFull(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaGetTables(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetTables(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaGetTable(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetTable(req);
 }
 
 } // namespace server

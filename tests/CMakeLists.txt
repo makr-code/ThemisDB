@@ -30,8 +30,6 @@ include_directories(
 set(TEST_LIBS
     GTest::gtest
     GTest::gtest_main
-    GTest::gmock
-    GTest::gmock_main
 )
 
 # ============================================================================
@@ -190,6 +188,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager.cpp")
     )
 else()
     message(STATUS "PITR Manager tests not found")
+endif()
+
+# ============================================================================
+# Schema Manager Tests (Issue makr-code/ThemisDB#1)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
+    message(STATUS "Adding Schema Manager tests")
+    
+    add_executable(test_schema_manager
+        test_schema_manager.cpp
+    )
+    
+    target_link_libraries(test_schema_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_schema_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME SchemaManagerTests COMMAND test_schema_manager)
+    
+    # Set test properties
+    set_tests_properties(SchemaManagerTests PROPERTIES
+        LABELS "schema;metadata;self-awareness"
+        TIMEOUT 300
+    )
+else()
+    message(STATUS "Schema Manager tests not found")
 endif()
 
 # ============================================================================

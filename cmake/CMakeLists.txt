@@ -972,6 +972,9 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     
+    ../src/metadata/schema_manager.cpp
+    ../src/server/schema_api_handler.cpp
+    
     ../src/index/secondary_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
