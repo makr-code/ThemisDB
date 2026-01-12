@@ -1,5 +1,7 @@
 #include "server/graph_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "index/graph_index.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
@@ -22,47 +24,232 @@ GraphApiHandler::GraphApiHandler(
 http::response<http::string_body> GraphApiHandler::handleTraverse(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleGraphTraverse()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handleGraphTraverse()
+    auto span = Tracer::startSpan("handleGraphTraverse");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/graph/traverse");
+    
+    try {
+        auto body_json = nlohmann::json::parse(req.body());
+        
+        if (!body_json.contains("start_vertex") || !body_json.contains("max_depth")) {
+            span.setAttribute("error", "missing_required_fields");
+            span.setStatus(false, "Missing required fields");
+            return makeErrorResponse(http::status::bad_request,
+                "Missing 'start_vertex' or 'max_depth'", req);
+        }
+
+        std::string start_vertex = body_json["start_vertex"];
+        size_t max_depth = body_json["max_depth"];
+        
+        span.setAttribute("graph.start_vertex", start_vertex);
+        span.setAttribute("graph.max_depth", static_cast<int64_t>(max_depth));
+
+        // Perform BFS traversal
+        auto [status, visited] = graph_index_->bfs(start_vertex, static_cast<int>(max_depth));
+
+        if (!status.ok) {
+            span.setAttribute("error", "traversal_failed");
+            span.setStatus(false, status.message);
+            return makeErrorResponse(http::status::internal_server_error,
+                "Traversal failed", req);
+        }
+        
+        span.setAttribute("graph.visited_count", static_cast<int64_t>(visited.size()));
+        span.setStatus(true);
+
+        nlohmann::json response = {
+            {"start_vertex", start_vertex},
+            {"max_depth", max_depth},
+            {"visited_count", visited.size()},
+            {"visited", visited}
+        };
+        return makeResponse(http::status::ok, response.dump(), req);
+
+    } catch (const nlohmann::json::exception& e) {
+        span.recordError("JSON parse error: " + std::string(e.what()));
+        span.setStatus(false);
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        THEMIS_ERROR("Graph traverse error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp (edge creation logic)
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    auto span = Tracer::startSpan("handleEdgeCreate");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/graph/edge");
+    
+    try {
+        auto body_json = nlohmann::json::parse(req.body());
+        
+        // Validate required fields for edge creation
+        if (!body_json.contains("id") || !body_json.contains("_from") || !body_json.contains("_to")) {
+            span.setAttribute("error", "missing_required_fields");
+            span.setStatus(false, "Missing required fields");
+            return makeErrorResponse(http::status::bad_request,
+                "Missing required fields: 'id', '_from', '_to'", req);
+        }
+
+        std::string edge_id = body_json["id"];
+        span.setAttribute("graph.edge_id", edge_id);
+
+        // Create BaseEntity from JSON
+        BaseEntity::FieldMap fields;
+        for (auto& [key, value] : body_json.items()) {
+            if (value.is_string()) {
+                fields[key] = value.get<std::string>();
+            } else if (value.is_number_integer()) {
+                fields[key] = value.get<int64_t>();
+            } else if (value.is_number_float()) {
+                fields[key] = value.get<double>();
+            } else if (value.is_boolean()) {
+                fields[key] = value.get<bool>();
+            } else if (value.is_null()) {
+                fields[key] = std::monostate{};
+            }
+        }
+
+        BaseEntity edge(edge_id, fields);
+
+        // Add edge to graph index
+        auto status = graph_index_->addEdge(edge);
+        
+        if (!status.ok) {
+            span.setAttribute("error", "edge_creation_failed");
+            span.setStatus(false, status.message);
+            return makeErrorResponse(http::status::internal_server_error,
+                "Failed to create edge: " + status.message, req);
+        }
+
+        // Store edge entity
+        auto edge_key = KeySchema::makeGraphEdgeKey(edge_id);
+        bool stored = storage_->put(edge_key, edge.serialize());
+        
+        if (!stored) {
+            span.setAttribute("error", "edge_storage_failed");
+            span.setStatus(false, "Failed to store edge");
+            return makeErrorResponse(http::status::internal_server_error,
+                "Failed to store edge", req);
+        }
+
+        span.setStatus(true);
+        nlohmann::json response = {
+            {"status", "ok"},
+            {"edge_id", edge_id}
+        };
+        return makeResponse(http::status::created, response.dump(), req);
+
+    } catch (const nlohmann::json::exception& e) {
+        span.recordError("JSON parse error: " + std::string(e.what()));
+        span.setStatus(false);
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        THEMIS_ERROR("Edge create error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp (edge deletion logic)
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    auto span = Tracer::startSpan("handleEdgeDelete");
+    span.setAttribute("http.method", "DELETE");
+    span.setAttribute("http.path", "/graph/edge/:id");
+    
+    try {
+        // Extract edge ID from path: /graph/edge/{edge_id}
+        std::string target = std::string(req.target());
+        std::string edge_id = extractPathParam(target, "/graph/edge/");
+        
+        if (edge_id.empty()) {
+            span.setAttribute("error", "missing_edge_id");
+            span.setStatus(false, "Missing edge ID");
+            return makeErrorResponse(http::status::bad_request,
+                "Missing edge ID in path", req);
+        }
+
+        span.setAttribute("graph.edge_id", edge_id);
+
+        // Delete edge from graph index
+        auto status = graph_index_->deleteEdge(edge_id);
+        
+        if (!status.ok) {
+            span.setAttribute("error", "edge_deletion_failed");
+            span.setStatus(false, status.message);
+            return makeErrorResponse(http::status::internal_server_error,
+                "Failed to delete edge: " + status.message, req);
+        }
+
+        // Delete edge entity from storage
+        auto edge_key = KeySchema::makeGraphEdgeKey(edge_id);
+        bool deleted = storage_->remove(edge_key);
+        
+        if (!deleted) {
+            // Edge was already deleted or didn't exist in storage
+            THEMIS_WARN("Edge key '{}' not found in storage during deletion", edge_key);
+        }
+
+        span.setStatus(true);
+        nlohmann::json response = {
+            {"status", "ok"},
+            {"edge_id", edge_id}
+        };
+        return makeResponse(http::status::ok, response.dump(), req);
+
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        THEMIS_ERROR("Edge delete error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 std::string GraphApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
-    // TODO: Helper implementation
-    return "";
+    // Extract parameter from path after prefix
+    if (target.size() <= prefix.size()) return "";
+    if (target.substr(0, prefix.size()) != prefix) return "";
+    
+    std::string param = target.substr(prefix.size());
+    
+    // Remove query string if present
+    auto qpos = param.find('?');
+    if (qpos != std::string::npos) {
+        param = param.substr(0, qpos);
+    }
+    
+    return param;
 }
 
 http::response<http::string_body> GraphApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
-    http::response<http::string_body> res{status, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {{"error", message}};
-    res.body() = body.dump();
-    res.prepare_payload();
-    return res;
+    // Helper implementation following AdminApiHandler pattern
+    nlohmann::json error_body = {
+        {"error", true},
+        {"message", message},
+        {"status_code", static_cast<int>(status)}
+    };
+    return makeResponse(status, error_body.dump(), req);
 }
 
 http::response<http::string_body> GraphApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
+    // Helper implementation following AdminApiHandler pattern
     http::response<http::string_body> res{status, req.version()};
+    res.set(http::field::server, "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
     res.body() = body;
     res.prepare_payload();
     return res;

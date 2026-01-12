@@ -581,6 +581,12 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Graph API Handler
+    graph_api_ = std::make_unique<themis::server::GraphApiHandler>(
+        storage_, graph_index_, auth_
+    );
+    THEMIS_INFO("Graph API Handler initialized");
+    
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
         storage_, content_manager_, content_processor_, auth_,
@@ -1726,7 +1732,25 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::GraphTraversePost:
-            response = handleGraphTraverse(req);
+            if (graph_api_) {
+                response = graph_api_->handleTraverse(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgePost:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeCreate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgeDelete:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
             break;
         case Route::VectorSearchPost:
             response = handleVectorSearch(req);
