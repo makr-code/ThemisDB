@@ -32,7 +32,7 @@ Extract and implement query operations from `http_server.cpp` into the `QueryApi
 - **Method:** `handleQueryAql(const http::request<http::string_body>& req)`
 - **Source:** `http_server.cpp` ~line 5990 (`handleQueryAql`)
 - **Features:** AQL (Advanced Query Language) processing
-- **Note:** Large handler (~573 lines)
+- **Note:** Complex, large handler (one of the largest in http_server.cpp)
 
 ### 3. POST /query/enhanced
 - **Method:** `handleEnhancedQuery(const http::request<http::string_body>& req)`

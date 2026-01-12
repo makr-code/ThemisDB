@@ -61,7 +61,7 @@ Extract and implement entity CRUD operations from `http_server.cpp` into the `En
 
 ### Step 1: Review Reference Implementation
 
-**Reference:** `src/server/admin_api_handler.cpp` (completed example)
+**Reference:** `src/server/admin_api_handler.cpp` (implemented as reference example in this PR)
 
 Study the AdminApiHandler to understand:
 - Constructor pattern with dependencies
@@ -191,7 +191,7 @@ curl -X POST http://localhost:8080/entities/batch \
 
 ### Update CMakeLists.txt
 
-Add to `cmake/CMakeLists.txt` (around line 1021):
+Add to `cmake/CMakeLists.txt` in the server source files section:
 
 ```cmake
 ../src/server/entity_api_handler.cpp
@@ -273,7 +273,7 @@ Refer to comprehensive guides:
 - `src/server/entity_api_handler.cpp`
 
 **Source Code:**
-- `src/server/http_server.cpp` (lines ~5621-6300)
+- `src/server/http_server.cpp` (search for handleGetEntity, handlePutEntity, handleDeleteEntity, handleEntitiesBatch)
 
 **Reference Implementation:**
 - `src/server/admin_api_handler.cpp`

@@ -18,7 +18,7 @@ Extract and implement content processing operations from `http_server.cpp` into 
 
 **Class:** `ContentApiHandler`  
 **Files:** `include/server/content_api_handler.h`, `src/server/content_api_handler.cpp`  
-**Lines to Extract:** ~900 lines (largest handler)  
+**Lines to Extract:** ~900 lines (one of the largest handlers)  
 **Complexity:** High
 
 ## Endpoints to Implement
