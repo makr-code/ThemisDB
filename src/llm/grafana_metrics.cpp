@@ -12,6 +12,9 @@ namespace themis {
 namespace llm {
 namespace monitoring {
 
+// Configuration constants
+constexpr size_t MAX_HISTOGRAM_SAMPLES = 1000;
+
 // PrometheusExporter Implementation
 PrometheusExporter::PrometheusExporter() {
     spdlog::debug("PrometheusExporter initialized");
@@ -85,8 +88,8 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
     auto it = metrics_.find(key);
     if (it != metrics_.end()) {
         it->second.histogram_buckets.push_back(value);
-        // Keep only recent values (max 1000)
-        if (it->second.histogram_buckets.size() > 1000) {
+        // Keep only recent values (max MAX_HISTOGRAM_SAMPLES)
+        if (it->second.histogram_buckets.size() > MAX_HISTOGRAM_SAMPLES) {
             it->second.histogram_buckets.erase(it->second.histogram_buckets.begin());
         }
     } else {
@@ -160,9 +163,14 @@ std::string PrometheusExporter::exportMetrics() const {
                 
                 // Output quantiles
                 if (count > 0) {
-                    auto p50 = sorted[count * 50 / 100];
-                    auto p95 = sorted[count * 95 / 100];
-                    auto p99 = sorted[count * 99 / 100];
+                    // Use safe percentile calculation to avoid out-of-bounds
+                    size_t idx_p50 = std::min(count - 1, count * 50 / 100);
+                    size_t idx_p95 = std::min(count - 1, count * 95 / 100);
+                    size_t idx_p99 = std::min(count - 1, count * 99 / 100);
+                    
+                    auto p50 = sorted[idx_p50];
+                    auto p95 = sorted[idx_p95];
+                    auto p99 = sorted[idx_p99];
                     
                     std::string q_labels = labels_part.empty() ? "{" : labels_part + ",";
                     oss << base_name << q_labels << "quantile=\"0.5\"} " << p50 << "\n";
@@ -170,8 +178,10 @@ std::string PrometheusExporter::exportMetrics() const {
                     oss << base_name << q_labels << "quantile=\"0.99\"} " << p99 << "\n";
                 }
                 
-                oss << base_name << "_sum" << labels_part << (labels_part.empty() ? "" : "}") << " " << sum << "\n";
-                oss << base_name << "_count" << labels_part << (labels_part.empty() ? "" : "}") << " " << count << "\n";
+                // Output sum and count
+                std::string sum_count_labels = labels_part.empty() ? "" : labels_part + "}";
+                oss << base_name << "_sum" << sum_count_labels << " " << sum << "\n";
+                oss << base_name << "_count" << sum_count_labels << " " << count << "\n";
             }
         } else {
             // For counters and gauges, output simple value
