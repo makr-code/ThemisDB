@@ -162,7 +162,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
         std::string blob_str(blob_vec.begin(), blob_vec.end());
         span.setAttribute("entity.size_bytes", static_cast<int64_t>(blob_str.size()));
 
-        // Optional Entschluesselung via Query-Parameter ?decrypt=true
+        // Optional decryption via query parameter ?decrypt=true
         bool decrypt = false;
         {
             std::string target = std::string(req.target());
@@ -189,7 +189,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
             return makeResponse(http::status::ok, response.dump(), req);
         }
 
-        // Entschluesselung nur wenn Schema konfiguriert ist und Felder markiert
+        // Decryption only when schema is configured and fields are marked
         json entity_json;
         try { entity_json = json::parse(blob_str); } catch (...) {
             span.setStatus(false, "Stored blob is not valid JSON");
@@ -232,18 +232,18 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                 auto blob = themis::EncryptedBlob::fromJson(enc_meta);
                                 std::vector<uint8_t> raw_key;
                                 if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
-                                    // Gruppen-Kontext (MVP: erste Gruppe / einzelner String)
+                                    // Group context (MVP: first group / single string)
                                     std::string group_name;
                                     try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (...) { group_name.clear(); }
                                     if (!group_name.empty()) {
                                         auto gdek = pki->getGroupDEK(group_name);
-                                        std::vector<uint8_t> salt; // leer
+                                        std::vector<uint8_t> salt; // empty
                                         std::string info = "field:" + f;
                                         raw_key = themis::utils::HKDFHelper::derive(gdek, salt, info, 32);
                                     }
                                 }
                                 if (raw_key.empty()) {
-                                    // User-/Anonymous-Kontext
+                                    // User/Anonymous context
                                     auto dek = key_provider_->getKey("dek");
                                     std::vector<uint8_t> salt(user_ctx.begin(), user_ctx.end());
                                     std::string info = "field:" + f;
@@ -269,14 +269,14 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                     entity_json[f] = plain_str;
                                 }
                             } catch (const std::exception& e) {
-                                THEMIS_WARN("Entschluesselung Feld {} fehlgeschlagen: {}", f, e.what());
+                                THEMIS_WARN("Field {} decryption failed: {}", f, e.what());
                             }
                         }
                     }
                 }
             }
         } catch (const std::exception& e) {
-            THEMIS_WARN("Decrypt schema Verarbeitung Fehler: {}", e.what());
+            THEMIS_WARN("Decrypt schema processing error: {}", e.what());
         }
 
         span.setStatus(true);
@@ -343,8 +343,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         
         BaseEntity entity = BaseEntity::fromJson(pk, blob_str);
 
-        // Schema-basierte Feldverschlüsselung (MVP): Falls eine Encryption-Schema-Config persistiert ist,
-        // verschlüssele deklarierte Felder vor Index-/Storage-Persistenz.
+        // Schema-based field encryption (MVP): If an encryption schema config is persisted,
+        // encrypt declared fields before index/storage persistence.
         try {
             auto schema_bytes = storage_->get("config:encryption_schema");
             if (schema_bytes) {
@@ -353,13 +353,13 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                 if (schema.contains("collections") && schema["collections"].contains(table)) {
                     auto coll = schema["collections"][table];
                     if (coll.contains("encryption") && coll["encryption"].contains("enabled") && coll["encryption"]["enabled"].get<bool>()) {
-                        // Erforderliche Komponenten prüfen
+                        // Check required components
                         if (!field_encryption_) {
-                            THEMIS_WARN("Encryption schema aktiv aber field_encryption_ fehlt");
+                            THEMIS_WARN("Encryption schema active but field_encryption_ missing");
                         } else if (!key_provider_) {
-                            THEMIS_WARN("Encryption schema aktiv aber key_provider_ fehlt");
+                            THEMIS_WARN("Encryption schema active but key_provider_ missing");
                         } else {
-                            // Kontexttyp (user|group)
+                            // Context type (user|group)
                             std::string context_type = coll["encryption"].value("context_type", "user");
                             std::vector<std::string> fields;
                             if (coll["encryption"].contains("fields")) {
@@ -409,43 +409,43 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     continue;
                                 } else {
                                     // Unbekannter Typ überspringen
-                                    THEMIS_WARN("Feldverschlüsselung: Unbekannter Typ für Feld {}", f);
+                                    THEMIS_WARN("Field encryption: Unknown type for field {}", f);
                                     continue;
                                 }
                                 
                                 std::vector<uint8_t> raw_key;
                                 std::string key_id;
                                 if (context_type == "group" && pki && !groups_claim.empty()) {
-                                    // Nehme erste Gruppe als Kontext (MVP)
+                                    // Take first group as context (MVP)
                                     auto gdek = pki->getGroupDEK(groups_claim.front());
-                                    // HKDF über gdek mit Info=field:<name>
-                                    std::vector<uint8_t> salt; // leer
+                                    // HKDF over gdek with Info=field:<name>
+                                    std::vector<uint8_t> salt; // empty
                                     std::string info = "field:" + f;
                                     raw_key = utils::HKDFHelper::derive(gdek, salt, info, 32);
                                     key_id = "group_field:" + f;
                                     entity.setField(f + "_group", groups_claim.front());
                                 } else {
-                                    // Per-User oder fallback auf allgemeines Feld-Key
+                                    // Per-user or fallback to general field key
                                     std::string user_ctx = user_id.empty() ? "anonymous" : user_id;
                                     auto dek = key_provider_->getKey("dek");
-                                    // salt = user_id (kann leer sein) – falls leer, fallback auf statischen salt, um HKDF-Funktion stabil zu halten
+                                    // salt = user_id (can be empty) - if empty, fallback to static salt to keep HKDF function stable
                                     std::vector<uint8_t> salt;
                                     if (!user_ctx.empty()) salt.assign(user_ctx.begin(), user_ctx.end());
                                     std::string info = "field:" + f;
                                     raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
                                     key_id = "user_field:" + f;
                                 }
-                                // Verschlüsseln
+                                // Encrypt
                                 try {
                                     std::string plain_str(plain_bytes.begin(), plain_bytes.end());
                                     auto blob = field_encryption_->encryptWithKey(plain_str, key_id, 1, raw_key);
                                     auto j = blob.toJson();
                                     entity.setField(f + "_encrypted", j.dump());
                                     entity.setField(f + "_enc", true);
-                                    // Klartext entfernen
+                                    // Remove plaintext
                                     entity.setField(f, std::monostate{});
                                 } catch (const std::exception& e) {
-                                    THEMIS_WARN("Feldverschlüsselung fehlgeschlagen für {}: {}", f, e.what());
+                                    THEMIS_WARN("Field encryption failed for {}: {}", f, e.what());
                                 }
                             }
                         }
@@ -453,7 +453,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                 }
             }
         } catch (const std::exception& e) {
-            THEMIS_WARN("Schema Encryption Verarbeitung Fehler: {}", e.what());
+            THEMIS_WARN("Schema encryption processing error: {}", e.what());
         }
 
         // Upsert via SecondaryIndexManager to keep indexes consistent
