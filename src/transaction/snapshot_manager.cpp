@@ -54,8 +54,10 @@ SnapshotManager::Status SnapshotManager::createTag(
                            std::to_string(MAX_DESCRIPTION_LENGTH) + " characters)");
     }
 
-    // Check if tag already exists
-    if (tagExists(tag_name)) {
+    // Check if tag already exists (without calling tagExists to avoid deadlock)
+    std::string key = makeKey(tag_name);
+    std::string existing_value;
+    if (db_.get(key, existing_value).ok()) {
         return Status::Error("Tag '" + tag_name + "' already exists");
     }
 
@@ -74,7 +76,6 @@ SnapshotManager::Status SnapshotManager::createTag(
     std::string json_value = snapshot.toJson().dump();
 
     // Store in RocksDB
-    std::string key = makeKey(tag_name);
     auto status = db_.put(key, json_value);
     
     if (!status.ok()) {
@@ -157,12 +158,13 @@ std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags() const {
 SnapshotManager::Status SnapshotManager::deleteTag(const std::string& tag_name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    // Check if tag exists
-    if (!tagExists(tag_name)) {
+    // Check if tag exists (without calling tagExists to avoid deadlock)
+    std::string key = makeKey(tag_name);
+    std::string value;
+    if (!db_.get(key, value).ok()) {
         return Status::Error("Tag '" + tag_name + "' does not exist");
     }
 
-    std::string key = makeKey(tag_name);
     auto status = db_.erase(key);
     
     if (!status.ok()) {

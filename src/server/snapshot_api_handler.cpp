@@ -210,7 +210,7 @@ std::string SnapshotApiHandler::urlDecode(const std::string& encoded) {
     
     for (size_t i = 0; i < encoded.size(); ++i) {
         if (encoded[i] == '%' && i + 2 < encoded.size()) {
-            // Convert hex to char
+            // Convert hex to char - ensure we have both hex digits
             int value = 0;
             std::istringstream is(encoded.substr(i + 1, 2));
             if (is >> std::hex >> value) {
