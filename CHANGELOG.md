@@ -22,6 +22,62 @@
 ### Added
 
 <details open>
+<summary><b>📦 Retroactive Release Building System</b> (Feature: Build & Release)</summary>
+
+- 🔄 **Retroactive Release Builder Scripts** - Extract and build binaries from historical version tags:
+  - `scripts/retroactive-release-builder.sh` - Bash script for Linux/macOS
+  - `scripts/retroactive-release-builder.ps1` - PowerShell script for Windows
+  - Support for building specific tags or all tags at once
+  - Multi-platform support (Linux, Windows, macOS)
+  - Automatic package generation (TGZ, DEB, RPM, ZIP)
+  - SHA256 checksum generation for all artifacts
+  - Automatic release notes generation
+
+- 🤖 **GitHub Actions Workflow** - Automated retroactive builds:
+  - `.github/workflows/retroactive-release.yml` - Workflow for CI/CD integration
+  - Manual trigger via workflow_dispatch
+  - Configurable tag and platform selection
+  - Optional upload to existing GitHub releases
+  - Parallel builds for multiple platforms
+  - Artifact retention for 90 days
+
+- 📚 **Comprehensive Documentation** - Complete guide for retroactive builds:
+  - `docs/RETROACTIVE_RELEASE_BUILDING.md` - User guide with examples
+  - Usage instructions for all platforms
+  - Troubleshooting section
+  - Best practices and security considerations
+  - CI/CD integration examples
+
+**Key Features:**
+- ✅ Build any historical version from Git tags
+- ✅ Generate consistent release packages retroactively
+- ✅ Support for multiple package formats (DEB, RPM, TGZ, ZIP)
+- ✅ Automatic checksum and release notes generation
+- ✅ Clean build isolation per version
+- ✅ Parallel multi-platform builds in CI/CD
+- ✅ Direct upload to GitHub releases
+
+**Use Cases:**
+- Regenerate binaries for past releases
+- Build releases for new platforms retroactively
+- Create consistent release artifacts across all versions
+- Support older versions with updated build configurations
+
+**Example Usage:**
+```bash
+# Build specific tag
+./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform linux
+
+# Build all tags
+./scripts/retroactive-release-builder.sh --all-tags --platform all
+
+# Windows
+.\scripts\retroactive-release-builder.ps1 -Tag v1.3.4 -Clean
+```
+
+</details>
+
+<details open>
 <summary><b>🧠 Schema Manager for Database Self-Awareness</b> (Feature: Agentic AI)</summary>
 
 - 🔍 **SchemaManager Class** - Core infrastructure for schema introspection:
