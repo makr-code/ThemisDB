@@ -236,7 +236,14 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
             } else {
                 rightVal = std::stoll(right);
             }
+        } catch (const std::invalid_argument& e) {
+            // Invalid numeric format
+            return false;
+        } catch (const std::out_of_range& e) {
+            // Number too large
+            return false;
         } catch (...) {
+            // Other unexpected errors
             return false;
         }
     }
@@ -1003,6 +1010,7 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
     if (!st.ok) return st;
     
     // Find tokens waiting for this event
+    // Note: We modify token fields but not the vector structure, so iteration is safe
     bool foundWaiting = false;
     
     for (auto& token : instance.tokens) {
@@ -1331,10 +1339,13 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
             }
             
             // Update average duration (incremental average)
-            size_t completedCount = metrics.execution_count - metrics.failure_count;
-            if (completedCount > 0) {
-                metrics.avg_duration_ms = 
-                    (metrics.avg_duration_ms * (completedCount - 1) + duration) / completedCount;
+            // Ensure we don't underflow when subtracting failure_count
+            if (metrics.execution_count >= metrics.failure_count) {
+                size_t completedCount = metrics.execution_count - metrics.failure_count;
+                if (completedCount > 0) {
+                    metrics.avg_duration_ms = 
+                        (metrics.avg_duration_ms * (completedCount - 1) + duration) / completedCount;
+                }
             }
         } else if (completedAt) {
             // Use created_at if started_at not available
@@ -1344,10 +1355,13 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
                 metrics.max_duration_ms = duration;
             }
             
-            size_t completedCount = metrics.execution_count - metrics.failure_count;
-            if (completedCount > 0) {
-                metrics.avg_duration_ms = 
-                    (metrics.avg_duration_ms * (completedCount - 1) + duration) / completedCount;
+            // Ensure we don't underflow
+            if (metrics.execution_count >= metrics.failure_count) {
+                size_t completedCount = metrics.execution_count - metrics.failure_count;
+                if (completedCount > 0) {
+                    metrics.avg_duration_ms = 
+                        (metrics.avg_duration_ms * (completedCount - 1) + duration) / completedCount;
+                }
             }
         }
         
@@ -1441,41 +1455,55 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         return {Status::Error("No start node found"), result};
     }
     
-    // Use DFS to find path with maximum cumulative duration
-    std::vector<std::string> currentPath;
+    // Use iterative DFS to find path with maximum cumulative duration
+    // This avoids stack overflow for deep process graphs
     std::vector<std::string> longestPath;
     double maxDuration = 0.0;
     
-    std::function<void(const std::string&, double, std::unordered_set<std::string>&)> dfs;
-    dfs = [&](const std::string& node, double cumDuration, std::unordered_set<std::string>& visited) {
-        visited.insert(node);
-        currentPath.push_back(node);
+    // Stack entry: (node, cumDuration, path, visited)
+    struct StackEntry {
+        std::string node;
+        double cumDuration;
+        std::vector<std::string> path;
+        std::unordered_set<std::string> visited;
+    };
+    
+    std::vector<StackEntry> stack;
+    stack.push_back({startNode, 0.0, {}, {}});
+    
+    while (!stack.empty()) {
+        auto entry = std::move(stack.back());
+        stack.pop_back();
+        
+        // Skip if already visited in this path
+        if (entry.visited.count(entry.node)) {
+            continue;
+        }
+        
+        // Mark as visited
+        entry.visited.insert(entry.node);
+        entry.path.push_back(entry.node);
         
         // Add node duration
-        double nodeDur = nodeDurations.count(node) ? nodeDurations[node] : 0.0;
-        cumDuration += nodeDur;
+        double nodeDur = nodeDurations.count(entry.node) ? nodeDurations[entry.node] : 0.0;
+        entry.cumDuration += nodeDur;
         
         // Check if this is longest path so far
-        if (cumDuration > maxDuration) {
-            maxDuration = cumDuration;
-            longestPath = currentPath;
+        if (entry.cumDuration > maxDuration) {
+            maxDuration = entry.cumDuration;
+            longestPath = entry.path;
         }
         
         // Explore neighbors
-        if (adjacency.count(node)) {
-            for (const auto& neighbor : adjacency[node]) {
-                if (visited.find(neighbor) == visited.end()) {
-                    dfs(neighbor, cumDuration, visited);
+        if (adjacency.count(entry.node)) {
+            for (const auto& neighbor : adjacency[entry.node]) {
+                if (entry.visited.find(neighbor) == entry.visited.end()) {
+                    // Push new entry for neighbor
+                    stack.push_back({neighbor, entry.cumDuration, entry.path, entry.visited});
                 }
             }
         }
-        
-        currentPath.pop_back();
-        visited.erase(node);
-    };
-    
-    std::unordered_set<std::string> visited;
-    dfs(startNode, 0.0, visited);
+    }
     
     result = longestPath;
     return {Status::OK(), result};
