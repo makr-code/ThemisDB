@@ -581,6 +581,13 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Content API Handler
+    content_api_ = std::make_unique<themis::server::ContentApiHandler>(
+        storage_, content_manager_, content_processor_, auth_,
+        secondary_index_, vector_index_
+    );
+    THEMIS_INFO("Content API Handler initialized");
+    
     // Initialize Changefeed API Handler if changefeed is available
     if (changefeed_) {
         changefeed_api_ = std::make_unique<themis::server::ChangefeedApiHandler>(
@@ -2103,50 +2110,70 @@ http::response<http::string_body> HttpServer::routeRequest(
                         break;
                     }
                 }
-                response = handleContentImport(req);
+                response = content_api_->handleImport(req);
             }
             break;
         case Route::ContentGet:
-            response = handleGetContent(req);
+            response = content_api_->handleGet(req);
             break;
         case Route::ContentBlobGet:
-            response = handleGetContentBlob(req);
+            response = content_api_->handleGetBlob(req);
             break;
         case Route::ContentChunksGet:
-            response = handleGetContentChunks(req);
+            response = content_api_->handleGetChunks(req);
             break;
         case Route::HybridSearchPost:
-            response = handleHybridSearch(req);
+            response = content_api_->handleHybridSearch(req);
             break;
         case Route::FusionSearchPost:
-            response = handleFusionSearch(req);
+            response = content_api_->handleFusionSearch(req);
             break;
         case Route::FulltextSearchPost:
-            response = handleFulltextSearch(req);
+            response = content_api_->handleFulltextSearch(req);
             break;
         case Route::ContentFilterSchemaGet:
-            response = handleContentFilterSchemaGet(req);
+            response = content_api_->handleContentFilterSchemaGet(req);
             break;
         case Route::ContentFilterSchemaPut:
-            response = handleContentFilterSchemaPut(req);
+            response = content_api_->handleContentFilterSchemaPut(req);
             break;
         case Route::ContentConfigGet:
-            response = handleContentConfigGet(req);
+            response = content_api_->handleConfigGet(req);
             break;
         case Route::ContentConfigPut:
-            response = handleContentConfigPut(req);
+            response = content_api_->handleConfigPut(req);
             break;
         case Route::EdgeWeightConfigGet:
-            response = handleEdgeWeightConfigGet(req);
+            response = content_api_->handleEdgeWeightConfigGet(req);
             break;
         case Route::EdgeWeightConfigPut:
-            response = handleEdgeWeightConfigPut(req);
+            response = content_api_->handleEdgeWeightConfigPut(req);
             break;
         case Route::EncryptionSchemaGet:
-            response = handleEncryptionSchemaGet(req);
+            // Check access control before delegating
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            response = content_api_->handleEncryptionSchemaGet(req);
             break;
         case Route::EncryptionSchemaPut:
-            response = handleEncryptionSchemaPut(req);
+            // Check access control before delegating
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            response = content_api_->handleEncryptionSchemaPut(req);
             break;
         case Route::ErrorApiListGet:
             response = handleErrorApiList(req);
