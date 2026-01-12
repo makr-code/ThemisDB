@@ -232,21 +232,21 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Inference metrics
     exporter_->registerMetric({
-        "themis_llm_inference_requests_total",
+        "llm_inference_requests_total",
         "Total number of LLM inference requests",
         PrometheusExporter::MetricType::COUNTER,
         {"model_id"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_inference_success_total",
+        "llm_inference_success_total",
         "Total number of successful LLM inference requests",
         PrometheusExporter::MetricType::COUNTER,
         {"model_id"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_inference_failures_total",
+        "llm_inference_failures_total",
         "Total number of failed LLM inference requests",
         PrometheusExporter::MetricType::COUNTER,
         {"model_id", "error"}
@@ -254,28 +254,28 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Latency metrics
     exporter_->registerMetric({
-        "themis_llm_first_token_latency_ms",
+        "llm_first_token_latency_ms",
         "Time to first token in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {"model_id"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_per_token_latency_ms",
+        "llm_per_token_latency_ms",
         "Per-token generation latency in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {"model_id"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_end_to_end_latency_ms",
+        "llm_end_to_end_latency_ms",
         "End-to-end inference latency in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {"model_id"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_inference_duration_ms",
+        "llm_inference_duration_ms",
         "Total inference duration in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {"model_id"}
@@ -283,7 +283,7 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Token metrics
     exporter_->registerMetric({
-        "themis_llm_tokens_generated_total",
+        "llm_tokens_generated_total",
         "Total number of tokens generated",
         PrometheusExporter::MetricType::COUNTER,
         {"model_id"}
@@ -291,14 +291,14 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Throughput metrics
     exporter_->registerMetric({
-        "themis_llm_batch_size",
+        "llm_batch_size",
         "Current batch size",
         PrometheusExporter::MetricType::GAUGE,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_concurrent_requests",
+        "llm_concurrent_requests",
         "Number of concurrent requests",
         PrometheusExporter::MetricType::GAUGE,
         {}
@@ -306,28 +306,28 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // GPU metrics
     exporter_->registerMetric({
-        "themis_llm_gpu_memory_used_mb",
+        "llm_gpu_memory_used_mb",
         "GPU memory used in megabytes",
         PrometheusExporter::MetricType::GAUGE,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_gpu_memory_total_mb",
+        "llm_gpu_memory_total_mb",
         "Total GPU memory in megabytes",
         PrometheusExporter::MetricType::GAUGE,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_gpu_utilization_percent",
+        "llm_gpu_utilization_percent",
         "GPU utilization percentage",
         PrometheusExporter::MetricType::GAUGE,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_gpu_temperature_celsius",
+        "llm_gpu_temperature_celsius",
         "GPU temperature in Celsius",
         PrometheusExporter::MetricType::GAUGE,
         {}
@@ -335,21 +335,21 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Model metrics
     exporter_->registerMetric({
-        "themis_llm_models_loaded",
+        "llm_models_loaded",
         "Number of loaded models",
         PrometheusExporter::MetricType::GAUGE,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_model_memory_mb",
+        "llm_model_memory_mb",
         "Model memory usage in megabytes",
         PrometheusExporter::MetricType::GAUGE,
         {"model_id"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_model_switch_latency_ms",
+        "llm_model_switch_latency_ms",
         "Model switching latency in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {}
@@ -357,21 +357,21 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Cache metrics
     exporter_->registerMetric({
-        "themis_llm_cache_hits_total",
+        "llm_cache_hits_total",
         "Total cache hits",
         PrometheusExporter::MetricType::COUNTER,
         {"cache_type"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_cache_misses_total",
+        "llm_cache_misses_total",
         "Total cache misses",
         PrometheusExporter::MetricType::COUNTER,
         {"cache_type"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_cache_size_mb",
+        "llm_cache_size_mb",
         "Cache size in megabytes",
         PrometheusExporter::MetricType::GAUGE,
         {"cache_type"}
@@ -379,21 +379,21 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Scheduler metrics
     exporter_->registerMetric({
-        "themis_llm_queue_length",
+        "llm_queue_length",
         "Current queue length",
         PrometheusExporter::MetricType::GAUGE,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_preemptions_total",
+        "llm_preemptions_total",
         "Total number of preemptions",
         PrometheusExporter::MetricType::COUNTER,
         {}
     });
     
     exporter_->registerMetric({
-        "themis_llm_scheduling_latency_ms",
+        "llm_scheduling_latency_ms",
         "Scheduling latency in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {}
@@ -401,14 +401,14 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Quantization metrics
     exporter_->registerMetric({
-        "themis_llm_quantization_format",
+        "llm_quantization_format",
         "Quantization format (as info metric)",
         PrometheusExporter::MetricType::GAUGE,
         {"model_id", "format"}
     });
     
     exporter_->registerMetric({
-        "themis_llm_dequantization_latency_ms",
+        "llm_dequantization_latency_ms",
         "Dequantization latency in milliseconds",
         PrometheusExporter::MetricType::HISTOGRAM,
         {}
@@ -416,7 +416,7 @@ void LLMMetricsCollector::initializeMetrics() {
     
     // Error metrics
     exporter_->registerMetric({
-        "themis_llm_errors_total",
+        "llm_errors_total",
         "Total errors",
         PrometheusExporter::MetricType::COUNTER,
         {"error_type", "component"}
@@ -424,103 +424,103 @@ void LLMMetricsCollector::initializeMetrics() {
 }
 
 void LLMMetricsCollector::recordInferenceRequest(const std::string& model_id) {
-    exporter_->incrementCounter("themis_llm_inference_requests_total", {{"model_id", model_id}});
+    exporter_->incrementCounter("llm_inference_requests_total", {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordInferenceSuccess(const std::string& model_id, double duration_ms) {
-    exporter_->incrementCounter("themis_llm_inference_success_total", {{"model_id", model_id}});
-    exporter_->observeHistogram("themis_llm_inference_duration_ms", duration_ms, {{"model_id", model_id}});
+    exporter_->incrementCounter("llm_inference_success_total", {{"model_id", model_id}});
+    exporter_->observeHistogram("llm_inference_duration_ms", duration_ms, {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordInferenceFailure(const std::string& model_id, const std::string& error) {
-    exporter_->incrementCounter("themis_llm_inference_failures_total", {{"model_id", model_id}, {"error", error}});
+    exporter_->incrementCounter("llm_inference_failures_total", {{"model_id", model_id}, {"error", error}});
 }
 
 void LLMMetricsCollector::recordFirstTokenLatency(const std::string& model_id, double latency_ms) {
-    exporter_->observeHistogram("themis_llm_first_token_latency_ms", latency_ms, {{"model_id", model_id}});
+    exporter_->observeHistogram("llm_first_token_latency_ms", latency_ms, {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordPerTokenLatency(const std::string& model_id, double latency_ms) {
-    exporter_->observeHistogram("themis_llm_per_token_latency_ms", latency_ms, {{"model_id", model_id}});
+    exporter_->observeHistogram("llm_per_token_latency_ms", latency_ms, {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordEndToEndLatency(const std::string& model_id, double latency_ms) {
-    exporter_->observeHistogram("themis_llm_end_to_end_latency_ms", latency_ms, {{"model_id", model_id}});
+    exporter_->observeHistogram("llm_end_to_end_latency_ms", latency_ms, {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordTokensGenerated(const std::string& model_id, size_t count) {
-    exporter_->incrementCounter("themis_llm_tokens_generated_total", {{"model_id", model_id}}, static_cast<double>(count));
+    exporter_->incrementCounter("llm_tokens_generated_total", {{"model_id", model_id}}, static_cast<double>(count));
 }
 
 void LLMMetricsCollector::recordBatchSize(size_t batch_size) {
-    exporter_->setGauge("themis_llm_batch_size", static_cast<double>(batch_size));
+    exporter_->setGauge("llm_batch_size", static_cast<double>(batch_size));
 }
 
 void LLMMetricsCollector::recordConcurrentRequests(size_t count) {
-    exporter_->setGauge("themis_llm_concurrent_requests", static_cast<double>(count));
+    exporter_->setGauge("llm_concurrent_requests", static_cast<double>(count));
 }
 
 void LLMMetricsCollector::recordGPUMemoryUsage(size_t vram_mb, size_t total_vram_mb) {
-    exporter_->setGauge("themis_llm_gpu_memory_used_mb", static_cast<double>(vram_mb));
-    exporter_->setGauge("themis_llm_gpu_memory_total_mb", static_cast<double>(total_vram_mb));
+    exporter_->setGauge("llm_gpu_memory_used_mb", static_cast<double>(vram_mb));
+    exporter_->setGauge("llm_gpu_memory_total_mb", static_cast<double>(total_vram_mb));
 }
 
 void LLMMetricsCollector::recordGPUUtilization(double utilization_pct) {
-    exporter_->setGauge("themis_llm_gpu_utilization_percent", utilization_pct);
+    exporter_->setGauge("llm_gpu_utilization_percent", utilization_pct);
 }
 
 void LLMMetricsCollector::recordGPUTemperature(double temp_celsius) {
-    exporter_->setGauge("themis_llm_gpu_temperature_celsius", temp_celsius);
+    exporter_->setGauge("llm_gpu_temperature_celsius", temp_celsius);
 }
 
 void LLMMetricsCollector::recordModelLoaded(const std::string& model_id, size_t vram_mb) {
-    exporter_->incrementGauge("themis_llm_models_loaded", 1.0);
-    exporter_->setGauge("themis_llm_model_memory_mb", static_cast<double>(vram_mb), {{"model_id", model_id}});
+    exporter_->incrementGauge("llm_models_loaded", 1.0);
+    exporter_->setGauge("llm_model_memory_mb", static_cast<double>(vram_mb), {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordModelUnloaded(const std::string& model_id) {
-    exporter_->incrementGauge("themis_llm_models_loaded", -1.0);
-    exporter_->setGauge("themis_llm_model_memory_mb", 0.0, {{"model_id", model_id}});
+    exporter_->incrementGauge("llm_models_loaded", -1.0);
+    exporter_->setGauge("llm_model_memory_mb", 0.0, {{"model_id", model_id}});
 }
 
 void LLMMetricsCollector::recordModelSwitchLatency(double latency_ms) {
-    exporter_->observeHistogram("themis_llm_model_switch_latency_ms", latency_ms);
+    exporter_->observeHistogram("llm_model_switch_latency_ms", latency_ms);
 }
 
 void LLMMetricsCollector::recordCacheHit(const std::string& cache_type) {
-    exporter_->incrementCounter("themis_llm_cache_hits_total", {{"cache_type", cache_type}});
+    exporter_->incrementCounter("llm_cache_hits_total", {{"cache_type", cache_type}});
 }
 
 void LLMMetricsCollector::recordCacheMiss(const std::string& cache_type) {
-    exporter_->incrementCounter("themis_llm_cache_misses_total", {{"cache_type", cache_type}});
+    exporter_->incrementCounter("llm_cache_misses_total", {{"cache_type", cache_type}});
 }
 
 void LLMMetricsCollector::recordCacheSize(const std::string& cache_type, size_t size_mb) {
-    exporter_->setGauge("themis_llm_cache_size_mb", static_cast<double>(size_mb), {{"cache_type", cache_type}});
+    exporter_->setGauge("llm_cache_size_mb", static_cast<double>(size_mb), {{"cache_type", cache_type}});
 }
 
 void LLMMetricsCollector::recordQueueLength(size_t length) {
-    exporter_->setGauge("themis_llm_queue_length", static_cast<double>(length));
+    exporter_->setGauge("llm_queue_length", static_cast<double>(length));
 }
 
 void LLMMetricsCollector::recordPreemptions(size_t count) {
-    exporter_->incrementCounter("themis_llm_preemptions_total", {}, static_cast<double>(count));
+    exporter_->incrementCounter("llm_preemptions_total", {}, static_cast<double>(count));
 }
 
 void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
-    exporter_->observeHistogram("themis_llm_scheduling_latency_ms", latency_ms);
+    exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
 }
 
 void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, const std::string& format) {
-    exporter_->setGauge("themis_llm_quantization_format", 1.0, {{"model_id", model_id}, {"format", format}});
+    exporter_->setGauge("llm_quantization_format", 1.0, {{"model_id", model_id}, {"format", format}});
 }
 
 void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {
-    exporter_->observeHistogram("themis_llm_dequantization_latency_ms", latency_ms);
+    exporter_->observeHistogram("llm_dequantization_latency_ms", latency_ms);
 }
 
 void LLMMetricsCollector::recordError(const std::string& error_type, const std::string& component) {
-    exporter_->incrementCounter("themis_llm_errors_total", {{"error_type", error_type}, {"component", component}});
+    exporter_->incrementCounter("llm_errors_total", {{"error_type", error_type}, {"component", component}});
 }
 
 // GrafanaDashboardGenerator Implementation
@@ -547,40 +547,40 @@ std::string GrafanaDashboardGenerator::generateDashboard() const {
     
     // Inference panel
     oss << createPanel("Inference Requests", 
-                       "rate(themis_llm_inference_requests_total[5m])",
+                       "rate(llm_inference_requests_total[5m])",
                        "graph", 0, y_pos, 12, 8);
     oss << ",\n";
     y_pos += 8;
     
     // Latency panel
     oss << createPanel("Request Latency (p95)",
-                       "histogram_quantile(0.95, rate(themis_llm_inference_duration_ms_bucket[5m]))",
+                       "histogram_quantile(0.95, rate(llm_inference_duration_ms_bucket[5m]))",
                        "graph", 0, y_pos, 12, 8);
     oss << ",\n";
     y_pos += 8;
     
     // Throughput panel
     oss << createPanel("Tokens per Second",
-                       "rate(themis_llm_tokens_generated_total[5m])",
+                       "rate(llm_tokens_generated_total[5m])",
                        "graph", 0, y_pos, 6, 8);
     oss << ",\n";
     
     // GPU panel
     oss << createPanel("GPU Memory Usage (MB)",
-                       "themis_llm_gpu_memory_used_mb",
+                       "llm_gpu_memory_used_mb",
                        "graph", 6, y_pos, 6, 8);
     oss << ",\n";
     y_pos += 8;
     
     // Cache panel
     oss << createPanel("Cache Hit Rate",
-                       "rate(themis_llm_cache_hits_total[5m]) / (rate(themis_llm_cache_hits_total[5m]) + rate(themis_llm_cache_misses_total[5m]))",
+                       "rate(llm_cache_hits_total[5m]) / (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m]))",
                        "gauge", 0, y_pos, 6, 4);
     oss << ",\n";
     
     // Error panel
     oss << createPanel("Error Rate",
-                       "rate(themis_llm_errors_total[5m])",
+                       "rate(llm_errors_total[5m])",
                        "graph", 6, y_pos, 6, 4);
     oss << "\n";
     
@@ -621,19 +621,19 @@ std::string GrafanaDashboardGenerator::createPanel(const std::string& title,
 
 std::string GrafanaDashboardGenerator::generateInferencePanel() const {
     return createPanel("Inference Requests Rate",
-                       "rate(themis_llm_inference_requests_total[5m])",
+                       "rate(llm_inference_requests_total[5m])",
                        "graph", 0, 0, 12, 8);
 }
 
 std::string GrafanaDashboardGenerator::generateLatencyPanel() const {
     return createPanel("First Token Latency (p95)",
-                       "histogram_quantile(0.95, rate(themis_llm_first_token_latency_ms_bucket[5m]))",
+                       "histogram_quantile(0.95, rate(llm_first_token_latency_ms_bucket[5m]))",
                        "graph", 0, 8, 12, 8);
 }
 
 std::string GrafanaDashboardGenerator::generateThroughputPanel() const {
     return createPanel("Token Generation Rate",
-                       "rate(themis_llm_tokens_generated_total[5m])",
+                       "rate(llm_tokens_generated_total[5m])",
                        "graph", 0, 16, 12, 8);
 }
 
@@ -642,9 +642,9 @@ std::string GrafanaDashboardGenerator::generateGPUPanel() const {
     oss << "{\n";
     oss << "  \"title\": \"GPU Metrics\",\n";
     oss << "  \"panels\": [\n";
-    oss << createPanel("GPU Memory", "themis_llm_gpu_memory_used_mb", "graph", 0, 0, 6, 6);
+    oss << createPanel("GPU Memory", "llm_gpu_memory_used_mb", "graph", 0, 0, 6, 6);
     oss << ",\n";
-    oss << createPanel("GPU Utilization", "themis_llm_gpu_utilization_percent", "gauge", 6, 0, 6, 6);
+    oss << createPanel("GPU Utilization", "llm_gpu_utilization_percent", "gauge", 6, 0, 6, 6);
     oss << "\n  ]\n";
     oss << "}\n";
     return oss.str();
@@ -652,19 +652,19 @@ std::string GrafanaDashboardGenerator::generateGPUPanel() const {
 
 std::string GrafanaDashboardGenerator::generateCachePanel() const {
     return createPanel("Cache Hit Rate",
-                       "rate(themis_llm_cache_hits_total[5m]) / (rate(themis_llm_cache_hits_total[5m]) + rate(themis_llm_cache_misses_total[5m]))",
+                       "rate(llm_cache_hits_total[5m]) / (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m]))",
                        "gauge", 0, 24, 12, 6);
 }
 
 std::string GrafanaDashboardGenerator::generateSchedulerPanel() const {
     return createPanel("Queue Length",
-                       "themis_llm_queue_length",
+                       "llm_queue_length",
                        "graph", 0, 30, 12, 6);
 }
 
 std::string GrafanaDashboardGenerator::generateErrorPanel() const {
     return createPanel("Error Rate",
-                       "rate(themis_llm_errors_total[5m])",
+                       "rate(llm_errors_total[5m])",
                        "graph", 0, 36, 12, 6);
 }
 
