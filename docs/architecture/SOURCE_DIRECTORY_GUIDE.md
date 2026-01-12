@@ -327,7 +327,7 @@ auto suggested_query = handler.suggest_query("find all users over 21");
 
 **Example Usage:**
 ```cpp
-#include "analytics/olap.cpp"
+#include "analytics/olap.h"
 
 OLAPEngine engine;
 auto stats = engine.aggregate(dataset, dimensions);
