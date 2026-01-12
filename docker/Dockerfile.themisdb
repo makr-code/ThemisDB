@@ -1,0 +1,186 @@
+# syntax=docker/dockerfile:1.6
+# ============================================================================
+# ThemisDB LoRA Framework - Dockerfile
+# ============================================================================
+# Multi-stage build for ThemisDB with LoRA framework support
+# Optimized for development and testing environments
+# ============================================================================
+
+# ============================================================================
+# Stage 1: Base - Build tools and vcpkg setup
+# ============================================================================
+FROM ubuntu:22.04 AS base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV VCPKG_ROOT=/opt/vcpkg
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
+ENV VCPKG_DISABLE_METRICS=1
+
+# Install build essentials
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    curl \
+    ca-certificates \
+    pkg-config \
+    zip \
+    unzip \
+    tar \
+    wget \
+    python3 \
+    perl \
+    autoconf \
+    automake \
+    libtool \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install vcpkg
+RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
+    cd ${VCPKG_ROOT} && \
+    git checkout 10b7a178346f3f0abef60cecd5130e295afd8da4 && \
+    ./bootstrap-vcpkg.sh -disableMetrics
+
+# ============================================================================
+# Stage 2: Dependencies - Install required packages
+# ============================================================================
+FROM base AS deps
+
+ARG BUILD_TYPE=Release
+ARG ENABLE_LLM=ON
+ARG ENABLE_LORA=ON
+ARG BUILD_TESTS=ON
+ARG BUILD_BENCHMARKS=ON
+
+WORKDIR /build
+
+# Copy vcpkg manifest
+COPY vcpkg.json vcpkg-configuration.json ./
+
+# Install core dependencies via vcpkg
+RUN ${VCPKG_ROOT}/vcpkg install \
+    --triplet=x64-linux \
+    --clean-after-build \
+    openssl \
+    zlib \
+    rocksdb \
+    fmt \
+    spdlog \
+    nlohmann-json \
+    boost-system \
+    boost-filesystem \
+    protobuf \
+    grpc \
+    && rm -rf ${VCPKG_ROOT}/buildtrees ${VCPKG_ROOT}/downloads
+
+# Install optional dependencies for tests and benchmarks
+RUN if [ "${BUILD_TESTS}" = "ON" ]; then \
+        ${VCPKG_ROOT}/vcpkg install --triplet=x64-linux gtest; \
+    fi && \
+    if [ "${BUILD_BENCHMARKS}" = "ON" ]; then \
+        ${VCPKG_ROOT}/vcpkg install --triplet=x64-linux benchmark; \
+    fi && \
+    rm -rf ${VCPKG_ROOT}/buildtrees
+
+# ============================================================================
+# Stage 3: Builder - Build ThemisDB
+# ============================================================================
+FROM deps AS builder
+
+ARG BUILD_TYPE=Release
+ARG ENABLE_LLM=ON
+ARG ENABLE_LORA=ON
+ARG BUILD_TESTS=ON
+ARG BUILD_BENCHMARKS=ON
+ARG ENABLE_ASAN=OFF
+
+WORKDIR /app
+
+# Copy source code
+COPY CMakeLists.txt CMakePresets.json VERSION ./
+COPY cmake/ ./cmake/
+COPY src/ ./src/
+COPY include/ ./include/
+COPY proto/ ./proto/
+
+# Copy test and benchmark files if needed
+COPY tests/ ./tests/
+COPY benchmarks/ ./benchmarks/
+
+# Create build directory and configure
+RUN mkdir -p build && cd build && \
+    cmake .. \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+        -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+        -DTHEMIS_BUILD_TESTS=${BUILD_TESTS} \
+        -DTHEMIS_BUILD_BENCHMARKS=${BUILD_BENCHMARKS} \
+        -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
+        -DTHEMIS_LORA_ENABLED=${ENABLE_LORA} \
+        -DTHEMIS_ENABLE_ASAN=${ENABLE_ASAN} \
+        -DTHEMIS_STATIC_BUILD=OFF
+
+# Build ThemisDB
+RUN cd build && \
+    ninja -j$(nproc) && \
+    echo "Build completed successfully"
+
+# Build tests if enabled
+RUN if [ "${BUILD_TESTS}" = "ON" ]; then \
+        cd build && ninja test_lora_framework; \
+    fi
+
+# Build benchmarks if enabled
+RUN if [ "${BUILD_BENCHMARKS}" = "ON" ]; then \
+        cd build && ninja bench_lora_framework; \
+    fi
+
+# ============================================================================
+# Stage 4: Runtime - Final minimal image
+# ============================================================================
+FROM ubuntu:22.04 AS runtime
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libssl3 \
+    zlib1g \
+    libstdc++6 \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create themisdb user and directories
+RUN useradd -r -u 1000 -g root themisdb && \
+    mkdir -p /var/lib/themisdb/data /var/lib/themisdb/logs /etc/themisdb && \
+    chown -R themisdb:root /var/lib/themisdb
+
+# Copy built artifacts from builder stage
+COPY --from=builder /app/build/themisdb /usr/local/bin/themisdb
+COPY --from=builder /app/build/tests/test_lora_framework /usr/local/bin/test_lora_framework
+COPY --from=builder /app/build/benchmarks/bench_lora_framework /usr/local/bin/bench_lora_framework
+
+# Copy required libraries
+COPY --from=builder /opt/vcpkg/installed/x64-linux/lib/*.so* /usr/local/lib/
+
+# Update library cache
+RUN ldconfig
+
+# Set up volumes
+VOLUME ["/var/lib/themisdb/data", "/var/lib/themisdb/logs", "/etc/themisdb"]
+
+# Expose ports
+EXPOSE 8529 8765 9090
+
+# Switch to non-root user
+USER themisdb
+
+# Set working directory
+WORKDIR /var/lib/themisdb
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8529/health || exit 1
+
+# Default command
+CMD ["/usr/local/bin/themisdb", "--config", "/etc/themisdb/themisdb.yaml"]

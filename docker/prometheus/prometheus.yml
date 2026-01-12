@@ -1,58 +1,57 @@
-# Prometheus Configuration for ThemisDB Hyperscaler Sharding Test
-# Monitors 10 shards + Nginx load balancer
+# ============================================================================
+# Prometheus Configuration for ThemisDB LoRA Framework
+# ============================================================================
+# Monitors ThemisDB instances with LoRA framework metrics
+# ============================================================================
 
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    cluster: 'themis-hyperscaler-test'
-    environment: 'test'
+    cluster: 'themis-lora-dev'
+    environment: 'development'
+
+# Alerting configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+          # - 'alertmanager:9093'
+
+# Load rules for alerts (optional)
+rule_files:
+  # - 'alerts/*.yml'
 
 scrape_configs:
-  # ThemisDB RAID 1 Group (Shards 0-2)
-  - job_name: 'themis-raid1'
+  # ThemisDB with LoRA Framework
+  - job_name: 'themisdb-lora'
     static_configs:
       - targets:
-          - 'themis-shard-0:9090'
-          - 'themis-shard-1:9090'
-          - 'themis-shard-2:9090'
+          - 'themisdb:9090'
         labels:
-          raid_group: 'raid1'
-          raid_level: 'RAID1'
+          service: 'themisdb'
+          component: 'lora-framework'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
 
-  # ThemisDB RAID 2 Group (Shards 3-5)
-  - job_name: 'themis-raid2'
+  # Test Database Instance
+  - job_name: 'themisdb-test'
     static_configs:
       - targets:
-          - 'themis-shard-3:9090'
-          - 'themis-shard-4:9090'
-          - 'themis-shard-5:9090'
+          - 'test-db:9090'
         labels:
-          raid_group: 'raid2'
-          raid_level: 'RAID2'
-
-  # ThemisDB RAID 5 Group (Shards 6-9)
-  - job_name: 'themis-raid5'
-    static_configs:
-      - targets:
-          - 'themis-shard-6:9090'
-          - 'themis-shard-7:9090'
-          - 'themis-shard-8:9090'
-          - 'themis-shard-9:9090'
-        labels:
-          raid_group: 'raid5'
-          raid_level: 'RAID5'
-
-  # Nginx Load Balancer
-  - job_name: 'nginx'
-    static_configs:
-      - targets:
-          - 'nginx:80'
-        labels:
-          service: 'load_balancer'
+          service: 'themisdb'
+          component: 'test-instance'
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    scrape_timeout: 5s
 
   # Prometheus self-monitoring
   - job_name: 'prometheus'
     static_configs:
       - targets:
           - 'localhost:9090'
+        labels:
+          service: 'prometheus'
+    scrape_interval: 30s

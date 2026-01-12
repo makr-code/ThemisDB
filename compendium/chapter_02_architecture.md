@@ -826,13 +826,16 @@ Die Todo-App folgt dem MVC-Pattern und demonstriert alle ACID-Eigenschaften:
 
 ### Datenmodell
 
+Für unsere Todo-App definieren wir zuerst das Datenmodell mit Python Dataclasses. Wir nutzen Enumerations für Status und Priorität, um Type-Safety zu gewährleisten und Tippfehler zu vermeiden. Die Klasse `Task` kapselt alle Informationen eines Tasks und bietet Methoden zur Serialisierung für ThemisDB.
+
+> **📁 Vollständiger Code:** `examples/02_todo_app/models.py`
+
 ```python
-# examples/02_todo_app/models.py
+# Kernkomponenten des Task-Modells (Auszug)
 
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Optional, List
 
 class TaskStatus(Enum):
     OPEN = "open"
@@ -848,50 +851,30 @@ class TaskPriority(Enum):
 class Task:
     id: str
     title: str
-    description: str
     status: TaskStatus
     priority: TaskPriority
     created_at: datetime
     updated_at: datetime
-    due_date: Optional[datetime] = None
-    tags: List[str] = None
+    # ... weitere Felder siehe vollständige Datei
     
     def to_dict(self):
-        """Serialisierung für ThemisDB"""
+        """Serialisierung für ThemisDB - konvertiert Task zu Dictionary"""
         return {
             "_key": self.id,
             "title": self.title,
-            "description": self.description,
             "status": self.status.value,
             "priority": self.priority.value,
             "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat(),
-            "due_date": self.due_date.isoformat() if self.due_date else None,
-            "tags": self.tags or []
+            # ... vollständige Implementierung in models.py
         }
-    
-    @classmethod
-    def from_dict(cls, data: dict):
-        """Deserialisierung von ThemisDB"""
-        return cls(
-            id=data["_key"],
-            title=data["title"],
-            description=data["description"],
-            status=TaskStatus(data["status"]),
-            priority=TaskPriority(data["priority"]),
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"]),
-            due_date=datetime.fromisoformat(data["due_date"]) if data.get("due_date") else None,
-            tags=data.get("tags", [])
-        )
 ```
 
-**Design-Entscheidungen:**
+**Wichtige Design-Entscheidungen:**
 
-1. **Enums für Status/Priority:** Type-Safety, keine Tippfehler möglich
-2. **Dataclass:** Automatische `__init__`, `__repr__`, `__eq__`
-3. **to_dict/from_dict:** Klare Serialisierungslogik
-4. **Type Hints:** IDEs können helfen, Fehler früh erkennen
+1. **Enums für Status/Priority:** Verhindert ungültige Werte und bietet Type-Safety
+2. **Dataclass-Decorator:** Generiert automatisch `__init__`, `__repr__`, `__eq__` Methoden
+3. **to_dict/from_dict Methoden:** Klare Trennung von Serialisierungslogik
+4. **Type Hints:** Ermöglicht IDE-Unterstützung und frühzeitige Fehlererkennung
 
 ### Setup und Installation
 
@@ -908,112 +891,63 @@ pip install -r requirements.txt
 
 ### Client-Implementierung
 
+Der `TodoClient` kapselt alle Datenbankoperationen und bietet eine saubere API für unsere Anwendung. Die Klasse initialisiert beim Start automatisch die benötigte Collection und erstellt Performance-Indizes auf häufig gefilterten Feldern wie Status und Priorität. Dies demonstriert Best Practices für die Arbeit mit ThemisDB.
+
+> **📁 Vollständiger Code:** `examples/02_todo_app/themis_client.py`
+
+**Kernfunktionalität - Database Setup:**
+
 ```python
-# examples/02_todo_app/themis_client.py
-
-from themisdb import Client
-from models import Task, TaskStatus, TaskPriority
-from typing import List, Optional, Dict
-import uuid
-
 class TodoClient:
     def __init__(self, host="localhost", port=8765):
         self.client = Client(host, port)
         self._setup_database()
     
     def _setup_database(self):
-        """Erstellt Collection und Indizes"""
-        # Collection erstellen
-        try:
-            self.client.create_collection("tasks", type="document")
-        except Exception as e:
-            # Collection existiert bereits
-            pass
+        """Erstellt Collection und Indizes für optimale Performance"""
+        self.client.create_collection("tasks", type="document")
         
-        # Indizes erstellen für Performance
+        # Performance-Indizes auf oft gefilterten Feldern
         self.client.create_index("tasks", "status_idx", ["status"])
         self.client.create_index("tasks", "priority_idx", ["priority"])
         self.client.create_index("tasks", "due_date_idx", ["due_date"])
-    
+```
+
+**CRUD-Operationen (Auszug):**
+
+```python
     def create_task(self, task: Task) -> bool:
-        """Erstellt einen neuen Task"""
-        try:
-            self.client.insert("tasks", task.to_dict())
-            return True
-        except Exception as e:
-            print(f"Error creating task: {e}")
-            return False
-    
-    def get_task(self, task_id: str) -> Optional[Task]:
-        """Lädt einen Task nach ID"""
-        try:
-            data = self.client.get("tasks", task_id)
-            return Task.from_dict(data) if data else None
-        except Exception as e:
-            print(f"Error getting task: {e}")
-            return None
+        """Erstellt einen neuen Task in der Datenbank"""
+        self.client.insert("tasks", task.to_dict())
+        return True
     
     def update_task(self, task: Task) -> bool:
-        """Aktualisiert einen existierenden Task"""
+        """Aktualisiert Task - MVCC erkennt Konflikte automatisch!"""
         try:
-            # MVCC in Action: Conflict Detection!
             self.client.update("tasks", task.id, task.to_dict())
             return True
         except ConflictError:
             print("Task was modified by another user!")
             return False
-        except Exception as e:
-            print(f"Error updating task: {e}")
-            return False
-    
-    def delete_task(self, task_id: str) -> bool:
-        """Löscht einen Task"""
-        try:
-            self.client.delete("tasks", task_id)
-            return True
-        except Exception as e:
-            print(f"Error deleting task: {e}")
-            return False
-    
-    def list_tasks(self, status: Optional[TaskStatus] = None,
-                   priority: Optional[TaskPriority] = None) -> List[Task]:
-        """Listet Tasks mit optionalen Filtern"""
+```
+
+**Query-Beispiele mit AQL:**
+
+```python
+    def list_tasks(self, status: Optional[TaskStatus] = None) -> List[Task]:
+        """Demonstriert AQL-Queries mit dynamischen Filtern"""
         query = "FOR task IN tasks"
-        filters = []
         
         if status:
-            filters.append(f'task.status == "{status.value}"')
-        if priority:
-            filters.append(f'task.priority == "{priority.value}"')
-        
-        if filters:
-            query += " FILTER " + " AND ".join(filters)
+            query += f' FILTER task.status == "{status.value}"'
         
         query += " SORT task.created_at DESC RETURN task"
         
-        try:
-            results = self.client.query(query)
-            return [Task.from_dict(data) for data in results]
-        except Exception as e:
-            print(f"Error listing tasks: {e}")
-            return []
-    
-    def search_tasks(self, search_text: str) -> List[Task]:
-        """Sucht Tasks nach Text in Titel oder Beschreibung"""
-        query = """
-        FOR task IN tasks
-            FILTER CONTAINS(LOWER(task.title), LOWER(@search))
-                OR CONTAINS(LOWER(task.description), LOWER(@search))
-            SORT task.created_at DESC
-            RETURN task
-        """
-        try:
-            results = self.client.query(query, {"search": search_text})
-            return [Task.from_dict(data) for data in results]
-        except Exception as e:
-            print(f"Error searching tasks: {e}")
-            return []
+        results = self.client.query(query)
+        return [Task.from_dict(data) for data in results]
 ```
+
+Die vollständige Implementierung enthält zusätzlich `get_task()`, `delete_task()` und `search_tasks()` Methoden. Siehe vollständige Datei für alle Details.
 
 ### MVCC und Transaktionen demonstriert
 

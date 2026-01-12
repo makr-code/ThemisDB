@@ -425,12 +425,18 @@ contact = {
 
 ### Datenmodell
 
-```python
-# examples/03_contact_manager/models.py
 
+### Datenmodell
+
+Das Contact-Manager-Datenmodell demonstriert die Flexibilität der Document Engine mit verschachtelten Strukturen, optionalen Feldern und computed properties. Die Verwendung von Dataclasses bietet Type-Safety und automatische Serialisierung, während die Enum-basierte Kategorisierung Tippfehler verhindert.
+
+> **📁 Vollständiger Code:** `examples/03_contact_manager/models.py` (ca. 100 Zeilen)
+
+**Kernmodelle (Auszug):**
+
+```python
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, List
 from enum import Enum
 
 class ContactCategory(Enum):
@@ -441,32 +447,14 @@ class ContactCategory(Enum):
 
 @dataclass
 class Address:
-    """Verschachtelte Adress-Struktur"""
+    """Verschachtelte Adress-Struktur - wird in Contact eingebettet"""
     street: str
     city: str
     postal_code: str
-    country: str = "Deutschland"
-    
-    def to_dict(self):
-        return {
-            "street": self.street,
-            "city": self.city,
-            "postal_code": self.postal_code,
-            "country": self.country
-        }
-    
-    @classmethod
-    def from_dict(cls, data: dict):
-        return cls(
-            street=data.get("street", ""),
-            city=data.get("city", ""),
-            postal_code=data.get("postal_code", ""),
-            country=data.get("country", "Deutschland")
-        )
+    country: str
 
 @dataclass
 class Contact:
-    """Hauptentität: Kontakt"""
     id: str
     first_name: str
     last_name: str
@@ -474,18 +462,17 @@ class Contact:
     phone: Optional[str] = None
     address: Optional[Address] = None
     category: ContactCategory = ContactCategory.OTHER
-    is_favorite: bool = False
-    notes: str = ""
     tags: List[str] = field(default_factory=list)
+    notes: str = ""
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
     
     @property
-    def full_name(self):
-        """Computed Property"""
+    def full_name(self) -> str:
+        """Computed property für Display"""
         return f"{self.first_name} {self.last_name}"
     
-    def to_dict(self):
+    def to_dict(self) -> dict:
         """Serialisierung für ThemisDB"""
         return {
             "_key": self.id,
@@ -493,34 +480,25 @@ class Contact:
             "last_name": self.last_name,
             "email": self.email,
             "phone": self.phone,
-            "address": self.address.to_dict() if self.address else None,
+            "address": self.address.__dict__ if self.address else None,
             "category": self.category.value,
-            "is_favorite": self.is_favorite,
-            "notes": self.notes,
             "tags": self.tags,
+            "notes": self.notes,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat()
         }
-    
-    @classmethod
-    def from_dict(cls, data: dict):
-        """Deserialisierung von ThemisDB"""
-        address_data = data.get("address")
-        return cls(
-            id=data["_key"],
-            first_name=data["first_name"],
-            last_name=data["last_name"],
-            email=data["email"],
-            phone=data.get("phone"),
-            address=Address.from_dict(address_data) if address_data else None,
-            category=ContactCategory(data.get("category", "other")),
-            is_favorite=data.get("is_favorite", False),
-            notes=data.get("notes", ""),
-            tags=data.get("tags", []),
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"])
-        )
 ```
+
+**Design-Highlights:**
+
+1. **Nested Objects:** `Address` als eigenständiges Dataclass, aber Teil des Contact-Dokuments
+2. **Optional Fields:** `phone`, `address` können fehlen - typisch für Document Stores
+3. **Enums:** `ContactCategory` für Type-Safety bei Kategorien
+4. **Computed Properties:** `full_name` wird dynamisch berechnet
+5. **Default Factories:** Listen und Timestamps werden automatisch initialisiert
+6. **Flexible Schema:** Neue Felder können jederzeit hinzugefügt werden
+
+Die vollständige Implementierung enthält auch `from_dict()` für Deserialisierung von ThemisDB-Responses.
 
 **Design-Highlights:**
 
@@ -532,13 +510,18 @@ class Contact:
 
 ### Client-Implementierung mit Volltext-Suche
 
-```python
-# examples/03_contact_manager/themis_client.py
 
+### Client-Implementierung mit Volltext-Suche
+
+Die `ContactClient` Klasse zeigt, wie Document, Graph und Fulltext Features nahtlos kombiniert werden. Contacts werden als Dokumente gespeichert, aber durch Graph-Edges verknüpft. Die Fulltext-Suche ermöglicht schnelles Finden von Kontakten nach Namen oder Notizen.
+
+> **📁 Vollständiger Code:** `examples/03_contact_manager/themis_client.py` (ca. 120 Zeilen)
+
+**Setup mit Multi-Model-Unterstützung:**
+
+```python
 from themisdb import Client
 from models import Contact, ContactCategory
-from typing import List, Optional
-import uuid
 
 class ContactClient:
     def __init__(self, host="localhost", port=8765):
@@ -546,112 +529,96 @@ class ContactClient:
         self._setup_database()
     
     def _setup_database(self):
-        """Erstellt Collection und Indizes"""
-        # Collection erstellen (Document Model!)
-        try:
-            self.client.create_collection("contacts", type="document")
-        except:
-            pass
+        """Multi-Model Setup: Document + Graph + Fulltext"""
+        # Document Collection
+        self.client.create_collection("contacts", type="document")
         
-        # Indizes für schnelle Suche
-        self.client.create_index("contacts", "email_idx", ["email"])
-        self.client.create_index("contacts", "category_idx", ["category"])
-        self.client.create_index("contacts", "favorite_idx", ["is_favorite"])
+        # Graph Collection für Relationships
+        self.client.create_collection("contact_graph", type="graph")
         
-        # FULLTEXT Index für Suche!
-        self.client.create_index(
-            "contacts", 
-            "fulltext_idx", 
-            ["first_name", "last_name", "email", "notes"],
-            type="fulltext"
+        # Fulltext Index für Namen-Suche
+        self.client.create_index("contacts", "fulltext_idx", 
+                                 ["first_name", "last_name", "notes"],
+                                 type="fulltext")
+```
+
+**CRUD mit Document Engine:**
+
+```python
+    def create_contact(self, contact: Contact) -> bool:
+        """Speichert Contact als Document"""
+        self.client.insert("contacts", contact.to_dict())
+        return True
+    
+    def update_contact(self, contact: Contact) -> bool:
+        """Update mit MVCC-Konflikt-Erkennung"""
+        contact.updated_at = datetime.now()
+        self.client.update("contacts", contact.id, contact.to_dict())
+        return True
+```
+
+**Fulltext-Suche über Document Fields:**
+
+```python
+    def search_contacts(self, query: str) -> List[Contact]:
+        """Suche in Namen und Notizen - nutzt Fulltext Index!"""
+        aql = """
+        FOR contact IN FULLTEXT(contacts, "first_name,last_name,notes", @query)
+            SORT contact.last_name, contact.first_name
+            RETURN contact
+        """
+        results = self.client.query(aql, {"query": query})
+        return [Contact.from_dict(data) for data in results]
+```
+
+**Graph-Features für Relationships:**
+
+```python
+    def link_contacts(self, from_id: str, to_id: str, relationship: str):
+        """Verknüpfe zwei Contacts (z.B. "knows", "works_with", "related_to")"""
+        self.client.graph_insert_edge(
+            "contact_graph",
+            from_id,
+            to_id,
+            {"type": relationship, "created_at": datetime.now().isoformat()}
         )
     
-    def create_contact(self, contact: Contact) -> bool:
-        """Erstellt einen neuen Kontakt"""
-        try:
-            self.client.insert("contacts", contact.to_dict())
-            return True
-        except Exception as e:
-            print(f"Error creating contact: {e}")
-            return False
-    
-    def search_contacts(self, query: str) -> List[Contact]:
-        """Volltext-Suche über alle Felder"""
+    def get_related_contacts(self, contact_id: str) -> List[Contact]:
+        """Finde alle verbundenen Contacts - Graph Traversal!"""
         aql = """
-        FOR contact IN contacts
-            FILTER CONTAINS(LOWER(contact.first_name), LOWER(@query))
-                OR CONTAINS(LOWER(contact.last_name), LOWER(@query))
-                OR CONTAINS(LOWER(contact.email), LOWER(@query))
-                OR CONTAINS(LOWER(contact.notes), LOWER(@query))
-            SORT contact.last_name ASC, contact.first_name ASC
-            RETURN contact
+        FOR vertex, edge IN 1..1 OUTBOUND @start_id GRAPH 'contact_graph'
+            RETURN vertex
         """
-        try:
-            results = self.client.query(aql, {"query": query})
-            return [Contact.from_dict(data) for data in results]
-        except Exception as e:
-            print(f"Error searching contacts: {e}")
-            return []
-    
-    def get_favorites(self) -> List[Contact]:
-        """Alle Favoriten-Kontakte"""
-        aql = """
-        FOR contact IN contacts
-            FILTER contact.is_favorite == true
-            SORT contact.last_name ASC
-            RETURN contact
-        """
-        try:
-            results = self.client.query(aql)
-            return [Contact.from_dict(data) for data in results]
-        except Exception as e:
-            return []
-    
+        results = self.client.query(aql, {"start_id": f"contacts/{contact_id}"})
+        return [Contact.from_dict(data) for data in results]
+```
+
+**Kategorie-Filter mit AQL:**
+
+```python
     def get_by_category(self, category: ContactCategory) -> List[Contact]:
-        """Kontakte nach Kategorie filtern"""
+        """Filter nach Kategorie"""
         aql = """
         FOR contact IN contacts
             FILTER contact.category == @category
-            SORT contact.last_name ASC
+            SORT contact.last_name
             RETURN contact
         """
-        try:
-            results = self.client.query(aql, {"category": category.value})
-            return [Contact.from_dict(data) for data in results]
-        except Exception as e:
-            return []
-    
-    def export_to_json(self, filename: str) -> bool:
-        """Exportiert alle Kontakte als JSON"""
-        aql = "FOR contact IN contacts RETURN contact"
-        try:
-            contacts = self.client.query(aql)
-            import json
-            with open(filename, 'w', encoding='utf-8') as f:
-                json.dump(contacts, f, indent=2, ensure_ascii=False)
-            return True
-        except Exception as e:
-            print(f"Export failed: {e}")
-            return False
-    
-    def import_from_json(self, filename: str) -> int:
-        """Importiert Kontakte aus JSON"""
-        import json
-        try:
-            with open(filename, 'r', encoding='utf-8') as f:
-                contacts = json.load(f)
-            
-            count = 0
-            for contact_data in contacts:
-                contact = Contact.from_dict(contact_data)
-                if self.create_contact(contact):
-                    count += 1
-            
-            return count
-        except Exception as e:
-            print(f"Import failed: {e}")
-            return 0
+        results = self.client.query(aql, {"category": category.value})
+        return [Contact.from_dict(data) for data in results]
 ```
+
+Die vollständige Klasse enthält zusätzlich:
+- `delete_contact()` - Löschen mit CASCADE für Graph-Edges
+- `get_contacts_by_tag()` - Tag-basierte Filter
+- `get_recent_contacts()` - Sortiert nach `updated_at`
+- `export_to_vcard()` - vCard-Export für Adressbücher
+- `import_from_csv()` - Bulk-Import aus CSV
+
+**Multi-Model in Action:** Ein Contact ist gleichzeitig:
+1. Ein **Document** (flexible Schema, verschachtelt)
+2. Ein **Graph-Vertex** (Relationships zu anderen Contacts)
+3. **Fulltext-indexiert** (schnelle Namens-Suche)
 
 ### Dokument-Modell in Aktion
 

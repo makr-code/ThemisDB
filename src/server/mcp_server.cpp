@@ -3,12 +3,19 @@
 #include "server/mcp_server.h"
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
+#include "metadata/schema_manager.h"
+#include "index/secondary_index.h"
 #include "llm/embedded_llm.h"
+#include "llm/prompt_manager.h"
+#include "utils/error_registry.h"
+#include "utils/string_utils.h"
+#include "version.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <fmt/format.h>
+#include <regex>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -102,7 +109,31 @@ void McpServer::attachHttpServer(std::shared_ptr<HttpServer> http_server) {
 
 void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
     db_ = db;
-    spdlog::info("MCP Server attached to RocksDB database");
+    
+    // Initialize SchemaManager with the database
+    if (db && db->isOpen()) {
+        // Create SecondaryIndexManager for index metadata
+        index_mgr_ = std::make_shared<SecondaryIndexManager>(*db);
+        
+        // Create SchemaManager with database and index manager
+        schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
+        
+        // Initialize PromptManager and load system prompts
+        prompt_mgr_ = std::make_unique<PromptManager>();
+        
+        // Try to load prompts from YAML file
+        std::string prompt_file = "config/llm_system_prompts.yaml";
+        size_t loaded = prompt_mgr_->loadFromYAML(prompt_file);
+        if (loaded > 0) {
+            spdlog::info("MCP Server loaded {} system prompts from {}", loaded, prompt_file);
+        } else {
+            spdlog::warn("MCP Server could not load system prompts from {}", prompt_file);
+        }
+        
+        spdlog::info("MCP Server attached to RocksDB database with SchemaManager and PromptManager initialized");
+    } else {
+        spdlog::info("MCP Server attached to RocksDB database (not open yet)");
+    }
 }
 
 // ============================================================================
@@ -187,7 +218,7 @@ json McpServer::handleRequest(const json& request) {
             return createError(-32601, "Method not found: " + method);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Error handling MCP request: {}", e.what());
+        errors::logError(ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
         return createError(-32603, std::string("Internal error: ") + e.what());
     }
 }
@@ -458,6 +489,53 @@ void McpServer::registerDefaultTools() {
         },
         [this](const json& args) { return toolDatabaseQueryWithLLM(args); });
     #endif
+
+    // ========================================================================
+    // Error Introspection Tools (NEW)
+    // ========================================================================
+    
+    registerTool("get_error_info", "Get detailed information about an error code or message",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query", {
+                    {"type", "string"},
+                    {"description", "Error code (e.g., '2000') or search query"}
+                }}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolGetErrorInfo(args); });
+
+    registerTool("search_errors", "Search for errors by category, keyword, or description",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query", {
+                    {"type", "string"},
+                    {"description", "Search query (e.g., 'gpu', 'lora', 'storage')"}
+                }},
+                {"category", {
+                    {"type", "string"},
+                    {"description", "Filter by category (optional)"}
+                }}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolSearchErrors(args); });
+
+    registerTool("introspect_database", "Ask questions about the database capabilities, errors, and features",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"question", {
+                    {"type", "string"},
+                    {"description", "Natural language question about the database"}
+                }}
+            }},
+            {"required", {"question"}}
+        },
+        [this](const json& args) { return toolIntrospectDatabase(args); });
 }
 
 json McpServer::toolQuery(const json& args) {
@@ -659,16 +737,36 @@ json McpServer::toolGetSchema(const json& args) {
         };
     }
 
-    // Minimal integration: return basic info
-    return {
-        {"status", "success"},
-        {"message", "Schema discovery requires full query engine integration"},
-        {"integration_level", "minimal"},
-        {"nodes", json::array()},
-        {"edges", json::array()},
-        {"properties", json::object()},
-        {"note", "Full schema discovery available in production integration"}
-    };
+    if (!schema_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "SchemaManager not initialized"},
+            {"integration_level", "minimal"},
+            {"nodes", json::array()},
+            {"edges", json::array()},
+            {"properties", json::object()}
+        };
+    }
+
+    // Full integration: return real schema data from SchemaManager
+    try {
+        auto schema_json = schema_mgr_->toJSON();
+        
+        // Add integration level indicator
+        schema_json["integration_level"] = "full";
+        
+        return schema_json;
+    } catch (const std::exception& e) {
+        spdlog::error("Error retrieving schema: {}", e.what());
+        return {
+            {"status", "error"},
+            {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"integration_level", "full"},
+            {"nodes", json::array()},
+            {"edges", json::array()},
+            {"properties", json::object()}
+        };
+    }
 }
 
 json McpServer::toolGetStats(const json& args) {
@@ -682,6 +780,30 @@ json McpServer::toolGetStats(const json& args) {
             {"edge_count", 0},
             {"storage_size_bytes", 0}
         };
+    }
+
+    // Full integration: return real statistics from SchemaManager
+    if (schema_mgr_) {
+        try {
+            auto metadata = schema_mgr_->getDatabaseMetadata();
+            return {
+                {"status", "success"},
+                {"database_connected", db_->isOpen()},
+                {"integration_level", "full"},
+                {"version", metadata.version},
+                {"table_count", metadata.table_count},
+                {"total_rows", metadata.total_rows},
+                {"capabilities", metadata.capabilities}
+            };
+        } catch (const std::exception& e) {
+            spdlog::error("Error retrieving stats: {}", e.what());
+            return {
+                {"status", "error"},
+                {"message", std::string("Failed to retrieve stats: ") + e.what()},
+                {"database_connected", db_->isOpen()},
+                {"integration_level", "full"}
+            };
+        }
     }
 
     // Minimal integration: return connection status
@@ -815,6 +937,307 @@ json McpServer::toolDatabaseQueryWithLLM(const json& args) {
 #endif // THEMIS_ENABLE_LLM
 
 // ============================================================================
+// Error Introspection Tool Handlers (NEW)
+// ============================================================================
+
+json McpServer::toolGetErrorInfo(const json& args) {
+    spdlog::info("MCP Tool 'get_error_info' called");
+    
+    std::string query = args.value("query", "");
+    
+    auto& registry = errors::ErrorRegistry::getInstance();
+    
+    // Try to parse as error code
+    try {
+        int code = std::stoi(query);
+        auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
+        
+        return {
+            {"status", "success"},
+            {"error", metadata.toJSON()}
+        };
+    } catch (...) {
+        // Search by query
+        auto results = registry.searchErrors(query);
+        
+        if (results.empty()) {
+            return {
+                {"status", "not_found"},
+                {"message", "No errors found matching query"}
+            };
+        }
+        
+        json errors_json = json::array();
+        for (const auto& error : results) {
+            errors_json.push_back(error.toJSON());
+        }
+        
+        return {
+            {"status", "success"},
+            {"errors", errors_json},
+            {"count", results.size()}
+        };
+    }
+}
+
+json McpServer::toolSearchErrors(const json& args) {
+    spdlog::info("MCP Tool 'search_errors' called");
+    
+    std::string query = args.value("query", "");
+    std::string category = args.value("category", "");
+    
+    auto& registry = errors::ErrorRegistry::getInstance();
+    std::vector<errors::ErrorMetadata> results;
+    
+    if (!category.empty()) {
+        results = registry.getErrorsByCategory(category);
+    } else {
+        results = registry.searchErrors(query);
+    }
+    
+    json errors_json = json::array();
+    for (const auto& error : results) {
+        errors_json.push_back(error.toJSON());
+    }
+    
+    return {
+        {"status", "success"},
+        {"errors", errors_json},
+        {"count", results.size()}
+    };
+}
+
+json McpServer::toolIntrospectDatabase(const json& args) {
+    std::string question = args.value("question", "");
+    
+    spdlog::info("MCP Tool 'introspect_database' called: {}", question);
+    
+    if (question.empty()) {
+        return {{"status", "error"}, {"message", "No question provided"}};
+    }
+    
+    // If PromptManager or SchemaManager not available, fall back to basic response
+    if (!prompt_mgr_ || !schema_mgr_) {
+        spdlog::warn("PromptManager or SchemaManager not initialized, using fallback response");
+        return {
+            {"status", "success"},
+            {"question", question},
+            {"answer", "Schema introspection not available. Database may not be fully initialized."}
+        };
+    }
+    
+    // Build context from SchemaManager
+    auto context = PromptManager::buildContextFromSchema(
+        schema_mgr_.get(),
+        themis::version::getEditionString(),
+        themis::version::getVersionString()
+    );
+    
+    std::string answer;
+    std::string prompt_id;
+    
+    // Determine question type and select appropriate prompt
+    // Error-related questions (preserve existing functionality)
+    if (utils::containsCaseInsensitive(question, "fehler") ||
+        utils::containsCaseInsensitive(question, "error") ||
+        utils::containsCaseInsensitive(question, "problem")) {
+        // Keep existing error handling
+        answer = generateErrorAnswer(question);
+        return {
+            {"status", "success"},
+            {"question", question},
+            {"answer", answer}
+        };
+    }
+    // "What can you do?" / "Was kannst du?"
+    else if (utils::containsCaseInsensitive(question, "what can") ||
+             utils::containsCaseInsensitive(question, "was kannst") ||
+             utils::containsCaseInsensitive(question, "capabilities") ||
+             utils::containsCaseInsensitive(question, "features")) {
+        prompt_id = "what_can_you_do_prompt";
+    }
+    // "How is data structured?" / "Wie sind die Daten aufgebaut?"
+    else if (utils::containsCaseInsensitive(question, "data structure") ||
+             utils::containsCaseInsensitive(question, "aufgebaut") ||
+             utils::containsCaseInsensitive(question, "tables") ||
+             utils::containsCaseInsensitive(question, "schema") ||
+             utils::containsCaseInsensitive(question, "how is") ||
+             utils::containsCaseInsensitive(question, "wie sind")) {
+        prompt_id = "data_structure_prompt";
+    }
+    // "What is your purpose?" / "Was ist deine Aufgabe?"
+    else if (utils::containsCaseInsensitive(question, "purpose") ||
+             utils::containsCaseInsensitive(question, "aufgabe") ||
+             utils::containsCaseInsensitive(question, "why") ||
+             utils::containsCaseInsensitive(question, "warum")) {
+        prompt_id = "purpose_prompt";
+    }
+    // Specific table inquiry
+    else if (utils::containsCaseInsensitive(question, "table ") ||
+             utils::containsCaseInsensitive(question, "about ")) {
+        prompt_id = "table_inquiry_prompt";
+        
+        // Try to extract table name from question
+        // This is a simple implementation - could be enhanced
+        auto tables = schema_mgr_->getAllTables();
+        for (const auto& table : tables) {
+            if (utils::containsCaseInsensitive(question, table.name)) {
+                auto table_json = table.toJSON();
+                context["table_details"] = table_json.dump(2);
+                break;
+            }
+        }
+    }
+    // Schema introspection
+    else if (utils::containsCaseInsensitive(question, "introspect") ||
+             utils::containsCaseInsensitive(question, "analyze") ||
+             utils::containsCaseInsensitive(question, "describe")) {
+        prompt_id = "schema_introspection_prompt";
+    }
+    // Default: self-awareness
+    else {
+        prompt_id = "self_awareness_prompt";
+    }
+    
+    // Get prompt with context injection
+    auto prompt_opt = prompt_mgr_->getPromptWithContext(prompt_id, context);
+    
+    if (prompt_opt.has_value()) {
+        answer = *prompt_opt;
+        spdlog::debug("Used prompt '{}' for introspection query", prompt_id);
+    } else {
+        // Fallback if prompt not found
+        prompt_id = "unknown_query_prompt";
+        prompt_opt = prompt_mgr_->getPromptWithContext(prompt_id, context);
+        
+        if (prompt_opt.has_value()) {
+            answer = *prompt_opt;
+        } else {
+            answer = "I don't have enough information to answer this question. "
+                    "Please try asking about my capabilities, data structure, or purpose.";
+        }
+    }
+    
+    return {
+        {"status", "success"},
+        {"question", question},
+        {"answer", answer},
+        {"prompt_used", prompt_id}
+    };
+}
+
+std::string McpServer::generateErrorAnswer(const std::string& question) {
+    auto& registry = errors::ErrorRegistry::getInstance();
+    
+    // "Welche Fehler können auftreten?" / "What errors can occur?"
+    if (utils::containsCaseInsensitive(question, "welche fehler") ||
+        utils::containsCaseInsensitive(question, "what errors") ||
+        utils::containsCaseInsensitive(question, "which errors")) {
+        
+        auto categories = registry.getAllCategories();
+        std::string answer = "I can help with the following error categories:\n\n";
+        
+        for (const auto& category : categories) {
+            auto errors = registry.getErrorsByCategory(category);
+            answer += fmt::format("**{}** ({} error types)\n", category, errors.size());
+        }
+        
+        answer += "\nAsk me about specific errors, e.g., 'What does error 2000 mean?'";
+        return answer;
+    }
+    
+    // "Was bedeutet Fehler X?" / "What does error X mean?"
+    if (utils::containsCaseInsensitive(question, "bedeutet") ||
+        utils::containsCaseInsensitive(question, "mean") ||
+        utils::containsCaseInsensitive(question, "what is")) {
+        
+        // Extract error code
+        std::regex code_regex(R"(\b\d{4}\b)");
+        std::smatch match;
+        
+        if (std::regex_search(question, match, code_regex)) {
+            int code = std::stoi(match.str());
+            auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
+            
+            if (static_cast<int>(metadata.code) != static_cast<int>(errors::ErrorCode::ERR_UNKNOWN) || 
+                code == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
+                
+                // Manual join for documentation links (fmt::join may not be available in all versions)
+                std::string docs_str;
+                for (size_t i = 0; i < metadata.related_docs.size(); ++i) {
+                    if (i > 0) docs_str += ", ";
+                    docs_str += metadata.related_docs[i];
+                }
+                
+                return fmt::format(
+                    "**Error {}: {}**\n\n"
+                    "**Category:** {}\n"
+                    "**Severity:** {}\n\n"
+                    "**Cause:**\n{}\n\n"
+                    "**Solution:**\n{}\n\n"
+                    "**Documentation:** {}",
+                    code,
+                    metadata.message_template,
+                    metadata.category,
+                    metadata.severity,
+                    metadata.cause,
+                    metadata.solution,
+                    docs_str
+                );
+            }
+        }
+    }
+    
+    // "How do I fix...?" / "Wie behebe ich...?"
+    if (utils::containsCaseInsensitive(question, "fix") ||
+        utils::containsCaseInsensitive(question, "solve") ||
+        utils::containsCaseInsensitive(question, "behebe")) {
+        
+        // Search by keywords in question
+        auto results = registry.searchErrors(question);
+        if (!results.empty()) {
+            std::string answer = fmt::format("I found {} relevant error(s) that might help:\n\n", 
+                                            results.size());
+            
+            for (size_t i = 0; i < std::min(results.size(), size_t(3)); ++i) {
+                const auto& error = results[i];
+                answer += fmt::format(
+                    "**[{}] {}**\n{}\n\n**Solution:**\n{}\n\n",
+                    static_cast<int>(error.code),
+                    error.message_template,
+                    error.cause,
+                    error.solution
+                );
+            }
+            
+            return answer;
+        }
+    }
+    
+    // Fallback: Search by keywords
+    auto results = registry.searchErrors(question);
+    if (!results.empty()) {
+        std::string answer = fmt::format("I found {} relevant error(s):\n\n", 
+                                        results.size());
+        
+        for (size_t i = 0; i < std::min(results.size(), size_t(3)); ++i) {
+            const auto& error = results[i];
+            answer += fmt::format(
+                "**[{}] {}**\n{}\n\n",
+                static_cast<int>(error.code),
+                error.message_template,
+                error.cause
+            );
+        }
+        
+        return answer;
+    }
+    
+    return "I couldn't find matching error information. "
+           "Try asking with a specific error code or keyword like 'gpu', 'model', 'storage', etc.";
+}
+
+// ============================================================================
 // Default Resource Handlers (Stubs)
 // ============================================================================
 
@@ -837,41 +1260,91 @@ void McpServer::registerDefaultResources() {
 }
 
 json McpServer::resourceSchema(const std::string& uri) {
-    // For minimal integration, return basic schema information
-    // Full schema discovery would require query engine integration
-    return {
-        {"nodes", json::array()},
-        {"edges", json::array()},
-        {"message", "Schema discovery available in full integration"},
-        {"note", "Minimal integration supports key-value operations only"}
-    };
-}
-
-json McpServer::resourceStats(const std::string& uri) {
-    // For minimal integration, we can provide basic stats if database is attached
-    if (db_ && db_->isOpen()) {
+    // Full integration: return real schema data from SchemaManager
+    if (!schema_mgr_) {
         return {
-            {"status", "connected"},
-            {"database_open", true},
-            {"message", "Database statistics available in full integration"},
-            {"note", "Minimal integration provides basic connectivity status only"}
+            {"status", "error"},
+            {"message", "SchemaManager not initialized"},
+            {"nodes", json::array()},
+            {"edges", json::array()}
         };
     }
     
+    try {
+        return schema_mgr_->toJSON();
+    } catch (const std::exception& e) {
+        spdlog::error("Error retrieving schema resource: {}", e.what());
+        return {
+            {"status", "error"},
+            {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"nodes", json::array()},
+            {"edges", json::array()}
+        };
+    }
+}
+
+json McpServer::resourceStats(const std::string& uri) {
+    // Provide real statistics if SchemaManager is available
+    if (!db_ || !db_->isOpen()) {
+        return {
+            {"status", "disconnected"},
+            {"database_open", false},
+            {"message", "Database not attached or not open"}
+        };
+    }
+    
+    if (schema_mgr_) {
+        try {
+            auto metadata = schema_mgr_->getDatabaseMetadata();
+            return {
+                {"status", "connected"},
+                {"database_open", true},
+                {"version", metadata.version},
+                {"table_count", metadata.table_count},
+                {"total_rows", metadata.total_rows},
+                {"capabilities", metadata.capabilities},
+                {"last_refresh", metadata.toJSON()["last_refresh"]}
+            };
+        } catch (const std::exception& e) {
+            spdlog::error("Error retrieving stats: {}", e.what());
+            return {
+                {"status", "connected"},
+                {"database_open", true},
+                {"message", std::string("Error retrieving stats: ") + e.what()}
+            };
+        }
+    }
+    
     return {
-        {"status", "disconnected"},
-        {"database_open", false},
-        {"message", "Database not attached or not open"}
+        {"status", "connected"},
+        {"database_open", true},
+        {"message", "Database statistics available in full integration"},
+        {"note", "Minimal integration provides basic connectivity status only"}
     };
 }
 
 json McpServer::resourceMetadata(const std::string& uri) {
+    // Determine integration level based on SchemaManager availability
+    std::string integration_level = schema_mgr_ ? "full" : "minimal";
+    
+    json supported_ops = {"put_entity", "get_entity", "delete_entity", "create_index"};
+    json pending_ops = json::array();
+    
+    if (schema_mgr_) {
+        supported_ops.push_back("get_schema");
+        supported_ops.push_back("schema_discovery");
+        supported_ops.push_back("full_query");
+    } else {
+        pending_ops.push_back("full_query");
+        pending_ops.push_back("schema_discovery");
+    }
+    
     return {
         {"version", config_.server_version},
         {"name", config_.server_name},
-        {"integration_level", "minimal"},
-        {"supported_operations", {"put_entity", "get_entity", "delete_entity"}},
-        {"pending_operations", {"full_query", "schema_discovery", "advanced_stats"}},
+        {"integration_level", integration_level},
+        {"supported_operations", supported_ops},
+        {"pending_operations", pending_ops},
         {"database_attached", db_ != nullptr},
         {"database_open", db_ && db_->isOpen()}
     };
@@ -1024,7 +1497,7 @@ void StdioTransport::readStdin() {
     asio::post(io_context_, [this]() {
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
-            spdlog::error("Failed to get stdin handle");
+            errors::logError(ErrorCode::ERR_MCP_STDIO_INIT_FAILED, "stdin handle");
             return;
         }
 
@@ -1368,7 +1841,7 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
             sendToSession(session_id, response);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Error handling WebSocket message from session {}: {}", session_id, e.what());
+        errors::logError(ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
         
         // Send error response
         json error_response = {

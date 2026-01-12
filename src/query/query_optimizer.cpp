@@ -3,11 +3,15 @@
 #include "query/query_optimizer.h"
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
+#include "analytics/nlp_text_analyzer.h"
 
 #include <algorithm>
 #include <numeric>
 
 namespace themis {
+
+// Static NLP analyzer for query optimization (PR #317)
+static themis::analytics::NlpTextAnalyzer g_optimizer_nlp;
 
 QueryOptimizer::QueryOptimizer(SecondaryIndexManager& secIdx) : secIdx_(secIdx) {}
 
@@ -37,6 +41,36 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 
 	for (auto i : idx) plan.orderedPredicates.push_back(plan.details[i].pred);
 	return plan;
+}
+
+// NLP-enhanced query optimization (PR #317 Phase 1)
+QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
+    const ConjunctiveQuery& q,
+    const std::string& original_query_text,
+    size_t maxProbePerPred) const {
+    
+    // 1. Get base plan using traditional cost-based optimization
+    Plan plan = chooseOrderForAndQuery(q, maxProbePerPred);
+    
+    // 2. Add NLP analysis if query text provided
+    if (!original_query_text.empty()) {
+        // Estimate query complexity
+        plan.nlp_complexity = g_optimizer_nlp.estimateQueryComplexity(original_query_text);
+        
+        // Extract semantic hints
+        plan.nlp_hints = g_optimizer_nlp.extractQueryHints(original_query_text);
+        
+        // Get index suggestions
+        plan.nlp_suggested_indexes = g_optimizer_nlp.suggestIndexes(original_query_text);
+        
+        // Note: In future phases, we can use these hints to:
+        // - Apply aggregation push-down if hints["aggregation"] is present
+        // - Prefer specific index types from nlp_suggested_indexes
+        // - Adjust cost estimates based on nlp_complexity
+        // - Enable parallel execution for complex queries
+    }
+    
+    return plan;
 }
 
 std::pair<QueryEngine::Status, std::vector<std::string>>

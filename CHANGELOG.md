@@ -19,6 +19,100 @@
 
 ## 🚧 [Unreleased]
 
+### Added
+
+<details open>
+<summary><b>🧠 Schema Manager for Database Self-Awareness</b> (Feature: Agentic AI)</summary>
+
+- 🔍 **SchemaManager Class** - Core infrastructure for schema introspection:
+  - RocksDB key scanning for automatic table/collection discovery
+  - Property type detection via BaseEntity field analysis
+  - Index metadata collection via SecondaryIndexManager integration
+  - Thread-safe caching with shared_mutex (configurable 60s TTL)
+  - JSON export methods: `toJSON()`, `tableToJSON()`, `getDatabaseMetadata()`, `getCapabilitiesJSON()`
+
+- 🌐 **REST API Schema Endpoints** - External access to schema information:
+  - `GET /api/v1/schema` - Complete database schema with all tables, relationships, and metadata
+  - `GET /api/v1/schema/tables` - Lightweight list of all table names with basic info
+  - `GET /api/v1/schema/tables/:name` - Detailed schema for a specific table
+  - Enhanced `GET /api/capabilities` - Now includes schema awareness status
+
+- 🤖 **MCP Server Integration** - Full Model Context Protocol support:
+  - `toolGetSchema()` returns real schema data instead of empty stubs
+  - `toolGetStats()` provides actual database statistics
+  - Resources (`resourceSchema`, `resourceStats`, `resourceMetadata`) use SchemaManager
+  - Integration level changed from "minimal" to "full"
+  - LLM agents can now query schema via MCP protocol
+
+- 💬 **Natural Language Self-Awareness** - YAML-configured system prompts:
+  - 7 specialized prompts: self_awareness, what_can_you_do, data_structure, purpose, schema_introspection, table_inquiry, unknown_query
+  - Template variables for dynamic context: `{version}`, `{edition}`, `{table_count}`, `{total_rows}`, `{tables}`, `{capabilities}`, `{schema}`, `{table_details}`
+  - PromptManager extensions: `loadFromYAML()`, `injectContext()`, `getPromptWithContext()`, `buildContextFromSchema()`
+  - Enhanced `introspect_database` MCP tool with intelligent question type detection
+  - Real-time context injection with live schema data
+  - Supports both English and German queries
+
+- 🧪 **Comprehensive Testing** - 15 test cases covering:
+  - Schema discovery (empty DB, single/multiple tables)
+  - Cache mechanism and TTL validation
+  - Property type detection (string, integer, double, boolean, vector, binary)
+  - Index discovery integration
+  - JSON serialization completeness
+  - Database metadata accuracy
+  - Performance benchmarks (discovery time, cache hit rate)
+
+**Key Components:**
+- `include/metadata/schema_manager.h` & `src/metadata/schema_manager.cpp` - Core schema introspection
+- `include/server/schema_api_handler.h` & `src/server/schema_api_handler.cpp` - REST API handlers
+- `config/llm_system_prompts.yaml` - Configurable system prompts for natural language queries
+- `include/llm/prompt_manager.h` & `src/llm/prompt_manager.cpp` - YAML loading and context injection
+- `tests/test_schema_manager.cpp` - Comprehensive test coverage
+- MCP integration in `src/server/mcp_server.cpp` - Auto-initializes when database is open
+- HTTP integration in `src/server/http_server.cpp` - Automatic route registration
+
+**Benefits:**
+- ✅ Database can answer "What data do you store?" and "How are you structured?"
+- ✅ LLM agents can discover schema automatically via MCP protocol
+- ✅ REST APIs enable external tools to query schema
+- ✅ Natural language queries: "What can you do?", "How is data structured?", "What is your purpose?"
+- ✅ YAML configuration allows prompt customization without code changes
+- ✅ Thread-safe with <100ms discovery time for typical schemas
+- ✅ Foundation for advanced Agentic AI features
+
+**Total Implementation:** ~1,500 lines of code across 4 phases
+
+</details>
+
+<details open>
+<summary><b>🔍 AI-Explained Error Handling System</b> (Phase 7: Error Awareness)</summary>
+
+- 🎯 **Structured Error Codes** - 1000-9999 organized by category (Storage, LLM, LoRA, MCP, Schema, Network)
+- 📋 **Error Registry** - 20+ predefined errors with rich metadata (cause, solution, documentation links, keywords)
+- 🤖 **MCP Tools Integration** - Three new tools for error introspection:
+  - `get_error_info` - Lookup by error code or keyword search
+  - `search_errors` - Filter by category or full-text search
+  - `introspect_database` - Natural language interface (EN/DE)
+- 🌐 **Natural Language Queries** - "What errors can occur?", "What does error 2000 mean?", "How do I fix GPU OOM?"
+- 🔎 **Case-Insensitive Search** - Zero-copy algorithm for efficient error lookup
+- 🛠️ **REST API Handlers** - Ready-to-integrate endpoints for `/api/v1/errors`
+- 🧪 **Test Suite** - 15+ comprehensive test cases for all functionality
+- 📚 **Documentation** - Implementation based on `docs/research/ERROR_AWARENESS_AND_INTROSPECTION.md`
+
+**Key Components:**
+- `include/utils/error_registry.h` & `src/utils/error_registry.cpp` - Error registry with singleton pattern
+- `include/utils/string_utils.h` - Reusable case-insensitive string utilities
+- `include/server/error_api_handler.h` & `src/server/error_api_handler.cpp` - REST API handlers
+- `tests/test_error_registry.cpp` - Comprehensive test coverage
+- MCP integration in `src/server/mcp_server.cpp` - Auto-registers when `THEMIS_ENABLE_MCP=ON`
+
+**Benefits:**
+- ✅ Self-service error resolution through AI-powered explanations
+- ✅ Reduced support burden with detailed error documentation
+- ✅ Improved developer experience with contextual error guidance
+- ✅ Multilingual support (English and German)
+
+</details>
+
 ### Changed
 - README: Neuer Abschnitt "Release & Publication Policy" inkl. Branch-Scope (`main` nur Minimal/Community, `develop` voll) und Merge-Schutz-Hinweis.
 - `.gitignore`: Explizite Ausschlüsse ergänzt für `llama.cpp/`, `wordpress-plugin/`, `wordpress-theme/`, `epServer/`.

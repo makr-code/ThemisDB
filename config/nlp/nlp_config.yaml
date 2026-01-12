@@ -1,0 +1,84 @@
+# NLP Text Analyzer Configuration
+# Main configuration file for NLP analysis features
+#
+# Referenced in PR #317 for AQL execution plan orchestration
+
+# Default settings
+default_language: "en"
+enable_stemming: true
+enable_stopwords: true
+max_keywords: 10
+min_word_length: 3
+
+# Stop words configuration
+stopwords:
+  # Directory containing language-specific YAML files
+  directory: "config/nlp/stopwords"
+  
+  # Auto-load stop words on startup
+  auto_load: true
+  
+  # Languages to load (leave empty to load all available)
+  languages:
+    - "en"  # English
+    - "de"  # German
+    - "fr"  # French
+    
+  # Custom stop words (global, applies to all languages)
+  custom:
+    enabled: false
+    words: []
+
+# Sentiment analysis
+sentiment:
+  enabled: true
+  # Lexicon file (optional, uses built-in if not specified)
+  lexicon_file: ""
+
+# Named Entity Recognition
+ner:
+  enabled: true
+  # Pattern files for entity recognition
+  pattern_directory: "config/nlp/patterns"
+  
+  # Entity types to recognize
+  entity_types:
+    - "EMAIL"
+    - "URL"
+    - "DATE"
+    - "MEASUREMENT"
+    - "PERSON"
+    - "ORGANIZATION"
+    - "LOCATION"
+
+# Query optimization settings
+query_optimization:
+  enabled: true
+  
+  # Complexity estimation
+  complexity:
+    base_weight: 0.1
+    aggregation_weight: 0.2
+    join_weight: 0.3
+    subquery_weight: 0.4
+    
+  # Index suggestions
+  index_suggestions:
+    enabled: true
+    confidence_threshold: 0.7
+
+# Performance settings
+performance:
+  # Cache tokenization results
+  cache_tokens: true
+  cache_size: 1000
+  
+  # Batch processing
+  batch_size: 100
+  parallel_processing: true
+
+# Logging
+logging:
+  enabled: false
+  level: "INFO"  # DEBUG, INFO, WARN, ERROR
+  log_file: ""

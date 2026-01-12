@@ -1,9 +1,13 @@
 #include "server/llm_api_handler.h"
+#include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
 #include "llm/embedded_llm.h"
+#include "llm/docs_assistant.h"
+#include "llm/feedback_store.h"
+#include "storage/rocksdb_wrapper.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -50,8 +54,20 @@ void LLMApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
+void LLMApiHandler::setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler) {
+    lora_handler_ = std::move(lora_handler);
+}
+
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
+    
+    // Delegate to LoRAApiHandler for LoRA-specific paths
+    std::string_view target = req.target();
+    if (lora_handler_ && (
+        target.starts_with("/api/v1/llm/lora/") ||
+        (target.starts_with("/api/v1/llm/models") && req.method() != http::verb::get))) {
+        return lora_handler_->handleRequest(req);
+    }
     
     // Validate Bearer Token (JWT) authentication
     if (!validateBearerToken(req)) {
@@ -62,7 +78,6 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         );
     }
     
-    std::string_view target = req.target();
     auto method = req.method();
     
     // Route to appropriate handler based on path and method
@@ -98,6 +113,20 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         return handleClearCache(req);
     } else if (target == "/api/v1/llm/health" && method == http::verb::get) {
         return handleHealth(req);
+    } else if (target == "/api/v1/llm/docs/query" && method == http::verb::post) {
+        return handleDocsQuery(req);
+    } else if (target == "/api/v1/llm/docs/config" && method == http::verb::post) {
+        return handleDocsConfig(req);
+    } else if (target == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) {
+        return handleDocsTroubleshoot(req);
+    } else if (target == "/api/v1/llm/feedback" && method == http::verb::post) {
+        return handleCreateFeedback(req);
+    } else if (target == "/api/v1/llm/feedback" && method == http::verb::get) {
+        return handleListFeedback(req);
+    } else if (target == "/api/v1/llm/feedback/stats" && method == http::verb::get) {
+        return handleFeedbackStats(req);
+    } else if (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) {
+        return handleGetFeedback(req);
     }
     
     return createErrorResponse(
@@ -820,6 +849,413 @@ std::optional<json> LLMApiHandler::parseRequestBody(
     }
     
     return std::nullopt;
+}
+
+// Documentation Assistant Endpoints
+
+http::response<http::string_body> LLMApiHandler::handleDocsQuery(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    std::string query;
+    
+    try {
+        if (body->contains("query")) {
+            query = json_value_to<std::string>(body->at("query"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'query' field");
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid query parameters", e.what());
+    }
+    
+    try {
+        // Create and configure documentation assistant
+        static llm::DocsAssistant assistant;
+        static bool initialized = false;
+        
+        if (!initialized) {
+            if (!assistant.loadDatabase()) {
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "Documentation database not available",
+                    "docs_database.json not found or failed to load"
+                );
+            }
+            initialized = true;
+        }
+        
+        // Query documentation
+        auto result = assistant.query(query);
+        
+        // Build response
+        json response_data = {
+            {"query", query},
+            {"answer", result.generated_answer},
+            {"confidence_score", result.confidence_score},
+            {"documents_searched", result.total_docs_searched},
+            {"documents_used", result.docs_included_in_context},
+            {"search_time_ms", result.search_time_ms.count()},
+            {"generation_time_ms", result.generation_time_ms.count()}
+        };
+        
+        // Include relevant documents metadata
+        json docs_array = json::array();
+        for (const auto& doc : result.relevant_docs) {
+            docs_array.push_back({
+                {"file_name", doc.file_name},
+                {"relevance_score", doc.relevance_score},
+                {"content_preview", doc.text_content.substr(0, 200) + "..."}
+            });
+        }
+        response_data["relevant_documents"] = docs_array;
+        
+        return createJsonResponse(response_data);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Documentation query failed",
+            e.what()
+        );
+    }
+}
+
+http::response<http::string_body> LLMApiHandler::handleDocsConfig(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    std::string topic;
+    
+    try {
+        if (body->contains("topic")) {
+            topic = json_value_to<std::string>(body->at("topic"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'topic' field");
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid parameters", e.what());
+    }
+    
+    try {
+        // Create and configure documentation assistant
+        static llm::DocsAssistant assistant;
+        static bool initialized = false;
+        
+        if (!initialized) {
+            if (!assistant.loadDatabase()) {
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "Documentation database not available",
+                    "docs_database.json not found or failed to load"
+                );
+            }
+            initialized = true;
+        }
+        
+        // Get configuration help
+        auto result = assistant.getConfigHelp(topic);
+        
+        // Build response
+        json response_data = {
+            {"topic", topic},
+            {"configuration_help", result.generated_answer},
+            {"confidence_score", result.confidence_score},
+            {"documents_used", result.docs_included_in_context}
+        };
+        
+        return createJsonResponse(response_data);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Configuration help failed",
+            e.what()
+        );
+    }
+}
+
+http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    std::string error_description;
+    
+    try {
+        if (body->contains("error")) {
+            error_description = json_value_to<std::string>(body->at("error"));
+        } else if (body->contains("issue")) {
+            error_description = json_value_to<std::string>(body->at("issue"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'error' or 'issue' field");
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid parameters", e.what());
+    }
+    
+    try {
+        // Create and configure documentation assistant
+        static llm::DocsAssistant assistant;
+        static bool initialized = false;
+        
+        if (!initialized) {
+            if (!assistant.loadDatabase()) {
+                return createErrorResponse(
+                    http::status::service_unavailable,
+                    "Documentation database not available",
+                    "docs_database.json not found or failed to load"
+                );
+            }
+            initialized = true;
+        }
+        
+        // Get troubleshooting help
+        auto result = assistant.getTroubleshootingHelp(error_description);
+        
+        // Build response
+        json response_data = {
+            {"error", error_description},
+            {"troubleshooting_help", result.generated_answer},
+            {"confidence_score", result.confidence_score},
+            {"documents_used", result.docs_included_in_context}
+        };
+        
+        return createJsonResponse(response_data);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Troubleshooting help failed",
+            e.what()
+        );
+    }
+}
+
+// ===== Feedback Endpoints =====
+
+http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    // Extract feedback parameters
+    try {
+        llm::FeedbackStore::FeedbackEntry feedback;
+        
+        // Required fields
+        if (!body->contains("type")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'type' field (positive or negative)");
+        }
+        std::string type_str = json_value_to<std::string>(body->at("type"));
+        if (type_str == "positive") {
+            feedback.type = llm::FeedbackType::POSITIVE;
+        } else if (type_str == "negative") {
+            feedback.type = llm::FeedbackType::NEGATIVE;
+        } else {
+            return createErrorResponse(http::status::bad_request, "Invalid 'type' value (must be 'positive' or 'negative')");
+        }
+        
+        if (!body->contains("question")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'question' field");
+        }
+        feedback.question = json_value_to<std::string>(body->at("question"));
+        
+        if (!body->contains("answer")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'answer' field");
+        }
+        feedback.answer = json_value_to<std::string>(body->at("answer"));
+        
+        // Optional fields
+        if (body->contains("user_id")) {
+            feedback.user_id = json_value_to<std::string>(body->at("user_id"));
+        }
+        
+        if (body->contains("interaction_id")) {
+            feedback.interaction_id = json_value_to<std::string>(body->at("interaction_id"));
+        }
+        
+        if (body->contains("correction")) {
+            feedback.correction = json_value_to<std::string>(body->at("correction"));
+        }
+        
+        if (body->contains("comment")) {
+            feedback.comment = json_value_to<std::string>(body->at("comment"));
+        }
+        
+        if (body->contains("model_version")) {
+            feedback.model_version = json_value_to<std::string>(body->at("model_version"));
+        }
+        
+        if (body->contains("adapter_id")) {
+            feedback.adapter_id = json_value_to<std::string>(body->at("adapter_id"));
+        }
+        
+        if (body->contains("adapter_version")) {
+            feedback.adapter_version = json_value_to<std::string>(body->at("adapter_version"));
+        }
+        
+        // TODO: Integrate with actual FeedbackStore
+        // This requires passing a RocksDB instance to LLMApiHandler
+        // For now, return a placeholder response
+        // 
+        // Example integration:
+        // if (feedback_store_) {
+        //     auto stored = feedback_store_->createFeedback(feedback);
+        //     json response_data = stored.toJson();
+        //     response_data["message"] = "Feedback recorded successfully";
+        //     return createJsonResponse(response_data, http::status::created);
+        // }
+        
+        // Placeholder response
+        json response_data = {
+            {"id", "feedback-" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())},
+            {"type", type_str},
+            {"question", feedback.question},
+            {"answer", feedback.answer},
+            {"validation_status", "pending"},
+            {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
+            {"message", "Feedback recorded successfully (placeholder - FeedbackStore integration pending)"}
+        };
+        
+        return createJsonResponse(response_data, http::status::created);
+        
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid feedback parameters", e.what());
+    }
+}
+
+http::response<http::string_body> LLMApiHandler::handleGetFeedback(
+    const http::request<http::string_body>& req) {
+    
+    // Extract feedback ID from path
+    std::string_view target = req.target();
+    std::string prefix = "/api/v1/llm/feedback/";
+    
+    if (!target.starts_with(prefix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid feedback endpoint");
+    }
+    
+    std::string feedback_id{target.substr(prefix.length())};
+    
+    if (feedback_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing feedback ID");
+    }
+    
+    // Placeholder response
+    json response_data = {
+        {"id", feedback_id},
+        {"type", "positive"},
+        {"question", "Example question"},
+        {"answer", "Example answer"},
+        {"validation_status", "approved"},
+        {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
+        {"message", "This is a placeholder response - feedback store not yet initialized"}
+    };
+    
+    return createJsonResponse(response_data);
+}
+
+http::response<http::string_body> LLMApiHandler::handleListFeedback(
+    const http::request<http::string_body>& req) {
+    
+    // Parse query parameters
+    std::string_view target = req.target();
+    size_t limit = 100;
+    std::string type_filter;
+    std::string status_filter;
+    
+    // Simple query parameter parsing
+    size_t query_pos = target.find('?');
+    if (query_pos != std::string_view::npos) {
+        std::string_view query_string = target.substr(query_pos + 1);
+        
+        // Parse limit parameter
+        size_t limit_pos = query_string.find("limit=");
+        if (limit_pos != std::string_view::npos) {
+            size_t limit_end = query_string.find('&', limit_pos);
+            std::string limit_str{query_string.substr(limit_pos + 6, 
+                limit_end == std::string_view::npos ? std::string_view::npos : limit_end - limit_pos - 6)};
+            try {
+                limit = std::stoul(limit_str);
+                if (limit > 1000) limit = 1000; // Cap at 1000
+            } catch (...) {}
+        }
+        
+        // Parse type filter
+        size_t type_pos = query_string.find("type=");
+        if (type_pos != std::string_view::npos) {
+            size_t type_end = query_string.find('&', type_pos);
+            type_filter = std::string{query_string.substr(type_pos + 5,
+                type_end == std::string_view::npos ? std::string_view::npos : type_end - type_pos - 5)};
+        }
+        
+        // Parse status filter
+        size_t status_pos = query_string.find("status=");
+        if (status_pos != std::string_view::npos) {
+            size_t status_end = query_string.find('&', status_pos);
+            status_filter = std::string{query_string.substr(status_pos + 7,
+                status_end == std::string_view::npos ? std::string_view::npos : status_end - status_pos - 7)};
+        }
+    }
+    
+    // Placeholder response
+    json feedback_array = json::array();
+    
+    // Add a few example entries
+    for (size_t i = 0; i < std::min(limit, size_t(3)); i++) {
+        feedback_array.push_back({
+            {"id", "feedback-" + std::to_string(i)},
+            {"type", i % 2 == 0 ? "positive" : "negative"},
+            {"question", "Example question " + std::to_string(i)},
+            {"answer", "Example answer " + std::to_string(i)},
+            {"validation_status", "approved"},
+            {"created_at", std::chrono::system_clock::now().time_since_epoch().count() - i * 1000}
+        });
+    }
+    
+    json response_data = {
+        {"feedback", feedback_array},
+        {"count", feedback_array.size()},
+        {"limit", limit},
+        {"message", "This is a placeholder response - feedback store not yet initialized"}
+    };
+    
+    return createJsonResponse(response_data);
+}
+
+http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
+    const http::request<http::string_body>& req) {
+    
+    // Placeholder statistics
+    json response_data = {
+        {"total_feedback", 0},
+        {"positive_count", 0},
+        {"negative_count", 0},
+        {"pending_validation", 0},
+        {"approved_count", 0},
+        {"rejected_count", 0},
+        {"unused_for_training", 0},
+        {"used_for_training", 0},
+        {"positive_ratio", 0.0},
+        {"message", "This is a placeholder response - feedback store not yet initialized"}
+    };
+    
+    return createJsonResponse(response_data);
 }
 
 } // namespace themis::server

@@ -1,4 +1,5 @@
 #include "llm/model_loader.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -304,7 +305,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
 
     // Check if file exists
     if (!fs::exists(model_path)) {
-        spdlog::error("Model file not found: {}", model_path);
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_path);
         return nullptr;
     }
 
@@ -338,7 +339,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
     llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
     
     if (!lmodel) {
-        spdlog::error("Failed to load model from file: {}", model_path);
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         return nullptr;
     }
     
@@ -412,7 +413,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
     llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
     
     if (!lctx) {
-        spdlog::error("Failed to create context for model: {}", model_id);
+        errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
         llama_free_model(lmodel);
         return nullptr;
     }

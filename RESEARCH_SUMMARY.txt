@@ -1,0 +1,143 @@
+================================================================================
+RESEARCH: AGENTIC AI SELF-AWARENESS IN THEMISDB
+================================================================================
+
+Datum: 11. Januar 2026
+Issue: "Gibt es eine Form der self-awareness der Themis (+llama.cpp) die 
+       kommunizieren kann welche Daten in der DB gespeichert sind und wie 
+       die benutzt werden können (Agentic AI)"
+
+================================================================================
+ZUSAMMENFASSUNG
+================================================================================
+
+Diese Research-Initiative analysiert, ob und wie ThemisDB "selbstbewusst" sein 
+kann - also Fragen über sich selbst beantworten kann wie:
+- "Was kannst du?"
+- "Wo sind die Daten?"
+- "Wie sind die Daten aufgebaut?"
+- "Was ist deine Aufgabe?"
+
+ERGEBNIS: ✅ MÖGLICH, aber nicht vollständig implementiert
+
+================================================================================
+WAS EXISTIERT BEREITS
+================================================================================
+
+✅ Model Context Protocol (MCP) Server (v1.3.0)
+   - Vollständige Transport-Layer (stdio, SSE, WebSocket)
+   - Tool/Resource/Prompt-Architektur vorhanden
+   - JSON-RPC Protocol-Handling funktioniert
+
+✅ LLM Integration (v1.3.0+, optional mit -DTHEMIS_ENABLE_LLM=ON)
+   - llama.cpp vollständig integriert
+   - Grammar-Constrained Generation
+   - ReAct Agent Grammar implementiert
+   - Vision Support, Flash Attention (v1.4.0-alpha)
+
+✅ Secondary Index System
+   - 7 verschiedene Index-Typen
+   - Introspection-Methods im C++ Code vorhanden
+
+✅ Multi-Protocol Support
+   - HTTP/REST, gRPC, PostgreSQL Wire, MCP, GraphQL
+
+================================================================================
+WAS FEHLT
+================================================================================
+
+❌ Vollständige Schema-Discovery
+   - MCP get_schema ist nur Stub (gibt leere Arrays zurück)
+   - Keine zentrale Schema-Registry
+   - Kein REST /schema Endpoint
+
+❌ Natural Language Self-Awareness
+   - LLM kann nicht über DB-Struktur antworten
+   - Keine System-Prompts für Self-Awareness
+   - Fehlender Context für "Was kannst du?"-Fragen
+
+❌ Capabilities Endpoint
+   - Keine /api/v1/capabilities REST API
+   - DB kann ihre Features nicht selbst beschreiben
+
+HAUPTPROBLEM: Die MCP-Integration ist "minimal" - kritische Komponenten 
+              sind nur als Placeholders implementiert
+
+================================================================================
+EMPFOHLENE LÖSUNG
+================================================================================
+
+PHASE 1: Schema Manager (Priorität: HOCH, ~500 LOC)
+  - SchemaManager Klasse erstellen
+  - RocksDB Key-Scanning für Table-Discovery
+  - Property-Type Detection
+  - Index-Metadaten-Sammlung
+
+PHASE 2: REST API Endpoints (Priorität: HOCH, ~300 LOC)
+  - GET /api/v1/schema - Vollständiges Schema
+  - GET /api/v1/capabilities - Datenbank-Fähigkeiten
+  - GET /api/v1/schema/tables/:name - Einzelne Tabelle
+
+PHASE 3: MCP Full Integration (Priorität: HOCH, ~200 LOC)
+  - toolGetSchema() mit echten Daten
+  - resourceSchema() auf SchemaManager umstellen
+  - Echte Statistiken statt Hardcoded 0
+
+PHASE 4: Natural Language Q&A (Priorität: MITTEL, ~400 LOC)
+  - System-Prompts für Self-Awareness
+  - LLM Context-Injection (Schema, Stats)
+  - toolIntrospectDatabase() implementieren
+
+GESAMT: ~1400 LOC neuer Code, 3-4 Sprints
+
+================================================================================
+DOKUMENTATION ERSTELLT
+================================================================================
+
+1. docs/research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md (769 Zeilen)
+   → Vollständige Analyse: Was existiert, was fehlt, was zu tun ist
+
+2. docs/research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md (763 Zeilen)
+   → Konkrete Code-Beispiele für alle Komponenten
+
+3. docs/research/README.md (250 Zeilen)
+   → Executive Summary mit Roadmap
+
+TOTAL: 1,782 Zeilen Research Documentation
+
+================================================================================
+NÄCHSTE SCHRITTE
+================================================================================
+
+FÜR ENTWICKLER:
+1. Lesen: docs/research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md
+2. Design Review: docs/research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md
+3. Issue erstellen: "Implement Full MCP Schema Integration"
+4. Proof-of-Concept: Schema-Discovery aus RocksDB starten
+
+FÜR PRODUCT OWNER:
+1. Priorisierung: Schema-Discovery als High-Priority Feature
+2. Sprint Planning: 3-4 Sprints einplanen
+3. Milestone: "Self-Aware ThemisDB v1.5"
+
+FÜR COMMUNITY:
+1. Feedback: Ist diese Funktionalität nützlich?
+2. Use Cases: Welche Fragen würdet ihr der DB stellen?
+3. Beta-Testing nach Phase 1-3
+
+================================================================================
+FAZIT
+================================================================================
+
+✅ ThemisDB hat bereits die technische Infrastruktur für Self-Awareness
+⚠️ Kritische Komponenten sind nur Stubs (MCP Schema-Tools)
+✅ Implementation ist machbar: ~1400 LOC in 3-4 Sprints
+✅ Kein Redesign nötig, nur Vervollständigung vorhandener Stubs
+✅ Niedrig Risiko: Keine breaking changes, reine Ergänzung
+
+EMPFEHLUNG: Priorität 1 - Schema-Discovery implementieren, danach folgen 
+            alle anderen Features mit minimalem Aufwand.
+
+ROI: Hoch (Unlock Self-Awareness Features) / Aufwand: Mittel / Risiko: Niedrig
+
+================================================================================

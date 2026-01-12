@@ -4,6 +4,7 @@
 #include <string_view>
 #include <vector>
 #include <utility>
+#include <map>
 
 #include "query/query_engine.h"
 
@@ -22,12 +23,23 @@ public:
     struct Plan {
         std::vector<PredicateEq> orderedPredicates; // aufsteigend nach erwarteter Selektivität
         std::vector<Estimation> details;            // für Logging/Diagnose
+        
+        // NLP-based metadata (PR #317)
+        double nlp_complexity = 0.0;                // Query complexity estimate (0.0-1.0)
+        std::vector<std::string> nlp_suggested_indexes; // Suggested index types
+        std::map<std::string, std::string> nlp_hints;   // Semantic optimization hints
     };
 
     QueryOptimizer(SecondaryIndexManager& secIdx);
 
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
+    
+    // NLP-enhanced query optimization (PR #317 Phase 1)
+    // Combines traditional cost-based optimization with NLP-based semantic analysis
+    Plan chooseOrderForAndQueryWithNLP(const ConjunctiveQuery& q, 
+                                       const std::string& original_query_text,
+                                       size_t maxProbePerPred = 1000) const;
 
     // Führt die Anfrage mit der geplanten Reihenfolge aus (sequenziell)
     std::pair<QueryEngine::Status, std::vector<std::string>>

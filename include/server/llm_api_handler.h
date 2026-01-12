@@ -18,6 +18,9 @@ class AsyncInferenceEngine;
 namespace auth {
 class JWTValidator;
 }
+namespace server {
+class LoRAApiHandler;
+}
 }
 
 namespace themis::server {
@@ -45,6 +48,13 @@ using json = nlohmann::json;
  * - GET  /api/v1/llm/cache/stats - Get cache statistics
  * - DELETE /api/v1/llm/cache - Clear caches
  * - GET  /api/v1/llm/health - Health check
+ * - POST /api/v1/llm/docs/query - Query documentation assistant
+ * - POST /api/v1/llm/docs/config - Get configuration help
+ * - POST /api/v1/llm/docs/troubleshoot - Get troubleshooting help
+ * - POST /api/v1/llm/feedback - Submit user feedback
+ * - GET  /api/v1/llm/feedback/{id} - Retrieve specific feedback
+ * - GET  /api/v1/llm/feedback - List feedback with filters
+ * - GET  /api/v1/llm/feedback/stats - Get feedback statistics
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
  */
@@ -68,10 +78,18 @@ public:
     void configureJWT(const auth::JWTValidatorConfig& config);
     
     /**
+     * @brief Set LoRA API handler for delegating LoRA-specific requests
+     * 
+     * @param lora_handler LoRA API handler instance
+     */
+    void setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler);
+    
+    /**
      * @brief Handle LLM API request
      * 
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
+     * Delegates LoRA-specific requests to LoRAApiHandler if configured.
      * 
      * @param req HTTP request
      * @return HTTP response (JSON)
@@ -132,6 +150,29 @@ private:
     http::response<http::string_body> handleHealth(
         const http::request<http::string_body>& req);
     
+    // Documentation assistant endpoints
+    http::response<http::string_body> handleDocsQuery(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleDocsConfig(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleDocsTroubleshoot(
+        const http::request<http::string_body>& req);
+    
+    // Feedback endpoints
+    http::response<http::string_body> handleCreateFeedback(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleGetFeedback(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleListFeedback(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleFeedbackStats(
+        const http::request<http::string_body>& req);
+    
     // Helper methods
     bool validateBearerToken(const http::request<http::string_body>& req);
     
@@ -149,6 +190,7 @@ private:
     
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
+    std::shared_ptr<LoRAApiHandler> lora_handler_;
 };
 
 } // namespace themis::server

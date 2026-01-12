@@ -6,7 +6,6 @@
   "builtin-baseline": "10b7a178346f3f0abef60cecd5130e295afd8da4",
   "dependencies": [
     "boost-filesystem",
-    "boost-asio",
     "boost-beast",
     "fmt",
     "spdlog",
@@ -15,14 +14,9 @@
     "tbb",
     "protobuf",
     "grpc",
-    "gtest",
     "curl",
     "openssl",
-    "protobuf",
-    "gtest",
-    "grpc",
     "zlib",
-    "zstd",
     "lz4",
     "snappy"
   ]

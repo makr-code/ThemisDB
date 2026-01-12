@@ -1,0 +1,122 @@
+# Example configuration file for ThemisDB Documentation Builder
+#
+# Copy this file and customize for your documentation sources.
+#
+# Usage:
+#   ./themis_docs_builder --config my_docs.yaml
+
+# Input configuration
+input:
+  # Paths to documentation sources (directories or files)
+  paths:
+    - /path/to/docs
+    - /path/to/api_reference
+    - /path/to/runbooks
+  
+  # Supported formats: markdown, html, text, json
+  formats:
+    - markdown
+    - html
+  
+  # Scan subdirectories recursively
+  recursive: true
+  
+  # Exclude patterns (glob-style)
+  exclude_patterns:
+    - "*.tmp"
+    - "*.draft"
+    - "*.bak"
+    - "draft_*"
+    - "temp_*"
+    - ".git"
+    - ".svn"
+    - "node_modules"
+
+# Output configuration
+output:
+  # Path to output RocksDB database
+  path: /var/lib/themisdb/custom_docs.db
+  
+  # Open database in read-only mode (recommended for security)
+  read_only: true
+  
+  # Namespace for document isolation (use reverse domain notation)
+  namespace: "com.mycompany"
+
+# Processing options
+processing:
+  # Number of documents to process per batch
+  # Adjust based on available RAM:
+  #   - Small RAM (< 2 GB): 50
+  #   - Medium RAM (2-8 GB): 100
+  #   - Large RAM (> 8 GB): 500
+  batch_size: 100
+  
+  # Maximum content size per document (bytes)
+  # Default: 10 MB (10485760 bytes)
+  max_content_size: 10485760
+  
+  # Generate vector embeddings (requires vector model)
+  # Future feature - currently unsupported
+  generate_embeddings: false
+  
+  # Validate output database after build
+  validate: true
+  
+  # Remove duplicate documents (by content hash)
+  deduplication: true
+  
+  # Generate graph edges from document links
+  build_graph: true
+
+# Metadata
+metadata:
+  # Database title
+  title: "MyCompany Documentation"
+  
+  # Database version
+  version: "1.0.0"
+  
+  # Author/maintainer
+  author: "MyCompany IT Team"
+  
+  # Description
+  description: "Internal documentation database for MyCompany products and services"
+  
+  # Contact email
+  contact: "it@mycompany.com"
+  
+  # License/usage terms
+  license: "Internal Use Only"
+  
+  # Additional custom metadata (optional)
+  custom:
+    department: "IT Operations"
+    classification: "Internal"
+    retention_period: "5 years"
+
+# Logging
+logging:
+  # Log level: debug, info, warning, error
+  level: "info"
+  
+  # Log to file (optional)
+  # file: /var/log/themis_docs_builder.log
+  
+  # Enable verbose output
+  verbose: false
+
+# Advanced options
+advanced:
+  # RocksDB write buffer size (MB)
+  # Higher values = faster writes, more RAM usage
+  write_buffer_size_mb: 64
+  
+  # RocksDB block size (KB)
+  block_size_kb: 16
+  
+  # Enable compression
+  compression: true
+  
+  # Number of parallel threads (0 = auto-detect)
+  threads: 0

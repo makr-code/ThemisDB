@@ -1,0 +1,227 @@
+#pragma once
+
+#include <string>
+#include <chrono>
+#include <cstdint>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace llm {
+namespace lora {
+
+using json = nlohmann::json;
+
+/**
+ * @brief LoRA hyperparameters for training
+ */
+struct LoRAHyperparameters {
+    int rank = 8;                          // LoRA rank (r)
+    float alpha = 16.0f;                   // LoRA alpha scaling
+    float dropout = 0.1f;                  // Dropout rate
+    float learning_rate = 3e-4f;           // Learning rate
+    int batch_size = 4;                    // Batch size for training
+    int num_epochs = 3;                    // Number of training epochs
+    int max_seq_length = 512;              // Maximum sequence length
+    
+    // Target modules to apply LoRA
+    std::vector<std::string> target_modules = {"q_proj", "v_proj"};
+    
+    json toJSON() const {
+        return json{
+            {"rank", rank},
+            {"alpha", alpha},
+            {"dropout", dropout},
+            {"learning_rate", learning_rate},
+            {"batch_size", batch_size},
+            {"num_epochs", num_epochs},
+            {"max_seq_length", max_seq_length},
+            {"target_modules", target_modules}
+        };
+    }
+    
+    static LoRAHyperparameters fromJSON(const json& j) {
+        LoRAHyperparameters params;
+        if (j.contains("rank")) params.rank = j["rank"];
+        if (j.contains("alpha")) params.alpha = j["alpha"];
+        if (j.contains("dropout")) params.dropout = j["dropout"];
+        if (j.contains("learning_rate")) params.learning_rate = j["learning_rate"];
+        if (j.contains("batch_size")) params.batch_size = j["batch_size"];
+        if (j.contains("num_epochs")) params.num_epochs = j["num_epochs"];
+        if (j.contains("max_seq_length")) params.max_seq_length = j["max_seq_length"];
+        if (j.contains("target_modules")) params.target_modules = j["target_modules"].get<std::vector<std::string>>();
+        return params;
+    }
+};
+
+/**
+ * @brief LoRA adapter metadata
+ */
+struct AdapterMetadata {
+    std::string adapter_id;
+    std::string version;
+    std::string base_model;
+    std::string description;
+    int training_samples = 0;
+    float validation_accuracy = 0.0f;
+    std::chrono::system_clock::time_point created_at;
+    std::chrono::system_clock::time_point updated_at;
+    json custom_metadata;
+    
+    json toJSON() const {
+        auto created_time_t = std::chrono::system_clock::to_time_t(created_at);
+        auto updated_time_t = std::chrono::system_clock::to_time_t(updated_at);
+        
+        return json{
+            {"adapter_id", adapter_id},
+            {"version", version},
+            {"base_model", base_model},
+            {"description", description},
+            {"training_samples", training_samples},
+            {"validation_accuracy", validation_accuracy},
+            {"created_at", created_time_t},
+            {"updated_at", updated_time_t},
+            {"custom_metadata", custom_metadata}
+        };
+    }
+    
+    static AdapterMetadata fromJSON(const json& j) {
+        AdapterMetadata metadata;
+        if (j.contains("adapter_id")) metadata.adapter_id = j["adapter_id"];
+        if (j.contains("version")) metadata.version = j["version"];
+        if (j.contains("base_model")) metadata.base_model = j["base_model"];
+        if (j.contains("description")) metadata.description = j["description"];
+        if (j.contains("training_samples")) metadata.training_samples = j["training_samples"];
+        if (j.contains("validation_accuracy")) metadata.validation_accuracy = j["validation_accuracy"];
+        if (j.contains("created_at")) {
+            std::time_t created = j["created_at"];
+            metadata.created_at = std::chrono::system_clock::from_time_t(created);
+        }
+        if (j.contains("updated_at")) {
+            std::time_t updated = j["updated_at"];
+            metadata.updated_at = std::chrono::system_clock::from_time_t(updated);
+        }
+        if (j.contains("custom_metadata")) metadata.custom_metadata = j["custom_metadata"];
+        return metadata;
+    }
+};
+
+/**
+ * @brief LoRA adapter information
+ */
+struct AdapterInfo {
+    std::string adapter_id;
+    std::string version;
+    std::string base_model;
+    std::string description;
+    size_t memory_bytes = 0;
+    bool is_loaded = false;
+    bool is_pinned = false;
+    LoRAHyperparameters hyperparameters;
+    AdapterMetadata metadata;
+    
+    json toJSON() const {
+        return json{
+            {"adapter_id", adapter_id},
+            {"version", version},
+            {"base_model", base_model},
+            {"description", description},
+            {"memory_bytes", memory_bytes},
+            {"is_loaded", is_loaded},
+            {"is_pinned", is_pinned},
+            {"hyperparameters", hyperparameters.toJSON()},
+            {"metadata", metadata.toJSON()}
+        };
+    }
+};
+
+/**
+ * @brief Cache statistics for adapter manager
+ */
+struct CacheStats {
+    size_t total_loads = 0;
+    size_t cache_hits = 0;
+    size_t cache_misses = 0;
+    size_t evictions = 0;
+    size_t current_size = 0;
+    size_t max_size = 0;
+    
+    float hitRate() const {
+        if (total_loads == 0) return 0.0f;
+        return static_cast<float>(cache_hits) / static_cast<float>(total_loads);
+    }
+    
+    json toJSON() const {
+        return json{
+            {"total_loads", total_loads},
+            {"cache_hits", cache_hits},
+            {"cache_misses", cache_misses},
+            {"evictions", evictions},
+            {"current_size", current_size},
+            {"max_size", max_size},
+            {"hit_rate", hitRate()}
+        };
+    }
+};
+
+/**
+ * @brief LoRA adapter configuration
+ */
+struct LoRAConfig {
+    // Adapter settings
+    std::string adapter_id;
+    std::string adapter_path;
+    std::string base_model;
+    float scaling = 1.0f;
+    
+    // Hyperparameters
+    LoRAHyperparameters hyperparameters;
+    
+    // Cache settings
+    bool enable_cache = true;
+    size_t max_cache_size = 5;            // Maximum number of cached adapters
+    std::chrono::seconds cache_ttl{3600}; // Time-to-live for cached adapters
+    
+    // Storage settings
+    std::string storage_backend = "themisdb"; // "themisdb", "filesystem", "s3"
+    std::string storage_path = "data/lora_adapters";
+    bool enable_versioning = true;
+    int max_versions = 5;
+    
+    json toJSON() const {
+        return json{
+            {"adapter_id", adapter_id},
+            {"adapter_path", adapter_path},
+            {"base_model", base_model},
+            {"scaling", scaling},
+            {"hyperparameters", hyperparameters.toJSON()},
+            {"enable_cache", enable_cache},
+            {"max_cache_size", max_cache_size},
+            {"cache_ttl", cache_ttl.count()},
+            {"storage_backend", storage_backend},
+            {"storage_path", storage_path},
+            {"enable_versioning", enable_versioning},
+            {"max_versions", max_versions}
+        };
+    }
+    
+    static LoRAConfig fromJSON(const json& j) {
+        LoRAConfig config;
+        if (j.contains("adapter_id")) config.adapter_id = j["adapter_id"];
+        if (j.contains("adapter_path")) config.adapter_path = j["adapter_path"];
+        if (j.contains("base_model")) config.base_model = j["base_model"];
+        if (j.contains("scaling")) config.scaling = j["scaling"];
+        if (j.contains("hyperparameters")) config.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
+        if (j.contains("enable_cache")) config.enable_cache = j["enable_cache"];
+        if (j.contains("max_cache_size")) config.max_cache_size = j["max_cache_size"];
+        if (j.contains("cache_ttl")) config.cache_ttl = std::chrono::seconds(j["cache_ttl"].get<int>());
+        if (j.contains("storage_backend")) config.storage_backend = j["storage_backend"];
+        if (j.contains("storage_path")) config.storage_path = j["storage_path"];
+        if (j.contains("enable_versioning")) config.enable_versioning = j["enable_versioning"];
+        if (j.contains("max_versions")) config.max_versions = j["max_versions"];
+        return config;
+    }
+};
+
+} // namespace lora
+} // namespace llm
+} // namespace themis

@@ -331,10 +331,72 @@ def main():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThemisDB Kompendium {VERSION}</title>
     <style>
+        /* ===== PROFESSIONAL BOOK LAYOUT CSS ===== */
+        /* Based on standard book design principles and Word book templates */
+        
+        /* Page Setup - Standard A4 Book Format */
+        @page {{
+            size: A4;
+            margin-top: 2.5cm;
+            margin-bottom: 2cm;
+            margin-left: 2cm;
+            margin-right: 2cm;
+            
+            /* Running Headers - Book Title */
+            @top-center {{
+                content: "ThemisDB {VERSION} - Das vollständige Handbuch";
+                font-size: 9pt;
+                font-style: italic;
+                color: #666;
+                border-bottom: 0.5pt solid #ddd;
+                padding-bottom: 4pt;
+            }}
+            
+            /* Page Numbers - Bottom Center */
+            @bottom-center {{
+                content: counter(page);
+                font-size: 10pt;
+                font-weight: 500;
+                color: #444;
+            }}
+        }}
+        
+        /* Title Page - No headers/footers */
+        @page :first {{
+            @top-center {{ content: ""; }}
+            @bottom-center {{ content: ""; }}
+        }}
+        
+        /* TOC Pages - Roman numerals */
+        @page toc {{
+            @bottom-center {{
+                content: counter(page, lower-roman);
+                font-size: 10pt;
+                color: #444;
+            }}
+        }}
+        
+        /* Left (verso) and Right (recto) pages for book binding */
+        @page :left {{
+            margin-left: 2.5cm;
+            margin-right: 2cm;
+        }}
+        
+        @page :right {{
+            margin-left: 2cm;
+            margin-right: 2.5cm;
+        }}
+        
         * {{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }}
+        
+        html {{
+            /* Widow and Orphan Control */
+            orphans: 3;
+            widows: 3;
         }}
         
         html, body {{
@@ -342,58 +404,68 @@ def main():
             line-height: 1.6;
             color: {THEME_CONFIG['text']};
             background-color: {THEME_CONFIG['background']};
+            text-align: justify;
+            hyphens: auto;
+            -webkit-hyphens: auto;
         }}
         
         /* Cover Page */
         .cover {{
             width: 100%;
-            min-height: 100vh;
+            min-height: 29.7cm;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: white;
-            color: {THEME_CONFIG['primary']};
+            background: linear-gradient(135deg, {THEME_CONFIG['primary']} 0%, {THEME_CONFIG['secondary']} 100%);
+            color: white;
             text-align: center;
             page-break-after: always;
-            padding: 60px 40px;
+            padding: 4cm 2cm;
         }}
         
         .cover h1 {{
             font-size: 48pt;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 20pt;
             font-family: {THEME_CONFIG['heading_font']};
-            color: {THEME_CONFIG['primary']};
+            color: white;
+            letter-spacing: 1pt;
+            text-transform: uppercase;
         }}
         
         .cover h2 {{
-            font-size: 18pt;
-            color: {THEME_CONFIG['accent']};
-            margin-bottom: 40px;
-            font-weight: normal;
+            font-size: 20pt;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 40pt;
+            font-weight: 300;
         }}
         
         .cover p {{
-            font-size: 13pt;
-            color: {THEME_CONFIG['text']};
+            font-size: 11pt;
+            color: rgba(255,255,255,0.85);
             margin: 15px 0;
             max-width: 600px;
+            line-height: 1.8;
         }}
         
         /* TOC Styles */
         .toc-section, .figure-index {{
+            page: toc;
             page-break-before: always;
             page-break-after: always;
             padding: 40px 50px;
         }}
         
         .toc-section h1, .figure-index h1 {{
+            font-family: {THEME_CONFIG['heading_font']};
             color: {THEME_CONFIG['primary']};
-            border-bottom: 3px solid {THEME_CONFIG['primary']};
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+            border-bottom: 3px solid {THEME_CONFIG['accent']};
+            padding-bottom: 12pt;
+            margin-bottom: 24pt;
             font-size: 24pt;
+            font-weight: 700;
+            page-break-after: avoid;
         }}
         
         .toc-section-group {{
@@ -401,26 +473,35 @@ def main():
         }}
         
         .toc-section-title {{
+            font-family: {THEME_CONFIG['heading_font']};
             color: {THEME_CONFIG['accent']};
             font-size: 16pt;
             margin-bottom: 10px;
             font-weight: bold;
+            page-break-after: avoid;
         }}
         
         .toc-list {{
             list-style: none;
             padding-left: 20px;
+            font-size: 10.5pt;
+            line-height: 2;
         }}
         
         .toc-item {{
-            margin-bottom: 8px;
-            line-height: 1.4;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8pt;
+            padding-bottom: 6pt;
+            border-bottom: 1px dotted #ccc;
+            page-break-inside: avoid;
         }}
         
         .toc-item a, .figure-list a {{
             color: {THEME_CONFIG['text']};
             text-decoration: none;
-            border-bottom: 1px dotted {THEME_CONFIG['accent']};
+            flex: 1;
+            padding-right: 12pt;
         }}
         
         .toc-item a:hover, .figure-list a:hover {{
@@ -437,6 +518,7 @@ def main():
             margin-bottom: 8px;
             padding-left: 30px;
             text-indent: -30px;
+            page-break-inside: avoid;
         }}
         
         /* Section Pages */
@@ -445,13 +527,16 @@ def main():
             page-break-after: always;
         }}
         
-        /* Chapter Styles */
+        /* Chapter Styles with proper page break control */
         .chapter {{
             margin-bottom: 40px;
         }}
         
         .chapter-title {{
             page-break-after: avoid;
+            page-break-inside: avoid;
+            orphans: 3;
+            widows: 3;
         }}
         
         /* Content */
@@ -461,93 +546,230 @@ def main():
             margin: 0 auto;
         }}
         
+        /* Headings with proper page break control */
+        h1, h2, h3, h4, h5, h6 {{
+            font-family: {THEME_CONFIG['heading_font']};
+            page-break-after: avoid;
+            page-break-inside: avoid;
+            orphans: 3;
+            widows: 3;
+        }}
+        
         h1 {{
+            page-break-before: always;
             color: {THEME_CONFIG['primary']};
             border-bottom: 2px solid {THEME_CONFIG['primary']};
-            padding-bottom: 8px;
-            font-size: 24pt;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            page-break-after: avoid;
+            padding-bottom: 10pt;
+            font-size: 20pt;
+            margin-top: 0;
+            margin-bottom: 16pt;
+            font-weight: 700;
+            line-height: 1.3;
         }}
         
         h2 {{
             color: {THEME_CONFIG['accent']};
-            font-size: 18pt;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid {THEME_CONFIG['accent']};
-            padding-bottom: 5px;
-            page-break-after: avoid;
+            font-size: 15pt;
+            margin-top: 18pt;
+            margin-bottom: 10pt;
+            border-left: 4pt solid {THEME_CONFIG['accent']};
+            padding-left: 12pt;
+            font-weight: 700;
+            line-height: 1.3;
         }}
         
         h3 {{
             color: {THEME_CONFIG['secondary']};
-            font-size: 14pt;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            page-break-after: avoid;
+            font-size: 13pt;
+            margin-top: 14pt;
+            margin-bottom: 8pt;
+            font-weight: 700;
+            line-height: 1.3;
         }}
         
+        h4 {{
+            color: #555;
+            font-size: 12pt;
+            margin-top: 12pt;
+            margin-bottom: 6pt;
+            font-weight: 600;
+            line-height: 1.3;
+        }}
+        
+        h5, h6 {{
+            color: #666;
+            font-size: 11pt;
+            margin-top: 10pt;
+            margin-bottom: 4pt;
+            font-weight: 600;
+            line-height: 1.3;
+        }}
+        
+        /* Paragraphs with widow/orphan control */
         p {{
-            margin-bottom: 10px;
+            margin-bottom: 10pt;
             text-align: justify;
+            line-height: 1.6;
+            orphans: 3;
+            widows: 3;
         }}
         
+        /* Lists with widow/orphan control */
         ul, ol {{
-            margin-left: 25px;
-            margin-bottom: 10px;
+            margin-left: 25pt;
+            margin-bottom: 10pt;
+            margin-top: 6pt;
+            orphans: 3;
+            widows: 3;
         }}
         
         li {{
-            margin-bottom: 5px;
+            margin-bottom: 4pt;
+            line-height: 1.5;
+            page-break-inside: avoid;
         }}
         
+        /* Code blocks */
         code {{
             background-color: {THEME_CONFIG['code_bg']};
-            padding: 2px 4px;
-            border-radius: 3px;
+            padding: 2pt 5pt;
+            border-radius: 2pt;
             font-family: {THEME_CONFIG['code_font']};
             color: {THEME_CONFIG['primary']};
-            font-size: 0.9em;
+            font-size: 9.5pt;
         }}
         
         pre {{
             background-color: {THEME_CONFIG['code_bg']};
-            padding: 12px;
-            border-left: 3px solid {THEME_CONFIG['primary']};
-            border-radius: 3px;
-            overflow-x: auto;
-            margin: 10px 0;
+            padding: 12pt;
+            border-left: 4pt solid {THEME_CONFIG['accent']};
+            border-radius: 2pt;
+            margin: 14pt 0;
             font-family: {THEME_CONFIG['code_font']};
-            font-size: 0.85em;
+            font-size: 9pt;
+            line-height: 1.5;
+            page-break-inside: avoid;
+            orphans: 4;
+            widows: 4;
         }}
         
+        pre code {{
+            background: none;
+            padding: 0;
+            color: {THEME_CONFIG['text']};
+        }}
+        
+        /* Blockquotes */
         blockquote {{
-            border-left: 4px solid {THEME_CONFIG['primary']};
-            padding-left: 15px;
-            margin-left: 0;
-            margin: 15px 0;
-            color: #666;
+            border-left: 4px solid {THEME_CONFIG['accent']};
+            padding-left: 14pt;
+            margin: 12pt 0 12pt 10pt;
+            color: #555;
             font-style: italic;
+            font-size: 10.5pt;
+            page-break-inside: avoid;
+            orphans: 3;
+            widows: 3;
         }}
         
+        /* Tables */
         table {{
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 0.95em;
+            margin: 14pt 0;
+            font-size: 9.5pt;
+            page-break-inside: avoid;
+            font-family: {THEME_CONFIG['heading_font']};
         }}
         
         table th {{
             background-color: {THEME_CONFIG['primary']};
             color: white;
-            padding: 8px;
+            padding: 8pt;
             text-align: left;
-            font-weight: bold;
+            font-weight: 600;
+            page-break-after: avoid;
         }}
         
         table td {{
+            border: 1pt solid #ddd;
+            padding: 6pt 8pt;
+            text-align: left;
+            vertical-align: top;
+        }}
+        
+        table tr:nth-child(even) {{
+            background-color: #f9f9f9;
+        }}
+        
+        thead {{
+            display: table-header-group;
+        }}
+        
+        tbody {{
+            orphans: 3;
+            widows: 3;
+        }}
+        
+        /* Figures with proper styling */
+        figure {{
+            margin: 16pt 0;
+            padding: 10pt;
+            text-align: center;
+            page-break-inside: avoid;
+            orphans: 3;
+            widows: 3;
+            border: 1pt solid #e0e0e0;
+            background: #fafafa;
+            border-radius: 4pt;
+        }}
+        
+        figure img {{
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 8pt auto;
+        }}
+        
+        figcaption {{
+            font-size: 9.5pt;
+            color: #555;
+            font-style: italic;
+            margin-top: 8pt;
+            text-align: center;
+            font-weight: 600;
+            font-family: {THEME_CONFIG['heading_font']};
+        }}
+        
+        /* Print optimizations */
+        @media print {{
+            * {{
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }}
+            
+            a {{
+                text-decoration: underline;
+            }}
+            
+            /* Ensure proper page breaks */
+            h1, h2, h3, h4, h5, h6 {{
+                page-break-after: avoid;
+            }}
+            
+            pre, blockquote, table, figure {{
+                page-break-inside: avoid;
+            }}
+            
+            /* Improve text rendering */
+            body {{
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }}
+        }}
+    </style>
+</head>
+<body>
             border: 1px solid #ddd;
             padding: 8px;
         }}

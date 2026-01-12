@@ -1,14 +1,6 @@
 Project: Themis (Database System)
 Language: C++
 > **📋 WICHTIG: Build-Pipeline Modernisierung (Jan 2026)**
-> 
-> Die Build-Struktur wurde reorganisiert! Bitte lies die **[neue Anleitung](COPILOT_INSTRUCTIONS_v2.md)** für:
-> - ✅ Neue Verzeichnisstruktur (cmake/, docker/, docs/build-guide/)
-> - ✅ CMakePresets verwenden (nicht manuelle Konfiguration)
-> - ✅ Links zu Build/Deployment/Release-Guides
-> - ✅ Platform-spezifische Anweisungen (Windows, Linux, Docker, ARM, RPi, QNAP)
->
-> Diese Datei (v1) wird nicht mehr aktiv gepflegt. Nutze **COPILOT_INSTRUCTIONS_v2.md** für alle neuen Anweisungen.
 
 Purpose:
 - High-performance C++ vector database with RocksDB integration, AQL and MVCC.
@@ -52,6 +44,12 @@ ThemisDB folgt einer **Git Flow Branching Strategy**:
 
 ### Workflow für Copilot
 
+**Bei Docker-Builds:**
+- 🔗 **vcpkg Cache-Strategie**: Siehe [docker/DOCKER_BUILD_STRATEGY_QUICKREF.md](../docker/DOCKER_BUILD_STRATEGY_QUICKREF.md#vcpkg-triple-cache-strategie-)
+- Triple-Cache nutzt Host-Packages aus `./vcpkg/packages/` + BuildKit Cache
+- Keine unnötigen Downloads/Rebuilds für existierende Dependencies
+- Bei Cache-Problemen: Prüfe Bind-Mounts in `Dockerfile.unified`
+
 **Bei neuen Features:**
 ```bash
 # Immer von develop branchen
@@ -80,6 +78,119 @@ git checkout -b release/1.4.0 develop
 - ❌ Keine Feature-PRs direkt zu `main`
 
 **Dokumentation**: Siehe `BRANCHING_STRATEGY.md` für Details
+
+---
+
+## Merge Strategy für Pull Requests
+
+ThemisDB verwendet unterschiedliche Merge-Methoden abhängig vom Branch-Typ:
+
+### Merge-Strategie Übersicht
+
+| Branch-Typ | Ziel | Merge-Methode | Begründung |
+|-----------|------|---------------|------------|
+| **`feature/*`** | `develop` | **Squash and merge** ✅ | Saubere Historie, ein Commit pro Feature |
+| **`bugfix/*`** | `develop` | **Squash and merge** ✅ | Saubere Historie, ein Commit pro Fix |
+| **`release/*`** | `main` | **Merge commit** | Vollständige Release-Historie erhalten |
+| **`hotfix/*`** | `main` | **Merge commit** | Vollständige Hotfix-Historie für Audit |
+
+### Wichtig für Copilot bei PR-Erstellung
+
+Wenn du Pull Requests erstellst:
+
+1. **PR-Titel ist kritisch**: Wird zur Commit-Message bei Squash Merge
+   - Format: `<type>(<scope>): <description>`
+   - Beispiel: `feat(storage): Add vector search optimization`
+
+2. **PR-Beschreibung ist wichtig**: Wird zum Commit-Body bei Squash Merge
+   - Erkläre was sich geändert hat
+   - Erkläre warum die Änderung notwendig war
+   - Referenziere Issues: `Closes #123`
+
+3. **Einzelne Commits im Branch**: Unwichtig bei Feature/Bugfix
+   - WIP commits sind OK
+   - Werden nicht in `develop` erscheinen
+   - Nur PR-Titel und -Beschreibung zählen
+
+**Dokumentation**:
+- Vollständige Anleitung: `docs/MERGE_STRATEGY_MIGRATION.md`
+- Quick Reference: `docs/MERGE_STRATEGY_QUICK_REF.md`
+- Siehe auch: `CONTRIBUTING.md` → "Merge Strategy Guidelines"
+
+---
+
+## GitHub Labels System
+
+### Label Verwendung für Issues und PRs
+
+ThemisDB verwendet ein strukturiertes Label-System zur Kategorisierung von Issues und Pull Requests.
+
+**Wichtig für Copilot:**
+
+Wenn du Issues erstellst, PRs vorschlägst, oder Skripte zur Issue-Erstellung überprüfst/erstellst:
+
+1. **Verwende NUR Labels aus `.github/labels.yml`**
+   - Diese Datei ist die einzige Quelle der Wahrheit für gültige Labels
+   - Erfinde keine neuen Labels - schlage dem Maintainer vor, `labels.yml` zu erweitern
+
+2. **Konsultiere die Label-Dokumentation**
+   - Vollständiger Leitfaden: `.github/LABELS_GUIDE.md`
+   - Label-Definitionen: `.github/labels.yml`
+
+3. **Label-Kategorien und Beispiele**
+   - **Priorität (erforderlich):** `priority:P0`, `priority:P1`, `priority:P2`, `priority:P3`
+   - **Typ (erforderlich):** `type:bug`, `type:feature`, `type:enhancement`, `type:documentation`, `type:security`, `type:performance`, etc.
+   - **Bereich (optional, mehrere möglich):** `area:llm`, `area:storage`, `area:aql`, `area:api`, `area:networking`, `area:build`, `area:docker`, etc.
+   - **Status (optional):** `status:ready`, `status:in-progress`, `status:needs-review`, `status:blocked`, etc.
+   - **Aufwand (optional):** `effort:small`, `effort:medium`, `effort:large`, `effort:x-large`
+   - **Spezial (optional):** `good first issue`, `help wanted`, `breaking-change`, `regression`, etc.
+
+4. **Issue-Erstellungs-Beispiel**
+   ```yaml
+   ---
+   title: "Fix RocksDB memory leak in snapshot cleanup"
+   labels: priority:P1, type:bug, area:storage, regression
+   ---
+   ```
+   
+   Oder als Array:
+   ```yaml
+   ---
+   title: "Fix RocksDB memory leak in snapshot cleanup"
+   labels: ['priority:P1', 'type:bug', 'area:storage', 'regression']
+   ---
+   ```
+
+5. **Bei Scripts zur Issue-Erstellung**
+   - Das primäre Skript ist: `.github/scripts/create_issues_from_templates.py`
+   - Dieses Skript erstellt Issues aus Templates in `.github/ISSUE_TEMPLATE/`
+   - Alle Labels in Templates sollten gegen `labels.yml` validiert werden
+   - Gib klare Fehlermeldungen wenn ungültige Labels verwendet werden
+
+6. **Label-Validierung in Python**
+   ```python
+   # Beispiel: Labels aus labels.yml laden und validieren
+   import yaml
+   
+   with open('.github/labels.yml', 'r') as f:
+       valid_labels = {label['name'] for label in yaml.safe_load(f)}
+   
+   # Validiere Labels
+   for label in issue_labels:
+       if label not in valid_labels:
+           print(f"ERROR: Invalid label '{label}'. Check .github/labels.yml")
+   ```
+
+**Best Practices:**
+- Jedes Issue sollte mindestens ein Priority- und ein Type-Label haben
+- Area-Labels helfen Maintainern, Issues zu routen
+- Effort-Labels unterstützen Sprint-Planung
+- Status-Labels werden typischerweise von Maintainern gesetzt
+
+**Referenzen:**
+- Label-Konfiguration: `.github/labels.yml`
+- Vollständiger Guide: `.github/LABELS_GUIDE.md`
+- Quick Reference: `.github/LABELS_QUICK_REF.md` (falls vorhanden)
 
 ---
 

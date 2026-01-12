@@ -171,6 +171,34 @@ git branch -d release/1.4.0
 git push origin --delete release/1.4.0
 ```
 
+## Merge Strategy
+
+> [!IMPORTANT]
+> **ThemisDB uses different merge methods depending on the branch type:**
+
+| Branch Type | Merge Method | Reason |
+|------------|--------------|---------|
+| **feature/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per feature |
+| **bugfix/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per fix |
+| **release/** → main | **Merge commit** | Preserves full release history and commit metadata |
+| **hotfix/** → main | **Merge commit** | Preserves full hotfix history for audit purposes |
+
+**Why squash merge for features/bugfixes?**
+- ✅ Cleaner, more readable git history
+- ✅ One logical commit per feature/fix
+- ✅ Easier to revert if needed
+- ✅ Better changelog generation
+- ❌ Development commits (WIP, fix typo, etc.) stay in feature branch
+
+**Configuring GitHub Repository Settings:**
+
+Maintainers should configure the repository settings on GitHub to enforce this:
+1. Go to Settings → General → Pull Requests
+2. Enable "Allow squash merging" ✅
+3. Enable "Allow merge commits" ✅ (needed for releases)
+4. Disable "Allow rebase merging" ❌ (optional)
+5. Set "Squash merging" as the default for the repository
+
 ## Branch Protection Rules
 
 ### `main` Branch Protection

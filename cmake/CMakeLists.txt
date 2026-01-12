@@ -65,13 +65,21 @@ if(NOT CURL_FOUND)
 endif()
 
 # Office document support (DOCX/XLSX/PPTX)
-# Requires libzip (for ZIP archive handling) and pugixml (for XML parsing)
+# Find libzip (needed for both Office and Archive processing)
+find_package(libzip CONFIG)
+if(NOT libzip_FOUND)
+    find_package(libzip)
+endif()
+
+if(libzip_FOUND)
+    message(STATUS "libzip found - Archive processing available")
+else()
+    message(WARNING "libzip not found - Install with: vcpkg install libzip")
+    message(WARNING "Archive processing will not be available")
+endif()
+
+# Office support requires both libzip and pugixml
 if(THEMIS_ENABLE_OFFICE)
-    find_package(libzip CONFIG)
-    if(NOT libzip_FOUND)
-        find_package(libzip)
-    endif()
-    
     find_package(pugixml CONFIG)
     if(NOT pugixml_FOUND)
         find_package(pugixml)
@@ -81,9 +89,6 @@ if(THEMIS_ENABLE_OFFICE)
         message(STATUS "Office support enabled - libzip and pugixml found")
         add_compile_definitions(THEMIS_ENABLE_OFFICE)
     else()
-        if(NOT libzip_FOUND)
-            message(WARNING "libzip not found - Install with: vcpkg install libzip")
-        endif()
         if(NOT pugixml_FOUND)
             message(WARNING "pugixml not found - Install with: vcpkg install pugixml")
         endif()
@@ -716,12 +721,22 @@ else()
             set_target_properties(yaml-cpp::yaml-cpp PROPERTIES
                 INTERFACE_INCLUDE_DIRECTORIES "${YAMLCPP_INCLUDE_DIRS}"
                 INTERFACE_LINK_LIBRARIES "${YAMLCPP_LIBRARIES}")
+        else()
+            message(WARNING "yaml-cpp not found - some configuration features may be limited")
         endif()
+    else()
+        message(WARNING "yaml-cpp not found - some configuration features may be limited")
     endif()
 endif()
 
 if(NOT TARGET yaml-cpp::yaml-cpp)
-    message(FATAL_ERROR "yaml-cpp not found via CONFIG or PkgConfig")
+    message(STATUS "yaml-cpp optional dependency not available - continuing without it")
+endif()
+
+# Define optional YAML target for linking
+set(THEMIS_YAML_TARGET "")
+if(TARGET yaml-cpp::yaml-cpp)
+    set(THEMIS_YAML_TARGET yaml-cpp::yaml-cpp)
 endif()
 
 # Defensive check: Ensure Boost::system target exists after find_package
@@ -957,6 +972,9 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     
+    ../src/metadata/schema_manager.cpp
+    ../src/server/schema_api_handler.cpp
+    
     ../src/index/secondary_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
@@ -981,6 +999,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
+    ../src/transaction/snapshot_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1021,6 +1040,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/feedback_api_handler.cpp
+    ../src/server/snapshot_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1037,6 +1058,8 @@ set(THEMIS_CORE_SOURCES
     ../src/content/content_fs.cpp
     ../src/content/version_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:../src/content/office_processor.cpp>
+    ../src/content/archive_processor.cpp  # Archive processing (uses libzip, always available)
+    ../src/content/async_ingestion_worker.cpp  # Async ingestion for development/showcase
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
@@ -1083,6 +1106,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/http_client_pool.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/error_registry.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1109,6 +1133,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
@@ -1190,6 +1215,16 @@ set(THEMIS_CORE_SOURCES
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
+    ../src/analytics/nlp_text_analyzer.cpp
+    
+    # Git-like MVCC Features
+    # Phase 1: Named Snapshots
+    ../src/transaction/snapshot_manager.cpp
+    ../src/server/snapshot_api_handler.cpp
+    
+    # Phase 2: Diff Engine
+    ../src/analytics/diff_engine.cpp
+    ../src/server/diff_api_handler.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)
@@ -1472,14 +1507,14 @@ target_link_libraries(themis_core
         Boost::system
         nlohmann_json::nlohmann_json
     $<$<BOOL:${CURL_FOUND}>:CURL::libcurl>
-        yaml-cpp::yaml-cpp
+        ${THEMIS_YAML_TARGET}
     OpenSSL::SSL
     OpenSSL::Crypto
     TBB::tbb
 )
 
-# Link Office document libraries (libzip and pugixml) if enabled
-if(THEMIS_ENABLE_OFFICE)
+# Link libzip (for archive and office processing)
+if(libzip_FOUND)
     # libzip may export as libzip::zip or libzip::libzip depending on version
     if(TARGET libzip::zip)
         target_link_libraries(themis_core PUBLIC libzip::zip)
@@ -1488,7 +1523,10 @@ if(THEMIS_ENABLE_OFFICE)
     else()
         message(WARNING "libzip target not found - please check libzip installation")
     endif()
-    
+endif()
+
+# Link pugixml (for office processing) if enabled
+if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     # pugixml should export as pugixml::pugixml or pugixml::static
     if(TARGET pugixml::pugixml)
         target_link_libraries(themis_core PUBLIC pugixml::pugixml)
@@ -1501,6 +1539,24 @@ if(THEMIS_ENABLE_OFFICE)
     endif()
     
     message(STATUS "Office support linked: libzip and pugixml")
+endif()
+
+# Link Kerberos/GSSAPI if enabled
+if(THEMIS_ENABLE_KERBEROS)
+    if(TARGET KRB5::krb5)
+        target_link_libraries(themis_core PUBLIC KRB5::krb5)
+        message(STATUS "Kerberos support linked: KRB5::krb5")
+    endif()
+    if(TARGET KRB5::gssapi)
+        target_link_libraries(themis_core PUBLIC KRB5::gssapi)
+        message(STATUS "Kerberos support linked: KRB5::gssapi")
+    endif()
+    if(TARGET Kerberos::Kerberos)
+        target_link_libraries(themis_core PUBLIC Kerberos::Kerberos)
+        message(STATUS "Kerberos support linked: Kerberos::Kerberos")
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_KERBEROS)
+    message(STATUS "Kerberos/GSSAPI authentication enabled")
 endif()
 
 # Link ZSTD if available and define compile flag
@@ -1751,6 +1807,18 @@ if(THEMIS_ENABLE_LLM)
         # v1.3.1: Cache Reuse Integration (Phase 2)
         ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
         ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        
+        # LoRA Adapter Framework (Issue #319)
+        ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
+        ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
+        ../src/llm/lora_framework/lora_storage_service.cpp    # BaseEntity storage integration
+        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
+        ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
+        ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
+        ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
+        ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
+        
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         ../src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
@@ -1771,6 +1839,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        
+        # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
+        ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
+        ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
@@ -1817,6 +1889,11 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM Plugin: Source files added to themis_core")
     message(STATUS "  - Ollama-style lazy model loading enabled")
     message(STATUS "  - vLLM-style multi-LoRA management enabled")
+    message(STATUS "  - LoRA Adapter Framework enabled (Issue #319)")
+    message(STATUS "    * Full CRUD operations with BaseEntity storage")
+    message(STATUS "    * Enterprise security (AES-256-GCM + Ed25519)")
+    message(STATUS "    * Async job management for training/loading")
+    message(STATUS "    * Complete audit trail for compliance")
     message(STATUS "  - Async inference engine enabled (independent threading)")
     message(STATUS "  - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)")
     message(STATUS "    * ModelMetadataCache (ConcurrentCache)")
@@ -1978,6 +2055,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_audit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_transaction_manager.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_transaction_isolation.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_snapshot_manager.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
@@ -1992,6 +2070,8 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_cte_cache.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_aql_translator.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_text_processor.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_nlp_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_nlp_metadata_extractor.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_prompt_manager.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_mock_clip.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_interface.cpp
@@ -2045,6 +2125,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
@@ -2056,7 +2137,8 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_sharding_core.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
-        # SKIPPED: ${CMAKE_SOURCE_DIR}/tests/test_lora_adapter.cpp  # MultiLoRAManager implementation missing
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
