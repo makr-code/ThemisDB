@@ -4,6 +4,9 @@
 #include "storage/rocksdb_wrapper.h"
 #include <fstream>
 #include <chrono>
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
 
 using namespace themis::llm;
 
@@ -29,8 +32,12 @@ protected:
             db_->close();
             db_.reset();
         }
-        // Clean up test database
+        // Clean up test database using filesystem
+        #if __cplusplus >= 201703L
+        std::filesystem::remove_all("/tmp/test_gguf_loader_db");
+        #else
         system("rm -rf /tmp/test_gguf_loader_db");
+        #endif
     }
     
     void createMockGGUFFile() {

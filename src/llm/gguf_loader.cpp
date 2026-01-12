@@ -185,24 +185,44 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
         throw std::runtime_error("No GGUF file parsed. Call parseFile() first.");
     }
     
+    // Helper lambda to escape JSON strings (basic escaping)
+    auto escapeJson = [](const std::string& str) -> std::string {
+        std::string escaped;
+        escaped.reserve(str.size());
+        for (char c : str) {
+            switch (c) {
+                case '"': escaped += "\\\""; break;
+                case '\\': escaped += "\\\\"; break;
+                case '\b': escaped += "\\b"; break;
+                case '\f': escaped += "\\f"; break;
+                case '\n': escaped += "\\n"; break;
+                case '\r': escaped += "\\r"; break;
+                case '\t': escaped += "\\t"; break;
+                default: escaped += c; break;
+            }
+        }
+        return escaped;
+    };
+    
     // Generate model URN
     std::string model_urn = "urn:themis:model:" + model_name + ":v1";
     std::string metadata_key = "llm:model:" + model_name + ":metadata";
     
     // 1. Store metadata
+    // TODO: Consider using nlohmann/json or rapidjson for more robust JSON serialization
     std::ostringstream metadata_json;
     metadata_json << "{"
-                  << "\"version\":\"" << metadata_.version << "\","
-                  << "\"architecture\":\"" << metadata_.architecture << "\","
+                  << "\"version\":\"" << escapeJson(metadata_.version) << "\","
+                  << "\"architecture\":\"" << escapeJson(metadata_.architecture) << "\","
                   << "\"total_size\":" << metadata_.total_size << ","
                   << "\"num_tensors\":" << metadata_.tensors.size() << ","
-                  << "\"urn\":\"" << model_urn << "\","
+                  << "\"urn\":\"" << escapeJson(model_urn) << "\","
                   << "\"config\":{";
     
     bool first = true;
     for (const auto& [key, value] : metadata_.config) {
         if (!first) metadata_json << ",";
-        metadata_json << "\"" << key << "\":\"" << value << "\"";
+        metadata_json << "\"" << escapeJson(key) << "\":\"" << escapeJson(value) << "\"";
         first = false;
     }
     metadata_json << "},\"tensors\":[";
@@ -211,8 +231,8 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     for (const auto& tensor : metadata_.tensors) {
         if (!first) metadata_json << ",";
         metadata_json << "{"
-                     << "\"name\":\"" << tensor.name << "\","
-                     << "\"dtype\":\"" << tensor.dtype << "\","
+                     << "\"name\":\"" << escapeJson(tensor.name) << "\","
+                     << "\"dtype\":\"" << escapeJson(tensor.dtype) << "\","
                      << "\"size\":" << tensor.size << ","
                      << "\"offset\":" << tensor.offset << ","
                      << "\"shape\":[";
@@ -261,6 +281,10 @@ bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
     size_t chunk_index = 0;
     size_t offset = 0;
     
+    // Use a reusable buffer to avoid repeated allocations
+    std::vector<uint8_t> chunk_buffer;
+    chunk_buffer.reserve(chunk_size);
+    
     while (remaining > 0) {
         size_t current_chunk_size = std::min(remaining, chunk_size);
         
@@ -270,14 +294,14 @@ bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
                   << ":tensor:" << tensor.name 
                   << ":chunk:" << chunk_index;
         
-        // Copy chunk data
-        std::vector<uint8_t> chunk_data(current_chunk_size);
-        std::memcpy(chunk_data.data(), 
+        // Resize buffer and copy chunk data
+        chunk_buffer.resize(current_chunk_size);
+        std::memcpy(chunk_buffer.data(), 
                    static_cast<char*>(tensor_ptr) + offset, 
                    current_chunk_size);
         
         // Store chunk in RocksDB (will automatically use BlobDB for large chunks)
-        if (!db_->put(chunk_key.str(), chunk_data)) {
+        if (!db_->put(chunk_key.str(), chunk_buffer)) {
             return false;
         }
         
