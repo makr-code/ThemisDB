@@ -64,28 +64,20 @@ RUN set -eux; \
 # Copy vcpkg configuration
 COPY vcpkg-configuration.json ./
 
-# Install dependencies (with asset caching via X_VCPKG_ASSET_SOURCES)
+# Install dependencies (with cache mounts for downloads/packages)
 RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
-    --mount=type=bind,from=vcpkg,source=downloads,target=/opt/vcpkg/downloads-host,readonly \
+    --mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly \
     set -eux; \
     echo "Using VCPKG_MANIFEST_HASH=${VCPKG_MANIFEST_HASH}"; \
     TRIPLET=$(cat /tmp/triplet.txt); \
-    \
-    # Copy host downloads into asset cache (read-write mount destination) \
-    echo "Seeding asset cache from host downloads..."; \
-    find /opt/vcpkg/downloads-host -type f \( -name "*.tar.gz" -o -name "*.zip" -o -name "*.zst" \) 2>/dev/null | \
-        xargs -I{} cp -vn {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
-    echo "Asset cache ready: $(find /opt/vcpkg/downloads -type f | wc -l) files"; \
-    \
-    # Configure vcpkg with asset caching and binary caching \
+    find /tmp/host-vcpkg-downloads -type f -name "*.tar.gz" -o -name "*.zip" 2>/dev/null | \
+        xargs -I{} cp -n {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
     export VCPKG_BUILD_TYPE=release; \
     export VCPKG_MAX_CONCURRENCY=2; \
     export VCPKG_DOWNLOAD_TOOL=curl; \
     export CURL_RETRIES=10; \
     export CURL_TIMEOUT=600; \
-    export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
-    export X_VCPKG_ASSET_SOURCES="clear;x-azurl,file:///opt/vcpkg/downloads,,read"; \
     mkdir -p /build/vcpkg_installed; \
         # remove any stale partial boost archives that can poison the cache
         find /opt/vcpkg/downloads -name '*.part' -delete || true; \
@@ -125,26 +117,29 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
 # ============================================================================
 FROM base AS llama
 
-ARG ENABLE_LLM=ON
+ARG ENABLE_LLM=OFF
 
 WORKDIR /opt
 
 # Copy llama.cpp source (excluding build/, models/, etc. via .dockerignore)
 COPY llama.cpp ./llama.cpp
 
-# Always build llama.cpp (LLM required)
-RUN echo "Building llama.cpp..." && \
-    cd /opt/llama.cpp && \
-    cmake -S . -B build -G Ninja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DLLAMA_BUILD_TESTS=OFF \
-        -DLLAMA_BUILD_EXAMPLES=OFF \
-        -DLLAMA_BUILD_SERVER=OFF \
-        -DLLAMA_CURL=OFF \
-        -DLLAMA_BUILD_SHARED_LIB=ON && \
-    ninja -C build -j$(nproc) && \
-    cmake --install build --prefix /opt/llama-install && \
-    echo "llama.cpp build completed"
+# Build if LLM is enabled
+RUN if [ "$ENABLE_LLM" = "ON" ]; then \
+        echo "Building llama.cpp..."; \
+        cd /opt/llama.cpp && \
+        cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=OFF \
+            -DLLAMA_BUILD_SHARED_LIB=ON && \
+        ninja -C build -j$(nproc) && \
+        echo "llama.cpp build completed"; \
+    else \
+        echo "LLM disabled"; \
+        mkdir -p /opt/llama.cpp/build/lib; \
+    fi
 
 # ============================================================================
 # Stage 4: build - Compile ThemisDB
@@ -152,7 +147,7 @@ RUN echo "Building llama.cpp..." && \
 FROM deps AS build
 
 ARG THEMIS_EDITION=COMMUNITY
-ARG ENABLE_LLM=ON
+ARG ENABLE_LLM=OFF
 ARG TARGETARCH=amd64
 
 WORKDIR /src
@@ -174,13 +169,11 @@ COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
 
 # Copy llama.cpp
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
-COPY --from=llama /opt/llama-install /opt/llama-install
 
 # Ensure system RocksDB dev headers/libs for build
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
-        libzip-dev \
         librocksdb-dev && \
     rm -rf /var/lib/apt/lists/*
 
@@ -195,16 +188,13 @@ RUN set -eux; \
         -DCMAKE_BUILD_TYPE=Release \
         -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
-        -DTHEMIS_ENABLE_TRACING=OFF \
-        -DTHEMIS_BUILD_BENCHMARKS=OFF \
-        -DTHEMIS_BUILD_TESTS=OFF \
-        -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DTHEMIS_ENABLE_TRACING=OFF \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
         -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
         -DOPENSSL_ROOT_DIR=/build/vcpkg_installed/${TRIPLET} \
         -DOpenSSL_DIR=/build/vcpkg_installed/${TRIPLET}/share/openssl \
-        -Dllama_DIR=/opt/llama-install/lib/cmake/llama \
         -DVCPKG_MANIFEST_MODE=OFF && \
     ninja -C build -j$(nproc)
 
@@ -231,7 +221,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY --from=build /src/build/themis_server /app/themis_server
 
 # Copy llama.cpp libraries
-COPY --from=llama /opt/llama-install/lib/* /usr/local/lib/
+COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 
 RUN ldconfig
 
@@ -266,7 +256,7 @@ COPY --from=build /src /src
 COPY --from=build /src/build/themis_server /app/themis_server
 
 # Copy llama.cpp libraries
-COPY --from=llama /opt/llama-install/lib/* /usr/local/lib/
+COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 
 RUN ldconfig
 

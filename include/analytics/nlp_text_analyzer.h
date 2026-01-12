@@ -151,7 +151,10 @@ public:
     /**
      * @brief Construct NLP analyzer with configuration
      */
-    explicit NlpTextAnalyzer(const Config& config = Config());
+    explicit NlpTextAnalyzer(const Config& config);
+    
+    /// @brief Default constructor using default Config
+    NlpTextAnalyzer() : NlpTextAnalyzer(Config()) {}
     
     ~NlpTextAnalyzer() = default;
 

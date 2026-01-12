@@ -1,4 +1,4 @@
-﻿# ThemisDB Root CMakeLists.txt - New Modular Architecture
+# ThemisDB Root CMakeLists.txt - New Modular Architecture
 # Clean, minimal orchestration of the build system
 
 cmake_minimum_required(VERSION 3.20)
@@ -60,6 +60,7 @@ option(THEMIS_ENABLE_MIMALLOC "Enable mimalloc" OFF)
 option(THEMIS_ENABLE_HSM_REAL "Enable real HSM provider" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors" OFF)
 option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID benchmark" OFF)
+option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
 
 # Phase 2 optimization features
 option(THEMIS_ENABLE_WISCKEY "Enable WiscKey" OFF)
@@ -85,6 +86,9 @@ include(cmake/CompilerOptions.cmake)
 # Version management
 include(cmake/Versions.cmake)
 
+# Preload targets for system packages
+include(cmake/PreloadTargets.cmake)
+
 # Dependencies
 include(cmake/Dependencies.cmake)
 
@@ -107,7 +111,11 @@ add_subdirectory(cmake)
 # DOCUMENTATION DATABASE GENERATION
 # ============================================================================
 
-if(THEMIS_ENABLE_LLM)
+# Control whether docs.db is generated during build. Defaults ON for native builds;
+# Docker should pass -DTHEMIS_BUILD_DOCS_DB=OFF and provide a prebuilt docs.db.
+option(THEMIS_BUILD_DOCS_DB "Generate documentation database during build" ON)
+
+if(THEMIS_BUILD_DOCS_DB)
     # Find Python3 for documentation database generation
     find_package(Python3 COMPONENTS Interpreter)
     
@@ -195,7 +203,15 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "Install Python 3 to enable automatic documentation database generation.")
     endif()
 else()
-    message(STATUS "Documentation database generation skipped (THEMIS_ENABLE_LLM=OFF)")
+    message(STATUS "Documentation database generation skipped (THEMIS_BUILD_DOCS_DB=OFF)")
+    # If a prebuilt docs.db exists in source tree, install it with the package
+    if(EXISTS "${CMAKE_SOURCE_DIR}/data/docs.db")
+        install(FILES "${CMAKE_SOURCE_DIR}/data/docs.db"
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+            COMPONENT documentation
+        )
+        message(STATUS "Using prebuilt documentation database at ${CMAKE_SOURCE_DIR}/data/docs.db")
+    endif()
 endif()
 
 # ============================================================================
