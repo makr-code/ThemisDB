@@ -66,6 +66,33 @@ ThemisDB implements RAID clustering for distributed database operations:
 
 ---
 
+## 📁 SOURCE CODE DIRECTORY STRUCTURE (NEU - 2026-01-12)
+
+### Comprehensive Source Directory Guide
+
+Complete documentation of all 35 directories in `src/` - addressing the documentation gap where only 23% of directories were previously documented.
+
+**Core Documentation:**
+- [SOURCE_DIRECTORY_GUIDE.md](architecture/SOURCE_DIRECTORY_GUIDE.md) - Complete guide to all 35 src/ directories
+
+**Coverage:**
+- ✅ All 35 src/ subdirectories documented (100% coverage, up from 23%)
+- ✅ Purpose, key files, and dependencies for each directory
+- ✅ Feature flags and CMake configuration references
+- ✅ Cross-references to related documentation
+- ✅ Code examples for common usage patterns
+- ✅ Dependency graph showing module relationships
+- ✅ Guidelines for adding new code
+
+**Key Benefits:**
+- 🎯 Easy navigation for new contributors
+- 🎯 Clear understanding of codebase organization
+- 🎯 Quick reference for locating functionality
+- 🎯 Architectural boundary enforcement
+- 🎯 Reduced onboarding time for developers
+
+---
+
 ## 📋 DOKUMENTATIONS-ÜBERSICHT
 
 ### PHASE 1: ANALYSE & RESEARCH (Steps 1-3)

@@ -15,6 +15,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
 - **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
+- **[🆕 Source Directory Guide](architecture/SOURCE_DIRECTORY_GUIDE.md)** - **NEU:** Comprehensive guide to all 35 src/ directories (100% coverage)
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
 
