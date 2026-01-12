@@ -407,10 +407,16 @@ Die folgenden Ordner wurden erstellt, um die Dokumentationsstruktur an die Sourc
 - [ ] Alle Security-Policies aktuell
 - [ ] `INCIDENT_RESPONSE_PLAN.md` - Incident Response
 - [ ] `SBOM.md` - Software Bill of Materials
-- [ ] `encryption_strategy.md` - Verschlüsselungsstrategie
+- [x] `encryption_strategy.md` - Verschlüsselungsstrategie ✅ CREATED
+  - Location: `docs/security/encryption_strategy.md` (9.1 KB)
+  - Content: Complete encryption framework, GDPR/eIDAS/ISO 27001 compliance
+  - Created: 2026-01-11 (Phase 2)
 - [ ] `column_encryption.md` - Spalten-Verschlüsselung
 - [ ] `key_rotation_strategy.md` - Key-Rotation
-- [ ] `INFORMATION_SECURITY_POLICY.md` - ISP
+- [x] `INFORMATION_SECURITY_POLICY.md` - ISP ✅ CREATED
+  - Location: `docs/security/INFORMATION_SECURITY_POLICY.md` (13.0 KB)
+  - Content: Comprehensive security framework, compliance mapping
+  - Created: 2026-01-11 (Phase 2)
 - [ ] `PASSWORD_POLICY.md` - Passwortrichtlinie
 - [ ] `RISK_MANAGEMENT_FRAMEWORK.md` - Risikomanagement
 - [ ] `PENETRATION_TEST_GUIDE.md` - Pen-Test Guide
@@ -430,7 +436,10 @@ Die folgenden Ordner wurden erstellt, um die Dokumentationsstruktur an die Sourc
 
 **Dateien zu prüfen:**
 - [ ] `ACCESS_CONTROL_POLICY.md`
-- [ ] `ENCRYPTION_KEY_MANAGEMENT_POLICY.md`
+- [x] `ENCRYPTION_KEY_MANAGEMENT_POLICY.md` ✅ CREATED
+  - Location: `docs/security/ENCRYPTION_KEY_MANAGEMENT_POLICY.md` (15.9 KB)
+  - Content: Complete key lifecycle management, HSM/KMS integration
+  - Created: 2026-01-11 (Phase 2)
 - [ ] `CHANGE_MANAGEMENT_POLICY.md`
 - [ ] `DATA_CLASSIFICATION_POLICY.md`
 
