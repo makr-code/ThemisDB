@@ -581,6 +581,29 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Entity API Handler
+    server::EntityApiConfig entity_config;
+    entity_config.feature_cdc = config_.feature_cdc;
+    entity_config.feature_geo = true; // Enable geo if spatial_index exists
+    entity_config.feature_replication = (replication_coordinator_ != nullptr);
+    
+    entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        entity_config,
+        spatial_index_.get(),
+        changefeed_,
+        wal_manager_,
+        replication_coordinator_,
+        multi_primary_coordinator_
+    );
+    THEMIS_INFO("Entity API Handler initialized");
+    
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
         storage_, content_manager_, content_processor_, auth_,
@@ -1660,19 +1683,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleAdminRestore(req);
             break;
         case Route::EntitiesGet:
-            response = handleGetEntity(req);
+            response = entity_api_->handleGet(req);
             break;
         case Route::EntitiesPut:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesDelete:
-            response = handleDeleteEntity(req);
+            response = entity_api_->handleDelete(req);
             break;
         case Route::EntitiesPost:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesBatchPost:
-            response = handleEntitiesBatch(req);
+            response = entity_api_->handleBatch(req);
             break;
         case Route::QueryPost:
             response = handleQuery(req);
