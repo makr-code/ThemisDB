@@ -36,7 +36,8 @@ HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 bool HSMProvider::initialize() {
     if (initialized_) return true;
     initialized_ = true;
-    THEMIS_INFO("HSMProvider stub initialized (label='{}')", config_.key_label);
+    THEMIS_WARN("HSMProvider STUB initialized (label='{}') - NOT SECURE for production!", config_.key_label);
+    THEMIS_WARN("For production, build with -DTHEMIS_ENABLE_HSM_REAL=ON and configure PKCS#11 HSM");
     return true;
 }
 
@@ -53,6 +54,7 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label) {
     HSMSignatureResult r;
     if (!initialized_) { r.error_message = "HSM stub not initialized"; return r; }
+    THEMIS_WARN("HSMProvider STUB signing - NOT cryptographically secure!");
     r.success = true;
     r.signature_b64 = pseudo_b64(hash);
     r.algorithm = config_.signature_algorithm;

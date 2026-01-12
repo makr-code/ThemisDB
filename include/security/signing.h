@@ -11,6 +11,7 @@ namespace themis {
 struct SigningResult {
     std::vector<uint8_t> signature;
     std::string algorithm; // e.g., "CMS/DETACHED+SHA256"
+    std::string error;     // Empty if successful, error message otherwise
 };
 
 class SigningService {
