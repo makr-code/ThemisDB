@@ -33,7 +33,11 @@
 #include "server/websocket_session.h"
 #endif
 #include "server/audit_api_handler.h"
+#include "server/admin_api_handler.h"
+#include "server/content_api_handler.h"
+#include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
+#include "server/cache_api_handler.h"
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
@@ -351,9 +355,6 @@ private:
     http::response<http::string_body> handleCapabilities(const http::request<http::string_body>& req);
 
     // Sprint A beta endpoints (feature-flagged)
-    http::response<http::string_body> handleCacheQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleCachePut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleCacheStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionPost(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
@@ -363,11 +364,6 @@ private:
     http::response<http::string_body> handlePromptTemplateList(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePromptTemplateGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePromptTemplatePut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleChangefeedGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleChangefeedStreamSse(const http::request<http::string_body>& req);
-    // CDC admin endpoints
-    http::response<http::string_body> handleChangefeedStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleChangefeedRetention(const http::request<http::string_body>& req);
 
     // Policies: Ranger import/export
     http::response<http::string_body> handlePoliciesImportRanger(const http::request<http::string_body>& req);
@@ -605,8 +601,20 @@ private:
     // Audit API Handler
     std::unique_ptr<themis::server::AuditApiHandler> audit_api_;
     
+    // Admin API Handler
+    std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
+    
+    // Content API Handler
+    std::unique_ptr<themis::server::ContentApiHandler> content_api_;
+    
+    // Changefeed API Handler
+    std::unique_ptr<themis::server::ChangefeedApiHandler> changefeed_api_;
+    
     // SAGA API Handler
     std::unique_ptr<themis::server::SAGAApiHandler> saga_api_;
+
+    // Cache API Handler
+    std::unique_ptr<themis::server::CacheApiHandler> cache_api_;
 
     // PII API Handler
     std::unique_ptr<themis::server::PIIApiHandler> pii_api_;

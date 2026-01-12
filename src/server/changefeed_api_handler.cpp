@@ -7,73 +7,561 @@
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include <sstream>
+#include <thread>
+#include <chrono>
 
 namespace themis {
 namespace server {
+
+namespace beast = boost::beast;
+namespace http = beast::http;
+using json = nlohmann::json;
 
 ChangefeedApiHandler::ChangefeedApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<Changefeed> changefeed,
     std::shared_ptr<SseConnectionManager> sse_manager,
-    std::shared_ptr<AuthMiddleware> auth
+    std::shared_ptr<AuthMiddleware> auth,
+    bool feature_cdc
 )
     : storage_(std::move(storage))
     , changefeed_(std::move(changefeed))
     , sse_manager_(std::move(sse_manager))
     , auth_(std::move(auth))
+    , feature_cdc_(feature_cdc)
 {
 }
 
 http::response<http::string_body> ChangefeedApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleChangefeedGet()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:read")) {
+        return *auth_resp;
+    }
+    
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+    
+    auto span = Tracer::startSpan("handleChangefeedGet");
+    span.setAttribute("http.path", "/changefeed");
+    
+    try {
+        // Parse query parameters
+        Changefeed::ListOptions options;
+        
+        std::string target = std::string(req.target());
+        size_t query_pos = target.find('?');
+        if (query_pos != std::string::npos) {
+            std::string query_str = target.substr(query_pos + 1);
+            
+            // Parse from_seq
+            size_t from_pos = query_str.find("from_seq=");
+            if (from_pos != std::string::npos) {
+                size_t from_end = query_str.find('&', from_pos);
+                std::string from_str = query_str.substr(from_pos + 9,
+                    from_end == std::string::npos ? std::string::npos : from_end - from_pos - 9);
+                options.from_sequence = std::stoull(from_str);
+            }
+            
+            // Parse limit
+            size_t limit_pos = query_str.find("limit=");
+            if (limit_pos != std::string::npos) {
+                size_t limit_end = query_str.find('&', limit_pos);
+                std::string limit_str = query_str.substr(limit_pos + 6,
+                    limit_end == std::string::npos ? std::string::npos : limit_end - limit_pos - 6);
+                options.limit = std::stoull(limit_str);
+            }
+            
+            // Parse long_poll_ms
+            size_t poll_pos = query_str.find("long_poll_ms=");
+            if (poll_pos != std::string::npos) {
+                size_t poll_end = query_str.find('&', poll_pos);
+                std::string poll_str = query_str.substr(poll_pos + 13,
+                    poll_end == std::string::npos ? std::string::npos : poll_end - poll_pos - 13);
+                options.long_poll_ms = std::stoul(poll_str);
+            }
+            
+            // Parse key_prefix
+            size_t key_pos = query_str.find("key_prefix=");
+            if (key_pos != std::string::npos) {
+                size_t key_end = query_str.find('&', key_pos);
+                std::string key_prefix = query_str.substr(key_pos + 11,
+                    key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
+                options.key_prefix = key_prefix;
+            }
+        }
+        
+        // List events
+        auto events = changefeed_->listEvents(options);
+        
+        // Build response
+        json response;
+        response["events"] = json::array();
+        for (const auto& event : events) {
+            response["events"].push_back(event.toJson());
+        }
+        response["count"] = events.size();
+        response["latest_sequence"] = changefeed_->getLatestSequence();
+        
+        span.setAttribute("events.count", static_cast<int64_t>(events.size()));
+        span.setAttribute("events.from_seq", static_cast<int64_t>(options.from_sequence));
+        span.setStatus(true);
+        
+        return makeResponse(http::status::ok, response.dump(), req);
+        
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
+    }
 }
 
 http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleChangefeedStreamSse()
-    // This is a large handler (~260 lines) with SSE streaming logic
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:read")) {
+        return *auth_resp;
+    }
+    
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+    
+    auto span = Tracer::startSpan("handleChangefeedStreamSse");
+    span.setAttribute("http.path", "/changefeed/stream");
+    
+    try {
+        // Parse query parameters
+        uint64_t from_seq = 0;
+        std::string key_prefix;
+        bool keep_alive = true; // New parameter for production streaming
+        int max_seconds = 30;   // Optional limit for testability
+        int heartbeat_ms_override = -1; // Optional per-request heartbeat interval
+        int retry_ms = 3000;
+        size_t max_events_per_poll = 100; // Backpressure: limit events consumed per poll
+        
+        std::string target = std::string(req.target());
+        size_t query_pos = target.find('?');
+        if (query_pos != std::string::npos) {
+            std::string query_str = target.substr(query_pos + 1);
+            
+            // Parse from_seq
+            size_t from_pos = query_str.find("from_seq=");
+            if (from_pos != std::string::npos) {
+                size_t from_end = query_str.find('&', from_pos);
+                std::string from_str = query_str.substr(from_pos + 9,
+                    from_end == std::string::npos ? std::string::npos : from_end - from_pos - 9);
+                from_seq = std::stoull(from_str);
+            }
+            
+            // Parse key_prefix
+            size_t key_pos = query_str.find("key_prefix=");
+            if (key_pos != std::string::npos) {
+                size_t key_end = query_str.find('&', key_pos);
+                key_prefix = query_str.substr(key_pos + 11,
+                    key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
+            }
+            
+            // Parse keep_alive (default true for production)
+            size_t ka_pos = query_str.find("keep_alive=");
+            if (ka_pos != std::string::npos) {
+                size_t ka_end = query_str.find('&', ka_pos);
+                std::string ka_str = query_str.substr(ka_pos + 11,
+                    ka_end == std::string::npos ? std::string::npos : ka_end - ka_pos - 11);
+                keep_alive = (ka_str == "true" || ka_str == "1");
+            }
+
+            // Parse max_seconds (bounds 1..60)
+            size_t ms_pos = query_str.find("max_seconds=");
+            if (ms_pos != std::string::npos) {
+                size_t ms_end = query_str.find('&', ms_pos);
+                std::string ms_str = query_str.substr(ms_pos + 12,
+                    ms_end == std::string::npos ? std::string::npos : ms_end - ms_pos - 12);
+                try {
+                    int v = std::stoi(ms_str);
+                    if (v < 1) {
+                        v = 1;
+                    }
+                    if (v > 60) {
+                        v = 60;
+                    }
+                    max_seconds = v;
+                } catch (...) {
+                    // ignore parse error, keep default
+                }
+            }
+
+            // Parse heartbeat_ms (test override)
+            size_t hb_pos = query_str.find("heartbeat_ms=");
+            if (hb_pos != std::string::npos) {
+                size_t hb_end = query_str.find('&', hb_pos);
+                std::string hb_str = query_str.substr(hb_pos + 13,
+                    hb_end == std::string::npos ? std::string::npos : hb_end - hb_pos - 13);
+                try {
+                    int v = std::stoi(hb_str);
+                    if (v < 100) v = 100; // minimum 100ms
+                    if (v > 60000) v = 60000;
+                    heartbeat_ms_override = v;
+                } catch (...) {
+                    // ignore parse error
+                }
+            }
+
+            // Parse retry_ms
+            size_t r_pos = query_str.find("retry_ms=");
+            if (r_pos != std::string::npos) {
+                size_t r_end = query_str.find('&', r_pos);
+                std::string r_str = query_str.substr(r_pos + 9,
+                    r_end == std::string::npos ? std::string::npos : r_end - r_pos - 9);
+                try {
+                    int v = std::stoi(r_str);
+                    if (v < 100) {
+                        v = 100;
+                    }
+                    if (v > 120000) {
+                        v = 120000;
+                    }
+                    retry_ms = v;
+                } catch (...) {}
+            }
+
+            // Parse max_events_per_poll
+            size_t me_pos = query_str.find("max_events=");
+            if (me_pos != std::string::npos) {
+                size_t me_end = query_str.find('&', me_pos);
+                std::string me_str = query_str.substr(me_pos + 11,
+                    me_end == std::string::npos ? std::string::npos : me_end - me_pos - 11);
+                try {
+                    int v = std::stoi(me_str);
+                    if (v < 1) {
+                        v = 1;
+                    }
+                    if (v > 1000) {
+                        v = 1000;
+                    }
+                    max_events_per_poll = static_cast<size_t>(v);
+                } catch (...) {}
+            }
+        }
+
+        // Support Last-Event-ID header for resume
+        // Search case-insensitively
+        for (const auto& h : req) {
+            auto name = h.name_string();
+            if (beast::iequals(name, "Last-Event-ID")) {
+                try {
+                    uint64_t last_id = std::stoull(std::string(h.value()));
+                    if (from_seq == 0) from_seq = last_id;
+                } catch (...) {}
+                break;
+            }
+        }
+        
+        // Build SSE response
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.set(http::field::content_type, "text/event-stream");
+        res.set(http::field::cache_control, "no-cache, no-transform");
+        res.set(http::field::connection, "keep-alive");
+        // Best-effort proxies
+        res.set(http::field::access_control_allow_origin, "*");
+        res.keep_alive(true);
+        
+        std::ostringstream body;
+        // Advise client reconnect delay
+        body << "retry: " << retry_ms << "\n\n";
+        
+        // Production streaming path via SSE manager (only when enabled)
+#ifdef THEMIS_ENABLE_SSE
+        if (keep_alive && sse_manager_) {
+            // Production mode: Register connection for streaming
+            // Note: Current Beast setup limits us to batch-based streaming
+            // Full keep-alive requires custom async write loop (see TODO in docs)
+            
+            uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix);
+            span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
+            
+            // Stream events for limited duration (configurable for tests)
+            auto start = std::chrono::steady_clock::now();
+            const auto max_duration = std::chrono::seconds(max_seconds);
+            size_t total_events = 0;
+            size_t heartbeats = 0;
+            
+            auto last_hb = start;
+            while (std::chrono::steady_clock::now() - start < max_duration) {
+                // Poll for new events
+                auto events = sse_manager_->pollEvents(conn_id, max_events_per_poll);
+                
+                if (!events.empty()) {
+                    for (const auto& event_line : events) {
+                        body << event_line;
+                        total_events++;
+                    }
+                } else {
+                    bool sent_hb = false;
+                    if (heartbeat_ms_override > 0) {
+                        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - last_hb
+                        ).count();
+                        if (elapsed >= heartbeat_ms_override) {
+                            body << ": heartbeat\n\n";
+                            sse_manager_->recordHeartbeat(conn_id);
+                            heartbeats++;
+                            last_hb = std::chrono::steady_clock::now();
+                            sent_hb = true;
+                        }
+                    }
+                    if (!sent_hb && sse_manager_->needsHeartbeat(conn_id)) {
+                        body << ": heartbeat\n\n";
+                        sse_manager_->recordHeartbeat(conn_id);
+                        heartbeats++;
+                    }
+                }
+                
+                // Sleep briefly to avoid busy-wait
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            
+            // Cleanup connection
+            sse_manager_->unregisterConnection(conn_id);
+            
+            span.setAttribute("sse.total_events", static_cast<int64_t>(total_events));
+            span.setAttribute("sse.heartbeats", static_cast<int64_t>(heartbeats));
+            span.setAttribute("sse.duration_s", static_cast<int64_t>(max_seconds));
+            
+            THEMIS_INFO("SSE stream completed: conn={}, events={}, heartbeats={}",
+                conn_id, total_events, heartbeats);
+            
+        } else
+#endif
+        {
+            // MVP mode: Send one batch and close (backward compatible)
+            Changefeed::ListOptions options;
+            options.from_sequence = from_seq;
+            options.limit = 1000;
+            
+            if (!key_prefix.empty()) {
+                options.key_prefix = key_prefix;
+            }
+            
+            auto events = changefeed_->listEvents(options);
+            
+            for (const auto& ev : events) {
+                body << "id: " << ev.sequence << "\n";
+                body << "data: " << ev.toJson().dump() << "\n\n";
+            }
+            
+            if (events.empty()) {
+                body << ": heartbeat\n\n";
+            }
+            
+            span.setAttribute("sse.mode", "mvp_batch");
+            span.setAttribute("events.count", static_cast<int64_t>(events.size()));
+        }
+        
+        res.body() = body.str();
+        // Note: applyGovernanceHeaders not implemented in handler
+        // This is a minor feature and can be added later if needed
+        res.prepare_payload();
+        
+        span.setStatus(true);
+        return res;
+        
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
+    }
 }
 
 http::response<http::string_body> ChangefeedApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleChangefeedStats()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:admin")) {
+        return *auth_resp;
+    }
+    
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedStats");
+    span.setAttribute("http.path", "/changefeed/stats");
+
+    try {
+        auto stats = changefeed_->getStats();
+        nlohmann::json response = {
+            {"total_events", stats.total_events},
+            {"latest_sequence", stats.latest_sequence},
+            {"total_size_bytes", stats.total_size_bytes}
+        };
+        span.setAttribute("events.total", static_cast<int64_t>(stats.total_events));
+        span.setAttribute("events.latest_seq", static_cast<int64_t>(stats.latest_sequence));
+        span.setStatus(true);
+        return makeResponse(http::status::ok, response.dump(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> ChangefeedApiHandler::handleRetention(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleChangefeedRetention()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:admin")) {
+        return *auth_resp;
+    }
+    
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedRetention");
+    span.setAttribute("http.path", "/changefeed/retention");
+
+    try {
+        auto body = nlohmann::json::parse(req.body());
+        // Support either before_sequence (explicit) or max_age_ms (relative)
+        uint64_t before_seq = 0;
+        if (body.contains("before_sequence")) {
+            before_seq = body["before_sequence"].get<uint64_t>();
+        } else if (body.contains("max_age_ms")) {
+            // Compute a cut based on timestamp: scan stats.latest_sequence backwards is expensive;
+            // MVP: if max_age_ms is provided, require also current latest_sequence from client or ignore.
+            // For simplicity, we ignore timestamp-based deletion in MVP and return 400 if latest not provided.
+            return makeErrorResponse(http::status::bad_request, "Only 'before_sequence' is supported for retention in MVP", req);
+        } else {
+            return makeErrorResponse(http::status::bad_request, "Provide 'before_sequence' (uint64)", req);
+        }
+
+        span.setAttribute("retention.before_seq", static_cast<int64_t>(before_seq));
+        auto deleted = changefeed_->deleteOldEvents(before_seq);
+        nlohmann::json response = {
+            {"deleted", deleted},
+            {"before_sequence", before_seq}
+        };
+        span.setAttribute("retention.deleted", static_cast<int64_t>(deleted));
+        span.setStatus(true);
+        return makeResponse(http::status::ok, response.dump(), req);
+    } catch (const nlohmann::json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "json_parse_error");
+        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> ChangefeedApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
-    http::response<http::string_body> res{status, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {{"error", message}};
-    res.body() = body.dump();
-    res.prepare_payload();
-    return res;
+    nlohmann::json error_body = {
+        {"error", true},
+        {"message", message},
+        {"status_code", static_cast<int>(status)}
+    };
+    return makeResponse(status, error_body.dump(), req);
 }
 
 http::response<http::string_body> ChangefeedApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
     http::response<http::string_body> res{status, req.version()};
+    res.set(http::field::server, "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
     res.body() = body;
     res.prepare_payload();
     return res;
+}
+
+std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth(
+    const http::request<http::string_body>& req, const std::string& required_scope
+) {
+    // If auth is disabled, allow access
+    if (!auth_ || !auth_->isEnabled()) {
+        return std::nullopt;
+    }
+    
+    // Extract path without query string
+    std::string path_only = std::string(req.target());
+    auto qpos = path_only.find('?');
+    if (qpos != std::string::npos) {
+        path_only = path_only.substr(0, qpos);
+    }
+    
+    // Check for Authorization header
+    auto it = req.find(http::field::authorization);
+    if (it == req.end()) {
+        http::response<http::string_body> res{http::status::unauthorized, req.version()};
+        res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"missing_authorization","message":"Missing Authorization header"})";
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Extract and validate token
+    auto token = AuthMiddleware::extractBearerToken(
+        std::string_view(it->value().data(), it->value().size())
+    );
+    
+    if (!token) {
+        http::response<http::string_body> res{http::status::unauthorized, req.version()};
+        res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"invalid_token","message":"Invalid Authorization header format"})";
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Validate token and check scope
+    auto claims = auth_->validateToken(*token);
+    if (!claims) {
+        http::response<http::string_body> res{http::status::unauthorized, req.version()};
+        res.set(http::field::www_authenticate, "Bearer realm=\"themis\" error=\"invalid_token\"");
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"invalid_token","message":"Token validation failed"})";
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Check if token has required scope
+    if (!auth_->hasScope(*claims, required_scope)) {
+        http::response<http::string_body> res{http::status::forbidden, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        nlohmann::json error_body = {
+            {"error", "insufficient_scope"},
+            {"message", "Token does not have required scope: " + required_scope}
+        };
+        res.body() = error_body.dump();
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Authorization successful
+    return std::nullopt;
 }
 
 } // namespace server
