@@ -128,8 +128,8 @@ DiffEngine::DiffResult DiffEngine::DiffResult::fromJson(const json& j) {
 }
 
 // Constructor
-DiffEngine::DiffEngine(Changefeed& changefeed)
-    : changefeed_(changefeed) {
+DiffEngine::DiffEngine(Changefeed& changefeed, transaction::SnapshotManager* snapshot_manager)
+    : changefeed_(changefeed), snapshot_manager_(snapshot_manager) {
 }
 
 // Compute diff between sequences
@@ -222,19 +222,47 @@ DiffEngine::DiffResult DiffEngine::computeDiffByTimestamp(
     return result;
 }
 
-// Compute diff by tag (Phase 1 dependency - not yet implemented)
+// Compute diff by tag (now implemented with Phase 1)
 DiffEngine::DiffResult DiffEngine::computeDiffByTag(
     const std::string& from_tag,
     const std::string& to_tag,
     const DiffOptions& options) {
     
-    // This will be implemented after Phase 1 (Named Snapshots) is complete
-    spdlog::warn("computeDiffByTag not yet implemented (requires Phase 1: Named Snapshots)");
+    // Check if SnapshotManager is available
+    if (!snapshot_manager_) {
+        throw std::runtime_error(
+            "Tag-based diff requires SnapshotManager. "
+            "Pass SnapshotManager to DiffEngine constructor to enable this feature."
+        );
+    }
     
-    throw std::runtime_error(
-        "Tag-based diff not yet implemented. Requires Phase 1 (Named Snapshots) to be completed. "
-        "Use computeDiff() or computeDiffByTimestamp() instead."
-    );
+    spdlog::debug("Computing diff by tags: from='{}' to='{}'", from_tag, to_tag);
+    
+    // Get sequence numbers for tags
+    auto from_seq_opt = snapshot_manager_->getSequenceForTag(from_tag);
+    if (!from_seq_opt.has_value()) {
+        throw std::runtime_error(fmt::format("Tag '{}' not found", from_tag));
+    }
+    
+    auto to_seq_opt = snapshot_manager_->getSequenceForTag(to_tag);
+    if (!to_seq_opt.has_value()) {
+        throw std::runtime_error(fmt::format("Tag '{}' not found", to_tag));
+    }
+    
+    uint64_t from_seq = *from_seq_opt;
+    uint64_t to_seq = *to_seq_opt;
+    
+    spdlog::debug("Tag '{}' maps to sequence {}, tag '{}' maps to sequence {}", 
+                  from_tag, from_seq, to_tag, to_seq);
+    
+    // Compute diff using sequence range
+    DiffResult result = computeDiff(from_seq, to_seq, options);
+    
+    // Add tag information to result metadata
+    result.from_timestamp_ms = snapshot_manager_->getTimestampForTag(from_tag);
+    result.to_timestamp_ms = snapshot_manager_->getTimestampForTag(to_tag);
+    
+    return result;
 }
 
 // Clear cache

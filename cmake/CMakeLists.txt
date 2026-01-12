@@ -1211,7 +1211,12 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     
-    # Diff Engine (Phase 2: Git-like features)
+    # Git-like MVCC Features
+    # Phase 1: Named Snapshots
+    ../src/transaction/snapshot_manager.cpp
+    ../src/server/snapshot_api_handler.cpp
+    
+    # Phase 2: Diff Engine
     ../src/analytics/diff_engine.cpp
     ../src/server/diff_api_handler.cpp
 )

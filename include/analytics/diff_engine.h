@@ -2,6 +2,7 @@
 #define THEMIS_DIFF_ENGINE_H
 
 #include "cdc/changefeed.h"
+#include "transaction/snapshot_manager.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -105,8 +106,10 @@ public:
     /**
      * @brief Construct DiffEngine
      * @param changefeed Reference to Changefeed instance
+     * @param snapshot_manager Optional reference to SnapshotManager for tag-based diff
      */
-    explicit DiffEngine(Changefeed& changefeed);
+    explicit DiffEngine(Changefeed& changefeed, 
+                       transaction::SnapshotManager* snapshot_manager = nullptr);
     
     ~DiffEngine() = default;
 
@@ -143,14 +146,14 @@ public:
     );
 
     /**
-     * @brief Compute diff between two tags (future - Phase 1 dependency)
+     * @brief Compute diff between two tags
      * @param from_tag Source tag name
      * @param to_tag Target tag name
      * @param options Diff options
      * @return DiffResult containing all changes
      * 
-     * Note: This will be implemented after Phase 1 (Named Snapshots) is complete.
-     * For now, it will return an empty result or throw not_implemented.
+     * Note: Requires SnapshotManager to be provided in constructor.
+     * Tags must exist or an error will be thrown.
      */
     DiffResult computeDiffByTag(
         const std::string& from_tag,
@@ -170,6 +173,7 @@ public:
 
 private:
     Changefeed& changefeed_;
+    transaction::SnapshotManager* snapshot_manager_;  // Optional, for tag-based diff
     
     // Cache for frequently requested diffs (simple LRU-like cache)
     // Implementation: map of (from,to) -> DiffResult with timestamp
