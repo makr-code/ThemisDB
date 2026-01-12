@@ -67,8 +67,8 @@ CMakeLists.txt (Root - 150 Zeilen)
 | Edition | Zweck | Standardflags |
 |---------|---|---|
 | **MINIMAL** | IoT/Embedded/ARM | LLM=OFF, gRPC=OFF, GPU=OFF |
-| **COMMUNITY** (Standard) | Vollständig, Open Source | Alle Features optional |
-| **ENTERPRISE** | Data Center | gRPC=ON, Tracing=ON |
+| **COMMUNITY** (Standard) | LLM=ON, GPU=ON, Open Source | Alle Features optional |
+| **ENTERPRISE** | Data Center | LLM=ON, GPU=ON, gRPC=ON, Tracing=ON |
 | **HYPERSCALER** | Cloud/LLM-Heavy | LLM=ON, GPU=ON, gRPC=ON, Tracing=ON |
 
 ## Build-Methoden
