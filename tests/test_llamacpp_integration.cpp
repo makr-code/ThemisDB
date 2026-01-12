@@ -1,8 +1,12 @@
 #include <gtest/gtest.h>
 #include "llm/gguf_loader.h"
 #include "llm/llamacpp_inference_engine.h"
+#include "storage/rocksdb_wrapper.h"
 #include <fstream>
 #include <chrono>
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
 
 using namespace themis::llm;
 
@@ -12,10 +16,28 @@ protected:
         // Create a mock GGUF file for testing
         test_file_ = "/tmp/test_model.gguf";
         createMockGGUFFile();
+        
+        // Create a test database for RocksDB tests
+        themis::RocksDBWrapper::Config db_config;
+        db_config.db_path = "/tmp/test_gguf_loader_db";
+        db_config.enable_blobdb = true;
+        db_config.blob_size_threshold = 4096;
+        db_ = std::make_unique<themis::RocksDBWrapper>(db_config);
+        db_->open();
     }
     
     void TearDown() override {
         std::remove(test_file_.c_str());
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        // Clean up test database using filesystem
+        #if __cplusplus >= 201703L
+        std::filesystem::remove_all("/tmp/test_gguf_loader_db");
+        #else
+        system("rm -rf /tmp/test_gguf_loader_db");
+        #endif
     }
     
     void createMockGGUFFile() {
@@ -32,6 +54,7 @@ protected:
     }
     
     std::string test_file_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
 };
 
 TEST_F(GGUFLoaderTest, ParseValidFile) {
@@ -63,11 +86,21 @@ TEST_F(GGUFLoaderTest, GetTensorMetadata) {
 }
 
 TEST_F(GGUFLoaderTest, LoadToThemisDB) {
-    GGUFLoader loader;
+    GGUFLoader loader(db_.get());
     ASSERT_TRUE(loader.parseFile(test_file_));
     
     std::string urn = loader.loadToThemisDB("test-model");
     EXPECT_EQ(urn, "urn:themis:model:test-model:v1");
+    
+    // Verify metadata was stored
+    auto metadata_key = "llm:model:test-model:metadata";
+    auto metadata_result = db_->get(metadata_key);
+    EXPECT_TRUE(metadata_result.has_value());
+    
+    // Verify URN mapping was stored
+    auto urn_key = "llm:model:urn:" + urn;
+    auto urn_result = db_->get(urn_key);
+    EXPECT_TRUE(urn_result.has_value());
 }
 
 TEST_F(GGUFLoaderTest, MemoryMappedAccess) {
