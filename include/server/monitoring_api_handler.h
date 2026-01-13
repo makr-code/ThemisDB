@@ -57,9 +57,9 @@ public:
     MonitoringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<AuthMiddleware> auth,
-        std::shared_ptr<std::atomic<uint64_t>> request_count,
-        std::shared_ptr<std::atomic<uint64_t>> error_count,
-        std::shared_ptr<std::chrono::steady_clock::time_point> start_time,
+        std::atomic<uint64_t>* request_count,
+        std::atomic<uint64_t>* error_count,
+        const std::chrono::steady_clock::time_point* start_time,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         SchemaManager* schema_manager = nullptr
     );
@@ -102,9 +102,9 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
-    std::shared_ptr<std::atomic<uint64_t>> request_count_;
-    std::shared_ptr<std::atomic<uint64_t>> error_count_;
-    std::shared_ptr<std::chrono::steady_clock::time_point> start_time_;
+    std::atomic<uint64_t>* request_count_;
+    std::atomic<uint64_t>* error_count_;
+    const std::chrono::steady_clock::time_point* start_time_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     SchemaManager* schema_manager_;
 

@@ -17,17 +17,17 @@ using json = nlohmann::json;
 MonitoringApiHandler::MonitoringApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<AuthMiddleware> auth,
-    std::shared_ptr<std::atomic<uint64_t>> request_count,
-    std::shared_ptr<std::atomic<uint64_t>> error_count,
-    std::shared_ptr<std::chrono::steady_clock::time_point> start_time,
+    std::atomic<uint64_t>* request_count,
+    std::atomic<uint64_t>* error_count,
+    const std::chrono::steady_clock::time_point* start_time,
     std::shared_ptr<SecondaryIndexManager> secondary_index,
     SchemaManager* schema_manager
 )
     : storage_(std::move(storage))
     , auth_(std::move(auth))
-    , request_count_(std::move(request_count))
-    , error_count_(std::move(error_count))
-    , start_time_(std::move(start_time))
+    , request_count_(request_count)
+    , error_count_(error_count)
+    , start_time_(start_time)
     , secondary_index_(std::move(secondary_index))
     , schema_manager_(schema_manager)
 {

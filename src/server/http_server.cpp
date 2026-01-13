@@ -581,6 +581,13 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Monitoring API Handler
+    monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
+        storage_, auth_, &request_count_, &error_count_, &start_time_,
+        secondary_index_, schema_manager_.get()
+    );
+    THEMIS_INFO("Monitoring API Handler initialized");
+    
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
         storage_, content_manager_, content_processor_, auth_,
@@ -1628,24 +1635,20 @@ http::response<http::string_body> HttpServer::routeRequest(
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
-                response = handleHealthCheck(req);
+                response = monitoring_api_->handleHealthCheck(req);
             break;
         case Route::Version:
-            response = handleVersion(req);
+            response = monitoring_api_->handleVersion(req);
             break;
         case Route::Stats:
-            response = handleStats(req);
+            response = monitoring_api_->handleStats(req);
             break;
         case Route::CapabilitiesGet:
-            response = handleCapabilities(req);
+            response = monitoring_api_->handleCapabilities(req);
             break;
         case Route::Metrics:
-            // Prefer the comprehensive metrics exporter (includes themis_* metrics).
-            // Historically there was an older/smaller `handleMetrics` implementation
-            // which only emitted content-related metrics. Use the more complete
-            // `handleMetricsJson` handler here so `/metrics` exposes the full set
-            // of Prometheus names expected by the tests.
-            response = handleMetricsJson(req);
+            // Delegate to MonitoringApiHandler for Prometheus metrics export
+            response = monitoring_api_->handleMetrics(req);
             break;
         case Route::WalApplyPost:
             response = handleWalApply(req);
