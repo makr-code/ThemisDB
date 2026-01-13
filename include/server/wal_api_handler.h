@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <string>
+#include <atomic>
+#include <mutex>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -32,8 +34,9 @@ class AuthMiddleware;
  * Features:
  * - WAL entry application
  * - Replication support
- * - Conflict resolution
+ * - HMAC authentication
  * - Transaction replay
+ * - Metrics tracking
  * 
  * Extracted from http_server.cpp (~220 lines) to improve maintainability.
  */
@@ -47,13 +50,17 @@ public:
      * @param wal_manager WAL manager
      * @param replication_coordinator Replication coordinator
      * @param auth Authentication/authorization middleware
+     * @param wal_shared_secret Shared secret for X-WAL-Auth header
+     * @param wal_hmac_secret HMAC secret for X-WAL-HMAC verification
      */
     WALApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<sharding::WALApplier> wal_applier,
         std::shared_ptr<sharding::WALManager> wal_manager,
         std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        const std::string& wal_shared_secret = "",
+        const std::string& wal_hmac_secret = ""
     );
 
     /**
@@ -63,18 +70,53 @@ public:
      */
     http::response<http::string_body> handleApply(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Get metrics for monitoring
+     */
+    uint64_t getApplySuccessCount() const { return wal_apply_success_.load(std::memory_order_relaxed); }
+    uint64_t getApplyFailCount() const { return wal_apply_fail_.load(std::memory_order_relaxed); }
+    uint64_t getApplyLatencyLe50ms() const { return wal_apply_latency_le_50ms_.load(std::memory_order_relaxed); }
+    uint64_t getApplyLatencyLe200ms() const { return wal_apply_latency_le_200ms_.load(std::memory_order_relaxed); }
+    uint64_t getApplyLatencyLe1000ms() const { return wal_apply_latency_le_1000ms_.load(std::memory_order_relaxed); }
+    uint64_t getApplyLatencyGt1000ms() const { return wal_apply_latency_gt_1000ms_.load(std::memory_order_relaxed); }
+    uint64_t getApplyLatencySumUs() const { return wal_apply_latency_sum_us_.load(std::memory_order_relaxed); }
+    uint64_t getApplyLatencyCount() const { return wal_apply_latency_count_.load(std::memory_order_relaxed); }
+    std::string getLastAppliedLsn() const { 
+        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        return wal_last_applied_lsn_; 
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<sharding::WALApplier> wal_applier_;
     std::shared_ptr<sharding::WALManager> wal_manager_;
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
     std::shared_ptr<AuthMiddleware> auth_;
+    
+    // Authentication secrets
+    std::string wal_shared_secret_;
+    std::string wal_hmac_secret_;
+    
+    // Metrics
+    std::atomic<uint64_t> wal_apply_success_{0};
+    std::atomic<uint64_t> wal_apply_fail_{0};
+    std::atomic<uint64_t> wal_apply_latency_le_50ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_le_200ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_le_1000ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
+    std::atomic<uint64_t> wal_apply_latency_count_{0};
+    mutable std::mutex wal_metrics_mutex_;
+    std::string wal_last_applied_lsn_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+    
+    std::string hmacSha256Hex(const std::string& key, const std::string& data);
+    bool timingSafeEqual(const std::string& a, const std::string& b);
 };
 
 } // namespace server

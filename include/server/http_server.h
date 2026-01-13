@@ -58,6 +58,7 @@
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/transaction_api_handler.h"
+#include "server/wal_api_handler.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -287,10 +288,6 @@ private:
     void setupRoutes();
     http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
 
-    // WAL replication apply endpoint (stub until WALApplier is wired)
-    http::response<http::string_body> handleWalApply(
-        const http::request<http::string_body>& req
-    );
 
     // Endpoint handlers
     // Note: Health, Version, Stats, Capabilities, and MetricsJson handlers have been
@@ -632,6 +629,9 @@ private:
     // Transaction API Handler
     std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
     
+    // WAL API Handler
+    std::unique_ptr<themis::server::WALApiHandler> wal_api_;
+    
     // Update API Handler
     std::unique_ptr<themis::server::UpdateApiHandler> update_api_;
     std::shared_ptr<themis::utils::UpdateChecker> update_checker_;
@@ -657,16 +657,6 @@ private:
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
-    std::atomic<uint64_t> wal_apply_success_{0};
-    std::atomic<uint64_t> wal_apply_fail_{0};
-    std::atomic<uint64_t> wal_apply_latency_le_50ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_le_200ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_le_1000ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
-    std::atomic<uint64_t> wal_apply_latency_count_{0};
-    std::mutex wal_metrics_mutex_;
-    std::string wal_last_applied_lsn_;
 
     // Authorization middleware
     std::unique_ptr<themis::AuthMiddleware> auth_;

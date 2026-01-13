@@ -149,36 +149,6 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 using json = nlohmann::json;
 
-namespace {
-
-std::string hmacSha256Hex(const std::string& key, const std::string& data) {
-    unsigned int len = 0;
-    unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
-                                 reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
-    if (!result || len == 0) {
-        return {};
-    }
-    static constexpr char hex_digits[] = "0123456789abcdef";
-    std::string hex;
-    hex.reserve(len * 2);
-    for (unsigned int i = 0; i < len; ++i) {
-        hex.push_back(hex_digits[(result[i] >> 4) & 0x0F]);
-        hex.push_back(hex_digits[result[i] & 0x0F]);
-    }
-    return hex;
-}
-
-bool timingSafeEqual(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
-    unsigned char diff = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
-        diff |= static_cast<unsigned char>(a[i] ^ b[i]);
-    }
-    return diff == 0;
-}
-
-} // namespace
-
 namespace themis {
 namespace server {
 
@@ -698,6 +668,13 @@ HttpServer::HttpServer(
         storage_, tx_manager_, auth_
     );
     THEMIS_INFO("Transaction API Handler initialized");
+    
+    // Initialize WAL API Handler
+    wal_api_ = std::make_unique<themis::server::WALApiHandler>(
+        storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
+        wal_shared_secret_, wal_hmac_secret_
+    );
+    THEMIS_INFO("WAL API Handler initialized");
 
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
@@ -1726,7 +1703,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleMetrics(req);
             break;
         case Route::WalApplyPost:
-            response = handleWalApply(req);
+            response = wal_api_->handleApply(req);
             break;
         case Route::Config:
             response = handleConfig(req);
@@ -2430,224 +2407,6 @@ http::response<http::string_body> HttpServer::routeRequest(
     return response;
 }
 
-// WAL replication apply endpoint
-http::response<http::string_body> HttpServer::handleWalApply(
-    const http::request<http::string_body>& req
-) {
-    // HMAC/shared-secret auth (optional)
-    if (!wal_shared_secret_.empty()) {
-        auto hdr = req.find("X-WAL-Auth");
-        if (hdr == req.end() || hdr->value() != wal_shared_secret_) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    }
-
-    if (!wal_hmac_secret_.empty()) {
-        auto hdr = req.find("X-WAL-HMAC");
-        if (hdr == req.end()) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-        std::string expected = hmacSha256Hex(wal_hmac_secret_, req.body());
-        if (expected.empty() || !timingSafeEqual(expected, std::string(hdr->value()))) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    }
-
-    auto apply_start = std::chrono::steady_clock::now();
-
-    if (!wal_applier_) {
-        http::response<http::string_body> res{http::status::service_unavailable, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "WAL applier not configured"},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    nlohmann::json payload;
-    try {
-        payload = nlohmann::json::parse(req.body());
-    } catch (const std::exception& e) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", std::string("Invalid JSON: ") + e.what()},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    // Accept either raw entries or compressed payload from shipper
-    nlohmann::json entries_json;
-    if (payload.contains("entries") && payload["entries"].is_array()) {
-        entries_json = payload["entries"];
-    } else if (payload.contains("entries_compressed")) {
-        // entries_compressed is stored as binary in JSON (nlohmann::json::binary)
-        try {
-            const auto& bin = payload["entries_compressed"].get_binary();
-            std::vector<uint8_t> compressed(bin.begin(), bin.end());
-            auto decompressed = utils::zstd_decompress(compressed);
-            entries_json = nlohmann::json::parse(decompressed.begin(), decompressed.end());
-        } catch (const std::exception& e) {
-            http::response<http::string_body> res{http::status::bad_request, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", std::string("Failed to decode compressed entries: ") + e.what()},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    } else {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "Missing 'entries' array (or entries_compressed)"},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    std::vector<sharding::WALEntry> entries;
-    entries.reserve(entries_json.size());
-
-    try {
-        for (const auto& item : entries_json) {
-            sharding::WALEntry e;
-            if (item.contains("lsn")) {
-                e.lsn = sharding::LSN::fromString(item.value("lsn", std::string("0/0")));
-            }
-            e.type = static_cast<sharding::WALEntryType>(item.value("type", 0));
-            e.timestamp = item.value("timestamp", uint64_t(0));
-            e.transaction_id = item.value("transaction_id", std::string());
-            if (item.contains("data")) {
-                e.data = item["data"]; // assumes valid JSON object/array
-            }
-            entries.push_back(std::move(e));
-        }
-    } catch (const std::exception& e) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", std::string("Invalid WAL entry: ") + e.what()},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    auto result = wal_applier_->applyBatch(entries);
-    if (!result.success) {
-        auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - apply_start).count();
-        wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-        wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-        if (elapsed_us <= 50'000) {
-            wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 200'000) {
-            wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 1'000'000) {
-            wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        } else {
-            wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        }
-        wal_apply_fail_.fetch_add(1, std::memory_order_relaxed);
-        http::response<http::string_body> res{http::status::internal_server_error, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "Apply failed"},
-            {"errors", result.errors},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    wal_apply_success_.fetch_add(1, std::memory_order_relaxed);
-    {
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
-        wal_last_applied_lsn_ = result.last_applied_lsn.toString();
-    }
-
-    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - apply_start).count();
-    wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-    wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-    if (elapsed_us <= 50'000) {
-        wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 200'000) {
-        wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 1'000'000) {
-        wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    } else {
-        wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    }
-
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {
-        {"success", true},
-        {"entries_applied", result.entries_applied},
-        {"last_applied_lsn", result.last_applied_lsn.toString()}
-    };
-    res.body() = body.dump();
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
 // -----------------------------------------------------------------------------
 // Keys / Classification / Reports API Handlers
 // -----------------------------------------------------------------------------
@@ -3196,14 +2955,14 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         }
 
         // WAL replication metrics (always emit, even if replication not configured)
-        uint64_t wal_success = wal_apply_success_.load(std::memory_order_relaxed);
-        uint64_t wal_fail = wal_apply_fail_.load(std::memory_order_relaxed);
-        uint64_t wal_le_50ms = wal_apply_latency_le_50ms_.load(std::memory_order_relaxed);
-        uint64_t wal_le_200ms = wal_apply_latency_le_200ms_.load(std::memory_order_relaxed);
-        uint64_t wal_le_1000ms = wal_apply_latency_le_1000ms_.load(std::memory_order_relaxed);
-        uint64_t wal_gt_1000ms = wal_apply_latency_gt_1000ms_.load(std::memory_order_relaxed);
-        uint64_t wal_latency_count = wal_apply_latency_count_.load(std::memory_order_relaxed);
-        uint64_t wal_latency_sum_us = wal_apply_latency_sum_us_.load(std::memory_order_relaxed);
+        uint64_t wal_success = wal_api_ ? wal_api_->getApplySuccessCount() : 0;
+        uint64_t wal_fail = wal_api_ ? wal_api_->getApplyFailCount() : 0;
+        uint64_t wal_le_50ms = wal_api_ ? wal_api_->getApplyLatencyLe50ms() : 0;
+        uint64_t wal_le_200ms = wal_api_ ? wal_api_->getApplyLatencyLe200ms() : 0;
+        uint64_t wal_le_1000ms = wal_api_ ? wal_api_->getApplyLatencyLe1000ms() : 0;
+        uint64_t wal_gt_1000ms = wal_api_ ? wal_api_->getApplyLatencyGt1000ms() : 0;
+        uint64_t wal_latency_count = wal_api_ ? wal_api_->getApplyLatencyCount() : 0;
+        uint64_t wal_latency_sum_us = wal_api_ ? wal_api_->getApplyLatencySumUs() : 0;
 
         uint64_t wal_bucket_50 = wal_le_50ms;
         uint64_t wal_bucket_200 = wal_le_50ms + wal_le_200ms;
@@ -3222,9 +2981,8 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         out.unsetf(std::ios::floatfield);
 
         std::string wal_last_lsn;
-        {
-            std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
-            wal_last_lsn = wal_last_applied_lsn_;
+        if (wal_api_) {
+            wal_last_lsn = wal_api_->getLastAppliedLsn();
         }
         out << "themis_wal_last_applied_lsn{lsn=\"" << wal_last_lsn << "\"} 1\n";
 
