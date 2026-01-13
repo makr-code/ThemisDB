@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <atomic>
+#include <chrono>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -10,6 +11,7 @@ namespace themis {
 
 // Forward declarations
 class RocksDBWrapper;
+class SecondaryIndexManager;
 
 namespace server {
 
@@ -17,6 +19,7 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 
 class AuthMiddleware;
+class SchemaManager;
 
 /**
  * @brief Handler for Monitoring and System Information
@@ -44,13 +47,21 @@ public:
      * @brief Construct a new Monitoring API Handler
      * 
      * @param storage Storage backend
-     * @param auth Authentication/authorization middleware
+     * @param auth Authentication/authorization middleware  
      * @param request_count Request counter (shared atomic)
+     * @param error_count Error counter (shared atomic)
+     * @param start_time Server start time (shared)
+     * @param secondary_index Secondary index manager (for stats)
+     * @param schema_manager Schema manager (for capabilities, optional)
      */
     MonitoringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<AuthMiddleware> auth,
-        std::shared_ptr<std::atomic<uint64_t>> request_count
+        std::shared_ptr<std::atomic<uint64_t>> request_count,
+        std::shared_ptr<std::atomic<uint64_t>> error_count,
+        std::shared_ptr<std::chrono::steady_clock::time_point> start_time,
+        std::shared_ptr<SecondaryIndexManager> secondary_index,
+        SchemaManager* schema_manager = nullptr
     );
 
     /**
@@ -88,17 +99,14 @@ public:
      */
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
 
-    /**
-     * @brief Handle GET /config or POST /config request
-     * @param req HTTP request
-     * @return HTTP response with configuration or update status
-     */
-    http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
-
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
     std::shared_ptr<std::atomic<uint64_t>> request_count_;
+    std::shared_ptr<std::atomic<uint64_t>> error_count_;
+    std::shared_ptr<std::chrono::steady_clock::time_point> start_time_;
+    std::shared_ptr<SecondaryIndexManager> secondary_index_;
+    SchemaManager* schema_manager_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
