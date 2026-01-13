@@ -8,6 +8,8 @@
 namespace themis {
 namespace server {
 
+using json = nlohmann::json;
+
 TransactionApiHandler::TransactionApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<TransactionManager> tx_manager,
@@ -24,16 +26,16 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
 ) {
     // Implementation moved from http_server.cpp handleTransaction()
     try {
-        auto body_json = nlohmann::json::parse(req.body());
+        auto body_json = json::parse(req.body());
         
         // TODO: Implement transaction endpoint
-        nlohmann::json response = {
+        json response = {
             {"message", "Transaction endpoint not yet fully implemented"},
             {"request", body_json}
         };
         return makeResponse(http::status::not_implemented, response.dump(), req);
 
-    } catch (const nlohmann::json::exception& e) {
+    } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request,
             "Invalid JSON: " + std::string(e.what()), req);
     }
@@ -48,7 +50,7 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
         IsolationLevel isolation = IsolationLevel::ReadCommitted;
         
         if (!req.body().empty()) {
-            nlohmann::json body = nlohmann::json::parse(req.body());
+            json body = json::parse(req.body());
             if (body.contains("isolation")) {
                 std::string isolation_str = body["isolation"];
                 if (isolation_str == "snapshot") {
@@ -62,14 +64,14 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
         
         auto txn_id = tx_manager_->beginTransaction(isolation);
         
-        nlohmann::json response = {
+        json response = {
             {"transaction_id", txn_id},
             {"isolation", isolation == IsolationLevel::ReadCommitted ? "read_committed" : "snapshot"},
             {"status", "active"}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const nlohmann::json::exception& e) {
+    } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
@@ -81,7 +83,7 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
 ) {
     // Implementation moved from http_server.cpp handleTransactionCommit()
     try {
-        nlohmann::json body = nlohmann::json::parse(req.body());
+        json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
@@ -92,21 +94,21 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
         auto status = tx_manager_->commitTransaction(txn_id);
         
         if (status.ok) {
-            nlohmann::json response = {
+            json response = {
                 {"transaction_id", txn_id},
                 {"status", "committed"},
                 {"message", "Transaction committed successfully"}
             };
             return makeResponse(http::status::ok, response.dump(2), req);
         } else {
-            nlohmann::json response = {
+            json response = {
                 {"transaction_id", txn_id},
                 {"status", "failed"},
                 {"error", status.message}
             };
             return makeResponse(http::status::internal_server_error, response.dump(2), req);
         }
-    } catch (const nlohmann::json::exception& e) {
+    } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
@@ -118,7 +120,7 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
 ) {
     // Implementation moved from http_server.cpp handleTransactionRollback()
     try {
-        nlohmann::json body = nlohmann::json::parse(req.body());
+        json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
@@ -128,14 +130,14 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
         
         tx_manager_->rollbackTransaction(txn_id);
         
-        nlohmann::json response = {
+        json response = {
             {"transaction_id", txn_id},
             {"status", "rolled_back"},
             {"message", "Transaction rolled back successfully"}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const nlohmann::json::exception& e) {
+    } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
@@ -149,7 +151,7 @@ http::response<http::string_body> TransactionApiHandler::handleStats(
     try {
         auto stats = tx_manager_->getStats();
         
-        nlohmann::json response = {
+        json response = {
             {"total_begun", stats.total_begun},
             {"total_committed", stats.total_committed},
             {"total_aborted", stats.total_aborted},
@@ -171,7 +173,7 @@ http::response<http::string_body> TransactionApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
     // Helper implementation following http_server.cpp pattern
-    nlohmann::json error_body = {
+    json error_body = {
         {"error", true},
         {"message", message},
         {"status_code", static_cast<int>(status)}
