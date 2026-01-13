@@ -581,6 +581,15 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Policy API Handler
+    policy_api_ = std::make_unique<themis::server::PolicyApiHandler>(
+        storage_, 
+        ranger_client_.get(),
+        policy_engine_.get(),
+        auth_
+    );
+    THEMIS_INFO("Policy API Handler initialized");
+    
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
         storage_, content_manager_, content_processor_, auth_,
@@ -2196,12 +2205,44 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::SchemaGetTable:
             response = handleSchemaGetTable(req);
             break;
-        case Route::PoliciesImportRangerPost:
-            response = handlePoliciesImportRanger(req);
+        case Route::PoliciesImportRangerPost: {
+            // Require admin scope + policy action
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            // Delegate to PolicyApiHandler
+            if (policy_api_) {
+                response = policy_api_->handleImportRanger(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Policy API not initialized", req);
+            }
             break;
-        case Route::PoliciesExportRangerGet:
-            response = handlePoliciesExportRanger(req);
+        }
+        case Route::PoliciesExportRangerGet: {
+            // Require admin scope + policy action
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            // Delegate to PolicyApiHandler
+            if (policy_api_) {
+                response = policy_api_->handleExportRanger(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Policy API not initialized", req);
+            }
             break;
+        }
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
