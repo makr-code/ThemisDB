@@ -318,7 +318,7 @@ public:
 #endif
     }
     
-    std::string name() const override {
+    const char* name() const noexcept override {
         return "CPU Geo Multi-Threaded (OpenMP)";
     }
     
