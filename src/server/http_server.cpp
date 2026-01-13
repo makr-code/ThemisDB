@@ -72,6 +72,9 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/diff_api_handler.h"
+#include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+#include "analytics/diff_engine.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
@@ -291,6 +294,11 @@ HttpServer::HttpServer(
         snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
         snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
+        
+        // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
+        diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, *snapshot_manager_);
+        diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
+        THEMIS_INFO("DiffEngine initialized");
         
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
@@ -1400,6 +1408,11 @@ namespace {
     SnapshotsTagGet,            // GET /api/v1/snapshots/tags/:name
     SnapshotsTagDelete,         // DELETE /api/v1/snapshots/tags/:name
     SnapshotsStatsGet,          // GET /api/v1/snapshots/stats
+    
+    // Diff API (Phase 2 MVCC)
+    DiffGet,                    // GET /api/v1/diff
+    DiffCacheStatsGet,          // GET /api/v1/diff/cache/stats
+    DiffCacheClear,             // DELETE /api/v1/diff/cache
        
     // Schema API
     SchemaGetFull,            // GET /api/v1/schema
@@ -1486,6 +1499,11 @@ namespace {
     if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::get) return Route::SnapshotsTagGet;
     if (path_only.rfind("/api/v1/snapshots/tags/", 0) == 0 && method == http::verb::delete_) return Route::SnapshotsTagDelete;
     if (path_only == "/api/v1/snapshots/stats" && method == http::verb::get) return Route::SnapshotsStatsGet;
+    
+    // Diff API endpoints
+    if (path_only == "/api/v1/diff" && method == http::verb::get) return Route::DiffGet;
+    if (path_only == "/api/v1/diff/cache/stats" && method == http::verb::get) return Route::DiffCacheStatsGet;
+    if (path_only == "/api/v1/diff/cache" && method == http::verb::delete_) return Route::DiffCacheClear;
     
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
@@ -1928,7 +1946,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         // Snapshot API
         case Route::SnapshotsTagsPost:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleCreateTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleCreateTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1936,7 +1959,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsTagsGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleListTags(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleListTags(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1944,7 +1972,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsTagGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleGetTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1952,7 +1985,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsTagDelete:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleDeleteTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleDeleteTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1960,10 +1998,56 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsStatsGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetStats(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleGetStats(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Snapshot API not available (requires CDC feature)", req);
+            }
+            break;
+        
+        // Diff API
+        case Route::DiffGet:
+            if (diff_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                diff_api_handler_->handleGetDiff(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Diff API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::DiffCacheStatsGet:
+            if (diff_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                diff_api_handler_->handleGetCacheStats(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Diff API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::DiffCacheClear:
+            if (diff_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                diff_api_handler_->handleClearCache(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Diff API not available (requires CDC feature)", req);
             }
             break;
         
