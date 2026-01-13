@@ -5,6 +5,20 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# CRITICAL: Force MSVC to use Dynamic CRT Runtime (/MD for Release, /MDd for Debug)
+# This must be set BEFORE any targets are defined
+# Without this, vcpkg DLLs (built with /MD) won't load correctly due to CRT mismatch
+if(MSVC)
+    # Set policy CMP0091 to use MSVC_RUNTIME_LIBRARY
+    if(POLICY CMP0091)
+        cmake_policy(SET CMP0091 NEW)
+    endif()
+    
+    # Force MSVC Runtime Library selection
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "MSVC Runtime" FORCE)
+    message(STATUS "MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd)")
+endif()
+
 # Export compile commands for IDE support (VSCode, Clion, etc)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

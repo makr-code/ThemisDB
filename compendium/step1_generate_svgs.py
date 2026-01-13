@@ -11,6 +11,7 @@ import signal
 from pathlib import Path
 
 COMPENDIUM_DIR = Path(__file__).parent
+DOCS_DIR = COMPENDIUM_DIR / "docs"
 OUTPUT_DIR = COMPENDIUM_DIR / "output"
 SVG_OUTPUT_DIR = OUTPUT_DIR / "mermaid_svg"
 
@@ -20,7 +21,7 @@ def extract_all_diagrams():
     """Extract all diagram chapters from markdown"""
     diagrams = []
     
-    for md_file in sorted(COMPENDIUM_DIR.glob("chapter_*.md")) + sorted(COMPENDIUM_DIR.glob("appendix_*.md")):
+    for md_file in sorted(DOCS_DIR.glob("chapter_*.md")) + sorted(DOCS_DIR.glob("appendix_*.md")):
         if not md_file.exists():
             continue
         
@@ -30,21 +31,25 @@ def extract_all_diagrams():
             continue
         
         pattern = r'```mermaid\n(.*?)\n```'
+        diagram_index = 0
         for match in re.finditer(pattern, content, re.DOTALL):
             code = match.group(1).strip()
             if code:
                 diagrams.append({
                     'chapter': md_file.stem,
+                    'index': diagram_index,
                     'code': code
                 })
+                diagram_index += 1
     
     return diagrams
 
 def convert_diagram(diagram):
     """Convert a single diagram with Puppeteer config"""
     chapter = diagram['chapter']
+    index = diagram['index']
     code = diagram['code']
-    svg_file = SVG_OUTPUT_DIR / f"{chapter}.svg"
+    svg_file = SVG_OUTPUT_DIR / f"{chapter}_{index}.svg"
     
     # Skip if exists
     if svg_file.exists() and svg_file.stat().st_size > 200:

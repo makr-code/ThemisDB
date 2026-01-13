@@ -1,0 +1,296 @@
+total_tables: 98
+tables:
+- id: table-chapter-00-genesis-1
+  title: Tabelle 1
+  source_file: chapter_00_genesis
+- id: table-chapter-00-genesis-2
+  title: Tabelle 2
+  source_file: chapter_00_genesis
+- id: table-chapter-01-introduction-1
+  title: Tabelle 1
+  source_file: chapter_01_introduction
+- id: table-chapter-01-introduction-2
+  title: Tabelle 2
+  source_file: chapter_01_introduction
+- id: table-chapter-01-introduction-3
+  title: Tabelle 3
+  source_file: chapter_01_introduction
+- id: table-chapter-01-introduction-4
+  title: Tabelle 4
+  source_file: chapter_01_introduction
+- id: table-chapter-02-architecture-1
+  title: Tabelle 1
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-2
+  title: Tabelle 2
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-3
+  title: Tabelle 3
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-4
+  title: Tabelle 4
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-5
+  title: Tabelle 5
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-6
+  title: Tabelle 6
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-7
+  title: Tabelle 7
+  source_file: chapter_02_architecture
+- id: table-chapter-02-architecture-8
+  title: Tabelle 8
+  source_file: chapter_02_architecture
+- id: table-chapter-03-multimodel-1
+  title: Tabelle 1
+  source_file: chapter_03_multimodel
+- id: table-chapter-04-installation-1
+  title: Tabelle 1
+  source_file: chapter_04_installation
+- id: table-chapter-05-relational-1
+  title: Tabelle 1
+  source_file: chapter_05_relational
+- id: table-chapter-05-relational-2
+  title: Tabelle 2
+  source_file: chapter_05_relational
+- id: table-chapter-06-graph-1
+  title: Tabelle 1
+  source_file: chapter_06_graph
+- id: table-chapter-07-document-1
+  title: Tabelle 1
+  source_file: chapter_07_document
+- id: table-chapter-08-vector-1
+  title: Tabelle 1
+  source_file: chapter_08_vector
+- id: table-chapter-08-vector-2
+  title: Tabelle 2
+  source_file: chapter_08_vector
+- id: table-chapter-08-vector-3
+  title: Tabelle 3
+  source_file: chapter_08_vector
+- id: table-chapter-08-storage-layer-1
+  title: Tabelle 1
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-2
+  title: Tabelle 2
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-3
+  title: Tabelle 3
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-4
+  title: Tabelle 4
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-5
+  title: Tabelle 5
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-6
+  title: Tabelle 6
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-7
+  title: Tabelle 7
+  source_file: chapter_08_storage_layer
+- id: table-chapter-08-storage-layer-8
+  title: Tabelle 8
+  source_file: chapter_08_storage_layer
+- id: table-chapter-09-timeseries-1
+  title: Tabelle 1
+  source_file: chapter_09_timeseries
+- id: table-chapter-09-timeseries-2
+  title: Tabelle 2
+  source_file: chapter_09_timeseries
+- id: table-chapter-10-enterprise-1
+  title: Tabelle 1
+  source_file: chapter_10_enterprise
+- id: table-chapter-10-enterprise-2
+  title: Tabelle 2
+  source_file: chapter_10_enterprise
+- id: table-chapter-10-enterprise-3
+  title: Tabelle 3
+  source_file: chapter_10_enterprise
+- id: table-chapter-10-enterprise-4
+  title: Tabelle 4
+  source_file: chapter_10_enterprise
+- id: table-chapter-10-enterprise-5
+  title: Tabelle 5
+  source_file: chapter_10_enterprise
+- id: table-chapter-10-enterprise-6
+  title: Tabelle 6
+  source_file: chapter_10_enterprise
+- id: table-chapter-12-computervision-1
+  title: Tabelle 1
+  source_file: chapter_12_computervision
+- id: table-chapter-14-geospatial-1
+  title: Tabelle 1
+  source_file: chapter_14_geospatial
+- id: table-chapter-15-analytics-1
+  title: Tabelle 1
+  source_file: chapter_15_analytics
+- id: table-chapter-15-analytics-2
+  title: Tabelle 2
+  source_file: chapter_15_analytics
+- id: table-chapter-16-sharding-1
+  title: Tabelle 1
+  source_file: chapter_16_sharding
+- id: table-chapter-16-sharding-2
+  title: Tabelle 2
+  source_file: chapter_16_sharding
+- id: table-chapter-16-sharding-3
+  title: Tabelle 3
+  source_file: chapter_16_sharding
+- id: table-chapter-16-sharding-4
+  title: Tabelle 4
+  source_file: chapter_16_sharding
+- id: table-chapter-16-sharding-5
+  title: Tabelle 5
+  source_file: chapter_16_sharding
+- id: table-chapter-17-llm-integration-1
+  title: Tabelle 1
+  source_file: chapter_17_llm_integration
+- id: table-chapter-17-llm-integration-2
+  title: Tabelle 2
+  source_file: chapter_17_llm_integration
+- id: table-chapter-17-llm-integration-3
+  title: Tabelle 3
+  source_file: chapter_17_llm_integration
+- id: table-chapter-17-llm-integration-4
+  title: Tabelle 4
+  source_file: chapter_17_llm_integration
+- id: table-chapter-17-llm-integration-5
+  title: Tabelle 5
+  source_file: chapter_17_llm_integration
+- id: table-chapter-17-llm-integration-6
+  title: Tabelle 6
+  source_file: chapter_17_llm_integration
+- id: table-chapter-18-ml-1
+  title: Tabelle 1
+  source_file: chapter_18_ml
+- id: table-chapter-21-performance-1
+  title: Tabelle 1
+  source_file: chapter_21_performance
+- id: table-chapter-21-performance-2
+  title: Tabelle 2
+  source_file: chapter_21_performance
+- id: table-chapter-21-performance-3
+  title: Tabelle 3
+  source_file: chapter_21_performance
+- id: table-chapter-21-performance-4
+  title: Tabelle 4
+  source_file: chapter_21_performance
+- id: table-chapter-21-performance-5
+  title: Tabelle 5
+  source_file: chapter_21_performance
+- id: table-chapter-23-testing-qa-1
+  title: Tabelle 1
+  source_file: chapter_23_testing_qa
+- id: table-chapter-24-ai-ethics-1
+  title: Tabelle 1
+  source_file: chapter_24_ai_ethics
+- id: table-chapter-24-ai-ethics-2
+  title: Tabelle 2
+  source_file: chapter_24_ai_ethics
+- id: table-chapter-24-ai-ethics-3
+  title: Tabelle 3
+  source_file: chapter_24_ai_ethics
+- id: table-chapter-25-devops-infrastructure-1
+  title: Tabelle 1
+  source_file: chapter_25_devops_infrastructure
+- id: table-chapter-27-troubleshooting-1
+  title: Tabelle 1
+  source_file: chapter_27_troubleshooting
+- id: table-chapter-28-aql-reference-1
+  title: Tabelle 1
+  source_file: chapter_28_aql_reference
+- id: table-chapter-28-aql-reference-2
+  title: Tabelle 2
+  source_file: chapter_28_aql_reference
+- id: table-chapter-29-analytics-process-mining-1
+  title: Tabelle 1
+  source_file: chapter_29_analytics_process_mining
+- id: table-chapter-29-analytics-process-mining-2
+  title: Tabelle 2
+  source_file: chapter_29_analytics_process_mining
+- id: table-chapter-31-api-protocols-1
+  title: Tabelle 1
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-2
+  title: Tabelle 2
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-3
+  title: Tabelle 3
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-4
+  title: Tabelle 4
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-5
+  title: Tabelle 5
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-6
+  title: Tabelle 6
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-7
+  title: Tabelle 7
+  source_file: chapter_31_api_protocols
+- id: table-chapter-31-api-protocols-8
+  title: Tabelle 8
+  source_file: chapter_31_api_protocols
+- id: table-chapter-32-aql-oop-implementation-1
+  title: Tabelle 1
+  source_file: chapter_32_aql_oop_implementation
+- id: table-chapter-32-aql-oop-implementation-2
+  title: Tabelle 2
+  source_file: chapter_32_aql_oop_implementation
+- id: table-chapter-32-aql-oop-implementation-3
+  title: Tabelle 3
+  source_file: chapter_32_aql_oop_implementation
+- id: table-chapter-32-aql-oop-implementation-4
+  title: Tabelle 4
+  source_file: chapter_32_aql_oop_implementation
+- id: table-chapter-33-best-practices-1
+  title: Tabelle 1
+  source_file: chapter_33_best_practices
+- id: table-appendix-d-feature-status-1
+  title: Tabelle 1
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-2
+  title: Tabelle 2
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-3
+  title: Tabelle 3
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-4
+  title: Tabelle 4
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-5
+  title: Tabelle 5
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-6
+  title: Tabelle 6
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-7
+  title: Tabelle 7
+  source_file: appendix_d_feature_status
+- id: table-appendix-d-feature-status-8
+  title: Tabelle 8
+  source_file: appendix_d_feature_status
+- id: table-appendix-f-aql-cheatsheet-1
+  title: Tabelle 1
+  source_file: appendix_f_aql_cheatsheet
+- id: table-appendix-f-aql-cheatsheet-2
+  title: Tabelle 2
+  source_file: appendix_f_aql_cheatsheet
+- id: table-appendix-f-aql-cheatsheet-3
+  title: Tabelle 3
+  source_file: appendix_f_aql_cheatsheet
+- id: table-appendix-f-aql-cheatsheet-4
+  title: Tabelle 4
+  source_file: appendix_f_aql_cheatsheet
+- id: table-appendix-h-glossary-1
+  title: Tabelle 1
+  source_file: appendix_h_glossary
+- id: table-appendix-h-glossary-2
+  title: Tabelle 2
+  source_file: appendix_h_glossary
+- id: table-appendix-i-troubleshooting-1
+  title: Tabelle 1
+  source_file: appendix_i_troubleshooting

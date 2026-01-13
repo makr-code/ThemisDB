@@ -311,9 +311,11 @@ HttpServer::HttpServer(
         THEMIS_INFO("Changefeed initialized using default CF");
         
         // Initialize SnapshotManager (Named Snapshots feature)
-        snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
-        snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
-        THEMIS_INFO("SnapshotManager initialized");
+        // TODO: Re-enable after resolving incomplete type error
+        // snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
+        // TODO: Re-enable SnapshotApiHandler after refactoring to use Beast types instead of httplib
+        // snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
+        THEMIS_INFO("SnapshotManager temporarily disabled (incomplete type error)");
         
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
@@ -676,9 +678,9 @@ HttpServer::HttpServer(
     // Initialize SchemaManager and Schema API Handler
     try {
         if (storage_ && storage_->isOpen()) {
-            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_mgr_.get());
+            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
-                storage_, secondary_index_mgr_, schema_manager_.get());
+                storage_, secondary_index_, schema_manager_.get());
             THEMIS_INFO("SchemaManager and Schema API Handler initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
@@ -1307,6 +1309,12 @@ namespace {
     SchemaGetTables,          // GET /api/v1/schema/tables
     SchemaGetTable,           // GET /api/v1/schema/tables/:name
        
+    // Error API
+    ErrorApiListGet,          // GET /api/v1/errors
+    ErrorApiGetByCode,        // GET /api/v1/errors/:code
+    ErrorApiCategoriesGet,    // GET /api/v1/errors/categories
+    ErrorApiSearchGet,        // GET /api/v1/errors/search
+       
         NotFound
     };
 
@@ -1752,46 +1760,14 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleChangefeedRetention(req);
             break;
         
-        // Snapshot API
+        // Snapshot API (temporarily disabled - needs refactoring to Beast)
         case Route::SnapshotsTagsPost:
-            if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleCreateTag(req, response);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
         case Route::SnapshotsTagsGet:
-            if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleListTags(req, response);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
         case Route::SnapshotsTagGet:
-            if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetTag(req, response);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
         case Route::SnapshotsTagDelete:
-            if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleDeleteTag(req, response);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
         case Route::SnapshotsStatsGet:
-            if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetStats(req, response);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
+            response = makeErrorResponse(http::status::service_unavailable, 
+                "Snapshot API temporarily disabled (type conversion required)", req);
             break;
         
         case Route::TimeSeriesPut:
@@ -3134,28 +3110,7 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
 // -----------------------------------------------------------------------------
 
 namespace {
-    // Percent-decode helper for application/x-www-form-urlencoded style (handles + and %HH)
-    static std::string urlDecode(const std::string& in) {
-        std::string out;
-        out.reserve(in.size());
-        for (size_t i = 0; i < in.size(); ++i) {
-            char c = in[i];
-            if (c == '+') { out.push_back(' '); }
-            else if (c == '%' && i + 2 < in.size()) {
-                auto hex = in.substr(i + 1, 2);
-                int v = 0;
-                if (std::isxdigit(static_cast<unsigned char>(hex[0])) && std::isxdigit(static_cast<unsigned char>(hex[1]))) {
-                    v = std::stoi(hex, nullptr, 16);
-                    out.push_back(static_cast<char>(v));
-                    i += 2;
-                } else {
-                    out.push_back(c);
-                }
-            } else { out.push_back(c); }
-        }
-        return out;
-    }
-
+    // NOTE: urlDecode already defined earlier in this file - removed duplicate
     // URL query parser with percent-decoding
     static std::unordered_map<std::string, std::string> parseQuery(const std::string& target) {
         std::unordered_map<std::string, std::string> out;

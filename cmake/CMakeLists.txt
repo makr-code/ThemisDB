@@ -178,6 +178,14 @@ if(THEMIS_ENABLE_MIMALLOC)
     else()
         message(STATUS "Found mimalloc: ${mimalloc_DIR}")
         add_compile_definitions(THEMIS_USE_MIMALLOC)
+        
+        # On Windows: exclude mimalloc-redirect.dll to prevent DLL-injection crash
+        # Use only mimalloc.dll (static override is safer)
+        if(WIN32)
+            message(STATUS "Windows: Disabling mimalloc-redirect DLL to prevent loader crash")
+            # Tell mimalloc to use static override instead of DLL redirection
+            add_compile_definitions(MI_DISABLE_REDIRECT=1)
+        endif()
     endif()
 endif()
 
@@ -1018,7 +1026,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
     
-    ../src/server/http_server.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/audit_api_handler.cpp
     ../src/server/pki_api_handler.cpp
@@ -1040,8 +1048,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
-    ../src/server/feedback_api_handler.cpp
-    ../src/server/snapshot_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/feedback_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1049,17 +1057,17 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     
-    ../src/content/content_type.cpp
-    ../src/content/content_manager.cpp
-    ../src/content/text_processor.cpp
-    ../src/content/mock_clip_processor.cpp
-    ../src/content/mime_detector.cpp
-    ../src/content/content_policy.cpp
-    ../src/content/content_fs.cpp
-    ../src/content/version_manager.cpp
-    $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:../src/content/office_processor.cpp>
-    ../src/content/archive_processor.cpp  # Archive processing (uses libzip, always available)
-    ../src/content/async_ingestion_worker.cpp  # Async ingestion for development/showcase
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
@@ -1133,7 +1141,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/auth/jwt_validator.cpp
-    ../src/auth/gssapi_authenticator.cpp
+    $<$<BOOL:${THEMIS_ENABLE_KERBEROS}>:../src/auth/gssapi_authenticator.cpp>
     ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
@@ -1220,12 +1228,17 @@ set(THEMIS_CORE_SOURCES
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp
-    ../src/server/snapshot_api_handler.cpp
     
     # Phase 2: Diff Engine
     ../src/analytics/diff_engine.cpp
-    ../src/server/diff_api_handler.cpp
 )
+
+# HTTP Server API handlers (only if HTTP server enabled)
+if(THEMIS_ENABLE_HTTP_SERVER)
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/server/diff_api_handler.cpp
+    )
+endif()
 
 # Phase 2 Performance Optimizations (PR #156/#157)
 # Conditionally add Phase 2 optimization sources when enabled
@@ -1702,8 +1715,31 @@ if(THEMIS_ENABLE_GRPC)
     find_package(gRPC CONFIG)
     find_package(Protobuf CONFIG)
     if(gRPC_FOUND AND Protobuf_FOUND)
-        target_link_libraries(themis_core PUBLIC gRPC::grpc++ gRPC::grpc++_reflection protobuf::libprotobuf)
-        message(STATUS "gRPC and Protobuf found - linking to themis_core")
+        if(NOT TARGET gRPC::grpc++_reflection)
+            # vcpkg static triplet may not export reflection target; try to create an imported target
+            find_library(GRPCPP_REFLECTION_LIB NAMES grpc++_reflection
+                PATHS
+                    ${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib
+                    ${CMAKE_BINARY_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/debug/lib
+                NO_DEFAULT_PATH)
+            if(GRPCPP_REFLECTION_LIB)
+                add_library(gRPC::grpc++_reflection UNKNOWN IMPORTED)
+                set_target_properties(gRPC::grpc++_reflection PROPERTIES
+                    IMPORTED_LOCATION ${GRPCPP_REFLECTION_LIB}
+                    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX")
+                message(STATUS "gRPC reflection library found manually: ${GRPCPP_REFLECTION_LIB}")
+            else()
+                message(WARNING "gRPC reflection library not found; proceeding without reflection")
+            endif()
+        endif()
+
+        if(TARGET gRPC::grpc++_reflection)
+            target_link_libraries(themis_core PUBLIC gRPC::grpc++ gRPC::grpc++_reflection protobuf::libprotobuf)
+            message(STATUS "gRPC and Protobuf found - linking to themis_core (with reflection)")
+        else()
+            target_link_libraries(themis_core PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+            message(WARNING "gRPC::grpc++_reflection not found; linking without reflection to themis_core")
+        endif()
 
         if(COMMAND protobuf_generate)
             # Generate shard RPC stubs (ApplyWalBatch, etc.)
@@ -1737,6 +1773,13 @@ if(THEMIS_ENABLE_GRPC)
             add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
             target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
             target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            # Suppress warnings in generated protobuf files
+            if(MSVC)
+                target_compile_options(themis_shard_proto PRIVATE /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
 
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
         else()
@@ -1972,10 +2015,14 @@ target_link_libraries(themis_server
         themis_core
 )
 
-# Link performance optimization libraries
-if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-    target_link_libraries(themis_server PRIVATE mimalloc)
-    message(STATUS "Linking themis_server with mimalloc")
+# Ensure themis_server does not directly link mimalloc; rely on themis_core
+if(WIN32 AND THEMIS_ENABLE_MIMALLOC)
+    get_target_property(_srv_libs themis_server LINK_LIBRARIES)
+    if(_srv_libs)
+        list(REMOVE_ITEM _srv_libs mimalloc mimalloc-debug mimalloc-static)
+        set_target_properties(themis_server PROPERTIES LINK_LIBRARIES "${_srv_libs}")
+        message(STATUS "Pruned mimalloc libs from themis_server link libraries")
+    endif()
 endif()
 
 # Tests
@@ -2125,7 +2172,8 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
+    # Kerberos test removed - not available on Windows
+    # ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp

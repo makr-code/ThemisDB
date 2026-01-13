@@ -24,6 +24,11 @@ struct ExtractionResult {
     std::vector<float> embedding;  // Optional: Pre-computed embedding
     std::string error_message;
     
+    // Archive extraction fields
+    bool success = false;          // Alias for ok (for backwards compatibility)
+    std::vector<std::string> extracted_files;  // List of extracted file paths (for archives)
+    std::string temp_directory;    // Temporary extraction directory (for archives)
+    
     // Type-specific extracted data
     struct GeoData {
         std::vector<std::pair<double, double>> coordinates; // lat/lon pairs

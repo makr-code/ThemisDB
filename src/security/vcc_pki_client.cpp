@@ -329,8 +329,10 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     cert.issuer = issuer_buf;
     
     // Extract validity period
-    ASN1_TIME* not_before = X509_get_notBefore(x509);
-    ASN1_TIME* not_after = X509_get_notAfter(x509);
+    // Note: not_before and not_after would be used for proper time conversion
+    // Currently using placeholder values
+    (void)X509_get_notBefore(x509);  // Suppress unused warning
+    (void)X509_get_notAfter(x509);   // Suppress unused warning
     
     // Convert ASN1_TIME to milliseconds (simplified)
     // Production: Use ASN1_TIME_to_tm() for proper conversion

@@ -236,10 +236,10 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
             } else {
                 rightVal = std::stoll(right);
             }
-        } catch (const std::invalid_argument& e) {
+        } catch (const std::invalid_argument&) {
             // Invalid numeric format
             return false;
-        } catch (const std::out_of_range& e) {
+        } catch (const std::out_of_range&) {
             // Number too large
             return false;
         } catch (...) {
@@ -1521,7 +1521,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
     std::string hyperedgePrefix = "process:hyperedge:";
     bool found = false;
     
-    db_.scanPrefix(hyperedgePrefix, [&hyperedge, &hyperedge_id, &found](std::string_view key, std::string_view val) {
+    db_.scanPrefix(hyperedgePrefix, [this, &hyperedge, &hyperedge_id, &found](std::string_view key, std::string_view val) {
         std::string keyStr(key);
         
         // Check if this is the hyperedge we're looking for

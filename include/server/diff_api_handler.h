@@ -2,9 +2,12 @@
 #define THEMIS_DIFF_API_HANDLER_H
 
 #include "analytics/diff_engine.h"
-#include <httplib.h>
 #include <memory>
 #include <nlohmann/json.hpp>
+
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+#include <httplib.h>
+#endif
 
 namespace themis {
 namespace server {
@@ -38,6 +41,7 @@ public:
     DiffApiHandler(DiffApiHandler&&) = default;
     DiffApiHandler& operator=(DiffApiHandler&&) = default;
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
      * @brief Register routes with HTTP server
      * @param server HTTP server instance
@@ -97,6 +101,10 @@ private:
      * @brief Create success response with JSON body
      */
     void sendJson(httplib::Response& res, const json& data, int status_code = 200) const;
+#else
+private:
+    analytics::DiffEngine& diff_engine_;
+#endif
 };
 
 } // namespace server

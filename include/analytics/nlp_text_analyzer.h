@@ -62,6 +62,7 @@ struct Keyword {
     double score;               ///< TF-IDF or relevance score
     size_t frequency;           ///< Occurrence count
     
+    Keyword() : text(""), score(0.0), frequency(0) {}
     Keyword(std::string t, double s, size_t f = 1)
         : text(std::move(t)), score(s), frequency(f) {}
         

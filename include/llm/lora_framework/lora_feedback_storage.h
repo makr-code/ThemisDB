@@ -13,6 +13,9 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+// Reuse the global GraphIndexManager type to avoid duplicate class names
+using GraphIndexManager = ::themis::GraphIndexManager;
+
 /**
  * @brief Feedback storage service with graph integration
  * 
@@ -22,6 +25,7 @@ namespace lora {
  * - Plugin-based validation and processing
  * - Uses existing help_feedback collection
  */
+
 class FeedbackStorageService {
 public:
     /**
@@ -29,7 +33,7 @@ public:
      */
     struct Config {
         std::shared_ptr<RocksDBWrapper> db;              // RocksDB instance
-        std::shared_ptr<GraphIndex> graph_index;         // Graph index for relationships
+        std::shared_ptr<GraphIndexManager> graph_index;  // Graph index for relationships
         std::string collection_name = "help_feedback";   // Collection name
         bool enable_graph_links = true;                  // Enable graph relationships
     };

@@ -10,7 +10,6 @@
     { "name": "rocksdb", "features": ["lz4", "zstd"] },
     { "name": "simdjson" },
     { "name": "tbb" },
-    { "name": "arrow", "features": ["parquet", "compute"] },
     { "name": "hnswlib" },
     { "name": "gtest" },
     { "name": "benchmark" },
@@ -27,7 +26,9 @@
     { "name": "mimalloc" },
     { "name": "prometheus-cpp", "features": ["pull"] },
     { "name": "libzip" },
-    { "name": "pugixml" }
+    { "name": "pugixml" },
+    { "name": "cpp-httplib" },
+    { "name": "boost-url" }
   ],
   "features": {
     "gpu": {

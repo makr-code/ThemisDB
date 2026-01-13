@@ -97,7 +97,7 @@ inline size_t get_huge_page_size() {
  * @param size Number of bytes to allocate (should be multiple of huge page size)
  * @return Pointer to allocated memory, or nullptr on failure
  */
-inline void* allocate_huge_pages(size_t size) {
+inline void* allocate_huge_pages([[maybe_unused]] size_t size) {
     #ifdef THEMIS_USE_HUGE_PAGES
     
     #ifdef __linux__
@@ -159,7 +159,7 @@ inline void* allocate_huge_pages(size_t size) {
  * @param ptr Pointer to memory to free
  * @param size Size of the allocation
  */
-inline void deallocate_huge_pages(void* ptr, size_t size) {
+inline void deallocate_huge_pages(void* ptr, [[maybe_unused]] size_t size) {
     if (!ptr) return;
     
     #ifdef THEMIS_USE_HUGE_PAGES
@@ -217,7 +217,7 @@ inline std::string huge_pages_status() {
  * @param num_pages Number of 2MB huge pages to reserve
  * @return Instructions string
  */
-inline std::string get_huge_pages_setup_instructions(int num_pages = 1024) {
+inline std::string get_huge_pages_setup_instructions([[maybe_unused]] int num_pages = 1024) {
     #ifdef __linux__
     return 
         "To enable huge pages on Linux:\n"

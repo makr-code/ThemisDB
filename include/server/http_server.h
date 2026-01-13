@@ -567,9 +567,10 @@ private:
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
     
-    // Snapshot Manager (Named Snapshots feature)
-    std::unique_ptr<SnapshotManager> snapshot_manager_;
-    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    // Snapshot Manager (Named Snapshots feature) - TEMPORARILY DISABLED
+    // std::unique_ptr<SnapshotManager> snapshot_manager_;
+    // std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    // TODO: Re-enable after resolving incomplete type errors
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE

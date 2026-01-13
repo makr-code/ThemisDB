@@ -1746,15 +1746,21 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                     // Create graph edge: archive -> extracted_file (only if graph_index available)
                     if (graph_index_) {
                         try {
-                            graph_index_->addEdge(
-                                std::string("content:") + archive_id,
-                                std::string("content:") + nested_result.primary_content_id,
-                                "CONTAINS",
-                                json{
-                                    {"original_path", relative_path},
-                                    {"extraction_order", result.extracted_content_ids.size() - 1}
-                                }
+                            // Create edge entity using BaseEntity::FieldMap
+                            BaseEntity::FieldMap edge_fields;
+                            edge_fields["id"] = "edge:" + archive_id + ":" + nested_result.primary_content_id;
+                            edge_fields["_from"] = "content:" + archive_id;
+                            edge_fields["_to"] = "content:" + nested_result.primary_content_id;
+                            edge_fields["_label"] = "CONTAINS";
+                            edge_fields["original_path"] = relative_path;
+                            edge_fields["extraction_order"] = static_cast<int64_t>(result.extracted_content_ids.size() - 1);
+                            
+                            BaseEntity edge = BaseEntity::fromFields(
+                                "edge:" + archive_id + ":" + nested_result.primary_content_id,
+                                edge_fields
                             );
+                            
+                            graph_index_->addEdge(edge);
                         } catch (const std::exception& e) {
                             THEMIS_WARN("Failed to create graph edge for archive member: {}", e.what());
                         }

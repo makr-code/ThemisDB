@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Link Test</title>
+</head>
+<body>
+    <h1>Test Internal Links</h1>
+    
+    <p><a href="#section1">Go to Section 1</a></p>
+    <p><a href="#section2">Go to Section 2</a></p>
+    
+    <div style="page-break-before: always;">
+        <h2 id="section1">Section 1</h2>
+        <p>This is section 1 content.</p>
+        <p><a href="#section2">Go to Section 2</a></p>
+    </div>
+    
+    <div style="page-break-before: always;">
+        <h2 id="section2">Section 2</h2>
+        <p>This is section 2 content.</p>
+        <p><a href="#section1">Back to Section 1</a></p>
+    </div>
+</body>
+</html>

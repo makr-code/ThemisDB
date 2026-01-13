@@ -16,6 +16,7 @@ except ImportError:
     PYPDF2_AVAILABLE = False
 
 COMPENDIUM_DIR = Path(__file__).parent
+DOCS_DIR = COMPENDIUM_DIR / "docs"
 OUTPUT_DIR = COMPENDIUM_DIR / "output"
 YAML_CONFIG = COMPENDIUM_DIR / "mkdocs-nav.yml"
 
@@ -139,7 +140,7 @@ def generate_page_mapping(flat_nav: List[Dict]) -> Dict[str, int]:
             
             # Estimate pages for this chapter
             if item['file']:
-                file_path = COMPENDIUM_DIR / item['file']
+                file_path = DOCS_DIR / item['file']
                 pages = estimate_page_count(file_path)
                 current_page += pages
             else:

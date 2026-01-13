@@ -31,8 +31,8 @@ protected:
         
         // Create redundancy strategy
         RedundancyConfig raid_config;
-        raid_config.mode = RedundancyMode::RAID5;
-        raid_config.stripe_size = 3;
+        raid_config.mode = RedundancyMode::PARITY;  // Use PARITY instead of RAID5
+        // raid_config.stripe_size removed - not part of RedundancyConfig
         strategy_ = std::make_unique<RedundancyStrategy>(raid_config);
     }
     
@@ -369,7 +369,7 @@ TEST_F(PredictiveDetectorTest, TruePositiveRate) {
 TEST_F(PredictiveDetectorTest, MonitoringLoopIntegration) {
     PredictiveConfig config;
     config.enabled = true;
-    config.check_interval = std::chrono::milliseconds(100);  // Fast for testing
+    config.check_interval = std::chrono::seconds(1);  // 1 second for testing (must be chrono::seconds)
     
     int alert_count = 0;
     config.alert_callback = [&alert_count](const std::string& msg) {

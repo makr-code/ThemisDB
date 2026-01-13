@@ -11,6 +11,9 @@
 #endif
 #include <windows.h>
 #include <winsock2.h>
+// Early crash diagnostics for Windows
+#include <eh.h>
+#include <excpt.h>
 #endif
 
 #include "utils/logger.h"
@@ -20,7 +23,9 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
+#ifdef THEMIS_ENABLE_HTTP_SERVER
 #include "server/http_server.h"
+#endif
 #include "sharding/wal_applier.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_shipper.h"
@@ -73,7 +78,9 @@ using json = nlohmann::json;
 // Global atomic flag for signal handling (async-signal-safe)
 std::atomic<bool> g_shutdown_requested{false};
 // Server instance (accessed only from main thread, not from signal handler)
+#ifdef THEMIS_ENABLE_HTTP_SERVER
 std::shared_ptr<server::HttpServer> g_server;
+#endif
 
 #ifdef THEMIS_ENABLE_GRPC
 static std::unique_ptr<grpc::Server> g_wal_grpc_server;
@@ -99,7 +106,97 @@ void signalHandler(int signal) {
     }
 }
 
+#ifdef _WIN32
+// Windows structured exception handler for early crash diagnostics
+void windows_se_translator(unsigned int code, EXCEPTION_POINTERS* pExp) {
+    const char* exception_name = "UNKNOWN";
+    switch (code) {
+        case EXCEPTION_ACCESS_VIOLATION:
+            exception_name = "ACCESS_VIOLATION";
+            break;
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+            exception_name = "ARRAY_BOUNDS_EXCEEDED";
+            break;
+        case EXCEPTION_DATATYPE_MISALIGNMENT:
+            exception_name = "DATATYPE_MISALIGNMENT";
+            break;
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+            exception_name = "FLT_DIVIDE_BY_ZERO";
+            break;
+        case EXCEPTION_INT_DIVIDE_BY_ZERO:
+            exception_name = "INT_DIVIDE_BY_ZERO";
+            break;
+        case EXCEPTION_STACK_OVERFLOW:
+            exception_name = "STACK_OVERFLOW";
+            break;
+    }
+    
+    // Write to stderr immediately (before any heap allocations)
+    char buffer[512];
+    int len = snprintf(buffer, sizeof(buffer),
+        "\n*** WINDOWS STRUCTURED EXCEPTION ***\n"
+        "Exception Code: 0x%08X (%s)\n"
+        "Exception Address: 0x%p\n"
+        "*** This may indicate a global variable initialization error ***\n",
+        code, exception_name,
+        pExp ? pExp->ExceptionRecord->ExceptionAddress : nullptr);
+    
+    if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
+        _write(2, buffer, len);
+    }
+    
+    // Convert to C++ exception for potential catch in main
+    throw std::runtime_error("Windows structured exception");
+}
+#endif
+
 int main(int argc, char* argv[]) {
+#ifdef _WIN32
+    // Install structured exception handler FIRST
+    _set_se_translator(windows_se_translator);
+    
+    // Wrap entire main in try-catch for early diagnostics
+    try {
+#endif
+    
+    // --- Early flag handling (no heavy initialization) ---
+    // Simple hardcoded usage text
+    auto print_usage = [](const char* prog) {
+        std::cout << "Usage: " << prog << " [options]\n"
+                  << "Options:\n"
+                  << "  --db PATH       Database path (default: ./data/themis_server)\n"
+                  << "  --host HOST     Server host (default: 0.0.0.0)\n"
+                  << "  --port PORT     Server port (default: 8765)\n"
+                  << "  --threads N     Number of worker threads (default: auto)\n"
+                  << "  --config FILE   Load server/storage config from JSON or YAML file\n"
+                  << "  --version, -v   Show version information and exit\n"
+                  << "  --build-info    Show build configuration details and exit\n"
+                  << "  --license-info  Show embedded license information and exit\n"
+                  << "  --help, -h      Show this help message\n";
+    };
+
+    bool show_build_info = false;
+    bool show_license_info = false;
+
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--version" || arg == "-v") {
+#ifdef THEMIS_VERSION_STRING
+            std::cout << THEMIS_VERSION_STRING << std::endl;
+#else
+            std::cout << "unknown" << std::endl;
+#endif
+            return 0;
+        } else if (arg == "--build-info") {
+            show_build_info = true;
+        } else if (arg == "--license-info") {
+            show_license_info = true;
+        } else if (arg == "--help" || arg == "-h") {
+            print_usage(argv[0]);
+            return 0;
+        }
+    }
+
     // Initialize logger
     utils::Logger::init("themis_server.log", utils::Logger::Level::INFO);
     
@@ -110,7 +207,41 @@ int main(int argc, char* argv[]) {
     THEMIS_INFO("Version: unknown");
 #endif
     
-    // Display build configuration and edition information
+    // Display build info if requested
+    if (show_build_info) {
+        try {
+            auto build_config = themis::build_info::getBuildConfiguration();
+            std::string build_info = themis::build_info::formatBuildInfo(build_config);
+            std::istringstream iss(build_info);
+            std::string line;
+            while (std::getline(iss, line)) {
+                std::cout << line << std::endl;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Failed to retrieve build info: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+    
+    // Display license info if requested
+    if (show_license_info) {
+        try {
+            auto license = themis::license::getEmbeddedLicense();
+            if (license) {
+                std::string license_info = themis::license::formatLicenseInfo(*license);
+                std::cout << license_info << std::endl;
+            } else {
+                std::cout << "No embedded license data" << std::endl;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Failed to retrieve license info: " << e.what() << std::endl;
+            return 1;
+        }
+        return 0;
+    }
+    
+    // Display build configuration and edition information (startup logging)
     try {
         auto build_config = themis::build_info::getBuildConfiguration();
         std::string build_info = themis::build_info::formatBuildInfo(build_config);
@@ -163,7 +294,6 @@ int main(int argc, char* argv[]) {
         uint16_t port = 8765;
         size_t num_threads = 0; // Auto-detect
         std::optional<std::string> config_path;
-        
         for (int i = 1; i < argc; ++i) {
             std::string arg = argv[i];
             if (arg == "--db" && i + 1 < argc) {
@@ -184,6 +314,9 @@ int main(int argc, char* argv[]) {
                           << "  --port PORT     Server port (default: 8765)\n"
                           << "  --threads N     Number of worker threads (default: auto)\n"
                           << "  --config FILE   Load server/storage config from JSON or YAML file\n"
+                          << "  --version, -v   Show version information and exit\n"
+                          << "  --build-info    Show build configuration details and exit\n"
+                          << "  --license-info  Show embedded license information and exit\n"
                           << "  --help, -h      Show this help message\n";
                 return 0;
             }
@@ -442,6 +575,7 @@ int main(int argc, char* argv[]) {
         }
         
     // Create and start HTTP server
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         server::HttpServer::Config server_config(host, port, num_threads);
         // Apply feature flags
         if (cfg && cfg->contains("features")) {
@@ -459,6 +593,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
+#endif
         // WAL components for replica apply endpoint
         themis::sharding::WALManagerConfig wal_cfg;
         wal_cfg.wal_directory = db_path + "/wal_replica";
@@ -658,6 +793,7 @@ int main(int argc, char* argv[]) {
         }
 
         // Create HttpServer with all components
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server = std::make_shared<server::HttpServer>(
             server_config,
             db,
@@ -671,6 +807,9 @@ int main(int argc, char* argv[]) {
             multi_primary_coordinator,
             health_monitor
         );
+#else
+        THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
+#endif
 
 #ifdef THEMIS_ENABLE_GRPC
         // Start WAL gRPC Apply service (if stubs are available)
@@ -894,8 +1033,12 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Retention worker disabled (enable via config.json features.retention.enabled)");
         }
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         THEMIS_INFO("Starting HTTP server...");
         g_server->start();
+#else
+        THEMIS_INFO("HTTP server disabled; skipping start.");
+#endif
         
         // Initialize sharding metrics if enabled
         bool sharding_enabled = false;
@@ -1041,10 +1184,17 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("");
         
         THEMIS_INFO("⚙️  FEATURE FLAGS & CAPABILITIES:");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         THEMIS_INFO("  Semantic Cache (beta):   {}", (server_config.feature_semantic_cache ? "✅ ENABLED" : "❌ disabled"));
         THEMIS_INFO("  LLM Interaction Store:   {}", (server_config.feature_llm_store ? "✅ ENABLED" : "❌ disabled"));
         THEMIS_INFO("  CDC (Change Data Feed):  {}", (server_config.feature_cdc ? "✅ ENABLED" : "❌ disabled"));
         THEMIS_INFO("  Time-Series Analytics:   {}", (server_config.feature_timeseries ? "✅ ENABLED" : "❌ disabled"));
+#else
+        THEMIS_INFO("  Semantic Cache (beta):   ❌ disabled");
+        THEMIS_INFO("  LLM Interaction Store:   ❌ disabled");
+        THEMIS_INFO("  CDC (Change Data Feed):  ❌ disabled");
+        THEMIS_INFO("  Time-Series Analytics:   ❌ disabled");
+#endif
         THEMIS_INFO("  Retention Manager:       {}", (retention_enabled ? "✅ ENABLED (interval: " + std::to_string(retention_interval_hours) + "h)" : "❌ disabled"));
         THEMIS_INFO("");
         
@@ -1058,7 +1208,11 @@ int main(int argc, char* argv[]) {
         
         THEMIS_INFO("📡 SERVICES & PROTOCOLS:");
         THEMIS_INFO("  Transaction Manager:     ✅ active (ACID guarantees)");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         THEMIS_INFO("  HTTP/REST API:           ✅ listening");
+#else
+        THEMIS_INFO("  HTTP/REST API:           ❌ disabled (build flag)");
+#endif
         THEMIS_INFO("  WebSocket (gRPC):        ✅ available");
         THEMIS_INFO("  Content-FS (blob store): ✅ operational");
         THEMIS_INFO("  Distributed Tracing:     {}", (cfg && cfg->contains("tracing") && (*cfg)["tracing"].value("enabled", false) ? "✅ ENABLED" : "❌ disabled"));
@@ -1105,24 +1259,32 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  GET  /contentfs/:pk       - Retrieve content (Range supported)");
         THEMIS_INFO("  HEAD /contentfs/:pk       - Content metadata (size, ETag)");
         THEMIS_INFO("  DELETE /contentfs/:pk     - Delete content");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_semantic_cache) {
             THEMIS_INFO("  POST /cache/query         - Semantic cache lookup (beta)");
             THEMIS_INFO("  POST /cache/put           - Semantic cache put (beta)");
             THEMIS_INFO("  GET  /cache/stats         - Semantic cache stats (beta)");
         }
+#endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_llm_store) {
             THEMIS_INFO("  POST /llm/interaction     - Create LLM interaction (beta)");
             THEMIS_INFO("  GET  /llm/interaction     - List LLM interactions (beta)");
             THEMIS_INFO("  GET  /llm/interaction/:id - Get LLM interaction (beta)");
         }
+#endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_cdc) {
             THEMIS_INFO("  GET  /changefeed          - CDC feed (beta)");
         }
+#endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         if (server_config.feature_timeseries) {
             THEMIS_INFO("  POST /ts/put              - Store time-series data (beta)");
             THEMIS_INFO("  POST /ts/query            - Query time-series data (beta)");
             THEMIS_INFO("  POST /ts/aggregate        - Aggregate time-series (beta)");
         }
+#endif
         THEMIS_INFO("");
         THEMIS_INFO("ready to serve...");
         
@@ -1149,7 +1311,9 @@ int main(int argc, char* argv[]) {
             g_wal_grpc_service.reset();
         }
 #endif
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server->stop();
+#endif
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Initiating graceful shutdown sequence...");
@@ -1189,7 +1353,9 @@ int main(int argc, char* argv[]) {
         
         // Step 5: Clear shared pointers
         THEMIS_INFO("[5/5] Releasing resources...");
+#ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server.reset();
+#endif
         tx_manager.reset();
         vector_index.reset();
         graph_index.reset();
@@ -1204,6 +1370,22 @@ int main(int argc, char* argv[]) {
         THEMIS_ERROR("Fatal error: {}", e.what());
         return 1;
     }
+    
+#ifdef _WIN32
+    // Close Windows SE handler try-catch
+    } catch (const std::exception& e) {
+        // Structured exception caught
+        const char* msg = "\n*** FATAL: Exception during initialization ***\n";
+        _write(2, msg, static_cast<unsigned int>(strlen(msg)));
+        _write(2, e.what(), static_cast<unsigned int>(strlen(e.what())));
+        _write(2, "\n", 1);
+        return 1;
+    } catch (...) {
+        const char* msg = "\n*** FATAL: Unknown exception during initialization ***\n";
+        _write(2, msg, static_cast<unsigned int>(strlen(msg)));
+        return 1;
+    }
+#endif
     
     utils::Logger::shutdown();
     return 0;

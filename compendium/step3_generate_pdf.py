@@ -34,83 +34,34 @@ def main():
     print(f"\n[INFO] Input:  {html_filename}")
     print(f"[INFO] Output: {pdf_filename}\n")
     
-    # Method 1: Try wkhtmltopdf (faster than WeasyPrint for large documents)
-    print("[1/2] Trying wkhtmltopdf...")
-    if try_wkhtmltopdf(html_path, pdf_path):
+    # Method 1: Try WeasyPrint first (better CSS support)
+    print("[1/2] Trying WeasyPrint...")
+    if try_weasyprint(html_path, pdf_path):
         return True
     
-    # Method 2: Fallback to WeasyPrint
-    print("[2/2] Trying WeasyPrint...")
-    if try_weasyprint(html_path, pdf_path):
+    # Method 2: Fallback to wkhtmltopdf
+    print("[2/2] Trying wkhtmltopdf...")
+    if try_wkhtmltopdf(html_path, pdf_path):
         return True
     
     print("ERROR: No PDF generation method available!")
     return False
 
-def create_header_footer_html():
-    """Create header and footer HTML files for wkhtmltopdf."""
-    header_html = f'''<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body {{ margin: 0; padding: 0; font-family: Georgia, serif; font-size: 9pt; }}
-        .header {{ text-align: center; color: #1a4d2e; padding: 5px 0; border-bottom: 1px solid #2a7f62; }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        ThemisDB Kompendium {VERSION} | Seite <span class="page"></span>
-    </div>
-</body>
-</html>
-'''
-    
-    footer_html = f'''<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body {{ margin: 0; padding: 0; font-family: Georgia, serif; font-size: 8pt; }}
-        .footer {{ text-align: center; color: #999; padding: 5px 0; border-top: 1px solid #ddd; }}
-    </style>
-</head>
-<body>
-    <div class="footer">
-        © 2026 ThemisDB Team | Seite <span class="page"></span> von <span class="topage"></span>
-    </div>
-</body>
-</html>
-'''
-    
-    # Write header and footer files
-    header_path = OUTPUT_DIR / "header.html"
-    footer_path = OUTPUT_DIR / "footer.html"
-    
-    with open(header_path, 'w', encoding='utf-8') as f:
-        f.write(header_html)
-    
-    with open(footer_path, 'w', encoding='utf-8') as f:
-        f.write(footer_html)
-    
-    return str(header_path), str(footer_path)
-
 def try_wkhtmltopdf(html_path, pdf_path):
-    """Try to convert HTML to PDF using wkhtmltopdf with headers/footers."""
+    """Try to convert HTML to PDF using wkhtmltopdf."""
     try:
-        # Create header and footer HTML files
-        header_path, footer_path = create_header_footer_html()
-        
+        # Note: Headers/Footers are now handled by CSS @page rules in HTML
         cmd = [
             'wkhtmltopdf',
             '--quiet',
             '--enable-local-file-access',
-            '--header-html', header_path,
-            '--footer-html', footer_path,
-            '--margin-top', '25mm',
+            '--margin-top', '30mm',
             '--margin-bottom', '25mm',
             '--margin-left', '20mm',
             '--margin-right', '20mm',
+            '--page-size', 'A4',
+            '--print-media-type',
+            '--enable-page-breaks',
             str(html_path),
             str(pdf_path)
         ]
@@ -144,8 +95,29 @@ def try_weasyprint(html_path, pdf_path):
         print("  (This may take several minutes)...")
         from weasyprint import HTML
         
-        html = HTML(filename=str(html_path))
-        html.write_pdf(str(pdf_path), uncompressed_pdf=False)
+        # Use subprocess with timeout to prevent hanging
+        import subprocess
+        cmd = [
+            'python3', '-c',
+            f"""
+import sys
+from weasyprint import HTML
+try:
+    html = HTML(filename='{html_path}')
+    html.write_pdf('{pdf_path}', uncompressed_pdf=False)
+    print('SUCCESS')
+except Exception as e:
+    print(f'ERROR: {{e}}', file=sys.stderr)
+    sys.exit(1)
+"""
+        ]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        
+        if result.returncode != 0:
+            if result.stderr:
+                print(f"  Error: {result.stderr[:200]}")
+            return False
         
         if pdf_path.exists():
             size_mb = pdf_path.stat().st_size / (1024 * 1024)
@@ -160,6 +132,9 @@ def try_weasyprint(html_path, pdf_path):
         return False
     except KeyboardInterrupt:
         print("Cancelled")
+        return False
+    except subprocess.TimeoutExpired:
+        print("Timeout: WeasyPrint took longer than 600 seconds")
         return False
     except Exception as e:
         print(f"Error: {e}")

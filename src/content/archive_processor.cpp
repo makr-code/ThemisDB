@@ -453,7 +453,7 @@ ArchiveExtractionResult ArchiveProcessor::extractToTemp(
                format == ArchiveFormat::TAR_XZ) {
         return extractTar(blob, format);
     } else {
-        ExtractionResult result;
+        ArchiveExtractionResult result;
         result.success = false;
         result.error_message = "Unsupported archive format";
         return result;
@@ -556,7 +556,7 @@ ArchiveProcessorResult ArchiveProcessor::process(
     }
     
     // EXTRACT_AND_INGEST strategy
-    ExtractionResult extraction = extractToTemp(blob, format, config_.password);
+    ArchiveExtractionResult extraction = extractToTemp(blob, format, config_.password);
     if (!extraction.success) {
         result.error_message = "Extraction failed: " + extraction.error_message;
         return result;

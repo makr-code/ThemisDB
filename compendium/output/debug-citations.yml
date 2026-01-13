@@ -1,0 +1,31 @@
+total_citations: 13
+by_type:
+  single: 4
+  list: 9
+citations:
+- citation: '[0]'
+  type: single
+- citation: '[0]'
+  type: single
+- citation: '[0]'
+  type: single
+- citation: '[1,2,3]'
+  type: list
+- citation: '[1,2,3]'
+  type: list
+- citation: '[3,2,1]'
+  type: list
+- citation: '[1,1,2]'
+  type: list
+- citation: '[1,2]'
+  type: list
+- citation: '[1,2]'
+  type: list
+- citation: '[3]'
+  type: single
+- citation: '[1,2,3]'
+  type: list
+- citation: '[1,2,3,4]'
+  type: list
+- citation: '[2,3]'
+  type: list

@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        * { margin: 0; padding: 0; }
         body { margin: 0; padding: 0; font-family: Georgia, serif; font-size: 8pt; }
-        .footer { text-align: center; color: #999; padding: 5px 0; border-top: 1px solid #ddd; }
+        .footer { text-align: center; color: #666; padding: 10px 0; border-top: 1pt solid #ddd; }
+        .footer-content { display: flex; justify-content: space-between; }
+        .left { flex: 1; text-align: left; color: #888; font-size: 7pt; }
+        .center { flex: 1; text-align: center; }
+        .right { flex: 1; text-align: right; color: #888; font-size: 7pt; }
     </style>
 </head>
 <body>
     <div class="footer">
-        © 2026 ThemisDB Team | Seite <span class="page"></span> von <span class="topage"></span>
+        <div class="footer-content">
+            <div class="left">© 2026 ThemisDB Team</div>
+            <div class="center">Seite <span class="page"></span> von <span class="topage"></span></div>
+            <div class="right">vv1.4.0</div>
+        </div>
     </div>
 </body>
 </html>

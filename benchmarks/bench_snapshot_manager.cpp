@@ -22,7 +22,7 @@ public:
         db_ = std::make_unique<RocksDBWrapper>(config);
         db_->open();
         
-        auto txn_db = db_->getTransactionDB();
+        auto txn_db = db_->getRawDB();
         changefeed_ = std::make_unique<Changefeed>(txn_db);
         snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
         

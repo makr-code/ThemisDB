@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <sstream>
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+
 namespace themis {
 namespace server {
 
@@ -219,3 +221,5 @@ void DiffApiHandler::sendJson(httplib::Response& res, const json& data, int stat
 
 } // namespace server
 } // namespace themis
+
+#endif // THEMIS_ENABLE_HTTP_SERVER

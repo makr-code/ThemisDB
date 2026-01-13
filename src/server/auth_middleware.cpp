@@ -294,8 +294,14 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
             return AuthResult::Denied("Kerberos authentication failed: " + result.error_message);
         }
         
+        // Build roles string manually (fmt::join not available in fmt 11.0.2)
+        std::string roles_str;
+        for (size_t i = 0; i < result.roles.size(); ++i) {
+            if (i > 0) roles_str += ", ";
+            roles_str += result.roles[i];
+        }
         THEMIS_INFO("Kerberos authentication successful for principal '{}' with roles: [{}]",
-                   result.principal_name, fmt::join(result.roles, ", "));
+                   result.principal_name, roles_str);
         
         // TODO: Check if any of the roles provide the required_scope
         // For now, we grant access if authentication succeeds
