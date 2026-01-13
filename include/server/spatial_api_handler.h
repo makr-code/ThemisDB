@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -86,11 +87,15 @@ private:
     std::shared_ptr<index::SpatialIndexManager> spatial_index_;
     std::shared_ptr<AuthMiddleware> auth_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+    
+    // Query parameter parsing
+    std::unordered_map<std::string, std::string> parseQuery(const std::string& target);
+    std::string urlDecode(const std::string& str);
 };
 
 } // namespace server
