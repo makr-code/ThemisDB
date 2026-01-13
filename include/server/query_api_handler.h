@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <optional>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -10,11 +11,18 @@ namespace themis {
 // Forward declarations
 class RocksDBWrapper;
 class SecondaryIndexManager;
-class QueryEngine;
-class QueryOptimizer;
+class GraphIndexManager;
 class LLMInteractionStore;
 class PromptManager;
 class SemanticCache;
+class FieldEncryption;
+class KeyProvider;
+
+namespace security {
+class PKIKeyProvider;
+}
+
+struct Config;
 
 namespace server {
 
@@ -48,22 +56,26 @@ public:
      * 
      * @param storage Storage backend
      * @param secondary_index Secondary index manager
-     * @param query_engine Query execution engine
-     * @param query_optimizer Query optimizer
+     * @param graph_index Graph index manager
+     * @param field_encryption Field encryption handler
+     * @param key_provider Key provider for encryption
      * @param semantic_cache Semantic cache for query results
      * @param llm_store LLM interaction store (optional)
      * @param prompt_manager Prompt template manager (optional)
      * @param auth Authentication/authorization middleware
+     * @param config Server configuration
      */
     QueryApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
-        std::shared_ptr<QueryEngine> query_engine,
-        std::shared_ptr<QueryOptimizer> query_optimizer,
+        std::shared_ptr<GraphIndexManager> graph_index,
+        std::shared_ptr<FieldEncryption> field_encryption,
+        std::shared_ptr<KeyProvider> key_provider,
         std::shared_ptr<SemanticCache> semantic_cache,
         std::shared_ptr<LLMInteractionStore> llm_store,
         std::shared_ptr<PromptManager> prompt_manager,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        const Config& config
     );
 
     /**
@@ -99,18 +111,34 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
-    std::shared_ptr<QueryEngine> query_engine_;
-    std::shared_ptr<QueryOptimizer> query_optimizer_;
+    std::shared_ptr<GraphIndexManager> graph_index_;
+    std::shared_ptr<FieldEncryption> field_encryption_;
+    std::shared_ptr<KeyProvider> key_provider_;
     std::shared_ptr<SemanticCache> semantic_cache_;
     std::shared_ptr<LLMInteractionStore> llm_store_;
     std::shared_ptr<PromptManager> prompt_manager_;
     std::shared_ptr<AuthMiddleware> auth_;
+    Config config_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+    
+    // Authorization helper
+    std::optional<http::response<http::string_body>> requireAccess(
+        const http::request<http::string_body>& req,
+        const std::string& permission,
+        const std::string& resource_type,
+        const std::string& resource_id);
+    
+    // Auth context extraction
+    struct AuthContext {
+        std::string user_id;
+        std::vector<std::string> groups;
+    };
+    AuthContext extractAuthContext(const http::request<http::string_body>& req);
 };
 
 } // namespace server
