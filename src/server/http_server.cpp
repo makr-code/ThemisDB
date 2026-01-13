@@ -72,6 +72,7 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/http_type_adapter.h"  // Temporary adapter for Beast ↔ cpp-httplib types
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
@@ -1928,7 +1929,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         // Snapshot API
         case Route::SnapshotsTagsPost:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleCreateTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleCreateTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1936,7 +1942,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsTagsGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleListTags(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleListTags(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1944,7 +1955,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsTagGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleGetTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1952,7 +1968,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsTagDelete:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleDeleteTag(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleDeleteTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
@@ -1960,7 +1981,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SnapshotsStatsGet:
             if (snapshot_api_handler_) {
-                snapshot_api_handler_->handleGetStats(req, response);
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                snapshot_api_handler_->handleGetStats(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Snapshot API not available (requires CDC feature)", req);
