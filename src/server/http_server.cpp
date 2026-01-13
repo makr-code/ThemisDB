@@ -582,11 +582,13 @@ HttpServer::HttpServer(
     THEMIS_INFO("Admin API Handler initialized");
     
     // Initialize Policy API Handler
+    std::string ranger_service = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
     policy_api_ = std::make_unique<themis::server::PolicyApiHandler>(
         storage_, 
         ranger_client_.get(),
         policy_engine_.get(),
-        auth_
+        auth_,
+        ranger_service
     );
     THEMIS_INFO("Policy API Handler initialized");
     

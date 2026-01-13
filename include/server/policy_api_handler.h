@@ -43,12 +43,14 @@ public:
      * @param ranger_client Apache Ranger client
      * @param policy_engine Policy engine for policy management
      * @param auth Authentication/authorization middleware
+     * @param service_name Service name for Ranger exports (default: "themisdb")
      */
     PolicyApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         RangerClient* ranger_client,
         PolicyEngine* policy_engine,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        const std::string& service_name = "themisdb"
     );
 
     /**
@@ -70,6 +72,7 @@ private:
     RangerClient* ranger_client_;
     PolicyEngine* policy_engine_;
     std::shared_ptr<AuthMiddleware> auth_;
+    std::string service_name_;
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(

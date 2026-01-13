@@ -13,12 +13,14 @@ PolicyApiHandler::PolicyApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     RangerClient* ranger_client,
     PolicyEngine* policy_engine,
-    std::shared_ptr<AuthMiddleware> auth
+    std::shared_ptr<AuthMiddleware> auth,
+    const std::string& service_name
 )
     : storage_(std::move(storage))
     , ranger_client_(ranger_client)
     , policy_engine_(policy_engine)
     , auth_(std::move(auth))
+    , service_name_(service_name)
 {
 }
 
@@ -66,8 +68,7 @@ http::response<http::string_body> PolicyApiHandler::handleExportRanger(
             return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
         }
         auto list = policy_engine_->listPolicies();
-        std::string service = "themisdb";
-        auto out = RangerClient::convertToRanger(list, service);
+        auto out = RangerClient::convertToRanger(list, service_name_);
         return makeResponse(http::status::ok, out.dump(2), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
