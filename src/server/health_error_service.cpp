@@ -128,17 +128,38 @@ void HealthErrorService::handleConnection(tcp::socket socket) {
         beast::flat_buffer buffer;
         http::request<http::string_body> req;
         
-        // Read HTTP request
-        http::read(socket, buffer, req);
+        // Set buffer size limit to prevent memory exhaustion (1MB max)
+        buffer.max_size(1024 * 1024);
+        
+        // Read HTTP request with error handling
+        beast::error_code ec;
+        http::read(socket, buffer, req, ec);
+        
+        if (ec) {
+            THEMIS_DEBUG("Failed to read request: {}", ec.message());
+            return;
+        }
+        
+        // Check request size limit
+        if (req.body().size() > 1024 * 1024) {
+            // Request too large, send 413 Payload Too Large
+            http::response<http::string_body> error_res{http::status::payload_too_large, 11};
+            error_res.set(http::field::server, "ThemisDB-Health");
+            error_res.set(http::field::content_type, "application/json");
+            error_res.body() = R"({"status":"error","message":"Request too large"})";
+            error_res.prepare_payload();
+            http::write(socket, error_res, ec);
+            return;
+        }
         
         // Handle request and get response
         auto res = handleRequest(req);
         
         // Send response
-        http::write(socket, res);
+        http::write(socket, res, ec);
         
         // Graceful shutdown
-        socket.shutdown(tcp::socket::shutdown_send);
+        socket.shutdown(tcp::socket::shutdown_send, ec);
     } catch (const std::exception& e) {
         THEMIS_DEBUG("Connection handling error: {}", e.what());
     }
