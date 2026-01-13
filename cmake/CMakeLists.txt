@@ -1028,6 +1028,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/prompt_api_handler.cpp
     ../src/server/graph_api_handler.cpp
     ../src/server/index_api_handler.cpp
+    ../src/server/timeseries_api_handler.cpp
     ../src/server/entity_api_handler.cpp
     ../src/server/content_api_handler.cpp
     ../src/server/changefeed_api_handler.cpp

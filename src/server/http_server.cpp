@@ -406,6 +406,15 @@ HttpServer::HttpServer(
             ts_cf_handle_
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
+        
+        // Initialize TimeSeries API Handler
+        timeseries_api_ = std::make_unique<themis::server::TimeSeriesApiHandler>(
+            storage_,
+            timeseries_,
+            nullptr, // agg_manager_ not yet implemented
+            auth_
+        );
+        THEMIS_INFO("TimeSeries API Handler initialized");
     }
 
     // CRITICAL FIX: Initialize Sharding Manager BEFORE AdaptiveIndexManager
@@ -1948,25 +1957,60 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         
         case Route::TimeSeriesPut:
-            response = handleTimeSeriesPut(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesQuery:
-            response = handleTimeSeriesQuery(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleQuery(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesAggregate:
-            response = handleTimeSeriesAggregate(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleAggregate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesConfigGet:
-            response = handleTimeSeriesConfigGet(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleConfigGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesConfigPut:
-            response = handleTimeSeriesConfigPut(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleConfigPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesAggregatesGet:
-            response = handleTimeSeriesAggregatesGet(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleAggregatesGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::TimeSeriesRetentionGet:
-            response = handleTimeSeriesRetentionGet(req);
+            if (timeseries_api_) {
+                response = timeseries_api_->handleRetentionGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
             break;
         case Route::IndexSuggestionsGet:
             response = index_api_->handleSuggestions(req);
