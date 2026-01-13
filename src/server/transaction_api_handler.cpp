@@ -22,56 +22,171 @@ TransactionApiHandler::TransactionApiHandler(
 http::response<http::string_body> TransactionApiHandler::handleTransaction(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleTransaction()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handleTransaction()
+    try {
+        auto body_json = nlohmann::json::parse(req.body());
+        
+        // TODO: Implement transaction endpoint
+        nlohmann::json response = {
+            {"message", "Transaction endpoint not yet fully implemented"},
+            {"request", body_json}
+        };
+        return makeResponse(http::status::not_implemented, response.dump(), req);
+
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
+    }
 }
 
 http::response<http::string_body> TransactionApiHandler::handleBegin(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleTransactionBegin()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handleTransactionBegin()
+    try {
+        // Parse optional isolation level from request body
+        IsolationLevel isolation = IsolationLevel::ReadCommitted;
+        
+        if (!req.body().empty()) {
+            nlohmann::json body = nlohmann::json::parse(req.body());
+            if (body.contains("isolation")) {
+                std::string isolation_str = body["isolation"];
+                if (isolation_str == "snapshot") {
+                    isolation = IsolationLevel::Snapshot;
+                } else if (isolation_str != "read_committed") {
+                    return makeErrorResponse(http::status::bad_request, 
+                        "Invalid isolation level. Use 'read_committed' or 'snapshot'", req);
+                }
+            }
+        }
+        
+        auto txn_id = tx_manager_->beginTransaction(isolation);
+        
+        nlohmann::json response = {
+            {"transaction_id", txn_id},
+            {"isolation", isolation == IsolationLevel::ReadCommitted ? "read_committed" : "snapshot"},
+            {"status", "active"}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(2), req);
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
+    }
 }
 
 http::response<http::string_body> TransactionApiHandler::handleCommit(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleTransactionCommit()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handleTransactionCommit()
+    try {
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        
+        if (!body.contains("transaction_id")) {
+            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
+        }
+        
+        TransactionManager::TransactionId txn_id = body["transaction_id"];
+        
+        auto status = tx_manager_->commitTransaction(txn_id);
+        
+        if (status.ok) {
+            nlohmann::json response = {
+                {"transaction_id", txn_id},
+                {"status", "committed"},
+                {"message", "Transaction committed successfully"}
+            };
+            return makeResponse(http::status::ok, response.dump(2), req);
+        } else {
+            nlohmann::json response = {
+                {"transaction_id", txn_id},
+                {"status", "failed"},
+                {"error", status.message}
+            };
+            return makeResponse(http::status::internal_server_error, response.dump(2), req);
+        }
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
+    }
 }
 
 http::response<http::string_body> TransactionApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleTransactionRollback()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handleTransactionRollback()
+    try {
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        
+        if (!body.contains("transaction_id")) {
+            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
+        }
+        
+        TransactionManager::TransactionId txn_id = body["transaction_id"];
+        
+        tx_manager_->rollbackTransaction(txn_id);
+        
+        nlohmann::json response = {
+            {"transaction_id", txn_id},
+            {"status", "rolled_back"},
+            {"message", "Transaction rolled back successfully"}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(2), req);
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
+    }
 }
 
 http::response<http::string_body> TransactionApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handleTransactionStats()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handleTransactionStats()
+    try {
+        auto stats = tx_manager_->getStats();
+        
+        nlohmann::json response = {
+            {"total_begun", stats.total_begun},
+            {"total_committed", stats.total_committed},
+            {"total_aborted", stats.total_aborted},
+            {"active_count", stats.active_count},
+            {"avg_duration_ms", stats.avg_duration_ms},
+            {"max_duration_ms", stats.max_duration_ms},
+            {"success_rate", stats.total_begun > 0 
+                ? static_cast<double>(stats.total_committed) / stats.total_begun 
+                : 0.0}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(2), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
+    }
 }
 
 http::response<http::string_body> TransactionApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
-    http::response<http::string_body> res{status, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {{"error", message}};
-    res.body() = body.dump();
-    res.prepare_payload();
-    return res;
+    // Helper implementation following http_server.cpp pattern
+    nlohmann::json error_body = {
+        {"error", true},
+        {"message", message},
+        {"status_code", static_cast<int>(status)}
+    };
+    return makeResponse(status, error_body.dump(), req);
 }
 
 http::response<http::string_body> TransactionApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
+    // Helper implementation following http_server.cpp pattern
     http::response<http::string_body> res{status, req.version()};
+    res.set(http::field::server, "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
     res.body() = body;
     res.prepare_payload();
     return res;

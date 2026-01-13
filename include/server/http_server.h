@@ -55,6 +55,7 @@
 #include "server/feedback_api_handler.h"
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
+#include "server/transaction_api_handler.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -310,7 +311,6 @@ private:
     http::response<http::string_body> handleVectorIndexStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleVectorBatchInsert(const http::request<http::string_body>& req);
     http::response<http::string_body> handleVectorDeleteByFilter(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransaction(const http::request<http::string_body>& req);
     http::response<http::string_body> handleCreateIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDropIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
@@ -380,12 +380,6 @@ private:
     http::response<http::string_body> handleIndexPatterns(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexRecordPattern(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexClearPatterns(const http::request<http::string_body>& req);
-    
-    // Transaction endpoints
-    http::response<http::string_body> handleTransactionBegin(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionCommit(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionRollback(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionStats(const http::request<http::string_body>& req);
     
     // Audit API endpoints
     http::response<http::string_body> handleAuditQuery(const http::request<http::string_body>& req);
@@ -641,6 +635,9 @@ private:
     
     // Reports API Handler (Skeleton)
     std::unique_ptr<themis::server::ReportsApiHandler> reports_api_;
+    
+    // Transaction API Handler
+    std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
     
     // Update API Handler
     std::unique_ptr<themis::server::UpdateApiHandler> update_api_;
