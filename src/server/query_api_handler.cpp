@@ -2842,7 +2842,6 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         if (use_cursor) {
             auto end = std::chrono::steady_clock::now();
             auto dur_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - page_fetch_start);
-            recordPageFetch(dur_ms);
         }
         return final_res;
         
