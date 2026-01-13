@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/spatial_api_handler.h"
 #include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
 #include "server/policy_api_handler.h"
@@ -317,12 +318,6 @@ private:
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
-    // G5: Spatial Index Management
-    http::response<http::string_body> handleSpatialIndexCreate(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialIndexRebuild(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialIndexStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialMetrics(const http::request<http::string_body>& req);
-
     // Admin: Backup & Restore
     http::response<http::string_body> handleAdminBackup(const http::request<http::string_body>& req);
     http::response<http::string_body> handleAdminRestore(const http::request<http::string_body>& req);
@@ -596,6 +591,9 @@ private:
     
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
+    
+    // Spatial API Handler
+    std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
