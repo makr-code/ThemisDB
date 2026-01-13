@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/vector_api_handler.h"
 #include "server/spatial_api_handler.h"
 #include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
@@ -302,14 +303,10 @@ private:
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeDelete(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorSearch(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexSave(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexLoad(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexConfigGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexConfigPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorBatchInsert(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorDeleteByFilter(const http::request<http::string_body>& req);
+    
+    // Vector operations - delegated to VectorApiHandler (vector_api_)
+    // Declarations removed - handled by vector_api_
+    
     http::response<http::string_body> handleCreateIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDropIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
@@ -574,6 +571,9 @@ private:
     
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
+    
+    // Vector API Handler
+    std::unique_ptr<themis::server::VectorApiHandler> vector_api_;
     
     // Spatial API Handler
     std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
