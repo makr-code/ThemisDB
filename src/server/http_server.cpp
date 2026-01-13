@@ -581,6 +581,12 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Prompt API Handler
+    prompt_api_ = std::make_unique<themis::server::PromptApiHandler>(
+        storage_, prompt_manager_, auth_
+    );
+    THEMIS_INFO("Prompt API Handler initialized");
+    
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
         storage_, content_manager_, content_processor_, auth_,
@@ -1745,16 +1751,32 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PromptTemplatePost:
-            response = handlePromptTemplatePost(req);
+            if (prompt_api_) {
+                response = prompt_api_->handlePost(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplateList:
-            response = handlePromptTemplateList(req);
+            if (prompt_api_) {
+                response = prompt_api_->handleList(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplateGet:
-            response = handlePromptTemplateGet(req);
+            if (prompt_api_) {
+                response = prompt_api_->handleGet(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplatePut:
-            response = handlePromptTemplatePut(req);
+            if (prompt_api_) {
+                response = prompt_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::CachePutPost:
             if (cache_api_) {
@@ -2827,98 +2849,6 @@ http::response<http::string_body> HttpServer::handleClassificationTest(
         auto body = json::parse(req.body());
         auto result = classification_api_->testClassification(body);
         return makeResponse(http::status::ok, result.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Prompt Template CRUD handlers
-// -----------------------------------------------------------------------------
-
-http::response<http::string_body> HttpServer::handlePromptTemplatePost(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:write for creating templates
-        if (auto resp = requireAccess(req, "data:write", "prompt_template.create", "/prompt_template")) return *resp;
-
-        if (req.body().empty()) return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
-        auto body = json::parse(req.body());
-        themis::PromptManager::PromptTemplate t;
-        if (body.contains("id")) t.id = body.value("id", std::string());
-        if (body.contains("name")) t.name = body.value("name", std::string());
-        if (body.contains("version")) t.version = body.value("version", std::string());
-        if (body.contains("content")) t.content = body.value("content", std::string());
-        if (body.contains("metadata")) t.metadata = body["metadata"];
-        if (body.contains("active")) t.active = body.value("active", true);
-
-        auto created = prompt_manager_->createTemplate(std::move(t));
-        return makeResponse(http::status::created, created.toJson().dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplateList(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:read for listing templates
-        if (auto resp = requireAccess(req, "data:read", "prompt_template.list", "/prompt_template")) return *resp;
-
-        auto list = prompt_manager_->listTemplates();
-        nlohmann::json out = nlohmann::json::array();
-        for (const auto& t : list) out.push_back(t.toJson());
-        return makeResponse(http::status::ok, out.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplateGet(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:read
-        if (auto resp = requireAccess(req, "data:read", "prompt_template.get", "/prompt_template")) return *resp;
-
-        std::string path = std::string(req.target());
-        auto id = extractPathParam(path, "/prompt_template/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing template id", req);
-        auto opt = prompt_manager_->getTemplate(id);
-        if (!opt.has_value()) return makeErrorResponse(http::status::not_found, "Template not found", req);
-        return makeResponse(http::status::ok, opt->toJson().dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplatePut(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:write for updates
-        if (auto resp = requireAccess(req, "data:write", "prompt_template.update", "/prompt_template")) return *resp;
-
-        std::string path = std::string(req.target());
-        auto id = extractPathParam(path, "/prompt_template/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing template id", req);
-        if (req.body().empty()) return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
-        auto body = json::parse(req.body());
-        nlohmann::json metadata = nlohmann::json::object();
-        bool active = true;
-        if (body.contains("metadata")) metadata = body["metadata"];
-        if (body.contains("active")) active = body.value("active", true);
-        bool ok = prompt_manager_->updateTemplate(id, metadata, active);
-        if (!ok) return makeErrorResponse(http::status::not_found, "Template not found", req);
-        auto updated_opt = prompt_manager_->getTemplate(id);
-        nlohmann::json out = updated_opt ? updated_opt->toJson() : nlohmann::json::object();
-        return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }

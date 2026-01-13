@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/prompt_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
@@ -359,11 +360,6 @@ private:
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
-    // Prompt Template management
-    http::response<http::string_body> handlePromptTemplatePost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplateList(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplateGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplatePut(const http::request<http::string_body>& req);
 
     // Policies: Ranger import/export
     http::response<http::string_body> handlePoliciesImportRanger(const http::request<http::string_body>& req);
@@ -603,6 +599,9 @@ private:
     
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
+    
+    // Prompt API Handler
+    std::unique_ptr<themis::server::PromptApiHandler> prompt_api_;
     
     // Content API Handler
     std::unique_ptr<themis::server::ContentApiHandler> content_api_;
