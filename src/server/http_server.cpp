@@ -581,6 +581,11 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Index API Handler
+    index_api_ = std::make_unique<themis::server::IndexApiHandler>(
+        storage_, secondary_index_, adaptive_index_, auth_
+    );
+    THEMIS_INFO("Index API Handler initialized");
     // Initialize Entity API Handler
     server::EntityApiConfig entity_config;
     entity_config.feature_cdc = config_.feature_cdc;
@@ -1719,19 +1724,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::IndexCreatePost:
-            response = handleCreateIndex(req);
+            response = index_api_->handleCreate(req);
             break;
         case Route::IndexDropPost:
-            response = handleDropIndex(req);
+            response = index_api_->handleDrop(req);
             break;
         case Route::IndexStatsGet:
-            response = handleIndexStats(req);
+            response = index_api_->handleStats(req);
             break;
         case Route::IndexRebuildPost:
-            response = handleIndexRebuild(req);
+            response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
-            response = handleIndexReindex(req);
+            response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
@@ -1901,16 +1906,16 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleTimeSeriesRetentionGet(req);
             break;
         case Route::IndexSuggestionsGet:
-            response = handleIndexSuggestions(req);
+            response = index_api_->handleSuggestions(req);
             break;
         case Route::IndexPatternsGet:
-            response = handleIndexPatterns(req);
+            response = index_api_->handlePatterns(req);
             break;
         case Route::IndexRecordPatternPost:
-            response = handleIndexRecordPattern(req);
+            response = index_api_->handleRecordPattern(req);
             break;
         case Route::IndexClearPatternsDelete:
-            response = handleIndexClearPatterns(req);
+            response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
             response = handleVectorIndexSave(req);

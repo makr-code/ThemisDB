@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/index_api_handler.h"
 #include "server/entity_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
@@ -605,6 +606,8 @@ private:
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
     
+    // Index API Handler
+    std::unique_ptr<themis::server::IndexApiHandler> index_api_;
     // Entity API Handler
     std::unique_ptr<themis::server::EntityApiHandler> entity_api_;
     

@@ -1022,6 +1022,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
+    ../src/server/index_api_handler.cpp
     ../src/server/entity_api_handler.cpp
     ../src/server/content_api_handler.cpp
     ../src/server/changefeed_api_handler.cpp
