@@ -90,21 +90,31 @@ void HealthErrorService::stop() {
 void HealthErrorService::run() {
     try {
         while (running_.load()) {
-            // Accept connection
+            // Use synchronous accept with timeout
+            beast::error_code ec;
             tcp::socket socket(*ioc_);
             
-            // Use non-blocking accept with timeout
-            beast::error_code ec;
-            acceptor_->async_accept(socket, [this, &socket, &ec](beast::error_code error) {
-                ec = error;
-                if (!ec && running_.load()) {
-                    handleConnection(std::move(socket));
-                }
-            });
+            // Set non-blocking mode for accept with timeout
+            acceptor_->non_blocking(true, ec);
+            if (ec) {
+                THEMIS_ERROR("Failed to set non-blocking mode: {}", ec.message());
+                break;
+            }
             
-            // Run io_context with timeout to check running_ flag periodically
-            ioc_->run_for(std::chrono::milliseconds(100));
-            ioc_->restart();
+            // Try to accept connection (non-blocking)
+            acceptor_->accept(socket, ec);
+            
+            if (!ec && running_.load()) {
+                // Connection accepted successfully
+                handleConnection(std::move(socket));
+            } else if (ec == boost::asio::error::would_block) {
+                // No pending connection, sleep briefly and retry
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            } else if (ec && running_.load()) {
+                // Real error occurred (but only log if we're still running)
+                THEMIS_DEBUG("Accept error: {}", ec.message());
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
         }
     } catch (const std::exception& e) {
         if (running_.load()) {

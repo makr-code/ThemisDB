@@ -25,8 +25,15 @@ protected:
         service_ = std::make_unique<themis::server::HealthErrorService>(config);
         service_->start();
         
-        // Give service time to start
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        // Wait for service to be ready (poll with timeout)
+        int attempts = 0;
+        while (!service_->isRunning() && attempts < 20) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            attempts++;
+        }
+        
+        // Give additional time for socket to be ready
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     
     void TearDown() override {
@@ -197,7 +204,8 @@ TEST_F(HealthErrorServiceTest, UptimeIncreasesOverTime) {
     auto body1 = nlohmann::json::parse(res1.body());
     int64_t uptime1 = body1["uptime_seconds"];
     
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    // Sleep for just over 1 second to ensure uptime increases
+    std::this_thread::sleep_for(std::chrono::milliseconds(1100));
     
     auto res2 = http_get("127.0.0.1", "19090", "/health");
     auto body2 = nlohmann::json::parse(res2.body());
