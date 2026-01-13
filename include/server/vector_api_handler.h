@@ -10,6 +10,8 @@ namespace themis {
 // Forward declarations
 class RocksDBWrapper;
 class VectorIndexManager;
+class FieldEncryption;
+class KeyProvider;
 
 namespace server {
 
@@ -17,6 +19,13 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 
 class AuthMiddleware;
+
+struct AuthContext {
+    std::string user_id;
+    std::string tenant_id;
+    std::vector<std::string> roles;
+    std::map<std::string, std::string> attributes;
+};
 
 /**
  * @brief Handler for Vector Operations
@@ -48,11 +57,15 @@ public:
      * @param storage Storage backend
      * @param vector_index Vector index manager (HNSW/Faiss)
      * @param auth Authentication/authorization middleware
+     * @param field_encryption Field-level encryption (optional)
+     * @param key_provider Key provider for encryption (optional)
      */
     VectorApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<FieldEncryption> field_encryption = nullptr,
+        std::shared_ptr<KeyProvider> key_provider = nullptr
     );
 
     /**
@@ -115,12 +128,22 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<FieldEncryption> field_encryption_;
+    std::shared_ptr<KeyProvider> key_provider_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+    
+    std::optional<http::response<http::string_body>> requireAccess(
+        const http::request<http::string_body>& req,
+        const std::string& permission,
+        const std::string& resource,
+        const std::string& path);
+    
+    AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
 };
 
 } // namespace server
