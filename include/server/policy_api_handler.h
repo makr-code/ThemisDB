@@ -9,6 +9,7 @@ namespace themis {
 
 // Forward declarations
 class RocksDBWrapper;
+class PolicyEngine;
 
 namespace server {
 
@@ -16,7 +17,7 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 
 class AuthMiddleware;
-class RangerAdapter;
+class RangerClient;
 
 /**
  * @brief Handler for Policy Management Operations
@@ -39,13 +40,17 @@ public:
      * @brief Construct a new Policy API Handler
      * 
      * @param storage Storage backend
-     * @param ranger_adapter Apache Ranger adapter
+     * @param ranger_client Apache Ranger client
+     * @param policy_engine Policy engine for policy management
      * @param auth Authentication/authorization middleware
+     * @param service_name Service name for Ranger exports (default: "themisdb")
      */
     PolicyApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<RangerAdapter> ranger_adapter,
-        std::shared_ptr<AuthMiddleware> auth
+        RangerClient* ranger_client,
+        PolicyEngine* policy_engine,
+        std::shared_ptr<AuthMiddleware> auth,
+        const std::string& service_name = "themisdb"
     );
 
     /**
@@ -64,10 +69,12 @@ public:
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
-    std::shared_ptr<RangerAdapter> ranger_adapter_;
+    RangerClient* ranger_client_;
+    PolicyEngine* policy_engine_;
     std::shared_ptr<AuthMiddleware> auth_;
+    std::string service_name_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(

@@ -22,54 +22,154 @@ PromptApiHandler::PromptApiHandler(
 http::response<http::string_body> PromptApiHandler::handlePost(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handlePromptTemplatePost()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handlePromptTemplatePost()
+    // Note: Authorization checks (requireAccess) from original implementation are not included
+    // as they rely on HttpServer methods. Authorization should be handled at middleware/routing layer.
+    try {
+        if (!prompt_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
+        }
+
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
+        }
+
+        auto body = nlohmann::json::parse(req.body());
+        themis::PromptManager::PromptTemplate t;
+        
+        if (body.contains("id")) t.id = body.value("id", std::string());
+        if (body.contains("name")) t.name = body.value("name", std::string());
+        if (body.contains("version")) t.version = body.value("version", std::string());
+        if (body.contains("content")) t.content = body.value("content", std::string());
+        if (body.contains("metadata")) t.metadata = body["metadata"];
+        if (body.contains("active")) t.active = body.value("active", true);
+
+        auto created = prompt_manager_->createTemplate(std::move(t));
+        return makeResponse(http::status::created, created.toJson().dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> PromptApiHandler::handleList(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handlePromptTemplateList()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handlePromptTemplateList()
+    try {
+        if (!prompt_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
+        }
+
+        auto list = prompt_manager_->listTemplates();
+        nlohmann::json out = nlohmann::json::array();
+        for (const auto& t : list) {
+            out.push_back(t.toJson());
+        }
+        return makeResponse(http::status::ok, out.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> PromptApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handlePromptTemplateGet()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handlePromptTemplateGet()
+    try {
+        if (!prompt_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
+        }
+
+        std::string path = std::string(req.target());
+        auto id = extractPathParam(path, "/prompt_template/");
+        if (id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing template id", req);
+        }
+
+        auto opt = prompt_manager_->getTemplate(id);
+        if (!opt.has_value()) {
+            return makeErrorResponse(http::status::not_found, "Template not found", req);
+        }
+
+        return makeResponse(http::status::ok, opt->toJson().dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> PromptApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
-    // TODO: Implementation to be moved from http_server.cpp handlePromptTemplatePut()
-    return makeErrorResponse(http::status::not_implemented, "Not yet implemented", req);
+    // Implementation moved from http_server.cpp handlePromptTemplatePut()
+    try {
+        if (!prompt_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
+        }
+
+        std::string path = std::string(req.target());
+        auto id = extractPathParam(path, "/prompt_template/");
+        if (id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing template id", req);
+        }
+
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
+        }
+
+        auto body = nlohmann::json::parse(req.body());
+        nlohmann::json metadata = nlohmann::json::object();
+        bool active = true;
+
+        if (body.contains("metadata")) metadata = body["metadata"];
+        if (body.contains("active")) active = body.value("active", true);
+
+        bool ok = prompt_manager_->updateTemplate(id, metadata, active);
+        if (!ok) {
+            return makeErrorResponse(http::status::not_found, "Template not found", req);
+        }
+
+        auto updated_opt = prompt_manager_->getTemplate(id);
+        nlohmann::json out = updated_opt ? updated_opt->toJson() : nlohmann::json::object();
+        return makeResponse(http::status::ok, out.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 std::string PromptApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
-    // TODO: Helper implementation
-    return "";
+    // Helper implementation following http_server.cpp pattern
+    if (target.rfind(prefix, 0) != 0) {
+        return "";
+    }
+    auto param = target.substr(prefix.length());
+    // Remove query string if present
+    auto query_pos = param.find('?');
+    if (query_pos != std::string::npos) {
+        param = param.substr(0, query_pos);
+    }
+    return param;
 }
 
 http::response<http::string_body> PromptApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
-    http::response<http::string_body> res{status, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {{"error", message}};
-    res.body() = body.dump();
-    res.prepare_payload();
-    return res;
+    // Helper implementation following http_server.cpp pattern
+    nlohmann::json error_body = {
+        {"error", true},
+        {"message", message},
+        {"status_code", static_cast<int>(status)}
+    };
+    return makeResponse(status, error_body.dump(), req);
 }
 
 http::response<http::string_body> PromptApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
-    // TODO: Helper implementation
+    // Helper implementation following http_server.cpp pattern
     http::response<http::string_body> res{status, req.version()};
+    res.set(http::field::server, "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
     res.body() = body;
     res.prepare_payload();
     return res;
