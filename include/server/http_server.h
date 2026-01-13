@@ -35,6 +35,10 @@
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
 #include "server/policy_api_handler.h"
+#include "server/prompt_api_handler.h"
+#include "server/graph_api_handler.h"
+#include "server/index_api_handler.h"
+#include "server/entity_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
@@ -360,11 +364,6 @@ private:
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
-    // Prompt Template management
-    http::response<http::string_body> handlePromptTemplatePost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplateList(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplateGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplatePut(const http::request<http::string_body>& req);
 
     // Sprint B: Time-Series endpoints
     http::response<http::string_body> handleTimeSeriesPut(const http::request<http::string_body>& req);
@@ -603,6 +602,14 @@ private:
     
     // Policy API Handler
     std::unique_ptr<themis::server::PolicyApiHandler> policy_api_;
+    // Prompt API Handler
+    std::unique_ptr<themis::server::PromptApiHandler> prompt_api_;
+    // Graph API Handler
+    std::unique_ptr<themis::server::GraphApiHandler> graph_api_;
+    // Index API Handler
+    std::unique_ptr<themis::server::IndexApiHandler> index_api_;
+    // Entity API Handler
+    std::unique_ptr<themis::server::EntityApiHandler> entity_api_;
     
     // Content API Handler
     std::unique_ptr<themis::server::ContentApiHandler> content_api_;

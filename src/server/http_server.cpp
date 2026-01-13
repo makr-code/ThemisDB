@@ -592,6 +592,43 @@ HttpServer::HttpServer(
         ranger_service
     );
     THEMIS_INFO("Policy API Handler initialized");
+    // Initialize Prompt API Handler
+    prompt_api_ = std::make_unique<themis::server::PromptApiHandler>(
+        storage_, prompt_manager_, auth_
+    );
+    THEMIS_INFO("Prompt API Handler initialized");
+    // Initialize Graph API Handler
+    graph_api_ = std::make_unique<themis::server::GraphApiHandler>(
+        storage_, graph_index_, auth_
+    );
+    THEMIS_INFO("Graph API Handler initialized");
+    // Initialize Index API Handler
+    index_api_ = std::make_unique<themis::server::IndexApiHandler>(
+        storage_, secondary_index_, adaptive_index_, auth_
+    );
+    THEMIS_INFO("Index API Handler initialized");
+    // Initialize Entity API Handler
+    server::EntityApiConfig entity_config;
+    entity_config.feature_cdc = config_.feature_cdc;
+    entity_config.feature_geo = true; // Enable geo if spatial_index exists
+    entity_config.feature_replication = (replication_coordinator_ != nullptr);
+    
+    entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        entity_config,
+        spatial_index_.get(),
+        changefeed_,
+        wal_manager_,
+        replication_coordinator_,
+        multi_primary_coordinator_
+    );
+    THEMIS_INFO("Entity API Handler initialized");
     
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
@@ -1672,19 +1709,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleAdminRestore(req);
             break;
         case Route::EntitiesGet:
-            response = handleGetEntity(req);
+            response = entity_api_->handleGet(req);
             break;
         case Route::EntitiesPut:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesDelete:
-            response = handleDeleteEntity(req);
+            response = entity_api_->handleDelete(req);
             break;
         case Route::EntitiesPost:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesBatchPost:
-            response = handleEntitiesBatch(req);
+            response = entity_api_->handleBatch(req);
             break;
         case Route::QueryPost:
             response = handleQuery(req);
@@ -1708,19 +1745,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::IndexCreatePost:
-            response = handleCreateIndex(req);
+            response = index_api_->handleCreate(req);
             break;
         case Route::IndexDropPost:
-            response = handleDropIndex(req);
+            response = index_api_->handleDrop(req);
             break;
         case Route::IndexStatsGet:
-            response = handleIndexStats(req);
+            response = index_api_->handleStats(req);
             break;
         case Route::IndexRebuildPost:
-            response = handleIndexRebuild(req);
+            response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
-            response = handleIndexReindex(req);
+            response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
@@ -1738,7 +1775,25 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::GraphTraversePost:
-            response = handleGraphTraverse(req);
+            if (graph_api_) {
+                response = graph_api_->handleTraverse(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgePost:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeCreate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgeDelete:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
             break;
         case Route::VectorSearchPost:
             response = handleVectorSearch(req);
@@ -1757,16 +1812,32 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PromptTemplatePost:
-            response = handlePromptTemplatePost(req);
+            if (prompt_api_) {
+                response = prompt_api_->handlePost(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplateList:
-            response = handlePromptTemplateList(req);
+            if (prompt_api_) {
+                response = prompt_api_->handleList(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplateGet:
-            response = handlePromptTemplateGet(req);
+            if (prompt_api_) {
+                response = prompt_api_->handleGet(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::PromptTemplatePut:
-            response = handlePromptTemplatePut(req);
+            if (prompt_api_) {
+                response = prompt_api_->handlePut(req);
+            } else {
+                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+            }
             break;
         case Route::CachePutPost:
             if (cache_api_) {
@@ -1890,16 +1961,16 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleTimeSeriesRetentionGet(req);
             break;
         case Route::IndexSuggestionsGet:
-            response = handleIndexSuggestions(req);
+            response = index_api_->handleSuggestions(req);
             break;
         case Route::IndexPatternsGet:
-            response = handleIndexPatterns(req);
+            response = index_api_->handlePatterns(req);
             break;
         case Route::IndexRecordPatternPost:
-            response = handleIndexRecordPattern(req);
+            response = index_api_->handleRecordPattern(req);
             break;
         case Route::IndexClearPatternsDelete:
-            response = handleIndexClearPatterns(req);
+            response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
             response = handleVectorIndexSave(req);
@@ -2871,98 +2942,6 @@ http::response<http::string_body> HttpServer::handleClassificationTest(
         auto body = json::parse(req.body());
         auto result = classification_api_->testClassification(body);
         return makeResponse(http::status::ok, result.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Prompt Template CRUD handlers
-// -----------------------------------------------------------------------------
-
-http::response<http::string_body> HttpServer::handlePromptTemplatePost(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:write for creating templates
-        if (auto resp = requireAccess(req, "data:write", "prompt_template.create", "/prompt_template")) return *resp;
-
-        if (req.body().empty()) return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
-        auto body = json::parse(req.body());
-        themis::PromptManager::PromptTemplate t;
-        if (body.contains("id")) t.id = body.value("id", std::string());
-        if (body.contains("name")) t.name = body.value("name", std::string());
-        if (body.contains("version")) t.version = body.value("version", std::string());
-        if (body.contains("content")) t.content = body.value("content", std::string());
-        if (body.contains("metadata")) t.metadata = body["metadata"];
-        if (body.contains("active")) t.active = body.value("active", true);
-
-        auto created = prompt_manager_->createTemplate(std::move(t));
-        return makeResponse(http::status::created, created.toJson().dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplateList(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:read for listing templates
-        if (auto resp = requireAccess(req, "data:read", "prompt_template.list", "/prompt_template")) return *resp;
-
-        auto list = prompt_manager_->listTemplates();
-        nlohmann::json out = nlohmann::json::array();
-        for (const auto& t : list) out.push_back(t.toJson());
-        return makeResponse(http::status::ok, out.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplateGet(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:read
-        if (auto resp = requireAccess(req, "data:read", "prompt_template.get", "/prompt_template")) return *resp;
-
-        std::string path = std::string(req.target());
-        auto id = extractPathParam(path, "/prompt_template/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing template id", req);
-        auto opt = prompt_manager_->getTemplate(id);
-        if (!opt.has_value()) return makeErrorResponse(http::status::not_found, "Template not found", req);
-        return makeResponse(http::status::ok, opt->toJson().dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePromptTemplatePut(
-    const http::request<http::string_body>& req
-) {
-    try {
-        if (!prompt_manager_) return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
-        // Authorization: require data:write for updates
-        if (auto resp = requireAccess(req, "data:write", "prompt_template.update", "/prompt_template")) return *resp;
-
-        std::string path = std::string(req.target());
-        auto id = extractPathParam(path, "/prompt_template/");
-        if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing template id", req);
-        if (req.body().empty()) return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
-        auto body = json::parse(req.body());
-        nlohmann::json metadata = nlohmann::json::object();
-        bool active = true;
-        if (body.contains("metadata")) metadata = body["metadata"];
-        if (body.contains("active")) active = body.value("active", true);
-        bool ok = prompt_manager_->updateTemplate(id, metadata, active);
-        if (!ok) return makeErrorResponse(http::status::not_found, "Template not found", req);
-        auto updated_opt = prompt_manager_->getTemplate(id);
-        nlohmann::json out = updated_opt ? updated_opt->toJson() : nlohmann::json::object();
-        return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
