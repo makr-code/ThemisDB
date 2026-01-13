@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
 #include "server/policy_api_handler.h"
 #include "server/prompt_api_handler.h"
@@ -289,11 +290,9 @@ private:
     );
 
     // Endpoint handlers
-    http::response<http::string_body> handleHealthCheck(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVersion(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleMetricsJson(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleStats(const http::request<http::string_body>& req);
+    // Note: Health, Version, Stats, Capabilities, and MetricsJson handlers have been
+    // moved to MonitoringApiHandler
+    http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);  // Old content-specific metrics (deprecated)
     http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
@@ -356,7 +355,6 @@ private:
     http::response<http::string_body> handleEncryptionSchemaGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handleEncryptionSchemaPut(const http::request<http::string_body>& req);
     // Capabilities (Core/Enterprise) endpoint
-    http::response<http::string_body> handleCapabilities(const http::request<http::string_body>& req);
 
     // Sprint A beta endpoints (feature-flagged)
     http::response<http::string_body> handleLlmInteractionPost(const http::request<http::string_body>& req);
@@ -599,6 +597,8 @@ private:
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
     
+    // Monitoring API Handler
+    std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
     // Query API Handler
     std::unique_ptr<themis::server::QueryApiHandler> query_api_;
     // Policy API Handler
