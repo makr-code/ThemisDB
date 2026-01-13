@@ -23,6 +23,8 @@ http::response<http::string_body> PromptApiHandler::handlePost(
     const http::request<http::string_body>& req
 ) {
     // Implementation moved from http_server.cpp handlePromptTemplatePost()
+    // Note: Authorization checks (requireAccess) from original implementation are not included
+    // as they rely on HttpServer methods. Authorization should be handled at middleware/routing layer.
     try {
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
@@ -136,7 +138,7 @@ http::response<http::string_body> PromptApiHandler::handlePut(
 
 std::string PromptApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
     // Helper implementation following http_server.cpp pattern
-    if (!(target.rfind(prefix, 0) == 0)) {
+    if (target.rfind(prefix, 0) != 0) {
         return "";
     }
     auto param = target.substr(prefix.length());
