@@ -87,6 +87,14 @@ class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
 
+namespace analytics {
+class DiffEngine;
+}
+
+namespace server {
+class DiffApiHandler;
+}
+
 namespace sharding {
 class WALApplier;
 class WALManager;
@@ -534,6 +542,10 @@ private:
     // Snapshot Manager (Named Snapshots feature)
     std::unique_ptr<SnapshotManager> snapshot_manager_;
     std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    
+    // Diff Engine and API Handler (Phase 2 MVCC features)
+    std::unique_ptr<analytics::DiffEngine> diff_engine_;
+    std::unique_ptr<DiffApiHandler> diff_api_handler_;
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE
