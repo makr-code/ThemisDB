@@ -586,6 +586,38 @@ HttpServer::HttpServer(
         storage_, prompt_manager_, auth_
     );
     THEMIS_INFO("Prompt API Handler initialized");
+    // Initialize Graph API Handler
+    graph_api_ = std::make_unique<themis::server::GraphApiHandler>(
+        storage_, graph_index_, auth_
+    );
+    THEMIS_INFO("Graph API Handler initialized");
+    // Initialize Index API Handler
+    index_api_ = std::make_unique<themis::server::IndexApiHandler>(
+        storage_, secondary_index_, adaptive_index_, auth_
+    );
+    THEMIS_INFO("Index API Handler initialized");
+    // Initialize Entity API Handler
+    server::EntityApiConfig entity_config;
+    entity_config.feature_cdc = config_.feature_cdc;
+    entity_config.feature_geo = true; // Enable geo if spatial_index exists
+    entity_config.feature_replication = (replication_coordinator_ != nullptr);
+    
+    entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        entity_config,
+        spatial_index_.get(),
+        changefeed_,
+        wal_manager_,
+        replication_coordinator_,
+        multi_primary_coordinator_
+    );
+    THEMIS_INFO("Entity API Handler initialized");
     
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
@@ -1666,19 +1698,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleAdminRestore(req);
             break;
         case Route::EntitiesGet:
-            response = handleGetEntity(req);
+            response = entity_api_->handleGet(req);
             break;
         case Route::EntitiesPut:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesDelete:
-            response = handleDeleteEntity(req);
+            response = entity_api_->handleDelete(req);
             break;
         case Route::EntitiesPost:
-            response = handlePutEntity(req);
+            response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesBatchPost:
-            response = handleEntitiesBatch(req);
+            response = entity_api_->handleBatch(req);
             break;
         case Route::QueryPost:
             response = handleQuery(req);
@@ -1702,19 +1734,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::IndexCreatePost:
-            response = handleCreateIndex(req);
+            response = index_api_->handleCreate(req);
             break;
         case Route::IndexDropPost:
-            response = handleDropIndex(req);
+            response = index_api_->handleDrop(req);
             break;
         case Route::IndexStatsGet:
-            response = handleIndexStats(req);
+            response = index_api_->handleStats(req);
             break;
         case Route::IndexRebuildPost:
-            response = handleIndexRebuild(req);
+            response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
-            response = handleIndexReindex(req);
+            response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
@@ -1732,7 +1764,25 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::GraphTraversePost:
-            response = handleGraphTraverse(req);
+            if (graph_api_) {
+                response = graph_api_->handleTraverse(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgePost:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeCreate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphEdgeDelete:
+            if (graph_api_) {
+                response = graph_api_->handleEdgeDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
             break;
         case Route::VectorSearchPost:
             response = handleVectorSearch(req);
@@ -1900,16 +1950,16 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleTimeSeriesRetentionGet(req);
             break;
         case Route::IndexSuggestionsGet:
-            response = handleIndexSuggestions(req);
+            response = index_api_->handleSuggestions(req);
             break;
         case Route::IndexPatternsGet:
-            response = handleIndexPatterns(req);
+            response = index_api_->handlePatterns(req);
             break;
         case Route::IndexRecordPatternPost:
-            response = handleIndexRecordPattern(req);
+            response = index_api_->handleRecordPattern(req);
             break;
         case Route::IndexClearPatternsDelete:
-            response = handleIndexClearPatterns(req);
+            response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
             response = handleVectorIndexSave(req);
