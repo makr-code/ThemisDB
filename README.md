@@ -54,7 +54,7 @@ curl http://localhost:8080/health
 - `18765` - Binary Wire Protocol, gRPC
 - `4318` - OpenTelemetry/Prometheus metrics
 
-> **📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](docs/deployment/PORT_REFERENCE.md)
+> **📖 Complete Port Reference:** See [docs/de/deployment/PORT_REFERENCE.md](docs/de/deployment/PORT_REFERENCE.md)
 
 ### 💻 From Source
 
@@ -75,7 +75,7 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
-> **📖 Build Guide:** See [docs/guides/guides_build_strategy.md](docs/guides/guides_build_strategy.md) for detailed build instructions.
+> **📖 Build Guide:** See [docs/de/guides/guides_build_strategy.md](docs/de/guides/guides_build_strategy.md) for detailed build instructions.
 
 ### 📦 Package Managers
 
@@ -177,14 +177,14 @@ curl http://localhost:8080/metrics
 
 **Getting Started:**
 - 🚀 [Quick Start](#quick-start) - Get up and running in 5 minutes
-- 🐳 [Docker Deployment](docs/deployment/DOCKER_DEPLOYMENT.md) - Container-based deployment
-- 🔧 [Building from Source](docs/guides/guides_build_strategy.md) - Compile from source code
+- 🐳 [Docker Deployment](docs/de/deployment/DOCKER_DEPLOYMENT.md) - Container-based deployment
+- 🔧 [Building from Source](docs/de/guides/guides_build_strategy.md) - Compile from source code
 
 **Core Concepts:**
 - 🏗️ [Architecture Overview](docs/de/architecture/ARCHITECTURE_OVERVIEW.md) - System design and components
 - 💾 [Multi-Model Design](docs/de/architecture/architecture_base_entity.md) - Unified storage architecture
 - 🔄 [Transaction Management](docs/de/features/features_transactions.md) - ACID and MVCC details
-- 🔍 [AQL Query Language](docs/aql/aql_syntax.md) - Advanced Query Language syntax
+- 🔍 [AQL Query Language](docs/de/aql/aql_syntax.md) - Advanced Query Language syntax
 
 **Features:**
 - 🎯 [Vector Search](docs/de/features/features_vector_ops.md) - Similarity search and embeddings
@@ -195,8 +195,8 @@ curl http://localhost:8080/metrics
 **Operations:**
 - ⚙️ [Configuration Guide](docs/en/guides/guides_configuration.md) - Server configuration
 - 📊 [Monitoring & Metrics](docs/de/observability/observability_prometheus.md) - Prometheus and Grafana
-- 💾 [Backup & Recovery](docs/guides/guides_deployment.md#backup--recovery) - Data protection
-- ⚡ [Performance Tuning](docs/performance/performance_memory.md) - Optimization tips
+- 💾 [Backup & Recovery](docs/de/guides/guides_deployment.md#backup--recovery) - Data protection
+- ⚡ [Performance Tuning](docs/de/performance/performance_memory.md) - Optimization tips
 
 **Development:**
 - 🤝 [Contributing](CONTRIBUTING.md) - How to contribute
