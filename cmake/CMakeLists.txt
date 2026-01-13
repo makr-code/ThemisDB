@@ -1056,6 +1056,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
     ../src/server/feedback_api_handler.cpp
+    ../src/server/error_api_handler.cpp
+    ../src/server/health_error_service.cpp
     ../src/server/snapshot_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>

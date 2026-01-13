@@ -60,6 +60,7 @@
 #include "server/schema_api_handler.h"
 #include "server/transaction_api_handler.h"
 #include "server/wal_api_handler.h"
+#include "server/health_error_service.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -174,6 +175,11 @@ public:
         uint32_t websocket_max_message_size = 1048576; // WebSocket max message size (1MB default)
         uint32_t websocket_ping_interval_ms = 30000; // WebSocket ping interval (30s default)
         uint32_t websocket_cdc_poll_interval_ms = 500; // WebSocket CDC polling interval (500ms default)
+        
+        // Health/Error Service Configuration
+        bool health_error_service_enabled = true; // Enable separate health/error service
+        std::string health_error_service_bind_address = "127.0.0.1"; // Bind to localhost by default
+        uint16_t health_error_service_port = 9090; // Default health/error service port
         
         Config() = default;
         Config(std::string h, uint16_t p, size_t threads = 0) 
@@ -653,6 +659,9 @@ private:
     
     // Error API Handler
     std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
+    
+    // Health/Error Service (separate port)
+    std::unique_ptr<themis::server::HealthErrorService> health_error_service_;
     
     // Schema API Handler
     std::unique_ptr<themis::server::SchemaApiHandler> schema_api_handler_;

@@ -1053,6 +1053,36 @@ HttpServer::HttpServer(
     } else {
         THEMIS_INFO("HTTP server running without TLS (plaintext mode)");
     }
+    
+    // Initialize Health/Error Service on separate port
+    if (config_.health_error_service_enabled) {
+        try {
+            // Check for environment variable override
+            std::string health_bind = config_.health_error_service_bind_address;
+            uint16_t health_port = config_.health_error_service_port;
+            
+            if (const char* env_port = std::getenv("THEMIS_HEALTH_PORT")) {
+                try {
+                    health_port = static_cast<uint16_t>(std::stoi(env_port));
+                } catch (...) {
+                    THEMIS_WARN("Invalid THEMIS_HEALTH_PORT value, using default {}", health_port);
+                }
+            }
+            
+            if (const char* env_bind = std::getenv("THEMIS_HEALTH_BIND_ADDRESS")) {
+                health_bind = env_bind;
+            }
+            
+            HealthErrorService::Config health_config(health_bind, health_port, true);
+            health_error_service_ = std::make_unique<HealthErrorService>(health_config);
+            THEMIS_INFO("Health/Error service created on {}:{}", health_bind, health_port);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to initialize Health/Error service: {}", e.what());
+            // Non-fatal: main server can continue without health service
+        }
+    } else {
+        THEMIS_INFO("Health/Error service disabled in configuration");
+    }
 }
 
 HttpServer::~HttpServer() {
@@ -1088,6 +1118,17 @@ void HttpServer::start() {
             THEMIS_DEBUG("Worker thread {} stopped", i);
         });
     }
+    
+    // Start Health/Error Service (runs in separate thread)
+    if (health_error_service_) {
+        try {
+            health_error_service_->start();
+            THEMIS_INFO("Health/Error service started successfully");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to start Health/Error service: {}", e.what());
+            // Non-fatal: main server continues
+        }
+    }
 
 #ifdef THEMIS_VERSION_STRING
     THEMIS_INFO("🎉 ThemisDB {} is now READY for operations", THEMIS_VERSION_STRING);
@@ -1106,6 +1147,16 @@ void HttpServer::stop() {
     THEMIS_INFO("Stopping HTTP Server...");
     THEMIS_INFO("Initiating graceful shutdown...");
     running_ = false;
+    
+    // Stop Health/Error Service first (independent service)
+    if (health_error_service_) {
+        try {
+            health_error_service_->stop();
+            THEMIS_INFO("Health/Error service stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping Health/Error service: {}", e.what());
+        }
+    }
 
     // Stop accepting new connections
     beast::error_code ec;
