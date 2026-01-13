@@ -72,7 +72,7 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
-#include "server/http_type_adapter.h"  // Temporary adapter for Beast ↔ cpp-httplib types
+#include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"

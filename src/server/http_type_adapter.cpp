@@ -1,6 +1,11 @@
 #include "server/http_type_adapter.h"
 #include <sstream>
 
+// TODO: Consider using proper URL decoding library (e.g., Boost.URL or cpp-url) in production
+// Current implementation handles basic %XX encoding and + as space
+// Limitations: doesn't handle Unicode/UTF-8 multi-byte sequences, malformed percent-encoding,
+// or reserved characters per RFC 3986
+
 namespace themis {
 namespace server {
 
@@ -20,7 +25,29 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
     if (query_pos != std::string::npos) {
         httplib_req.path = target.substr(0, query_pos);
         
-        // Parse query parameters
+        // Parse query parameters (with URL decoding)
+        // URL decode helper function
+        auto url_decode = [](const std::string& str) -> std::string {
+            std::string decoded;
+            for (size_t i = 0; i < str.length(); ++i) {
+                if (str[i] == '%' && i + 2 < str.length()) {
+                    int value;
+                    std::istringstream is(str.substr(i + 1, 2));
+                    if (is >> std::hex >> value) {
+                        decoded += static_cast<char>(value);
+                        i += 2;
+                    } else {
+                        decoded += str[i];
+                    }
+                } else if (str[i] == '+') {
+                    decoded += ' ';
+                } else {
+                    decoded += str[i];
+                }
+            }
+            return decoded;
+        };
+        
         std::string query_string = target.substr(query_pos + 1);
         size_t start = 0;
         while (start < query_string.length()) {
@@ -32,30 +59,7 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
                 size_t value_end = (amp_pos != std::string::npos) ? amp_pos : query_string.length();
                 std::string value = query_string.substr(eq_pos + 1, value_end - eq_pos - 1);
                 
-                // URL decode key and value
-                // TODO: Use a proper URL decoding library in production
-                // For now, just handle basic %XX encoding
-                auto url_decode = [](const std::string& str) -> std::string {
-                    std::string decoded;
-                    for (size_t i = 0; i < str.length(); ++i) {
-                        if (str[i] == '%' && i + 2 < str.length()) {
-                            int value;
-                            std::istringstream is(str.substr(i + 1, 2));
-                            if (is >> std::hex >> value) {
-                                decoded += static_cast<char>(value);
-                                i += 2;
-                            } else {
-                                decoded += str[i];
-                            }
-                        } else if (str[i] == '+') {
-                            decoded += ' ';
-                        } else {
-                            decoded += str[i];
-                        }
-                    }
-                    return decoded;
-                };
-                
+                // URL decode key and value using helper function
                 httplib_req.params.emplace(url_decode(key), url_decode(value));
                 
                 start = (amp_pos != std::string::npos) ? amp_pos + 1 : query_string.length();
@@ -160,7 +164,9 @@ http::status HttpTypeAdapter::intToStatus(int status_code) {
         // Default: return internal server error for unmapped codes
         default:  
             // Only use static_cast for valid HTTP status codes (100-599)
-            if (status_code >= 100 && status_code < 600) {
+            constexpr int MIN_HTTP_STATUS = 100;
+            constexpr int MAX_HTTP_STATUS = 600;
+            if (status_code >= MIN_HTTP_STATUS && status_code < MAX_HTTP_STATUS) {
                 return static_cast<http::status>(status_code);
             }
             return http::status::internal_server_error;
