@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/query_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
@@ -293,9 +294,7 @@ private:
     http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req); // Enterprise: Query + LLM context
+    // Query handlers moved to QueryApiHandler
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeDelete(const http::request<http::string_body>& req);
@@ -603,6 +602,9 @@ private:
     
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
+    
+    // Query API Handler
+    std::unique_ptr<themis::server::QueryApiHandler> query_api_;
     
     // Content API Handler
     std::unique_ptr<themis::server::ContentApiHandler> content_api_;
