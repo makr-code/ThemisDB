@@ -100,11 +100,17 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
         // Add embedded license information if available
         auto license = themis::license::getEmbeddedLicense();
         if (license) {
+            // Mask license key for security (show only first 8 chars)
+            std::string masked_key = license->license_key;
+            if (masked_key.length() > 8) {
+                masked_key = masked_key.substr(0, 8) + "...";
+            }
+            
             response["license"] = {
                 {"organization_name", license->organization_name},
                 {"organization_id", license->organization_id},
                 {"contact_email", license->contact_email},
-                {"license_key", license->license_key},
+                {"license_key", masked_key},  // Masked for security
                 {"edition", license->edition},
                 {"issued_date", license->issued_date},
                 {"expiry_date", license->expiry_date},
@@ -317,9 +323,10 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
 http::response<http::string_body> MonitoringApiHandler::handleMetrics(
     const http::request<http::string_body>& req
 ) {
-    // Simplified Prometheus metrics implementation
-    // Full implementation with all metrics would require many more dependencies
-    // This provides basic metrics that are most commonly needed
+    // Basic Prometheus metrics implementation
+    // Includes core server metrics, auth metrics, RocksDB stats, and index rebuild metrics
+    // Note: Some advanced metrics (latency histograms, vector index, SSE, rate limiter, sharding)
+    // require additional dependencies not included in this basic handler
     
     try {
         auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
@@ -356,17 +363,17 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "# TYPE process_uptime_seconds gauge\n";
         out += "process_uptime_seconds " + std::to_string(uptime_seconds) + "\n";
 
-        out += "# HELP themis_requests_total Total HTTP requests handled\n";
-        out += "# TYPE themis_requests_total counter\n";
-        out += "themis_requests_total " + std::to_string(total_requests) + "\n";
+        out += "# HELP vccdb_requests_total Total HTTP requests handled\n";
+        out += "# TYPE vccdb_requests_total counter\n";
+        out += "vccdb_requests_total " + std::to_string(total_requests) + "\n";
 
-        out += "# HELP themis_errors_total Total HTTP errors returned\n";
-        out += "# TYPE themis_errors_total counter\n";
-        out += "themis_errors_total " + std::to_string(total_errors) + "\n";
+        out += "# HELP vccdb_errors_total Total HTTP errors returned\n";
+        out += "# TYPE vccdb_errors_total counter\n";
+        out += "vccdb_errors_total " + std::to_string(total_errors) + "\n";
 
-        out += "# HELP themis_qps Queries per second (approx)\n";
-        out += "# TYPE themis_qps gauge\n";
-        out += "themis_qps " + std::to_string(qps) + "\n";
+        out += "# HELP vccdb_qps Queries per second (approx)\n";
+        out += "# TYPE vccdb_qps gauge\n";
+        out += "vccdb_qps " + std::to_string(qps) + "\n";
 
         // Auth metrics (if enabled)
         if (auth_ && auth_->isEnabled()) {
