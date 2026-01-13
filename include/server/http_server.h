@@ -366,10 +366,6 @@ private:
     http::response<http::string_body> handlePromptTemplateGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePromptTemplatePut(const http::request<http::string_body>& req);
 
-    // Policies: Ranger import/export
-    http::response<http::string_body> handlePoliciesImportRanger(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePoliciesExportRanger(const http::request<http::string_body>& req);
-    
     // Sprint B: Time-Series endpoints
     http::response<http::string_body> handleTimeSeriesPut(const http::request<http::string_body>& req);
     http::response<http::string_body> handleTimeSeriesQuery(const http::request<http::string_body>& req);
