@@ -1777,15 +1777,19 @@ http::response<http::string_body> HttpServer::routeRequest(
         // G5: Spatial Index Management handlers
         case Route::SpatialIndexCreatePost:
             response = spatial_api_->handleIndexCreate(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexRebuildPost:
             response = spatial_api_->handleIndexRebuild(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexStatsGet:
             response = spatial_api_->handleIndexStats(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexMetricsGet:
             response = spatial_api_->handleMetrics(req);
+            applyGovernanceHeaders(req, response);
             break;
             
         case Route::GraphTraversePost:
