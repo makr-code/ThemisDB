@@ -364,17 +364,8 @@ private:
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
 
     // Sprint B: Time-Series endpoints
-    http::response<http::string_body> handleTimeSeriesPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregate(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesPost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesDelete(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesConfigGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesConfigPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionPost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionDelete(const http::request<http::string_body>& req);
+    // Note: Time-Series methods have been extracted to TimeSeriesApiHandler
+    // See: include/server/timeseries_api_handler.h
     
     // Sprint C: Adaptive Indexing endpoints
     http::response<http::string_body> handleIndexSuggestions(const http::request<http::string_body>& req);
