@@ -618,7 +618,6 @@ private:
     
     // TimeSeries API Handler
     std::unique_ptr<themis::server::TimeSeriesApiHandler> timeseries_api_;
-    std::unique_ptr<themis::server::CacheApiHandler> cache_api_;
 
     // PII API Handler
     std::unique_ptr<themis::server::PIIApiHandler> pii_api_;
