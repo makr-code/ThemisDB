@@ -7,18 +7,20 @@
 
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>
-
-// Forward declare the full implementation
-namespace themis {
-namespace acceleration {
-    class VulkanVectorBackendImpl;
-}
-}
-
 #endif
 
 namespace themis {
 namespace acceleration {
+
+// Define the implementation class for Vulkan (stub)
+class VulkanVectorBackend::VulkanVectorBackendImpl {
+public:
+    VulkanVectorBackendImpl() = default;
+    ~VulkanVectorBackendImpl() = default;
+    
+    // Stub methods - would contain actual Vulkan implementation
+    bool initialized_ = false;
+};
 
 // ============================================================================
 // DirectX Vector Backend Stub

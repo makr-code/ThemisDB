@@ -74,12 +74,12 @@ public:
         enableSIMD_ = enable;
     }
     
-    std::string name() const override {
+    const char* name() const noexcept override {
         return "CPU Multi-Threaded (OpenMP + SIMD)";
     }
     
-    // Optimized L2 distance computation with SIMD
-    float computeL2Distance(const float* a, const float* b, size_t dim) const override {
+    // Optimized L2 distance computation with SIMD (hides base class method)
+    float computeL2Distance(const float* a, const float* b, size_t dim) const {
 #if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
         if (enableSIMD_ && dim >= 8) {
             __m256 sum_vec = _mm256_setzero_ps();
@@ -139,8 +139,8 @@ public:
         return CPUVectorBackend::computeL2Distance(a, b, dim);
     }
     
-    // Optimized cosine distance with SIMD
-    float computeCosineDistance(const float* a, const float* b, size_t dim) const override {
+    // Optimized cosine distance with SIMD (hides base class method)
+    float computeCosineDistance(const float* a, const float* b, size_t dim) const {
 #if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
         if (enableSIMD_ && dim >= 8) {
             __m256 dot_vec = _mm256_setzero_ps();
