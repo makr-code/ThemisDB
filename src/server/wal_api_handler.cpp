@@ -111,20 +111,11 @@ http::response<http::string_body> WALApiHandler::handleApply(
     }
 
     auto result = wal_applier_->applyBatch(entries);
+    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - apply_start).count();
+    recordLatency(elapsed_us);
+    
     if (!result.success) {
-        auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - apply_start).count();
-        wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-        wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-        if (elapsed_us <= 50'000) {
-            wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 200'000) {
-            wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 1'000'000) {
-            wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        } else {
-            wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        }
         wal_apply_fail_.fetch_add(1, std::memory_order_relaxed);
         nlohmann::json body = {
             {"error", true},
@@ -139,20 +130,6 @@ http::response<http::string_body> WALApiHandler::handleApply(
     {
         std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
         wal_last_applied_lsn_ = result.last_applied_lsn.toString();
-    }
-
-    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - apply_start).count();
-    wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-    wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-    if (elapsed_us <= 50'000) {
-        wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 200'000) {
-        wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 1'000'000) {
-        wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    } else {
-        wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
     }
 
     nlohmann::json body = {
@@ -184,6 +161,20 @@ http::response<http::string_body> WALApiHandler::makeResponse(
     res.body() = body;
     res.prepare_payload();
     return res;
+}
+
+void WALApiHandler::recordLatency(int64_t elapsed_us) {
+    wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
+    wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
+    if (elapsed_us <= 50'000) {
+        wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
+    } else if (elapsed_us <= 200'000) {
+        wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
+    } else if (elapsed_us <= 1'000'000) {
+        wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
+    } else {
+        wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::string& data) {

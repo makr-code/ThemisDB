@@ -39,6 +39,10 @@ class AuthMiddleware;
  * - Metrics tracking
  * 
  * Extracted from http_server.cpp (~220 lines) to improve maintainability.
+ * 
+ * Note: Governance headers are not applied by this handler. If needed for
+ * compliance, they should be applied at a middleware layer or in the 
+ * HttpServer before delegating to this handler.
  */
 class WALApiHandler {
 public:
@@ -115,6 +119,7 @@ private:
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
+    void recordLatency(int64_t elapsed_us);
     std::string hmacSha256Hex(const std::string& key, const std::string& data);
     bool timingSafeEqual(const std::string& a, const std::string& b);
 };
