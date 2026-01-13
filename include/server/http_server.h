@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/policy_api_handler.h"
 #include "server/prompt_api_handler.h"
 #include "server/graph_api_handler.h"
 #include "server/index_api_handler.h"
@@ -364,10 +365,6 @@ private:
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
 
-    // Policies: Ranger import/export
-    http::response<http::string_body> handlePoliciesImportRanger(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePoliciesExportRanger(const http::request<http::string_body>& req);
-    
     // Sprint B: Time-Series endpoints
     http::response<http::string_body> handleTimeSeriesPut(const http::request<http::string_body>& req);
     http::response<http::string_body> handleTimeSeriesQuery(const http::request<http::string_body>& req);
@@ -603,6 +600,8 @@ private:
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
     
+    // Policy API Handler
+    std::unique_ptr<themis::server::PolicyApiHandler> policy_api_;
     // Prompt API Handler
     std::unique_ptr<themis::server::PromptApiHandler> prompt_api_;
     // Graph API Handler

@@ -581,6 +581,17 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Policy API Handler
+    const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
+    std::string ranger_service = ranger_service_env ? ranger_service_env : "themisdb";
+    policy_api_ = std::make_unique<themis::server::PolicyApiHandler>(
+        storage_, 
+        ranger_client_.get(),
+        policy_engine_.get(),
+        auth_,
+        ranger_service
+    );
+    THEMIS_INFO("Policy API Handler initialized");
     // Initialize Prompt API Handler
     prompt_api_ = std::make_unique<themis::server::PromptApiHandler>(
         storage_, prompt_manager_, auth_
@@ -2268,12 +2279,44 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::SchemaGetTable:
             response = handleSchemaGetTable(req);
             break;
-        case Route::PoliciesImportRangerPost:
-            response = handlePoliciesImportRanger(req);
+        case Route::PoliciesImportRangerPost: {
+            // Require admin scope + policy action
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            // Delegate to PolicyApiHandler
+            if (policy_api_) {
+                response = policy_api_->handleImportRanger(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Policy API not initialized", req);
+            }
             break;
-        case Route::PoliciesExportRangerGet:
-            response = handlePoliciesExportRanger(req);
+        }
+        case Route::PoliciesExportRangerGet: {
+            // Require admin scope + policy action
+            if (auth_ && auth_->isEnabled()) {
+                std::string path_only = std::string(req.target());
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                    response = *resp;
+                    break;
+                }
+            }
+            // Delegate to PolicyApiHandler
+            if (policy_api_) {
+                response = policy_api_->handleExportRanger(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Policy API not initialized", req);
+            }
             break;
+        }
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
@@ -10083,69 +10126,6 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
     } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request, 
             std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-// ===================== Policies: Ranger Import/Export =====================
-
-http::response<http::string_body> HttpServer::handlePoliciesImportRanger(
-    const http::request<http::string_body>& req
-) {
-    // Require admin scope + policy action
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "admin", "admin", path_only)) return *resp;
-    }
-    if (!ranger_client_) {
-        return makeErrorResponse(http::status::service_unavailable, "Ranger client not configured", req);
-    }
-    try {
-        std::string err;
-        auto jsonOpt = ranger_client_->fetchPolicies(&err);
-        if (!jsonOpt) {
-            return makeErrorResponse(http::status::bad_gateway, std::string("Ranger fetch failed: ") + err, req);
-        }
-        auto internal = themis::server::RangerClient::convertFromRanger(*jsonOpt);
-        if (internal.empty()) {
-            return makeErrorResponse(http::status::bad_request, "No policies converted from Ranger response", req);
-        }
-        if (!policy_engine_) policy_engine_ = std::make_unique<themis::PolicyEngine>();
-        policy_engine_->setPolicies(internal);
-        // Persist to local file
-        std::string save_err;
-        bool saved = policy_engine_->saveToFile("config/policies.json", &save_err);
-        nlohmann::json resp = {
-            {"imported", internal.size()},
-            {"saved", saved}
-        };
-        if (!saved) resp["save_error"] = save_err;
-        return makeResponse(http::status::ok, resp.dump(), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handlePoliciesExportRanger(
-    const http::request<http::string_body>& req
-) {
-    if (auth_ && auth_->isEnabled()) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "admin", "admin", path_only)) return *resp;
-    }
-    try {
-        if (!policy_engine_) {
-            return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
-        }
-        auto list = policy_engine_->listPolicies();
-        std::string service = "themisdb";
-        auto out = themis::server::RangerClient::convertToRanger(list, service);
-        return makeResponse(http::status::ok, out.dump(2), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
