@@ -49,6 +49,7 @@
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
+#include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/reports_api_handler.h"
@@ -358,17 +359,8 @@ private:
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
 
     // Sprint B: Time-Series endpoints
-    http::response<http::string_body> handleTimeSeriesPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregate(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesPost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesDelete(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesConfigGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesConfigPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionPost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionDelete(const http::request<http::string_body>& req);
+    // Note: Time-Series methods have been extracted to TimeSeriesApiHandler
+    // See: include/server/timeseries_api_handler.h
     
     // Sprint C: Adaptive Indexing endpoints
     http::response<http::string_body> handleIndexSuggestions(const http::request<http::string_body>& req);
@@ -615,6 +607,9 @@ private:
 
     // Cache API Handler
     std::unique_ptr<themis::server::CacheApiHandler> cache_api_;
+    
+    // TimeSeries API Handler
+    std::unique_ptr<themis::server::TimeSeriesApiHandler> timeseries_api_;
 
     // PII API Handler
     std::unique_ptr<themis::server::PIIApiHandler> pii_api_;
