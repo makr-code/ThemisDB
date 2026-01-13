@@ -34,6 +34,7 @@
 #endif
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/spatial_api_handler.h"
 #include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
 #include "server/policy_api_handler.h"
@@ -56,6 +57,7 @@
 #include "server/feedback_api_handler.h"
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
+#include "server/transaction_api_handler.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -311,19 +313,12 @@ private:
     http::response<http::string_body> handleVectorIndexStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleVectorBatchInsert(const http::request<http::string_body>& req);
     http::response<http::string_body> handleVectorDeleteByFilter(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransaction(const http::request<http::string_body>& req);
     http::response<http::string_body> handleCreateIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDropIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
-    // G5: Spatial Index Management
-    http::response<http::string_body> handleSpatialIndexCreate(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialIndexRebuild(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialIndexStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialMetrics(const http::request<http::string_body>& req);
-
     // Admin: Backup & Restore
     http::response<http::string_body> handleAdminBackup(const http::request<http::string_body>& req);
     http::response<http::string_body> handleAdminRestore(const http::request<http::string_body>& req);
@@ -372,12 +367,6 @@ private:
     http::response<http::string_body> handleIndexPatterns(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexRecordPattern(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexClearPatterns(const http::request<http::string_body>& req);
-    
-    // Transaction endpoints
-    http::response<http::string_body> handleTransactionBegin(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionCommit(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionRollback(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionStats(const http::request<http::string_body>& req);
     
     // Audit API endpoints
     http::response<http::string_body> handleAuditQuery(const http::request<http::string_body>& req);
@@ -589,6 +578,9 @@ private:
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
     
+    // Spatial API Handler
+    std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
+    
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
     // Query API Handler
@@ -636,6 +628,9 @@ private:
     
     // Reports API Handler (Skeleton)
     std::unique_ptr<themis::server::ReportsApiHandler> reports_api_;
+    
+    // Transaction API Handler
+    std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
     
     // Update API Handler
     std::unique_ptr<themis::server::UpdateApiHandler> update_api_;

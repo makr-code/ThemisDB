@@ -590,6 +590,12 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Spatial API Handler
+    spatial_api_ = std::make_unique<themis::server::SpatialApiHandler>(
+        storage_, spatial_index_, auth_
+    );
+    THEMIS_INFO("Spatial API Handler initialized");
+    
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
@@ -686,6 +692,12 @@ HttpServer::HttpServer(
     // Initialize Reports API Handler
     reports_api_ = std::make_unique<themis::server::ReportsApiHandler>();
     THEMIS_INFO("Reports API Handler initialized");
+    
+    // Initialize Transaction API Handler
+    transaction_api_ = std::make_unique<themis::server::TransactionApiHandler>(
+        storage_, tx_manager_, auth_
+    );
+    THEMIS_INFO("Transaction API Handler initialized");
 
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
@@ -1779,16 +1791,20 @@ http::response<http::string_body> HttpServer::routeRequest(
             
         // G5: Spatial Index Management handlers
         case Route::SpatialIndexCreatePost:
-            response = handleSpatialIndexCreate(req);
+            response = spatial_api_->handleIndexCreate(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexRebuildPost:
-            response = handleSpatialIndexRebuild(req);
+            response = spatial_api_->handleIndexRebuild(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexStatsGet:
-            response = handleSpatialIndexStats(req);
+            response = spatial_api_->handleIndexStats(req);
+            applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexMetricsGet:
-            response = handleSpatialMetrics(req);
+            response = spatial_api_->handleMetrics(req);
+            applyGovernanceHeaders(req, response);
             break;
             
         case Route::GraphTraversePost:
@@ -2216,19 +2232,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::TransactionPost:
-            response = handleTransaction(req);
+            response = transaction_api_->handleTransaction(req);
             break;
         case Route::TransactionBeginPost:
-            response = handleTransactionBegin(req);
+            response = transaction_api_->handleBegin(req);
             break;
         case Route::TransactionCommitPost:
-            response = handleTransactionCommit(req);
+            response = transaction_api_->handleCommit(req);
             break;
         case Route::TransactionRollbackPost:
-            response = handleTransactionRollback(req);
+            response = transaction_api_->handleRollback(req);
             break;
         case Route::TransactionStatsGet:
-            response = handleTransactionStats(req);
+            response = transaction_api_->handleStats(req);
             break;
         case Route::ContentImportPost:
             {
@@ -6064,25 +6080,6 @@ http::response<http::string_body> HttpServer::handleAdminRestore(
     }
 }
 
-http::response<http::string_body> HttpServer::handleTransaction(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // TODO: Implement transaction endpoint
-        json response = {
-            {"message", "Transaction endpoint not yet fully implemented"},
-            {"request", body_json}
-        };
-        return makeResponse(http::status::not_implemented, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    }
-}
-
 // ===================== Content API =====================
 
 http::response<http::string_body> HttpServer::handleContentImport(
@@ -7716,132 +7713,6 @@ http::response<http::string_body> HttpServer::handleIndexReindex(
     }
 }
 
-// ===== Transaction Endpoints =====
-
-http::response<http::string_body> HttpServer::handleTransactionBegin(
-    const http::request<http::string_body>& req
-) {
-    try {
-        // Parse optional isolation level from request body
-        IsolationLevel isolation = IsolationLevel::ReadCommitted;
-        
-        if (!req.body().empty()) {
-            json body = json::parse(req.body());
-            if (body.contains("isolation")) {
-                std::string isolation_str = body["isolation"];
-                if (isolation_str == "snapshot") {
-                    isolation = IsolationLevel::Snapshot;
-                } else if (isolation_str != "read_committed") {
-                    return makeErrorResponse(http::status::bad_request, 
-                        "Invalid isolation level. Use 'read_committed' or 'snapshot'", req);
-                }
-            }
-        }
-        
-        auto txn_id = tx_manager_->beginTransaction(isolation);
-        
-        json response = {
-            {"transaction_id", txn_id},
-            {"isolation", isolation == IsolationLevel::ReadCommitted ? "read_committed" : "snapshot"},
-            {"status", "active"}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransactionCommit(
-    const http::request<http::string_body>& req
-) {
-    try {
-        json body = json::parse(req.body());
-        
-        if (!body.contains("transaction_id")) {
-            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
-        }
-        
-        TransactionManager::TransactionId txn_id = body["transaction_id"];
-        
-        auto status = tx_manager_->commitTransaction(txn_id);
-        
-        if (status.ok) {
-            json response = {
-                {"transaction_id", txn_id},
-                {"status", "committed"},
-                {"message", "Transaction committed successfully"}
-            };
-            return makeResponse(http::status::ok, response.dump(2), req);
-        } else {
-            json response = {
-                {"transaction_id", txn_id},
-                {"status", "failed"},
-                {"error", status.message}
-            };
-            return makeResponse(http::status::internal_server_error, response.dump(2), req);
-        }
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransactionRollback(
-    const http::request<http::string_body>& req
-) {
-    try {
-        json body = json::parse(req.body());
-        
-        if (!body.contains("transaction_id")) {
-            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
-        }
-        
-        TransactionManager::TransactionId txn_id = body["transaction_id"];
-        
-        tx_manager_->rollbackTransaction(txn_id);
-        
-        json response = {
-            {"transaction_id", txn_id},
-            {"status", "rolled_back"},
-            {"message", "Transaction rolled back successfully"}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleTransactionStats(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto stats = tx_manager_->getStats();
-        
-        json response = {
-            {"total_begun", stats.total_begun},
-            {"total_committed", stats.total_committed},
-            {"total_aborted", stats.total_aborted},
-            {"active_count", stats.active_count},
-            {"avg_duration_ms", stats.avg_duration_ms},
-            {"max_duration_ms", stats.max_duration_ms},
-            {"success_rate", stats.total_begun > 0 
-                ? static_cast<double>(stats.total_committed) / stats.total_begun 
-                : 0.0}
-        };
-        
-        return makeResponse(http::status::ok, response.dump(2), req);
-    } catch (const std::exception& e) {
-        return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
-    }
-}
-
 // ============================================================================
 // Sprint B: Time-Series Endpoints
 // ============================================================================
@@ -8116,222 +7987,6 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 }
 
 // ============================================================================
-// G5: Spatial Index Management Handlers
-// ============================================================================
-
-http::response<http::string_body> HttpServer::handleSpatialIndexCreate(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_index_create");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        auto j = json::parse(req.body());
-        
-        if (!j.contains("table") || !j["table"].is_string()) {
-            return makeErrorResponse(http::status::bad_request, "Missing or invalid 'table' field", req);
-        }
-        
-        std::string table = j["table"];
-        std::string geometry_column = j.value("geometry_column", "geometry");
-        
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        // Parse optional config
-        index::RTreeConfig config;
-        if (j.contains("config") && j["config"].is_object()) {
-            auto cfg = j["config"];
-            if (cfg.contains("total_bounds") && cfg["total_bounds"].is_object()) {
-                auto bounds = cfg["total_bounds"];
-                config.total_bounds = themis::geo::MBR(
-                    bounds.value("minx", -180.0),
-                    bounds.value("miny", -90.0),
-                    bounds.value("maxx", 180.0),
-                    bounds.value("maxy", 90.0)
-                );
-            }
-        }
-        
-        auto status = spatial_index_->createSpatialIndex(table, geometry_column, config);
-        
-        if (!status) {
-            span.setStatus(false, status.message);
-            return makeErrorResponse(http::status::bad_request, status.message, req);
-        }
-        
-        json response;
-        response["success"] = true;
-        response["table"] = table;
-        response["geometry_column"] = geometry_column;
-        response["message"] = "Spatial index created successfully";
-        
-        res.body() = response.dump();
-        span.setStatus(true);
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-http::response<http::string_body> HttpServer::handleSpatialIndexRebuild(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_index_rebuild");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        auto j = json::parse(req.body());
-        
-        if (!j.contains("table") || !j["table"].is_string()) {
-            return makeErrorResponse(http::status::bad_request, "Missing or invalid 'table' field", req);
-        }
-        
-        std::string table = j["table"];
-        
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        // TODO: Implement rebuild by scanning all entities in table and re-indexing
-        // For now, return a not-implemented response
-        json response;
-        response["success"] = false;
-        response["table"] = table;
-        response["message"] = "Spatial index rebuild not yet implemented. Use drop + create for now.";
-        response["status_code"] = 501;
-        
-        res.result(http::status::not_implemented);
-        res.body() = response.dump();
-        span.setStatus(false, "not_implemented");
-        
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-http::response<http::string_body> HttpServer::handleSpatialIndexStats(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_index_stats");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        auto params = parseQuery(std::string(req.target()));
-        std::string table = params["table"];
-        
-        if (table.empty()) {
-            return makeErrorResponse(http::status::bad_request, "Missing 'table' query parameter", req);
-        }
-        
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        auto stats = spatial_index_->getStats(table);
-        json response;
-        response["success"] = true;
-        response["table"] = table;
-        response["entry_count"] = stats.entry_count;
-        response["total_bounds"] = {
-            {"minx", stats.total_bounds.minx},
-            {"miny", stats.total_bounds.miny},
-            {"maxx", stats.total_bounds.maxx},
-            {"maxy", stats.total_bounds.maxy}
-        };
-        response["avg_area"] = stats.avg_area;
-        response["morton_buckets"] = stats.morton_buckets;
-        res.body() = response.dump();
-        span.setStatus(true);
-        
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
-}
-
-http::response<http::string_body> HttpServer::handleSpatialMetrics(
-    const http::request<http::string_body>& req
-) {
-    auto span = Tracer::startSpan("http.spatial_metrics");
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    
-    try {
-        if (!spatial_index_) {
-            return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
-        }
-        
-        const auto& metrics = spatial_index_->getMetrics();
-        
-        json response;
-        response["query_count"] = metrics.query_count.load();
-        response["mbr_candidate_count"] = metrics.mbr_candidate_count.load();
-        response["exact_check_count"] = metrics.exact_check_count.load();
-        response["exact_check_passed"] = metrics.exact_check_passed.load();
-        response["exact_check_failed"] = metrics.exact_check_failed.load();
-        response["insert_count"] = metrics.insert_count.load();
-        response["remove_count"] = metrics.remove_count.load();
-        response["update_count"] = metrics.update_count.load();
-        
-        // Compute derived metrics
-        uint64_t total_exact = metrics.exact_check_count.load();
-        if (total_exact > 0) {
-            double precision = static_cast<double>(metrics.exact_check_passed.load()) / total_exact;
-            response["exact_check_precision"] = precision;
-            response["false_positive_rate"] = 1.0 - precision;
-        } else {
-            response["exact_check_precision"] = nullptr;
-            response["false_positive_rate"] = nullptr;
-        }
-        
-        uint64_t total_queries = metrics.query_count.load();
-        if (total_queries > 0) {
-            response["avg_candidates_per_query"] = static_cast<double>(metrics.mbr_candidate_count.load()) / total_queries;
-        } else {
-            response["avg_candidates_per_query"] = nullptr;
-        }
-        
-        res.body() = response.dump();
-        span.setStatus(true);
-        
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
-    }
-    
-    } catch (const std::exception& e) {
-        span.recordError(e.what());
-        span.setStatus(false, "internal_error");
-        return makeErrorResponse(http::status::internal_server_error, 
-            std::string("Error: ") + e.what(), req);
-    }
-}
-
 // Error API handlers
 http::response<http::string_body> HttpServer::handleErrorApiList(
     const http::request<http::string_body>& req
