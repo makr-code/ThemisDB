@@ -1023,6 +1023,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
     ../src/server/index_api_handler.cpp
+    ../src/server/entity_api_handler.cpp
     ../src/server/content_api_handler.cpp
     ../src/server/changefeed_api_handler.cpp
     ../src/server/audit_api_handler.cpp

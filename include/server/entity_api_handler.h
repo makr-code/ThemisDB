@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <atomic>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -13,9 +14,21 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class TransactionManager;
 class FieldEncryption;
+class Changefeed;
+
+namespace index {
+class SpatialIndexManager;
+}
 
 namespace security {
 class KeyProvider;
+}
+
+namespace sharding {
+class WALManager;
+class ReplicationCoordinator;
+class MultiPrimaryCoordinator;
+struct WriteConcernConfig;
 }
 
 namespace utils {
@@ -28,6 +41,13 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 
 class AuthMiddleware;
+
+// Configuration for entity operations
+struct EntityApiConfig {
+    bool feature_cdc = false;  // Enable change data capture
+    bool feature_geo = false;  // Enable geo/spatial index
+    bool feature_replication = false;  // Enable replication/write concern
+};
 
 /**
  * @brief Handler for Entity CRUD Operations
@@ -45,11 +65,22 @@ class AuthMiddleware;
  * - Graph edge management
  * - Authorization checks
  * - Audit logging
+ * - Optional: Spatial/geo indexing
+ * - Optional: Change data capture (CDC)
+ * - Optional: Replication and write concern
  * 
  * Extracted from http_server.cpp (~880 lines) to improve maintainability.
  */
 class EntityApiHandler {
 public:
+    /**
+     * @brief Authentication context extracted from request
+     */
+    struct AuthContext {
+        std::string user_id;
+        std::vector<std::string> groups;
+    };
+
     /**
      * @brief Construct a new Entity API Handler
      * 
@@ -60,6 +91,12 @@ public:
      * @param field_encryption Field-level encryption handler
      * @param key_provider Cryptographic key provider
      * @param auth Authentication/authorization middleware
+     * @param config Feature configuration flags
+     * @param spatial_index Optional: Spatial/geo index manager (raw pointer, not owned)
+     * @param changefeed Optional: CDC changefeed manager
+     * @param wal_manager Optional: WAL manager for replication
+     * @param replication_coordinator Optional: Replication coordinator
+     * @param multi_primary_coordinator Optional: Multi-primary coordinator
      */
     EntityApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
@@ -68,7 +105,13 @@ public:
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<FieldEncryption> field_encryption,
         std::shared_ptr<security::KeyProvider> key_provider,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        const EntityApiConfig& config = EntityApiConfig{},
+        index::SpatialIndexManager* spatial_index = nullptr,
+        std::shared_ptr<Changefeed> changefeed = nullptr,
+        std::shared_ptr<sharding::WALManager> wal_manager = nullptr,
+        std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator = nullptr,
+        std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator = nullptr
     );
 
     /**
@@ -119,13 +162,32 @@ private:
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<security::KeyProvider> key_provider_;
     std::shared_ptr<AuthMiddleware> auth_;
+    
+    // Configuration
+    EntityApiConfig config_;
+    
+    // Optional features
+    index::SpatialIndexManager* spatial_index_;  // Not owned
+    std::shared_ptr<Changefeed> changefeed_;
+    std::shared_ptr<sharding::WALManager> wal_manager_;
+    std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
+    std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     std::string extractPathParam(const std::string& target, const std::string& prefix);
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+    
+    // Authorization helpers
+    AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
+    std::optional<http::response<http::string_body>> requireAccess(
+        const http::request<http::string_body>& req,
+        const std::string& scope,
+        const std::string& action,
+        const std::string& resource
+    );
 };
 
 } // namespace server
