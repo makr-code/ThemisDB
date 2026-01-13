@@ -1,10 +1,10 @@
 nav:
   - Titelseite (generiert): __GENERATED_COVER__
+  - Vorwort: preface.md
+  - Startseite: index.md
   - Inhaltsverzeichnis (automatisch): __GENERATED_TOC__
   - Abbildungsverzeichnis (automatisch): __GENERATED_FIGURES__
   - Stichwortverzeichnis (automatisch): __GENERATED_KEYWORDS__
-  - Vorwort: preface.md
-  - Startseite: index.md
   
   - Teil I - Grundlagen:
     - Kapitel 0 - Genesis: chapter_00_genesis.md

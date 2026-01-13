@@ -7,6 +7,7 @@ Phase 1: YAML integration with TOC, Figure Index, Sections, and Appendices.
 import re
 import yaml
 import shutil
+import argparse
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any
@@ -159,6 +160,7 @@ def process_markdown_file(file_path: Path, svg_dir: Path) -> tuple:
                 
                 # Create figure with caption
                 result_html += f'''
+<div class="page-marker">@@FIG-{diagram_counter}@@</div>
 <figure id="diagram-{diagram_counter}" style="text-align: center; margin: 20px 0; page-break-inside: avoid;">
     <img src="file://{svg_abs_path}" alt="{diagram_title}" 
          style="max-width: 100%; height: auto; border: 1px solid {THEME_CONFIG["accent"]}; padding: 10px; border-radius: 8px;">
@@ -169,7 +171,8 @@ def process_markdown_file(file_path: Path, svg_dir: Path) -> tuple:
 '''
                 diagrams_in_chapter.append({
                     'num': diagram_counter,
-                    'title': diagram_title
+                    'title': diagram_title,
+                    'anchor': f"diagram-{diagram_counter}"
                 })
                 svg_index += 1
     
@@ -255,9 +258,9 @@ def main():
     
     # Load cover page (used when placeholder is present)
     print("\n[INFO] Preparing cover page...")
-    cover_file = COMPENDIUM_DIR / 'cover.md'
+    cover_file = COMPENDIUM_DIR / 'docs' / 'cover_book.md'
     if not cover_file.exists():
-        alt_cover = COMPENDIUM_DIR / 'docs' / 'cover.md'
+        alt_cover = COMPENDIUM_DIR / 'cover.md'
         if alt_cover.exists():
             cover_file = alt_cover
 
@@ -294,6 +297,7 @@ def main():
         if item['type'] == 'section':
             section_counter += 1
             section_html = f'''
+<div class="page-marker">@@SECTION-{section_counter}@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: {THEME_CONFIG["primary"]}; margin-bottom: 20px;">{item["title"]}</h1>
@@ -323,6 +327,7 @@ def main():
                         chapter_number = f"Kapitel {chapter_counter}: "
                 
                 wrapped_html = f'''
+<div class="page-marker">@@{anchor.upper()}@@</div>
 <div id="{anchor}" class="chapter">
     <h1 class="chapter-title" style="color: {THEME_CONFIG["primary"]}; border-bottom: 2px solid {THEME_CONFIG["primary"]}; padding-bottom: 8px; margin-top: 30px;">
         {chapter_number}{item["title"]}
@@ -379,7 +384,7 @@ def main():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThemisDB Kompendium {VERSION}</title>
-    <link rel="stylesheet" href="styles_modern_book_final.css">
+    <link rel="stylesheet" href="styles_modern_book.css">
 </head>
 <body>
     <div class="content">
@@ -388,11 +393,19 @@ def main():
 </body>
 </html>
 """
+
+    # Persist figure metadata for downstream processing
+    figures_meta_path = OUTPUT_DIR / "figures_meta.json"
+    try:
+        import json
+        figures_meta_path.write_text(json.dumps(all_diagrams, ensure_ascii=False, indent=2), encoding="utf-8")
+    except Exception as e:
+        print(f"[WARNING] Could not write figures metadata: {e}")
     
     # Copy external stylesheet to output directory
     print("[INFO] Preparing external stylesheet...")
-    css_source_path = COMPENDIUM_DIR / "styles_modern_book_final.scss"
-    css_output_path = OUTPUT_DIR / "styles_modern_book_final.css"
+    css_source_path = COMPENDIUM_DIR / "styles_modern_book.scss"
+    css_output_path = OUTPUT_DIR / "styles_modern_book.css"
     
     if css_source_path.exists():
         css_output_path.write_text(css_source_path.read_text(encoding="utf-8"), encoding="utf-8")
@@ -415,6 +428,10 @@ def main():
     return str(html_path)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Generate HTML from Markdown chapters')
+    parser.add_argument('--version', action='version', version=f'step2_generate_html.py {VERSION}')
+    parser.parse_args()
+    
     success = main()
     if not success:
         exit(1)

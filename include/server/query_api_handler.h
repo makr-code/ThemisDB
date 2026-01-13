@@ -17,19 +17,18 @@ class PromptManager;
 class SemanticCache;
 class FieldEncryption;
 class KeyProvider;
+class AuthMiddleware;
 
 namespace security {
 class PKIKeyProvider;
 }
 
-struct Config;
+// Config flags forwarded from HttpServer; use booleans to avoid circular include
 
 namespace server {
 
 namespace beast = boost::beast;
 namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Query Operations
@@ -74,8 +73,9 @@ public:
         std::shared_ptr<SemanticCache> semantic_cache,
         std::shared_ptr<LLMInteractionStore> llm_store,
         std::shared_ptr<PromptManager> prompt_manager,
-        std::shared_ptr<AuthMiddleware> auth,
-        const Config& config
+        std::shared_ptr<::themis::AuthMiddleware> auth,
+        bool feature_llm_query_enhancement,
+        bool feature_llm_store
     );
 
     /**
@@ -117,8 +117,9 @@ private:
     std::shared_ptr<SemanticCache> semantic_cache_;
     std::shared_ptr<LLMInteractionStore> llm_store_;
     std::shared_ptr<PromptManager> prompt_manager_;
-    std::shared_ptr<AuthMiddleware> auth_;
-    Config config_;
+    std::shared_ptr<::themis::AuthMiddleware> auth_;
+    bool feature_llm_query_enhancement_{false};
+    bool feature_llm_store_{false};
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(

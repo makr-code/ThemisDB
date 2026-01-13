@@ -1,6 +1,10 @@
 #ifndef THEMIS_DIFF_API_HANDLER_H
 #define THEMIS_DIFF_API_HANDLER_H
 
+#ifndef THEMIS_ENABLE_HTTP_SERVER
+#define THEMIS_ENABLE_HTTP_SERVER 1
+#endif
+
 #include "analytics/diff_engine.h"
 #include <memory>
 #include <nlohmann/json.hpp>
@@ -48,7 +52,7 @@ public:
      */
     void registerRoutes(httplib::Server& server);
 
-private:
+public:
     analytics::DiffEngine& diff_engine_;
 
     /**
@@ -76,6 +80,8 @@ private:
      * @brief Handle DELETE /api/v1/diff/cache
      */
     void handleClearCache(const httplib::Request& req, httplib::Response& res);
+
+private:
 
     /**
      * @brief Parse query parameters into DiffOptions

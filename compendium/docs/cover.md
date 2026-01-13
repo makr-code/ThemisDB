@@ -10,3 +10,6 @@ Ein praxisnaher Leitfaden für Planung, Betrieb und Skalierung der ThemisDB Mult
 	<div><span class="label">Version</span><span class="value">{{VERSION}}</span></div>
 	<div><span class="label">Stand</span><span class="value">{{DATE}}</span></div>
   <div><span class="label">Autor</span><span class="value">ThemisDB Development Team</span></div>
+</div>
+
+---

@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 import json
 import signal
+import argparse
 from pathlib import Path
 
 COMPENDIUM_DIR = Path(__file__).parent
@@ -137,5 +138,9 @@ def main():
 
 if __name__ == "__main__":
     import sys
+    parser = argparse.ArgumentParser(description='Generate SVG diagrams from Mermaid code')
+    parser.add_argument('--version', action='version', version='step1_generate_svgs.py v1.4.0')
+    parser.parse_args()
+    
     success = main()
     sys.exit(0 if success else 1)

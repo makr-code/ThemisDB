@@ -5,6 +5,7 @@ Fallback: WeasyPrint
 """
 
 import subprocess
+import argparse
 from pathlib import Path
 
 COMPENDIUM_DIR = Path(__file__).parent
@@ -34,12 +35,12 @@ def main():
     print(f"\n[INFO] Input:  {html_filename}")
     print(f"[INFO] Output: {pdf_filename}\n")
     
-    # Method 1: Try WeasyPrint first (better CSS support)
+    # Preferred for proper TOC page numbers and CSS margin boxes: WeasyPrint
     print("[1/2] Trying WeasyPrint...")
     if try_weasyprint(html_path, pdf_path):
         return True
     
-    # Method 2: Fallback to wkhtmltopdf
+    # Fallback: wkhtmltopdf (no TOC page numbers)
     print("[2/2] Trying wkhtmltopdf...")
     if try_wkhtmltopdf(html_path, pdf_path):
         return True
@@ -50,16 +51,17 @@ def main():
 def try_wkhtmltopdf(html_path, pdf_path):
     """Try to convert HTML to PDF using wkhtmltopdf."""
     try:
-        # Note: Headers/Footers are now handled by CSS @page rules in HTML
+        # wkhtmltopdf with built-in TOC and header/footer page numbers
         cmd = [
             'wkhtmltopdf',
             '--quiet',
             '--enable-local-file-access',
-            '--margin-top', '30mm',
-            '--margin-bottom', '25mm',
-            '--margin-left', '20mm',
-            '--margin-right', '20mm',
+            '--margin-top', '18mm',
+            '--margin-bottom', '16mm',
+            '--margin-left', '15mm',
+            '--margin-right', '15mm',
             '--page-size', 'A4',
+            '--dpi', '150',
             str(html_path),
             str(pdf_path)
         ]
@@ -110,7 +112,7 @@ except Exception as e:
 """
         ]
         
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
         
         if result.returncode != 0:
             if result.stderr:
@@ -151,3 +153,10 @@ if __name__ == "__main__":
     else:
         print("BUILD FAILED")
     print("=" * 70)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Generate PDF from HTML')
+    parser.add_argument('--version', action='version', version=f'step3_generate_pdf.py {VERSION}')
+    args = parser.parse_args()
+    
+    main()

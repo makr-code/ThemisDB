@@ -1,486 +1,489 @@
-/* ===== PROFESSIONAL BOOK LAYOUT CSS ===== */
-        /* Based on standard book design principles and Word book templates */
-        
-        /* Page Setup - Standard A4 Book Format */
-        @page {
-            size: A4;
-            margin-top: 2.5cm;
-            margin-bottom: 2cm;
-            margin-left: 2cm;
-            margin-right: 2cm;
-            
-            /* Running Headers - Book Title */
-            @top-center {
-                content: "ThemisDB v1.4.0 - Das vollständige Handbuch";
-                font-size: 9pt;
-                font-style: italic;
-                color: #666;
-                border-bottom: 0.5pt solid #ddd;
-                padding-bottom: 4pt;
-            }
-            
-            /* Page Numbers - Bottom Center */
-            @bottom-center {
-                content: counter(page);
-                font-size: 10pt;
-                font-weight: 500;
-                color: #444;
-            }
-        }
-        
-        /* Title Page - No headers/footers */
-        @page :first {
-            @top-center { content: ""; }
-            @bottom-center { content: ""; }
-        }
-        
-        /* TOC Pages - Roman numerals */
-        @page toc {
-            @bottom-center {
-                content: counter(page, lower-roman);
-                font-size: 10pt;
-                color: #444;
-            }
-        }
-        
-        /* Left (verso) and Right (recto) pages for book binding */
-        @page :left {
-            margin-left: 2.5cm;
-            margin-right: 2cm;
-        }
-        
-        @page :right {
-            margin-left: 2cm;
-            margin-right: 2.5cm;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            /* Widow and Orphan Control */
-            orphans: 3;
-            widows: 3;
-        }
-        
-        html, body {
-            font-family: 'Charter', 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif;
-            line-height: 1.65;
-            color: #1a1a1a;
-            background-color: #ffffff;
-            text-align: justify;
-            hyphens: auto;
-            -webkit-hyphens: auto;
-            font-size: 11pt;
-            font-feature-settings: "liga" 1, "kern" 1;
-            text-rendering: optimizeLegibility;
-        }
-        
-        /* Cover Page */
-        .cover {
-            width: 100%;
-            min-height: 29.7cm;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #1a4d2e 0%, #0f3d5c 100%);
-            color: white;
-            text-align: center;
-            page-break-after: always;
-            padding: 4cm 2cm;
-        }
-        
-        .cover h1 {
-            font-size: 48pt;
-            font-weight: 700;
-            margin-bottom: 20pt;
-            font-family: Helvetica Neue, Arial, sans-serif;
-            color: white;
-            letter-spacing: 1pt;
-            text-transform: uppercase;
-        }
-        
-        .cover h2 {
-            font-size: 20pt;
-            color: rgba(255,255,255,0.95);
-            margin-bottom: 40pt;
-            font-weight: 300;
-        }
-        
-        .cover p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.85);
-            margin: 15px 0;
-            max-width: 600px;
-            line-height: 1.8;
-        }
-        
-        /* TOC Styles */
-        .toc-section, .figure-index {
-            page: toc;
-            page-break-before: always;
-            page-break-after: always;
-            padding: 40px 50px;
-        }
-        
-        .toc-section h1, .figure-index h1 {
-            font-family: Helvetica Neue, Arial, sans-serif;
-            color: #1a4d2e;
-            border-bottom: 3px solid #2a7f62;
-            padding-bottom: 12pt;
-            margin-bottom: 24pt;
-            font-size: 24pt;
-            font-weight: 700;
-            page-break-after: avoid;
-        }
-        
-        .toc-section-group {
-            margin-bottom: 25px;
-        }
-        
-        .toc-section-title {
-            font-family: Helvetica Neue, Arial, sans-serif;
-            color: #2a7f62;
-            font-size: 16pt;
-            margin-bottom: 10px;
-            font-weight: bold;
-            page-break-after: avoid;
-        }
-        
-        .toc-list {
-            list-style: none;
-            padding-left: 20px;
-            font-size: 10.5pt;
-            line-height: 2;
-        }
-        
-        .toc-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8pt;
-            padding-bottom: 6pt;
-            border-bottom: 1px dotted #ccc;
-            page-break-inside: avoid;
-        }
-        
-        .toc-item a, .figure-list a {
-            color: inherit;
-            text-decoration: none;
-            flex: 1;
-            padding-right: 12pt;
-            transition: color 0.2s ease, border-bottom 0.2s ease;
-        }
-        
-        .toc-item a:hover, .figure-list a:hover {
-            color: #1a4d2e;
-            border-bottom: 1px solid #1a4d2e;
-        }
-        
-        .figure-list {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .figure-list li {
-            margin-bottom: 8px;
-            padding-left: 30px;
-            text-indent: -30px;
-            page-break-inside: avoid;
-        }
-        
-        /* Section Pages */
-        .section-page {
-            page-break-before: always;
-            page-break-after: always;
-        }
-        
-        /* Chapter Styles with proper page break control */
-        .chapter {
-            margin-bottom: 40px;
-        }
-        
-        .chapter-title {
-            page-break-after: avoid;
-            page-break-inside: avoid;
-            orphans: 3;
-            widows: 3;
-        }
-        
-        /* Content */
-        .content {
-            padding: 40px 50px;
-            max-width: 950px;
-            margin: 0 auto;
-        }
-        
-        /* Headings with proper page break control */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: Helvetica Neue, Arial, sans-serif;
-            page-break-after: avoid;
-            page-break-inside: avoid;
-            orphans: 3;
-            widows: 3;
-        }
-        
-        h1 {
-            page-break-before: always;
-            color: #0d3b2e;
-            border-bottom: 2.5pt solid #1a4d2e;
-            padding-bottom: 12pt;
-            font-size: 22pt;
-            margin-top: 0;
-            margin-bottom: 20pt;
-            font-weight: 700;
-            line-height: 1.25;
-            letter-spacing: -0.02em;
-        }
-        
-        h2 {
-            color: #1a5d4a;
-            font-size: 16pt;
-            margin-top: 22pt;
-            margin-bottom: 12pt;
-            border-left: 4pt solid #2a7f62;
-            padding-left: 14pt;
-            font-weight: 700;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-        
-        h3 {
-            color: #2c5282;
-            font-size: 13.5pt;
-            margin-top: 16pt;
-            margin-bottom: 10pt;
-            font-weight: 600;
-            line-height: 1.35;
-            letter-spacing: -0.005em;
-        }
-        
-        h4 {
-            color: #555;
-            font-size: 12pt;
-            margin-top: 12pt;
-            margin-bottom: 6pt;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-        
-        h5, h6 {
-            color: #666;
-            font-size: 11pt;
-            margin-top: 10pt;
-            margin-bottom: 4pt;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-        
-        /* Paragraphs with widow/orphan control */
-        p {
-            margin-bottom: 12pt;
-            text-align: justify;
-            line-height: 1.65;
-            orphans: 3;
-            widows: 3;
-            color: #1a1a1a;
-        }
-        
-        /* Links - erscheinen wie normaler Text, nur bei Hover Hervorhebung */
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s ease, border-bottom 0.15s ease;
-        }
-        
-        a:hover {
-            color: #1a4d2e;
-            border-bottom: 1px solid #2a7f62;
-            text-decoration: none;
-        }
-        
-        a:visited {
-            color: inherit;
-        }
-        
-        /* Lists with widow/orphan control */
-        ul, ol {
-            margin-left: 25pt;
-            margin-bottom: 10pt;
-            margin-top: 6pt;
-            orphans: 3;
-            widows: 3;
-        }
-        
-        li {
-            margin-bottom: 4pt;
-            line-height: 1.5;
-            page-break-inside: avoid;
-        }
-        
-        /* Code blocks */
-        code {
-            background-color: #f5f7f9;
-            padding: 2pt 6pt;
-            border-radius: 3pt;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Consolas', monospace;
-            color: #1a1a1a;
-            font-size: 9.5pt;
-            border: 0.5pt solid #e1e8ed;
-        }
-        
-        pre {
-            background-color: #f5f7f9;
-            padding: 14pt;
-            border-left: 4pt solid #2a7f62;
-            border-radius: 4pt;
-            margin: 16pt 0;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Consolas', monospace;
-            font-size: 9pt;
-            line-height: 1.6;
-            page-break-inside: avoid;
-            orphans: 4;
-            widows: 4;
-            border: 0.5pt solid #e1e8ed;
-            overflow-x: auto;
-        }
-        
-        pre code {
-            background: none;
-            padding: 0;
-            color: #1a1a1a;
-            border: none;
-        }
-        
-        /* Blockquotes */
-        blockquote {
-            border-left: 4px solid #2a7f62;
-            padding-left: 16pt;
-            padding-right: 16pt;
-            margin: 16pt 0 16pt 12pt;
-            color: #3a3a3a;
-            font-style: italic;
-            font-size: 10.5pt;
-            page-break-inside: avoid;
-            orphans: 3;
-            widows: 3;
-            background: #fafbfc;
-            padding-top: 10pt;
-            padding-bottom: 10pt;
-            border-radius: 3pt;
-        }
-        
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 14pt 0;
-            font-size: 9.5pt;
-            page-break-inside: avoid;
-            font-family: Helvetica Neue, Arial, sans-serif;
-        }
-        
-        table th {
-            background-color: #1a4d2e;
-            color: #ffffff;
-            padding: 10pt 12pt;
-            text-align: left;
-            font-weight: 600;
-            page-break-after: avoid;
-            font-size: 10pt;
-            letter-spacing: 0.01em;
-        }
-        
-        table td {
-            border: 0.75pt solid #e1e8ed;
-            padding: 8pt 12pt;
-            text-align: left;
-            vertical-align: top;
-            color: #1a1a1a;
-        }
-        
-        table tr:nth-child(even) {
-            background-color: #fafbfc;
-        }
-        
-        table tr:hover {
-            background-color: #f5f7f9;
-        }
-        
-        thead {
-            display: table-header-group;
-        }
-        
-        tbody {
-            orphans: 3;
-            widows: 3;
-        }
-        
-        /* Figures with proper styling */
-        figure {
-            margin: 20pt 0;
-            padding: 14pt;
-            text-align: center;
-            page-break-inside: avoid;
-            orphans: 3;
-            widows: 3;
-            border: 0.75pt solid #e1e8ed;
-            background: #fafbfc;
-            border-radius: 4pt;
-            box-shadow: 0 1pt 3pt rgba(0,0,0,0.08);
-        }
-        
-        figure img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto 8pt auto;
-        }
-        
-        figcaption {
-            font-size: 9.5pt;
-            color: #4a5568;
-            font-style: italic;
-            margin-top: 10pt;
-            text-align: center;
-            font-weight: 500;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            line-height: 1.5;
-        }
-        
-        /* Print optimizations */
-        @media print {
-            * {
-                box-shadow: none !important;
-                text-shadow: none !important;
-            }
-            
-            a {
-                color: inherit;
-                text-decoration: none;
-            }
-            
-            a[href^="http"]:after {
-                content: " (" attr(href) ")";
-                font-size: 85%;
-                color: #666;
-            }
-            
-            /* Ensure proper page breaks */
-            h1, h2, h3, h4, h5, h6 {
-                page-break-after: avoid;
-            }
-            
-            pre, blockquote, table, figure {
-                page-break-inside: avoid;
-            }
-            
-            /* Improve text rendering */
-            body {
-                print-color-adjust: exact;
-                -webkit-print-color-adjust: exact;
-            }
-        }
+/**
+ * Modern Book Layout Styles for ThemisDB Compendium
+ * Professional typography and spacing for PDF generation
+ * 
+ * Design Philosophy:
+ * - Serif fonts for body text (better readability in print)
+ * - Sans-serif for headings (modern, clean look)
+ * - Generous margins and line spacing
+ * - Code blocks with subtle backgrounds
+ * - Tables with alternating row colors
+ */
+
+/* ===== PAGE LAYOUT ===== */
+@page {
+    size: A4;
+    margin: 25mm 20mm 25mm 20mm;
+    
+    @top-left {
+        content: "ThemisDB Compendium";
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 9pt;
+        color: #666;
+    }
+    
+    @top-right {
+        content: "Version 1.3.4";
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 9pt;
+        color: #666;
+    }
+    
+    @bottom-center {
+        content: counter(page);
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 10pt;
+        color: #333;
+    }
+}
+
+/* ===== TYPOGRAPHY ===== */
+body,
+.md-typeset {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 11pt;
+    line-height: 1.65;
+    color: #2c3e50;
+    text-align: left;
+    hyphens: auto;
+}
+
+/* ===== COVER PAGE ===== */
+.cover-page {
+    page-break-after: always;
+    min-height: 90vh;
+    padding: 35mm 25mm 30mm 25mm;
+    background: linear-gradient(120deg, #0f3d5c 0%, #1a4d2e 70%);
+    color: #ffffff;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.cover-band {
+    position: absolute;
+    left: 18mm;
+    top: 0;
+    bottom: 0;
+    width: 6mm;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.cover-content {
+    position: relative;
+    max-width: 520px;
+    z-index: 1;
+}
+
+.cover-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 9pt;
+    margin-bottom: 10pt;
+    opacity: 0.85;
+}
+
+.cover-page h1 {
+    font-size: 28pt;
+    margin: 0 0 6pt 0;
+    color: #ffffff;
+}
+
+.cover-page h2 {
+    font-size: 16pt;
+    margin: 0 0 16pt 0;
+    font-weight: 500;
+    color: #eaf2ff;
+}
+
+.cover-tagline {
+    font-size: 11pt;
+    line-height: 1.6;
+    margin: 0 0 18pt 0;
+    max-width: 480px;
+}
+
+.cover-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8pt 14pt;
+    max-width: 380px;
+}
+
+.cover-meta-grid .meta-item {
+    display: flex;
+    gap: 6pt;
+    font-size: 10pt;
+    align-items: baseline;
+}
+
+.cover-meta-grid .label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 8.5pt;
+    opacity: 0.8;
+}
+
+.cover-meta-grid .value {
+    font-weight: 600;
+    font-size: 10.5pt;
+}
+
+.cover-page::after {
+    content: "";
+    position: absolute;
+    right: -90mm;
+    bottom: -50mm;
+    width: 180mm;
+    height: 180mm;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+}
+
+/* Invisible PDF markers for page mapping */
+.page-marker {
+    font-size: 0.1pt;
+    line-height: 0.1;
+    color: #ffffff;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5, h6,
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    color: #1a1a1a;
+    page-break-after: avoid;
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+}
+
+.md-typeset h1 {
+    font-size: 28pt;
+    font-weight: 700;
+    border-bottom: 3px solid #7c4dff;
+    padding-bottom: 0.3em;
+    page-break-before: always;
+    margin-top: 0;
+}
+
+.md-typeset h2 {
+    font-size: 20pt;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.25em;
+    margin-top: 2em;
+}
+
+.md-typeset h3 {
+    font-size: 16pt;
+    font-weight: 600;
+    color: #7c4dff;
+}
+
+.md-typeset h4 {
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.md-typeset h5,
+.md-typeset h6 {
+    font-size: 12pt;
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* ===== PARAGRAPHS ===== */
+p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    orphans: 3;
+    widows: 3;
+}
+
+/* ===== CODE BLOCKS ===== */
+code,
+.md-typeset code {
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 9.5pt;
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    padding: 2px 5px;
+    color: #c7254e;
+}
+
+pre,
+.md-typeset pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-left: 4px solid #7c4dff;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 1em 0;
+    page-break-inside: avoid;
+    overflow-x: auto;
+}
+
+pre code,
+.md-typeset pre > code {
+    font-size: 9pt;
+    line-height: 1.5;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: #333;
+}
+
+/* ===== TABLES ===== */
+table,
+.md-typeset table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    page-break-inside: avoid;
+    font-size: 10pt;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+thead tr,
+.md-typeset table thead tr {
+    background-color: #7c4dff;
+    color: white;
+    font-weight: 600;
+}
+
+th,
+.md-typeset table th {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #fff;
+}
+
+td,
+.md-typeset table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:nth-child(even),
+.md-typeset table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* ===== LISTS ===== */
+ul, ol {
+    margin: 0.75em 0;
+    padding-left: 2em;
+}
+
+li {
+    margin: 0.35em 0;
+}
+
+ul ul, ol ul, ul ol, ol ol {
+    margin-top: 0.35em;
+    margin-bottom: 0.35em;
+}
+
+/* ===== BLOCKQUOTES ===== */
+blockquote,
+.md-typeset blockquote {
+    border-left: 5px solid #7c4dff;
+    background-color: #f5f5f5;
+    padding: 12px 20px;
+    margin: 1em 0;
+    font-style: italic;
+    color: #555;
+    page-break-inside: avoid;
+}
+
+/* ===== ADMONITIONS ===== */
+.admonition,
+.md-typeset .admonition {
+    border-left: 5px solid #7c4dff;
+    background-color: #f9f9f9;
+    padding: 12px 16px;
+    margin: 1em 0;
+    page-break-inside: avoid;
+    border-radius: 4px;
+}
+
+.admonition-title,
+.md-typeset .admonition-title {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 11pt;
+    margin-bottom: 0.5em;
+    color: #1a1a1a;
+}
+
+.admonition.note {
+    border-left-color: #2196F3;
+}
+
+.admonition.tip {
+    border-left-color: #4CAF50;
+}
+
+.admonition.warning {
+    border-left-color: #FF9800;
+}
+
+.admonition.danger {
+    border-left-color: #F44336;
+}
+
+/* ===== LINKS ===== */
+a {
+    color: #7c4dff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Print URLs after links */
+@media print {
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 8pt;
+        color: #666;
+    }
+}
+
+/* ===== IMAGES ===== */
+img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+    margin: 1em 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* ===== HORIZONTAL RULES ===== */
+hr,
+.md-typeset hr {
+    border: none;
+    border-top: 2px solid #e0e0e0;
+    margin: 2em 0;
+    page-break-after: avoid;
+}
+
+/* ===== PAGE BREAKS ===== */
+.page-break,
+.pagebreak {
+    page-break-before: always;
+}
+
+.avoid-break {
+    page-break-inside: avoid;
+}
+
+/* ===== TABLE OF CONTENTS ===== */
+.toc,
+.md-nav {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 10pt;
+}
+
+.toc a,
+.md-nav a {
+    color: #333;
+}
+
+/* ===== HIDE ELEMENTS FOR PDF ===== */
+/* Keep only core content visible; hide mkdocs chrome */
+.md-header,
+.md-tabs,
+.md-sidebar,
+.md-footer,
+.md-source,
+.md-search,
+.md-dialog,
+.md-clipboard,
+.headerlink,
+.md-icon,
+.md-badge,
+.twemoji,
+.md-footer__link,
+.md-footer__social,
+.md-content__button,
+.md-top,
+.md-tags {
+    display: none !important;
+}
+
+/* ===== FOOTNOTES ===== */
+.footnote,
+.md-typeset .footnote {
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.footnote-ref,
+.md-typeset .footnote-ref {
+    font-size: 8pt;
+    vertical-align: super;
+    color: #7c4dff;
+}
+
+/* ===== DEFINITION LISTS ===== */
+dt {
+    font-weight: 600;
+    margin-top: 0.75em;
+    color: #1a1a1a;
+}
+
+dd {
+    margin-left: 2em;
+    margin-bottom: 0.5em;
+}
+
+/* ===== SPECIAL FORMATTING ===== */
+.highlight,
+mark {
+    background-color: #fff59d;
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+kbd {
+    font-family: "Fira Code", "Courier New", monospace;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 9pt;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+
+/* ===== MERMAID DIAGRAMS ===== */
+.mermaid {
+    page-break-inside: avoid;
+    margin: 1em 0;
+}
+
+/* ===== CHAPTER NUMBERING ===== */
+body {
+    counter-reset: chapter;
+}
+
+.md-typeset h1::before {
+    counter-increment: chapter;
+    content: "Kapitel " counter(chapter) ": ";
+    color: #7c4dff;
+}

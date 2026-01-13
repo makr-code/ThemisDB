@@ -12,13 +12,12 @@ class RocksDBWrapper;
 class VectorIndexManager;
 class FieldEncryption;
 class KeyProvider;
+class AuthMiddleware;
 
 namespace server {
 
 namespace beast = boost::beast;
 namespace http = beast::http;
-
-class AuthMiddleware;
 
 struct AuthContext {
     std::string user_id;
@@ -63,7 +62,7 @@ public:
     VectorApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<::themis::AuthMiddleware> auth,
         std::shared_ptr<FieldEncryption> field_encryption = nullptr,
         std::shared_ptr<KeyProvider> key_provider = nullptr
     );
@@ -127,7 +126,7 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<::themis::AuthMiddleware> auth_;
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<KeyProvider> key_provider_;
 

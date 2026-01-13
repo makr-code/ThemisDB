@@ -5,6 +5,7 @@ Removes: output directory with PDF, HTML, and SVG files.
 """
 
 import shutil
+import argparse
 from pathlib import Path
 
 COMPENDIUM_DIR = Path(__file__).parent
@@ -100,6 +101,11 @@ def main():
     return True
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Cleanup intermediate build artifacts')
+    parser.add_argument('--version', action='version', version=f'step5_cleanup.py {VERSION}')
+    parser.add_argument('--force', action='store_true', help='Skip confirmation prompts')
+    args = parser.parse_args()
+    
     success = main()
     print("\n" + "=" * 70)
     if success:

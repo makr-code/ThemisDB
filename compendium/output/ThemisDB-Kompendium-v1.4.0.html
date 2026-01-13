@@ -4,18 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThemisDB Kompendium v1.4.0</title>
-    <link rel="stylesheet" href="styles_modern_book_final.css">
+    <link rel="stylesheet" href="styles_modern_book.css">
 </head>
 <body>
     <div class="content">
-        <div class="cover"><h1>ThemisDB Kompendium</h1>
-<h3>Whitebook &amp; Technisches Handbuch</h3>
-<p>Ein praxisnaher Leitfaden für Planung, Betrieb und Skalierung der ThemisDB Multi-Model Datenbank – von Grundlagen bis Enterprise-Patterns.</p>
-<hr />
-<div class="cover-meta">
-    <div><span class="label">Version</span><span class="value">Version v1.4.0</span></div>
-    <div><span class="label">Stand</span><span class="value">13. January 2026</span></div>
-  <div><span class="label">Autor</span><span class="value">ThemisDB Development Team</span></div></div><div class="toc-section"><h1 id="toc">Inhaltsverzeichnis</h1><div class="toc-content"><li class="toc-item"><a class="toc-link" href="#preface"><span class="toc-text">Vorwort</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#index"><span class="toc-text">Startseite</span><span class="toc-page"></span></a></li><div class="toc-section-group"><h2 class="toc-section-title">Teil I - Grundlagen</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_00_genesis"><span class="toc-text">Kapitel 0 - Genesis</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_01_introduction"><span class="toc-text">Kapitel 1 - Einführung</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_02_architecture"><span class="toc-text">Kapitel 2 - Architektur</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_03_multimodel"><span class="toc-text">Kapitel 3 - Multi-Model</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_04_installation"><span class="toc-text">Kapitel 4 - Installation</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil II - Datenmodelle</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_05_relational"><span class="toc-text">Kapitel 5 - Relational</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_06_graph"><span class="toc-text">Kapitel 6 - Graph</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_07_document"><span class="toc-text">Kapitel 7 - Dokumente</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_08_vector"><span class="toc-text">Kapitel 8 - Vektoren</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_08_storage_layer"><span class="toc-text">Kapitel 8b - Storage Layer</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil III - Spezialanwendungen</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_09_timeseries"><span class="toc-text">Kapitel 9 - Zeit-Reihen & IoT</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_10_enterprise"><span class="toc-text">Kapitel 10 - Enterprise</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_11_realtime"><span class="toc-text">Kapitel 11 - Realtime</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_12_computervision"><span class="toc-text">Kapitel 12 - Computer Vision</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil IV - Erweiterte Features</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_13_fulltext"><span class="toc-text">Kapitel 13 - Volltext-Suche</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_14_geospatial"><span class="toc-text">Kapitel 14 - Geo-Spatial Features</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_15_analytics"><span class="toc-text">Kapitel 15 - Analytics</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_16_sharding"><span class="toc-text">Kapitel 16 - Sharding</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil V - AI & ML Integration</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_17_llm_integration"><span class="toc-text">Kapitel 17 - LLM Integration</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_18_ml"><span class="toc-text">Kapitel 18 - Machine Learning</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil VI - Skalierung & Monitoring</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_19_monitoring"><span class="toc-text">Kapitel 19 - Monitoring</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_19_monitoring_observability"><span class="toc-text">Kapitel 19b - Observability</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_20_backup"><span class="toc-text">Kapitel 20 - Backup</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_21_performance"><span class="toc-text">Kapitel 21 - Performance</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil VII - Clients & Entwicklung</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_22_clients"><span class="toc-text">Kapitel 22 - Clients</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_23_testing_qa"><span class="toc-text">Kapitel 23 - Testing & QA</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_24_ai_ethics"><span class="toc-text">Kapitel 24 - AI Ethics</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil VIII - DevOps & Infrastructure</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_25_devops_infrastructure"><span class="toc-text">Kapitel 25 - DevOps & Infrastructure</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_26_migration_legacy"><span class="toc-text">Kapitel 26 - Migration & Legacy</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_27_troubleshooting"><span class="toc-text">Kapitel 27 - Troubleshooting</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil IX - Referenzen & API</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_28_aql_reference"><span class="toc-text">Kapitel 28 - AQL Referenz</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_29_analytics_process_mining"><span class="toc-text">Kapitel 29 - Analytics & Process Mining</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_30_deployment_operations"><span class="toc-text">Kapitel 30 - Deployment & Operations</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_31_api_protocols"><span class="toc-text">Kapitel 31 - API Protokolle</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_32_aql_oop_implementation"><span class="toc-text">Kapitel 32 - AQL OOP Implementierung</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_33_best_practices"><span class="toc-text">Kapitel 33 - Best Practices</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil X - Advanced Topics</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_34_query_optimization"><span class="toc-text">Kapitel 34 - Query Optimierung</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_35_data_modeling_patterns"><span class="toc-text">Kapitel 35 - Data Modeling Patterns</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_36_security_hardening"><span class="toc-text">Kapitel 36 - Security Hardening</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_37_ecosystem_integration"><span class="toc-text">Kapitel 37 - Ecosystem Integration</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_38_observability_sre"><span class="toc-text">Kapitel 38 - Observability & SRE</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_39_performance_tuning_cookbook"><span class="toc-text">Kapitel 39 - Performance Tuning Cookbook</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_40_data_governance_compliance"><span class="toc-text">Kapitel 40 - Data Governance & Compliance</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_41_hands_on_labs"><span class="toc-text">Kapitel 41 - Hands-on Labs</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Anhänge</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#appendix_literatur"><span class="toc-text">Anhang A - Literatur</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_d_feature_status"><span class="toc-text">Anhang D - Feature Status</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_e_incident_runbooks"><span class="toc-text">Anhang E - Incident Response Runbooks</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_f_aql_cheatsheet"><span class="toc-text">Anhang F - AQL Cheat Sheet</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_g_configuration"><span class="toc-text">Anhang G - Configuration Reference</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_h_glossary"><span class="toc-text">Anhang H - Glossary & Terminology</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_i_troubleshooting"><span class="toc-text">Anhang I - Troubleshooting Guide</span><span class="toc-page"></span></a></li></ul></div></div></div><div class="figure-index"><h1 id="figure-index">Abbildungen & Diagramme</h1><p>Keine Abbildungen gefunden.</p></div><div class="keyword-index"><h1 id="keyword-index">Stichwortverzeichnis</h1><p>(Stichworte werden hier eingetragen.)</p></div>
+        <div class="cover"><div class="cover-page">
+  <div class="cover-band"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">ThemisDB</div>
+    <h1>ThemisDB Kompendium</h1>
+    <h2>Whitebook & Technisches Handbuch</h2>
+    <p class="cover-tagline">Ein praxisnaher Leitfaden für Planung, Betrieb und Skalierung der ThemisDB Multi-Model Datenbank – von Grundlagen bis Enterprise-Patterns.</p>
+
+    <div class="cover-meta-grid">
+      <div class="meta-item"><span class="label">Version</span><span class="value">Version v1.4.0</span></div>
+      <div class="meta-item"><span class="label">Stand</span><span class="value">13. January 2026</span></div>
+      <div class="meta-item"><span class="label">Autor</span><span class="value">ThemisDB Development Team</span></div>
+    </div>
+  </div>
+</div></div>
+<div class="page-marker">@@PREFACE@@</div>
 <div id="preface" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Vorwort
@@ -162,6 +170,7 @@ Für die Operations-Perspektive und Real-World Case Studies.</p>
 Dezember 2025</p>
 </div>
 
+<div class="page-marker">@@INDEX@@</div>
 <div id="index" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Startseite
@@ -176,7 +185,8 @@ Dezember 2025</p>
 <p>Hinweise und Code sind konsistent formatiert; AQL- und Python-Snippets zeigen realistische Aufrufe. Hervorhebungen bleiben sparsam: fett für Schlüsselbegriffe, Inline-Code für Befehle und Dateinamen.</p>
 <p>Los geht’s: Direkt ins Vorwort für Kontext, oder in Kapitel 1 für den Einstieg in ThemisDB.</p>
 </div>
-
+<div class="toc-section"><h1 id="toc">Inhaltsverzeichnis</h1><div class="toc-content"><li class="toc-item"><a class="toc-link" href="#preface"><span class="toc-text">Vorwort</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#index"><span class="toc-text">Startseite</span><span class="toc-page"></span></a></li><div class="toc-section-group"><h2 class="toc-section-title">Teil I - Grundlagen</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_00_genesis"><span class="toc-text">Kapitel 0 - Genesis</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_01_introduction"><span class="toc-text">Kapitel 1 - Einführung</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_02_architecture"><span class="toc-text">Kapitel 2 - Architektur</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_03_multimodel"><span class="toc-text">Kapitel 3 - Multi-Model</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_04_installation"><span class="toc-text">Kapitel 4 - Installation</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil II - Datenmodelle</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_05_relational"><span class="toc-text">Kapitel 5 - Relational</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_06_graph"><span class="toc-text">Kapitel 6 - Graph</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_07_document"><span class="toc-text">Kapitel 7 - Dokumente</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_08_vector"><span class="toc-text">Kapitel 8 - Vektoren</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_08_storage_layer"><span class="toc-text">Kapitel 8b - Storage Layer</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil III - Spezialanwendungen</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_09_timeseries"><span class="toc-text">Kapitel 9 - Zeit-Reihen & IoT</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_10_enterprise"><span class="toc-text">Kapitel 10 - Enterprise</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_11_realtime"><span class="toc-text">Kapitel 11 - Realtime</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_12_computervision"><span class="toc-text">Kapitel 12 - Computer Vision</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil IV - Erweiterte Features</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_13_fulltext"><span class="toc-text">Kapitel 13 - Volltext-Suche</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_14_geospatial"><span class="toc-text">Kapitel 14 - Geo-Spatial Features</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_15_analytics"><span class="toc-text">Kapitel 15 - Analytics</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_16_sharding"><span class="toc-text">Kapitel 16 - Sharding</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil V - AI & ML Integration</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_17_llm_integration"><span class="toc-text">Kapitel 17 - LLM Integration</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_18_ml"><span class="toc-text">Kapitel 18 - Machine Learning</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil VI - Skalierung & Monitoring</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_19_monitoring"><span class="toc-text">Kapitel 19 - Monitoring</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_19_monitoring_observability"><span class="toc-text">Kapitel 19b - Observability</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_20_backup"><span class="toc-text">Kapitel 20 - Backup</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_21_performance"><span class="toc-text">Kapitel 21 - Performance</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil VII - Clients & Entwicklung</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_22_clients"><span class="toc-text">Kapitel 22 - Clients</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_23_testing_qa"><span class="toc-text">Kapitel 23 - Testing & QA</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_24_ai_ethics"><span class="toc-text">Kapitel 24 - AI Ethics</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil VIII - DevOps & Infrastructure</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_25_devops_infrastructure"><span class="toc-text">Kapitel 25 - DevOps & Infrastructure</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_26_migration_legacy"><span class="toc-text">Kapitel 26 - Migration & Legacy</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_27_troubleshooting"><span class="toc-text">Kapitel 27 - Troubleshooting</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil IX - Referenzen & API</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_28_aql_reference"><span class="toc-text">Kapitel 28 - AQL Referenz</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_29_analytics_process_mining"><span class="toc-text">Kapitel 29 - Analytics & Process Mining</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_30_deployment_operations"><span class="toc-text">Kapitel 30 - Deployment & Operations</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_31_api_protocols"><span class="toc-text">Kapitel 31 - API Protokolle</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_32_aql_oop_implementation"><span class="toc-text">Kapitel 32 - AQL OOP Implementierung</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_33_best_practices"><span class="toc-text">Kapitel 33 - Best Practices</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Teil X - Advanced Topics</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#chapter_34_query_optimization"><span class="toc-text">Kapitel 34 - Query Optimierung</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_35_data_modeling_patterns"><span class="toc-text">Kapitel 35 - Data Modeling Patterns</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_36_security_hardening"><span class="toc-text">Kapitel 36 - Security Hardening</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_37_ecosystem_integration"><span class="toc-text">Kapitel 37 - Ecosystem Integration</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_38_observability_sre"><span class="toc-text">Kapitel 38 - Observability & SRE</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_39_performance_tuning_cookbook"><span class="toc-text">Kapitel 39 - Performance Tuning Cookbook</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_40_data_governance_compliance"><span class="toc-text">Kapitel 40 - Data Governance & Compliance</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#chapter_41_hands_on_labs"><span class="toc-text">Kapitel 41 - Hands-on Labs</span><span class="toc-page"></span></a></li></ul></div><div class="toc-section-group"><h2 class="toc-section-title">Anhänge</h2><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#appendix_literatur"><span class="toc-text">Anhang A - Literatur</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_d_feature_status"><span class="toc-text">Anhang D - Feature Status</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_e_incident_runbooks"><span class="toc-text">Anhang E - Incident Response Runbooks</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_f_aql_cheatsheet"><span class="toc-text">Anhang F - AQL Cheat Sheet</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_g_configuration"><span class="toc-text">Anhang G - Configuration Reference</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_h_glossary"><span class="toc-text">Anhang H - Glossary & Terminology</span><span class="toc-page"></span></a></li><li class="toc-item"><a class="toc-link" href="#appendix_i_troubleshooting"><span class="toc-text">Anhang I - Troubleshooting Guide</span><span class="toc-page"></span></a></li></ul></div></div></div><div class="figure-index"><h1 id="figure-index">Abbildungen & Diagramme</h1><p>Keine Abbildungen gefunden.</p></div><div class="keyword-index"><h1 id="keyword-index">Stichwortverzeichnis</h1><p>(Stichworte werden hier eingetragen.)</p></div>
+<div class="page-marker">@@SECTION-1@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil I - Grundlagen</h1>
@@ -184,6 +194,7 @@ Dezember 2025</p>
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_00_GENESIS@@</div>
 <div id="chapter_00_genesis" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 0 - Genesis
@@ -567,6 +578,7 @@ Dokumentation:            Gut, aber personengebunden
 - Vollständige Literaturliste: <a href="appendix_literatur.md">Anhang A</a></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_01_INTRODUCTION@@</div>
 <div id="chapter_01_introduction" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 1: Kapitel 1 - Einführung
@@ -1130,6 +1142,7 @@ recommendations = client.query(query, {&quot;alice_last_embedding&quot;: alice_v
 <p><strong>Kapitel 1 von 30</strong> | <strong>Teil I: Grundlagen</strong> | <strong>~7.200 Wörter</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_02_ARCHITECTURE@@</div>
 <div id="chapter_02_architecture" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 2: Kapitel 2 - Architektur
@@ -2486,6 +2499,7 @@ options.compression_per_level[7] = rocksdb::kZSTD;
 <p><strong>Kapitel 2 von 30</strong> | <strong>Teil I: Grundlagen</strong> | <strong>~14.000 Wörter</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_03_MULTIMODEL@@</div>
 <div id="chapter_03_multimodel" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 3: Kapitel 3 - Multi-Model
@@ -3220,6 +3234,7 @@ client.create_index(&quot;contacts&quot;, &quot;email_idx&quot;, [&quot;email&qu
 <p><strong>Kapitel 3 von 30</strong> | <strong>Teil I: Grundlagen</strong> | <strong>~7.500 Wörter</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_04_INSTALLATION@@</div>
 <div id="chapter_04_installation" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 4: Kapitel 4 - Installation
@@ -3885,6 +3900,7 @@ kubectl set image deployment/themisdb-node1 themisdb=themisdb:1.3.4
 <p><strong>Kapitel 4 von 30</strong> | <strong>Teil I: Grundlagen</strong> | <strong>~6.500 Wörter</strong></p>
 </div>
 
+<div class="page-marker">@@SECTION-2@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil II - Datenmodelle</h1>
@@ -3892,6 +3908,7 @@ kubectl set image deployment/themisdb-node1 themisdb=themisdb:1.3.4
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_05_RELATIONAL@@</div>
 <div id="chapter_05_relational" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 5: Kapitel 5 - Relational
@@ -5359,6 +5376,7 @@ EXPLAIN
 <p><strong>Kapitel 5 von 30</strong> | <strong>Teil II: Datenmodelle</strong> | <strong>~12.200 Wörter</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_06_GRAPH@@</div>
 <div id="chapter_06_graph" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 6: Kapitel 6 - Graph
@@ -6717,6 +6735,7 @@ FOR v IN 1..5 OUTBOUND @start friendships
 </ul>
 </div>
 
+<div class="page-marker">@@CHAPTER_07_DOCUMENT@@</div>
 <div id="chapter_07_document" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 7: Kapitel 7 - Dokumente
@@ -7889,6 +7908,7 @@ with db.transaction():
 - Beide mit Schema-Evolution und Nested Data</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_08_VECTOR@@</div>
 <div id="chapter_08_vector" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 8: Kapitel 8 - Vektoren
@@ -9006,6 +9026,7 @@ combined_score = alpha * vector_score + (1 - alpha) * fulltext_score
 <p><strong>Ende Kapitel 8</strong> | <a href="chapter_09_timeseries.md">➡️ Weiter zu Kapitel 9: Time-Series</a></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_08_STORAGE_LAYER@@</div>
 <div id="chapter_08_storage_layer" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 8: Kapitel 8b - Storage Layer
@@ -9849,6 +9870,7 @@ Overall Grade:  A- (85-90% Compliance)
 <p><strong>Nächstes Kapitel:</strong> <a href="chapter_09_indexing.md">Chapter 9: Indexing Strategies →</a></p>
 </div>
 
+<div class="page-marker">@@SECTION-3@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil III - Spezialanwendungen</h1>
@@ -9856,6 +9878,7 @@ Overall Grade:  A- (85-90% Compliance)
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_09_TIMESERIES@@</div>
 <div id="chapter_09_timeseries" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 9: Kapitel 9 - Zeit-Reihen & IoT
@@ -10560,6 +10583,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY sensor_daily_stats;
 5. Down-Sample alte Daten automatisch</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_10_ENTERPRISE@@</div>
 <div id="chapter_10_enterprise" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 10: Kapitel 10 - Enterprise
@@ -12837,6 +12861,7 @@ print(f&quot;Zusammenfassung: {result['summary']['text']}&quot;)
 <p>Im nächsten Kapitel tauchen wir in Realtime-Anwendungen ein: Chat und Kanban-Boards mit Live-Updates!</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_11_REALTIME@@</div>
 <div id="chapter_11_realtime" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 11: Kapitel 11 - Realtime
@@ -14284,6 +14309,7 @@ def get_channel_members(channel_id):
 </ol>
 </div>
 
+<div class="page-marker">@@CHAPTER_12_COMPUTERVISION@@</div>
 <div id="chapter_12_computervision" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 12: Kapitel 12 - Computer Vision
@@ -15045,6 +15071,7 @@ similar = get_similar_images_cached(image_hash, limit=10)
 5. Thumbnails für Performance</p>
 </div>
 
+<div class="page-marker">@@SECTION-4@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil IV - Erweiterte Features</h1>
@@ -15052,6 +15079,7 @@ similar = get_similar_images_cached(image_hash, limit=10)
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_13_FULLTEXT@@</div>
 <div id="chapter_13_fulltext" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 13: Kapitel 13 - Volltext-Suche
@@ -15755,6 +15783,7 @@ WHERE FULLTEXT_MATCH(articles, 'a');  -- Häufiger Buchstabe
 <p><strong>Aufgabe 5:</strong> Optimieren Sie eine langsame Volltext-Query durch Analyse der Index-Statistiken und Query-Rewriting.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_14_GEOSPATIAL@@</div>
 <div id="chapter_14_geospatial" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 14: Kapitel 14 - Geo-Spatial Features
@@ -16352,6 +16381,7 @@ conn.execute(&quot;REFRESH MATERIALIZED VIEW berlin_mitte_restaurants&quot;)
 <p>Im nächsten Kapitel sehen wir uns <strong>Analytics &amp; Reporting</strong> an – Aggregationen, Dashboards und Business Intelligence mit ThemisDB.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_15_ANALYTICS@@</div>
 <div id="chapter_15_analytics" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 15: Kapitel 15 - Analytics
@@ -17492,6 +17522,7 @@ CREATE INDEX idx_orders_date_amount ON orders(order_date, total_amount);
 <p>Im nächsten Kapitel behandeln wir Machine Learning Integration für erweiterte Analysen.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_16_SHARDING@@</div>
 <div id="chapter_16_sharding" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 16: Kapitel 16 - Sharding
@@ -18585,6 +18616,7 @@ rebalance:
 - <code>.github/workflows/sharding-benchmark.yml</code> - CI/CD Benchmarks</p>
 </div>
 
+<div class="page-marker">@@SECTION-5@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil V - AI & ML Integration</h1>
@@ -18592,6 +18624,7 @@ rebalance:
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_17_LLM_INTEGRATION@@</div>
 <div id="chapter_17_llm_integration" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 17: Kapitel 17 - LLM Integration
@@ -21077,6 +21110,7 @@ RETURN LLM_VISION_STATS({
 <strong>Vorheriges Kapitel:</strong> <a href="chapter_16_ml.md">Kapitel 16: Machine Learning</a></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_18_ML@@</div>
 <div id="chapter_18_ml" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 18: Kapitel 18 - Machine Learning
@@ -22233,6 +22267,7 @@ schedule.every(1).hour.do(check_model_health)
 <p>Die Multi-Model-Architektur ermöglicht komplexe ML-Pipelines mit relationalen Features, Graph-Analysen und Vector-Embeddings in einer einzigen Datenbank.</p>
 </div>
 
+<div class="page-marker">@@SECTION-6@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil VI - Skalierung & Monitoring</h1>
@@ -22240,6 +22275,7 @@ schedule.every(1).hour.do(check_model_health)
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_19_MONITORING@@</div>
 <div id="chapter_19_monitoring" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 19: Kapitel 19 - Monitoring
@@ -23073,6 +23109,7 @@ recording_rules:
 <p>Mit diesen Tools und Praktiken können Sie ThemisDB effektiv überwachen und Probleme frühzeitig erkennen.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_19_MONITORING_OBSERVABILITY@@</div>
 <div id="chapter_19_monitoring_observability" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 19: Kapitel 19b - Observability
@@ -24478,6 +24515,7 @@ sum(increase(themis_llm_response_cache_cost_saved_usd[30d]))
 - <a href="https://grafana.com/docs/">Grafana Documentation</a></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_20_BACKUP@@</div>
 <div id="chapter_20_backup" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 20: Kapitel 20 - Backup
@@ -25081,6 +25119,7 @@ def monitored_backup(backup_type):
 - [ ] Team geschult</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_21_PERFORMANCE@@</div>
 <div id="chapter_21_performance" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 21: Kapitel 21 - Performance
@@ -26243,6 +26282,7 @@ RETURN LLM_BATCHING_STATS('llama-70b-local')
 - Write Throughput: 5,000+ WPS</p>
 </div>
 
+<div class="page-marker">@@SECTION-7@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil VII - Clients & Entwicklung</h1>
@@ -26250,6 +26290,7 @@ RETURN LLM_BATCHING_STATS('llama-70b-local')
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_22_CLIENTS@@</div>
 <div id="chapter_22_clients" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 22: Kapitel 22 - Clients
@@ -27013,6 +27054,7 @@ users = db.find('users', {'age': {'$gte': 18}})
 <p>Im nächsten Kapitel betrachten wir die Integration von ThemisDB in populäre Frameworks wie Django, Spring Boot, Express.js und mehr.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_23_TESTING_QA@@</div>
 <div id="chapter_23_testing_qa" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 23: Kapitel 23 - Testing & QA
@@ -27501,6 +27543,7 @@ FUNCTION test_pagination() {
 </code></pre>
 </div>
 
+<div class="page-marker">@@CHAPTER_24_AI_ETHICS@@</div>
 <div id="chapter_24_ai_ethics" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 24: Kapitel 24 - AI Ethics
@@ -28505,6 +28548,7 @@ for (const auto&amp; [template_name, count] : stats.template_usage) {
 <strong>Tags:</strong> ethics, ai-governance, bias, automation-bias, human-in-the-loop, verwaltungs-ki, ethical-guidelines, llm-as-judge, asimov-laws, un-human-rights, prompt-augmentation</p>
 </div>
 
+<div class="page-marker">@@SECTION-8@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil VIII - DevOps & Infrastructure</h1>
@@ -28512,6 +28556,7 @@ for (const auto&amp; [template_name, count] : stats.template_usage) {
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_25_DEVOPS_INFRASTRUCTURE@@</div>
 <div id="chapter_25_devops_infrastructure" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 25: Kapitel 25 - DevOps & Infrastructure
@@ -29085,6 +29130,7 @@ curl -X POST http://themis-2:8529/_admin/resync
 </ul>
 </div>
 
+<div class="page-marker">@@CHAPTER_26_MIGRATION_LEGACY@@</div>
 <div id="chapter_26_migration_legacy" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 26: Kapitel 26 - Migration & Legacy
@@ -29735,6 +29781,7 @@ FOR slow IN slow_queries
 - <strong>T+1 Woche:</strong> Blue abschalten</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_27_TROUBLESHOOTING@@</div>
 <div id="chapter_27_troubleshooting" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 27: Kapitel 27 - Troubleshooting
@@ -30221,6 +30268,7 @@ FOR doc IN large_update
 - ✅ Post-Mortems nach jedem Incident</p>
 </div>
 
+<div class="page-marker">@@SECTION-9@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil IX - Referenzen & API</h1>
@@ -30228,6 +30276,7 @@ FOR doc IN large_update
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_28_AQL_REFERENCE@@</div>
 <div id="chapter_28_aql_reference" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 28: Kapitel 28 - AQL Referenz
@@ -31248,6 +31297,7 @@ RETURN { deleted: LENGTH(to_delete) }
 <p><strong>Kapitel 28 von 30</strong> | <strong>Teil IV: Referenz</strong> | <strong>~8.500 Wörter (+2000 neu)</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_29_ANALYTICS_PROCESS_MINING@@</div>
 <div id="chapter_29_analytics_process_mining" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 29: Kapitel 29 - Analytics & Process Mining
@@ -32187,6 +32237,7 @@ FOR query IN analytics_log
 <p><strong>Kapitel 29 von 30</strong> | <strong>Teil XI: Analytics &amp; Operations</strong> | <strong>~10.000 Wörter (+2000 neu)</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_30_DEPLOYMENT_OPERATIONS@@</div>
 <div id="chapter_30_deployment_operations" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 30: Kapitel 30 - Deployment & Operations
@@ -33279,6 +33330,7 @@ Verify
 <p><strong>Kapitel 30 von 30</strong> | <strong>Teil XI: Operations</strong> | <strong>~10.000 Wörter (+2000 neu)</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_31_API_PROTOCOLS@@</div>
 <div id="chapter_31_api_protocols" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 31: Kapitel 31 - API Protokolle
@@ -34684,6 +34736,7 @@ def execute_with_metrics(method, path, protocol='h2'):
 <p><strong>Kapitel 31 von 33</strong> | <strong>Teil V: Protocols &amp; Integration</strong> | <strong>~8.500 Wörter (+2000 neu)</strong></p>
 </div>
 
+<div class="page-marker">@@CHAPTER_32_AQL_OOP_IMPLEMENTATION@@</div>
 <div id="chapter_32_aql_oop_implementation" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 32: Kapitel 32 - AQL OOP Implementierung
@@ -35264,6 +35317,7 @@ aql:
 <p>AQL v1.3.1 führt OOP-Konstrukte ein und erfordert Änderungen auf allen Ebenen der Query-Engine. Die Implementierung gliedert sich in fünf Phasen: Lexer/Parser, Type-System, Namespace-Resolution, Runtime, Tests. Mit klaren Guardrails (Feature-Flag, Tests, Benchmarks) kann die Erweiterung ohne Regressionen ausgerollt werden.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_33_BEST_PRACTICES@@</div>
 <div id="chapter_33_best_practices" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 33: Kapitel 33 - Best Practices
@@ -36177,6 +36231,7 @@ def execute_query(query: Query):
 <p><strong>Kapitel 33 von 33</strong> | <strong>Teil VI: Best Practices &amp; Advanced</strong> | <strong>~9.000 Wörter (+2000 neu)</strong></p>
 </div>
 
+<div class="page-marker">@@SECTION-10@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Teil X - Advanced Topics</h1>
@@ -36184,6 +36239,7 @@ def execute_query(query: Query):
     </div>
 </div>
 
+<div class="page-marker">@@CHAPTER_34_QUERY_OPTIMIZATION@@</div>
 <div id="chapter_34_query_optimization" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 34: Kapitel 34 - Query Optimierung
@@ -36575,6 +36631,7 @@ class QueryPerformanceMonitor:
 <p>Mit diesen Techniken erreichen Sie Production-Grade Performance.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_35_DATA_MODELING_PATTERNS@@</div>
 <div id="chapter_35_data_modeling_patterns" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 35: Kapitel 35 - Data Modeling Patterns
@@ -37006,6 +37063,7 @@ FOR article IN articles
 <p>Mit diesen Patterns bauen Sie skalierbare, wartbare Datenmodelle.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_36_SECURITY_HARDENING@@</div>
 <div id="chapter_36_security_hardening" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 36: Kapitel 36 - Security Hardening
@@ -37485,6 +37543,7 @@ class IncidentResponse:
 <p>Mit diesen Patterns bauen Sie ein <strong>Defense-in-Depth</strong> System, wo mehrere Sicherheitsebenen zusammenarbeiten.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_37_ECOSYSTEM_INTEGRATION@@</div>
 <div id="chapter_37_ecosystem_integration" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 37: Kapitel 37 - Ecosystem Integration
@@ -37923,6 +37982,7 @@ class PostgresThemisSync:
 <p>Mit diesen Tools integrieren Sie ThemisDB in jedes bestehende System.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_38_OBSERVABILITY_SRE@@</div>
 <div id="chapter_38_observability_sre" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 38: Kapitel 38 - Observability & SRE
@@ -38146,6 +38206,7 @@ func InitTracer(endpoint string) func() {
 <p>Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashboards, schlankem Alerting und erprobten Runbooks verkürzen Sie MTTR massiv und verhindern Blindflüge im Betrieb.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_39_PERFORMANCE_TUNING_COOKBOOK@@</div>
 <div id="chapter_39_performance_tuning_cookbook" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 39: Kapitel 39 - Performance Tuning Cookbook
@@ -38387,6 +38448,7 @@ class BenchHarness:
 <p>Dieses Kochbuch liefert schnelle Diagnosen und konkrete Fixes. Beginnen Sie mit EXPLAIN/PROFILE, optimieren Sie Filter/Projektion, nutzen Sie Indizes, batchen Sie Schreibvorgänge, begrenzen Sie Fanout, und sichern Sie Ressourcen durch Cache- und IO-Tuning. Wiederholen, messen, automatisieren.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_40_DATA_GOVERNANCE_COMPLIANCE@@</div>
 <div id="chapter_40_data_governance_compliance" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 40: Kapitel 40 - Data Governance & Compliance
@@ -38569,6 +38631,7 @@ FUNCTION gdpr_delete(user_id) {
 <p>Governance setzt klare Verantwortlichkeiten, Classification, Zugriffsprinzipien und Retention. Compliance liefert Nachweise gegenüber Auditoren und Gesetzgebern. Mit Masking, Audit Trails, JIT Access und robusten Löschprozessen bleibt ThemisDB konform und vertrauenswürdig.</p>
 </div>
 
+<div class="page-marker">@@CHAPTER_41_HANDS_ON_LABS@@</div>
 <div id="chapter_41_hands_on_labs" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Kapitel 41: Kapitel 41 - Hands-on Labs
@@ -38744,6 +38807,7 @@ FOR doc IN articles
 <p><strong>Nächste Schritte:</strong> Kombinieren Sie Labs: Deploy → Index-Tuning → Vector-Suche auf realen Datensätzen.</p>
 </div>
 
+<div class="page-marker">@@SECTION-11@@</div>
 <div class="section-page" style="page-break-before: always; page-break-after: always; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <h1 style="font-size: 36pt; color: #1a4d2e; margin-bottom: 20px;">Anhänge</h1>
@@ -38751,6 +38815,7 @@ FOR doc IN articles
     </div>
 </div>
 
+<div class="page-marker">@@APPENDIX_LITERATUR@@</div>
 <div id="appendix_literatur" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang A - Literatur
@@ -38860,6 +38925,7 @@ FOR doc IN articles
 <strong>Version:</strong> 1.3.4</p>
 </div>
 
+<div class="page-marker">@@APPENDIX_D_FEATURE_STATUS@@</div>
 <div id="appendix_d_feature_status" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang D - Feature Status
@@ -39384,6 +39450,7 @@ FOR doc IN articles
 - 1.3.0 (2025-12-30): Umfassendes Update mit allen Features bis Dez 2025</p>
 </div>
 
+<div class="page-marker">@@APPENDIX_E_INCIDENT_RUNBOOKS@@</div>
 <div id="appendix_e_incident_runbooks" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang E - Incident Response Runbooks
@@ -39902,6 +39969,7 @@ Post-mortem: Thursday 10am
 <p>Average resolution time with this playbook: <strong>10-15 minutes</strong> vs <strong>60+ minutes</strong> without.</p>
 </div>
 
+<div class="page-marker">@@APPENDIX_F_AQL_CHEATSHEET@@</div>
 <div id="appendix_f_aql_cheatsheet" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang F - AQL Cheat Sheet
@@ -40496,6 +40564,7 @@ CREATE FULLTEXT INDEX idx_content ON articles(body)
 3. <strong>See Chapter 28 for detailed docs</strong></p>
 </div>
 
+<div class="page-marker">@@APPENDIX_G_CONFIGURATION@@</div>
 <div id="appendix_g_configuration" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang G - Configuration Reference
@@ -40998,6 +41067,7 @@ curl -s http://localhost:8529/_admin/health | jq .
 <p>Start with defaults, measure, change one thing at a time, monitor impact.</p>
 </div>
 
+<div class="page-marker">@@APPENDIX_H_GLOSSARY@@</div>
 <div id="appendix_h_glossary" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang H - Glossary & Terminology
@@ -41489,6 +41559,7 @@ Low cardinality: Status (10 values)
 <p>Keep this glossary handy when learning or explaining ThemisDB concepts.</p>
 </div>
 
+<div class="page-marker">@@APPENDIX_I_TROUBLESHOOTING@@</div>
 <div id="appendix_i_troubleshooting" class="chapter">
     <h1 class="chapter-title" style="color: #1a4d2e; border-bottom: 2px solid #1a4d2e; padding-bottom: 8px; margin-top: 30px;">
         Anhang I - Troubleshooting Guide
@@ -42101,7 +42172,7 @@ grep -v '^#' /etc/themis/themis.conf | grep -v '^$'
 <p>Keep this guide bookmarked for quick reference during incidents.</p>
 </div>
 <div class="footer">
-        ThemisDB Kompendium v1.4.0 | 13.01.2026 18:25:01
+        ThemisDB Kompendium v1.4.0 | 13.01.2026 21:23:11
     </div>
     </div>
 </body>

@@ -262,11 +262,7 @@ HttpServer::HttpServer(
         THEMIS_INFO("Semantic Cache initialized (TTL: 3600s) using default CF");
         
         // Initialize Cache API Handler
-        cache_api_ = std::make_unique<themis::server::CacheApiHandler>(
-            semantic_cache_,
-            auth_
-        );
-        THEMIS_INFO("Cache API Handler initialized");
+        cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
     }
     
     // Initialize LLM Interaction Store (Sprint A) if feature enabled
@@ -298,7 +294,8 @@ HttpServer::HttpServer(
         THEMIS_INFO("SnapshotManager temporarily disabled (incomplete type error)");
         
         // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
-        diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, *snapshot_manager_);
+        // SnapshotManager is disabled; run DiffEngine without snapshot support for now.
+        diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_);
         diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
         THEMIS_INFO("DiffEngine initialized");
         
@@ -387,14 +384,9 @@ HttpServer::HttpServer(
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
         
-        // Initialize TimeSeries API Handler
-        timeseries_api_ = std::make_unique<themis::server::TimeSeriesApiHandler>(
-            storage_,
-            timeseries_,
-            nullptr, // agg_manager_ not yet implemented
-            auth_
-        );
-        THEMIS_INFO("TimeSeries API Handler initialized");
+        // Initialize TimeSeries API Handler (disabled for Windows build)
+        timeseries_api_ = nullptr;
+        THEMIS_INFO("TimeSeries API Handler disabled (Windows build)");
     }
 
     // CRITICAL FIX: Initialize Sharding Manager BEFORE AdaptiveIndexManager
@@ -591,7 +583,9 @@ HttpServer::HttpServer(
     // Initialize Query API Handler
     query_api_ = std::make_unique<themis::server::QueryApiHandler>(
         storage_, secondary_index_, graph_index_, field_encryption_, key_provider_,
-        semantic_cache_, llm_store_, prompt_manager_, auth_, config_
+        semantic_cache_, llm_store_, prompt_manager_, auth_,
+        config_.feature_llm_query_enhancement,
+        config_.feature_llm_store
     );
     THEMIS_INFO("Query API Handler initialized");
     // Initialize Policy API Handler
@@ -645,7 +639,7 @@ HttpServer::HttpServer(
     
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
-        storage_, content_manager_, content_processor_, auth_,
+        storage_, content_manager_, nullptr, auth_,
         secondary_index_, vector_index_
     );
     THEMIS_INFO("Content API Handler initialized");
@@ -2004,78 +1998,14 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // Snapshot API (temporarily disabled - needs refactoring to Beast)
         case Route::SnapshotsTagsPost:
-<<<<<<< HEAD
         case Route::SnapshotsTagsGet:
         case Route::SnapshotsTagGet:
         case Route::SnapshotsTagDelete:
         case Route::SnapshotsStatsGet:
-            response = makeErrorResponse(http::status::service_unavailable, 
-                "Snapshot API temporarily disabled (type conversion required)", req);
-=======
-            if (snapshot_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                snapshot_api_handler_->handleCreateTag(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
-        case Route::SnapshotsTagsGet:
-            if (snapshot_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                snapshot_api_handler_->handleListTags(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
-        case Route::SnapshotsTagGet:
-            if (snapshot_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                snapshot_api_handler_->handleGetTag(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
-        case Route::SnapshotsTagDelete:
-            if (snapshot_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                snapshot_api_handler_->handleDeleteTag(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, 
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
-            break;
-        case Route::SnapshotsStatsGet:
-            if (snapshot_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                snapshot_api_handler_->handleGetStats(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable,
-                    "Snapshot API not available (requires CDC feature)", req);
-            }
->>>>>>> cac38a17a155a551259a89a82d41f744e8213910
+            response = makeErrorResponse(
+                http::status::service_unavailable,
+                "Snapshot API temporarily disabled (type conversion required)",
+                req);
             break;
         
         // Diff API
@@ -5334,11 +5264,6 @@ http::response<http::string_body> HttpServer::handleEntitiesBatch(
         THEMIS_ERROR("Batch entities JSON error: {}", e.what());
         span.setStatus(false, e.what());
         return makeErrorResponse(http::status::bad_request, 
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const json::exception& e) {
-        span.recordError("JSON parse error: " + std::string(e.what()));
-    span.setStatus(false);
-        return makeErrorResponse(http::status::bad_request,
             "Invalid JSON: " + std::string(e.what()), req);
     }
 }

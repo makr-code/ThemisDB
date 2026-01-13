@@ -56,12 +56,12 @@ public:
      */
     MonitoringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<::themis::AuthMiddleware> auth,
         std::atomic<uint64_t>* request_count,
         std::atomic<uint64_t>* error_count,
         const std::chrono::steady_clock::time_point* start_time,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
-        SchemaManager* schema_manager = nullptr
+        ::themis::SchemaManager* schema_manager = nullptr
     );
 
     /**

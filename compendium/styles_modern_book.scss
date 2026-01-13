@@ -44,8 +44,112 @@ body,
     font-size: 11pt;
     line-height: 1.65;
     color: #2c3e50;
-    text-align: justify;
+    text-align: left;
     hyphens: auto;
+}
+
+/* ===== COVER PAGE ===== */
+.cover-page {
+    page-break-after: always;
+    min-height: 90vh;
+    padding: 35mm 25mm 30mm 25mm;
+    background: linear-gradient(120deg, #0f3d5c 0%, #1a4d2e 70%);
+    color: #ffffff;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.cover-band {
+    position: absolute;
+    left: 18mm;
+    top: 0;
+    bottom: 0;
+    width: 6mm;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.cover-content {
+    position: relative;
+    max-width: 520px;
+    z-index: 1;
+}
+
+.cover-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 9pt;
+    margin-bottom: 10pt;
+    opacity: 0.85;
+}
+
+.cover-page h1 {
+    font-size: 28pt;
+    margin: 0 0 6pt 0;
+    color: #ffffff;
+}
+
+.cover-page h2 {
+    font-size: 16pt;
+    margin: 0 0 16pt 0;
+    font-weight: 500;
+    color: #eaf2ff;
+}
+
+.cover-tagline {
+    font-size: 11pt;
+    line-height: 1.6;
+    margin: 0 0 18pt 0;
+    max-width: 480px;
+}
+
+.cover-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8pt 14pt;
+    max-width: 380px;
+}
+
+.cover-meta-grid .meta-item {
+    display: flex;
+    gap: 6pt;
+    font-size: 10pt;
+    align-items: baseline;
+}
+
+.cover-meta-grid .label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 8.5pt;
+    opacity: 0.8;
+}
+
+.cover-meta-grid .value {
+    font-weight: 600;
+    font-size: 10.5pt;
+}
+
+.cover-page::after {
+    content: "";
+    position: absolute;
+    right: -90mm;
+    bottom: -50mm;
+    width: 180mm;
+    height: 180mm;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+}
+
+/* Invisible PDF markers for page mapping */
+.page-marker {
+    font-size: 0.1pt;
+    line-height: 0.1;
+    color: #ffffff;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* ===== HEADINGS ===== */
@@ -130,7 +234,6 @@ pre,
     margin: 1em 0;
     page-break-inside: avoid;
     overflow-x: auto;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 pre code,
@@ -179,11 +282,6 @@ tbody tr:nth-child(even),
     background-color: #f9f9f9;
 }
 
-tbody tr:hover,
-.md-typeset table tbody tr:hover {
-    background-color: #f0f0f0;
-}
-
 /* ===== LISTS ===== */
 ul, ol {
     margin: 0.75em 0;
@@ -220,7 +318,6 @@ blockquote,
     margin: 1em 0;
     page-break-inside: avoid;
     border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .admonition-title,
@@ -275,7 +372,6 @@ img {
     margin: 1em 0;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
 /* ===== HORIZONTAL RULES ===== */
@@ -310,6 +406,7 @@ hr,
 }
 
 /* ===== HIDE ELEMENTS FOR PDF ===== */
+/* Keep only core content visible; hide mkdocs chrome */
 .md-header,
 .md-tabs,
 .md-sidebar,
@@ -326,8 +423,7 @@ hr,
 .md-footer__social,
 .md-content__button,
 .md-top,
-.md-tags,
-svg:not([class*='mermaid']) {
+.md-tags {
     display: none !important;
 }
 
@@ -390,10 +486,4 @@ body {
     counter-increment: chapter;
     content: "Kapitel " counter(chapter) ": ";
     color: #7c4dff;
-}
-
-/* ===== PERFORMANCE OPTIMIZATION ===== */
-* {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
 }
