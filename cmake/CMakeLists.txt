@@ -1028,6 +1028,21 @@ set(THEMIS_CORE_SOURCES
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
+    ../src/server/cache_api_handler.cpp
+    ../src/server/admin_api_handler.cpp
+    ../src/server/vector_api_handler.cpp
+    ../src/server/spatial_api_handler.cpp
+    ../src/server/monitoring_api_handler.cpp
+    ../src/server/query_api_handler.cpp
+    ../src/server/policy_api_handler.cpp
+    ../src/server/prompt_api_handler.cpp
+    ../src/server/graph_api_handler.cpp
+    ../src/server/index_api_handler.cpp
+    ../src/server/timeseries_api_handler.cpp
+    ../src/server/entity_api_handler.cpp
+    ../src/server/content_api_handler.cpp
+    ../src/server/changefeed_api_handler.cpp
+    ../src/server/wal_api_handler.cpp
     ../src/server/audit_api_handler.cpp
     ../src/server/pki_api_handler.cpp
     ../src/server/saga_api_handler.cpp
@@ -1048,8 +1063,15 @@ set(THEMIS_CORE_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+<<<<<<< HEAD
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
+=======
+    ../src/server/feedback_api_handler.cpp
+    ../src/server/error_api_handler.cpp
+    ../src/server/health_error_service.cpp
+    ../src/server/snapshot_api_handler.cpp
+>>>>>>> cac38a17a155a551259a89a82d41f744e8213910
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>

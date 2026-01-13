@@ -60,8 +60,6 @@ def try_wkhtmltopdf(html_path, pdf_path):
             '--margin-left', '20mm',
             '--margin-right', '20mm',
             '--page-size', 'A4',
-            '--print-media-type',
-            '--enable-page-breaks',
             str(html_path),
             str(pdf_path)
         ]

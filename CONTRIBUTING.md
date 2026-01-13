@@ -30,6 +30,7 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | [🏷️ Issue Labels](#️-issue-labels) | GitHub label system |
 | [🐛 Reporting Bugs](#-reporting-bugs) | Bug report guidelines |
 | [💡 Feature Requests](#-feature-requests) | Suggesting enhancements |
+| [📝 Documentation](#documentation) | Documentation guidelines and archival |
 | [📦 Package Maintenance](#-package-maintenance) | Platform packaging |
 
 ---
@@ -957,6 +958,42 @@ Any other relevant information
 - Use clear, concise language
 - Include code examples where appropriate
 - Update `mkdocs.yml` if adding new pages
+
+### Documentation Archival
+
+ThemisDB preserves outdated documentation in archives to maintain historical context while keeping active documentation current.
+
+**Archive documentation when:**
+- Content is outdated and superseded by newer documentation
+- Feature/component no longer exists or has been replaced
+- Information has been consolidated into another document
+- Content is no longer accurate or relevant to current versions
+- Implementation summaries from completed work (keep for reference)
+
+**Archive structure:**
+- Language-agnostic: `docs/archive/`
+- Language-specific: `docs/{LANG}/archive/` (e.g., `docs/de/archive/`)
+
+**Archival process:**
+
+1. **Review** - Verify document should be archived
+2. **Preserve** - Extract valuable content to current docs
+3. **Archive** - Move with `git mv` (preserves history)
+4. **Annotate** - Add archive note using template
+5. **Update** - Fix all references and update indexes
+6. **Document** - Update CHANGELOG and archive README
+
+**Resources:**
+- **Process Guide:** [docs/DOCUMENTATION_ARCHIVAL_PROCESS.md](docs/DOCUMENTATION_ARCHIVAL_PROCESS.md)
+- **Archive Template:** [docs/archive/ARCHIVE_NOTE_TEMPLATE.md](docs/archive/ARCHIVE_NOTE_TEMPLATE.md)
+- **Archive Indexes:** [docs/archive/](docs/archive/), [docs/de/archive/](docs/de/archive/)
+
+**Key principles:**
+- ✅ Always use `git mv` to preserve history
+- ✅ Add archive note explaining why and when
+- ✅ Update all references to prevent broken links
+- ✅ Document archival in CHANGELOG
+- ✅ Keep archive READMEs organized and current
 
 ## Package Maintenance
 

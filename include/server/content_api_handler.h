@@ -11,6 +11,8 @@ namespace themis {
 class RocksDBWrapper;
 class ContentManager;
 class ContentProcessor;
+class SecondaryIndexManager;
+class VectorIndexManager;
 
 namespace server {
 
@@ -57,12 +59,16 @@ public:
      * @param content_manager Content management system
      * @param content_processor Content processing engine
      * @param auth Authentication/authorization middleware
+     * @param secondary_index Secondary index manager for fulltext search
+     * @param vector_index Vector index manager for vector search
      */
     ContentApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<ContentManager> content_manager,
         std::shared_ptr<ContentProcessor> content_processor,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<SecondaryIndexManager> secondary_index,
+        std::shared_ptr<VectorIndexManager> vector_index
     );
 
     /**
@@ -175,6 +181,8 @@ private:
     std::shared_ptr<ContentManager> content_manager_;
     std::shared_ptr<ContentProcessor> content_processor_;
     std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<SecondaryIndexManager> secondary_index_;
+    std::shared_ptr<VectorIndexManager> vector_index_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

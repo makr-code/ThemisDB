@@ -33,10 +33,24 @@
 #include "server/websocket_session.h"
 #endif
 #include "server/audit_api_handler.h"
+#include "server/admin_api_handler.h"
+#include "server/vector_api_handler.h"
+#include "server/spatial_api_handler.h"
+#include "server/monitoring_api_handler.h"
+#include "server/query_api_handler.h"
+#include "server/policy_api_handler.h"
+#include "server/prompt_api_handler.h"
+#include "server/graph_api_handler.h"
+#include "server/index_api_handler.h"
+#include "server/entity_api_handler.h"
+#include "server/content_api_handler.h"
+#include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
+#include "server/cache_api_handler.h"
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
+#include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/reports_api_handler.h"
@@ -44,6 +58,9 @@
 #include "server/feedback_api_handler.h"
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
+#include "server/transaction_api_handler.h"
+#include "server/wal_api_handler.h"
+#include "server/health_error_service.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -70,6 +87,14 @@ class AdaptiveIndexManager;
 class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
+
+namespace analytics {
+class DiffEngine;
+}
+
+namespace server {
+class DiffApiHandler;
+}
 
 namespace sharding {
 class WALApplier;
@@ -150,6 +175,11 @@ public:
         uint32_t websocket_max_message_size = 1048576; // WebSocket max message size (1MB default)
         uint32_t websocket_ping_interval_ms = 30000; // WebSocket ping interval (30s default)
         uint32_t websocket_cdc_poll_interval_ms = 500; // WebSocket CDC polling interval (500ms default)
+        
+        // Health/Error Service Configuration
+        bool health_error_service_enabled = true; // Enable separate health/error service
+        std::string health_error_service_bind_address = "127.0.0.1"; // Bind to localhost by default
+        uint16_t health_error_service_port = 9090; // Default health/error service port
         
         Config() = default;
         Config(std::string h, uint16_t p, size_t threads = 0) 
@@ -273,49 +303,30 @@ private:
     void setupRoutes();
     http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
 
-    // WAL replication apply endpoint (stub until WALApplier is wired)
-    http::response<http::string_body> handleWalApply(
-        const http::request<http::string_body>& req
-    );
 
     // Endpoint handlers
-    http::response<http::string_body> handleHealthCheck(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVersion(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleMetricsJson(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleStats(const http::request<http::string_body>& req);
+    // Note: Health, Version, Stats, Capabilities, and MetricsJson handlers have been
+    // moved to MonitoringApiHandler
+    http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);  // Old content-specific metrics (deprecated)
     http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req); // Enterprise: Query + LLM context
+    // Query handlers moved to QueryApiHandler
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeDelete(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorSearch(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexSave(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexLoad(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexConfigGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexConfigPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorIndexStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorBatchInsert(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleVectorDeleteByFilter(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransaction(const http::request<http::string_body>& req);
+    
+    // Vector operations - delegated to VectorApiHandler (vector_api_)
+    // Declarations removed - handled by vector_api_
+    
     http::response<http::string_body> handleCreateIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDropIndex(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
-    // G5: Spatial Index Management
-    http::response<http::string_body> handleSpatialIndexCreate(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialIndexRebuild(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialIndexStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleSpatialMetrics(const http::request<http::string_body>& req);
-
     // Admin: Backup & Restore
     http::response<http::string_body> handleAdminBackup(const http::request<http::string_body>& req);
     http::response<http::string_body> handleAdminRestore(const http::request<http::string_body>& req);
@@ -348,55 +359,22 @@ private:
     http::response<http::string_body> handleEncryptionSchemaGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handleEncryptionSchemaPut(const http::request<http::string_body>& req);
     // Capabilities (Core/Enterprise) endpoint
-    http::response<http::string_body> handleCapabilities(const http::request<http::string_body>& req);
 
     // Sprint A beta endpoints (feature-flagged)
-    http::response<http::string_body> handleCacheQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleCachePut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleCacheStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionPost(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
-    // Prompt Template management
-    http::response<http::string_body> handlePromptTemplatePost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplateList(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplateGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePromptTemplatePut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleChangefeedGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleChangefeedStreamSse(const http::request<http::string_body>& req);
-    // CDC admin endpoints
-    http::response<http::string_body> handleChangefeedStats(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleChangefeedRetention(const http::request<http::string_body>& req);
 
-    // Policies: Ranger import/export
-    http::response<http::string_body> handlePoliciesImportRanger(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePoliciesExportRanger(const http::request<http::string_body>& req);
-    
     // Sprint B: Time-Series endpoints
-    http::response<http::string_body> handleTimeSeriesPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesQuery(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregate(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesPost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesAggregatesDelete(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesConfigGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesConfigPut(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionPost(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionGet(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTimeSeriesRetentionDelete(const http::request<http::string_body>& req);
+    // Note: Time-Series methods have been extracted to TimeSeriesApiHandler
+    // See: include/server/timeseries_api_handler.h
     
     // Sprint C: Adaptive Indexing endpoints
     http::response<http::string_body> handleIndexSuggestions(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexPatterns(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexRecordPattern(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexClearPatterns(const http::request<http::string_body>& req);
-    
-    // Transaction endpoints
-    http::response<http::string_body> handleTransactionBegin(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionCommit(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionRollback(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleTransactionStats(const http::request<http::string_body>& req);
     
     // Audit API endpoints
     http::response<http::string_body> handleAuditQuery(const http::request<http::string_body>& req);
@@ -572,6 +550,10 @@ private:
     // std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
     // TODO: Re-enable after resolving incomplete type errors
     
+    // Diff Engine and API Handler (Phase 2 MVCC features)
+    std::unique_ptr<analytics::DiffEngine> diff_engine_;
+    std::unique_ptr<DiffApiHandler> diff_api_handler_;
+    
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE
     std::unique_ptr<SseConnectionManager> sse_manager_;
@@ -606,8 +588,44 @@ private:
     // Audit API Handler
     std::unique_ptr<themis::server::AuditApiHandler> audit_api_;
     
+    // Admin API Handler
+    std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
+    
+    // Vector API Handler
+    std::unique_ptr<themis::server::VectorApiHandler> vector_api_;
+    
+    // Spatial API Handler
+    std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
+    
+    // Monitoring API Handler
+    std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
+    // Query API Handler
+    std::unique_ptr<themis::server::QueryApiHandler> query_api_;
+    // Policy API Handler
+    std::unique_ptr<themis::server::PolicyApiHandler> policy_api_;
+    // Prompt API Handler
+    std::unique_ptr<themis::server::PromptApiHandler> prompt_api_;
+    // Graph API Handler
+    std::unique_ptr<themis::server::GraphApiHandler> graph_api_;
+    // Index API Handler
+    std::unique_ptr<themis::server::IndexApiHandler> index_api_;
+    // Entity API Handler
+    std::unique_ptr<themis::server::EntityApiHandler> entity_api_;
+    
+    // Content API Handler
+    std::unique_ptr<themis::server::ContentApiHandler> content_api_;
+    
+    // Changefeed API Handler
+    std::unique_ptr<themis::server::ChangefeedApiHandler> changefeed_api_;
+    
     // SAGA API Handler
     std::unique_ptr<themis::server::SAGAApiHandler> saga_api_;
+
+    // Cache API Handler
+    std::unique_ptr<themis::server::CacheApiHandler> cache_api_;
+    
+    // TimeSeries API Handler
+    std::unique_ptr<themis::server::TimeSeriesApiHandler> timeseries_api_;
 
     // PII API Handler
     std::unique_ptr<themis::server::PIIApiHandler> pii_api_;
@@ -627,6 +645,12 @@ private:
     // Reports API Handler (Skeleton)
     std::unique_ptr<themis::server::ReportsApiHandler> reports_api_;
     
+    // Transaction API Handler
+    std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
+    
+    // WAL API Handler
+    std::unique_ptr<themis::server::WALApiHandler> wal_api_;
+    
     // Update API Handler
     std::unique_ptr<themis::server::UpdateApiHandler> update_api_;
     std::shared_ptr<themis::utils::UpdateChecker> update_checker_;
@@ -636,6 +660,9 @@ private:
     
     // Error API Handler
     std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
+    
+    // Health/Error Service (separate port)
+    std::unique_ptr<themis::server::HealthErrorService> health_error_service_;
     
     // Schema API Handler
     std::unique_ptr<themis::server::SchemaApiHandler> schema_api_handler_;
@@ -652,16 +679,6 @@ private:
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
-    std::atomic<uint64_t> wal_apply_success_{0};
-    std::atomic<uint64_t> wal_apply_fail_{0};
-    std::atomic<uint64_t> wal_apply_latency_le_50ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_le_200ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_le_1000ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
-    std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
-    std::atomic<uint64_t> wal_apply_latency_count_{0};
-    std::mutex wal_metrics_mutex_;
-    std::string wal_last_applied_lsn_;
 
     // Authorization middleware
     std::unique_ptr<themis::AuthMiddleware> auth_;
