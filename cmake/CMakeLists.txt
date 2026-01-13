@@ -1022,6 +1022,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
+    ../src/server/vector_api_handler.cpp
     ../src/server/spatial_api_handler.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
@@ -1033,6 +1034,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/entity_api_handler.cpp
     ../src/server/content_api_handler.cpp
     ../src/server/changefeed_api_handler.cpp
+    ../src/server/wal_api_handler.cpp
     ../src/server/audit_api_handler.cpp
     ../src/server/pki_api_handler.cpp
     ../src/server/saga_api_handler.cpp

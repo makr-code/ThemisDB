@@ -149,36 +149,6 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 using json = nlohmann::json;
 
-namespace {
-
-std::string hmacSha256Hex(const std::string& key, const std::string& data) {
-    unsigned int len = 0;
-    unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
-                                 reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
-    if (!result || len == 0) {
-        return {};
-    }
-    static constexpr char hex_digits[] = "0123456789abcdef";
-    std::string hex;
-    hex.reserve(len * 2);
-    for (unsigned int i = 0; i < len; ++i) {
-        hex.push_back(hex_digits[(result[i] >> 4) & 0x0F]);
-        hex.push_back(hex_digits[result[i] & 0x0F]);
-    }
-    return hex;
-}
-
-bool timingSafeEqual(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
-    unsigned char diff = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
-        diff |= static_cast<unsigned char>(a[i] ^ b[i]);
-    }
-    return diff == 0;
-}
-
-} // namespace
-
 namespace themis {
 namespace server {
 
@@ -590,6 +560,12 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Admin API Handler initialized");
     
+    // Initialize Vector API Handler
+    vector_api_ = std::make_unique<themis::server::VectorApiHandler>(
+        storage_, vector_index_, auth_, field_encryption_, key_provider_
+    );
+    THEMIS_INFO("Vector API Handler initialized");
+    
     // Initialize Spatial API Handler
     spatial_api_ = std::make_unique<themis::server::SpatialApiHandler>(
         storage_, spatial_index_, auth_
@@ -698,6 +674,13 @@ HttpServer::HttpServer(
         storage_, tx_manager_, auth_
     );
     THEMIS_INFO("Transaction API Handler initialized");
+    
+    // Initialize WAL API Handler
+    wal_api_ = std::make_unique<themis::server::WALApiHandler>(
+        storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
+        wal_shared_secret_, wal_hmac_secret_
+    );
+    THEMIS_INFO("WAL API Handler initialized");
 
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
@@ -1726,7 +1709,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleMetrics(req);
             break;
         case Route::WalApplyPost:
-            response = handleWalApply(req);
+            response = wal_api_->handleApply(req);
             break;
         case Route::Config:
             response = handleConfig(req);
@@ -1829,13 +1812,25 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::VectorSearchPost:
-            response = handleVectorSearch(req);
+            if (vector_api_) {
+                response = vector_api_->handleSearch(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorBatchInsertPost:
-            response = handleVectorBatchInsert(req);
+            if (vector_api_) {
+                response = vector_api_->handleBatchInsert(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorDeleteByFilterDelete:
-            response = handleVectorDeleteByFilter(req);
+            if (vector_api_) {
+                response = vector_api_->handleDeleteByFilter(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::CacheQueryPost:
             if (cache_api_) {
@@ -2041,19 +2036,39 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
-            response = handleVectorIndexSave(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexSave(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexLoadPost:
-            response = handleVectorIndexLoad(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexLoad(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexConfigGet:
-            response = handleVectorIndexConfigGet(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexConfigGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexConfigPut:
-            response = handleVectorIndexConfigPut(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexConfigPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::VectorIndexStatsGet:
-            response = handleVectorIndexStats(req);
+            if (vector_api_) {
+                response = vector_api_->handleIndexStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
             break;
         case Route::KeysListGet:
             response = handleKeysListKeys(req);
@@ -2428,224 +2443,6 @@ http::response<http::string_body> HttpServer::routeRequest(
     }
 
     return response;
-}
-
-// WAL replication apply endpoint
-http::response<http::string_body> HttpServer::handleWalApply(
-    const http::request<http::string_body>& req
-) {
-    // HMAC/shared-secret auth (optional)
-    if (!wal_shared_secret_.empty()) {
-        auto hdr = req.find("X-WAL-Auth");
-        if (hdr == req.end() || hdr->value() != wal_shared_secret_) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    }
-
-    if (!wal_hmac_secret_.empty()) {
-        auto hdr = req.find("X-WAL-HMAC");
-        if (hdr == req.end()) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-        std::string expected = hmacSha256Hex(wal_hmac_secret_, req.body());
-        if (expected.empty() || !timingSafeEqual(expected, std::string(hdr->value()))) {
-            http::response<http::string_body> res{http::status::unauthorized, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", "Unauthorized"},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    }
-
-    auto apply_start = std::chrono::steady_clock::now();
-
-    if (!wal_applier_) {
-        http::response<http::string_body> res{http::status::service_unavailable, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "WAL applier not configured"},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    nlohmann::json payload;
-    try {
-        payload = nlohmann::json::parse(req.body());
-    } catch (const std::exception& e) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", std::string("Invalid JSON: ") + e.what()},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    // Accept either raw entries or compressed payload from shipper
-    nlohmann::json entries_json;
-    if (payload.contains("entries") && payload["entries"].is_array()) {
-        entries_json = payload["entries"];
-    } else if (payload.contains("entries_compressed")) {
-        // entries_compressed is stored as binary in JSON (nlohmann::json::binary)
-        try {
-            const auto& bin = payload["entries_compressed"].get_binary();
-            std::vector<uint8_t> compressed(bin.begin(), bin.end());
-            auto decompressed = utils::zstd_decompress(compressed);
-            entries_json = nlohmann::json::parse(decompressed.begin(), decompressed.end());
-        } catch (const std::exception& e) {
-            http::response<http::string_body> res{http::status::bad_request, req.version()};
-            res.set(http::field::content_type, "application/json");
-            nlohmann::json body = {
-                {"error", true},
-                {"message", std::string("Failed to decode compressed entries: ") + e.what()},
-                {"status_code", static_cast<int>(res.result_int())}
-            };
-            res.body() = body.dump();
-            applyGovernanceHeaders(req, res);
-            res.prepare_payload();
-            return res;
-        }
-    } else {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "Missing 'entries' array (or entries_compressed)"},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    std::vector<sharding::WALEntry> entries;
-    entries.reserve(entries_json.size());
-
-    try {
-        for (const auto& item : entries_json) {
-            sharding::WALEntry e;
-            if (item.contains("lsn")) {
-                e.lsn = sharding::LSN::fromString(item.value("lsn", std::string("0/0")));
-            }
-            e.type = static_cast<sharding::WALEntryType>(item.value("type", 0));
-            e.timestamp = item.value("timestamp", uint64_t(0));
-            e.transaction_id = item.value("transaction_id", std::string());
-            if (item.contains("data")) {
-                e.data = item["data"]; // assumes valid JSON object/array
-            }
-            entries.push_back(std::move(e));
-        }
-    } catch (const std::exception& e) {
-        http::response<http::string_body> res{http::status::bad_request, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", std::string("Invalid WAL entry: ") + e.what()},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    auto result = wal_applier_->applyBatch(entries);
-    if (!result.success) {
-        auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::steady_clock::now() - apply_start).count();
-        wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-        wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-        if (elapsed_us <= 50'000) {
-            wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 200'000) {
-            wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-        } else if (elapsed_us <= 1'000'000) {
-            wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        } else {
-            wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-        }
-        wal_apply_fail_.fetch_add(1, std::memory_order_relaxed);
-        http::response<http::string_body> res{http::status::internal_server_error, req.version()};
-        res.set(http::field::content_type, "application/json");
-        nlohmann::json body = {
-            {"error", true},
-            {"message", "Apply failed"},
-            {"errors", result.errors},
-            {"status_code", static_cast<int>(res.result_int())}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        return res;
-    }
-
-    wal_apply_success_.fetch_add(1, std::memory_order_relaxed);
-    {
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
-        wal_last_applied_lsn_ = result.last_applied_lsn.toString();
-    }
-
-    auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
-        std::chrono::steady_clock::now() - apply_start).count();
-    wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
-    wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
-    if (elapsed_us <= 50'000) {
-        wal_apply_latency_le_50ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 200'000) {
-        wal_apply_latency_le_200ms_.fetch_add(1, std::memory_order_relaxed);
-    } else if (elapsed_us <= 1'000'000) {
-        wal_apply_latency_le_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    } else {
-        wal_apply_latency_gt_1000ms_.fetch_add(1, std::memory_order_relaxed);
-    }
-
-    http::response<http::string_body> res{http::status::ok, req.version()};
-    res.set(http::field::content_type, "application/json");
-    nlohmann::json body = {
-        {"success", true},
-        {"entries_applied", result.entries_applied},
-        {"last_applied_lsn", result.last_applied_lsn.toString()}
-    };
-    res.body() = body.dump();
-    applyGovernanceHeaders(req, res);
-    res.prepare_payload();
-    return res;
 }
 
 // -----------------------------------------------------------------------------
@@ -3196,14 +2993,14 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         }
 
         // WAL replication metrics (always emit, even if replication not configured)
-        uint64_t wal_success = wal_apply_success_.load(std::memory_order_relaxed);
-        uint64_t wal_fail = wal_apply_fail_.load(std::memory_order_relaxed);
-        uint64_t wal_le_50ms = wal_apply_latency_le_50ms_.load(std::memory_order_relaxed);
-        uint64_t wal_le_200ms = wal_apply_latency_le_200ms_.load(std::memory_order_relaxed);
-        uint64_t wal_le_1000ms = wal_apply_latency_le_1000ms_.load(std::memory_order_relaxed);
-        uint64_t wal_gt_1000ms = wal_apply_latency_gt_1000ms_.load(std::memory_order_relaxed);
-        uint64_t wal_latency_count = wal_apply_latency_count_.load(std::memory_order_relaxed);
-        uint64_t wal_latency_sum_us = wal_apply_latency_sum_us_.load(std::memory_order_relaxed);
+        uint64_t wal_success = wal_api_ ? wal_api_->getApplySuccessCount() : 0;
+        uint64_t wal_fail = wal_api_ ? wal_api_->getApplyFailCount() : 0;
+        uint64_t wal_le_50ms = wal_api_ ? wal_api_->getApplyLatencyLe50ms() : 0;
+        uint64_t wal_le_200ms = wal_api_ ? wal_api_->getApplyLatencyLe200ms() : 0;
+        uint64_t wal_le_1000ms = wal_api_ ? wal_api_->getApplyLatencyLe1000ms() : 0;
+        uint64_t wal_gt_1000ms = wal_api_ ? wal_api_->getApplyLatencyGt1000ms() : 0;
+        uint64_t wal_latency_count = wal_api_ ? wal_api_->getApplyLatencyCount() : 0;
+        uint64_t wal_latency_sum_us = wal_api_ ? wal_api_->getApplyLatencySumUs() : 0;
 
         uint64_t wal_bucket_50 = wal_le_50ms;
         uint64_t wal_bucket_200 = wal_le_50ms + wal_le_200ms;
@@ -3222,9 +3019,8 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
         out.unsetf(std::ios::floatfield);
 
         std::string wal_last_lsn;
-        {
-            std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
-            wal_last_lsn = wal_last_applied_lsn_;
+        if (wal_api_) {
+            wal_last_lsn = wal_api_->getLastAppliedLsn();
         }
         out << "themis_wal_last_applied_lsn{lsn=\"" << wal_last_lsn << "\"} 1\n";
 
@@ -5474,568 +5270,16 @@ http::response<http::string_body> HttpServer::handleGraphTraverse(
     }
 }
 
-http::response<http::string_body> HttpServer::handleVectorSearch(
-    const http::request<http::string_body>& req
-) {
-    if (auth_) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "vector.search", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("handleVectorSearch");
-    span.setAttribute("http.method", "POST");
-    span.setAttribute("http.path", "/vector/search");
-    
-    try {
-        // Governance enforcement: block ANN for certain classifications in enforce mode
-        auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
-        std::string classification;
-        std::string mode = "observe";
-        for (const auto& h : req) {
-            auto name = h.name_string();
-            if (beast::iequals(name, "X-Classification")) classification = to_lower(std::string(h.value()));
-            else if (beast::iequals(name, "X-Governance-Mode")) mode = to_lower(std::string(h.value()));
-        }
-        if (mode == "enforce") {
-            if (classification == "geheim" || classification == "streng-geheim") {
-                nlohmann::json j = {{"error","policy_denied"},{"message","ANN blocked by classification"}};
-                auto res = makeResponse(http::status::forbidden, j.dump(), req);
-                return res;
-            }
-        }
-
-        auto body_json = json::parse(req.body());
-        
-        // Validate required fields
-        if (!body_json.contains("vector")) {
-            span.setAttribute("error", "missing_vector_field");
-            span.setStatus(false, "Missing vector field");
-            return makeErrorResponse(http::status::bad_request,
-                "Missing required field: vector", req);
-        }
-        
-        // Parse query vector
-        std::vector<float> queryVector;
-        if (body_json["vector"].is_array()) {
-            for (const auto& val : body_json["vector"]) {
-                if (val.is_number()) {
-                    queryVector.push_back(val.get<float>());
-                } else {
-                    span.setStatus(false, "Invalid vector element");
-                    return makeErrorResponse(http::status::bad_request,
-                        "Vector elements must be numbers", req);
-                }
-            }
-        } else {
-            span.setStatus(false, "Vector must be array");
-            return makeErrorResponse(http::status::bad_request,
-                "Field 'vector' must be an array", req);
-        }
-        
-        // Parse k (default: 10)
-        size_t k = body_json.value("k", 10);
-            span.setAttribute("vector.k", static_cast<int64_t>(k));
-            span.setAttribute("vector.dimension", static_cast<int64_t>(queryVector.size()));
-        
-    if (k == 0) {
-        span.setAttribute("error", "invalid_k_value");
-        span.setStatus(false, "K must be greater than 0");
-            return makeErrorResponse(http::status::bad_request,
-                "Field 'k' must be greater than 0", req);
-        }
-        
-        // Validate dimension
-        int expectedDim = vector_index_->getDimension();
-        if (expectedDim > 0 && static_cast<int>(queryVector.size()) != expectedDim) {
-            span.setStatus(false, "Dimension mismatch");
-            return makeErrorResponse(http::status::bad_request,
-                "Vector dimension mismatch: expected " + std::to_string(expectedDim) +
-                ", got " + std::to_string(queryVector.size()), req);
-        }
-        
-        // Optional cursor-based pagination for vector search
-        bool use_cursor = body_json.value("use_cursor", false);
-        size_t offset = 0;
-        if (use_cursor && body_json.contains("cursor")) {
-            try {
-                // Einfaches Cursor-Format: numerischer Offset als String
-                std::string cur = body_json["cursor"].get<std::string>();
-                offset = static_cast<size_t>(std::stoull(cur));
-            } catch (...) {
-                offset = 0;
-            }
-        }
-
-        size_t want_k = use_cursor ? (k + offset + 1) : k;
-
-        // Perform k-NN search (ggf. mit erweitertem k für Pagination)
-        auto [status, results] = vector_index_->searchKnn(queryVector, want_k);
-        
-        if (!status.ok) {
-            span.setStatus(false, status.message);
-            return makeErrorResponse(http::status::internal_server_error,
-                "Vector search failed: " + status.message, req);
-        }
-        
-        if (use_cursor) {
-            // Slice [offset, offset+k) und Cursor-Felder setzen
-            json items = json::array();
-            size_t start = std::min(offset, results.size());
-            size_t end = std::min(results.size(), start + k);
-            for (size_t i = start; i < end; ++i) {
-                items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
-            }
-            bool has_more = results.size() > end;
-            json response = {
-                {"items", items},
-                {"batch_size", end - start},
-                {"has_more", has_more}
-            };
-            if (has_more) response["next_cursor"] = std::to_string(end);
-            span.setAttribute("vector.results_count", static_cast<int64_t>(end - start));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        } else {
-            // Legacy Format
-            json resultJson = json::array();
-            for (const auto& result : results) {
-                resultJson.push_back({{"pk", result.pk}, {"distance", result.distance}});
-            }
-            json response = {{"results", resultJson}, {"k", k}, {"count", results.size()}};
-            span.setAttribute("vector.results_count", static_cast<int64_t>(results.size()));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, response.dump(), req);
-        }
-
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        THEMIS_ERROR("Vector search error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexSave(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // Optional: directory parameter, default to "./data/vector_index"
-        std::string directory = body_json.value("directory", "./data/vector_index");
-        
-        auto status = vector_index_->saveIndex(directory);
-        
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error,
-                "Failed to save index: " + status.message, req);
-        }
-        
-        json response = {
-            {"message", "Vector index saved successfully"},
-            {"directory", directory}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector index save error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexLoad(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // Required: directory parameter
-        if (!body_json.contains("directory")) {
-            return makeErrorResponse(http::status::bad_request,
-                "Missing required field: directory", req);
-        }
-        
-        std::string directory = body_json["directory"];
-        
-        auto status = vector_index_->loadIndex(directory);
-        
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error,
-                "Failed to load index: " + status.message, req);
-        }
-        
-        json response = {
-            {"message", "Vector index loaded successfully"},
-            {"directory", directory}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector index load error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexConfigGet(
-    const http::request<http::string_body>& req
-) {
-    try {
-        std::string metricStr;
-        if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
-            metricStr = "L2";
-        } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
-            metricStr = "DOT";
-        } else {
-            metricStr = "COSINE";
-        }
-        
-        json response = {
-            {"objectName", vector_index_->getObjectName()},
-            {"dimension", vector_index_->getDimension()},
-            {"metric", metricStr},
-            {"efSearch", vector_index_->getEfSearch()},
-            {"M", vector_index_->getM()},
-            {"efConstruction", vector_index_->getEfConstruction()},
-            {"hnswEnabled", vector_index_->isHnswEnabled()}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector config get error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexConfigPut(
-    const http::request<http::string_body>& req
-) {
-    try {
-        auto body_json = json::parse(req.body());
-        
-        // Hot-update efSearch
-        if (body_json.contains("efSearch")) {
-            int efSearch = body_json["efSearch"];
-            if (efSearch < 1 || efSearch > 10000) {
-                return makeErrorResponse(http::status::bad_request,
-                    "efSearch must be between 1 and 10000", req);
-            }
-            
-            auto status = vector_index_->setEfSearch(efSearch);
-            if (!status.ok) {
-                return makeErrorResponse(http::status::internal_server_error,
-                    "Failed to set efSearch: " + status.message, req);
-            }
-        }
-        
-        json response = {
-            {"message", "Vector index configuration updated"},
-            {"updated_fields", body_json}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        return makeErrorResponse(http::status::bad_request,
-            "Invalid JSON: " + std::string(e.what()), req);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector config update error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorIndexStats(
-    const http::request<http::string_body>& req
-) {
-    try {
-        std::string metricStr;
-        if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::L2) {
-            metricStr = "L2";
-        } else if (vector_index_->getMetric() == themis::VectorIndexManager::Metric::DOT) {
-            metricStr = "DOT";
-        } else {
-            metricStr = "COSINE";
-        }
-        
-        json response = {
-            {"objectName", vector_index_->getObjectName()},
-            {"dimension", vector_index_->getDimension()},
-            {"metric", metricStr},
-            {"vectorCount", vector_index_->getVectorCount()},
-            {"efSearch", vector_index_->getEfSearch()},
-            {"M", vector_index_->getM()},
-            {"efConstruction", vector_index_->getEfConstruction()},
-            {"hnswEnabled", vector_index_->isHnswEnabled()}
-        };
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Vector stats error: {}", e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorBatchInsert(
-    const http::request<http::string_body>& req
-) {
-    if (auth_) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("handleVectorBatchInsert");
-    span.setAttribute("http.method", "POST");
-    span.setAttribute("http.path", "/vector/batch_insert");
-
-    try {
-        auto body = json::parse(req.body());
-
-        if (!body.contains("items") || !body["items"].is_array()) {
-            span.setStatus(false, "missing_items");
-            return makeErrorResponse(http::status::bad_request, "Missing required field: items (array)", req);
-        }
-
-        std::string vector_field = body.value("vector_field", std::string("embedding"));
-        std::string object_name = vector_index_->getObjectName();
-        int configured_dim = vector_index_->getDimension();
-        size_t inserted = 0;
-        size_t errors = 0;
-
-        // Optionale Auto-Init falls noch nicht konfiguriert
-        if (configured_dim <= 0) {
-            // Dimension aus dem ersten Element ableiten
-            for (const auto& it : body["items"]) {
-                if (it.contains("vector") && it["vector"].is_array()) {
-                    int dim = static_cast<int>(it["vector"].size());
-                    if (dim > 0) {
-                        auto st = vector_index_->init("vectors", dim, themis::VectorIndexManager::Metric::COSINE);
-                        if (!st.ok) {
-                            span.setStatus(false, st.message);
-                            return makeErrorResponse(http::status::internal_server_error, std::string("Failed to init vector index: ") + st.message, req);
-                        }
-                        configured_dim = dim;
-                        object_name = vector_index_->getObjectName();
-                    }
-                    break;
-                }
-            }
-            if (configured_dim <= 0) {
-                span.setStatus(false, "cannot_infer_dim");
-                return makeErrorResponse(http::status::bad_request, "Cannot infer dimension from items", req);
-            }
-        }
-
-        // Use a single WriteBatch for higher throughput
-        // Load optional encryption schema once (for vector metadata encryption)
-        json vector_enc_cfg;
-        bool vector_enc_enabled = false;
-        std::vector<std::string> vector_enc_fields;
-        try {
-            if (auto schema_bytes = storage_->get("config:encryption_schema")) {
-                std::string s(schema_bytes->begin(), schema_bytes->end());
-                auto schema_json = json::parse(s);
-                if (schema_json.contains("collections") && schema_json["collections"].is_object()) {
-                    // Collection name: use object_name resolved after possible auto-init (e.g. "vectors" or custom)
-                    if (schema_json["collections"].contains(object_name)) {
-                        auto coll = schema_json["collections"][object_name];
-                        if (coll.contains("encryption") && coll["encryption"].is_object()) {
-                            auto ecfg = coll["encryption"];
-                            vector_enc_enabled = ecfg.value("enabled", false);
-                            if (ecfg.contains("fields") && ecfg["fields"].is_array()) {
-                                for (const auto& f : ecfg["fields"]) if (f.is_string()) vector_enc_fields.push_back(f.get<std::string>());
-                            }
-                        }
-                        // Backward-compatible schema: { collections: { name: { fields: { fld: { encrypt: true } } } } }
-                        if (!vector_enc_enabled && coll.contains("fields") && coll["fields"].is_object()) {
-                            for (auto itf = coll["fields"].begin(); itf != coll["fields"].end(); ++itf) {
-                                try {
-                                    if (itf.value().is_object() && itf.value().value("encrypt", false)) {
-                                        vector_enc_fields.push_back(itf.key());
-                                    }
-                                } catch (...) { /* ignore */ }
-                            }
-                            vector_enc_enabled = !vector_enc_fields.empty();
-                        }
-                    }
-                }
-            }
-        } catch (...) {
-            vector_enc_enabled = false; // fail-safe
-        }
-
-        // Extract auth context for user-based HKDF (salt = user_id) if encryption active
-        std::string enc_user_ctx;
-        if (vector_enc_enabled) {
-            auto auth_ctx = extractAuthContext(req);
-            enc_user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
-        }
-
-        auto batch = storage_->createWriteBatch();
-        for (const auto& it : body["items"]) {
-            try {
-                if (!it.contains("pk") || !it["pk"].is_string()) { ++errors; continue; }
-                if (!it.contains("vector") || !it["vector"].is_array()) { ++errors; continue; }
-
-                std::string pk = it["pk"].get<std::string>();
-                std::vector<float> vec;
-                vec.reserve(it["vector"].size());
-                for (const auto& v : it["vector"]) {
-                    if (!v.is_number()) { vec.clear(); break; }
-                    vec.push_back(v.get<float>());
-                }
-                if (vec.empty() || static_cast<int>(vec.size()) != configured_dim) { ++errors; continue; }
-
-                // Build entity
-                BaseEntity e(pk);
-                e.setField(vector_field, vec);
-                if (it.contains("fields") && it["fields"].is_object()) {
-                    for (auto fit = it["fields"].begin(); fit != it["fields"].end(); ++fit) {
-                        const auto& val = fit.value();
-                        const std::string key = fit.key();
-                        if (val.is_string()) e.setField(key, val.get<std::string>());
-                        else if (val.is_number_integer()) e.setField(key, static_cast<int64_t>(val.get<int64_t>()));
-                        else if (val.is_number_float()) e.setField(key, val.get<double>());
-                        else if (val.is_boolean()) e.setField(key, val.get<bool>());
-                    }
-                }
-
-                // Vector metadata encryption (schema-driven) - do NOT encrypt actual embedding
-                if (vector_enc_enabled && !vector_enc_fields.empty() && field_encryption_) {
-                    for (const auto& mf : vector_enc_fields) {
-                        if (mf == vector_field) continue; // never encrypt embedding itself
-                        if (!e.hasField(mf)) continue;
-                        auto valOpt = e.getField(mf);
-                        if (!valOpt.has_value()) continue;
-                        // Serialize value to string (reuse logic similar to handlePutEntity for primitives)
-                        std::string plain_str;
-                        const auto& v = *valOpt;
-                        if (std::holds_alternative<std::string>(v)) plain_str = std::get<std::string>(v);
-                        else if (std::holds_alternative<int64_t>(v)) plain_str = std::to_string(std::get<int64_t>(v));
-                        else if (std::holds_alternative<double>(v)) plain_str = std::to_string(std::get<double>(v));
-                        else if (std::holds_alternative<bool>(v)) plain_str = std::get<bool>(v) ? "true" : "false";
-                        else {
-                            // skip unsupported complex types in metadata for now
-                            continue;
-                        }
-                        try {
-                            // Derive field key: HKDF(DEK, user_id, "field:"+mf)
-                            auto dek = key_provider_->getKey("dek");
-                            std::vector<uint8_t> salt;
-                            if (!enc_user_ctx.empty()) salt.assign(enc_user_ctx.begin(), enc_user_ctx.end());
-                            std::string info = std::string("field:") + mf;
-                            auto raw_key = utils::HKDFHelper::derive(dek, salt, info, 32);
-                            auto blob = field_encryption_->encryptWithKey(plain_str, "vector_meta:" + mf, 1, raw_key);
-                            auto j = blob.toJson();
-                            e.setField(mf + "_encrypted", j.dump());
-                            e.setField(mf + "_enc", true);
-                            // remove plaintext
-                            e.setField(mf, std::monostate{});
-                        } catch (const std::exception& ex) {
-                            THEMIS_WARN("Vector metadata encryption failed for {}: {}", mf, ex.what());
-                        }
-                    }
-                }
-
-                auto st = vector_index_->addEntity(e, *batch, vector_field);
-                if (st.ok) ++inserted; else { ++errors; }
-            } catch (...) {
-                ++errors;
-            }
-        }
-        // Commit once for the whole batch
-        if (!batch->commit()) {
-            span.setStatus(false, "batch_commit_failed");
-            return makeErrorResponse(http::status::internal_server_error, "Vector batch commit failed", req);
-        }
-
-        json response = {
-            {"inserted", inserted},
-            {"errors", errors},
-            {"objectName", vector_index_->getObjectName()},
-            {"dimension", vector_index_->getDimension()}
-        };
-        span.setAttribute("batch.inserted", static_cast<int64_t>(inserted));
-        span.setAttribute("batch.errors", static_cast<int64_t>(errors));
-        span.setStatus(true);
-        return makeResponse(http::status::ok, response.dump(), req);
-
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
-
-http::response<http::string_body> HttpServer::handleVectorDeleteByFilter(
-    const http::request<http::string_body>& req
-) {
-    if (auth_) {
-        std::string path_only = std::string(req.target());
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:write", "vector.write", path_only)) return *resp;
-    }
-    auto span = Tracer::startSpan("handleVectorDeleteByFilter");
-    span.setAttribute("http.method", "DELETE");
-    span.setAttribute("http.path", "/vector/by-filter");
-
-    try {
-        if (req.body().empty()) {
-            return makeErrorResponse(http::status::bad_request, "Empty body; expected { pks: [...]} or { prefix: '...' }", req);
-        }
-        auto body = json::parse(req.body());
-
-        size_t deleted = 0;
-        if (body.contains("pks") && body["pks"].is_array()) {
-            for (const auto& v : body["pks"]) {
-                if (!v.is_string()) continue;
-                auto st = vector_index_->removeByPk(v.get<std::string>());
-                if (st.ok) ++deleted;
-            }
-            json resp = {{"deleted", deleted}, {"method", "pks"}};
-            span.setAttribute("deleted", static_cast<int64_t>(deleted));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, resp.dump(), req);
-        }
-
-        if (body.contains("prefix") && body["prefix"].is_string()) {
-            std::string prefix = body["prefix"].get<std::string>();
-            // Scan RocksDB for keys starting with objectName:prefix
-            std::string fullPrefix = vector_index_->getObjectName() + ":" + prefix;
-            storage_->scanPrefix(fullPrefix, [&](std::string_view key, std::string_view /*value*/){
-                try {
-                    std::string pk = KeySchema::extractPrimaryKey(key);
-                    auto st = vector_index_->removeByPk(pk);
-                    if (st.ok) ++deleted;
-                } catch (...) {}
-                return true; // continue
-            });
-            json resp = {{"deleted", deleted}, {"method", "prefix"}, {"prefix", prefix}};
-            span.setAttribute("deleted", static_cast<int64_t>(deleted));
-            span.setStatus(true);
-            return makeResponse(http::status::ok, resp.dump(), req);
-        }
-
-        return makeErrorResponse(http::status::bad_request, "Provide either 'pks' array or 'prefix' string", req);
-    } catch (const json::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
-    } catch (const std::exception& e) {
-        span.setStatus(false, e.what());
-        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
-    }
-}
+// ===================== Vector Operations - Delegated to VectorApiHandler =====================
+// Implementations moved to src/server/vector_api_handler.cpp
+// - handleVectorSearch()
+// - handleVectorBatchInsert()
+// - handleVectorDeleteByFilter()
+// - handleVectorIndexSave()
+// - handleVectorIndexLoad()
+// - handleVectorIndexConfigGet()
+// - handleVectorIndexConfigPut()
+// - handleVectorIndexStats()
 
 // ===================== Admin: Backup & Restore =====================
 
