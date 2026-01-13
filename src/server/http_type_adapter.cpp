@@ -32,9 +32,31 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
                 size_t value_end = (amp_pos != std::string::npos) ? amp_pos : query_string.length();
                 std::string value = query_string.substr(eq_pos + 1, value_end - eq_pos - 1);
                 
-                // URL decode key and value (simple version)
-                // TODO: Add proper URL decoding if needed
-                httplib_req.params.emplace(key, value);
+                // URL decode key and value
+                // TODO: Use a proper URL decoding library in production
+                // For now, just handle basic %XX encoding
+                auto url_decode = [](const std::string& str) -> std::string {
+                    std::string decoded;
+                    for (size_t i = 0; i < str.length(); ++i) {
+                        if (str[i] == '%' && i + 2 < str.length()) {
+                            int value;
+                            std::istringstream is(str.substr(i + 1, 2));
+                            if (is >> std::hex >> value) {
+                                decoded += static_cast<char>(value);
+                                i += 2;
+                            } else {
+                                decoded += str[i];
+                            }
+                        } else if (str[i] == '+') {
+                            decoded += ' ';
+                        } else {
+                            decoded += str[i];
+                        }
+                    }
+                    return decoded;
+                };
+                
+                httplib_req.params.emplace(url_decode(key), url_decode(value));
                 
                 start = (amp_pos != std::string::npos) ? amp_pos + 1 : query_string.length();
             } else {
@@ -135,8 +157,13 @@ http::status HttpTypeAdapter::intToStatus(int status_code) {
         case 503: return http::status::service_unavailable;
         case 504: return http::status::gateway_timeout;
         
-        // Default
-        default:  return static_cast<http::status>(status_code);
+        // Default: return internal server error for unmapped codes
+        default:  
+            // Only use static_cast for valid HTTP status codes (100-599)
+            if (status_code >= 100 && status_code < 600) {
+                return static_cast<http::status>(status_code);
+            }
+            return http::status::internal_server_error;
     }
 }
 

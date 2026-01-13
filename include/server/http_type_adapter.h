@@ -22,6 +22,11 @@ namespace http = beast::http;
  * See: HTTP_SERVER_REFACTORING_ACTION_PLAN.md
  * 
  * @warning This adapter has performance overhead due to type conversions.
+ *          Conversions include:
+ *          - String copies for method, path, headers, body
+ *          - URL decoding of query parameters
+ *          - Object construction/destruction
+ *          Estimated overhead: ~1-5% latency increase per request
  *          It should only be used as a temporary solution.
  */
 class HttpTypeAdapter {
