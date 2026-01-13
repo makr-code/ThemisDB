@@ -8,12 +8,6 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
-// Forward declarations
-namespace rocksdb {
-    class TransactionDB;
-    class ColumnFamilyHandle;
-}
-
 namespace themis {
 
 class Changefeed;

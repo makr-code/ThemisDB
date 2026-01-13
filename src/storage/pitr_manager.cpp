@@ -274,15 +274,12 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
 
 PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent& event) {
     // Reverse the operation
-    rocksdb::WriteOptions write_opts;
-    rocksdb::Status s;
-
     switch (event.type) {
         case Changefeed::ChangeEventType::EVENT_PUT:
             // PUT → DELETE (remove the key)
-            s = db_->del(event.key);
-            if (!s.ok() && !s.IsNotFound()) {
-                return Status::Error("Failed to delete key: " + s.ToString());
+            // RocksDBWrapper::del() returns bool - true on success
+            if (!db_->del(event.key)) {
+                return Status::Error("Failed to delete key: " + event.key);
             }
             break;
 
