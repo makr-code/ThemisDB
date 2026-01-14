@@ -1,5 +1,8 @@
 # Kapitel 41: Hands-on Labs – Praxisorientierte Systemadministration
 
+> *"Ich höre und vergesse. Ich sehe und erinnere mich. Ich tue und verstehe."*  
+> *— Konfuzius*
+
 > **Zusammenfassung:** Dieses Kapitel führt systematisch durch drei praxisnahe Laborübungen zur ThemisDB-Administration: Container-basiertes Deployment, Query-Performance-Optimierung und Vektor-Suchindexierung. Wir vermitteln produktionsreife Methoden zur Systemkonfiguration, Performance-Analyse und Feature-Integration.
 
 > **Voraussetzungen:** Grundkenntnisse in Containerisierung (Docker/Podman), AQL-Syntax (siehe Kapitel 28), Datenbankadministration

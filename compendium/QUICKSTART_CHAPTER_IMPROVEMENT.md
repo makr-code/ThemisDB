@@ -104,6 +104,39 @@ ls -la /home/runner/work/ThemisDB/ThemisDB/docs/gimini/
 
 **Ziel:** Kapitel auf wissenschaftliches Niveau heben
 
+#### 3.0 Motivierendes Zitat hinzufügen
+
+**Vorbild: Kapitel 1**
+
+Jedes Kapitel soll mit einem inspirierenden Zitat oder Sinnspruch beginnen, der zum Thema passt und den Leser motiviert.
+
+**Format:**
+```markdown
+# Kapitel X: Titel
+
+> *"Zitat oder Sinnspruch zum Thema"*  
+> *— Autor*
+
+> **Zusammenfassung:** ...
+```
+
+**Beispiele:**
+- Kapitel 1 (Einführung): Konfuzius-Zitat über Werkzeugwahl
+- Kapitel 41 (Hands-on Labs): *"Ich höre und vergesse. Ich sehe und erinnere mich. Ich tue und verstehe."* — Konfuzius
+
+**Quellen für passende Zitate:**
+- Philosophen (Konfuzius, Sokrates, Aristoteles)
+- Wissenschaftler (Einstein, Turing, Knuth)
+- Tech-Persönlichkeiten (Dijkstra, Knuth, Brooks)
+- Sprichwörter & Weisheiten
+
+**Richtlinien:**
+- ✅ Kurz und prägnant (1-3 Sätze)
+- ✅ Relevanz zum Kapitel-Thema
+- ✅ Motivierend & inspirierend
+- ✅ Kursiv-Format für Zitat
+- ✅ Autor-Attribution (falls bekannt)
+
 #### 3.1 Sprache verbessern
 
 **Vorher (Tutorial-Stil):**
