@@ -1077,37 +1077,579 @@ tp := trace.NewTracerProvider(
 
 ---
 
-## 38.4 Dashboards (Grafana)
+## 38.4 Dashboards (Grafana) {#chapter_38_4_dashboards}
 
-### Latenz & Throughput
+[Grafana](../appendix_h_glossary.md#grafana)-Dashboards visualisieren die in Abschnitt 38.1 definierten Metriken und transformieren Rohdaten in handlungsrelevante Insights. Wir präsentieren Dashboard-Architekturen für ThemisDB-spezifische Observability-Anforderungen mit [Prometheus](../appendix_h_glossary.md#prometheus) als primärer Datenquelle. Dashboard-as-Code-Praktiken gewährleisten Reproduzierbarkeit und Versionskontrolle. Dieser Abschnitt vermittelt PromQL-Query-Patterns, Panel-Layout-Strategien und Best Practices für Operations-Teams.
 
-Panels:
-- Query p50/p95/p99 (stacked per operation)
-- QPS split by read/write/graph/vector
-- Error rate (% per op)
+### 38.4.1 Dashboard-Architektur {#chapter_38_4_1_dashboard-architektur}
 
-### Replikation
+Wir strukturieren Dashboards nach dem Golden Signals-Prinzip (Latenz, Traffic, Errors, Saturation) und organisieren Panels in logischen Gruppen. Die Hierarchie folgt dem Top-Down-Debugging-Workflow: Übersicht → Drill-Down → Root-Cause-Analysis.
 
-- Lag per follower (ms)
-- Failed replications (count)
-- WAL queue depth
+**Dashboard-Hierarchie:**
 
-### Ressourcen
+1. **Overview Dashboard:** High-level KPIs für Management (Availability, Error Rate, Traffic)
+2. **Component Dashboards:** Pro Service/Component (AQL Engine, Storage Layer, Replication)
+3. **Detail Dashboards:** Tiefe Diagnostik (Slow Queries, Cache Analysis, Thread Pools)
 
-- CPU (per node)
-- Memory (rss, cache hit rate)
-- Disk IOPS & Latency
-- Network retransmits
+**Grafana-Provisioning mit YAML:**  
+Dashboard-as-Code ermöglicht Git-basierte Versionskontrolle und automatisiertes Deployment.
 
-### Cache & Index
+```yaml
+# grafana/provisioning/dashboards/themisdb.yaml - Dashboard-Provider-Konfiguration
+apiVersion: 1
 
-- Cache evictions/sec
-- Index hit rate
-- Slow queries over threshold
+providers:
+  - name: 'ThemisDB Dashboards'
+    orgId: 1
+    folder: 'ThemisDB'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/dashboards/themisdb
+      foldersFromFilesStructure: true
+```
+
+### 38.4.2 Latenz & Throughput Dashboard {#chapter_38_4_2_latenz-throughput}
+
+Latenz-Visualisierung nutzt Heatmaps für Perzentil-Verteilungen und Time-Series-Panels für Trend-Analyse. Wir kombinieren RED-Metriken (siehe Abschnitt 38.1.1) in einem kohärenten Dashboard-Layout.
+
+**Panel 1: Query Latency Percentiles (Time Series)**
+
+```json
+{
+  "title": "ThemisDB Query Latency (P50/P95/P99)",
+  "type": "timeseries",
+  "datasource": "Prometheus",
+  "targets": [
+    {
+      "expr": "histogram_quantile(0.50, sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le))",
+      "legendFormat": "P50 - {{operation}}",
+      "refId": "A"
+    },
+    {
+      "expr": "histogram_quantile(0.95, sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le))",
+      "legendFormat": "P95 - {{operation}}",
+      "refId": "B"
+    },
+    {
+      "expr": "histogram_quantile(0.99, sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le))",
+      "legendFormat": "P99 - {{operation}}",
+      "refId": "C"
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "s",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {"value": 0, "color": "green"},
+          {"value": 0.2, "color": "yellow"},
+          {"value": 0.5, "color": "red"}
+        ]
+      }
+    }
+  }
+}
+```
+
+**Panel 2: Throughput by Operation (Stacked Area Chart)**
+
+```promql
+# PromQL: Requests per Second (Rate) nach Operation-Typ
+sum(rate(themisdb_requests_total[5m])) by (operation)
+
+# Legend: READ, WRITE, GRAPH_TRAVERSAL, VECTOR_SEARCH
+```
+
+**Panel 3: Error Rate Percentage (Gauge)**
+
+```promql
+# PromQL: Error-Rate als Prozentsatz
+(
+  sum(rate(themisdb_requests_errors_total[5m]))
+  /
+  (sum(rate(themisdb_requests_success_total[5m])) + sum(rate(themisdb_requests_errors_total[5m])))
+) * 100
+
+# Thresholds:
+# Green: < 0.1% (Excellent)
+# Yellow: 0.1-1% (Warning)
+# Red: > 1% (Critical)
+```
+
+### 38.4.3 Ressourcen-Dashboard {#chapter_38_4_3_ressourcen-dashboard}
+
+Ressourcen-Monitoring basiert auf USE-Metriken (siehe Abschnitt 38.1.2) und identifiziert Hardware-Bottlenecks. Wir nutzen [Node Exporter](../appendix_h_glossary.md#node-exporter)-Metriken für System-Level-Observability.
+
+**Panel: CPU Utilization per Node (Heatmap)**
+
+```promql
+# PromQL: CPU-Auslastung pro Node (0-100%)
+100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+# Heatmap-Buckets: 0-10%, 10-20%, ..., 90-100%
+```
+
+**Panel: Memory Pressure Indicators**
+
+```json
+{
+  "title": "Memory Pressure (RSS + Cache Hit Rate)",
+  "type": "graph",
+  "targets": [
+    {
+      "expr": "process_resident_memory_bytes{job=\"themisdb\"} / 1024 / 1024 / 1024",
+      "legendFormat": "RSS (GB) - {{instance}}"
+    },
+    {
+      "expr": "(rate(rocksdb_block_cache_hit[5m]) / (rate(rocksdb_block_cache_hit[5m]) + rate(rocksdb_block_cache_miss[5m]))) * 100",
+      "legendFormat": "Cache Hit Rate (%) - {{instance}}",
+      "yAxisIndex": 1
+    }
+  ],
+  "yaxes": [
+    {"label": "Memory (GB)", "format": "short"},
+    {"label": "Hit Rate (%)", "format": "percent"}
+  ]
+}
+```
+
+**Panel: Disk I/O Saturation**
+
+```promql
+# PromQL: Disk Queue Depth (Saturation-Indikator)
+rate(node_disk_io_time_seconds_total[5m])
+
+# Interpretation:
+# < 1.0: Keine Saturation
+# 1.0-5.0: Moderate Saturation
+# > 5.0: Kritische Saturation (I/O-Bottleneck)
+```
+
+### 38.4.4 Replication & Consistency Dashboard {#chapter_38_4_4_replication-consistency}
+
+Replication-Monitoring visualisiert Lag-Metriken und Consistency-Indikatoren für Multi-Node-Deployments. Kritisch für [Eventual Consistency](../appendix_h_glossary.md#eventual-consistency)-Szenarien.
+
+**Panel: Replication Lag per Follower**
+
+```promql
+# PromQL: Replication Lag in Millisekunden
+themisdb_replication_lag_milliseconds
+
+# Alert-Threshold: > 2000ms (2 Sekunden)
+```
+
+**Panel: WAL (Write-Ahead Log) Queue Depth**
+
+```promql
+# PromQL: WAL Queue Depth (Indikator für Write-Backpressure)
+themisdb_wal_queue_depth
+
+# Interpretation:
+# < 100: Normal
+# 100-1000: Moderate Backpressure
+# > 1000: Kritisch (Throttle Writes)
+```
+
+**Panel: Failed Replication Events (Counter)**
+
+```promql
+# PromQL: Fehlgeschlagene Replikationen (Rate)
+rate(themisdb_replication_failures_total[5m])
+
+# Alert bei > 0 (jede Replikations-Fehler ist kritisch)
+```
+
+### 38.4.5 Dashboard-Layout Best Practices {#chapter_38_4_5_dashboard-layout}
+
+Dashboard-UX beeinflusst MTTR (Mean Time To Resolution) maßgeblich. Wir befolgen Gestalt-Prinzipien für visuelle Hierarchie und Informationsarchitektur.
+
+**Layout-Regeln:**
+
+1. **F-Pattern Reading:** Kritische Metriken oben-links (Blickverlauf)
+2. **Color Semantics:** Rot=Fehler, Gelb=Warnung, Grün=OK, Blau=Info
+3. **Contextual Grouping:** Verwandte Panels gruppieren (z.B. CPU + Memory in einem Row)
+4. **Progressive Disclosure:** Overview → Detail via Drill-Down-Links
+
+**Grafana Variables für Filterung:**
+
+```json
+{
+  "templating": {
+    "list": [
+      {
+        "name": "instance",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(themisdb_requests_total, instance)",
+        "multi": true,
+        "includeAll": true
+      },
+      {
+        "name": "operation",
+        "type": "custom",
+        "options": ["READ", "WRITE", "GRAPH_TRAVERSAL", "VECTOR_SEARCH"],
+        "multi": true,
+        "includeAll": true
+      }
+    ]
+  }
+}
+```
+
+**PromQL mit Variables:**
+
+```promql
+# Nutzung von Dashboard-Variables für dynamische Filterung
+sum(rate(themisdb_requests_total{instance=~"$instance", operation=~"$operation"}[5m]))
+```
+
+### 38.4.6 Dashboard Performance Optimization {#chapter_38_4_6_dashboard-performance}
+
+Dashboard-Query-Performance beeinflusst User Experience. Wir optimieren PromQL-Queries und Refresh-Intervalle für Balance zwischen Aktualität und Server-Load.
+
+**Optimization-Strategien:**
+
+| Strategie | Beschreibung | Performance-Gain |
+|-----------|--------------|------------------|
+| **Recording Rules** | Pre-compute komplexe Queries | 10-100× schneller |
+| **Query Caching** | Grafana-Cache für wiederholte Queries | 2-5× schneller |
+| **Time Range Limiting** | Max. 24h für High-Resolution-Dashboards | 3-10× schneller |
+| **Downsampling** | Niedrigere Resolution für lange Zeiträume | 5-20× schneller |
+
+**Prometheus Recording Rule Beispiel:**
+
+```yaml
+# prometheus-rules.yaml - Pre-computed Aggregationen
+groups:
+  - name: themisdb_dashboard_optimizations
+    interval: 1m
+    rules:
+      # Recording Rule für P95 Latenz (statt On-the-Fly-Berechnung)
+      - record: themisdb:request_latency_p95:operation
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le)
+          )
+      
+      # Recording Rule für Error-Rate
+      - record: themisdb:error_rate:percent
+        expr: |
+          (
+            sum(rate(themisdb_requests_errors_total[5m]))
+            /
+            (sum(rate(themisdb_requests_success_total[5m])) + sum(rate(themisdb_requests_errors_total[5m])))
+          ) * 100
+```
+
+**Dashboard Refresh-Intervalle:**
+
+- **Overview Dashboards:** 30s (niedrige Query-Last)
+- **Detail Dashboards:** 1min (moderate Last)
+- **Historical Analysis:** Manual Refresh (keine Auto-Refresh-Last)
 
 ---
 
-## 38.5 SLI/SLO & Error Budgets
+## 38.5 SLI/SLO & Error Budgets {#chapter_38_5_sli-slo-error-budgets}
+
+[Service Level Indicators](../appendix_h_glossary.md#sli) (SLIs) und [Service Level Objectives](../appendix_h_glossary.md#slo) (SLOs) quantifizieren Reliability-Ziele und ermöglichen datengetriebene Release-Entscheidungen. Wir definieren SLIs nach dem Google SRE-Framework[^google_sre_book] und implementieren [Error Budget](../appendix_h_glossary.md#error-budget)-Management für Balance zwischen Innovation und Stabilität. Dieser Abschnitt vermittelt SLO-Kalkulations-Methoden, Burn-Rate-Alerting und Budget-Policy-Strategien für ThemisDB-Deployments.
+
+### 38.5.1 SLI-Definition & Measurement {#chapter_38_5_1_sli-definition}
+
+SLIs sind quantifizierbare Metriken, die User-Experience direkt abbilden. Wir fokussieren auf Request-basierte SLIs (Availability, Latency) und Data-basierte SLIs (Durability, Freshness) für ThemisDB-Workloads.
+
+**SLI-Kategorien für ThemisDB:**
+
+| SLI-Typ | Metrik | Formel | User-Impact |
+|---------|--------|--------|-------------|
+| **Availability** | Request Success Rate | `good_requests / total_requests` | Service erreichbar? |
+| **Latency** | Request Duration | `requests_under_threshold / total_requests` | Service schnell genug? |
+| **Durability** | Data Loss Events | `successful_writes_persisted / total_writes` | Daten sicher gespeichert? |
+| **Freshness** | Replication Lag | `replicas_within_lag_threshold / total_replicas` | Daten aktuell? |
+
+**PromQL für Availability-SLI:**
+
+```promql
+# SLI: Availability (HTTP 2xx/3xx Responses als "Good")
+sum(rate(themisdb_requests_total{status=~"2..|3.."}[30d]))
+/
+sum(rate(themisdb_requests_total[30d]))
+
+# Beispiel-Resultat: 0.9998 (99.98% Availability über 30 Tage)
+```
+
+**PromQL für Latency-SLI (Threshold-basiert):**
+
+```promql
+# SLI: Latency (P99 < 200ms als "Good")
+(
+  sum(rate(themisdb_request_duration_seconds_bucket{le="0.2"}[30d]))
+  /
+  sum(rate(themisdb_request_duration_seconds_count[30d]))
+)
+
+# Interpretation: Prozentsatz der Requests unter 200ms
+```
+
+**Window-basierte vs. Request-basierte SLIs:**
+
+- **Request-based:** Jeder Request zählt gleich (typisch für APIs)
+- **Window-based:** Aggregation über Zeitfenster (typisch für Batch-Jobs)
+
+Wir nutzen Request-based SLIs für ThemisDB-REST-APIs und Window-based SLIs für Hintergrund-Prozesse (Compaction, Replication).
+
+### 38.5.2 SLO-Kalkulation & Target-Setting {#chapter_38_5_2_slo-kalkulation}
+
+SLOs definieren Reliability-Ziele als Prozentsatz (z.B. 99.9% Availability). Die SLO-Wahl balanciert User-Erwartungen, Kosten und Engineering-Aufwand. Zu hohe SLOs verschwenden Ressourcen, zu niedrige SLOs schaden User-Experience.
+
+**SLO-Kalkulations-Formel:**
+
+```
+SLO = (1 - Error_Budget_Percentage) * 100%
+
+Error_Budget = 1 - SLO
+
+Beispiel:
+SLO = 99.9% → Error Budget = 0.1% = 0.001
+```
+
+**Downtime-Kalkulation pro SLO:**
+
+| SLO | Error Budget | Downtime/Monat | Downtime/Jahr | Kosten-Impact |
+|-----|--------------|----------------|---------------|---------------|
+| **99%** | 1% | 7.2 Stunden | 3.65 Tage | Low (Standard-Tier) |
+| **99.5%** | 0.5% | 3.6 Stunden | 1.83 Tage | Medium |
+| **99.9%** | 0.1% | 43 Minuten | 8.76 Stunden | High (Premium-Tier) |
+| **99.95%** | 0.05% | 21 Minuten | 4.38 Stunden | Very High |
+| **99.99%** | 0.01% | 4.3 Minuten | 52.6 Minuten | Extreme (Mission-Critical) |
+
+*Formel: `Downtime = (1 - SLO) * Zeitperiode`*
+
+**ThemisDB SLO-Beispiele:**
+
+```yaml
+# slo-config.yaml - SLO-Definitionen für ThemisDB
+slos:
+  - name: "api-availability"
+    description: "REST API Availability"
+    target: 99.95  # 99.95%
+    window: 30d
+    sli_query: |
+      sum(rate(themisdb_requests_total{status=~"2..|3.."}[30d]))
+      /
+      sum(rate(themisdb_requests_total[30d]))
+  
+  - name: "read-latency-p99"
+    description: "Read Query P99 Latency < 200ms"
+    target: 99.9  # 99.9% der Reads unter 200ms
+    window: 30d
+    sli_query: |
+      histogram_quantile(0.99,
+        sum(rate(themisdb_request_duration_seconds_bucket{operation="READ"}[30d])) by (le)
+      ) < 0.2
+  
+  - name: "data-durability"
+    description: "Zero Data Loss"
+    target: 100.0  # 100% (keine Toleranz für Datenverlust)
+    window: 30d
+    sli_query: |
+      sum(rate(themisdb_writes_committed_total[30d]))
+      /
+      sum(rate(themisdb_writes_total[30d]))
+  
+  - name: "replication-freshness"
+    description: "Replication Lag < 2s"
+    target: 99.5  # 99.5% der Zeit unter 2s Lag
+    window: 7d
+    sli_query: |
+      (
+        sum(themisdb_replication_lag_milliseconds < 2000)
+        /
+        count(themisdb_replication_lag_milliseconds)
+      )
+```
+
+### 38.5.3 Error Budget Management {#chapter_38_5_3_error-budget-management}
+
+Error Budgets quantifizieren erlaubte Fehlerquoten und steuern Release-Velocity. Bei Budget-Verbrauch priorisieren wir Stability über Features. Error Budget Policies definieren Konsequenzen bei Budget-Überschreitung[^google_sre_workbook].
+
+**Error Budget Berechnung:**
+
+```python
+# Python: Error Budget Calculator
+from datetime import datetime, timedelta
+
+def calculate_error_budget(slo_target, window_days, current_sli):
+    """
+    Berechnet verbleibendes Error Budget
+    
+    Args:
+        slo_target: SLO-Ziel (z.B. 0.999 für 99.9%)
+        window_days: SLO-Window in Tagen (z.B. 30)
+        current_sli: Aktueller SLI-Wert (z.B. 0.9985)
+    
+    Returns:
+        dict mit Budget-Status
+    """
+    # Error Budget = 1 - SLO
+    error_budget = 1 - slo_target
+    
+    # Tatsächlicher Error-Anteil
+    actual_errors = 1 - current_sli
+    
+    # Verbrauchtes Budget (Prozent)
+    budget_consumed_percent = (actual_errors / error_budget) * 100
+    
+    # Verbleibendes Budget (Prozent)
+    budget_remaining_percent = 100 - budget_consumed_percent
+    
+    # Downtime-Budget in Minuten
+    total_minutes = window_days * 24 * 60
+    budget_minutes = total_minutes * error_budget
+    consumed_minutes = total_minutes * actual_errors
+    remaining_minutes = budget_minutes - consumed_minutes
+    
+    return {
+        'error_budget_percent': error_budget * 100,
+        'budget_consumed_percent': budget_consumed_percent,
+        'budget_remaining_percent': budget_remaining_percent,
+        'budget_total_minutes': budget_minutes,
+        'budget_consumed_minutes': consumed_minutes,
+        'budget_remaining_minutes': remaining_minutes,
+        'status': 'healthy' if budget_remaining_percent > 0 else 'exhausted'
+    }
+
+# Beispiel-Nutzung
+result = calculate_error_budget(
+    slo_target=0.999,      # 99.9% SLO
+    window_days=30,        # 30-Tage-Window
+    current_sli=0.9985     # Aktueller SLI: 99.85%
+)
+
+print(f"Error Budget: {result['error_budget_percent']:.2f}%")
+print(f"Consumed: {result['budget_consumed_percent']:.1f}%")
+print(f"Remaining: {result['budget_remaining_minutes']:.1f} minutes")
+# Output:
+# Error Budget: 0.10%
+# Consumed: 50.0%
+# Remaining: 21.6 minutes
+```
+
+**Error Budget Policy - Beispiel:**
+
+| Budget-Status | Verbleibend | Actions | Release-Freeze? |
+|---------------|-------------|---------|-----------------|
+| **Healthy** | > 50% | Normale Velocity, experimentelle Features erlaubt | Nein |
+| **Warning** | 25-50% | Reduzierte Velocity, Fokus auf Reliability-Fixes | Nein, aber vorsichtig |
+| **Critical** | 10-25% | Nur kritische Bugfixes, Review-Standards erhöhen | Ja, für neue Features |
+| **Exhausted** | < 10% oder 0% | Vollständiger Release-Freeze, Postmortem erforderlich | Ja, alle Releases |
+
+**Automated Budget Enforcement:**
+
+```yaml
+# ci-pipeline.yaml - Budget-Check vor Release
+steps:
+  - name: "Check Error Budget"
+    script: |
+      SLI=$(curl -s "http://prometheus:9090/api/v1/query?query=themisdb_availability_sli" | jq '.data.result[0].value[1]')
+      SLO=0.999
+      BUDGET_REMAINING=$((1 - (1 - $SLI) / (1 - $SLO)))
+      
+      if [ $(echo "$BUDGET_REMAINING < 0.1" | bc) -eq 1 ]; then
+        echo "ERROR: Error Budget exhausted (${BUDGET_REMAINING}% remaining)"
+        echo "Release blocked per SLO policy"
+        exit 1
+      fi
+      
+      echo "Error Budget OK (${BUDGET_REMAINING}% remaining)"
+```
+
+### 38.5.4 Burn Rate & Multi-Window Alerting {#chapter_38_5_4_burn-rate-alerting}
+
+Burn Rate misst Geschwindigkeit des Error-Budget-Verbrauchs. Multi-Window-Alerting kombiniert kurze (1h) und lange (6h) Fenster für Balance zwischen False-Positives und schnellem Response[^sloth_slo_generator].
+
+**Burn Rate Formel:**
+
+```
+Burn_Rate = (Error_Rate / Error_Budget) * Time_Window_Ratio
+
+Beispiel:
+SLO = 99.9% (Error Budget = 0.1% über 30 Tage)
+Aktuelle Error Rate = 1% (letzte 1 Stunde)
+Burn Rate = (0.01 / 0.001) * (1h / 720h) = 10× zu schnell
+
+→ Bei diesem Burn Rate ist Budget in 3 Tagen erschöpft
+```
+
+**Multi-Window Alerting Rules:**
+
+```yaml
+# prometheus-alerts.yaml - Multi-Window Burn Rate Alerts
+groups:
+  - name: themisdb_slo_alerts
+    rules:
+      # Tier 1: Fast Burn (Budget erschöpft in 2 Tagen)
+      - alert: ThemisDBSLOBurnRateFast
+        expr: |
+          (
+            (1 - themisdb:availability_sli:1h) > (14.4 * (1 - 0.999))
+            and
+            (1 - themisdb:availability_sli:6h) > (14.4 * (1 - 0.999))
+          )
+        for: 2m
+        labels:
+          severity: critical
+          tier: "1"
+        annotations:
+          summary: "SLO Burn Rate Critical (Budget exhausted in 2 days)"
+          description: "Error Budget wird mit 14.4× Rate verbraucht"
+          runbook: "https://wiki/runbooks/slo-burn-fast"
+      
+      # Tier 2: Medium Burn (Budget erschöpft in 1 Woche)
+      - alert: ThemisDBSLOBurnRateMedium
+        expr: |
+          (
+            (1 - themisdb:availability_sli:6h) > (6 * (1 - 0.999))
+            and
+            (1 - themisdb:availability_sli:24h) > (6 * (1 - 0.999))
+          )
+        for: 15m
+        labels:
+          severity: warning
+          tier: "2"
+        annotations:
+          summary: "SLO Burn Rate Warning (Budget exhausted in 1 week)"
+          description: "Error Budget wird mit 6× Rate verbraucht"
+      
+      # Tier 3: Slow Burn (Budget erschöpft in 2 Wochen)
+      - alert: ThemisDBSLOBurnRateSlow
+        expr: |
+          (
+            (1 - themisdb:availability_sli:24h) > (3 * (1 - 0.999))
+            and
+            (1 - themisdb:availability_sli:72h) > (3 * (1 - 0.999))
+          )
+        for: 1h
+        labels:
+          severity: info
+          tier: "3"
+        annotations:
+          summary: "SLO Burn Rate Info (Budget exhausted in 2 weeks)"
+          description: "Error Budget wird mit 3× Rate verbraucht"
+```
+
+**Burn Rate Coefficients:**
+
+| Alert Tier | Time to Exhaustion | Burn Rate Multiplier | Window (Short/Long) | Severity |
+|------------|-------------------|----------------------|---------------------|----------|
+| **1** | 2 Tage | 14.4× | 1h / 6h | Critical |
+| **2** | 1 Woche | 6× | 6h / 24h | Warning |
+| **3** | 2 Wochen | 3× | 24h / 72h | Info |
+
+*Formel: `Multiplier = Window_Days / Target_Days`*
 
 ### Beispiel-SLIs
 
@@ -1124,22 +1666,320 @@ Panels:
 
 ---
 
-## 38.6 Alerting Design
+## 38.6 Alerting Design {#chapter_38_6_alerting-design}
 
-**Ziele:** Früh, präzise, wenig Rauschen.
+Effektives Alerting minimiert MTTR (Mean Time To Resolution) und reduziert Alert Fatigue durch präzise Trigger-Bedingungen und intelligentes Routing. Wir implementieren symptom-basierte Alerts nach dem Google SRE-Playbook[^google_sre_book] mit [Prometheus Alertmanager](../appendix_h_glossary.md#alertmanager) als zentraler Routing-Engine. Dieser Abschnitt vermittelt Alert-Rule-Design, Deduplizierungs-Strategien und Runbook-Integration für Operations-Teams.
 
-- Multi-Window, Multi-Burn-Rate (1h/6h) für SLO Burn
-- Symptom-basierte Alerts (p99 Latenz hoch, Error Rate > 1%)
-- Ursache-Alerts nachrangig (Disk 95% voll)
-- Deduping + Grouping im Alertmanager
-- Quiet Hours + Ownership (Runbook-Link, Pager-Rotation)
+### 38.6.1 Alerting-Philosophie: Symptoms vs. Causes {#chapter_38_6_1_symptoms-vs-causes}
 
-Beispiele:
+Symptom-basierte Alerts fokussieren auf User-Impact (hohe Latenz, Error-Rate) statt auf Ursachen (CPU-Last, Disk-Nutzung). Ursache-Alerts sind nachrangig und dienen der Root-Cause-Analysis. Diese Hierarchie reduziert Alert-Volumen und priorisiert kritische Incidents.
+
+**Alert-Hierarchie:**
+
+1. **Tier 1 (Critical):** User-Impact-Alerts (SLO-Burn, Error-Rate > 5%)
+2. **Tier 2 (Warning):** Leading-Indicator-Alerts (Disk 85% voll, Queue-Depth steigend)
+3. **Tier 3 (Info):** Diagnostic-Alerts (Cache-Hit-Rate niedrig, Slow-Queries erkannt)
+
+**Anti-Pattern vs. Best Practice:**
+
+| Anti-Pattern (Cause-based) | Best Practice (Symptom-based) | Warum besser? |
+|----------------------------|-------------------------------|---------------|
+| Alert: CPU > 80% | Alert: p99 Latenz > 500ms | CPU-Last korreliert nicht immer mit User-Impact |
+| Alert: Disk 95% voll | Alert: Error-Rate steigt (aus Disk-Full-Fehlern) | Disk-Full wird nur zum Problem wenn Writes fehlschlagen |
+| Alert: Memory > 90% | Alert: OOM-Killer Events | Memory-Nutzung ist normal, nur OOM ist kritisch |
+
+**Symptom-based Alert Beispiel:**
+
+```yaml
+# prometheus-alerts.yaml - Symptom-basierte Alerts
+groups:
+  - name: themisdb_user_impact_alerts
+    rules:
+      # Symptom: Hohe Error-Rate (User-Impact)
+      - alert: ThemisDBHighErrorRate
+        expr: |
+          (
+            sum(rate(themisdb_requests_errors_total[5m]))
+            /
+            (sum(rate(themisdb_requests_success_total[5m])) + sum(rate(themisdb_requests_errors_total[5m])))
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: critical
+          component: api
+        annotations:
+          summary: "High Error Rate ({{ $value | humanizePercentage }})"
+          description: "Error rate exceeded 1% for 5 minutes"
+          impact: "Users experiencing failed requests"
+          runbook_url: "https://wiki/runbooks/high-error-rate"
+      
+      # Cause: Hohe CPU-Last (nachrangig, Info-Level)
+      - alert: ThemisDBHighCPUUsage
+        expr: |
+          100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 15m
+        labels:
+          severity: info
+          component: system
+        annotations:
+          summary: "High CPU Usage ({{ $value }}%)"
+          description: "CPU usage above 80% for 15 minutes"
+          impact: "Potential latency increase (monitor user-facing metrics)"
+```
+
+### 38.6.2 Multi-Window, Multi-Burn-Rate Alerting {#chapter_38_6_2_multi-window-alerting}
+
+Multi-Window-Alerts kombinieren kurze und lange Zeitfenster zur Reduktion von False-Positives. Die Methodik stammt aus dem Google SRE Workbook[^google_sre_workbook] und wird in Abschnitt 38.5.4 für SLO-Burn-Rate-Alerts detailliert.
+
+**Warum zwei Fenster?**
+
+- **Kurzes Fenster (1h):** Erkennt schnelle Incidents (hohe Sensitivität)
+- **Langes Fenster (6h):** Filtert Transient-Spikes (niedrige False-Positive-Rate)
+- **Logik:** `short_window_bad AND long_window_bad` → Alert auslösen
+
+**AlertManager-Integration:**
+
+```yaml
+# alertmanager.yaml - Konfiguration
+global:
+  resolve_timeout: 5m
+  slack_api_url: 'https://hooks.slack.com/services/XXX/YYY/ZZZ'
+
+route:
+  # Root-Route: Default-Receiver
+  receiver: 'slack-default'
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 30s       # Warte 30s auf weitere Alerts vor Gruppierung
+  group_interval: 5m    # Sende gruppierte Alerts alle 5 Minuten
+  repeat_interval: 4h   # Wiederhole unresolved Alerts alle 4 Stunden
+  
+  # Tier-basiertes Routing
+  routes:
+    # Tier 1: Critical Alerts → PagerDuty
+    - match:
+        severity: critical
+      receiver: 'pagerduty-critical'
+      group_wait: 10s     # Schneller Response für Critical
+      repeat_interval: 1h
+    
+    # Tier 2: Warning Alerts → Slack + Ticket
+    - match:
+        severity: warning
+      receiver: 'slack-warnings'
+      continue: true      # Weitergabe an weitere Routes
+    
+    # Tier 3: Info Alerts → Slack nur während Geschäftszeiten
+    - match:
+        severity: info
+      receiver: 'slack-info'
+      active_time_intervals:
+        - business_hours
+
+# Time-Intervals für Quiet Hours
+time_intervals:
+  - name: business_hours
+    time_intervals:
+      - weekdays: ['monday:friday']
+        times:
+          - start_time: '09:00'
+            end_time: '18:00'
+
+# Receiver-Definitionen
+receivers:
+  - name: 'pagerduty-critical'
+    pagerduty_configs:
+      - service_key: '<pagerduty_integration_key>'
+        description: '{{ .GroupLabels.alertname }}: {{ .Annotations.summary }}'
+        details:
+          runbook: '{{ .Annotations.runbook_url }}'
+          impact: '{{ .Annotations.impact }}'
+  
+  - name: 'slack-warnings'
+    slack_configs:
+      - channel: '#themisdb-alerts'
+        title: '⚠️ {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}'
+  
+  - name: 'slack-info'
+    slack_configs:
+      - channel: '#themisdb-monitoring'
+        title: 'ℹ️ {{ .GroupLabels.alertname }}'
+```
+
+### 38.6.3 Alert Deduplication & Grouping {#chapter_38_6_3_deduplication-grouping}
+
+Alert-Deduplication verhindert Spam durch identische Alerts von mehreren Instanzen. Grouping fasst verwandte Alerts zusammen (z.B. alle Down-Nodes in einem Cluster).
+
+**Grouping-Strategien:**
+
+```yaml
+# Strategie 1: Group by Service + Severity
+group_by: ['service', 'severity']
+
+# Resultat: 1 Alert-Gruppe für "api + critical", 1 für "storage + warning"
+
+# Strategie 2: Group by Cluster + Alert Name
+group_by: ['cluster', 'alertname']
+
+# Resultat: Alle "HighLatency"-Alerts im "prod-us-west"-Cluster in einer Gruppe
+
+# Strategie 3: No Grouping (für Critical-Alerts)
+group_by: []
+
+# Resultat: Jeder Alert einzeln (für sofortige Visibility)
+```
+
+**Inhibition Rules (Suppress Dependent Alerts):**
+
+```yaml
+# alertmanager.yaml - Inhibition Rules
+inhibit_rules:
+  # Regel 1: Node Down inhibiert alle anderen Alerts von diesem Node
+  - source_match:
+      alertname: 'NodeDown'
+    target_match_re:
+      alertname: '.*'
+    equal: ['instance']
+  
+  # Regel 2: Cluster Outage inhibiert Individual-Node-Alerts
+  - source_match:
+      alertname: 'ClusterOutage'
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['cluster']
+  
+  # Regel 3: High Error Rate inhibiert Latency Alerts (Symptom-Hierarchie)
+  - source_match:
+      alertname: 'HighErrorRate'
+    target_match:
+      alertname: 'HighLatency'
+    equal: ['service']
+```
+
+### 38.6.4 Runbook-Integration {#chapter_38_6_4_runbook-integration}
+
+Jeder Alert verlinkt ein Runbook mit standardisierten Troubleshooting-Steps. Runbooks reduzieren MTTR durch konsistente Incident-Response-Workflows (siehe Kapitel 27 für detaillierte Troubleshooting-Methoden).
+
+**Runbook-Template:**
+
+```markdown
+# Runbook: HighErrorRate
+
+## Symptom
+Error rate exceeds 1% for ThemisDB API requests.
+
+## Impact
+- Users experiencing failed requests
+- SLO at risk (99.9% availability target)
+- Error Budget consumption accelerated
+
+## Investigation Steps
+1. **Check Error Types:**
+   ```promql
+   sum(rate(themisdb_requests_errors_total[5m])) by (error_type)
+   ```
+   → Identify dominant error class (timeout, validation, internal)
+
+2. **Check Recent Deployments:**
+   ```bash
+   kubectl rollout history deployment/themisdb
+   ```
+   → Rollback if error spike correlates with deploy
+
+3. **Check Downstream Dependencies:**
+   ```promql
+   up{job="postgres"} == 0
+   ```
+   → Verify database connectivity
+
+4. **Check Resource Saturation:**
+   ```promql
+   themisdb_thread_pool_active / themisdb_thread_pool_max > 0.9
+   ```
+   → Scale if thread pool saturated
+
+## Mitigation
+- **Immediate:** Rollback to last-known-good version
+- **Short-term:** Increase thread pool size, enable rate limiting
+- **Long-term:** Root-cause analysis, add retry logic
+
+## Escalation
+- Oncall Lead: @sre-oncall
+- Engineering Lead: @themisdb-team
+- Escalation Time: 30 minutes if no resolution
+
+## Postmortem
+Required: Yes (Critical incident)
+Template: https://wiki/templates/postmortem
+```
+
+**Alert Annotation mit Runbook-Link:**
+
+```yaml
+# prometheus-alerts.yaml - Runbook-Links in Annotations
+annotations:
+  summary: "High Error Rate ({{ $value | humanizePercentage }})"
+  description: |
+    Error rate exceeded 1% for 5 minutes.
+    Current value: {{ $value | humanizePercentage }}
+    
+    **Investigation Steps:**
+    1. Check error types dashboard: https://grafana/d/errors
+    2. Review recent deployments: kubectl rollout history
+    3. Follow runbook: {{ .Annotations.runbook_url }}
+  
+  runbook_url: "https://wiki/runbooks/high-error-rate"
+  dashboard_url: "https://grafana/d/themisdb-overview"
+  impact: "Users experiencing failed requests, SLO at risk"
+```
+
+### 38.6.5 Alert Fatigue Prevention {#chapter_38_6_5_alert-fatigue}
+
+Alert Fatigue entsteht durch zu viele, zu ungenaue oder zu häufige Alerts. Wir definieren Strategien zur Reduktion von Alert-Volumen und Verbesserung der Signal-to-Noise-Ratio.
+
+**Prevention-Strategien:**
+
+| Strategie | Beschreibung | Impact |
+|-----------|--------------|--------|
+| **Higher Thresholds** | Alert nur bei echtem User-Impact (1% Error statt 0.1%) | -50% Alert-Volumen |
+| **Longer Durations** | `for: 10m` statt `for: 1m` (filtert Transients) | -30% False-Positives |
+| **Inhibition Rules** | Suppress Dependent Alerts (Node-Down inhibiert alle Node-Alerts) | -40% Duplicate-Alerts |
+| **Quiet Hours** | Keine Info-Alerts nachts/Wochenende | -20% Out-of-Hours-Alerts |
+| **Automated Remediation** | Auto-Scaling, Auto-Restart statt Alert | -25% Manual-Interventions |
+
+**Alert Quality Metrics:**
+
+```promql
+# PromQL: Alert-to-Incident-Ratio (Ziel: > 0.5)
+sum(increase(incidents_total[30d]))
+/
+sum(increase(alerts_fired_total[30d]))
+
+# Interpretation:
+# > 0.5: Gut (meiste Alerts führen zu echten Incidents)
+# 0.2-0.5: Akzeptabel (einige False-Positives)
+# < 0.2: Schlecht (viel Alert-Rauschen, Review-Bedarf)
+```
+
+**Beispiel-Alerts:**
+
 - `latency_p99_gt_200ms` (for 15m & 6h)
 - `error_rate_gt_1pct`
 - `replication_lag_gt_2s`
 - `disk_util_gt_85pct`
 - `cache_evictions_spike`
+
+**Ownership & Escalation:**
+
+```yaml
+# prometheus-alerts.yaml - Alert-Ownership-Labels
+labels:
+  team: "sre"                      # Responsible Team
+  oncall_rotation: "themisdb-oncall"  # PagerDuty-Rotation
+  priority: "P1"                   # Incident-Priority
+  escalation_time: "30m"           # Time before escalation
+```
 
 ---
 
@@ -1214,6 +2054,9 @@ Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashb
 - RED/USE-Methodologien ermöglichen systematische Metrik-Erfassung (Abschnitt 38.1)
 - Strukturierte Logs mit Trace-Korrelation vereinfachen Root-Cause-Analysis (Abschnitt 38.2)
 - OpenTelemetry-basiertes Tracing visualisiert End-to-End-Latenz (Abschnitt 38.3)
+- Grafana-Dashboards transformieren Metriken in handlungsrelevante Insights (Abschnitt 38.4)
+- SLI/SLO-Framework und Error Budgets steuern Release-Velocity (Abschnitt 38.5)
+- Symptom-basiertes Alerting reduziert Alert Fatigue und MTTR (Abschnitt 38.6)
 - Sampling-Strategien reduzieren Overhead bei hohem Durchsatz (Abschnitte 38.2.3, 38.3.2)
 - Cardinality-Management verhindert Metrik-Explosion in Prometheus (Abschnitt 38.1.3)
 
@@ -1221,6 +2064,7 @@ Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashb
 - Kapitel 19: Security Monitoring und Audit-Logging
 - Kapitel 27: Troubleshooting-Workflows mit Observability-Daten
 - Kapitel 39: Performance-Tuning basierend auf Metriken und Traces
+- Appendix E: Incident Runbooks für häufige ThemisDB-Störungen
 
 ---
 
@@ -1251,3 +2095,9 @@ Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashb
 [^otel_specification]: OpenTelemetry Project. (2023). "OpenTelemetry Specification v1.26.0". https://opentelemetry.io/docs/specs/otel/
 
 [^w3c_trace_context]: W3C Distributed Tracing Working Group. (2020). "W3C Trace Context Specification". https://www.w3.org/TR/trace-context/
+
+[^google_sre_book]: Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016). "Site Reliability Engineering: How Google Runs Production Systems". O'Reilly Media. Chapter 4: Service Level Objectives.
+
+[^google_sre_workbook]: Beyer, B., et al. (2018). "The Site Reliability Workbook: Practical Ways to Implement SRE". O'Reilly Media. Chapter 2: Implementing SLOs.
+
+[^sloth_slo_generator]: Sloth Team. (2023). "Sloth - Easy and Simple Prometheus SLO Generator". https://github.com/slok/sloth
