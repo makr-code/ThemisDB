@@ -172,56 +172,86 @@ Wir implementieren eine strikte Trennung zwischen strategischen, taktischen und 
 
 ### 40.1.2 Policy Catalog und Version Control {#chapter_40_1_2_policy-catalog-version-control}
 
-Policies werden als versionierte Artefakte in Git gespeichert und über GitOps-Pipelines deployed. Jede Policy erhält eindeutige Identifikation (z.B. `AC-3-Access-Enforcement-v1.2`), Change-History und Approval-Workflow. Wir nutzen Policy-as-Code-Ansätze (ähnlich Open Policy Agent[^5]) für automatisierte Enforcement in CI/CD-Pipelines.
+Policies werden als versionierte Dokumente in ThemisDB-Collections gespeichert und über automatisierte Deployment-Pipelines ausgerollt. Jede Policy erhält eindeutige Identifikation (z.B. `AC-3-Access-Enforcement-v1.2`), Change-History durch ThemisDB's Multi-Version-Concurrency-Control (MVCC) und Approval-Workflow. Wir nutzen Policy-as-Code-Ansätze (ähnlich Open Policy Agent[^5]) für automatisierte Enforcement, gespeichert direkt in ThemisDB statt externen Versionskontrollsystemen.
 
-```yaml
-# policies/access-control/AC-3-v1.2.yaml
-policy_id: AC-3
-version: "1.2"
-title: "Access Enforcement - Least Privilege Principle"
-framework_mapping:
-  - ISO27001: A.9.1.2
-  - SOC2: CC6.1
-  - NIST: AC-3
-
-rules:
-  - id: AC-3.1
-    description: "Default access level is NONE"
-    enforcement: "Block all access unless explicitly granted"
-    
-  - id: AC-3.2
-    description: "Access grants require approval workflow"
-    implementation: |
-      FOR grant IN access_grant_requests
-        FILTER grant.status == 'pending'
-        FILTER grant.approver_role IN ['owner', 'manager']
-        RETURN grant
-
-  - id: AC-3.3
-    description: "Time-limited access (JIT)"
-    implementation: |
-      FOR grant IN active_grants
-        FILTER grant.expires_at < DATE_NOW()
-        UPDATE grant WITH {status: 'expired'} IN access_grants
-
-review_schedule:
-  frequency: "quarterly"
-  next_review: "2024-04-01"
-  owner: "security_team"
-
-evidence:
-  - "access_grants_export_2024Q1.csv"
-  - "approval_workflow_config.json"
-  - "automated_expiry_logs.json"
+```aql
+// Collection: governance_policies
+// Policy-Dokument mit eingebetteter Versionshistorie in ThemisDB
+{
+  "_key": "AC-3-v1.2",
+  "_rev": "_fxK3UPW--D",  // ThemisDB MVCC Revision
+  "policy_id": "AC-3",
+  "version": "1.2",
+  "status": "active",
+  "title": "Access Enforcement - Least Privilege Principle",
+  "framework_mapping": [
+    {"framework": "ISO27001", "control": "A.9.1.2"},
+    {"framework": "SOC2", "control": "CC6.1"},
+    {"framework": "NIST", "control": "AC-3"}
+  ],
+  "rules": [
+    {
+      "id": "AC-3.1",
+      "description": "Default access level is NONE",
+      "enforcement": "Block all access unless explicitly granted",
+      "aql_implementation": null
+    },
+    {
+      "id": "AC-3.2",
+      "description": "Access grants require approval workflow",
+      "aql_implementation": `
+        FOR grant IN access_grant_requests
+          FILTER grant.status == 'pending'
+          FILTER grant.approver_role IN ['owner', 'manager']
+          RETURN grant
+      `
+    },
+    {
+      "id": "AC-3.3",
+      "description": "Time-limited access (JIT)",
+      "aql_implementation": `
+        FOR grant IN active_grants
+          FILTER grant.expires_at < DATE_NOW()
+          UPDATE grant WITH {status: 'expired'} IN access_grants
+      `
+    }
+  ],
+  "review_schedule": {
+    "frequency": "quarterly",
+    "next_review": "2024-04-01",
+    "owner": "security_team"
+  },
+  "change_history": [
+    {
+      "version": "1.2",
+      "changed_at": "2024-01-15T10:30:00Z",
+      "changed_by": "alice@example.com",
+      "approved_by": ["security_team", "data_owner"],
+      "change_summary": "Added JIT access rule AC-3.3"
+    },
+    {
+      "version": "1.1",
+      "changed_at": "2023-10-01T09:00:00Z",
+      "changed_by": "bob@example.com",
+      "approved_by": ["compliance_officer"],
+      "change_summary": "Initial policy creation"
+    }
+  ],
+  "evidence_refs": [
+    "evidence/access_grants_export_2024Q1",
+    "evidence/approval_workflow_config",
+    "evidence/automated_expiry_logs"
+  ]
+}
 ```
 
-**Change Control Process:**
-1. **RFC erstellen:** Engineer öffnet Merge Request mit Policy-Änderung
-2. **Peer Review:** Mindestens 2 Approvals (Security + Data Steward)
-3. **Impact Analysis:** Automatisierter Test zeigt betroffene Collections/Users
-4. **Approval:** Data Owner oder Compliance Officer genehmigt
-5. **Rollout:** GitOps-Pipeline deployed Policy zu Prod (Blue-Green)
-6. **Evidence:** Deployment-Log und Config-Hash werden in Evidence-Store archiviert
+**Change Control Process (ThemisDB-nativ):**
+1. **RFC erstellen:** Engineer legt neues Policy-Dokument in `governance_policies_draft` Collection an
+2. **Peer Review:** Mindestens 2 Approvals dokumentiert in `policy_approvals` Collection (Security + Data Steward)
+3. **Impact Analysis:** AQL-Query analysiert betroffene Collections/Users durch Simulation
+4. **Approval:** Data Owner oder Compliance Officer setzt `approved: true` im Draft-Dokument
+5. **Rollout:** Automatisierter ThemisDB-Job kopiert Draft zu `governance_policies` (Active), alte Version archiviert in `governance_policies_archive`
+6. **Evidence:** ThemisDB Audit-Log speichert Deployment-Timestamp und Document-Revision (_rev) automatisch
 
 ---
 
