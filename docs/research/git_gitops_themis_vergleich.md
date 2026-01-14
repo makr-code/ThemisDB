@@ -24,6 +24,8 @@
 
 Dieses Dokument vergleicht die Versionskontroll- und Workflow-Konzepte von Git/GitHub/GitOps mit dem MVCC-System (Multi-Version Concurrency Control) von ThemisDB. Während Git für Code-Versionierung konzipiert ist, bietet ThemisDB MVCC für Datenbank-Transaktionen. Beide Systeme haben jedoch ähnliche Konzepte, die voneinander lernen können.
 
+> **💡 Hinweis:** ThemisDB nutzt bereits YAML an vielen Stellen! Siehe [Bestehende YAML-Nutzung](bestehende_yaml_nutzung.md) für eine vollständige Analyse der aktuellen YAML-Konfigurationen (PII-Patterns, Retention Policies, Dokumenten-Metadaten, Kubernetes CRDs, etc.).
+
 ---
 
 ## Git: Verteilte Versionskontrolle für Code
@@ -864,9 +866,10 @@ config:
 - [Flux](https://fluxcd.io/)
 
 ### ThemisDB
-- [MVCC Architecture](architecture_mvcc.md)
-- [Transaction Management](../features/features_transactions.md)
+- [MVCC Architecture](../de/architecture/architecture_mvcc.md)
+- [Transaction Management](../de/features/features_transactions.md)
 - [Branching Strategy](../BRANCHING_STRATEGY.md)
+- [Bestehende YAML-Nutzung](bestehende_yaml_nutzung.md) - **NEU: Analyse existierender YAML-Konfigurationen**
 
 ---
 
