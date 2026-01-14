@@ -25,6 +25,11 @@ namespace edition {
 // These values are set by CMakeLists.txt at build time and embedded into
 // the executable as compile-time constants.
 
+// Provide default values if not defined by CMake
+#ifndef THEMIS_EDITION_STRING
+#define THEMIS_EDITION_STRING "COMMUNITY"
+#endif
+
 constexpr std::string_view EDITION_STRING = THEMIS_EDITION_STRING;
 
 // Edition type enumeration
@@ -55,12 +60,18 @@ constexpr EditionType GetEditionType() {
 // COMMUNITY: 24 GB   (consumer-grade GPU like RTX 4090)
 // ENTERPRISE: 256 GB (data center GPU like A100/H100)
 // HYPERSCALER: Unlimited (custom, OEM deployments)
+#ifndef THEMIS_GPU_MAX_VRAM_GB
+#define THEMIS_GPU_MAX_VRAM_GB 24
+#endif
 constexpr int GPU_MAX_VRAM_GB = THEMIS_GPU_MAX_VRAM_GB;
 
 // Sharding constraints (maximum number of shard nodes)
 // COMMUNITY: 1      (single-node only, no sharding)
 // ENTERPRISE: 100   (distributed deployment)
 // HYPERSCALER: Unlimited (massive clustering)
+#ifndef THEMIS_SHARDING_MAX_NODES
+#define THEMIS_SHARDING_MAX_NODES 1
+#endif
 constexpr int SHARDING_MAX_NODES = THEMIS_SHARDING_MAX_NODES;
 
 // ============================================================================
