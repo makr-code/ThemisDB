@@ -420,7 +420,7 @@ jq '.metadata | {
 - [NAMESPACE_ANALYZER_README.md](../../../tools/NAMESPACE_ANALYZER_README.md) - Original documentation
 - [Architecture Documentation](../../architecture/) - High-level architecture
 - [Contributing Guide](../../../CONTRIBUTING.md) - Code contribution guidelines
-- [Coding Standards](../../../CODING_STANDARDS.md) - C++ coding conventions
+- [Coding Standards](../../CODING_STANDARDS.md) - C++ coding conventions
 
 ## License
 

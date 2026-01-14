@@ -204,7 +204,7 @@ curl http://localhost:8080/metrics
 **Development:**
 - 🤝 [Contributing](CONTRIBUTING.md) - How to contribute
 - 🌿 [Branching Strategy](docs/BRANCHING_STRATEGY.md) - Git Flow workflow
-- 📖 [API Reference](API_REFERENCE.md) - REST and GraphQL APIs
+- 📖 [API Reference](docs/api/API_REFERENCE.md) - REST and GraphQL APIs
 - 📦 [Client SDKs](clients/README.md) - Available client libraries
 
 > **📚 Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
@@ -263,6 +263,16 @@ ThemisDB builds upon excellent open-source projects:
 - **CozoDB** - Hybrid relational-graph-vector design inspiration
 
 **[→ Complete Attribution & Dependencies](docs/de/legal/ATTRIBUTIONS.md)**
+
+---
+
+## Contributing & Community
+
+We welcome contributions! Please see our:
+- 🤝 [Contributing Guide](CONTRIBUTING.md) - Development workflow and guidelines
+- 📋 [Code of Conduct](CODE_OF_CONDUCT.md) - Community standards
+- 💬 [Support](SUPPORT.md) - How to get help
+- 🔒 [Security Policy](SECURITY.md) - Reporting security issues
 
 ---
 

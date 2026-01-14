@@ -44,7 +44,7 @@ Multiple layers of security controls:
 
 - Security requirements defined early in development lifecycle
 - Threat modeling for new features
-- Secure coding standards enforced (see [CODING_STANDARDS.md](../../CODING_STANDARDS.md))
+- Secure coding standards enforced (see [CODING_STANDARDS.md](../CODING_STANDARDS.md))
 - Security testing integrated into CI/CD pipeline
 
 ### 4. Continuous Monitoring
@@ -423,7 +423,7 @@ See [ENCRYPTION_KEY_MANAGEMENT_POLICY.md](ENCRYPTION_KEY_MANAGEMENT_POLICY.md) f
 - [encryption_strategy.md](encryption_strategy.md) - Encryption standards and procedures
 - [ENCRYPTION_KEY_MANAGEMENT_POLICY.md](ENCRYPTION_KEY_MANAGEMENT_POLICY.md) - Key management
 - [SECURITY.md](../../SECURITY.md) - Public security disclosure policy
-- [CODING_STANDARDS.md](../../CODING_STANDARDS.md) - Secure coding standards
+- [CODING_STANDARDS.md](../CODING_STANDARDS.md) - Secure coding standards
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) - Security in contributions
 
 ---

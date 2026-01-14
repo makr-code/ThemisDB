@@ -156,6 +156,12 @@ diff_aql.txt
 geo-aql-todo
 test_geo_integration_db/
 
+# Build/test output files in root (should not be committed)
+/SUMMARY.txt
+/ctest_*.txt
+/ingestion_output.json
+/_codeql_detected_source_root
+
 # Test outputs and integration scripts (moved to tests/)
 tests/outputs/
 tests/integration-scripts/*.ps1

@@ -1,6 +1,6 @@
 # ThemisDB Examples Index
 
-**Quick Navigation:** [Quickstart Guide](EXAMPLES_QUICKSTART.md) | [Main Examples](../examples/) | [API Reference](../API_REFERENCE.md)
+**Quick Navigation:** [Quickstart Guide](EXAMPLES_QUICKSTART.md) | [Main Examples](../examples/) | [API Reference](api/API_REFERENCE.md)
 
 ---
 
@@ -1037,7 +1037,7 @@ python main.py                   # Or appropriate start command
 
 - **Main Documentation:** [docs/](../docs/)
 - **Examples Quickstart:** [EXAMPLES_QUICKSTART.md](EXAMPLES_QUICKSTART.md)
-- **API Reference:** [API_REFERENCE.md](../API_REFERENCE.md)
+- **API Reference:** [API_REFERENCE.md](api/API_REFERENCE.md)
 - **Contributing Guide:** [CONTRIBUTING.md](../CONTRIBUTING.md)
 - **Python Client:** [clients/python/](../clients/python/)
 - **AQL Query Language:** [docs/aql/](../docs/aql/)

@@ -38,15 +38,15 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 ## 🤝 Code of Conduct
 
 > [!IMPORTANT]
-> This project adheres to a code of conduct. By participating, you are expected to:
+> This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to:
 > - **Be respectful** and constructive in all interactions
 > - **Welcome newcomers** and help them get started
 > - **Assume good intentions** in discussions
 > - **Focus on what is best** for the community and project
+>
+> Please read the full [Code of Conduct](CODE_OF_CONDUCT.md) for details.
 
-## Code of Conduct
-
-This project adheres to a code of conduct. By participating, you are expected to uphold this code. Please be respectful and constructive in all interactions.
+---
 
 ## Getting Started
 

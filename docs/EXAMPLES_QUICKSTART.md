@@ -2,7 +2,7 @@
 
 **Welcome to ThemisDB!** This guide will get you from zero to productive in less than an hour.
 
-**Quick Links:** [Examples Index](EXAMPLES_INDEX.md) | [Full Documentation](../docs/) | [API Reference](../API_REFERENCE.md)
+**Quick Links:** [Examples Index](EXAMPLES_INDEX.md) | [Full Documentation](../docs/) | [API Reference](api/API_REFERENCE.md)
 
 ---
 
@@ -726,7 +726,7 @@ docker exec themisdb /repair.sh
 
 **Documentation:**
 - [Examples Index](EXAMPLES_INDEX.md) - All examples
-- [API Reference](../API_REFERENCE.md) - Complete API docs
+- [API Reference](api/API_REFERENCE.md) - Complete API docs
 - [Architecture](../docs/architecture/) - System design
 
 **Features:**
@@ -783,7 +783,7 @@ You've completed the ThemisDB Quickstart Guide! You now know:
 1. Pick a [Learning Path](#-learning-paths-by-role)
 2. Build a personal project
 3. Explore the [Examples Index](EXAMPLES_INDEX.md)
-4. Read the [API docs](../API_REFERENCE.md)
+4. Read the [API docs](api/API_REFERENCE.md)
 
 **Happy Building! 🚀**
 
