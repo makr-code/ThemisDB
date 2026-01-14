@@ -255,9 +255,9 @@ Policies werden als versionierte Dokumente in ThemisDB-Collections gespeichert u
 
 ---
 
-## 40.2 Data Classification
+## 40.2 Data Classification Schema {#chapter_40_2_data-classification-schema}
 
-Stufen definieren (z.B. PUBLIC, INTERNAL, CONFIDENTIAL, STRICT).
+Data Classification bildet die Grundlage für differenzierte Security-Controls. Wir kategorisieren Daten nach Sensitivität in vier Levels (PUBLIC, INTERNAL, CONFIDENTIAL, RESTRICTED) und definieren für jedes Level spezifische Schutzmaßnahmen wie Encryption, Access-Approval-Workflows und Masking-Strategien. Diese Klassifizierung erfolgt automatisch durch Pattern-Matching (z.B. Regex für Email, IBAN, ICD-10-Codes) oder manuell durch Data Stewards bei ambigen Fällen.
 
 ```yaml
 classification:
@@ -279,8 +279,11 @@ classification:
 
 ---
 
-## 40.3 Access Control & Least Privilege
+## 40.3 Access Control & Least Privilege {#chapter_40_3_access-control-least-privilege}
 
+Access Control in ThemisDB folgt dem Least-Privilege-Prinzip: Jeder User erhält nur die minimal notwendigen Permissions für seine Aufgaben. Wir kombinieren Role-Based Access Control (RBAC) für statische Rollen (Reader, Writer, Admin, Auditor) mit Attribute-Based Access Control (ABAC) für dynamische Context-Aware-Entscheidungen (z.B. VPN-Zugriff, Geschäftszeiten, MFA-Status). Just-in-Time (JIT) Access mit automatischem Ablauf nach 24h minimiert Standing-Privileges und reduziert das Angriffsfenster bei kompromittierten Accounts.
+
+**Zentrale Konzepte:**
 - RBAC-Modelle (Reader, Writer, Admin, Auditor)
 - JIT Access mit Ablauf (z.B. 24h)
 - Break-Glass Accounts (mit separatem Audit)
@@ -298,9 +301,15 @@ INSERT {
 
 ---
 
-## 40.4 Data Masking
+## 40.4 Data Masking & Tokenization {#chapter_40_4_data-masking-tokenization}
 
-### Dynamic Masking
+Data Masking schützt sensitive Informationen bei Weitergabe an weniger privilegierte User oder externe Systeme. Wir unterscheiden zwischen Dynamic Masking (On-the-fly-Transformation je nach User-Role) und Static Masking (deterministische Transformation für Test-Environments). Tokenization ersetzt echte Werte durch irreversible Pseudonyme, die in einer separaten Token-Vault gespeichert sind. Dies ermöglicht Analytics auf pseudonymisierten Daten ohne Zugriff auf PII, erfüllt DSGVO-Pseudonymisierungs-Anforderungen und reduziert Compliance-Scope.
+
+### 40.4.1 Dynamic Masking {#chapter_40_4_1_dynamic-masking}
+
+Dynamic Masking transformiert sensitive Fields während der Query-Ausführung basierend auf der User-Role. Ein Reader sieht `a***@example.com` statt `alice@example.com`, während ein Admin den vollständigen Wert erhält. Die Implementierung erfolgt durch AQL-Functions, die abhängig vom Session-Context unterschiedliche Outputs generieren. Der Performance-Overhead beträgt ~0.5-1ms pro maskiertem Field.
+
+**Implementierung:**
 
 ```aql
 FUNCTION mask_email(email) {
@@ -314,7 +323,11 @@ FOR user IN users
   }
 ```
 
-### Tokenization
+### 40.4.2 Tokenization für irreversible Pseudonymisierung {#chapter_40_4_2_tokenization-irreversible-pseudonymisierung}
+
+Tokenization ersetzt echte Werte (z.B. Sozialversicherungsnummern) durch zufällige Tokens und speichert die Mapping-Tabelle in einem separaten, hochgesicherten Token-Vault (Redis mit TLS+mTLS). Im Gegensatz zu Encryption ist Tokenization irreversibel für Systeme ohne Vault-Zugriff, was Analytics auf pseudonymisierten Daten ermöglicht. Die Token-Länge (16 Hex-Zeichen) ist ausreichend für Collision-Resistance bei Milliarden von Records.
+
+**Implementierung:**
 
 ```python
 # tokenization.py
@@ -333,8 +346,11 @@ def detokenize(token):
 
 ---
 
-## 40.5 Data Lifecycle & Retention
+## 40.5 Data Lifecycle & Retention Management {#chapter_40_5_data-lifecycle-retention}
 
+Der Data Lifecycle beschreibt alle Phasen vom Ingest bis zur sicheren Löschung: Klassifizierung bei Aufnahme, verschlüsselte Speicherung, kontrollierte Nutzung mit Purpose Limitation, Archivierung in Cold Storage nach Ablauf der Hot-Retention-Period und schließlich Crypto-Erase bei Right-to-be-forgotten-Requests. Wir implementieren automatisierte Retention-Policies durch Stündliche Background-Jobs (LOW Priority), die Ablaufdaten prüfen und Transition-Workflows auslösen. Dies gewährleistet DSGVO-Compliance (Art. 5 Abs. 1e: Speicherbegrenzung) ohne manuelle Intervention.
+
+**Lifecycle-Phasen:**
 - **Ingest:** Klassifizierung, Validation, Encryption
 - **Store:** Encryption-at-rest, Access Controls, Audit Logs
 - **Use:** Masking, Purpose Limitation, Minimal Disclosure
@@ -354,8 +370,11 @@ retention:
 
 ---
 
-## 40.6 Audit & Evidence
+## 40.6 Audit Logging & Evidence Management {#chapter_40_6_audit-logging-evidence}
 
+Audit Logs dokumentieren alle sicherheitsrelevanten Operationen (Zugriffe, Änderungen, Löschungen, Policy-Deployments) in einer manipulationssicheren SHA-256-Hash-Chain. Jeder Log-Eintrag enthält Timestamp, Actor (User/Service-Account), Operation, Resource-Identifier und Result (Success/Failure). Der Evidence Store sammelt zusätzlich Artefakte für Compliance-Audits: Ticket-IDs für Change-Approvals, Screenshots von IAM-Konfigurationen, signierte Exports von Access-Grants und Hash-Chain-Verifications. Diese strukturierte Evidenz ermöglicht nachweisbare Compliance gegenüber ISO 27001 (A.12.4.1), SOX (Section 404) und SOC 2 (CC4.1).
+
+**Komponenten:**
 - Immutable Audit Log (Kapitel 36)
 - Evidence Store: Tickets, Screenshots, CLI Output, Hashes
 - Kontroll-Nachweise per Control-ID (ISO27001 Annex A, SOC2 CC)
@@ -372,10 +391,15 @@ retention:
 
 ---
 
-## 40.7 Privacy (GDPR)
+## 40.7 Privacy & DSGVO-Compliance {#chapter_40_7_privacy-dsgvo-compliance}
 
-### Betroffenenrechte
+Die Datenschutz-Grundverordnung (DSGVO/GDPR) verlangt technische und organisatorische Maßnahmen zum Schutz personenbezogener Daten. Wir implementieren Privacy by Design[^1] durch Default-Encryption, Purpose Limitation (Zweckbindung) via Policy-Enforcement und Data Minimization durch Mandatory-Fields-Only-Schemas. Die acht Betroffenenrechte (Auskunft, Berichtigung, Löschung, Einschränkung, Übertragbarkeit, Widerspruch, Automatisierte-Entscheidung, Beschwerde) sind durch AQL-Functions und Self-Service-APIs automatisiert, mit Response-Times unter dem gesetzlichen Limit von 30 Tagen (typisch: <1 Tag).
 
+### 40.7.1 DSGVO-Betroffenenrechte {#chapter_40_7_1_dsgvo-betroffenenrechte}
+
+Die DSGVO gewährt betroffenen Personen umfassende Rechte über ihre Daten. Wir implementieren diese Rechte durch dedizierte AQL-Functions und REST-APIs, die automatisch alle relevanten Collections durchsuchen, Daten exportieren oder pseudonymisieren. Besonders kritisch ist das Right to Erasure (Art. 17 DSGVO), das technisch durch Crypto-Erase (Schlüssel-Vernichtung) umgesetzt wird, während Metadaten für Audit-Trails erhalten bleiben.
+
+**Rechte-Katalog:**
 - Auskunft, Berichtigung, Löschung, Einschränkung, Übertragbarkeit, Widerspruch
 
 ```aql
@@ -394,15 +418,21 @@ FUNCTION gdpr_delete(user_id) {
 }
 ```
 
-### Data Processing Register
+### 40.7.2 Verzeichnis von Verarbeitungstätigkeiten (VVT) {#chapter_40_7_2_verzeichnis-verarbeitungstaetigkeiten}
 
+Art. 30 DSGVO verpflichtet Organisationen zur Führung eines Verzeichnisses von Verarbeitungstätigkeiten (VVT). Wir speichern dieses Register direkt in ThemisDB als strukturierte Collection `processing_activities`, die automatisch aus Policy-Metadaten generiert wird. Jeder Eintrag dokumentiert Zweck, Datenkategorien, Empfänger, Speicherorte, Löschfristen und Data Processing Agreements (DPAs) mit Prozessoren. Dies ermöglicht automatisierte Compliance-Reports und schnelle Beantwortung von Aufsichtsbehörden-Anfragen.
+
+**Register-Komponenten:**
 - Zweck, Kategorien, Empfänger, Speicherorte, Löschfristen
 - DPAs mit Prozessoren dokumentieren
 
 ---
 
-## 40.8 Compliance Frameworks (SOX, SOC2, ISO27001)
+## 40.8 Compliance Frameworks Integration {#chapter_40_8_compliance-frameworks}
 
+ThemisDB-Governance-Mechanismen erfüllen Anforderungen mehrerer Compliance-Frameworks gleichzeitig durch intelligentes Control-Mapping. Ein einzelner technischer Control (z.B. Immutable Audit Log) adressiert parallel SOX Section 404 (Change-Management-Nachweise), SOC 2 CC4.1 (Monitoring Activities) und ISO 27001 A.12.4.1 (Event Logging). Wir nutzen Framework-Mapping-Tabellen in Policy-Dokumenten, um für Audits nachzuweisen, welche Controls welche Anforderungen erfüllen. Dies reduziert Audit-Overhead und vermeidet redundante Implementierungen.
+
+**Framework-Übersicht:**
 - **SOX:** Change-Management, Segregation of Duties, Evidence für Finanzsysteme
 - **SOC2:** Security/Availability/Confidentiality; Controls: Access, Change, Incident, Monitoring
 - **ISO27001:** ISMS, Risikoanalyse, Controls Annex A (z.B. A.8 Asset Management, A.9 Access Control)
@@ -418,7 +448,11 @@ Kontroll-Mapping Beispiel:
 
 ---
 
-## 40.9 Controls & Checklisten
+## 40.9 Operational Controls & Compliance-Checklisten {#chapter_40_9_controls-checklisten}
+
+Zur praktischen Umsetzung und kontinuierlichen Überprüfung der Governance-Anforderungen definieren wir strukturierte Checklisten für Access Controls, Data Protection und Monitoring. Diese Checklisten dienen als Basis für Quarterly Reviews, Pre-Audit-Validierungen und Onboarding neuer Team-Mitglieder. Jedes Checklist-Item ist mit konkreten Verifications verbunden (z.B. "RBAC Rollen definiert" → AQL-Query zählt Rollen in `governance_roles` Collection). Automatisierte Compliance-Dashboards visualisieren Checklist-Status in Echtzeit.
+
+**Checklisten:**
 
 ```markdown
 ## Access Controls
@@ -441,11 +475,7 @@ Kontroll-Mapping Beispiel:
 
 ---
 
-## Zusammenfassung
-
-Governance setzt klare Verantwortlichkeiten, Classification, Zugriffsprinzipien und Retention. Compliance liefert Nachweise gegenüber Auditoren und Gesetzgebern. Mit Masking, Audit Trails, JIT Access und robusten Löschprozessen bleibt ThemisDB konform und vertrauenswürdig.
-
-## 40.5 Zusammenfassung und Ausblick {#chapter_40_5_zusammenfassung-ausblick}
+## 40.10 Zusammenfassung und Ausblick {#chapter_40_10_zusammenfassung-ausblick}
 
 In diesem Kapitel haben wir ein umfassendes Framework für Data Governance und Compliance in ThemisDB-Systemen entwickelt. Wir analysierten etablierte Operating Models mit klar definierten Rollen (Data Owners, Stewards, Custodians), implementierten mehrstufige Data-Classification-Schemes (PUBLIC bis RESTRICTED) und zeigten die praktische Umsetzung von Access Control durch RBAC, ABAC und JIT-Mechanismen. Die Integration von Policy-as-Code-Ansätzen, automatisierten Audit-Trails und Evidence-Management ermöglicht nachweisbare Compliance gegenüber regulatorischen Frameworks wie DSGVO, SOX und ISO 27001.
 
