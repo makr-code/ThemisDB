@@ -134,4 +134,5 @@ if (!status.ok) {
 ## Verwandte Dokumentation
 
 - [Features: Transactions](../features/features_transactions.md) - Feature-Details
-- [Architecture: MVCC](../architecture/architecture_mvcc.md) - MVCC-Architektur
+- [Architecture: MVCC](architecture_mvcc.md) - MVCC-Architektur
+- [Architecture: Git/GitHub/GitOps Vergleich](architecture_git_vergleich.md) - Vergleich zur Versionskontrolle
