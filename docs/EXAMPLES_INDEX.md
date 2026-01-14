@@ -9,7 +9,7 @@
 ThemisDB provides **37+ comprehensive examples** demonstrating its multi-model database capabilities, from basic CRUD operations to advanced AI-powered applications. This index helps you discover and navigate all available examples.
 
 **Total Examples:**
-- 22 Numbered Example Applications (01-22)
+- 23 Numbered Example Applications (01-23)
 - 16 Standalone Code Examples (C++ and Python)
 - 5 Specialized Feature Directories
 
@@ -25,7 +25,7 @@ ThemisDB provides **37+ comprehensive examples** demonstrating its multi-model d
 
 ---
 
-## 📂 Numbered Examples (01-22)
+## 📂 Numbered Examples (01-23)
 
 ### 🟢 Beginner Level
 
@@ -603,6 +603,33 @@ dotnet run example todo
 
 ---
 
+#### 23. Traveling Salesman Problem
+**Path:** [`examples/23_traveling_salesman/`](../examples/23_traveling_salesman/)  
+**Difficulty:** ⭐⭐ Intermediate  
+**Duration:** ~40-50 minutes  
+**Language:** Python + Tkinter  
+**Features:** Graph Algorithms, Route Optimization, TSP Solutions
+
+Demonstrates solving the classic Traveling Salesman Problem (TSP) using ThemisDB's graph features. Compare multiple algorithms including Brute Force, Nearest Neighbor, and 2-Opt heuristics.
+
+**You'll Learn:**
+- Graph-based optimization problems
+- TSP algorithms (Brute Force, Greedy, 2-Opt)
+- Route visualization with Matplotlib
+- Algorithm performance comparison
+- Weighted graph operations in ThemisDB
+
+**Quick Start:**
+```bash
+cd examples/23_traveling_salesman
+pip install -r requirements.txt
+python main.py
+```
+
+**Full Guide:** [README](../examples/23_traveling_salesman/README.md) | [Algorithm Details](../examples/23_traveling_salesman/ALGORITHM.md)
+
+---
+
 ## 💻 Standalone Code Examples
 
 ### LLM Integration
@@ -920,6 +947,7 @@ Complete deployment example for Railway platform with live monitoring.
 ### Graph Database
 - [04 - Inventory System](../examples/04_inventory_system/)
 - [06 - Social Network](../examples/06_graph_social_network/)
+- [23 - Traveling Salesman Problem](../examples/23_traveling_salesman/)
 
 ### Machine Learning
 - [19 - Recommendation Engine](../examples/19_recommendation_engine/)

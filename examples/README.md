@@ -46,6 +46,7 @@ Wir bieten **21 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstu
 | 19 | **Recommendation Engine** | ML-basierte Empfehlungen | 90-120 min | ✅ Ready |
 | 20 | **Smart Home Dashboard** | IoT Automation mit CEP | 90-120 min | ✅ Ready |
 | 21 | **Coding Platform** | ThemisDB als Coding-Plattform mit VSCode Integration & Web Scraping | 90-120 min | ✅ Ready |
+| 23 | **Traveling Salesman Problem** | Routenoptimierung mit Graph-Algorithmen | 40-50 min | ✅ Ready |
 
 ## 🚀 Schnellstart
 
