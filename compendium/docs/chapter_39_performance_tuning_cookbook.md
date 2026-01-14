@@ -76,31 +76,31 @@ Diese Checkliste bietet sofortige Diagnose-Ansätze für häufige Performance-Pr
 
 ```mermaid
 flowchart TD
-    START[Performance Problem erkannt] --> METRIC{Welche Metrik<br/>ist betroffen?}
+    START[Performance Problem erkannt] --> METRIC{Welche Metrik<br>ist betroffen?}
     
-    METRIC -->|Hohe Latenz<br/>(P99 > 100ms)| LAT[Query EXPLAIN ausführen]
-    METRIC -->|Niedriger Throughput<br/>(< 1000 ops/s)| THR[Connection Pool prüfen]
-    METRIC -->|Hohe CPU<br/>(> 80%)| CPU[Full Scan identifizieren]
-    METRIC -->|Hohe Memory<br/>(> 85%)| MEM[Cache Size prüfen]
-    METRIC -->|Hohe I/O<br/>(> 20% wait)| IO[Covering Index analysieren]
+    METRIC -->|Hohe Latenz<br>(P99 > 100ms)| LAT[Query EXPLAIN ausführen]
+    METRIC -->|Niedriger Throughput<br>(< 1000 ops/s)| THR[Connection Pool prüfen]
+    METRIC -->|Hohe CPU<br>(> 80%)| CPU[Full Scan identifizieren]
+    METRIC -->|Hohe Memory<br>(> 85%)| MEM[Cache Size prüfen]
+    METRIC -->|Hohe I/O<br>(> 20% wait)| IO[Covering Index analysieren]
     
-    LAT --> IDX{Index<br/>vorhanden?}
+    LAT --> IDX{Index<br>vorhanden?}
     IDX -->|Nein| CREATE[B-Tree/Hash Index erstellen]
     IDX -->|Ja| PROJ[Early Projection anwenden]
     
-    THR --> POOL{Pool-Größe<br/>< 100?}
+    THR --> POOL{Pool-Größe<br>< 100?}
     POOL -->|Ja| INC[Pool auf 200-500 erhöhen]
     POOL -->|Nein| BATCH[Batching nutzen: 100-1000/Batch]
     
-    CPU --> SCAN{Full Scan<br/>detektiert?}
+    CPU --> SCAN{Full Scan<br>detektiert?}
     SCAN -->|Ja| CREATE
     SCAN -->|Nein| REGEX[Regex/Sort reduzieren]
     
-    MEM --> CACHE{Cache > 60%<br/>RAM-Allokation?}
+    MEM --> CACHE{Cache > 60%<br>RAM-Allokation?}
     CACHE -->|Ja| LIMIT[Cache auf 40-50% begrenzen]
     CACHE -->|Nein| STREAM[Streaming Cursor nutzen]
     
-    IO --> COV{Covering Index<br/>möglich?}
+    IO --> COV{Covering Index<br>möglich?}
     COV -->|Nein| COVER[Covering Index für Hot Query]
     COV -->|Ja| COMP[Kompression aktivieren: zstd]
     
