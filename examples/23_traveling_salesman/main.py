@@ -414,8 +414,73 @@ class TSPApp:
         index = selection[0]
         city = self.cities[index]
         
-        # Ähnlicher Dialog wie _add_city, aber mit vorausgefüllten Werten
-        messagebox.showinfo("Info", "Bearbeiten-Funktion noch nicht implementiert")
+        # Dialog zum Bearbeiten
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Stadt bearbeiten")
+        dialog.geometry("400x300")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Form
+        form = tk.Frame(dialog, padx=20, pady=20)
+        form.pack(fill=tk.BOTH, expand=True)
+        
+        tk.Label(form, text="Name:*", font=("Arial", 10)).grid(row=0, column=0, sticky="w", pady=5)
+        name_entry = tk.Entry(form, width=30, font=("Arial", 10))
+        name_entry.insert(0, city.name)
+        name_entry.grid(row=0, column=1, pady=5)
+        
+        tk.Label(form, text="X-Koordinate:*", font=("Arial", 10)).grid(row=1, column=0, sticky="w", pady=5)
+        x_entry = tk.Entry(form, width=30, font=("Arial", 10))
+        x_entry.insert(0, str(city.x))
+        x_entry.grid(row=1, column=1, pady=5)
+        
+        tk.Label(form, text="Y-Koordinate:*", font=("Arial", 10)).grid(row=2, column=0, sticky="w", pady=5)
+        y_entry = tk.Entry(form, width=30, font=("Arial", 10))
+        y_entry.insert(0, str(city.y))
+        y_entry.grid(row=2, column=1, pady=5)
+        
+        tk.Label(form, text="Land:", font=("Arial", 10)).grid(row=3, column=0, sticky="w", pady=5)
+        country_entry = tk.Entry(form, width=30, font=("Arial", 10))
+        country_entry.insert(0, city.country)
+        country_entry.grid(row=3, column=1, pady=5)
+        
+        def save():
+            name = name_entry.get().strip()
+            x_str = x_entry.get().strip()
+            y_str = y_entry.get().strip()
+            
+            if not name or not x_str or not y_str:
+                messagebox.showerror("Fehler", "Name und Koordinaten sind erforderlich", parent=dialog)
+                return
+            
+            try:
+                x = float(x_str)
+                y = float(y_str)
+            except ValueError:
+                messagebox.showerror("Fehler", "Koordinaten müssen Zahlen sein", parent=dialog)
+                return
+            
+            # Update city
+            city.name = name
+            city.x = x
+            city.y = y
+            city.country = country_entry.get().strip()
+            
+            # Update in ThemisDB
+            self.client.create_city(city)
+            
+            self._refresh_cities()
+            self._redraw_map()
+            self._set_status(f"Stadt '{name}' aktualisiert", "success")
+            dialog.destroy()
+        
+        # Buttons
+        btn_frame = tk.Frame(dialog)
+        btn_frame.pack(pady=10)
+        
+        tk.Button(btn_frame, text="💾 Speichern", command=save, bg="#27ae60", fg="white", padx=20).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="✖️ Abbrechen", command=dialog.destroy, bg="#95a5a6", fg="white", padx=20).pack(side=tk.LEFT, padx=5)
     
     def _delete_city(self):
         """Löscht ausgewählte Stadt."""
