@@ -50,7 +50,8 @@ public:
         bool useL2 = true
     ) override;
     
-private:
+protected:
+    // Allow derived classes to call these helper methods
     float computeL2Distance(const float* a, const float* b, size_t dim) const;
     float computeCosineDistance(const float* a, const float* b, size_t dim) const;
 };

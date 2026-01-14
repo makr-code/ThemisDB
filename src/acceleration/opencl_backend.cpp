@@ -99,15 +99,23 @@ public:
         if (context_) clReleaseContext(context_);
     }
 
-    BackendType type() const override { return BackendType::OPENCL; }
+    BackendType type() const noexcept override { return BackendType::OPENCL; }
     
-    std::string name() const override { return "OpenCL (Universal)"; }
+    const char* name() const noexcept override { return "OpenCL (Universal)"; }
     
-    bool isAvailable() const override {
+    bool isAvailable() const noexcept override {
         cl_platform_id platform;
         cl_uint numPlatforms;
         cl_int err = clGetPlatformIDs(1, &platform, &numPlatforms);
         return (err == CL_SUCCESS && numPlatforms > 0);
+    }
+    
+    BackendCapabilities getCapabilities() const override {
+        BackendCapabilities caps;
+        caps.supportsVectorOps = initialized_;
+        caps.supportsAsync = false;
+        caps.deviceName = "OpenCL Device";
+        return caps;
     }
     
     bool initialize() override {
@@ -205,9 +213,9 @@ public:
     }
     
     std::vector<float> computeDistances(
-        const float* queries, size_t numQueries,
+        const float* queries, size_t numQueries, size_t dimension,
         const float* vectors, size_t numVectors,
-        size_t dimension, bool useL2) override 
+        bool useL2) override 
     {
         if (!initialized_) {
             std::cerr << "OpenCL: Backend not initialized\n";
@@ -268,28 +276,28 @@ public:
         return distances;
     }
     
-    std::vector<VectorSearchResult> batchKnnSearch(
-        const float* queries, size_t numQueries,
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+        const float* queries, size_t numQueries, size_t dimension,
         const float* vectors, size_t numVectors,
-        size_t dimension, size_t k, bool useL2) override 
+        size_t k, bool useL2) override 
     {
-        auto distances = computeDistances(queries, numQueries, vectors, numVectors, dimension, useL2);
+        auto distances = computeDistances(queries, numQueries, dimension, vectors, numVectors, useL2);
         
-        std::vector<VectorSearchResult> results(numQueries * k);
+        std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         
         for (size_t q = 0; q < numQueries; q++) {
-            std::vector<std::pair<float, size_t>> pairs;
+            std::vector<std::pair<float, uint32_t>> pairs;
             pairs.reserve(numVectors);
             
             for (size_t v = 0; v < numVectors; v++) {
-                pairs.push_back({distances[q * numVectors + v], v});
+                pairs.push_back({distances[q * numVectors + v], static_cast<uint32_t>(v)});
             }
             
             std::partial_sort(pairs.begin(), pairs.begin() + k, pairs.end());
             
+            results[q].reserve(k);
             for (size_t i = 0; i < k; i++) {
-                results[q * k + i].vectorId = pairs[i].second;
-                results[q * k + i].distance = pairs[i].first;
+                results[q].push_back({pairs[i].second, pairs[i].first});
             }
         }
         
@@ -302,19 +310,20 @@ public:
 // Stub implementation when OpenCL is not available
 class OpenCLVectorBackend : public IVectorBackend {
 public:
-    BackendType type() const override { return BackendType::OPENCL; }
-    std::string name() const override { return "OpenCL (Not Available)"; }
-    bool isAvailable() const override { return false; }
+    BackendType type() const noexcept override { return BackendType::OPENCL; }
+    const char* name() const noexcept override { return "OpenCL (Not Available)"; }
+    bool isAvailable() const noexcept override { return false; }
+    BackendCapabilities getCapabilities() const override { return {}; }
     bool initialize() override { return false; }
     void shutdown() override {}
     
     std::vector<float> computeDistances(
-        const float*, size_t, const float*, size_t, size_t, bool) override {
+        const float*, size_t, size_t, const float*, size_t, bool) override {
         return {};
     }
     
-    std::vector<VectorSearchResult> batchKnnSearch(
-        const float*, size_t, const float*, size_t, size_t, size_t, bool) override {
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+        const float*, size_t, size_t, const float*, size_t, size_t, bool) override {
         return {};
     }
 };

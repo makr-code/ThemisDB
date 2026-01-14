@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <memory>
 
 namespace themis {
 namespace performance {

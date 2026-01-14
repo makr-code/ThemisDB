@@ -201,19 +201,20 @@ public:
 // Stub implementation when OneAPI is not available
 class OneAPIVectorBackend : public IVectorBackend {
 public:
-    BackendType type() const override { return BackendType::ONEAPI; }
-    std::string name() const override { return "OneAPI (Not Available)"; }
-    bool isAvailable() const override { return false; }
+    BackendType type() const noexcept override { return BackendType::ONEAPI; }
+    const char* name() const noexcept override { return "OneAPI (Not Available)"; }
+    bool isAvailable() const noexcept override { return false; }
+    BackendCapabilities getCapabilities() const override { return {}; }
     bool initialize() override { return false; }
     void shutdown() override {}
     
     std::vector<float> computeDistances(
-        const float*, size_t, const float*, size_t, size_t, bool) override {
+        const float*, size_t, size_t, const float*, size_t, bool) override {
         return {};
     }
     
-    std::vector<VectorSearchResult> batchKnnSearch(
-        const float*, size_t, const float*, size_t, size_t, size_t, bool) override {
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+        const float*, size_t, size_t, const float*, size_t, size_t, bool) override {
         return {};
     }
 };
