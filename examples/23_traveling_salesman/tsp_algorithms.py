@@ -145,15 +145,24 @@ class TSPSolver:
             
             for i in range(1, len(route) - 1):
                 for j in range(i + 1, len(route)):
-                    # Berechne Distanz-Änderung
+                    # 2-opt: Remove edges (route[i-1], route[i]) and (route[j], route[(j+1)%n])
+                    # Add edges (route[i-1], route[j]) and (route[i], route[(j+1)%n])
+                    # This is done by reversing the segment from i to j
+                    
+                    n = len(route)
+                    j_next = (j + 1) % n
+                    
+                    # Calculate old distance
                     old_dist = (dist_matrix.get_distance(route[i-1], route[i]) +
-                               dist_matrix.get_distance(route[j-1], route[j]))
-                    new_dist = (dist_matrix.get_distance(route[i-1], route[j-1]) +
-                               dist_matrix.get_distance(route[i], route[j]))
+                               dist_matrix.get_distance(route[j], route[j_next]))
+                    
+                    # Calculate new distance after reversal
+                    new_dist = (dist_matrix.get_distance(route[i-1], route[j]) +
+                               dist_matrix.get_distance(route[i], route[j_next]))
                     
                     if new_dist < old_dist:
-                        # 2-opt Swap: Reverse segment
-                        route[i:j] = reversed(route[i:j])
+                        # 2-opt Swap: Reverse segment from i to j (inclusive)
+                        route[i:j+1] = reversed(route[i:j+1])
                         improved = True
                         break
                 

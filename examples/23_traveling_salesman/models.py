@@ -66,7 +66,7 @@ class Route:
 
 @dataclass
 class DistanceMatrix:
-    """Vorgeb berechnete Distanzmatrix für effiziente Lookups."""
+    """Vorberechnete Distanzmatrix für effiziente Lookups."""
     
     cities: List[City]
     _matrix: List[List[float]] = field(default_factory=list, init=False)
