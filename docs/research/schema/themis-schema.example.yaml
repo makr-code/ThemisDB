@@ -1,0 +1,152 @@
+# ThemisDB Schema Definition (YAML)
+# Inspiriert von Git/GitOps deklarativer Konfiguration
+# Version: 1.0
+# Beschreibung: Beispiel-Schema für eine Social Media Anwendung
+
+version: "1.0"
+metadata:
+  name: social-media-db
+  description: "Schema for social media application"
+  author: "dev-team@example.com"
+  created_at: "2026-01-14T10:00:00Z"
+  git_revision: "a1b2c3d4"  # Git Commit SHA für Audit Trail
+
+# Globale Einstellungen
+config:
+  storage:
+    engine: rocksdb
+    compression: zstd
+    cache_size_mb: 1024
+  
+  transaction:
+    isolation_level: snapshot
+    timeout_ms: 5000
+    max_retries: 3
+
+# Tabellen-Definitionen
+tables:
+  # Users Table
+  users:
+    description: "User accounts and profiles"
+    primary_key: user_id
+    
+    fields:
+      user_id:
+        type: string
+        format: uuid
+        required: true
+      
+      email:
+        type: string
+        required: true
+        validation:
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      
+      username:
+        type: string
+        required: true
+        validation:
+          min_length: 3
+          max_length: 30
+      
+      embedding:
+        type: vector
+        dimensions: 384
+        required: false
+      
+      created_at:
+        type: timestamp
+        required: true
+        default: now()
+    
+    # Secondary Indexes
+    indexes:
+      - name: idx_users_email
+        columns: [email]
+        type: secondary
+        unique: true
+      
+      - name: idx_users_embedding
+        columns: [embedding]
+        type: vector
+        algorithm: hnsw
+        config:
+          m: 16
+          ef_construction: 200
+
+  # Posts Table
+  posts:
+    description: "User posts and content"
+    primary_key: post_id
+    
+    fields:
+      post_id:
+        type: string
+        format: uuid
+        required: true
+      
+      author_id:
+        type: string
+        format: uuid
+        required: true
+      
+      content:
+        type: text
+        required: true
+      
+      created_at:
+        type: timestamp
+        required: true
+        default: now()
+    
+    indexes:
+      - name: idx_posts_author
+        columns: [author_id]
+        type: secondary
+      
+      - name: idx_posts_content
+        columns: [content]
+        type: fulltext
+        language: en
+    
+    # Foreign Key Relationships
+    relationships:
+      - name: author
+        target_table: users
+        type: many_to_one
+        foreign_key: author_id
+        target_key: user_id
+        on_delete: cascade
+
+# Backup & Recovery
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: 30d
+  
+  pitr:
+    enabled: true
+    wal_retention: 7d
+
+# Security & Access Control
+security:
+  tls:
+    enabled: true
+  
+  authentication:
+    method: jwt
+    jwt:
+      expiration: 24h
+  
+  authorization:
+    rbac:
+      enabled: true
+      roles:
+        - name: admin
+          permissions:
+            - "tables:*:*"
+        
+        - name: user
+          permissions:
+            - "tables:posts:read"
+            - "tables:posts:write_own"
