@@ -24,24 +24,24 @@ Wir präsentieren ein wissenschaftlich fundiertes, praxisorientiertes Tuning-Koc
 flowchart TD
     Start[Performance Issue] --> Profile[Profile System mit Monitoring-Tools]
     
-    Profile --> CPU{CPU<br/>Bottleneck?}
-    Profile --> Memory{Memory<br/>Bottleneck?}
-    Profile --> Disk{Disk<br/>Bottleneck?}
-    Profile --> Network{Network<br/>Bottleneck?}
+    Profile --> CPU{CPU<br>Bottleneck?}
+    Profile --> Memory{Memory<br>Bottleneck?}
+    Profile --> Disk{Disk<br>Bottleneck?}
+    Profile --> Network{Network<br>Bottleneck?}
     
-    CPU -->|Yes| OptQuery[Optimize Queries:<br/>EXPLAIN, Index, Projection]
-    CPU -->|Yes| AddIndex[Add Indexes:<br/>B-Tree, Hash, Covering]
+    CPU -->|Yes| OptQuery[Optimize Queries:<br>EXPLAIN, Index, Projection]
+    CPU -->|Yes| AddIndex[Add Indexes:<br>B-Tree, Hash, Covering]
     
-    Memory -->|Yes| IncCache[Increase Cache:<br/>LRU/ARC Tuning]
-    Memory -->|Yes| OptDataStruct[Optimize Data Structures:<br/>Streaming, Pagination]
+    Memory -->|Yes| IncCache[Increase Cache:<br>LRU/ARC Tuning]
+    Memory -->|Yes| OptDataStruct[Optimize Data Structures:<br>Streaming, Pagination]
     
-    Disk -->|Yes| SSD[Use SSD/NVMe:<br/>LSM-Tree Compaction]
-    Disk -->|Yes| Partition[Partition Data:<br/>Sharding, Hot/Cold]
+    Disk -->|Yes| SSD[Use SSD/NVMe:<br>LSM-Tree Compaction]
+    Disk -->|Yes| Partition[Partition Data:<br>Sharding, Hot/Cold]
     
-    Network -->|Yes| CompData[Compress Data:<br/>zstd, Protocol Buffers]
-    Network -->|Yes| BatchReq[Batch Requests:<br/>Connection Pooling]
+    Network -->|Yes| CompData[Compress Data:<br>zstd, Protocol Buffers]
+    Network -->|Yes| BatchReq[Batch Requests:<br>Connection Pooling]
     
-    OptQuery --> Verify[Verify Improvement:<br/>Benchmarks, Metrics]
+    OptQuery --> Verify[Verify Improvement:<br>Benchmarks, Metrics]
     AddIndex --> Verify
     IncCache --> Verify
     OptDataStruct --> Verify
@@ -114,7 +114,7 @@ flowchart TD
     COVER --> TEST
     COMP --> TEST
     
-    TEST --> OK{Verbesserung<br/>> 30%?}
+    TEST --> OK{Verbesserung<br>über 30%?}
     OK -->|Ja| DONE[✓ Problem gelöst - Dokumentieren]
     OK -->|Nein| METRIC
     
