@@ -41,6 +41,8 @@ GESAMT:  [■       ] 1/41  (2%)
 - Wortanzahl: 702 → 4335 (6.2× Erhöhung, Target erreicht!)
 - Wissenschaftliche Sprache: Tutorial-Stil → Formal-wissenschaftlich (Wir-Form, Präsens)
 - **Motivierendes Zitat:** Konfuzius-Zitat zum Hands-on-Lernen hinzugefügt 🆕
+- **Anchors:** Alle Überschriften mit Stichwortverzeichnis-Anchors versehen 🆕
+- **Einleitungen:** Alle Überschriften mit min. 30 Wörtern Einleitung 🆕
 - Quellen: 0 → 8 Fußnoten (Docker, Piaget, LSM-Trees, HNSW, etc.)
 - Code-Beispiele: Erweitert mit deutschen Kommentaren und Erklärungen
 - Diagramme: 1 → 2 Mermaid-Diagramme
@@ -522,6 +524,8 @@ Jedes Kapitel muss erfüllen:
 - [ ] Performance-Daten mit Benchmarks
 - [ ] Min. 3-5 Querverweise zu anderen Kapiteln
 - [ ] **Motivierendes Zitat am Anfang** (Vorbild: Kapitel 1) 🆕
+- [ ] **Anchors für Stichwortverzeichnis** (Format: `{#chapter_X_Y_slug}`) 🆕
+- [ ] **Einleitende Worte bei jeder Überschrift** (min. 30 Wörter) 🆕
 
 ### ✅ Struktur
 - [ ] Logischer Aufbau (Einleitung → Konzept → Implementierung → Praxis)

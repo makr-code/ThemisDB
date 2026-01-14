@@ -177,7 +177,74 @@ vereinfacht horizontale Skalierung in Kubernetes-Umgebungen (siehe Kapitel 30).
 - ✅ Präzise Terminologie
 - ❌ Keine Umgangssprache ("super", "einfach", "cool")
 
-#### 3.2 Quellen integrieren
+#### 3.2 Anchors für Stichwortverzeichnis hinzufügen 🆕
+
+**Wichtig:** Jede Überschrift benötigt einen Anchor für das Stichwortverzeichnis.
+
+**Format:**
+```markdown
+# Kapitel X: Titel {#chapter_X_titel-slug}
+
+## X.1 Abschnitt {#chapter_X_1_abschnitt-slug}
+
+### X.1.1 Unterabschnitt {#chapter_X_1_1_unterabschnitt-slug}
+```
+
+**Regeln:**
+- ✅ **Prefix:** Immer `chapter_` + Kapitelnummer
+- ✅ **Separator:** Unterstriche `_` zwischen Hierarchieebenen
+- ✅ **Slug:** Kleinbuchstaben, Bindestriche statt Leerzeichen
+- ✅ **Deutsch:** Umlaute umwandeln (ä→ae, ö→oe, ü→ue, ß→ss)
+- ✅ **Spezialzeichen:** Entfernen (außer Bindestrich)
+
+**Beispiele:**
+```markdown
+# Kapitel 41: Hands-on Labs {#chapter_41_hands-on-labs}
+
+## 41.2 Lab A: Container-Deployment {#chapter_41_2_lab-a-container-deployment}
+
+### 41.2.3 Setup: Container starten {#chapter_41_2_3_setup-container-starten}
+
+### 41.3.5 Index-Anlage {#chapter_41_3_5_index-anlage}
+```
+
+#### 3.3 Einleitende Worte für jede Überschrift 🆕
+
+**Regel:** Keine Überschrift ohne einleitenden Text (mindestens 1-3 Sätze, ~30 Wörter).
+
+**Schlecht (direkt Code nach Überschrift):**
+```markdown
+### 41.2.3 Setup: Container starten
+
+**Schritt 1:**
+\```bash
+docker run...
+\```
+```
+
+**Gut (mit Einleitung):**
+```markdown
+### 41.2.3 Setup: Container starten {#chapter_41_2_3_setup-container-starten}
+
+In diesem Schritt initialisieren wir eine ThemisDB-Instanz als Docker-Container 
+mit persistentem Volume. Wir konfigurieren grundlegende Sicherheitsparameter 
+und Port-Mappings für den Zugriff über die REST-API.
+
+**Schritt 1:**
+\```bash
+docker run...
+\```
+```
+
+**Richtlinien:**
+- ✅ Min. 30 Wörter Einleitung
+- ✅ Erklärt WAS und WARUM
+- ✅ Kontext für nachfolgenden Inhalt
+- ✅ Wissenschaftlicher Stil (formal, Wir-Form)
+- ❌ Keine leeren Überschriften
+- ❌ Nicht direkt Code/Tabelle nach Überschrift
+
+#### 3.4 Quellen integrieren
 
 ```markdown
 ### Transaktions-Isolation
@@ -201,7 +268,7 @@ Performance-Charakteristik:
 2. **Sekundärquellen:** Akademische Papers (Google Scholar)
 3. **Tertiärquellen:** Blog Posts, Tutorials (sparsam verwenden)
 
-#### 3.3 Code-Beispiele erweitern
+#### 3.5 Code-Beispiele erweitern
 
 **Anforderungen:**
 - ✅ Syntaktisch korrekt (testen!)
@@ -248,7 +315,7 @@ FOR v, e, p IN 1..5 OUTBOUND 'users/alice' follows
 **Optimierung:** Smart Graphs für verteilte Traversierung (Kapitel 16)
 ```
 
-#### 3.4 Diagramme hinzufügen
+#### 3.6 Diagramme hinzufügen
 
 **Mermaid-Beispiele:**
 
