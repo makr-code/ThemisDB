@@ -2,8 +2,8 @@
 name: "Chapter 38 Checkpoint 2: Observability & SRE - Sections 38.1-38.3 Expansion"
 about: Complete expansion of Metrics, Logging, and Tracing sections (1,800-2,200 words)
 title: "[Ch.38 CP2] Expand Observability Metrics, Logging & Tracing"
-labels: documentation, enhancement, chapter-improvement, observability
-assignees: ''
+labels: ["documentation", "chapter-improvement", "stage-4", "checkpoint-2", "observability"]
+assignees: []
 ---
 
 ## 📋 Stage 4 Checkpoint 2: Chapter 38 Expansion (Sections 38.1-38.3)
