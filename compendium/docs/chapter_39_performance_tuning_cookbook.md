@@ -24,24 +24,24 @@ Wir präsentieren ein wissenschaftlich fundiertes, praxisorientiertes Tuning-Koc
 flowchart TD
     Start[Performance Issue] --> Profile[Profile System mit Monitoring-Tools]
     
-    Profile --> CPU{CPU<br>Bottleneck?}
-    Profile --> Memory{Memory<br>Bottleneck?}
-    Profile --> Disk{Disk<br>Bottleneck?}
-    Profile --> Network{Network<br>Bottleneck?}
+    Profile --> CPU{CPU Bottleneck?}
+    Profile --> Memory{Memory Bottleneck?}
+    Profile --> Disk{Disk Bottleneck?}
+    Profile --> Network{Network Bottleneck?}
     
-    CPU -->|Yes| OptQuery[Optimize Queries:<br>EXPLAIN, Index, Projection]
-    CPU -->|Yes| AddIndex[Add Indexes:<br>B-Tree, Hash, Covering]
+    CPU -->|Yes| OptQuery[Optimize Queries: EXPLAIN, Index, Projection]
+    CPU -->|Yes| AddIndex[Add Indexes: B-Tree, Hash, Covering]
     
-    Memory -->|Yes| IncCache[Increase Cache:<br>LRU/ARC Tuning]
-    Memory -->|Yes| OptDataStruct[Optimize Data Structures:<br>Streaming, Pagination]
+    Memory -->|Yes| IncCache[Increase Cache: LRU/ARC Tuning]
+    Memory -->|Yes| OptDataStruct[Optimize Data Structures: Streaming, Pagination]
     
-    Disk -->|Yes| SSD[Use SSD/NVMe:<br>LSM-Tree Compaction]
-    Disk -->|Yes| Partition[Partition Data:<br>Sharding, Hot/Cold]
+    Disk -->|Yes| SSD[Use SSD/NVMe: LSM-Tree Compaction]
+    Disk -->|Yes| Partition[Partition Data: Sharding, Hot/Cold]
     
-    Network -->|Yes| CompData[Compress Data:<br>zstd, Protocol Buffers]
-    Network -->|Yes| BatchReq[Batch Requests:<br>Connection Pooling]
+    Network -->|Yes| CompData[Compress Data: zstd, Protocol Buffers]
+    Network -->|Yes| BatchReq[Batch Requests: Connection Pooling]
     
-    OptQuery --> Verify[Verify Improvement:<br>Benchmarks, Metrics]
+    OptQuery --> Verify[Verify Improvement: Benchmarks, Metrics]
     AddIndex --> Verify
     IncCache --> Verify
     OptDataStruct --> Verify
@@ -76,31 +76,31 @@ Diese Checkliste bietet sofortige Diagnose-Ansätze für häufige Performance-Pr
 
 ```mermaid
 flowchart TD
-    START[Performance Problem erkannt] --> METRIC{Welche Metrik<br>ist betroffen?}
+    START[Performance Problem erkannt] --> METRIC{Welche Metrik ist betroffen?}
     
-    METRIC -->|Hohe Latenz<br>(P99 > 100ms)| LAT[Query EXPLAIN ausführen]
-    METRIC -->|Niedriger Throughput<br>(< 1000 ops/s)| THR[Connection Pool prüfen]
-    METRIC -->|Hohe CPU<br>(> 80%)| CPU[Full Scan identifizieren]
-    METRIC -->|Hohe Memory<br>(> 85%)| MEM[Cache Size prüfen]
-    METRIC -->|Hohe I/O<br>(> 20% wait)| IO[Covering Index analysieren]
+    METRIC -->|Hohe Latenz P99 über 100ms| LAT[Query EXPLAIN ausführen]
+    METRIC -->|Niedriger Throughput unter 1000 ops/s| THR[Connection Pool prüfen]
+    METRIC -->|Hohe CPU über 80%| CPU[Full Scan identifizieren]
+    METRIC -->|Hohe Memory über 85%| MEM[Cache Size prüfen]
+    METRIC -->|Hohe I/O über 20% wait| IO[Covering Index analysieren]
     
-    LAT --> IDX{Index<br>vorhanden?}
+    LAT --> IDX{Index vorhanden?}
     IDX -->|Nein| CREATE[B-Tree/Hash Index erstellen]
     IDX -->|Ja| PROJ[Early Projection anwenden]
     
-    THR --> POOL{Pool-Größe<br>< 100?}
+    THR --> POOL{Pool-Größe unter 100?}
     POOL -->|Ja| INC[Pool auf 200-500 erhöhen]
     POOL -->|Nein| BATCH[Batching nutzen: 100-1000/Batch]
     
-    CPU --> SCAN{Full Scan<br>detektiert?}
+    CPU --> SCAN{Full Scan detektiert?}
     SCAN -->|Ja| CREATE
     SCAN -->|Nein| REGEX[Regex/Sort reduzieren]
     
-    MEM --> CACHE{Cache > 60%<br>RAM-Allokation?}
+    MEM --> CACHE{Cache über 60% RAM-Allokation?}
     CACHE -->|Ja| LIMIT[Cache auf 40-50% begrenzen]
     CACHE -->|Nein| STREAM[Streaming Cursor nutzen]
     
-    IO --> COV{Covering Index<br>möglich?}
+    IO --> COV{Covering Index möglich?}
     COV -->|Nein| COVER[Covering Index für Hot Query]
     COV -->|Ja| COMP[Kompression aktivieren: zstd]
     
@@ -114,7 +114,7 @@ flowchart TD
     COVER --> TEST
     COMP --> TEST
     
-    TEST --> OK{Verbesserung<br>über 30%?}
+    TEST --> OK{Verbesserung über 30%?}
     OK -->|Ja| DONE[✓ Problem gelöst - Dokumentieren]
     OK -->|Nein| METRIC
     
