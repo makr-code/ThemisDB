@@ -187,6 +187,7 @@ curl http://localhost:8080/metrics
 - 💾 [Multi-Model Design](docs/de/architecture/architecture_base_entity.md) - Unified storage architecture
 - 🔄 [Transaction Management](docs/de/features/features_transactions.md) - ACID and MVCC details
 - 🔍 [AQL Query Language](docs/de/aql/aql_syntax.md) - Advanced Query Language syntax
+- 🔀 [Git/GitOps Research](docs/research/git_gitops_themis_vergleich.md) - Version control concepts comparison
 
 **Features:**
 - 🎯 [Vector Search](docs/de/features/features_vector_ops.md) - Similarity search and embeddings
