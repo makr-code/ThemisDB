@@ -135,4 +135,4 @@ if (!status.ok) {
 
 - [Features: Transactions](../features/features_transactions.md) - Feature-Details
 - [Architecture: MVCC](architecture_mvcc.md) - MVCC-Architektur
-- [Architecture: Git/GitHub/GitOps Vergleich](architecture_git_vergleich.md) - Vergleich zur Versionskontrolle
+- [Research: Git/GitHub/GitOps Vergleich](../../research/git_gitops_themis_vergleich.md) - Vergleich zur Versionskontrolle

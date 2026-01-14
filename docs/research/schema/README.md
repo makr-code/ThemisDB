@@ -29,7 +29,7 @@ Vollständiges Beispiel-Schema für eine Social Media Anwendung mit:
 
 ## Verwendung (Zukünftig)
 
-> **Hinweis**: Die YAML-basierte Schema-Definition ist derzeit ein **Konzept** und noch nicht implementiert. Siehe [architecture_git_vergleich.md](../../docs/de/architecture/architecture_git_vergleich.md) für Details.
+> **Hinweis**: Die YAML-basierte Schema-Definition ist derzeit ein **Konzept** und noch nicht implementiert. Siehe [git_gitops_themis_vergleich.md](../git_gitops_themis_vergleich.md) für Details.
 
 ### Geplante CLI-Befehle
 
@@ -278,9 +278,9 @@ down:
 
 ## Weitere Ressourcen
 
-- [Git vs ThemisDB Vergleich](../../docs/de/architecture/architecture_git_vergleich.md)
-- [MVCC Architecture](../../docs/de/architecture/architecture_mvcc.md)
-- [Branching Strategy](../../docs/BRANCHING_STRATEGY.md)
+- [Git vs ThemisDB Vergleich](../git_gitops_themis_vergleich.md)
+- [MVCC Architecture](../../de/architecture/architecture_mvcc.md)
+- [Branching Strategy](../../BRANCHING_STRATEGY.md)
 
 ## Feedback
 
