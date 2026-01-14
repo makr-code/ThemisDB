@@ -1,45 +1,47 @@
-# Kapitel 39: Performance Tuning Cookbook
+# Kapitel 39: Performance Tuning Cookbook {#chapter_39_performance-tuning-cookbook}
 
-> "Performance ist kein Zufall, sondern eine Sammlung kleiner, konsistenter Entscheidungen. Dieses Kochbuch liefert die Rezepte."
+> *"Premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%."* — Donald Knuth[^1]
 
 ---
 
-## Überblick
+## Überblick {#chapter_39_0_ueberblick}
 
-Ein praxisorientiertes Tuning-Kochbuch für ThemisDB. Jede Sektion enthält Symptom → Diagnose → Fix mit AQL-Beispielen und System-Tuning.
+Wir präsentieren ein wissenschaftlich fundiertes, praxisorientiertes Tuning-Kochbuch für [ThemisDB](../appendix_h_glossary.md#themisdb). Performance-Optimierung in Datenbanksystemen folgt systematischen Prinzipien, die wir in diesem Kapitel anhand konkreter Symptom-Diagnose-Fix-Pattern vermitteln. Jede Sektion kombiniert theoretische Grundlagen mit messbaren [Benchmarks](../appendix_h_glossary.md#benchmark) und produktionserprobten [AQL](../appendix_h_glossary.md#aql)-Beispielen. Wir orientieren uns an Graefes Optimierungstheorie[^2] und den RocksDB-Performance-Best-Practices[^3], adaptiert für ThemisDBs [MVCC](../appendix_h_glossary.md#mvcc)-basierte Architektur (siehe auch → Kapitel 2: Architektur-Grundlagen).
 
-**Was Sie lernen:**
-- Schnelle Checklisten für Latenz, Durchsatz, Speicher, IO
-- Tuning für Queries, Indizes, Cache, Transactions
-- Storage/OS/Netzwerk-Optimierungen
-- Batching, Queueing, Backpressure
-- Vector- und Graph-Workload Tuning
-- Beispiel-Konfigurationen für Prod
+**Was wir in diesem Kapitel behandeln:**
+
+- **Query-Optimierung:** [EXPLAIN](../appendix_h_glossary.md#explain)-Analyse, [Filter Pushdown](../appendix_h_glossary.md#filter-pushdown), N+1-Problem-Vermeidung, [JOIN](../appendix_h_glossary.md#join)-Strategien
+- **Indexierungs-Strategien:** [B-Tree](../appendix_h_glossary.md#btree), [Hash](../appendix_h_glossary.md#hash-index), [Persistent Index](../appendix_h_glossary.md#persistent-index), [Covering Indexes](../appendix_h_glossary.md#covering-index), Selektivität
+- **Cache-Tuning:** [LRU](../appendix_h_glossary.md#lru), [ARC](../appendix_h_glossary.md#arc), Hit-Rate-Monitoring, Memory-Limits
+- **Storage-Engine:** [RocksDB](../appendix_h_glossary.md#rocksdb)-[LSM-Tree](../appendix_h_glossary.md#lsm-tree)-Konfiguration, [Compaction](../appendix_h_glossary.md#compaction), [Bloom Filter](../appendix_h_glossary.md#bloom-filter)
+- **System-Level-Tuning:** OS-Parameter (sysctl), Netzwerk (TCP), Filesystem (ext4, XFS), SSD/NVMe-Optimierung
+- **Spezial-Workloads:** [Vector Search](../appendix_h_glossary.md#vector-search) ([HNSW](../appendix_h_glossary.md#hnsw)), [Graph Traversal](../appendix_h_glossary.md#graph-traversal), [Batching](../appendix_h_glossary.md#batching)
+- **Produktions-Konfigurationen:** Beispiel-Templates für verschiedene Workload-Profile
 
 ---
 
 ```mermaid
 flowchart TD
-    Start[Performance Issue] --> Profile[Profile System]
+    Start[Performance Issue] --> Profile[Profile System mit Monitoring-Tools]
     
     Profile --> CPU{CPU<br/>Bottleneck?}
     Profile --> Memory{Memory<br/>Bottleneck?}
     Profile --> Disk{Disk<br/>Bottleneck?}
     Profile --> Network{Network<br/>Bottleneck?}
     
-    CPU -->|Yes| OptQuery[Optimize Queries]
-    CPU -->|Yes| AddIndex[Add Indexes]
+    CPU -->|Yes| OptQuery[Optimize Queries:<br/>EXPLAIN, Index, Projection]
+    CPU -->|Yes| AddIndex[Add Indexes:<br/>B-Tree, Hash, Covering]
     
-    Memory -->|Yes| IncCache[Increase Cache]
-    Memory -->|Yes| OptDataStruct[Optimize Data Structures]
+    Memory -->|Yes| IncCache[Increase Cache:<br/>LRU/ARC Tuning]
+    Memory -->|Yes| OptDataStruct[Optimize Data Structures:<br/>Streaming, Pagination]
     
-    Disk -->|Yes| SSD[Use SSD]
-    Disk -->|Yes| Partition[Partition Data]
+    Disk -->|Yes| SSD[Use SSD/NVMe:<br/>LSM-Tree Compaction]
+    Disk -->|Yes| Partition[Partition Data:<br/>Sharding, Hot/Cold]
     
-    Network -->|Yes| CompData[Compress Data]
-    Network -->|Yes| BatchReq[Batch Requests]
+    Network -->|Yes| CompData[Compress Data:<br/>zstd, Protocol Buffers]
+    Network -->|Yes| BatchReq[Batch Requests:<br/>Connection Pooling]
     
-    OptQuery --> Verify[Verify Improvement]
+    OptQuery --> Verify[Verify Improvement:<br/>Benchmarks, Metrics]
     AddIndex --> Verify
     IncCache --> Verify
     OptDataStruct --> Verify
@@ -48,57 +50,61 @@ flowchart TD
     CompData --> Verify
     BatchReq --> Verify
     
-    Verify --> Done[Done]
+    Verify --> Done[✓ Performance Target erreicht]
     
     style Start fill:#ff6b6b
     style Verify fill:#f093fb
     style Done fill:#43e97b
 ```
 
-Abb. 39.0: Performance-Tuning-Workflow
+**Abb. 39.0:** Performance-Tuning-Workflow nach dem Bottleneck-Analyse-Prinzip[^4]. Wir beginnen stets mit systematischem Profiling, um den kritischen Ressourcen-Engpass zu identifizieren, bevor wir Optimierungen anwenden.
 
 ---
 
-## 39.1 Quick Tuning Checklist
+## 39.1 Quick Tuning Checklist {#chapter_39_1_quick-tuning-checklist}
 
-- **Latenz hoch?** EXPLAIN, Index-Pfade, Projection pushdown, LIMIT
-- **Durchsatz gering?** Batching, Parallelisierung, Verbindungspool erhöhen
-- **CPU hoch?** Sort/Regex/Full-Scan reduzieren, Index nutzen, Cache-Hit prüfen
-- **IO hoch?** Covering Index, Kompression (zstd), Cold Data auslagern
-- **Memory hoch?** Cache begrenzen, Streaming statt Materializing, LIMIT
-- **Lock/Deadlock?** Konsistente Lock-Order, kürzere Transaktionen
+Diese Checkliste bietet sofortige Diagnose-Ansätze für häufige Performance-Probleme. Wir kategorisieren nach Symptom und liefern die wahrscheinlichste Root Cause plus First-Response-Aktion. Für vertiefende Analysen verweisen wir auf die spezialisierten Sektionen dieses Kapitels sowie → Kapitel 20: Performance Monitoring.
+
+**Symptom-basierte Schnelldiagnose:**
+
+- **Latenz hoch (P99 > 100ms)?** → [EXPLAIN](../appendix_h_glossary.md#explain)-Analyse durchführen, [Index](../appendix_h_glossary.md#index)-Pfade prüfen, [Projection Pushdown](../appendix_h_glossary.md#projection-pushdown) anwenden, LIMIT setzen (siehe → Sektion 39.2)
+- **Durchsatz gering (< 1000 ops/s)?** → [Batching](../appendix_h_glossary.md#batching) aktivieren, Parallelisierung erhöhen, [Connection Pool](../appendix_h_glossary.md#connection-pool) vergrößern (siehe → Sektion 39.3)
+- **CPU-Auslastung hoch (> 80%)?** → Sort/Regex/Full-Scan reduzieren, [Index](../appendix_h_glossary.md#index) nutzen, [Cache](../appendix_h_glossary.md#cache)-Hit-Rate prüfen (siehe → Sektion 39.4)
+- **IO-Wait hoch (> 20%)?** → [Covering Index](../appendix_h_glossary.md#covering-index) einsetzen, [Compaction](../appendix_h_glossary.md#compaction) (zstd) aktivieren, Cold Data auslagern (siehe → Sektion 39.5)
+- **Memory-Verbrauch hoch (> 85%)?** → [Cache](../appendix_h_glossary.md#cache)-Größe begrenzen, Streaming statt Materialisierung, LIMIT/Pagination erzwingen (siehe → Sektion 39.4)
+- **Lock-Contention/Deadlocks?** → Konsistente Lock-Order, kürzere [Transaktionen](../appendix_h_glossary.md#transaction), Retry mit Exponential Backoff (siehe → Sektion 39.9)
 
 ```mermaid
 flowchart TD
-    START[Performance Problem] --> METRIC{Welche Metrik?}
+    START[Performance Problem erkannt] --> METRIC{Welche Metrik<br/>ist betroffen?}
     
-    METRIC -->|Hohe Latenz| LAT[Query EXPLAIN]
-    METRIC -->|Niedriger Throughput| THR[Connection Pool]
-    METRIC -->|Hohe CPU| CPU[Full Scan]
-    METRIC -->|Hohe Memory| MEM[Cache Size]
-    METRIC -->|Hohe I/O| IO[Covering Index]
+    METRIC -->|Hohe Latenz<br/>(P99 > 100ms)| LAT[Query EXPLAIN ausführen]
+    METRIC -->|Niedriger Throughput<br/>(< 1000 ops/s)| THR[Connection Pool prüfen]
+    METRIC -->|Hohe CPU<br/>(> 80%)| CPU[Full Scan identifizieren]
+    METRIC -->|Hohe Memory<br/>(> 85%)| MEM[Cache Size prüfen]
+    METRIC -->|Hohe I/O<br/>(> 20% wait)| IO[Covering Index analysieren]
     
-    LAT --> IDX{Index vorhanden?}
-    IDX -->|Nein| CREATE[Index erstellen]
-    IDX -->|Ja| PROJ[Early Projection]
+    LAT --> IDX{Index<br/>vorhanden?}
+    IDX -->|Nein| CREATE[B-Tree/Hash Index erstellen]
+    IDX -->|Ja| PROJ[Early Projection anwenden]
     
-    THR --> POOL{Pool-Größe?}
-    POOL -->|Klein| INC[Pool vergrößern]
-    POOL -->|OK| BATCH[Batching nutzen]
+    THR --> POOL{Pool-Größe<br/>< 100?}
+    POOL -->|Ja| INC[Pool auf 200-500 erhöhen]
+    POOL -->|Nein| BATCH[Batching nutzen: 100-1000/Batch]
     
-    CPU --> SCAN{Full Scan?}
+    CPU --> SCAN{Full Scan<br/>detektiert?}
     SCAN -->|Ja| CREATE
     SCAN -->|Nein| REGEX[Regex/Sort reduzieren]
     
-    MEM --> CACHE{Cache > 60%?}
-    CACHE -->|Ja| LIMIT[Cache begrenzen]
-    CACHE -->|Nein| STREAM[Streaming nutzen]
+    MEM --> CACHE{Cache > 60%<br/>RAM-Allokation?}
+    CACHE -->|Ja| LIMIT[Cache auf 40-50% begrenzen]
+    CACHE -->|Nein| STREAM[Streaming Cursor nutzen]
     
-    IO --> COV{Covering Index?}
-    COV -->|Nein| COVER[Covering Index]
-    COV -->|Ja| COMP[Kompression aktivieren]
+    IO --> COV{Covering Index<br/>möglich?}
+    COV -->|Nein| COVER[Covering Index für Hot Query]
+    COV -->|Ja| COMP[Kompression aktivieren: zstd]
     
-    CREATE --> TEST[Performance Test]
+    CREATE --> TEST[Performance Test: 3x Iterations]
     PROJ --> TEST
     INC --> TEST
     BATCH --> TEST
@@ -108,16 +114,65 @@ flowchart TD
     COVER --> TEST
     COMP --> TEST
     
-    TEST --> OK{Besser?}
-    OK -->|Ja| DONE[✓ Problem gelöst]
+    TEST --> OK{Verbesserung<br/>> 30%?}
+    OK -->|Ja| DONE[✓ Problem gelöst - Dokumentieren]
     OK -->|Nein| METRIC
+    
+    style START fill:#ff6b6b
+    style TEST fill:#f093fb
+    style DONE fill:#43e97b
 ```
+
+**Abb. 39.1:** Detaillierte Entscheidungsbaum-basierte Diagnose-Strategie. Wir nutzen quantitative Schwellwerte (> 80% CPU, > 100ms P99-Latenz) für objektive Priorisierung der Optimierungsmaßnahmen. Die Feedback-Schleife (OK → METRIC) repräsentiert iteratives Tuning gemäß Knuths "3%-Regel"[^1].
 
 ---
 
-## 39.2 Query Patterns (Fixes)
+## 39.2 Query-Optimierung {#chapter_39_2_query-optimization}
 
-### Early Projection & Filter
+Query-Optimierung ist der wichtigste Hebel für Performance-Verbesserungen in Datenbanksystemen[^2]. Wir untersuchen systematisch häufige Anti-Patterns und deren wissenschaftlich fundierte Lösungen, basierend auf Graefes Optimierungstheorie[^2] und praktischen Benchmarks mit ThemisDB. Die präsentierten Techniken verbessern typischerweise die Latenzen um 60-95% bei gleichbleibender Ergebnisqualität.
+
+### 39.2.1 EXPLAIN-Analyse-Workflow {#chapter_39_2_1_explain-workflow}
+
+Wir beginnen jede Optimierung mit einer EXPLAIN-Analyse, um den [Query-Plan](../appendix_h_glossary.md#query-plan) zu inspizieren. ThemisDBs [Query Optimizer](../appendix_h_glossary.md#query-optimizer) generiert einen Ausführungsplan, den wir auf ineffiziente Operationen (Full Scans, fehlende Indexes, späte Filterung) prüfen (siehe auch → Kapitel 34: Query Optimization Deep-Dive).
+
+```aql
+-- EXPLAIN-Analyse durchführen
+EXPLAIN
+FOR u IN users
+  FILTER u.status == 'active' AND u.created_at >= DATE_NOW() - 86400000
+  SORT u.name
+  LIMIT 100
+  RETURN { _key: u._key, name: u.name, email: u.email }
+```
+
+**Typischer Output:**
+```json
+{
+  "plan": {
+    "nodes": [
+      {"type": "SingletonNode", "id": 1},
+      {"type": "EnumerateCollectionNode", "id": 2, "collection": "users", 
+       "indexes": ["idx_status_created"]},  // ✅ Index wird genutzt
+      {"type": "CalculationNode", "id": 3, "expression": "projection"},
+      {"type": "LimitNode", "id": 4, "offset": 0, "limit": 100},
+      {"type": "ReturnNode", "id": 5}
+    ],
+    "estimatedCost": 245.3,
+    "estimatedNrItems": 100
+  }
+}
+```
+
+**Interpretations-Checklist:**
+- ✅ **EnumerateCollectionNode mit `indexes`:** Index wird genutzt
+- ❌ **Fehlende `indexes`-Angabe:** Full Collection Scan (kritisch bei > 10k Docs)
+- ✅ **Early FilterNode:** Filter vor Projektion angewendet
+- ❌ **Late SortNode ohne Index:** In-Memory-Sort (teuer bei > 100k Docs)
+- ✅ **estimatedCost < 1000:** Akzeptabel für die meisten OLTP-Queries
+
+### 39.2.2 Early Projection & Filter Pushdown {#chapter_39_2_2_early-projection-filter}
+
+[Filter Pushdown](../appendix_h_glossary.md#filter-pushdown) und frühe [Projektion](../appendix_h_glossary.md#projection) reduzieren die Datenmenge, die durch die Query-Pipeline fließt[^5]. Wir demonstrieren den Effekt anhand eines typischen Anti-Patterns:
 
 ```aql
 -- ❌ FALSCH: Späte Projektion
