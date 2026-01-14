@@ -15,6 +15,7 @@
 #include <memory>
 #include <fstream>
 #include <optional>
+#include <atomic>
 
 namespace themis {
 namespace performance {

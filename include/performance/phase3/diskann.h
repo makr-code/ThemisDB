@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <fstream>
+#include <atomic>
 
 namespace themis {
 namespace performance {

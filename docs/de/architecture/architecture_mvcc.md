@@ -545,3 +545,4 @@ class MVCCGraphIndex {
 - [PostgreSQL MVCC Internals](https://www.postgresql.org/docs/current/mvcc.html)
 - [Cockroach MVCC Design](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html)
 - [Percolator Paper](https://research.google/pubs/pub36726/) - Google's MVCC System
+- [Git/GitHub/GitOps Vergleich](../../research/git_gitops_themis_vergleich.md) - Vergleich zur Code-Versionskontrolle

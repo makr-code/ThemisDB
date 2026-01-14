@@ -429,7 +429,7 @@ auto results = search.query(text_query, vector_query, graph_constraints);
 **Documentation:**
 - [Server README](../../src/server/README.md)
 - [HTTP API Documentation](../../docs/api/)
-- [API Reference](../../API_REFERENCE.md)
+- [API Reference](../api/API_REFERENCE.md)
 
 **Example Usage:**
 ```cpp
@@ -1333,7 +1333,7 @@ comm -13 <(grep "^#### src/" docs/architecture/SOURCE_DIRECTORY_GUIDE.md | cut -
 
 - [CMAKE_MODULAR_ARCHITECTURE.md](CMAKE_MODULAR_ARCHITECTURE.md) - Build system architecture
 - [FEATURE_FLAGS_REFERENCE.md](FEATURE_FLAGS_REFERENCE.md) - Complete feature flag documentation
-- [../BASEENTITY_PRINCIPLE.md](../BASEENTITY_PRINCIPLE.md) - Core data model pattern
+- [BASEENTITY_PRINCIPLE.md](BASEENTITY_PRINCIPLE.md) - Core data model pattern
 - [../CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
 - [../CODING_STANDARDS.md](../CODING_STANDARDS.md) - Code style standards
 - [Documentation Index](../00_DOCUMENTATION_INDEX.md) - Complete documentation index
