@@ -27,7 +27,9 @@ protected:
         std::filesystem::create_directories(db_path_);
         
         // Initialize RocksDB
-        db_ = std::make_unique<RocksDBWrapper>(db_path_.string());
+        RocksDBWrapper::Config db_config;
+        db_config.db_path = db_path_.string();
+        db_ = std::make_unique<RocksDBWrapper>(db_config);
         
         // Create feedback storage service
         FeedbackStorageService::Config config;

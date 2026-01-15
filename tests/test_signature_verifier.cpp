@@ -5,6 +5,8 @@
 #include <openssl/rsa.h>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
 
 using namespace themis::llm::security;
 
@@ -23,11 +25,12 @@ using namespace themis::llm::security;
 class SignatureVerifierTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Test data setup
-        test_data_ = {0x48, 0x65, 0x6c, 0x6c, 0x6f};  // "Hello"
+        // Determine test data directory
+        cert_dir_ = "tests/data/certificates/";
         
-        // Production: Load test certificates and keys
+        // Load test certificates and data
         loadTestCertificates();
+        loadTestData();
     }
     
     void TearDown() override {
@@ -35,62 +38,174 @@ protected:
     }
     
     void loadTestCertificates() {
-        // Production: Load actual test certificates
-        // For now, use stub data
-        test_cert_pem_ = "-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----";
-        test_signature_ = {0x00, 0x01, 0x02};  // Stub signature
+        // Load CA certificate
+        ca_cert_pem_ = readFile(cert_dir_ + "ca_cert.pem");
+        
+        // Load test certificate (2048-bit)
+        test_cert_pem_ = readFile(cert_dir_ + "test_cert.pem");
+        
+        // Load 3072-bit certificate
+        test_cert_3072_pem_ = readFile(cert_dir_ + "test_cert_3072.pem");
+        
+        // Load 4096-bit certificate
+        test_cert_4096_pem_ = readFile(cert_dir_ + "test_cert_4096.pem");
+        
+        // Load self-signed certificate
+        self_signed_cert_pem_ = readFile(cert_dir_ + "self_signed_cert.pem");
+        
+        // Load weak certificate (1024-bit)
+        weak_cert_pem_ = readFile(cert_dir_ + "weak_cert_1024.pem");
     }
+    
+    void loadTestData() {
+        // Load test data
+        test_data_ = readFileBinary(cert_dir_ + "test_data.txt");
+        
+        // Load valid signature (2048-bit)
+        test_signature_ = readFileBinary(cert_dir_ + "test_data_signature.bin");
+        
+        // Load 3072-bit signature
+        test_signature_3072_ = readFileBinary(cert_dir_ + "test_data_signature_3072.bin");
+        
+        // Load 4096-bit signature
+        test_signature_4096_ = readFileBinary(cert_dir_ + "test_data_signature_4096.bin");
+        
+        // Load tampered signature
+        test_signature_tampered_ = readFileBinary(cert_dir_ + "test_data_signature_tampered.bin");
+        
+        // Load self-signed signature
+        test_signature_self_ = readFileBinary(cert_dir_ + "test_data_signature_self.bin");
+    }
+    
+    std::string readFile(const std::string& path) {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            return "";
+        }
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+    }
+    
+    std::vector<uint8_t> readFileBinary(const std::string& path) {
+        std::ifstream file(path, std::ios::binary);
+        if (!file.is_open()) {
+            return {};
+        }
+        return std::vector<uint8_t>(
+            std::istreambuf_iterator<char>(file),
+            std::istreambuf_iterator<char>()
+        );
+    }
+    
+    std::string cert_dir_;
+    std::string ca_cert_pem_;
+    std::string test_cert_pem_;
+    std::string test_cert_3072_pem_;
+    std::string test_cert_4096_pem_;
+    std::string self_signed_cert_pem_;
+    std::string weak_cert_pem_;
     
     std::vector<uint8_t> test_data_;
     std::vector<uint8_t> test_signature_;
-    std::string test_cert_pem_;
+    std::vector<uint8_t> test_signature_3072_;
+    std::vector<uint8_t> test_signature_4096_;
+    std::vector<uint8_t> test_signature_tampered_;
+    std::vector<uint8_t> test_signature_self_;
 };
 
 // ===== RSA-SHA256 Verifier Tests =====
 
 TEST_F(SignatureVerifierTest, RSA_SHA256_ValidSignature) {
-    // Test valid RSA-SHA256 signature verification
-    auto verifier = std::make_unique<RSA_SHA256_Verifier>();
+    // Test valid RSA-SHA256 signature verification with 2048-bit key
+    ASSERT_FALSE(test_cert_pem_.empty()) << "Test certificate not loaded";
+    ASSERT_FALSE(test_data_.empty()) << "Test data not loaded";
+    ASSERT_FALSE(test_signature_.empty()) << "Test signature not loaded";
     
-    // Production: Sign test_data_ with test key, verify signature
+    auto verifier = std::make_unique<RSA_SHA256_Verifier>();
     auto result = verifier->verify(test_data_, test_signature_, test_cert_pem_);
     
-    // Stub currently returns invalid
-    EXPECT_FALSE(result.is_valid) << "Stub: Valid signature verification to be implemented";
+    EXPECT_TRUE(result.is_valid) << "Valid signature should pass verification: " << result.error_message;
+    EXPECT_EQ(result.algorithm, "RSA-SHA256");
+    EXPECT_FALSE(result.signer_identity.empty()) << "Signer identity should be extracted";
+}
+
+TEST_F(SignatureVerifierTest, RSA_SHA256_ValidSignature_3072bit) {
+    // Test valid RSA-SHA256 signature verification with 3072-bit key
+    ASSERT_FALSE(test_cert_3072_pem_.empty()) << "3072-bit test certificate not loaded";
+    
+    auto verifier = std::make_unique<RSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, test_signature_3072_, test_cert_3072_pem_);
+    
+    EXPECT_TRUE(result.is_valid) << "Valid 3072-bit signature should pass: " << result.error_message;
+    EXPECT_EQ(result.algorithm, "RSA-SHA256");
+}
+
+TEST_F(SignatureVerifierTest, RSA_SHA256_ValidSignature_4096bit) {
+    // Test valid RSA-SHA256 signature verification with 4096-bit key
+    ASSERT_FALSE(test_cert_4096_pem_.empty()) << "4096-bit test certificate not loaded";
+    
+    auto verifier = std::make_unique<RSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, test_signature_4096_, test_cert_4096_pem_);
+    
+    EXPECT_TRUE(result.is_valid) << "Valid 4096-bit signature should pass: " << result.error_message;
     EXPECT_EQ(result.algorithm, "RSA-SHA256");
 }
 
 TEST_F(SignatureVerifierTest, RSA_SHA256_InvalidSignature) {
     // Test detection of invalid signature
+    ASSERT_FALSE(test_cert_pem_.empty()) << "Test certificate not loaded";
+    
     auto verifier = std::make_unique<RSA_SHA256_Verifier>();
     
     std::vector<uint8_t> wrong_signature = {0xFF, 0xFF, 0xFF};
     auto result = verifier->verify(test_data_, wrong_signature, test_cert_pem_);
     
-    EXPECT_FALSE(result.is_valid);
+    EXPECT_FALSE(result.is_valid) << "Invalid signature should fail verification";
+}
 }
 
 TEST_F(SignatureVerifierTest, RSA_SHA256_TamperedData) {
     // Test detection of tampered data
+    ASSERT_FALSE(test_cert_pem_.empty()) << "Test certificate not loaded";
+    
     auto verifier = std::make_unique<RSA_SHA256_Verifier>();
     
     std::vector<uint8_t> tampered_data = test_data_;
-    tampered_data[0] = 0xFF;  // Tamper with data
+    if (!tampered_data.empty()) {
+        tampered_data[0] = 0xFF;  // Tamper with data
+    }
     
     auto result = verifier->verify(tampered_data, test_signature_, test_cert_pem_);
     
     EXPECT_FALSE(result.is_valid) << "Tampered data should fail verification";
 }
 
-TEST_F(SignatureVerifierTest, RSA_SHA256_InvalidCertificate) {
-    // Test handling of invalid certificate
+TEST_F(SignatureVerifierTest, RSA_SHA256_TamperedSignature) {
+    // Test detection of tampered signature
+    ASSERT_FALSE(test_cert_pem_.empty()) << "Test certificate not loaded";
+    ASSERT_FALSE(test_signature_tampered_.empty()) << "Tampered signature not loaded";
+    
+    auto verifier = std::make_unique<RSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, test_signature_tampered_, test_cert_pem_);
+    
+    EXPECT_FALSE(result.is_valid) << "Tampered signature should fail verification";
+}
+
+TEST_F(SignatureVerifierTest, RSA_SHA256_WeakKeySize) {
+    // Test rejection of weak 1024-bit key
+    ASSERT_FALSE(weak_cert_pem_.empty()) << "Weak certificate not loaded";
+    
     auto verifier = std::make_unique<RSA_SHA256_Verifier>();
     
-    std::string invalid_cert = "INVALID CERTIFICATE";
-    auto result = verifier->verify(test_data_, test_signature_, invalid_cert);
+    // Try to verify with weak certificate (should fail key size check)
+    // Note: We don't have a signature for this, so it will fail anyway
+    std::vector<uint8_t> dummy_sig(128, 0);  // 1024-bit signature size
+    auto result = verifier->verify(test_data_, dummy_sig, weak_cert_pem_);
     
-    EXPECT_FALSE(result.is_valid);
-    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_FALSE(result.is_valid) << "1024-bit RSA key should be rejected";
+    EXPECT_NE(result.error_message.find("2048"), std::string::npos) 
+        << "Error message should mention minimum key size";
 }
 
 TEST_F(SignatureVerifierTest, RSA_SHA256_EmptyData) {

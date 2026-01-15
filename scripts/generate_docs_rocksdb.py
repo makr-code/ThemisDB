@@ -15,15 +15,18 @@ from pathlib import Path
 # Fix encoding on Windows
 if sys.platform == 'win32':
     import codecs
-    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, errors='replace')
-    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, errors='replace')
+    # Guard against stderr without a buffer (e.g. redirected streams)
+    if hasattr(sys.stdout, 'buffer'):
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, errors='replace')
+    if hasattr(sys.stderr, 'buffer'):
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, errors='replace')
 
 # Configure logging with UTF-8 encoding
 class UTF8StreamHandler(logging.StreamHandler):
     def __init__(self):
         super().__init__()
         # Force UTF-8 encoding with error handling
-        if sys.platform == 'win32':
+        if sys.platform == 'win32' and hasattr(sys.stderr, 'buffer'):
             self.stream = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 logging.basicConfig(level=logging.INFO)
@@ -229,10 +232,19 @@ def main():
     logger.info("ThemisDB Documentation RocksDB Generator")
     logger.info("=" * 60)
     
-    # Step 1: Check if input exists
+    # Step 1: Check if input exists, fallback to build output if necessary
     if not Path(json_file).exists():
-        logger.error(f"Input file not found: {json_file}")
-        return 1
+        fallback = Path(args.output).parent / "docs_database.json"
+        alt_build = Path(__file__).parent.parent / "build-ninja-static" / "data" / "docs_database.json"
+        if fallback.exists():
+            logger.warning(f"Input file not found at {json_file}, using fallback {fallback}")
+            json_file = str(fallback)
+        elif alt_build.exists():
+            logger.warning(f"Input file not found at {json_file}, using fallback {alt_build}")
+            json_file = str(alt_build)
+        else:
+            logger.error(f"Input file not found: {json_file}")
+            return 1
     
     logger.info(f"\nStep 1: Using JSON file: {json_file}")
     

@@ -5,6 +5,7 @@
 #include "utils/logger.h"
 #include <chrono>
 #include <algorithm>
+#include <set>
 
 namespace themis {
 
@@ -17,7 +18,7 @@ int64_t PITRManager::RestoreProgress::getCurrentTimeMs() {
 
 PITRManager::PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
-                        SnapshotManager* snapshot_mgr)
+                        transaction::SnapshotManager* snapshot_mgr)
     : db_(db), changefeed_(changefeed), snapshot_mgr_(snapshot_mgr) {
     if (!db_) {
         throw std::invalid_argument("PITRManager: db cannot be null");
@@ -301,14 +302,14 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
 
 PITRManager::Status PITRManager::createAutoBackup(const RestoreOptions& options) {
     // Create a snapshot tag for the current state
-    auto status = snapshot_mgr_->createTag(
+    auto snapshot = snapshot_mgr_->createTag(
         options.backup_tag,
         "Auto-backup before PITR restore",
         "pitr_manager"
     );
 
-    if (!status.ok) {
-        return Status::Error("Failed to create auto-backup: " + status.message);
+    if (!snapshot.has_value()) {
+        return Status::Error("Failed to create auto-backup");
     }
 
     THEMIS_INFO("Auto-backup created: tag={}", options.backup_tag);

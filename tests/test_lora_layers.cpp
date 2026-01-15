@@ -2,6 +2,8 @@
 #include "llm/lora_framework/lora_layers.h"
 #include <memory>
 #include <vector>
+#include <cmath>
+#include <algorithm>
 
 using namespace themis::llm::lora;
 
@@ -384,6 +386,187 @@ TEST_F(LoRALayersTest, Performance_MemoryEfficiency) {
     
     float reduction = 100.0f * (1.0f - static_cast<float>(lora_params) / full_params);
     EXPECT_GT(reduction, 90.0f) << "LoRA should reduce parameters by > 90%";
+}
+
+// ===== Gradient Check Tests =====
+
+// Test configuration constants
+namespace {
+    constexpr float GRADIENT_CHECK_EPSILON = 1e-4f;
+    constexpr float GRADIENT_CHECK_TOLERANCE = 1e-3f;
+    constexpr size_t GRADIENT_CHECK_SAMPLES = 5;
+}
+
+TEST_F(LoRALayersTest, GradientCheck_NumericalVsAnalytical) {
+    // Test that analytical gradients match numerical gradients
+    // This verifies the backward pass implementation is correct
+    
+    // Create small layer for testing
+    size_t in_dim = 4;
+    size_t out_dim = 4;
+    size_t rank = 2;
+    LoRALayer layer(in_dim, out_dim, rank, 1.0f);
+    
+    // Create test input and target
+    Tensor input({1, in_dim});
+    Tensor target({1, out_dim});
+    
+    // Initialize with known values
+    for (size_t i = 0; i < input.size(); ++i) {
+        input[i] = 0.1f * (i + 1);
+    }
+    for (size_t i = 0; i < target.size(); ++i) {
+        target[i] = 0.2f * (i + 1);
+    }
+    
+    // Forward pass
+    Tensor output = layer.forward(input);
+    
+    // Compute loss (MSE)
+    float loss = 0.0f;
+    for (size_t i = 0; i < output.size(); ++i) {
+        float diff = output[i] - target[i];
+        loss += diff * diff;
+    }
+    loss /= output.size();
+    
+    // Backward pass (analytical gradients)
+    Tensor grad_output(output.shape());
+    for (size_t i = 0; i < grad_output.size(); ++i) {
+        grad_output[i] = 2.0f * (output[i] - target[i]) / output.size();
+    }
+    layer.backward(grad_output);
+    
+    // Get parameters for numerical gradient check
+    auto params = layer.parameters();
+    
+    // Check gradient for first parameter (B matrix)
+    if (!params.empty()) {
+        Tensor* param = params[0];
+        Tensor analytical_grad = param->grad.clone();
+        
+        // Compute numerical gradient for a few elements
+        for (size_t idx = 0; idx < std::min(GRADIENT_CHECK_SAMPLES, param->size()); ++idx) {
+            float original_value = (*param)[idx];
+            
+            // Perturb +epsilon
+            (*param)[idx] = original_value + GRADIENT_CHECK_EPSILON;
+            Tensor output_plus = layer.forward(input);
+            float loss_plus = 0.0f;
+            for (size_t i = 0; i < output_plus.size(); ++i) {
+                float diff = output_plus[i] - target[i];
+                loss_plus += diff * diff;
+            }
+            loss_plus /= output_plus.size();
+            
+            // Perturb -epsilon
+            (*param)[idx] = original_value - GRADIENT_CHECK_EPSILON;
+            Tensor output_minus = layer.forward(input);
+            float loss_minus = 0.0f;
+            for (size_t i = 0; i < output_minus.size(); ++i) {
+                float diff = output_minus[i] - target[i];
+                loss_minus += diff * diff;
+            }
+            loss_minus /= output_minus.size();
+            
+            // Restore original value
+            (*param)[idx] = original_value;
+            
+            // Numerical gradient
+            float numerical_grad = (loss_plus - loss_minus) / (2.0f * GRADIENT_CHECK_EPSILON);
+            float analytical_grad_val = analytical_grad[idx];
+            
+            // Check if gradients match within tolerance
+            float grad_diff = std::abs(numerical_grad - analytical_grad_val);
+            float grad_mag = std::max(std::abs(numerical_grad), std::abs(analytical_grad_val));
+            float relative_error = grad_diff / (grad_mag + 1e-8f);
+            
+            EXPECT_LT(relative_error, GRADIENT_CHECK_TOLERANCE) 
+                << "Gradient mismatch at index " << idx 
+                << ": numerical=" << numerical_grad 
+                << ", analytical=" << analytical_grad_val;
+        }
+    }
+}
+
+TEST_F(LoRALayersTest, Training_ToyProblem) {
+    // Test that training can decrease loss on a simple problem
+    
+    size_t in_dim = 4;
+    size_t out_dim = 4;
+    size_t rank = 2;
+    LoRALayer layer(in_dim, out_dim, rank, 1.0f);
+    
+    // Create fixed input and target
+    Tensor input({1, in_dim});
+    Tensor target({1, out_dim});
+    
+    for (size_t i = 0; i < input.size(); ++i) {
+        input[i] = 0.1f * (i + 1);
+    }
+    for (size_t i = 0; i < target.size(); ++i) {
+        target[i] = 0.5f * (i + 1);
+    }
+    
+    // Create simple optimizer
+    float learning_rate = 0.01f;
+    auto params = layer.parameters();
+    
+    // Measure initial loss
+    Tensor initial_output = layer.forward(input);
+    float initial_loss = 0.0f;
+    for (size_t i = 0; i < initial_output.size(); ++i) {
+        float diff = initial_output[i] - target[i];
+        initial_loss += diff * diff;
+    }
+    initial_loss /= initial_output.size();
+    
+    // Train for a few steps
+    for (int step = 0; step < 100; ++step) {
+        // Forward
+        Tensor output = layer.forward(input);
+        
+        // Loss
+        float loss = 0.0f;
+        for (size_t i = 0; i < output.size(); ++i) {
+            float diff = output[i] - target[i];
+            loss += diff * diff;
+        }
+        loss /= output.size();
+        
+        // Backward
+        Tensor grad_output(output.shape());
+        for (size_t i = 0; i < grad_output.size(); ++i) {
+            grad_output[i] = 2.0f * (output[i] - target[i]) / output.size();
+        }
+        layer.backward(grad_output);
+        
+        // Update parameters
+        for (auto* param : params) {
+            for (size_t i = 0; i < param->size(); ++i) {
+                (*param)[i] -= learning_rate * param->grad[i];
+            }
+            param->grad.zero();
+        }
+    }
+    
+    // Measure final loss
+    Tensor final_output = layer.forward(input);
+    float final_loss = 0.0f;
+    for (size_t i = 0; i < final_output.size(); ++i) {
+        float diff = final_output[i] - target[i];
+        final_loss += diff * diff;
+    }
+    final_loss /= final_output.size();
+    
+    // Loss should decrease
+    EXPECT_LT(final_loss, initial_loss) 
+        << "Training should decrease loss (initial=" << initial_loss 
+        << ", final=" << final_loss << ")";
+    
+    // Loss should decrease significantly (at least 50%)
+    EXPECT_LT(final_loss, 0.5f * initial_loss)
+        << "Training should reduce loss by at least 50%";
 }
 
 int main(int argc, char **argv) {
