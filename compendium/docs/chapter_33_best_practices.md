@@ -39,19 +39,19 @@ Wir definieren die klassischen [Normalformen](../appendix_h_glossary.md#normal-f
 
 **Fifth Normal Form (5NF):** Wir eliminieren Join-Abhängigkeiten durch vollständige Dekomposition in nicht weiter zerlegbare Projektionen.
 
-**Domain-Key Normal Form (DKNF):** Wir erreichen den theoretischen Idealzustand, bei dem alle Constraints aus Domain-Definitionen und Key-Constraints folgen (Fagin, 1981).
+**Domain-Key Normal Form (DKNF):** Wir erreichen den theoretischen Idealzustand, bei dem alle Constraints aus Domain-Definitionen und Key-Constraints folgen (siehe wissenschaftliche Referenzen).
 
-```sql
--- Beispiel: Normalisierung von 1NF → 3NF
+```json
+// Beispiel: Normalisierung von 1NF → 3NF
 
--- ❌ Nicht-normalisiert (0NF): Geschachtelte Arrays, Redundanz
+// ❌ Nicht-normalisiert (0NF): Geschachtelte Arrays, Redundanz
 {
   "order_id": "ord-123",
   "customer_name": "Alice Schmidt",
   "customer_email": "alice@example.com",
   "customer_address": "Hauptstr. 42, 10115 Berlin",
-  "items": "Laptop, Mouse, Keyboard",  -- Verletzt 1NF: nicht atomar
-  "item_prices": "1200, 25, 80",       -- Verletzt 1NF: nicht atomar
+  "items": "Laptop, Mouse, Keyboard",
+  "item_prices": "1200, 25, 80",
   "order_date": "2025-01-15",
   "total": 1305
 }
@@ -112,7 +112,7 @@ CREATE TABLE order_items (
 
 Wir definieren [funktionale Abhängigkeiten](../appendix_h_glossary.md#functional-dependency) als fundamentale Strukturbeziehungen im relationalen Modell. Eine funktionale Abhängigkeit X → Y besagt, dass der Wert von X den Wert von Y eindeutig bestimmt.
 
-**Armstrong's Axiome:** Wir nutzen die vollständigen und korrekten Inferenzregeln für funktionale Abhängigkeiten (Armstrong, 1974):
+**Armstrong's Axiome:** Wir nutzen die vollständigen und korrekten Inferenzregeln für funktionale Abhängigkeiten (siehe wissenschaftliche Referenzen):
 
 1. **Reflexivität:** Wenn Y ⊆ X, dann X → Y
 2. **Augmentation:** Wenn X → Y, dann XZ → YZ
@@ -267,14 +267,14 @@ Wir identifizieren Use-Cases, in denen Denormalisierung die Gesamtperformance ve
 
 **Materialized Views:** Wir persistieren vorab berechnete Aggregationen als eigenständige Collections, die durch Event-Handler aktualisiert werden.
 
-```aql
--- ✅ Denormalisiertes Schema: Customer-Name direkt in Order eingebettet
+```json
+// ✅ Denormalisiertes Schema: Customer-Name direkt in Order eingebettet
 {
   "_key": "ord-123",
   "_id": "orders/ord-123",
   "customer_id": "cust-001",
-  "customer_name": "Alice Schmidt",      -- Denormalisiert
-  "customer_email": "alice@example.com",  -- Denormalisiert
+  "customer_name": "Alice Schmidt",
+  "customer_email": "alice@example.com",
   "order_date": "2025-01-15",
   "items": [
     {
@@ -293,7 +293,9 @@ Wir identifizieren Use-Cases, in denen Denormalisierung die Gesamtperformance ve
   "total": 1250.00,
   "status": "shipped"
 }
+```
 
+```aql
 -- Query ohne JOIN (single document read)
 FOR order IN orders
   FILTER order._key == 'ord-123'
@@ -314,33 +316,34 @@ Wir katalogisieren bewährte Patterns für kontrollierte Denormalisierung.
 
 **Pattern 3: Precomputed Aggregates:** Wir speichern COUNT/SUM/AVG als materialisierte Felder.
 
-```aql
--- Pattern 2: Embedded Entities für Order Items
+```json
+// Pattern 2: Embedded Entities für Order Items
 {
   "_key": "ord-123",
   "customer_ref": "customers/cust-001",
-  "items": [  // Embedded statt separate Collection
+  "items": [
     {"product": "Laptop", "qty": 1, "price": 1200},
     {"product": "Mouse", "qty": 2, "price": 25}
   ],
-  "item_count": 2,        // Precomputed
-  "total": 1250.00        // Precomputed
+  "item_count": 2,
+  "total": 1250.00
 }
 
--- Pattern 3: Materialized View für Analytics
-// Collection: order_statistics (aktualisiert per Trigger)
+// Pattern 3: Materialized View für Analytics
 {
   "_key": "stats-2025-01",
   "month": "2025-01",
-  "order_count": 1523,      // Precomputed
-  "total_revenue": 458920,  // Precomputed
-  "avg_order_value": 301.20,  // Precomputed
+  "order_count": 1523,
+  "total_revenue": 458920,
+  "avg_order_value": 301.20,
   "top_customers": [
     {"id": "cust-001", "orders": 42, "revenue": 12500}
   ],
   "updated_at": "2025-01-31T23:59:59Z"
 }
+```
 
+```aql
 -- Analytics-Query ohne schwere Aggregation
 FOR stat IN order_statistics
   FILTER stat.month == '2025-01'
