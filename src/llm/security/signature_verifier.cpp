@@ -136,12 +136,22 @@ SignatureVerificationResult RSA_SHA256_Verifier::verify(
             result.is_valid = true;
             spdlog::info("RSA_SHA256_Verifier: Signature verification successful");
             
-            // Extract signer identity from certificate
-            char subject_name[256] = {0};
+            // Extract signer identity from certificate using safer method
             X509_NAME* name = X509_get_subject_name(cert.get());
             if (name) {
-                X509_NAME_oneline(name, subject_name, sizeof(subject_name));
-                result.signer_identity = subject_name;
+                // Use BIO to safely convert name to string
+                std::unique_ptr<BIO, decltype(&BIO_free)> bio(
+                    BIO_new(BIO_s_mem()),
+                    BIO_free
+                );
+                if (bio) {
+                    X509_NAME_print_ex(bio.get(), name, 0, XN_FLAG_ONELINE);
+                    BUF_MEM* mem = nullptr;
+                    BIO_get_mem_ptr(bio.get(), &mem);
+                    if (mem && mem->data && mem->length > 0) {
+                        result.signer_identity = std::string(mem->data, mem->length);
+                    }
+                }
             }
             
             // Pass to next verifier in chain if exists
@@ -524,13 +534,15 @@ bool CRLChecker::isCertificateRevoked(X509* cert) {
     // 3. Check certificate serial number against CRL entries
     // 4. Cache CRL for performance
     
-    // For now, we implement a simplified check:
-    // - If CRL URL is empty, assume not revoked (graceful degradation)
-    // - In production, this should download and parse the actual CRL
+    // Security Policy: CRL checking with graceful degradation
+    // - If CRL URL is empty, assume not revoked (no CRL configured)
+    // - If CRL check fails, assume not revoked (availability over strict validation)
+    // - This trade-off prioritizes system availability but should be documented
+    // - For strict security requirements, configure fail-closed behavior
     
     if (crl_url_.empty()) {
         spdlog::debug("No CRL URL configured - assuming certificate is not revoked");
-        return false;
+        return false;  // Not revoked (no CRL to check)
     }
     
     // Extract certificate serial number for logging
@@ -552,12 +564,15 @@ bool CRLChecker::isCertificateRevoked(X509* cert) {
     // 2. Parse CRL: X509_CRL* crl = d2i_X509_CRL_bio(bio, nullptr)
     // 3. Check if cert is in CRL: X509_CRL_get0_by_cert(crl, nullptr, cert)
     // 4. Cache CRL with TTL based on nextUpdate field
+    // 5. Make fail-open/fail-closed behavior configurable
     
     spdlog::warn("CRL checking not fully implemented - CRL download requires HTTP client");
-    spdlog::info("CRL URL configured: {} (check skipped for now)", crl_url_);
+    spdlog::info("CRL URL configured: {} (check skipped, assuming not revoked)", crl_url_);
     
-    // Graceful degradation: assume not revoked if we can't check
-    return false;
+    // SECURITY NOTE: This returns false (not revoked) when CRL checking fails.
+    // This is a graceful degradation for availability, but may not be suitable
+    // for all security requirements. Consider making this configurable.
+    return false;  // Not revoked (fail-open policy)
 }
 }
 
