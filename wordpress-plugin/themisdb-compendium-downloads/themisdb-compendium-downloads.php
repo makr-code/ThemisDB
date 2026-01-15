@@ -78,6 +78,9 @@ function themisdb_compendium_activate() {
     if (get_option('themisdb_compendium_button_style') === false) {
         add_option('themisdb_compendium_button_style', 'modern');
     }
+    if (get_option('themisdb_compendium_search_term') === false) {
+        add_option('themisdb_compendium_search_term', 'kompendium');
+    }
 }
 register_activation_hook(__FILE__, 'themisdb_compendium_activate');
 

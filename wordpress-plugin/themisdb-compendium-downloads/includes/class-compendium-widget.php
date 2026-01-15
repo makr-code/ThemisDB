@@ -41,8 +41,13 @@ class ThemisDB_Compendium_Widget extends WP_Widget {
             echo $args['before_title'] . esc_html($title) . $args['after_title'];
         }
         
+        // Sanitize widget settings for use in shortcode
+        $style_safe = esc_attr($style);
+        $show_version_safe = esc_attr($show_version);
+        $show_size_safe = esc_attr($show_size);
+        
         // Use the shortcode to render content
-        $shortcode = '[themisdb_compendium_downloads style="' . $style . '" show_version="' . $show_version . '" show_date="no" show_size="' . $show_size . '" layout="compact"]';
+        $shortcode = '[themisdb_compendium_downloads style="' . $style_safe . '" show_version="' . $show_version_safe . '" show_date="no" show_size="' . $show_size_safe . '" layout="compact"]';
         echo do_shortcode($shortcode);
         
         echo $args['after_widget'];
