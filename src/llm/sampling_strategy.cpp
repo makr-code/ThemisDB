@@ -13,17 +13,18 @@ llama_token GreedySampling::sample(
     const std::vector<llama_token>& last_tokens,
     int pos) {
     
-    // TODO: Implement in production PR with actual llama.cpp API
-    spdlog::debug("GreedySampling::sample (stub) - to be implemented in production PR");
+    spdlog::debug("GreedySampling::sample - selecting token with highest probability");
     
-    // Stub implementation
-    // Production code should:
-    // float* logits = llama_get_logits_ith(ctx, pos);
-    // size_t n_vocab = llama_n_vocab(llama_get_model(ctx));
-    // auto max_it = std::max_element(logits, logits + n_vocab);
-    // return static_cast<llama_token>(std::distance(logits, max_it));
+    // Get logits for the specified position
+    float* logits = llama_get_logits_ith(ctx, pos);
+    size_t n_vocab = llama_n_vocab(llama_get_model(ctx));
     
-    return 0;  // Stub
+    // Find token with highest probability (greedy selection)
+    auto max_it = std::max_element(logits, logits + n_vocab);
+    llama_token result = static_cast<llama_token>(std::distance(logits, max_it));
+    
+    spdlog::debug("GreedySampling selected token: {}", result);
+    return result;
 }
 
 // ===== NucleusSampling =====
@@ -46,27 +47,50 @@ llama_token NucleusSampling::sample(
     const std::vector<llama_token>& last_tokens,
     int pos) {
     
-    // TODO: Implement in production PR with actual llama.cpp sampler API
-    spdlog::debug("NucleusSampling::sample (stub) - to be implemented in production PR");
+    spdlog::debug("NucleusSampling::sample - temp={}, top_k={}, top_p={}, repeat_penalty={}",
+                  temperature_, top_k_, top_p_, repeat_penalty_);
     
-    // Stub implementation
-    // Production code should use llama_sampler API:
-    // llama_model* model = llama_get_model(ctx);
-    // size_t n_vocab = llama_n_vocab(model);
-    // float* logits = llama_get_logits_ith(ctx, pos);
-    //
-    // llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
-    // llama_sampler_chain_add(sampler, llama_sampler_init_penalties(...));
-    // llama_sampler_chain_add(sampler, llama_sampler_init_top_k(top_k_));
-    // llama_sampler_chain_add(sampler, llama_sampler_init_top_p(top_p_, 1));
-    // llama_sampler_chain_add(sampler, llama_sampler_init_temp(temperature_));
-    // llama_sampler_chain_add(sampler, llama_sampler_init_dist(0));
-    //
-    // llama_token result = llama_sampler_sample(sampler, ctx, pos);
-    // llama_sampler_free(sampler);
-    // return result;
+    llama_model* model = llama_get_model(ctx);
+    size_t n_vocab = llama_n_vocab(model);
     
-    return 0;  // Stub
+    // Create sampler chain with default parameters
+    llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
+    
+    // Add repeat penalty sampler
+    llama_sampler_chain_add(
+        sampler,
+        llama_sampler_init_penalties(
+            n_vocab,
+            llama_token_eos(model),
+            llama_token_nl(model),
+            0,                     // penalty_last_n (0 = disabled)
+            repeat_penalty_,       // repeat penalty
+            0.0f,                  // frequency penalty
+            0.0f,                  // presence penalty
+            false                  // penalize_nl
+        )
+    );
+    
+    // Add top-k filtering
+    llama_sampler_chain_add(sampler, llama_sampler_init_top_k(top_k_));
+    
+    // Add top-p (nucleus) filtering
+    llama_sampler_chain_add(sampler, llama_sampler_init_top_p(top_p_, 1));
+    
+    // Add temperature scaling
+    llama_sampler_chain_add(sampler, llama_sampler_init_temp(temperature_));
+    
+    // Add distribution sampler (final sampling step)
+    llama_sampler_chain_add(sampler, llama_sampler_init_dist(0)); // seed=0 for random
+    
+    // Sample token
+    llama_token result = llama_sampler_sample(sampler, ctx, pos);
+    
+    // Cleanup sampler chain
+    llama_sampler_free(sampler);
+    
+    spdlog::debug("NucleusSampling selected token: {}", result);
+    return result;
 }
 
 // ===== MirostatSampling =====
@@ -84,19 +108,28 @@ llama_token MirostatSampling::sample(
     const std::vector<llama_token>& last_tokens,
     int pos) {
     
-    // TODO: Implement in production PR with actual llama.cpp sampler API
-    spdlog::debug("MirostatSampling::sample (stub) - to be implemented in production PR");
+    spdlog::debug("MirostatSampling::sample - tau={}, eta={}, mu={}", tau_, eta_, mu_);
     
-    // Stub implementation
-    // Production code should use llama_sampler API:
-    // llama_model* model = llama_get_model(ctx);
-    // llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
-    // llama_sampler_chain_add(sampler, llama_sampler_init_mirostat_v2(0, tau_, eta_));
-    // llama_token result = llama_sampler_sample(sampler, ctx, pos);
-    // llama_sampler_free(sampler);
-    // return result;
+    llama_model* model = llama_get_model(ctx);
     
-    return 0;  // Stub
+    // Create sampler chain with default parameters
+    llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
+    
+    // Add Mirostat v2 sampler
+    // The seed parameter (0) means use random seed
+    llama_sampler_chain_add(
+        sampler,
+        llama_sampler_init_mirostat_v2(0, tau_, eta_)
+    );
+    
+    // Sample token
+    llama_token result = llama_sampler_sample(sampler, ctx, pos);
+    
+    // Cleanup sampler chain
+    llama_sampler_free(sampler);
+    
+    spdlog::debug("MirostatSampling selected token: {}", result);
+    return result;
 }
 
 // ===== Factory =====
