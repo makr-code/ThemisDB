@@ -21,11 +21,11 @@ Production-ready ThemisDB-Anwendungen folgen bewährten Patterns für Performanc
 
 ## 33.1 Normalisierung (Normalization) {#chapter_33_1_normalization}
 
-Wir betrachten in diesem Abschnitt die formale Theorie der [Normalisierung](../appendix_h_glossary.md#normalization) als Fundament des relationalen Schema-Designs. Normalisierung eliminiert Redundanz und Update-Anomalien durch systematische Zerlegung von Relationen gemäß formaler Normalformen. Wir untersuchen die klassischen Normalformen (1NF bis DKNF), die zugrundeliegende Theorie funktionaler Abhängigkeiten, sowie die praktischen Trade-offs zwischen normalisiertem Schema-Design und Performance-Anforderungen in modernen Key-Value-Stores wie ThemisDB.
+Wir betrachten in diesem Abschnitt die formale Theorie der Normalisierung als Fundament des relationalen Schema-Designs. Normalisierung eliminiert Redundanz und Update-Anomalien durch systematische Zerlegung von Relationen gemäß formaler Normalformen. Wir untersuchen die klassischen Normalformen (1NF bis DKNF), die zugrundeliegende Theorie funktionaler Abhängigkeiten, sowie die praktischen Trade-offs zwischen normalisiertem Schema-Design und Performance-Anforderungen in modernen Key-Value-Stores wie ThemisDB.
 
 ### 33.1.1 Normalformen (Normal Forms) {#chapter_33_1_1_normal-forms}
 
-Wir definieren die klassischen [Normalformen](../appendix_h_glossary.md#normal-forms) als hierarchische Qualitätsstufen des Schema-Designs, beginnend bei der First Normal Form (1NF) bis zur Domain-Key Normal Form (DKNF).
+Wir definieren die klassischen Normalformen als hierarchische Qualitätsstufen des Schema-Designs, beginnend bei der First Normal Form (1NF) bis zur Domain-Key Normal Form (DKNF).
 
 **First Normal Form (1NF):** Wir fordern atomare Attributwerte ohne geschachtelte Strukturen. Jede Zelle enthält einen unteilbaren Wert.
 
@@ -112,7 +112,7 @@ CREATE TABLE order_items (
 
 ### 33.1.2 Funktionale Abhängigkeiten (Functional Dependencies) {#chapter_33_1_2_functional-dependencies}
 
-Wir definieren [funktionale Abhängigkeiten](../appendix_h_glossary.md#functional-dependency) als fundamentale Strukturbeziehungen im relationalen Modell. Eine funktionale Abhängigkeit X → Y besagt, dass der Wert von X den Wert von Y eindeutig bestimmt.
+Wir definieren funktionale Abhängigkeiten als fundamentale Strukturbeziehungen im relationalen Modell. Eine funktionale Abhängigkeit X → Y besagt, dass der Wert von X den Wert von Y eindeutig bestimmt.
 
 **Armstrong's Axiome:** Wir nutzen die vollständigen und korrekten Inferenzregeln für funktionale Abhängigkeiten (siehe wissenschaftliche Referenzen):
 
@@ -188,7 +188,7 @@ Wir analysieren die praktischen Abwägungen zwischen normalisiertem Schema-Desig
 
 *Testsystem: PostgreSQL 15.3, 16 CPU cores, 64GB RAM, SSD storage, Median von 1000 Runs*
 
-**Empfehlung:** Wir normalisieren bis 3NF als Standard und denormalisieren selektiv basierend auf Query-Profiling (siehe [Kapitel 34](chapter_34_query_optimization.md#chapter_34_profiling)).
+**Empfehlung:** Wir normalisieren bis 3NF als Standard und denormalisieren selektiv basierend auf Query-Profiling (siehe [Kapitel 34](chapter_34_query_optimization.md)).
 
 ### 33.1.4 Normalisierung in Key-Value-Stores {#chapter_33_1_4_normalization-keyvalue}
 
@@ -259,11 +259,11 @@ FOR order IN orders
 
 ## 33.2 Denormalisierung (Denormalization) {#chapter_33_2_denormalization}
 
-Wir untersuchen in diesem Abschnitt die strategische Aufweichung von Normalisierungsregeln zur Performance-Optimierung. [Denormalisierung](../appendix_h_glossary.md#denormalization) führt kontrollierte Redundanz ein, um Read-Operationen zu beschleunigen, während Write-Komplexität und Konsistenzrisiken akzeptiert werden. Wir analysieren Denormalisierungs-Patterns, Konsistenzmodelle, sowie praktische Anwendungen in NoSQL-Systemen wie ThemisDB.
+Wir untersuchen in diesem Abschnitt die strategische Aufweichung von Normalisierungsregeln zur Performance-Optimierung. Denormalisierung führt kontrollierte Redundanz ein, um Read-Operationen zu beschleunigen, während Write-Komplexität und Konsistenzrisiken akzeptiert werden. Wir analysieren Denormalisierungs-Patterns, Konsistenzmodelle, sowie praktische Anwendungen in NoSQL-Systemen wie ThemisDB.
 
 ### 33.2.1 Strategische Denormalisierung {#chapter_33_2_1_strategic-denormalization}
 
-Wir identifizieren Use-Cases, in denen Denormalisierung die Gesamtperformance verbessert. Das primäre Einsatzgebiet sind read-intensive Workloads, bei denen JOIN-Overhead die Query-Latenz dominiert (siehe [Kapitel 34](chapter_34_query_optimization.md#chapter_34_joins)).
+Wir identifizieren Use-Cases, in denen Denormalisierung die Gesamtperformance verbessert. Das primäre Einsatzgebiet sind read-intensive Workloads, bei denen JOIN-Overhead die Query-Latenz dominiert (siehe [Kapitel 34](chapter_34_query_optimization.md)).
 
 **Read-Heavy Optimization:** Wir duplizieren häufig abgefragte Daten in lesende Collections, um JOIN-Operationen zu eliminieren. Eine typische 80/20-Verteilung (80% Reads, 20% Writes) rechtfertigt moderate Denormalisierung.
 
@@ -354,7 +354,7 @@ FOR stat IN order_statistics
 
 ### 33.2.3 Konsistenz-Management {#chapter_33_2_3_consistency-management}
 
-Wir adressieren das fundamentale Problem denormalisierter Schemata: redundante Daten erfordern koordinierte Updates. Wir akzeptieren [Eventual Consistency](../appendix_h_glossary.md#eventual-consistency) in read-optimierten Szenarien.
+Wir adressieren das fundamentale Problem denormalisierter Schemata: redundante Daten erfordern koordinierte Updates. Wir akzeptieren Eventual Consistency in read-optimierten Szenarien.
 
 **Eventual Consistency:** Wir tolerieren temporäre Inkonsistenzen mit garantierter Konvergenz nach endlicher Zeit (siehe [Kapitel 2](chapter_02_architecture.md#chapter_02_consistency)).
 
@@ -455,7 +455,7 @@ Wir beobachten, dass NoSQL-Systeme Denormalisierung als First-Class-Konzept unte
 
 ## 33.3 Schema-Evolution (Schema Evolution) {#chapter_33_3_schema-evolution}
 
-Wir behandeln in diesem Abschnitt die systematische Weiterentwicklung von Datenbank-Schemata in produktiven Systemen. [Schema-Evolution](../appendix_h_glossary.md#schema-evolution) umfasst Strategien für backward-compatible Changes, Online-Schema-Migrationen ohne Downtime, sowie Werkzeuge zur versionierten Schema-Verwaltung. Wir analysieren etablierte Patterns aus relationalen Datenbanken und deren Adaptionen für NoSQL-Systeme.
+Wir behandeln in diesem Abschnitt die systematische Weiterentwicklung von Datenbank-Schemata in produktiven Systemen. Schema-Evolution umfasst Strategien für backward-compatible Changes, Online-Schema-Migrationen ohne Downtime, sowie Werkzeuge zur versionierten Schema-Verwaltung. Wir analysieren etablierte Patterns aus relationalen Datenbanken und deren Adaptionen für NoSQL-Systeme.
 
 ### 33.3.1 Schema-Change Strategien {#chapter_33_3_1_schema-change-strategies}
 
@@ -497,7 +497,7 @@ Wir klassifizieren Schema-Änderungen nach ihrer Kompatibilität mit existierend
 
 ### 33.3.2 Online Schema Changes {#chapter_33_3_2_online-schema-changes}
 
-Wir implementieren [Online Schema Migrations](../appendix_h_glossary.md#online-ddl) ohne Service-Unterbrechung durch asynchrone Background-Prozesse.
+Wir implementieren Online Schema Migrations ohne Service-Unterbrechung durch asynchrone Background-Prozesse.
 
 **Zero-Downtime Migration:** Wir nutzen Shadow-Tables (Ghost Tables) für DDL-Operationen, während Production-Traffic auf Original-Table läuft.
 
@@ -632,7 +632,7 @@ class UserDocument:
 
 ## 33.4 Schema-Versionierung (Schema Versioning) {#chapter_33_4_schema-versioning}
 
-Wir etablieren in diesem Abschnitt systematische Versionierungsstrategien für Datenbank-Schemata. [Schema-Versionierung](../appendix_h_glossary.md#schema-versioning) ermöglicht parallele Existenz multipler Schema-Varianten, explizite Kompatibilitäts-Contracts zwischen Producer und Consumer, sowie kontrollierte Evolution in verteilten Systemen. Wir untersuchen Per-Document-Versioning, zentrale Schema-Registries, sowie Kompatibilitätsmodi für Avro und Protocol Buffers.
+Wir etablieren in diesem Abschnitt systematische Versionierungsstrategien für Datenbank-Schemata. Schema-Versionierung ermöglicht parallele Existenz multipler Schema-Varianten, explizite Kompatibilitäts-Contracts zwischen Producer und Consumer, sowie kontrollierte Evolution in verteilten Systemen. Wir untersuchen Per-Document-Versioning, zentrale Schema-Registries, sowie Kompatibilitätsmodi für Avro und Protocol Buffers.
 
 ### 33.4.1 Versionierungs-Strategien {#chapter_33_4_1_versioning-strategies}
 
