@@ -29,7 +29,146 @@ Diese Analyse untersucht die Diskrepanz zwischen der dokumentierten GPU/VRAM-Unt
 
 ## 🔍 Detaillierte Gap-Analyse
 
-### 1. CUDA Backend
+### 1. llama.cpp LLM-Integration (GPU-Beschleunigung)
+
+#### Dokumentation behauptet:
+**Quelle:** `docs/de/llm/LLAMA_CPP_INTEGRATION.md`
+
+```markdown
+## Verfügbare llama.cpp Features
+
+### CUDA Build (NVIDIA GPU)
+cmake -B build \
+    -DTHEMIS_ENABLE_LLM=ON \
+    -DTHEMIS_ENABLE_CUDA=ON \
+    -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc
+
+### Metal Build (Apple Silicon)
+cmake -B build \
+    -DTHEMIS_ENABLE_LLM=ON \
+    -DTHEMIS_ENABLE_METAL=ON
+
+### Vulkan Build (Cross-Platform GPU)
+cmake -B build \
+    -DTHEMIS_ENABLE_LLM=ON \
+    -DTHEMIS_ENABLE_VULKAN=ON
+```
+
+**Dokumentation zeigt auch:**
+```cpp
+// GPU Support (optional)
+if(THEMIS_ENABLE_CUDA)
+    set(LLAMA_CUDA ON CACHE BOOL "" FORCE)
+    set(LLAMA_CUDA_F16 ON CACHE BOOL "" FORCE)
+endif()
+
+if(THEMIS_ENABLE_METAL)
+    set(LLAMA_METAL ON CACHE BOOL "" FORCE)
+endif()
+
+if(THEMIS_ENABLE_VULKAN)
+    set(LLAMA_VULKAN ON CACHE BOOL "" FORCE)
+endif()
+```
+
+#### Tatsächliche Implementierung:
+**Quelle:** `cmake/CMakeLists.txt`
+
+```cmake
+# LLM ist standardmäßig OFF!
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
+
+# In MINIMAL Edition explizit deaktiviert
+if(THEMIS_EDITION STREQUAL "MINIMAL")
+    set(THEMIS_ENABLE_LLM OFF CACHE INTERNAL "LLM disabled in Minimal")
+endif()
+
+# llama.cpp GPU-Backends werden NUR aktiviert, wenn:
+# 1. THEMIS_ENABLE_LLM=ON (nicht Standard!)
+# 2. UND THEMIS_ENABLE_CUDA/METAL/VULKAN=ON (auch nicht Standard!)
+
+if(THEMIS_ENABLE_LLM)
+    if(THEMIS_ENABLE_CUDA)
+        set(LLAMA_CUDA ON CACHE BOOL "Enable CUDA in llama.cpp" FORCE)
+        set(LLAMA_CUDA_F16 ON CACHE BOOL "Enable FP16 in CUDA" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_METAL)
+        set(LLAMA_METAL ON CACHE BOOL "Enable Metal in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_VULKAN)
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan in llama.cpp" FORCE)
+    endif()
+endif()
+```
+
+**Quellcode:** `src/llm/llama_wrapper.cpp`
+
+```cpp
+#include <llama.h>  // ← Existiert NUR wenn THEMIS_ENABLE_LLM=ON
+
+namespace themis {
+namespace llm {
+    // LlamaWrapper Implementierung
+    // Nutzt llama.cpp API für Inferenz
+}
+}
+```
+
+#### Gap-Bewertung: 🔴 **SEHR KRITISCH**
+
+| Aspekt | Dokumentation | Implementierung | Gap |
+|--------|---------------|-----------------|-----|
+| **LLM-Verfügbarkeit** | Impliziert: verfügbar | ❌ OFF by default (benötigt `-DTHEMIS_ENABLE_LLM=ON`) | **SEHR HOCH** |
+| **GPU für LLM** | Zeigt CUDA/Metal/Vulkan Build-Beispiele | ✅ Funktioniert (wenn aktiviert) | MITTEL |
+| **Doppelte Aktivierung** | ❌ NICHT erwähnt | ⚠️ Benötigt `-DTHEMIS_ENABLE_LLM=ON` **UND** `-DTHEMIS_ENABLE_CUDA=ON` | **SEHR HOCH** |
+| **llama.cpp Abhängigkeit** | Erwähnt lokalen Clone | ✅ Korrekt: `git clone llama.cpp` erforderlich | NIEDRIG |
+| **Fallback-Verhalten** | ❌ Nicht dokumentiert | Compile-Fehler wenn llama.cpp fehlt | **HOCH** |
+
+**Kritisches Problem:** 
+
+1. **LLM ist standardmäßig AUS**: Selbst in COMMUNITY/ENTERPRISE Edition ist `THEMIS_ENABLE_LLM=OFF`
+2. **Doppelte GPU-Aktivierung nötig**: Für GPU-beschleunigtes LLM braucht man:
+   - `-DTHEMIS_ENABLE_LLM=ON` (aktiviert llama.cpp Integration)
+   - `-DTHEMIS_ENABLE_CUDA=ON` (aktiviert CUDA Backend)
+   - Dann setzt CMake automatisch `LLAMA_CUDA=ON`
+3. **llama.cpp muss extern geklont werden**: `git clone https://github.com/ggerganov/llama.cpp.git`
+4. **Ohne LLM-Flag**: Keine LLM-Funktionalität, kein llama.cpp, keine KI-Features
+
+**Beispiel - Was Nutzer erwarten:**
+```bash
+# Community Edition bauen
+cmake -S . -B build -DTHEMIS_EDITION=COMMUNITY
+cmake --build build
+
+# Erwartung: LLM funktioniert (24 GB VRAM-Limit!)
+# Realität: LLM nicht verfügbar, weil THEMIS_ENABLE_LLM=OFF
+```
+
+**Was tatsächlich nötig ist:**
+```bash
+# 1. llama.cpp klonen
+git clone https://github.com/ggerganov/llama.cpp.git
+
+# 2. Mit LLM UND GPU bauen
+cmake -S . -B build \
+  -DTHEMIS_EDITION=COMMUNITY \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_CUDA=ON
+  
+cmake --build build
+```
+
+**Dokumentation sollte klarstellen:**
+- LLM ist **optional** in allen Editionen (außer MINIMAL wo es nicht verfügbar ist)
+- Benötigt **explizite Aktivierung** mit `-DTHEMIS_ENABLE_LLM=ON`
+- GPU-Beschleunigung für LLM benötigt **zusätzlich** GPU-Backend-Flag
+- llama.cpp muss **manuell geklont** werden (nicht in Repository enthalten)
+
+---
+
+### 2. CUDA Backend
 
 #### Dokumentation behauptet:
 **Quelle:** `docs/de/performance/performance_cuda.md`
