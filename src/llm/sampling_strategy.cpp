@@ -51,7 +51,6 @@ llama_token NucleusSampling::sample(
                   temperature_, top_k_, top_p_, repeat_penalty_);
     
     llama_model* model = llama_get_model(ctx);
-    size_t n_vocab = llama_n_vocab(model);
     
     // Create sampler chain with default parameters
     llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
@@ -60,7 +59,7 @@ llama_token NucleusSampling::sample(
     llama_sampler_chain_add(
         sampler,
         llama_sampler_init_penalties(
-            n_vocab,
+            llama_n_vocab(model),
             llama_token_eos(model),
             llama_token_nl(model),
             0,                     // penalty_last_n (0 = disabled)
@@ -149,7 +148,9 @@ std::unique_ptr<ISamplingStrategy> SamplingStrategyFactory::create(
         return std::make_unique<NucleusSampling>(temperature, top_k, top_p);
         
     } else if (strategy_name == "mirostat") {
-        spdlog::info("Creating MirostatSampling strategy");
+        spdlog::info("Creating MirostatSampling strategy with default parameters (tau=5.0, eta=0.1)");
+        // Mirostat uses its own default parameters (tau=5.0f, eta=0.1f)
+        // For custom Mirostat parameters, instantiate MirostatSampling directly
         return std::make_unique<MirostatSampling>();
         
     } else {
