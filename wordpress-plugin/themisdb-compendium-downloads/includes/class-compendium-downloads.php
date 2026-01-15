@@ -66,8 +66,10 @@ class ThemisDB_Compendium_Downloads {
         // Note: Search term is configurable via admin settings (default: 'kompendium')
         $search_term = get_option('themisdb_compendium_search_term', 'kompendium');
         $compendium_assets = array_filter($data['assets'], function($asset) use ($search_term) {
-            return stripos($asset['name'], $search_term) !== false && 
-                   stripos($asset['name'], '.pdf') !== false;
+            $name = strtolower($asset['name']);
+            $has_search_term = stripos($name, $search_term) !== false;
+            $is_pdf = substr($name, -4) === '.pdf';
+            return $has_search_term && $is_pdf;
         });
         
         $release_data = array(
@@ -92,7 +94,7 @@ class ThemisDB_Compendium_Downloads {
     private function format_file_size($bytes) {
         $units = array('B', 'KB', 'MB', 'GB');
         $bytes = max($bytes, 0);
-        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = floor(($bytes > 0 ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
         

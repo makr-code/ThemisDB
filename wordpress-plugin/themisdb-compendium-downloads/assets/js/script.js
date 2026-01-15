@@ -5,33 +5,47 @@
 (function($) {
     'use strict';
     
+    // Debounce helper to prevent rapid-fire requests
+    var downloadTrackingQueue = {};
+    var trackingDebounceDelay = 1000; // 1 second
+    
     /**
-     * Track download clicks
+     * Track download clicks (debounced)
      */
     function trackDownload(assetName) {
         if (!themisdbCompendium.ajaxUrl || !themisdbCompendium.nonce) {
             return;
         }
         
-        $.ajax({
-            url: themisdbCompendium.ajaxUrl,
-            type: 'POST',
-            data: {
-                action: 'themisdb_track_download',
-                nonce: themisdbCompendium.nonce,
-                asset: assetName
-            },
-            success: function(response) {
-                if (response.success && window.themisdbDebug) {
-                    console.log('Download tracked:', assetName, response.data);
+        // Clear existing timeout for this asset
+        if (downloadTrackingQueue[assetName]) {
+            clearTimeout(downloadTrackingQueue[assetName]);
+        }
+        
+        // Set new timeout
+        downloadTrackingQueue[assetName] = setTimeout(function() {
+            $.ajax({
+                url: themisdbCompendium.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'themisdb_track_download',
+                    nonce: themisdbCompendium.nonce,
+                    asset: assetName
+                },
+                success: function(response) {
+                    if (response.success && window.themisdbDebug) {
+                        console.log('Download tracked:', assetName, response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (window.themisdbDebug) {
+                        console.error('Failed to track download:', error);
+                    }
                 }
-            },
-            error: function(xhr, status, error) {
-                if (window.themisdbDebug) {
-                    console.error('Failed to track download:', error);
-                }
-            }
-        });
+            });
+            
+            delete downloadTrackingQueue[assetName];
+        }, trackingDebounceDelay);
     }
     
     /**
