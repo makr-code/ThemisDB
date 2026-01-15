@@ -136,11 +136,10 @@ BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(
     // 1. Backend Selection (Vulkan prioritized)
     active_backend_ = selectBestBackend(gpu_config);
     
+    // Cache backend pointer for logging to avoid redundant lookups
+    auto* selected_backend = acceleration::BackendRegistry::instance().getBackend(active_backend_);
     spdlog::info("Selected GPU backend: {}", 
-                 acceleration::BackendRegistry::instance()
-                     .getBackend(active_backend_) ? 
-                     acceleration::BackendRegistry::instance()
-                         .getBackend(active_backend_)->name() : "Unknown");
+                 selected_backend ? selected_backend->name() : "Unknown");
     
     // 2. GPU Memory Manager initialization
     if (gpu_config.use_gpu_memory_manager) {
