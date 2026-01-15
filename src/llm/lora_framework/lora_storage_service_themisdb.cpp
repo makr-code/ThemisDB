@@ -38,10 +38,15 @@ public:
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                // Use mock key provider for now (in production, use Vault/HSM)
+                // TODO: SECURITY - Replace MockKeyProvider with production key provider
+                // In production, use one of:
+                //   - VaultKeyProvider (HashiCorp Vault integration)
+                //   - HSMProvider (Hardware Security Module)
+                //   - KMSProvider (AWS KMS, Azure Key Vault, or GCP KMS)
+                // MockKeyProvider is ONLY suitable for testing/development
                 auto key_provider = std::make_shared<MockKeyProvider>();
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::info("  Encryption service initialized");
+                spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
             }
@@ -111,16 +116,52 @@ public:
     bool deleteAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::ThemisDB && config_.db) {
-                // Delete from RocksDB
                 std::string key = makeCollectionKey(adapter_id);
-                bool success = config_.db->del(key);
                 
-                // Delete blob if exists
-                if (config_.blob_manager) {
-                    // TODO: Get blob ref and delete
+                // First, retrieve metadata to get blob reference if it exists
+                auto data = config_.db->get(key);
+                if (data && config_.blob_manager) {
+                    try {
+                        // Deserialize entity to extract blob reference
+                        BaseEntity entity = BaseEntity::deserialize(adapter_id, *data);
+                        
+                        // Check if adapter uses blob storage (not inline)
+                        if (entity.hasField("blob_ref_path")) {
+                            storage::BlobRef ref;
+                            ref.type = static_cast<storage::BlobStorageType>(
+                                entity.getFieldAsInt("blob_ref_type").value_or(0)
+                            );
+                            ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
+                            
+                            // Delete blob from storage
+                            if (!ref.uri.empty()) {
+                                bool blob_deleted = config_.blob_manager->remove(ref);
+                                if (!blob_deleted) {
+                                    spdlog::warn("Failed to delete blob {} for adapter {}", 
+                                                ref.uri, adapter_id);
+                                    // Continue with metadata deletion for idempotency
+                                } else {
+                                    spdlog::debug("Deleted blob {} for adapter {}", 
+                                                 ref.uri, adapter_id);
+                                }
+                            }
+                        }
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to delete blob for adapter {}: {}", 
+                                    adapter_id, e.what());
+                        // Continue with metadata deletion
+                    }
                 }
                 
-                spdlog::info("Deleted adapter: {}", adapter_id);
+                // Delete metadata from RocksDB
+                bool success = config_.db->del(key);
+                
+                if (success) {
+                    spdlog::info("Deleted adapter: {}", adapter_id);
+                } else {
+                    spdlog::warn("Failed to delete metadata for adapter: {}", adapter_id);
+                }
+                
                 return success;
             } else {
                 fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
@@ -445,7 +486,7 @@ private:
                 ref.type = static_cast<storage::BlobStorageType>(
                     entity.getFieldAsInt("blob_ref_type").value_or(0)
                 );
-                ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
+                ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
                 
                 auto blob_data = config_.blob_manager->get(ref);
                 if (blob_data) {
