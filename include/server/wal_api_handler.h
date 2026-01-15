@@ -12,6 +12,8 @@ namespace http = beast::http;
 
 namespace themis {
 
+class AuthMiddleware;
+
 // Forward declarations
 class RocksDBWrapper;
 

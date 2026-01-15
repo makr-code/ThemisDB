@@ -194,7 +194,7 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
 
         // Delete edge entity from storage
         auto edge_key = KeySchema::makeGraphEdgeKey(edge_id);
-        bool deleted = storage_->remove(edge_key);
+        bool deleted = storage_->del(edge_key);
         
         if (!deleted) {
             // Edge was already deleted or didn't exist in storage

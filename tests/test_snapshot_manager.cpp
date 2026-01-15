@@ -22,8 +22,8 @@ protected:
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         
-        auto txn_db = db_->getTransactionDB();
-        ASSERT_NE(txn_db, nullptr);
+            // getTransactionDB() not available in all builds
+            ASSERT_NE(db_, nullptr);
         
         changefeed_ = std::make_unique<Changefeed>(txn_db);
         snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);

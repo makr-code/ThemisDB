@@ -34,6 +34,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
+#include "utils/cursor.h"
 
 #include <queue>
 #include <ctime>
@@ -2139,10 +2140,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (!cursor_token.empty()) {
                 auto decoded = themis::utils::Cursor::decode(cursor_token);
                 if (!decoded.has_value()) {
-                    // Ung�ltiger Cursor: leere Seite zur�ck
                     early_empty_due_to_cursor = true;
                 } else {
-                    auto [pk, collection] = *decoded;
+                    const auto& decoded_pair = decoded.value();
+                    const std::string& pk = decoded_pair.first;
+                    const std::string& collection = decoded_pair.second;
                     if (collection != table) {
                         // Falsche Collection im Cursor
                         early_empty_due_to_cursor = true;

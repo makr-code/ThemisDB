@@ -40,7 +40,9 @@
 #include "query/functions/file_functions.h"
 #include "query/functions/collection_functions.h"
 #include "query/functions/security_functions.h"
+#ifdef THEMIS_ENABLE_LLM
 #include "query/functions/lora_functions.h"
+#endif
 
 namespace themis {
 namespace query {
@@ -76,9 +78,11 @@ void registerBuiltinFunctions() {
     // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
     registerSecurityFunctions();
     
+#ifdef THEMIS_ENABLE_LLM
     // LoRA functions (LLM adapter management and operations)
     // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
     registerLoRAFunctions(registry);
+#endif
 }
 
 } // namespace functions

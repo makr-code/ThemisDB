@@ -14,6 +14,8 @@
 namespace themis {
 namespace server {
 
+using themis::AuthMiddleware;
+
 WALApiHandler::WALApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<sharding::WALApplier> wal_applier,

@@ -223,7 +223,7 @@ HttpServer::HttpServer(
         if (const char* s = std::getenv("THEMIS_WAL_HMAC_SECRET")) {
             wal_hmac_secret_ = s;
         }
-        spatial_index_ = std::make_unique<index::SpatialIndexManager>(*storage_);
+        spatial_index_ = std::make_shared<index::SpatialIndexManager>(*storage_);
         
         // Wire up exact geometry backend if available
         auto* boost_backend = geo::getBoostCpuBackend();
@@ -254,7 +254,7 @@ HttpServer::HttpServer(
     if (config_.feature_semantic_cache) {
         // Use default column family for MVP (no dedicated CF needed)
         cache_cf_handle_ = nullptr;
-        semantic_cache_ = std::make_unique<SemanticCache>(
+        semantic_cache_ = std::make_shared<SemanticCache>(
             storage_->getRawDB(),
             cache_cf_handle_,
             3600 // default TTL: 1 hour
@@ -268,7 +268,7 @@ HttpServer::HttpServer(
     // Initialize LLM Interaction Store (Sprint A) if feature enabled
     if (config_.feature_llm_store) {
         llm_cf_handle_ = nullptr; // Use default CF
-        llm_store_ = std::make_unique<LLMInteractionStore>(
+        llm_store_ = std::make_shared<LLMInteractionStore>(
             storage_->getRawDB(),
             llm_cf_handle_
         );
@@ -360,19 +360,19 @@ HttpServer::HttpServer(
             try {
                 prompt_cf_handle_ = storage_->getOrCreateColumnFamily("prompt_templates");
                 THEMIS_INFO("PromptManager: using dedicated CF 'prompt_templates'");
-                prompt_manager_ = std::make_unique<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
+                prompt_manager_ = std::make_shared<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
             } catch (const std::exception& ex) {
                 THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", ex.what());
-                prompt_manager_ = std::make_unique<themis::PromptManager>();
+                prompt_manager_ = std::make_shared<themis::PromptManager>();
             }
         } else {
             // No storage available (tests / in-memory run)
-            prompt_manager_ = std::make_unique<themis::PromptManager>();
+            prompt_manager_ = std::make_shared<themis::PromptManager>();
             THEMIS_INFO("PromptManager initialized in-memory (no storage provided)");
         }
     } catch (const std::exception& ex) {
         THEMIS_ERROR("PromptManager initialization failure: {}", ex.what());
-        prompt_manager_ = std::make_unique<themis::PromptManager>();
+        prompt_manager_ = std::make_shared<themis::PromptManager>();
     }
     
     // Initialize Time-Series Store (Sprint B) if feature enabled
@@ -420,7 +420,7 @@ HttpServer::HttpServer(
     
     // Initialize Adaptive Index Manager (Sprint C) - always enabled
     // Now safe to initialize because Sharding context (if needed) is prepared above
-    adaptive_index_ = std::make_unique<AdaptiveIndexManager>(storage_->getRawDB());
+    adaptive_index_ = std::make_shared<AdaptiveIndexManager>(storage_->getRawDB());
     THEMIS_INFO("Adaptive Index Manager initialized");
 
     // Initialize Authorization middleware (MVP: tokens via env)

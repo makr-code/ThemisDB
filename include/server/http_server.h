@@ -519,7 +519,7 @@ private:
     std::shared_ptr<TransactionManager> tx_manager_;
     
     // Spatial Index Manager (geo MVP)
-    std::unique_ptr<index::SpatialIndexManager> spatial_index_;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index_;
     // Security Signatures Manager (content integrity & verification)
     std::shared_ptr<storage::SecuritySignatureManager> security_sig_mgr_;
     // MIME Detector for content ingestion classification
@@ -531,14 +531,14 @@ private:
     std::unique_ptr<themis::content::TextProcessor> text_processor_;
     
     // Semantic Cache (Sprint A)
-    std::unique_ptr<SemanticCache> semantic_cache_;
+    std::shared_ptr<SemanticCache> semantic_cache_;
     rocksdb::ColumnFamilyHandle* cache_cf_handle_ = nullptr;
     
     // LLM Interaction Store (Sprint A)
-    std::unique_ptr<LLMInteractionStore> llm_store_;
+    std::shared_ptr<LLMInteractionStore> llm_store_;
     rocksdb::ColumnFamilyHandle* llm_cf_handle_ = nullptr;
     // Prompt Manager for managing prompt templates (in-memory or RocksDB-backed)
-    std::unique_ptr<themis::PromptManager> prompt_manager_;
+    std::shared_ptr<themis::PromptManager> prompt_manager_;
     rocksdb::ColumnFamilyHandle* prompt_cf_handle_ = nullptr;
     
     // Changefeed (Sprint A CDC)
@@ -576,7 +576,7 @@ private:
     std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
     // Field encryption for PII mappings
     std::shared_ptr<themis::FieldEncryption> field_encryption_;
-    // Key provider für hierarchische Schluesselverwaltung (DEK, Group-DEKs, Field-Keys)
+    // Key provider for hierarchical key management (DEK, Group-DEKs, Field-Keys)
     std::shared_ptr<themis::KeyProvider> key_provider_;
     // PII Pseudonymizer (for reveal/erase operations)
     std::shared_ptr<themis::utils::PIIPseudonymizer> pii_pseudonymizer_;
@@ -669,7 +669,7 @@ private:
     std::unique_ptr<SchemaManager> schema_manager_;
     
     // Adaptive Index Manager (Sprint C)
-    std::unique_ptr<AdaptiveIndexManager> adaptive_index_;
+    std::shared_ptr<AdaptiveIndexManager> adaptive_index_;
 
     // WAL replication components (optional)
     std::shared_ptr<sharding::WALApplier> wal_applier_;

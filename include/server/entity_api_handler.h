@@ -24,9 +24,7 @@ namespace index {
 class SpatialIndexManager;
 }
 
-namespace security {
 class KeyProvider;
-}
 
 namespace sharding {
 class WALManager;
@@ -103,7 +101,7 @@ public:
         std::shared_ptr<GraphIndexManager> graph_index,
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<FieldEncryption> field_encryption,
-        std::shared_ptr<security::KeyProvider> key_provider,
+        std::shared_ptr<KeyProvider> key_provider,
         std::shared_ptr<themis::AuthMiddleware> auth,
         const EntityApiConfig& config = EntityApiConfig{},
         index::SpatialIndexManager* spatial_index = nullptr,
@@ -159,7 +157,7 @@ private:
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
     std::shared_ptr<FieldEncryption> field_encryption_;
-    std::shared_ptr<security::KeyProvider> key_provider_;
+    std::shared_ptr<KeyProvider> key_provider_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
     // Configuration

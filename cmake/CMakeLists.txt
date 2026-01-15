@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+﻿cmake_minimum_required(VERSION 3.20)
 
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
@@ -651,12 +651,6 @@ else()
         add_compile_options(-Werror)
     endif()
     
-    # Clang-specific fixes for spdlog/fmt compatibility
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        add_compile_options(-fno-consteval-propagation)
-        add_compile_options(-Wno-unused-command-line-argument-hard-error-in-future)
-    endif()
-    
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
         # Architecture-specific optimizations
@@ -851,9 +845,9 @@ if(THEMIS_ENABLE_GPU)
     # Try to locate OpenBLAS/LAPACK provided by vcpkg (CONFIG mode)
     find_package(OpenBLAS CONFIG QUIET)
     if(OpenBLAS_FOUND)
-        message(STATUS "OpenBLAS gefunden � BLAS-Unterst�tzung aktiv")
+        message(STATUS "OpenBLAS found - BLAS support enabled")
     else()
-        message(WARNING "OpenBLAS nicht gefunden � installieren mit: vcpkg install openblas")
+        message(WARNING "OpenBLAS not found - install with: vcpkg install openblas")
     endif()
 
     find_package(LAPACK CONFIG QUIET)
@@ -864,7 +858,7 @@ if(THEMIS_ENABLE_GPU)
     # FAISS (CONFIG mode via vcpkg). If missing, gracefully disable GPU.
     find_package(faiss CONFIG)
     if(NOT faiss_FOUND)
-        message(WARNING "Faiss nicht gefunden � GPU-Unterst�tzung wird automatisch deaktiviert.")
+        message(WARNING "Faiss not found - GPU support will be automatically disabled.")
         set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search" FORCE)
     endif()
 endif()
