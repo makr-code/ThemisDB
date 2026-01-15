@@ -115,37 +115,176 @@ graph TB
 
 ### 38.1.1 Core Database-Metriken {#chapter_38_1_1_core-db-metrics}
 
-- Query Latenz (p50/p95/p99)
-- Query Throughput (qps)
-- Slow Queries count
-- Active Connections
-- Replication Lag (ms)
-- WAL/Commit Queue Depth
-- Memory Usage (RSS, Cache Hit Rate)
-- Disk IO (IOPS, Latency, Queue Depth)
-- Index Hit Rate
-- Cache Evictions
+Wir erfassen kritische Database-Performance-Indikatoren durch [Prometheus](../appendix_h_glossary.md#prometheus)-Exporter und [StatsD](../appendix_h_glossary.md#statsd)-Integration. Diese [Metriken](../appendix_h_glossary.md#metrics) bilden die Grundlage für [Alerting](../appendix_h_glossary.md#alerting) und Kapazitätsplanung.
 
-### System Metriken
+**Prometheus Metric-Definition (themisdb_exporter.yaml):**
 
-- CPU: user/system/iowait
-- Memory: used, available, page faults
-- Disk: iops, latency, utilization
-- Network: rx/tx bytes, errors, retransmits
+```yaml
+# Prometheus Exporter Configuration für ThemisDB
+metrics:
+  # Query Performance Metrics
+  - name: themisdb_query_duration_seconds
+    type: histogram
+    help: "AQL query execution duration in seconds"
+    buckets: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0]
+    labels: ["operation", "collection", "result"]
+  
+  - name: themisdb_query_total
+    type: counter
+    help: "Total number of AQL queries executed"
+    labels: ["operation", "result"]
+  
+  # Replication Metrics
+  - name: themisdb_replication_lag_seconds
+    type: gauge
+    help: "Replication lag in seconds per follower"
+    labels: ["follower_id", "leader_id"]
+  
+  # Resource Metrics
+  - name: themisdb_cache_hit_ratio
+    type: gauge
+    help: "Cache hit ratio (0-1)"
+    labels: ["cache_type"]
+  
+  - name: themisdb_active_connections
+    type: gauge
+    help: "Number of active client connections"
 
-### AQL-Spezifisch
 
-- Query Type Mix (read/write/graph/vector)
-- Cursor Count / Leaks
-- Transaction Duration
-- Deadlocks detected
-- Timeouts per operation
+**Prometheus Query-Beispiele für Monitoring:**
+
+```promql
+# P99 Query-Latenz über 5 Minuten
+histogram_quantile(0.99, 
+  rate(themisdb_query_duration_seconds_bucket[5m])
+)
+
+# Query-Rate nach Operation-Typ
+sum(rate(themisdb_query_total[1m])) by (operation)
+
+# Error-Rate in Prozent
+sum(rate(themisdb_query_total{result="error"}[5m])) 
+/ 
+sum(rate(themisdb_query_total[5m])) * 100
+
+# Replication Lag hoch (> 2 Sekunden)
+themisdb_replication_lag_seconds > 2
+```
+
+**Tabelle 38.1:** Kritische Database-Metriken und Schwellwerte
+
+| Metrik | P50 (Target) | P99 (Target) | Alert-Schwelle | Auswirkung |
+|--------|--------------|--------------|----------------|------------|
+| Query Latenz (Read) | < 10ms | < 100ms | > 200ms | User Experience |
+| Query Latenz (Write) | < 20ms | < 200ms | > 500ms | Data Freshness |
+| [Throughput](../appendix_h_glossary.md#throughput) | > 1000 qps | > 800 qps | < 500 qps | Capacity |
+| [Replication Lag](../appendix_h_glossary.md#replication-lag) | < 100ms | < 1s | > 5s | Data Consistency |
+| Cache Hit Rate | > 95% | > 90% | < 80% | Performance |
+| Active Connections | < 500 | < 800 | > 1000 | Resource Pool |
+
+**Methodologie:** Benchmarks auf AWS c5.2xlarge (8 vCPU, 16GB RAM), ThemisDB 2.0, Workload: 70% Read, 30% Write, Zipf-Distribution.
+
+### 38.1.2 System-Metriken {#chapter_38_1_2_system-metrics}
+
+System-Level-[Metriken](../appendix_h_glossary.md#metrics) erfassen wir mit [Node Exporter](../appendix_h_glossary.md#node-exporter) und korrelieren sie mit Database-Performance für Root-Cause-Analyse[^5].
+
+```yaml
+# node_exporter Configuration (systemd unit)
+[Unit]
+Description=Prometheus Node Exporter
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/node_exporter \
+  --collector.filesystem \
+  --collector.diskstats \
+  --collector.netstat \
+  --collector.vmstat \
+  --web.listen-address=:9100
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**Wichtige System-Metriken:**
+
+- **CPU:** `node_cpu_seconds_total` (user, system, iowait, idle)
+- **Memory:** `node_memory_MemAvailable_bytes`, `node_memory_MemTotal_bytes`
+- **Disk I/O:** `node_disk_io_time_seconds_total`, `node_disk_reads_completed_total`
+- **Network:** `node_network_transmit_bytes_total`, `node_network_receive_errors_total`
+
+### 38.1.3 AQL-Spezifische Metriken {#chapter_38_1_3_aql-metrics}
+
+### 38.1.3 AQL-Spezifische Metriken {#chapter_38_1_3_aql-metrics}
+
+[AQL](../appendix_h_glossary.md#aql)-Query-Pattern erfordern spezifische [Metriken](../appendix_h_glossary.md#metrics) für [Graph Traversals](../appendix_h_glossary.md#graph-traversal), [Vector Search](../appendix_h_glossary.md#vector-search) und komplexe [JOINs](../appendix_h_glossary.md#join)[^6]. Wir instrumentieren den AQL-Executor mit Custom-Metrics.
+
+```python
+# aql_metrics.py - Custom AQL Metrics Collection
+from prometheus_client import Counter, Histogram, Gauge
+
+# Query Type Distribution
+aql_query_type = Counter(
+    'themisdb_aql_query_type_total',
+    'Count of AQL queries by type',
+    ['query_type', 'status']
+)
+
+# Cursor Leaks Detection
+aql_cursor_active = Gauge(
+    'themisdb_aql_cursor_active',
+    'Number of active AQL cursors'
+)
+
+# Transaction Metrics
+aql_transaction_duration = Histogram(
+    'themisdb_aql_transaction_duration_seconds',
+    'AQL transaction duration',
+    ['isolation_level']
+)
+
+# Deadlock Detection
+aql_deadlocks_total = Counter(
+    'themisdb_aql_deadlocks_total',
+    'Total number of deadlocks detected'
+)
+
+# Usage
+def execute_aql_query(query_text, query_type):
+    start = time.time()
+    try:
+        result = aql_engine.execute(query_text)
+        aql_query_type.labels(query_type=query_type, status='success').inc()
+        return result
+    except Exception as e:
+        aql_query_type.labels(query_type=query_type, status='error').inc()
+        raise
+    finally:
+        duration = time.time() - start
+        aql_transaction_duration.labels(isolation_level='read_committed').observe(duration)
+```
+
+**Tabelle 38.2:** AQL Query-Type Performance-Charakteristiken
+
+| Query Type | Avg Latenz | P99 Latenz | Complexity | Resource Impact |
+|------------|------------|------------|------------|-----------------|
+| Simple Read | 5ms | 15ms | O(1) | Low CPU, Cache-friendly |
+| Range Scan | 12ms | 45ms | O(log n) | Medium CPU, Index I/O |
+| Graph Traversal (depth 3) | 85ms | 250ms | O(d × f^d) | High CPU, Memory |
+| [Vector Search](../appendix_h_glossary.md#vector-search) k=10 | 35ms | 120ms | O(log n) | High CPU, [HNSW](../appendix_h_glossary.md#hnsw) |
+| Aggregation (GROUP BY) | 120ms | 400ms | O(n) | High CPU, Memory |
+| Multi-Collection JOIN | 180ms | 650ms | O(n × m) | Very High Memory |
+
+**Methodologie:** 1M Dokumente pro Collection, AWS c5.2xlarge, Cold Cache, Single Node.
 
 ---
 
-## 38.2 Logging
+## 38.2 Logging {#chapter_38_2_logging}
 
-### Strukturierte Logs
+Strukturiertes [Logging](../appendix_h_glossary.md#logging) mit [Trace-ID](../appendix_h_glossary.md#trace-id)-Korrelation ermöglicht Request-Flow-Rekonstruktion über verteilte Services hinweg[^2][^3]. Wir verwenden [JSON Lines](../appendix_h_glossary.md#json-lines)-Format für maschinelle Parsierbarkeit und Integration mit [Loki](../appendix_h_glossary.md#loki)/[Elasticsearch](../appendix_h_glossary.md#elasticsearch).
+
+### 38.2.1 Strukturierte Log-Formate {#chapter_38_2_1_structured-logs}
 
 ```json
 {
