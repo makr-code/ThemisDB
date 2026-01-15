@@ -129,7 +129,7 @@ flowchart TD
 
 ## 39.2 Query-Optimierung {#chapter_39_2_query-optimization}
 
-Query-Optimierung ist der wichtigste Hebel für Performance-Verbesserungen in Datenbanksystemen[^2]. Wir untersuchen systematisch häufige Anti-Patterns und deren wissenschaftlich fundierte Lösungen, basierend auf Graefes Optimierungstheorie[^2] und praktischen Benchmarks mit ThemisDB. Die präsentierten Techniken verbessern typischerweise die Latenzen um 60-95% bei gleichbleibender Ergebnisqualität.
+Query-Optimierung ist der wichtigste Hebel für Performance-Verbesserungen in Datenbanksystemen[^2]. Wir untersuchen systematisch häufige Anti-Patterns und deren wissenschaftlich fundierte Lösungen, basierend auf Graefes Optimierungstheorie[^2] und praktischen Benchmarks mit ThemisDB. Die präsentierten Techniken verbessern typischerweise die Latenzen um 60-95% bei gleichbleibender Ergebnisqualität. Für weiterführende Query-Optimierungsstrategien siehe → Kapitel 28: Query Optimization.
 
 ### 39.2.1 EXPLAIN-Analyse-Workflow {#chapter_39_2_1_explain-workflow}
 
@@ -516,7 +516,7 @@ FOR u IN users
 
 ## 39.6 Storage & I/O-Optimierung {#chapter_39_6_storage-io}
 
-Storage-Layer-Optimierung fokussiert auf [RocksDB](../appendix_h_glossary.md#rocksdb)-[Compaction](../appendix_h_glossary.md#compaction), Kompression (zstd), und SSD/NVMe-Tuning. Wir reduzieren Write-Amplification durch intelligente Compaction-Strategien und maximieren Read-Performance durch [Bloom Filter](../appendix_h_glossary.md#bloom-filter).
+Storage-Layer-Optimierung fokussiert auf [RocksDB](../appendix_h_glossary.md#rocksdb)-[Compaction](../appendix_h_glossary.md#compaction), Kompression (zstd), und SSD/NVMe-Tuning. Wir reduzieren Write-Amplification durch intelligente Compaction-Strategien und maximieren Read-Performance durch [Bloom Filter](../appendix_h_glossary.md#bloom-filter). Für tiefgehende Architekturdetails siehe → Kapitel 8: Storage Layer Deep-Dive.
 
 ### 39.6.1 Kompression {#chapter_39_6_1_compression}
 
@@ -1424,7 +1424,7 @@ Dieses Kochbuch präsentierte systematische Performance-Optimierung für [Themis
 7. **Graph:** Depth/Fanout-Limiting, Bidirectional BFS, Community-Caching → Subsekundenlatenz statt Minuten
 8. **Transactions:** Strikte Lock-Order, Retry mit Exponential Backoff, kurze Transaction-Scopes → Deadlock-Eliminierung
 
-**Iterativer Optimierungsprozess:** Performance-Tuning ist kein einmaliger Akt, sondern ein kontinuierlicher Prozess. Nutzen Sie → Kapitel 20: Performance Monitoring für proaktives Alerting, und führen Sie regelmäßig Regressionstests mit dem präsentierten Benchmark-Harness durch. Dokumentieren Sie alle Änderungen und deren Auswirkungen in einem Change-Log für zukünftige Referenz.
+**Iterativer Optimierungsprozess:** Performance-Tuning ist kein einmaliger Akt, sondern ein kontinuierlicher Prozess. Nutzen Sie → Kapitel 20: Performance Monitoring für proaktives Alerting, und führen Sie regelmäßig Regressionstests mit dem präsentierten Benchmark-Harness durch. Dokumentieren Sie alle Änderungen und deren Auswirkungen in einem Change-Log für zukünftige Referenz. Für praktische Übungen zur Anwendung dieser Optimierungsstrategien siehe → Kapitel 41: Hands-on Labs.
 
 ---
 
