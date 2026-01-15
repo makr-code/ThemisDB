@@ -437,8 +437,6 @@ def handle_request(request):
 
 ### 38.3.1 OpenTelemetry Setup (Go API Layer) {#chapter_38_3_1_otel-setup}
 
-### 38.3.1 OpenTelemetry Setup (Go API Layer) {#chapter_38_3_1_otel-setup}
-
 Wir instrumentieren den ThemisDB API-Gateway mit [OpenTelemetry](../appendix_h_glossary.md#opentelemetry) Go SDK für automatisches [Tracing](../appendix_h_glossary.md#distributed-tracing) von HTTP-Requests und Database-Queries[^3].
 
 ```go
