@@ -377,15 +377,18 @@ TEST_F(LoRAFrameworkTest, TrainingControl_StopTraining) {
 }
 
 TEST_F(LoRAFrameworkTest, TrainingControl_CheckpointSaveLoad) {
+    // Create cross-platform temp directory for checkpoints
+    auto temp_dir = std::filesystem::temp_directory_path() / "test_checkpoints";
+    
     // Configure checkpointing
     LoRATrainingService::Config config;
     config.enable_checkpointing = true;
-    config.checkpoint_dir = "/tmp/test_checkpoints";
+    config.checkpoint_dir = temp_dir.string();
     config.checkpoint_interval_steps = 5;  // Save every 5 steps
     training_->setTrainingConfig(config);
     
     // Create checkpoint directory
-    std::filesystem::create_directories("/tmp/test_checkpoints");
+    std::filesystem::create_directories(temp_dir);
     
     // Create training data
     TrainingData data;
@@ -410,7 +413,7 @@ TEST_F(LoRAFrameworkTest, TrainingControl_CheckpointSaveLoad) {
     
     // Verify checkpoint files were created
     bool checkpoint_found = false;
-    for (const auto& entry : std::filesystem::directory_iterator("/tmp/test_checkpoints")) {
+    for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
         if (entry.path().extension() == ".json") {
             checkpoint_found = true;
             break;
@@ -419,19 +422,22 @@ TEST_F(LoRAFrameworkTest, TrainingControl_CheckpointSaveLoad) {
     EXPECT_TRUE(checkpoint_found);
     
     // Cleanup
-    std::filesystem::remove_all("/tmp/test_checkpoints");
+    std::filesystem::remove_all(temp_dir);
 }
 
 TEST_F(LoRAFrameworkTest, TrainingControl_PeriodicCheckpointing) {
+    // Create cross-platform temp directory for checkpoints
+    auto temp_dir = std::filesystem::temp_directory_path() / "test_periodic_checkpoints";
+    
     // Configure aggressive checkpointing
     LoRATrainingService::Config config;
     config.enable_checkpointing = true;
-    config.checkpoint_dir = "/tmp/test_periodic_checkpoints";
+    config.checkpoint_dir = temp_dir.string();
     config.checkpoint_interval_steps = 3;  // Very frequent
     training_->setTrainingConfig(config);
     
     // Create checkpoint directory
-    std::filesystem::create_directories("/tmp/test_periodic_checkpoints");
+    std::filesystem::create_directories(temp_dir);
     
     // Create training data
     TrainingData data;
@@ -456,7 +462,7 @@ TEST_F(LoRAFrameworkTest, TrainingControl_PeriodicCheckpointing) {
     
     // Count checkpoint files
     int checkpoint_count = 0;
-    for (const auto& entry : std::filesystem::directory_iterator("/tmp/test_periodic_checkpoints")) {
+    for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
         if (entry.path().extension() == ".json") {
             checkpoint_count++;
         }
@@ -466,19 +472,22 @@ TEST_F(LoRAFrameworkTest, TrainingControl_PeriodicCheckpointing) {
     EXPECT_GT(checkpoint_count, 1);
     
     // Cleanup
-    std::filesystem::remove_all("/tmp/test_periodic_checkpoints");
+    std::filesystem::remove_all(temp_dir);
 }
 
 TEST_F(LoRAFrameworkTest, TrainingControl_StopWithCheckpoint) {
+    // Create cross-platform temp directory for checkpoints
+    auto temp_dir = std::filesystem::temp_directory_path() / "test_stop_checkpoint";
+    
     // Configure checkpointing
     LoRATrainingService::Config config;
     config.enable_checkpointing = true;
-    config.checkpoint_dir = "/tmp/test_stop_checkpoint";
+    config.checkpoint_dir = temp_dir.string();
     config.checkpoint_interval_steps = 100;  // Won't trigger during test
     training_->setTrainingConfig(config);
     
     // Create checkpoint directory
-    std::filesystem::create_directories("/tmp/test_stop_checkpoint");
+    std::filesystem::create_directories(temp_dir);
     
     // Create training data
     TrainingData data;
@@ -519,7 +528,7 @@ TEST_F(LoRAFrameworkTest, TrainingControl_StopWithCheckpoint) {
     
     // Verify checkpoint was saved on stop
     bool checkpoint_found = false;
-    for (const auto& entry : std::filesystem::directory_iterator("/tmp/test_stop_checkpoint")) {
+    for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
         if (entry.path().extension() == ".json") {
             checkpoint_found = true;
             break;
@@ -528,7 +537,7 @@ TEST_F(LoRAFrameworkTest, TrainingControl_StopWithCheckpoint) {
     EXPECT_TRUE(checkpoint_found);
     
     // Cleanup
-    std::filesystem::remove_all("/tmp/test_stop_checkpoint");
+    std::filesystem::remove_all(temp_dir);
 }
 
 TEST_F(LoRAFrameworkTest, TrainingControl_Metrics) {
