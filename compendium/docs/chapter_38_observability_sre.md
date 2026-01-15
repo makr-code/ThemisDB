@@ -1127,71 +1127,477 @@ time_intervals:
 
 Wir reduzieren Alert-Rauschen durch intelligentes Grouping, Inhibition und Dynamic-Thresholds.
 
----
-
-## 38.7 Runbooks (Kurzfassung)
-
-### Hohe Latenz
-- Check: p99 Read/Write? Bestimmte Collections?
-- EXPLAIN Slow Query; Index vorhanden?
-- Cache Hit Rate < 90%? Memory Druck?
-- CPU iowait hoch? → Storage prüfen
-- Rate-Limit/Backpressure aktivieren
-
-### Replication Lag
-- Netzwerk: retransmits, bandwidth
-- Follower CPU/IO bottleneck
-- WAL queue depth; throttle writes
-- Rebalance followers
-
-### OOM/Memory Pressure
-- Cache Size begrenzen
-- Off-Heap aufteilen (vector buffers)
-- Identify large queries; add LIMIT/PROJECTION
-
-### Disk Full
-- Log-Retention kürzen
-- Offload Cold Data (Tiered Storage)
-- Rebuild Indizes, Vacuum
+**Best Practices:**
+- **Throttling:** Alerts mit `for: 15m` verzögern Fast-Flapping
+- **Grouping:** Verwandte Alerts zusammenfassen (gleicher Service, Cluster)
+- **Inhibition:** High-Severity unterdrückt Low-Severity für gleiche Komponente
+- **Runbook-Links:** Jeder Alert enthält actionable Runbook
+- **Context:** Alerts enthalten Dashboard-Links, Query-Examples, Log-Snippets
 
 ---
 
-## 38.8 Chaos & GameDays
+## 38.7 Runbooks (Operations Playbooks) {#chapter_38_7_runbooks}
 
-- Failure Modes: Node down, Network partition, Disk full, High latency storage, Poison messages
-- Hypothesen definieren, erwartetes Verhalten notieren
-- Blast Radius klein starten (1 node, 10 min)
-- Erfolgskriterien: SLO halten? Auto-Heal? Alerts ausgelöst?
-- Nachbereitung: Learnings, Tickets, Fixes, erneutes Testen
+[Runbooks](../appendix_h_glossary.md#runbook) sind strukturierte Diagnose- und Mitigations-Playbooks für häufige Incidents[^1]. Wir präsentieren produktionserprobte Runbooks für ThemisDB-spezifische Probleme mit klaren Schritt-für-Schritt-Anleitungen.
+
+### 38.7.1 Runbook: Hohe Query-Latenz {#chapter_38_7_1_runbook-latency}
+
+**Symptom:** P99-Latenz > 200ms für Reads oder > 400ms für Writes
+
+**Diagnose-Workflow:**
+
+```bash
+# Schritt 1: Identifiziere betroffene Query-Types
+# Prometheus Query:
+histogram_quantile(0.99, 
+  rate(themisdb_query_duration_seconds_bucket{operation=~".+"}[5m])
+) by (operation)
+
+# Schritt 2: Check aktuelle Slow Queries
+# ThemisDB Admin Console:
+EXPLAIN ANALYZE
+FOR u IN users
+  FILTER u.status == 'active'
+  RETURN u
+
+# Schritt 3: Cache Hit-Rate prüfen
+# Prometheus Query:
+themisdb_cache_hit_ratio{cache_type="query"}
+
+# Schritt 4: Index Coverage prüfen
+# ThemisDB Shell:
+db._query("RETURN db._indexStats('users')").toArray()
+
+# Schritt 5: System-Ressourcen checken
+# Node metrics:
+node_cpu_seconds_total{mode="iowait"}
+node_memory_MemAvailable_bytes
+```
+
+**Mitigation-Schritte:**
+
+1. **Immediate (< 5 Min):**
+   - Rate-Limiting aktivieren: `kubectl scale deployment themisdb --replicas=5`
+   - Slow Queries identifizieren und killen: `db._killQuery(queryId)`
+   - Cache-Warming für Hot Collections: `db._warmupCache('users')`
+
+2. **Short-Term (< 1 Stunde):**
+   - Missing Indexes hinzufügen: `db._ensureIndex('users', ['status', 'created_at'])`
+   - Query-Optimierung mit EXPLAIN durchführen
+   - Projection pushdown anwenden: `RETURN {_key: u._key, name: u.name}` statt `RETURN u`
+
+3. **Long-Term (< 1 Tag):**
+   - Covering Indexes für Hot Queries
+   - Connection Pooling optimieren
+   - Read-Replicas skalieren für Read-heavy Workload
+
+**Verification:**
+```bash
+# P99-Latenz sollte unter Threshold fallen
+histogram_quantile(0.99, rate(themisdb_query_duration_seconds_bucket[5m]))
+# Target: < 0.2s für Reads
+```
+
+### 38.7.2 Runbook: Replication Lag {#chapter_38_7_2_runbook-replication}
+
+**Symptom:** Replication Lag > 5 Sekunden, Follower fällt zurück
+
+**Diagnose-Workflow:**
+
+```bash
+# Schritt 1: Identifiziere betroffene Follower
+# Prometheus Query:
+themisdb_replication_lag_seconds > 5
+
+# Schritt 2: Check Follower-Ressourcen
+kubectl top pod -l role=follower
+
+# Schritt 3: Netzwerk-Latenz prüfen
+# Von Leader zu Follower:
+ping follower-1.themisdb.svc.cluster.local
+
+# Schritt 4: WAL Queue Depth
+themisdb_wal_queue_depth
+
+# Schritt 5: Replication Throughput
+rate(themisdb_replication_bytes_total[5m])
+```
+
+**Mitigation-Schritte:**
+
+1. **Network Issues:**
+   ```bash
+   # Check retransmits:
+   netstat -s | grep retransmit
+   
+   # Bandwidth saturation?
+   iftop -i eth0
+   ```
+
+2. **Follower CPU/IO Bottleneck:**
+   ```bash
+   # Scale follower resources:
+   kubectl set resources deployment themisdb-follower \
+     --requests=cpu=4,memory=16Gi \
+     --limits=cpu=8,memory=32Gi
+   ```
+
+3. **WAL Queue Backlog:**
+   ```yaml
+   # themis.conf - Throttle writes temporarily
+   replication:
+     max_wal_queue_depth: 1000
+     write_throttle_enabled: true
+     write_throttle_threshold_bytes: 10485760  # 10 MB
+   ```
+
+4. **Rebalance Followers:**
+   ```bash
+   # Remove slow follower temporarily:
+   kubectl scale statefulset themisdb-follower --replicas=2
+   
+   # Add back after catch-up:
+   kubectl scale statefulset themisdb-follower --replicas=3
+   ```
+
+### 38.7.3 Runbook: OOM / Memory Pressure {#chapter_38_7_3_runbook-oom}
+
+**Symptom:** Memory-Usage > 90%, OOM-Kills, Container-Restarts
+
+**Diagnose:**
+
+```bash
+# Schritt 1: Memory-Distribution
+kubectl exec -it themisdb-0 -- sh -c "
+  cat /proc/meminfo | grep -E 'MemTotal|MemAvailable|Cached'
+"
+
+# Schritt 2: Top Memory-Consuming Queries
+# Prometheus:
+topk(10, themisdb_query_memory_bytes)
+
+# Schritt 3: Cache-Size vs. Available Memory
+themisdb_cache_size_bytes / node_memory_MemTotal_bytes
+```
+
+**Mitigation:**
+
+1. **Immediate - Reduce Cache:**
+   ```yaml
+   # themis.conf
+   cache:
+     query_cache_size_mb: 2048  # Reduce from 4096
+     document_cache_size_mb: 1024  # Reduce from 2048
+   ```
+
+2. **Kill Large Queries:**
+   ```javascript
+   // ThemisDB Shell
+   db._query(`
+     FOR q IN _queries
+       FILTER q.memory_usage_bytes > 1073741824  // > 1 GB
+       RETURN {id: q.id, memory: q.memory_usage_bytes, query: q.query}
+   `).toArray()
+   
+   // Kill specific query:
+   db._killQuery("query-id-123")
+   ```
+
+3. **Off-Heap Allocation für Vector Buffers:**
+   ```yaml
+   # themis.conf
+   vector_search:
+     hnsw_memory_mode: "mmap"  # Use memory-mapped files
+     buffer_size_mb: 512
+   ```
+
+4. **Add LIMIT/PROJECTION to Queries:**
+   ```aql
+   // Before (lädt alle Felder):
+   FOR u IN users
+     FILTER u.status == 'active'
+     RETURN u
+   
+   // After (nur benötigte Felder):
+   FOR u IN users
+     FILTER u.status == 'active'
+     LIMIT 1000
+     RETURN {_key: u._key, name: u.name, email: u.email}
+   ```
+
+### 38.7.4 Runbook: Disk Full {#chapter_38_7_4_runbook-disk}
+
+**Symptom:** Disk-Utilization > 85%, Write-Errors, Transaction-Failures
+
+**Diagnosis & Mitigation:**
+
+```bash
+# Schritt 1: Identify Disk-Usage
+df -h /var/lib/themisdb
+du -sh /var/lib/themisdb/* | sort -h
+
+# Schritt 2: Log-Retention verkürzen
+# Rotate logs immediately:
+kubectl exec themisdb-0 -- logrotate -f /etc/logrotate.d/themisdb
+
+# Schritt 3: WAL Cleanup (nach Replication)
+kubectl exec themisdb-0 -- themisdb-admin wal-cleanup --before="2026-01-14"
+
+# Schritt 4: Compact SSTables (RocksDB)
+kubectl exec themisdb-0 -- themisdb-admin compact --collection=users
+
+# Schritt 5: Offload zu Tiered Storage
+# Move cold data to S3:
+kubectl exec themisdb-0 -- themisdb-admin \
+  tiered-storage move \
+  --collection=logs \
+  --before="2025-12-01" \
+  --target=s3://backup-bucket/cold-data
+```
+
+**Prevention:**
+- **Monitoring:** Alert bei > 70% Disk-Usage
+- **Retention Policies:** Automatisches Cleanup alter Daten
+- **Tiered Storage:** Hot/Warm/Cold Data-Separation
 
 ---
 
-## 38.9 Logging & Tracing Sampling Patterns
+## 38.8 Chaos Engineering & GameDays {#chapter_38_8_chaos}
 
-- Dynamic Sampling: Erhöhe Rate bei Errors
-- Tail Sampling: Keep slow queries, drop fast
-- PII Scrubbing Filter vor Export
+[Chaos Engineering](../appendix_h_glossary.md#chaos-engineering) testet System-Resilienz durch kontrollierte Failure-Injection[^10]. Wir führen monatliche GameDays durch, um Incident-Response zu üben und Schwachstellen zu identifizieren.
+
+### 38.8.1 Failure Modes Testing {#chapter_38_8_1_failure-modes}
+
+**Typische Failure Scenarios für ThemisDB:**
+
+```yaml
+# chaos_experiments.yaml - Chaos Engineering Test-Suite
+experiments:
+  - name: "node_failure"
+    description: "Single node crashes"
+    blast_radius: "1 node (33% capacity)"
+    duration: "10 minutes"
+    hypothesis: "System maintains 99% availability with 2/3 nodes"
+    validation:
+      - slo_availability > 0.99
+      - auto_heal_time < 300s
+      - alerts_triggered: ["NodeDown"]
+  
+  - name: "network_partition"
+    description: "Leader isolated from followers"
+    blast_radius: "Leader node network"
+    duration: "5 minutes"
+    hypothesis: "New leader elected within 30s, no data loss"
+    validation:
+      - leader_election_time < 30s
+      - data_loss_events == 0
+      - replication_lag_max < 10s
+  
+  - name: "disk_full"
+    description: "Disk reaches 95% on follower"
+    blast_radius: "1 follower"
+    duration: "15 minutes"
+    hypothesis: "Writes throttled, alerts fired, no crashes"
+    validation:
+      - write_throttle_activated: true
+      - alerts_triggered: ["DiskFull"]
+      - no_oom_kills: true
+  
+  - name: "high_latency_storage"
+    description: "Inject 500ms storage latency"
+    blast_radius: "All nodes"
+    duration: "20 minutes"
+    hypothesis: "P99 latency increases but stays < 1s"
+    validation:
+      - p99_latency < 1.0s
+      - error_rate < 0.01
+      - timeouts < 100
+```
+
+### 38.8.2 GameDay Checkliste {#chapter_38_8_2_gameday}
+
+**Vor dem GameDay (T-1 Woche):**
+1. Hypothesen und Erfolgskriterien dokumentieren
+2. Stakeholder informieren (Engineering, Product, Support)
+3. Rollback-Plan vorbereiten
+4. Monitoring-Dashboards aufsetzen
+5. Incident-Room einrichten (Slack, Zoom)
+
+**Während des GameDays (T+0):**
+1. Pre-Check: Alle Systeme healthy?
+2. Failure injizieren (klein starten: 1 Node, 5 Min)
+3. Observability: Metrics, Logs, Traces monitoren
+4. Response: Team reagiert nach Runbooks
+5. Documentation: Alle Actions timestamped loggen
+
+**Nach dem GameDay (T+1 Tag):**
+1. Post-Mortem schreiben: Was gut? Was schlecht?
+2. Action Items: Bugs fixen, Runbooks updaten
+3. Follow-up: Tickets erstellen, Owners zuweisen
+4. Re-Test: Validieren dass Fixes funktionieren
 
 ---
 
-## 38.10 Capacity Planning
+## 38.9 Capacity Planning {#chapter_38_9_capacity}
 
-- Wachstumsrate Traffic & Daten
-- Headroom-Ziel: 40% CPU, 50% IO, 30% Memory
-- Load-Test vierteljährlich; extrapoliere 12 Monate
-- Trigger: >70% baseline → Scale-out
+Proaktive [Capacity Planning](../appendix_h_glossary.md#capacity-planning) verhindert Performance-Degradation durch Ressourcen-Erschöpfung[^1]. Wir extrapolieren Wachstumsraten und planen Headroom für Traffic-Spikes.
+
+### 38.9.1 Wachstums-Forecasting {#chapter_38_9_1_forecasting}
+
+```python
+# capacity_forecast.py - Linear Regression Forecast
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from datetime import datetime, timedelta
+
+def forecast_capacity(historical_data: list, forecast_days: int = 90) -> dict:
+    """Forecasted Capacity-Bedarf basierend auf historischen Daten.
+    
+    Args:
+        historical_data: Liste von (timestamp, metric_value) Tuples
+        forecast_days: Anzahl Tage für Forecast
+    
+    Returns:
+        Dictionary mit Forecast-Metriken
+    """
+    # Prepare data
+    X = np.array([i for i in range(len(historical_data))]).reshape(-1, 1)
+    y = np.array([val for _, val in historical_data])
+    
+    # Train linear regression
+    model = LinearRegression()
+    model.fit(X, y)
+    
+    # Forecast
+    future_X = np.array([i for i in range(len(historical_data), 
+                                          len(historical_data) + forecast_days)]).reshape(-1, 1)
+    forecast = model.predict(future_X)
+    
+    # Calculate growth rate
+    growth_rate = model.coef_[0]
+    growth_percentage = (growth_rate / y[0]) * 100 if y[0] > 0 else 0
+    
+    return {
+        'current_value': y[-1],
+        'forecast_value_90d': forecast[-1],
+        'growth_rate_per_day': growth_rate,
+        'growth_percentage': growth_percentage,
+        'days_until_capacity': None  # Berechne wenn Threshold gegeben
+    }
+
+# Beispiel: QPS Forecast
+historical_qps = [
+    (datetime(2025, 10, 1), 1000),
+    (datetime(2025, 11, 1), 1150),
+    (datetime(2025, 12, 1), 1320),
+    (datetime(2026, 1, 1), 1500)
+]
+
+forecast = forecast_capacity(historical_qps, forecast_days=90)
+print(f"Current QPS: {forecast['current_value']}")
+print(f"Forecast QPS (90d): {forecast['forecast_value_90d']:.0f}")
+print(f"Growth Rate: {forecast['growth_percentage']:.1f}% per day")
+```
+
+**Headroom-Targets:**
+- **CPU:** 40% Headroom (nutze max 60% in Normal-Betrieb)
+- **Memory:** 30% Headroom (Reserve für Traffic-Spikes)
+- **Disk I/O:** 50% Headroom (IOPS, Bandwidth)
+- **Network:** 50% Headroom (TX/RX Throughput)
+
+**Trigger-Punkte für Scale-Out:**
+- Baseline-Utilization > 70% über 7 Tage
+- P95-Utilization > 85% über 3 Tage
+- Forecast zeigt Kapazitäts-Erschöpfung in < 30 Tagen
 
 ---
 
-## 38.11 Oncall Playbook Essentials
+## 38.10 On-Call Playbook Essentials {#chapter_38_10_oncall}
 
-- Runbook Link in jedem Alert
-- 2nd-level Escalation (DBA/SRE)
-- Kommunikationskanal: Incident Room + Status Page
-- Postmortem innerhalb 48h, Action Items mit Owner/ETA
+Effektives [On-Call](../appendix_h_glossary.md#on-call)-Management reduziert [MTTR](../appendix_h_glossary.md#mean-time-to-recovery) und On-Call-Burden[^1]. Wir implementieren strukturierte Escalation-Policies und Post-Mortem-Prozesse.
+
+**On-Call Rotation:**
+- **Primary On-Call:** 1 Woche Rotation, 24/7 Verfügbarkeit
+- **Secondary On-Call:** Backup bei Escalation (15 Min Response)
+- **Escalation:** DBA/SRE-Lead bei ungelösten Critical-Incidents (30 Min)
+
+**Incident Communication:**
+1. **Incident Room:** Dedizierter Slack-Channel (#incident-2026-01-15)
+2. **Status Page:** Öffentliche Updates alle 30 Min (status.example.com)
+3. **Stakeholder Updates:** Email an Engineering-Leadership jede Stunde
+
+**Post-Mortem (innerhalb 48h):**
+```markdown
+# Post-Mortem Template
+
+## Incident Summary
+- **Date:** 2026-01-15
+- **Duration:** 45 Minuten
+- **Impact:** 0.1% Error Rate, 1,000 affected requests
+- **Root Cause:** Index missing für neue Query-Pattern
+
+## Timeline
+- 10:00 UTC: Alert "HighQueryLatency" triggered
+- 10:05 UTC: On-Call engineer investigates
+- 10:15 UTC: Root cause identified (missing index)
+- 10:20 UTC: Index created, latency drops
+- 10:45 UTC: Incident resolved
+
+## Root Cause Analysis
+- **What happened:** New feature deployed with unindexed query
+- **Why:** Index-Review in Code-Review process nicht durchgeführt
+- **Contributing Factors:** No staging load-test, missing query profiling
+
+## Action Items
+- [ ] Add index-review checklist to PR template (Owner: @dev-lead, ETA: 2026-01-20)
+- [ ] Implement query profiling in CI/CD (Owner: @sre, ETA: 2026-01-25)
+- [ ] Add load-testing to staging environment (Owner: @qa, ETA: 2026-02-01)
+
+## Lessons Learned
+- **What went well:** Fast detection (5 min), clear runbook
+- **What went poorly:** No proactive index analysis before deploy
+- **Improvement opportunities:** Automated query analysis in CI
+```
 
 ---
 
-## Zusammenfassung
+## Zusammenfassung {#chapter_38_11_zusammenfassung}
 
-Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashboards, schlankem Alerting und erprobten Runbooks verkürzen Sie MTTR massiv und verhindern Blindflüge im Betrieb.
+Wir präsentierten ein ganzheitliches [Observability](../appendix_h_glossary.md#observability)- und [SRE](../appendix_h_glossary.md#site-reliability-engineering)-Framework für [ThemisDB](../appendix_h_glossary.md#themisdb)-Produktionsumgebungen. Die Three Pillars ([Metrics](../appendix_h_glossary.md#metrics), [Logs](../appendix_h_glossary.md#logging), [Traces](../appendix_h_glossary.md#distributed-tracing)) kombiniert mit klaren [SLOs](../appendix_h_glossary.md#service-level-objective), präzisem [Alerting](../appendix_h_glossary.md#alerting) und strukturierten [Runbooks](../appendix_h_glossary.md#runbook) bilden die Grundlage für zuverlässigen Database-Betrieb.
+
+**Key Takeaways:**
+
+1. **Metrics:** [Prometheus](../appendix_h_glossary.md#prometheus) + [Grafana](../appendix_h_glossary.md#grafana) für Time-Series-Monitoring, RED/USE-Prinzipien
+2. **Logging:** Strukturierte [JSON Lines](../appendix_h_glossary.md#json-lines), [Trace-ID](../appendix_h_glossary.md#trace-id)-Korrelation, Tiered Retention
+3. **Tracing:** [OpenTelemetry](../appendix_h_glossary.md#opentelemetry) für Request-Flow-Visibility, adaptive Sampling
+4. **SLI/SLO:** Error Budgets balancieren Innovation vs. Stability, Multi-Window Burn-Rate-Alerts
+5. **Alerting:** Symptom-based, Actionable, Context-rich mit [Runbook](../appendix_h_glossary.md#runbook)-Links
+6. **Runbooks:** Strukturierte Playbooks für High-Latency, Replication-Lag, OOM, Disk-Full
+7. **Chaos:** Monatliche GameDays validieren Resilienz, Post-Mortems dokumentieren Learnings
+8. **Capacity:** Proaktives Forecasting mit 40-50% Headroom-Targets
+
+**Iterativer Improvement-Prozess:** Observability ist kontinuierliche Verbesserung. Nutzen Sie Post-Mortems für Runbook-Updates, [Chaos Engineering](../appendix_h_glossary.md#chaos-engineering) für Resilienz-Testing, und [Capacity Planning](../appendix_h_glossary.md#capacity-planning) für proaktive Skalierung. Für tiefere Performance-Analyse siehe → Kapitel 39: Performance Tuning Cookbook, für Incident-Management → Kapitel 27: Troubleshooting.
+
+---
+
+## Referenzen {#chapter_38_references}
+
+[^1]: Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016). *Site Reliability Engineering: How Google Runs Production Systems.* O'Reilly Media.
+
+[^2]: Majors, C., Fong-Jones, L., & Miranda, G. (2022). *Observability Engineering.* O'Reilly Media.
+
+[^3]: OpenTelemetry Contributors. (2024). "OpenTelemetry Specification." https://opentelemetry.io/docs/specs/
+
+[^4]: Prometheus Authors. (2024). "Prometheus Documentation." https://prometheus.io/docs/
+
+[^5]: Brendan Gregg. (2013). "Systems Performance: Enterprise and the Cloud." Prentice Hall.
+
+[^6]: Narayan, A. (2021). "Practical Monitoring: Effective Strategies for the Real World." O'Reilly Media.
+
+[^7]: Elastic. (2024). "Elasticsearch: The Definitive Guide." https://www.elastic.co/guide/
+
+[^8]: Grafana Labs. (2024). "Grafana Documentation." https://grafana.com/docs/
+
+[^9]: Hidalgo, A. (2020). "Implementing Service Level Objectives." O'Reilly Media.
+
+[^10]: Rosenthal, C., & Jones, N. (2020). *Chaos Engineering: System Resiliency in Practice.* O'Reilly Media.
