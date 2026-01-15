@@ -1,6 +1,6 @@
 # Kapitel 31: API-Protokolle & Kommunikation {#chapter_31_api-protokolle-kommunikation}
 
-> *"The best API is one that feels so natural, developers use it correctly without consulting documentation."* — Joshua Bloch
+> *"The best API is one that feels so natural, developers use it correctly without consulting documentation."* — Josh Bloch
 
 ---
 
