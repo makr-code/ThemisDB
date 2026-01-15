@@ -127,27 +127,33 @@ public:
                         
                         // Check if adapter uses blob storage (not inline)
                         if (entity.hasField("blob_ref_path")) {
-                            storage::BlobRef ref;
-                            ref.type = static_cast<storage::BlobStorageType>(
-                                entity.getFieldAsInt("blob_ref_type").value_or(0)
-                            );
-                            ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
-                            
-                            // Delete blob from storage
-                            if (!ref.uri.empty()) {
-                                bool blob_deleted = config_.blob_manager->remove(ref);
-                                if (!blob_deleted) {
-                                    spdlog::warn("Failed to delete blob {} for adapter {}", 
-                                                ref.uri, adapter_id);
-                                    // Continue with metadata deletion for idempotency
-                                } else {
-                                    spdlog::debug("Deleted blob {} for adapter {}", 
-                                                 ref.uri, adapter_id);
+                            // Validate blob reference type before casting
+                            auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+                            // Valid range: 0 (INLINE) to 7 (CUSTOM)
+                            if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+                                spdlog::warn("Invalid blob storage type {} for adapter {}, skipping blob deletion", 
+                                           blob_type_value, adapter_id);
+                            } else {
+                                storage::BlobRef ref;
+                                ref.type = static_cast<storage::BlobStorageType>(blob_type_value);
+                                ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
+                                
+                                // Delete blob from storage
+                                if (!ref.uri.empty()) {
+                                    bool blob_deleted = config_.blob_manager->remove(ref);
+                                    if (!blob_deleted) {
+                                        spdlog::warn("Failed to delete blob {} for adapter {}", 
+                                                    ref.uri, adapter_id);
+                                        // Continue with metadata deletion for idempotency
+                                    } else {
+                                        spdlog::debug("Deleted blob {} for adapter {}", 
+                                                     ref.uri, adapter_id);
+                                    }
                                 }
                             }
                         }
                     } catch (const std::exception& e) {
-                        spdlog::warn("Failed to delete blob for adapter {}: {}", 
+                        spdlog::warn("Failed to deserialize or delete blob for adapter {}: {}", 
                                     adapter_id, e.what());
                         // Continue with metadata deletion
                     }
