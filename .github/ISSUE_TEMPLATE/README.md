@@ -1,10 +1,12 @@
 # GitHub Issues Templates für ThemisDB Kompendium
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt und für die LoRA-Trainings-Implementation.
 
 ## Verfügbare Templates
 
-### 📖 kapitel-verbesserung.md
+### 📖 Kompendium Templates
+
+#### kapitel-verbesserung.md
 **Für:** Verbesserung bestehender Kapitel  
 **Verwendung:** Neuen Issue erstellen → "Kapitel-Generierung / Kapitel-Verbesserung" wählen
 
@@ -17,6 +19,84 @@ Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kom
 - 🔗 Links zu allen Richtlinien
 - ✅ Akzeptanz-Kriterien
 - 📊 Checklisten
+
+### 🧠 LoRA Training Implementation Templates
+
+#### 04-lora-training.md (Phase 1 - ✅ COMPLETE)
+**Status:** Completed - See PR #[number]  
+**Description:** CPU-based LoRA training with verified gradients  
+**Completion:** Phase 1 delivered tensor operations, forward/backward passes, SGD optimizer, and gradient verification
+
+#### 05-lora-gpu-acceleration.md (Phase 2 - Future)
+**For:** GPU acceleration implementation  
+**Priority:** P1 (High)  
+**Effort:** 4-6 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `area:performance`, `effort:x-large`, `phase:2`
+
+**Key Tasks:**
+- Vulkan compute shaders (cross-platform)
+- CUDA kernels (NVIDIA)
+- HIP kernels (AMD)
+- GPU memory management
+- Performance benchmarks (target: 10-100x speedup)
+
+#### 06-lora-adam-optimizer.md (Phase 2 - Future)
+**For:** Adam optimizer implementation  
+**Priority:** P1 (High)  
+**Effort:** 1-2 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `effort:medium`, `phase:2`
+
+**Key Tasks:**
+- Adam update rule (β1, β2, ε)
+- AdamW variant with decoupled weight decay
+- Learning rate scheduling
+- Faster convergence (target: 3-5x vs SGD)
+
+#### 07-lora-llamacpp-integration.md (Phase 2 - Future)
+**For:** Integration with llama.cpp base models  
+**Priority:** P1 (High)  
+**Effort:** 3-4 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `effort:large`, `phase:2`
+
+**Key Tasks:**
+- Load GGUF models via llama.cpp
+- Inject LoRA adapters into attention/MLP layers
+- Forward: base + LoRA, Backward: LoRA only
+- Text data processing and tokenization
+- Train on real datasets (Alpaca, ShareGPT)
+
+#### 08-lora-production-features.md (Phase 3 - Future)
+**For:** Production-ready training features  
+**Priority:** P2 (Medium)  
+**Effort:** 4-6 weeks  
+**Labels:** `priority:P2`, `type:feature`, `area:llm`, `effort:large`, `phase:3`
+
+**Key Tasks:**
+- Mixed precision (FP16/BF16) - 2x speedup
+- Gradient accumulation - large batch sizes
+- Gradient clipping - training stability
+- Checkpointing - crash recovery
+- Distributed training (multi-GPU) - linear scaling
+- Monitoring and logging
+
+#### 09-qlora-quantized-training.md (Phase 2 - Future)
+**For:** QLoRA (Quantized LoRA) implementation  
+**Priority:** P1 (High)  
+**Effort:** 4-6 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `area:performance`, `effort:large`, `phase:2`
+
+**Key Tasks:**
+- 4-bit NF4 quantization for base models
+- 8-bit INT8 quantization
+- Double quantization for constants
+- Paged optimizers (CPU ↔ GPU)
+- Memory reduction: 60-70% vs full LoRA
+- Train Llama-65B on consumer GPUs
+
+**Benefits:**
+- Memory: ~5-6 GB for Llama-7B (vs ~14 GB)
+- Enables: Llama-30B on 24GB, Llama-65B on 40GB
+- Accuracy: Within 1-2% of full precision
 
 ## Verwendungsbeispiele
 
