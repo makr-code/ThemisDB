@@ -98,6 +98,117 @@ Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kom
 - Enables: Llama-30B on 24GB, Llama-65B on 40GB
 - Accuracy: Within 1-2% of full precision
 
+---
+
+### 🚨 Production-Readiness Issue Templates (NEW - January 2026)
+
+#### 10-themisdb-model-loading.md (P0 - CRITICAL)
+**For:** Model Loading aus ThemisDB Blob Store  
+**Status:** 🔴 **PRODUKTIONSBLOCKER**  
+**Priority:** P0 (Critical)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P0`, `type:feature`, `area:llm`, `area:storage`, `effort:large`, `phase:production`
+
+**Key Tasks:**
+- Implement `loadModelFromThemisDB()` (currently returns false)
+- Blob Store integration für GGUF models
+- Streaming für large models (>5GB)
+- Encryption/Decryption support
+- Model metadata management
+- Production key providers (NOT MockKeyProvider)
+
+**Impact:** 
+- ❌ **BLOCKS:** Core "native LLM integration" feature
+- ❌ **BLOCKS:** Model serving from database
+- ❌ **BLOCKS:** Multi-tenant model sharing
+
+**Related Analysis:** `INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md` §2.1, §4
+
+---
+
+#### 11-lora-storage-backend.md (P0 - CRITICAL)
+**For:** Complete LoRa Storage Backend für ThemisDB und S3  
+**Status:** 🔴 **PRODUKTIONSBLOCKER**  
+**Priority:** P0 (Critical)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P0`, `type:feature`, `area:llm`, `area:storage`, `effort:large`, `phase:production`
+
+**Key Tasks:**
+- Implement ThemisDB backend (save/load/delete/metadata) - 4x TODO
+- Implement S3 backend
+- Fix blob deletion (currently only deletes metadata)
+- Replace MockKeyProvider with production keys
+- Blob reference management
+- Encryption integration
+
+**Impact:**
+- ❌ **BLOCKS:** Persistent LoRa adapter storage
+- ❌ **BLOCKS:** Adapter lifecycle management
+- ⚠️ **RISK:** Data loss (only filesystem works)
+
+**Related Analysis:** `INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md` §1.1.2, §4
+
+---
+
+#### 12-lora-training-control.md (P0 - CRITICAL)
+**For:** Training Stop Logic und Production Features  
+**Status:** 🔴 **PRODUKTIONSBLOCKER**  
+**Priority:** P0 (Critical)  
+**Effort:** 1 week  
+**Labels:** `priority:P0`, `type:feature`, `area:llm`, `effort:medium`, `phase:production`
+
+**Key Tasks:**
+- Implement `stopTraining()` (currently non-functional)
+- Checkpoint save/load functionality
+- Resume training from checkpoint
+- Graceful shutdown on SIGTERM/SIGINT
+- Resource cleanup (prevent leaks)
+
+**Impact:**
+- ❌ **BLOCKS:** Graceful training control
+- ⚠️ **RISK:** Resource leaks, no crash recovery
+- ⚠️ **RISK:** Cannot stop long-running training jobs
+
+**Related Analysis:** `INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md` §1.1.1
+
+---
+
+#### 13-remove-simulation-code.md (P1 - HIGH)
+**For:** Entfernung aller Simulation-Codes  
+**Status:** ⚠️ **Performance-Problem**  
+**Priority:** P1 (High)  
+**Effort:** 2 weeks  
+**Labels:** `priority:P1`, `type:refactoring`, `area:llm`, `effort:medium`, `phase:production`
+
+**Key Tasks:**
+- Remove 9 sleep() calls (artificial latency)
+- Replace 12 stub implementations
+- Replace dummy embeddings with real implementations
+- Implement 30+ production validator tests (currently all TODO)
+- Fix performance metrics to reflect reality
+
+**Impact:**
+- ⚠️ **ISSUE:** Performance metrics not accurate
+- ⚠️ **ISSUE:** Cannot validate production readiness
+- ⚠️ **ISSUE:** Artificial latency distorts benchmarks
+
+**Related Analysis:** `INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md` §2.3, §5
+
+---
+
+### 📊 Production-Readiness Status
+
+| Template | Status | Priority | Blocks Production? |
+|----------|--------|----------|-------------------|
+| 10-themisdb-model-loading | 🔴 Critical Gap | P0 | ✅ YES - Core feature |
+| 11-lora-storage-backend | 🔴 Critical Gap | P0 | ✅ YES - Data loss risk |
+| 12-lora-training-control | 🔴 Critical Gap | P0 | ✅ YES - Resource leaks |
+| 13-remove-simulation-code | ⚠️ Performance Issue | P1 | ⚠️ Metrics unreliable |
+
+**Overall Production Readiness:** **47%** ❌ (See `EXECUTIVE_SUMMARY_GAPS_ANALYSIS.md`)
+
+**Estimated Time to Production:** **6-8 weeks** with focused P0/P1 work
+
 ## Verwendungsbeispiele
 
 ### Beispiel 1: Kapitel 6 verbessern
