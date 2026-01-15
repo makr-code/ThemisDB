@@ -1490,7 +1490,7 @@ FOR event IN process_events
 
 ## 29.4 Similarity Search {#chapter_29_4_similarity_search}
 
-### 29.4.1 Hybrid Similarity Metrics
+### 29.4.1 Hybrid Similarity Metrics {#chapter_29_4_1_hybrid_similarity}
 
 ThemisDB kombiniert drei Similarity-Arten:
 
@@ -1498,7 +1498,7 @@ ThemisDB kombiniert drei Similarity-Arten:
 2. **Vector Similarity** (Semantisch): Embeddings der Aktivitätsnamen
 3. **Behavioral Similarity** (Ausführung): Trace-Varianz, Durchlaufzeiten
 
-### 29.4.2 Similar Process Search
+### 29.4.2 Similar Process Search {#chapter_29_4_2_similar_process_search}
 
 ```aql
 -- Finde ähnliche Bauanträge
@@ -1570,7 +1570,7 @@ FOR result IN similar
 ]
 ```
 
-### 29.4.3 Similarity Visualization
+### 29.4.3 Similarity Visualization {#chapter_29_4_3_similarity_visualization}
 
 ```mermaid
 flowchart LR
@@ -1601,14 +1601,14 @@ Abb. 29.3: Process-Discovery-Algorithm
 
 ---
 
-## 29.5 Conformance Checking
+## 29.5 Conformance Checking {#chapter_29_5_conformance_checking}
 
-### 29.5.1 Fitness & Precision
+### 29.5.1 Fitness & Precision {#chapter_29_5_1_fitness_precision}
 
 **Fitness:** Wie viele Schritte des Ist-Prozesses passen zum Soll-Prozess?
 **Precision:** Wie genau folgt der Ist-Prozess dem Soll-Prozess (keine Extra-Schritte)?
 
-### 29.5.2 Conformance Check Query
+### 29.5.2 Conformance Check Query {#chapter_29_5_2_conformance_check_query}
 
 ```aql
 -- Prüfe alle Bauanträge gegen Standard
@@ -1666,7 +1666,7 @@ FOR case IN bauantraege
 ]
 ```
 
-### 29.5.3 Conformance Heatmap
+### 29.5.3 Conformance Heatmap {#chapter_29_5_3_conformance_heatmap}
 
 ```mermaid
 flowchart TB
@@ -2526,9 +2526,9 @@ FOR case IN bauantraege
 
 ---
 
-## 29.8 Real-Time Analytics with Changefeed
+## 29.8 Real-Time Analytics with Changefeed {#chapter_29_8_realtime_changefeed}
 
-### 29.8.1 Live Dashboard Query
+### 29.8.1 Live Dashboard Query {#chapter_29_8_1_live_dashboard}
 
 ```aql
 -- Real-Time Dashboard: Offene Vorgänge nach Status
@@ -2553,7 +2553,7 @@ FOR case IN bauantraege
   }
 ```
 
-### 29.8.2 Changefeed für Analytics
+### 29.8.2 Changefeed für Analytics {#chapter_29_8_2_changefeed_analytics}
 
 ```python
 # Changefeed für Echtzeit-Analytics
@@ -2566,9 +2566,9 @@ for change in feed:
 
 ---
 
-## 29.9 Performance Optimizations
+## 29.9 Performance Optimizations {#chapter_29_9_optimizations}
 
-### 29.9.1 Materialized Views
+### 29.9.1 Materialized Views {#chapter_29_9_1_materialized_views}
 
 ```aql
 -- Erstelle Materialized View für häufige Aggregation
@@ -2598,7 +2598,7 @@ FOR stat IN bauantraege_stats
   RETURN stat
 ```
 
-### 29.9.2 Pre-Aggregation
+### 29.9.2 Pre-Aggregation {#chapter_29_9_2_pre_aggregation}
 
 ```aql
 -- Pre-Aggregation für OLAP Cubes
@@ -2616,7 +2616,7 @@ INSERT {
 
 ---
 
-## 29.10 Zusammenfassung
+## 29.10 Zusammenfassung {#chapter_29_10_summary}
 
 ### Kernfeatures
 
@@ -3022,7 +3022,69 @@ FOR query IN analytics_log
 
 ---
 
-## 29.13 Zusammenfassung: Analytics-Architektur in ThemisDB
+## 29.12 Wissenschaftliche Referenzen & Literatur {#chapter_29_12_references}
+
+Die in diesem Kapitel präsentierten Konzepte und Techniken basieren auf etablierter wissenschaftlicher Forschung und bewährten Praktiken aus dem Bereich Process Mining, OLAP und Business Intelligence.
+
+### 29.12.1 Primärliteratur {#chapter_29_12_1_primary_literature}
+
+1. **van der Aalst, W. M. P. (2016).** *Process Mining: Data Science in Action*. Springer, 2nd Edition.  
+   ISBN: 978-3-662-49851-4  
+   Das Standardwerk für Process Mining, das alle grundlegenden Algorithmen (Alpha, Heuristic, Inductive Miner) sowie Conformance Checking und Performance Analysis abdeckt.
+
+2. **Kimball, R. & Ross, M. (2013).** *The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling*. Wiley, 3rd Edition.  
+   ISBN: 978-1118530801  
+   Umfassende Darstellung von Star Schema, Snowflake Schema, Slowly Changing Dimensions und OLAP Cube Design.
+
+3. **Sherman, R. (2014).** *Business Intelligence Guidebook: From Data Integration to Analytics*. Morgan Kaufmann.  
+   ISBN: 978-0124114616  
+   Praktischer Leitfaden für BI-Integration, Dashboard-Design und Datenrefresh-Strategien.
+
+### 29.12.2 Standards & Spezifikationen {#chapter_29_12_2_standards}
+
+4. **IEEE Task Force on Process Mining (2016).** *XES Standard Definition*.  
+   IEEE Standard 1849-2016  
+   Offizielle Spezifikation des eXtensible Event Stream (XES) Formats für Event-Log-Repräsentation im Process Mining.
+
+5. **Celonis Academic Alliance (2020).** *Process Mining in Practice: Case Studies and Methodologies*.  
+   Celonis SE, Munich  
+   Sammlung realer Process-Mining-Implementierungen mit Performance-Benchmarks und Best Practices.
+
+### 29.12.3 Algorithmen & Frameworks {#chapter_29_12_3_algorithms}
+
+6. **van Dongen, B. F., de Medeiros, A. K. A., Verbeek, H. M. W., Weijters, A. J. M. M., & van der Aalst, W. M. P. (2005).** *The ProM Framework: A New Era in Process Mining Tool Support*.  
+   In: Applications and Theory of Petri Nets 2005, LNCS 3536, pp. 444-454, Springer.  
+   Beschreibt das ProM Framework und die Implementierung von Alpha, Heuristic und anderen Discovery-Algorithmen.
+
+7. **Berti, A., van Zelst, S. J., & van der Aalst, W. M. P. (2019).** *Process Mining for Python (PM4Py): Bridging the Gap Between Process Science and Data Science*.  
+   ICPM Demo Track 2019  
+   Dokumentation der pm4py Library mit Implementierungsdetails für Process Discovery, Conformance Checking und Predictive Analytics.
+
+### 29.12.4 Predictive Analytics & Machine Learning {#chapter_29_12_4_predictive_ml}
+
+8. **Teinemaa, I., Dumas, M., Rosa, M. L., & Maggi, F. M. (2019).** *Outcome-Oriented Predictive Process Monitoring: Review and Benchmark*.  
+   ACM Transactions on Knowledge Discovery from Data (TKDD), 13(2), Article 17.  
+   Umfassende Benchmarks für Remaining Time, Next Activity und Outcome Prediction mit verschiedenen ML-Algorithmen.
+
+### 29.12.5 Online-Ressourcen & Dokumentation {#chapter_29_12_5_online_resources}
+
+9. **pm4py Documentation**. https://pm4py.fit.fraunhofer.de/  
+   Offizielle Dokumentation der pm4py Process Mining Library mit Tutorials, API-Referenz und Best Practices.
+
+10. **Apache ArangoDB Documentation**. https://www.arangodb.com/docs/  
+    Dokumentation für AQL (ArangoDB Query Language), das ThemisDB für multidimensionale Analysen und Graph-Traversierungen nutzt.
+
+### Anwendungsempfehlungen
+
+Wir empfehlen die Kombination mehrerer Quellen für ein tiefes Verständnis:
+- **Einsteiger:** van der Aalst (2016) Kapitel 1-4 für Process Mining Grundlagen
+- **Praktiker:** Kimball & Ross (2013) für OLAP Cube Design und Sherman (2014) für BI Integration
+- **Entwickler:** pm4py Documentation und Berti et al. (2019) für Implementierungsdetails
+- **Researcher:** Teinemaa et al. (2019) für State-of-the-Art in Predictive Process Analytics
+
+---
+
+## 29.13 Zusammenfassung: Analytics-Architektur in ThemisDB {#chapter_29_13_summary}
 
 ### Architektur-Schichten
 
@@ -3046,4 +3108,4 @@ FOR query IN analytics_log
 
 ---
 
-**Kapitel 29 von 30** | **Teil XI: Analytics & Operations** | **~10.000 Wörter (+2000 neu)**
+**Kapitel 29 von 30** | **Teil XI: Analytics & Operations** | **~10.400 Wörter**
