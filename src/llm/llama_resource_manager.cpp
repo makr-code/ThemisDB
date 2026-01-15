@@ -60,8 +60,18 @@ size_t LlamaModelHandle::n_embd() const {
 std::string LlamaModelHandle::model_type() const {
     if (!model_) return "none";
     
-    char buf[128];
-    llama_model_desc(model_.get(), buf, sizeof(buf));
+    // Use larger buffer to accommodate long model descriptions
+    // llama_model_desc() returns the number of bytes written
+    char buf[256];
+    int written = llama_model_desc(model_.get(), buf, sizeof(buf));
+    
+    // Ensure null termination
+    if (written >= 0 && written < static_cast<int>(sizeof(buf))) {
+        buf[written] = '\0';
+    } else {
+        buf[sizeof(buf) - 1] = '\0';
+    }
+    
     return std::string(buf);
 }
 
@@ -195,11 +205,11 @@ BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(
     allocateGPUMemory(gpu_config);
     
     // 6. Load Model with llama.cpp
-    spdlog::info("Loading model with backend: {}", 
-                 acceleration::BackendRegistry::instance()
-                     .getBackend(active_backend_) ? 
-                     acceleration::BackendRegistry::instance()
-                         .getBackend(active_backend_)->name() : "Unknown");
+    // Cache backend pointer to avoid repeated lookups
+    auto* active_backend = acceleration::BackendRegistry::instance().getBackend(active_backend_);
+    const std::string backend_name = active_backend ? active_backend->name() : "Unknown";
+    
+    spdlog::info("Loading model with backend: {}", backend_name);
     
     llama_model* raw_model = llama_model_load_from_file(model_path.c_str(), adjusted_params);
     if (!raw_model) {
@@ -303,9 +313,21 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
     const GPUBackendConfig& config,
     size_t model_size) {
     
+    // Constants for GPU layer estimation
+    const size_t ESTIMATED_LAYERS_PER_MODEL = 40;  // Heuristic: typical models have ~40 layers
+    const int MAX_REASONABLE_LAYERS = 100;          // Threshold for "use all layers"
+    const size_t VRAM_MULTIPLIER_FOR_ALL_LAYERS = 2; // If VRAM > 2x model size, use all layers
+    
     // If explicitly set, use that value
     if (config.n_gpu_layers >= 0 && !config.auto_detect_optimal_layers) {
         return config.n_gpu_layers;
+    }
+    
+    // Validate configuration
+    if (config.reserved_vram >= config.max_vram_per_gpu) {
+        spdlog::warn("Reserved VRAM ({} bytes) >= Max VRAM ({} bytes), using CPU only",
+                     config.reserved_vram, config.max_vram_per_gpu);
+        return 0;
     }
     
     // Get available VRAM
@@ -315,13 +337,16 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
         available_vram = gpu_memory_manager_->getFreeVRAM();
         if (available_vram > config.reserved_vram) {
             available_vram -= config.reserved_vram;
+        } else {
+            spdlog::warn("Insufficient VRAM after reservation, using CPU only");
+            return 0;
         }
     }
     
     // Estimate layers based on model size and available VRAM
-    // Rough estimate: each layer takes about model_size / 40 bytes for typical models
+    // Rough estimate: each layer takes about model_size / ESTIMATED_LAYERS_PER_MODEL bytes
     // This is a heuristic and may need tuning for specific model architectures
-    const size_t estimated_layer_size = model_size / 40;
+    const size_t estimated_layer_size = model_size / ESTIMATED_LAYERS_PER_MODEL;
     
     if (estimated_layer_size == 0) {
         spdlog::warn("Cannot estimate layer size, using all layers");
@@ -336,7 +361,8 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
     }
     
     // If we have plenty of VRAM, use all layers
-    if (optimal_layers > 100 || available_vram > model_size * 2) {
+    if (optimal_layers > MAX_REASONABLE_LAYERS || 
+        available_vram > model_size * VRAM_MULTIPLIER_FOR_ALL_LAYERS) {
         spdlog::info("Sufficient VRAM available, offloading all layers to GPU");
         return -1;  // -1 means all layers
     }
