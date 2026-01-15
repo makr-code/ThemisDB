@@ -1268,6 +1268,47 @@ Detaillierte Hook-Implementierungs-Guidelines in [Kapitel 38: Observability & De
 
 ---
 
+## 37.3.6 Literatur und Referenzen {#chapter_37_3_6_literatur-referenzen}
+
+### Wissenschaftliche Publikationen
+
+1. **Stonebraker, M., & Hellerstein, J. M.** (2005). "What goes around comes around: Database system design". *Readings in Database Systems*, 4th Edition. — Klassische Arbeit über Erweiterbarkeit von Datenbanksystemen durch UDFs und Extensions.
+
+2. **Kleppmann, M.** (2017). *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*. O'Reilly Media. — Kapitel 11 behandelt Stream Processing und Change Data Capture Patterns.
+
+3. **Narkhede, N., Shapira, G., & Palino, T.** (2017). *Kafka: The Definitive Guide*. O'Reilly Media. — Authoritative Referenz für Kafka Event Streaming, Exactly-Once Semantics, und Consumer Groups.
+
+4. **Fowler, M.** (2002). *Patterns of Enterprise Application Architecture*. Addison-Wesley. — Plugin Architecture Patterns, Service Locator, Registry Pattern.
+
+### Technische Dokumentationen
+
+5. **Apache Kafka Documentation**: "Exactly Once Semantics" — [https://kafka.apache.org/documentation/#semantics](https://kafka.apache.org/documentation/#semantics)
+
+6. **Elasticsearch Reference Guide**: "Bulk Indexing Best Practices" — [https://www.elastic.co/guide/en/elasticsearch/reference/current/tune-for-indexing-speed.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/tune-for-indexing-speed.html)
+
+7. **Prometheus Documentation**: "Metric and Label Naming Best Practices" — [https://prometheus.io/docs/practices/naming/](https://prometheus.io/docs/practices/naming/)
+
+8. **Confluent Schema Registry Documentation**: "Schema Evolution and Compatibility" — [https://docs.confluent.io/platform/current/schema-registry/avro.html](https://docs.confluent.io/platform/current/schema-registry/avro.html)
+
+### Standards und Best Practices
+
+9. **C++ Core Guidelines**: Memory Management Best Practices — [https://isocpp.github.io/CppCoreGuidelines/](https://isocpp.github.io/CppCoreGuidelines/)
+
+10. **Semantic Versioning 2.0.0** — [https://semver.org/](https://semver.org/) — Standard für Versionierung von Plugin APIs und Dependencies.
+
+11. **Nygard, M. T.** (2018). *Release It! Second Edition: Design and Deploy Production-Ready Software*. Pragmatic Bookshelf. — Circuit Breaker Pattern, Timeout Patterns, Bulkhead Pattern für Resilienz.
+
+### Verwandte Kapitel
+
+Für vertiefende Informationen siehe:
+
+- **[Kapitel 19: Monitoring & Alerting](chapter_19_monitoring.md#chapter_19_3_metrics-aggregation)** — Prometheus Metrics Aggregation, SLI/SLO Definition
+- **[Kapitel 31: API & Protokolle](chapter_31_api_protocols.md#chapter_31_4_udf-performance)** — UDF Performance Optimization, API Design Patterns
+- **[Kapitel 38: Observability & Debugging](chapter_38_observability.md#chapter_38_4_plugin-debugging)** — Distributed Tracing, Plugin Debugging Strategies
+- **[Kapitel 39: Performance Benchmarking](chapter_39_benchmarking.md#chapter_39_2_integration-benchmarks)** — Detaillierte Integration Benchmarks, Methodologie
+
+---
+
 ## 37.4 Webhooks & Events
 
 ### Webhook Configuration
