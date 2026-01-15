@@ -376,7 +376,7 @@ private:
         if (config_.enable_encryption && encryption_) {
             try {
                 auto encrypted = encryption_->encrypt(data_to_store, config_.encryption_key_id);
-                data_to_store = std::vector<uint8_t>(encrypted.data.begin(), encrypted.data.end());
+                data_to_store = encrypted.ciphertext;
                 spdlog::debug("Encrypted adapter data");
             } catch (const std::exception& e) {
                 spdlog::warn("Encryption failed: {}", e.what());
@@ -392,7 +392,9 @@ private:
             sig.resource_id = adapter_id;
             sig.hash = storage::SecuritySignatureManager::computeFileHash(adapter_id);
             sig.algorithm = "Ed25519";
-            sig.timestamp = std::chrono::system_clock::now();
+            sig.created_at = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count();
             
             config_.signature_manager->storeSignature(sig);
             spdlog::debug("Created security signature for adapter");

@@ -45,8 +45,10 @@ public:
             // Write to LoRA-specific log
             writeToLog(log_entry);
             
-            // Also log to base audit logger for centralized tracking
-            audit_logger_->logEvent(log_entry);
+            // Also log to base audit logger for centralized tracking (if available)
+            if (audit_logger_) {
+                audit_logger_->logEvent(log_entry);
+            }
             
             // Update statistics
             inference_count_++;
