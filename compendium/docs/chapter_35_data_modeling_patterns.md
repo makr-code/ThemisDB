@@ -25,7 +25,7 @@ Die Datenmodellierung bildet das fundamentale Fundament jeder erfolgreichen Date
 - [Graph-Speichermodelle](#chapter_35_4_graphendaten) und Traversal-Optimierungen
 - [Denormalisierung](#chapter_35_5_hybrid-pattern) vs. Normalisierung
 - [Schema-Evolution](#chapter_35_6_schema-evolution) und Versionierung
-- [Anti-Patterns](#chapter_35_7_anti-patterns) und wie man sie vermeidet
+- [Anti-Patterns](#chapter_35_8_anti-patterns) und wie man sie vermeidet
 
 ---
 
@@ -1571,6 +1571,9 @@ FUNCTION delete_product_cascade(product_id) {
 ```
 
 #### Pattern 2: Soft Delete (Preferred) {#chapter_35_7_3_2_soft-delete}
+
+```aql
+-- Soft Delete Pattern (Audit-Friendly, Reversible)
 UPDATE {_id: product_id} WITH {
   deleted_at: NOW(),
   is_deleted: true
