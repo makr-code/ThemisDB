@@ -488,16 +488,26 @@ private:
         // Load weights from blob or inline
         if (entity.hasField("blob_ref_path")) {
             if (config_.blob_manager) {
+                // Validate blob reference type before casting
+                auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+                // Valid range: 0 (INLINE) to 7 (CUSTOM)
+                if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+                    spdlog::error("Invalid blob storage type {} for adapter {}, cannot load", 
+                               blob_type_value, adapter_id);
+                    return std::nullopt;
+                }
+                
                 storage::BlobRef ref;
-                ref.type = static_cast<storage::BlobStorageType>(
-                    entity.getFieldAsInt("blob_ref_type").value_or(0)
-                );
+                ref.type = static_cast<storage::BlobStorageType>(blob_type_value);
                 ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
                 
                 auto blob_data = config_.blob_manager->get(ref);
                 if (blob_data) {
                     weights.data = *blob_data;
                     weights.size_bytes = blob_data->size();
+                } else {
+                    spdlog::error("Failed to load blob {} for adapter {}", ref.uri, adapter_id);
+                    return std::nullopt;
                 }
             }
         } else if (auto weights_data = entity.getField("weights_data")) {
