@@ -20,7 +20,7 @@ echo ""
 mkdir -p "$OUTPUT_DIR"
 
 # Create temporary directory for packaging
-TEMP_DIR=$(mktemp -d)
+TEMP_DIR=$(mktemp -d) || { echo "❌ Failed to create temp directory"; exit 1; }
 PACKAGE_DIR="$TEMP_DIR/$PLUGIN_NAME"
 mkdir -p "$PACKAGE_DIR"
 

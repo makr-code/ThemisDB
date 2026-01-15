@@ -46,7 +46,7 @@ class ThemisDB_Compendium_Downloads {
         $response = wp_remote_get($api_url, array(
             'timeout' => 10,
             'headers' => array(
-                'Accept' => 'application/vnd.github.v3+json',
+                'Accept' => 'application/vnd.github+json',
                 'User-Agent' => 'ThemisDB-WordPress-Plugin'
             )
         ));
@@ -63,8 +63,10 @@ class ThemisDB_Compendium_Downloads {
         }
         
         // Filter for compendium PDF files
-        $compendium_assets = array_filter($data['assets'], function($asset) {
-            return stripos($asset['name'], 'kompendium') !== false && 
+        // Note: Uses 'kompendium' (German) as default. This can be made configurable via settings if needed.
+        $search_term = get_option('themisdb_compendium_search_term', 'kompendium');
+        $compendium_assets = array_filter($data['assets'], function($asset) use ($search_term) {
+            return stripos($asset['name'], $search_term) !== false && 
                    stripos($asset['name'], '.pdf') !== false;
         });
         
@@ -208,7 +210,7 @@ class ThemisDB_Compendium_Downloads {
     public function track_download() {
         check_ajax_referer('themisdb_compendium_download_track', 'nonce');
         
-        $asset = sanitize_text_field($_POST['asset'] ?? '');
+        $asset = isset($_POST['asset']) ? sanitize_text_field($_POST['asset']) : '';
         
         if (!empty($asset)) {
             // Update download counter

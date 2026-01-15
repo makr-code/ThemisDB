@@ -114,6 +114,11 @@ function themisdb_compendium_enqueue_scripts() {
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('themisdb_compendium_download_track')
     ));
+    
+    // Add debug flag if WP_DEBUG is enabled
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        wp_add_inline_script('themisdb-compendium-script', 'window.themisdbDebug = true;', 'before');
+    }
 }
 add_action('wp_enqueue_scripts', 'themisdb_compendium_enqueue_scripts');
 

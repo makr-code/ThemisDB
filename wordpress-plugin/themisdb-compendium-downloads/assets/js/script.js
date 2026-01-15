@@ -22,12 +22,14 @@
                 asset: assetName
             },
             success: function(response) {
-                if (response.success) {
+                if (response.success && window.themisdbDebug) {
                     console.log('Download tracked:', assetName, response.data);
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Failed to track download:', error);
+                if (window.themisdbDebug) {
+                    console.error('Failed to track download:', error);
+                }
             }
         });
     }
@@ -98,8 +100,10 @@
             handleResponsiveLayout();
         });
         
-        // Log initialization
-        console.log('ThemisDB Compendium Downloads initialized');
+        // Log initialization (only in debug mode)
+        if (window.themisdbDebug) {
+            console.log('ThemisDB Compendium Downloads initialized');
+        }
     });
     
     /**

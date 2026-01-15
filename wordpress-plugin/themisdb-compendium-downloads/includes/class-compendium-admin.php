@@ -41,6 +41,7 @@ class ThemisDB_Compendium_Admin {
         register_setting('themisdb_compendium_settings', 'themisdb_compendium_show_file_sizes');
         register_setting('themisdb_compendium_settings', 'themisdb_compendium_cache_duration');
         register_setting('themisdb_compendium_settings', 'themisdb_compendium_button_style');
+        register_setting('themisdb_compendium_settings', 'themisdb_compendium_search_term');
         
         add_settings_section(
             'themisdb_compendium_main_section',
@@ -77,6 +78,14 @@ class ThemisDB_Compendium_Admin {
             'themisdb_compendium_button_style',
             __('Button-Stil', 'themisdb-compendium-downloads'),
             array($this, 'render_button_style_field'),
+            'themisdb-compendium-downloads',
+            'themisdb_compendium_main_section'
+        );
+        
+        add_settings_field(
+            'themisdb_compendium_search_term',
+            __('Dateiname-Filter', 'themisdb-compendium-downloads'),
+            array($this, 'render_search_term_field'),
             'themisdb-compendium-downloads',
             'themisdb_compendium_main_section'
         );
@@ -134,6 +143,15 @@ class ThemisDB_Compendium_Admin {
             echo '<option value="' . esc_attr($key) . '" ' . selected($value, $key, false) . '>' . esc_html($label) . '</option>';
         }
         echo '</select>';
+    }
+    
+    /**
+     * Render search term field
+     */
+    public function render_search_term_field() {
+        $value = get_option('themisdb_compendium_search_term', 'kompendium');
+        echo '<input type="text" name="themisdb_compendium_search_term" value="' . esc_attr($value) . '" class="regular-text">';
+        echo '<p class="description">' . __('Suchbegriff für PDF-Dateinamen in Releases (z.B. "kompendium", "compendium", "documentation")', 'themisdb-compendium-downloads') . '</p>';
     }
     
     /**
