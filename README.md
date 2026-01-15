@@ -119,9 +119,9 @@ graph TB
         end
         
         subgraph "Application Layer"
-            APP1[Application Server 1]
-            APP2[Application Server 2]
-            APP3[Application Server 3]
+            APP1[Client Application 1]
+            APP2[Client Application 2]
+            APP3[Client Application 3]
         end
         
         subgraph "Database Layer"
