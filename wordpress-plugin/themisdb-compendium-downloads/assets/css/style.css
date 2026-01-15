@@ -1,6 +1,25 @@
 /**
  * ThemisDB Compendium Downloads - Frontend Styles
+ * 
+ * Themis Brand Colors:
+ * Primary: #2c3e50 (Dark Blue-Gray)
+ * Secondary: #3498db (Light Blue)
+ * Accent: #7c4dff (Purple)
+ * Success: #27ae60 (Green)
  */
+
+/* CSS Variables for Themis Brand */
+:root {
+    --themis-primary: #2c3e50;
+    --themis-secondary: #3498db;
+    --themis-accent: #7c4dff;
+    --themis-success: #27ae60;
+    --themis-warning: #f39c12;
+    --themis-error: #e74c3c;
+    --themis-light: #ecf0f1;
+    --themis-dark: #1a252f;
+    --themis-gray: #95a5a6;
+}
 
 /* Main container */
 .themisdb-compendium-downloads {
@@ -20,7 +39,7 @@
 .themisdb-compendium-title {
     font-size: 1.8rem;
     margin: 0 0 0.5rem 0;
-    color: #1a1a1a;
+    color: var(--themis-primary);
     font-weight: 600;
 }
 
@@ -31,13 +50,13 @@
 
 .themisdb-compendium-version {
     font-size: 1rem;
-    color: #666;
+    color: var(--themis-gray);
     margin: 0.5rem 0 0 0;
 }
 
 .themisdb-date {
     font-size: 0.9rem;
-    color: #999;
+    color: var(--themis-gray);
 }
 
 /* Items container */
@@ -71,7 +90,7 @@
     display: flex;
     align-items: center;
     padding: 1.5rem;
-    background: #f9f9f9;
+    background: var(--themis-light);
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -80,16 +99,16 @@
 .themisdb-compendium-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-color: #0073aa;
+    border-color: var(--themis-secondary);
 }
 
 /* Variants */
 .themisdb-variant-professional {
-    border-color: #0073aa;
+    border-color: var(--themis-secondary);
 }
 
 .themisdb-variant-print {
-    border-color: #46b450;
+    border-color: var(--themis-success);
 }
 
 /* Item icon */
@@ -107,13 +126,13 @@
 .themisdb-item-title {
     font-size: 1.3rem;
     margin: 0 0 0.5rem 0;
-    color: #1a1a1a;
+    color: var(--themis-primary);
     font-weight: 600;
 }
 
 .themisdb-item-size {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--themis-gray);
     margin: 0 0 1rem 0;
 }
 
@@ -121,7 +140,7 @@
 .themisdb-download-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background: #0073aa;
+    background: var(--themis-secondary);
     color: #ffffff !important;
     text-decoration: none !important;
     border-radius: 4px;
@@ -132,7 +151,7 @@
 }
 
 .themisdb-download-button:hover {
-    background: #005177;
+    background: #2980b9;
     transform: translateX(2px);
 }
 
@@ -153,7 +172,7 @@
 }
 
 .themisdb-github-link a {
-    color: #0073aa;
+    color: var(--themis-secondary);
     text-decoration: none;
     font-size: 0.95rem;
 }
@@ -171,7 +190,7 @@
 .themisdb-compendium-error {
     padding: 1rem;
     background: #ffebee;
-    border: 1px solid #f44336;
+    border: 1px solid var(--themis-error);
     border-radius: 4px;
     color: #c62828;
 }
@@ -180,7 +199,7 @@
 
 /* Modern style (default) */
 .themisdb-style-modern .themisdb-download-button {
-    background: linear-gradient(135deg, #0073aa 0%, #005177 100%);
+    background: linear-gradient(135deg, var(--themis-secondary) 0%, #2980b9 100%);
 }
 
 /* Classic style */
@@ -196,11 +215,11 @@
 
 .themisdb-style-classic .themisdb-download-button {
     border-radius: 2px;
-    background: #23282d;
+    background: var(--themis-primary);
 }
 
 .themisdb-style-classic .themisdb-download-button:hover {
-    background: #0073aa;
+    background: var(--themis-secondary);
 }
 
 /* Minimal style */
@@ -275,7 +294,7 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     .themisdb-compendium-downloads {
-        background: #1a1a1a;
+        background: var(--themis-dark);
         color: #e0e0e0;
     }
     
@@ -290,6 +309,6 @@
     }
     
     .themisdb-compendium-item:hover {
-        border-color: #0096dd;
+        border-color: var(--themis-secondary);
     }
 }
