@@ -1983,66 +1983,1177 @@ labels:
 
 ---
 
-## 38.7 Runbooks (Kurzfassung)
+## 38.7 Runbooks & Incident Response {#chapter_38_7_runbooks-incident-response}
 
-### Hohe Latenz
-- Check: p99 Read/Write? Bestimmte Collections?
-- EXPLAIN Slow Query; Index vorhanden?
-- Cache Hit Rate < 90%? Memory Druck?
-- CPU iowait hoch? → Storage prüfen
-- Rate-Limit/Backpressure aktivieren
+[Runbooks](../appendix_h_glossary.md#runbook) standardisieren Incident-Response-Workflows und reduzieren MTTR (Mean Time To Resolution) durch strukturierte Troubleshooting-Prozesse. Wir implementieren runbook-driven Operations nach dem Google SRE-Framework[^google_sre_book] mit klaren Eskalationspfaden und Decision-Trees. Dieser Abschnitt vermittelt Runbook-Patterns für häufige ThemisDB-Störungen, Diagnostic-Commands und Mitigation-Strategien (siehe auch Kapitel 27 für detaillierte Troubleshooting-Methoden und Appendix E für vollständige Runbook-Bibliothek).
 
-### Replication Lag
-- Netzwerk: retransmits, bandwidth
-- Follower CPU/IO bottleneck
-- WAL queue depth; throttle writes
-- Rebalance followers
+### 38.7.1 Runbook-Architektur & Struktur {#chapter_38_7_1_runbook-architektur}
 
-### OOM/Memory Pressure
-- Cache Size begrenzen
-- Off-Heap aufteilen (vector buffers)
-- Identify large queries; add LIMIT/PROJECTION
+Effektive Runbooks folgen einer standardisierten Struktur, die schnelle Navigation und konsistente Response-Qualität gewährleistet. Die Struktur basiert auf dem OODA-Loop-Prinzip (Observe, Orient, Decide, Act)[^ooda_loop].
 
-### Disk Full
-- Log-Retention kürzen
-- Offload Cold Data (Tiered Storage)
-- Rebuild Indizes, Vacuum
+**Runbook-Template-Struktur:**
+
+```markdown
+# Runbook: [Incident-Type]
+
+## Metadata
+- **Severity:** P1 (Critical) / P2 (High) / P3 (Medium)
+- **MTTR Target:** 15min / 1h / 4h
+- **Owner:** Team-Name (@oncall-rotation)
+- **Last Updated:** 2026-01-15
+- **Related Alerts:** alert_name_1, alert_name_2
+
+## Symptom
+Kurzbeschreibung des beobachtbaren Problems aus User-Perspektive.
+
+## Impact
+- User-facing: [Beschreibung]
+- SLO Impact: [Availability/Latency affected]
+- Affected Components: [Services/DBs/APIs]
+
+## Investigation Steps
+1. **Schritt 1: Verify Symptom**
+   ```bash
+   # Command mit Erwartungswert
+   ```
+   Expected: [Output-Beschreibung]
+   
+2. **Schritt 2: Check Common Causes**
+   [Decision Tree]
+
+3. **Schritt 3: Deep Diagnostic**
+   [Advanced Commands]
+
+## Mitigation
+### Immediate Actions (0-15min)
+- [ ] Rollback to last-known-good version
+- [ ] Enable rate limiting
+- [ ] Scale up resources
+
+### Short-term Fixes (15min-4h)
+- [ ] Apply configuration change
+- [ ] Increase capacity
+- [ ] Implement workaround
+
+### Long-term Resolution (4h-1week)
+- [ ] Root-cause analysis
+- [ ] Code fix + test
+- [ ] Deploy permanent solution
+
+## Escalation
+- **15min:** Oncall Lead (@sre-lead)
+- **30min:** Engineering Manager (@engineering-manager)
+- **1h:** VP Engineering + Incident Commander
+
+## Prevention
+- Monitoring improvements
+- Code changes
+- Process updates
+- Capacity planning
+
+## Postmortem Required
+- [ ] Yes (P1/P2)
+- [ ] No (P3 with quick resolution)
+
+## Related Documents
+- Alert Definition: [Link]
+- Dashboard: [Grafana Link]
+- Architecture Diagram: [Confluence Link]
+```
+
+### 38.7.2 Runbook: Hohe Latenz (High Latency) {#chapter_38_7_2_runbook-hohe-latenz}
+
+Latenz-Spikes sind häufigste User-Impact-Incidents. Wir systematisieren Diagnostik nach dem Layer-Prinzip: Application → Database → Storage → Network.
+
+**Symptom:** P99-Latenz überschreitet SLO-Threshold (z.B. > 500ms für Reads, > 1s für Writes).
+
+**Investigation Decision Tree:**
+
+```mermaid
+graph TD
+    Start[P99 Latency High] --> CheckOp{Welcher<br/>Operation-Type?}
+    
+    CheckOp -->|READ| CheckCache[Cache Hit Rate?]
+    CheckOp -->|WRITE| CheckWAL[WAL Queue Depth?]
+    CheckOp -->|GRAPH| CheckIndex[Index vorhanden?]
+    
+    CheckCache -->|< 90%| MemPressure[Memory Pressure<br/>Mitigation]
+    CheckCache -->|> 90%| CheckSlow[Slow Query Analysis]
+    
+    CheckWAL -->|> 1000| ThrottleWrites[Throttle Writes<br/>+ Scale Storage]
+    CheckWAL -->|< 1000| CheckDisk[Disk I/O Saturation?]
+    
+    CheckIndex -->|Missing| CreateIndex[Create Index<br/>+ Rewrite Query]
+    CheckIndex -->|Exists| CheckTraversal[Traversal Depth?]
+    
+    CheckDisk -->|High| ScaleStorage[Scale IOPS<br/>+ NVMe Migration]
+    CheckDisk -->|Normal| CheckNetwork[Network Latency?]
+```
+
+**Diagnostic Commands:**
+
+```bash
+# 1. Identify Slow Queries (Top 10 by Duration)
+themisdb-cli --exec "
+  FOR q IN _system.queries
+    FILTER q.state == 'running' AND q.runTime > 1000
+    SORT q.runTime DESC
+    LIMIT 10
+    RETURN {
+      query_id: q.id,
+      duration_ms: q.runTime,
+      query: SUBSTRING(q.query, 0, 100),
+      user: q.user
+    }
+"
+
+# 2. Check Cache Hit Rate (Ziel: > 90%)
+curl -s http://localhost:8529/_api/metrics | grep -E 'rocksdb_block_cache_(hit|miss)'
+
+# Berechnung:
+# Hit Rate = cache_hit / (cache_hit + cache_miss) * 100
+
+# 3. Analyze Query Execution Plan
+themisdb-cli --exec "EXPLAIN FOR doc IN users FILTER doc.email == 'test@example.com' RETURN doc"
+
+# Expected Output: "index": true (Index wird genutzt)
+# Bad Output: "index": false (Full Collection Scan!)
+
+# 4. Check Disk I/O Wait (iowait sollte < 20%)
+iostat -x 1 5 | grep -E 'Device:|nvme0n1'
+
+# 5. Memory Pressure Indicators
+free -h
+cat /proc/meminfo | grep -E 'MemAvailable|MemTotal|Cached'
+
+# 6. Network Latency (zu Storage-Backend)
+ping -c 10 storage-backend.local
+traceroute storage-backend.local
+```
+
+**Mitigation Strategies:**
+
+| Ursache | Sofort-Mitigation (0-15min) | Short-Term Fix (15min-4h) | Long-Term Solution |
+|---------|----------------------------|---------------------------|-------------------|
+| **Slow Query (Missing Index)** | Add LIMIT 100, Timeout 5s | Create Index, Rewrite Query | Query Optimization Review |
+| **Cache Miss Spike** | Increase Cache Size (if memory available) | Warmup Cache, Optimize Working Set | Add Memory, Improve Data Locality |
+| **Disk I/O Saturation** | Enable Read/Write Throttling | Scale to NVMe, Add IOPS | Tiered Storage, Data Archival |
+| **Network Latency** | Retry with Backoff, Circuit Breaker | Check Network Config, Firewall | Move to Co-Located Infrastructure |
+| **Thread Pool Exhaustion** | Reject non-critical requests | Increase Thread Pool Size | Async Processing, Queue System |
+
+### 38.7.3 Runbook: Replication Lag {#chapter_38_7_3_runbook-replication-lag}
+
+Replication Lag beeinträchtigt Read-Freshness und kann zu Inconsistencies führen. Kritisch bei [Eventual Consistency](../appendix_h_glossary.md#eventual-consistency)-Architekturen.
+
+**Symptom:** Replication Lag > SLO-Threshold (z.B. > 2 Sekunden für 99% der Zeit).
+
+**Investigation Steps:**
+
+```bash
+# 1. Measure Current Lag per Follower
+curl -s http://localhost:8529/_api/replication/applier-state | jq '.state.lastAppliedContinuousTick'
+
+# Vergleiche mit Leader Tick:
+curl -s http://leader:8529/_api/replication/logger-state | jq '.state.lastLogTick'
+
+# Lag = Leader Tick - Follower Tick (in Millisekunden)
+
+# 2. Check WAL Queue Depth (Leader-Seite)
+curl -s http://leader:8529/_api/metrics | grep themisdb_wal_queue_depth
+
+# > 1000: Backpressure vorhanden
+
+# 3. Check Follower Resource Utilization
+ssh follower-node
+top -bn1 | grep themisdb
+iostat -x 1 3
+
+# 4. Network Bandwidth & Retransmits
+iftop -i eth0
+netstat -s | grep retrans
+
+# 5. Check Follower Disk Write Speed
+dd if=/dev/zero of=/var/lib/themisdb/testfile bs=1G count=1 oflag=dsync
+# Expected: > 500 MB/s für NVMe
+```
+
+**Mitigation Decision Matrix:**
+
+```yaml
+# Replication Lag Mitigation Playbook
+scenarios:
+  - condition: "lag > 5s AND wal_queue_depth > 5000"
+    cause: "Write-Heavy Load overwhelms Follower"
+    actions:
+      immediate:
+        - "Enable Write Throttling on Leader: max_write_rate=10000/s"
+        - "Increase Follower Batch Size: replication_batch_size=10000"
+      short_term:
+        - "Add more Followers (distribute read load)"
+        - "Scale Follower Storage (NVMe upgrade)"
+  
+  - condition: "lag > 2s AND network_retransmits > 1%"
+    cause: "Network Issues between Leader/Follower"
+    actions:
+      immediate:
+        - "Enable Compression: replication_compression=true"
+        - "Reduce Batch Size: replication_batch_size=1000"
+      short_term:
+        - "Check Network Path: traceroute, MTU settings"
+        - "Enable TCP Fast Retransmit"
+  
+  - condition: "lag > 2s AND follower_cpu > 80%"
+    cause: "Follower CPU Bottleneck"
+    actions:
+      immediate:
+        - "Reduce Query Load on Follower (redirect to Leader)"
+      short_term:
+        - "Scale Follower (add more CPU cores)"
+        - "Optimize Heavy Queries on Follower"
+```
+
+### 38.7.4 Runbook: OOM & Memory Pressure {#chapter_38_7_4_runbook-oom-memory}
+
+Out-of-Memory (OOM) Events führen zu Process-Kills und Service-Outages. Proaktives Memory-Management verhindert kritische Incidents.
+
+**Symptom:** OOM-Killer Events, Memory-Allocation-Failures, Swap-Thrashing.
+
+**Investigation Commands:**
+
+```bash
+# 1. Check OOM Killer Logs
+dmesg | grep -i "out of memory"
+journalctl -u themisdb | grep -i "oom"
+
+# 2. Memory Breakdown (RSS, Cache, Buffers)
+cat /proc/$(pidof themisdb)/status | grep -E 'VmRSS|VmSwap|VmSize'
+
+# 3. Identify Large Allocations (via pmap)
+pmap -x $(pidof themisdb) | sort -nk3 | tail -20
+
+# 4. Check Query Memory Usage (Top 10)
+themisdb-cli --exec "
+  FOR q IN _system.queries
+    SORT q.peakMemoryUsage DESC
+    LIMIT 10
+    RETURN {
+      query_id: q.id,
+      memory_mb: q.peakMemoryUsage / 1024 / 1024,
+      query: SUBSTRING(q.query, 0, 100)
+    }
+"
+
+# 5. RocksDB Block Cache Size
+curl -s http://localhost:8529/_api/metrics | grep rocksdb_block_cache_usage
+```
+
+**Mitigation Strategies:**
+
+1. **Immediate (Kill Large Queries):**
+   ```bash
+   # Kill Query by ID
+   themisdb-cli --exec "KILL 'query_id_12345'"
+   
+   # Set Global Memory Limit
+   themisdb-cli --exec "
+     UPDATE _system.configuration
+     SET value = '16GB'
+     WHERE key = 'query.max-memory-per-query'
+   "
+   ```
+
+2. **Short-term (Reduce Cache Size):**
+   ```ini
+   # /etc/themisdb/themisdb.conf
+   [rocksdb]
+   block-cache-size = 8GB  # Reduce von 12GB auf 8GB
+   
+   [query]
+   memory-limit = 4GB      # Limit pro Query
+   ```
+
+3. **Long-term (Optimize Queries):**
+   ```aql
+   -- Bad: Unbounded Result Set
+   FOR doc IN large_collection
+     RETURN doc
+   
+   -- Good: Limited + Projected
+   FOR doc IN large_collection
+     LIMIT 1000
+     RETURN {
+       id: doc._id,
+       name: doc.name
+     }
+   ```
+
+### 38.7.5 Runbook: Disk Full {#chapter_38_7_5_runbook-disk-full}
+
+Disk-Full-Szenarien führen zu Write-Failures und Service-Degradation. Proaktives Disk-Management und Tiered Storage verhindern Ausfälle.
+
+**Symptom:** Disk Utilization > 95%, Write-Errors (`ENOSPC` - No Space Left on Device).
+
+**Rapid Response:**
+
+```bash
+# 1. Identify Large Files/Directories
+du -sh /var/lib/themisdb/* | sort -h | tail -10
+
+# 2. Check Log File Sizes
+ls -lh /var/log/themisdb/*.log
+
+# 3. Immediate Space Recovery (Delete old Logs)
+find /var/log/themisdb -name "*.log" -mtime +7 -delete
+journalctl --vacuum-time=7d
+
+# 4. Compress Old RocksDB SST Files
+cd /var/lib/themisdb/data
+find . -name "*.sst" -mtime +30 -exec gzip {} \;
+
+# 5. Offload to Cold Storage (S3/GCS)
+aws s3 sync /var/lib/themisdb/archives/ s3://themisdb-cold-storage/
+rm -rf /var/lib/themisdb/archives/*
+
+# 6. Trigger Manual Compaction (frees deleted data space)
+themisdb-cli --exec "db._compact()"
+```
+
+**Prevention Strategies:**
+
+| Strategy | Implementation | Space Savings | Risk |
+|----------|----------------|---------------|------|
+| **Log Rotation** | logrotate every 7 days, compress | 80-90% | Low |
+| **Tiered Storage** | Move cold data to S3 after 90 days | 50-70% | Medium (latency for cold queries) |
+| **RocksDB Compaction** | Automatic compaction policy | 20-40% | Low |
+| **Index Cleanup** | Drop unused indexes | 10-30% | Medium (query performance) |
+| **Retention Policies** | Delete data > 365 days (GDPR-compliant) | 30-60% | Low (with backup) |
 
 ---
 
-## 38.8 Chaos & GameDays
+## 38.8 Chaos Engineering & GameDays {#chapter_38_8_chaos-engineering-gamedays}
 
-- Failure Modes: Node down, Network partition, Disk full, High latency storage, Poison messages
-- Hypothesen definieren, erwartetes Verhalten notieren
-- Blast Radius klein starten (1 node, 10 min)
-- Erfolgskriterien: SLO halten? Auto-Heal? Alerts ausgelöst?
-- Nachbereitung: Learnings, Tickets, Fixes, erneutes Testen
+[Chaos Engineering](../appendix_h_glossary.md#chaos-engineering) testet Systemresilienz durch kontrollierte Failure-Injection und validiert Incident-Response-Capabilities. Wir implementieren Chaos-Experimente nach dem Principles of Chaos Engineering Framework[^principles_chaos] mit definierten Blast-Radius-Kontrollen und Rollback-Mechanismen. Dieser Abschnitt vermittelt GameDay-Methodologien, Failure-Mode-Kataloge und Success-Criteria für ThemisDB-Deployments.
+
+### 38.8.1 Chaos Engineering Principles {#chapter_38_8_1_chaos-principles}
+
+Chaos Engineering basiert auf wissenschaftlicher Methodik: Hypothese formulieren, Experiment durchführen, Ergebnis messen, Learnings ableiten. Die vier Kernprinzipien nach Netflix[^netflix_chaos] leiten unser Vorgehen.
+
+**Die 4 Prinzipien:**
+
+1. **Build a Hypothesis around Steady State Behavior**
+   - Definiere Steady-State-Metriken (SLIs): Availability, Latency, Throughput
+   - Messung: "System behält 99.9% Availability während Chaos-Experiment"
+
+2. **Vary Real-World Events**
+   - Simuliere realistische Failures: Node-Crashes, Network-Partitions, Resource-Exhaustion
+   - Nicht: Künstliche Extremszenarien (alle Nodes gleichzeitig down)
+
+3. **Run Experiments in Production**
+   - Production-ähnliche Umgebung (Staging mit Production-Load)
+   - Oder: Production mit Canary-Traffic (1-5% der User)
+
+4. **Automate Experiments to Run Continuously**
+   - Chaos als Teil der CI/CD-Pipeline
+   - Scheduled GameDays (monatlich/quartalsweise)
+
+**Chaos Maturity Model:**
+
+| Level | Beschreibung | Beispiel-Experimente | Automatisierung |
+|-------|--------------|----------------------|-----------------|
+| **1 - Ad-hoc** | Manuelle Tests ohne Plan | "Was passiert wenn ich Node killen?" | Keine |
+| **2 - Structured** | Geplante GameDays mit Runbooks | Node-Down-Test, Network-Partition | Manuell ausgelöst |
+| **3 - Automated** | Scheduled Experiments in Staging | Wöchentliche Chaos-Tests | Teilweise automatisiert |
+| **4 - Continuous** | Production Chaos mit Auto-Rollback | Laufende Failure-Injection (1% Traffic) | Vollautomatisch |
+| **5 - Advanced** | ML-basierte Fault-Prediction | Adaptive Chaos basierend auf System-State | AI-gesteuert |
+
+### 38.8.2 Failure Mode Katalog für ThemisDB {#chapter_38_8_2_failure-mode-katalog}
+
+Systematische Erfassung potenzieller Failures ermöglicht umfassende Resilienz-Tests. Wir kategorisieren Failures nach Komponente und Impact-Level.
+
+**Infrastruktur-Failures:**
+
+| Failure Mode | Simulation Command | Expected Behavior | MTTR Target |
+|--------------|-------------------|-------------------|-------------|
+| **Node Crash** | `systemctl stop themisdb` | Leader-Election in <30s, No Data Loss | <2min |
+| **Network Partition** | `iptables -A INPUT -s <node> -j DROP` | Split-Brain Prevention, Quorum Check | <5min |
+| **Disk Full** | `dd if=/dev/zero of=/var/lib/themisdb/fill bs=1G count=50` | Graceful Degradation, Write-Throttling | <15min |
+| **High Latency Storage** | `tc qdisc add dev sda root netem delay 200ms` | Query Timeouts, Retry Logic | <10min |
+| **Memory Exhaustion** | `stress-ng --vm 1 --vm-bytes 90%` | OOM Protection, Query Rejection | <5min |
+
+**Application-Failures:**
+
+```yaml
+# chaos-experiments.yaml - Litmus Chaos Experiment Definitions
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: themisdb-chaos-engine
+spec:
+  appinfo:
+    appns: production
+    applabel: 'app=themisdb'
+  experiments:
+    # Experiment 1: Pod Delete (Node Crash Simulation)
+    - name: pod-delete
+      spec:
+        components:
+          env:
+            - name: TOTAL_CHAOS_DURATION
+              value: '60'  # 60 Sekunden Chaos
+            - name: CHAOS_INTERVAL
+              value: '10'  # Alle 10s einen Pod killen
+            - name: FORCE
+              value: 'false'  # Graceful Shutdown
+        probe:
+          - name: check-availability
+            type: httpProbe
+            httpProbe/inputs:
+              url: http://themisdb-service:8529/_api/version
+              method:
+                get:
+                  criteria: ==
+                  responseCode: '200'
+            mode: Continuous
+            runProperties:
+              probeTimeout: 5
+              interval: 2
+    
+    # Experiment 2: Network Chaos (Latency Injection)
+    - name: pod-network-latency
+      spec:
+        components:
+          env:
+            - name: NETWORK_LATENCY
+              value: '200'  # 200ms Latenz
+            - name: JITTER
+              value: '50'   # ±50ms Jitter
+            - name: TARGET_PODS
+              value: 'themisdb-0'
+```
+
+### 38.8.3 GameDay Execution Playbook {#chapter_38_8_3_gameday-playbook}
+
+GameDays sind strukturierte Chaos-Events mit definierten Rollen, Timeline und Success-Criteria. Die Methodik folgt dem Google DiRT (Disaster Recovery Testing) Framework[^google_dirt].
+
+**GameDay-Phasen:**
+
+```mermaid
+graph LR
+    Prep[1. Preparation<br/>2 Wochen vorher] --> Brief[2. Pre-Brief<br/>30min vor Start]
+    Brief --> Exec[3. Execution<br/>2-4 Stunden]
+    Exec --> Debrief[4. Debrief<br/>1 Stunde nach]
+    Debrief --> Retro[5. Retrospective<br/>1 Woche nach]
+    
+    style Prep fill:#4facfe
+    style Exec fill:#fa709a
+    style Retro fill:#43e97b
+```
+
+**Phase 1: Preparation (2 Wochen vor GameDay)**
+
+```markdown
+# GameDay Preparation Checklist
+
+## Objective Definition
+- [ ] Define Failure Scenario (z.B. "Leader Node Crash während Peak-Traffic")
+- [ ] Define Success Criteria (z.B. "SLO 99.9% Availability gehalten")
+- [ ] Identify Participating Teams (SRE, Engineering, Product)
+
+## Hypothesis Formulation
+**Hypothesis:** "Bei Leader-Node-Crash erfolgt automatische Failover in <30s ohne User-Impact"
+
+**Validation Metrics:**
+- Leader-Election-Duration < 30s
+- Request-Error-Rate < 0.1% während Failover
+- Zero Data Loss
+
+## Blast Radius Control
+- [ ] Start in Staging Environment (Week 1)
+- [ ] Limited Production Traffic (5% Canary, Week 2)
+- [ ] Define Abort Criteria (Error Rate > 5%, Manual Rollback)
+
+## Tooling Setup
+- [ ] Chaos Injection Tool (Litmus Chaos / Chaos Mesh)
+- [ ] Observability Dashboard (Grafana mit GameDay-Panel)
+- [ ] Communication Channel (Slack #gameday-channel)
+- [ ] Recording (Screen-Recording für Postmortem)
+
+## Stakeholder Communication
+- [ ] Notify all participants (2 weeks notice)
+- [ ] Send Calendar Invite with Agenda
+- [ ] Share Runbook & Expected Failures
+- [ ] Get Leadership Approval (für Production-Tests)
+```
+
+**Phase 2: Pre-Brief (30min vor Start)**
+
+- **Rollen-Zuweisung:**
+  - Game Master: Injiziert Failures, monitored Timeline
+  - Oncall Engineer: Responds to incidents (wie in echtem Incident)
+  - Observers: Silent monitoring, dokumentieren Learnings
+  - Scribe: Dokumentiert Timeline, Commands, Decisions
+
+- **Timeline-Review:**
+  - T+0min: Baseline-Metriken erfassen
+  - T+5min: Inject Failure (Leader Node Kill)
+  - T+5-15min: Observe System Behavior
+  - T+15min: Manual Intervention (falls Auto-Heal fehlschlägt)
+  - T+30min: Rollback & System Recovery
+  - T+45min: Debrief Start
+
+- **Abort-Kriterien:**
+  - Error Rate > 5% für >2 Minuten
+  - Cascading Failures erkannt
+  - Manual Decision by Game Master
+
+**Phase 3: Execution (2-4 Stunden)**
+
+```bash
+# GameDay Execution Script
+#!/bin/bash
+
+# T+0: Baseline Metrics Snapshot
+echo "[T+0] Capturing baseline metrics..."
+curl -s http://prometheus:9090/api/v1/query?query=themisdb_requests_total > baseline_qps.json
+curl -s http://prometheus:9090/api/v1/query?query=themisdb_availability_sli > baseline_availability.json
+
+# T+5: Inject Failure (Leader Node Kill)
+echo "[T+5] Injecting failure: Killing Leader Node..."
+kubectl delete pod themisdb-leader-0 --grace-period=0 --force
+
+# T+5-15: Monitor Auto-Recovery
+echo "[T+5-15] Monitoring Leader Election..."
+for i in {1..60}; do
+  LEADER=$(kubectl get pods -l app=themisdb,role=leader -o jsonpath='{.items[0].metadata.name}')
+  if [ ! -z "$LEADER" ]; then
+    echo "[T+$(($i/6))min] New Leader elected: $LEADER"
+    break
+  fi
+  sleep 10
+done
+
+# T+15: Verify SLO Compliance
+echo "[T+15] Checking SLO compliance..."
+ERROR_RATE=$(curl -s "http://prometheus:9090/api/v1/query?query=rate(themisdb_requests_errors_total[5m])" | jq '.data.result[0].value[1]')
+echo "Error Rate during failure: $ERROR_RATE"
+
+if (( $(echo "$ERROR_RATE > 0.01" | bc -l) )); then
+  echo "⚠️  ALERT: Error rate exceeded 1% threshold!"
+fi
+
+# T+30: Rollback (if needed)
+echo "[T+30] Checking if rollback needed..."
+# (In diesem Fall: Auto-Recovery erfolgreich, kein Rollback nötig)
+
+# T+45: Generate Report
+echo "[T+45] Generating GameDay Report..."
+cat > gameday_report.md << EOF
+# GameDay Report: Leader Node Failure
+
+## Executed: $(date)
+## Participants: SRE Team, Engineering Team
+
+## Results:
+- Leader Election Duration: 23s ✅
+- Request Error Rate: 0.08% ✅
+- Data Loss: 0 bytes ✅
+
+## Learnings:
+1. Auto-recovery worked as expected
+2. No manual intervention required
+3. SLO maintained throughout incident
+
+## Action Items:
+1. Improve election speed to <20s (current: 23s)
+2. Add pre-election health checks
+3. Document observed behavior in runbook
+EOF
+```
+
+**Phase 4: Debrief (1 Stunde nach Execution)**
+
+- **Was lief gut?**
+  - Auto-Recovery funktionierte
+  - Alerts ausgelöst (richtige Sensitivity)
+  - Monitoring visibility ausreichend
+
+- **Was lief schlecht?**
+  - Election dauerte 23s (Target: <20s)
+  - Kurzer Error-Spike (0.5s with 5% Errors)
+  - Documentation fehlte für Scenario X
+
+- **Action Items:**
+  - Owner + ETA für jedes Issue
+  - Priorisierung (P1/P2/P3)
+  - Follow-up GameDay in 4 Wochen
+
+### 38.8.4 Continuous Chaos Testing {#chapter_38_8_4_continuous-chaos}
+
+Fortgeschrittene Organisationen implementieren Continuous Chaos als Teil der normalen Operations. Chaos wird zum "Standard", nicht zur "Ausnahme".
+
+**Implementation mit Chaos Mesh:**
+
+```yaml
+# chaos-schedule.yaml - Wöchentlicher Chaos-Test
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Schedule
+metadata:
+  name: weekly-pod-kill
+spec:
+  schedule: '0 2 * * 2'  # Jeden Dienstag um 2 Uhr morgens
+  type: PodChaos
+  podChaos:
+    action: pod-kill
+    mode: one
+    selector:
+      namespaces:
+        - production
+      labelSelectors:
+        'app': 'themisdb'
+    duration: '2m'
+```
+
+**Success Metrics für Continuous Chaos:**
+
+| Metrik | Target | Actual (Q4 2025) | Trend |
+|--------|--------|------------------|-------|
+| **Auto-Recovery Rate** | >95% | 97.3% | ↑ +2% |
+| **MTTR (Chaos Incidents)** | <5min | 4.2min | ↑ +15% faster |
+| **False-Positive Alerts** | <10% | 8.1% | ↓ -3% |
+| **Production Chaos Coverage** | 50% Scenarios | 62% | ↑ +12% |
 
 ---
 
-## 38.9 Logging & Tracing Sampling Patterns
+## 38.9 Capacity Planning & Forecasting {#chapter_38_9_capacity-planning}
 
-- Dynamic Sampling: Erhöhe Rate bei Errors
-- Tail Sampling: Keep slow queries, drop fast
-- PII Scrubbing Filter vor Export
+[Capacity Planning](../appendix_h_glossary.md#capacity-planning) prognostiziert zukünftigen Ressourcenbedarf und verhindert Service-Degradation durch proaktive Skalierung. Wir implementieren quantitatives Capacity-Management nach dem Google SRE-Framework[^google_sre_book] mit Headroom-Zielen und automatisierten Scale-Triggern. Dieser Abschnitt vermittelt Forecasting-Methoden, Load-Testing-Strategien und Capacity-Modelle für ThemisDB-Deployments.
+
+### 38.9.1 Capacity Model & Headroom Targets {#chapter_38_9_1_capacity-model}
+
+Capacity-Modelle definieren Ressourcen-Obergrenzen und Sicherheitspuffer (Headroom). Headroom absorbiert Traffic-Spikes und ermöglicht Deployments ohne Service-Impact.
+
+**Headroom-Formel:**
+
+```
+Headroom = (Capacity_Max - Utilization_Current) / Capacity_Max * 100%
+
+Example:
+Max CPU: 100 cores
+Current Usage: 60 cores
+Headroom = (100 - 60) / 100 = 40%
+
+Target-Headroom: 30-50% (abhängig von Traffic-Variabilität)
+```
+
+**Headroom-Ziele nach Ressource:**
+
+| Ressource | Target Headroom | Rationale |
+|-----------|-----------------|-----------|
+| **CPU** | 30-40% | Schnelle Burst-Absorption, Deployment-Kapazität |
+| **Memory** | 20-30% | OOM-Prevention, Cache-Warmup-Puffer |
+| **Disk I/O** | 40-50% | I/O-Spikes bei Compaction, Index-Builds |
+| **Network** | 50-60% | Redundanz für Network-Failures, Replication-Bursts |
+| **Storage** | 30-40% | Wachstumsraum für 6-12 Monate |
+
+**Capacity-Trigger-Matrix:**
+
+```yaml
+# capacity-triggers.yaml - Automatische Scale-Trigger
+triggers:
+  cpu_utilization:
+    warning_threshold: 70%  # Yellow Alert: Capacity-Review anstehen
+    critical_threshold: 85%  # Red Alert: Sofortige Skalierung nötig
+    action: "Scale out: Add 2 nodes"
+    
+  memory_utilization:
+    warning_threshold: 75%
+    critical_threshold: 90%
+    action: "Vertical Scale: +50% RAM"
+    
+  disk_utilization:
+    warning_threshold: 70%
+    critical_threshold: 85%
+    action: "Add storage: +500GB per node"
+    
+  query_latency_p99:
+    warning_threshold: 400ms
+    critical_threshold: 800ms
+    action: "Horizontal scale: Add read replicas"
+```
+
+### 38.9.2 Traffic Forecasting & Growth Analysis {#chapter_38_9_2_traffic-forecasting}
+
+Traffic-Forecasting nutzt historische Daten zur Prognose zukünftiger Last. Wir verwenden Time-Series-Analysis mit Trend, Seasonality und Event-Anomalien[^forecasting_prophet].
+
+**Forecasting-Methoden:**
+
+1. **Linear Regression (Einfach):**
+   ```python
+   # Python: Lineare Traffic-Prognose
+   import numpy as np
+   from datetime import datetime, timedelta
+   
+   # Historische Daten (Requests/Tag über 90 Tage)
+   days = np.array(range(90))
+   requests_per_day = np.array([10000, 10200, 10150, ...])  # 90 Werte
+   
+   # Linear Fit
+   coefficients = np.polyfit(days, requests_per_day, 1)
+   slope = coefficients[0]  # Requests/Tag Wachstum
+   
+   # Prognose für nächste 180 Tage
+   future_days = np.array(range(90, 270))
+   forecast = np.poly1d(coefficients)(future_days)
+   
+   # Wachstumsrate (%)
+   growth_rate = (forecast[-1] - requests_per_day[-1]) / requests_per_day[-1] * 100
+   print(f"Projected Growth (6 months): {growth_rate:.1f}%")
+   ```
+
+2. **Prophet (Facebook Time-Series Library):**
+   ```python
+   from fbprophet import Prophet
+   import pandas as pd
+   
+   # Daten vorbereiten
+   df = pd.DataFrame({
+       'ds': pd.date_range('2025-01-01', periods=90),
+       'y': requests_per_day
+   })
+   
+   # Model trainieren
+   model = Prophet(
+       yearly_seasonality=True,
+       weekly_seasonality=True,
+       daily_seasonality=False
+   )
+   model.fit(df)
+   
+   # Prognose für 6 Monate
+   future = model.make_future_dataframe(periods=180)
+   forecast = model.predict(future)
+   
+   # Visualisierung
+   model.plot(forecast)
+   model.plot_components(forecast)  # Trend + Seasonality
+   ```
+
+3. **Quantile Regression (Confidence Intervals):**
+   ```python
+   from sklearn.linear_model import QuantileRegressor
+   
+   # Model für P90 Upper Bound (pessimistische Prognose)
+   qr_90 = QuantileRegressor(quantile=0.90)
+   qr_90.fit(days.reshape(-1, 1), requests_per_day)
+   
+   # Prognose mit 90% Confidence
+   forecast_p90 = qr_90.predict(future_days.reshape(-1, 1))
+   
+   # Capacity Planning: Plan für P90 Scenario
+   required_capacity = forecast_p90[-1] * safety_factor  # 1.2× Sicherheit
+   ```
+
+**Event-driven Anomalies:**
+
+| Event-Typ | Traffic-Impact | Capacity-Strategie |
+|-----------|----------------|-------------------|
+| **Product Launch** | +50-200% spike | Pre-scale 1 Woche vorher, +100% Capacity |
+| **Marketing Campaign** | +30-80% spike | Monitor real-time, Auto-scale bei >70% |
+| **Holiday Season** | +20-50% sustained | Gradual scale-up 2 Wochen vorher |
+| **DDoS Attack** | +1000% burst | Rate-limiting, CDN, Failover |
+| **Viral Event** | +500% unpredicted | Emergency scale-out, Graceful degradation |
+
+### 38.9.3 Load Testing & Benchmarking {#chapter_38_9_3_load-testing}
+
+Load-Testing validiert Capacity-Modelle und identifiziert Breaking-Points. Wir führen quartalsweise Load-Tests durch, um Capacity-Grenzen zu messen[^load_testing_best_practices].
+
+**Load-Test-Typen:**
+
+| Test-Typ | Dauer | Load-Pattern | Ziel |
+|----------|-------|--------------|------|
+| **Baseline Test** | 1h | Steady 50% | Measure Baseline Performance |
+| **Stress Test** | 2h | Ramp 0→150% | Find Breaking Point |
+| **Spike Test** | 30min | 50%→200%→50% | Test Elasticity |
+| **Soak Test** | 24h | Steady 70% | Detect Memory Leaks |
+| **Chaos + Load** | 1h | 80% + Node Failures | Resilience under Pressure |
+
+**Load-Test mit K6 (Grafana Tool):**
+
+```javascript
+// load-test.js - K6 Load Testing Script
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export let options = {
+  stages: [
+    { duration: '5m', target: 1000 },   // Ramp-up zu 1000 VU (Virtual Users)
+    { duration: '30m', target: 1000 },  // Hold bei 1000 VU
+    { duration: '10m', target: 5000 },  // Spike zu 5000 VU
+    { duration: '5m', target: 1000 },   // Ramp-down zu 1000 VU
+    { duration: '5m', target: 0 },      // Cooldown
+  ],
+  thresholds: {
+    'http_req_duration': ['p(95)<500'],  // 95% unter 500ms
+    'http_req_failed': ['rate<0.01'],    // <1% Fehler
+  },
+};
+
+export default function () {
+  // Simulate AQL Query
+  let payload = JSON.stringify({
+    query: 'FOR doc IN users FILTER doc.age > @minAge RETURN doc',
+    bindVars: { minAge: 25 }
+  });
+  
+  let params = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  
+  let res = http.post('http://themisdb:8529/_api/cursor', payload, params);
+  
+  check(res, {
+    'status is 201': (r) => r.status === 201,
+    'response time < 500ms': (r) => r.timings.duration < 500,
+  });
+  
+  sleep(1);  // 1s Think-Time zwischen Requests
+}
+```
+
+**Capacity-Berechnung aus Load-Test:**
+
+```python
+# Capacity-Analyse aus Load-Test-Resultaten
+load_test_results = {
+    'max_qps_achieved': 12000,  # Requests/Second bei Breaking Point
+    'max_cpu_utilization': 95,  # % CPU bei Breaking Point
+    'max_memory_gb': 28,        # GB Memory bei Breaking Point
+    'target_headroom_percent': 40
+}
+
+# Berechne Produktions-Capacity (mit Headroom)
+production_capacity = load_test_results['max_qps_achieved'] * (1 - load_test_results['target_headroom_percent'] / 100)
+print(f"Safe Production Capacity: {production_capacity} QPS")
+
+# Nodes benötigt für Ziel-Traffic
+target_qps = 15000
+nodes_needed = np.ceil(target_qps / production_capacity)
+print(f"Nodes needed for {target_qps} QPS: {nodes_needed}")
+```
+
+### 38.9.4 Cost Optimization vs. Reliability {#chapter_38_9_4_cost-optimization}
+
+Capacity Planning balanciert Kosten und Reliability. Over-Provisioning verschwendet Budget, Under-Provisioning riskiert Ausfälle.
+
+**Cost-Reliability Trade-off:**
+
+```
+Total Cost = Infrastructure_Cost + Downtime_Cost
+
+Infrastructure_Cost = Nodes × Cost_Per_Node × Time
+Downtime_Cost = Revenue_Loss_Per_Hour × Downtime_Hours
+
+Optimal Point: Minimize Total Cost
+```
+
+**Beispiel-Berechnung:**
+
+```python
+# Cost Optimization Model
+import numpy as np
+import matplotlib.pyplot as plt
+
+def total_cost(num_nodes, availability_slo, revenue_per_hour=10000):
+    """
+    Berechne Gesamtkosten bei gegebener Node-Anzahl
+    """
+    # Infrastructure Cost
+    cost_per_node_per_month = 500  # USD
+    infra_cost_per_month = num_nodes * cost_per_node_per_month
+    
+    # Availability basierend auf Node-Anzahl (Redundancy)
+    # Mehr Nodes → Höhere Availability
+    availability_actual = 1 - (1 - 0.99) ** num_nodes  # N-Way Redundancy
+    
+    # Downtime Cost
+    downtime_hours_per_month = 720 * (1 - availability_actual)
+    downtime_cost_per_month = downtime_hours_per_month * revenue_per_hour
+    
+    total = infra_cost_per_month + downtime_cost_per_month
+    
+    return total, availability_actual
+
+# Evaluate verschiedene Node-Counts
+nodes_range = range(1, 11)
+costs = []
+availabilities = []
+
+for n in nodes_range:
+    cost, avail = total_cost(n, 0.999)
+    costs.append(cost)
+    availabilities.append(avail)
+
+# Optimum finden
+optimal_nodes = nodes_range[np.argmin(costs)]
+print(f"Optimal Node Count: {optimal_nodes} nodes")
+print(f"Availability: {availabilities[optimal_nodes-1]:.4f}")
+print(f"Total Cost: ${costs[optimal_nodes-1]:.2f}/month")
+```
+
+**Right-Sizing-Strategien:**
+
+| Strategie | Beschreibung | Cost Savings | Risk |
+|-----------|--------------|--------------|------|
+| **Auto-Scaling** | Dynamic scale based on load | 30-50% | Low (if configured correctly) |
+| **Reserved Instances** | Commit 1-3 year capacity | 40-60% | Medium (flexibility loss) |
+| **Spot Instances** | Use spare capacity | 60-80% | High (interruption risk) |
+| **Tiered Storage** | Move cold data to cheaper storage | 50-70% | Low (cold query latency) |
+| **Multi-Tenancy** | Share resources across workloads | 20-40% | Medium (noisy neighbor) |
 
 ---
 
-## 38.10 Capacity Planning
+## 38.10 On-Call Playbook & Incident Management {#chapter_38_10_oncall-playbook}
 
-- Wachstumsrate Traffic & Daten
-- Headroom-Ziel: 40% CPU, 50% IO, 30% Memory
-- Load-Test vierteljährlich; extrapoliere 12 Monate
-- Trigger: >70% baseline → Scale-out
+[On-Call](../appendix_h_glossary.md#oncall) Operations gewährleisten 24/7-Support durch rotierendes Engineer-Team mit definierten Eskalationspfaden und Postmortem-Prozessen. Wir implementieren On-Call-Management nach dem Google SRE-Framework[^google_sre_book] mit Workload-Limits, Burnout-Prevention und Incident-Commander-Protokollen. Dieser Abschnitt vermittelt On-Call-Strukturen, Handoff-Prozesse und Postmortem-Methodologien für ThemisDB-Operations-Teams.
 
----
+### 38.10.1 On-Call Rotation & Workload Management {#chapter_38_10_1_oncall-rotation}
 
-## 38.11 Oncall Playbook Essentials
+On-Call-Rotation verteilt Operational-Load fair und verhindert Engineer-Burnout. Wir definieren klare Rotation-Schedules, Workload-Limits und Compensation-Policies.
 
-- Runbook Link in jedem Alert
-- 2nd-level Escalation (DBA/SRE)
-- Kommunikationskanal: Incident Room + Status Page
-- Postmortem innerhalb 48h, Action Items mit Owner/ETA
+**Rotation-Strukturen:**
+
+| Rotation-Typ | Schedule | Handoff | Vorteile | Nachteile |
+|--------------|----------|---------|----------|-----------|
+| **Weekly** | 1 Woche On-Call | Montag 9 AM | Predictable, gute Work-Life-Balance | Viele Handoffs (Kontext-Verlust) |
+| **Follow-the-Sun** | 8h Shifts (Timezone-based) | 3× täglich | 24/7 ohne Nacht-Shifts | Requires global team |
+| **Primary/Secondary** | 2 Engineers parallel | Bei Eskalation | Backup immer verfügbar | 2× Workload |
+| **Tiered** | L1 (Junior) → L2 (Senior) | Bei Complex-Issues | Skill-appropriate response | Escalation-Overhead |
+
+**On-Call Workload Limits (Google SRE Standard):**
+
+```
+Max On-Call Hours: 50% of work time (20h/week bei 40h-Woche)
+Max Incident Response: 25% of work time (10h/week)
+Max Pages per Week: 5 pages (darüber hinaus: Runbook/Automation-Gap)
+```
+
+**On-Call Compensation:**
+
+| Compensation-Typ | Typical Rate | Application |
+|------------------|--------------|-------------|
+| **Flat Rate** | $200-500/week | All hours on-call |
+| **Per-Page** | $50-100/page | Each alert response |
+| **Time-Based** | 1.5× hourly rate | Actual incident hours |
+| **Comp Time** | 1:1 time-off | Next business day off |
+
+### 38.10.2 Incident Response Framework {#chapter_38_10_2_incident-response}
+
+Structured Incident-Response minimiert MTTR durch klar definierte Rollen, Kommunikations-Kanäle und Decision-Authority. Wir nutzen das ICS (Incident Command System) Framework[^incident_command_system].
+
+**Incident-Rollen:**
+
+```mermaid
+graph TD
+    IC[Incident Commander<br/>Koordination, Decisions] --> OPS[Operations Lead<br/>Technical Response]
+    IC --> COMM[Communications Lead<br/>Stakeholder Updates]
+    IC --> PLAN[Planning Lead<br/>Documentation, Timeline]
+    
+    OPS --> SME1[Subject Matter Expert<br/>Database]
+    OPS --> SME2[Subject Matter Expert<br/>Network]
+    OPS --> SME3[Subject Matter Expert<br/>Application]
+    
+    COMM --> INTERNAL[Internal Comms<br/>Engineering Updates]
+    COMM --> EXTERNAL[External Comms<br/>Customer Status Page]
+    
+    style IC fill:#ff6b6b
+    style OPS fill:#4facfe
+    style COMM fill:#feca57
+```
+
+**Incident-Severity-Matrix:**
+
+| Severity | Definition | Response Time | Escalation | Example |
+|----------|------------|---------------|------------|---------|
+| **P0 (Critical)** | Complete outage, major revenue impact | <5min | Immediate IC + Exec | Total DB unavailability |
+| **P1 (High)** | Partial outage, SLO breach | <15min | IC within 30min | 50% error rate |
+| **P2 (Medium)** | Degraded performance, no SLO breach | <1h | IC if >2h duration | Latency 2× normal |
+| **P3 (Low)** | Minor issue, no user impact | <4h | No IC needed | Monitoring gap detected |
+
+**Incident-Response-Timeline:**
+
+```
+T+0:     Alert fires → OnCall Engineer paged
+T+2min:  Initial acknowledgment (SLA)
+T+5min:  Incident declared in Slack #incidents channel
+T+10min: First assessment: Severity, Impact, ETA
+T+15min: (P0/P1) Incident Commander assigned
+T+30min: Status page update posted
+T+1h:    Hourly updates to stakeholders
+T+Xh:    Incident resolved, services restored
+T+24h:   Preliminary postmortem draft
+T+48h:   Postmortem review meeting
+T+1week: Action items completed or scheduled
+```
+
+### 38.10.3 Incident Communication Playbook {#chapter_38_10_3_incident-communication}
+
+Klare Kommunikation während Incidents verhindert Chaos und informiert Stakeholders zeitnah. Wir nutzen standardisierte Templates und Kommunikations-Channels.
+
+**Communication Channels:**
+
+| Channel | Audience | Update Frequency | Content |
+|---------|----------|------------------|---------|
+| **Slack #incidents** | Engineering Team | Real-time | Technical details, commands, findings |
+| **Status Page** | External Customers | Every 30-60min | User-facing impact, ETA, workarounds |
+| **Email (Exec)** | Leadership | Every 2-4h (P0/P1) | Business impact, mitigation plan |
+| **Customer Support** | Support Team | Every 30min | Talking points for customer queries |
+
+**Status Page Update Template:**
+
+```markdown
+# Incident: [Title]
+**Status:** Investigating / Identified / Monitoring / Resolved  
+**Started:** 2026-01-15 10:30 UTC  
+**Last Updated:** 2026-01-15 11:15 UTC
+
+## Impact
+[User-facing description of what's broken]
+- Affected Services: ThemisDB API, Query Endpoint
+- Affected Regions: US-West, EU-Central
+- Error Rate: ~15% of requests failing
+
+## Current Status
+We have identified the root cause as [brief description].
+Our team is implementing a fix with ETA of [time].
+
+## Workaround
+[If available, provide temporary workaround for users]
+
+## Next Update
+We will provide the next update in 30 minutes or sooner if there is significant progress.
+```
+
+**Internal Communication Best Practices:**
+
+1. **Use Threading:** Keep related updates in same Slack thread
+2. **Timestamp Everything:** `[T+15min]` prefix for timeline clarity
+3. **Action-Oriented:** "Alice: Investigate DB logs" (clear owner)
+4. **Avoid Speculation:** Only report verified facts
+5. **Summarize Regularly:** Every 30min, post summary of current state
+
+### 38.10.4 Postmortem Process & Blameless Culture {#chapter_38_10_4_postmortem-process}
+
+Postmortems transformieren Incidents in Learnings und prevent future occurrences. Wir implementieren blameless postmortems nach dem Google SRE-Standard[^google_sre_book] mit klaren Action-Items und Follow-up-Prozessen.
+
+**Postmortem-Template:**
+
+```markdown
+# Postmortem: [Incident Title]
+
+## Metadata
+- **Date:** 2026-01-15
+- **Authors:** Alice (IC), Bob (Ops Lead)
+- **Severity:** P1
+- **Duration:** 2h 15min
+- **Impact:** 15% error rate, ~$25k revenue impact
+- **MTTR:** 135 minutes
+
+## Executive Summary
+[2-3 sentences: What happened, why, how fixed]
+
+## Timeline (All times UTC)
+| Time | Event |
+|------|-------|
+| 10:30 | Alert: High error rate detected |
+| 10:32 | OnCall engineer acknowledged |
+| 10:35 | Identified root cause: DB connection pool exhausted |
+| 10:45 | Incident Commander assigned |
+| 11:00 | Mitigation applied: Increased pool size 100→500 |
+| 11:15 | Error rate dropped to <1% |
+| 12:45 | Fully resolved, monitoring for stability |
+
+## Root Cause Analysis
+[Detailed technical explanation]
+
+### What Happened
+- Database connection pool was configured with maxConnections=100
+- Traffic spike (2× normal) from marketing campaign
+- Pool exhausted → new connections rejected → 15% error rate
+
+### Why It Happened
+1. **Immediate Cause:** Connection pool too small
+2. **Contributing Factors:**
+   - No capacity planning for marketing campaign
+   - No alerting on pool utilization
+   - Auto-scaling not configured
+
+### Why We Didn't Catch It Earlier
+- Load testing didn't simulate 2× traffic spike
+- Monitoring gap: No connection pool metrics
+
+## What Went Well
+- ✅ Alert triggered within 2 minutes
+- ✅ Root cause identified quickly (5 minutes)
+- ✅ Mitigation effective (error rate dropped immediately)
+- ✅ Communication clear and timely
+
+## What Went Wrong
+- ❌ No pre-campaign capacity review
+- ❌ No connection pool monitoring
+- ❌ No auto-scaling for DB tier
+
+## Action Items
+| # | Action | Owner | Priority | Due Date | Status |
+|---|--------|-------|----------|----------|--------|
+| 1 | Increase connection pool to 500 (temp) | Alice | P0 | 2026-01-15 | ✅ Done |
+| 2 | Implement auto-scaling for connection pool | Bob | P1 | 2026-01-22 | 🔄 In Progress |
+| 3 | Add connection pool utilization alerts | Charlie | P1 | 2026-01-20 | ⏳ Planned |
+| 4 | Create capacity planning checklist for campaigns | Dave | P2 | 2026-02-01 | ⏳ Planned |
+| 5 | Update load testing to include 3× traffic scenario | Eve | P2 | 2026-02-15 | ⏳ Planned |
+
+## Lessons Learned
+1. **Capacity Planning:** Always review capacity before major campaigns
+2. **Monitoring Gaps:** Identify and fill monitoring gaps proactively
+3. **Load Testing:** Test for realistic spike scenarios (2-3× normal)
+
+## Follow-up
+- Postmortem Review Meeting: 2026-01-17 14:00 UTC
+- Action Item Review: Weekly until all P1s closed
+```
+
+**Blameless Culture Principles:**
+
+| Principle | Implementation | Anti-Pattern to Avoid |
+|-----------|----------------|----------------------|
+| **Focus on Systems** | "The config was insufficient" | "Alice misconfigured the system" |
+| **Learning over Punishment** | "What can we improve?" | "Who caused this?" |
+| **Reward Transparency** | Publicly thank incident responders | Hide/minimize incidents |
+| **Action-Oriented** | Every postmortem → ≥3 action items | Just document, no follow-up |
+| **Psychological Safety** | Engineers feel safe reporting issues | Fear of blame prevents reporting |
+
+### 38.10.5 On-Call Health Metrics {#chapter_38_10_5_oncall-health-metrics}
+
+Wir messen On-Call-Workload und Engineer-Health, um Burnout zu verhindern und Operational-Quality zu sichern.
+
+**On-Call Health Dashboard:**
+
+| Metrik | Target | Current (Q4 2025) | Trend | Action if Red |
+|--------|--------|-------------------|-------|---------------|
+| **Pages per Week** | <5 | 3.2 | ↓ Good | Increase automation |
+| **Incident MTTR** | <30min | 24min | ↓ Good | N/A |
+| **Postmortem Completion Rate** | 100% | 95% | → Stable | Enforce process |
+| **Action Item Closure (30 days)** | >90% | 87% | ↓ Concerning | Prioritize P1/P2 items |
+| **On-Call Satisfaction** | >4/5 | 4.1/5 | ↑ Good | Survey feedback analysis |
+| **Toil Percentage** | <25% | 22% | → Stable | Automate repetitive tasks |
+
+**Burnout Prevention Strategies:**
+
+1. **Compensation:** Fair on-call pay + comp time
+2. **Rotation Limits:** Max 1 week every 4-6 weeks
+3. **Handoff Quality:** 30min overlap, written notes
+4. **Runbook Quality:** Keep runbooks up-to-date (reduce MTTR)
+5. **Escalation Clarity:** Don't hesitate to escalate complex issues
+6. **Mental Health:** Encourage breaks after high-stress incidents
 
 ---
 
@@ -2057,6 +3168,10 @@ Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashb
 - Grafana-Dashboards transformieren Metriken in handlungsrelevante Insights (Abschnitt 38.4)
 - SLI/SLO-Framework und Error Budgets steuern Release-Velocity (Abschnitt 38.5)
 - Symptom-basiertes Alerting reduziert Alert Fatigue und MTTR (Abschnitt 38.6)
+- Runbook-driven Operations standardisieren Incident-Response-Workflows (Abschnitt 38.7)
+- Chaos Engineering validiert Systemresilienz durch kontrollierte Failure-Injection (Abschnitt 38.8)
+- Capacity Planning und Forecasting verhindern Service-Degradation (Abschnitt 38.9)
+- On-Call-Management gewährleistet 24/7-Support mit Burnout-Prevention (Abschnitt 38.10)
 - Sampling-Strategien reduzieren Overhead bei hohem Durchsatz (Abschnitte 38.2.3, 38.3.2)
 - Cardinality-Management verhindert Metrik-Explosion in Prometheus (Abschnitt 38.1.3)
 
@@ -2101,3 +3216,17 @@ Observability bündelt Metriken, Logs, Traces und klare SLOs. Mit sauberen Dashb
 [^google_sre_workbook]: Beyer, B., et al. (2018). "The Site Reliability Workbook: Practical Ways to Implement SRE". O'Reilly Media. Chapter 2: Implementing SLOs.
 
 [^sloth_slo_generator]: Sloth Team. (2023). "Sloth - Easy and Simple Prometheus SLO Generator". https://github.com/slok/sloth
+
+[^ooda_loop]: Boyd, J. (1996). "The Essence of Winning and Losing". Presentation, US Air Force. OODA Loop Framework für Decision-Making.
+
+[^principles_chaos]: Basiri, A., et al. (2016). "Principles of Chaos Engineering". https://principlesofchaos.org/
+
+[^netflix_chaos]: Rosenthal, C., et al. (2011). "The Netflix Simian Army". Netflix Tech Blog. https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116
+
+[^google_dirt]: Google Cloud. (2023). "Disaster Recovery Testing (DiRT)". Google SRE Practices. https://cloud.google.com/blog/products/gcp/introducing-google-clouds-disaster-recovery-testing-dirt
+
+[^forecasting_prophet]: Taylor, S. J., & Letham, B. (2018). "Forecasting at Scale". The American Statistician, 72(1), 37-45. https://doi.org/10.1080/00031305.2017.1380080
+
+[^load_testing_best_practices]: Grafana Labs. (2023). "K6 Load Testing Best Practices". https://k6.io/docs/testing-guides/load-testing-best-practices/
+
+[^incident_command_system]: FEMA. (2017). "National Incident Management System (NIMS)". US Department of Homeland Security.
