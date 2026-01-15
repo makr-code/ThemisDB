@@ -46,8 +46,7 @@ public:
             writeToLog(log_entry);
             
             // Also log to base audit logger for centralized tracking
-            audit_logger_->logCustom(
-                utils::SecurityEventType::CUSTOM_EVENT,
+            audit_logger_->logEvent(
                 "LLM inference with LoRA adapter",
                 log_entry
             );
@@ -215,7 +214,7 @@ public:
         int limit
     ) {
         std::vector<LoRAInferenceAudit> results;
-        auto logs = queryLogs(adapter_id);
+        auto logs = queryLogs(adapter_id, std::nullopt, std::nullopt);
         
         for (const auto& log : logs) {
             if (log.contains("log_type") && log["log_type"] == "lora_inference") {
@@ -242,7 +241,7 @@ public:
     }
     
     json getAdapterStats(const std::string& adapter_id) {
-        auto logs = queryLogs(adapter_id);
+        auto logs = queryLogs(adapter_id, std::nullopt, std::nullopt);
         
         json stats;
         stats["adapter_id"] = adapter_id;

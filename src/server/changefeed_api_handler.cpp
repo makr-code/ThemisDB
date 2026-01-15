@@ -496,13 +496,6 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
         return std::nullopt;
     }
     
-    // Extract path without query string
-    std::string path_only = std::string(req.target());
-    auto qpos = path_only.find('?');
-    if (qpos != std::string::npos) {
-        path_only = path_only.substr(0, qpos);
-    }
-    
     // Check for Authorization header
     auto it = req.find(http::field::authorization);
     if (it == req.end()) {
@@ -532,21 +525,9 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
         return res;
     }
     
-    // Validate token and check scope
-    auto claims = auth_->validateToken(*token);
-    if (!claims) {
-        http::response<http::string_body> res{http::status::unauthorized, req.version()};
-        res.set(http::field::www_authenticate, "Bearer realm=\"themis\" error=\"invalid_token\"");
-        res.set(http::field::content_type, "application/json");
-        res.set(http::field::server, "THEMIS/0.1.0");
-        res.keep_alive(req.keep_alive());
-        res.body() = R"({"error":"invalid_token","message":"Token validation failed"})";
-        res.prepare_payload();
-        return res;
-    }
-    
-    // Check if token has required scope
-    if (!auth_->hasScope(*claims, required_scope)) {
+    // Validate token and check required scope
+    auto auth_result = auth_->authorize(*token, required_scope);
+    if (!auth_result.authorized) {
         http::response<http::string_body> res{http::status::forbidden, req.version()};
         res.set(http::field::content_type, "application/json");
         res.set(http::field::server, "THEMIS/0.1.0");

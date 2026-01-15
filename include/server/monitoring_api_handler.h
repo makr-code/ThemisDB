@@ -18,8 +18,16 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
+} // namespace server
+} // namespace themis
+
+namespace themis {
 class AuthMiddleware;
 class SchemaManager;
+} // namespace themis
+
+namespace themis {
+namespace server {
 
 /**
  * @brief Handler for Monitoring and System Information
@@ -56,7 +64,7 @@ public:
      */
     MonitoringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<::themis::AuthMiddleware> auth,
+        std::shared_ptr<AuthMiddleware> auth,
         std::atomic<uint64_t>* request_count,
         std::atomic<uint64_t>* error_count,
         const std::chrono::steady_clock::time_point* start_time,
@@ -106,7 +114,7 @@ private:
     std::atomic<uint64_t>* error_count_;
     const std::chrono::steady_clock::time_point* start_time_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
-    SchemaManager* schema_manager_;
+    ::themis::SchemaManager* schema_manager_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

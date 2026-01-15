@@ -100,7 +100,7 @@ endif()
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
-option(THEMIS_ENABLE_GPU "Enable GPU acceleration for vector search" OFF)
+option(THEMIS_ENABLE_GPU "Enable GPU acceleration for vector search" ON)
 option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
 option(THEMIS_ENABLE_ASAN "Enable AddressSanitizer for debugging" OFF)
 option(THEMIS_STRICT_BUILD "Treat warnings as errors" OFF)
@@ -121,7 +121,7 @@ endif()
 # LLM Support (v1.3.0+)
 # Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
 # Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
-option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" ON)
 
 # Voice Assistant Support (v1.4.0+) - Enterprise Feature
 # Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
@@ -585,6 +585,13 @@ else()
     if(THEMIS_STRICT_BUILD)
         add_compile_options(-Werror)
     endif()
+    
+    # Clang-specific fixes for spdlog/fmt compatibility
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        add_compile_options(-fno-consteval-propagation)
+        add_compile_options(-Wno-unused-command-line-argument-hard-error-in-future)
+    endif()
+    
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
         # Architecture-specific optimizations

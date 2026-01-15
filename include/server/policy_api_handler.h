@@ -1,8 +1,12 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -12,11 +16,6 @@ class RocksDBWrapper;
 class PolicyEngine;
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 class RangerClient;
 
 /**
@@ -49,7 +48,7 @@ public:
         std::shared_ptr<RocksDBWrapper> storage,
         RangerClient* ranger_client,
         PolicyEngine* policy_engine,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<themis::AuthMiddleware> auth,
         const std::string& service_name = "themisdb"
     );
 
@@ -71,7 +70,7 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     RangerClient* ranger_client_;
     PolicyEngine* policy_engine_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     std::string service_name_;
 
     // Helper methods

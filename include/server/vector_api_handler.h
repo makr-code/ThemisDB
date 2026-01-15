@@ -1,4 +1,5 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>

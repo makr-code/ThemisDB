@@ -131,6 +131,11 @@ public:
     bool verifyChainIntegrity();
     
     /**
+     * @brief Flush audit log to disk
+     */
+    void flush();
+    
+    /**
      * @brief Get current hash chain state
      * @return JSON with last_hash, entry_count, last_timestamp
      */

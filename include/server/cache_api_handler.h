@@ -1,9 +1,13 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 
 namespace themis {
 
@@ -11,11 +15,6 @@ namespace themis {
 class SemanticCache;
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Cache Operations
@@ -43,7 +42,7 @@ public:
      */
     CacheApiHandler(
         std::shared_ptr<SemanticCache> semantic_cache,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
@@ -69,7 +68,7 @@ public:
 
 private:
     std::shared_ptr<SemanticCache> semantic_cache_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

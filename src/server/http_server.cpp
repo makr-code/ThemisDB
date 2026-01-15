@@ -424,7 +424,7 @@ HttpServer::HttpServer(
     THEMIS_INFO("Adaptive Index Manager initialized");
 
     // Initialize Authorization middleware (MVP: tokens via env)
-    auth_ = std::make_unique<themis::AuthMiddleware>();
+    auth_ = std::make_shared<themis::AuthMiddleware>();
     // Global-style helper for env lookup (reused across subsequent blocks)
     auto themis_get_env = [](const char* name) -> std::optional<std::string> {
         const char* v = std::getenv(name);
@@ -484,7 +484,7 @@ HttpServer::HttpServer(
 
     // Initialize ContentManager and register built-in processors (now with encryption)
     try {
-        content_manager_ = std::make_unique<themis::content::ContentManager>(
+        content_manager_ = std::make_shared<themis::content::ContentManager>(
             storage_, vector_index_, graph_index_, secondary_index_, field_encryption_);
         text_processor_ = std::make_unique<themis::content::TextProcessor>();
         content_manager_->registerProcessor(std::unique_ptr<themis::content::IContentProcessor>(text_processor_.release()));
@@ -649,11 +649,11 @@ HttpServer::HttpServer(
         changefeed_api_ = std::make_unique<themis::server::ChangefeedApiHandler>(
             storage_, changefeed_,
 #ifdef THEMIS_ENABLE_SSE
-            sse_manager_.get(),
+            sse_manager_,
 #else
             nullptr,
 #endif
-            auth_.get(), config_.feature_cdc
+            auth_, config_.feature_cdc
         );
         THEMIS_INFO("Changefeed API Handler initialized");
     }

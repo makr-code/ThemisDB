@@ -16,7 +16,8 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_ENABLE_TRACING": "ON",
-        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_ASAN": "OFF",
         "THEMIS_STRICT_BUILD": "OFF"
       }
@@ -53,7 +54,8 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_ENABLE_TRACING": "ON",
-        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_ASAN": "OFF",
         "THEMIS_STRICT_BUILD": "OFF"
       }
@@ -70,7 +72,8 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_ENABLE_TRACING": "ON",
-        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_ASAN": "ON",
         "THEMIS_STRICT_BUILD": "OFF"
       }

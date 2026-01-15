@@ -2,8 +2,10 @@
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
-#include <uuid/uuid.h>
 #include <algorithm>
+#include <random>
+#include <sstream>
+#include <iomanip>
 
 namespace themis {
 namespace llm {
@@ -59,9 +61,9 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
         std::string key = makeFeedbackKey(feedback.id);
         std::string value = feedback.toJSON().dump();
         
-        auto status = config_.db->put(key, value);
-        if (!status.ok()) {
-            spdlog::error("Failed to store feedback: {}", status.ToString());
+        bool success = config_.db->put(key, value);
+        if (!success) {
+            spdlog::error("Failed to store feedback {}", feedback.id);
             return std::nullopt;
         }
         
@@ -86,8 +88,8 @@ std::optional<Feedback> FeedbackStorageService::getFeedback(const std::string& i
         std::string key = makeFeedbackKey(id);
         std::string value;
         
-        auto status = config_.db->get(key, value);
-        if (!status.ok()) {
+        bool success = config_.db->get(key, value);
+        if (!success) {
             return std::nullopt;
         }
         
@@ -108,7 +110,12 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
         
         std::string prefix = config_.collection_name + ":";
         std::vector<std::string> keys;
-        config_.db->scanKeys(prefix, keys);
+        
+        // Use scan() to iterate over keys with prefix
+        config_.db->scan(prefix, [&keys](const std::string& key, const std::string&) {
+            keys.push_back(key);
+            return true; // Continue scanning
+        });
         
         size_t count = 0;
         size_t skipped = 0;
@@ -174,10 +181,10 @@ bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedbac
         updated_feedback.id = id; // Preserve ID
         
         std::string value = updated_feedback.toJSON().dump();
-        status = config_.db->put(key, value);
+        bool success = config_.db->put(key, value);
         
-        if (!status.ok()) {
-            spdlog::error("Failed to update feedback {}: {}", id, status.ToString());
+        if (!success) {
+            spdlog::error("Failed to update feedback {}", id);
             return false;
         }
         
@@ -356,11 +363,26 @@ float FeedbackStorageService::calculateEffectiveBatchSize(const std::string& ada
 // ═══════════════════════════════════════════════════════════
 
 std::string FeedbackStorageService::generateFeedbackId() const {
-    uuid_t uuid;
-    uuid_generate(uuid);
-    char uuid_str[37];
-    uuid_unparse_lower(uuid, uuid_str);
-    return std::string(uuid_str);
+    // Windows-compatible UUID generation (RFC 4122 v4)
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<uint64_t> dis;
+    
+    uint64_t part1 = dis(gen);
+    uint64_t part2 = dis(gen);
+    
+    // Set version (4) and variant bits
+    part1 = (part1 & 0xFFFFFFFFFFFF0FFFULL) | 0x0000000000004000ULL;
+    part2 = (part2 & 0x3FFFFFFFFFFFFFFFULL) | 0x8000000000000000ULL;
+    
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0')
+        << std::setw(8) << ((part1 >> 32) & 0xFFFFFFFF) << '-'
+        << std::setw(4) << ((part1 >> 16) & 0xFFFF) << '-'
+        << std::setw(4) << (part1 & 0xFFFF) << '-'
+        << std::setw(4) << ((part2 >> 48) & 0xFFFF) << '-'
+        << std::setw(12) << (part2 & 0xFFFFFFFFFFFFULL);
+    return oss.str();
 }
 
 std::string FeedbackStorageService::makeFeedbackKey(const std::string& id) const {

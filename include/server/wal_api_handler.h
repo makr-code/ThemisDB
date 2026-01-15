@@ -5,6 +5,9 @@
 #include <atomic>
 #include <mutex>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -19,11 +22,6 @@ class ReplicationCoordinator;
 }
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Write-Ahead Log (WAL) Operations
@@ -62,7 +60,7 @@ public:
         std::shared_ptr<sharding::WALApplier> wal_applier,
         std::shared_ptr<sharding::WALManager> wal_manager,
         std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<themis::AuthMiddleware> auth,
         const std::string& wal_shared_secret = "",
         const std::string& wal_hmac_secret = ""
     );
@@ -95,7 +93,7 @@ private:
     std::shared_ptr<sharding::WALApplier> wal_applier_;
     std::shared_ptr<sharding::WALManager> wal_manager_;
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     
     // Authentication secrets
     std::string wal_shared_secret_;

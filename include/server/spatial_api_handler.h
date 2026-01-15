@@ -1,9 +1,13 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -16,11 +20,6 @@ class SpatialIndexManager;
 }
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Spatial Index Operations
@@ -51,7 +50,7 @@ public:
     SpatialApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<index::SpatialIndexManager> spatial_index,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
@@ -85,7 +84,7 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<index::SpatialIndexManager> spatial_index_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(
