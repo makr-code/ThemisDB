@@ -801,23 +801,26 @@ FOR v, e IN OUTBOUND SHORTEST_PATH
   }
   
   RETURN {
-    step: LENGTH(KEEP(p, 'edges')),
     user: v.name,
     connection_type: e.type
   }
 
 // K kürzeste Pfade (Top 3)
-FOR path IN OUTBOUND K_SHORTEST_PATHS
-  'users/alice' TO 'users/bob'
-  GRAPH 'social_network'
-  
-  LIMIT 3
-  
+LET all_paths = (
+  FOR path IN OUTBOUND K_SHORTEST_PATHS
+    'users/alice' TO 'users/bob'
+    GRAPH 'social_network'
+    LIMIT 3
+    RETURN path
+)
+
+FOR path IN all_paths
   LET path_length = LENGTH(path.edges)
   LET path_weight = SUM(path.edges[*].weight)
+  LET path_index = POSITION(all_paths, path)
   
   RETURN {
-    path_number: @counter,
+    path_number: path_index + 1,
     length: path_length,
     weight: path_weight,
     vertices: path.vertices[*].name
