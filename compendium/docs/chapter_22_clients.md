@@ -153,7 +153,7 @@ Effizientes Connection Management ist kritisch für Performance und Skalierbarke
 
 ### 22.2.1 Connection Pooling Strategies {#connection-pooling-strategies}
 
-[Connection Pools](appendix_h_glossary.md#connection-pool) minimieren den Overhead von Connection Establishment durch Wiederverwendung bestehender Verbindungen. Der Pool maintaint eine konfigurierbare Anzahl von Connections im IDLE-State und allokiert neue Connections on-demand bei hoher Last. Expired oder defekte Connections werden automatisch entfernt und durch neue ersetzt.
+[Connection Pools](appendix_h_glossary.md#connection-pool) minimieren den Overhead von Connection Establishment durch Wiederverwendung bestehender Verbindungen. Der Pool maintains eine konfigurierbare Anzahl von Connections im IDLE-State und allokiert neue Connections on-demand bei hoher Last. Expired oder defekte Connections werden automatisch entfernt und durch neue ersetzt.
 
 **Python Connection Pool Implementation:**
 
@@ -673,6 +673,7 @@ class CircuitBreaker:
     def __init__(self):
         self.state = CircuitState.CLOSED
         self.failure_count = 0
+        self.success_count = 0          # Initialize success counter
         self.failure_threshold = 5      # Open after 5 failures
         self.success_threshold = 2      # Close after 2 successes
         self.timeout = timedelta(seconds=60)  # Try recovery after 60s
