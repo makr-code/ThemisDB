@@ -112,7 +112,9 @@ bool LlamaCppInferenceEngine::loadModelFromThemisDB(const std::string& model_urn
                          blob_ref.size_bytes / (1024 * 1024));
             
             // 3. Stream model from blob store to temporary file
-            temp_model_path_ = "/tmp/themis_model_" + model_urn + ".gguf";
+            fs::path temp_dir = fs::temp_directory_path() / "themis_models";
+            fs::create_directories(temp_dir);  // Ensure directory exists
+            temp_model_path_ = (temp_dir / ("model_" + model_urn + ".gguf")).string();
             
             // Check if decryption is needed
             bool needs_decryption = metadata.custom_metadata.contains("encryption_enabled") &&

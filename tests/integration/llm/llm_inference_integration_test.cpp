@@ -18,6 +18,7 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include <gtest/gtest.h>
 #include <spdlog/spdlog.h>
+#include <numeric>
 
 namespace themis {
 namespace test {
@@ -203,9 +204,11 @@ TEST_F(LLMInferenceIntegrationTest, LoadAdapterFromThemisDB) {
     metadata.hyperparameters.dropout = 0.1f;
     metadata.tags = {"test"};
     
-    // Create test adapter weights
+    // Create test adapter weights with dummy data
+    constexpr size_t TEST_WEIGHTS_SIZE = 5;
     llm::lora::AdapterWeights weights;
-    weights.data = {1, 2, 3, 4, 5};  // Dummy data
+    weights.data.resize(TEST_WEIGHTS_SIZE);
+    std::iota(weights.data.begin(), weights.data.end(), 1);  // Fill with 1, 2, 3, 4, 5
     weights.size_bytes = weights.data.size();
     weights.format = "safetensors";
     weights.hyperparameters = metadata.hyperparameters;
@@ -230,7 +233,7 @@ TEST_F(LLMInferenceIntegrationTest, LoadAdapterFromThemisDB) {
     auto loaded_weights = lora_storage->loadAdapter("test_adapter_1");
     ASSERT_TRUE(loaded_weights.has_value()) << "Failed to load adapter weights";
     
-    EXPECT_EQ(loaded_weights->size_bytes, 5);
+    EXPECT_EQ(loaded_weights->size_bytes, TEST_WEIGHTS_SIZE);
     EXPECT_EQ(loaded_weights->format, "safetensors");
     
     // Create inference engine with LoRa storage

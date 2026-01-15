@@ -542,7 +542,7 @@ bool LLMModelStorage::exists(const std::string& model_id) const {
     return impl_->exists(model_id);
 }
 
-std::vector<std::string> LLMModelStorage::listModels(const std::optional<std::string>>& filter) const {
+std::vector<std::string> LLMModelStorage::listModels(const std::optional<std::string>& filter) const {
     return impl_->listModels(filter);
 }
 
