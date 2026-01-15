@@ -1319,7 +1319,9 @@ FOR doc IN users
 
 ## 34.4 Early Filtering Patterns {#chapter_34_4_early-filtering-patterns}
 
-### Filter-Pushdown Strategy
+Wir wenden [Predicate Pushdown](../appendix_h_glossary.md#predicate-pushdown) an, um Datenvolumen frühzeitig zu reduzieren und unnötige [N+1-Query-Probleme](../appendix_h_glossary.md#n-plus-1-query) zu vermeiden. [Early Filtering](../appendix_h_glossary.md#early-filtering) minimiert Intermediate-Result-Größen und reduziert Memory-Verbrauch sowie CPU-Kosten. Die Strategie kombiniert [Filter-Pushdown](../appendix_h_glossary.md#filter-pushdown) mit [Collection-Constraints](../appendix_h_glossary.md#collection-constraint) für maximale [Selektivität](../appendix_h_glossary.md#selectivity).
+
+### Filter-Pushdown Strategy {#chapter_34_4_1_filter-pushdown-strategy}
 
 ```aql
 -- ❌ FALSCH: Filter zu spät
@@ -1347,7 +1349,7 @@ FOR edge IN edges
   }
 ```
 
-### Collection Constraint Strategy
+### Collection Constraint Strategy {#chapter_34_4_2_collection-constraint-strategy}
 
 ```aql
 -- ❌ Generisch - keine Collection Constraint
@@ -1364,7 +1366,9 @@ FOR user IN users  -- Explizite Collection wählen
 
 ## 34.5 Aggregation Optimization {#chapter_34_5_aggregation-optimization}
 
-### GROUP BY Optimization
+Wir optimieren [GROUP BY](../appendix_h_glossary.md#group-by)-Operationen durch Wahl zwischen [Hash-Aggregation](../appendix_h_glossary.md#hash-aggregation) und [Sort-Based Aggregation](../appendix_h_glossary.md#sort-based-aggregation). [Approximate Aggregations](../appendix_h_glossary.md#approximate-aggregation) mit [HyperLogLog](../appendix_h_glossary.md#hyperloglog) ermöglichen schnelle COUNT DISTINCT auf großen Datasets. [Streaming Aggregation](../appendix_h_glossary.md#streaming-aggregation) reduziert Memory-Footprint bei hoher [Kardinalität](../appendix_h_glossary.md#cardinality).
+
+### GROUP BY Optimization {#chapter_34_5_1_group-by-optimization}
 
 ```aql
 -- ❌ Ineffizient: Alles sammeln dann groupieren
@@ -1619,14 +1623,15 @@ class QueryPerformanceMonitor:
 
 ## Zusammenfassung {#chapter_34_zusammenfassung}
 
-ThemisDB bietet mit EXPLAIN, Indexierung und Query-Refactoring Möglichkeiten für 10-100x Performance-Verbesserungen. Schlüssel sind:
-- ✅ **Early Filtering** - Filter so früh wie möglich
-- ✅ **Richtige Indizes** - Covering Indexes für Full Index Scans
-- ✅ **Batch Operations** - Nutze Bulk für viele Operationen
-- ✅ **Aggregation Optimization** - COLLECT mit Sort für Memory-Effizienz
-- ✅ **Monitoring** - PROFILE/EXPLAIN nutzen zur Diagnose
+Wir haben wissenschaftlich fundierte [Query-Optimierungstechniken](../appendix_h_glossary.md#query-optimization) für ThemisDB untersucht, von der [kostenbasierten Abfrageplanung](../appendix_h_glossary.md#cost-based-optimization)[^2] über moderne [Ausführungsstrategien](../appendix_h_glossary.md#execution-strategy)[^7] bis zur adaptiven [Index-Auswahl](../appendix_h_glossary.md#index-selection)[^10]. Die präsentierten Techniken ermöglichen Performance-Verbesserungen um 10-1000× bei gleichbleibender Ergebnisqualität. Zentrale Optimierungsprinzipien sind:
 
-Mit diesen Techniken erreichen Sie Production-Grade Performance.
+- ✅ **Cost-Based Planning:** [Kardinalitätsschätzung](../appendix_h_glossary.md#cardinality-estimation), [Selektivitätsanalyse](../appendix_h_glossary.md#selectivity) und [Join-Order-Optimierung](../appendix_h_glossary.md#join-order) mit [Dynamic Programming](../appendix_h_glossary.md#dynamic-programming)[^2]
+- ✅ **Query Rewriting:** [Predicate Pushdown](../appendix_h_glossary.md#predicate-pushdown), [Subquery Flattening](../appendix_h_glossary.md#subquery-flattening) und [Common Subexpression Elimination](../appendix_h_glossary.md#cse)[^3]
+- ✅ **Execution Strategies:** [Hash Joins](../appendix_h_glossary.md#hash-join) mit Grace-Spilling, [Vectorized Execution](../appendix_h_glossary.md#vectorized-execution)[^9] und [Morsel-Driven Parallelism](../appendix_h_glossary.md#morsel-driven-parallelism)[^7]
+- ✅ **Index Selection:** [Covering Indexes](../appendix_h_glossary.md#covering-index) für Index-Only Scans, [Adaptive Indexing](../appendix_h_glossary.md#adaptive-indexing)[^10] mit Workload-Monitoring
+- ✅ **RocksDB Integration:** [Bloom Filter](../appendix_h_glossary.md#bloom-filter), [Two-Level Indexes](../appendix_h_glossary.md#two-level-index) und [Partitioned Filters](../appendix_h_glossary.md#partitioned-filter)[^4]
+
+Die Kombination dieser Techniken mit kontinuierlichem [Query Profiling](../appendix_h_glossary.md#query-profiling) (EXPLAIN/PROFILE) ermöglicht Production-Grade Performance in ThemisDB-Anwendungen. Für vertiefende Informationen siehe → Kapitel 3 (AQL), → Kapitel 11 (Indexing), → Kapitel 35 (Data Modeling).
 
 ---
 
