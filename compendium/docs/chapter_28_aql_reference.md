@@ -82,7 +82,7 @@ FOR doc IN collection              // 1. Iteration über Collection
   AGGREGATE
     total = SUM(computed_value),
     avg = AVG(doc.price),
-    count = LENGTH(1),
+    count = COUNT(1),
     items = UNIQUE(doc._key)
   
   // SORT: Sortierung (kann Index verwenden)
@@ -780,7 +780,7 @@ FOR v, e, p IN 1..5 OUTBOUND 'users/alice'
     friend: v.name,
     distance: LENGTH(p.edges),      // Hop-Distanz
     path_weight,                    // Gewichtete Distanz
-    via: p.vertices[1:-1][*].name,  // Intermediäre Knoten
+    via: SLICE(p.vertices, 1, LENGTH(p.vertices) - 1)[*].name,  // Intermediäre Knoten
     relationship_path: p.edges[*].type
   }
 ```
@@ -908,7 +908,9 @@ FOR user IN users
   
 // ✅ BEST: Covering Index auf (status, _id, name)
 // → Kein Document-Lookup nötig, alle Daten im Index
-CREATE INDEX users_covering ON users(status, _id, name) TYPE SKIPLIST
+// Note: Index creation ist ein DDL-Befehl, nicht Teil von AQL-Queries
+// Wird via Database Management Interface ausgeführt:
+// db._createIndex("users", {type: "skiplist", fields: ["status", "_id", "name"]})
 ```
 
 ### Filter Pushdown & Projection {#chapter_28_2_14_3_pushdown}
