@@ -328,6 +328,50 @@ else()
 endif()
 
 # ============================================================================
+# Security Signature Verifier Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_signature_verifier.cpp")
+    message(STATUS "Adding signature verifier tests")
+    
+    add_executable(test_signature_verifier
+        test_signature_verifier.cpp
+    )
+    
+    target_link_libraries(test_signature_verifier PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+    )
+    
+    # Link to signature_verifier object files if available
+    if(TARGET signature_verifier_obj)
+        target_link_libraries(test_signature_verifier PRIVATE signature_verifier_obj)
+    else()
+        # Compile the source directly for now
+        target_sources(test_signature_verifier PRIVATE
+            ${CMAKE_SOURCE_DIR}/src/llm/security/signature_verifier.cpp
+        )
+    endif()
+    
+    target_compile_definitions(test_signature_verifier PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME SignatureVerifierTests COMMAND test_signature_verifier)
+    
+    # Set test properties
+    set_tests_properties(SignatureVerifierTests PROPERTIES
+        LABELS "security;signature;crypto"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Signature verifier tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_signature_verifier.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
