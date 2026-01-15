@@ -711,39 +711,421 @@ traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
 
 ---
 
-## 38.5 SLI/SLO & Error Budgets
+## 38.5 SLI/SLO & Error Budgets {#chapter_38_5_sli-slo}
 
-### Beispiel-SLIs
+[Service Level Indicators (SLI)](../appendix_h_glossary.md#service-level-indicator) und [Service Level Objectives (SLO)](../appendix_h_glossary.md#service-level-objective) definieren messbare Ziele für System-Zuverlässigkeit und balancieren Innovation gegen Stabilität via [Error Budgets](../appendix_h_glossary.md#error-budget)[^1][^9]. Wir folgen dem Google SRE-Ansatz: SLIs messen tatsächliches User-Experience, SLOs definieren akzeptable Grenzen, Error Budgets erlauben kalkulierte Risiken.
 
-- Availability: 99.95% (HTTP 2xx/3xx / total)
-- Latency: p99 < 200 ms für Reads, < 400 ms für Writes
-- Durability: 0 Datenverlust (RPO <= 60s)
-- Freshness: Replication Lag < 2s (p99)
+### 38.5.1 SLI-Definitionen {#chapter_38_5_1_sli-definitions}
 
-### Error Budget Policy
+Wir definieren [SLIs](../appendix_h_glossary.md#service-level-indicator) für vier kritische Dimensionen: [Availability](../appendix_h_glossary.md#availability), [Latenz](../appendix_h_glossary.md#latency), [Durability](../appendix_h_glossary.md#durability), Freshness[^9].
 
-- Monatsbudget: (1 - SLO) * Zeit
-- Breach: Freeze Releases, Fokus auf Reliability
-- Burn Alerts: Warn bei 25/50/75% Verbrauch
+**Tabelle 38.5:** ThemisDB SLI/SLO-Definitionen mit Error Budgets
+
+| SLI | Messung | SLO-Target | Zeitfenster | Error Budget (30d) | Business Impact |
+|-----|---------|------------|-------------|-------------------|-----------------|
+| [Availability](../appendix_h_glossary.md#availability) | `(HTTP 2xx+3xx)/Total` | 99.95% | 30 Tage | 21.6 Min | User kann nicht zugreifen |
+| Latenz Read P99 | `histogram_quantile(0.99, ...)` | < 200ms | 5 Min | 0.05% Requests | Langsame Dashboards |
+| Latenz Write P99 | `histogram_quantile(0.99, ...)` | < 400ms | 5 Min | 0.05% Requests | Verzögerte Datenspeicherung |
+| [Durability](../appendix_h_glossary.md#durability) | Data Loss Events | 0 | 30 Tage | 0 Events | Datenverlust |
+| Freshness (Repl) | Replication Lag P99 | < 2s | 5 Min | 0.01% (>2s) | Stale Reads |
+
+**Methodologie:** SLO-Targets basieren auf historischen P95-Werten + 20% Safety Margin, validiert über 90-Tage-Baseline.
+
+### 38.5.2 Error Budget Berechnung {#chapter_38_5_2_error-budget}
+
+[Error Budget](../appendix_h_glossary.md#error-budget) = `(1 - SLO) × Zeitfenster`. Wir implementieren automatische Budget-Tracking mit [Prometheus](../appendix_h_glossary.md#prometheus).
+
+```python
+# error_budget.py - Error Budget Calculator und Tracker
+from datetime import timedelta, datetime
+from dataclasses import dataclass
+
+@dataclass
+class ErrorBudget:
+    """Error Budget für ein SLO."""
+    slo_percentage: float
+    window_days: int = 30
+    
+    @property
+    def total_minutes(self) -> float:
+        """Gesamte Minuten im Zeitfenster."""
+        return self.window_days * 24 * 60
+    
+    @property
+    def allowed_downtime_minutes(self) -> float:
+        """Erlaubte Downtime in Minuten."""
+        return self.total_minutes * (1 - self.slo_percentage / 100)
+    
+    @property
+    def allowed_downtime_hours(self) -> float:
+        """Erlaubte Downtime in Stunden."""
+        return self.allowed_downtime_minutes / 60
+    
+    def burn_rate(self, error_count: int, total_requests: int) -> float:
+        """Berechnet aktuelle Burn-Rate.
+        
+        Burn-Rate > 1.0 bedeutet Budget wird schneller verbraucht als geplant.
+        """
+        error_rate = error_count / total_requests if total_requests > 0 else 0
+        error_budget_rate = (1 - self.slo_percentage / 100)
+        return error_rate / error_budget_rate if error_budget_rate > 0 else 0
+    
+    def remaining_budget_percentage(self, consumed_minutes: float) -> float:
+        """Verbleibendes Budget in Prozent."""
+        return ((self.allowed_downtime_minutes - consumed_minutes) / 
+                self.allowed_downtime_minutes * 100)
+
+# Beispiel: 99.95% SLO über 30 Tage
+budget = ErrorBudget(slo_percentage=99.95, window_days=30)
+print(f"Error Budget: {budget.allowed_downtime_minutes:.2f} Minuten")
+# Output: Error Budget: 21.60 Minuten
+
+print(f"Error Budget: {budget.allowed_downtime_hours:.2f} Stunden")
+# Output: Error Budget: 0.36 Stunden
+
+# Burn Rate Berechnung
+# Szenario: 100 Errors bei 100,000 Requests (0.1% Error Rate)
+burn = budget.burn_rate(error_count=100, total_requests=100000)
+print(f"Burn Rate: {burn:.2f}x")
+# Output: Burn Rate: 2.00x (Budget wird 2x schneller verbraucht!)
+
+# Verbleibendes Budget nach 10 Minuten Downtime
+remaining = budget.remaining_budget_percentage(consumed_minutes=10.0)
+print(f"Verbleibendes Budget: {remaining:.1f}%")
+# Output: Verbleibendes Budget: 53.7%
+```
+
+### 38.5.3 Error Budget Policy {#chapter_38_5_3_policy}
+
+Wir implementieren ein vierstufiges Policy-Framework basierend auf Budget-Verbrauch[^1].
+
+**Tabelle 38.6:** Error Budget Policy-Framework
+
+| Budget Status | Verbleibend | Policy | Maßnahmen | Deployment Frequency |
+|---------------|-------------|--------|-----------|---------------------|
+| 🟢 Healthy | > 25% | Normal | Feature-Entwicklung, normale Releases | Daily |
+| 🟡 Warning | 10-25% | Cautious | Freeze non-critical Features, erhöhtes Testing | 2-3× pro Woche |
+| 🟠 Critical | 1-10% | Restricted | Feature-Freeze, nur Reliability-Fixes | Weekly |
+| 🔴 Exhausted | 0% | Emergency | Complete Freeze, Post-Mortem, Incident Review | Nur Hotfixes |
+
+**Multi-Window Burn-Rate Alerts:**
+
+```yaml
+# prometheus_alerts.yaml - SLO Burn Rate Alerting
+groups:
+  - name: slo_burn_rate
+    interval: 30s
+    rules:
+      # Fast Burn: 14.4× (Budget in 2 Stunden erschöpft)
+      - alert: ErrorBudgetBurnRateFast
+        expr: |
+          (
+            sum(rate(themisdb_query_total{result="error"}[1h])) 
+            / 
+            sum(rate(themisdb_query_total[1h]))
+          ) > (14.4 * (1 - 0.9995))
+        for: 5m
+        labels:
+          severity: critical
+          slo: availability
+        annotations:
+          summary: "Fast SLO burn detected (14.4×)"
+          description: "Error rate {{ $value | humanizePercentage }} burns budget 14.4× faster. Investigate immediately!"
+          runbook: "https://wiki.example.com/runbooks/slo-burn"
+      
+      # Medium Burn: 6× (Budget in 5 Stunden erschöpft)
+      - alert: ErrorBudgetBurnRateMedium
+        expr: |
+          (
+            sum(rate(themisdb_query_total{result="error"}[6h])) 
+            / 
+            sum(rate(themisdb_query_total[6h]))
+          ) > (6 * (1 - 0.9995))
+        for: 15m
+        labels:
+          severity: warning
+          slo: availability
+        annotations:
+          summary: "Medium SLO burn detected (6×)"
+          description: "Error rate {{ $value | humanizePercentage }} burns budget 6× faster. Investigate within 1 hour."
+      
+      # Slow Burn: 3× (Budget in 10 Stunden erschöpft)
+      - alert: ErrorBudgetBurnRateSlow
+        expr: |
+          (
+            sum(rate(themisdb_query_total{result="error"}[24h])) 
+            / 
+            sum(rate(themisdb_query_total[24h]))
+          ) > (3 * (1 - 0.9995))
+        for: 1h
+        labels:
+          severity: info
+          slo: availability
+        annotations:
+          summary: "Slow SLO burn detected (3×)"
+          description: "Error rate {{ $value | humanizePercentage }} burns budget 3× faster. Review next day."
+```
+
+**Burn-Rate-Tabelle (für 99.95% SLO):**
+
+| Burn Rate | Window | Budget-Depletion | Severity | Response Time |
+|-----------|--------|------------------|----------|---------------|
+| 14.4× | 1 Stunde | 2 Stunden | 🔴 Critical | Sofort (< 5 Min) |
+| 6× | 6 Stunden | 5 Stunden | 🟠 High | Innerhalb 1h |
+| 3× | 24 Stunden | 10 Stunden | 🟡 Medium | Next Business Day |
+| 1× | Normal | 30 Tage | 🟢 Normal | No Action |
 
 ---
 
-## 38.6 Alerting Design
+## 38.6 Alerting Design {#chapter_38_6_alerting}
 
-**Ziele:** Früh, präzise, wenig Rauschen.
+[Alerting](../appendix_h_glossary.md#alerting)-Systeme müssen früh, präzise und rauscharm warnen[^1][^9]. Wir implementieren Multi-Window-Burn-Rate-Alerts, symptom-basierte Notifications mit [Prometheus Alertmanager](../appendix_h_glossary.md#alertmanager) und intelligentes Alert-Routing.
 
-- Multi-Window, Multi-Burn-Rate (1h/6h) für SLO Burn
-- Symptom-basierte Alerts (p99 Latenz hoch, Error Rate > 1%)
-- Ursache-Alerts nachrangig (Disk 95% voll)
-- Deduping + Grouping im Alertmanager
-- Quiet Hours + Ownership (Runbook-Link, Pager-Rotation)
+### 38.6.1 Alert-Design-Prinzipien {#chapter_38_6_1_alert-principles}
 
-Beispiele:
-- `latency_p99_gt_200ms` (for 15m & 6h)
-- `error_rate_gt_1pct`
-- `replication_lag_gt_2s`
-- `disk_util_gt_85pct`
-- `cache_evictions_spike`
+Wir folgen dem "Symptom-not-Cause"-Prinzip: Alerts warnen bei User-Impact (hohe Latenz), nicht bei technischen Metriken (CPU hoch)[^9].
+
+**Design-Prinzipien:**
+1. **Actionable:** Jeder Alert erfordert menschliche Intervention
+2. **Symptom-based:** User-Experience-Impact, nicht Server-Metriken
+3. **Multi-window:** Mehrere Zeitfenster zur False-Positive-Reduktion
+4. **Contextualized:** Alerts enthalten [Runbook](../appendix_h_glossary.md#runbook)-Links, Dashboards, Logs
+5. **Routed:** Alerts gehen an richtiges Team (DB-Team, SRE, On-Call)
+
+### 38.6.2 Prometheus Alert Rules {#chapter_38_6_2_alert-rules}
+
+Wir definieren Alert-Rules für kritische ThemisDB-Metriken mit Multi-Window-Evaluation[^4].
+
+```yaml
+# themisdb_alerts.yaml - Production Alert Rules
+groups:
+  - name: themisdb_latency
+    interval: 30s
+    rules:
+      - alert: HighQueryLatencyP99
+        expr: |
+          histogram_quantile(0.99, 
+            rate(themisdb_query_duration_seconds_bucket[5m])
+          ) > 0.2
+        for: 15m
+        labels:
+          severity: warning
+          component: database
+          impact: user_experience
+        annotations:
+          summary: "P99 Query-Latenz über 200ms"
+          description: |
+            P99-Latenz: {{ $value | humanizeDuration }}
+            Threshold: 200ms
+            Dashboard: https://grafana.example.com/d/themisdb-latency
+            Runbook: https://wiki.example.com/runbooks/high-latency
+          query: 'histogram_quantile(0.99, rate(themisdb_query_duration_seconds_bucket[5m]))'
+      
+      - alert: HighQueryLatencyP99Critical
+        expr: |
+          histogram_quantile(0.99, 
+            rate(themisdb_query_duration_seconds_bucket[5m])
+          ) > 0.5
+        for: 5m
+        labels:
+          severity: critical
+          component: database
+          impact: user_experience
+        annotations:
+          summary: "P99 Query-Latenz kritisch über 500ms"
+          description: "Immediate investigation required. P99: {{ $value | humanizeDuration }}"
+  
+  - name: themisdb_errors
+    interval: 30s
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(themisdb_query_total{result="error"}[5m])) 
+            / 
+            sum(rate(themisdb_query_total[5m]))
+          ) > 0.01
+        for: 10m
+        labels:
+          severity: warning
+          component: database
+          impact: availability
+        annotations:
+          summary: "Error-Rate über 1%"
+          description: |
+            Error-Rate: {{ $value | humanizePercentage }}
+            Threshold: 1%
+            Check logs: kubectl logs -l app=themisdb --tail=100
+  
+  - name: themisdb_replication
+    interval: 30s
+    rules:
+      - alert: HighReplicationLag
+        expr: themisdb_replication_lag_seconds > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: replication
+          impact: data_freshness
+        annotations:
+          summary: "Replication Lag über 5 Sekunden"
+          description: |
+            Follower: {{ $labels.follower_id }}
+            Lag: {{ $value }}s
+            Runbook: https://wiki.example.com/runbooks/replication-lag
+      
+      - alert: ReplicationStopped
+        expr: |
+          rate(themisdb_replication_lag_seconds[5m]) == 0 
+          AND themisdb_replication_lag_seconds > 60
+        for: 2m
+        labels:
+          severity: critical
+          component: replication
+          impact: durability
+        annotations:
+          summary: "Replication stopped"
+          description: "Follower {{ $labels.follower_id }} not replicating for 60+ seconds"
+  
+  - name: themisdb_resources
+    interval: 30s
+    rules:
+      - alert: HighCacheEvictionRate
+        expr: rate(themisdb_cache_evictions_total[5m]) > 100
+        for: 10m
+        labels:
+          severity: info
+          component: cache
+          impact: performance
+        annotations:
+          summary: "Hohe Cache-Eviction-Rate"
+          description: "{{ $value }} Evictions/sec. Consider increasing cache size."
+      
+      - alert: LowCacheHitRate
+        expr: themisdb_cache_hit_ratio < 0.80
+        for: 15m
+        labels:
+          severity: warning
+          component: cache
+          impact: performance
+        annotations:
+          summary: "Cache Hit-Rate unter 80%"
+          description: |
+            Hit-Rate: {{ $value | humanizePercentage }}
+            Target: > 90%
+            Cache-Type: {{ $labels.cache_type }}
+```
+
+### 38.6.3 Alertmanager Configuration {#chapter_38_6_3_alertmanager}
+
+[Alertmanager](../appendix_h_glossary.md#alertmanager) dedupliziert, gruppiert und routet Alerts zu verschiedenen Notification-Channels[^4].
+
+```yaml
+# alertmanager.yaml - Alert Routing und Grouping
+global:
+  resolve_timeout: 5m
+  slack_api_url: 'https://hooks.slack.com/services/YOUR/WEBHOOK/URL'
+  pagerduty_url: 'https://events.pagerduty.com/v2/enqueue'
+
+# Route-Tree: Hierarchisches Routing basierend auf Labels
+route:
+  receiver: 'default'
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s        # Warte 10s vor erstem Alert
+  group_interval: 5m     # Warte 5m zwischen Gruppen-Updates
+  repeat_interval: 4h    # Wiederhole alle 4h wenn nicht resolved
+  
+  routes:
+    # Critical Alerts → PagerDuty
+    - match:
+        severity: critical
+      receiver: pagerduty-critical
+      group_wait: 10s
+      repeat_interval: 5m
+      continue: true  # Auch an Slack senden
+    
+    # Warning Alerts → Slack
+    - match:
+        severity: warning
+      receiver: slack-warnings
+      group_wait: 30s
+      repeat_interval: 2h
+    
+    # Info Alerts → Slack (nur Business Hours)
+    - match:
+        severity: info
+      receiver: slack-info
+      group_wait: 5m
+      repeat_interval: 12h
+      active_time_intervals:
+        - business_hours
+
+# Receiver: Notification Channels
+receivers:
+  - name: 'default'
+    slack_configs:
+      - channel: '#alerts-default'
+        title: '{{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+  
+  - name: 'pagerduty-critical'
+    pagerduty_configs:
+      - service_key: 'YOUR_PAGERDUTY_SERVICE_KEY'
+        description: '{{ .GroupLabels.alertname }}: {{ .CommonAnnotations.summary }}'
+        severity: '{{ .GroupLabels.severity }}'
+        details:
+          firing: '{{ .Alerts.Firing | len }}'
+          resolved: '{{ .Alerts.Resolved | len }}'
+          runbook: '{{ .CommonAnnotations.runbook }}'
+  
+  - name: 'slack-warnings'
+    slack_configs:
+      - channel: '#themisdb-alerts'
+        color: '{{ if eq .Status "firing" }}warning{{ else }}good{{ end }}'
+        title: '{{ .GroupLabels.alertname }} ({{ .Status }})'
+        text: |
+          {{ range .Alerts }}
+          *Summary:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Runbook:* {{ .Annotations.runbook }}
+          {{ end }}
+  
+  - name: 'slack-info'
+    slack_configs:
+      - channel: '#themisdb-info'
+        color: 'good'
+        title: 'Info: {{ .GroupLabels.alertname }}'
+
+# Inhibition: Unterdrücke Alerts wenn verwandte Alerts feuern
+inhibit_rules:
+  # Wenn Critical-Alert feuert, unterdrücke Warning-Alerts
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'cluster', 'service']
+  
+  # Wenn Replication stopped, unterdrücke Replication-Lag-Alerts
+  - source_match:
+      alertname: 'ReplicationStopped'
+    target_match:
+      alertname: 'HighReplicationLag'
+    equal: ['follower_id']
+
+# Time Intervals: Definiere Business Hours
+time_intervals:
+  - name: business_hours
+    time_intervals:
+      - times:
+          - start_time: '09:00'
+            end_time: '17:00'
+        weekdays: ['monday:friday']
+        location: 'Europe/Berlin'
+```
+
+### 38.6.4 Alert Fatigue Prevention {#chapter_38_6_4_fatigue-prevention}
+
+Wir reduzieren Alert-Rauschen durch intelligentes Grouping, Inhibition und Dynamic-Thresholds.
 
 ---
 
