@@ -21,97 +21,6 @@ Dieses Kapitel behandelt die produktive Bereitstellung von ThemisDB: von Docker-
 
 ---
 
-## 30.1 Docker Deployment {#chapter_30_1_docker_deployment}
-
-### 30.1.1 Basic Docker Setup {#chapter_30_1_1_basic_docker}
-
-**Dockerfile:**
-
-```dockerfile
-FROM ubuntu:24.04
-RUN apt-get update && apt-get install -y libssl3 libzstd1
-RUN useradd -r themis
-COPY themis_server /usr/local/bin/
-EXPOSE 8529
-CMD ["themis_server"]
-```
-
-**docker-compose.yml:**
-
-```yaml
-services:
-  themis:
-    image: themisdb/themis:v1.3.4
-    ports:
-      - "8529:8529"
-    volumes:
-      - themis-data:/var/lib/themis/data
-    healthcheck:
-      test: ["curl", "-f", "http://localhost:8529/_api/version"]
-
-volumes:
-  themis-data:
-```
-
-**Starten:**
-
-```bash
-# Build Image
-docker build -t themisdb/themis:v1.3.4 .
-
-# Start with docker-compose
-docker-compose up -d
-
-# Check logs
-docker-compose logs -f themis
-
-# Health check
-curl http://localhost:8529/_api/version
-```
-
-### 30.1.2 Docker Multi-Stage Build {#chapter_30_1_2_multistage_build}
-
-```dockerfile
-# Stage 1: Build
-FROM ubuntu:24.04 AS builder
-
-RUN apt-get update && apt-get install -y \
-    cmake \
-    g++ \
-    git \
-    ninja-build \
-    libssl-dev \
-    libzstd-dev \
-    libjemalloc-dev
-
-WORKDIR /build
-COPY . .
-RUN cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-RUN cmake --build build --target themis_server -j8
-
-# Stage 2: Runtime
-FROM ubuntu:24.04
-
-RUN apt-get update && apt-get install -y \
-    libssl3 \
-    libzstd1 \
-    libjemalloc2 \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY --from=builder /build/build/themis_server /usr/local/bin/
-
-RUN useradd -r -u 999 -g users themis && \
-    mkdir -p /var/lib/themis/data && \
-    chown -R themis:users /var/lib/themis
-
-USER themis
-EXPOSE 8529 8530
-
-CMD ["/usr/local/bin/themis_server"]
-```
-
----
-
 ## 30.1 Container Orchestration mit Kubernetes {#chapter_30_1_container_orchestration}
 
 Wir betrachten in diesem Abschnitt moderne Container-Orchestrierung mit Kubernetes für produktive ThemisDB-Deployments. Kubernetes bietet dabei nicht nur automatische Skalierung und Self-Healing, sondern auch fortgeschrittene Scheduling-Mechanismen wie Pod-Affinity-Regeln, die eine optimale Verteilung der Datenbankknoten über die verfügbare Infrastruktur gewährleisten und somit Hochverfügbarkeit sicherstellen.
@@ -475,6 +384,94 @@ Die Wahl des richtigen Deployment-Typs hängt von den spezifischen Anforderungen
 
 **Methodik:** Startup Time gemessen vom Container-Start bis zum ersten erfolgreichen Health Check. Failover Time ist die Dauer vom Node-Ausfall bis zur erfolgreichen Umleitung auf gesunden Node. Resource Overhead berücksichtigt Control Plane, Monitoring und Management-Komponenten.
 
+### 30.1.6 Helm Chart für ThemisDB {#chapter_30_1_6_helm_chart}
+
+Die Helm-Integration ergänzt die StatefulSet-Deployments mit Package Management und parametrisierten Configurations-Templating. Dies ermöglicht einfacheres Rollout über mehrere Environments mit konsistenten Best Practices.
+
+**Chart.yaml:**
+
+```yaml
+apiVersion: v2
+name: themis
+description: A Helm chart for ThemisDB
+type: application
+version: 1.3.4
+appVersion: "1.3.4"
+```
+
+**values.yaml:**
+
+```yaml
+replicaCount: 3
+
+image:
+  repository: themisdb/themis
+  tag: v1.3.4
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    memory: 4Gi
+    cpu: 2000m
+  limits:
+    memory: 8Gi
+    cpu: 4000m
+
+persistence:
+  enabled: true
+  storageClass: fast-ssd
+  size: 100Gi
+
+service:
+  type: LoadBalancer
+  port: 8529
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: themis.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: themis-tls
+      hosts:
+        - themis.example.com
+
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+```
+
+**Install Helm Chart:**
+
+```bash
+# Add Helm repo
+helm repo add themis https://charts.themisdb.io
+helm repo update
+
+# Install
+helm install themis-prod themis/themis \
+  --namespace themis-prod \
+  --create-namespace \
+  --values values.yaml
+
+# Upgrade
+helm upgrade themis-prod themis/themis \
+  --namespace themis-prod \
+  --values values.yaml
+
+# Uninstall
+helm uninstall themis-prod -n themis-prod
+```
+
+---
+
 ## 30.2 Infrastructure as Code mit Terraform {#chapter_30_2_infrastructure_as_code}
 
 Infrastructure as Code (IaC) ermöglicht die deklarative Definition und Versionierung der gesamten Infrastruktur. Wir verwenden Terraform als führendes IaC-Tool, um Cloud-Ressourcen reproduzierbar bereitzustellen, State-Management zu zentralisieren und Drift-Detection durchzuführen. Dies gewährleistet Konsistenz zwischen Entwicklungs-, Staging- und Produktionsumgebungen und ermöglicht vollständige Disaster-Recovery-Szenarien durch Code.
@@ -814,244 +811,6 @@ if [ $? -eq 2 ]; then
 else
   echo "✅ Kein Drift erkannt. Infrastruktur entspricht Terraform-Code."
 fi
-```
-
-## 30.2 Kubernetes Deployment {#chapter_30_2_kubernetes_deployment}
-
-### 30.2.1 Kubernetes Manifests {#chapter_30_2_1_kubernetes_manifests}
-
-**namespace.yaml:**
-
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: themis-prod
-```
-
-**configmap.yaml:**
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: themis-config
-  namespace: themis-prod
-data:
-  themis.conf: |
-    [database]
-    path = /var/lib/themis/data
-    
-    [server]
-    endpoint = http://0.0.0.0:8529
-    threads = 16
-    
-    [logging]
-    level = info
-    file = /var/log/themis/themis.log
-```
-
-**statefulset.yaml:**
-
-```yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: themis
-  namespace: themis-prod
-spec:
-  serviceName: themis-headless
-  replicas: 3
-  selector:
-    matchLabels:
-      app: themis
-  template:
-    metadata:
-      labels:
-        app: themis
-    spec:
-      containers:
-      - name: themis
-        image: themisdb/themis:v1.3.4
-        ports:
-        - containerPort: 8529
-          name: http
-        - containerPort: 8530
-          name: websocket
-        volumeMounts:
-        - name: data
-          mountPath: /var/lib/themis/data
-        - name: config
-          mountPath: /etc/themis
-        resources:
-          requests:
-            memory: "4Gi"
-            cpu: "2000m"
-          limits:
-            memory: "8Gi"
-            cpu: "4000m"
-        livenessProbe:
-          httpGet:
-            path: /_api/version
-            port: 8529
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /_api/version
-            port: 8529
-          initialDelaySeconds: 5
-          periodSeconds: 5
-      volumes:
-      - name: config
-        configMap:
-          name: themis-config
-  volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: fast-ssd
-      resources:
-        requests:
-          storage: 100Gi
-```
-
-**service.yaml:**
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: themis-headless
-  namespace: themis-prod
-spec:
-  clusterIP: None
-  selector:
-    app: themis
-  ports:
-  - port: 8529
-    name: http
-  - port: 8530
-    name: websocket
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: themis-loadbalancer
-  namespace: themis-prod
-spec:
-  type: LoadBalancer
-  selector:
-    app: themis
-  ports:
-  - port: 8529
-    targetPort: 8529
-    name: http
-```
-
-**Deploy:**
-
-```bash
-# Apply all manifests
-kubectl apply -f namespace.yaml
-kubectl apply -f configmap.yaml
-kubectl apply -f statefulset.yaml
-kubectl apply -f service.yaml
-
-# Check pods
-kubectl get pods -n themis-prod
-
-# Check service
-kubectl get svc -n themis-prod
-
-# Logs
-kubectl logs -f themis-0 -n themis-prod
-```
-
-### 30.2.2 Helm Chart {#chapter_30_2_2_helm_chart}
-
-**Chart.yaml:**
-
-```yaml
-apiVersion: v2
-name: themis
-description: A Helm chart for ThemisDB
-type: application
-version: 1.3.4
-appVersion: "1.3.4"
-```
-
-**values.yaml:**
-
-```yaml
-replicaCount: 3
-
-image:
-  repository: themisdb/themis
-  tag: v1.3.4
-  pullPolicy: IfNotPresent
-
-resources:
-  requests:
-    memory: 4Gi
-    cpu: 2000m
-  limits:
-    memory: 8Gi
-    cpu: 4000m
-
-persistence:
-  enabled: true
-  storageClass: fast-ssd
-  size: 100Gi
-
-service:
-  type: LoadBalancer
-  port: 8529
-
-ingress:
-  enabled: true
-  className: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  hosts:
-    - host: themis.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: themis-tls
-      hosts:
-        - themis.example.com
-
-monitoring:
-  enabled: true
-  serviceMonitor:
-    enabled: true
-    interval: 30s
-```
-
-**Install Helm Chart:**
-
-```bash
-# Add Helm repo
-helm repo add themis https://charts.themisdb.io
-helm repo update
-
-# Install
-helm install themis-prod themis/themis \
-  --namespace themis-prod \
-  --create-namespace \
-  --values values.yaml
-
-# Upgrade
-helm upgrade themis-prod themis/themis \
-  --namespace themis-prod \
-  --values values.yaml
-
-# Uninstall
-helm uninstall themis-prod -n themis-prod
 ```
 
 ---
@@ -2140,130 +1899,6 @@ Verschiedene Monitoring-Lösungen bieten unterschiedliche Trade-offs zwischen Fe
 
 **Methodik:** Query Performance gemessen als P95-Latenz für typische PromQL-Queries über 1h Zeitfenster. Storage Overhead für 1000 aktive Metriken mit 30s Scrape-Interval. Alerting Latency ist die Zeit von Schwellenwert-Überschreitung bis Alert-Notification. Retention ist die Standard-Konfiguration ohne zusätzliche Archivierung.
 
-## 30.4 Monitoring & Observability
-
-### 30.4.1 Prometheus Integration
-
-**ServiceMonitor:**
-
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: themis
-  namespace: themis-prod
-spec:
-  selector:
-    matchLabels:
-      app: themis
-  endpoints:
-  - port: http
-    path: /metrics
-    interval: 30s
-```
-
-**Key Metrics:**
-
-```
-# Requests
-themis_http_requests_total
-themis_http_request_duration_seconds
-
-# Database
-themis_db_operations_total
-themis_db_size_bytes
-themis_db_compaction_duration_seconds
-
-# Cache
-themis_cache_hit_ratio
-themis_cache_size_bytes
-
-# Threads
-themis_thread_pool_active
-themis_thread_pool_queue_size
-```
-
-### 30.4.2 Grafana Dashboards
-
-**Dashboard JSON:**
-
-```json
-{
-  "dashboard": {
-    "title": "ThemisDB Overview",
-    "panels": [
-      {
-        "title": "Request Rate",
-        "targets": [
-          {
-            "expr": "rate(themis_http_requests_total[5m])"
-          }
-        ]
-      },
-      {
-        "title": "Database Size",
-        "targets": [
-          {
-            "expr": "themis_db_size_bytes"
-          }
-        ]
-      },
-      {
-        "title": "Cache Hit Ratio",
-        "targets": [
-          {
-            "expr": "themis_cache_hit_ratio"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### 30.4.3 Alerting Rules
-
-**prometheus-rules.yaml:**
-
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: themis-alerts
-  namespace: themis-prod
-spec:
-  groups:
-  - name: themis
-    interval: 30s
-    rules:
-    - alert: ThemisHighErrorRate
-      expr: rate(themis_http_requests_total{status=~"5.."}[5m]) > 0.05
-      for: 5m
-      labels:
-        severity: critical
-      annotations:
-        summary: "High error rate on ThemisDB"
-        description: "Error rate is {{ $value }} req/s"
-    
-    - alert: ThemisHighMemoryUsage
-      expr: (container_memory_usage_bytes{pod=~"themis-.*"} / container_spec_memory_limit_bytes) > 0.9
-      for: 5m
-      labels:
-        severity: warning
-      annotations:
-        summary: "ThemisDB high memory usage"
-        description: "Memory usage is {{ $value | humanizePercentage }}"
-    
-    - alert: ThemisDiskSpaceLow
-      expr: (node_filesystem_avail_bytes{mountpoint="/var/lib/themis/data"} / node_filesystem_size_bytes) < 0.1
-      for: 5m
-      labels:
-        severity: critical
-      annotations:
-        summary: "ThemisDB low disk space"
-        description: "Only {{ $value | humanizePercentage }} disk space remaining"
-```
-
 ---
 
 ## 30.6 Disaster Recovery & Backup Strategies {#chapter_30_6_disaster_recovery}
@@ -2680,93 +2315,11 @@ Die Wahl der richtigen Backup-Strategie hängt von RTO/RPO-Anforderungen, verfü
 
 **Methodik:** Backup Time gemessen für 500GB-Datenbank mit Standard-Hardware (NVMe SSD, 10GbE). Storage Size relativ zu Datenbankgröße (Continuous benötigt Base + WAL-Archive). RTO ist typische Recovery-Zeit inklusive Download und Restore. RPO ist maximal möglicher Datenverlust. Full Backups sind standalone, Incremental benötigt vollständige Kette, Continuous benötigt Base + WAL-Replay.
 
-## 30.5 Backup & Disaster Recovery
-
-### 30.5.1 Snapshot Backups
-
-**Backup Script:**
-
-```bash
-#!/bin/bash
-
-# Backup configuration
-BACKUP_DIR="/var/backups/themis"
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-DB_PATH="/var/lib/themis/data"
-
-# Create snapshot
-curl -X POST http://localhost:8529/_admin/backup/create \
-  -H "Content-Type: application/json" \
-  -d '{
-    "label": "backup-'$TIMESTAMP'",
-    "timeout": 300
-  }'
-
-# Wait for snapshot
-sleep 10
-
-# Copy snapshot
-rsync -av --progress $DB_PATH/snapshots/backup-$TIMESTAMP \
-  $BACKUP_DIR/backup-$TIMESTAMP
-
-# Upload to S3
-aws s3 sync $BACKUP_DIR/backup-$TIMESTAMP \
-  s3://themis-backups/backup-$TIMESTAMP \
-  --storage-class GLACIER
-
-# Cleanup old local backups (keep last 7 days)
-find $BACKUP_DIR -type d -mtime +7 -exec rm -rf {} +
-
-echo "Backup completed: backup-$TIMESTAMP"
-```
-
-**Cron Job:**
-
-```cron
-# Daily backup at 2 AM
-0 2 * * * /usr/local/bin/themis-backup.sh >> /var/log/themis-backup.log 2>&1
-```
-
-### 30.5.2 Point-in-Time Recovery
-
-```bash
-# List available backups
-aws s3 ls s3://themis-backups/
-
-# Download backup
-aws s3 sync s3://themis-backups/backup-20250115_020000 \
-  /var/restore/themis/
-
-# Stop ThemisDB
-systemctl stop themis
-
-# Restore data
-rm -rf /var/lib/themis/data
-cp -r /var/restore/themis /var/lib/themis/data
-
-# Start ThemisDB
-systemctl start themis
-
-# Verify
-curl http://localhost:8529/_api/version
-```
-
-### 30.5.3 Continuous Backup with WAL
-
-```yaml
-# Enable WAL archiving
-backup:
-  wal_archiving:
-    enabled: true
-    archive_command: "aws s3 cp %p s3://themis-wal/%f"
-    archive_timeout: 60s
-```
-
 ---
 
-## 30.6 Horizontal Scaling {#chapter_30_6_horizontal_scaling}
+## 30.7 Horizontal Scaling {#chapter_30_7_horizontal_scaling}
 
-### 30.6.1 Sharding Strategy {#chapter_30_6_1_sharding_strategy}
+### 30.7.1 Sharding Strategy {#chapter_30_7_1_sharding_strategy}
 
 ```mermaid
 flowchart TB
@@ -2804,7 +2357,7 @@ sharding:
       range: [667, 999]
 ```
 
-### 30.6.2 Read Replicas {#chapter_30_6_2_read_replicas}
+### 30.7.2 Read Replicas {#chapter_30_7_2_read_replicas}
 
 ```yaml
 replication:
@@ -2819,9 +2372,9 @@ replication:
 
 ---
 
-## 30.7 Security Best Practices {#chapter_30_7_security_practices}
+## 30.8 Security Best Practices {#chapter_30_8_security_practices}
 
-### 30.7.1 TLS/SSL Configuration {#chapter_30_7_1_tls_ssl}
+### 30.8.1 TLS/SSL Configuration {#chapter_30_8_1_tls_ssl}
 
 ```yaml
 server:
@@ -2833,7 +2386,7 @@ server:
     min_version: "1.3"
 ```
 
-### 30.7.2 Authentication {#chapter_30_7_2_authentication}
+### 30.8.2 Authentication {#chapter_30_8_2_authentication}
 
 ```yaml
 auth:
@@ -2847,7 +2400,7 @@ auth:
       users_file: /etc/themis/users.htpasswd
 ```
 
-### 30.7.3 Network Policies (Kubernetes) {#chapter_30_7_3_network_policies}
+### 30.8.3 Network Policies (Kubernetes) {#chapter_30_8_3_network_policies}
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -2882,9 +2435,9 @@ spec:
 
 ---
 
-## 30.8 Performance Tuning {#chapter_30_8_performance_tuning}
+## 30.9 Performance Tuning {#chapter_30_9_performance_tuning}
 
-### 30.8.1 Resource Limits {#chapter_30_8_1_resource_limits}
+### 30.9.1 Resource Limits {#chapter_30_9_1_resource_limits}
 
 ```yaml
 resources:
@@ -2903,7 +2456,7 @@ env:
     value: "4GB"
 ```
 
-### 30.8.2 Connection Pooling {#chapter_30_8_2_connection_pooling}
+### 30.9.2 Connection Pooling {#chapter_30_9_2_connection_pooling}
 
 ```yaml
 server:
@@ -2915,29 +2468,9 @@ server:
 
 ---
 
-## 30.9 Zusammenfassung
+## 30.10 Advanced Deployment Patterns {#chapter_30_10_advanced_deployment}
 
-### Deployment-Optionen
-
-1. **Docker:** Einfacher Einstieg, lokale Entwicklung
-2. **Kubernetes:** Produktionsreif, auto-scaling, self-healing
-3. **Cloud:** Managed Services (EKS, AKS, GKE)
-
-### Operations-Checkliste
-
-- ✅ Monitoring mit Prometheus & Grafana
-- ✅ Tägliche Backups mit S3/Glacier
-- ✅ TLS/SSL für alle Verbindungen
-- ✅ Network Policies für Pod-Isolation
-- ✅ Resource Limits für Stabilität
-- ✅ Alerting für kritische Metriken
-- ✅ Disaster Recovery Plan dokumentiert
-
----
-
-## 30.9 Advanced Deployment Patterns {#chapter_30_9_advanced_deployment}
-
-### 30.8.1 Blue-Green Deployments
+### 30.10.1 Blue-Green Deployments
 
 ```yaml
 # Strategy: Run two complete ThemisDB environments
@@ -2983,7 +2516,7 @@ data:
 4. Switch load balancer: Service selector → green
 5. Blue becomes backup/rollback
 
-### 30.8.2 Canary Deployments
+### 30.10.2 Canary Deployments
 
 ```yaml
 # Route % of traffic to new version
@@ -3023,7 +2556,7 @@ spec:
 - Hour 4-8: 50% traffic → Full test with real workload
 - Hour 8+: 100% traffic → Full rollout
 
-### 30.8.3 GitOps Continuous Deployment
+### 30.10.3 GitOps Continuous Deployment
 
 ```yaml
 # Use ArgoCD to sync Kubernetes manifests from Git
@@ -3053,7 +2586,7 @@ spec:
       onFailure: notify-pagerduty
 ```
 
-### 30.8.4 Staged Rollout Checklist
+### 30.10.4 Staged Rollout Checklist
 
 ```
 Pre-Deployment
@@ -3084,9 +2617,9 @@ Post-Deployment
 
 ---
 
-## 30.10 Disaster Recovery & Business Continuity {#chapter_30_10_business_continuity}
+## 30.11 Disaster Recovery & Business Continuity {#chapter_30_11_business_continuity}
 
-### 30.9.1 RTO/RPO Strategy
+### 30.11.1 RTO/RPO Strategy
 
 ```
 RTO (Recovery Time Objective) = Max downtime acceptable
@@ -3105,7 +2638,7 @@ ThemisDB Recommendations:
 Platinum = Multi-region sync (4 data centers, quorum write)
 ```
 
-### 30.9.2 Disaster Recovery Plan
+### 30.11.2 Disaster Recovery Plan
 
 ```yaml
 # Automated DR Workflow
@@ -3135,7 +2668,7 @@ spec:
     - catchup_replicas: "Wait for lag < 1s"
 ```
 
-### 30.9.3 Backup Verification Script
+### 30.11.3 Backup Verification Script
 
 ```bash
 #!/bin/bash
@@ -3170,9 +2703,9 @@ echo "Backup verification complete"
 
 ---
 
-## 30.11 Cost Optimization {#chapter_30_11_cost_optimization}
+## 30.12 Cost Optimization {#chapter_30_12_cost_optimization}
 
-### 30.10.1 Resource Right-Sizing
+### 30.12.1 Resource Right-Sizing
 
 ```yaml
 # Development (small)
@@ -3209,7 +2742,7 @@ storage: "2Ti"
 # - Estimated monthly savings: 40-60% via optimization
 ```
 
-### 30.10.2 Storage Cost Reduction
+### 30.12.2 Storage Cost Reduction
 
 ```
 Strategy: Tiered Storage (Hot → Warm → Cold)
@@ -3239,9 +2772,9 @@ Example: 10TB dataset
 
 ---
 
-## 30.12 Compliance & Audit {#chapter_30_12_compliance_audit}
+## 30.13 Compliance & Audit {#chapter_30_13_compliance_audit}
 
-### 30.11.1 Audit Logging for Compliance
+### 30.13.1 Audit Logging for Compliance
 
 ```yaml
 # Immutable audit log (Write-Once-Read-Many)
@@ -3273,7 +2806,7 @@ spec:
     metrics: "1 year"
 ```
 
-### 30.11.2 Compliance Checklist
+### 30.13.2 Compliance Checklist
 
 ```
 Security
@@ -3307,9 +2840,9 @@ Monitoring
 
 ---
 
-## 30.12 Operations Runbooks
+## 30.14 Operations Runbooks
 
-### 30.12.1 Scaling Checklist (Horizontal)
+### 30.14.1 Scaling Checklist (Horizontal)
 
 ```
 Add Node to Cluster
@@ -3331,7 +2864,7 @@ Remove Node from Cluster
   6. Decommission VM
 ```
 
-### 30.12.2 Incident Response (Example: High Memory Usage)
+### 30.14.2 Incident Response (Example: High Memory Usage)
 
 ```
 Symptoms
@@ -3363,11 +2896,11 @@ Verify
 
 ---
 
-## 30.13 Zusammenfassung {#chapter_30_13_summary}
+## 30.15 Zusammenfassung {#chapter_30_15_summary}
 
 Wir haben in diesem Kapitel umfassende Deployment- und Operations-Strategien für ThemisDB behandelt. Von Container-Orchestrierung mit Kubernetes über Infrastructure as Code mit Terraform bis hin zu fortgeschrittenen Deployment-Strategien wie Canary Releases haben wir die gesamte Bandbreite moderner DevOps-Praktiken abgedeckt. Die Implementierung von robustem Monitoring, Alerting und Disaster-Recovery-Verfahren stellt sicher, dass ThemisDB-Produktionsumgebungen die höchsten Verfügbarkeits- und Zuverlässigkeitsstandards erfüllen.
 
-### Kernpunkte {#chapter_30_13_1_key_points}
+### Kernpunkte {#chapter_30_15_1_key_points}
 
 **Container Orchestration:** Kubernetes StatefulSets bieten die notwendige Stabilität und Skalierbarkeit für zustandsbehaftete Datenbank-Deployments mit Features wie Pod Anti-Affinity, Persistent Volumes und automatischem Health Checking.
 
@@ -3379,7 +2912,7 @@ Wir haben in diesem Kapitel umfassende Deployment- und Operations-Strategien fü
 
 **Disaster Recovery:** Mehrstufige Backup-Strategien (Full, Incremental, Continuous) kombiniert mit Cross-Region-Replication gewährleisten Datensicherheit und schnelle Recovery mit definierten RTO/RPO-Zielen.
 
-### Operations Checkliste {#chapter_30_13_2_operations_checklist}
+### Operations Checkliste {#chapter_30_15_2_operations_checklist}
 
 #### Tägliche Aufgaben
 - [ ] Backup erfolgreich (log check)
@@ -3408,7 +2941,7 @@ Wir haben in diesem Kapitel umfassende Deployment- und Operations-Strategien fü
 - [ ] Compliance verification
 - [ ] Training for new operators
 
-### Weiterführende Themen {#chapter_30_13_3_next_topics}
+### Weiterführende Themen {#chapter_30_15_3_next_topics}
 
 Die in diesem Kapitel behandelten Deployment- und Operations-Konzepte bilden die Grundlage für produktionsreife ThemisDB-Installationen. Für vertiefende Informationen zu verwandten Themen empfehlen wir:
 
