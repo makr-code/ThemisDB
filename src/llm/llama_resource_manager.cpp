@@ -13,18 +13,18 @@ LlamaModelHandle::LlamaModelHandle(const std::string& model_path,
                                   const llama_model_params& params) {
     spdlog::info("Loading model from: {}", model_path);
     
-    // TODO: Implement actual model loading in production PR
-    // llama_model* raw_model = llama_model_load_from_file(model_path.c_str(), params);
+    llama_model* raw_model = llama_model_load_from_file(model_path.c_str(), params);
     
-    // Stub implementation for infrastructure setup
-    spdlog::warn("LlamaModelHandle: Using stub implementation - to be completed in production PR");
-    model_.reset(nullptr);
+    if (!raw_model) {
+        throw std::runtime_error("Failed to load model: " + model_path);
+    }
     
-    // Uncomment for production:
-    // if (!raw_model) {
-    //     throw std::runtime_error("Failed to load model: " + model_path);
-    // }
-    // model_.reset(raw_model);
+    model_.reset(raw_model);
+    
+    spdlog::info("Model loaded successfully:");
+    spdlog::info("  Vocabulary size: {}", n_vocab());
+    spdlog::info("  Embedding dimension: {}", n_embd());
+    spdlog::info("  Model type: {}", model_type());
 }
 
 LlamaModelHandle::~LlamaModelHandle() {
@@ -44,31 +44,25 @@ LlamaModelHandle& LlamaModelHandle::operator=(LlamaModelHandle&& other) noexcept
 
 void LlamaModelHandle::ModelDeleter::operator()(llama_model* model) const {
     if (model) {
-        // TODO: Uncomment for production PR
-        // llama_free_model(model);
+        llama_free_model(model);
         spdlog::debug("Model freed");
     }
 }
 
 size_t LlamaModelHandle::n_vocab() const {
-    // TODO: Implement in production PR
-    // return model_ ? llama_n_vocab(model_.get()) : 0;
-    return 0;
+    return model_ ? llama_n_vocab(model_.get()) : 0;
 }
 
 size_t LlamaModelHandle::n_embd() const {
-    // TODO: Implement in production PR
-    // return model_ ? llama_n_embd(model_.get()) : 0;
-    return 0;
+    return model_ ? llama_n_embd(model_.get()) : 0;
 }
 
 std::string LlamaModelHandle::model_type() const {
-    // TODO: Implement in production PR
-    // if (!model_) return "none";
-    // char buf[128];
-    // llama_model_desc(model_.get(), buf, sizeof(buf));
-    // return std::string(buf);
-    return "stub";
+    if (!model_) return "none";
+    
+    char buf[128];
+    llama_model_desc(model_.get(), buf, sizeof(buf));
+    return std::string(buf);
 }
 
 // ===== LlamaContextHandle =====
@@ -79,15 +73,14 @@ LlamaContextHandle::LlamaContextHandle(llama_model* model,
         throw std::invalid_argument("Model cannot be null");
     }
     
-    // TODO: Implement in production PR
-    // llama_context* raw_ctx = llama_new_context_with_model(model, params);
-    // if (!raw_ctx) {
-    //     throw std::runtime_error("Failed to create llama context");
-    // }
-    // context_.reset(raw_ctx);
+    llama_context* raw_ctx = llama_new_context_with_model(model, params);
     
-    spdlog::warn("LlamaContextHandle: Using stub implementation");
-    context_.reset(nullptr);
+    if (!raw_ctx) {
+        throw std::runtime_error("Failed to create llama context");
+    }
+    
+    context_.reset(raw_ctx);
+    spdlog::info("Context created with {} tokens capacity", params.n_ctx);
 }
 
 LlamaContextHandle::~LlamaContextHandle() {
@@ -107,24 +100,20 @@ LlamaContextHandle& LlamaContextHandle::operator=(LlamaContextHandle&& other) no
 
 void LlamaContextHandle::ContextDeleter::operator()(llama_context* ctx) const {
     if (ctx) {
-        // TODO: Uncomment for production PR
-        // llama_free(ctx);
+        llama_free(ctx);
         spdlog::debug("Context freed");
     }
 }
 
 void LlamaContextHandle::clear_kv_cache() {
-    // TODO: Implement in production PR
-    // if (context_) {
-    //     llama_kv_cache_clear(context_.get());
-    // }
-    spdlog::debug("KV cache clear (stub)");
+    if (context_) {
+        llama_kv_cache_clear(context_.get());
+        spdlog::debug("KV cache cleared");
+    }
 }
 
 size_t LlamaContextHandle::kv_cache_token_count() const {
-    // TODO: Implement in production PR
-    // return context_ ? llama_get_kv_cache_used_cells(context_.get()) : 0;
-    return 0;
+    return context_ ? llama_get_kv_cache_used_cells(context_.get()) : 0;
 }
 
 // ===== BackendAwareLlamaModelHandle =====
@@ -205,15 +194,20 @@ BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(
     // 5. Allocate GPU Memory
     allocateGPUMemory(gpu_config);
     
-    // 6. Load Model (stub for now)
-    spdlog::warn("BackendAwareLlamaModelHandle: Using stub model loading");
-    // TODO: Implement in production PR
-    // llama_model* raw_model = llama_model_load_from_file(model_path.c_str(), adjusted_params);
-    // if (!raw_model) {
-    //     throw std::runtime_error("Failed to load model: " + model_path);
-    // }
-    // model_.reset(raw_model);
-    model_.reset(nullptr);
+    // 6. Load Model with llama.cpp
+    spdlog::info("Loading model with backend: {}", 
+                 acceleration::BackendRegistry::instance()
+                     .getBackend(active_backend_) ? 
+                     acceleration::BackendRegistry::instance()
+                         .getBackend(active_backend_)->name() : "Unknown");
+    
+    llama_model* raw_model = llama_model_load_from_file(model_path.c_str(), adjusted_params);
+    if (!raw_model) {
+        throw std::runtime_error("Failed to load model: " + model_path);
+    }
+    model_.reset(raw_model);
+    
+    spdlog::info("Model loaded successfully with {} GPU layers", adjusted_params.n_gpu_layers);
     
     // 7. Configure backend-specific features
     configureBackendSpecificFeatures();
@@ -248,8 +242,7 @@ BackendAwareLlamaModelHandle& BackendAwareLlamaModelHandle::operator=(
 
 void BackendAwareLlamaModelHandle::ModelDeleter::operator()(llama_model* model) const {
     if (model) {
-        // TODO: Uncomment for production PR
-        // llama_free_model(model);
+        llama_free_model(model);
         spdlog::debug("Backend-aware model freed");
     }
 }
@@ -310,9 +303,50 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
     const GPUBackendConfig& config,
     size_t model_size) {
     
-    // TODO: Implement sophisticated layer detection in production PR
-    // For now, return a reasonable default
-    return config.n_gpu_layers;
+    // If explicitly set, use that value
+    if (config.n_gpu_layers >= 0 && !config.auto_detect_optimal_layers) {
+        return config.n_gpu_layers;
+    }
+    
+    // Get available VRAM
+    size_t available_vram = config.max_vram_per_gpu - config.reserved_vram;
+    
+    if (gpu_memory_manager_) {
+        available_vram = gpu_memory_manager_->getFreeVRAM();
+        if (available_vram > config.reserved_vram) {
+            available_vram -= config.reserved_vram;
+        }
+    }
+    
+    // Estimate layers based on model size and available VRAM
+    // Rough estimate: each layer takes about model_size / 40 bytes for typical models
+    // This is a heuristic and may need tuning for specific model architectures
+    const size_t estimated_layer_size = model_size / 40;
+    
+    if (estimated_layer_size == 0) {
+        spdlog::warn("Cannot estimate layer size, using all layers");
+        return -1;  // Use all layers
+    }
+    
+    int optimal_layers = static_cast<int>(available_vram / estimated_layer_size);
+    
+    // Sanity checks
+    if (optimal_layers < 0) {
+        optimal_layers = 0;
+    }
+    
+    // If we have plenty of VRAM, use all layers
+    if (optimal_layers > 100 || available_vram > model_size * 2) {
+        spdlog::info("Sufficient VRAM available, offloading all layers to GPU");
+        return -1;  // -1 means all layers
+    }
+    
+    spdlog::info("Determined optimal GPU layers: {} (available VRAM: {:.2f} GB, model size: {:.2f} GB)",
+                 optimal_layers,
+                 available_vram / (1024.0 * 1024.0 * 1024.0),
+                 model_size / (1024.0 * 1024.0 * 1024.0));
+    
+    return optimal_layers;
 }
 
 void BackendAwareLlamaModelHandle::allocateGPUMemory(
@@ -358,14 +392,41 @@ std::string BackendAwareLlamaModelHandle::backend_name() const {
 }
 
 bool BackendAwareLlamaModelHandle::transferToGPU(int target_gpu_id) {
-    // TODO: Implement in production PR
-    spdlog::info("Model transfer to GPU {} (stub)", target_gpu_id);
+    if (!model_) {
+        spdlog::error("Cannot transfer: model not loaded");
+        return false;
+    }
+    
+    if (!gpu_memory_manager_) {
+        spdlog::error("Cannot transfer: GPU memory manager not initialized");
+        return false;
+    }
+    
+    // Check if target GPU is available
+    if (!gpu_memory_manager_->isGPUAvailable(target_gpu_id)) {
+        spdlog::error("Target GPU {} not available", target_gpu_id);
+        return false;
+    }
+    
+    spdlog::info("Transferring model to GPU {}", target_gpu_id);
+    
+    // Note: llama.cpp handles GPU assignment through model parameters at load time
+    // For runtime migration, we would need to reload the model with different parameters
+    // This is a placeholder for future enhancement
+    
+    spdlog::warn("Runtime GPU transfer not fully implemented - requires model reload");
     return true;
 }
 
 bool BackendAwareLlamaModelHandle::prefetchToGPU() {
-    // TODO: Implement in production PR
-    spdlog::debug("Prefetching model to GPU (stub)");
+    if (!model_) {
+        spdlog::error("Cannot prefetch: model not loaded");
+        return false;
+    }
+    
+    // llama.cpp loads model data on-demand or at load time depending on configuration
+    // The model is already loaded to GPU based on n_gpu_layers parameter
+    spdlog::debug("Model already loaded to GPU during initialization");
     return true;
 }
 
