@@ -6,6 +6,9 @@
 namespace themis {
 namespace llm {
 
+// Constants
+constexpr int DEFAULT_PENALTY_WINDOW = 64;  // Default number of previous tokens for repeat penalty
+
 // ===== GreedySampling =====
 
 llama_token GreedySampling::sample(
@@ -58,8 +61,8 @@ llama_token NucleusSampling::sample(
     llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
     
     // Add repeat penalty sampler
-    // Use last_tokens size or 64 as penalty window (0 = disabled, so use max if available)
-    int penalty_last_n = last_tokens.empty() ? 64 : static_cast<int>(last_tokens.size());
+    // Use last_tokens size or default penalty window (0 = disabled, so use max if available)
+    int penalty_last_n = last_tokens.empty() ? DEFAULT_PENALTY_WINDOW : static_cast<int>(last_tokens.size());
     llama_sampler_chain_add(
         sampler,
         llama_sampler_init_penalties(
@@ -114,7 +117,8 @@ llama_token MirostatSampling::sample(
     
     // Note: last_tokens parameter is not directly used by Mirostat v2
     // The mirostat sampler maintains its own internal state for adaptation
-    spdlog::debug("MirostatSampling::sample - tau={}, eta={}, mu={}", tau_, eta_, mu_);
+    // mu_ is initialized but the actual adaptive state is managed by the llama.cpp sampler
+    spdlog::debug("MirostatSampling::sample - tau={}, eta={}", tau_, eta_);
     
     llama_model* model = llama_get_model(ctx);
     
@@ -123,6 +127,7 @@ llama_token MirostatSampling::sample(
     
     // Add Mirostat v2 sampler
     // Note: seed parameter of 0 means use current time for randomness
+    // The sampler will maintain its own adaptive mu state internally
     llama_sampler_chain_add(
         sampler,
         llama_sampler_init_mirostat_v2(0, tau_, eta_)
