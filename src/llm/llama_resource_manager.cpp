@@ -205,9 +205,9 @@ BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(
     allocateGPUMemory(gpu_config);
     
     // 6. Load Model with llama.cpp
-    // Cache backend pointer to avoid repeated lookups
-    auto* active_backend = acceleration::BackendRegistry::instance().getBackend(active_backend_);
-    const std::string backend_name = active_backend ? active_backend->name() : "Unknown";
+    // Cache backend pointer to avoid repeated lookups (avoid shadowing class member)
+    auto* backend_ptr = acceleration::BackendRegistry::instance().getBackend(active_backend_);
+    const std::string backend_name = backend_ptr ? backend_ptr->name() : "Unknown";
     
     spdlog::info("Loading model with backend: {}", backend_name);
     
@@ -323,9 +323,9 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
         return config.n_gpu_layers;
     }
     
-    // Validate configuration
-    if (config.reserved_vram >= config.max_vram_per_gpu) {
-        spdlog::warn("Reserved VRAM ({} bytes) >= Max VRAM ({} bytes), using CPU only",
+    // Validate configuration - ensure we have some VRAM available
+    if (config.reserved_vram > config.max_vram_per_gpu) {
+        spdlog::warn("Reserved VRAM ({} bytes) > Max VRAM ({} bytes), using CPU only",
                      config.reserved_vram, config.max_vram_per_gpu);
         return 0;
     }
@@ -334,11 +334,13 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
     size_t available_vram = config.max_vram_per_gpu - config.reserved_vram;
     
     if (gpu_memory_manager_) {
-        available_vram = gpu_memory_manager_->getFreeVRAM();
-        if (available_vram > config.reserved_vram) {
-            available_vram -= config.reserved_vram;
+        size_t free_vram = gpu_memory_manager_->getFreeVRAM();
+        // Prevent underflow: ensure free_vram is greater than or equal to reserved_vram
+        if (free_vram >= config.reserved_vram) {
+            available_vram = free_vram - config.reserved_vram;
         } else {
-            spdlog::warn("Insufficient VRAM after reservation, using CPU only");
+            spdlog::warn("Free VRAM ({} bytes) < Reserved VRAM ({} bytes), using CPU only",
+                         free_vram, config.reserved_vram);
             return 0;
         }
     }
@@ -434,14 +436,12 @@ bool BackendAwareLlamaModelHandle::transferToGPU(int target_gpu_id) {
         return false;
     }
     
-    spdlog::info("Transferring model to GPU {}", target_gpu_id);
-    
     // Note: llama.cpp handles GPU assignment through model parameters at load time
-    // For runtime migration, we would need to reload the model with different parameters
-    // This is a placeholder for future enhancement
+    // Runtime GPU migration would require reloading the model with different parameters
+    // This is not currently supported by llama.cpp API
     
-    spdlog::warn("Runtime GPU transfer not fully implemented - requires model reload");
-    return true;
+    spdlog::warn("Runtime GPU transfer not supported by llama.cpp - requires model reload");
+    return false;  // Return false to indicate operation not performed
 }
 
 bool BackendAwareLlamaModelHandle::prefetchToGPU() {
