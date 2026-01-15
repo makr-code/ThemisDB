@@ -21,9 +21,9 @@ Dieses Kapitel behandelt die produktive Bereitstellung von ThemisDB: von Docker-
 
 ---
 
-## 30.1 Docker Deployment
+## 30.1 Docker Deployment {#chapter_30_1_docker_deployment}
 
-### 30.1.1 Basic Docker Setup
+### 30.1.1 Basic Docker Setup {#chapter_30_1_1_basic_docker}
 
 **Dockerfile:**
 
@@ -69,7 +69,7 @@ docker-compose logs -f themis
 curl http://localhost:8529/_api/version
 ```
 
-### 30.1.2 Docker Multi-Stage Build
+### 30.1.2 Docker Multi-Stage Build {#chapter_30_1_2_multistage_build}
 
 ```dockerfile
 # Stage 1: Build
@@ -816,7 +816,7 @@ else
 fi
 ```
 
-## 30.2 Kubernetes Deployment
+## 30.2 Kubernetes Deployment {#chapter_30_2_kubernetes_deployment}
 
 ### 30.2.1 Kubernetes Manifests {#chapter_30_2_1_kubernetes_manifests}
 
@@ -970,7 +970,7 @@ kubectl get svc -n themis-prod
 kubectl logs -f themis-0 -n themis-prod
 ```
 
-### 30.2.2 Helm Chart
+### 30.2.2 Helm Chart {#chapter_30_2_2_helm_chart}
 
 **Chart.yaml:**
 
@@ -1546,7 +1546,7 @@ metadata:
   connection: "postgresql://user:pass@themis-metadata.c9akljh4.eu-central-1.rds.amazonaws.com:5432/themis"
 ```
 
-### 30.3.2 Azure Deployment
+### 30.4.2 Azure Deployment {#chapter_30_4_2_azure_deployment}
 
 **AKS Cluster:**
 
@@ -1573,7 +1573,7 @@ helm install themis-prod themis/themis \
   --set persistence.storageClass=managed-premium
 ```
 
-### 30.3.3 GCP Deployment
+### 30.4.3 GCP Deployment {#chapter_30_4_3_gcp_deployment}
 
 **GKE Cluster:**
 
@@ -2764,9 +2764,9 @@ backup:
 
 ---
 
-## 30.6 Horizontal Scaling
+## 30.6 Horizontal Scaling {#chapter_30_6_horizontal_scaling}
 
-### 30.6.1 Sharding Strategy
+### 30.6.1 Sharding Strategy {#chapter_30_6_1_sharding_strategy}
 
 ```mermaid
 flowchart TB
@@ -2804,7 +2804,7 @@ sharding:
       range: [667, 999]
 ```
 
-### 30.6.2 Read Replicas
+### 30.6.2 Read Replicas {#chapter_30_6_2_read_replicas}
 
 ```yaml
 replication:
@@ -2819,9 +2819,9 @@ replication:
 
 ---
 
-## 30.7 Security Best Practices
+## 30.7 Security Best Practices {#chapter_30_7_security_practices}
 
-### 30.7.1 TLS/SSL Configuration
+### 30.7.1 TLS/SSL Configuration {#chapter_30_7_1_tls_ssl}
 
 ```yaml
 server:
@@ -2833,7 +2833,7 @@ server:
     min_version: "1.3"
 ```
 
-### 30.7.2 Authentication
+### 30.7.2 Authentication {#chapter_30_7_2_authentication}
 
 ```yaml
 auth:
@@ -2847,7 +2847,7 @@ auth:
       users_file: /etc/themis/users.htpasswd
 ```
 
-### 30.7.3 Network Policies (Kubernetes)
+### 30.7.3 Network Policies (Kubernetes) {#chapter_30_7_3_network_policies}
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -2882,9 +2882,9 @@ spec:
 
 ---
 
-## 30.8 Performance Tuning
+## 30.8 Performance Tuning {#chapter_30_8_performance_tuning}
 
-### 30.8.1 Resource Limits
+### 30.8.1 Resource Limits {#chapter_30_8_1_resource_limits}
 
 ```yaml
 resources:
@@ -2903,7 +2903,7 @@ env:
     value: "4GB"
 ```
 
-### 30.8.2 Connection Pooling
+### 30.8.2 Connection Pooling {#chapter_30_8_2_connection_pooling}
 
 ```yaml
 server:
@@ -2935,7 +2935,7 @@ server:
 
 ---
 
-## 30.8 Advanced Deployment Patterns
+## 30.9 Advanced Deployment Patterns {#chapter_30_9_advanced_deployment}
 
 ### 30.8.1 Blue-Green Deployments
 
@@ -3084,7 +3084,7 @@ Post-Deployment
 
 ---
 
-## 30.9 Disaster Recovery & Business Continuity
+## 30.10 Disaster Recovery & Business Continuity {#chapter_30_10_business_continuity}
 
 ### 30.9.1 RTO/RPO Strategy
 
@@ -3170,7 +3170,7 @@ echo "Backup verification complete"
 
 ---
 
-## 30.10 Cost Optimization
+## 30.11 Cost Optimization {#chapter_30_11_cost_optimization}
 
 ### 30.10.1 Resource Right-Sizing
 
@@ -3239,7 +3239,7 @@ Example: 10TB dataset
 
 ---
 
-## 30.11 Compliance & Audit
+## 30.12 Compliance & Audit {#chapter_30_12_compliance_audit}
 
 ### 30.11.1 Audit Logging for Compliance
 
@@ -3363,35 +3363,109 @@ Verify
 
 ---
 
-## 30.13 Zusammenfassung: Operations Checkliste
+## 30.13 Zusammenfassung {#chapter_30_13_summary}
 
-### Tägliche Aufgaben
+Wir haben in diesem Kapitel umfassende Deployment- und Operations-Strategien für ThemisDB behandelt. Von Container-Orchestrierung mit Kubernetes über Infrastructure as Code mit Terraform bis hin zu fortgeschrittenen Deployment-Strategien wie Canary Releases haben wir die gesamte Bandbreite moderner DevOps-Praktiken abgedeckt. Die Implementierung von robustem Monitoring, Alerting und Disaster-Recovery-Verfahren stellt sicher, dass ThemisDB-Produktionsumgebungen die höchsten Verfügbarkeits- und Zuverlässigkeitsstandards erfüllen.
+
+### Kernpunkte {#chapter_30_13_1_key_points}
+
+**Container Orchestration:** Kubernetes StatefulSets bieten die notwendige Stabilität und Skalierbarkeit für zustandsbehaftete Datenbank-Deployments mit Features wie Pod Anti-Affinity, Persistent Volumes und automatischem Health Checking.
+
+**Infrastructure as Code:** Terraform ermöglicht reproduzierbare, versionierte Infrastruktur-Definitionen mit State-Management, Drift Detection und modularer Komposition für Multi-Environment-Deployments.
+
+**Deployment Strategies:** Blue-Green, Canary und Rolling Update Strategien bieten unterschiedliche Trade-offs zwischen Downtime, Risiko und Infrastruktur-Kosten. Die Wahl hängt von spezifischen SLA-Anforderungen ab.
+
+**Monitoring & Alerting:** Prometheus und Grafana bilden einen leistungsfähigen Monitoring-Stack mit SLO/SLI-basiertem Alerting, Error Budget Tracking und mehrstufigen Severity-Levels für effektive Incident Response.
+
+**Disaster Recovery:** Mehrstufige Backup-Strategien (Full, Incremental, Continuous) kombiniert mit Cross-Region-Replication gewährleisten Datensicherheit und schnelle Recovery mit definierten RTO/RPO-Zielen.
+
+### Operations Checkliste {#chapter_30_13_2_operations_checklist}
+
+#### Tägliche Aufgaben
 - [ ] Backup erfolgreich (log check)
 - [ ] Replication lag < 500ms
 - [ ] Disk usage < 80%
 - [ ] No error logs above WARN
 - [ ] Metrics collected (Prometheus)
 
-### Wöchentliche Aufgaben
+#### Wöchentliche Aufgaben
 - [ ] Backup test restoration (pick random)
 - [ ] Security scan (OWASP top 10)
 - [ ] Performance baseline check
 - [ ] Review failed queries (slow log)
 - [ ] Capacity planning review
 
-### Monatliche Aufgaben
+#### Monatliche Aufgaben
 - [ ] Disaster recovery drill
 - [ ] Penetration testing (if required)
 - [ ] Security policy review
 - [ ] Cost optimization (right-size resources)
 - [ ] Upgrade path planning
 
-### Quarterly
+#### Quarterly
 - [ ] Full disaster recovery test (restore from backup)
 - [ ] Security audit
 - [ ] Compliance verification
 - [ ] Training for new operators
 
+### Weiterführende Themen {#chapter_30_13_3_next_topics}
+
+Die in diesem Kapitel behandelten Deployment- und Operations-Konzepte bilden die Grundlage für produktionsreife ThemisDB-Installationen. Für vertiefende Informationen zu verwandten Themen empfehlen wir:
+
+- **[Kapitel 3 (Installation)](chapter_04_installation.md):** Grundlegende Installation und Setup-Verfahren
+- **[Kapitel 19 (Monitoring)](chapter_19_monitoring_observability.md):** Detaillierte Monitoring-Konzepte und Metriken
+- **[Kapitel 20 (Backup & Recovery)](chapter_20_backup.md):** Erweiterte Backup-Strategien und Recovery-Szenarien
+- **[Kapitel 25 (DevOps & Infrastructure)](chapter_25_devops_infrastructure.md):** DevOps-Workflows und CI/CD-Integration
+- **[Kapitel 36 (Security Hardening)](chapter_36_security_hardening.md):** Security Best Practices und Härtungsmaßnahmen
+- **[Kapitel 38 (Observability & SRE)](chapter_38_observability_sre.md):** Site Reliability Engineering Prinzipien
+
 ---
 
-**Kapitel 30 von 30** | **Teil XI: Operations** | **~10.000 Wörter (+2000 neu)**
+## Literatur und Referenzen {#chapter_30_references}
+
+Die folgenden wissenschaftlichen Quellen und technischen Dokumentationen bilden die Grundlage für die in diesem Kapitel vorgestellten Best Practices:
+
+### Bücher und Monografien
+
+**[1] Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016).** *Site Reliability Engineering: How Google Runs Production Systems*. O'Reilly Media. ISBN: 978-1491929124.  
+→ Grundlegendes Werk zu SRE-Prinzipien, SLO/SLI-Definitionen und Error Budget Management.
+
+**[2] Morris, K. (2020).** *Infrastructure as Code: Managing Servers in the Cloud* (2nd ed.). O'Reilly Media. ISBN: 978-1098114671.  
+→ Umfassende Behandlung von IaC-Konzepten, Terraform Best Practices und State Management.
+
+**[3] Humble, J., & Farley, D. (2010).** *Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation*. Addison-Wesley. ISBN: 978-0321601919.  
+→ Deployment-Pipelines, Blue-Green und Canary Release Strategien.
+
+**[4] Campbell, L., & Majors, C. (2017).** *Database Reliability Engineering: Designing and Operating Resilient Database Systems*. O'Reilly Media. ISBN: 978-1491925942.  
+→ Spezifische DRE-Praktiken für Datenbank-Operationen, Backup-Strategien und Disaster Recovery.
+
+### Technische Dokumentation und Standards
+
+**[5] Kubernetes Documentation.** *Kubernetes Official Documentation*. The Kubernetes Authors. https://kubernetes.io/docs/  
+→ Offizielle Kubernetes-Dokumentation zu StatefulSets, Services, Storage Classes und Operators.
+
+**[6] HashiCorp Terraform Documentation.** *Terraform Documentation*. HashiCorp. https://www.terraform.io/docs/  
+→ Terraform Provider, Module, State Management und Best Practices.
+
+**[7] NIST. (2010).** *NIST Special Publication 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems*. National Institute of Standards and Technology.  
+→ Disaster Recovery Planning Standards, RTO/RPO-Definitionen und Business Continuity.
+
+**[8] Weaveworks. (2021).** *GitOps Principles*. GitOps Working Group. https://opengitops.dev/  
+→ GitOps-Workflow-Definitionen, Continuous Deployment und Declarative Configuration Management.
+
+### Konferenz-Beiträge und Whitepapers
+
+**[9] Burns, B., Grant, B., Oppenheimer, D., Brewer, E., & Wilkes, J. (2016).** *Borg, Omega, and Kubernetes*. ACM Queue, 14(1), 70-93.  
+→ Akademische Perspektive auf Container-Orchestrierung und Cluster-Management.
+
+**[10] Prometheus Authors. (2023).** *Prometheus Documentation: Best Practices*. https://prometheus.io/docs/practices/  
+→ Monitoring Best Practices, Metric Naming, Alerting Guidelines.
+
+---
+
+**Kapitel 30 von 41** | **Teil X: Operations & Deployment** | **~10.100 Wörter**
+
+---
+
+**Navigation:**  
+← [Kapitel 29: Analytics & Process Mining](chapter_29_analytics_process_mining.md) | [Inhaltsverzeichnis](index.md) | [Kapitel 31: API & Protocols](chapter_31_api_protocols.md) →
