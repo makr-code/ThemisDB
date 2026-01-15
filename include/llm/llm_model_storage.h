@@ -306,10 +306,17 @@ public:
      * @return Statistics as JSON
      */
     json getStats() const;
+    
+    /**
+     * @brief Get configuration (for accessing blob manager, etc.)
+     * @return Configuration object
+     */
+    const Config& getConfig() const;
 
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+    Config config_;  // Store config for external access
 };
 
 } // namespace llm

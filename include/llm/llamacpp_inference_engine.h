@@ -4,6 +4,8 @@
 #include "llm/gguf_loader.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/lazy_model_loader.h"
+#include "llm/llm_model_storage.h"
+#include "llm/lora_framework/lora_storage_service.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -26,6 +28,10 @@ public:
         int block_size = 16;
         int num_blocks = 4096;
         bool enable_prefix_caching = true;
+        
+        // ThemisDB integration (optional)
+        std::shared_ptr<LLMModelStorage> model_storage;        // Model storage service
+        std::shared_ptr<lora::LoRAStorageService> lora_storage; // LoRa storage service
     };
     
     LlamaCppInferenceEngine(const Config& config);
@@ -36,6 +42,9 @@ public:
     
     // Load model from ThemisDB (URN)
     bool loadModelFromThemisDB(const std::string& model_urn);
+    
+    // Load LoRa adapter from ThemisDB
+    bool loadAdapterFromThemisDB(const std::string& adapter_id);
     
     // Unload current model
     void unloadModel();
@@ -69,6 +78,9 @@ private:
     // Statistics
     Stats stats_;
     
+    // Temporary file path for streamed models
+    std::string temp_model_path_;
+    
     // Internal inference helpers
     std::vector<float> computeAttention(
         const std::vector<float>& q,
@@ -83,6 +95,18 @@ private:
     );
     
     void setupGPUOffload();
+    
+    // Helper function for streaming models from blob store
+    bool streamModelFromBlobStore(
+        const storage::BlobRef& blob_ref,
+        const std::string& output_path,
+        std::shared_ptr<storage::BlobStorageManager> blob_manager
+    );
+    
+    // Helper to get blob reference from model metadata
+    std::optional<storage::BlobRef> getBlobReferenceFromMetadata(
+        const std::string& model_id
+    );
 };
 
 } // namespace llm
