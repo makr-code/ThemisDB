@@ -1,5 +1,8 @@
 name: AFL++ Fuzzing
 
+permissions:
+  contents: read
+
 on:
   schedule:
     # Weekly on Sunday at midnight
