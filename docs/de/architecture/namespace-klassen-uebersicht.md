@@ -5,8 +5,9 @@ und zeigt, welche Klassen sich in welchem Namespace befinden.
 
 **Generiert am:** 2026-01-15T13:24:14.835192
 **Namespaces gesamt:** 122
-**Klassen gesamt:** unknown
-**Funktionen gesamt:** unknown
+**Klassen gesamt:** 2,316
+**Funktionen gesamt:** 5,747
+**Variablen gesamt:** 9,761
 
 ---
 
@@ -209,7 +210,7 @@ classDiagram
     }
     themis <-- themis_Impl
 
-    note for themis "... and 395 more classes"
+    note for themis "... and 245 more classes"
 
     class themis_llm {
         <<namespace>>
@@ -304,7 +305,7 @@ classDiagram
     }
     themis_llm <-- themis_llm_QualityMetrics
 
-    note for themis_llm "... and 176 more classes"
+    note for themis_llm "... and 135 more classes"
 
     class themis_server {
         <<namespace>>
@@ -394,7 +395,7 @@ classDiagram
     }
     themis_server <-- themis_server_FeedbackAPIHandler
 
-    note for themis_server "... and 69 more classes"
+    note for themis_server "... and 56 more classes"
 
     class themis_sharding {
         <<namespace>>
@@ -424,11 +425,6 @@ classDiagram
     }
     themis_sharding <-- themis_sharding_ReplicationCoordinator
 
-    class themis_sharding_WALApplier {
-        +WALApplier
-    }
-    themis_sharding <-- themis_sharding_WALApplier
-
     class themis_sharding_AdminAPI {
         +AdminAPI
     }
@@ -444,11 +440,6 @@ classDiagram
         +ShardTopology
     }
     themis_sharding <-- themis_sharding_ShardTopology
-
-    class themis_sharding_PrometheusMetrics {
-        +PrometheusMetrics
-    }
-    themis_sharding <-- themis_sharding_PrometheusMetrics
 
     class themis_sharding_DataMigrator {
         +DataMigrator
@@ -466,12 +457,35 @@ classDiagram
     }
     themis_sharding <-- themis_sharding_OperationStatus
 
-    class themis_sharding_ShardTopology {
-        +ShardTopology
+    class themis_sharding_RemoteExecutor {
+        +RemoteExecutor
     }
-    themis_sharding <-- themis_sharding_ShardTopology
+    themis_sharding <-- themis_sharding_RemoteExecutor
 
-    note for themis_sharding "... and 82 more classes"
+    class themis_sharding_CloudAgentOperation {
+        <<struct>>
+        +CloudAgentOperation
+    }
+    themis_sharding <-- themis_sharding_CloudAgentOperation
+
+    class themis_sharding_CloudAgentResult {
+        <<struct>>
+        +CloudAgentResult
+    }
+    themis_sharding <-- themis_sharding_CloudAgentResult
+
+    class themis_sharding_CloudAgent {
+        +CloudAgent
+    }
+    themis_sharding <-- themis_sharding_CloudAgent
+
+    class themis_sharding_Statistics {
+        <<struct>>
+        +Statistics
+    }
+    themis_sharding <-- themis_sharding_Statistics
+
+    note for themis_sharding "... and 61 more classes"
 
     class themis_content {
         <<namespace>>
@@ -564,7 +578,7 @@ classDiagram
     }
     themis_content <-- themis_content_AsyncIngestionWorker
 
-    note for themis_content "... and 64 more classes"
+    note for themis_content "... and 57 more classes"
 
     class themis_utils {
         <<namespace>>
@@ -573,11 +587,6 @@ classDiagram
         +0 enums
         +261 functions
     }
-
-    class themis_utils_AuditLogger {
-        +AuditLogger
-    }
-    themis_utils <-- themis_utils_AuditLogger
 
     class themis_utils_AuditLogger {
         +AuditLogger
@@ -630,11 +639,6 @@ classDiagram
     }
     themis_utils <-- themis_utils_TemporalAggregationResult
 
-    class themis_utils_AuditLogger {
-        +AuditLogger
-    }
-    themis_utils <-- themis_utils_AuditLogger
-
     class themis_utils_VectorIndexManager {
         +VectorIndexManager
     }
@@ -645,19 +649,30 @@ classDiagram
     }
     themis_utils <-- themis_utils_Metric
 
-    class themis_utils_Status {
-        <<struct>>
-        +Status
-    }
-    themis_utils <-- themis_utils_Status
-
     class themis_utils_Result {
         <<struct>>
         +Result
     }
     themis_utils <-- themis_utils_Result
 
-    note for themis_utils "... and 55 more classes"
+    class themis_utils_AttributeFilter {
+        <<struct>>
+        +AttributeFilter
+    }
+    themis_utils <-- themis_utils_AttributeFilter
+
+    class themis_utils_Op {
+        +Op
+    }
+    themis_utils <-- themis_utils_Op
+
+    class themis_utils_AttributeFilterV2 {
+        <<struct>>
+        +AttributeFilterV2
+    }
+    themis_utils <-- themis_utils_AttributeFilterV2
+
+    note for themis_utils "... and 49 more classes"
 
     class themis_query {
         <<namespace>>
@@ -699,12 +714,6 @@ classDiagram
         +UnaryOperator
     }
     themis_query <-- themis_query_UnaryOperator
-
-    class themis_query_Expression {
-        <<struct>>
-        +Expression
-    }
-    themis_query <-- themis_query_Expression
 
     class themis_query_LiteralExpression {
         <<struct>>
@@ -757,7 +766,14 @@ classDiagram
     }
     themis_query <-- themis_query_FieldAccessExpr
 
-    note for themis_query "... and 70 more classes"
+    class themis_query_BinaryOpExpr {
+        <<struct>>
+        inherits: Expression
+        +BinaryOpExpr
+    }
+    themis_query <-- themis_query_BinaryOpExpr
+
+    note for themis_query "... and 61 more classes"
 
     class themis_performance {
         <<namespace>>
@@ -940,7 +956,7 @@ classDiagram
     }
     themis_security <-- themis_security_ScannerStatus
 
-    note for themis_security "... and 22 more classes"
+    note for themis_security "... and 18 more classes"
 
     class themis_storage {
         <<namespace>>
@@ -998,11 +1014,6 @@ classDiagram
         +SecuritySignature
     }
     themis_storage <-- themis_storage_SecuritySignature
-
-    class themis_storage_SecuritySignatureManager {
-        +SecuritySignatureManager
-    }
-    themis_storage <-- themis_storage_SecuritySignatureManager
 
     class themis_geo {
         <<namespace>>
@@ -1069,12 +1080,6 @@ classDiagram
     }
     themis_geo <-- themis_geo_GeoSidecar
 
-    class themis_geo_GeometryInfo {
-        <<struct>>
-        +GeometryInfo
-    }
-    themis_geo <-- themis_geo_GeometryInfo
-
     class themis_geo_EWKBParser {
         +EWKBParser
     }
@@ -1110,12 +1115,6 @@ classDiagram
     }
     themis_network <-- themis_network_RateLimitState
 
-    class themis_network_WireProtocolServer {
-        inherits: Session, public, std::enable_shared_from_this...
-        +WireProtocolServer
-    }
-    themis_network <-- themis_network_WireProtocolServer
-
     class themis_index {
         <<namespace>>
         +5 classes
@@ -1146,11 +1145,6 @@ classDiagram
     }
     themis_index <-- themis_index_SpatialResult
 
-    class themis_index_SpatialIndexManager {
-        +SpatialIndexManager
-    }
-    themis_index <-- themis_index_SpatialIndexManager
-
     class themis_index_Status {
         <<struct>>
         +Status
@@ -1174,16 +1168,6 @@ classDiagram
         +SidecarEntry
     }
     themis_index <-- themis_index_SidecarEntry
-
-    class themis_index_SpatialIndexManager {
-        +SpatialIndexManager
-    }
-    themis_index <-- themis_index_SpatialIndexManager
-
-    class themis_index_SpatialIndexManager {
-        +SpatialIndexManager
-    }
-    themis_index <-- themis_index_SpatialIndexManager
 
     class themis_transaction {
         <<namespace>>
@@ -1211,7 +1195,6 @@ classDiagram
     themis_transaction <-- themis_transaction_SnapshotStats
 
 ```
-
 
 ---
 
