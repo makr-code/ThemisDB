@@ -1,0 +1,31 @@
+/**
+ * ThemisDB Compendium Downloads - Admin Styles
+ */
+
+.themisdb-admin-settings {
+    max-width: 800px;
+}
+
+.themisdb-admin-settings h2 {
+    margin-top: 2rem;
+}
+
+.themisdb-admin-settings .widefat {
+    margin-top: 1rem;
+}
+
+.themisdb-admin-settings code {
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+}
+
+.themisdb-admin-settings ul {
+    list-style: disc;
+    margin-left: 2rem;
+}
+
+.themisdb-admin-settings ul li {
+    margin: 0.5rem 0;
+}
