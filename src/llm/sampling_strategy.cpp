@@ -13,6 +13,8 @@ llama_token GreedySampling::sample(
     const std::vector<llama_token>& last_tokens,
     int pos) {
     
+    // Note: last_tokens parameter is not used in greedy sampling
+    // Greedy always selects the highest probability token deterministically
     spdlog::debug("GreedySampling::sample - selecting token with highest probability");
     
     // Get logits for the specified position
@@ -56,13 +58,15 @@ llama_token NucleusSampling::sample(
     llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
     
     // Add repeat penalty sampler
+    // Use last_tokens size or 64 as penalty window (0 = disabled, so use max if available)
+    int penalty_last_n = last_tokens.empty() ? 64 : static_cast<int>(last_tokens.size());
     llama_sampler_chain_add(
         sampler,
         llama_sampler_init_penalties(
             llama_n_vocab(model),
             llama_token_eos(model),
             llama_token_nl(model),
-            0,                     // penalty_last_n (0 = disabled)
+            penalty_last_n,        // penalty_last_n (number of previous tokens to consider)
             repeat_penalty_,       // repeat penalty
             0.0f,                  // frequency penalty
             0.0f,                  // presence penalty
@@ -80,7 +84,8 @@ llama_token NucleusSampling::sample(
     llama_sampler_chain_add(sampler, llama_sampler_init_temp(temperature_));
     
     // Add distribution sampler (final sampling step)
-    llama_sampler_chain_add(sampler, llama_sampler_init_dist(0)); // seed=0 for random
+    // Note: seed parameter of 0 means use current time for randomness
+    llama_sampler_chain_add(sampler, llama_sampler_init_dist(0));
     
     // Sample token
     llama_token result = llama_sampler_sample(sampler, ctx, pos);
@@ -107,6 +112,8 @@ llama_token MirostatSampling::sample(
     const std::vector<llama_token>& last_tokens,
     int pos) {
     
+    // Note: last_tokens parameter is not directly used by Mirostat v2
+    // The mirostat sampler maintains its own internal state for adaptation
     spdlog::debug("MirostatSampling::sample - tau={}, eta={}, mu={}", tau_, eta_, mu_);
     
     llama_model* model = llama_get_model(ctx);
@@ -115,7 +122,7 @@ llama_token MirostatSampling::sample(
     llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
     
     // Add Mirostat v2 sampler
-    // The seed parameter (0) means use random seed
+    // Note: seed parameter of 0 means use current time for randomness
     llama_sampler_chain_add(
         sampler,
         llama_sampler_init_mirostat_v2(0, tau_, eta_)
