@@ -404,7 +404,7 @@ async def classify_data(
             # Classify based on strongest signal, with safety defaults
             if has_classified or has_restricted or confidential_indicators >= 2:
                 classification = "confidential"
-                logger.warning(f"Auto-classified as confidential (indicators={confidential_indicators}). Manual review recommended.")
+                logger.warning("Auto-classified as confidential. Manual review recommended.")
             elif internal_indicators >= 1:
                 classification = "internal"
             elif public_indicators >= 1:
