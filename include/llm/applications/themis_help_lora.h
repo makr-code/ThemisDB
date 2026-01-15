@@ -18,6 +18,28 @@ using json = nlohmann::json;
 using llm::FeedbackType;  // Make FeedbackType available in this namespace
 
 /**
+ * @brief Performance metrics for ThemisHelpLoRA
+ */
+struct PerformanceMetrics {
+    int64_t total_queries = 0;
+    int64_t successful_queries = 0;
+    int64_t failed_queries = 0;
+    double success_rate = 0.0;
+    double average_latency_ms = 0.0;
+    double cache_hit_rate = 0.0;
+};
+
+/**
+ * @brief Feedback statistics
+ */
+struct FeedbackStats {
+    size_t total_feedback = 0;
+    size_t positive_feedback = 0;
+    size_t negative_feedback = 0;
+    double positive_ratio = 0.0;
+};
+
+/**
  * @brief ThemisDB Documentation Assistant with LoRA fine-tuning
  * 
  * First application of the LoRA framework for domain-specific task:
@@ -165,28 +187,6 @@ struct FeedbackItem {
     std::string user_id;
     std::chrono::system_clock::time_point timestamp;
     bool used_for_training = false;
-};
-
-/**
- * @brief Performance metrics for ThemisHelpLoRA
- */
-struct PerformanceMetrics {
-    int64_t total_queries = 0;
-    int64_t successful_queries = 0;
-    int64_t failed_queries = 0;
-    double success_rate = 0.0;
-    double average_latency_ms = 0.0;
-    double cache_hit_rate = 0.0;
-};
-
-/**
- * @brief Feedback statistics
- */
-struct FeedbackStats {
-    size_t total_feedback = 0;
-    size_t positive_feedback = 0;
-    size_t negative_feedback = 0;
-    double positive_ratio = 0.0;
 };
 
 /**

@@ -23,9 +23,9 @@ protected:
         ASSERT_TRUE(db_->open());
         
         // Get RocksDB TransactionDB pointer
-        auto txn_db = db_->getTransactionDB();
+        auto* txn_db = db_->getRawDB();
         ASSERT_NE(txn_db, nullptr);
-        
+
         changefeed_ = std::make_unique<Changefeed>(txn_db);
         diff_engine_ = std::make_unique<DiffEngine>(*changefeed_);
     }

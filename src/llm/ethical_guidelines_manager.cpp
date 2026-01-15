@@ -7,6 +7,11 @@
 #include <cctype>
 #include <regex>
 
+// Map legacy logging calls to project-wide macros
+#define LogInfo  THEMIS_INFO
+#define LogWarning THEMIS_WARN
+#define LogError THEMIS_ERROR
+
 namespace themis {
 namespace llm {
 
@@ -514,9 +519,6 @@ void EthicalGuidelinesManager::resetStatistics() {
     statistics_ = Statistics{};
 }
 
-} // namespace llm
-} // namespace themis
-
 EthicalGuidelinesManager::DetectionResult 
 EthicalGuidelinesManager::detectWithLLMJudge(
     const std::string& text,
@@ -579,3 +581,6 @@ Analyze the above text and context. Respond in JSON format:
     
     return result;
 }
+
+} // namespace llm
+} // namespace themis

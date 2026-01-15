@@ -4,6 +4,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <chrono>
+#include <thread>
 
 using namespace themis;
 using namespace themis::transaction;
@@ -21,10 +22,10 @@ protected:
         config.enable_wal = true;
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
-        
-            // getTransactionDB() not available in all builds
-            ASSERT_NE(db_, nullptr);
-        
+
+        auto* txn_db = db_->getRawDB();
+        ASSERT_NE(txn_db, nullptr);
+
         changefeed_ = std::make_unique<Changefeed>(txn_db);
         snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
     }

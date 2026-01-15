@@ -1,4 +1,3 @@
-#!/usr/bin/env pwsh
 # Build ThemisDB with Ninja (requires Visual Studio 2022)
 param(
     [switch]$Clean,
@@ -51,8 +50,8 @@ if ($Configure -or -not (Test-Path "$BuildDir\build.ninja")) {
         -G Ninja `
         -DCMAKE_BUILD_TYPE=Release `
         -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake" `
-        -DTHEMIS_BUILD_TESTS=OFF `
-        -DTHEMIS_BUILD_BENCHMARKS=OFF `
+        -DTHEMIS_BUILD_TESTS=ON `
+        -DTHEMIS_BUILD_BENCHMARKS=ON `
         -DTHEMIS_BUILD_DOCS_DB=OFF `
         -DTHEMIS_ENABLE_LLM=OFF
     
