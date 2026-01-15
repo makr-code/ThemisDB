@@ -13,10 +13,13 @@ namespace themis {
 
 // Forward declarations
 class RocksDBWrapper;
-class ContentManager;
-class ContentProcessor;
 class SecondaryIndexManager;
 class VectorIndexManager;
+
+namespace content {
+class ContentManager;
+class ContentProcessor;
+}
 
 namespace server {
 
@@ -63,8 +66,8 @@ public:
      */
     ContentApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<ContentManager> content_manager,
-        std::shared_ptr<ContentProcessor> content_processor,
+        std::shared_ptr<content::ContentManager> content_manager,
+        std::shared_ptr<content::ContentProcessor> content_processor,
         std::shared_ptr<themis::AuthMiddleware> auth,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<VectorIndexManager> vector_index
@@ -177,8 +180,8 @@ public:
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
-    std::shared_ptr<ContentManager> content_manager_;
-    std::shared_ptr<ContentProcessor> content_processor_;
+    std::shared_ptr<content::ContentManager> content_manager_;
+    std::shared_ptr<content::ContentProcessor> content_processor_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;

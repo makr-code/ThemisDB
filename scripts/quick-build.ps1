@@ -1,5 +1,8 @@
 #!/usr/bin/env pwsh
-param([int]$Jobs = 8)
+param(
+    [int]$Jobs = 8,
+    [bool]$CleanBuild = $false
+)
 
 $ErrorActionPreference = "Stop"
 
@@ -18,8 +21,10 @@ cmd /c "`"$VcVarsAll`" x64 && set" | ForEach-Object {
 }
 
 # Clean
-Write-Host "=== Cleaning ===" -ForegroundColor Cyan
-Remove-Item $BuildDir -Recurse -Force -ErrorAction SilentlyContinue
+if ($CleanBuild) {
+    Write-Host "=== Cleaning ===" -ForegroundColor Cyan
+    Remove-Item $BuildDir -Recurse -Force -ErrorAction SilentlyContinue
+}
 New-Item -ItemType Directory -Path $BuildDir -Force | Out-Null
 
 # Configure
@@ -37,7 +42,7 @@ cmake -S . -B $BuildDir `
     -DTHEMIS_ENABLE_LLM=OFF
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "✗ CMake configuration failed" -ForegroundColor Red
+    Write-Host "ERROR: CMake configuration failed" -ForegroundColor Red
     Pop-Location
     exit 1
 }
@@ -50,9 +55,9 @@ ninja -j $Jobs
 $result = $LASTEXITCODE
 
 if ($result -eq 0) {
-    Write-Host "✓ Build completed successfully!" -ForegroundColor Green
+    Write-Host "SUCCESS: Build completed successfully!" -ForegroundColor Green
 } else {
-    Write-Host "✗ Build failed" -ForegroundColor Red
+    Write-Host "ERROR: Build failed" -ForegroundColor Red
 }
 
 Pop-Location

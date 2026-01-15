@@ -26,7 +26,7 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
-using Tracer = themis::utils::Tracer;
+using Tracer = themis::Tracer;
 
 EntityApiHandler::EntityApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -34,7 +34,7 @@ EntityApiHandler::EntityApiHandler(
     std::shared_ptr<GraphIndexManager> graph_index,
     std::shared_ptr<TransactionManager> tx_manager,
     std::shared_ptr<FieldEncryption> field_encryption,
-    std::shared_ptr<security::KeyProvider> key_provider,
+    std::shared_ptr<KeyProvider> key_provider,
     std::shared_ptr<AuthMiddleware> auth,
     const EntityApiConfig& config,
     index::SpatialIndexManager* spatial_index,
@@ -116,19 +116,14 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
     }
     
-    // Validate token
-    auto result = auth_->validateToken(*token_opt);
-    if (!result.authorized) {
-        return makeErrorResponse(http::status::unauthorized, result.message, req);
+    // Authorize using configured scopes
+    auto authz = auth_->authorize(*token_opt, scope);
+    if (!authz.authorized) {
+        auto reason = authz.reason.empty() ? "Unauthorized" : authz.reason;
+        return makeErrorResponse(http::status::unauthorized, reason, req);
     }
-    
-    // Check permission using policy-based authorization
-    if (auth_->hasPermission(result.user_id, scope, action, resource)) {
-        return std::nullopt; // Access granted
-    }
-    
-    return makeErrorResponse(http::status::forbidden, 
-        "Insufficient permissions for " + action + " on " + resource, req);
+
+    return std::nullopt; // Access granted
 }
 
 http::response<http::string_body> EntityApiHandler::handleGet(

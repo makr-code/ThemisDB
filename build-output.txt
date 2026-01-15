@@ -1,0 +1,1223 @@
+-- Running vcpkg install
+warning: attempting to set builtin-baseline in vcpkg.json while overriding the default-registry in vcpkg-configuration.json.
+the default-registry from vcpkg-configuration.json will be used.
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages will be built and installed:
+  * abseil:x64-windows@20240722.0
+    benchmark:x64-windows@1.9.0
+  * boost-algorithm:x64-windows@1.86.0
+  * boost-align:x64-windows@1.86.0
+  * boost-array:x64-windows@1.86.0
+    boost-asio:x64-windows@1.86.0
+  * boost-assert:x64-windows@1.86.0
+    boost-beast:x64-windows@1.86.0
+  * boost-bind:x64-windows@1.86.0
+  * boost-cmake:x64-windows@1.86.0
+  * boost-concept-check:x64-windows@1.86.0
+  * boost-config:x64-windows@1.86.0
+  * boost-container:x64-windows@1.86.0
+  * boost-container-hash:x64-windows@1.86.0
+  * boost-context:x64-windows@1.86.0
+  * boost-conversion:x64-windows@1.86.0
+  * boost-core:x64-windows@1.86.0
+  * boost-coroutine:x64-windows@1.86.0
+  * boost-date-time:x64-windows@1.86.0
+  * boost-describe:x64-windows@1.86.0
+  * boost-detail:x64-windows@1.86.0
+  * boost-endian:x64-windows@1.86.0
+  * boost-exception:x64-windows@1.86.0
+  * boost-function:x64-windows@1.86.0
+  * boost-function-types:x64-windows@1.86.0
+  * boost-functional:x64-windows@1.86.0
+  * boost-fusion:x64-windows@1.86.0
+  * boost-headers:x64-windows@1.86.0
+  * boost-integer:x64-windows@1.86.0
+  * boost-intrusive:x64-windows@1.86.0
+  * boost-io:x64-windows@1.86.0
+  * boost-iterator:x64-windows@1.86.0
+  * boost-lexical-cast:x64-windows@1.86.0
+  * boost-logic:x64-windows@1.86.0
+  * boost-move:x64-windows@1.86.0
+  * boost-mp11:x64-windows@1.86.0
+  * boost-mpl:x64-windows@1.86.0
+  * boost-numeric-conversion:x64-windows@1.86.0
+  * boost-optional:x64-windows@1.86.0
+  * boost-pool:x64-windows@1.86.0
+  * boost-predef:x64-windows@1.86.0
+  * boost-preprocessor:x64-windows@1.86.0
+  * boost-range:x64-windows@1.86.0
+  * boost-regex:x64-windows@1.86.0
+  * boost-smart-ptr:x64-windows@1.86.0
+  * boost-static-assert:x64-windows@1.86.0
+  * boost-static-string:x64-windows@1.86.0
+  * boost-system:x64-windows@1.86.0
+  * boost-throw-exception:x64-windows@1.86.0
+  * boost-tokenizer:x64-windows@1.86.0
+  * boost-tuple:x64-windows@1.86.0
+  * boost-type-index:x64-windows@1.86.0
+  * boost-type-traits:x64-windows@1.86.0
+  * boost-typeof:x64-windows@1.86.0
+  * boost-uninstall:x64-windows@1.86.0
+  * boost-unordered:x64-windows@1.86.0
+    boost-url:x64-windows@1.86.0
+  * boost-utility:x64-windows@1.86.0
+  * boost-variant2:x64-windows@1.86.0
+  * boost-winapi:x64-windows@1.86.0
+  * brotli:x64-windows@1.1.0#1
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+    c-ares:x64-windows@1.34.1
+  * civetweb:x64-windows@1.16#2
+    cpp-httplib[brotli,core]:x64-windows@0.18.0
+    curl[core,non-http,schannel,ssl,sspi]:x64-windows@8.10.1
+  * fmt:x64-windows@11.0.2#1
+    grpc[codegen,core]:x64-windows@1.60.0#1
+    gtest:x64-windows@1.15.2
+    hnswlib:x64-windows@0.8.0
+  * hwloc:x64-windows@2.11.2
+    libzip[bzip2,core,default-aes,wincrypto]:x64-windows@1.10.1
+  * lz4:x64-windows@1.10.0
+    mimalloc:x64-windows@2.1.7
+    nlohmann-json:x64-windows@3.11.3#1
+    openssl:x64-windows@3.3.2#1
+    opentelemetry-cpp[core,otlp-http]:x64-windows@1.17.0
+    prometheus-cpp[compression,core,pull]:x64-windows@1.2.4
+  * protobuf:x64-windows@4.25.1#1
+    pugixml:x64-windows@1.14
+  * re2:x64-windows@2024-07-02
+    rocksdb[core,lz4,zlib,zstd]:x64-windows@9.7.2
+    simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@3.10.1
+    spdlog:x64-windows@1.14.1
+    tbb[core,hwloc]:x64-windows@2021.13.0
+  * upb:x64-windows@4.25.1#1
+  * utf8-range:x64-windows@4.25.1
+  * vcpkg-boost:x64-windows@2024-05-15
+  * vcpkg-cmake:x64-windows@2024-04-23
+  * vcpkg-cmake-config:x64-windows@2024-05-23
+  * vcpkg-cmake-get-vars:x64-windows@2024-09-22
+    yaml-cpp:x64-windows@0.8.0#1
+  * zlib:x64-windows@1.3.1
+    zstd:x64-windows@1.5.6
+Additional packages (*) will be modified to complete this operation.
+Restored 94 package(s) from C:\Users\mkrueger\AppData\Local\vcpkg\archives in 37 s. Use --debug to see more details.
+Installing 1/94 vcpkg-cmake-config:x64-windows@2024-05-23...
+Elapsed time to handle vcpkg-cmake-config:x64-windows: 13.2 ms
+vcpkg-cmake-config:x64-windows package ABI: 942a60faab6f884767ae8b2f255a5f5b00b214890904e293cd552e758d6f41c8
+Installing 2/94 vcpkg-cmake:x64-windows@2024-04-23...
+Elapsed time to handle vcpkg-cmake:x64-windows: 13.9 ms
+vcpkg-cmake:x64-windows package ABI: a8348a2172057a4a77c87cd6db413e81cb8f4f8f4b434e6bf410a98f4ed3d149
+Installing 3/94 benchmark:x64-windows@1.9.0...
+Elapsed time to handle benchmark:x64-windows: 61 ms
+benchmark:x64-windows package ABI: 67796fd729e2217716bf0b4db529706cecc696fcdd81cf23f7174b1029634885
+Installing 4/94 vcpkg-boost:x64-windows@2024-05-15...
+Elapsed time to handle vcpkg-boost:x64-windows: 16.4 ms
+vcpkg-boost:x64-windows package ABI: 9b4204c1a1c6898f8655a143f1e35845734fd8129b98cb8068d8909c61615f5b
+Installing 5/94 boost-uninstall:x64-windows@1.86.0...
+Elapsed time to handle boost-uninstall:x64-windows: 10.8 ms
+boost-uninstall:x64-windows package ABI: 0282e5deebe266e0b67ba6f67878be6f6d03466d89ce1c06d5355d65e489e3b6
+Installing 6/94 boost-cmake:x64-windows@1.86.0...
+Elapsed time to handle boost-cmake:x64-windows: 20.9 ms
+boost-cmake:x64-windows package ABI: abdc0cfdccb15d9ced4f4bbb0609ea26adaaf3c478b6550dbc92241b0acee60c
+Installing 7/94 boost-headers:x64-windows@1.86.0...
+Elapsed time to handle boost-headers:x64-windows: 14.3 ms
+boost-headers:x64-windows package ABI: a3a682fa65b82e3c2efaa8f7e6855c0328f6b02558e526dfcf302e1e27dced9f
+Installing 8/94 boost-config:x64-windows@1.86.0...
+Elapsed time to handle boost-config:x64-windows: 293 ms
+boost-config:x64-windows package ABI: 48eb5741cf1bafe83cc21989af76dca6017c08a42cd1d7308e29d6d1c8f5a776
+Installing 9/94 boost-assert:x64-windows@1.86.0...
+Elapsed time to handle boost-assert:x64-windows: 18.3 ms
+boost-assert:x64-windows package ABI: 7a9685f06b527a2c3afdba1b9421b7736ba1bf70e426313b0f69cacbd8886b9a
+Installing 10/94 boost-throw-exception:x64-windows@1.86.0...
+Elapsed time to handle boost-throw-exception:x64-windows: 65.7 ms
+boost-throw-exception:x64-windows package ABI: 6f2c22bcaccf6ab60d8802e1473dc8a1585793c2b0b24373507bab6bf9a88df6
+Installing 11/94 boost-predef:x64-windows@1.86.0...
+Elapsed time to handle boost-predef:x64-windows: 183 ms
+boost-predef:x64-windows package ABI: b5105ed1f2fbe34f972d6629291fe9f9b92d51c7ce7bc55095f71974f266fad9
+Installing 12/94 boost-winapi:x64-windows@1.86.0...
+Elapsed time to handle boost-winapi:x64-windows: 139 ms
+boost-winapi:x64-windows package ABI: 34fcb4c29338fcdb47c93c4e90ef8945c7f8f9ea1a37f6466898148c3af7b5e9
+Installing 13/94 boost-mp11:x64-windows@1.86.0...
+Elapsed time to handle boost-mp11:x64-windows: 31.8 ms
+boost-mp11:x64-windows package ABI: 5cc72394b26db32068147876c91460419ecd69af2a0b328b8a5aa9ff48ac99a1
+Installing 14/94 boost-variant2:x64-windows@1.86.0...
+Elapsed time to handle boost-variant2:x64-windows: 18.6 ms
+boost-variant2:x64-windows package ABI: f71db10d119fb15270ce95c8bdb8c2986052041e9811fa9edc373c43b8f27bee
+Installing 15/94 boost-system:x64-windows@1.86.0...
+Elapsed time to handle boost-system:x64-windows: 67.1 ms
+boost-system:x64-windows package ABI: 02fa70fd3e4d46337c022392ebb8f68bab0602b7b822588ed20e2d8bc802d152
+Installing 16/94 boost-static-assert:x64-windows@1.86.0...
+Elapsed time to handle boost-static-assert:x64-windows: 17.2 ms
+boost-static-assert:x64-windows package ABI: 2570df7dd6eb852458d755b68741e32ca20052f2f1a764a68bd810f7d990899d
+Installing 17/94 boost-type-traits:x64-windows@1.86.0...
+Elapsed time to handle boost-type-traits:x64-windows: 161 ms
+boost-type-traits:x64-windows package ABI: 910d84c14af46656836f68262d6a587e9ffbe3d88187f3823e47599a26fac448
+Installing 18/94 boost-preprocessor:x64-windows@1.86.0...
+Elapsed time to handle boost-preprocessor:x64-windows: 393 ms
+boost-preprocessor:x64-windows package ABI: 89a32b3a36fcb48d9d282cd93b1ff87028cbb92b65aef82a86c41ca2b2314e4e
+Installing 19/94 boost-io:x64-windows@1.86.0...
+Elapsed time to handle boost-io:x64-windows: 21.9 ms
+boost-io:x64-windows package ABI: 5a5efee11952df40a987b96fba38d7ff53200fe90da716ba166b9588c559697a
+Installing 20/94 boost-core:x64-windows@1.86.0...
+Elapsed time to handle boost-core:x64-windows: 55.1 ms
+boost-core:x64-windows package ABI: e1864c94010291489b9ec31e6664e3d3d178fb5da5f9da877039c6cb613b4c66
+Installing 21/94 boost-utility:x64-windows@1.86.0...
+Elapsed time to handle boost-utility:x64-windows: 41.8 ms
+boost-utility:x64-windows package ABI: 225ef844d4a699ca721344620876e68ff57b86234b84cfee0ecb6f8e06a6e91e
+Installing 22/94 boost-move:x64-windows@1.86.0...
+Elapsed time to handle boost-move:x64-windows: 80.8 ms
+boost-move:x64-windows package ABI: f69ea27e197310c917b7bf990697818626ad154eb5d2d90c3c3090fbb55102e9
+Installing 23/94 boost-smart-ptr:x64-windows@1.86.0...
+Elapsed time to handle boost-smart-ptr:x64-windows: 170 ms
+boost-smart-ptr:x64-windows package ABI: 629fda4a0228c78a6e4d48e0c8ad58eb82ccd5934fd750844d480985381e38a1
+Installing 24/94 boost-detail:x64-windows@1.86.0...
+Elapsed time to handle boost-detail:x64-windows: 38.4 ms
+boost-detail:x64-windows package ABI: eea12ecd042d29b0982cf4d74a5bd128caf5e3a321f1d01e6cb30010ce69b2d3
+Installing 25/94 boost-optional:x64-windows@1.86.0...
+Elapsed time to handle boost-optional:x64-windows: 34.6 ms
+boost-optional:x64-windows package ABI: 8e053e1dfcec1073bcb68107832fc38e3d4bd4d2b3fb439952d872ae67be6a47
+Installing 26/94 boost-mpl:x64-windows@1.86.0...
+Elapsed time to handle boost-mpl:x64-windows: 618 ms
+boost-mpl:x64-windows package ABI: ac88491a35f7cfc9feef5e9930cf2de866bde1085d31cc71efa2a073f1418fa0
+Installing 27/94 boost-typeof:x64-windows@1.86.0...
+Elapsed time to handle boost-typeof:x64-windows: 32.5 ms
+boost-typeof:x64-windows package ABI: ebfd9edcd7b364c193886bb31a365f898898e05b6fff53c70540e091ece85300
+Installing 28/94 boost-tuple:x64-windows@1.86.0...
+Elapsed time to handle boost-tuple:x64-windows: 21.7 ms
+boost-tuple:x64-windows package ABI: 14d092f612df266f505d380676a9f76c8e0d66cc46230786072b43297756381f
+Installing 29/94 boost-function-types:x64-windows@1.86.0...
+Elapsed time to handle boost-function-types:x64-windows: 54.8 ms
+boost-function-types:x64-windows package ABI: 58f9c1862b50a472559a088cb5878555d7fbe2187ce5f05418927d967452d2a1
+Installing 30/94 boost-bind:x64-windows@1.86.0...
+Elapsed time to handle boost-bind:x64-windows: 53.8 ms
+boost-bind:x64-windows package ABI: 9192e6c1aec4325a2317b104d552a7f46898762125a057f7a0256941909a485b
+Installing 31/94 boost-function:x64-windows@1.86.0...
+Elapsed time to handle boost-function:x64-windows: 44.8 ms
+boost-function:x64-windows package ABI: 35514390782ab72ce932314e5886e09b3c294c91e901d08855def11bc8f71901
+Installing 32/94 boost-functional:x64-windows@1.86.0...
+Elapsed time to handle boost-functional:x64-windows: 27.5 ms
+boost-functional:x64-windows package ABI: b12d0b8753c88d2afdf6c609ddc91a3078e8184be221bab62e9b8463de11536f
+Installing 33/94 boost-describe:x64-windows@1.86.0...
+Elapsed time to handle boost-describe:x64-windows: 31 ms
+boost-describe:x64-windows package ABI: 1c33372eae9c5a655a8e4636cf676f9b7a966ec79b657928bde0fc29b2ec013d
+Installing 34/94 boost-container-hash:x64-windows@1.86.0...
+Elapsed time to handle boost-container-hash:x64-windows: 28.5 ms
+boost-container-hash:x64-windows package ABI: 6109b3f6f3a61f16ea646bedbd626e92d50ae88cc66410d151867865e30706b1
+Installing 35/94 boost-fusion:x64-windows@1.86.0...
+Elapsed time to handle boost-fusion:x64-windows: 616 ms
+boost-fusion:x64-windows package ABI: 59d6a281d0f1508ce6cd61a67fbb5969a726944be670471ac8804bc160961681
+Installing 36/94 boost-concept-check:x64-windows@1.86.0...
+Elapsed time to handle boost-concept-check:x64-windows: 30.2 ms
+boost-concept-check:x64-windows package ABI: f26a32eceb5963d674ea272c4a52e4ed3ced8a87a88f7e9db67a8427d1771777
+Installing 37/94 boost-iterator:x64-windows@1.86.0...
+Elapsed time to handle boost-iterator:x64-windows: 42.4 ms
+boost-iterator:x64-windows package ABI: f3bdb34ed0590092839316b57a7c79d414c0684f6d5cce441b67b38584a02242
+Installing 38/94 boost-tokenizer:x64-windows@1.86.0...
+Elapsed time to handle boost-tokenizer:x64-windows: 25.7 ms
+boost-tokenizer:x64-windows package ABI: 06d5cde0c25ac9ee1d3e78fa004f7e78dd926aec0e08ff765d512ae24f7705b1
+Installing 39/94 boost-integer:x64-windows@1.86.0...
+Elapsed time to handle boost-integer:x64-windows: 28.6 ms
+boost-integer:x64-windows package ABI: 93a2599d154883543bc1c8cbcc5eacea7d21f399af46c038cf7103cb85763607
+Installing 40/94 boost-regex:x64-windows@1.86.0...
+Elapsed time to handle boost-regex:x64-windows: 113 ms
+boost-regex:x64-windows package ABI: 37962116016155215b39ec5f73814f563ba15856aa00c638c26bda799750c05f
+Installing 41/94 boost-conversion:x64-windows@1.86.0...
+Elapsed time to handle boost-conversion:x64-windows: 23.6 ms
+boost-conversion:x64-windows package ABI: 410ade1c71ed748f79724963f2a58dca4d22a0a2931d59b2e5a499e339e18eb8
+Installing 42/94 boost-array:x64-windows@1.86.0...
+Elapsed time to handle boost-array:x64-windows: 24.9 ms
+boost-array:x64-windows package ABI: 4dc3527d1f7a11aeb2cf0b09eda1f075a2dc01e0cac96a5d47a72e071340441f
+Installing 43/94 boost-range:x64-windows@1.86.0...
+Elapsed time to handle boost-range:x64-windows: 130 ms
+boost-range:x64-windows package ABI: 43eeb0f814d40db8d491a0bdc6d525862480193d902851d54767e4ef0d2a9d6f
+Installing 44/94 boost-numeric-conversion:x64-windows@1.86.0...
+Elapsed time to handle boost-numeric-conversion:x64-windows: 36.6 ms
+boost-numeric-conversion:x64-windows package ABI: e92e1072e125ce287cd9cab1228b7fe55f1e0e240887da0fa4132d61b977aa8a
+Installing 45/94 boost-intrusive:x64-windows@1.86.0...
+Elapsed time to handle boost-intrusive:x64-windows: 155 ms
+boost-intrusive:x64-windows package ABI: 8a663d71b59a4bb4ab8775914a002e55501a30fba4d4efaed02147803f040d20
+Installing 46/94 boost-container:x64-windows@1.86.0...
+Elapsed time to handle boost-container:x64-windows: 132 ms
+boost-container:x64-windows package ABI: d0d30018a8c9ac1249c802eb944120ffe85381ba12e5a1b47237bba5f0071315
+Installing 47/94 boost-lexical-cast:x64-windows@1.86.0...
+Elapsed time to handle boost-lexical-cast:x64-windows: 32.7 ms
+boost-lexical-cast:x64-windows package ABI: aa5f05e48b48f95b05c2d04a88bc7d423d7474a9dfa794176fe7a8018ed7a41f
+Installing 48/94 boost-unordered:x64-windows@1.86.0...
+Elapsed time to handle boost-unordered:x64-windows: 49.3 ms
+boost-unordered:x64-windows package ABI: ae72bb96009586434c08da8735d5f2f26138ed8f942bcaf94f38f5b459684784
+Installing 49/94 boost-exception:x64-windows@1.86.0...
+Elapsed time to handle boost-exception:x64-windows: 62.9 ms
+boost-exception:x64-windows package ABI: 3b7265b8d29bdc338029381ab5d01465433a18d7358b3e4b4c2506cb4184a1a0
+Installing 50/94 boost-algorithm:x64-windows@1.86.0...
+Elapsed time to handle boost-algorithm:x64-windows: 79.3 ms
+boost-algorithm:x64-windows package ABI: 7a81b7a874fec12242b3d46ad0f361ed7ef9b8f06bbc61d8a11d0104bd596f3f
+Installing 51/94 boost-date-time:x64-windows@1.86.0...
+Elapsed time to handle boost-date-time:x64-windows: 75.4 ms
+boost-date-time:x64-windows package ABI: f0bf7e0664bb5e3120fbeb7fc21ecf9d2d18f9733cf791416272db59741100a7
+Installing 52/94 boost-pool:x64-windows@1.86.0...
+Elapsed time to handle boost-pool:x64-windows: 37.2 ms
+boost-pool:x64-windows package ABI: 93c93f44c9cd74fedb06f16d0b14610ccfbf92acaea12f65870bcf058d22642d
+Installing 53/94 boost-context:x64-windows@1.86.0...
+Elapsed time to handle boost-context:x64-windows: 75.1 ms
+boost-context:x64-windows package ABI: 3234412c8affc64e7ee4a4d25d840896e918e94c8c5d4b536cad715c9ebe1db7
+Installing 54/94 boost-coroutine:x64-windows@1.86.0...
+Elapsed time to handle boost-coroutine:x64-windows: 49.3 ms
+boost-coroutine:x64-windows package ABI: 38e2f40da53221d3a608db869e2c9c1367f89fe91800a26f950b167a47d269cf
+Installing 55/94 boost-align:x64-windows@1.86.0...
+Elapsed time to handle boost-align:x64-windows: 69.6 ms
+boost-align:x64-windows package ABI: 5bbdaf2fc13ea11edc2a65b44bd7802f0ea8de861938ae75c73085c6fbf80497
+Installing 56/94 boost-asio:x64-windows@1.86.0...
+Elapsed time to handle boost-asio:x64-windows: 564 ms
+boost-asio:x64-windows package ABI: fed22c3d82b59d95e236c6f6bbbe2d17fc2a424cf5e19255ce359fe44a71ee1f
+Installing 57/94 boost-type-index:x64-windows@1.86.0...
+Elapsed time to handle boost-type-index:x64-windows: 34.2 ms
+boost-type-index:x64-windows package ABI: 13d0ca1d01505cb209c24528d060aa4b4be6a36f51bbda6e21b757fbfb8aaa6b
+Installing 58/94 boost-static-string:x64-windows@1.86.0...
+Elapsed time to handle boost-static-string:x64-windows: 26.8 ms
+boost-static-string:x64-windows package ABI: 96fd947dfbcc7056bde9791535496f820f7260bce22ce51f463da2eab35e6415
+Installing 59/94 boost-logic:x64-windows@1.86.0...
+Elapsed time to handle boost-logic:x64-windows: 25.8 ms
+boost-logic:x64-windows package ABI: fb7ce85b58f6d0ff2251507fb059ca2706af5f09206bff6c7d58620cdd71054f
+Installing 60/94 boost-endian:x64-windows@1.86.0...
+Elapsed time to handle boost-endian:x64-windows: 33.2 ms
+boost-endian:x64-windows package ABI: c4acdf40a196e2403585ca8903a1af3ee879660bef3494eb672bb5758389bccc
+Installing 61/94 boost-beast:x64-windows@1.86.0...
+Elapsed time to handle boost-beast:x64-windows: 154 ms
+boost-beast:x64-windows package ABI: bc4c5346d40caab4e62b3c2e4e6e4292992bec55555fd0df28ac1a4175c3577c
+Installing 62/94 boost-url:x64-windows@1.86.0...
+Elapsed time to handle boost-url:x64-windows: 120 ms
+boost-url:x64-windows package ABI: 3a7bb05351b41466d062d77a6b678f6df7efddbc5e52ff516dd86d6c569c55cc
+Installing 63/94 c-ares:x64-windows@1.34.1...
+Elapsed time to handle c-ares:x64-windows: 46.2 ms
+c-ares:x64-windows package ABI: 5835f5923bcf87672c6708b3f650773c5a48d20b98bd2d5f4eb004f759d732a0
+Installing 64/94 brotli:x64-windows@1.1.0#1...
+Elapsed time to handle brotli:x64-windows: 75.3 ms
+brotli:x64-windows package ABI: 762cb1ad20263406a2cabefafac5edce77a04e1161ac44155b0fdf273b011173
+Installing 65/94 cpp-httplib[brotli,core]:x64-windows@0.18.0...
+Elapsed time to handle cpp-httplib:x64-windows: 34.5 ms
+cpp-httplib:x64-windows package ABI: 767854d440a0594f1dda2fa00241f5be8460d1ef8ecf25cbbe9883087bffdbe7
+Installing 66/94 zlib:x64-windows@1.3.1...
+Elapsed time to handle zlib:x64-windows: 32.5 ms
+zlib:x64-windows package ABI: 7d6cb2aadcb83cd66d2a5f323b6ba95553ae7eb2a6a0f59d28b0367c1d313621
+Installing 67/94 curl[core,non-http,schannel,ssl,sspi]:x64-windows@8.10.1...
+Elapsed time to handle curl:x64-windows: 102 ms
+curl:x64-windows package ABI: a04ceb6f743d1ab5daf40c41ec7395337ee90e970cc6c1e34400a3cc6364c96e
+Installing 68/94 abseil:x64-windows@20240722.0...
+Elapsed time to handle abseil:x64-windows: 591 ms
+abseil:x64-windows package ABI: 4d6deffd9e40dacb8f234184a87c6291f7762622483d86e460cf9eb8a94bf733
+Installing 69/94 utf8-range:x64-windows@4.25.1...
+Elapsed time to handle utf8-range:x64-windows: 34.2 ms
+utf8-range:x64-windows package ABI: 6e97c13c19a8465d929f64038d07e478aaf3fec033e4eae498570742c3657edf
+Installing 70/94 upb:x64-windows@4.25.1#1...
+Elapsed time to handle upb:x64-windows: 145 ms
+upb:x64-windows package ABI: be0c716fafe797ffa1a5d87216616390da458cf867df6d540f1d55ed88b1d62d
+Installing 71/94 re2:x64-windows@2024-07-02...
+Elapsed time to handle re2:x64-windows: 57.4 ms
+re2:x64-windows package ABI: 0b64b58e839771e587a44597d4fa0874dadd66496b65c0abd9b279d63e5ae7b7
+Installing 72/94 protobuf:x64-windows@4.25.1#1...
+Elapsed time to handle protobuf:x64-windows: 361 ms
+protobuf:x64-windows package ABI: f1057203d1762fbfd3aabd0e6cb6ff076ce56678e4028aa569572276ebc1a97e
+Installing 73/94 vcpkg-cmake-get-vars:x64-windows@2024-09-22...
+Elapsed time to handle vcpkg-cmake-get-vars:x64-windows: 44.3 ms
+vcpkg-cmake-get-vars:x64-windows package ABI: 02fcdf4840ed9039f7d02c4da0b319b672a3e0bbaed9056cf3b078ae755770cc
+Installing 74/94 openssl:x64-windows@3.3.2#1...
+Elapsed time to handle openssl:x64-windows: 124 ms
+openssl:x64-windows package ABI: 198196fa9d2663872486c3b07c258c050a00b537e8428b7342265198ae4c0601
+Installing 75/94 grpc[codegen,core]:x64-windows@1.60.0#1...
+Elapsed time to handle grpc:x64-windows: 322 ms
+grpc:x64-windows package ABI: 6faf1351092997a05b5fa16308ebe63face136e29fa0e74cc80b49da5d3dbe03
+Installing 76/94 gtest:x64-windows@1.15.2...
+Elapsed time to handle gtest:x64-windows: 119 ms
+gtest:x64-windows package ABI: 37dea2952555cae7be6248d620d7c03377c6289a0dce1f77c20c111eda94a8db
+Installing 77/94 hnswlib:x64-windows@0.8.0...
+Elapsed time to handle hnswlib:x64-windows: 31.3 ms
+hnswlib:x64-windows package ABI: 8e85ac209019bd580324c308ad095e4f504737d0366cc131e001c25dbd843572
+Installing 78/94 bzip2[core,tool]:x64-windows@1.0.8#6...
+Elapsed time to handle bzip2:x64-windows: 86.9 ms
+bzip2:x64-windows package ABI: 5cb3ed9d1b263a60d372344765e5146dc1642ec740890346c74f2ba66f569907
+Installing 79/94 libzip[bzip2,core,default-aes,wincrypto]:x64-windows@1.10.1...
+Elapsed time to handle libzip:x64-windows: 58 ms
+libzip:x64-windows package ABI: a0830d03a8457ccfef5dee3b66faf138c3fabe00deb41e36de49509189613e5b
+Installing 80/94 mimalloc:x64-windows@2.1.7...
+Elapsed time to handle mimalloc:x64-windows: 53.5 ms
+mimalloc:x64-windows package ABI: c0c0ec1d0b5874dcca953d108c883d8df7094ae4a3eafe763e5ffaaefe1a4747
+Installing 81/94 nlohmann-json:x64-windows@3.11.3#1...
+Elapsed time to handle nlohmann-json:x64-windows: 56.9 ms
+nlohmann-json:x64-windows package ABI: 55d60437febfe730a905bc6e105974dc886ef0fba188d107bc8f9470ac88992b
+Installing 82/94 opentelemetry-cpp[core,otlp-http]:x64-windows@1.17.0...
+Elapsed time to handle opentelemetry-cpp:x64-windows: 234 ms
+opentelemetry-cpp:x64-windows package ABI: 7700b48dd77d34eeb1a0e96dc066b2ff32dd06a21dac90187be15d8f8a7c9df9
+Installing 83/94 civetweb:x64-windows@1.16#2...
+Elapsed time to handle civetweb:x64-windows: 47.5 ms
+civetweb:x64-windows package ABI: 79911e6058d21c39a59efc70b62da0f7cc658b28382183a5614f198000882fc3
+Installing 84/94 prometheus-cpp[compression,core,pull]:x64-windows@1.2.4...
+Elapsed time to handle prometheus-cpp:x64-windows: 62 ms
+prometheus-cpp:x64-windows package ABI: 7b117f13a724da7cedbc9d7b0ac3e4599e2eba8ed41bf3d285cd219566b1c131
+Installing 85/94 pugixml:x64-windows@1.14...
+Elapsed time to handle pugixml:x64-windows: 60.7 ms
+pugixml:x64-windows package ABI: ef0e4e87e0dccd789b0c499615aa80c900a9bc118a14295831f31569dbe99973
+Installing 86/94 zstd:x64-windows@1.5.6...
+Elapsed time to handle zstd:x64-windows: 38.5 ms
+zstd:x64-windows package ABI: f87be934650988d74e6a958d589addbdbfc5a2d1ae3cd0d8ad94d3d823b9dd09
+Installing 87/94 lz4:x64-windows@1.10.0...
+Elapsed time to handle lz4:x64-windows: 63.3 ms
+lz4:x64-windows package ABI: 065c94ed9550c458f7b0a8f357d89e1f6b095f4cdb3ee060d58623757c398f1a
+Installing 88/94 rocksdb[core,lz4,zlib,zstd]:x64-windows@9.7.2...
+Elapsed time to handle rocksdb:x64-windows: 167 ms
+rocksdb:x64-windows package ABI: 34c2d95c4186626357cf1cddbd57c7a54a0bc35a5a5b13af255383608a25ee94
+Installing 89/94 simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@3.10.1...
+Elapsed time to handle simdjson:x64-windows: 59.1 ms
+simdjson:x64-windows package ABI: 7350d5e8be207e6333748442e235d4274a602fe84f04b900f3501f275948131a
+Installing 90/94 fmt:x64-windows@11.0.2#1...
+Elapsed time to handle fmt:x64-windows: 90.2 ms
+fmt:x64-windows package ABI: 6fe319411c19d3e1b099e01e3f56ded3d52a1947f2f90cd6065c500ee574f80c
+Installing 91/94 spdlog:x64-windows@1.14.1...
+Elapsed time to handle spdlog:x64-windows: 91.8 ms
+spdlog:x64-windows package ABI: 4f684e1b2ecbde40e1f7929cfb6516f64614f71c69070384f57b43bb8ded5629
+Installing 92/94 hwloc:x64-windows@2.11.2...
+Elapsed time to handle hwloc:x64-windows: 192 ms
+hwloc:x64-windows package ABI: 2de2354938b0e1ab12a2d49f24cce6b53511ec22cae37c34ffbaedd08ed88cf3
+Installing 93/94 tbb[core,hwloc]:x64-windows@2021.13.0...
+Elapsed time to handle tbb:x64-windows: 122 ms
+tbb:x64-windows package ABI: ff994d84c66e0400f6e43387c3a50dfd07cd6ac191c69bc405193d9cfd916b48
+Installing 94/94 yaml-cpp:x64-windows@0.8.0#1...
+Elapsed time to handle yaml-cpp:x64-windows: 59.1 ms
+yaml-cpp:x64-windows package ABI: 509f116e96ebc77880271cefe0cd676ec2881f8e1e2ca39cc8040d839d9aca70
+Installed contents are licensed to you by owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
+Some packages did not declare an SPDX license. Check the `copyright` file for each package for more information about their licensing.
+Packages installed in this vcpkg installation declare the following licenses:
+(BSD-3-Clause OR GPL-2.0-only)
+(GPL-2.0-only OR Apache-2.0)
+Apache-2.0
+BSD-2-Clause
+BSD-3-Clause
+BSL-1.0
+ISC
+MIT
+MIT-CMU
+Zlib
+bzip2-1.0.6
+curl
+benchmark provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(benchmark CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE benchmark::benchmark benchmark::benchmark_main)
+
+benchmark provides pkg-config modules:
+
+  # Google microbenchmark framework
+  benchmark
+
+  # Google microbenchmark framework (with main() function)
+  benchmark_main
+
+boost-asio provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(boost_asio CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Boost::asio)
+
+boost-beast provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(boost_beast CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Boost::beast)
+
+boost-url provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(boost_url CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Boost::url)
+
+c-ares provides CMake targets:
+
+  find_package(c-ares CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE c-ares::cares)
+
+cpp-httplib provides CMake targets:
+
+    find_package(httplib CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE httplib::httplib)
+
+curl is compatible with built-in CMake targets:
+
+    find_package(CURL REQUIRED)
+    target_link_libraries(main PRIVATE CURL::libcurl)
+
+openssl is compatible with built-in CMake targets:
+
+  find_package(OpenSSL REQUIRED)
+  target_link_libraries(main PRIVATE OpenSSL::SSL)
+  target_link_libraries(main PRIVATE OpenSSL::Crypto)
+
+grpc provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(gRPC CONFIG REQUIRED)
+  # note: 8 additional targets are not displayed.
+  target_link_libraries(main PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+
+The package gtest is compatible with built-in CMake targets:
+
+    enable_testing()
+    
+    find_package(GTest CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+    
+    add_test(AllTestsInMain main)
+
+hnswlib provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(hnswlib CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE hnswlib::hnswlib)
+
+libzip provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(libzip CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE libzip::zip)
+
+libzip provides pkg-config modules:
+
+  # library for handling zip archives
+  libzip
+
+mimalloc provides CMake targets:
+
+  find_package(mimalloc CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:mimalloc-static>,mimalloc-static,mimalloc>)
+
+To ensure the mimalloc-override.dll is loaded at runtime on Windows with
+dynamic linkage, it is suggested to insert some call to the mimalloc API
+in the main function, eg. `mi_version()`. Cf.
+https://github.com/microsoft/mimalloc/blob/dev/readme.md#dynamic-override-on-windows
+
+The package nlohmann-json provides CMake targets:
+
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+The package nlohmann-json can be configured to not provide implicit conversions via a custom triplet file:
+
+    set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+
+For more information, see the docs here:
+    
+    https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
+
+opentelemetry-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(opentelemetry-cpp CONFIG REQUIRED)
+  # note: 17 additional targets are not displayed.
+  target_link_libraries(main PRIVATE opentelemetry-cpp::api opentelemetry-cpp::ext opentelemetry-cpp::sdk opentelemetry-cpp::logs)
+
+opentelemetry-cpp provides pkg-config modules:
+
+  # A header-only library to support instrumentation with OpenTelemetry.
+  opentelemetry_api
+
+  # Common components for the OpenTelemetry SDK, a library for exporting telemetry.
+  opentelemetry_common
+
+  # Components for exporting logs in the OpenTelemetry SDK.
+  opentelemetry_logs
+
+  # Components for exporting metrics in the OpenTelemetry SDK.
+  opentelemetry_metrics
+
+  # Components for resource detection in the OpenTelemetry SDK.
+  opentelemetry_resources
+
+  # Components for exporting traces in the OpenTelemetry SDK.
+  opentelemetry_trace
+
+  # A library exporting version information for OpenTelemetry.
+  opentelemetry_version
+
+prometheus-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(prometheus-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE prometheus-cpp::core prometheus-cpp::pull prometheus-cpp::util)
+
+pugixml provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(pugixml CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE pugixml::shared pugixml::pugixml)
+
+pugixml provides pkg-config modules:
+
+  # Light-weight, simple and fast XML parser for C++ with XPath support.
+  pugixml
+
+zstd provides CMake targets:
+
+  find_package(zstd CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE zstd::libzstd)
+
+rocksdb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(RocksDB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE RocksDB::rocksdb RocksDB::rocksdb-shared)
+
+rocksdb provides pkg-config modules:
+
+  # An embeddable persistent key-value store for fast storage
+  rocksdb
+
+simdjson provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(simdjson CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE simdjson::simdjson)
+
+simdjson provides pkg-config modules:
+
+  # Parsing gigabytes of JSON per second
+  simdjson
+
+The package spdlog provides CMake targets:
+
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog)
+
+    # Or use the header-only version
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog_header_only)
+
+tbb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(TBB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE TBB::tbb TBB::tbbmalloc TBB::tbbmalloc_proxy)
+
+tbb provides pkg-config modules:
+
+  # C++ library for parallel programming on multi-core processors.
+  tbb
+
+yaml-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(yaml-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE yaml-cpp::yaml-cpp)
+
+yaml-cpp provides pkg-config modules:
+
+  # A YAML parser and emitter for C++
+  yaml-cpp
+
+All requested installations completed successfully in: 9.5 s
+-- Running vcpkg install - done
+-- The CXX compiler identification is MSVC 19.44.35220.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: MSVC 19.44.35220.0
+-- ThemisDB 1.4.1 (1.4.1-dev) - Edition: COMMUNITY
+-- Found OpenSSL: optimized;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/lib/libcrypto.lib;debug;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/debug/lib/libcrypto.lib (found version "3.3.2")
+-- OpenSSL found: 3.3.2
+-- Found ZLIB: optimized;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/lib/zlib.lib;debug;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/debug/lib/zlibd.lib (found suitable version "1.3.1", minimum required is "1.3")
+-- ZLIB found: 1.3.1
+-- zstd found - enabling Zstandard compression
+-- RocksDB found
+-- simdjson found
+-- TBB found
+-- fmt found
+-- Found Threads: TRUE
+-- spdlog found
+-- Found nlohmann_json: C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake (found version "3.11.3")
+-- nlohmann_json found
+-- Could NOT find boost_filesystem (missing: boost_filesystem_DIR)
+-- Boost found: 1.86.0
+-- Threads found
+-- Found OpenMP_CXX: -openmp (found version "2.0")
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found
+-- Protobuf found: 25.1.0
+-- gRPC found
+-- Tests disabled (THEMIS_BUILD_TESTS=OFF)
+-- Benchmarks disabled (THEMIS_BUILD_BENCHMARKS=OFF)
+-- Prometheus C++ client found - metrics enabled
+-- CURL found - enabling HTTP client features
+-- Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF)
+-- Arrow not found - Parquet export disabled
+-- yaml-cpp found
+-- GPU enabled - using GPU vector search, HNSW optional
+-- mimalloc found - enabling high-performance memory allocation
+-- The C compiler identification is MSVC 19.44.35220.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found OpenMP_C: -openmp (found version "2.0")
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found for LLM support
+CMAKE_BUILD_TYPE=Release
+-- Found Git: C:/Program Files/Git/cmd/git.exe (found version "2.52.0.windows.1")
+-- The ASM compiler identification is MSVC
+CMake Warning (dev) at C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineASMCompiler.cmake:234 (message):
+  Policy CMP194 is not set: MSVC is not an assembler for language ASM.  Run
+  "cmake --help-policy CMP194" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  llama.cpp/ggml/CMakeLists.txt:2 (project)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found assembler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: AMD64
+-- CMAKE_GENERATOR_PLATFORM: 
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Performing Test HAS_AVX_1
+-- Performing Test HAS_AVX_1 - Success
+-- Performing Test HAS_AVX2_1
+-- Performing Test HAS_AVX2_1 - Success
+-- Performing Test HAS_FMA_1
+-- Performing Test HAS_FMA_1 - Success
+-- Performing Test HAS_AVX512_1
+-- Performing Test HAS_AVX512_1 - Failed
+-- Performing Test HAS_AVX512_2
+-- Performing Test HAS_AVX512_2 - Failed
+-- Adding CPU backend variant ggml-cpu: /arch:AVX2 GGML_AVX2;GGML_FMA;GGML_F16C
+-- ggml version: 0.9.5
+-- ggml commit:  8cc0ba957
+-- llama.cpp configured as subdirectory - enabling LLM plugin support
+-- ============================================
+-- ThemisDB Dependencies Summary
+-- ============================================
+-- Required: OpenSSL, RocksDB, gRPC, Protobuf, GTest
+-- Optional: CURL, Arrow, Parquet, mimalloc, OpenTelemetry
+-- Protocols: HTTP/2=OFF, HTTP/3=OFF
+-- Features: LLM=ON, GPU=ON, CUDA=OFF
+-- ============================================
+-- Found ZLIB: optimized;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/lib/zlib.lib;debug;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/debug/lib/zlibd.lib (found suitable version "1.3.1", minimum required is "1.1.2")
+-- Found BZip2: optimized;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/lib/bz2.lib;debug;C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/debug/lib/bz2d.lib (found version "1.0.8")
+-- Looking for BZ2_bzCompressInit
+-- Looking for BZ2_bzCompressInit - found
+-- libzip found - Archive processing available
+-- Enabling mimalloc allocator optimization (+10-20% performance)
+-- Found mimalloc: C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/share/mimalloc
+-- Windows: Disabling mimalloc-redirect DLL to prevent loader crash
+-- Edition: COMMUNITY - GPU limited to 24GB, single-node
+--   GPU Backend: Vulkan=OFF (cross-platform), CUDA=OFF (NVIDIA-only)
+--   LLM Support: ON
+-- No license file specified, using default community license: C:/VCC/themis/config/license_community_default.json
+-- Embedding license data from: C:/VCC/themis/config/license_community_default.json
+--   Organization:     ThemisDB Community
+--   License Key:      THEMIS-COMMUNITY-OPENSOURCE
+--   Edition:          COMMUNITY
+--   Expiry Date:      9999-12-31
+--   Max Nodes:        1
+--   Build Timestamp:  2026-01-15 12:04:23 UTC
+-- Target architecture: x86_64 (AMD64)
+-- RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage
+-- yaml-cpp found via CONFIG
+CMake Warning at cmake/CMakeLists.txt:850 (message):
+  OpenBLAS not found - install with: vcpkg install openblas
+
+
+-- Could NOT find faiss (missing: faiss_DIR)
+CMake Warning at cmake/CMakeLists.txt:861 (message):
+  Faiss not found - GPU support will be automatically disabled.
+
+
+-- mimalloc found - enabling for 20-40% memory boost
+-- LLM support enabled - integrating llama.cpp
+-- llama.cpp already available as target (from find_package) - skipping add_subdirectory
+-- Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)
+-- gRPC found - enabling LLM gRPC service
+-- Boost.Geometry enabled for exact geometry checks
+-- Timestamp Authority (RFC 3161): Enabled with OpenSSL and CURL
+-- mimalloc linked to themis_core
+-- gRPC support enabled (inter-shard communication)
+-- Found Protobuf: C:/VCC/themis/build-ninja/vcpkg_installed/x64-windows/tools/protobuf/protoc.exe (found version "25.1.0")
+-- gRPC and Protobuf found - linking to themis_core (with reflection)
+-- LLM Vision: disabled (set -DTHEMIS_ENABLE_VISION=ON to enable)
+-- LLM Plugin: Linked llama.cpp library
+-- LLM Plugin: Source files added to themis_core
+--   - Ollama-style lazy model loading enabled
+--   - vLLM-style multi-LoRA management enabled
+--   - LoRA Adapter Framework enabled (Issue #319)
+--     * Full CRUD operations with BaseEntity storage
+--     * Enterprise security (AES-256-GCM + Ed25519)
+--     * Async job management for training/loading
+--     * Complete audit trail for compliance
+--   - Async inference engine enabled (independent threading)
+--   - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)
+--     * ModelMetadataCache (ConcurrentCache)
+--     * LoRAMetadataCache (ConcurrentCache)
+--     * PagedBlockManager (foundation for PagedAttention v1.4.0)
+--     * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)
+--     * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)
+-- Pruned mimalloc libs from themis_server link libraries
+-- Documentation database generation skipped (THEMIS_BUILD_DOCS_DB=OFF)
+-- ==========================================
+-- ThemisDB 1.4.1 (1.4.1-dev)
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring done (84.0s)
+-- Generating done (0.6s)
+-- Build files have been written to: C:/VCC/themis/build-ninja
+[1/407] Building C object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml-alloc.c.obj
+[2/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[3/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml-threading.cpp.obj
+[4/407] Building C object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml.c.obj
+[5/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\hbm.cpp.obj
+[6/407] Building C object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\ggml-cpu.c.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(119): warning C4100: "mo": nicht referenzierter Parameter
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(126): warning C4100: "mo": nicht referenzierter Parameter
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(133): warning C4100: "mo": nicht referenzierter Parameter
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(143): warning C4100: "mo": nicht referenzierter Parameter
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(461): warning C4324: "ggml_threadpool": Die Struktur wurde aufgrund des Ausrichtungsspezifizierers aufgefüllt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(462): warning C4324: "ggml_threadpool": Die Struktur wurde aufgrund des Ausrichtungsspezifizierers aufgefüllt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(463): warning C4324: "ggml_threadpool": Die Struktur wurde aufgrund des Ausrichtungsspezifizierers aufgefüllt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.c(2468): warning C4245: "=": Konvertierung von "int" in "DWORD", signed/unsigned-Konflikt.
+[7/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml-backend.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[8/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\traits.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[9/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml-opt.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-opt.cpp(24): warning C4245: "Initialisierung": Konvertierung von "int" in "size_t", signed/unsigned-Konflikt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-opt.cpp(25): warning C4245: "Initialisierung": Konvertierung von "int" in "size_t", signed/unsigned-Konflikt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-opt.cpp(669): warning C4457: Deklaration von "loss" blendet Funktionsparameter aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-opt.cpp(657): note: Siehe Deklaration von "loss"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[10/407] Building C object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\quants.c.obj
+[11/407] Building C object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\ggml-quants.c.obj
+[12/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\ggml-cpu.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.cpp(44): warning C4456: Deklaration von "bufts" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.cpp(43): note: Siehe Deklaration von "bufts"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.cpp(518): warning C4456: Deklaration von "features" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ggml-cpu.cpp(515): note: Siehe Deklaration von "features"
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[13/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\amx\amx.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[14/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\repack.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[15/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\amx\mmq.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-common.h(180): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-common.h(208): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-common.h(229): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-common.h(270): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-common.h(297): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-common.h(314): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[16/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\vec.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[17/407] Building C object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\arch\x86\quants.c.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\quants.c(873): warning C4310: Typumwandlung verkürzt konstante Werte
+[18/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-base.dir\gguf.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[19/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\binary-ops.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[20/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\unary-ops.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[21/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\llamafile\sgemm.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-common.h(180): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-common.h(208): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-common.h(229): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-common.h(270): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-common.h(297): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-common.h(314): warning C4201: Nicht dem Standard entsprechende Erweiterung: Struktur/Union ohne Namen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1773): warning C4310: Typumwandlung verkürzt konstante Werte
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1773): note: der Vorlageninstanziierungskontext (der älteste zuerst) ist
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(3601): note: Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>".
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1765): note: beim Kompilieren der Klasse Vorlage-Memberfunktion "__m256i `anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::bittobyte(const uint8_t *)"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1703): note: Ersten Verweis auf "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::bittobyte" in "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::load" anzeigen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1533): note: Ersten Verweis auf "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::load" in "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::gemm4xN" anzeigen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1429): note: Ersten Verweis auf "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::gemm4xN" in "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::mnpack" anzeigen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(1364): note: Ersten Verweis auf "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::mnpack" in "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::matmul" anzeigen
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\llamafile\sgemm.cpp(3606): note: Ersten Verweis auf "`anonymous-namespace'::tinyBLAS_Q0_AVX<block_q5_0,block_q8_0,float>::matmul" in "llamafile_sgemm" anzeigen
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[22/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\ops.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(6623): warning C4456: Deklaration von "batch_n" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(6604): note: Siehe Deklaration von "batch_n"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(6676): warning C4456: Deklaration von "batch_n" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(6604): note: Siehe Deklaration von "batch_n"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(5786): warning C4456: Deklaration von "src" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(5764): note: Siehe Deklaration von "src"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(5786): note: der Vorlageninstanziierungskontext (der älteste zuerst) ist
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(5807): note: Siehe Verweis auf die gerade kompilierte Instanziierung "void ggml_compute_forward_rope_flt<ggml_fp16_t>(const ggml_compute_params *,ggml_tensor *,const bool)" der Funktions-Vorlage.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(5787): warning C4456: Deklaration von "dst_data" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\ops.cpp(5765): note: Siehe Deklaration von "dst_data"
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[23/407] Generating protobuf and gRPC sources for shard_rpc.proto
+[24/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\arch\x86\repack.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(338): warning C4456: Deklaration von "v0" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(305): note: Siehe Deklaration von "v0"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(339): warning C4456: Deklaration von "v1" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(306): note: Siehe Deklaration von "v1"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(340): warning C4456: Deklaration von "v2" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(307): note: Siehe Deklaration von "v2"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(341): warning C4456: Deklaration von "v3" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(308): note: Siehe Deklaration von "v3"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(344): warning C4456: Deklaration von "abs0" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(312): note: Siehe Deklaration von "abs0"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(345): warning C4456: Deklaration von "abs1" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(313): note: Siehe Deklaration von "abs1"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(346): warning C4456: Deklaration von "abs2" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(314): note: Siehe Deklaration von "abs2"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(347): warning C4456: Deklaration von "abs3" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(315): note: Siehe Deklaration von "abs3"
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(434): warning C4457: Deklaration von "k" blendet Funktionsparameter aus
+C:\VCC\themis\llama.cpp\ggml\src\ggml-cpu\arch\x86\repack.cpp(290): note: Siehe Deklaration von "k"
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\.\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[25/407] Linking CXX shared library bin\ggml-base.dll
+[26/407] Building CXX object llama_cpp_build\ggml\src\CMakeFiles\ggml.dir\ggml-backend-reg.cpp.obj
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(73): warning C4505: "ggml_are_same_layout": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(88): warning C4505: "ggml_op_is_empty": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(141): warning C4505: "ggml_set_op_params": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(147): warning C4505: "ggml_get_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(152): warning C4505: "ggml_get_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(157): warning C4505: "ggml_set_op_params_i32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(162): warning C4505: "ggml_set_op_params_f32": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(199): warning C4505: "ggml_bitset_size": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(268): warning C4505: "ggml_hash_contains": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(273): warning C4505: "ggml_hash_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+C:\VCC\themis\llama.cpp\ggml\src\ggml-impl.h(294): warning C4505: "ggml_hash_find_or_insert": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+[27/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-cparams.cpp.obj
+[28/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-chat.cpp.obj
+FAILED: [code=2] llama_cpp_build/src/CMakeFiles/llama.dir/llama-chat.cpp.obj 
+C:\PROGRA~1\MICROS~3\2022\PROFES~1\VC\Tools\MSVC\1444~1.352\bin\Hostx64\x64\cl.exe  /nologo /TP -DGGML_BACKEND_SHARED -DGGML_SHARED -DGGML_USE_CPU -DLLAMA_BUILD -DLLAMA_SHARED -DNOMINMAX -DTHEMIS_COMMUNITY_EDITION -DTHEMIS_HAS_AVX2=1 -DTHEMIS_HAS_CURL=1 -DTHEMIS_HAS_MIMALLOC=1 -DTHEMIS_HAS_PROMETHEUS=1 -DTHEMIS_VERSION=\"1.4.1\" -DTHEMIS_VERSION_STRING=\"1.4.1-dev\" -DWIN32_LEAN_AND_MEAN -D_CRT_SECURE_NO_WARNINGS -D_WIN32_WINNT=0x0A00 -Dllama_EXPORTS -IC:\VCC\themis\llama.cpp\src\. -IC:\VCC\themis\llama.cpp\src\..\include -IC:\VCC\themis\llama.cpp\ggml\src\..\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD /W4 /WX- /fp:precise /Gy /permissive- /arch:AVX2 /utf-8 /bigobj /showIncludes /Follama_cpp_build\src\CMakeFiles\llama.dir\llama-chat.cpp.obj /Fdllama_cpp_build\src\CMakeFiles\llama.dir\ /FS -c C:\VCC\themis\llama.cpp\src\llama-chat.cpp
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(176): error C2664: "bool llm_chat_detect_template::<lambda_1>::operator ()(const char *) const" : Konvertierung von Argument 1 von "const char8_t [9]" in "const char *" nicht möglich
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(176): note: Die Typen, auf die verwiesen wird, sind unabhängig; die Konvertierung erfordert eine reinterpret_cast-Umwandlung, eine C-Stil-Umwandlung oder eine in Klammern gesetzte Umwandlung im Funktionsstil.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(92): note: Siehe Deklaration von "llm_chat_detect_template::<lambda_1>::operator ()"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(176): note: bei Anpassung der Argumentliste "(const char8_t [9])"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): error C2664: "bool llm_chat_detect_template::<lambda_1>::operator ()(const char *) const" : Konvertierung von Argument 1 von "const char8_t [18]" in "const char *" nicht möglich
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): note: Die Typen, auf die verwiesen wird, sind unabhängig; die Konvertierung erfordert eine reinterpret_cast-Umwandlung, eine C-Stil-Umwandlung oder eine in Klammern gesetzte Umwandlung im Funktionsstil.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(92): note: Siehe Deklaration von "llm_chat_detect_template::<lambda_1>::operator ()"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): note: bei Anpassung der Argumentliste "(const char8_t [18])"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): error C2664: "bool llm_chat_detect_template::<lambda_1>::operator ()(const char *) const" : Konvertierung von Argument 1 von "const char8_t [13]" in "const char *" nicht möglich
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): note: Die Typen, auf die verwiesen wird, sind unabhängig; die Konvertierung erfordert eine reinterpret_cast-Umwandlung, eine C-Stil-Umwandlung oder eine in Klammern gesetzte Umwandlung im Funktionsstil.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(92): note: Siehe Deklaration von "llm_chat_detect_template::<lambda_1>::operator ()"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): note: bei Anpassung der Argumentliste "(const char8_t [13])"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): error C2664: "bool llm_chat_detect_template::<lambda_1>::operator ()(const char *) const" : Konvertierung von Argument 1 von "const char8_t [28]" in "const char *" nicht möglich
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): note: Die Typen, auf die verwiesen wird, sind unabhängig; die Konvertierung erfordert eine reinterpret_cast-Umwandlung, eine C-Stil-Umwandlung oder eine in Klammern gesetzte Umwandlung im Funktionsstil.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(92): note: Siehe Deklaration von "llm_chat_detect_template::<lambda_1>::operator ()"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(181): note: bei Anpassung der Argumentliste "(const char8_t [28])"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(222): error C2664: "bool llm_chat_detect_template::<lambda_1>::operator ()(const char *) const" : Konvertierung von Argument 1 von "const char8_t [29]" in "const char *" nicht möglich
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(222): note: Die Typen, auf die verwiesen wird, sind unabhängig; die Konvertierung erfordert eine reinterpret_cast-Umwandlung, eine C-Stil-Umwandlung oder eine in Klammern gesetzte Umwandlung im Funktionsstil.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(92): note: Siehe Deklaration von "llm_chat_detect_template::<lambda_1>::operator ()"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(222): note: bei Anpassung der Argumentliste "(const char8_t [29])"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(416): warning C4244: "=": Konvertierung von "int" in "char", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(514): error C2280: "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char8_t *)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\__msvc_ostream.hpp(955): note: Siehe Deklaration von "std::operator <<"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(514): error C2088: Der integrierte Operator "<<" kann nicht auf einen Operanden vom Typ "std::stringstream" angewendet werden.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(530): error C2280: "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char8_t *)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\__msvc_ostream.hpp(955): note: Siehe Deklaration von "std::operator <<"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(530): error C2088: Der integrierte Operator "<<" kann nicht auf einen Operanden vom Typ "std::basic_ostream<char,std::char_traits<char>>" angewendet werden.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(543): error C2280: "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char8_t *)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\__msvc_ostream.hpp(955): note: Siehe Deklaration von "std::operator <<"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(543): error C2088: Der integrierte Operator "<<" kann nicht auf einen Operanden vom Typ "std::stringstream" angewendet werden.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(545): error C2280: "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char8_t *)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\__msvc_ostream.hpp(955): note: Siehe Deklaration von "std::operator <<"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(545): error C2088: Der integrierte Operator "<<" kann nicht auf einen Operanden vom Typ "std::stringstream" angewendet werden.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(549): error C2280: "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char8_t *)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\__msvc_ostream.hpp(955): note: Siehe Deklaration von "std::operator <<"
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(549): error C2088: Der integrierte Operator "<<" kann nicht auf einen Operanden vom Typ "std::stringstream" angewendet werden.
+C:\VCC\themis\llama.cpp\src\llama-chat.cpp(884): warning C4267: "return": Konvertierung von "size_t" nach "int32_t", Datenverlust möglich
+[29/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-arch.cpp.obj
+[30/407] Linking CXX shared library bin\ggml-cpu.dll
+[31/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-batch.cpp.obj
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(27): warning C4458: Deklaration von "vocab" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(129): note: Siehe Deklaration von "llama_batch_allocr::vocab"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(29): warning C4458: Deklaration von "n_embd" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(135): note: Siehe Deklaration von "llama_batch_allocr::n_embd"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(30): warning C4458: Deklaration von "n_seq_max" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(136): note: Siehe Deklaration von "llama_batch_allocr::n_seq_max"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(76): warning C4267: "=": Konvertierung von "size_t" nach "_Ty", Datenverlust möglich
+        with
+        [
+            _Ty=llama_token
+        ]
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(105): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(111): warning C4456: Deklaration von "seq_id" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(105): note: Siehe Deklaration von "seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(191): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(203): warning C4267: "=": Konvertierung von "size_t" nach "_Ty", Datenverlust möglich
+        with
+        [
+            _Ty=llama_token
+        ]
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(366): warning C4458: Deklaration von "pos" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(141): note: Siehe Deklaration von "llama_batch_allocr::pos"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(369): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(455): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(459): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(503): warning C4267: "Argument": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(549): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(549): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(680): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(680): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(724): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(743): warning C4267: "=": Konvertierung von "size_t" nach "_Ty", Datenverlust möglich
+        with
+        [
+            _Ty=llama_token
+        ]
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(776): warning C4458: Deklaration von "debug" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(172): note: Siehe Deklaration von "llama_batch_allocr::debug"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(819): warning C4456: Deklaration von "s" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(818): note: Siehe Deklaration von "s"
+C:\VCC\themis\llama.cpp\src\llama-batch.cpp(828): warning C4458: Deklaration von "seq_id" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-batch.h(143): note: Siehe Deklaration von "llama_batch_allocr::seq_id"
+[32/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-adapter.cpp.obj
+C:\VCC\themis\llama.cpp\src\llama-adapter.h(82): warning C4267: "return": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-adapter.cpp(67): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-adapter.cpp(193): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "int", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-adapter.cpp(197): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "int", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-adapter.cpp(222): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "int", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-adapter.cpp(222): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "const int", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-adapter.cpp(241): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "int", möglicher Datenverlust
+[33/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama.cpp.obj
+C:\VCC\themis\llama.cpp\src\llama-adapter.h(82): warning C4267: "return": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-model-loader.h(35): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "int", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-model-loader.h(35): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "const int", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama.cpp(669): warning C4018: ">": Konflikt zwischen "signed" und "unsigned"
+[34/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-context.cpp.obj
+C:\VCC\themis\llama.cpp\src\llama-adapter.h(82): warning C4267: "return": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(343): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(421): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(530): warning C4244: "+=": Konvertierung von "int64_t" in "int32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(847): warning C4101: "err": Unreferenzierte lokale Variable
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(913): warning C4458: Deklaration von "threadpool" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(323): note: Siehe Deklaration von "llama_context::threadpool"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(914): warning C4458: Deklaration von "threadpool_batch" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(324): note: Siehe Deklaration von "llama_context::threadpool_batch"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(935): warning C4458: Deklaration von "abort_callback" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(326): note: Siehe Deklaration von "llama_context::abort_callback"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(935): warning C4458: Deklaration von "abort_callback_data" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(327): note: Siehe Deklaration von "llama_context::abort_callback_data"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1120): warning C4244: "Argument": Konvertierung von "const int64_t" in "uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1340): warning C4244: "=": Konvertierung von "int64_t" in "_Ty", möglicher Datenverlust
+        with
+        [
+            _Ty=std::_Vbase
+        ]
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1371): warning C4244: "=": Konvertierung von "int64_t" in "_Ty", möglicher Datenverlust
+        with
+        [
+            _Ty=std::_Vbase
+        ]
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1424): warning C4244: "Argument": Konvertierung von "const int64_t" in "uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1656): warning C4244: "Argument": Konvertierung von "int64_t" in "uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1683): warning C4244: "=": Konvertierung von "int64_t" in "_Ty", möglicher Datenverlust
+        with
+        [
+            _Ty=llama_token
+        ]
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1730): warning C4458: Deklaration von "n_outputs" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(304): note: Siehe Deklaration von "llama_context::n_outputs"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1888): warning C4244: "return": Konvertierung von "const int64_t" in "uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1955): warning C4267: "Argument": Konvertierung von "size_t" nach "const _Ty", Datenverlust möglich
+        with
+        [
+            _Ty=unsigned int
+        ]
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1957): warning C4267: "Argument": Konvertierung von "size_t" nach "const _Ty", Datenverlust möglich
+        with
+        [
+            _Ty=unsigned int
+        ]
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1969): warning C4458: Deklaration von "n_outputs" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(304): note: Siehe Deklaration von "llama_context::n_outputs"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(1991): warning C4458: Deklaration von "balloc" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(302): note: Siehe Deklaration von "llama_context::balloc"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2452): warning C4458: Deklaration von "n_outputs" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(304): note: Siehe Deklaration von "llama_context::n_outputs"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2453): warning C4458: Deklaration von "output_ids" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(306): note: Siehe Deklaration von "llama_context::output_ids"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2465): warning C4267: "=": Konvertierung von "size_t" nach "_Ty", Datenverlust möglich
+        with
+        [
+            _Ty=llama_token
+        ]
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2480): warning C4458: Deklaration von "logits_size" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(264): note: Siehe Deklaration von "llama_context::logits_size"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2493): warning C4458: Deklaration von "embd_size" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(269): note: Siehe Deklaration von "llama_context::embd_size"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2534): warning C4458: Deklaration von "n_outputs" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(304): note: Siehe Deklaration von "llama_context::n_outputs"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2566): warning C4458: Deklaration von "logits_size" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(264): note: Siehe Deklaration von "llama_context::logits_size"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2582): warning C4458: Deklaration von "embd_size" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(269): note: Siehe Deklaration von "llama_context::embd_size"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2697): warning C4458: Deklaration von "model" blendet Klassenmember aus
+C:\VCC\themis\llama.cpp\src\llama-context.h(253): note: Siehe Deklaration von "llama_context::model"
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2961): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2961): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "const uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2970): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(2970): warning C4244: "Initialisierung": Konvertierung von "int64_t" in "const uint32_t", möglicher Datenverlust
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(3315): warning C4245: "Argument": Konvertierung von "int" in "size_t", signed/unsigned-Konflikt.
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(3320): warning C4245: "Argument": Konvertierung von "int" in "size_t", signed/unsigned-Konflikt.
+C:\VCC\themis\llama.cpp\src\llama-context.cpp(3520): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust möglich
+[35/407] Building CXX object llama_cpp_build\src\CMakeFiles\llama.dir\llama-grammar.cpp.obj
+C:\VCC\themis\llama.cpp\src\llama-grammar.cpp(590): warning C4245: "Argument": Konvertierung von "int" in "uint64_t", signed/unsigned-Konflikt.
+C:\VCC\themis\llama.cpp\src\llama-grammar.cpp(593): warning C4245: "Argument": Konvertierung von "int" in "uint64_t", signed/unsigned-Konflikt.
+C:\VCC\themis\llama.cpp\src\llama-grammar.cpp(616): warning C4456: Deklaration von "int_end" blendet vorherige lokale Deklaration aus
+C:\VCC\themis\llama.cpp\src\llama-grammar.cpp(603): note: Siehe Deklaration von "int_end"
+C:\VCC\themis\llama.cpp\src\llama-grammar.cpp(250): warning C4505: "print_rule_binary": Eine nicht referenzierte Funktion mit interner Verknüpfung wurde entfernt.
+ninja: build stopped: subcommand failed.

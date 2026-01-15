@@ -1,47 +1,131 @@
-# Windows Build Guide (MSVC) - v1.4.0+
+# Windows Build Guide - v1.4.0+
 
 **Letzte Aktualisierung**: v1.4.0 mit modularer CMake-Architektur  
-**Kompatibilität**: Windows 10+ (Build 2004+), Visual Studio 2022
+**Kompatibilität**: Windows 10+ (Build 2004+)  
+**Empfohlene Build-Toolchain**: Ninja + MSVC/Clang
 
-## Schnellstart (5 Minuten)
+---
+
+## 🚀 Schnellstart (3 Minuten)
+
+### Methode 1: Ninja + MSVC (EMPFOHLEN - Schnellster Build)
 
 ```powershell
 cd C:\VCC\themis
 
-# Standard Community Edition
+# Automatisches Build-Skript mit vcpkg Binary-Cache
+.\scripts\quick-build.ps1 -Jobs 8
+
+# Binary: build-ninja\themis_server.exe
+# Build-Zeit: ~5 Minuten (erste Build), ~1 Minute (incremental)
+```
+
+### Methode 2: Ninja + Clang/LLVM (Bessere Diagnostik)
+
+```powershell
+cd C:\VCC\themis
+
+# Clang/LLVM Build mit optimierter Konfiguration
+.\scripts\build-clang.ps1 -Jobs 8
+
+# Binary: build-clang\themis_server.exe
+# Vorteil: Bessere Fehlermeldungen, striktere Compiler-Checks
+```
+
+### Methode 3: Visual Studio (Fallback für GUI-Debugging)
+
+```powershell
+cd C:\VCC\themis
+
+# Nur wenn Visual Studio IDE benötigt wird
 cmake --preset windows-vs2022-release
 cmake --build --preset windows-vs2022-release --parallel 8
 
 # Binary: build-msvc\Release\themis_server.exe
+# Öffnen: build-msvc\themis.sln
 ```
 
-## Voraussetzungen
+---
 
-### Windows 10+ (Build 2004+)
+---
 
-### Visual Studio 2022
+## 📋 Voraussetzungen
+
+### 1. Build-Tools (Wähle eine Option)
+
+#### Option A: Ninja + MSVC (EMPFOHLEN)
+```powershell
+# Ninja installieren
+winget install Ninja-build.Ninja
+# oder: choco install ninja
+
+# Visual Studio 2022 Build Tools (ohne IDE)
+winget install Microsoft.VisualStudio.2022.BuildTools --silent --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
+
+# Verifikation
+ninja --version    # ✅ 1.11.0+
+cl /v              # ✅ MSVC v19.44+
+```
+
+#### Option B: Clang/LLVM
+```powershell
+# Clang/LLVM 18+ installieren
+winget install LLVM.LLVM
+
+# Verifikation
+clang --version    # ✅ 18.0.0+
+```
+
+#### Option C: Visual Studio 2022 (Full IDE)
 ```powershell
 # Erforderliche Komponenten:
 # - C++ Development Tools
 # - MSVC v19.44+
 # - Windows SDK 10.0.19041+
+# - Clang/LLVM (optional, aber empfohlen)
 
-cl /v  # Verifikation: sollte v19.44+ zeigen
+# Verifikation
+cl /v              # ✅ MSVC v19.44+
 ```
 
-### CMake 3.20+
+### 2. CMake 3.20+
 ```powershell
-cmake --version  # ✅ mindestens 3.20.x
+winget install Kitware.CMake
+cmake --version    # ✅ mindestens 3.20.x
 ```
 
-### vcpkg
+### 3. vcpkg mit Binary Cache (KRITISCH für schnelle Builds)
+
 ```powershell
 cd C:\VCC\themis\vcpkg
-.\bootstrap-vcpkg.bat  # Erste Initialisierung (~15 GB)
+
+# Einmalige Initialisierung
+.\bootstrap-vcpkg.bat
+
+# Binary-Cache aktivieren (REDUZIERT BUILD-ZEIT UM 80%!)
+$env:VCPKG_BINARY_SOURCES = "clear;files,C:\VCC\vcpkg-cache,readwrite"
+
+# Permanente Konfiguration
+[System.Environment]::SetEnvironmentVariable("VCPKG_BINARY_SOURCES", "clear;files,C:\VCC\vcpkg-cache,readwrite", [System.EnvironmentVariableTarget]::User)
+
+# Cache-Verzeichnis erstellen
+New-Item -ItemType Directory -Path "C:\VCC\vcpkg-cache" -Force
+
+# Erste Build: ~30 Minuten (94 Dependencies)
+# Mit Cache: ~2 Minuten (nur Linking)
 ```
 
-### Python 3.11+ (optional)
-Nur für Dokumentation nötig.
+**Tipp**: Teile `C:\VCC\vcpkg-cache` im Netzwerk für Team-Builds!
+
+### 4. Python 3.11+ (Optional)
+Nur für Dokumentationsgenerierung benötigt.
+
+```powershell
+winget install Python.Python.3.11
+python --version   # ✅ 3.11+
+```
+
+---
 
 ## Architektur (NEU in v1.4.0)
 
@@ -71,51 +155,183 @@ CMakeLists.txt (Root - 150 Zeilen)
 | **ENTERPRISE** | Data Center | gRPC=ON, Tracing=ON |
 | **HYPERSCALER** | Cloud/LLM-Heavy | LLM=ON, GPU=ON, gRPC=ON, Tracing=ON |
 
-## Build-Methoden
+---
 
-### ✅ Methode 1: CMake Presets (EMPFOHLEN)
+## 🏗️ Build-Methoden (Nach Priorität)
+
+### ⚡ Methode 1: Ninja + MSVC (PRIMÄR - Schnellster Build)
+
+**Vorteile:**
+- ✅ 3-5x schneller als Visual Studio Generator
+- ✅ Parallele Kompilierung optimal genutzt
+- ✅ Inkrementelle Builds in ~30 Sekunden
+- ✅ Funktioniert mit MSVC und Clang
 
 ```powershell
 cd C:\VCC\themis
 
-# Alle verfügbaren Presets
-cmake --list-presets
+# Automatisches Setup + Build (EMPFOHLEN)
+.\scripts\quick-build.ps1 -Jobs 8
 
-# Mit Preset bauen
-cmake --preset windows-vs2022-release
-cmake --build --preset windows-vs2022-release --parallel 8
-```
-
-**Verfügbare Presets**:
-- `windows-vs2022-release` - Release Build
-- `windows-vs2022-debug` - Debug mit Sanitizer
-- `windows-ninja-msvc-release` - Ninja + MSVC
-- `windows-ninja-clangcl-release` - Ninja + ClangCL
-
-### ✅ Methode 2: Manuelle CMake (für Feature-Flags)
-
-```powershell
-# Hyperscaler Edition (LLM + GPU + Tracing)
-cmake -S . -B build-msvc `
-  -G "Visual Studio 17 2022" -A x64 `
-  -DTHEMIS_EDITION=HYPERSCALER `
-  -DTHEMIS_ENABLE_LLM=ON `
-  -DTHEMIS_ENABLE_GPU=ON `
-  -DTHEMIS_ENABLE_CUDA=ON `
-  -DTHEMIS_ENABLE_TRACING=ON `
+# Oder: Manuelle Konfiguration
+cmake -S . -B build-ninja `
+  -G Ninja `
+  -DCMAKE_C_COMPILER=cl `
+  -DCMAKE_CXX_COMPILER=cl `
+  -DCMAKE_BUILD_TYPE=Release `
   -DCMAKE_TOOLCHAIN_FILE="C:\VCC\themis\vcpkg\scripts\buildsystems\vcpkg.cmake"
 
-cmake --build build-msvc --config Release --parallel 8
+# Build
+cmake --build build-ninja --parallel 8
+
+# Binary: build-ninja\themis_server.exe
 ```
 
-### ✅ Methode 3: PowerShell Script
+**Build-Zeit:**
+- Erste Build mit vcpkg-Cache: ~5-7 Minuten
+- Inkrementelle Builds: ~30-60 Sekunden
+- Mit Binary-Cache: ~2 Minuten (erste Build)
+
+---
+
+### 🔧 Methode 2: Ninja + Clang/LLVM (SEKUNDÄR - Bessere Diagnostik)
+
+**Vorteile:**
+- ✅ Bessere Compiler-Fehlermeldungen
+- ✅ Striktere C++20 Konformität
+- ✅ Schnellere Template-Instantiierung
+- ✅ Cross-Platform Kompatibilität (Linux-ähnliche Warnings)
 
 ```powershell
 cd C:\VCC\themis
-.\scripts\run-windows-devbuild.ps1
+
+# Automatisches Clang-Build
+.\scripts\build-clang.ps1 -Clean -Configure -Jobs 8
+
+# Oder: Manuelle Konfiguration
+cmake -S . -B build-clang `
+  -G Ninja `
+  -DCMAKE_C_COMPILER=clang `
+  -DCMAKE_CXX_COMPILER=clang++ `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DCMAKE_TOOLCHAIN_FILE="C:\VCC\themis\vcpkg\scripts\buildsystems\vcpkg.cmake"
+
+# Build
+cmake --build build-clang --parallel 8
+
+# Binary: build-clang\themis_server.exe
 ```
 
-## Build-Varianten
+**Wann nutzen?**
+- Bei Cross-Compile-Testing (Linux-Kompatibilität prüfen)
+- Für bessere Debugging-Output bei Template-Errors
+- Wenn MSVC ungenaue Fehlermeldungen gibt
+
+---
+
+### 🖥️ Methode 3: Visual Studio Generator (FALLBACK - GUI-Debugging)
+
+**Vorteile:**
+- ✅ Visual Studio IDE Integration
+- ✅ GUI-Debugger mit allen Features
+- ✅ IntelliSense und Code-Navigation
+
+**Nachteile:**
+- ❌ 3-5x langsamer als Ninja
+- ❌ Inkrementelle Builds langsamer
+
+```powershell
+cd C:\VCC\themis
+
+# CMake Preset
+cmake --preset windows-vs2022-release
+cmake --build --preset windows-vs2022-release --parallel 8
+
+# Oder: Manuelle Konfiguration
+cmake -S . -B build-msvc `
+  -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="C:\VCC\themis\vcpkg\scripts\buildsystems\vcpkg.cmake"
+
+# Build
+cmake --build build-msvc --config Release --parallel 8
+
+# Visual Studio öffnen
+start build-msvc\themis.sln
+
+# Binary: build-msvc\Release\themis_server.exe
+```
+
+**Wann nutzen?**
+- Nur wenn Visual Studio IDE benötigt wird
+- Für professionelles Debugging mit GUI
+- Wenn MSBuild-Integration erforderlich ist
+
+---
+
+---
+
+## 📊 Build-Varianten & Editionen
+
+### Community Edition (Standard - Empfohlen)
+```powershell
+# Ninja + MSVC (schnellster Build)
+.\scripts\quick-build.ps1 -Jobs 8
+
+# Binary: build-ninja\themis_server.exe
+# Größe: ~120 MB (optimiert)
+# Features: Alle Core-Features, kein LLM/GPU
+```
+
+### Setup (Einmalig, KRITISCH für Team-Builds)
+
+```powershell
+# Lokaler Binary-Cache (SSD empfohlen)
+$env:VCPKG_BINARY_SOURCES = "clear;files,C:\VCC\vcpkg-cache,readwrite"
+
+# Permanent setzen
+[System.Environment]::SetEnvironmentVariable("VCPKG_BINARY_SOURCES", "clear;files,C:\VCC\vcpkg-cache,readwrite", [System.EnvironmentVariableTarget]::User)
+
+# Cache-Verzeichnis erstellen
+New-Item -ItemType Directory -Path "C:\VCC\vcpkg-cache" -Force
+```
+
+### Netzwerk-Cache (für Teams)
+
+```powershell
+# SMB Share
+$env:VCPKG_BINARY_SOURCES = "clear;files,\\build-server\vcpkg-cache,readwrite"
+
+# Azure Blob (Enterprise)
+$env:VCPKG_BINARY_SOURCES = "clear;x-azblob,https://themis.blob.core.windows.net/vcpkg-cache,read"
+
+# NuGet Feed (CI/CD)
+$env:VCPKG_BINARY_SOURCES = "clear;nuget,https://nuget.company.com/vcpkg,readwrite"
+```
+
+### Build-Zeit Vergleich
+
+| Szenario | Ohne Cache | Mit lokalem Cache | Mit Netzwerk-Cache |
+|----------|-----------|------------------|-------------------|
+| **Erste Build** | 30-45 Min | 5-7 Min | 10-12 Min |
+| **Clean Rebuild** | 30-45 Min | 2-3 Min | 4-5 Min |
+| **Incremental** | 1-2 Min | 30-60 Sek | 30-60 Sek |
+
+**Tipp**: Cache auf schneller SSD speichern (C:\VCC\vcpkg-cache), nicht auf Netzlaufwerk!
+
+### Cache-Management
+
+```powershell
+# Cache-Größe prüfen
+Get-ChildItem "C:\VCC\vcpkg-cache" -Recurse | Measure-Object -Property Length -Sum
+
+# Cache leeren (bei Problemen)
+Remove-Item "C:\VCC\vcpkg-cache\*" -Recurse -Force
+
+# Alte Cache-Einträge löschen (älter als 30 Tage)
+Get-ChildItem "C:\VCC\vcpkg-cache" -Recurse | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-30)} | Remove-Item -Force
+```
+
+---
 
 ### Community Edition (Standard)
 ```powershell

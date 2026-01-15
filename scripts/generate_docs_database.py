@@ -50,8 +50,12 @@ class UTF8StreamHandler(logging.StreamHandler):
     def __init__(self):
         super().__init__()
         # Force UTF-8 encoding with error handling
-        if sys.platform == 'win32':
+        # Force UTF-8 encoding on stderr
+        if hasattr(sys.stderr, 'buffer'):
             self.stream = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+        else:
+            # stderr is already wrapped or is not a binary stream
+            self.stream = sys.stderr
 
 logging.basicConfig(
     level=logging.INFO,
@@ -67,7 +71,7 @@ logger.addHandler(UTF8StreamHandler())
 
 def generate_documentation_database(
     output_path: str = "data/docs_database.json",
-    include_compendium: bool = True,
+    include_compendium: bool = False,
     include_examples: bool = False
 ) -> bool:
     """
@@ -131,16 +135,16 @@ def generate_documentation_database(
         'files_failed': 0,
         'total_size_bytes': 0
     }
-    
-    for source_dir in sources:
-        logger.info("")
-        logger.info("=" * 60)
-        logger.info(f"Processing: {source_dir}")
-        logger.info("=" * 60)
-        
-        engine = IngestionEngine(config)
-        result = engine.ingest(source_dir)
-        
+        config = IngestionConfig(
+            source_dir=sources[0],  # Use the first source directory
+            max_workers=4,
+            chunk_size=2000,
+            overlap=200,
+            supported_extensions=[
+                '.md', '.txt', '.rst', '.json', '.yaml', '.yml',
+                '.cpp', '.h', '.py', '.js', '.ts', '.sql'
+            ]
+        )
         if result:
             all_ingested_files.extend(result.get('ingested_files', []))
             for key in total_stats:
@@ -148,7 +152,13 @@ def generate_documentation_database(
             logger.info(f"Successfully ingested from {source_dir}")
         else:
             logger.error(f"Failed to ingest from {source_dir}")
-    
+        for i, source in enumerate(sources):
+            logger.info(f"Processing directory {i+1}/{len(sources)}: {source}")
+            # Configure ingestion for this directory
+            config = IngestionConfig(
+                source_dir=source,
+                output_file=f"{output_path}.tmp.{i}.json"
+            )
     # Prepare output data
     output_data = {
         'version': '1.0',
@@ -157,6 +167,8 @@ def generate_documentation_database(
         'statistics': total_stats,
         'documents': all_ingested_files
     }
+                import traceback
+                logger.error(traceback.format_exc())
     
     # Write output file
     output_path_obj = Path(output_path)

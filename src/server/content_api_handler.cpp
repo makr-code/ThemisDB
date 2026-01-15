@@ -14,6 +14,12 @@
 namespace themis {
 namespace server {
 
+// Bring frequently used types from other namespaces into local scope
+using themis::Tracer;
+using themis::AuthMiddleware;
+using themis::content::ContentManager;
+using themis::content::ContentProcessor;
+
 ContentApiHandler::ContentApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<ContentManager> content_manager,
@@ -63,12 +69,12 @@ static std::string extractUserId(const http::request<http::string_body>& req, st
         return "";
     }
     
-    auto claims = auth->validateToken(*token);
-    if (!claims) {
+    auto result = auth->validateToken(*token);
+    if (!result.authorized) {
         return "";
     }
-    
-    return claims->user_id;
+
+    return result.user_id;
 }
 
 http::response<http::string_body> ContentApiHandler::handleImport(

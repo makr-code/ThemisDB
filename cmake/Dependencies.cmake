@@ -88,6 +88,11 @@ message(STATUS "fmt found")
 find_package(spdlog REQUIRED CONFIG)
 message(STATUS "spdlog found")
 
+# Disable spdlog compile-time format string checks for better compatibility with runtime format strings
+if(NOT MSVC)
+    add_compile_definitions(SPDLOG_USE_SPDLOG_FMT_EXT=0)
+endif()
+
 find_package(nlohmann_json REQUIRED CONFIG)
 message(STATUS "nlohmann_json found")
 
@@ -372,28 +377,34 @@ if(THEMIS_ENABLE_LLM)
     # Ensure C language is enabled so OpenMP::OpenMP_C target exists
     enable_language(C)
     # OpenMP MUST be found before llama.cpp configuration
-    # because ggml-config.cmake references OpenMP::OpenMP_C target
     find_package(OpenMP REQUIRED)
     message(STATUS "OpenMP found for LLM support")
     
-    # Check if llama.cpp is available as a target or library
-    find_package(llama QUIET CONFIG)
+    set(LLAMA_CPP_SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp")
     
-    if(NOT llama_FOUND)
-        # Try to find via pkg-config
-        find_package(PkgConfig QUIET)
-        if(PkgConfig_FOUND)
-            pkg_check_modules(llama QUIET llama)
-        endif()
-    endif()
-    
-    if(NOT llama_FOUND)
+    if(NOT EXISTS "${LLAMA_CPP_SOURCE_DIR}/CMakeLists.txt")
         message(FATAL_ERROR 
-            "THEMIS_ENABLE_LLM=ON but llama.cpp not found.\n"
-            "Please install llama.cpp or set llama_DIR to its build directory")
+            "THEMIS_ENABLE_LLM=ON but llama.cpp source not found.\n"
+            "Clone with: git clone https://github.com/ggerganov/llama.cpp.git C:/VCC/themis/llama.cpp")
     endif()
     
-    message(STATUS "llama.cpp found - enabling LLM plugin support")
+    # Configure llama.cpp build options
+    set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Build llama tests" FORCE)
+    set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Build llama examples" FORCE)
+    set(LLAMA_BUILD_TOOLS OFF CACHE BOOL "Build llama tools" FORCE)
+    set(LLAMA_BUILD_COMMON OFF CACHE BOOL "Build llama common utils" FORCE)
+    set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Build llama server" FORCE)
+    set(LLAMA_INSTALL OFF CACHE BOOL "Install llama" FORCE)
+    
+    # Add llama.cpp as subdirectory - it will create the 'llama' target
+    add_subdirectory("${LLAMA_CPP_SOURCE_DIR}" llama_cpp_build EXCLUDE_FROM_ALL)
+    
+    # Ensure OpenMP is linked to llama target
+    if(TARGET llama)
+        target_link_libraries(llama PUBLIC OpenMP::OpenMP_C)
+    endif()
+    
+    message(STATUS "llama.cpp configured as subdirectory - enabling LLM plugin support")
     add_compile_definitions(THEMIS_ENABLE_LLM=1)
     
     # Voice assistant support (requires Whisper, Piper)
