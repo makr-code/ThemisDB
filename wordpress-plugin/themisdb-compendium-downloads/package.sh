@@ -34,6 +34,7 @@ cp "$SCRIPT_DIR/README.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/CHANGELOG.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/INSTALLATION.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/QUICKSTART.md" "$PACKAGE_DIR/"
+cp "$SCRIPT_DIR/PREVIEW.html" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/LICENSE" "$PACKAGE_DIR/"
 
 # Create languages directory (even if empty for now)
