@@ -692,22 +692,245 @@ traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
 
 ### 38.4.2 Replication Monitoring Dashboard {#chapter_38_4_2_replication}
 
-- Lag per follower (ms)
-- Failed replications (count)
-- WAL queue depth
+### 38.4.2 Latenz & Throughput Dashboard {#chapter_38_4_2_latenz-throughput}
 
-### Ressourcen
+Latenz-Visualisierung nutzt Heatmaps für Perzentil-Verteilungen und Time-Series-Panels für Trend-Analyse. Wir kombinieren RED-Metriken (siehe Abschnitt 38.1.1) in einem kohärenten Dashboard-Layout.
 
-- CPU (per node)
-- Memory (rss, cache hit rate)
-- Disk IOPS & Latency
-- Network retransmits
+**Panel 1: Query Latency Percentiles (Time Series)**
 
-### Cache & Index
+```json
+{
+  "title": "ThemisDB Query Latency (P50/P95/P99)",
+  "type": "timeseries",
+  "datasource": "Prometheus",
+  "targets": [
+    {
+      "expr": "histogram_quantile(0.50, sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le))",
+      "legendFormat": "P50 - {{operation}}",
+      "refId": "A"
+    },
+    {
+      "expr": "histogram_quantile(0.95, sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le))",
+      "legendFormat": "P95 - {{operation}}",
+      "refId": "B"
+    },
+    {
+      "expr": "histogram_quantile(0.99, sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le))",
+      "legendFormat": "P99 - {{operation}}",
+      "refId": "C"
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "s",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {"value": 0, "color": "green"},
+          {"value": 0.2, "color": "yellow"},
+          {"value": 0.5, "color": "red"}
+        ]
+      }
+    }
+  }
+}
+```
 
-- Cache evictions/sec
-- Index hit rate
-- Slow queries over threshold
+**Panel 2: Throughput by Operation (Stacked Area Chart)**
+
+```promql
+# PromQL: Requests per Second (Rate) nach Operation-Typ
+sum(rate(themisdb_requests_total[5m])) by (operation)
+
+# Legend: READ, WRITE, GRAPH_TRAVERSAL, VECTOR_SEARCH
+```
+
+**Panel 3: Error Rate Percentage (Gauge)**
+
+```promql
+# PromQL: Error-Rate als Prozentsatz
+(
+  sum(rate(themisdb_requests_errors_total[5m]))
+  /
+  (sum(rate(themisdb_requests_success_total[5m])) + sum(rate(themisdb_requests_errors_total[5m])))
+) * 100
+
+# Thresholds:
+# Green: < 0.1% (Excellent)
+# Yellow: 0.1-1% (Warning)
+# Red: > 1% (Critical)
+```
+
+### 38.4.3 Ressourcen-Dashboard {#chapter_38_4_3_ressourcen-dashboard}
+
+Ressourcen-Monitoring basiert auf USE-Metriken (siehe Abschnitt 38.1.2) und identifiziert Hardware-Bottlenecks. Wir nutzen [Node Exporter](../appendix_h_glossary.md#node-exporter)-Metriken für System-Level-Observability.
+
+**Panel: CPU Utilization per Node (Heatmap)**
+
+```promql
+# PromQL: CPU-Auslastung pro Node (0-100%)
+100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+# Heatmap-Buckets: 0-10%, 10-20%, ..., 90-100%
+```
+
+**Panel: Memory Pressure Indicators**
+
+```json
+{
+  "title": "Memory Pressure (RSS + Cache Hit Rate)",
+  "type": "graph",
+  "targets": [
+    {
+      "expr": "process_resident_memory_bytes{job=\"themisdb\"} / 1024 / 1024 / 1024",
+      "legendFormat": "RSS (GB) - {{instance}}"
+    },
+    {
+      "expr": "(rate(rocksdb_block_cache_hit[5m]) / (rate(rocksdb_block_cache_hit[5m]) + rate(rocksdb_block_cache_miss[5m]))) * 100",
+      "legendFormat": "Cache Hit Rate (%) - {{instance}}",
+      "yAxisIndex": 1
+    }
+  ],
+  "yaxes": [
+    {"label": "Memory (GB)", "format": "short"},
+    {"label": "Hit Rate (%)", "format": "percent"}
+  ]
+}
+```
+
+**Panel: Disk I/O Saturation**
+
+```promql
+# PromQL: Disk Queue Depth (Saturation-Indikator)
+rate(node_disk_io_time_seconds_total[5m])
+
+# Interpretation:
+# < 1.0: Keine Saturation
+# 1.0-5.0: Moderate Saturation
+# > 5.0: Kritische Saturation (I/O-Bottleneck)
+```
+
+### 38.4.4 Replication & Consistency Dashboard {#chapter_38_4_4_replication-consistency}
+
+Replication-Monitoring visualisiert Lag-Metriken und Consistency-Indikatoren für Multi-Node-Deployments. Kritisch für [Eventual Consistency](../appendix_h_glossary.md#eventual-consistency)-Szenarien.
+
+**Panel: Replication Lag per Follower**
+
+```promql
+# PromQL: Replication Lag in Millisekunden
+themisdb_replication_lag_milliseconds
+
+# Alert-Threshold: > 2000ms (2 Sekunden)
+```
+
+**Panel: WAL (Write-Ahead Log) Queue Depth**
+
+```promql
+# PromQL: WAL Queue Depth (Indikator für Write-Backpressure)
+themisdb_wal_queue_depth
+
+# Interpretation:
+# < 100: Normal
+# 100-1000: Moderate Backpressure
+# > 1000: Kritisch (Throttle Writes)
+```
+
+**Panel: Failed Replication Events (Counter)**
+
+```promql
+# PromQL: Fehlgeschlagene Replikationen (Rate)
+rate(themisdb_replication_failures_total[5m])
+
+# Alert bei > 0 (jede Replikations-Fehler ist kritisch)
+```
+
+### 38.4.5 Dashboard-Layout Best Practices {#chapter_38_4_5_dashboard-layout}
+
+Dashboard-UX beeinflusst MTTR (Mean Time To Resolution) maßgeblich. Wir befolgen Gestalt-Prinzipien für visuelle Hierarchie und Informationsarchitektur.
+
+**Layout-Regeln:**
+
+1. **F-Pattern Reading:** Kritische Metriken oben-links (Blickverlauf)
+2. **Color Semantics:** Rot=Fehler, Gelb=Warnung, Grün=OK, Blau=Info
+3. **Contextual Grouping:** Verwandte Panels gruppieren (z.B. CPU + Memory in einem Row)
+4. **Progressive Disclosure:** Overview → Detail via Drill-Down-Links
+
+**Grafana Variables für Filterung:**
+
+```json
+{
+  "templating": {
+    "list": [
+      {
+        "name": "instance",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(themisdb_requests_total, instance)",
+        "multi": true,
+        "includeAll": true
+      },
+      {
+        "name": "operation",
+        "type": "custom",
+        "options": ["READ", "WRITE", "GRAPH_TRAVERSAL", "VECTOR_SEARCH"],
+        "multi": true,
+        "includeAll": true
+      }
+    ]
+  }
+}
+```
+
+**PromQL mit Variables:**
+
+```promql
+# Nutzung von Dashboard-Variables für dynamische Filterung
+sum(rate(themisdb_requests_total{instance=~"$instance", operation=~"$operation"}[5m]))
+```
+
+### 38.4.6 Dashboard Performance Optimization {#chapter_38_4_6_dashboard-performance}
+
+Dashboard-Query-Performance beeinflusst User Experience. Wir optimieren PromQL-Queries und Refresh-Intervalle für Balance zwischen Aktualität und Server-Load.
+
+**Optimization-Strategien:**
+
+| Strategie | Beschreibung | Performance-Gain |
+|-----------|--------------|------------------|
+| **Recording Rules** | Pre-compute komplexe Queries | 10-100× schneller |
+| **Query Caching** | Grafana-Cache für wiederholte Queries | 2-5× schneller |
+| **Time Range Limiting** | Max. 24h für High-Resolution-Dashboards | 3-10× schneller |
+| **Downsampling** | Niedrigere Resolution für lange Zeiträume | 5-20× schneller |
+
+**Prometheus Recording Rule Beispiel:**
+
+```yaml
+# prometheus-rules.yaml - Pre-computed Aggregationen
+groups:
+  - name: themisdb_dashboard_optimizations
+    interval: 1m
+    rules:
+      # Recording Rule für P95 Latenz (statt On-the-Fly-Berechnung)
+      - record: themisdb:request_latency_p95:operation
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(themisdb_request_duration_seconds_bucket[5m])) by (operation, le)
+          )
+      
+      # Recording Rule für Error-Rate
+      - record: themisdb:error_rate:percent
+        expr: |
+          (
+            sum(rate(themisdb_requests_errors_total[5m]))
+            /
+            (sum(rate(themisdb_requests_success_total[5m])) + sum(rate(themisdb_requests_errors_total[5m])))
+          ) * 100
+```
+
+**Dashboard Refresh-Intervalle:**
+
+- **Overview Dashboards:** 30s (niedrige Query-Last)
+- **Detail Dashboards:** 1min (moderate Last)
+- **Historical Analysis:** Manual Refresh (keine Auto-Refresh-Last)
 
 ---
 
@@ -874,6 +1097,17 @@ groups:
 | 6× | 6 Stunden | 5 Stunden | 🟠 High | Innerhalb 1h |
 | 3× | 24 Stunden | 10 Stunden | 🟡 Medium | Next Business Day |
 | 1× | Normal | 30 Tage | 🟢 Normal | No Action |
+
+**Ownership & Escalation:**
+
+```yaml
+# prometheus-alerts.yaml - Alert-Ownership-Labels
+labels:
+  team: "sre"                      # Responsible Team
+  oncall_rotation: "themisdb-oncall"  # PagerDuty-Rotation
+  priority: "P1"                   # Incident-Priority
+  escalation_time: "30m"           # Time before escalation
+```
 
 ---
 
@@ -1134,7 +1368,152 @@ Wir reduzieren Alert-Rauschen durch intelligentes Grouping, Inhibition und Dynam
 - **Runbook-Links:** Jeder Alert enthält actionable Runbook
 - **Context:** Alerts enthalten Dashboard-Links, Query-Examples, Log-Snippets
 
----
+```mermaid
+graph TD
+    Start[P99 Latency High] --> CheckOp{Welcher<br/>Operation-Type?}
+    
+    CheckOp -->|READ| CheckCache[Cache Hit Rate?]
+    CheckOp -->|WRITE| CheckWAL[WAL Queue Depth?]
+    CheckOp -->|GRAPH| CheckIndex[Index vorhanden?]
+    
+    CheckCache -->|< 90%| MemPressure[Memory Pressure<br/>Mitigation]
+    CheckCache -->|> 90%| CheckSlow[Slow Query Analysis]
+    
+    CheckWAL -->|> 1000| ThrottleWrites[Throttle Writes<br/>+ Scale Storage]
+    CheckWAL -->|< 1000| CheckDisk[Disk I/O Saturation?]
+    
+    CheckIndex -->|Missing| CreateIndex[Create Index<br/>+ Rewrite Query]
+    CheckIndex -->|Exists| CheckTraversal[Traversal Depth?]
+    
+    CheckDisk -->|High| ScaleStorage[Scale IOPS<br/>+ NVMe Migration]
+    CheckDisk -->|Normal| CheckNetwork[Network Latency?]
+```
+
+**Diagnostic Commands:**
+
+```bash
+# 1. Identify Slow Queries (Top 10 by Duration)
+themisdb-cli --exec "
+  FOR q IN _system.queries
+    FILTER q.state == 'running' AND q.runTime > 1000
+    SORT q.runTime DESC
+    LIMIT 10
+    RETURN {
+      query_id: q.id,
+      duration_ms: q.runTime,
+      query: SUBSTRING(q.query, 0, 100),
+      user: q.user
+    }
+"
+
+# 2. Check Cache Hit Rate (Ziel: > 90%)
+curl -s http://localhost:8529/_api/metrics | grep -E 'rocksdb_block_cache_(hit|miss)'
+
+# Berechnung:
+# Hit Rate = cache_hit / (cache_hit + cache_miss) * 100
+
+# 3. Analyze Query Execution Plan
+themisdb-cli --exec "EXPLAIN FOR doc IN users FILTER doc.email == 'test@example.com' RETURN doc"
+
+# Expected Output: "index": true (Index wird genutzt)
+# Bad Output: "index": false (Full Collection Scan!)
+
+# 4. Check Disk I/O Wait (iowait sollte < 20%)
+iostat -x 1 5 | grep -E 'Device:|nvme0n1'
+
+# 5. Memory Pressure Indicators
+free -h
+cat /proc/meminfo | grep -E 'MemAvailable|MemTotal|Cached'
+
+# 6. Network Latency (zu Storage-Backend)
+ping -c 10 storage-backend.local
+traceroute storage-backend.local
+```
+
+**Mitigation Strategies:**
+
+| Ursache | Sofort-Mitigation (0-15min) | Short-Term Fix (15min-4h) | Long-Term Solution |
+|---------|----------------------------|---------------------------|-------------------|
+| **Slow Query (Missing Index)** | Add LIMIT 100, Timeout 5s | Create Index, Rewrite Query | Query Optimization Review |
+| **Cache Miss Spike** | Increase Cache Size (if memory available) | Warmup Cache, Optimize Working Set | Add Memory, Improve Data Locality |
+| **Disk I/O Saturation** | Enable Read/Write Throttling | Scale to NVMe, Add IOPS | Tiered Storage, Data Archival |
+| **Network Latency** | Retry with Backoff, Circuit Breaker | Check Network Config, Firewall | Move to Co-Located Infrastructure |
+| **Thread Pool Exhaustion** | Reject non-critical requests | Increase Thread Pool Size | Async Processing, Queue System |
+
+### 38.7.3 Runbook: Replication Lag {#chapter_38_7_3_runbook-replication-lag}
+
+Replication Lag beeinträchtigt Read-Freshness und kann zu Inconsistencies führen. Kritisch bei [Eventual Consistency](../appendix_h_glossary.md#eventual-consistency)-Architekturen.
+
+**Symptom:** Replication Lag > SLO-Threshold (z.B. > 2 Sekunden für 99% der Zeit).
+
+**Investigation Steps:**
+
+```bash
+# 1. Measure Current Lag per Follower
+curl -s http://localhost:8529/_api/replication/applier-state | jq '.state.lastAppliedContinuousTick'
+
+# Vergleiche mit Leader Tick:
+curl -s http://leader:8529/_api/replication/logger-state | jq '.state.lastLogTick'
+
+# Lag = Leader Tick - Follower Tick (in Millisekunden)
+
+# 2. Check WAL Queue Depth (Leader-Seite)
+curl -s http://leader:8529/_api/metrics | grep themisdb_wal_queue_depth
+
+# > 1000: Backpressure vorhanden
+
+# 3. Check Follower Resource Utilization
+ssh follower-node
+top -bn1 | grep themisdb
+iostat -x 1 3
+
+# 4. Network Bandwidth & Retransmits
+iftop -i eth0
+netstat -s | grep retrans
+
+# 5. Check Follower Disk Write Speed
+dd if=/dev/zero of=/var/lib/themisdb/testfile bs=1G count=1 oflag=dsync
+# Expected: > 500 MB/s für NVMe
+```
+
+**Mitigation Decision Matrix:**
+
+```yaml
+# Replication Lag Mitigation Playbook
+scenarios:
+  - condition: "lag > 5s AND wal_queue_depth > 5000"
+    cause: "Write-Heavy Load overwhelms Follower"
+    actions:
+      immediate:
+        - "Enable Write Throttling on Leader: max_write_rate=10000/s"
+        - "Increase Follower Batch Size: replication_batch_size=10000"
+      short_term:
+        - "Add more Followers (distribute read load)"
+        - "Scale Follower Storage (NVMe upgrade)"
+  
+  - condition: "lag > 2s AND network_retransmits > 1%"
+    cause: "Network Issues between Leader/Follower"
+    actions:
+      immediate:
+        - "Enable Compression: replication_compression=true"
+        - "Reduce Batch Size: replication_batch_size=1000"
+      short_term:
+        - "Check Network Path: traceroute, MTU settings"
+        - "Enable TCP Fast Retransmit"
+  
+  - condition: "lag > 2s AND follower_cpu > 80%"
+    cause: "Follower CPU Bottleneck"
+    actions:
+      immediate:
+        - "Reduce Query Load on Follower (redirect to Leader)"
+      short_term:
+        - "Scale Follower (add more CPU cores)"
+        - "Optimize Heavy Queries on Follower"
+```
+
+### 38.7.4 Runbook: OOM & Memory Pressure {#chapter_38_7_4_runbook-oom-memory}
+
+Out-of-Memory (OOM) Events führen zu Process-Kills und Service-Outages. Proaktives Memory-Management verhindert kritische Incidents.
 
 ## 38.7 Runbooks (Operations Playbooks) {#chapter_38_7_runbooks}
 
