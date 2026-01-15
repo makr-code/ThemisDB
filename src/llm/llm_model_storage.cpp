@@ -1,8 +1,8 @@
 #include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
-#include <spdlog/spdlog.h"
->
+#include <spdlog/spdlog.h>
+#include <fstream>
 #include <algorithm>
 
 namespace themis {
@@ -57,8 +57,7 @@ public:
             
             // Create BaseEntity for model
             BaseEntity entity;
-            entity.setId(metadata.model_id);
-            entity.setType("llm_model");
+            entity.setPrimaryKey(metadata.model_id);
             
             // Set metadata fields
             entity.setField("model_id", Value(metadata.model_id));
@@ -215,25 +214,28 @@ public:
             
             // Parse metadata
             LLMModelMetadata metadata;
-            metadata.model_id = entity.getField("model_id").asString();
-            metadata.model_name = entity.getField("model_name").asString();
-            metadata.version = entity.getField("version").asString();
-            metadata.architecture = entity.getField("architecture").asString();
-            metadata.format = entity.getField("format").asString();
-            metadata.quantization = entity.getField("quantization").asString();
-            metadata.size_bytes = entity.getField("size_bytes").asInt64();
-            metadata.checksum = entity.getField("checksum").asString();
-            metadata.parameter_count = entity.getField("parameter_count").asInt64();
-            metadata.context_length = entity.getField("context_length").asInt();
-            metadata.vocabulary_size = entity.getField("vocabulary_size").asInt();
-            metadata.num_layers = entity.getField("num_layers").asInt();
-            metadata.hidden_size = entity.getField("hidden_size").asInt();
+            metadata.model_id = entity.getFieldAsString("model_id").value_or("");
+            metadata.model_name = entity.getFieldAsString("model_name").value_or("");
+            metadata.version = entity.getFieldAsString("version").value_or("");
+            metadata.architecture = entity.getFieldAsString("architecture").value_or("");
+            metadata.format = entity.getFieldAsString("format").value_or("");
+            metadata.quantization = entity.getFieldAsString("quantization").value_or("");
+            metadata.size_bytes = entity.getFieldAsInt("size_bytes").value_or(0);
+            metadata.checksum = entity.getFieldAsString("checksum").value_or("");
+            metadata.parameter_count = entity.getFieldAsInt("parameter_count").value_or(0);
+            metadata.context_length = static_cast<int>(entity.getFieldAsInt("context_length").value_or(4096));
+            metadata.vocabulary_size = static_cast<int>(entity.getFieldAsInt("vocabulary_size").value_or(32000));
+            metadata.num_layers = static_cast<int>(entity.getFieldAsInt("num_layers").value_or(32));
+            metadata.hidden_size = static_cast<int>(entity.getFieldAsInt("hidden_size").value_or(4096));
             
             // Parse JSON fields
             if (entity.hasField("capabilities")) {
                 try {
-                    auto cap_json = json::parse(entity.getField("capabilities").asString());
-                    metadata.capabilities = cap_json.get<std::vector<std::string>>();
+                    auto cap_str = entity.getFieldAsString("capabilities").value_or("");
+                    if (!cap_str.empty()) {
+                        auto cap_json = json::parse(cap_str);
+                        metadata.capabilities = cap_json.get<std::vector<std::string>>();
+                    }
                 } catch (...) {
                     // Ignore parse errors
                 }
@@ -241,8 +243,11 @@ public:
             
             if (entity.hasField("languages")) {
                 try {
-                    auto lang_json = json::parse(entity.getField("languages").asString());
-                    metadata.languages = lang_json.get<std::vector<std::string>>();
+                    auto lang_str = entity.getFieldAsString("languages").value_or("");
+                    if (!lang_str.empty()) {
+                        auto lang_json = json::parse(lang_str);
+                        metadata.languages = lang_json.get<std::vector<std::string>>();
+                    }
                 } catch (...) {
                     // Ignore parse errors
                 }
@@ -250,8 +255,11 @@ public:
             
             if (entity.hasField("tags")) {
                 try {
-                    auto tags_json = json::parse(entity.getField("tags").asString());
-                    metadata.tags = tags_json.get<std::vector<std::string>>();
+                    auto tags_str = entity.getFieldAsString("tags").value_or("");
+                    if (!tags_str.empty()) {
+                        auto tags_json = json::parse(tags_str);
+                        metadata.tags = tags_json.get<std::vector<std::string>>();
+                    }
                 } catch (...) {
                     // Ignore parse errors
                 }
@@ -259,41 +267,44 @@ public:
             
             // Performance metrics
             if (entity.hasField("tokens_per_second")) {
-                metadata.tokens_per_second = entity.getField("tokens_per_second").asDouble();
+                metadata.tokens_per_second = static_cast<float>(entity.getFieldAsDouble("tokens_per_second").value_or(0.0));
             }
             if (entity.hasField("vram_required_mb")) {
-                metadata.vram_required_mb = entity.getField("vram_required_mb").asInt64();
+                metadata.vram_required_mb = entity.getFieldAsInt("vram_required_mb").value_or(0);
             }
             if (entity.hasField("ram_required_mb")) {
-                metadata.ram_required_mb = entity.getField("ram_required_mb").asInt64();
+                metadata.ram_required_mb = entity.getFieldAsInt("ram_required_mb").value_or(0);
             }
             
             // Usage statistics
             if (entity.hasField("total_inferences")) {
-                metadata.total_inferences = entity.getField("total_inferences").asInt64();
+                metadata.total_inferences = entity.getFieldAsInt("total_inferences").value_or(0);
             }
             if (entity.hasField("total_tokens_generated")) {
-                metadata.total_tokens_generated = entity.getField("total_tokens_generated").asInt64();
+                metadata.total_tokens_generated = entity.getFieldAsInt("total_tokens_generated").value_or(0);
             }
             
             // Provenance
             if (entity.hasField("source")) {
-                metadata.source = entity.getField("source").asString();
+                metadata.source = entity.getFieldAsString("source").value_or("");
             }
             if (entity.hasField("source_url")) {
-                metadata.source_url = entity.getField("source_url").asString();
+                metadata.source_url = entity.getFieldAsString("source_url").value_or("");
             }
             if (entity.hasField("license")) {
-                metadata.license = entity.getField("license").asString();
+                metadata.license = entity.getFieldAsString("license").value_or("");
             }
             if (entity.hasField("created_by")) {
-                metadata.created_by = entity.getField("created_by").asString();
+                metadata.created_by = entity.getFieldAsString("created_by").value_or("");
             }
             
             // Custom metadata
             if (entity.hasField("custom_metadata")) {
                 try {
-                    metadata.custom_metadata = json::parse(entity.getField("custom_metadata").asString());
+                    auto custom_str = entity.getFieldAsString("custom_metadata").value_or("");
+                    if (!custom_str.empty()) {
+                        metadata.custom_metadata = json::parse(custom_str);
+                    }
                 } catch (...) {
                     // Ignore parse errors
                 }
@@ -301,7 +312,7 @@ public:
             
             // File path (for local models)
             if (entity.hasField("file_path")) {
-                metadata.file_path = entity.getField("file_path").asString();
+                metadata.file_path = entity.getFieldAsString("file_path").value_or("");
             }
             
             spdlog::info("Model {} loaded successfully", model_id);
@@ -346,13 +357,13 @@ public:
                         
                         if (entity.hasField("blob_ref_uri")) {
                             storage::BlobRef ref;
-                            ref.id = entity.getField("blob_ref_id").asString();
-                            ref.uri = entity.getField("blob_ref_uri").asString();
+                            ref.id = entity.getFieldAsString("blob_ref_id").value_or("");
+                            ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
                             ref.type = static_cast<storage::BlobStorageType>(
-                                entity.getField("blob_ref_type").asInt()
+                                entity.getFieldAsInt("blob_ref_type").value_or(0)
                             );
-                            ref.hash_sha256 = entity.getField("blob_ref_hash").asString();
-                            ref.size_bytes = entity.getField("blob_ref_size").asInt64();
+                            ref.hash_sha256 = entity.getFieldAsString("blob_ref_hash").value_or("");
+                            ref.size_bytes = entity.getFieldAsInt("blob_ref_size").value_or(0);
                             
                             config_.blob_manager->remove(ref);
                             spdlog::info("Deleted blob for model {}", model_id);
@@ -474,18 +485,18 @@ public:
             
             if (entity.hasField("blob_ref_uri")) {
                 storage::BlobRef ref;
-                ref.id = entity.getField("blob_ref_id").asString();
-                ref.uri = entity.getField("blob_ref_uri").asString();
+                ref.id = entity.getFieldAsString("blob_ref_id").value_or("");
+                ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
                 ref.type = static_cast<storage::BlobStorageType>(
-                    entity.getField("blob_ref_type").asInt()
+                    entity.getFieldAsInt("blob_ref_type").value_or(0)
                 );
-                ref.hash_sha256 = entity.getField("blob_ref_hash").asString();
-                ref.size_bytes = entity.getField("blob_ref_size").asInt64();
+                ref.hash_sha256 = entity.getFieldAsString("blob_ref_hash").value_or("");
+                ref.size_bytes = entity.getFieldAsInt("blob_ref_size").value_or(0);
                 if (entity.hasField("blob_ref_compressed")) {
-                    ref.compressed = entity.getField("blob_ref_compressed").asBool();
+                    ref.compressed = entity.getFieldAsBool("blob_ref_compressed").value_or(false);
                 }
                 if (entity.hasField("blob_ref_compression")) {
-                    ref.compression_type = entity.getField("blob_ref_compression").asString();
+                    ref.compression_type = entity.getFieldAsString("blob_ref_compression").value_or("");
                 }
                 
                 return ref;
