@@ -2,7 +2,7 @@
 name: "🎲 Sampling Strategy Implementation"
 about: Implement token sampling strategies with llama.cpp sampler API (Phase 1)
 title: "[LLM] Implement Token Sampling Strategies (Greedy, Nucleus, Mirostat)"
-labels: enhancement, llm, priority:critical, phase:1
+labels: priority:P0, type:feature, area:llm, effort:medium, phase:1
 assignees: ''
 
 ---

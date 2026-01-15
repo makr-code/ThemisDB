@@ -2,7 +2,7 @@
 name: "📦 Complete LLM/LoRA System Integration"
 about: Meta-issue tracking all LLM/LoRA implementation tasks
 title: "[Meta] Complete Production-Ready LLM/LoRA System"
-labels: epic, llm, lora, priority:critical
+labels: priority:P0, type:feature, area:llm, effort:x-large, epic
 assignees: ''
 
 ---

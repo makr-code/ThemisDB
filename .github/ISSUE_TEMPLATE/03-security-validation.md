@@ -2,7 +2,7 @@
 name: "🔐 Security Validation Implementation"
 about: Implement cryptographic signature verification for LoRA adapters (Phase 1)
 title: "[Security] Implement RSA-SHA256 Signature Verification and Certificate Validation"
-labels: enhancement, security, priority:critical, phase:1
+labels: priority:P0, type:security, area:security, area:llm, effort:large, phase:1
 assignees: ''
 
 ---

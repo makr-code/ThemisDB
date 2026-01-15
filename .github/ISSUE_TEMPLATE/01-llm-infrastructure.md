@@ -2,7 +2,7 @@
 name: "🚀 LLM Infrastructure Implementation"
 about: Complete llama.cpp infrastructure implementation (Phase 1)
 title: "[LLM] Implement llama.cpp Resource Management and Backend Integration"
-labels: enhancement, llm, priority:critical, phase:1
+labels: priority:P0, type:feature, area:llm, area:performance, effort:large, phase:1
 assignees: ''
 
 ---

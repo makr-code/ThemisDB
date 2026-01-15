@@ -2,7 +2,7 @@
 name: "🧠 LoRA Training Implementation"
 about: Implement LoRA training with GPU acceleration (Phase 1)
 title: "[LoRA] Implement LoRA Training System with GPU Kernels"
-labels: enhancement, lora, training, priority:critical, phase:1
+labels: priority:P0, type:feature, area:llm, area:performance, effort:x-large, phase:1
 assignees: ''
 
 ---
