@@ -1959,6 +1959,7 @@ if(THEMIS_ENABLE_LLM)
         # Phase 4+5 Week 4-6: llama.cpp Integration
         ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         ../src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        ../src/llm/llm_model_storage.cpp     # LLM model storage and metadata management
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         ../src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
