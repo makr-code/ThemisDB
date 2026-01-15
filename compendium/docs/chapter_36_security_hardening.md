@@ -136,8 +136,11 @@ package security
 
 import (
     "crypto/x509"
-    "golang.org/x/crypto/acme"
+    "fmt"
+    "log"
+    "os"
     "time"
+    "golang.org/x/crypto/acme"
 )
 
 type CertificateManager struct {
@@ -160,7 +163,7 @@ func (cm *CertificateManager) RenewIfNeeded() error {
     timeUntilExpiry := time.Until(cert.NotAfter)
     
     if timeUntilExpiry < cm.renewThreshold {
-        log.Infof("Zertifikat erneuern (verbleibend: %d Tage)", 
+        log.Printf("Zertifikat erneuern (verbleibend: %d Tage)", 
                   int(timeUntilExpiry.Hours()/24))
         
         // ACME Challenge durchführen (HTTP-01 oder DNS-01)
@@ -174,7 +177,7 @@ func (cm *CertificateManager) RenewIfNeeded() error {
             return err
         }
         
-        log.Info("Zertifikat erfolgreich erneuert und aktiviert")
+        log.Println("Zertifikat erfolgreich erneuert und aktiviert")
     }
     
     return nil
@@ -187,10 +190,10 @@ func (cm *CertificateManager) atomicCertificateUpdate(cert, key []byte) error {
     tmpCertPath := cm.certPath + ".tmp"
     tmpKeyPath := cm.keyPath + ".tmp"
     
-    if err := ioutil.WriteFile(tmpCertPath, cert, 0644); err != nil {
+    if err := os.WriteFile(tmpCertPath, cert, 0644); err != nil {
         return err
     }
-    if err := ioutil.WriteFile(tmpKeyPath, key, 0600); err != nil { // Private Key: 0600
+    if err := os.WriteFile(tmpKeyPath, key, 0600); err != nil { // Private Key: 0600
         return err
     }
     
@@ -561,6 +564,7 @@ import (
     "errors"
     "time"
     "github.com/golang-jwt/jwt/v5"
+    "github.com/google/uuid"
 )
 
 type JWTHandler struct {
@@ -673,6 +677,14 @@ func (h *JWTHandler) RevokeToken(tokenString string) error {
     // Füge JTI zur Revocation-Liste hinzu (Redis mit TTL = Token-Expiration)
     ttl := time.Until(claims.ExpiresAt.Time)
     return h.addToBlacklist(claims.ID, ttl)
+}
+
+// addToBlacklist fügt Token-JTI zur Blacklist hinzu (Redis/In-Memory-Store)
+// In Production: Nutze Redis mit TTL für automatisches Cleanup
+func (h *JWTHandler) addToBlacklist(jti string, ttl time.Duration) error {
+    // Pseudo-Code: Redis-Client würde hier Token-JTI speichern
+    // redis.Set(ctx, "blacklist:"+jti, "1", ttl)
+    return nil  // Implementierung abhängig von Backend
 }
 
 func generateJTI() string {
