@@ -1183,7 +1183,312 @@ RETURN model
 
 ---
 
-## 29.4 Similarity Search
+## 29.3 Event Log Analysis & Filtering {#chapter_29_3_event_log_analysis}
+
+Event-Log-Analyse ermöglicht uns die detaillierte Untersuchung von Prozessausführungen, wobei wir durch systematisches Filtern und Aggregieren die relevanten Muster und Anomalien identifizieren können.
+
+### 29.3.1 XES Standard & Event-Log-Struktur {#chapter_29_3_1_xes_standard}
+
+Der XES-Standard (eXtensible Event Stream) ist das IEEE-standardisierte Format für Event-Logs im Process Mining und bietet eine strukturierte, erweiterbare Repräsentation von Prozessereignissen.
+
+```aql
+// XES-Standard-konformes Event in ThemisDB mit deutschen Kommentaren
+// Basis-Event-Struktur nach IEEE XES Standard
+{
+  "_key": "event_001_2024",
+  
+  // Pflichtattribute (XES Standard)
+  "case_id": "V-2024-0123",                    // Case-Identifikation (concept:name)
+  "activity": "Antragsprüfung",                // Aktivitätsname (concept:name)
+  "timestamp": "2024-10-15T09:30:00Z",         // Zeitstempel (time:timestamp)
+  
+  // Optionale Standardattribute
+  "resource": "Sabine Müller",                  // Bearbeiter (org:resource)
+  "resource_role": "Sachbearbeiter",            // Rolle (org:role)
+  "resource_group": "Bauamt",                   // Gruppe (org:group)
+  "lifecycle": "complete",                      // Lifecycle-Status (lifecycle:transition)
+  
+  // Kosten- und Business-Attribute
+  "cost": 150.00,                               // Kosten (cost:total)
+  "cost_currency": "EUR",                       // Währung (cost:currency)
+  
+  // Erweiterte Attribute (extensions)
+  "additional_data": {
+    "department": "Bauamt",
+    "priority": "normal",
+    "document_count": 5,
+    "complexity_score": 3.5,
+    
+    // Kontext-Daten für Process Mining
+    "previous_activity": "Antragseingang",
+    "next_activity": "Genehmigung",
+    "is_rework": false,
+    "deviation_flag": false
+  },
+  
+  // Metadaten für Analytics
+  "event_metadata": {
+    "source_system": "ThemisDB_Process_Engine",
+    "trace_id": "trace_001",
+    "log_version": "1.0",
+    "recorded_at": "2024-10-15T09:30:05Z"
+  }
+}
+
+// Event Log Collection mit Index-Definition
+// Index für effiziente Process-Mining-Queries
+CREATE INDEX idx_events_case_time ON process_events (case_id, timestamp)
+CREATE INDEX idx_events_activity ON process_events (activity)
+CREATE INDEX idx_events_resource ON process_events (resource)
+CREATE INDEX idx_events_timestamp ON process_events (timestamp)
+```
+
+### 29.3.2 Trace-Varianten und Frequenzanalyse {#chapter_29_3_2_trace_variants}
+
+Trace-Varianten repräsentieren unterschiedliche Ausführungspfade durch einen Prozess, wobei die Analyse ihrer Häufigkeiten Aufschluss über Standardabläufe und Ausnahmen gibt.
+
+```aql
+// Trace-Varianten-Analyse mit AQL und deutschen Kommentaren
+FOR event IN process_events
+  // Gruppiere Events nach Case (Prozess-Instanz)
+  COLLECT case_id = event.case_id 
+  INTO events = event
+  KEEP timestamp, activity, resource, cost
+  
+  // Extrahiere geordnete Aktivitätssequenz (Trace)
+  LET trace = (
+    FOR e IN events
+      SORT e.timestamp ASC
+      RETURN e.activity
+  )
+  
+  // Berechne Case-Metriken
+  LET duration_seconds = DATE_DIFF(
+    FIRST(events).timestamp,
+    LAST(events).timestamp,
+    'seconds'
+  )
+  
+  LET activity_count = LENGTH(events)
+  LET total_cost = SUM(events[*].cost)
+  LET unique_resources = LENGTH(UNIQUE(events[*].resource))
+  
+  // Gruppiere nach Trace-Variante
+  COLLECT 
+    trace_variant = TO_STRING(trace)
+  INTO cases = {
+    case_id: case_id,
+    duration: duration_seconds,
+    activity_count: activity_count,
+    cost: total_cost,
+    resources: unique_resources
+  }
+  
+  LET case_count = LENGTH(cases)
+  LET avg_duration = AVG(cases[*].duration)
+  LET avg_cost = AVG(cases[*].cost)
+  LET avg_activities = AVG(cases[*].activity_count)
+  
+  // Sortiere nach Häufigkeit (häufigste Varianten zuerst)
+  SORT case_count DESC
+  
+  RETURN {
+    trace_variant,
+    frequency: {
+      absolute: case_count,
+      relative_percent: ROUND(case_count / @total_cases * 100, 2)  // Bind-Variable
+    },
+    metrics: {
+      avg_duration_hours: ROUND(avg_duration / 3600, 2),
+      avg_cost: ROUND(avg_cost, 2),
+      avg_activities: ROUND(avg_activities, 1),
+      avg_resources: ROUND(AVG(cases[*].resources), 1)
+    },
+    examples: SLICE(cases, 0, 3)[*].case_id  // Beispiel-Cases
+  }
+```
+
+### 29.3.3 Filtering-Techniken für Event-Logs {#chapter_29_3_3_filtering_techniques}
+
+Systematisches Filtern von Event-Logs reduziert Komplexität und fokussiert die Analyse auf relevante Prozessinstanzen, wobei verschiedene Filter-Ebenen unterschiedliche Analyseperspektiven ermöglichen.
+
+```aql
+// Filter-Technik 1: Trace-basiertes Filtering mit deutschen Kommentaren
+// Nur Cases mit spezifischen Eigenschaften behalten
+
+// Filter: Nur Cases mit Durchlaufzeit >24h UND <60 Tage
+FOR event IN process_events
+  COLLECT case_id = event.case_id 
+  INTO events = event
+  
+  LET duration_days = DATE_DIFF(
+    MIN(events[*].timestamp),
+    MAX(events[*].timestamp),
+    'days'
+  )
+  
+  // Trace-Filter: Zeitbasiert
+  FILTER duration_days > 1 AND duration_days < 60
+  
+  // Trace-Filter: Aktivitätszahl
+  FILTER LENGTH(events) >= 5 AND LENGTH(events) <= 20
+  
+  // Trace-Filter: Muss bestimmte Aktivität enthalten
+  FILTER POSITION(events[*].activity, "Genehmigung") > 0
+  
+  RETURN {
+    case_id,
+    duration_days,
+    activity_count: LENGTH(events)
+  }
+
+// Filter-Technik 2: Event-basiertes Filtering
+// Filtere einzelne Events basierend auf Attributen
+
+FOR event IN process_events
+  // Event-Filter: Nur Events von bestimmten Ressourcen
+  FILTER event.resource IN ["Sabine Müller", "Thomas Schmidt"]
+  
+  // Event-Filter: Nur Events in bestimmtem Zeitfenster
+  FILTER event.timestamp >= "2024-01-01" AND event.timestamp < "2024-04-01"
+  
+  // Event-Filter: Nur Events mit hohen Kosten
+  FILTER event.cost > 500
+  
+  // Event-Filter: Nur bestimmte Lifecycle-States
+  FILTER event.lifecycle IN ["complete", "start"]
+  
+  RETURN event
+
+// Filter-Technik 3: Attribut-basiertes Filtering
+// Filtere basierend auf zusätzlichen Kontext-Attributen
+
+FOR event IN process_events
+  // Attribut-Filter: Priorität
+  FILTER event.additional_data.priority IN ["high", "urgent"]
+  
+  // Attribut-Filter: Abteilung
+  FILTER event.additional_data.department == "Bauamt"
+  
+  // Attribut-Filter: Komplexität
+  FILTER event.additional_data.complexity_score >= 4.0
+  
+  // Attribut-Filter: Keine Rework-Events
+  FILTER event.additional_data.is_rework == false
+  
+  RETURN event
+```
+
+### 29.3.4 Noise Reduction & Outlier Detection {#chapter_29_3_4_noise_reduction}
+
+Noise Reduction eliminiert fehlerhafte oder irrelevante Events aus Event-Logs, während Outlier Detection ungewöhnliche Prozessausführungen identifiziert, die besondere Aufmerksamkeit erfordern.
+
+```aql
+// Outlier Detection: Duration-based Outliers mit deutschen Kommentaren
+// Identifiziere Cases mit ungewöhnlichen Durchlaufzeiten
+
+FOR event IN process_events
+  COLLECT case_id = event.case_id 
+  INTO events = event
+  
+  LET duration_hours = DATE_DIFF(
+    MIN(events[*].timestamp),
+    MAX(events[*].timestamp),
+    'hours'
+  )
+  
+  // Berechne globale Statistiken
+  LET all_durations = (
+    FOR e IN process_events
+      COLLECT c = e.case_id INTO evs = e
+      LET d = DATE_DIFF(MIN(evs[*].timestamp), MAX(evs[*].timestamp), 'hours')
+      RETURN d
+  )
+  
+  LET avg_duration = AVG(all_durations)
+  LET stddev_duration = STDDEV(all_durations)
+  LET z_score = (duration_hours - avg_duration) / stddev_duration
+  
+  // Outlier-Klassifizierung
+  LET outlier_type = (
+    z_score > 3 ? "VERY_SLOW" :
+    z_score > 2 ? "SLOW" :
+    z_score < -2 ? "VERY_FAST" :
+    "NORMAL"
+  )
+  
+  // Nur Outliers zurückgeben
+  FILTER outlier_type != "NORMAL"
+  
+  RETURN {
+    case_id,
+    duration_hours: ROUND(duration_hours, 1),
+    z_score: ROUND(z_score, 2),
+    outlier_type,
+    deviation_from_avg: ROUND(duration_hours - avg_duration, 1),
+    requires_investigation: outlier_type IN ["VERY_SLOW", "VERY_FAST"]
+  }
+```
+
+### 29.3.5 Temporal Pattern Discovery {#chapter_29_3_5_temporal_patterns}
+
+Temporal Pattern Discovery identifiziert zeitliche Muster in Prozessausführungen, einschließlich periodischer Schwankungen, Verzögerungen und zeitabhängiger Korrelationen.
+
+```aql
+// Temporal Pattern: Lag-Time-Analyse zwischen Aktivitäten mit deutschen Kommentaren
+// Berechne durchschnittliche Wartezeiten zwischen Aktivitätspaaren
+
+FOR event IN process_events
+  COLLECT case_id = event.case_id 
+  INTO events = event
+  
+  LET sorted_events = (
+    FOR e IN events
+      SORT e.timestamp
+      RETURN e
+  )
+  
+  // Berechne Lags für alle aufeinanderfolgenden Aktivitäten
+  FOR i IN 0..LENGTH(sorted_events)-2
+    LET from_activity = sorted_events[i].activity
+    LET to_activity = sorted_events[i+1].activity
+    LET lag_hours = DATE_DIFF(
+      sorted_events[i].timestamp,
+      sorted_events[i+1].timestamp,
+      'hours'
+    )
+    
+    COLLECT 
+      from_act = from_activity,
+      to_act = to_activity
+    AGGREGATE
+      avg_lag = AVG(lag_hours),
+      min_lag = MIN(lag_hours),
+      max_lag = MAX(lag_hours),
+      stddev_lag = STDDEV(lag_hours),
+      occurrences = COUNT(1)
+    
+    // Nur signifikante Lags (>1h durchschnittlich)
+    FILTER avg_lag > 1
+    
+    SORT avg_lag DESC
+    
+    RETURN {
+      transition: CONCAT(from_act, " → ", to_act),
+      lag_statistics: {
+        avg_hours: ROUND(avg_lag, 1),
+        min_hours: ROUND(min_lag, 1),
+        max_hours: ROUND(max_lag, 1),
+        stddev_hours: ROUND(stddev_lag, 1)
+      },
+      occurrences,
+      bottleneck_indicator: avg_lag > 24  // >24h durchschnittlich = Bottleneck
+    }
+```
+
+---
+
+## 29.4 Similarity Search {#chapter_29_4_similarity_search}
 
 ### 29.4.1 Hybrid Similarity Metrics
 
