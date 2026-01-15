@@ -383,7 +383,7 @@ public:
      * @brief Perform health check
      * @return true if healthy
      */
-    bool healthCheck();
+    bool healthCheck() const;
     
     /**
      * @brief Clear cache

@@ -26,7 +26,7 @@ protected:
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         
-        auto txn_db = db_->getTransactionDB();
+        auto* txn_db = db_->getRawDB();
         ASSERT_NE(txn_db, nullptr);
         
         changefeed_ = std::make_unique<Changefeed>(txn_db);
@@ -302,7 +302,7 @@ TEST_F(SnapshotIntegrationTest, RestartWithChangefeedAndTags) {
     db_ = std::make_unique<RocksDBWrapper>(config);
     ASSERT_TRUE(db_->open());
     
-    auto txn_db = db_->getTransactionDB();
+    auto* txn_db = db_->getRawDB();
     ASSERT_NE(txn_db, nullptr);
     
     changefeed_ = std::make_unique<Changefeed>(txn_db);

@@ -111,17 +111,10 @@ def generate_documentation_database(
         else:
             logger.warning(f"Examples directory not found: {examples_dir}")
     
-    # Configure ingestion for documentation
-    config = IngestionConfig(
-        source_dirs=sources,
-        max_workers=4,
-        chunk_size=2000,
-        overlap=200,
-        supported_extensions=[
-            '.md', '.txt', '.rst', '.json', '.yaml', '.yml',
-            '.cpp', '.h', '.py', '.js', '.ts', '.sql'
-        ]
-    )
+    supported_extensions = [
+        '.md', '.txt', '.rst', '.json', '.yaml', '.yml',
+        '.cpp', '.h', '.py', '.js', '.ts', '.sql'
+    ]
     
     logger.info("=" * 60)
     logger.info("Processing source directories")
@@ -135,30 +128,29 @@ def generate_documentation_database(
         'files_failed': 0,
         'total_size_bytes': 0
     }
-        config = IngestionConfig(
-            source_dir=sources[0],  # Use the first source directory
-            max_workers=4,
-            chunk_size=2000,
-            overlap=200,
-            supported_extensions=[
-                '.md', '.txt', '.rst', '.json', '.yaml', '.yml',
-                '.cpp', '.h', '.py', '.js', '.ts', '.sql'
-            ]
-        )
-        if result:
-            all_ingested_files.extend(result.get('ingested_files', []))
-            for key in total_stats:
-                total_stats[key] += result.get(key, 0)
-            logger.info(f"Successfully ingested from {source_dir}")
-        else:
-            logger.error(f"Failed to ingest from {source_dir}")
-        for i, source in enumerate(sources):
-            logger.info(f"Processing directory {i+1}/{len(sources)}: {source}")
-            # Configure ingestion for this directory
+
+    for i, source_dir in enumerate(sources):
+        try:
+            logger.info(f"Processing directory {i + 1}/{len(sources)}: {source_dir}")
             config = IngestionConfig(
-                source_dir=source,
-                output_file=f"{output_path}.tmp.{i}.json"
+                source_dir=source_dir,
+                output_file=f"{output_path}.tmp.{i}.json",
+                include_extensions=supported_extensions
             )
+            engine = IngestionEngine(config)
+            result = engine.ingest()
+
+            all_ingested_files.extend(result.get('ingested_files', []))
+
+            stats = result.get('statistics', {})
+            for key in total_stats:
+                total_stats[key] += stats.get(key, 0)
+
+            logger.info(f"Successfully ingested from {source_dir}")
+        except Exception:
+            import traceback
+            logger.error(f"Failed to ingest from {source_dir}")
+            logger.error(traceback.format_exc())
     # Prepare output data
     output_data = {
         'version': '1.0',
@@ -167,8 +159,6 @@ def generate_documentation_database(
         'statistics': total_stats,
         'documents': all_ingested_files
     }
-                import traceback
-                logger.error(traceback.format_exc())
     
     # Write output file
     output_path_obj = Path(output_path)

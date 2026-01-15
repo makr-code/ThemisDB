@@ -9,6 +9,7 @@
 #include "storage/nlp_metadata_extractor.h"
 #include "storage/base_entity.h"
 #include <iostream>
+#include <chrono>
 
 using namespace themis;
 using namespace themis::storage;

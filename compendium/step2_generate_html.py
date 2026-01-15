@@ -132,7 +132,9 @@ def process_markdown_file(file_path: Path, svg_dir: Path) -> tuple:
     
     result_html = ""
     svg_index = 0
-    svg_files = sorted(svg_dir.glob("diagram_*.svg"))
+    # Get SVG files for this chapter (named as {chapter_stem}_N.svg)
+    chapter_stem = file_path.stem
+    svg_files = sorted([f for f in svg_dir.glob(f"{chapter_stem}_*.svg")])
     diagrams_in_chapter = []
     
     for i, part in enumerate(parts):
