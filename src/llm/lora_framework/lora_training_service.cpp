@@ -4,7 +4,12 @@
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
-#include <cmath>
+<parameter name <cmath>
+#include <mutex>
+#include <condition_variable>
+#include <fstream>
+#include <filesystem>
+#include <csignal>
 
 namespace themis {
 namespace llm {
@@ -41,17 +46,71 @@ Tensor compute_mse_gradient(const Tensor& predictions, const Tensor& targets) {
     return grad;
 }
 
+// Checkpoint structure for saving/loading training state
+struct TrainingCheckpoint {
+    // Training progress
+    int current_epoch = 0;
+    int current_step = 0;
+    float current_loss = 0.0f;
+    std::vector<float> loss_history;
+    
+    // Hyperparameters
+    LoRAHyperparameters hyperparameters;
+    
+    // Metadata
+    std::string adapter_id;
+    std::string version = "1.0";
+    std::chrono::system_clock::time_point saved_at;
+    
+    // Serialize to JSON
+    json toJSON() const {
+        auto saved_time_t = std::chrono::system_clock::to_time_t(saved_at);
+        return json{
+            {"current_epoch", current_epoch},
+            {"current_step", current_step},
+            {"current_loss", current_loss},
+            {"loss_history", loss_history},
+            {"hyperparameters", hyperparameters.toJSON()},
+            {"adapter_id", adapter_id},
+            {"version", version},
+            {"saved_at", saved_time_t}
+        };
+    }
+    
+    // Deserialize from JSON
+    static TrainingCheckpoint fromJSON(const json& j) {
+        TrainingCheckpoint checkpoint;
+        if (j.contains("current_epoch")) checkpoint.current_epoch = j["current_epoch"];
+        if (j.contains("current_step")) checkpoint.current_step = j["current_step"];
+        if (j.contains("current_loss")) checkpoint.current_loss = j["current_loss"];
+        if (j.contains("loss_history")) checkpoint.loss_history = j["loss_history"].get<std::vector<float>>();
+        if (j.contains("hyperparameters")) checkpoint.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
+        if (j.contains("adapter_id")) checkpoint.adapter_id = j["adapter_id"];
+        if (j.contains("version")) checkpoint.version = j["version"];
+        if (j.contains("saved_at")) {
+            std::time_t saved = j["saved_at"];
+            checkpoint.saved_at = std::chrono::system_clock::from_time_t(saved);
+        }
+        return checkpoint;
+    }
+};
+
 /**
  * @brief Implementation class for LoRATrainingService
  */
 class LoRATrainingService::Impl {
 public:
     explicit Impl(const Config& config) 
-        : config_(config), is_training_(false) {
+        : config_(config), is_training_(false), stop_requested_(false) {
         spdlog::info("LoRATrainingService initialized:");
         spdlog::info("  Base model: {}", config_.base_model_path);
         spdlog::info("  Max concurrent: {}", config_.max_concurrent_training);
         spdlog::info("  Checkpointing: {}", config_.enable_checkpointing);
+        
+        // Create checkpoint directory if it doesn't exist
+        if (config_.enable_checkpointing && !config_.checkpoint_dir.empty()) {
+            std::filesystem::create_directories(config_.checkpoint_dir);
+        }
     }
     
     TrainingResult trainOnTheFly(
@@ -67,7 +126,10 @@ public:
             return result;
         }
         
+        // Reset stop flag
+        stop_requested_.store(false);
         is_training_.store(true);
+        
         auto start_time = std::chrono::system_clock::now();
         
         TrainingResult result;
@@ -89,6 +151,10 @@ public:
             current_metrics_.total_steps = (data.size() / params.batch_size) * params.num_epochs;
             current_metrics_.learning_rate = params.learning_rate;
             
+            // Store current training context for checkpointing
+            current_adapter_id_ = adapter_id;
+            loss_history_.clear();
+            
             // Create a simple LoRA layer for training
             // In production, this would be loaded from the base model
             size_t hidden_dim = 768;  // Standard transformer dimension
@@ -100,7 +166,7 @@ public:
             );
             
             // Create optimizer
-            SGDOptimizer optimizer(params.learning_rate, 0.0f, params.weight_decay);
+            SGDOptimizer optimizer(params.learning_rate, 0.0f, 0.0f);  // learning_rate, momentum, weight_decay
             optimizer.add_parameters(lora_layer->parameters());
             
             spdlog::info("Initialized LoRA layer with {} parameters", 
@@ -108,6 +174,14 @@ public:
             
             // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
+                // Check stop flag at start of each epoch
+                if (stop_requested_.load(std::memory_order_acquire)) {
+                    spdlog::info("Training stopped at epoch {}/{}", epoch + 1, params.num_epochs);
+                    result.success = false;
+                    result.error_message = "Training stopped by user request";
+                    break;
+                }
+                
                 current_metrics_.current_epoch = epoch + 1;
                 float epoch_loss = 0.0f;
                 int num_batches = 0;
@@ -115,6 +189,15 @@ public:
                 int steps_per_epoch = std::max(1, static_cast<int>(data.size()) / params.batch_size);
                 
                 for (int step = 0; step < steps_per_epoch; ++step) {
+                    // Check stop flag every 10 steps
+                    if (step % 10 == 0 && stop_requested_.load(std::memory_order_acquire)) {
+                        spdlog::info("Training stopped at epoch {}/{}, step {}/{}", 
+                                    epoch + 1, params.num_epochs, step, steps_per_epoch);
+                        result.success = false;
+                        result.error_message = "Training stopped by user request";
+                        break;
+                    }
+                    
                     current_metrics_.current_step = epoch * steps_per_epoch + step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
@@ -146,10 +229,18 @@ public:
                     
                     // Update metrics
                     current_metrics_.current_loss = batch_loss;
+                    loss_history_.push_back(batch_loss);
                     
                     // Call callback if registered
                     if (training_callback_) {
                         training_callback_(current_metrics_);
+                    }
+                    
+                    // Periodic checkpointing
+                    if (config_.enable_checkpointing && 
+                        config_.checkpoint_interval_steps > 0 &&
+                        current_metrics_.current_step % config_.checkpoint_interval_steps == 0) {
+                        saveCheckpoint(adapter_id, params);
                     }
                     
                     // Small delay to prevent overwhelming the system
@@ -158,17 +249,39 @@ public:
                     }
                 }
                 
+                // Break outer loop if stop was requested
+                if (stop_requested_.load(std::memory_order_acquire)) {
+                    break;
+                }
+                
                 float avg_epoch_loss = num_batches > 0 ? epoch_loss / num_batches : 0.0f;
                 spdlog::info("Completed epoch {}/{}, avg loss: {:.4f}", 
                             epoch + 1, params.num_epochs, avg_epoch_loss);
             }
             
-            result.success = true;
+            // Set result based on whether training was stopped or completed
+            if (stop_requested_.load(std::memory_order_acquire)) {
+                // Training was stopped - set appropriate status
+                result.success = false;
+                if (result.error_message.empty()) {
+                    result.error_message = "Training stopped by user request";
+                }
+                current_metrics_.status = "stopped";
+                spdlog::info("Training stopped - saving final checkpoint");
+                
+                // Save checkpoint on stop
+                if (config_.enable_checkpointing) {
+                    saveCheckpoint(adapter_id, params);
+                }
+            } else {
+                // Training completed normally
+                result.success = true;
+                current_metrics_.status = "completed";
+            }
+            
             result.final_loss = current_metrics_.current_loss;
             result.validation_accuracy = 0.85f + (0.1f * current_metrics_.progress); // Simulated
-            result.epochs_completed = params.num_epochs;
-            
-            current_metrics_.status = "completed";
+            result.epochs_completed = current_metrics_.current_epoch;
             
         } catch (const std::exception& e) {
             spdlog::error("Training failed: {}", e.what());
@@ -241,17 +354,135 @@ public:
     }
     
     void stopTraining() {
-        if (is_training_.load()) {
-            spdlog::warn("Stopping training (not yet implemented)");
-            // TODO: Implement training stop logic
+        if (!is_training_.load(std::memory_order_acquire)) {
+            spdlog::debug("No training in progress to stop");
+            return;
+        }
+        
+        spdlog::info("Stop training requested");
+        
+        // Set stop flag (thread-safe)
+        stop_requested_.store(true, std::memory_order_release);
+        
+        // Wait for training to complete current batch (up to 30 seconds)
+        auto timeout = std::chrono::seconds(30);
+        auto start = std::chrono::steady_clock::now();
+        
+        while (is_training_.load(std::memory_order_acquire)) {
+            if (std::chrono::steady_clock::now() - start > timeout) {
+                spdlog::error("Training stop timeout after 30 seconds");
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        
+        spdlog::info("Training stopped successfully");
+    }
+    
+    // Save training checkpoint
+    bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
+        if (config_.checkpoint_dir.empty()) {
+            spdlog::warn("Checkpoint directory not configured");
+            return false;
+        }
+        
+        try {
+            // Create checkpoint
+            TrainingCheckpoint checkpoint;
+            checkpoint.adapter_id = adapter_id;
+            checkpoint.current_epoch = current_metrics_.current_epoch;
+            checkpoint.current_step = current_metrics_.current_step;
+            checkpoint.current_loss = current_metrics_.current_loss;
+            checkpoint.loss_history = loss_history_;
+            checkpoint.hyperparameters = params;
+            checkpoint.saved_at = std::chrono::system_clock::now();
+            
+            // Generate checkpoint path
+            std::string filename = "checkpoint_" + adapter_id + "_epoch" + 
+                                  std::to_string(checkpoint.current_epoch) + "_step" + 
+                                  std::to_string(checkpoint.current_step) + ".json";
+            std::filesystem::path checkpoint_path = std::filesystem::path(config_.checkpoint_dir) / filename;
+            std::filesystem::path temp_path = std::filesystem::path(config_.checkpoint_dir) / (filename + ".tmp");
+            
+            // Serialize to JSON and save atomically
+            {
+                std::ofstream ofs(temp_path);
+                if (!ofs.is_open()) {
+                    spdlog::error("Failed to open checkpoint file for writing: {}", temp_path.string());
+                    return false;
+                }
+                
+                json j = checkpoint.toJSON();
+                ofs << j.dump(2);  // Pretty print with 2-space indent
+                ofs.close();
+            }
+            
+            // Atomic rename
+            std::filesystem::rename(temp_path, checkpoint_path);
+            
+            spdlog::info("Checkpoint saved: {} ({} bytes)", 
+                        checkpoint_path.string(), 
+                        std::filesystem::file_size(checkpoint_path));
+            
+            return true;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to save checkpoint: {}", e.what());
+            return false;
+        }
+    }
+    
+    // Load training checkpoint
+    bool loadCheckpoint(const std::string& checkpoint_path) {
+        if (!std::filesystem::exists(checkpoint_path)) {
+            spdlog::error("Checkpoint file not found: {}", checkpoint_path);
+            return false;
+        }
+        
+        try {
+            // Load and parse JSON
+            std::ifstream ifs(checkpoint_path);
+            if (!ifs.is_open()) {
+                spdlog::error("Failed to open checkpoint file for reading: {}", checkpoint_path);
+                return false;
+            }
+            
+            json j;
+            ifs >> j;
+            ifs.close();
+            
+            // Deserialize checkpoint
+            TrainingCheckpoint checkpoint = TrainingCheckpoint::fromJSON(j);
+            
+            // Restore training state
+            current_adapter_id_ = checkpoint.adapter_id;
+            current_metrics_.current_epoch = checkpoint.current_epoch;
+            current_metrics_.current_step = checkpoint.current_step;
+            current_metrics_.current_loss = checkpoint.current_loss;
+            loss_history_ = checkpoint.loss_history;
+            config_.default_hyperparameters = checkpoint.hyperparameters;
+            
+            spdlog::info("Checkpoint loaded: epoch {}, step {}, loss {:.4f}",
+                        checkpoint.current_epoch, checkpoint.current_step, checkpoint.current_loss);
+            
+            return true;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to load checkpoint: {}", e.what());
+            return false;
         }
     }
 
 private:
     Config config_;
     std::atomic<bool> is_training_;
+    std::atomic<bool> stop_requested_;
     TrainingMetrics current_metrics_;
     TrainingCallback training_callback_;
+    
+    // Checkpoint state
+    std::string current_adapter_id_;
+    std::vector<float> loss_history_;
 };
 
 // LoRATrainingService public interface
