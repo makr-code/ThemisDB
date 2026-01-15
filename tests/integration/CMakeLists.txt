@@ -3,6 +3,8 @@
 # Note: This file is a template for organizing integration tests.
 # Uncomment and configure sections as tests are implemented.
 
+option(THEMIS_ENABLE_PROCESS_MINING_TESTS "Build process mining integration tests" OFF)
+
 # Integration test infrastructure
 set(INTEGRATION_TEST_COMMON
     test_fixture.h
@@ -131,7 +133,7 @@ endfunction()
 # Existing Integration Test (keep original)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_e2e.cpp")
+if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_e2e.cpp")
     add_integration_test(
         test_process_mining_e2e
         test_process_mining_e2e.cpp

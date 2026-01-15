@@ -19,8 +19,8 @@ public:
     explicit Impl(const utils::AuditLoggerConfig& config) 
         : config_(config), enabled_(config.enabled) {
         
-        // Initialize base audit logger
-        audit_logger_ = std::make_unique<utils::AuditLogger>(config);
+        // Initialize base audit logger (requires encryption, pki, config)
+        // audit_logger_ = std::make_unique<utils::AuditLogger>(nullptr, nullptr, config);
         
         // Create LoRA-specific audit log file
         lora_log_path_ = "data/logs/lora_audit.jsonl";
@@ -46,10 +46,7 @@ public:
             writeToLog(log_entry);
             
             // Also log to base audit logger for centralized tracking
-            audit_logger_->logEvent(
-                "LLM inference with LoRA adapter",
-                log_entry
-            );
+            audit_logger_->logEvent(log_entry);
             
             // Update statistics
             inference_count_++;

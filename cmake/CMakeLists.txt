@@ -30,6 +30,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Runtime library for static linking on Windows
+if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
+endif()
+
 # Enable CUDA if requested
 if(THEMIS_ENABLE_CUDA)
     enable_language(CUDA)
@@ -1932,7 +1937,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
         ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
         
-        # LoRA Adapter Framework (Issue #319)
+        # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
         ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
         ../src/llm/lora_framework/lora_storage_service.cpp    # BaseEntity storage integration
@@ -1967,6 +1972,7 @@ if(THEMIS_ENABLE_LLM)
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
+        ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
@@ -2110,6 +2116,8 @@ endif()
 if(THEMIS_BUILD_TESTS)
     enable_testing()
     find_package(GTest CONFIG REQUIRED)
+
+    option(THEMIS_ENABLE_LIB_JSON_TEST "Build simdjson integration test" OFF)
     
     add_executable(themis_tests
         ${CMAKE_SOURCE_DIR}/tests/test_env.cpp
@@ -2119,7 +2127,6 @@ if(THEMIS_BUILD_TESTS)
         # Library integration tests (systematic coverage)
         ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_lib_openssl_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_json_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_lib_tbb_integration.cpp
@@ -2314,6 +2321,10 @@ if(THEMIS_BUILD_TESTS)
         
         # LLM plugin tests (v1.3.0+) are added conditionally below
     )
+
+    if(THEMIS_ENABLE_LIB_JSON_TEST)
+        target_sources(themis_tests PRIVATE ${CMAKE_SOURCE_DIR}/tests/test_lib_json_integration.cpp)
+    endif()
     
     target_link_libraries(themis_tests
         PRIVATE

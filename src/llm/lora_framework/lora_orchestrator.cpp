@@ -387,10 +387,11 @@ json LoRAOrchestrator::getStats() const {
         // Training stats
         auto training_metrics = impl_->training_service->getMetrics();
         stats["training"] = {
-            {"total_trainings", training_metrics.total_trainings},
-            {"successful_trainings", training_metrics.successful_trainings},
-            {"failed_trainings", training_metrics.failed_trainings},
-            {"average_loss", training_metrics.average_loss}
+            {"current_epoch", training_metrics.current_epoch},
+            {"total_epochs", training_metrics.total_epochs},
+            {"current_step", training_metrics.current_step},
+            {"current_loss", training_metrics.current_loss},
+            {"status", training_metrics.status}
         };
         
         return stats;

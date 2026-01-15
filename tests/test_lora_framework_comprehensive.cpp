@@ -40,6 +40,7 @@
 #include <sstream>
 #include <thread>
 #include <vector>
+#include <unordered_set>
 
 using namespace themis::llm::lora;
 using namespace themis::llm;
