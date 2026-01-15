@@ -286,73 +286,413 @@ Strukturiertes [Logging](../appendix_h_glossary.md#logging) mit [Trace-ID](../ap
 
 ### 38.2.1 Strukturierte Log-Formate {#chapter_38_2_1_structured-logs}
 
+### 38.2.1 Strukturierte Log-Formate {#chapter_38_2_1_structured-logs}
+
+Wir verwenden [JSON Lines](../appendix_h_glossary.md#json-lines)-Format (ein JSON-Objekt pro Zeile) für maschinelle Parsierbarkeit und Kompatibilität mit [Loki](../appendix_h_glossary.md#loki), [Elasticsearch](../appendix_h_glossary.md#elasticsearch) und [CloudWatch](../appendix_h_glossary.md#cloudwatch)[^7].
+
 ```json
+// ThemisDB Structured Log Example
 {
-  "ts": "2026-01-01T10:00:00Z",
+  "ts": "2026-01-15T10:32:45.123Z",
   "level": "INFO",
   "service": "themisdb",
-  "component": "aql",
+  "component": "aql-executor",
   "event": "query_executed",
-  "trace_id": "abc123",
-  "span_id": "def456",
+  "trace_id": "abc123def456",
+  "span_id": "789ghi",
+  "user_id": "user_5432",
+  "query_hash": "md5_abc123",
   "duration_ms": 32,
   "collection": "users",
   "operation": "READ",
-  "status": "ok"
+  "rows_returned": 150,
+  "cache_hit": true,
+  "status": "ok",
+  "error": null
 }
 ```
+
+**Pflichtfelder für alle Log-Events:**
+- `ts` (ISO 8601 timestamp with timezone)
+- `level` (DEBUG, INFO, WARN, ERROR, FATAL)
+- `service` (themisdb, themisdb-api, themisdb-replicator)
+- `component` (aql-executor, storage-engine, replication-manager)
+- `trace_id` (für Korrelation mit [Distributed Tracing](../appendix_h_glossary.md#distributed-tracing))
 
 **Best Practices:**
-- JSON Lines, ein Event pro Zeile
-- Pflichtfelder: ts, level, service, component, trace_id
-- Keine PII in Logs; IDs statt Freitext
-- Rotate & Compress (zstd)
+- JSON Lines: Ein Event pro Zeile (newline-delimited)
+- Keine [PII](../appendix_h_glossary.md#personally-identifiable-information) in Logs; User-IDs statt Namen/Emails
+- Query-Hashes statt vollständiger Query-Texte (Performance + Privacy)
+- Rotate & Compress mit zstd (Level 3-6)
+- Strukturierte Felder statt Freitext für Filterbarkeit
 
-### Log-Pipeline
+### 38.2.2 Log-Pipeline-Architektur {#chapter_38_2_2_log-pipeline}
 
-- Agent: Filebeat/FluentBit (TLS, backpressure)
-- Parse: grok/json; enrich (host, cluster, env)
-- Store: Loki/Elastic/OpenSearch
-- Retention: 7-30 Tage (Hot), 90+ Tage (Cold/Glacier)
+Wir implementieren eine dreistufige Pipeline: Collection → Processing → Storage[^7].
+
+```yaml
+# fluent-bit.conf - Log Collection Agent
+[SERVICE]
+    Flush        5
+    Daemon       off
+    Log_Level    info
+    Parsers_File parsers.conf
+
+[INPUT]
+    Name              tail
+    Path              /var/log/themisdb/*.log
+    Parser            json
+    Tag               themisdb.*
+    Refresh_Interval  5
+    Mem_Buf_Limit     50MB
+
+[FILTER]
+    Name                record_modifier
+    Match               themisdb.*
+    Record hostname     ${HOSTNAME}
+    Record cluster_id   prod-eu-central-1
+    Record environment  production
+
+[FILTER]
+    Name    grep
+    Match   themisdb.*
+    Exclude level DEBUG
+
+[OUTPUT]
+    Name            loki
+    Match           themisdb.*
+    Host            loki-gateway.monitoring.svc.cluster.local
+    Port            3100
+    Labels          job=themisdb, environment=production
+    Label_Keys      $trace_id,$service,$component
+    Retry_Limit     3
+```
+
+**Tabelle 38.3:** Log-Retention-Strategie und Storage-Kosten
+
+| Tier | Retention | Storage | Query Latenz | Cost/GB/Month | Use Case |
+|------|-----------|---------|--------------|---------------|----------|
+| Hot | 7 Tage | SSD (NVMe) | < 100ms | $0.15 | Aktive Incidents, Debugging |
+| Warm | 30 Tage | SSD (SATA) | < 500ms | $0.08 | Recent History, Compliance |
+| Cold | 90 Tage | HDD | < 5s | $0.03 | Audit, Legal Hold |
+| Archive | 365+ Tage | S3 Glacier | Minutes | $0.004 | Compliance, Long-term Audit |
+
+**Methodologie:** AWS Pricing (eu-central-1), 100GB/Tag Log-Volume, gzip/zstd Kompression (4:1 Ratio).
+
+### 38.2.3 Log-Korrelation mit Trace-IDs {#chapter_38_2_3_log-correlation}
+
+[Trace-IDs](../appendix_h_glossary.md#trace-id) ermöglichen Request-Flow-Rekonstruktion über Service-Grenzen hinweg[^3].
+
+```python
+# log_correlation.py - Trace-ID Propagation
+import logging
+import uuid
+from contextvars import ContextVar
+
+# Context variable für Trace-ID (thread-safe)
+trace_id_var = ContextVar('trace_id', default=None)
+
+class TraceIDFilter(logging.Filter):
+    """Fügt Trace-ID zu jedem Log-Record hinzu."""
+    def filter(self, record):
+        record.trace_id = trace_id_var.get() or 'no-trace'
+        return True
+
+# Logger-Konfiguration
+logging.basicConfig(
+    level=logging.INFO,
+    format='{"ts":"%(asctime)s","level":"%(levelname)s","trace_id":"%(trace_id)s","msg":"%(message)s"}'
+)
+logger = logging.getLogger(__name__)
+logger.addFilter(TraceIDFilter())
+
+# API Gateway: Trace-ID aus Header extrahieren oder generieren
+def handle_request(request):
+    trace_id = request.headers.get('X-Trace-ID') or str(uuid.uuid4())
+    trace_id_var.set(trace_id)
+    
+    logger.info(f"Processing request", extra={
+        'method': request.method,
+        'path': request.path,
+        'user_id': request.user_id
+    })
+    
+    # Propagiere Trace-ID zu ThemisDB
+    db_client.set_trace_id(trace_id)
+    result = db_client.execute_query(request.query)
+    
+    logger.info(f"Request completed", extra={
+        'duration_ms': result.duration_ms,
+        'rows': result.row_count
+    })
+    
+    return result
+```
 
 ---
 
-## 38.3 Tracing
+## 38.3 Distributed Tracing {#chapter_38_3_tracing}
 
-### OpenTelemetry Setup (Go API Layer)
+[Distributed Tracing](../appendix_h_glossary.md#distributed-tracing) visualisiert Request-Flows durch verteilte Systeme und identifiziert Latenz-Hotspots[^3]. Wir nutzen [OpenTelemetry](../appendix_h_glossary.md#opentelemetry)-Standards für Vendor-neutrale Instrumentation.
+
+### 38.3.1 OpenTelemetry Setup (Go API Layer) {#chapter_38_3_1_otel-setup}
+
+### 38.3.1 OpenTelemetry Setup (Go API Layer) {#chapter_38_3_1_otel-setup}
+
+Wir instrumentieren den ThemisDB API-Gateway mit [OpenTelemetry](../appendix_h_glossary.md#opentelemetry) Go SDK für automatisches [Tracing](../appendix_h_glossary.md#distributed-tracing) von HTTP-Requests und Database-Queries[^3].
 
 ```go
-// tracing.go
-import "go.opentelemetry.io/otel"
-import "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
-import "go.opentelemetry.io/otel/sdk/trace"
+// tracing.go - OpenTelemetry Initialization
+package observability
 
-func InitTracer(endpoint string) func() {
-    exporter, _ := otlptracehttp.New(context.Background(), otlptracehttp.WithEndpoint(endpoint))
-    tp := trace.NewTracerProvider(trace.WithBatcher(exporter))
+import (
+    "context"
+    "go.opentelemetry.io/otel"
+    "go.opentelemetry.io/otel/attribute"
+    "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+    "go.opentelemetry.io/otel/sdk/resource"
+    "go.opentelemetry.io/otel/sdk/trace"
+    semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
+)
+
+// InitTracer konfiguriert OpenTelemetry mit OTLP/HTTP Exporter
+func InitTracer(serviceName, endpoint string) (func(context.Context) error, error) {
+    // Ressourcen-Attribute für Service-Identifikation
+    res, err := resource.Merge(
+        resource.Default(),
+        resource.NewWithAttributes(
+            semconv.SchemaURL,
+            semconv.ServiceName(serviceName),
+            semconv.ServiceVersion("2.0.0"),
+            attribute.String("environment", "production"),
+            attribute.String("cluster", "eu-central-1"),
+        ),
+    )
+    if err != nil {
+        return nil, err
+    }
+    
+    // OTLP/HTTP Exporter zu Tempo/Jaeger
+    exporter, err := otlptracehttp.New(
+        context.Background(),
+        otlptracehttp.WithEndpoint(endpoint),
+        otlptracehttp.WithInsecure(), // Nur für Staging! Prod: TLS
+    )
+    if err != nil {
+        return nil, err
+    }
+    
+    // TracerProvider mit Batch-Processor für Performance
+    tp := trace.NewTracerProvider(
+        trace.WithBatcher(exporter),
+        trace.WithResource(res),
+        trace.WithSampler(trace.ParentBased(
+            trace.TraceIDRatioBased(0.1), // 10% Sampling-Rate
+        )),
+    )
+    
     otel.SetTracerProvider(tp)
-    return func() { _ = tp.Shutdown(context.Background()) }
+    
+    // Cleanup-Funktion
+    return tp.Shutdown, nil
+}
+
+// AQL Query Instrumentation
+func ExecuteAQLWithTracing(ctx context.Context, query string) (*Result, error) {
+    tracer := otel.Tracer("themisdb-aql")
+    ctx, span := tracer.Start(ctx, "execute_aql_query")
+    defer span.End()
+    
+    // Span-Attribute für Query-Analyse
+    span.SetAttributes(
+        attribute.String("db.system", "themisdb"),
+        attribute.String("db.operation", "SELECT"),
+        attribute.String("db.statement.hash", hashQuery(query)),
+    )
+    
+    start := time.Now()
+    result, err := aqlExecutor.Execute(ctx, query)
+    duration := time.Since(start)
+    
+    span.SetAttributes(
+        attribute.Int64("db.rows", result.RowCount),
+        attribute.Float64("db.duration_ms", duration.Seconds()*1000),
+    )
+    
+    if err != nil {
+        span.RecordError(err)
+        span.SetStatus(codes.Error, err.Error())
+    }
+    
+    return result, err
 }
 ```
 
-### AQL Trace-Injektion
+### 38.3.2 Trace-Sampling-Strategien {#chapter_38_3_2_sampling}
 
-- Propagiere `traceparent` Header vom API Gateway ins AQL Layer
-- Schreibe `trace_id` in Query-Context → Log-Korrelation
-- Sample Rate: 1-10% in Produktion; 100% in Staging
+### 38.3.2 Trace-Sampling-Strategien {#chapter_38_3_2_sampling}
+
+[Sampling](../appendix_h_glossary.md#sampling) reduziert Trace-Volume und Storage-Kosten bei beibehaltener statistischer Signifikanz[^3]. Wir nutzen adaptive Sampling-Strategien basierend auf [Latenz](../appendix_h_glossary.md#latency) und Error-Status.
+
+**Tabelle 38.4:** Trace-Sampling-Strategien und Trade-offs
+
+| Strategie | Sample-Rate | Anwendungsfall | Storage Impact | Missed Traces Risk |
+|-----------|-------------|----------------|----------------|-------------------|
+| Fixed-Rate (1%) | 1% | Baseline-Monitoring | -99% | Niedrig (statisch) |
+| Fixed-Rate (10%) | 10% | Detailed Analysis | -90% | Sehr niedrig |
+| Tail-Based (Latenz) | Variabel | Slow Queries (> 500ms) | -85% | Nur Fast Queries |
+| Error-Based | Variabel | Alle Errors + 1% Success | -90% | Erfolgreiche Requests |
+| Adaptive | 1-50% | Dynamic (Traffic-Spitzen, Incidents) | -70% | Minimal |
+
+**Python-Implementierung: Adaptive Sampling:**
+
+```python
+# adaptive_sampler.py - Intelligent Trace Sampling
+import random
+from typing import Optional
+
+class AdaptiveSampler:
+    """Adaptive Sampling basierend auf Latenz, Errors und Traffic."""
+    
+    def __init__(self, base_rate=0.01, high_latency_threshold_ms=500):
+        self.base_rate = base_rate
+        self.high_latency_threshold = high_latency_threshold_ms
+        self.error_sample_rate = 1.0  # Alle Errors samplen
+    
+    def should_sample(
+        self, 
+        latency_ms: float, 
+        error: Optional[Exception] = None,
+        trace_id: str = None
+    ) -> bool:
+        """Entscheidet ob Trace gesamplet werden soll."""
+        
+        # Regel 1: Alle Errors samplen
+        if error is not None:
+            return True
+        
+        # Regel 2: Hohe Latenz samplen
+        if latency_ms > self.high_latency_threshold:
+            return True
+        
+        # Regel 3: Base-Rate für normale Requests
+        return random.random() < self.base_rate
+    
+    def adjust_rate_on_traffic(self, current_qps: int):
+        """Adjustiert Sample-Rate bei Traffic-Spitzen."""
+        if current_qps > 10000:
+            self.base_rate = 0.001  # 0.1% bei hohem Traffic
+        elif current_qps > 5000:
+            self.base_rate = 0.005  # 0.5%
+        else:
+            self.base_rate = 0.01   # 1% normal
+
+# Usage
+sampler = AdaptiveSampler(base_rate=0.01, high_latency_threshold_ms=500)
+
+def execute_with_sampling(query: str):
+    start = time.time()
+    error = None
+    
+    try:
+        result = execute_query(query)
+    except Exception as e:
+        error = e
+        raise
+    finally:
+        latency_ms = (time.time() - start) * 1000
+        
+        if sampler.should_sample(latency_ms, error):
+            # Sende Trace zu Collector
+            send_trace_to_collector(query, latency_ms, error)
+```
+
+### 38.3.3 Trace-Propagation über Service-Grenzen {#chapter_38_3_3_propagation}
+
+Wir propagieren [Trace-Context](../appendix_h_glossary.md#trace-context) via W3C Traceparent-Header über alle Services hinweg[^3].
+
+```bash
+# W3C Traceparent Format
+# traceparent: {version}-{trace-id}-{parent-id}-{trace-flags}
+# Beispiel:
+traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+```
 
 ---
 
-## 38.4 Dashboards (Grafana)
+## 38.4 Dashboards (Grafana) {#chapter_38_4_dashboards}
 
-### Latenz & Throughput
+[Grafana](../appendix_h_glossary.md#grafana)-[Dashboards](../appendix_h_glossary.md#dashboard) visualisieren [Metriken](../appendix_h_glossary.md#metrics), [Logs](../appendix_h_glossary.md#logging) und [Traces](../appendix_h_glossary.md#distributed-tracing) in einheitlicher UI für schnelle Problem-Diagnose[^8]. Wir präsentieren produktionserprobte Dashboard-Konfigurationen für ThemisDB-Monitoring.
 
-Panels:
-- Query p50/p95/p99 (stacked per operation)
-- QPS split by read/write/graph/vector
-- Error rate (% per op)
+### 38.4.1 Latenz & Throughput Dashboard {#chapter_38_4_1_latency-throughput}
 
-### Replikation
+```json
+// grafana_dashboard_latency.json - Query Performance Dashboard
+{
+  "dashboard": {
+    "title": "ThemisDB - Query Performance",
+    "panels": [
+      {
+        "title": "Query Latency P50/P95/P99",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, rate(themisdb_query_duration_seconds_bucket[5m]))",
+            "legendFormat": "P50"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(themisdb_query_duration_seconds_bucket[5m]))",
+            "legendFormat": "P95"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(themisdb_query_duration_seconds_bucket[5m]))",
+            "legendFormat": "P99"
+          }
+        ],
+        "yaxes": [{
+          "format": "s",
+          "label": "Latency"
+        }]
+      },
+      {
+        "title": "Query Rate by Operation",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(themisdb_query_total[1m])) by (operation)",
+            "legendFormat": "{{operation}}"
+          }
+        ],
+        "yaxes": [{
+          "format": "reqps",
+          "label": "Queries/sec"
+        }]
+      },
+      {
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(themisdb_query_total{result=\"error\"}[5m])) / sum(rate(themisdb_query_total[5m])) * 100",
+            "legendFormat": "Error %"
+          }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {"type": "gt", "params": [1]},
+              "query": {"params": ["A", "5m", "now"]},
+              "reducer": {"type": "avg"}
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+### 38.4.2 Replication Monitoring Dashboard {#chapter_38_4_2_replication}
 
 - Lag per follower (ms)
 - Failed replications (count)
