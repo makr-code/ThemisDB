@@ -1,7 +1,7 @@
 ---
-name: "⚡ LoRA GPU Acceleration"
-about: Implement GPU-accelerated training with Vulkan/CUDA/HIP kernels (Phase 2)
-title: "[LoRA] Implement GPU Acceleration for Training"
+name: "⚡ LoRA GPU Acceleration & VRAM Training"
+about: GPU-accelerated training in VRAM mit Vulkan/CUDA/HIP/DirectX backends (Phase 2)
+title: "[LoRA] Implement GPU Acceleration and VRAM Training"
 labels: priority:P1, type:feature, area:llm, area:performance, effort:x-large, phase:2
 assignees: ''
 
@@ -9,7 +9,11 @@ assignees: ''
 
 ## 📋 Description
 
-Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (cross-platform), CUDA (NVIDIA), and HIP (AMD) backends. This builds on Phase 1 CPU implementation.
+**DE**: Implementierung von GPU-beschleunigtem LoRa Training **direkt im VRAM** mit Multi-Backend-Unterstützung. Backend-Priorität: **Vulkan → CUDA → HIP → DirectX**.
+
+**EN**: Implement GPU-accelerated LoRA training **directly in VRAM** with multi-backend support. Backend priority: **Vulkan → CUDA → HIP → DirectX**.
+
+Implement GPU-accelerated tensor operations and training for LoRA using multiple GPU backends. This builds on Phase 1 CPU implementation and enables training directly in GPU VRAM for maximum performance.
 
 **Prerequisites**: Phase 1 complete (CPU-based training with verified gradients)  
 **Related Issue**: #[Phase 1 Issue Number]  
@@ -17,16 +21,39 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 
 ## 🎯 Goals
 
-- [ ] GPU memory management and data transfer
-- [ ] Vulkan compute shaders (cross-platform priority)
-- [ ] CUDA kernels for NVIDIA GPUs
-- [ ] HIP kernels for AMD GPUs
+- [ ] **VRAM-basiertes Training** - Alle Tensoren und Gradienten im GPU VRAM
+- [ ] GPU memory management and data transfer (CPU ↔ VRAM)
+- [ ] **Vulkan compute shaders** (cross-platform priority #1)
+- [ ] **CUDA kernels** for NVIDIA GPUs (priority #2)
+- [ ] **HIP kernels** for AMD GPUs (priority #3)
+- [ ] **DirectX 12 compute shaders** for Windows (priority #4)
 - [ ] Kernel fusion for performance optimization
-- [ ] Benchmark GPU vs CPU performance
+- [ ] Benchmark GPU vs CPU performance (target: 10-100x speedup)
 
 ## 📝 Tasks
 
-### 1. GPU Memory Management
+### 1. VRAM Memory Management (CRITICAL)
+**Priorität**: P0 - Training muss im VRAM laufen
+
+- [ ] Allocate all tensors directly in GPU VRAM
+- [ ] Gradient storage in VRAM (no CPU roundtrips)
+- [ ] Optimizer state in VRAM (momentum buffers, etc.)
+- [ ] Memory pooling for efficient allocation/deallocation
+- [ ] OOM handling and graceful degradation
+- [ ] VRAM usage tracking and reporting
+
+**Files**: 
+- `include/llm/lora_framework/vram_allocator.h`
+- `src/llm/lora_framework/vram_allocator.cpp`
+
+**Requirements**:
+- Zero-copy where possible
+- < 5% memory overhead
+- Support for unified memory on supported platforms
+
+---
+
+### 2. GPU Memory Management (Foundation)
 - [ ] Implement GPU memory allocation/deallocation
 - [ ] CPU ↔ GPU data transfer (upload/download)
 - [ ] Memory pooling for efficiency
@@ -37,7 +64,10 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 - `include/llm/lora_framework/gpu_memory.h`
 - `src/llm/lora_framework/gpu_memory.cpp`
 
-### 2. Vulkan Compute Shaders (Priority)
+---
+
+### 3. Vulkan Compute Shaders (Priority #1 - Cross-Platform)
+**Backend Priority**: #1 - Cross-platform (Windows, Linux, macOS, Android)
 - [ ] Matrix multiplication shader (GEMM)
 - [ ] Element-wise operations (add, mul, transpose)
 - [ ] Gradient computation kernels
@@ -51,7 +81,11 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 
 **Backends**: Vulkan 1.2+ (cross-platform)
 
-### 3. CUDA Kernels (NVIDIA)
+---
+
+### 4. CUDA Kernels (Priority #2 - NVIDIA Optimization)
+**Backend Priority**: #2 - NVIDIA-specific optimizations
+
 - [ ] cuBLAS integration for GEMM
 - [ ] Custom CUDA kernels for LoRA-specific ops
 - [ ] Tensor core utilization (Ampere+)
@@ -64,7 +98,11 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 
 **Requirements**: CUDA 11.8+, compute capability 7.0+
 
-### 4. HIP Kernels (AMD)
+---
+
+### 5. HIP Kernels (Priority #3 - AMD Optimization)
+**Backend Priority**: #3 - AMD-specific optimizations
+
 - [ ] rocBLAS integration for GEMM
 - [ ] Custom HIP kernels
 - [ ] Test on AMD GPUs (RDNA2+)
@@ -76,7 +114,37 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 
 **Requirements**: ROCm 5.0+
 
-### 5. Tensor Backend Abstraction
+---
+
+### 6. DirectX 12 Compute Shaders (Priority #4 - Windows)
+**Backend Priority**: #4 - Windows-specific optimization
+
+- [ ] DirectX 12 compute shader implementation
+- [ ] DirectCompute integration for GEMM operations
+- [ ] Shader Model 6.0+ utilization
+- [ ] Integration with Windows ML acceleration
+- [ ] Test on various Windows GPUs (NVIDIA, AMD, Intel)
+
+**Files**:
+- `src/llm/lora_framework/kernels/directx_kernels.cpp`
+- `include/llm/lora_framework/directx_utils.h`
+- `shaders/lora/directx/matmul.hlsl`
+- `shaders/lora/directx/elementwise.hlsl`
+
+**Requirements**: 
+- DirectX 12 with Shader Model 6.0+
+- Windows 10 version 1809+
+- DirectX Agility SDK (for latest features)
+
+**Benefits**:
+- Native Windows integration
+- Supports all GPU vendors (NVIDIA, AMD, Intel)
+- Lower driver overhead on Windows
+- Integration with DirectML for ML operations
+
+---
+
+### 7. Tensor Backend Abstraction
 - [ ] Update Tensor class to support multiple backends
 - [ ] Device selection API (`cpu`, `cuda`, `vulkan`, `hip`)
 - [ ] Automatic device migration
@@ -87,14 +155,16 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 - `include/llm/lora_framework/lora_layers.h` (update)
 - `src/llm/lora_framework/tensor_backend.cpp`
 
-### 6. Kernel Fusion Optimization
+### 8. Kernel Fusion Optimization
 - [ ] Fuse forward pass operations
 - [ ] Fuse backward pass operations
 - [ ] Memory access optimization (coalescing)
 - [ ] Reduce kernel launch overhead
 - [ ] Benchmark fused vs unfused
 
-### 7. Testing
+---
+
+### 9. Testing
 - [ ] Unit tests for each kernel
 - [ ] Cross-platform GPU tests
 - [ ] Numerical accuracy tests (GPU vs CPU)
@@ -108,20 +178,24 @@ Implement GPU-accelerated tensor operations and training for LoRA using Vulkan (
 
 ## ✅ Acceptance Criteria
 
-- [ ] All tensor operations work on GPU (Vulkan, CUDA, HIP)
+- [ ] **Training läuft komplett im VRAM** (alle Tensoren, Gradienten, Optimizer State)
+- [ ] All tensor operations work on GPU (Vulkan, CUDA, HIP, DirectX)
+- [ ] **Backend auto-selection**: Vulkan → CUDA → HIP → DirectX → CPU
 - [ ] GPU training is 10-100x faster than CPU (depends on model size)
 - [ ] Numerical accuracy matches CPU implementation (< 1e-5 error)
 - [ ] Memory usage efficient (< 80% VRAM for typical models)
 - [ ] Graceful fallback to CPU when GPU unavailable
 - [ ] Cross-platform support (Windows, Linux, macOS)
-- [ ] All tests pass on GPU backends
+- [ ] All tests pass on all GPU backends
 - [ ] Comprehensive benchmarks available
 
 ## 🔗 Dependencies
 
-- Vulkan SDK 1.2+
-- CUDA Toolkit 11.8+ (optional, for NVIDIA)
-- ROCm 5.0+ (optional, for AMD)
+- Vulkan SDK 1.2+ (Priority #1)
+- CUDA Toolkit 11.8+ (Priority #2, optional for NVIDIA)
+- ROCm 5.0+ (Priority #3, optional for AMD)
+- DirectX 12 with Shader Model 6.0+ (Priority #4, optional for Windows)
+- DirectX Agility SDK (for DirectX backend)
 - Existing BackendRegistry infrastructure
 - Phase 1 CPU implementation
 
@@ -167,19 +241,34 @@ Full Training Step ~200ms     ~5ms        40x
 - Wave64/Warp-level operations
 - Kernel fusion to reduce memory bandwidth
 
-### Typical GPU Memory Usage
+### Typical GPU Memory Usage (VRAM)
+**Training komplett im VRAM:**
 - Llama-7B Base Model: ~7 GB FP16
-- LoRA Parameters: ~50 MB
+- LoRA Parameters (r=8): ~50 MB
 - Gradients: ~50 MB
+- Optimizer State (Adam): ~100 MB (2x parameters for momentum/variance)
 - Activation Cache: ~2 GB (depends on sequence length)
-- **Total**: ~10 GB VRAM (fits on RTX 3080, RX 6800)
+- **Total**: ~10 GB VRAM (fits on RTX 3080, RX 6800, Arc A770)
+
+**VRAM Requirements by Model Size:**
+- Llama-7B: ~10 GB VRAM
+- Llama-13B: ~16 GB VRAM
+- Llama-30B: ~32 GB VRAM
+- Llama-65B: ~64 GB VRAM (requires multi-GPU or QLoRA)
+
+---
 
 ### Backend Priority
+**Priorität beim Auto-Selection:**
 1. **Vulkan** - Cross-platform (Windows, Linux, macOS, Android)
-2. **CUDA** - NVIDIA optimization
-3. **HIP** - AMD optimization
+2. **CUDA** - NVIDIA-specific optimization (best for RTX cards)
+3. **HIP** - AMD-specific optimization (best for Radeon cards)
+4. **DirectX 12** - Windows native (good for all GPUs on Windows)
+5. **CPU** - Fallback when no GPU available
 
-## 🏁 Definition of Done
+**Rationale**: Vulkan first for maximum portability, then vendor-specific backends for optimization.
+
+---
 
 - [ ] All tasks completed and checked off
 - [ ] All acceptance criteria met

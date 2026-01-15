@@ -1,7 +1,7 @@
 ---
-name: "🗄️ ThemisDB Blob Store Integration für LLM"
-about: Model Loading aus ThemisDB Blob Store implementieren (Kritisch - P0)
-title: "[LLM] Implement Model Loading from ThemisDB Blob Store"
+name: "🗄️ ThemisDB Blob Store Integration für LLM & LoRa"
+about: Model und LoRa Adapter Loading aus ThemisDB Blob Store (Kritisch - P0)
+title: "[LLM/LoRa] Implement Model and LoRa Loading from ThemisDB Blob Store"
 labels: priority:P0, type:feature, area:llm, area:storage, effort:large, phase:production
 assignees: ''
 
@@ -9,9 +9,9 @@ assignees: ''
 
 ## 📋 Beschreibung / Description
 
-**DE**: Implementierung des Model Loadings aus dem ThemisDB Blob Store. Dies ist eine kritische Lücke, die die "Native LLM Integration" Kernfunktion blockiert.
+**DE**: Implementierung des Model- und LoRa Adapter-Loadings aus dem ThemisDB Blob Store. **Sowohl LLM Modelle als auch LoRa Adapter müssen aus der ThemisDB geladen werden können.** Dies ist eine kritische Lücke, die die "Native LLM Integration" Kernfunktion blockiert.
 
-**EN**: Implement model loading from ThemisDB Blob Store. This is a critical gap blocking the "Native LLM Integration" core feature.
+**EN**: Implement model and LoRa adapter loading from ThemisDB Blob Store. **Both LLM models and LoRa adapters must be loadable from ThemisDB.** This is a critical gap blocking the "Native LLM Integration" core feature.
 
 **Related Analysis**: `INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md` §2.1, §4  
 **Current Status**: `src/llm/llamacpp_inference_engine.cpp:58-61` (stub returns false)  
@@ -19,12 +19,21 @@ assignees: ''
 
 ## 🎯 Ziele / Goals
 
+### LLM Model Loading
 - [ ] `loadModelFromThemisDB()` vollständig implementieren
 - [ ] Blob Store Integration für GGUF-Modelle
 - [ ] Streaming von großen Modellen (>5GB)
 - [ ] Encryption/Decryption Support
 - [ ] Model Metadata Management
-- [ ] Comprehensive Testing
+
+### LoRa Adapter Loading
+- [ ] `loadAdapterFromThemisDB()` aus Blob Store implementieren
+- [ ] LoRa Adapter Metadata aus RocksDB laden
+- [ ] Integration mit LoRa Storage Service
+- [ ] Encryption/Decryption für Adapter
+
+### Testing
+- [ ] Comprehensive Testing für beide (Models + Adapters)
 
 ## 📝 Aufgaben / Tasks
 
