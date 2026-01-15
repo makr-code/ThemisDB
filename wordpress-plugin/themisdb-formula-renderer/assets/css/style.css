@@ -1,7 +1,23 @@
 /**
  * ThemisDB Formula Renderer Styles
  * Version: 1.0.0
+ * 
+ * Themis Brand Colors:
+ * Primary: #2c3e50 (Dark Blue-Gray)
+ * Secondary: #3498db (Light Blue)
+ * Accent: #7c4dff (Purple)
  */
+
+/* CSS Variables for Themis Brand */
+:root {
+    --themis-primary: #2c3e50;
+    --themis-secondary: #3498db;
+    --themis-accent: #7c4dff;
+    --themis-success: #27ae60;
+    --themis-error: #e74c3c;
+    --themis-light: #ecf0f1;
+    --themis-dark: #1a252f;
+}
 
 /* Formula container styles */
 .themisdb-formula-content {
@@ -13,8 +29,8 @@
     display: block;
     margin: 1.5em 0;
     padding: 1em;
-    background-color: #f9f9f9;
-    border-left: 4px solid #0073aa;
+    background-color: var(--themis-light);
+    border-left: 4px solid var(--themis-accent);
     overflow-x: auto;
     text-align: center;
 }
@@ -32,8 +48,8 @@
 /* Formula in dark mode */
 @media (prefers-color-scheme: dark) {
     .themisdb-formula-block {
-        background-color: #1e1e1e;
-        border-left-color: #00a0d2;
+        background-color: var(--themis-dark);
+        border-left-color: var(--themis-secondary);
         color: #e0e0e0;
     }
 }
@@ -49,7 +65,7 @@
 /* Admin settings page styles */
 .themisdb-formula-admin-header {
     background: #fff;
-    border-left: 4px solid #0073aa;
+    border-left: 4px solid var(--themis-accent);
     padding: 12px;
     margin: 20px 0;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
@@ -69,7 +85,7 @@
 
 .themisdb-formula-examples h3 {
     margin-top: 1.5em;
-    color: #0073aa;
+    color: var(--themis-primary);
 }
 
 .themisdb-formula-examples pre {
@@ -116,7 +132,7 @@
 }
 
 .themisdb-formula-resources a {
-    color: #0073aa;
+    color: var(--themis-secondary);
     text-decoration: none;
 }
 
@@ -135,9 +151,9 @@
 
 /* Error display */
 .themisdb-formula-error {
-    color: #dc3232;
+    color: var(--themis-error);
     background: #fef7f1;
-    border-left: 4px solid #dc3232;
+    border-left: 4px solid var(--themis-error);
     padding: 0.5em 1em;
     margin: 1em 0;
 }
