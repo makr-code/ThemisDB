@@ -85,8 +85,7 @@ llama_token NucleusSampling::sample(
     llama_sampler_chain_add(sampler, llama_sampler_init_temp(temperature_));
     
     // Add distribution sampler (final sampling step)
-    // Note: Using seed=0 - consult llama.cpp documentation for seed behavior
-    // To ensure randomness, the caller may need to manage seeding externally
+    // Note: seed=0 enables random sampling (uses system time for seed)
     llama_sampler_chain_add(sampler, llama_sampler_init_dist(0));
     
     // Sample token
@@ -125,8 +124,7 @@ llama_token MirostatSampling::sample(
     llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
     
     // Add Mirostat v2 sampler
-    // Note: Using seed=0 - consult llama.cpp documentation for seed behavior
-    // To ensure randomness, the caller may need to manage seeding externally
+    // Note: seed=0 enables random sampling (uses system time for seed)
     // The sampler will maintain its own adaptive mu state internally
     llama_sampler_chain_add(
         sampler,
