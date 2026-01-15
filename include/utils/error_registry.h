@@ -102,8 +102,14 @@ void logError(ErrorCode code, Args&&... args) {
     auto& registry = ErrorRegistry::getInstance();
     auto metadata = registry.getError(code);
     
-    std::string formatted = fmt::format(metadata.message_template, 
-                                       std::forward<Args>(args)...);
+    // Use fmt::format with fmt::runtime() to avoid constexpr issues
+    std::string formatted;
+    try {
+        formatted = fmt::vformat(metadata.message_template, 
+                                fmt::make_format_args(args...));
+    } catch (...) {
+        formatted = metadata.message_template;
+    }
     spdlog::error("[{}] {}", static_cast<int>(code), formatted);
 }
 

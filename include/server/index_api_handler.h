@@ -1,8 +1,12 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -13,11 +17,6 @@ class SecondaryIndexManager;
 class AdaptiveIndexManager;
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Index Management Operations
@@ -56,7 +55,7 @@ public:
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<AdaptiveIndexManager> adaptive_index,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
@@ -126,7 +125,7 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<AdaptiveIndexManager> adaptive_index_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

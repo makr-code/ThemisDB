@@ -1,5 +1,7 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "storage/base_entity.h"
+#include "security/mock_key_provider.h"
+#include "security/encryption.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <filesystem>
@@ -38,7 +40,7 @@ public:
             try {
                 // Use mock key provider for now (in production, use Vault/HSM)
                 auto key_provider = std::make_shared<MockKeyProvider>();
-                encryption_ = std::make_unique<EncryptionService>(key_provider);
+                encryption_ = std::make_shared<FieldEncryption>(key_provider);
                 spdlog::info("  Encryption service initialized");
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
@@ -154,7 +156,7 @@ public:
             auto it = config_.db->newIterator();
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
-                std::string key = it->key();
+                std::string key(it->key().data(), it->key().size());
                 if (!key.starts_with(prefix)) break;
                 
                 // Extract adapter_id from key
@@ -223,7 +225,7 @@ public:
             auto it = config_.db->newIterator();
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
-                std::string key = it->key();
+                std::string key(it->key().data(), it->key().size());
                 if (!key.starts_with(prefix)) break;
                 
                 // Extract version from key
@@ -321,7 +323,7 @@ public:
 
 private:
     Config config_;
-    std::unique_ptr<EncryptionService> encryption_;
+    std::shared_ptr<FieldEncryption> encryption_;
     
     static std::string backendToString(Backend backend) {
         switch (backend) {
@@ -363,7 +365,7 @@ private:
             
             auto blob_ref = config_.blob_manager->put(adapter_id, weights.data);
             fields["blob_ref_type"] = Value(static_cast<int64_t>(static_cast<int>(blob_ref.type)));
-            fields["blob_ref_path"] = Value(blob_ref.path);
+            fields["blob_ref_path"] = Value(blob_ref.uri);
         } else {
             // Small adapters stored inline
             fields["weights_data"] = Value(weights.data);
@@ -374,8 +376,7 @@ private:
         if (config_.enable_encryption && encryption_) {
             try {
                 auto encrypted = encryption_->encrypt(config_.encryption_key_id, data_to_store);
-                data_to_store = std::vector<uint8_t>(encrypted.toBase64().begin(), 
-                                                     encrypted.toBase64().end());
+                data_to_store = std::vector<uint8_t>(encrypted.begin(), encrypted.end());
                 spdlog::debug("Encrypted adapter data");
             } catch (const std::exception& e) {
                 spdlog::warn("Encryption failed: {}", e.what());
@@ -389,9 +390,11 @@ private:
         if (success && config_.enable_signatures && config_.signature_manager) {
             storage::SecuritySignature sig;
             sig.resource_id = adapter_id;
-            sig.content_hash = storage::SecuritySignatureManager::computeFileHash(adapter_id);
-            sig.signature_algorithm = "Ed25519";
-            sig.created_at = std::chrono::system_clock::now();
+            sig.hash = storage::SecuritySignatureManager::computeFileHash(adapter_id);
+            sig.algorithm = "Ed25519";
+            sig.created_at_unix = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count();
             
             config_.signature_manager->storeSignature(sig);
             spdlog::debug("Created security signature for adapter");
@@ -419,8 +422,8 @@ private:
         if (config_.enable_encryption && encryption_) {
             try {
                 std::string encrypted_str(data->begin(), data->end());
-                auto encrypted_blob = EncryptedBlob::fromBase64(encrypted_str);
-                decrypted_data = encryption_->decrypt(encrypted_blob);
+                auto decrypted_str = encryption_->decrypt(config_.encryption_key_id, encrypted_str);
+                decrypted_data = std::vector<uint8_t>(decrypted_str.begin(), decrypted_str.end());
                 spdlog::debug("Decrypted adapter data");
             } catch (const std::exception& e) {
                 spdlog::warn("Decryption failed, assuming unencrypted: {}", e.what());
@@ -440,7 +443,7 @@ private:
                 ref.type = static_cast<storage::BlobStorageType>(
                     entity.getFieldAsInt("blob_ref_type").value_or(0)
                 );
-                ref.path = entity.getFieldAsString("blob_ref_path").value_or("");
+                ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
                 
                 auto blob_data = config_.blob_manager->get(ref);
                 if (blob_data) {

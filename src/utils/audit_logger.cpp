@@ -447,5 +447,11 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
     }
 }
 
+void AuditLogger::flush() {
+    std::lock_guard<std::mutex> lock(file_mu_);
+    // flush() is already called within appendJsonLine when file is opened
+    // This method is kept for API compatibility
+}
+
 } // namespace utils
 } // namespace themis

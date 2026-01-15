@@ -35,6 +35,7 @@
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
 
+#include <queue>
 #include <ctime>
 #include <algorithm>
 #include <cstring>

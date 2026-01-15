@@ -526,7 +526,7 @@ private:
     std::shared_ptr<content::MimeDetector> mime_detector_;
 
     // Content Manager
-    std::unique_ptr<themis::content::ContentManager> content_manager_;
+    std::shared_ptr<themis::content::ContentManager> content_manager_;
     // Built-in processors
     std::unique_ptr<themis::content::TextProcessor> text_processor_;
     
@@ -681,7 +681,7 @@ private:
     std::string wal_hmac_secret_;
 
     // Authorization middleware
-    std::unique_ptr<themis::AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     
     // Rate Limiter for DoS protection
     std::unique_ptr<RateLimiter> rate_limiter_;

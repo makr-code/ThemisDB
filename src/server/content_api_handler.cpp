@@ -194,8 +194,8 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
 
         auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
         nlohmann::json resp = nlohmann::json::array();
-        for (const auto& [pk, score] : results) {
-            resp.push_back({{"pk", pk}, {"score", score}});
+        for (const auto& result : results) {
+            resp.push_back({{"pk", result.first}, {"score", result.second}});
         }
         nlohmann::json out = {
             {"count", resp.size()},

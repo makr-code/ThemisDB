@@ -1,9 +1,13 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <atomic>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -36,11 +40,6 @@ class Tracer;
 }
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 // Configuration for entity operations
 struct EntityApiConfig {
@@ -105,7 +104,7 @@ public:
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<FieldEncryption> field_encryption,
         std::shared_ptr<security::KeyProvider> key_provider,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<themis::AuthMiddleware> auth,
         const EntityApiConfig& config = EntityApiConfig{},
         index::SpatialIndexManager* spatial_index = nullptr,
         std::shared_ptr<Changefeed> changefeed = nullptr,
@@ -161,7 +160,7 @@ private:
     std::shared_ptr<TransactionManager> tx_manager_;
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<security::KeyProvider> key_provider_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     
     // Configuration
     EntityApiConfig config_;

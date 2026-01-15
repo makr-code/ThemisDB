@@ -5,6 +5,7 @@
 #include <optional>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
+#include "server/auth_middleware.h"
 
 namespace themis {
 
@@ -17,7 +18,6 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-class AuthMiddleware;
 class SseConnectionManager;
 
 /**
@@ -53,7 +53,7 @@ public:
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<Changefeed> changefeed,
         std::shared_ptr<SseConnectionManager> sse_manager,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<themis::AuthMiddleware> auth,
         bool feature_cdc
     );
 
@@ -89,7 +89,7 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<Changefeed> changefeed_;
     std::shared_ptr<SseConnectionManager> sse_manager_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     bool feature_cdc_;
 
     // Helper methods (to be implemented)

@@ -5,6 +5,7 @@
 #include "llm/lora_framework/lora_audit_logger.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
+#include <shared_mutex>
 #include <chrono>
 
 namespace themis {

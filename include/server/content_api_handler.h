@@ -1,8 +1,12 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -15,11 +19,6 @@ class SecondaryIndexManager;
 class VectorIndexManager;
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Content Operations
@@ -66,7 +65,7 @@ public:
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<ContentManager> content_manager,
         std::shared_ptr<ContentProcessor> content_processor,
-        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<themis::AuthMiddleware> auth,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<VectorIndexManager> vector_index
     );
@@ -180,7 +179,7 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<ContentManager> content_manager_;
     std::shared_ptr<ContentProcessor> content_processor_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
 

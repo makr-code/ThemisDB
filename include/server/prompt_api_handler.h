@@ -1,8 +1,12 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -12,11 +16,6 @@ class RocksDBWrapper;
 class PromptManager;
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Prompt Template Operations
@@ -47,7 +46,7 @@ public:
     PromptApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<PromptManager> prompt_manager,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
@@ -81,7 +80,7 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<PromptManager> prompt_manager_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods (to be implemented)
     std::string extractPathParam(const std::string& target, const std::string& prefix);

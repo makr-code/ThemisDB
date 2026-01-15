@@ -24,6 +24,19 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # CUDA support (if enabled)
 if(THEMIS_ENABLE_CUDA)
+    # Fix for CMake ↔ VS2022 ↔ CUDA 13.1 Registry Lookup Issue
+    # Explicitly set CUDA Toolkit paths BEFORE enable_language(CUDA)
+    if(MSVC AND NOT CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES)
+        set(_CUDA_TOOLKIT_ROOT "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1")
+        if(EXISTS "${_CUDA_TOOLKIT_ROOT}/include/cuda.h")
+            set(CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES 
+                "${_CUDA_TOOLKIT_ROOT}/include" CACHE PATH "CUDA Toolkit Include Path" FORCE)
+            message(STATUS "CUDA Toolkit Include: ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}")
+        else()
+            message(WARNING "CUDA Toolkit not found at ${_CUDA_TOOLKIT_ROOT}")
+        endif()
+    endif()
+    
     enable_language(CUDA)
     set(CMAKE_CUDA_STANDARD 17)
     set(CMAKE_CUDA_STANDARD_REQUIRED ON)

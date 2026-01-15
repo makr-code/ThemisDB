@@ -1,8 +1,12 @@
 #pragma once
+#include "server/auth_middleware.h"
 
 #include <memory>
 #include <string>
 #include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -11,11 +15,6 @@ namespace themis {
 class RocksDBWrapper;
 
 namespace server {
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-
-class AuthMiddleware;
 
 /**
  * @brief Handler for Administrative Operations
@@ -42,7 +41,7 @@ public:
      */
     AdminApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<AuthMiddleware> auth
+        std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
@@ -61,7 +60,7 @@ public:
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
