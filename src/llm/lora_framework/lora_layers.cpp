@@ -129,8 +129,9 @@ Tensor Tensor::clone() const {
 namespace tensor_utils {
 
 Tensor randn(const std::vector<size_t>& shape, float mean, float std) {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    // Use thread-local random number generator for thread safety
+    thread_local std::random_device rd;
+    thread_local std::mt19937 gen(rd());
     std::normal_distribution<float> dist(mean, std);
     
     Tensor result(shape);
@@ -225,21 +226,26 @@ Tensor LoRALayer::backward(const Tensor& grad_output) {
     // Scale gradient by scaling factor
     Tensor scaled_grad = grad_output * scaling_;
     
-    // Compute gradients w.r.t. A: grad_A = B.T @ (input.T @ scaled_grad)
-    // Simplified: grad_A = B.T @ (scaled_grad.T @ input).T
-    Tensor input_T = cached_input_.transpose();
-    Tensor grad_A_partial = input_T.matmul(scaled_grad);
+    // For LoRA: output = input @ B @ A * scaling
+    // Need to compute gradients using chain rule
+    
+    // grad_A = B.T @ input.T @ scaled_grad
+    // Shape: (rank, in_dim) @ (in_dim, batch) @ (batch, out_dim) = (rank, out_dim)
     Tensor B_T = B_->transpose();
-    A_->grad = B_T.matmul(grad_A_partial);
+    Tensor input_T = cached_input_.transpose();
+    Tensor temp_BA = B_T.matmul(input_T);  // (rank, batch)
+    A_->grad = temp_BA.matmul(scaled_grad);  // (rank, out_dim)
     
-    // Compute gradients w.r.t. B: grad_B = (scaled_grad @ A.T) @ input.T
+    // grad_B = input.T @ scaled_grad @ A.T
+    // Shape: (in_dim, batch) @ (batch, out_dim) @ (out_dim, rank) = (in_dim, rank)
     Tensor A_T = A_->transpose();
-    Tensor grad_B_partial = scaled_grad.matmul(A_T);
-    B_->grad = grad_B_partial.matmul(input_T.transpose());
+    Tensor temp_AB = scaled_grad.matmul(A_T);  // (batch, rank)
+    B_->grad = input_T.matmul(temp_AB);  // (in_dim, rank)
     
-    // Compute gradient w.r.t. input: grad_input = scaled_grad @ (BA).T
-    Tensor BA_T = cached_BA_.transpose();
-    Tensor grad_input = scaled_grad.matmul(BA_T);
+    // grad_input = scaled_grad @ A.T @ B.T
+    // Shape: (batch, out_dim) @ (out_dim, rank) @ (rank, in_dim) = (batch, in_dim)
+    Tensor temp_grad = scaled_grad.matmul(A_T);  // (batch, rank)
+    Tensor grad_input = temp_grad.matmul(B_T);  // (batch, in_dim)
     
     return grad_input;
 }
@@ -471,13 +477,6 @@ void SGDOptimizer::step() {
             continue;
         }
         
-        // Apply weight decay if specified (L2 regularization)
-        if (weight_decay_ > 0.0f) {
-            for (size_t i = 0; i < param->data().size(); ++i) {
-                param->grad[i] += weight_decay_ * param->data()[i];
-            }
-        }
-        
         // Apply momentum if specified
         if (momentum_ > 0.0f) {
             // Initialize momentum buffer if not exists
@@ -487,19 +486,24 @@ void SGDOptimizer::step() {
             
             Tensor& momentum_buffer = momentum_buffers_[param];
             
-            // Update momentum: v = momentum * v + grad
+            // Update momentum: v = momentum * v + grad (with optional weight decay)
+            // Update parameters: param = param - lr * v (with optional weight decay)
             for (size_t i = 0; i < momentum_buffer.data().size(); ++i) {
-                momentum_buffer[i] = momentum_ * momentum_buffer[i] + param->grad[i];
-            }
-            
-            // Update parameters: param = param - lr * v
-            for (size_t i = 0; i < param->data().size(); ++i) {
+                float grad_with_decay = param->grad[i];
+                if (weight_decay_ > 0.0f) {
+                    grad_with_decay += weight_decay_ * param->data()[i];
+                }
+                momentum_buffer[i] = momentum_ * momentum_buffer[i] + grad_with_decay;
                 param->data()[i] -= learning_rate_ * momentum_buffer[i];
             }
         } else {
-            // Standard SGD: param = param - lr * grad
+            // Standard SGD: param = param - lr * grad (with optional weight decay)
             for (size_t i = 0; i < param->data().size(); ++i) {
-                param->data()[i] -= learning_rate_ * param->grad[i];
+                float grad_with_decay = param->grad[i];
+                if (weight_decay_ > 0.0f) {
+                    grad_with_decay += weight_decay_ * param->data()[i];
+                }
+                param->data()[i] -= learning_rate_ * grad_with_decay;
             }
         }
     }
