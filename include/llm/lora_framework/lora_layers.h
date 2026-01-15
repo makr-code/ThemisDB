@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <cstddef>
+#include <unordered_map>
 
 namespace themis {
 namespace llm {
@@ -199,6 +200,39 @@ namespace tensor_utils {
     Tensor zeros(const std::vector<size_t>& shape);
     Tensor ones(const std::vector<size_t>& shape);
 } // namespace tensor_utils
+
+/**
+ * @brief Simple SGD optimizer for LoRA training
+ * 
+ * Implements basic Stochastic Gradient Descent with momentum (optional).
+ * Can be extended to Adam in future PRs.
+ */
+class SGDOptimizer {
+public:
+    explicit SGDOptimizer(float learning_rate = 0.001f, float momentum = 0.0f, float weight_decay = 0.0f);
+    
+    // Register parameters to optimize
+    void add_parameters(const std::vector<Tensor*>& params);
+    
+    // Perform optimization step (update parameters using gradients)
+    void step();
+    
+    // Zero out all gradients
+    void zero_grad();
+    
+    // Getters/Setters
+    float learning_rate() const { return learning_rate_; }
+    void set_learning_rate(float lr) { learning_rate_ = lr; }
+
+private:
+    float learning_rate_;
+    float momentum_;
+    float weight_decay_;
+    std::vector<Tensor*> parameters_;
+    
+    // Momentum buffers (for momentum > 0)
+    std::unordered_map<Tensor*, Tensor> momentum_buffers_;
+};
 
 } // namespace lora
 } // namespace llm

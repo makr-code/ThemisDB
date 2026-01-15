@@ -1,12 +1,45 @@
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_storage_service.h"
+#include "llm/lora_framework/lora_layers.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
+#include <cmath>
 
 namespace themis {
 namespace llm {
 namespace lora {
+
+// Simple MSE loss function
+float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
+    if (predictions.size() != targets.size()) {
+        throw std::invalid_argument("Predictions and targets must have same size");
+    }
+    
+    float sum = 0.0f;
+    for (size_t i = 0; i < predictions.size(); ++i) {
+        float diff = predictions[i] - targets[i];
+        sum += diff * diff;
+    }
+    
+    return sum / predictions.size();
+}
+
+// Compute gradient of MSE loss w.r.t. predictions
+Tensor compute_mse_gradient(const Tensor& predictions, const Tensor& targets) {
+    if (predictions.shape() != targets.shape()) {
+        throw std::invalid_argument("Predictions and targets must have same shape");
+    }
+    
+    Tensor grad(predictions.shape());
+    float scale = 2.0f / predictions.size();
+    
+    for (size_t i = 0; i < predictions.size(); ++i) {
+        grad[i] = scale * (predictions[i] - targets[i]);
+    }
+    
+    return grad;
+}
 
 /**
  * @brief Implementation class for LoRATrainingService
@@ -56,30 +89,74 @@ public:
             current_metrics_.total_steps = (data.size() / params.batch_size) * params.num_epochs;
             current_metrics_.learning_rate = params.learning_rate;
             
-            // Simulate training (in production, this would call actual training)
+            // Create a simple LoRA layer for training
+            // In production, this would be loaded from the base model
+            size_t hidden_dim = 768;  // Standard transformer dimension
+            auto lora_layer = std::make_unique<LoRALayer>(
+                hidden_dim, 
+                hidden_dim, 
+                params.rank,
+                params.alpha / params.rank  // Scaling factor
+            );
+            
+            // Create optimizer
+            SGDOptimizer optimizer(params.learning_rate, 0.0f, params.weight_decay);
+            optimizer.add_parameters(lora_layer->parameters());
+            
+            spdlog::info("Initialized LoRA layer with {} parameters", 
+                        lora_layer->parameter_count());
+            
+            // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
                 current_metrics_.current_epoch = epoch + 1;
+                float epoch_loss = 0.0f;
+                int num_batches = 0;
                 
-                int steps_per_epoch = data.size() / params.batch_size;
+                int steps_per_epoch = std::max(1, static_cast<int>(data.size()) / params.batch_size);
+                
                 for (int step = 0; step < steps_per_epoch; ++step) {
                     current_metrics_.current_step = epoch * steps_per_epoch + step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
-                    // Simulate loss decrease
-                    current_metrics_.current_loss = 2.0f * (1.0f - current_metrics_.progress);
+                    // Create synthetic training batch (simplified)
+                    // In production, this would process actual text data
+                    Tensor batch_input = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
+                    Tensor batch_target = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
+                    
+                    // Forward pass
+                    optimizer.zero_grad();
+                    Tensor predictions = lora_layer->forward(batch_input);
+                    
+                    // Compute loss
+                    float batch_loss = compute_mse_loss(predictions, batch_target);
+                    epoch_loss += batch_loss;
+                    num_batches++;
+                    
+                    // Backward pass
+                    Tensor grad_output = compute_mse_gradient(predictions, batch_target);
+                    lora_layer->backward(grad_output);
+                    
+                    // Optimizer step
+                    optimizer.step();
+                    
+                    // Update metrics
+                    current_metrics_.current_loss = batch_loss;
                     
                     // Call callback if registered
                     if (training_callback_) {
                         training_callback_(current_metrics_);
                     }
                     
-                    // Small delay to simulate training
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    // Small delay to prevent overwhelming the system
+                    if (step % 10 == 0) {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    }
                 }
                 
-                spdlog::info("Completed epoch {}/{}, loss: {:.4f}", 
-                            epoch + 1, params.num_epochs, current_metrics_.current_loss);
+                float avg_epoch_loss = num_batches > 0 ? epoch_loss / num_batches : 0.0f;
+                spdlog::info("Completed epoch {}/{}, avg loss: {:.4f}", 
+                            epoch + 1, params.num_epochs, avg_epoch_loss);
             }
             
             result.success = true;

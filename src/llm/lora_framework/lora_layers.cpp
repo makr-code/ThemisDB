@@ -449,6 +449,73 @@ size_t Sequential::memory_bytes() const {
     return total;
 }
 
+// ===== SGD Optimizer =====
+
+SGDOptimizer::SGDOptimizer(float learning_rate, float momentum, float weight_decay)
+    : learning_rate_(learning_rate)
+    , momentum_(momentum)
+    , weight_decay_(weight_decay) {
+    spdlog::info("Created SGDOptimizer: lr={}, momentum={}, weight_decay={}",
+                 learning_rate_, momentum_, weight_decay_);
+}
+
+void SGDOptimizer::add_parameters(const std::vector<Tensor*>& params) {
+    parameters_.insert(parameters_.end(), params.begin(), params.end());
+    spdlog::debug("SGDOptimizer: Added {} parameters, total={}", 
+                  params.size(), parameters_.size());
+}
+
+void SGDOptimizer::step() {
+    for (auto* param : parameters_) {
+        if (!param || !param->requires_grad) {
+            continue;
+        }
+        
+        // Apply weight decay if specified (L2 regularization)
+        if (weight_decay_ > 0.0f) {
+            for (size_t i = 0; i < param->data().size(); ++i) {
+                param->grad[i] += weight_decay_ * param->data()[i];
+            }
+        }
+        
+        // Apply momentum if specified
+        if (momentum_ > 0.0f) {
+            // Initialize momentum buffer if not exists
+            if (momentum_buffers_.find(param) == momentum_buffers_.end()) {
+                momentum_buffers_[param] = Tensor(param->shape(), 0.0f);
+            }
+            
+            Tensor& momentum_buffer = momentum_buffers_[param];
+            
+            // Update momentum: v = momentum * v + grad
+            for (size_t i = 0; i < momentum_buffer.data().size(); ++i) {
+                momentum_buffer[i] = momentum_ * momentum_buffer[i] + param->grad[i];
+            }
+            
+            // Update parameters: param = param - lr * v
+            for (size_t i = 0; i < param->data().size(); ++i) {
+                param->data()[i] -= learning_rate_ * momentum_buffer[i];
+            }
+        } else {
+            // Standard SGD: param = param - lr * grad
+            for (size_t i = 0; i < param->data().size(); ++i) {
+                param->data()[i] -= learning_rate_ * param->grad[i];
+            }
+        }
+    }
+    
+    spdlog::debug("SGDOptimizer: Updated {} parameters", parameters_.size());
+}
+
+void SGDOptimizer::zero_grad() {
+    for (auto* param : parameters_) {
+        if (param && param->requires_grad) {
+            param->grad.zero();
+        }
+    }
+    spdlog::debug("SGDOptimizer: Zeroed gradients for {} parameters", parameters_.size());
+}
+
 } // namespace lora
 } // namespace llm
 } // namespace themis
