@@ -69,7 +69,7 @@ Die Wahl der Speicherstrategie bestimmt fundamental die Write-Throughput, Query-
 
 #### Bucketing Patterns {#chapter_35_1_1_1_bucketing-patterns}
 
-[Bucketing](../appendix_h_glossary.md#bucketing) bezeichnet die Aggregation von Datenpunkten in zeitliche Intervalle (*Buckets*). Wir unterscheiden zwischen Fixed-Width und Variable-Width Bucketing:
+*Bucketing* bezeichnet die Aggregation von Datenpunkten in zeitliche Intervalle (*Buckets* oder [Time Windows](../appendix_h_glossary.md#bucket--time-window)). Wir unterscheiden zwischen Fixed-Width und Variable-Width Bucketing:
 
 **Fixed-Width Bucketing** (konstante Intervallgröße):
 
@@ -120,7 +120,7 @@ FOR event IN metrics_stream
 
 #### Columnar vs. Row-Oriented Storage {#chapter_35_1_1_2_columnar-vs-row}
 
-Für analytische Workloads (Aggregationen über Zeitbereiche) bietet [columnar storage](../appendix_h_glossary.md#columnar-storage) signifikante Vorteile:
+Für analytische Workloads (Aggregationen über Zeitbereiche) bietet *columnar storage* signifikante Vorteile:
 
 | Aspekt | Row-Oriented | Columnar (Delta-Encoded) |
 |--------|--------------|--------------------------|
@@ -131,7 +131,7 @@ Für analytische Workloads (Aggregationen über Zeitbereiche) bietet [columnar s
 
 #### Down-Sampling und Aggregation {#chapter_35_1_1_3_downsampling}
 
-[Down-Sampling](../appendix_h_glossary.md#downsampling) reduziert die Datengranularität für historische Daten durch Pre-Aggregation:
+*Down-Sampling* ([Downsampling](../appendix_h_glossary.md#downsampling)) reduziert die Datengranularität für historische Daten durch Pre-Aggregation:
 
 ```aql
 -- Down-Sampling: 1-Sekunden-Daten → 5-Minuten-Aggregate
@@ -164,7 +164,7 @@ REMOVE metric IN metrics_raw
 
 #### Hot/Warm/Cold Tiering {#chapter_35_1_1_4_tiering}
 
-[Data Tiering](../appendix_h_glossary.md#data-tiering) optimiert Kosten durch Speicher-Hierarchien:
+*Data Tiering* optimiert Kosten durch Speicher-Hierarchien basierend auf Datenzugriffsmustern:
 
 - **Hot Tier** (0-7 Tage): SSD/NVMe, volle Auflösung, Write-optimiert
 - **Warm Tier** (7-90 Tage): SATA SSD, Down-Sampled (5min), Read-optimiert
@@ -176,7 +176,7 @@ Effiziente Indizierung ist kritisch für Range-Queries und Tag-basierte Filterun
 
 #### Time-Based Partitioning {#chapter_35_1_2_1_time-partitioning}
 
-[Partitionierung](../appendix_h_glossary.md#partitioning) nach Zeitstempel ermöglicht Partition Pruning bei Range-Queries:
+*Partitionierung* nach Zeitstempel ermöglicht Partition Pruning bei Range-Queries:
 
 ```sql
 -- RocksDB Column Family pro Zeitpartition
@@ -214,7 +214,7 @@ ORDER BY metric_id, timestamp DESC;
 
 ### 35.1.3 Time-Series Query Patterns {#chapter_35_1_3_query-patterns}
 
-Typische Query-Patterns in Time-Series-Systemen folgen analytischen Mustern wie [Windowing](../appendix_h_glossary.md#windowing), Aggregation und Gap-Filling.
+Typische Query-Patterns in Time-Series-Systemen folgen analytischen Mustern wie *Windowing*, Aggregation und Gap-Filling.
 
 #### Range Queries mit Aggregation {#chapter_35_1_3_1_range-queries}
 
@@ -325,13 +325,13 @@ Wir präsentieren Performance-Charakteristiken verschiedener Storage-Strategien 
 
 ## 35.2 Temporale Daten (Temporal Data) {#chapter_35_2_temporale-daten}
 
-[Temporale Daten](../appendix_h_glossary.md#temporal-data) unterscheiden sich von Time-Series durch die Modellierung von Gültigkeitszeiträumen und Versionierung von Entitäten. Wir präsentieren Bitemporal Modeling, Slowly Changing Dimensions und Audit-Trail-Implementierungen für GDPR-konforme Historisierung[^temp1].
+Temporale Daten ([Time-Series Data](../appendix_h_glossary.md#time-series-data) mit Versionierung) unterscheiden sich von reinen Time-Series durch die Modellierung von Gültigkeitszeiträumen und Versionierung von Entitäten. Wir präsentieren Bitemporal Modeling, Slowly Changing Dimensions und Audit-Trail-Implementierungen für GDPR-konforme Historisierung[^temp1].
 
 [^temp1]: Date, Darwen & Lorentzos, "Temporal Data & the Relational Model", Morgan Kaufmann 2002
 
 ### 35.2.1 Bitemporal Modeling {#chapter_35_2_1_bitemporal-modeling}
 
-[Bitemporal Modeling](../appendix_h_glossary.md#bitemporal) unterscheidet zwischen *Valid Time* (Gültigkeitszeitraum in der realen Welt) und *Transaction Time* (Aufzeichnungszeitpunkt in der Datenbank)[^temp2].
+*Bitemporal Modeling* unterscheidet zwischen *Valid Time* (Gültigkeitszeitraum in der realen Welt) und *Transaction Time* (Aufzeichnungszeitpunkt in der Datenbank)[^temp2].
 
 [^temp2]: Jensen & Snodgrass, "The Bitemporal Conceptual Data Model", ACM TODS 1999
 
@@ -402,7 +402,7 @@ FOR emp IN employees_bitemporal
 
 ### 35.2.2 Slowly Changing Dimensions (SCD) {#chapter_35_2_2_slowly-changing-dimensions}
 
-[Slowly Changing Dimensions](../appendix_h_glossary.md#slowly-changing-dimensions) (SCD) klassifizieren Strategien für Dimensions-Versionierung in Data Warehouses. Wir präsentieren Types 1-6 mit Performance-Trade-offs.
+*Slowly Changing Dimensions* (SCD) klassifizieren Strategien für Dimensions-Versionierung in Data Warehouses. Wir präsentieren Types 1-6 mit Performance-Trade-offs.
 
 #### SCD Type 1: Overwrite (No History) {#chapter_35_2_2_1_scd-type-1}
 
@@ -488,7 +488,7 @@ CREATE TABLE customers_scd6 (
 | SCD Type 2 | 3-5× | 60% (Index) | Full | Full audit trail |
 | SCD Type 3 | 1.2× | 95% | 1 Previous | Simple undo |
 | Bitemporal | 4-8× | 40% (Complex) | Full | Regulatory compliance |
-| [Event Sourcing](../appendix_h_glossary.md#event-sourcing) | 10-20× | 80% (Rebuild) | Infinite | CQRS patterns |
+| *Event Sourcing* | 10-20× | 80% (Rebuild) | Infinite | CQRS patterns |
 
 **Methodik:**
 - **Dataset:** 1M customers, 10 changes per customer over 5 years
@@ -498,7 +498,7 @@ CREATE TABLE customers_scd6 (
 
 ### 35.2.4 Audit Trail Implementation {#chapter_35_2_4_audit-trail}
 
-GDPR-konforme [Audit Trails](../appendix_h_glossary.md#audit-trail) erfordern immutable append-only logs mit Retention Policies.
+GDPR-konforme *Audit Trails* erfordern immutable append-only logs mit Retention Policies.
 
 ```aql
 -- Event-Sourcing-basierter Audit Trail
@@ -544,7 +544,7 @@ Die Dokumentenmodellierung in Multi-Model-Datenbanken balanciert zwischen Flexib
 
 #### Schema-on-Read vs. Schema-on-Write {#chapter_35_3_1_1_schema-approaches}
 
-[Schema-on-Write](../appendix_h_glossary.md#schema-on-write) erzwingt Validierung beim Insert, [Schema-on-Read](../appendix_h_glossary.md#schema-on-read) delegiert Interpretation an die Anwendung:
+*Schema-on-Write* erzwingt Validierung beim Insert, *Schema-on-Read* delegiert Interpretation an die Anwendung:
 
 ```json
 // Schema-on-Write: JSON Schema Validation
@@ -576,7 +576,7 @@ Die Dokumentenmodellierung in Multi-Model-Datenbanken balanciert zwischen Flexib
 
 ### 35.3.2 Embedded vs. Referenced Relationships {#chapter_35_3_2_embedded-vs-referenced}
 
-Die Wahl zwischen [Embedding](../appendix_h_glossary.md#embedding) und [Referencing](../appendix_h_glossary.md#referencing) folgt der Kardinalität und Update-Frequenz der Beziehung.
+Die Wahl zwischen *Embedding* ([Embedding](../appendix_h_glossary.md#embedding)) und *Referencing* folgt der Kardinalität und Update-Frequenz der Beziehung.
 
 ```json
 // EMBEDDED: One-to-Few (Adresse gehört zu User)
@@ -619,7 +619,7 @@ Die Wahl zwischen [Embedding](../appendix_h_glossary.md#embedding) und [Referenc
 
 ### 35.3.3 Nested Document Strategies {#chapter_35_3_3_nested-strategies}
 
-[Nested Documents](../appendix_h_glossary.md#nested-documents) ermöglichen hierarchische Strukturen, erfordern jedoch Limits für Performance:
+*Nested Documents* ermöglichen hierarchische Strukturen, erfordern jedoch Limits für Performance:
 
 ```aql
 -- Partial Document Update: Nur ein Nested Field ändern
@@ -696,7 +696,7 @@ Graphenmodellierung optimiert Beziehungsabfragen (*Traversals*) durch spezialisi
 
 #### Adjacency List vs. Adjacency Matrix {#chapter_35_4_1_1_adjacency-structures}
 
-[Adjacency List](../appendix_h_glossary.md#adjacency-list) speichert pro Knoten dessen Nachbarn, [Adjacency Matrix](../appendix_h_glossary.md#adjacency-matrix) repräsentiert Kanten als 2D-Matrix:
+*Adjacency List* speichert pro Knoten dessen Nachbarn, *Adjacency Matrix* repräsentiert Kanten als 2D-Matrix:
 
 ```json
 // Adjacency List (speichereffizient für sparse graphs)
@@ -726,7 +726,7 @@ Graphenmodellierung optimiert Beziehungsabfragen (*Traversals*) durch spezialisi
 
 #### Property Graph Model {#chapter_35_4_1_2_property-graph}
 
-[Property Graphs](../appendix_h_glossary.md#property-graph) erweitern Knoten und Kanten mit Key-Value-Attributen:
+*Property Graphs* erweitern Knoten und Kanten mit Key-Value-Attributen:
 
 ```json
 // Node mit Properties
@@ -886,15 +886,11 @@ for (it->Seek(prefix); it->Valid() && it->key().starts_with(prefix); it->Next())
 
 ## 35.5 Hybrid Pattern: Optimal Denormalization {#chapter_35_5_hybrid-pattern}
 
-## 35.5 Hybrid Pattern: Optimal Denormalization {#chapter_35_5_hybrid-pattern}
-
-Das Hybrid-Pattern balanciert zwischen vollständigem Embedding und reinem Referencing durch selektive [Denormalisierung](../appendix_h_glossary.md#denormalization). Wir kombinieren Snapshot-Daten (embedded) mit Live-Referenzen für optimale Read/Write-Performance. Dieser Ansatz wird auch als "Selective Denormalization" bezeichnet und folgt dem Prinzip: "Denormalize what you read frequently, normalize what you write frequently."
+Das Hybrid-Pattern balanciert zwischen vollständigem Embedding und reinem Referencing durch selektive *Denormalisierung*. Wir kombinieren Snapshot-Daten (embedded) mit Live-Referenzen für optimale Read/Write-Performance. Dieser Ansatz wird auch als "Selective Denormalization" bezeichnet und folgt dem Prinzip: "Denormalize what you read frequently, normalize what you write frequently."
 
 ### Pattern 1: Full Embedding {#chapter_35_5_1_full-embedding}
 
 **Geeignet für:** One-to-Few Relationships (< 100 Items)
-
-**Geeignet für:** One-to-Few Relationships
 
 ```aql
 -- E-Commerce: Order mit Produktdetails embedded
@@ -1068,7 +1064,7 @@ Wir empfehlen den Hybrid-Ansatz als Best Practice für Production-Systeme (siehe
 
 ## 35.6 Schema Evolution Patterns {#chapter_35_6_schema-evolution}
 
-[Schema Evolution](../appendix_h_glossary.md#schema-evolution) ermöglicht Datenmodell-Änderungen ohne Downtime durch Forward/Backward Compatibility. Wir präsentieren Strategien für versioned collections und blue-green migrations.
+*Schema Evolution* ermöglicht Datenmodell-Änderungen ohne Downtime durch Forward/Backward Compatibility. Wir präsentieren Strategien für versioned collections und blue-green migrations.
 
 ### 35.6.1 Forward Compatibility {#chapter_35_6_1_forward-compatibility}
 
@@ -1138,7 +1134,7 @@ FOR user IN users_v1
 
 ## 35.7 Data Integrity Patterns {#chapter_35_7_data-integrity}
 
-[Data Integrity](../appendix_h_glossary.md#data-integrity) sichert Konsistenz durch Constraints, Validation und Referential Integrity. Wir implementieren Checks auf Application-Layer und Database-Layer.
+*Data Integrity* sichert Konsistenz durch Constraints, Validation und Referential Integrity. Wir implementieren Checks auf Application-Layer und Database-Layer.
 
 ### 35.7.1 Constraints und Validation {#chapter_35_7_1_constraints-validation}
 
@@ -1168,7 +1164,7 @@ INSERT validate_user(new_user) INTO users
 
 ### 35.7.2 Referential Integrity {#chapter_35_7_2_referential-integrity}
 
-[Referential Integrity](../appendix_h_glossary.md#referential-integrity) verhindert Orphaned References durch CASCADE-Operationen oder Soft Deletes.
+*Referential Integrity* verhindert Orphaned References durch CASCADE-Operationen oder Soft Deletes.
 
 ```aql
 -- Before Delete: Check for References
@@ -1208,7 +1204,7 @@ Wir identifizieren häufige Modellierungs-Fehler (*Anti-Patterns*) und präsenti
 
 ### Anti-Pattern 1: Unbounded Arrays {#chapter_35_8_1_unbounded-arrays}
 
-[Unbounded Arrays](../appendix_h_glossary.md#unbounded-arrays) führen zu Memory-Problemen und O(n) Update-Komplexität.
+*Unbounded Arrays* führen zu Memory-Problemen und O(n) Update-Komplexität.
 
 ```aql
 -- ❌ FALSCH: Array wächst unbegrenzt
@@ -1250,7 +1246,7 @@ FOR user IN users
 
 ### Anti-Pattern 2: Wide Documents {#chapter_35_8_2_wide-documents}
 
-[Wide Documents](../appendix_h_glossary.md#wide-documents) mit 500+ Feldern degradieren Serialization-Performance und Readability.
+*Wide Documents* mit 500+ Feldern degradieren Serialization-Performance und Readability.
 
 ```aql
 -- ❌ FALSCH: Ein Dokument mit 500+ Felder
