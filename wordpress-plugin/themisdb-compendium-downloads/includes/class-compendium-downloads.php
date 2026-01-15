@@ -63,7 +63,7 @@ class ThemisDB_Compendium_Downloads {
         }
         
         // Filter for compendium PDF files
-        // Note: Uses 'kompendium' (German) as default. This can be made configurable via settings if needed.
+        // Note: Search term is configurable via admin settings (default: 'kompendium')
         $search_term = get_option('themisdb_compendium_search_term', 'kompendium');
         $compendium_assets = array_filter($data['assets'], function($asset) use ($search_term) {
             return stripos($asset['name'], $search_term) !== false && 

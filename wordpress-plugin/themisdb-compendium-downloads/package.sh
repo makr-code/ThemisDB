@@ -29,10 +29,11 @@ echo "📦 Copying plugin files..."
 # Copy plugin files
 cp -r "$SCRIPT_DIR/includes" "$PACKAGE_DIR/"
 cp -r "$SCRIPT_DIR/assets" "$PACKAGE_DIR/"
-cp "$SCRIPT_DIR/$PLUGIN_NAME.php" "$PACKAGE_DIR/"
+cp "$SCRIPT_DIR/themisdb-compendium-downloads.php" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/README.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/CHANGELOG.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/INSTALLATION.md" "$PACKAGE_DIR/"
+cp "$SCRIPT_DIR/QUICKSTART.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/LICENSE" "$PACKAGE_DIR/"
 
 # Create languages directory (even if empty for now)
