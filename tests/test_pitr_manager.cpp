@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "storage/pitr_manager.h"
 #include "transaction/snapshot_manager.h"
 #include "cdc/changefeed.h"

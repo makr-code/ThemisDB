@@ -8,10 +8,12 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
+#include "cdc/changefeed.h"
+#include "transaction/snapshot_manager.h"
+
 namespace themis {
 
-class Changefeed;
-class SnapshotManager;
+namespace transaction { class SnapshotManager; }
 class RocksDBWrapper;
 
 /**
@@ -133,7 +135,7 @@ public:
      */
     explicit PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
-                        SnapshotManager* snapshot_mgr);
+                        transaction::SnapshotManager* snapshot_mgr);
 
     ~PITRManager() = default;
 
@@ -222,7 +224,7 @@ public:
 private:
     RocksDBWrapper* db_;
     Changefeed* changefeed_;
-    SnapshotManager* snapshot_mgr_;
+    transaction::SnapshotManager* snapshot_mgr_;
     
     // Progress tracking (mutable for thread-safe updates)
     mutable RestoreProgress progress_;
