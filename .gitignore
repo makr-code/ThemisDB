@@ -310,3 +310,4 @@ verification_report*.md
 verification_report*.json
 comprehensive_verification_report*.md
 /tmp/issues/
+wordpress-plugin/*/dist/
