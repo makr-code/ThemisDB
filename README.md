@@ -32,6 +32,35 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 
 ## Quick Start
 
+### Request Flow Overview
+
+```mermaid
+flowchart LR
+    A[Client Request] --> B{Protocol}
+    B -->|REST/HTTP| C[HTTP Server]
+    B -->|gRPC| D[gRPC Server]
+    B -->|WebSocket| E[WebSocket Server]
+    
+    C & D & E --> F[Authentication]
+    F --> G[Rate Limiting]
+    G --> H[Query Parser]
+    H --> I[Query Optimizer]
+    I --> J[Execution Engine]
+    
+    J --> K{Operation Type}
+    K -->|Read| L[MVCC Read]
+    K -->|Write| M[Transaction]
+    K -->|Query| N[Index Lookup]
+    
+    L & M & N --> O[Storage Layer]
+    O --> P[Response]
+    P --> Q[Client]
+    
+    style A fill:#e1f5ff
+    style O fill:#ffe1e1
+    style Q fill:#e1ffe1
+```
+
 ### 🐳 Docker (Recommended)
 
 ```bash
@@ -79,6 +108,58 @@ cd ThemisDB
 
 > **📖 Build Guide:** See [docs/de/guides/guides_build_strategy.md](docs/de/guides/guides_build_strategy.md) for detailed build instructions.
 
+### Deployment Architecture
+
+```mermaid
+graph TB
+    subgraph "Production Deployment"
+        subgraph "Edge Layer"
+            CDN[CDN/Edge Cache]
+            WAF[Web Application Firewall]
+        end
+        
+        subgraph "Application Layer"
+            APP1[Application Server 1]
+            APP2[Application Server 2]
+            APP3[Application Server 3]
+        end
+        
+        subgraph "Database Layer"
+            subgraph "ThemisDB Cluster"
+                DB1[ThemisDB Node 1<br/>Leader]
+                DB2[ThemisDB Node 2<br/>Follower]
+                DB3[ThemisDB Node 3<br/>Follower]
+            end
+        end
+        
+        subgraph "Monitoring & Observability"
+            PROM[Prometheus]
+            GRAF[Grafana]
+            JAEGER[Jaeger Tracing]
+        end
+        
+        subgraph "Backup & Recovery"
+            BACKUP[Backup Storage<br/>S3/Object Store]
+        end
+    end
+    
+    CDN --> WAF
+    WAF --> APP1 & APP2 & APP3
+    APP1 & APP2 & APP3 --> DB1
+    DB1 -.Replication.-> DB2 & DB3
+    
+    DB1 --> PROM
+    PROM --> GRAF
+    DB1 --> JAEGER
+    DB1 -.Backup.-> BACKUP
+    
+    style DB1 fill:#e1ffe1
+    style DB2 fill:#e1ffe1
+    style DB3 fill:#e1ffe1
+    style PROM fill:#e1f5ff
+    style GRAF fill:#e1f5ff
+```
+
 ### 📦 Package Managers
 
 **Linux (Debian/Ubuntu):**
@@ -102,6 +183,59 @@ choco install themisdb
 ---
 
 ## 5-Minute Tutorial
+
+### Data Models Integration
+
+```mermaid
+graph TB
+    subgraph "Application Use Cases"
+        UC1[User Profiles<br/>Document Model]
+        UC2[Social Graph<br/>Graph Model]
+        UC3[Recommendations<br/>Vector Search]
+        UC4[Metrics<br/>Time-Series]
+    end
+    
+    subgraph "ThemisDB Unified API"
+        API[Single API Endpoint]
+    end
+    
+    subgraph "Query Processing"
+        PARSER[AQL Parser]
+        OPT[Query Optimizer]
+    end
+    
+    subgraph "Execution Layer"
+        DOC[Document Engine]
+        GRAPH[Graph Engine]
+        VECTOR[Vector Engine]
+        TS[Time-Series Engine]
+    end
+    
+    subgraph "Storage"
+        STORAGE[RocksDB<br/>Unified Key-Value Store]
+    end
+    
+    UC1 --> API
+    UC2 --> API
+    UC3 --> API
+    UC4 --> API
+    
+    API --> PARSER
+    PARSER --> OPT
+    
+    OPT --> DOC
+    OPT --> GRAPH
+    OPT --> VECTOR
+    OPT --> TS
+    
+    DOC --> STORAGE
+    GRAPH --> STORAGE
+    VECTOR --> STORAGE
+    TS --> STORAGE
+    
+    style API fill:#e1f5ff
+    style STORAGE fill:#ffe1e1
+```
 
 ```bash
 # 1. Check server health
@@ -135,6 +269,68 @@ curl http://localhost:8080/metrics
 
 ## Core Capabilities
 
+### Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        C1[REST/HTTP]
+        C2[GraphQL]
+        C3[gRPC]
+        C4[Wire Protocol]
+        C5[Native SDKs]
+    end
+    
+    subgraph "API & Server Layer"
+        S1[HTTP/2 Server]
+        S2[WebSocket Server]
+        S3[Authentication & RBAC]
+        S4[Rate Limiting]
+    end
+    
+    subgraph "Query Processing"
+        Q1[AQL Parser]
+        Q2[Query Optimizer]
+        Q3[Execution Engine]
+    end
+    
+    subgraph "Transaction Layer"
+        T1[MVCC Manager]
+        T2[Transaction Coordinator]
+        T3[Lock Manager]
+    end
+    
+    subgraph "Multi-Model Indexes"
+        I1[Vector Index HNSW]
+        I2[Graph Index]
+        I3[Secondary Indexes]
+        I4[Fulltext Search]
+        I5[Spatial Index]
+    end
+    
+    subgraph "Storage Layer"
+        ST1[RocksDB LSM-Tree]
+        ST2[WAL]
+        ST3[Snapshot Manager]
+    end
+    
+    C1 & C2 & C3 & C4 & C5 --> S1 & S2
+    S1 & S2 --> S3 --> S4
+    S4 --> Q1 --> Q2 --> Q3
+    Q3 --> T1
+    T1 --> T2 --> T3
+    T3 --> I1 & I2 & I3 & I4 & I5
+    I1 & I2 & I3 & I4 & I5 --> ST1
+    ST1 --> ST2 & ST3
+    
+    style I1 fill:#e1f5ff
+    style I2 fill:#e1f5ff
+    style I3 fill:#e1f5ff
+    style I4 fill:#e1f5ff
+    style I5 fill:#e1f5ff
+    style ST1 fill:#ffe1e1
+```
+
 ### Multi-Model Database
 - **Relational**: SQL-like queries with secondary indexes
 - **Graph**: BFS, Dijkstra, A* traversals with path constraints
@@ -142,18 +338,185 @@ curl http://localhost:8080/metrics
 - **Document**: JSON storage with flexible schema
 - **Time-Series**: Gorilla compression, continuous aggregates
 
+```mermaid
+graph LR
+    subgraph "Unified Storage"
+        LSM[RocksDB LSM-Tree]
+    end
+    
+    subgraph "Data Models"
+        REL[Relational Model<br/>Tables & Rows]
+        GRAPH[Graph Model<br/>Nodes & Edges]
+        VECTOR[Vector Model<br/>Embeddings]
+        DOC[Document Model<br/>JSON Documents]
+        TS[Time-Series<br/>Metrics & Events]
+    end
+    
+    REL --> LSM
+    GRAPH --> LSM
+    VECTOR --> LSM
+    DOC --> LSM
+    TS --> LSM
+    
+    style LSM fill:#ffe1e1
+    style REL fill:#e1ffe1
+    style GRAPH fill:#e1ffe1
+    style VECTOR fill:#e1ffe1
+    style DOC fill:#e1ffe1
+    style TS fill:#e1ffe1
+```
+
 ### Transaction Support
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant TxManager as Transaction Manager
+    participant MVCC as MVCC Engine
+    participant Storage as RocksDB Storage
+    
+    Client->>TxManager: BEGIN TRANSACTION
+    TxManager->>MVCC: Get Snapshot (timestamp)
+    MVCC-->>TxManager: Snapshot ID
+    TxManager-->>Client: Transaction Handle
+    
+    Client->>TxManager: READ (key)
+    TxManager->>MVCC: Read at Snapshot
+    MVCC->>Storage: Get versioned data
+    Storage-->>MVCC: Data with version
+    MVCC-->>TxManager: Consistent read
+    TxManager-->>Client: Data
+    
+    Client->>TxManager: WRITE (key, value)
+    TxManager->>MVCC: Check conflicts
+    MVCC-->>TxManager: No conflicts
+    TxManager->>Storage: Write with version
+    Storage-->>TxManager: Written
+    TxManager-->>Client: OK
+    
+    Client->>TxManager: COMMIT
+    TxManager->>MVCC: Validate & commit
+    MVCC->>Storage: Apply changes atomically
+    Storage-->>MVCC: Success
+    MVCC-->>TxManager: Committed
+    TxManager-->>Client: Transaction Complete
+```
+
 - Full ACID guarantees with snapshot isolation
 - Write-write conflict detection
 - Atomic updates across all index types
 
 ### Security & Compliance
+
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        CLIENT[Client Application]
+    end
+    
+    subgraph "Transport Security"
+        TLS[TLS 1.3<br/>Certificate Validation]
+        MTLS[Mutual TLS<br/>Client Certificates]
+    end
+    
+    subgraph "Authentication & Authorization"
+        AUTH[Authentication<br/>JWT/OAuth2]
+        RBAC[Role-Based Access Control<br/>Permissions Matrix]
+        POLICY[Policy Engine<br/>Apache Ranger]
+    end
+    
+    subgraph "Application Security"
+        RATELIMIT[Rate Limiting<br/>DDoS Protection]
+        AUDIT[Audit Logging<br/>SIEM Integration]
+        INPUT[Input Validation<br/>SQL Injection Prevention]
+    end
+    
+    subgraph "Data Security"
+        ENCRYPT[Field-Level Encryption<br/>AES-256-GCM]
+        HSM[Hardware Security Module<br/>Key Management]
+        MASKING[Data Masking<br/>PII Protection]
+    end
+    
+    subgraph "Storage Security"
+        STORAGE[Encrypted Storage<br/>At-Rest Encryption]
+        BACKUP[Encrypted Backups<br/>Secure Recovery]
+    end
+    
+    CLIENT --> TLS
+    TLS --> MTLS
+    MTLS --> AUTH
+    AUTH --> RBAC
+    RBAC --> POLICY
+    POLICY --> RATELIMIT
+    RATELIMIT --> INPUT
+    INPUT --> AUDIT
+    AUDIT --> ENCRYPT
+    ENCRYPT --> HSM
+    HSM --> MASKING
+    MASKING --> STORAGE
+    STORAGE --> BACKUP
+    
+    style TLS fill:#ffe1e1
+    style AUTH fill:#ffe1e1
+    style ENCRYPT fill:#ffe1e1
+    style STORAGE fill:#ffe1e1
+```
+
 - TLS 1.3 with mTLS support
 - Role-Based Access Control (RBAC)
 - Field-level encryption
 - Audit logging with SIEM integration
 
 ### Distribution & Scaling
+
+```mermaid
+graph TB
+    subgraph "Client Applications"
+        APP[Applications]
+    end
+    
+    subgraph "Load Balancer"
+        LB[Load Balancer<br/>Consistent Hashing]
+    end
+    
+    subgraph "ThemisDB Cluster"
+        subgraph "Shard 1"
+            N1[Leader Node]
+            F1[Follower 1]
+            F2[Follower 2]
+        end
+        
+        subgraph "Shard 2"
+            N2[Leader Node]
+            F3[Follower 1]
+            F4[Follower 2]
+        end
+        
+        subgraph "Shard 3"
+            N3[Leader Node]
+            F5[Follower 1]
+            F6[Follower 2]
+        end
+    end
+    
+    subgraph "Coordination"
+        COORD[Coordinator<br/>Shard Management]
+    end
+    
+    APP --> LB
+    LB --> N1 & N2 & N3
+    N1 -.Replication.-> F1 & F2
+    N2 -.Replication.-> F3 & F4
+    N3 -.Replication.-> F5 & F6
+    COORD -.Manages.-> N1 & N2 & N3
+    
+    style N1 fill:#e1ffe1
+    style N2 fill:#e1ffe1
+    style N3 fill:#e1ffe1
+    style LB fill:#ffe1e1
+    style COORD fill:#e1f5ff
+```
+
 - Horizontal sharding with consistent hashing (Enterprise)
 - Leader-follower and multi-master replication (Enterprise)
 - Kubernetes operator with CRDs (Enterprise)
