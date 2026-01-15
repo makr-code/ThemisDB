@@ -1,0 +1,314 @@
+/**
+ * ThemisDB Compendium Downloads - Frontend Styles
+ * 
+ * Themis Brand Colors:
+ * Primary: #2c3e50 (Dark Blue-Gray)
+ * Secondary: #3498db (Light Blue)
+ * Accent: #7c4dff (Purple)
+ * Success: #27ae60 (Green)
+ */
+
+/* CSS Variables for Themis Brand */
+:root {
+    --themis-primary: #2c3e50;
+    --themis-secondary: #3498db;
+    --themis-accent: #7c4dff;
+    --themis-success: #27ae60;
+    --themis-warning: #f39c12;
+    --themis-error: #e74c3c;
+    --themis-light: #ecf0f1;
+    --themis-dark: #1a252f;
+    --themis-gray: #95a5a6;
+}
+
+/* Main container */
+.themisdb-compendium-downloads {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.themisdb-compendium-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.themisdb-compendium-title {
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--themis-primary);
+    font-weight: 600;
+}
+
+.themisdb-icon {
+    font-size: 2rem;
+    vertical-align: middle;
+}
+
+.themisdb-compendium-version {
+    font-size: 1rem;
+    color: var(--themis-gray);
+    margin: 0.5rem 0 0 0;
+}
+
+.themisdb-date {
+    font-size: 0.9rem;
+    color: var(--themis-gray);
+}
+
+/* Items container */
+.themisdb-compendium-items {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Layout: Cards (default) */
+.themisdb-layout-cards .themisdb-compendium-items {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Layout: List */
+.themisdb-layout-list .themisdb-compendium-items {
+    grid-template-columns: 1fr;
+}
+
+/* Layout: Compact */
+.themisdb-layout-compact .themisdb-compendium-items {
+    gap: 1rem;
+}
+
+.themisdb-layout-compact .themisdb-compendium-item {
+    padding: 1rem;
+}
+
+/* Item card */
+.themisdb-compendium-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--themis-light);
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.themisdb-compendium-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--themis-secondary);
+}
+
+/* Variants */
+.themisdb-variant-professional {
+    border-color: var(--themis-secondary);
+}
+
+.themisdb-variant-print {
+    border-color: var(--themis-success);
+}
+
+/* Item icon */
+.themisdb-item-icon {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+}
+
+/* Item content */
+.themisdb-item-content {
+    flex: 1;
+}
+
+.themisdb-item-title {
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--themis-primary);
+    font-weight: 600;
+}
+
+.themisdb-item-size {
+    font-size: 0.9rem;
+    color: var(--themis-gray);
+    margin: 0 0 1rem 0;
+}
+
+/* Download button */
+.themisdb-download-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--themis-secondary);
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.themisdb-download-button:hover {
+    background: #2980b9;
+    transform: translateX(2px);
+}
+
+.themisdb-button-icon {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+/* Footer */
+.themisdb-compendium-footer {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.themisdb-github-link {
+    margin: 0;
+}
+
+.themisdb-github-link a {
+    color: var(--themis-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.themisdb-github-link a:hover {
+    text-decoration: underline;
+}
+
+.themisdb-github-icon {
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+/* Error message */
+.themisdb-compendium-error {
+    padding: 1rem;
+    background: #ffebee;
+    border: 1px solid var(--themis-error);
+    border-radius: 4px;
+    color: #c62828;
+}
+
+/* Style variations */
+
+/* Modern style (default) */
+.themisdb-style-modern .themisdb-download-button {
+    background: linear-gradient(135deg, var(--themis-secondary) 0%, #2980b9 100%);
+}
+
+/* Classic style */
+.themisdb-style-classic .themisdb-compendium-downloads {
+    border: 1px solid #ccc;
+    box-shadow: none;
+}
+
+.themisdb-style-classic .themisdb-compendium-item {
+    background: #ffffff;
+    border: 1px solid #ddd;
+}
+
+.themisdb-style-classic .themisdb-download-button {
+    border-radius: 2px;
+    background: var(--themis-primary);
+}
+
+.themisdb-style-classic .themisdb-download-button:hover {
+    background: var(--themis-secondary);
+}
+
+/* Minimal style */
+.themisdb-style-minimal .themisdb-compendium-downloads {
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    padding: 1.5rem;
+}
+
+.themisdb-style-minimal .themisdb-compendium-item {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0;
+    padding: 1rem 0;
+}
+
+.themisdb-style-minimal .themisdb-compendium-item:last-child {
+    border-bottom: none;
+}
+
+.themisdb-style-minimal .themisdb-download-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Widget styles */
+.themisdb-compendium-widget .themisdb-compendium-downloads {
+    padding: 1rem;
+    margin: 0;
+}
+
+.themisdb-compendium-widget .themisdb-compendium-title {
+    font-size: 1.3rem;
+}
+
+.themisdb-compendium-widget .themisdb-item-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.themisdb-compendium-widget .themisdb-download-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .themisdb-compendium-downloads {
+        padding: 1.5rem;
+    }
+    
+    .themisdb-compendium-items {
+        grid-template-columns: 1fr;
+    }
+    
+    .themisdb-compendium-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .themisdb-item-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .themisdb-download-button {
+        width: 100%;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .themisdb-compendium-downloads {
+        background: var(--themis-dark);
+        color: #e0e0e0;
+    }
+    
+    .themisdb-compendium-title,
+    .themisdb-item-title {
+        color: #ffffff;
+    }
+    
+    .themisdb-compendium-item {
+        background: #2a2a2a;
+        border-color: #404040;
+    }
+    
+    .themisdb-compendium-item:hover {
+        border-color: var(--themis-secondary);
+    }
+}

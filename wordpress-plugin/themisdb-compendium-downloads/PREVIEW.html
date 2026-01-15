@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB Compendium Downloads - Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            background: #f0f0f1;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .preview-header {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .preview-header h1 {
+            margin: 0 0 10px 0;
+            color: #1d2327;
+        }
+        
+        .preview-header p {
+            margin: 0;
+            color: #646970;
+        }
+        
+        .style-showcase {
+            margin-bottom: 40px;
+        }
+        
+        .style-label {
+            background: #2271b1;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        /* Modern Style */
+        .themisdb-compendium-downloads {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .themisdb-compendium-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .themisdb-compendium-title {
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .themisdb-icon {
+            font-size: 2rem;
+            vertical-align: middle;
+        }
+        
+        .themisdb-compendium-version {
+            font-size: 1rem;
+            color: #666;
+            margin: 0.5rem 0 0 0;
+        }
+        
+        .themisdb-date {
+            font-size: 0.9rem;
+            color: #999;
+        }
+        
+        .themisdb-compendium-items {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        .themisdb-compendium-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .themisdb-compendium-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-color: #0073aa;
+        }
+        
+        .themisdb-variant-professional {
+            border-color: #0073aa;
+        }
+        
+        .themisdb-variant-print {
+            border-color: #46b450;
+        }
+        
+        .themisdb-item-icon {
+            font-size: 3rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .themisdb-item-content {
+            flex: 1;
+        }
+        
+        .themisdb-item-title {
+            font-size: 1.3rem;
+            margin: 0 0 0.5rem 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .themisdb-item-size {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0 0 1rem 0;
+        }
+        
+        .themisdb-download-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #0073aa 0%, #005177 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .themisdb-download-button:hover {
+            background: #005177;
+            transform: translateX(2px);
+        }
+        
+        .themisdb-button-icon {
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+        
+        .themisdb-compendium-footer {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .themisdb-github-link {
+            margin: 0;
+        }
+        
+        .themisdb-github-link a {
+            color: #0073aa;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        
+        .themisdb-github-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .themisdb-github-icon {
+            font-size: 1.1rem;
+            vertical-align: middle;
+        }
+        
+        /* Classic Style */
+        .themisdb-style-classic .themisdb-compendium-downloads {
+            border: 1px solid #ccc;
+            box-shadow: none;
+        }
+        
+        .themisdb-style-classic .themisdb-compendium-item {
+            background: #ffffff;
+            border: 1px solid #ddd;
+        }
+        
+        .themisdb-style-classic .themisdb-download-button {
+            border-radius: 2px;
+            background: #23282d;
+        }
+        
+        .themisdb-style-classic .themisdb-download-button:hover {
+            background: #0073aa;
+        }
+        
+        /* Minimal Style */
+        .themisdb-style-minimal .themisdb-compendium-downloads {
+            box-shadow: none;
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+        }
+        
+        .themisdb-style-minimal .themisdb-compendium-item {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 0;
+            padding: 1rem 0;
+        }
+        
+        .themisdb-style-minimal .themisdb-compendium-item:last-child {
+            border-bottom: none;
+        }
+        
+        .themisdb-style-minimal .themisdb-download-button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Compact Layout */
+        .themisdb-layout-compact .themisdb-compendium-items {
+            gap: 1rem;
+        }
+        
+        .themisdb-layout-compact .themisdb-compendium-item {
+            padding: 1rem;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .themisdb-layout-compact .themisdb-item-icon {
+            margin-right: 0;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .themisdb-layout-compact .themisdb-item-title {
+            font-size: 1.1rem;
+        }
+        
+        .themisdb-layout-compact .themisdb-download-button {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .themisdb-compendium-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .themisdb-compendium-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .themisdb-item-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>🎨 ThemisDB Compendium Downloads Plugin - Preview</h1>
+            <p>Dies ist eine Vorschau, wie das Plugin auf Ihrer WordPress-Website aussehen wird.</p>
+        </div>
+        
+        <!-- Modern Style (Default) -->
+        <div class="style-showcase">
+            <div class="style-label">📱 Style: Modern (Standard)</div>
+            <div class="themisdb-compendium-downloads themisdb-style-modern themisdb-layout-cards">
+                <div class="themisdb-compendium-header">
+                    <h3 class="themisdb-compendium-title">
+                        <span class="themisdb-icon">📚</span> ThemisDB Kompendium Downloads
+                    </h3>
+                    <p class="themisdb-compendium-version">
+                        Version: <strong>v1.3.4</strong>
+                        <span class="themisdb-date">(15. Januar 2026)</span>
+                    </p>
+                </div>
+                
+                <div class="themisdb-compendium-items">
+                    <div class="themisdb-compendium-item themisdb-variant-professional">
+                        <div class="themisdb-item-icon">🎓</div>
+                        <div class="themisdb-item-content">
+                            <h4 class="themisdb-item-title">Professional</h4>
+                            <p class="themisdb-item-size">4.1 MB</p>
+                            <a href="#" class="themisdb-download-button" onclick="return false;">
+                                <span class="themisdb-button-icon">⬇️</span> PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="themisdb-compendium-item themisdb-variant-print">
+                        <div class="themisdb-item-icon">🖨️</div>
+                        <div class="themisdb-item-content">
+                            <h4 class="themisdb-item-title">Druckversion</h4>
+                            <p class="themisdb-item-size">2.1 MB</p>
+                            <a href="#" class="themisdb-download-button" onclick="return false;">
+                                <span class="themisdb-button-icon">⬇️</span> PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="themisdb-compendium-footer">
+                    <p class="themisdb-github-link">
+                        <a href="#" onclick="return false;">
+                            <span class="themisdb-github-icon">🔗</span> Alle Versionen auf GitHub anzeigen
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Classic Style -->
+        <div class="style-showcase">
+            <div class="style-label">🎨 Style: Classic</div>
+            <div class="themisdb-compendium-downloads themisdb-style-classic themisdb-layout-cards">
+                <div class="themisdb-compendium-header">
+                    <h3 class="themisdb-compendium-title">
+                        <span class="themisdb-icon">📚</span> ThemisDB Kompendium Downloads
+                    </h3>
+                    <p class="themisdb-compendium-version">
+                        Version: <strong>v1.3.4</strong>
+                        <span class="themisdb-date">(15. Januar 2026)</span>
+                    </p>
+                </div>
+                
+                <div class="themisdb-compendium-items">
+                    <div class="themisdb-compendium-item themisdb-variant-professional">
+                        <div class="themisdb-item-icon">🎓</div>
+                        <div class="themisdb-item-content">
+                            <h4 class="themisdb-item-title">Professional</h4>
+                            <p class="themisdb-item-size">4.1 MB</p>
+                            <a href="#" class="themisdb-download-button" onclick="return false;">
+                                <span class="themisdb-button-icon">⬇️</span> PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="themisdb-compendium-item themisdb-variant-print">
+                        <div class="themisdb-item-icon">🖨️</div>
+                        <div class="themisdb-item-content">
+                            <h4 class="themisdb-item-title">Druckversion</h4>
+                            <p class="themisdb-item-size">2.1 MB</p>
+                            <a href="#" class="themisdb-download-button" onclick="return false;">
+                                <span class="themisdb-button-icon">⬇️</span> PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="themisdb-compendium-footer">
+                    <p class="themisdb-github-link">
+                        <a href="#" onclick="return false;">
+                            <span class="themisdb-github-icon">🔗</span> Alle Versionen auf GitHub anzeigen
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Minimal Style -->
+        <div class="style-showcase">
+            <div class="style-label">✨ Style: Minimal</div>
+            <div class="themisdb-compendium-downloads themisdb-style-minimal themisdb-layout-cards">
+                <div class="themisdb-compendium-header">
+                    <h3 class="themisdb-compendium-title">
+                        <span class="themisdb-icon">📚</span> ThemisDB Kompendium Downloads
+                    </h3>
+                    <p class="themisdb-compendium-version">
+                        Version: <strong>v1.3.4</strong>
+                        <span class="themisdb-date">(15. Januar 2026)</span>
+                    </p>
+                </div>
+                
+                <div class="themisdb-compendium-items">
+                    <div class="themisdb-compendium-item themisdb-variant-professional">
+                        <div class="themisdb-item-icon">🎓</div>
+                        <div class="themisdb-item-content">
+                            <h4 class="themisdb-item-title">Professional</h4>
+                            <p class="themisdb-item-size">4.1 MB</p>
+                            <a href="#" class="themisdb-download-button" onclick="return false;">
+                                <span class="themisdb-button-icon">⬇️</span> PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="themisdb-compendium-item themisdb-variant-print">
+                        <div class="themisdb-item-icon">🖨️</div>
+                        <div class="themisdb-item-content">
+                            <h4 class="themisdb-item-title">Druckversion</h4>
+                            <p class="themisdb-item-size">2.1 MB</p>
+                            <a href="#" class="themisdb-download-button" onclick="return false;">
+                                <span class="themisdb-button-icon">⬇️</span> PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="themisdb-compendium-footer">
+                    <p class="themisdb-github-link">
+                        <a href="#" onclick="return false;">
+                            <span class="themisdb-github-icon">🔗</span> Alle Versionen auf GitHub anzeigen
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Compact Layout -->
+        <div class="style-showcase">
+            <div class="style-label">📦 Layout: Compact (für Sidebar)</div>
+            <div style="max-width: 350px;">
+                <div class="themisdb-compendium-downloads themisdb-style-modern themisdb-layout-compact">
+                    <div class="themisdb-compendium-header">
+                        <h3 class="themisdb-compendium-title" style="font-size: 1.3rem;">
+                            <span class="themisdb-icon" style="font-size: 1.5rem;">📚</span> Kompendium
+                        </h3>
+                        <p class="themisdb-compendium-version" style="font-size: 0.9rem;">
+                            Version: <strong>v1.3.4</strong>
+                        </p>
+                    </div>
+                    
+                    <div class="themisdb-compendium-items">
+                        <div class="themisdb-compendium-item themisdb-variant-professional">
+                            <div class="themisdb-item-icon">🎓</div>
+                            <div class="themisdb-item-content">
+                                <h4 class="themisdb-item-title">Professional</h4>
+                                <p class="themisdb-item-size">4.1 MB</p>
+                                <a href="#" class="themisdb-download-button" onclick="return false;">
+                                    <span class="themisdb-button-icon">⬇️</span> Download
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="themisdb-compendium-item themisdb-variant-print">
+                            <div class="themisdb-item-icon">🖨️</div>
+                            <div class="themisdb-item-content">
+                                <h4 class="themisdb-item-title">Druckversion</h4>
+                                <p class="themisdb-item-size">2.1 MB</p>
+                                <a href="#" class="themisdb-download-button" onclick="return false;">
+                                    <span class="themisdb-button-icon">⬇️</span> Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="themisdb-compendium-footer">
+                        <p class="themisdb-github-link">
+                            <a href="#" onclick="return false;" style="font-size: 0.85rem;">
+                                <span class="themisdb-github-icon">🔗</span> Auf GitHub
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-header" style="margin-top: 40px;">
+            <h2>📝 Shortcode-Beispiele</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 4px; margin-top: 15px;">
+                <p style="margin: 0 0 10px 0;"><strong>Standard (Modern):</strong></p>
+                <code style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 3px; display: block; margin-bottom: 15px;">[themisdb_compendium_downloads]</code>
+                
+                <p style="margin: 15px 0 10px 0;"><strong>Classic Style:</strong></p>
+                <code style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 3px; display: block; margin-bottom: 15px;">[themisdb_compendium_downloads style="classic"]</code>
+                
+                <p style="margin: 15px 0 10px 0;"><strong>Minimal Style:</strong></p>
+                <code style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 3px; display: block; margin-bottom: 15px;">[themisdb_compendium_downloads style="minimal"]</code>
+                
+                <p style="margin: 15px 0 10px 0;"><strong>Compact für Sidebar:</strong></p>
+                <code style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 3px; display: block;">[themisdb_compendium_downloads layout="compact" show_date="no"]</code>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Prevent navigation on preview links
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Dies ist eine Vorschau. In der echten WordPress-Installation würde dieser Link zur Download-Datei führen.');
+            });
+        });
+    </script>
+</body>
+</html>
