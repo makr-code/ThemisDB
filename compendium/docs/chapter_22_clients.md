@@ -29,7 +29,7 @@ Die ThemisDB Driver-Architektur implementiert einen mehrschichtigen Stack von Wi
 
 ### 22.1.1 Wire Protocol Implementation {#wire-protocol-implementation}
 
-Das ThemisDB Wire Protocol basiert auf Protocol Buffers (protobuf) für effiziente binäre Serialisierung mit Backward-Compatibility. Jede Client-Server-Kommunikation folgt einem Request-Response-Pattern mit Message Framing für Stream-Multiplexing. Das Protocol unterstützt drei Transport-Modi: Binary TCP für maximale Performance, HTTP/2 für Firewall-Kompatibilität und WebSocket für Bidirectional Streaming.
+Das ThemisDB Wire Protocol basiert auf [Protocol Buffers](appendix_h_glossary.md#protocol-buffers) (protobuf) für effiziente binäre Serialisierung mit Backward-Compatibility. Jede Client-Server-Kommunikation folgt einem Request-Response-Pattern mit Message Framing für Stream-Multiplexing. Das Protocol unterstützt drei Transport-Modi: Binary TCP für maximale Performance, HTTP/2 für Firewall-Kompatibilität und WebSocket für Bidirectional Streaming.
 
 **Protocol Buffer Message Definition:**
 
@@ -149,11 +149,11 @@ Tab. 22.1: Connection Establishment Performance
 
 ## 22.2 Connection Management {#connection-management}
 
-Effizientes Connection Management ist kritisch für Performance und Skalierbarkeit. ThemisDB implementiert Connection Pooling nach dem HikariCP-Pattern mit Pre-allocated Connections, Fast Path Optimization und Zero-Overhead Connection Tracking. Production-Deployments verwenden typischerweise Pool-Größen von 10-50 Connections pro Application Server bei 10.000+ gleichzeitigen Benutzern.
+Effizientes Connection Management ist kritisch für Performance und Skalierbarkeit. ThemisDB implementiert [Connection Pooling](appendix_h_glossary.md#connection-pool) nach dem HikariCP-Pattern mit Pre-allocated Connections, Fast Path Optimization und Zero-Overhead Connection Tracking. Production-Deployments verwenden typischerweise Pool-Größen von 10-50 Connections pro Application Server bei 10.000+ gleichzeitigen Benutzern.
 
 ### 22.2.1 Connection Pooling Strategies {#connection-pooling-strategies}
 
-Connection Pools minimieren den Overhead von Connection Establishment durch Wiederverwendung bestehender Verbindungen. Der Pool maintaint eine konfigurierbare Anzahl von Connections im IDLE-State und allokiert neue Connections on-demand bei hoher Last. Expired oder defekte Connections werden automatisch entfernt und durch neue ersetzt.
+[Connection Pools](appendix_h_glossary.md#connection-pool) minimieren den Overhead von Connection Establishment durch Wiederverwendung bestehender Verbindungen. Der Pool maintaint eine konfigurierbare Anzahl von Connections im IDLE-State und allokiert neue Connections on-demand bei hoher Last. Expired oder defekte Connections werden automatisch entfernt und durch neue ersetzt.
 
 **Python Connection Pool Implementation:**
 
@@ -576,7 +576,7 @@ Tab. 22.4: Error Code Classification
 
 ### 22.4.2 Retry Logic with Exponential Backoff {#retry-logic}
 
-Exponential Backoff erhöht die Wartezeit zwischen Retry-Attempts exponentiell, um Server-Overload zu vermeiden. Die Implementierung basiert auf dem Decorrelated Jitter Algorithm von AWS für optimale Retry-Verteilung.
+[Exponential Backoff](appendix_h_glossary.md#exponential-backoff) erhöht die Wartezeit zwischen Retry-Attempts exponentiell, um Server-Overload zu vermeiden. Die Implementierung basiert auf dem Decorrelated Jitter Algorithm von AWS für optimale Retry-Verteilung.
 
 **Python Retry Logic mit Exponential Backoff:**
 
@@ -655,7 +655,7 @@ users = retry_with_backoff(lambda: db.find("users", {"active": True}))()
 
 ### 22.4.3 Circuit Breaker Pattern {#circuit-breaker}
 
-Circuit Breaker verhindert wiederholte Calls zu einem failing Service und gibt dem Service Zeit zur Recovery. Der Pattern implementiert drei States: CLOSED (normal), OPEN (failing) und HALF_OPEN (testing recovery).
+[Circuit Breaker](appendix_h_glossary.md#circuit-breaker) verhindert wiederholte Calls zu einem failing Service und gibt dem Service Zeit zur Recovery. Der Pattern implementiert drei States: CLOSED (normal), OPEN (failing) und HALF_OPEN (testing recovery).
 
 **Circuit Breaker Implementation:**
 
@@ -854,7 +854,7 @@ Performance-Optimierungen in Client Libraries umfassen Batch Operations für red
 
 ### 22.6.1 Batch Operations {#batch-operations}
 
-Batch Operations reduzieren Network Overhead durch Bundling mehrerer Operations in einem Request. Ein Batch Insert von 1000 Documents benötigt nur 1 Network Round-Trip statt 1000.
+[Batch Operations](appendix_h_glossary.md#batch) reduzieren Network Overhead durch Bundling mehrerer Operations in einem Request. Ein Batch Insert von 1000 Documents benötigt nur 1 Network Round-Trip statt 1000.
 
 **Batch Insert Optimization:**
 
