@@ -390,12 +390,16 @@ TEST_F(LoRALayersTest, Performance_MemoryEfficiency) {
 
 // ===== Gradient Check Tests =====
 
+// Test configuration constants
+namespace {
+    constexpr float GRADIENT_CHECK_EPSILON = 1e-4f;
+    constexpr float GRADIENT_CHECK_TOLERANCE = 1e-3f;
+    constexpr size_t GRADIENT_CHECK_SAMPLES = 5;
+}
+
 TEST_F(LoRALayersTest, GradientCheck_NumericalVsAnalytical) {
     // Test that analytical gradients match numerical gradients
     // This verifies the backward pass implementation is correct
-    
-    const float epsilon = 1e-4f;
-    const float tolerance = 1e-3f;  // Allow some numerical error
     
     // Create small layer for testing
     size_t in_dim = 4;
@@ -442,11 +446,11 @@ TEST_F(LoRALayersTest, GradientCheck_NumericalVsAnalytical) {
         Tensor analytical_grad = param->grad.clone();
         
         // Compute numerical gradient for a few elements
-        for (size_t idx = 0; idx < std::min(size_t(5), param->size()); ++idx) {
+        for (size_t idx = 0; idx < std::min(GRADIENT_CHECK_SAMPLES, param->size()); ++idx) {
             float original_value = (*param)[idx];
             
             // Perturb +epsilon
-            (*param)[idx] = original_value + epsilon;
+            (*param)[idx] = original_value + GRADIENT_CHECK_EPSILON;
             Tensor output_plus = layer.forward(input);
             float loss_plus = 0.0f;
             for (size_t i = 0; i < output_plus.size(); ++i) {
@@ -456,7 +460,7 @@ TEST_F(LoRALayersTest, GradientCheck_NumericalVsAnalytical) {
             loss_plus /= output_plus.size();
             
             // Perturb -epsilon
-            (*param)[idx] = original_value - epsilon;
+            (*param)[idx] = original_value - GRADIENT_CHECK_EPSILON;
             Tensor output_minus = layer.forward(input);
             float loss_minus = 0.0f;
             for (size_t i = 0; i < output_minus.size(); ++i) {
@@ -469,7 +473,7 @@ TEST_F(LoRALayersTest, GradientCheck_NumericalVsAnalytical) {
             (*param)[idx] = original_value;
             
             // Numerical gradient
-            float numerical_grad = (loss_plus - loss_minus) / (2.0f * epsilon);
+            float numerical_grad = (loss_plus - loss_minus) / (2.0f * GRADIENT_CHECK_EPSILON);
             float analytical_grad_val = analytical_grad[idx];
             
             // Check if gradients match within tolerance
@@ -477,7 +481,7 @@ TEST_F(LoRALayersTest, GradientCheck_NumericalVsAnalytical) {
             float grad_mag = std::max(std::abs(numerical_grad), std::abs(analytical_grad_val));
             float relative_error = grad_diff / (grad_mag + 1e-8f);
             
-            EXPECT_LT(relative_error, tolerance) 
+            EXPECT_LT(relative_error, GRADIENT_CHECK_TOLERANCE) 
                 << "Gradient mismatch at index " << idx 
                 << ": numerical=" << numerical_grad 
                 << ", analytical=" << analytical_grad_val;

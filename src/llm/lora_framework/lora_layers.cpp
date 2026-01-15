@@ -130,8 +130,8 @@ namespace tensor_utils {
 
 Tensor randn(const std::vector<size_t>& shape, float mean, float std) {
     // Use thread-local random number generator for thread safety
-    thread_local std::random_device rd;
-    thread_local std::mt19937 gen(rd());
+    // Note: random_device is used once per thread to seed the generator
+    thread_local std::mt19937 gen(std::random_device{}());
     std::normal_distribution<float> dist(mean, std);
     
     Tensor result(shape);

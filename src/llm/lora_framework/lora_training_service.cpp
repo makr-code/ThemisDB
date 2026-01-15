@@ -119,8 +119,12 @@ public:
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
-                    // Create synthetic training batch (simplified)
-                    // In production, this would process actual text data
+                    // Create synthetic training batch (TEMPORARY - Phase 1 only)
+                    // TODO: In future PRs, replace with real text data processing:
+                    //   1. Tokenize input text using llama.cpp tokenizer
+                    //   2. Create embeddings from base model
+                    //   3. Apply LoRA adapter on top of base model outputs
+                    // For Phase 1, we use random tensors to validate the training loop mechanics
                     Tensor batch_input = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
                     Tensor batch_target = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
                     
