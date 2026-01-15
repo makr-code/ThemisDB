@@ -362,8 +362,31 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
     set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
     set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
-    # LLM is a core feature in Community Edition (v1.3.0+) - can be enabled via THEMIS_ENABLE_LLM option
+    
+    # GPU acceleration: Vulkan as default (cross-platform, multi-vendor)
+    # Vulkan works on NVIDIA, AMD, Intel GPUs across Windows/Linux/macOS/Android
+    # CUDA is vendor-specific (NVIDIA only) and must be explicitly enabled
+    if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan GPU acceleration (default ON, cross-platform)")
+    endif()
+    
+    # CUDA is OFF by default (NVIDIA-specific, use -DTHEMIS_ENABLE_CUDA=ON to enable)
+    # When enabled alongside Vulkan, CUDA takes priority for NVIDIA GPUs
+    if(NOT DEFINED THEMIS_ENABLE_CUDA)
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable CUDA GPU acceleration (default OFF, NVIDIA-specific)")
+    endif()
+    
+    # LLM support enabled by default in Community Edition (v1.3.0+)
+    if(NOT DEFINED THEMIS_ENABLE_LLM)
+        set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Community Edition (default ON)")
+    endif()
+    
     message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node")
+    message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
+    message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
+    if(THEMIS_ENABLE_VULKAN)
+        message(STATUS "  Vulkan will provide GPU acceleration on NVIDIA/AMD/Intel GPUs with CPU fallback")
+    endif()
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
@@ -373,11 +396,53 @@ elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
     set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
     set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    
+    # GPU acceleration: Vulkan as default (cross-platform, multi-vendor)
+    if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan GPU acceleration (default ON, cross-platform)")
+    endif()
+    
+    # CUDA OFF by default (enable with -DTHEMIS_ENABLE_CUDA=ON for NVIDIA-specific optimizations)
+    if(NOT DEFINED THEMIS_ENABLE_CUDA)
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable CUDA GPU acceleration (default OFF, NVIDIA-specific)")
+    endif()
+    
+    # LLM support enabled by default
+    if(NOT DEFINED THEMIS_ENABLE_LLM)
+        set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Enterprise Edition (default ON)")
+    endif()
+    
     message(STATUS "Edition: ENTERPRISE - GPU up to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
+    message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
+    message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
 
 elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(THEMIS_GPU_MAX_VRAM_GB 999999 CACHE INTERNAL "Max GPU VRAM for Hyperscaler Edition (unlimited)")
     set(THEMIS_SHARDING_MAX_NODES 999999 CACHE INTERNAL "Max sharding nodes for Hyperscaler Edition (unlimited)")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
+    set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
+    set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
+    set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    
+    # GPU acceleration: Vulkan as default (cross-platform, multi-vendor)
+    if(NOT DEFINED THEMIS_ENABLE_VULKAN)
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan GPU acceleration (default ON, cross-platform)")
+    endif()
+    
+    # CUDA OFF by default (enable with -DTHEMIS_ENABLE_CUDA=ON for NVIDIA-specific optimizations)
+    if(NOT DEFINED THEMIS_ENABLE_CUDA)
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "Enable CUDA GPU acceleration (default OFF, NVIDIA-specific)")
+    endif()
+    
+    # LLM support enabled by default
+    if(NOT DEFINED THEMIS_ENABLE_LLM)
+        set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Hyperscaler Edition (default ON)")
+    endif()
+    
+    message(STATUS "Edition: HYPERSCALER - Unlimited GPU/VRAM and nodes")
+    message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
+    message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
     set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
