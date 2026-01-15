@@ -1,0 +1,33 @@
+adapter: qlora
+base_model: mistralai/Mistral-7B-v0.1
+bf16: true
+datasets:
+- path: /home/runner/work/ThemisDB/ThemisDB/qlora_poc_output/data/training_data.jsonl
+  type: alpaca
+eval_steps: 10
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+learning_rate: 0.0002
+load_in_4bit: true
+logging_steps: 1
+lora_alpha: 16
+lora_dropout: 0.05
+lora_r: 64
+lora_target_modules:
+- q_proj
+- v_proj
+- k_proj
+- o_proj
+lr_scheduler: cosine
+micro_batch_size: 2
+model_type: MistralForCausalLM
+num_epochs: 3
+optimizer: adamw_bnb_8bit
+output_dir: /home/runner/work/ThemisDB/ThemisDB/qlora_poc_output/adapter
+sample_packing: true
+save_steps: 10
+saves_per_epoch: 1
+sequence_len: 2048
+tf32: true
+tokenizer_type: LlamaTokenizer
+warmup_steps: 10
