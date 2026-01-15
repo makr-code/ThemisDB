@@ -543,7 +543,7 @@ LET last_processed = (
     SORT cube.last_updated DESC
     LIMIT 1
     RETURN cube.last_updated
-)[0]
+)[0] || '1970-01-01T00:00:00Z'  // Fallback zu Epoch wenn Collection leer
 
 // Verarbeite nur neue Sales seit letztem Update
 FOR sale IN sales_fact
@@ -1712,6 +1712,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
 import numpy as np
 import pandas as pd
+import datetime
 
 # Lade historische Prozess-Events aus ThemisDB
 import themisdb
@@ -2438,14 +2439,15 @@ for activity in set(events_df['activity']):
     activity_events = events_df[events_df['activity'] == activity].sort_values('timestamp')
     
     # Berechne Inter-Arrival Time (Zeit zwischen aufeinanderfolgenden Events)
-    inter_arrival_times = activity_events['timestamp'].diff().dt.total_seconds() / 3600  # in Stunden
-    inter_arrival_times = inter_arrival_times[inter_arrival_times.notna()]
+    inter_arrival_times_raw = activity_events['timestamp'].diff().dt.total_seconds() / 3600  # in Stunden
+    valid_inter_arrival_times = inter_arrival_times_raw[inter_arrival_times_raw.notna()]
     
-    if len(inter_arrival_times) < 10:
+    if len(valid_inter_arrival_times) < 10:
         continue
     
     # Ankunftsrate λ (Events pro Stunde)
-    lambda_rate = 1 / inter_arrival_times.mean() if inter_arrival_times.mean() > 0 else 0
+    mean_arrival_time = valid_inter_arrival_times.mean()
+    lambda_rate = (1 / mean_arrival_time) if mean_arrival_time > 0 else 0
     
     # Service-Zeit (Bearbeitungszeit)
     # Approximation: Zeit bis zum nächsten Event im gleichen Case
