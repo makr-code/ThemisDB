@@ -274,7 +274,7 @@ curl http://localhost:8080/metrics
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        C1[REST/HTTP]
+        C1[REST API]
         C2[GraphQL]
         C3[gRPC]
         C4[Wire Protocol]
@@ -282,46 +282,68 @@ graph TB
     end
     
     subgraph "API & Server Layer"
-        S1[HTTP/2 Server]
-        S2[WebSocket Server]
-        S3[Authentication & RBAC]
-        S4[Rate Limiting]
+        S1[HTTP Server]
+        S2[Authentication]
+        S3[Rate Limiting]
+        S4[Load Shedding]
     end
     
-    subgraph "Query Processing"
+    subgraph "Query Layer"
         Q1[AQL Parser]
         Q2[Query Optimizer]
         Q3[Execution Engine]
+        Q4[Function Libraries]
+        Q5[CTE Cache]
+        Q6[Semantic Cache]
     end
     
-    subgraph "Transaction Layer"
-        T1[MVCC Manager]
-        T2[Transaction Coordinator]
-        T3[Lock Manager]
+    subgraph "Transaction & Concurrency Layer"
+        T1[MVCC]
+        T2[Transaction Manager]
+        T3[SAGA Coordinator]
+        T4[Deadlock Detection]
+        T5[WAL Management]
     end
     
-    subgraph "Multi-Model Indexes"
-        I1[Vector Index HNSW]
-        I2[Graph Index]
-        I3[Secondary Indexes]
-        I4[Fulltext Search]
-        I5[Spatial Index]
+    subgraph "Index Layer"
+        I1[Vector HNSW]
+        I2[Graph]
+        I3[Secondary]
+        I4[Spatial]
+        I5[Fulltext]
+        I6[GPU Acceleration]
+        I7[SIMD Optimization]
     end
     
     subgraph "Storage Layer"
-        ST1[RocksDB LSM-Tree]
-        ST2[WAL]
-        ST3[Snapshot Manager]
+        ST1[RocksDB LSM-tree]
+        ST2[Key Schema]
+        ST3[Compression]
+        ST4[WAL]
+        ST5[Snapshot Management]
+        ST6[Compaction]
     end
     
-    C1 & C2 & C3 & C4 & C5 --> S1 & S2
-    S1 & S2 --> S3 --> S4
+    subgraph "Cross-Cutting Concerns"
+        X1[Security]
+        X2[Replication]
+        X3[Sharding]
+        X4[Monitoring]
+        X5[CDC]
+    end
+    
+    C1 & C2 & C3 & C4 & C5 --> S1
+    S1 --> S2 --> S3 --> S4
     S4 --> Q1 --> Q2 --> Q3
+    Q3 --> Q4 & Q5 & Q6
     Q3 --> T1
     T1 --> T2 --> T3
+    T2 --> T4 & T5
     T3 --> I1 & I2 & I3 & I4 & I5
+    I1 & I2 --> I6 & I7
     I1 & I2 & I3 & I4 & I5 --> ST1
-    ST1 --> ST2 & ST3
+    ST1 --> ST2 & ST3 & ST4 & ST5 & ST6
+    ST1 -.-> X1 & X2 & X3 & X4 & X5
     
     style I1 fill:#e1f5ff
     style I2 fill:#e1f5ff
@@ -329,6 +351,11 @@ graph TB
     style I4 fill:#e1f5ff
     style I5 fill:#e1f5ff
     style ST1 fill:#ffe1e1
+    style X1 fill:#fff3cd
+    style X2 fill:#fff3cd
+    style X3 fill:#fff3cd
+    style X4 fill:#fff3cd
+    style X5 fill:#fff3cd
 ```
 
 ### Multi-Model Database
@@ -475,52 +502,68 @@ graph TB
         APP[Applications]
     end
     
-    subgraph "Load Balancer"
-        LB[Load Balancer<br/>Consistent Hashing]
+    subgraph "Routing Layer"
+        SR[Shard Router<br/>VCC-URN Partitioning]
+        SM[Shard Manager<br/>Metadata & Health]
+        REBAL[Auto Rebalancer<br/>Load Distribution]
     end
     
-    subgraph "ThemisDB Cluster"
-        subgraph "Shard 1"
-            N1[Leader Node]
-            F1[Follower 1]
-            F2[Follower 2]
+    subgraph "ThemisDB Cluster - RAID Modes"
+        subgraph "MIRROR Mode RF=2"
+            subgraph "Shard 1"
+                S1P[Primary Node]
+                S1R[Replica Node]
+            end
+            
+            subgraph "Shard 2"
+                S2P[Primary Node]
+                S2R[Replica Node]
+            end
         end
         
-        subgraph "Shard 2"
-            N2[Leader Node]
-            F3[Follower 1]
-            F4[Follower 2]
-        end
-        
-        subgraph "Shard 3"
-            N3[Leader Node]
-            F5[Follower 1]
-            F6[Follower 2]
+        subgraph "PARITY Mode 4+2"
+            S3[Data Shard 1]
+            S4[Data Shard 2]
+            S5[Data Shard 3]
+            S6[Data Shard 4]
+            P1[Parity Shard 1]
+            P2[Parity Shard 2]
         end
     end
     
-    subgraph "Coordination"
-        COORD[Coordinator<br/>Shard Management]
+    subgraph "Observability"
+        MON[Monitoring<br/>Metrics & Health]
     end
     
-    APP --> LB
-    LB --> N1 & N2 & N3
-    N1 -.Replication.-> F1 & F2
-    N2 -.Replication.-> F3 & F4
-    N3 -.Replication.-> F5 & F6
-    COORD -.Manages.-> N1 & N2 & N3
+    APP --> SR
+    SR --> SM
+    SM --> REBAL
     
-    style N1 fill:#e1ffe1
-    style N2 fill:#e1ffe1
-    style N3 fill:#e1ffe1
-    style LB fill:#ffe1e1
-    style COORD fill:#e1f5ff
+    SR --> S1P & S2P
+    S1P -.Replication.-> S1R
+    S2P -.Replication.-> S2R
+    
+    SR --> S3 & S4 & S5 & S6
+    S3 & S4 & S5 & S6 -.Parity.-> P1 & P2
+    
+    SM --> MON
+    REBAL -.Auto-Balance.-> S1P & S2P & S3 & S4
+    
+    style SR fill:#e1f5ff
+    style S1P fill:#e1ffe1
+    style S2P fill:#e1ffe1
+    style S3 fill:#e1ffe1
+    style S4 fill:#e1ffe1
+    style S5 fill:#e1ffe1
+    style S6 fill:#e1ffe1
+    style P1 fill:#fff3cd
+    style P2 fill:#fff3cd
 ```
 
-- Horizontal sharding with consistent hashing (Enterprise)
-- Leader-follower and multi-master replication (Enterprise)
-- Kubernetes operator with CRDs (Enterprise)
-- Auto-rebalancing and cloud deployment (Enterprise)
+- VCC-URN based sharding with consistent hashing (Enterprise)
+- RAID-like redundancy modes: MIRROR, STRIPE, PARITY, GEO_MIRROR (Enterprise)
+- Auto-rebalancing with zero-downtime migration (Enterprise)
+- Multi-region deployment support (Enterprise)
 
 **[→ View All Features](docs/de/features/features_overview.md)**
 
