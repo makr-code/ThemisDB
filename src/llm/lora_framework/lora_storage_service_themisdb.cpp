@@ -39,14 +39,23 @@ public:
         if (config_.enable_encryption && !encryption_) {
             try {
                 // TODO: SECURITY - Replace MockKeyProvider with production key provider
-                // In production, use one of:
-                //   - VaultKeyProvider (HashiCorp Vault integration)
-                //   - HSMProvider (Hardware Security Module)
-                //   - KMSProvider (AWS KMS, Azure Key Vault, or GCP KMS)
-                // MockKeyProvider is ONLY suitable for testing/development
+                // Themis provides production-ready key providers in include/security/:
+                //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
+                //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
+                //   
+                //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
+                //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
+                //               auto provider = std::make_unique<security::HSMProvider>(cfg);
+                //   
+                //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
+                //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path);
+                //
+                // All providers implement the KeyProvider interface and can be used with FieldEncryption.
+                // MockKeyProvider is ONLY suitable for testing/development - never use in production!
                 auto key_provider = std::make_shared<MockKeyProvider>();
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
                 spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                spdlog::warn("  See include/security/vault_key_provider.h for production key providers");
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
             }
