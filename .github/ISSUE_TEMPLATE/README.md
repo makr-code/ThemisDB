@@ -79,6 +79,25 @@ Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kom
 - Distributed training (multi-GPU) - linear scaling
 - Monitoring and logging
 
+#### 09-qlora-quantized-training.md (Phase 2 - Future)
+**For:** QLoRA (Quantized LoRA) implementation  
+**Priority:** P1 (High)  
+**Effort:** 4-6 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `area:performance`, `effort:large`, `phase:2`
+
+**Key Tasks:**
+- 4-bit NF4 quantization for base models
+- 8-bit INT8 quantization
+- Double quantization for constants
+- Paged optimizers (CPU ↔ GPU)
+- Memory reduction: 60-70% vs full LoRA
+- Train Llama-65B on consumer GPUs
+
+**Benefits:**
+- Memory: ~5-6 GB for Llama-7B (vs ~14 GB)
+- Enables: Llama-30B on 24GB, Llama-65B on 40GB
+- Accuracy: Within 1-2% of full precision
+
 ## Verwendungsbeispiele
 
 ### Beispiel 1: Kapitel 6 verbessern
