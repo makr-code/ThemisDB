@@ -55,7 +55,9 @@ Wir definieren die klassischen [Normalformen](../appendix_h_glossary.md#normal-f
   "order_date": "2025-01-15",
   "total": 1305
 }
+```
 
+```sql
 -- ✅ First Normal Form (1NF): Atomare Werte
 -- Wir zerlegen Multi-Value-Attribute in separate Tupel
 CREATE TABLE orders_1nf (
@@ -300,11 +302,9 @@ Wir identifizieren Use-Cases, in denen Denormalisierung die Gesamtperformance ve
 FOR order IN orders
   FILTER order._key == 'ord-123'
   RETURN order
--- Latenz: 0.2ms (keine JOINs)
-
--- Vergleich mit normalisiertem Schema (3 Document-Lookups erforderlich)
--- Latenz: 2.8ms (3x DOCUMENT() calls)
 ```
+
+Wir beobachten signifikante Performance-Unterschiede: Die denormalisierte Query liest ein einzelnes Document (typisch 0.2ms), während das normalisierte Schema drei Document-Lookups erfordert (typisch 2.8ms). Details siehe Benchmark-Tabelle unten.
 
 ### 33.2.2 Denormalisierungs-Patterns {#chapter_33_2_2_denormalization-patterns}
 
@@ -314,7 +314,7 @@ Wir katalogisieren bewährte Patterns für kontrollierte Denormalisierung.
 
 **Pattern 2: Embedded Entities:** Wir schachteln 1:N-Beziehungen direkt im Parent-Document.
 
-**Pattern 3: Precomputed Aggregates:** Wir speichern COUNT/SUM/AVG als materialisierte Felder.
+**Pattern 3: Precomputed Aggregates:** Wir speichern COUNT/SUM/AVG als materialisierte Felder. Trade-off: Schnellere Reads, aber zusätzlicher Wartungsaufwand bei Updates (siehe Konsistenz-Management Abschnitt 33.2.3).
 
 ```json
 // Pattern 2: Embedded Entities für Order Items
@@ -367,27 +367,40 @@ def update_customer_email(customer_id, new_email):
     Aktualisiert Customer-Email in normalisierter Collection
     und propagiert Änderung asynchron an denormalisierte Orders.
     """
-    # 1. Update Source of Truth (customers collection)
-    db.collection('customers').update(
-        {'_key': customer_id},
-        {'email': new_email, 'updated_at': datetime.utcnow()}
-    )
-    
-    # 2. Publish Event für asynchrone Propagation
-    event_bus.publish({
-        'event_type': 'CustomerEmailChanged',
-        'customer_id': customer_id,
-        'new_email': new_email,
-        'timestamp': datetime.utcnow()
-    })
+    try:
+        # 1. Update Source of Truth (customers collection)
+        db.collection('customers').update(
+            {'_key': customer_id},
+            {'email': new_email, 'updated_at': datetime.utcnow()}
+        )
+        
+        # 2. Publish Event für asynchrone Propagation
+        event_bus.publish({
+            'event_type': 'CustomerEmailChanged',
+            'customer_id': customer_id,
+            'new_email': new_email,
+            'timestamp': datetime.utcnow()
+        })
+    except DatabaseError as e:
+        # Rollback und Fehlerbehandlung
+        logger.error(f"Failed to update customer email: {e}")
+        raise
+    except EventPublishError as e:
+        # Source of Truth aktualisiert, aber Event fehlgeschlagen
+        logger.warning(f"Email updated but event publish failed: {e}")
+        # Retry-Mechanismus oder kompensierender Write nötig
     
     # 3. Asynchroner Handler aktualisiert denormalisierte Orders
     @event_handler('CustomerEmailChanged')
     def update_order_copies(event):
-        db.collection('orders').update_many(
-            {'customer_id': event['customer_id']},
-            {'customer_email': event['new_email']}  # Eventual Consistency
-        )
+        try:
+            db.collection('orders').update_many(
+                {'customer_id': event['customer_id']},
+                {'customer_email': event['new_email']}
+            )
+        except Exception as e:
+            logger.error(f"Failed to propagate email to orders: {e}")
+            # Event wird für Retry in Dead Letter Queue verschoben
 ```
 
 ### 33.2.4 Denormalisierung in NoSQL {#chapter_33_2_4_denormalization-nosql}
