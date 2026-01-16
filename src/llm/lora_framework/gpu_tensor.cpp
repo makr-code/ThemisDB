@@ -315,17 +315,40 @@ void GPUTensor::free_gpu_memory() {
 // ============================================================================
 
 GPUTensor GPUTensor::dispatch_add(const GPUTensor& other) const {
-    // For now, use CPU fallback
-    // TODO: Add GPU kernel dispatch based on device type
-    
     GPUTensor result(shape_, device_);
     
     if (is_cpu()) {
+        // CPU path
         for (size_t i = 0; i < size(); i++) {
             result.cpu_data_[i] = cpu_data_[i] + other.cpu_data_[i];
         }
     } else {
-        // GPU path: download, compute, upload (temporary)
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            cuda::launch_add_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<const float*>(other.gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                size()
+            );
+            return result;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            hip::launch_add_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<const float*>(other.gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                size()
+            );
+            return result;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX (not yet implemented)
         auto a_data = download();
         auto b_data = other.download();
         std::vector<float> c_data(size());
@@ -344,10 +367,29 @@ GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
     GPUTensor result(shape_, device_);
     
     if (is_cpu()) {
+        // CPU path
         for (size_t i = 0; i < size(); i++) {
             result.cpu_data_[i] = cpu_data_[i] - other.cpu_data_[i];
         }
     } else {
+        // GPU path: For CUDA/HIP, use element-wise operations
+        // Subtract: a - b = a + (-1 * b)
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            // Use multiply by -1, then add
+            auto neg_b = other * (-1.0f);
+            return *this + neg_b;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            auto neg_b = other * (-1.0f);
+            return *this + neg_b;
+        }
+#endif
+        
+        // Fallback for other backends
         auto a_data = download();
         auto b_data = other.download();
         std::vector<float> c_data(size());
@@ -366,10 +408,37 @@ GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
     GPUTensor result(shape_, device_);
     
     if (is_cpu()) {
+        // CPU path
         for (size_t i = 0; i < size(); i++) {
             result.cpu_data_[i] = cpu_data_[i] * scalar;
         }
     } else {
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            cuda::launch_scalar_multiply_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                scalar,
+                size()
+            );
+            return result;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            hip::launch_scalar_multiply_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                scalar,
+                size()
+            );
+            return result;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX
         auto a_data = download();
         std::vector<float> c_data(size());
         
@@ -387,10 +456,37 @@ GPUTensor GPUTensor::dispatch_mul_elementwise(const GPUTensor& other) const {
     GPUTensor result(shape_, device_);
     
     if (is_cpu()) {
+        // CPU path
         for (size_t i = 0; i < size(); i++) {
             result.cpu_data_[i] = cpu_data_[i] * other.cpu_data_[i];
         }
     } else {
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            cuda::launch_multiply_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<const float*>(other.gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                size()
+            );
+            return result;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            hip::launch_multiply_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<const float*>(other.gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                size()
+            );
+            return result;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX
         auto a_data = download();
         auto b_data = other.download();
         std::vector<float> c_data(size());
@@ -428,8 +524,67 @@ GPUTensor GPUTensor::dispatch_matmul(const GPUTensor& other) const {
             }
         }
     } else {
-        // GPU path: use CPU fallback for now
-        // TODO: Dispatch to CUDA/HIP/Vulkan kernels
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            // Use cuBLAS for optimal performance
+            auto& manager = get_memory_manager();
+            static cuda::CublasHandle cublas_handle;
+            
+            if (cublas_handle.is_valid()) {
+                cuda::cublas_matmul(
+                    cublas_handle.get(),
+                    static_cast<const float*>(gpu_data_),
+                    static_cast<const float*>(other.gpu_data_),
+                    static_cast<float*>(result.gpu_data_),
+                    M, K, N,
+                    1.0f,  // alpha
+                    0.0f   // beta
+                );
+            } else {
+                // Fallback to custom kernel if cuBLAS not available
+                cuda::launch_matmul_kernel(
+                    static_cast<const float*>(gpu_data_),
+                    static_cast<const float*>(other.gpu_data_),
+                    static_cast<float*>(result.gpu_data_),
+                    M, K, N,
+                    1.0f
+                );
+            }
+            return result;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            // Use rocBLAS for optimal performance
+            static hip::RocblasHandle rocblas_handle;
+            
+            if (rocblas_handle.is_valid()) {
+                hip::rocblas_matmul(
+                    rocblas_handle.get(),
+                    static_cast<const float*>(gpu_data_),
+                    static_cast<const float*>(other.gpu_data_),
+                    static_cast<float*>(result.gpu_data_),
+                    M, K, N,
+                    1.0f,
+                    0.0f
+                );
+            } else {
+                // Fallback to custom kernel
+                hip::launch_matmul_kernel(
+                    static_cast<const float*>(gpu_data_),
+                    static_cast<const float*>(other.gpu_data_),
+                    static_cast<float*>(result.gpu_data_),
+                    M, K, N,
+                    1.0f
+                );
+            }
+            return result;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX
         auto a_data = download();
         auto b_data = other.download();
         std::vector<float> c_data(M * N, 0.0f);
@@ -457,12 +612,39 @@ GPUTensor GPUTensor::dispatch_transpose() const {
     GPUTensor result({cols, rows}, device_);
     
     if (is_cpu()) {
+        // CPU transpose
         for (size_t i = 0; i < rows; i++) {
             for (size_t j = 0; j < cols; j++) {
                 result.cpu_data_[j * rows + i] = cpu_data_[i * cols + j];
             }
         }
     } else {
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            cuda::launch_transpose_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                rows,
+                cols
+            );
+            return result;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            hip::launch_transpose_kernel(
+                static_cast<const float*>(gpu_data_),
+                static_cast<float*>(result.gpu_data_),
+                rows,
+                cols
+            );
+            return result;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX
         auto a_data = download();
         std::vector<float> c_data(rows * cols);
         
