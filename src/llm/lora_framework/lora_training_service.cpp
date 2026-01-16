@@ -185,40 +185,86 @@ public:
             spdlog::info("Number of batches per epoch: {}", data_loader.num_batches());
             
             // Initialize LoRA-enhanced model or simple LoRA layer
-            // For now, use simple LoRA layer (Phase 2a)
-            // TODO: In Phase 2b, use LoRAEnhancedModel with actual base model
+            // Phase 2b: Use LoRAEnhancedModel with actual base model when available
             size_t hidden_dim = 768;  // Standard transformer dimension
             std::unique_ptr<LoRALayer> lora_layer;
+            std::unique_ptr<LoRAEnhancedModel> enhanced_model;
             
-            // Try to initialize with base model if path is provided and valid
+            // Try to initialize with base model if path is provided, valid, and enabled
             bool using_base_model = false;
-            if (!config_.base_model_path.empty() && 
+            if (config_.use_base_model && 
+                !config_.base_model_path.empty() && 
                 std::filesystem::exists(config_.base_model_path)) {
                 try {
-                    // Attempt to load base model (will be fully implemented in Phase 2b)
-                    spdlog::info("Base model path specified: {}", config_.base_model_path);
-                    spdlog::info("Base model integration will be completed in Phase 2b");
-                    spdlog::info("For now, using standalone LoRA layer for training");
+                    spdlog::info("Initializing with base model: {}", config_.base_model_path);
+                    
+                    // Configure LoRA-enhanced model
+                    LoRAEnhancedModel::Config model_config;
+                    model_config.base_model_path = config_.base_model_path;
+                    model_config.lora_config = params;
+                    model_config.target_modules = config_.target_modules;
+                    model_config.freeze_base_model = true;
+                    
+                    enhanced_model = std::make_unique<LoRAEnhancedModel>(model_config);
+                    
+                    // Initialize the enhanced model (loads base model + creates LoRA adapters)
+                    if (enhanced_model->initialize()) {
+                        using_base_model = true;
+                        
+                        spdlog::info("LoRA-enhanced model initialized successfully");
+                        spdlog::info("  Base model parameters: {:L}", enhanced_model->getBaseModelParameterCount());
+                        spdlog::info("  LoRA trainable parameters: {:L}", enhanced_model->getLoRAParameterCount());
+                        
+                        float reduction = 100.0f * (1.0f - 
+                            static_cast<float>(enhanced_model->getLoRAParameterCount()) / 
+                            static_cast<float>(enhanced_model->getBaseModelParameterCount()));
+                        spdlog::info("  Parameter reduction: {:.2f}%", reduction);
+                    } else {
+                        spdlog::warn("Failed to initialize LoRA-enhanced model, falling back to standalone layer");
+                        enhanced_model.reset();
+                    }
                 } catch (const std::exception& e) {
                     spdlog::warn("Could not load base model: {}", e.what());
                     spdlog::info("Falling back to standalone LoRA layer");
+                    enhanced_model.reset();
                 }
+            } else {
+                if (!config_.use_base_model) {
+                    spdlog::info("Base model integration disabled (use_base_model=false)");
+                } else if (config_.base_model_path.empty()) {
+                    spdlog::info("No base model path configured");
+                } else {
+                    spdlog::warn("Base model file not found: {}", config_.base_model_path);
+                }
+                spdlog::info("Using standalone LoRA layer for training");
             }
             
-            // Create standalone LoRA layer
-            lora_layer = std::make_unique<LoRALayer>(
-                hidden_dim, 
-                hidden_dim, 
-                params.rank,
-                params.alpha / params.rank  // Scaling factor
-            );
+            // Create standalone LoRA layer if base model not used
+            if (!using_base_model) {
+                lora_layer = std::make_unique<LoRALayer>(
+                    hidden_dim, 
+                    hidden_dim, 
+                    params.rank,
+                    params.alpha / params.rank  // Scaling factor
+                );
+                
+                spdlog::info("Initialized standalone LoRA layer with {} parameters", 
+                            lora_layer->parameter_count());
             
-            // Create optimizer
+            // Create optimizer and register trainable parameters
             SGDOptimizer optimizer(params.learning_rate, 0.0f, 0.0f);  // learning_rate, momentum, weight_decay
-            optimizer.add_parameters(lora_layer->parameters());
             
-            spdlog::info("Initialized LoRA layer with {} parameters", 
-                        lora_layer->parameter_count());
+            if (using_base_model && enhanced_model) {
+                // Use trainable parameters from LoRA-enhanced model
+                optimizer.add_parameters(enhanced_model->getTrainableParameters());
+                spdlog::info("Optimizer configured with {} trainable LoRA parameters", 
+                            enhanced_model->getLoRAParameterCount());
+            } else {
+                // Use parameters from standalone LoRA layer
+                optimizer.add_parameters(lora_layer->parameters());
+                spdlog::info("Optimizer configured with {} trainable parameters", 
+                            lora_layer->parameter_count());
+            }
             
             // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
@@ -255,35 +301,60 @@ public:
                     // Get real tokenized batch from DataLoader
                     auto batch = data_loader.getNextBatch();
                     
-                    // Phase 2a: Use tokenized data with simple embeddings
-                    // Convert token IDs to embeddings (simplified - just use token IDs as features)
-                    // TODO: In Phase 2b, use actual embeddings from base model
                     size_t batch_size = batch.input_ids.size();
                     size_t seq_len = batch.input_ids[0].size();
                     
-                    // Create input tensor from token embeddings (simplified)
-                    // In production, these would be actual embeddings from the base model
+                    // Create input tensor from token embeddings
                     Tensor batch_input({batch_size, hidden_dim});
                     Tensor batch_target({batch_size, hidden_dim});
                     
-                    // Simple embedding: hash token IDs into hidden_dim space
-                    for (size_t i = 0; i < batch_size; ++i) {
-                        for (size_t j = 0; j < hidden_dim; ++j) {
-                            // Simple hash function for demonstration
-                            size_t token_idx = j % seq_len;
-                            int token_id = batch.input_ids[i][token_idx];
-                            batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
-                            
-                            // Target is shifted input (next token prediction)
-                            size_t next_token_idx = (token_idx + 1) % seq_len;
-                            int next_token_id = batch.label_ids[i][next_token_idx];
-                            batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                    if (using_base_model && enhanced_model) {
+                        // Phase 2b: Use actual embeddings from base model (if available)
+                        // For now, still use simplified embeddings until base model embedding extraction is implemented
+                        // TODO: Extract embeddings from base model: enhanced_model->getBaseModel()->getEmbeddings(tokens)
+                        spdlog::debug("Using simplified embeddings (base model embedding extraction pending)");
+                        
+                        // Simple embedding: hash token IDs into hidden_dim space
+                        for (size_t i = 0; i < batch_size; ++i) {
+                            for (size_t j = 0; j < hidden_dim; ++j) {
+                                size_t token_idx = j % seq_len;
+                                int token_id = batch.input_ids[i][token_idx];
+                                batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                
+                                // Target is shifted input (next token prediction)
+                                size_t next_token_idx = (token_idx + 1) % seq_len;
+                                int next_token_id = batch.label_ids[i][next_token_idx];
+                                batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                            }
+                        }
+                    } else {
+                        // Phase 2a: Simple embedding for standalone LoRA layer
+                        for (size_t i = 0; i < batch_size; ++i) {
+                            for (size_t j = 0; j < hidden_dim; ++j) {
+                                size_t token_idx = j % seq_len;
+                                int token_id = batch.input_ids[i][token_idx];
+                                batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                
+                                // Target is shifted input (next token prediction)
+                                size_t next_token_idx = (token_idx + 1) % seq_len;
+                                int next_token_id = batch.label_ids[i][next_token_idx];
+                                batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                            }
                         }
                     }
                     
                     // Forward pass
                     optimizer.zero_grad();
-                    Tensor predictions = lora_layer->forward(batch_input);
+                    Tensor predictions;
+                    
+                    if (using_base_model && enhanced_model) {
+                        // Forward through LoRA-enhanced model (base frozen + LoRA trainable)
+                        // For now, use layer 0 as default (will be extended for multi-layer training)
+                        predictions = enhanced_model->forward(batch_input, 0);
+                    } else {
+                        // Forward through standalone LoRA layer
+                        predictions = lora_layer->forward(batch_input);
+                    }
                     
                     // Compute loss
                     float batch_loss = compute_mse_loss(predictions, batch_target);
@@ -292,7 +363,14 @@ public:
                     
                     // Backward pass
                     Tensor grad_output = compute_mse_gradient(predictions, batch_target);
-                    lora_layer->backward(grad_output);
+                    
+                    if (using_base_model && enhanced_model) {
+                        // Backward through LoRA-enhanced model (only LoRA gradients computed)
+                        enhanced_model->backward(grad_output, 0);
+                    } else {
+                        // Backward through standalone LoRA layer
+                        lora_layer->backward(grad_output);
+                    }
                     
                     // Optimizer step
                     optimizer.step();
