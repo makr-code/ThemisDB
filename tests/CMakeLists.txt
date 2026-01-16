@@ -346,6 +346,51 @@ else()
 endif()
 
 # ============================================================================
+# Paged Optimizer Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_paged_optimizer.cpp")
+        message(STATUS "Adding paged optimizer tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_paged_optimizer
+            test_paged_optimizer.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/paged_memory_manager.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/paged_optimizer.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_layers.cpp
+        )
+        
+        target_link_libraries(test_paged_optimizer PRIVATE
+            ${TEST_LIBS}
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_paged_optimizer PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME PagedOptimizerTests COMMAND test_paged_optimizer)
+        
+        # Set test properties
+        set_tests_properties(PagedOptimizerTests PROPERTIES
+            LABELS "lora;llm;optimizer;paged"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - Paged optimizer tests: Memory paging for optimizer states")
+        message(STATUS "    * Paged memory manager")
+        message(STATUS "    * PagedAdamWOptimizer")
+        message(STATUS "    * Memory savings validation")
+        message(STATUS "    * Correctness vs non-paged")
+    else()
+        message(STATUS "Paged optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_paged_optimizer.cpp")
+    endif()
+else()
+    message(STATUS "Paged optimizer tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
 # PITR (Point-in-Time Recovery) Tests - Phase 3
 # ============================================================================
 
