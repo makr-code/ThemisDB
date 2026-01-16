@@ -18,6 +18,16 @@ using namespace themis::acceleration;
  * - Memory pooling
  */
 
+namespace {
+    // Test memory sizes
+    constexpr size_t SMALL_BLOCK_SIZE = 1024;
+    constexpr size_t MEDIUM_BLOCK_SIZE = 256 * 1024;    // 256 KB
+    constexpr size_t LARGE_BLOCK_SIZE = 1024 * 1024;    // 1 MB
+    constexpr size_t POOL_SIZE_10MB = 10 * 1024 * 1024; // 10 MB
+    constexpr size_t TEST_ARRAY_SIZE_128 = 128;
+    constexpr size_t TEST_ARRAY_SIZE_256 = 256;
+}
+
 class LoRAGPUTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -59,13 +69,12 @@ TEST_F(LoRAGPUTest, VRAMAllocator_BasicAllocation) {
     VRAMAllocator allocator(BackendType::CPU);
     
     // Allocate memory
-    size_t size = 1024;
-    void* ptr = allocator.allocate(size);
+    void* ptr = allocator.allocate(SMALL_BLOCK_SIZE);
     ASSERT_NE(ptr, nullptr);
     
     // Check stats
     auto stats = allocator.get_stats();
-    EXPECT_GE(stats.allocated_bytes, size);
+    EXPECT_GE(stats.allocated_bytes, SMALL_BLOCK_SIZE);
     EXPECT_EQ(stats.allocation_count, 1);
     
     // Deallocate
@@ -110,7 +119,7 @@ TEST_F(LoRAGPUTest, VRAMAllocator_UploadDownload) {
     VRAMAllocator allocator(BackendType::CPU);
     
     // Create test data
-    std::vector<float> host_data(256);
+    std::vector<float> host_data(TEST_ARRAY_SIZE_256);
     for (size_t i = 0; i < host_data.size(); i++) {
         host_data[i] = static_cast<float>(i);
     }
@@ -125,7 +134,7 @@ TEST_F(LoRAGPUTest, VRAMAllocator_UploadDownload) {
     EXPECT_TRUE(success);
     
     // Download data
-    std::vector<float> result(256);
+    std::vector<float> result(TEST_ARRAY_SIZE_256);
     success = allocator.download(result.data(), gpu_ptr, size_bytes);
     EXPECT_TRUE(success);
     
@@ -141,12 +150,12 @@ TEST_F(LoRAGPUTest, VRAMAllocator_MemoryPooling) {
     VRAMAllocator allocator(BackendType::CPU);
     
     // Allocate and deallocate multiple times
-    void* ptr1 = allocator.allocate(1024);
+    void* ptr1 = allocator.allocate(SMALL_BLOCK_SIZE);
     ASSERT_NE(ptr1, nullptr);
     allocator.deallocate(ptr1);
     
     // Second allocation should reuse freed block
-    void* ptr2 = allocator.allocate(1024);
+    void* ptr2 = allocator.allocate(SMALL_BLOCK_SIZE);
     ASSERT_NE(ptr2, nullptr);
     
     // May reuse same memory
@@ -160,7 +169,7 @@ TEST_F(LoRAGPUTest, VRAMAllocator_Reset) {
     
     // Allocate several blocks
     for (int i = 0; i < 5; i++) {
-        allocator.allocate(1024);
+        allocator.allocate(SMALL_BLOCK_SIZE);
     }
     
     auto stats = allocator.get_stats();
@@ -178,15 +187,15 @@ TEST_F(LoRAGPUTest, VRAMAllocator_Reset) {
 TEST_F(LoRAGPUTest, VRAMTensor_Construction) {
     VRAMAllocator allocator(BackendType::CPU);
     
-    VRAMTensor tensor(&allocator, 1024);
+    VRAMTensor tensor(&allocator, SMALL_BLOCK_SIZE);
     EXPECT_NE(tensor.ptr(), nullptr);
-    EXPECT_EQ(tensor.size(), 1024);
+    EXPECT_EQ(tensor.size(), SMALL_BLOCK_SIZE);
 }
 
 TEST_F(LoRAGPUTest, VRAMTensor_MoveSemantics) {
     VRAMAllocator allocator(BackendType::CPU);
     
-    VRAMTensor tensor1(&allocator, 1024);
+    VRAMTensor tensor1(&allocator, SMALL_BLOCK_SIZE);
     void* original_ptr = tensor1.ptr();
     
     // Move construct
@@ -195,7 +204,7 @@ TEST_F(LoRAGPUTest, VRAMTensor_MoveSemantics) {
     EXPECT_EQ(tensor1.ptr(), nullptr);
     
     // Move assign
-    VRAMTensor tensor3(&allocator, 512);
+    VRAMTensor tensor3(&allocator, SMALL_BLOCK_SIZE / 2);
     tensor3 = std::move(tensor2);
     EXPECT_EQ(tensor3.ptr(), original_ptr);
     EXPECT_EQ(tensor2.ptr(), nullptr);
@@ -204,7 +213,7 @@ TEST_F(LoRAGPUTest, VRAMTensor_MoveSemantics) {
 TEST_F(LoRAGPUTest, VRAMTensor_UploadDownload) {
     VRAMAllocator allocator(BackendType::CPU);
     
-    std::vector<float> data(128);
+    std::vector<float> data(TEST_ARRAY_SIZE_128);
     for (size_t i = 0; i < data.size(); i++) {
         data[i] = static_cast<float>(i * 2);
     }
@@ -216,7 +225,7 @@ TEST_F(LoRAGPUTest, VRAMTensor_UploadDownload) {
     EXPECT_TRUE(success);
     
     // Download
-    std::vector<float> result(128);
+    std::vector<float> result(TEST_ARRAY_SIZE_128);
     success = tensor.download(result.data(), result.size() * sizeof(float));
     EXPECT_TRUE(success);
     
@@ -284,7 +293,7 @@ TEST_F(LoRAGPUTest, GPUMemoryManager_GetAllocator) {
     EXPECT_TRUE(cpu_alloc->is_available());
     
     // Test allocation through manager
-    void* ptr = cpu_alloc->allocate(1024);
+    void* ptr = cpu_alloc->allocate(SMALL_BLOCK_SIZE);
     ASSERT_NE(ptr, nullptr);
     cpu_alloc->deallocate(ptr);
 }
@@ -308,12 +317,12 @@ TEST_F(LoRAGPUTest, GPUMemoryManager_Stats) {
     VRAMAllocator* allocator = manager.get_allocator(cpu_device);
     
     // Allocate some memory
-    void* ptr = allocator->allocate(2048);
+    void* ptr = allocator->allocate(MEDIUM_BLOCK_SIZE);
     ASSERT_NE(ptr, nullptr);
     
     // Get stats
     auto stats = manager.get_stats(cpu_device);
-    EXPECT_GE(stats.allocated_bytes, 2048);
+    EXPECT_GE(stats.allocated_bytes, MEDIUM_BLOCK_SIZE);
     
     allocator->deallocate(ptr);
 }
@@ -338,16 +347,17 @@ TEST_F(LoRAGPUTest, CUDA_BasicOperations) {
     VRAMAllocator allocator(BackendType::CUDA);
     
     // Allocate GPU memory
-    void* gpu_ptr = allocator.allocate(1024 * sizeof(float));
+    constexpr size_t cuda_test_size = 1024;
+    void* gpu_ptr = allocator.allocate(cuda_test_size * sizeof(float));
     ASSERT_NE(gpu_ptr, nullptr);
     
     // Upload/download test
-    std::vector<float> host_data(1024, 42.0f);
+    std::vector<float> host_data(cuda_test_size, 42.0f);
     bool success = allocator.upload(gpu_ptr, host_data.data(), 
                                     host_data.size() * sizeof(float));
     EXPECT_TRUE(success);
     
-    std::vector<float> result(1024);
+    std::vector<float> result(cuda_test_size);
     success = allocator.download(result.data(), gpu_ptr, 
                                  result.size() * sizeof(float));
     EXPECT_TRUE(success);
@@ -379,15 +389,16 @@ TEST_F(LoRAGPUTest, HIP_BasicOperations) {
     VRAMAllocator allocator(BackendType::HIP);
     
     // Similar to CUDA test
-    void* gpu_ptr = allocator.allocate(1024 * sizeof(float));
+    constexpr size_t hip_test_size = 1024;
+    void* gpu_ptr = allocator.allocate(hip_test_size * sizeof(float));
     ASSERT_NE(gpu_ptr, nullptr);
     
-    std::vector<float> host_data(1024, 3.14f);
+    std::vector<float> host_data(hip_test_size, 3.14f);
     bool success = allocator.upload(gpu_ptr, host_data.data(), 
                                     host_data.size() * sizeof(float));
     EXPECT_TRUE(success);
     
-    std::vector<float> result(1024);
+    std::vector<float> result(hip_test_size);
     success = allocator.download(result.data(), gpu_ptr, 
                                  result.size() * sizeof(float));
     EXPECT_TRUE(success);
@@ -402,11 +413,10 @@ TEST_F(LoRAGPUTest, HIP_BasicOperations) {
 // ===== Memory Overhead Tests =====
 
 TEST_F(LoRAGPUTest, MemoryOverhead_LessThan5Percent) {
-    VRAMAllocator allocator(BackendType::CPU, 10 * 1024 * 1024); // 10 MB pool
+    VRAMAllocator allocator(BackendType::CPU, POOL_SIZE_10MB);
     
     // Allocate memory
-    size_t payload_size = 1024 * 1024; // 1 MB
-    void* ptr = allocator.allocate(payload_size);
+    void* ptr = allocator.allocate(LARGE_BLOCK_SIZE);
     ASSERT_NE(ptr, nullptr);
     
     auto stats = allocator.get_stats();

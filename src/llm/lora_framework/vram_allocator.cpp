@@ -5,6 +5,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <stdlib.h>  // For posix_memalign
 #endif
 
 // Backend-specific includes (conditionally compiled)

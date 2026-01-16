@@ -114,7 +114,7 @@ __global__ void matmul_kernel(
         __syncthreads();
         
         // Compute partial dot product
-        #pragma unroll
+        #pragma unroll 16
         for (int k = 0; k < 16; k++) {
             sum += tileA[threadIdx.y][k] * tileB[k][threadIdx.x];
         }

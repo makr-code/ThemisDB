@@ -38,7 +38,19 @@ GPUMemoryManager::GPUMemoryManager(acceleration::BackendType backend) {
         case acceleration::BackendType::DIRECTX:
             default_device_ = Device::directx();
             break;
-        default:
+        case acceleration::BackendType::CPU:
+            default_device_ = Device::cpu();
+            break;
+        // Handle other backend types
+        case acceleration::BackendType::ZLUDA:
+        case acceleration::BackendType::ROCM:
+        case acceleration::BackendType::OPENGL:
+        case acceleration::BackendType::METAL:
+        case acceleration::BackendType::ONEAPI:
+        case acceleration::BackendType::OPENCL:
+        case acceleration::BackendType::WEBGPU:
+        case acceleration::BackendType::AUTO:
+            // Fallback to CPU for unsupported backends
             default_device_ = Device::cpu();
             break;
     }

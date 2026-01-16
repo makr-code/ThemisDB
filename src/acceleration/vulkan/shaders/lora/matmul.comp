@@ -22,6 +22,10 @@ layout(push_constant) uniform PushConstants {
     uint M;  // Rows of A and C
     uint K;  // Cols of A, Rows of B
     uint N;  // Cols of B and C
+    // Note: alpha stored as uint and reinterpreted as float via uintBitsToFloat()
+    // This is required because Vulkan push constants must be 4-byte aligned
+    // and using float directly could cause alignment issues on some drivers.
+    // The reinterpretation is lossless and allows consistent behavior across platforms.
     uint alpha;  // Scaling factor (stored as uint, reinterpreted as float)
 } pc;
 
