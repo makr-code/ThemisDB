@@ -122,7 +122,7 @@ Implement production-ready token sampling strategies using llama.cpp's sampler A
 ## 🔗 Dependencies
 
 - llama.cpp sampler API
-- `LlamaContextHandle` (from Issue #01)
+- `LlamaContextHandle` (from Issue makr-code/ThemisDB#1)
 - Test models (TinyLlama-1.1B or similar)
 
 ## 📊 Estimated Effort
