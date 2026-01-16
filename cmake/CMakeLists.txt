@@ -1948,6 +1948,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
         ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
         ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
+        ../src/llm/lora_framework/lora_layers.cpp             # LoRA layers and tensor operations (Phase 1)
+        ../src/llm/lora_framework/base_model_adapter.cpp      # Base model loading and LoRA injection (Phase 2)
+        ../src/llm/lora_framework/data_loader.cpp             # Text data loading and tokenization (Phase 2)
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -2277,6 +2280,8 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
