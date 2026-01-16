@@ -1,0 +1,128 @@
+# LoRA Training Configuration Example
+# This file demonstrates how to configure LoRA fine-tuning with llama.cpp base models
+
+# Base model configuration
+base_model:
+  path: "models/llama-2-7b.gguf"  # Path to GGUF model file
+  architecture: "llama"              # Auto-detected, but can specify
+  
+# LoRA hyperparameters
+lora:
+  rank: 16                          # LoRA rank (4, 8, 16, 32, 64)
+  alpha: 32.0                       # Scaling factor (typically 2*rank)
+  dropout: 0.05                     # Dropout probability
+  
+  # Target modules for LoRA adaptation
+  # Options: attention.wq, attention.wk, attention.wv, attention.wo
+  #          feed_forward.w1, feed_forward.w2, feed_forward.w3
+  target_modules:
+    - "attention.wq"
+    - "attention.wv"
+  
+  # Or use predefined presets:
+  # preset: "qv_only"      # Query + Value projections only (fast)
+  # preset: "qkv"          # Query + Key + Value (standard)
+  # preset: "qkvo"         # All attention projections (comprehensive)
+  # preset: "all_linear"   # Attention + MLP layers (maximum quality)
+
+# Training configuration
+training:
+  learning_rate: 3e-4               # Learning rate
+  batch_size: 4                     # Batch size
+  num_epochs: 3                     # Number of training epochs
+  max_seq_length: 2048              # Maximum sequence length
+  
+  # Optimizer settings
+  optimizer:
+    type: "sgd"                     # "sgd" or "adam" (adam not yet implemented)
+    momentum: 0.9                   # Momentum for SGD
+    weight_decay: 0.01              # L2 regularization
+  
+  # Learning rate schedule
+  lr_schedule:
+    type: "constant"                # "constant", "linear_warmup", "cosine"
+    warmup_steps: 100               # Warmup steps (if applicable)
+  
+  # Gradient settings
+  gradient_clipping: 1.0            # Max gradient norm
+  gradient_accumulation: 1          # Gradient accumulation steps
+  
+  # Checkpointing
+  checkpoint_interval: 100          # Save checkpoint every N steps
+  checkpoint_dir: "data/lora_checkpoints"
+  keep_checkpoints: 3               # Keep last N checkpoints
+
+# Dataset configuration
+dataset:
+  format: "alpaca"                  # "jsonl", "alpaca", "sharegpt", "plain_text"
+  train_path: "data/train.json"    # Path to training data
+  val_path: "data/val.json"        # Path to validation data (optional)
+  validation_split: 0.1             # Validation split if val_path not provided
+  
+  # Data preprocessing
+  shuffle: true
+  max_samples: -1                   # Limit dataset size (-1 = use all)
+  
+  # Prompt formatting
+  prompt_template: |
+    ### Instruction:
+    {instruction}
+    
+    ### Input:
+    {input}
+    
+    ### Response:
+    {output}
+
+# Tokenization
+tokenization:
+  tokenizer: "llama"                # Use llama.cpp tokenizer
+  add_bos: true                     # Add beginning-of-sequence token
+  add_eos: true                     # Add end-of-sequence token
+  padding_side: "right"             # Padding side
+
+# Evaluation
+evaluation:
+  eval_steps: 50                    # Evaluate every N steps
+  eval_samples: 100                 # Number of samples for validation
+  metrics:
+    - "loss"
+    - "perplexity"
+
+# Logging and monitoring
+logging:
+  log_level: "info"                 # "debug", "info", "warning", "error"
+  log_interval: 10                  # Log every N steps
+  log_dir: "logs/lora_training"
+  
+  # Metrics tracking
+  track_metrics: true
+  metrics_file: "metrics.json"
+
+# Hardware configuration
+hardware:
+  device: "cpu"                     # "cpu", "cuda", "mps"
+  num_threads: 4                    # CPU threads
+  n_gpu_layers: 0                   # GPU offload layers (0 = CPU only)
+
+# Output configuration
+output:
+  adapter_id: "my_lora_adapter"    # Adapter identifier
+  output_dir: "data/lora_adapters"
+  save_format: "safetensors"       # "safetensors", "gguf"
+  merge_weights: false             # Merge LoRA into base model
+
+# Presets for common scenarios
+# Uncomment to use a preset configuration
+
+# Quick experiment (fast, lower quality)
+# preset: "quick"
+# Override: rank=4, alpha=8, target_modules=[wq, wv], epochs=1
+
+# Standard fine-tuning (recommended)
+# preset: "standard"
+# Override: rank=16, alpha=32, target_modules=[wq, wk, wv, wo], epochs=3
+
+# High-quality fine-tuning (slow, best quality)
+# preset: "high_quality"
+# Override: rank=64, alpha=128, target_modules=all_linear, epochs=5

@@ -121,8 +121,10 @@ public:
         std::chrono::hours max_wait_time{24};
     };
     
-    explicit TrainingTriggerPlugin(const Config& config = Config{})
+    explicit TrainingTriggerPlugin(const Config& config)
         : config_(config) {}
+    
+    TrainingTriggerPlugin() : TrainingTriggerPlugin(Config{}) {}
     
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override;
     std::string getName() const override { return "TrainingTriggerPlugin"; }
@@ -155,8 +157,10 @@ public:
         bool disable_cache_training = false;         // If true, don't train on cached at all
     };
     
-    explicit CacheAwareWeightingPlugin(const Config& config = Config{})
+    explicit CacheAwareWeightingPlugin(const Config& config)
         : config_(config) {}
+    
+    CacheAwareWeightingPlugin() : CacheAwareWeightingPlugin(Config{}) {}
     
     void process(Feedback& feedback) override;
     std::string getName() const override { return "CacheAwareWeightingPlugin"; }

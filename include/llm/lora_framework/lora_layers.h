@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <cstddef>
+#include <unordered_map>
 
 namespace themis {
 namespace llm {
@@ -69,13 +70,13 @@ private:
     size_t rank_;
     float scaling_;
     
-    // Trainable parameters (B and A matrices) - to be implemented in production PR
-    // std::unique_ptr<Tensor> B_;  // (in_dim, rank)
-    // std::unique_ptr<Tensor> A_;  // (rank, out_dim)
+    // Trainable parameters (B and A matrices)
+    std::unique_ptr<Tensor> B_;  // (in_dim, rank)
+    std::unique_ptr<Tensor> A_;  // (rank, out_dim)
     
     // Cached for backward pass
-    // Tensor cached_input_;
-    // Tensor cached_BA_;
+    Tensor cached_input_;
+    Tensor cached_BA_;
 };
 
 /**
@@ -100,11 +101,11 @@ public:
     size_t memory_bytes() const override;
 
 private:
-    // Query, Key, Value, Output projections - to be implemented in production PR
-    // std::unique_ptr<LoRALayer> q_lora_;
-    // std::unique_ptr<LoRALayer> k_lora_;
-    // std::unique_ptr<LoRALayer> v_lora_;
-    // std::unique_ptr<LoRALayer> o_lora_;
+    // Query, Key, Value, Output projections
+    std::unique_ptr<LoRALayer> q_lora_;
+    std::unique_ptr<LoRALayer> k_lora_;
+    std::unique_ptr<LoRALayer> v_lora_;
+    std::unique_ptr<LoRALayer> o_lora_;
     
     size_t dim_;
     size_t rank_;
@@ -138,25 +139,217 @@ private:
 };
 
 /**
- * @brief Stub Tensor class for infrastructure setup
+ * @brief Tensor class for LoRA training
  * 
- * To be replaced with full implementation in production PR
+ * Supports basic tensor operations needed for training.
+ * CPU-only implementation; GPU support can be added in future PRs.
  */
 class Tensor {
 public:
     Tensor() = default;
-    explicit Tensor(const std::vector<size_t>& shape) : shape_(shape) {}
     
+    // Constructor with shape (allocates memory)
+    explicit Tensor(const std::vector<size_t>& shape);
+    
+    // Constructor with shape and initial value
+    Tensor(const std::vector<size_t>& shape, float value);
+    
+    // Getters
     const std::vector<size_t>& shape() const { return shape_; }
-    size_t size() const { 
-        size_t s = 1;
-        for (auto dim : shape_) s *= dim;
-        return s;
-    }
+    size_t size() const;
+    const std::vector<float>& data() const { return data_; }
+    std::vector<float>& data() { return data_; }
+    
+    // Element access
+    float& operator[](size_t idx) { return data_[idx]; }
+    const float& operator[](size_t idx) const { return data_[idx]; }
+    
+    // Basic operations
+    Tensor operator+(const Tensor& other) const;
+    Tensor operator-(const Tensor& other) const;
+    Tensor operator*(float scalar) const;
+    
+    // Matrix multiplication
+    Tensor matmul(const Tensor& other) const;
+    
+    // Transpose (for 2D tensors)
+    Tensor transpose() const;
+    
+    // Utilities
+    void fill(float value);
+    void zero();
+    Tensor clone() const;
+    
+    // Gradient storage (for training)
+    Tensor grad;
+    bool requires_grad = false;
 
 private:
     std::vector<size_t> shape_;
-    // std::vector<float> data_;  // To be implemented in production PR
+    std::vector<float> data_;
+};
+
+// Tensor utility functions
+namespace tensor_utils {
+    // Random initialization
+    Tensor randn(const std::vector<size_t>& shape, float mean = 0.0f, float std = 1.0f);
+    Tensor xavier_uniform(const std::vector<size_t>& shape);
+    Tensor kaiming_uniform(const std::vector<size_t>& shape, float a = 0.0f);
+    
+    // Zero initialization
+    Tensor zeros(const std::vector<size_t>& shape);
+    Tensor ones(const std::vector<size_t>& shape);
+} // namespace tensor_utils
+
+/**
+ * @brief Simple SGD optimizer for LoRA training
+ * 
+ * Implements basic Stochastic Gradient Descent with momentum (optional).
+ * Can be extended to Adam in future PRs.
+ */
+class SGDOptimizer {
+public:
+    explicit SGDOptimizer(float learning_rate = 0.001f, float momentum = 0.0f, float weight_decay = 0.0f);
+    
+    // Register parameters to optimize
+    void add_parameters(const std::vector<Tensor*>& params);
+    
+    // Perform optimization step (update parameters using gradients)
+    void step();
+    
+    // Zero out all gradients
+    void zero_grad();
+    
+    // Getters/Setters
+    float learning_rate() const { return learning_rate_; }
+    void set_learning_rate(float lr) { learning_rate_ = lr; }
+
+private:
+    float learning_rate_;
+    float momentum_;
+    float weight_decay_;
+    std::vector<Tensor*> parameters_;
+    
+    // Momentum buffers (for momentum > 0)
+    std::unordered_map<Tensor*, Tensor> momentum_buffers_;
+};
+
+/**
+ * @brief Adam (Adaptive Moment Estimation) optimizer
+ * 
+ * Implements Adam optimization algorithm with adaptive learning rates.
+ * Reference: https://arxiv.org/abs/1412.6980
+ * 
+ * Update rule:
+ * m_t = β1 * m_{t-1} + (1 - β1) * g_t        // First moment
+ * v_t = β2 * v_{t-1} + (1 - β2) * g_t²       // Second moment
+ * m̂_t = m_t / (1 - β1^t)                     // Bias-corrected first moment
+ * v̂_t = v_t / (1 - β2^t)                     // Bias-corrected second moment
+ * θ_t = θ_{t-1} - α * m̂_t / (√v̂_t + ε)     // Parameter update
+ */
+class AdamOptimizer {
+public:
+    /**
+     * @brief Construct Adam optimizer
+     * @param learning_rate Learning rate (α), default 1e-4
+     * @param beta1 Exponential decay rate for first moment (β1), default 0.9
+     * @param beta2 Exponential decay rate for second moment (β2), default 0.999
+     * @param epsilon Numerical stability constant (ε), default 1e-8
+     * @param weight_decay Weight decay (L2 penalty), default 0.0
+     */
+    explicit AdamOptimizer(
+        float learning_rate = 1e-4f,
+        float beta1 = 0.9f,
+        float beta2 = 0.999f,
+        float epsilon = 1e-8f,
+        float weight_decay = 0.0f
+    );
+    
+    // Register parameters to optimize
+    void add_parameters(const std::vector<Tensor*>& params);
+    
+    // Perform optimization step (update parameters using gradients)
+    void step();
+    
+    // Zero out all gradients
+    void zero_grad();
+    
+    // Getters/Setters
+    float learning_rate() const { return learning_rate_; }
+    void set_learning_rate(float lr) { learning_rate_ = lr; }
+    int step_count() const { return step_count_; }
+
+private:
+    float learning_rate_;
+    float beta1_;
+    float beta2_;
+    float epsilon_;
+    float weight_decay_;
+    int step_count_;
+    std::vector<Tensor*> parameters_;
+    
+    // First moment estimates (momentum)
+    std::unordered_map<Tensor*, Tensor> m_buffers_;
+    
+    // Second moment estimates (RMSprop)
+    std::unordered_map<Tensor*, Tensor> v_buffers_;
+};
+
+/**
+ * @brief AdamW optimizer (Adam with decoupled weight decay)
+ * 
+ * Implements AdamW variant with proper weight decay decoupling.
+ * Reference: https://arxiv.org/abs/1711.05101
+ * 
+ * Better generalization than standard Adam for LLM fine-tuning.
+ * Weight decay is applied directly to parameters, not through gradients.
+ */
+class AdamWOptimizer {
+public:
+    /**
+     * @brief Construct AdamW optimizer
+     * @param learning_rate Learning rate (α), default 1e-4
+     * @param beta1 Exponential decay rate for first moment (β1), default 0.9
+     * @param beta2 Exponential decay rate for second moment (β2), default 0.999
+     * @param epsilon Numerical stability constant (ε), default 1e-8
+     * @param weight_decay Decoupled weight decay (λ), default 0.01
+     */
+    explicit AdamWOptimizer(
+        float learning_rate = 1e-4f,
+        float beta1 = 0.9f,
+        float beta2 = 0.999f,
+        float epsilon = 1e-8f,
+        float weight_decay = 0.01f
+    );
+    
+    // Register parameters to optimize
+    void add_parameters(const std::vector<Tensor*>& params);
+    
+    // Perform optimization step (update parameters using gradients)
+    void step();
+    
+    // Zero out all gradients
+    void zero_grad();
+    
+    // Getters/Setters
+    float learning_rate() const { return learning_rate_; }
+    void set_learning_rate(float lr) { learning_rate_ = lr; }
+    int step_count() const { return step_count_; }
+
+private:
+    float learning_rate_;
+    float beta1_;
+    float beta2_;
+    float epsilon_;
+    float weight_decay_;
+    int step_count_;
+    std::vector<Tensor*> parameters_;
+    
+    // First moment estimates (momentum)
+    std::unordered_map<Tensor*, Tensor> m_buffers_;
+    
+    // Second moment estimates (RMSprop)
+    std::unordered_map<Tensor*, Tensor> v_buffers_;
 };
 
 } // namespace lora

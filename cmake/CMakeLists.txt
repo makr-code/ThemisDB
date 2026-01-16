@@ -1255,6 +1255,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/rbac.cpp
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_provider_pkcs11.cpp
+    ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
@@ -1538,8 +1539,106 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/graphics_backends.cpp)
     
     if(THEMIS_ENABLE_DIRECTX)
+        # Add DirectX 12 compute pipeline sources
+        list(APPEND THEMIS_ACCELERATION_SOURCES
+            ../src/llm/lora_framework/directx_context.cpp
+            ../src/llm/lora_framework/directx_buffer.cpp
+            ../src/llm/lora_framework/directx_descriptors.cpp
+            ../src/llm/lora_framework/directx_shader.cpp
+            ../src/llm/lora_framework/directx_pipeline.cpp
+            ../src/llm/lora_framework/kernels/directx_kernels.cpp
+        )
+        
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DIRECTX)
-        message(STATUS "DirectX acceleration enabled (stub)")
+        
+        # Link DirectX 12 libraries (Windows only)
+        if(WIN32)
+            target_link_libraries(themis_core PRIVATE d3d12 dxgi)
+            
+            # Find DXC shader compiler (part of Windows SDK or DirectX Agility SDK)
+            find_program(DXC_COMPILER dxc
+                HINTS
+                    "$ENV{WindowsSdkDir}bin/${CMAKE_VS_PLATFORM_NAME}"
+                    "$ENV{WindowsSdkDir}bin/x64"
+                    "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/10.0.22621.0/x64"
+                    "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/10.0.19041.0/x64"
+            )
+            
+            if(DXC_COMPILER)
+                message(STATUS "DirectX 12 acceleration enabled")
+                message(STATUS "  DirectX compute pipeline integrated")
+                message(STATUS "  DXC compiler found: ${DXC_COMPILER}")
+                
+                # Set shader output directory
+                set(SHADER_OUTPUT_DIR "${CMAKE_BINARY_DIR}/shaders/lora")
+                file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
+                
+                # Compile HLSL shaders to DXIL bytecode
+                set(SHADER_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/acceleration/directx/shaders/lora")
+                
+                # Matmul shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/matmul.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/matmul.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/matmul.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/matmul.hlsl
+                    COMMENT "Compiling matmul.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Elementwise shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/elementwise.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/elementwise.hlsl
+                    COMMENT "Compiling elementwise.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Gradient shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/gradient.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/gradient.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/gradient.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/gradient.hlsl
+                    COMMENT "Compiling gradient.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Custom target to compile all shaders
+                add_custom_target(directx_shaders ALL
+                    DEPENDS
+                        ${SHADER_OUTPUT_DIR}/matmul.cso
+                        ${SHADER_OUTPUT_DIR}/elementwise.cso
+                        ${SHADER_OUTPUT_DIR}/gradient.cso
+                    COMMENT "Building DirectX shaders"
+                )
+                
+                # Install shaders to output directory
+                install(FILES
+                    ${SHADER_OUTPUT_DIR}/matmul.cso
+                    ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    ${SHADER_OUTPUT_DIR}/gradient.cso
+                    DESTINATION bin/shaders/lora
+                    COMPONENT shaders
+                )
+                
+                # Make themis_core depend on shader compilation
+                add_dependencies(themis_core directx_shaders)
+                
+                message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl → .cso")
+            else()
+                message(WARNING "DXC compiler not found - DirectX shaders will not be compiled")
+                message(WARNING "  Install Windows 10 SDK 10.0.19041.0+ or DirectX Agility SDK")
+                message(WARNING "  DirectX backend will require pre-compiled shaders or fail at runtime")
+            endif()
+        else()
+            message(WARNING "DirectX is only available on Windows")
+        endif()
     endif()
     
     if(THEMIS_ENABLE_VULKAN)
@@ -2001,13 +2100,43 @@ if(THEMIS_ENABLE_LLM)
         # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
         ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
-        ../src/llm/lora_framework/lora_storage_service.cpp    # BaseEntity storage integration
-        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
+        # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
+        # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
+        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
         ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        ../src/llm/lora_framework/lora_layers.cpp             # LoRA layer implementations
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
         ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
         ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
+        ../src/llm/lora_framework/lora_layers.cpp             # LoRA layers and tensor operations (Phase 1)
+        ../src/llm/lora_framework/base_model_adapter.cpp      # Base model loading and LoRA injection (Phase 2)
+        ../src/llm/lora_framework/data_loader.cpp             # Text data loading and tokenization (Phase 2)
+        # Production training features
+        ../src/llm/lora_framework/mixed_precision.cpp         # Mixed precision training (FP16/BF16)
+        ../src/llm/lora_framework/lr_scheduler.cpp            # Learning rate schedulers
+        ../src/llm/lora_framework/gradient_utils.cpp          # Gradient clipping & accumulation
+        ../src/llm/lora_framework/distributed_trainer.cpp     # Multi-GPU distributed training
+        # QLoRA quantization support
+        ../src/llm/lora_framework/quantization.cpp            # NF4/INT8 quantization (CPU)
+        ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
+        # GPU acceleration support
+        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layer implementations
+        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
+        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
+        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
+        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations (Phase 10)
+        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layers (Phase 10)
+        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocator (Phase 10)
+        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management (Phase 10)
+        
+        # GPU acceleration for LoRA (Phase 9-10)
+        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management (VRAM allocator)
+        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
+        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU-accelerated LoRA layers
+        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM memory allocator
+        ../src/llm/lora_framework/quantization.cpp            # Quantization (QLoRA support)
+        ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -2020,6 +2149,7 @@ if(THEMIS_ENABLE_LLM)
         # Phase 4+5 Week 4-6: llama.cpp Integration
         ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         ../src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        ../src/llm/llm_model_storage.cpp     # LLM model storage and metadata management
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         ../src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
@@ -2055,9 +2185,34 @@ if(THEMIS_ENABLE_LLM)
     # Add CUDA kernel fusion sources when CUDA is enabled
     if(THEMIS_ENABLE_CUDA)
         list(APPEND THEMIS_CORE_SOURCES
-            ../src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+            ../src/llm/kernel_fusion.cu                        # Flash Attention CUDA kernels
+            ../src/llm/lora_framework/kernels/cuda_kernels.cu  # LoRA CUDA kernels
+            ../src/llm/lora_framework/kernels/quantization_kernels.cu  # QLoRA quantization GPU kernels
+            ../src/llm/lora_framework/kernels/cuda_fused_kernels.cu  # LoRA fused CUDA kernels (Phase 10.3)
+            ../src/llm/lora_framework/kernels/cuda_fp16_kernels.cu  # FP16 mixed precision kernels (Phase 10.4)
+            ../src/llm/lora_framework/kernels/cuda_bf16_kernels.cu  # BF16 mixed precision kernels (Phase 10.4)
         )
-        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
+        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention + LoRA)")
+    endif()
+    
+    # Add HIP kernel sources when HIP is enabled
+    if(THEMIS_ENABLE_HIP)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels (AMD)
+        )
+        message(STATUS "LoRA: HIP kernels enabled (AMD ROCm support)")
+    endif()
+    
+    # Add Vulkan kernel sources when Vulkan is enabled
+    if(THEMIS_ENABLE_VULKAN)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/vulkan_kernels.cpp  # LoRA Vulkan compute
+        )
+        message(STATUS "LoRA: Vulkan compute kernels enabled (cross-platform)")
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels
+            ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp  # LoRA fused HIP kernels (Phase 10.3)
+        )
+        message(STATUS "LLM: HIP kernel fusion enabled (LoRA)")
     endif()
     
     # Threading support required for async inference
@@ -2336,6 +2491,11 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
+        $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${CMAKE_SOURCE_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
+        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${CMAKE_SOURCE_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
@@ -3219,6 +3379,15 @@ if(THEMIS_BUILD_BENCHMARKS)
             ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp
         )
         target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+    
+    # QLoRA GPU Kernels Benchmark (only when CUDA is enabled)
+    if(THEMIS_ENABLE_CUDA AND THEMIS_ENABLE_LLM)
+        add_executable(bench_qlora_gpu_kernels
+            ${CMAKE_SOURCE_DIR}/benchmarks/bench_qlora_gpu_kernels.cpp
+        )
+        target_link_libraries(bench_qlora_gpu_kernels PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+        message(STATUS "QLoRA GPU Kernels Benchmark: Enabled")
     endif()
 
 endif()

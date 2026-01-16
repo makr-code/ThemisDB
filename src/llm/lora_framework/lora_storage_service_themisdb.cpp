@@ -1,6 +1,10 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
+#include "security/hsm_provider.h"
+#include "security/hsm_key_provider_adapter.h"
+#include "security/pki_key_provider.h"
+#include "security/vault_key_provider.h"
 #include "security/encryption.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -32,18 +36,187 @@ public:
         spdlog::info("  Collection: {}", config_.collection_name);
         spdlog::info("  Versioning: {}", config_.enable_versioning);
         spdlog::info("  Encryption: {}", config_.enable_encryption);
+        spdlog::info("  HSM Encryption: {}", config_.use_hsm_for_encryption);
         spdlog::info("  Signatures: {}", config_.enable_signatures);
         spdlog::info("  RAID Auto-detect: {}", config_.auto_detect_raid);
         
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                // Use mock key provider for now (in production, use Vault/HSM)
-                auto key_provider = std::make_shared<MockKeyProvider>();
+                std::shared_ptr<KeyProvider> key_provider;
+                
+                // Use HSM if configured
+                if (config_.use_hsm_for_encryption && !config_.hsm_library_path.empty()) {
+                    spdlog::info("  Initializing HSM-backed encryption:");
+                    spdlog::info("    Library: {}", config_.hsm_library_path);
+                    spdlog::info("    Slot: {}", config_.hsm_slot_id);
+                    spdlog::info("    Key Label: {}", config_.hsm_key_label);
+                    spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
+                    
+                    // Configure HSM
+                    security::HSMConfig hsm_config;
+                    hsm_config.library_path = config_.hsm_library_path;
+                    hsm_config.slot_id = config_.hsm_slot_id;
+                    hsm_config.pin = config_.hsm_pin;
+                    hsm_config.key_label = config_.hsm_key_label;
+                    hsm_config.session_pool_size = config_.hsm_session_pool_size;
+                    hsm_config.signature_algorithm = "RSA-SHA256";
+                    
+                    // Create HSM provider
+                    auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+                    if (!hsm->initialize()) {
+                        throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
+                    }
+                    
+                    // Create HSM adapter
+                    security::HSMKeyProviderAdapter::Config adapter_config;
+                    adapter_config.kek_label = config_.hsm_key_label;
+                    adapter_config.cache_ttl_ms = 300000;  // 5 minutes
+                    adapter_config.max_cache_size = 1000;
+                    adapter_config.enable_caching = true;
+                    
+                    key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
+                    
+                    spdlog::info("  ✓ HSM-backed encryption initialized successfully");
+                    spdlog::info("  Hardware-backed keys provide maximum security");
+                    
+                } else if (config_.use_hsm_for_encryption) {
+                    spdlog::warn("  HSM encryption requested but library path not provided");
+                    spdlog::warn("  Falling back to MockKeyProvider");
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    
+                } else {
+                    // Fallback to MockKeyProvider for development/testing
+                    // TODO: In production, use VaultKeyProvider or other secure provider
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    spdlog::warn("  For production, configure HSM or see include/security/vault_key_provider.h");
+                }
+                
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::info("  Encryption service initialized");
+                
+            } catch (const std::exception& e) {
+                spdlog::error("  Failed to initialize encryption: {}", e.what());
+                spdlog::warn("  LoRA adapters will be stored without encryption");
+                // Use PKI-based encryption if configured
+                if (config_.use_pki_for_encryption) {
+                    if (config_.pki_cert_path.empty()) {
+                        throw std::runtime_error("PKI encryption enabled but pki_cert_path is not configured");
+                    }
+                    if (config_.pki_private_key_path.empty()) {
+                        throw std::runtime_error("PKI encryption enabled but pki_private_key_path is not configured");
+                    }
+                    if (!config_.db) {
+                        throw std::runtime_error("PKI encryption requires database connection for DEK storage");
+                    }
+                    
+                    spdlog::info("  Initializing PKIKeyProvider with certificate: {}", config_.pki_cert_path);
+                    
+                    // Initialize PKIKeyProvider with certificate files
+                    key_provider = std::make_shared<security::PKIKeyProvider>(
+                        config_.pki_cert_path,
+                        config_.pki_private_key_path,
+                        config_.db,
+                        "lora_storage_" + config_.collection_name,
+                        config_.pki_verify_certificate
+                    );
+                    
+                    spdlog::info("  PKIKeyProvider initialized successfully - using certificate-based encryption");
+                } else {
+                    // Fallback to MockKeyProvider for development/testing
+                    // TODO: SECURITY - Replace MockKeyProvider with production key provider
+                    // Themis provides production-ready key providers in include/security/:
+                    //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
+                    //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
+                    //   
+                    //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
+                    //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
+                    //               auto provider = std::make_unique<security::HSMProvider>(cfg);
+                    //   
+                    //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
+                    //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path, db, service_id);
+                    //
+                    // All providers implement the KeyProvider interface and can be used with FieldEncryption.
+                    // MockKeyProvider is ONLY suitable for testing/development - never use in production!
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    spdlog::warn("  Set use_pki_for_encryption=true and configure certificate paths for production use");
+                }
+                
+                encryption_ = std::make_shared<FieldEncryption>(key_provider);
+            } catch (const std::exception& e) {
+                spdlog::error("  Failed to initialize encryption: {}", e.what());
+                throw;  // Re-throw to prevent insecure operation
+                // Use VaultKeyProvider if configured, otherwise fallback to MockKeyProvider
+                if (config_.use_vault_for_encryption) {
+                    // Configure Vault connection for LoRA adapters
+                    VaultKeyProvider::Config vault_config;
+                    vault_config.vault_addr = config_.vault_addr;
+                    vault_config.vault_token = config_.vault_token;
+                    vault_config.kv_mount_path = config_.vault_kv_mount;
+                    vault_config.cache_ttl_seconds = 3600;  // 1 hour cache
+                    vault_config.cache_capacity = 1000;     // Max cached keys
+                    
+                    // Read from environment variables if not provided
+                    if (vault_config.vault_addr.empty()) {
+                        const char* env_addr = std::getenv("VAULT_ADDR");
+                        if (env_addr) {
+                            vault_config.vault_addr = env_addr;
+                        }
+                    }
+                    if (vault_config.vault_token.empty()) {
+                        const char* env_token = std::getenv("VAULT_TOKEN");
+                        if (env_token) {
+                            vault_config.vault_token = env_token;
+                        }
+                    }
+                    
+                    // Validate required Vault settings
+                    if (vault_config.vault_addr.empty()) {
+                        throw KeyOperationException(
+                            "Vault encryption enabled but VAULT_ADDR not configured. "
+                            "Set config.vault_addr or VAULT_ADDR environment variable."
+                        );
+                    }
+                    if (vault_config.vault_token.empty()) {
+                        throw KeyOperationException(
+                            "Vault encryption enabled but VAULT_TOKEN not configured. "
+                            "Set config.vault_token or VAULT_TOKEN environment variable."
+                        );
+                    }
+                    
+                    key_provider = std::make_shared<VaultKeyProvider>(vault_config);
+                    spdlog::info("  Using VaultKeyProvider for encryption (Production-Ready)");
+                    spdlog::debug("    Vault Address: {}", vault_config.vault_addr);
+                    spdlog::debug("    KV Mount: {}", vault_config.kv_mount_path);
+                    spdlog::debug("    Key ID: {}", config_.encryption_key_id);
+                } else {
+                    // Fallback to MockKeyProvider for development/testing
+                    // MockKeyProvider is ONLY suitable for testing/development - never use in production!
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    spdlog::warn("  To enable Vault encryption, set use_vault_for_encryption=true");
+                    spdlog::warn("  See include/security/vault_key_provider.h for production key providers");
+                }
+                
+                encryption_ = std::make_shared<FieldEncryption>(key_provider);
+            } catch (const KeyOperationException& e) {
+                if (e.transient()) {
+                    // Transient error - retry would be beneficial
+                    // TODO: Implement retry logic with exponential backoff for production
+                    // For now, log and re-throw to maintain fail-fast behavior
+                    spdlog::warn("  Vault connection failed (transient): {}", e.what());
+                    spdlog::warn("  Consider implementing retry logic with exponential backoff");
+                    throw;
+                } else {
+                    // Fatal error - disable encryption
+                    spdlog::error("  Vault initialization failed: {}", e.what());
+                    throw;
+                }
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
+                throw;
             }
         }
         
@@ -111,16 +284,58 @@ public:
     bool deleteAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::ThemisDB && config_.db) {
-                // Delete from RocksDB
                 std::string key = makeCollectionKey(adapter_id);
-                bool success = config_.db->del(key);
                 
-                // Delete blob if exists
-                if (config_.blob_manager) {
-                    // TODO: Get blob ref and delete
+                // First, retrieve metadata to get blob reference if it exists
+                auto data = config_.db->get(key);
+                if (data && config_.blob_manager) {
+                    try {
+                        // Deserialize entity to extract blob reference
+                        BaseEntity entity = BaseEntity::deserialize(adapter_id, *data);
+                        
+                        // Check if adapter uses blob storage (not inline)
+                        if (entity.hasField("blob_ref_path")) {
+                            // Validate blob reference type before casting
+                            auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+                            // Valid range: 0 (INLINE) to 7 (CUSTOM)
+                            if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+                                spdlog::warn("Invalid blob storage type {} for adapter {}, skipping blob deletion", 
+                                           blob_type_value, adapter_id);
+                            } else {
+                                storage::BlobRef ref;
+                                ref.type = static_cast<storage::BlobStorageType>(blob_type_value);
+                                ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
+                                
+                                // Delete blob from storage
+                                if (!ref.uri.empty()) {
+                                    bool blob_deleted = config_.blob_manager->remove(ref);
+                                    if (!blob_deleted) {
+                                        spdlog::warn("Failed to delete blob {} for adapter {}", 
+                                                    ref.uri, adapter_id);
+                                        // Continue with metadata deletion for idempotency
+                                    } else {
+                                        spdlog::debug("Deleted blob {} for adapter {}", 
+                                                     ref.uri, adapter_id);
+                                    }
+                                }
+                            }
+                        }
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to deserialize or delete blob for adapter {}: {}", 
+                                    adapter_id, e.what());
+                        // Continue with metadata deletion
+                    }
                 }
                 
-                spdlog::info("Deleted adapter: {}", adapter_id);
+                // Delete metadata from RocksDB
+                bool success = config_.db->del(key);
+                
+                if (success) {
+                    spdlog::info("Deleted adapter: {}", adapter_id);
+                } else {
+                    spdlog::warn("Failed to delete metadata for adapter: {}", adapter_id);
+                }
+                
                 return success;
             } else {
                 fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
@@ -376,10 +591,14 @@ private:
         if (config_.enable_encryption && encryption_) {
             try {
                 auto encrypted = encryption_->encrypt(data_to_store, config_.encryption_key_id);
-                data_to_store = encrypted.ciphertext;
-                spdlog::debug("Encrypted adapter data");
+                // Store the full encrypted blob (including key version, IV, tag)
+                // Convert to base64 for storage
+                std::string encrypted_b64 = encrypted.toBase64();
+                data_to_store = std::vector<uint8_t>(encrypted_b64.begin(), encrypted_b64.end());
+                spdlog::debug("Encrypted adapter data with key version {}", encrypted.key_version);
             } catch (const std::exception& e) {
-                spdlog::warn("Encryption failed: {}", e.what());
+                spdlog::error("Encryption failed: {}", e.what());
+                return false;  // Fail if encryption is enabled but fails
             }
         }
         
@@ -421,15 +640,16 @@ private:
         std::vector<uint8_t> decrypted_data = *data;
         if (config_.enable_encryption && encryption_) {
             try {
-                // TODO: Decrypt requires EncryptedBlob, need to store metadata
-                // For now, skip decryption
-                // auto decrypted = encryption_->decrypt(encrypted_blob);
-                // decrypted_data = decrypted;
-                decrypted_data = *data;
-                spdlog::debug("Decrypted adapter data");
+                // Deserialize the EncryptedBlob from base64 string
+                std::string encrypted_b64(data->begin(), data->end());
+                auto encrypted_blob = EncryptedBlob::fromBase64(encrypted_b64);
+                
+                // Decrypt using the key version stored in the blob
+                decrypted_data = encryption_->decrypt(encrypted_blob);
+                spdlog::debug("Decrypted adapter data (key version: {})", encrypted_blob.key_version);
             } catch (const std::exception& e) {
-                spdlog::warn("Decryption failed, assuming unencrypted: {}", e.what());
-                decrypted_data = *data;
+                spdlog::error("Decryption failed: {}", e.what());
+                return std::nullopt;  // Fail if decryption fails
             }
         }
         
@@ -441,16 +661,26 @@ private:
         // Load weights from blob or inline
         if (entity.hasField("blob_ref_path")) {
             if (config_.blob_manager) {
+                // Validate blob reference type before casting
+                auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+                // Valid range: 0 (INLINE) to 7 (CUSTOM)
+                if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+                    spdlog::error("Invalid blob storage type {} for adapter {}, cannot load", 
+                               blob_type_value, adapter_id);
+                    return std::nullopt;
+                }
+                
                 storage::BlobRef ref;
-                ref.type = static_cast<storage::BlobStorageType>(
-                    entity.getFieldAsInt("blob_ref_type").value_or(0)
-                );
-                ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
+                ref.type = static_cast<storage::BlobStorageType>(blob_type_value);
+                ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
                 
                 auto blob_data = config_.blob_manager->get(ref);
                 if (blob_data) {
                     weights.data = *blob_data;
                     weights.size_bytes = blob_data->size();
+                } else {
+                    spdlog::error("Failed to load blob {} for adapter {}", ref.uri, adapter_id);
+                    return std::nullopt;
                 }
             }
         } else if (auto weights_data = entity.getField("weights_data")) {
