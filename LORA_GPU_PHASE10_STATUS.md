@@ -150,9 +150,10 @@ Upon completion of Phase 10:
 ### Dependencies to Resolve
 
 - **Vulkan SDK 1.2+**: Ensure available on development machines
-- **DirectX 12 + Agility SDK**: Ensure available on Windows machines
-- **NCCL 2.10+ / RCCL 2.10+**: For multi-GPU support
-- **GPU Hardware**: Access to multiple GPUs for testing
+- **DirectX 12 and Agility SDK**: Ensure available on Windows development machines
+- **NCCL 2.10+ (NVIDIA Collective Communication Library)**: For NVIDIA multi-GPU support
+- **RCCL 2.10+ (ROCm Collective Communication Library)**: For AMD multi-GPU support
+- **GPU Hardware**: Access to multiple GPUs for testing (2-4 GPUs recommended)
 
 ## Status Summary
 
