@@ -135,6 +135,49 @@ else()
 endif()
 
 # ============================================================================
+# QLoRA Quantization Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_quantization.cpp")
+        message(STATUS "Adding QLoRA quantization tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_quantization
+            test_quantization.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantization.cpp
+        )
+        
+        target_link_libraries(test_quantization PRIVATE
+            ${TEST_LIBS}
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_quantization PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME QuantizationTests COMMAND test_quantization)
+        
+        # Set test properties
+        set_tests_properties(QuantizationTests PROPERTIES
+            LABELS "lora;llm;quantization;qlora"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - Quantization tests: NF4, INT8, double quantization")
+        message(STATUS "    * Accuracy tests (reconstruction error)")
+        message(STATUS "    * Memory reduction tests (60-80% savings)")
+        message(STATUS "    * Block-wise quantization")
+        message(STATUS "    * Performance benchmarks")
+    else()
+        message(STATUS "Quantization tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_quantization.cpp")
+    endif()
+else()
+    message(STATUS "Quantization tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
 # PITR (Point-in-Time Recovery) Tests - Phase 3
 # ============================================================================
 
