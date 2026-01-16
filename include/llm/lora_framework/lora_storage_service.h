@@ -75,6 +75,12 @@ public:
         std::string encryption_key_id = "lora_adapters";  // Key ID for encryption
         bool enable_signatures = true;  // Digital signatures for integrity
         
+        // Vault Key Provider configuration
+        bool use_vault_for_encryption = false;  // Enable Vault encryption (default: false)
+        std::string vault_addr;          // Vault server address
+        std::string vault_token;         // Vault authentication token
+        std::string vault_kv_mount = "themis";      // KV mount path (default: "themis")
+        
         // RAID/Redundancy (automatically detected from environment)
         bool auto_detect_raid = true;  // Auto-detect RAID configuration
     };
