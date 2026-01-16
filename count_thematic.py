@@ -5,7 +5,6 @@ Counts C++ code lines by theme/category for the date 16.01.2026
 """
 
 import os
-import subprocess
 from datetime import datetime
 
 def count_lines_in_files(file_list):
@@ -18,7 +17,7 @@ def count_lines_in_files(file_list):
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 total_lines += sum(1 for _ in f)
-        except Exception as e:
+        except (FileNotFoundError, PermissionError, UnicodeDecodeError, OSError) as e:
             print(f"Warning: Could not read {file_path}: {e}")
             continue
     
@@ -147,11 +146,11 @@ def generate_report(repo_root):
     report_lines.append("")
     src_categories = count_by_category(os.path.join(repo_root, 'src'))
     
+    total_src_lines = 0
+    total_src_files = 0
     if src_categories:
         report_lines.append("| Theme | Files | Lines |")
         report_lines.append("|-------|-------|-------|")
-        total_src_lines = 0
-        total_src_files = 0
         for theme, data in sorted(src_categories.items()):
             report_lines.append(f"| {theme} | {data['files']} | {data['lines']:,} |")
             total_src_lines += data['lines']
@@ -166,11 +165,11 @@ def generate_report(repo_root):
     report_lines.append("")
     include_categories = count_by_category(os.path.join(repo_root, 'include'))
     
+    total_include_lines = 0
+    total_include_files = 0
     if include_categories:
         report_lines.append("| Theme | Files | Lines |")
         report_lines.append("|-------|-------|-------|")
-        total_include_lines = 0
-        total_include_files = 0
         for theme, data in sorted(include_categories.items()):
             report_lines.append(f"| {theme} | {data['files']} | {data['lines']:,} |")
             total_include_lines += data['lines']
