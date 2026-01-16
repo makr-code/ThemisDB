@@ -4,6 +4,7 @@
 #include "llm/lora_framework/lora_config.h"
 #include <memory>
 #include <cmath>
+#include <chrono>
 
 using namespace themis::llm::lora;
 

@@ -955,6 +955,10 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("Training with {} trainable LoRA parameters", trainable_params.size());
         
         // Training loop (simplified for now)
+        // NOTE: This is a placeholder implementation using synthetic data
+        // TODO: In production, integrate with actual DataLoader and use real training samples
+        // TODO: Process all layers, not just the first one
+        // TODO: Integrate with full forward/backward pass through the model
         float total_loss = 0.0f;
         int num_steps = 0;
         
@@ -1106,8 +1110,9 @@ size_t LoRATrainingService::estimateMemoryUsage(
     // - INT8: ~7 GB (75% reduction)
     
     // This is a simplified estimation
-    // In production, we'd parse the model file to get actual parameter count
-    size_t estimated_params = 7'000'000'000;  // 7B parameters as example
+    // TODO: In production, parse the model file to get actual parameter count
+    // TODO: Support reading parameter count from model metadata
+    size_t estimated_params = 7'000'000'000;  // 7B parameters as example placeholder
     
     return quantized_model_utils::estimate_memory_usage(
         estimated_params,
