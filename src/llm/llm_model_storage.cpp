@@ -4,6 +4,8 @@
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <algorithm>
+#include <cstring>
+#include <cmath>
 
 namespace themis {
 namespace llm {
@@ -30,10 +32,15 @@ public:
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                // Use mock key provider for now (in production, use Vault/HSM)
-                auto key_provider = std::make_shared<MockKeyProvider>();
+                // Use configured key provider (Vault/HSM) or fallback to Mock
+                std::shared_ptr<KeyProvider> key_provider = config_.key_provider;
+                if (!key_provider) {
+                    spdlog::warn("No key provider configured, using MockKeyProvider");
+                    spdlog::warn("PRODUCTION WARNING: Use VaultKeyProvider or HSMProvider in production!");
+                    key_provider = std::make_shared<MockKeyProvider>();
+                }
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::info("  Encryption service initialized");
+                spdlog::info("  Encryption service initialized with key provider");
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
             }
@@ -552,26 +559,127 @@ bool LLMModelStorage::addEdge(
     LLMEdgeType edge_type,
     float weight
 ) {
-    // TODO: Implement graph edges
-    spdlog::warn("Graph edges not yet implemented");
-    return false;
+    if (!config_.db) {
+        spdlog::error("Database not configured for graph operations");
+        return false;
+    }
+    
+    try {
+        // Store edge as a separate key-value pair
+        std::string edge_key = config_.collection_name + ":edge:" + from_id + ":" + to_id + 
+                               ":" + std::to_string(static_cast<int>(edge_type));
+        
+        json edge_data = {
+            {"from", from_id},
+            {"to", to_id},
+            {"type", static_cast<int>(edge_type)},
+            {"weight", weight},
+            {"created_at", std::chrono::system_clock::now().time_since_epoch().count()}
+        };
+        
+        std::string edge_str = edge_data.dump();
+        std::vector<uint8_t> edge_bytes(edge_str.begin(), edge_str.end());
+        
+        bool success = config_.db->put(edge_key, edge_bytes);
+        if (success) {
+            spdlog::info("Added edge: {} -> {} (type={})", from_id, to_id, static_cast<int>(edge_type));
+        }
+        return success;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to add edge: {}", e.what());
+        return false;
+    }
 }
 
 std::vector<json> LLMModelStorage::getEdges(
     const std::string& model_id,
     const std::string& direction
 ) const {
-    // TODO: Implement graph edges
-    return {};
+    std::vector<json> edges;
+    
+    if (!config_.db) {
+        return edges;
+    }
+    
+    try {
+        // List all edge keys and filter by direction
+        std::string edge_prefix = config_.collection_name + ":edge:";
+        auto keys = config_.db->listKeysWithPrefix(edge_prefix);
+        
+        for (const auto& key : keys) {
+            // Parse key to check if it involves this model
+            // Key format: collection:edge:from:to:type
+            auto parts_start = key.find(edge_prefix) + edge_prefix.length();
+            std::string key_suffix = key.substr(parts_start);
+            
+            // Simple check if model_id is in the key
+            if (key_suffix.find(model_id) != std::string::npos) {
+                auto edge_data = config_.db->get(key);
+                if (edge_data) {
+                    try {
+                        std::string edge_str(edge_data->begin(), edge_data->end());
+                        json edge_json = json::parse(edge_str);
+                        
+                        // Filter by direction
+                        bool include = false;
+                        if (direction == "both") {
+                            include = true;
+                        } else if (direction == "outgoing" && edge_json["from"] == model_id) {
+                            include = true;
+                        } else if (direction == "incoming" && edge_json["to"] == model_id) {
+                            include = true;
+                        }
+                        
+                        if (include) {
+                            edges.push_back(edge_json);
+                        }
+                    } catch (...) {
+                        // Skip invalid edge data
+                    }
+                }
+            }
+        }
+        
+        spdlog::info("Found {} edges for model {}", edges.size(), model_id);
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to get edges: {}", e.what());
+    }
+    
+    return edges;
 }
 
 bool LLMModelStorage::storeEmbedding(
     const std::string& model_id,
     const std::vector<float>& embedding
 ) {
-    // TODO: Implement vector embeddings
-    spdlog::warn("Vector embeddings not yet implemented");
-    return false;
+    if (!config_.db) {
+        spdlog::error("Database not configured for vector operations");
+        return false;
+    }
+    
+    if (embedding.empty()) {
+        spdlog::error("Cannot store empty embedding");
+        return false;
+    }
+    
+    try {
+        // Store embedding as a separate key-value pair
+        std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
+        
+        // Convert float vector to bytes
+        std::vector<uint8_t> embedding_bytes(embedding.size() * sizeof(float));
+        std::memcpy(embedding_bytes.data(), embedding.data(), embedding_bytes.size());
+        
+        bool success = config_.db->put(embedding_key, embedding_bytes);
+        if (success) {
+            spdlog::info("Stored embedding for model {}: {} dimensions", 
+                        model_id, embedding.size());
+        }
+        return success;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to store embedding: {}", e.what());
+        return false;
+    }
 }
 
 std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
@@ -579,8 +687,82 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
     int k,
     float threshold
 ) const {
-    // TODO: Implement vector similarity search
-    return {};
+    std::vector<std::pair<std::string, float>> similar_models;
+    
+    if (!config_.db) {
+        return similar_models;
+    }
+    
+    try {
+        // Get embedding for the query model
+        std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
+        auto query_data = config_.db->get(embedding_key);
+        
+        if (!query_data || query_data->empty()) {
+            spdlog::warn("No embedding found for model {}", model_id);
+            return similar_models;
+        }
+        
+        // Convert bytes back to float vector
+        std::vector<float> query_embedding(query_data->size() / sizeof(float));
+        std::memcpy(query_embedding.data(), query_data->data(), query_data->size());
+        
+        // List all embeddings and compute cosine similarity
+        std::string embedding_prefix = config_.collection_name + ":embedding:";
+        auto keys = config_.db->listKeysWithPrefix(embedding_prefix);
+        
+        for (const auto& key : keys) {
+            // Extract model ID from key
+            std::string other_model_id = key.substr(embedding_prefix.length());
+            
+            if (other_model_id == model_id) {
+                continue;  // Skip self
+            }
+            
+            auto other_data = config_.db->get(key);
+            if (!other_data || other_data->size() != query_data->size()) {
+                continue;  // Skip if size mismatch
+            }
+            
+            std::vector<float> other_embedding(other_data->size() / sizeof(float));
+            std::memcpy(other_embedding.data(), other_data->data(), other_data->size());
+            
+            // Compute cosine similarity
+            float dot_product = 0.0f;
+            float norm_query = 0.0f;
+            float norm_other = 0.0f;
+            
+            for (size_t i = 0; i < query_embedding.size(); i++) {
+                dot_product += query_embedding[i] * other_embedding[i];
+                norm_query += query_embedding[i] * query_embedding[i];
+                norm_other += other_embedding[i] * other_embedding[i];
+            }
+            
+            float similarity = 0.0f;
+            if (norm_query > 0 && norm_other > 0) {
+                similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
+            }
+            
+            if (similarity >= threshold) {
+                similar_models.push_back({other_model_id, similarity});
+            }
+        }
+        
+        // Sort by similarity (descending) and limit to k
+        std::sort(similar_models.begin(), similar_models.end(),
+                 [](const auto& a, const auto& b) { return a.second > b.second; });
+        
+        if (similar_models.size() > static_cast<size_t>(k)) {
+            similar_models.resize(k);
+        }
+        
+        spdlog::info("Found {} similar models for {}", similar_models.size(), model_id);
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to find similar models: {}", e.what());
+    }
+    
+    return similar_models;
 }
 
 bool LLMModelStorage::updateUsageStats(const std::string& model_id, int64_t tokens_generated) {

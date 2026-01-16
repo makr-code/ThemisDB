@@ -163,6 +163,7 @@ public:
         std::shared_ptr<RocksDBWrapper> db;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
         std::shared_ptr<storage::SecuritySignatureManager> signature_manager;
+        std::shared_ptr<KeyProvider> key_provider;  // Configurable key provider (Vault/HSM/Mock)
         
         // Collection settings
         std::string collection_name = "llm_models";

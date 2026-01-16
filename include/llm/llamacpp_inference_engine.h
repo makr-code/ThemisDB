@@ -103,6 +103,13 @@ private:
         std::shared_ptr<storage::BlobStorageManager> blob_manager
     );
     
+    // Helper function to decrypt model file
+    bool decryptModelFile(
+        const std::string& encrypted_path,
+        const std::string& output_path,
+        const LLMModelMetadata& metadata
+    );
+    
     // Helper to get blob reference from model metadata
     std::optional<storage::BlobRef> getBlobReferenceFromMetadata(
         const std::string& model_id
