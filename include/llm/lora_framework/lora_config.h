@@ -100,6 +100,7 @@ struct AdapterMetadata {
     std::chrono::system_clock::time_point created_at;
     std::chrono::system_clock::time_point updated_at;
     json custom_metadata;
+    uint32_t encryption_key_version = 0;  // KEK version used for encryption (0 = unencrypted or latest)
     
     json toJSON() const {
         auto created_time_t = std::chrono::system_clock::to_time_t(created_at);
@@ -114,7 +115,8 @@ struct AdapterMetadata {
             {"validation_accuracy", validation_accuracy},
             {"created_at", created_time_t},
             {"updated_at", updated_time_t},
-            {"custom_metadata", custom_metadata}
+            {"custom_metadata", custom_metadata},
+            {"encryption_key_version", encryption_key_version}
         };
     }
     
@@ -135,6 +137,7 @@ struct AdapterMetadata {
             metadata.updated_at = std::chrono::system_clock::from_time_t(updated);
         }
         if (j.contains("custom_metadata")) metadata.custom_metadata = j["custom_metadata"];
+        if (j.contains("encryption_key_version")) metadata.encryption_key_version = j["encryption_key_version"];
         return metadata;
     }
 };
