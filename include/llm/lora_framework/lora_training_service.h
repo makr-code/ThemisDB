@@ -158,6 +158,10 @@ public:
         // Phase 2: Base model integration settings
         std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
         bool use_base_model = false;         // Enable base model integration (Phase 2b)
+        
+        // QLoRA configuration
+        QLoRAConfig qlora;
+        
         // Production training features
         MixedPrecisionConfig mixed_precision;
         LRSchedulerConfig lr_scheduler;
@@ -245,9 +249,56 @@ public:
      */
     void stopTraining();
     
+    /**
+     * @brief Train adapter with QLoRA (quantized base model)
+     * @param adapter_id Adapter identifier
+     * @param data Training data
+     * @param hyperparameters LoRA hyperparameters (optional)
+     * @return Training result
+     */
+    TrainingResult trainWithQuantization(
+        const std::string& adapter_id,
+        const TrainingData& data,
+        const std::optional<LoRAHyperparameters>& hyperparameters = std::nullopt
+    );
+    
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+    
+    // Helper methods for QLoRA
+    /**
+     * @brief Create QLoRA layers for training
+     * @param model Quantized base model
+     * @param rank LoRA rank
+     * @return Vector of QLoRA layers
+     */
+    std::vector<std::unique_ptr<class QLoRALayer>> createQLoRALayers(
+        const class QuantizedModel& model,
+        size_t rank
+    );
+    
+    /**
+     * @brief Load and optionally quantize base model
+     * @param model_path Path to base model
+     * @param config QLoRA configuration
+     * @return Quantized model
+     */
+    std::unique_ptr<class QuantizedModel> loadQuantizedBaseModel(
+        const std::string& model_path,
+        const QLoRAConfig& config
+    );
+    
+    /**
+     * @brief Estimate memory usage for QLoRA training
+     * @param model_path Path to base model
+     * @param config QLoRA configuration
+     * @return Estimated memory in bytes
+     */
+    size_t estimateMemoryUsage(
+        const std::string& model_path,
+        const QLoRAConfig& config
+    );
 };
 
 } // namespace lora

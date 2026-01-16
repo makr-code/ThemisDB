@@ -3,6 +3,15 @@
 #include <stdexcept>
 #include <cmath>
 
+// Include fused kernel headers
+#ifdef THEMIS_ENABLE_CUDA
+#include "llm/lora_framework/cuda_fused_kernels.h"
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+#include "llm/lora_framework/hip_fused_kernels.h"
+#endif
+
 namespace themis {
 namespace llm {
 namespace lora {
@@ -12,12 +21,13 @@ namespace lora {
 // ============================================================================
 
 GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank, 
-                           float scaling, const Device& device)
+                           float scaling, const Device& device, bool use_fused_kernels)
     : in_dim_(in_dim)
     , out_dim_(out_dim)
     , rank_(rank)
     , scaling_(scaling)
-    , device_(device) {
+    , device_(device)
+    , use_fused_kernels_(use_fused_kernels) {
     
     // Initialize B with Kaiming uniform
     B_ = std::make_unique<GPUTensor>(
@@ -31,8 +41,8 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
     );
     A_->requires_grad = true;
     
-    spdlog::debug("GPULoRALayer created: in_dim={}, out_dim={}, rank={}, scaling={}, device={}",
-                  in_dim_, out_dim_, rank_, scaling_, static_cast<int>(device.type));
+    spdlog::debug("GPULoRALayer created: in_dim={}, out_dim={}, rank={}, scaling={}, device={}, fused={}",
+                  in_dim_, out_dim_, rank_, scaling_, static_cast<int>(device.type), use_fused_kernels_);
 }
 
 GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
@@ -44,6 +54,61 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     // Cache input for backward pass
     cached_input_ = input.clone();
     
+    // Try to use fused kernels if enabled and on CUDA/HIP
+    if (use_fused_kernels_ && (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP)) {
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            // Use fused CUDA kernel
+            auto batch_size = input.shape()[0];
+            GPUTensor output({batch_size, out_dim_}, device_);
+            
+            // Get raw pointers
+            const float* input_ptr = reinterpret_cast<const float*>(input.data());
+            const float* B_ptr = reinterpret_cast<const float*>(B_->data());
+            const float* A_ptr = reinterpret_cast<const float*>(A_->data());
+            float* output_ptr = reinterpret_cast<float*>(output.data());
+            
+            cudaError_t err = cuda::fused::launch_fused_lora_forward(
+                input_ptr, B_ptr, A_ptr, output_ptr,
+                batch_size, in_dim_, rank_, out_dim_, scaling_);
+            
+            if (err == cudaSuccess) {
+                // Also cache h for backward (compute it separately for now)
+                cached_h_ = input.matmul(*B_);
+                return output;
+            }
+            // Fall back to unfused on error
+            spdlog::warn("Fused CUDA kernel failed, falling back to unfused");
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            // Use fused HIP kernel
+            auto batch_size = input.shape()[0];
+            GPUTensor output({batch_size, out_dim_}, device_);
+            
+            // Get raw pointers
+            const float* input_ptr = reinterpret_cast<const float*>(input.data());
+            const float* B_ptr = reinterpret_cast<const float*>(B_->data());
+            const float* A_ptr = reinterpret_cast<const float*>(A_->data());
+            float* output_ptr = reinterpret_cast<float*>(output.data());
+            
+            hipError_t err = hip::fused::launch_fused_lora_forward(
+                input_ptr, B_ptr, A_ptr, output_ptr,
+                batch_size, in_dim_, rank_, out_dim_, scaling_);
+            
+            if (err == hipSuccess) {
+                // Also cache h for backward (compute it separately for now)
+                cached_h_ = input.matmul(*B_);
+                return output;
+            }
+            // Fall back to unfused on error
+            spdlog::warn("Fused HIP kernel failed, falling back to unfused");
+        }
+#endif
+    }
+    
+    // Unfused path (original implementation)
     // Forward: output = input @ B @ A * scaling
     // Step 1: h = input @ B
     cached_h_ = input.matmul(*B_);
@@ -65,6 +130,73 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
         throw std::runtime_error("Gradient device mismatch in GPULoRALayer::backward");
     }
     
+    // Try to use fused kernels if enabled and on CUDA/HIP
+    if (use_fused_kernels_ && (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP)) {
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            // Use fused CUDA backward kernel
+            auto batch_size = grad_output.shape()[0];
+            
+            // Prepare gradient tensors
+            A_->ensure_grad();
+            B_->ensure_grad();
+            GPUTensor grad_input({batch_size, in_dim_}, device_);
+            
+            // Get raw pointers
+            const float* input_ptr = reinterpret_cast<const float*>(cached_input_.data());
+            const float* B_ptr = reinterpret_cast<const float*>(B_->data());
+            const float* A_ptr = reinterpret_cast<const float*>(A_->data());
+            const float* grad_output_ptr = reinterpret_cast<const float*>(grad_output.data());
+            float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());
+            float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());
+            float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());
+            
+            cudaError_t err = cuda::fused::launch_fused_lora_backward(
+                input_ptr, B_ptr, A_ptr, grad_output_ptr,
+                grad_A_ptr, grad_B_ptr, grad_input_ptr,
+                batch_size, in_dim_, rank_, out_dim_, scaling_);
+            
+            if (err == cudaSuccess) {
+                return grad_input;
+            }
+            // Fall back to unfused on error
+            spdlog::warn("Fused CUDA backward kernel failed, falling back to unfused");
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            // Use fused HIP backward kernel
+            auto batch_size = grad_output.shape()[0];
+            
+            // Prepare gradient tensors
+            A_->ensure_grad();
+            B_->ensure_grad();
+            GPUTensor grad_input({batch_size, in_dim_}, device_);
+            
+            // Get raw pointers
+            const float* input_ptr = reinterpret_cast<const float*>(cached_input_.data());
+            const float* B_ptr = reinterpret_cast<const float*>(B_->data());
+            const float* A_ptr = reinterpret_cast<const float*>(A_->data());
+            const float* grad_output_ptr = reinterpret_cast<const float*>(grad_output.data());
+            float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());
+            float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());
+            float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());
+            
+            hipError_t err = hip::fused::launch_fused_lora_backward(
+                input_ptr, B_ptr, A_ptr, grad_output_ptr,
+                grad_A_ptr, grad_B_ptr, grad_input_ptr,
+                batch_size, in_dim_, rank_, out_dim_, scaling_);
+            
+            if (err == hipSuccess) {
+                return grad_input;
+            }
+            // Fall back to unfused on error
+            spdlog::warn("Fused HIP backward kernel failed, falling back to unfused");
+        }
+#endif
+    }
+    
+    // Unfused path (original implementation)
     // Apply scaling to gradient
     GPUTensor scaled_grad = (std::abs(scaling_ - 1.0f) > 1e-6f) 
                             ? grad_output * scaling_
@@ -191,32 +323,76 @@ void GPUSGDOptimizer::step() {
             continue;
         }
         
-        // Get gradient
-        auto grad = param->grad->clone();
+        // Try to use fused kernel if on CUDA/HIP
+        bool fused_success = false;
         
-        // Add weight decay (L2 regularization)
-        if (weight_decay_ > 0.0f) {
-            // grad = grad + weight_decay * param
-            auto decay_term = *param * weight_decay_;
-            grad = grad + decay_term;
-        }
-        
-        // Apply momentum if enabled
-        if (momentum_ > 0.0f) {
-            auto* v = momentum_buffers_[i].get();
+#ifdef THEMIS_ENABLE_CUDA
+        if (param->device().type == DeviceType::CUDA) {
+            float* param_ptr = reinterpret_cast<float*>(param->data());
+            const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());
+            float* momentum_ptr = (momentum_ > 0.0f && i < momentum_buffers_.size()) 
+                ? reinterpret_cast<float*>(momentum_buffers_[i]->data()) 
+                : nullptr;
             
-            // v = momentum * v + (1 - momentum) * grad
-            auto momentum_term = *v * momentum_;
-            auto grad_term = grad * (1.0f - momentum_);
-            *v = momentum_term + grad_term;
+            cudaError_t err = cuda::fused::launch_fused_sgd_step(
+                param_ptr, grad_ptr, momentum_ptr,
+                param->size(), learning_rate_, momentum_, weight_decay_);
             
-            // Use momentum buffer for update
-            grad = v->clone();
+            fused_success = (err == cudaSuccess);
+            if (!fused_success) {
+                spdlog::warn("Fused CUDA optimizer step failed, falling back to unfused");
+            }
         }
+#endif
         
-        // Update parameter: param = param - lr * grad
-        auto update = grad * learning_rate_;
-        *param = *param - update;
+#ifdef THEMIS_ENABLE_HIP
+        if (param->device().type == DeviceType::HIP) {
+            float* param_ptr = reinterpret_cast<float*>(param->data());
+            const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());
+            float* momentum_ptr = (momentum_ > 0.0f && i < momentum_buffers_.size()) 
+                ? reinterpret_cast<float*>(momentum_buffers_[i]->data()) 
+                : nullptr;
+            
+            hipError_t err = hip::fused::launch_fused_sgd_step(
+                param_ptr, grad_ptr, momentum_ptr,
+                param->size(), learning_rate_, momentum_, weight_decay_);
+            
+            fused_success = (err == hipSuccess);
+            if (!fused_success) {
+                spdlog::warn("Fused HIP optimizer step failed, falling back to unfused");
+            }
+        }
+#endif
+        
+        // Unfused path if fused failed or not available
+        if (!fused_success) {
+            // Get gradient
+            auto grad = param->grad->clone();
+            
+            // Add weight decay (L2 regularization)
+            if (weight_decay_ > 0.0f) {
+                // grad = grad + weight_decay * param
+                auto decay_term = *param * weight_decay_;
+                grad = grad + decay_term;
+            }
+            
+            // Apply momentum if enabled
+            if (momentum_ > 0.0f) {
+                auto* v = momentum_buffers_[i].get();
+                
+                // v = momentum * v + (1 - momentum) * grad
+                auto momentum_term = *v * momentum_;
+                auto grad_term = grad * (1.0f - momentum_);
+                *v = momentum_term + grad_term;
+                
+                // Use momentum buffer for update
+                grad = v->clone();
+            }
+            
+            // Update parameter: param = param - lr * grad
+            auto update = grad * learning_rate_;
+            *param = *param - update;
+        }
     }
 }
 
