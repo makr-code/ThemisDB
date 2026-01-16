@@ -223,6 +223,61 @@ else()
 endif()
 
 # ============================================================================
+# QLoRA Training Integration Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_qlora_training_integration.cpp")
+        message(STATUS "Adding QLoRA training integration tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_qlora_training_integration
+            test_qlora_training_integration.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantization.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantized_model.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_layers.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_training_service.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_storage_service.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/data_loader.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/base_model_adapter.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/mixed_precision.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lr_scheduler.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gradient_utils.cpp
+        )
+        
+        target_link_libraries(test_qlora_training_integration PRIVATE
+            ${TEST_LIBS}
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+        )
+        
+        target_compile_definitions(test_qlora_training_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME QLoRATrainingIntegrationTests COMMAND test_qlora_training_integration)
+        
+        # Set test properties
+        set_tests_properties(QLoRATrainingIntegrationTests PROPERTIES
+            LABELS "lora;llm;qlora;training;integration"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - QLoRA training integration tests: End-to-end training")
+        message(STATUS "    * Training service QLoRA integration")
+        message(STATUS "    * NF4 and INT8 quantization modes")
+        message(STATUS "    * Memory reduction validation")
+        message(STATUS "    * Configuration system")
+    else()
+        message(STATUS "QLoRA training integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_qlora_training_integration.cpp")
+    endif()
+else()
+    message(STATUS "QLoRA training integration tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
 # PITR (Point-in-Time Recovery) Tests - Phase 3
 # ============================================================================
 
