@@ -366,15 +366,22 @@ __global__ void fused_lora_backward(
 } // namespace fused_kernels
 ```
 
-**Files to Create:**
-- `include/llm/lora_framework/fused_kernels.h` (NEW)
-- `src/llm/lora_framework/kernels/fused_cuda_kernels.cu` (NEW)
-- `src/llm/lora_framework/kernels/fused_hip_kernels.cpp` (NEW)
-- `src/llm/lora_framework/gpu_lora_layers.cpp` (UPDATE - add fused paths)
+**Files Created:**
+- `include/llm/lora_framework/cuda_fused_kernels.h` ✅
+- `src/llm/lora_framework/kernels/cuda_fused_kernels.cu` ✅
+- `include/llm/lora_framework/hip_fused_kernels.h` ✅
+- `src/llm/lora_framework/kernels/hip_fused_kernels.cpp` ✅
+- `tests/test_fused_kernels.cpp` ✅
+
+**Files Updated:**
+- `include/llm/lora_framework/gpu_lora_layers.h` ✅
+- `src/llm/lora_framework/gpu_lora_layers.cpp` ✅
 
 **Expected Speedup**: 1.5-2x additional improvement (on top of existing 50x)
 
-**Estimated Effort**: 1-2 weeks
+**Status**: ✅ IMPLEMENTED - Forward, backward, and optimizer fusion complete for CUDA and HIP
+
+**Estimated Effort**: 1-2 weeks → ✅ COMPLETED
 
 ---
 
