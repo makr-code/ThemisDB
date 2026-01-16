@@ -79,6 +79,74 @@ if(THEMIS_ENABLE_LORA_TESTS)
     else()
         message(STATUS "LoRA framework tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework.cpp")
     endif()
+    
+    # Fused Kernels Tests (Phase 10.3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Adding fused kernels tests (CUDA/HIP enabled)")
+        
+        add_executable(test_fused_kernels
+            test_fused_kernels.cpp
+        )
+        
+        target_link_libraries(test_fused_kernels PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_fused_kernels PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME FusedKernelsTests COMMAND test_fused_kernels)
+        
+        # Set test properties
+        set_tests_properties(FusedKernelsTests PROPERTIES
+            LABELS "lora;gpu;cuda;hip;kernel_fusion"
+            TIMEOUT 300
+        )
+    else()
+        if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+            message(STATUS "Fused kernels tests skipped (CUDA/HIP not enabled)")
+        else()
+            message(STATUS "Fused kernels tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp")
+        endif()
+    endif()
+    
+    # GPU LoRA Layers Tests (Phase 10)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Adding GPU LoRA layers tests (CUDA/HIP enabled)")
+        
+        add_executable(test_gpu_lora_layers
+            test_gpu_lora_layers.cpp
+        )
+        
+        target_link_libraries(test_gpu_lora_layers PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_gpu_lora_layers PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME GPULoRALayersTests COMMAND test_gpu_lora_layers)
+        
+        # Set test properties
+        set_tests_properties(GPULoRALayersTests PROPERTIES
+            LABELS "lora;gpu;cuda;hip"
+            TIMEOUT 300
+        )
+    else()
+        if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+            message(STATUS "GPU LoRA layers tests skipped (CUDA/HIP not enabled)")
+        else()
+            message(STATUS "GPU LoRA layers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp")
+        endif()
+    endif()
 else()
     message(STATUS "LoRA framework tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()
@@ -220,6 +288,106 @@ if(THEMIS_ENABLE_LORA_TESTS)
     endif()
 else()
     message(STATUS "QLoRA tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
+# QLoRA Training Integration Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_qlora_training_integration.cpp")
+        message(STATUS "Adding QLoRA training integration tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_qlora_training_integration
+            test_qlora_training_integration.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantization.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantized_model.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_layers.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_training_service.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_storage_service.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/data_loader.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/base_model_adapter.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/mixed_precision.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lr_scheduler.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/gradient_utils.cpp
+        )
+        
+        target_link_libraries(test_qlora_training_integration PRIVATE
+            ${TEST_LIBS}
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+        )
+        
+        target_compile_definitions(test_qlora_training_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME QLoRATrainingIntegrationTests COMMAND test_qlora_training_integration)
+        
+        # Set test properties
+        set_tests_properties(QLoRATrainingIntegrationTests PROPERTIES
+            LABELS "lora;llm;qlora;training;integration"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - QLoRA training integration tests: End-to-end training")
+        message(STATUS "    * Training service QLoRA integration")
+        message(STATUS "    * NF4 and INT8 quantization modes")
+        message(STATUS "    * Memory reduction validation")
+        message(STATUS "    * Configuration system")
+    else()
+        message(STATUS "QLoRA training integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_qlora_training_integration.cpp")
+    endif()
+else()
+    message(STATUS "QLoRA training integration tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
+# Paged Optimizer Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_paged_optimizer.cpp")
+        message(STATUS "Adding paged optimizer tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_paged_optimizer
+            test_paged_optimizer.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/paged_memory_manager.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/paged_optimizer.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_layers.cpp
+        )
+        
+        target_link_libraries(test_paged_optimizer PRIVATE
+            ${TEST_LIBS}
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_paged_optimizer PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME PagedOptimizerTests COMMAND test_paged_optimizer)
+        
+        # Set test properties
+        set_tests_properties(PagedOptimizerTests PROPERTIES
+            LABELS "lora;llm;optimizer;paged"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - Paged optimizer tests: Memory paging for optimizer states")
+        message(STATUS "    * Paged memory manager")
+        message(STATUS "    * PagedAdamWOptimizer")
+        message(STATUS "    * Memory savings validation")
+        message(STATUS "    * Correctness vs non-paged")
+    else()
+        message(STATUS "Paged optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_paged_optimizer.cpp")
+    endif()
+else()
+    message(STATUS "Paged optimizer tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()
 
 # ============================================================================

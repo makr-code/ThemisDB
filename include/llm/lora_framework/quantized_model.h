@@ -229,6 +229,21 @@ namespace quantized_model_utils {
         const std::unordered_map<std::string, Tensor>& model_weights,
         const QuantizedModelConfig& config);
     
+    /**
+     * @brief Load quantized model from GGUF file
+     * 
+     * Loads a GGUF format file and converts quantized tensors to internal format.
+     * Supports Q4_K_M (→ NF4) and Q8_0 (→ INT8) quantization types.
+     * 
+     * @param gguf_path Path to GGUF file
+     * @param config Quantization configuration (optional, inferred from GGUF)
+     * @return Quantized model
+     * @throws std::runtime_error if file cannot be loaded or format is unsupported
+     */
+    QuantizedModel load_from_gguf(
+        const std::string& gguf_path,
+        const QuantizedModelConfig* config = nullptr);
+    
 } // namespace quantized_model_utils
 
 } // namespace lora
