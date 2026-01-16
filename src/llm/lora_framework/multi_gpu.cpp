@@ -75,7 +75,11 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     if (GPUMemoryManager::is_backend_available(BackendType::CUDA)) {
 #ifdef THEMIS_ENABLE_CUDA
         int cuda_device_count = 0;
-        cudaGetDeviceCount(&cuda_device_count);
+        cudaError_t err = cudaGetDeviceCount(&cuda_device_count);
+        if (err != cudaSuccess) {
+            spdlog::warn("Failed to get CUDA device count: {}", cudaGetErrorString(err));
+            cuda_device_count = 0;
+        }
         available_gpus = cuda_device_count;
         detected_type = DeviceType::CUDA;
         gpu_type_ = DeviceType::CUDA;
@@ -86,7 +90,11 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     else if (GPUMemoryManager::is_backend_available(BackendType::HIP)) {
 #ifdef THEMIS_ENABLE_HIP
         int hip_device_count = 0;
-        hipGetDeviceCount(&hip_device_count);
+        hipError_t err = hipGetDeviceCount(&hip_device_count);
+        if (err != hipSuccess) {
+            spdlog::warn("Failed to get HIP device count: {}", hipGetErrorString(err));
+            hip_device_count = 0;
+        }
         available_gpus = hip_device_count;
         detected_type = DeviceType::HIP;
         gpu_type_ = DeviceType::HIP;
