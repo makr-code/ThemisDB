@@ -520,6 +520,174 @@ void SGDOptimizer::zero_grad() {
     spdlog::debug("SGDOptimizer: Zeroed gradients for {} parameters", parameters_.size());
 }
 
+// ===== Adam Optimizer =====
+
+AdamOptimizer::AdamOptimizer(float learning_rate, float beta1, float beta2, float epsilon, float weight_decay)
+    : learning_rate_(learning_rate)
+    , beta1_(beta1)
+    , beta2_(beta2)
+    , epsilon_(epsilon)
+    , weight_decay_(weight_decay)
+    , step_count_(0) {
+    spdlog::info("Created AdamOptimizer: lr={}, beta1={}, beta2={}, epsilon={}, weight_decay={}",
+                 learning_rate_, beta1_, beta2_, epsilon_, weight_decay_);
+}
+
+void AdamOptimizer::add_parameters(const std::vector<Tensor*>& params) {
+    parameters_.insert(parameters_.end(), params.begin(), params.end());
+    spdlog::debug("AdamOptimizer: Added {} parameters, total={}",
+                  params.size(), parameters_.size());
+}
+
+void AdamOptimizer::step() {
+    step_count_++;
+    
+    // Compute bias correction terms
+    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_);
+    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_);
+    
+    for (auto* param : parameters_) {
+        if (!param || !param->requires_grad) {
+            continue;
+        }
+        
+        // Initialize moment buffers if not exists
+        if (m_buffers_.find(param) == m_buffers_.end()) {
+            m_buffers_[param] = Tensor(param->shape(), 0.0f);
+        }
+        if (v_buffers_.find(param) == v_buffers_.end()) {
+            v_buffers_[param] = Tensor(param->shape(), 0.0f);
+        }
+        
+        Tensor& m = m_buffers_[param];
+        Tensor& v = v_buffers_[param];
+        
+        // Update parameters using Adam algorithm
+        for (size_t i = 0; i < param->data().size(); ++i) {
+            float grad = param->grad[i];
+            
+            // Apply weight decay to gradient (L2 regularization)
+            if (weight_decay_ > 0.0f) {
+                grad += weight_decay_ * param->data()[i];
+            }
+            
+            // Update biased first moment estimate (momentum)
+            // m_t = β1 * m_{t-1} + (1 - β1) * g_t
+            m[i] = beta1_ * m[i] + (1.0f - beta1_) * grad;
+            
+            // Update biased second moment estimate (RMSprop)
+            // v_t = β2 * v_{t-1} + (1 - β2) * g_t²
+            v[i] = beta2_ * v[i] + (1.0f - beta2_) * grad * grad;
+            
+            // Compute bias-corrected first moment estimate
+            // m̂_t = m_t / (1 - β1^t)
+            float m_hat = m[i] / bias_correction1;
+            
+            // Compute bias-corrected second moment estimate
+            // v̂_t = v_t / (1 - β2^t)
+            float v_hat = v[i] / bias_correction2;
+            
+            // Update parameters
+            // θ_t = θ_{t-1} - α * m̂_t / (√v̂_t + ε)
+            param->data()[i] -= learning_rate_ * m_hat / (std::sqrt(v_hat) + epsilon_);
+        }
+    }
+    
+    spdlog::debug("AdamOptimizer: Updated {} parameters at step {}", parameters_.size(), step_count_);
+}
+
+void AdamOptimizer::zero_grad() {
+    for (auto* param : parameters_) {
+        if (param && param->requires_grad) {
+            param->grad.zero();
+        }
+    }
+    spdlog::debug("AdamOptimizer: Zeroed gradients for {} parameters", parameters_.size());
+}
+
+// ===== AdamW Optimizer =====
+
+AdamWOptimizer::AdamWOptimizer(float learning_rate, float beta1, float beta2, float epsilon, float weight_decay)
+    : learning_rate_(learning_rate)
+    , beta1_(beta1)
+    , beta2_(beta2)
+    , epsilon_(epsilon)
+    , weight_decay_(weight_decay)
+    , step_count_(0) {
+    spdlog::info("Created AdamWOptimizer: lr={}, beta1={}, beta2={}, epsilon={}, weight_decay={}",
+                 learning_rate_, beta1_, beta2_, epsilon_, weight_decay_);
+}
+
+void AdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
+    parameters_.insert(parameters_.end(), params.begin(), params.end());
+    spdlog::debug("AdamWOptimizer: Added {} parameters, total={}",
+                  params.size(), parameters_.size());
+}
+
+void AdamWOptimizer::step() {
+    step_count_++;
+    
+    // Compute bias correction terms
+    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_);
+    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_);
+    
+    for (auto* param : parameters_) {
+        if (!param || !param->requires_grad) {
+            continue;
+        }
+        
+        // Initialize moment buffers if not exists
+        if (m_buffers_.find(param) == m_buffers_.end()) {
+            m_buffers_[param] = Tensor(param->shape(), 0.0f);
+        }
+        if (v_buffers_.find(param) == v_buffers_.end()) {
+            v_buffers_[param] = Tensor(param->shape(), 0.0f);
+        }
+        
+        Tensor& m = m_buffers_[param];
+        Tensor& v = v_buffers_[param];
+        
+        // Update parameters using AdamW algorithm (decoupled weight decay)
+        for (size_t i = 0; i < param->data().size(); ++i) {
+            float grad = param->grad[i];
+            
+            // Update biased first moment estimate (momentum)
+            // m_t = β1 * m_{t-1} + (1 - β1) * g_t
+            m[i] = beta1_ * m[i] + (1.0f - beta1_) * grad;
+            
+            // Update biased second moment estimate (RMSprop)
+            // v_t = β2 * v_{t-1} + (1 - β2) * g_t²
+            v[i] = beta2_ * v[i] + (1.0f - beta2_) * grad * grad;
+            
+            // Compute bias-corrected first moment estimate
+            // m̂_t = m_t / (1 - β1^t)
+            float m_hat = m[i] / bias_correction1;
+            
+            // Compute bias-corrected second moment estimate
+            // v̂_t = v_t / (1 - β2^t)
+            float v_hat = v[i] / bias_correction2;
+            
+            // AdamW update with decoupled weight decay
+            // θ_t = θ_{t-1} - α * (m̂_t / (√v̂_t + ε) + λ * θ_{t-1})
+            float adam_update = learning_rate_ * m_hat / (std::sqrt(v_hat) + epsilon_);
+            float weight_decay_update = learning_rate_ * weight_decay_ * param->data()[i];
+            
+            param->data()[i] -= adam_update + weight_decay_update;
+        }
+    }
+    
+    spdlog::debug("AdamWOptimizer: Updated {} parameters at step {}", parameters_.size(), step_count_);
+}
+
+void AdamWOptimizer::zero_grad() {
+    for (auto* param : parameters_) {
+        if (param && param->requires_grad) {
+            param->grad.zero();
+        }
+    }
+    spdlog::debug("AdamWOptimizer: Zeroed gradients for {} parameters", parameters_.size());
+}
+
 } // namespace lora
 } // namespace llm
 } // namespace themis
