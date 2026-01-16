@@ -4,14 +4,17 @@
 
 Paged optimizers enable training of larger models by offloading optimizer states (momentum, variance) between CPU and GPU memory. This reduces peak GPU memory usage by 30-50% while maintaining training accuracy.
 
+**Integration with ThemisDB Infrastructure**: The paged optimizer leverages ThemisDB's existing memory management infrastructure (`VRAMAllocator`, `GPUMemoryManager`) for production-quality memory pooling and multi-backend support (CUDA/HIP/Vulkan/DirectX).
+
 ## Architecture
 
 ### Components
 
-1. **PagedMemoryManager** - Manages memory paging between CPU and GPU
+1. **PagedMemoryManager** - Manages memory paging using existing VRAMAllocator
 2. **PagedAdamWOptimizer** - AdamW optimizer with automatic state paging
 3. **LRU Cache** - Eviction policy for managing active GPU pages
-4. **Pinned Memory** - Fast CPU memory for DMA transfers
+4. **VRAMAllocator Integration** - Leverages existing <5% overhead memory pools
+5. **GPUMemoryManager Integration** - Multi-backend device management
 
 ### Memory Flow
 
@@ -19,8 +22,8 @@ Paged optimizers enable training of larger models by offloading optimizer states
 Training Step:
 ┌─────────────────────────────────────────┐
 │ 1. Pre-Step: Page-in optimizer states  │
-│    - Transfer CPU → GPU (async)         │
-│    - While GPU computes forward/back    │
+│    - VRAMAllocator: CPU → GPU transfer  │
+│    - Pinned memory for fast DMA         │
 └─────────────────┬───────────────────────┘
                   ▼
 ┌─────────────────────────────────────────┐
@@ -31,10 +34,18 @@ Training Step:
                   ▼
 ┌─────────────────────────────────────────┐
 │ 3. Post-Step: Evict unused states      │
-│    - Transfer GPU → CPU (async)         │
+│    - VRAMAllocator: GPU → CPU transfer  │
 │    - Free GPU memory for activations    │
 └─────────────────────────────────────────┘
 ```
+
+### Integration Benefits
+
+- ✅ **Multi-Backend Support**: Automatically works with CUDA/HIP/Vulkan/DirectX
+- ✅ **Production Memory Management**: <5% overhead via VRAMAllocator
+- ✅ **Multi-GPU Ready**: Can leverage GPUMemoryManager's distributed memory
+- ✅ **Consistent API**: Uses standard Device type throughout ThemisDB
+- ✅ **Less Code**: ~200 lines removed by leveraging existing infrastructure
 
 ## Usage
 
