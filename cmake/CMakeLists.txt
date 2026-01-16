@@ -1958,6 +1958,14 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/lr_scheduler.cpp            # Learning rate schedulers
         ../src/llm/lora_framework/gradient_utils.cpp          # Gradient clipping & accumulation
         ../src/llm/lora_framework/distributed_trainer.cpp     # Multi-GPU distributed training
+        # QLoRA quantization support
+        ../src/llm/lora_framework/quantization.cpp            # NF4/INT8 quantization (CPU)
+        ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
+        # GPU acceleration support
+        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layer implementations
+        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
+        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
+        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -2007,8 +2015,10 @@ if(THEMIS_ENABLE_LLM)
     if(THEMIS_ENABLE_CUDA)
         list(APPEND THEMIS_CORE_SOURCES
             ../src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+            ../src/llm/lora_framework/kernels/quantization_kernels.cu  # QLoRA quantization GPU kernels
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
+        message(STATUS "LLM: QLoRA GPU kernels enabled (NF4/INT8 quantization)")
     endif()
     
     # Threading support required for async inference
@@ -2290,6 +2300,7 @@ if(THEMIS_BUILD_TESTS)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
+        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${CMAKE_SOURCE_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
@@ -3173,6 +3184,15 @@ if(THEMIS_BUILD_BENCHMARKS)
             ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp
         )
         target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+    
+    # QLoRA GPU Kernels Benchmark (only when CUDA is enabled)
+    if(THEMIS_ENABLE_CUDA AND THEMIS_ENABLE_LLM)
+        add_executable(bench_qlora_gpu_kernels
+            ${CMAKE_SOURCE_DIR}/benchmarks/bench_qlora_gpu_kernels.cpp
+        )
+        target_link_libraries(bench_qlora_gpu_kernels PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+        message(STATUS "QLoRA GPU Kernels Benchmark: Enabled")
     endif()
 
 endif()
