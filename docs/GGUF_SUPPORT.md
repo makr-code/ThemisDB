@@ -2,13 +2,17 @@
 
 ## Overview
 
-ThemisDB now supports loading pre-quantized models in GGUF (GGML Universal File) format from the llama.cpp ecosystem. This enables QLoRA training on quantized models without requiring re-quantization, saving significant time and computational resources.
+ThemisDB supports loading pre-quantized models in GGUF (GGML Universal File) format from the llama.cpp ecosystem. This enables QLoRA training on quantized models without requiring re-quantization, saving significant time and computational resources.
+
+**Note**: ThemisDB supports two GGUF-based formats:
+1. **Standard GGUF v3** (this document) - For loading base models
+2. **GGUF-ST (GGUF + SafeTensors)** - For LoRA adapters with embedded metadata (see `include/llm/gguf_st_adapter.h` and `docs/de/llm/LORA_TRAINING_FRAMEWORK_INTEGRATION.md`)
 
 ## Supported Formats
 
 ### GGUF Version 3
 
-ThemisDB supports GGUF version 3, the latest stable format specification.
+ThemisDB supports GGUF version 3, the latest stable format specification for base models.
 
 ### Quantization Types
 
@@ -396,8 +400,67 @@ namespace quantized_model_utils {
 - [GGML Quantization](https://github.com/ggerganov/ggml/blob/master/docs/quantization.md)
 - [QLoRA Paper](https://arxiv.org/abs/2305.14314)
 
+## Related Formats
+
+### GGUF-ST (GGUF + SafeTensors Hybrid)
+
+ThemisDB also supports **GGUF-ST**, a hybrid format that combines GGUF with embedded SafeTensors data, primarily used for LoRA adapters.
+
+**Key Differences:**
+- **Standard GGUF** (this document): Base model loading with quantized weights
+- **GGUF-ST**: LoRA adapter format with optional SafeTensors, signatures, and manifests
+
+**GGUF-ST Structure:**
+```
+┌─────────────────────────────────────┐
+│ GGUF Header + Metadata + Tensors    │  (Standard GGUF v3)
+├─────────────────────────────────────┤
+│ [OPTIONAL] SafeTensors Section      │  (FP16/FP32 weights)
+│   Header: "STNS"                    │
+├─────────────────────────────────────┤
+│ ThemisDB Signature Section          │  (Cryptographic signature)
+│   Header: "TSGN"                    │
+├─────────────────────────────────────┤
+│ ThemisDB Manifest Section           │  (Adapter metadata)
+│   Header: "TMFT"                    │
+└─────────────────────────────────────┘
+```
+
+**Use Cases:**
+- LoRA adapter storage with verification
+- Compatibility: llama.cpp can read GGUF-ST (ignores ThemisDB extensions)
+- Security: Embedded cryptographic signatures for adapter verification
+- Metadata: Training config, base model info, version tracking
+
+**Implementation:**
+- Header file: `include/llm/gguf_st_adapter.h`
+- Loader class: `GGUFSTAdapter`
+- Documentation: `docs/de/llm/LORA_TRAINING_FRAMEWORK_INTEGRATION.md`
+
+**Loading GGUF-ST Adapters:**
+```cpp
+#include "llm/gguf_st_adapter.h"
+
+// Load LoRA adapter in GGUF-ST format
+GGUFSTAdapter adapter(storage, config);
+auto components = adapter.readAdapter(blob_ref);
+
+// Verify adapter integrity
+auto verification = adapter.verifyAdapter(blob_ref);
+if (verification.valid && verification.signature_valid) {
+    // Use adapter...
+}
+```
+
+**Format Modes:**
+- `FULL`: GGUF + SafeTensors + Signature + Manifest (~12-20MB)
+- `COMPACT`: GGUF + Signature + Manifest (~8-16MB, default)
+- `ULTRA_COMPACT`: GGUF + minimal metadata (~8MB)
+- `SIGNATURE_ONLY`: Registry metadata only (~100KB)
+
 ## See Also
 
 - [QUANTIZATION_FORMATS.md](./QUANTIZATION_FORMATS.md) - Quantization format comparison
 - [QLORA_GUIDE.md](./QLORA_GUIDE.md) - QLoRA training guide
 - [QLORA_IMPLEMENTATION_SUMMARY.md](../QLORA_IMPLEMENTATION_SUMMARY.md) - Implementation details
+- [LORA_TRAINING_FRAMEWORK_INTEGRATION.md](./de/llm/LORA_TRAINING_FRAMEWORK_INTEGRATION.md) - GGUF-ST format specification (German)
