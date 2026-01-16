@@ -166,6 +166,8 @@ public:
             );
             
             // Create optimizer based on configuration
+            // Note: We use distinct optimizer instances rather than a polymorphic base
+            // to maintain zero-cost abstractions and allow optimizer-specific optimizations
             std::unique_ptr<SGDOptimizer> sgd_optimizer;
             std::unique_ptr<AdamOptimizer> adam_optimizer;
             std::unique_ptr<AdamWOptimizer> adamw_optimizer;
@@ -188,18 +190,11 @@ public:
                     params.weight_decay
                 );
                 adam_optimizer->add_parameters(lora_layer->parameters());
-            } else if (params.optimizer == "adamw") {
-                adamw_optimizer = std::make_unique<AdamWOptimizer>(
-                    params.learning_rate,
-                    params.beta1,
-                    params.beta2,
-                    params.epsilon,
-                    params.weight_decay
-                );
-                adamw_optimizer->add_parameters(lora_layer->parameters());
             } else {
-                // Default to AdamW
-                spdlog::warn("Unknown optimizer '{}', defaulting to adamw", params.optimizer);
+                // Default to AdamW (best for LLM fine-tuning)
+                if (params.optimizer != "adamw") {
+                    spdlog::warn("Unknown optimizer '{}', defaulting to adamw", params.optimizer);
+                }
                 adamw_optimizer = std::make_unique<AdamWOptimizer>(
                     params.learning_rate,
                     params.beta1,
