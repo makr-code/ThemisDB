@@ -236,8 +236,16 @@ def generate_report(repo_root):
     report_lines.append(f"- **Lines**: {benchmarks_data['lines']:,}")
     report_lines.append("")
     
+    # Count scripts
+    report_lines.append("## 8. Scripts (`./scripts`)")
+    report_lines.append("")
+    scripts_data = count_directory_total(os.path.join(repo_root, 'scripts'), "Build and deployment scripts")
+    report_lines.append(f"- **Files**: {scripts_data['files']}")
+    report_lines.append(f"- **Lines**: {scripts_data['lines']:,}")
+    report_lines.append("")
+    
     # Grand total
-    report_lines.append("## 8. Grand Total")
+    report_lines.append("## 9. Grand Total")
     report_lines.append("")
     grand_total_lines = (
         total_src_lines + 
@@ -245,7 +253,8 @@ def generate_report(repo_root):
         tools_data['lines'] + 
         examples_data['lines'] + 
         tests_data['lines'] + 
-        benchmarks_data['lines']
+        benchmarks_data['lines'] +
+        scripts_data['lines']
     )
     grand_total_files = (
         total_src_files + 
@@ -253,7 +262,8 @@ def generate_report(repo_root):
         tools_data['files'] + 
         examples_data['files'] + 
         tests_data['files'] + 
-        benchmarks_data['files']
+        benchmarks_data['files'] +
+        scripts_data['files']
     )
     
     report_lines.append("| Category | Files | Lines |")
@@ -264,11 +274,12 @@ def generate_report(repo_root):
     report_lines.append(f"| Examples | {examples_data['files']} | {examples_data['lines']:,} |")
     report_lines.append(f"| Tests | {tests_data['files']} | {tests_data['lines']:,} |")
     report_lines.append(f"| Benchmarks | {benchmarks_data['files']} | {benchmarks_data['lines']:,} |")
+    report_lines.append(f"| Scripts | {scripts_data['files']} | {scripts_data['lines']:,} |")
     report_lines.append(f"| **GRAND TOTAL** | **{grand_total_files}** | **{grand_total_lines:,}** |")
     report_lines.append("")
     
     # Additional statistics
-    report_lines.append("## 9. Statistics")
+    report_lines.append("## 10. Statistics")
     report_lines.append("")
     if grand_total_files > 0:
         avg_lines_per_file = grand_total_lines / grand_total_files

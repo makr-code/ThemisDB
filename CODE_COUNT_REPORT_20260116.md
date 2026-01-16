@@ -1,5 +1,5 @@
 # ThemisDB Code Count Report
-## Date: 16.01.2026 19:06:03
+## Date: 16.01.2026 19:07:52
 
 This report provides a thematic count of C++ code in ThemisDB.
 
@@ -117,7 +117,12 @@ This report provides a thematic count of C++ code in ThemisDB.
 - **Files**: 86
 - **Lines**: 28,477
 
-## 8. Grand Total
+## 8. Scripts (`./scripts`)
+
+- **Files**: 0
+- **Lines**: 0
+
+## 9. Grand Total
 
 | Category | Files | Lines |
 |----------|-------|-------|
@@ -127,9 +132,10 @@ This report provides a thematic count of C++ code in ThemisDB.
 | Examples | 20 | 4,566 |
 | Tests | 353 | 106,016 |
 | Benchmarks | 86 | 28,477 |
+| Scripts | 0 | 0 |
 | **GRAND TOTAL** | **1303** | **415,633** |
 
-## 9. Statistics
+## 10. Statistics
 
 - **Average lines per file**: 319.0
 - **Themis-specific files in include**: 6 files, 1,027 lines
