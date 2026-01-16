@@ -178,6 +178,51 @@ else()
 endif()
 
 # ============================================================================
+# QLoRA Training Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_qlora.cpp")
+        message(STATUS "Adding QLoRA training tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_qlora
+            test_qlora.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantization.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/quantized_model.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/lora_layers.cpp
+        )
+        
+        target_link_libraries(test_qlora PRIVATE
+            ${TEST_LIBS}
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_qlora PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME QLoRATests COMMAND test_qlora)
+        
+        # Set test properties
+        set_tests_properties(QLoRATests PROPERTIES
+            LABELS "lora;llm;qlora;training"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - QLoRA tests: Quantized LoRA training")
+        message(STATUS "    * Quantized model management")
+        message(STATUS "    * QLoRA layer forward/backward")
+        message(STATUS "    * Memory reduction validation")
+        message(STATUS "    * Training convergence")
+    else()
+        message(STATUS "QLoRA tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_qlora.cpp")
+    endif()
+else()
+    message(STATUS "QLoRA tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
 # PITR (Point-in-Time Recovery) Tests - Phase 3
 # ============================================================================
 

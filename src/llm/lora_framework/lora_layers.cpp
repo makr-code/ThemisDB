@@ -1,5 +1,16 @@
 #include "llm/lora_framework/lora_layers.h"
+
+#ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
+#else
+namespace spdlog {
+    template<typename... Args>
+    inline void debug(const char*, ...) {}
+    template<typename... Args>
+    inline void info(const char*, ...) {}
+}
+#endif
+
 #include <random>
 #include <cmath>
 #include <stdexcept>
