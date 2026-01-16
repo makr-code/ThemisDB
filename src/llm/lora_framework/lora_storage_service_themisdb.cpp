@@ -66,17 +66,24 @@ public:
                     }
                     
                     // Validate required Vault settings
-                    if (vault_config.vault_addr.empty() || vault_config.vault_token.empty()) {
+                    if (vault_config.vault_addr.empty()) {
                         throw KeyOperationException(
-                            "Vault encryption enabled but VAULT_ADDR or VAULT_TOKEN not configured"
+                            "Vault encryption enabled but VAULT_ADDR not configured. "
+                            "Set config.vault_addr or VAULT_ADDR environment variable."
+                        );
+                    }
+                    if (vault_config.vault_token.empty()) {
+                        throw KeyOperationException(
+                            "Vault encryption enabled but VAULT_TOKEN not configured. "
+                            "Set config.vault_token or VAULT_TOKEN environment variable."
                         );
                     }
                     
                     key_provider = std::make_shared<VaultKeyProvider>(vault_config);
                     spdlog::info("  Using VaultKeyProvider for encryption (Production-Ready)");
-                    spdlog::info("    Vault Address: {}", vault_config.vault_addr);
-                    spdlog::info("    KV Mount: {}", vault_config.kv_mount_path);
-                    spdlog::info("    Key ID: {}", config_.encryption_key_id);
+                    spdlog::debug("    Vault Address: {}", vault_config.vault_addr);
+                    spdlog::debug("    KV Mount: {}", vault_config.kv_mount_path);
+                    spdlog::debug("    Key ID: {}", config_.encryption_key_id);
                 } else {
                     // Fallback to MockKeyProvider for development/testing
                     // MockKeyProvider is ONLY suitable for testing/development - never use in production!
@@ -89,9 +96,11 @@ public:
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
             } catch (const KeyOperationException& e) {
                 if (e.transient()) {
-                    // Retry with backoff for transient errors
-                    spdlog::warn("  Vault connection failed (transient), retrying: {}", e.what());
-                    // For now, just log and re-throw. In production, implement retry logic.
+                    // Transient error - retry would be beneficial
+                    // TODO: Implement retry logic with exponential backoff for production
+                    // For now, log and re-throw to maintain fail-fast behavior
+                    spdlog::warn("  Vault connection failed (transient): {}", e.what());
+                    spdlog::warn("  Consider implementing retry logic with exponential backoff");
                     throw;
                 } else {
                     // Fatal error - disable encryption
