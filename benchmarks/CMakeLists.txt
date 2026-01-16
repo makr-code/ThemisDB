@@ -79,6 +79,56 @@ else()
 endif()
 
 # ============================================================================
+# Fused Kernels Benchmarks (Phase 10.3)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+    message(STATUS "Adding Fused Kernels benchmarks (CUDA/HIP)")
+    
+    add_executable(bench_fused_kernels
+        bench_fused_kernels.cpp
+    )
+    
+    target_link_libraries(bench_fused_kernels PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_fused_kernels PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for accurate benchmarking
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_fused_kernels PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_fused_kernels
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Benchmark targets: Forward/Backward/Optimizer (Fused vs Unfused)")
+    message(STATUS "  Expected speedup: Forward 1.5-1.8x, Backward 1.7-2.0x, Overall 1.5-2x")
+else()
+    if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Fused kernels benchmarks skipped (CUDA/HIP not enabled)")
+    else()
+        message(STATUS "Fused kernels benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_kernels.cpp")
+    endif()
+endif()
+
+# ============================================================================
 # Snapshot Manager Benchmarks (Named Snapshots Feature)
 # ============================================================================
 
