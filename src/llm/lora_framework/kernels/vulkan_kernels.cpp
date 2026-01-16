@@ -35,15 +35,17 @@ static VulkanState g_vulkan_state;
 // Helper function to get shader path
 static std::string get_shader_path(const std::string& shader_name) {
     // Look for pre-compiled SPIR-V shaders
-    // Priority: 1) Binary directory, 2) Install directory, 3) Source directory
+    // Priority: 1) CMake binary dir, 2) Install directory, 3) Relative paths, 4) Source directory
     const char* binary_dir = std::getenv("THEMIS_BINARY_DIR");
     const char* install_dir = std::getenv("THEMIS_INSTALL_DIR");
     
-    std::vector<std::string> search_paths = {
-        "./shaders/lora/",  // Current directory
-        "../shaders/lora/", // Parent directory
-        "../../shaders/lora/", // Grandparent directory
-    };
+    std::vector<std::string> search_paths;
+    
+    // Add CMake binary directory paths
+    search_paths.push_back("./shaders/lora/");  // Current directory
+    search_paths.push_back("../shaders/lora/"); // Parent directory
+    search_paths.push_back("../../shaders/lora/"); // Grandparent directory
+    search_paths.push_back("shaders/lora/"); // Relative to binary root
     
     if (binary_dir) {
         search_paths.insert(search_paths.begin(), std::string(binary_dir) + "/shaders/lora/");
@@ -51,21 +53,45 @@ static std::string get_shader_path(const std::string& shader_name) {
     
     if (install_dir) {
         search_paths.insert(search_paths.begin(), std::string(install_dir) + "/shaders/lora/");
+        search_paths.insert(search_paths.begin(), std::string(install_dir) + "/share/themis/shaders/lora/");
     }
     
     // Also check source directory location
     search_paths.push_back("src/acceleration/vulkan/shaders/lora/");
+    search_paths.push_back("../src/acceleration/vulkan/shaders/lora/");
+    search_paths.push_back("../../src/acceleration/vulkan/shaders/lora/");
     
+    // Try with .spv extension first (pre-compiled SPIR-V)
     for (const auto& path : search_paths) {
-        std::string full_path = path + shader_name + ".spv";
+        std::string full_path = path + shader_name + ".comp.spv";
         std::ifstream file(full_path);
         if (file.good()) {
+            std::cout << "Found shader: " << full_path << std::endl;
             return full_path;
         }
     }
     
-    // If .spv not found, return .comp path (will need runtime compilation)
-    return "src/acceleration/vulkan/shaders/lora/" + shader_name + ".comp";
+    // If .comp.spv not found, try .spv
+    for (const auto& path : search_paths) {
+        std::string full_path = path + shader_name + ".spv";
+        std::ifstream file(full_path);
+        if (file.good()) {
+            std::cout << "Found shader: " << full_path << std::endl;
+            return full_path;
+        }
+    }
+    
+    // If .spv not found, return .comp path (will fail but with clear error message)
+    std::string comp_path = "src/acceleration/vulkan/shaders/lora/" + shader_name + ".comp";
+    std::cerr << "WARNING: Could not find pre-compiled shader " << shader_name 
+              << ". Shaders must be compiled to SPIR-V format (.spv)" << std::endl;
+    std::cerr << "Searched paths:" << std::endl;
+    for (const auto& path : search_paths) {
+        std::cerr << "  " << path << shader_name << ".comp.spv" << std::endl;
+    }
+    
+    throw std::runtime_error("Shader not found: " + shader_name + 
+                           ". Please compile shaders or provide pre-compiled SPIR-V files.");
 }
 
 bool initialize_vulkan_lora(int device_id) {
