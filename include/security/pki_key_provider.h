@@ -35,6 +35,25 @@ public:
                    std::shared_ptr<themis::RocksDBWrapper> db,
                    const std::string& service_id);
     
+    /**
+     * @brief Initialize with certificate file paths (file-based mode)
+     * 
+     * This constructor enables certificate-based key derivation without requiring
+     * a VCC-PKI service. Keys are derived from the certificate's public key using HKDF.
+     * 
+     * @param cert_path Path to X.509 certificate file (PEM format)
+     * @param private_key_path Path to private key file (PEM format) - optional, used for validation
+     * @param db RocksDB for encrypted DEK storage
+     * @param service_id Service identifier for key derivation context
+     * @param validate_cert If true, validate certificate expiration and properties
+     * @throws std::runtime_error if certificate cannot be loaded or is invalid
+     */
+    PKIKeyProvider(const std::string& cert_path,
+                   const std::string& private_key_path,
+                   std::shared_ptr<themis::RocksDBWrapper> db,
+                   const std::string& service_id,
+                   bool validate_cert = true);
+    
     // KeyProvider interface
     std::vector<uint8_t> getKey(const std::string& key_id) override;
     std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) override;

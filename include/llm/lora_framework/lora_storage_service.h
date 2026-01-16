@@ -75,6 +75,13 @@ public:
         std::string encryption_key_id = "lora_adapters";  // Key ID for encryption
         bool enable_signatures = true;  // Digital signatures for integrity
         
+        // PKI configuration for certificate-based encryption
+        bool use_pki_for_encryption = false;        // Enable PKI-based encryption
+        std::string pki_cert_path;                  // Certificate file path (PEM format)
+        std::string pki_private_key_path;           // Private key file path (PEM format)
+        std::string pki_ca_bundle_path;             // CA bundle for verification (optional)
+        bool pki_verify_certificate = true;         // Verify certificate validity (default: true)
+      
         // Vault Key Provider configuration
         bool use_vault_for_encryption = false;  // Enable Vault encryption (default: false)
         std::string vault_addr;          // Vault server address
