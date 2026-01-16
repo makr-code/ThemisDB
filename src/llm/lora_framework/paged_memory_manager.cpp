@@ -1,167 +1,40 @@
 #include "llm/lora_framework/paged_memory_manager.h"
+#include "acceleration/compute_backend.h"
 #include <cstring>
 #include <algorithm>
-
-// CUDA headers if available
-#if defined(__NVCC__) || defined(__CUDACC__) || defined(CUDA_VERSION)
-#define THEMIS_HAS_CUDA 1
-#include <cuda_runtime.h>
-#else
-#define THEMIS_HAS_CUDA 0
-#endif
 
 namespace themis {
 namespace llm {
 namespace lora {
 
-// ===== PinnedMemoryPool Implementation =====
-
-PinnedMemoryPool::PinnedMemoryPool() {
-#if THEMIS_HAS_CUDA
-    // Check if CUDA is available at runtime
-    int device_count = 0;
-    cudaError_t err = cudaGetDeviceCount(&device_count);
-    cuda_available_ = (err == cudaSuccess && device_count > 0);
-#else
-    cuda_available_ = false;
-#endif
-}
-
-PinnedMemoryPool::~PinnedMemoryPool() {
-    // Free all allocations
-    for (auto& pair : allocations_) {
-        void* ptr = pair.first;
-#if THEMIS_HAS_CUDA
-        if (cuda_available_) {
-            cudaFreeHost(ptr);
-        } else {
-            delete[] static_cast<char*>(ptr);
-        }
-#else
-        delete[] static_cast<char*>(ptr);
-#endif
-    }
-    allocations_.clear();
-}
-
-void* PinnedMemoryPool::allocate(size_t size) {
-    void* ptr = nullptr;
-    
-#if THEMIS_HAS_CUDA
-    if (cuda_available_) {
-        // Allocate pinned memory for fast DMA
-        cudaError_t err = cudaMallocHost(&ptr, size);
-        if (err != cudaSuccess) {
-            return nullptr;
-        }
-    } else {
-        // Fallback to regular heap allocation
-        ptr = new (std::nothrow) char[size];
-    }
-#else
-    // CPU-only: use regular heap allocation
-    ptr = new (std::nothrow) char[size];
-#endif
-    
-    if (ptr) {
-        allocations_[ptr] = size;
-        total_allocated_ += size;
-    }
-    
-    return ptr;
-}
-
-void PinnedMemoryPool::deallocate(void* ptr) {
-    if (!ptr) return;
-    
-    auto it = allocations_.find(ptr);
-    if (it == allocations_.end()) return;
-    
-    size_t size = it->second;
-    
-#if THEMIS_HAS_CUDA
-    if (cuda_available_) {
-        cudaFreeHost(ptr);
-    } else {
-        delete[] static_cast<char*>(ptr);
-    }
-#else
-    delete[] static_cast<char*>(ptr);
-#endif
-    
-    total_allocated_ -= size;
-    allocations_.erase(it);
-}
-
-// ===== GPUMemoryPool Implementation =====
-
-GPUMemoryPool::GPUMemoryPool() {
-#if THEMIS_HAS_CUDA
-    // Check if CUDA is available
-    int device_count = 0;
-    cudaError_t err = cudaGetDeviceCount(&device_count);
-    cuda_available_ = (err == cudaSuccess && device_count > 0);
-#else
-    cuda_available_ = false;
-#endif
-}
-
-GPUMemoryPool::~GPUMemoryPool() {
-    // Free all allocations
-    for (auto& pair : allocations_) {
-        void* ptr = pair.first;
-#if THEMIS_HAS_CUDA
-        if (cuda_available_) {
-            cudaFree(ptr);
-        }
-#endif
-    }
-    allocations_.clear();
-}
-
-void* GPUMemoryPool::allocate(size_t size) {
-    void* ptr = nullptr;
-    
-#if THEMIS_HAS_CUDA
-    if (cuda_available_) {
-        cudaError_t err = cudaMalloc(&ptr, size);
-        if (err != cudaSuccess) {
-            return nullptr;
-        }
-        
-        allocations_[ptr] = size;
-        total_allocated_ += size;
-    }
-#endif
-    
-    return ptr;
-}
-
-void GPUMemoryPool::deallocate(void* ptr) {
-    if (!ptr) return;
-    
-    auto it = allocations_.find(ptr);
-    if (it == allocations_.end()) return;
-    
-    size_t size = it->second;
-    
-#if THEMIS_HAS_CUDA
-    if (cuda_available_) {
-        cudaFree(ptr);
-    }
-#endif
-    
-    total_allocated_ -= size;
-    allocations_.erase(it);
-}
-
 // ===== PagedMemoryManager Implementation =====
 
-PagedMemoryManager::PagedMemoryManager(size_t active_set_size)
+PagedMemoryManager::PagedMemoryManager(size_t active_set_size,
+                                       GPUMemoryManager* gpu_manager)
     : page_cache_(active_set_size),
-      active_set_size_(active_set_size) {
-    cpu_pool_ = std::make_unique<PinnedMemoryPool>();
-    gpu_pool_ = std::make_unique<GPUMemoryPool>();
+      active_set_size_(active_set_size),
+      gpu_manager_(gpu_manager) {
+    
+    // Create GPU memory manager if not provided
+    if (!gpu_manager_) {
+        owned_gpu_manager_ = std::make_unique<GPUMemoryManager>();
+        gpu_manager_ = owned_gpu_manager_.get();
+    }
+    
+    // Get default GPU device
+    gpu_device_ = gpu_manager_->default_device();
+    
+    // Create CPU allocator with pinned memory for fast transfers
+    cpu_allocator_ = std::make_unique<VRAMAllocator>(
+        acceleration::BackendType::CPU,
+        0  // Auto-detect size
+    );
+    
+    // Create GPU allocator if GPU is available
+    if (gpu_manager_->is_device_available(gpu_device_)) {
+        auto backend = device_to_backend(gpu_device_.type);
+        gpu_allocator_ = std::make_unique<VRAMAllocator>(backend, 0);
+    }
 }
 
 PagedMemoryManager::~PagedMemoryManager() {
@@ -170,24 +43,39 @@ PagedMemoryManager::~PagedMemoryManager() {
         PagedBuffer& buffer = pair.second;
         
         if (buffer.cpu_ptr) {
-            cpu_pool_->deallocate(buffer.cpu_ptr);
+            cpu_allocator_->deallocate(buffer.cpu_ptr);
         }
-        if (buffer.gpu_ptr) {
-            gpu_pool_->deallocate(buffer.gpu_ptr);
+        if (buffer.gpu_ptr && gpu_allocator_) {
+            gpu_allocator_->deallocate(buffer.gpu_ptr);
         }
     }
     pages_.clear();
 }
 
-PagedBuffer PagedMemoryManager::allocate(size_t size, DeviceType device) {
+acceleration::BackendType PagedMemoryManager::device_to_backend(DeviceType type) {
+    switch (type) {
+        case DeviceType::CUDA:
+            return acceleration::BackendType::CUDA;
+        case DeviceType::HIP:
+            return acceleration::BackendType::HIP;
+        case DeviceType::VULKAN:
+            return acceleration::BackendType::VULKAN;
+        case DeviceType::DIRECTX:
+            return acceleration::BackendType::DIRECTX;
+        default:
+            return acceleration::BackendType::CPU;
+    }
+}
+
+PagedBuffer PagedMemoryManager::allocate(size_t size, const Device& device) {
     PagedBuffer buffer;
     buffer.id = next_page_id_++;
     buffer.size_bytes = size;
-    buffer.current_location = device;
+    buffer.current_device = device;
     buffer.last_access_time = getCurrentTimestamp();
     
-    // Allocate CPU memory (always allocate for paging)
-    buffer.cpu_ptr = cpu_pool_->allocate(size);
+    // Always allocate CPU memory for paging
+    buffer.cpu_ptr = cpu_allocator_->allocate(size);
     if (!buffer.cpu_ptr) {
         // Allocation failed
         buffer.id = 0;
@@ -198,15 +86,14 @@ PagedBuffer PagedMemoryManager::allocate(size_t size, DeviceType device) {
     std::memset(buffer.cpu_ptr, 0, size);
     
     // If GPU requested and available, allocate GPU memory too
-    if (device == DeviceType::GPU && gpu_pool_->is_cuda_available()) {
-        buffer.gpu_ptr = gpu_pool_->allocate(size);
+    if (device.type != DeviceType::CPU && gpu_allocator_ && 
+        gpu_allocator_->is_available()) {
+        buffer.gpu_ptr = gpu_allocator_->allocate(size);
         if (buffer.gpu_ptr) {
             buffer.is_on_gpu = true;
             
-            // Copy to GPU
-#if THEMIS_HAS_CUDA
-            cudaMemcpy(buffer.gpu_ptr, buffer.cpu_ptr, size, cudaMemcpyHostToDevice);
-#endif
+            // Copy to GPU using VRAMAllocator
+            gpu_allocator_->upload(buffer.gpu_ptr, buffer.cpu_ptr, size);
         }
     }
     
@@ -217,7 +104,7 @@ PagedBuffer PagedMemoryManager::allocate(size_t size, DeviceType device) {
     PageInfo info;
     info.id = buffer.id;
     info.size_bytes = size;
-    info.location = buffer.is_on_gpu ? DeviceType::GPU : DeviceType::CPU;
+    info.device = buffer.is_on_gpu ? gpu_device_ : Device::cpu();
     info.last_access_time = buffer.last_access_time;
     info.access_count = 1;
     page_cache_.put(buffer.id, info);
@@ -232,13 +119,13 @@ void PagedMemoryManager::deallocate(PagedBuffer& buffer) {
     page_cache_.remove(buffer.id);
     
     // Free memory
-    if (buffer.cpu_ptr) {
-        cpu_pool_->deallocate(buffer.cpu_ptr);
+    if (buffer.cpu_ptr && cpu_allocator_) {
+        cpu_allocator_->deallocate(buffer.cpu_ptr);
         buffer.cpu_ptr = nullptr;
     }
     
-    if (buffer.gpu_ptr) {
-        gpu_pool_->deallocate(buffer.gpu_ptr);
+    if (buffer.gpu_ptr && gpu_allocator_) {
+        gpu_allocator_->deallocate(buffer.gpu_ptr);
         buffer.gpu_ptr = nullptr;
     }
     
@@ -270,19 +157,19 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
         return true;
     }
     
-    // CUDA not available?
-    if (!gpu_pool_->is_cuda_available()) {
+    // GPU not available?
+    if (!gpu_allocator_ || !gpu_allocator_->is_available()) {
         return false;
     }
     
     // Allocate GPU memory if needed
     if (!buffer.gpu_ptr) {
-        buffer.gpu_ptr = gpu_pool_->allocate(buffer.size_bytes);
+        buffer.gpu_ptr = gpu_allocator_->allocate(buffer.size_bytes);
         if (!buffer.gpu_ptr) {
             // Try evicting some pages to make space
             size_t num_evicted = evictLRU(1, stream);
             if (num_evicted > 0) {
-                buffer.gpu_ptr = gpu_pool_->allocate(buffer.size_bytes);
+                buffer.gpu_ptr = gpu_allocator_->allocate(buffer.size_bytes);
             }
             
             if (!buffer.gpu_ptr) {
@@ -291,30 +178,19 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
         }
     }
     
-    // Transfer CPU -> GPU
-#if THEMIS_HAS_CUDA
-    cudaError_t err;
-    if (stream) {
-        err = cudaMemcpyAsync(buffer.gpu_ptr, buffer.cpu_ptr, buffer.size_bytes,
-                              cudaMemcpyHostToDevice, static_cast<cudaStream_t>(stream));
-    } else {
-        err = cudaMemcpy(buffer.gpu_ptr, buffer.cpu_ptr, buffer.size_bytes,
-                         cudaMemcpyHostToDevice);
-    }
-    
-    if (err != cudaSuccess) {
+    // Transfer CPU -> GPU using VRAMAllocator
+    if (!gpu_allocator_->upload(buffer.gpu_ptr, buffer.cpu_ptr, buffer.size_bytes)) {
         return false;
     }
-#endif
     
     buffer.is_on_gpu = true;
-    buffer.current_location = DeviceType::GPU;
+    buffer.current_device = gpu_device_;
     buffer.last_access_time = getCurrentTimestamp();
     
     // Update cache
     PageInfo info;
     if (page_cache_.get(buffer.id, info)) {
-        info.location = DeviceType::GPU;
+        info.device = gpu_device_;
         info.last_access_time = buffer.last_access_time;
         info.access_count++;
         page_cache_.put(buffer.id, info);
@@ -336,32 +212,21 @@ bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* stream) {
         return true;  // Already on CPU
     }
     
-    // Transfer GPU -> CPU
-#if THEMIS_HAS_CUDA
-    cudaError_t err;
-    if (stream) {
-        err = cudaMemcpyAsync(buffer.cpu_ptr, buffer.gpu_ptr, buffer.size_bytes,
-                              cudaMemcpyDeviceToHost, static_cast<cudaStream_t>(stream));
-    } else {
-        err = cudaMemcpy(buffer.cpu_ptr, buffer.gpu_ptr, buffer.size_bytes,
-                         cudaMemcpyDeviceToHost);
-    }
-    
-    if (err != cudaSuccess) {
+    // Transfer GPU -> CPU using VRAMAllocator
+    if (!gpu_allocator_->download(buffer.cpu_ptr, buffer.gpu_ptr, buffer.size_bytes)) {
         return false;
     }
-#endif
     
     // Free GPU memory
-    gpu_pool_->deallocate(buffer.gpu_ptr);
+    gpu_allocator_->deallocate(buffer.gpu_ptr);
     buffer.gpu_ptr = nullptr;
     buffer.is_on_gpu = false;
-    buffer.current_location = DeviceType::CPU;
+    buffer.current_device = Device::cpu();
     
     // Update cache
     PageInfo info;
     if (page_cache_.get(buffer.id, info)) {
-        info.location = DeviceType::CPU;
+        info.device = Device::cpu();
         page_cache_.put(buffer.id, info);
     }
     

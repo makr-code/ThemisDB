@@ -48,13 +48,13 @@ TEST_F(PagedOptimizerTest, PagedMemoryManager_AllocateCPU) {
     PagedMemoryManager manager;
     
     size_t size = 1024;  // 1KB
-    PagedBuffer buffer = manager.allocate(size, DeviceType::CPU);
+    PagedBuffer buffer = manager.allocate(size, Device::cpu());
     
     EXPECT_NE(buffer.id, 0);
     EXPECT_EQ(buffer.size_bytes, size);
     EXPECT_NE(buffer.cpu_ptr, nullptr);
     EXPECT_FALSE(buffer.is_on_gpu);
-    EXPECT_EQ(buffer.current_location, DeviceType::CPU);
+    EXPECT_EQ(buffer.current_device, Device::cpu());
     
     manager.deallocate(buffer);
 }
@@ -63,7 +63,7 @@ TEST_F(PagedOptimizerTest, PagedMemoryManager_AllocateGPU) {
     PagedMemoryManager manager;
     
     size_t size = 1024;  // 1KB
-    PagedBuffer buffer = manager.allocate(size, DeviceType::GPU);
+    PagedBuffer buffer = manager.allocate(size, Device::cuda());
     
     EXPECT_NE(buffer.id, 0);
     EXPECT_EQ(buffer.size_bytes, size);
@@ -88,7 +88,7 @@ TEST_F(PagedOptimizerTest, PagedMemoryManager_PageInOut) {
     }
     
     size_t size = 1024;  // 1KB
-    PagedBuffer buffer = manager.allocate(size, DeviceType::CPU);
+    PagedBuffer buffer = manager.allocate(size, Device::cpu());
     
     EXPECT_FALSE(buffer.is_on_gpu);
     
@@ -112,7 +112,7 @@ TEST_F(PagedOptimizerTest, PagedMemoryManager_MultipleBuffers) {
     
     // Allocate multiple buffers
     for (int i = 0; i < 10; ++i) {
-        PagedBuffer buffer = manager.allocate(1024, DeviceType::CPU);
+        PagedBuffer buffer = manager.allocate(1024, Device::cpu());
         EXPECT_NE(buffer.id, 0);
         buffers.push_back(buffer);
     }
@@ -139,7 +139,7 @@ TEST_F(PagedOptimizerTest, PagedMemoryManager_LRUEviction) {
     
     // Allocate and page in multiple buffers
     for (int i = 0; i < 5; ++i) {
-        PagedBuffer buffer = manager.allocate(1024, DeviceType::CPU);
+        PagedBuffer buffer = manager.allocate(1024, Device::cpu());
         manager.pageIn(buffer, nullptr);
         buffers.push_back(buffer);
     }

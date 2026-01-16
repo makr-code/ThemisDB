@@ -42,8 +42,8 @@ void PagedAdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
         
         if (config_.enable_paging && memory_manager_) {
             // Allocate paged buffers for optimizer states
-            state.momentum = memory_manager_->allocate(param_size, DeviceType::CPU);
-            state.variance = memory_manager_->allocate(param_size, DeviceType::CPU);
+            state.momentum = memory_manager_->allocate(param_size, Device::cpu());
+            state.variance = memory_manager_->allocate(param_size, Device::cpu());
             
             state.momentum_on_gpu = false;
             state.variance_on_gpu = false;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "llm/lora_framework/vram_allocator.h"
+#include "llm/lora_framework/gpu_memory.h"
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -17,14 +19,6 @@ namespace lora {
 using PageID = uint64_t;
 
 /**
- * @brief Device type for memory allocation
- */
-enum class DeviceType {
-    CPU,    // CPU memory (pinned for fast transfers)
-    GPU     // GPU device memory
-};
-
-/**
  * @brief Paged buffer handle
  * 
  * Represents a buffer that can be allocated on CPU or GPU
@@ -35,7 +29,7 @@ struct PagedBuffer {
     size_t size_bytes = 0;
     void* cpu_ptr = nullptr;
     void* gpu_ptr = nullptr;
-    DeviceType current_location = DeviceType::CPU;
+    Device current_device = Device::cpu();
     bool is_on_gpu = false;
     uint64_t last_access_time = 0;  // For LRU eviction
 };
@@ -46,7 +40,7 @@ struct PagedBuffer {
 struct PageInfo {
     PageID id = 0;
     size_t size_bytes = 0;
-    DeviceType location = DeviceType::CPU;
+    Device device = Device::cpu();
     uint64_t last_access_time = 0;
     uint64_t access_count = 0;
 };
@@ -136,99 +130,24 @@ private:
 };
 
 /**
- * @brief CPU memory pool using pinned memory for fast transfers
- * 
- * Manages pinned (page-locked) CPU memory for fast DMA transfers
- * to/from GPU. On systems without CUDA, uses regular heap allocation.
- */
-class PinnedMemoryPool {
-public:
-    PinnedMemoryPool();
-    ~PinnedMemoryPool();
-    
-    /**
-     * @brief Allocate pinned CPU memory
-     * @param size Size in bytes
-     * @return Pointer to allocated memory, or nullptr on failure
-     */
-    void* allocate(size_t size);
-    
-    /**
-     * @brief Free pinned CPU memory
-     * @param ptr Pointer to memory to free
-     */
-    void deallocate(void* ptr);
-    
-    /**
-     * @brief Get total allocated bytes
-     */
-    size_t total_allocated() const { return total_allocated_; }
-    
-private:
-    size_t total_allocated_ = 0;
-    std::unordered_map<void*, size_t> allocations_;
-    bool cuda_available_ = false;
-};
-
-/**
- * @brief GPU memory pool
- * 
- * Manages GPU device memory allocation. Falls back to CPU
- * if CUDA is not available.
- */
-class GPUMemoryPool {
-public:
-    GPUMemoryPool();
-    ~GPUMemoryPool();
-    
-    /**
-     * @brief Allocate GPU memory
-     * @param size Size in bytes
-     * @return Pointer to allocated memory, or nullptr on failure
-     */
-    void* allocate(size_t size);
-    
-    /**
-     * @brief Free GPU memory
-     * @param ptr Pointer to memory to free
-     */
-    void deallocate(void* ptr);
-    
-    /**
-     * @brief Get total allocated bytes
-     */
-    size_t total_allocated() const { return total_allocated_; }
-    
-    /**
-     * @brief Check if CUDA is available
-     */
-    bool is_cuda_available() const { return cuda_available_; }
-    
-private:
-    size_t total_allocated_ = 0;
-    std::unordered_map<void*, size_t> allocations_;
-    bool cuda_available_ = false;
-};
-
-/**
  * @brief Paged memory manager
  * 
  * Manages memory paging between CPU and GPU for optimizer states.
- * Implements automatic page-in/page-out based on LRU eviction policy.
+ * Leverages existing VRAMAllocator and GPUMemoryManager infrastructure.
  * 
  * Features:
- * - Page-based allocation on CPU or GPU
+ * - Page-based allocation using existing memory pools
  * - Asynchronous page transfers (when stream is provided)
  * - LRU eviction policy for GPU memory
- * - Pinned CPU memory for fast transfers
- * - Fallback to CPU-only if CUDA unavailable
+ * - Multi-backend support (CUDA/HIP/Vulkan/DirectX) via GPUMemoryManager
+ * - Fallback to CPU-only if GPU unavailable
  * 
  * Example usage:
  * @code
  * PagedMemoryManager manager;
  * 
  * // Allocate buffer on CPU
- * PagedBuffer buffer = manager.allocate(1024 * 1024, DeviceType::CPU);
+ * PagedBuffer buffer = manager.allocate(1024 * 1024, Device::cpu());
  * 
  * // Page in to GPU when needed
  * manager.pageIn(buffer, nullptr);
@@ -247,8 +166,10 @@ public:
     /**
      * @brief Construct paged memory manager
      * @param active_set_size Maximum number of pages to keep on GPU (LRU cache size)
+     * @param gpu_manager Optional GPU memory manager (creates one if nullptr)
      */
-    explicit PagedMemoryManager(size_t active_set_size = 1024);
+    explicit PagedMemoryManager(size_t active_set_size = 1024,
+                                GPUMemoryManager* gpu_manager = nullptr);
     
     ~PagedMemoryManager();
     
@@ -258,7 +179,7 @@ public:
      * @param device Initial device location
      * @return Allocated buffer handle
      */
-    PagedBuffer allocate(size_t size, DeviceType device = DeviceType::CPU);
+    PagedBuffer allocate(size_t size, const Device& device = Device::cpu());
     
     /**
      * @brief Deallocate paged buffer
@@ -303,27 +224,34 @@ public:
      * @brief Get total GPU memory allocated
      */
     size_t gpu_memory_used() const {
-        return gpu_pool_ ? gpu_pool_->total_allocated() : 0;
+        return gpu_allocator_ ? gpu_allocator_->get_stats().allocated_bytes : 0;
     }
     
     /**
      * @brief Get total CPU memory allocated
      */
     size_t cpu_memory_used() const {
-        return cpu_pool_ ? cpu_pool_->total_allocated() : 0;
+        return cpu_allocator_ ? cpu_allocator_->get_stats().allocated_bytes : 0;
     }
     
     /**
-     * @brief Check if CUDA is available
+     * @brief Check if GPU backend is available
      */
     bool is_cuda_available() const {
-        return gpu_pool_ ? gpu_pool_->is_cuda_available() : false;
+        return gpu_allocator_ && gpu_allocator_->is_available();
     }
     
 private:
-    // Memory pools
-    std::unique_ptr<PinnedMemoryPool> cpu_pool_;
-    std::unique_ptr<GPUMemoryPool> gpu_pool_;
+    // Memory allocators (use existing infrastructure)
+    std::unique_ptr<VRAMAllocator> cpu_allocator_;    // CPU with pinned memory
+    std::unique_ptr<VRAMAllocator> gpu_allocator_;    // GPU device memory
+    
+    // GPU memory manager (optional, owns lifecycle if created internally)
+    std::unique_ptr<GPUMemoryManager> owned_gpu_manager_;
+    GPUMemoryManager* gpu_manager_ = nullptr;
+    
+    // Default device for GPU operations
+    Device gpu_device_;
     
     // LRU cache for page eviction
     LRUCache<PageID, PageInfo> page_cache_;
@@ -344,6 +272,9 @@ private:
     uint64_t getCurrentTimestamp() {
         return access_counter_++;
     }
+    
+    // Helper to convert Device to backend type
+    static acceleration::BackendType device_to_backend(DeviceType type);
 };
 
 } // namespace lora
