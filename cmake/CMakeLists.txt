@@ -1221,6 +1221,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/rbac.cpp
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_provider_pkcs11.cpp
+    ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp

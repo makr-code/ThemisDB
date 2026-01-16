@@ -75,6 +75,14 @@ public:
         std::string encryption_key_id = "lora_adapters";  // Key ID for encryption
         bool enable_signatures = true;  // Digital signatures for integrity
         
+        // HSM configuration (Hardware Security Module)
+        bool use_hsm_for_encryption = false;           // Enable HSM-backed encryption
+        std::string hsm_library_path;                   // PKCS#11 library path (e.g., "/usr/lib/softhsm/libsofthsm2.so")
+        uint32_t hsm_slot_id = 0;                       // HSM slot ID (default: 0)
+        std::string hsm_pin;                            // HSM user PIN (keep secure!)
+        std::string hsm_key_label = "lora-adapter-kek"; // HSM key label for KEK
+        uint32_t hsm_session_pool_size = 4;             // Parallel sessions for performance
+      
         // PKI configuration for certificate-based encryption
         bool use_pki_for_encryption = false;        // Enable PKI-based encryption
         std::string pki_cert_path;                  // Certificate file path (PEM format)
