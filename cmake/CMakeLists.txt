@@ -1519,9 +1519,88 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         # Link DirectX 12 libraries (Windows only)
         if(WIN32)
             target_link_libraries(themis_core PRIVATE d3d12 dxgi)
-            message(STATUS "DirectX 12 acceleration enabled")
-            message(STATUS "  DirectX compute pipeline integrated")
-            message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl")
+            
+            # Find DXC shader compiler (part of Windows SDK or DirectX Agility SDK)
+            find_program(DXC_COMPILER dxc
+                HINTS
+                    "$ENV{WindowsSdkDir}bin/${CMAKE_VS_PLATFORM_NAME}"
+                    "$ENV{WindowsSdkDir}bin/x64"
+                    "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/10.0.22621.0/x64"
+                    "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/10.0.19041.0/x64"
+            )
+            
+            if(DXC_COMPILER)
+                message(STATUS "DirectX 12 acceleration enabled")
+                message(STATUS "  DirectX compute pipeline integrated")
+                message(STATUS "  DXC compiler found: ${DXC_COMPILER}")
+                
+                # Set shader output directory
+                set(SHADER_OUTPUT_DIR "${CMAKE_BINARY_DIR}/shaders/lora")
+                file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
+                
+                # Compile HLSL shaders to DXIL bytecode
+                set(SHADER_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/acceleration/directx/shaders/lora")
+                
+                # Matmul shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/matmul.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/matmul.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/matmul.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/matmul.hlsl
+                    COMMENT "Compiling matmul.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Elementwise shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/elementwise.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/elementwise.hlsl
+                    COMMENT "Compiling elementwise.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Gradient shader
+                add_custom_command(
+                    OUTPUT ${SHADER_OUTPUT_DIR}/gradient.cso
+                    COMMAND ${DXC_COMPILER} -T cs_6_0 -E main
+                            ${SHADER_SOURCE_DIR}/gradient.hlsl
+                            -Fo ${SHADER_OUTPUT_DIR}/gradient.cso
+                    DEPENDS ${SHADER_SOURCE_DIR}/gradient.hlsl
+                    COMMENT "Compiling gradient.hlsl to DXIL bytecode"
+                    VERBATIM
+                )
+                
+                # Custom target to compile all shaders
+                add_custom_target(directx_shaders ALL
+                    DEPENDS
+                        ${SHADER_OUTPUT_DIR}/matmul.cso
+                        ${SHADER_OUTPUT_DIR}/elementwise.cso
+                        ${SHADER_OUTPUT_DIR}/gradient.cso
+                    COMMENT "Building DirectX shaders"
+                )
+                
+                # Install shaders to output directory
+                install(FILES
+                    ${SHADER_OUTPUT_DIR}/matmul.cso
+                    ${SHADER_OUTPUT_DIR}/elementwise.cso
+                    ${SHADER_OUTPUT_DIR}/gradient.cso
+                    DESTINATION bin/shaders/lora
+                    COMPONENT shaders
+                )
+                
+                # Make themis_core depend on shader compilation
+                add_dependencies(themis_core directx_shaders)
+                
+                message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl → .cso")
+            else()
+                message(WARNING "DXC compiler not found - DirectX shaders will not be compiled")
+                message(WARNING "  Install Windows 10 SDK 10.0.19041.0+ or DirectX Agility SDK")
+                message(WARNING "  DirectX backend will use runtime shader compilation (if available)")
+            endif()
         else()
             message(WARNING "DirectX is only available on Windows")
         endif()
