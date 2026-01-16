@@ -1966,6 +1966,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
         ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
         ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
+        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations (Phase 10)
+        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layers (Phase 10)
+        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocator (Phase 10)
+        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management (Phase 10)
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -2019,6 +2023,19 @@ if(THEMIS_ENABLE_LLM)
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
         message(STATUS "LLM: QLoRA GPU kernels enabled (NF4/INT8 quantization)")
+            ../src/llm/lora_framework/kernels/cuda_kernels.cu  # LoRA CUDA kernels
+            ../src/llm/lora_framework/kernels/cuda_fused_kernels.cu  # LoRA fused CUDA kernels (Phase 10.3)
+        )
+        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention + LoRA)")
+    endif()
+    
+    # Add HIP kernel sources when HIP is enabled
+    if(THEMIS_ENABLE_HIP)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels
+            ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp  # LoRA fused HIP kernels (Phase 10.3)
+        )
+        message(STATUS "LLM: HIP kernel fusion enabled (LoRA)")
     endif()
     
     # Threading support required for async inference

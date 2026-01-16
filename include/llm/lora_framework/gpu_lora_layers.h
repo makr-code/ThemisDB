@@ -32,10 +32,12 @@ public:
      * @param rank Rank of low-rank decomposition (typically 4, 8, 16, 32)
      * @param scaling Scaling factor (default: 1.0)
      * @param device Target device (CPU, CUDA, HIP, Vulkan, DirectX)
+     * @param use_fused_kernels Enable kernel fusion optimization (default: true)
      */
     GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank, 
                  float scaling = 1.0f,
-                 const Device& device = Device::cpu());
+                 const Device& device = Device::cpu(),
+                 bool use_fused_kernels = true);
     
     ~GPULoRALayer() = default;
     
@@ -128,6 +130,8 @@ public:
     size_t out_dim() const { return out_dim_; }
     size_t rank() const { return rank_; }
     float scaling() const { return scaling_; }
+    bool use_fused_kernels() const { return use_fused_kernels_; }
+    void set_use_fused_kernels(bool use_fused) { use_fused_kernels_ = use_fused; }
 
 private:
     std::string name_ = "GPULoRALayer";
@@ -136,6 +140,7 @@ private:
     size_t rank_;
     float scaling_;
     Device device_;
+    bool use_fused_kernels_;
     
     // Trainable parameters (in VRAM)
     std::unique_ptr<GPUTensor> B_;  // (in_dim, rank)
