@@ -671,10 +671,12 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // Fallback to dummy embedding if handles are null
+    // Model and context must be loaded before computing embeddings
     if (!lmodel || !lctx) {
-        spdlog::warn("LlamaWrapper: Model/context handle is null for embeddings, returning dummy vector");
-        return std::vector<float>(768, 0.0f);
+        throw std::runtime_error(
+            "LlamaWrapper: Model/context not initialized for embeddings. "
+            "Call loadModel() with a valid model file before computing embeddings."
+        );
     }
     
     try {
