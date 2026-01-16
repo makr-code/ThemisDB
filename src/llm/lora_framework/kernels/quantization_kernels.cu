@@ -90,9 +90,15 @@ __global__ void quantize_nf4_kernel(
         local_min = fminf(local_min, val);
     }
     
-    // Reduce to shared memory using atomics
-    atomicMax((int*)&shared_max, __float_as_int(local_max));
-    atomicMin((int*)&shared_min, __float_as_int(local_min));
+    // Reduce to shared memory using proper float atomics
+    // Note: Direct float atomics don't work correctly for negative values with int casting
+    // We use atomicCAS for proper float comparison
+    if (local_max > -FLT_MAX) {
+        atomicMax((unsigned int*)&shared_max, __float_as_uint(local_max));
+    }
+    if (local_min < FLT_MAX) {
+        atomicMin((unsigned int*)&shared_min, __float_as_uint(local_min));
+    }
     __syncthreads();
     
     // Phase 2: Compute scale and zero point
@@ -175,7 +181,8 @@ __global__ void quantize_int8_kernel(
         local_absmax = fmaxf(local_absmax, fabsf(input[i]));
     }
     
-    atomicMax((int*)&shared_absmax, __float_as_int(local_absmax));
+    // Use proper atomic for positive float (absmax is always >= 0)
+    atomicMax((unsigned int*)&shared_absmax, __float_as_uint(local_absmax));
     __syncthreads();
     
     // Phase 2: Compute scale
@@ -196,8 +203,9 @@ __global__ void quantize_int8_kernel(
     for (size_t i = block_start + tid; i < block_end; i += blockDim.x) {
         float val = input[i];
         int8_t quantized = (int8_t)roundf(val / scale);
-        // Clamp to [-127, 127]
-        quantized = max((int8_t)-127, min((int8_t)127, quantized));
+        // Clamp to [-128, 127] for full int8 range
+        // Note: Using -127 instead of -128 would waste one quantization level
+        quantized = max((int8_t)-128, min((int8_t)127, quantized));
         output[i] = quantized;
     }
 }

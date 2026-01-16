@@ -21,11 +21,15 @@ namespace {
 
 /**
  * @brief Generate random test data
+ * @param size Number of elements
+ * @param mean Mean of normal distribution
+ * @param stddev Standard deviation
+ * @note Uses fixed seed (42) for reproducibility across test runs
  */
 std::vector<float> generateTestData(size_t size, float mean = 0.0f, float stddev = 1.0f) {
     std::vector<float> data(size);
     std::random_device rd;
-    std::mt19937 gen(42);  // Fixed seed for reproducibility
+    std::mt19937 gen(42);  // Fixed seed for reproducible tests
     std::normal_distribution<float> dist(mean, stddev);
     
     for (size_t i = 0; i < size; i++) {

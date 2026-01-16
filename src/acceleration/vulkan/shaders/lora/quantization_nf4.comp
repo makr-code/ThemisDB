@@ -38,10 +38,7 @@ const float NF4_VALUES[16] = float[16](
 );
 
 // Shared memory for parallel reduction
-shared float shared_max;
-shared float shared_min;
-shared float shared_scale;
-shared float shared_zero;
+shared float shared_values[256];  // For reduction
 
 /**
  * @brief Find nearest NF4 bin for a normalized value
@@ -76,14 +73,14 @@ void main() {
         return;
     }
     
-    // Initialize shared memory
-    if (lid == 0) {
-        shared_max = -3.402823466e+38;  // -FLT_MAX
-        shared_min = 3.402823466e+38;   // FLT_MAX
-    }
+    // Initialize shared memory (only needed for reduction result)
+    float block_max = -3.402823466e+38;
+    float block_min = 3.402823466e+38;
+    float block_scale;
+    float block_zero;
     barrier();
     
-    // Phase 1: Find min/max in block
+    // Phase 1: Find min/max in block with parallel reduction
     float local_max = -3.402823466e+38;
     float local_min = 3.402823466e+38;
     
@@ -93,32 +90,58 @@ void main() {
         local_min = min(local_min, val);
     }
     
-    // Atomic max/min in shared memory
-    atomicMax(shared_max, local_max);
-    atomicMin(shared_min, local_min);
+    // Store local results in shared memory
+    shared_values[lid] = local_max;
+    barrier();
+    
+    // Tree reduction for max
+    for (uint stride = gl_WorkGroupSize.x / 2; stride > 0; stride /= 2) {
+        if (lid < stride) {
+            shared_values[lid] = max(shared_values[lid], shared_values[lid + stride]);
+        }
+        barrier();
+    }
+    
+    if (lid == 0) {
+        block_max = shared_values[0];
+    }
+    barrier();
+    
+    // Repeat for min
+    shared_values[lid] = local_min;
+    barrier();
+    
+    for (uint stride = gl_WorkGroupSize.x / 2; stride > 0; stride /= 2) {
+        if (lid < stride) {
+            shared_values[lid] = min(shared_values[lid], shared_values[lid + stride]);
+        }
+        barrier();
+    }
+    
+    if (lid == 0) {
+        block_min = shared_values[0];
+    }
     barrier();
     
     // Phase 2: Compute scale and zero point
     if (lid == 0) {
-        float block_max = shared_max;
-        float block_min = shared_min;
-        
         if (abs(block_max - block_min) < 1e-8) {
-            shared_scale = 1.0;
-            shared_zero = 0.0;
+            block_scale = 1.0;
+            block_zero = 0.0;
         } else {
-            shared_scale = (block_max - block_min) / 2.0;
-            shared_zero = (block_max + block_min) / 2.0;
+            block_scale = (block_max - block_min) / 2.0;
+            block_zero = (block_max + block_min) / 2.0;
         }
         
-        scales[block_id] = shared_scale;
-        zeros[block_id] = shared_zero;
+        scales[block_id] = block_scale;
+        zeros[block_id] = block_zero;
     }
     barrier();
     
     // Phase 3: Quantize and pack values
-    float scale = shared_scale;
-    float zero = shared_zero;
+    // Read scale and zero from global memory
+    float scale = scales[block_id];
+    float zero = zeros[block_id];
     
     for (uint i = block_start + lid; i < block_end; i += gl_WorkGroupSize.x) {
         // Normalize to [-1, 1]
