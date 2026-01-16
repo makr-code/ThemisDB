@@ -84,19 +84,24 @@ ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
 ### 4. Enhanced Security Documentation
 
 **Lines**: 41-49  
-**Status**: ✅ Documented (Production fix requires external infrastructure)
+**Status**: ✅ Complete (PKI integration added)
 
-Added comprehensive TODO comment and warning about `MockKeyProvider`:
+PKI-based encryption now available as production-ready alternative:
 
 ```cpp
-// TODO: SECURITY - Replace MockKeyProvider with production key provider
-// In production, use one of:
-//   - VaultKeyProvider (HashiCorp Vault integration)
-//   - HSMProvider (Hardware Security Module)
-//   - KMSProvider (AWS KMS, Azure Key Vault, or GCP KMS)
-// MockKeyProvider is ONLY suitable for testing/development
+// PKI-based encryption (PRODUCTION READY)
+config.use_pki_for_encryption = true;
+config.pki_cert_path = "/etc/themis/certs/lora-encryption.crt";
+config.pki_private_key_path = "/etc/themis/keys/lora-encryption.key";
+auto key_provider = std::make_shared<PKIKeyProvider>(cert_path, key_path, db, service_id);
+encryption_ = std::make_shared<FieldEncryption>(key_provider);
+
+// Fallback to MockKeyProvider (DEVELOPMENT ONLY)
+auto key_provider = std::make_shared<MockKeyProvider>();
 spdlog::warn("Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
 ```
+
+See `docs/en/security/pki_lora_encryption.md` for complete PKI setup guide.
 
 ## What's Complete
 
@@ -109,12 +114,24 @@ spdlog::warn("Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION
 | `getAdapterMetadata()` | ✅ Complete | Retrieves metadata without weights |
 | `deleteAdapter()` | ✅ Complete | **NEW**: Deletes both blob and metadata |
 | Blob Management | ✅ Complete | Automatic size-based backend selection |
-| Encryption | ⚠️ Functional | Uses MockKeyProvider (needs production keys) |
+| Encryption | ✅ Complete | **NEW**: PKI-based encryption available |
 | Versioning | ✅ Complete | Creates and manages adapter versions |
 
 ### ✅ FileSystem Backend - All Operations
 
 The filesystem backend was already complete and remains functional as a fallback when ThemisDB components are not configured.
+
+### ✅ PKI Integration (NEW)
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Certificate-based encryption | ✅ Complete | File-based PKI without external services |
+| Self-signed certificates | ✅ Complete | Script provided for development |
+| Certificate validation | ✅ Complete | Expiration checking |
+| Key derivation | ✅ Complete | HKDF-SHA256 from certificate public key |
+| Configuration options | ✅ Complete | Added to LoRAStorageService::Config |
+| Documentation | ✅ Complete | Full setup guide in docs/en/security/ |
+| Tests | ✅ Complete | Integration tests added |
 
 ## What's NOT Complete (Out of Scope)
 

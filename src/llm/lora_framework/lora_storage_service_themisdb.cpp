@@ -1,6 +1,7 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
+#include "security/pki_key_provider.h"
 #include "security/encryption.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -38,26 +39,57 @@ public:
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                // TODO: SECURITY - Replace MockKeyProvider with production key provider
-                // Themis provides production-ready key providers in include/security/:
-                //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
-                //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
-                //   
-                //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
-                //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
-                //               auto provider = std::make_unique<security::HSMProvider>(cfg);
-                //   
-                //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
-                //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path);
-                //
-                // All providers implement the KeyProvider interface and can be used with FieldEncryption.
-                // MockKeyProvider is ONLY suitable for testing/development - never use in production!
-                auto key_provider = std::make_shared<MockKeyProvider>();
+                std::shared_ptr<KeyProvider> key_provider;
+                
+                // Use PKI-based encryption if configured
+                if (config_.use_pki_for_encryption) {
+                    if (config_.pki_cert_path.empty()) {
+                        throw std::runtime_error("PKI encryption enabled but pki_cert_path is not configured");
+                    }
+                    if (config_.pki_private_key_path.empty()) {
+                        throw std::runtime_error("PKI encryption enabled but pki_private_key_path is not configured");
+                    }
+                    if (!config_.db) {
+                        throw std::runtime_error("PKI encryption requires database connection for DEK storage");
+                    }
+                    
+                    spdlog::info("  Initializing PKIKeyProvider with certificate: {}", config_.pki_cert_path);
+                    
+                    // Initialize PKIKeyProvider with certificate files
+                    key_provider = std::make_shared<security::PKIKeyProvider>(
+                        config_.pki_cert_path,
+                        config_.pki_private_key_path,
+                        config_.db,
+                        "lora_storage_" + config_.collection_name,
+                        config_.pki_verify_certificate
+                    );
+                    
+                    spdlog::info("  PKIKeyProvider initialized successfully - using certificate-based encryption");
+                } else {
+                    // Fallback to MockKeyProvider for development/testing
+                    // TODO: SECURITY - Replace MockKeyProvider with production key provider
+                    // Themis provides production-ready key providers in include/security/:
+                    //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
+                    //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
+                    //   
+                    //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
+                    //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
+                    //               auto provider = std::make_unique<security::HSMProvider>(cfg);
+                    //   
+                    //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
+                    //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path, db, service_id);
+                    //
+                    // All providers implement the KeyProvider interface and can be used with FieldEncryption.
+                    // MockKeyProvider is ONLY suitable for testing/development - never use in production!
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    spdlog::warn("  Set use_pki_for_encryption=true and configure certificate paths for production use");
+                }
+                
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
-                spdlog::warn("  See include/security/vault_key_provider.h for production key providers");
             } catch (const std::exception& e) {
-                spdlog::warn("  Failed to initialize encryption: {}", e.what());
+                spdlog::error("  Failed to initialize encryption: {}", e.what());
+                throw;  // Re-throw to prevent insecure operation
             }
         }
         
