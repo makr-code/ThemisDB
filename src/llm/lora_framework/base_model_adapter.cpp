@@ -1,5 +1,6 @@
 #include "llm/lora_framework/base_model_adapter.h"
 #include <spdlog/spdlog.h>
+#include <fmt/format.h>
 #include <algorithm>
 #include <regex>
 #include <cmath>

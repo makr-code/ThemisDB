@@ -14,6 +14,7 @@
 #include "llm/lora_framework/data_loader.h"
 #include "llm/lora_framework/lora_layers.h"
 #include <spdlog/spdlog.h>
+#include <fmt/format.h>
 #include <iostream>
 
 using namespace themis::llm::lora;

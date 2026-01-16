@@ -510,15 +510,6 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
 std::vector<InstructionDataSample> createToyDataset(size_t num_samples) {
     std::vector<InstructionDataSample> samples;
     
-    // Simple arithmetic problems
-    std::vector<std::string> templates = {
-        {"What is {} + {}?", "The answer is {}."},
-        {"Calculate {} * {}.", "The result is {}."},
-        {"Translate 'hello' to Spanish.", "The translation is 'hola'."},
-        {"What is the capital of France?", "The capital of France is Paris."},
-        {"Write a haiku about coding.", "Code flows like water\nBugs hide in the shadows deep\nDebug and rejoice"}
-    };
-    
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(1, 100);
