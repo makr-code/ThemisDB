@@ -324,6 +324,261 @@ TEST_F(LoRAFrameworkTest, TrainingService_BatchTraining) {
 }
 
 // ============================================================================
+// Training Control Tests (Stop, Checkpoint, Resume)
+// ============================================================================
+
+TEST_F(LoRAFrameworkTest, TrainingControl_StopTraining) {
+    // Create training data with many samples to ensure training takes some time
+    TrainingData data;
+    for (int i = 0; i < 100; i++) {
+        TrainingDataSample sample;
+        sample.input = "Question " + std::to_string(i);
+        sample.output = "Answer " + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+    
+    // Configure for longer training
+    LoRAHyperparameters hyper;
+    hyper.rank = 8;
+    hyper.alpha = 16.0f;
+    hyper.learning_rate = 0.0001f;
+    hyper.num_epochs = 10;  // Many epochs
+    hyper.batch_size = 2;
+    
+    // Start training in a background thread
+    std::atomic<bool> training_started(false);
+    std::thread training_thread([&]() {
+        training_started.store(true);
+        auto result = training_->trainOnTheFly("stop_test_adapter", data, hyper);
+        // Training should be stopped, so success should be false
+        EXPECT_FALSE(result.success);
+        EXPECT_EQ(result.error_message, "Training stopped by user request");
+    });
+    
+    // Wait for training to start
+    while (!training_started.load()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    
+    // Give it a moment to actually start training
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    
+    // Verify training is in progress
+    EXPECT_TRUE(training_->isTraining());
+    
+    // Stop training
+    training_->stopTraining();
+    
+    // Wait for training thread to complete
+    training_thread.join();
+    
+    // Verify training is no longer active
+    EXPECT_FALSE(training_->isTraining());
+}
+
+TEST_F(LoRAFrameworkTest, TrainingControl_CheckpointSaveLoad) {
+    // Create cross-platform temp directory for checkpoints
+    auto temp_dir = std::filesystem::temp_directory_path() / "test_checkpoints";
+    
+    // Configure checkpointing
+    LoRATrainingService::Config config;
+    config.enable_checkpointing = true;
+    config.checkpoint_dir = temp_dir.string();
+    config.checkpoint_interval_steps = 5;  // Save every 5 steps
+    training_->setTrainingConfig(config);
+    
+    // Create checkpoint directory
+    std::filesystem::create_directories(temp_dir);
+    
+    // Create training data
+    TrainingData data;
+    for (int i = 0; i < 20; i++) {
+        TrainingDataSample sample;
+        sample.input = "Question " + std::to_string(i);
+        sample.output = "Answer " + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+    
+    // Configure training
+    LoRAHyperparameters hyper;
+    hyper.rank = 8;
+    hyper.alpha = 16.0f;
+    hyper.learning_rate = 0.0001f;
+    hyper.num_epochs = 2;
+    hyper.batch_size = 4;
+    
+    // Train - this should create checkpoints
+    auto result = training_->trainOnTheFly("checkpoint_adapter", data, hyper);
+    EXPECT_TRUE(result.success);
+    
+    // Verify checkpoint files were created
+    bool checkpoint_found = false;
+    for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
+        if (entry.path().extension() == ".json") {
+            checkpoint_found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(checkpoint_found);
+    
+    // Cleanup
+    std::filesystem::remove_all(temp_dir);
+}
+
+TEST_F(LoRAFrameworkTest, TrainingControl_PeriodicCheckpointing) {
+    // Create cross-platform temp directory for checkpoints
+    auto temp_dir = std::filesystem::temp_directory_path() / "test_periodic_checkpoints";
+    
+    // Configure aggressive checkpointing
+    LoRATrainingService::Config config;
+    config.enable_checkpointing = true;
+    config.checkpoint_dir = temp_dir.string();
+    config.checkpoint_interval_steps = 3;  // Very frequent
+    training_->setTrainingConfig(config);
+    
+    // Create checkpoint directory
+    std::filesystem::create_directories(temp_dir);
+    
+    // Create training data
+    TrainingData data;
+    for (int i = 0; i < 30; i++) {
+        TrainingDataSample sample;
+        sample.input = "Q" + std::to_string(i);
+        sample.output = "A" + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+    
+    // Configure training
+    LoRAHyperparameters hyper;
+    hyper.rank = 8;
+    hyper.alpha = 16.0f;
+    hyper.learning_rate = 0.0001f;
+    hyper.num_epochs = 2;
+    hyper.batch_size = 2;
+    
+    // Train
+    auto result = training_->trainOnTheFly("periodic_adapter", data, hyper);
+    EXPECT_TRUE(result.success);
+    
+    // Count checkpoint files
+    int checkpoint_count = 0;
+    for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
+        if (entry.path().extension() == ".json") {
+            checkpoint_count++;
+        }
+    }
+    
+    // Should have created multiple checkpoints
+    EXPECT_GT(checkpoint_count, 1);
+    
+    // Cleanup
+    std::filesystem::remove_all(temp_dir);
+}
+
+TEST_F(LoRAFrameworkTest, TrainingControl_StopWithCheckpoint) {
+    // Create cross-platform temp directory for checkpoints
+    auto temp_dir = std::filesystem::temp_directory_path() / "test_stop_checkpoint";
+    
+    // Configure checkpointing
+    LoRATrainingService::Config config;
+    config.enable_checkpointing = true;
+    config.checkpoint_dir = temp_dir.string();
+    config.checkpoint_interval_steps = 100;  // Won't trigger during test
+    training_->setTrainingConfig(config);
+    
+    // Create checkpoint directory
+    std::filesystem::create_directories(temp_dir);
+    
+    // Create training data
+    TrainingData data;
+    for (int i = 0; i < 100; i++) {
+        TrainingDataSample sample;
+        sample.input = "Question " + std::to_string(i);
+        sample.output = "Answer " + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+    
+    // Configure for longer training
+    LoRAHyperparameters hyper;
+    hyper.rank = 8;
+    hyper.alpha = 16.0f;
+    hyper.learning_rate = 0.0001f;
+    hyper.num_epochs = 10;
+    hyper.batch_size = 2;
+    
+    // Start training in background
+    std::atomic<bool> training_started(false);
+    std::thread training_thread([&]() {
+        training_started.store(true);
+        auto result = training_->trainOnTheFly("stop_checkpoint_adapter", data, hyper);
+        EXPECT_FALSE(result.success);
+    });
+    
+    // Wait for training to start
+    while (!training_started.load()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    
+    // Stop training - should trigger checkpoint save
+    training_->stopTraining();
+    
+    // Wait for completion
+    training_thread.join();
+    
+    // Verify checkpoint was saved on stop
+    bool checkpoint_found = false;
+    for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
+        if (entry.path().extension() == ".json") {
+            checkpoint_found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(checkpoint_found);
+    
+    // Cleanup
+    std::filesystem::remove_all(temp_dir);
+}
+
+TEST_F(LoRAFrameworkTest, TrainingControl_Metrics) {
+    // Create training data
+    TrainingData data;
+    for (int i = 0; i < 10; i++) {
+        TrainingDataSample sample;
+        sample.input = "Q" + std::to_string(i);
+        sample.output = "A" + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+    
+    // Set up callback to track metrics
+    std::vector<TrainingMetrics> metrics_history;
+    training_->registerCallback([&](const TrainingMetrics& metrics) {
+        metrics_history.push_back(metrics);
+    });
+    
+    // Configure training
+    LoRAHyperparameters hyper;
+    hyper.rank = 8;
+    hyper.alpha = 16.0f;
+    hyper.learning_rate = 0.0001f;
+    hyper.num_epochs = 2;
+    hyper.batch_size = 2;
+    
+    // Train
+    auto result = training_->trainOnTheFly("metrics_adapter", data, hyper);
+    EXPECT_TRUE(result.success);
+    
+    // Verify metrics were collected
+    EXPECT_GT(metrics_history.size(), 0);
+    
+    // Verify final metrics
+    auto final_metrics = training_->getMetrics();
+    EXPECT_EQ(final_metrics.status, "completed");
+    EXPECT_EQ(final_metrics.current_epoch, 2);
+    EXPECT_GT(final_metrics.current_step, 0);
+}
+
+// ============================================================================
 // LoRAOrchestrator Tests
 // ============================================================================
 

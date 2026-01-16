@@ -163,6 +163,7 @@ public:
         std::shared_ptr<RocksDBWrapper> db;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
         std::shared_ptr<storage::SecuritySignatureManager> signature_manager;
+        std::shared_ptr<KeyProvider> key_provider;  // Configurable key provider (Vault/HSM/Mock)
         
         // Collection settings
         std::string collection_name = "llm_models";
@@ -306,10 +307,17 @@ public:
      * @return Statistics as JSON
      */
     json getStats() const;
+    
+    /**
+     * @brief Get configuration (for accessing blob manager, etc.)
+     * @return Configuration object
+     */
+    const Config& getConfig() const;
 
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+    Config config_;  // Store config for external access
 };
 
 } // namespace llm

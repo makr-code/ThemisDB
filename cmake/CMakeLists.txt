@@ -1940,8 +1940,9 @@ if(THEMIS_ENABLE_LLM)
         # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
         ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
-        ../src/llm/lora_framework/lora_storage_service.cpp    # BaseEntity storage integration
-        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
+        # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
+        # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
+        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
         ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
@@ -1959,6 +1960,7 @@ if(THEMIS_ENABLE_LLM)
         # Phase 4+5 Week 4-6: llama.cpp Integration
         ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         ../src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        ../src/llm/llm_model_storage.cpp     # LLM model storage and metadata management
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         ../src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
