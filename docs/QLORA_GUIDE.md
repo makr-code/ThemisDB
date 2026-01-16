@@ -157,6 +157,136 @@ auto [B, A] = qlora_layer.get_lora_weights();
 save_weights("lora_adapter.bin", B, A);
 ```
 
+### Training Service Integration
+
+```cpp
+#include "llm/lora_framework/lora_training_service.h"
+#include "llm/lora_framework/lora_config.h"
+
+using namespace themis::llm::lora;
+
+// 1. Configure training service with QLoRA
+LoRATrainingService::Config service_config;
+
+// Set base model
+service_config.base_model_path = "models/llama-7b.gguf";
+service_config.use_base_model = true;
+
+// Configure hyperparameters
+service_config.default_hyperparameters.rank = 8;
+service_config.default_hyperparameters.alpha = 16.0f;
+service_config.default_hyperparameters.learning_rate = 0.0001f;
+service_config.default_hyperparameters.num_epochs = 3;
+service_config.default_hyperparameters.batch_size = 4;
+
+// Enable QLoRA
+service_config.qlora.enabled = true;
+service_config.qlora.quantization_type = "nf4";  // or "int8"
+service_config.qlora.block_size = 64;
+service_config.qlora.use_double_quantization = true;
+service_config.qlora.layer_by_layer = true;
+
+// 2. Create training service
+LoRATrainingService service(service_config);
+
+// 3. Prepare training data
+TrainingData training_data;
+training_data.dataset_name = "alpaca-100";
+for (auto& sample : load_dataset("alpaca-100.json")) {
+    TrainingDataSample ts;
+    ts.input = sample.instruction;
+    ts.output = sample.response;
+    training_data.samples.push_back(ts);
+}
+
+// 4. Train with quantization
+auto result = service.trainWithQuantization(
+    "my_adapter",
+    training_data
+);
+
+// 5. Check results
+if (result.success) {
+    std::cout << "Training completed!" << std::endl;
+    std::cout << "Final loss: " << result.final_loss << std::endl;
+    std::cout << "Epochs: " << result.epochs_completed << std::endl;
+    
+    // Check memory usage
+    if (result.metrics.contains("memory_bytes")) {
+        size_t memory_mb = result.metrics["memory_bytes"].get<size_t>() / (1024 * 1024);
+        std::cout << "Memory used: " << memory_mb << " MB" << std::endl;
+    }
+    
+    // Check quantization type used
+    std::cout << "Quantization: " << 
+        result.metrics["quantization_type"].get<std::string>() << std::endl;
+} else {
+    std::cerr << "Training failed: " << result.error_message << std::endl;
+}
+```
+
+### JSON Configuration
+
+You can also configure QLoRA training via JSON:
+
+```json
+{
+  "adapter_id": "customer_support_qlora",
+  "base_model": "llama-7b",
+  "training": {
+    "rank": 8,
+    "alpha": 16,
+    "learning_rate": 0.0001,
+    "num_epochs": 3,
+    "batch_size": 4,
+    "optimizer": "adamw"
+  },
+  "qlora": {
+    "enabled": true,
+    "quantization_type": "nf4",
+    "block_size": 64,
+    "use_double_quantization": true,
+    "layer_by_layer": true
+  },
+  "dataset": "data/customer_support.jsonl"
+}
+```
+
+### Memory Estimation
+
+Before training, estimate memory requirements:
+
+```cpp
+// Estimate memory for QLoRA training
+QLoRAConfig qlora_config;
+qlora_config.enabled = true;
+qlora_config.quantization_type = "nf4";
+qlora_config.block_size = 64;
+qlora_config.use_double_quantization = true;
+
+// For a 7B parameter model
+size_t num_params = 7'000'000'000;
+size_t estimated_bytes = quantized_model_utils::estimate_memory_usage(
+    num_params,
+    QuantizationType::NF4,
+    qlora_config.block_size,
+    qlora_config.use_double_quantization
+);
+
+float estimated_gb = estimated_bytes / (1024.0f * 1024.0f * 1024.0f);
+std::cout << "Estimated memory: " << estimated_gb << " GB" << std::endl;
+// Output: Estimated memory: ~4.2 GB
+
+// Check if it fits in available GPU memory
+size_t available_memory = get_available_gpu_memory();
+if (estimated_bytes < available_memory) {
+    std::cout << "✓ Model will fit in GPU memory" << std::endl;
+} else {
+    std::cout << "✗ Insufficient GPU memory" << std::endl;
+    std::cout << "  Consider: smaller model, different quantization, or CPU offload" << std::endl;
+}
+```
+
 ### Advanced: Full Model Quantization
 
 ```cpp
@@ -449,12 +579,160 @@ namespace quantized_model_utils {
 }
 ```
 
+## Troubleshooting
+
+### Out of Memory Errors
+
+**Problem**: Training crashes with OOM (Out of Memory) error
+
+**Solutions**:
+1. **Use smaller block size**: Try `block_size = 32` instead of 64
+2. **Enable double quantization**: Set `use_double_quantization = true`
+3. **Reduce batch size**: Lower `batch_size` from 4 to 2 or 1
+4. **Enable layer-by-layer mode**: Set `layer_by_layer = true`
+5. **Try INT8 instead of NF4**: `quantization_type = "int8"` (uses more memory but faster)
+
+```cpp
+// Memory-constrained configuration
+service_config.qlora.quantization_type = "nf4";
+service_config.qlora.block_size = 32;  // Smaller blocks
+service_config.qlora.use_double_quantization = true;
+service_config.qlora.layer_by_layer = true;
+service_config.default_hyperparameters.batch_size = 1;  // Minimum
+```
+
+### High Quantization Error
+
+**Problem**: Model accuracy significantly degraded after quantization
+
+**Solutions**:
+1. **Use INT8 instead of NF4**: Higher precision, less degradation
+2. **Increase block size**: Try `block_size = 128` for better accuracy
+3. **Check input data range**: Ensure weights are roughly normalized
+4. **Validate quantization error**: Use `quantization_error()` to measure
+
+```cpp
+// Check quantization error
+auto q_weights = QuantizedLayerWeights(weights, config);
+auto reconstructed = q_weights.dequantize();
+
+float error = 0.0f;
+for (size_t i = 0; i < weights.size(); ++i) {
+    float diff = weights[i] - reconstructed[i];
+    error += diff * diff;
+}
+error /= weights.size();
+
+if (error > 0.01f) {
+    std::cerr << "Warning: High quantization error: " << error << std::endl;
+    std::cerr << "Consider using INT8 or larger block size" << std::endl;
+}
+```
+
+### Slow Training
+
+**Problem**: QLoRA training is much slower than expected
+
+**Causes & Solutions**:
+1. **Dequantization overhead**: Normal 10-20% slowdown
+   - **Solution**: Use INT8 for faster dequantization
+2. **Small block size**: More blocks = more overhead
+   - **Solution**: Increase block size to 128 or 256
+3. **Layer-by-layer mode**: Can be slower but saves memory
+   - **Solution**: Disable if memory allows: `layer_by_layer = false`
+4. **Optimizer state**: Using large optimizer state
+   - **Solution**: Use SGD instead of Adam for less memory
+
+```cpp
+// Speed-optimized configuration (requires more memory)
+service_config.qlora.quantization_type = "int8";  // Faster dequantization
+service_config.qlora.block_size = 128;  // Fewer blocks
+service_config.qlora.layer_by_layer = false;  // Keep in memory
+service_config.default_hyperparameters.optimizer = "sgd";  // Smaller state
+```
+
+### Training Not Converging
+
+**Problem**: Loss not decreasing, model not learning
+
+**Solutions**:
+1. **Check learning rate**: May be too high or too low
+   - **Try**: `learning_rate = 0.0001` to `0.001`
+2. **Verify gradients**: Ensure backward pass is working
+3. **Check data quality**: Ensure training data is valid
+4. **Increase LoRA rank**: Try `rank = 16` or `32` for more capacity
+
+```cpp
+// Debugging non-convergence
+service.registerCallback([](const TrainingMetrics& metrics) {
+    std::cout << "Step " << metrics.current_step 
+              << " Loss: " << metrics.current_loss << std::endl;
+    
+    if (std::isnan(metrics.current_loss)) {
+        std::cerr << "ERROR: NaN loss detected!" << std::endl;
+        std::cerr << "  - Learning rate may be too high" << std::endl;
+        std::cerr << "  - Try: learning_rate = 0.0001" << std::endl;
+    }
+});
+```
+
+### Quantization Type Errors
+
+**Problem**: Invalid quantization type or unsupported configuration
+
+**Solution**: Verify supported quantization types
+
+```cpp
+// Supported types
+std::vector<std::string> supported = {"nf4", "int8", "none"};
+
+if (std::find(supported.begin(), supported.end(), 
+              config.quantization_type) == supported.end()) {
+    std::cerr << "Unsupported quantization type: " 
+              << config.quantization_type << std::endl;
+    std::cerr << "Supported types: nf4, int8, none" << std::endl;
+    config.quantization_type = "nf4";  // Default fallback
+}
+```
+
+### Memory Estimation Mismatch
+
+**Problem**: Actual memory usage differs from estimation
+
+**Explanation**: Estimation includes only model weights, not:
+- Optimizer states (can be 2x model size)
+- Activations (depends on batch size)
+- Gradients (equal to trainable parameters)
+
+**Solution**: Add buffer to estimates
+
+```cpp
+// More realistic memory estimation
+size_t model_memory = estimate_memory_usage(...);
+size_t optimizer_memory = model_memory * 2;  // Adam states
+size_t activation_memory = batch_size * seq_length * hidden_dim * sizeof(float) * num_layers;
+size_t total_estimated = model_memory + optimizer_memory + activation_memory;
+
+// Add 20% safety buffer
+total_estimated = static_cast<size_t>(total_estimated * 1.2f);
+```
+
 ## Examples
 
 See:
 - `tests/test_quantization.cpp` - Quantization tests and examples
-- `tests/test_qlora.cpp` - QLoRA training examples
-- `examples/qlora_finetuning/` - Complete training example (coming soon)
+- `tests/test_qlora.cpp` - QLoRA layer and model tests
+- `tests/test_qlora_training_integration.cpp` - End-to-end training service integration tests
+- Training service API examples above
+
+## Best Practices
+
+1. **Start with defaults**: NF4, block_size=64, double_quantization=true
+2. **Monitor memory**: Use callbacks to track memory usage during training
+3. **Validate accuracy**: Compare QLoRA results with full LoRA on small dataset
+4. **Tune hyperparameters**: Adjust learning rate and rank based on task
+5. **Use checkpointing**: Save adapters regularly to prevent data loss
+6. **Test configurations**: Try both NF4 and INT8 to find best trade-off
 
 ## References
 
