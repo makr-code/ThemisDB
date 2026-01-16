@@ -1,4 +1,6 @@
 #include "llm/lora_framework/quantized_model.h"
+#include "llm/gguf_loader.h"
+#include "llm/lora_framework/gguf_converter.h"
 
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
@@ -280,6 +282,130 @@ QuantizedModel convert_to_quantized(
     }
     
     spdlog::info("Quantization complete: {} bytes", model.memory_bytes());
+    
+    return model;
+}
+
+QuantizedModel load_from_gguf(
+    const std::string& gguf_path,
+    const QuantizedModelConfig* config) {
+    
+    spdlog::info("Loading GGUF model from: {}", gguf_path);
+    
+    // Parse GGUF file
+    llm::GGUFLoader loader;
+    if (!loader.parseFile(gguf_path)) {
+        throw std::runtime_error("Failed to parse GGUF file: " + gguf_path);
+    }
+    
+    const auto& metadata = loader.getMetadata();
+    spdlog::info("GGUF version: {}, architecture: {}, tensors: {}",
+                 metadata.version, metadata.architecture, metadata.tensors.size());
+    
+    // Determine quantization config
+    QuantizedModelConfig model_config;
+    if (config) {
+        model_config = *config;
+    } else {
+        // Infer from first tensor type
+        if (!metadata.tensors.empty()) {
+            auto internal_type = GGUFConverter::getInternalType(metadata.tensors[0].type);
+            model_config.quantization_type = internal_type;
+        }
+    }
+    
+    // Create quantized model
+    QuantizedModel model(model_config);
+    
+    // Load and convert each tensor
+    size_t converted = 0;
+    size_t skipped = 0;
+    
+    for (const auto& tensor_info : metadata.tensors) {
+        // Check if conversion is supported
+        if (!GGUFConverter::isSupported(tensor_info.type)) {
+            spdlog::debug("Skipping unsupported tensor: {} (type: {})",
+                         tensor_info.name, tensor_info.type_string());
+            skipped++;
+            continue;
+        }
+        
+        // Get tensor data from mmap
+        void* tensor_data = loader.mmapTensor(tensor_info.name);
+        if (!tensor_data) {
+            spdlog::warn("Failed to mmap tensor: {}", tensor_info.name);
+            skipped++;
+            continue;
+        }
+        
+        try {
+            // Convert based on type - currently only full precision (F16/F32) can be
+            // directly converted and added to the model via add_layer()
+            // Pre-quantized formats (Q4_K_M, Q8_0) are loaded but need further
+            // integration work for direct use
+            
+            if (tensor_info.type == llm::GGMLType::F16 || 
+                tensor_info.type == llm::GGMLType::F32) {
+                // Full precision - convert to FP32 and quantize via normal path
+                std::vector<float> fp32_data;
+                if (tensor_info.type == llm::GGMLType::F16) {
+                    fp32_data = GGUFConverter::convertF16(tensor_data, tensor_info);
+                } else {
+                    fp32_data = GGUFConverter::convertF32(tensor_data, tensor_info);
+                }
+                
+                // Create Tensor and add to model
+                std::vector<size_t> shape;
+                for (auto dim : tensor_info.shape) {
+                    shape.push_back(static_cast<size_t>(dim));
+                }
+                Tensor tensor(shape);
+                tensor.data() = std::move(fp32_data);
+                
+                model.add_layer(tensor_info.name, tensor);
+                spdlog::debug("Loaded FP tensor: {} -> quantized", tensor_info.name);
+                converted++;
+                
+            } else if (tensor_info.type == llm::GGMLType::Q4_K || 
+                      tensor_info.type == llm::GGMLType::Q8_0) {
+                // Pre-quantized formats - for now, dequantize and re-quantize
+                // Future optimization: Direct use of converted QuantizedTensor
+                std::vector<float> fp32_data;
+                
+                if (tensor_info.type == llm::GGMLType::Q4_K) {
+                    fp32_data = GGUFConverter::dequantizeQ4KM(tensor_data, 
+                        GGUFConverter::calculateElements(tensor_info.shape));
+                } else {
+                    fp32_data = GGUFConverter::dequantizeQ8_0(tensor_data,
+                        GGUFConverter::calculateElements(tensor_info.shape));
+                }
+                
+                // Create Tensor and add to model (will be re-quantized)
+                std::vector<size_t> shape;
+                for (auto dim : tensor_info.shape) {
+                    shape.push_back(static_cast<size_t>(dim));
+                }
+                Tensor tensor(shape);
+                tensor.data() = std::move(fp32_data);
+                
+                model.add_layer(tensor_info.name, tensor);
+                spdlog::debug("Loaded quantized tensor: {} -> dequantized -> re-quantized",
+                             tensor_info.name);
+                converted++;
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to convert tensor {}: {}", tensor_info.name, e.what());
+            skipped++;
+        }
+    }
+    
+    spdlog::info("GGUF load complete: {} tensors converted, {} skipped",
+                 converted, skipped);
+    
+    if (converted == 0) {
+        throw std::runtime_error("No tensors could be converted from GGUF file");
+    }
     
     return model;
 }
