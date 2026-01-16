@@ -1,244 +1,312 @@
 #pragma once
 
+#include <string>
+#include <memory>
 #include <cmath>
 #include <algorithm>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {
 namespace lora {
 
+using json = nlohmann::json;
+
+/**
+ * @brief Learning rate scheduler type
+ */
+enum class SchedulerType {
+    CONSTANT,               // Constant learning rate
+    LINEAR,                 // Linear decay
+    COSINE,                 // Cosine annealing
+    COSINE_WITH_RESTARTS,   // Cosine with warm restarts
+    POLYNOMIAL,             // Polynomial decay
+    STEP,                   // Step decay
+    EXPONENTIAL,            // Exponential decay
+    WARMUP_CONSTANT,        // Linear warmup then constant
+    WARMUP_COSINE,          // Linear warmup then cosine
+    WARMUP_LINEAR           // Linear warmup then linear decay
+};
+
+/**
+ * @brief Configuration for learning rate scheduler
+ */
+struct LRSchedulerConfig {
+    SchedulerType type = SchedulerType::CONSTANT;
+    float base_lr = 1e-4f;              // Base learning rate
+    float min_lr = 1e-6f;               // Minimum learning rate
+    float max_lr = 1e-3f;               // Maximum learning rate (for warmup)
+    int warmup_steps = 0;               // Number of warmup steps
+    int total_steps = 1000;             // Total training steps
+    float decay_power = 1.0f;           // Power for polynomial decay
+    float step_size = 100;              // Step size for step decay
+    float gamma = 0.1f;                 // Multiplicative factor for step/exp decay
+    int num_cycles = 1;                 // Number of cycles for cosine with restarts
+    
+    json toJSON() const {
+        return json{
+            {"type", static_cast<int>(type)},
+            {"base_lr", base_lr},
+            {"min_lr", min_lr},
+            {"max_lr", max_lr},
+            {"warmup_steps", warmup_steps},
+            {"total_steps", total_steps},
+            {"decay_power", decay_power},
+            {"step_size", step_size},
+            {"gamma", gamma},
+            {"num_cycles", num_cycles}
+        };
+    }
+    
+    static LRSchedulerConfig fromJSON(const json& j) {
+        LRSchedulerConfig config;
+        if (j.contains("type")) config.type = static_cast<SchedulerType>(j["type"].get<int>());
+        if (j.contains("base_lr")) config.base_lr = j["base_lr"];
+        if (j.contains("min_lr")) config.min_lr = j["min_lr"];
+        if (j.contains("max_lr")) config.max_lr = j["max_lr"];
+        if (j.contains("warmup_steps")) config.warmup_steps = j["warmup_steps"];
+        if (j.contains("total_steps")) config.total_steps = j["total_steps"];
+        if (j.contains("decay_power")) config.decay_power = j["decay_power"];
+        if (j.contains("step_size")) config.step_size = j["step_size"];
+        if (j.contains("gamma")) config.gamma = j["gamma"];
+        if (j.contains("num_cycles")) config.num_cycles = j["num_cycles"];
+        return config;
+    }
+};
+
 /**
  * @brief Base class for learning rate schedulers
- * 
- * Provides interface for adjusting learning rate during training.
  */
 class LRScheduler {
 public:
     virtual ~LRScheduler() = default;
     
     /**
-     * @brief Get learning rate for given step
+     * @brief Get learning rate for current step
      * @param step Current training step
-     * @return Learning rate value
+     * @return Learning rate
      */
     virtual float get_lr(int step) const = 0;
     
     /**
-     * @brief Get base learning rate
+     * @brief Get scheduler type
+     * @return Scheduler type
      */
-    virtual float base_lr() const = 0;
+    virtual SchedulerType type() const = 0;
+    
+    /**
+     * @brief Get configuration
+     * @return Scheduler configuration
+     */
+    virtual LRSchedulerConfig config() const = 0;
 };
 
 /**
- * @brief Constant learning rate (no scheduling)
+ * @brief Constant learning rate scheduler
  */
 class ConstantLR : public LRScheduler {
 public:
-    explicit ConstantLR(float learning_rate)
-        : learning_rate_(learning_rate) {}
+    explicit ConstantLR(float lr) : lr_(lr) {}
     
-    float get_lr(int step) const override {
-        (void)step; // Unused
-        return learning_rate_;
-    }
-    
-    float base_lr() const override {
-        return learning_rate_;
+    float get_lr(int step) const override { return lr_; }
+    SchedulerType type() const override { return SchedulerType::CONSTANT; }
+    LRSchedulerConfig config() const override {
+        LRSchedulerConfig cfg;
+        cfg.type = SchedulerType::CONSTANT;
+        cfg.base_lr = lr_;
+        return cfg;
     }
 
 private:
-    float learning_rate_;
+    float lr_;
 };
 
 /**
- * @brief Linear warmup learning rate scheduler
- * 
- * Linearly increases learning rate from 0 to base_lr over warmup_steps,
- * then keeps it constant.
+ * @brief Linear decay scheduler
  */
-class LinearWarmupLR : public LRScheduler {
+class LinearLR : public LRScheduler {
 public:
-    /**
-     * @brief Construct linear warmup scheduler
-     * @param base_lr Target learning rate after warmup
-     * @param warmup_steps Number of warmup steps
-     */
-    explicit LinearWarmupLR(float base_lr, int warmup_steps)
-        : base_lr_(base_lr)
-        , warmup_steps_(warmup_steps) {}
+    LinearLR(float start_lr, float end_lr, int total_steps)
+        : start_lr_(start_lr), end_lr_(end_lr), total_steps_(total_steps) {}
     
-    float get_lr(int step) const override {
-        if (step < warmup_steps_) {
-            // Linear warmup: lr = base_lr * (step / warmup_steps)
-            return base_lr_ * (static_cast<float>(step) / static_cast<float>(warmup_steps_));
-        }
-        return base_lr_;
-    }
-    
-    float base_lr() const override {
-        return base_lr_;
-    }
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::LINEAR; }
+    LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
-    int warmup_steps_;
+    float start_lr_;
+    float end_lr_;
+    int total_steps_;
 };
 
 /**
- * @brief Cosine annealing learning rate scheduler
- * 
- * Smoothly decreases learning rate from base_lr to 0 following cosine curve.
- * Formula: lr = base_lr * 0.5 * (1 + cos(π * step / total_steps))
+ * @brief Cosine annealing scheduler
  */
 class CosineAnnealingLR : public LRScheduler {
 public:
-    /**
-     * @brief Construct cosine annealing scheduler
-     * @param base_lr Initial learning rate
-     * @param total_steps Total number of training steps
-     * @param min_lr Minimum learning rate (default 0)
-     */
-    explicit CosineAnnealingLR(float base_lr, int total_steps, float min_lr = 0.0f)
-        : base_lr_(base_lr)
-        , total_steps_(total_steps)
-        , min_lr_(min_lr) {}
+    CosineAnnealingLR(float max_lr, float min_lr, int total_steps)
+        : max_lr_(max_lr), min_lr_(min_lr), total_steps_(total_steps) {}
     
-    float get_lr(int step) const override {
-        if (step >= total_steps_) {
-            return min_lr_;
-        }
-        
-        // Cosine annealing: lr = min_lr + (base_lr - min_lr) * 0.5 * (1 + cos(π * step / total_steps))
-        float progress = static_cast<float>(step) / static_cast<float>(total_steps_);
-        float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
-        return min_lr_ + (base_lr_ - min_lr_) * cosine_decay;
-    }
-    
-    float base_lr() const override {
-        return base_lr_;
-    }
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::COSINE; }
+    LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
-    int total_steps_;
+    float max_lr_;
     float min_lr_;
+    int total_steps_;
 };
 
 /**
- * @brief Cosine annealing with linear warmup
- * 
- * Combines linear warmup with cosine annealing decay.
+ * @brief Cosine annealing with warm restarts
  */
-class CosineAnnealingWarmupLR : public LRScheduler {
+class CosineAnnealingWarmRestartsLR : public LRScheduler {
 public:
-    /**
-     * @brief Construct cosine annealing with warmup scheduler
-     * @param base_lr Target learning rate after warmup
-     * @param warmup_steps Number of warmup steps
-     * @param total_steps Total number of training steps
-     * @param min_lr Minimum learning rate (default 0)
-     */
-    explicit CosineAnnealingWarmupLR(
-        float base_lr,
-        int warmup_steps,
-        int total_steps,
-        float min_lr = 0.0f
-    )
-        : base_lr_(base_lr)
-        , warmup_steps_(warmup_steps)
-        , total_steps_(total_steps)
-        , min_lr_(min_lr) {}
+    CosineAnnealingWarmRestartsLR(float max_lr, float min_lr, int period, int num_cycles = 1)
+        : max_lr_(max_lr), min_lr_(min_lr), period_(period), num_cycles_(num_cycles) {}
     
-    float get_lr(int step) const override {
-        // Warmup phase
-        if (step < warmup_steps_) {
-            return base_lr_ * (static_cast<float>(step) / static_cast<float>(warmup_steps_));
-        }
-        
-        // Cosine annealing phase
-        int decay_steps = total_steps_ - warmup_steps_;
-        int current_decay_step = step - warmup_steps_;
-        
-        if (current_decay_step >= decay_steps) {
-            return min_lr_;
-        }
-        
-        float progress = static_cast<float>(current_decay_step) / static_cast<float>(decay_steps);
-        float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
-        return min_lr_ + (base_lr_ - min_lr_) * cosine_decay;
-    }
-    
-    float base_lr() const override {
-        return base_lr_;
-    }
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::COSINE_WITH_RESTARTS; }
+    LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
-    int warmup_steps_;
-    int total_steps_;
+    float max_lr_;
     float min_lr_;
+    int period_;
+    int num_cycles_;
 };
 
 /**
- * @brief Step decay learning rate scheduler
- * 
- * Multiplies learning rate by gamma every step_size steps.
+ * @brief Polynomial decay scheduler
+ */
+class PolynomialLR : public LRScheduler {
+public:
+    PolynomialLR(float start_lr, float end_lr, int total_steps, float power = 1.0f)
+        : start_lr_(start_lr), end_lr_(end_lr), total_steps_(total_steps), power_(power) {}
+    
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::POLYNOMIAL; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float start_lr_;
+    float end_lr_;
+    int total_steps_;
+    float power_;
+};
+
+/**
+ * @brief Step decay scheduler
  */
 class StepLR : public LRScheduler {
 public:
-    /**
-     * @brief Construct step decay scheduler
-     * @param base_lr Initial learning rate
-     * @param step_size Number of steps between decay
-     * @param gamma Multiplicative factor (default 0.1)
-     */
-    explicit StepLR(float base_lr, int step_size, float gamma = 0.1f)
-        : base_lr_(base_lr)
-        , step_size_(step_size)
-        , gamma_(gamma) {}
+    StepLR(float initial_lr, int step_size, float gamma = 0.1f)
+        : initial_lr_(initial_lr), step_size_(step_size), gamma_(gamma) {}
     
-    float get_lr(int step) const override {
-        int num_decays = step / step_size_;
-        return base_lr_ * std::pow(gamma_, num_decays);
-    }
-    
-    float base_lr() const override {
-        return base_lr_;
-    }
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::STEP; }
+    LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
+    float initial_lr_;
     int step_size_;
     float gamma_;
 };
 
 /**
- * @brief Exponential decay learning rate scheduler
- * 
- * Exponentially decays learning rate: lr = base_lr * gamma^step
+ * @brief Exponential decay scheduler
  */
 class ExponentialLR : public LRScheduler {
 public:
-    /**
-     * @brief Construct exponential decay scheduler
-     * @param base_lr Initial learning rate
-     * @param gamma Decay factor per step (should be < 1)
-     */
-    explicit ExponentialLR(float base_lr, float gamma)
-        : base_lr_(base_lr)
-        , gamma_(gamma) {}
+    ExponentialLR(float initial_lr, float gamma = 0.95f)
+        : initial_lr_(initial_lr), gamma_(gamma) {}
     
-    float get_lr(int step) const override {
-        return base_lr_ * std::pow(gamma_, step);
-    }
-    
-    float base_lr() const override {
-        return base_lr_;
-    }
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::EXPONENTIAL; }
+    LRSchedulerConfig config() const override;
 
 private:
-    float base_lr_;
+    float initial_lr_;
     float gamma_;
+};
+
+/**
+ * @brief Warmup with constant learning rate
+ */
+class WarmupConstantLR : public LRScheduler {
+public:
+    WarmupConstantLR(float target_lr, int warmup_steps)
+        : target_lr_(target_lr), warmup_steps_(warmup_steps) {}
+    
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::WARMUP_CONSTANT; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float target_lr_;
+    int warmup_steps_;
+};
+
+/**
+ * @brief Warmup with cosine annealing
+ */
+class WarmupCosineLR : public LRScheduler {
+public:
+    WarmupCosineLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
+        : max_lr_(max_lr), min_lr_(min_lr), 
+          warmup_steps_(warmup_steps), total_steps_(total_steps) {}
+    
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::WARMUP_COSINE; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float max_lr_;
+    float min_lr_;
+    int warmup_steps_;
+    int total_steps_;
+};
+
+/**
+ * @brief Warmup with linear decay
+ */
+class WarmupLinearLR : public LRScheduler {
+public:
+    WarmupLinearLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
+        : max_lr_(max_lr), min_lr_(min_lr), 
+          warmup_steps_(warmup_steps), total_steps_(total_steps) {}
+    
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::WARMUP_LINEAR; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float max_lr_;
+    float min_lr_;
+    int warmup_steps_;
+    int total_steps_;
+};
+
+/**
+ * @brief Factory for creating learning rate schedulers
+ */
+class LRSchedulerFactory {
+public:
+    /**
+     * @brief Create scheduler from configuration
+     * @param config Scheduler configuration
+     * @return Unique pointer to scheduler
+     */
+    static std::unique_ptr<LRScheduler> create(const LRSchedulerConfig& config);
+    
+    /**
+     * @brief Create common scheduler presets
+     */
+    static std::unique_ptr<LRScheduler> createConstant(float lr);
+    static std::unique_ptr<LRScheduler> createLinearDecay(float start_lr, float end_lr, int steps);
+    static std::unique_ptr<LRScheduler> createCosineAnnealing(float max_lr, float min_lr, int steps);
+    static std::unique_ptr<LRScheduler> createWarmupCosine(float max_lr, float min_lr, 
+                                                            int warmup_steps, int total_steps);
 };
 
 } // namespace lora
