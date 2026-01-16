@@ -7,6 +7,7 @@
 #include <cmath>
 #include <unordered_set>
 #include <fstream>
+#include <iostream>
 
 namespace themis {
 namespace analytics {
@@ -16,20 +17,41 @@ namespace analytics {
 NlpTextAnalyzer::NlpTextAnalyzer(const Config& config)
     : config_(config)
 {
-    // Try to load stop words from YAML files if enabled
-    if (config_.auto_load_stopwords && !config_.stopwords_directory.empty()) {
-        size_t loaded = loadStopWordsFromDirectory(config_.stopwords_directory);
-        if (loaded == 0) {
-            // Fallback to hard-coded stop words if YAML loading fails
+    try {
+        // Try to load stop words from YAML files if enabled
+        if (config_.auto_load_stopwords && !config_.stopwords_directory.empty()) {
+            try {
+                size_t loaded = loadStopWordsFromDirectory(config_.stopwords_directory);
+                if (loaded == 0) {
+                    // Fallback to hard-coded stop words if YAML loading fails
+                    initializeStopWords();
+                }
+            } catch (const std::exception& e) {
+                // Log to stderr and fall back to hard-coded stop words
+                std::cerr << "WARNING: NlpTextAnalyzer failed to load stopwords from " 
+                          << config_.stopwords_directory << ": " << e.what() 
+                          << " - using hard-coded stopwords" << std::endl;
+                initializeStopWords();
+            }
+        } else {
+            // Use hard-coded stop words
             initializeStopWords();
         }
-    } else {
-        // Use hard-coded stop words
-        initializeStopWords();
+        
+        initializeSentimentLexicon();
+        initializeEntityPatterns();
+    } catch (const std::exception& e) {
+        // Catch any exception during initialization to prevent crash
+        std::cerr << "ERROR: NlpTextAnalyzer initialization failed: " << e.what() << std::endl;
+        // Initialize with minimal defaults
+        try {
+            initializeStopWords();
+            initializeSentimentLexicon();
+            initializeEntityPatterns();
+        } catch (...) {
+            std::cerr << "CRITICAL: NlpTextAnalyzer minimal initialization also failed!" << std::endl;
+        }
     }
-    
-    initializeSentimentLexicon();
-    initializeEntityPatterns();
 }
 
 void NlpTextAnalyzer::initializeStopWords() {

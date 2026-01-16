@@ -4,16 +4,20 @@
 
 namespace themis {
 
-// Static NLP analyzer instance for query analysis (PR #317)
-static themis::analytics::NlpTextAnalyzer g_nlp_analyzer;
+// Lazy-initialized NLP analyzer (thread-safe in C++11+)
+static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
+    static themis::analytics::NlpTextAnalyzer instance;
+    return instance;
+}
 
 std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     // NLP Pre-processing (PR #317 Integration Phase 1)
     // This provides query analysis for optimization and caching
-    std::string normalized_query = g_nlp_analyzer.normalizeQuery(aql);
-    double query_complexity = g_nlp_analyzer.estimateQueryComplexity(aql);
-    auto query_hints = g_nlp_analyzer.extractQueryHints(aql);
-    auto suggested_indexes = g_nlp_analyzer.suggestIndexes(aql);
+    auto& nlp = getNlpAnalyzer();
+    std::string normalized_query = nlp.normalizeQuery(aql);
+    double query_complexity = nlp.estimateQueryComplexity(aql);
+    auto query_hints = nlp.extractQueryHints(aql);
+    auto suggested_indexes = nlp.suggestIndexes(aql);
     
     // Parse AQL query
     query::AQLParser parser;

@@ -383,7 +383,7 @@ BuildConfiguration getBuildConfiguration() {
 #endif
 
     // Performance Optimizations
-#ifdef THEMIS_USE_MIMALLOC
+#ifdef THEMIS_ENABLE_MIMALLOC
     config.modules.push_back({
         "mimalloc Allocator",
         true,
@@ -621,10 +621,10 @@ BuildConfiguration getBuildConfiguration() {
 #else
         { "THEMIS_ENABLE_WEBSOCKET", false },
 #endif
-#ifdef THEMIS_USE_MIMALLOC
-        { "THEMIS_USE_MIMALLOC", true },
+#ifdef THEMIS_ENABLE_MIMALLOC
+        { "THEMIS_ENABLE_MIMALLOC", true },
 #else
-        { "THEMIS_USE_MIMALLOC", false },
+        { "THEMIS_ENABLE_MIMALLOC", false },
 #endif
 #ifdef THEMIS_ENABLE_HUGE_PAGES
         { "THEMIS_ENABLE_HUGE_PAGES", true },

@@ -9,11 +9,11 @@ endif()
 
 message(STATUS "Configuring ThemisDB test suite")
 
-# Ensure consistent MSVC Runtime for x64-windows-static triplet
+# Ensure consistent MSVC Runtime with vcpkg triplet
+# NOTE: x64-windows uses /MD (dynamic runtime), x64-windows-static uses /MT (static runtime)
+# Don't override CMAKE_MSVC_RUNTIME_LIBRARY here - let it match the vcpkg triplet
 if(MSVC)
-    # Force static runtime linking for consistent behavior with gtest
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    message(STATUS "MSVC Runtime: ${CMAKE_MSVC_RUNTIME_LIBRARY}")
+    message(STATUS "MSVC Runtime: ${CMAKE_MSVC_RUNTIME_LIBRARY} (from vcpkg triplet)")
 endif()
 
 # Optional toggles for unstable/legacy suites
@@ -144,13 +144,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_snapshot_manager.cpp")
     
     add_executable(test_snapshot_manager
         test_snapshot_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/snapshot_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/cdc/changefeed.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
     )
     
     target_link_libraries(test_snapshot_manager PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         RocksDB::rocksdb
@@ -176,14 +174,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager.cpp")
     
     add_executable(test_pitr_manager
         test_pitr_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/pitr_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/snapshot_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/cdc/changefeed.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
     )
     
     target_link_libraries(test_pitr_manager PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         RocksDB::rocksdb

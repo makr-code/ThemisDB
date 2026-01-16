@@ -1,6 +1,8 @@
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include <algorithm>
+#include <iostream>
+#include <stdexcept>
 
 namespace themis {
 namespace errors {
@@ -24,7 +26,15 @@ ErrorRegistry& ErrorRegistry::getInstance() {
 }
 
 ErrorRegistry::ErrorRegistry() {
-    registerDefaultErrors();
+    try {
+        registerDefaultErrors();
+    } catch (const std::exception& ex) {
+        // Avoid throwing from constructor during static initialization
+        // Log to stderr directly to avoid logger initialization issues
+        std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "ERROR: ErrorRegistry initialization failed with unknown exception" << std::endl;
+    }
 }
 
 void ErrorRegistry::registerDefaultErrors() {

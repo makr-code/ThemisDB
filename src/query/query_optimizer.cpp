@@ -10,8 +10,11 @@
 
 namespace themis {
 
-// Static NLP analyzer for query optimization (PR #317)
-static themis::analytics::NlpTextAnalyzer g_optimizer_nlp;
+// Lazy-initialized NLP analyzer (thread-safe in C++11+)
+static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
+    static themis::analytics::NlpTextAnalyzer instance;
+    return instance;
+}
 
 QueryOptimizer::QueryOptimizer(SecondaryIndexManager& secIdx) : secIdx_(secIdx) {}
 
@@ -54,14 +57,15 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
     
     // 2. Add NLP analysis if query text provided
     if (!original_query_text.empty()) {
+        auto& nlp = getOptimizerNlp();
         // Estimate query complexity
-        plan.nlp_complexity = g_optimizer_nlp.estimateQueryComplexity(original_query_text);
+        plan.nlp_complexity = nlp.estimateQueryComplexity(original_query_text);
         
         // Extract semantic hints
-        plan.nlp_hints = g_optimizer_nlp.extractQueryHints(original_query_text);
+        plan.nlp_hints = nlp.extractQueryHints(original_query_text);
         
         // Get index suggestions
-        plan.nlp_suggested_indexes = g_optimizer_nlp.suggestIndexes(original_query_text);
+        plan.nlp_suggested_indexes = nlp.suggestIndexes(original_query_text);
         
         // Note: In future phases, we can use these hints to:
         // - Apply aggregation push-down if hints["aggregation"] is present

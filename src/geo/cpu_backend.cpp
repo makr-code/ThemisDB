@@ -1,6 +1,9 @@
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 
+#include <iostream>
+#include <stdexcept>
+
 namespace themis { namespace geo {
 
 class CpuExactBackend final : public ISpatialComputeBackend {
@@ -29,8 +32,14 @@ struct NullRegistry : public IGeoRegistry {
 
 static void register_builtin_cpu_backend() {
 #ifdef THEMIS_GEO_ENABLED
-    NullRegistry reg;
-    reg.registerBackend(std::make_unique<CpuExactBackend>());
+    try {
+        NullRegistry reg;
+        reg.registerBackend(std::make_unique<CpuExactBackend>());
+    } catch (const std::exception& ex) {
+        std::cerr << "WARNING: CPU geometry backend registration failed: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "WARNING: CPU geometry backend registration failed with unknown exception" << std::endl;
+    }
 #endif
 }
 

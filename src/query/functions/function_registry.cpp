@@ -44,45 +44,54 @@
 #include "query/functions/lora_functions.h"
 #endif
 
+#include <iostream>
+#include <stdexcept>
+
 namespace themis {
 namespace query {
 namespace functions {
 
 void registerBuiltinFunctions() {
-    auto& registry = FunctionRegistry::instance();
-    
-    // Core data manipulation functions
-    registerStringFunctions(registry);
-    registerMathFunctions(registry);
-    registerArrayFunctions(registry);
-    registerDateFunctions(registry);
-    registerDocumentFunctions(registry);
-    
-    // Multi-model functions
-    registerGeoFunctions(registry);         // Spatial/GIS operations
-    registerCrsFunctions(registry);         // Coordinate transformations (ETRS89, UTM, etc.)
-    registerVectorFunctions(registry);      // ML embeddings & similarity
-    registerGraphFunctions(registry);       // Graph traversal & analysis
-    
-    // SQL-compatible functions
-    registerRelationalFunctions(registry);  // Joins, aggregation, window functions
-    
-    // File/storage functions
-    registerFileFunctions(registry);        // Path manipulation, MIME types
-    
-    // Collection and logical functions (JSON-native, Excel-style)
-    // Includes: ARRAY, DICT, JSON, HOLIDAYS, AND, OR, IF, SWITCH, ALL, ANY, etc.
-    registerCollectionFunctions(registry);
-    
-    // Security functions (validation, sanitization, masking)
-    // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
-    registerSecurityFunctions();
-    
+    try {
+        auto& registry = FunctionRegistry::instance();
+        
+        // Core data manipulation functions
+        registerStringFunctions(registry);
+        registerMathFunctions(registry);
+        registerArrayFunctions(registry);
+        registerDateFunctions(registry);
+        registerDocumentFunctions(registry);
+        
+        // Multi-model functions
+        registerGeoFunctions(registry);         // Spatial/GIS operations
+        registerCrsFunctions(registry);         // Coordinate transformations (ETRS89, UTM, etc.)
+        registerVectorFunctions(registry);      // ML embeddings & similarity
+        registerGraphFunctions(registry);       // Graph traversal & analysis
+        
+        // SQL-compatible functions
+        registerRelationalFunctions(registry);  // Joins, aggregation, window functions
+        
+        // File/storage functions
+        registerFileFunctions(registry);        // Path manipulation, MIME types
+        
+        // Collection and logical functions (JSON-native, Excel-style)
+        // Includes: ARRAY, DICT, JSON, HOLIDAYS, AND, OR, IF, SWITCH, ALL, ANY, etc.
+        registerCollectionFunctions(registry);
+        
+        // Security functions (validation, sanitization, masking)
+        // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
+        registerSecurityFunctions();
+        
 #ifdef THEMIS_ENABLE_LLM
-    // LoRA functions (LLM adapter management and operations)
-    // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
-    registerLoRAFunctions(registry);
+        // LoRA functions (LLM adapter management and operations)
+        // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
+        registerLoRAFunctions(registry);
 #endif
+    } catch (const std::exception& ex) {
+        // Re-throw with more context - will be caught by FunctionRegistryInitializer
+        std::cerr << "registerBuiltinFunctions() exception: " << ex.what() << std::endl;
+        throw std::runtime_error(std::string("Failed to register builtin functions: ") + ex.what());
+    }
 }
 
 } // namespace functions

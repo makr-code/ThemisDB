@@ -1,5 +1,8 @@
 #include "geo/spatial_backend.h"
 
+#include <iostream>
+#include <stdexcept>
+
 #ifdef THEMIS_GEO_BOOST_BACKEND
 // Check if Boost Geometry headers are available
 #if __has_include(<boost/geometry/geometries/point_xy.hpp>)
@@ -8,6 +11,7 @@
 #include <boost/geometry/geometries/linestring.hpp>
 #include <boost/geometry/algorithms/intersects.hpp>
 #include <boost/geometry/algorithms/within.hpp>
+
 #include <boost/geometry/algorithms/touches.hpp>
 #include <boost/geometry/algorithms/equals.hpp>
 #define BOOST_GEO_AVAILABLE 1
@@ -137,7 +141,14 @@ public:
 static std::unique_ptr<ISpatialComputeBackend> g_boost_backend;
 
 static void register_boost_backend() {
-    g_boost_backend = std::make_unique<BoostCpuExactBackend>();
+    try {
+        g_boost_backend = std::make_unique<BoostCpuExactBackend>();
+    } catch (const std::exception& ex) {
+        // Log to stderr - avoid logger during static init
+        std::cerr << "WARNING: Boost geometry backend registration failed: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "WARNING: Boost geometry backend registration failed with unknown exception" << std::endl;
+    }
 }
 
 // Auto-register on module load

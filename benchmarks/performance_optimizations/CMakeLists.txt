@@ -21,16 +21,12 @@ function(add_perf_benchmark name)
         PRIVATE 
             benchmark::benchmark
             benchmark::benchmark_main
+            themis_core  # Link against themis_core to get compile definitions
     )
     target_include_directories(${name} 
         PRIVATE 
             ${CMAKE_SOURCE_DIR}/include
     )
-    
-    # Link performance optimization libraries if enabled
-    if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-        target_link_libraries(${name} PRIVATE mimalloc)
-    endif()
     
     set_target_properties(${name} PROPERTIES
         CXX_STANDARD 20

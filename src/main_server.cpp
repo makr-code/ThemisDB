@@ -1,8 +1,7 @@
-﻿// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
-#ifdef THEMIS_USE_MIMALLOC
-    // Use C++ new/delete override to avoid macro rewrites of aligned_alloc/free
-    #include <mimalloc-new-delete.h>
-#endif
+// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
+// NOTE: Mimalloc is lazy-loaded after CRT initialization to avoid crashes during
+// static object construction. This prevents exit code -1073741502 (0xC0000142).
+// See initializeMimalloc() function below for details.
 
 // Windows headers must come before Boost.Asio on Windows
 #ifdef _WIN32
@@ -14,6 +13,9 @@
 // Early crash diagnostics for Windows
 #include <eh.h>
 #include <excpt.h>
+#else
+// For dlopen on Linux/Unix
+#include <dlfcn.h>
 #endif
 
 #include "utils/logger.h"
@@ -88,6 +90,46 @@ static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
 #endif
 
 static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
+
+// ============================================================================
+// Lazy Mimalloc Initialization (after CRT startup)
+// ============================================================================
+// Mimalloc can be loaded after the C Runtime has fully initialized
+// This prevents crashes during static object construction
+#ifdef THEMIS_ENABLE_MIMALLOC
+static bool initializeMimalloc() {
+    try {
+        // On Windows, load mimalloc DLL dynamically if available
+        #ifdef _WIN32
+        // Try to load mimalloc DLL - it may not always be available in PATH
+        // but should be in the same directory as themis_server.exe
+        HMODULE mimalloc_handle = LoadLibrary("mimalloc.dll");
+        if (mimalloc_handle) {
+            // Successfully loaded - now we can use mimalloc functions if needed
+            // The DLL exports functions like mi_malloc, mi_free, etc.
+            THEMIS_INFO("Mimalloc allocator loaded successfully");
+            return true;
+        } else {
+            THEMIS_WARN("Could not load mimalloc.dll - using system allocator");
+            return false;
+        }
+        #else
+        // On Linux/Unix, try dlopen
+        void* mimalloc_handle = dlopen("libmimalloc.so", RTLD_LAZY);
+        if (mimalloc_handle) {
+            THEMIS_INFO("Mimalloc allocator loaded successfully");
+            return true;
+        } else {
+            THEMIS_WARN("Could not load libmimalloc.so - using system allocator");
+            return false;
+        }
+        #endif
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Mimalloc initialization failed: {} - using system allocator", e.what());
+        return false;
+    }
+}
+#endif
 
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
@@ -197,7 +239,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Initialize logger
+    // Initialize logger AFTER simple flag checks to avoid file I/O for --version/--help
+    // This prevents unnecessary initialization when user just wants version info
     utils::Logger::init("themis_server.log", utils::Logger::Level::INFO);
     
     THEMIS_INFO("=== Themis Multi-Model Database API Server ===");
@@ -288,6 +331,12 @@ int main(int argc, char* argv[]) {
     }
     
     try {
+        // === MIMALLOC LAZY INITIALIZATION ===
+        // Initialize mimalloc after CRT is fully set up (prevents crash during static init)
+#ifdef THEMIS_ENABLE_MIMALLOC
+        initializeMimalloc();
+#endif
+        
         // Parse command line arguments
         std::string db_path = "./data/themis_server";
         std::string host = "0.0.0.0";

@@ -148,10 +148,45 @@ option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) wit
 
 # Performance Optimization Options (Research-based, see docs/de/research/)
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
+# NOTE: These are automatically enabled when building tests/benchmarks for accurate performance measurement
 option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
 option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
 option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
 option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
+
+# Auto-enable Phase 1 performance features for tests/benchmarks
+if(THEMIS_BUILD_TESTS OR THEMIS_BUILD_BENCHMARKS)
+    if(NOT DEFINED THEMIS_PERF_AUTO_ENABLE)
+        set(THEMIS_PERF_AUTO_ENABLE ON CACHE BOOL "Auto-enable performance features for tests/benchmarks")
+    endif()
+    
+    if(THEMIS_PERF_AUTO_ENABLE)
+        message(STATUS "Auto-enabling Phase 1 performance optimizations for tests/benchmarks")
+        message(STATUS "  (Disable with: cmake -DTHEMIS_PERF_AUTO_ENABLE=OFF)")
+        
+        # Only auto-enable if not explicitly set by user
+        if(NOT THEMIS_ENABLE_MIMALLOC)
+            set(THEMIS_ENABLE_MIMALLOC ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_MIMALLOC=ON (auto)")
+        endif()
+        
+        if(NOT THEMIS_ENABLE_RCU_INDEX)
+            set(THEMIS_ENABLE_RCU_INDEX ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_RCU_INDEX=ON (auto)")
+        endif()
+        
+        if(NOT THEMIS_ENABLE_LIRS_CACHE)
+            set(THEMIS_ENABLE_LIRS_CACHE ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_LIRS_CACHE=ON (auto)")
+        endif()
+        
+        # Huge Pages nur auf Linux auto-enablen
+        if(NOT WIN32 AND NOT THEMIS_ENABLE_HUGE_PAGES)
+            set(THEMIS_ENABLE_HUGE_PAGES ON CACHE BOOL "Auto-enabled for tests/benchmarks (Linux only)" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_HUGE_PAGES=ON (auto, Linux)")
+        endif()
+    endif()
+endif()
 
 # Phase 2: Medium-Term - Higher impact, medium effort optimizations (from PR #156/#157 research)
 # Medium-term optimizations (3-6 months effort, +100-200% overall performance)
@@ -182,7 +217,7 @@ if(THEMIS_ENABLE_MIMALLOC)
         set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
     else()
         message(STATUS "Found mimalloc: ${mimalloc_DIR}")
-        add_compile_definitions(THEMIS_USE_MIMALLOC)
+        add_compile_definitions(THEMIS_ENABLE_MIMALLOC)
         
         # On Windows: exclude mimalloc-redirect.dll to prevent DLL-injection crash
         # Use only mimalloc.dll (static override is safer)
@@ -266,7 +301,6 @@ option(ENABLE_LOCAL_CLANG_TIDY "Enable local clang-tidy analysis (off by default
 
 
 # v1.1.0 Build Variants (Q1 2026)
-option(THEMIS_USE_MIMALLOC "Use mimalloc allocator (v1.1.0 - 20-40% memory boost)" ON)
 option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP workloads" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant (reduced dependencies)" OFF)
 option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location (AI/ML workloads)" OFF)
@@ -1314,6 +1348,7 @@ set(THEMIS_CORE_SOURCES
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp
+    ../src/storage/pitr_manager.cpp
     
     # Phase 2: Diff Engine
     ../src/analytics/diff_engine.cpp
@@ -1729,10 +1764,36 @@ elseif(hnswlib_FOUND)
 endif()
 
 # v1.1.0: Link mimalloc (20-40% memory boost, drop-in replacement)
-if(THEMIS_USE_MIMALLOC AND mimalloc_FOUND)
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
     target_link_libraries(themis_core PUBLIC mimalloc-static)
-    target_compile_definitions(themis_core PUBLIC THEMIS_USE_MIMALLOC)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# ============================================================================
+# PHASE 1 PERFORMANCE FEATURES
+# ============================================================================
+
+# RCU Index (Read-Copy-Update for lock-free reads, +200-500% for read-heavy workloads)
+if(THEMIS_ENABLE_RCU_INDEX)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_RCU_INDEX)
+    message(STATUS "RCU Index enabled (+200-500% read performance)")
+endif()
+
+# LIRS Cache (Low Inter-reference Recency Set, +30-40% cache hit rate)
+if(THEMIS_ENABLE_LIRS_CACHE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_LIRS_CACHE)
+    message(STATUS "LIRS Cache enabled (+30-40% hit rate improvement)")
+endif()
+
+# Huge Pages (Linux-only, Windows uses automatic large pages)
+if(THEMIS_ENABLE_HUGE_PAGES)
+    if(NOT WIN32)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HUGE_PAGES)
+        message(STATUS "Huge pages enabled")
+    else()
+        message(STATUS "Huge pages disabled on Windows (automatic large pages used)")
+    endif()
 endif()
 
 # HTTP/2 Protocol Support

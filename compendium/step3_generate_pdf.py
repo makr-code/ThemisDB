@@ -93,31 +93,11 @@ def try_weasyprint(html_path, pdf_path):
     """Generate PDF with WeasyPrint (fallback)."""
     try:
         print("  (This may take several minutes)...")
-        from weasyprint import HTML
+        from weasyprint import HTML, CSS
         
-        # Use subprocess with timeout to prevent hanging
-        import subprocess
-        cmd = [
-            'python3', '-c',
-            f"""
-import sys
-from weasyprint import HTML
-try:
-    html = HTML(filename='{html_path}')
-    html.write_pdf('{pdf_path}', uncompressed_pdf=False)
-    print('SUCCESS')
-except Exception as e:
-    print(f'ERROR: {{e}}', file=sys.stderr)
-    sys.exit(1)
-"""
-        ]
-        
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
-        
-        if result.returncode != 0:
-            if result.stderr:
-                print(f"  Error: {result.stderr[:200]}")
-            return False
+        # Try direct conversion
+        html = HTML(filename=str(html_path))
+        html.write_pdf(str(pdf_path), uncompressed_pdf=False)
         
         if pdf_path.exists():
             size_mb = pdf_path.stat().st_size / (1024 * 1024)
@@ -127,20 +107,30 @@ except Exception as e:
             print("Failed to create PDF")
             return False
             
-    except ImportError:
-        print("Not installed")
+    except ImportError as e:
+        print(f"Not installed (missing dependency: {e})")
+        return False
+    except OSError as e:
+        if "libgobject" in str(e) or "cannot load library" in str(e):
+            print(f"Not installed (missing system libraries)")
+            return False
+        print(f"OS Error: {e}")
         return False
     except KeyboardInterrupt:
         print("Cancelled")
         return False
-    except subprocess.TimeoutExpired:
-        print("Timeout: WeasyPrint took longer than 600 seconds")
+    except TimeoutError:
+        print("Timeout: WeasyPrint took longer than expected")
         return False
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {type(e).__name__}: {e}")
         return False
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Generate PDF from HTML')
+    parser.add_argument('--version', action='version', version=f'step3_generate_pdf.py {VERSION}')
+    args = parser.parse_args()
+    
     success = main()
     print("\n" + "=" * 70)
     if success:
@@ -153,10 +143,3 @@ if __name__ == "__main__":
     else:
         print("BUILD FAILED")
     print("=" * 70)
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate PDF from HTML')
-    parser.add_argument('--version', action='version', version=f'step3_generate_pdf.py {VERSION}')
-    args = parser.parse_args()
-    
-    main()

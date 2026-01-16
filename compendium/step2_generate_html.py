@@ -112,6 +112,17 @@ def extract_diagrams_from_content(content: str) -> List[str]:
     
     return diagrams
 
+def load_svg_as_data_uri(svg_path: Path) -> str:
+    """Load SVG file and convert to Base64 data URI for PDF embedding."""
+    try:
+        import base64
+        svg_content = svg_path.read_bytes()
+        b64_content = base64.b64encode(svg_content).decode('utf-8')
+        return f"data:image/svg+xml;base64,{b64_content}"
+    except Exception as e:
+        print(f"[WARNING] Failed to convert SVG to data URI: {e}")
+        return None
+
 def process_markdown_file(file_path: Path, svg_dir: Path) -> tuple:
     """Process markdown file: convert to HTML, reference SVG diagrams.
     Returns (html_content, diagram_list)."""
@@ -155,18 +166,23 @@ def process_markdown_file(file_path: Path, svg_dir: Path) -> tuple:
             if svg_index < len(svg_files):
                 diagram_counter += 1
                 svg_file = svg_files[svg_index]
-                svg_abs_path = svg_file.resolve()
                 
                 # Get diagram title
                 diagram_title = diagram_titles[svg_index] if svg_index < len(diagram_titles) else f"Diagramm {diagram_counter}"
+                
+                # Convert SVG to Base64 data URI for reliable PDF embedding
+                svg_src = load_svg_as_data_uri(svg_file)
+                if not svg_src:
+                    # Fallback to relative path if data URI fails
+                    svg_src = f"mermaid_svg/{svg_file.name}"
                 
                 # Create figure with caption
                 result_html += f'''
 <div class="page-marker">@@FIG-{diagram_counter}@@</div>
 <figure id="diagram-{diagram_counter}" style="text-align: center; margin: 20px 0; page-break-inside: avoid;">
-    <img src="file://{svg_abs_path}" alt="{diagram_title}" 
-         style="max-width: 100%; height: auto; border: 1px solid {THEME_CONFIG["accent"]}; padding: 10px; border-radius: 8px;">
-    <figcaption style="margin-top: 10px; font-style: italic; color: {THEME_CONFIG["secondary"]};">
+    <img src="{svg_src}" alt="{diagram_title}" 
+         style="max-width: 70%; height: auto; border: 1px solid {THEME_CONFIG["accent"]}; padding: 10px; border-radius: 8px; margin-left: auto; margin-right: auto; display: block;">
+    <figcaption style="margin-top: 10px; font-size: 0.95em; font-style: italic; color: {THEME_CONFIG["secondary"]};">
         Abb. {diagram_counter}: {diagram_title}
     </figcaption>
 </figure>

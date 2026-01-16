@@ -81,7 +81,7 @@ TEST(PerformanceAllocatorTest, AllocatorInfo) {
     ASSERT_NE(name, nullptr);
     EXPECT_TRUE(std::strlen(name) > 0);
     
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     EXPECT_STREQ(name, "mimalloc");
     EXPECT_TRUE(is_mimalloc_enabled());
     #else
@@ -109,7 +109,7 @@ TEST(PerformanceAllocatorTest, PerformanceBenchmark) {
     // Just verify it completes in reasonable time (not a real perf test)
     EXPECT_LT(duration.count(), 100000) << "Allocations took too long: " << duration.count() << "us";
     
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     std::cout << "Mimalloc performance: " << duration.count() << "us for " 
               << iterations << " allocations" << std::endl;
     #endif

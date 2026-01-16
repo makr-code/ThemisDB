@@ -65,6 +65,23 @@ option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID benchmark" OFF)
 # Kerberos permanently disabled - not available on Windows
 # option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
 
+# ============================================================================
+# PHASE 1 PERFORMANCE FEATURES (auto-enable for tests/benchmarks)
+# ============================================================================
+option(THEMIS_ENABLE_RCU_INDEX "Enable RCU Index for lock-free reads" OFF)
+option(THEMIS_ENABLE_LIRS_CACHE "Enable LIRS cache replacement policy" OFF)
+option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages (Linux-only)" OFF)
+option(THEMIS_PERF_AUTO_ENABLE "Auto-enable Phase 1 features when building tests/benchmarks" ON)
+
+# Auto-enable Phase 1 features if building tests or benchmarks
+if(THEMIS_PERF_AUTO_ENABLE AND (THEMIS_BUILD_TESTS OR THEMIS_BUILD_BENCHMARKS))
+    set(THEMIS_ENABLE_RCU_INDEX ON CACHE BOOL "Enable RCU Index for lock-free reads" FORCE)
+    set(THEMIS_ENABLE_LIRS_CACHE ON CACHE BOOL "Enable LIRS cache replacement policy" FORCE)
+    message(STATUS ">> Auto-enabling Phase 1 performance optimizations for tests/benchmarks")
+    message(STATUS "   - THEMIS_ENABLE_RCU_INDEX=ON (auto)")
+    message(STATUS "   - THEMIS_ENABLE_LIRS_CACHE=ON (auto)")
+endif()
+
 # Phase 2 optimization features
 option(THEMIS_ENABLE_WISCKEY "Enable WiscKey" OFF)
 option(THEMIS_ENABLE_DOSTOEVSKY "Enable Dostoevsky" OFF)

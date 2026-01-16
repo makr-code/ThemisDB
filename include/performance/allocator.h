@@ -1,7 +1,7 @@
 // ThemisDB Memory Allocator
 // Provides unified interface for memory allocation with optional optimizations
 //
-// When THEMIS_USE_MIMALLOC is defined, uses mimalloc allocator for improved performance
+// When THEMIS_ENABLE_MIMALLOC is defined, uses mimalloc allocator for improved performance
 // Otherwise, uses standard system allocator
 
 #pragma once
@@ -9,7 +9,7 @@
 #include <cstddef>
 #include <new>
 
-#ifdef THEMIS_USE_MIMALLOC
+#ifdef THEMIS_ENABLE_MIMALLOC
 #include <mimalloc.h>
 #endif
 
@@ -19,14 +19,14 @@ namespace memory {
 /**
  * @brief Allocate memory using the configured allocator
  * 
- * When mimalloc is enabled (THEMIS_USE_MIMALLOC), uses mi_malloc
+ * When mimalloc is enabled (THEMIS_ENABLE_MIMALLOC), uses mi_malloc
  * Otherwise uses standard operator new
  * 
  * @param size Number of bytes to allocate
  * @return Pointer to allocated memory
  */
 inline void* allocate(size_t size) {
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     return mi_malloc(size);
     #else
     return ::operator new(size);
@@ -41,7 +41,7 @@ inline void* allocate(size_t size) {
 inline void deallocate(void* ptr) {
     if (!ptr) return;
     
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     mi_free(ptr);
     #else
     ::operator delete(ptr);
@@ -56,7 +56,7 @@ inline void deallocate(void* ptr) {
  * @return Pointer to aligned memory
  */
 inline void* allocate_aligned(size_t size, size_t alignment) {
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     return mi_malloc_aligned(size, alignment);
     #else
     return ::operator new(size, std::align_val_t(alignment));
@@ -72,7 +72,7 @@ inline void* allocate_aligned(size_t size, size_t alignment) {
 inline void deallocate_aligned(void* ptr, size_t alignment) {
     if (!ptr) return;
     
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     mi_free(ptr);
     #else
     ::operator delete(ptr, std::align_val_t(alignment));
@@ -83,7 +83,7 @@ inline void deallocate_aligned(void* ptr, size_t alignment) {
  * @brief Get allocator name for logging/diagnostics
  */
 inline const char* allocator_name() {
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     return "mimalloc";
     #else
     return "system";
@@ -94,7 +94,7 @@ inline const char* allocator_name() {
  * @brief Check if mimalloc optimization is active
  */
 inline bool is_mimalloc_enabled() {
-    #ifdef THEMIS_USE_MIMALLOC
+    #ifdef THEMIS_ENABLE_MIMALLOC
     return true;
     #else
     return false;

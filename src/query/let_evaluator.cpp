@@ -14,7 +14,17 @@
 namespace {
     struct FunctionRegistryInitializer {
         FunctionRegistryInitializer() {
-            themis::query::functions::registerBuiltinFunctions();
+            try {
+                themis::query::functions::registerBuiltinFunctions();
+            } catch (const std::exception& ex) {
+                // Avoid throwing from static constructor - log to stderr instead
+                std::cerr << "CRITICAL ERROR: Function registry initialization failed: " 
+                          << ex.what() << std::endl;
+                std::cerr << "The application may not function correctly." << std::endl;
+            } catch (...) {
+                std::cerr << "CRITICAL ERROR: Function registry initialization failed with unknown exception" 
+                          << std::endl;
+            }
         }
     };
     static FunctionRegistryInitializer g_function_registry_init;
