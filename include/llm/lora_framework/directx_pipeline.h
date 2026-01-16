@@ -105,6 +105,9 @@ private:
     
     ComPtr<ID3D12RootSignature> root_signature_;
     ComPtr<ID3D12PipelineState> pipeline_state_;
+    
+    // Store descriptor ranges as member variables to ensure proper lifetime
+    std::vector<D3D12_DESCRIPTOR_RANGE> descriptor_ranges_;
 };
 
 } // namespace directx

@@ -13,19 +13,23 @@ namespace directx {
  * @brief Get the path to compiled shader files
  * 
  * Searches for shader files in:
- * 1. CMAKE_BINARY_DIR/shaders/lora (build directory)
- * 2. Executable directory/shaders/lora (installed location)
- * 3. ../shaders/lora (relative to executable)
+ * 1. Executable directory/shaders/lora (installed location)
+ * 2. ../shaders/lora (relative to executable)
+ * 3. ./shaders/lora (current directory)
+ * 4. ../../build/shaders/lora (development build directory)
  */
 inline std::string get_shader_path(const std::string& shader_name) {
     namespace fs = std::filesystem;
     
-    // Try build directory first (during development)
+    // Get executable directory
+    fs::path exe_dir = fs::current_path();
+    
+    // Try various paths relative to executable
     std::vector<fs::path> search_paths = {
-        fs::path(CMAKE_BINARY_DIR) / "shaders" / "lora" / shader_name,
-        fs::current_path() / "shaders" / "lora" / shader_name,
-        fs::current_path() / ".." / "shaders" / "lora" / shader_name,
-        fs::current_path() / shader_name,
+        exe_dir / "shaders" / "lora" / shader_name,
+        exe_dir / ".." / "shaders" / "lora" / shader_name,
+        exe_dir / "bin" / "shaders" / "lora" / shader_name,
+        exe_dir / ".." / ".." / "build" / "shaders" / "lora" / shader_name,
     };
     
     for (const auto& path : search_paths) {
@@ -35,7 +39,7 @@ inline std::string get_shader_path(const std::string& shader_name) {
     }
     
     // Return default path (will fail at shader load time with clear error)
-    return (fs::current_path() / "shaders" / "lora" / shader_name).string();
+    return (exe_dir / "shaders" / "lora" / shader_name).string();
 }
 
 } // namespace directx

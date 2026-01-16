@@ -90,6 +90,10 @@ bool DirectXPipeline::create_root_signature() {
         root_params.push_back(constants_param);
     }
     
+    // Reserve space for descriptor ranges (ensure stable addresses)
+    descriptor_ranges_.clear();
+    descriptor_ranges_.reserve(2);
+    
     // UAV descriptor table (outputs)
     if (num_uavs_ > 0) {
         D3D12_DESCRIPTOR_RANGE uav_range = {};
@@ -99,14 +103,12 @@ bool DirectXPipeline::create_root_signature() {
         uav_range.RegisterSpace = 0;
         uav_range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
         
-        // Note: descriptor ranges need to persist, so we'll use a static approach
-        static D3D12_DESCRIPTOR_RANGE s_uav_range;
-        s_uav_range = uav_range;
+        descriptor_ranges_.push_back(uav_range);
         
         D3D12_ROOT_PARAMETER uav_param = {};
         uav_param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
         uav_param.DescriptorTable.NumDescriptorRanges = 1;
-        uav_param.DescriptorTable.pDescriptorRanges = &s_uav_range;
+        uav_param.DescriptorTable.pDescriptorRanges = &descriptor_ranges_[descriptor_ranges_.size() - 1];
         uav_param.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
         root_params.push_back(uav_param);
     }
@@ -120,13 +122,12 @@ bool DirectXPipeline::create_root_signature() {
         srv_range.RegisterSpace = 0;
         srv_range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
         
-        static D3D12_DESCRIPTOR_RANGE s_srv_range;
-        s_srv_range = srv_range;
+        descriptor_ranges_.push_back(srv_range);
         
         D3D12_ROOT_PARAMETER srv_param = {};
         srv_param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
         srv_param.DescriptorTable.NumDescriptorRanges = 1;
-        srv_param.DescriptorTable.pDescriptorRanges = &s_srv_range;
+        srv_param.DescriptorTable.pDescriptorRanges = &descriptor_ranges_[descriptor_ranges_.size() - 1];
         srv_param.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
         root_params.push_back(srv_param);
     }
