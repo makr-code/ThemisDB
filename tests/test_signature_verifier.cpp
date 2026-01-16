@@ -163,7 +163,6 @@ TEST_F(SignatureVerifierTest, RSA_SHA256_InvalidSignature) {
     
     EXPECT_FALSE(result.is_valid) << "Invalid signature should fail verification";
 }
-}
 
 TEST_F(SignatureVerifierTest, RSA_SHA256_TamperedData) {
     // Test detection of tampered data

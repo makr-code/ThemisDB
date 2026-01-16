@@ -1,10 +1,10 @@
-﻿cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20)
 
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
+if(NOT EXISTS "${PROJECT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
 endif()
-file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
+file(READ "${PROJECT_SOURCE_DIR}/VERSION" _ver)
 string(STRIP "${_ver}" _ver)
 # Accept semantic versions with optional pre-release/build suffixes, but sanitize for CMake's project(VERSION)
 if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
@@ -532,7 +532,7 @@ set(THEMIS_LICENSE_FILE "" CACHE FILEPATH "Path to license JSON file for embeddi
 
 # Auto-detect default license file if none specified
 if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
-    set(DEFAULT_LICENSE_FILE "${CMAKE_SOURCE_DIR}/config/license_community_default.json")
+    set(DEFAULT_LICENSE_FILE "${PROJECT_SOURCE_DIR}/config/license_community_default.json")
     if(EXISTS "${DEFAULT_LICENSE_FILE}")
         set(THEMIS_LICENSE_FILE "${DEFAULT_LICENSE_FILE}")
         message(STATUS "No license file specified, using default community license: ${THEMIS_LICENSE_FILE}")
@@ -990,8 +990,8 @@ include_directories(
 # Copy runtime config files into the build directory so tests and local runs
 # can find `config/*` when executed from ${CMAKE_BINARY_DIR} (common when
 # running tests via CTest/gtest_discover_tests). This is safe and cheap.
-if(EXISTS "${CMAKE_SOURCE_DIR}/config")
-    file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
+if(EXISTS "${PROJECT_SOURCE_DIR}/config")
+    file(COPY "${PROJECT_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
 endif()
 
 # -----------------------------------------------------------
@@ -1004,12 +1004,12 @@ if(THEMIS_ENABLE_LLM)
     if(TARGET llama)
         message(STATUS "llama.cpp already available as target (from find_package) - skipping add_subdirectory")
     else()
-        # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
+        # Prefer local, non-committed root clone at ${PROJECT_SOURCE_DIR}/llama.cpp
         # Fallback to legacy path external/llama.cpp if present
-        set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
+        set(LLAMA_SRC_DIR "${PROJECT_SOURCE_DIR}/llama.cpp")
         if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
-            if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
-                set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
+            if(EXISTS "${PROJECT_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+                set(LLAMA_SRC_DIR "${PROJECT_SOURCE_DIR}/external/llama.cpp")
                 message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
             else()
                 message(FATAL_ERROR
@@ -1070,7 +1070,7 @@ function(_themis_normalize_sources list_var)
     set(_normalized "")
     foreach(_entry IN LISTS ${list_var})
         if(_entry MATCHES "^/")
-            list(APPEND _normalized "${CMAKE_SOURCE_DIR}${_entry}")
+            list(APPEND _normalized "${PROJECT_SOURCE_DIR}${_entry}")
         else()
             list(APPEND _normalized "${_entry}")
         endif()
@@ -1424,6 +1424,22 @@ if(THEMIS_ENABLE_BAO)
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
 endif()
 
+# ============================================================================
+# MODULAR SOURCE FILES (organized by feature/component)
+# ============================================================================
+include(${CMAKE_CURRENT_SOURCE_DIR}/AccelerationBackends.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ContentProcessors.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/LLMIntegration.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/DistributedTraining.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/BlobStorage.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/BufferManagement.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ErrorHealthServices.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/IndexQueryEnhancements.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/EditionFeatures.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/StorageEnhancements.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/RPCServices.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/MiscellaneousFeatures.cmake)
+
 # Conditionally add LLM sources (v1.3.0+) only when enabled
 if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
@@ -1482,8 +1498,8 @@ add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 # Needed to resolve includes like "sharding/...", "llm/...", etc.
 target_include_directories(themis_core
     PUBLIC
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/src
 )
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)
@@ -1574,7 +1590,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
                 file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
                 
                 # Compile HLSL shaders to DXIL bytecode
-                set(SHADER_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/acceleration/directx/shaders/lora")
+                set(SHADER_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src/acceleration/directx/shaders/lora")
                 
                 # Matmul shader
                 add_custom_command(
@@ -1989,7 +2005,7 @@ if(THEMIS_ENABLE_GRPC)
 
         if(COMMAND protobuf_generate)
             # Generate shard RPC stubs (ApplyWalBatch, etc.)
-            set(SHARD_PROTO ${CMAKE_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
+            set(SHARD_PROTO ${PROJECT_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
             set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
             file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
 
@@ -2009,7 +2025,7 @@ if(THEMIS_ENABLE_GRPC)
                 ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
                      --grpc_out ${SHARD_PROTO_GEN_DIR}
                      --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
-                     -I ${CMAKE_SOURCE_DIR}/proto/sharding
+                     -I ${PROJECT_SOURCE_DIR}/proto/sharding
                      ${SHARD_PROTO}
                 DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
                 COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
@@ -2209,10 +2225,6 @@ if(THEMIS_ENABLE_LLM)
             ../src/llm/lora_framework/kernels/vulkan_kernels.cpp  # LoRA Vulkan compute
         )
         message(STATUS "LoRA: Vulkan compute kernels enabled (cross-platform)")
-            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels
-            ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp  # LoRA fused HIP kernels (Phase 10.3)
-        )
-        message(STATUS "LLM: HIP kernel fusion enabled (LoRA)")
     endif()
     
     # Threading support required for async inference
@@ -2336,197 +2348,197 @@ if(THEMIS_BUILD_TESTS)
     option(THEMIS_ENABLE_LIB_JSON_TEST "Build simdjson integration test" OFF)
     
     add_executable(themis_tests
-        ${CMAKE_SOURCE_DIR}/tests/test_env.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_base_entity.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rocksdb_high_parallel_tuning.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rocksdb_stats_json.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_env.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_base_entity.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_rocksdb_high_parallel_tuning.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_rocksdb_stats_json.cpp
         # Library integration tests (systematic coverage)
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_openssl_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_tbb_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_composite_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_unique_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_range_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_sparse_geo_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_ttl_fulltext_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_index_stats.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_graph_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_query_engine.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_query_or.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_stats_api.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_range_index.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_stemming.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_stopwords.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_normalization.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_phrase_search.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_fulltext.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_or.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_fulltext_hybrid.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_bm25.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_similarity.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_similarity_dispatch.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_proximity.cpp
-              ${CMAKE_SOURCE_DIR}/tests/test_aql_proximity_dispatch.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_metrics_api.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_query_range.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_fulltext_score.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_fulltext_or.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_http_aql_join.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_http_aql_let.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_collect.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_config.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_graph.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_crash_recovery_direct.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_collect.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_vector.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_vector_largescale.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_content.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_video_processor_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_changefeed.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_changefeed_sse.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_timeseries.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_stemming.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_stopwords.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_governance.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_openssl_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_tbb_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_secondary_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_composite_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_unique_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_range_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_sparse_geo_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_ttl_fulltext_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_index_stats.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_graph_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_vector_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_query_engine.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_query_or.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_stats_api.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_range_index.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_stemming.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_stopwords.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_normalization.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_phrase_search.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_fulltext.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_or.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_fulltext_hybrid.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_bm25.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_similarity.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_similarity_dispatch.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_proximity.cpp
+              ${PROJECT_SOURCE_DIR}/tests/test_aql_proximity_dispatch.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_metrics_api.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_query_range.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_aql.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_aql_fulltext_score.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_aql_fulltext_or.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_http_aql_join.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_http_aql_let.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_aql_collect.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_config.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_aql_graph.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_crash_recovery_direct.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_aql_collect.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_vector.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_vector_largescale.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_content.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_video_processor_extended.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_changefeed.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_changefeed_sse.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_timeseries.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_stemming.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_stopwords.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_governance.cpp
         
         # Geo tests
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_geo_ewkb.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_spatial_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_aql_st_functions.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_aql_st_queryengine.cpp
-        ${CMAKE_SOURCE_DIR}/tests/geo/test_geo_3d_functions.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_geo_index_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_let_st.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_hybrid_queries.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_audit.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_transaction_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_transaction_isolation.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_snapshot_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_consistent_hash_distribution.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vulkan_backend.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_postgres_importer_datatypes.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_plugin_lifecycle.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_mvcc.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_parser.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_with_clause.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_subqueries.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_cte_cache.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_aql_translator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_text_processor.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_nlp_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_nlp_metadata_extractor.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_prompt_manager.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_mock_clip.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_interface.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_quality.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_backup_restore.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_raid5_backup.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_cursor.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_temporal_graph.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_temporal_aggregation.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_temporal_aggregation_property.cpp
-        ${CMAKE_SOURCE_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_recursive_path_query.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_timerange_query.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_property_graph.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_graph_type_filtering.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_gnn_embeddings.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_semantic_cache.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_tsstore.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_gorilla.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_gorilla_probe.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_timeseries_retention.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_continuous_agg.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_adaptive_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_adaptive_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_encryption.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_hkdf_cache.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_field_encryption_batch.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_pki_eidas.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_pki_api_handler.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_wal_archiving.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_encryption_e2e.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vault_key_provider.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_vault_key_provider_retry.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_wal_backup_manager.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_wal_grpc_apply.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_wal_replication_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_audit_logger.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pii_detector.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_retention_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_saga_logger.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_retention_api.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_policy_yaml.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pki_client.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_cms_signing.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_keyprovider_signing.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_vault_signing_provider.cpp
+        ${PROJECT_SOURCE_DIR}/tests/geo/test_geo_ewkb.cpp
+        ${PROJECT_SOURCE_DIR}/tests/geo/test_spatial_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/geo/test_aql_st_functions.cpp
+        ${PROJECT_SOURCE_DIR}/tests/geo/test_aql_st_queryengine.cpp
+        ${PROJECT_SOURCE_DIR}/tests/geo/test_geo_3d_functions.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_geo_index_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_aql_let_st.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_hybrid_queries.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_audit.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_transaction_manager.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_transaction_isolation.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_snapshot_manager.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_consistent_hash_distribution.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_vulkan_backend.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_postgres_importer_datatypes.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_plugin_lifecycle.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_mvcc.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_aql_parser.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_aql_with_clause.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_aql_subqueries.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_cte_cache.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_aql_translator.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_text_processor.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_nlp_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_nlp_metadata_extractor.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_prompt_manager.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_mock_clip.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_image_analysis_interface.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_image_analysis_quality.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_backup_restore.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_raid5_backup.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_cursor.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_temporal_graph.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_temporal_aggregation.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_temporal_aggregation_property.cpp
+        ${PROJECT_SOURCE_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_recursive_path_query.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_timerange_query.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_property_graph.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_graph_type_filtering.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_gnn_embeddings.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_semantic_cache.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_tsstore.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_gorilla.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_gorilla_probe.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_timeseries_retention.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_continuous_agg.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_adaptive_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_adaptive_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_encryption.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_hkdf_cache.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_field_encryption_batch.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_pki_eidas.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_pki_api_handler.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_wal_archiving.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_encryption_e2e.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_vault_key_provider.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_vault_key_provider_retry.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_wal_backup_manager.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_wal_grpc_apply.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_wal_replication_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_audit_logger.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_pii_detector.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_retention_manager.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_saga_logger.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_retention_api.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_policy_yaml.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_pki_client.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_cms_signing.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_keyprovider_signing.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_vault_signing_provider.cpp
         # Enterprise tests (only if enterprise source is available)
         $<$<AND:$<BOOL:${THEMIS_BUILD_ENTERPRISE}>,$<TARGET_EXISTS:themis_enterprise_common>>:tests/test_enterprise_scalability.cpp>
-        ${CMAKE_SOURCE_DIR}/tests/test_http_policies_export.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pii_soft_delete.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_policies_export.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_pii_soft_delete.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_jwt_validator.cpp
     # Kerberos test removed - not available on Windows
-    # ${CMAKE_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
-    ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_auth_middleware.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_usb_admin_authenticator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pki_client_rest.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_group_dek.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_input_validator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_sharding_core.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
-        $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${CMAKE_SOURCE_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
-        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${CMAKE_SOURCE_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
-        ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
-        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:${CMAKE_SOURCE_DIR}/tests/test_office_processor.cpp>
-        ${CMAKE_SOURCE_DIR}/tests/test_stream_protocol_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_cloud_agent.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_pki_shard_certificate.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_mtls_client.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_signed_request.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_shard_communication.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rebalance_migration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_monitoring_ops.cpp
-        ${CMAKE_SOURCE_DIR}/tests/update_checker_test.cpp
+    # ${PROJECT_SOURCE_DIR}/tests/test_gssapi_authenticator.cpp
+    ${PROJECT_SOURCE_DIR}/tests/test_jwt_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_auth_middleware.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_usb_admin_authenticator.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_pki_client_rest.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_group_dek.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_input_validator.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_sharding_core.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_raid_redundancy.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_hot_spare.cpp
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${PROJECT_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${PROJECT_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${PROJECT_SOURCE_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${PROJECT_SOURCE_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${PROJECT_SOURCE_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
+        $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${PROJECT_SOURCE_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
+        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${PROJECT_SOURCE_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
+        ${PROJECT_SOURCE_DIR}/tests/test_raid_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_predictive_detector.cpp
+        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${PROJECT_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:${PROJECT_SOURCE_DIR}/tests/test_office_processor.cpp>
+        ${PROJECT_SOURCE_DIR}/tests/test_stream_protocol_extended.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_cloud_agent.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_pki_shard_certificate.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_mtls_client.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_signed_request.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_shard_communication.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_rebalance_migration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_monitoring_ops.cpp
+        ${PROJECT_SOURCE_DIR}/tests/update_checker_test.cpp
         
         # New feature tests
-        ${CMAKE_SOURCE_DIR}/tests/test_tenant_manager.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_graphql.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_olap.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_olap_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_process_mining_extended.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
+        ${PROJECT_SOURCE_DIR}/tests/test_tenant_manager.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_graphql.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_olap.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_olap_extended.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_process_mining_extended.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
         # Phase 1 Performance Optimization Tests (from PR #157)
-        ${CMAKE_SOURCE_DIR}/tests/test_performance_feature_flags.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_performance_allocator.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_huge_pages.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_rcu_index.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lirs_cache.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_performance_feature_flags.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_performance_allocator.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_huge_pages.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_rcu_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lirs_cache.cpp
         
         # Phase 2 Performance Optimization Tests (from this PR)
-        ${CMAKE_SOURCE_DIR}/tests/test_phase2_optimizations.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_phase2_optimizations.cpp
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
@@ -2538,13 +2550,13 @@ if(THEMIS_BUILD_TESTS)
         $<$<BOOL:${THEMIS_ENABLE_MCP}>:tests/test_mcp_protocol.cpp>
         
         # Vector encryption integration tests
-        ${CMAKE_SOURCE_DIR}/tests/test_vector_encryption_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_vector_encryption_integration.cpp
         
         # LLM plugin tests (v1.3.0+) are added conditionally below
     )
 
     if(THEMIS_ENABLE_LIB_JSON_TEST)
-        target_sources(themis_tests PRIVATE ${CMAKE_SOURCE_DIR}/tests/test_lib_json_integration.cpp)
+        target_sources(themis_tests PRIVATE ${PROJECT_SOURCE_DIR}/tests/test_lib_json_integration.cpp)
     endif()
     
     target_link_libraries(themis_tests
@@ -2557,7 +2569,7 @@ if(THEMIS_BUILD_TESTS)
 
     # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
     add_executable(themis_secidx_tests
-        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_secondary_index.cpp
     )
     target_link_libraries(themis_secidx_tests
         PRIVATE
@@ -2576,10 +2588,10 @@ if(THEMIS_BUILD_TESTS)
 
     # CRITICAL TESTS ONLY (for fast validation)
     add_executable(themis_tests_critical
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
+        ${PROJECT_SOURCE_DIR}/tests/test_secondary_index.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE
@@ -2599,26 +2611,26 @@ if(THEMIS_BUILD_TESTS)
     # Conditionally add LLM tests only when LLM is enabled
     if(THEMIS_ENABLE_LLM)
         target_sources(themis_tests PRIVATE
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_plugin.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_caching.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_kv_cache_buffer.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_paged_attention.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_continuous_batch_scheduler.cpp
-            ${CMAKE_SOURCE_DIR}/tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
-            ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
+            ${PROJECT_SOURCE_DIR}/tests/test_llm_plugin.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_llm_caching.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_kv_cache_buffer.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_llm_response_cache.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_paged_attention.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_continuous_batch_scheduler.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
+            ${PROJECT_SOURCE_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
+            ${PROJECT_SOURCE_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
         )
 
         # P1: Enhanced inference engine tests
         target_sources(themis_tests PRIVATE
-            ${CMAKE_SOURCE_DIR}/tests/test_inference_engine_enhanced.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_inference_engine_enhanced.cpp
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
         add_executable(themis_llm_tests
-            ${CMAKE_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
         )
         target_link_libraries(themis_llm_tests
             PRIVATE
@@ -2638,7 +2650,7 @@ if(THEMIS_BUILD_TESTS)
         # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
         # Flash Attention Tests
         add_executable(test_phase1_flash_attention
-            ${CMAKE_SOURCE_DIR}/tests/test_phase1_flash_attention.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_phase1_flash_attention.cpp
         )
         target_link_libraries(test_phase1_flash_attention
             PRIVATE
@@ -2655,7 +2667,7 @@ if(THEMIS_BUILD_TESTS)
         
         # KV-Cache Reuse Tests
         add_executable(test_phase1_kv_cache_reuse
-            ${CMAKE_SOURCE_DIR}/tests/test_phase1_kv_cache_reuse.cpp
+            ${PROJECT_SOURCE_DIR}/tests/test_phase1_kv_cache_reuse.cpp
         )
         target_link_libraries(test_phase1_kv_cache_reuse
             PRIVATE
@@ -2694,7 +2706,7 @@ if(THEMIS_BUILD_TESTS)
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)
         add_executable(test_diskann
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_diskann.cpp
+            ${PROJECT_SOURCE_DIR}/tests/performance/phase3/test_diskann.cpp
         )
         target_link_libraries(test_diskann
             PRIVATE
@@ -2711,7 +2723,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_BWTREE)
         add_executable(test_bwtree
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_bwtree.cpp
+            ${PROJECT_SOURCE_DIR}/tests/performance/phase3/test_bwtree.cpp
         )
         target_link_libraries(test_bwtree
             PRIVATE
@@ -2728,7 +2740,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_SPLINTERDB)
         add_executable(test_splinterdb
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_splinterdb.cpp
+            ${PROJECT_SOURCE_DIR}/tests/performance/phase3/test_splinterdb.cpp
         )
         target_link_libraries(test_splinterdb
             PRIVATE
@@ -2745,7 +2757,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_GUNROCK)
         add_executable(test_gunrock
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_gunrock.cpp
+            ${PROJECT_SOURCE_DIR}/tests/performance/phase3/test_gunrock.cpp
         )
         target_link_libraries(test_gunrock
             PRIVATE
@@ -2762,7 +2774,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_BAO)
         add_executable(test_bao
-            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_bao.cpp
+            ${PROJECT_SOURCE_DIR}/tests/performance/phase3/test_bao.cpp
         )
         target_link_libraries(test_bao
             PRIVATE
@@ -2786,7 +2798,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Modern performance benchmarks (all core areas)
     add_executable(bench_core_performance
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_core_performance.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_core_performance.cpp
     )
     
     target_link_libraries(bench_core_performance
@@ -2798,7 +2810,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Comprehensive benchmark suite (simple/complex, LLM, AQL, binary, stress tests)
     add_executable(bench_comprehensive
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_comprehensive.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_comprehensive.cpp
     )
     
     target_link_libraries(bench_comprehensive
@@ -2810,7 +2822,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
     add_executable(bench_advanced_patterns
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_advanced_patterns.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_advanced_patterns.cpp
     )
     
     target_link_libraries(bench_advanced_patterns
@@ -2821,7 +2833,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_hotspots_micro
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hotspots_micro.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_hotspots_micro.cpp
     )
 
     target_link_libraries(bench_hotspots_micro
@@ -2832,7 +2844,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_lock_contention
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_lock_contention.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_lock_contention.cpp
     )
     target_link_libraries(bench_lock_contention
         PRIVATE
@@ -2842,7 +2854,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_wal_stress
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_wal_stress.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_wal_stress.cpp
     )
     target_link_libraries(bench_wal_stress
         PRIVATE
@@ -2852,10 +2864,10 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(themis_benchmarks
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_crud.cpp
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_query.cpp
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_search.cpp
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_wal_apply_grpc.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_crud.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_query.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_vector_search.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_wal_apply_grpc.cpp
     )
     
     target_link_libraries(themis_benchmarks
@@ -2867,7 +2879,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Compression benchmark (standalone)
     add_executable(bench_compression
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_compression.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_compression.cpp
     )
     
     target_link_libraries(bench_compression
@@ -2878,7 +2890,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Index rebuild benchmark (standalone)
     add_executable(bench_index_rebuild
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_index_rebuild.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_index_rebuild.cpp
     )
     
     target_link_libraries(bench_index_rebuild
@@ -2889,7 +2901,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # MVCC performance benchmark (standalone)
     add_executable(bench_mvcc
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_mvcc.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_mvcc.cpp
     )
     
     target_link_libraries(bench_mvcc
@@ -2901,7 +2913,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Encryption performance benchmark (standalone)
     add_executable(bench_encryption
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_encryption.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_encryption.cpp
     )
     
     target_link_libraries(bench_encryption
@@ -2913,7 +2925,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # OLAP Analytics benchmark (v1.3.0 Phase 2)
     add_executable(bench_olap_analytics
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_olap_analytics.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_olap_analytics.cpp
     )
     
     target_link_libraries(bench_olap_analytics
@@ -2925,7 +2937,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Video Processor benchmark (v1.3.0 Phase 2)
     add_executable(bench_video_processor
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_video_processor.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_video_processor.cpp
     )
     
     target_link_libraries(bench_video_processor
@@ -2937,7 +2949,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Stream Protocol benchmark (v1.3.0 Phase 2)
     add_executable(bench_stream_protocol
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_stream_protocol.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_stream_protocol.cpp
     )
     
     target_link_libraries(bench_stream_protocol
@@ -2949,7 +2961,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Process Mining benchmark (v1.3.0 Phase 2)
     add_executable(bench_process_mining
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_process_mining.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_process_mining.cpp
     )
     
     target_link_libraries(bench_process_mining
@@ -2961,7 +2973,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Async I/O MultiScan benchmark (v1.3.0 Phase 2)
     add_executable(bench_async_io_multiscan
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_async_io_multiscan.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_async_io_multiscan.cpp
     )
     
     target_link_libraries(bench_async_io_multiscan
@@ -2973,7 +2985,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Hybrid AQL Syntax Sugar benchmark (Phase 2.5)
     add_executable(bench_hybrid_aql_sugar
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
     )
     
     target_link_libraries(bench_hybrid_aql_sugar
@@ -2984,7 +2996,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # HSM Provider performance benchmark (standalone)
     add_executable(bench_hsm_provider
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hsm_provider.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_hsm_provider.cpp
     )
     
     target_link_libraries(bench_hsm_provider
@@ -2998,7 +3010,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Shard Routing benchmark
     add_executable(bench_shard_routing
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_shard_routing.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_shard_routing.cpp
     )
     
     target_link_libraries(bench_shard_routing
@@ -3010,7 +3022,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Transaction Throughput benchmark
     add_executable(bench_transaction_throughput
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_transaction_throughput.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_transaction_throughput.cpp
     )
     
     target_link_libraries(bench_transaction_throughput
@@ -3022,7 +3034,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Changefeed Throughput benchmark
     add_executable(bench_changefeed_throughput
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_changefeed_throughput.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_changefeed_throughput.cpp
     )
     
     target_link_libraries(bench_changefeed_throughput
@@ -3034,7 +3046,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Timeseries Ingestion benchmark
     add_executable(bench_timeseries_ingestion
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_timeseries_ingestion.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_timeseries_ingestion.cpp
     )
     
     target_link_libraries(bench_timeseries_ingestion
@@ -3046,7 +3058,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # SAGA Compensation benchmark
     add_executable(bench_saga_compensation
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_saga_compensation.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_saga_compensation.cpp
     )
     
     target_link_libraries(bench_saga_compensation
@@ -3060,7 +3072,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Flash Attention Benchmark
     add_executable(bench_phase1_flash_attention
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_phase1_flash_attention.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_phase1_flash_attention.cpp
     )
     
     target_link_libraries(bench_phase1_flash_attention
@@ -3074,7 +3086,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Graph Traversal benchmark
     add_executable(bench_graph_traversal
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_graph_traversal.cpp
     )
     
     target_link_libraries(bench_graph_traversal
@@ -3086,7 +3098,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # PageRank benchmark
     add_executable(bench_pagerank
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_pagerank.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_pagerank.cpp
     )
     
     target_link_libraries(bench_pagerank
@@ -3098,7 +3110,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # GPU Backends benchmark
     add_executable(bench_gpu_backends
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_gpu_backends.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_gpu_backends.cpp
     )
     
     target_link_libraries(bench_gpu_backends
@@ -3110,7 +3122,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # GNN Embeddings benchmark
     add_executable(bench_gnn_embeddings
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_gnn_embeddings.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_gnn_embeddings.cpp
     )
     
     target_link_libraries(bench_gnn_embeddings
@@ -3122,7 +3134,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Phase 3: Content Management & Governance Benchmarks
     add_executable(bench_content_versioning
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_content_versioning.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_content_versioning.cpp
     )
     
     target_link_libraries(bench_content_versioning
@@ -3133,7 +3145,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_text_extraction
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_text_extraction.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_text_extraction.cpp
     )
     
     target_link_libraries(bench_text_extraction
@@ -3144,7 +3156,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_image_analysis
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_image_analysis.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_image_analysis.cpp
     )
     
     target_link_libraries(bench_image_analysis
@@ -3155,7 +3167,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_image_analysis_latency
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_image_analysis_latency.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_image_analysis_latency.cpp
     )
     
     target_link_libraries(bench_image_analysis_latency
@@ -3166,7 +3178,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_policy_evaluation
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_policy_evaluation.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_policy_evaluation.cpp
     )
     
     target_link_libraries(bench_policy_evaluation
@@ -3178,7 +3190,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Image Analysis Plugin Benchmark
     add_executable(benchmark_image_analysis
-        ${CMAKE_SOURCE_DIR}/benchmarks/benchmark_image_analysis.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/benchmark_image_analysis.cpp
     )
     
     target_link_libraries(benchmark_image_analysis
@@ -3191,7 +3203,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     # Scientific Standard Benchmarks (Phase 2-4)
     # TPC-C: OLTP benchmark (Transaction Processing Council Standard)
     add_executable(bench_tpcc
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_tpcc.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_tpcc.cpp
     )
     
     target_link_libraries(bench_tpcc
@@ -3203,7 +3215,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # YCSB: Yahoo Cloud Serving Benchmark (Workloads A-F)
     add_executable(bench_ycsb
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_ycsb.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_ycsb.cpp
     )
     
     target_link_libraries(bench_ycsb
@@ -3215,7 +3227,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # MMDB-E: Multi-Modal Database Benchmark with Embeddings (Industry-First)
     add_executable(bench_mmdb
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_mmdb.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_mmdb.cpp
     )
     
     target_link_libraries(bench_mmdb
@@ -3227,7 +3239,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # TPC-H: Decision Support (OLAP) Benchmark - 22 Analytical Queries
     add_executable(bench_tpch
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_tpch.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_tpch.cpp
     )
     
     target_link_libraries(bench_tpch
@@ -3241,142 +3253,142 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # AQL Functions Benchmark
     add_executable(bench_aql_functions
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_aql_functions.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_aql_functions.cpp
     )
     target_link_libraries(bench_aql_functions PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # ARM Memory Benchmark
     add_executable(bench_arm_memory
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_arm_memory.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_arm_memory.cpp
     )
     target_link_libraries(bench_arm_memory PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # ARM SIMD Benchmark
     add_executable(bench_arm_simd
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_arm_simd.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_arm_simd.cpp
     )
     target_link_libraries(bench_arm_simd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Auto Buffers Benchmark
     add_executable(bench_auto_buffers
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_auto_buffers.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_auto_buffers.cpp
     )
     target_link_libraries(bench_auto_buffers PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Blob ZSTD Compression Benchmark
     add_executable(bench_blob_zstd
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_blob_zstd.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_blob_zstd.cpp
     )
     target_link_libraries(bench_blob_zstd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # HNSW Prefilter Minimal Benchmark
     add_executable(bench_hnsw_prefilter_minimal
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
     )
     target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Hybrid Vector+Geo Benchmark
     add_executable(bench_hybrid_vector_geo
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
     )
     target_link_libraries(bench_hybrid_vector_geo PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Lossy vs Lossless Compression Benchmark
     add_executable(bench_lossy_vs_lossless
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
     )
     target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Product Quantization Benchmark
     add_executable(bench_product_quantization
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_product_quantization.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_product_quantization.cpp
     )
     target_link_libraries(bench_product_quantization PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Sanity Tests Benchmark
     add_executable(bench_sanity
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_sanity.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_sanity.cpp
     )
     target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Sharding Performance Benchmark
     add_executable(bench_sharding_performance
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_sharding_performance.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_sharding_performance.cpp
     )
     target_link_libraries(bench_sharding_performance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # SIMD Distance Benchmark
     add_executable(bench_simd_distance
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_simd_distance.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_simd_distance.cpp
     )
     target_link_libraries(bench_simd_distance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Spatial Index Benchmark
     add_executable(bench_spatial_index
-        ${CMAKE_SOURCE_DIR}/benchmarks/bench_spatial_index.cpp
+        ${PROJECT_SOURCE_DIR}/benchmarks/bench_spatial_index.cpp
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # V1.3.0 Features Benchmark (Critical for Release Testing)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp")
         add_executable(bench_v1_3_0_features
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp
         )
         target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Vector Compression Lossless Benchmark
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp")
         add_executable(bench_vector_compression_lossless
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp
         )
         target_link_libraries(bench_vector_compression_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Vector Prefilter Benchmark
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp")
         add_executable(bench_vector_prefilter
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp
         )
         target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Phase 2 Performance Optimization Benchmarks
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp")
         add_executable(bench_phase2
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
         )
         target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # v1.3.4 Optimization Benchmarks
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp")
         add_executable(bench_v1_3_4_optimizations
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
         )
         target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # v1.3.4 Batch Insert Benchmark (optional if source exists)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp")
         add_executable(bench_batch_insert
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp
         )
         target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Simple insert test for debugging (optional if source exists)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp")
         add_executable(bench_simple_insert_test
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp
         )
         target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # RAID and LoRA Adapter Benchmark (optional if source exists)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp")
         add_executable(bench_raid_lora
-            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp
         )
         target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
@@ -3384,7 +3396,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     # QLoRA GPU Kernels Benchmark (only when CUDA is enabled)
     if(THEMIS_ENABLE_CUDA AND THEMIS_ENABLE_LLM)
         add_executable(bench_qlora_gpu_kernels
-            ${CMAKE_SOURCE_DIR}/benchmarks/bench_qlora_gpu_kernels.cpp
+            ${PROJECT_SOURCE_DIR}/benchmarks/bench_qlora_gpu_kernels.cpp
         )
         target_link_libraries(bench_qlora_gpu_kernels PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
         message(STATUS "QLoRA GPU Kernels Benchmark: Enabled")
@@ -3398,9 +3410,9 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     # Docker RAID Comprehensive Benchmark (v1.3.4+)
     # 1+ hour benchmark suite for Docker multi-container RAID testing
     # Tests RAID0, RAID1, RAID5, RAID6, RAID10 configurations
-    # See: ${CMAKE_SOURCE_DIR}/benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
+    # See: ${PROJECT_SOURCE_DIR}/benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
     add_executable(bench_docker_raid_comprehensive
-        ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}${PROJECT_SOURCE_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
     )
     target_link_libraries(bench_docker_raid_comprehensive PRIVATE 
         themis_core 
@@ -3413,7 +3425,7 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     # GPU Erasure Coding Benchmark (conditionally compiled if CUDA is enabled)
     if(THEMIS_ENABLE_CUDA)
         add_executable(bench_gpu_erasure
-            ${CMAKE_SOURCE_DIR}/benchmarks/bench_gpu_erasure.cpp
+            ${PROJECT_SOURCE_DIR}/benchmarks/bench_gpu_erasure.cpp
         )
         target_link_libraries(bench_gpu_erasure PRIVATE 
             themis_core 

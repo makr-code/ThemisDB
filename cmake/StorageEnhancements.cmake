@@ -1,0 +1,16 @@
+# Storage and Data Management Enhancement Sources
+# Advanced data structures, optimization, and special handling
+
+list(APPEND THEMIS_CORE_SOURCES
+    # Differential update engine for efficient updates
+    ../src/server/rpc/differential_update_engine.cpp
+    
+    # Hybrid retention policies
+    ../src/scheduler/hybrid_retention_manager.cpp
+    
+    # HyperTable data structure
+    ../src/timeseries/hypertable.cpp
+    
+    # Paged optimizer for query performance
+    ../src/llm/lora_framework/paged_optimizer.cpp
+)
