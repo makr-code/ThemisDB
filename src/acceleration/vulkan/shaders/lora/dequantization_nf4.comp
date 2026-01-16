@@ -1,0 +1,59 @@
+#version 450
+
+// NF4 Dequantization Compute Shader
+// Dequantizes 4-bit NormalFloat values back to float32
+
+layout(local_size_x = 256) in;
+
+// Input/Output buffers
+layout(binding = 0) buffer InputBuffer {
+    uint input_data[];  // Packed NF4: 8 values per uint
+};
+
+layout(binding = 1) buffer ScalesBuffer {
+    float scales[];
+};
+
+layout(binding = 2) buffer ZerosBuffer {
+    float zeros[];
+};
+
+layout(binding = 3) buffer OutputBuffer {
+    float output_data[];
+};
+
+// Push constants
+layout(push_constant) uniform PushConstants {
+    uint num_elements;
+    uint block_size;
+};
+
+// NF4 dequantization lookup table
+const float NF4_VALUES[16] = float[16](
+    -1.0, -0.6962, -0.5251, -0.3949,
+    -0.2844, -0.1848, -0.0911, 0.0,
+    0.0796, 0.1609, 0.2461, 0.3379,
+    0.4407, 0.5626, 0.7230, 1.0
+);
+
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    
+    if (idx >= num_elements) {
+        return;
+    }
+    
+    // Determine block
+    uint block_id = idx / block_size;
+    float scale = scales[block_id];
+    float zero = zeros[block_id];
+    
+    // Unpack quantized value (8 values per uint)
+    uint uint_idx = idx / 8;
+    uint bit_offset = (idx % 8) * 4;
+    uint bin = (input_data[uint_idx] >> bit_offset) & 0xF;
+    
+    // Dequantize
+    float normalized = NF4_VALUES[bin];
+    output_data[idx] = normalized * scale + zero;
+}
