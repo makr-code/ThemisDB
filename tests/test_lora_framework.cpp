@@ -186,6 +186,43 @@ TEST_F(LoRAFrameworkTest, StorageService_DeleteAdapter) {
     EXPECT_FALSE(exists);
 }
 
+TEST_F(LoRAFrameworkTest, StorageService_VaultConfiguration) {
+    // Test Vault configuration fields
+    LoRAStorageService::Config vault_config;
+    vault_config.filesystem_path = "/tmp/test_lora_vault";
+    vault_config.enable_encryption = true;
+    vault_config.use_vault_for_encryption = false;  // Use MockKeyProvider for tests
+    vault_config.vault_addr = "http://localhost:8200";
+    vault_config.vault_token = "test-token";
+    vault_config.vault_kv_mount = "themis";
+    vault_config.encryption_key_id = "lora_adapters";
+    
+    // Should initialize with MockKeyProvider since use_vault_for_encryption is false
+    auto vault_storage = std::make_shared<LoRAStorageService>(vault_config);
+    
+    // Test that encryption_key_version field is preserved in metadata
+    AdapterWeights weights;
+    weights.hyperparameters.rank = 8;
+    weights.data.resize(1024);
+    weights.size_bytes = weights.data.size();
+    
+    AdapterMetadata metadata;
+    metadata.adapter_id = "vault_test_adapter";
+    metadata.version = "v1.0";
+    metadata.base_model = "llama-2-7b";
+    metadata.encryption_key_version = 1;  // Test key rotation support
+    
+    bool saved = vault_storage->saveAdapter("vault_test_adapter", weights, metadata);
+    EXPECT_TRUE(saved);
+    
+    auto loaded_metadata = vault_storage->loadMetadata("vault_test_adapter");
+    ASSERT_TRUE(loaded_metadata.has_value());
+    EXPECT_EQ(loaded_metadata->encryption_key_version, 1);
+    
+    // Cleanup
+    vault_storage->deleteAdapter("vault_test_adapter");
+}
+
 // ============================================================================
 // LoRAAdapterManager Tests
 // ============================================================================
