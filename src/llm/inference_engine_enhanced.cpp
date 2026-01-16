@@ -249,10 +249,17 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
     
     spdlog::info("Prewarming cache with {} common prompts", common_prompts.size());
     
-    // TODO: In production, would pre-compute embeddings and KV cache
-    // For now, just log
+    // TODO: In production, implement actual cache prewarming:
+    // 1. Use embedding model to compute embeddings for each prompt
+    //    auto embedding = embedding_model_->encode(prompt);
+    // 2. Pre-compute KV cache for frequent prompts
+    //    auto kv_cache = computeKVCache(prompt);
+    // 3. Store in prefix cache for fast retrieval
+    //    prefix_cache_->store(prompt, kv_cache);
+    
     for (const auto& prompt : common_prompts) {
         spdlog::debug("  Prewarming: {}", prompt.substr(0, 50));
+        // Actual implementation would pre-process these prompts
     }
 }
 
@@ -453,6 +460,9 @@ void InferenceEngineEnhanced::timeoutMonitorLoop() {
     
     while (running_.load()) {
         checkAndHandleTimeouts();
+        
+        // Brief sleep to avoid busy-waiting while still being responsive
+        // In production, this could be optimized with event-driven timeout management
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
@@ -664,9 +674,15 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     // Generate cache key
     std::string cache_key = generateCacheKey(request);
     
-    // TODO: In production, compute embedding for similarity search
-    // For now, use simple string-based lookup
-    std::vector<float> dummy_embedding(128, 0.0f);
+    // TODO: In production, compute embeddings for similarity-based cache lookup
+    // Real implementation would:
+    // 1. Use an embedding model (e.g., sentence-transformers, all-MiniLM-L6-v2)
+    //    auto embedding = embedding_model_->encode(request.prompt);
+    // 2. Perform similarity search in the prefix cache
+    //    auto cached = prefix_cache_->findSimilar(embedding, similarity_threshold);
+    // 
+    // For now, use simple string-based exact matching with a placeholder embedding
+    std::vector<float> dummy_embedding(128, 0.0f);  // Placeholder - not used in current implementation
     
     auto cached = prefix_cache_->get(cache_key, dummy_embedding);
     
