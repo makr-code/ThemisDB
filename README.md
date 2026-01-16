@@ -613,6 +613,12 @@ graph TB
 - 📖 [API Reference](docs/api/API_REFERENCE.md) - REST and GraphQL APIs
 - 📦 [Client SDKs](clients/README.md) - Available client libraries
 
+**LLM/LoRA System:**
+- 🧠 [LLM/LoRA Implementation Status](docs/LLM_LORA_IMPLEMENTATION_STATUS.md) - Current state and roadmap
+- 🚀 [Quick Start Guide (Phase 1)](docs/QUICK_START_PHASE_1.md) - Implementation guide
+- 📋 [Progress Checklist](docs/LLM_LORA_CHECKLIST.md) - Detailed task tracking
+- ⚠️ **Status**: Development in progress (0% complete) - NOT production ready
+
 > **📚 Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 
 ---
