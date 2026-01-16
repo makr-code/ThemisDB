@@ -6,32 +6,23 @@ Counts C++ code lines by theme/category for the date 16.01.2026
 
 import os
 import subprocess
-from pathlib import Path
-from collections import defaultdict
 from datetime import datetime
 
 def count_lines_in_files(file_list):
-    """Count total lines in a list of files."""
+    """Count total lines in a list of files using Python's built-in file reading."""
     if not file_list:
         return 0
-    try:
-        result = subprocess.run(
-            ['wc', '-l'] + file_list,
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        # Last line contains total
-        lines = result.stdout.strip().split('\n')
-        if len(lines) > 1:
-            total_line = lines[-1]
-            return int(total_line.split()[0])
-        elif len(lines) == 1:
-            return int(lines[0].split()[0])
-    except Exception as e:
-        print(f"Error counting lines: {e}")
-        return 0
-    return 0
+    
+    total_lines = 0
+    for file_path in file_list:
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                total_lines += sum(1 for _ in f)
+        except Exception as e:
+            print(f"Warning: Could not read {file_path}: {e}")
+            continue
+    
+    return total_lines
 
 def find_cpp_files(directory):
     """Find all C++ files in a directory."""
@@ -294,9 +285,19 @@ def generate_report(repo_root):
 
 def main():
     """Main execution function."""
-    repo_root = '/home/runner/work/ThemisDB/ThemisDB'
+    import sys
     
-    print("Generating thematic code count report...")
+    # Allow passing repo root as argument or use current directory
+    if len(sys.argv) > 1:
+        repo_root = sys.argv[1]
+    else:
+        repo_root = os.getcwd()
+    
+    if not os.path.exists(repo_root):
+        print(f"Error: Directory {repo_root} does not exist")
+        sys.exit(1)
+    
+    print(f"Generating thematic code count report for: {repo_root}")
     report = generate_report(repo_root)
     
     # Save report

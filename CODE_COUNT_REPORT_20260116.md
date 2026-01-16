@@ -1,5 +1,5 @@
 # ThemisDB Code Count Report
-## Date: 16.01.2026 19:07:52
+## Date: 16.01.2026 19:09:45
 
 This report provides a thematic count of C++ code in ThemisDB.
 
@@ -22,7 +22,7 @@ This report provides a thematic count of C++ code in ThemisDB.
 | governance | 1 | 185 |
 | gpu | 1 | 170 |
 | importers | 1 | 414 |
-| index | 15 | 14,511 |
+| index | 15 | 14,513 |
 | llm | 83 | 37,777 |
 | metadata | 1 | 680 |
 | network | 1 | 340 |
@@ -34,7 +34,7 @@ This report provides a thematic count of C++ code in ThemisDB.
 | scheduler | 2 | 1,511 |
 | search | 1 | 251 |
 | security | 18 | 7,205 |
-| server | 62 | 35,139 |
+| server | 62 | 35,140 |
 | sharding | 42 | 15,642 |
 | storage | 13 | 5,899 |
 | temporal | 1 | 234 |
@@ -43,7 +43,7 @@ This report provides a thematic count of C++ code in ThemisDB.
 | updates | 4 | 1,539 |
 | utils | 28 | 8,316 |
 | voice | 2 | 738 |
-| **TOTAL** | **385** | **178,800** |
+| **TOTAL** | **385** | **178,803** |
 
 ## 2. Headers by Theme (`./include`)
 
@@ -126,14 +126,14 @@ This report provides a thematic count of C++ code in ThemisDB.
 
 | Category | Files | Lines |
 |----------|-------|-------|
-| Source (`./src`) | 385 | 178,800 |
+| Source (`./src`) | 385 | 178,803 |
 | Headers (`./include`) | 447 | 96,910 |
 | Tools | 12 | 864 |
 | Examples | 20 | 4,566 |
 | Tests | 353 | 106,016 |
 | Benchmarks | 86 | 28,477 |
 | Scripts | 0 | 0 |
-| **GRAND TOTAL** | **1303** | **415,633** |
+| **GRAND TOTAL** | **1303** | **415,636** |
 
 ## 10. Statistics
 
