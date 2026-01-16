@@ -824,16 +824,16 @@ GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Devic
     return result;
 }
 
-GPUTensor zeros(const std::vector<size_t>& shape, const Device& device) {
-    return GPUTensor(shape, 0.0f, device);
+GPUTensor zeros(const std::vector<size_t>& shape, const Device& device, DType dtype) {
+    return GPUTensor(shape, 0.0f, device, dtype);
 }
 
 GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dtype) {
-    return GPUTensor(shape, 1.0f, device);
+    return GPUTensor(shape, 1.0f, device, dtype);
 }
 
 GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
-    GPUTensor result(tensor.shape(), device);
+    GPUTensor result(tensor.shape(), device, dtype);
     result.upload(tensor.data());
     return result;
 }

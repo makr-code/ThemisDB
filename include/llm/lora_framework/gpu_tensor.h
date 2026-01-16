@@ -287,7 +287,8 @@ namespace gpu_tensor_utils {
      */
     class Tensor;  // Forward declaration
     GPUTensor from_legacy_tensor(const Tensor& tensor, 
-                                 const Device& device = Device::cpu());
+                                 const Device& device = Device::cpu(),
+                                 DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert GPUTensor to legacy Tensor
