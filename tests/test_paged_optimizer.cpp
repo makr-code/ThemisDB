@@ -499,7 +499,7 @@ TEST_F(PagedOptimizerTest, EdgeCase_ZeroGradients) {
     PagedOptimizerConfig config;
     config.enable_paging = false;
     
-    PagedAdamWOptimizer optimizer(0.001f, 0.9f, 0.999f, 0.01f, config);
+    PagedAdamWOptimizer optimizer(0.001f, 0.9f, 0.999f, 0.01f, 1e-8f, config);
     
     Tensor param({100});
     param.requires_grad = true;
@@ -520,9 +520,13 @@ TEST_F(PagedOptimizerTest, EdgeCase_ZeroGradients) {
     float original_value = data[0];
     optimizer.step();
     
-    // With zero gradients, parameters should change only due to weight decay
-    // (assuming weight decay is non-zero)
-    EXPECT_NE(data[0], original_value);
+    // With zero gradients and weight decay, parameters should decrease
+    // due to weight decay: param *= (1 - lr * weight_decay)
+    EXPECT_LT(data[0], original_value);
+    
+    // Check the weight decay effect
+    float expected = original_value * (1.0f - 0.001f * 0.01f);
+    EXPECT_NEAR(data[0], expected, 1e-6f);
 }
 
 int main(int argc, char** argv) {

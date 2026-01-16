@@ -3,8 +3,11 @@
 #include <algorithm>
 
 // CUDA headers if available
-#ifdef __CUDACC__
+#if defined(__NVCC__) || defined(__CUDACC__) || defined(CUDA_VERSION)
+#define THEMIS_HAS_CUDA 1
 #include <cuda_runtime.h>
+#else
+#define THEMIS_HAS_CUDA 0
 #endif
 
 namespace themis {
@@ -14,8 +17,8 @@ namespace lora {
 // ===== PinnedMemoryPool Implementation =====
 
 PinnedMemoryPool::PinnedMemoryPool() {
-#ifdef __CUDACC__
-    // Check if CUDA is available
+#if THEMIS_HAS_CUDA
+    // Check if CUDA is available at runtime
     int device_count = 0;
     cudaError_t err = cudaGetDeviceCount(&device_count);
     cuda_available_ = (err == cudaSuccess && device_count > 0);
@@ -28,7 +31,7 @@ PinnedMemoryPool::~PinnedMemoryPool() {
     // Free all allocations
     for (auto& pair : allocations_) {
         void* ptr = pair.first;
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
         if (cuda_available_) {
             cudaFreeHost(ptr);
         } else {
@@ -44,7 +47,7 @@ PinnedMemoryPool::~PinnedMemoryPool() {
 void* PinnedMemoryPool::allocate(size_t size) {
     void* ptr = nullptr;
     
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     if (cuda_available_) {
         // Allocate pinned memory for fast DMA
         cudaError_t err = cudaMallocHost(&ptr, size);
@@ -76,7 +79,7 @@ void PinnedMemoryPool::deallocate(void* ptr) {
     
     size_t size = it->second;
     
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     if (cuda_available_) {
         cudaFreeHost(ptr);
     } else {
@@ -93,7 +96,7 @@ void PinnedMemoryPool::deallocate(void* ptr) {
 // ===== GPUMemoryPool Implementation =====
 
 GPUMemoryPool::GPUMemoryPool() {
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     // Check if CUDA is available
     int device_count = 0;
     cudaError_t err = cudaGetDeviceCount(&device_count);
@@ -107,7 +110,7 @@ GPUMemoryPool::~GPUMemoryPool() {
     // Free all allocations
     for (auto& pair : allocations_) {
         void* ptr = pair.first;
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
         if (cuda_available_) {
             cudaFree(ptr);
         }
@@ -119,7 +122,7 @@ GPUMemoryPool::~GPUMemoryPool() {
 void* GPUMemoryPool::allocate(size_t size) {
     void* ptr = nullptr;
     
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     if (cuda_available_) {
         cudaError_t err = cudaMalloc(&ptr, size);
         if (err != cudaSuccess) {
@@ -142,7 +145,7 @@ void GPUMemoryPool::deallocate(void* ptr) {
     
     size_t size = it->second;
     
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     if (cuda_available_) {
         cudaFree(ptr);
     }
@@ -201,7 +204,7 @@ PagedBuffer PagedMemoryManager::allocate(size_t size, DeviceType device) {
             buffer.is_on_gpu = true;
             
             // Copy to GPU
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
             cudaMemcpy(buffer.gpu_ptr, buffer.cpu_ptr, size, cudaMemcpyHostToDevice);
 #endif
         }
@@ -289,7 +292,7 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
     }
     
     // Transfer CPU -> GPU
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     cudaError_t err;
     if (stream) {
         err = cudaMemcpyAsync(buffer.gpu_ptr, buffer.cpu_ptr, buffer.size_bytes,
@@ -334,7 +337,7 @@ bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* stream) {
     }
     
     // Transfer GPU -> CPU
-#ifdef __CUDACC__
+#if THEMIS_HAS_CUDA
     cudaError_t err;
     if (stream) {
         err = cudaMemcpyAsync(buffer.cpu_ptr, buffer.gpu_ptr, buffer.size_bytes,

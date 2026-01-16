@@ -138,6 +138,7 @@ public:
      * @param beta1 Exponential decay rate for first moment (β1), default 0.9
      * @param beta2 Exponential decay rate for second moment (β2), default 0.999
      * @param weight_decay Decoupled weight decay (λ), default 0.01
+     * @param epsilon Numerical stability constant (ε), default 1e-8
      * @param config Paging configuration
      */
     explicit PagedAdamWOptimizer(
@@ -145,6 +146,7 @@ public:
         float beta1 = 0.9f,
         float beta2 = 0.999f,
         float weight_decay = 0.01f,
+        float epsilon = 1e-8f,
         const PagedOptimizerConfig& config = PagedOptimizerConfig()
     );
     
@@ -213,7 +215,7 @@ private:
     float learning_rate_;
     float beta1_;
     float beta2_;
-    float epsilon_ = 1e-8f;
+    float epsilon_;
     float weight_decay_;
     int step_count_ = 0;
     

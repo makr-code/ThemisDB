@@ -14,10 +14,12 @@ PagedAdamWOptimizer::PagedAdamWOptimizer(
     float beta1,
     float beta2,
     float weight_decay,
+    float epsilon,
     const PagedOptimizerConfig& config)
     : learning_rate_(learning_rate),
       beta1_(beta1),
       beta2_(beta2),
+      epsilon_(epsilon),
       weight_decay_(weight_decay),
       config_(config) {
     
@@ -111,8 +113,8 @@ void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState&
     }
     
     // Bias correction factors
-    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_);
-    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_);
+    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_ + 1);
+    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_ + 1);
     
     // AdamW update rule
     for (size_t i = 0; i < size; ++i) {
@@ -130,10 +132,10 @@ void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState&
         // Compute bias-corrected second raw moment estimate
         float v_hat = v_data[i] / bias_correction2;
         
-        // Update parameters with AdamW weight decay
-        float update = learning_rate_ * (m_hat / (std::sqrt(v_hat) + epsilon_) + 
-                                          weight_decay_ * param_data[i]);
-        param_data[i] -= update;
+        // Update parameters with AdamW weight decay (decoupled)
+        // AdamW applies weight decay directly to parameters, not through gradients
+        param_data[i] = param_data[i] * (1.0f - learning_rate_ * weight_decay_) 
+                        - learning_rate_ * m_hat / (std::sqrt(v_hat) + epsilon_);
     }
 }
 

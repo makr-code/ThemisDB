@@ -89,18 +89,24 @@ public:
     
     std::vector<Key> getLRUKeys(size_t count) const {
         std::vector<std::pair<Key, uint64_t>> entries;
+        entries.reserve(cache_.size());
+        
         for (const auto& pair : cache_) {
             entries.push_back({pair.first, pair.second.last_access_time});
         }
         
-        // Sort by last access time (oldest first)
-        std::sort(entries.begin(), entries.end(),
-                  [](const auto& a, const auto& b) {
-                      return a.second < b.second;
-                  });
+        // Use partial_sort for better performance: O(n log count) instead of O(n log n)
+        size_t sort_count = std::min(count, entries.size());
+        std::partial_sort(entries.begin(), 
+                         entries.begin() + sort_count, 
+                         entries.end(),
+                         [](const auto& a, const auto& b) {
+                             return a.second < b.second;  // Oldest first
+                         });
         
         std::vector<Key> result;
-        for (size_t i = 0; i < std::min(count, entries.size()); ++i) {
+        result.reserve(sort_count);
+        for (size_t i = 0; i < sort_count; ++i) {
             result.push_back(entries[i].first);
         }
         return result;
