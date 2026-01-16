@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <cmath>
+#include <algorithm>
 #include <nlohmann/json.hpp>
 
 namespace themis {

@@ -167,20 +167,106 @@ public:
                 params.alpha / params.rank  // Scaling factor
             );
             
-            // Create optimizer
-            SGDOptimizer optimizer(params.learning_rate, 0.0f, 0.0f);  // learning_rate, momentum, weight_decay
-            optimizer.add_parameters(lora_layer->parameters());
+            // Create optimizer based on configuration
+            // Note: We use distinct optimizer instances rather than a polymorphic base
+            // to maintain zero-cost abstractions and allow optimizer-specific optimizations
+            std::unique_ptr<SGDOptimizer> sgd_optimizer;
+            std::unique_ptr<AdamOptimizer> adam_optimizer;
+            std::unique_ptr<AdamWOptimizer> adamw_optimizer;
+            
+            spdlog::info("Creating optimizer: {}", params.optimizer);
+            
+            if (params.optimizer == "sgd") {
+                sgd_optimizer = std::make_unique<SGDOptimizer>(
+                    params.learning_rate,
+                    params.momentum,
+                    params.weight_decay
+                );
+                sgd_optimizer->add_parameters(lora_layer->parameters());
+            } else if (params.optimizer == "adam") {
+                adam_optimizer = std::make_unique<AdamOptimizer>(
+                    params.learning_rate,
+                    params.beta1,
+                    params.beta2,
+                    params.epsilon,
+                    params.weight_decay
+                );
+                adam_optimizer->add_parameters(lora_layer->parameters());
+            } else {
+                // Default to AdamW (best for LLM fine-tuning)
+                if (params.optimizer != "adamw") {
+                    spdlog::warn("Unknown optimizer '{}', defaulting to adamw", params.optimizer);
+                }
+                adamw_optimizer = std::make_unique<AdamWOptimizer>(
+                    params.learning_rate,
+                    params.beta1,
+                    params.beta2,
+                    params.epsilon,
+                    params.weight_decay
+                );
+                adamw_optimizer->add_parameters(lora_layer->parameters());
+            }
+            
+            // Create learning rate scheduler using factory (more comprehensive than params-based)
+            // Use config_ scheduler if available, otherwise fall back to params
+            std::unique_ptr<LRScheduler> lr_scheduler;
+            int total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            
+            // Use production LR scheduler factory with full configuration support
+            if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
+                // Production config has been set, use it
+                auto scheduler_config = config_.lr_scheduler;
+                scheduler_config.total_steps = total_steps;  // Update total_steps based on actual data
+                lr_scheduler = LRSchedulerFactory::create(scheduler_config);
+                spdlog::info("Using production LR scheduler: type={}", static_cast<int>(scheduler_config.type));
+            } else {
+                // Fall back to params-based scheduler for backward compatibility
+                spdlog::info("Creating LR scheduler from params: {}", params.lr_scheduler);
+                
+                if (params.lr_scheduler == "constant") {
+                    lr_scheduler = std::make_unique<ConstantLR>(params.learning_rate);
+                } else if (params.lr_scheduler == "linear_warmup") {
+                    lr_scheduler = std::make_unique<LinearWarmupLR>(
+                        params.learning_rate,
+                        params.warmup_steps
+                    );
+                } else if (params.lr_scheduler == "cosine") {
+                    lr_scheduler = std::make_unique<CosineAnnealingLR>(
+                        params.learning_rate,
+                        total_steps
+                    );
+                } else if (params.lr_scheduler == "cosine_warmup") {
+                    lr_scheduler = std::make_unique<CosineAnnealingWarmupLR>(
+                        params.learning_rate,
+                        params.warmup_steps,
+                        total_steps
+                    );
+                } else if (params.lr_scheduler == "step") {
+                    lr_scheduler = std::make_unique<StepLR>(
+                        params.learning_rate,
+                        params.lr_step_size,
+                        params.lr_decay_gamma
+                    );
+                } else if (params.lr_scheduler == "exponential") {
+                    lr_scheduler = std::make_unique<ExponentialLR>(
+                        params.learning_rate,
+                        params.lr_decay_gamma
+                    );
+                } else {
+                    // Default to constant
+                    spdlog::warn("Unknown LR scheduler '{}', defaulting to constant", params.lr_scheduler);
+                    lr_scheduler = std::make_unique<ConstantLR>(params.learning_rate);
+                }
+            }
             
             // Initialize production training features
             auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(config_.mixed_precision);
-            auto lr_scheduler = LRSchedulerFactory::create(config_.lr_scheduler);
             auto gradient_accumulator = std::make_unique<GradientAccumulator>(config_.gradient_accumulation);
             
             spdlog::info("Initialized LoRA layer with {} parameters", 
                         lora_layer->parameter_count());
             spdlog::info("Production features enabled:");
             spdlog::info("  Mixed precision: {}", mixed_precision->is_enabled());
-            spdlog::info("  LR scheduling: {}", static_cast<int>(lr_scheduler->type()));
             spdlog::info("  Gradient clipping: {}", static_cast<int>(config_.gradient_clipping.method));
             spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation.accumulation_steps);
             
@@ -215,10 +301,17 @@ public:
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
-                    // Update learning rate using scheduler
+                    // Update learning rate from scheduler
                     float current_lr = lr_scheduler->get_lr(global_step);
-                    optimizer.set_learning_rate(current_lr);
                     current_metrics_.learning_rate = current_lr;
+                    
+                    if (sgd_optimizer) {
+                        sgd_optimizer->set_learning_rate(current_lr);
+                    } else if (adam_optimizer) {
+                        adam_optimizer->set_learning_rate(current_lr);
+                    } else if (adamw_optimizer) {
+                        adamw_optimizer->set_learning_rate(current_lr);
+                    }
                     
                     // Create synthetic training batch (TEMPORARY - Phase 1 only)
                     // TODO: In future PRs, replace with real text data processing:
@@ -237,7 +330,13 @@ public:
                     // Forward pass
                     // Zero gradients at start of accumulation cycle
                     if (gradient_accumulator->current_step() == 0) {
-                        optimizer.zero_grad();
+                        if (sgd_optimizer) {
+                            sgd_optimizer->zero_grad();
+                        } else if (adam_optimizer) {
+                            adam_optimizer->zero_grad();
+                        } else if (adamw_optimizer) {
+                            adamw_optimizer->zero_grad();
+                        }
                     }
                     Tensor predictions = lora_layer->forward(batch_input);
                     
@@ -279,7 +378,16 @@ public:
                                     *gradients[i] = *accumulated_grads[i];
                                 }
                             }
-                            optimizer.step();
+                            
+                            // Optimizer step with proper optimizer selection
+                            if (sgd_optimizer) {
+                                sgd_optimizer->step();
+                            } else if (adam_optimizer) {
+                                adam_optimizer->step();
+                            } else if (adamw_optimizer) {
+                                adamw_optimizer->step();
+                            }
+                            
                             gradient_accumulator->reset();
                         }
                     } else {
@@ -305,8 +413,11 @@ public:
                     }
                     
                     // Small delay to prevent overwhelming the system
+                    // Removed artificial sleep - let GPU/CPU work at full speed
+                    // Memory-based throttling should be handled by the system allocator
                     if (step % 10 == 0) {
-                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                        // Optionally yield to other threads but don't artificially slow down
+                        std::this_thread::yield();
                     }
                 }
                 

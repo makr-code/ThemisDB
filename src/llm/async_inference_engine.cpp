@@ -241,15 +241,9 @@ json AsyncInferenceEngine::getWorkerStats() const {
 void AsyncInferenceEngine::waitForCompletion() {
     spdlog::info("Waiting for all pending inference requests to complete...");
     
-    while (true) {
-        {
-            std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (request_queue_.empty()) {
-                break;
-            }
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    // Use condition variable for efficient waiting instead of polling with sleep
+    std::unique_lock<std::mutex> lock(queue_mutex_);
+    queue_cv_.wait(lock, [this] { return request_queue_.empty(); });
     
     spdlog::info("All inference requests completed");
 }

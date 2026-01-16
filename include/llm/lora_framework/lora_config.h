@@ -23,6 +23,20 @@ struct LoRAHyperparameters {
     int num_epochs = 3;                    // Number of training epochs
     int max_seq_length = 512;              // Maximum sequence length
     
+    // Optimizer settings
+    std::string optimizer = "adamw";       // Optimizer type: "sgd", "adam", "adamw"
+    float beta1 = 0.9f;                    // Adam beta1 (momentum)
+    float beta2 = 0.999f;                  // Adam beta2 (RMSprop)
+    float epsilon = 1e-8f;                 // Adam epsilon (numerical stability)
+    float weight_decay = 0.01f;            // Weight decay / L2 regularization
+    float momentum = 0.0f;                 // SGD momentum
+    
+    // Learning rate scheduling
+    std::string lr_scheduler = "constant"; // LR scheduler: "constant", "linear_warmup", "cosine", "cosine_warmup", "step", "exponential"
+    int warmup_steps = 0;                  // Warmup steps for schedulers
+    float lr_decay_gamma = 0.1f;           // Decay factor for step/exponential schedulers
+    int lr_step_size = 100;                // Step size for step decay
+    
     // Target modules to apply LoRA
     std::vector<std::string> target_modules = {"q_proj", "v_proj"};
     
@@ -35,6 +49,16 @@ struct LoRAHyperparameters {
             {"batch_size", batch_size},
             {"num_epochs", num_epochs},
             {"max_seq_length", max_seq_length},
+            {"optimizer", optimizer},
+            {"beta1", beta1},
+            {"beta2", beta2},
+            {"epsilon", epsilon},
+            {"weight_decay", weight_decay},
+            {"momentum", momentum},
+            {"lr_scheduler", lr_scheduler},
+            {"warmup_steps", warmup_steps},
+            {"lr_decay_gamma", lr_decay_gamma},
+            {"lr_step_size", lr_step_size},
             {"target_modules", target_modules}
         };
     }
@@ -48,6 +72,16 @@ struct LoRAHyperparameters {
         if (j.contains("batch_size")) params.batch_size = j["batch_size"];
         if (j.contains("num_epochs")) params.num_epochs = j["num_epochs"];
         if (j.contains("max_seq_length")) params.max_seq_length = j["max_seq_length"];
+        if (j.contains("optimizer")) params.optimizer = j["optimizer"];
+        if (j.contains("beta1")) params.beta1 = j["beta1"];
+        if (j.contains("beta2")) params.beta2 = j["beta2"];
+        if (j.contains("epsilon")) params.epsilon = j["epsilon"];
+        if (j.contains("weight_decay")) params.weight_decay = j["weight_decay"];
+        if (j.contains("momentum")) params.momentum = j["momentum"];
+        if (j.contains("lr_scheduler")) params.lr_scheduler = j["lr_scheduler"];
+        if (j.contains("warmup_steps")) params.warmup_steps = j["warmup_steps"];
+        if (j.contains("lr_decay_gamma")) params.lr_decay_gamma = j["lr_decay_gamma"];
+        if (j.contains("lr_step_size")) params.lr_step_size = j["lr_step_size"];
         if (j.contains("target_modules")) params.target_modules = j["target_modules"].get<std::vector<std::string>>();
         return params;
     }
