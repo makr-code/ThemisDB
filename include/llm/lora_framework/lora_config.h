@@ -88,6 +88,47 @@ struct LoRAHyperparameters {
 };
 
 /**
+ * @brief QLoRA (Quantized LoRA) configuration
+ * 
+ * Configuration for memory-efficient QLoRA training with quantized base models.
+ */
+struct QLoRAConfig {
+    bool enabled = false;                              // Enable QLoRA training mode
+    std::string quantization_type = "nf4";             // "nf4", "int8", "none"
+    size_t block_size = 64;                            // Block size for quantization
+    bool use_double_quantization = false;              // Quantize quantization constants
+    bool layer_by_layer = true;                        // Layer-by-layer quantization (saves memory)
+    
+    // Future: Paged optimizer settings
+    bool use_paged_optimizer = false;                  // Use paged optimizer (future)
+    std::string optimizer_offload = "none";            // "cpu", "none" (future)
+    
+    json toJSON() const {
+        return json{
+            {"enabled", enabled},
+            {"quantization_type", quantization_type},
+            {"block_size", block_size},
+            {"use_double_quantization", use_double_quantization},
+            {"layer_by_layer", layer_by_layer},
+            {"use_paged_optimizer", use_paged_optimizer},
+            {"optimizer_offload", optimizer_offload}
+        };
+    }
+    
+    static QLoRAConfig fromJSON(const json& j) {
+        QLoRAConfig config;
+        if (j.contains("enabled")) config.enabled = j["enabled"];
+        if (j.contains("quantization_type")) config.quantization_type = j["quantization_type"];
+        if (j.contains("block_size")) config.block_size = j["block_size"];
+        if (j.contains("use_double_quantization")) config.use_double_quantization = j["use_double_quantization"];
+        if (j.contains("layer_by_layer")) config.layer_by_layer = j["layer_by_layer"];
+        if (j.contains("use_paged_optimizer")) config.use_paged_optimizer = j["use_paged_optimizer"];
+        if (j.contains("optimizer_offload")) config.optimizer_offload = j["optimizer_offload"];
+        return config;
+    }
+};
+
+/**
  * @brief LoRA adapter metadata
  */
 struct AdapterMetadata {
