@@ -196,15 +196,17 @@ TEST_F(PagedOptimizerTest, PagedAdamWOptimizer_StepCPU) {
     
     // Create test parameter
     Tensor param({param_size_});
+    param.requires_grad = true;
     
     // Initialize parameter with values
-    float* data = param.data();
+    std::vector<float>& data = param.data();
     for (size_t i = 0; i < param_size_; ++i) {
         data[i] = 1.0f;
     }
     
     // Set gradient
-    float* grad = param.grad_data();
+    param.grad = Tensor({param_size_});
+    std::vector<float>& grad = param.grad.data();
     for (size_t i = 0; i < param_size_; ++i) {
         grad[i] = 0.1f;
     }
@@ -229,9 +231,10 @@ TEST_F(PagedOptimizerTest, PagedAdamWOptimizer_MultipleSteps) {
     
     // Create test parameter
     Tensor param({param_size_});
+    param.requires_grad = true;
     
     // Initialize
-    float* data = param.data();
+    std::vector<float>& data = param.data();
     for (size_t i = 0; i < param_size_; ++i) {
         data[i] = 1.0f;
     }
@@ -242,7 +245,8 @@ TEST_F(PagedOptimizerTest, PagedAdamWOptimizer_MultipleSteps) {
     // Perform multiple steps
     for (int step = 0; step < 10; ++step) {
         // Set gradient
-        float* grad = param.grad_data();
+        param.grad = Tensor({param_size_});
+        std::vector<float>& grad = param.grad.data();
         for (size_t i = 0; i < param_size_; ++i) {
             grad[i] = 0.1f;
         }
@@ -265,6 +269,7 @@ TEST_F(PagedOptimizerTest, PagedAdamWOptimizer_Metrics) {
     
     // Create test parameter
     Tensor param({param_size_});
+    param.requires_grad = true;
     std::vector<Tensor*> params{&param};
     optimizer.add_parameters(params);
     
@@ -274,7 +279,8 @@ TEST_F(PagedOptimizerTest, PagedAdamWOptimizer_Metrics) {
     EXPECT_EQ(metrics.num_page_outs, 0);
     
     // Perform step
-    float* grad = param.grad_data();
+    param.grad = Tensor({param_size_});
+    std::vector<float>& grad = param.grad.data();
     for (size_t i = 0; i < param_size_; ++i) {
         grad[i] = 0.1f;
     }
@@ -315,6 +321,8 @@ TEST_F(PagedOptimizerTest, Correctness_PagedVsNonPaged) {
     // Create identical parameters
     Tensor param1({100});
     Tensor param2({100});
+    param1.requires_grad = true;
+    param2.requires_grad = true;
     
     // Initialize with same values
     for (size_t i = 0; i < 100; ++i) {
@@ -329,9 +337,11 @@ TEST_F(PagedOptimizerTest, Correctness_PagedVsNonPaged) {
     // Perform multiple steps with same gradients
     for (int step = 0; step < 5; ++step) {
         // Set same gradients
+        param1.grad = Tensor({100});
+        param2.grad = Tensor({100});
         for (size_t i = 0; i < 100; ++i) {
-            param1.grad_data()[i] = 0.1f;
-            param2.grad_data()[i] = 0.1f;
+            param1.grad.data()[i] = 0.1f;
+            param2.grad.data()[i] = 0.1f;
         }
         
         standard_optimizer.step();
@@ -396,6 +406,7 @@ TEST_F(PagedOptimizerTest, Performance_Overhead) {
     
     for (int i = 0; i < 10; ++i) {
         params.emplace_back(std::vector<size_t>{1000});
+        params.back().requires_grad = true;
         param_ptrs.push_back(&params.back());
     }
     
@@ -403,7 +414,8 @@ TEST_F(PagedOptimizerTest, Performance_Overhead) {
     
     // Set gradients
     for (auto* param : param_ptrs) {
-        float* grad = param->grad_data();
+        param->grad = Tensor({param->size()});
+        std::vector<float>& grad = param->grad.data();
         for (size_t i = 0; i < param->size(); ++i) {
             grad[i] = 0.1f;
         }
@@ -468,11 +480,14 @@ TEST_F(PagedOptimizerTest, EdgeCase_SingleParameter) {
     PagedAdamWOptimizer optimizer(0.001f, 0.9f, 0.999f, 0.01f, config);
     
     Tensor param({10});
+    param.requires_grad = true;
     optimizer.add_parameters({&param});
     
     // Set gradient
+    param.grad = Tensor({10});
+    std::vector<float>& grad = param.grad.data();
     for (size_t i = 0; i < 10; ++i) {
-        param.grad_data()[i] = 0.1f;
+        grad[i] = 0.1f;
     }
     
     optimizer.step();
@@ -487,7 +502,8 @@ TEST_F(PagedOptimizerTest, EdgeCase_ZeroGradients) {
     PagedAdamWOptimizer optimizer(0.001f, 0.9f, 0.999f, 0.01f, config);
     
     Tensor param({100});
-    float* data = param.data();
+    param.requires_grad = true;
+    std::vector<float>& data = param.data();
     for (size_t i = 0; i < 100; ++i) {
         data[i] = 1.0f;
     }
@@ -495,7 +511,8 @@ TEST_F(PagedOptimizerTest, EdgeCase_ZeroGradients) {
     optimizer.add_parameters({&param});
     
     // Set zero gradients
-    float* grad = param.grad_data();
+    param.grad = Tensor({100});
+    std::vector<float>& grad = param.grad.data();
     for (size_t i = 0; i < 100; ++i) {
         grad[i] = 0.0f;
     }

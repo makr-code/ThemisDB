@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <cstddef>
 #include <cstdint>
+#include <algorithm>
 
 namespace themis {
 namespace llm {
