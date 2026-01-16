@@ -336,9 +336,9 @@ lora::TrainingResult ThemisHelpLoRA::trainFromFeedback() {
             {{"source", "user_feedback"}}
         );
         
-        // TODO: Implement actual training
-        // For now, simulate training completion
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // TODO: Implement actual training via LoRA training service
+        // This should call lora_trainer_->train(training_config) with the feedback buffer
+        spdlog::warn("Training skipped: LoRA training implementation pending");
         
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -429,9 +429,9 @@ lora::TrainingResult ThemisHelpLoRA::trainFromDocumentation() {
         );
         
         // TODO: Implement actual documentation corpus training
-        // For now, simulate training
-        spdlog::info("Processing 1151 documentation files...");
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        // This should process the 1151 documentation files and train the adapter
+        spdlog::warn("Documentation training skipped: Implementation pending");
+        spdlog::info("Would process 1151 documentation files for training");
         
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);

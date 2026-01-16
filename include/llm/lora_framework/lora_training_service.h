@@ -1,6 +1,9 @@
 #pragma once
 
 #include "lora_config.h"
+#include "mixed_precision.h"
+#include "lr_scheduler.h"
+#include "gradient_utils.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -155,6 +158,11 @@ public:
         // Phase 2: Base model integration settings
         std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
         bool use_base_model = false;         // Enable base model integration (Phase 2b)
+        // Production training features
+        MixedPrecisionConfig mixed_precision;
+        LRSchedulerConfig lr_scheduler;
+        GradientClippingConfig gradient_clipping;
+        GradientAccumulationConfig gradient_accumulation;
     };
     
     explicit LoRATrainingService(const Config& config = Config{});

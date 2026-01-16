@@ -27,10 +27,10 @@ Transform ThemisDB LLM/LoRA system from 20-40% complete PoC to 100% production-r
 **Overall Progress**: 0/5 phases complete (Infrastructure: 100%, Implementation: 0%)
 
 ### Phase 1: Critical Blockers (Weeks 1-14) - 0% Complete
-- [ ] Issue #01: llama.cpp Infrastructure (Weeks 1-3)
-- [ ] Issue #02: Sampling Strategies (Weeks 4-5)
-- [ ] Issue #03: Security Validation (Weeks 5-7)
-- [ ] Issue #04: LoRA Training (Weeks 7-14)
+- [ ] Issue makr-code/ThemisDB#1: llama.cpp Infrastructure (Weeks 1-3)
+- [ ] Issue makr-code/ThemisDB#2: Sampling Strategies (Weeks 4-5)
+- [ ] Issue makr-code/ThemisDB#3: Security Validation (Weeks 5-7)
+- [ ] Issue makr-code/ThemisDB#4: LoRA Training (Weeks 7-14)
 
 ### Phase 2: Infrastructure (Weeks 15-22) - 0% Complete
 - [ ] Storage Backend Integration (ThemisDB/S3)
@@ -61,7 +61,7 @@ Transform ThemisDB LLM/LoRA system from 20-40% complete PoC to 100% production-r
 ### Phase 1: Critical Blockers (⛔ Must Complete)
 
 #### 1.1 LLM Infrastructure Implementation
-**Issue**: #01 - llama.cpp Infrastructure
+**Issue**: makr-code/ThemisDB#1 - llama.cpp Infrastructure
 **Priority**: 🔴 Critical
 **Effort**: 2-3 weeks (1 FTE)
 **Status**: 📋 Not Started
@@ -80,7 +80,7 @@ Transform ThemisDB LLM/LoRA system from 20-40% complete PoC to 100% production-r
 - [ ] < 100ms model loading overhead
 
 #### 1.2 Token Sampling Implementation
-**Issue**: #02 - Sampling Strategies
+**Issue**: makr-code/ThemisDB#2 - Sampling Strategies
 **Priority**: 🔴 Critical
 **Effort**: 1-2 weeks (1 FTE)
 **Status**: 📋 Not Started
@@ -98,7 +98,7 @@ Transform ThemisDB LLM/LoRA system from 20-40% complete PoC to 100% production-r
 - [ ] < 2ms per token
 
 #### 1.3 Security Validation Implementation
-**Issue**: #03 - Security Validation
+**Issue**: makr-code/ThemisDB#3 - Security Validation
 **Priority**: 🔴 Critical
 **Effort**: 2-3 weeks (1 FTE)
 **Status**: 📋 Not Started
@@ -117,7 +117,7 @@ Transform ThemisDB LLM/LoRA system from 20-40% complete PoC to 100% production-r
 - [ ] Security audit passes
 
 #### 1.4 LoRA Training Implementation
-**Issue**: #04 - LoRA Training
+**Issue**: makr-code/ThemisDB#4 - LoRA Training
 **Priority**: 🔴 Critical
 **Effort**: 6-8 weeks (1-2 FTE)
 **Status**: 📋 Not Started
@@ -309,10 +309,10 @@ Transform ThemisDB LLM/LoRA system from 20-40% complete PoC to 100% production-r
 ## 📈 Timeline
 
 ```
-Week 1-3:   llama.cpp Infrastructure (#01)
-Week 4-5:   Sampling Strategies (#02)
-Week 5-7:   Security Validation (#03)
-Week 7-14:  LoRA Training (#04)
+Week 1-3:   llama.cpp Infrastructure (makr-code/ThemisDB#1)
+Week 4-5:   Sampling Strategies (makr-code/ThemisDB#2)
+Week 5-7:   Security Validation (makr-code/ThemisDB#3)
+Week 7-14:  LoRA Training (makr-code/ThemisDB#4)
 Week 15-22: Infrastructure (Phase 2)
 Week 23-30: Quality Assurance (Phase 3)
 Week 31-34: Performance Optimization (Phase 4)
@@ -323,10 +323,10 @@ Total: 38 weeks (~9 months)
 
 ## 🔗 Related Issues
 
-- [ ] #01 - LLM Infrastructure Implementation
-- [ ] #02 - Sampling Strategy Implementation
-- [ ] #03 - Security Validation Implementation
-- [ ] #04 - LoRA Training Implementation
+- [ ] makr-code/ThemisDB#1 - LLM Infrastructure Implementation
+- [ ] makr-code/ThemisDB#2 - Sampling Strategy Implementation
+- [ ] makr-code/ThemisDB#3 - Security Validation Implementation
+- [ ] makr-code/ThemisDB#4 - LoRA Training Implementation
 - (Additional issues to be created for Phase 2-5)
 
 ## 📚 Documentation
@@ -355,4 +355,4 @@ All documentation is in `docs/analysis/`:
 This is a meta-issue for tracking purposes. Close this issue only when all phases are complete and the system is production-ready.
 
 **Current Status**: Infrastructure setup complete (100%), Implementation not started (0%)
-**Next Step**: Start Issue #01 (llama.cpp Infrastructure)
+**Next Step**: Start Issue makr-code/ThemisDB#1 (llama.cpp Infrastructure)
