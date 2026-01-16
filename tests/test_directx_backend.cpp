@@ -172,6 +172,238 @@ TEST_F(DirectXBackendTest, DescriptorReset) {
     EXPECT_EQ(index, 0);
 }
 
+// ===== Kernel Execution Tests =====
+
+TEST_F(DirectXBackendTest, MatMulKernel) {
+    // Initialize DirectX
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    // Simple 4x4 matrix multiplication test
+    const int M = 4, N = 4, K = 4;
+    std::vector<float> A(M * K);
+    std::vector<float> B(K * N);
+    std::vector<float> C(M * N, 0.0f);
+    
+    // Initialize A with identity-like pattern
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < K; ++j) {
+            A[i * K + j] = (i == j) ? 1.0f : 0.0f;
+        }
+    }
+    
+    // Initialize B with simple values
+    for (int i = 0; i < K; ++i) {
+        for (int j = 0; j < N; ++j) {
+            B[i * N + j] = static_cast<float>(i * N + j);
+        }
+    }
+    
+    // Execute kernel
+    EXPECT_NO_THROW(launch_matmul_shader(A.data(), B.data(), C.data(), M, N, K, 1.0f));
+    
+    // Verify result: Since A is identity, C should equal B
+    for (int i = 0; i < M * N; ++i) {
+        EXPECT_FLOAT_EQ(C[i], B[i]) << "Mismatch at index " << i;
+    }
+    
+    cleanup_directx_lora();
+}
+
+TEST_F(DirectXBackendTest, AddKernel) {
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    const size_t size = 1024;
+    std::vector<float> A(size);
+    std::vector<float> B(size);
+    std::vector<float> C(size, 0.0f);
+    
+    // Initialize test data
+    for (size_t i = 0; i < size; ++i) {
+        A[i] = static_cast<float>(i);
+        B[i] = static_cast<float>(i * 2);
+    }
+    
+    // Execute kernel
+    EXPECT_NO_THROW(launch_add_shader(A.data(), B.data(), C.data(), size));
+    
+    // Verify result: C = A + B
+    for (size_t i = 0; i < size; ++i) {
+        float expected = A[i] + B[i];
+        EXPECT_FLOAT_EQ(C[i], expected) << "Mismatch at index " << i;
+    }
+    
+    cleanup_directx_lora();
+}
+
+TEST_F(DirectXBackendTest, MultiplyKernel) {
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    const size_t size = 512;
+    std::vector<float> A(size);
+    std::vector<float> B(size);
+    std::vector<float> C(size, 0.0f);
+    
+    // Initialize test data
+    for (size_t i = 0; i < size; ++i) {
+        A[i] = 2.0f;
+        B[i] = 3.0f;
+    }
+    
+    // Execute kernel
+    EXPECT_NO_THROW(launch_multiply_shader(A.data(), B.data(), C.data(), size));
+    
+    // Verify result: C = A * B
+    for (size_t i = 0; i < size; ++i) {
+        EXPECT_FLOAT_EQ(C[i], 6.0f) << "Mismatch at index " << i;
+    }
+    
+    cleanup_directx_lora();
+}
+
+TEST_F(DirectXBackendTest, ScalarMultiplyKernel) {
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    const size_t size = 256;
+    const float scalar = 2.5f;
+    std::vector<float> A(size);
+    std::vector<float> B(size, 0.0f);
+    
+    // Initialize test data
+    for (size_t i = 0; i < size; ++i) {
+        A[i] = static_cast<float>(i + 1);
+    }
+    
+    // Execute kernel
+    EXPECT_NO_THROW(launch_scalar_multiply_shader(A.data(), B.data(), scalar, size));
+    
+    // Verify result: B = A * scalar
+    for (size_t i = 0; i < size; ++i) {
+        float expected = A[i] * scalar;
+        EXPECT_FLOAT_EQ(B[i], expected) << "Mismatch at index " << i;
+    }
+    
+    cleanup_directx_lora();
+}
+
+TEST_F(DirectXBackendTest, TransposeKernel) {
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    const int rows = 8;
+    const int cols = 4;
+    std::vector<float> input(rows * cols);
+    std::vector<float> output(rows * cols, 0.0f);
+    
+    // Initialize input matrix
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            input[i * cols + j] = static_cast<float>(i * cols + j);
+        }
+    }
+    
+    // Execute kernel
+    EXPECT_NO_THROW(launch_transpose_shader(input.data(), output.data(), rows, cols));
+    
+    // Verify result: output[j * rows + i] = input[i * cols + j]
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            float expected = input[i * cols + j];
+            float actual = output[j * rows + i];
+            EXPECT_FLOAT_EQ(actual, expected) 
+                << "Mismatch at [" << i << "," << j << "]";
+        }
+    }
+    
+    cleanup_directx_lora();
+}
+
+TEST_F(DirectXBackendTest, LoRAGradientKernels) {
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    // Small test for gradient computation
+    const int M = 2;  // batch size
+    const int K = 4;  // rank
+    const int N = 3;  // output dim
+    const float scaling = 0.5f;
+    
+    std::vector<float> h(M * K);
+    std::vector<float> grad_output(M * N);
+    std::vector<float> grad_A(K * N, 0.0f);
+    
+    // Initialize test data
+    for (int i = 0; i < M * K; ++i) {
+        h[i] = 1.0f;
+    }
+    for (int i = 0; i < M * N; ++i) {
+        grad_output[i] = 1.0f;
+    }
+    
+    // Execute grad_A kernel
+    EXPECT_NO_THROW(launch_lora_grad_A_shader(
+        h.data(), grad_output.data(), grad_A.data(),
+        M, K, N, scaling));
+    
+    // Verify grad_A has been computed (non-zero)
+    bool has_nonzero = false;
+    for (float val : grad_A) {
+        if (val != 0.0f) {
+            has_nonzero = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(has_nonzero) << "grad_A should contain non-zero values";
+    
+    // Test grad_B
+    const int D = 5;  // input dim
+    std::vector<float> input(M * D);
+    std::vector<float> grad_h(M * K);
+    std::vector<float> grad_B(D * K, 0.0f);
+    
+    for (int i = 0; i < M * D; ++i) {
+        input[i] = 1.0f;
+    }
+    for (int i = 0; i < M * K; ++i) {
+        grad_h[i] = 1.0f;
+    }
+    
+    EXPECT_NO_THROW(launch_lora_grad_B_shader(
+        input.data(), grad_h.data(), grad_B.data(),
+        M, D, K));
+    
+    // Verify grad_B has been computed
+    has_nonzero = false;
+    for (float val : grad_B) {
+        if (val != 0.0f) {
+            has_nonzero = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(has_nonzero) << "grad_B should contain non-zero values";
+    
+    cleanup_directx_lora();
+}
+
+TEST_F(DirectXBackendTest, NumericalAccuracySmall) {
+    ASSERT_TRUE(initialize_directx_lora(0));
+    
+    // Test with small known values
+    const int M = 2, N = 2, K = 2;
+    std::vector<float> A = {1.0f, 2.0f, 3.0f, 4.0f};  // [[1,2], [3,4]]
+    std::vector<float> B = {5.0f, 6.0f, 7.0f, 8.0f};  // [[5,6], [7,8]]
+    std::vector<float> C(M * N, 0.0f);
+    
+    // Expected result: [[19, 22], [43, 50]]
+    std::vector<float> expected = {19.0f, 22.0f, 43.0f, 50.0f};
+    
+    EXPECT_NO_THROW(launch_matmul_shader(A.data(), B.data(), C.data(), M, N, K, 1.0f));
+    
+    // Verify with small tolerance
+    for (int i = 0; i < M * N; ++i) {
+        EXPECT_NEAR(C[i], expected[i], 1e-4f) << "Mismatch at index " << i;
+    }
+    
+    cleanup_directx_lora();
+}
+
 #else
 
 TEST(DirectXBackendTest, NotAvailableOnNonWindows) {
