@@ -79,7 +79,7 @@ inline uint16_t fp32_to_fp16_bits(float value) {
     std::memcpy(&bits, &value, sizeof(float));
     
     uint32_t sign = (bits >> 16) & 0x8000;
-    uint32_t exponent = ((bits >> 23) & 0xFF) - 127 + 15;
+    int32_t exponent = static_cast<int32_t>((bits >> 23) & 0xFF) - 127 + 15;  // Use signed int
     uint32_t mantissa = (bits >> 13) & 0x3FF;
     
     // Clamp exponent
