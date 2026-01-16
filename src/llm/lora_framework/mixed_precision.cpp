@@ -1,6 +1,7 @@
 #include "llm/lora_framework/mixed_precision.h"
 #include <spdlog/spdlog.h>
 #include <cmath>
+#include <cstring>
 #include <limits>
 #include <algorithm>
 

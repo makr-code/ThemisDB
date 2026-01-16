@@ -235,7 +235,8 @@ public:
                     }
                     
                     // Forward pass
-                    if (!gradient_accumulator->should_step()) {
+                    // Zero gradients at start of accumulation cycle
+                    if (gradient_accumulator->current_step() == 0) {
                         optimizer.zero_grad();
                     }
                     Tensor predictions = lora_layer->forward(batch_input);
@@ -280,11 +281,13 @@ public:
                             }
                             optimizer.step();
                             gradient_accumulator->reset();
+                            optimizer.zero_grad();  // Prepare for next accumulation cycle
                         }
                     } else {
                         // Skip optimizer step on overflow
                         spdlog::warn("Skipping optimizer step due to gradient overflow at step {}", global_step);
                         gradient_accumulator->reset();
+                        optimizer.zero_grad();  // Clear gradients after overflow
                     }
                     
                     // Update metrics

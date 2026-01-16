@@ -3,11 +3,14 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <nlohmann/json.hpp>
 #include "lora_layers.h"
 
 namespace themis {
 namespace llm {
 namespace lora {
+
+using json = nlohmann::json;
 
 /**
  * @brief Precision mode for training
