@@ -94,26 +94,50 @@ public:
      * @return Corresponding QuantizationType
      */
     static QuantizationType getInternalType(GGMLType type);
-
-private:
-    // Q4_K_M dequantization helpers
+    
+    /**
+     * @brief Dequantize Q4_K_M data to FP32
+     * 
+     * @param data Raw Q4_K_M data
+     * @param num_elements Number of elements to dequantize
+     * @return FP32 vector
+     */
     static std::vector<float> dequantizeQ4KM(
         const void* data,
         size_t num_elements
     );
     
-    // Q8_0 dequantization helpers
+    /**
+     * @brief Dequantize Q8_0 data to FP32
+     * 
+     * @param data Raw Q8_0 data
+     * @param num_elements Number of elements to dequantize
+     * @return FP32 vector
+     */
     static std::vector<float> dequantizeQ8_0(
         const void* data,
         size_t num_elements
     );
     
-    // FP16 to FP32 conversion
-    static float fp16_to_fp32(uint16_t h);
-    
-    // Calculate total elements from shape
+    /**
+     * @brief Calculate total elements from shape
+     * 
+     * @param shape Tensor shape
+     * @return Total number of elements
+     */
     static size_t calculateElements(const std::vector<int64_t>& shape);
+    
+    /**
+     * @brief FP16 to FP32 conversion helper (public for testing)
+     * 
+     * @param h FP16 value as uint16_t
+     * @return FP32 value
+     */
+    static float fp16_to_fp32(uint16_t h);
 };
+
+// Default block size for internal quantization after GGUF conversion
+constexpr size_t GGUF_CONVERSION_BLOCK_SIZE = 64;
 
 /**
  * @brief GGUF block structures for reference

@@ -1,4 +1,6 @@
 #include "llm/lora_framework/quantized_model.h"
+#include "llm/gguf_loader.h"
+#include "llm/lora_framework/gguf_converter.h"
 
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
@@ -288,9 +290,6 @@ QuantizedModel load_from_gguf(
     const std::string& gguf_path,
     const QuantizedModelConfig* config) {
     
-    #include "llm/gguf_loader.h"
-    #include "llm/lora_framework/gguf_converter.h"
-    
     spdlog::info("Loading GGUF model from: {}", gguf_path);
     
     // Parse GGUF file
@@ -340,36 +339,14 @@ QuantizedModel load_from_gguf(
         }
         
         try {
-            // Convert based on type
-            if (tensor_info.type == llm::GGMLType::Q4_K) {
-                // Q4_K_M → NF4
-                auto quantized = GGUFConverter::convertQ4KM(tensor_data, tensor_info);
-                
-                // Create QuantizedLayerWeights directly from quantized tensor
-                // We need to work around the fact that QuantizedLayerWeights
-                // expects a Tensor, so we'll need to add this tensor to the model
-                // using a different approach
-                
-                // For now, store directly in the model's layers_ map
-                // This is a simplification - in production, we'd need a better API
-                std::vector<size_t> shape;
-                for (auto dim : tensor_info.shape) {
-                    shape.push_back(static_cast<size_t>(dim));
-                }
-                
-                // Create a QuantizedLayerWeights from the quantized tensor
-                // Note: This bypasses normal construction
-                // In production, we'd add a constructor that takes QuantizedTensor
-                spdlog::debug("Loaded Q4_K_M tensor: {} -> NF4", tensor_info.name);
-                
-            } else if (tensor_info.type == llm::GGMLType::Q8_0) {
-                // Q8_0 → INT8
-                auto quantized = GGUFConverter::convertQ8_0(tensor_data, tensor_info);
-                spdlog::debug("Loaded Q8_0 tensor: {} -> INT8", tensor_info.name);
-                
-            } else if (tensor_info.type == llm::GGMLType::F16 || 
-                      tensor_info.type == llm::GGMLType::F32) {
-                // Full precision - convert to FP32 and quantize
+            // Convert based on type - currently only full precision (F16/F32) can be
+            // directly converted and added to the model via add_layer()
+            // Pre-quantized formats (Q4_K_M, Q8_0) are loaded but need further
+            // integration work for direct use
+            
+            if (tensor_info.type == llm::GGMLType::F16 || 
+                tensor_info.type == llm::GGMLType::F32) {
+                // Full precision - convert to FP32 and quantize via normal path
                 std::vector<float> fp32_data;
                 if (tensor_info.type == llm::GGMLType::F16) {
                     fp32_data = GGUFConverter::convertF16(tensor_data, tensor_info);
@@ -387,9 +364,35 @@ QuantizedModel load_from_gguf(
                 
                 model.add_layer(tensor_info.name, tensor);
                 spdlog::debug("Loaded FP tensor: {} -> quantized", tensor_info.name);
+                converted++;
+                
+            } else if (tensor_info.type == llm::GGMLType::Q4_K || 
+                      tensor_info.type == llm::GGMLType::Q8_0) {
+                // Pre-quantized formats - for now, dequantize and re-quantize
+                // Future optimization: Direct use of converted QuantizedTensor
+                std::vector<float> fp32_data;
+                
+                if (tensor_info.type == llm::GGMLType::Q4_K) {
+                    fp32_data = GGUFConverter::dequantizeQ4KM(tensor_data, 
+                        GGUFConverter::calculateElements(tensor_info.shape));
+                } else {
+                    fp32_data = GGUFConverter::dequantizeQ8_0(tensor_data,
+                        GGUFConverter::calculateElements(tensor_info.shape));
+                }
+                
+                // Create Tensor and add to model (will be re-quantized)
+                std::vector<size_t> shape;
+                for (auto dim : tensor_info.shape) {
+                    shape.push_back(static_cast<size_t>(dim));
+                }
+                Tensor tensor(shape);
+                tensor.data() = std::move(fp32_data);
+                
+                model.add_layer(tensor_info.name, tensor);
+                spdlog::debug("Loaded quantized tensor: {} -> dequantized -> re-quantized",
+                             tensor_info.name);
+                converted++;
             }
-            
-            converted++;
             
         } catch (const std::exception& e) {
             spdlog::warn("Failed to convert tensor {}: {}", tensor_info.name, e.what());

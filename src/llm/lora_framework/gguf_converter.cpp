@@ -163,8 +163,8 @@ QuantizedTensor GGUFConverter::convertQ4KM(
     }
     
     // Quantize to internal NF4 format
-    QuantizedTensor result(QuantizationType::NF4, shape, 64);
-    quantization::quantize_nf4(fp32_data, result);
+    QuantizedTensor result(QuantizationType::NF4, shape, GGUF_CONVERSION_BLOCK_SIZE);
+    quantization::quantize_nf4(fp32_data, result, GGUF_CONVERSION_BLOCK_SIZE);
     
     return result;
 }
@@ -190,8 +190,8 @@ QuantizedTensor GGUFConverter::convertQ8_0(
     }
     
     // Quantize to internal INT8 format
-    QuantizedTensor result(QuantizationType::INT8, shape, 64);
-    quantization::quantize_int8(fp32_data, result);
+    QuantizedTensor result(QuantizationType::INT8, shape, GGUF_CONVERSION_BLOCK_SIZE);
+    quantization::quantize_int8(fp32_data, result, GGUF_CONVERSION_BLOCK_SIZE);
     
     return result;
 }
