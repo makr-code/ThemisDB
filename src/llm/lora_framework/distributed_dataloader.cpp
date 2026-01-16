@@ -64,9 +64,6 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
         batch_samples.push_back(dataset_.get(sample_idx));
     }
     
-    // If batch is smaller than batch_size (last batch), pad if needed
-    // For simplicity, we'll just handle the actual samples
-    
     // Shard across GPUs
     std::vector<GPUTensor> sharded_batch;
     sharded_batch.reserve(ctx_.num_gpus());
@@ -83,18 +80,32 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
             continue;
         }
         
-        // Concatenate samples for this GPU
-        // For simplicity, assuming all samples have same shape
-        if (gpu_end - gpu_start == 1) {
-            // Single sample, just move to correct device
-            GPUTensor shard = batch_samples[gpu_start].to(ctx_.get_device(gpu_idx));
-            sharded_batch.push_back(std::move(shard));
-        } else {
-            // Multiple samples, need to stack them
-            // For now, just use first sample (real implementation would stack)
-            GPUTensor shard = batch_samples[gpu_start].to(ctx_.get_device(gpu_idx));
-            sharded_batch.push_back(std::move(shard));
+        // Stack/concatenate samples for this GPU
+        // Note: Real implementation would properly stack tensors along batch dimension
+        // For simplicity, we create a representative tensor on the correct device
+        
+        size_t num_samples = gpu_end - gpu_start;
+        auto sample_shape = batch_samples[gpu_start].shape();
+        
+        // Create batched shape (add batch dimension)
+        std::vector<size_t> batch_shape = {num_samples};
+        batch_shape.insert(batch_shape.end(), sample_shape.begin(), sample_shape.end());
+        
+        GPUTensor batched_tensor(batch_shape, ctx_.get_device(gpu_idx));
+        
+        // TODO: Properly concatenate all samples
+        // For now, copy first sample's data repeated
+        auto first_data = batch_samples[gpu_start].cpu_data();
+        std::vector<float> batch_data;
+        batch_data.reserve(first_data.size() * num_samples);
+        
+        for (size_t i = 0; i < num_samples; ++i) {
+            auto sample_data = batch_samples[gpu_start + i].cpu_data();
+            batch_data.insert(batch_data.end(), sample_data.begin(), sample_data.end());
         }
+        
+        batched_tensor.upload(batch_data);
+        sharded_batch.push_back(std::move(batched_tensor));
     }
     
     return sharded_batch;

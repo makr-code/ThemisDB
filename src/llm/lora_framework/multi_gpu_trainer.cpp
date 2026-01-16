@@ -45,10 +45,22 @@ float MultiGPULoRATrainer::train_step(
         float local_loss = compute_loss(outputs[i], targets[i]);
         total_loss += local_loss;
         
-        // Compute gradient of loss w.r.t. output
-        // For MSE: grad = 2 * (output - target) / n
-        GPUTensor grad = outputs[i];
-        // Simplified: actual implementation would compute proper gradient
+        // Compute gradient of MSE loss w.r.t. output
+        // MSE: L = (1/n) * sum((y_pred - y_true)^2)
+        // dL/dy_pred = (2/n) * (y_pred - y_true)
+        
+        auto output_data = outputs[i].cpu_data();
+        auto target_data = targets[i].cpu_data();
+        
+        std::vector<float> grad_data(output_data.size());
+        float scale = 2.0f / static_cast<float>(output_data.size());
+        
+        for (size_t j = 0; j < output_data.size(); ++j) {
+            grad_data[j] = scale * (output_data[j] - target_data[j]);
+        }
+        
+        GPUTensor grad(outputs[i].shape(), outputs[i].device());
+        grad.upload(grad_data);
         grad_outputs.push_back(std::move(grad));
     }
     
@@ -261,6 +273,10 @@ float MultiGPULoRATrainer::compute_loss(
     const GPUTensor& target) {
     
     // Compute MSE loss
+    // Note: This downloads to CPU for simplicity. In production,
+    // would use GPU kernel to compute loss directly on GPU.
+    // GPU kernel: mse = sum((output - target)^2) / n
+    
     auto output_data = output.cpu_data();
     auto target_data = target.cpu_data();
     
@@ -279,7 +295,13 @@ float MultiGPULoRATrainer::compute_loss(
 
 void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
     // Simple SGD update: param = param - lr * grad
-    // In real implementation, would use proper optimizer (Adam, etc.)
+    // Note: In production, gradients are already synchronized across GPUs,
+    // so all GPUs have identical gradients. We update each GPU's parameters
+    // independently with the same gradient values.
+    //
+    // Real implementation would use GPU kernels for efficiency:
+    // - Launch kernel: param[i] -= lr * grad[i]
+    // - No CPU roundtrip needed
     
     for (int i = 0; i < layer.num_gpus(); ++i) {
         auto& gpu_layer = layer.get_layer(i);
@@ -287,7 +309,10 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
         auto grads = gpu_layer.gradients();
         
         for (size_t j = 0; j < params.size(); ++j) {
-            // Download to CPU for update (real implementation would use GPU kernels)
+            // TODO: Replace with GPU kernel for efficiency
+            // Current implementation: download, update on CPU, upload
+            // GPU kernel would do: param[i] -= lr * grad[i] directly on GPU
+            
             auto param_data = params[j]->cpu_data();
             auto grad_data = grads[j]->cpu_data();
             
