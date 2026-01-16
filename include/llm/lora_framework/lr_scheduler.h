@@ -267,6 +267,26 @@ private:
 };
 
 /**
+ * @brief Warmup with linear decay
+ */
+class WarmupLinearLR : public LRScheduler {
+public:
+    WarmupLinearLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
+        : max_lr_(max_lr), min_lr_(min_lr), 
+          warmup_steps_(warmup_steps), total_steps_(total_steps) {}
+    
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::WARMUP_LINEAR; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float max_lr_;
+    float min_lr_;
+    int warmup_steps_;
+    int total_steps_;
+};
+
+/**
  * @brief Factory for creating learning rate schedulers
  */
 class LRSchedulerFactory {

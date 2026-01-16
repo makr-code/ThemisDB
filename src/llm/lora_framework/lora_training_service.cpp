@@ -281,13 +281,11 @@ public:
                             }
                             optimizer.step();
                             gradient_accumulator->reset();
-                            optimizer.zero_grad();  // Prepare for next accumulation cycle
                         }
                     } else {
                         // Skip optimizer step on overflow
                         spdlog::warn("Skipping optimizer step due to gradient overflow at step {}", global_step);
                         gradient_accumulator->reset();
-                        optimizer.zero_grad();  // Clear gradients after overflow
                     }
                     
                     // Update metrics

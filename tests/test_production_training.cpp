@@ -71,9 +71,11 @@ TEST(MixedPrecisionTest, GradientUnscaling) {
 }
 
 TEST(MixedPrecisionTest, OverflowDetection) {
-    std::vector<float> data = {1.0f, 2.0f, std::nanf(""), 3.0f};
     Tensor grad({4});
-    grad.data() = data;
+    grad[0] = 1.0f;
+    grad[1] = 2.0f;
+    grad[2] = std::nanf("");
+    grad[3] = 3.0f;
     
     std::vector<Tensor*> gradients = {&grad};
     

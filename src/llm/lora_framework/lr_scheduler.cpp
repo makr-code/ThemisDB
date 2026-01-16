@@ -200,6 +200,39 @@ LRSchedulerConfig WarmupCosineLR::config() const {
 }
 
 // ============================================================================
+// WarmupLinearLR Implementation
+// ============================================================================
+
+float WarmupLinearLR::get_lr(int step) const {
+    // Warmup phase
+    if (step < warmup_steps_) {
+        float progress = static_cast<float>(step) / static_cast<float>(warmup_steps_);
+        return max_lr_ * progress;
+    }
+    
+    // Linear decay phase
+    int adjusted_step = step - warmup_steps_;
+    int adjusted_total = total_steps_ - warmup_steps_;
+    
+    if (adjusted_step >= adjusted_total) {
+        return min_lr_;
+    }
+    
+    float progress = static_cast<float>(adjusted_step) / static_cast<float>(adjusted_total);
+    return max_lr_ + (min_lr_ - max_lr_) * progress;
+}
+
+LRSchedulerConfig WarmupLinearLR::config() const {
+    LRSchedulerConfig cfg;
+    cfg.type = SchedulerType::WARMUP_LINEAR;
+    cfg.max_lr = max_lr_;
+    cfg.min_lr = min_lr_;
+    cfg.warmup_steps = warmup_steps_;
+    cfg.total_steps = total_steps_;
+    return cfg;
+}
+
+// ============================================================================
 // LRSchedulerFactory Implementation
 // ============================================================================
 
@@ -245,7 +278,7 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
         
         case SchedulerType::WARMUP_LINEAR:
             // Warmup + linear decay
-            return std::make_unique<WarmupCosineLR>(
+            return std::make_unique<WarmupLinearLR>(
                 config.max_lr, config.min_lr, config.warmup_steps, config.total_steps
             );
         
