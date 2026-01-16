@@ -44,6 +44,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     size_t total_tokens = 0;
     size_t successful = 0;
     size_t failed = 0;
+    size_t skipped = 0;
     
     auto benchmark_start = std::chrono::high_resolution_clock::now();
     
@@ -57,14 +58,17 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
         auto req_start = std::chrono::high_resolution_clock::now();
         
         try {
-            // TODO: In real implementation, call actual LLM plugin
-            // For now, simulate inference with realistic timing
-            std::this_thread::sleep_for(std::chrono::milliseconds(50 + (i % 10) * 10));
+            // TODO: In real implementation, call actual LLM plugin via llm_plugin_->generate()
+            // Example: auto response = llm_plugin_->generate(prompt, generation_config);
+            //          size_t tokens_generated = response.tokens_generated;
+            //          total_tokens += tokens_generated;
+            //          successful++;
             
-            // Simulate token generation (20-100 tokens)
-            size_t tokens_generated = 20 + (i % 8) * 10;
-            total_tokens += tokens_generated;
-            successful++;
+            // For now, skip actual inference if no plugin is configured
+            if (i == 0) {
+                spdlog::warn("Benchmark skipped: No LLM plugin configured. Set up llm_plugin_ to enable real benchmarking.");
+            }
+            skipped++;
             
         } catch (const std::exception& e) {
             spdlog::warn("Benchmark request {} failed: {}", i, e.what());
@@ -187,7 +191,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     spdlog::info("  Throughput: {:.2f} tokens/sec", metrics.throughput_tokens_per_sec);
     spdlog::info("  Total Time: {:.2f} seconds", total_time_s);
     spdlog::info("  Memory Used: {} MB", metrics.memory_used_mb);
-    spdlog::info("  Requests: {} successful, {} failed", successful, failed);
+    spdlog::info("  Requests: {} successful, {} failed, {} skipped", successful, failed, skipped);
     spdlog::info("  Quality Score: {:.1f}%", metrics.quality_score_pct);
     
     if (!metrics.warnings.empty()) {
@@ -310,8 +314,8 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
             checkMemoryLeaks();
         }
         
-        // Small delay to avoid hammering
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // No artificial rate limiting - use actual request processing time
+        // If rate limiting is needed, implement proper token bucket or leaky bucket algorithm
     }
     
     stress_test_running_ = false;
