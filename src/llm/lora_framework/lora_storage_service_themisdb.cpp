@@ -1,6 +1,8 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
+#include "security/hsm_provider.h"
+#include "security/hsm_key_provider_adapter.h"
 #include "security/encryption.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -32,32 +34,69 @@ public:
         spdlog::info("  Collection: {}", config_.collection_name);
         spdlog::info("  Versioning: {}", config_.enable_versioning);
         spdlog::info("  Encryption: {}", config_.enable_encryption);
+        spdlog::info("  HSM Encryption: {}", config_.use_hsm_for_encryption);
         spdlog::info("  Signatures: {}", config_.enable_signatures);
         spdlog::info("  RAID Auto-detect: {}", config_.auto_detect_raid);
         
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                // TODO: SECURITY - Replace MockKeyProvider with production key provider
-                // Themis provides production-ready key providers in include/security/:
-                //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
-                //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
-                //   
-                //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
-                //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
-                //               auto provider = std::make_unique<security::HSMProvider>(cfg);
-                //   
-                //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
-                //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path);
-                //
-                // All providers implement the KeyProvider interface and can be used with FieldEncryption.
-                // MockKeyProvider is ONLY suitable for testing/development - never use in production!
-                auto key_provider = std::make_shared<MockKeyProvider>();
+                std::shared_ptr<KeyProvider> key_provider;
+                
+                // Use HSM if configured
+                if (config_.use_hsm_for_encryption && !config_.hsm_library_path.empty()) {
+                    spdlog::info("  Initializing HSM-backed encryption:");
+                    spdlog::info("    Library: {}", config_.hsm_library_path);
+                    spdlog::info("    Slot: {}", config_.hsm_slot_id);
+                    spdlog::info("    Key Label: {}", config_.hsm_key_label);
+                    spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
+                    
+                    // Configure HSM
+                    security::HSMConfig hsm_config;
+                    hsm_config.library_path = config_.hsm_library_path;
+                    hsm_config.slot_id = config_.hsm_slot_id;
+                    hsm_config.pin = config_.hsm_pin;
+                    hsm_config.key_label = config_.hsm_key_label;
+                    hsm_config.session_pool_size = config_.hsm_session_pool_size;
+                    hsm_config.signature_algorithm = "RSA-SHA256";
+                    
+                    // Create HSM provider
+                    auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+                    if (!hsm->initialize()) {
+                        throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
+                    }
+                    
+                    // Create HSM adapter
+                    security::HSMKeyProviderAdapter::Config adapter_config;
+                    adapter_config.kek_label = config_.hsm_key_label;
+                    adapter_config.cache_ttl_ms = 300000;  // 5 minutes
+                    adapter_config.max_cache_size = 1000;
+                    adapter_config.enable_caching = true;
+                    
+                    key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
+                    
+                    spdlog::info("  ✓ HSM-backed encryption initialized successfully");
+                    spdlog::info("  Hardware-backed keys provide maximum security");
+                    
+                } else if (config_.use_hsm_for_encryption) {
+                    spdlog::warn("  HSM encryption requested but library path not provided");
+                    spdlog::warn("  Falling back to MockKeyProvider");
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    
+                } else {
+                    // Fallback to MockKeyProvider for development/testing
+                    // TODO: In production, use VaultKeyProvider or other secure provider
+                    key_provider = std::make_shared<MockKeyProvider>();
+                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    spdlog::warn("  For production, configure HSM or see include/security/vault_key_provider.h");
+                }
+                
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
-                spdlog::warn("  See include/security/vault_key_provider.h for production key providers");
+                
             } catch (const std::exception& e) {
-                spdlog::warn("  Failed to initialize encryption: {}", e.what());
+                spdlog::error("  Failed to initialize encryption: {}", e.what());
+                spdlog::warn("  LoRA adapters will be stored without encryption");
             }
         }
         
