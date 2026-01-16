@@ -389,6 +389,12 @@ ThemisDB has a well-designed LLM/LoRA architecture but requires **6-12 months of
   - 1x Senior Systems Engineer (Infrastructure, llama.cpp integration)
   - 1x Security Engineer (part-time, security validation)
 
+**Timeline Range Notes:**
+- **6 months** (optimistic): Experienced team, minimal blockers, GPU hardware ready
+- **9 months** (realistic): Standard team, some learning curve, typical blockers
+- **12 months** (conservative): New team, hardware delays, complex integration issues
+- Consider breaking into 2-week sprints with regular re-estimation
+
 ### Hardware Requirements
 - **Development**: 1-2 GPUs (NVIDIA RTX 3090/4090 or AMD equivalent)
 - **Testing**: Multi-GPU setup (2-4 GPUs)

@@ -72,11 +72,20 @@ Replace stub implementations with real llama.cpp integration.
 ```bash
 # Download TinyLlama 1.1B (small model for testing)
 cd ThemisDB/models
+
+# Option 1: Using wget
 wget https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+
+# Option 2: Using curl (if wget not available)
+curl -L -o tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf \
+  https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
 
 # Verify download
 ls -lh tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
 # Should be ~670MB
+
+# Note: Model URL may change. Check https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+# for the latest model versions and download links.
 ```
 
 ### Step-by-Step Implementation
@@ -103,6 +112,9 @@ bool LlamaWrapper::loadModel(const std::string& model_path) {
     
     // 2. Setup model parameters
     llama_model_params model_params = llama_model_default_params();
+    // TODO: Make n_gpu_layers configurable based on VRAM availability
+    // For TinyLlama 1.1B: 32 layers fit in ~4GB VRAM
+    // Auto-detect or make this a configuration parameter
     model_params.n_gpu_layers = 32; // Offload layers to GPU
     model_params.use_mmap = true;   // Memory-map for efficiency
     model_params.use_mlock = false; // Don't lock in RAM
@@ -123,7 +135,8 @@ bool LlamaWrapper::loadModel(const std::string& model_path) {
     llama_context_params ctx_params = llama_context_default_params();
     ctx_params.n_ctx = 2048;        // Context size
     ctx_params.n_batch = 512;       // Batch size
-    ctx_params.n_threads = 8;       // CPU threads
+    // TODO: Use std::thread::hardware_concurrency() or make configurable
+    ctx_params.n_threads = 8;       // CPU threads (adjust for your system)
     ctx_params.n_threads_batch = 8; // Batch threads
     
     llama_context* ctx = llama_new_context_with_model(model, ctx_params);
@@ -180,15 +193,25 @@ std::string LlamaWrapper::generate(const GenerationRequest& request) {
     auto* ctx = impl_->context_handle->get();
     
     // 1. Tokenize prompt
-    std::vector<llama_token> tokens = llama_tokenize(
-        ctx, 
-        request.prompt, 
-        true  // add_bos
+    // Note: Actual llama.cpp API may vary by version. Check llama.h for exact signature.
+    // Example: llama_tokenize(model, text, text_len, tokens, n_tokens_max, add_special, parse_special)
+    std::vector<llama_token> tokens;
+    tokens.resize(request.prompt.length() + 16); // Reserve space
+    
+    int n_tokens = llama_tokenize(
+        model,
+        request.prompt.c_str(),
+        request.prompt.length(),
+        tokens.data(),
+        tokens.size(),
+        true,  // add_bos
+        false  // parse_special
     );
     
-    if (tokens.empty()) {
+    if (n_tokens < 0) {
         throw std::runtime_error("Failed to tokenize prompt");
     }
+    tokens.resize(n_tokens);
     
     // 2. Evaluate prompt tokens
     llama_batch batch = llama_batch_get_one(tokens.data(), tokens.size(), 0, 0);
@@ -202,11 +225,15 @@ std::string LlamaWrapper::generate(const GenerationRequest& request) {
     
     while (n_gen < request.max_tokens) {
         // Sample next token
-        llama_token new_token = llama_sampler_sample(
-            impl_->sampler, 
-            ctx, 
-            -1  // last token position
-        );
+        // Note: Sampling API varies by llama.cpp version. This is a simplified example.
+        // Real implementation needs to:
+        // 1. Get logits from context: llama_get_logits(ctx)
+        // 2. Apply sampling strategy (greedy, top-p, etc.)
+        // 3. Select token based on probabilities
+        // See llama.cpp examples/main for reference implementation
+        
+        auto* logits = llama_get_logits(ctx);
+        llama_token new_token = impl_->sampling_strategy->sample(logits, llama_n_vocab(model));
         
         // Check for end-of-generation
         if (llama_token_is_eog(model, new_token)) {
@@ -553,16 +580,23 @@ void AdamOptimizer::step(
     Tensor& param, 
     const Tensor& grad
 ) {
-    // Adam update rule
+    // Adam update rule with bias correction
     // m_t = β1 * m_{t-1} + (1 - β1) * grad
     // v_t = β2 * v_{t-1} + (1 - β2) * grad^2
-    // param = param - lr * m_t / (sqrt(v_t) + ε)
+    // m_hat = m_t / (1 - β1^t)
+    // v_hat = v_t / (1 - β2^t)
+    // param = param - lr * m_hat / (sqrt(v_hat) + ε)
     
     m_ = m_ * beta1_ + grad * (1 - beta1_);
     v_ = v_ * beta2_ + grad.square() * (1 - beta2_);
     
-    Tensor m_hat = m_ / (1 - std::pow(beta1_, t_));
-    Tensor v_hat = v_ / (1 - std::pow(beta2_, t_));
+    // Pre-compute bias correction factors for efficiency
+    // Cache these if updating multiple parameters in the same step
+    float bias_correction1 = 1.0f - std::pow(beta1_, t_);
+    float bias_correction2 = 1.0f - std::pow(beta2_, t_);
+    
+    Tensor m_hat = m_ / bias_correction1;
+    Tensor v_hat = v_ / bias_correction2;
     
     param = param - m_hat / (v_hat.sqrt() + epsilon_) * learning_rate_;
     
