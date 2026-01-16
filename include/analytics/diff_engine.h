@@ -129,8 +129,15 @@ public:
     DiffResult computeDiff(
         uint64_t from_sequence,
         uint64_t to_sequence,
-        const DiffOptions& options = {}
+        const DiffOptions& options
     );
+    
+    DiffResult computeDiff(
+        uint64_t from_sequence,
+        uint64_t to_sequence
+    ) {
+        return computeDiff(from_sequence, to_sequence, DiffOptions{});
+    }
 
     /**
      * @brief Compute diff between two timestamps
@@ -142,8 +149,15 @@ public:
     DiffResult computeDiffByTimestamp(
         int64_t from_timestamp,
         int64_t to_timestamp,
-        const DiffOptions& options = {}
+        const DiffOptions& options
     );
+    
+    DiffResult computeDiffByTimestamp(
+        int64_t from_timestamp,
+        int64_t to_timestamp
+    ) {
+        return computeDiffByTimestamp(from_timestamp, to_timestamp, DiffOptions{});
+    }
 
     /**
      * @brief Compute diff between two tags
@@ -158,8 +172,15 @@ public:
     DiffResult computeDiffByTag(
         const std::string& from_tag,
         const std::string& to_tag,
-        const DiffOptions& options = {}
+        const DiffOptions& options
     );
+    
+    DiffResult computeDiffByTag(
+        const std::string& from_tag,
+        const std::string& to_tag
+    ) {
+        return computeDiffByTag(from_tag, to_tag, DiffOptions{});
+    }
 
     /**
      * @brief Clear any cached diff results
