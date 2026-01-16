@@ -1504,8 +1504,27 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/graphics_backends.cpp)
     
     if(THEMIS_ENABLE_DIRECTX)
+        # Add DirectX 12 compute pipeline sources
+        list(APPEND THEMIS_ACCELERATION_SOURCES
+            ../src/llm/lora_framework/directx_context.cpp
+            ../src/llm/lora_framework/directx_buffer.cpp
+            ../src/llm/lora_framework/directx_descriptors.cpp
+            ../src/llm/lora_framework/directx_shader.cpp
+            ../src/llm/lora_framework/directx_pipeline.cpp
+            ../src/llm/lora_framework/kernels/directx_kernels.cpp
+        )
+        
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DIRECTX)
-        message(STATUS "DirectX acceleration enabled (stub)")
+        
+        # Link DirectX 12 libraries (Windows only)
+        if(WIN32)
+            target_link_libraries(themis_core PRIVATE d3d12 dxgi)
+            message(STATUS "DirectX 12 acceleration enabled")
+            message(STATUS "  DirectX compute pipeline integrated")
+            message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl")
+        else()
+            message(WARNING "DirectX is only available on Windows")
+        endif()
     endif()
     
     if(THEMIS_ENABLE_VULKAN)
@@ -1959,6 +1978,14 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/gradient_utils.cpp          # Gradient clipping & accumulation
         ../src/llm/lora_framework/distributed_trainer.cpp     # Multi-GPU distributed training
         
+        # GPU acceleration for LoRA (Phase 9-10)
+        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management (VRAM allocator)
+        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
+        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU-accelerated LoRA layers
+        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM memory allocator
+        ../src/llm/lora_framework/quantization.cpp            # Quantization (QLoRA support)
+        ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
+        
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         ../src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
@@ -2006,9 +2033,27 @@ if(THEMIS_ENABLE_LLM)
     # Add CUDA kernel fusion sources when CUDA is enabled
     if(THEMIS_ENABLE_CUDA)
         list(APPEND THEMIS_CORE_SOURCES
-            ../src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+            ../src/llm/kernel_fusion.cu                        # Flash Attention CUDA kernels
+            ../src/llm/lora_framework/kernels/cuda_kernels.cu  # LoRA CUDA kernels
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
+        message(STATUS "LoRA: CUDA kernels enabled (matmul, elementwise, gradients)")
+    endif()
+    
+    # Add HIP kernel sources when HIP is enabled
+    if(THEMIS_ENABLE_HIP)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels (AMD)
+        )
+        message(STATUS "LoRA: HIP kernels enabled (AMD ROCm support)")
+    endif()
+    
+    # Add Vulkan kernel sources when Vulkan is enabled
+    if(THEMIS_ENABLE_VULKAN)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/kernels/vulkan_kernels.cpp  # LoRA Vulkan compute
+        )
+        message(STATUS "LoRA: Vulkan compute kernels enabled (cross-platform)")
     endif()
     
     # Threading support required for async inference
