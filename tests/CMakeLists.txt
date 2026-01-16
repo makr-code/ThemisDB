@@ -79,6 +79,74 @@ if(THEMIS_ENABLE_LORA_TESTS)
     else()
         message(STATUS "LoRA framework tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework.cpp")
     endif()
+    
+    # Fused Kernels Tests (Phase 10.3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Adding fused kernels tests (CUDA/HIP enabled)")
+        
+        add_executable(test_fused_kernels
+            test_fused_kernels.cpp
+        )
+        
+        target_link_libraries(test_fused_kernels PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_fused_kernels PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME FusedKernelsTests COMMAND test_fused_kernels)
+        
+        # Set test properties
+        set_tests_properties(FusedKernelsTests PROPERTIES
+            LABELS "lora;gpu;cuda;hip;kernel_fusion"
+            TIMEOUT 300
+        )
+    else()
+        if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+            message(STATUS "Fused kernels tests skipped (CUDA/HIP not enabled)")
+        else()
+            message(STATUS "Fused kernels tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp")
+        endif()
+    endif()
+    
+    # GPU LoRA Layers Tests (Phase 10)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Adding GPU LoRA layers tests (CUDA/HIP enabled)")
+        
+        add_executable(test_gpu_lora_layers
+            test_gpu_lora_layers.cpp
+        )
+        
+        target_link_libraries(test_gpu_lora_layers PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_gpu_lora_layers PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME GPULoRALayersTests COMMAND test_gpu_lora_layers)
+        
+        # Set test properties
+        set_tests_properties(GPULoRALayersTests PROPERTIES
+            LABELS "lora;gpu;cuda;hip"
+            TIMEOUT 300
+        )
+    else()
+        if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+            message(STATUS "GPU LoRA layers tests skipped (CUDA/HIP not enabled)")
+        else()
+            message(STATUS "GPU LoRA layers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp")
+        endif()
+    endif()
 else()
     message(STATUS "LoRA framework tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()
