@@ -1,6 +1,8 @@
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_layers.h"
+#include "llm/lora_framework/data_loader.h"
+#include "llm/lora_framework/base_model_adapter.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
@@ -154,10 +156,57 @@ public:
             current_adapter_id_ = adapter_id;
             loss_history_.clear();
             
-            // Create a simple LoRA layer for training
-            // In production, this would be loaded from the base model
+            // Phase 2: Initialize with real data processing
+            // Convert TrainingDataSample to InstructionDataSample format
+            std::vector<InstructionDataSample> instruction_samples;
+            for (const auto& sample : data.samples) {
+                InstructionDataSample inst_sample;
+                inst_sample.instruction = sample.input;
+                inst_sample.input = "";  // No separate input field in original format
+                inst_sample.output = sample.output;
+                instruction_samples.push_back(inst_sample);
+            }
+            
+            // Setup DataLoader with SimpleTokenizer for now
+            // TODO: Replace with llama.cpp tokenizer in future PR
+            auto tokenizer = std::make_shared<SimpleTokenizer>();
+            DataLoaderConfig loader_config;
+            loader_config.batch_size = params.batch_size;
+            loader_config.max_sequence_length = params.max_seq_length;
+            loader_config.shuffle = true;
+            loader_config.pad_to_max_length = true;
+            
+            DataLoader data_loader(tokenizer, loader_config);
+            if (!data_loader.loadFromSamples(instruction_samples)) {
+                throw std::runtime_error("Failed to load training data");
+            }
+            
+            spdlog::info("Loaded {} samples into DataLoader", data_loader.size());
+            spdlog::info("Number of batches per epoch: {}", data_loader.num_batches());
+            
+            // Initialize LoRA-enhanced model or simple LoRA layer
+            // For now, use simple LoRA layer (Phase 2a)
+            // TODO: In Phase 2b, use LoRAEnhancedModel with actual base model
             size_t hidden_dim = 768;  // Standard transformer dimension
-            auto lora_layer = std::make_unique<LoRALayer>(
+            std::unique_ptr<LoRALayer> lora_layer;
+            
+            // Try to initialize with base model if path is provided and valid
+            bool using_base_model = false;
+            if (!config_.base_model_path.empty() && 
+                std::filesystem::exists(config_.base_model_path)) {
+                try {
+                    // Attempt to load base model (will be fully implemented in Phase 2b)
+                    spdlog::info("Base model path specified: {}", config_.base_model_path);
+                    spdlog::info("Base model integration will be completed in Phase 2b");
+                    spdlog::info("For now, using standalone LoRA layer for training");
+                } catch (const std::exception& e) {
+                    spdlog::warn("Could not load base model: {}", e.what());
+                    spdlog::info("Falling back to standalone LoRA layer");
+                }
+            }
+            
+            // Create standalone LoRA layer
+            lora_layer = std::make_unique<LoRALayer>(
                 hidden_dim, 
                 hidden_dim, 
                 params.rank,
@@ -185,30 +234,52 @@ public:
                 float epoch_loss = 0.0f;
                 int num_batches = 0;
                 
-                int steps_per_epoch = std::max(1, static_cast<int>(data.size()) / params.batch_size);
+                // Reset data loader for new epoch
+                data_loader.reset();
                 
-                for (int step = 0; step < steps_per_epoch; ++step) {
+                int step = 0;
+                while (data_loader.hasNext()) {
                     // Check stop flag every 10 steps
                     if (step % 10 == 0 && stop_requested_.load(std::memory_order_acquire)) {
-                        spdlog::info("Training stopped at epoch {}/{}, step {}/{}", 
-                                    epoch + 1, params.num_epochs, step, steps_per_epoch);
+                        spdlog::info("Training stopped at epoch {}/{}, step {}", 
+                                    epoch + 1, params.num_epochs, step);
                         result.success = false;
                         result.error_message = "Training stopped by user request";
                         break;
                     }
                     
-                    current_metrics_.current_step = epoch * steps_per_epoch + step;
+                    current_metrics_.current_step = epoch * data_loader.num_batches() + step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
-                    // Create synthetic training batch (TEMPORARY - Phase 1 only)
-                    // TODO: In future PRs, replace with real text data processing:
-                    //   1. Tokenize input text using llama.cpp tokenizer
-                    //   2. Create embeddings from base model
-                    //   3. Apply LoRA adapter on top of base model outputs
-                    // For Phase 1, we use random tensors to validate the training loop mechanics
-                    Tensor batch_input = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
-                    Tensor batch_target = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
+                    // Get real tokenized batch from DataLoader
+                    auto batch = data_loader.getNextBatch();
+                    
+                    // Phase 2a: Use tokenized data with simple embeddings
+                    // Convert token IDs to embeddings (simplified - just use token IDs as features)
+                    // TODO: In Phase 2b, use actual embeddings from base model
+                    size_t batch_size = batch.input_ids.size();
+                    size_t seq_len = batch.input_ids[0].size();
+                    
+                    // Create input tensor from token embeddings (simplified)
+                    // In production, these would be actual embeddings from the base model
+                    Tensor batch_input({batch_size, hidden_dim});
+                    Tensor batch_target({batch_size, hidden_dim});
+                    
+                    // Simple embedding: hash token IDs into hidden_dim space
+                    for (size_t i = 0; i < batch_size; ++i) {
+                        for (size_t j = 0; j < hidden_dim; ++j) {
+                            // Simple hash function for demonstration
+                            size_t token_idx = j % seq_len;
+                            int token_id = batch.input_ids[i][token_idx];
+                            batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                            
+                            // Target is shifted input (next token prediction)
+                            size_t next_token_idx = (token_idx + 1) % seq_len;
+                            int next_token_id = batch.label_ids[i][next_token_idx];
+                            batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                        }
+                    }
                     
                     // Forward pass
                     optimizer.zero_grad();
@@ -242,10 +313,14 @@ public:
                         saveCheckpoint(adapter_id, params);
                     }
                     
-                    // Small delay to prevent overwhelming the system
+                    // Log progress periodically
                     if (step % 10 == 0) {
+                        spdlog::debug("Epoch {}/{}, Step {}, Loss: {:.4f}", 
+                                     epoch + 1, params.num_epochs, step, batch_loss);
                         std::this_thread::sleep_for(std::chrono::milliseconds(1));
                     }
+                    
+                    step++;
                 }
                 
                 // Break outer loop if stop was requested

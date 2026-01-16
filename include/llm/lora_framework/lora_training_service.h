@@ -151,6 +151,10 @@ public:
         bool enable_checkpointing = true;
         int checkpoint_interval_steps = 100;
         std::string checkpoint_dir = "data/lora_checkpoints";
+        
+        // Phase 2: Base model integration settings
+        std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
+        bool use_base_model = false;         // Enable base model integration (Phase 2b)
     };
     
     explicit LoRATrainingService(const Config& config = Config{});
