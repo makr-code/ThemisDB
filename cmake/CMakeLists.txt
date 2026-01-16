@@ -1944,10 +1944,16 @@ if(THEMIS_ENABLE_LLM)
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
         ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        ../src/llm/lora_framework/lora_layers.cpp             # LoRA layer implementations
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
         ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
         ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
+        # Production training features
+        ../src/llm/lora_framework/mixed_precision.cpp         # Mixed precision training (FP16/BF16)
+        ../src/llm/lora_framework/lr_scheduler.cpp            # Learning rate schedulers
+        ../src/llm/lora_framework/gradient_utils.cpp          # Gradient clipping & accumulation
+        ../src/llm/lora_framework/distributed_trainer.cpp     # Multi-GPU distributed training
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
