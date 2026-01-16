@@ -38,10 +38,24 @@ public:
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                // Use mock key provider for now (in production, use Vault/HSM)
+                // TODO: SECURITY - Replace MockKeyProvider with production key provider
+                // Themis provides production-ready key providers in include/security/:
+                //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
+                //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
+                //   
+                //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
+                //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
+                //               auto provider = std::make_unique<security::HSMProvider>(cfg);
+                //   
+                //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
+                //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path);
+                //
+                // All providers implement the KeyProvider interface and can be used with FieldEncryption.
+                // MockKeyProvider is ONLY suitable for testing/development - never use in production!
                 auto key_provider = std::make_shared<MockKeyProvider>();
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::info("  Encryption service initialized");
+                spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                spdlog::warn("  See include/security/vault_key_provider.h for production key providers");
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
             }
@@ -111,16 +125,58 @@ public:
     bool deleteAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::ThemisDB && config_.db) {
-                // Delete from RocksDB
                 std::string key = makeCollectionKey(adapter_id);
-                bool success = config_.db->del(key);
                 
-                // Delete blob if exists
-                if (config_.blob_manager) {
-                    // TODO: Get blob ref and delete
+                // First, retrieve metadata to get blob reference if it exists
+                auto data = config_.db->get(key);
+                if (data && config_.blob_manager) {
+                    try {
+                        // Deserialize entity to extract blob reference
+                        BaseEntity entity = BaseEntity::deserialize(adapter_id, *data);
+                        
+                        // Check if adapter uses blob storage (not inline)
+                        if (entity.hasField("blob_ref_path")) {
+                            // Validate blob reference type before casting
+                            auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+                            // Valid range: 0 (INLINE) to 7 (CUSTOM)
+                            if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+                                spdlog::warn("Invalid blob storage type {} for adapter {}, skipping blob deletion", 
+                                           blob_type_value, adapter_id);
+                            } else {
+                                storage::BlobRef ref;
+                                ref.type = static_cast<storage::BlobStorageType>(blob_type_value);
+                                ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
+                                
+                                // Delete blob from storage
+                                if (!ref.uri.empty()) {
+                                    bool blob_deleted = config_.blob_manager->remove(ref);
+                                    if (!blob_deleted) {
+                                        spdlog::warn("Failed to delete blob {} for adapter {}", 
+                                                    ref.uri, adapter_id);
+                                        // Continue with metadata deletion for idempotency
+                                    } else {
+                                        spdlog::debug("Deleted blob {} for adapter {}", 
+                                                     ref.uri, adapter_id);
+                                    }
+                                }
+                            }
+                        }
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to deserialize or delete blob for adapter {}: {}", 
+                                    adapter_id, e.what());
+                        // Continue with metadata deletion
+                    }
                 }
                 
-                spdlog::info("Deleted adapter: {}", adapter_id);
+                // Delete metadata from RocksDB
+                bool success = config_.db->del(key);
+                
+                if (success) {
+                    spdlog::info("Deleted adapter: {}", adapter_id);
+                } else {
+                    spdlog::warn("Failed to delete metadata for adapter: {}", adapter_id);
+                }
+                
                 return success;
             } else {
                 fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
@@ -441,16 +497,26 @@ private:
         // Load weights from blob or inline
         if (entity.hasField("blob_ref_path")) {
             if (config_.blob_manager) {
+                // Validate blob reference type before casting
+                auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+                // Valid range: 0 (INLINE) to 7 (CUSTOM)
+                if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+                    spdlog::error("Invalid blob storage type {} for adapter {}, cannot load", 
+                               blob_type_value, adapter_id);
+                    return std::nullopt;
+                }
+                
                 storage::BlobRef ref;
-                ref.type = static_cast<storage::BlobStorageType>(
-                    entity.getFieldAsInt("blob_ref_type").value_or(0)
-                );
-                ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
+                ref.type = static_cast<storage::BlobStorageType>(blob_type_value);
+                ref.uri = entity.getFieldAsString("blob_ref_path").value_or("");
                 
                 auto blob_data = config_.blob_manager->get(ref);
                 if (blob_data) {
                     weights.data = *blob_data;
                     weights.size_bytes = blob_data->size();
+                } else {
+                    spdlog::error("Failed to load blob {} for adapter {}", ref.uri, adapter_id);
+                    return std::nullopt;
                 }
             }
         } else if (auto weights_data = entity.getField("weights_data")) {
