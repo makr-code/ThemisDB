@@ -2335,6 +2335,7 @@ if(THEMIS_BUILD_TESTS)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
+        $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${CMAKE_SOURCE_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
