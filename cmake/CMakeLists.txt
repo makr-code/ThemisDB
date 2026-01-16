@@ -2128,6 +2128,8 @@ if(THEMIS_ENABLE_LLM)
             ../src/llm/lora_framework/kernels/cuda_kernels.cu  # LoRA CUDA kernels
             ../src/llm/lora_framework/kernels/quantization_kernels.cu  # QLoRA quantization GPU kernels
             ../src/llm/lora_framework/kernels/cuda_fused_kernels.cu  # LoRA fused CUDA kernels (Phase 10.3)
+            ../src/llm/lora_framework/kernels/cuda_fp16_kernels.cu  # FP16 mixed precision kernels (Phase 10.4)
+            ../src/llm/lora_framework/kernels/cuda_bf16_kernels.cu  # BF16 mixed precision kernels (Phase 10.4)
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention + LoRA)")
     endif()

@@ -147,6 +147,34 @@ if(THEMIS_ENABLE_LORA_TESTS)
             message(STATUS "GPU LoRA layers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp")
         endif()
     endif()
+    
+    # Mixed Precision GPU Tests (Phase 10.4)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mixed_precision_gpu.cpp")
+        message(STATUS "Adding mixed precision GPU tests")
+        
+        add_executable(test_mixed_precision_gpu
+            test_mixed_precision_gpu.cpp
+        )
+        
+        target_link_libraries(test_mixed_precision_gpu PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_mixed_precision_gpu PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME MixedPrecisionGPUTests COMMAND test_mixed_precision_gpu)
+        
+        # Set test properties
+        set_tests_properties(MixedPrecisionGPUTests PROPERTIES
+            LABELS "lora;gpu;mixed_precision"
+            TIMEOUT 300
+        )
+    endif()
 else()
     message(STATUS "LoRA framework tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()

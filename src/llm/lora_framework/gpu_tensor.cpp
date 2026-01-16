@@ -22,22 +22,22 @@ GPUMemoryManager& GPUTensor::get_memory_manager() {
 // Constructors and Destructor
 // ============================================================================
 
-GPUTensor::GPUTensor(const std::vector<size_t>& shape, const Device& device)
-    : shape_(shape), device_(device) {
+GPUTensor::GPUTensor(const std::vector<size_t>& shape, const Device& device, DType dtype)
+    : shape_(shape), device_(device), dtype_(dtype) {
     
     if (is_cpu()) {
-        // Allocate CPU memory
+        // Allocate CPU memory (always FP32 on CPU for now)
         size_t total_size = std::accumulate(shape_.begin(), shape_.end(), 
                                            size_t(1), std::multiplies<size_t>());
         cpu_data_.resize(total_size, 0.0f);
     } else {
-        // Allocate GPU memory
+        // Allocate GPU memory with appropriate dtype
         allocate_gpu_memory();
     }
 }
 
-GPUTensor::GPUTensor(const std::vector<size_t>& shape, float value, const Device& device)
-    : GPUTensor(shape, device) {
+GPUTensor::GPUTensor(const std::vector<size_t>& shape, float value, const Device& device, DType dtype)
+    : GPUTensor(shape, device, dtype) {
     fill(value);
 }
 
@@ -50,6 +50,7 @@ GPUTensor::~GPUTensor() {
 GPUTensor::GPUTensor(GPUTensor&& other) noexcept
     : shape_(std::move(other.shape_))
     , device_(other.device_)
+    , dtype_(other.dtype_)
     , cpu_data_(std::move(other.cpu_data_))
     , gpu_data_(other.gpu_data_)
     , allocator_(other.allocator_)
@@ -68,6 +69,7 @@ GPUTensor& GPUTensor::operator=(GPUTensor&& other) noexcept {
         
         shape_ = std::move(other.shape_);
         device_ = other.device_;
+        dtype_ = other.dtype_;
         cpu_data_ = std::move(other.cpu_data_);
         gpu_data_ = other.gpu_data_;
         allocator_ = other.allocator_;
@@ -256,7 +258,7 @@ void GPUTensor::zero() {
 }
 
 GPUTensor GPUTensor::clone() const {
-    GPUTensor result(shape_, device_);
+    GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
         result.cpu_data_ = cpu_data_;
@@ -264,6 +266,92 @@ GPUTensor GPUTensor::clone() const {
         auto temp_data = download();
         result.upload(temp_data);
     }
+    
+    return result;
+}
+
+// ============================================================================
+// Data Type Conversion
+// ============================================================================
+
+GPUTensor GPUTensor::to_fp32() const {
+    return to_dtype(DType::FLOAT32);
+}
+
+GPUTensor GPUTensor::to_fp16() const {
+    return to_dtype(DType::FLOAT16);
+}
+
+GPUTensor GPUTensor::to_bf16() const {
+    return to_dtype(DType::BFLOAT16);
+}
+
+GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
+    if (dtype_ == target_dtype) {
+        return clone();
+    }
+    
+    // For CPU tensors, perform conversion on CPU
+    if (is_cpu()) {
+        GPUTensor result(shape_, device_, target_dtype);
+        
+        // Convert FP32 data to target dtype
+        if (target_dtype == DType::FLOAT32) {
+            // Source is FP16 or BF16, convert to FP32
+            result.cpu_data_ = cpu_data_;  // Already stored as FP32
+        } else if (target_dtype == DType::FLOAT16) {
+            // Convert to FP16 (simulate precision loss)
+            result.cpu_data_.resize(cpu_data_.size());
+            for (size_t i = 0; i < cpu_data_.size(); ++i) {
+                uint16_t fp16_bits = fp32_to_fp16_bits(cpu_data_[i]);
+                result.cpu_data_[i] = fp16_bits_to_fp32(fp16_bits);
+            }
+        } else if (target_dtype == DType::BFLOAT16) {
+            // Convert to BF16 (simulate precision loss)
+            result.cpu_data_.resize(cpu_data_.size());
+            for (size_t i = 0; i < cpu_data_.size(); ++i) {
+                uint16_t bf16_bits = fp32_to_bf16_bits(cpu_data_[i]);
+                result.cpu_data_[i] = bf16_bits_to_fp32(bf16_bits);
+            }
+        }
+        
+        return result;
+    }
+    
+    // For GPU tensors, use GPU conversion kernels
+    GPUTensor result(shape_, device_, target_dtype);
+    
+#ifdef THEMIS_ENABLE_CUDA
+    if (device_.type == DeviceType::CUDA) {
+        // TODO: Implement GPU dtype conversion kernels
+        // For now, fallback to CPU conversion
+        auto cpu_data = download();
+        GPUTensor temp(shape_, Device::cpu(), dtype_);
+        temp.upload(cpu_data);
+        auto converted = temp.to_dtype(target_dtype);
+        result.upload(converted.download());
+        return result;
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+    if (device_.type == DeviceType::HIP) {
+        // TODO: Implement GPU dtype conversion kernels for HIP
+        auto cpu_data = download();
+        GPUTensor temp(shape_, Device::cpu(), dtype_);
+        temp.upload(cpu_data);
+        auto converted = temp.to_dtype(target_dtype);
+        result.upload(converted.download());
+        return result;
+    }
+#endif
+    
+    // Fallback: Download, convert on CPU, upload
+    auto cpu_data = download();
+    GPUTensor temp(shape_, Device::cpu(), dtype_);
+    temp.upload(cpu_data);
+    auto converted = temp.to_dtype(target_dtype);
+    result.upload(converted.download());
     
     return result;
 }
@@ -280,7 +368,8 @@ void GPUTensor::zero_grad() {
 
 void GPUTensor::ensure_grad() {
     if (!grad) {
-        grad = std::make_unique<GPUTensor>(shape_, device_);
+        // Gradients are always computed in FP32 for numerical stability
+        grad = std::make_unique<GPUTensor>(shape_, device_, DType::FLOAT32);
         grad->zero();
     }
 }
@@ -295,7 +384,7 @@ void GPUTensor::allocate_gpu_memory() {
         throw std::runtime_error("Failed to get allocator for device");
     }
     
-    size_t bytes = size() * sizeof(float);
+    size_t bytes = size() * dtype_size(dtype_);
     gpu_data_ = allocator_->allocate(bytes);
     
     if (!gpu_data_) {
@@ -315,7 +404,7 @@ void GPUTensor::free_gpu_memory() {
 // ============================================================================
 
 GPUTensor GPUTensor::dispatch_add(const GPUTensor& other) const {
-    GPUTensor result(shape_, device_);
+    GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
         // CPU path
@@ -364,7 +453,7 @@ GPUTensor GPUTensor::dispatch_add(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
-    GPUTensor result(shape_, device_);
+    GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
         // CPU path
@@ -405,7 +494,7 @@ GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
-    GPUTensor result(shape_, device_);
+    GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
         // CPU path
@@ -453,7 +542,7 @@ GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
 }
 
 GPUTensor GPUTensor::dispatch_mul_elementwise(const GPUTensor& other) const {
-    GPUTensor result(shape_, device_);
+    GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
         // CPU path
@@ -679,12 +768,12 @@ GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const D
         val = dist(gen);
     }
     
-    GPUTensor result(shape, device);
+    GPUTensor result(shape, device, dtype);
     result.upload(data);
     return result;
 }
 
-GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device) {
+GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device, DType dtype) {
     if (shape.size() != 2) {
         throw std::invalid_argument("Xavier init requires 2D tensor");
     }
@@ -704,12 +793,12 @@ GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device)
         val = dist(gen);
     }
     
-    GPUTensor result(shape, device);
+    GPUTensor result(shape, device, dtype);
     result.upload(data);
     return result;
 }
 
-GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Device& device) {
+GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Device& device, DType dtype) {
     if (shape.size() != 2) {
         throw std::invalid_argument("Kaiming init requires 2D tensor");
     }
@@ -730,21 +819,21 @@ GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Devic
         val = dist(gen);
     }
     
-    GPUTensor result(shape, device);
+    GPUTensor result(shape, device, dtype);
     result.upload(data);
     return result;
 }
 
-GPUTensor zeros(const std::vector<size_t>& shape, const Device& device) {
-    return GPUTensor(shape, 0.0f, device);
+GPUTensor zeros(const std::vector<size_t>& shape, const Device& device, DType dtype) {
+    return GPUTensor(shape, 0.0f, device, dtype);
 }
 
-GPUTensor ones(const std::vector<size_t>& shape, const Device& device) {
-    return GPUTensor(shape, 1.0f, device);
+GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dtype) {
+    return GPUTensor(shape, 1.0f, device, dtype);
 }
 
-GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device) {
-    GPUTensor result(tensor.shape(), device);
+GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
+    GPUTensor result(tensor.shape(), device, dtype);
     result.upload(tensor.data());
     return result;
 }

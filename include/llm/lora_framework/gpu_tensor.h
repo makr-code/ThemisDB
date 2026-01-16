@@ -2,6 +2,7 @@
 
 #include "llm/lora_framework/gpu_memory.h"
 #include "llm/lora_framework/vram_allocator.h"
+#include "llm/lora_framework/tensor_dtype.h"
 #include <vector>
 #include <memory>
 #include <cstddef>
@@ -25,13 +26,23 @@ public:
      * @brief Construct tensor with shape on specified device
      * @param shape Tensor dimensions
      * @param device Target device (CPU, CUDA, HIP, Vulkan, DirectX)
+     * @param dtype Data type (default: FP32)
      */
-    GPUTensor(const std::vector<size_t>& shape, const Device& device = Device::cpu());
+    GPUTensor(const std::vector<size_t>& shape, 
+              const Device& device = Device::cpu(),
+              DType dtype = DType::FLOAT32);
     
     /**
      * @brief Construct tensor with shape and initial value on device
+     * @param shape Tensor dimensions
+     * @param value Initial value
+     * @param device Target device
+     * @param dtype Data type (default: FP32)
      */
-    GPUTensor(const std::vector<size_t>& shape, float value, const Device& device = Device::cpu());
+    GPUTensor(const std::vector<size_t>& shape, 
+              float value, 
+              const Device& device = Device::cpu(),
+              DType dtype = DType::FLOAT32);
     
     ~GPUTensor();
     
@@ -70,6 +81,16 @@ public:
      * @brief Check if tensor is on GPU
      */
     bool is_gpu() const { return !is_cpu(); }
+    
+    /**
+     * @brief Get data type
+     */
+    DType dtype() const { return dtype_; }
+    
+    /**
+     * @brief Check if tensor uses mixed precision
+     */
+    bool is_mixed_precision() const { return themis::llm::lora::is_mixed_precision(dtype_); }
     
     // ========== Shape and Data Access ==========
     
@@ -147,6 +168,33 @@ public:
      */
     GPUTensor clone() const;
     
+    // ========== Data Type Conversion ==========
+    
+    /**
+     * @brief Convert tensor to FP32
+     * @return New tensor in FP32
+     */
+    GPUTensor to_fp32() const;
+    
+    /**
+     * @brief Convert tensor to FP16
+     * @return New tensor in FP16
+     */
+    GPUTensor to_fp16() const;
+    
+    /**
+     * @brief Convert tensor to BF16
+     * @return New tensor in BF16
+     */
+    GPUTensor to_bf16() const;
+    
+    /**
+     * @brief Convert tensor to specified dtype
+     * @param target_dtype Target data type
+     * @return New tensor in target dtype
+     */
+    GPUTensor to_dtype(DType target_dtype) const;
+    
     // ========== Gradient Support ==========
     
     /**
@@ -168,6 +216,7 @@ public:
 private:
     std::vector<size_t> shape_;
     Device device_;
+    DType dtype_ = DType::FLOAT32;
     
     // CPU data (only used if device is CPU)
     std::vector<float> cpu_data_;
@@ -201,39 +250,45 @@ namespace gpu_tensor_utils {
     GPUTensor randn(const std::vector<size_t>& shape, 
                     float mean = 0.0f, 
                     float std = 1.0f,
-                    const Device& device = Device::cpu());
+                    const Device& device = Device::cpu(),
+                    DType dtype = DType::FLOAT32);
     
     /**
      * @brief Xavier/Glorot initialization
      */
     GPUTensor xavier_uniform(const std::vector<size_t>& shape,
-                            const Device& device = Device::cpu());
+                            const Device& device = Device::cpu(),
+                            DType dtype = DType::FLOAT32);
     
     /**
      * @brief Kaiming/He initialization
      */
     GPUTensor kaiming_uniform(const std::vector<size_t>& shape,
                              float a = 0.0f,
-                             const Device& device = Device::cpu());
+                             const Device& device = Device::cpu(),
+                             DType dtype = DType::FLOAT32);
     
     /**
      * @brief Zero initialization
      */
     GPUTensor zeros(const std::vector<size_t>& shape,
-                   const Device& device = Device::cpu());
+                   const Device& device = Device::cpu(),
+                   DType dtype = DType::FLOAT32);
     
     /**
      * @brief Ones initialization
      */
     GPUTensor ones(const std::vector<size_t>& shape,
-                  const Device& device = Device::cpu());
+                  const Device& device = Device::cpu(),
+                  DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert legacy Tensor to GPUTensor
      */
     class Tensor;  // Forward declaration
     GPUTensor from_legacy_tensor(const Tensor& tensor, 
-                                 const Device& device = Device::cpu());
+                                 const Device& device = Device::cpu(),
+                                 DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert GPUTensor to legacy Tensor
