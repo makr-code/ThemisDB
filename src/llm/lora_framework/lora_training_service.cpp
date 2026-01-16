@@ -1,6 +1,9 @@
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_layers.h"
+#include "llm/lora_framework/mixed_precision.h"
+#include "llm/lora_framework/lr_scheduler.h"
+#include "llm/lora_framework/gradient_utils.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
@@ -168,8 +171,18 @@ public:
             SGDOptimizer optimizer(params.learning_rate, 0.0f, 0.0f);  // learning_rate, momentum, weight_decay
             optimizer.add_parameters(lora_layer->parameters());
             
+            // Initialize production training features
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(config_.mixed_precision);
+            auto lr_scheduler = LRSchedulerFactory::create(config_.lr_scheduler);
+            auto gradient_accumulator = std::make_unique<GradientAccumulator>(config_.gradient_accumulation);
+            
             spdlog::info("Initialized LoRA layer with {} parameters", 
                         lora_layer->parameter_count());
+            spdlog::info("Production features enabled:");
+            spdlog::info("  Mixed precision: {}", mixed_precision->is_enabled());
+            spdlog::info("  LR scheduling: {}", static_cast<int>(lr_scheduler->type()));
+            spdlog::info("  Gradient clipping: {}", static_cast<int>(config_.gradient_clipping.method));
+            spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation.accumulation_steps);
             
             // Training loop
             for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
@@ -197,9 +210,15 @@ public:
                         break;
                     }
                     
-                    current_metrics_.current_step = epoch * steps_per_epoch + step;
+                    int global_step = epoch * steps_per_epoch + step;
+                    current_metrics_.current_step = global_step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
+                    
+                    // Update learning rate using scheduler
+                    float current_lr = lr_scheduler->get_lr(global_step);
+                    optimizer.set_learning_rate(current_lr);
+                    current_metrics_.learning_rate = current_lr;
                     
                     // Create synthetic training batch (TEMPORARY - Phase 1 only)
                     // TODO: In future PRs, replace with real text data processing:
@@ -210,12 +229,23 @@ public:
                     Tensor batch_input = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
                     Tensor batch_target = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
                     
+                    // Convert to lower precision if mixed precision enabled
+                    if (mixed_precision->is_enabled()) {
+                        batch_input = mixed_precision->to_lower_precision(batch_input);
+                    }
+                    
                     // Forward pass
-                    optimizer.zero_grad();
+                    if (!gradient_accumulator->should_step()) {
+                        optimizer.zero_grad();
+                    }
                     Tensor predictions = lora_layer->forward(batch_input);
                     
                     // Compute loss
                     float batch_loss = compute_mse_loss(predictions, batch_target);
+                    
+                    // Scale loss for mixed precision
+                    float scaled_loss = mixed_precision->scale_loss(batch_loss);
+                    
                     epoch_loss += batch_loss;
                     num_batches++;
                     
@@ -223,8 +253,39 @@ public:
                     Tensor grad_output = compute_mse_gradient(predictions, batch_target);
                     lora_layer->backward(grad_output);
                     
-                    // Optimizer step
-                    optimizer.step();
+                    // Get gradients
+                    auto gradients = lora_layer->parameters();
+                    
+                    // Unscale gradients if mixed precision
+                    bool no_overflow = mixed_precision->unscale_gradients(gradients);
+                    mixed_precision->update_loss_scale(!no_overflow);
+                    
+                    if (no_overflow) {
+                        // Apply gradient clipping
+                        GradientStats grad_stats = GradientUtils::apply_clipping(
+                            gradients, config_.gradient_clipping
+                        );
+                        
+                        // Accumulate gradients
+                        gradient_accumulator->accumulate(gradients);
+                        
+                        // Optimizer step when accumulation is complete
+                        if (gradient_accumulator->should_step()) {
+                            auto accumulated_grads = gradient_accumulator->get_accumulated_gradients();
+                            // Copy accumulated gradients back to parameters
+                            for (size_t i = 0; i < gradients.size() && i < accumulated_grads.size(); ++i) {
+                                if (gradients[i] && accumulated_grads[i]) {
+                                    *gradients[i] = *accumulated_grads[i];
+                                }
+                            }
+                            optimizer.step();
+                            gradient_accumulator->reset();
+                        }
+                    } else {
+                        // Skip optimizer step on overflow
+                        spdlog::warn("Skipping optimizer step due to gradient overflow at step {}", global_step);
+                        gradient_accumulator->reset();
+                    }
                     
                     // Update metrics
                     current_metrics_.current_loss = batch_loss;

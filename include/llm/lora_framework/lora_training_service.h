@@ -1,6 +1,9 @@
 #pragma once
 
 #include "lora_config.h"
+#include "mixed_precision.h"
+#include "lr_scheduler.h"
+#include "gradient_utils.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -151,6 +154,12 @@ public:
         bool enable_checkpointing = true;
         int checkpoint_interval_steps = 100;
         std::string checkpoint_dir = "data/lora_checkpoints";
+        
+        // Production training features
+        MixedPrecisionConfig mixed_precision;
+        LRSchedulerConfig lr_scheduler;
+        GradientClippingConfig gradient_clipping;
+        GradientAccumulationConfig gradient_accumulation;
     };
     
     explicit LoRATrainingService(const Config& config = Config{});
