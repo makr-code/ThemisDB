@@ -13,9 +13,32 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 namespace themis {
 namespace llm {
+
+// Helper: Convert TensorMetadata type to string
+std::string TensorMetadata::type_string() const {
+    switch (type) {
+        case GGMLType::F32: return "F32";
+        case GGMLType::F16: return "F16";
+        case GGMLType::Q4_0: return "Q4_0";
+        case GGMLType::Q4_1: return "Q4_1";
+        case GGMLType::Q5_0: return "Q5_0";
+        case GGMLType::Q5_1: return "Q5_1";
+        case GGMLType::Q8_0: return "Q8_0";
+        case GGMLType::Q8_1: return "Q8_1";
+        case GGMLType::Q4_K: return "Q4_K_M";
+        case GGMLType::Q5_K: return "Q5_K";
+        case GGMLType::Q6_K: return "Q6_K";
+        case GGMLType::Q8_K: return "Q8_K";
+        case GGMLType::I8: return "I8";
+        case GGMLType::I16: return "I16";
+        case GGMLType::I32: return "I32";
+        default: return "UNKNOWN";
+    }
+}
 
 GGUFLoader::GGUFLoader() 
     : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(nullptr) {
@@ -94,86 +117,278 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
 }
 
 bool GGUFLoader::parseHeader() {
-    // GGUF magic number: "GGUF"
+    // GGUF v3 header structure:
+    // - Magic: "GGUF" (4 bytes)
+    // - Version: uint32_t (4 bytes)
+    // - Tensor count: uint64_t (8 bytes)
+    // - Metadata KV count: uint64_t (8 bytes)
+    
     const char* data = static_cast<const char*>(mmap_base_);
-    if (mmap_size_ < 8 || std::memcmp(data, "GGUF", 4) != 0) {
+    if (mmap_size_ < 24) {  // Minimum header size
         return false;
     }
     
-    // Version (uint32_t)
-    uint32_t version = *reinterpret_cast<const uint32_t*>(data + 4);
-    metadata_.version = std::to_string(version);
+    // Check magic number
+    if (std::memcmp(data, "GGUF", 4) != 0) {
+        return false;
+    }
+    
+    // Read version
+    uint32_t version;
+    std::memcpy(&version, data + 4, sizeof(uint32_t));
+    metadata_.version = version;
+    
+    // Only support version 3
+    if (version != 3) {
+        return false;
+    }
+    
+    // Read tensor count and metadata count
+    uint64_t tensor_count, kv_count;
+    std::memcpy(&tensor_count, data + 8, sizeof(uint64_t));
+    std::memcpy(&kv_count, data + 16, sizeof(uint64_t));
+    
+    // Basic sanity checks
+    if (tensor_count > 100000 || kv_count > 10000) {
+        return false;  // Unreasonable counts
+    }
     
     return true;
+}
+
+bool GGUFLoader::readString(size_t& offset, std::string& out) {
+    if (offset + 8 > mmap_size_) return false;
+    
+    const char* data = static_cast<const char*>(mmap_base_);
+    uint64_t len;
+    std::memcpy(&len, data + offset, sizeof(uint64_t));
+    offset += 8;
+    
+    if (len > 1000000 || offset + len > mmap_size_) return false;
+    
+    out.assign(data + offset, len);
+    offset += len;
+    return true;
+}
+
+bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::string& out) {
+    const char* data = static_cast<const char*>(mmap_base_);
+    
+    switch (type) {
+        case GGUFValueType::UINT8:
+        case GGUFValueType::INT8:
+        case GGUFValueType::BOOL: {
+            if (offset + 1 > mmap_size_) return false;
+            uint8_t val;
+            std::memcpy(&val, data + offset, 1);
+            offset += 1;
+            out = std::to_string(val);
+            return true;
+        }
+        case GGUFValueType::UINT16:
+        case GGUFValueType::INT16: {
+            if (offset + 2 > mmap_size_) return false;
+            uint16_t val;
+            std::memcpy(&val, data + offset, 2);
+            offset += 2;
+            out = std::to_string(val);
+            return true;
+        }
+        case GGUFValueType::UINT32:
+        case GGUFValueType::INT32:
+        case GGUFValueType::FLOAT32: {
+            if (offset + 4 > mmap_size_) return false;
+            uint32_t val;
+            std::memcpy(&val, data + offset, 4);
+            offset += 4;
+            out = std::to_string(val);
+            return true;
+        }
+        case GGUFValueType::UINT64:
+        case GGUFValueType::INT64:
+        case GGUFValueType::FLOAT64: {
+            if (offset + 8 > mmap_size_) return false;
+            uint64_t val;
+            std::memcpy(&val, data + offset, 8);
+            offset += 8;
+            out = std::to_string(val);
+            return true;
+        }
+        case GGUFValueType::STRING: {
+            return readString(offset, out);
+        }
+        case GGUFValueType::ARRAY: {
+            // For arrays, just skip for now (simplified)
+            if (offset + 12 > mmap_size_) return false;
+            uint32_t arr_type;
+            uint64_t arr_len;
+            std::memcpy(&arr_type, data + offset, 4);
+            std::memcpy(&arr_len, data + offset + 4, 8);
+            offset += 12;
+            
+            // Skip array elements based on type
+            GGUFValueType elem_type = static_cast<GGUFValueType>(arr_type);
+            for (uint64_t i = 0; i < arr_len; ++i) {
+                std::string dummy;
+                if (!readMetadataValue(offset, elem_type, dummy)) {
+                    return false;
+                }
+            }
+            out = "[array]";
+            return true;
+        }
+        default:
+            return false;
+    }
 }
 
 bool GGUFLoader::parseMetadataKV() {
-    // Simplified: Extract architecture from metadata
-    // In real implementation, parse full KV metadata section
-    metadata_.architecture = "llama";  // Stub
-    metadata_.config["context_length"] = "4096";
-    metadata_.config["embedding_length"] = "4096";
-    metadata_.config["block_count"] = "32";
+    const char* data = static_cast<const char*>(mmap_base_);
+    
+    // Start after header (24 bytes)
+    size_t offset = 24;
+    
+    // Read KV count
+    uint64_t kv_count;
+    std::memcpy(&kv_count, data + 16, sizeof(uint64_t));
+    
+    // Parse each key-value pair
+    for (uint64_t i = 0; i < kv_count; ++i) {
+        std::string key;
+        if (!readString(offset, key)) return false;
+        
+        // Read value type
+        if (offset + 4 > mmap_size_) return false;
+        uint32_t value_type_raw;
+        std::memcpy(&value_type_raw, data + offset, 4);
+        offset += 4;
+        
+        GGUFValueType value_type = static_cast<GGUFValueType>(value_type_raw);
+        
+        // Read value
+        std::string value;
+        if (!readMetadataValue(offset, value_type, value)) return false;
+        
+        // Store important metadata
+        metadata_.config[key] = value;
+        
+        // Extract architecture if present
+        if (key == "general.architecture") {
+            metadata_.architecture = value;
+        }
+    }
     
     return true;
 }
 
+size_t GGUFLoader::alignOffset(size_t offset, size_t alignment) {
+    return (offset + alignment - 1) & ~(alignment - 1);
+}
+
 bool GGUFLoader::parseTensorInfo() {
-    // Simplified: Parse tensor information
-    // In real implementation, iterate through tensor metadata section
+    const char* data = static_cast<const char*>(mmap_base_);
     
-    // Example tensors for Mistral-7B-like model
-    TensorMetadata tensor;
+    // Get current offset (after metadata)
+    size_t offset = 24;  // Start after header
     
-    // Token embeddings
-    tensor.name = "token_embd.weight";
-    tensor.shape = {32000, 4096};
-    tensor.dtype = "float16";
-    tensor.offset = 1024;  // After header
-    tensor.size = 32000 * 4096 * 2;  // float16 = 2 bytes
-    metadata_.tensors.push_back(tensor);
+    // Skip metadata KV pairs to get to tensor info
+    uint64_t kv_count;
+    std::memcpy(&kv_count, data + 16, sizeof(uint64_t));
     
-    // Attention layers
-    for (int i = 0; i < 32; i++) {
-        tensor.name = "blk." + std::to_string(i) + ".attn_q.weight";
-        tensor.shape = {4096, 4096};
-        tensor.dtype = "float16";
-        tensor.offset = tensor.offset + tensor.size;
-        tensor.size = 4096 * 4096 * 2;
-        metadata_.tensors.push_back(tensor);
+    // Re-skip metadata (we already parsed it)
+    offset = 24;
+    for (uint64_t i = 0; i < kv_count; ++i) {
+        std::string key, value;
+        if (!readString(offset, key)) return false;
         
-        tensor.name = "blk." + std::to_string(i) + ".attn_k.weight";
-        metadata_.tensors.push_back(tensor);
+        if (offset + 4 > mmap_size_) return false;
+        uint32_t value_type_raw;
+        std::memcpy(&value_type_raw, data + offset, 4);
+        offset += 4;
         
-        tensor.name = "blk." + std::to_string(i) + ".attn_v.weight";
-        metadata_.tensors.push_back(tensor);
+        if (!readMetadataValue(offset, static_cast<GGUFValueType>(value_type_raw), value)) {
+            return false;
+        }
+    }
+    
+    // Now parse tensor information
+    uint64_t tensor_count;
+    std::memcpy(&tensor_count, data + 8, sizeof(uint64_t));
+    
+    metadata_.tensors.clear();
+    metadata_.tensors.reserve(tensor_count);
+    
+    for (uint64_t i = 0; i < tensor_count; ++i) {
+        TensorMetadata tensor;
         
-        tensor.name = "blk." + std::to_string(i) + ".attn_output.weight";
-        metadata_.tensors.push_back(tensor);
+        // Read tensor name
+        if (!readString(offset, tensor.name)) return false;
         
-        // FFN layers
-        tensor.name = "blk." + std::to_string(i) + ".ffn_gate.weight";
-        tensor.shape = {4096, 14336};
-        tensor.size = 4096 * 14336 * 2;
-        metadata_.tensors.push_back(tensor);
+        // Read n_dims
+        if (offset + 4 > mmap_size_) return false;
+        uint32_t n_dims;
+        std::memcpy(&n_dims, data + offset, 4);
+        offset += 4;
         
-        tensor.name = "blk." + std::to_string(i) + ".ffn_up.weight";
-        metadata_.tensors.push_back(tensor);
+        // Read dimensions
+        if (offset + n_dims * 8 > mmap_size_) return false;
+        tensor.shape.resize(n_dims);
+        for (uint32_t j = 0; j < n_dims; ++j) {
+            uint64_t dim;
+            std::memcpy(&dim, data + offset, 8);
+            offset += 8;
+            tensor.shape[j] = static_cast<int64_t>(dim);
+        }
         
-        tensor.name = "blk." + std::to_string(i) + ".ffn_down.weight";
-        tensor.shape = {14336, 4096};
-        tensor.size = 14336 * 4096 * 2;
+        // Read tensor type
+        if (offset + 4 > mmap_size_) return false;
+        uint32_t type_raw;
+        std::memcpy(&type_raw, data + offset, 4);
+        offset += 4;
+        tensor.type = static_cast<GGMLType>(type_raw);
+        
+        // Read tensor offset
+        if (offset + 8 > mmap_size_) return false;
+        uint64_t tensor_offset;
+        std::memcpy(&tensor_offset, data + offset, 8);
+        offset += 8;
+        
+        // Calculate tensor size based on type and shape
+        size_t num_elements = 1;
+        for (auto dim : tensor.shape) {
+            num_elements *= dim;
+        }
+        tensor.size = num_elements * getGGMLTypeSize(tensor.type);
+        tensor.offset = tensor_offset;
+        
         metadata_.tensors.push_back(tensor);
     }
     
-    // Output layer
-    tensor.name = "output.weight";
-    tensor.shape = {4096, 32000};
-    tensor.dtype = "float16";
-    tensor.size = 4096 * 32000 * 2;
-    metadata_.tensors.push_back(tensor);
+    // Store data offset (aligned to 32 bytes)
+    metadata_.data_offset = alignOffset(offset, 32);
     
     return true;
+}
+
+size_t GGUFLoader::getGGMLTypeSize(GGMLType type) {
+    switch (type) {
+        case GGMLType::F32: return 4;
+        case GGMLType::F16: return 2;
+        case GGMLType::Q4_0: return 18;  // 32 values per block
+        case GGMLType::Q4_1: return 20;
+        case GGMLType::Q5_0: return 22;
+        case GGMLType::Q5_1: return 24;
+        case GGMLType::Q8_0: return 34;  // 32 values per block
+        case GGMLType::Q8_1: return 36;
+        case GGMLType::Q4_K: return 144; // Q4_K_M: 256 values per block
+        case GGMLType::Q5_K: return 176;
+        case GGMLType::Q6_K: return 210;
+        case GGMLType::Q8_K: return 292;
+        case GGMLType::I8: return 1;
+        case GGMLType::I16: return 2;
+        case GGMLType::I32: return 4;
+        default: return 4;  // Default to FP32 size
+    }
 }
 
 std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
@@ -209,10 +424,9 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     std::string metadata_key = "llm:model:" + model_name + ":metadata";
     
     // 1. Store metadata
-    // TODO: Consider using nlohmann/json or rapidjson for more robust JSON serialization
     std::ostringstream metadata_json;
     metadata_json << "{"
-                  << "\"version\":\"" << escapeJson(metadata_.version) << "\","
+                  << "\"version\":" << metadata_.version << ","
                   << "\"architecture\":\"" << escapeJson(metadata_.architecture) << "\","
                   << "\"total_size\":" << metadata_.total_size << ","
                   << "\"num_tensors\":" << metadata_.tensors.size() << ","
@@ -232,7 +446,7 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
         if (!first) metadata_json << ",";
         metadata_json << "{"
                      << "\"name\":\"" << escapeJson(tensor.name) << "\","
-                     << "\"dtype\":\"" << escapeJson(tensor.dtype) << "\","
+                     << "\"dtype\":\"" << escapeJson(tensor.type_string()) << "\","
                      << "\"size\":" << tensor.size << ","
                      << "\"offset\":" << tensor.offset << ","
                      << "\"shape\":[";
@@ -275,7 +489,8 @@ bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
                                      const TensorMetadata& tensor,
                                      size_t chunk_size) {
     // Get pointer to tensor data in mmap region
-    void* tensor_ptr = static_cast<char*>(mmap_base_) + tensor.offset;
+    // Tensor data starts at data_offset + tensor.offset
+    void* tensor_ptr = static_cast<char*>(mmap_base_) + metadata_.data_offset + tensor.offset;
     
     size_t remaining = tensor.size;
     size_t chunk_index = 0;
@@ -327,7 +542,7 @@ void* GGUFLoader::mmapTensor(const std::string& tensor_name) {
     for (const auto& tensor : metadata_.tensors) {
         if (tensor.name == tensor_name) {
             // Return pointer to tensor data in mmap region
-            return static_cast<char*>(mmap_base_) + tensor.offset;
+            return static_cast<char*>(mmap_base_) + metadata_.data_offset + tensor.offset;
         }
     }
     return nullptr;
