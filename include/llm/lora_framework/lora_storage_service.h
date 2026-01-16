@@ -81,6 +81,12 @@ public:
         std::string pki_private_key_path;           // Private key file path (PEM format)
         std::string pki_ca_bundle_path;             // CA bundle for verification (optional)
         bool pki_verify_certificate = true;         // Verify certificate validity (default: true)
+      
+        // Vault Key Provider configuration
+        bool use_vault_for_encryption = false;  // Enable Vault encryption (default: false)
+        std::string vault_addr;          // Vault server address
+        std::string vault_token;         // Vault authentication token
+        std::string vault_kv_mount = "themis";      // KV mount path (default: "themis")
         
         // RAID/Redundancy (automatically detected from environment)
         bool auto_detect_raid = true;  // Auto-detect RAID configuration
