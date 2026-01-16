@@ -44,6 +44,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     size_t total_tokens = 0;
     size_t successful = 0;
     size_t failed = 0;
+    size_t skipped = 0;
     
     auto benchmark_start = std::chrono::high_resolution_clock::now();
     
@@ -64,8 +65,10 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
             //          successful++;
             
             // For now, skip actual inference if no plugin is configured
-            spdlog::warn("Benchmark skipped: No LLM plugin configured. Set up llm_plugin_ to enable real benchmarking.");
-            failed++;
+            if (i == 0) {
+                spdlog::warn("Benchmark skipped: No LLM plugin configured. Set up llm_plugin_ to enable real benchmarking.");
+            }
+            skipped++;
             
         } catch (const std::exception& e) {
             spdlog::warn("Benchmark request {} failed: {}", i, e.what());
@@ -188,7 +191,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     spdlog::info("  Throughput: {:.2f} tokens/sec", metrics.throughput_tokens_per_sec);
     spdlog::info("  Total Time: {:.2f} seconds", total_time_s);
     spdlog::info("  Memory Used: {} MB", metrics.memory_used_mb);
-    spdlog::info("  Requests: {} successful, {} failed", successful, failed);
+    spdlog::info("  Requests: {} successful, {} failed, {} skipped", successful, failed, skipped);
     spdlog::info("  Quality Score: {:.1f}%", metrics.quality_score_pct);
     
     if (!metrics.warnings.empty()) {
