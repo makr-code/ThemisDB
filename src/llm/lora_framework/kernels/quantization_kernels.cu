@@ -12,6 +12,38 @@ namespace llm {
 namespace lora {
 namespace cuda {
 
+/**
+ * @brief Atomic max for floats using compare-and-swap
+ */
+__device__ inline void atomicMaxFloat(float* addr, float value) {
+    int* addr_as_int = (int*)addr;
+    int old = *addr_as_int;
+    int assumed;
+    
+    do {
+        assumed = old;
+        float old_float = __int_as_float(assumed);
+        old = atomicCAS(addr_as_int, assumed,
+            __float_as_int(fmaxf(old_float, value)));
+    } while (assumed != old);
+}
+
+/**
+ * @brief Atomic min for floats using compare-and-swap
+ */
+__device__ inline void atomicMinFloat(float* addr, float value) {
+    int* addr_as_int = (int*)addr;
+    int old = *addr_as_int;
+    int assumed;
+    
+    do {
+        assumed = old;
+        float old_float = __int_as_float(assumed);
+        old = atomicCAS(addr_as_int, assumed,
+            __float_as_int(fminf(old_float, value)));
+    } while (assumed != old);
+}
+
 // ============================================================================
 // NF4 Constants (Device-side)
 // ============================================================================
@@ -90,15 +122,9 @@ __global__ void quantize_nf4_kernel(
         local_min = fminf(local_min, val);
     }
     
-    // Reduce to shared memory using proper float atomics
-    // Note: Direct float atomics don't work correctly for negative values with int casting
-    // We use atomicCAS for proper float comparison
-    if (local_max > -FLT_MAX) {
-        atomicMax((unsigned int*)&shared_max, __float_as_uint(local_max));
-    }
-    if (local_min < FLT_MAX) {
-        atomicMin((unsigned int*)&shared_min, __float_as_uint(local_min));
-    }
+    // Reduce to shared memory using proper float atomics (compare-and-swap)
+    atomicMaxFloat(&shared_max, local_max);
+    atomicMinFloat(&shared_min, local_min);
     __syncthreads();
     
     // Phase 2: Compute scale and zero point
@@ -181,8 +207,8 @@ __global__ void quantize_int8_kernel(
         local_absmax = fmaxf(local_absmax, fabsf(input[i]));
     }
     
-    // Use proper atomic for positive float (absmax is always >= 0)
-    atomicMax((unsigned int*)&shared_absmax, __float_as_uint(local_absmax));
+    // Use proper atomic for positive float using compare-and-swap
+    atomicMaxFloat(&shared_absmax, local_absmax);
     __syncthreads();
     
     // Phase 2: Compute scale
@@ -204,7 +230,6 @@ __global__ void quantize_int8_kernel(
         float val = input[i];
         int8_t quantized = (int8_t)roundf(val / scale);
         // Clamp to [-128, 127] for full int8 range
-        // Note: Using -127 instead of -128 would waste one quantization level
         quantized = max((int8_t)-128, min((int8_t)127, quantized));
         output[i] = quantized;
     }

@@ -26,7 +26,6 @@ namespace {
  */
 std::vector<float> generateRandomData(size_t size) {
     std::vector<float> data(size);
-    std::random_device rd;
     std::mt19937 gen(42);  // Fixed seed for reproducible benchmarks
     std::normal_distribution<float> dist(0.0f, 1.0f);
     for (size_t i = 0; i < size; i++) {

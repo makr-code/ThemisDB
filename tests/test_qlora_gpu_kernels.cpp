@@ -28,7 +28,6 @@ namespace {
  */
 std::vector<float> generateTestData(size_t size, float mean = 0.0f, float stddev = 1.0f) {
     std::vector<float> data(size);
-    std::random_device rd;
     std::mt19937 gen(42);  // Fixed seed for reproducible tests
     std::normal_distribution<float> dist(mean, stddev);
     
