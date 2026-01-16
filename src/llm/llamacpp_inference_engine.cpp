@@ -474,12 +474,15 @@ bool LlamaCppInferenceEngine::decryptModelFile(
             return false;
         }
         
-        // Create encryption service (will use configured key provider)
+        // Create encryption service with the configured key provider
         std::shared_ptr<FieldEncryption> encryption;
         try {
-            // Try to use the same key provider as model storage
-            // For now, create a temporary one (in production, reuse from config)
-            auto key_provider = std::make_shared<MockKeyProvider>();
+            // Use the same key provider as configured in model storage
+            std::shared_ptr<KeyProvider> key_provider = storage_config.key_provider;
+            if (!key_provider) {
+                spdlog::warn("No key provider configured, using MockKeyProvider");
+                key_provider = std::make_shared<MockKeyProvider>();
+            }
             encryption = std::make_shared<FieldEncryption>(key_provider);
         } catch (const std::exception& e) {
             spdlog::error("Failed to initialize encryption service: {}", e.what());
@@ -508,17 +511,14 @@ bool LlamaCppInferenceEngine::decryptModelFile(
         spdlog::info("Read {} bytes of encrypted data", encrypted_data.size());
         
         // Parse encrypted blob from the file
-        // Assuming the file contains a base64-encoded EncryptedBlob
-        std::string encrypted_str(encrypted_data.begin(), encrypted_data.end());
         EncryptedBlob blob;
         
         try {
+            // Assume the file contains a base64-encoded EncryptedBlob
             blob = EncryptedBlob::fromBase64(encrypted_str);
         } catch (const std::exception& e) {
             spdlog::error("Failed to parse encrypted blob: {}", e.what());
-            // Try treating as raw encrypted data with metadata in JSON
-            spdlog::info("Attempting alternative decryption method...");
-            // For now, return false - proper format needs to be established
+            spdlog::error("Encrypted model file format not recognized");
             return false;
         }
         

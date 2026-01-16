@@ -612,30 +612,44 @@ std::vector<json> LLMModelStorage::getEdges(
             auto parts_start = key.find(edge_prefix) + edge_prefix.length();
             std::string key_suffix = key.substr(parts_start);
             
-            // Simple check if model_id is in the key
-            if (key_suffix.find(model_id) != std::string::npos) {
-                auto edge_data = config_.db->get(key);
-                if (edge_data) {
-                    try {
-                        std::string edge_str(edge_data->begin(), edge_data->end());
-                        json edge_json = json::parse(edge_str);
-                        
-                        // Filter by direction
-                        bool include = false;
-                        if (direction == "both") {
-                            include = true;
-                        } else if (direction == "outgoing" && edge_json["from"] == model_id) {
-                            include = true;
-                        } else if (direction == "incoming" && edge_json["to"] == model_id) {
-                            include = true;
-                        }
-                        
-                        if (include) {
-                            edges.push_back(edge_json);
-                        }
-                    } catch (...) {
-                        // Skip invalid edge data
+            // Parse the key components
+            auto first_colon = key_suffix.find(':');
+            if (first_colon == std::string::npos) continue;
+            
+            std::string from_id = key_suffix.substr(0, first_colon);
+            auto remaining = key_suffix.substr(first_colon + 1);
+            
+            auto second_colon = remaining.find(':');
+            if (second_colon == std::string::npos) continue;
+            
+            std::string to_id = remaining.substr(0, second_colon);
+            
+            // Check if this edge involves the requested model
+            if (from_id != model_id && to_id != model_id) {
+                continue;
+            }
+            
+            auto edge_data = config_.db->get(key);
+            if (edge_data) {
+                try {
+                    std::string edge_str(edge_data->begin(), edge_data->end());
+                    json edge_json = json::parse(edge_str);
+                    
+                    // Filter by direction
+                    bool include = false;
+                    if (direction == "both") {
+                        include = true;
+                    } else if (direction == "outgoing" && edge_json["from"] == model_id) {
+                        include = true;
+                    } else if (direction == "incoming" && edge_json["to"] == model_id) {
+                        include = true;
                     }
+                    
+                    if (include) {
+                        edges.push_back(edge_json);
+                    }
+                } catch (...) {
+                    // Skip invalid edge data
                 }
             }
         }
@@ -663,12 +677,17 @@ bool LLMModelStorage::storeEmbedding(
     }
     
     try {
-        // Store embedding as a separate key-value pair
+        // Store embedding as a separate key-value pair with metadata
         std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
         
-        // Convert float vector to bytes
-        std::vector<uint8_t> embedding_bytes(embedding.size() * sizeof(float));
-        std::memcpy(embedding_bytes.data(), embedding.data(), embedding_bytes.size());
+        // Create a JSON object with dimension count for validation
+        json embedding_json = {
+            {"dimensions", embedding.size()},
+            {"values", embedding}  // nlohmann::json handles float serialization portably
+        };
+        
+        std::string json_str = embedding_json.dump();
+        std::vector<uint8_t> embedding_bytes(json_str.begin(), json_str.end());
         
         bool success = config_.db->put(embedding_key, embedding_bytes);
         if (success) {
@@ -703,9 +722,28 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
             return similar_models;
         }
         
-        // Convert bytes back to float vector
-        std::vector<float> query_embedding(query_data->size() / sizeof(float));
-        std::memcpy(query_embedding.data(), query_data->data(), query_data->size());
+        // Parse JSON to get the embedding
+        std::string query_json_str(query_data->begin(), query_data->end());
+        json query_json;
+        std::vector<float> query_embedding;
+        
+        try {
+            query_json = json::parse(query_json_str);
+            if (!query_json.contains("values") || !query_json.contains("dimensions")) {
+                spdlog::error("Invalid embedding format for model {}", model_id);
+                return similar_models;
+            }
+            query_embedding = query_json["values"].get<std::vector<float>>();
+            size_t expected_dims = query_json["dimensions"];
+            
+            if (query_embedding.size() != expected_dims) {
+                spdlog::error("Embedding dimension mismatch for model {}", model_id);
+                return similar_models;
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to parse embedding for model {}: {}", model_id, e.what());
+            return similar_models;
+        }
         
         // List all embeddings and compute cosine similarity
         std::string embedding_prefix = config_.collection_name + ":embedding:";
@@ -720,12 +758,28 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
             }
             
             auto other_data = config_.db->get(key);
-            if (!other_data || other_data->size() != query_data->size()) {
-                continue;  // Skip if size mismatch
+            if (!other_data || other_data->empty()) {
+                continue;
             }
             
-            std::vector<float> other_embedding(other_data->size() / sizeof(float));
-            std::memcpy(other_embedding.data(), other_data->data(), other_data->size());
+            // Parse other embedding
+            std::string other_json_str(other_data->begin(), other_data->end());
+            std::vector<float> other_embedding;
+            
+            try {
+                json other_json = json::parse(other_json_str);
+                if (!other_json.contains("values")) {
+                    continue;
+                }
+                other_embedding = other_json["values"].get<std::vector<float>>();
+                
+                // Skip if dimension mismatch
+                if (other_embedding.size() != query_embedding.size()) {
+                    continue;
+                }
+            } catch (...) {
+                continue;  // Skip invalid embeddings
+            }
             
             // Compute cosine similarity
             float dot_product = 0.0f;
