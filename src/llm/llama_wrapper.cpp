@@ -14,10 +14,6 @@
 namespace themis {
 namespace llm {
 
-// Constants for stub response estimation
-constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
-constexpr int MAX_STUB_TOKENS = 64;
-
 // ═══════════════════════════════════════════════════════════
 // Configuration Validation
 // ═══════════════════════════════════════════════════════════
@@ -471,46 +467,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // For testing with stub models, allow nullptr handles
-    // In production with real llama.cpp, these would be non-null
+    // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
-        spdlog::error("⚠️  LlamaWrapper: Model/context handle is null!");
-        spdlog::error("    - This indicates model was not loaded properly");
-        spdlog::error("    - Returning stub response for backward compatibility");
-        spdlog::error("    - In production, this should throw an exception");
-        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
-        // Fallback to stub for compatibility
-        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
-        InferenceResponse response;
-        response.request_id = request.request_id;
-        response.text = output;
-        response.model_used = current_model_id_;
-        if (request.lora_adapter_id) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
-        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        updateStatistics(response);
-        
-        // Record metrics for stub response
-        if (metrics_collector_) {
-            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
-            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
-            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
-        }
-        
-        // Cache the response
-        if (response_cache_) {
-            response_cache_->put(request.prompt, response);
-        }
-        
-        return response;
+        throw std::runtime_error(
+            "LlamaWrapper: Model/context not initialized. "
+            "Call loadModel() with a valid model file before attempting inference. "
+            "Model ID: " + current_model_id_
+        );
     }
 
     // Real llama.cpp inference implementation
@@ -1661,27 +1624,13 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // For testing with stub models, allow nullptr handles
+    // Model and context must be loaded before inference
     if (!lmodel || !lctx) {
-        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
-        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
-        InferenceResponse response;
-        response.request_id = request.request_id;
-        response.text = output;
-        response.model_used = current_model_id_;
-        if (request.lora_adapter_id) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
-        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        updateStatistics(response);
-        return response;
+        throw std::runtime_error(
+            "LlamaWrapper: Model/context not initialized. "
+            "Call loadModel() with a valid model file before attempting inference. "
+            "Model ID: " + current_model_id_
+        );
     }
 
     // Real llama.cpp inference implementation

@@ -249,10 +249,17 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
     
     spdlog::info("Prewarming cache with {} common prompts", common_prompts.size());
     
-    // TODO: In production, would pre-compute embeddings and KV cache
-    // For now, just log
+    // TODO: In production, implement actual cache prewarming:
+    // 1. Use embedding model to compute embeddings for each prompt
+    //    auto embedding = embedding_model_->encode(prompt);
+    // 2. Pre-compute KV cache for frequent prompts
+    //    auto kv_cache = computeKVCache(prompt);
+    // 3. Store in prefix cache for fast retrieval
+    //    prefix_cache_->store(prompt, kv_cache);
+    
     for (const auto& prompt : common_prompts) {
         spdlog::debug("  Prewarming: {}", prompt.substr(0, 50));
+        // Actual implementation would pre-process these prompts
     }
 }
 
@@ -453,6 +460,9 @@ void InferenceEngineEnhanced::timeoutMonitorLoop() {
     
     while (running_.load()) {
         checkAndHandleTimeouts();
+        
+        // Brief sleep to avoid busy-waiting while still being responsive
+        // In production, this could be optimized with event-driven timeout management
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
