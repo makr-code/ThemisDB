@@ -158,6 +158,9 @@ void MixedPrecisionTrainer::reset_stats() {
 }
 
 // Simplified FP16 conversion for CPU (IEEE 754 half precision)
+// NOTE: This is a simplified implementation for Phase 1 (CPU-only)
+// Real GPU implementation would use native __half type from cuda_fp16.h
+// and perform proper mantissa/exponent conversion
 float MixedPrecisionTrainer::fp32_to_fp16(float value) {
     // Clamp to FP16 range
     const float fp16_max = 65504.0f;
@@ -167,8 +170,11 @@ float MixedPrecisionTrainer::fp32_to_fp16(float value) {
     if (value < fp16_min) return fp16_min;
     if (std::isnan(value)) return std::numeric_limits<float>::quiet_NaN();
     
-    // For CPU simulation, we just limit precision
-    // Real GPU implementation would use native __half type
+    // For CPU simulation, we just clamp to FP16 range
+    // TODO: In GPU implementation, convert to actual FP16 format:
+    //   - Extract sign, exponent, mantissa bits
+    //   - Convert to 16-bit representation (1 sign + 5 exp + 10 mantissa)
+    //   - Store as __half type for GPU operations
     return value;
 }
 

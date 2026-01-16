@@ -171,15 +171,22 @@ float DistributedTrainer::scale_learning_rate(
 
 // CPU-based AllReduce (simplified for single-node)
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    // Placeholder: In real implementation, this would:
-    // 1. Use shared memory for multi-process on same node
-    // 2. Use NCCL for multi-GPU
-    // 3. Use MPI for multi-node
+    // NOTE: This is a simplified CPU implementation for Phase 1
+    // Real distributed implementation would:
+    // 1. Use shared memory for multi-process on same node (via MPI/shmem)
+    // 2. Use NCCL AllReduce for multi-GPU (native GPU communication)
+    // 3. Use MPI for multi-node clusters
+    // 
+    // For Phase 1, we simulate by averaging (assumes gradients already aggregated)
+    // In production, this would:
+    //   - Collect gradients from all ranks via MPI_Allreduce or NCCL
+    //   - Sum them element-wise
+    //   - Divide by world_size
+    //
+    // TODO: When GPU support is added, replace with:
+    //   ncclAllReduce(data, data, count, ncclFloat, ncclSum, comm, stream)
+    //   then divide by world_size
     
-    // For Phase 3, we simulate by averaging (already done in each process)
-    // Real implementation would collect from all ranks and average
-    
-    // Average by world size
     float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;
