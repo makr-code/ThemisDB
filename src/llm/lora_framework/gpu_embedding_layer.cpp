@@ -2,6 +2,7 @@
 #include "llm/lora_framework/cuda_kernels.h"
 #include "llm/lora_framework/hip_kernels.h"
 #include "llm/lora_framework/vulkan_kernels.h"
+#include "llm/lora_framework/directx_kernels.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstring>
@@ -73,6 +74,8 @@ GPUTensor GPUEmbeddingLayer::forward(const GPUTensor& token_ids) {
             return forwardHIP(token_ids);
         case DeviceType::VULKAN:
             return forwardVulkan(token_ids);
+        case DeviceType::DIRECTX:
+            return forwardDirectX(token_ids);
         default:
             return forwardCPU(token_ids);
     }
@@ -241,6 +244,47 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
         spdlog::debug("Vulkan embedding lookup completed successfully");
     } catch (const std::exception& e) {
         spdlog::warn("Vulkan embedding lookup failed: {}, falling back to CPU", e.what());
+        return forwardCPU(token_ids);
+    }
+    
+    // Create output tensor and upload
+    GPUTensor embeddings({batch_size, seq_len, hidden_dim_}, device_);
+    embeddings.upload(embeddings_data);
+    
+    return embeddings;
+}
+
+GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
+    auto shape = token_ids.shape();
+    size_t batch_size = shape[0];
+    size_t seq_len = shape[1];
+    
+    spdlog::debug("GPUEmbeddingLayer::forwardDirectX: batch_size={}, seq_len={}", batch_size, seq_len);
+    
+    // Note: DirectX implementation uses CPU-side buffer management (similar to Vulkan)
+    // Download token IDs and embedding weights
+    auto token_data = token_ids.cpu_data();
+    auto weights_data = embedding_weights_.cpu_data();
+    
+    // Allocate output buffer
+    size_t output_size = batch_size * seq_len * hidden_dim_;
+    std::vector<float> embeddings_data(output_size);
+    
+    // Launch DirectX compute shader
+    try {
+        directx::launch_embedding_lookup_shader(
+            embeddings_data.data(),
+            token_data.data(),
+            weights_data.data(),
+            static_cast<int>(batch_size),
+            static_cast<int>(seq_len),
+            static_cast<int>(hidden_dim_),
+            static_cast<int>(vocab_size_)
+        );
+        
+        spdlog::debug("DirectX embedding lookup completed successfully");
+    } catch (const std::exception& e) {
+        spdlog::warn("DirectX embedding lookup failed: {}, falling back to CPU", e.what());
         return forwardCPU(token_ids);
     }
     

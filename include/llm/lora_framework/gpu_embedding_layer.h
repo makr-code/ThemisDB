@@ -93,6 +93,7 @@ private:
     GPUTensor forwardCUDA(const GPUTensor& token_ids);
     GPUTensor forwardHIP(const GPUTensor& token_ids);
     GPUTensor forwardVulkan(const GPUTensor& token_ids);
+    GPUTensor forwardDirectX(const GPUTensor& token_ids);
 };
 
 } // namespace lora
