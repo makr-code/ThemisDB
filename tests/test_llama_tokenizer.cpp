@@ -34,11 +34,13 @@ protected:
             test_model_path_ = model_path_env;
             model_available_ = true;
         } else {
-            // Try common locations
+            // Try common locations for test models
+            // These are example paths - users should set THEMIS_TEST_MODEL_PATH
             std::vector<std::string> common_paths = {
-                "models/llama-2-7b.gguf",
-                "models/mistral-7b-v0.1.gguf",
-                "../models/llama-2-7b.gguf",
+                "models/test-model.gguf",      // Generic test model
+                "models/llama-2-7b.gguf",      // Llama 2 example
+                "models/mistral-7b-v0.1.gguf", // Mistral example
+                "../models/test-model.gguf",
                 "/tmp/test_model.gguf"
             };
             

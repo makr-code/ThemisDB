@@ -13,7 +13,9 @@ LlamaTokenizer::LlamaTokenizer(const std::string& model_path)
     spdlog::info("Initializing llama.cpp tokenizer from: {}", model_path);
     
     // Note: llama_backend_init() is called globally by the application
-    // We don't call it here to avoid conflicts with multiple instances
+    // (typically in LlamaWrapper initialization or main() function).
+    // We don't call it here to avoid conflicts with multiple instances.
+    // The backend must be initialized before creating any LlamaTokenizer instances.
     
     // Load model in vocab-only mode (lightweight - only tokenizer)
     llama_model_params model_params = llama_model_default_params();
@@ -91,14 +93,17 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
         return tokens;
     }
     
+    // Get vocab from model (matches existing pattern in llama_wrapper.cpp)
+    const llama_vocab* vocab = llama_model_get_vocab(model_);
+    
     // Allocate buffer for tokens (estimate size + extra for special tokens)
     std::vector<llama_token> tokens_buffer(text.size() + 16);
     
-    // Tokenize using llama.cpp
-    int n_tokens = llama_tokenize(
-        model_,
+    // Tokenize using llama.cpp (matches existing pattern in llama_wrapper.cpp)
+    int32_t n_tokens = llama_tokenize(
+        vocab,
         text.c_str(),
-        text.size(),
+        text.length(),
         tokens_buffer.data(),
         tokens_buffer.size(),
         add_bos,   // add_bos
@@ -106,12 +111,12 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     );
     
     if (n_tokens < 0) {
-        // Buffer too small, retry with larger buffer
-        tokens_buffer.resize(text.size() * 2 + 32);
+        // Buffer too small, retry with larger buffer (matches existing pattern)
+        tokens_buffer.resize(-n_tokens);
         n_tokens = llama_tokenize(
-            model_,
+            vocab,
             text.c_str(),
-            text.size(),
+            text.length(),
             tokens_buffer.data(),
             tokens_buffer.size(),
             add_bos,
@@ -145,6 +150,9 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
         return "";
     }
     
+    // Get vocab from model (matches existing pattern in llama_wrapper.cpp)
+    const llama_vocab* vocab = llama_model_get_vocab(model_);
+    
     std::string result;
     result.reserve(tokens.size() * 4);  // Estimate 4 chars per token
     
@@ -156,22 +164,12 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
             continue;
         }
         
-        // Get token piece from llama.cpp
-        char piece_buf[256];
-        int n_chars = llama_token_to_piece(model_, token, piece_buf, sizeof(piece_buf), 0, false);
+        // Get token piece from llama.cpp (matches existing pattern)
+        char buf[256];
+        int32_t n = llama_token_to_piece(vocab, token, buf, sizeof(buf), 0, false);
         
-        // llama_token_to_piece returns the number of characters written
-        // If negative, buffer was too small (returns -(required_size))
-        if (n_chars < 0) {
-            // Buffer too small, allocate larger buffer
-            size_t required_size = static_cast<size_t>(-n_chars);
-            std::vector<char> large_buf(required_size);
-            n_chars = llama_token_to_piece(model_, token, large_buf.data(), large_buf.size(), 0, false);
-            if (n_chars > 0 && static_cast<size_t>(n_chars) < large_buf.size()) {
-                result.append(large_buf.data(), n_chars);
-            }
-        } else if (n_chars > 0 && static_cast<size_t>(n_chars) < sizeof(piece_buf)) {
-            result.append(piece_buf, n_chars);
+        if (n > 0 && n < static_cast<int32_t>(sizeof(buf))) {
+            result.append(buf, n);
         }
     }
     
