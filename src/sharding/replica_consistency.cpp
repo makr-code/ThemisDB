@@ -66,6 +66,10 @@ bool VectorClock::isConcurrent(const VectorClock& other) const {
 }
 
 std::string VectorClock::serialize() const {
+    if (timestamps_.empty()) {
+        return "";  // Empty clock
+    }
+    
     std::ostringstream oss;
     bool first = true;
     for (const auto& [node_id, timestamp] : timestamps_) {
@@ -79,6 +83,10 @@ std::string VectorClock::serialize() const {
 }
 
 std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
+    if (data.empty()) {
+        return VectorClock();  // Empty clock
+    }
+    
     std::map<std::string, uint64_t> timestamps;
     std::istringstream iss(data);
     std::string token;
@@ -90,8 +98,14 @@ std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
         }
         
         std::string node_id = token.substr(0, colon_pos);
-        uint64_t timestamp = std::stoull(token.substr(colon_pos + 1));
-        timestamps[node_id] = timestamp;
+        try {
+            uint64_t timestamp = std::stoull(token.substr(colon_pos + 1));
+            timestamps[node_id] = timestamp;
+        } catch (const std::invalid_argument&) {
+            return std::nullopt;  // Invalid number format
+        } catch (const std::out_of_range&) {
+            return std::nullopt;  // Number out of range
+        }
     }
     
     return VectorClock(timestamps);

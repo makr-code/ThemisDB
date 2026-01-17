@@ -56,6 +56,8 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     }
     
     // Execute operations in parallel
+    // NOTE: For production with large clusters, consider using a thread pool
+    // to avoid excessive thread creation overhead
     std::vector<std::pair<std::string, std::future<bool>>> futures;
     for (const auto& node : target_nodes) {
         auto future = std::async(std::launch::async, operation, node);

@@ -75,18 +75,19 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
     LogEntry entry(term, index, command);
     log.append(entry);
     
-    // Replicate to followers in background
-    std::thread([this, entry, promise]() {
+    // Replicate to followers asynchronously
+    auto self = this;
+    std::thread([self, entry, promise]() {
         int acks = 1;  // Leader counts as one acknowledgment
-        int required = raft_state_.getQuorumSize();
+        int required = self->raft_state_.getQuorumSize();
         
-        if (replication_callback_) {
-            for (const auto& member : raft_state_.getClusterMembers()) {
-                if (member == raft_state_.getNodeId()) {
+        if (self->replication_callback_) {
+            for (const auto& member : self->raft_state_.getClusterMembers()) {
+                if (member == self->raft_state_.getNodeId()) {
                     continue;  // Skip self
                 }
                 
-                if (replicateToFollower(member, entry)) {
+                if (self->replicateToFollower(member, entry)) {
                     acks++;
                     if (acks >= required) {
                         break;
@@ -97,11 +98,11 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
         
         bool success = (acks >= required);
         if (success) {
-            raft_state_.getLog().setCommitIndex(entry.index);
+            self->raft_state_.getLog().setCommitIndex(entry.index);
         }
         
         promise->set_value(success);
-    }).detach();
+    }).detach();  // Safe: promise keeps context alive until thread completes
     
     return future;
 }
