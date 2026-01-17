@@ -587,12 +587,7 @@ public:
                     if (step % 10 == 0) {
                         spdlog::debug("Epoch {}/{}, Step {}, Loss: {:.4f}", 
                                      epoch + 1, params.num_epochs, step, batch_loss);
-                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                    // Small delay to prevent overwhelming the system
-                    // Removed artificial sleep - let GPU/CPU work at full speed
-                    // Memory-based throttling should be handled by the system allocator
-                    if (step % 10 == 0) {
-                        // Optionally yield to other threads but don't artificially slow down
+                        // Yield to other threads without artificial delay for optimal performance
                         std::this_thread::yield();
                     }
                     

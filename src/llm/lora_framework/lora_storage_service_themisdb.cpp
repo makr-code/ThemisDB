@@ -81,17 +81,52 @@ public:
                     spdlog::info("  Hardware-backed keys provide maximum security");
                     
                 } else if (config_.use_hsm_for_encryption) {
-                    spdlog::warn("  HSM encryption requested but library path not provided");
-                    spdlog::warn("  Falling back to MockKeyProvider");
-                    key_provider = std::make_shared<MockKeyProvider>();
-                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
+                    spdlog::error("  HSM encryption requested but library path not provided");
+                    spdlog::error("  Set hsm_library_path in configuration");
+                    throw std::runtime_error("HSM encryption enabled but not properly configured");
+                    
+                } else if (config_.use_vault_for_encryption && !config_.vault_addr.empty()) {
+                    // Use Vault for key management (recommended for cloud deployments)
+                    spdlog::info("  Initializing Vault-backed encryption:");
+                    spdlog::info("    Address: {}", config_.vault_addr);
+                    spdlog::info("    Mount Path: {}", config_.vault_kv_mount);
+                    
+                    security::VaultKeyProvider::Config vault_config;
+                    vault_config.address = config_.vault_addr;
+                    vault_config.token = config_.vault_token;
+                    vault_config.mount_path = config_.vault_kv_mount;
+                    // Note: TLS configuration would come from separate config fields if needed
+                    
+                    key_provider = std::make_shared<security::VaultKeyProvider>(vault_config);
+                    spdlog::info("  ✓ Vault-backed encryption initialized successfully");
+                    
+                } else if (config_.use_vault_for_encryption) {
+                    spdlog::error("  Vault encryption requested but address not provided");
+                    spdlog::error("  Set vault_addr in configuration");
+                    throw std::runtime_error("Vault encryption enabled but not properly configured");
                     
                 } else {
-                    // Fallback to MockKeyProvider for development/testing
-                    // TODO: In production, use VaultKeyProvider or other secure provider
+                    // Check if running in production mode (environment variable or config flag)
+                    const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
+                    bool is_production = (env_mode != nullptr && 
+                                         (std::string(env_mode) == "production" || 
+                                          std::string(env_mode) == "prod"));
+                    
+                    if (is_production) {
+                        spdlog::error("  CRITICAL: Production environment detected but no secure key provider configured!");
+                        spdlog::error("  Set THEMIS_ENVIRONMENT=development to use MockKeyProvider in dev mode");
+                        spdlog::error("  For production, configure either:");
+                        spdlog::error("    1. HSM (use_hsm_for_encryption=true, hsm_library_path=...)");
+                        spdlog::error("    2. Vault (use_vault_for_encryption=true, vault_addr=https://...)");
+                        throw std::runtime_error("Secure key provider required in production environment");
+                    }
+                    
+                    // Development/testing mode - allow MockKeyProvider with clear warnings
                     key_provider = std::make_shared<MockKeyProvider>();
-                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
-                    spdlog::warn("  For production, configure HSM or see include/security/vault_key_provider.h");
+                    spdlog::warn("  ⚠️  Using MockKeyProvider for encryption - DEVELOPMENT MODE ONLY");
+                    spdlog::warn("  ⚠️  This provides NO security for encrypted data!");
+                    spdlog::warn("  ⚠️  For production, configure HSM or Vault key provider");
+                    spdlog::warn("  See documentation: docs/security/key-management.md");
                 }
                 
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
