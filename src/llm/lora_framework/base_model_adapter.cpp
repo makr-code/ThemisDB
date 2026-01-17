@@ -119,6 +119,16 @@ bool BaseModelAdapter::parseArchitecture() {
         architecture_.intermediate_size = architecture_.hidden_size * 4;
     }
     
+    // Vocabulary size
+    if (config.find("vocab_size") != config.end()) {
+        architecture_.vocab_size = std::stoi(config.at("vocab_size"));
+    } else if (config.find("n_vocab") != config.end()) {
+        architecture_.vocab_size = std::stoi(config.at("n_vocab"));
+    } else {
+        // Try to infer from embedding tensor shape
+        architecture_.vocab_size = 32000;  // Default for Llama models
+    }
+    
     // RoPE parameters
     if (config.find("rope_freq_base") != config.end()) {
         architecture_.rope_freq_base = std::stof(config.at("rope_freq_base"));
@@ -333,9 +343,192 @@ void BaseModelAdapter::unload() {
     
     adaptable_layers_.clear();
     layer_map_.clear();
+    embedding_cache_.clear();
+    embedding_matrix_ = nullptr;
+    embedding_tensor_name_.clear();
     model_loaded_ = false;
     
     spdlog::info("Base model unloaded");
+}
+
+std::string BaseModelAdapter::findEmbeddingTensorName() const {
+    if (!gguf_loader_) {
+        return "";
+    }
+    
+    const auto& metadata = gguf_loader_->getMetadata();
+    
+    // NOTE: We're looking for the EMBEDDING LAYER weights (first layer),
+    // NOT the output embeddings from llama_get_embeddings().
+    // 
+    // For LoRA training, we need raw token embeddings as inputs to layers,
+    // not contextualized sequence embeddings from a full forward pass.
+    //
+    // Try different embedding tensor names based on architecture
+    std::vector<std::string> possible_names = {
+        "token_embd.weight",           // Common GGUF name
+        "tok_embeddings.weight",       // Llama
+        "model.embed_tokens.weight",   // HuggingFace format
+        "embed_tokens.weight",         // Alternative
+        "wte.weight",                  // GPT-style
+        "transformer.wte.weight",      // GPT-2
+        "gpt_neox.embed_in.weight",    // GPT-NeoX
+    };
+    
+    for (const auto& name : possible_names) {
+        for (const auto& tensor : metadata.tensors) {
+            if (tensor.name == name || tensor.name.find(name) != std::string::npos) {
+                return tensor.name;
+            }
+        }
+    }
+    
+    // If not found, try to find any tensor with "embed" in the name
+    for (const auto& tensor : metadata.tensors) {
+        if (tensor.name.find("embed") != std::string::npos && 
+            tensor.name.find("tok") != std::string::npos) {
+            spdlog::info("Found potential embedding tensor: {}", tensor.name);
+            return tensor.name;
+        }
+    }
+    
+    spdlog::warn("Could not find embedding tensor in model");
+    return "";
+}
+
+std::vector<float> BaseModelAdapter::extractEmbeddingFromGGUF(int token_id) const {
+    if (!gguf_loader_ || !model_loaded_) {
+        spdlog::warn("Model not loaded");
+        return {};
+    }
+    
+    // Validate token_id is within vocabulary bounds
+    if (token_id < 0 || token_id >= architecture_.vocab_size) {
+        spdlog::error("Token ID {} out of bounds (vocab_size={})", token_id, architecture_.vocab_size);
+        return {};
+    }
+    
+    // Find embedding tensor name if not cached
+    if (embedding_tensor_name_.empty()) {
+        embedding_tensor_name_ = findEmbeddingTensorName();
+        if (embedding_tensor_name_.empty()) {
+            return {};
+        }
+    }
+    
+    // Get or cache embedding matrix pointer
+    if (!embedding_matrix_) {
+        void* tensor_ptr = gguf_loader_->mmapTensor(embedding_tensor_name_);
+        if (tensor_ptr) {
+            embedding_matrix_ = static_cast<const float*>(tensor_ptr);
+        } else {
+            // Fallback: try to load tensor data
+            auto tensor_data = gguf_loader_->getTensorData(embedding_tensor_name_);
+            if (!tensor_data.empty()) {
+                embedding_matrix_ = reinterpret_cast<const float*>(tensor_data.data());
+            } else {
+                spdlog::error("Failed to load embedding tensor: {}", embedding_tensor_name_);
+                return {};
+            }
+        }
+    }
+    
+    // Extract single token embedding
+    size_t hidden_dim = architecture_.hidden_size;
+    std::vector<float> embedding(hidden_dim);
+    
+    const float* token_embed = embedding_matrix_ + (token_id * hidden_dim);
+    std::copy(token_embed, token_embed + hidden_dim, embedding.begin());
+    
+    return embedding;
+}
+
+std::vector<float> BaseModelAdapter::getTokenEmbedding(int token_id) const {
+    if (!model_loaded_) {
+        spdlog::warn("Model not loaded");
+        return {};
+    }
+    
+    // Check cache first
+    auto it = embedding_cache_.find(token_id);
+    if (it != embedding_cache_.end()) {
+        ++cache_hits_;
+        return it->second;
+    }
+    
+    ++cache_misses_;
+    
+    // Extract from GGUF
+    auto embedding = extractEmbeddingFromGGUF(token_id);
+    
+    if (embedding.empty()) {
+        return {};
+    }
+    
+    // Add to cache if not full
+    if (embedding_cache_.size() < MAX_CACHE_SIZE) {
+        embedding_cache_[token_id] = embedding;
+    }
+    
+    return embedding;
+}
+
+std::vector<float> BaseModelAdapter::getTokenEmbeddings(const std::vector<int>& token_ids) const {
+    std::vector<float> embeddings;
+    size_t hidden_dim = architecture_.hidden_size;
+    embeddings.reserve(token_ids.size() * hidden_dim);
+    
+    for (int token_id : token_ids) {
+        auto token_embedding = getTokenEmbedding(token_id);
+        
+        if (token_embedding.empty()) {
+            // If extraction failed, fill with zeros
+            spdlog::warn("Failed to get embedding for token {}, using zeros", token_id);
+            embeddings.insert(embeddings.end(), hidden_dim, 0.0f);
+        } else {
+            embeddings.insert(embeddings.end(), token_embedding.begin(), token_embedding.end());
+        }
+    }
+    
+    return embeddings;
+}
+
+const float* BaseModelAdapter::getEmbeddingMatrix() const {
+    if (!model_loaded_) {
+        return nullptr;
+    }
+    
+    // Find embedding tensor name if not cached
+    if (embedding_tensor_name_.empty()) {
+        embedding_tensor_name_ = findEmbeddingTensorName();
+        if (embedding_tensor_name_.empty()) {
+            return nullptr;
+        }
+    }
+    
+    // Get or cache embedding matrix pointer
+    if (!embedding_matrix_) {
+        void* tensor_ptr = gguf_loader_->mmapTensor(embedding_tensor_name_);
+        if (tensor_ptr) {
+            embedding_matrix_ = static_cast<const float*>(tensor_ptr);
+        }
+    }
+    
+    return embedding_matrix_;
+}
+
+void BaseModelAdapter::logCacheStats() const {
+    float hit_rate = 0.0f;
+    size_t total = cache_hits_ + cache_misses_;
+    if (total > 0) {
+        hit_rate = static_cast<float>(cache_hits_) / total * 100.0f;
+    }
+    
+    spdlog::info("Embedding cache stats:");
+    spdlog::info("  Cache size: {}/{}", embedding_cache_.size(), MAX_CACHE_SIZE);
+    spdlog::info("  Cache hits: {}", cache_hits_);
+    spdlog::info("  Cache misses: {}", cache_misses_);
+    spdlog::info("  Hit rate: {:.1f}%", hit_rate);
 }
 
 std::string BaseModelAdapter::standardizeLayerName(const std::string& model_layer_name) const {
