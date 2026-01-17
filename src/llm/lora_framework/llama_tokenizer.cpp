@@ -12,8 +12,8 @@ LlamaTokenizer::LlamaTokenizer(const std::string& model_path)
     : model_path_(model_path) {
     spdlog::info("Initializing llama.cpp tokenizer from: {}", model_path);
     
-    // Initialize llama.cpp backend
-    llama_backend_init();
+    // Note: llama_backend_init() is called globally by the application
+    // We don't call it here to avoid conflicts with multiple instances
     
     // Load model in vocab-only mode (lightweight - only tokenizer)
     llama_model_params model_params = llama_model_default_params();
@@ -21,7 +21,6 @@ LlamaTokenizer::LlamaTokenizer(const std::string& model_path)
     
     model_ = llama_load_model_from_file(model_path.c_str(), model_params);
     if (!model_) {
-        llama_backend_free();
         throw std::runtime_error("Failed to load model for tokenizer: " + model_path);
     }
     
@@ -33,7 +32,6 @@ LlamaTokenizer::LlamaTokenizer(const std::string& model_path)
     context_ = llama_new_context_with_model(model_, ctx_params);
     if (!context_) {
         llama_free_model(model_);
-        llama_backend_free();
         model_ = nullptr;
         throw std::runtime_error("Failed to create context for tokenizer");
     }
@@ -75,7 +73,8 @@ void LlamaTokenizer::cleanup() {
         llama_free_model(model_);
         model_ = nullptr;
     }
-    llama_backend_free();
+    // Note: llama_backend_free() is called globally by the application
+    // We don't call it here to avoid conflicts with multiple instances
 }
 
 std::vector<int> LlamaTokenizer::encode(const std::string& text, 
@@ -159,16 +158,19 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
         
         // Get token piece from llama.cpp
         char piece_buf[256];
-        int n_chars = llama_token_to_piece(model_, token, piece_buf, sizeof(piece_buf));
+        int n_chars = llama_token_to_piece(model_, token, piece_buf, sizeof(piece_buf), 0, false);
         
+        // llama_token_to_piece returns the number of characters written
+        // If negative, buffer was too small (returns -(required_size))
         if (n_chars < 0) {
             // Buffer too small, allocate larger buffer
-            std::vector<char> large_buf(-n_chars + 1);
-            n_chars = llama_token_to_piece(model_, token, large_buf.data(), large_buf.size());
-            if (n_chars > 0) {
+            size_t required_size = static_cast<size_t>(-n_chars);
+            std::vector<char> large_buf(required_size);
+            n_chars = llama_token_to_piece(model_, token, large_buf.data(), large_buf.size(), 0, false);
+            if (n_chars > 0 && static_cast<size_t>(n_chars) < large_buf.size()) {
                 result.append(large_buf.data(), n_chars);
             }
-        } else if (n_chars > 0) {
+        } else if (n_chars > 0 && static_cast<size_t>(n_chars) < sizeof(piece_buf)) {
             result.append(piece_buf, n_chars);
         }
     }
