@@ -54,6 +54,23 @@ if(MSVC)
         /permissive-     # Conformance mode
     )
     
+    # Fix for missing standard library headers (when VSDevCmd not initialized)
+    # Include standard MSVC toolset paths explicitly
+    if(DEFINED ENV{VCToolsInstallDir})
+        set(_VC_TOOLS_DIR "$ENV{VCToolsInstallDir}")
+    else()
+        # Fallback: discover MSVC installation
+        get_filename_component(_VC_TOOLS_DIR 
+            "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VC7;17.0]" ABSOLUTE)
+    endif()
+    
+    if(_VC_TOOLS_DIR)
+        message(STATUS "MSVC VC Tools Directory: ${_VC_TOOLS_DIR}")
+        include_directories("${_VC_TOOLS_DIR}include")
+    else()
+        message(WARNING "Could not locate MSVC VC Tools directory for standard library includes")
+    endif()
+    
     # Release-specific options for SIMD optimization
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
         add_compile_options(/arch:AVX2)

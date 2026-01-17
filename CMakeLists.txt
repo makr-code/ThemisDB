@@ -129,6 +129,9 @@ if(THEMIS_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
+# Set root directory for use in subdirectories (MUST be before add_subdirectory(cmake))
+set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")
+
 # Benchmarking
 if(THEMIS_BUILD_BENCHMARKS)
     add_subdirectory(benchmarks)

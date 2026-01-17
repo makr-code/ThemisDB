@@ -199,7 +199,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
     }
     
     auto span = Tracer::startSpan("ChangefeedBuffer.flushBuffer");
-    span.setAttribute("event_type", static_cast<int>(event_type));
+    span.setAttribute("event_type", static_cast<int64_t>(event_type));
     span.setAttribute("events", static_cast<int64_t>(buffer.events.size()));
     
     // Record all events to changefeed

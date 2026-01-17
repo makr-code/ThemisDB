@@ -1,7 +1,6 @@
 #include "server/rpc/blob_transfer_handler.h"
 #include <zstd.h>
 #include <lz4.h>
-#include <snappy.h>
 #include <crc32c/crc32c.h>
 #include <openssl/sha.h>
 #include <fstream>
@@ -61,7 +60,7 @@ public:
             size_t bytes_read = file.gcount();
             
             // Create chunk
-            themis::sharding::BlobChunk chunk;
+            themis::sharding::proto::BlobChunk chunk;
             chunk.set_blob_id(config_.blob_id);
             chunk.set_chunk_index(chunk_index++);
             chunk.set_total_chunks(total_chunks_);
@@ -110,12 +109,12 @@ public:
         
         // Final chunk
         if (!cancelled_ && chunk_index > 0) {
-            themis::sharding::BlobChunk final_chunk;
+            themis::sharding::proto::BlobChunk final_chunk;
             final_chunk.set_blob_id(config_.blob_id);
             final_chunk.set_is_last_chunk(true);
             final_chunk.set_total_chunks(chunk_index);
             final_chunk.set_checksum(CalculateBlobHash());
-            final_chunk.set_checksum_type(themis::sharding::CHECKSUM_SHA256);
+            final_chunk.set_checksum_type(themis::sharding::proto::CHECKSUM_SHA256);
             callback(final_chunk);
         }
         
@@ -129,7 +128,7 @@ public:
         return BlobStatus::OK;
     }
     
-    BlobStatus ReceiveChunk(const themis::sharding::BlobChunk& chunk) {
+    BlobStatus ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk) {
         // Verify checksum
         if (CalculateChecksum(chunk.data()) != chunk.checksum()) {
             return BlobStatus::ERROR_CHECKSUM_MISMATCH;
@@ -213,11 +212,11 @@ private:
         }
         
         switch (config_.compression_type) {
-            case themis::sharding::COMPRESSION_NONE:
+            case themis::sharding::proto::COMPRESSION_NONE:
                 *output = input;
                 return BlobStatus::OK;
                 
-            case themis::sharding::COMPRESSION_ZSTD: {
+            case themis::sharding::proto::COMPRESSION_ZSTD: {
                 size_t max_size = ZSTD_compressBound(input.size());
                 output->resize(max_size);
                 size_t size = ZSTD_compress(
@@ -239,11 +238,11 @@ private:
     
     BlobStatus DecompressData(const std::string& input, std::string* output) {
         switch (config_.compression_type) {
-            case themis::sharding::COMPRESSION_NONE:
+            case themis::sharding::proto::COMPRESSION_NONE:
                 *output = input;
                 return BlobStatus::OK;
                 
-            case themis::sharding::COMPRESSION_ZSTD: {
+            case themis::sharding::proto::COMPRESSION_ZSTD: {
                 size_t size = ZSTD_getFrameContentSize(input.data(), input.size());
                 output->resize(size);
                 size_t actual = ZSTD_decompress(
@@ -263,10 +262,10 @@ private:
     
     std::string CalculateChecksum(const std::string& data) {
         switch (config_.checksum_type) {
-            case themis::sharding::CHECKSUM_CRC32: {
+            case themis::sharding::proto::CHECKSUM_CRC32: {
                 return std::to_string(crc32c::Crc32c(data.data(), data.size()));
             }
-            case themis::sharding::CHECKSUM_SHA256: {
+            case themis::sharding::proto::CHECKSUM_SHA256: {
                 unsigned char hash[SHA256_DIGEST_LENGTH];
                 SHA256(reinterpret_cast<const unsigned char*>(data.data()),
                       data.size(), hash);
@@ -345,7 +344,7 @@ BlobStatus BlobTransferHandler::VerifyBlob(const std::string& expected_hash) {
     return impl_->VerifyBlob(expected_hash);
 }
 
-BlobStatus BlobTransferHandler::ReceiveChunk(const themis::sharding::BlobChunk& chunk) {
+BlobStatus BlobTransferHandler::ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk) {
     return impl_->ReceiveChunk(chunk);
 }
 
