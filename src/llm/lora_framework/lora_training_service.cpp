@@ -1057,6 +1057,28 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Layers: {}", quantized_model->num_layers());
         spdlog::info("  Memory: {:.2f} MB", quantized_model->memory_bytes() / (1024.0 * 1024.0));
         
+        // Load base model adapter for real embeddings
+        std::unique_ptr<BaseModelAdapter> base_model_adapter;
+        if (impl_->config_.use_base_model && 
+            !impl_->config_.base_model_path.empty() && 
+            std::filesystem::exists(impl_->config_.base_model_path)) {
+            
+            spdlog::info("Loading base model adapter for real embeddings: {}", impl_->config_.base_model_path);
+            base_model_adapter = std::make_unique<BaseModelAdapter>();
+            
+            if (base_model_adapter->loadModel(impl_->config_.base_model_path)) {
+                spdlog::info("Base model adapter loaded successfully");
+                spdlog::info("  Architecture: {}", base_model_adapter->getArchitecture().architecture);
+                spdlog::info("  Vocab size: {}", base_model_adapter->getVocabSize());
+                spdlog::info("  Hidden size: {}", base_model_adapter->getHiddenSize());
+            } else {
+                spdlog::warn("Failed to load base model adapter, will use hash-based embeddings");
+                base_model_adapter.reset();
+            }
+        } else {
+            spdlog::info("Base model not configured, will use hash-based embeddings");
+        }
+        
         // ===================================================================
         // GPU-Accelerated Training Integration
         // ===================================================================
@@ -1168,6 +1190,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         GPUTrainingLoop trainer(training_config);
         trainer.setDataLoader(std::move(gpu_data_loader));
         trainer.addLayer(gpu_lora_layer.get());
+        
+        // Set base model for real embeddings
+        if (base_model_adapter && base_model_adapter->isLoaded()) {
+            trainer.setBaseModel(base_model_adapter.get());
+            spdlog::info("Base model set for GPU training - using real embeddings");
+        } else {
+            spdlog::info("No base model available - using hash-based embeddings");
+        }
         
         // Set mixed precision trainer if enabled
         if (training_config.use_mixed_precision) {

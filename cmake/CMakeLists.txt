@@ -2144,6 +2144,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
         ../src/llm/lora_framework/gpu_data_loader.cpp         # GPU data loader with async transfers
         ../src/llm/lora_framework/gpu_training_loop.cpp       # GPU training loop implementation
+        ../src/llm/lora_framework/gpu_embedding_layer.cpp     # GPU embedding layer for real embeddings
         ../src/llm/lora_framework/quantization.cpp            # Quantization (QLoRA support)
         ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
         
