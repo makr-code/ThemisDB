@@ -11,6 +11,8 @@
 namespace themis {
 namespace llm {
 
+using json = nlohmann::json;
+
 /**
  * @brief Implementation of LLMModelStorage using ThemisDB Base Infrastructure
  * 
