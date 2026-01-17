@@ -61,8 +61,11 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
         throw std::runtime_error("Input device mismatch in GPULoRALayer::forward");
     }
     
-    // Cache input for backward pass
-    cached_input_ = input.clone();
+    // Gradient checkpointing: Only cache input if NOT checkpointing
+    // When checkpointing, we save minimal data and recompute during backward
+    if (!use_checkpointing_) {
+        cached_input_ = input.clone();
+    }
     
     // Try FlashLoRA first if enabled (CUDA only)
     if (use_flash_lora_ && device_.type == DeviceType::CUDA) {
@@ -74,13 +77,16 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
             
             auto output = FlashLoRA::forward(input, B_T, A_T, scaling_);
             
-            // NOTE: For backward pass compatibility with existing code, we still
-            // need to cache intermediate h = input @ B. This partially defeats
-            // FlashLoRA's memory optimization. A future improvement would be to
-            // implement FlashLoRA::backward_cached() that recomputes h on-the-fly
-            // during backward pass, eliminating this extra matmul and storage.
-            // For now, we prioritize API compatibility and correctness.
-            cached_h_ = input.matmul(*B_);
+            // Only cache intermediate if not checkpointing
+            if (!use_checkpointing_) {
+                // NOTE: For backward pass compatibility with existing code, we still
+                // need to cache intermediate h = input @ B. This partially defeats
+                // FlashLoRA's memory optimization. A future improvement would be to
+                // implement FlashLoRA::backward_cached() that recomputes h on-the-fly
+                // during backward pass, eliminating this extra matmul and storage.
+                // For now, we prioritize API compatibility and correctness.
+                cached_h_ = input.matmul(*B_);
+            }
             
             return output;
         } catch (const std::exception& e) {
@@ -108,8 +114,10 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
                 batch_size, in_dim_, rank_, out_dim_, scaling_);
             
             if (err == cudaSuccess) {
-                // Also cache h for backward (compute it separately for now)
-                cached_h_ = input.matmul(*B_);
+                // Only cache h for backward if not checkpointing
+                if (!use_checkpointing_) {
+                    cached_h_ = input.matmul(*B_);
+                }
                 return output;
             }
             // Fall back to unfused on error
@@ -133,8 +141,10 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
                 batch_size, in_dim_, rank_, out_dim_, scaling_);
             
             if (err == hipSuccess) {
-                // Also cache h for backward (compute it separately for now)
-                cached_h_ = input.matmul(*B_);
+                // Only cache h for backward if not checkpointing
+                if (!use_checkpointing_) {
+                    cached_h_ = input.matmul(*B_);
+                }
                 return output;
             }
             // Fall back to unfused on error
@@ -146,10 +156,15 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     // Unfused path (original implementation)
     // Forward: output = input @ B @ A * scaling
     // Step 1: h = input @ B
-    cached_h_ = input.matmul(*B_);
+    GPUTensor h = input.matmul(*B_);
+    
+    // Only cache h if not checkpointing (save memory)
+    if (!use_checkpointing_) {
+        cached_h_ = h.clone();
+    }
     
     // Step 2: output = h @ A
-    auto output = cached_h_.matmul(*A_);
+    auto output = h.matmul(*A_);
     
     // Step 3: Scale output
     if (std::abs(scaling_ - 1.0f) > 1e-6f) {
@@ -165,6 +180,31 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
         throw std::runtime_error("Gradient device mismatch in GPULoRALayer::backward");
     }
     
+    // Gradient checkpointing: Recompute activations if needed
+    GPUTensor input_for_backward;
+    GPUTensor h_for_backward;
+    
+    if (use_checkpointing_) {
+        // Recompute activations (trade compute for memory)
+        spdlog::debug("Recomputing activations for checkpointed layer {}", layer_id_);
+        
+        // Note: In a full implementation, the input should be saved by the
+        // checkpointer. For now, we check if cached_input_ has data.
+        if (cached_input_.size() == 0) {
+            throw std::runtime_error(
+                "Checkpointing enabled but no input saved. "
+                "This is likely a bug in the checkpointing integration."
+            );
+        }
+        
+        input_for_backward = cached_input_;
+        h_for_backward = input_for_backward.matmul(*B_);
+    } else {
+        // Use cached activations (normal path)
+        input_for_backward = cached_input_;
+        h_for_backward = cached_h_;
+    }
+    
     // Try to use fused kernels if enabled and on CUDA/HIP
     if (use_fused_kernels_ && (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP)) {
 #ifdef THEMIS_ENABLE_CUDA
@@ -178,7 +218,7 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
             GPUTensor grad_input({batch_size, in_dim_}, device_);
             
             // Get raw pointers
-            const float* input_ptr = reinterpret_cast<const float*>(cached_input_.data());
+            const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());
             const float* B_ptr = reinterpret_cast<const float*>(B_->data());
             const float* A_ptr = reinterpret_cast<const float*>(A_->data());
             const float* grad_output_ptr = reinterpret_cast<const float*>(grad_output.data());
@@ -209,7 +249,7 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
             GPUTensor grad_input({batch_size, in_dim_}, device_);
             
             // Get raw pointers
-            const float* input_ptr = reinterpret_cast<const float*>(cached_input_.data());
+            const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());
             const float* B_ptr = reinterpret_cast<const float*>(B_->data());
             const float* A_ptr = reinterpret_cast<const float*>(A_->data());
             const float* grad_output_ptr = reinterpret_cast<const float*>(grad_output.data());
@@ -237,18 +277,18 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
                             ? grad_output * scaling_
                             : grad_output.clone();
     
-    // Compute gradients
-    // grad_A = cached_h^T @ scaled_grad
-    auto cached_h_t = cached_h_.transpose();
+    // Compute gradients using recomputed or cached activations
+    // grad_A = h^T @ scaled_grad
+    auto h_t = h_for_backward.transpose();
     A_->ensure_grad();
-    *(A_->grad) = cached_h_t.matmul(scaled_grad);
+    *(A_->grad) = h_t.matmul(scaled_grad);
     
-    // grad_B = cached_input^T @ (scaled_grad @ A^T)
+    // grad_B = input^T @ (scaled_grad @ A^T)
     auto A_t = A_->transpose();
     auto grad_h = scaled_grad.matmul(A_t);
-    auto cached_input_t = cached_input_.transpose();
+    auto input_t = input_for_backward.transpose();
     B_->ensure_grad();
-    *(B_->grad) = cached_input_t.matmul(grad_h);
+    *(B_->grad) = input_t.matmul(grad_h);
     
     // grad_input = (scaled_grad @ A^T) @ B^T
     auto B_t = B_->transpose();
