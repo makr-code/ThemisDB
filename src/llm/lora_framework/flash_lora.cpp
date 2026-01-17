@@ -220,6 +220,17 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     size_t rank = B.shape()[0];
     size_t out_dim = A.shape()[0];
     
+    // NOTE: Backward pass currently supports fewer rank sizes (8, 16) than
+    // forward pass (4, 8, 16, 32, 64). Additional template instantiations
+    // can be added as needed for other rank values.
+    if (rank != 8 && rank != 16) {
+        throw std::invalid_argument(
+            "FlashLoRA backward pass currently supports rank 8 and 16 only. "
+            "For other ranks, use standard LoRA backward. "
+            "Got rank: " + std::to_string(rank)
+        );
+    }
+    
     // Create gradient tensors
     GPUTensor grad_input;
     if (input_shape.size() == 2) {

@@ -43,9 +43,10 @@ namespace flash {
  * @param batch_size Number of samples in batch
  * @param seq_len Sequence length
  * @param in_dim Input dimension
- * @param rank LoRA rank
  * @param out_dim Output dimension
  * @param stream CUDA stream for async execution
+ * 
+ * @note RANK is a template parameter, not a function parameter
  */
 template<int TILE_M, int TILE_K, int RANK>
 cudaError_t launch_flash_lora_forward_kernel(

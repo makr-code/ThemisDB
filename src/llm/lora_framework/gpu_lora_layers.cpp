@@ -74,8 +74,12 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
             
             auto output = FlashLoRA::forward(input, B_T, A_T, scaling_);
             
-            // For backward pass, still need to cache h using standard matmul
-            // (FlashLoRA doesn't cache it)
+            // NOTE: For backward pass compatibility with existing code, we still
+            // need to cache intermediate h = input @ B. This partially defeats
+            // FlashLoRA's memory optimization. A future improvement would be to
+            // implement FlashLoRA::backward_cached() that recomputes h on-the-fly
+            // during backward pass, eliminating this extra matmul and storage.
+            // For now, we prioritize API compatibility and correctness.
             cached_h_ = input.matmul(*B_);
             
             return output;

@@ -157,6 +157,12 @@ cudaError_t launch_flash_lora_forward_kernel(
  * @brief Backward kernel for grad_A
  * 
  * grad_A = (input @ B^T)^T @ grad_output * scaling
+ * 
+ * NOTE: This implementation uses atomicAdd for gradient accumulation, which
+ * can create performance bottlenecks under high parallelism. This is a 
+ * simplified implementation suitable for proof-of-concept. Production use
+ * should implement reduction trees or warp-level primitives for better
+ * performance (e.g., using CUB library or cooperative groups).
  */
 template<int TILE_M, int TILE_K, int RANK>
 __global__ void flash_lora_backward_A_kernel(
