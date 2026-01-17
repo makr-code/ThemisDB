@@ -1,4 +1,9 @@
 #include "llm/lora_framework/gpu_training_loop.h"
+#include "llm/lora_framework/base_model_adapter.h"
+#include "llm/lora_framework/cuda_kernels.h"
+#include "llm/lora_framework/hip_kernels.h"
+#include "llm/lora_framework/vulkan_kernels.h"
+#include "llm/lora_framework/directx_kernels.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -6,6 +11,9 @@
 namespace themis {
 namespace llm {
 namespace lora {
+
+// Default hidden dimension for transformer models (used as fallback)
+constexpr size_t DEFAULT_HIDDEN_DIM = 768;
 
 GPUTrainingLoop::GPUTrainingLoop(const GPUTrainingConfig& config)
     : config_(config) {
@@ -97,6 +105,37 @@ void GPUTrainingLoop::setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer) {
 
 void GPUTrainingLoop::registerCallback(GPUTrainingCallback callback) {
     callback_ = callback;
+}
+
+void GPUTrainingLoop::setBaseModel(const BaseModelAdapter* base_model) {
+    base_model_ = base_model;
+    
+    if (base_model_ && base_model_->isLoaded()) {
+        // Create GPU embedding layer from base model
+        const float* embedding_matrix = base_model_->getEmbeddingMatrix();
+        
+        if (embedding_matrix) {
+            size_t vocab_size = base_model_->getVocabSize();
+            size_t hidden_dim = base_model_->getHiddenSize();
+            
+            spdlog::info("Creating GPU embedding layer from base model:");
+            spdlog::info("  Vocab size: {}", vocab_size);
+            spdlog::info("  Hidden dim: {}", hidden_dim);
+            
+            gpu_embedding_layer_ = std::make_unique<GPUEmbeddingLayer>(
+                embedding_matrix,
+                vocab_size,
+                hidden_dim,
+                config_.device
+            );
+            
+            spdlog::info("GPU embedding layer created successfully");
+        } else {
+            spdlog::warn("Base model loaded but embedding matrix not available");
+        }
+    } else {
+        spdlog::info("No base model set, will use hash-based embeddings");
+    }
 }
 
 bool GPUTrainingLoop::train() {
@@ -297,12 +336,14 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
 
 float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Create embeddings from token IDs
-    size_t hidden_dim = 768;  // Standard transformer dimension
+    // Use embedding layer's dimension if available, otherwise use default
+    size_t hidden_dim = gpu_embedding_layer_ ? gpu_embedding_layer_->hidden_dim() : DEFAULT_HIDDEN_DIM;
+    
     GPUTensor input_embeddings = createEmbeddingsOnGPU(
-        batch.input_ids, hidden_dim, config_.device
+        batch.input_ids, hidden_dim, config_.device, gpu_embedding_layer_.get()
     );
     GPUTensor target_embeddings = createEmbeddingsOnGPU(
-        batch.labels, hidden_dim, config_.device
+        batch.labels, hidden_dim, config_.device, gpu_embedding_layer_.get()
     );
     
     // Apply mixed precision if enabled
@@ -441,7 +482,8 @@ void GPUTrainingLoop::checkMemoryUsage() {
 GPUTensor createEmbeddingsOnGPU(
     const GPUTensor& token_ids,
     size_t hidden_dim,
-    const Device& device
+    const Device& device,
+    GPUEmbeddingLayer* embedding_layer
 ) {
     // Get batch size and sequence length from token_ids shape
     auto shape = token_ids.shape();
@@ -452,19 +494,141 @@ GPUTensor createEmbeddingsOnGPU(
     size_t batch_size = shape[0];
     size_t seq_len = shape[1];
     
+    // Use real embeddings from base model if available
+    if (embedding_layer) {
+        spdlog::debug("Using real embeddings from base model");
+        
+        // Get embeddings from embedding layer: [batch_size, seq_len, hidden_dim]
+        GPUTensor embeddings_3d = embedding_layer->forward(token_ids);
+        
+        // Average over sequence dimension to get [batch_size, hidden_dim]
+        // Use GPU kernel if CUDA is available, otherwise fall back to CPU
+        GPUTensor embeddings({batch_size, hidden_dim}, device);
+        
+#ifdef THEMIS_ENABLE_CUDA
+        if (device.type == DeviceType::CUDA) {
+            // ✅ Use CUDA kernel for sequence averaging (NO CPU transfers!)
+            spdlog::debug("Using CUDA kernel for sequence averaging on GPU");
+            
+            cudaError_t err = cuda::launch_sequence_mean_kernel(
+                static_cast<float*>(embeddings.gpu_ptr()),
+                static_cast<const float*>(embeddings_3d.gpu_ptr()),
+                batch_size,
+                seq_len,
+                hidden_dim,
+                nullptr  // Use default stream
+            );
+            
+            if (err != cudaSuccess) {
+                spdlog::error("CUDA sequence mean kernel failed: {}", cudaGetErrorString(err));
+                throw std::runtime_error("CUDA sequence mean kernel failed");
+            }
+            
+            return embeddings;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device.type == DeviceType::HIP) {
+            // ✅ Use HIP kernel for sequence averaging (NO CPU transfers!)
+            spdlog::debug("Using HIP kernel for sequence averaging on GPU");
+            
+            hipError_t err = hip::launch_sequence_mean_kernel(
+                static_cast<float*>(embeddings.gpu_ptr()),
+                static_cast<const float*>(embeddings_3d.gpu_ptr()),
+                batch_size,
+                seq_len,
+                hidden_dim,
+                nullptr  // Use default stream
+            );
+            
+            if (err != hipSuccess) {
+                spdlog::error("HIP sequence mean kernel failed: {}", hipGetErrorString(err));
+                throw std::runtime_error("HIP sequence mean kernel failed");
+            }
+            
+            return embeddings;
+        }
+#endif
+        
+        // Vulkan backend: Use Vulkan compute shader
+        if (device.type == DeviceType::VULKAN) {
+            spdlog::debug("Using Vulkan compute shader for sequence averaging");
+            
+            // Download embeddings from GPU
+            auto embeddings_data = embeddings_3d.cpu_data();
+            std::vector<float> averaged_data(batch_size * hidden_dim);
+            
+            try {
+                vulkan::launch_sequence_mean_shader(
+                    averaged_data.data(),
+                    embeddings_data.data(),
+                    static_cast<int>(batch_size),
+                    static_cast<int>(seq_len),
+                    static_cast<int>(hidden_dim)
+                );
+                
+                embeddings.upload(averaged_data);
+                return embeddings;
+            } catch (const std::exception& e) {
+                spdlog::warn("Vulkan sequence mean shader failed: {}, falling back to CPU", e.what());
+                // Fall through to CPU fallback
+            }
+        }
+        
+        // DirectX backend: Use DirectX compute shader
+        if (device.type == DeviceType::DIRECTX) {
+            spdlog::debug("Using DirectX compute shader for sequence averaging");
+            
+            // Download embeddings from GPU
+            auto embeddings_data = embeddings_3d.cpu_data();
+            std::vector<float> averaged_data(batch_size * hidden_dim);
+            
+            try {
+                directx::launch_sequence_mean_shader(
+                    averaged_data.data(),
+                    embeddings_data.data(),
+                    static_cast<int>(batch_size),
+                    static_cast<int>(seq_len),
+                    static_cast<int>(hidden_dim)
+                );
+                
+                embeddings.upload(averaged_data);
+                return embeddings;
+            } catch (const std::exception& e) {
+                spdlog::warn("DirectX sequence mean shader failed: {}, falling back to CPU", e.what());
+                // Fall through to CPU fallback
+            }
+        }
+        
+        // CPU fallback: Download, average, and upload
+        spdlog::debug("Using CPU fallback for sequence averaging");
+        auto embeddings_data = embeddings_3d.cpu_data();
+        std::vector<float> averaged_data(batch_size * hidden_dim, 0.0f);
+        
+        // Reordered loops for better cache locality (sequential memory access)
+        for (size_t i = 0; i < batch_size; ++i) {
+            for (size_t k = 0; k < seq_len; ++k) {
+                for (size_t j = 0; j < hidden_dim; ++j) {
+                    averaged_data[i * hidden_dim + j] += 
+                        embeddings_data[i * seq_len * hidden_dim + k * hidden_dim + j];
+                }
+            }
+            // Normalize by sequence length
+            for (size_t j = 0; j < hidden_dim; ++j) {
+                averaged_data[i * hidden_dim + j] /= seq_len;
+            }
+        }
+        
+        embeddings.upload(averaged_data);
+        return embeddings;
+    }
+    
+    // Fallback: Hash-based embeddings (standalone mode)
+    spdlog::debug("Using hash-based embeddings (standalone mode)");
+    
     // Create embedding tensor
     GPUTensor embeddings({batch_size, hidden_dim}, device);
-    
-    // TODO: Replace with actual embedding lookup from base model
-    // Current implementation uses hash-based embeddings as a placeholder.
-    // In production, this should:
-    // 1. Look up token embeddings from the base model's embedding layer
-    // 2. Perform embedding lookup directly on GPU (no CPU transfer)
-    // 3. Handle different model architectures (Llama, GPT, etc.)
-    // 
-    // Hash-based embeddings are only suitable for testing the training loop mechanics,
-    // but will produce poor training quality. This is a known limitation of the
-    // initial implementation and should be addressed before production use.
     
     auto token_data = token_ids.cpu_data();
     std::vector<float> embedding_data(batch_size * hidden_dim);

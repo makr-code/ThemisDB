@@ -216,6 +216,40 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Fused LoRA Kernels Tests (Issue #36)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Adding fused LoRA kernels tests (CUDA/HIP enabled)")
+        
+        add_executable(test_fused_lora_kernels
+            test_fused_lora_kernels.cpp
+        )
+        
+        target_link_libraries(test_fused_lora_kernels PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_fused_lora_kernels PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME FusedLoRAKernelsTests COMMAND test_fused_lora_kernels)
+        
+        # Set test properties
+        set_tests_properties(FusedLoRAKernelsTests PROPERTIES
+            LABELS "lora;gpu;cuda;hip;fused;performance"
+            TIMEOUT 600
+        )
+    else()
+        if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+            message(STATUS "Fused LoRA kernels tests skipped (CUDA/HIP not enabled)")
+        else()
+            message(STATUS "Fused LoRA kernels tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fused_lora_kernels.cpp")
+        endif()
+    endif()
+    
     # Mixed Precision GPU Tests (Phase 10.4)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mixed_precision_gpu.cpp")
         message(STATUS "Adding mixed precision GPU tests")

@@ -2,6 +2,7 @@
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/gpu_data_loader.h"
 #include "llm/lora_framework/gpu_lora_layers.h"
+#include "llm/lora_framework/gpu_embedding_layer.h"
 
 using namespace themis::llm::lora;
 
@@ -242,4 +243,85 @@ TEST_F(GPUTrainingLoopTest, CPUFallbackWorks) {
     
     bool success = trainer.train();
     EXPECT_TRUE(success);
+}
+
+/**
+ * @brief Test GPU embedding layer
+ */
+TEST(GPUEmbeddingLayerTest, BasicEmbeddingLookup) {
+    // Create small embedding matrix
+    size_t vocab_size = 10;
+    size_t hidden_dim = 8;
+    
+    std::vector<float> embedding_weights(vocab_size * hidden_dim);
+    for (size_t i = 0; i < vocab_size; ++i) {
+        for (size_t j = 0; j < hidden_dim; ++j) {
+            embedding_weights[i * hidden_dim + j] = static_cast<float>(i * 10 + j);
+        }
+    }
+    
+    // Create GPU embedding layer (CPU device for testing)
+    GPUEmbeddingLayer layer(embedding_weights.data(), vocab_size, hidden_dim, Device::cpu());
+    
+    EXPECT_EQ(layer.vocab_size(), vocab_size);
+    EXPECT_EQ(layer.hidden_dim(), hidden_dim);
+    
+    // Create token IDs tensor
+    std::vector<float> token_ids_data = {0, 1, 2, 3};  // batch_size=2, seq_len=2
+    GPUTensor token_ids({2, 2}, Device::cpu());
+    token_ids.upload(token_ids_data);
+    
+    // Forward pass
+    GPUTensor embeddings = layer.forward(token_ids);
+    
+    // Check output shape: [batch_size, seq_len, hidden_dim]
+    auto shape = embeddings.shape();
+    EXPECT_EQ(shape.size(), 3);
+    EXPECT_EQ(shape[0], 2);  // batch_size
+    EXPECT_EQ(shape[1], 2);  // seq_len
+    EXPECT_EQ(shape[2], hidden_dim);  // hidden_dim
+    
+    // Download and verify embeddings
+    auto embeddings_data = embeddings.cpu_data();
+    
+    // Check first embedding (token_id=0)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[j], static_cast<float>(j));
+    }
+    
+    // Check second embedding (token_id=1)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[hidden_dim + j], static_cast<float>(10 + j));
+    }
+}
+
+/**
+ * @brief Test GPU embedding layer with out-of-bounds token IDs
+ */
+TEST(GPUEmbeddingLayerTest, OutOfBoundsTokenID) {
+    size_t vocab_size = 5;
+    size_t hidden_dim = 4;
+    
+    std::vector<float> embedding_weights(vocab_size * hidden_dim, 1.0f);
+    GPUEmbeddingLayer layer(embedding_weights.data(), vocab_size, hidden_dim, Device::cpu());
+    
+    // Create token IDs with one out-of-bounds value
+    std::vector<float> token_ids_data = {1, 10};  // 10 is out of bounds
+    GPUTensor token_ids({1, 2}, Device::cpu());
+    token_ids.upload(token_ids_data);
+    
+    // Forward pass should handle gracefully (zeros for out-of-bounds)
+    GPUTensor embeddings = layer.forward(token_ids);
+    
+    auto embeddings_data = embeddings.cpu_data();
+    
+    // First embedding should be valid (all 1s)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[j], 1.0f);
+    }
+    
+    // Second embedding should be zeros (out of bounds)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[hidden_dim + j], 0.0f);
+    }
 }

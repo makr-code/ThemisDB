@@ -128,6 +128,53 @@ else()
     endif()
 endif()
 
+# Fused LoRA Kernels Benchmarks (Issue #36)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+    message(STATUS "Adding Fused LoRA Kernels benchmarks (CUDA/HIP)")
+    
+    add_executable(bench_fused_lora_kernels
+        bench_fused_lora_kernels.cpp
+    )
+    
+    target_link_libraries(bench_fused_lora_kernels PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_fused_lora_kernels PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for accurate benchmarking
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_fused_lora_kernels PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_fused_lora_kernels
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  LoRA Benchmark configurations: Varying batch sizes, ranks, dimensions")
+    message(STATUS "  Expected speedup: Forward 1.5-3x, Backward 1.7-3x, Memory bandwidth reduction ~66%")
+else()
+    if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Fused LoRA kernels benchmarks skipped (CUDA/HIP not enabled)")
+    else()
+        message(STATUS "Fused LoRA kernels benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_kernels.cpp")
+    endif()
+endif()
+
 # ============================================================================
 # Snapshot Manager Benchmarks (Named Snapshots Feature)
 # ============================================================================
