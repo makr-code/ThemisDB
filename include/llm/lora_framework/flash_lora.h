@@ -28,6 +28,50 @@ namespace lora {
  * - 50-70% memory reduction
  * - 4-8x longer sequence support (4K-16K tokens vs 512-2K)
  * 
+ * KNOWN LIMITATIONS:
+ * 
+ * 1. **GPU Backend Support**:
+ *    - Currently CUDA only (NVIDIA GPUs)
+ *    - Requires compute capability >= 7.0 (Volta architecture or newer)
+ *    - HIP (AMD), Vulkan, DirectX backends not yet implemented
+ *    - Minimum 48KB shared memory per SM required
+ * 
+ * 2. **Rank Support**:
+ *    - Forward pass: ranks 4, 8, 16, 32, 64
+ *    - Backward pass: ranks 8, 16 only (limited template instantiations)
+ *    - Other rank values require adding explicit template instantiations
+ *    - Compile-time rank selection (no dynamic dispatch)
+ * 
+ * 3. **Gradient Computation Performance**:
+ *    - Backward kernels use atomicAdd for gradient accumulation
+ *    - Can cause performance bottlenecks under high thread parallelism
+ *    - Production workloads should consider reduction trees or warp primitives
+ *    - Future: CUB library integration for optimized reductions
+ * 
+ * 4. **Memory Optimization Trade-offs**:
+ *    - Integration with GPULoRALayer still caches intermediate (cached_h_)
+ *    - Partial memory overhead for backward pass compatibility
+ *    - Forward pass is fully optimized (no intermediate storage)
+ *    - Future: FlashLoRA::backward_cached() to eliminate this overhead
+ * 
+ * 5. **Numerical Precision**:
+ *    - FP32 only (FP16/BF16 support planned)
+ *    - Numerical accuracy: <1e-3 error vs standard implementation
+ *    - Register accumulation may have different rounding behavior
+ *    - Validated for typical LoRA training scenarios
+ * 
+ * 6. **Configuration Constraints**:
+ *    - Tile sizes must divide sequence length evenly for optimal performance
+ *    - Large ranks (>64) may exceed register limits
+ *    - Shared memory size limits maximum tile dimensions
+ *    - Auto-tuning provides good defaults but may not be optimal for all cases
+ * 
+ * 7. **Integration Limitations**:
+ *    - No attention fusion yet (separate kernels for attention and LoRA)
+ *    - Cannot be used with some LoRA variants (e.g., LoRA+, AdaLoRA)
+ *    - Requires contiguous tensors in memory
+ *    - No support for sparse or quantized LoRA matrices
+ * 
  * References:
  * - Dao et al. (2022): "FlashAttention: Fast and Memory-Efficient Exact Attention"
  * - Dao (2023): "FlashAttention-2: Faster Attention with Better Parallelism"
