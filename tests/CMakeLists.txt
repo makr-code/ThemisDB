@@ -852,6 +852,153 @@ else()
 endif()
 
 # ============================================================================
+# Library Integration Tests (Phase 1) - NEW
+# ============================================================================
+
+message(STATUS "Configuring library integration tests...")
+
+# Test: spdlog Logging Library Integration
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_spdlog_integration.cpp")
+    message(STATUS "Adding spdlog library integration tests")
+    
+    add_executable(test_lib_spdlog_integration
+        test_lib_spdlog_integration.cpp
+    )
+    
+    target_link_libraries(test_lib_spdlog_integration PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_lib_spdlog_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME SpdlogLibIntegrationTests COMMAND test_lib_spdlog_integration)
+    
+    set_tests_properties(SpdlogLibIntegrationTests PROPERTIES
+        LABELS "library;integration;spdlog;logging"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "spdlog library integration tests not found")
+endif()
+
+# Test: zstd Compression Library Integration
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_zstd_integration.cpp")
+    message(STATUS "Adding zstd library integration tests")
+    
+    add_executable(test_lib_zstd_integration
+        test_lib_zstd_integration.cpp
+    )
+    
+    target_link_libraries(test_lib_zstd_integration PRIVATE
+        ${TEST_LIBS}
+        zstd::libzstd_static
+    )
+    
+    target_compile_definitions(test_lib_zstd_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ZstdLibIntegrationTests COMMAND test_lib_zstd_integration)
+    
+    set_tests_properties(ZstdLibIntegrationTests PROPERTIES
+        LABELS "library;integration;zstd;compression"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "zstd library integration tests not found")
+endif()
+
+# Test: YAML-cpp Advanced Library Integration
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_yaml_advanced.cpp")
+    message(STATUS "Adding YAML-cpp advanced library integration tests")
+    
+    add_executable(test_lib_yaml_advanced
+        test_lib_yaml_advanced.cpp
+    )
+    
+    target_link_libraries(test_lib_yaml_advanced PRIVATE
+        ${TEST_LIBS}
+        yaml-cpp::yaml-cpp
+    )
+    
+    target_compile_definitions(test_lib_yaml_advanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME YAMLLibAdvancedTests COMMAND test_lib_yaml_advanced)
+    
+    set_tests_properties(YAMLLibAdvancedTests PROPERTIES
+        LABELS "library;integration;yaml;configuration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "YAML-cpp advanced library integration tests not found")
+endif()
+
+# Test: Arrow/Parquet Library Integration (Optional)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_arrow_integration.cpp")
+    message(STATUS "Adding Arrow/Parquet library integration tests")
+    
+    # Check if Arrow is available
+    find_package(Arrow QUIET CONFIG)
+    find_package(Parquet QUIET CONFIG)
+    
+    if(Arrow_FOUND AND Parquet_FOUND)
+        message(STATUS "  Arrow/Parquet libraries found - enabling tests")
+        
+        add_executable(test_lib_arrow_integration
+            test_lib_arrow_integration.cpp
+        )
+        
+        target_link_libraries(test_lib_arrow_integration PRIVATE
+            ${TEST_LIBS}
+            Arrow::arrow_shared
+            Parquet::parquet_shared
+        )
+        
+        target_compile_definitions(test_lib_arrow_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_ARROW=1
+        )
+        
+        add_test(NAME ArrowLibIntegrationTests COMMAND test_lib_arrow_integration)
+        
+        set_tests_properties(ArrowLibIntegrationTests PROPERTIES
+            LABELS "library;integration;arrow;parquet;columnar"
+            TIMEOUT 180
+        )
+    else()
+        message(STATUS "  Arrow/Parquet libraries not found - creating stub test")
+        
+        add_executable(test_lib_arrow_integration
+            test_lib_arrow_integration.cpp
+        )
+        
+        target_link_libraries(test_lib_arrow_integration PRIVATE
+            ${TEST_LIBS}
+        )
+        
+        target_compile_definitions(test_lib_arrow_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ArrowLibIntegrationTests COMMAND test_lib_arrow_integration)
+        
+        set_tests_properties(ArrowLibIntegrationTests PROPERTIES
+            LABELS "library;integration;arrow;parquet;columnar;skipped"
+            TIMEOUT 30
+        )
+    endif()
+else()
+    message(STATUS "Arrow/Parquet library integration tests not found")
+endif()
+
+message(STATUS "Library integration tests configured")
+
+# ============================================================================
 # PITR (Point-in-Time Recovery) Tests - Phase 3
 # ============================================================================
 
