@@ -13,8 +13,15 @@ namespace themis {
  * Implements Product Quantization (PQ) for compressing high-dimensional vectors
  * from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).
  * 
- * Reference: "Product Quantization for Nearest Neighbor Search" (PAMI 2011)
- * https://hal.inria.fr/inria-00514462
+ * @sources
+ * - Algorithm: Product Quantization
+ * - Paper: Jégou, H., Douze, M., & Schmid, C. (2011). 
+ *          "Product Quantization for Nearest Neighbor Search"
+ *          IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI)
+ * - DOI: 10.1109/TPAMI.2010.57
+ * - URL: https://hal.inria.fr/inria-00514462
+ * - Implementation Inspiration: FAISS library (Meta AI Research)
+ * - ThemisDB Extension: Integrated with RocksDB storage and ACID transactions
  * 
  * Part of ThemisDB v1.3.0 - Feature #7: Vector Quantization
  */

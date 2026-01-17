@@ -26,6 +26,14 @@ class RocksDBWrapper;
  * - Default: 1 Chunk per Day (configurable)
  * - Automatic TTL cleanup via RocksDB (v1.1.0 feature)
  * - Time-based partitioning for efficient queries
+ * 
+ * @sources
+ * - Concept inspired by: TimescaleDB Hypertables
+ * - Project: TimescaleDB - https://github.com/timescale/timescaledb
+ * - License: Timescale License (Apache 2.0 compatible for Community Edition)
+ * - Paper: Freedman, A., et al. (2017) "TimescaleDB: An Open-Source Time-Series SQL Database"
+ * - ThemisDB Implementation: Uses RocksDB Column Families instead of PostgreSQL partitions,
+ *   custom chunk management, and integration with ThemisDB's MVCC transaction system
  */
 class Hypertable {
 public:

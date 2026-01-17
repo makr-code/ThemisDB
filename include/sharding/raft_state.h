@@ -14,6 +14,24 @@ namespace themisdb {
 namespace sharding {
 
 /**
+ * @brief Raft Consensus Protocol Implementation
+ * 
+ * @sources
+ * - Algorithm: Raft Consensus Protocol
+ * - Paper: Ongaro, D., & Ousterhout, J. (2014)
+ *          "In Search of an Understandable Consensus Algorithm"
+ *          USENIX Annual Technical Conference (ATC '14)
+ * - URL: https://raft.github.io/
+ * - Extended Paper: https://raft.github.io/raft.pdf
+ * - License: Algorithm is freely implementable (no license restrictions)
+ * - ThemisDB Implementation: Custom implementation with:
+ *   - Integration with RocksDB for persistent log storage
+ *   - Support for ThemisDB's VCC-URN sharding scheme
+ *   - mTLS support for secure cluster communication
+ *   - Optimized for database replication workloads
+ */
+
+/**
  * @brief Raft node states
  */
 enum class RaftNodeState {

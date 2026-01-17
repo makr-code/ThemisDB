@@ -20,6 +20,25 @@ class ShardTopology;
 class MTLSClient;
 
 /**
+ * @brief Gossip Protocol for Cluster Membership and Failure Detection
+ * 
+ * @sources
+ * - Algorithm: Gossip Protocol (Epidemic/Anti-Entropy)
+ * - Inspired by: Apache Cassandra's Gossip Implementation
+ * - Paper: van Renesse, R., Birman, K. P., & Vogels, W. (2003)
+ *          "Astrolabe: A robust and scalable technology for distributed system monitoring,
+ *           management, and data mining"
+ *          ACM Transactions on Computer Systems, 21(2), 164-206
+ * - Cassandra: https://cassandra.apache.org/doc/latest/architecture/gossip.html
+ * - License: Apache 2.0 (Cassandra)
+ * - ThemisDB Implementation: Custom gossip protocol with:
+ *   - Integration with VCC-URN sharding
+ *   - mTLS certificate-based peer validation
+ *   - Datacenter/region-aware topology
+ *   - Optimized for database cluster state synchronization
+ */
+
+/**
  * Peer Information
  * Contains metadata about a known peer in the gossip network.
  */
