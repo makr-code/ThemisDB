@@ -7,9 +7,10 @@
 #include "security/vault_key_provider.h"
 #include "security/encryption.h"
 #include <spdlog/spdlog.h>
-#include <fstream>
-#include <filesystem>
 #include <algorithm>
+#include <cstring>
+#include <filesystem>
+#include <fstream>
 
 namespace themis {
 namespace llm {
@@ -43,215 +44,13 @@ public:
         // Initialize encryption if enabled
         if (config_.enable_encryption && !encryption_) {
             try {
-                std::shared_ptr<KeyProvider> key_provider;
-                
-                // Use HSM if configured
-                if (config_.use_hsm_for_encryption && !config_.hsm_library_path.empty()) {
-                    spdlog::info("  Initializing HSM-backed encryption:");
-                    spdlog::info("    Library: {}", config_.hsm_library_path);
-                    spdlog::info("    Slot: {}", config_.hsm_slot_id);
-                    spdlog::info("    Key Label: {}", config_.hsm_key_label);
-                    spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
-                    
-                    // Configure HSM
-                    security::HSMConfig hsm_config;
-                    hsm_config.library_path = config_.hsm_library_path;
-                    hsm_config.slot_id = config_.hsm_slot_id;
-                    hsm_config.pin = config_.hsm_pin;
-                    hsm_config.key_label = config_.hsm_key_label;
-                    hsm_config.session_pool_size = config_.hsm_session_pool_size;
-                    hsm_config.signature_algorithm = "RSA-SHA256";
-                    
-                    // Create HSM provider
-                    auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
-                    if (!hsm->initialize()) {
-                        throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
-                    }
-                    
-                    // Create HSM adapter
-                    security::HSMKeyProviderAdapter::Config adapter_config;
-                    adapter_config.kek_label = config_.hsm_key_label;
-                    adapter_config.cache_ttl_ms = 300000;  // 5 minutes
-                    adapter_config.max_cache_size = 1000;
-                    adapter_config.enable_caching = true;
-                    
-                    key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
-                    
-                    spdlog::info("  ✓ HSM-backed encryption initialized successfully");
-                    spdlog::info("  Hardware-backed keys provide maximum security");
-                    
-                } else if (config_.use_hsm_for_encryption) {
-                    spdlog::error("  HSM encryption requested but library path not provided");
-                    spdlog::error("  Set hsm_library_path in configuration");
-                    throw std::runtime_error("HSM encryption enabled but not properly configured");
-                    
-                } else if (config_.use_vault_for_encryption && !config_.vault_addr.empty()) {
-                    // Use Vault for key management (recommended for cloud deployments)
-                    spdlog::info("  Initializing Vault-backed encryption:");
-                    spdlog::info("    Address: {}", config_.vault_addr);
-                    spdlog::info("    Mount Path: {}", config_.vault_kv_mount);
-                    
-                    security::VaultKeyProvider::Config vault_config;
-                    vault_config.address = config_.vault_addr;
-                    vault_config.token = config_.vault_token;
-                    vault_config.mount_path = config_.vault_kv_mount;
-                    // Note: TLS configuration would come from separate config fields if needed
-                    
-                    key_provider = std::make_shared<security::VaultKeyProvider>(vault_config);
-                    spdlog::info("  ✓ Vault-backed encryption initialized successfully");
-                    
-                } else if (config_.use_vault_for_encryption) {
-                    spdlog::error("  Vault encryption requested but address not provided");
-                    spdlog::error("  Set vault_addr in configuration");
-                    throw std::runtime_error("Vault encryption enabled but not properly configured");
-                    
-                } else {
-                    // Check if running in production mode (environment variable or config flag)
-                    const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
-                    bool is_production = (env_mode != nullptr && 
-                                         (std::string(env_mode) == "production" || 
-                                          std::string(env_mode) == "prod"));
-                    
-                    if (is_production) {
-                        spdlog::error("  CRITICAL: Production environment detected but no secure key provider configured!");
-                        spdlog::error("  Set THEMIS_ENVIRONMENT=development to use MockKeyProvider in dev mode");
-                        spdlog::error("  For production, configure either:");
-                        spdlog::error("    1. HSM (use_hsm_for_encryption=true, hsm_library_path=...)");
-                        spdlog::error("    2. Vault (use_vault_for_encryption=true, vault_addr=https://...)");
-                        throw std::runtime_error("Secure key provider required in production environment");
-                    }
-                    
-                    // Development/testing mode - allow MockKeyProvider with clear warnings
-                    key_provider = std::make_shared<MockKeyProvider>();
-                    spdlog::warn("  ⚠️  Using MockKeyProvider for encryption - DEVELOPMENT MODE ONLY");
-                    spdlog::warn("  ⚠️  This provides NO security for encrypted data!");
-                    spdlog::warn("  ⚠️  For production, configure HSM or Vault key provider");
-                    spdlog::warn("  See documentation: docs/security/key-management.md");
-                }
-                
+                auto key_provider = createKeyProvider();
                 encryption_ = std::make_shared<FieldEncryption>(key_provider);
+                spdlog::info("✓ Encryption initialized successfully");
                 
             } catch (const std::exception& e) {
-                spdlog::error("  Failed to initialize encryption: {}", e.what());
-                spdlog::warn("  LoRA adapters will be stored without encryption");
-                // Use PKI-based encryption if configured
-                if (config_.use_pki_for_encryption) {
-                    if (config_.pki_cert_path.empty()) {
-                        throw std::runtime_error("PKI encryption enabled but pki_cert_path is not configured");
-                    }
-                    if (config_.pki_private_key_path.empty()) {
-                        throw std::runtime_error("PKI encryption enabled but pki_private_key_path is not configured");
-                    }
-                    if (!config_.db) {
-                        throw std::runtime_error("PKI encryption requires database connection for DEK storage");
-                    }
-                    
-                    spdlog::info("  Initializing PKIKeyProvider with certificate: {}", config_.pki_cert_path);
-                    
-                    // Initialize PKIKeyProvider with certificate files
-                    key_provider = std::make_shared<security::PKIKeyProvider>(
-                        config_.pki_cert_path,
-                        config_.pki_private_key_path,
-                        config_.db,
-                        "lora_storage_" + config_.collection_name,
-                        config_.pki_verify_certificate
-                    );
-                    
-                    spdlog::info("  PKIKeyProvider initialized successfully - using certificate-based encryption");
-                } else {
-                    // Fallback to MockKeyProvider for development/testing
-                    // TODO: SECURITY - Replace MockKeyProvider with production key provider
-                    // Themis provides production-ready key providers in include/security/:
-                    //   1. VaultKeyProvider - HashiCorp Vault integration (include/security/vault_key_provider.h)
-                    //      Example: auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token, "themis");
-                    //   
-                    //   2. HSMProvider - Hardware Security Module via PKCS#11 (include/security/hsm_provider.h)
-                    //      Example: HSMConfig cfg; cfg.library_path = "/usr/lib/softhsm/libsofthsm2.so"; cfg.pin = "1234";
-                    //               auto provider = std::make_unique<security::HSMProvider>(cfg);
-                    //   
-                    //   3. PKIKeyProvider - Certificate-based keys (include/security/pki_key_provider.h)
-                    //      Example: auto provider = std::make_shared<PKIKeyProvider>(cert_path, key_path, db, service_id);
-                    //
-                    // All providers implement the KeyProvider interface and can be used with FieldEncryption.
-                    // MockKeyProvider is ONLY suitable for testing/development - never use in production!
-                    key_provider = std::make_shared<MockKeyProvider>();
-                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
-                    spdlog::warn("  Set use_pki_for_encryption=true and configure certificate paths for production use");
-                }
-                
-                encryption_ = std::make_shared<FieldEncryption>(key_provider);
-            } catch (const std::exception& e) {
-                spdlog::error("  Failed to initialize encryption: {}", e.what());
+                spdlog::error("Failed to initialize encryption: {}", e.what());
                 throw;  // Re-throw to prevent insecure operation
-                // Use VaultKeyProvider if configured, otherwise fallback to MockKeyProvider
-                if (config_.use_vault_for_encryption) {
-                    // Configure Vault connection for LoRA adapters
-                    VaultKeyProvider::Config vault_config;
-                    vault_config.vault_addr = config_.vault_addr;
-                    vault_config.vault_token = config_.vault_token;
-                    vault_config.kv_mount_path = config_.vault_kv_mount;
-                    vault_config.cache_ttl_seconds = 3600;  // 1 hour cache
-                    vault_config.cache_capacity = 1000;     // Max cached keys
-                    
-                    // Read from environment variables if not provided
-                    if (vault_config.vault_addr.empty()) {
-                        const char* env_addr = std::getenv("VAULT_ADDR");
-                        if (env_addr) {
-                            vault_config.vault_addr = env_addr;
-                        }
-                    }
-                    if (vault_config.vault_token.empty()) {
-                        const char* env_token = std::getenv("VAULT_TOKEN");
-                        if (env_token) {
-                            vault_config.vault_token = env_token;
-                        }
-                    }
-                    
-                    // Validate required Vault settings
-                    if (vault_config.vault_addr.empty()) {
-                        throw KeyOperationException(
-                            "Vault encryption enabled but VAULT_ADDR not configured. "
-                            "Set config.vault_addr or VAULT_ADDR environment variable."
-                        );
-                    }
-                    if (vault_config.vault_token.empty()) {
-                        throw KeyOperationException(
-                            "Vault encryption enabled but VAULT_TOKEN not configured. "
-                            "Set config.vault_token or VAULT_TOKEN environment variable."
-                        );
-                    }
-                    
-                    key_provider = std::make_shared<VaultKeyProvider>(vault_config);
-                    spdlog::info("  Using VaultKeyProvider for encryption (Production-Ready)");
-                    spdlog::debug("    Vault Address: {}", vault_config.vault_addr);
-                    spdlog::debug("    KV Mount: {}", vault_config.kv_mount_path);
-                    spdlog::debug("    Key ID: {}", config_.encryption_key_id);
-                } else {
-                    // Fallback to MockKeyProvider for development/testing
-                    // MockKeyProvider is ONLY suitable for testing/development - never use in production!
-                    key_provider = std::make_shared<MockKeyProvider>();
-                    spdlog::warn("  Using MockKeyProvider for encryption - NOT SUITABLE FOR PRODUCTION");
-                    spdlog::warn("  To enable Vault encryption, set use_vault_for_encryption=true");
-                    spdlog::warn("  See include/security/vault_key_provider.h for production key providers");
-                }
-                
-                encryption_ = std::make_shared<FieldEncryption>(key_provider);
-            } catch (const KeyOperationException& e) {
-                if (e.transient()) {
-                    // Transient error - retry would be beneficial
-                    // TODO: Implement retry logic with exponential backoff for production
-                    // For now, log and re-throw to maintain fail-fast behavior
-                    spdlog::warn("  Vault connection failed (transient): {}", e.what());
-                    spdlog::warn("  Consider implementing retry logic with exponential backoff");
-                    throw;
-                } else {
-                    // Fatal error - disable encryption
-                    spdlog::error("  Vault initialization failed: {}", e.what());
-                    throw;
-                }
-            } catch (const std::exception& e) {
-                spdlog::warn("  Failed to initialize encryption: {}", e.what());
-                throw;
             }
         }
         
@@ -574,6 +373,179 @@ public:
 private:
     Config config_;
     std::shared_ptr<FieldEncryption> encryption_;
+    
+    // Cache configuration constants
+    static constexpr int64_t DEFAULT_HSM_CACHE_TTL_MS = 300000;  // 5 minutes
+    static constexpr size_t DEFAULT_HSM_MAX_CACHE_SIZE = 1000;
+    
+    /**
+     * @brief Check if running in production environment
+     * @return true if THEMIS_ENVIRONMENT is set to "production" or "prod"
+     */
+    static bool isProductionEnvironment() {
+        const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
+        return (env_mode != nullptr && 
+                (std::strcmp(env_mode, "production") == 0 || 
+                 std::strcmp(env_mode, "prod") == 0));
+    }
+    
+    /**
+     * @brief Create HSM-backed key provider
+     * @return Shared pointer to HSM key provider adapter
+     * @throws std::runtime_error if HSM initialization fails
+     */
+    std::shared_ptr<KeyProvider> createHSMKeyProvider() {
+        spdlog::info("  Initializing HSM-backed encryption:");
+        spdlog::info("    Library: {}", config_.hsm_library_path);
+        spdlog::info("    Slot: {}", config_.hsm_slot_id);
+        spdlog::info("    Key Label: {}", config_.hsm_key_label);
+        spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
+        
+        // Configure HSM
+        security::HSMConfig hsm_config;
+        hsm_config.library_path = config_.hsm_library_path;
+        hsm_config.slot_id = config_.hsm_slot_id;
+        hsm_config.pin = config_.hsm_pin;
+        hsm_config.key_label = config_.hsm_key_label;
+        hsm_config.session_pool_size = config_.hsm_session_pool_size;
+        hsm_config.signature_algorithm = "RSA-SHA256";
+        
+        // Create HSM provider
+        auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+        if (!hsm->initialize()) {
+            throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
+        }
+        
+        // Create HSM adapter
+        security::HSMKeyProviderAdapter::Config adapter_config;
+        adapter_config.kek_label = config_.hsm_key_label;
+        adapter_config.cache_ttl_ms = DEFAULT_HSM_CACHE_TTL_MS;
+        adapter_config.max_cache_size = DEFAULT_HSM_MAX_CACHE_SIZE;
+        adapter_config.enable_caching = true;
+        
+        auto key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
+        
+        spdlog::info("  ✓ HSM-backed encryption initialized successfully");
+        spdlog::info("  Hardware-backed keys provide maximum security");
+        
+        return key_provider;
+    }
+    
+    /**
+     * @brief Create Vault-backed key provider
+     * @return Shared pointer to Vault key provider
+     * @throws std::runtime_error if Vault initialization fails
+     */
+    std::shared_ptr<KeyProvider> createVaultKeyProvider() {
+        spdlog::info("  Initializing Vault-backed encryption:");
+        spdlog::info("    Address: {}", config_.vault_addr);
+        spdlog::info("    Mount Path: {}", config_.vault_kv_mount);
+        
+        security::VaultKeyProvider::Config vault_config;
+        vault_config.address = config_.vault_addr;
+        vault_config.token = config_.vault_token;
+        vault_config.mount_path = config_.vault_kv_mount;
+        // Note: TLS configuration would come from separate config fields if needed
+        
+        auto key_provider = std::make_shared<security::VaultKeyProvider>(vault_config);
+        spdlog::info("  ✓ Vault-backed encryption initialized successfully");
+        
+        return key_provider;
+    }
+    
+    /**
+     * @brief Create PKI-based key provider
+     * @return Shared pointer to PKI key provider
+     * @throws std::runtime_error if PKI initialization fails or configuration is invalid
+     */
+    std::shared_ptr<KeyProvider> createPKIKeyProvider() {
+        if (config_.pki_cert_path.empty()) {
+            throw std::runtime_error("PKI encryption enabled but pki_cert_path is not configured");
+        }
+        if (config_.pki_private_key_path.empty()) {
+            throw std::runtime_error("PKI encryption enabled but pki_private_key_path is not configured");
+        }
+        if (!config_.db) {
+            throw std::runtime_error("PKI encryption requires database connection for DEK storage");
+        }
+        
+        spdlog::info("  Initializing PKI-backed encryption:");
+        spdlog::info("    Certificate: {}", config_.pki_cert_path);
+        spdlog::info("    Verify: {}", config_.pki_verify_certificate);
+        
+        // Initialize PKIKeyProvider with certificate files
+        auto key_provider = std::make_shared<security::PKIKeyProvider>(
+            config_.pki_cert_path,
+            config_.pki_private_key_path,
+            config_.db,
+            "lora_storage_" + config_.collection_name,
+            config_.pki_verify_certificate
+        );
+        
+        spdlog::info("  ✓ PKI-backed encryption initialized successfully");
+        
+        return key_provider;
+    }
+    
+    /**
+     * @brief Create mock key provider (development/testing only)
+     * @return Shared pointer to mock key provider
+     */
+    std::shared_ptr<KeyProvider> createMockKeyProvider() {
+        auto key_provider = std::make_shared<MockKeyProvider>();
+        spdlog::warn("  ⚠️  Using MockKeyProvider for encryption - DEVELOPMENT MODE ONLY");
+        spdlog::warn("  ⚠️  This provides NO security for encrypted data!");
+        spdlog::warn("  ⚠️  For production, configure HSM, Vault, or PKI key provider");
+        spdlog::warn("  See documentation: docs/security/key-management.md");
+        return key_provider;
+    }
+    
+    /**
+     * @brief Create appropriate key provider based on configuration
+     * 
+     * Priority order: HSM > Vault > PKI > Mock
+     * 
+     * @return Shared pointer to key provider
+     * @throws std::runtime_error if production mode without secure provider
+     */
+    std::shared_ptr<KeyProvider> createKeyProvider() {
+        // 1. Try HSM first (highest priority)
+        if (config_.use_hsm_for_encryption) {
+            if (config_.hsm_library_path.empty()) {
+                throw std::runtime_error("HSM encryption enabled but hsm_library_path not configured");
+            }
+            return createHSMKeyProvider();
+        }
+        
+        // 2. Try Vault second
+        if (config_.use_vault_for_encryption) {
+            if (config_.vault_addr.empty()) {
+                throw std::runtime_error("Vault encryption enabled but vault_addr not configured");
+            }
+            return createVaultKeyProvider();
+        }
+        
+        // 3. Try PKI third
+        if (config_.use_pki_for_encryption) {
+            return createPKIKeyProvider();
+        }
+        
+        // 4. Fallback to MockKeyProvider (development only)
+        if (isProductionEnvironment()) {
+            spdlog::error("  CRITICAL: Production environment detected but no secure key provider configured!");
+            spdlog::error("  Set THEMIS_ENVIRONMENT=development to use MockKeyProvider in dev mode");
+            spdlog::error("  For production, configure one of:");
+            spdlog::error("    1. HSM (use_hsm_for_encryption=true, hsm_library_path=...)");
+            spdlog::error("    2. Vault (use_vault_for_encryption=true, vault_addr=https://...)");
+            spdlog::error("    3. PKI (use_pki_for_encryption=true, pki_cert_path=..., pki_private_key_path=...)");
+            throw std::runtime_error(
+                "Production environment requires HSM, Vault, or PKI key provider. "
+                "Set THEMIS_ENVIRONMENT=development to use MockKeyProvider."
+            );
+        }
+        
+        return createMockKeyProvider();
+    }
     
     static std::string backendToString(Backend backend) {
         switch (backend) {
