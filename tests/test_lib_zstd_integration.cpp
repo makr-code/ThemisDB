@@ -11,6 +11,7 @@
 #include <vector>
 #include <random>
 #include <cstring>
+#include <chrono>
 
 class ZstdLibIntegrationTest : public ::testing::Test {
 protected:
