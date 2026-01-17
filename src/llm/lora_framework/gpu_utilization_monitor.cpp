@@ -191,7 +191,7 @@ bool GPUUtilizationMonitor::initializeNVML() {
         return false;
     }
     
-    nvml_device_ = static_cast<void*>(device);
+    nvml_device_ = device;  // Store directly (type-safe)
     spdlog::info("NVML initialized successfully for device {}", device_.device_id);
     return true;
 #else
@@ -217,11 +217,11 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryNVML() {
         return metrics;
     }
     
-    nvmlDevice_t device = static_cast<nvmlDevice_t>(nvml_device_);
+    // Use device handle directly (type-safe, no cast needed)
     
     // GPU utilization
     nvmlUtilization_t util;
-    nvmlReturn_t result = nvmlDeviceGetUtilizationRates(device, &util);
+    nvmlReturn_t result = nvmlDeviceGetUtilizationRates(nvml_device_, &util);
     if (result == NVML_SUCCESS) {
         metrics.gpu_utilization_pct = static_cast<float>(util.gpu);
         metrics.memory_utilization_pct = static_cast<float>(util.memory);
@@ -229,7 +229,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryNVML() {
     
     // Memory info
     nvmlMemory_t mem;
-    result = nvmlDeviceGetMemoryInfo(device, &mem);
+    result = nvmlDeviceGetMemoryInfo(nvml_device_, &mem);
     if (result == NVML_SUCCESS) {
         metrics.memory_utilization_pct = 100.0f * mem.used / mem.total;
     }
@@ -250,7 +250,8 @@ bool GPUUtilizationMonitor::initializeROCm() {
         return false;
     }
     
-    spdlog::info("ROCm SMI initialized successfully");
+    rocm_device_index_ = static_cast<uint32_t>(device_.device_id);
+    spdlog::info("ROCm SMI initialized successfully for device {}", rocm_device_index_);
     return true;
 #else
     spdlog::debug("ROCm SMI not available (HIP not enabled)");
@@ -268,20 +269,20 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryROCm() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_HIP
-    uint32_t dv_ind = static_cast<uint32_t>(device_.device_id);
+    // Use stored device index (type-safe, no cast needed)
     
     // GPU busy percentage
     uint32_t busy_percent;
-    rsmi_status_t result = rsmi_dev_busy_percent_get(dv_ind, &busy_percent);
+    rsmi_status_t result = rsmi_dev_busy_percent_get(rocm_device_index_, &busy_percent);
     if (result == RSMI_STATUS_SUCCESS) {
         metrics.gpu_utilization_pct = static_cast<float>(busy_percent);
     }
     
     // Memory usage
     uint64_t mem_used, mem_total;
-    result = rsmi_dev_memory_usage_get(dv_ind, RSMI_MEM_TYPE_VRAM, &mem_used);
+    result = rsmi_dev_memory_usage_get(rocm_device_index_, RSMI_MEM_TYPE_VRAM, &mem_used);
     if (result == RSMI_STATUS_SUCCESS) {
-        result = rsmi_dev_memory_total_get(dv_ind, RSMI_MEM_TYPE_VRAM, &mem_total);
+        result = rsmi_dev_memory_total_get(rocm_device_index_, RSMI_MEM_TYPE_VRAM, &mem_total);
         if (result == RSMI_STATUS_SUCCESS && mem_total > 0) {
             metrics.memory_utilization_pct = 100.0f * mem_used / mem_total;
         }

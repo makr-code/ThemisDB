@@ -1,5 +1,6 @@
 #include "llm/lora_framework/adaptive_batcher.h"
 #include <spdlog/spdlog.h>
+#include <algorithm>
 #include <numeric>
 #include <cmath>
 

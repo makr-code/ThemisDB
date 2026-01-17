@@ -96,9 +96,17 @@ private:
     std::vector<Metrics> metrics_history_;
     mutable Metrics last_metrics_;
     
-    // Backend-specific handles
-    void* nvml_device_ = nullptr;  // NVIDIA: nvmlDevice_t
-    void* rocm_device_ = nullptr;  // AMD: rsmi_device_t
+    // Backend-specific handles (opaque types for type safety)
+#ifdef THEMIS_ENABLE_CUDA
+    struct nvmlDevice_st* nvml_device_ = nullptr;  // NVIDIA: nvmlDevice_t (opaque pointer)
+#else
+    void* nvml_device_ = nullptr;  // Fallback when CUDA not available
+#endif
+#ifdef THEMIS_ENABLE_HIP
+    uint32_t rocm_device_index_ = 0;  // AMD: device index (not pointer)
+#else
+    void* rocm_device_ = nullptr;  // Fallback when HIP not available
+#endif
     
     // Initialization
     bool initializeNVML();
