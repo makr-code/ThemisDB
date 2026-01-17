@@ -22,6 +22,22 @@ namespace functions {
  * - Process mining
  * - Dependency analysis
  * 
+ * @sources
+ * - Query Language Inspiration: ArangoDB AQL (Arango Query Language)
+ * - Repository: https://github.com/arangodb/arangodb
+ * - License: Apache 2.0
+ * - Documentation: https://www.arangodb.com/docs/stable/aql/graphs.html
+ * - ThemisDB Implementation: Custom graph functions with AQL-compatible syntax
+ *   - Integrated with ThemisDB's graph index
+ *   - ACID transaction support
+ *   - Optimized for RocksDB storage backend
+ * 
+ * ## Algorithms Implemented
+ * - Shortest Path: Dijkstra's algorithm
+ * - PageRank: Google's PageRank algorithm (Page et al., 1999)
+ * - Connected Components: Union-Find algorithm
+ * - Betweenness Centrality: Brandes' algorithm (2001)
+ * 
  * ## Supported Operations
  * 
  * ### Traversal
