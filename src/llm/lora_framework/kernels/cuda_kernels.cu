@@ -419,6 +419,91 @@ cudaError_t cublas_matmul(
     return cudaSuccess;
 }
 
+/**
+ * @brief CUDA kernel for embedding lookup
+ * 
+ * Each thread processes one token ID and copies its embedding vector
+ */
+__global__ void embedding_lookup_kernel(
+    float* output,              // [batch_size, seq_len, hidden_dim]
+    const float* token_ids,     // [batch_size, seq_len]
+    const float* embedding_weights,  // [vocab_size, hidden_dim]
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim,
+    size_t vocab_size
+) {
+    // Each thread processes one token
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    size_t total_tokens = batch_size * seq_len;
+    
+    if (idx < total_tokens) {
+        // Convert float token ID to int (with rounding)
+        int token_id = __float2int_rn(token_ids[idx]);
+        
+        // Bounds check
+        if (token_id >= 0 && token_id < static_cast<int>(vocab_size)) {
+            // Calculate pointers
+            const float* src = embedding_weights + token_id * hidden_dim;
+            float* dst = output + idx * hidden_dim;
+            
+            // Copy embedding vector
+            for (size_t i = 0; i < hidden_dim; ++i) {
+                dst[i] = src[i];
+            }
+        } else {
+            // Out of bounds - fill with zeros
+            float* dst = output + idx * hidden_dim;
+            for (size_t i = 0; i < hidden_dim; ++i) {
+                dst[i] = 0.0f;
+            }
+        }
+    }
+}
+
+cudaError_t launch_embedding_lookup_kernel(
+    float* output,
+    const float* token_ids,
+    const float* embedding_weights,
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim,
+    size_t vocab_size,
+    cudaStream_t stream
+) {
+    size_t total_tokens = batch_size * seq_len;
+    
+    // Configure kernel launch
+    const int threads_per_block = 256;
+    const int num_blocks = (total_tokens + threads_per_block - 1) / threads_per_block;
+    
+    // Launch kernel
+    if (stream) {
+        embedding_lookup_kernel<<<num_blocks, threads_per_block, 0, stream>>>(
+            output, token_ids, embedding_weights,
+            batch_size, seq_len, hidden_dim, vocab_size
+        );
+    } else {
+        embedding_lookup_kernel<<<num_blocks, threads_per_block>>>(
+            output, token_ids, embedding_weights,
+            batch_size, seq_len, hidden_dim, vocab_size
+        );
+    }
+    
+    // Check for launch errors
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        return err;
+    }
+    
+    // Synchronize if no stream
+    if (!stream) {
+        return cudaDeviceSynchronize();
+    }
+    
+    return cudaSuccess;
+}
+
 } // namespace cuda
 } // namespace lora
 } // namespace llm

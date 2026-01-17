@@ -1,4 +1,5 @@
 #include "llm/lora_framework/gpu_embedding_layer.h"
+#include "llm/lora_framework/cuda_kernels.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstring>
@@ -134,10 +135,40 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
 }
 
 GPUTensor GPUEmbeddingLayer::forwardCUDA(const GPUTensor& token_ids) {
-    // TODO: Implement CUDA kernel for embedding lookup
-    // For now, fall back to CPU implementation
-    spdlog::debug("CUDA embedding kernel not yet implemented, using CPU fallback");
+#ifdef THEMIS_ENABLE_CUDA
+    auto shape = token_ids.shape();
+    size_t batch_size = shape[0];
+    size_t seq_len = shape[1];
+    
+    spdlog::debug("GPUEmbeddingLayer::forwardCUDA: batch_size={}, seq_len={}", batch_size, seq_len);
+    
+    // Create output tensor on GPU
+    GPUTensor embeddings({batch_size, seq_len, hidden_dim_}, device_);
+    
+    // Launch CUDA kernel for embedding lookup
+    cudaError_t err = cuda::launch_embedding_lookup_kernel(
+        static_cast<float*>(embeddings.gpu_ptr()),
+        static_cast<const float*>(token_ids.gpu_ptr()),
+        static_cast<const float*>(embedding_weights_.gpu_ptr()),
+        batch_size,
+        seq_len,
+        hidden_dim_,
+        vocab_size_,
+        nullptr  // Use default stream
+    );
+    
+    if (err != cudaSuccess) {
+        spdlog::error("CUDA embedding lookup kernel failed: {}", cudaGetErrorString(err));
+        throw std::runtime_error("CUDA embedding lookup kernel failed");
+    }
+    
+    spdlog::debug("CUDA embedding lookup completed successfully");
+    return embeddings;
+#else
+    // CUDA not enabled, fall back to CPU
+    spdlog::warn("CUDA not enabled at compile time, using CPU fallback");
     return forwardCPU(token_ids);
+#endif
 }
 
 GPUTensor GPUEmbeddingLayer::forwardHIP(const GPUTensor& token_ids) {
