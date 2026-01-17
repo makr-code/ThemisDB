@@ -67,11 +67,6 @@ static void BM_Training_FP32(benchmark::State& state) {
     input.fill(0.5f);
     target.fill(0.3f);
     
-    // Mixed precision trainer (disabled for FP32)
-    MixedPrecisionConfig config;
-    config.mode = PrecisionMode::FP32;
-    MixedPrecisionTrainer mp_trainer(config);
-    
     float learning_rate = 0.001f;
     
     // Warmup
@@ -82,9 +77,9 @@ static void BM_Training_FP32(benchmark::State& state) {
         
         auto params = layer.parameters();
         auto grads = layer.gradients();
-        for (size_t i = 0; i < params.size(); ++i) {
-            auto scaled_grad = (*grads[i]) * learning_rate;
-            *params[i] = *params[i] - scaled_grad;
+        for (size_t j = 0; j < params.size(); ++j) {
+            auto scaled_grad = (*grads[j]) * learning_rate;
+            *params[j] = *params[j] - scaled_grad;
         }
         layer.zero_grad();
     }
@@ -99,9 +94,9 @@ static void BM_Training_FP32(benchmark::State& state) {
         
         auto params = layer.parameters();
         auto grads = layer.gradients();
-        for (size_t i = 0; i < params.size(); ++i) {
-            auto scaled_grad = (*grads[i]) * learning_rate;
-            *params[i] = *params[i] - scaled_grad;
+        for (size_t j = 0; j < params.size(); ++j) {
+            auto scaled_grad = (*grads[j]) * learning_rate;
+            *params[j] = *params[j] - scaled_grad;
         }
         layer.zero_grad();
         
@@ -139,7 +134,7 @@ static void BM_Training_FP16(benchmark::State& state) {
     
     size_t batch_size = state.range(0);
     
-    // Create layer with FP32 master weights
+    // Create layer with FP32 master weights (standard practice)
     GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
     
     // Create tensors in FP16 for forward/backward
@@ -148,42 +143,21 @@ static void BM_Training_FP16(benchmark::State& state) {
     input.fill(0.5f);
     target.fill(0.3f);
     
-    // Mixed precision trainer
-    MixedPrecisionConfig config;
-    config.mode = PrecisionMode::FP16;
-    config.loss_scale = 1024.0f;
-    config.dynamic_loss_scaling = true;
-    MixedPrecisionTrainer mp_trainer(config);
-    
     float learning_rate = 0.001f;
     
     // Warmup
     for (int i = 0; i < WARMUP_ITERS; ++i) {
         auto output = layer.forward(input);
         auto grad_output = output - target;
-        
-        // Scale loss for FP16
-        float loss_value = 0.5f;  // Dummy loss
-        float scaled_loss = mp_trainer.scale_loss(loss_value);
-        
         auto grad_input = layer.backward(grad_output);
         
-        // Unscale gradients
+        auto params = layer.parameters();
         auto grads = layer.gradients();
-        std::vector<Tensor*> grad_ptrs;
-        // Note: Simplified - real implementation would handle GPUTensor
-        bool no_overflow = mp_trainer.unscale_gradients(grad_ptrs);
-        
-        if (no_overflow) {
-            auto params = layer.parameters();
-            for (size_t i = 0; i < params.size(); ++i) {
-                auto scaled_grad = (*grads[i]) * learning_rate;
-                *params[i] = *params[i] - scaled_grad;
-            }
+        for (size_t j = 0; j < params.size(); ++j) {
+            auto scaled_grad = (*grads[j]) * learning_rate;
+            *params[j] = *params[j] - scaled_grad;
         }
-        
         layer.zero_grad();
-        mp_trainer.update_loss_scale(!no_overflow);
     }
     
     // Measure
@@ -192,26 +166,15 @@ static void BM_Training_FP16(benchmark::State& state) {
         
         auto output = layer.forward(input);
         auto grad_output = output - target;
-        
-        float loss_value = 0.5f;
-        float scaled_loss = mp_trainer.scale_loss(loss_value);
-        
         auto grad_input = layer.backward(grad_output);
         
+        auto params = layer.parameters();
         auto grads = layer.gradients();
-        std::vector<Tensor*> grad_ptrs;
-        bool no_overflow = mp_trainer.unscale_gradients(grad_ptrs);
-        
-        if (no_overflow) {
-            auto params = layer.parameters();
-            for (size_t i = 0; i < params.size(); ++i) {
-                auto scaled_grad = (*grads[i]) * learning_rate;
-                *params[i] = *params[i] - scaled_grad;
-            }
+        for (size_t j = 0; j < params.size(); ++j) {
+            auto scaled_grad = (*grads[j]) * learning_rate;
+            *params[j] = *params[j] - scaled_grad;
         }
-        
         layer.zero_grad();
-        mp_trainer.update_loss_scale(!no_overflow);
         
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -234,174 +197,6 @@ static void BM_Training_FP16(benchmark::State& state) {
 
 BENCHMARK(BM_Training_FP16)
     ->Arg(4)->Arg(8)->Arg(16)->Arg(32)
-    ->UseManualTime();
-
-// ============================================================================
-// Automatic Mixed Precision (AMP)
-// ============================================================================
-
-static void BM_Training_AMP(benchmark::State& state) {
-    if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
-        return;
-    }
-    
-    size_t batch_size = state.range(0);
-    
-    // Create layer with FP32 master weights
-    GPULoRALayer layer(HIDDEN_DIM, HIDDEN_DIM, LORA_RANK, 1.0f, Device::cuda(), true);
-    
-    // Create tensors (AMP will auto-cast)
-    GPUTensor input({batch_size, HIDDEN_DIM}, Device::cuda(), DType::FLOAT32);
-    GPUTensor target({batch_size, HIDDEN_DIM}, Device::cuda(), DType::FLOAT32);
-    input.fill(0.5f);
-    target.fill(0.3f);
-    
-    // AMP trainer
-    MixedPrecisionConfig config;
-    config.mode = PrecisionMode::AMP;
-    config.loss_scale = 2048.0f;
-    config.dynamic_loss_scaling = true;
-    MixedPrecisionTrainer mp_trainer(config);
-    
-    float learning_rate = 0.001f;
-    
-    // Warmup
-    for (int i = 0; i < WARMUP_ITERS; ++i) {
-        // Auto-cast to FP16 for forward pass
-        auto input_fp16 = mp_trainer.to_lower_precision(input);
-        auto output = layer.forward(input_fp16);
-        auto output_fp32 = mp_trainer.to_fp32(output);
-        
-        auto grad_output = output_fp32 - target;
-        float loss_value = 0.5f;
-        float scaled_loss = mp_trainer.scale_loss(loss_value);
-        
-        auto grad_output_fp16 = mp_trainer.to_lower_precision(grad_output);
-        auto grad_input = layer.backward(grad_output_fp16);
-        
-        auto grads = layer.gradients();
-        std::vector<Tensor*> grad_ptrs;
-        bool no_overflow = mp_trainer.unscale_gradients(grad_ptrs);
-        
-        if (no_overflow) {
-            auto params = layer.parameters();
-            for (size_t i = 0; i < params.size(); ++i) {
-                auto scaled_grad = (*grads[i]) * learning_rate;
-                *params[i] = *params[i] - scaled_grad;
-            }
-        }
-        
-        layer.zero_grad();
-        mp_trainer.update_loss_scale(!no_overflow);
-    }
-    
-    // Measure
-    for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
-        
-        auto input_fp16 = mp_trainer.to_lower_precision(input);
-        auto output = layer.forward(input_fp16);
-        auto output_fp32 = mp_trainer.to_fp32(output);
-        
-        auto grad_output = output_fp32 - target;
-        float loss_value = 0.5f;
-        float scaled_loss = mp_trainer.scale_loss(loss_value);
-        
-        auto grad_output_fp16 = mp_trainer.to_lower_precision(grad_output);
-        auto grad_input = layer.backward(grad_output_fp16);
-        
-        auto grads = layer.gradients();
-        std::vector<Tensor*> grad_ptrs;
-        bool no_overflow = mp_trainer.unscale_gradients(grad_ptrs);
-        
-        if (no_overflow) {
-            auto params = layer.parameters();
-            for (size_t i = 0; i < params.size(); ++i) {
-                auto scaled_grad = (*grads[i]) * learning_rate;
-                *params[i] = *params[i] - scaled_grad;
-            }
-        }
-        
-        layer.zero_grad();
-        mp_trainer.update_loss_scale(!no_overflow);
-        
-        auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
-    }
-    
-    double samples_per_sec = batch_size / (state.iterations() * state.max_iterations * 1e-6);
-    state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
-    
-    state.SetLabel("AMP");
-}
-
-BENCHMARK(BM_Training_AMP)
-    ->Arg(4)->Arg(8)->Arg(16)->Arg(32)
-    ->UseManualTime();
-
-// ============================================================================
-// Loss Scaling Overhead
-// ============================================================================
-
-static void BM_LossScaling_Overhead(benchmark::State& state) {
-    if (!cuda_available()) {
-        state.SkipWithError("CUDA not available");
-        return;
-    }
-    
-    bool dynamic_scaling = state.range(0) == 1;
-    
-    MixedPrecisionConfig config;
-    config.mode = PrecisionMode::FP16;
-    config.loss_scale = 1024.0f;
-    config.dynamic_loss_scaling = dynamic_scaling;
-    MixedPrecisionTrainer mp_trainer(config);
-    
-    // Create dummy gradients
-    size_t num_params = 10;
-    std::vector<Tensor> tensors;
-    std::vector<Tensor*> grad_ptrs;
-    
-    for (size_t i = 0; i < num_params; ++i) {
-        tensors.emplace_back(std::vector<size_t>{1024, 1024});
-        tensors.back().fill(0.001f);
-        grad_ptrs.push_back(&tensors.back());
-    }
-    
-    // Warmup
-    for (int i = 0; i < WARMUP_ITERS; ++i) {
-        float loss = 0.5f;
-        float scaled_loss = mp_trainer.scale_loss(loss);
-        bool no_overflow = mp_trainer.unscale_gradients(grad_ptrs);
-        mp_trainer.update_loss_scale(!no_overflow);
-    }
-    
-    // Measure
-    for (auto _ : state) {
-        auto start = std::chrono::high_resolution_clock::now();
-        
-        float loss = 0.5f;
-        float scaled_loss = mp_trainer.scale_loss(loss);
-        bool no_overflow = mp_trainer.unscale_gradients(grad_ptrs);
-        mp_trainer.update_loss_scale(!no_overflow);
-        
-        auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
-    }
-    
-    state.counters["dynamic_scaling"] = dynamic_scaling ? 1 : 0;
-    state.counters["overhead_us"] = state.iterations() * state.max_iterations * 1e6;
-    
-    state.SetLabel(dynamic_scaling ? "Dynamic" : "Static");
-}
-
-BENCHMARK(BM_LossScaling_Overhead)
-    ->Arg(0)  // Static scaling
-    ->Arg(1)  // Dynamic scaling
     ->UseManualTime();
 
 // ============================================================================

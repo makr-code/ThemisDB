@@ -194,21 +194,28 @@ BENCHMARK(BM_PinnedMemory_Transfer)
 
 class MockTokenizer : public ITokenizer {
 public:
-    TokenizerOutput encode(const std::string& text, 
-                          bool add_special_tokens = true,
-                          size_t max_length = 0) const override {
-        TokenizerOutput output;
-        output.input_ids.resize(SEQ_LENGTH, 1);
-        output.attention_mask.resize(SEQ_LENGTH, 1);
-        return output;
+    MockTokenizer(int vocab_size = VOCAB_SIZE) : vocab_size_(vocab_size) {}
+    
+    std::vector<int> encode(const std::string& text, 
+                           bool add_bos = true,
+                           bool add_eos = false) override {
+        std::vector<int> tokens(SEQ_LENGTH, 1);
+        if (add_bos) tokens[0] = bos_token_id();
+        if (add_eos) tokens[SEQ_LENGTH-1] = eos_token_id();
+        return tokens;
     }
     
-    std::string decode(const std::vector<int32_t>& token_ids,
-                      bool skip_special_tokens = true) const override {
+    std::string decode(const std::vector<int>& tokens) override {
         return "decoded text";
     }
     
-    size_t vocab_size() const override { return VOCAB_SIZE; }
+    int vocab_size() const override { return vocab_size_; }
+    int bos_token_id() const override { return 1; }
+    int eos_token_id() const override { return 2; }
+    int pad_token_id() const override { return 0; }
+    
+private:
+    int vocab_size_;
 };
 
 static void BM_DataLoader_WithPrefetch(benchmark::State& state) {

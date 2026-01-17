@@ -266,35 +266,49 @@ static void BM_GradientSync_Overhead(benchmark::State& state) {
     // Create context
     MultiGPUContext ctx(num_gpus);
     
-    // Create tensors to synchronize
-    std::vector<GPUTensor> tensors;
+    // Create layer to test gradient synchronization
+    MultiGPULoRALayer layer(tensor_size, tensor_size, 8, 1.0f, ctx);
+    
+    // Create dummy inputs and perform forward/backward to generate gradients
+    std::vector<GPUTensor> inputs;
     for (int i = 0; i < num_gpus; ++i) {
-        tensors.emplace_back(std::vector<size_t>{tensor_size}, Device::cuda(i));
-        tensors[i].fill(1.0f / num_gpus);
+        inputs.emplace_back(std::vector<size_t>{1, tensor_size}, Device::cuda(i));
+        inputs[i].fill(1.0f / num_gpus);
     }
     
     // Warmup
     for (int i = 0; i < WARMUP_ITERS; ++i) {
-        ctx.all_reduce(tensors);
+        auto outputs = layer.forward(inputs);
+        layer.backward(outputs);
+        layer.synchronize_gradients();
+        layer.zero_grad();
     }
     
     // Measure
     for (auto _ : state) {
+        // Generate gradients
+        auto outputs = layer.forward(inputs);
+        layer.backward(outputs);
+        
+        // Measure gradient sync time
         auto start = std::chrono::high_resolution_clock::now();
-        ctx.all_reduce(tensors);
+        layer.synchronize_gradients();
         auto end = std::chrono::high_resolution_clock::now();
+        
+        layer.zero_grad();
         
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         state.SetIterationTime(elapsed.count() / 1e6);
     }
     
-    // Calculate bandwidth (GB/s)
-    size_t bytes_transferred = tensor_size * sizeof(float) * 2 * (num_gpus - 1) / num_gpus;
+    // Calculate approximate bandwidth (simplified)
+    size_t param_count = tensor_size * tensor_size * 2;  // A and B matrices
+    size_t bytes_transferred = param_count * sizeof(float);
     double bandwidth_gbps = bytes_transferred / (state.iterations() * state.max_iterations * 1e-9);
     
     state.counters["bandwidth_GB/s"] = bandwidth_gbps;
     state.counters["num_gpus"] = num_gpus;
-    state.counters["tensor_size_MB"] = (tensor_size * sizeof(float)) / (1024.0 * 1024.0);
+    state.counters["tensor_size_MB"] = (bytes_transferred) / (1024.0 * 1024.0);
     
     state.SetLabel(std::to_string(num_gpus) + " GPUs");
 }
@@ -362,7 +376,7 @@ static void BM_CommCompute_Ratio(benchmark::State& state) {
         
         // Forward pass (compute)
         auto compute_start = std::chrono::high_resolution_clock::now();
-        auto outputs = layer.forward_multi_gpu(inputs);
+        auto outputs = layer.forward(inputs);
         auto compute_end = std::chrono::high_resolution_clock::now();
         total_compute_time += std::chrono::duration_cast<std::chrono::microseconds>(
             compute_end - compute_start).count();
@@ -373,7 +387,7 @@ static void BM_CommCompute_Ratio(benchmark::State& state) {
         for (size_t i = 0; i < outputs.size(); ++i) {
             grad_outputs.push_back(outputs[i] - targets[i]);
         }
-        auto grad_inputs = layer.backward_multi_gpu(grad_outputs);
+        auto grad_inputs = layer.backward(grad_outputs);
         compute_end = std::chrono::high_resolution_clock::now();
         total_compute_time += std::chrono::duration_cast<std::chrono::microseconds>(
             compute_end - compute_start).count();
@@ -384,6 +398,8 @@ static void BM_CommCompute_Ratio(benchmark::State& state) {
         auto comm_end = std::chrono::high_resolution_clock::now();
         total_comm_time += std::chrono::duration_cast<std::chrono::microseconds>(
             comm_end - comm_start).count();
+        
+        layer.zero_grad();
         
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
