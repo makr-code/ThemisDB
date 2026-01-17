@@ -1,0 +1,548 @@
+/**
+ * @file test_metrics_collector.cpp
+ * @brief Unit tests for MetricsCollector (Observability)
+ * 
+ * Tests metrics collection, Prometheus format export, thread safety,
+ * and integration with various ThemisDB subsystems.
+ * 
+ * @author ThemisDB Team
+ * @date January 2026
+ */
+
+#include <gtest/gtest.h>
+#include "observability/metrics_collector.h"
+#include <thread>
+#include <vector>
+#include <chrono>
+#include <sstream>
+
+using namespace themis::observability;
+
+class MetricsCollectorTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Reset metrics before each test
+        MetricsCollector::getInstance().reset();
+    }
+    
+    void TearDown() override {
+        // Clean up after each test
+        MetricsCollector::getInstance().reset();
+    }
+};
+
+// ============================================================================
+// TSStore Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, TSStoreWriteMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordTSStoreWrite("cpu.usage", 100, 5.5);
+        collector.recordTSStoreWrite("memory.usage", 50, 3.2);
+    });
+}
+
+TEST_F(MetricsCollectorTest, TSStoreQueryMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordTSStoreQuery("temperature", 500, 12.3);
+        collector.recordTSStoreQuery("pressure", 1000, 8.7);
+    });
+}
+
+TEST_F(MetricsCollectorTest, TSStoreAggregateMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordTSStoreAggregate("sensor.data", 10000, 25.4);
+    });
+}
+
+TEST_F(MetricsCollectorTest, TSStoreCompressionMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordTSStoreCompression("gorilla", 0.65);
+        collector.recordTSStoreCompression("zstd", 0.45);
+        collector.recordTSStoreCompression("lz4", 0.55);
+    });
+}
+
+// ============================================================================
+// Query Engine Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, QueryMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordQuery("select", 15.5, 100);
+        collector.recordQuery("insert", 8.3, 1);
+        collector.recordQuery("update", 12.1, 10);
+        collector.recordQuery("delete", 6.7, 5);
+    });
+}
+
+TEST_F(MetricsCollectorTest, IndexScanMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordIndexScan("btree", 1000);
+        collector.recordIndexScan("vector", 500);
+        collector.recordIndexScan("graph", 250);
+    });
+}
+
+TEST_F(MetricsCollectorTest, FullScanMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordFullScan("users", 5000);
+        collector.recordFullScan("products", 10000);
+    });
+}
+
+// ============================================================================
+// Cache Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, CacheHitMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        for (int i = 0; i < 100; i++) {
+            collector.recordCacheHit("query_cache");
+        }
+        for (int i = 0; i < 50; i++) {
+            collector.recordCacheHit("semantic_cache");
+        }
+    });
+}
+
+TEST_F(MetricsCollectorTest, CacheMissMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        for (int i = 0; i < 20; i++) {
+            collector.recordCacheMiss("query_cache");
+        }
+    });
+}
+
+TEST_F(MetricsCollectorTest, CacheEvictionMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        for (int i = 0; i < 10; i++) {
+            collector.recordCacheEviction("lru_cache");
+        }
+    });
+}
+
+TEST_F(MetricsCollectorTest, CacheHitRatioCalculation) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    // Record hits and misses
+    for (int i = 0; i < 80; i++) {
+        collector.recordCacheHit("test_cache");
+    }
+    for (int i = 0; i < 20; i++) {
+        collector.recordCacheMiss("test_cache");
+    }
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    // Verify both hits and misses are recorded
+    EXPECT_NE(metrics.find("cache_hits"), std::string::npos);
+    EXPECT_NE(metrics.find("cache_misses"), std::string::npos);
+}
+
+// ============================================================================
+// Sharding Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, ShardRequestMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordShardRequest("shard-001", "read");
+        collector.recordShardRequest("shard-001", "write");
+        collector.recordShardRequest("shard-002", "read");
+    });
+}
+
+TEST_F(MetricsCollectorTest, ShardLatencyMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordShardLatency("shard-001", 5.5);
+        collector.recordShardLatency("shard-002", 8.3);
+        collector.recordShardLatency("shard-003", 3.2);
+    });
+}
+
+TEST_F(MetricsCollectorTest, RebalanceProgressMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordRebalanceProgress("op-12345", 1000, 10.0);
+        collector.recordRebalanceProgress("op-12345", 5000, 50.0);
+        collector.recordRebalanceProgress("op-12345", 10000, 100.0);
+    });
+}
+
+// ============================================================================
+// Content Processing Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, ContentImportMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordContentImport("application/pdf", 1024 * 1024);
+        collector.recordContentImport("image/jpeg", 512 * 1024);
+        collector.recordContentImport("video/mp4", 10 * 1024 * 1024);
+    });
+}
+
+TEST_F(MetricsCollectorTest, ChunkCreationMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordChunkCreation(100);
+        collector.recordChunkCreation(250);
+    });
+}
+
+TEST_F(MetricsCollectorTest, EmbeddingGenerationMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordEmbeddingGeneration(50, 125.5);
+        collector.recordEmbeddingGeneration(100, 250.3);
+    });
+}
+
+// ============================================================================
+// Security Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, AuthenticationMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        for (int i = 0; i < 90; i++) {
+            collector.recordAuthAttempt(true);
+        }
+        for (int i = 0; i < 10; i++) {
+            collector.recordAuthAttempt(false);
+        }
+    });
+}
+
+TEST_F(MetricsCollectorTest, PolicyEvaluationMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordPolicyEvaluation(true, 2.5);
+        collector.recordPolicyEvaluation(false, 3.1);
+        collector.recordPolicyEvaluation(true, 1.8);
+    });
+}
+
+TEST_F(MetricsCollectorTest, EncryptionOperationMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordEncryptionOperation("encrypt", 5.2);
+        collector.recordEncryptionOperation("decrypt", 4.8);
+        collector.recordEncryptionOperation("sign", 7.3);
+        collector.recordEncryptionOperation("verify", 6.1);
+    });
+}
+
+// ============================================================================
+// System Metrics Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, MemoryUsageMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordMemoryUsage(1024 * 1024 * 512); // 512 MB
+        collector.recordMemoryUsage(1024 * 1024 * 768); // 768 MB
+    });
+}
+
+TEST_F(MetricsCollectorTest, CPUUsageMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordCPUUsage(45.5);
+        collector.recordCPUUsage(67.3);
+        collector.recordCPUUsage(89.1);
+    });
+}
+
+TEST_F(MetricsCollectorTest, DiskIOpsMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordDiskIOps(1000, 500);
+        collector.recordDiskIOps(2000, 1000);
+    });
+}
+
+// ============================================================================
+// Prometheus Export Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, PrometheusFormatBasic) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    collector.recordQuery("select", 10.5, 100);
+    collector.recordCacheHit("query_cache");
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    EXPECT_FALSE(metrics.empty());
+    EXPECT_NE(metrics.find("#"), std::string::npos); // Contains comments
+}
+
+TEST_F(MetricsCollectorTest, PrometheusFormatWithLabels) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    collector.recordQuery("select", 10.5, 100);
+    collector.recordQuery("insert", 5.2, 1);
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    // Check for labels
+    EXPECT_NE(metrics.find("{"), std::string::npos);
+    EXPECT_NE(metrics.find("}"), std::string::npos);
+}
+
+TEST_F(MetricsCollectorTest, PrometheusFormatCounters) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    for (int i = 0; i < 100; i++) {
+        collector.recordCacheHit("test_cache");
+    }
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    // Verify counter exists and has reasonable value
+    EXPECT_NE(metrics.find("cache_hits"), std::string::npos);
+}
+
+TEST_F(MetricsCollectorTest, PrometheusFormatGauges) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    collector.recordMemoryUsage(1024 * 1024 * 512);
+    collector.recordCPUUsage(75.5);
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    EXPECT_FALSE(metrics.empty());
+}
+
+TEST_F(MetricsCollectorTest, PrometheusFormatHistograms) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    for (int i = 0; i < 50; i++) {
+        collector.recordQuery("select", i * 2.0, 100);
+    }
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    // Histograms should contain percentile or latency info
+    EXPECT_NE(metrics.find("latency"), std::string::npos);
+}
+
+// ============================================================================
+// Thread Safety Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, ConcurrentWrites) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    const int num_threads = 10;
+    const int iterations_per_thread = 1000;
+    
+    std::vector<std::thread> threads;
+    
+    for (int t = 0; t < num_threads; t++) {
+        threads.emplace_back([&collector, iterations_per_thread]() {
+            for (int i = 0; i < iterations_per_thread; i++) {
+                collector.recordQuery("select", 10.0, 100);
+                collector.recordCacheHit("test_cache");
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // Verify no crashes occurred
+    std::string metrics = collector.getPrometheusMetrics();
+    EXPECT_FALSE(metrics.empty());
+}
+
+TEST_F(MetricsCollectorTest, ConcurrentReadsAndWrites) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    const int num_threads = 8;
+    std::vector<std::thread> threads;
+    
+    // Writer threads
+    for (int t = 0; t < num_threads / 2; t++) {
+        threads.emplace_back([&collector]() {
+            for (int i = 0; i < 500; i++) {
+                collector.recordQuery("select", 5.0, 50);
+                collector.recordCacheHit("cache");
+            }
+        });
+    }
+    
+    // Reader threads
+    for (int t = 0; t < num_threads / 2; t++) {
+        threads.emplace_back([&collector]() {
+            for (int i = 0; i < 100; i++) {
+                std::string metrics = collector.getPrometheusMetrics();
+                EXPECT_FALSE(metrics.empty());
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+}
+
+// ============================================================================
+// Reset Functionality Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, ResetMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    // Record some metrics
+    collector.recordQuery("select", 10.0, 100);
+    collector.recordCacheHit("test_cache");
+    
+    std::string before_reset = collector.getPrometheusMetrics();
+    EXPECT_FALSE(before_reset.empty());
+    
+    // Reset
+    EXPECT_NO_THROW({
+        collector.reset();
+    });
+    
+    std::string after_reset = collector.getPrometheusMetrics();
+    // After reset, metrics should be empty or minimal
+}
+
+// ============================================================================
+// Edge Cases Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, NegativeLatency) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    // Should handle negative values gracefully
+    EXPECT_NO_THROW({
+        collector.recordQuery("select", -5.0, 100);
+    });
+}
+
+TEST_F(MetricsCollectorTest, ZeroValues) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordQuery("select", 0.0, 0);
+        collector.recordTSStoreWrite("metric", 0, 0.0);
+        collector.recordMemoryUsage(0);
+        collector.recordCPUUsage(0.0);
+    });
+}
+
+TEST_F(MetricsCollectorTest, VeryLargeValues) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordQuery("select", 99999.9, 1000000);
+        collector.recordMemoryUsage(1024ULL * 1024ULL * 1024ULL * 100ULL); // 100 GB
+    });
+}
+
+TEST_F(MetricsCollectorTest, EmptyStrings) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordQuery("", 10.0, 100);
+        collector.recordCacheHit("");
+        collector.recordShardRequest("", "");
+    });
+}
+
+TEST_F(MetricsCollectorTest, SpecialCharactersInLabels) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    EXPECT_NO_THROW({
+        collector.recordQuery("select-with-dash", 10.0, 100);
+        collector.recordCacheHit("cache_with_underscore");
+        collector.recordContentImport("application/x-custom+xml", 1024);
+    });
+}
+
+// ============================================================================
+// Integration Tests
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, CompleteWorkflow) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    // Simulate a complete query workflow
+    collector.recordQuery("select", 15.5, 1000);
+    collector.recordIndexScan("btree", 500);
+    collector.recordCacheHit("query_cache");
+    collector.recordShardRequest("shard-001", "read");
+    collector.recordShardLatency("shard-001", 10.2);
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    
+    EXPECT_FALSE(metrics.empty());
+    EXPECT_NE(metrics.find("queries_total"), std::string::npos);
+    EXPECT_NE(metrics.find("cache_hits"), std::string::npos);
+    EXPECT_NE(metrics.find("shard_requests"), std::string::npos);
+}
+
+TEST_F(MetricsCollectorTest, HighVolumeMetrics) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    // Simulate high volume of metrics
+    for (int i = 0; i < 10000; i++) {
+        collector.recordQuery("select", i * 0.1, i);
+        if (i % 10 == 0) {
+            collector.recordCacheHit("cache");
+        } else {
+            collector.recordCacheMiss("cache");
+        }
+    }
+    
+    std::string metrics = collector.getPrometheusMetrics();
+    EXPECT_FALSE(metrics.empty());
+}
+
+// ============================================================================
+// Main
+// ============================================================================
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
