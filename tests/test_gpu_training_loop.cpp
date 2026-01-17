@@ -325,3 +325,307 @@ TEST(GPUEmbeddingLayerTest, OutOfBoundsTokenID) {
         EXPECT_FLOAT_EQ(embeddings_data[hidden_dim + j], 0.0f);
     }
 }
+
+// ============================================================================
+// Integration Tests for Multi-Backend Support
+// ============================================================================
+
+/**
+ * @brief Test GPU training loop with CPU backend
+ */
+TEST_F(GPUTrainingLoopTest, IntegrationTestCPUBackend) {
+    auto tokenizer = std::make_shared<SimpleTokenizer>();
+    
+    std::vector<InstructionDataSample> samples;
+    for (int i = 0; i < 8; ++i) {
+        InstructionDataSample sample;
+        sample.instruction = "Test instruction " + std::to_string(i);
+        sample.output = "Test output " + std::to_string(i);
+        samples.push_back(sample);
+    }
+    
+    GPUDataLoaderConfig loader_config;
+    loader_config.batch_size = 2;
+    loader_config.max_sequence_length = 32;
+    loader_config.target_device = Device::cpu();
+    loader_config.async_loading = false;
+    
+    auto data_loader = std::make_unique<GPUDataLoader>(tokenizer, loader_config);
+    ASSERT_TRUE(data_loader->loadFromSamples(samples));
+    
+    size_t hidden_dim = 32;
+    auto lora_layer = std::make_unique<GPULoRALayer>(
+        hidden_dim, hidden_dim, 4, 1.0f, Device::cpu(), false
+    );
+    
+    GPUTrainingConfig config;
+    config.num_epochs = 2;
+    config.learning_rate = 0.001f;
+    config.device = Device::cpu();
+    config.use_mixed_precision = false;
+    
+    GPUTrainingLoop trainer(config);
+    trainer.setDataLoader(std::move(data_loader));
+    trainer.addLayer(lora_layer.get());
+    
+    // Train and verify success
+    bool success = trainer.train();
+    EXPECT_TRUE(success);
+    
+    // Verify metrics
+    auto metrics = trainer.getMetrics();
+    EXPECT_GT(metrics.current_step, 0);
+    EXPECT_EQ(metrics.current_epoch, 2);
+    
+    float final_loss = trainer.getFinalLoss();
+    EXPECT_GT(final_loss, 0.0f);
+    EXPECT_LT(final_loss, 1000.0f);
+}
+
+/**
+ * @brief Test GPU training loop with CUDA backend (if available)
+ */
+TEST_F(GPUTrainingLoopTest, IntegrationTestCUDABackend) {
+    if (!has_gpu_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    auto tokenizer = std::make_shared<SimpleTokenizer>();
+    
+    std::vector<InstructionDataSample> samples;
+    for (int i = 0; i < 8; ++i) {
+        InstructionDataSample sample;
+        sample.instruction = "CUDA test " + std::to_string(i);
+        sample.output = "CUDA response " + std::to_string(i);
+        samples.push_back(sample);
+    }
+    
+    GPUDataLoaderConfig loader_config;
+    loader_config.batch_size = 2;
+    loader_config.max_sequence_length = 32;
+    loader_config.target_device = Device::cuda();
+    loader_config.async_loading = false;
+    
+    auto data_loader = std::make_unique<GPUDataLoader>(tokenizer, loader_config);
+    ASSERT_TRUE(data_loader->loadFromSamples(samples));
+    
+    size_t hidden_dim = 32;
+    auto lora_layer = std::make_unique<GPULoRALayer>(
+        hidden_dim, hidden_dim, 4, 1.0f, Device::cuda(), true
+    );
+    
+    GPUTrainingConfig config;
+    config.num_epochs = 2;
+    config.learning_rate = 0.001f;
+    config.device = Device::cuda();
+    config.use_mixed_precision = false;
+    
+    GPUTrainingLoop trainer(config);
+    trainer.setDataLoader(std::move(data_loader));
+    trainer.addLayer(lora_layer.get());
+    
+    bool success = trainer.train();
+    EXPECT_TRUE(success);
+    
+    auto metrics = trainer.getMetrics();
+    EXPECT_GT(metrics.current_step, 0);
+}
+
+/**
+ * @brief Test end-to-end training with multiple layers
+ */
+TEST_F(GPUTrainingLoopTest, IntegrationTestMultipleLayers) {
+    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    
+    auto tokenizer = std::make_shared<SimpleTokenizer>();
+    
+    std::vector<InstructionDataSample> samples;
+    for (int i = 0; i < 10; ++i) {
+        InstructionDataSample sample;
+        sample.instruction = "Multi-layer test " + std::to_string(i);
+        sample.output = "Multi-layer output " + std::to_string(i);
+        samples.push_back(sample);
+    }
+    
+    GPUDataLoaderConfig loader_config;
+    loader_config.batch_size = 2;
+    loader_config.max_sequence_length = 64;
+    loader_config.target_device = device;
+    loader_config.async_loading = false;
+    
+    auto data_loader = std::make_unique<GPUDataLoader>(tokenizer, loader_config);
+    ASSERT_TRUE(data_loader->loadFromSamples(samples));
+    
+    // Create multiple LoRA layers
+    size_t hidden_dim = 64;
+    auto layer1 = std::make_unique<GPULoRALayer>(
+        hidden_dim, hidden_dim, 8, 1.0f, device, true
+    );
+    auto layer2 = std::make_unique<GPULoRALayer>(
+        hidden_dim, hidden_dim, 8, 1.0f, device, true
+    );
+    
+    GPUTrainingConfig config;
+    config.num_epochs = 3;
+    config.learning_rate = 0.001f;
+    config.device = device;
+    config.use_mixed_precision = false;
+    
+    GPUTrainingLoop trainer(config);
+    trainer.setDataLoader(std::move(data_loader));
+    trainer.addLayer(layer1.get());
+    trainer.addLayer(layer2.get());
+    
+    // Register callback to track progress
+    int callback_count = 0;
+    std::vector<float> tracked_losses;
+    
+    trainer.registerCallback([&](const GPUTrainingMetrics& metrics) {
+        callback_count++;
+        if (metrics.current_loss > 0) {
+            tracked_losses.push_back(metrics.current_loss);
+        }
+    });
+    
+    bool success = trainer.train();
+    EXPECT_TRUE(success);
+    EXPECT_GT(callback_count, 0);
+    
+    // Verify loss tracking
+    EXPECT_GT(tracked_losses.size(), 0);
+    
+    // Check that losses are reasonable
+    for (float loss : tracked_losses) {
+        EXPECT_FALSE(std::isnan(loss));
+        EXPECT_FALSE(std::isinf(loss));
+        EXPECT_LT(loss, 10000.0f);
+    }
+}
+
+/**
+ * @brief Test training loop error handling
+ */
+TEST_F(GPUTrainingLoopTest, ErrorHandlingNoDataLoader) {
+    Device device = Device::cpu();
+    
+    GPUTrainingConfig config;
+    config.num_epochs = 1;
+    config.learning_rate = 0.001f;
+    config.device = device;
+    
+    GPUTrainingLoop trainer(config);
+    // Don't set data loader
+    
+    // Should fail gracefully
+    bool success = trainer.train();
+    EXPECT_FALSE(success);
+}
+
+/**
+ * @brief Test training loop error handling - no layers
+ */
+TEST_F(GPUTrainingLoopTest, ErrorHandlingNoLayers) {
+    Device device = Device::cpu();
+    
+    auto tokenizer = std::make_shared<SimpleTokenizer>();
+    
+    std::vector<InstructionDataSample> samples;
+    for (int i = 0; i < 5; ++i) {
+        InstructionDataSample sample;
+        sample.instruction = "Test " + std::to_string(i);
+        sample.output = "Output " + std::to_string(i);
+        samples.push_back(sample);
+    }
+    
+    GPUDataLoaderConfig loader_config;
+    loader_config.batch_size = 2;
+    loader_config.max_sequence_length = 32;
+    loader_config.target_device = device;
+    
+    auto data_loader = std::make_unique<GPUDataLoader>(tokenizer, loader_config);
+    ASSERT_TRUE(data_loader->loadFromSamples(samples));
+    
+    GPUTrainingConfig config;
+    config.num_epochs = 1;
+    config.learning_rate = 0.001f;
+    config.device = device;
+    
+    GPUTrainingLoop trainer(config);
+    trainer.setDataLoader(std::move(data_loader));
+    // Don't add any layers
+    
+    // Should fail or handle gracefully
+    bool success = trainer.train();
+    EXPECT_FALSE(success);
+}
+
+/**
+ * @brief Test training progress monitoring
+ */
+TEST_F(GPUTrainingLoopTest, ProgressMonitoring) {
+    Device device = Device::cpu();
+    
+    auto tokenizer = std::make_shared<SimpleTokenizer>();
+    
+    std::vector<InstructionDataSample> samples;
+    for (int i = 0; i < 10; ++i) {
+        InstructionDataSample sample;
+        sample.instruction = "Progress test " + std::to_string(i);
+        sample.output = "Progress output " + std::to_string(i);
+        samples.push_back(sample);
+    }
+    
+    GPUDataLoaderConfig loader_config;
+    loader_config.batch_size = 2;
+    loader_config.max_sequence_length = 32;
+    loader_config.target_device = device;
+    
+    auto data_loader = std::make_unique<GPUDataLoader>(tokenizer, loader_config);
+    ASSERT_TRUE(data_loader->loadFromSamples(samples));
+    
+    size_t hidden_dim = 32;
+    auto lora_layer = std::make_unique<GPULoRALayer>(
+        hidden_dim, hidden_dim, 4, 1.0f, device, false
+    );
+    
+    GPUTrainingConfig config;
+    config.num_epochs = 3;
+    config.learning_rate = 0.001f;
+    config.device = device;
+    
+    GPUTrainingLoop trainer(config);
+    trainer.setDataLoader(std::move(data_loader));
+    trainer.addLayer(lora_layer.get());
+    
+    // Track progress
+    std::vector<float> progress_snapshots;
+    std::vector<int> epoch_snapshots;
+    
+    trainer.registerCallback([&](const GPUTrainingMetrics& metrics) {
+        progress_snapshots.push_back(metrics.progress);
+        epoch_snapshots.push_back(metrics.current_epoch);
+    });
+    
+    bool success = trainer.train();
+    EXPECT_TRUE(success);
+    
+    // Verify progress tracking
+    EXPECT_GT(progress_snapshots.size(), 0);
+    
+    // Progress should increase over time
+    if (progress_snapshots.size() > 1) {
+        for (size_t i = 1; i < progress_snapshots.size(); ++i) {
+            EXPECT_GE(progress_snapshots[i], progress_snapshots[i-1]);
+        }
+    }
+    
+    // Final progress should be close to 1.0
+    if (!progress_snapshots.empty()) {
+        EXPECT_GE(progress_snapshots.back(), 0.9f);
+    }
+    
+    // Epoch should progress
+    if (epoch_snapshots.size() > 1) {
+        EXPECT_GE(epoch_snapshots.back(), epoch_snapshots[0]);
+    }
+}
