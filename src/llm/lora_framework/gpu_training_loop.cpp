@@ -486,13 +486,17 @@ GPUTensor createEmbeddingsOnGPU(
         auto embeddings_data = embeddings_3d.cpu_data();
         std::vector<float> averaged_data(batch_size * hidden_dim, 0.0f);
         
+        // Reordered loops for better cache locality (sequential memory access)
         for (size_t i = 0; i < batch_size; ++i) {
-            for (size_t j = 0; j < hidden_dim; ++j) {
-                float sum = 0.0f;
-                for (size_t k = 0; k < seq_len; ++k) {
-                    sum += embeddings_data[i * seq_len * hidden_dim + k * hidden_dim + j];
+            for (size_t k = 0; k < seq_len; ++k) {
+                for (size_t j = 0; j < hidden_dim; ++j) {
+                    averaged_data[i * hidden_dim + j] += 
+                        embeddings_data[i * seq_len * hidden_dim + k * hidden_dim + j];
                 }
-                averaged_data[i * hidden_dim + j] = sum / seq_len;
+            }
+            // Normalize by sequence length
+            for (size_t j = 0; j < hidden_dim; ++j) {
+                averaged_data[i * hidden_dim + j] /= seq_len;
             }
         }
         

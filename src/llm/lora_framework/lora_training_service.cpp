@@ -1060,13 +1060,12 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // Load base model adapter for real embeddings
         std::unique_ptr<BaseModelAdapter> base_model_adapter;
         if (impl_->config_.use_base_model && 
-            !impl_->config_.base_model_path.empty() && 
-            std::filesystem::exists(impl_->config_.base_model_path)) {
+            !impl_->config_.base_model_path.empty()) {
             
-            // Note: TOCTOU race condition is acceptable here - loadModel() handles missing files gracefully
             spdlog::info("Loading base model adapter for real embeddings: {}", impl_->config_.base_model_path);
             base_model_adapter = std::make_unique<BaseModelAdapter>();
             
+            // Try to load model - loadModel() handles missing files gracefully
             if (base_model_adapter->loadModel(impl_->config_.base_model_path)) {
                 spdlog::info("Base model adapter loaded successfully");
                 spdlog::info("  Architecture: {}", base_model_adapter->getArchitecture().architecture);
