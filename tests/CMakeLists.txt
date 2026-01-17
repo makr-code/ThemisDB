@@ -141,12 +141,6 @@ if(THEMIS_ENABLE_LORA_TESTS)
     else()
         message(STATUS "LoRA storage key provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
     endif()
-            LABELS "lora;storage;security;key_provider"
-            TIMEOUT 60
-        )
-    else()
-        message(STATUS "LoRA storage key provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
-    endif()
     
     # Fused Kernels Tests (Phase 10.3)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
