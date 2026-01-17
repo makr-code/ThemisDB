@@ -8,6 +8,9 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+// Default hidden dimension for transformer models (used as fallback)
+constexpr size_t DEFAULT_HIDDEN_DIM = 768;
+
 GPUTrainingLoop::GPUTrainingLoop(const GPUTrainingConfig& config)
     : config_(config) {
     
@@ -329,7 +332,8 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
 
 float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Create embeddings from token IDs
-    size_t hidden_dim = gpu_embedding_layer_ ? gpu_embedding_layer_->hidden_dim() : 768;
+    // Use embedding layer's dimension if available, otherwise use default
+    size_t hidden_dim = gpu_embedding_layer_ ? gpu_embedding_layer_->hidden_dim() : DEFAULT_HIDDEN_DIM;
     
     GPUTensor input_embeddings = createEmbeddingsOnGPU(
         batch.input_ids, hidden_dim, config_.device, gpu_embedding_layer_.get()
@@ -467,6 +471,10 @@ GPUTensor createEmbeddingsOnGPU(
         
         // Get embeddings from embedding layer: [batch_size, seq_len, hidden_dim]
         GPUTensor embeddings_3d = embedding_layer->forward(token_ids);
+        
+        // TODO: Optimize this averaging operation - currently causes CPU-GPU transfers
+        // Future optimization: implement GPU kernel for sequence averaging
+        // Alternative: modify architecture to work with full sequence embeddings
         
         // Average over sequence dimension to get [batch_size, hidden_dim]
         // This converts sequence embeddings to a single embedding per batch item

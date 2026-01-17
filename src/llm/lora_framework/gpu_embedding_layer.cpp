@@ -2,6 +2,7 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstring>
+#include <cmath>
 
 namespace themis {
 namespace llm {
@@ -96,13 +97,17 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
     for (size_t i = 0; i < batch_size; ++i) {
         for (size_t j = 0; j < seq_len; ++j) {
             size_t token_idx = i * seq_len + j;
-            int token_id = static_cast<int>(token_data[token_idx]);
+            int token_id = static_cast<int>(std::round(token_data[token_idx]));
             
             // Bounds check
             if (token_id < 0 || token_id >= static_cast<int>(vocab_size_)) {
-                spdlog::warn("Token ID {} out of bounds [0, {}), using zeros", 
-                            token_id, vocab_size_);
-                // Fill with zeros
+                // Fill with zeros - log only once to avoid flooding
+                static bool logged_warning = false;
+                if (!logged_warning) {
+                    spdlog::warn("Token ID out of bounds detected (will be replaced with zeros)");
+                    logged_warning = true;
+                }
+                
                 size_t out_idx = (i * seq_len + j) * hidden_dim_;
                 std::fill(embeddings_data.begin() + out_idx, 
                          embeddings_data.begin() + out_idx + hidden_dim_, 
