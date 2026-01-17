@@ -80,6 +80,40 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA framework tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework.cpp")
     endif()
     
+    # LoRA Storage Key Provider Tests (Refactoring)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
+        message(STATUS "Adding LoRA storage key provider tests")
+        
+        add_executable(test_lora_storage_key_provider
+            test_lora_storage_key_provider.cpp
+        )
+        
+        target_link_libraries(test_lora_storage_key_provider PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_storage_key_provider PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME LoRAStorageKeyProviderTests COMMAND test_lora_storage_key_provider)
+        
+        # Set test properties
+        set_tests_properties(LoRAStorageKeyProviderTests PROPERTIES
+            LABELS "lora;storage;security;key_provider"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "LoRA storage key provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
+    endif()
+    
     # Fused Kernels Tests (Phase 10.3)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
         message(STATUS "Adding fused kernels tests (CUDA/HIP enabled)")
