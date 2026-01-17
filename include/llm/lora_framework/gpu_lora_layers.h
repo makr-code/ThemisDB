@@ -136,6 +136,29 @@ public:
     void set_use_fused_kernels(bool use_fused) { use_fused_kernels_ = use_fused; }
     bool use_flash_lora() const { return use_flash_lora_; }
     void set_use_flash_lora(bool use_flash) { use_flash_lora_ = use_flash; }
+    
+    // ========== Gradient Checkpointing ==========
+    
+    /**
+     * @brief Enable gradient checkpointing for this layer
+     * @param enable Enable or disable checkpointing
+     */
+    void set_checkpointing(bool enable) { use_checkpointing_ = enable; }
+    
+    /**
+     * @brief Check if checkpointing is enabled
+     */
+    bool use_checkpointing() const { return use_checkpointing_; }
+    
+    /**
+     * @brief Set layer ID for checkpointing
+     */
+    void set_layer_id(int layer_id) { layer_id_ = layer_id; }
+    
+    /**
+     * @brief Get layer ID
+     */
+    int layer_id() const { return layer_id_; }
 
 private:
     std::string name_ = "GPULoRALayer";
@@ -147,11 +170,16 @@ private:
     bool use_fused_kernels_;
     bool use_flash_lora_;
     
+    // Gradient checkpointing
+    bool use_checkpointing_ = false;
+    int layer_id_ = -1;
+    
     // Trainable parameters (in VRAM)
     std::unique_ptr<GPUTensor> B_;  // (in_dim, rank)
     std::unique_ptr<GPUTensor> A_;  // (rank, out_dim)
     
     // Cached for backward pass (in VRAM)
+    // Note: When checkpointing is enabled, these are NOT cached
     GPUTensor cached_input_;   // Input from forward pass
     GPUTensor cached_h_;       // Intermediate: input @ B
 };
