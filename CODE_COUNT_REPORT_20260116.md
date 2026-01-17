@@ -1,5 +1,5 @@
 # ThemisDB Code Count Report
-## Date: 17.01.2026 06:56:07
+## Date: 17.01.2026 06:57:42
 
 This report provides a thematic count of C++ code in ThemisDB.
 
@@ -153,7 +153,7 @@ This report provides a thematic count of C++ code in ThemisDB.
 ## 10. Root Documentation
 
 - **Files**: 52
-- **Lines**: 22,487
+- **Lines**: 22,541
 
 ## 11. Grand Total
 
@@ -175,21 +175,21 @@ This report provides a thematic count of C++ code in ThemisDB.
 | Category | Files | Lines |
 |----------|-------|-------|
 | Documentation (`./docs`) | 1306 | 536,638 |
-| Root Documentation | 52 | 22,487 |
-| **DOCUMENTATION TOTAL** | **1358** | **559,125** |
+| Root Documentation | 52 | 22,541 |
+| **DOCUMENTATION TOTAL** | **1358** | **559,179** |
 
 ### Overall Total
 
 | Type | Files | Lines |
 |------|-------|-------|
 | C++ Code | 1303 | 415,636 |
-| Documentation | 1358 | 559,125 |
-| **GRAND TOTAL** | **2661** | **974,761** |
+| Documentation | 1358 | 559,179 |
+| **GRAND TOTAL** | **2661** | **974,815** |
 
 ## 12. Statistics
 
 - **Average lines per C++ file**: 319.0
-- **Average lines per documentation file**: 411.7
+- **Average lines per documentation file**: 411.8
 - **Average lines per file (all)**: 366.3
 - **Themis-specific files in include**: 6 files, 1,027 lines
 - **Code-to-documentation ratio**: 0.74:1

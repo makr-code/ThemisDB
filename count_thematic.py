@@ -7,6 +7,10 @@ Counts C++ code lines by theme/category for the date 16.01.2026
 import os
 from datetime import datetime
 
+# File extensions
+CPP_EXTENSIONS = ['.cpp', '.h', '.hpp', '.cc', '.cxx']
+DOC_EXTENSIONS = ['.md', '.rst', '.txt', '.adoc']
+
 def count_lines_in_files(file_list):
     """Count total lines in a list of files using Python's built-in file reading."""
     if not file_list:
@@ -25,7 +29,6 @@ def count_lines_in_files(file_list):
 
 def find_cpp_files(directory):
     """Find all C++ files in a directory."""
-    cpp_extensions = ['.cpp', '.h', '.hpp', '.cc', '.cxx']
     cpp_files = []
     
     if not os.path.exists(directory):
@@ -33,14 +36,13 @@ def find_cpp_files(directory):
     
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if any(file.endswith(ext) for ext in cpp_extensions):
+            if any(file.endswith(ext) for ext in CPP_EXTENSIONS):
                 cpp_files.append(os.path.join(root, file))
     
     return cpp_files
 
 def find_doc_files(directory):
     """Find all documentation files in a directory."""
-    doc_extensions = ['.md', '.rst', '.txt', '.adoc']
     doc_files = []
     
     if not os.path.exists(directory):
@@ -48,7 +50,7 @@ def find_doc_files(directory):
     
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if any(file.endswith(ext) for ext in doc_extensions):
+            if any(file.endswith(ext) for ext in DOC_EXTENSIONS):
                 doc_files.append(os.path.join(root, file))
     
     return doc_files
@@ -79,7 +81,7 @@ def count_by_category(base_dir):
     direct_files = [os.path.join(base_dir, f) 
                     for f in os.listdir(base_dir) 
                     if os.path.isfile(os.path.join(base_dir, f)) 
-                    and any(f.endswith(ext) for ext in ['.cpp', '.h', '.hpp', '.cc', '.cxx'])]
+                    and any(f.endswith(ext) for ext in CPP_EXTENSIONS)]
     
     if direct_files:
         line_count = count_lines_in_files(direct_files)
@@ -116,7 +118,7 @@ def count_themis_only(include_dir):
     direct_files = [os.path.join(themis_path, f) 
                     for f in os.listdir(themis_path) 
                     if os.path.isfile(os.path.join(themis_path, f)) 
-                    and any(f.endswith(ext) for ext in ['.cpp', '.h', '.hpp', '.cc', '.cxx'])]
+                    and any(f.endswith(ext) for ext in CPP_EXTENSIONS)]
     
     if direct_files:
         line_count = count_lines_in_files(direct_files)
@@ -173,7 +175,7 @@ def count_documentation_by_category(docs_dir):
     direct_files = [os.path.join(docs_dir, f) 
                     for f in os.listdir(docs_dir) 
                     if os.path.isfile(os.path.join(docs_dir, f)) 
-                    and any(f.endswith(ext) for ext in ['.md', '.rst', '.txt', '.adoc'])]
+                    and any(f.endswith(ext) for ext in DOC_EXTENSIONS)]
     
     if direct_files:
         line_count = count_lines_in_files(direct_files)
@@ -327,8 +329,10 @@ def generate_report(repo_root):
     root_doc_files = [os.path.join(repo_root, f) 
                       for f in os.listdir(repo_root) 
                       if os.path.isfile(os.path.join(repo_root, f)) 
-                      and any(f.endswith(ext) for ext in ['.md', '.rst', '.txt', '.adoc'])]
+                      and any(f.endswith(ext) for ext in DOC_EXTENSIONS)]
     
+    root_doc_lines = 0
+    root_doc_count = 0
     if root_doc_files:
         root_doc_lines = count_lines_in_files(root_doc_files)
         root_doc_count = len(root_doc_files)
@@ -336,8 +340,6 @@ def generate_report(repo_root):
         report_lines.append(f"- **Lines**: {root_doc_lines:,}")
     else:
         report_lines.append("*No root documentation files found*")
-    root_doc_lines = root_doc_lines if root_doc_files else 0
-    root_doc_count = root_doc_count if root_doc_files else 0
     report_lines.append("")
     
     # Grand total
