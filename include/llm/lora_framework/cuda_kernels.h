@@ -247,6 +247,56 @@ cudaError_t cublas_matmul(
     float beta = 0.0f
 );
 
+/**
+ * @brief CUDA kernel launcher for embedding lookup
+ * 
+ * Looks up embeddings for given token IDs from embedding matrix.
+ * Input: token_ids [batch_size, seq_len] (float tensor, will be cast to int)
+ * Output: embeddings [batch_size, seq_len, hidden_dim]
+ * 
+ * @param output Output embeddings tensor (device pointer)
+ * @param token_ids Input token IDs (device pointer, stored as floats)
+ * @param embedding_weights Embedding weight matrix [vocab_size, hidden_dim] (device pointer)
+ * @param batch_size Batch size
+ * @param seq_len Sequence length
+ * @param hidden_dim Hidden/embedding dimension
+ * @param vocab_size Vocabulary size (for bounds checking)
+ * @param stream CUDA stream for async execution
+ */
+cudaError_t launch_embedding_lookup_kernel(
+    float* output,
+    const float* token_ids,
+    const float* embedding_weights,
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim,
+    size_t vocab_size,
+    cudaStream_t stream = nullptr
+);
+
+/**
+ * @brief CUDA kernel launcher for sequence mean reduction
+ * 
+ * Computes mean over sequence dimension:
+ * Input: [batch_size, seq_len, hidden_dim]
+ * Output: [batch_size, hidden_dim]
+ * 
+ * @param output Output tensor (device pointer)
+ * @param input Input tensor (device pointer)
+ * @param batch_size Batch size
+ * @param seq_len Sequence length
+ * @param hidden_dim Hidden dimension
+ * @param stream CUDA stream for async execution
+ */
+cudaError_t launch_sequence_mean_kernel(
+    float* output,
+    const float* input,
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim,
+    cudaStream_t stream = nullptr
+);
+
 } // namespace cuda
 } // namespace lora
 } // namespace llm
