@@ -359,17 +359,17 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Unscale gradients if mixed precision
     bool should_step = true;
     if (mixed_precision_trainer_ && mixed_precision_trainer_->is_enabled()) {
-        std::vector<GPUTensor*> gradients;
-        if (multi_gpu_layer_) {
-            gradients = multi_gpu_layer_->get_layer(0).gradients();
-        } else {
-            gradients = layers_[0]->gradients();
-        }
+        // TODO: Implement proper gradient unscaling for GPU tensors
+        // Current limitation: MixedPrecisionTrainer::unscale_gradients expects std::vector<Tensor*>
+        // but we have std::vector<GPUTensor*>. Need to either:
+        // 1. Create an adapter/wrapper to convert GPUTensor* to Tensor*
+        // 2. Add a GPU-specific unscale_gradients method to MixedPrecisionTrainer
+        // 3. Implement gradient unscaling directly in GPU training loop
+        // For now, we skip unscaling which may lead to gradient overflow in FP16 mode.
+        // This is acceptable for initial implementation but should be fixed for production.
         
-        // Note: unscale_gradients expects std::vector<Tensor*> but we have GPUTensor*
-        // For now, skip unscaling since GPUTensor doesn't directly inherit from Tensor
-        // In production, we'd need a proper abstraction or adapter
-        should_step = true;  // Simplified for now
+        spdlog::debug("Mixed precision gradient unscaling skipped (not yet implemented for GPU tensors)");
+        should_step = true;  // Proceed with optimizer step despite skipped unscaling
     }
     
     // Optimizer step
@@ -430,8 +430,17 @@ GPUTensor createEmbeddingsOnGPU(
     // Create embedding tensor
     GPUTensor embeddings({batch_size, hidden_dim}, device);
     
-    // For now, use a simple hash-based embedding on GPU
-    // In production, this would use actual embedding lookup from base model
+    // TODO: Replace with actual embedding lookup from base model
+    // Current implementation uses hash-based embeddings as a placeholder.
+    // In production, this should:
+    // 1. Look up token embeddings from the base model's embedding layer
+    // 2. Perform embedding lookup directly on GPU (no CPU transfer)
+    // 3. Handle different model architectures (Llama, GPT, etc.)
+    // 
+    // Hash-based embeddings are only suitable for testing the training loop mechanics,
+    // but will produce poor training quality. This is a known limitation of the
+    // initial implementation and should be addressed before production use.
+    
     auto token_data = token_ids.cpu_data();
     std::vector<float> embedding_data(batch_size * hidden_dim);
     
@@ -452,8 +461,21 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
         throw std::invalid_argument("Predictions and targets must have same shape");
     }
     
-    // Download to CPU for loss computation
-    // In production, this would be a GPU kernel
+    // TODO: Implement as GPU kernel for true GPU acceleration
+    // Current implementation downloads to CPU which creates a performance bottleneck:
+    // 1. GPU → CPU transfer is expensive (bandwidth limited)
+    // 2. Breaks GPU pipeline (forces synchronization)
+    // 3. Prevents kernel fusion optimization
+    // 
+    // Production implementation should:
+    // 1. Implement MSE loss as a CUDA/HIP/Vulkan/DirectX compute kernel
+    // 2. Keep all computation on GPU
+    // 3. Only transfer final scalar loss value to CPU
+    // 4. Support different backends (CUDA, HIP, Vulkan, DirectX)
+    // 
+    // This placeholder is acceptable for validating training loop mechanics
+    // but should be replaced with GPU kernels for production performance.
+    
     auto pred_data = predictions.cpu_data();
     auto target_data = targets.cpu_data();
     
@@ -474,8 +496,21 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
     // Create gradient tensor on same device
     GPUTensor grad(predictions.shape(), predictions.device());
     
-    // Compute gradient: 2 * (predictions - targets) / n
-    // In production, this would be a GPU kernel
+    // TODO: Implement as GPU kernel for true GPU acceleration
+    // Current implementation computes gradients on CPU which creates bottlenecks:
+    // 1. GPU → CPU transfer for predictions and targets (expensive)
+    // 2. CPU computation (slower than GPU)
+    // 3. CPU → GPU transfer for gradient result (expensive)
+    // 
+    // Production implementation should:
+    // 1. Implement gradient computation as CUDA/HIP/Vulkan/DirectX kernel
+    // 2. Keep all computation on GPU (no CPU transfers)
+    // 3. Fuse with backward pass for better performance
+    // 4. Support different backends
+    // 
+    // This placeholder validates training loop mechanics but should be
+    // replaced with GPU kernels for production performance.
+    
     auto pred_data = predictions.cpu_data();
     auto target_data = targets.cpu_data();
     
