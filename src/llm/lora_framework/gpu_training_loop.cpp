@@ -347,8 +347,10 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
                 data_loader_->config().max_sequence_length
             );
             
-            // Note: Actual batch size update would require data loader API support
-            // For now, we just log the recommendation
+            // NOTE: Actual batch size update requires data loader API extension
+            // Current implementation logs recommendations for monitoring purposes
+            // Future work: Add GPUDataLoader::updateBatchSize() method
+            // Issue: https://github.com/makr-code/ThemisDB/issues/39#future-improvements
             if (optimal_batch != data_loader_->config().batch_size) {
                 spdlog::debug("Optimal batch size: {} (current: {})", 
                              optimal_batch, data_loader_->config().batch_size);
