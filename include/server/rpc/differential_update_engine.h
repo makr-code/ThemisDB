@@ -63,7 +63,7 @@ public:
      */
     std::vector<ChunkInfo> GenerateManifest(
         const std::string& blob_path,
-        themis::sharding::DifferentialMode mode,
+        themis::sharding::proto::DifferentialMode mode,
         uint32_t chunk_size_kb = 64
     );
     
@@ -91,7 +91,7 @@ public:
      * @param metadata Blob metadata
      * @return Recommended differential mode
      */
-    themis::sharding::DifferentialMode SelectStrategy(
+    themis::sharding::proto::DifferentialMode SelectStrategy(
         const BlobMetadata& metadata
     );
     

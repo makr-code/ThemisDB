@@ -77,6 +77,42 @@ struct GraphAutoBufferStats {
     size_t current_buffer_memory{0};
     
     std::chrono::steady_clock::time_point last_flush_time;
+
+    // Custom copy to support returning by value (atomics are not copyable)
+    GraphAutoBufferStats() = default;
+    GraphAutoBufferStats(const GraphAutoBufferStats& other) {
+        nodes_buffered.store(other.nodes_buffered.load());
+        edges_buffered.store(other.edges_buffered.load());
+        nodes_flushed.store(other.nodes_flushed.load());
+        edges_flushed.store(other.edges_flushed.load());
+        flush_count.store(other.flush_count.load());
+        auto_flush_count.store(other.auto_flush_count.load());
+        manual_flush_count.store(other.manual_flush_count.load());
+        size_triggered_flush.store(other.size_triggered_flush.load());
+        time_triggered_flush.store(other.time_triggered_flush.load());
+        buffer_overflow_count.store(other.buffer_overflow_count.load());
+        current_buffer_size = other.current_buffer_size;
+        current_buffer_memory = other.current_buffer_memory;
+        last_flush_time = other.last_flush_time;
+    }
+    GraphAutoBufferStats& operator=(const GraphAutoBufferStats& other) {
+        if (this != &other) {
+            nodes_buffered.store(other.nodes_buffered.load());
+            edges_buffered.store(other.edges_buffered.load());
+            nodes_flushed.store(other.nodes_flushed.load());
+            edges_flushed.store(other.edges_flushed.load());
+            flush_count.store(other.flush_count.load());
+            auto_flush_count.store(other.auto_flush_count.load());
+            manual_flush_count.store(other.manual_flush_count.load());
+            size_triggered_flush.store(other.size_triggered_flush.load());
+            time_triggered_flush.store(other.time_triggered_flush.load());
+            buffer_overflow_count.store(other.buffer_overflow_count.load());
+            current_buffer_size = other.current_buffer_size;
+            current_buffer_memory = other.current_buffer_memory;
+            last_flush_time = other.last_flush_time;
+        }
+        return *this;
+    }
 };
 
 /**
