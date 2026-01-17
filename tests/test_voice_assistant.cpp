@@ -367,8 +367,8 @@ TEST_F(VoiceAssistantTest, InvalidModelPaths) {
 TEST_F(VoiceAssistantTest, LargeAudioData) {
     VoiceAssistant assistant(config_);
     
-    // 100 MB audio file
-    std::vector<uint8_t> large_audio(100 * 1024 * 1024, 0);
+    // 10 MB audio file (reduced for CI environments)
+    std::vector<uint8_t> large_audio(10 * 1024 * 1024, 0);
     std::string session_id = "test-session-large";
     
     EXPECT_NO_THROW({

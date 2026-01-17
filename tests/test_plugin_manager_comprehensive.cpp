@@ -49,8 +49,11 @@ protected:
         manifest["library"] = plugin_name + ".so";
         
         std::string manifest_path = test_plugin_dir_ + "/" + plugin_name + ".json";
-        std::ofstream file(manifest_path);
-        file << manifest.dump(2);
+        {
+            std::ofstream file(manifest_path);
+            file << manifest.dump(2);
+            file.close();
+        }
     }
     
     std::string test_plugin_dir_;

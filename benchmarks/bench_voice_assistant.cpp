@@ -28,9 +28,8 @@ std::vector<uint8_t> generateMockAudio(size_t size_bytes) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 255);
     
-    for (auto& byte : audio) {
-        byte = dis(gen);
-    }
+    // Use std::generate for better performance
+    std::generate(audio.begin(), audio.end(), [&]() { return static_cast<uint8_t>(dis(gen)); });
     return audio;
 }
 
