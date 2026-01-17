@@ -22,6 +22,9 @@ if(THEMIS_ENABLE_LLM)
         # Multi-GPU LoRA layers
         ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
         
+        # FlashLoRA memory-efficient computation
+        ../src/llm/lora_framework/flash_lora.cpp
+        
         # Content manager with LLM integration
         ../src/content/content_manager_llm.cpp
     )

@@ -1,4 +1,5 @@
 #include "llm/lora_framework/gpu_lora_layers.h"
+#include "llm/lora_framework/flash_lora.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cmath>
@@ -21,13 +22,21 @@ namespace lora {
 // ============================================================================
 
 GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank, 
-                           float scaling, const Device& device, bool use_fused_kernels)
+                           float scaling, const Device& device, bool use_fused_kernels,
+                           bool use_flash_lora)
     : in_dim_(in_dim)
     , out_dim_(out_dim)
     , rank_(rank)
     , scaling_(scaling)
     , device_(device)
-    , use_fused_kernels_(use_fused_kernels) {
+    , use_fused_kernels_(use_fused_kernels)
+    , use_flash_lora_(use_flash_lora) {
+    
+    // Check FlashLoRA availability
+    if (use_flash_lora_ && !FlashLoRA::is_available(device)) {
+        spdlog::warn("FlashLoRA requested but not available on device, disabling");
+        use_flash_lora_ = false;
+    }
     
     // Initialize B with Kaiming uniform
     B_ = std::make_unique<GPUTensor>(
@@ -41,8 +50,9 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
     );
     A_->requires_grad = true;
     
-    spdlog::debug("GPULoRALayer created: in_dim={}, out_dim={}, rank={}, scaling={}, device={}, fused={}",
-                  in_dim_, out_dim_, rank_, scaling_, static_cast<int>(device.type), use_fused_kernels_);
+    spdlog::debug("GPULoRALayer created: in_dim={}, out_dim={}, rank={}, scaling={}, device={}, fused={}, flash={}",
+                  in_dim_, out_dim_, rank_, scaling_, static_cast<int>(device.type), 
+                  use_fused_kernels_, use_flash_lora_);
 }
 
 GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
@@ -53,6 +63,31 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     
     // Cache input for backward pass
     cached_input_ = input.clone();
+    
+    // Try FlashLoRA first if enabled (CUDA only)
+    if (use_flash_lora_ && device_.type == DeviceType::CUDA) {
+        try {
+            // Note: B is [in_dim, rank], but FlashLoRA expects [rank, in_dim]
+            // Note: A is [rank, out_dim], but FlashLoRA expects [out_dim, rank]
+            GPUTensor B_T = B_->transpose();  // [rank, in_dim]
+            GPUTensor A_T = A_->transpose();  // [out_dim, rank]
+            
+            auto output = FlashLoRA::forward(input, B_T, A_T, scaling_);
+            
+            // NOTE: For backward pass compatibility with existing code, we still
+            // need to cache intermediate h = input @ B. This partially defeats
+            // FlashLoRA's memory optimization. A future improvement would be to
+            // implement FlashLoRA::backward_cached() that recomputes h on-the-fly
+            // during backward pass, eliminating this extra matmul and storage.
+            // For now, we prioritize API compatibility and correctness.
+            cached_h_ = input.matmul(*B_);
+            
+            return output;
+        } catch (const std::exception& e) {
+            spdlog::warn("FlashLoRA forward failed: {}, falling back to standard", e.what());
+            use_flash_lora_ = false;  // Disable for future calls
+        }
+    }
     
     // Try to use fused kernels if enabled and on CUDA/HIP
     if (use_fused_kernels_ && (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP)) {
