@@ -1297,6 +1297,10 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/raft_log.cpp
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
+    ../src/sharding/raft_consensus.cpp
+    ../src/sharding/quorum_manager.cpp
+    ../src/sharding/partition_detector.cpp
+    ../src/sharding/replica_consistency.cpp
     ../src/sharding/stream_protocol.cpp
     ../src/sharding/wal_applier.cpp
     ../src/sharding/wal_manager.cpp
@@ -2505,6 +2509,9 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_group_dek.cpp
         ${THEMIS_ROOT_DIR}/tests/test_input_validator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_sharding_core.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_raft_consensus.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_quorum_writes.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_partition_detection.cpp
         ${THEMIS_ROOT_DIR}/tests/test_raid_redundancy.cpp
         ${THEMIS_ROOT_DIR}/tests/test_hot_spare.cpp
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)

@@ -240,6 +240,201 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Common timeout for LoRA integration tests
+    set(LORA_TEST_TIMEOUT 600)
+    
+    # LoRA Storage Integration Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_integration.cpp")
+        message(STATUS "Adding LoRA storage integration tests")
+        
+        add_executable(test_lora_storage_integration
+            test_lora_storage_integration.cpp
+        )
+        
+        target_link_libraries(test_lora_storage_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_storage_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAStorageIntegrationTests COMMAND test_lora_storage_integration)
+        set_tests_properties(LoRAStorageIntegrationTests PROPERTIES
+            LABELS "lora;storage;integration"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA storage integration tests not found")
+    endif()
+    
+    # Cross-Shard LoRA Distribution Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_distribution.cpp")
+        message(STATUS "Adding cross-shard LoRA distribution tests")
+        
+        add_executable(test_cross_shard_distribution
+            test_cross_shard_distribution.cpp
+            fixtures/mock_shard_cluster.cpp
+        )
+        
+        target_link_libraries(test_cross_shard_distribution PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_cross_shard_distribution PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME CrossShardDistributionTests COMMAND test_cross_shard_distribution)
+        set_tests_properties(CrossShardDistributionTests PROPERTIES
+            LABELS "lora;shard;distribution;network"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "Cross-shard distribution tests not found")
+    endif()
+    
+    # RAID LoRA Integration Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_lora_integration.cpp")
+        message(STATUS "Adding RAID LoRA integration tests")
+        
+        add_executable(test_raid_lora_integration
+            test_raid_lora_integration.cpp
+            fixtures/mock_shard_cluster.cpp
+            utils/raid_simulator.cpp
+            utils/shard_failure_injector.cpp
+        )
+        
+        target_link_libraries(test_raid_lora_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_raid_lora_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME RAIDLoRAIntegrationTests COMMAND test_raid_lora_integration)
+        set_tests_properties(RAIDLoRAIntegrationTests PROPERTIES
+            LABELS "lora;raid;redundancy;failover"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "RAID LoRA integration tests not found")
+    endif()
+    
+    # LoRA Encryption Integration Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_encryption_integration.cpp")
+        message(STATUS "Adding LoRA encryption integration tests")
+        
+        add_executable(test_lora_encryption_integration
+            test_lora_encryption_integration.cpp
+        )
+        
+        target_link_libraries(test_lora_encryption_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_encryption_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAEncryptionIntegrationTests COMMAND test_lora_encryption_integration)
+        set_tests_properties(LoRAEncryptionIntegrationTests PROPERTIES
+            LABELS "lora;encryption;security;hsm;vault;pki"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA encryption integration tests not found")
+    endif()
+    
+    # LoRA Failure Scenarios Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_failure_scenarios.cpp")
+        message(STATUS "Adding LoRA failure scenarios tests")
+        
+        add_executable(test_lora_failure_scenarios
+            test_lora_failure_scenarios.cpp
+            fixtures/mock_shard_cluster.cpp
+            utils/shard_failure_injector.cpp
+        )
+        
+        target_link_libraries(test_lora_failure_scenarios PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_failure_scenarios PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAFailureScenariosTests COMMAND test_lora_failure_scenarios)
+        set_tests_properties(LoRAFailureScenariosTests PROPERTIES
+            LABELS "lora;failure;chaos;resilience"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA failure scenarios tests not found")
+    endif()
+    
+    # LoRA Versioning Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_versioning.cpp")
+        message(STATUS "Adding LoRA versioning tests")
+        
+        add_executable(test_lora_versioning
+            test_lora_versioning.cpp
+        )
+        
+        target_link_libraries(test_lora_versioning PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_versioning PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAVersioningTests COMMAND test_lora_versioning)
+        set_tests_properties(LoRAVersioningTests PROPERTIES
+            LABELS "lora;versioning;rollback"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA versioning tests not found")
+    endif()
+    
     # Fused LoRA Kernels Tests (Issue #36)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
         message(STATUS "Adding fused LoRA kernels tests (CUDA/HIP enabled)")
@@ -299,6 +494,118 @@ if(THEMIS_ENABLE_LORA_TESTS)
         set_tests_properties(MixedPrecisionGPUTests PROPERTIES
             LABELS "lora;gpu;mixed_precision"
             TIMEOUT 300
+        )
+    endif()
+    
+    # Multi-GPU Training Tests (Phase 10.5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_training.cpp")
+        message(STATUS "Adding multi-GPU training tests")
+        
+        add_executable(test_multi_gpu_training
+            test_multi_gpu_training.cpp
+        )
+        
+        target_link_libraries(test_multi_gpu_training PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_multi_gpu_training PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME MultiGPUTrainingTests COMMAND test_multi_gpu_training)
+        
+        # Set test properties
+        set_tests_properties(MultiGPUTrainingTests PROPERTIES
+            LABELS "lora;gpu;multi_gpu;distributed"
+            TIMEOUT 600
+        )
+    endif()
+    
+    # GPU Training Loop Tests (Phase 10.6)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_training_loop.cpp")
+        message(STATUS "Adding GPU training loop tests")
+        
+        add_executable(test_gpu_training_loop
+            test_gpu_training_loop.cpp
+        )
+        
+        target_link_libraries(test_gpu_training_loop PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_gpu_training_loop PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME GPUTrainingLoopTests COMMAND test_gpu_training_loop)
+        
+        # Set test properties
+        set_tests_properties(GPUTrainingLoopTests PROPERTIES
+            LABELS "lora;gpu;training;integration"
+            TIMEOUT 600
+        )
+    endif()
+    
+    # GPU Memory Management Tests (PR 1 - Complete Test Coverage)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_management.cpp")
+        message(STATUS "Adding GPU memory management tests")
+        
+        add_executable(test_gpu_memory_management
+            test_gpu_memory_management.cpp
+        )
+        
+        target_link_libraries(test_gpu_memory_management PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_gpu_memory_management PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME GPUMemoryManagementTests COMMAND test_gpu_memory_management)
+        
+        # Set test properties
+        set_tests_properties(GPUMemoryManagementTests PROPERTIES
+            LABELS "lora;gpu;memory;vram;oom"
+            TIMEOUT 300
+        )
+    endif()
+    
+    # Training Convergence Tests (PR 1 - Complete Test Coverage)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
+        message(STATUS "Adding training convergence tests")
+        
+        add_executable(test_training_convergence
+            test_training_convergence.cpp
+        )
+        
+        target_link_libraries(test_training_convergence PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_training_convergence PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME TrainingConvergenceTests COMMAND test_training_convergence)
+        
+        # Set test properties
+        set_tests_properties(TrainingConvergenceTests PROPERTIES
+            LABELS "lora;gpu;training;convergence"
+            TIMEOUT 600
         )
     endif()
 else()
@@ -543,6 +850,153 @@ if(THEMIS_ENABLE_LORA_TESTS)
 else()
     message(STATUS "Paged optimizer tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()
+
+# ============================================================================
+# Library Integration Tests (Phase 1) - NEW
+# ============================================================================
+
+message(STATUS "Configuring library integration tests...")
+
+# Test: spdlog Logging Library Integration
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_spdlog_integration.cpp")
+    message(STATUS "Adding spdlog library integration tests")
+    
+    add_executable(test_lib_spdlog_integration
+        test_lib_spdlog_integration.cpp
+    )
+    
+    target_link_libraries(test_lib_spdlog_integration PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_lib_spdlog_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME SpdlogLibIntegrationTests COMMAND test_lib_spdlog_integration)
+    
+    set_tests_properties(SpdlogLibIntegrationTests PROPERTIES
+        LABELS "library;integration;spdlog;logging"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "spdlog library integration tests not found")
+endif()
+
+# Test: zstd Compression Library Integration
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_zstd_integration.cpp")
+    message(STATUS "Adding zstd library integration tests")
+    
+    add_executable(test_lib_zstd_integration
+        test_lib_zstd_integration.cpp
+    )
+    
+    target_link_libraries(test_lib_zstd_integration PRIVATE
+        ${TEST_LIBS}
+        zstd::libzstd_static
+    )
+    
+    target_compile_definitions(test_lib_zstd_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ZstdLibIntegrationTests COMMAND test_lib_zstd_integration)
+    
+    set_tests_properties(ZstdLibIntegrationTests PROPERTIES
+        LABELS "library;integration;zstd;compression"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "zstd library integration tests not found")
+endif()
+
+# Test: YAML-cpp Advanced Library Integration
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_yaml_advanced.cpp")
+    message(STATUS "Adding YAML-cpp advanced library integration tests")
+    
+    add_executable(test_lib_yaml_advanced
+        test_lib_yaml_advanced.cpp
+    )
+    
+    target_link_libraries(test_lib_yaml_advanced PRIVATE
+        ${TEST_LIBS}
+        yaml-cpp::yaml-cpp
+    )
+    
+    target_compile_definitions(test_lib_yaml_advanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME YAMLLibAdvancedTests COMMAND test_lib_yaml_advanced)
+    
+    set_tests_properties(YAMLLibAdvancedTests PROPERTIES
+        LABELS "library;integration;yaml;configuration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "YAML-cpp advanced library integration tests not found")
+endif()
+
+# Test: Arrow/Parquet Library Integration (Optional)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_arrow_integration.cpp")
+    message(STATUS "Adding Arrow/Parquet library integration tests")
+    
+    # Check if Arrow is available
+    find_package(Arrow QUIET CONFIG)
+    find_package(Parquet QUIET CONFIG)
+    
+    if(Arrow_FOUND AND Parquet_FOUND)
+        message(STATUS "  Arrow/Parquet libraries found - enabling tests")
+        
+        add_executable(test_lib_arrow_integration
+            test_lib_arrow_integration.cpp
+        )
+        
+        target_link_libraries(test_lib_arrow_integration PRIVATE
+            ${TEST_LIBS}
+            Arrow::arrow_shared
+            Parquet::parquet_shared
+        )
+        
+        target_compile_definitions(test_lib_arrow_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_ARROW=1
+        )
+        
+        add_test(NAME ArrowLibIntegrationTests COMMAND test_lib_arrow_integration)
+        
+        set_tests_properties(ArrowLibIntegrationTests PROPERTIES
+            LABELS "library;integration;arrow;parquet;columnar"
+            TIMEOUT 180
+        )
+    else()
+        message(STATUS "  Arrow/Parquet libraries not found - creating stub test")
+        
+        add_executable(test_lib_arrow_integration
+            test_lib_arrow_integration.cpp
+        )
+        
+        target_link_libraries(test_lib_arrow_integration PRIVATE
+            ${TEST_LIBS}
+        )
+        
+        target_compile_definitions(test_lib_arrow_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ArrowLibIntegrationTests COMMAND test_lib_arrow_integration)
+        
+        set_tests_properties(ArrowLibIntegrationTests PROPERTIES
+            LABELS "library;integration;arrow;parquet;columnar;skipped"
+            TIMEOUT 30
+        )
+    endif()
+else()
+    message(STATUS "Arrow/Parquet library integration tests not found")
+endif()
+
+message(STATUS "Library integration tests configured")
 
 # ============================================================================
 # PITR (Point-in-Time Recovery) Tests - Phase 3

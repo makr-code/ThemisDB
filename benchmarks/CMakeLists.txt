@@ -221,6 +221,200 @@ else()
 endif()
 
 # ============================================================================
+# GPU Training Benchmarks (PR #2)
+# ============================================================================
+
+# 1. End-to-End Training Cycle Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_training_cycle.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+    message(STATUS "Adding GPU Training Cycle benchmarks")
+    
+    add_executable(bench_gpu_training_cycle
+        bench_gpu_training_cycle.cpp
+    )
+    
+    target_link_libraries(bench_gpu_training_cycle PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_gpu_training_cycle PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_gpu_training_cycle PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_gpu_training_cycle
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  GPU Training Cycle: forward + backward + optimizer steps")
+endif()
+
+# 2. Multi-GPU Scaling Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+    message(STATUS "Adding Multi-GPU Scaling benchmarks")
+    
+    add_executable(bench_multi_gpu_scaling
+        bench_multi_gpu_scaling.cpp
+    )
+    
+    target_link_libraries(bench_multi_gpu_scaling PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_multi_gpu_scaling PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_multi_gpu_scaling PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_multi_gpu_scaling
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Multi-GPU: data parallelism scaling efficiency")
+endif()
+
+# 3. Mixed Precision Performance Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_mixed_precision_perf.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+    message(STATUS "Adding Mixed Precision Performance benchmarks")
+    
+    add_executable(bench_mixed_precision_perf
+        bench_mixed_precision_perf.cpp
+    )
+    
+    target_link_libraries(bench_mixed_precision_perf PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_mixed_precision_perf PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_mixed_precision_perf PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_mixed_precision_perf
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Mixed Precision: FP32 vs FP16 throughput comparison")
+endif()
+
+# 4. Data Transfer Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+    message(STATUS "Adding Data Transfer benchmarks")
+    
+    add_executable(bench_data_transfer
+        bench_data_transfer.cpp
+    )
+    
+    target_link_libraries(bench_data_transfer PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_data_transfer PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_data_transfer PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_data_transfer
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Data Transfer: CPU↔GPU bandwidth and async prefetching")
+endif()
+
+# 5. Backend Comparison Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_comparison.cpp")
+    message(STATUS "Adding Backend Comparison benchmarks")
+    
+    add_executable(bench_backend_comparison
+        bench_backend_comparison.cpp
+    )
+    
+    target_link_libraries(bench_backend_comparison PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_backend_comparison PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_backend_comparison PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_backend_comparison
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Backend Comparison: CUDA vs HIP vs Vulkan vs CPU")
+endif()
+
+# ============================================================================
 # Existing Benchmarks
 # ============================================================================
 
