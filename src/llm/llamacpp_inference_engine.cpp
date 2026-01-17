@@ -18,14 +18,43 @@ namespace fs = std::filesystem;
 LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
     : config_(config), model_loaded_(false) {
     
-    // Initialize PagedKVCache
+    // Initialize PagedBlockManager
+    if (config_.block_manager) {
+        // Use provided instance
+        block_manager_ = config_.block_manager;
+        spdlog::info("LlamaCppInferenceEngine: Using provided PagedBlockManager");
+    } else {
+        // Create new instance with config
+        spdlog::info("LlamaCppInferenceEngine: Creating new PagedBlockManager");
+        spdlog::info("  Block size: {} tokens", config_.block_size);
+        spdlog::info("  Num blocks: {}", config_.num_blocks);
+        spdlog::info("  Max context: {} tokens", config_.n_ctx);
+        
+        PagedBlockManager::Config bm_config;
+        bm_config.max_blocks = config_.num_blocks;
+        bm_config.block_size_tokens = config_.block_size;
+        bm_config.token_size_bytes = 4;  // Float size
+        
+        block_manager_ = std::make_shared<PagedBlockManager>(bm_config);
+        
+        spdlog::info("✓ PagedBlockManager initialized successfully");
+        
+        // Log memory statistics
+        auto stats = block_manager_->getStats();
+        spdlog::info("Memory pool: {:.2f} MB ({} blocks × {} tokens × {} bytes)", 
+                     stats.total_memory_bytes / (1024.0 * 1024.0),
+                     stats.num_blocks,
+                     config_.block_size,
+                     4);
+    }
+    
+    // Initialize PagedKVCache with block manager
     PagedKVCache::Config kv_config;
     kv_config.block_size = config.block_size;
     kv_config.num_blocks = config.num_blocks;
     kv_config.enable_prefix_caching = config.enable_prefix_caching;
     
-    // TODO: Pass actual PagedBlockManager instance
-    kv_cache_ = std::make_unique<PagedKVCache>(kv_config, nullptr);
+    kv_cache_ = std::make_unique<PagedKVCache>(kv_config, block_manager_);
     
     // Setup GPU offload if requested
     if (config_.n_gpu_layers > 0) {
