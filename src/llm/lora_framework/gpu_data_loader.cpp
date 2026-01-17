@@ -332,6 +332,28 @@ std::vector<int> GPUDataLoader::tokenizeSample(const InstructionDataSample& samp
     return tokenizer_->encode(formatted);
 }
 
+bool GPUDataLoader::updateBatchSize(size_t new_batch_size) {
+    if (new_batch_size == 0) {
+        spdlog::warn("Cannot update batch size to 0");
+        return false;
+    }
+    
+    if (new_batch_size == config_.batch_size) {
+        // No change needed
+        return true;
+    }
+    
+    spdlog::info("Updating batch size from {} to {}", config_.batch_size, new_batch_size);
+    
+    // Update configuration
+    config_.batch_size = new_batch_size;
+    
+    // Note: We don't reset current_batch_ here to avoid losing progress
+    // The new batch size will take effect on the next getNextBatch() call
+    
+    return true;
+}
+
 } // namespace lora
 } // namespace llm
 } // namespace themis

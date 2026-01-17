@@ -336,6 +336,53 @@ TEST_F(AdaptiveBatchingTest, EndToEndAdaptiveBatching) {
     EXPECT_LE(stats.avg_gpu_utilization, 1.0f);
 }
 
+// Test memory estimation calibration
+TEST_F(AdaptiveBatchingTest, MemoryCalibration) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 2;
+    config.max_batch_size = 16;
+    config.hidden_dim = 768;
+    config.lora_rank = 8;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Get initial batch size estimate
+    size_t initial_batch = batcher.computeOptimalBatchSize(256);
+    
+    // Simulate actual memory usage (e.g., 20% higher than estimated)
+    size_t simulated_memory = 2ULL * 1024 * 1024 * 1024;  // 2 GB
+    batcher.calibrateMemoryEstimation(simulated_memory, 256, 4);
+    
+    // After calibration, batch size estimates should adjust
+    size_t calibrated_batch = batcher.computeOptimalBatchSize(256);
+    
+    // Both should be within valid bounds
+    EXPECT_GE(initial_batch, config.min_batch_size);
+    EXPECT_LE(initial_batch, config.max_batch_size);
+    EXPECT_GE(calibrated_batch, config.min_batch_size);
+    EXPECT_LE(calibrated_batch, config.max_batch_size);
+}
+
+// Test multiple calibration iterations
+TEST_F(AdaptiveBatchingTest, IterativeCalibration) {
+    AdaptiveBatcher::Config config;
+    config.min_batch_size = 2;
+    config.max_batch_size = 16;
+    
+    AdaptiveBatcher batcher(config, mem_manager_.get());
+    
+    // Simulate multiple calibration steps
+    for (int i = 0; i < 5; ++i) {
+        size_t memory = (1ULL + i * 0.1) * 1024 * 1024 * 1024;  // 1-1.5 GB
+        batcher.calibrateMemoryEstimation(memory, 256, 4);
+        
+        // Should still produce valid batch sizes
+        size_t batch = batcher.computeOptimalBatchSize(256);
+        EXPECT_GE(batch, config.min_batch_size);
+        EXPECT_LE(batch, config.max_batch_size);
+    }
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

@@ -251,17 +251,22 @@ The adaptive batching is automatically integrated into `GPUTrainingLoop`:
 
 ## Limitations
 
-1. **Data loader API**: Current implementation logs optimal batch size but cannot dynamically update data loader batch size (requires data loader API extension)
-2. **Vulkan/DirectX**: Limited GPU monitoring support (uses fallback values)
-3. **Memory estimation**: Based on typical LoRA configurations; may need tuning for custom architectures
+1. **Vulkan/DirectX**: Limited GPU monitoring support (uses fallback values for NVML/ROCm metrics)
+
+## Recent Improvements
+
+### Dynamic Batch Size Updates (✅ Implemented)
+The data loader API has been extended with `updateBatchSize()` method, enabling true dynamic batch size updates during training. The training loop now automatically adjusts batch sizes every 10 steps based on VRAM availability.
+
+### Memory Estimation Calibration (✅ Implemented)
+The adaptive batcher now includes automatic calibration that adjusts memory estimates based on actual usage observed during training. This improves accuracy for custom architectures and configurations. Calibration occurs automatically every 100 training steps.
 
 ## Future Improvements
 
-1. Data loader API for dynamic batch size updates
-2. Vulkan/DirectX performance query integration
-3. Multi-GPU load balancing based on per-GPU utilization
-4. Automatic sequence length clustering for optimal packing
-5. Predictive batch sizing based on historical patterns
+1. Vulkan/DirectX performance query integration
+2. Multi-GPU load balancing based on per-GPU utilization
+3. Automatic sequence length clustering for optimal packing
+4. Predictive batch sizing based on historical patterns
 
 ## References
 

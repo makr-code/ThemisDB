@@ -95,12 +95,29 @@ public:
      */
     void resetOOMCounter() { oom_count_ = 0; }
     
+    /**
+     * @brief Calibrate memory estimation based on actual usage
+     * @param actual_memory_used Actual memory used (bytes)
+     * @param sequence_length Sequence length used
+     * @param batch_size Batch size used
+     * 
+     * Adjusts internal memory estimation parameters to match observed usage.
+     * Call this periodically during training to improve accuracy.
+     */
+    void calibrateMemoryEstimation(size_t actual_memory_used, 
+                                    size_t sequence_length, 
+                                    size_t batch_size);
+    
 private:
     Config config_;
     GPUMemoryManager* mem_manager_;
     size_t current_batch_size_;
     int oom_count_;
     std::vector<float> recent_utilizations_;
+    
+    // Calibration state
+    bool is_calibrated_ = false;
+    float memory_estimation_multiplier_ = 1.0f;  // Adjust estimates based on actual usage
     
     /**
      * @brief Compute average GPU utilization from recent history

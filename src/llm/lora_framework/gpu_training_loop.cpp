@@ -341,19 +341,20 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
             break;
         }
         
-        // Adjust batch size dynamically (NEW)
+        // Adjust batch size dynamically (NEW - now functional!)
         if (adaptive_batcher_ && step % 10 == 0) {
             size_t optimal_batch = adaptive_batcher_->computeOptimalBatchSize(
                 data_loader_->config().max_sequence_length
             );
             
-            // NOTE: Actual batch size update requires data loader API extension
-            // Current implementation logs recommendations for monitoring purposes
-            // Future work: Add GPUDataLoader::updateBatchSize() method
-            // Issue: https://github.com/makr-code/ThemisDB/issues/39#future-improvements
+            // Update batch size dynamically if different from current
             if (optimal_batch != data_loader_->config().batch_size) {
-                spdlog::debug("Optimal batch size: {} (current: {})", 
-                             optimal_batch, data_loader_->config().batch_size);
+                if (data_loader_->updateBatchSize(optimal_batch)) {
+                    spdlog::info("Dynamically adjusted batch size to {}", optimal_batch);
+                } else {
+                    spdlog::debug("Optimal batch size: {} (current: {})", 
+                                 optimal_batch, data_loader_->config().batch_size);
+                }
             }
             
             // Check for underutilization every 50 steps
@@ -531,6 +532,21 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Optimizer step
     if (should_step) {
         optimizer_->step();
+    }
+    
+    // Calibrate memory estimation periodically (every 100 steps)
+    if (adaptive_batcher_ && current_metrics_.current_step % 100 == 0) {
+        if (gpu_memory_manager_) {
+            size_t total_vram = gpu_memory_manager_->getTotalVRAM();
+            size_t used_vram = total_vram - gpu_memory_manager_->getFreeVRAM();
+            
+            // Calibrate based on actual memory usage
+            adaptive_batcher_->calibrateMemoryEstimation(
+                used_vram,
+                batch.seq_len,
+                batch.batch_size
+            );
+        }
     }
     
     // Check memory usage periodically

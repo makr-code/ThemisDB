@@ -167,7 +167,10 @@ size_t AdaptiveBatcher::estimateMemoryPerSample(size_t sequence_length) const {
     size_t activation_memory = sequence_length * config_.lora_rank * 4;
     size_t gradient_memory = sequence_length * config_.hidden_dim * 4;
     
-    return input_memory + activation_memory + gradient_memory;
+    size_t base_estimate = input_memory + activation_memory + gradient_memory;
+    
+    // Apply calibration multiplier if calibrated
+    return static_cast<size_t>(base_estimate * memory_estimation_multiplier_);
 }
 
 size_t AdaptiveBatcher::estimateSharedMemory() const {
@@ -180,7 +183,52 @@ size_t AdaptiveBatcher::estimateSharedMemory() const {
     size_t weight_memory = lora_params * 4;
     size_t optimizer_memory = lora_params * 2 * 4;  // Adam: momentum + variance
     
-    return weight_memory + optimizer_memory;
+    size_t base_estimate = weight_memory + optimizer_memory;
+    
+    // Apply calibration multiplier if calibrated
+    return static_cast<size_t>(base_estimate * memory_estimation_multiplier_);
+}
+
+void AdaptiveBatcher::calibrateMemoryEstimation(
+    size_t actual_memory_used,
+    size_t sequence_length,
+    size_t batch_size
+) {
+    if (batch_size == 0 || sequence_length == 0) {
+        return;
+    }
+    
+    // Calculate what our model predicted
+    size_t per_sample = estimateMemoryPerSample(sequence_length);
+    size_t shared = estimateSharedMemory();
+    size_t predicted = shared + (per_sample * batch_size);
+    
+    if (predicted == 0) {
+        return;
+    }
+    
+    // Calculate ratio between actual and predicted
+    float ratio = static_cast<float>(actual_memory_used) / predicted;
+    
+    // Use exponential moving average to smooth calibration
+    const float alpha = 0.1f;  // Smoothing factor
+    if (!is_calibrated_) {
+        memory_estimation_multiplier_ = ratio;
+        is_calibrated_ = true;
+        spdlog::info("Initial memory calibration: multiplier = {:.2f}", ratio);
+    } else {
+        memory_estimation_multiplier_ = 
+            alpha * ratio + (1.0f - alpha) * memory_estimation_multiplier_;
+        spdlog::debug("Updated memory calibration: multiplier = {:.2f} (ratio = {:.2f})",
+                     memory_estimation_multiplier_, ratio);
+    }
+    
+    // Log significant deviations
+    if (std::abs(ratio - 1.0f) > 0.3f) {
+        spdlog::warn("Memory estimation deviation: predicted {:.2f} GB, actual {:.2f} GB",
+                    predicted / (1024.0 * 1024.0 * 1024.0),
+                    actual_memory_used / (1024.0 * 1024.0 * 1024.0));
+    }
 }
 
 } // namespace lora
