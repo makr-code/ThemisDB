@@ -80,6 +80,15 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA framework tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework.cpp")
     endif()
     
+    # LoRA Adapter Application Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
+        message(STATUS "Adding LoRA adapter application tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_lora_adapter_application
+            test_lora_adapter_application.cpp
+        )
+        
+        target_link_libraries(test_lora_adapter_application PRIVATE
     # LoRA Storage Key Provider Tests (Refactoring)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
         message(STATUS "Adding LoRA storage key provider tests")
@@ -98,11 +107,21 @@ if(THEMIS_ENABLE_LORA_TESTS)
             RocksDB::rocksdb
         )
         
+        target_compile_definitions(test_lora_adapter_application PRIVATE
         target_compile_definitions(test_lora_storage_key_provider PRIVATE
             THEMIS_TEST_BUILD=1
         )
         
         # Add to CTest
+        add_test(NAME LoRAAdapterApplicationTests COMMAND test_lora_adapter_application)
+        
+        # Set test properties
+        set_tests_properties(LoRAAdapterApplicationTests PROPERTIES
+            LABELS "lora;llm;adapter;inference"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
         add_test(NAME LoRAStorageKeyProviderTests COMMAND test_lora_storage_key_provider)
         
         # Set test properties
