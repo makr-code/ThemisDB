@@ -1,5 +1,5 @@
 # ThemisDB Code Count Report
-## Date: 16.01.2026 19:11:37
+## Date: 17.01.2026 06:56:07
 
 This report provides a thematic count of C++ code in ThemisDB.
 
@@ -122,7 +122,42 @@ This report provides a thematic count of C++ code in ThemisDB.
 - **Files**: 0
 - **Lines**: 0
 
-## 9. Grand Total
+## 9. Documentation (`./docs`)
+
+| Category/Language | Files | Lines |
+|-------------------|-------|-------|
+| [root] | 258 | 103,933 |
+| analysis | 6 | 4,263 |
+| api | 1 | 626 |
+| architecture | 8 | 4,928 |
+| archive | 13 | 4,848 |
+| build-guide | 12 | 4,006 |
+| de | 802 | 338,570 |
+| deployment | 1 | 167 |
+| en | 76 | 33,743 |
+| es | 2 | 98 |
+| features | 5 | 1,460 |
+| fr | 14 | 2,875 |
+| gimini | 24 | 5,688 |
+| ja | 2 | 98 |
+| llm | 2 | 485 |
+| planning | 1 | 411 |
+| reports | 43 | 12,795 |
+| research | 15 | 12,042 |
+| security | 5 | 1,676 |
+| sharding | 1 | 126 |
+| testing | 1 | 297 |
+| tools | 14 | 3,503 |
+| **TOTAL** | **1306** | **536,638** |
+
+## 10. Root Documentation
+
+- **Files**: 52
+- **Lines**: 22,487
+
+## 11. Grand Total
+
+### C++ Code
 
 | Category | Files | Lines |
 |----------|-------|-------|
@@ -133,12 +168,31 @@ This report provides a thematic count of C++ code in ThemisDB.
 | Tests | 353 | 106,016 |
 | Benchmarks | 86 | 28,477 |
 | Scripts | 0 | 0 |
-| **GRAND TOTAL** | **1303** | **415,636** |
+| **C++ TOTAL** | **1303** | **415,636** |
 
-## 10. Statistics
+### Documentation
 
-- **Average lines per file**: 319.0
+| Category | Files | Lines |
+|----------|-------|-------|
+| Documentation (`./docs`) | 1306 | 536,638 |
+| Root Documentation | 52 | 22,487 |
+| **DOCUMENTATION TOTAL** | **1358** | **559,125** |
+
+### Overall Total
+
+| Type | Files | Lines |
+|------|-------|-------|
+| C++ Code | 1303 | 415,636 |
+| Documentation | 1358 | 559,125 |
+| **GRAND TOTAL** | **2661** | **974,761** |
+
+## 12. Statistics
+
+- **Average lines per C++ file**: 319.0
+- **Average lines per documentation file**: 411.7
+- **Average lines per file (all)**: 366.3
 - **Themis-specific files in include**: 6 files, 1,027 lines
+- **Code-to-documentation ratio**: 0.74:1
 
 ---
 *Report generated automatically for issue #581*

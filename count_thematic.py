@@ -38,6 +38,21 @@ def find_cpp_files(directory):
     
     return cpp_files
 
+def find_doc_files(directory):
+    """Find all documentation files in a directory."""
+    doc_extensions = ['.md', '.rst', '.txt', '.adoc']
+    doc_files = []
+    
+    if not os.path.exists(directory):
+        return []
+    
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if any(file.endswith(ext) for ext in doc_extensions):
+                doc_files.append(os.path.join(root, file))
+    
+    return doc_files
+
 def count_by_category(base_dir):
     """Count C++ code lines by category/theme."""
     categories = {}
@@ -125,6 +140,59 @@ def count_directory_total(directory, description):
             'description': description,
             'lines': line_count,
             'files': len(cpp_files)
+        }
+    return {
+        'description': description,
+        'lines': 0,
+        'files': 0
+    }
+
+def count_documentation_by_category(docs_dir):
+    """Count documentation files by category/language in docs directory."""
+    categories = {}
+    
+    if not os.path.exists(docs_dir):
+        return categories
+    
+    # Get immediate subdirectories (languages and categories)
+    subdirs = [d for d in os.listdir(docs_dir) 
+               if os.path.isdir(os.path.join(docs_dir, d))]
+    
+    for subdir in sorted(subdirs):
+        subdir_path = os.path.join(docs_dir, subdir)
+        doc_files = find_doc_files(subdir_path)
+        if doc_files:
+            line_count = count_lines_in_files(doc_files)
+            file_count = len(doc_files)
+            categories[subdir] = {
+                'lines': line_count,
+                'files': file_count
+            }
+    
+    # Also count files directly in the docs directory
+    direct_files = [os.path.join(docs_dir, f) 
+                    for f in os.listdir(docs_dir) 
+                    if os.path.isfile(os.path.join(docs_dir, f)) 
+                    and any(f.endswith(ext) for ext in ['.md', '.rst', '.txt', '.adoc'])]
+    
+    if direct_files:
+        line_count = count_lines_in_files(direct_files)
+        categories['[root]'] = {
+            'lines': line_count,
+            'files': len(direct_files)
+        }
+    
+    return categories
+
+def count_documentation_total(directory, description):
+    """Count total documentation files in a directory."""
+    doc_files = find_doc_files(directory)
+    if doc_files:
+        line_count = count_lines_in_files(doc_files)
+        return {
+            'description': description,
+            'lines': line_count,
+            'files': len(doc_files)
         }
     return {
         'description': description,
@@ -234,8 +302,46 @@ def generate_report(repo_root):
     report_lines.append(f"- **Lines**: {scripts_data['lines']:,}")
     report_lines.append("")
     
+    # Count documentation by category
+    report_lines.append("## 9. Documentation (`./docs`)")
+    report_lines.append("")
+    docs_categories = count_documentation_by_category(os.path.join(repo_root, 'docs'))
+    
+    total_docs_lines = 0
+    total_docs_files = 0
+    if docs_categories:
+        report_lines.append("| Category/Language | Files | Lines |")
+        report_lines.append("|-------------------|-------|-------|")
+        for category, data in sorted(docs_categories.items()):
+            report_lines.append(f"| {category} | {data['files']} | {data['lines']:,} |")
+            total_docs_lines += data['lines']
+            total_docs_files += data['files']
+        report_lines.append(f"| **TOTAL** | **{total_docs_files}** | **{total_docs_lines:,}** |")
+    else:
+        report_lines.append("*No documentation files found*")
+    report_lines.append("")
+    
+    # Count other documentation (root level markdown files)
+    report_lines.append("## 10. Root Documentation")
+    report_lines.append("")
+    root_doc_files = [os.path.join(repo_root, f) 
+                      for f in os.listdir(repo_root) 
+                      if os.path.isfile(os.path.join(repo_root, f)) 
+                      and any(f.endswith(ext) for ext in ['.md', '.rst', '.txt', '.adoc'])]
+    
+    if root_doc_files:
+        root_doc_lines = count_lines_in_files(root_doc_files)
+        root_doc_count = len(root_doc_files)
+        report_lines.append(f"- **Files**: {root_doc_count}")
+        report_lines.append(f"- **Lines**: {root_doc_lines:,}")
+    else:
+        report_lines.append("*No root documentation files found*")
+    root_doc_lines = root_doc_lines if root_doc_files else 0
+    root_doc_count = root_doc_count if root_doc_files else 0
+    report_lines.append("")
+    
     # Grand total
-    report_lines.append("## 9. Grand Total")
+    report_lines.append("## 11. Grand Total")
     report_lines.append("")
     grand_total_lines = (
         total_src_lines + 
@@ -244,7 +350,9 @@ def generate_report(repo_root):
         examples_data['lines'] + 
         tests_data['lines'] + 
         benchmarks_data['lines'] +
-        scripts_data['lines']
+        scripts_data['lines'] +
+        total_docs_lines +
+        root_doc_lines
     )
     grand_total_files = (
         total_src_files + 
@@ -253,9 +361,35 @@ def generate_report(repo_root):
         examples_data['files'] + 
         tests_data['files'] + 
         benchmarks_data['files'] +
-        scripts_data['files']
+        scripts_data['files'] +
+        total_docs_files +
+        root_doc_count
     )
     
+    # Separate C++ and documentation totals
+    cpp_total_lines = (
+        total_src_lines + 
+        total_include_lines + 
+        tools_data['lines'] + 
+        examples_data['lines'] + 
+        tests_data['lines'] + 
+        benchmarks_data['lines'] +
+        scripts_data['lines']
+    )
+    cpp_total_files = (
+        total_src_files + 
+        total_include_files + 
+        tools_data['files'] + 
+        examples_data['files'] + 
+        tests_data['files'] + 
+        benchmarks_data['files'] +
+        scripts_data['files']
+    )
+    doc_total_lines = total_docs_lines + root_doc_lines
+    doc_total_files = total_docs_files + root_doc_count
+    
+    report_lines.append("### C++ Code")
+    report_lines.append("")
     report_lines.append("| Category | Files | Lines |")
     report_lines.append("|----------|-------|-------|")
     report_lines.append(f"| Source (`./src`) | {total_src_files} | {total_src_lines:,} |")
@@ -265,16 +399,42 @@ def generate_report(repo_root):
     report_lines.append(f"| Tests | {tests_data['files']} | {tests_data['lines']:,} |")
     report_lines.append(f"| Benchmarks | {benchmarks_data['files']} | {benchmarks_data['lines']:,} |")
     report_lines.append(f"| Scripts | {scripts_data['files']} | {scripts_data['lines']:,} |")
+    report_lines.append(f"| **C++ TOTAL** | **{cpp_total_files}** | **{cpp_total_lines:,}** |")
+    report_lines.append("")
+    
+    report_lines.append("### Documentation")
+    report_lines.append("")
+    report_lines.append("| Category | Files | Lines |")
+    report_lines.append("|----------|-------|-------|")
+    report_lines.append(f"| Documentation (`./docs`) | {total_docs_files} | {total_docs_lines:,} |")
+    report_lines.append(f"| Root Documentation | {root_doc_count} | {root_doc_lines:,} |")
+    report_lines.append(f"| **DOCUMENTATION TOTAL** | **{doc_total_files}** | **{doc_total_lines:,}** |")
+    report_lines.append("")
+    
+    report_lines.append("### Overall Total")
+    report_lines.append("")
+    report_lines.append("| Type | Files | Lines |")
+    report_lines.append("|------|-------|-------|")
+    report_lines.append(f"| C++ Code | {cpp_total_files} | {cpp_total_lines:,} |")
+    report_lines.append(f"| Documentation | {doc_total_files} | {doc_total_lines:,} |")
     report_lines.append(f"| **GRAND TOTAL** | **{grand_total_files}** | **{grand_total_lines:,}** |")
     report_lines.append("")
     
     # Additional statistics
-    report_lines.append("## 10. Statistics")
+    report_lines.append("## 12. Statistics")
     report_lines.append("")
+    if cpp_total_files > 0:
+        avg_cpp_lines_per_file = cpp_total_lines / cpp_total_files
+        report_lines.append(f"- **Average lines per C++ file**: {avg_cpp_lines_per_file:.1f}")
+    if doc_total_files > 0:
+        avg_doc_lines_per_file = doc_total_lines / doc_total_files
+        report_lines.append(f"- **Average lines per documentation file**: {avg_doc_lines_per_file:.1f}")
     if grand_total_files > 0:
         avg_lines_per_file = grand_total_lines / grand_total_files
-        report_lines.append(f"- **Average lines per file**: {avg_lines_per_file:.1f}")
+        report_lines.append(f"- **Average lines per file (all)**: {avg_lines_per_file:.1f}")
     report_lines.append(f"- **Themis-specific files in include**: {themis_files} files, {themis_lines:,} lines")
+    if doc_total_lines > 0:
+        report_lines.append(f"- **Code-to-documentation ratio**: {cpp_total_lines / doc_total_lines:.2f}:1")
     report_lines.append("")
     
     report_lines.append("---")
