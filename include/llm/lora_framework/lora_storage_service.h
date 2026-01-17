@@ -98,6 +98,12 @@ public:
         
         // RAID/Redundancy (automatically detected from environment)
         bool auto_detect_raid = true;  // Auto-detect RAID configuration
+        
+        // Quorum-based consistency (for distributed LoRA adapters)
+        bool enable_quorum_writes = false;      // Enable quorum enforcement for writes (default: OFF)
+        bool enable_partition_detection = false; // Enable network partition detection
+        uint32_t write_quorum_size = 2;         // Number of replicas for write quorum
+        uint32_t read_quorum_size = 1;          // Number of replicas for read quorum
     };
     
     explicit LoRAStorageService(const Config& config = Config{});

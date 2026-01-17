@@ -1,0 +1,517 @@
+# Distributed Training Configuration
+# ThemisDB v1.4.0-alpha
+# Use case: Multi-node distributed training with GPU clusters
+
+# ====================================================================
+# COORDINATOR NODE CONFIGURATION
+# Deploy this config on the coordinator/master node
+# ====================================================================
+
+# Server Configuration
+server:
+  host: 0.0.0.0
+  port: 8080
+  workers: 32
+  max_connections: 10000
+  
+  request_timeout: 1200  # 20 minutes
+  keepalive_timeout: 300
+  
+  max_request_size: 1GB
+  max_response_size: 1GB
+
+# Distributed Configuration - COORDINATOR
+distributed:
+  enabled: true
+  mode: coordinator
+  
+  # Coordinator settings
+  coordinator:
+    host: 0.0.0.0
+    port: 9000
+    
+    # Cluster management
+    cluster_name: themisdb-production-cluster
+    cluster_id: cluster-001
+    
+    # Heartbeat
+    heartbeat_interval: 10s
+    heartbeat_timeout: 30s
+    
+    # Node discovery
+    discovery:
+      method: static  # Options: static, consul, etcd
+      
+  # Worker nodes
+  nodes:
+    - id: worker-node-1
+      address: 192.168.1.101:9001
+      gpus: 4
+      gpu_types: [A100-40GB, A100-40GB, A100-40GB, A100-40GB]
+      location: rack-1
+      
+    - id: worker-node-2
+      address: 192.168.1.102:9001
+      gpus: 4
+      gpu_types: [A100-40GB, A100-40GB, A100-40GB, A100-40GB]
+      location: rack-1
+      
+    - id: worker-node-3
+      address: 192.168.1.103:9001
+      gpus: 4
+      gpu_types: [A100-40GB, A100-40GB, A100-40GB, A100-40GB]
+      location: rack-2
+      
+    - id: worker-node-4
+      address: 192.168.1.104:9001
+      gpus: 4
+      gpu_types: [H100-80GB, H100-80GB, H100-80GB, H100-80GB]
+      location: rack-2
+  
+  # Job scheduling
+  scheduler:
+    type: gang  # Options: gang, fair, priority
+    
+    # Gang scheduling (all-or-nothing)
+    gang:
+      min_nodes: 1
+      max_nodes: 4
+      timeout: 300s
+    
+    # Load balancing
+    load_balancing:
+      strategy: least_loaded  # Options: round_robin, least_loaded, locality
+      
+  # Fault tolerance
+  fault_tolerance:
+    enabled: true
+    max_retries: 3
+    retry_delay: 60s
+    
+    # Checkpointing
+    checkpoint_interval: 600s  # 10 minutes
+    auto_resume: true
+
+# GPU Configuration (Coordinator - for monitoring)
+gpu:
+  enabled: false  # No GPUs on coordinator
+  
+  # Global GPU settings for workers
+  global_settings:
+    persistence_mode: true
+    compute_mode: exclusive_process
+    power_limit: 400
+
+# LLM Configuration
+llm:
+  enabled: true
+  backend: cuda
+  
+  # Very large model for distributed training
+  model_path: /models/llama-2-70b-chat.gguf
+  model_type: llama
+  
+  context_length: 8192
+  batch_size: 4096  # Total across all GPUs
+  
+  # Distributed model settings
+  distributed_model:
+    strategy: model_parallel  # Split model across nodes
+    pipeline_parallel_size: 4  # 4 pipeline stages
+    tensor_parallel_size: 4    # 4-way tensor parallelism
+    data_parallel_size: 4      # 4-way data parallelism
+    
+    # Total GPUs: 4 pipeline × 4 tensor × 4 data = 64 GPUs
+
+# Training Configuration
+training:
+  enabled: true
+  
+  # Global batch size across all workers
+  batch_size: 512  # Global effective batch
+  micro_batch_size: 8  # Per-GPU micro-batch
+  gradient_accumulation_steps: 4
+  
+  # Precision
+  precision: bf16
+  mixed_precision:
+    enabled: true
+  
+  # Optimization
+  optimizer: adamw
+  learning_rate: 1e-4  # Adjusted for large scale
+  weight_decay: 0.01
+  
+  lr_schedule:
+    type: cosine_with_warmup
+    warmup_steps: 5000
+    min_lr: 1e-5
+  
+  # Distributed training settings
+  distributed_training:
+    backend: nccl
+    init_method: tcp://192.168.1.100:9000
+    
+    # Communication optimization
+    communication:
+      bucket_cap_mb: 25
+      gradient_as_bucket_view: true
+      
+    # Zero Redundancy Optimizer
+    zero:
+      enabled: true
+      stage: 3  # ZeRO-3: Full sharding
+      offload_optimizer: false
+      offload_params: false
+      
+    # Activation checkpointing
+    activation_checkpointing:
+      enabled: true
+      checkpoint_every_n_layers: 2
+  
+  # Gradient settings
+  gradient_clipping:
+    enabled: true
+    max_norm: 1.0
+    
+  # Checkpoints - distributed
+  checkpoint:
+    enabled: true
+    save_interval: 2000
+    max_keep: 3
+    output_dir: /shared/checkpoints
+    
+    # Distributed checkpoint
+    distributed_checkpoint: true
+    checkpoint_sharding: true
+    async_save: true
+    
+    # Store on shared filesystem
+    shared_storage: true
+    
+  validation:
+    enabled: true
+    interval: 1000
+    split: 0.02
+
+# Network Configuration - Coordinator
+network:
+  http:
+    enabled: true
+    port: 8080
+    workers: 32
+  
+  binary:
+    enabled: true
+    port: 18765
+    workers: 32
+  
+  grpc:
+    enabled: true
+    port: 50051
+  
+  # High-speed interconnect
+  rdma:
+    enabled: true
+    device: mlx5_0  # InfiniBand device
+    gid_index: 3
+    
+  # TLS for inter-node communication
+  tls:
+    enabled: true
+    min_version: "1.3"
+    cert_file: /etc/themisdb/certs/coordinator.crt
+    key_file: /etc/themisdb/certs/coordinator.key
+    ca_file: /etc/themisdb/certs/ca.crt
+    
+    # mTLS for worker nodes
+    client_auth: required
+    client_ca_file: /etc/themisdb/certs/worker-ca.crt
+
+# NCCL Configuration for Distributed Training
+nccl:
+  # Multi-node NCCL settings
+  enabled: true
+  debug: INFO
+  
+  # Network interface
+  socket_ifname: ib0  # InfiniBand interface
+  ib_disable: 0
+  
+  # InfiniBand settings
+  ib_hca: mlx5_0
+  ib_timeout: 22
+  ib_retry_cnt: 7
+  
+  # Performance tuning
+  nccl_proto: Simple
+  nccl_algo: Ring
+  buffsize: 4194304  # 4MB
+  nthreads: 8
+  
+  # Topology
+  topo_file: /etc/themisdb/nccl-topology.xml
+  
+  # Timeouts
+  timeout: 3600  # 1 hour for large collective operations
+
+# Storage Configuration - Shared Filesystem
+storage:
+  # Shared storage for distributed training
+  data_dir: /shared/themisdb
+  checkpoint_dir: /shared/checkpoints
+  model_dir: /shared/models
+  
+  # Distributed filesystem
+  filesystem:
+    type: lustre  # Options: lustre, beegfs, nfs, gpfs
+    mount_point: /shared
+    stripe_count: 4
+    stripe_size: 1MB
+    
+  rocksdb:
+    max_open_files: 10000
+    max_background_jobs: 32
+    write_buffer_size: 512MB
+    max_write_buffer_number: 8
+    
+    compression: zstd
+    compression_level: 3
+    
+    block_cache_size: 16GB
+    
+  encryption:
+    enabled: true
+    algorithm: AES-256-GCM
+    key_provider: hsm
+
+# Monitoring Configuration
+metrics:
+  enabled: true
+  port: 4318
+  path: /metrics
+  
+  # Distributed metrics aggregation
+  aggregation:
+    enabled: true
+    collect_from_workers: true
+    
+  # Detailed metrics
+  per_node_metrics: true
+  per_gpu_metrics: true
+  nccl_metrics: true
+  network_metrics: true
+  
+  exporters:
+    - type: prometheus
+      endpoint: http://localhost:4318/metrics
+      
+    - type: opentelemetry
+      endpoint: http://otel-collector:4317
+      
+    - type: custom
+      endpoint: http://metrics-aggregator:8080
+
+# Logging Configuration
+logging:
+  level: info
+  format: json
+  output: /var/log/themisdb/coordinator.log
+  
+  rotation:
+    max_size: 1GB
+    max_age: 30
+    max_backups: 20
+    compress: true
+  
+  # Distributed logging
+  distributed_logging:
+    enabled: true
+    centralized: true
+    log_server: syslog.example.com:514
+  
+  audit:
+    enabled: true
+    output: /var/log/themisdb/audit.log
+
+# Security Configuration
+security:
+  authentication:
+    enabled: true
+    method: mtls
+    
+    # Certificate-based auth for workers
+    worker_certificates:
+      required: true
+      verify_cn: true
+  
+  authorization:
+    enabled: true
+    rbac:
+      enabled: true
+  
+  # Encryption
+  encryption:
+    inter_node: true
+    at_rest: true
+    
+  audit:
+    enabled: true
+    comprehensive: true
+    events:
+      - node_join
+      - node_leave
+      - job_start
+      - job_complete
+      - checkpoint_save
+
+# Backup Configuration
+backup:
+  enabled: true
+  
+  # Coordinator-managed backups
+  coordinator_backup:
+    enabled: true
+    include_worker_state: true
+  
+  schedule:
+    full_backup: "0 0 * * 0"  # Sunday midnight
+    incremental: "0 0 * * 1-6"  # Daily
+    checkpoint: "0 */4 * * *"  # Every 4 hours
+  
+  retention:
+    full: 4
+    incremental: 21
+    checkpoint: 72
+  
+  destinations:
+    - type: lustre
+      path: /shared/backup
+      
+    - type: s3
+      bucket: themisdb-distributed-backups
+      region: us-west-2
+      encryption: true
+      
+    - type: tape
+      library: /dev/nst0
+
+# High Availability
+ha:
+  enabled: true
+  
+  # Coordinator HA
+  coordinator_ha:
+    enabled: true
+    standby_nodes:
+      - address: 192.168.1.105:9000
+      - address: 192.168.1.106:9000
+    
+    # Leader election
+    leader_election:
+      method: raft
+      election_timeout: 10s
+      heartbeat_interval: 2s
+  
+  # Automatic failover
+  failover:
+    enabled: true
+    detection_timeout: 30s
+    takeover_timeout: 60s
+
+# Resource Management
+resources:
+  # Resource quotas
+  quotas:
+    max_gpus_per_job: 16
+    max_memory_per_job: 1TB
+    max_duration: 72h
+  
+  # Scheduling policies
+  scheduling:
+    # Fair share
+    fair_share:
+      enabled: true
+      weight_by_priority: true
+      
+    # Preemption
+    preemption:
+      enabled: true
+      priority_threshold: high
+
+# Advanced Features
+advanced:
+  # Elastic training
+  elastic_training:
+    enabled: true
+    min_nodes: 2
+    max_nodes: 4
+    
+  # Spot instance support
+  spot_instances:
+    enabled: false
+    fallback_on_termination: true
+  
+  # Dynamic resource allocation
+  dynamic_resources:
+    enabled: true
+    scale_up_threshold: 0.9
+    scale_down_threshold: 0.3
+
+# ====================================================================
+# WORKER NODE CONFIGURATION
+# Deploy this config on worker nodes (with modifications)
+# ====================================================================
+
+# Uncomment and use this section for worker nodes:
+#
+# distributed:
+#   enabled: true
+#   mode: worker
+#   
+#   coordinator_address: 192.168.1.100:9000
+#   node_id: worker-node-1  # Unique per worker
+#   
+#   worker:
+#     host: 0.0.0.0
+#     port: 9001
+#     
+#     # Worker capabilities
+#     gpus: 4
+#     memory: 512GB
+#     disk: 2TB
+#     
+#     # Heartbeat
+#     heartbeat_interval: 5s
+#     
+# gpu:
+#   enabled: true
+#   devices:
+#     - id: 0
+#       memory_limit: 0.9
+#     - id: 1
+#       memory_limit: 0.9
+#     - id: 2
+#       memory_limit: 0.9
+#     - id: 3
+#       memory_limit: 0.9
+
+# Example Usage:
+# 
+# Coordinator Node:
+# 1. Set up shared filesystem (Lustre/BeeGFS)
+# 2. Configure InfiniBand network
+# 3. Deploy this config as coordinator
+# 4. Start: sudo systemctl start themisdb-coordinator
+# 
+# Worker Nodes:
+# 1. Mount shared filesystem
+# 2. Configure InfiniBand
+# 3. Deploy worker config (see uncommented section above)
+# 4. Start: sudo systemctl start themisdb-worker
+# 
+# Verification:
+# 1. Check cluster status: themisdb-cli cluster status
+# 2. Verify all nodes: themisdb-cli cluster nodes
+# 3. Test distributed training: themisdb-cli test distributed-training
+# 4. Monitor: watch -n 1 'themisdb-cli cluster metrics'

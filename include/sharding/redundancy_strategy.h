@@ -177,6 +177,9 @@ struct RedundancyConfig {
     // Quorum settings
     uint32_t read_quorum = 1;   // For quorum reads
     uint32_t write_quorum = 2;  // For quorum writes
+    bool enable_quorum_enforcement = false;  // Enable quorum-based consistency (default: OFF for RC1)
+    bool enable_partition_detection = false;  // Enable network partition detection
+    bool enable_raft_consensus = false;       // Enable Raft consensus for writes
     
     // Stripe settings (for STRIPE, STRIPE_MIRROR)
     StripeConfig stripe;
