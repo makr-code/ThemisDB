@@ -674,7 +674,8 @@ ThemisDB builds upon excellent open-source projects:
 - **ArangoDB** - Multi-model architecture inspiration
 - **CozoDB** - Hybrid relational-graph-vector design inspiration
 
-**[→ Complete Attribution & Dependencies](docs/de/legal/ATTRIBUTIONS.md)**
+**[→ Complete Attribution & Dependencies](docs/de/legal/ATTRIBUTIONS.md)**  
+**[→ Implementation Origins & Code Attribution](IMPLEMENTATION_ORIGINS.md)**
 
 ---
 
