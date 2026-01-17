@@ -186,7 +186,7 @@ void RaftConsensus::heartbeatLoop() {
         }
         
         std::unique_lock<std::mutex> lock(cv_mutex_);
-        cv_.wait_for(lock, config_.raft_config.heartbeat_interval_ms,
+        cv_.wait_for(lock, std::chrono::milliseconds(config_.raft_config.heartbeat_interval_ms),
                     [this] { return !running_; });
     }
 }

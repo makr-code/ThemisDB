@@ -11,6 +11,7 @@
 #include <optional>
 #include <functional>
 #include <memory>
+#include <variant>
 
 namespace themisdb {
 namespace sharding {
