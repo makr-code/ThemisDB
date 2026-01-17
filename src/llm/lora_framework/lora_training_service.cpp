@@ -2,6 +2,7 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_layers.h"
 #include "llm/lora_framework/data_loader.h"
+#include "llm/lora_framework/llama_tokenizer.h"
 #include "llm/lora_framework/base_model_adapter.h"
 #include "llm/lora_framework/mixed_precision.h"
 #include "llm/lora_framework/lr_scheduler.h"
@@ -172,9 +173,40 @@ public:
                 instruction_samples.push_back(inst_sample);
             }
             
-            // Setup DataLoader with SimpleTokenizer for now
-            // TODO: Replace with llama.cpp tokenizer in future PR
-            auto tokenizer = std::make_shared<SimpleTokenizer>();
+            // Setup DataLoader with tokenizer
+            // Use llama.cpp tokenizer if base model is available, otherwise fall back to SimpleTokenizer
+            std::shared_ptr<ITokenizer> tokenizer;
+            
+            if (config_.use_base_model && 
+                !config_.base_model_path.empty() && 
+                std::filesystem::exists(config_.base_model_path)) {
+                try {
+                    spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
+                    tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
+                    
+                    // Log tokenizer info
+                    size_t vocab_size = tokenizer->vocab_size();
+                    spdlog::info("✓ llama.cpp tokenizer loaded (vocab_size={})", vocab_size);
+                    spdlog::info("  BOS token: {}", tokenizer->bos_token_id());
+                    spdlog::info("  EOS token: {}", tokenizer->eos_token_id());
+                    
+                } catch (const std::exception& e) {
+                    spdlog::error("Failed to load llama.cpp tokenizer: {}", e.what());
+                    spdlog::warn("Falling back to SimpleTokenizer");
+                    tokenizer = std::make_shared<SimpleTokenizer>();
+                }
+            } else {
+                if (!config_.use_base_model) {
+                    spdlog::info("Using SimpleTokenizer (base model integration disabled)");
+                } else if (config_.base_model_path.empty()) {
+                    spdlog::info("Using SimpleTokenizer (no base model path configured)");
+                } else {
+                    spdlog::warn("Base model file not found: {}", config_.base_model_path);
+                    spdlog::info("Using SimpleTokenizer as fallback");
+                }
+                tokenizer = std::make_shared<SimpleTokenizer>();
+            }
+            
             DataLoaderConfig loader_config;
             loader_config.batch_size = params.batch_size;
             loader_config.max_sequence_length = params.max_seq_length;
