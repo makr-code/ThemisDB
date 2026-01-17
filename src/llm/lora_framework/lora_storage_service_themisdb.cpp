@@ -373,6 +373,21 @@ private:
     Config config_;
     std::shared_ptr<FieldEncryption> encryption_;
     
+    // Cache configuration constants
+    static constexpr int64_t DEFAULT_HSM_CACHE_TTL_MS = 300000;  // 5 minutes
+    static constexpr size_t DEFAULT_HSM_MAX_CACHE_SIZE = 1000;
+    
+    /**
+     * @brief Check if running in production environment
+     * @return true if THEMIS_ENVIRONMENT is set to "production" or "prod"
+     */
+    static bool isProductionEnvironment() {
+        const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
+        return (env_mode != nullptr && 
+                (std::string(env_mode) == "production" || 
+                 std::string(env_mode) == "prod"));
+    }
+    
     /**
      * @brief Create HSM-backed key provider
      * @return Shared pointer to HSM key provider adapter
@@ -403,8 +418,8 @@ private:
         // Create HSM adapter
         security::HSMKeyProviderAdapter::Config adapter_config;
         adapter_config.kek_label = config_.hsm_key_label;
-        adapter_config.cache_ttl_ms = 300000;  // 5 minutes
-        adapter_config.max_cache_size = 1000;
+        adapter_config.cache_ttl_ms = DEFAULT_HSM_CACHE_TTL_MS;
+        adapter_config.max_cache_size = DEFAULT_HSM_MAX_CACHE_SIZE;
         adapter_config.enable_caching = true;
         
         auto key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
@@ -515,12 +530,7 @@ private:
         }
         
         // 4. Fallback to MockKeyProvider (development only)
-        const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
-        bool is_production = (env_mode != nullptr && 
-                             (std::string(env_mode) == "production" || 
-                              std::string(env_mode) == "prod"));
-        
-        if (is_production) {
+        if (isProductionEnvironment()) {
             spdlog::error("  CRITICAL: Production environment detected but no secure key provider configured!");
             spdlog::error("  Set THEMIS_ENVIRONMENT=development to use MockKeyProvider in dev mode");
             spdlog::error("  For production, configure one of:");

@@ -38,7 +38,7 @@ protected:
         unsetenv("THEMIS_ENVIRONMENT");
         
         // Create a temporary file-based database for testing
-        test_db_path_ = "/tmp/test_lora_key_provider_" + std::to_string(std::time(nullptr));
+        test_db_path_ = generateTempPath("test_lora_key_provider");
         db_ = std::make_shared<RocksDBWrapper>();
         db_->open(test_db_path_, false);
     }
@@ -63,6 +63,14 @@ protected:
         setenv("THEMIS_ENVIRONMENT", "development", 1);
     }
     
+    // Helper to generate unique temporary paths
+    static std::string generateTempPath(const std::string& prefix) {
+        auto temp_dir = std::filesystem::temp_directory_path();
+        auto unique_name = prefix + "_" + std::to_string(std::time(nullptr)) + 
+                          "_" + std::to_string(std::rand());
+        return (temp_dir / unique_name).string();
+    }
+    
     std::shared_ptr<RocksDBWrapper> db_;
     std::string test_db_path_;
 };
@@ -76,7 +84,7 @@ TEST_F(LoRAStorageKeyProviderTest, HSMPriorityOverVault) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_hsm_priority";
+    config.filesystem_path = generateTempPath("test_lora_hsm_priority");
     
     // Configure both HSM and Vault
     config.use_hsm_for_encryption = true;
@@ -102,7 +110,7 @@ TEST_F(LoRAStorageKeyProviderTest, VaultPriorityOverPKI) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_vault_priority";
+    config.filesystem_path = generateTempPath("test_lora_vault_priority");
     
     // Configure both Vault and PKI
     config.use_vault_for_encryption = true;
@@ -127,7 +135,7 @@ TEST_F(LoRAStorageKeyProviderTest, PKIPriorityOverMock) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_pki_priority";
+    config.filesystem_path = generateTempPath("test_lora_pki_priority");
     
     config.use_pki_for_encryption = true;
     config.pki_cert_path = "/tmp/test.crt";
@@ -154,7 +162,7 @@ TEST_F(LoRAStorageKeyProviderTest, ProductionModeEnforcement) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_production";
+    config.filesystem_path = generateTempPath("test_lora_production");
     
     // No secure provider configured - should throw
     EXPECT_THROW({
@@ -169,7 +177,7 @@ TEST_F(LoRAStorageKeyProviderTest, DevelopmentModeAllowsMock) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_development";
+    config.filesystem_path = generateTempPath("test_lora_development");
     
     // No secure provider configured - should succeed with MockKeyProvider
     EXPECT_NO_THROW({
@@ -185,7 +193,7 @@ TEST_F(LoRAStorageKeyProviderTest, NoEnvironmentDefaultsToDevelopment) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_no_env";
+    config.filesystem_path = generateTempPath("test_lora_no_env");
     
     // Should succeed with MockKeyProvider
     EXPECT_NO_THROW({
@@ -202,7 +210,7 @@ TEST_F(LoRAStorageKeyProviderTest, MissingHSMConfig) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_hsm_missing";
+    config.filesystem_path = generateTempPath("test_lora_hsm_missing");
     
     config.use_hsm_for_encryption = true;
     // hsm_library_path is empty - should throw
@@ -217,7 +225,7 @@ TEST_F(LoRAStorageKeyProviderTest, MissingVaultConfig) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_vault_missing";
+    config.filesystem_path = generateTempPath("test_lora_vault_missing");
     
     config.use_vault_for_encryption = true;
     // vault_addr is empty - should throw
@@ -232,7 +240,7 @@ TEST_F(LoRAStorageKeyProviderTest, MissingPKICertPath) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_pki_missing_cert";
+    config.filesystem_path = generateTempPath("test_lora_pki_missing_cert");
     
     config.use_pki_for_encryption = true;
     config.pki_private_key_path = "/tmp/test.key";
@@ -249,7 +257,7 @@ TEST_F(LoRAStorageKeyProviderTest, MissingPKIKeyPath) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_pki_missing_key";
+    config.filesystem_path = generateTempPath("test_lora_pki_missing_key");
     
     config.use_pki_for_encryption = true;
     config.pki_cert_path = "/tmp/test.crt";
@@ -266,7 +274,7 @@ TEST_F(LoRAStorageKeyProviderTest, MissingPKIDatabase) {
     LoRAStorageService::Config config;
     config.enable_encryption = true;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_pki_missing_db";
+    config.filesystem_path = generateTempPath("test_lora_pki_missing_db");
     
     config.use_pki_for_encryption = true;
     config.pki_cert_path = "/tmp/test.crt";
@@ -287,7 +295,7 @@ TEST_F(LoRAStorageKeyProviderTest, EncryptionDisabled) {
     LoRAStorageService::Config config;
     config.enable_encryption = false;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_no_encryption";
+    config.filesystem_path = generateTempPath("test_lora_no_encryption");
     
     // Should succeed without creating any key provider
     EXPECT_NO_THROW({
@@ -302,7 +310,7 @@ TEST_F(LoRAStorageKeyProviderTest, EncryptionDisabledIgnoresProviderConfig) {
     LoRAStorageService::Config config;
     config.enable_encryption = false;
     config.backend = LoRAStorageService::Backend::FileSystem;
-    config.filesystem_path = "/tmp/test_lora_disabled_ignore_config";
+    config.filesystem_path = generateTempPath("test_lora_disabled_ignore_config");
     
     // Set HSM config but disable encryption
     config.use_hsm_for_encryption = true;
