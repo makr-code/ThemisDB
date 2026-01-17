@@ -9,6 +9,9 @@
 #include "llm/lora_framework/gradient_utils.h"
 #include "llm/lora_framework/quantized_model.h"
 #include "llm/lora_framework/quantization.h"
+#include "llm/lora_framework/gpu_data_loader.h"
+#include "llm/lora_framework/gpu_training_loop.h"
+#include "llm/lora_framework/gpu_lora_layers.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
@@ -1022,6 +1025,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     result.adapter_id = adapter_id;
     result.version = "v1";
     
+    auto start_time = std::chrono::system_clock::now();
+    
     try {
         // Get configuration
         auto params = hyperparameters.value_or(impl_->config_.default_hyperparameters);
@@ -1032,7 +1037,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             return trainOnTheFly(adapter_id, data, hyperparameters);
         }
         
-        spdlog::info("Starting QLoRA training for adapter: {}", adapter_id);
+        spdlog::info("Starting GPU-accelerated QLoRA training for adapter: {}", adapter_id);
         spdlog::info("  Quantization type: {}", qlora_config.quantization_type);
         spdlog::info("  Block size: {}", qlora_config.block_size);
         spdlog::info("  Double quantization: {}", qlora_config.use_double_quantization);
@@ -1052,90 +1057,173 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Layers: {}", quantized_model->num_layers());
         spdlog::info("  Memory: {:.2f} MB", quantized_model->memory_bytes() / (1024.0 * 1024.0));
         
-        // Create QLoRA layers
-        auto qlora_layers = createQLoRALayers(*quantized_model, params.rank);
-        spdlog::info("Created {} QLoRA layers", qlora_layers.size());
+        // ===================================================================
+        // GPU-Accelerated Training Integration
+        // ===================================================================
         
-        // For now, use the first layer for training (simplified)
-        if (qlora_layers.empty()) {
-            throw std::runtime_error("No QLoRA layers created");
-        }
+        // Detect available GPU backend
+        Device target_device = Device::cpu();
+        auto backends = GPUMemoryManager::detect_backends();
+        bool has_gpu = false;
         
-        // Initialize optimizer (only for LoRA parameters, not base model)
-        std::vector<Tensor*> trainable_params;
-        for (auto& layer : qlora_layers) {
-            auto layer_params = layer->parameters();
-            trainable_params.insert(trainable_params.end(), layer_params.begin(), layer_params.end());
-        }
-        
-        SGDOptimizer optimizer(params.learning_rate, params.momentum, params.weight_decay);
-        optimizer.add_parameters(trainable_params);
-        
-        spdlog::info("Training with {} trainable LoRA parameters", trainable_params.size());
-        
-        // Training loop (simplified for now)
-        // NOTE: This is a placeholder implementation using synthetic data
-        // TODO: In production, integrate with actual DataLoader and use real training samples
-        // TODO: Process all layers, not just the first one
-        // TODO: Integrate with full forward/backward pass through the model
-        float total_loss = 0.0f;
-        int num_steps = 0;
-        
-        for (int epoch = 0; epoch < params.num_epochs; ++epoch) {
-            for (size_t i = 0; i < data.samples.size(); i += params.batch_size) {
-                // Create synthetic training batch (for now)
-                size_t batch_end = std::min(i + params.batch_size, data.samples.size());
-                size_t batch_size = batch_end - i;
-                
-                // Forward pass through first QLoRA layer
-                Tensor input = tensor_utils::randn({batch_size, 768});  // Typical hidden dim
-                Tensor target = tensor_utils::randn({batch_size, 768});
-                
-                Tensor output = qlora_layers[0]->forward(input);
-                
-                // Compute loss
-                float loss = compute_mse_loss(output, target);
-                total_loss += loss;
-                num_steps++;
-                
-                // Backward pass
-                Tensor grad_output = compute_mse_gradient(output, target);
-                qlora_layers[0]->backward(grad_output);
-                
-                // Update parameters
-                optimizer.step();
-                optimizer.zero_grad();
-                
-                // Update metrics
-                impl_->current_metrics_.current_step = num_steps;
-                impl_->current_metrics_.current_loss = loss;
-                impl_->current_metrics_.current_epoch = epoch;
-                
-                if (num_steps % 10 == 0) {
-                    spdlog::debug("Step {}: loss = {:.6f}", num_steps, loss);
+        for (const auto& backend : backends) {
+            if (backend.available) {
+                if (backend.type == acceleration::BackendType::CUDA) {
+                    target_device = Device::cuda();
+                    has_gpu = true;
+                    spdlog::info("Using CUDA backend for GPU training");
+                    break;
+                } else if (backend.type == acceleration::BackendType::HIP) {
+                    target_device = Device::hip();
+                    has_gpu = true;
+                    spdlog::info("Using HIP backend for GPU training");
+                    break;
+                } else if (backend.type == acceleration::BackendType::VULKAN) {
+                    target_device = Device::vulkan();
+                    has_gpu = true;
+                    spdlog::info("Using Vulkan backend for GPU training");
+                    break;
                 }
             }
         }
         
+        if (!has_gpu) {
+            spdlog::warn("No GPU backend available, falling back to CPU training");
+            target_device = Device::cpu();
+        }
+        
+        // Create GPU LoRA layer
+        size_t hidden_dim = 768;  // Standard transformer dimension
+        auto gpu_lora_layer = std::make_unique<GPULoRALayer>(
+            hidden_dim,
+            hidden_dim,
+            params.rank,
+            params.alpha / static_cast<float>(params.rank),  // Scaling factor
+            target_device,
+            true  // use_fused_kernels
+        );
+        
+        spdlog::info("Created GPU LoRA layer:");
+        spdlog::info("  Input dim: {}", hidden_dim);
+        spdlog::info("  Output dim: {}", hidden_dim);
+        spdlog::info("  Rank: {}", params.rank);
+        spdlog::info("  Parameters: {}", gpu_lora_layer->parameter_count());
+        spdlog::info("  Device: {}", static_cast<int>(target_device.type));
+        
+        // Setup tokenizer
+        std::shared_ptr<ITokenizer> tokenizer;
+        if (impl_->config_.use_base_model && 
+            !impl_->config_.base_model_path.empty() && 
+            std::filesystem::exists(impl_->config_.base_model_path)) {
+            try {
+                tokenizer = std::make_shared<LlamaTokenizer>(impl_->config_.base_model_path);
+                spdlog::info("Using LlamaTokenizer (vocab_size={})", tokenizer->vocab_size());
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to load LlamaTokenizer: {}, using SimpleTokenizer", e.what());
+                tokenizer = std::make_shared<SimpleTokenizer>();
+            }
+        } else {
+            tokenizer = std::make_shared<SimpleTokenizer>();
+        }
+        
+        // Convert training data to instruction samples
+        std::vector<InstructionDataSample> instruction_samples;
+        instruction_samples.reserve(data.samples.size());
+        for (const auto& sample : data.samples) {
+            InstructionDataSample inst_sample;
+            inst_sample.instruction = sample.input;
+            inst_sample.input = "";
+            inst_sample.output = sample.output;
+            instruction_samples.push_back(inst_sample);
+        }
+        
+        // Create GPU data loader
+        GPUDataLoaderConfig loader_config;
+        loader_config.batch_size = params.batch_size;
+        loader_config.max_sequence_length = params.max_seq_length;
+        loader_config.shuffle = true;
+        loader_config.target_device = target_device;
+        loader_config.async_loading = has_gpu;  // Enable async only for real GPU
+        loader_config.prefetch_batches = 2;
+        
+        auto gpu_data_loader = std::make_unique<GPUDataLoader>(tokenizer, loader_config);
+        if (!gpu_data_loader->loadFromSamples(instruction_samples)) {
+            throw std::runtime_error("Failed to load training data into GPU data loader");
+        }
+        
+        spdlog::info("GPU DataLoader initialized:");
+        spdlog::info("  Samples: {}", gpu_data_loader->size());
+        spdlog::info("  Batches: {}", gpu_data_loader->num_batches());
+        
+        // Setup GPU training loop
+        GPUTrainingConfig training_config;
+        training_config.num_epochs = params.num_epochs;
+        training_config.learning_rate = params.learning_rate;
+        training_config.momentum = params.momentum;
+        training_config.weight_decay = params.weight_decay;
+        training_config.device = target_device;
+        training_config.use_mixed_precision = impl_->config_.mixed_precision.mode != PrecisionMode::FP32;
+        training_config.use_fused_kernels = true;
+        
+        GPUTrainingLoop trainer(training_config);
+        trainer.setDataLoader(std::move(gpu_data_loader));
+        trainer.addLayer(gpu_lora_layer.get());
+        
+        // Set mixed precision trainer if enabled
+        if (training_config.use_mixed_precision) {
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(impl_->config_.mixed_precision);
+            trainer.setMixedPrecisionTrainer(mixed_precision.get());
+            spdlog::info("Mixed precision training enabled: mode={}", 
+                        static_cast<int>(impl_->config_.mixed_precision.mode));
+        }
+        
+        // Register callback for progress updates
+        trainer.registerCallback([this](const GPUTrainingMetrics& metrics) {
+            impl_->current_metrics_.current_epoch = metrics.current_epoch;
+            impl_->current_metrics_.current_step = metrics.current_step;
+            impl_->current_metrics_.current_loss = metrics.current_loss;
+            impl_->current_metrics_.learning_rate = metrics.learning_rate;
+            impl_->current_metrics_.progress = metrics.progress;
+            
+            if (impl_->training_callback_) {
+                impl_->training_callback_(impl_->current_metrics_);
+            }
+        });
+        
+        // Run GPU training
+        spdlog::info("Starting GPU training loop...");
+        bool training_success = trainer.train();
+        
+        if (!training_success) {
+            throw std::runtime_error("GPU training loop failed");
+        }
+        
         // Finalize result
         result.success = true;
-        result.final_loss = total_loss / num_steps;
+        result.final_loss = trainer.getFinalLoss();
         result.epochs_completed = params.num_epochs;
         result.metrics = json{
             {"quantization_type", qlora_config.quantization_type},
             {"memory_bytes", quantized_model->memory_bytes()},
             {"num_layers", quantized_model->num_layers()},
-            {"trainable_parameters", trainable_params.size()}
+            {"trainable_parameters", gpu_lora_layer->parameter_count()},
+            {"gpu_accelerated", has_gpu},
+            {"device_type", static_cast<int>(target_device.type)},
+            {"mixed_precision", training_config.use_mixed_precision}
         };
         
-        spdlog::info("QLoRA training completed successfully");
+        spdlog::info("GPU-accelerated QLoRA training completed successfully");
         spdlog::info("  Final loss: {:.6f}", result.final_loss);
+        spdlog::info("  GPU accelerated: {}", has_gpu);
         
     } catch (const std::exception& e) {
         result.success = false;
         result.error_message = e.what();
         spdlog::error("QLoRA training failed: {}", e.what());
     }
+    
+    auto end_time = std::chrono::system_clock::now();
+    result.training_time = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
     
     return result;
 }
