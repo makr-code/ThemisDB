@@ -17,6 +17,7 @@
 #include <parquet/arrow/writer.h>
 #include <filesystem>
 #include <memory>
+#include <chrono>
 
 namespace fs = std::filesystem;
 
