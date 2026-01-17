@@ -98,8 +98,9 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
     for (size_t i = 0; i < batch_size; ++i) {
         for (size_t j = 0; j < seq_len; ++j) {
             size_t token_idx = i * seq_len + j;
-            // Note: Token IDs stored as floats in GPUTensor (current architecture limitation)
+            // Note: Token IDs stored as floats in GPUTensor (architecture limitation - no int32 tensor support yet)
             // Using round() to handle potential floating point imprecision
+            // TODO: Add integer tensor support to GPUTensor to avoid this conversion
             int token_id = static_cast<int>(std::round(token_data[token_idx]));
             
             // Bounds check
