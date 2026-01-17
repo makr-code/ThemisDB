@@ -2142,6 +2142,8 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
         ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
         ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
+        ../src/llm/lora_framework/gpu_data_loader.cpp         # GPU data loader with async transfers
+        ../src/llm/lora_framework/gpu_training_loop.cpp       # GPU training loop implementation
         ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations (Phase 10)
         ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layers (Phase 10)
         ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocator (Phase 10)
