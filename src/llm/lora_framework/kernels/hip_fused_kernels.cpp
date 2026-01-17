@@ -2,6 +2,7 @@
 
 #include "llm/lora_framework/hip_fused_kernels.h"
 #include <hip/hip_runtime.h>
+#include <algorithm>
 
 namespace themis {
 namespace llm {

@@ -1,4 +1,5 @@
 #include "llm/lora_framework/directx_kernels.h"
+#include <stdexcept>
 
 #ifdef _WIN32
 

@@ -3,6 +3,7 @@
 #include "llm/lora_framework/cuda_fused_kernels.h"
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
+#include <algorithm>
 
 namespace themis {
 namespace llm {
