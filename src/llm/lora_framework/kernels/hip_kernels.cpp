@@ -44,6 +44,34 @@ __global__ void scalar_multiply_kernel(const float* A, float* C, float scalar, s
 }
 
 /**
+ * @brief In-place scalar multiplication kernel
+ */
+__global__ void scalar_multiply_inplace_kernel(float* data, float scalar, size_t size) {
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < size) {
+        data[idx] *= scalar;
+    }
+}
+
+/**
+ * @brief Check for NaN or Inf in tensor
+ * Uses atomic operations to set flag on detection
+ */
+__device__ inline bool is_inf_or_nan(float val) {
+    return isnan(val) || isinf(val);
+}
+
+__global__ void check_inf_nan_kernel(const float* data, size_t size, int* has_overflow) {
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    if (idx < size) {
+        if (is_inf_or_nan(data[idx])) {
+            atomicExch(has_overflow, 1);
+        }
+    }
+}
+
+/**
  * @brief Matrix transpose kernel with shared memory
  */
 __global__ void transpose_kernel(const float* A, float* C, size_t rows, size_t cols) {
@@ -277,6 +305,67 @@ hipError_t launch_scalar_multiply_kernel(
     }
     
     return hipGetLastError();
+}
+
+hipError_t launch_scalar_multiply_inplace_kernel(
+    float* data,
+    float scalar,
+    size_t size,
+    hipStream_t stream
+) {
+    int blockSize = 256;
+    int gridSize = (size + blockSize - 1) / blockSize;
+    
+    if (stream != nullptr) {
+        hipLaunchKernelGGL(scalar_multiply_inplace_kernel, gridSize, blockSize, 0, stream, data, scalar, size);
+    } else {
+        hipLaunchKernelGGL(scalar_multiply_inplace_kernel, gridSize, blockSize, 0, 0, data, scalar, size);
+    }
+    
+    return hipGetLastError();
+}
+
+hipError_t launch_check_inf_nan_kernel(
+    const float* data,
+    size_t size,
+    bool* has_overflow_host
+) {
+    // Allocate device flag
+    int* d_overflow;
+    hipError_t err = hipMalloc(&d_overflow, sizeof(int));
+    if (err != hipSuccess) {
+        return err;
+    }
+    
+    // Initialize to 0
+    err = hipMemset(d_overflow, 0, sizeof(int));
+    if (err != hipSuccess) {
+        hipFree(d_overflow);
+        return err;
+    }
+    
+    // Launch kernel
+    int blockSize = 256;
+    int gridSize = (size + blockSize - 1) / blockSize;
+    hipLaunchKernelGGL(check_inf_nan_kernel, gridSize, blockSize, 0, 0, data, size, d_overflow);
+    
+    err = hipGetLastError();
+    if (err != hipSuccess) {
+        hipFree(d_overflow);
+        return err;
+    }
+    
+    // Copy result back
+    int h_overflow;
+    err = hipMemcpy(&h_overflow, d_overflow, sizeof(int), hipMemcpyDeviceToHost);
+    hipFree(d_overflow);
+    
+    if (err != hipSuccess) {
+        return err;
+    }
+    
+    *has_overflow_host = (h_overflow == 1);
+    return hipSuccess;
 }
 
 hipError_t launch_transpose_kernel(

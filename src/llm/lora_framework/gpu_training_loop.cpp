@@ -359,17 +359,42 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Unscale gradients if mixed precision
     bool should_step = true;
     if (mixed_precision_trainer_ && mixed_precision_trainer_->is_enabled()) {
-        // TODO: Implement proper gradient unscaling for GPU tensors
-        // Current limitation: MixedPrecisionTrainer::unscale_gradients expects std::vector<Tensor*>
-        // but we have std::vector<GPUTensor*>. Need to either:
-        // 1. Create an adapter/wrapper to convert GPUTensor* to Tensor*
-        // 2. Add a GPU-specific unscale_gradients method to MixedPrecisionTrainer
-        // 3. Implement gradient unscaling directly in GPU training loop
-        // For now, we skip unscaling which may lead to gradient overflow in FP16 mode.
-        // This is acceptable for initial implementation but should be fixed for production.
+        // GPU-native gradient unscaling (no CPU transfers)
+        std::vector<GPUTensor*> gradients;
         
-        spdlog::debug("Mixed precision gradient unscaling skipped (not yet implemented for GPU tensors)");
-        should_step = true;  // Proceed with optimizer step despite skipped unscaling
+        // Get gradients from layers
+        if (multi_gpu_layer_) {
+            gradients = multi_gpu_layer_->get_layer(0).gradients();
+        } else {
+            gradients = layers_[0]->gradients();
+        }
+        
+        // Check for overflow before unscaling
+        bool has_overflow = false;
+        for (auto* grad : gradients) {
+            if (grad && grad->has_inf_or_nan()) {
+                has_overflow = true;
+                spdlog::warn("Gradient overflow detected in mixed precision training");
+                break;
+            }
+        }
+        
+        if (!has_overflow) {
+            // Unscale gradients on GPU
+            float inv_scale = 1.0f / mixed_precision_trainer_->get_loss_scale();
+            for (auto* grad : gradients) {
+                if (grad && grad->size() > 0) {
+                    grad->multiply_inplace(inv_scale);
+                }
+            }
+            spdlog::debug("GPU gradient unscaling completed (scale: {})", 
+                         mixed_precision_trainer_->get_loss_scale());
+        } else {
+            should_step = false;
+        }
+        
+        // Update loss scale based on overflow
+        mixed_precision_trainer_->update_loss_scale(has_overflow);
     }
     
     // Optimizer step

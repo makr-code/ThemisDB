@@ -45,6 +45,34 @@ __global__ void scalar_multiply_kernel(const float* A, float* C, float scalar, s
 }
 
 /**
+ * @brief In-place scalar multiplication kernel
+ */
+__global__ void scalar_multiply_inplace_kernel(float* data, float scalar, size_t size) {
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < size) {
+        data[idx] *= scalar;
+    }
+}
+
+/**
+ * @brief Check for NaN or Inf in tensor
+ * Uses atomic operations to set flag on detection
+ */
+__device__ inline bool is_inf_or_nan(float val) {
+    return isnan(val) || isinf(val);
+}
+
+__global__ void check_inf_nan_kernel(const float* data, size_t size, int* has_overflow) {
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    if (idx < size) {
+        if (is_inf_or_nan(data[idx])) {
+            atomicExch(has_overflow, 1);
+        }
+    }
+}
+
+/**
  * @brief Matrix transpose kernel with shared memory
  */
 __global__ void transpose_kernel(const float* A, float* C, size_t rows, size_t cols) {
@@ -283,6 +311,67 @@ cudaError_t launch_scalar_multiply_kernel(
     }
     
     return cudaGetLastError();
+}
+
+cudaError_t launch_scalar_multiply_inplace_kernel(
+    float* data,
+    float scalar,
+    size_t size,
+    cudaStream_t stream
+) {
+    int blockSize = 256;
+    int gridSize = (size + blockSize - 1) / blockSize;
+    
+    if (stream != nullptr) {
+        scalar_multiply_inplace_kernel<<<gridSize, blockSize, 0, stream>>>(data, scalar, size);
+    } else {
+        scalar_multiply_inplace_kernel<<<gridSize, blockSize>>>(data, scalar, size);
+    }
+    
+    return cudaGetLastError();
+}
+
+cudaError_t launch_check_inf_nan_kernel(
+    const float* data,
+    size_t size,
+    bool* has_overflow_host
+) {
+    // Allocate device flag
+    int* d_overflow;
+    cudaError_t err = cudaMalloc(&d_overflow, sizeof(int));
+    if (err != cudaSuccess) {
+        return err;
+    }
+    
+    // Initialize to 0
+    err = cudaMemset(d_overflow, 0, sizeof(int));
+    if (err != cudaSuccess) {
+        cudaFree(d_overflow);
+        return err;
+    }
+    
+    // Launch kernel
+    int blockSize = 256;
+    int gridSize = (size + blockSize - 1) / blockSize;
+    check_inf_nan_kernel<<<gridSize, blockSize>>>(data, size, d_overflow);
+    
+    err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        cudaFree(d_overflow);
+        return err;
+    }
+    
+    // Copy result back
+    int h_overflow;
+    err = cudaMemcpy(&h_overflow, d_overflow, sizeof(int), cudaMemcpyDeviceToHost);
+    cudaFree(d_overflow);
+    
+    if (err != cudaSuccess) {
+        return err;
+    }
+    
+    *has_overflow_host = (h_overflow == 1);
+    return cudaSuccess;
 }
 
 cudaError_t launch_transpose_kernel(
