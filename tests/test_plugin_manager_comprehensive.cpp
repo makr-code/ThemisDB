@@ -6,7 +6,7 @@
  * manifest parsing, hot-reload, and thread safety.
  * 
  * @author ThemisDB Team
- * @date January 2026
+ * @date January 2025
  */
 
 #include <gtest/gtest.h>

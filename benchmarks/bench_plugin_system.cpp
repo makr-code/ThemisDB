@@ -6,7 +6,7 @@
  * and concurrent access patterns.
  * 
  * @author ThemisDB Team
- * @date January 2026
+ * @date January 2025
  */
 
 #include <benchmark/benchmark.h>

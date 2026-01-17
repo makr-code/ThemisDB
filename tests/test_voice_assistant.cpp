@@ -6,7 +6,7 @@
  * session management, and storage integration.
  * 
  * @author ThemisDB Team
- * @date January 2026
+ * @date January 2025
  */
 
 #include <gtest/gtest.h>
