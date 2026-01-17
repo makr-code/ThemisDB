@@ -21,6 +21,8 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "storage/rocksdb_wrapper.h"
 #include <cstdlib>
+#include <ctime>
+#include <filesystem>
 #include <memory>
 
 using namespace themis::llm::lora;
@@ -35,9 +37,10 @@ protected:
         // Clear environment variable to ensure clean state
         unsetenv("THEMIS_ENVIRONMENT");
         
-        // Create a temporary in-memory database for testing
+        // Create a temporary file-based database for testing
+        test_db_path_ = "/tmp/test_lora_key_provider_" + std::to_string(std::time(nullptr));
         db_ = std::make_shared<RocksDBWrapper>();
-        db_->open(":memory:", false);
+        db_->open(test_db_path_, false);
     }
     
     void TearDown() override {
@@ -46,6 +49,8 @@ protected:
         if (db_) {
             db_->close();
         }
+        // Remove test database directory
+        std::filesystem::remove_all(test_db_path_);
     }
     
     // Helper to set production environment
@@ -59,6 +64,7 @@ protected:
     }
     
     std::shared_ptr<RocksDBWrapper> db_;
+    std::string test_db_path_;
 };
 
 // ============================================================================
