@@ -2200,6 +2200,7 @@ if(THEMIS_ENABLE_LLM)
             ../src/llm/lora_framework/kernels/cuda_fused_kernels.cu  # LoRA fused CUDA kernels (Phase 10.3)
             ../src/llm/lora_framework/kernels/cuda_fp16_kernels.cu  # FP16 mixed precision kernels (Phase 10.4)
             ../src/llm/lora_framework/kernels/cuda_bf16_kernels.cu  # BF16 mixed precision kernels (Phase 10.4)
+            ../src/llm/lora_framework/kernels/cuda_flash_lora_kernels.cu  # FlashLoRA memory-efficient kernels
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention + LoRA)")
     endif()
@@ -2502,6 +2503,7 @@ if(THEMIS_BUILD_TESTS)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
         $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${THEMIS_ROOT_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
         $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
+        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_flash_lora.cpp>  # FlashLoRA memory-efficient kernel tests
         ${THEMIS_ROOT_DIR}/tests/test_raid_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${THEMIS_ROOT_DIR}/tests/test_gpu_erasure_coding.cpp>
