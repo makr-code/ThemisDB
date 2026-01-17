@@ -5,9 +5,8 @@
 #include <vector>
 #include <memory>
 
-// Forward declarations for llama.cpp types
+// Forward declaration for llama.cpp type
 struct llama_model;
-struct llama_context;
 
 namespace themis {
 namespace llm {
@@ -91,7 +90,6 @@ public:
     
 private:
     llama_model* model_ = nullptr;
-    llama_context* context_ = nullptr;
     std::string model_path_;
     
     void cleanup();

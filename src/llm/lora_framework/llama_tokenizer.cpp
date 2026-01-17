@@ -26,18 +26,6 @@ LlamaTokenizer::LlamaTokenizer(const std::string& model_path)
         throw std::runtime_error("Failed to load model for tokenizer: " + model_path);
     }
     
-    // Create context (needed for tokenization)
-    llama_context_params ctx_params = llama_context_default_params();
-    ctx_params.n_ctx = 512;  // Small context for tokenization
-    ctx_params.n_batch = 512;
-    
-    context_ = llama_new_context_with_model(model_, ctx_params);
-    if (!context_) {
-        llama_free_model(model_);
-        model_ = nullptr;
-        throw std::runtime_error("Failed to create context for tokenizer");
-    }
-    
     spdlog::info("✓ llama.cpp tokenizer initialized (vocab_size={})", 
                  llama_n_vocab(model_));
 }
@@ -48,29 +36,21 @@ LlamaTokenizer::~LlamaTokenizer() {
 
 LlamaTokenizer::LlamaTokenizer(LlamaTokenizer&& other) noexcept
     : model_(other.model_)
-    , context_(other.context_)
     , model_path_(std::move(other.model_path_)) {
     other.model_ = nullptr;
-    other.context_ = nullptr;
 }
 
 LlamaTokenizer& LlamaTokenizer::operator=(LlamaTokenizer&& other) noexcept {
     if (this != &other) {
         cleanup();
         model_ = other.model_;
-        context_ = other.context_;
         model_path_ = std::move(other.model_path_);
         other.model_ = nullptr;
-        other.context_ = nullptr;
     }
     return *this;
 }
 
 void LlamaTokenizer::cleanup() {
-    if (context_) {
-        llama_free(context_);
-        context_ = nullptr;
-    }
     if (model_) {
         llama_free_model(model_);
         model_ = nullptr;
@@ -82,7 +62,7 @@ void LlamaTokenizer::cleanup() {
 std::vector<int> LlamaTokenizer::encode(const std::string& text, 
                                         bool add_bos, 
                                         bool add_eos) {
-    if (!model_ || !context_) {
+    if (!model_) {
         throw std::runtime_error("Tokenizer not initialized");
     }
     
@@ -168,9 +148,8 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
         char buf[256];
         int32_t n = llama_token_to_piece(vocab, token, buf, sizeof(buf), 0, false);
         
-        // Check if conversion succeeded and buffer was sufficient
-        // n > 0 means success, n <= sizeof(buf) means it fit
-        if (n > 0 && n <= static_cast<int32_t>(sizeof(buf))) {
+        // Match existing pattern: only use result if it fits in buffer with room
+        if (n > 0 && n < static_cast<int32_t>(sizeof(buf))) {
             result.append(buf, n);
         }
     }
