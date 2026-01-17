@@ -65,6 +65,11 @@ protected:
     
     // Helper to generate unique temporary paths
     static std::string generateTempPath(const std::string& prefix) {
+        static bool seeded = false;
+        if (!seeded) {
+            std::srand(std::time(nullptr));
+            seeded = true;
+        }
         auto temp_dir = std::filesystem::temp_directory_path();
         auto unique_name = prefix + "_" + std::to_string(std::time(nullptr)) + 
                           "_" + std::to_string(std::rand());

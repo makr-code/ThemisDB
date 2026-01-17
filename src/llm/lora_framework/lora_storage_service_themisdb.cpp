@@ -7,9 +7,10 @@
 #include "security/vault_key_provider.h"
 #include "security/encryption.h"
 #include <spdlog/spdlog.h>
-#include <fstream>
-#include <filesystem>
 #include <algorithm>
+#include <cstring>
+#include <filesystem>
+#include <fstream>
 
 namespace themis {
 namespace llm {
@@ -384,8 +385,8 @@ private:
     static bool isProductionEnvironment() {
         const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
         return (env_mode != nullptr && 
-                (std::string(env_mode) == "production" || 
-                 std::string(env_mode) == "prod"));
+                (std::strcmp(env_mode, "production") == 0 || 
+                 std::strcmp(env_mode, "prod") == 0));
     }
     
     /**
