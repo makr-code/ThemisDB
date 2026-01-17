@@ -1063,6 +1063,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             !impl_->config_.base_model_path.empty() && 
             std::filesystem::exists(impl_->config_.base_model_path)) {
             
+            // Note: TOCTOU race condition is acceptable here - loadModel() handles missing files gracefully
             spdlog::info("Loading base model adapter for real embeddings: {}", impl_->config_.base_model_path);
             base_model_adapter = std::make_unique<BaseModelAdapter>();
             

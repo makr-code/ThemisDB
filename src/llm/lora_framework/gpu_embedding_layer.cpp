@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <cmath>
+#include <atomic>
 
 namespace themis {
 namespace llm {
@@ -101,11 +102,11 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
             
             // Bounds check
             if (token_id < 0 || token_id >= static_cast<int>(vocab_size_)) {
-                // Fill with zeros - log only once to avoid flooding
-                static bool logged_warning = false;
-                if (!logged_warning) {
+                // Fill with zeros - log only once (thread-safe) to avoid flooding
+                static std::atomic<bool> logged_warning{false};
+                bool expected = false;
+                if (logged_warning.compare_exchange_strong(expected, true)) {
                     spdlog::warn("Token ID out of bounds detected (will be replaced with zeros)");
-                    logged_warning = true;
                 }
                 
                 size_t out_idx = (i * seq_len + j) * hidden_dim_;

@@ -472,9 +472,14 @@ GPUTensor createEmbeddingsOnGPU(
         // Get embeddings from embedding layer: [batch_size, seq_len, hidden_dim]
         GPUTensor embeddings_3d = embedding_layer->forward(token_ids);
         
-        // TODO: Optimize this averaging operation - currently causes CPU-GPU transfers
-        // Future optimization: implement GPU kernel for sequence averaging
-        // Alternative: modify architecture to work with full sequence embeddings
+        // ⚠️ PERFORMANCE BOTTLENECK: This averaging operation causes CPU-GPU transfers
+        // TODO: HIGH PRIORITY - Implement GPU kernel for sequence averaging
+        // Current implementation downloads embeddings to CPU, performs averaging, then uploads back
+        // This defeats GPU acceleration and should be replaced with:
+        //   1. CUDA kernel for mean reduction over sequence dimension
+        //   2. HIP kernel for AMD GPUs
+        //   3. Vulkan compute shader
+        // Alternative: Modify LoRA layer to accept 3D embeddings directly
         
         // Average over sequence dimension to get [batch_size, hidden_dim]
         // This converts sequence embeddings to a single embedding per batch item
