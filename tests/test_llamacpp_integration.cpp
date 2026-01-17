@@ -307,7 +307,7 @@ TEST_F(LlamaCppInferenceEngineTest, PagedBlockManagerIntegration) {
     PagedBlockManager::Config bm_config;
     bm_config.max_blocks = 512;
     bm_config.block_size_tokens = 32;
-    bm_config.token_size_bytes = 4;
+    bm_config.token_size_bytes = sizeof(float);
     
     auto block_manager = std::make_shared<PagedBlockManager>(bm_config);
     
