@@ -28,6 +28,7 @@ GPUTrainingLoop::GPUTrainingLoop(const GPUTrainingConfig& config)
     spdlog::info("  Device: {}", static_cast<int>(config_.device.type));
     spdlog::info("  Mixed precision: {}", config_.use_mixed_precision);
     spdlog::info("  Multi-GPU: {}", config_.use_multi_gpu);
+    spdlog::info("  Adaptive batching: {}", config_.enable_adaptive_batching);
     
     initializeMemoryManagement();
 }
@@ -168,6 +169,11 @@ bool GPUTrainingLoop::train() {
         // Initialize optimizer
         initializeOptimizer();
         
+        // Initialize adaptive batching (NEW)
+        initializeAdaptiveBatching();
+        // Initialize checkpointing if enabled
+        initializeCheckpointing();
+        
         // Setup metrics
         current_metrics_.total_epochs = config_.num_epochs;
         current_metrics_.total_steps = config_.num_epochs * data_loader_->num_batches();
@@ -299,6 +305,82 @@ void GPUTrainingLoop::initializeMemoryManagement() {
     }
 }
 
+void GPUTrainingLoop::initializeAdaptiveBatching() {
+    if (!config_.enable_adaptive_batching) {
+        return;
+    }
+    
+    AdaptiveBatcher::Config batcher_config;
+    batcher_config.min_batch_size = config_.min_batch_size;
+    batcher_config.max_batch_size = config_.max_batch_size;
+    batcher_config.target_vram_utilization_pct = 85;
+    batcher_config.enable_dynamic_batching = true;
+    
+    adaptive_batcher_ = std::make_unique<AdaptiveBatcher>(
+        batcher_config, gpu_memory_manager_
+    );
+    
+    gpu_monitor_ = std::make_unique<GPUUtilizationMonitor>(config_.device);
+    
+    spdlog::info("Adaptive batching enabled:");
+    spdlog::info("  Batch size range: [{}, {}]",
+                 batcher_config.min_batch_size,
+                 batcher_config.max_batch_size);
+    spdlog::info("  Target VRAM utilization: {}%", 
+                 batcher_config.target_vram_utilization_pct);
+void GPUTrainingLoop::initializeCheckpointing() {
+    if (!config_.enable_gradient_checkpointing) {
+        spdlog::info("Gradient checkpointing disabled");
+        return;
+    }
+    
+    // Count total layers
+    int total_layers = static_cast<int>(layers_.size());
+    if (multi_gpu_layer_) {
+        total_layers = 1;  // Multi-GPU layer counts as one
+    }
+    
+    if (total_layers == 0) {
+        spdlog::warn("No layers to checkpoint, disabling gradient checkpointing");
+        config_.enable_gradient_checkpointing = false;
+        return;
+    }
+    
+    // Create checkpoint configuration
+    CheckpointConfig checkpoint_config;
+    checkpoint_config.strategy = config_.checkpoint_strategy;
+    checkpoint_config.checkpoint_frequency = config_.checkpoint_frequency;
+    checkpoint_config.total_layers = total_layers;
+    checkpoint_config.checkpoint_lora = true;
+    
+    checkpointer_ = std::make_unique<GradientCheckpointer>(checkpoint_config);
+    
+    // Apply checkpointing to layers
+    int checkpointed_count = 0;
+    for (size_t i = 0; i < layers_.size(); ++i) {
+        if (checkpointer_->shouldCheckpoint(static_cast<int>(i))) {
+            layers_[i]->set_checkpointing(true);
+            layers_[i]->set_layer_id(static_cast<int>(i));
+            checkpointer_->setLayerType(static_cast<int>(i), LayerType::LORA);
+            checkpointed_count++;
+            spdlog::debug("Enabled checkpointing for layer {}", i);
+        }
+    }
+    
+    // Estimate memory savings
+    size_t avg_activation_size = 4 * 1024 * 1024;  // 4MB per layer estimate
+    size_t estimated_savings = checkpointer_->estimateMemorySavings(avg_activation_size);
+    float compute_overhead = checkpointer_->estimateComputeOverhead();
+    
+    spdlog::info("Gradient checkpointing initialized:");
+    spdlog::info("  Strategy: {}", static_cast<int>(config_.checkpoint_strategy));
+    spdlog::info("  Total layers: {}", total_layers);
+    spdlog::info("  Checkpointed layers: {}", checkpointed_count);
+    spdlog::info("  Estimated memory savings: {:.2f} GB", 
+                 estimated_savings / (1024.0 * 1024.0 * 1024.0));
+    spdlog::info("  Estimated compute overhead: {:.1f}%", compute_overhead);
+}
+
 float GPUTrainingLoop::trainEpoch(int epoch) {
     current_metrics_.current_epoch = epoch + 1;
     
@@ -312,24 +394,82 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
             break;
         }
         
-        auto batch = data_loader_->getNextBatch();
-        
-        if (!batch.is_valid()) {
-            spdlog::warn("Invalid batch at step {}", step);
-            continue;
+        // Adjust batch size dynamically (NEW - now functional!)
+        if (adaptive_batcher_ && step % 10 == 0) {
+            size_t optimal_batch = adaptive_batcher_->computeOptimalBatchSize(
+                data_loader_->config().max_sequence_length
+            );
+            
+            // Update batch size dynamically if different from current
+            if (optimal_batch != data_loader_->config().batch_size) {
+                if (data_loader_->updateBatchSize(optimal_batch)) {
+                    spdlog::info("Dynamically adjusted batch size to {}", optimal_batch);
+                } else {
+                    spdlog::debug("Optimal batch size: {} (current: {})", 
+                                 optimal_batch, data_loader_->config().batch_size);
+                }
+            }
+            
+            // Check for underutilization every 50 steps
+            if (step % 50 == 0 && gpu_monitor_ && gpu_monitor_->isAvailable()) {
+                auto metrics = gpu_monitor_->queryMetrics();
+                adaptive_batcher_->updateUtilization(metrics.gpu_utilization_pct / 100.0f);
+                
+                if (gpu_monitor_->isUnderutilized()) {
+                    auto recommendations = gpu_monitor_->getOptimizationRecommendations();
+                    for (const auto& rec : recommendations) {
+                        spdlog::info("Optimization: {}", rec);
+                    }
+                    
+                    adaptive_batcher_->increaseBatchSizeIfPossible();
+                }
+            }
         }
         
-        float batch_loss = trainStep(batch);
-        epoch_loss += batch_loss;
-        
-        int global_step = epoch * data_loader_->num_batches() + step;
-        updateMetrics(epoch, global_step, batch_loss);
-        
-        if (step % 10 == 0) {
-            spdlog::debug("Epoch {}/{}, Step {}/{}, Loss: {:.6f}",
-                         epoch + 1, config_.num_epochs,
-                         step + 1, data_loader_->num_batches(),
-                         batch_loss);
+        try {
+            auto batch = data_loader_->getNextBatch();
+            
+            if (!batch.is_valid()) {
+                spdlog::warn("Invalid batch at step {}", step);
+                continue;
+            }
+            
+            float batch_loss = trainStep(batch);
+            epoch_loss += batch_loss;
+            
+            int global_step = epoch * data_loader_->num_batches() + step;
+            updateMetrics(epoch, global_step, batch_loss);
+            
+            if (step % 10 == 0) {
+                spdlog::debug("Epoch {}/{}, Step {}/{}, Loss: {:.6f}",
+                             epoch + 1, config_.num_epochs,
+                             step + 1, data_loader_->num_batches(),
+                             batch_loss);
+            }
+            
+        } catch (const std::bad_alloc& e) {
+            // Handle OOM (NEW)
+            if (adaptive_batcher_) {
+                adaptive_batcher_->handleOOMEvent();
+                spdlog::warn("OOM handled, retrying with batch size: {}", 
+                            adaptive_batcher_->getCurrentBatchSize());
+                continue;  // Retry with smaller batch
+            } else {
+                throw;  // Re-throw if no adaptive batching
+            }
+        } catch (const std::runtime_error& e) {
+            // Check for CUDA/HIP OOM errors
+            std::string error_msg = e.what();
+            if (error_msg.find("out of memory") != std::string::npos ||
+                error_msg.find("OOM") != std::string::npos) {
+                if (adaptive_batcher_) {
+                    adaptive_batcher_->handleOOMEvent();
+                    spdlog::warn("OOM handled ({}), retrying with batch size: {}", 
+                                error_msg, adaptive_batcher_->getCurrentBatchSize());
+                    continue;
+                }
+            }
+            throw;  // Re-throw other errors
         }
         
         step++;
@@ -447,9 +587,33 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
         optimizer_->step();
     }
     
+    // Calibrate memory estimation periodically (every 100 steps)
+    if (adaptive_batcher_ && current_metrics_.current_step % 100 == 0) {
+        if (gpu_memory_manager_) {
+            size_t total_vram = gpu_memory_manager_->getTotalVRAM();
+            size_t used_vram = total_vram - gpu_memory_manager_->getFreeVRAM();
+            
+            // Calibrate based on actual memory usage
+            adaptive_batcher_->calibrateMemoryEstimation(
+                used_vram,
+                batch.seq_len,
+                batch.batch_size
+            );
+        }
+    }
+    
     // Check memory usage periodically
     if (current_metrics_.current_step % 100 == 0) {
         checkMemoryUsage();
+        
+        // Log checkpoint statistics if checkpointing is enabled
+        if (checkpointer_) {
+            auto checkpoint_stats = checkpointer_->getStats();
+            spdlog::info("Checkpoint stats: {:.1f}% memory reduction, {:.1f}% compute overhead, {}ms recompute time",
+                        checkpoint_stats.memory_reduction_pct, 
+                        checkpoint_stats.compute_overhead_pct,
+                        checkpoint_stats.recomputation_time_ms);
+        }
     }
     
     return loss;

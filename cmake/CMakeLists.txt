@@ -2138,6 +2138,11 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/quantization.cpp            # NF4/INT8 quantization (CPU)
         ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
         
+        # Dynamic batch size adaptation (Issue #39)
+        ../src/llm/lora_framework/adaptive_batcher.cpp        # Adaptive batch sizing for optimal GPU utilization
+        ../src/llm/lora_framework/sequence_packer.cpp         # Sequence packing to reduce padding waste
+        ../src/llm/lora_framework/gpu_utilization_monitor.cpp # GPU utilization monitoring (NVML/ROCm)
+        
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         ../src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)

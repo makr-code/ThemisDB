@@ -176,6 +176,36 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Adaptive Batching Tests (Issue #39 - Dynamic Batch Size Adaptation)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_batching.cpp")
+        message(STATUS "Adding adaptive batching tests")
+        
+        add_executable(test_adaptive_batching
+            test_adaptive_batching.cpp
+        )
+        
+        target_link_libraries(test_adaptive_batching PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_adaptive_batching PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME AdaptiveBatchingTests COMMAND test_adaptive_batching)
+        
+        # Set test properties
+        set_tests_properties(AdaptiveBatchingTests PROPERTIES
+            LABELS "lora;gpu;adaptive;batching"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "Adaptive batching tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_batching.cpp")
+    endif()
+    
     # GPU LoRA Layers Tests (Phase 10)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
         message(STATUS "Adding GPU LoRA layers tests (CUDA/HIP enabled)")
