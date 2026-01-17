@@ -511,6 +511,13 @@ service.registerCallback([](const TrainingMetrics& m) {
 
 **Total Time**: 7-10 weeks from current state
 
+**Note**: This timeline assumes:
+- Focused effort on P0 items first (3-4 weeks)
+- Parallel work on P1/P2 items (3-4 weeks, overlapping with P0)
+- P3 items (production_validator tests) can be completed after deployment (1-2 weeks)
+- Some work streams can run in parallel
+- Does not require completing all 44 TODOs before production - P3 items are lower priority
+
 ---
 
 ## Support and Resources

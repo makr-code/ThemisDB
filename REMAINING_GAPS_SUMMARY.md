@@ -283,13 +283,15 @@ try {
 
 ### TODOs by Priority
 
-| Priority | Count | Estimated Effort |
-|----------|-------|------------------|
-| P0 (Critical) | 3 | 3-4 weeks |
-| P1 (High) | 4 | 2-3 weeks |
-| P2 (Medium) | 3 | 3-4 weeks |
-| P3 (Low) | 34 | 4-6 weeks |
-| **Total** | **44** | **12-17 weeks** |
+| Priority | Count | Estimated Effort | Notes |
+|----------|-------|------------------|-------|
+| P0 (Critical) | 3 | 3-4 weeks | Must complete before production |
+| P1 (High) | 4 | 2-3 weeks | Important for production readiness |
+| P2 (Medium) | 3 | 3-4 weeks | Nice-to-have improvements |
+| P3 (Low) | 34 | 1-2 weeks | Mostly production_validator TODOs (can be done in batches) |
+| **Total** | **44** | **9-13 weeks** | Some work can be parallelized |
+
+**Note**: P3 items are mostly placeholder tests in production_validator.cpp that can be implemented in batches once the testing framework is established.
 
 ---
 
@@ -432,7 +434,13 @@ export THEMIS_VAULT_MOUNT=themis
 - Then production validator (2-3 weeks)
 - Finally advanced features (3-4 weeks)
 
-**Total Time to Full Production Ready**: 8-11 weeks with focused effort
+**Total Time to Full Production Ready**: 7-10 weeks with focused effort
+
+**Breakdown**:
+- P0 items (critical): 3-4 weeks (sequential)
+- P1/P2 items (high/medium): 3-4 weeks (some parallel with P0)
+- P3 items (low priority tests): 1-2 weeks (can be done after deployment)
+- Note: Total is less than sum due to parallel work opportunities
 
 ---
 
