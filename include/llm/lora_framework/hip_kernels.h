@@ -6,6 +6,11 @@
 #include <rocblas/rocblas.h>
 #include <cstddef>
 
+// Kernel configuration constants for consistency
+#define THEMIS_GPU_REDUCTION_BLOCK_SIZE 256
+#define THEMIS_GPU_REDUCTION_SHARED_MEM_SIZE 256
+#define THEMIS_GPU_MAX_BLOCKS 1024
+
 namespace themis {
 namespace llm {
 namespace lora {

@@ -208,7 +208,7 @@ __global__ void mse_loss_reduction_kernel(
     float* partial_sums,
     int n
 ) {
-    __shared__ float shared_sum[256];
+    __shared__ float shared_sum[THEMIS_GPU_REDUCTION_SHARED_MEM_SIZE];
     
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int tid = threadIdx.x;
@@ -225,11 +225,26 @@ __global__ void mse_loss_reduction_kernel(
     __syncthreads();
     
     // Tree reduction in shared memory
-    for (int s = blockDim.x / 2; s > 0; s >>= 1) {
+    for (int s = blockDim.x / 2; s > 64; s >>= 1) {
         if (tid < s) {
             shared_sum[tid] += shared_sum[tid + s];
         }
         __syncthreads();
+    }
+    
+    // Final wavefront reduction (no sync needed, wavefront is implicitly synchronized)
+    // HIP wavefront size is 64 threads
+    if (tid < 64) {
+        // At this point, we have at most 128 values left (s=64 case)
+        // Safely reduce the last wavefront without bounds checks since blockDim.x=256
+        volatile float* smem = shared_sum;
+        if (blockDim.x >= 128) smem[tid] += smem[tid + 64];
+        if (blockDim.x >= 64)  smem[tid] += smem[tid + 32];
+        if (blockDim.x >= 32)  smem[tid] += smem[tid + 16];
+        if (blockDim.x >= 16)  smem[tid] += smem[tid + 8];
+        if (blockDim.x >= 8)   smem[tid] += smem[tid + 4];
+        if (blockDim.x >= 4)   smem[tid] += smem[tid + 2];
+        if (blockDim.x >= 2)   smem[tid] += smem[tid + 1];
     }
     
     // Write block result
@@ -421,7 +436,7 @@ hipError_t launch_mse_loss_reduction_kernel(
     int num_blocks,
     hipStream_t stream
 ) {
-    int threads = 256;
+    int threads = THEMIS_GPU_REDUCTION_BLOCK_SIZE;
     int blocks = num_blocks;
     
     if (stream != nullptr) {
@@ -443,7 +458,7 @@ hipError_t launch_mse_gradient_kernel(
     int n,
     hipStream_t stream
 ) {
-    int threads = 256;
+    int threads = THEMIS_GPU_REDUCTION_BLOCK_SIZE;
     int blocks = (n + threads - 1) / threads;
     
     if (stream != nullptr) {

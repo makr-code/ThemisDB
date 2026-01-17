@@ -298,7 +298,8 @@ TEST_F(GPUTrainingLoopTest, MSEGradientGPUKernel) {
     EXPECT_EQ(grad.shape(), predictions.shape());
     
     // Check gradient values
-    // grad = (2/n) * (pred - target) = (2/500) * (2 - 1) = 0.004
+    // MSE gradient: grad = (2/n) * (pred - target)
+    // For our test case: (2/500) * (2 - 1) = 0.004
     auto grad_data = grad.cpu_data();
     EXPECT_EQ(grad_data.size(), n);
     

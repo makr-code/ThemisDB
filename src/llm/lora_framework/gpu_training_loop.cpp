@@ -471,8 +471,8 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
     if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
         // Step 1: Parallel reduction on GPU
-        int threads = 256;
-        int blocks = std::min(1024, static_cast<int>((n + threads - 1) / threads));
+        int threads = THEMIS_GPU_REDUCTION_BLOCK_SIZE;
+        int blocks = std::min(THEMIS_GPU_MAX_BLOCKS, static_cast<int>((n + threads - 1) / threads));
         
         // Allocate temporary buffer for partial sums
         GPUTensor partial_sums({static_cast<size_t>(blocks)}, device);
@@ -480,7 +480,7 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
         // Launch kernel for parallel reduction
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cuda::launch_mse_loss_reduction_kernel(
+            auto err = cuda::launch_mse_loss_reduction_kernel(
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
                 static_cast<float*>(partial_sums.gpu_ptr()),
@@ -488,11 +488,15 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
                 blocks,
                 nullptr  // use default stream
             );
+            if (err != cudaSuccess) {
+                throw std::runtime_error("CUDA MSE loss reduction kernel failed: " + 
+                                       std::string(cudaGetErrorString(err)));
+            }
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hip::launch_mse_loss_reduction_kernel(
+            auto err = hip::launch_mse_loss_reduction_kernel(
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
                 static_cast<float*>(partial_sums.gpu_ptr()),
@@ -500,6 +504,10 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
                 blocks,
                 nullptr  // use default stream
             );
+            if (err != hipSuccess) {
+                throw std::runtime_error("HIP MSE loss reduction kernel failed: " + 
+                                       std::string(hipGetErrorString(err)));
+            }
         }
 #endif
         
@@ -557,7 +565,7 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
         // All computation on GPU, no CPU transfers!
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cuda::launch_mse_gradient_kernel(
+            auto err = cuda::launch_mse_gradient_kernel(
                 static_cast<float*>(grad.gpu_ptr()),
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
@@ -565,11 +573,15 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
                 static_cast<int>(n),
                 nullptr  // use default stream
             );
+            if (err != cudaSuccess) {
+                throw std::runtime_error("CUDA MSE gradient kernel failed: " + 
+                                       std::string(cudaGetErrorString(err)));
+            }
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hip::launch_mse_gradient_kernel(
+            auto err = hip::launch_mse_gradient_kernel(
                 static_cast<float*>(grad.gpu_ptr()),
                 static_cast<const float*>(predictions.gpu_ptr()),
                 static_cast<const float*>(targets.gpu_ptr()),
@@ -577,6 +589,10 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
                 static_cast<int>(n),
                 nullptr  // use default stream
             );
+            if (err != hipSuccess) {
+                throw std::runtime_error("HIP MSE gradient kernel failed: " + 
+                                       std::string(hipGetErrorString(err)));
+            }
         }
 #endif
         
