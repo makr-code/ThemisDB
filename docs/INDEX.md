@@ -96,13 +96,19 @@ This file is now language-neutral. Please choose your language:
 
 | Document | Description |
 |----------|-------------|
-| [Deployment Guide](de/deployment/README.md) | Production deployment strategies |
+| [**Operations Guide**](OPERATIONS.md) | **Master index for production operations** |
+| [Production Deployment](production/DEPLOYMENT.md) | GPU deployment, hardware setup, installation |
+| [Performance Tuning](production/PERFORMANCE_TUNING.md) | Batch size, learning rates, VRAM optimization |
+| [Monitoring & Observability](production/MONITORING.md) | GPU metrics, Prometheus, Grafana dashboards |
+| [Troubleshooting](production/TROUBLESHOOTING.md) | Common GPU errors, OOM handling, solutions |
+| [Operational Runbooks](production/RUNBOOKS.md) | Job submission, checkpoints, maintenance |
+| [Security Hardening](production/SECURITY.md) | GPU access control, encryption, HSM |
+| [Pre-Deployment Checklist](production/CHECKLISTS/pre_deployment.md) | Validation before deployment |
+| [Post-Deployment Checklist](production/CHECKLISTS/post_deployment.md) | Validation after deployment |
+| [Incident Response](production/CHECKLISTS/incident_response.md) | Structured incident handling |
 | [Docker Deployment](de/deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
 | [Configuration](de/deployment/README.md) | Configuration reference |
-| [Monitoring](de/observability/README.md) | Prometheus metrics and alerting |
 | [Backup & Recovery](de/deployment/README.md) | Backup strategies and disaster recovery |
-| [Troubleshooting](de/guides/rocksdb-windows-build-issues.md) | Common issues and solutions |
-| [Performance Tuning](de/performance/README.md) | Optimize for your workload |
 
 ### Development
 

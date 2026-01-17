@@ -647,6 +647,7 @@ graph TB
 | Resource | Description | Link |
 |----------|-------------|------|
 | 📚 **Documentation** | Complete guides and API reference | [Docs Site](https://makr-code.github.io/ThemisDB/) |
+| 🚀 **Production Ops** | Deployment, monitoring, troubleshooting | [Operations Guide](docs/OPERATIONS.md) |
 | 🐛 **Issues** | Report bugs or request features | [GitHub Issues](https://github.com/makr-code/ThemisDB/issues) |
 | 💬 **Discussions** | Community Q&A and discussions | [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) |
 | 🤝 **Contributing** | How to contribute to ThemisDB | [Contributing Guide](CONTRIBUTING.md) |
