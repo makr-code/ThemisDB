@@ -1,0 +1,234 @@
+#pragma once
+
+#include "llm/lora_framework/gpu_lora_layers.h"
+#include "llm/lora_framework/gpu_data_loader.h"
+#include "llm/lora_framework/mixed_precision.h"
+#include "llm/lora_framework/multi_gpu_lora_layer.h"
+#include "llm/lora_framework/vram_allocator.h"
+#include "llm/gpu_memory_manager.h"
+#include <functional>
+#include <memory>
+#include <atomic>
+
+namespace themis {
+namespace llm {
+namespace lora {
+
+/**
+ * @brief Training metrics for GPU training
+ */
+struct GPUTrainingMetrics {
+    int current_epoch = 0;
+    int total_epochs = 0;
+    int current_step = 0;
+    int total_steps = 0;
+    float current_loss = 0.0f;
+    float learning_rate = 0.0f;
+    float progress = 0.0f;
+    size_t gpu_memory_used = 0;
+    size_t gpu_memory_available = 0;
+    float gpu_utilization = 0.0f;
+    std::string status = "idle";
+};
+
+/**
+ * @brief Callback for GPU training progress
+ */
+using GPUTrainingCallback = std::function<void(const GPUTrainingMetrics&)>;
+
+/**
+ * @brief Configuration for GPU training loop
+ */
+struct GPUTrainingConfig {
+    // Basic training parameters
+    int num_epochs = 3;
+    float learning_rate = 1e-4f;
+    float momentum = 0.0f;
+    float weight_decay = 0.0f;
+    
+    // Device configuration
+    Device device = Device::cuda();
+    bool use_mixed_precision = false;
+    
+    // Memory management
+    size_t max_vram_bytes = 0;  // 0 = auto-detect
+    bool enable_gradient_checkpointing = false;
+    
+    // Multi-GPU
+    bool use_multi_gpu = false;
+    std::vector<int> gpu_ids;
+    
+    // Optimization
+    bool use_fused_kernels = true;
+    int gradient_accumulation_steps = 1;
+};
+
+/**
+ * @brief GPU-accelerated training loop for LoRA
+ * 
+ * Implements complete GPU training pipeline:
+ * - GPU data loading
+ * - GPU forward/backward passes
+ * - GPU optimizer updates
+ * - VRAM management
+ * - Mixed precision support
+ * - Multi-GPU data parallelism
+ * 
+ * Features:
+ * - All tensors reside in VRAM throughout training
+ * - No CPU-GPU transfer bottlenecks
+ * - Efficient memory pooling via VRAMAllocator
+ * - Real GPU kernel execution (not CPU simulation)
+ * 
+ * Usage:
+ * ```cpp
+ * GPUTrainingConfig config;
+ * config.device = Device::cuda();
+ * config.use_mixed_precision = true;
+ * 
+ * GPUTrainingLoop trainer(config);
+ * trainer.setDataLoader(std::move(gpu_data_loader));
+ * trainer.addLayer(lora_layer);
+ * trainer.train();
+ * ```
+ */
+class GPUTrainingLoop {
+public:
+    /**
+     * @brief Construct GPU training loop
+     * @param config Training configuration
+     */
+    explicit GPUTrainingLoop(const GPUTrainingConfig& config);
+    
+    ~GPUTrainingLoop();
+    
+    // Disable copy, allow move
+    GPUTrainingLoop(const GPUTrainingLoop&) = delete;
+    GPUTrainingLoop& operator=(const GPUTrainingLoop&) = delete;
+    GPUTrainingLoop(GPUTrainingLoop&&) noexcept;
+    GPUTrainingLoop& operator=(GPUTrainingLoop&&) noexcept;
+    
+    /**
+     * @brief Set data loader
+     * @param loader GPU data loader
+     */
+    void setDataLoader(std::unique_ptr<GPUDataLoader> loader);
+    
+    /**
+     * @brief Add LoRA layer to train
+     * @param layer GPU LoRA layer
+     */
+    void addLayer(GPULoRALayer* layer);
+    
+    /**
+     * @brief Set multi-GPU LoRA layer
+     * @param layer Multi-GPU LoRA layer
+     */
+    void setMultiGPULayer(MultiGPULoRALayer* layer);
+    
+    /**
+     * @brief Set mixed precision trainer
+     * @param trainer Mixed precision trainer
+     */
+    void setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer);
+    
+    /**
+     * @brief Register training callback
+     * @param callback Callback function
+     */
+    void registerCallback(GPUTrainingCallback callback);
+    
+    /**
+     * @brief Run training loop
+     * @return true on success
+     */
+    bool train();
+    
+    /**
+     * @brief Stop training
+     */
+    void stop();
+    
+    /**
+     * @brief Check if training is in progress
+     */
+    bool isTraining() const { return is_training_.load(); }
+    
+    /**
+     * @brief Get current metrics
+     */
+    GPUTrainingMetrics getMetrics() const;
+    
+    /**
+     * @brief Get final loss
+     */
+    float getFinalLoss() const { return final_loss_; }
+    
+private:
+    GPUTrainingConfig config_;
+    
+    // Data and model
+    std::unique_ptr<GPUDataLoader> data_loader_;
+    std::vector<GPULoRALayer*> layers_;
+    MultiGPULoRALayer* multi_gpu_layer_ = nullptr;
+    
+    // Training components
+    std::unique_ptr<GPUSGDOptimizer> optimizer_;
+    MixedPrecisionTrainer* mixed_precision_trainer_ = nullptr;
+    
+    // Memory management
+    std::unique_ptr<VRAMAllocator> vram_allocator_;
+    GPUMemoryManager* gpu_memory_manager_ = nullptr;
+    
+    // State
+    std::atomic<bool> is_training_{false};
+    std::atomic<bool> stop_requested_{false};
+    GPUTrainingMetrics current_metrics_;
+    GPUTrainingCallback callback_;
+    float final_loss_ = 0.0f;
+    
+    // Helper methods
+    void initializeOptimizer();
+    void initializeMemoryManagement();
+    float trainEpoch(int epoch);
+    float trainStep(const GPUBatch& batch);
+    void updateMetrics(int epoch, int step, float loss);
+    void checkMemoryUsage();
+};
+
+/**
+ * @brief Helper function to create embeddings from token IDs on GPU
+ * 
+ * Converts token IDs to embeddings directly on GPU.
+ * Uses base model embeddings if available, otherwise hash-based fallback.
+ * 
+ * @param token_ids Token ID tensor (batch_size, seq_len)
+ * @param hidden_dim Embedding dimension
+ * @param device Target device
+ * @return Embedding tensor (batch_size, hidden_dim)
+ */
+GPUTensor createEmbeddingsOnGPU(
+    const GPUTensor& token_ids,
+    size_t hidden_dim,
+    const Device& device
+);
+
+/**
+ * @brief Compute MSE loss on GPU
+ * @param predictions Prediction tensor
+ * @param targets Target tensor
+ * @return Loss value (scalar)
+ */
+float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets);
+
+/**
+ * @brief Compute MSE gradient on GPU
+ * @param predictions Prediction tensor
+ * @param targets Target tensor
+ * @return Gradient tensor
+ */
+GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& targets);
+
+} // namespace lora
+} // namespace llm
+} // namespace themis
