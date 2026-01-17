@@ -2,6 +2,7 @@
 #include "llm/lora_framework/base_model_adapter.h"
 #include "llm/lora_framework/cuda_kernels.h"
 #include "llm/lora_framework/hip_kernels.h"
+#include "llm/lora_framework/vulkan_kernels.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -523,6 +524,31 @@ GPUTensor createEmbeddingsOnGPU(
             return embeddings;
         }
 #endif
+        
+        // Vulkan backend: Use Vulkan compute shader
+        if (device.type == DeviceType::VULKAN) {
+            spdlog::debug("Using Vulkan compute shader for sequence averaging");
+            
+            // Download embeddings from GPU
+            auto embeddings_data = embeddings_3d.cpu_data();
+            std::vector<float> averaged_data(batch_size * hidden_dim);
+            
+            try {
+                vulkan::launch_sequence_mean_shader(
+                    averaged_data.data(),
+                    embeddings_data.data(),
+                    static_cast<int>(batch_size),
+                    static_cast<int>(seq_len),
+                    static_cast<int>(hidden_dim)
+                );
+                
+                embeddings.upload(averaged_data);
+                return embeddings;
+            } catch (const std::exception& e) {
+                spdlog::warn("Vulkan sequence mean shader failed: {}, falling back to CPU", e.what());
+                // Fall through to CPU fallback
+            }
+        }
         
         // CPU fallback: Download, average, and upload
         spdlog::debug("Using CPU fallback for sequence averaging");

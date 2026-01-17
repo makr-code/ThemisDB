@@ -532,6 +532,118 @@ void launch_lora_grad_B_shader(
     buf_grad_B.download(grad_B, size_grad_B);
 }
 
+void launch_embedding_lookup_shader(
+    float* output,
+    const float* token_ids,
+    const float* embedding_weights,
+    int batch_size,
+    int seq_len,
+    int hidden_dim,
+    int vocab_size) {
+    
+    if (!g_vulkan_state.initialized) {
+        throw std::runtime_error("Vulkan not initialized. Call initialize_vulkan_lora() first.");
+    }
+    
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    
+    // Calculate sizes
+    size_t total_tokens = batch_size * seq_len;
+    size_t output_size = total_tokens * hidden_dim;
+    size_t embedding_matrix_size = vocab_size * hidden_dim;
+    
+    // Push constants structure
+    struct PushConstants {
+        uint32_t batch_size;
+        uint32_t seq_len;
+        uint32_t hidden_dim;
+        uint32_t vocab_size;
+    } pc;
+    
+    pc.batch_size = static_cast<uint32_t>(batch_size);
+    pc.seq_len = static_cast<uint32_t>(seq_len);
+    pc.hidden_dim = static_cast<uint32_t>(hidden_dim);
+    pc.vocab_size = static_cast<uint32_t>(vocab_size);
+    
+    VulkanComputePipeline* pipeline = get_pipeline("embedding_lookup", sizeof(PushConstants));
+    
+    // Create buffers
+    VulkanBuffer buf_token_ids(g_vulkan_state.context.get(), total_tokens * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_embedding_weights(g_vulkan_state.context.get(), embedding_matrix_size * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_output(g_vulkan_state.context.get(), output_size * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    
+    // Upload data
+    buf_token_ids.upload(token_ids, total_tokens * sizeof(float));
+    buf_embedding_weights.upload(embedding_weights, embedding_matrix_size * sizeof(float));
+    
+    // Bind buffers
+    pipeline->bind_buffer(0, buf_token_ids);
+    pipeline->bind_buffer(1, buf_embedding_weights);
+    pipeline->bind_buffer(2, buf_output);
+    
+    pipeline->set_push_constants(&pc, sizeof(pc));
+    
+    // Dispatch: each thread handles one token
+    uint32_t groups = (static_cast<uint32_t>(total_tokens) + 255) / 256;
+    pipeline->dispatch(groups, 1, 1);
+    
+    pipeline->wait();
+    buf_output.download(output, output_size * sizeof(float));
+}
+
+void launch_sequence_mean_shader(
+    float* output,
+    const float* input,
+    int batch_size,
+    int seq_len,
+    int hidden_dim) {
+    
+    if (!g_vulkan_state.initialized) {
+        throw std::runtime_error("Vulkan not initialized. Call initialize_vulkan_lora() first.");
+    }
+    
+    std::lock_guard<std::mutex> lock(g_vulkan_state.mutex);
+    
+    // Calculate sizes
+    size_t input_size = batch_size * seq_len * hidden_dim;
+    size_t output_size = batch_size * hidden_dim;
+    
+    // Push constants structure
+    struct PushConstants {
+        uint32_t batch_size;
+        uint32_t seq_len;
+        uint32_t hidden_dim;
+        uint32_t reserved;  // Padding for alignment
+    } pc;
+    
+    pc.batch_size = static_cast<uint32_t>(batch_size);
+    pc.seq_len = static_cast<uint32_t>(seq_len);
+    pc.hidden_dim = static_cast<uint32_t>(hidden_dim);
+    pc.reserved = 0;
+    
+    VulkanComputePipeline* pipeline = get_pipeline("sequence_mean", sizeof(PushConstants));
+    
+    // Create buffers
+    VulkanBuffer buf_input(g_vulkan_state.context.get(), input_size * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    VulkanBuffer buf_output(g_vulkan_state.context.get(), output_size * sizeof(float), VulkanBuffer::Usage::DeviceLocal);
+    
+    // Upload data
+    buf_input.upload(input, input_size * sizeof(float));
+    
+    // Bind buffers
+    pipeline->bind_buffer(0, buf_input);
+    pipeline->bind_buffer(1, buf_output);
+    
+    pipeline->set_push_constants(&pc, sizeof(pc));
+    
+    // Dispatch: each thread handles one output element
+    uint32_t groups = (static_cast<uint32_t>(output_size) + 255) / 256;
+    pipeline->dispatch(groups, 1, 1);
+    
+    pipeline->wait();
+    buf_output.download(output, output_size * sizeof(float));
+}
+
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
