@@ -240,6 +240,9 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Common timeout for LoRA integration tests
+    set(LORA_TEST_TIMEOUT 600)
+    
     # LoRA Storage Integration Tests (Issue #5)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_integration.cpp")
         message(STATUS "Adding LoRA storage integration tests")
@@ -265,7 +268,7 @@ if(THEMIS_ENABLE_LORA_TESTS)
         add_test(NAME LoRAStorageIntegrationTests COMMAND test_lora_storage_integration)
         set_tests_properties(LoRAStorageIntegrationTests PROPERTIES
             LABELS "lora;storage;integration"
-            TIMEOUT 600
+            TIMEOUT ${LORA_TEST_TIMEOUT}
         )
     else()
         message(STATUS "LoRA storage integration tests not found")
@@ -297,7 +300,7 @@ if(THEMIS_ENABLE_LORA_TESTS)
         add_test(NAME CrossShardDistributionTests COMMAND test_cross_shard_distribution)
         set_tests_properties(CrossShardDistributionTests PROPERTIES
             LABELS "lora;shard;distribution;network"
-            TIMEOUT 600
+            TIMEOUT ${LORA_TEST_TIMEOUT}
         )
     else()
         message(STATUS "Cross-shard distribution tests not found")
@@ -331,7 +334,7 @@ if(THEMIS_ENABLE_LORA_TESTS)
         add_test(NAME RAIDLoRAIntegrationTests COMMAND test_raid_lora_integration)
         set_tests_properties(RAIDLoRAIntegrationTests PROPERTIES
             LABELS "lora;raid;redundancy;failover"
-            TIMEOUT 600
+            TIMEOUT ${LORA_TEST_TIMEOUT}
         )
     else()
         message(STATUS "RAID LoRA integration tests not found")
@@ -362,7 +365,7 @@ if(THEMIS_ENABLE_LORA_TESTS)
         add_test(NAME LoRAEncryptionIntegrationTests COMMAND test_lora_encryption_integration)
         set_tests_properties(LoRAEncryptionIntegrationTests PROPERTIES
             LABELS "lora;encryption;security;hsm;vault;pki"
-            TIMEOUT 600
+            TIMEOUT ${LORA_TEST_TIMEOUT}
         )
     else()
         message(STATUS "LoRA encryption integration tests not found")
@@ -395,7 +398,7 @@ if(THEMIS_ENABLE_LORA_TESTS)
         add_test(NAME LoRAFailureScenariosTests COMMAND test_lora_failure_scenarios)
         set_tests_properties(LoRAFailureScenariosTests PROPERTIES
             LABELS "lora;failure;chaos;resilience"
-            TIMEOUT 600
+            TIMEOUT ${LORA_TEST_TIMEOUT}
         )
     else()
         message(STATUS "LoRA failure scenarios tests not found")
@@ -426,7 +429,7 @@ if(THEMIS_ENABLE_LORA_TESTS)
         add_test(NAME LoRAVersioningTests COMMAND test_lora_versioning)
         set_tests_properties(LoRAVersioningTests PROPERTIES
             LABELS "lora;versioning;rollback"
-            TIMEOUT 600
+            TIMEOUT ${LORA_TEST_TIMEOUT}
         )
     else()
         message(STATUS "LoRA versioning tests not found")

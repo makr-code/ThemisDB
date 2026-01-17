@@ -37,7 +37,8 @@ std::vector<std::vector<uint8_t>> RAIDSimulator::mirror(const std::vector<uint8_
 
 std::vector<std::vector<uint8_t>> RAIDSimulator::encodeWithParity(
     const std::vector<uint8_t>& data) {
-    if (num_shards_ < 3) {
+    constexpr int MIN_RAID5_SHARDS = 3;  // Minimum shards for RAID 5 (2 data + 1 parity)
+    if (num_shards_ < MIN_RAID5_SHARDS) {
         return {};  // Need at least 3 shards for RAID 5
     }
 

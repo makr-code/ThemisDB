@@ -100,9 +100,10 @@ TEST_F(LoRAFailureScenariosTest, DetectCorruptedMetadata) {
     ASSERT_TRUE(storage.saveAdapter("corrupt-test", weights, metadata));
     
     // Manually corrupt metadata file
+    constexpr const char* METADATA_FILENAME = "metadata.json";
     auto adapter_dir = test_dir_ / "corrupt-test";
     if (fs::exists(adapter_dir)) {
-        auto metadata_file = adapter_dir / "metadata.json";
+        auto metadata_file = adapter_dir / METADATA_FILENAME;
         if (fs::exists(metadata_file)) {
             // Write garbage to metadata file
             std::ofstream ofs(metadata_file, std::ios::binary | std::ios::trunc);
