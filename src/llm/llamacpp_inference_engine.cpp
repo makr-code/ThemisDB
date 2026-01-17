@@ -15,6 +15,9 @@ namespace llm {
 
 namespace fs = std::filesystem;
 
+// Token size in bytes (float32)
+constexpr size_t TOKEN_SIZE_BYTES = sizeof(float);
+
 LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
     : config_(config), model_loaded_(false) {
     
@@ -33,7 +36,7 @@ LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
         PagedBlockManager::Config bm_config;
         bm_config.max_blocks = config_.num_blocks;
         bm_config.block_size_tokens = config_.block_size;
-        bm_config.token_size_bytes = 4;  // Float size
+        bm_config.token_size_bytes = TOKEN_SIZE_BYTES;
         
         block_manager_ = std::make_shared<PagedBlockManager>(bm_config);
         
@@ -45,7 +48,7 @@ LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
                      stats.total_memory_bytes / (1024.0 * 1024.0),
                      stats.num_blocks,
                      config_.block_size,
-                     4);
+                     TOKEN_SIZE_BYTES);
     }
     
     // Initialize PagedKVCache with block manager
