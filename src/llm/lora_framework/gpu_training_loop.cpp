@@ -1,5 +1,6 @@
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/base_model_adapter.h"
+#include "llm/lora_framework/cuda_kernels.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -472,17 +473,35 @@ GPUTensor createEmbeddingsOnGPU(
         // Get embeddings from embedding layer: [batch_size, seq_len, hidden_dim]
         GPUTensor embeddings_3d = embedding_layer->forward(token_ids);
         
-        // ⚠️ PERFORMANCE BOTTLENECK: This averaging operation causes CPU-GPU transfers
-        // TODO: HIGH PRIORITY - Implement GPU kernel for sequence averaging
-        // Current implementation downloads embeddings to CPU, performs averaging, then uploads back
-        // This defeats GPU acceleration and should be replaced with:
-        //   1. CUDA kernel for mean reduction over sequence dimension
-        //   2. HIP kernel for AMD GPUs
-        //   3. Vulkan compute shader
-        // Alternative: Modify LoRA layer to accept 3D embeddings directly
-        
         // Average over sequence dimension to get [batch_size, hidden_dim]
-        // This converts sequence embeddings to a single embedding per batch item
+        // Use GPU kernel if CUDA is available, otherwise fall back to CPU
+        GPUTensor embeddings({batch_size, hidden_dim}, device);
+        
+#ifdef THEMIS_ENABLE_CUDA
+        if (device.type == DeviceType::CUDA) {
+            // ✅ Use CUDA kernel for sequence averaging (NO CPU transfers!)
+            spdlog::debug("Using CUDA kernel for sequence averaging on GPU");
+            
+            cudaError_t err = cuda::launch_sequence_mean_kernel(
+                static_cast<float*>(embeddings.gpu_ptr()),
+                static_cast<const float*>(embeddings_3d.gpu_ptr()),
+                batch_size,
+                seq_len,
+                hidden_dim,
+                nullptr  // Use default stream
+            );
+            
+            if (err != cudaSuccess) {
+                spdlog::error("CUDA sequence mean kernel failed: {}", cudaGetErrorString(err));
+                throw std::runtime_error("CUDA sequence mean kernel failed");
+            }
+            
+            return embeddings;
+        }
+#endif
+        
+        // CPU fallback: Download, average, and upload
+        spdlog::debug("Using CPU fallback for sequence averaging");
         auto embeddings_data = embeddings_3d.cpu_data();
         std::vector<float> averaged_data(batch_size * hidden_dim, 0.0f);
         
@@ -500,7 +519,6 @@ GPUTensor createEmbeddingsOnGPU(
             }
         }
         
-        GPUTensor embeddings({batch_size, hidden_dim}, device);
         embeddings.upload(averaged_data);
         return embeddings;
     }

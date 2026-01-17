@@ -241,6 +241,29 @@ cudaError_t launch_embedding_lookup_kernel(
     cudaStream_t stream = nullptr
 );
 
+/**
+ * @brief CUDA kernel launcher for sequence mean reduction
+ * 
+ * Computes mean over sequence dimension:
+ * Input: [batch_size, seq_len, hidden_dim]
+ * Output: [batch_size, hidden_dim]
+ * 
+ * @param output Output tensor (device pointer)
+ * @param input Input tensor (device pointer)
+ * @param batch_size Batch size
+ * @param seq_len Sequence length
+ * @param hidden_dim Hidden dimension
+ * @param stream CUDA stream for async execution
+ */
+cudaError_t launch_sequence_mean_kernel(
+    float* output,
+    const float* input,
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim,
+    cudaStream_t stream = nullptr
+);
+
 } // namespace cuda
 } // namespace lora
 } // namespace llm

@@ -504,6 +504,79 @@ cudaError_t launch_embedding_lookup_kernel(
     return cudaSuccess;
 }
 
+/**
+ * @brief CUDA kernel for computing mean over sequence dimension
+ * 
+ * Each thread processes one element in the output [batch_size, hidden_dim]
+ * and computes the mean of corresponding sequence elements
+ */
+__global__ void sequence_mean_kernel(
+    float* output,          // [batch_size, hidden_dim]
+    const float* input,     // [batch_size, seq_len, hidden_dim]
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim
+) {
+    // Each thread handles one output element
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    size_t total_outputs = batch_size * hidden_dim;
+    
+    if (idx < total_outputs) {
+        size_t batch_idx = idx / hidden_dim;
+        size_t hidden_idx = idx % hidden_dim;
+        
+        // Compute mean over sequence dimension
+        float sum = 0.0f;
+        for (size_t seq_idx = 0; seq_idx < seq_len; ++seq_idx) {
+            size_t input_idx = batch_idx * seq_len * hidden_dim + 
+                              seq_idx * hidden_dim + 
+                              hidden_idx;
+            sum += input[input_idx];
+        }
+        
+        output[idx] = sum / static_cast<float>(seq_len);
+    }
+}
+
+cudaError_t launch_sequence_mean_kernel(
+    float* output,
+    const float* input,
+    size_t batch_size,
+    size_t seq_len,
+    size_t hidden_dim,
+    cudaStream_t stream
+) {
+    size_t total_outputs = batch_size * hidden_dim;
+    
+    // Configure kernel launch
+    const int threads_per_block = 256;
+    const int num_blocks = (total_outputs + threads_per_block - 1) / threads_per_block;
+    
+    // Launch kernel
+    if (stream) {
+        sequence_mean_kernel<<<num_blocks, threads_per_block, 0, stream>>>(
+            output, input, batch_size, seq_len, hidden_dim
+        );
+    } else {
+        sequence_mean_kernel<<<num_blocks, threads_per_block>>>(
+            output, input, batch_size, seq_len, hidden_dim
+        );
+    }
+    
+    // Check for launch errors
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        return err;
+    }
+    
+    // Synchronize if no stream
+    if (!stream) {
+        return cudaDeviceSynchronize();
+    }
+    
+    return cudaSuccess;
+}
+
 } // namespace cuda
 } // namespace lora
 } // namespace llm
