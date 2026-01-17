@@ -750,12 +750,101 @@ GPUTensor GPUTensor::dispatch_transpose() const {
 }
 
 // ============================================================================
+// Mixed Precision Support
+// ============================================================================
+
+void GPUTensor::multiply_inplace(float scalar) {
+    if (is_cpu()) {
+        // CPU implementation
+        for (size_t i = 0; i < cpu_data_.size(); ++i) {
+            cpu_data_[i] *= scalar;
+        }
+    } else {
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            cuda::launch_scalar_multiply_inplace_kernel(
+                static_cast<float*>(gpu_data_),
+                scalar,
+                size()
+            );
+            return;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            hip::launch_scalar_multiply_inplace_kernel(
+                static_cast<float*>(gpu_data_),
+                scalar,
+                size()
+            );
+            return;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX: download, multiply, upload
+        auto data = download();
+        for (size_t i = 0; i < data.size(); ++i) {
+            data[i] *= scalar;
+        }
+        upload(data);
+    }
+}
+
+bool GPUTensor::has_inf_or_nan() const {
+    if (is_cpu()) {
+        // CPU implementation
+        for (float val : cpu_data_) {
+            if (std::isnan(val) || std::isinf(val)) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        // GPU path: dispatch to appropriate backend
+#ifdef THEMIS_ENABLE_CUDA
+        if (device_.type == DeviceType::CUDA) {
+            bool has_overflow = false;
+            cuda::launch_check_inf_nan_kernel(
+                static_cast<const float*>(gpu_data_),
+                size(),
+                &has_overflow
+            );
+            return has_overflow;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device_.type == DeviceType::HIP) {
+            bool has_overflow = false;
+            hip::launch_check_inf_nan_kernel(
+                static_cast<const float*>(gpu_data_),
+                size(),
+                &has_overflow
+            );
+            return has_overflow;
+        }
+#endif
+        
+        // Fallback for Vulkan/DirectX: download and check
+        auto data = download();
+        for (float val : data) {
+            if (std::isnan(val) || std::isinf(val)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+// ============================================================================
 // Utility Functions
 // ============================================================================
 
 namespace gpu_tensor_utils {
 
-GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const Device& device) {
+GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const Device& device, DType dtype) {
     size_t total_size = std::accumulate(shape.begin(), shape.end(), 
                                        size_t(1), std::multiplies<size_t>());
     

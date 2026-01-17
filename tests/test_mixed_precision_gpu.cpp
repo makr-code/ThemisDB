@@ -268,6 +268,226 @@ TEST(MixedPrecisionTest, Statistics) {
 }
 
 // ============================================================================
+// GPU-Native Mixed Precision Tests
+// ============================================================================
+
+TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_CPU) {
+    GPUTensor tensor({4}, Device::cpu());
+    std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    tensor.multiply_inplace(0.5f);
+    
+    auto result = tensor.cpu_data();
+    EXPECT_FLOAT_EQ(result[0], 0.5f);
+    EXPECT_FLOAT_EQ(result[1], 1.0f);
+    EXPECT_FLOAT_EQ(result[2], 1.5f);
+    EXPECT_FLOAT_EQ(result[3], 2.0f);
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_CPU_Normal) {
+    GPUTensor tensor({4}, Device::cpu());
+    std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_FALSE(tensor.has_inf_or_nan());
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_CPU_Inf) {
+    GPUTensor tensor({4}, Device::cpu());
+    std::vector<float> data = {1.0f, std::numeric_limits<float>::infinity(), 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_TRUE(tensor.has_inf_or_nan());
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_CPU_NaN) {
+    GPUTensor tensor({4}, Device::cpu());
+    std::vector<float> data = {1.0f, 2.0f, std::numeric_limits<float>::quiet_NaN(), 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_TRUE(tensor.has_inf_or_nan());
+}
+
+#ifdef THEMIS_ENABLE_CUDA
+TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_CUDA) {
+    if (!Device::cuda().is_available()) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    GPUTensor tensor({4}, Device::cuda());
+    std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    tensor.multiply_inplace(0.5f);
+    
+    auto result = tensor.cpu_data();
+    EXPECT_FLOAT_EQ(result[0], 0.5f);
+    EXPECT_FLOAT_EQ(result[1], 1.0f);
+    EXPECT_FLOAT_EQ(result[2], 1.5f);
+    EXPECT_FLOAT_EQ(result[3], 2.0f);
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_Normal) {
+    if (!Device::cuda().is_available()) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    GPUTensor tensor({4}, Device::cuda());
+    std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_FALSE(tensor.has_inf_or_nan());
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_Inf) {
+    if (!Device::cuda().is_available()) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    GPUTensor tensor({4}, Device::cuda());
+    std::vector<float> data = {1.0f, std::numeric_limits<float>::infinity(), 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_TRUE(tensor.has_inf_or_nan());
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_CUDA_NaN) {
+    if (!Device::cuda().is_available()) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    GPUTensor tensor({4}, Device::cuda());
+    std::vector<float> data = {1.0f, 2.0f, std::numeric_limits<float>::quiet_NaN(), 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_TRUE(tensor.has_inf_or_nan());
+}
+#endif // THEMIS_ENABLE_CUDA
+
+#ifdef THEMIS_ENABLE_HIP
+TEST(GPUMixedPrecisionTest, ScalarMultiplyInplace_HIP) {
+    if (!Device::hip().is_available()) {
+        GTEST_SKIP() << "HIP not available";
+    }
+    
+    GPUTensor tensor({4}, Device::hip());
+    std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    tensor.multiply_inplace(0.5f);
+    
+    auto result = tensor.cpu_data();
+    EXPECT_FLOAT_EQ(result[0], 0.5f);
+    EXPECT_FLOAT_EQ(result[1], 1.0f);
+    EXPECT_FLOAT_EQ(result[2], 1.5f);
+    EXPECT_FLOAT_EQ(result[3], 2.0f);
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_Normal) {
+    if (!Device::hip().is_available()) {
+        GTEST_SKIP() << "HIP not available";
+    }
+    
+    GPUTensor tensor({4}, Device::hip());
+    std::vector<float> data = {1.0f, 2.0f, 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_FALSE(tensor.has_inf_or_nan());
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_Inf) {
+    if (!Device::hip().is_available()) {
+        GTEST_SKIP() << "HIP not available";
+    }
+    
+    GPUTensor tensor({4}, Device::hip());
+    std::vector<float> data = {1.0f, std::numeric_limits<float>::infinity(), 3.0f, 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_TRUE(tensor.has_inf_or_nan());
+}
+
+TEST(GPUMixedPrecisionTest, HasInfOrNaN_HIP_NaN) {
+    if (!Device::hip().is_available()) {
+        GTEST_SKIP() << "HIP not available";
+    }
+    
+    GPUTensor tensor({4}, Device::hip());
+    std::vector<float> data = {1.0f, 2.0f, std::numeric_limits<float>::quiet_NaN(), 4.0f};
+    tensor.upload(data);
+    
+    EXPECT_TRUE(tensor.has_inf_or_nan());
+}
+#endif // THEMIS_ENABLE_HIP
+
+TEST(GPUMixedPrecisionTest, GradientUnscaling_Integration) {
+    // Simulate mixed precision training workflow
+    MixedPrecisionConfig config;
+    config.mode = PrecisionMode::FP16;
+    config.loss_scale = 1024.0f;
+    
+    MixedPrecisionTrainer trainer(config);
+    
+    // Create gradient tensors (simulated)
+    GPUTensor grad1({4}, Device::cpu());
+    GPUTensor grad2({4}, Device::cpu());
+    
+    std::vector<float> grad_data1 = {1024.0f, 2048.0f, 3072.0f, 4096.0f};
+    std::vector<float> grad_data2 = {512.0f, 1024.0f, 1536.0f, 2048.0f};
+    
+    grad1.upload(grad_data1);
+    grad2.upload(grad_data2);
+    
+    // Check for overflow (should be false)
+    EXPECT_FALSE(grad1.has_inf_or_nan());
+    EXPECT_FALSE(grad2.has_inf_or_nan());
+    
+    // Unscale gradients
+    float inv_scale = 1.0f / trainer.get_loss_scale();
+    grad1.multiply_inplace(inv_scale);
+    grad2.multiply_inplace(inv_scale);
+    
+    // Verify unscaled values
+    auto result1 = grad1.cpu_data();
+    auto result2 = grad2.cpu_data();
+    
+    EXPECT_FLOAT_EQ(result1[0], 1.0f);
+    EXPECT_FLOAT_EQ(result1[1], 2.0f);
+    EXPECT_FLOAT_EQ(result2[0], 0.5f);
+    EXPECT_FLOAT_EQ(result2[1], 1.0f);
+}
+
+TEST(GPUMixedPrecisionTest, OverflowHandling_Integration) {
+    // Simulate overflow scenario
+    GPUTensor grad({4}, Device::cpu());
+    
+    // Create overflowed gradient
+    std::vector<float> overflow_data = {
+        1.0f, 
+        std::numeric_limits<float>::infinity(), 
+        3.0f, 
+        4.0f
+    };
+    grad.upload(overflow_data);
+    
+    // Detect overflow
+    bool has_overflow = grad.has_inf_or_nan();
+    EXPECT_TRUE(has_overflow);
+    
+    // In real training, we would skip optimizer step
+    // and reduce loss scale
+    MixedPrecisionConfig config;
+    config.loss_scale = 1024.0f;
+    MixedPrecisionTrainer trainer(config);
+    
+    float initial_scale = trainer.get_loss_scale();
+    trainer.update_loss_scale(true);  // Report overflow
+    
+    EXPECT_LT(trainer.get_loss_scale(), initial_scale);
+}
+
+// ============================================================================
 // Integration Test
 // ============================================================================
 

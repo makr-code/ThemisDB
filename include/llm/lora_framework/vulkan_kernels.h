@@ -154,6 +154,79 @@ void launch_sequence_mean_shader(
     int batch_size,
     int seq_len,
     int hidden_dim);
+// ============================================================================
+// Fused LoRA Kernels (Phase 4: Vulkan Backend)
+// ============================================================================
+
+/**
+ * @brief Vulkan fused LoRA forward pass: Y = (X @ B^T @ A^T) * scaling
+ * 
+ * Implements complete LoRA forward path in single compute shader:
+ * - Computes intermediate h = X @ B^T in workgroup local memory
+ * - Computes output = h @ A^T * scaling
+ * - Reduces global memory traffic by 33-75%
+ * 
+ * @param input Input tensor [batch_size, in_dim]
+ * @param B LoRA B matrix [in_dim, rank]
+ * @param A LoRA A matrix [rank, out_dim]
+ * @param output Output tensor [batch_size, out_dim]
+ * @param batch_size Batch size
+ * @param in_dim Input dimension
+ * @param rank LoRA rank
+ * @param out_dim Output dimension
+ * @param scaling Scaling factor
+ * 
+ * Expected performance: 1.5-3x speedup vs unfused
+ */
+void launch_fused_lora_forward(
+    const float* input,
+    const float* B,
+    const float* A,
+    float* output,
+    size_t batch_size,
+    size_t in_dim,
+    size_t rank,
+    size_t out_dim,
+    float scaling
+);
+
+/**
+ * @brief Vulkan fused LoRA backward pass
+ * 
+ * Computes all gradients in single compute shader:
+ * - grad_A = intermediate^T @ grad_output * scaling
+ * - grad_B = input^T @ (grad_output @ A) * scaling
+ * - grad_input = (grad_output @ A) @ B * scaling
+ * 
+ * @param input Input tensor [batch_size, in_dim]
+ * @param B LoRA B matrix [in_dim, rank]
+ * @param A LoRA A matrix [rank, out_dim]
+ * @param grad_output Gradient w.r.t output [batch_size, out_dim]
+ * @param grad_A Gradient w.r.t A [rank, out_dim]
+ * @param grad_B Gradient w.r.t B [in_dim, rank]
+ * @param grad_input Gradient w.r.t input [batch_size, in_dim]
+ * @param batch_size Batch size
+ * @param in_dim Input dimension
+ * @param rank LoRA rank
+ * @param out_dim Output dimension
+ * @param scaling Scaling factor
+ * 
+ * Expected performance: 1.7-3x speedup vs unfused
+ */
+void launch_fused_lora_backward(
+    const float* input,
+    const float* B,
+    const float* A,
+    const float* grad_output,
+    float* grad_A,
+    float* grad_B,
+    float* grad_input,
+    size_t batch_size,
+    size_t in_dim,
+    size_t rank,
+    size_t out_dim,
+    float scaling
+);
 
 } // namespace vulkan
 } // namespace lora
