@@ -301,6 +301,118 @@ if(THEMIS_ENABLE_LORA_TESTS)
             TIMEOUT 300
         )
     endif()
+    
+    # Multi-GPU Training Tests (Phase 10.5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_training.cpp")
+        message(STATUS "Adding multi-GPU training tests")
+        
+        add_executable(test_multi_gpu_training
+            test_multi_gpu_training.cpp
+        )
+        
+        target_link_libraries(test_multi_gpu_training PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_multi_gpu_training PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME MultiGPUTrainingTests COMMAND test_multi_gpu_training)
+        
+        # Set test properties
+        set_tests_properties(MultiGPUTrainingTests PROPERTIES
+            LABELS "lora;gpu;multi_gpu;distributed"
+            TIMEOUT 600
+        )
+    endif()
+    
+    # GPU Training Loop Tests (Phase 10.6)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_training_loop.cpp")
+        message(STATUS "Adding GPU training loop tests")
+        
+        add_executable(test_gpu_training_loop
+            test_gpu_training_loop.cpp
+        )
+        
+        target_link_libraries(test_gpu_training_loop PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_gpu_training_loop PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME GPUTrainingLoopTests COMMAND test_gpu_training_loop)
+        
+        # Set test properties
+        set_tests_properties(GPUTrainingLoopTests PROPERTIES
+            LABELS "lora;gpu;training;integration"
+            TIMEOUT 600
+        )
+    endif()
+    
+    # GPU Memory Management Tests (PR 1 - Complete Test Coverage)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_management.cpp")
+        message(STATUS "Adding GPU memory management tests")
+        
+        add_executable(test_gpu_memory_management
+            test_gpu_memory_management.cpp
+        )
+        
+        target_link_libraries(test_gpu_memory_management PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_gpu_memory_management PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME GPUMemoryManagementTests COMMAND test_gpu_memory_management)
+        
+        # Set test properties
+        set_tests_properties(GPUMemoryManagementTests PROPERTIES
+            LABELS "lora;gpu;memory;vram;oom"
+            TIMEOUT 300
+        )
+    endif()
+    
+    # Training Convergence Tests (PR 1 - Complete Test Coverage)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
+        message(STATUS "Adding training convergence tests")
+        
+        add_executable(test_training_convergence
+            test_training_convergence.cpp
+        )
+        
+        target_link_libraries(test_training_convergence PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_training_convergence PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME TrainingConvergenceTests COMMAND test_training_convergence)
+        
+        # Set test properties
+        set_tests_properties(TrainingConvergenceTests PROPERTIES
+            LABELS "lora;gpu;training;convergence"
+            TIMEOUT 600
+        )
+    endif()
 else()
     message(STATUS "LoRA framework tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()
