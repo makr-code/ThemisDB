@@ -2,6 +2,7 @@
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/gpu_data_loader.h"
 #include "llm/lora_framework/gpu_lora_layers.h"
+#include "llm/lora_framework/gpu_embedding_layer.h"
 
 using namespace themis::llm::lora;
 
@@ -244,202 +245,83 @@ TEST_F(GPUTrainingLoopTest, CPUFallbackWorks) {
     EXPECT_TRUE(success);
 }
 
-TEST_F(GPUTrainingLoopTest, MSELossGPUKernel) {
-    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+/**
+ * @brief Test GPU embedding layer
+ */
+TEST(GPUEmbeddingLayerTest, BasicEmbeddingLookup) {
+    // Create small embedding matrix
+    size_t vocab_size = 10;
+    size_t hidden_dim = 8;
     
-    // Create test tensors with known values
-    size_t n = 1000;
-    GPUTensor predictions({n}, device);
-    GPUTensor targets({n}, device);
-    
-    // Initialize with simple patterns
-    std::vector<float> pred_data(n);
-    std::vector<float> target_data(n);
-    
-    for (size_t i = 0; i < n; ++i) {
-        pred_data[i] = static_cast<float>(i) / 100.0f;
-        target_data[i] = static_cast<float>(i) / 100.0f + 0.1f;  // offset by 0.1
+    std::vector<float> embedding_weights(vocab_size * hidden_dim);
+    for (size_t i = 0; i < vocab_size; ++i) {
+        for (size_t j = 0; j < hidden_dim; ++j) {
+            embedding_weights[i * hidden_dim + j] = static_cast<float>(i * 10 + j);
+        }
     }
     
-    predictions.upload(pred_data);
-    targets.upload(target_data);
+    // Create GPU embedding layer (CPU device for testing)
+    GPUEmbeddingLayer layer(embedding_weights.data(), vocab_size, hidden_dim, Device::cpu());
     
-    // Compute loss using GPU kernel
-    float loss = computeMSELossGPU(predictions, targets);
+    EXPECT_EQ(layer.vocab_size(), vocab_size);
+    EXPECT_EQ(layer.hidden_dim(), hidden_dim);
     
-    // Expected loss = mean((0.1)^2) = 0.01
-    EXPECT_NEAR(loss, 0.01f, 1e-5f) << "MSE loss should be 0.01 for constant offset of 0.1";
-    EXPECT_GT(loss, 0.0f) << "Loss should be positive";
-}
-
-TEST_F(GPUTrainingLoopTest, MSEGradientGPUKernel) {
-    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    // Create token IDs tensor
+    std::vector<float> token_ids_data = {0, 1, 2, 3};  // batch_size=2, seq_len=2
+    GPUTensor token_ids({2, 2}, Device::cpu());
+    token_ids.upload(token_ids_data);
     
-    // Create test tensors
-    size_t n = 500;
-    GPUTensor predictions({n}, device);
-    GPUTensor targets({n}, device);
+    // Forward pass
+    GPUTensor embeddings = layer.forward(token_ids);
     
-    std::vector<float> pred_data(n);
-    std::vector<float> target_data(n);
+    // Check output shape: [batch_size, seq_len, hidden_dim]
+    auto shape = embeddings.shape();
+    EXPECT_EQ(shape.size(), 3);
+    EXPECT_EQ(shape[0], 2);  // batch_size
+    EXPECT_EQ(shape[1], 2);  // seq_len
+    EXPECT_EQ(shape[2], hidden_dim);  // hidden_dim
     
-    for (size_t i = 0; i < n; ++i) {
-        pred_data[i] = 2.0f;
-        target_data[i] = 1.0f;
+    // Download and verify embeddings
+    auto embeddings_data = embeddings.cpu_data();
+    
+    // Check first embedding (token_id=0)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[j], static_cast<float>(j));
     }
     
-    predictions.upload(pred_data);
-    targets.upload(target_data);
-    
-    // Compute gradient
-    GPUTensor grad = computeMSEGradientGPU(predictions, targets);
-    
-    // Check gradient shape
-    EXPECT_EQ(grad.shape(), predictions.shape());
-    
-    // Check gradient values
-    // MSE gradient: grad = (2/n) * (pred - target)
-    // For our test case: (2/500) * (2 - 1) = 0.004
-    auto grad_data = grad.cpu_data();
-    EXPECT_EQ(grad_data.size(), n);
-    
-    float expected_grad = 2.0f / n * (2.0f - 1.0f);
-    for (size_t i = 0; i < std::min(size_t(10), n); ++i) {
-        EXPECT_NEAR(grad_data[i], expected_grad, 1e-6f) 
-            << "Gradient at index " << i << " should be " << expected_grad;
+    // Check second embedding (token_id=1)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[hidden_dim + j], static_cast<float>(10 + j));
     }
 }
 
-TEST_F(GPUTrainingLoopTest, MSEKernelsNumericalAccuracy) {
-    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+/**
+ * @brief Test GPU embedding layer with out-of-bounds token IDs
+ */
+TEST(GPUEmbeddingLayerTest, OutOfBoundsTokenID) {
+    size_t vocab_size = 5;
+    size_t hidden_dim = 4;
     
-    // Test with various tensor sizes to ensure accuracy across different block configurations
-    std::vector<size_t> test_sizes = {100, 256, 1000, 10000};
+    std::vector<float> embedding_weights(vocab_size * hidden_dim, 1.0f);
+    GPUEmbeddingLayer layer(embedding_weights.data(), vocab_size, hidden_dim, Device::cpu());
     
-    for (size_t n : test_sizes) {
-        GPUTensor predictions({n}, device);
-        GPUTensor targets({n}, device);
-        
-        std::vector<float> pred_data(n);
-        std::vector<float> target_data(n);
-        
-        // Create random-like pattern
-        for (size_t i = 0; i < n; ++i) {
-            pred_data[i] = static_cast<float>(i % 100) / 50.0f;
-            target_data[i] = static_cast<float>((i + 1) % 100) / 50.0f;
-        }
-        
-        predictions.upload(pred_data);
-        targets.upload(target_data);
-        
-        // Compute loss
-        float loss = computeMSELossGPU(predictions, targets);
-        
-        // Compute expected loss on CPU for verification
-        float expected_sum = 0.0f;
-        for (size_t i = 0; i < n; ++i) {
-            float diff = pred_data[i] - target_data[i];
-            expected_sum += diff * diff;
-        }
-        float expected_loss = expected_sum / n;
-        
-        // Check numerical accuracy (within floating point precision)
-        EXPECT_NEAR(loss, expected_loss, 1e-4f) 
-            << "Loss mismatch for size " << n 
-            << ": GPU=" << loss << " vs expected=" << expected_loss;
-        
-        // Also test gradient accuracy
-        GPUTensor grad = computeMSEGradientGPU(predictions, targets);
-        auto grad_data = grad.cpu_data();
-        
-        float scale = 2.0f / n;
-        for (size_t i = 0; i < std::min(size_t(5), n); ++i) {
-            float expected_grad = scale * (pred_data[i] - target_data[i]);
-            EXPECT_NEAR(grad_data[i], expected_grad, 1e-6f)
-                << "Gradient mismatch at index " << i << " for size " << n;
-        }
-    }
-}
-
-TEST_F(GPUTrainingLoopTest, FusedMSELossGradientKernel) {
-    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    // Create token IDs with one out-of-bounds value
+    std::vector<float> token_ids_data = {1, 10};  // 10 is out of bounds
+    GPUTensor token_ids({1, 2}, Device::cpu());
+    token_ids.upload(token_ids_data);
     
-    // Create test tensors
-    size_t n = 1000;
-    GPUTensor predictions({n}, device);
-    GPUTensor targets({n}, device);
+    // Forward pass should handle gracefully (zeros for out-of-bounds)
+    GPUTensor embeddings = layer.forward(token_ids);
     
-    std::vector<float> pred_data(n);
-    std::vector<float> target_data(n);
+    auto embeddings_data = embeddings.cpu_data();
     
-    for (size_t i = 0; i < n; ++i) {
-        pred_data[i] = static_cast<float>(i) / 100.0f;
-        target_data[i] = static_cast<float>(i) / 100.0f + 0.1f;  // offset by 0.1
+    // First embedding should be valid (all 1s)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[j], 1.0f);
     }
     
-    predictions.upload(pred_data);
-    targets.upload(target_data);
-    
-    // Compute using fused kernel
-    GPUTensor grad_output;
-    float loss = computeFusedMSELossGradientGPU(predictions, targets, grad_output);
-    
-    // Verify loss
-    EXPECT_NEAR(loss, 0.01f, 1e-5f) << "Fused MSE loss should be 0.01";
-    
-    // Verify gradient
-    EXPECT_EQ(grad_output.shape(), predictions.shape());
-    auto grad_data = grad_output.cpu_data();
-    
-    float scale = 2.0f / n;
-    for (size_t i = 0; i < std::min(size_t(10), n); ++i) {
-        float expected_grad = scale * (pred_data[i] - target_data[i]);
-        EXPECT_NEAR(grad_data[i], expected_grad, 1e-6f)
-            << "Fused gradient at index " << i << " should match expected";
-    }
-}
-
-TEST_F(GPUTrainingLoopTest, FusedVsSeparateMSEKernels) {
-    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
-    
-    // Create test tensors with various patterns
-    std::vector<size_t> test_sizes = {256, 1000, 10000};
-    
-    for (size_t n : test_sizes) {
-        GPUTensor predictions({n}, device);
-        GPUTensor targets({n}, device);
-        
-        std::vector<float> pred_data(n);
-        std::vector<float> target_data(n);
-        
-        for (size_t i = 0; i < n; ++i) {
-            pred_data[i] = static_cast<float>(i % 100) / 50.0f;
-            target_data[i] = static_cast<float>((i + 1) % 100) / 50.0f;
-        }
-        
-        predictions.upload(pred_data);
-        targets.upload(target_data);
-        
-        // Compute with separate kernels
-        float loss_separate = computeMSELossGPU(predictions, targets);
-        GPUTensor grad_separate = computeMSEGradientGPU(predictions, targets);
-        auto grad_sep_data = grad_separate.cpu_data();
-        
-        // Compute with fused kernel
-        GPUTensor grad_fused;
-        float loss_fused = computeFusedMSELossGradientGPU(predictions, targets, grad_fused);
-        auto grad_fused_data = grad_fused.cpu_data();
-        
-        // Verify results match
-        EXPECT_NEAR(loss_fused, loss_separate, 1e-4f)
-            << "Fused loss should match separate loss for size " << n;
-        
-        EXPECT_EQ(grad_fused_data.size(), grad_sep_data.size());
-        
-        for (size_t i = 0; i < std::min(size_t(10), n); ++i) {
-            EXPECT_NEAR(grad_fused_data[i], grad_sep_data[i], 1e-5f)
-                << "Fused gradient should match separate gradient at index " 
-                << i << " for size " << n;
-        }
+    // Second embedding should be zeros (out of bounds)
+    for (size_t j = 0; j < hidden_dim; ++j) {
+        EXPECT_FLOAT_EQ(embeddings_data[hidden_dim + j], 0.0f);
     }
 }

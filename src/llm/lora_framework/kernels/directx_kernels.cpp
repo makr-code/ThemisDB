@@ -713,6 +713,144 @@ void launch_lora_grad_B_shader(
     }
 }
 
+void launch_embedding_lookup_shader(
+    float* output,
+    const float* token_ids,
+    const float* embedding_weights,
+    int batch_size,
+    int seq_len,
+    int hidden_dim,
+    int vocab_size) {
+    
+    if (!g_directx_state.initialized) {
+        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    }
+    
+    try {
+        // Calculate sizes
+        size_t total_tokens = batch_size * seq_len;
+        size_t output_size = total_tokens * hidden_dim;
+        size_t embedding_matrix_size = vocab_size * hidden_dim;
+        
+        // Create buffers
+        DirectXBuffer buffer_token_ids(g_directx_state.context.get(), total_tokens * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_embedding_weights(g_directx_state.context.get(), embedding_matrix_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_output(g_directx_state.context.get(), output_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        
+        // Upload data
+        buffer_token_ids.upload(token_ids, total_tokens * sizeof(float));
+        buffer_embedding_weights.upload(embedding_weights, embedding_matrix_size * sizeof(float));
+        
+        // Get or create pipeline
+        DirectXPipeline* pipeline = get_or_create_pipeline(
+            "embedding_lookup",
+            "embedding_lookup.hlsl",
+            4,  // 4 uint constants
+            1,  // 1 UAV (output)
+            2   // 2 SRVs (token_ids, embedding_weights)
+        );
+        
+        // Set root constants
+        struct Constants {
+            uint32_t batch_size;
+            uint32_t seq_len;
+            uint32_t hidden_dim;
+            uint32_t vocab_size;
+        } constants = {
+            static_cast<uint32_t>(batch_size),
+            static_cast<uint32_t>(seq_len),
+            static_cast<uint32_t>(hidden_dim),
+            static_cast<uint32_t>(vocab_size)
+        };
+        
+        pipeline->set_root_constants(&constants, sizeof(constants));
+        
+        // Bind resources
+        pipeline->bind_uav(0, buffer_output);  // Output
+        pipeline->bind_srv(0, buffer_token_ids);  // Token IDs
+        pipeline->bind_srv(1, buffer_embedding_weights);  // Embedding weights
+        
+        // Dispatch: each thread handles one token
+        uint32_t thread_groups = (static_cast<uint32_t>(total_tokens) + 255) / 256;
+        pipeline->dispatch(thread_groups, 1, 1);
+        
+        // Execute and wait
+        g_directx_state.context->execute_command_list();
+        
+        // Download result
+        buffer_output.download(output, output_size * sizeof(float));
+    }
+    catch (const std::exception& e) {
+        throw std::runtime_error(std::string("launch_embedding_lookup_shader failed: ") + e.what());
+    }
+}
+
+void launch_sequence_mean_shader(
+    float* output,
+    const float* input,
+    int batch_size,
+    int seq_len,
+    int hidden_dim) {
+    
+    if (!g_directx_state.initialized) {
+        throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
+    }
+    
+    try {
+        // Calculate sizes
+        size_t input_size = batch_size * seq_len * hidden_dim;
+        size_t output_size = batch_size * hidden_dim;
+        
+        // Create buffers
+        DirectXBuffer buffer_input(g_directx_state.context.get(), input_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_output(g_directx_state.context.get(), output_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
+        
+        // Upload data
+        buffer_input.upload(input, input_size * sizeof(float));
+        
+        // Get or create pipeline
+        DirectXPipeline* pipeline = get_or_create_pipeline(
+            "sequence_mean",
+            "sequence_mean.hlsl",
+            4,  // 4 uint constants
+            1,  // 1 UAV (output)
+            1   // 1 SRV (input)
+        );
+        
+        // Set root constants
+        struct Constants {
+            uint32_t batch_size;
+            uint32_t seq_len;
+            uint32_t hidden_dim;
+            uint32_t reserved;
+        } constants = {
+            static_cast<uint32_t>(batch_size),
+            static_cast<uint32_t>(seq_len),
+            static_cast<uint32_t>(hidden_dim),
+            0
+        };
+        
+        pipeline->set_root_constants(&constants, sizeof(constants));
+        
+        // Bind resources
+        pipeline->bind_uav(0, buffer_output);  // Output
+        pipeline->bind_srv(0, buffer_input);  // Input
+        
+        // Dispatch: each thread handles one output element
+        uint32_t thread_groups = (static_cast<uint32_t>(output_size) + 255) / 256;
+        pipeline->dispatch(thread_groups, 1, 1);
+        
+        // Execute and wait
+        g_directx_state.context->execute_command_list();
+        
+        // Download result
+        buffer_output.download(output, output_size * sizeof(float));
+    }
+    catch (const std::exception& e) {
+        throw std::runtime_error(std::string("launch_sequence_mean_shader failed: ") + e.what());
+    }
+}
+
 } // namespace directx
 } // namespace lora
 } // namespace themis
@@ -766,6 +904,26 @@ void launch_lora_grad_A_shader(
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
+    throw std::runtime_error("DirectX is only available on Windows");
+}
+
+void launch_embedding_lookup_shader(
+    float* output,
+    const float* token_ids,
+    const float* embedding_weights,
+    int batch_size,
+    int seq_len,
+    int hidden_dim,
+    int vocab_size) {
+    throw std::runtime_error("DirectX is only available on Windows");
+}
+
+void launch_sequence_mean_shader(
+    float* output,
+    const float* input,
+    int batch_size,
+    int seq_len,
+    int hidden_dim) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 

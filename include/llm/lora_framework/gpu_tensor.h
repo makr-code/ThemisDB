@@ -212,6 +212,22 @@ public:
      * @brief Allocate gradient tensor if not exists
      */
     void ensure_grad();
+    
+    // ========== Mixed Precision Support ==========
+    
+    /**
+     * @brief Multiply tensor by scalar in-place (GPU-native)
+     * Used for gradient unscaling in mixed precision training
+     * @param scalar Scaling factor
+     */
+    void multiply_inplace(float scalar);
+    
+    /**
+     * @brief Check if tensor contains NaN or Inf (GPU-native)
+     * Used for overflow detection in mixed precision training
+     * @return true if NaN or Inf detected
+     */
+    bool has_inf_or_nan() const;
 
 private:
     std::vector<size_t> shape_;

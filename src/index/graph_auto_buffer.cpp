@@ -8,12 +8,13 @@ namespace themis {
 // ===== GraphAutoBuffer Implementation =====
 
 size_t GraphAutoBuffer::BufferedOp::estimateEntitySize(const BaseEntity& entity) {
-    // Rough estimate: serialize to JSON and get size
     try {
-        auto json_data = entity.getData();
-        return json_data.dump().size();
+        if (entity.getFormat() == BaseEntity::Format::JSON) {
+            return entity.toJson().size();
+        }
+        return entity.getBlobSize();
     } catch (...) {
-        return 1024;  // Default estimate
+        return 1024;
     }
 }
 
@@ -344,9 +345,20 @@ void GraphAutoBuffer::flushThread() {
 GraphAutoBufferStats GraphAutoBuffer::getStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     
-    GraphAutoBufferStats stats = stats_;
+    GraphAutoBufferStats stats;
+    stats.nodes_buffered = stats_.nodes_buffered.load();
+    stats.edges_buffered = stats_.edges_buffered.load();
+    stats.nodes_flushed = stats_.nodes_flushed.load();
+    stats.edges_flushed = stats_.edges_flushed.load();
+    stats.flush_count = stats_.flush_count.load();
+    stats.auto_flush_count = stats_.auto_flush_count.load();
+    stats.manual_flush_count = stats_.manual_flush_count.load();
+    stats.size_triggered_flush = stats_.size_triggered_flush.load();
+    stats.time_triggered_flush = stats_.time_triggered_flush.load();
+    stats.buffer_overflow_count = stats_.buffer_overflow_count.load();
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
+    stats.last_flush_time = stats_.last_flush_time;
     
     return stats;
 }

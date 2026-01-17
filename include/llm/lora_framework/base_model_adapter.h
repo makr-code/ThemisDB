@@ -159,6 +159,18 @@ public:
      */
     void logCacheStats() const;
     
+    /**
+     * @brief Get vocabulary size from model architecture
+     * @return Vocabulary size
+     */
+    int getVocabSize() const { return architecture_.vocab_size; }
+    
+    /**
+     * @brief Get hidden dimension from model architecture
+     * @return Hidden dimension
+     */
+    int getHiddenSize() const { return architecture_.hidden_size; }
+    
 private:
     std::unique_ptr<GGUFLoader> gguf_loader_;
     std::string model_path_;

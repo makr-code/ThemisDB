@@ -33,11 +33,13 @@ public:
      * @param scaling Scaling factor (default: 1.0)
      * @param device Target device (CPU, CUDA, HIP, Vulkan, DirectX)
      * @param use_fused_kernels Enable kernel fusion optimization (default: true)
+     * @param use_flash_lora Enable FlashLoRA memory-efficient computation (default: false, CUDA only)
      */
     GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank, 
                  float scaling = 1.0f,
                  const Device& device = Device::cpu(),
-                 bool use_fused_kernels = true);
+                 bool use_fused_kernels = true,
+                 bool use_flash_lora = false);
     
     ~GPULoRALayer() = default;
     
@@ -132,6 +134,8 @@ public:
     float scaling() const { return scaling_; }
     bool use_fused_kernels() const { return use_fused_kernels_; }
     void set_use_fused_kernels(bool use_fused) { use_fused_kernels_ = use_fused; }
+    bool use_flash_lora() const { return use_flash_lora_; }
+    void set_use_flash_lora(bool use_flash) { use_flash_lora_ = use_flash; }
 
 private:
     std::string name_ = "GPULoRALayer";
@@ -141,6 +145,7 @@ private:
     float scaling_;
     Device device_;
     bool use_fused_kernels_;
+    bool use_flash_lora_;
     
     // Trainable parameters (in VRAM)
     std::unique_ptr<GPUTensor> B_;  // (in_dim, rank)

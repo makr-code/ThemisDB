@@ -89,6 +89,28 @@ if(THEMIS_ENABLE_LORA_TESTS)
         )
         
         target_link_libraries(test_lora_adapter_application PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_adapter_application PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAAdapterApplicationTests COMMAND test_lora_adapter_application)
+        set_tests_properties(LoRAAdapterApplicationTests PROPERTIES
+            LABELS "lora;llm;adapter;inference"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
+    endif()
+    
     # LoRA Storage Key Provider Tests (Refactoring)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
         message(STATUS "Adding LoRA storage key provider tests")
@@ -107,25 +129,18 @@ if(THEMIS_ENABLE_LORA_TESTS)
             RocksDB::rocksdb
         )
         
-        target_compile_definitions(test_lora_adapter_application PRIVATE
         target_compile_definitions(test_lora_storage_key_provider PRIVATE
             THEMIS_TEST_BUILD=1
         )
         
-        # Add to CTest
-        add_test(NAME LoRAAdapterApplicationTests COMMAND test_lora_adapter_application)
-        
-        # Set test properties
-        set_tests_properties(LoRAAdapterApplicationTests PROPERTIES
-            LABELS "lora;llm;adapter;inference"
+        add_test(NAME LoRAStorageKeyProviderTests COMMAND test_lora_storage_key_provider)
+        set_tests_properties(LoRAStorageKeyProviderTests PROPERTIES
+            LABELS "lora;llm;storage;keys"
             TIMEOUT 300
         )
     else()
-        message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
-        add_test(NAME LoRAStorageKeyProviderTests COMMAND test_lora_storage_key_provider)
-        
-        # Set test properties
-        set_tests_properties(LoRAStorageKeyProviderTests PROPERTIES
+        message(STATUS "LoRA storage key provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
+    endif()
             LABELS "lora;storage;security;key_provider"
             TIMEOUT 60
         )
@@ -198,6 +213,40 @@ if(THEMIS_ENABLE_LORA_TESTS)
             message(STATUS "GPU LoRA layers tests skipped (CUDA/HIP not enabled)")
         else()
             message(STATUS "GPU LoRA layers tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_lora_layers.cpp")
+        endif()
+    endif()
+    
+    # Fused LoRA Kernels Tests (Issue #36)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+        message(STATUS "Adding fused LoRA kernels tests (CUDA/HIP enabled)")
+        
+        add_executable(test_fused_lora_kernels
+            test_fused_lora_kernels.cpp
+        )
+        
+        target_link_libraries(test_fused_lora_kernels PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+        )
+        
+        target_compile_definitions(test_fused_lora_kernels PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME FusedLoRAKernelsTests COMMAND test_fused_lora_kernels)
+        
+        # Set test properties
+        set_tests_properties(FusedLoRAKernelsTests PROPERTIES
+            LABELS "lora;gpu;cuda;hip;fused;performance"
+            TIMEOUT 600
+        )
+    else()
+        if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+            message(STATUS "Fused LoRA kernels tests skipped (CUDA/HIP not enabled)")
+        else()
+            message(STATUS "Fused LoRA kernels tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fused_lora_kernels.cpp")
         endif()
     endif()
     

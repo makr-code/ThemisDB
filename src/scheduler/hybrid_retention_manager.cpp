@@ -367,12 +367,12 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
     // Execute query
     auto [status, result] = executeAql(aql.str(), *query_engine_);
     
-    if (!status.ok()) {
-        THEMIS_ERROR("Stage 1 Gorilla compression failed: {}", status.message());
+    if (!status.ok) {
+        THEMIS_ERROR("Stage 1 Gorilla compression failed: {}", status.message);
         return nlohmann::json{
             {"status", "error"},
             {"stage", 1},
-            {"message", status.message()}
+            {"message", status.message}
         };
     }
     
@@ -443,12 +443,12 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
     // Execute query
     auto [status, result] = executeAql(aql.str(), *query_engine_);
     
-    if (!status.ok()) {
-        THEMIS_ERROR("Stage 2 Adaptive retention failed: {}", status.message());
+    if (!status.ok) {
+        THEMIS_ERROR("Stage 2 Adaptive retention failed: {}", status.message);
         return nlohmann::json{
             {"status", "error"},
             {"stage", 2},
-            {"message", status.message()}
+            {"message", status.message}
         };
     }
     
@@ -510,12 +510,12 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
     // Execute query
     auto [status, result] = executeAql(aql.str(), *query_engine_);
     
-    if (!status.ok()) {
-        THEMIS_ERROR("Stage 3 Time-Based retention failed: {}", status.message());
+    if (!status.ok) {
+        THEMIS_ERROR("Stage 3 Time-Based retention failed: {}", status.message);
         return nlohmann::json{
             {"status", "error"},
             {"stage", 3},
-            {"message", status.message()}
+            {"message", status.message}
         };
     }
     
