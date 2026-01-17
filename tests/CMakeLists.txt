@@ -240,6 +240,201 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Common timeout for LoRA integration tests
+    set(LORA_TEST_TIMEOUT 600)
+    
+    # LoRA Storage Integration Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_integration.cpp")
+        message(STATUS "Adding LoRA storage integration tests")
+        
+        add_executable(test_lora_storage_integration
+            test_lora_storage_integration.cpp
+        )
+        
+        target_link_libraries(test_lora_storage_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_storage_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAStorageIntegrationTests COMMAND test_lora_storage_integration)
+        set_tests_properties(LoRAStorageIntegrationTests PROPERTIES
+            LABELS "lora;storage;integration"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA storage integration tests not found")
+    endif()
+    
+    # Cross-Shard LoRA Distribution Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_distribution.cpp")
+        message(STATUS "Adding cross-shard LoRA distribution tests")
+        
+        add_executable(test_cross_shard_distribution
+            test_cross_shard_distribution.cpp
+            fixtures/mock_shard_cluster.cpp
+        )
+        
+        target_link_libraries(test_cross_shard_distribution PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_cross_shard_distribution PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME CrossShardDistributionTests COMMAND test_cross_shard_distribution)
+        set_tests_properties(CrossShardDistributionTests PROPERTIES
+            LABELS "lora;shard;distribution;network"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "Cross-shard distribution tests not found")
+    endif()
+    
+    # RAID LoRA Integration Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_lora_integration.cpp")
+        message(STATUS "Adding RAID LoRA integration tests")
+        
+        add_executable(test_raid_lora_integration
+            test_raid_lora_integration.cpp
+            fixtures/mock_shard_cluster.cpp
+            utils/raid_simulator.cpp
+            utils/shard_failure_injector.cpp
+        )
+        
+        target_link_libraries(test_raid_lora_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_raid_lora_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME RAIDLoRAIntegrationTests COMMAND test_raid_lora_integration)
+        set_tests_properties(RAIDLoRAIntegrationTests PROPERTIES
+            LABELS "lora;raid;redundancy;failover"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "RAID LoRA integration tests not found")
+    endif()
+    
+    # LoRA Encryption Integration Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_encryption_integration.cpp")
+        message(STATUS "Adding LoRA encryption integration tests")
+        
+        add_executable(test_lora_encryption_integration
+            test_lora_encryption_integration.cpp
+        )
+        
+        target_link_libraries(test_lora_encryption_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_encryption_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAEncryptionIntegrationTests COMMAND test_lora_encryption_integration)
+        set_tests_properties(LoRAEncryptionIntegrationTests PROPERTIES
+            LABELS "lora;encryption;security;hsm;vault;pki"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA encryption integration tests not found")
+    endif()
+    
+    # LoRA Failure Scenarios Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_failure_scenarios.cpp")
+        message(STATUS "Adding LoRA failure scenarios tests")
+        
+        add_executable(test_lora_failure_scenarios
+            test_lora_failure_scenarios.cpp
+            fixtures/mock_shard_cluster.cpp
+            utils/shard_failure_injector.cpp
+        )
+        
+        target_link_libraries(test_lora_failure_scenarios PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_failure_scenarios PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAFailureScenariosTests COMMAND test_lora_failure_scenarios)
+        set_tests_properties(LoRAFailureScenariosTests PROPERTIES
+            LABELS "lora;failure;chaos;resilience"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA failure scenarios tests not found")
+    endif()
+    
+    # LoRA Versioning Tests (Issue #5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_versioning.cpp")
+        message(STATUS "Adding LoRA versioning tests")
+        
+        add_executable(test_lora_versioning
+            test_lora_versioning.cpp
+        )
+        
+        target_link_libraries(test_lora_versioning PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_versioning PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAVersioningTests COMMAND test_lora_versioning)
+        set_tests_properties(LoRAVersioningTests PROPERTIES
+            LABELS "lora;versioning;rollback"
+            TIMEOUT ${LORA_TEST_TIMEOUT}
+        )
+    else()
+        message(STATUS "LoRA versioning tests not found")
+    endif()
+    
     # Fused LoRA Kernels Tests (Issue #36)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
         message(STATUS "Adding fused LoRA kernels tests (CUDA/HIP enabled)")
