@@ -8,11 +8,22 @@
 
 namespace themis {
 
-// Minimal Gorilla-style time-series compression for (timestamp_ms, double)
-// Implements:
-//  - Timestamps: delta-of-delta encoded with ZigZag + varint
-//  - Values: XOR of IEEE-754 double bit patterns with leading/trailing zero optimization
-// Reference: Gorilla: A Fast, Scalable, In-Memory Time Series Database
+/**
+ * Gorilla-style time-series compression for (timestamp_ms, double)
+ * 
+ * Implements:
+ *  - Timestamps: delta-of-delta encoding with ZigZag + varint
+ *  - Values: XOR of IEEE-754 double bit patterns with leading/trailing zero optimization
+ * 
+ * @sources
+ * - Algorithm: Gorilla Time Series Compression
+ * - Paper: Pelkonen, T., Franklin, S., et al. (2015)
+ *          "Gorilla: A Fast, Scalable, In-Memory Time Series Database"
+ *          Proceedings of the VLDB Endowment, Vol. 8, No. 12
+ * - Company: Facebook (Meta)
+ * - URL: http://www.vldb.org/pvldb/vol8/p1816-teller.pdf
+ * - Implementation: Custom implementation for ThemisDB based on algorithm description
+ */
 
 class BitWriter {
 public:

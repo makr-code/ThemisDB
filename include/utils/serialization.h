@@ -7,8 +7,24 @@
 namespace themis {
 namespace utils {
 
-/// Serialization utilities for Base Entity blobs
-/// Uses a compact binary format similar to VelocyPack or MessagePack
+/**
+ * Serialization utilities for Base Entity blobs
+ * 
+ * Uses a compact binary format similar to VelocyPack or MessagePack
+ * 
+ * @sources
+ * - Inspired by: VelocyPack (ArangoDB)
+ *   Repository: https://github.com/arangodb/velocypack
+ *   License: Apache 2.0
+ * - Inspired by: MessagePack
+ *   Website: https://msgpack.org/
+ *   License: Apache 2.0
+ * - ThemisDB Implementation: Custom binary format optimized for:
+ *   - Compact representation
+ *   - Fast encoding/decoding
+ *   - Native float vector support for embeddings
+ *   - Zero-copy operations where possible
+ */
 class Serialization {
 public:
     /// Type tags for serialized values

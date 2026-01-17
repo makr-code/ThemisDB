@@ -23,12 +23,34 @@ using Value = std::variant<
 >;
 
 /// Base Entity: The canonical storage unit for all data models
+/// 
 /// Each logical entity (row, document, node, edge, vector object) is stored as one blob
 /// 
 /// Architecture:
 /// - Storage format: Custom binary serialization (similar to VelocyPack/MessagePack)
 /// - Fast field extraction: simdjson on-demand parsing for index updates
 /// - Multi-model support: Flexible schema-less document model
+/// 
+/// @sources
+/// - Concept: Unified Multi-Model Storage with Canonical Entity Pattern
+/// - Origin: ThemisDB Original Design
+/// - Design Philosophy: "One canonical storage, multiple projection layers"
+/// - Inspiration:
+///   - ArangoDB: Multi-model architecture with unified storage
+///   - CozoDB: Hybrid relational-graph-vector design
+///   - Azure Cosmos DB: Multi-model APIs over single storage engine
+/// - Innovation: ThemisDB extends the multi-model concept with:
+///   - True unified storage (not multiple engines)
+///   - ACID transactions across all models simultaneously
+///   - Atomic multi-index updates (secondary, graph, vector, fulltext)
+///   - Zero-overhead model projection (no data duplication)
+/// - Implementation: ThemisDB Core Team
+/// - First Introduced: ThemisDB v1.0.0
+/// - Key Differentiators:
+///   - Transactional vector indexes (unique to ThemisDB)
+///   - Integrated LLM engine with zero-copy data access
+///   - Field-level encryption within base entity
+///   - Temporal versioning via MVCC snapshots
 class BaseEntity {
 public:
     using Blob = std::vector<uint8_t>;

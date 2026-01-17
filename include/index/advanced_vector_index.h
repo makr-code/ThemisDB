@@ -19,6 +19,15 @@ namespace themis {
  * - Large-scale RAG (> 10M documents)
  * - Multi-tenant vector search
  * - Memory-constrained deployments
+ * 
+ * @sources
+ * - Based on: FAISS (Facebook AI Similarity Search)
+ * - Library: https://github.com/facebookresearch/faiss
+ * - Paper: Johnson, J., Douze, M., & Jégou, H. (2019). 
+ *          "Billion-scale similarity search with GPUs." IEEE Transactions on Big Data.
+ * - License: MIT
+ * - ThemisDB Integration: Transactional wrapper with ACID guarantees,
+ *   multi-backend GPU support, and RocksDB persistence layer
  */
 class AdvancedVectorIndex {
 public:

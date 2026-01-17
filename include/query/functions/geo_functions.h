@@ -20,6 +20,24 @@ namespace functions {
  * 
  * Provides OGC-compatible spatial functions using GeoJSON format.
  * 
+ * @sources
+ * - Standards: OGC Simple Features Specification
+ *   URL: https://www.ogc.org/standards/sfa
+ * - GeoJSON: RFC 7946
+ *   URL: https://tools.ietf.org/html/rfc7946
+ * - Inspiration: ArangoDB Geo Functions
+ *   Repository: https://github.com/arangodb/arangodb
+ *   License: Apache 2.0
+ *   Documentation: https://www.arangodb.com/docs/stable/aql/functions-geo.html
+ * - Inspiration: PostGIS
+ *   Repository: https://github.com/postgis/postgis
+ *   License: GPL 2.0
+ * - ThemisDB Implementation: Custom spatial functions with AQL-compatible syntax
+ *   - OGC Simple Features compliance
+ *   - GeoJSON format support
+ *   - Great-circle distance calculations (Haversine formula)
+ *   - Integration with ThemisDB spatial indexes
+ * 
  * ## Supported Geometry Types
  * - Point, LineString, Polygon
  * - MultiPoint, MultiLineString, MultiPolygon

@@ -29,8 +29,20 @@ namespace acceleration {
 #ifdef THEMIS_ENABLE_CUDA
 
 /**
- * Faiss GPU Vector Backend
- * Production-grade GPU vector search using Facebook's Faiss library
+ * FAISS GPU Vector Backend
+ * Production-grade GPU vector search using Facebook's FAISS library
+ * 
+ * @sources
+ * - Library: FAISS (Facebook AI Similarity Search)
+ * - Repository: https://github.com/facebookresearch/faiss
+ * - License: MIT
+ * - Paper: Johnson, J., Douze, M., & Jégou, H. (2019)
+ *          "Billion-scale similarity search with GPUs"
+ *          IEEE Transactions on Big Data, 7(3), 535-547
+ * - arXiv: https://arxiv.org/abs/1702.08734
+ * - Index Types Used: IndexFlatL2, IndexFlatIP, IndexIVFFlat, IndexIVFPQ
+ * - ThemisDB Integration: Multi-backend GPU support wrapper, integrated with
+ *   RocksDB persistence and ACID transaction system
  */
 class FaissGPUVectorBackend : public IVectorBackend {
 public:
