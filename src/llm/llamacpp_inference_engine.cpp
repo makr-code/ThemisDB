@@ -15,7 +15,7 @@ namespace llm {
 
 namespace fs = std::filesystem;
 
-// Token size in bytes (float32)
+// Token size in bytes (uses platform's float size, typically 4 bytes)
 constexpr size_t TOKEN_SIZE_BYTES = sizeof(float);
 
 LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
@@ -42,13 +42,10 @@ LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
         
         spdlog::info("✓ PagedBlockManager initialized successfully");
         
-        // Log memory statistics
+        // Log memory pool size
         auto stats = block_manager_->getStats();
-        spdlog::info("Memory pool: {:.2f} MB ({} blocks × {} tokens × {} bytes)", 
-                     stats.total_memory_bytes / (1024.0 * 1024.0),
-                     stats.num_blocks,
-                     config_.block_size,
-                     TOKEN_SIZE_BYTES);
+        spdlog::info("Memory pool: {:.2f} MB", 
+                     stats.total_memory_bytes / (1024.0 * 1024.0));
     }
     
     // Initialize PagedKVCache with block manager
