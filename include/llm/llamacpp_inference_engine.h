@@ -137,6 +137,7 @@ private:
     std::string getTempAdapterPath(const std::string& adapter_id);
     void cleanupTempAdapterFiles();
     bool saveAdapterToTempFile(const std::string& temp_path, const lora::AdapterWeights& weights);
+    std::string generateUniqueAdapterId();  // Generate unique ID for temp files
 };
 
 } // namespace llm

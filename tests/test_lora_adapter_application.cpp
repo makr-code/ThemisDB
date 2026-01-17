@@ -464,8 +464,7 @@ TEST_F(LoRAAdapterApplicationTest, LoadFromThemisDBIntegration) {
     // Load model
     ASSERT_TRUE(engine.loadModel(model_path_, "test-model"));
     
-    // Load adapter using the ThemisDB integration method
-    // Note: loadAdapterFromThemisDB internally calls loadAndApplyLoRAAdapter
+    // Load and apply adapter using ThemisDB integration
     bool loaded = engine.loadAdapterFromThemisDB("test-adapter-1");
     EXPECT_TRUE(loaded);
     

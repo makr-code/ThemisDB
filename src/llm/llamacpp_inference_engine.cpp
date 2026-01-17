@@ -9,6 +9,8 @@
 #include <openssl/evp.h>
 #include <iomanip>
 #include <sstream>
+#include <random>
+#include <chrono>
 
 namespace themis {
 namespace llm {
@@ -37,6 +39,9 @@ LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
 }
 
 LlamaCppInferenceEngine::~LlamaCppInferenceEngine() {
+    // Explicitly clear adapters first for proper cleanup order
+    clearAllAdapters();
+    // Then unload model and cleanup resources
     unloadModel();
 }
 
@@ -856,10 +861,8 @@ std::string LlamaCppInferenceEngine::convertAdapterToLlamaCppFormat(
     // Check if already in correct format
     if (weights.format == "gguf" || weights.format == "llama.cpp") {
         spdlog::debug("Adapter already in llama.cpp format");
-        // Save directly to temp file
-        // Use a unique temporary name based on current time
-        auto now = std::chrono::system_clock::now().time_since_epoch().count();
-        std::string temp_path = getTempAdapterPath("adapter_" + std::to_string(now));
+        // Save directly to temp file with unique name
+        std::string temp_path = getTempAdapterPath(generateUniqueAdapterId());
         if (saveAdapterToTempFile(temp_path, weights)) {
             return temp_path;
         }
@@ -876,9 +879,8 @@ std::string LlamaCppInferenceEngine::convertAdapterToLlamaCppFormat(
         // 2. Convert to llama.cpp GGUF format
         // 3. Save to temp file
         
-        // Use a unique temporary name based on current time
-        auto now = std::chrono::system_clock::now().time_since_epoch().count();
-        std::string temp_path = getTempAdapterPath("adapter_" + std::to_string(now));
+        // Use unique temporary name
+        std::string temp_path = getTempAdapterPath(generateUniqueAdapterId());
         if (saveAdapterToTempFile(temp_path, weights)) {
             return temp_path;
         }
@@ -951,6 +953,19 @@ bool LlamaCppInferenceEngine::saveAdapterToTempFile(
         spdlog::error("Exception saving adapter to temp file: {}", e.what());
         return false;
     }
+}
+
+std::string LlamaCppInferenceEngine::generateUniqueAdapterId() {
+    // Combine timestamp with random component for better uniqueness
+    auto now = std::chrono::system_clock::now().time_since_epoch().count();
+    
+    // Add random component to prevent collisions
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(1000, 9999);
+    int random_suffix = dis(gen);
+    
+    return "adapter_" + std::to_string(now) + "_" + std::to_string(random_suffix);
 }
 
 } // namespace llm
