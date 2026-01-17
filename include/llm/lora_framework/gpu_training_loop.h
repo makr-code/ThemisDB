@@ -5,6 +5,7 @@
 #include "llm/lora_framework/mixed_precision.h"
 #include "llm/lora_framework/multi_gpu_lora_layer.h"
 #include "llm/lora_framework/vram_allocator.h"
+#include "llm/lora_framework/gpu_embedding_layer.h"
 #include "llm/gpu_memory_manager.h"
 #include <functional>
 #include <memory>
@@ -13,6 +14,9 @@
 namespace themis {
 namespace llm {
 namespace lora {
+
+// Forward declarations
+class BaseModelAdapter;
 
 /**
  * @brief Training metrics for GPU training
@@ -164,6 +168,12 @@ public:
      */
     float getFinalLoss() const { return final_loss_; }
     
+    /**
+     * @brief Set base model for real embeddings
+     * @param base_model Pointer to loaded base model adapter (optional)
+     */
+    void setBaseModel(const BaseModelAdapter* base_model);
+    
 private:
     GPUTrainingConfig config_;
     
@@ -171,6 +181,10 @@ private:
     std::unique_ptr<GPUDataLoader> data_loader_;
     std::vector<GPULoRALayer*> layers_;
     MultiGPULoRALayer* multi_gpu_layer_ = nullptr;
+    
+    // Base model and embeddings
+    const BaseModelAdapter* base_model_ = nullptr;
+    std::unique_ptr<GPUEmbeddingLayer> gpu_embedding_layer_;
     
     // Training components
     std::unique_ptr<GPUSGDOptimizer> optimizer_;
@@ -205,12 +219,14 @@ private:
  * @param token_ids Token ID tensor (batch_size, seq_len)
  * @param hidden_dim Embedding dimension
  * @param device Target device
+ * @param embedding_layer GPU embedding layer (optional, for real embeddings)
  * @return Embedding tensor (batch_size, hidden_dim)
  */
 GPUTensor createEmbeddingsOnGPU(
     const GPUTensor& token_ids,
     size_t hidden_dim,
-    const Device& device
+    const Device& device,
+    GPUEmbeddingLayer* embedding_layer = nullptr
 );
 
 /**

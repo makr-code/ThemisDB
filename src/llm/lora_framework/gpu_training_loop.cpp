@@ -1,4 +1,5 @@
 #include "llm/lora_framework/gpu_training_loop.h"
+#include "llm/lora_framework/base_model_adapter.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -97,6 +98,37 @@ void GPUTrainingLoop::setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer) {
 
 void GPUTrainingLoop::registerCallback(GPUTrainingCallback callback) {
     callback_ = callback;
+}
+
+void GPUTrainingLoop::setBaseModel(const BaseModelAdapter* base_model) {
+    base_model_ = base_model;
+    
+    if (base_model_ && base_model_->isLoaded()) {
+        // Create GPU embedding layer from base model
+        const float* embedding_matrix = base_model_->getEmbeddingMatrix();
+        
+        if (embedding_matrix) {
+            size_t vocab_size = base_model_->getVocabSize();
+            size_t hidden_dim = base_model_->getHiddenSize();
+            
+            spdlog::info("Creating GPU embedding layer from base model:");
+            spdlog::info("  Vocab size: {}", vocab_size);
+            spdlog::info("  Hidden dim: {}", hidden_dim);
+            
+            gpu_embedding_layer_ = std::make_unique<GPUEmbeddingLayer>(
+                embedding_matrix,
+                vocab_size,
+                hidden_dim,
+                config_.device
+            );
+            
+            spdlog::info("GPU embedding layer created successfully");
+        } else {
+            spdlog::warn("Base model loaded but embedding matrix not available");
+        }
+    } else {
+        spdlog::info("No base model set, will use hash-based embeddings");
+    }
 }
 
 bool GPUTrainingLoop::train() {
@@ -297,12 +329,13 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
 
 float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Create embeddings from token IDs
-    size_t hidden_dim = 768;  // Standard transformer dimension
+    size_t hidden_dim = gpu_embedding_layer_ ? gpu_embedding_layer_->hidden_dim() : 768;
+    
     GPUTensor input_embeddings = createEmbeddingsOnGPU(
-        batch.input_ids, hidden_dim, config_.device
+        batch.input_ids, hidden_dim, config_.device, gpu_embedding_layer_.get()
     );
     GPUTensor target_embeddings = createEmbeddingsOnGPU(
-        batch.labels, hidden_dim, config_.device
+        batch.labels, hidden_dim, config_.device, gpu_embedding_layer_.get()
     );
     
     // Apply mixed precision if enabled
@@ -416,7 +449,8 @@ void GPUTrainingLoop::checkMemoryUsage() {
 GPUTensor createEmbeddingsOnGPU(
     const GPUTensor& token_ids,
     size_t hidden_dim,
-    const Device& device
+    const Device& device,
+    GPUEmbeddingLayer* embedding_layer
 ) {
     // Get batch size and sequence length from token_ids shape
     auto shape = token_ids.shape();
@@ -427,19 +461,38 @@ GPUTensor createEmbeddingsOnGPU(
     size_t batch_size = shape[0];
     size_t seq_len = shape[1];
     
+    // Use real embeddings from base model if available
+    if (embedding_layer) {
+        spdlog::debug("Using real embeddings from base model");
+        
+        // Get embeddings from embedding layer: [batch_size, seq_len, hidden_dim]
+        GPUTensor embeddings_3d = embedding_layer->forward(token_ids);
+        
+        // Average over sequence dimension to get [batch_size, hidden_dim]
+        // This converts sequence embeddings to a single embedding per batch item
+        auto embeddings_data = embeddings_3d.cpu_data();
+        std::vector<float> averaged_data(batch_size * hidden_dim, 0.0f);
+        
+        for (size_t i = 0; i < batch_size; ++i) {
+            for (size_t j = 0; j < hidden_dim; ++j) {
+                float sum = 0.0f;
+                for (size_t k = 0; k < seq_len; ++k) {
+                    sum += embeddings_data[i * seq_len * hidden_dim + k * hidden_dim + j];
+                }
+                averaged_data[i * hidden_dim + j] = sum / seq_len;
+            }
+        }
+        
+        GPUTensor embeddings({batch_size, hidden_dim}, device);
+        embeddings.upload(averaged_data);
+        return embeddings;
+    }
+    
+    // Fallback: Hash-based embeddings (standalone mode)
+    spdlog::debug("Using hash-based embeddings (standalone mode)");
+    
     // Create embedding tensor
     GPUTensor embeddings({batch_size, hidden_dim}, device);
-    
-    // TODO: Replace with actual embedding lookup from base model
-    // Current implementation uses hash-based embeddings as a placeholder.
-    // In production, this should:
-    // 1. Look up token embeddings from the base model's embedding layer
-    // 2. Perform embedding lookup directly on GPU (no CPU transfer)
-    // 3. Handle different model architectures (Llama, GPT, etc.)
-    // 
-    // Hash-based embeddings are only suitable for testing the training loop mechanics,
-    // but will produce poor training quality. This is a known limitation of the
-    // initial implementation and should be addressed before production use.
     
     auto token_data = token_ids.cpu_data();
     std::vector<float> embedding_data(batch_size * hidden_dim);
