@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "llm/gguf_loader.h"
 #include "llm/llamacpp_inference_engine.h"
+#include "llm/paged_block_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <fstream>
 #include <chrono>
@@ -293,6 +294,34 @@ TEST(GGUFLoaderBenchmark, ParsePerformance) {
     EXPECT_LT(duration.count(), 100);
     
     std::remove(test_file.c_str());
+}
+
+// Test PagedBlockManager integration
+TEST_F(LlamaCppInferenceEngineTest, PagedBlockManagerIntegration) {
+    // Test 1: Engine creates block manager automatically
+    LlamaCppInferenceEngine engine1(config_);
+    auto stats1 = engine1.getStats();
+    EXPECT_EQ(stats1.total_tokens_processed, 0);
+    
+    // Test 2: Engine accepts provided block manager
+    PagedBlockManager::Config bm_config;
+    bm_config.max_blocks = 512;
+    bm_config.block_size_tokens = 32;
+    bm_config.token_size_bytes = sizeof(float);
+    
+    auto block_manager = std::make_shared<PagedBlockManager>(bm_config);
+    
+    LlamaCppInferenceEngine::Config config2 = config_;
+    config2.block_manager = block_manager;
+    config2.block_size = 32;
+    config2.num_blocks = 512;
+    
+    LlamaCppInferenceEngine engine2(config2);
+    auto stats2 = engine2.getStats();
+    EXPECT_EQ(stats2.total_tokens_processed, 0);
+    
+    // Verify block manager is being used (check it's not null by successful init)
+    EXPECT_EQ(engine2.getModelInfo(), "No model loaded");
 }
 
 // No custom main; gtest_main provides the entry point

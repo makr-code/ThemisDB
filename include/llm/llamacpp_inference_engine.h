@@ -3,6 +3,7 @@
 #include "llm/i_llm_plugin.h"
 #include "llm/gguf_loader.h"
 #include "llm/paged_kv_cache.h"
+#include "llm/paged_block_manager.h"
 #include "llm/lazy_model_loader.h"
 #include "llm/llm_model_storage.h"
 #include "llm/lora_framework/lora_storage_service.h"
@@ -28,6 +29,9 @@ public:
         int block_size = 16;
         int num_blocks = 4096;
         bool enable_prefix_caching = true;
+        
+        // PagedBlockManager (optional - will be created if not provided)
+        std::shared_ptr<PagedBlockManager> block_manager;
         
         // ThemisDB integration (optional)
         std::shared_ptr<LLMModelStorage> model_storage;        // Model storage service
@@ -77,6 +81,7 @@ public:
 private:
     Config config_;
     std::unique_ptr<GGUFLoader> gguf_loader_;
+    std::shared_ptr<PagedBlockManager> block_manager_;
     std::unique_ptr<PagedKVCache> kv_cache_;
     std::string current_model_name_;
     bool model_loaded_;
