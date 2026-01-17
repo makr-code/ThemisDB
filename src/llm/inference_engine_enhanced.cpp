@@ -462,7 +462,8 @@ void InferenceEngineEnhanced::timeoutMonitorLoop() {
         checkAndHandleTimeouts();
         
         // Brief sleep to avoid busy-waiting while still being responsive
-        // In production, this could be optimized with event-driven timeout management
+        // NOTE: This polling approach is acceptable for monitoring threads.
+        // For high-frequency systems, consider using condition variables or event-driven timeouts.
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
