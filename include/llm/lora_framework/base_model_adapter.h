@@ -116,6 +116,32 @@ public:
      */
     void unload();
     
+    /**
+     * @brief Extract embedding vector for a single token
+     * @param token_id Token ID to extract embedding for
+     * @return Embedding vector (size = model's hidden_dim), empty if failed
+     */
+    std::vector<float> getTokenEmbedding(int token_id) const;
+    
+    /**
+     * @brief Extract embeddings for multiple tokens (batched)
+     * @param token_ids Vector of token IDs
+     * @return Flattened embedding matrix [num_tokens * hidden_dim]
+     */
+    std::vector<float> getTokenEmbeddings(const std::vector<int>& token_ids) const;
+    
+    /**
+     * @brief Get pointer to full embedding matrix (read-only)
+     * @return Pointer to embedding matrix or nullptr if not available
+     * @note Matrix is [vocab_size * hidden_dim]
+     */
+    const float* getEmbeddingMatrix() const;
+    
+    /**
+     * @brief Get embedding cache statistics
+     */
+    void logCacheStats() const;
+    
 private:
     std::unique_ptr<GGUFLoader> gguf_loader_;
     std::string model_path_;
@@ -128,6 +154,16 @@ private:
     // Cached layer information for fast lookup
     std::unordered_map<std::string, BaseLayerInfo> layer_map_;
     
+    // Embedding cache for performance
+    mutable std::unordered_map<int, std::vector<float>> embedding_cache_;
+    mutable size_t cache_hits_ = 0;
+    mutable size_t cache_misses_ = 0;
+    static constexpr size_t MAX_CACHE_SIZE = 10000;  // Cache top 10k tokens
+    
+    // Cached embedding matrix pointer (mmap'd or loaded)
+    mutable const float* embedding_matrix_ = nullptr;
+    mutable std::string embedding_tensor_name_;
+    
     // Helper methods
     bool parseArchitecture();
     bool identifyAdaptableLayers();
@@ -135,6 +171,10 @@ private:
     std::string standardizeLayerName(const std::string& model_layer_name) const;
     bool matchesTargetModule(const std::string& layer_name, 
                             const std::string& target_pattern) const;
+    
+    // Embedding extraction helpers
+    std::string findEmbeddingTensorName() const;
+    std::vector<float> extractEmbeddingFromGGUF(int token_id) const;
 };
 
 /**
@@ -201,6 +241,12 @@ public:
      * @return Number of frozen parameters
      */
     size_t getBaseModelParameterCount() const;
+    
+    /**
+     * @brief Get base model adapter (for accessing embeddings, etc.)
+     * @return Pointer to base model adapter, nullptr if not initialized
+     */
+    const BaseModelAdapter* getBaseModel() const { return base_model_.get(); }
     
     /**
      * @brief Export LoRA adapter weights

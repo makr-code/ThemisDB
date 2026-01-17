@@ -416,22 +416,89 @@ public:
                     Tensor batch_target({batch_size, hidden_dim});
                     
                     if (using_base_model && enhanced_model) {
-                        // Phase 2b: Use actual embeddings from base model (if available)
-                        // For now, still use simplified embeddings until base model embedding extraction is implemented
-                        // TODO: Extract embeddings from base model: enhanced_model->getBaseModel()->getEmbeddings(tokens)
-                        spdlog::debug("Using simplified embeddings (base model embedding extraction pending)");
+                        // Phase 2b: Use actual embeddings from base model
+                        auto base_model = enhanced_model->getBaseModel();
                         
-                        // Simple embedding: hash token IDs into hidden_dim space
-                        for (size_t i = 0; i < batch_size; ++i) {
-                            for (size_t j = 0; j < hidden_dim; ++j) {
-                                size_t token_idx = j % seq_len;
-                                int token_id = batch.input_ids[i][token_idx];
-                                batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                        if (base_model && base_model->isLoaded()) {
+                            spdlog::debug("Using real embeddings from base model");
+                            
+                            try {
+                                // Extract embeddings for input tokens
+                                for (size_t i = 0; i < batch_size; ++i) {
+                                    auto input_embeddings = base_model->getTokenEmbeddings(batch.input_ids[i]);
+                                    
+                                    if (input_embeddings.empty()) {
+                                        spdlog::warn("Failed to extract embeddings, falling back to hash-based");
+                                        // Fallback to hash-based for this sample
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            size_t token_idx = j % seq_len;
+                                            int token_id = batch.input_ids[i][token_idx];
+                                            batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                        }
+                                    } else {
+                                        // Use real embeddings (average over sequence for now)
+                                        // In production, this would be the actual transformer input
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            float sum = 0.0f;
+                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                                sum += input_embeddings[tok_idx * hidden_dim + j];
+                                            }
+                                            batch_input[i * hidden_dim + j] = sum / seq_len;
+                                        }
+                                    }
+                                    
+                                    // Extract embeddings for target tokens
+                                    auto target_embeddings = base_model->getTokenEmbeddings(batch.label_ids[i]);
+                                    
+                                    if (target_embeddings.empty()) {
+                                        // Fallback to hash-based for target
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            size_t next_token_idx = (j + 1) % seq_len;
+                                            int next_token_id = batch.label_ids[i][next_token_idx];
+                                            batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                        }
+                                    } else {
+                                        // Use real embeddings for target
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            float sum = 0.0f;
+                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                                sum += target_embeddings[tok_idx * hidden_dim + j];
+                                            }
+                                            batch_target[i * hidden_dim + j] = sum / seq_len;
+                                        }
+                                    }
+                                }
+                            } catch (const std::exception& e) {
+                                spdlog::error("Error extracting embeddings: {}", e.what());
+                                spdlog::warn("Falling back to hash-based embeddings");
                                 
-                                // Target is shifted input (next token prediction)
-                                size_t next_token_idx = (token_idx + 1) % seq_len;
-                                int next_token_id = batch.label_ids[i][next_token_idx];
-                                batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                // Fallback to hash-based embeddings
+                                for (size_t i = 0; i < batch_size; ++i) {
+                                    for (size_t j = 0; j < hidden_dim; ++j) {
+                                        size_t token_idx = j % seq_len;
+                                        int token_id = batch.input_ids[i][token_idx];
+                                        batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                        
+                                        size_t next_token_idx = (token_idx + 1) % seq_len;
+                                        int next_token_id = batch.label_ids[i][next_token_idx];
+                                        batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                    }
+                                }
+                            }
+                        } else {
+                            spdlog::debug("Base model not available, using hash-based embeddings");
+                            
+                            // Fallback: hash-based embeddings when base model not available
+                            for (size_t i = 0; i < batch_size; ++i) {
+                                for (size_t j = 0; j < hidden_dim; ++j) {
+                                    size_t token_idx = j % seq_len;
+                                    int token_id = batch.input_ids[i][token_idx];
+                                    batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                    
+                                    size_t next_token_idx = (token_idx + 1) % seq_len;
+                                    int next_token_id = batch.label_ids[i][next_token_idx];
+                                    batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                }
                             }
                         }
                     } else {
