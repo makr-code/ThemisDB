@@ -9,6 +9,14 @@
 #include "llm/lora_framework/cuda_fused_kernels.h"
 #endif
 
+#ifdef THEMIS_ENABLE_CPU_FUSED_KERNELS
+#include "llm/lora_framework/cpu_fused_kernels.h"
+#endif
+
+#ifdef THEMIS_ENABLE_VULKAN
+#include "llm/lora_framework/vulkan_kernels.h"
+#endif
+
 using namespace themis::llm::lora;
 using namespace std::chrono;
 
@@ -631,6 +639,361 @@ TEST_F(FusedLoRAKernelsTest, NonSquareDimensions_CUDA) {
     float max_diff = maxAbsDifference(fused_output, unfused_output);
     EXPECT_LT(max_diff, RELAXED_EPSILON);
 }
+
+// ============================================================================
+// CPU Baseline Tests
+// ============================================================================
+
+TEST_F(FusedLoRAKernelsTest, CPUBaseline_ForwardNumericalAccuracy) {
+    // Test CPU baseline implementation for numerical correctness
+    size_t batch_size = 4;
+    size_t in_dim = 256;
+    size_t out_dim = 256;
+    size_t rank = 8;
+    float scaling = 1.0f;
+    
+    // Create test data
+    std::vector<float> input(batch_size * in_dim, 0.5f);
+    std::vector<float> B(in_dim * rank);
+    std::vector<float> A(rank * out_dim);
+    std::vector<float> output_cpu(batch_size * out_dim);
+    std::vector<float> output_reference(batch_size * out_dim);
+    
+    // Initialize B and A with random values
+    for (size_t i = 0; i < B.size(); ++i) {
+        B[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    for (size_t i = 0; i < A.size(); ++i) {
+        A[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    
+    #ifdef THEMIS_ENABLE_CPU_FUSED_KERNELS
+    // Use CPU fused kernel
+    cpu::fused::cpu_fused_lora_forward(
+        input.data(), B.data(), A.data(), output_cpu.data(),
+        batch_size, in_dim, rank, out_dim, scaling
+    );
+    
+    // Compute reference using naive implementation
+    // Step 1: h = input @ B^T
+    std::vector<float> h(batch_size * rank);
+    for (size_t b = 0; b < batch_size; ++b) {
+        for (size_t r = 0; r < rank; ++r) {
+            float sum = 0.0f;
+            for (size_t i = 0; i < in_dim; ++i) {
+                sum += input[b * in_dim + i] * B[i * rank + r];
+            }
+            h[b * rank + r] = sum;
+        }
+    }
+    
+    // Step 2: output = h @ A^T * scaling
+    for (size_t b = 0; b < batch_size; ++b) {
+        for (size_t o = 0; o < out_dim; ++o) {
+            float sum = 0.0f;
+            for (size_t r = 0; r < rank; ++r) {
+                sum += h[b * rank + r] * A[r * out_dim + o];
+            }
+            output_reference[b * out_dim + o] = sum * scaling;
+        }
+    }
+    
+    // Compare outputs
+    float max_diff = 0.0f;
+    for (size_t i = 0; i < output_cpu.size(); ++i) {
+        float diff = std::abs(output_cpu[i] - output_reference[i]);
+        max_diff = std::max(max_diff, diff);
+    }
+    
+    spdlog::info("CPU fused vs reference: max_diff={}", max_diff);
+    EXPECT_LT(max_diff, 1e-4f);
+    #else
+    GTEST_SKIP() << "CPU fused kernels not enabled";
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, CPUBaseline_BackwardNumericalAccuracy) {
+    size_t batch_size = 4;
+    size_t in_dim = 256;
+    size_t out_dim = 256;
+    size_t rank = 8;
+    float scaling = 1.0f;
+    
+    // Create test data
+    std::vector<float> input(batch_size * in_dim, 0.5f);
+    std::vector<float> B(in_dim * rank);
+    std::vector<float> A(rank * out_dim);
+    std::vector<float> grad_output(batch_size * out_dim, 0.1f);
+    std::vector<float> grad_A(rank * out_dim, 0.0f);
+    std::vector<float> grad_B(in_dim * rank, 0.0f);
+    std::vector<float> grad_input(batch_size * in_dim, 0.0f);
+    
+    // Initialize B and A
+    for (size_t i = 0; i < B.size(); ++i) {
+        B[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    for (size_t i = 0; i < A.size(); ++i) {
+        A[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    
+    #ifdef THEMIS_ENABLE_CPU_FUSED_KERNELS
+    // Use CPU fused backward
+    cpu::fused::cpu_fused_lora_backward(
+        input.data(), B.data(), A.data(), grad_output.data(),
+        grad_A.data(), grad_B.data(), grad_input.data(),
+        batch_size, in_dim, rank, out_dim, scaling
+    );
+    
+    // Verify gradients are non-zero
+    float grad_A_sum = 0.0f;
+    float grad_B_sum = 0.0f;
+    float grad_input_sum = 0.0f;
+    
+    for (auto val : grad_A) grad_A_sum += std::abs(val);
+    for (auto val : grad_B) grad_B_sum += std::abs(val);
+    for (auto val : grad_input) grad_input_sum += std::abs(val);
+    
+    spdlog::info("CPU backward: grad_A_sum={}, grad_B_sum={}, grad_input_sum={}", 
+                 grad_A_sum, grad_B_sum, grad_input_sum);
+    
+    EXPECT_GT(grad_A_sum, 0.0f);
+    EXPECT_GT(grad_B_sum, 0.0f);
+    EXPECT_GT(grad_input_sum, 0.0f);
+    #else
+    GTEST_SKIP() << "CPU fused kernels not enabled";
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, CPUBaseline_Performance) {
+    size_t batch_size = 32;
+    size_t in_dim = 768;
+    size_t out_dim = 768;
+    size_t rank = 16;
+    float scaling = 1.0f;
+    
+    std::vector<float> input(batch_size * in_dim, 0.5f);
+    std::vector<float> B(in_dim * rank, 0.01f);
+    std::vector<float> A(rank * out_dim, 0.01f);
+    std::vector<float> output(batch_size * out_dim);
+    
+    #ifdef THEMIS_ENABLE_CPU_FUSED_KERNELS
+    // Warmup
+    for (size_t i = 0; i < 5; ++i) {
+        cpu::fused::cpu_fused_lora_forward(
+            input.data(), B.data(), A.data(), output.data(),
+            batch_size, in_dim, rank, out_dim, scaling
+        );
+    }
+    
+    // Benchmark
+    auto start = high_resolution_clock::now();
+    for (size_t i = 0; i < 50; ++i) {
+        cpu::fused::cpu_fused_lora_forward(
+            input.data(), B.data(), A.data(), output.data(),
+            batch_size, in_dim, rank, out_dim, scaling
+        );
+    }
+    auto end = high_resolution_clock::now();
+    auto cpu_time = duration_cast<microseconds>(end - start).count();
+    
+    spdlog::info("CPU Baseline Performance: {} μs (avg {} μs/iter)", 
+                 cpu_time, cpu_time / 50);
+    
+    // Just ensure it completes
+    EXPECT_GT(cpu_time, 0);
+    #else
+    GTEST_SKIP() << "CPU fused kernels not enabled";
+    #endif
+}
+
+// ============================================================================
+// Vulkan Backend Tests
+// ============================================================================
+
+TEST_F(FusedLoRAKernelsTest, Vulkan_ForwardNumericalAccuracy) {
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (!vulkan::is_vulkan_available()) {
+        GTEST_SKIP() << "Vulkan not available";
+    }
+    
+    if (!vulkan::initialize_vulkan_lora(0)) {
+        GTEST_SKIP() << "Failed to initialize Vulkan";
+    }
+    
+    size_t batch_size = 4;
+    size_t in_dim = 256;
+    size_t out_dim = 256;
+    size_t rank = 8;
+    float scaling = 1.0f;
+    
+    // Create test data
+    std::vector<float> input(batch_size * in_dim, 0.5f);
+    std::vector<float> B(in_dim * rank);
+    std::vector<float> A(rank * out_dim);
+    std::vector<float> output_vulkan(batch_size * out_dim);
+    std::vector<float> output_cpu(batch_size * out_dim);
+    
+    // Initialize B and A
+    for (size_t i = 0; i < B.size(); ++i) {
+        B[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    for (size_t i = 0; i < A.size(); ++i) {
+        A[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    
+    // Compute with Vulkan
+    vulkan::launch_fused_lora_forward(
+        input.data(), B.data(), A.data(), output_vulkan.data(),
+        batch_size, in_dim, rank, out_dim, scaling
+    );
+    
+    // Compute reference with CPU
+    cpu::fused::cpu_fused_lora_forward(
+        input.data(), B.data(), A.data(), output_cpu.data(),
+        batch_size, in_dim, rank, out_dim, scaling
+    );
+    
+    // Compare outputs
+    float max_diff = 0.0f;
+    for (size_t i = 0; i < output_vulkan.size(); ++i) {
+        float diff = std::abs(output_vulkan[i] - output_cpu[i]);
+        max_diff = std::max(max_diff, diff);
+    }
+    
+    spdlog::info("Vulkan vs CPU: max_diff={}", max_diff);
+    EXPECT_LT(max_diff, 1e-3f);
+    
+    vulkan::cleanup_vulkan_lora();
+    #else
+    GTEST_SKIP() << "Vulkan not enabled";
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, Vulkan_BackwardNumericalAccuracy) {
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (!vulkan::is_vulkan_available()) {
+        GTEST_SKIP() << "Vulkan not available";
+    }
+    
+    if (!vulkan::initialize_vulkan_lora(0)) {
+        GTEST_SKIP() << "Failed to initialize Vulkan";
+    }
+    
+    size_t batch_size = 4;
+    size_t in_dim = 256;
+    size_t out_dim = 256;
+    size_t rank = 8;
+    float scaling = 1.0f;
+    
+    // Create test data
+    std::vector<float> input(batch_size * in_dim, 0.5f);
+    std::vector<float> B(in_dim * rank);
+    std::vector<float> A(rank * out_dim);
+    std::vector<float> grad_output(batch_size * out_dim, 0.1f);
+    std::vector<float> grad_A_vulkan(rank * out_dim, 0.0f);
+    std::vector<float> grad_B_vulkan(in_dim * rank, 0.0f);
+    std::vector<float> grad_input_vulkan(batch_size * in_dim, 0.0f);
+    std::vector<float> grad_A_cpu(rank * out_dim, 0.0f);
+    std::vector<float> grad_B_cpu(in_dim * rank, 0.0f);
+    std::vector<float> grad_input_cpu(batch_size * in_dim, 0.0f);
+    
+    // Initialize B and A
+    for (size_t i = 0; i < B.size(); ++i) {
+        B[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    for (size_t i = 0; i < A.size(); ++i) {
+        A[i] = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 0.1f;
+    }
+    
+    // Compute with Vulkan
+    vulkan::launch_fused_lora_backward(
+        input.data(), B.data(), A.data(), grad_output.data(),
+        grad_A_vulkan.data(), grad_B_vulkan.data(), grad_input_vulkan.data(),
+        batch_size, in_dim, rank, out_dim, scaling
+    );
+    
+    // Compute reference with CPU
+    cpu::fused::cpu_fused_lora_backward(
+        input.data(), B.data(), A.data(), grad_output.data(),
+        grad_A_cpu.data(), grad_B_cpu.data(), grad_input_cpu.data(),
+        batch_size, in_dim, rank, out_dim, scaling
+    );
+    
+    // Compare gradients
+    auto compare_grads = [](const std::vector<float>& a, const std::vector<float>& b, const std::string& name) {
+        float max_diff = 0.0f;
+        for (size_t i = 0; i < a.size(); ++i) {
+            max_diff = std::max(max_diff, std::abs(a[i] - b[i]));
+        }
+        spdlog::info("Vulkan vs CPU {}: max_diff={}", name, max_diff);
+        return max_diff;
+    };
+    
+    float grad_A_diff = compare_grads(grad_A_vulkan, grad_A_cpu, "grad_A");
+    float grad_B_diff = compare_grads(grad_B_vulkan, grad_B_cpu, "grad_B");
+    float grad_input_diff = compare_grads(grad_input_vulkan, grad_input_cpu, "grad_input");
+    
+    EXPECT_LT(grad_A_diff, 1e-3f);
+    EXPECT_LT(grad_B_diff, 1e-3f);
+    EXPECT_LT(grad_input_diff, 1e-3f);
+    
+    vulkan::cleanup_vulkan_lora();
+    #else
+    GTEST_SKIP() << "Vulkan not enabled";
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, Vulkan_Performance) {
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (!vulkan::is_vulkan_available()) {
+        GTEST_SKIP() << "Vulkan not available";
+    }
+    
+    if (!vulkan::initialize_vulkan_lora(0)) {
+        GTEST_SKIP() << "Failed to initialize Vulkan";
+    }
+    
+    size_t batch_size = 32;
+    size_t in_dim = 768;
+    size_t out_dim = 768;
+    size_t rank = 16;
+    float scaling = 1.0f;
+    
+    std::vector<float> input(batch_size * in_dim, 0.5f);
+    std::vector<float> B(in_dim * rank, 0.01f);
+    std::vector<float> A(rank * out_dim, 0.01f);
+    std::vector<float> output(batch_size * out_dim);
+    
+    // Warmup
+    for (size_t i = 0; i < 5; ++i) {
+        vulkan::launch_fused_lora_forward(
+            input.data(), B.data(), A.data(), output.data(),
+            batch_size, in_dim, rank, out_dim, scaling
+        );
+    }
+    
+    // Benchmark
+    auto start = high_resolution_clock::now();
+    for (size_t i = 0; i < 50; ++i) {
+        vulkan::launch_fused_lora_forward(
+            input.data(), B.data(), A.data(), output.data(),
+            batch_size, in_dim, rank, out_dim, scaling
+        );
+    }
+    auto end = high_resolution_clock::now();
+    auto vulkan_time = duration_cast<microseconds>(end - start).count();
+    
+    spdlog::info("Vulkan Fused Performance: {} μs (avg {} μs/iter)", 
+                 vulkan_time, vulkan_time / 50);
+    
+    EXPECT_GT(vulkan_time, 0);
+    
+    vulkan::cleanup_vulkan_lora();
+    #else
+    GTEST_SKIP() << "Vulkan not enabled";
+    #endif
+}
+
 
 // ============================================================================
 // Phase 2: Optimized Kernel Tests
