@@ -360,11 +360,12 @@ TEST(GPUMemoryManagerTest, DeviceAvailability) {
     Device cuda_dev = Device::cuda();
     Device hip_dev = Device::hip();
     
-    // These tests just ensure the checks don't crash
+    // These checks should not crash (availability depends on hardware)
     bool cuda_available = manager.is_device_available(cuda_dev);
     bool hip_available = manager.is_device_available(hip_dev);
     
-    EXPECT_TRUE(cuda_available || hip_available || true);  // At least one should work
+    // At least CPU should work
+    EXPECT_TRUE(manager.is_device_available(Device::cpu()));
 }
 
 TEST(GPUMemoryManagerTest, BackendDetection) {
