@@ -119,6 +119,16 @@ bool BaseModelAdapter::parseArchitecture() {
         architecture_.intermediate_size = architecture_.hidden_size * 4;
     }
     
+    // Vocabulary size
+    if (config.find("vocab_size") != config.end()) {
+        architecture_.vocab_size = std::stoi(config.at("vocab_size"));
+    } else if (config.find("n_vocab") != config.end()) {
+        architecture_.vocab_size = std::stoi(config.at("n_vocab"));
+    } else {
+        // Try to infer from embedding tensor shape
+        architecture_.vocab_size = 32000;  // Default for Llama models
+    }
+    
     // RoPE parameters
     if (config.find("rope_freq_base") != config.end()) {
         architecture_.rope_freq_base = std::stof(config.at("rope_freq_base"));
@@ -348,6 +358,12 @@ std::string BaseModelAdapter::findEmbeddingTensorName() const {
     
     const auto& metadata = gguf_loader_->getMetadata();
     
+    // NOTE: We're looking for the EMBEDDING LAYER weights (first layer),
+    // NOT the output embeddings from llama_get_embeddings().
+    // 
+    // For LoRA training, we need raw token embeddings as inputs to layers,
+    // not contextualized sequence embeddings from a full forward pass.
+    //
     // Try different embedding tensor names based on architecture
     std::vector<std::string> possible_names = {
         "token_embd.weight",           // Common GGUF name
@@ -383,6 +399,12 @@ std::string BaseModelAdapter::findEmbeddingTensorName() const {
 std::vector<float> BaseModelAdapter::extractEmbeddingFromGGUF(int token_id) const {
     if (!gguf_loader_ || !model_loaded_) {
         spdlog::warn("Model not loaded");
+        return {};
+    }
+    
+    // Validate token_id is within vocabulary bounds
+    if (token_id < 0 || token_id >= architecture_.vocab_size) {
+        spdlog::error("Token ID {} out of bounds (vocab_size={})", token_id, architecture_.vocab_size);
         return {};
     }
     

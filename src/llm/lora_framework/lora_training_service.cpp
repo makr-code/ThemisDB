@@ -895,6 +895,31 @@ private:
     // Checkpoint state
     std::string current_adapter_id_;
     std::vector<float> loss_history_;
+    
+    /**
+     * @brief Generate hash-based embeddings as fallback when base model unavailable
+     * @param token_ids Vector of token IDs
+     * @param hidden_dim Hidden dimension size
+     * @return Flattened embedding tensor [batch_size * hidden_dim]
+     */
+    std::vector<float> generateHashEmbeddings(
+        const std::vector<int>& token_ids,
+        size_t hidden_dim
+    ) const {
+        std::vector<float> embeddings(token_ids.size() * hidden_dim);
+        
+        for (size_t i = 0; i < token_ids.size(); ++i) {
+            int token_id = token_ids[i];
+            // Simple hash-based embedding
+            float value = static_cast<float>(token_id % 100) / 100.0f;
+            
+            for (size_t j = 0; j < hidden_dim; ++j) {
+                embeddings[i * hidden_dim + j] = value;
+            }
+        }
+        
+        return embeddings;
+    }
 };
 
 // LoRATrainingService public interface

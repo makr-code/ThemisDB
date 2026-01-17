@@ -34,6 +34,7 @@ struct ModelArchitecture {
     int hidden_size;               // Hidden dimension
     int num_attention_heads;       // Number of attention heads
     int intermediate_size;         // MLP intermediate size
+    int vocab_size;                // Vocabulary size
     std::string rope_scaling_type; // RoPE scaling type
     float rope_freq_base;          // RoPE frequency base
 };
@@ -117,14 +118,25 @@ public:
     void unload();
     
     /**
-     * @brief Extract embedding vector for a single token
+     * @brief Extract raw token embedding vector from embedding matrix
+     * 
+     * This extracts the embedding from the model's embedding layer (first layer),
+     * NOT the contextualized sequence embeddings from llama_get_embeddings().
+     * 
+     * For LoRA training, we need these raw token embeddings as inputs to individual
+     * layers, not the final model output.
+     * 
      * @param token_id Token ID to extract embedding for
      * @return Embedding vector (size = model's hidden_dim), empty if failed
      */
     std::vector<float> getTokenEmbedding(int token_id) const;
     
     /**
-     * @brief Extract embeddings for multiple tokens (batched)
+     * @brief Extract raw token embeddings for multiple tokens (batched)
+     * 
+     * Batch version of getTokenEmbedding() for efficiency.
+     * Returns raw embedding layer weights, not contextualized embeddings.
+     * 
      * @param token_ids Vector of token IDs
      * @return Flattened embedding matrix [num_tokens * hidden_dim]
      */
@@ -132,8 +144,13 @@ public:
     
     /**
      * @brief Get pointer to full embedding matrix (read-only)
+     * 
+     * Direct access to the embedding layer weight matrix.
+     * Use this for efficient access when processing many tokens.
+     * 
      * @return Pointer to embedding matrix or nullptr if not available
-     * @note Matrix is [vocab_size * hidden_dim]
+     * @note Matrix is [vocab_size * hidden_dim], row-major layout
+     * @note This is the raw embedding matrix, not contextualized embeddings
      */
     const float* getEmbeddingMatrix() const;
     
