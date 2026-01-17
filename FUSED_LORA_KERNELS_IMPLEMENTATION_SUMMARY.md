@@ -2,9 +2,9 @@
 
 ## Issue #36: [GPU Training] Implement Fused LoRA Kernels (MatMul + Scaling)
 
-### Status: Phase 1 Complete ✅
+### Status: Phase 2 In Progress 🚧
 
-This document summarizes the implementation work for Issue #36, focusing on comprehensive testing, benchmarking, and documentation for the existing fused LoRA kernel implementations.
+This document summarizes the implementation work for Issue #36, focusing on comprehensive testing, benchmarking, documentation, and Phase 2 optimizations for the fused LoRA kernel implementations.
 
 ---
 
