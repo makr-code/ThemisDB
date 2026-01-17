@@ -1,5 +1,6 @@
 #include "llm/lora_framework/gpu_embedding_layer.h"
 #include "llm/lora_framework/cuda_kernels.h"
+#include "llm/lora_framework/hip_kernels.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstring>
@@ -172,10 +173,40 @@ GPUTensor GPUEmbeddingLayer::forwardCUDA(const GPUTensor& token_ids) {
 }
 
 GPUTensor GPUEmbeddingLayer::forwardHIP(const GPUTensor& token_ids) {
-    // TODO: Implement HIP kernel for embedding lookup
-    // For now, fall back to CPU implementation
-    spdlog::debug("HIP embedding kernel not yet implemented, using CPU fallback");
+#ifdef THEMIS_ENABLE_HIP
+    auto shape = token_ids.shape();
+    size_t batch_size = shape[0];
+    size_t seq_len = shape[1];
+    
+    spdlog::debug("GPUEmbeddingLayer::forwardHIP: batch_size={}, seq_len={}", batch_size, seq_len);
+    
+    // Create output tensor on GPU
+    GPUTensor embeddings({batch_size, seq_len, hidden_dim_}, device_);
+    
+    // Launch HIP kernel for embedding lookup
+    hipError_t err = hip::launch_embedding_lookup_kernel(
+        static_cast<float*>(embeddings.gpu_ptr()),
+        static_cast<const float*>(token_ids.gpu_ptr()),
+        static_cast<const float*>(embedding_weights_.gpu_ptr()),
+        batch_size,
+        seq_len,
+        hidden_dim_,
+        vocab_size_,
+        nullptr  // Use default stream
+    );
+    
+    if (err != hipSuccess) {
+        spdlog::error("HIP embedding lookup kernel failed: {}", hipGetErrorString(err));
+        throw std::runtime_error("HIP embedding lookup kernel failed");
+    }
+    
+    spdlog::debug("HIP embedding lookup completed successfully");
+    return embeddings;
+#else
+    // HIP not enabled, fall back to CPU
+    spdlog::warn("HIP not enabled at compile time, using CPU fallback");
     return forwardCPU(token_ids);
+#endif
 }
 
 GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {

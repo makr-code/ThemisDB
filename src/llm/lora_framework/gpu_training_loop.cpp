@@ -1,6 +1,7 @@
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/base_model_adapter.h"
 #include "llm/lora_framework/cuda_kernels.h"
+#include "llm/lora_framework/hip_kernels.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -494,6 +495,29 @@ GPUTensor createEmbeddingsOnGPU(
             if (err != cudaSuccess) {
                 spdlog::error("CUDA sequence mean kernel failed: {}", cudaGetErrorString(err));
                 throw std::runtime_error("CUDA sequence mean kernel failed");
+            }
+            
+            return embeddings;
+        }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+        if (device.type == DeviceType::HIP) {
+            // ✅ Use HIP kernel for sequence averaging (NO CPU transfers!)
+            spdlog::debug("Using HIP kernel for sequence averaging on GPU");
+            
+            hipError_t err = hip::launch_sequence_mean_kernel(
+                static_cast<float*>(embeddings.gpu_ptr()),
+                static_cast<const float*>(embeddings_3d.gpu_ptr()),
+                batch_size,
+                seq_len,
+                hidden_dim,
+                nullptr  // Use default stream
+            );
+            
+            if (err != hipSuccess) {
+                spdlog::error("HIP sequence mean kernel failed: {}", hipGetErrorString(err));
+                throw std::runtime_error("HIP sequence mean kernel failed");
             }
             
             return embeddings;
