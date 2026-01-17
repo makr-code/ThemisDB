@@ -326,6 +326,136 @@ TEST_F(LoRALlamaIntegrationTest, DISABLED_EndToEnd_ToyTraining) {
     EXPECT_GT(weights.size(), 0);
 }
 
+// ===== Embedding Extraction Tests =====
+
+TEST_F(LoRALlamaIntegrationTest, BaseModelAdapter_EmbeddingExtraction_NotLoaded) {
+    BaseModelAdapter adapter;
+    
+    // Should return empty when model not loaded
+    auto embedding = adapter.getTokenEmbedding(0);
+    EXPECT_TRUE(embedding.empty());
+}
+
+TEST_F(LoRALlamaIntegrationTest, DISABLED_BaseModelAdapter_EmbeddingExtraction_SingleToken) {
+    // This test requires an actual GGUF model file
+    
+    BaseModelAdapter adapter;
+    std::string model_path = "models/llama-2-7b.gguf";
+    bool loaded = adapter.loadModel(model_path);
+    
+    if (!loaded) {
+        GTEST_SKIP() << "Model file not found: " << model_path;
+    }
+    
+    // Extract embedding for token 0 (usually BOS)
+    auto embedding = adapter.getTokenEmbedding(0);
+    
+    EXPECT_FALSE(embedding.empty());
+    EXPECT_EQ(embedding.size(), adapter.getArchitecture().hidden_size);
+    
+    // Verify embeddings are not all zeros
+    bool has_nonzero = false;
+    for (float val : embedding) {
+        if (val != 0.0f) {
+            has_nonzero = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(has_nonzero);
+}
+
+TEST_F(LoRALlamaIntegrationTest, DISABLED_BaseModelAdapter_EmbeddingExtraction_BatchTokens) {
+    // This test requires an actual GGUF model file
+    
+    BaseModelAdapter adapter;
+    std::string model_path = "models/llama-2-7b.gguf";
+    bool loaded = adapter.loadModel(model_path);
+    
+    if (!loaded) {
+        GTEST_SKIP() << "Model file not found: " << model_path;
+    }
+    
+    // Extract embeddings for multiple tokens
+    std::vector<int> token_ids = {0, 1, 2, 3, 4};
+    auto embeddings = adapter.getTokenEmbeddings(token_ids);
+    
+    size_t hidden_dim = adapter.getArchitecture().hidden_size;
+    EXPECT_EQ(embeddings.size(), token_ids.size() * hidden_dim);
+    
+    // Verify embeddings are different for different tokens
+    bool embeddings_differ = false;
+    for (size_t i = 0; i < hidden_dim; ++i) {
+        if (embeddings[i] != embeddings[hidden_dim + i]) {
+            embeddings_differ = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(embeddings_differ);
+}
+
+TEST_F(LoRALlamaIntegrationTest, DISABLED_BaseModelAdapter_EmbeddingCache) {
+    // This test requires an actual GGUF model file
+    
+    BaseModelAdapter adapter;
+    std::string model_path = "models/llama-2-7b.gguf";
+    bool loaded = adapter.loadModel(model_path);
+    
+    if (!loaded) {
+        GTEST_SKIP() << "Model file not found: " << model_path;
+    }
+    
+    // Extract same token multiple times - should use cache
+    std::vector<int> tokens = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};  // Duplicates
+    
+    for (int token_id : tokens) {
+        auto embedding = adapter.getTokenEmbedding(token_id);
+        EXPECT_FALSE(embedding.empty());
+    }
+    
+    // Log cache statistics
+    adapter.logCacheStats();
+    
+    // Note: We can't easily check cache hit rate in this test
+    // as the cache stats are only visible through logging
+}
+
+TEST_F(LoRALlamaIntegrationTest, DISABLED_BaseModelAdapter_EmbeddingConsistency) {
+    // This test requires an actual GGUF model file
+    
+    BaseModelAdapter adapter;
+    std::string model_path = "models/llama-2-7b.gguf";
+    bool loaded = adapter.loadModel(model_path);
+    
+    if (!loaded) {
+        GTEST_SKIP() << "Model file not found: " << model_path;
+    }
+    
+    // Extract same token twice - should return identical values
+    auto embedding1 = adapter.getTokenEmbedding(42);
+    auto embedding2 = adapter.getTokenEmbedding(42);
+    
+    EXPECT_EQ(embedding1.size(), embedding2.size());
+    
+    for (size_t i = 0; i < embedding1.size(); ++i) {
+        EXPECT_FLOAT_EQ(embedding1[i], embedding2[i]);
+    }
+}
+
+TEST_F(LoRALlamaIntegrationTest, LoRAEnhancedModel_GetBaseModel) {
+    LoRAEnhancedModel::Config config;
+    config.base_model_path = "models/test.gguf";
+    config.lora_config.rank = 8;
+    config.target_modules = {"attention.wq"};
+    
+    LoRAEnhancedModel model(config);
+    
+    // Before initialization, base model should be nullptr
+    EXPECT_EQ(model.getBaseModel(), nullptr);
+    
+    // Note: After initialization with a real model, getBaseModel() should return non-null
+    // But we can't test that without a real model file
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
