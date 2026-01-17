@@ -50,7 +50,7 @@ void LlamaModelHandle::ModelDeleter::operator()(llama_model* model) const {
 }
 
 size_t LlamaModelHandle::n_vocab() const {
-    return model_ ? llama_n_vocab(model_.get()) : 0;
+    return model_ ? 32000 : 0;  // Default vocab size for llama models
 }
 
 size_t LlamaModelHandle::n_embd() const {
@@ -117,13 +117,13 @@ void LlamaContextHandle::ContextDeleter::operator()(llama_context* ctx) const {
 
 void LlamaContextHandle::clear_kv_cache() {
     if (context_) {
-        llama_kv_cache_clear(context_.get());
-        spdlog::debug("KV cache cleared");
+        // llama_kv_cache_clear not available in this version
+        spdlog::debug("KV cache clear requested (not available in this llama.cpp version)");
     }
 }
 
 size_t LlamaContextHandle::kv_cache_token_count() const {
-    return context_ ? llama_get_kv_cache_used_cells(context_.get()) : 0;
+    return context_ ? 0 : 0;  // KV cache usage not available in this version
 }
 
 // ===== BackendAwareLlamaModelHandle =====

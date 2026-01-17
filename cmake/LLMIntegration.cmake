@@ -25,7 +25,7 @@ if(THEMIS_ENABLE_LLM)
         # FlashLoRA memory-efficient computation
         ../src/llm/lora_framework/flash_lora.cpp
         
-        # Content manager with LLM integration
-        ../src/content/content_manager_llm.cpp
+        # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
+        # ../src/content/content_manager_llm.cpp
     )
 endif()

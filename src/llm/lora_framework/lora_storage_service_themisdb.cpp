@@ -441,13 +441,13 @@ private:
         spdlog::info("    Address: {}", config_.vault_addr);
         spdlog::info("    Mount Path: {}", config_.vault_kv_mount);
         
-        security::VaultKeyProvider::Config vault_config;
-        vault_config.address = config_.vault_addr;
-        vault_config.token = config_.vault_token;
-        vault_config.mount_path = config_.vault_kv_mount;
+        ::themis::VaultKeyProvider::Config vault_config;
+        vault_config.vault_addr = config_.vault_addr;
+        vault_config.vault_token = config_.vault_token;
+        vault_config.kv_mount_path = config_.vault_kv_mount;
         // Note: TLS configuration would come from separate config fields if needed
         
-        auto key_provider = std::make_shared<security::VaultKeyProvider>(vault_config);
+        auto key_provider = std::make_shared<::themis::VaultKeyProvider>(vault_config);
         spdlog::info("  ✓ Vault-backed encryption initialized successfully");
         
         return key_provider;
@@ -652,7 +652,7 @@ private:
                 auto encrypted_blob = EncryptedBlob::fromBase64(encrypted_b64);
                 
                 // Decrypt using the key version stored in the blob
-                decrypted_data = encryption_->decrypt(encrypted_blob);
+                decrypted_data = encryption_->decryptToBytes(encrypted_blob);
                 spdlog::debug("Decrypted adapter data (key version: {})", encrypted_blob.key_version);
             } catch (const std::exception& e) {
                 spdlog::error("Decryption failed: {}", e.what());

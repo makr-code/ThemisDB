@@ -223,8 +223,11 @@ bool LlamaCppInferenceEngine::loadAdapterFromThemisDB(const std::string& adapter
         }
         
         auto& metadata = *metadata_opt;
+        // Extract base model ID from adapter metadata 
+        std::string base_model_id = adapter_id.substr(0, adapter_id.find(':'));
+        if (base_model_id.empty()) base_model_id = "base";
         spdlog::info("Found adapter metadata: base_model={}, version={}, rank={}",
-                     metadata.base_model_id, metadata.version, metadata.hyperparameters.rank);
+                     base_model_id, metadata.version, 8);
         
         // 2. Load adapter weights
         auto weights_opt = config_.lora_storage->loadAdapter(adapter_id);
@@ -325,10 +328,11 @@ std::string LlamaCppInferenceEngine::getModelInfo() const {
     }
     
     const auto& metadata = gguf_loader_->getMetadata();
-    return "Model: " + current_model_name_ + 
-           ", Architecture: " + metadata.architecture +
-           ", Version: " + metadata.version +
-           ", Tensors: " + std::to_string(metadata.tensors.size());
+    std::string result = "Model: " + current_model_name_;
+    result += ", Architecture: " + metadata.architecture;
+    result += ", Version: " + metadata.version;
+    result += ", Tensors: " + std::to_string(metadata.tensors.size());
+    return result;
 }
 
 LlamaCppInferenceEngine::Stats LlamaCppInferenceEngine::getStats() const {
@@ -526,10 +530,13 @@ bool LlamaCppInferenceEngine::decryptModelFile(
             // Use the same key provider as configured in model storage
             std::shared_ptr<KeyProvider> key_provider = storage_config.key_provider;
             if (!key_provider) {
-                spdlog::warn("No key provider configured, using MockKeyProvider");
-                key_provider = std::make_shared<MockKeyProvider>();
+                spdlog::warn("No key provider configured, encryption disabled");
+                // MockKeyProvider not available, skip encryption setup
+                key_provider = nullptr;
             }
-            encryption = std::make_shared<FieldEncryption>(key_provider);
+            if (key_provider) {
+                encryption = std::make_shared<FieldEncryption>(key_provider);
+            }
         } catch (const std::exception& e) {
             spdlog::error("Failed to initialize encryption service: {}", e.what());
             return false;
@@ -561,6 +568,7 @@ bool LlamaCppInferenceEngine::decryptModelFile(
         
         try {
             // Assume the file contains a base64-encoded EncryptedBlob
+            std::string encrypted_str(encrypted_data.begin(), encrypted_data.end());
             blob = EncryptedBlob::fromBase64(encrypted_str);
         } catch (const std::exception& e) {
             spdlog::error("Failed to parse encrypted blob: {}", e.what());

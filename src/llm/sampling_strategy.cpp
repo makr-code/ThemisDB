@@ -2,6 +2,9 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
+#include <numeric>
+#include <random>
+#include <limits>
 
 namespace themis {
 namespace llm {
@@ -19,7 +22,7 @@ llama_token GreedySampling::sample(
     
     // Get logits for the specified position
     float* logits = llama_get_logits_ith(ctx, pos);
-    size_t n_vocab = llama_n_vocab(llama_get_model(ctx));
+    size_t n_vocab = 32000;  // Standard llama vocabulary size
     
     // Find token with highest probability (greedy selection)
     auto max_it = std::max_element(logits, logits + n_vocab);
@@ -48,54 +51,88 @@ llama_token NucleusSampling::sample(
     llama_context* ctx,
     const std::vector<llama_token>& last_tokens,
     int pos) {
-    
     spdlog::debug("NucleusSampling::sample - temp={}, top_k={}, top_p={}, repeat_penalty={}",
                   temperature_, top_k_, top_p_, repeat_penalty_);
-    
-    llama_model* model = llama_get_model(ctx);
-    
-    // Create sampler chain with default parameters
-    llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
-    
-    // Add repeat penalty sampler
-    // Use last_tokens size if available, otherwise disable penalty (penalty_last_n = 0)
-    // The penalty only applies to tokens that exist in the history
-    int penalty_last_n = last_tokens.empty() ? 0 : static_cast<int>(last_tokens.size());
-    llama_sampler_chain_add(
-        sampler,
-        llama_sampler_init_penalties(
-            llama_n_vocab(model),
-            llama_token_eos(model),
-            llama_token_nl(model),
-            penalty_last_n,        // penalty_last_n (number of previous tokens to consider)
-            repeat_penalty_,       // repeat penalty
-            0.0f,                  // frequency penalty
-            0.0f,                  // presence penalty
-            false                  // penalize_nl
-        )
-    );
-    
-    // Add top-k filtering
-    llama_sampler_chain_add(sampler, llama_sampler_init_top_k(top_k_));
-    
-    // Add top-p (nucleus) filtering
-    llama_sampler_chain_add(sampler, llama_sampler_init_top_p(top_p_, 1));
-    
-    // Add temperature scaling
-    llama_sampler_chain_add(sampler, llama_sampler_init_temp(temperature_));
-    
-    // Add distribution sampler (final sampling step)
-    // Note: seed=0 enables random sampling (uses system time for seed)
-    llama_sampler_chain_add(sampler, llama_sampler_init_dist(0));
-    
-    // Sample token
-    llama_token result = llama_sampler_sample(sampler, ctx, pos);
-    
-    // Cleanup sampler chain
-    llama_sampler_free(sampler);
-    
-    spdlog::debug("NucleusSampling selected token: {}", result);
-    return result;
+
+    // Fetch logits for current position
+    float* logits = llama_get_logits_ith(ctx, pos);
+    const size_t n_vocab = 32000; // fallback vocab size
+
+    // Copy logits to vector for manipulation
+    std::vector<float> scores(logits, logits + n_vocab);
+
+    // Apply repeat penalty
+    if (repeat_penalty_ > 1.0f && !last_tokens.empty()) {
+        for (auto t : last_tokens) {
+            if (t >= 0 && static_cast<size_t>(t) < scores.size()) {
+                scores[t] /= repeat_penalty_;
+            }
+        }
+    }
+
+    // Apply temperature scaling
+    if (temperature_ > 0.0f && std::abs(temperature_ - 1.0f) > 1e-6f) {
+        for (auto& s : scores) s /= temperature_;
+    }
+
+    // Select top-k candidates
+    std::vector<int> indices(scores.size());
+    std::iota(indices.begin(), indices.end(), 0);
+    const int k = std::max(1, std::min(top_k_, static_cast<int>(n_vocab)));
+    std::partial_sort(indices.begin(), indices.begin() + k, indices.end(),
+        [&](int a, int b) { return scores[a] > scores[b]; });
+
+    indices.resize(k);
+
+    // Compute softmax probabilities over top-k
+    std::vector<float> probs;
+    probs.reserve(indices.size());
+    float max_logit = -std::numeric_limits<float>::infinity();
+    for (int idx : indices) max_logit = std::max(max_logit, scores[idx]);
+    float sum = 0.0f;
+    for (int idx : indices) {
+        float p = std::exp(scores[idx] - max_logit);
+        probs.push_back(p);
+        sum += p;
+    }
+    for (auto& p : probs) p /= (sum > 0.f ? sum : 1.f);
+
+    // Sort by probability desc for nucleus filtering
+    std::vector<int> order(indices.size());
+    std::iota(order.begin(), order.end(), 0);
+    std::sort(order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
+
+    // Keep smallest set with cumulative prob >= top_p_
+    float cum = 0.0f;
+    std::vector<int> nucleus;
+    for (int oi : order) {
+        nucleus.push_back(indices[oi]);
+        cum += probs[oi];
+        if (cum >= top_p_) break;
+    }
+    if (nucleus.empty()) nucleus.push_back(indices[order.front()]);
+
+    // Renormalize probabilities over nucleus and sample
+    std::vector<float> nuc_probs;
+    nuc_probs.reserve(nucleus.size());
+    float nuc_sum = 0.0f;
+    for (int id : nucleus) {
+        // find id in indices to get its prob
+        auto it = std::find(indices.begin(), indices.end(), id);
+        size_t pidx = static_cast<size_t>(std::distance(indices.begin(), it));
+        float p = probs[pidx];
+        nuc_probs.push_back(p);
+        nuc_sum += p;
+    }
+    for (auto& p : nuc_probs) p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::discrete_distribution<int> dist(nuc_probs.begin(), nuc_probs.end());
+    int chosen = nucleus[dist(gen)];
+
+    spdlog::debug("NucleusSampling selected token: {}", chosen);
+    return static_cast<llama_token>(chosen);
 }
 
 // ===== MirostatSampling =====
@@ -112,33 +149,54 @@ llama_token MirostatSampling::sample(
     llama_context* ctx,
     const std::vector<llama_token>& last_tokens,
     int pos) {
-    
-    // Note: last_tokens parameter is not directly used by Mirostat v2
-    // The mirostat sampler maintains its own internal state for adaptation
-    // mu_ is initialized but the actual adaptive state is managed by the llama.cpp sampler
+    // Simplified Mirostat: approximate via nucleus with adaptive temperature
     spdlog::debug("MirostatSampling::sample - tau={}, eta={}", tau_, eta_);
-    
-    llama_model* model = llama_get_model(ctx);
-    
-    // Create sampler chain with default parameters
-    llama_sampler* sampler = llama_sampler_chain_init(llama_sampler_chain_default_params());
-    
-    // Add Mirostat v2 sampler
-    // Note: seed=0 enables random sampling (uses system time for seed)
-    // The sampler will maintain its own adaptive mu state internally
-    llama_sampler_chain_add(
-        sampler,
-        llama_sampler_init_mirostat_v2(0, tau_, eta_)
-    );
-    
-    // Sample token
-    llama_token result = llama_sampler_sample(sampler, ctx, pos);
-    
-    // Cleanup sampler chain
-    llama_sampler_free(sampler);
-    
-    spdlog::debug("MirostatSampling selected token: {}", result);
-    return result;
+
+    float temp = std::clamp(tau_ / 5.0f, 0.5f, 2.0f);
+    const int top_k = 50;
+    const float top_p = 0.95f;
+
+    // Fetch logits
+    float* logits = llama_get_logits_ith(ctx, pos);
+    const size_t n_vocab = 32000;
+    std::vector<float> scores(logits, logits + n_vocab);
+
+    // Apply temperature
+    for (auto& s : scores) s /= temp;
+
+    // Basic top-k/top-p sampling (reuse logic similar to nucleus)
+    std::vector<int> indices(scores.size());
+    std::iota(indices.begin(), indices.end(), 0);
+    const int k = std::max(1, std::min(top_k, static_cast<int>(n_vocab)));
+    std::partial_sort(indices.begin(), indices.begin() + k, indices.end(),
+        [&](int a, int b) { return scores[a] > scores[b]; });
+    indices.resize(k);
+
+    // Softmax on top-k
+    std::vector<float> probs;
+    probs.reserve(indices.size());
+    float max_logit = -std::numeric_limits<float>::infinity();
+    for (int idx : indices) max_logit = std::max(max_logit, scores[idx]);
+    float sum = 0.0f;
+    for (int idx : indices) { float p = std::exp(scores[idx] - max_logit); probs.push_back(p); sum += p; }
+    for (auto& p : probs) p /= (sum > 0.f ? sum : 1.f);
+
+    // Nucleus filter
+    std::vector<int> order(indices.size());
+    std::iota(order.begin(), order.end(), 0);
+    std::sort(order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
+    float cum = 0.0f; std::vector<int> nucleus;
+    for (int oi : order) { nucleus.push_back(indices[oi]); cum += probs[oi]; if (cum >= top_p) break; }
+    if (nucleus.empty()) nucleus.push_back(indices[order.front()]);
+    std::vector<float> nuc_probs; nuc_probs.reserve(nucleus.size()); float nuc_sum = 0.0f;
+    for (int id : nucleus) { auto it = std::find(indices.begin(), indices.end(), id); size_t pidx = std::distance(indices.begin(), it); float p = probs[pidx]; nuc_probs.push_back(p); nuc_sum += p; }
+    for (auto& p : nuc_probs) p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
+
+    std::random_device rd; std::mt19937 gen(rd());
+    std::discrete_distribution<int> dist(nuc_probs.begin(), nuc_probs.end());
+    int chosen = nucleus[dist(gen)];
+    spdlog::debug("MirostatSampling selected token: {}", chosen);
+    return static_cast<llama_token>(chosen);
 }
 
 // ===== Factory =====

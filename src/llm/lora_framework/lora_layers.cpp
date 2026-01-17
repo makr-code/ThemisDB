@@ -203,12 +203,12 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     // B: (in_dim, rank) - Kaiming initialization
     B_ = std::make_unique<Tensor>(tensor_utils::kaiming_uniform({in_dim, rank}));
     B_->requires_grad = true;
-    B_->grad = Tensor({in_dim, rank}, 0.0f);
+    B_->grad.reset(new Tensor({in_dim, rank}, 0.0f));
     
     // A: (rank, out_dim) - Zero initialization (as per LoRA paper)
     A_ = std::make_unique<Tensor>(tensor_utils::zeros({rank, out_dim}));
     A_->requires_grad = true;
-    A_->grad = Tensor({rank, out_dim}, 0.0f);
+    A_->grad.reset(new Tensor({rank, out_dim}, 0.0f));
     
     spdlog::debug("{}: Initialized with {} parameters", name_, parameter_count());
 }
@@ -218,13 +218,13 @@ Tensor LoRALayer::forward(const Tensor& input) {
                   name_, input.shape()[0], input.shape().size() > 1 ? input.shape()[1] : 0);
     
     // Cache input for backward pass
-    cached_input_ = input.clone();
+    cached_input_.reset(new Tensor(input.clone()));
     
     // Compute BA = B @ A
-    cached_BA_ = B_->matmul(*A_);
+    cached_BA_.reset(new Tensor(B_->matmul(*A_)));
     
     // Compute output = input @ BA * scaling
-    Tensor output = input.matmul(cached_BA_);
+    Tensor output = input.matmul(*cached_BA_);
     output = output * scaling_;
     
     return output;
@@ -243,15 +243,17 @@ Tensor LoRALayer::backward(const Tensor& grad_output) {
     // grad_A = B.T @ input.T @ scaled_grad
     // Shape: (rank, in_dim) @ (in_dim, batch) @ (batch, out_dim) = (rank, out_dim)
     Tensor B_T = B_->transpose();
-    Tensor input_T = cached_input_.transpose();
+    Tensor input_T = cached_input_->transpose();
     Tensor temp_BA = B_T.matmul(input_T);  // (rank, batch)
-    A_->grad = temp_BA.matmul(scaled_grad);  // (rank, out_dim)
+    auto grad_A_result = temp_BA.matmul(scaled_grad);  // (rank, out_dim)
+    A_->grad.reset(new Tensor(std::move(grad_A_result)));
     
     // grad_B = input.T @ scaled_grad @ A.T
     // Shape: (in_dim, batch) @ (batch, out_dim) @ (out_dim, rank) = (in_dim, rank)
     Tensor A_T = A_->transpose();
     Tensor temp_AB = scaled_grad.matmul(A_T);  // (batch, rank)
-    B_->grad = input_T.matmul(temp_AB);  // (in_dim, rank)
+    auto grad_B_result = input_T.matmul(temp_AB);  // (in_dim, rank)
+    B_->grad.reset(new Tensor(std::move(grad_B_result)));
     
     // grad_input = scaled_grad @ A.T @ B.T
     // Shape: (batch, out_dim) @ (out_dim, rank) @ (rank, in_dim) = (batch, in_dim)
@@ -281,8 +283,9 @@ void LoRALayer::set_weights(const Tensor& B, const Tensor& A) {
     if (B.shape() != B_->shape() || A.shape() != A_->shape()) {
         throw std::invalid_argument("Weight shapes do not match");
     }
-    *B_ = B.clone();
-    *A_ = A.clone();
+    // Replace underlying tensors to avoid copy-assignment on non-copyable members
+    B_.reset(new Tensor(B.clone()));
+    A_.reset(new Tensor(A.clone()));
     spdlog::debug("{}: Weights updated", name_);
 }
 
@@ -500,7 +503,7 @@ void SGDOptimizer::step() {
             // Update momentum: v = momentum * v + grad (with optional weight decay)
             // Update parameters: param = param - lr * v (with optional weight decay)
             for (size_t i = 0; i < momentum_buffer.data().size(); ++i) {
-                float grad_with_decay = param->grad[i];
+                float grad_with_decay = param->grad ? (*param->grad)[i] : 0.0f;
                 if (weight_decay_ > 0.0f) {
                     grad_with_decay += weight_decay_ * param->data()[i];
                 }
@@ -510,7 +513,7 @@ void SGDOptimizer::step() {
         } else {
             // Standard SGD: param = param - lr * grad (with optional weight decay)
             for (size_t i = 0; i < param->data().size(); ++i) {
-                float grad_with_decay = param->grad[i];
+                float grad_with_decay = param->grad ? (*param->grad)[i] : 0.0f;
                 if (weight_decay_ > 0.0f) {
                     grad_with_decay += weight_decay_ * param->data()[i];
                 }
@@ -524,8 +527,8 @@ void SGDOptimizer::step() {
 
 void SGDOptimizer::zero_grad() {
     for (auto* param : parameters_) {
-        if (param && param->requires_grad) {
-            param->grad.zero();
+        if (param && param->requires_grad && param->grad) {
+            param->grad->zero();
         }
     }
     spdlog::debug("SGDOptimizer: Zeroed gradients for {} parameters", parameters_.size());
@@ -575,7 +578,7 @@ void AdamOptimizer::step() {
         
         // Update parameters using Adam algorithm
         for (size_t i = 0; i < param->data().size(); ++i) {
-            float grad = param->grad[i];
+            float grad = param->grad ? (*param->grad)[i] : 0.0f;
             
             // Apply weight decay to gradient (L2 regularization)
             if (weight_decay_ > 0.0f) {
@@ -610,7 +613,9 @@ void AdamOptimizer::step() {
 void AdamOptimizer::zero_grad() {
     for (auto* param : parameters_) {
         if (param && param->requires_grad) {
-            param->grad.zero();
+            if (param->grad) {
+                param->grad->zero();
+            }
         }
     }
     spdlog::debug("AdamOptimizer: Zeroed gradients for {} parameters", parameters_.size());
@@ -660,7 +665,7 @@ void AdamWOptimizer::step() {
         
         // Update parameters using AdamW algorithm (decoupled weight decay)
         for (size_t i = 0; i < param->data().size(); ++i) {
-            float grad = param->grad[i];
+            float grad = param->grad ? (*param->grad)[i] : 0.0f;
             
             // Update biased first moment estimate (momentum)
             // m_t = β1 * m_{t-1} + (1 - β1) * g_t
@@ -692,8 +697,8 @@ void AdamWOptimizer::step() {
 
 void AdamWOptimizer::zero_grad() {
     for (auto* param : parameters_) {
-        if (param && param->requires_grad) {
-            param->grad.zero();
+        if (param && param->requires_grad && param->grad) {
+            param->grad->zero();
         }
     }
     spdlog::debug("AdamWOptimizer: Zeroed gradients for {} parameters", parameters_.size());
