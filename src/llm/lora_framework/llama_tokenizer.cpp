@@ -168,7 +168,9 @@ std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
         char buf[256];
         int32_t n = llama_token_to_piece(vocab, token, buf, sizeof(buf), 0, false);
         
-        if (n > 0 && n < static_cast<int32_t>(sizeof(buf))) {
+        // Check if conversion succeeded and buffer was sufficient
+        // n > 0 means success, n <= sizeof(buf) means it fit
+        if (n > 0 && n <= static_cast<int32_t>(sizeof(buf))) {
             result.append(buf, n);
         }
     }
