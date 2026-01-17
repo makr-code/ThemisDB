@@ -1,0 +1,473 @@
+# RAID Configuration for ThemisDB
+# Version: 1.4.0-alpha
+# Purpose: High-availability storage with data redundancy
+
+# ====================================================================
+# OVERVIEW
+# ====================================================================
+# This configuration demonstrates RAID setup for ThemisDB production
+# deployments requiring high availability and data protection.
+#
+# RAID Levels Supported:
+# - RAID 0: Striping (performance, no redundancy)
+# - RAID 1: Mirroring (redundancy, 50% usable capacity)
+# - RAID 5: Striping + Parity (good balance, N-1 usable capacity)
+# - RAID 6: Striping + Double Parity (high reliability, N-2 capacity)
+# - RAID 10: Mirroring + Striping (best performance + redundancy)
+
+# ====================================================================
+# HARDWARE REQUIREMENTS
+# ====================================================================
+
+hardware:
+  # Minimum drives per RAID level
+  min_drives:
+    raid_0: 2
+    raid_1: 2
+    raid_5: 3
+    raid_6: 4
+    raid_10: 4
+  
+  # Recommended setup
+  recommended:
+    drives: 6
+    type: NVMe SSD
+    capacity_per_drive: 2TB
+    interface: PCIe 4.0
+    
+  # Example hardware
+  example_configuration:
+    drives:
+      - /dev/nvme0n1  # 2TB NVMe
+      - /dev/nvme1n1  # 2TB NVMe
+      - /dev/nvme2n1  # 2TB NVMe
+      - /dev/nvme3n1  # 2TB NVMe
+      - /dev/nvme4n1  # 2TB NVMe (hot spare)
+      - /dev/nvme5n1  # 2TB NVMe (hot spare)
+
+# ====================================================================
+# RAID 5 CONFIGURATION (Recommended for Most Use Cases)
+# ====================================================================
+
+raid_5:
+  description: "Striping with distributed parity. Good balance of performance, capacity, and redundancy."
+  
+  # Characteristics
+  characteristics:
+    min_drives: 3
+    usable_capacity: N-1  # With 4x 2TB = 6TB usable
+    fault_tolerance: 1 drive
+    read_performance: Excellent
+    write_performance: Good
+    rebuild_time: Moderate
+    
+  # Setup commands
+  setup:
+    # 1. Create RAID 5 array
+    create_array: |
+      sudo mdadm --create --verbose /dev/md0 \
+        --level=5 \
+        --raid-devices=4 \
+        /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1 /dev/nvme3n1
+    
+    # 2. Wait for array initialization
+    monitor_creation: |
+      watch cat /proc/mdstat
+    
+    # 3. Create filesystem
+    format: |
+      sudo mkfs.ext4 -F /dev/md0 -L themisdb-raid5
+    
+    # 4. Mount
+    mount: |
+      sudo mkdir -p /data/themisdb
+      sudo mount /dev/md0 /data/themisdb
+    
+    # 5. Add to /etc/fstab for persistence
+    fstab_entry: |
+      /dev/md0 /data/themisdb ext4 defaults,noatime 0 2
+    
+    # 6. Save RAID configuration
+    save_config: |
+      sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+      sudo update-initramfs -u
+    
+    # 7. Add hot spare
+    add_hot_spare: |
+      sudo mdadm --add /dev/md0 /dev/nvme4n1
+  
+  # Monitoring
+  monitoring:
+    check_status: |
+      sudo mdadm --detail /dev/md0
+      cat /proc/mdstat
+    
+    check_health: |
+      sudo mdadm --detail /dev/md0 | grep -E 'State|Active Devices|Failed Devices'
+    
+    email_alerts: |
+      # Configure in /etc/mdadm/mdadm.conf
+      MAILADDR ops@example.com
+  
+  # Performance tuning
+  performance:
+    # Stripe cache size (MB)
+    stripe_cache_size: 16384
+    
+    # Read ahead (KB)
+    read_ahead: 8192
+    
+    # Apply settings
+    optimize: |
+      echo 16384 | sudo tee /sys/block/md0/md/stripe_cache_size
+      sudo blockdev --setra 8192 /dev/md0
+
+# ====================================================================
+# RAID 6 CONFIGURATION (High Reliability)
+# ====================================================================
+
+raid_6:
+  description: "Striping with double parity. Can survive 2 simultaneous drive failures."
+  
+  characteristics:
+    min_drives: 4
+    usable_capacity: N-2  # With 6x 2TB = 8TB usable
+    fault_tolerance: 2 drives
+    read_performance: Excellent
+    write_performance: Moderate
+    rebuild_time: Long
+  
+  setup:
+    create_array: |
+      sudo mdadm --create --verbose /dev/md0 \
+        --level=6 \
+        --raid-devices=6 \
+        /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1 \
+        /dev/nvme3n1 /dev/nvme4n1 /dev/nvme5n1
+    
+    format_and_mount: |
+      sudo mkfs.ext4 -F /dev/md0 -L themisdb-raid6
+      sudo mkdir -p /data/themisdb
+      sudo mount /dev/md0 /data/themisdb
+    
+    fstab_entry: |
+      /dev/md0 /data/themisdb ext4 defaults,noatime 0 2
+
+# ====================================================================
+# RAID 10 CONFIGURATION (Maximum Performance)
+# ====================================================================
+
+raid_10:
+  description: "Mirrored stripes. Best performance with redundancy."
+  
+  characteristics:
+    min_drives: 4
+    usable_capacity: N/2  # With 4x 2TB = 4TB usable
+    fault_tolerance: 1 drive per mirror pair
+    read_performance: Excellent
+    write_performance: Excellent
+    rebuild_time: Fast
+  
+  setup:
+    create_array: |
+      sudo mdadm --create --verbose /dev/md0 \
+        --level=10 \
+        --raid-devices=4 \
+        --layout=f2 \
+        /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1 /dev/nvme3n1
+    
+    format_and_mount: |
+      sudo mkfs.ext4 -F /dev/md0 -L themisdb-raid10
+      sudo mkdir -p /data/themisdb
+      sudo mount /dev/md0 /data/themisdb
+
+# ====================================================================
+# THEMISDB CONFIGURATION WITH RAID
+# ====================================================================
+
+themisdb_config:
+  storage:
+    # Main data directory on RAID
+    data_dir: /data/themisdb
+    
+    # Separate directories for different data types
+    layout:
+      database: /data/themisdb/db
+      checkpoints: /data/themisdb/checkpoints
+      models: /data/themisdb/models
+      logs: /data/themisdb/logs
+      temp: /data/themisdb/temp
+    
+    # RocksDB optimization for RAID
+    rocksdb:
+      # Tuned for RAID 5/6
+      max_open_files: 5000
+      max_background_jobs: 16
+      
+      # Write optimization
+      write_buffer_size: 256MB
+      max_write_buffer_number: 6
+      min_write_buffer_number_to_merge: 2
+      
+      # Compaction
+      max_background_compactions: 8
+      
+      # Block cache
+      block_cache_size: 8GB
+      
+      # WAL on RAID for durability
+      wal_dir: /data/themisdb/wal
+      wal_size_limit_mb: 1024
+      
+      # Optimize for SSD
+      allow_mmap_reads: false
+      allow_mmap_writes: false
+      use_direct_reads: true
+      use_direct_io_for_flush_and_compaction: true
+    
+    # Filesystem mount options
+    mount_options:
+      - noatime
+      - nodiratime
+      - discard  # For SSD TRIM support
+      - data=writeback  # Performance (less durable)
+      # - data=ordered  # More durable (default)
+    
+    # I/O scheduler
+    io_scheduler: none  # For NVMe, or 'deadline' for SATA
+
+# ====================================================================
+# MAINTENANCE PROCEDURES
+# ====================================================================
+
+maintenance:
+  # Check RAID health (daily)
+  daily_check: |
+    #!/bin/bash
+    # Add to crontab: 0 9 * * * /usr/local/bin/raid-check.sh
+    
+    STATUS=$(sudo mdadm --detail /dev/md0 | grep "State :" | awk '{print $3}')
+    
+    if [ "$STATUS" != "clean" ]; then
+      echo "RAID array /dev/md0 is $STATUS - action required!" | \
+        mail -s "RAID Alert" ops@example.com
+    fi
+  
+  # Monthly scrub (verify data integrity)
+  monthly_scrub: |
+    # Add to crontab: 0 2 1 * * echo check > /sys/block/md0/md/sync_action
+    echo check > /sys/block/md0/md/sync_action
+    
+    # Monitor progress
+    watch cat /proc/mdstat
+  
+  # Replace failed drive
+  replace_drive: |
+    # 1. Identify failed drive
+    sudo mdadm --detail /dev/md0 | grep -i fail
+    
+    # 2. Mark drive as failed (if not auto-detected)
+    sudo mdadm --manage /dev/md0 --fail /dev/nvme1n1
+    
+    # 3. Remove failed drive from array
+    sudo mdadm --manage /dev/md0 --remove /dev/nvme1n1
+    
+    # 4. Physically replace drive
+    # ... replace hardware ...
+    
+    # 5. Add new drive to array
+    sudo mdadm --manage /dev/md0 --add /dev/nvme1n1
+    
+    # 6. Monitor rebuild
+    watch cat /proc/mdstat
+    
+    # Rebuild time estimate:
+    # - RAID 5: 2-4 hours per TB
+    # - RAID 6: 4-8 hours per TB
+    # - RAID 10: 1-2 hours per TB
+  
+  # Expand array (add drive)
+  expand_array: |
+    # 1. Add new drive
+    sudo mdadm --add /dev/md0 /dev/nvme5n1
+    
+    # 2. Grow array
+    sudo mdadm --grow /dev/md0 --raid-devices=5
+    
+    # 3. Resize filesystem
+    sudo resize2fs /dev/md0
+    
+    # 4. Monitor reshape
+    watch cat /proc/mdstat
+  
+  # Performance testing
+  test_performance: |
+    # Sequential read
+    sudo fio --name=seq-read --rw=read --bs=1M --size=10G \
+      --filename=/data/themisdb/test-file --direct=1
+    
+    # Sequential write
+    sudo fio --name=seq-write --rw=write --bs=1M --size=10G \
+      --filename=/data/themisdb/test-file --direct=1
+    
+    # Random read (4K)
+    sudo fio --name=rand-read --rw=randread --bs=4k --size=1G \
+      --filename=/data/themisdb/test-file --direct=1 --numjobs=4
+    
+    # Random write (4K)
+    sudo fio --name=rand-write --rw=randwrite --bs=4k --size=1G \
+      --filename=/data/themisdb/test-file --direct=1 --numjobs=4
+    
+    # Clean up
+    sudo rm /data/themisdb/test-file
+
+# ====================================================================
+# MONITORING & ALERTING
+# ====================================================================
+
+monitoring:
+  # Prometheus metrics
+  prometheus_exporter:
+    enabled: true
+    endpoint: http://localhost:9100/metrics
+    
+    # Key metrics
+    metrics:
+      - md_disks_active
+      - md_disks_failed
+      - md_disks_spare
+      - md_blocks_total
+      - md_blocks_synced
+  
+  # Grafana dashboard
+  grafana:
+    dashboard: raid-monitoring
+    panels:
+      - RAID status
+      - Active/Failed/Spare drives
+      - Sync progress
+      - Read/Write throughput
+      - I/O latency
+  
+  # Email alerts
+  email_alerts:
+    # Configure in /etc/mdadm/mdadm.conf
+    config: |
+      MAILADDR ops@example.com
+      MAILFROM raid-monitor@example.com
+  
+  # Slack notifications
+  slack_webhook: https://hooks.slack.com/services/XXX
+  
+  # PagerDuty integration
+  pagerduty:
+    enabled: true
+    service_key: YOUR_SERVICE_KEY
+    events:
+      - drive_failure
+      - degraded_array
+      - rebuild_failure
+
+# ====================================================================
+# DISASTER RECOVERY
+# ====================================================================
+
+disaster_recovery:
+  # Backup RAID metadata
+  backup_metadata: |
+    sudo mdadm --detail --scan > /root/mdadm.conf.backup
+    sudo cp /etc/mdadm/mdadm.conf /root/mdadm.conf.$(date +%Y%m%d)
+  
+  # Recover from multiple drive failures
+  recovery_procedure: |
+    # If array won't assemble:
+    # 1. Try force assembly
+    sudo mdadm --assemble --force /dev/md0 \
+      /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1
+    
+    # 2. If that fails, try to recover data
+    sudo testdisk /dev/md0
+    
+    # 3. Restore from backup
+    # See backup configuration
+  
+  # Complete array recreation
+  recreate_array: |
+    # CAUTION: This will destroy all data!
+    # 1. Stop array
+    sudo mdadm --stop /dev/md0
+    
+    # 2. Zero superblocks
+    sudo mdadm --zero-superblock /dev/nvme{0..3}n1
+    
+    # 3. Recreate array (see setup section)
+    
+    # 4. Restore from backup
+    sudo themisdb-cli restore --backup /backup/latest
+
+# ====================================================================
+# EXAMPLE USAGE
+# ====================================================================
+
+usage_example: |
+  # 1. Install mdadm
+  sudo apt-get install mdadm
+  
+  # 2. Create RAID 5 array
+  sudo mdadm --create --verbose /dev/md0 \
+    --level=5 \
+    --raid-devices=4 \
+    /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1 /dev/nvme3n1
+  
+  # 3. Format and mount
+  sudo mkfs.ext4 -F /dev/md0
+  sudo mkdir -p /data/themisdb
+  sudo mount /dev/md0 /data/themisdb
+  
+  # 4. Add to fstab
+  echo "/dev/md0 /data/themisdb ext4 defaults,noatime 0 2" | sudo tee -a /etc/fstab
+  
+  # 5. Configure ThemisDB to use RAID storage
+  # Edit /etc/themisdb/config.yaml:
+  # storage:
+  #   data_dir: /data/themisdb
+  
+  # 6. Start ThemisDB
+  sudo systemctl start themisdb
+  
+  # 7. Monitor RAID
+  watch cat /proc/mdstat
+  
+  # 8. Set up monitoring
+  sudo systemctl enable mdmonitor
+  sudo systemctl start mdmonitor
+
+# ====================================================================
+# TROUBLESHOOTING
+# ====================================================================
+
+troubleshooting:
+  issues:
+    - issue: "Array won't assemble after reboot"
+      solution: |
+        sudo mdadm --assemble --scan
+        sudo update-initramfs -u
+    
+    - issue: "Drive marked as failed but is working"
+      solution: |
+        # Re-add the drive
+        sudo mdadm --manage /dev/md0 --re-add /dev/nvme1n1
+    
+    - issue: "Slow rebuild performance"
+      solution: |
+        # Increase rebuild speed
+        echo 200000 | sudo tee /proc/sys/dev/raid/speed_limit_min
+        echo 2000000 | sudo tee /proc/sys/dev/raid/speed_limit_max
+    
+    - issue: "Array degraded but no failed drives shown"
+      solution: |
+        # Check dmesg for I/O errors
+        dmesg | grep -i error
+        
+        # Check SMART status
+        sudo smartctl -a /dev/nvme0n1
