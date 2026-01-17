@@ -9,7 +9,6 @@
 #include "llm/lora_framework/directx_shader.h"
 #include "llm/lora_framework/directx_pipeline.h"
 
-#include <stdexcept>
 #include <string>
 #include <iostream>
 #include <memory>

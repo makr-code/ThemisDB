@@ -7,6 +7,9 @@
 #include <chrono>
 #include <cmath>
 #include <algorithm>
+#include <memory>
+#include <vector>
+#include <thread>
 
 namespace themis {
 namespace llm {
