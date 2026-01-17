@@ -151,6 +151,81 @@ cudaError_t launch_fused_lora_forward_optimized(
     cudaStream_t stream = nullptr
 );
 
+/**
+ * @brief Warp-optimized fused LoRA forward with shuffle operations
+ * 
+ * Phase 2 Advanced Optimizations:
+ * - Warp shuffle operations (__shfl_down_sync) for efficient reduction
+ * - Multi-level tiling (warp tiles + thread tiles)
+ * - Bank conflict avoidance with padding
+ * - Cooperative groups for better synchronization
+ * 
+ * @param input Input tensor (batch_size, in_dim)
+ * @param B LoRA B matrix (in_dim, rank)
+ * @param A LoRA A matrix (rank, out_dim)
+ * @param output Output tensor (batch_size, out_dim)
+ * @param batch_size Batch size
+ * @param in_dim Input dimension
+ * @param rank LoRA rank
+ * @param out_dim Output dimension
+ * @param scaling Scaling factor
+ * @param stream CUDA stream for async execution
+ * 
+ * Expected speedup: 5-10% additional improvement over vectorized version
+ * Total speedup vs unfused: 1.8-2.4x (forward pass)
+ */
+cudaError_t launch_fused_lora_forward_warp_optimized(
+    const float* input,
+    const float* B,
+    const float* A,
+    float* output,
+    size_t batch_size,
+    size_t in_dim,
+    size_t rank,
+    size_t out_dim,
+    float scaling,
+    cudaStream_t stream = nullptr
+);
+
+/**
+ * @brief Batched LoRA forward for multiple adapters (Phase 3)
+ * 
+ * Process multiple LoRA adapters in single kernel call:
+ * - Different ranks per adapter supported
+ * - Shared input tensor across all adapters
+ * - Separate weights and outputs per adapter
+ * - Amortize kernel launch overhead
+ * 
+ * Use case: Multi-tenant serving with different fine-tuned models
+ * 
+ * @param input Shared input tensor (batch_size, in_dim)
+ * @param B_ptrs Array of B matrix pointers (one per adapter)
+ * @param A_ptrs Array of A matrix pointers (one per adapter)
+ * @param output_ptrs Array of output tensor pointers (one per adapter)
+ * @param ranks Array of ranks (one per adapter)
+ * @param scalings Array of scaling factors (one per adapter)
+ * @param num_adapters Number of LoRA adapters to process
+ * @param batch_size Batch size (shared across adapters)
+ * @param in_dim Input dimension (shared across adapters)
+ * @param out_dim Output dimension (shared across adapters)
+ * @param stream CUDA stream for async execution
+ * 
+ * Expected benefit: Reduce overhead when serving multiple adapters concurrently
+ */
+cudaError_t launch_batched_lora_forward(
+    const float* input,
+    const float** B_ptrs,
+    const float** A_ptrs,
+    float** output_ptrs,
+    const int* ranks,
+    const float* scalings,
+    int num_adapters,
+    size_t batch_size,
+    size_t in_dim,
+    size_t out_dim,
+    cudaStream_t stream = nullptr
+);
+
 } // namespace fused
 } // namespace cuda
 } // namespace lora

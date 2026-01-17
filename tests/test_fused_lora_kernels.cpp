@@ -766,3 +766,302 @@ TEST_F(FusedLoRAKernelsTest, OptimizedKernel_Performance_CUDA) {
     #endif
 }
 
+// ============================================================================
+// Phase 2 Advanced: Warp-Level Optimizations Tests
+// ============================================================================
+
+TEST_F(FusedLoRAKernelsTest, WarpOptimizedKernel_NumericalAccuracy_CUDA) {
+    if (!has_cuda_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    size_t batch_size = 8;
+    size_t in_dim = 768;
+    size_t out_dim = 768;
+    size_t rank = 16;
+    
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    auto B = gpu_tensor_utils::xavier_uniform({in_dim, rank}, Device::cuda());
+    auto A = gpu_tensor_utils::xavier_uniform({rank, out_dim}, Device::cuda());
+    
+    GPUTensor output_base({batch_size, out_dim}, Device::cuda());
+    GPUTensor output_warp({batch_size, out_dim}, Device::cuda());
+    
+    #ifdef THEMIS_ENABLE_CUDA
+    // Base fused kernel
+    cudaError_t err1 = cuda::fused::launch_fused_lora_forward(
+        reinterpret_cast<const float*>(input.data()),
+        reinterpret_cast<const float*>(B.data()),
+        reinterpret_cast<const float*>(A.data()),
+        reinterpret_cast<float*>(output_base.data()),
+        batch_size, in_dim, rank, out_dim, 1.0f
+    );
+    ASSERT_EQ(err1, cudaSuccess);
+    
+    // Warp-optimized kernel
+    cudaError_t err2 = cuda::fused::launch_fused_lora_forward_warp_optimized(
+        reinterpret_cast<const float*>(input.data()),
+        reinterpret_cast<const float*>(B.data()),
+        reinterpret_cast<const float*>(A.data()),
+        reinterpret_cast<float*>(output_warp.data()),
+        batch_size, in_dim, rank, out_dim, 1.0f
+    );
+    ASSERT_EQ(err2, cudaSuccess);
+    
+    // Compare outputs
+    float max_diff = maxAbsDifference(output_base, output_warp);
+    spdlog::info("Warp-optimized vs base kernel: max_diff={}", max_diff);
+    EXPECT_LT(max_diff, RELAXED_EPSILON);
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, WarpOptimizedKernel_SmallRank_CUDA) {
+    if (!has_cuda_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    // Test with small rank that fits in warp (<=32)
+    size_t batch_size = 8;
+    size_t in_dim = 768;
+    size_t out_dim = 768;
+    size_t rank = 16;  // Small rank for warp shuffle path
+    
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    auto B = gpu_tensor_utils::xavier_uniform({in_dim, rank}, Device::cuda());
+    auto A = gpu_tensor_utils::xavier_uniform({rank, out_dim}, Device::cuda());
+    
+    GPUTensor output({batch_size, out_dim}, Device::cuda());
+    
+    #ifdef THEMIS_ENABLE_CUDA
+    cudaError_t err = cuda::fused::launch_fused_lora_forward_warp_optimized(
+        reinterpret_cast<const float*>(input.data()),
+        reinterpret_cast<const float*>(B.data()),
+        reinterpret_cast<const float*>(A.data()),
+        reinterpret_cast<float*>(output.data()),
+        batch_size, in_dim, rank, out_dim, 1.0f
+    );
+    ASSERT_EQ(err, cudaSuccess);
+    
+    // Verify output is valid
+    auto output_data = output.cpu_data();
+    for (auto val : output_data) {
+        EXPECT_FALSE(std::isnan(val));
+        EXPECT_FALSE(std::isinf(val));
+    }
+    #endif
+}
+
+// ============================================================================
+// Phase 3: Multi-Adapter Batching Tests
+// ============================================================================
+
+TEST_F(FusedLoRAKernelsTest, BatchedAdapters_NumericalAccuracy_CUDA) {
+    if (!has_cuda_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    size_t batch_size = 4;
+    size_t in_dim = 256;
+    size_t out_dim = 256;
+    int num_adapters = 3;
+    
+    // Shared input
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    // Create adapters with different ranks
+    std::vector<int> ranks = {8, 16, 8};
+    std::vector<float> scalings = {1.0f, 2.0f, 1.5f};
+    
+    std::vector<GPUTensor> B_tensors;
+    std::vector<GPUTensor> A_tensors;
+    std::vector<GPUTensor> output_batched;
+    std::vector<GPUTensor> output_individual;
+    
+    std::vector<const float*> B_ptrs;
+    std::vector<const float*> A_ptrs;
+    std::vector<float*> output_ptrs;
+    
+    // Create adapters
+    for (int i = 0; i < num_adapters; ++i) {
+        B_tensors.push_back(gpu_tensor_utils::xavier_uniform({in_dim, static_cast<size_t>(ranks[i])}, Device::cuda()));
+        A_tensors.push_back(gpu_tensor_utils::xavier_uniform({static_cast<size_t>(ranks[i]), out_dim}, Device::cuda()));
+        output_batched.push_back(GPUTensor({batch_size, out_dim}, Device::cuda()));
+        output_individual.push_back(GPUTensor({batch_size, out_dim}, Device::cuda()));
+        
+        B_ptrs.push_back(reinterpret_cast<const float*>(B_tensors[i].data()));
+        A_ptrs.push_back(reinterpret_cast<const float*>(A_tensors[i].data()));
+        output_ptrs.push_back(reinterpret_cast<float*>(output_batched[i].data()));
+    }
+    
+    #ifdef THEMIS_ENABLE_CUDA
+    // Copy pointers to device
+    const float** d_B_ptrs;
+    const float** d_A_ptrs;
+    float** d_output_ptrs;
+    int* d_ranks;
+    float* d_scalings;
+    
+    cudaMalloc(&d_B_ptrs, num_adapters * sizeof(float*));
+    cudaMalloc(&d_A_ptrs, num_adapters * sizeof(float*));
+    cudaMalloc(&d_output_ptrs, num_adapters * sizeof(float*));
+    cudaMalloc(&d_ranks, num_adapters * sizeof(int));
+    cudaMalloc(&d_scalings, num_adapters * sizeof(float));
+    
+    cudaMemcpy(d_B_ptrs, B_ptrs.data(), num_adapters * sizeof(float*), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_A_ptrs, A_ptrs.data(), num_adapters * sizeof(float*), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_output_ptrs, output_ptrs.data(), num_adapters * sizeof(float*), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_ranks, ranks.data(), num_adapters * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_scalings, scalings.data(), num_adapters * sizeof(float), cudaMemcpyHostToDevice);
+    
+    // Launch batched kernel
+    cudaError_t err = cuda::fused::launch_batched_lora_forward(
+        reinterpret_cast<const float*>(input.data()),
+        d_B_ptrs, d_A_ptrs, d_output_ptrs,
+        d_ranks, d_scalings,
+        num_adapters, batch_size, in_dim, out_dim
+    );
+    ASSERT_EQ(err, cudaSuccess);
+    
+    // Compute individual outputs for comparison
+    for (int i = 0; i < num_adapters; ++i) {
+        cuda::fused::launch_fused_lora_forward(
+            reinterpret_cast<const float*>(input.data()),
+            B_ptrs[i], A_ptrs[i],
+            reinterpret_cast<float*>(output_individual[i].data()),
+            batch_size, in_dim, ranks[i], out_dim, scalings[i]
+        );
+    }
+    
+    // Compare outputs
+    for (int i = 0; i < num_adapters; ++i) {
+        float max_diff = maxAbsDifference(output_batched[i], output_individual[i]);
+        spdlog::info("Adapter {}: batched vs individual max_diff={}", i, max_diff);
+        EXPECT_LT(max_diff, RELAXED_EPSILON);
+    }
+    
+    // Cleanup
+    cudaFree(d_B_ptrs);
+    cudaFree(d_A_ptrs);
+    cudaFree(d_output_ptrs);
+    cudaFree(d_ranks);
+    cudaFree(d_scalings);
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, BatchedAdapters_Performance_CUDA) {
+    if (!has_cuda_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    size_t batch_size = 8;
+    size_t in_dim = 768;
+    size_t out_dim = 768;
+    int num_adapters = 4;
+    
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    std::vector<int> ranks(num_adapters, 8);
+    std::vector<float> scalings(num_adapters, 1.0f);
+    
+    std::vector<GPUTensor> B_tensors;
+    std::vector<GPUTensor> A_tensors;
+    std::vector<GPUTensor> outputs;
+    std::vector<const float*> B_ptrs;
+    std::vector<const float*> A_ptrs;
+    std::vector<float*> output_ptrs;
+    
+    for (int i = 0; i < num_adapters; ++i) {
+        B_tensors.push_back(gpu_tensor_utils::xavier_uniform({in_dim, static_cast<size_t>(ranks[i])}, Device::cuda()));
+        A_tensors.push_back(gpu_tensor_utils::xavier_uniform({static_cast<size_t>(ranks[i]), out_dim}, Device::cuda()));
+        outputs.push_back(GPUTensor({batch_size, out_dim}, Device::cuda()));
+        
+        B_ptrs.push_back(reinterpret_cast<const float*>(B_tensors[i].data()));
+        A_ptrs.push_back(reinterpret_cast<const float*>(A_tensors[i].data()));
+        output_ptrs.push_back(reinterpret_cast<float*>(outputs[i].data()));
+    }
+    
+    #ifdef THEMIS_ENABLE_CUDA
+    // Setup device pointers
+    const float** d_B_ptrs;
+    const float** d_A_ptrs;
+    float** d_output_ptrs;
+    int* d_ranks;
+    float* d_scalings;
+    
+    cudaMalloc(&d_B_ptrs, num_adapters * sizeof(float*));
+    cudaMalloc(&d_A_ptrs, num_adapters * sizeof(float*));
+    cudaMalloc(&d_output_ptrs, num_adapters * sizeof(float*));
+    cudaMalloc(&d_ranks, num_adapters * sizeof(int));
+    cudaMalloc(&d_scalings, num_adapters * sizeof(float));
+    
+    cudaMemcpy(d_B_ptrs, B_ptrs.data(), num_adapters * sizeof(float*), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_A_ptrs, A_ptrs.data(), num_adapters * sizeof(float*), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_output_ptrs, output_ptrs.data(), num_adapters * sizeof(float*), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_ranks, ranks.data(), num_adapters * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_scalings, scalings.data(), num_adapters * sizeof(float), cudaMemcpyHostToDevice);
+    
+    // Warmup
+    for (size_t i = 0; i < 5; ++i) {
+        cuda::fused::launch_batched_lora_forward(
+            reinterpret_cast<const float*>(input.data()),
+            d_B_ptrs, d_A_ptrs, d_output_ptrs,
+            d_ranks, d_scalings,
+            num_adapters, batch_size, in_dim, out_dim
+        );
+    }
+    
+    // Benchmark batched
+    auto batched_start = high_resolution_clock::now();
+    for (size_t iter = 0; iter < 50; ++iter) {
+        cuda::fused::launch_batched_lora_forward(
+            reinterpret_cast<const float*>(input.data()),
+            d_B_ptrs, d_A_ptrs, d_output_ptrs,
+            d_ranks, d_scalings,
+            num_adapters, batch_size, in_dim, out_dim
+        );
+    }
+    cudaDeviceSynchronize();
+    auto batched_end = high_resolution_clock::now();
+    auto batched_time = duration_cast<microseconds>(batched_end - batched_start).count();
+    
+    // Benchmark sequential
+    auto sequential_start = high_resolution_clock::now();
+    for (size_t iter = 0; iter < 50; ++iter) {
+        for (int i = 0; i < num_adapters; ++i) {
+            cuda::fused::launch_fused_lora_forward(
+                reinterpret_cast<const float*>(input.data()),
+                B_ptrs[i], A_ptrs[i], output_ptrs[i],
+                batch_size, in_dim, ranks[i], out_dim, scalings[i]
+            );
+        }
+    }
+    cudaDeviceSynchronize();
+    auto sequential_end = high_resolution_clock::now();
+    auto sequential_time = duration_cast<microseconds>(sequential_end - sequential_start).count();
+    
+    float improvement = static_cast<float>(sequential_time) / static_cast<float>(batched_time);
+    
+    spdlog::info("Phase 3 Batched Adapters Performance:");
+    spdlog::info("  Sequential: {} μs", sequential_time);
+    spdlog::info("  Batched:    {} μs", batched_time);
+    spdlog::info("  Improvement: {:.2f}x", improvement);
+    
+    // Batched should be faster due to reduced launch overhead
+    EXPECT_GT(improvement, 1.0f) << "Batched should reduce overhead";
+    
+    // Cleanup
+    cudaFree(d_B_ptrs);
+    cudaFree(d_A_ptrs);
+    cudaFree(d_output_ptrs);
+    cudaFree(d_ranks);
+    cudaFree(d_scalings);
+    #endif
+}
+
+
