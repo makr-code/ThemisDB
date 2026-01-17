@@ -2,6 +2,7 @@
 
 #include "llm/lora_framework/hip_fused_kernels.h"
 #include <hip/hip_runtime.h>
+#include <algorithm>
 
 namespace themis {
 namespace llm {
@@ -238,6 +239,74 @@ __global__ void fused_sgd_step_kernel(
     params[idx] = p;
 }
 
+/**
+ * @brief Fused MSE loss and gradient kernel
+ * 
+ * Computes both MSE loss and gradient in a single pass:
+ * 1. Loss = sum((predictions - targets)^2) / n
+ * 2. Gradient = (2/n) * (predictions - targets)
+ * 
+ * This saves memory bandwidth by reading predictions/targets only once
+ * instead of twice (once for loss, once for gradient).
+ * 
+ * HIP/AMD optimized version with wavefront-level reduction
+ */
+__global__ void fused_mse_loss_gradient_kernel(
+    float* grad_output,
+    float* partial_loss,
+    const float* predictions,
+    const float* targets,
+    int n
+) {
+    __shared__ float shared_loss[256];
+    
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int tid = threadIdx.x;
+    
+    // Compute gradient AND accumulate loss in single pass
+    float local_loss = 0.0f;
+    float scale = 2.0f / n;
+    
+    for (int i = idx; i < n; i += blockDim.x * gridDim.x) {
+        float diff = predictions[i] - targets[i];
+        
+        // Write gradient (element-wise operation)
+        grad_output[i] = scale * diff;
+        
+        // Accumulate loss
+        local_loss += diff * diff;
+    }
+    
+    // Reduce loss within block using shared memory
+    shared_loss[tid] = local_loss;
+    __syncthreads();
+    
+    // Tree reduction in shared memory
+    for (int s = blockDim.x / 2; s > 64; s >>= 1) {
+        if (tid < s) {
+            shared_loss[tid] += shared_loss[tid + s];
+        }
+        __syncthreads();
+    }
+    
+    // Final wavefront reduction (no sync needed, wavefront size = 64 for AMD)
+    if (tid < 64) {
+        volatile float* smem = shared_loss;
+        if (blockDim.x >= 128) smem[tid] += smem[tid + 64];
+        if (blockDim.x >= 64)  smem[tid] += smem[tid + 32];
+        if (blockDim.x >= 32)  smem[tid] += smem[tid + 16];
+        if (blockDim.x >= 16)  smem[tid] += smem[tid + 8];
+        if (blockDim.x >= 8)   smem[tid] += smem[tid + 4];
+        if (blockDim.x >= 4)   smem[tid] += smem[tid + 2];
+        if (blockDim.x >= 2)   smem[tid] += smem[tid + 1];
+    }
+    
+    // Write block result
+    if (tid == 0) {
+        partial_loss[blockIdx.x] = shared_loss[0];
+    }
+}
+
 // ============================================================================
 // Kernel Launchers
 // ============================================================================
@@ -323,6 +392,29 @@ hipError_t launch_fused_sgd_step(
     } else {
         hipLaunchKernelGGL(fused_sgd_step_kernel, dim3(gridSize), dim3(blockSize), 0, 0,
             params, grads, momentum_buffer, size, learning_rate, momentum, weight_decay);
+    }
+    
+    return hipGetLastError();
+}
+
+hipError_t launch_fused_mse_loss_gradient(
+    float* grad_output,
+    float* partial_loss,
+    const float* predictions,
+    const float* targets,
+    int n,
+    int num_blocks,
+    hipStream_t stream
+) {
+    int threads = 256;
+    int blocks = num_blocks;
+    
+    if (stream != nullptr) {
+        hipLaunchKernelGGL(fused_mse_loss_gradient_kernel, dim3(blocks), dim3(threads), 0, stream,
+            grad_output, partial_loss, predictions, targets, n);
+    } else {
+        hipLaunchKernelGGL(fused_mse_loss_gradient_kernel, dim3(blocks), dim3(threads), 0, 0,
+            grad_output, partial_loss, predictions, targets, n);
     }
     
     return hipGetLastError();

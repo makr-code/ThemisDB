@@ -7,6 +7,10 @@
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
+#include <algorithm>
+#include <memory>
+#include <vector>
+#include <thread>
 
 namespace themis {
 namespace llm {
@@ -650,31 +654,87 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
         throw std::invalid_argument("Predictions and targets must have same shape");
     }
     
-    // TODO: Implement as GPU kernel for true GPU acceleration
-    // Current implementation downloads to CPU which creates a performance bottleneck:
-    // 1. GPU → CPU transfer is expensive (bandwidth limited)
-    // 2. Breaks GPU pipeline (forces synchronization)
-    // 3. Prevents kernel fusion optimization
-    // 
-    // Production implementation should:
-    // 1. Implement MSE loss as a CUDA/HIP/Vulkan/DirectX compute kernel
-    // 2. Keep all computation on GPU
-    // 3. Only transfer final scalar loss value to CPU
-    // 4. Support different backends (CUDA, HIP, Vulkan, DirectX)
-    // 
-    // This placeholder is acceptable for validating training loop mechanics
-    // but should be replaced with GPU kernels for production performance.
+    size_t n = predictions.size();
+    const Device& device = predictions.device();
     
-    auto pred_data = predictions.cpu_data();
-    auto target_data = targets.cpu_data();
-    
-    float sum = 0.0f;
-    for (size_t i = 0; i < pred_data.size(); ++i) {
-        float diff = pred_data[i] - target_data[i];
-        sum += diff * diff;
+    // Use GPU kernels for CUDA and HIP backends
+    if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+        // Step 1: Parallel reduction on GPU
+        int threads = THEMIS_GPU_REDUCTION_BLOCK_SIZE;
+        int blocks = std::min(THEMIS_GPU_MAX_BLOCKS, static_cast<int>((n + threads - 1) / threads));
+        
+        // Allocate temporary buffer for partial sums
+        GPUTensor partial_sums({static_cast<size_t>(blocks)}, device);
+        
+        // Launch kernel for parallel reduction
+#ifdef THEMIS_ENABLE_CUDA
+        if (device.type == DeviceType::CUDA) {
+            auto err = cuda::launch_mse_loss_reduction_kernel(
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                static_cast<float*>(partial_sums.gpu_ptr()),
+                static_cast<int>(n),
+                blocks,
+                nullptr  // use default stream
+            );
+            if (err != cudaSuccess) {
+                throw std::runtime_error("CUDA MSE loss reduction kernel failed: " + 
+                                       std::string(cudaGetErrorString(err)));
+            }
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (device.type == DeviceType::HIP) {
+            auto err = hip::launch_mse_loss_reduction_kernel(
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                static_cast<float*>(partial_sums.gpu_ptr()),
+                static_cast<int>(n),
+                blocks,
+                nullptr  // use default stream
+            );
+            if (err != hipSuccess) {
+                throw std::runtime_error("HIP MSE loss reduction kernel failed: " + 
+                                       std::string(hipGetErrorString(err)));
+            }
+        }
+#endif
+        
+        // Step 2: Final reduction on CPU (small array, ~4KB transfer)
+        auto partial_data = partial_sums.cpu_data();
+        float sum = 0.0f;
+        for (float val : partial_data) {
+            sum += val;
+        }
+        
+        return sum / n;
+#else
+        // Fallback to CPU if GPU not compiled
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        float sum = 0.0f;
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            float diff = pred_data[i] - target_data[i];
+            sum += diff * diff;
+        }
+        
+        return sum / pred_data.size();
+#endif
+    } else {
+        // CPU fallback or other backends
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        float sum = 0.0f;
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            float diff = pred_data[i] - target_data[i];
+            sum += diff * diff;
+        }
+        
+        return sum / pred_data.size();
     }
-    
-    return sum / pred_data.size();
 }
 
 GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& targets) {
@@ -685,33 +745,190 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
     // Create gradient tensor on same device
     GPUTensor grad(predictions.shape(), predictions.device());
     
-    // TODO: Implement as GPU kernel for true GPU acceleration
-    // Current implementation computes gradients on CPU which creates bottlenecks:
-    // 1. GPU → CPU transfer for predictions and targets (expensive)
-    // 2. CPU computation (slower than GPU)
-    // 3. CPU → GPU transfer for gradient result (expensive)
-    // 
-    // Production implementation should:
-    // 1. Implement gradient computation as CUDA/HIP/Vulkan/DirectX kernel
-    // 2. Keep all computation on GPU (no CPU transfers)
-    // 3. Fuse with backward pass for better performance
-    // 4. Support different backends
-    // 
-    // This placeholder validates training loop mechanics but should be
-    // replaced with GPU kernels for production performance.
+    size_t n = predictions.size();
+    float scale = 2.0f / n;
+    const Device& device = predictions.device();
     
-    auto pred_data = predictions.cpu_data();
-    auto target_data = targets.cpu_data();
-    
-    std::vector<float> grad_data(pred_data.size());
-    float scale = 2.0f / pred_data.size();
-    
-    for (size_t i = 0; i < pred_data.size(); ++i) {
-        grad_data[i] = scale * (pred_data[i] - target_data[i]);
+    // Use GPU kernels for CUDA and HIP backends
+    if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+        // All computation on GPU, no CPU transfers!
+#ifdef THEMIS_ENABLE_CUDA
+        if (device.type == DeviceType::CUDA) {
+            auto err = cuda::launch_mse_gradient_kernel(
+                static_cast<float*>(grad.gpu_ptr()),
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                scale,
+                static_cast<int>(n),
+                nullptr  // use default stream
+            );
+            if (err != cudaSuccess) {
+                throw std::runtime_error("CUDA MSE gradient kernel failed: " + 
+                                       std::string(cudaGetErrorString(err)));
+            }
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (device.type == DeviceType::HIP) {
+            auto err = hip::launch_mse_gradient_kernel(
+                static_cast<float*>(grad.gpu_ptr()),
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                scale,
+                static_cast<int>(n),
+                nullptr  // use default stream
+            );
+            if (err != hipSuccess) {
+                throw std::runtime_error("HIP MSE gradient kernel failed: " + 
+                                       std::string(hipGetErrorString(err)));
+            }
+        }
+#endif
+        
+        return grad;
+#else
+        // Fallback to CPU if GPU not compiled
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        std::vector<float> grad_data(pred_data.size());
+        
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            grad_data[i] = scale * (pred_data[i] - target_data[i]);
+        }
+        
+        grad.upload(grad_data);
+        return grad;
+#endif
+    } else {
+        // CPU fallback or other backends
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        std::vector<float> grad_data(pred_data.size());
+        
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            grad_data[i] = scale * (pred_data[i] - target_data[i]);
+        }
+        
+        grad.upload(grad_data);
+        return grad;
+    }
+}
+
+/**
+ * @brief Fused MSE loss and gradient computation
+ * 
+ * Computes both loss and gradient in a single GPU kernel pass.
+ * This is more efficient than calling computeMSELossGPU and computeMSEGradientGPU separately
+ * because it reads predictions/targets only once instead of twice.
+ * 
+ * Expected performance: 1.3-1.5x faster than separate calls
+ * Memory bandwidth reduction: ~50%
+ * 
+ * @param predictions Prediction tensor
+ * @param targets Target tensor
+ * @param grad_output Output gradient tensor (will be allocated)
+ * @return MSE loss value
+ */
+float computeFusedMSELossGradientGPU(
+    const GPUTensor& predictions, 
+    const GPUTensor& targets,
+    GPUTensor& grad_output
+) {
+    if (predictions.shape() != targets.shape()) {
+        throw std::invalid_argument("Predictions and targets must have same shape");
     }
     
-    grad.upload(grad_data);
-    return grad;
+    // Create gradient tensor on same device
+    grad_output = GPUTensor(predictions.shape(), predictions.device());
+    
+    size_t n = predictions.size();
+    const Device& device = predictions.device();
+    
+    // Use fused GPU kernels for CUDA and HIP backends
+    if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+        // Parallel reduction on GPU
+        int threads = 256;
+        int blocks = std::min(1024, static_cast<int>((n + threads - 1) / threads));
+        
+        // Allocate temporary buffer for partial sums
+        GPUTensor partial_sums({static_cast<size_t>(blocks)}, device);
+        
+        // Launch fused kernel - computes both loss and gradient
+#ifdef THEMIS_ENABLE_CUDA
+        if (device.type == DeviceType::CUDA) {
+            cuda::fused::launch_fused_mse_loss_gradient(
+                static_cast<float*>(grad_output.gpu_ptr()),
+                static_cast<float*>(partial_sums.gpu_ptr()),
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                static_cast<int>(n),
+                blocks,
+                nullptr  // use default stream
+            );
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (device.type == DeviceType::HIP) {
+            hip::fused::launch_fused_mse_loss_gradient(
+                static_cast<float*>(grad_output.gpu_ptr()),
+                static_cast<float*>(partial_sums.gpu_ptr()),
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                static_cast<int>(n),
+                blocks,
+                nullptr  // use default stream
+            );
+        }
+#endif
+        
+        // Final reduction on CPU (small array, ~4KB transfer)
+        auto partial_data = partial_sums.cpu_data();
+        float sum = 0.0f;
+        for (float val : partial_data) {
+            sum += val;
+        }
+        
+        return sum / n;
+#else
+        // Fallback to CPU if GPU not compiled
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        float sum = 0.0f;
+        std::vector<float> grad_data(pred_data.size());
+        float scale = 2.0f / pred_data.size();
+        
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            float diff = pred_data[i] - target_data[i];
+            sum += diff * diff;
+            grad_data[i] = scale * diff;
+        }
+        
+        grad_output.upload(grad_data);
+        return sum / pred_data.size();
+#endif
+    } else {
+        // CPU fallback or other backends
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        float sum = 0.0f;
+        std::vector<float> grad_data(pred_data.size());
+        float scale = 2.0f / pred_data.size();
+        
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            float diff = pred_data[i] - target_data[i];
+            sum += diff * diff;
+            grad_data[i] = scale * diff;
+        }
+        
+        grad_output.upload(grad_data);
+        return sum / pred_data.size();
+    }
 }
 
 } // namespace lora
