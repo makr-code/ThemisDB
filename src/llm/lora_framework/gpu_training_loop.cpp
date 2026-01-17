@@ -168,6 +168,9 @@ bool GPUTrainingLoop::train() {
         // Initialize optimizer
         initializeOptimizer();
         
+        // Initialize checkpointing if enabled
+        initializeCheckpointing();
+        
         // Setup metrics
         current_metrics_.total_epochs = config_.num_epochs;
         current_metrics_.total_steps = config_.num_epochs * data_loader_->num_batches();
@@ -297,6 +300,59 @@ void GPUTrainingLoop::initializeMemoryManagement() {
         spdlog::info("  Total VRAM: {:.2f} GB", stats.total_bytes / (1024.0 * 1024.0 * 1024.0));
         spdlog::info("  Free VRAM: {:.2f} GB", stats.free_bytes / (1024.0 * 1024.0 * 1024.0));
     }
+}
+
+void GPUTrainingLoop::initializeCheckpointing() {
+    if (!config_.enable_gradient_checkpointing) {
+        spdlog::info("Gradient checkpointing disabled");
+        return;
+    }
+    
+    // Count total layers
+    int total_layers = static_cast<int>(layers_.size());
+    if (multi_gpu_layer_) {
+        total_layers = 1;  // Multi-GPU layer counts as one
+    }
+    
+    if (total_layers == 0) {
+        spdlog::warn("No layers to checkpoint, disabling gradient checkpointing");
+        config_.enable_gradient_checkpointing = false;
+        return;
+    }
+    
+    // Create checkpoint configuration
+    CheckpointConfig checkpoint_config;
+    checkpoint_config.strategy = config_.checkpoint_strategy;
+    checkpoint_config.checkpoint_frequency = config_.checkpoint_frequency;
+    checkpoint_config.total_layers = total_layers;
+    checkpoint_config.checkpoint_lora = true;
+    
+    checkpointer_ = std::make_unique<GradientCheckpointer>(checkpoint_config);
+    
+    // Apply checkpointing to layers
+    int checkpointed_count = 0;
+    for (size_t i = 0; i < layers_.size(); ++i) {
+        if (checkpointer_->shouldCheckpoint(static_cast<int>(i))) {
+            layers_[i]->set_checkpointing(true);
+            layers_[i]->set_layer_id(static_cast<int>(i));
+            checkpointer_->setLayerType(static_cast<int>(i), LayerType::LORA);
+            checkpointed_count++;
+            spdlog::debug("Enabled checkpointing for layer {}", i);
+        }
+    }
+    
+    // Estimate memory savings
+    size_t avg_activation_size = 4 * 1024 * 1024;  // 4MB per layer estimate
+    size_t estimated_savings = checkpointer_->estimateMemorySavings(avg_activation_size);
+    float compute_overhead = checkpointer_->estimateComputeOverhead();
+    
+    spdlog::info("Gradient checkpointing initialized:");
+    spdlog::info("  Strategy: {}", static_cast<int>(config_.checkpoint_strategy));
+    spdlog::info("  Total layers: {}", total_layers);
+    spdlog::info("  Checkpointed layers: {}", checkpointed_count);
+    spdlog::info("  Estimated memory savings: {:.2f} GB", 
+                 estimated_savings / (1024.0 * 1024.0 * 1024.0));
+    spdlog::info("  Estimated compute overhead: {:.1f}%", compute_overhead);
 }
 
 float GPUTrainingLoop::trainEpoch(int epoch) {
@@ -450,6 +506,15 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Check memory usage periodically
     if (current_metrics_.current_step % 100 == 0) {
         checkMemoryUsage();
+        
+        // Log checkpoint statistics if checkpointing is enabled
+        if (checkpointer_) {
+            auto checkpoint_stats = checkpointer_->getStats();
+            spdlog::info("Checkpoint stats: {:.1f}% memory reduction, {:.1f}% compute overhead, {}ms recompute time",
+                        checkpoint_stats.memory_reduction_pct, 
+                        checkpoint_stats.compute_overhead_pct,
+                        checkpoint_stats.recomputation_time_ms);
+        }
     }
     
     return loss;

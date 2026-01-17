@@ -6,6 +6,7 @@
 #include "llm/lora_framework/multi_gpu_lora_layer.h"
 #include "llm/lora_framework/vram_allocator.h"
 #include "llm/lora_framework/gpu_embedding_layer.h"
+#include "llm/lora_framework/gradient_checkpointing.h"
 #include "llm/gpu_memory_manager.h"
 #include <functional>
 #include <memory>
@@ -57,6 +58,8 @@ struct GPUTrainingConfig {
     // Memory management
     size_t max_vram_bytes = 0;  // 0 = auto-detect
     bool enable_gradient_checkpointing = false;
+    CheckpointStrategy checkpoint_strategy = CheckpointStrategy::SQRT_N;
+    int checkpoint_frequency = 4;  // For UNIFORM strategy
     
     // Multi-GPU
     bool use_multi_gpu = false;
@@ -189,6 +192,7 @@ private:
     // Training components
     std::unique_ptr<GPUSGDOptimizer> optimizer_;
     MixedPrecisionTrainer* mixed_precision_trainer_ = nullptr;
+    std::unique_ptr<GradientCheckpointer> checkpointer_;
     
     // Memory management
     std::unique_ptr<VRAMAllocator> vram_allocator_;
@@ -204,6 +208,7 @@ private:
     // Helper methods
     void initializeOptimizer();
     void initializeMemoryManagement();
+    void initializeCheckpointing();
     float trainEpoch(int epoch);
     float trainStep(const GPUBatch& batch);
     void updateMetrics(int epoch, int step, float loss);
