@@ -135,6 +135,16 @@ public:
     const GPUDataLoaderConfig& config() const { return config_; }
     
     /**
+     * @brief Update batch size dynamically (for adaptive batching)
+     * @param new_batch_size New batch size to use for subsequent batches
+     * @return true if update successful, false if invalid batch size
+     * 
+     * Note: This resets the iterator to the current position with new batch size.
+     * The change takes effect for the next call to getNextBatch().
+     */
+    bool updateBatchSize(size_t new_batch_size);
+    
+    /**
      * @brief Get memory statistics
      */
     struct MemoryStats {
