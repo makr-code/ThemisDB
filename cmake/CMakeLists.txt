@@ -2128,6 +2128,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/lora_layers.cpp             # LoRA layers and tensor operations (Phase 1)
         ../src/llm/lora_framework/base_model_adapter.cpp      # Base model loading and LoRA injection (Phase 2)
         ../src/llm/lora_framework/data_loader.cpp             # Text data loading and tokenization (Phase 2)
+        ../src/llm/lora_framework/llama_tokenizer.cpp         # llama.cpp native tokenizer integration
         # Production training features
         ../src/llm/lora_framework/mixed_precision.cpp         # Mixed precision training (FP16/BF16)
         ../src/llm/lora_framework/lr_scheduler.cpp            # Learning rate schedulers
@@ -2505,6 +2506,7 @@ if(THEMIS_BUILD_TESTS)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_llama_tokenizer.cpp>  # llama.cpp tokenizer integration tests
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
         $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${THEMIS_ROOT_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
         $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests

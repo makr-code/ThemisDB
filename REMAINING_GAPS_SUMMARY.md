@@ -141,28 +141,29 @@ try {
 
 ---
 
-#### 5. llama.cpp Tokenizer Integration
+#### 5. llama.cpp Tokenizer Integration ✅ RESOLVED
 
-**Issue**: Using SimpleTokenizer instead of llama.cpp's native tokenizer
+**Issue**: ~~Using SimpleTokenizer instead of llama.cpp's native tokenizer~~ **[RESOLVED]**
 
 **Location**: `src/llm/lora_framework/lora_training_service.cpp:176`
 
-**Code**:
-```cpp
-// TODO: Replace with llama.cpp tokenizer in future PR
-```
+**Resolution**: 
+- Implemented `LlamaTokenizer` class that integrates llama.cpp's native tokenizer
+- Loads model in vocab-only mode (lightweight - only tokenizer, not weights)
+- Automatically used when base model path is available
+- Falls back to SimpleTokenizer for backwards compatibility
+- Full test coverage in `tests/test_llama_tokenizer.cpp`
 
-**Impact**:
-- Tokenization may not match base model expectations
-- Could cause training/inference mismatch
-- Vocabulary alignment issues
+**Implementation Details**:
+- `include/llm/lora_framework/llama_tokenizer.h` - ITokenizer interface implementation
+- `src/llm/lora_framework/llama_tokenizer.cpp` - llama.cpp integration
+- Training service now selects tokenizer based on base model availability
+- Ensures same tokenization for training and inference
+- Supports all llama.cpp model types (Llama, Mistral, CodeLlama, etc.)
 
-**Recommendation**:
-- Integrate llama.cpp's tokenizer
-- Ensure same tokenization for training and inference
-- Add validation tests
+**Status**: ✅ Complete - Training and inference now use consistent tokenization
 
-**Estimated Effort**: 3-5 days
+**Estimated Effort**: ~~3-5 days~~ Completed
 
 ---
 
@@ -359,7 +360,7 @@ try {
   - [ ] lora_storage_service_themisdb.cpp refactored
   - [ ] LoRA adapter application implemented
   - [ ] Real embeddings from base model
-  - [ ] llama.cpp tokenizer integrated
+  - [x] llama.cpp tokenizer integrated ✅
 
 - [ ] **Production Validator Working** (2-3 weeks)
   - [ ] All component tests implemented
