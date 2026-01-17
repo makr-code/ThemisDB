@@ -53,9 +53,9 @@ LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
     
     // Initialize PagedKVCache with block manager
     PagedKVCache::Config kv_config;
-    kv_config.block_size = config.block_size;
-    kv_config.num_blocks = config.num_blocks;
-    kv_config.enable_prefix_caching = config.enable_prefix_caching;
+    kv_config.block_size = config_.block_size;
+    kv_config.num_blocks = config_.num_blocks;
+    kv_config.enable_prefix_caching = config_.enable_prefix_caching;
     
     kv_cache_ = std::make_unique<PagedKVCache>(kv_config, block_manager_);
     
