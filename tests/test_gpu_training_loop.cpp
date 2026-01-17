@@ -243,3 +243,119 @@ TEST_F(GPUTrainingLoopTest, CPUFallbackWorks) {
     bool success = trainer.train();
     EXPECT_TRUE(success);
 }
+
+TEST_F(GPUTrainingLoopTest, MSELossGPUKernel) {
+    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    
+    // Create test tensors with known values
+    size_t n = 1000;
+    GPUTensor predictions({n}, device);
+    GPUTensor targets({n}, device);
+    
+    // Initialize with simple patterns
+    std::vector<float> pred_data(n);
+    std::vector<float> target_data(n);
+    
+    for (size_t i = 0; i < n; ++i) {
+        pred_data[i] = static_cast<float>(i) / 100.0f;
+        target_data[i] = static_cast<float>(i) / 100.0f + 0.1f;  // offset by 0.1
+    }
+    
+    predictions.upload(pred_data);
+    targets.upload(target_data);
+    
+    // Compute loss using GPU kernel
+    float loss = computeMSELossGPU(predictions, targets);
+    
+    // Expected loss = mean((0.1)^2) = 0.01
+    EXPECT_NEAR(loss, 0.01f, 1e-5f) << "MSE loss should be 0.01 for constant offset of 0.1";
+    EXPECT_GT(loss, 0.0f) << "Loss should be positive";
+}
+
+TEST_F(GPUTrainingLoopTest, MSEGradientGPUKernel) {
+    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    
+    // Create test tensors
+    size_t n = 500;
+    GPUTensor predictions({n}, device);
+    GPUTensor targets({n}, device);
+    
+    std::vector<float> pred_data(n);
+    std::vector<float> target_data(n);
+    
+    for (size_t i = 0; i < n; ++i) {
+        pred_data[i] = 2.0f;
+        target_data[i] = 1.0f;
+    }
+    
+    predictions.upload(pred_data);
+    targets.upload(target_data);
+    
+    // Compute gradient
+    GPUTensor grad = computeMSEGradientGPU(predictions, targets);
+    
+    // Check gradient shape
+    EXPECT_EQ(grad.shape(), predictions.shape());
+    
+    // Check gradient values
+    // grad = (2/n) * (pred - target) = (2/500) * (2 - 1) = 0.004
+    auto grad_data = grad.cpu_data();
+    EXPECT_EQ(grad_data.size(), n);
+    
+    float expected_grad = 2.0f / n * (2.0f - 1.0f);
+    for (size_t i = 0; i < std::min(size_t(10), n); ++i) {
+        EXPECT_NEAR(grad_data[i], expected_grad, 1e-6f) 
+            << "Gradient at index " << i << " should be " << expected_grad;
+    }
+}
+
+TEST_F(GPUTrainingLoopTest, MSEKernelsNumericalAccuracy) {
+    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    
+    // Test with various tensor sizes to ensure accuracy across different block configurations
+    std::vector<size_t> test_sizes = {100, 256, 1000, 10000};
+    
+    for (size_t n : test_sizes) {
+        GPUTensor predictions({n}, device);
+        GPUTensor targets({n}, device);
+        
+        std::vector<float> pred_data(n);
+        std::vector<float> target_data(n);
+        
+        // Create random-like pattern
+        for (size_t i = 0; i < n; ++i) {
+            pred_data[i] = static_cast<float>(i % 100) / 50.0f;
+            target_data[i] = static_cast<float>((i + 1) % 100) / 50.0f;
+        }
+        
+        predictions.upload(pred_data);
+        targets.upload(target_data);
+        
+        // Compute loss
+        float loss = computeMSELossGPU(predictions, targets);
+        
+        // Compute expected loss on CPU for verification
+        float expected_sum = 0.0f;
+        for (size_t i = 0; i < n; ++i) {
+            float diff = pred_data[i] - target_data[i];
+            expected_sum += diff * diff;
+        }
+        float expected_loss = expected_sum / n;
+        
+        // Check numerical accuracy (within floating point precision)
+        EXPECT_NEAR(loss, expected_loss, 1e-4f) 
+            << "Loss mismatch for size " << n 
+            << ": GPU=" << loss << " vs expected=" << expected_loss;
+        
+        // Also test gradient accuracy
+        GPUTensor grad = computeMSEGradientGPU(predictions, targets);
+        auto grad_data = grad.cpu_data();
+        
+        float scale = 2.0f / n;
+        for (size_t i = 0; i < std::min(size_t(5), n); ++i) {
+            float expected_grad = scale * (pred_data[i] - target_data[i]);
+            EXPECT_NEAR(grad_data[i], expected_grad, 1e-6f)
+                << "Gradient mismatch at index " << i << " for size " << n;
+        }
+    }
+}
