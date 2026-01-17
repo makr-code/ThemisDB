@@ -88,6 +88,7 @@ private:
     std::unordered_map<std::string, int> active_adapters_;  // adapter_id -> adapter_handle
     std::unordered_map<std::string, float> adapter_scales_;  // adapter_id -> scale
     std::unordered_map<std::string, std::string> adapter_temp_files_;  // adapter_id -> temp file path
+    int next_adapter_handle_id_;  // Counter for unique adapter handles
     void* model_handle_;  // llama_model* handle
     void* context_handle_;  // llama_context* handle
     

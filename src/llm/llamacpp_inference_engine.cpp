@@ -16,7 +16,8 @@ namespace llm {
 namespace fs = std::filesystem;
 
 LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
-    : config_(config), model_loaded_(false), model_handle_(nullptr), context_handle_(nullptr) {
+    : config_(config), model_loaded_(false), model_handle_(nullptr), 
+      context_handle_(nullptr), next_adapter_handle_id_(1) {
     
     // Initialize PagedKVCache
     PagedKVCache::Config kv_config;
@@ -636,8 +637,19 @@ bool LlamaCppInferenceEngine::loadAndApplyLoRAAdapter(
     }
     
     // Check if adapter is already active
-    if (active_adapters_.find(adapter_id) != active_adapters_.end()) {
-        spdlog::info("Adapter {} already active", adapter_id);
+    auto existing = active_adapters_.find(adapter_id);
+    if (existing != active_adapters_.end()) {
+        // Check if scale has changed
+        float current_scale = adapter_scales_[adapter_id];
+        if (std::abs(current_scale - scale) > 1e-6f) {
+            spdlog::info("Adapter {} already active but scale changed: {} -> {}", 
+                        adapter_id, current_scale, scale);
+            // In production with llama.cpp, would update scale here:
+            // llama_lora_adapter_set(context_handle_, existing->second, scale);
+            adapter_scales_[adapter_id] = scale;
+            return true;
+        }
+        spdlog::info("Adapter {} already active with same scale", adapter_id);
         return true;
     }
     
@@ -686,7 +698,7 @@ bool LlamaCppInferenceEngine::loadAndApplyLoRAAdapter(
         // }
         
         // For now, simulate successful adapter loading
-        int adapter_handle = static_cast<int>(active_adapters_.size() + 1);
+        int adapter_handle = next_adapter_handle_id_++;
         
         // 4. Track active adapters
         active_adapters_[adapter_id] = adapter_handle;
@@ -845,7 +857,9 @@ std::string LlamaCppInferenceEngine::convertAdapterToLlamaCppFormat(
     if (weights.format == "gguf" || weights.format == "llama.cpp") {
         spdlog::debug("Adapter already in llama.cpp format");
         // Save directly to temp file
-        std::string temp_path = getTempAdapterPath("adapter_" + std::to_string(active_adapters_.size()));
+        // Use a unique temporary name based on current time
+        auto now = std::chrono::system_clock::now().time_since_epoch().count();
+        std::string temp_path = getTempAdapterPath("adapter_" + std::to_string(now));
         if (saveAdapterToTempFile(temp_path, weights)) {
             return temp_path;
         }
@@ -862,7 +876,9 @@ std::string LlamaCppInferenceEngine::convertAdapterToLlamaCppFormat(
         // 2. Convert to llama.cpp GGUF format
         // 3. Save to temp file
         
-        std::string temp_path = getTempAdapterPath("adapter_" + std::to_string(active_adapters_.size()));
+        // Use a unique temporary name based on current time
+        auto now = std::chrono::system_clock::now().time_since_epoch().count();
+        std::string temp_path = getTempAdapterPath("adapter_" + std::to_string(now));
         if (saveAdapterToTempFile(temp_path, weights)) {
             return temp_path;
         }
