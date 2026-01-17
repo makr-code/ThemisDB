@@ -168,7 +168,7 @@ public:
             {
                 {"case_id", ArgType::STRING, true, nullptr, "Process case ID"},
                 {"pattern", ArgType::OBJECT, true, nullptr, "Pattern to check"},
-                {"threshold", ArgType::FLOAT, false, 0.8, "Minimum similarity threshold (0-1)"}
+                {"threshold", ArgType::NUMBER, false, 0.8, "Minimum similarity threshold (0-1)"}
             },
             ArgType::BOOLEAN,
             true, false,
@@ -504,7 +504,7 @@ public:
             "Detect bottlenecks in process based on performance data",
             {
                 {"event_log", ArgType::OBJECT, true, nullptr, "Event log with timing data"},
-                {"threshold_percentile", ArgType::FLOAT, false, 0.9,
+                {"threshold_percentile", ArgType::NUMBER, false, 0.9,
                  "Percentile threshold for bottleneck detection (0-1)"}
             },
             ArgType::ARRAY,
@@ -587,32 +587,32 @@ public:
  */
 inline void registerProcessMiningFunctions(FunctionRegistry& registry) {
     // Pattern matching (NEW)
-    registry.registerFunction("PM_FIND_SIMILAR", std::make_unique<PmFindSimilarFunction>());
-    registry.registerFunction("PM_COMPARE_IDEAL", std::make_unique<PmCompareIdealFunction>());
-    registry.registerFunction("PM_HAS_PATTERN", std::make_unique<PmHasPatternFunction>());
+    registry.registerFunction(std::make_unique<PmFindSimilarFunction>());
+    registry.registerFunction(std::make_unique<PmCompareIdealFunction>());
+    registry.registerFunction(std::make_unique<PmHasPatternFunction>());
     
     // Event log extraction
-    registry.registerFunction("PM_EXTRACT_LOG", std::make_unique<PmExtractLogFunction>());
-    registry.registerFunction("PM_EXTRACT_TRACE", std::make_unique<PmExtractTraceFunction>());
+    registry.registerFunction(std::make_unique<PmExtractLogFunction>());
+    registry.registerFunction(std::make_unique<PmExtractTraceFunction>());
     
     // Process discovery
-    registry.registerFunction("PM_DISCOVER_PROCESS", std::make_unique<PmDiscoverProcessFunction>());
-    registry.registerFunction("PM_VARIANTS", std::make_unique<PmVariantsFunction>());
+    registry.registerFunction(std::make_unique<PmDiscoverProcessFunction>());
+    registry.registerFunction(std::make_unique<PmVariantsFunction>());
     
     // Administrative models (NEW)
-    registry.registerFunction("PM_LOAD_ADMIN_MODEL", std::make_unique<PmLoadAdminModelFunction>());
-    registry.registerFunction("PM_LIST_ADMIN_MODELS", std::make_unique<PmListAdminModelsFunction>());
+    registry.registerFunction(std::make_unique<PmLoadAdminModelFunction>());
+    registry.registerFunction(std::make_unique<PmListAdminModelsFunction>());
     
     // Conformance & deviations
-    registry.registerFunction("PM_CONFORMANCE", std::make_unique<PmConformanceFunction>());
-    registry.registerFunction("PM_DEVIATIONS", std::make_unique<PmDeviationsFunction>());
+    registry.registerFunction(std::make_unique<PmConformanceFunction>());
+    registry.registerFunction(std::make_unique<PmDeviationsFunction>());
     
     // Performance analysis
-    registry.registerFunction("PM_BOTTLENECKS", std::make_unique<PmBottlenecksFunction>());
-    registry.registerFunction("PM_PREDICT_END", std::make_unique<PmPredictEndFunction>());
+    registry.registerFunction(std::make_unique<PmBottlenecksFunction>());
+    registry.registerFunction(std::make_unique<PmPredictEndFunction>());
     
     // Export
-    registry.registerFunction("PM_EXPORT_BPMN", std::make_unique<PmExportBpmnFunction>());
+    registry.registerFunction(std::make_unique<PmExportBpmnFunction>());
 }
 
 } // namespace functions

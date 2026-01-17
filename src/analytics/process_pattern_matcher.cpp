@@ -34,14 +34,14 @@ ProcessPatternMatcher::findSimilar(
     return {Status::OK(), {}};
 }
 
-std::pair<ProcessPatternMatcher::Status, ConformanceResult>
+std::pair<ProcessPatternMatcher::Status, ProcessMining::ConformanceResult>
 ProcessPatternMatcher::compareWithIdeal(
     const std::string& case_id,
     const ProcessPattern& ideal_pattern) {
     (void)case_id;
     (void)ideal_pattern;
 
-    ConformanceResult result;
+    ProcessMining::ConformanceResult result;
     return {Status::OK(), result};
 }
 

@@ -72,6 +72,13 @@ struct ChangefeedBufferStats {
     double avg_compression_ratio{1.0};
     
     std::chrono::steady_clock::time_point last_flush_time;
+    
+    // Delete copy operations due to atomic members
+    ChangefeedBufferStats(const ChangefeedBufferStats&) = delete;
+    ChangefeedBufferStats& operator=(const ChangefeedBufferStats&) = delete;
+    ChangefeedBufferStats(ChangefeedBufferStats&&) = default;
+    ChangefeedBufferStats& operator=(ChangefeedBufferStats&&) = default;
+    ChangefeedBufferStats() = default;
 };
 
 /**
@@ -149,7 +156,7 @@ public:
     /**
      * @brief Get current buffer statistics
      */
-    ChangefeedBufferStats getStats() const;
+    const ChangefeedBufferStats& getStats() const;
     
     /**
      * @brief Get current configuration

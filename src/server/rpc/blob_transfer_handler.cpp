@@ -1,7 +1,7 @@
 #include "server/rpc/blob_transfer_handler.h"
 #include <zstd.h>
 #include <lz4.h>
-#include <crc32c/crc32c.h>
+// #include <crc32c/crc32c.h>  // TODO: Missing vcpkg package
 #include <openssl/sha.h>
 #include <fstream>
 #include <sstream>
@@ -64,8 +64,7 @@ public:
             chunk.set_blob_id(config_.blob_id);
             chunk.set_chunk_index(chunk_index++);
             chunk.set_total_chunks(total_chunks_);
-            chunk.set_offset(file_offset);
-            chunk.set_is_last_chunk(false);
+            chunk.set_is_last(false);
             
             // Compress
             std::string compressed_data;
@@ -78,32 +77,21 @@ public:
             }
             
             chunk.set_data(compressed_data);
-            chunk.set_uncompressed_size(bytes_read);
-            chunk.set_compressed_size(compressed_data.size());
-            chunk.set_compression_type(config_.compression_type);
+            chunk.set_uncompressed_size(static_cast<uint64_t>(bytes_read));
+            chunk.set_compressed_size(static_cast<uint64_t>(compressed_data.size()));
             
-            // Checksum
-            chunk.set_checksum(CalculateChecksum(compressed_data));
-            chunk.set_checksum_type(config_.checksum_type);
+            // Checksum (CRC32 string)
+            chunk.set_checksum_crc32(CalculateChecksum(compressed_data));
             
-            // Metadata (first chunk only)
-            if (chunk_index == 1) {
-                for (const auto& kv : config_.metadata) {
-                    (*chunk.mutable_metadata())[kv.first] = kv.second;
-                }
-            }
-            
-            // Temporal metadata
-            chunk.set_snapshot_timestamp_ns(
-                std::chrono::duration_cast<std::chrono::nanoseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()
-                ).count()
-            );
+            // Progress (optional)
+            chunk.set_bytes_transferred(transferred_bytes_ + static_cast<uint64_t>(bytes_read));
+            double progress = total_bytes_ > 0 ? (static_cast<double>(transferred_bytes_ + bytes_read) / static_cast<double>(total_bytes_)) * 100.0 : 0.0;
+            chunk.set_progress_percent(progress);
             
             callback(chunk);
             
             transferred_bytes_ += bytes_read;
-            transferred_chunks_++;
+            transferred_chunks_++; 
             file_offset += bytes_read;
         }
         
@@ -111,10 +99,12 @@ public:
         if (!cancelled_ && chunk_index > 0) {
             themis::sharding::proto::BlobChunk final_chunk;
             final_chunk.set_blob_id(config_.blob_id);
-            final_chunk.set_is_last_chunk(true);
+            final_chunk.set_is_last(true);
             final_chunk.set_total_chunks(chunk_index);
-            final_chunk.set_checksum(CalculateBlobHash());
-            final_chunk.set_checksum_type(themis::sharding::proto::CHECKSUM_SHA256);
+            // Optionally include final progress
+            final_chunk.set_bytes_transferred(transferred_bytes_);
+            double progress = total_bytes_ > 0 ? (static_cast<double>(transferred_bytes_) / static_cast<double>(total_bytes_)) * 100.0 : 0.0;
+            final_chunk.set_progress_percent(progress);
             callback(final_chunk);
         }
         
@@ -129,8 +119,8 @@ public:
     }
     
     BlobStatus ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk) {
-        // Verify checksum
-        if (CalculateChecksum(chunk.data()) != chunk.checksum()) {
+        // Verify checksum (CRC32 as string)
+        if (CalculateChecksum(chunk.data()) != chunk.checksum_crc32()) {
             return BlobStatus::ERROR_CHECKSUM_MISMATCH;
         }
         
@@ -261,24 +251,32 @@ private:
     }
     
     std::string CalculateChecksum(const std::string& data) {
-        switch (config_.checksum_type) {
-            case themis::sharding::proto::CHECKSUM_CRC32: {
-                return std::to_string(crc32c::Crc32c(data.data(), data.size()));
-            }
-            case themis::sharding::proto::CHECKSUM_SHA256: {
-                unsigned char hash[SHA256_DIGEST_LENGTH];
-                SHA256(reinterpret_cast<const unsigned char*>(data.data()),
-                      data.size(), hash);
-                std::stringstream ss;
-                for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-                    ss << std::hex << std::setw(2) << std::setfill('0')
-                       << static_cast<int>(hash[i]);
+        // Local CRC32 implementation (poly 0xEDB88320)
+        auto crc32 = [](const unsigned char* buf, size_t len) -> uint32_t {
+            uint32_t crc = 0xFFFFFFFFu;
+            for (size_t i = 0; i < len; ++i) {
+                crc ^= static_cast<uint32_t>(buf[i]);
+                for (int j = 0; j < 8; ++j) {
+                    uint32_t mask = -(crc & 1u);
+                    crc = (crc >> 1) ^ (0xEDB88320u & mask);
                 }
-                return ss.str();
             }
-            default:
-                return "";
+            return ~crc;
+        };
+        if (config_.checksum_type == themis::sharding::proto::CHECKSUM_CRC32) {
+            uint32_t c = crc32(reinterpret_cast<const unsigned char*>(data.data()), data.size());
+            return std::to_string(static_cast<unsigned long long>(c));
         }
+        // SHA256 fallback
+        unsigned char hash[SHA256_DIGEST_LENGTH];
+        SHA256(reinterpret_cast<const unsigned char*>(data.data()),
+               data.size(), hash);
+        std::stringstream ss;
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+            ss << std::hex << std::setw(2) << std::setfill('0')
+               << static_cast<int>(hash[i]);
+        }
+        return ss.str();
     }
     
     std::string CalculateBlobHash() {

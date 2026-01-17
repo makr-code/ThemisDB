@@ -40,6 +40,14 @@
  * ```
  */
 
+// Forward declarations
+namespace themis {
+namespace llm {
+    struct DocumentEntry;
+}
+}
+
+
 #pragma once
 
 #include <string>

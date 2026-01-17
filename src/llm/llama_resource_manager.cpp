@@ -1,5 +1,5 @@
 #include "llm/llama_resource_manager.h"
-#include "acceleration/backend_registry.h"
+// #include "acceleration/backend_registry.h"  // TODO: Missing file
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <filesystem>
