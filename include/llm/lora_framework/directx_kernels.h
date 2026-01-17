@@ -113,6 +113,50 @@ void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K);
 
+/**
+ * @brief Launch DirectX embedding lookup shader
+ * 
+ * Looks up embeddings for given token IDs from embedding matrix.
+ * Input: token_ids [batch_size, seq_len] (float tensor, will be cast to int)
+ * Output: embeddings [batch_size, seq_len, hidden_dim]
+ * 
+ * @param output Output embeddings tensor (device pointer)
+ * @param token_ids Input token IDs (device pointer, stored as floats)
+ * @param embedding_weights Embedding weight matrix [vocab_size, hidden_dim] (device pointer)
+ * @param batch_size Batch size
+ * @param seq_len Sequence length
+ * @param hidden_dim Hidden/embedding dimension
+ * @param vocab_size Vocabulary size (for bounds checking)
+ */
+void launch_embedding_lookup_shader(
+    float* output,
+    const float* token_ids,
+    const float* embedding_weights,
+    int batch_size,
+    int seq_len,
+    int hidden_dim,
+    int vocab_size);
+
+/**
+ * @brief Launch DirectX sequence mean reduction shader
+ * 
+ * Computes mean over sequence dimension:
+ * Input: [batch_size, seq_len, hidden_dim]
+ * Output: [batch_size, hidden_dim]
+ * 
+ * @param output Output tensor (device pointer)
+ * @param input Input tensor (device pointer)
+ * @param batch_size Batch size
+ * @param seq_len Sequence length
+ * @param hidden_dim Hidden dimension
+ */
+void launch_sequence_mean_shader(
+    float* output,
+    const float* input,
+    int batch_size,
+    int seq_len,
+    int hidden_dim);
+
 } // namespace directx
 } // namespace lora
 } // namespace themis
