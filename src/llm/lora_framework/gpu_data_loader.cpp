@@ -348,8 +348,10 @@ bool GPUDataLoader::updateBatchSize(size_t new_batch_size) {
     // Update configuration
     config_.batch_size = new_batch_size;
     
-    // Note: We don't reset current_batch_ here to avoid losing progress
-    // The new batch size will take effect on the next getNextBatch() call
+    // Note: The current batch index (current_batch_) is preserved to maintain
+    // training progress through the dataset. The new batch size takes effect
+    // on the next getNextBatch() call, which will generate batches using the
+    // updated size from the current position onward.
     
     return true;
 }

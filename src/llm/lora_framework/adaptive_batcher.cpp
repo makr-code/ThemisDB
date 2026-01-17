@@ -189,6 +189,22 @@ size_t AdaptiveBatcher::estimateSharedMemory() const {
     return static_cast<size_t>(base_estimate * memory_estimation_multiplier_);
 }
 
+// Helper to get base estimates without calibration multiplier
+size_t estimateMemoryPerSampleBase(size_t sequence_length, const AdaptiveBatcher::Config& config) {
+    size_t input_memory = sequence_length * config.hidden_dim * 4;
+    size_t activation_memory = sequence_length * config.lora_rank * 4;
+    size_t gradient_memory = sequence_length * config.hidden_dim * 4;
+    return input_memory + activation_memory + gradient_memory;
+}
+
+size_t estimateSharedMemoryBase(const AdaptiveBatcher::Config& config) {
+    size_t lora_params = config.hidden_dim * config.lora_rank + 
+                        config.lora_rank * config.hidden_dim;
+    size_t weight_memory = lora_params * 4;
+    size_t optimizer_memory = lora_params * 2 * 4;
+    return weight_memory + optimizer_memory;
+}
+
 void AdaptiveBatcher::calibrateMemoryEstimation(
     size_t actual_memory_used,
     size_t sequence_length,
@@ -198,16 +214,17 @@ void AdaptiveBatcher::calibrateMemoryEstimation(
         return;
     }
     
-    // Calculate what our model predicted
-    size_t per_sample = estimateMemoryPerSample(sequence_length);
-    size_t shared = estimateSharedMemory();
-    size_t predicted = shared + (per_sample * batch_size);
+    // Calculate base prediction WITHOUT applying current multiplier
+    // This prevents feedback loop
+    size_t per_sample_base = estimateMemoryPerSampleBase(sequence_length, config_);
+    size_t shared_base = estimateSharedMemoryBase(config_);
+    size_t predicted = shared_base + (per_sample_base * batch_size);
     
     if (predicted == 0) {
         return;
     }
     
-    // Calculate ratio between actual and predicted
+    // Calculate ratio between actual and predicted (base)
     float ratio = static_cast<float>(actual_memory_used) / predicted;
     
     // Use exponential moving average to smooth calibration
