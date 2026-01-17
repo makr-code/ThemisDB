@@ -360,3 +360,86 @@ TEST_F(GPUTrainingLoopTest, MSEKernelsNumericalAccuracy) {
         }
     }
 }
+
+TEST_F(GPUTrainingLoopTest, FusedMSELossGradientKernel) {
+    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    
+    // Create test tensors
+    size_t n = 1000;
+    GPUTensor predictions({n}, device);
+    GPUTensor targets({n}, device);
+    
+    std::vector<float> pred_data(n);
+    std::vector<float> target_data(n);
+    
+    for (size_t i = 0; i < n; ++i) {
+        pred_data[i] = static_cast<float>(i) / 100.0f;
+        target_data[i] = static_cast<float>(i) / 100.0f + 0.1f;  // offset by 0.1
+    }
+    
+    predictions.upload(pred_data);
+    targets.upload(target_data);
+    
+    // Compute using fused kernel
+    GPUTensor grad_output;
+    float loss = computeFusedMSELossGradientGPU(predictions, targets, grad_output);
+    
+    // Verify loss
+    EXPECT_NEAR(loss, 0.01f, 1e-5f) << "Fused MSE loss should be 0.01";
+    
+    // Verify gradient
+    EXPECT_EQ(grad_output.shape(), predictions.shape());
+    auto grad_data = grad_output.cpu_data();
+    
+    float scale = 2.0f / n;
+    for (size_t i = 0; i < std::min(size_t(10), n); ++i) {
+        float expected_grad = scale * (pred_data[i] - target_data[i]);
+        EXPECT_NEAR(grad_data[i], expected_grad, 1e-6f)
+            << "Fused gradient at index " << i << " should match expected";
+    }
+}
+
+TEST_F(GPUTrainingLoopTest, FusedVsSeparateMSEKernels) {
+    Device device = has_gpu_ ? Device::cuda() : Device::cpu();
+    
+    // Create test tensors with various patterns
+    std::vector<size_t> test_sizes = {256, 1000, 10000};
+    
+    for (size_t n : test_sizes) {
+        GPUTensor predictions({n}, device);
+        GPUTensor targets({n}, device);
+        
+        std::vector<float> pred_data(n);
+        std::vector<float> target_data(n);
+        
+        for (size_t i = 0; i < n; ++i) {
+            pred_data[i] = static_cast<float>(i % 100) / 50.0f;
+            target_data[i] = static_cast<float>((i + 1) % 100) / 50.0f;
+        }
+        
+        predictions.upload(pred_data);
+        targets.upload(target_data);
+        
+        // Compute with separate kernels
+        float loss_separate = computeMSELossGPU(predictions, targets);
+        GPUTensor grad_separate = computeMSEGradientGPU(predictions, targets);
+        auto grad_sep_data = grad_separate.cpu_data();
+        
+        // Compute with fused kernel
+        GPUTensor grad_fused;
+        float loss_fused = computeFusedMSELossGradientGPU(predictions, targets, grad_fused);
+        auto grad_fused_data = grad_fused.cpu_data();
+        
+        // Verify results match
+        EXPECT_NEAR(loss_fused, loss_separate, 1e-4f)
+            << "Fused loss should match separate loss for size " << n;
+        
+        EXPECT_EQ(grad_fused_data.size(), grad_sep_data.size());
+        
+        for (size_t i = 0; i < std::min(size_t(10), n); ++i) {
+            EXPECT_NEAR(grad_fused_data[i], grad_sep_data[i], 1e-5f)
+                << "Fused gradient should match separate gradient at index " 
+                << i << " for size " << n;
+        }
+    }
+}

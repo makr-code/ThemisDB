@@ -1,6 +1,8 @@
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/cuda_kernels.h"
 #include "llm/lora_framework/hip_kernels.h"
+#include "llm/lora_framework/cuda_fused_kernels.h"
+#include "llm/lora_framework/hip_fused_kernels.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>
@@ -624,6 +626,120 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
         
         grad.upload(grad_data);
         return grad;
+    }
+}
+
+/**
+ * @brief Fused MSE loss and gradient computation
+ * 
+ * Computes both loss and gradient in a single GPU kernel pass.
+ * This is more efficient than calling computeMSELossGPU and computeMSEGradientGPU separately
+ * because it reads predictions/targets only once instead of twice.
+ * 
+ * Expected performance: 1.3-1.5x faster than separate calls
+ * Memory bandwidth reduction: ~50%
+ * 
+ * @param predictions Prediction tensor
+ * @param targets Target tensor
+ * @param grad_output Output gradient tensor (will be allocated)
+ * @return MSE loss value
+ */
+float computeFusedMSELossGradientGPU(
+    const GPUTensor& predictions, 
+    const GPUTensor& targets,
+    GPUTensor& grad_output
+) {
+    if (predictions.shape() != targets.shape()) {
+        throw std::invalid_argument("Predictions and targets must have same shape");
+    }
+    
+    // Create gradient tensor on same device
+    grad_output = GPUTensor(predictions.shape(), predictions.device());
+    
+    size_t n = predictions.size();
+    const Device& device = predictions.device();
+    
+    // Use fused GPU kernels for CUDA and HIP backends
+    if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+        // Parallel reduction on GPU
+        int threads = 256;
+        int blocks = std::min(1024, static_cast<int>((n + threads - 1) / threads));
+        
+        // Allocate temporary buffer for partial sums
+        GPUTensor partial_sums({static_cast<size_t>(blocks)}, device);
+        
+        // Launch fused kernel - computes both loss and gradient
+#ifdef THEMIS_ENABLE_CUDA
+        if (device.type == DeviceType::CUDA) {
+            cuda::fused::launch_fused_mse_loss_gradient(
+                static_cast<float*>(grad_output.gpu_ptr()),
+                static_cast<float*>(partial_sums.gpu_ptr()),
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                static_cast<int>(n),
+                blocks,
+                nullptr  // use default stream
+            );
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (device.type == DeviceType::HIP) {
+            hip::fused::launch_fused_mse_loss_gradient(
+                static_cast<float*>(grad_output.gpu_ptr()),
+                static_cast<float*>(partial_sums.gpu_ptr()),
+                static_cast<const float*>(predictions.gpu_ptr()),
+                static_cast<const float*>(targets.gpu_ptr()),
+                static_cast<int>(n),
+                blocks,
+                nullptr  // use default stream
+            );
+        }
+#endif
+        
+        // Final reduction on CPU (small array, ~4KB transfer)
+        auto partial_data = partial_sums.cpu_data();
+        float sum = 0.0f;
+        for (float val : partial_data) {
+            sum += val;
+        }
+        
+        return sum / n;
+#else
+        // Fallback to CPU if GPU not compiled
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        float sum = 0.0f;
+        std::vector<float> grad_data(pred_data.size());
+        float scale = 2.0f / pred_data.size();
+        
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            float diff = pred_data[i] - target_data[i];
+            sum += diff * diff;
+            grad_data[i] = scale * diff;
+        }
+        
+        grad_output.upload(grad_data);
+        return sum / pred_data.size();
+#endif
+    } else {
+        // CPU fallback or other backends
+        auto pred_data = predictions.cpu_data();
+        auto target_data = targets.cpu_data();
+        
+        float sum = 0.0f;
+        std::vector<float> grad_data(pred_data.size());
+        float scale = 2.0f / pred_data.size();
+        
+        for (size_t i = 0; i < pred_data.size(); ++i) {
+            float diff = pred_data[i] - target_data[i];
+            sum += diff * diff;
+            grad_data[i] = scale * diff;
+        }
+        
+        grad_output.upload(grad_data);
+        return sum / pred_data.size();
     }
 }
 

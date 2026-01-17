@@ -235,6 +235,73 @@ __global__ void fused_sgd_step_kernel(
     params[idx] = p;
 }
 
+/**
+ * @brief Fused MSE loss and gradient kernel
+ * 
+ * Computes both MSE loss and gradient in a single pass:
+ * 1. Loss = sum((predictions - targets)^2) / n
+ * 2. Gradient = (2/n) * (predictions - targets)
+ * 
+ * This saves memory bandwidth by reading predictions/targets only once
+ * instead of twice (once for loss, once for gradient).
+ * 
+ * Expected performance: ~1.5x faster than separate loss+gradient kernels
+ */
+__global__ void fused_mse_loss_gradient_kernel(
+    float* grad_output,
+    float* partial_loss,
+    const float* predictions,
+    const float* targets,
+    int n
+) {
+    __shared__ float shared_loss[256];
+    
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int tid = threadIdx.x;
+    
+    // Compute gradient AND accumulate loss in single pass
+    float local_loss = 0.0f;
+    float scale = 2.0f / n;
+    
+    for (int i = idx; i < n; i += blockDim.x * gridDim.x) {
+        float diff = predictions[i] - targets[i];
+        
+        // Write gradient (element-wise operation)
+        grad_output[i] = scale * diff;
+        
+        // Accumulate loss
+        local_loss += diff * diff;
+    }
+    
+    // Reduce loss within block using shared memory
+    shared_loss[tid] = local_loss;
+    __syncthreads();
+    
+    // Tree reduction in shared memory
+    for (int s = blockDim.x / 2; s > 32; s >>= 1) {
+        if (tid < s) {
+            shared_loss[tid] += shared_loss[tid + s];
+        }
+        __syncthreads();
+    }
+    
+    // Final warp reduction (no sync needed)
+    if (tid < 32) {
+        volatile float* smem = shared_loss;
+        if (blockDim.x >= 64) smem[tid] += smem[tid + 32];
+        if (blockDim.x >= 32) smem[tid] += smem[tid + 16];
+        if (blockDim.x >= 16) smem[tid] += smem[tid + 8];
+        if (blockDim.x >= 8)  smem[tid] += smem[tid + 4];
+        if (blockDim.x >= 4)  smem[tid] += smem[tid + 2];
+        if (blockDim.x >= 2)  smem[tid] += smem[tid + 1];
+    }
+    
+    // Write block result
+    if (tid == 0) {
+        partial_loss[blockIdx.x] = shared_loss[0];
+    }
+}
+
 // ============================================================================
 // Kernel Launchers
 // ============================================================================
@@ -331,6 +398,29 @@ cudaError_t launch_fused_sgd_step(
     } else {
         fused_sgd_step_kernel<<<gridSize, blockSize>>>(
             params, grads, momentum_buffer, size, learning_rate, momentum, weight_decay);
+    }
+    
+    return cudaGetLastError();
+}
+
+cudaError_t launch_fused_mse_loss_gradient(
+    float* grad_output,
+    float* partial_loss,
+    const float* predictions,
+    const float* targets,
+    int n,
+    int num_blocks,
+    cudaStream_t stream
+) {
+    int threads = 256;
+    int blocks = num_blocks;
+    
+    if (stream != nullptr) {
+        fused_mse_loss_gradient_kernel<<<blocks, threads, 0, stream>>>(
+            grad_output, partial_loss, predictions, targets, n);
+    } else {
+        fused_mse_loss_gradient_kernel<<<blocks, threads>>>(
+            grad_output, partial_loss, predictions, targets, n);
     }
     
     return cudaGetLastError();

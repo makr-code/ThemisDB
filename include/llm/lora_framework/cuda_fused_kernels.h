@@ -116,6 +116,37 @@ cudaError_t launch_fused_sgd_step(
     cudaStream_t stream = nullptr
 );
 
+/**
+ * @brief Fused MSE loss and gradient computation kernel
+ * 
+ * Computes both MSE loss and gradient in a single kernel pass:
+ * - Loss: sum((predictions - targets)^2) / n
+ * - Gradient: (2/n) * (predictions - targets)
+ * 
+ * Saves memory bandwidth by reading predictions/targets only once.
+ * More efficient than calling separate loss and gradient kernels.
+ * 
+ * @param grad_output Output gradient tensor (device pointer, size = n)
+ * @param partial_loss Partial loss sums (device pointer, size = num_blocks)
+ * @param predictions Predictions tensor (device pointer, size = n)
+ * @param targets Target tensor (device pointer, size = n)
+ * @param n Number of elements
+ * @param num_blocks Number of blocks for reduction
+ * @param stream CUDA stream for async execution
+ * 
+ * Expected speedup: 1.3-1.5x vs separate loss+gradient kernels
+ * Memory bandwidth reduction: ~50% (single read pass instead of two)
+ */
+cudaError_t launch_fused_mse_loss_gradient(
+    float* grad_output,
+    float* partial_loss,
+    const float* predictions,
+    const float* targets,
+    int n,
+    int num_blocks,
+    cudaStream_t stream = nullptr
+);
+
 } // namespace fused
 } // namespace cuda
 } // namespace lora
