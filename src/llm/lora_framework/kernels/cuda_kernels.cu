@@ -336,6 +336,10 @@ cudaError_t launch_check_inf_nan_kernel(
     size_t size,
     bool* has_overflow_host
 ) {
+    // TODO: For better performance, consider reusing a pre-allocated device buffer
+    // or using unified memory instead of allocating on every call. Currently acceptable
+    // as this is called once per training step, not in a tight loop.
+    
     // Allocate device flag
     int* d_overflow;
     cudaError_t err = cudaMalloc(&d_overflow, sizeof(int));
