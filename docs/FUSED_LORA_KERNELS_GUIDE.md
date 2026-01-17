@@ -494,12 +494,12 @@ Expected improvement: Amortize kernel launch overhead across adapters
 
 ## Changelog
 
-- **2026-01-17**: Added comprehensive test suite and benchmarks
+- **2025-01-17**: Added comprehensive test suite and benchmarks
   - 15+ test cases covering accuracy and performance
   - Benchmarks for various configurations
   - Documentation for usage and troubleshooting
   
-- **2026-01-16**: Initial fused kernel implementation
+- **2025-01-16**: Initial fused kernel implementation
   - CUDA and HIP support
   - Forward, backward, and optimizer fusion
   - Basic integration tests

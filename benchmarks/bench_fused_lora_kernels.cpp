@@ -67,8 +67,9 @@ static void BM_LoRAForward_CPU(benchmark::State& state) {
     }
     
     // Compute FLOPs: 2 matmuls (input@B, result@A)
-    // First matmul: batch_size * in_dim * rank * 2 FLOPs
-    // Second matmul: batch_size * rank * out_dim * 2 FLOPs
+    // First matmul: 2 * batch_size * in_dim * rank FLOPs
+    // Second matmul: 2 * batch_size * rank * out_dim FLOPs
+    // Total: 2 * (batch_size * in_dim * rank + batch_size * rank * out_dim)
     int64_t flops_per_iter = 2 * batch_size * in_dim * rank + 2 * batch_size * rank * out_dim;
     state.SetItemsProcessed(state.iterations() * flops_per_iter);
     state.counters["GFLOPS"] = benchmark::Counter(
