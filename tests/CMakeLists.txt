@@ -80,6 +80,40 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA framework tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework.cpp")
     endif()
     
+    # LoRA Adapter Application Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
+        message(STATUS "Adding LoRA adapter application tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_lora_adapter_application
+            test_lora_adapter_application.cpp
+        )
+        
+        target_link_libraries(test_lora_adapter_application PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_adapter_application PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME LoRAAdapterApplicationTests COMMAND test_lora_adapter_application)
+        
+        # Set test properties
+        set_tests_properties(LoRAAdapterApplicationTests PROPERTIES
+            LABELS "lora;llm;adapter;inference"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
+    endif()
+    
     # Fused Kernels Tests (Phase 10.3)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fused_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
         message(STATUS "Adding fused kernels tests (CUDA/HIP enabled)")
