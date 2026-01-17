@@ -3,6 +3,7 @@
 #include "llm/i_llm_plugin.h"
 #include "llm/gguf_loader.h"
 #include "llm/paged_kv_cache.h"
+#include "llm/paged_block_manager.h"
 #include "llm/lazy_model_loader.h"
 #include "llm/llm_model_storage.h"
 #include "llm/lora_framework/lora_storage_service.h"
@@ -29,6 +30,9 @@ public:
         int num_blocks = 4096;
         bool enable_prefix_caching = true;
         
+        // PagedBlockManager (optional - will be created if not provided)
+        std::shared_ptr<PagedBlockManager> block_manager;
+        
         // ThemisDB integration (optional)
         std::shared_ptr<LLMModelStorage> model_storage;        // Model storage service
         std::shared_ptr<lora::LoRAStorageService> lora_storage; // LoRa storage service
@@ -45,6 +49,15 @@ public:
     
     // Load LoRa adapter from ThemisDB
     bool loadAdapterFromThemisDB(const std::string& adapter_id);
+    
+    // LoRa adapter management
+    bool loadAndApplyLoRAAdapter(const std::string& adapter_id, float scale = 1.0f);
+    bool applyMultipleAdapters(const std::vector<std::pair<std::string, float>>& adapters);
+    bool removeAdapter(const std::string& adapter_id);
+    void clearAllAdapters();
+    bool isAdapterActive(const std::string& adapter_id) const;
+    std::vector<std::string> getActiveAdapters() const;
+    bool validateAdapterApplication(const std::string& adapter_id);
     
     // Unload current model
     void unloadModel();
@@ -68,12 +81,21 @@ public:
 private:
     Config config_;
     std::unique_ptr<GGUFLoader> gguf_loader_;
+    std::shared_ptr<PagedBlockManager> block_manager_;
     std::unique_ptr<PagedKVCache> kv_cache_;
     std::string current_model_name_;
     bool model_loaded_;
     
     // Model tensors (memory-mapped)
     std::unordered_map<std::string, void*> tensor_ptrs_;
+    
+    // LoRa adapter tracking
+    std::unordered_map<std::string, int> active_adapters_;  // adapter_id -> adapter_handle
+    std::unordered_map<std::string, float> adapter_scales_;  // adapter_id -> scale
+    std::unordered_map<std::string, std::string> adapter_temp_files_;  // adapter_id -> temp file path
+    int next_adapter_handle_id_;  // Counter for unique adapter handles
+    void* model_handle_;  // llama_model* handle
+    void* context_handle_;  // llama_context* handle
     
     // Statistics
     Stats stats_;
@@ -114,6 +136,13 @@ private:
     std::optional<storage::BlobRef> getBlobReferenceFromMetadata(
         const std::string& model_id
     );
+    
+    // LoRa adapter helper methods
+    std::string convertAdapterToLlamaCppFormat(const lora::AdapterWeights& weights);
+    std::string getTempAdapterPath(const std::string& adapter_id);
+    void cleanupTempAdapterFiles();
+    bool saveAdapterToTempFile(const std::string& temp_path, const lora::AdapterWeights& weights);
+    std::string generateUniqueAdapterId();  // Generate unique ID for temp files
 };
 
 } // namespace llm

@@ -2,6 +2,7 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_layers.h"
 #include "llm/lora_framework/data_loader.h"
+#include "llm/lora_framework/llama_tokenizer.h"
 #include "llm/lora_framework/base_model_adapter.h"
 #include "llm/lora_framework/mixed_precision.h"
 #include "llm/lora_framework/lr_scheduler.h"
@@ -172,9 +173,40 @@ public:
                 instruction_samples.push_back(inst_sample);
             }
             
-            // Setup DataLoader with SimpleTokenizer for now
-            // TODO: Replace with llama.cpp tokenizer in future PR
-            auto tokenizer = std::make_shared<SimpleTokenizer>();
+            // Setup DataLoader with tokenizer
+            // Use llama.cpp tokenizer if base model is available, otherwise fall back to SimpleTokenizer
+            std::shared_ptr<ITokenizer> tokenizer;
+            
+            if (config_.use_base_model && 
+                !config_.base_model_path.empty() && 
+                std::filesystem::exists(config_.base_model_path)) {
+                try {
+                    spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
+                    tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
+                    
+                    // Log tokenizer info
+                    size_t vocab_size = tokenizer->vocab_size();
+                    spdlog::info("✓ llama.cpp tokenizer loaded (vocab_size={})", vocab_size);
+                    spdlog::info("  BOS token: {}", tokenizer->bos_token_id());
+                    spdlog::info("  EOS token: {}", tokenizer->eos_token_id());
+                    
+                } catch (const std::exception& e) {
+                    spdlog::error("Failed to load llama.cpp tokenizer: {}", e.what());
+                    spdlog::warn("Falling back to SimpleTokenizer");
+                    tokenizer = std::make_shared<SimpleTokenizer>();
+                }
+            } else {
+                if (!config_.use_base_model) {
+                    spdlog::info("Using SimpleTokenizer (base model integration disabled)");
+                } else if (config_.base_model_path.empty()) {
+                    spdlog::info("Using SimpleTokenizer (no base model path configured)");
+                } else {
+                    spdlog::warn("Base model file not found: {}", config_.base_model_path);
+                    spdlog::info("Using SimpleTokenizer as fallback");
+                }
+                tokenizer = std::make_shared<SimpleTokenizer>();
+            }
+            
             DataLoaderConfig loader_config;
             loader_config.batch_size = params.batch_size;
             loader_config.max_sequence_length = params.max_seq_length;
@@ -416,22 +448,89 @@ public:
                     Tensor batch_target({batch_size, hidden_dim});
                     
                     if (using_base_model && enhanced_model) {
-                        // Phase 2b: Use actual embeddings from base model (if available)
-                        // For now, still use simplified embeddings until base model embedding extraction is implemented
-                        // TODO: Extract embeddings from base model: enhanced_model->getBaseModel()->getEmbeddings(tokens)
-                        spdlog::debug("Using simplified embeddings (base model embedding extraction pending)");
+                        // Phase 2b: Use actual embeddings from base model
+                        auto base_model = enhanced_model->getBaseModel();
                         
-                        // Simple embedding: hash token IDs into hidden_dim space
-                        for (size_t i = 0; i < batch_size; ++i) {
-                            for (size_t j = 0; j < hidden_dim; ++j) {
-                                size_t token_idx = j % seq_len;
-                                int token_id = batch.input_ids[i][token_idx];
-                                batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                        if (base_model && base_model->isLoaded()) {
+                            spdlog::debug("Using real embeddings from base model");
+                            
+                            try {
+                                // Extract embeddings for input tokens
+                                for (size_t i = 0; i < batch_size; ++i) {
+                                    auto input_embeddings = base_model->getTokenEmbeddings(batch.input_ids[i]);
+                                    
+                                    if (input_embeddings.empty()) {
+                                        spdlog::warn("Failed to extract embeddings, falling back to hash-based");
+                                        // Fallback to hash-based for this sample
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            size_t token_idx = j % seq_len;
+                                            int token_id = batch.input_ids[i][token_idx];
+                                            batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                        }
+                                    } else {
+                                        // Use real embeddings (average over sequence for now)
+                                        // In production, this would be the actual transformer input
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            float sum = 0.0f;
+                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                                sum += input_embeddings[tok_idx * hidden_dim + j];
+                                            }
+                                            batch_input[i * hidden_dim + j] = sum / seq_len;
+                                        }
+                                    }
+                                    
+                                    // Extract embeddings for target tokens
+                                    auto target_embeddings = base_model->getTokenEmbeddings(batch.label_ids[i]);
+                                    
+                                    if (target_embeddings.empty()) {
+                                        // Fallback to hash-based for target
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            size_t next_token_idx = (j + 1) % seq_len;
+                                            int next_token_id = batch.label_ids[i][next_token_idx];
+                                            batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                        }
+                                    } else {
+                                        // Use real embeddings for target
+                                        for (size_t j = 0; j < hidden_dim; ++j) {
+                                            float sum = 0.0f;
+                                            for (size_t tok_idx = 0; tok_idx < seq_len; ++tok_idx) {
+                                                sum += target_embeddings[tok_idx * hidden_dim + j];
+                                            }
+                                            batch_target[i * hidden_dim + j] = sum / seq_len;
+                                        }
+                                    }
+                                }
+                            } catch (const std::exception& e) {
+                                spdlog::error("Error extracting embeddings: {}", e.what());
+                                spdlog::warn("Falling back to hash-based embeddings");
                                 
-                                // Target is shifted input (next token prediction)
-                                size_t next_token_idx = (token_idx + 1) % seq_len;
-                                int next_token_id = batch.label_ids[i][next_token_idx];
-                                batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                // Fallback to hash-based embeddings
+                                for (size_t i = 0; i < batch_size; ++i) {
+                                    for (size_t j = 0; j < hidden_dim; ++j) {
+                                        size_t token_idx = j % seq_len;
+                                        int token_id = batch.input_ids[i][token_idx];
+                                        batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                        
+                                        size_t next_token_idx = (token_idx + 1) % seq_len;
+                                        int next_token_id = batch.label_ids[i][next_token_idx];
+                                        batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                    }
+                                }
+                            }
+                        } else {
+                            spdlog::debug("Base model not available, using hash-based embeddings");
+                            
+                            // Fallback: hash-based embeddings when base model not available
+                            for (size_t i = 0; i < batch_size; ++i) {
+                                for (size_t j = 0; j < hidden_dim; ++j) {
+                                    size_t token_idx = j % seq_len;
+                                    int token_id = batch.input_ids[i][token_idx];
+                                    batch_input[i * hidden_dim + j] = static_cast<float>(token_id % 100) / 100.0f;
+                                    
+                                    size_t next_token_idx = (token_idx + 1) % seq_len;
+                                    int next_token_id = batch.label_ids[i][next_token_idx];
+                                    batch_target[i * hidden_dim + j] = static_cast<float>(next_token_id % 100) / 100.0f;
+                                }
                             }
                         }
                     } else {
@@ -587,12 +686,7 @@ public:
                     if (step % 10 == 0) {
                         spdlog::debug("Epoch {}/{}, Step {}, Loss: {:.4f}", 
                                      epoch + 1, params.num_epochs, step, batch_loss);
-                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                    // Small delay to prevent overwhelming the system
-                    // Removed artificial sleep - let GPU/CPU work at full speed
-                    // Memory-based throttling should be handled by the system allocator
-                    if (step % 10 == 0) {
-                        // Optionally yield to other threads but don't artificially slow down
+                        // Yield to other threads without artificial delay for optimal performance
                         std::this_thread::yield();
                     }
                     
@@ -833,6 +927,31 @@ private:
     // Checkpoint state
     std::string current_adapter_id_;
     std::vector<float> loss_history_;
+    
+    /**
+     * @brief Generate hash-based embeddings as fallback when base model unavailable
+     * @param token_ids Vector of token IDs
+     * @param hidden_dim Hidden dimension size
+     * @return Flattened embedding tensor [batch_size * hidden_dim]
+     */
+    std::vector<float> generateHashEmbeddings(
+        const std::vector<int>& token_ids,
+        size_t hidden_dim
+    ) const {
+        std::vector<float> embeddings(token_ids.size() * hidden_dim);
+        
+        for (size_t i = 0; i < token_ids.size(); ++i) {
+            int token_id = token_ids[i];
+            // Simple hash-based embedding
+            float value = static_cast<float>(token_id % 100) / 100.0f;
+            
+            for (size_t j = 0; j < hidden_dim; ++j) {
+                embeddings[i * hidden_dim + j] = value;
+            }
+        }
+        
+        return embeddings;
+    }
 };
 
 // LoRATrainingService public interface
