@@ -2,6 +2,7 @@
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
 #include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <algorithm>
 #include <cstring>
@@ -9,6 +10,8 @@
 
 namespace themis {
 namespace llm {
+
+using json = nlohmann::json;
 
 /**
  * @brief Implementation of LLMModelStorage using ThemisDB Base Infrastructure
@@ -161,7 +164,7 @@ public:
             // Encrypt if needed
             std::vector<uint8_t> data_to_store;
             if (config_.enable_encryption && encryption_) {
-                auto encrypted = encryption_->encryptBytes(serialized, config_.encryption_key_id);
+                auto encrypted = encryption_->encrypt(serialized, config_.encryption_key_id);
                 std::string encrypted_str = encrypted.toBase64();
                 data_to_store.assign(encrypted_str.begin(), encrypted_str.end());
             } else {

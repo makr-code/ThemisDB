@@ -7,6 +7,7 @@
 #include <map>
 #include <string>
 #include <optional>
+#include <mutex>
 
 namespace themis {
 
@@ -171,6 +172,7 @@ public:
         std::string message;
         static Status OK() { return {}; }
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        bool ok() const { return ok; }
     };
     
     /**

@@ -66,6 +66,16 @@ option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID benchmark" OFF)
 # option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
 
 # ============================================================================
+# OPTIONAL STORAGE AND DISTRIBUTION FEATURES
+# ============================================================================
+option(THEMIS_ENABLE_S3 "Enable S3 blob storage backend" OFF)
+option(THEMIS_ENABLE_AZURE "Enable Azure Blob Storage backend" OFF)
+option(THEMIS_ENABLE_WEBDAV "Enable WebDAV blob storage backend" OFF)
+option(THEMIS_ENABLE_DISTRIBUTED_TRAINING "Enable distributed multi-GPU training" OFF)
+option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI backend" OFF)
+option(THEMIS_ENABLE_OPENCL "Enable OpenCL backend" OFF)
+
+# ============================================================================
 # PHASE 1 PERFORMANCE FEATURES (auto-enable for tests/benchmarks)
 # ============================================================================
 option(THEMIS_ENABLE_RCU_INDEX "Enable RCU Index for lock-free reads" OFF)
@@ -118,6 +128,9 @@ if(THEMIS_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
+
+# Set root directory for use in subdirectories (MUST be before add_subdirectory(cmake))
+set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")
 
 # Benchmarking
 if(THEMIS_BUILD_BENCHMARKS)

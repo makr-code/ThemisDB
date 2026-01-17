@@ -574,7 +574,6 @@ bool CRLChecker::isCertificateRevoked(X509* cert) {
     // for all security requirements. Consider making this configurable.
     return false;  // Not revoked (fail-open policy)
 }
-}
 
 // ===== Builder =====
 

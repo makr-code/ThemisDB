@@ -5,7 +5,7 @@
 #include "timeseries/tsstore.h"
 #include "index/vector_index_manager.h"
 #include "index/property_graph.h"
-#include "utils/logging.h"
+#include "utils/logger.h"
 
 #include <msgpack.hpp>
 #include <stdexcept>

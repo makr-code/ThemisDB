@@ -75,8 +75,8 @@ private:
     std::unique_ptr<Tensor> A_;  // (rank, out_dim)
     
     // Cached for backward pass
-    Tensor cached_input_;
-    Tensor cached_BA_;
+    std::unique_ptr<Tensor> cached_input_;
+    std::unique_ptr<Tensor> cached_BA_;
 };
 
 /**
@@ -181,7 +181,7 @@ public:
     Tensor clone() const;
     
     // Gradient storage (for training)
-    Tensor grad;
+    std::unique_ptr<Tensor> grad;
     bool requires_grad = false;
 
 private:
