@@ -364,4 +364,59 @@ BENCHMARK(BM_LoRABackward_CUDA_Fused)->Args({8, 768, 768, 8})->Unit(benchmark::k
 BENCHMARK(BM_LoRABackward_CUDA_Unfused)->Args({16, 768, 768, 8})->Unit(benchmark::kMicrosecond);
 BENCHMARK(BM_LoRABackward_CUDA_Fused)->Args({16, 768, 768, 8})->Unit(benchmark::kMicrosecond);
 
+// ============================================================================
+// Phase 2: Optimized Kernel Benchmarks
+// ============================================================================
+
+static void BM_LoRAForward_CUDA_Optimized(benchmark::State& state) {
+    if (!has_cuda()) {
+        state.SkipWithError("CUDA not available");
+        return;
+    }
+    
+    size_t batch_size = state.range(0);
+    size_t in_dim = state.range(1);
+    size_t out_dim = state.range(2);
+    size_t rank = state.range(3);
+    
+    GPULoRALayer layer(in_dim, out_dim, rank, 1.0f, Device::cuda(), true);
+    
+    auto B = gpu_tensor_utils::xavier_uniform({in_dim, rank}, Device::cuda());
+    auto A = gpu_tensor_utils::xavier_uniform({rank, out_dim}, Device::cuda());
+    layer.set_weights(B, A);
+    
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    // Note: This uses the current fused kernel. When optimized kernel is integrated
+    // into the layer, this will automatically use the optimized version.
+    // Warmup
+    for (int i = 0; i < 10; ++i) {
+        auto output = layer.forward(input);
+    }
+    
+    for (auto _ : state) {
+        auto output = layer.forward(input);
+        benchmark::DoNotOptimize(output);
+    }
+    
+    int64_t flops_per_iter = 2 * batch_size * in_dim * rank + 2 * batch_size * rank * out_dim;
+    state.SetItemsProcessed(state.iterations() * flops_per_iter);
+    state.counters["GFLOPS"] = benchmark::Counter(
+        flops_per_iter * state.iterations(),
+        benchmark::Counter::kIsRate,
+        benchmark::Counter::kIs1000
+    );
+}
+
+// Phase 2 optimized kernel benchmarks
+BENCHMARK(BM_LoRAForward_CUDA_Optimized)->Args({4, 768, 768, 8})->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_LoRAForward_CUDA_Optimized)->Args({8, 768, 768, 8})->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_LoRAForward_CUDA_Optimized)->Args({16, 768, 768, 8})->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_LoRAForward_CUDA_Optimized)->Args({32, 768, 768, 8})->Unit(benchmark::kMicrosecond);
+
+// Compare optimized vs base fused for key configurations
+BENCHMARK(BM_LoRAForward_CUDA_Fused)->Args({32, 768, 768, 16})->Unit(benchmark::kMicrosecond);
+BENCHMARK(BM_LoRAForward_CUDA_Optimized)->Args({32, 768, 768, 16})->Unit(benchmark::kMicrosecond);
+
 BENCHMARK_MAIN();

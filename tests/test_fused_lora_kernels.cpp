@@ -5,6 +5,10 @@
 #include <numeric>
 #include <spdlog/spdlog.h>
 
+#ifdef THEMIS_ENABLE_CUDA
+#include "llm/lora_framework/cuda_fused_kernels.h"
+#endif
+
 using namespace themis::llm::lora;
 using namespace std::chrono;
 
@@ -627,3 +631,138 @@ TEST_F(FusedLoRAKernelsTest, NonSquareDimensions_CUDA) {
     float max_diff = maxAbsDifference(fused_output, unfused_output);
     EXPECT_LT(max_diff, RELAXED_EPSILON);
 }
+
+// ============================================================================
+// Phase 2: Optimized Kernel Tests
+// ============================================================================
+
+TEST_F(FusedLoRAKernelsTest, OptimizedKernel_VectorizedAccess_CUDA) {
+    if (!has_cuda_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    // Test optimized kernel with vectorized memory access
+    // Use dimension that's multiple of 4 for optimal vectorization
+    size_t batch_size = 8;
+    size_t in_dim = 768;  // Multiple of 4
+    size_t out_dim = 768;
+    size_t rank = 16;
+    
+    // Create tensors
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    auto B = gpu_tensor_utils::xavier_uniform({in_dim, rank}, Device::cuda());
+    auto A = gpu_tensor_utils::xavier_uniform({rank, out_dim}, Device::cuda());
+    
+    GPUTensor output_base({batch_size, out_dim}, Device::cuda());
+    GPUTensor output_optimized({batch_size, out_dim}, Device::cuda());
+    
+    // Test both kernels produce same results
+    #ifdef THEMIS_ENABLE_CUDA
+    // Base fused kernel
+    cudaError_t err1 = cuda::fused::launch_fused_lora_forward(
+        reinterpret_cast<const float*>(input.data()),
+        reinterpret_cast<const float*>(B.data()),
+        reinterpret_cast<const float*>(A.data()),
+        reinterpret_cast<float*>(output_base.data()),
+        batch_size, in_dim, rank, out_dim, 1.0f
+    );
+    ASSERT_EQ(err1, cudaSuccess);
+    
+    // Optimized kernel with vectorization
+    cudaError_t err2 = cuda::fused::launch_fused_lora_forward_optimized(
+        reinterpret_cast<const float*>(input.data()),
+        reinterpret_cast<const float*>(B.data()),
+        reinterpret_cast<const float*>(A.data()),
+        reinterpret_cast<float*>(output_optimized.data()),
+        batch_size, in_dim, rank, out_dim, 1.0f
+    );
+    ASSERT_EQ(err2, cudaSuccess);
+    
+    // Compare outputs
+    float max_diff = maxAbsDifference(output_base, output_optimized);
+    spdlog::info("Optimized vs base kernel: max_diff={}", max_diff);
+    EXPECT_LT(max_diff, RELAXED_EPSILON);
+    #endif
+}
+
+TEST_F(FusedLoRAKernelsTest, OptimizedKernel_Performance_CUDA) {
+    if (!has_cuda_) {
+        GTEST_SKIP() << "CUDA not available";
+    }
+    
+    size_t batch_size = 32;
+    size_t in_dim = 768;
+    size_t out_dim = 768;
+    size_t rank = 16;
+    
+    GPUTensor input({batch_size, in_dim}, Device::cuda());
+    input.fill(0.5f);
+    
+    auto B = gpu_tensor_utils::xavier_uniform({in_dim, rank}, Device::cuda());
+    auto A = gpu_tensor_utils::xavier_uniform({rank, out_dim}, Device::cuda());
+    
+    GPUTensor output({batch_size, out_dim}, Device::cuda());
+    
+    #ifdef THEMIS_ENABLE_CUDA
+    // Warmup
+    for (size_t i = 0; i < WARMUP_ITERATIONS; ++i) {
+        cuda::fused::launch_fused_lora_forward(
+            reinterpret_cast<const float*>(input.data()),
+            reinterpret_cast<const float*>(B.data()),
+            reinterpret_cast<const float*>(A.data()),
+            reinterpret_cast<float*>(output.data()),
+            batch_size, in_dim, rank, out_dim, 1.0f
+        );
+        cuda::fused::launch_fused_lora_forward_optimized(
+            reinterpret_cast<const float*>(input.data()),
+            reinterpret_cast<const float*>(B.data()),
+            reinterpret_cast<const float*>(A.data()),
+            reinterpret_cast<float*>(output.data()),
+            batch_size, in_dim, rank, out_dim, 1.0f
+        );
+    }
+    
+    // Benchmark base kernel
+    auto base_start = high_resolution_clock::now();
+    for (size_t i = 0; i < BENCHMARK_ITERATIONS; ++i) {
+        cuda::fused::launch_fused_lora_forward(
+            reinterpret_cast<const float*>(input.data()),
+            reinterpret_cast<const float*>(B.data()),
+            reinterpret_cast<const float*>(A.data()),
+            reinterpret_cast<float*>(output.data()),
+            batch_size, in_dim, rank, out_dim, 1.0f
+        );
+    }
+    cudaDeviceSynchronize();
+    auto base_end = high_resolution_clock::now();
+    auto base_time = duration_cast<microseconds>(base_end - base_start).count();
+    
+    // Benchmark optimized kernel
+    auto opt_start = high_resolution_clock::now();
+    for (size_t i = 0; i < BENCHMARK_ITERATIONS; ++i) {
+        cuda::fused::launch_fused_lora_forward_optimized(
+            reinterpret_cast<const float*>(input.data()),
+            reinterpret_cast<const float*>(B.data()),
+            reinterpret_cast<const float*>(A.data()),
+            reinterpret_cast<float*>(output.data()),
+            batch_size, in_dim, rank, out_dim, 1.0f
+        );
+    }
+    cudaDeviceSynchronize();
+    auto opt_end = high_resolution_clock::now();
+    auto opt_time = duration_cast<microseconds>(opt_end - opt_start).count();
+    
+    float improvement = static_cast<float>(base_time) / static_cast<float>(opt_time);
+    
+    spdlog::info("Phase 2 Optimized Kernel Performance:");
+    spdlog::info("  Base:      {} μs ({} μs/iter)", base_time, base_time / BENCHMARK_ITERATIONS);
+    spdlog::info("  Optimized: {} μs ({} μs/iter)", opt_time, opt_time / BENCHMARK_ITERATIONS);
+    spdlog::info("  Improvement: {:.2f}x", improvement);
+    
+    // Expect at least 1.05x improvement (5%) from vectorization
+    EXPECT_GT(improvement, 1.05f) << "Optimized kernel should be faster than base";
+    #endif
+}
+
