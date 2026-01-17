@@ -844,7 +844,7 @@ bool GPUTensor::has_inf_or_nan() const {
 
 namespace gpu_tensor_utils {
 
-GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const Device& device) {
+GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const Device& device, DType dtype) {
     size_t total_size = std::accumulate(shape.begin(), shape.end(), 
                                        size_t(1), std::multiplies<size_t>());
     
