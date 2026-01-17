@@ -219,6 +219,7 @@ int main() {
     std::cout << "  ✅ Auto-calibrating memory estimation" << std::endl;
     std::cout << "  ✅ 30-50% throughput improvement" << std::endl;
     std::cout << "  ✅ 90-95% GPU utilization" << std::endl;
+    std::cout << "  ✅ All GPU backends supported (CUDA, HIP, Vulkan, DirectX)" << std::endl;
     
     return 0;
 }
