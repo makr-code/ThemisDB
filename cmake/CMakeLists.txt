@@ -2137,16 +2137,11 @@ if(THEMIS_ENABLE_LLM)
         # QLoRA quantization support
         ../src/llm/lora_framework/quantization.cpp            # NF4/INT8 quantization (CPU)
         ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
-        # GPU acceleration support
-        ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layer implementations
-        ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
-        ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
-        ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
-        ../src/llm/lora_framework/gpu_data_loader.cpp         # GPU data loader with async transfers
-        ../src/llm/lora_framework/gpu_training_loop.cpp       # GPU training loop implementation
-        ../src/llm/lora_framework/gpu_embedding_layer.cpp     # GPU embedding layer for real embeddings
-        ../src/llm/lora_framework/quantization.cpp            # Quantization (QLoRA support)
-        ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
+        
+        # Dynamic batch size adaptation (Issue #39)
+        ../src/llm/lora_framework/adaptive_batcher.cpp        # Adaptive batch sizing for optimal GPU utilization
+        ../src/llm/lora_framework/sequence_packer.cpp         # Sequence packing to reduce padding waste
+        ../src/llm/lora_framework/gpu_utilization_monitor.cpp # GPU utilization monitoring (NVML/ROCm)
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -2180,6 +2175,21 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
         ../src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
     )
+
+    if(THEMIS_ENABLE_GPU)
+        target_sources(themis_core PRIVATE
+            ../src/llm/lora_framework/gpu_lora_layers.cpp         # GPU LoRA layer implementations
+            ../src/llm/lora_framework/gpu_tensor.cpp              # GPU tensor operations
+            ../src/llm/lora_framework/gpu_memory.cpp              # GPU memory management
+            ../src/llm/lora_framework/vram_allocator.cpp          # VRAM allocation and tracking
+            ../src/llm/lora_framework/gpu_data_loader.cpp         # GPU data loader with async transfers
+            ../src/llm/lora_framework/gpu_training_loop.cpp       # GPU training loop implementation
+            ../src/llm/lora_framework/gpu_embedding_layer.cpp     # GPU embedding layer for real embeddings
+        )
+        message(STATUS "Including LoRA GPU sources (THEMIS_ENABLE_GPU=ON)")
+    else()
+        message(STATUS "Skipping LoRA GPU sources (THEMIS_ENABLE_GPU=OFF)")
+    endif()
 
     # Add CLIP vision encoder only when explicitly enabled
     if(THEMIS_ENABLE_VISION)
