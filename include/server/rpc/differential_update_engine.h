@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "proto/sharding/shard_rpc.pb.h"
+#include "shard_rpc.pb.h"
 
 namespace themis {
 namespace rpc {

@@ -86,7 +86,7 @@ bool PagedAdamWOptimizer::ensureStateOnGPU(PagedOptimizerState& state) {
 void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState& state) {
     // Get references to data
     std::vector<float>& param_data = param->data();
-    std::vector<float>& grad_data = param->grad.data();
+    std::vector<float>& grad_data = param->grad->data();
     
     if (param_data.empty() || grad_data.empty()) return;
     
@@ -219,7 +219,7 @@ void PagedAdamWOptimizer::step() {
 void PagedAdamWOptimizer::zero_grad() {
     for (Tensor* param : parameters_) {
         if (param && param->requires_grad) {
-            param->grad.zero();
+            param->grad->zero();
         }
     }
 }

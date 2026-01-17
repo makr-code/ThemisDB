@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <map>
+#include <atomic>
 
 namespace themis {
 

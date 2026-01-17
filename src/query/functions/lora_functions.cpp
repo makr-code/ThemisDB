@@ -10,6 +10,7 @@
 #include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
+#include <set>
 #include "llm/llm_plugin_manager.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -70,8 +71,8 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
     if (config.contains("learning_rate")) {
         params.learning_rate = config["learning_rate"].get<double>();
     }
-    if (config.contains("epochs")) {
-        params.epochs = config["epochs"].get<int>();
+    if (config.contains("num_epochs")) {
+        params.num_epochs = config["num_epochs"].get<int>();
     }
     if (config.contains("batch_size")) {
         params.batch_size = config["batch_size"].get<int>();
@@ -89,7 +90,7 @@ TrainingData parseDataset(const json& dataset) {
     
     if (dataset.contains("samples") && dataset["samples"].is_array()) {
         for (const auto& sample : dataset["samples"]) {
-            TrainingData::Sample s;
+            TrainingDataSample s;
             s.input = sample.value("input", "");
             s.output = sample.value("output", "");
             if (sample.contains("metadata")) {
@@ -97,10 +98,6 @@ TrainingData parseDataset(const json& dataset) {
             }
             data.samples.push_back(s);
         }
-    }
-    
-    if (dataset.contains("task")) {
-        data.task = dataset["task"].get<std::string>();
     }
     
     return data;
@@ -339,11 +336,11 @@ nlohmann::json LoraSimilarFunction::execute(
             // TODO: Replace with actual vector similarity calculation using embeddings
             // For now, use a computed similarity based on matching attributes
             double similarity = 0.8;  // Base similarity
-            if (adapter.task == adapter_info->task) {
-                similarity += 0.1;  // Bonus for same task
-            }
+            // if (adapter.task == adapter_info->task) {
+            //     similarity += 0.1;  // Bonus for same task
+            // }
             result["score"] = similarity;
-            result["task"] = adapter.task;
+            // result["task"] = adapter.task;
             result["base_model"] = adapter.base_model;
             
             results.push_back(result);

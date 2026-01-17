@@ -8,6 +8,8 @@
 #include <string>
 #include <optional>
 #include <mutex>
+#include <set>
+#include <algorithm>
 
 namespace themis {
 
@@ -168,11 +170,11 @@ class GraphIndex;
 class ProcessPatternMatcher {
 public:
     struct Status {
-        bool ok = true;
+        bool is_ok = true;
         std::string message;
         static Status OK() { return {}; }
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
-        bool ok() const { return ok; }
+        bool ok() const { return is_ok; }
     };
     
     /**
@@ -221,7 +223,7 @@ public:
      * @param ideal_pattern Expected/ideal process pattern
      * @return Detailed comparison including deviations
      */
-    std::pair<Status, ConformanceResult> compareWithIdeal(
+    std::pair<Status, ProcessMining::ConformanceResult> compareWithIdeal(
         const std::string& case_id,
         const ProcessPattern& ideal_pattern
     );

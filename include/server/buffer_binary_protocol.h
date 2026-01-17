@@ -5,13 +5,16 @@
 #include <memory>
 #include <string>
 
-// Forward declarations
+// Forward declarations in themis namespace
+namespace themis {
 class TSStore;
 class VectorIndexManager;
-class PropertyGraph;
+class PropertyGraphManager;
 class TSAutoBuffer;
 class VectorAutoBuffer;
 class GraphAutoBuffer;
+}
+
 
 namespace themisdb {
 namespace server {
@@ -71,9 +74,9 @@ public:
      * @param property_graph PropertyGraph instance for graph operations
      */
     BufferBinaryProtocolHandler(
-        std::shared_ptr<TSStore> tsstore,
-        std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<PropertyGraph> property_graph
+        std::shared_ptr<themis::TSStore> tsstore,
+        std::shared_ptr<themis::VectorIndexManager> vector_index,
+        std::shared_ptr<themis::PropertyGraphManager> property_graph
     );
     
     ~BufferBinaryProtocolHandler();
@@ -101,14 +104,14 @@ public:
     
 private:
     // Component references
-    std::shared_ptr<TSStore> tsstore_;
-    std::shared_ptr<VectorIndexManager> vector_index_;
-    std::shared_ptr<PropertyGraph> property_graph_;
+    std::shared_ptr<themis::TSStore> tsstore_;
+    std::shared_ptr<themis::VectorIndexManager> vector_index_;
+    std::shared_ptr<themis::PropertyGraphManager> property_graph_;
     
     // AutoBuffer instances
-    std::unique_ptr<TSAutoBuffer> ts_buffer_;
-    std::unique_ptr<VectorAutoBuffer> vector_buffer_;
-    std::unique_ptr<GraphAutoBuffer> graph_buffer_;
+    std::unique_ptr<themis::TSAutoBuffer> ts_buffer_;
+    std::unique_ptr<themis::VectorAutoBuffer> vector_buffer_;
+    std::unique_ptr<themis::GraphAutoBuffer> graph_buffer_;
     
     // Running state
     bool running_;

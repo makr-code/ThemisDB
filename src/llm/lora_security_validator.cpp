@@ -1,6 +1,6 @@
 #include "llm/lora_security_validator.h"
 #include "llm/security/signature_verifier.h"
-#include "core/logger.h"
+#include <spdlog/spdlog.h>
 #include "security/audit_logger.h"
 #include <fstream>
 #include <sstream>

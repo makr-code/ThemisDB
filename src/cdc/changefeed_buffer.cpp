@@ -303,14 +303,9 @@ void ChangefeedBuffer::flushThread() {
     THEMIS_INFO("ChangefeedBuffer flush thread stopped");
 }
 
-ChangefeedBufferStats ChangefeedBuffer::getStats() const {
+const ChangefeedBufferStats& ChangefeedBuffer::getStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
-    
-    ChangefeedBufferStats stats = stats_;
-    stats.current_buffer_size = stats_.current_buffer_size;
-    stats.current_buffer_memory = stats_.current_buffer_memory;
-    
-    return stats;
+    return stats_;
 }
 
 void ChangefeedBuffer::setConfig(const ChangefeedBufferConfig& config) {
