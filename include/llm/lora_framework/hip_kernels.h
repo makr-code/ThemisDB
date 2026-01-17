@@ -64,6 +64,25 @@ hipError_t launch_scalar_multiply_kernel(
 );
 
 /**
+ * @brief HIP kernel launcher for in-place scalar multiplication
+ */
+hipError_t launch_scalar_multiply_inplace_kernel(
+    float* data,
+    float scalar,
+    size_t size,
+    hipStream_t stream = nullptr
+);
+
+/**
+ * @brief HIP kernel launcher for NaN/Inf detection
+ */
+hipError_t launch_check_inf_nan_kernel(
+    const float* data,
+    size_t size,
+    bool* has_overflow_host
+);
+
+/**
  * @brief HIP kernel launcher for matrix transpose
  */
 hipError_t launch_transpose_kernel(

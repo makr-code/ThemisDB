@@ -97,6 +97,39 @@ cudaError_t launch_scalar_multiply_kernel(
 );
 
 /**
+ * @brief CUDA kernel launcher for in-place scalar multiplication
+ * 
+ * Computes data = data * scalar (in-place)
+ * 
+ * @param data Input/output array (device pointer)
+ * @param scalar Scalar value
+ * @param size Number of elements
+ * @param stream CUDA stream for async execution
+ */
+cudaError_t launch_scalar_multiply_inplace_kernel(
+    float* data,
+    float scalar,
+    size_t size,
+    cudaStream_t stream = nullptr
+);
+
+/**
+ * @brief CUDA kernel launcher for NaN/Inf detection
+ * 
+ * Checks if any element in the tensor is NaN or Inf
+ * 
+ * @param data Input array (device pointer)
+ * @param size Number of elements
+ * @param has_overflow_host Output flag (host pointer)
+ * @return cudaSuccess on success
+ */
+cudaError_t launch_check_inf_nan_kernel(
+    const float* data,
+    size_t size,
+    bool* has_overflow_host
+);
+
+/**
  * @brief CUDA kernel launcher for matrix transpose
  * 
  * Computes C = A^T where A: (rows, cols), C: (cols, rows)
