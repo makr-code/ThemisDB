@@ -196,6 +196,69 @@ __global__ void lora_backward_B_kernel(
     grad_B[i * rank + r] = sum;
 }
 
+/**
+ * @brief MSE loss reduction kernel with shared memory
+ * 
+ * Computes partial sums of squared differences between predictions and targets.
+ * Each block computes a partial sum using parallel reduction in shared memory.
+ */
+__global__ void mse_loss_reduction_kernel(
+    const float* predictions,
+    const float* targets,
+    float* partial_sums,
+    int n
+) {
+    __shared__ float shared_sum[256];
+    
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int tid = threadIdx.x;
+    
+    // Compute partial sum for this thread
+    float local_sum = 0.0f;
+    for (int i = idx; i < n; i += blockDim.x * gridDim.x) {
+        float diff = predictions[i] - targets[i];
+        local_sum += diff * diff;
+    }
+    
+    // Store in shared memory
+    shared_sum[tid] = local_sum;
+    __syncthreads();
+    
+    // Tree reduction in shared memory
+    for (int s = blockDim.x / 2; s > 0; s >>= 1) {
+        if (tid < s) {
+            shared_sum[tid] += shared_sum[tid + s];
+        }
+        __syncthreads();
+    }
+    
+    // Write block result
+    if (tid == 0) {
+        partial_sums[blockIdx.x] = shared_sum[0];
+    }
+}
+
+/**
+ * @brief MSE gradient kernel
+ * 
+ * Computes gradient of MSE loss: grad = (2/n) * (predictions - targets)
+ * This is element-wise and fully parallelizable.
+ */
+__global__ void mse_gradient_kernel(
+    float* grad_output,
+    const float* predictions,
+    const float* targets,
+    float scale,
+    int n
+) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int stride = blockDim.x * gridDim.x;
+    
+    for (int i = idx; i < n; i += stride) {
+        grad_output[i] = scale * (predictions[i] - targets[i]);
+    }
+}
+
 // ============================================================================
 // Kernel Launchers
 // ============================================================================
@@ -345,6 +408,50 @@ hipError_t launch_lora_backward_B_kernel(
     } else {
         hipLaunchKernelGGL(lora_backward_B_kernel, gridDim, blockDim, 0, 0,
             input, A, grad_output, grad_B, batch_size, in_dim, rank, out_dim, scaling);
+    }
+    
+    return hipGetLastError();
+}
+
+hipError_t launch_mse_loss_reduction_kernel(
+    const float* predictions,
+    const float* targets,
+    float* partial_sums,
+    int n,
+    int num_blocks,
+    hipStream_t stream
+) {
+    int threads = 256;
+    int blocks = num_blocks;
+    
+    if (stream != nullptr) {
+        hipLaunchKernelGGL(mse_loss_reduction_kernel, dim3(blocks), dim3(threads), 0, stream,
+            predictions, targets, partial_sums, n);
+    } else {
+        hipLaunchKernelGGL(mse_loss_reduction_kernel, dim3(blocks), dim3(threads), 0, 0,
+            predictions, targets, partial_sums, n);
+    }
+    
+    return hipGetLastError();
+}
+
+hipError_t launch_mse_gradient_kernel(
+    float* grad_output,
+    const float* predictions,
+    const float* targets,
+    float scale,
+    int n,
+    hipStream_t stream
+) {
+    int threads = 256;
+    int blocks = (n + threads - 1) / threads;
+    
+    if (stream != nullptr) {
+        hipLaunchKernelGGL(mse_gradient_kernel, dim3(blocks), dim3(threads), 0, stream,
+            grad_output, predictions, targets, scale, n);
+    } else {
+        hipLaunchKernelGGL(mse_gradient_kernel, dim3(blocks), dim3(threads), 0, 0,
+            grad_output, predictions, targets, scale, n);
     }
     
     return hipGetLastError();
