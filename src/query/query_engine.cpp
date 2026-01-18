@@ -2763,6 +2763,9 @@ QueryEngine::executeGeneralTraversal(
 		                      ", maxDepth=" + std::to_string(maxDepth)), {}};
 	}
 	
+	// Safety limit to prevent excessive memory consumption
+	const size_t MAX_RESULTS = 100000;  // Configurable limit
+	
 	std::vector<TraversalResult> results;
 	
 	// BFS with depth tracking
@@ -2818,6 +2821,13 @@ QueryEngine::executeGeneralTraversal(
 			}
 			
 			results.push_back(std::move(result));
+			
+			// Check result size limit to prevent memory exhaustion
+			if (results.size() >= MAX_RESULTS) {
+				span.setAttribute("query.result_limit_reached", true);
+				span.setStatus(true);
+				return {Status::OK(), std::move(results)};
+			}
 		}
 		
 		// Don't expand beyond maxDepth
