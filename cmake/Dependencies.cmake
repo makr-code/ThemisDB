@@ -204,8 +204,8 @@ endif()
 # Kerberos/GSSAPI - PERMANENTLY DISABLED on Windows
 # Kerberos is not available on Windows and causes build issues.
 # For Windows deployments, use alternative authentication (LDAP, OAuth2, SAML, etc.)
-option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication support" ON)
-if(THEMIS_ENABLE_KERBEROS)  # Kerberos support - enabled for tests
+option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication support (enabled by default when available)" ON)
+if(THEMIS_ENABLE_KERBEROS)  # Conditionally enabled based on CMake option
     # Try to find Kerberos using pkg-config first (most reliable on Unix)
     find_package(PkgConfig QUIET)
     if(PkgConfig_FOUND)

@@ -356,7 +356,7 @@ PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
 }
 
 PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence) const {
-    return previewRestore(target_sequence, RestoreOptions{});
+    return previewRestore(target_sequence, kDefaultRestoreOptions);
 }
 
 } // namespace themis
