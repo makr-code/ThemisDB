@@ -1000,8 +1000,11 @@ endif()
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
 
+    # Prefer local static build of llama.cpp to avoid shared DLL issues
+    option(THEMIS_FORCE_LLAMA_SUBDIR "Prefer local static llama.cpp even if a target exists" OFF)
+
     # Check if llama was already found via find_package (e.g. from installed version)
-    if(TARGET llama)
+    if(TARGET llama AND NOT THEMIS_FORCE_LLAMA_SUBDIR)
         message(STATUS "llama.cpp already available as target (from find_package) - skipping add_subdirectory")
     else()
         # Prefer local, non-committed root clone at ${THEMIS_ROOT_DIR}/llama.cpp
@@ -1050,8 +1053,15 @@ if(THEMIS_ENABLE_LLM)
     
     # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
     # When LLAMA_SRC_DIR is outside the current source dir (cmake/), CMake requires an explicit binary dir.
-    set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
-    add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
+    # Guard against double-add since Dependencies.cmake may have already added it
+    if(NOT TARGET llama)
+        if(THEMIS_FORCE_LLAMA_SUBDIR)
+            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_forced_build")
+        else()
+            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
+        endif()
+        add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
+    endif()
     
     # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
     if(MSVC AND TARGET llama)
@@ -2585,6 +2595,20 @@ if(THEMIS_BUILD_TESTS)
             Boost::system
     )
 
+    # Ensure llama runtime is available next to the test binary on Windows
+    if(TARGET llama)
+        add_custom_command(TARGET themis_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:llama>
+                    $<TARGET_FILE_DIR:themis_tests>
+        )
+        add_custom_command(TARGET themis_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    $<TARGET_FILE_DIR:llama>
+                    $<TARGET_FILE_DIR:themis_tests>
+        )
+    endif()
+
     # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
     add_executable(themis_secidx_tests
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
@@ -2657,6 +2681,18 @@ if(THEMIS_BUILD_TESTS)
                 GTest::gtest_main
                 Boost::system
         )
+        if(TARGET llama)
+            add_custom_command(TARGET themis_llm_tests POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                        $<TARGET_FILE:llama>
+                        $<TARGET_FILE_DIR:themis_llm_tests>
+            )
+            add_custom_command(TARGET themis_llm_tests POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        $<TARGET_FILE_DIR:llama>
+                        $<TARGET_FILE_DIR:themis_llm_tests>
+            )
+        endif()
             include(GoogleTest)
         gtest_discover_tests(themis_llm_tests
             DISCOVERY_MODE PRE_TEST
@@ -2887,6 +2923,61 @@ if(THEMIS_BUILD_BENCHMARKS)
         ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_search.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_apply_grpc.cpp
     )
+
+    # Bundle additional CPU-first benchmarks into the unified binary so they build by default
+    target_sources(themis_benchmarks PRIVATE
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_core_performance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_comprehensive.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_advanced_patterns.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hotspots_micro.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_lock_contention.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_stress.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_compression.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_index_rebuild.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_mvcc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_encryption.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_olap_analytics.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_video_processor.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_stream_protocol.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_process_mining.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_async_io_multiscan.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hsm_provider.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_shard_routing.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_transaction_throughput.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_changefeed_throughput.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis_latency.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_policy_evaluation.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/benchmark_image_analysis.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpcc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_ycsb.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_mmdb.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpch.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_aql_functions.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_auto_buffers.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_blob_zstd.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_product_quantization.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_sanity.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_sharding_performance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_simd_distance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_compression_lossless.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_prefilter.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_batch_insert.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_simple_insert_test.cpp
+    )
     
     target_link_libraries(themis_benchmarks
         PRIVATE
@@ -2894,6 +2985,18 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    if(TARGET llama)
+        add_custom_command(TARGET themis_benchmarks POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:llama>
+                    $<TARGET_FILE_DIR:themis_benchmarks>
+        )
+        add_custom_command(TARGET themis_benchmarks POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    $<TARGET_FILE_DIR:llama>
+                    $<TARGET_FILE_DIR:themis_benchmarks>
+        )
+    endif()
     
     # Compression benchmark (standalone)
     add_executable(bench_compression

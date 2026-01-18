@@ -48,8 +48,9 @@ AdapterInfo makeAdapterInfo(const std::string& adapter_id, const std::string& ve
 
 class LoRAOrchestrator::Impl {
 public:
-    std::atomic<bool> is_initialized{false};
-    bool advanced_enabled{false};
+    Impl() : is_initialized(false), advanced_enabled(false) {}
+    std::atomic<bool> is_initialized;
+    bool advanced_enabled;
     mutable std::shared_mutex state_mutex;
     std::unordered_map<std::string, AdapterInfo> adapters;
     std::unordered_map<std::string, std::vector<std::string>> versions;
@@ -58,6 +59,10 @@ public:
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& /*config*/) : impl_(std::make_unique<Impl>()) {
+    if (!impl_) {
+        spdlog::error("Failed to allocate LoRA Orchestrator Impl");
+        throw std::runtime_error("LoRA Orchestrator Impl allocation failed");
+    }
     impl_->is_initialized = true;
     spdlog::info("LoRA Orchestrator initialized (stub)");
 }
