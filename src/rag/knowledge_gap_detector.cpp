@@ -631,7 +631,9 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     // Phase 2: Implement self-consistency check with multiple sampling
     
     if (!impl_->config.enable_self_consistency_check) {
-        return true; // Disabled, assume consistent
+        // Self-consistency checking is disabled in configuration.
+        // Return true to indicate consistency by default, allowing generation to proceed.
+        return true;
     }
     
     // Generate multiple samples with different seeds/temperatures
@@ -948,6 +950,17 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     size_t num_samples
 ) {
     // Placeholder: In real implementation, this would call LLM with different seeds/temperatures
+    // Required interface: ILLMPlugin::generate(InferenceRequest) with:
+    //   - request.temperature set to values from config.temperature_range
+    //   - request.seed set to different values (0, 1, 2, ...)
+    //   - Multiple async calls for parallel generation
+    // Example:
+    //   InferenceRequest req;
+    //   req.prompt = formatPrompt(query, docs);
+    //   req.temperature = config.temperature_range[i % config.temperature_range.size()];
+    //   req.seed = i;
+    //   samples.push_back(llm->generate(req).text);
+    
     // For now, return placeholder samples to enable testing
     std::vector<std::string> samples;
     
@@ -1188,7 +1201,16 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     const std::string& query
 ) {
     // Placeholder for dynamic retrieval
-    // In real implementation, this would call VectorIndexManager
+    // Required interface: VectorIndexManager integration:
+    //   1. Convert query to embedding: embedder->encode(query)
+    //   2. Search vector index: vector_mgr.searchKnn(embedding, k=10)
+    //   3. Convert results: convertToRetrievedDocuments(results, db, metric)
+    // Example integration:
+    //   auto embedding = embedder_->encode(query);
+    //   auto [status, results] = vector_mgr_->searchKnn(embedding, 10);
+    //   if (status.ok) {
+    //       return convertToRetrievedDocuments(results, db_, metric_);
+    //   }
     
     THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
     

@@ -109,7 +109,7 @@ struct KnowledgeGapConfig {
     // Phase 2: Self-Consistency Check
     bool enable_self_consistency_check = true;   ///< Check answer consistency
     size_t self_consistency_samples = 5;         ///< Number of samples for consistency (3-5)
-    std::vector<double> temperature_range = {0.7, 0.8, 0.9}; ///< Temperature variations
+    std::vector<double> temperature_range = {0.7, 0.8, 0.9}; ///< Temperature variations for generating diverse samples
     double consistency_threshold = 0.6;          ///< Minimum consistency score
     size_t consistency_timeout_ms = 10000;       ///< Max timeout per sample (10s)
     
