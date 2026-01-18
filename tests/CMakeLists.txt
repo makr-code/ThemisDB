@@ -1373,6 +1373,38 @@ else()
 endif()
 
 # ============================================================================
+# IndexManager DI Tests (Phase 4)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+    message(STATUS "Adding IndexManager DI tests")
+    
+    add_executable(test_index_manager_di
+        test_index_manager_di.cpp
+    )
+    
+    target_link_libraries(test_index_manager_di PRIVATE
+        ${TEST_LIBS}
+        GTest::gmock
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_index_manager_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexManagerDITests COMMAND test_index_manager_di)
+    
+    set_tests_properties(IndexManagerDITests PROPERTIES
+        LABELS "index;di;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "IndexManager DI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 

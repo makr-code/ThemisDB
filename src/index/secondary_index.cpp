@@ -63,6 +63,15 @@ std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view tab
 
 SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db) : db_(db) {}
 
+// Phase 4: Set expression evaluator for advanced filtering
+void SecondaryIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
+	expression_evaluator_ = std::move(evaluator);
+}
+
+std::shared_ptr<IExpressionEvaluator> SecondaryIndexManager::getExpressionEvaluator() const {
+	return expression_evaluator_;
+}
+
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("idxmeta:") + std::string(table) + ":" + std::string(column);

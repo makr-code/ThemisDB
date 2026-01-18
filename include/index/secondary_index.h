@@ -13,6 +13,7 @@
 namespace themis {
 
 class BaseEntity;
+class IExpressionEvaluator;
 
 /// SecondaryIndexManager
 /// - Gleichheitsbasierte Sekundärindizes pro Tabelle/Spalte(n)
@@ -30,6 +31,12 @@ public:
     };
 
     explicit SecondaryIndexManager(RocksDBWrapper& db);
+    
+    // Phase 4: Set optional expression evaluator for advanced filtering
+    void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
+    
+    // Get expression evaluator
+    std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
 
     // Index-Lifecycle
     Status createIndex(std::string_view table, std::string_view column, bool unique = false);
@@ -273,6 +280,9 @@ private:
     RocksDBWrapper& db_;
     RebuildMetrics rebuild_metrics_;
     mutable QueryMetrics query_metrics_;
+    
+    // Phase 4: Optional ExpressionEvaluator for advanced filtering
+    std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3
