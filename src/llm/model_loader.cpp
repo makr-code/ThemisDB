@@ -45,7 +45,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     const std::string& model_path,
     const json& load_config
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_); // Use unique_lock for manual unlock/lock
     
     // Check if already loaded
     auto it = models_.find(model_id);
@@ -65,19 +65,22 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     if (pending_it != pending_loads_.end()) {
         spdlog::info("Waiting for async preload to complete: {}", model_id);
         
+        // Move future out of map to avoid issues with iterator invalidation
+        std::future<CachedModel*> future_model = std::move(pending_it->second);
+        pending_loads_.erase(pending_it);
+        
         // Release lock temporarily to allow async task to complete
-        mutex_.unlock();
+        lock.unlock();
         
         try {
             // Wait for async load to complete (with timeout)
-            auto status = pending_it->second.wait_for(std::chrono::seconds(300)); // 5 minute timeout
+            auto status = future_model.wait_for(std::chrono::seconds(300)); // 5 minute timeout
             
             if (status == std::future_status::ready) {
-                auto* model = pending_it->second.get();
+                auto* model = future_model.get();
                 
-                // Reacquire lock and clean up pending entry
-                mutex_.lock();
-                pending_loads_.erase(pending_it);
+                // Reacquire lock
+                lock.lock();
                 
                 if (model) {
                     spdlog::info("Async preload completed for: {}", model_id);
@@ -89,14 +92,14 @@ CachedModel* LazyModelLoader::getOrLoadModel(
                 }
             } else {
                 spdlog::error("Async preload timed out for: {}", model_id);
-                mutex_.lock();
-                pending_loads_.erase(pending_it);
+                lock.lock();
                 // Fall through to synchronous load attempt
             }
         } catch (const std::exception& e) {
             spdlog::error("Exception waiting for async load: {}", e.what());
-            mutex_.lock();
-            pending_loads_.erase(pending_it);
+            if (!lock.owns_lock()) {
+                lock.lock();
+            }
             // Fall through to synchronous load attempt
         }
     }
