@@ -489,6 +489,60 @@ add_custom_target(run_benchmarks_detailed
     COMMENT "Running detailed benchmarks with statistics..."
 )
 
+# ============================================================================
+# Knowledge Gap Detector Phase 2 Benchmarks (NEW)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_knowledge_gap_detector_phase2.cpp")
+    message(STATUS "Adding Knowledge Gap Detector Phase 2 benchmarks")
+    
+    add_executable(bench_knowledge_gap_detector_phase2
+        bench_knowledge_gap_detector_phase2.cpp
+    )
+    
+    target_link_libraries(bench_knowledge_gap_detector_phase2 PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_knowledge_gap_detector_phase2 PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_knowledge_gap_detector_phase2 PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_knowledge_gap_detector_phase2
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run Knowledge Gap Detector Phase 2 benchmarks
+    add_custom_target(run_benchmark_knowledge_gap_phase2
+        COMMAND bench_knowledge_gap_detector_phase2 --benchmark_min_time=0.5
+        DEPENDS bench_knowledge_gap_detector_phase2
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running Knowledge Gap Detector Phase 2 benchmarks..."
+    )
+    
+    message(STATUS "  Knowledge Gap Detector Phase 2: Token probability, perplexity, self-consistency, FLARE")
+else()
+    message(STATUS "Knowledge Gap Detector Phase 2 benchmarks not found")
+endif()
+
 message(STATUS "Benchmarks configured successfully")
 message(STATUS "  - Build benchmarks with: cmake --build . --target bench_lora_framework")
 message(STATUS "  - Run benchmarks with: ./benchmarks/bench_lora_framework")

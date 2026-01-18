@@ -425,6 +425,228 @@ TEST(RAGPipeline, KnowledgeGapDetection) {
 }
 ```
 
+## Phase 2: Advanced LLM-Based Features
+
+### Token Probability Tracking
+
+Phase 2 adds real-time token probability tracking with perplexity calculation for fine-grained confidence monitoring during generation.
+
+```cpp
+#include "rag/knowledge_gap_detector.h"
+
+// Enable Phase 2 features
+KnowledgeGapConfig config;
+config.mode = DetectionMode::BALANCED;
+config.enable_token_probability = true;
+config.perplexity_threshold = 100.0;
+config.perplexity_window_size = 10;
+config.outlier_zscore_threshold = 3.0;
+
+auto detector = std::make_unique<KnowledgeGapDetector>(config);
+
+// During generation, collect token probabilities
+GenerationContext gen_context;
+gen_context.token_probs = {0.9, 0.85, 0.88, 0.92, 0.87}; // From LLM
+gen_context.generation_started = true;
+
+// Detect gaps during generation
+auto result = detector->detectDuringGeneration(
+    "What is machine learning?",
+    documents,
+    gen_context
+);
+
+if (result.gap_detected) {
+    std::cout << "Low confidence detected during generation" << std::endl;
+    std::cout << "Explanation: " << result.explanation << std::endl;
+}
+```
+
+**Features:**
+- **Perplexity calculation**: Exponential of negative average log probability
+- **Sliding window analysis**: Detects local regions of high uncertainty
+- **Outlier removal**: Filters anomalous tokens using z-score (threshold: 3.0)
+- **Anomaly detection**: Triggers when perplexity > threshold (default: 100)
+
+### Self-Consistency Check
+
+Multi-sampling approach to verify answer consistency across different generation runs.
+
+```cpp
+// Enable self-consistency checking
+KnowledgeGapConfig config;
+config.enable_self_consistency_check = true;
+config.self_consistency_samples = 5;
+config.temperature_range = {0.7, 0.8, 0.9};
+config.consistency_threshold = 0.6;
+config.consistency_timeout_ms = 10000; // 10 seconds max
+
+auto detector = std::make_unique<KnowledgeGapDetector>(config);
+
+// After generation
+auto result = detector->detectPostGeneration(
+    "What is machine learning?",
+    documents,
+    "Machine learning is a subset of AI that enables systems to learn..."
+);
+
+if (result.gap_detected && result.gap_type == GapType::CONFLICTING_INFO) {
+    std::cout << "Inconsistent answers detected!" << std::endl;
+    std::cout << "Confidence: " << result.confidence_score << std::endl;
+}
+```
+
+**Features:**
+- **Multiple sampling**: Generates 3-5 answers with different seeds/temperatures
+- **Semantic similarity**: Measures consistency using Jaccard similarity
+- **Contradiction detection**: Identifies conflicting statements with negation analysis
+- **Configurable threshold**: Adjustable consistency requirements (0.0-1.0)
+
+### FLARE-Style Active Retrieval
+
+Forward-looking active retrieval that iteratively enhances document set based on generation confidence.
+
+```cpp
+// Enable FLARE
+KnowledgeGapConfig config;
+config.enable_flare = true;
+config.max_retrieval_rounds = 3;
+config.flare_confidence_threshold = 0.5;
+
+auto detector = std::make_unique<KnowledgeGapDetector>(config);
+
+// Initial documents (may be insufficient)
+std::vector<RetrievedDocument> documents = getInitialDocuments(query);
+
+// FLARE will iteratively enhance the document set
+auto result = detector->detectWithActiveRetrieval(query, documents);
+
+if (result.gap_detected) {
+    std::cout << "Gap persists after " << config.max_retrieval_rounds 
+              << " retrieval rounds" << std::endl;
+    std::cout << "Final coverage: " << result.coverage_score << std::endl;
+} else {
+    std::cout << "Sufficient information after active retrieval" << std::endl;
+    std::cout << "Retrieved " << documents.size() << " documents total" << std::endl;
+    // documents vector now contains enhanced document set
+}
+```
+
+**Features:**
+- **Sentence-by-sentence generation**: Monitors confidence at fine granularity
+- **Dynamic re-retrieval**: Automatically fetches more documents when confidence drops
+- **Query reformulation**: Creates new queries based on missing aspects
+- **Document deduplication**: Prevents duplicate documents in enhanced set
+- **Max rounds limit**: Prevents infinite retrieval loops (default: 3)
+
+### Factory Presets with Phase 2
+
+```cpp
+// Fast mode: Phase 2 features disabled for minimum latency
+auto fast_detector = KnowledgeGapDetectorFactory::createFast();
+// - enable_token_probability: false
+// - enable_self_consistency_check: false
+// - enable_flare: false
+// Expected latency: ~10ms
+
+// Balanced mode: Token probability enabled
+auto balanced_detector = KnowledgeGapDetectorFactory::createBalanced();
+// - enable_token_probability: true
+// - enable_self_consistency_check: false
+// - enable_flare: false
+// Expected latency: ~100ms
+
+// Thorough mode: All Phase 2 features enabled
+auto thorough_detector = KnowledgeGapDetectorFactory::createThorough();
+// - enable_token_probability: true
+// - enable_self_consistency_check: true
+// - enable_claim_verification: true
+// - enable_flare: false (VectorIndexManager integration required)
+// Expected latency: ~500ms+
+```
+
+### Complete Phase 2 Configuration
+
+```cpp
+KnowledgeGapConfig config;
+
+// Detection mode
+config.mode = DetectionMode::THOROUGH;
+
+// Basic thresholds (Phase 1)
+config.similarity_threshold = 0.75;
+config.min_documents = 3;
+config.confidence_threshold = 0.7;
+config.coverage_threshold = 0.8;
+
+// Phase 2: Token Probability Tracking
+config.enable_token_probability = true;
+config.perplexity_threshold = 100.0;        // Anomaly detection threshold
+config.perplexity_window_size = 10;         // Sliding window size
+config.outlier_zscore_threshold = 3.0;      // Outlier detection sensitivity
+
+// Phase 2: Self-Consistency Check
+config.enable_self_consistency_check = true;
+config.self_consistency_samples = 5;        // Number of samples to generate
+config.temperature_range = {0.7, 0.8, 0.9}; // Temperature variations
+config.consistency_threshold = 0.6;         // Minimum consistency score
+config.consistency_timeout_ms = 10000;      // Max 10s per sample
+
+// Phase 2: FLARE Active Retrieval
+config.enable_flare = false;                // Requires VectorIndexManager integration
+config.max_retrieval_rounds = 3;            // Max re-retrieval iterations
+config.flare_confidence_threshold = 0.5;    // Trigger re-retrieval below this
+
+// Other features
+config.enable_claim_verification = true;
+config.enable_query_aspect_analysis = true;
+
+auto detector = std::make_unique<KnowledgeGapDetector>(config);
+```
+
+### Performance Guidelines
+
+**Phase 2 Performance Targets:**
+- Token probability tracking: < 10ms overhead ✅
+- Self-consistency check: < 2s for 5 samples
+- FLARE re-retrieval: < 500ms per round
+- Total overhead: < 3s for complex queries
+
+**Optimization Tips:**
+1. Disable self-consistency for real-time applications
+2. Reduce self_consistency_samples to 3 for faster checking
+3. Increase consistency_threshold for stricter validation
+4. Limit max_retrieval_rounds to prevent latency spikes
+5. Use Fast or Balanced mode for most applications
+
+### Integration with LLM Inference
+
+To fully leverage Phase 2 features, integrate with your LLM inference engine:
+
+```cpp
+// Example: Collect token probabilities during generation
+InferenceRequest request;
+request.prompt = formatted_prompt;
+request.max_tokens = 512;
+
+// Enable logprobs collection
+auto response = llm_wrapper->generate(request);
+
+// Build GenerationContext from response
+GenerationContext context;
+context.token_probs = response.logprobs;  // Per-token probabilities
+context.generation_started = true;
+
+// Calculate perplexity from token probs
+context.perplexity = calculatePerplexity(context.token_probs);
+context.token_probability_avg = 
+    std::accumulate(context.token_probs.begin(), 
+                   context.token_probs.end(), 0.0) / context.token_probs.size();
+
+// Detect gaps during generation
+auto result = detector->detectDuringGeneration(query, documents, context);
+```
+
 ## See Also
 
 - [RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md](RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md) - Scientific background

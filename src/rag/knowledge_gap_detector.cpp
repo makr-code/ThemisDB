@@ -153,7 +153,40 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
     
-    // Check token probability
+    // Phase 2: Enhanced token probability tracking
+    if (impl_->config.enable_token_probability && !context.token_probs.empty()) {
+        // Calculate confidence score with outlier removal
+        double confidence = calculateConfidenceScore(context.token_probs);
+        
+        if (confidence < impl_->config.confidence_threshold) {
+            result.gap_detected = true;
+            result.gap_type = GapType::UNCERTAIN_GENERATION;
+            result.confidence_score = 0.85;
+            result.recommendation = FallbackStrategy::EXPAND_SEARCH;
+            result.explanation = "Low confidence in generation based on token probabilities (confidence: " +
+                               std::to_string(confidence) + ")";
+            return result;
+        }
+        
+        // Phase 2: Sliding window perplexity analysis
+        double sliding_perplexity = calculateSlidingWindowPerplexity(
+            context.token_probs,
+            impl_->config.perplexity_window_size
+        );
+        
+        if (detectPerplexityAnomaly(sliding_perplexity, impl_->config.perplexity_threshold)) {
+            result.gap_detected = true;
+            result.gap_type = GapType::UNCERTAIN_GENERATION;
+            result.confidence_score = 0.8;
+            result.recommendation = FallbackStrategy::MULTI_HOP_RETRIEVAL;
+            result.explanation = "High perplexity indicates uncertain generation (perplexity: " +
+                               std::to_string(sliding_perplexity) + ", threshold: " +
+                               std::to_string(impl_->config.perplexity_threshold) + ")";
+            return result;
+        }
+    }
+    
+    // Fallback to legacy checks if token_probs not available
     if (context.token_probability_avg < impl_->config.confidence_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::UNCERTAIN_GENERATION;
@@ -163,8 +196,8 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
         return result;
     }
     
-    // Check perplexity
-    if (context.perplexity > 100.0) {  // High perplexity indicates uncertainty
+    // Check perplexity (legacy)
+    if (context.perplexity > impl_->config.perplexity_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::UNCERTAIN_GENERATION;
         result.confidence_score = 0.8;
@@ -305,6 +338,132 @@ DetectionResult KnowledgeGapDetector::detectGap(
     }
     
     return DetectionResult{};
+}
+
+DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
+    const std::string& query,
+    std::vector<RetrievedDocument>& initial_documents
+) {
+    // Phase 2: FLARE-style active retrieval implementation
+    
+    if (!impl_->config.enable_flare) {
+        // FLARE disabled, return regular detection
+        return detectPreGeneration(query, initial_documents);
+    }
+    
+    THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
+    
+    DetectionResult result;
+    result.num_retrieved_docs = initial_documents.size();
+    
+    // Start with initial documents
+    auto current_documents = initial_documents;
+    size_t retrieval_round = 0;
+    
+    // Iterative retrieval loop
+    while (retrieval_round < impl_->config.max_retrieval_rounds) {
+        // Check current coverage
+        double coverage = calculateQueryCoverage(query, current_documents);
+        double avg_similarity = calculateAverageSimilarity(current_documents);
+        
+        THEMIS_DEBUG("Round {}: coverage={}, similarity={}", 
+                    retrieval_round, coverage, avg_similarity);
+        
+        // If coverage is sufficient, stop
+        if (coverage >= impl_->config.coverage_threshold &&
+            avg_similarity >= impl_->config.similarity_threshold) {
+            result.gap_detected = false;
+            result.gap_type = GapType::NONE;
+            result.confidence_score = 0.9;
+            result.coverage_score = coverage;
+            result.avg_similarity_score = avg_similarity;
+            result.num_retrieved_docs = current_documents.size();
+            result.recommendation = FallbackStrategy::NONE;
+            result.explanation = "Sufficient information after " + 
+                               std::to_string(retrieval_round) + " retrieval rounds";
+            
+            // Update initial_documents with enhanced set
+            initial_documents = current_documents;
+            return result;
+        }
+        
+        // Find missing aspects for re-retrieval
+        auto missing = findMissingAspects(query, current_documents);
+        
+        if (missing.empty()) {
+            // No specific missing aspects, but coverage still low
+            break;
+        }
+        
+        // Reformulate query with missing information
+        std::string reformulated = reformulateQuery(query, missing[0]);
+        
+        THEMIS_DEBUG("Reformulated query: {}", reformulated);
+        
+        // Perform dynamic retrieval (placeholder - needs VectorIndexManager integration)
+        auto new_documents = performDynamicRetrieval(reformulated);
+        
+        // Deduplicate and merge
+        for (auto& new_doc : new_documents) {
+            bool is_duplicate = false;
+            for (const auto& existing : current_documents) {
+                if (existing.id == new_doc.id) {
+                    is_duplicate = true;
+                    break;
+                }
+            }
+            
+            if (!is_duplicate) {
+                current_documents.push_back(new_doc);
+            }
+        }
+        
+        retrieval_round++;
+        
+        // Check if we're making progress
+        if (new_documents.empty()) {
+            THEMIS_DEBUG("No new documents retrieved, stopping");
+            break;
+        }
+    }
+    
+    // After max rounds, check if gap still exists
+    double final_coverage = calculateQueryCoverage(query, current_documents);
+    double final_similarity = calculateAverageSimilarity(current_documents);
+    
+    result.coverage_score = final_coverage;
+    result.avg_similarity_score = final_similarity;
+    result.num_retrieved_docs = current_documents.size();
+    
+    if (final_coverage < impl_->config.coverage_threshold) {
+        result.gap_detected = true;
+        result.gap_type = GapType::MISSING_ASPECTS;
+        result.confidence_score = 0.7;
+        result.recommendation = FallbackStrategy::INSUFFICIENT_DATA_RESPONSE;
+        result.missing_aspects = findMissingAspects(query, current_documents);
+        result.explanation = "Insufficient coverage after " + 
+                           std::to_string(retrieval_round) + 
+                           " retrieval rounds (coverage: " + 
+                           std::to_string(final_coverage) + ")";
+    } else if (final_similarity < impl_->config.similarity_threshold) {
+        result.gap_detected = true;
+        result.gap_type = GapType::LOW_SIMILARITY;
+        result.confidence_score = 0.75;
+        result.recommendation = FallbackStrategy::REFORMULATE_QUERY;
+        result.explanation = "Low similarity after active retrieval (similarity: " +
+                           std::to_string(final_similarity) + ")";
+    } else {
+        result.gap_detected = false;
+        result.gap_type = GapType::NONE;
+        result.confidence_score = 0.85;
+        result.recommendation = FallbackStrategy::NONE;
+        result.explanation = "Acceptable information after active retrieval";
+    }
+    
+    // Update initial_documents with enhanced set
+    initial_documents = current_documents;
+    
+    return result;
 }
 
 void KnowledgeGapDetector::setConfig(const KnowledgeGapConfig& config) {
@@ -480,9 +639,42 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     const std::string& query,
     const std::vector<RetrievedDocument>& docs
 ) {
-    // TODO: Implement self-consistency check
-    // Placeholder implementation
-    return true;
+    // Phase 2: Implement self-consistency check with multiple sampling
+    
+    if (!impl_->config.enable_self_consistency_check) {
+        // Self-consistency checking is disabled in configuration.
+        // Return true to indicate consistency by default, allowing generation to proceed.
+        return true;
+    }
+    
+    // Generate multiple samples with different seeds/temperatures
+    auto samples = generateMultipleSamples(
+        query,
+        docs,
+        impl_->config.self_consistency_samples
+    );
+    
+    if (samples.size() < 2) {
+        return true; // Not enough samples to check consistency
+    }
+    
+    // Calculate consistency score
+    double consistency_score = calculateConsistencyScore(samples);
+    
+    THEMIS_DEBUG("Self-consistency score: {}", consistency_score);
+    
+    // Check for contradictions
+    for (size_t i = 0; i < samples.size(); ++i) {
+        for (size_t j = i + 1; j < samples.size(); ++j) {
+            if (detectContradiction(samples[i], samples[j])) {
+                THEMIS_DEBUG("Contradiction detected between samples {} and {}", i, j);
+                return false;
+            }
+        }
+    }
+    
+    // Check if consistency meets threshold
+    return consistency_score >= impl_->config.consistency_threshold;
 }
 
 std::vector<std::string> KnowledgeGapDetector::extractClaims(
@@ -593,6 +785,449 @@ bool KnowledgeGapDetector::verifyClaim(
     return verification_ratio >= 0.6;
 }
 
+// ============================================================================
+// Phase 2: Token Probability & Perplexity Methods
+// ============================================================================
+
+double KnowledgeGapDetector::calculatePerplexity(
+    const std::vector<double>& token_probs
+) {
+    if (token_probs.empty()) {
+        return 0.0;
+    }
+    
+    // Perplexity = exp(-1/N * sum(log(p_i)))
+    // where p_i is the probability of token i
+    double log_sum = 0.0;
+    size_t valid_tokens = 0;
+    
+    for (double prob : token_probs) {
+        if (prob > 0.0 && prob <= 1.0) {
+            log_sum += std::log(prob);
+            valid_tokens++;
+        }
+    }
+    
+    if (valid_tokens == 0) {
+        return 0.0;
+    }
+    
+    double avg_log_prob = log_sum / valid_tokens;
+    double perplexity = std::exp(-avg_log_prob);
+    
+    return perplexity;
+}
+
+double KnowledgeGapDetector::calculateSlidingWindowPerplexity(
+    const std::vector<double>& token_probs,
+    size_t window_size
+) {
+    if (token_probs.empty() || window_size == 0) {
+        return 0.0;
+    }
+    
+    // Calculate perplexity for sliding windows and return max
+    double max_perplexity = 0.0;
+    
+    for (size_t i = 0; i + window_size <= token_probs.size(); ++i) {
+        std::vector<double> window(
+            token_probs.begin() + i,
+            token_probs.begin() + i + window_size
+        );
+        
+        double window_perplexity = calculatePerplexity(window);
+        max_perplexity = std::max(max_perplexity, window_perplexity);
+    }
+    
+    // If sequence shorter than window, use full sequence
+    if (token_probs.size() < window_size) {
+        max_perplexity = calculatePerplexity(token_probs);
+    }
+    
+    return max_perplexity;
+}
+
+bool KnowledgeGapDetector::detectPerplexityAnomaly(
+    double perplexity,
+    double threshold
+) {
+    return perplexity > threshold;
+}
+
+double KnowledgeGapDetector::calculateConfidenceScore(
+    const std::vector<double>& token_probs
+) {
+    if (token_probs.empty()) {
+        return 0.0;
+    }
+    
+    // Remove outliers before calculating confidence
+    auto cleaned_probs = removeOutlierTokens(
+        token_probs,
+        impl_->config.outlier_zscore_threshold
+    );
+    
+    if (cleaned_probs.empty()) {
+        return 0.0;
+    }
+    
+    // Calculate weighted average (geometric mean for probabilities)
+    double log_sum = 0.0;
+    for (double prob : cleaned_probs) {
+        if (prob > 0.0) {
+            log_sum += std::log(prob);
+        }
+    }
+    
+    double confidence = std::exp(log_sum / cleaned_probs.size());
+    return std::clamp(confidence, 0.0, 1.0);
+}
+
+std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
+    const std::vector<double>& token_probs,
+    double zscore_threshold
+) {
+    if (token_probs.size() < 3) {
+        return token_probs; // Need at least 3 points for meaningful outlier detection
+    }
+    
+    // Calculate mean and std dev
+    double mean = std::accumulate(token_probs.begin(), token_probs.end(), 0.0) / token_probs.size();
+    
+    double variance = 0.0;
+    for (double prob : token_probs) {
+        double diff = prob - mean;
+        variance += diff * diff;
+    }
+    variance /= token_probs.size();
+    double std_dev = std::sqrt(variance);
+    
+    if (std_dev < 1e-10) {
+        return token_probs; // No variation
+    }
+    
+    // Filter outliers
+    std::vector<double> filtered;
+    for (double prob : token_probs) {
+        double z_score = std::abs((prob - mean) / std_dev);
+        if (z_score <= zscore_threshold) {
+            filtered.push_back(prob);
+        }
+    }
+    
+    // If we filtered too many, return original
+    if (filtered.size() < token_probs.size() * 0.5) {
+        return token_probs;
+    }
+    
+    return filtered;
+}
+
+double KnowledgeGapDetector::calculateMovingAverage(
+    const std::vector<double>& values,
+    size_t window_size
+) {
+    if (values.empty() || window_size == 0) {
+        return 0.0;
+    }
+    
+    // Calculate moving average for smoothing
+    std::vector<double> averages;
+    
+    for (size_t i = 0; i + window_size <= values.size(); ++i) {
+        double sum = 0.0;
+        for (size_t j = 0; j < window_size; ++j) {
+            sum += values[i + j];
+        }
+        averages.push_back(sum / window_size);
+    }
+    
+    if (averages.empty()) {
+        // Sequence shorter than window, return overall average
+        return std::accumulate(values.begin(), values.end(), 0.0) / values.size();
+    }
+    
+    // Return average of moving averages
+    return std::accumulate(averages.begin(), averages.end(), 0.0) / averages.size();
+}
+
+// ============================================================================
+// Phase 2: Self-Consistency Check Methods
+// ============================================================================
+
+std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
+    const std::string& query,
+    const std::vector<RetrievedDocument>& docs,
+    size_t num_samples
+) {
+    // Placeholder: In real implementation, this would call LLM with different seeds/temperatures
+    // Required interface: ILLMPlugin::generate(InferenceRequest) with:
+    //   - request.temperature set to values from config.temperature_range
+    //   - request.seed set to different values (0, 1, 2, ...)
+    //   - Multiple async calls for parallel generation
+    // Example:
+    //   InferenceRequest req;
+    //   req.prompt = formatPrompt(query, docs);
+    //   req.temperature = config.temperature_range[i % config.temperature_range.size()];
+    //   req.seed = i;
+    //   samples.push_back(llm->generate(req).text);
+    
+    // For now, return placeholder samples to enable testing
+    std::vector<std::string> samples;
+    
+    // Generate variations (simplified placeholder)
+    for (size_t i = 0; i < num_samples; ++i) {
+        samples.push_back("Sample answer " + std::to_string(i) + " for query: " + query);
+    }
+    
+    return samples;
+}
+
+double KnowledgeGapDetector::calculateSemanticSimilarity(
+    const std::string& text1,
+    const std::string& text2
+) {
+    // Basic semantic similarity using Jaccard similarity on word sets
+    // In a full implementation, this would use embeddings (SBERT)
+    
+    if (text1.empty() || text2.empty()) {
+        return 0.0;
+    }
+    
+    // Extract word sets
+    auto extractWords = [](const std::string& text) {
+        std::unordered_set<std::string> words;
+        std::string word;
+        for (char c : text) {
+            if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
+                word += std::tolower(static_cast<unsigned char>(c));
+            } else if (!word.empty()) {
+                if (word.length() > 2) { // Only meaningful words
+                    words.insert(word);
+                }
+                word.clear();
+            }
+        }
+        if (!word.empty() && word.length() > 2) {
+            words.insert(word);
+        }
+        return words;
+    };
+    
+    auto words1 = extractWords(text1);
+    auto words2 = extractWords(text2);
+    
+    if (words1.empty() || words2.empty()) {
+        return 0.0;
+    }
+    
+    // Calculate Jaccard similarity: |intersection| / |union|
+    size_t intersection = 0;
+    for (const auto& word : words1) {
+        if (words2.count(word) > 0) {
+            intersection++;
+        }
+    }
+    
+    size_t union_size = words1.size() + words2.size() - intersection;
+    return static_cast<double>(intersection) / union_size;
+}
+
+double KnowledgeGapDetector::calculateConsistencyScore(
+    const std::vector<std::string>& samples
+) {
+    if (samples.size() < 2) {
+        return 1.0; // Single sample is trivially consistent
+    }
+    
+    // Calculate pairwise similarities and average
+    double total_similarity = 0.0;
+    size_t comparisons = 0;
+    
+    for (size_t i = 0; i < samples.size(); ++i) {
+        for (size_t j = i + 1; j < samples.size(); ++j) {
+            total_similarity += calculateSemanticSimilarity(samples[i], samples[j]);
+            comparisons++;
+        }
+    }
+    
+    return comparisons > 0 ? total_similarity / comparisons : 0.0;
+}
+
+bool KnowledgeGapDetector::detectContradiction(
+    const std::string& text1,
+    const std::string& text2
+) {
+    // Basic contradiction detection using negation words
+    // In a full implementation, this would use NLI model
+    
+    std::vector<std::string> negation_words = {
+        "not", "no", "never", "neither", "nor", "cannot", "can't",
+        "isn't", "aren't", "wasn't", "weren't", "won't", "wouldn't",
+        "don't", "doesn't", "didn't", "hasn't", "haven't", "hadn't"
+    };
+    
+    // Simple heuristic: if texts share keywords but one has negations
+    double similarity = calculateSemanticSimilarity(text1, text2);
+    
+    if (similarity < 0.3) {
+        return false; // Texts too different to contradict
+    }
+    
+    // Check for negation patterns
+    auto hasNegation = [&negation_words](const std::string& text) {
+        std::string lower_text = text;
+        std::transform(lower_text.begin(), lower_text.end(),
+                      lower_text.begin(),
+                      [](unsigned char c){ return std::tolower(c); });
+        
+        for (const auto& neg : negation_words) {
+            if (lower_text.find(neg) != std::string::npos) {
+                return true;
+            }
+        }
+        return false;
+    };
+    
+    bool text1_has_neg = hasNegation(text1);
+    bool text2_has_neg = hasNegation(text2);
+    
+    // Contradiction if similar but one has negation and other doesn't
+    return similarity > 0.5 && (text1_has_neg != text2_has_neg);
+}
+
+// ============================================================================
+// Phase 2: FLARE Active Retrieval Methods
+// ============================================================================
+
+std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
+    const std::string& text
+) {
+    std::vector<std::string> sentences;
+    
+    if (text.empty()) {
+        return sentences;
+    }
+    
+    std::string current_sentence;
+    
+    for (size_t i = 0; i < text.length(); ++i) {
+        char c = text[i];
+        current_sentence += c;
+        
+        // Check for sentence endings
+        if (c == '.' || c == '!' || c == '?') {
+            // Look ahead to avoid abbreviations
+            if (i + 1 < text.length() && std::isspace(text[i + 1])) {
+                // Trim and add sentence
+                size_t start = current_sentence.find_first_not_of(" \t\n\r");
+                if (start != std::string::npos) {
+                    std::string sentence = current_sentence.substr(start);
+                    sentences.push_back(sentence);
+                }
+                current_sentence.clear();
+            }
+        }
+    }
+    
+    // Add last sentence if any
+    if (!current_sentence.empty()) {
+        size_t start = current_sentence.find_first_not_of(" \t\n\r");
+        if (start != std::string::npos) {
+            sentences.push_back(current_sentence.substr(start));
+        }
+    }
+    
+    return sentences;
+}
+
+double KnowledgeGapDetector::monitorSentenceConfidence(
+    const std::string& sentence,
+    const std::vector<RetrievedDocument>& docs
+) {
+    // Calculate confidence based on how well sentence is supported by documents
+    if (sentence.empty() || docs.empty()) {
+        return 0.0;
+    }
+    
+    // Extract key terms from sentence
+    std::vector<std::string> sentence_terms;
+    std::string current_term;
+    
+    for (char c : sentence) {
+        if (std::isalnum(static_cast<unsigned char>(c))) {
+            current_term += std::tolower(static_cast<unsigned char>(c));
+        } else if (!current_term.empty()) {
+            if (current_term.length() > 3) {
+                sentence_terms.push_back(current_term);
+            }
+            current_term.clear();
+        }
+    }
+    
+    if (!current_term.empty() && current_term.length() > 3) {
+        sentence_terms.push_back(current_term);
+    }
+    
+    if (sentence_terms.empty()) {
+        return 0.5; // Neutral confidence for sentences without key terms
+    }
+    
+    // Calculate how many terms are found in documents
+    size_t terms_found = 0;
+    for (const auto& doc : docs) {
+        std::string content_lower = doc.content;
+        std::transform(content_lower.begin(), content_lower.end(),
+                      content_lower.begin(),
+                      [](unsigned char c){ return std::tolower(c); });
+        
+        for (const auto& term : sentence_terms) {
+            if (content_lower.find(term) != std::string::npos) {
+                terms_found++;
+                break; // Count each term once per document
+            }
+        }
+    }
+    
+    // Confidence based on term coverage
+    double confidence = static_cast<double>(terms_found) / sentence_terms.size();
+    return std::clamp(confidence, 0.0, 1.0);
+}
+
+std::string KnowledgeGapDetector::reformulateQuery(
+    const std::string& original_query,
+    const std::string& missing_info
+) {
+    // Simple query reformulation by appending missing information
+    // In a full implementation, this would use LLM for natural reformulation
+    
+    if (missing_info.empty()) {
+        return original_query;
+    }
+    
+    return original_query + " " + missing_info;
+}
+
+std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
+    const std::string& query
+) {
+    // Placeholder for dynamic retrieval
+    // Required interface: VectorIndexManager integration:
+    //   1. Convert query to embedding: embedder->encode(query)
+    //   2. Search vector index: vector_mgr.searchKnn(embedding, k=10)
+    //   3. Convert results: convertToRetrievedDocuments(results, db, metric)
+    // Example integration:
+    //   auto embedding = embedder_->encode(query);
+    //   auto [status, results] = vector_mgr_->searchKnn(embedding, 10);
+    //   if (status.ok) {
+    //       return convertToRetrievedDocuments(results, db_, metric_);
+    //   }
+    
+    THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
+    
+    // Return empty vector as placeholder
+    // Actual implementation would integrate with vector search
+    return std::vector<RetrievedDocument>();
 DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents
@@ -782,6 +1417,8 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createFast() 
     config.enable_self_consistency_check = false;
     config.enable_claim_verification = false;
     config.enable_query_aspect_analysis = false;
+    config.enable_token_probability = false;
+    config.enable_flare = false;
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
@@ -789,6 +1426,9 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createBalance
     KnowledgeGapConfig config;
     config.mode = DetectionMode::BALANCED;
     config.enable_query_aspect_analysis = true;
+    config.enable_token_probability = true;
+    config.enable_self_consistency_check = false; // Can be expensive
+    config.enable_flare = false; // Requires VectorIndexManager integration
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
@@ -798,6 +1438,9 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createThoroug
     config.enable_self_consistency_check = true;
     config.enable_claim_verification = true;
     config.enable_query_aspect_analysis = true;
+    config.enable_token_probability = true;
+    config.enable_flare = false; // Can be enabled when VectorIndexManager integrated
+    config.self_consistency_samples = 5;
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 

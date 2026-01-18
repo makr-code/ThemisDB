@@ -678,6 +678,352 @@ TEST_F(KnowledgeGapDetectorTest, VeryLongContent) {
     
     // Should handle without crashing
     EXPECT_GE(result.confidence_score, 0.0);
+    EXPECT_FALSE(result.gap_detected);
+}
+
+// ============================================================================
+// Phase 2: Token Probability & Perplexity Tests
+// ============================================================================
+
+TEST_F(KnowledgeGapDetectorTest, PerplexityCalculation) {
+    // Test perplexity calculation with known probabilities
+    GenerationContext context;
+    context.token_probs = {0.9, 0.85, 0.88, 0.92, 0.87}; // High confidence tokens
+    context.generation_started = true;
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectDuringGeneration("test query", docs, context);
+    
+    // With high token probabilities, no gap should be detected
+    EXPECT_FALSE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, HighPerplexityDetection) {
+    // Test that high perplexity (low probabilities) triggers gap
+    GenerationContext context;
+    context.token_probs = {0.2, 0.15, 0.18, 0.12, 0.19}; // Low confidence tokens
+    context.generation_started = true;
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectDuringGeneration("test query", docs, context);
+    
+    // Low token probabilities should trigger gap detection
+    EXPECT_TRUE(result.gap_detected);
+    EXPECT_EQ(result.gap_type, GapType::UNCERTAIN_GENERATION);
+}
+
+TEST_F(KnowledgeGapDetectorTest, SlidingWindowPerplexity) {
+    // Test sliding window perplexity with varying token probabilities
+    GenerationContext context;
+    // Mix of high and low confidence tokens
+    context.token_probs = {0.9, 0.85, 0.2, 0.15, 0.1, 0.88, 0.92, 0.87};
+    context.generation_started = true;
+    
+    config_.perplexity_window_size = 3;
+    config_.perplexity_threshold = 50.0; // Adjust for test
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectDuringGeneration("test query", docs, context);
+    
+    // Should detect anomaly in the low-probability window
+    EXPECT_TRUE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, OutlierTokenRemoval) {
+    // Test that outlier tokens are properly handled
+    GenerationContext context;
+    // Mostly high probabilities with one outlier
+    context.token_probs = {0.9, 0.88, 0.92, 0.05, 0.89, 0.91};
+    context.generation_started = true;
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectDuringGeneration("test query", docs, context);
+    
+    // Outlier removal should prevent false positive
+    // (depends on zscore threshold and implementation)
+    EXPECT_FALSE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, ConfidenceScoreAggregation) {
+    // Test confidence score calculation
+    GenerationContext context;
+    context.token_probs = {0.85, 0.82, 0.88, 0.86, 0.84};
+    context.generation_started = true;
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectDuringGeneration("test query", docs, context);
+    
+    EXPECT_FALSE(result.gap_detected);
+    EXPECT_GT(result.confidence_score, 0.7);
+}
+
+// ============================================================================
+// Phase 2: Self-Consistency Check Tests
+// ============================================================================
+
+TEST_F(KnowledgeGapDetectorTest, SelfConsistencyMultipleSamples) {
+    // Test self-consistency check with multiple samples
+    config_.enable_self_consistency_check = true;
+    config_.self_consistency_samples = 5;
+    config_.consistency_threshold = 0.6;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Document about AI and machine learning",
+         "More info on AI systems",
+         "AI applications in industry"},
+        {0.9, 0.85, 0.88}
+    );
+    
+    auto result = detector_->detectPostGeneration(
+        "What is AI?",
+        docs,
+        "AI is artificial intelligence used in various applications."
+    );
+    
+    // Self-consistency check should pass (placeholder implementation returns true)
+    EXPECT_FALSE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, SemanticSimilarityCalculation) {
+    // Test semantic similarity between texts
+    std::string text1 = "The quick brown fox jumps over the lazy dog";
+    std::string text2 = "A fast brown fox leaps over a sleepy dog";
+    
+    // Both texts have similar content, should have reasonable similarity
+    // (using basic Jaccard similarity in implementation)
+    
+    auto docs = createDocuments({"Doc1"}, {0.9});
+    
+    // Create samples with similar content
+    auto result = detector_->detectPostGeneration(
+        "test query",
+        docs,
+        text1
+    );
+    
+    // Should not detect gap with consistent content
+    EXPECT_FALSE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, ContradictionDetection) {
+    // Test contradiction detection between statements
+    config_.enable_self_consistency_check = true;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    // In real implementation, this would detect contradictions
+    // Current placeholder always returns true (consistent)
+    auto result = detector_->detectPostGeneration(
+        "test query",
+        docs,
+        "The system is operational and not broken."
+    );
+    
+    // Placeholder implementation won't detect this
+    EXPECT_FALSE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, ConsistencyThresholdTuning) {
+    // Test that consistency threshold affects detection
+    config_.enable_self_consistency_check = true;
+    config_.consistency_threshold = 0.9; // Very high threshold
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectPostGeneration(
+        "test query",
+        docs,
+        "Test answer"
+    );
+    
+    // Higher threshold might trigger gap (depends on implementation)
+    // Current placeholder returns consistent
+    EXPECT_FALSE(result.gap_detected);
+}
+
+// ============================================================================
+// Phase 2: FLARE Active Retrieval Tests
+// ============================================================================
+
+TEST_F(KnowledgeGapDetectorTest, FLAREActiveRetrievalDisabled) {
+    // Test FLARE when disabled
+    config_.enable_flare = false;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2"},
+        {0.8, 0.8}
+    );
+    
+    auto result = detector_->detectWithActiveRetrieval("test query", docs);
+    
+    // Should fall back to regular pre-generation detection
+    EXPECT_TRUE(result.gap_detected); // < 3 documents
+}
+
+TEST_F(KnowledgeGapDetectorTest, FLAREIterativeRetrieval) {
+    // Test FLARE iterative retrieval
+    config_.enable_flare = true;
+    config_.max_retrieval_rounds = 3;
+    config_.flare_confidence_threshold = 0.5;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Initial document with some information"},
+        {0.6}
+    );
+    
+    auto result = detector_->detectWithActiveRetrieval(
+        "Query about complex topic needing multiple sources",
+        docs
+    );
+    
+    // FLARE should attempt retrieval but placeholder returns empty
+    // So gap likely detected
+    EXPECT_TRUE(result.gap_detected);
+}
+
+TEST_F(KnowledgeGapDetectorTest, FLARESentenceSplitting) {
+    // Test sentence splitting for FLARE
+    std::string text = "First sentence. Second sentence! Third sentence? Fourth sentence";
+    
+    // Indirectly test through FLARE
+    config_.enable_flare = true;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectWithActiveRetrieval("test", docs);
+    
+    // Should handle sentence splitting internally
+    EXPECT_FALSE(result.gap_detected); // Good documents
+}
+
+TEST_F(KnowledgeGapDetectorTest, FLAREQueryReformulation) {
+    // Test query reformulation in FLARE
+    config_.enable_flare = true;
+    config_.max_retrieval_rounds = 2;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Partial information about topic"},
+        {0.7}
+    );
+    
+    auto result = detector_->detectWithActiveRetrieval(
+        "Query needing more context and details",
+        docs
+    );
+    
+    // Should attempt reformulation and re-retrieval
+    EXPECT_TRUE(result.gap_detected); // Placeholder retrieval returns empty
+}
+
+TEST_F(KnowledgeGapDetectorTest, FLAREMaxRoundsLimit) {
+    // Test that FLARE respects max retrieval rounds
+    config_.enable_flare = true;
+    config_.max_retrieval_rounds = 3;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Insufficient doc"},
+        {0.5}
+    );
+    
+    auto result = detector_->detectWithActiveRetrieval("test query", docs);
+    
+    // Should stop after max rounds
+    EXPECT_TRUE(result.gap_detected);
+    EXPECT_EQ(result.num_retrieved_docs, docs.size()); // No actual retrieval in placeholder
+}
+
+TEST_F(KnowledgeGapDetectorTest, FLAREDocumentDeduplication) {
+    // Test that FLARE deduplicates documents
+    config_.enable_flare = true;
+    detector_->setConfig(config_);
+    
+    auto docs = createDocuments(
+        {"Doc1", "Doc2", "Doc3"},
+        {0.9, 0.9, 0.9}
+    );
+    
+    auto result = detector_->detectWithActiveRetrieval("test query", docs);
+    
+    // Should not have duplicate documents
+    EXPECT_FALSE(result.gap_detected); // Good coverage
+    EXPECT_EQ(result.num_retrieved_docs, 3); // No duplicates added
+}
+
+// ============================================================================
+// Phase 2: Configuration Tests
+// ============================================================================
+
+TEST_F(KnowledgeGapDetectorTest, Phase2ConfigurationDefaults) {
+    // Test Phase 2 configuration defaults
+    auto config = detector_->getConfig();
+    
+    EXPECT_TRUE(config.enable_token_probability);
+    EXPECT_EQ(config.perplexity_threshold, 100.0);
+    EXPECT_EQ(config.perplexity_window_size, 10u);
+    EXPECT_EQ(config.outlier_zscore_threshold, 3.0);
+    EXPECT_EQ(config.self_consistency_samples, 5u);
+    EXPECT_EQ(config.consistency_threshold, 0.6);
+    EXPECT_FALSE(config.enable_flare);
+    EXPECT_EQ(config.max_retrieval_rounds, 3u);
+}
+
+TEST_F(KnowledgeGapDetectorTest, Phase2FactoryConfiguration) {
+    // Test that factory methods configure Phase 2 features properly
+    
+    // Fast mode: Phase 2 features disabled
+    auto fast_detector = KnowledgeGapDetectorFactory::createFast();
+    auto fast_config = fast_detector->getConfig();
+    EXPECT_FALSE(fast_config.enable_token_probability);
+    EXPECT_FALSE(fast_config.enable_flare);
+    
+    // Balanced mode: Token probability enabled
+    auto balanced_detector = KnowledgeGapDetectorFactory::createBalanced();
+    auto balanced_config = balanced_detector->getConfig();
+    EXPECT_TRUE(balanced_config.enable_token_probability);
+    
+    // Thorough mode: All Phase 2 features enabled
+    auto thorough_detector = KnowledgeGapDetectorFactory::createThorough();
+    auto thorough_config = thorough_detector->getConfig();
+    EXPECT_TRUE(thorough_config.enable_token_probability);
+    EXPECT_TRUE(thorough_config.enable_self_consistency_check);
 }
 
 int main(int argc, char** argv) {
