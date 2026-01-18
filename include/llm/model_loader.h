@@ -7,6 +7,8 @@
 #include <chrono>
 #include <mutex>
 #include <optional>
+#include <future>
+#include <thread>
 
 /**
  * @file model_loader.h
@@ -197,6 +199,9 @@ private:
     
     std::unordered_map<std::string, std::unique_ptr<CachedModel>> models_;
     mutable std::mutex mutex_;
+    
+    // Async loading tracking
+    std::unordered_map<std::string, std::future<CachedModel*>> pending_loads_;
     
     // Statistics
     size_t total_vram_mb_ = 0;

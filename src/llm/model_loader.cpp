@@ -60,6 +60,47 @@ CachedModel* LazyModelLoader::getOrLoadModel(
         return it->second.get();
     }
     
+    // Check if async preload is in progress
+    auto pending_it = pending_loads_.find(model_id);
+    if (pending_it != pending_loads_.end()) {
+        spdlog::info("Waiting for async preload to complete: {}", model_id);
+        
+        // Release lock temporarily to allow async task to complete
+        mutex_.unlock();
+        
+        try {
+            // Wait for async load to complete (with timeout)
+            auto status = pending_it->second.wait_for(std::chrono::seconds(300)); // 5 minute timeout
+            
+            if (status == std::future_status::ready) {
+                auto* model = pending_it->second.get();
+                
+                // Reacquire lock and clean up pending entry
+                mutex_.lock();
+                pending_loads_.erase(pending_it);
+                
+                if (model) {
+                    spdlog::info("Async preload completed for: {}", model_id);
+                    cache_hits_++; // Count as cache hit since it was preloaded
+                    return model;
+                } else {
+                    spdlog::error("Async preload failed for: {}", model_id);
+                    // Fall through to synchronous load attempt
+                }
+            } else {
+                spdlog::error("Async preload timed out for: {}", model_id);
+                mutex_.lock();
+                pending_loads_.erase(pending_it);
+                // Fall through to synchronous load attempt
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Exception waiting for async load: {}", e.what());
+            mutex_.lock();
+            pending_loads_.erase(pending_it);
+            // Fall through to synchronous load attempt
+        }
+    }
+    
     spdlog::info("Model cache miss: {} - loading lazily", model_id);
     cache_misses_++;
     
@@ -78,12 +119,52 @@ bool LazyModelLoader::preloadModel(
     const std::string& model_path,
     const json& load_config
 ) {
-    spdlog::info("Preloading model in background: {}", model_id);
+    std::lock_guard<std::mutex> lock(mutex_);
     
-    // TODO: Implement async loading in v1.3.0
-    // For now, just do synchronous load
-    auto* model = getOrLoadModel(model_id, model_path, load_config);
-    return model != nullptr;
+    // Check if already loaded
+    if (models_.find(model_id) != models_.end()) {
+        spdlog::info("Model {} already loaded, skipping preload", model_id);
+        return true;
+    }
+    
+    // Check if already being loaded
+    if (pending_loads_.find(model_id) != pending_loads_.end()) {
+        spdlog::info("Model {} is already being preloaded", model_id);
+        return true;
+    }
+    
+    spdlog::info("Starting async preload for model: {}", model_id);
+    
+    // Launch async loading task
+    pending_loads_[model_id] = std::async(std::launch::async, [this, model_id, model_path, load_config]() -> CachedModel* {
+        try {
+            // Acquire lock for the actual loading
+            std::lock_guard<std::mutex> load_lock(mutex_);
+            
+            // Check again if model was loaded while we were waiting
+            auto it = models_.find(model_id);
+            if (it != models_.end()) {
+                spdlog::debug("Model {} was loaded during async wait", model_id);
+                return it->second.get();
+            }
+            
+            // Perform the actual load
+            auto* model = loadModelInternal(model_id, model_path, load_config);
+            if (model) {
+                spdlog::info("Async preload completed successfully for: {}", model_id);
+            } else {
+                spdlog::error("Async preload failed for: {}", model_id);
+            }
+            
+            return model;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
+            return nullptr;
+        }
+    });
+    
+    return true;
 }
 
 bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
