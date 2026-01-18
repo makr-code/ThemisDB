@@ -22,14 +22,15 @@
 #include <limits>
 #include <algorithm>
 
-namespace themisdb {
+namespace themis {
 namespace query {
 namespace functions {
 
 // ============================================================================
 // ALL_SHORTEST_PATHS - Find all shortest paths between two vertices
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class AllShortestPathsFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -66,11 +67,13 @@ public:
         return JsonValue::array();
     }
 };
+*/
 
 // ============================================================================
 // K_SHORTEST_PATHS - Find K shortest paths (Yen's algorithm)
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class KShortestPathsFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -98,11 +101,13 @@ public:
         return JsonValue::array();
     }
 };
+*/
 
 // ============================================================================
 // WEIGHTED_SHORTEST_PATH - Dijkstra's algorithm with edge weights
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class WeightedShortestPathFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -137,11 +142,13 @@ public:
         });
     }
 };
+*/
 
 // ============================================================================
 // PATH_LENGTH - Get the length (number of edges) in a path
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class PathLengthFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -170,11 +177,13 @@ public:
         return JsonValue(0);
     }
 };
+*/
 
 // ============================================================================
 // PATH_VERTICES - Extract vertices from a path
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class PathVerticesFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -199,11 +208,13 @@ public:
         return JsonValue::array();
     }
 };
+*/
 
 // ============================================================================
 // PATH_EDGES - Extract edges from a path
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class PathEdgesFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -228,11 +239,13 @@ public:
         return JsonValue::array();
     }
 };
+*/
 
 // ============================================================================
 // PATH_WEIGHT - Calculate total weight of a path
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class PathWeightFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -267,6 +280,7 @@ public:
         return JsonValue(totalWeight);
     }
 };
+*/
 
 // ============================================================================
 // LOUVAIN_COMMUNITIES - Community detection using Louvain algorithm
@@ -277,27 +291,330 @@ public:
     FunctionSignature signature() const override {
         return {
             "LOUVAIN_COMMUNITIES",
-            {ParamType::STRING},  // graph name or edge collection
-            ParamType::ARRAY,     // [{community: id, members: [...]}]
-            1, 2,
+            "Graph",
             "Detects communities using the Louvain algorithm",
+            {
+                {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
+                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: min_modularity_gain (default: 0.000001)"}
+            },
+            ArgType::ARRAY,
+            true,
+            false,
+            {"LOUVAIN_COMMUNITIES([edges])"},
             FunctionCost{CostComplexity::QUADRATIC, 500.0, 5.0, true, true, "graph"}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty()) return JsonValue::array();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                          const FunctionContext&) const override {
+        if (args.empty() || !args[0].is_array()) {
+            // Return structured empty result for consistency with success path
+            return nlohmann::json{
+                {"communities", nlohmann::json::array()},
+                {"overall_modularity", 0.0},
+                {"num_communities", 0}
+            };
+        }
         
-        // Louvain algorithm implementation would use graph storage
-        // Returns array of community objects
-        return JsonValue::array();
+        const auto& edges = args[0];
+        double min_modularity_gain = 0.000001;
+        
+        // Parse options
+        if (args.size() > 1 && args[1].is_object()) {
+            if (args[1].contains("min_modularity_gain")) {
+                min_modularity_gain = args[1]["min_modularity_gain"].get<double>();
+            }
+        }
+        
+        // Extract nodes and build adjacency
+        std::unordered_set<std::string> node_set;
+        std::unordered_map<std::string, std::vector<std::string>> adjacency;
+        
+        for (const auto& edge : edges) {
+            if (!edge.is_object() || !edge.contains("_from") || !edge.contains("_to")) {
+                continue;
+            }
+            
+            std::string from = edge["_from"].get<std::string>();
+            std::string to = edge["_to"].get<std::string>();
+            
+            node_set.insert(from);
+            node_set.insert(to);
+            adjacency[from].push_back(to);
+            adjacency[to].push_back(from);  // Treat as undirected
+        }
+        
+        if (node_set.empty()) {
+            return nlohmann::json::array();
+        }
+        
+        std::vector<std::string> nodes(node_set.begin(), node_set.end());
+        
+        // Initialize: each node in its own community
+        std::unordered_map<std::string, int> node_to_comm;
+        int next_comm_id = 0;
+        for (const auto& node : nodes) {
+            node_to_comm[node] = next_comm_id++;
+        }
+        
+        // Count total edges (note: treating graph as undirected for community detection)
+        // Each edge in the input appears once, but is added twice to adjacency (both directions)
+        double m = edges.size();
+        if (m == 0.0) m = 1.0;  // Avoid division by zero
+        
+        // Compute node degrees
+        std::unordered_map<std::string, double> node_degree;
+        for (const auto& node : nodes) {
+            node_degree[node] = adjacency[node].size();
+        }
+        
+        // Louvain optimization
+        bool improved = true;
+        int iteration = 0;
+        const int MAX_ITERATIONS = 100;
+        
+        while (improved && iteration < MAX_ITERATIONS) {
+            improved = false;
+            iteration++;
+            
+            for (const auto& node : nodes) {
+                int current_comm = node_to_comm[node];
+                
+                // Collect neighboring communities
+                std::unordered_map<int, double> comm_edges;
+                
+                for (const auto& neighbor : adjacency[node]) {
+                    comm_edges[node_to_comm[neighbor]] += 1.0;
+                }
+                
+                if (comm_edges.empty()) continue;
+                
+                // Try each neighboring community
+                int best_comm = current_comm;
+                double best_delta_q = 0.0;
+                
+                for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
+                    if (candidate_comm == current_comm) continue;
+                    
+                    double delta_q = edges_to_comm / m;
+                    
+                    if (delta_q > best_delta_q) {
+                        best_delta_q = delta_q;
+                        best_comm = candidate_comm;
+                    }
+                }
+                
+                if (best_delta_q > min_modularity_gain && best_comm != current_comm) {
+                    node_to_comm[node] = best_comm;
+                    improved = true;
+                }
+            }
+        }
+        
+        // Group nodes by community
+        std::unordered_map<int, std::vector<std::string>> communities;
+        for (const auto& [node, comm] : node_to_comm) {
+            communities[comm].push_back(node);
+        }
+        
+        // Calculate modularity for each community
+        nlohmann::json result = nlohmann::json::array();
+        int comm_id = 0;
+        double overall_modularity = 0.0;
+        
+        for (const auto& [_, members] : communities) {
+            // Calculate internal edges (counted twice since graph is undirected)
+            int internal_edges = 0;
+            for (const auto& node : members) {
+                for (const auto& neighbor : adjacency[node]) {
+                    if (node_to_comm[neighbor] == node_to_comm[node]) {
+                        internal_edges++;
+                    }
+                }
+            }
+            internal_edges /= 2;  // Each internal edge counted twice in undirected graph
+            
+            // Calculate expected edges
+            double total_degree = 0.0;
+            for (const auto& node : members) {
+                total_degree += node_degree[node];
+            }
+            
+            double expected = (total_degree * total_degree) / (4.0 * m);
+            double modularity = (internal_edges / m) - expected / (2.0 * m);
+            overall_modularity += modularity;
+            
+            // Calculate density
+            double max_edges = members.size() * (members.size() - 1) / 2.0;
+            double density = max_edges > 0 ? internal_edges / max_edges : 0.0;
+            
+            nlohmann::json comm_obj = {
+                {"id", comm_id++},
+                {"members", members},
+                {"size", members.size()},
+                {"modularity", modularity},
+                {"density", density}
+            };
+            
+            result.push_back(comm_obj);
+        }
+        
+        // Wrap in result object
+        return nlohmann::json{
+            {"communities", result},
+            {"overall_modularity", overall_modularity},
+            {"num_communities", communities.size()}
+        };
+    }
+};
+
+// ============================================================================
+// LABEL_PROPAGATION_COMMUNITIES - Fast community detection
+// ============================================================================
+
+class LabelPropagationCommunitiesFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "LABEL_PROPAGATION_COMMUNITIES",
+            "Graph",
+            "Fast community detection using label propagation",
+            {
+                {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
+                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: max_iterations (default: 100)"}
+            },
+            ArgType::ARRAY,
+            true,
+            false,
+            {"LABEL_PROPAGATION_COMMUNITIES([edges])"},
+            FunctionCost{CostComplexity::LINEAR, 200.0, 2.0, true, true, "graph"}
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                          const FunctionContext&) const override {
+        if (args.empty() || !args[0].is_array()) {
+            // Return structured empty result for consistency with success path
+            return nlohmann::json{
+                {"communities", nlohmann::json::array()},
+                {"num_communities", 0}
+            };
+        }
+        
+        const auto& edges = args[0];
+        int max_iterations = 100;
+        
+        // Parse options
+        if (args.size() > 1 && args[1].is_object()) {
+            if (args[1].contains("max_iterations")) {
+                max_iterations = args[1]["max_iterations"].get<int>();
+            }
+        }
+        
+        // Extract nodes and build adjacency (treating graph as undirected)
+        std::unordered_set<std::string> node_set;
+        std::unordered_map<std::string, std::vector<std::string>> adjacency;
+        
+        for (const auto& edge : edges) {
+            if (!edge.is_object() || !edge.contains("_from") || !edge.contains("_to")) {
+                continue;
+            }
+            
+            std::string from = edge["_from"].get<std::string>();
+            std::string to = edge["_to"].get<std::string>();
+            
+            node_set.insert(from);
+            node_set.insert(to);
+            adjacency[from].push_back(to);
+            adjacency[to].push_back(from);  // Treat as undirected
+        }
+        
+        if (node_set.empty()) {
+            // Return structured empty result for consistency with success path
+            return nlohmann::json{
+                {"communities", nlohmann::json::array()},
+                {"num_communities", 0}
+            };
+        }
+        
+        std::vector<std::string> nodes(node_set.begin(), node_set.end());
+        
+        // Initialize: each node gets unique label
+        std::unordered_map<std::string, int> labels;
+        int next_label = 0;
+        for (const auto& node : nodes) {
+            labels[node] = next_label++;
+        }
+        
+        // Iterative label propagation
+        bool changed = true;
+        int iteration = 0;
+        
+        while (changed && iteration < max_iterations) {
+            changed = false;
+            iteration++;
+            
+            for (const auto& node : nodes) {
+                // Count labels among neighbors
+                std::unordered_map<int, int> label_count;
+                
+                for (const auto& neighbor : adjacency[node]) {
+                    label_count[labels[neighbor]]++;
+                }
+                
+                if (label_count.empty()) continue;
+                
+                // Find most frequent label
+                int best_label = labels[node];
+                int best_count = 0;
+                
+                for (const auto& [label, count] : label_count) {
+                    if (count > best_count) {
+                        best_count = count;
+                        best_label = label;
+                    }
+                }
+                
+                // Update label if changed
+                if (best_label != labels[node]) {
+                    labels[node] = best_label;
+                    changed = true;
+                }
+            }
+        }
+        
+        // Group nodes by community (label)
+        std::unordered_map<int, std::vector<std::string>> communities;
+        for (const auto& [node, label] : labels) {
+            communities[label].push_back(node);
+        }
+        
+        // Format result
+        nlohmann::json result = nlohmann::json::array();
+        int comm_id = 0;
+        
+        for (const auto& [_, members] : communities) {
+            nlohmann::json comm_obj = {
+                {"id", comm_id++},
+                {"members", members},
+                {"size", members.size()}
+            };
+            
+            result.push_back(comm_obj);
+        }
+        
+        return nlohmann::json{
+            {"communities", result},
+            {"num_communities", communities.size()}
+        };
     }
 };
 
 // ============================================================================
 // BETWEENNESS_CENTRALITY - Calculate betweenness centrality for vertices
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class BetweennessCentralityFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -318,11 +635,13 @@ public:
         return JsonValue::object();
     }
 };
+*/
 
 // ============================================================================
 // CLOSENESS_CENTRALITY - Calculate closeness centrality for vertices
 // ============================================================================
-
+// TODO: Implement - currently a stub using undefined API types
+/*
 class ClosenessCentralityFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -343,24 +662,29 @@ public:
         return JsonValue::object();
     }
 };
+*/
 
 // ============================================================================
 // Registration
 // ============================================================================
 
 inline void registerGraphExtensions(FunctionRegistry& registry) {
-    registry.registerFunction(std::make_unique<AllShortestPathsFunction>());
-    registry.registerFunction(std::make_unique<KShortestPathsFunction>());
-    registry.registerFunction(std::make_unique<WeightedShortestPathFunction>());
-    registry.registerFunction(std::make_unique<PathLengthFunction>());
-    registry.registerFunction(std::make_unique<PathVerticesFunction>());
-    registry.registerFunction(std::make_unique<PathEdgesFunction>());
-    registry.registerFunction(std::make_unique<PathWeightFunction>());
+    // Community detection functions (implemented)
     registry.registerFunction(std::make_unique<LouvainCommunitiesFunction>());
-    registry.registerFunction(std::make_unique<BetweennessCentralityFunction>());
-    registry.registerFunction(std::make_unique<ClosenessCentralityFunction>());
+    registry.registerFunction(std::make_unique<LabelPropagationCommunitiesFunction>());
+    
+    // TODO: Implement these stub functions
+    // registry.registerFunction(std::make_unique<AllShortestPathsFunction>());
+    // registry.registerFunction(std::make_unique<KShortestPathsFunction>());
+    // registry.registerFunction(std::make_unique<WeightedShortestPathFunction>());
+    // registry.registerFunction(std::make_unique<PathLengthFunction>());
+    // registry.registerFunction(std::make_unique<PathVerticesFunction>());
+    // registry.registerFunction(std::make_unique<PathEdgesFunction>());
+    // registry.registerFunction(std::make_unique<PathWeightFunction>());
+    // registry.registerFunction(std::make_unique<BetweennessCentralityFunction>());
+    // registry.registerFunction(std::make_unique<ClosenessCentralityFunction>());
 }
 
 } // namespace functions
 } // namespace query
-} // namespace themisdb
+} // namespace themis

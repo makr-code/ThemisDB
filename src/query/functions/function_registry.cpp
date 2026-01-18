@@ -36,6 +36,7 @@
 #include "query/functions/crs_functions.h"
 #include "query/functions/vector_functions.h"
 #include "query/functions/graph_functions.h"
+#include "query/functions/graph_extensions.h"
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
 #include "query/functions/collection_functions.h"
@@ -67,6 +68,7 @@ void registerBuiltinFunctions() {
         registerCrsFunctions(registry);         // Coordinate transformations (ETRS89, UTM, etc.)
         registerVectorFunctions(registry);      // ML embeddings & similarity
         registerGraphFunctions(registry);       // Graph traversal & analysis
+        registerGraphExtensions(registry);      // Advanced graph functions (community detection)
         
         // SQL-compatible functions
         registerRelationalFunctions(registry);  // Joins, aggregation, window functions
