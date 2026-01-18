@@ -424,8 +424,8 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
         }
     }
     
-    // Query is ethical if it contains 2+ ethical keywords
-    return keyword_count >= 2;
+    // Query is ethical if it contains N+ ethical keywords (configurable)
+    return keyword_count >= impl_->config.ethical_keyword_threshold;
 }
 
 int KnowledgeGapDetector::countEthicalPerspectives(

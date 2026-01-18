@@ -105,6 +105,7 @@ struct KnowledgeGapConfig {
     bool enable_ethical_gap_detection = true;    ///< Enable ethical perspective gap detection
     size_t min_ethical_perspectives = 2;         ///< Minimum diverse perspectives required
     double ethical_diversity_threshold = 0.6;    ///< Minimum perspective diversity score
+    int ethical_keyword_threshold = 2;           ///< Minimum ethical keywords to classify as ethical query
     
     // Advanced options
     bool enable_self_consistency_check = true;   ///< Check answer consistency

@@ -185,14 +185,17 @@ std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
 
 std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
     // TODO: Implement actual LLM call
-    // This is a placeholder implementation
+    // This is a placeholder implementation that returns a hardcoded response.
+    // NOTE: This placeholder affects test reliability - tests may pass with
+    // unrealistic scores until actual LLM integration is complete.
+    // Real implementation should call an actual LLM service (e.g., llama.cpp)
     THEMIS_DEBUG("LLM call with prompt length: {}", prompt.size());
     
     if (impl_) {
         impl_->total_calls++;
     }
     
-    // Placeholder response
+    // Placeholder response - replace with actual LLM inference
     return "Reasoning: The input has been analyzed according to criteria.\nScore: 0.75";
 }
 

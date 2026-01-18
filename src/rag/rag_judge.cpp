@@ -29,6 +29,13 @@ struct RAGJudge::Impl {
 RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
+    
+    // Validate configuration weights
+    if (!config.validateWeights()) {
+        THEMIS_WARN("RAG Judge configuration has invalid weights (not summing to 1.0). "
+                   "This may lead to unexpected scoring behavior.");
+    }
+    
     THEMIS_INFO("RAG Judge initialized with mode: {}", static_cast<int>(config.mode));
 }
 
@@ -567,7 +574,8 @@ bool RAGJudge::detectBias(const std::string& text) {
     }
     
     // If text has many absolute statements, likely biased
-    return absolute_count > 5;
+    // Threshold is configurable via config
+    return absolute_count > impl_->config.bias_detection_threshold;
 }
 
 bool RAGJudge::hasEthicalCitations(const std::string& text) {

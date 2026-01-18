@@ -139,6 +139,9 @@ struct RAGJudgeConfig {
     double moral_diversity_weight = 0.30;        ///< NEW: Moral perspective diversity
     double citation_quality_weight = 0.30;       ///< NEW: Citation for ethical claims
     
+    // Ethical detection thresholds
+    int bias_detection_threshold = 5;            ///< NEW: Number of absolute statements for bias detection
+    
     // Advanced options
     bool enable_claim_verification = true;       ///< Verify each claim
     bool enable_citation_check = true;           ///< Check source attribution
@@ -148,6 +151,24 @@ struct RAGJudgeConfig {
     bool cache_evaluations = true;               ///< Cache results for identical inputs
     bool async_evaluation = false;               ///< Run evaluation asynchronously
     size_t batch_size = 8;                      ///< For batch processing
+    
+    /**
+     * @brief Validate that weights sum to approximately 1.0
+     * @return true if weights are valid, false otherwise
+     */
+    bool validateWeights() const {
+        const double epsilon = 0.001;
+        double main_sum = faithfulness_weight + relevance_weight + 
+                         completeness_weight + coherence_weight + 
+                         ethical_compliance_weight;
+        double ethical_sum = autonomy_respect_weight + moral_diversity_weight + 
+                           citation_quality_weight;
+        
+        bool main_valid = std::abs(main_sum - 1.0) < epsilon;
+        bool ethical_valid = std::abs(ethical_sum - 1.0) < epsilon;
+        
+        return main_valid && ethical_valid;
+    }
 };
 
 /**
