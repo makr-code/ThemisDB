@@ -168,6 +168,12 @@ inline std::vector<knowledge_gap::RetrievedDocument> convertToRetrievedDocuments
  * @param k Number of results per query
  * @param metric Distance metric
  * @return Vector of document lists (one per query)
+ * 
+ * @note This is a placeholder implementation. Full batch processing
+ *       requires integration with an embedding model and will be
+ *       implemented in Phase 2.
+ * 
+ * @warning DO NOT USE IN PRODUCTION - Returns empty results
  */
 inline std::vector<std::vector<knowledge_gap::RetrievedDocument>> 
 batchConvertToRetrievedDocuments(
@@ -180,16 +186,28 @@ batchConvertToRetrievedDocuments(
     std::vector<std::vector<knowledge_gap::RetrievedDocument>> all_documents;
     all_documents.reserve(queries.size());
     
-    // TODO: Implement batch embedding and search
-    // For now, process sequentially
+    // TODO Phase 2: Implement batch embedding and search
+    // This requires:
+    // 1. Batch embedding generation (e.g., via GPU-accelerated model)
+    // 2. Batch vector search using VectorIndexManager
+    // 3. Parallel document retrieval
+    
+    // Placeholder implementation - returns empty results
+    // DO NOT USE IN PRODUCTION
     for (const auto& query : queries) {
-        // Note: This assumes you have an embedding function
-        // In practice, integrate with your embedding model
-        // std::vector<float> query_embedding = embedQuery(query);
+        // Example of what the final implementation would look like:
+        // std::vector<float> query_embedding = batchEmbedQueries({query})[0];
         // auto [status, results] = vector_mgr.searchKnn(query_embedding, k);
-        // all_documents.push_back(convertToRetrievedDocuments(results, db, metric));
+        // if (status.ok) {
+        //     all_documents.push_back(convertToRetrievedDocuments(results, db, metric));
+        // } else {
+        //     all_documents.push_back({});
+        // }
         
-        // Placeholder for now
+        (void)vector_mgr;  // Suppress unused parameter warning
+        (void)db;
+        (void)k;
+        (void)metric;
         all_documents.push_back({});
     }
     

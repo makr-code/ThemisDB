@@ -65,7 +65,20 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                     int year = std::stoi(ts.substr(0, 4));
                     auto now = std::chrono::system_clock::now();
                     auto now_time = std::chrono::system_clock::to_time_t(now);
-                    std::tm* now_tm = std::localtime(&now_time);
+                    
+                    // Thread-safe time conversion
+                    #if defined(_WIN32) || defined(_WIN64)
+                        std::tm now_tm_storage;
+                        std::tm* now_tm = &now_tm_storage;
+                        localtime_s(now_tm, &now_time);
+                    #else
+                        std::tm now_tm_storage;
+                        std::tm* now_tm = localtime_r(&now_time, &now_tm_storage);
+                        if (!now_tm) {
+                            continue; // Skip on error
+                        }
+                    #endif
+                    
                     int current_year = now_tm->tm_year + 1900;
                     
                     if (year < current_year - 2) {
@@ -314,9 +327,8 @@ double KnowledgeGapDetector::calculateAverageSimilarity(
     double avg = sum / docs.size();
     
     // Ensure normalized to 0.0-1.0 range
-    // If using cosine distance (1 - cosine_similarity), convert to similarity
-    // Most vector stores return distance where smaller is better
-    // For cosine: distance = 1 - similarity, so similarity = 1 - distance
+    // Note: Similarity scores should already be normalized when creating RetrievedDocument
+    // This clamp is a safety measure for edge cases
     return std::clamp(avg, 0.0, 1.0);
 }
 
@@ -434,13 +446,15 @@ std::vector<std::string> KnowledgeGapDetector::findMissingAspects(
     
     // Convert to lowercase for case-insensitive matching
     std::transform(all_content.begin(), all_content.end(), 
-                   all_content.begin(), ::tolower);
+                   all_content.begin(), 
+                   [](unsigned char c){ return std::tolower(c); });
     
     // Check each aspect
     for (const auto& aspect : query_aspects) {
         std::string aspect_lower = aspect;
         std::transform(aspect_lower.begin(), aspect_lower.end(),
-                      aspect_lower.begin(), ::tolower);
+                      aspect_lower.begin(), 
+                      [](unsigned char c){ return std::tolower(c); });
         
         // If aspect not found in any document, mark as missing
         if (all_content.find(aspect_lower) == std::string::npos) {
@@ -528,8 +542,8 @@ bool KnowledgeGapDetector::verifyClaim(
     std::string current_term;
     
     for (char c : claim) {
-        if (std::isalnum(c) || c == '_') {
-            current_term += std::tolower(c);
+        if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
+            current_term += std::tolower(static_cast<unsigned char>(c));
         } else if (!current_term.empty()) {
             if (current_term.length() > 3) { // Only significant terms
                 claim_terms.push_back(current_term);
@@ -552,7 +566,8 @@ bool KnowledgeGapDetector::verifyClaim(
     for (const auto& doc : docs) {
         std::string content_lower = doc.content;
         std::transform(content_lower.begin(), content_lower.end(),
-                      content_lower.begin(), ::tolower);
+                      content_lower.begin(), 
+                      [](unsigned char c){ return std::tolower(c); });
         
         for (const auto& term : claim_terms) {
             if (content_lower.find(term) != std::string::npos) {

@@ -427,9 +427,9 @@ TEST(RAGPipeline, KnowledgeGapDetection) {
 
 ## See Also
 
-- [RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md](../../docs/de/llm/RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md) - Scientific background
-- [RAG_KNOWLEDGE_GAP_DETECTOR_TODO.md](../../docs/de/llm/RAG_KNOWLEDGE_GAP_DETECTOR_TODO.md) - Implementation roadmap
-- [RAG_IMPLEMENTATION_GUIDE.md](../../docs/de/llm/RAG_IMPLEMENTATION_GUIDE.md) - General RAG guide
+- [RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md](RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md) - Scientific background
+- [RAG_KNOWLEDGE_GAP_DETECTOR_TODO.md](RAG_KNOWLEDGE_GAP_DETECTOR_TODO.md) - Implementation roadmap
+- [RAG_IMPLEMENTATION_GUIDE.md](RAG_IMPLEMENTATION_GUIDE.md) - General RAG guide
 - API Reference: `include/rag/knowledge_gap_detector.h`
 
 ---
