@@ -1278,6 +1278,35 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "LLM Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
     endif()
+    
+    # Claim Extractor Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
+        message(STATUS "Adding Claim Extractor tests")
+        
+        add_executable(test_claim_extractor
+            test_claim_extractor.cpp
+        )
+        
+        target_link_libraries(test_claim_extractor PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_claim_extractor PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ClaimExtractorTests COMMAND test_claim_extractor)
+        
+        set_tests_properties(ClaimExtractorTests PROPERTIES
+            LABELS "rag;llm;claim;consistency;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
+    endif()
 endif()
 
 # ============================================================================

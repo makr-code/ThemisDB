@@ -29,6 +29,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/knowledge_gap_detector.cpp
         ../src/rag/rag_judge.cpp
         ../src/rag/llm_integration.cpp
+        ../src/rag/claim_extractor.cpp
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
