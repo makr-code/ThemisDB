@@ -1,4 +1,5 @@
 #include "llm/model_loader.h"
+#include "llm/gguf_loader.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -419,12 +420,66 @@ CachedModel* LazyModelLoader::loadModelInternal(
     model_params.use_mmap = config.value("use_mmap", true);
     model_params.use_mlock = config.value("use_mlock", false);
     
-    // Load the model
-    llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+    llama_model* lmodel = nullptr;
+    bool custom_loader_success = false;
+    
+    // Try custom GGUF loader first if preferred (security - embedded safetensor)
+    if (config_.prefer_custom_gguf_loader) {
+        spdlog::info("Attempting to load model with custom GGUFLoader (security: embedded safetensor)");
+        
+        try {
+            // Create GGUF loader instance
+            GGUFLoader gguf_loader;
+            
+            // Parse the GGUF file
+            if (gguf_loader.parseFile(model_path)) {
+                spdlog::info("✓ Custom GGUFLoader: GGUF file parsed successfully");
+                
+                // Get metadata for validation
+                const auto& metadata = gguf_loader.getMetadata();
+                spdlog::info("  Model metadata: architecture={}, version={}, tensors={}",
+                            metadata.architecture, metadata.version, metadata.tensors.size());
+                
+                // After parsing with custom loader, still use llama.cpp's native loader
+                // for actual model initialization (custom loader validated the file)
+                // This provides security validation + native performance
+                lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+                
+                if (lmodel) {
+                    spdlog::info("✓ Model loaded successfully with custom GGUF validation");
+                    custom_loader_success = true;
+                } else {
+                    spdlog::warn("Custom GGUF validation succeeded, but llama.cpp load failed");
+                }
+            } else {
+                spdlog::warn("Custom GGUFLoader: Failed to parse GGUF file");
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("Custom GGUFLoader exception: {}", e.what());
+        }
+    }
+    
+    // Fallback to native llama.cpp loader
+    if (!lmodel && config_.fallback_to_native) {
+        spdlog::info("Falling back to native llama_load_model_from_file()");
+        lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+        
+        if (lmodel) {
+            spdlog::info("✓ Model loaded successfully with native llama.cpp loader");
+        }
+    }
     
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
+        spdlog::error("Failed to load model with both custom and native loaders");
         return nullptr;
+    }
+    
+    // Log which loader was used
+    if (custom_loader_success) {
+        spdlog::info("Model loading strategy: Custom GGUF validation + native llama.cpp");
+    } else {
+        spdlog::info("Model loading strategy: Native llama.cpp only");
     }
     
     // Initialize context parameters

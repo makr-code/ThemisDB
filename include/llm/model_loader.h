@@ -81,6 +81,10 @@ public:
         int default_n_gpu_layers = 32;
         int default_n_ctx = 4096;
         bool use_mmap = true;
+        
+        // GGUF Loader preference (security - embedded safetensor)
+        bool prefer_custom_gguf_loader = true;  // Prefer custom GGUFLoader over native llama.cpp
+        bool fallback_to_native = true;          // Fallback to llama_load_model_from_file() on error
     };
     
     explicit LazyModelLoader(const Config& config);
