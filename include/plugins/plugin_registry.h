@@ -23,6 +23,11 @@ namespace plugins {
  *          PluginManager only handles IThemisPlugin.
  *          Specific interfaces (IBlobStorage, etc.) are registered
  *          in a separate type-safe registry.
+ * 
+ * @note **Plugin Name Collision**: If a plugin with the same name is registered twice,
+ *       the last registration wins. This is by design to allow runtime plugin replacement,
+ *       but can lead to unexpected behavior if multiple modules register plugins with
+ *       the same name. To avoid collisions, use namespaced plugin names (e.g., "mylib.s3_plugin").
  */
 class PluginRegistry {
 public:
@@ -97,20 +102,45 @@ public:
         
         const auto& entry = it->second;
         
-        // Verify type matches
+        // Verify type matches - check both hash_code and type_name
+        // Hash check is fast but may differ across compilation units
+        // Type name check is slower but more robust across boundaries
         size_t expected_hash = typeid(PluginInterface).hash_code();
-        if (entry.type_hash != expected_hash) {
+        const std::string& expected_name = typeid(PluginInterface).name();
+        
+        // Primary check: hash code match (fast)
+        if (entry.type_hash == expected_hash) {
+            // Hash matched, proceed
+        } else if (entry.type_name == expected_name) {
+            // Hash didn't match but name did - likely cross-compilation unit issue
+            // This is acceptable and should not throw
+        } else {
+            // Neither hash nor name matched - definite type mismatch
             throw std::runtime_error(
-                "Plugin type mismatch for " + plugin_name + 
-                " (expected: " + typeid(PluginInterface).name() + 
-                ", registered: " + entry.type_name + ")"
+                "Plugin type mismatch for '" + plugin_name + "' " +
+                "(expected interface: " + expected_name + 
+                ", but plugin implements: " + entry.type_name + ")"
             );
         }
         
-        // Call factory and wrap in unique_ptr 
-        // Note: The factory already returns a unique_ptr that was released,
-        // so we can just use the default deleter here since it's the correct type
-        void* raw_ptr = entry.factory();
+        // Call factory and wrap in unique_ptr
+        // The factory creates a unique_ptr<PluginInterface> and releases it to void*
+        // for type-erased storage, so we reconstruct it with the correct type here.
+        void* raw_ptr = nullptr;
+        try {
+            raw_ptr = entry.factory();
+        } catch (...) {
+            // If factory throws, there's no memory to clean up since it failed
+            throw;
+        }
+        
+        if (!raw_ptr) {
+            throw std::runtime_error(
+                "Factory for plugin '" + plugin_name + 
+                "' (interface: " + expected_name + ") returned null pointer"
+            );
+        }
+        
         return std::unique_ptr<PluginInterface>(
             static_cast<PluginInterface*>(raw_ptr)
         );
