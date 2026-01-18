@@ -9,6 +9,8 @@
 #include <optional>
 #include <future>
 #include <thread>
+#include <functional>
+#include <atomic>
 
 /**
  * @file model_loader.h
@@ -29,6 +31,51 @@
 
 namespace themis {
 namespace llm {
+
+/**
+ * @brief Model loading phases for progress tracking
+ */
+enum class LoadPhase {
+    PARSING,        // 0-20% - Parse GGUF file
+    ALLOCATING,     // 20-70% - Allocate model weights
+    INITIALIZING    // 70-100% - Initialize context
+};
+
+/**
+ * @brief Progress information for async model loading
+ */
+struct LoadProgress {
+    LoadPhase phase;
+    double phase_progress;        // 0.0-1.0 within current phase
+    double overall_percent;       // 0-100 overall progress
+    std::string status_msg;
+    std::chrono::steady_clock::time_point start_time;
+    
+    LoadProgress() 
+        : phase(LoadPhase::PARSING), 
+          phase_progress(0.0), 
+          overall_percent(0.0),
+          start_time(std::chrono::steady_clock::now()) {}
+};
+
+/**
+ * @brief Progress callback function type
+ */
+using ProgressCallback = std::function<void(const LoadProgress&)>;
+
+/**
+ * @brief Cancellation token for async operations
+ */
+class CancellationToken {
+public:
+    CancellationToken() : cancelled_(std::make_shared<std::atomic<bool>>(false)) {}
+    
+    void cancel() { cancelled_->store(true); }
+    bool is_cancelled() const { return cancelled_->load(); }
+    
+private:
+    std::shared_ptr<std::atomic<bool>> cancelled_;
+};
 
 /**
  * @brief Model cache entry with metadata
@@ -120,6 +167,27 @@ public:
     bool preloadModel(
         const std::string& model_id,
         const std::string& model_path,
+        const json& load_config = {}
+    );
+    
+    /**
+     * @brief Load model asynchronously with progress callback
+     * 
+     * Non-blocking model load with progress reporting and cancellation support.
+     * This prevents query threads from blocking during model initialization.
+     * 
+     * @param model_id Unique model identifier
+     * @param model_path Path to model file
+     * @param progress_cb Optional callback for progress updates
+     * @param cancel_token Optional cancellation token
+     * @param load_config Optional loading configuration
+     * @return Future that resolves to model handle or nullptr on failure
+     */
+    std::future<CachedModel*> loadAsync(
+        const std::string& model_id,
+        const std::string& model_path,
+        ProgressCallback progress_cb = nullptr,
+        CancellationToken cancel_token = CancellationToken(),
         const json& load_config = {}
     );
     
