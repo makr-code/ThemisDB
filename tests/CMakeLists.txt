@@ -1526,6 +1526,17 @@ else()
 endif()
 
 # ============================================================================
+# RAG Ethics Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
+    message(STATUS "Adding RAG Ethics integration tests")
+    
+    add_executable(test_rag_ethics
+        test_rag_ethics.cpp
+    )
+    
+    target_link_libraries(test_rag_ethics PRIVATE
 # RAG Enhancement Tests
 # ============================================================================
 
@@ -1543,6 +1554,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
         spdlog::spdlog
     )
     
+    target_compile_definitions(test_rag_ethics PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGEthicsTests COMMAND test_rag_ethics)
+    
+    set_tests_properties(RAGEthicsTests PROPERTIES
+        LABELS "rag;ethics;llm;judge;integration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "RAG Ethics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
     target_compile_definitions(test_knowledge_gap_detector PRIVATE
         THEMIS_TEST_BUILD=1
     )
