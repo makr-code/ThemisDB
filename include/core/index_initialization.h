@@ -63,7 +63,7 @@ public:
      * @brief Build the IndexManager instance
      * 
      * @return Shared pointer to configured IndexManager
-     * @throws std::runtime_error if RocksDB is not set
+     * @note RocksDB is optional and can be set later via setRocksDB()
      */
     std::shared_ptr<IndexManager> build() {
         // Create index manager with optional dependencies

@@ -117,6 +117,9 @@ private:
     std::unordered_map<std::string, IVectorIndex*> vector_indices_;
     std::unordered_map<std::string, IGraphIndex*> graph_indices_;
     std::unordered_map<std::string, IndexType> index_types_;
+    
+    // Helper method to propagate evaluator to all managers
+    void propagateEvaluatorToManagers();
 };
 
 } // namespace themis

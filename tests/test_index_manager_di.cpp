@@ -222,7 +222,8 @@ TEST_F(IndexManagerWithDITest, ConcurrentListIndexes) {
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([this]() {
             auto indices = index_manager_->listIndexes();
-            EXPECT_TRUE(indices.empty() || !indices.empty());
+            // Should be empty initially
+            EXPECT_TRUE(indices.empty());
         });
     }
     
