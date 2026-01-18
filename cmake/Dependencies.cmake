@@ -201,10 +201,11 @@ else()
 endif()
 
 # Kerberos/GSSAPI (enterprise SSO authentication - optional)
-# Kerberos/GSSAPI - PERMANENTLY DISABLED
+# Kerberos/GSSAPI - PERMANENTLY DISABLED on Windows
 # Kerberos is not available on Windows and causes build issues.
 # For Windows deployments, use alternative authentication (LDAP, OAuth2, SAML, etc.)
-if(FALSE)  # Kerberos support removed from build
+option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication support if available" ON)
+if(THEMIS_ENABLE_KERBEROS AND NOT WIN32)  # Kerberos not supported on Windows
     # Try to find Kerberos using pkg-config first (most reliable on Unix)
     find_package(PkgConfig QUIET)
     if(PkgConfig_FOUND)
@@ -255,9 +256,12 @@ if(FALSE)  # Kerberos support removed from build
         message(STATUS "            : yum install krb5-devel (RHEL/CentOS)")
         message(STATUS "            : brew install krb5 (macOS)")
         set(THEMIS_ENABLE_KERBEROS OFF)
+    else()
+        # Kerberos was found - already ON from option()
+        message(STATUS "Kerberos/GSSAPI authentication enabled")
     endif()
 else()
-    message(STATUS "Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF)")
+    message(STATUS "Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF or Windows platform)")
 endif()
 
 # Arrow + Parquet (Parquet export support)

@@ -1244,71 +1244,72 @@ else()
 endif()
 
 # ============================================================================
-# Shard Durability & Resilience Tests
+# Auth Middleware Tests
 # ============================================================================
 
-# Test: Shard Durability
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_durability.cpp")
-    message(STATUS "Adding shard durability tests")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+    message(STATUS "Adding auth middleware tests")
     
-    add_executable(test_shard_durability
-        test_shard_durability.cpp
+    add_executable(test_auth_middleware
+        test_auth_middleware.cpp
     )
     
-    target_link_libraries(test_shard_durability PRIVATE
+    target_link_libraries(test_auth_middleware PRIVATE
         ${TEST_LIBS}
         themis_core
-        RocksDB::rocksdb
-        OpenSSL::SSL
-        OpenSSL::Crypto
         spdlog::spdlog
-        nlohmann_json::nlohmann_json
     )
     
-    target_compile_definitions(test_shard_durability PRIVATE
+    target_compile_definitions(test_auth_middleware PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME ShardDurabilityTests COMMAND test_shard_durability)
+    add_test(NAME AuthMiddlewareTests COMMAND test_auth_middleware)
     
-    set_tests_properties(ShardDurabilityTests PROPERTIES
-        LABELS "sharding;durability;wal;checkpoint"
-        TIMEOUT 180
+    set_tests_properties(AuthMiddlewareTests PROPERTIES
+        LABELS "auth;middleware;security"
+        TIMEOUT 120
     )
 else()
-    message(STATUS "Shard durability tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_durability.cpp")
+    message(STATUS "Auth middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
 endif()
 
-# Test: Shard Resilience
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resilience.cpp")
-    message(STATUS "Adding shard resilience tests")
+# ============================================================================
+# Huge Pages Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+    message(STATUS "Adding huge pages tests")
     
-    add_executable(test_shard_resilience
-        test_shard_resilience.cpp
+    add_executable(test_huge_pages
+        test_huge_pages.cpp
     )
     
-    target_link_libraries(test_shard_resilience PRIVATE
+    target_link_libraries(test_huge_pages PRIVATE
         ${TEST_LIBS}
-        themis_core
-        RocksDB::rocksdb
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        spdlog::spdlog
-        nlohmann_json::nlohmann_json
     )
     
-    target_compile_definitions(test_shard_resilience PRIVATE
+    target_compile_definitions(test_huge_pages PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME ShardResilienceTests COMMAND test_shard_resilience)
+    if(THEMIS_ENABLE_HUGE_PAGES)
+        message(STATUS "Huge pages support enabled for test_huge_pages")
+        target_compile_definitions(test_huge_pages PRIVATE
+            THEMIS_USE_HUGE_PAGES=1  # Used by test code to conditionally compile huge pages tests
+        )
+    else()
+        message(STATUS "Huge pages support disabled - tests will skip huge pages allocations")
+    endif()
     
-    set_tests_properties(ShardResilienceTests PROPERTIES
-        LABELS "sharding;resilience;partition;quorum"
-        TIMEOUT 180
+    add_test(NAME HugePagesTests COMMAND test_huge_pages)
+    
+    set_tests_properties(HugePagesTests PROPERTIES
+        LABELS "performance;memory;huge_pages"
+        TIMEOUT 120
     )
 else()
-    message(STATUS "Shard resilience tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resilience.cpp")
+    message(STATUS "Huge pages tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
 endif()
 
 # ============================================================================
