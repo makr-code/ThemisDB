@@ -1244,6 +1244,24 @@ else()
 endif()
 
 # ============================================================================
+# Generic Plugin Registry Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+    message(STATUS "Adding generic plugin registry tests")
+    
+    add_executable(test_generic_plugin_registry
+        test_generic_plugin_registry.cpp
+    )
+    
+    target_link_libraries(test_generic_plugin_registry PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_generic_plugin_registry PRIVATE
 # Base Interfaces Tests (Phase 1: Dependency Inversion)
 # ============================================================================
 
@@ -1263,6 +1281,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
     )
     
     # Add to CTest
+    add_test(NAME GenericPluginRegistryTests COMMAND test_generic_plugin_registry)
+    
+    # Set test properties
+    set_tests_properties(GenericPluginRegistryTests PROPERTIES
+        LABELS "plugins;registry;core"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Generic plugin registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     add_test(NAME BaseInterfacesTests COMMAND test_base_interfaces)
     
     # Set test properties
