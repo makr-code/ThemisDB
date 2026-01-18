@@ -294,8 +294,8 @@ TEST(HugePagesTest, HugePagesWithFallback) {
 TEST(HugePagesTest, AllocationFailureHandling) {
     #ifdef THEMIS_USE_HUGE_PAGES
     // Test allocation of unreasonably large size
-    size_t huge_size = 1024ULL * 1024ULL * 1024ULL * 1024ULL; // 1TB
-    void* ptr = allocate_huge_pages(huge_size);
+    constexpr size_t ONE_TB = 1024ULL * 1024ULL * 1024ULL * 1024ULL;
+    void* ptr = allocate_huge_pages(ONE_TB);
     
     // Should gracefully fail and return nullptr
     EXPECT_EQ(ptr, nullptr);
@@ -496,7 +496,12 @@ TEST(HugePagesTest, MemoryTracking) {
     }
     
     // Track multiple allocations
-    std::vector<std::pair<void*, size_t>> allocations;
+    struct Allocation {
+        void* ptr;
+        size_t size;
+    };
+    
+    std::vector<Allocation> allocations;
     std::vector<size_t> sizes = {
         2 * 1024 * 1024,   // 2MB
         4 * 1024 * 1024,   // 4MB
@@ -523,8 +528,8 @@ TEST(HugePagesTest, MemoryTracking) {
     EXPECT_GT(total_allocated, 0);
     
     // Clean up all allocations
-    for (auto [ptr, size] : allocations) {
-        deallocate_huge_pages(ptr, size);
+    for (const auto& allocation : allocations) {
+        deallocate_huge_pages(allocation.ptr, allocation.size);
     }
     
     #else
@@ -676,13 +681,16 @@ TEST(HugePagesTest, ConfigurationValidation) {
     #endif
     
     // Test page size query
+    constexpr size_t PAGE_SIZE_2MB = 2 * 1024 * 1024;
+    constexpr size_t PAGE_SIZE_1GB = 1024 * 1024 * 1024;
+    
     size_t page_size = get_huge_page_size();
     
     #ifdef THEMIS_USE_HUGE_PAGES
     // Should return a valid page size (2MB, 1GB, or 0 if unavailable)
     bool valid_size = (page_size == 0 || 
-                      page_size == 2 * 1024 * 1024 ||
-                      page_size == 1024 * 1024 * 1024);
+                      page_size == PAGE_SIZE_2MB ||
+                      page_size == PAGE_SIZE_1GB);
     EXPECT_TRUE(valid_size);
     #else
     EXPECT_EQ(page_size, 0);

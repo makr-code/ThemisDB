@@ -233,7 +233,12 @@ TEST_F(AuthMiddlewareTest, RBACEnforcement) {
 
 TEST_F(AuthMiddlewareTest, PermissionCheckOnEndpoints) {
     // Test permission checking for different endpoint scopes
-    std::vector<std::pair<std::string, bool>> endpoint_tests = {
+    struct EndpointTest {
+        std::string scope;
+        bool expected;
+    };
+    
+    std::vector<EndpointTest> endpoint_tests = {
         {"config:write", true},   // Admin should have
         {"config:read", true},    // Admin should have
         {"metrics:read", true},   // Admin should have
@@ -241,10 +246,10 @@ TEST_F(AuthMiddlewareTest, PermissionCheckOnEndpoints) {
         {"api:access", false}     // Admin doesn't have this specific scope
     };
     
-    for (const auto& [scope, expected] : endpoint_tests) {
-        auto result = auth_.authorize("admin-token-123", scope);
-        EXPECT_EQ(result.authorized, expected) 
-            << "Scope: " << scope << " should be " << (expected ? "authorized" : "denied");
+    for (const auto& test : endpoint_tests) {
+        auto result = auth_.authorize("admin-token-123", test.scope);
+        EXPECT_EQ(result.authorized, test.expected) 
+            << "Scope: " << test.scope << " should be " << (test.expected ? "authorized" : "denied");
     }
 }
 
@@ -409,10 +414,10 @@ TEST_F(AuthMiddlewareTest, ConcurrentSessions) {
         auth_.addToken(tokens[i]);
     }
     
-    // Validate all tokens (simulating concurrent requests)
+    // Validate all tokens (tests thread safety of auth middleware)
+    // Note: Auth middleware should be thread-safe for concurrent access
     std::vector<bool> results(10);
     
-    #pragma omp parallel for if(false) // Sequential for testing, but tests thread safety
     for (int i = 0; i < 10; i++) {
         auto result = auth_.validateToken("concurrent-token-" + std::to_string(i));
         results[i] = result.authorized;
