@@ -312,3 +312,7 @@ comprehensive_verification_report*.md
 /tmp/issues/
 wordpress-plugin/*/dist/
 qlora_poc_output/
+
+# Temporary test directories
+test_plugin_standalone/
+build-test/

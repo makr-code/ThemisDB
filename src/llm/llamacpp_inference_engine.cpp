@@ -1,1008 +1,427 @@
 #include "llm/llamacpp_inference_engine.h"
-#include <stdexcept>
-#include <cmath>
-#include <algorithm>
 #include <spdlog/spdlog.h>
-#include <fstream>
-#include <filesystem>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include <iomanip>
-#include <sstream>
-#include <random>
-#include <chrono>
+#include <algorithm>
+#include <cctype>
+#include <cmath>
+#include <regex>
+#include <unordered_set>
 
 namespace themis {
 namespace llm {
 
-namespace fs = std::filesystem;
-
-// Token size in bytes (uses platform's float size, typically 4 bytes)
-constexpr size_t TOKEN_SIZE_BYTES = sizeof(float);
-
-LlamaCppInferenceEngine::LlamaCppInferenceEngine(const Config& config)
-    : config_(config), model_loaded_(false), model_handle_(nullptr), 
-      context_handle_(nullptr), next_adapter_handle_id_(1) {
-    
-    // Initialize PagedBlockManager
-    if (config_.block_manager) {
-        // Use provided instance
-        block_manager_ = config_.block_manager;
-        spdlog::info("LlamaCppInferenceEngine: Using provided PagedBlockManager");
-    } else {
-        // Create new instance with config
-        spdlog::info("LlamaCppInferenceEngine: Creating new PagedBlockManager");
-        spdlog::info("  Block size: {} tokens", config_.block_size);
-        spdlog::info("  Num blocks: {}", config_.num_blocks);
-        spdlog::info("  Max context: {} tokens", config_.n_ctx);
-        
-        PagedBlockManager::Config bm_config;
-        bm_config.max_blocks = config_.num_blocks;
-        bm_config.block_size_tokens = config_.block_size;
-        bm_config.token_size_bytes = TOKEN_SIZE_BYTES;
-        
-        block_manager_ = std::make_shared<PagedBlockManager>(bm_config);
-        
-        spdlog::info("✓ PagedBlockManager initialized successfully");
-        
-        // Log memory pool size
-        auto stats = block_manager_->getStats();
-        spdlog::info("Memory pool: {:.2f} MB", 
-                     stats.total_memory_bytes / (1024.0 * 1024.0));
-    }
-    
-    // Initialize PagedKVCache with block manager
-    PagedKVCache::Config kv_config;
-    kv_config.block_size = config_.block_size;
-    kv_config.num_blocks = config_.num_blocks;
-    kv_config.enable_prefix_caching = config_.enable_prefix_caching;
-    
-    kv_cache_ = std::make_unique<PagedKVCache>(kv_config, block_manager_);
-    
-    // Setup GPU offload if requested
-    if (config_.n_gpu_layers > 0) {
-        setupGPUOffload();
-    }
-    
-    stats_ = {};
+LLMOutputValidator::LLMOutputValidator(const Config& config)
+    : config_(config) {
+    spdlog::debug("LLMOutputValidator initialized (min_len: {}, max_len: {}, require_utf8: {})",
+                  config_.min_length, config_.max_length, config_.require_utf8);
 }
 
-LlamaCppInferenceEngine::~LlamaCppInferenceEngine() {
-    // Explicitly clear adapters first for proper cleanup order
-    clearAllAdapters();
-    // Then unload model and cleanup resources
-    unloadModel();
-}
-
-bool LlamaCppInferenceEngine::loadModel(const std::string& model_path, 
-                                         const std::string& model_name) {
-    // Create GGUF loader
-    gguf_loader_ = std::make_unique<GGUFLoader>();
+ValidationResult LLMOutputValidator::validate(const std::string& text) {
+    ValidationResult result;
     
-    // Parse GGUF file
-    if (!gguf_loader_->parseFile(model_path)) {
-        return false;
+    // Calculate basic metrics
+    result.metrics.char_count = static_cast<int>(text.length());
+    result.metrics.word_count = countWords(text);
+    result.metrics.sentence_count = countSentences(text);
+    result.metrics.avg_word_length = calculateAvgWordLength(text);
+    result.metrics.newline_count = std::count(text.begin(), text.end(), '\n');
+    
+    // Validation 1: Empty check
+    if (text.empty()) {
+        if (!config_.allow_empty) {
+            result.is_valid = false;
+            result.errors.push_back("Response is empty");
+        }
+        return result;
     }
     
-    current_model_name_ = model_name;
+    // Validation 2: Length checks
+    if (result.metrics.char_count < config_.min_length) {
+        result.is_valid = false;
+        result.errors.push_back("Response too short (min: " + 
+                               std::to_string(config_.min_length) + 
+                               " chars, got: " + 
+                               std::to_string(result.metrics.char_count) + ")");
+    }
     
-    // Memory-map all tensors
-    const auto& metadata = gguf_loader_->getMetadata();
-    for (const auto& tensor : metadata.tensors) {
-        void* ptr = gguf_loader_->mmapTensor(tensor.name);
-        if (ptr) {
-            tensor_ptrs_[tensor.name] = ptr;
+    if (result.metrics.char_count > config_.max_length) {
+        result.warnings.push_back("Response exceeds max length (" + 
+                                 std::to_string(config_.max_length) + " chars)");
+    }
+    
+    // Validation 3: UTF-8 validation
+    if (config_.require_utf8) {
+        result.metrics.is_utf8_valid = isValidUTF8(text);
+        if (!result.metrics.is_utf8_valid) {
+            result.is_valid = false;
+            result.errors.push_back("Invalid UTF-8 encoding detected");
         }
     }
     
-    model_loaded_ = true;
-    return true;
-}
-
-bool LlamaCppInferenceEngine::loadModelFromThemisDB(const std::string& model_urn) {
-    spdlog::info("Loading model from ThemisDB: {}", model_urn);
-    
-    // Check if model storage is configured
-    if (!config_.model_storage) {
-        spdlog::error("Model storage not configured");
-        return false;
+    // Validation 4: Truncation detection
+    if (config_.check_truncation) {
+        result.metrics.is_truncated = detectTruncation(text);
+        if (result.metrics.is_truncated) {
+            result.warnings.push_back("Response may be truncated (incomplete sentence or sudden stop)");
+        }
     }
     
-    try {
-        // 1. Query metadata from LLMModelStorage
-        auto metadata_opt = config_.model_storage->loadModel(model_urn);
-        if (!metadata_opt) {
-            spdlog::error("Model {} not found in metadata store", model_urn);
-            return false;
-        }
-        
-        auto& metadata = *metadata_opt;
-        spdlog::info("Found model metadata: name={}, architecture={}, format={}, size={}MB",
-                     metadata.model_name, metadata.architecture, metadata.format,
-                     metadata.size_bytes / (1024 * 1024));
-        
-        // 2. Get model file path or blob reference
-        std::string model_path;
-        
-        // Check if model has a local file path
-        if (!metadata.file_path.empty() && fs::exists(metadata.file_path)) {
-            spdlog::info("Using local model file: {}", metadata.file_path);
-            model_path = metadata.file_path;
-        }
-        // Otherwise, try to load from blob storage
-        else {
-            // Get blob storage manager from model storage config
-            auto blob_manager = config_.model_storage->getConfig().blob_manager;
-            if (!blob_manager) {
-                spdlog::error("Blob storage manager not configured");
-                return false;
-            }
-            
-            // Get blob reference from metadata
-            auto blob_ref_opt = getBlobReferenceFromMetadata(model_urn);
-            if (!blob_ref_opt) {
-                spdlog::error("Model {} has no blob reference and no local file", model_urn);
-                return false;
-            }
-            
-            auto& blob_ref = *blob_ref_opt;
-            spdlog::info("Model stored in blob storage: type={}, uri={}, size={}MB",
-                         static_cast<int>(blob_ref.type), blob_ref.uri,
-                         blob_ref.size_bytes / (1024 * 1024));
-            
-            // 3. Stream model from blob store to temporary file
-            fs::path temp_dir = fs::temp_directory_path() / "themis_models";
-            fs::create_directories(temp_dir);  // Ensure directory exists
-            temp_model_path_ = (temp_dir / ("model_" + model_urn + ".gguf")).string();
-            
-            // Check if decryption is needed
-            bool needs_decryption = metadata.custom_metadata.contains("encryption_enabled") &&
-                                    metadata.custom_metadata["encryption_enabled"].get<bool>();
-            
-            // Stream model to temporary file
-            if (!streamModelFromBlobStore(blob_ref, temp_model_path_, blob_manager)) {
-                spdlog::error("Failed to stream model from blob store");
-                return false;
-            }
-            
-            // Decrypt if needed
-            if (needs_decryption) {
-                spdlog::info("Model is encrypted, decrypting...");
-                std::string encrypted_path = temp_model_path_ + ".encrypted";
-                fs::rename(temp_model_path_, encrypted_path);
-                
-                if (!decryptModelFile(encrypted_path, temp_model_path_, metadata)) {
-                    spdlog::error("Failed to decrypt model");
-                    fs::remove(encrypted_path);
-                    return false;
-                }
-                
-                // Clean up encrypted file
-                fs::remove(encrypted_path);
-                spdlog::info("Model decrypted successfully");
-            }
-            
-            model_path = temp_model_path_;
-            spdlog::info("Model ready at: {}", model_path);
-        }
-        
-        // 4. Load model using existing loadModel function
-        bool success = loadModel(model_path, metadata.model_name);
-        
-        if (success) {
-            spdlog::info("Model {} loaded successfully from ThemisDB", model_urn);
-            
-            // 5. Update usage statistics
-            config_.model_storage->updateUsageStats(model_urn, 0);
-        } else {
-            spdlog::error("Failed to load model {} from path: {}", model_urn, model_path);
-        }
-        
-        return success;
-    } catch (const std::exception& e) {
-        spdlog::error("Exception loading model from ThemisDB: {}", e.what());
-        return false;
-    }
-}
-
-bool LlamaCppInferenceEngine::loadAdapterFromThemisDB(const std::string& adapter_id) {
-    spdlog::info("Loading LoRa adapter from ThemisDB: {}", adapter_id);
-    
-    // Check if LoRa storage is configured
-    if (!config_.lora_storage) {
-        spdlog::error("LoRa storage not configured");
-        return false;
+    // Validation 5: Common error patterns
+    if (hasCommonErrors(text)) {
+        result.is_valid = false;
+        result.errors.push_back("Response contains error patterns or placeholder text");
     }
     
-    try {
-        // 1. Load adapter metadata
-        auto metadata_opt = config_.lora_storage->loadMetadata(adapter_id);
-        if (!metadata_opt) {
-            spdlog::error("Adapter {} not found in metadata store", adapter_id);
-            return false;
-        }
-        
-        auto& metadata = *metadata_opt;
-        // Extract base model ID from adapter metadata 
-        std::string base_model_id = adapter_id.substr(0, adapter_id.find(':'));
-        if (base_model_id.empty()) base_model_id = "base";
-        spdlog::info("Found adapter metadata: base_model={}, version={}, rank={}",
-                     base_model_id, metadata.version, 8);
-        
-        // 2. Load adapter weights
-        auto weights_opt = config_.lora_storage->loadAdapter(adapter_id);
-        if (!weights_opt) {
-            spdlog::error("Failed to load adapter weights for {}", adapter_id);
-            return false;
-        }
-        
-        auto& weights = *weights_opt;
-        spdlog::info("Loaded adapter weights: format={}, size={}KB",
-                     weights.format, weights.size_bytes / 1024);
-        
-        // 3. Apply adapter to loaded model using loadAndApplyLoRAAdapter
-        bool applied = loadAndApplyLoRAAdapter(adapter_id, 1.0f);
-        if (!applied) {
-            spdlog::error("Failed to apply adapter {} to model", adapter_id);
-            return false;
-        }
-        
-        spdlog::info("✓ Adapter {} loaded and applied successfully", adapter_id);
-        return true;
-    } catch (const std::exception& e) {
-        spdlog::error("Exception loading adapter from ThemisDB: {}", e.what());
-        return false;
-    }
-}
-
-void LlamaCppInferenceEngine::unloadModel() {
-    // Clear all active LoRa adapters before unloading model
-    clearAllAdapters();
-    
-    // Clean up temporary adapter files
-    cleanupTempAdapterFiles();
-    
-    if (gguf_loader_) {
-        // Unmap all tensors
-        for (auto& [name, ptr] : tensor_ptrs_) {
-            gguf_loader_->unmapTensor(ptr);
-        }
-        tensor_ptrs_.clear();
+    // Validation 6: Invalid control characters
+    if (hasInvalidControlChars(text)) {
+        result.warnings.push_back("Response contains unusual control characters");
     }
     
-    // Clean up temporary model file if it exists
-    if (!temp_model_path_.empty() && fs::exists(temp_model_path_)) {
-        try {
-            fs::remove(temp_model_path_);
-            spdlog::info("Cleaned up temporary model file: {}", temp_model_path_);
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to clean up temporary model file: {}", e.what());
+    // Validation 7: Repeating patterns
+    if (hasRepeatingPatterns(text)) {
+        result.warnings.push_back("Response contains unusual repeating patterns");
+    }
+    
+    // Validation 8: Semantic coherence estimation
+    if (config_.check_coherence && result.metrics.word_count > 5) {
+        result.metrics.semantic_coherence = estimateCoherence(text);
+        if (result.metrics.semantic_coherence < config_.min_coherence) {
+            result.warnings.push_back("Low semantic coherence score: " + 
+                                     std::to_string(result.metrics.semantic_coherence));
         }
-        temp_model_path_.clear();
     }
     
-    gguf_loader_.reset();
-    current_model_name_.clear();
-    model_loaded_ = false;
-    model_handle_ = nullptr;
-    context_handle_ = nullptr;
-}
-
-InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request) {
-    if (!model_loaded_) {
-        throw std::runtime_error("No model loaded");
-    }
-    
-    InferenceResponse response;
-    response.request_id = request.request_id;
-    response.model_id = request.model_id;
-    response.metadata["request_id"] = !request.request_id.empty() ? request.request_id : request.metadata.value("request_id", "");
-    
-    // Real inference using GGUF loader and model tensors
-    // In a real implementation, this would:
-    // 1. Tokenize prompt using loaded model
-    // 2. Generate embeddings
-    // 3. Process through transformer layers with PagedAttention KV cache
-    // 4. Generate output tokens
-    // 5. Detokenize
-    
-    // For now, use simplified implementation with placeholder
-    // This will be replaced with actual llama.cpp inference when model loading is complete
-    response.text = "[Generated response from " + current_model_name_ + 
-                    " for: " + request.prompt + "]";
-    response.tokens_generated = 50;
-    response.inference_time_ms = 150.0f;
-    response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-    response.tokens_per_second = response.tokens_generated / (response.inference_time_ms / 1000.0f);
-    
-    // Update stats
-    stats_.total_tokens_processed += response.tokens_generated;
-    stats_.avg_latency_ms = (stats_.avg_latency_ms + response.inference_time_ms) / 2.0;
-    
-    return response;
-}
-
-std::string LlamaCppInferenceEngine::getModelInfo() const {
-    if (!model_loaded_) {
-        return "No model loaded";
-    }
-    
-    const auto& metadata = gguf_loader_->getMetadata();
-    std::string result = "Model: " + current_model_name_;
-    result += ", Architecture: " + metadata.architecture;
-    result += ", Version: " + metadata.version;
-    result += ", Tensors: " + std::to_string(metadata.tensors.size());
     return result;
 }
 
-LlamaCppInferenceEngine::Stats LlamaCppInferenceEngine::getStats() const {
-    return stats_;
-}
-
-std::vector<float> LlamaCppInferenceEngine::computeAttention(
-    const std::vector<float>& q,
-    const std::vector<float>& k,
-    const std::vector<float>& v,
-    int sequence_id) {
-    
-    // Simplified attention computation
-    // In real implementation:
-    // 1. Retrieve KV cache from PagedKVCache
-    // 2. Compute attention scores
-    // 3. Apply softmax
-    // 4. Compute weighted values
-    // 5. Store new KV in cache
-    
-    std::vector<float> output(q.size());
-    // Stub: just return input
-    output = q;
-    
-    return output;
-}
-
-std::vector<float> LlamaCppInferenceEngine::computeFFN(
-    const std::vector<float>& input,
-    int layer_id) {
-    
-    // Simplified FFN computation
-    // In real implementation:
-    // 1. Gate projection (SwiGLU)
-    // 2. Up projection
-    // 3. Activation
-    // 4. Down projection
-    
-    std::vector<float> output = input;
-    return output;
-}
-
-void LlamaCppInferenceEngine::setupGPUOffload() {
-    // Setup GPU backend based on config_.gpu_backend
-    // - CUDA: cuBLAS, cuDNN
-    // - Metal: Metal Performance Shaders
-    // - Vulkan: Kompute
-    // - HIP: hipBLAS
-    
-    if (config_.n_gpu_layers > 0 && !config_.gpu_backend.empty()) {
-        spdlog::info("GPU offload configured: backend={}, layers={}", 
-                     config_.gpu_backend, config_.n_gpu_layers);
-    }
-}
-
-// Helper function to compute SHA256 hash of a file
-static std::string computeSHA256(const std::string& file_path) {
-    std::ifstream file(file_path, std::ios::binary);
-    if (!file) {
-        throw std::runtime_error("Failed to open file for SHA256 computation: " + file_path);
-    }
-    
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) {
-        throw std::runtime_error("Failed to create EVP_MD_CTX");
-    }
-    
-    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(ctx);
-        throw std::runtime_error("Failed to initialize SHA256 digest");
-    }
-    
-    // Read file in chunks and update hash
-    constexpr size_t BUFFER_SIZE = 8192;
-    std::vector<char> buffer(BUFFER_SIZE);
-    
-    while (file.read(buffer.data(), BUFFER_SIZE) || file.gcount() > 0) {
-        if (EVP_DigestUpdate(ctx, buffer.data(), file.gcount()) != 1) {
-            EVP_MD_CTX_free(ctx);
-            throw std::runtime_error("Failed to update SHA256 digest");
-        }
-    }
-    
-    unsigned char hash[EVP_MAX_MD_SIZE];
-    unsigned int hash_len = 0;
-    
-    if (EVP_DigestFinal_ex(ctx, hash, &hash_len) != 1) {
-        EVP_MD_CTX_free(ctx);
-        throw std::runtime_error("Failed to finalize SHA256 digest");
-    }
-    
-    EVP_MD_CTX_free(ctx);
-    
-    // Convert to hex string
-    std::stringstream ss;
-    for (unsigned int i = 0; i < hash_len; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
-    }
-    
-    return ss.str();
-}
-
-bool LlamaCppInferenceEngine::streamModelFromBlobStore(
-    const storage::BlobRef& blob_ref,
-    const std::string& output_path,
-    std::shared_ptr<storage::BlobStorageManager> blob_manager
+ValidationResult LLMOutputValidator::validateWithTokens(
+    const std::string& text,
+    int token_count,
+    int max_tokens
 ) {
-    try {
-        spdlog::info("Streaming model from blob store to: {}", output_path);
-        
-        // Retrieve blob from storage
-        auto blob_data = blob_manager->get(blob_ref);
-        if (!blob_data) {
-            spdlog::error("Failed to retrieve blob: {}", blob_ref.id);
-            return false;
-        }
-        
-        spdlog::info("Retrieved blob data: {} bytes", blob_data->size());
-        
-        // Write to output file
-        std::ofstream output_file(output_path, std::ios::binary);
-        if (!output_file) {
-            spdlog::error("Failed to open output file: {}", output_path);
-            return false;
-        }
-        
-        output_file.write(reinterpret_cast<const char*>(blob_data->data()), blob_data->size());
-        output_file.close();
-        
-        if (!output_file.good()) {
-            spdlog::error("Error writing to output file: {}", output_path);
-            return false;
-        }
-        
-        spdlog::info("Model streamed successfully: {} bytes written", blob_data->size());
-        
-        // Verify file size
-        auto file_size = fs::file_size(output_path);
-        if (file_size != blob_data->size()) {
-            spdlog::error("File size mismatch: expected {}, got {}", blob_data->size(), file_size);
-            return false;
-        }
-        
-        // Verify SHA256 checksum if available
-        if (!blob_ref.hash_sha256.empty()) {
-            spdlog::info("Verifying SHA256 checksum: {}", blob_ref.hash_sha256);
-            try {
-                std::string computed_hash = computeSHA256(output_path);
-                if (computed_hash != blob_ref.hash_sha256) {
-                    spdlog::error("SHA256 verification failed!");
-                    spdlog::error("  Expected: {}", blob_ref.hash_sha256);
-                    spdlog::error("  Computed: {}", computed_hash);
-                    // Remove potentially corrupted file
-                    fs::remove(output_path);
-                    return false;
-                }
-                spdlog::info("SHA256 verification passed");
-            } catch (const std::exception& e) {
-                spdlog::warn("Failed to verify SHA256: {}", e.what());
-                // Continue anyway - verification is best-effort
-            }
-        }
-        
-        return true;
-    } catch (const std::exception& e) {
-        spdlog::error("Exception streaming model from blob store: {}", e.what());
-        return false;
-    }
-}
-
-bool LlamaCppInferenceEngine::decryptModelFile(
-    const std::string& encrypted_path,
-    const std::string& output_path,
-    const LLMModelMetadata& metadata
-) {
-    try {
-        spdlog::info("Decrypting model file: {} -> {}", encrypted_path, output_path);
-        
-        // Get encryption configuration from metadata
-        std::string encryption_key_id = "llm_models";  // Default key ID
-        if (metadata.custom_metadata.contains("encryption_key_id")) {
-            encryption_key_id = metadata.custom_metadata["encryption_key_id"];
-        }
-        
-        // Get key provider from model storage config
-        auto& storage_config = config_.model_storage->getConfig();
-        if (!storage_config.db) {
-            spdlog::error("Database not configured for decryption");
-            return false;
-        }
-        
-        // Create encryption service with the configured key provider
-        std::shared_ptr<FieldEncryption> encryption;
-        try {
-            // Use the same key provider as configured in model storage
-            std::shared_ptr<KeyProvider> key_provider = storage_config.key_provider;
-            if (!key_provider) {
-                spdlog::warn("No key provider configured, encryption disabled");
-                // MockKeyProvider not available, skip encryption setup
-                key_provider = nullptr;
-            }
-            if (key_provider) {
-                encryption = std::make_shared<FieldEncryption>(key_provider);
-            }
-        } catch (const std::exception& e) {
-            spdlog::error("Failed to initialize encryption service: {}", e.what());
-            return false;
-        }
-        
-        // Read encrypted file
-        std::ifstream encrypted_file(encrypted_path, std::ios::binary);
-        if (!encrypted_file) {
-            spdlog::error("Failed to open encrypted file: {}", encrypted_path);
-            return false;
-        }
-        
-        // Read entire encrypted content
-        std::vector<uint8_t> encrypted_data(
-            (std::istreambuf_iterator<char>(encrypted_file)),
-            std::istreambuf_iterator<char>()
-        );
-        encrypted_file.close();
-        
-        if (encrypted_data.empty()) {
-            spdlog::error("Encrypted file is empty");
-            return false;
-        }
-        
-        spdlog::info("Read {} bytes of encrypted data", encrypted_data.size());
-        
-        // Parse encrypted blob from the file
-        EncryptedBlob blob;
-        
-        try {
-            // Assume the file contains a base64-encoded EncryptedBlob
-            std::string encrypted_str(encrypted_data.begin(), encrypted_data.end());
-            blob = EncryptedBlob::fromBase64(encrypted_str);
-        } catch (const std::exception& e) {
-            spdlog::error("Failed to parse encrypted blob: {}", e.what());
-            spdlog::error("Encrypted model file format not recognized");
-            return false;
-        }
-        
-        // Decrypt
-        std::vector<uint8_t> decrypted_data;
-        try {
-            decrypted_data = encryption->decryptToBytes(blob);
-        } catch (const std::exception& e) {
-            spdlog::error("Decryption failed: {}", e.what());
-            return false;
-        }
-        
-        if (decrypted_data.empty()) {
-            spdlog::error("Decryption produced empty data");
-            return false;
-        }
-        
-        spdlog::info("Decrypted {} bytes", decrypted_data.size());
-        
-        // Write decrypted data to output file
-        std::ofstream output_file(output_path, std::ios::binary);
-        if (!output_file) {
-            spdlog::error("Failed to open output file: {}", output_path);
-            return false;
-        }
-        
-        output_file.write(reinterpret_cast<const char*>(decrypted_data.data()), 
-                         decrypted_data.size());
-        output_file.close();
-        
-        if (!output_file.good()) {
-            spdlog::error("Error writing decrypted file");
-            return false;
-        }
-        
-        spdlog::info("Model decrypted successfully: {} bytes written", decrypted_data.size());
-        return true;
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Exception during model decryption: {}", e.what());
-        return false;
-    }
-}
-
-std::optional<storage::BlobRef> LlamaCppInferenceEngine::getBlobReferenceFromMetadata(
-    const std::string& model_id
-) {
-    if (!config_.model_storage) {
-        return std::nullopt;
+    ValidationResult result = validate(text);
+    
+    result.metrics.token_count = token_count;
+    
+    // Check if hit token limit
+    if (token_count >= max_tokens) {
+        result.metrics.is_truncated = true;
+        result.warnings.push_back("Token limit reached (" + 
+                                 std::to_string(token_count) + "/" + 
+                                 std::to_string(max_tokens) + " tokens)");
     }
     
-    // This is a helper to get blob reference from the storage impl
-    // We need to access the storage implementation to get the blob ref
-    // For now, we'll reconstruct it from the metadata
-    
-    auto metadata_opt = config_.model_storage->loadModel(model_id);
-    if (!metadata_opt) {
-        return std::nullopt;
-    }
-    
-    auto& metadata = *metadata_opt;
-    
-    // Check custom metadata for blob reference
-    if (metadata.custom_metadata.contains("blob_ref_uri")) {
-        storage::BlobRef ref;
-        ref.id = metadata.custom_metadata.value("blob_ref_id", model_id);
-        ref.uri = metadata.custom_metadata["blob_ref_uri"];
-        ref.type = static_cast<storage::BlobStorageType>(
-            metadata.custom_metadata.value("blob_ref_type", 0)
-        );
-        ref.hash_sha256 = metadata.custom_metadata.value("blob_ref_hash", "");
-        ref.size_bytes = metadata.custom_metadata.value("blob_ref_size", 0);
-        ref.compressed = metadata.custom_metadata.value("blob_ref_compressed", false);
-        if (ref.compressed) {
-            ref.compression_type = metadata.custom_metadata.value("blob_ref_compression", "");
-        }
-        
-        return ref;
-    }
-    
-    return std::nullopt;
+    return result;
 }
 
 // ═══════════════════════════════════════════════════════════
-// LoRa Adapter Management Implementation
+// UTF-8 Validation
 // ═══════════════════════════════════════════════════════════
 
-bool LlamaCppInferenceEngine::loadAndApplyLoRAAdapter(
-    const std::string& adapter_id,
-    float scale
-) {
-    spdlog::info("Loading and applying LoRA adapter: {} (scale={})", adapter_id, scale);
+bool LLMOutputValidator::isValidUTF8(const std::string& text) {
+    const unsigned char* bytes = reinterpret_cast<const unsigned char*>(text.c_str());
+    size_t len = text.length();
+    size_t i = 0;
     
-    // Check if LoRa storage is configured
-    if (!config_.lora_storage) {
-        spdlog::error("LoRa storage not configured");
-        return false;
+    while (i < len) {
+        unsigned char c = bytes[i];
+        
+        if (c <= 0x7F) {
+            // 1-byte character (ASCII)
+            i++;
+        } else if ((c & 0xE0) == 0xC0) {
+            // 2-byte character
+            if (i + 1 >= len) return false;
+            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            i += 2;
+        } else if ((c & 0xF0) == 0xE0) {
+            // 3-byte character
+            if (i + 2 >= len) return false;
+            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            if ((bytes[i + 2] & 0xC0) != 0x80) return false;
+            i += 3;
+        } else if ((c & 0xF8) == 0xF0) {
+            // 4-byte character
+            if (i + 3 >= len) return false;
+            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            if ((bytes[i + 2] & 0xC0) != 0x80) return false;
+            if ((bytes[i + 3] & 0xC0) != 0x80) return false;
+            i += 4;
+        } else {
+            // Invalid UTF-8 start byte
+            return false;
+        }
     }
     
-    // Check if model is loaded
-    if (!model_loaded_) {
-        spdlog::error("No model loaded - cannot apply adapter");
-        return false;
+    return true;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Truncation Detection
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::detectTruncation(const std::string& text) {
+    if (text.empty()) return false;
+    
+    // Check last characters
+    std::string last_chars = text.substr(std::max(0, static_cast<int>(text.length()) - 50));
+    
+    // Heuristics for truncation:
+    // 1. Ends mid-sentence (no period, question mark, exclamation)
+    char last_char = text.back();
+    bool ends_with_punctuation = (last_char == '.' || last_char == '!' || 
+                                  last_char == '?' || last_char == '\n');
+    
+    // 2. Ends with incomplete word (no space before last word)
+    bool ends_mid_word = false;
+    if (text.length() > 1) {
+        char second_last = text[text.length() - 2];
+        ends_mid_word = !std::isspace(second_last) && std::isalpha(last_char);
     }
     
-    // Check if adapter is already active
-    auto existing = active_adapters_.find(adapter_id);
-    if (existing != active_adapters_.end()) {
-        // Check if scale has changed
-        float current_scale = adapter_scales_[adapter_id];
-        if (std::abs(current_scale - scale) > 1e-6f) {
-            spdlog::info("Adapter {} already active but scale changed: {} -> {}", 
-                        adapter_id, current_scale, scale);
-            // In production with llama.cpp, would update scale here:
-            // llama_lora_adapter_set(context_handle_, existing->second, scale);
-            adapter_scales_[adapter_id] = scale;
+    // 3. Check for common truncation patterns
+    bool has_truncation_pattern = (
+        last_chars.find("...") != std::string::npos ||
+        last_chars.find("[truncated]") != std::string::npos ||
+        last_chars.find("(truncated)") != std::string::npos ||
+        last_chars.find("Response limit reached") != std::string::npos
+    );
+    
+    return !ends_with_punctuation || ends_mid_word || has_truncation_pattern;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Semantic Coherence Estimation (Simple Heuristics)
+// ═══════════════════════════════════════════════════════════
+
+double LLMOutputValidator::estimateCoherence(const std::string& text) {
+    // Simple heuristic-based coherence estimation
+    // In production, consider using a trained model
+    
+    double score = 1.0;
+    
+    if (text.empty()) return 0.0;
+    
+    int word_count = countWords(text);
+    if (word_count == 0) return 0.0;
+    
+    // Heuristic 1: Average word length (too short or too long is suspicious)
+    double avg_word_len = calculateAvgWordLength(text);
+    if (avg_word_len < 2.0 || avg_word_len > 15.0) {
+        score *= 0.7;
+    }
+    
+    // Heuristic 2: Sentence structure (ratio of words to sentences)
+    int sentence_count = countSentences(text);
+    if (sentence_count > 0) {
+        double words_per_sentence = static_cast<double>(word_count) / sentence_count;
+        if (words_per_sentence < 2.0 || words_per_sentence > 50.0) {
+            score *= 0.8;
+        }
+    } else {
+        // No sentences at all - very suspicious
+        score *= 0.5;
+    }
+    
+    // Heuristic 3: Character diversity (low diversity suggests repetition)
+    // Note: This counts bytes, not UTF-8 characters, but is still useful for detecting
+    // repetition patterns in both ASCII and UTF-8 text
+    std::unordered_set<char> unique_chars(text.begin(), text.end());
+    double char_diversity = static_cast<double>(unique_chars.size()) / 
+                           std::max(static_cast<size_t>(1), text.length());
+    if (char_diversity < 0.05) {
+        score *= 0.6;
+    }
+    
+    // Heuristic 4: Word diversity (rough estimate)
+    // Count approximate unique words (case-insensitive)
+    // Limit to first 1000 words for performance on large texts
+    std::unordered_set<std::string> words;
+    std::istringstream iss(text);
+    std::string word;
+    int words_checked = 0;
+    const int MAX_WORDS_TO_CHECK = 1000;
+    
+    while (iss >> word && words_checked < MAX_WORDS_TO_CHECK) {
+        // Simple lowercase conversion (in-place for efficiency)
+        for (char& c : word) {
+            c = std::tolower(static_cast<unsigned char>(c));
+        }
+        words.insert(std::move(word));
+        words_checked++;
+    }
+    
+    if (word_count > 0) {
+        // Calculate diversity based on checked words
+        int effective_word_count = std::min(word_count, MAX_WORDS_TO_CHECK);
+        double word_diversity = static_cast<double>(words.size()) / effective_word_count;
+        if (word_diversity < 0.3) {
+            score *= 0.7;  // Low word diversity
+        }
+    }
+    
+    return std::max(0.0, std::min(1.0, score));
+}
+
+// ═══════════════════════════════════════════════════════════
+// Error Pattern Detection
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::hasCommonErrors(const std::string& text) {
+    // Convert to lowercase for case-insensitive matching
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    // Common error patterns
+    static const std::vector<std::string> error_patterns = {
+        "error:",
+        "exception:",
+        "failed to",
+        "could not",
+        "unable to",
+        "stub_response",
+        "placeholder",
+        "todo:",
+        "fixme:",
+        "not implemented",
+        "[error]",
+        "[warning]",
+        "traceback",
+        "stack trace"
+    };
+    
+    for (const auto& pattern : error_patterns) {
+        if (lower_text.find(pattern) != std::string::npos) {
             return true;
         }
-        spdlog::info("Adapter {} already active with same scale", adapter_id);
-        return true;
     }
     
-    try {
-        // 1. Load adapter weights from storage
-        auto weights_opt = config_.lora_storage->loadAdapter(adapter_id);
-        if (!weights_opt) {
-            spdlog::error("Failed to load adapter: {}", adapter_id);
-            return false;
-        }
-        
-        auto& weights = *weights_opt;
-        spdlog::info("Adapter loaded: {} bytes, format={}", 
-                     weights.size_bytes, weights.format);
-        
-        // 2. Convert to llama.cpp format if needed
-        std::string adapter_path = convertAdapterToLlamaCppFormat(weights);
-        if (adapter_path.empty()) {
-            spdlog::error("Failed to convert adapter to llama.cpp format");
-            return false;
-        }
-        
-        // 3. Apply adapter to model using llama.cpp API
-        // NOTE: When llama.cpp is properly integrated, replace this with actual calls:
-        //
-        // int adapter_handle = llama_lora_adapter_init(
-        //     static_cast<llama_model*>(model_handle_), 
-        //     adapter_path.c_str()
-        // );
-        // 
-        // if (adapter_handle < 0) {
-        //     spdlog::error("Failed to initialize adapter: {}", adapter_id);
-        //     return false;
-        // }
-        // 
-        // int result = llama_lora_adapter_set(
-        //     static_cast<llama_context*>(context_handle_), 
-        //     adapter_handle, 
-        //     scale
-        // );
-        // 
-        // if (result != 0) {
-        //     spdlog::error("Failed to set adapter: {}", adapter_id);
-        //     llama_lora_adapter_remove(adapter_handle);
-        //     return false;
-        // }
-        
-        // For now, simulate successful adapter loading
-        int adapter_handle = next_adapter_handle_id_++;
-        
-        // 4. Track active adapters
-        active_adapters_[adapter_id] = adapter_handle;
-        adapter_scales_[adapter_id] = scale;
-        adapter_temp_files_[adapter_id] = adapter_path;
-        
-        spdlog::info("✓ LoRA adapter applied successfully: {} (scale={})", 
-                     adapter_id, scale);
-        return true;
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Exception applying adapter {}: {}", adapter_id, e.what());
-        return false;
-    }
+    return false;
 }
 
-bool LlamaCppInferenceEngine::applyMultipleAdapters(
-    const std::vector<std::pair<std::string, float>>& adapters
-) {
-    spdlog::info("Applying {} LoRA adapters", adapters.size());
+// ═══════════════════════════════════════════════════════════
+// Repeating Pattern Detection
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::hasRepeatingPatterns(const std::string& text) {
+    if (text.length() < 20) return false;
     
-    bool all_success = true;
-    int successful = 0;
+    // Check for exact repeated sequences of varying lengths
+    for (size_t pattern_len = 5; pattern_len <= std::min(text.length() / 4, size_t(50)); ++pattern_len) {
+        for (size_t i = 0; i + pattern_len * 2 <= text.length(); ++i) {
+            std::string pattern = text.substr(i, pattern_len);
+            std::string next = text.substr(i + pattern_len, pattern_len);
+            
+            if (pattern == next) {
+                // Found immediate repetition
+                // Check if it repeats more than twice
+                size_t count = 2;
+                size_t pos = i + pattern_len * 2;
+                while (pos + pattern_len <= text.length()) {
+                    if (text.substr(pos, pattern_len) == pattern) {
+                        count++;
+                        pos += pattern_len;
+                    } else {
+                        break;
+                    }
+                }
+                
+                if (count >= 3) {
+                    spdlog::debug("Detected repeating pattern (len={}, count={}): {}",
+                                 pattern_len, count, pattern.substr(0, 20));
+                    return true;
+                }
+            }
+        }
+    }
     
-    for (const auto& [adapter_id, scale] : adapters) {
-        if (loadAndApplyLoRAAdapter(adapter_id, scale)) {
-            successful++;
+    return false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Invalid Control Characters
+// ═══════════════════════════════════════════════════════════
+
+bool LLMOutputValidator::hasInvalidControlChars(const std::string& text) {
+    for (unsigned char c : text) {
+        // Allow: tab (9), newline (10), carriage return (13), and printable chars (32-126)
+        // Allow: extended ASCII (128-255) for UTF-8
+        if (c < 32 && c != 9 && c != 10 && c != 13) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Metrics Calculation Helpers
+// ═══════════════════════════════════════════════════════════
+
+int LLMOutputValidator::countWords(const std::string& text) {
+    if (text.empty()) return 0;
+    
+    int count = 0;
+    bool in_word = false;
+    
+    for (char c : text) {
+        if (std::isspace(c)) {
+            if (in_word) {
+                count++;
+                in_word = false;
+            }
         } else {
-            spdlog::error("Failed to apply adapter: {}", adapter_id);
-            all_success = false;
-            // Continue trying other adapters
+            in_word = true;
         }
     }
     
-    if (all_success) {
-        spdlog::info("✓ All {} adapters applied successfully", adapters.size());
-    } else {
-        spdlog::warn("⚠️ Applied {}/{} adapters successfully", 
-                     successful, adapters.size());
-    }
+    // Count last word if text doesn't end with whitespace
+    if (in_word) count++;
     
-    return all_success;
+    return count;
 }
 
-bool LlamaCppInferenceEngine::removeAdapter(const std::string& adapter_id) {
-    auto it = active_adapters_.find(adapter_id);
-    if (it == active_adapters_.end()) {
-        spdlog::warn("Adapter not active: {}", adapter_id);
-        return false;
+int LLMOutputValidator::countSentences(const std::string& text) {
+    int count = 0;
+    
+    for (char c : text) {
+        if (c == '.' || c == '!' || c == '?') {
+            count++;
+        }
     }
     
-    int adapter_handle = it->second;
+    // If no sentence-ending punctuation but has words, count as 1 sentence
+    if (count == 0 && countWords(text) > 0) {
+        count = 1;
+    }
     
-    // NOTE: When llama.cpp is properly integrated, uncomment:
-    // llama_lora_adapter_remove(adapter_handle);
+    return count;
+}
+
+double LLMOutputValidator::calculateAvgWordLength(const std::string& text) {
+    if (text.empty()) return 0.0;
     
-    // Remove from tracking maps
-    active_adapters_.erase(it);
-    adapter_scales_.erase(adapter_id);
+    int word_count = 0;
+    int total_chars = 0;
+    int current_word_len = 0;
     
-    // Clean up temp file if exists
-    auto temp_it = adapter_temp_files_.find(adapter_id);
-    if (temp_it != adapter_temp_files_.end()) {
-        try {
-            if (fs::exists(temp_it->second)) {
-                fs::remove(temp_it->second);
-                spdlog::debug("Cleaned up temp adapter file: {}", temp_it->second);
+    for (char c : text) {
+        if (std::isspace(c)) {
+            if (current_word_len > 0) {
+                word_count++;
+                total_chars += current_word_len;
+                current_word_len = 0;
             }
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to clean up temp file: {}", e.what());
-        }
-        adapter_temp_files_.erase(temp_it);
-    }
-    
-    spdlog::info("Adapter removed: {}", adapter_id);
-    return true;
-}
-
-void LlamaCppInferenceEngine::clearAllAdapters() {
-    if (active_adapters_.empty()) {
-        return;
-    }
-    
-    spdlog::info("Clearing all {} active adapters", active_adapters_.size());
-    
-    // NOTE: When llama.cpp is properly integrated, uncomment:
-    // if (context_handle_) {
-    //     llama_lora_adapter_clear(static_cast<llama_context*>(context_handle_));
-    // }
-    
-    // Clean up all temp files
-    for (const auto& [adapter_id, temp_path] : adapter_temp_files_) {
-        try {
-            if (fs::exists(temp_path)) {
-                fs::remove(temp_path);
-                spdlog::debug("Cleaned up temp adapter file: {}", temp_path);
-            }
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to clean up temp file {}: {}", temp_path, e.what());
+        } else {
+            current_word_len++;
         }
     }
     
-    active_adapters_.clear();
-    adapter_scales_.clear();
-    adapter_temp_files_.clear();
-    
-    spdlog::info("All adapters cleared");
-}
-
-bool LlamaCppInferenceEngine::isAdapterActive(const std::string& adapter_id) const {
-    return active_adapters_.find(adapter_id) != active_adapters_.end();
-}
-
-std::vector<std::string> LlamaCppInferenceEngine::getActiveAdapters() const {
-    std::vector<std::string> adapters;
-    adapters.reserve(active_adapters_.size());
-    
-    for (const auto& [adapter_id, handle] : active_adapters_) {
-        adapters.push_back(adapter_id);
+    // Count last word
+    if (current_word_len > 0) {
+        word_count++;
+        total_chars += current_word_len;
     }
     
-    return adapters;
-}
-
-bool LlamaCppInferenceEngine::validateAdapterApplication(const std::string& adapter_id) {
-    // 1. Check if adapter is in active list
-    if (active_adapters_.find(adapter_id) == active_adapters_.end()) {
-        spdlog::error("Adapter not in active list: {}", adapter_id);
-        return false;
-    }
-    
-    // 2. Validation would involve running inference with and without adapter
-    // For now, we do a basic check
-    spdlog::info("Validating adapter application: {}", adapter_id);
-    
-    // In production, you would:
-    // - Generate with adapter
-    // - Temporarily remove adapter
-    // - Generate without adapter  
-    // - Re-apply adapter
-    // - Compare results (should be different)
-    
-    // For now, just log success
-    spdlog::info("✓ Adapter validation passed (basic check): {}", adapter_id);
-    return true;
-}
-
-// ═══════════════════════════════════════════════════════════
-// LoRa Adapter Helper Methods
-// ═══════════════════════════════════════════════════════════
-
-std::string LlamaCppInferenceEngine::convertAdapterToLlamaCppFormat(
-    const lora::AdapterWeights& weights
-) {
-    // Check if already in correct format
-    if (weights.format == "gguf" || weights.format == "llama.cpp") {
-        spdlog::debug("Adapter already in llama.cpp format");
-        // Save directly to temp file with unique name
-        std::string temp_path = getTempAdapterPath(generateUniqueAdapterId());
-        if (saveAdapterToTempFile(temp_path, weights)) {
-            return temp_path;
-        }
-        return "";
-    }
-    
-    // Convert safetensors to llama.cpp format
-    if (weights.format == "safetensors") {
-        spdlog::debug("Converting adapter from safetensors to llama.cpp format");
-        
-        // For now, save as-is since actual conversion requires safetensors parser
-        // In production, this would:
-        // 1. Parse safetensors format
-        // 2. Convert to llama.cpp GGUF format
-        // 3. Save to temp file
-        
-        // Use unique temporary name
-        std::string temp_path = getTempAdapterPath(generateUniqueAdapterId());
-        if (saveAdapterToTempFile(temp_path, weights)) {
-            return temp_path;
-        }
-        return "";
-    }
-    
-    spdlog::error("Unsupported adapter format: {}", weights.format);
-    return "";
-}
-
-std::string LlamaCppInferenceEngine::getTempAdapterPath(const std::string& adapter_id) {
-    // Create temp directory if it doesn't exist
-    fs::path temp_dir = fs::temp_directory_path() / "themis_adapters";
-    
-    try {
-        if (!fs::exists(temp_dir)) {
-            fs::create_directories(temp_dir);
-        }
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to create temp adapter directory: {}", e.what());
-        return "";
-    }
-    
-    // Generate unique temp file name
-    fs::path temp_file = temp_dir / (adapter_id + ".gguf");
-    return temp_file.string();
-}
-
-void LlamaCppInferenceEngine::cleanupTempAdapterFiles() {
-    for (const auto& [adapter_id, temp_path] : adapter_temp_files_) {
-        try {
-            if (fs::exists(temp_path)) {
-                fs::remove(temp_path);
-                spdlog::debug("Cleaned up temp adapter file: {}", temp_path);
-            }
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to clean up temp file {}: {}", temp_path, e.what());
-        }
-    }
-    adapter_temp_files_.clear();
-}
-
-bool LlamaCppInferenceEngine::saveAdapterToTempFile(
-    const std::string& temp_path,
-    const lora::AdapterWeights& weights
-) {
-    try {
-        std::ofstream output_file(temp_path, std::ios::binary);
-        if (!output_file) {
-            spdlog::error("Failed to open temp file for writing: {}", temp_path);
-            return false;
-        }
-        
-        output_file.write(
-            reinterpret_cast<const char*>(weights.data.data()),
-            weights.data.size()
-        );
-        output_file.close();
-        
-        if (!output_file.good()) {
-            spdlog::error("Error writing to temp file: {}", temp_path);
-            return false;
-        }
-        
-        spdlog::debug("Saved adapter to temp file: {} ({} bytes)", 
-                     temp_path, weights.data.size());
-        return true;
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Exception saving adapter to temp file: {}", e.what());
-        return false;
-    }
-}
-
-std::string LlamaCppInferenceEngine::generateUniqueAdapterId() {
-    // Combine timestamp with random component for better uniqueness
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    
-    // Add random component to prevent collisions
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<> dis(1000, 9999);
-    int random_suffix = dis(gen);
-    
-    return "adapter_" + std::to_string(now) + "_" + std::to_string(random_suffix);
+    return (word_count > 0) ? static_cast<double>(total_chars) / word_count : 0.0;
 }
 
 } // namespace llm

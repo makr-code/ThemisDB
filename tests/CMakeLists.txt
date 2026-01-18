@@ -1244,6 +1244,353 @@ else()
 endif()
 
 # ============================================================================
+# Generic Plugin Registry Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+    message(STATUS "Adding generic plugin registry tests")
+    
+    add_executable(test_generic_plugin_registry
+        test_generic_plugin_registry.cpp
+    )
+    
+    target_link_libraries(test_generic_plugin_registry PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_generic_plugin_registry PRIVATE
+# Base Interfaces Tests (Phase 1: Dependency Inversion)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+    message(STATUS "Adding base interfaces tests")
+    
+    add_executable(test_base_interfaces
+        test_base_interfaces.cpp
+    )
+    
+    target_link_libraries(test_base_interfaces PRIVATE
+        ${TEST_LIBS}
+    )
+    
+    target_compile_definitions(test_base_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME GenericPluginRegistryTests COMMAND test_generic_plugin_registry)
+    
+    # Set test properties
+    set_tests_properties(GenericPluginRegistryTests PROPERTIES
+        LABELS "plugins;registry;core"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Generic plugin registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+    add_test(NAME BaseInterfacesTests COMMAND test_base_interfaces)
+    
+    # Set test properties
+    set_tests_properties(BaseInterfacesTests PROPERTIES
+        LABELS "base;interfaces;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Base interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+# Auth Middleware Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+    message(STATUS "Adding auth middleware tests")
+    
+    add_executable(test_auth_middleware
+        test_auth_middleware.cpp
+    )
+    
+    target_link_libraries(test_auth_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_auth_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME AuthMiddlewareTests COMMAND test_auth_middleware)
+    
+    set_tests_properties(AuthMiddlewareTests PROPERTIES
+        LABELS "auth;middleware;security"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Auth middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+endif()
+
+# ============================================================================
+# Huge Pages Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+    message(STATUS "Adding huge pages tests")
+    
+    add_executable(test_huge_pages
+        test_huge_pages.cpp
+    )
+    
+    target_link_libraries(test_huge_pages PRIVATE
+        ${TEST_LIBS}
+    )
+    
+    target_compile_definitions(test_huge_pages PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    if(THEMIS_ENABLE_HUGE_PAGES)
+        message(STATUS "Huge pages support enabled for test_huge_pages")
+        target_compile_definitions(test_huge_pages PRIVATE
+            THEMIS_USE_HUGE_PAGES=1  # Used by test code to conditionally compile huge pages tests
+        )
+    else()
+        message(STATUS "Huge pages support disabled - tests will skip huge pages allocations")
+    endif()
+    
+    add_test(NAME HugePagesTests COMMAND test_huge_pages)
+    
+    set_tests_properties(HugePagesTests PROPERTIES
+        LABELS "performance;memory;huge_pages"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Huge pages tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+endif()
+
+# ============================================================================
+# Storage Engine DI Tests (Phase 2)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+    message(STATUS "Adding Storage Engine DI tests")
+    
+    add_executable(test_storage_engine_di
+        test_storage_engine_di.cpp
+    )
+    
+    target_link_libraries(test_storage_engine_di PRIVATE
+        ${TEST_LIBS}
+        GTest::gmock
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_storage_engine_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME StorageEngineDITests COMMAND test_storage_engine_di)
+    
+    set_tests_properties(StorageEngineDITests PROPERTIES
+        LABELS "storage;di;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Storage Engine DI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+endif()
+
+# ============================================================================
+# IndexManager DI Tests (Phase 4)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+    message(STATUS "Adding IndexManager DI tests")
+    
+    add_executable(test_index_manager_di
+        test_index_manager_di.cpp
+    )
+    
+    target_link_libraries(test_index_manager_di PRIVATE
+        ${TEST_LIBS}
+        GTest::gmock
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_index_manager_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexManagerDITests COMMAND test_index_manager_di)
+    
+    set_tests_properties(IndexManagerDITests PROPERTIES
+        LABELS "index;di;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "IndexManager DI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+endif()
+
+# ============================================================================
+# General Graph Traversal Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_general_traversal.cpp")
+    message(STATUS "Adding General Graph Traversal tests")
+    
+    add_executable(test_general_traversal
+        test_general_traversal.cpp
+    )
+    
+    target_link_libraries(test_general_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_general_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GeneralTraversalTests COMMAND test_general_traversal)
+    
+    set_tests_properties(GeneralTraversalTests PROPERTIES
+        LABELS "graph;traversal;unit"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "General traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_general_traversal.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_aql_general_traversal.cpp")
+    message(STATUS "Adding AQL General Traversal integration tests")
+    
+    add_executable(test_aql_general_traversal
+        test_aql_general_traversal.cpp
+    )
+    
+    target_link_libraries(test_aql_general_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_aql_general_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME AQLGeneralTraversalTests COMMAND test_aql_general_traversal)
+    
+    set_tests_properties(AQLGeneralTraversalTests PROPERTIES
+        LABELS "aql;graph;traversal;integration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "AQL General traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_aql_general_traversal.cpp")
+endif()
+
+# ============================================================================
+# PageRank Function Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_pagerank.cpp")
+    message(STATUS "Adding PageRank function tests")
+    
+    add_executable(test_pagerank
+        query/test_pagerank.cpp
+    )
+    
+    target_link_libraries(test_pagerank PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_pagerank PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PageRankFunctionTests COMMAND test_pagerank)
+    
+    set_tests_properties(PageRankFunctionTests PROPERTIES
+        LABELS "query;graph;pagerank;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "PageRank function tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_pagerank.cpp")
+endif()
+
+# ============================================================================
+# RAG Enhancement Tests
+# ============================================================================
+
+# Knowledge Gap Detector Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+    message(STATUS "Adding Knowledge Gap Detector tests")
+    
+    add_executable(test_knowledge_gap_detector
+        test_knowledge_gap_detector.cpp
+    )
+    
+    target_link_libraries(test_knowledge_gap_detector PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_knowledge_gap_detector PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME KnowledgeGapDetectorTests COMMAND test_knowledge_gap_detector)
+    
+    set_tests_properties(KnowledgeGapDetectorTests PROPERTIES
+        LABELS "rag;llm;knowledge_gap;unit"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Knowledge Gap Detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+# RAG Judge Phase 1 Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase1.cpp")
+    message(STATUS "Adding RAG Judge Phase 1 tests")
+    
+    add_executable(test_rag_judge_phase1
+        test_rag_judge_phase1.cpp
+    )
+    
+    target_link_libraries(test_rag_judge_phase1 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_rag_judge_phase1 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGJudgePhase1Tests COMMAND test_rag_judge_phase1)
+    
+    set_tests_properties(RAGJudgePhase1Tests PROPERTIES
+        LABELS "rag;llm;judge;phase1;unit"
+        TIMEOUT 120
+    )
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "RAG Judge tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "RAG Judge Phase 1 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase1.cpp")
+    endif()
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 

@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <cstring>
 
 // Platform-specific includes
 #ifdef __linux__

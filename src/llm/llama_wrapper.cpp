@@ -2,6 +2,7 @@
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
+#include "llm/llamacpp_inference_engine.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -168,6 +169,21 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     }
 #endif
     
+    // Initialize output validator (Production Readiness)
+    if (config_.enable_output_validation) {
+        LLMOutputValidator::Config validator_config;
+        validator_config.min_length = config_.min_output_length;
+        validator_config.max_length = config_.max_output_length;
+        validator_config.require_utf8 = config_.require_utf8;
+        validator_config.min_coherence = config_.min_coherence;
+        validator_config.check_truncation = true;
+        validator_config.check_coherence = true;
+        
+        output_validator_ = std::make_unique<LLMOutputValidator>(validator_config);
+        spdlog::info("Output validation enabled (min_len: {}, require_utf8: {}, min_coherence: {})",
+                     validator_config.min_length, validator_config.require_utf8, validator_config.min_coherence);
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -177,6 +193,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
     spdlog::info("  Grammar constraints: {}", config_.grammar_config.enabled ? "enabled" : "disabled");
     spdlog::info("  Vision support: {}", vision_enabled_ ? "enabled" : "disabled");
+    spdlog::info("  Output validation: {}", output_validator_ ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
@@ -196,6 +213,9 @@ bool LlamaWrapper::loadModel(
     const json& config
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Transition to LOADING state
+    transitionToState(WrapperState::LOADING, "loadModel() called for: " + model_path);
     
     spdlog::info("Loading model (lazy): {}", model_path);
     
@@ -288,6 +308,9 @@ bool LlamaWrapper::loadModel(
     if (!model) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
+        // Transition to ERROR state
+        transitionToState(WrapperState::ERROR, "Model load failed: " + model_path);
+        
         if (metrics_collector_) {
             metrics_collector_->recordError("model_load_failed", "model_loader");
         }
@@ -316,6 +339,9 @@ bool LlamaWrapper::loadModel(
         metrics_collector_->recordModelSwitchLatency(load_time_ms);
     }
     
+    // Transition to READY state
+    transitionToState(WrapperState::READY, "Model loaded successfully: " + current_model_id_);
+    
     return true;
 }
 
@@ -327,6 +353,9 @@ void LlamaWrapper::unloadModel() {
     }
     
     spdlog::info("Unloading model: {}", current_model_id_);
+    
+    // Transition to UNAVAILABLE state
+    transitionToState(WrapperState::UNAVAILABLE, "Model unload requested");
     
     // Unload draft model first
     unloadDraftModel();
@@ -340,6 +369,9 @@ void LlamaWrapper::unloadModel() {
     
     current_model_id_.clear();
     current_model_path_.clear();
+    
+    // Transition to UNINITIALIZED state
+    transitionToState(WrapperState::UNINITIALIZED, "Model unloaded");
     
     spdlog::info("Model unloaded");
 }
@@ -398,6 +430,20 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
 
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Check state before attempting inference
+    if (current_state_ != WrapperState::READY) {
+        std::string error_msg = "LlamaWrapper not ready for inference. Current state: " + 
+                               stateToString(current_state_);
+        spdlog::error("{}", error_msg);
+        
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_.empty() ? "unknown" : current_model_id_, 
+                                                     "wrapper_not_ready");
+        }
+        
+        throw std::runtime_error(error_msg);
+    }
     
     if (current_model_id_.empty()) {
         throw std::runtime_error("No model loaded");
@@ -595,6 +641,50 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (response.tokens_generated > 0) {
                 double per_token_latency = response.inference_time_ms / response.tokens_generated;
                 metrics_collector_->recordPerTokenLatency(current_model_id_, per_token_latency);
+            }
+        }
+        
+        // 7. Validate output (Production Readiness)
+        if (output_validator_) {
+            auto validation = output_validator_->validateWithTokens(
+                response.text,
+                response.tokens_generated,
+                max_tokens
+            );
+            
+            // Log validation results
+            if (!validation.is_valid) {
+                for (const auto& error : validation.errors) {
+                    spdlog::error("LLM output validation error: {}", error);
+                }
+                
+                if (metrics_collector_) {
+                    metrics_collector_->recordError("output_validation_failed", "llama_wrapper");
+                }
+                
+                // Add validation errors to response metadata
+                // We don't throw here - instead we let the caller decide how to handle
+                // invalid output. This enables graceful degradation in production.
+                response.metadata["validation_errors"] = validation.errors;
+                response.metadata["validation_valid"] = false;
+            }
+            
+            // Log warnings
+            for (const auto& warning : validation.warnings) {
+                spdlog::warn("LLM output validation warning: {}", warning);
+            }
+            
+            // Add validation metrics to response
+            response.metadata["validation_metrics"] = {
+                {"token_count", validation.metrics.token_count},
+                {"word_count", validation.metrics.word_count},
+                {"is_truncated", validation.metrics.is_truncated},
+                {"is_utf8_valid", validation.metrics.is_utf8_valid},
+                {"coherence_score", validation.metrics.semantic_coherence}
+            };
+            
+            if (!validation.warnings.empty()) {
+                response.metadata["validation_warnings"] = validation.warnings;
             }
         }
         
@@ -1119,12 +1209,10 @@ llama_token LlamaWrapper::sampleTokenInternal(
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
     if (grammar != nullptr) {
-        // TODO: llama_grammar_sample not yet available in stable llama.cpp
-        // For now, skip grammar filtering and use all candidates
-        // llama_grammar_sample(grammar, ctx, &candidates_p);
+        llama_grammar_sample(grammar, ctx, &candidates_p);
         
-        // After grammar filtering, candidates_p.size may be reduced
-        spdlog::debug("Grammar constraints requested but not yet implemented");
+        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+                     candidates_p.size);
     }
     
     // Apply temperature sampling
@@ -1177,8 +1265,7 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Update grammar state with sampled token (Phase 3.2)
     if (grammar != nullptr) {
-        // TODO: llama_grammar_accept not yet available in stable llama.cpp
-        // llama_grammar_accept(grammar, ctx, sampled_token);
+        llama_grammar_accept(grammar, ctx, sampled_token);
     }
     
     return sampled_token;
@@ -2110,6 +2197,65 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
 }
 #endif // THEMIS_ENABLE_VISION
 
+// ═══════════════════════════════════════════════════════════
+// State Management Implementation (Production Readiness)
+// ═══════════════════════════════════════════════════════════
+
+WrapperState LlamaWrapper::state() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return current_state_;
+}
+
+std::string LlamaWrapper::stateString() const {
+    return stateToString(state());
+}
+
+std::vector<StateTransition> LlamaWrapper::stateHistory() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return state_history_;
+}
+
+void LlamaWrapper::clearStateHistory() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    state_history_.clear();
+}
+
+void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& reason) {
+    // Caller must hold mutex_
+    
+    if (current_state_ == new_state) {
+        return;  // No transition needed
+    }
+    
+    // Record transition
+    StateTransition transition(current_state_, new_state, reason);
+    state_history_.push_back(transition);
+    
+    // Limit history size to prevent unbounded memory growth
+    if (state_history_.size() > MAX_STATE_HISTORY) {
+        state_history_.erase(state_history_.begin());
+    }
+    
+    spdlog::info("LlamaWrapper state transition: {} -> {} (reason: {})",
+                 stateToString(current_state_),
+                 stateToString(new_state),
+                 reason);
+    
+    current_state_ = new_state;
+}
+
+std::string LlamaWrapper::stateToString(WrapperState state) {
+    switch (state) {
+        case WrapperState::UNINITIALIZED: return "UNINITIALIZED";
+        case WrapperState::LOADING:       return "LOADING";
+        case WrapperState::READY:         return "READY";
+        case WrapperState::ERROR:         return "ERROR";
+        case WrapperState::UNAVAILABLE:   return "UNAVAILABLE";
+        default:                          return "UNKNOWN";
+    }
+}
+
 } // namespace llm
 } // namespace themis
+
 

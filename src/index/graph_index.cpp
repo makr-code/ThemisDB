@@ -32,6 +32,15 @@ void GraphIndexManager::setUserContext(std::string user_id) {
 	user_context_ = std::move(user_id);
 }
 
+// Phase 4: Set expression evaluator for advanced filtering
+void GraphIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
+	expression_evaluator_ = std::move(evaluator);
+}
+
+std::shared_ptr<IExpressionEvaluator> GraphIndexManager::getExpressionEvaluator() const {
+	return expression_evaluator_;
+}
+
 // Helper: Log audit event if audit logger is configured
 void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std::string& resource,
                                        const std::string& operation, size_t count, int depth) const {
@@ -643,6 +652,53 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 
 	// If stored as string it might be either a plain number or an encrypted blob
 	if (auto wstrOpt = edge.getFieldAsString("_weight"); wstrOpt) {
+		const std::string& wstr = *wstrOpt;
+		// Try to detect encrypted blob and decrypt when possible
+		try {
+			auto eb = EncryptedBlob::fromBase64(wstr);
+			if (field_encryption_) {
+				std::string dec = field_encryption_->decryptToString(eb);
+				try {
+					return std::stod(dec);
+				} catch (...) {
+					// fallthrough
+				}
+			}
+		} catch (...) {
+			// not an encrypted blob
+		}
+
+		// Fallback: attempt to parse as number
+		try {
+			return std::stod(wstr);
+		} catch (...) {
+			return 1.0;
+		}
+	}
+
+	return 1.0;
+}
+
+// Public method for retrieving edge weight with custom attribute
+double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
+                                       std::string_view weightAttribute) const {
+	// Try both storage formats: with graphId (edge:<graphId>:<edgeId>) and without (edge:<edgeId>)
+	const std::string edgeKeyWithGid = std::string("edge:") + std::string(graphId) + ":" + std::string(edgeId);
+	auto blob = db_.get(edgeKeyWithGid);
+	if (!blob.has_value()) {
+		const std::string edgeKey = std::string("edge:") + std::string(edgeId);
+		blob = db_.get(edgeKey);
+		if (!blob.has_value()) return 1.0; // Default weight
+	}
+
+	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+	std::string attrName = std::string(weightAttribute);
+	
+	// Prefer numeric representation
+	if (auto weightOpt = edge.getFieldAsDouble(attrName); weightOpt) return *weightOpt;
+
+	// If stored as string it might be either a plain number or an encrypted blob
+	if (auto wstrOpt = edge.getFieldAsString(attrName); wstrOpt) {
 		const std::string& wstr = *wstrOpt;
 		// Try to detect encrypted blob and decrypt when possible
 		try {

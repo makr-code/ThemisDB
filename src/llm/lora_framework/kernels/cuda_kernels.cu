@@ -1,6 +1,7 @@
 #ifdef THEMIS_ENABLE_CUDA
 
 #include "llm/lora_framework/cuda_kernels.h"
+#include "security/vram_secure_clear.h"
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <device_launch_parameters.h>
@@ -426,6 +427,7 @@ cudaError_t launch_check_inf_nan_kernel(
     // Initialize to 0
     err = cudaMemset(d_overflow, 0, sizeof(int));
     if (err != cudaSuccess) {
+        security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
         cudaFree(d_overflow);
         return err;
     }
@@ -437,6 +439,7 @@ cudaError_t launch_check_inf_nan_kernel(
     
     err = cudaGetLastError();
     if (err != cudaSuccess) {
+        security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
         cudaFree(d_overflow);
         return err;
     }
@@ -444,6 +447,9 @@ cudaError_t launch_check_inf_nan_kernel(
     // Copy result back
     int h_overflow;
     err = cudaMemcpy(&h_overflow, d_overflow, sizeof(int), cudaMemcpyDeviceToHost);
+    
+    // Securely clear before freeing
+    security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
     cudaFree(d_overflow);
     
     if (err != cudaSuccess) {

@@ -100,6 +100,29 @@ public:
         int max_iterations = 100
     ) const;
 
+    /// K-Shortest Paths - Yen's Algorithm
+    /// Finds K shortest loopless paths from source to target.
+    /// Uses Dijkstra's algorithm iteratively with edge removal.
+    /// 
+    /// @param source: Source node primary key
+    /// @param target: Target node primary key
+    /// @param k: Number of shortest paths to find
+    /// @param weight_attr: Optional edge weight attribute (empty = unweighted)
+    /// @return Vector of paths, each path containing vertices, edges, and total length/weight
+    struct PathInfo {
+        std::vector<std::string> vertices;
+        std::vector<std::pair<std::string, std::string>> edges;  // pairs of (from, to)
+        double length;  // number of edges or total weight
+        int hop_count;  // number of edges
+    };
+    
+    std::pair<Status, std::vector<PathInfo>> kShortestPaths(
+        const std::string& source,
+        const std::string& target,
+        int k,
+        const std::string& weight_attr = ""
+    ) const;
+
 private:
     GraphIndexManager& graphMgr_;
 

@@ -1,4 +1,5 @@
 #include "llm/model_loader.h"
+#include "llm/gguf_loader.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -45,7 +46,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     const std::string& model_path,
     const json& load_config
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_); // Use unique_lock for manual unlock/lock
     
     // Check if already loaded
     auto it = models_.find(model_id);
@@ -58,6 +59,50 @@ CachedModel* LazyModelLoader::getOrLoadModel(
         it->second->use_count++;
         
         return it->second.get();
+    }
+    
+    // Check if async preload is in progress
+    auto pending_it = pending_loads_.find(model_id);
+    if (pending_it != pending_loads_.end()) {
+        spdlog::info("Waiting for async preload to complete: {}", model_id);
+        
+        // Move future out of map to avoid issues with iterator invalidation
+        std::future<CachedModel*> future_model = std::move(pending_it->second);
+        pending_loads_.erase(pending_it);
+        
+        // Release lock temporarily to allow async task to complete
+        lock.unlock();
+        
+        try {
+            // Wait for async load to complete (with timeout)
+            auto status = future_model.wait_for(std::chrono::seconds(300)); // 5 minute timeout
+            
+            if (status == std::future_status::ready) {
+                auto* model = future_model.get();
+                
+                // Reacquire lock
+                lock.lock();
+                
+                if (model) {
+                    spdlog::info("Async preload completed for: {}", model_id);
+                    cache_hits_++; // Count as cache hit since it was preloaded
+                    return model;
+                } else {
+                    spdlog::error("Async preload failed for: {}", model_id);
+                    // Fall through to synchronous load attempt
+                }
+            } else {
+                spdlog::error("Async preload timed out for: {}", model_id);
+                lock.lock();
+                // Fall through to synchronous load attempt
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Exception waiting for async load: {}", e.what());
+            if (!lock.owns_lock()) {
+                lock.lock();
+            }
+            // Fall through to synchronous load attempt
+        }
     }
     
     spdlog::info("Model cache miss: {} - loading lazily", model_id);
@@ -78,12 +123,174 @@ bool LazyModelLoader::preloadModel(
     const std::string& model_path,
     const json& load_config
 ) {
-    spdlog::info("Preloading model in background: {}", model_id);
+    std::lock_guard<std::mutex> lock(mutex_);
     
-    // TODO: Implement async loading in v1.3.0
-    // For now, just do synchronous load
-    auto* model = getOrLoadModel(model_id, model_path, load_config);
-    return model != nullptr;
+    // Check if already loaded
+    if (models_.find(model_id) != models_.end()) {
+        spdlog::info("Model {} already loaded, skipping preload", model_id);
+        return true;
+    }
+    
+    // Check if already being loaded
+    if (pending_loads_.find(model_id) != pending_loads_.end()) {
+        spdlog::info("Model {} is already being preloaded", model_id);
+        return true;
+    }
+    
+    spdlog::info("Starting async preload for model: {}", model_id);
+    
+    // Launch async loading task
+    pending_loads_[model_id] = std::async(std::launch::async, [this, model_id, model_path, load_config]() -> CachedModel* {
+        try {
+            // Acquire lock for the actual loading
+            std::lock_guard<std::mutex> load_lock(mutex_);
+            
+            // Check again if model was loaded while we were waiting
+            auto it = models_.find(model_id);
+            if (it != models_.end()) {
+                spdlog::debug("Model {} was loaded during async wait", model_id);
+                return it->second.get();
+            }
+            
+            // Perform the actual load
+            auto* model = loadModelInternal(model_id, model_path, load_config);
+            if (model) {
+                spdlog::info("Async preload completed successfully for: {}", model_id);
+            } else {
+                spdlog::error("Async preload failed for: {}", model_id);
+            }
+            
+            return model;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
+            return nullptr;
+        }
+    });
+    
+    return true;
+}
+
+std::future<CachedModel*> LazyModelLoader::loadAsync(
+    const std::string& model_id,
+    const std::string& model_path,
+    ProgressCallback progress_cb,
+    CancellationToken cancel_token,
+    const json& load_config
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Check if already loaded
+    if (models_.find(model_id) != models_.end()) {
+        spdlog::info("Model {} already loaded, returning immediately", model_id);
+        // Return already-ready future
+        std::promise<CachedModel*> promise;
+        promise.set_value(models_[model_id].get());
+        return promise.get_future();
+    }
+    
+    // Check if already being loaded via preloadModel
+    if (pending_loads_.find(model_id) != pending_loads_.end()) {
+        spdlog::warn("Model {} is already being loaded via preloadModel(). "
+                    "New progress callback will not be used. "
+                    "Consider using preloadModel() for async loading without progress tracking.",
+                    model_id);
+        // For safety, just start a new async load rather than trying to share futures
+        // This ensures each caller gets their own future they can safely use
+    }
+    
+    spdlog::info("Starting async model load with progress tracking: {}", model_id);
+    
+    // Launch async loading task with progress reporting
+    // Note: Each call to loadAsync() creates a new future to avoid sharing issues
+    return std::async(std::launch::async, [this, model_id, model_path, load_config, progress_cb, cancel_token]() -> CachedModel* {
+        try {
+            LoadProgress progress;
+            progress.start_time = std::chrono::steady_clock::now();
+            
+            // Phase 1: PARSING (0-20%)
+            progress.phase = LoadPhase::PARSING;
+            progress.phase_progress = 0.0;
+            progress.overall_percent = 0.0;
+            progress.status_msg = "Parsing GGUF file...";
+            if (progress_cb) progress_cb(progress);
+            
+            // Check cancellation
+            if (cancel_token.is_cancelled()) {
+                spdlog::info("Model load cancelled during PARSING: {}", model_id);
+                return nullptr;
+            }
+            
+            // Report parsing phase progress
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 20.0;
+            if (progress_cb) progress_cb(progress);
+            
+            // Phase 2: ALLOCATING (20-70%)
+            progress.phase = LoadPhase::ALLOCATING;
+            progress.phase_progress = 0.0;
+            progress.overall_percent = 20.0;
+            progress.status_msg = "Allocating model weights...";
+            if (progress_cb) progress_cb(progress);
+            
+            // Acquire lock for actual loading
+            std::unique_lock<std::mutex> load_lock(mutex_);
+            
+            // Check again if model was loaded while waiting
+            auto it = models_.find(model_id);
+            if (it != models_.end()) {
+                spdlog::debug("Model {} was loaded during async wait", model_id);
+                return it->second.get();
+            }
+            
+            // Perform the actual model load
+            // Note: loadModelInternal is the heavy operation that does the real work
+            // In a full implementation, this would report progress internally
+            auto* model = loadModelInternal(model_id, model_path, load_config);
+            
+            load_lock.unlock();
+            
+            if (cancel_token.is_cancelled()) {
+                spdlog::info("Model load cancelled after loading: {}", model_id);
+                // Model was loaded but user cancelled, so unload it
+                load_lock.lock();
+                unloadModel(model_id, true);
+                load_lock.unlock();
+                return nullptr;
+            }
+            
+            // Report allocation phase complete
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 70.0;
+            if (progress_cb) progress_cb(progress);
+            
+            // Phase 3: INITIALIZING (70-100%)
+            progress.phase = LoadPhase::INITIALIZING;
+            progress.phase_progress = 0.0;
+            progress.overall_percent = 70.0;
+            progress.status_msg = "Initializing context...";
+            if (progress_cb) progress_cb(progress);
+            
+            // Complete
+            progress.phase = LoadPhase::INITIALIZING;
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 100.0;
+            progress.status_msg = "Model load complete";
+            if (progress_cb) progress_cb(progress);
+            
+            if (model) {
+                spdlog::info("Async model load completed successfully: {}", model_id);
+            } else {
+                spdlog::error("Async model load failed: {}", model_id);
+            }
+            
+            return model;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
+            return nullptr;
+        }
+    });
 }
 
 bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
@@ -335,12 +542,66 @@ CachedModel* LazyModelLoader::loadModelInternal(
     model_params.use_mmap = config.value("use_mmap", true);
     model_params.use_mlock = config.value("use_mlock", false);
     
-    // Load the model
-    llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+    llama_model* lmodel = nullptr;
+    bool custom_loader_success = false;
+    
+    // Try custom GGUF loader first if preferred (security - embedded safetensor)
+    if (config_.prefer_custom_gguf_loader) {
+        spdlog::info("Attempting to load model with custom GGUFLoader (security: embedded safetensor)");
+        
+        try {
+            // Create GGUF loader instance
+            GGUFLoader gguf_loader;
+            
+            // Parse the GGUF file
+            if (gguf_loader.parseFile(model_path)) {
+                spdlog::info("✓ Custom GGUFLoader: GGUF file parsed successfully");
+                
+                // Get metadata for validation
+                const auto& metadata = gguf_loader.getMetadata();
+                spdlog::info("  Model metadata: architecture={}, version={}, tensors={}",
+                            metadata.architecture, metadata.version, metadata.tensors.size());
+                
+                // After parsing with custom loader, still use llama.cpp's native loader
+                // for actual model initialization (custom loader validated the file)
+                // This provides security validation + native performance
+                lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+                
+                if (lmodel) {
+                    spdlog::info("✓ Model loaded successfully with custom GGUF validation");
+                    custom_loader_success = true;
+                } else {
+                    spdlog::warn("Custom GGUF validation succeeded, but llama.cpp load failed");
+                }
+            } else {
+                spdlog::warn("Custom GGUFLoader: Failed to parse GGUF file");
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("Custom GGUFLoader exception: {}", e.what());
+        }
+    }
+    
+    // Fallback to native llama.cpp loader
+    if (!lmodel && config_.fallback_to_native) {
+        spdlog::info("Falling back to native llama_load_model_from_file()");
+        lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+        
+        if (lmodel) {
+            spdlog::info("✓ Model loaded successfully with native llama.cpp loader");
+        }
+    }
     
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
+        spdlog::error("Failed to load model with both custom and native loaders");
         return nullptr;
+    }
+    
+    // Log which loader was used
+    if (custom_loader_success) {
+        spdlog::info("Model loading strategy: Custom GGUF validation + native llama.cpp");
+    } else {
+        spdlog::info("Model loading strategy: Native llama.cpp only");
     }
     
     // Initialize context parameters

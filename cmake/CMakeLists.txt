@@ -1120,6 +1120,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
+    ../src/core/security_initialization.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1341,6 +1342,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
+    ../src/plugins/plugin_registry.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
@@ -1491,6 +1493,12 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
     )
+    
+    # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
+    list(APPEND THEMIS_CORE_SOURCES
+    ../src/rag/knowledge_gap_detector.cpp
+    )
+    # Note: rag_judge.cpp will be added in a future phase
 endif()
 
 # Ensure minimal LLM components are available when referenced from http_server.
@@ -1517,6 +1525,7 @@ target_include_directories(themis_core
     PUBLIC
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
 )
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)
