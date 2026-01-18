@@ -2,6 +2,7 @@
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/data_loader.h"
 #include <memory>
+#include <spdlog/spdlog.h>
 
 using namespace themis::llm::lora;
 

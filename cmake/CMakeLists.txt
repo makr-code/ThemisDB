@@ -1084,6 +1084,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
+    ../src/storage/nlp_metadata_extractor.cpp
     
     ../src/metadata/schema_manager.cpp
     ../src/server/schema_api_handler.cpp
@@ -1132,6 +1133,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/function_registry.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
@@ -2443,8 +2446,8 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_cte_cache.cpp
         ${THEMIS_ROOT_DIR}/tests/test_aql_translator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_text_processor.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_nlp_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_nlp_metadata_extractor.cpp
+        # Standalone tests with own main() removed from themis_tests:
+        # test_nlp_integration.cpp, test_nlp_metadata_extractor.cpp, test_lora_*.cpp, test_data_loader.cpp, test_llama_tokenizer.cpp, test_office_processor.cpp, test_production_validator.cpp
     ${THEMIS_ROOT_DIR}/tests/test_prompt_manager.cpp
     ${THEMIS_ROOT_DIR}/tests/test_mock_clip.cpp
         ${THEMIS_ROOT_DIR}/tests/test_image_analysis_interface.cpp
@@ -2514,19 +2517,15 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_partition_detection.cpp
         ${THEMIS_ROOT_DIR}/tests/test_raid_redundancy.cpp
         ${THEMIS_ROOT_DIR}/tests/test_hot_spare.cpp
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_llama_tokenizer.cpp>  # llama.cpp tokenizer integration tests
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
+        # LoRA/LLM tests with own main() moved to separate executables below
+        # test_lora_framework.cpp, test_lora_feedback.cpp, test_lora_llama_integration.cpp, test_data_loader.cpp, test_llama_tokenizer.cpp, test_lora_training_integration.cpp
         $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${THEMIS_ROOT_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
         $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
         $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_flash_lora.cpp>  # FlashLoRA memory-efficient kernel tests
         ${THEMIS_ROOT_DIR}/tests/test_raid_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${THEMIS_ROOT_DIR}/tests/test_gpu_erasure_coding.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:${THEMIS_ROOT_DIR}/tests/test_office_processor.cpp>
+        # test_office_processor.cpp removed (has own main)
         ${THEMIS_ROOT_DIR}/tests/test_stream_protocol_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_cloud_agent.cpp
         ${THEMIS_ROOT_DIR}/tests/test_pki_shard_certificate.cpp
@@ -2633,7 +2632,7 @@ if(THEMIS_BUILD_TESTS)
             ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache.cpp
             ${THEMIS_ROOT_DIR}/tests/test_paged_attention.cpp
             ${THEMIS_ROOT_DIR}/tests/test_continuous_batch_scheduler.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
+            # test_production_validator.cpp removed (has own main)
             ${THEMIS_ROOT_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
             ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
         )
