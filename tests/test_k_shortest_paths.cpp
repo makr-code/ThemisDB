@@ -5,6 +5,7 @@
 #include "storage/base_entity.h"
 #include <filesystem>
 #include <cmath>
+#include <chrono>
 
 using namespace themis;
 

@@ -611,13 +611,8 @@ GraphAnalytics::kShortestPaths(
                     continue;
                 }
                 
-                // Calculate edge weight
-                double edge_weight = 1.0;  // Default unweighted
-                if (!weight_attr.empty()) {
-                    // TODO: Get edge weight from edge attributes
-                    // For now, use default weight of 1.0
-                    edge_weight = 1.0;
-                }
+                // Calculate edge weight (TODO: Get actual weight from edge attributes)
+                double edge_weight = 1.0;  // Default: unweighted graph
                 
                 double new_dist = state.dist + edge_weight;
                 
@@ -704,11 +699,8 @@ GraphAnalytics::kShortestPaths(
                     total_path.edges.push_back(edge);
                 }
                 
-                // Calculate total length
-                double root_length = 0.0;
-                for (size_t i = 0; i < root_edges.size(); ++i) {
-                    root_length += (weight_attr.empty() ? 1.0 : 1.0);  // TODO: Use actual weights
-                }
+                // Calculate total length (TODO: Use actual edge weights when available)
+                double root_length = static_cast<double>(root_edges.size());  // Unweighted: count edges
                 total_path.length = root_length + spur_path.length;
                 total_path.hop_count = static_cast<int>(total_path.edges.size());
                 
