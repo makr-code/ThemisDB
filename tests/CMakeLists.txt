@@ -1494,6 +1494,38 @@ else()
 endif()
 
 # ============================================================================
+# PageRank Function Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_pagerank.cpp")
+    message(STATUS "Adding PageRank function tests")
+    
+    add_executable(test_pagerank
+        query/test_pagerank.cpp
+    )
+    
+    target_link_libraries(test_pagerank PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_pagerank PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PageRankFunctionTests COMMAND test_pagerank)
+    
+    set_tests_properties(PageRankFunctionTests PROPERTIES
+        LABELS "query;graph;pagerank;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "PageRank function tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_pagerank.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
