@@ -2,7 +2,8 @@
  * @file voice_assistant_llm.cpp
  * @brief Voice Assistant LLM Integration Implementation (Issue #4)
  * 
- * Uses EmbeddedLLM with LlamaWrapper plugin for unified llama.cpp integration.
+ * Uses LlamaWrapper for unified llama.cpp integration.
+ * Provides voice command processing with natural language understanding.
  * 
  * @author ThemisDB Team / GitHub Copilot
  * @date January 2026

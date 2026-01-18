@@ -58,7 +58,7 @@ bool VoiceAssistant::initialize() {
             return false;
         }
         
-        // Initialize LLM wrapper (using LlamaWrapper plugin instead of LlamaCppInferenceEngine)
+        // Initialize LLM using unified LlamaWrapper implementation
         llm::LlamaWrapper::Config llm_config;
         llm_config.n_ctx = config_.llm_n_ctx;
         llm_config.n_gpu_layers = config_.llm_n_gpu_layers;
