@@ -5,12 +5,7 @@
 namespace themis {
 namespace plugins {
 
-// Static storage for registries
-PluginRegistry::Registry& PluginRegistry::getRegistry() {
-    static Registry registry;
-    return registry;
-}
-
+// Static storage for type-specific registries only
 PluginRegistry::TypeRegistries& PluginRegistry::getTypeRegistries() {
     static TypeRegistries type_registries;
     return type_registries;
@@ -35,7 +30,6 @@ std::mutex& PluginRegistry::getMutex() {
 
 void PluginRegistry::clearRegistry() {
     std::lock_guard<std::mutex> lock(getMutex());
-    getRegistry().clear();
     getTypeRegistries().clear();
 }
 

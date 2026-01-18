@@ -51,10 +51,12 @@ public:
         const std::string& plugin_name,
         std::function<std::unique_ptr<PluginInterface>()> factory
     ) {
-        auto& registry = getRegistry();
         std::lock_guard<std::mutex> lock(getMutex());
         
-        // Store the factory with type erasure
+        // Store the factory with type erasure in type-specific registry
+        // This avoids data duplication and ensures consistency
+        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
+        
         FactoryEntry entry;
         entry.factory = [factory]() -> void* {
             return static_cast<void*>(factory().release());
@@ -65,10 +67,6 @@ public:
         entry.type_hash = typeid(PluginInterface).hash_code();
         entry.type_name = typeid(PluginInterface).name();
         
-        registry[plugin_name] = entry;
-        
-        // Also store in type-specific registry
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         type_registry[plugin_name] = entry;
     }
 
@@ -91,12 +89,13 @@ public:
      */
     template<typename PluginInterface>
     static std::unique_ptr<PluginInterface> create(const std::string& plugin_name) {
-        auto& registry = getRegistry();
         std::lock_guard<std::mutex> lock(getMutex());
         
-        auto it = registry.find(plugin_name);
+        // Look up in type-specific registry
+        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
+        auto it = type_registry.find(plugin_name);
         
-        if (it == registry.end()) {
+        if (it == type_registry.end()) {
             throw std::runtime_error("Plugin not registered: " + plugin_name);
         }
         
@@ -105,6 +104,9 @@ public:
         // Verify type matches - check both hash_code and type_name
         // Hash check is fast but may differ across compilation units
         // Type name check is slower but more robust across boundaries
+        // Note: std::type_info::name() returns implementation-defined strings
+        // that may be mangled (e.g., "N6themis7storage19IBlobStorageBackendE" on GCC).
+        // This is acceptable for error messages as they're for developer debugging.
         size_t expected_hash = typeid(PluginInterface).hash_code();
         const std::string& expected_name = typeid(PluginInterface).name();
         
@@ -195,7 +197,6 @@ private:
     using Registry = std::map<std::string, FactoryEntry>;
     using TypeRegistries = std::map<size_t, Registry>;
 
-    static Registry& getRegistry();
     static TypeRegistries& getTypeRegistries();
     static Registry& getTypeRegistry(const std::type_info& type);
     static std::mutex& getMutex();
