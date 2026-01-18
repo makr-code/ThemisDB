@@ -1,5 +1,6 @@
 #include "llm/gpu_memory_manager.h"
 #include "utils/error_registry.h"
+#include "security/vram_secure_clear.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
@@ -43,7 +44,7 @@ GPUMemoryManager::GPUMemoryManager(const Config& config)
 GPUMemoryManager::~GPUMemoryManager() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Free all allocations
+    // Free all allocations with secure clearing
     for (auto& [model_id, allocs] : allocations_) {
         spdlog::info("Freeing memory for model: {}", model_id);
         for (auto& alloc : allocs) {
@@ -51,11 +52,15 @@ GPUMemoryManager::~GPUMemoryManager() {
 #ifdef THEMIS_ENABLE_CUDA
                 if (gpu_available_) {
                     cudaSetDevice(alloc.gpu_device_id);
+                    // Securely clear VRAM before freeing
+                    security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.size);
                     CUDA_CHECK(cudaFree(alloc.gpu_ptr));
                 } else {
+                    security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
                     std::free(alloc.gpu_ptr);
                 }
 #else
+                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
                 std::free(alloc.gpu_ptr);  // Simulation mode
 #endif
             }
@@ -63,14 +68,19 @@ GPUMemoryManager::~GPUMemoryManager() {
                 if (alloc.is_pinned) {
 #ifdef THEMIS_ENABLE_CUDA
                     if (gpu_available_) {
+                        // Clear pinned memory before freeing
+                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                         CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
                     } else {
+                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                         std::free(alloc.cpu_ptr);
                     }
 #else
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                     std::free(alloc.cpu_ptr);  // Simulation mode
 #endif
                 } else {
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                     std::free(alloc.cpu_ptr);
                 }
             }
@@ -347,11 +357,14 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
 #ifdef THEMIS_ENABLE_CUDA
             if (gpu_available_) {
                 cudaSetDevice(alloc_it->gpu_device_id);
+                security::VRAMSecureClear::secureClearCUDA(ptr, alloc_it->size);
                 CUDA_CHECK(cudaFree(ptr));
             } else {
+                security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->size);
                 std::free(ptr);
             }
 #else
+            security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->size);
             std::free(ptr);  // Simulation mode
 #endif
             
@@ -423,11 +436,14 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
 #ifdef THEMIS_ENABLE_CUDA
             if (gpu_available_) {
                 cudaSetDevice(alloc.gpu_device_id);
+                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.size);
                 CUDA_CHECK(cudaFree(alloc.gpu_ptr));
             } else {
+                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
                 std::free(alloc.gpu_ptr);
             }
 #else
+            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
             std::free(alloc.gpu_ptr);  // Simulation mode
 #endif
             freed_vram += alloc.vram_bytes;
@@ -436,14 +452,18 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
             if (alloc.is_pinned) {
 #ifdef THEMIS_ENABLE_CUDA
                 if (gpu_available_) {
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                     CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
                 } else {
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                     std::free(alloc.cpu_ptr);
                 }
 #else
+                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                 std::free(alloc.cpu_ptr);  // Simulation mode
 #endif
             } else {
+                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
                 std::free(alloc.cpu_ptr);
             }
             freed_ram += alloc.ram_bytes;
@@ -726,11 +746,14 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 #ifdef THEMIS_ENABLE_CUDA
             if (gpu_available_) {
                 cudaSetDevice(device_id);
+                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.size);
                 CUDA_CHECK(cudaFree(alloc.gpu_ptr));
             } else {
+                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
                 std::free(alloc.gpu_ptr);
             }
 #else
+            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
             std::free(alloc.gpu_ptr);
 #endif
         }
@@ -1051,11 +1074,14 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
 #ifdef THEMIS_ENABLE_CUDA
                 if (gpu_available_) {
                     cudaSetDevice(gpu_device_id);
+                    security::VRAMSecureClear::secureClearCUDA(alloc_it->gpu_ptr, alloc_it->size);
                     CUDA_CHECK(cudaFree(alloc_it->gpu_ptr));
                 } else {
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->size);
                     std::free(alloc_it->gpu_ptr);
                 }
 #else
+                security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->size);
                 std::free(alloc_it->gpu_ptr);  // Simulation mode
 #endif
                 freed_vram += alloc_it->vram_bytes;
@@ -1067,14 +1093,18 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
                 if (alloc_it->is_pinned) {
 #ifdef THEMIS_ENABLE_CUDA
                     if (gpu_available_) {
+                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
                         CUDA_CHECK(cudaFreeHost(alloc_it->cpu_ptr));
                     } else {
+                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
                         std::free(alloc_it->cpu_ptr);
                     }
 #else
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
                     std::free(alloc_it->cpu_ptr);  // Simulation mode
 #endif
                 } else {
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
                     std::free(alloc_it->cpu_ptr);
                 }
                 freed_ram += alloc_it->ram_bytes;

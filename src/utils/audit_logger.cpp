@@ -182,14 +182,26 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::TOKEN_REVOKED: return "TOKEN_REVOKED";
         case SecurityEventType::UNAUTHORIZED_ACCESS: return "UNAUTHORIZED_ACCESS";
         case SecurityEventType::PERMISSION_DENIED: return "PERMISSION_DENIED";
+        // MFA Events (Phase 3)
+        case SecurityEventType::MFA_ENROLLED: return "MFA_ENROLLED";
+        case SecurityEventType::MFA_ENABLED: return "MFA_ENABLED";
+        case SecurityEventType::MFA_DISABLED: return "MFA_DISABLED";
+        case SecurityEventType::MFA_TOTP_SUCCESS: return "MFA_TOTP_SUCCESS";
+        case SecurityEventType::MFA_TOTP_FAILED: return "MFA_TOTP_FAILED";
+        case SecurityEventType::MFA_RECOVERY_CODE_USED: return "MFA_RECOVERY_CODE_USED";
+        case SecurityEventType::MFA_RECOVERY_CODES_REGENERATED: return "MFA_RECOVERY_CODES_REGENERATED";
+        case SecurityEventType::MFA_BACKUP_CODES_VIEWED: return "MFA_BACKUP_CODES_VIEWED";
+        // Privilege Escalation
         case SecurityEventType::PRIVILEGE_ESCALATION_ATTEMPT: return "PRIVILEGE_ESCALATION_ATTEMPT";
         case SecurityEventType::ROLE_CHANGED: return "ROLE_CHANGED";
         case SecurityEventType::SCOPE_GRANTED: return "SCOPE_GRANTED";
         case SecurityEventType::SCOPE_REVOKED: return "SCOPE_REVOKED";
+        // Key Management
         case SecurityEventType::KEY_CREATED: return "KEY_CREATED";
         case SecurityEventType::KEY_ROTATED: return "KEY_ROTATED";
         case SecurityEventType::KEY_DELETED: return "KEY_DELETED";
         case SecurityEventType::KEY_ACCESS: return "KEY_ACCESS";
+        // Data Access
         case SecurityEventType::DATA_READ: return "DATA_READ";
         case SecurityEventType::DATA_WRITE: return "DATA_WRITE";
         case SecurityEventType::DATA_DELETE: return "DATA_DELETE";
@@ -202,21 +214,34 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::EMBEDDING_EXPORT: return "EMBEDDING_EXPORT";
         case SecurityEventType::GRAPH_EXPORT: return "GRAPH_EXPORT";
         case SecurityEventType::TEMPORAL_QUERY: return "TEMPORAL_QUERY";
+        // GPU/VRAM Security (Phase 2)
+        case SecurityEventType::VRAM_ALLOCATED: return "VRAM_ALLOCATED";
+        case SecurityEventType::VRAM_DEALLOCATED: return "VRAM_DEALLOCATED";
+        case SecurityEventType::VRAM_SECURE_CLEAR: return "VRAM_SECURE_CLEAR";
+        case SecurityEventType::GPU_MEMORY_EXHAUSTION: return "GPU_MEMORY_EXHAUSTION";
         // PII
         case SecurityEventType::PII_ACCESSED: return "PII_ACCESSED";
         case SecurityEventType::PII_REVEALED: return "PII_REVEALED";
         case SecurityEventType::PII_ERASED: return "PII_ERASED";
+        // Configuration
         case SecurityEventType::CONFIG_CHANGED: return "CONFIG_CHANGED";
         case SecurityEventType::POLICY_UPDATED: return "POLICY_UPDATED";
         case SecurityEventType::ENCRYPTION_SCHEMA_CHANGED: return "ENCRYPTION_SCHEMA_CHANGED";
+        // Security Incidents
         case SecurityEventType::BRUTE_FORCE_DETECTED: return "BRUTE_FORCE_DETECTED";
         case SecurityEventType::RATE_LIMIT_EXCEEDED: return "RATE_LIMIT_EXCEEDED";
         case SecurityEventType::SUSPICIOUS_ACTIVITY: return "SUSPICIOUS_ACTIVITY";
         case SecurityEventType::INTEGRITY_VIOLATION: return "INTEGRITY_VIOLATION";
+        // Binary Integrity (Phase 5)
+        case SecurityEventType::BINARY_SIGNATURE_VERIFIED: return "BINARY_SIGNATURE_VERIFIED";
+        case SecurityEventType::BINARY_SIGNATURE_FAILED: return "BINARY_SIGNATURE_FAILED";
+        case SecurityEventType::MANIFEST_UPDATED: return "MANIFEST_UPDATED";
+        // System Events
         case SecurityEventType::SERVER_STARTED: return "SERVER_STARTED";
         case SecurityEventType::SERVER_STOPPED: return "SERVER_STOPPED";
         case SecurityEventType::BACKUP_CREATED: return "BACKUP_CREATED";
         case SecurityEventType::RESTORE_COMPLETED: return "RESTORE_COMPLETED";
+        // Generic
         case SecurityEventType::CUSTOM_EVENT: return "CUSTOM_EVENT";
         default: return "UNKNOWN";
     }
