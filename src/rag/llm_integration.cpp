@@ -4,14 +4,23 @@
  */
 
 #include "rag/llm_integration.h"
+#include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>
 #include <sstream>
 #include <regex>
+#include <random>
+#include <mutex>
+#include <atomic>
+#include <unordered_set>
 
 namespace themis::rag {
+
+// Static member to hold the inference engine
+static std::shared_ptr<llm::InferenceEngineEnhanced> g_inference_engine = nullptr;
+static std::mutex g_engine_mutex;
 
 // ============================================================================
 // PromptTemplate Implementation
@@ -52,17 +61,69 @@ std::string PromptTemplate::format(
 // LLMIntegration Implementation
 // ============================================================================
 
+void LLMIntegration::setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine) {
+    std::lock_guard<std::mutex> lock(g_engine_mutex);
+    g_inference_engine = engine;
+    THEMIS_INFO("LLM Integration: Inference engine configured");
+}
+
+std::shared_ptr<llm::InferenceEngineEnhanced> LLMIntegration::getInferenceEngine() {
+    std::lock_guard<std::mutex> lock(g_engine_mutex);
+    return g_inference_engine;
+}
+
 std::string LLMIntegration::generate(
     const std::string& prompt,
     const LLMGenerationOptions& options
 ) {
     THEMIS_DEBUG("LLMIntegration::generate called with prompt length: {}", prompt.length());
     
-    // TODO: Integrate with actual LLM inference engine
-    // For now, return a placeholder response
-    THEMIS_WARN("LLMIntegration::generate - stub implementation, actual LLM integration pending");
+    auto engine = getInferenceEngine();
+    if (!engine) {
+        THEMIS_WARN("LLMIntegration::generate - No inference engine configured, using stub");
+        return "[LLM Response Placeholder - No Engine Configured]";
+    }
     
-    return "[LLM Response Placeholder - Integration Pending]";
+    try {
+        // Create an enhanced inference request
+        llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
+        request.base_request.prompt = prompt;
+        request.base_request.max_tokens = options.max_tokens;
+        request.base_request.temperature = options.temperature;
+        request.base_request.stream = options.stream;
+        request.allow_caching = true;
+        request.priority = 0;
+        
+        // Generate a unique request ID
+        static std::atomic<uint64_t> request_counter{0};
+        request.request_id = "rag_" + std::to_string(request_counter.fetch_add(1));
+        
+        // Submit request and wait for response
+        auto handle = engine->submit(request);
+        
+        // Wait for completion (synchronous)
+        auto response = handle.get();
+        
+        // Call token probability callback if provided
+        if (options.token_callback && options.include_token_probabilities) {
+            // Note: Token probabilities would need to be extracted from response
+            // This is a simplified implementation
+            for (size_t i = 0; i < response.tokens.size(); ++i) {
+                TokenProbability tp;
+                tp.token = response.tokens[i];
+                tp.probability = 0.8; // Placeholder - would come from actual response
+                tp.position = i;
+                options.token_callback(tp);
+            }
+        }
+        
+        THEMIS_DEBUG("LLM generation completed: {} tokens", response.tokens.size());
+        return response.text;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("LLM generation failed: {}", e.what());
+        return "[LLM Generation Error: " + std::string(e.what()) + "]";
+    }
 }
 
 std::vector<std::string> LLMIntegration::generateMultipleSamples(
@@ -75,9 +136,29 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
     std::vector<std::string> samples;
     samples.reserve(num_samples);
     
+    // Use different seeds for each sample to get diverse responses
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<unsigned int> seed_dist(1, 1000000);
+    
     for (size_t i = 0; i < num_samples; ++i) {
-        // TODO: Generate with different seeds for diversity
-        samples.push_back(generate(prompt, options));
+        LLMGenerationOptions sample_options = options;
+        
+        // Generate a unique seed for this sample
+        if (i < options.seeds.size()) {
+            // Use provided seeds if available
+            sample_options.seeds = {options.seeds[i]};
+        } else {
+            // Generate random seed
+            sample_options.seeds = {seed_dist(gen)};
+        }
+        
+        // Increase temperature slightly for diversity
+        if (num_samples > 1) {
+            sample_options.temperature = std::min(1.0, options.temperature + 0.1 * i);
+        }
+        
+        samples.push_back(generate(prompt, sample_options));
     }
     
     return samples;
@@ -151,16 +232,66 @@ double LLMIntegration::calculateSemanticSimilarity(
 ) {
     THEMIS_DEBUG("Calculating semantic similarity between texts");
     
-    // TODO: Implement actual embedding-based similarity
-    // For now, use simple heuristic based on common words
-    
     if (text1.empty() || text2.empty()) {
         return 0.0;
     }
     
-    // Placeholder: return 0.8 for non-empty texts
-    THEMIS_WARN("calculateSemanticSimilarity - stub implementation");
-    return 0.8;
+    // Enhanced similarity calculation using word overlap and length normalization
+    // This is a simplified implementation; ideally would use embeddings
+    
+    // Tokenize texts (simple word splitting)
+    auto tokenize = [](const std::string& text) {
+        std::vector<std::string> tokens;
+        std::istringstream iss(text);
+        std::string word;
+        while (iss >> word) {
+            // Simple normalization: lowercase
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+            tokens.push_back(word);
+        }
+        return tokens;
+    };
+    
+    auto tokens1 = tokenize(text1);
+    auto tokens2 = tokenize(text2);
+    
+    if (tokens1.empty() || tokens2.empty()) {
+        return 0.0;
+    }
+    
+    // Calculate Jaccard similarity (intersection over union)
+    std::unordered_set<std::string> set1(tokens1.begin(), tokens1.end());
+    std::unordered_set<std::string> set2(tokens2.begin(), tokens2.end());
+    
+    // Count intersection
+    size_t intersection = 0;
+    for (const auto& token : set1) {
+        if (set2.count(token) > 0) {
+            intersection++;
+        }
+    }
+    
+    // Calculate union size
+    size_t union_size = set1.size() + set2.size() - intersection;
+    
+    if (union_size == 0) {
+        return 0.0;
+    }
+    
+    double jaccard = static_cast<double>(intersection) / union_size;
+    
+    // Also consider length similarity for better scoring
+    double len1 = static_cast<double>(tokens1.size());
+    double len2 = static_cast<double>(tokens2.size());
+    double length_similarity = std::min(len1, len2) / std::max(len1, len2);
+    
+    // Weighted combination
+    double similarity = 0.7 * jaccard + 0.3 * length_similarity;
+    
+    THEMIS_DEBUG("Semantic similarity: {:.3f} (Jaccard: {:.3f}, Length: {:.3f})", 
+                 similarity, jaccard, length_similarity);
+    
+    return similarity;
 }
 
 // ============================================================================

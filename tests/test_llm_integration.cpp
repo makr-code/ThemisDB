@@ -247,6 +247,85 @@ TEST_F(LLMIntegrationTest, TokenProbabilityCallback) {
     EXPECT_TRUE(options.token_callback != nullptr);
 }
 
+// ============================================================================
+// Phase 2b: Inference Engine Integration Tests
+// ============================================================================
+
+TEST_F(LLMIntegrationTest, SetAndGetInferenceEngine) {
+    // Test that we can set and retrieve the inference engine
+    auto engine = LLMIntegration::getInferenceEngine();
+    // Initially should be null or previous value
+    
+    // Test that setInferenceEngine doesn't crash
+    LLMIntegration::setInferenceEngine(nullptr);
+    EXPECT_EQ(LLMIntegration::getInferenceEngine(), nullptr);
+}
+
+TEST_F(LLMIntegrationTest, GenerateWithoutEngine) {
+    // Ensure we set engine to null for this test
+    LLMIntegration::setInferenceEngine(nullptr);
+    
+    LLMGenerationOptions options;
+    std::string response = LLMIntegration::generate("Test prompt", options);
+    
+    // Should return placeholder when no engine configured
+    EXPECT_FALSE(response.empty());
+    EXPECT_TRUE(response.find("No Engine Configured") != std::string::npos || 
+                response.find("Placeholder") != std::string::npos);
+}
+
+TEST_F(LLMIntegrationTest, ImprovedSemanticSimilarity) {
+    // Test the improved semantic similarity calculation
+    
+    // Identical texts should have high similarity
+    std::string text1 = "The quick brown fox jumps over the lazy dog";
+    double sim1 = LLMIntegration::calculateSemanticSimilarity(text1, text1);
+    EXPECT_GT(sim1, 0.9);
+    
+    // Similar texts should have moderate similarity
+    std::string text2 = "The quick brown fox jumps over the dog";
+    double sim2 = LLMIntegration::calculateSemanticSimilarity(text1, text2);
+    EXPECT_GT(sim2, 0.7);
+    EXPECT_LT(sim2, 1.0);
+    
+    // Different texts should have low similarity
+    std::string text3 = "Artificial intelligence and machine learning";
+    double sim3 = LLMIntegration::calculateSemanticSimilarity(text1, text3);
+    EXPECT_LT(sim3, 0.3);
+    
+    // Empty text edge cases
+    EXPECT_DOUBLE_EQ(LLMIntegration::calculateSemanticSimilarity("", text1), 0.0);
+    EXPECT_DOUBLE_EQ(LLMIntegration::calculateSemanticSimilarity(text1, ""), 0.0);
+}
+
+TEST_F(LLMIntegrationTest, MultipleSamplesWithSeeds) {
+    LLMIntegration::setInferenceEngine(nullptr);
+    
+    LLMGenerationOptions options;
+    options.seeds = {123, 456, 789};
+    options.temperature = 0.7;
+    
+    auto samples = LLMIntegration::generateMultipleSamples("Test", 3, options);
+    
+    EXPECT_EQ(samples.size(), 3);
+    // Each sample should be generated (even if they're placeholders without engine)
+    for (const auto& sample : samples) {
+        EXPECT_FALSE(sample.empty());
+    }
+}
+
+TEST_F(LLMIntegrationTest, SemanticSimilarityLengthNormalization) {
+    // Test that length differences are handled appropriately
+    std::string short_text = "AI ML";
+    std::string long_text = "AI ML deep learning neural networks data science";
+    
+    double similarity = LLMIntegration::calculateSemanticSimilarity(short_text, long_text);
+    
+    // Should have some similarity due to common words but penalized for length difference
+    EXPECT_GT(similarity, 0.3);
+    EXPECT_LT(similarity, 0.8);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

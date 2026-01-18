@@ -11,6 +11,12 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <unordered_map>
+
+// Forward declarations
+namespace themis::llm {
+    class InferenceEngineEnhanced;
+}
 
 namespace themis::rag {
 
@@ -79,6 +85,18 @@ struct LLMEvaluationResponse {
  */
 class LLMIntegration {
 public:
+    /**
+     * @brief Set the inference engine to use
+     * @param engine Shared pointer to the inference engine
+     */
+    static void setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine);
+    
+    /**
+     * @brief Get the current inference engine
+     * @return Shared pointer to the inference engine (may be null)
+     */
+    static std::shared_ptr<llm::InferenceEngineEnhanced> getInferenceEngine();
+    
     /**
      * @brief Generate text using the LLM
      * @param prompt The prompt to send to the LLM
