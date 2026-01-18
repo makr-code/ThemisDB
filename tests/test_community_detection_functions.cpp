@@ -302,7 +302,11 @@ TEST_F(CommunityDetectionTest, InvalidInput_NotArray) {
     // Test with non-array input
     json invalid = json::object();
     
-    EXPECT_THROW(reg.call("LOUVAIN_COMMUNITIES", {invalid}, ctx), std::exception);
+    // The function should handle gracefully and return empty result
+    auto result = reg.call("LOUVAIN_COMMUNITIES", {invalid}, ctx);
+    EXPECT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("communities"));
+    EXPECT_EQ(result["communities"].size(), 0);
 }
 
 TEST_F(CommunityDetectionTest, InvalidEdge_MissingFields) {

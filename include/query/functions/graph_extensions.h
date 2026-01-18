@@ -308,7 +308,12 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           const FunctionContext&) const override {
         if (args.empty() || !args[0].is_array()) {
-            return nlohmann::json::array();
+            // Return structured empty result for consistency with success path
+            return nlohmann::json{
+                {"communities", nlohmann::json::array()},
+                {"overall_modularity", 0.0},
+                {"num_communities", 0}
+            };
         }
         
         const auto& edges = args[0];
@@ -352,9 +357,10 @@ public:
             node_to_comm[node] = next_comm_id++;
         }
         
-        // Count total edges
+        // Count total edges (note: treating graph as undirected for community detection)
+        // Each edge in the input appears once, but is added twice to adjacency (both directions)
         double m = edges.size();
-        if (m == 0.0) m = 1.0;
+        if (m == 0.0) m = 1.0;  // Avoid division by zero
         
         // Compute node degrees
         std::unordered_map<std::string, double> node_degree;
@@ -417,7 +423,7 @@ public:
         double overall_modularity = 0.0;
         
         for (const auto& [_, members] : communities) {
-            // Calculate internal edges
+            // Calculate internal edges (counted twice since graph is undirected)
             int internal_edges = 0;
             for (const auto& node : members) {
                 for (const auto& neighbor : adjacency[node]) {
@@ -426,7 +432,7 @@ public:
                     }
                 }
             }
-            internal_edges /= 2;  // Each edge counted twice
+            internal_edges /= 2;  // Each internal edge counted twice in undirected graph
             
             // Calculate expected edges
             double total_degree = 0.0;
@@ -488,7 +494,11 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           const FunctionContext&) const override {
         if (args.empty() || !args[0].is_array()) {
-            return nlohmann::json::array();
+            // Return structured empty result for consistency with success path
+            return nlohmann::json{
+                {"communities", nlohmann::json::array()},
+                {"num_communities", 0}
+            };
         }
         
         const auto& edges = args[0];
@@ -501,7 +511,7 @@ public:
             }
         }
         
-        // Extract nodes and build adjacency
+        // Extract nodes and build adjacency (treating graph as undirected)
         std::unordered_set<std::string> node_set;
         std::unordered_map<std::string, std::vector<std::string>> adjacency;
         
@@ -520,7 +530,11 @@ public:
         }
         
         if (node_set.empty()) {
-            return nlohmann::json::array();
+            // Return structured empty result for consistency with success path
+            return nlohmann::json{
+                {"communities", nlohmann::json::array()},
+                {"num_communities", 0}
+            };
         }
         
         std::vector<std::string> nodes(node_set.begin(), node_set.end());
