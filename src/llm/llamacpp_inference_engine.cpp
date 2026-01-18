@@ -224,25 +224,35 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     
     // Heuristic 3: Character diversity (low diversity suggests repetition)
     std::unordered_set<char> unique_chars(text.begin(), text.end());
+    // Use text length for normalization (works for both ASCII and UTF-8)
     double char_diversity = static_cast<double>(unique_chars.size()) / 
-                           std::min(static_cast<size_t>(256), text.length());
+                           std::max(static_cast<size_t>(1), text.length());
     if (char_diversity < 0.05) {
         score *= 0.6;
     }
     
     // Heuristic 4: Word diversity (rough estimate)
-    // Count approximate unique words (lowercase comparison)
+    // Count approximate unique words (case-insensitive)
+    // Limit to first 1000 words for performance on large texts
     std::unordered_set<std::string> words;
     std::istringstream iss(text);
     std::string word;
-    while (iss >> word) {
-        // Simple lowercase conversion
-        std::transform(word.begin(), word.end(), word.begin(), ::tolower);
-        words.insert(word);
+    int words_checked = 0;
+    const int MAX_WORDS_TO_CHECK = 1000;
+    
+    while (iss >> word && words_checked < MAX_WORDS_TO_CHECK) {
+        // Simple lowercase conversion (in-place for efficiency)
+        for (char& c : word) {
+            c = std::tolower(static_cast<unsigned char>(c));
+        }
+        words.insert(std::move(word));
+        words_checked++;
     }
     
     if (word_count > 0) {
-        double word_diversity = static_cast<double>(words.size()) / word_count;
+        // Calculate diversity based on checked words
+        int effective_word_count = std::min(word_count, MAX_WORDS_TO_CHECK);
+        double word_diversity = static_cast<double>(words.size()) / effective_word_count;
         if (word_diversity < 0.3) {
             score *= 0.7;  // Low word diversity
         }

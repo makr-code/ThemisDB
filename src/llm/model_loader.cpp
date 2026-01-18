@@ -189,18 +189,21 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
         return promise.get_future();
     }
     
-    // Check if already being loaded
+    // Check if already being loaded via preloadModel
     if (pending_loads_.find(model_id) != pending_loads_.end()) {
-        spdlog::info("Model {} is already being loaded, sharing future", model_id);
-        // Note: This won't call the new progress_cb, but prevents duplicate loads
-        // In production, you might want to track multiple callbacks per load
-        return std::move(pending_loads_[model_id]);
+        spdlog::warn("Model {} is already being loaded via preloadModel(). "
+                    "New progress callback will not be used. "
+                    "Consider using preloadModel() for async loading without progress tracking.",
+                    model_id);
+        // For safety, just start a new async load rather than trying to share futures
+        // This ensures each caller gets their own future they can safely use
     }
     
     spdlog::info("Starting async model load with progress tracking: {}", model_id);
     
     // Launch async loading task with progress reporting
-    auto future = std::async(std::launch::async, [this, model_id, model_path, load_config, progress_cb, cancel_token]() -> CachedModel* {
+    // Note: Each call to loadAsync() creates a new future to avoid sharing issues
+    return std::async(std::launch::async, [this, model_id, model_path, load_config, progress_cb, cancel_token]() -> CachedModel* {
         try {
             LoadProgress progress;
             progress.start_time = std::chrono::steady_clock::now();
@@ -311,12 +314,6 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             return nullptr;
         }
     });
-    
-    // Store future for deduplication
-    pending_loads_[model_id] = std::move(future);
-    
-    // Return a shared future so multiple callers can wait
-    return std::move(pending_loads_[model_id]);
 }
 
 bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
