@@ -1262,6 +1262,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     )
     
     target_compile_definitions(test_generic_plugin_registry PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
 # Base Interfaces Tests (Phase 1: Dependency Inversion)
 # ============================================================================
 
@@ -1290,15 +1293,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
     )
 else()
     message(STATUS "Generic plugin registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
-    add_test(NAME BaseInterfacesTests COMMAND test_base_interfaces)
+endif()
+
+# Base Interfaces Tests (Phase 1: Dependency Inversion)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+    message(STATUS "Adding base interfaces tests")
     
-    # Set test properties
+    add_executable(test_base_interfaces
+        test_base_interfaces.cpp
+    )
+    
+    target_link_libraries(test_base_interfaces PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_base_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME BaseInterfacesTests COMMAND test_base_interfaces)
     set_tests_properties(BaseInterfacesTests PROPERTIES
         LABELS "base;interfaces;architecture;unit"
         TIMEOUT 60
     )
 else()
     message(STATUS "Base interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+endif()
+
 # Auth Middleware Tests
 # ============================================================================
 
@@ -1555,6 +1579,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
     )
 else()
     message(STATUS "Knowledge Gap Detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+endif()
+
 # RAG Judge Phase 1 Tests
 # ============================================================================
 
