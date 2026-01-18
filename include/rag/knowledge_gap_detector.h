@@ -27,6 +27,7 @@ enum class GapType {
     MISSING_ASPECTS,          ///< Query aspects not covered by documents
     CONFLICTING_INFO,         ///< Retrieved documents contain contradictions
     OUTDATED_INFO,           ///< Information may be outdated
+    ETHICAL_PERSPECTIVE_GAP,  ///< Ethical context detected but insufficient diverse perspectives
     NONE                     ///< No gap detected
 };
 
@@ -99,6 +100,12 @@ struct KnowledgeGapConfig {
     size_t min_documents = 3;                    ///< Minimum required documents
     double confidence_threshold = 0.7;           ///< Minimum confidence threshold
     double coverage_threshold = 0.8;             ///< Minimum query coverage
+    
+    // Ethical perspective gap settings
+    bool enable_ethical_gap_detection = true;    ///< Enable ethical perspective gap detection
+    size_t min_ethical_perspectives = 2;         ///< Minimum diverse perspectives required
+    double ethical_diversity_threshold = 0.6;    ///< Minimum perspective diversity score
+    int ethical_keyword_threshold = 2;           ///< Minimum ethical keywords to classify as ethical query
     
     // Advanced options
     bool enable_self_consistency_check = true;   ///< Check answer consistency
@@ -206,6 +213,17 @@ public:
     void setGapDetectionCallback(
         std::function<void(const DetectionResult&)> callback
     );
+    
+    /**
+     * @brief Detect ethical perspective gap
+     * @param query User query string
+     * @param documents Retrieved documents
+     * @return Detection result for ethical perspective gap
+     */
+    DetectionResult detectEthicalPerspectiveGap(
+        const std::string& query,
+        const std::vector<RetrievedDocument>& documents
+    );
 
 private:
     struct Impl;
@@ -225,6 +243,11 @@ private:
     std::vector<std::string> extractClaims(const std::string& answer);
     bool verifyClaim(const std::string& claim,
                     const std::vector<RetrievedDocument>& docs);
+    
+    // Ethical gap detection helpers
+    bool isEthicalQuery(const std::string& query);
+    int countEthicalPerspectives(const std::vector<RetrievedDocument>& docs);
+    double calculatePerspectiveDiversity(const std::vector<RetrievedDocument>& docs);
 };
 
 /**

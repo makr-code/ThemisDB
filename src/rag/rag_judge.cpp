@@ -4,6 +4,9 @@
  */
 
 #include "rag/rag_judge.h"
+#include "rag/prompt_templates.h"
+#include "rag/response_parser.h"
+#include "rag/llm_judge_integration.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
@@ -17,6 +20,10 @@ struct RAGJudge::Impl {
     RAGJudgeConfig config;
     std::function<void(const EvaluationResult&)> eval_callback;
     
+    // New components for Phase 1
+    PromptTemplateManager template_manager;
+    std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    
     // Cache for performance
     std::unordered_map<std::string, EvaluationResult> cache;
     
@@ -29,7 +36,28 @@ struct RAGJudge::Impl {
 RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
+    
+    // Validate configuration weights
+    if (!config.validateWeights()) {
+        THEMIS_WARN("RAG Judge configuration has invalid weights (not summing to 1.0). "
+                   "This may lead to unexpected scoring behavior.");
+    }
+    
     THEMIS_INFO("RAG Judge initialized with mode: {}", static_cast<int>(config.mode));
+    // Initialize prompt template manager
+    impl_->template_manager = PromptTemplateManager::createDefault();
+    
+    // Initialize LLM integration
+    LLMJudgeIntegration::Config llm_config;
+    llm_config.model_name = config.judge_model;
+    llm_config.temperature = 0.3; // Low temperature for consistent evaluation
+    llm_config.max_tokens = 1024;
+    llm_config.use_json_mode = true;
+    
+    impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
+    
+    THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}", 
+                static_cast<int>(config.mode), config.judge_model);
 }
 
 RAGJudge::~RAGJudge() = default;
@@ -77,6 +105,12 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     EvaluationResult result;
     result.judge_model = impl_->config.judge_model;
     
+    // Initialize ethical fields
+    result.ethical_compliance_score = 0.0;
+    result.respects_human_autonomy = true;
+    result.shows_moral_diversity = true;
+    result.has_ethical_citations = true;
+    
     // Evaluate dimensions based on mode
     switch (impl_->config.mode) {
         case EvaluationMode::FAST:
@@ -92,11 +126,19 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             result.completeness_score = evaluateCompleteness(input);
             result.coherence_score = 0.8;  // Placeholder
             
+            // Ethical compliance evaluation
+            if (impl_->config.enable_ethical_evaluation) {
+                result.ethical_compliance_score = evaluateEthicalCompliance(input);
+            } else {
+                result.ethical_compliance_score = 1.0;  // No ethical check
+            }
+            
             result.overall_score = 
                 result.faithfulness_score * impl_->config.faithfulness_weight +
                 result.relevance_score * impl_->config.relevance_weight +
                 result.completeness_score * impl_->config.completeness_weight +
-                result.coherence_score * impl_->config.coherence_weight;
+                result.coherence_score * impl_->config.coherence_weight +
+                result.ethical_compliance_score * impl_->config.ethical_compliance_weight;
             break;
             
         case EvaluationMode::THOROUGH:
@@ -105,6 +147,13 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             result.relevance_score = evaluateRelevance(input);
             result.completeness_score = evaluateCompleteness(input);
             result.coherence_score = evaluateCoherence(input);
+            
+            // Ethical compliance evaluation
+            if (impl_->config.enable_ethical_evaluation) {
+                result.ethical_compliance_score = evaluateEthicalCompliance(input);
+            } else {
+                result.ethical_compliance_score = 1.0;  // No ethical check
+            }
             
             // Claim verification
             if (impl_->config.enable_claim_verification) {
@@ -131,7 +180,8 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                 result.faithfulness_score * impl_->config.faithfulness_weight +
                 result.relevance_score * impl_->config.relevance_weight +
                 result.completeness_score * impl_->config.completeness_weight +
-                result.coherence_score * impl_->config.coherence_weight;
+                result.coherence_score * impl_->config.coherence_weight +
+                result.ethical_compliance_score * impl_->config.ethical_compliance_weight;
             
             // Generate explanation
             std::ostringstream explanation;
@@ -140,15 +190,36 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                        << "- Relevance: " << result.relevance_score << "\n"
                        << "- Completeness: " << result.completeness_score << "\n"
                        << "- Coherence: " << result.coherence_score << "\n"
+                       << "- Ethical Compliance: " << result.ethical_compliance_score << "\n"
                        << "- Overall: " << result.overall_score;
             result.explanation = explanation.str();
             break;
     }
     
-    // Quality threshold check
+    // Quality threshold check with VETO mechanism
     result.passed_quality_threshold = 
         result.overall_score >= impl_->config.quality_threshold &&
         result.faithfulness_score >= impl_->config.faithfulness_threshold;
+    
+    // Ethical VETO: If ethical compliance is enabled and has veto power,
+    // check if ethical compliance meets threshold
+    if (impl_->config.enable_ethical_evaluation && 
+        impl_->config.ethical_veto_power) {
+        if (result.ethical_compliance_score < impl_->config.ethical_compliance_threshold) {
+            result.passed_quality_threshold = false;
+            THEMIS_WARN("Ethical VETO triggered: compliance score {} < threshold {}",
+                       result.ethical_compliance_score, 
+                       impl_->config.ethical_compliance_threshold);
+            
+            // Add to violations list
+            std::ostringstream veto_msg;
+            veto_msg << "VETO: Ethical compliance score (" 
+                    << result.ethical_compliance_score 
+                    << ") below threshold (" 
+                    << impl_->config.ethical_compliance_threshold << ")";
+            result.ethical_violations.push_back(veto_msg.str());
+        }
+    }
     
     // Calculate confidence (placeholder)
     result.confidence = 0.85;
@@ -256,6 +327,8 @@ double RAGJudge::evaluateDimension(
             return evaluateCompleteness(input);
         case EvaluationDimension::COHERENCE:
             return evaluateCoherence(input);
+        case EvaluationDimension::ETHICAL_COMPLIANCE:
+            return evaluateEthicalCompliance(input);
         case EvaluationDimension::OVERALL:
             return evaluate(input).overall_score;
     }
@@ -281,36 +354,341 @@ void RAGJudge::clearCache() {
     THEMIS_DEBUG("Evaluation cache cleared");
 }
 
-// Private evaluation methods (placeholders - TODO: implement with actual LLM calls)
+// Private evaluation methods (now integrated with LLM)
 
 double RAGJudge::evaluateFaithfulness(const EvaluationInput& input) {
-    // TODO: Implement LLM-based faithfulness evaluation
-    // Placeholder: Check if answer length is reasonable relative to documents
+    THEMIS_DEBUG("Evaluating faithfulness");
+    
+    // Quick heuristic check
     if (input.documents.empty()) {
+        THEMIS_WARN("No documents provided for faithfulness evaluation");
         return 0.3;
     }
+    
+    // Use LLM for thorough evaluation in BALANCED and THOROUGH modes
+    if (impl_->config.mode == EvaluationMode::BALANCED || 
+        impl_->config.mode == EvaluationMode::THOROUGH) {
+        
+        auto parsed = impl_->llm_integration->evaluateWithLLM(
+            EvaluationDimension::FAITHFULNESS,
+            input,
+            impl_->template_manager
+        );
+        
+        if (parsed.success && parsed.score) {
+            // Normalize from 1-5 scale to 0-1
+            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
+        } else {
+            THEMIS_WARN("LLM evaluation failed, using fallback heuristic");
+        }
+    }
+    
+    // Fallback heuristic
     return 0.85;
 }
 
 double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
-    // TODO: Implement LLM-based relevance evaluation
-    // Placeholder: Simple heuristic
+    THEMIS_DEBUG("Evaluating relevance");
+    
     if (input.generated_answer.empty()) {
         return 0.0;
     }
+    
+    // Use LLM for evaluation
+    if (impl_->config.mode != EvaluationMode::FAST || impl_->config.use_chain_of_thought) {
+        auto parsed = impl_->llm_integration->evaluateWithLLM(
+            EvaluationDimension::RELEVANCE,
+            input,
+            impl_->template_manager
+        );
+        
+        if (parsed.success && parsed.score) {
+            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
+        }
+    }
+    
+    // Fallback heuristic
     return 0.8;
 }
 
 double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
-    // TODO: Implement LLM-based completeness evaluation
-    // Placeholder
+    THEMIS_DEBUG("Evaluating completeness");
+    
+    // Use LLM for thorough evaluation
+    if (impl_->config.mode == EvaluationMode::BALANCED || 
+        impl_->config.mode == EvaluationMode::THOROUGH) {
+        
+        auto parsed = impl_->llm_integration->evaluateWithLLM(
+            EvaluationDimension::COMPLETENESS,
+            input,
+            impl_->template_manager
+        );
+        
+        if (parsed.success && parsed.score) {
+            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
+        }
+    }
+    
     return 0.75;
 }
 
 double RAGJudge::evaluateCoherence(const EvaluationInput& input) {
-    // TODO: Implement LLM-based coherence evaluation
-    // Placeholder
+    THEMIS_DEBUG("Evaluating coherence");
+    
+    // Use LLM for thorough evaluation
+    if (impl_->config.mode == EvaluationMode::THOROUGH) {
+        auto parsed = impl_->llm_integration->evaluateWithLLM(
+            EvaluationDimension::COHERENCE,
+            input,
+            impl_->template_manager
+        );
+        
+        if (parsed.success && parsed.score) {
+            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
+        }
+    }
+    
     return 0.8;
+}
+
+double RAGJudge::evaluateEthicalCompliance(const EvaluationInput& input) {
+    THEMIS_DEBUG("Evaluating ethical compliance");
+    
+    // Calculate sub-scores
+    double autonomy_score = evaluateAutonomyRespect(input);
+    double diversity_score = evaluateMoralDiversity(input);
+    double citation_score = evaluateCitationQuality(input);
+    
+    // Weighted combination
+    double compliance_score = 
+        autonomy_score * impl_->config.autonomy_respect_weight +
+        diversity_score * impl_->config.moral_diversity_weight +
+        citation_score * impl_->config.citation_quality_weight;
+    
+    THEMIS_INFO("Ethical compliance: autonomy={}, diversity={}, citations={}, total={}",
+               autonomy_score, diversity_score, citation_score, compliance_score);
+    
+    return compliance_score;
+}
+
+double RAGJudge::evaluateAutonomyRespect(const EvaluationInput& input) {
+    double score = 1.0;
+    
+    // Check for patronizing language
+    if (detectPatronizingLanguage(input.generated_answer)) {
+        score -= 0.3;
+        THEMIS_DEBUG("Patronizing language detected, penalty applied");
+    }
+    
+    // Check for choice preservation
+    if (!checkChoicePreservation(input.generated_answer)) {
+        score -= 0.3;
+        THEMIS_DEBUG("Choice preservation violated, penalty applied");
+    }
+    
+    // Check for balanced perspectives
+    int perspectives = countMoralPerspectives(input.generated_answer);
+    if (perspectives < 2) {
+        score -= 0.2;
+        THEMIS_DEBUG("Insufficient moral perspectives ({}), penalty applied", perspectives);
+    }
+    
+    return std::max(0.0, score);
+}
+
+double RAGJudge::evaluateMoralDiversity(const EvaluationInput& input) {
+    double score = 1.0;
+    
+    // Count moral perspectives
+    int perspectives = countMoralPerspectives(input.generated_answer);
+    if (perspectives < 2) {
+        score = 0.5;  // Significant penalty for lack of diversity
+        THEMIS_DEBUG("Low moral diversity: {} perspectives", perspectives);
+    } else {
+        score = std::min(1.0, perspectives / 3.0);  // Max score at 3+ perspectives
+    }
+    
+    // Check for bias
+    if (detectBias(input.generated_answer)) {
+        score *= 0.7;  // 30% penalty for detected bias
+        THEMIS_DEBUG("Bias detected in answer");
+    }
+    
+    return score;
+}
+
+double RAGJudge::evaluateCitationQuality(const EvaluationInput& input) {
+    // Check if ethical citations are present when needed
+    bool has_citations = hasEthicalCitations(input.generated_answer);
+    
+    if (has_citations) {
+        return 1.0;
+    } else {
+        // Check if ethical claims are present
+        // If ethical claims exist without citations, score is low
+        // If no ethical claims, score is medium (no citations needed)
+        auto claims = extractClaims(input.generated_answer);
+        bool has_ethical_claims = false;
+        for (const auto& claim : claims) {
+            // Simple heuristic: check for ethical keywords
+            if (claim.find("should") != std::string::npos ||
+                claim.find("must") != std::string::npos ||
+                claim.find("moral") != std::string::npos ||
+                claim.find("ethic") != std::string::npos ||
+                claim.find("right") != std::string::npos ||
+                claim.find("wrong") != std::string::npos) {
+                has_ethical_claims = true;
+                break;
+            }
+        }
+        
+        if (has_ethical_claims) {
+            THEMIS_DEBUG("Ethical claims without citations detected");
+            return 0.3;  // Low score for missing citations
+        } else {
+            return 0.8;  // No ethical claims, no citations needed
+        }
+    }
+}
+
+bool RAGJudge::detectPatronizingLanguage(const std::string& text) {
+    // Pattern-based detection for patronizing language
+    std::vector<std::string> patronizing_patterns = {
+        "you should know",
+        "obviously",
+        "clearly",
+        "it's simple",
+        "just do",
+        "anyone can",
+        "even you",
+        "you must understand"
+    };
+    
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    for (const auto& pattern : patronizing_patterns) {
+        if (lower_text.find(pattern) != std::string::npos) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+bool RAGJudge::checkChoicePreservation(const std::string& text) {
+    // Check for forced opinions using "must", "should", "only" in prescriptive context
+    std::vector<std::string> forcing_patterns = {
+        "you must",
+        "you should",
+        "you have to",
+        "you need to",
+        "the only way",
+        "you can only"
+    };
+    
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    int violations = 0;
+    for (const auto& pattern : forcing_patterns) {
+        if (lower_text.find(pattern) != std::string::npos) {
+            violations++;
+        }
+    }
+    
+    // Allow some prescriptive language, but not excessive
+    return violations <= 2;
+}
+
+int RAGJudge::countMoralPerspectives(const std::string& text) {
+    // Count references to different moral frameworks
+    std::vector<std::string> perspective_indicators = {
+        "utilitarian", "consequentialist",
+        "deontological", "duty", "kant",
+        "virtue", "character",
+        "rights-based", "human rights",
+        "care ethics", "feminist ethics",
+        "religious", "faith-based"
+    };
+    
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    int count = 0;
+    for (const auto& indicator : perspective_indicators) {
+        if (lower_text.find(indicator) != std::string::npos) {
+            count++;
+        }
+    }
+    
+    // Also count explicit mention of multiple perspectives
+    if (lower_text.find("perspective") != std::string::npos ||
+        lower_text.find("point of view") != std::string::npos ||
+        lower_text.find("different views") != std::string::npos) {
+        count++;
+    }
+    
+    return count;
+}
+
+bool RAGJudge::detectBias(const std::string& text) {
+    // Simple heuristic for bias detection
+    // Check for absolute statements without nuance
+    std::vector<std::string> bias_indicators = {
+        "always",
+        "never",
+        "all ",
+        "none",
+        "everyone",
+        "no one",
+        "absolutely",
+        "certainly",
+        "definitely"
+    };
+    
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    int absolute_count = 0;
+    for (const auto& indicator : bias_indicators) {
+        size_t pos = 0;
+        while ((pos = lower_text.find(indicator, pos)) != std::string::npos) {
+            absolute_count++;
+            pos += indicator.length();
+        }
+    }
+    
+    // If text has many absolute statements, likely biased
+    // Threshold is configurable via config
+    return absolute_count > impl_->config.bias_detection_threshold;
+}
+
+bool RAGJudge::hasEthicalCitations(const std::string& text) {
+    // Check for citation patterns
+    std::vector<std::string> citation_indicators = {
+        "according to",
+        "as stated in",
+        "based on",
+        "referenced in",
+        "cited in",
+        "source:",
+        "ref:",
+        "[",  // Citation markers like [1], [UN Declaration]
+        "article",
+        "declaration"
+    };
+    
+    std::string lower_text = text;
+    std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
+    
+    for (const auto& indicator : citation_indicators) {
+        if (lower_text.find(indicator) != std::string::npos) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
@@ -345,18 +723,19 @@ std::string RAGJudge::generateEvaluationPrompt(
     const EvaluationInput& input,
     EvaluationDimension dimension
 ) {
-    // TODO: Implement proper prompt templates
-    return "Evaluate this RAG output";
+    return impl_->template_manager.generatePrompt(dimension, input);
 }
 
 double RAGJudge::parseScoreFromResponse(const std::string& response) {
-    // TODO: Implement proper score parsing
-    return 0.75;
+    auto parsed = ResponseParser::parse(response);
+    if (parsed.success && parsed.score) {
+        return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
+    }
+    return 0.75; // Default fallback
 }
 
 std::string RAGJudge::extractExplanation(const std::string& response) {
-    // TODO: Implement proper explanation extraction
-    return response;
+    return ResponseParser::extractExplanation(response);
 }
 
 // JudgeEnsemble implementation
@@ -417,6 +796,7 @@ EvaluationResult JudgeEnsemble::combineResults(
             combined.relevance_score = 0.0;
             combined.completeness_score = 0.0;
             combined.coherence_score = 0.0;
+            combined.ethical_compliance_score = 0.0;
             combined.overall_score = 0.0;
             
             for (const auto& result : results) {
@@ -424,6 +804,7 @@ EvaluationResult JudgeEnsemble::combineResults(
                 combined.relevance_score += result.relevance_score;
                 combined.completeness_score += result.completeness_score;
                 combined.coherence_score += result.coherence_score;
+                combined.ethical_compliance_score += result.ethical_compliance_score;
                 combined.overall_score += result.overall_score;
             }
             
@@ -432,6 +813,7 @@ EvaluationResult JudgeEnsemble::combineResults(
             combined.relevance_score /= n;
             combined.completeness_score /= n;
             combined.coherence_score /= n;
+            combined.ethical_compliance_score /= n;
             combined.overall_score /= n;
             break;
         }

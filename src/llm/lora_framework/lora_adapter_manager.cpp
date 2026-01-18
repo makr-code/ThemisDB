@@ -26,8 +26,8 @@ LoRAAdapterManager::~LoRAAdapterManager() {
     
     for (auto& [id, entry] : adapters_) {
         if (entry->adapter_handle) {
-            // In production with llama.cpp, this would free the adapter
-            // llama_lora_adapter_free(entry->adapter_handle);
+            // Free the LoRA adapter using llama.cpp API
+            llama_lora_adapter_free(static_cast<llama_lora_adapter*>(entry->adapter_handle));
             entry->adapter_handle = nullptr;
         }
     }
@@ -77,23 +77,17 @@ bool LoRAAdapterManager::loadAdapter(
         // NOTE: This requires llama.cpp with LoRA adapter support compiled in
         spdlog::info("Loading LoRA adapter from file: {}", adapter_path);
         
-        // TODO: Integrate with llama.cpp's llama_lora_adapter_init()
-        // Once llama.cpp's LoRA adapter APIs are available:
-        // 1. llama_model* model = llama_load_model_from_file(base_model.c_str(), params);
-        // 2. llama_lora_adapter* adapter = llama_lora_adapter_init(model, adapter_path.c_str());
-        // 3. entry->adapter_handle = adapter;
-        // 4. entry->memory_bytes = llama_lora_adapter_memory_size(adapter);
-        
-        // For now, use placeholder that will be replaced with actual llama.cpp integration
-        // This maintains the interface contract while the llama.cpp API is finalized
-        entry->memory_bytes = 32 * 1024 * 1024; // 32 MB estimate for rank-8 LoRA
-        entry->adapter_handle = reinterpret_cast<void*>(0x1); // Placeholder - will be llama_lora_adapter*
-        
         // Validate adapter file exists
         if (!std::filesystem::exists(adapter_path)) {
             spdlog::error("Adapter file not found: {}", adapter_path);
             return false;
         }
+        
+        // LoRA adapters will be lazily initialized on first use in applyAdapter()
+        // when we have access to the llama_context and can extract the model
+        // This is the correct approach since adapters are model-specific
+        entry->memory_bytes = 0; // Will be set after initialization
+        entry->adapter_handle = nullptr; // Will be initialized on first apply
         
         // Set metadata
         entry->metadata.adapter_id = adapter_id;
@@ -354,8 +348,35 @@ bool LoRAAdapterManager::applyAdapter(
         deactivateAdapter(context);
     }
     
+    // Lazy initialization: Initialize adapter on first use if not already initialized
+    if (!entry->adapter_handle) {
+        spdlog::info("Initializing LoRA adapter {} on first use", adapter_id);
+        
+        // Get model from context
+        llama_model* model = llama_get_model(context);
+        if (!model) {
+            spdlog::error("Cannot get model from context for adapter initialization");
+            return false;
+        }
+        
+        // Initialize LoRA adapter using llama.cpp API
+        llama_lora_adapter* adapter = llama_lora_adapter_init(model, entry->adapter_path.c_str());
+        if (!adapter) {
+            spdlog::error("Failed to initialize LoRA adapter from: {}", entry->adapter_path);
+            return false;
+        }
+        
+        entry->adapter_handle = adapter;
+        
+        // Get actual memory size from llama.cpp
+        size_t memory_bytes = llama_lora_adapter_memory_size(adapter);
+        entry->memory_bytes = memory_bytes;
+        
+        spdlog::info("LoRA adapter {} initialized successfully ({} MB)", 
+                     adapter_id, memory_bytes / (1024 * 1024));
+    }
+    
     // Apply adapter using llama.cpp API
-    // NOTE: llama_lora_adapter_set expects the adapter handle to be of type llama_lora_adapter*
     auto lora_adapter = static_cast<llama_lora_adapter*>(entry->adapter_handle);
     
     if (!lora_adapter) {
@@ -364,7 +385,6 @@ bool LoRAAdapterManager::applyAdapter(
     }
     
     // Apply adapter with scaling
-    // This is the CRITICAL MISSING FUNCTIONALITY:
     // Actual weight fusion: output = base_weight @ input + alpha * adapter_weight @ input
     int result = llama_lora_adapter_set(context, lora_adapter, alpha);
     
