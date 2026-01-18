@@ -5,6 +5,9 @@ list(APPEND THEMIS_CORE_SOURCES
     # Advanced vector index with specialized optimizations
     ../src/index/advanced_vector_index.cpp
     
+    # IndexManager with Dependency Injection (Phase 4)
+    ../src/index/index_manager.cpp
+    
     # Query parser for custom query syntax
     ../src/query/query_parser.cpp
     

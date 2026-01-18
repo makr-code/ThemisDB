@@ -1329,6 +1329,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
+    ../src/plugins/plugin_registry.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
