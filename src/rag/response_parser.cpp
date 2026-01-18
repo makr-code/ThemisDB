@@ -8,6 +8,7 @@
 #include <regex>
 #include <algorithm>
 #include <cctype>
+#include <sstream>
 
 namespace themis::rag::judge {
 

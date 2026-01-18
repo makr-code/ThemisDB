@@ -37,7 +37,10 @@ bool PromptTemplateManager::loadTemplatesFromDirectory(const std::string& templa
     };
     
     bool success = true;
-    for (const auto& [dim, file] : files) {
+    for (const auto& pair : files) {
+        const EvaluationDimension dim = pair.first;
+        const std::string& file = pair.second;
+        
         if (!loadTemplate(dim, file)) {
             THEMIS_WARN("Failed to load template: {}", file);
             success = false;

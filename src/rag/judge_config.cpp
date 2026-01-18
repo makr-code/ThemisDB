@@ -15,8 +15,17 @@ using json = nlohmann::json;
 namespace themis::rag::judge {
 
 bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
-    // Note: For simplicity, we'll parse YAML as JSON-like format
-    // In production, use yaml-cpp library
+    // Note: Simplified YAML parsing for basic key-value pairs
+    // For complex YAML structures, use yaml-cpp library
+    // This implementation supports:
+    // - Simple key: value pairs
+    // - Single-level nesting (section headers)
+    // - Comments (lines starting with #)
+    // Limitations:
+    // - Does not support multi-level nesting
+    // - Does not support arrays or complex YAML features
+    // - Indentation-based section detection only
+    
     THEMIS_INFO("Loading judge configuration from YAML: {}", filepath);
     
     std::ifstream file(filepath);
