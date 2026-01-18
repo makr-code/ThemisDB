@@ -171,6 +171,128 @@ bool LazyModelLoader::preloadModel(
     return true;
 }
 
+std::future<CachedModel*> LazyModelLoader::loadAsync(
+    const std::string& model_id,
+    const std::string& model_path,
+    ProgressCallback progress_cb,
+    CancellationToken cancel_token,
+    const json& load_config
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Check if already loaded
+    if (models_.find(model_id) != models_.end()) {
+        spdlog::info("Model {} already loaded, returning immediately", model_id);
+        // Return already-ready future
+        std::promise<CachedModel*> promise;
+        promise.set_value(models_[model_id].get());
+        return promise.get_future();
+    }
+    
+    // Check if already being loaded via preloadModel
+    if (pending_loads_.find(model_id) != pending_loads_.end()) {
+        spdlog::warn("Model {} is already being loaded via preloadModel(). "
+                    "New progress callback will not be used. "
+                    "Consider using preloadModel() for async loading without progress tracking.",
+                    model_id);
+        // For safety, just start a new async load rather than trying to share futures
+        // This ensures each caller gets their own future they can safely use
+    }
+    
+    spdlog::info("Starting async model load with progress tracking: {}", model_id);
+    
+    // Launch async loading task with progress reporting
+    // Note: Each call to loadAsync() creates a new future to avoid sharing issues
+    return std::async(std::launch::async, [this, model_id, model_path, load_config, progress_cb, cancel_token]() -> CachedModel* {
+        try {
+            LoadProgress progress;
+            progress.start_time = std::chrono::steady_clock::now();
+            
+            // Phase 1: PARSING (0-20%)
+            progress.phase = LoadPhase::PARSING;
+            progress.phase_progress = 0.0;
+            progress.overall_percent = 0.0;
+            progress.status_msg = "Parsing GGUF file...";
+            if (progress_cb) progress_cb(progress);
+            
+            // Check cancellation
+            if (cancel_token.is_cancelled()) {
+                spdlog::info("Model load cancelled during PARSING: {}", model_id);
+                return nullptr;
+            }
+            
+            // Report parsing phase progress
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 20.0;
+            if (progress_cb) progress_cb(progress);
+            
+            // Phase 2: ALLOCATING (20-70%)
+            progress.phase = LoadPhase::ALLOCATING;
+            progress.phase_progress = 0.0;
+            progress.overall_percent = 20.0;
+            progress.status_msg = "Allocating model weights...";
+            if (progress_cb) progress_cb(progress);
+            
+            // Acquire lock for actual loading
+            std::unique_lock<std::mutex> load_lock(mutex_);
+            
+            // Check again if model was loaded while waiting
+            auto it = models_.find(model_id);
+            if (it != models_.end()) {
+                spdlog::debug("Model {} was loaded during async wait", model_id);
+                return it->second.get();
+            }
+            
+            // Perform the actual model load
+            // Note: loadModelInternal is the heavy operation that does the real work
+            // In a full implementation, this would report progress internally
+            auto* model = loadModelInternal(model_id, model_path, load_config);
+            
+            load_lock.unlock();
+            
+            if (cancel_token.is_cancelled()) {
+                spdlog::info("Model load cancelled after loading: {}", model_id);
+                // Model was loaded but user cancelled, so unload it
+                load_lock.lock();
+                unloadModel(model_id, true);
+                load_lock.unlock();
+                return nullptr;
+            }
+            
+            // Report allocation phase complete
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 70.0;
+            if (progress_cb) progress_cb(progress);
+            
+            // Phase 3: INITIALIZING (70-100%)
+            progress.phase = LoadPhase::INITIALIZING;
+            progress.phase_progress = 0.0;
+            progress.overall_percent = 70.0;
+            progress.status_msg = "Initializing context...";
+            if (progress_cb) progress_cb(progress);
+            
+            // Complete
+            progress.phase = LoadPhase::INITIALIZING;
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 100.0;
+            progress.status_msg = "Model load complete";
+            if (progress_cb) progress_cb(progress);
+            
+            if (model) {
+                spdlog::info("Async model load completed successfully: {}", model_id);
+            } else {
+                spdlog::error("Async model load failed: {}", model_id);
+            }
+            
+            return model;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
+            return nullptr;
+        }
+    });
+}
+
 bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     std::lock_guard<std::mutex> lock(mutex_);
     
