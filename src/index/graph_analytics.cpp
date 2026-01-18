@@ -534,4 +534,229 @@ GraphAnalytics::labelPropagationCommunities(
     return {Status::OK(), std::move(labels)};
 }
 
+// ============================================================================
+// K-Shortest Paths - Yen's Algorithm
+// ============================================================================
+
+std::pair<GraphAnalytics::Status, std::vector<GraphAnalytics::PathInfo>> 
+GraphAnalytics::kShortestPaths(
+    const std::string& source,
+    const std::string& target,
+    int k,
+    const std::string& weight_attr
+) const {
+    if (k <= 0) {
+        return {Status::Error("k must be positive"), {}};
+    }
+    
+    std::vector<PathInfo> A;  // Result: K shortest paths found so far
+    
+    // Helper: Comparator for priority queue (min-heap by length)
+    auto pathComparator = [](const PathInfo& a, const PathInfo& b) {
+        return a.length > b.length;  // min-heap
+    };
+    
+    std::priority_queue<PathInfo, std::vector<PathInfo>, decltype(pathComparator)> B(pathComparator);
+    
+    // Helper: Compute shortest path using Dijkstra with optional edge exclusions
+    auto dijkstra = [&](const std::string& src, const std::string& dst, 
+                       const std::set<std::pair<std::string, std::string>>& excluded_edges) 
+        -> std::pair<bool, PathInfo> {
+        
+        // Priority queue: (distance, current_node, path_vertices, path_edges)
+        struct DijkstraState {
+            double dist;
+            std::string node;
+            std::vector<std::string> path_vertices;
+            std::vector<std::pair<std::string, std::string>> path_edges;
+            
+            bool operator>(const DijkstraState& other) const {
+                return dist > other.dist;
+            }
+        };
+        
+        std::priority_queue<DijkstraState, std::vector<DijkstraState>, std::greater<DijkstraState>> pq;
+        std::unordered_map<std::string, double> best_dist;
+        
+        pq.push({0.0, src, {src}, {}});
+        best_dist[src] = 0.0;
+        
+        while (!pq.empty()) {
+            auto state = pq.top();
+            pq.pop();
+            
+            // Found target
+            if (state.node == dst) {
+                PathInfo path;
+                path.vertices = state.path_vertices;
+                path.edges = state.path_edges;
+                path.length = state.dist;
+                path.hop_count = static_cast<int>(path.edges.size());
+                return {true, path};
+            }
+            
+            // Skip if we've found a better path to this node
+            if (best_dist.count(state.node) && state.dist > best_dist[state.node]) {
+                continue;
+            }
+            
+            // Explore neighbors
+            auto [st_out, neighbors] = graphMgr_.outNeighbors(state.node);
+            if (!st_out.ok) continue;
+            
+            for (const auto& neighbor : neighbors) {
+                // Skip excluded edges
+                auto edge_pair = std::make_pair(state.node, neighbor);
+                if (excluded_edges.count(edge_pair)) {
+                    continue;
+                }
+                
+                // Calculate edge weight
+                double edge_weight = 1.0;  // Default unweighted
+                if (!weight_attr.empty()) {
+                    // TODO: Get edge weight from edge attributes
+                    // For now, use default weight of 1.0
+                    edge_weight = 1.0;
+                }
+                
+                double new_dist = state.dist + edge_weight;
+                
+                // Update if we found a better path
+                if (!best_dist.count(neighbor) || new_dist < best_dist[neighbor]) {
+                    best_dist[neighbor] = new_dist;
+                    
+                    auto new_path_vertices = state.path_vertices;
+                    new_path_vertices.push_back(neighbor);
+                    
+                    auto new_path_edges = state.path_edges;
+                    new_path_edges.push_back(edge_pair);
+                    
+                    pq.push({new_dist, neighbor, new_path_vertices, new_path_edges});
+                }
+            }
+        }
+        
+        return {false, PathInfo{}};  // No path found
+    };
+    
+    // Step 1: Find first shortest path
+    auto [found, first_path] = dijkstra(source, target, {});
+    if (!found) {
+        return {Status::OK(), {}};  // No path exists
+    }
+    
+    A.push_back(first_path);
+    
+    // Step 2: Find k-1 additional shortest paths
+    for (int k_idx = 1; k_idx < k; ++k_idx) {
+        if (A.empty()) break;
+        
+        const PathInfo& prev_path = A[k_idx - 1];
+        
+        // For each node in the previous shortest path (except the last)
+        for (size_t spur_idx = 0; spur_idx < prev_path.vertices.size() - 1; ++spur_idx) {
+            const std::string& spur_node = prev_path.vertices[spur_idx];
+            
+            // Root path: from source to spur node
+            std::vector<std::string> root_vertices(
+                prev_path.vertices.begin(), 
+                prev_path.vertices.begin() + spur_idx + 1
+            );
+            std::vector<std::pair<std::string, std::string>> root_edges(
+                prev_path.edges.begin(),
+                prev_path.edges.begin() + spur_idx
+            );
+            
+            // Build exclusion set
+            std::set<std::pair<std::string, std::string>> excluded_edges;
+            
+            // Remove edges that are part of previous paths with the same root
+            for (const auto& path : A) {
+                if (path.vertices.size() > spur_idx + 1) {
+                    bool same_root = true;
+                    for (size_t i = 0; i <= spur_idx && i < path.vertices.size(); ++i) {
+                        if (path.vertices[i] != root_vertices[i]) {
+                            same_root = false;
+                            break;
+                        }
+                    }
+                    
+                    if (same_root && spur_idx < path.edges.size()) {
+                        excluded_edges.insert(path.edges[spur_idx]);
+                    }
+                }
+            }
+            
+            // Find spur path from spur node to target
+            auto [found_spur, spur_path] = dijkstra(spur_node, target, excluded_edges);
+            
+            if (found_spur && spur_path.vertices.size() > 1) {
+                // Combine root path + spur path
+                PathInfo total_path;
+                total_path.vertices = root_vertices;
+                total_path.edges = root_edges;
+                
+                // Add spur path (skip first vertex as it's the spur node)
+                for (size_t i = 1; i < spur_path.vertices.size(); ++i) {
+                    total_path.vertices.push_back(spur_path.vertices[i]);
+                }
+                for (const auto& edge : spur_path.edges) {
+                    total_path.edges.push_back(edge);
+                }
+                
+                // Calculate total length
+                double root_length = 0.0;
+                for (size_t i = 0; i < root_edges.size(); ++i) {
+                    root_length += (weight_attr.empty() ? 1.0 : 1.0);  // TODO: Use actual weights
+                }
+                total_path.length = root_length + spur_path.length;
+                total_path.hop_count = static_cast<int>(total_path.edges.size());
+                
+                // Check if this path is unique
+                bool is_unique = true;
+                for (const auto& existing : A) {
+                    if (existing.vertices == total_path.vertices) {
+                        is_unique = false;
+                        break;
+                    }
+                }
+                
+                // Check if already in candidate queue
+                if (is_unique) {
+                    // Note: We can't easily check priority_queue contents, so we may add duplicates
+                    // They will be filtered when popping
+                    B.push(total_path);
+                }
+            }
+        }
+        
+        // No more candidate paths
+        if (B.empty()) {
+            break;
+        }
+        
+        // Find best candidate and add to result
+        PathInfo best_candidate = B.top();
+        B.pop();
+        
+        // Check for duplicates with existing paths
+        bool is_duplicate = false;
+        for (const auto& existing : A) {
+            if (existing.vertices == best_candidate.vertices) {
+                is_duplicate = true;
+                break;
+            }
+        }
+        
+        if (!is_duplicate) {
+            A.push_back(best_candidate);
+        } else {
+            // Try next candidate
+            k_idx--;
+        }
+    }
+    
+    return {Status::OK(), std::move(A)};
+}
+
 } // namespace themis
