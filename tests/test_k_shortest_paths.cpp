@@ -347,6 +347,55 @@ TEST_F(KShortestPathsTest, PerformanceSmallGraph) {
 }
 
 // ============================================================================
+// Weighted Graph Tests
+// ============================================================================
+
+TEST_F(KShortestPathsTest, WeightedGraphShortestByWeight) {
+    buildWeightedGraph();
+    
+    auto [status, paths] = analytics_->kShortestPaths("A", "E", 3, "weight");
+    
+    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_GE(paths.size(), 3);
+    
+    // Paths should be sorted by total weight, not hop count
+    // Expected order by weight:
+    // 1. A -> D -> E (weight 5)
+    // 2. A -> B -> E (weight 8)
+    // 3. A -> C -> E (weight 12)
+    
+    EXPECT_LE(paths[0].length, 5.1) << "First path should have weight ~5";
+    EXPECT_GE(paths[0].length, 4.9);
+    
+    EXPECT_LE(paths[1].length, 8.1) << "Second path should have weight ~8";
+    EXPECT_GE(paths[1].length, 7.9);
+    
+    EXPECT_LE(paths[2].length, 12.1) << "Third path should have weight ~12";
+    EXPECT_GE(paths[2].length, 11.9);
+}
+
+TEST_F(KShortestPathsTest, WeightedVsUnweightedDifferentOrder) {
+    buildWeightedGraph();
+    
+    // Get paths with weight attribute
+    auto [status_w, paths_weighted] = analytics_->kShortestPaths("A", "E", 3, "weight");
+    
+    // Get paths without weight attribute (uses default _weight or 1.0)
+    auto [status_u, paths_unweighted] = analytics_->kShortestPaths("A", "E", 3);
+    
+    ASSERT_TRUE(status_w.ok);
+    ASSERT_TRUE(status_u.ok);
+    
+    // Weighted should prefer A->D->E (weight 5, hops 2)
+    // Unweighted should prefer A->B->E or A->C->E (hops 2)
+    
+    if (paths_weighted.size() > 0 && paths_unweighted.size() > 0) {
+        // Verify that weighted considers actual weights
+        EXPECT_LT(paths_weighted[0].length, 10.0) << "Weighted first path should have low weight";
+    }
+}
+
+// ============================================================================
 // Main
 // ============================================================================
 

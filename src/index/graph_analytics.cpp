@@ -621,12 +621,24 @@ GraphAnalytics::kShortestPaths(
                     continue;
                 }
                 
-                // Calculate edge weight
-                // NOTE: Currently only supports unweighted graphs (all edges have weight 1.0)
-                // TODO: Implement edge attribute retrieval from GraphIndexManager to support
-                //       weighted graphs using the weight_attr parameter. This requires extending
-                //       GraphIndexManager API to retrieve edge properties by (from, to) pair.
-                double edge_weight = 1.0;
+                // Calculate edge weight using the weight attribute
+                // Get edge ID from adjacency info to retrieve weight
+                auto [st_adj, adj_list] = graphMgr_.outAdjacency(state.node);
+                double edge_weight = 1.0;  // Default
+                
+                if (st_adj.ok) {
+                    for (const auto& adj : adj_list) {
+                        if (adj.targetPk == neighbor) {
+                            if (!weight_attr.empty()) {
+                                edge_weight = graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId, weight_attr);
+                            } else {
+                                // Default _weight attribute
+                                edge_weight = graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId);
+                            }
+                            break;
+                        }
+                    }
+                }
                 
                 double new_dist = state.dist + edge_weight;
                 
@@ -714,12 +726,37 @@ GraphAnalytics::kShortestPaths(
                 }
                 
                 // Calculate total length
-                // NOTE: For unweighted graphs, length = hop count (number of edges)
-                // Both root_length (edge count) and spur_path.length (sum of 1.0 weights)
-                // are equivalent when all edges have weight 1.0
-                // When weighted graph support is added, this calculation will need to sum
-                // actual edge weights from the root path instead of just counting edges
-                double root_length = static_cast<double>(root_edges.size());  // Unweighted: count edges
+                // For weighted graphs, we need to sum the actual edge weights
+                double root_length = 0.0;
+                
+                if (!weight_attr.empty()) {
+                    // Calculate weighted root path length
+                    for (const auto& edge : root_edges) {
+                        auto [st_adj, adj_list] = graphMgr_.outAdjacency(edge.first);
+                        if (st_adj.ok) {
+                            for (const auto& adj : adj_list) {
+                                if (adj.targetPk == edge.second) {
+                                    root_length += graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId, weight_attr);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // For unweighted graphs, count edges (or use default _weight)
+                    for (const auto& edge : root_edges) {
+                        auto [st_adj, adj_list] = graphMgr_.outAdjacency(edge.first);
+                        if (st_adj.ok) {
+                            for (const auto& adj : adj_list) {
+                                if (adj.targetPk == edge.second) {
+                                    root_length += graphMgr_.getEdgeWeight(adj.graphId, adj.edgeId);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 total_path.length = root_length + spur_path.length;
                 total_path.hop_count = static_cast<int>(total_path.edges.size());
                 

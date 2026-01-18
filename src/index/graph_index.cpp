@@ -679,6 +679,53 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 	return 1.0;
 }
 
+// Public method for retrieving edge weight with custom attribute
+double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
+                                       std::string_view weightAttribute) const {
+	// Try both storage formats: with graphId (edge:<graphId>:<edgeId>) and without (edge:<edgeId>)
+	const std::string edgeKeyWithGid = std::string("edge:") + std::string(graphId) + ":" + std::string(edgeId);
+	auto blob = db_.get(edgeKeyWithGid);
+	if (!blob.has_value()) {
+		const std::string edgeKey = std::string("edge:") + std::string(edgeId);
+		blob = db_.get(edgeKey);
+		if (!blob.has_value()) return 1.0; // Default weight
+	}
+
+	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+	std::string attrName = std::string(weightAttribute);
+	
+	// Prefer numeric representation
+	if (auto weightOpt = edge.getFieldAsDouble(attrName); weightOpt) return *weightOpt;
+
+	// If stored as string it might be either a plain number or an encrypted blob
+	if (auto wstrOpt = edge.getFieldAsString(attrName); wstrOpt) {
+		const std::string& wstr = *wstrOpt;
+		// Try to detect encrypted blob and decrypt when possible
+		try {
+			auto eb = EncryptedBlob::fromBase64(wstr);
+			if (field_encryption_) {
+				std::string dec = field_encryption_->decryptToString(eb);
+				try {
+					return std::stod(dec);
+				} catch (...) {
+					// fallthrough
+				}
+			}
+		} catch (...) {
+			// not an encrypted blob
+		}
+
+		// Fallback: attempt to parse as number
+		try {
+			return std::stod(wstr);
+		} catch (...) {
+			return 1.0;
+		}
+	}
+
+	return 1.0;
+}
+
 std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::string_view edgeId) const {
 	// Try both storage formats: with graphId (edge:<graphId>:<edgeId>) and without (edge:<edgeId>)
 	const std::string edgeKeyWithGid = std::string("edge:") + std::string(graphId) + ":" + std::string(edgeId);
