@@ -209,19 +209,27 @@ themis::llm::rag::judge          - LLM-as-Judge
    - Judge-Evaluations
    - Compliance-Tracking
 
-## Wissenschaftliche Referenzen
+## Wissenschaftliche Referenzen (IEEE Format)
 
 ### Knowledge Gap Detector
-- Asai et al. (2023) - Self-RAG
-- Jiang et al. (2023) - Active RAG
-- Guu et al. (2020) - REALM
-- Liu et al. (2023) - RAG Faithfulness
+
+[1] A. Asai, Z. Wu, Y. Wang, A. Sil, and H. Hajishirzi, "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection," arXiv:2310.11511, Oct. 2023.
+
+[2] Z. Jiang et al., "Active Retrieval Augmented Generation," in Proc. EMNLP, 2023, pp. 7969–7992.
+
+[3] K. Guu, K. Lee, Z. Tung, P. Pasupat, and M.-W. Chang, "REALM: Retrieval-Augmented Language Model Pre-Training," in Proc. ICML, vol. 119, 2020, pp. 3929–3938.
+
+[4] N. Liu, T. Zhang, and P. Liang, "Evaluating Verifiability in Generative Search Engines," arXiv:2304.09848, Apr. 2023.
 
 ### LLM-as-Judge
-- Liu et al. (2023) - G-Eval
-- Zheng et al. (2023) - MT-Bench
-- Es et al. (2023) - RAGAS
-- Bai et al. (2022) - Constitutional AI
+
+[5] Y. Liu et al., "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment," arXiv:2303.16634, May 2023.
+
+[6] L. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," in Proc. NeurIPS, 2023.
+
+[7] S. Es, J. James, L. Espinosa-Anke, and S. Schockaert, "RAGAS: Automated Evaluation of Retrieval Augmented Generation," arXiv:2309.15217, Sep. 2023.
+
+[8] Y. Bai et al., "Constitutional AI: Harmlessness from AI Feedback," Anthropic Technical Report, Dec. 2022.
 
 ## Nächste Schritte
 

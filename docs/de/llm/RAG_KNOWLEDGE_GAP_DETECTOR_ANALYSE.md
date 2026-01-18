@@ -10,22 +10,22 @@ Ein Knowledge Gap Detector identifiziert Lücken im verfügbaren Wissen eines RA
 
 **Publikationen:**
 
-1. **"Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection"** (Asai et al., 2023, arXiv:2310.11511)
+1. **"Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection"** [1]
    - Einführung von Reflexionstoken zur Bewertung der Abrufqualität
    - Selbstkritik des Modells zur Erkennung unzureichender Informationen
    - Adaptive Retrieval-Strategien basierend auf Konfidenz
 
-2. **"Active Retrieval Augmented Generation"** (Jiang et al., 2023, EMNLP)
+2. **"Active Retrieval Augmented Generation"** [2]
    - FLARE-Ansatz: Forward-Looking Active REtrieval
    - Dynamische Erkennung von Wissenslücken während der Generation
    - Proaktives Nachladen fehlender Informationen
 
-3. **"REALM: Retrieval-Augmented Language Model Pre-Training"** (Guu et al., 2020, ICML)
+3. **"REALM: Retrieval-Augmented Language Model Pre-Training"** [3]
    - Grundlegende Architektur für RAG-Systeme
    - Marginalisierung über abgerufene Dokumente
    - Unsicherheitsquantifizierung in der Retrieval-Phase
 
-4. **"Measuring and Improving Faithfulness of RAG"** (Liu et al., 2023)
+4. **"Evaluating Verifiability in Generative Search Engines"** [4]
    - Metriken zur Bewertung der Antwortqualität
    - Halluzinationserkennung bei unzureichender Retrieval
    - Attribution von Antworten zu Quelldokumenten
@@ -236,23 +236,23 @@ knowledge_gap_detection:
 - Parallelisierte Claim Verification
 - CUDA-Kernels für Cross-Encoder Re-Ranking
 
-## Literaturverzeichnis
+## Literaturverzeichnis (IEEE Format)
 
-1. Asai, A., et al. (2023). "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection." arXiv:2310.11511
+[1] A. Asai, Z. Wu, Y. Wang, A. Sil, and H. Hajishirzi, "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection," arXiv preprint arXiv:2310.11511, Oct. 2023. [Online]. Available: https://arxiv.org/abs/2310.11511
 
-2. Jiang, Z., et al. (2023). "Active Retrieval Augmented Generation." EMNLP 2023.
+[2] Z. Jiang, F. F. Xu, L. Gao, Z. Sun, Q. Liu, J. Dwivedi-Yu, Y. Yang, J. Callan, and G. Neubig, "Active Retrieval Augmented Generation," in Proc. 2023 Conf. Empirical Methods Natural Language Process. (EMNLP), Singapore, Dec. 2023, pp. 7969–7992. [Online]. Available: https://aclanthology.org/2023.emnlp-main.495
 
-3. Guu, K., et al. (2020). "REALM: Retrieval-Augmented Language Model Pre-Training." ICML 2020.
+[3] K. Guu, K. Lee, Z. Tung, P. Pasupat, and M.-W. Chang, "REALM: Retrieval-Augmented Language Model Pre-Training," in Proc. 37th Int. Conf. Machine Learning (ICML), vol. 119, Vienna, Austria, Jul. 2020, pp. 3929–3938. [Online]. Available: http://proceedings.mlr.press/v119/guu20a.html
 
-4. Liu, N., et al. (2023). "Measuring and Improving Faithfulness of RAG Systems."
+[4] N. Liu, T. Zhang, and P. Liang, "Evaluating Verifiability in Generative Search Engines," arXiv preprint arXiv:2304.09848, Apr. 2023. [Online]. Available: https://arxiv.org/abs/2304.09848
 
-5. Lewis, P., et al. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." NeurIPS 2020.
+[5] P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. Küttler, M. Lewis, W.-t. Yih, T. Rocktäschel, S. Riedel, and D. Kiela, "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," in Proc. 34th Conf. Neural Inf. Process. Syst. (NeurIPS), vol. 33, Virtual, Dec. 2020, pp. 9459–9474. [Online]. Available: https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html
 
-6. Ram, O., et al. (2023). "In-Context Retrieval-Augmented Language Models." arXiv:2302.00083
+[6] O. Ram, Y. Levine, I. Dalmedigos, D. Muhlgay, A. Shashua, K. Leyton-Brown, and Y. Shoham, "In-Context Retrieval-Augmented Language Models," Trans. Assoc. Comput. Linguistics, vol. 11, pp. 1316–1331, Oct. 2023, doi: 10.1162/tacl_a_00605. [Online]. Available: https://arxiv.org/abs/2302.00083
 
-7. Shi, F., et al. (2023). "Large Language Models Can Be Easily Distracted by Irrelevant Context." arXiv:2302.00093
+[7] F. Shi, X. Chen, K. Misra, N. Scales, D. Dohan, E. H. Chi, N. Schärli, and D. Zhou, "Large Language Models Can Be Easily Distracted by Irrelevant Context," in Proc. 40th Int. Conf. Machine Learning (ICML), vol. 202, Honolulu, HI, USA, Jul. 2023, pp. 31210–31227. [Online]. Available: https://arxiv.org/abs/2302.00093
 
-8. Izacard, G., & Grave, E. (2021). "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering." EACL 2021.
+[8] G. Izacard and E. Grave, "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering," in Proc. 16th Conf. European Chapter Assoc. Comput. Linguistics (EACL), Kyiv, Ukraine, Apr. 2021, pp. 874–880, doi: 10.18653/v1/2021.eacl-main.74. [Online]. Available: https://aclanthology.org/2021.eacl-main.74
 
 ## Weiterführende Ressourcen
 

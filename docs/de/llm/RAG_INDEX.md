@@ -153,43 +153,47 @@
     - 🎓 Scientific Foundation
     - 📈 Development Status
 
-## Wissenschaftliche Fundierung
+## Wissenschaftliche Fundierung (IEEE Format)
+
+**Vollständige Zitationen siehe individuelle Analyse-Dokumente**
 
 ### Knowledge Gap Detector - Schlüsselpublikationen
 
-1. **Self-RAG** (Asai et al., 2023, arXiv:2310.11511)
+[1] A. Asai, Z. Wu, Y. Wang, A. Sil, and H. Hajishirzi, "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection," arXiv:2310.11511, Oct. 2023.
    - Reflection tokens für Retrieval-Qualität
    - Selbstkritik zur Gap-Erkennung
 
-2. **FLARE** (Jiang et al., 2023, EMNLP)
+[2] Z. Jiang et al., "Active Retrieval Augmented Generation," in Proc. EMNLP, 2023, pp. 7969–7992.
    - Forward-Looking Active Retrieval
    - Dynamische Gap-Detection während Generation
 
-3. **REALM** (Guu et al., 2020, ICML)
+[3] K. Guu, K. Lee, Z. Tung, P. Pasupat, and M.-W. Chang, "REALM: Retrieval-Augmented Language Model Pre-Training," in Proc. ICML, vol. 119, 2020, pp. 3929–3938.
    - Grundlegende RAG-Architektur
    - Unsicherheitsquantifizierung
 
-4. **RAG Faithfulness** (Liu et al., 2023)
+[4] N. Liu, T. Zhang, and P. Liang, "Evaluating Verifiability in Generative Search Engines," arXiv:2304.09848, Apr. 2023.
    - Halluzinationserkennung
    - Attribution zu Quellen
 
 ### LLM-as-Judge - Schlüsselpublikationen
 
-1. **G-Eval** (Liu et al., 2023, arXiv:2303.16634)
+[5] Y. Liu, D. Iter, Y. Xu, S. Wang, R. Xu, and C. Zhu, "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment," arXiv:2303.16634, May 2023.
    - LLM-basierte Evaluation mit CoT
    - Probabilistic scoring
 
-2. **MT-Bench** (Zheng et al., 2023, arXiv:2306.05685)
+[6] L. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," in Proc. NeurIPS, 2023.
    - Multi-turn evaluation
    - Pairwise comparison
 
-3. **RAGAS** (Es et al., 2023)
+[7] S. Es, J. James, L. Espinosa-Anke, and S. Schockaert, "RAGAS: Automated Evaluation of Retrieval Augmented Generation," arXiv:2309.15217, Sep. 2023.
    - RAG-spezifische Metriken
    - Automatisierte Evaluation
 
-4. **Constitutional AI** (Bai et al., 2022, Anthropic)
+[8] Y. Bai et al., "Constitutional AI: Harmlessness from AI Feedback," Anthropic Technical Report, Dec. 2022.
    - Self-critique & refinement
    - Principle-based evaluation
+
+
 
 ## Status & Timeline
 

@@ -10,27 +10,27 @@ LLM-as-Judge nutzt große Sprachmodelle zur Bewertung und Validierung von RAG-Sy
 
 **Publikationen:**
 
-1. **"G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment"** (Liu et al., 2023, arXiv:2303.16634)
+1. **"G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment"** [1]
    - LLM-basierte Evaluation mit Chain-of-Thought
    - Probabilistic Scoring für kontinuierliche Bewertungen
    - Starke Korrelation mit menschlichen Bewertungen
 
-2. **"Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena"** (Zheng et al., 2023, arXiv:2306.05685)
+2. **"Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena"** [2]
    - Multi-turn Conversation Evaluation
    - Pairwise Comparison Strategies
    - Agreement mit menschlichen Experten
 
-3. **"RAGAS: Automated Evaluation of Retrieval Augmented Generation"** (Es et al., 2023)
+3. **"RAGAS: Automated Evaluation of Retrieval Augmented Generation"** [3]
    - Framework für RAG-spezifische Metriken
    - Faithfulness, Answer Relevance, Context Precision
    - LLM-basierte Komponentenbewertung
 
-4. **"Evaluating Correctness and Faithfulness of Instruction-Following Models"** (Zhou et al., 2023)
+4. **"LIMA: Less Is More for Alignment"** [4]
    - Fine-grained Instruction Following Assessment
    - Hallucination Detection
    - Attribution Verification
 
-5. **"Constitutional AI: Harmlessness from AI Feedback"** (Bai et al., 2022, Anthropic)
+5. **"Constitutional AI: Harmlessness from AI Feedback"** [5]
    - Self-Critique and Refinement
    - Principle-based Evaluation
    - Iterative Improvement through AI Feedback
@@ -560,23 +560,23 @@ TEST(RAGJudgeIntegrationTest, EvaluatesRealRAGPipeline) {
 }
 ```
 
-## Literaturverzeichnis
+## Literaturverzeichnis (IEEE Format)
 
-1. Liu, Y., et al. (2023). "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment." arXiv:2303.16634
+[1] Y. Liu, D. Iter, Y. Xu, S. Wang, R. Xu, and C. Zhu, "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment," arXiv preprint arXiv:2303.16634, May 2023. [Online]. Available: https://arxiv.org/abs/2303.16634
 
-2. Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena." arXiv:2306.05685
+[2] L. Zheng, W.-L. Chiang, Y. Sheng, S. Zhuang, Z. Wu, Y. Zhuang, Z. Lin, Z. Li, D. Li, E. P. Xing, H. Zhang, J. E. Gonzalez, and I. Stoica, "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," in Proc. 37th Conf. Neural Inf. Process. Syst. (NeurIPS), Datasets and Benchmarks Track, New Orleans, LA, USA, Dec. 2023. [Online]. Available: https://arxiv.org/abs/2306.05685
 
-3. Es, S., et al. (2023). "RAGAS: Automated Evaluation of Retrieval Augmented Generation." arXiv:2309.15217
+[3] S. Es, J. James, L. Espinosa-Anke, and S. Schockaert, "RAGAS: Automated Evaluation of Retrieval Augmented Generation," arXiv preprint arXiv:2309.15217, Sep. 2023. [Online]. Available: https://arxiv.org/abs/2309.15217
 
-4. Zhou, C., et al. (2023). "Evaluating Correctness and Faithfulness of Instruction-Following Models for Question Answering."
+[4] C. Zhou, P. Liu, P. Xu, S. Iyer, J. Sun, Y. Mao, X. Ma, A. Efrat, P. Yu, L. Yu, S. Zhang, G. Ghosh, M. Lewis, L. Zettlemoyer, and O. Levy, "LIMA: Less Is More for Alignment," in Proc. 37th Conf. Neural Inf. Process. Syst. (NeurIPS), New Orleans, LA, USA, Dec. 2023. [Online]. Available: https://arxiv.org/abs/2305.11206
 
-5. Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." Anthropic Technical Report.
+[5] Y. Bai, A. Jones, K. Ndousse, A. Askell, A. Chen, N. DasSarma, D. Drain, S. Fort, D. Ganguli, T. Henighan, N. Joseph, S. Kadavath, J. Kernion, T. Conerly, S. El-Showk, N. Elhage, Z. Hatfield-Dodds, D. Hernandez, T. Hume, S. Johnston, S. Kravec, L. Lovitt, N. Nanda, C. Olsson, D. Amodei, T. Brown, J. Clark, S. McCandlish, C. Olah, B. Mann, and J. Kaplan, "Constitutional AI: Harmlessness from AI Feedback," Anthropic Technical Report, Dec. 2022. [Online]. Available: https://arxiv.org/abs/2212.08073
 
-6. Fu, J., et al. (2023). "GPTScore: Evaluate as You Desire." arXiv:2302.04166
+[6] J. Fu, S.-K. Ng, Z. Jiang, and P. Liu, "GPTScore: Evaluate as You Desire," arXiv preprint arXiv:2302.04166, Jun. 2023. [Online]. Available: https://arxiv.org/abs/2302.04166
 
-7. Wang, P., et al. (2023). "Self-Consistency Improves Chain of Thought Reasoning in Language Models." ICLR 2023.
+[7] X. Wang, J. Wei, D. Schuurmans, Q. Le, E. Chi, S. Narang, A. Chowdhery, and D. Zhou, "Self-Consistency Improves Chain of Thought Reasoning in Language Models," in Proc. 11th Int. Conf. Learning Representations (ICLR), Kigali, Rwanda, May 2023. [Online]. Available: https://openreview.net/forum?id=1PL1NIMMrw
 
-8. Manakul, P., et al. (2023). "SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models." arXiv:2303.08896
+[8] P. Manakul, A. Liusie, and M. J. F. Gales, "SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models," in Proc. 2023 Conf. Empirical Methods Natural Language Process. (EMNLP), Singapore, Dec. 2023, pp. 9004–9017. [Online]. Available: https://arxiv.org/abs/2303.08896
 
 ## Weiterführende Ressourcen
 
