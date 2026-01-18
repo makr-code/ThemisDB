@@ -222,6 +222,7 @@ TEST(StorageEngineBuilderTest, BuilderAcceptsOptionalIndexManager) {
 TEST(StorageEngineBuilderTest, StandardFactoryCreatesBuilder) {
     auto builder = StorageEngineBuilder::standard();
     
-    // Builder should exist (though it may not have dependencies set yet)
-    // This test validates the pattern works
+    // Builder should be populated with defaults and ready to build
+    auto engine = builder.build();
+    EXPECT_NE(engine, nullptr);
 }

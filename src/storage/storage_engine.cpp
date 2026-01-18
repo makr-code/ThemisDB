@@ -84,6 +84,23 @@ public:
 
 } // anonymous namespace
 
+// Factory methods for default implementations
+IExpressionEvaluatorPtr StorageEngine::createDefaultEvaluator() {
+    return std::make_shared<DefaultExpressionEvaluator>();
+}
+
+IFieldEncryptionPtr StorageEngine::createDefaultEncryption() {
+    return std::make_shared<DefaultFieldEncryption>();
+}
+
+IKeyProviderPtr StorageEngine::createDefaultKeyProvider() {
+    return std::make_shared<DefaultKeyProvider>();
+}
+
+IIndexManagerPtr StorageEngine::createDefaultIndexManager() {
+    return std::make_shared<DefaultIndexManager>();
+}
+
 StorageEngine::StorageEngine(
     IExpressionEvaluatorPtr evaluator,
     IFieldEncryptionPtr encryption,
@@ -109,14 +126,12 @@ StorageEngine::StorageEngine(
 }
 
 std::shared_ptr<StorageEngine> StorageEngine::createDefault() {
-    // Create default implementations
-    auto evaluator = std::make_shared<DefaultExpressionEvaluator>();
-    auto encryption = std::make_shared<DefaultFieldEncryption>();
-    auto key_provider = std::make_shared<DefaultKeyProvider>();
-    auto index_manager = std::make_shared<DefaultIndexManager>();
-    
+    // Create default implementations using factory methods
     return std::make_shared<StorageEngine>(
-        evaluator, encryption, key_provider, index_manager
+        createDefaultEvaluator(),
+        createDefaultEncryption(),
+        createDefaultKeyProvider(),
+        createDefaultIndexManager()
     );
 }
 

@@ -95,6 +95,17 @@ public:
         const std::string& field_name,
         const std::vector<uint8_t>& ciphertext);
 
+    /**
+     * @brief Create default implementations (for testing and builder)
+     * 
+     * These factory methods create default implementations of interfaces.
+     * Used by createDefault() factory and StorageEngineBuilder::standard()
+     */
+    static IExpressionEvaluatorPtr createDefaultEvaluator();
+    static IFieldEncryptionPtr createDefaultEncryption();
+    static IKeyProviderPtr createDefaultKeyProvider();
+    static IIndexManagerPtr createDefaultIndexManager();
+
 private:
     // Injected dependencies (interfaces, not concrete implementations)
     IExpressionEvaluatorPtr evaluator_;

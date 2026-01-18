@@ -105,14 +105,14 @@ public:
      * @return Builder with default implementations
      */
     static StorageEngineBuilder standard() {
-        // Use the StorageEngine factory to get defaults, then extract components
-        // For now, we create a default instance which validates the pattern works
-        auto default_engine = StorageEngine::createDefault();
-        
-        // Return a new builder (caller can override components as needed)
         StorageEngineBuilder builder;
-        // Note: In a real implementation, we'd expose getters on StorageEngine
-        // or create default implementations here directly
+        
+        // Populate with default implementations
+        builder.withEvaluator(StorageEngine::createDefaultEvaluator());
+        builder.withEncryption(StorageEngine::createDefaultEncryption());
+        builder.withKeyProvider(StorageEngine::createDefaultKeyProvider());
+        builder.withIndexManager(StorageEngine::createDefaultIndexManager());
+        
         return builder;
     }
     
