@@ -118,6 +118,7 @@ public:
         }
         
         // Parse options
+        // Empty string means unweighted (edge count), or use default "_weight" from graph
         std::string weightAttribute = "";
         if (args.size() > 3 && args[3].is_object()) {
             auto opts = args[3];
@@ -130,6 +131,7 @@ public:
         auto* analytics = ctx.getGraphAnalytics();
         if (!analytics) {
             // If no analytics available, return empty (graceful degradation)
+            // This can happen if the function is called without proper query context
             return nlohmann::json::array();
         }
         
@@ -137,7 +139,9 @@ public:
         auto [status, paths] = analytics->kShortestPaths(startVertex, endVertex, k, weightAttribute);
         
         if (!status.ok) {
-            // Return empty array on error (could also throw exception)
+            // Log error but return empty array (functions should not throw in query execution)
+            // Error details are in status.message
+            // TODO: Consider returning error information in result structure
             return nlohmann::json::array();
         }
         
