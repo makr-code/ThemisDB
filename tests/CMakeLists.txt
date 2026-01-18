@@ -1432,6 +1432,68 @@ else()
 endif()
 
 # ============================================================================
+# General Graph Traversal Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_general_traversal.cpp")
+    message(STATUS "Adding General Graph Traversal tests")
+    
+    add_executable(test_general_traversal
+        test_general_traversal.cpp
+    )
+    
+    target_link_libraries(test_general_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_general_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GeneralTraversalTests COMMAND test_general_traversal)
+    
+    set_tests_properties(GeneralTraversalTests PROPERTIES
+        LABELS "graph;traversal;unit"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "General traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_general_traversal.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_aql_general_traversal.cpp")
+    message(STATUS "Adding AQL General Traversal integration tests")
+    
+    add_executable(test_aql_general_traversal
+        test_aql_general_traversal.cpp
+    )
+    
+    target_link_libraries(test_aql_general_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_aql_general_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME AQLGeneralTraversalTests COMMAND test_aql_general_traversal)
+    
+    set_tests_properties(AQLGeneralTraversalTests PROPERTIES
+        LABELS "aql;graph;traversal;integration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "AQL General traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_aql_general_traversal.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
