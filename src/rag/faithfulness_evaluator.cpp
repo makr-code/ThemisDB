@@ -1,0 +1,313 @@
+/**
+ * @file faithfulness_evaluator.cpp
+ * @brief Implementation of faithfulness evaluation
+ */
+
+#include "rag/faithfulness_evaluator.h"
+#include "rag/llm_judge_integration.h"
+#include "rag/response_parser.h"
+#include "utils/logger.h"
+#include <nlohmann/json.hpp>
+#include <algorithm>
+#include <sstream>
+#include <regex>
+
+namespace themis::rag::judge {
+
+using json = nlohmann::json;
+
+struct FaithfulnessEvaluator::Impl {
+    Config config;
+    std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    ResponseParser parser;
+    
+    // NLI stub - in production would use actual NLI model
+    SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
+        // Stub implementation using simple text matching
+        // In production, this would call RoBERTa-large-MNLI or similar
+        
+        std::string claim_lower = claim;
+        std::string doc_lower = document;
+        std::transform(claim_lower.begin(), claim_lower.end(), claim_lower.begin(), ::tolower);
+        std::transform(doc_lower.begin(), doc_lower.end(), doc_lower.begin(), ::tolower);
+        
+        // Simple heuristic: check for key terms
+        std::istringstream claim_stream(claim_lower);
+        std::vector<std::string> claim_words;
+        std::string word;
+        while (claim_stream >> word) {
+            if (word.length() > 3) {  // Skip short words
+                claim_words.push_back(word);
+            }
+        }
+        
+        if (claim_words.empty()) {
+            return SupportLevel::UNSUPPORTED;
+        }
+        
+        // Count matching words
+        size_t matches = 0;
+        for (const auto& w : claim_words) {
+            if (doc_lower.find(w) != std::string::npos) {
+                matches++;
+            }
+        }
+        
+        double match_ratio = static_cast<double>(matches) / claim_words.size();
+        
+        if (match_ratio >= 0.8) {
+            return SupportLevel::FULLY_SUPPORTED;
+        } else if (match_ratio >= 0.4) {
+            return SupportLevel::PARTIALLY_SUPPORTED;
+        } else {
+            return SupportLevel::UNSUPPORTED;
+        }
+    }
+};
+
+FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
+    : impl_(std::make_unique<Impl>()) {
+    impl_->config = config;
+    
+    // Initialize LLM integration for claim extraction
+    LLMJudgeIntegration::Config llm_config;
+    llm_config.model_name = "default";
+    llm_config.temperature = 0.3;
+    llm_config.max_tokens = 512;
+    impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
+    
+    THEMIS_DEBUG("FaithfulnessEvaluator initialized");
+}
+
+FaithfulnessEvaluator::~FaithfulnessEvaluator() = default;
+
+std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answer) {
+    std::vector<Claim> claims;
+    
+    if (answer.empty()) {
+        return claims;
+    }
+    
+    // Prompt for LLM-based claim extraction
+    std::string prompt = R"(Extract atomic factual claims from the following answer. 
+Each claim should be a single, verifiable statement.
+Return claims as a JSON array of strings.
+
+Answer: )" + answer + R"(
+
+Output format:
+{
+  "claims": ["claim1", "claim2", "claim3"]
+}
+
+Claims:)";
+    
+    try {
+        std::string llm_response = impl_->llm_integration->evaluateDimension(
+            prompt, EvaluationDimension::FAITHFULNESS
+        );
+        
+        // Parse JSON response
+        json response_json = impl_->parser.parseJSONResponse(llm_response);
+        
+        if (response_json.contains("claims") && response_json["claims"].is_array()) {
+            for (const auto& claim_text : response_json["claims"]) {
+                if (claim_text.is_string()) {
+                    Claim claim;
+                    claim.text = claim_text.get<std::string>();
+                    claim.category = "factual";  // Default category
+                    claim.support_level = SupportLevel::UNSUPPORTED;  // Will be determined later
+                    claim.confidence = 0.8;
+                    claims.push_back(claim);
+                    
+                    if (claims.size() >= impl_->config.max_claims_to_extract) {
+                        break;
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Claim extraction failed: {}", e.what());
+        
+        // Fallback: split by sentences
+        std::regex sentence_regex(R"([^.!?]+[.!?])");
+        auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
+        auto sentences_end = std::sregex_iterator();
+        
+        for (auto it = sentences_begin; it != sentences_end && claims.size() < impl_->config.max_claims_to_extract; ++it) {
+            Claim claim;
+            claim.text = it->str();
+            claim.category = "factual";
+            claim.support_level = SupportLevel::UNSUPPORTED;
+            claim.confidence = 0.6;  // Lower confidence for fallback
+            claims.push_back(claim);
+        }
+    }
+    
+    THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
+    return claims;
+}
+
+SupportLevel FaithfulnessEvaluator::checkEntailment(
+    const std::string& claim,
+    const std::vector<std::pair<std::string, std::string>>& documents
+) {
+    if (claim.empty() || documents.empty()) {
+        return SupportLevel::UNSUPPORTED;
+    }
+    
+    // Check claim against each document using NLI
+    SupportLevel best_support = SupportLevel::UNSUPPORTED;
+    
+    for (const auto& [doc_id, doc_content] : documents) {
+        SupportLevel support = impl_->checkNLIEntailment(claim, doc_content);
+        
+        // Keep the best (highest) support level found
+        if (static_cast<int>(support) > static_cast<int>(best_support)) {
+            best_support = support;
+        }
+        
+        // If fully supported, no need to check further
+        if (best_support == SupportLevel::FULLY_SUPPORTED) {
+            break;
+        }
+    }
+    
+    return best_support;
+}
+
+std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
+    const std::string& answer,
+    const std::vector<std::pair<std::string, std::string>>& documents,
+    const std::vector<Claim>& claims
+) {
+    std::vector<Citation> citations;
+    
+    if (!impl_->config.enable_citation_check) {
+        return citations;
+    }
+    
+    // Look for explicit citation patterns: [1], [doc1], (Source: X), etc.
+    std::regex citation_pattern(R"(\[(\d+|doc\d+|[A-Za-z0-9_-]+)\]|\(Source:\s*([^)]+)\))");
+    
+    std::set<std::string> cited_doc_ids;
+    auto citations_begin = std::sregex_iterator(answer.begin(), answer.end(), citation_pattern);
+    auto citations_end = std::sregex_iterator();
+    
+    for (auto it = citations_begin; it != citations_end; ++it) {
+        std::string matched = it->str();
+        cited_doc_ids.insert(matched);
+    }
+    
+    // Create citation entries
+    for (const auto& claim : claims) {
+        if (!claim.supporting_doc_ids.empty()) {
+            Citation citation;
+            citation.claim_text = claim.text;
+            citation.cited_doc_ids = claim.supporting_doc_ids;
+            citation.has_explicit_reference = !cited_doc_ids.empty();
+            
+            // Quality score based on support level and citation presence
+            double support_score = 0.0;
+            switch (claim.support_level) {
+                case SupportLevel::FULLY_SUPPORTED:
+                    support_score = 1.0;
+                    break;
+                case SupportLevel::PARTIALLY_SUPPORTED:
+                    support_score = 0.5;
+                    break;
+                default:
+                    support_score = 0.0;
+            }
+            
+            double citation_score = citation.has_explicit_reference ? 1.0 : 0.5;
+            citation.quality_score = (support_score + citation_score) / 2.0;
+            
+            citations.push_back(citation);
+        }
+    }
+    
+    THEMIS_DEBUG("Verified {} citations", citations.size());
+    return citations;
+}
+
+FaithfulnessResult FaithfulnessEvaluator::evaluate(
+    const std::string& answer,
+    const std::vector<std::pair<std::string, std::string>>& documents,
+    const std::string& query
+) {
+    FaithfulnessResult result;
+    
+    // Step 1: Extract claims
+    result.claims = extractClaims(answer);
+    result.total_claims_count = result.claims.size();
+    
+    if (result.claims.empty()) {
+        result.faithfulness_score = 1.0;  // No claims = vacuously true
+        result.explanation = "No factual claims found in answer.";
+        return result;
+    }
+    
+    // Step 2: Check entailment for each claim
+    result.supported_claims_count = 0;
+    
+    for (auto& claim : result.claims) {
+        claim.support_level = checkEntailment(claim.text, documents);
+        
+        // Track which documents support this claim
+        for (const auto& [doc_id, doc_content] : documents) {
+            SupportLevel support = impl_->checkNLIEntailment(claim.text, doc_content);
+            if (support != SupportLevel::UNSUPPORTED) {
+                claim.supporting_doc_ids.push_back(doc_id);
+            }
+        }
+        
+        if (claim.support_level == SupportLevel::FULLY_SUPPORTED ||
+            claim.support_level == SupportLevel::PARTIALLY_SUPPORTED) {
+            result.supported_claims_count++;
+        }
+    }
+    
+    // Step 3: Verify citations
+    result.citations = verifyCitations(answer, documents, result.claims);
+    
+    // Calculate citation quality score
+    if (!result.citations.empty()) {
+        double total_quality = 0.0;
+        for (const auto& citation : result.citations) {
+            total_quality += citation.quality_score;
+        }
+        result.citation_quality_score = total_quality / result.citations.size();
+    } else {
+        result.citation_quality_score = 0.0;
+    }
+    
+    // Step 4: Calculate overall faithfulness score
+    // Score based on: (supported claims / total claims) * 0.8 + citation quality * 0.2
+    double claim_support_ratio = result.total_claims_count > 0 
+        ? static_cast<double>(result.supported_claims_count) / result.total_claims_count
+        : 1.0;
+    
+    result.faithfulness_score = claim_support_ratio * 0.8 + result.citation_quality_score * 0.2;
+    
+    // Generate explanation
+    std::ostringstream explanation;
+    explanation << "Faithfulness Score: " << result.faithfulness_score << "\n";
+    explanation << "Claims: " << result.supported_claims_count << "/" << result.total_claims_count << " supported\n";
+    explanation << "Citation Quality: " << result.citation_quality_score << "\n";
+    
+    if (result.supported_claims_count < result.total_claims_count) {
+        explanation << "Some claims lack sufficient document support.";
+    } else {
+        explanation << "All claims are supported by retrieved documents.";
+    }
+    
+    result.explanation = explanation.str();
+    
+    THEMIS_INFO("Faithfulness evaluation complete: score={:.2f}, claims={}/{}", 
+                result.faithfulness_score, result.supported_claims_count, result.total_claims_count);
+    
+    return result;
+}
+
+} // namespace themis::rag::judge

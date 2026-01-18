@@ -35,6 +35,12 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/response_parser.cpp
         ../src/rag/llm_judge_integration.cpp
         
+        # RAG Enhancement: LLM-as-Judge Phase 2 - Specialized Evaluators
+        ../src/rag/faithfulness_evaluator.cpp
+        ../src/rag/relevance_evaluator.cpp
+        ../src/rag/completeness_evaluator.cpp
+        ../src/rag/coherence_evaluator.cpp
+        
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
     )
