@@ -67,19 +67,19 @@ public:
     
     /// @brief Create a builder pre-configured with standard dependencies
     /// 
-    /// Creates a builder with default RocksDBWrapper and SecondaryIndexManager
-    /// implementations. This is a convenience method for standard configurations.
+    /// Returns an empty builder that can be configured with dependencies.
+    /// In the current Phase 3 implementation, the builder must be explicitly
+    /// configured with dependencies using withStorage() and withIndexManager().
     /// 
-    /// @note This method is currently a placeholder - actual implementation
-    ///       would create default concrete implementations
+    /// @note Future phases will create actual default implementations. For now,
+    ///       this is equivalent to QueryEngineBuilder() and exists for forward
+    ///       compatibility.
     /// 
-    /// @return Builder configured with standard dependencies
+    /// @return Empty builder to be configured with dependencies
     static QueryEngineBuilder standard() {
         QueryEngineBuilder builder;
-        // TODO: Create default implementations when available
-        // For now, return empty builder - caller must provide dependencies
-        // Future: builder.withStorage(std::make_shared<StorageEngine>());
-        // Future: builder.withIndexManager(std::make_shared<IndexManager>());
+        // Phase 3: Return empty builder - caller must provide dependencies
+        // Phase 4+: Will create default implementations automatically
         return builder;
     }
     

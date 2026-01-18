@@ -81,18 +81,26 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
 }
 
 // QueryExpressionEvaluator implementation
+// NOTE: These methods provide a stub implementation for Phase 3.
+// Full expression evaluation will be integrated in Phase 4 when Storage/Index
+// components are refactored to use the evaluator. For now, Storage/Index continue
+// to use direct QueryEngine methods via legacy pointers.
+
 std::optional<QueryValue> QueryEngine::QueryExpressionEvaluator::evaluate(
     std::string_view expression,
     const RowData& row_data) const {
-    // For now, return nullopt as full implementation requires AQL parser integration
-    // This will be implemented when Storage/Index need it
+    // Stub implementation for Phase 3
+    // Full implementation requires AQL parser integration and will be added in Phase 4
+    // when Storage and Index components are migrated to use this interface
     return std::nullopt;
 }
 
 bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
     std::string_view expression,
     const RowData& row_data) const {
-    // Simplified boolean evaluation
+    // Stub implementation for Phase 3
+    // Until evaluate() is fully implemented, return false to prevent incorrect behavior
+    // Storage and Index continue using legacy evaluation paths via concrete pointers
     auto result = evaluate(expression, row_data);
     if (!result.has_value()) return false;
     
@@ -113,9 +121,10 @@ bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
 }
 
 bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view expression) const {
-    // For now, assume we can try to evaluate any expression
-    // Real implementation would parse and validate the expression
-    return !expression.empty();
+    // Stub implementation for Phase 3
+    // Return false to indicate evaluation not yet implemented
+    // This prevents misuse until Phase 4 integration is complete
+    return false;
 }
 
 

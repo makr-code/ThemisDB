@@ -273,6 +273,11 @@ public:
      * Creates a QueryEngine with built-in RocksDBWrapper and SecondaryIndexManager.
      * This is a convenience method for backward compatibility.
      * 
+     * @note NOT YET IMPLEMENTED - Will be available in Phase 4 when concrete
+     *       implementations are adapted to interfaces. For now, use legacy constructors
+     *       or QueryEngineBuilder with explicit dependencies.
+     * 
+     * @throws std::runtime_error Currently not implemented
      * @return Shared pointer to QueryEngine with default dependencies
      */
     static std::shared_ptr<QueryEngine> createDefault();
@@ -481,6 +486,8 @@ private:
         
     private:
         QueryEngine* engine_;
+        // Note: Implementation is currently a stub for Phase 3
+        // Full evaluation will be added in Phase 4 integration
     };
     
     // Expression evaluation helpers (implemented in cpp)
@@ -488,9 +495,6 @@ private:
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;
-    
-    // Helper for QueryExpressionEvaluator to access
-    bool evaluateExpressionString(const std::string& expr, const RowData& row_data) const;
 
     static std::vector<std::string> intersectSortedLists_(std::vector<std::vector<std::string>> lists);
     static std::vector<std::string> unionSortedLists_(std::vector<std::vector<std::string>> lists);
