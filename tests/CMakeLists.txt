@@ -1526,6 +1526,71 @@ else()
 endif()
 
 # ============================================================================
+# RAG Enhancement Tests
+# ============================================================================
+
+# Knowledge Gap Detector Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+    message(STATUS "Adding Knowledge Gap Detector tests")
+    
+    add_executable(test_knowledge_gap_detector
+        test_knowledge_gap_detector.cpp
+    )
+    
+    target_link_libraries(test_knowledge_gap_detector PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_knowledge_gap_detector PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME KnowledgeGapDetectorTests COMMAND test_knowledge_gap_detector)
+    
+    set_tests_properties(KnowledgeGapDetectorTests PROPERTIES
+        LABELS "rag;llm;knowledge_gap;unit"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Knowledge Gap Detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+# RAG Judge Phase 1 Tests
+# ============================================================================
+
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase1.cpp")
+    message(STATUS "Adding RAG Judge Phase 1 tests")
+    
+    add_executable(test_rag_judge_phase1
+        test_rag_judge_phase1.cpp
+    )
+    
+    target_link_libraries(test_rag_judge_phase1 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_rag_judge_phase1 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGJudgePhase1Tests COMMAND test_rag_judge_phase1)
+    
+    set_tests_properties(RAGJudgePhase1Tests PROPERTIES
+        LABELS "rag;llm;judge;phase1;unit"
+        TIMEOUT 120
+    )
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "RAG Judge tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "RAG Judge Phase 1 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase1.cpp")
+    endif()
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
