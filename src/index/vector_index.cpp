@@ -58,6 +58,15 @@ void VectorIndexManager::setUserContext(std::string user_id) {
 	user_context_ = std::move(user_id);
 }
 
+// Phase 4: Set expression evaluator for advanced filtering
+void VectorIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
+	expression_evaluator_ = std::move(evaluator);
+}
+
+std::shared_ptr<IExpressionEvaluator> VectorIndexManager::getExpressionEvaluator() const {
+	return expression_evaluator_;
+}
+
 // Helper: Log audit event if audit logger is configured
 void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std::string& resource,
                                         const std::string& operation, size_t count) const {

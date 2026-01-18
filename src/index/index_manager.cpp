@@ -32,6 +32,17 @@ std::shared_ptr<IndexManager> IndexManager::createDefault() {
 
 void IndexManager::setExpressionEvaluator(IExpressionEvaluatorPtr evaluator) {
     evaluator_ = evaluator;
+    
+    // Propagate to concrete index managers if they exist
+    if (vector_manager_ && evaluator_) {
+        vector_manager_->setExpressionEvaluator(evaluator_);
+    }
+    if (secondary_manager_ && evaluator_) {
+        secondary_manager_->setExpressionEvaluator(evaluator_);
+    }
+    if (graph_manager_ && evaluator_) {
+        graph_manager_->setExpressionEvaluator(evaluator_);
+    }
 }
 
 void IndexManager::setStorage(IStorageEnginePtr storage) {
@@ -46,6 +57,13 @@ void IndexManager::setRocksDB(std::shared_ptr<RocksDBWrapper> db) {
         vector_manager_ = std::make_shared<VectorIndexManager>(*db_);
         secondary_manager_ = std::make_shared<SecondaryIndexManager>(*db_);
         graph_manager_ = std::make_shared<GraphIndexManager>(*db_);
+        
+        // Propagate evaluator if already set
+        if (evaluator_) {
+            vector_manager_->setExpressionEvaluator(evaluator_);
+            secondary_manager_->setExpressionEvaluator(evaluator_);
+            graph_manager_->setExpressionEvaluator(evaluator_);
+        }
         
         THEMIS_INFO("IndexManager: Created concrete index managers with RocksDB");
     }

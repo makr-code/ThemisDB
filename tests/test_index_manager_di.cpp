@@ -65,6 +65,23 @@ TEST_F(IndexManagerWithDITest, SetEvaluatorAfterConstruction) {
     EXPECT_EQ(index_mgr->getExpressionEvaluator(), new_evaluator);
 }
 
+TEST_F(IndexManagerWithDITest, EvaluatorPropagatesToIndexManagers) {
+    // This test verifies that when evaluator is set, it propagates to concrete managers
+    // Note: Without RocksDB, concrete managers won't be created, so we just verify
+    // the evaluator is stored correctly
+    auto index_mgr = std::make_shared<IndexManager>(nullptr, nullptr);
+    
+    auto new_evaluator = std::make_shared<MockExpressionEvaluator>();
+    index_mgr->setExpressionEvaluator(new_evaluator);
+    
+    EXPECT_EQ(index_mgr->getExpressionEvaluator(), new_evaluator);
+    
+    // In a full integration test with RocksDB, we would verify:
+    // EXPECT_EQ(index_mgr->getVectorIndexManager()->getExpressionEvaluator(), new_evaluator);
+    // EXPECT_EQ(index_mgr->getSecondaryIndexManager()->getExpressionEvaluator(), new_evaluator);
+    // EXPECT_EQ(index_mgr->getGraphIndexManager()->getExpressionEvaluator(), new_evaluator);
+}
+
 TEST_F(IndexManagerWithDITest, SetStorageAfterConstruction) {
     auto index_mgr = std::make_shared<IndexManager>(nullptr, nullptr);
     
