@@ -43,14 +43,90 @@ namespace geo = ::themis::geo;
 }
 
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx)
-	: db_(db), secIdx_(secIdx) {}
+	: db_(&db), secIdx_(&secIdx) {}
 
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx)
-	: db_(db), secIdx_(secIdx), graphIdx_(&graphIdx) {}
+	: db_(&db), secIdx_(&secIdx), graphIdx_(&graphIdx) {}
 
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx,
                          VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx)
-	: db_(db), secIdx_(secIdx), graphIdx_(&graphIdx), vectorIdx_(vectorIdx), spatialIdx_(spatialIdx) {}
+	: db_(&db), secIdx_(&secIdx), graphIdx_(&graphIdx), vectorIdx_(vectorIdx), spatialIdx_(spatialIdx) {}
+
+// New DI constructor
+QueryEngine::QueryEngine(
+    IStorageEnginePtr storage,
+    IIndexManagerPtr index_manager
+) : storage_(storage), index_manager_(index_manager) {
+    // Note: storage can be nullptr for late binding via setStorage()
+    if (!index_manager_) {
+        throw std::invalid_argument("QueryEngine: index_manager cannot be null");
+    }
+}
+
+// Setter for late binding
+void QueryEngine::setStorage(IStorageEnginePtr storage) {
+    storage_ = storage;
+}
+
+// Expression evaluator for dependency injection
+IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
+    return std::make_shared<QueryExpressionEvaluator>(this);
+}
+
+// Static factory for default implementation
+std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
+    // This would create default implementations - for now just throw
+    // as we don't have concrete implementations of the interfaces yet
+    throw std::runtime_error("QueryEngine::createDefault() not yet implemented - use legacy constructors");
+}
+
+// QueryExpressionEvaluator implementation
+// NOTE: These methods provide a stub implementation for Phase 3.
+// Full expression evaluation will be integrated in Phase 4 when Storage/Index
+// components are refactored to use the evaluator. For now, Storage/Index continue
+// to use direct QueryEngine methods via legacy pointers.
+
+std::optional<QueryValue> QueryEngine::QueryExpressionEvaluator::evaluate(
+    std::string_view expression,
+    const RowData& row_data) const {
+    // Stub implementation for Phase 3
+    // Full implementation requires AQL parser integration and will be added in Phase 4
+    // when Storage and Index components are migrated to use this interface
+    return std::nullopt;
+}
+
+bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
+    std::string_view expression,
+    const RowData& row_data) const {
+    // Stub implementation for Phase 3
+    // Until evaluate() is fully implemented, return false to prevent incorrect behavior
+    // Storage and Index continue using legacy evaluation paths via concrete pointers
+    auto result = evaluate(expression, row_data);
+    if (!result.has_value()) return false;
+    
+    // Convert result to boolean
+    if (std::holds_alternative<bool>(*result)) {
+        return std::get<bool>(*result);
+    }
+    if (std::holds_alternative<int64_t>(*result)) {
+        return std::get<int64_t>(*result) != 0;
+    }
+    if (std::holds_alternative<double>(*result)) {
+        return std::get<double>(*result) != 0.0;
+    }
+    if (std::holds_alternative<std::string>(*result)) {
+        return !std::get<std::string>(*result).empty();
+    }
+    return false;
+}
+
+bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view expression) const {
+    // Stub implementation for Phase 3
+    // Return false to indicate evaluation not yet implemented
+    // This prevents misuse until Phase 4 integration is complete
+    return false;
+}
+
 
 std::pair<QueryEngine::Status, std::vector<std::string>>
 QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
@@ -71,7 +147,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		child.setAttribute("index.query", ft.query);
 		child.setAttribute("index.limit", static_cast<int64_t>(ft.limit));
 		
-		auto [st, results] = secIdx_.scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
+		auto [st, results] = secIdx_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
 			return {Status::Error(st.message), {}};
@@ -240,7 +316,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			auto child = Tracer::startSpan("index.scanEqual");
 			child.setAttribute("index.table", q.table);
 			child.setAttribute("index.column", p.column);
-			auto [st, keys] = secIdx_.scanKeysEqual(q.table, p.column, p.value);
+			auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
 			if (!st.ok) {
 				THEMIS_ERROR("Parallel scan error ({}={}): {}", p.column, p.value, st.message);
 				errors.push_back(st.message);
@@ -295,7 +371,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	child.setAttribute("index.query", ft.query);
 	child.setAttribute("index.limit", static_cast<int64_t>(ft.limit));
 	
-	auto [st, results] = secIdx_.scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
+	auto [st, results] = secIdx_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
 	if (!st.ok) {
 		child.setStatus(false, st.message);
 		return {Status::Error(st.message), KeysWithScores{}};
@@ -395,7 +471,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen (weniger Overhead)
 		for (const auto& pk : keys) {
-			auto blob = db_.get(q.table + ":" + pk);
+			auto blob = db_->get(q.table + ":" + pk);
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -414,7 +490,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_.get(q.table + ":" + pk);
+					auto blob = db_->get(q.table + ":" + pk);
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -570,7 +646,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
-			auto blob = db_.get(q.table + ":" + pk);
+			auto blob = db_->get(q.table + ":" + pk);
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -586,7 +662,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 				local_entities.reserve(end - start);
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_.get(q.table + ":" + pk);
+					auto blob = db_->get(q.table + ":" + pk);
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -621,7 +697,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
-			auto blob = db_.get(q.table + ":" + pk);
+			auto blob = db_->get(q.table + ":" + pk);
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -639,7 +715,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_.get(q.table + ":" + pk);
+					auto blob = db_->get(q.table + ":" + pk);
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -674,7 +750,7 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", table);
 		child.setAttribute("index.column", orderedPredicates[0].column);
-		auto [st0, baseTmp] = secIdx_.scanKeysEqual(table, orderedPredicates[0].column, orderedPredicates[0].value);
+		auto [st0, baseTmp] = secIdx_->scanKeysEqual(table, orderedPredicates[0].column, orderedPredicates[0].value);
 		if (!st0.ok) { child.setStatus(false, st0.message); return {Status::Error("sequential: " + st0.message), {}}; }
 		std::vector<std::string> base = std::move(baseTmp);
 		tbb::parallel_sort(base.begin(), base.end());
@@ -688,7 +764,7 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 			auto child2 = Tracer::startSpan("index.scanEqual");
 			child2.setAttribute("index.table", table);
 			child2.setAttribute("index.column", p.column);
-			auto [st, keys] = secIdx_.scanKeysEqual(table, p.column, p.value);
+			auto [st, keys] = secIdx_->scanKeysEqual(table, p.column, p.value);
 			if (!st.ok) { child2.setStatus(false, st.message); return {Status::Error("sequential: " + st.message), {}}; }
 			if (keys.empty()) { child2.setStatus(true); span.setStatus(true); return {Status::OK(), {}}; }
 			tbb::parallel_sort(keys.begin(), keys.end());
@@ -724,7 +800,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	if (keys.size() < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen
 		for (const auto& pk : keys) {
-			auto blob = db_.get(table + ":" + pk);
+			auto blob = db_->get(table + ":" + pk);
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 			catch (...) { THEMIS_WARN("executeAndEntitiesSequential: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -743,7 +819,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 
 				for (size_t i = start; i < end; ++i) {
 					const auto& pk = keys[i];
-					auto blob = db_.get(table + ":" + pk);
+					auto blob = db_->get(table + ":" + pk);
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) { /* Silent failure in parallel context */ }
@@ -1450,7 +1526,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 		return a.compare(b);
 	};
 	
-	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value){
+	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value){
 		// Deserialize entity and test all predicates
 		std::string pk = KeySchema::extractPrimaryKey(key);
 		std::vector<uint8_t> blob(value.begin(), value.end());
@@ -1511,19 +1587,19 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	if (!q.predicates.empty()) {
 		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; bool bestCapped=false;
 		for (size_t i=0;i<q.predicates.size();++i) {
-			bool capped=false; size_t est = secIdx_.estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
+			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
 			if (eff < bestEst) { bestEst = eff; bestIdx = i; bestCapped = capped; }
 		}
 		{
-			auto [st, _] = secIdx_.scanKeysEqual(q.table, q.predicates[bestIdx].column, q.predicates[bestIdx].value);
+			auto [st, _] = secIdx_->scanKeysEqual(q.table, q.predicates[bestIdx].column, q.predicates[bestIdx].value);
 			if (!st.ok) missingIndex = true;
 		}
 	}
 
 	// Prüfe Range-Indizes
 	for (const auto& r : q.rangePredicates) {
-		if (!secIdx_.hasRangeIndex(q.table, r.column)) { missingIndex = true; break; }
+		if (!secIdx_->hasRangeIndex(q.table, r.column)) { missingIndex = true; break; }
 	}
 
 	if (!missingIndex) {
@@ -1569,7 +1645,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	if (!st.ok) return {st, {}};
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
-		auto blob = db_.get(q.table + ":" + pk);
+		auto blob = db_->get(q.table + ":" + pk);
 		if (!blob) continue;
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 		catch (...) { THEMIS_WARN("executeAndEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -1597,7 +1673,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
-		auto [st, keys] = secIdx_.scanKeysEqual(q.table, p.column, p.value);
+		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
 		if (!st.ok) return {Status::Error(st.message), {}};
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
@@ -1607,7 +1683,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 
 	// 2) Range-Prädikate
 	for (const auto& r : q.rangePredicates) {
-		if (!secIdx_.hasRangeIndex(q.table, r.column)) {
+		if (!secIdx_->hasRangeIndex(q.table, r.column)) {
 			return {Status::Error("Missing range index for column: " + r.column), {}};
 		}
 		auto child = Tracer::startSpan("index.scanRange");
@@ -1617,7 +1693,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("range.has_upper", r.upper.has_value());
 		child.setAttribute("range.includeLower", r.includeLower);
 		child.setAttribute("range.includeUpper", r.includeUpper);
-		auto [st, keys] = secIdx_.scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
+		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
 		if (!st.ok) return {Status::Error(st.message), {}};
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
@@ -1637,7 +1713,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	// 4) ORDER BY
 	if (q.orderBy.has_value()) {
 		const auto& ob = q.orderBy.value();
-		if (!secIdx_.hasRangeIndex(q.table, ob.column)) {
+		if (!secIdx_->hasRangeIndex(q.table, ob.column)) {
 			return {Status::Error("ORDER BY requires range index on column: " + ob.column), {}};
 		}
 		// Bestimme Bounds aus passendem Range-Prädikat, falls vorhanden
@@ -1656,7 +1732,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		if (ob.cursor_value.has_value() && ob.cursor_pk.has_value()) {
 			anchor = std::make_pair(ob.cursor_value.value(), ob.cursor_pk.value());
 		}
-		auto [st, scan] = secIdx_.scanKeysRangeAnchored(q.table, ob.column, lb, ub, il, iu, bigLimit(), ob.desc, anchor);
+		auto [st, scan] = secIdx_->scanKeysRangeAnchored(q.table, ob.column, lb, ub, il, iu, bigLimit(), ob.desc, anchor);
 		if (!st.ok) return {Status::Error(st.message), {}};
 		for (const auto& k : scan) {
 			if (!candSet.empty() && candSet.find(k) == candSet.end()) continue; // filter
@@ -1680,7 +1756,7 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	if (!st.ok) return {st, {}};
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
-		auto blob = db_.get(q.table + ":" + pk);
+		auto blob = db_->get(q.table + ":" + pk);
 		if (!blob) continue;
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 		catch (...) { THEMIS_WARN("executeAndEntitiesRangeAware_: Deserialisierung fehlgeschlagen für PK={}", pk); }
@@ -1905,7 +1981,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 				// Apply pushed-down filters for build side
 				auto build_filters = single_var_filters.find(build_for.variable);
 				
-				db_.scanPrefix(build_prefix, [&](std::string_view key, std::string_view value) -> bool {
+				db_->scanPrefix(build_prefix, [&](std::string_view key, std::string_view value) -> bool {
 					std::string pk = KeySchema::extractPrimaryKey(key);
 					std::vector<uint8_t> blob(value.begin(), value.end());
 					try {
@@ -2054,7 +2130,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 			} else {
 				// Probe from table scan
 				const std::string probe_prefix = probe_for.collection + ":";
-				db_.scanPrefix(probe_prefix, [&](std::string_view key, std::string_view value) -> bool {
+				db_->scanPrefix(probe_prefix, [&](std::string_view key, std::string_view value) -> bool {
 					std::string pk = KeySchema::extractPrimaryKey(key);
 					std::vector<uint8_t> blob(value.begin(), value.end());
 					try {
@@ -2160,7 +2236,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 			// Get pushed-down filters for this variable
 			auto push_filters = single_var_filters.find(for_node.variable);
 			
-			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
+			db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
 				// Extract PK
 				std::string pk = KeySchema::extractPrimaryKey(key);
 				
@@ -2253,7 +2329,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 	// Scan collection
 	const std::string prefix = for_node.collection + ":";
 	
-	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
+	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
 		std::string pk = KeySchema::extractPrimaryKey(key);
 		std::vector<uint8_t> blob(value.begin(), value.end());
 		
@@ -2512,7 +2588,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				vertexKeys.push_back(table + ":" + vertexPk);
 			}
 			
-			auto vertexDataList = db_.multiGet(vertexKeys);
+			auto vertexDataList = db_->multiGet(vertexKeys);
 			
 			// Evaluate spatial filter for each vertex
 			for (size_t i = 0; i < pathResult.path.size(); ++i) {
@@ -2603,7 +2679,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				}
 				vertexKeys.push_back(table + ":" + vertexPk);
 			}
-			auto vertexDataList = db_.multiGet(vertexKeys);
+			auto vertexDataList = db_->multiGet(vertexKeys);
 			
 			// Evaluate spatial filter for each vertex (parallel)
 			const size_t n = reachableNodes.size();
@@ -2828,8 +2904,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			else if (std::holds_alternative<double>(lit->value)) { std::ostringstream oss; oss<<std::get<double>(lit->value); value=oss.str(); }
 			else if (std::holds_alternative<bool>(lit->value)) value = std::get<bool>(lit->value)?"true":"false"; else continue;
 			// Equality
-			if (bin->op == query::BinaryOperator::Eq && secIdx_.hasIndex(q.table, fa->field)) {
-				auto [st, keys] = secIdx_.scanKeysEqual(q.table, fa->field, value); if (!st.ok) continue; tbb::parallel_sort(keys.begin(), keys.end());
+			if (bin->op == query::BinaryOperator::Eq && secIdx_->hasIndex(q.table, fa->field)) {
+				auto [st, keys] = secIdx_->scanKeysEqual(q.table, fa->field, value); if (!st.ok) continue; tbb::parallel_sort(keys.begin(), keys.end());
 				if (first) { current = std::move(keys); first=false; }
 				else {
 					std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
@@ -2842,7 +2918,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				continue;
 			}
 			// Range via RangeIndex
-			if ((bin->op == query::BinaryOperator::Gt || bin->op == query::BinaryOperator::Gte || bin->op == query::BinaryOperator::Lt || bin->op == query::BinaryOperator::Lte) && secIdx_.hasRangeIndex(q.table, fa->field)) {
+			if ((bin->op == query::BinaryOperator::Gt || bin->op == query::BinaryOperator::Gte || bin->op == query::BinaryOperator::Lt || bin->op == query::BinaryOperator::Lte) && secIdx_->hasRangeIndex(q.table, fa->field)) {
 				auto &acc = rangeMap[fa->field];
 				if (bin->op == query::BinaryOperator::Gt) { acc.lower = value; acc.includeLower=false; }
 				else if (bin->op == query::BinaryOperator::Gte) { acc.lower = value; acc.includeLower=true; }
@@ -2854,7 +2930,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		// Composite Index Nutzung: prüfe vorhandene Equality Map gegen definierte Composite Indizes
 		if (!equalityMap.empty()) {
 			try {
-				auto allStats = secIdx_.getAllIndexStats(q.table);
+				auto allStats = secIdx_->getAllIndexStats(q.table);
 				for (const auto &st : allStats) {
 					// Heuristik: Spaltenliste enthält '+' => Composite
 					if (st.column.find('+') == std::string::npos) continue;
@@ -2868,8 +2944,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					for (auto &c : cols) { auto it = equalityMap.find(c); if (it==equalityMap.end()) { all=false; break; } vals.push_back(it->second); }
 					if (!all) continue;
 					// Prüfe Existenz des Composite Index explizit
-					if (!secIdx_.hasCompositeIndex(q.table, cols)) continue;
-					auto [cst, keys] = secIdx_.scanKeysEqualComposite(q.table, cols, vals);
+					if (!secIdx_->hasCompositeIndex(q.table, cols)) continue;
+					auto [cst, keys] = secIdx_->scanKeysEqualComposite(q.table, cols, vals);
 					if (!cst.ok) continue;
 					tbb::parallel_sort(keys.begin(), keys.end());
 					if (first) { current = std::move(keys); first=false; }
@@ -2887,7 +2963,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		}
 		// Wende Range-Prädikate an (intersect)
 		for (auto &kv : rangeMap) {
-			auto [st, keys] = secIdx_.scanKeysRange(q.table, kv.first, kv.second.lower, kv.second.upper, kv.second.includeLower, kv.second.includeUpper, 100000, false);
+			auto [st, keys] = secIdx_->scanKeysRange(q.table, kv.first, kv.second.lower, kv.second.upper, kv.second.includeLower, kv.second.includeUpper, 100000, false);
 			if (!st.ok) continue;
 			tbb::parallel_sort(keys.begin(), keys.end());
 			if (first) { current = std::move(keys); first=false; }
@@ -2922,7 +2998,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			// Lade Entities
 			std::vector<std::string> keys; keys.reserve(vr.size());
 			for (auto& r : vr) keys.push_back(q.table + ":" + r.pk);
-			auto blobs = db_.multiGet(keys);
+			auto blobs = db_->multiGet(keys);
 			for (size_t i=0;i<vr.size();++i) {
 				if (!blobs[i].has_value()) continue;
 				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch(...) { continue; }
@@ -2940,7 +3016,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		// Brute-force Scan
 		std::vector<std::pair<std::string,float>> tmp;
 		std::string prefix = q.table + ":";
-		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 			std::string pk = std::string(key).substr(prefix.length());
 			nlohmann::json doc;
 			try {
@@ -2966,7 +3042,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			VectorGeoResult r;
 			r.pk = tmp[i].first;
 			r.vector_distance = tmp[i].second;
-			auto val_opt = db_.get(q.table + ":" + tmp[i].first);
+			auto val_opt = db_->get(q.table + ":" + tmp[i].first);
 			if (val_opt) {
 				try {
 					r.entity = nlohmann::json::parse(std::string(val_opt->begin(), val_opt->end()));
@@ -3020,7 +3096,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			std::vector<std::string> keys;
 			keys.reserve(vr.size());
 			for (const auto& r : vr) keys.push_back(q.table + ":" + r.pk);
-			auto blobs = db_.multiGet(keys);
+			auto blobs = db_->multiGet(keys);
 
 			// Evaluate spatial filter in parallel
 			std::vector<VectorGeoResult> local;
@@ -3096,7 +3172,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			// Batch-load entities for candidates
 			std::vector<std::string> keys; keys.reserve(indexResults.size());
 			for (const auto& r : indexResults) keys.push_back(q.table + ":" + r.primary_key);
-			auto blobs = db_.multiGet(keys);
+			auto blobs = db_->multiGet(keys);
 			for (size_t i = 0; i < indexResults.size(); ++i) {
 				const auto& r = indexResults[i];
 				if (!blobs[i].has_value()) continue;
@@ -3118,7 +3194,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		child1.setAttribute("method", "full_scan");
 		std::string prefix = q.table + ":";
 		
-		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 			std::string pk = std::string(key).substr(prefix.length());
 			
 			try {
@@ -3156,7 +3232,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		THEMIS_WARN("VectorGeo: spatial index returned 0 candidates, falling back to full-scan spatial evaluation");
 		std::string prefix = q.table + ":";
 		std::unordered_map<std::string, nlohmann::json> tmpCache;
-		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 			std::string pk = std::string(key).substr(prefix.length());
 			try {
 				std::vector<uint8_t> blob(value.begin(), value.end());
@@ -3297,7 +3373,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	}
 
 	// Kostenmodell: wähle Reihenfolge (Fulltext->Spatial oder Spatial->Fulltext)
-	bool hasFT = secIdx_.hasFulltextIndex(q.table, q.text_field);
+	bool hasFT = secIdx_->hasFulltextIndex(q.table, q.text_field);
 	bool hasSpatial = (spatialIdx_ && spatialIdx_->hasSpatialIndex(q.table));
 	double bboxRatio = 1.0;
 	if (hasSpatial) {
@@ -3317,7 +3393,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	if (fulltextFirst) {
 		// Phase 1: Fulltext search
 		auto child1 = Tracer::startSpan("phase1.fulltext_search");
-		auto [st, ftResults] = secIdx_.scanFulltextWithScores(q.table, q.text_field, q.fulltext_query, q.limit);
+		auto [st, ftResults] = secIdx_->scanFulltextWithScores(q.table, q.text_field, q.fulltext_query, q.limit);
 		if (!st.ok) { child1.setStatus(false, st.message); span.setStatus(false, st.message); return {Status::Error(st.message), {}}; }
 		child1.setAttribute("fulltext_results", static_cast<int64_t>(ftResults.size())); child1.setStatus(true);
 		if (ftResults.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
@@ -3327,7 +3403,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		std::vector<std::string> pks; pks.reserve(ftResults.size());
 		std::unordered_map<std::string,double> bm25; bm25.reserve(ftResults.size());
 		for (const auto &kv : ftResults) { keys.push_back(q.table+":"+kv.pk); pks.push_back(kv.pk); bm25[kv.pk]=kv.score; }
-		auto blobs = db_.multiGet(keys);
+		auto blobs = db_->multiGet(keys);
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
 		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch(...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; r.bm25_score=bm25[pks[i]]; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch(...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.push_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
@@ -3345,7 +3421,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				auto indexResults = spatialIdx_->searchWithin(q.table, *bbox);
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
 				for (auto &r : indexResults) keys.push_back(q.table+":"+r.primary_key);
-				auto blobs = db_.multiGet(keys);
+				auto blobs = db_->multiGet(keys);
 				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.push_back(indexResults[i].primary_key); cache[indexResults[i].primary_key]=std::move(doc);} catch(...) {} }
 			} else {
 				childS.setAttribute("method","bbox_extract_failed_fallback_scan");
