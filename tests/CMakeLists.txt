@@ -1594,6 +1594,39 @@ else()
     endif()
 endif()
 
+# RAG Judge Phase 3 Tests
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase3.cpp")
+    message(STATUS "Adding RAG Judge Phase 3 tests")
+    
+    add_executable(test_rag_judge_phase3
+        test_rag_judge_phase3.cpp
+    )
+    
+    target_link_libraries(test_rag_judge_phase3 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_rag_judge_phase3 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGJudgePhase3Tests COMMAND test_rag_judge_phase3)
+    
+    set_tests_properties(RAGJudgePhase3Tests PROPERTIES
+        LABELS "rag;llm;judge;phase3;unit;pairwise;ensemble"
+        TIMEOUT 240
+    )
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "RAG Judge Phase 3 tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "RAG Judge Phase 3 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase3.cpp")
+    endif()
+endif()
+
 # ============================================================================
 # Test Discovery & Reporting
 # ============================================================================

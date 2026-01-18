@@ -41,6 +41,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/completeness_evaluator.cpp
         ../src/rag/coherence_evaluator.cpp
         
+        # RAG Enhancement: LLM-as-Judge Phase 3 - Pairwise & Ensemble
+        ../src/rag/pairwise_comparator.cpp
+        ../src/rag/judge_ensemble.cpp
+        
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
     )
