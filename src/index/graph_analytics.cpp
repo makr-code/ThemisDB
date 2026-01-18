@@ -713,7 +713,12 @@ GraphAnalytics::kShortestPaths(
                     total_path.edges.push_back(edge);
                 }
                 
-                // Calculate total length (TODO: Use actual edge weights when available)
+                // Calculate total length
+                // NOTE: For unweighted graphs, length = hop count (number of edges)
+                // Both root_length (edge count) and spur_path.length (sum of 1.0 weights)
+                // are equivalent when all edges have weight 1.0
+                // When weighted graph support is added, this calculation will need to sum
+                // actual edge weights from the root path instead of just counting edges
                 double root_length = static_cast<double>(root_edges.size());  // Unweighted: count edges
                 total_path.length = root_length + spur_path.length;
                 total_path.hop_count = static_cast<int>(total_path.edges.size());
