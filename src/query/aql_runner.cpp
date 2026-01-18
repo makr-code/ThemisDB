@@ -81,7 +81,51 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             for (const auto& p : paths) arr.push_back(p);
             return { st, nlohmann::json{{"type","shortest_path"},{"paths", arr}} };
         }
-        return { QueryEngine::Status::Error("Traversal dispatch (non-shortest) not implemented"), nlohmann::json{{"error","traversal_not_implemented"}} };
+        
+        // General traversal (non-shortest path)
+        // Convert TraversalQuery::Direction to TraversalDirection
+        TraversalDirection dir;
+        switch (tv.direction) {
+            case AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound:
+                dir = TraversalDirection::OUTBOUND;
+                break;
+            case AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound:
+                dir = TraversalDirection::INBOUND;
+                break;
+            case AQLTranslator::TranslationResult::TraversalQuery::Direction::Any:
+                dir = TraversalDirection::ANY;
+                break;
+            default:
+                dir = TraversalDirection::OUTBOUND;
+                break;
+        }
+        
+        auto [st, results] = engine.executeGeneralTraversal(
+            tv.variable,
+            tv.startVertex,
+            tv.minDepth,
+            tv.maxDepth,
+            dir,
+            tv.graphName.empty() ? "default" : tv.graphName
+        );
+        
+        if (!st.ok) {
+            return { st, nlohmann::json{{"error", "traversal_failed"}, {"message", st.message}} };
+        }
+        
+        // Format results as JSON array
+        nlohmann::json arr = nlohmann::json::array();
+        for (const auto& result : results) {
+            nlohmann::json item;
+            item["vertex"] = result.vertex_pk;
+            item["depth"] = result.depth;
+            item["path"] = result.path;
+            item["edges"] = result.edges;
+            item["data"] = result.vertex_data;
+            arr.push_back(std::move(item));
+        }
+        
+        return { st, nlohmann::json{{"type","traversal"},{"results", arr}} };
     }
 
     // Join query
