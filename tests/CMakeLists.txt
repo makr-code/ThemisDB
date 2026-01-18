@@ -1188,6 +1188,128 @@ endif()
 # endif()
 
 # ============================================================================
+# RAG Enhancement Tests (Knowledge Gap Detector & LLM-as-Judge)
+# ============================================================================
+
+if(THEMIS_ENABLE_LLM)
+    # Knowledge Gap Detector Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+        message(STATUS "Adding Knowledge Gap Detector tests")
+        
+        add_executable(test_knowledge_gap_detector
+            test_knowledge_gap_detector.cpp
+        )
+        
+        target_link_libraries(test_knowledge_gap_detector PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_knowledge_gap_detector PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME KnowledgeGapDetectorTests COMMAND test_knowledge_gap_detector)
+        
+        set_tests_properties(KnowledgeGapDetectorTests PROPERTIES
+            LABELS "rag;llm;knowledge-gap;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Knowledge Gap Detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+    endif()
+    
+    # RAG Judge Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge.cpp")
+        message(STATUS "Adding RAG Judge tests")
+        
+        add_executable(test_rag_judge
+            test_rag_judge.cpp
+        )
+        
+        target_link_libraries(test_rag_judge PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_rag_judge PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME RAGJudgeTests COMMAND test_rag_judge)
+        
+        set_tests_properties(RAGJudgeTests PROPERTIES
+            LABELS "rag;llm;judge;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "RAG Judge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge.cpp")
+    endif()
+    
+    # LLM Integration Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
+        message(STATUS "Adding LLM Integration tests")
+        
+        add_executable(test_llm_integration
+            test_llm_integration.cpp
+        )
+        
+        target_link_libraries(test_llm_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_llm_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LLMIntegrationTests COMMAND test_llm_integration)
+        
+        set_tests_properties(LLMIntegrationTests PROPERTIES
+            LABELS "rag;llm;integration;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "LLM Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
+    endif()
+    
+    # Claim Extractor Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
+        message(STATUS "Adding Claim Extractor tests")
+        
+        add_executable(test_claim_extractor
+            test_claim_extractor.cpp
+        )
+        
+        target_link_libraries(test_claim_extractor PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_claim_extractor PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ClaimExtractorTests COMMAND test_claim_extractor)
+        
+        set_tests_properties(ClaimExtractorTests PROPERTIES
+            LABELS "rag;llm;claim;consistency;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
+    endif()
+endif()
+
+# ============================================================================
 # Integration Tests Subdirectory
 # ============================================================================
 
