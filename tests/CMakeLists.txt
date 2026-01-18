@@ -1244,6 +1244,72 @@ else()
 endif()
 
 # ============================================================================
+# Auth Middleware Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+    message(STATUS "Adding auth middleware tests")
+    
+    add_executable(test_auth_middleware
+        test_auth_middleware.cpp
+    )
+    
+    target_link_libraries(test_auth_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_auth_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME AuthMiddlewareTests COMMAND test_auth_middleware)
+    
+    set_tests_properties(AuthMiddlewareTests PROPERTIES
+        LABELS "auth;middleware;security"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Auth middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+endif()
+
+# ============================================================================
+# Huge Pages Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+    message(STATUS "Adding huge pages tests")
+    
+    add_executable(test_huge_pages
+        test_huge_pages.cpp
+    )
+    
+    target_link_libraries(test_huge_pages PRIVATE
+        ${TEST_LIBS}
+    )
+    
+    target_compile_definitions(test_huge_pages PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    if(THEMIS_ENABLE_HUGE_PAGES)
+        target_compile_definitions(test_huge_pages PRIVATE
+            THEMIS_USE_HUGE_PAGES=1
+        )
+    endif()
+    
+    add_test(NAME HugePagesTests COMMAND test_huge_pages)
+    
+    set_tests_properties(HugePagesTests PROPERTIES
+        LABELS "performance;memory;huge_pages"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Huge pages tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
