@@ -1,4 +1,5 @@
 #include "security/encryption.h"
+#include "security/mock_key_provider.h"
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
@@ -277,7 +278,83 @@ FieldEncryption::FieldEncryption(std::shared_ptr<KeyProvider> key_provider)
     }
 }
 
+FieldEncryption::FieldEncryption(IKeyProviderPtr key_provider)
+    : key_provider_(std::dynamic_pointer_cast<KeyProvider>(key_provider))
+{
+    if (!key_provider_) {
+        throw std::invalid_argument("FieldEncryption: key_provider cannot be null");
+    }
+}
+
 FieldEncryption::~FieldEncryption() = default;
+
+std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
+    auto mock_provider = std::make_shared<MockKeyProvider>();
+    return std::make_shared<FieldEncryption>(mock_provider);
+}
+
+void FieldEncryption::setEncryptionConfig(const EncryptionConfig& config) {
+    config_ = config;
+}
+
+std::string FieldEncryption::getKeyIdForField(const std::string& field_name) const {
+    // Check if field has explicit mapping
+    auto it = config_.field_key_mapping.find(field_name);
+    if (it != config_.field_key_mapping.end()) {
+        return it->second;
+    }
+    
+    // Use default key ID
+    return config_.default_key_id;
+}
+
+bool FieldEncryption::should_encrypt(const std::string& field_name) const {
+    // If encrypted_fields is not empty, only encrypt fields in the set
+    if (!config_.encrypted_fields.empty()) {
+        return config_.encrypted_fields.find(field_name) != config_.encrypted_fields.end();
+    }
+    
+    // If encrypted_fields is empty but field_key_mapping exists, encrypt mapped fields
+    if (!config_.field_key_mapping.empty()) {
+        return config_.field_key_mapping.find(field_name) != config_.field_key_mapping.end();
+    }
+    
+    // Default: encrypt all fields if no config is set
+    return true;
+}
+
+std::vector<uint8_t> FieldEncryption::encrypt_field(
+    const std::string& field_name,
+    const std::vector<uint8_t>& plaintext)
+{
+    if (!should_encrypt(field_name)) {
+        // Pass through without encryption
+        return plaintext;
+    }
+    
+    std::string key_id = getKeyIdForField(field_name);
+    auto blob = encrypt(plaintext, key_id);
+    
+    // Serialize the blob to bytes for storage
+    std::string serialized = blob.toBase64();
+    return std::vector<uint8_t>(serialized.begin(), serialized.end());
+}
+
+std::vector<uint8_t> FieldEncryption::decrypt_field(
+    const std::string& field_name,
+    const std::vector<uint8_t>& ciphertext)
+{
+    if (!should_encrypt(field_name)) {
+        // Pass through - data was not encrypted
+        return ciphertext;
+    }
+    
+    // Deserialize the blob from bytes
+    std::string serialized(ciphertext.begin(), ciphertext.end());
+    auto blob = EncryptedBlob::fromBase64(serialized);
+    
+    return decryptToBytes(blob);
+}
 
 EncryptedBlob FieldEncryption::encrypt(const std::string& plaintext, const std::string& key_id) {
     std::vector<uint8_t> plaintext_bytes(plaintext.begin(), plaintext.end());
