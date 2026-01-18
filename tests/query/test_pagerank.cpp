@@ -125,23 +125,23 @@ TEST_F(PageRankFunctionTest, SimpleGraph_DegreeInformation) {
     
     // A: out=2, in=0
     ASSERT_TRUE(nodeMap.count("A") > 0);
-    EXPECT_EQ(nodeMap["A"]["out_degree"].get<int>(), 2);
-    EXPECT_EQ(nodeMap["A"]["in_degree"].get<int>(), 0);
+    EXPECT_EQ(nodeMap["A"]["out_degree"].get<int64_t>(), 2);
+    EXPECT_EQ(nodeMap["A"]["in_degree"].get<int64_t>(), 0);
     
     // B: out=2, in=1
     ASSERT_TRUE(nodeMap.count("B") > 0);
-    EXPECT_EQ(nodeMap["B"]["out_degree"].get<int>(), 2);
-    EXPECT_EQ(nodeMap["B"]["in_degree"].get<int>(), 1);
+    EXPECT_EQ(nodeMap["B"]["out_degree"].get<int64_t>(), 2);
+    EXPECT_EQ(nodeMap["B"]["in_degree"].get<int64_t>(), 1);
     
     // C: out=1, in=2
     ASSERT_TRUE(nodeMap.count("C") > 0);
-    EXPECT_EQ(nodeMap["C"]["out_degree"].get<int>(), 1);
-    EXPECT_EQ(nodeMap["C"]["in_degree"].get<int>(), 2);
+    EXPECT_EQ(nodeMap["C"]["out_degree"].get<int64_t>(), 1);
+    EXPECT_EQ(nodeMap["C"]["in_degree"].get<int64_t>(), 2);
     
     // D: out=0, in=2
     ASSERT_TRUE(nodeMap.count("D") > 0);
-    EXPECT_EQ(nodeMap["D"]["out_degree"].get<int>(), 0);
-    EXPECT_EQ(nodeMap["D"]["in_degree"].get<int>(), 2);
+    EXPECT_EQ(nodeMap["D"]["out_degree"].get<int64_t>(), 0);
+    EXPECT_EQ(nodeMap["D"]["in_degree"].get<int64_t>(), 2);
 }
 
 TEST_F(PageRankFunctionTest, HubGraph_CentralNodeHighestRank) {
@@ -157,8 +157,8 @@ TEST_F(PageRankFunctionTest, HubGraph_CentralNodeHighestRank) {
     EXPECT_EQ(result[0]["node_id"].get<std::string>(), "Hub");
     
     // Hub should have in_degree=4, out_degree=2
-    EXPECT_EQ(result[0]["in_degree"].get<int>(), 4);
-    EXPECT_EQ(result[0]["out_degree"].get<int>(), 2);
+    EXPECT_EQ(result[0]["in_degree"].get<int64_t>(), 4);
+    EXPECT_EQ(result[0]["out_degree"].get<int64_t>(), 2);
 }
 
 // ============================================================================
