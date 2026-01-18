@@ -3,6 +3,11 @@
 
 using namespace themis;
 
+// Test constants
+namespace {
+    constexpr int CONCURRENT_TEST_COUNT = 10;
+}
+
 class AuthMiddlewareTest : public ::testing::Test {
 protected:
     AuthMiddleware auth_;
@@ -405,7 +410,7 @@ TEST_F(AuthMiddlewareTest, ConcurrentSessions) {
     // Test thread-safe concurrent session validation
     // Create multiple tokens
     std::vector<AuthMiddleware::TokenConfig> tokens;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < CONCURRENT_TEST_COUNT; i++) {
         tokens.push_back({
             .token = "concurrent-token-" + std::to_string(i),
             .user_id = "concurrent_user_" + std::to_string(i),
@@ -416,15 +421,15 @@ TEST_F(AuthMiddlewareTest, ConcurrentSessions) {
     
     // Validate all tokens (tests thread safety of auth middleware)
     // Note: Auth middleware should be thread-safe for concurrent access
-    std::vector<bool> results(10);
+    std::vector<bool> results(CONCURRENT_TEST_COUNT);
     
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < CONCURRENT_TEST_COUNT; i++) {
         auto result = auth_.validateToken("concurrent-token-" + std::to_string(i));
         results[i] = result.authorized;
     }
     
     // All should succeed
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < CONCURRENT_TEST_COUNT; i++) {
         EXPECT_TRUE(results[i]) << "Token " << i << " should be valid";
     }
 }
@@ -466,13 +471,13 @@ TEST_F(AuthMiddlewareTest, TokenReplayAttackPrevention) {
     auto initial_success = metrics.authz_success_total.load();
     
     // Validate same token multiple times
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < CONCURRENT_TEST_COUNT; i++) {
         auto result = auth_.authorize("admin-token-123", "admin");
         EXPECT_TRUE(result.authorized);
     }
     
     // Metrics should increment for each validation
-    EXPECT_EQ(metrics.authz_success_total.load(), initial_success + 10);
+    EXPECT_EQ(metrics.authz_success_total.load(), initial_success + CONCURRENT_TEST_COUNT);
     
     // Note: True replay attack prevention would require:
     // - Token expiration (handled by JWT with exp claim)

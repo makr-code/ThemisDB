@@ -8,6 +8,14 @@
 
 using namespace themis::memory;
 
+// Test constants
+namespace {
+    constexpr size_t PAGE_SIZE_2MB = 2 * 1024 * 1024;
+    constexpr size_t PAGE_SIZE_1GB = 1024 * 1024 * 1024;
+    constexpr size_t ONE_TB = 1024ULL * 1024ULL * 1024ULL * 1024ULL;
+    constexpr int CONCURRENT_TEST_TOKEN_COUNT = 10;
+}
+
 TEST(HugePagesTest, AvailabilityCheck) {
     // Test if huge pages are available
     bool available = huge_pages_available();
@@ -31,8 +39,8 @@ TEST(HugePagesTest, PageSizeQuery) {
     
     // Common huge page sizes
     bool valid_size = (page_size == 0 ||  // Not available
-                      page_size == 2 * 1024 * 1024 ||  // 2MB
-                      page_size == 1024 * 1024 * 1024); // 1GB
+                      page_size == PAGE_SIZE_2MB ||
+                      page_size == PAGE_SIZE_1GB);
     EXPECT_TRUE(valid_size);
     #else
     // Without compile-time support, should return 0
@@ -197,7 +205,7 @@ TEST(HugePagesTest, Allocate2MBHugePages) {
     }
     
     // Allocate exactly 2MB (standard huge page size)
-    size_t size_2mb = 2 * 1024 * 1024;
+    size_t size_2mb = PAGE_SIZE_2MB;
     void* ptr = allocate_huge_pages(size_2mb);
     
     if (ptr == nullptr) {
@@ -231,7 +239,7 @@ TEST(HugePagesTest, Allocate1GBHugePages) {
     }
     
     // Try to allocate 1GB huge page (may not be supported on all systems)
-    size_t size_1gb = 1024 * 1024 * 1024;
+    size_t size_1gb = PAGE_SIZE_1GB;
     void* ptr = allocate_huge_pages(size_1gb);
     
     if (ptr == nullptr) {
@@ -294,7 +302,6 @@ TEST(HugePagesTest, HugePagesWithFallback) {
 TEST(HugePagesTest, AllocationFailureHandling) {
     #ifdef THEMIS_USE_HUGE_PAGES
     // Test allocation of unreasonably large size
-    constexpr size_t ONE_TB = 1024ULL * 1024ULL * 1024ULL * 1024ULL;
     void* ptr = allocate_huge_pages(ONE_TB);
     
     // Should gracefully fail and return nullptr
