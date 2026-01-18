@@ -2,6 +2,7 @@
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
+#include "llm/llamacpp_inference_engine.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -168,6 +169,21 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     }
 #endif
     
+    // Initialize output validator (Production Readiness)
+    if (config_.enable_output_validation) {
+        LLMOutputValidator::Config validator_config;
+        validator_config.min_length = config_.min_output_length;
+        validator_config.max_length = config_.max_output_length;
+        validator_config.require_utf8 = config_.require_utf8;
+        validator_config.min_coherence = config_.min_coherence;
+        validator_config.check_truncation = true;
+        validator_config.check_coherence = true;
+        
+        output_validator_ = std::make_unique<LLMOutputValidator>(validator_config);
+        spdlog::info("Output validation enabled (min_len: {}, require_utf8: {}, min_coherence: {})",
+                     validator_config.min_length, validator_config.require_utf8, validator_config.min_coherence);
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -177,6 +193,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
     spdlog::info("  Grammar constraints: {}", config_.grammar_config.enabled ? "enabled" : "disabled");
     spdlog::info("  Vision support: {}", vision_enabled_ ? "enabled" : "disabled");
+    spdlog::info("  Output validation: {}", output_validator_ ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
@@ -624,6 +641,49 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (response.tokens_generated > 0) {
                 double per_token_latency = response.inference_time_ms / response.tokens_generated;
                 metrics_collector_->recordPerTokenLatency(current_model_id_, per_token_latency);
+            }
+        }
+        
+        // 7. Validate output (Production Readiness)
+        if (output_validator_) {
+            auto validation = output_validator_->validateWithTokens(
+                response.text,
+                response.tokens_generated,
+                max_tokens
+            );
+            
+            // Log validation results
+            if (!validation.is_valid) {
+                for (const auto& error : validation.errors) {
+                    spdlog::error("LLM output validation error: {}", error);
+                }
+                
+                if (metrics_collector_) {
+                    metrics_collector_->recordError("output_validation_failed", "llama_wrapper");
+                }
+                
+                // Optionally throw or return error response
+                // For now, log errors but allow response through with metadata
+                response.metadata["validation_errors"] = validation.errors;
+                response.metadata["validation_valid"] = false;
+            }
+            
+            // Log warnings
+            for (const auto& warning : validation.warnings) {
+                spdlog::warn("LLM output validation warning: {}", warning);
+            }
+            
+            // Add validation metrics to response
+            response.metadata["validation_metrics"] = {
+                {"token_count", validation.metrics.token_count},
+                {"word_count", validation.metrics.word_count},
+                {"is_truncated", validation.metrics.is_truncated},
+                {"is_utf8_valid", validation.metrics.is_utf8_valid},
+                {"coherence_score", validation.metrics.semantic_coherence}
+            };
+            
+            if (!validation.warnings.empty()) {
+                response.metadata["validation_warnings"] = validation.warnings;
             }
         }
         

@@ -222,6 +222,13 @@ public:
         std::string clip_model_path;          // Path to CLIP vision encoder model
         int vision_threads = 4;               // Threads for image encoding
         bool preload_vision = true;           // Keep vision encoder in memory
+        
+        // Output Validation (Production Readiness)
+        bool enable_output_validation = true;  // Enable output validation
+        int min_output_length = 1;             // Minimum response length (chars)
+        int max_output_length = 100000;        // Maximum response length
+        bool require_utf8 = true;              // Enforce UTF-8 encoding
+        double min_coherence = 0.3;            // Minimum coherence score (0-1)
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -462,6 +469,9 @@ private:
     WrapperState current_state_ = WrapperState::UNINITIALIZED;
     std::vector<StateTransition> state_history_;
     static constexpr size_t MAX_STATE_HISTORY = 100;  // Limit memory usage
+    
+    // Output validation (Production Readiness)
+    std::unique_ptr<LLMOutputValidator> output_validator_;
     
     // Metrics collection (optional)
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
