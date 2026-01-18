@@ -14,6 +14,7 @@
 #pragma once
 
 #include "function_registry.h"
+#include "index/graph_analytics.h"
 #include <string>
 #include <vector>
 #include <queue>
@@ -36,19 +37,26 @@ public:
     FunctionSignature signature() const override {
         return {
             "ALL_SHORTEST_PATHS",
-            {ParamType::STRING, ParamType::STRING},  // startVertex, endVertex
-            ParamType::ARRAY,
-            2, 3,  // optional options object
+            "Graph",
             "Returns all shortest paths between two vertices",
+            {
+                {"startVertex", ArgType::STRING, true, nullptr, "Starting vertex ID"},
+                {"endVertex", ArgType::STRING, true, nullptr, "Ending vertex ID"},
+                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Optional parameters"}
+            },
+            ArgType::ARRAY,
+            true, false,
+            {R"(ALL_SHORTEST_PATHS("A", "B"))"},
             FunctionCost{CostComplexity::QUADRATIC, 100.0, 1.0, true, true, "graph"}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.size() < 2) return JsonValue::array();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.size() < 2) return nlohmann::json::array();
         
-        std::string startVertex = args[0].as_string();
-        std::string endVertex = args[1].as_string();
+        std::string startVertex = toString(args[0]);
+        std::string endVertex = toString(args[1]);
         
         // Options parsing
         std::string edgeCollection = "_edges";
@@ -56,15 +64,15 @@ public:
         int maxDepth = 10;
         
         if (args.size() > 2 && args[2].is_object()) {
-            auto opts = args[2].as_object();
-            if (opts.count("edgeCollection")) edgeCollection = opts["edgeCollection"].as_string();
-            if (opts.count("direction")) direction = opts["direction"].as_string();
-            if (opts.count("maxDepth")) maxDepth = static_cast<int>(opts["maxDepth"].as_number());
+            auto opts = args[2];
+            if (opts.contains("edgeCollection")) edgeCollection = opts["edgeCollection"].get<std::string>();
+            if (opts.contains("direction")) direction = opts["direction"].get<std::string>();
+            if (opts.contains("maxDepth")) maxDepth = static_cast<int>(toNumber(opts["maxDepth"]));
         }
         
         // BFS to find all shortest paths
         // Implementation would use graph storage
-        return JsonValue::array();
+        return nlohmann::json::array();
     }
 };
 */
@@ -79,26 +87,99 @@ public:
     FunctionSignature signature() const override {
         return {
             "K_SHORTEST_PATHS",
-            {ParamType::STRING, ParamType::STRING, ParamType::NUMBER},  // start, end, k
-            ParamType::ARRAY,
-            3, 4,  // optional options
-            "Returns the K shortest paths between two vertices (Yen's algorithm)",
+            "Graph",
+            "Returns the K shortest paths between two vertices using Yen's algorithm",
+            {
+                {"startVertex", ArgType::STRING, true, nullptr, "Starting vertex ID"},
+                {"endVertex", ArgType::STRING, true, nullptr, "Ending vertex ID"},
+                {"k", ArgType::INTEGER, true, nullptr, "Number of shortest paths to find"},
+                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Optional parameters (weightAttribute, etc.)"}
+            },
+            ArgType::ARRAY,
+            true,  // deterministic
+            false, // not aggregate
+            {
+                R"(K_SHORTEST_PATHS("A", "E", 3) // Find 3 shortest paths)",
+                R"(K_SHORTEST_PATHS("A", "E", 5, {weightAttribute: "distance"}))"
+            },
             FunctionCost{CostComplexity::QUADRATIC, 200.0, 10.0, true, false, "graph"}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.size() < 3) return JsonValue::array();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.size() < 3) {
+            return nlohmann::json::array();
+        }
         
-        std::string startVertex = args[0].as_string();
-        std::string endVertex = args[1].as_string();
-        int k = static_cast<int>(args[2].as_number());
+        std::string startVertex = toString(args[0]);
+        std::string endVertex = toString(args[1]);
+        int k = static_cast<int>(toNumber(args[2]));
         
-        if (k <= 0) return JsonValue::array();
+        if (k <= 0) {
+            return nlohmann::json::array();
+        }
         
-        // Yen's algorithm implementation would go here
-        // Uses graph storage to find paths
-        return JsonValue::array();
+        // Parse options
+        // Empty string means unweighted (edge count), or use default "_weight" from graph
+        std::string weightAttribute = "";
+        if (args.size() > 3 && args[3].is_object()) {
+            auto opts = args[3];
+            if (opts.contains("weightAttribute") && opts["weightAttribute"].is_string()) {
+                weightAttribute = opts["weightAttribute"].get<std::string>();
+            }
+        }
+        
+        // Get GraphAnalytics instance from context
+        auto* analytics = ctx.getGraphAnalytics();
+        if (!analytics) {
+            // If no analytics available, return empty (graceful degradation)
+            // This can happen if the function is called without proper query context
+            return nlohmann::json::array();
+        }
+        
+        // Call Yen's algorithm implementation
+        auto [status, paths] = analytics->kShortestPaths(startVertex, endVertex, k, weightAttribute);
+        
+        if (!status.ok) {
+            // Log error but return empty array (functions should not throw in query execution)
+            // Error details are in status.message
+            // TODO: Consider returning error information in result structure
+            return nlohmann::json::array();
+        }
+        
+        // Convert PathInfo results to JSON
+        nlohmann::json result = nlohmann::json::array();
+        for (size_t i = 0; i < paths.size(); ++i) {
+            const auto& path = paths[i];
+            
+            nlohmann::json pathObj = nlohmann::json::object();
+            pathObj["rank"] = i + 1;
+            
+            // Vertices array
+            nlohmann::json vertices = nlohmann::json::array();
+            for (const auto& v : path.vertices) {
+                vertices.push_back(v);
+            }
+            pathObj["vertices"] = vertices;
+            
+            // Edges array (from/to pairs)
+            nlohmann::json edges = nlohmann::json::array();
+            for (const auto& edge : path.edges) {
+                nlohmann::json edgeObj = nlohmann::json::object();
+                edgeObj["from"] = edge.first;
+                edgeObj["to"] = edge.second;
+                edges.push_back(edgeObj);
+            }
+            pathObj["edges"] = edges;
+            
+            pathObj["length"] = path.hop_count;
+            pathObj["distance"] = path.length;
+            
+            result.push_back(pathObj);
+        }
+        
+        return result;
     }
 };
 */
@@ -113,33 +194,40 @@ public:
     FunctionSignature signature() const override {
         return {
             "WEIGHTED_SHORTEST_PATH",
-            {ParamType::STRING, ParamType::STRING, ParamType::STRING},  // start, end, weightAttr
-            ParamType::OBJECT,  // {vertices, edges, weight}
-            3, 4,
+            "Graph",
             "Finds the shortest weighted path using Dijkstra's algorithm",
+            {
+                {"startVertex", ArgType::STRING, true, nullptr, "Starting vertex ID"},
+                {"endVertex", ArgType::STRING, true, nullptr, "Ending vertex ID"},
+                {"weightAttribute", ArgType::STRING, true, nullptr, "Edge weight attribute name"}
+            },
+            ArgType::OBJECT,
+            true, false,
+            {R"(WEIGHTED_SHORTEST_PATH("A", "B", "distance"))"},
             FunctionCost{CostComplexity::LINEARITHMIC, 50.0, 0.5, true, false, "graph"}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
         if (args.size() < 3) {
-            return JsonValue::object({
-                {"vertices", JsonValue::array()},
-                {"edges", JsonValue::array()},
+            return nlohmann::json{
+                {"vertices", nlohmann::json::array()},
+                {"edges", nlohmann::json::array()},
                 {"weight", 0.0}
-            });
+            };
         }
         
-        std::string startVertex = args[0].as_string();
-        std::string endVertex = args[1].as_string();
-        std::string weightAttr = args[2].as_string();
+        std::string startVertex = toString(args[0]);
+        std::string endVertex = toString(args[1]);
+        std::string weightAttr = toString(args[2]);
         
         // Dijkstra's algorithm implementation
-        return JsonValue::object({
-            {"vertices", JsonValue::array()},
-            {"edges", JsonValue::array()},
+        return nlohmann::json{
+            {"vertices", nlohmann::json::array()},
+            {"edges", nlohmann::json::array()},
             {"weight", std::numeric_limits<double>::infinity()}
-        });
+        };
     }
 };
 */
@@ -154,27 +242,30 @@ public:
     FunctionSignature signature() const override {
         return {
             "PATH_LENGTH",
-            {ParamType::OBJECT},  // path object
-            ParamType::NUMBER,
-            1, 1,
+            "Graph",
             "Returns the number of edges in a path",
+            {{"path", ArgType::OBJECT, true, nullptr, "Path object"}},
+            ArgType::NUMBER,
+            true, false,
+            {R"(PATH_LENGTH(path))"},
             FunctionCost{CostComplexity::CONSTANT, 1.0, 0.0, false, true, ""}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty() || !args[0].is_object()) return JsonValue(0);
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.empty() || !args[0].is_object()) return 0;
         
-        auto path = args[0].as_object();
-        if (path.count("edges") && path["edges"].is_array()) {
-            return JsonValue(static_cast<double>(path["edges"].as_array().size()));
+        auto path = args[0];
+        if (path.contains("edges") && path["edges"].is_array()) {
+            return static_cast<double>(path["edges"].size());
         }
-        if (path.count("vertices") && path["vertices"].is_array()) {
-            size_t vcount = path["vertices"].as_array().size();
-            return JsonValue(static_cast<double>(vcount > 0 ? vcount - 1 : 0));
+        if (path.contains("vertices") && path["vertices"].is_array()) {
+            size_t vcount = path["vertices"].size();
+            return static_cast<double>(vcount > 0 ? vcount - 1 : 0);
         }
         
-        return JsonValue(0);
+        return 0;
     }
 };
 */
@@ -189,23 +280,26 @@ public:
     FunctionSignature signature() const override {
         return {
             "PATH_VERTICES",
-            {ParamType::OBJECT},
-            ParamType::ARRAY,
-            1, 1,
+            "Graph",
             "Extracts the vertices from a path object",
+            {{"path", ArgType::OBJECT, true, nullptr, "Path object"}},
+            ArgType::ARRAY,
+            true, false,
+            {R"(PATH_VERTICES(path))"},
             FunctionCost{CostComplexity::CONSTANT, 1.0, 0.0, false, true, ""}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty() || !args[0].is_object()) return JsonValue::array();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.empty() || !args[0].is_object()) return nlohmann::json::array();
         
-        auto path = args[0].as_object();
-        if (path.count("vertices") && path["vertices"].is_array()) {
+        auto path = args[0];
+        if (path.contains("vertices") && path["vertices"].is_array()) {
             return path["vertices"];
         }
         
-        return JsonValue::array();
+        return nlohmann::json::array();
     }
 };
 */
@@ -220,23 +314,26 @@ public:
     FunctionSignature signature() const override {
         return {
             "PATH_EDGES",
-            {ParamType::OBJECT},
-            ParamType::ARRAY,
-            1, 1,
+            "Graph",
             "Extracts the edges from a path object",
+            {{"path", ArgType::OBJECT, true, nullptr, "Path object"}},
+            ArgType::ARRAY,
+            true, false,
+            {R"(PATH_EDGES(path))"},
             FunctionCost{CostComplexity::CONSTANT, 1.0, 0.0, false, true, ""}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty() || !args[0].is_object()) return JsonValue::array();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.empty() || !args[0].is_object()) return nlohmann::json::array();
         
-        auto path = args[0].as_object();
-        if (path.count("edges") && path["edges"].is_array()) {
+        auto path = args[0];
+        if (path.contains("edges") && path["edges"].is_array()) {
             return path["edges"];
         }
         
-        return JsonValue::array();
+        return nlohmann::json::array();
     }
 };
 */
@@ -251,33 +348,36 @@ public:
     FunctionSignature signature() const override {
         return {
             "PATH_WEIGHT",
-            {ParamType::OBJECT, ParamType::STRING},  // path, weightAttribute
-            ParamType::NUMBER,
-            2, 2,
+            "Graph",
             "Calculates the total weight of edges in a path",
+            {
+                {"path", ArgType::OBJECT, true, nullptr, "Path object"},
+                {"weightAttribute", ArgType::STRING, true, nullptr, "Weight attribute name"}
+            },
+            ArgType::NUMBER,
+            true, false,
+            {R"(PATH_WEIGHT(path, "distance"))"},
             FunctionCost{CostComplexity::LINEAR, 1.0, 0.01, false, true, ""}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.size() < 2 || !args[0].is_object()) return JsonValue(0.0);
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.size() < 2 || !args[0].is_object()) return 0.0;
         
-        auto path = args[0].as_object();
-        std::string weightAttr = args[1].as_string();
+        auto path = args[0];
+        std::string weightAttr = toString(args[1]);
         
-        if (!path.count("edges") || !path["edges"].is_array()) return JsonValue(0.0);
+        if (!path.contains("edges") || !path["edges"].is_array()) return 0.0;
         
         double totalWeight = 0.0;
-        for (const auto& edge : path["edges"].as_array()) {
-            if (edge.is_object()) {
-                auto edgeObj = edge.as_object();
-                if (edgeObj.count(weightAttr)) {
-                    totalWeight += edgeObj[weightAttr].as_number();
-                }
+        for (const auto& edge : path["edges"]) {
+            if (edge.is_object() && edge.contains(weightAttr)) {
+                totalWeight += toNumber(edge[weightAttr]);
             }
         }
         
-        return JsonValue(totalWeight);
+        return totalWeight;
     }
 };
 */
@@ -293,178 +393,21 @@ public:
             "LOUVAIN_COMMUNITIES",
             "Graph",
             "Detects communities using the Louvain algorithm",
-            {
-                {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
-                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: min_modularity_gain (default: 0.000001)"}
-            },
+            {{"graphName", ArgType::STRING, true, nullptr, "Graph name or edge collection"}},
             ArgType::ARRAY,
-            true,
-            false,
-            {"LOUVAIN_COMMUNITIES([edges])"},
+            true, false,
+            {R"(LOUVAIN_COMMUNITIES("myGraph"))"},
             FunctionCost{CostComplexity::QUADRATIC, 500.0, 5.0, true, true, "graph"}
         };
     }
     
-    nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext&) const override {
-        if (args.empty() || !args[0].is_array()) {
-            // Return structured empty result for consistency with success path
-            return nlohmann::json{
-                {"communities", nlohmann::json::array()},
-                {"overall_modularity", 0.0},
-                {"num_communities", 0}
-            };
-        }
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.empty()) return nlohmann::json::array();
         
-        const auto& edges = args[0];
-        double min_modularity_gain = 0.000001;
-        
-        // Parse options
-        if (args.size() > 1 && args[1].is_object()) {
-            if (args[1].contains("min_modularity_gain")) {
-                min_modularity_gain = args[1]["min_modularity_gain"].get<double>();
-            }
-        }
-        
-        // Extract nodes and build adjacency
-        std::unordered_set<std::string> node_set;
-        std::unordered_map<std::string, std::vector<std::string>> adjacency;
-        
-        for (const auto& edge : edges) {
-            if (!edge.is_object() || !edge.contains("_from") || !edge.contains("_to")) {
-                continue;
-            }
-            
-            std::string from = edge["_from"].get<std::string>();
-            std::string to = edge["_to"].get<std::string>();
-            
-            node_set.insert(from);
-            node_set.insert(to);
-            adjacency[from].push_back(to);
-            adjacency[to].push_back(from);  // Treat as undirected
-        }
-        
-        if (node_set.empty()) {
-            return nlohmann::json::array();
-        }
-        
-        std::vector<std::string> nodes(node_set.begin(), node_set.end());
-        
-        // Initialize: each node in its own community
-        std::unordered_map<std::string, int> node_to_comm;
-        int next_comm_id = 0;
-        for (const auto& node : nodes) {
-            node_to_comm[node] = next_comm_id++;
-        }
-        
-        // Count total edges (note: treating graph as undirected for community detection)
-        // Each edge in the input appears once, but is added twice to adjacency (both directions)
-        double m = edges.size();
-        if (m == 0.0) m = 1.0;  // Avoid division by zero
-        
-        // Compute node degrees
-        std::unordered_map<std::string, double> node_degree;
-        for (const auto& node : nodes) {
-            node_degree[node] = adjacency[node].size();
-        }
-        
-        // Louvain optimization
-        bool improved = true;
-        int iteration = 0;
-        const int MAX_ITERATIONS = 100;
-        
-        while (improved && iteration < MAX_ITERATIONS) {
-            improved = false;
-            iteration++;
-            
-            for (const auto& node : nodes) {
-                int current_comm = node_to_comm[node];
-                
-                // Collect neighboring communities
-                std::unordered_map<int, double> comm_edges;
-                
-                for (const auto& neighbor : adjacency[node]) {
-                    comm_edges[node_to_comm[neighbor]] += 1.0;
-                }
-                
-                if (comm_edges.empty()) continue;
-                
-                // Try each neighboring community
-                int best_comm = current_comm;
-                double best_delta_q = 0.0;
-                
-                for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
-                    if (candidate_comm == current_comm) continue;
-                    
-                    double delta_q = edges_to_comm / m;
-                    
-                    if (delta_q > best_delta_q) {
-                        best_delta_q = delta_q;
-                        best_comm = candidate_comm;
-                    }
-                }
-                
-                if (best_delta_q > min_modularity_gain && best_comm != current_comm) {
-                    node_to_comm[node] = best_comm;
-                    improved = true;
-                }
-            }
-        }
-        
-        // Group nodes by community
-        std::unordered_map<int, std::vector<std::string>> communities;
-        for (const auto& [node, comm] : node_to_comm) {
-            communities[comm].push_back(node);
-        }
-        
-        // Calculate modularity for each community
-        nlohmann::json result = nlohmann::json::array();
-        int comm_id = 0;
-        double overall_modularity = 0.0;
-        
-        for (const auto& [_, members] : communities) {
-            // Calculate internal edges (counted twice since graph is undirected)
-            int internal_edges = 0;
-            for (const auto& node : members) {
-                for (const auto& neighbor : adjacency[node]) {
-                    if (node_to_comm[neighbor] == node_to_comm[node]) {
-                        internal_edges++;
-                    }
-                }
-            }
-            internal_edges /= 2;  // Each internal edge counted twice in undirected graph
-            
-            // Calculate expected edges
-            double total_degree = 0.0;
-            for (const auto& node : members) {
-                total_degree += node_degree[node];
-            }
-            
-            double expected = (total_degree * total_degree) / (4.0 * m);
-            double modularity = (internal_edges / m) - expected / (2.0 * m);
-            overall_modularity += modularity;
-            
-            // Calculate density
-            double max_edges = members.size() * (members.size() - 1) / 2.0;
-            double density = max_edges > 0 ? internal_edges / max_edges : 0.0;
-            
-            nlohmann::json comm_obj = {
-                {"id", comm_id++},
-                {"members", members},
-                {"size", members.size()},
-                {"modularity", modularity},
-                {"density", density}
-            };
-            
-            result.push_back(comm_obj);
-        }
-        
-        // Wrap in result object
-        return nlohmann::json{
-            {"communities", result},
-            {"overall_modularity", overall_modularity},
-            {"num_communities", communities.size()}
-        };
+        // Louvain algorithm implementation would use graph storage
+        // Returns array of community objects
+        return nlohmann::json::array();
     }
 };
 
@@ -620,19 +563,22 @@ public:
     FunctionSignature signature() const override {
         return {
             "BETWEENNESS_CENTRALITY",
-            {ParamType::STRING},  // graph name or edge collection
-            ParamType::OBJECT,    // {vertex: score, ...}
-            1, 2,
+            "Graph",
             "Calculates betweenness centrality for all vertices",
+            {{"graphName", ArgType::STRING, true, nullptr, "Graph name or edge collection"}},
+            ArgType::OBJECT,
+            true, false,
+            {R"(BETWEENNESS_CENTRALITY("myGraph"))"},
             FunctionCost{CostComplexity::QUADRATIC, 1000.0, 10.0, true, true, "graph"}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty()) return JsonValue::object();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.empty()) return nlohmann::json::object();
         
         // Brandes' algorithm implementation would go here
-        return JsonValue::object();
+        return nlohmann::json::object();
     }
 };
 */
@@ -647,19 +593,22 @@ public:
     FunctionSignature signature() const override {
         return {
             "CLOSENESS_CENTRALITY",
-            {ParamType::STRING},
-            ParamType::OBJECT,
-            1, 2,
+            "Graph",
             "Calculates closeness centrality for all vertices",
+            {{"graphName", ArgType::STRING, true, nullptr, "Graph name or edge collection"}},
+            ArgType::OBJECT,
+            true, false,
+            {R"(CLOSENESS_CENTRALITY("myGraph"))"},
             FunctionCost{CostComplexity::QUADRATIC, 800.0, 8.0, true, true, "graph"}
         };
     }
     
-    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty()) return JsonValue::object();
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, 
+                          const FunctionContext& ctx) const override {
+        if (args.empty()) return nlohmann::json::object();
         
         // BFS-based closeness calculation
-        return JsonValue::object();
+        return nlohmann::json::object();
     }
 };
 */
