@@ -44,6 +44,17 @@ struct RecursivePathQuery {
     std::optional<SpatialConstraint> spatial_constraint;
 };
 
+// General Traversal Query Structures
+enum class TraversalDirection { OUTBOUND, INBOUND, ANY };
+
+struct TraversalResult {
+    std::string vertex_pk;
+    int depth;
+    std::vector<std::string> path;   // Full path from start to this vertex
+    std::vector<std::string> edges;  // Edge IDs traversed
+    nlohmann::json vertex_data;      // Full vertex entity data
+};
+
 // Vector + Geo Hybrid Query
 struct VectorGeoQuery {
     std::string table;
@@ -318,6 +329,18 @@ public:
     
     // Rekursive Pfadabfrage (Multi-Hop Traversal)
     std::pair<Status, std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
+
+    // General graph traversal (non-shortest path)
+    // Performs BFS/DFS with depth filtering and direction support
+    std::pair<Status, std::vector<TraversalResult>> executeGeneralTraversal(
+        const std::string& variable,
+        const std::string& startVertex,
+        int minDepth,
+        int maxDepth,
+        TraversalDirection direction,
+        const std::string& edgeType = "",
+        const std::string& graphId = "default"
+    ) const;
 
     // Führt alle Gleichheitsprädikate parallel über Sekundärindizes aus und schneidet die PK-Mengen
     std::pair<Status, std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;

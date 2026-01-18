@@ -2732,6 +2732,165 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 }
 
 // ============================================================================
+// General Graph Traversal (Non-Shortest Path)
+// ============================================================================
+
+std::pair<QueryEngine::Status, std::vector<TraversalResult>>
+QueryEngine::executeGeneralTraversal(
+    const std::string& variable,
+    const std::string& startVertex,
+    int minDepth,
+    int maxDepth,
+    TraversalDirection direction,
+    const std::string& edgeType,
+    const std::string& graphId
+) const {
+	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
+	span.setAttribute("query.start_vertex", startVertex);
+	span.setAttribute("query.min_depth", static_cast<int64_t>(minDepth));
+	span.setAttribute("query.max_depth", static_cast<int64_t>(maxDepth));
+	span.setAttribute("query.edge_type", edgeType);
+	span.setAttribute("query.graph_id", graphId);
+	
+	if (!graphIdx_) {
+		return {Status::Error("GraphIndexManager not available"), {}};
+	}
+	
+	if (startVertex.empty()) {
+		return {Status::Error("startVertex cannot be empty"), {}};
+	}
+	
+	if (minDepth < 0 || maxDepth < minDepth) {
+		return {Status::Error("Invalid depth range: minDepth=" + std::to_string(minDepth) + 
+		                      ", maxDepth=" + std::to_string(maxDepth)), {}};
+	}
+	
+	std::vector<TraversalResult> results;
+	
+	// BFS with depth tracking
+	struct VisitInfo {
+		std::string vertex;
+		int depth;
+		std::vector<std::string> path;   // vertex PKs from start
+		std::vector<std::string> edges;  // edge IDs traversed
+	};
+	
+	std::queue<VisitInfo> queue;
+	std::unordered_set<std::string> visited;
+	
+	// Start with the initial vertex
+	queue.push({startVertex, 0, {startVertex}, {}});
+	visited.insert(startVertex);
+	
+	while (!queue.empty()) {
+		VisitInfo current = std::move(queue.front());
+		queue.pop();
+		
+		// Add to results if within depth range
+		if (current.depth >= minDepth && current.depth <= maxDepth) {
+			TraversalResult result;
+			result.vertex_pk = current.vertex;
+			result.depth = current.depth;
+			result.path = current.path;
+			result.edges = current.edges;
+			
+			// Try to load vertex data from storage
+			// Extract table from PK format "collection/id"
+			std::string table;
+			auto slashPos = current.vertex.find('/');
+			if (slashPos != std::string::npos) {
+				table = current.vertex.substr(0, slashPos);
+			} else {
+				table = "vertices"; // default fallback
+			}
+			
+			std::string dbKey = table + ":" + current.vertex;
+			auto vertexDataOpt = db_->get(dbKey);
+			if (vertexDataOpt.has_value()) {
+				try {
+					result.vertex_data = nlohmann::json::parse(*vertexDataOpt);
+				} catch (...) {
+					// If parsing fails, create minimal JSON
+					result.vertex_data = nlohmann::json{{"_key", current.vertex}};
+				}
+			} else {
+				// Vertex not found in storage, create minimal JSON
+				result.vertex_data = nlohmann::json{{"_key", current.vertex}};
+			}
+			
+			results.push_back(std::move(result));
+		}
+		
+		// Don't expand beyond maxDepth
+		if (current.depth >= maxDepth) {
+			continue;
+		}
+		
+		// Get neighbors based on direction
+		std::vector<GraphIndexManager::AdjacencyInfo> neighbors;
+		
+		switch (direction) {
+			case TraversalDirection::OUTBOUND: {
+				auto [st, adj] = graphIdx_->outAdjacency(current.vertex);
+				if (st.ok) neighbors = std::move(adj);
+				break;
+			}
+			case TraversalDirection::INBOUND: {
+				auto [st, adj] = graphIdx_->inAdjacency(current.vertex);
+				if (st.ok) neighbors = std::move(adj);
+				break;
+			}
+			case TraversalDirection::ANY: {
+				// Get both outbound and inbound neighbors
+				auto [st1, adj1] = graphIdx_->outAdjacency(current.vertex);
+				auto [st2, adj2] = graphIdx_->inAdjacency(current.vertex);
+				if (st1.ok) neighbors = std::move(adj1);
+				if (st2.ok) {
+					neighbors.insert(neighbors.end(), 
+					                std::make_move_iterator(adj2.begin()),
+					                std::make_move_iterator(adj2.end()));
+				}
+				break;
+			}
+		}
+		
+		// Filter by edge type and graph ID if specified
+		for (const auto& adj : neighbors) {
+			// Filter by edge type
+			if (!edgeType.empty() && adj.graphId != edgeType) {
+				continue;
+			}
+			
+			// Filter by graph ID (if graphId is not default)
+			if (graphId != "default" && adj.graphId != graphId) {
+				continue;
+			}
+			
+			// Skip already visited vertices (cycle prevention)
+			if (visited.find(adj.targetPk) != visited.end()) {
+				continue;
+			}
+			
+			// Add to queue
+			VisitInfo next;
+			next.vertex = adj.targetPk;
+			next.depth = current.depth + 1;
+			next.path = current.path;
+			next.path.push_back(adj.targetPk);
+			next.edges = current.edges;
+			next.edges.push_back(adj.edgeId);
+			
+			queue.push(std::move(next));
+			visited.insert(adj.targetPk);
+		}
+	}
+	
+	span.setAttribute("query.result_count", static_cast<int64_t>(results.size()));
+	span.setStatus(true);
+	return {Status::OK(), std::move(results)};
+}
+
+// ============================================================================
 // Hybrid Multi-Model Query Implementations
 // ============================================================================
 
