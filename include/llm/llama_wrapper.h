@@ -78,6 +78,34 @@ enum class ChatFormat {
     Alpaca       // Alpaca format: ### Instruction:\ncontent\n### Response:
 };
 
+/**
+ * @brief LlamaWrapper state machine states
+ * 
+ * Explicit state tracking prevents silent stub responses and enables
+ * proper error handling in production RAG pipelines.
+ */
+enum class WrapperState {
+    UNINITIALIZED,   // Constructor called, not yet loading
+    LOADING,         // Async model load in progress
+    READY,           // Model loaded, context created, ready for inference
+    ERROR,           // Unrecoverable error (e.g., model load failed)
+    UNAVAILABLE      // Temporary unavailability (e.g., OOM, evicted)
+};
+
+/**
+ * @brief State transition record for debugging and observability
+ */
+struct StateTransition {
+    WrapperState from_state;
+    WrapperState to_state;
+    std::string reason;      // Why transition happened
+    std::chrono::system_clock::time_point timestamp;
+    
+    StateTransition(WrapperState from, WrapperState to, const std::string& r)
+        : from_state(from), to_state(to), reason(r),
+          timestamp(std::chrono::system_clock::now()) {}
+};
+
 } // namespace llm
 } // namespace themis
 
@@ -273,6 +301,32 @@ public:
     json getPerformanceStats() const override;
     
     // ═══════════════════════════════════════════════════════════
+    // State Management (Production Readiness)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get current wrapper state
+     * @return Current state of the wrapper
+     */
+    WrapperState state() const;
+    
+    /**
+     * @brief Get state as human-readable string
+     */
+    std::string stateString() const;
+    
+    /**
+     * @brief Get state transition history for debugging
+     * @return Vector of state transitions
+     */
+    std::vector<StateTransition> stateHistory() const;
+    
+    /**
+     * @brief Clear state history (for memory management)
+     */
+    void clearStateHistory();
+    
+    // ═══════════════════════════════════════════════════════════
     // Distributed Features
     // ═══════════════════════════════════════════════════════════
     
@@ -404,6 +458,11 @@ private:
     };
     Stats stats_;
     
+    // State machine (Production Readiness)
+    WrapperState current_state_ = WrapperState::UNINITIALIZED;
+    std::vector<StateTransition> state_history_;
+    static constexpr size_t MAX_STATE_HISTORY = 100;  // Limit memory usage
+    
     // Metrics collection (optional)
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     
@@ -421,6 +480,10 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // State machine helpers (Production Readiness)
+    void transitionToState(WrapperState new_state, const std::string& reason);
+    static std::string stateToString(WrapperState state);
     
     // Grammar-related helpers (Phase 3.2)
     void initializeBuiltinGrammars();

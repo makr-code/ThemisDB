@@ -197,6 +197,9 @@ bool LlamaWrapper::loadModel(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Transition to LOADING state
+    transitionToState(WrapperState::LOADING, "loadModel() called for: " + model_path);
+    
     spdlog::info("Loading model (lazy): {}", model_path);
     
     auto load_start = std::chrono::high_resolution_clock::now();
@@ -288,6 +291,9 @@ bool LlamaWrapper::loadModel(
     if (!model) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
+        // Transition to ERROR state
+        transitionToState(WrapperState::ERROR, "Model load failed: " + model_path);
+        
         if (metrics_collector_) {
             metrics_collector_->recordError("model_load_failed", "model_loader");
         }
@@ -316,6 +322,9 @@ bool LlamaWrapper::loadModel(
         metrics_collector_->recordModelSwitchLatency(load_time_ms);
     }
     
+    // Transition to READY state
+    transitionToState(WrapperState::READY, "Model loaded successfully: " + current_model_id_);
+    
     return true;
 }
 
@@ -327,6 +336,9 @@ void LlamaWrapper::unloadModel() {
     }
     
     spdlog::info("Unloading model: {}", current_model_id_);
+    
+    // Transition to UNAVAILABLE state
+    transitionToState(WrapperState::UNAVAILABLE, "Model unload requested");
     
     // Unload draft model first
     unloadDraftModel();
@@ -340,6 +352,9 @@ void LlamaWrapper::unloadModel() {
     
     current_model_id_.clear();
     current_model_path_.clear();
+    
+    // Transition to UNINITIALIZED state
+    transitionToState(WrapperState::UNINITIALIZED, "Model unloaded");
     
     spdlog::info("Model unloaded");
 }
@@ -398,6 +413,20 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
 
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Check state before attempting inference
+    if (current_state_ != WrapperState::READY) {
+        std::string error_msg = "LlamaWrapper not ready for inference. Current state: " + 
+                               stateToString(current_state_);
+        spdlog::error("{}", error_msg);
+        
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_.empty() ? "unknown" : current_model_id_, 
+                                                     "wrapper_not_ready");
+        }
+        
+        throw std::runtime_error(error_msg);
+    }
     
     if (current_model_id_.empty()) {
         throw std::runtime_error("No model loaded");
@@ -2110,6 +2139,65 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
 }
 #endif // THEMIS_ENABLE_VISION
 
+// ═══════════════════════════════════════════════════════════
+// State Management Implementation (Production Readiness)
+// ═══════════════════════════════════════════════════════════
+
+WrapperState LlamaWrapper::state() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return current_state_;
+}
+
+std::string LlamaWrapper::stateString() const {
+    return stateToString(state());
+}
+
+std::vector<StateTransition> LlamaWrapper::stateHistory() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return state_history_;
+}
+
+void LlamaWrapper::clearStateHistory() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    state_history_.clear();
+}
+
+void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& reason) {
+    // Caller must hold mutex_
+    
+    if (current_state_ == new_state) {
+        return;  // No transition needed
+    }
+    
+    // Record transition
+    StateTransition transition(current_state_, new_state, reason);
+    state_history_.push_back(transition);
+    
+    // Limit history size to prevent unbounded memory growth
+    if (state_history_.size() > MAX_STATE_HISTORY) {
+        state_history_.erase(state_history_.begin());
+    }
+    
+    spdlog::info("LlamaWrapper state transition: {} -> {} (reason: {})",
+                 stateToString(current_state_),
+                 stateToString(new_state),
+                 reason);
+    
+    current_state_ = new_state;
+}
+
+std::string LlamaWrapper::stateToString(WrapperState state) {
+    switch (state) {
+        case WrapperState::UNINITIALIZED: return "UNINITIALIZED";
+        case WrapperState::LOADING:       return "LOADING";
+        case WrapperState::READY:         return "READY";
+        case WrapperState::ERROR:         return "ERROR";
+        case WrapperState::UNAVAILABLE:   return "UNAVAILABLE";
+        default:                          return "UNKNOWN";
+    }
+}
+
 } // namespace llm
 } // namespace themis
+
 
