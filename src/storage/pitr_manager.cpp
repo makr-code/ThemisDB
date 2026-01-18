@@ -338,16 +338,21 @@ void PITRManager::updateProgress(RestoreProgress::Phase phase, const std::string
 }
 
 // Overloaded functions with default options
+namespace {
+    // Static default options to avoid repeated construction
+    static const PITRManager::RestoreOptions kDefaultRestoreOptions{};
+}
+
 PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence) {
-    return restoreToSequence(target_sequence, RestoreOptions{});
+    return restoreToSequence(target_sequence, kDefaultRestoreOptions);
 }
 
 PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name) {
-    return restoreToTag(tag_name, RestoreOptions{});
+    return restoreToTag(tag_name, kDefaultRestoreOptions);
 }
 
 PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
-    return restoreToTimestamp(timestamp_ms, RestoreOptions{});
+    return restoreToTimestamp(timestamp_ms, kDefaultRestoreOptions);
 }
 
 PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence) const {
