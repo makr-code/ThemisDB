@@ -30,9 +30,6 @@
 
 namespace themis {
 
-// Forward declaration
-class IExpressionEvaluator;
-
 /// @brief Index type enumeration
 enum class IndexType {
     SECONDARY,      ///< B-tree or hash secondary index

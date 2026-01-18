@@ -144,7 +144,9 @@ public:
     }
 
     std::unique_ptr<IExpressionEvaluator> createExpressionEvaluator() const override {
-        return nullptr; // Not needed for basic tests
+        // Mock implementation: returns nullptr since this test focuses on
+        // verifying the interface contract rather than actual expression evaluation
+        return nullptr;
     }
 
     std::string explainQuery(std::string_view query) const override {
