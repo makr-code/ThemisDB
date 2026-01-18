@@ -625,7 +625,20 @@ public:
 };
 
 /**
- * @brief PAGERANK(edges, damping, iterations) - PageRank algorithm
+ * @brief PAGERANK(edges, damping, iterations, options) - PageRank algorithm
+ * 
+ * Computes PageRank scores for all vertices in a graph. Returns structured
+ * results with node rankings, degrees, and importance scores.
+ * 
+ * @param edges Array of edge documents with _from and _to fields
+ * @param damping Damping factor (default 0.85) - probability of following edges
+ * @param iterations Maximum iterations (default 20)
+ * @param options Optional configuration:
+ *   - format: "detailed" returns array with degrees, "simple" returns object (default: "detailed")
+ *   - epsilon: Convergence threshold (default: 1e-6)
+ * 
+ * @returns Detailed format: Array of {node_id, rank, in_degree, out_degree} sorted by rank
+ *          Simple format: Object mapping node_id -> rank
  */
 class PageRankFunction : public IFunction {
 public:
@@ -633,16 +646,17 @@ public:
         return {
             "PAGERANK",
             "Graph",
-            "Calculate PageRank scores for all vertices",
+            "Calculate PageRank scores for all vertices with degree information",
             {
                 {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
                 {"damping", ArgType::NUMBER, false, nlohmann::json(0.85), "Damping factor (default 0.85)"},
-                {"iterations", ArgType::INTEGER, false, nlohmann::json(20), "Number of iterations"}
+                {"iterations", ArgType::INTEGER, false, nlohmann::json(20), "Number of iterations"},
+                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: {format: 'detailed'|'simple', epsilon: 1e-6}"}
             },
-            ArgType::OBJECT,
+            ArgType::ARRAY,
             true,
             false,
-            {"PAGERANK(edges)", "PAGERANK(edges, 0.85, 100)"}
+            {"PAGERANK(edges)", "PAGERANK(edges, 0.85, 100)", "PAGERANK(edges, 0.85, 100, {format: 'simple'})"}
         };
     }
     
@@ -652,9 +666,23 @@ public:
         double damping = args.size() > 1 ? args[1].get<double>() : 0.85;
         int iterations = args.size() > 2 ? args[2].get<int>() : 20;
         
+        // Parse options
+        std::string format = "detailed";
+        double epsilon = 1e-6;
+        if (args.size() > 3 && args[3].is_object()) {
+            if (args[3].contains("format")) {
+                format = args[3]["format"].get<std::string>();
+            }
+            if (args[3].contains("epsilon")) {
+                epsilon = args[3]["epsilon"].get<double>();
+            }
+        }
+        
         const auto& vertices = graph.vertices();
         size_t n = vertices.size();
-        if (n == 0) return nlohmann::json::object();
+        if (n == 0) {
+            return format == "simple" ? nlohmann::json::object() : nlohmann::json::array();
+        }
         
         // Initialize PageRank values
         std::unordered_map<std::string, double> rank;
@@ -665,8 +693,9 @@ public:
             rank[v] = initialRank;
         }
         
-        // Iterate
-        for (int iter = 0; iter < iterations; ++iter) {
+        // Iterate until convergence or max iterations
+        bool converged = false;
+        for (int iter = 0; iter < iterations && !converged; ++iter) {
             // Reset new ranks with teleport probability
             for (const auto& v : vertices) {
                 newRank[v] = (1.0 - damping) / n;
@@ -689,16 +718,59 @@ public:
                 }
             }
             
+            // Check convergence
+            double maxDelta = 0.0;
+            for (const auto& v : vertices) {
+                maxDelta = std::max(maxDelta, std::abs(newRank[v] - rank[v]));
+            }
+            
             rank = newRank;
+            
+            if (maxDelta < epsilon) {
+                converged = true;
+            }
         }
         
-        // Convert to JSON
-        nlohmann::json result = nlohmann::json::object();
+        // Normalize ranks to sum to 1.0
+        double rankSum = 0.0;
         for (const auto& [v, r] : rank) {
-            result[v] = r;
+            rankSum += r;
+        }
+        if (rankSum > 0.0) {
+            for (auto& [v, r] : rank) {
+                r /= rankSum;
+            }
         }
         
-        return result;
+        // Return format based on options
+        if (format == "simple") {
+            // Simple format: object mapping node_id -> rank
+            nlohmann::json result = nlohmann::json::object();
+            for (const auto& [v, r] : rank) {
+                result[v] = r;
+            }
+            return result;
+        } else {
+            // Detailed format: array of {node_id, rank, in_degree, out_degree}
+            std::vector<nlohmann::json> results;
+            for (const auto& v : vertices) {
+                nlohmann::json node = {
+                    {"node_id", v},
+                    {"rank", rank[v]},
+                    {"in_degree", static_cast<int64_t>(graph.inDegree(v))},
+                    {"out_degree", static_cast<int64_t>(graph.outDegree(v))}
+                };
+                results.push_back(node);
+            }
+            
+            // Sort by rank descending
+            std::sort(results.begin(), results.end(),
+                [](const nlohmann::json& a, const nlohmann::json& b) {
+                    return a["rank"].get<double>() > b["rank"].get<double>();
+                });
+            
+            return nlohmann::json(results);
+        }
     }
 };
 
