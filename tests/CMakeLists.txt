@@ -1296,7 +1296,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
     if(THEMIS_ENABLE_HUGE_PAGES)
         message(STATUS "Huge pages support enabled for test_huge_pages")
         target_compile_definitions(test_huge_pages PRIVATE
-            THEMIS_USE_HUGE_PAGES=1
+            THEMIS_USE_HUGE_PAGES=1  # Used by test code to conditionally compile huge pages tests
         )
     else()
         message(STATUS "Huge pages support disabled - tests will skip huge pages allocations")
