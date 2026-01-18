@@ -257,6 +257,86 @@ audit_logger->logSecurityEvent(
 );
 ```
 
+---
+
+### NEW: Binary Integrity Verification (P2 - MEDIUM) ✅
+
+**RSA-4096 Manifest Signing für Supply Chain Security**
+
+ThemisDB implementiert jetzt Binary Integrity Verification mit RSA-4096 Signaturen, um die Authentizität und Integrität von Release-Binaries sicherzustellen.
+
+**Features:**
+- ✅ RSA-4096 digitale Signaturen
+- ✅ SHA-256 File Hashing
+- ✅ Manifest-Generierung aus Build-Artefakten
+- ✅ Startup-Verifikation (automatisch)
+- ✅ Update-Verifikation
+- ✅ Audit Logging
+
+**Verwendung:**
+```bash
+# Manifest generieren
+themisctl manifest generate \
+  --root /opt/themis/bin \
+  --version 1.4.0 \
+  --build-id $(git rev-parse HEAD) \
+  --include "*.exe" "*.so" "*.dll" \
+  --output manifest.json
+
+# Manifest signieren
+themisctl manifest sign \
+  --input manifest.json \
+  --key-id release_key \
+  --output signed_manifest.json
+
+# Verifikation
+themisctl manifest verify \
+  --manifest signed_manifest.json \
+  --binaries /opt/themis/bin
+```
+
+**Konfiguration:**
+```yaml
+# config/binary_verification.yaml
+binary_verification:
+  enabled: true
+  manifest_path: /etc/themis/signed_manifest.json
+  binaries_root: /opt/themis/bin
+  verify_on_startup: true
+  fail_on_invalid: true
+```
+
+**Programmatische Verwendung:**
+```cpp
+#include "security/manifest_signer.h"
+
+// Manifest generieren
+ManifestSigner signer(signing_service, config);
+BinaryManifest manifest = signer.generateManifest(
+    "/opt/themis/bin", "1.4.0", "git_sha"
+);
+
+// Signieren
+SignedManifest signed = signer.signManifest(manifest);
+signed.saveToFile("/etc/themis/manifest.json");
+
+// Startup-Verifikation
+StartupVerifier verifier(signing_service, verifier_config);
+bool valid = verifier.verify();  // Exit bei Fehler
+```
+
+**Tests:**
+```bash
+./build/tests/test_binary_integrity
+```
+
+**Compliance:**
+- ✅ NIST SP 800-218 (Secure Software Development)
+- ✅ SOC 2 CC7.1 (System Operations)
+- ✅ Supply Chain Security
+
+---
+
 ## ✅ Implementierter Security Stack (Stand: 2025-11-17)
 
 ### Core Security Features (ABGESCHLOSSEN)

@@ -280,38 +280,140 @@ Binary Integrity:
 
 ## 🔐 P2 - MEDIUM Priority Security Controls
 
-### ⏳ 6. Binary Integrity Verification
+### ✅ 6. Binary Integrity Verification
 
-**Status:** 📋 PLANNED  
+**Status:** ✅ IMPLEMENTED  
 **Priority:** P2 - MEDIUM  
-**Timeline:** Q1 2026
+**Compliance:** NIST SP 800-218 (SSDF), SOC 2 CC7.1
 
-**Planned Implementation:**
+**Binary Manifest Signing Framework**
+
+ThemisDB now implements RSA-4096 manifest signing to verify the integrity of release binaries and detect tampering.
+
+**Features:**
+- ✅ RSA-4096 digital signatures for non-repudiation
+- ✅ SHA-256 file hashing for integrity verification
+- ✅ Manifest generation from build artifacts
+- ✅ Startup verification with automatic checks
+- ✅ Audit logging for all verification events
+
+**Configuration:**
 ```yaml
 # config/binary_verification.yaml
 binary_verification:
   enabled: true
-  algorithm: RSA-4096
-  hash_algorithm: SHA-256
   manifest_path: /etc/themis/release_manifest.json
-  public_key_path: /etc/themis/keys/release_public.pem
+  binaries_root: /opt/themis/bin
+  
+  # Signing configuration
+  signing:
+    algorithm: RSA-4096-SHA256
+    key_id: release_key
   
   # Verification on startup
   verify_on_startup: true
-  fail_on_invalid: true
+  fail_on_invalid: true      # Exit if verification fails
   
   # Update verification
   verify_updates: true
-  allow_unsigned_dev: false
+  allow_unsigned_dev: false  # Reject unsigned binaries in production
 ```
 
-**Checklist (When Implemented):**
-- [ ] RSA-4096 signing keys generated
-- [ ] Public key distributed securely
-- [ ] Release manifest signed
-- [ ] Startup verification enabled
-- [ ] Update verification enabled
-- [ ] Invalid signature handling tested
+**Generating Release Manifest:**
+```bash
+# Generate manifest for release binaries
+themisctl manifest generate \
+  --root /opt/themis/bin \
+  --version 1.4.0 \
+  --build-id $(git rev-parse HEAD) \
+  --output release_manifest.json \
+  --include "*.exe" "*.so" "*.dll"
+
+# Sign manifest with RSA-4096 key
+themisctl manifest sign \
+  --input release_manifest.json \
+  --key-id release_key \
+  --output signed_manifest.json
+
+# Verify manifest signature
+themisctl manifest verify \
+  --manifest signed_manifest.json \
+  --binaries /opt/themis/bin
+```
+
+**Programmatic Usage:**
+```cpp
+#include "security/manifest_signer.h"
+
+// Generate manifest
+auto signing_service = createKeyProviderSigningService(key_provider);
+ManifestSigner::Config config{.key_id = "release_key"};
+ManifestSigner signer(signing_service, config);
+
+BinaryManifest manifest = signer.generateManifest(
+    "/opt/themis/bin",
+    "1.4.0",
+    "abc123",
+    {"*.exe", "*.so", "*.dll"}
+);
+
+// Sign manifest
+SignedManifest signed = signer.signManifest(manifest);
+signed.saveToFile("/etc/themis/signed_manifest.json");
+
+// Verify on startup
+StartupVerifier::Config verifier_config{
+    .manifest_path = "/etc/themis/signed_manifest.json",
+    .binaries_root = "/opt/themis/bin",
+    .fail_on_invalid = true
+};
+StartupVerifier verifier(signing_service, verifier_config);
+bool valid = verifier.verify();  // Exits if invalid
+```
+
+**Manifest Structure:**
+```json
+{
+  "manifest": {
+    "metadata": {
+      "version": "1.4.0",
+      "build_id": "abc123def456",
+      "timestamp": 1705579200,
+      "release_type": "release",
+      "platform": "linux-x64"
+    },
+    "files": [
+      {
+        "path": "bin/themisdb",
+        "sha256_hash": "a1b2c3d4...",
+        "size_bytes": 52428800,
+        "version": "1.4.0"
+      }
+    ]
+  },
+  "signature": "base64_encoded_rsa4096_signature",
+  "signature_algorithm": "RSA-4096-SHA256",
+  "signer_id": "release_key"
+}
+```
+
+**Security Benefits:**
+- ❌ Prevents binary tampering
+- ❌ Detects supply chain attacks
+- ❌ Verifies update authenticity
+- ❌ Ensures release integrity
+
+**Checklist:**
+- [x] Binary integrity verification implemented
+- [x] RSA-4096 signing keys generated
+- [x] Public key distributed securely
+- [x] Release manifest signed
+- [x] Startup verification enabled
+- [x] Update verification enabled
+- [x] Invalid signature handling tested
+- [x] Audit logging configured
+- [ ] CI/CD pipeline integration (sign on release)
+- [ ] Documentation updated
 
 ---
 
