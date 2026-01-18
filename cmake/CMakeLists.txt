@@ -1480,6 +1480,12 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
     )
+    
+    # RAG enhancement modules
+    list(APPEND THEMIS_CORE_SOURCES
+    ../src/rag/knowledge_gap_detector.cpp
+    ../src/rag/rag_judge.cpp
+    )
 endif()
 
 # Ensure minimal LLM components are available when referenced from http_server.
