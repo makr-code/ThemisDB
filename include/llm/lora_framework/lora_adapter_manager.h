@@ -8,6 +8,9 @@
 #include <unordered_map>
 #include <optional>
 
+// Forward declaration for llama.cpp types
+struct llama_context;
+
 namespace themis {
 namespace llm {
 namespace lora {
@@ -71,6 +74,51 @@ public:
      * @return true if switched successfully
      */
     bool switchAdapter(const std::string& from_id, const std::string& to_id);
+    
+    /**
+     * @brief Apply loaded adapter to model context for inference
+     * 
+     * Implements weight fusion: output = base_weight @ input + alpha * adapter_weight @ input
+     * This is the CRITICAL MISSING FEATURE - adapters are loaded but not applied!
+     * 
+     * @param adapter_id Adapter to apply
+     * @param context Model context (llama.cpp context handle)
+     * @param alpha Adapter scaling factor (default: use adapter's configured scaling)
+     * @return true if applied successfully
+     */
+    bool applyAdapter(
+        const std::string& adapter_id,
+        llama_context* context,
+        float alpha = -1.0f  // -1.0 means use adapter's configured scaling
+    );
+    
+    /**
+     * @brief Deactivate currently applied adapter (restore base model weights)
+     * 
+     * @param context Model context to restore
+     * @return true if deactivated successfully
+     */
+    bool deactivateAdapter(llama_context* context);
+    
+    /**
+     * @brief Switch between adapters with weight fusion
+     * 
+     * Efficiently switches from one adapter to another by:
+     * 1. Removing old adapter weights
+     * 2. Applying new adapter weights
+     * 
+     * @param from_adapter_id Current adapter (if empty, just apply to_adapter_id)
+     * @param to_adapter_id Target adapter
+     * @param context Model context
+     * @param alpha Scaling for new adapter (default: use adapter's configured scaling)
+     * @return true if switched successfully
+     */
+    bool switchAdapterWithFusion(
+        const std::string& from_adapter_id,
+        const std::string& to_adapter_id,
+        llama_context* context,
+        float alpha = -1.0f
+    );
     
     /**
      * @brief Get list of loaded adapters
@@ -138,6 +186,7 @@ private:
         void* adapter_handle = nullptr;      // Opaque handle to actual adapter
         size_t memory_bytes = 0;
         bool is_pinned = false;
+        bool is_applied = false;             // Track if adapter is currently applied to model
         std::chrono::system_clock::time_point last_used;
         AdapterMetadata metadata;
     };
@@ -146,6 +195,7 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, std::shared_ptr<AdapterEntry>> adapters_;
     bool cache_enabled_ = true;
+    std::string currently_applied_adapter_;  // Track which adapter is currently applied
     
     // Cache statistics
     mutable CacheStats cache_stats_;
