@@ -43,6 +43,9 @@ enum class EncryptionAlgorithm {
 /// - Initialization vector
 /// - Ciphertext
 /// - Authentication tag (for AEAD modes)
+/// 
+/// @note Serialization/deserialization methods will be provided in
+///       concrete implementations in future phases.
 struct EncryptedData {
     std::string key_id;              ///< Logical key identifier (e.g., "user_pii")
     uint32_t key_version;            ///< Key version for rotation
@@ -54,17 +57,6 @@ struct EncryptedData {
     EncryptedData() 
         : key_version(0)
         , algorithm(EncryptionAlgorithm::AES_256_GCM) {}
-
-    /// @brief Serialize to base64 string for storage
-    /// Format: {key_id}:{version}:{algorithm}:{iv}:{ciphertext}:{tag}
-    /// @return Base64-encoded string
-    std::string serialize() const;
-
-    /// @brief Deserialize from base64 string
-    /// @param data Base64-encoded string
-    /// @return Parsed EncryptedData
-    /// @throws std::runtime_error if format is invalid
-    static EncryptedData deserialize(std::string_view data);
 };
 
 /// @brief Abstract interface for encryption key providers
