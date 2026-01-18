@@ -22,7 +22,7 @@
 #include <limits>
 #include <algorithm>
 
-namespace themisdb {
+namespace themis {
 namespace query {
 namespace functions {
 
@@ -673,4 +673,4 @@ inline void registerGraphExtensions(FunctionRegistry& registry) {
 
 } // namespace functions
 } // namespace query
-} // namespace themisdb
+} // namespace themis
