@@ -45,6 +45,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/pairwise_comparator.cpp
         ../src/rag/judge_ensemble.cpp
         
+        # RAG Enhancement: LLM-as-Judge Phase 4 - Rubric & CoT
+        ../src/rag/rubric_evaluator.cpp
+        ../src/rag/cot_evaluator.cpp
+        
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
     )
