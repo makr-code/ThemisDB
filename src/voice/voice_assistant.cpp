@@ -58,16 +58,22 @@ bool VoiceAssistant::initialize() {
             return false;
         }
         
-        // Initialize LLM engine
-        llm::LlamaCppInferenceEngine::Config llm_config;
+        // Initialize LLM using unified LlamaWrapper implementation
+        llm::LlamaWrapper::Config llm_config;
         llm_config.n_ctx = config_.llm_n_ctx;
         llm_config.n_gpu_layers = config_.llm_n_gpu_layers;
         llm_config.use_mmap = true;
+        llm_config.n_threads = 4;
+        llm_config.n_batch = 512;
         
-        llm_engine_ = std::make_unique<llm::LlamaCppInferenceEngine>(llm_config);
+        llm_wrapper_ = std::make_unique<llm::LlamaWrapper>(llm_config);
         
         if (!config_.llm_model_path.empty()) {
-            llm_engine_->loadModel(config_.llm_model_path, "voice-assistant-model");
+            json model_config = {
+                {"model_path", config_.llm_model_path},
+                {"model_id", "voice-assistant-model"}
+            };
+            llm_wrapper_->loadModel(model_config);
         }
         
         initialized_ = true;
@@ -91,10 +97,11 @@ void VoiceAssistant::shutdown() {
         tts_processor_->shutdown();
     }
     
-    if (llm_engine_) {
-        llm_engine_->unloadModel();
+    if (llm_wrapper_) {
+        llm_wrapper_->unloadModel();
     }
     
+    sessions_.clear();
     initialized_ = false;
 }
 
@@ -396,8 +403,8 @@ json VoiceAssistant::getStatistics() const {
         stats["tts"] = tts_processor_->getStatistics();
     }
     
-    if (llm_engine_) {
-        auto llm_stats = llm_engine_->getStats();
+    if (llm_wrapper_) {
+        auto llm_stats = llm_wrapper_->getStats();
         stats["llm"]["tokens_processed"] = llm_stats.total_tokens_processed;
         stats["llm"]["cache_hits"] = llm_stats.cache_hits;
         stats["llm"]["cache_misses"] = llm_stats.cache_misses;
@@ -446,7 +453,7 @@ std::string VoiceAssistant::generateLLMResponse(
     request.stop_sequences = {"\nUser:", "\nAssistant:"};
     
     // Run inference
-    auto response = llm_engine_->infer(request);
+    auto response = llm_wrapper_->infer(request);
     
     if (!response.success) {
         return "I'm sorry, I encountered an error processing your request.";
@@ -471,7 +478,7 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
     request.max_tokens = 512;
     request.temperature = 0.5f;
     
-    auto response = llm_engine_->infer(request);
+    auto response = llm_wrapper_->infer(request);
     
     if (response.success) {
         return response.text;
@@ -496,7 +503,7 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
     request.max_tokens = 512;
     request.temperature = 0.5f;
     
-    auto response = llm_engine_->infer(request);
+    auto response = llm_wrapper_->infer(request);
     
     if (response.success) {
         // Parse bullet points from response
@@ -534,7 +541,7 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
     request.max_tokens = 512;
     request.temperature = 0.5f;
     
-    auto response = llm_engine_->infer(request);
+    auto response = llm_wrapper_->infer(request);
     
     if (response.success) {
         // Parse action items from response

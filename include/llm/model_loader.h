@@ -7,6 +7,8 @@
 #include <chrono>
 #include <mutex>
 #include <optional>
+#include <future>
+#include <thread>
 
 /**
  * @file model_loader.h
@@ -79,6 +81,10 @@ public:
         int default_n_gpu_layers = 32;
         int default_n_ctx = 4096;
         bool use_mmap = true;
+        
+        // GGUF Loader preference (security - embedded safetensor)
+        bool prefer_custom_gguf_loader = true;  // Prefer custom GGUFLoader over native llama.cpp
+        bool fallback_to_native = true;          // Fallback to llama_load_model_from_file() on error
     };
     
     explicit LazyModelLoader(const Config& config);
@@ -197,6 +203,9 @@ private:
     
     std::unordered_map<std::string, std::unique_ptr<CachedModel>> models_;
     mutable std::mutex mutex_;
+    
+    // Async loading tracking
+    std::unordered_map<std::string, std::future<CachedModel*>> pending_loads_;
     
     // Statistics
     size_t total_vram_mb_ = 0;
