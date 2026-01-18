@@ -4,6 +4,7 @@
 #include "llm/lora_framework/data_loader.h"
 #include "llm/lora_framework/llama_tokenizer.h"
 #include "llm/lora_framework/base_model_adapter.h"
+#include "llm/lora_framework/embedding_provider.h"
 #include "llm/lora_framework/mixed_precision.h"
 #include "llm/lora_framework/lr_scheduler.h"
 #include "llm/lora_framework/gradient_utils.h"
