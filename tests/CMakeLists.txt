@@ -1244,6 +1244,34 @@ else()
 endif()
 
 # ============================================================================
+# Base Interfaces Tests (Phase 1: Dependency Inversion)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+    message(STATUS "Adding base interfaces tests")
+    
+    add_executable(test_base_interfaces
+        test_base_interfaces.cpp
+    )
+    
+    target_link_libraries(test_base_interfaces PRIVATE
+        ${TEST_LIBS}
+    )
+    
+    target_compile_definitions(test_base_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME BaseInterfacesTests COMMAND test_base_interfaces)
+    
+    # Set test properties
+    set_tests_properties(BaseInterfacesTests PROPERTIES
+        LABELS "base;interfaces;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Base interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
 # Auth Middleware Tests
 # ============================================================================
 
