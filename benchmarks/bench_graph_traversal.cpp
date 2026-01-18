@@ -409,4 +409,286 @@ BENCHMARK_REGISTER_F(GraphTraversalBenchmarkFixture, DiameterEstimation)
     ->Args({1000, 4})
     ->Unit(benchmark::kMillisecond);
 
+// ============================================================================
+// Benchmark: General Graph Traversal (New Feature)
+// Tests the QueryEngine::executeGeneralTraversal implementation
+// ============================================================================
+
+#include "query/query_engine.h"
+#include "index/secondary_index.h"
+
+class GeneralTraversalBenchmarkFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& state) override {
+        test_db_path_ = "./data/bench_general_traversal_tmp";
+        if (std::filesystem::exists(test_db_path_)) {
+            std::filesystem::remove_all(test_db_path_);
+        }
+        
+        RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        config.memtable_size_mb = 256;
+        config.block_cache_size_mb = 512;
+        
+        db_ = std::make_unique<RocksDBWrapper>(config);
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open database");
+        }
+        
+        sec_idx_ = std::make_unique<SecondaryIndexManager>(*db_);
+        graph_mgr_ = std::make_unique<GraphIndexManager>(*db_);
+        query_engine_ = std::make_unique<QueryEngine>(*db_, *sec_idx_, *graph_mgr_);
+        
+        graph_size_ = state.range(0);
+        avg_degree_ = state.range(1);
+        buildTestGraph(graph_size_, avg_degree_);
+    }
+    
+    void TearDown(const ::benchmark::State& /*state*/) override {
+        query_engine_.reset();
+        graph_mgr_.reset();
+        sec_idx_.reset();
+        db_->close();
+        db_.reset();
+        
+        if (std::filesystem::exists(test_db_path_)) {
+            std::filesystem::remove_all(test_db_path_);
+        }
+    }
+    
+    void buildTestGraph(int num_nodes, int avg_degree) {
+        std::mt19937 rng(42);
+        
+        for (int i = 0; i < num_nodes; i++) {
+            node_ids_.push_back("node_" + std::to_string(i));
+        }
+        
+        std::uniform_int_distribution<int> node_dist(0, num_nodes - 1);
+        
+        for (int i = 0; i < num_nodes; i++) {
+            int edges_to_add = avg_degree / 2 + (rng() % (avg_degree / 2 + 1));
+            
+            for (int j = 0; j < edges_to_add; j++) {
+                int target = node_dist(rng);
+                if (target != i) {
+                    std::string edge_id = "edge_" + std::to_string(i) + "_" + std::to_string(target);
+                    
+                    BaseEntity edge(edge_id);
+                    edge.setField("id", edge_id);
+                    edge.setField("_from", node_ids_[i]);
+                    edge.setField("_to", node_ids_[target]);
+                    edge.setField("_graph", "default");
+                    edge.setField("_weight", 1.0 + (rng() % 10));
+                    
+                    auto st = graph_mgr_->addEdge(edge);
+                    if (!st.ok) {
+                        throw std::runtime_error("Failed to add edge: " + st.message);
+                    }
+                }
+            }
+        }
+    }
+    
+protected:
+    std::string test_db_path_;
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sec_idx_;
+    std::unique_ptr<GraphIndexManager> graph_mgr_;
+    std::unique_ptr<QueryEngine> query_engine_;
+    std::vector<std::string> node_ids_;
+    int graph_size_;
+    int avg_degree_;
+};
+
+// Benchmark: General Traversal - OUTBOUND direction
+BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalOutbound)(benchmark::State& state) {
+    if (node_ids_.empty()) {
+        state.SkipWithError("No nodes in graph");
+        return;
+    }
+    
+    std::string start_node = node_ids_[0];
+    int depth = state.range(2);
+    
+    for (auto _ : state) {
+        auto [status, results] = query_engine_->executeGeneralTraversal(
+            "v",
+            start_node,
+            1,        // minDepth
+            depth,    // maxDepth
+            TraversalDirection::OUTBOUND,
+            "default"
+        );
+        
+        if (!status.ok) {
+            state.SkipWithError("Traversal failed: " + status.message);
+        }
+        
+        benchmark::DoNotOptimize(results);
+    }
+    
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["avg_degree"] = avg_degree_;
+    state.counters["max_depth"] = depth;
+}
+
+BENCHMARK_REGISTER_F(GeneralTraversalBenchmarkFixture, GeneralTraversalOutbound)
+    ->Args({100, 4, 2})      // 100 nodes, degree 4, depth 2
+    ->Args({100, 4, 3})      // 100 nodes, degree 4, depth 3
+    ->Args({1000, 4, 2})     // 1K nodes, depth 2
+    ->Args({1000, 4, 3})     // 1K nodes, depth 3
+    ->Args({10000, 4, 2})    // 10K nodes, depth 2
+    ->Args({10000, 4, 3})    // 10K nodes, depth 3 (target from spec)
+    ->Args({1000, 20, 2})    // Dense graph, depth 2
+    ->Args({1000, 20, 3})    // Dense graph, depth 3
+    ->Unit(benchmark::kMillisecond);
+
+// Benchmark: General Traversal - INBOUND direction
+BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalInbound)(benchmark::State& state) {
+    if (node_ids_.empty()) {
+        state.SkipWithError("No nodes in graph");
+        return;
+    }
+    
+    std::string start_node = node_ids_[node_ids_.size() / 2];
+    int depth = state.range(2);
+    
+    for (auto _ : state) {
+        auto [status, results] = query_engine_->executeGeneralTraversal(
+            "v",
+            start_node,
+            1,
+            depth,
+            TraversalDirection::INBOUND,
+            "default"
+        );
+        
+        if (!status.ok) {
+            state.SkipWithError("Traversal failed: " + status.message);
+        }
+        
+        benchmark::DoNotOptimize(results);
+    }
+    
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["max_depth"] = depth;
+}
+
+BENCHMARK_REGISTER_F(GeneralTraversalBenchmarkFixture, GeneralTraversalInbound)
+    ->Args({100, 4, 2})
+    ->Args({1000, 4, 2})
+    ->Args({10000, 4, 2})
+    ->Unit(benchmark::kMillisecond);
+
+// Benchmark: General Traversal - ANY direction (bidirectional)
+BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalAny)(benchmark::State& state) {
+    if (node_ids_.empty()) {
+        state.SkipWithError("No nodes in graph");
+        return;
+    }
+    
+    std::string start_node = node_ids_[node_ids_.size() / 2];
+    int depth = state.range(2);
+    
+    for (auto _ : state) {
+        auto [status, results] = query_engine_->executeGeneralTraversal(
+            "v",
+            start_node,
+            1,
+            depth,
+            TraversalDirection::ANY,
+            "default"
+        );
+        
+        if (!status.ok) {
+            state.SkipWithError("Traversal failed: " + status.message);
+        }
+        
+        benchmark::DoNotOptimize(results);
+    }
+    
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["max_depth"] = depth;
+}
+
+BENCHMARK_REGISTER_F(GeneralTraversalBenchmarkFixture, GeneralTraversalAny)
+    ->Args({100, 4, 2})
+    ->Args({1000, 4, 2})
+    ->Args({10000, 4, 2})
+    ->Unit(benchmark::kMillisecond);
+
+// Benchmark: General Traversal with Depth Filtering (minDepth > 0)
+BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalDepthFilter)(benchmark::State& state) {
+    if (node_ids_.empty()) {
+        state.SkipWithError("No nodes in graph");
+        return;
+    }
+    
+    std::string start_node = node_ids_[0];
+    
+    for (auto _ : state) {
+        auto [status, results] = query_engine_->executeGeneralTraversal(
+            "v",
+            start_node,
+            2,        // minDepth = 2 (filter out depth 0 and 1)
+            3,        // maxDepth = 3
+            TraversalDirection::OUTBOUND,
+            "default"
+        );
+        
+        if (!status.ok) {
+            state.SkipWithError("Traversal failed: " + status.message);
+        }
+        
+        benchmark::DoNotOptimize(results);
+    }
+    
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+}
+
+BENCHMARK_REGISTER_F(GeneralTraversalBenchmarkFixture, GeneralTraversalDepthFilter)
+    ->Args({100, 4, 0})
+    ->Args({1000, 4, 0})
+    ->Args({10000, 4, 0})
+    ->Unit(benchmark::kMillisecond);
+
+// Benchmark: General Traversal - Large Result Sets
+BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResults)(benchmark::State& state) {
+    if (node_ids_.empty()) {
+        state.SkipWithError("No nodes in graph");
+        return;
+    }
+    
+    std::string start_node = node_ids_[0];
+    
+    for (auto _ : state) {
+        auto [status, results] = query_engine_->executeGeneralTraversal(
+            "v",
+            start_node,
+            0,        // Include start vertex
+            4,        // Deeper traversal
+            TraversalDirection::OUTBOUND,
+            "default"
+        );
+        
+        if (!status.ok) {
+            state.SkipWithError("Traversal failed: " + status.message);
+        }
+        
+        state.counters["result_count"] = results.size();
+        benchmark::DoNotOptimize(results);
+    }
+    
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+}
+
+BENCHMARK_REGISTER_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResults)
+    ->Args({1000, 20, 0})    // Dense graph, large result set
+    ->Unit(benchmark::kMillisecond);
+
 BENCHMARK_MAIN();
