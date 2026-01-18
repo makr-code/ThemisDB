@@ -11,6 +11,7 @@
 #include <sstream>
 #include <random>
 #include <chrono>
+#include <llama.h>
 
 namespace themis {
 namespace llm {
@@ -76,11 +77,14 @@ LlamaCppInferenceEngine::~LlamaCppInferenceEngine() {
 
 bool LlamaCppInferenceEngine::loadModel(const std::string& model_path, 
                                          const std::string& model_name) {
+    spdlog::info("Loading model from path: {}", model_path);
+    
     // Create GGUF loader
     gguf_loader_ = std::make_unique<GGUFLoader>();
     
     // Parse GGUF file
     if (!gguf_loader_->parseFile(model_path)) {
+        spdlog::error("Failed to parse GGUF file");
         return false;
     }
     
@@ -95,8 +99,55 @@ bool LlamaCppInferenceEngine::loadModel(const std::string& model_path,
         }
     }
     
-    model_loaded_ = true;
-    return true;
+    // Initialize llama.cpp model and context
+    try {
+        // Set up model parameters
+        llama_model_params model_params = llama_model_default_params();
+        model_params.n_gpu_layers = config_.n_gpu_layers;
+        model_params.use_mmap = config_.use_mmap;
+        model_params.use_mlock = config_.use_mlock;
+        
+        // Load the model using llama.cpp
+        spdlog::info("Loading llama.cpp model with {} GPU layers", config_.n_gpu_layers);
+        llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+        
+        if (!lmodel) {
+            spdlog::error("Failed to load llama.cpp model");
+            return false;
+        }
+        
+        model_handle_ = lmodel;
+        spdlog::info("✓ llama.cpp model loaded successfully");
+        
+        // Set up context parameters
+        llama_context_params ctx_params = llama_context_default_params();
+        ctx_params.n_ctx = config_.n_ctx;
+        ctx_params.n_batch = config_.n_ctx;  // Use full context as batch size
+        ctx_params.n_threads = config_.n_threads;
+        ctx_params.n_threads_batch = config_.n_threads;
+        
+        // Create context
+        spdlog::info("Creating llama.cpp context (n_ctx={}, n_threads={})", 
+                     config_.n_ctx, config_.n_threads);
+        llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
+        
+        if (!lctx) {
+            spdlog::error("Failed to create llama.cpp context");
+            llama_free_model(lmodel);
+            model_handle_ = nullptr;
+            return false;
+        }
+        
+        context_handle_ = lctx;
+        spdlog::info("✓ llama.cpp context created successfully");
+        
+        model_loaded_ = true;
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception during llama.cpp initialization: {}", e.what());
+        return false;
+    }
 }
 
 bool LlamaCppInferenceEngine::loadModelFromThemisDB(const std::string& model_urn) {
@@ -256,6 +307,21 @@ bool LlamaCppInferenceEngine::loadAdapterFromThemisDB(const std::string& adapter
 }
 
 void LlamaCppInferenceEngine::unloadModel() {
+    spdlog::info("Unloading model: {}", current_model_name_);
+    
+    // Free llama.cpp resources in correct order
+    if (context_handle_) {
+        llama_free(reinterpret_cast<llama_context*>(context_handle_));
+        context_handle_ = nullptr;
+        spdlog::debug("✓ llama.cpp context freed");
+    }
+    
+    if (model_handle_) {
+        llama_free_model(reinterpret_cast<llama_model*>(model_handle_));
+        model_handle_ = nullptr;
+        spdlog::debug("✓ llama.cpp model freed");
+    }
+    
     // Clear all active LoRa adapters before unloading model
     clearAllAdapters();
     
@@ -274,7 +340,7 @@ void LlamaCppInferenceEngine::unloadModel() {
     if (!temp_model_path_.empty() && fs::exists(temp_model_path_)) {
         try {
             fs::remove(temp_model_path_);
-            spdlog::info("Cleaned up temporary model file: {}", temp_model_path_);
+            spdlog::debug("Cleaned up temporary model file: {}", temp_model_path_);
         } catch (const std::exception& e) {
             spdlog::warn("Failed to clean up temporary model file: {}", e.what());
         }
@@ -284,8 +350,6 @@ void LlamaCppInferenceEngine::unloadModel() {
     gguf_loader_.reset();
     current_model_name_.clear();
     model_loaded_ = false;
-    model_handle_ = nullptr;
-    context_handle_ = nullptr;
 }
 
 InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request) {
@@ -295,10 +359,19 @@ InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request
         throw std::runtime_error("No model loaded - cannot perform inference");
     }
     
-    // Validate model handle exists
+    // Validate model handle exists  
     if (!model_handle_ || !gguf_loader_) {
         spdlog::error("Inference requested but model handle is null");
         throw std::runtime_error("Model handle is null - model not properly initialized");
+    }
+    
+    // Cast opaque pointers to llama.cpp types
+    llama_model* lmodel = reinterpret_cast<llama_model*>(model_handle_);
+    llama_context* lctx = reinterpret_cast<llama_context*>(context_handle_);
+    
+    if (!lctx) {
+        spdlog::error("Context handle is null");
+        throw std::runtime_error("Context not initialized");
     }
     
     InferenceResponse response;
@@ -306,35 +379,104 @@ InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request
     response.model_id = request.model_id;
     response.metadata["request_id"] = !request.request_id.empty() ? request.request_id : request.metadata.value("request_id", "");
     
-    // Real inference using GGUF loader and model tensors
-    // This implementation uses the GGUF loader and memory-mapped tensors
-    // for production-ready inference without stub responses
-    
     try {
-        // 1. Tokenize prompt using loaded model
-        // 2. Generate embeddings
-        // 3. Process through transformer layers with PagedAttention KV cache
-        // 4. Generate output tokens
-        // 5. Detokenize
+        auto start_time = std::chrono::high_resolution_clock::now();
         
-        // NOTE: Full llama.cpp integration requires:
-        // - Token vocabulary from GGUF metadata
-        // - Embedding layer computation
-        // - Transformer layer forward pass
-        // - Sampling from logits
-        // - Detokenization back to text
-        //
-        // Current implementation provides the infrastructure (GGUF loading, 
-        // memory mapping, KV cache) but full inference requires additional
-        // integration work with llama.cpp's inference API.
+        // 1. Tokenize prompt using loaded model vocabulary
+        spdlog::debug("Tokenizing prompt: {} chars", request.prompt.length());
+        std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+        spdlog::debug("Tokenized into {} tokens", prompt_tokens.size());
         
-        spdlog::error("Full inference pipeline not yet integrated with llama.cpp");
-        spdlog::error("Model is loaded but inference implementation is incomplete");
-        throw std::runtime_error(
-            "Inference pipeline incomplete - full llama.cpp integration required. "
-            "Model: " + current_model_name_ + ", Tensors loaded: " + 
-            std::to_string(tensor_ptrs_.size())
-        );
+        // 2. Prepare batch for prompt evaluation
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        
+        // 3. Evaluate prompt (populate KV cache)
+        spdlog::debug("Evaluating prompt batch");
+        if (llama_decode(lctx, batch) != 0) {
+            throw std::runtime_error("Failed to evaluate prompt with llama_decode");
+        }
+        
+        // 4. Generate tokens iteratively
+        std::vector<llama_token> generated_tokens;
+        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
+        float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+        
+        // Get vocabulary info for EOS detection
+        const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        llama_token eos_token = llama_vocab_eos(vocab);
+        
+        spdlog::debug("Generating up to {} tokens (vocab size: {}, EOS: {})", 
+                      max_tokens, n_vocab, eos_token);
+        
+        // Track time to first token
+        auto first_token_start = std::chrono::high_resolution_clock::now();
+        bool first_token_recorded = false;
+        
+        for (int i = 0; i < max_tokens; ++i) {
+            // Get logits for the last token
+            float* logits = llama_get_logits_ith(lctx, -1);
+            if (!logits) {
+                throw std::runtime_error("Failed to get logits from context");
+            }
+            
+            // Sample next token using temperature and top_p
+            llama_token next_token = sampleTokenInternal(
+                lctx, lmodel, logits, n_vocab, temperature, top_p
+            );
+            
+            // Check for end of sequence
+            if (next_token == eos_token) {
+                spdlog::debug("Generated EOS token at position {}", i);
+                break;
+            }
+            
+            generated_tokens.push_back(next_token);
+            
+            // Record first token latency
+            if (!first_token_recorded) {
+                auto first_token_end = std::chrono::high_resolution_clock::now();
+                double first_token_ms = std::chrono::duration<double, std::milli>(
+                    first_token_end - first_token_start
+                ).count();
+                response.metadata["first_token_latency_ms"] = std::to_string(first_token_ms);
+                first_token_recorded = true;
+                spdlog::debug("First token latency: {:.2f} ms", first_token_ms);
+            }
+            
+            // Prepare batch with single new token
+            llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+            
+            // Evaluate the new token
+            if (llama_decode(lctx, next_batch) != 0) {
+                spdlog::warn("Failed to decode token {} at position {}", next_token, i);
+                break;
+            }
+        }
+        
+        // 5. Detokenize generated tokens back to text
+        spdlog::debug("Detokenizing {} generated tokens", generated_tokens.size());
+        response.text = detokenizeInternal(lmodel, generated_tokens);
+        
+        // 6. Calculate metrics
+        auto end_time = std::chrono::high_resolution_clock::now();
+        response.tokens_generated = generated_tokens.size();
+        response.inference_time_ms = std::chrono::duration<double, std::milli>(
+            end_time - start_time
+        ).count();
+        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
+        response.tokens_per_second = (response.tokens_generated * 1000.0f) / response.inference_time_ms;
+        
+        // Update statistics
+        stats_.total_tokens_processed += response.tokens_generated;
+        stats_.avg_latency_ms = (stats_.avg_latency_ms + response.inference_time_ms) / 2.0;
+        
+        spdlog::info("Inference complete: {} tokens in {:.2f} ms ({:.2f} tok/s)",
+                     response.tokens_generated, response.inference_time_ms,
+                     response.tokens_per_second);
+        
+        return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference failed for model {}: {}", current_model_name_, e.what());
@@ -344,9 +486,6 @@ InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request
             std::string("Inference error: ") + e.what()
         );
     }
-    
-    // This code path should not be reached due to exception above
-    return response;
 }
 
 std::string LlamaCppInferenceEngine::getModelInfo() const {
@@ -1030,6 +1169,196 @@ std::string LlamaCppInferenceEngine::generateUniqueAdapterId() {
     int random_suffix = dis(gen);
     
     return "adapter_" + std::to_string(now) + "_" + std::to_string(random_suffix);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Private Helper Methods for llama.cpp Integration
+// ═══════════════════════════════════════════════════════════
+
+std::vector<llama_token> LlamaCppInferenceEngine::tokenizeInternal(
+    llama_model* model,
+    const std::string& text,
+    bool add_bos
+) {
+    if (!model) {
+        throw std::runtime_error("Model is null in tokenizeInternal");
+    }
+    
+    const llama_vocab* vocab = llama_model_get_vocab(model);
+    if (!vocab) {
+        throw std::runtime_error("Failed to get vocabulary from model");
+    }
+    
+    // Allocate buffer for tokens (use model context length as max)
+    int32_t n_tokens_max = config_.n_ctx;
+    std::vector<llama_token> tokens(n_tokens_max);
+    
+    // Tokenize the text
+    int32_t n_tokens = llama_tokenize(
+        model,
+        text.c_str(),
+        text.length(),
+        tokens.data(),
+        n_tokens_max,
+        add_bos,  // add_bos
+        false     // special (parse special tokens)
+    );
+    
+    if (n_tokens < 0) {
+        // Buffer was too small, need larger buffer
+        n_tokens_max = -n_tokens;
+        tokens.resize(n_tokens_max);
+        
+        n_tokens = llama_tokenize(
+            model,
+            text.c_str(),
+            text.length(),
+            tokens.data(),
+            n_tokens_max,
+            add_bos,
+            false
+        );
+    }
+    
+    if (n_tokens < 0) {
+        throw std::runtime_error("Tokenization failed even with expanded buffer");
+    }
+    
+    // Resize to actual number of tokens
+    tokens.resize(n_tokens);
+    
+    return tokens;
+}
+
+std::string LlamaCppInferenceEngine::detokenizeInternal(
+    llama_model* model,
+    const std::vector<llama_token>& tokens
+) {
+    if (!model) {
+        throw std::runtime_error("Model is null in detokenizeInternal");
+    }
+    
+    std::string result;
+    result.reserve(tokens.size() * 4); // Estimate 4 chars per token
+    
+    for (llama_token token : tokens) {
+        // Get token piece (text representation)
+        char buf[256];
+        int32_t n_chars = llama_token_to_piece(
+            model,
+            token,
+            buf,
+            sizeof(buf),
+            0,      // lstrip (no leading space stripping)
+            false   // special (don't render special tokens)
+        );
+        
+        if (n_chars < 0) {
+            // Buffer too small, allocate larger one
+            std::vector<char> large_buf(-n_chars);
+            n_chars = llama_token_to_piece(
+                model,
+                token,
+                large_buf.data(),
+                large_buf.size(),
+                0,
+                false
+            );
+            
+            if (n_chars > 0) {
+                result.append(large_buf.data(), n_chars);
+            }
+        } else if (n_chars > 0) {
+            result.append(buf, n_chars);
+        }
+    }
+    
+    return result;
+}
+
+llama_token LlamaCppInferenceEngine::sampleTokenInternal(
+    llama_context* ctx,
+    llama_model* model,
+    float* logits,
+    int n_vocab,
+    float temperature,
+    float top_p
+) {
+    if (!ctx || !model || !logits) {
+        throw std::runtime_error("Null parameters in sampleTokenInternal");
+    }
+    
+    // Apply temperature
+    if (temperature > 0.0f && temperature != 1.0f) {
+        for (int i = 0; i < n_vocab; ++i) {
+            logits[i] /= temperature;
+        }
+    }
+    
+    // Convert logits to probabilities using softmax
+    std::vector<float> probs(n_vocab);
+    float max_logit = *std::max_element(logits, logits + n_vocab);
+    
+    // Softmax with numerical stability
+    float sum = 0.0f;
+    for (int i = 0; i < n_vocab; ++i) {
+        probs[i] = std::exp(logits[i] - max_logit);
+        sum += probs[i];
+    }
+    
+    for (int i = 0; i < n_vocab; ++i) {
+        probs[i] /= sum;
+    }
+    
+    // Top-p (nucleus) sampling
+    if (top_p < 1.0f) {
+        // Create pairs of (probability, token_id) and sort by probability
+        std::vector<std::pair<float, int>> prob_idx;
+        prob_idx.reserve(n_vocab);
+        for (int i = 0; i < n_vocab; ++i) {
+            prob_idx.emplace_back(probs[i], i);
+        }
+        
+        std::sort(prob_idx.begin(), prob_idx.end(),
+                  [](const auto& a, const auto& b) { return a.first > b.first; });
+        
+        // Accumulate probabilities until we reach top_p
+        float cumsum = 0.0f;
+        size_t cutoff = 0;
+        for (size_t i = 0; i < prob_idx.size(); ++i) {
+            cumsum += prob_idx[i].first;
+            cutoff = i + 1;
+            if (cumsum >= top_p) {
+                break;
+            }
+        }
+        
+        // Zero out probabilities outside top-p
+        for (int i = 0; i < n_vocab; ++i) {
+            probs[i] = 0.0f;
+        }
+        for (size_t i = 0; i < cutoff; ++i) {
+            probs[prob_idx[i].second] = prob_idx[i].first;
+        }
+        
+        // Renormalize
+        sum = 0.0f;
+        for (int i = 0; i < n_vocab; ++i) {
+            sum += probs[i];
+        }
+        if (sum > 0.0f) {
+            for (int i = 0; i < n_vocab; ++i) {
+                probs[i] /= sum;
+            }
+        }
+    }
+    
+    // Sample from the distribution
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::discrete_distribution<> dist(probs.begin(), probs.end());
+    
+    return static_cast<llama_token>(dist(gen));
 }
 
 } // namespace llm

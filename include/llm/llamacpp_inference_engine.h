@@ -143,6 +143,27 @@ private:
     void cleanupTempAdapterFiles();
     bool saveAdapterToTempFile(const std::string& temp_path, const lora::AdapterWeights& weights);
     std::string generateUniqueAdapterId();  // Generate unique ID for temp files
+    
+    // llama.cpp integration helper methods
+    std::vector<int32_t> tokenizeInternal(
+        void* model,  // llama_model*
+        const std::string& text,
+        bool add_bos
+    );
+    
+    std::string detokenizeInternal(
+        void* model,  // llama_model*
+        const std::vector<int32_t>& tokens
+    );
+    
+    int32_t sampleTokenInternal(
+        void* ctx,      // llama_context*
+        void* model,    // llama_model*
+        float* logits,
+        int n_vocab,
+        float temperature,
+        float top_p
+    );
 };
 
 } // namespace llm
