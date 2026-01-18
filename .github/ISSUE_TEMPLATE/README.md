@@ -1,8 +1,87 @@
-# GitHub Issues Templates für ThemisDB Kompendium
+# GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt und für die LoRA-Trainings-Implementation.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, und RAG-Enhancements.
 
 ## Verfügbare Templates
+
+### 🆕 RAG Enhancement Templates (2026-01-18)
+
+#### rag-meta-tracking.md (Meta Issue - Tracking)
+**Status:** Active  
+**Description:** Master tracking issue for complete RAG enhancements implementation  
+**Scope:** Knowledge Gap Detector + LLM-as-Judge + Ethics Integration  
+**Duration:** 35-45 weeks total
+
+#### rag-knowledge-gap-phase1.md (Phase 1 - 🟡 READY)
+**For:** Grundlegende Gap Detection (Similarity, Aspects, Metrics)  
+**Priority:** P1 (High)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `area:api`, `effort:large`, `phase:1`
+
+**Key Tasks:**
+- Similarity-basierte Erkennung mit VectorIndexManager
+- Query-Aspekt-Analyse (NER, Coverage, Missing-Aspects)
+- Document Count & Metadata-basierte Filterung
+- 12 Unit Tests + Integration Tests
+
+#### rag-knowledge-gap-phase2.md (Phase 2 - ⚪ PLANNED)
+**For:** LLM-basierte Konfidenzmetriken  
+**Priority:** P1 (High)  
+**Effort:** 3-4 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `effort:x-large`, `phase:2`
+
+**Key Tasks:**
+- Token-Probability Tracking & Perplexity
+- Self-Consistency Check (Multiple Sampling)
+- FLARE-Style Active Retrieval
+- 11 Unit Tests + Performance Tests
+
+#### rag-judge-phase1.md (Phase 1 - 🟡 READY)
+**For:** Core Judge Framework & Prompt Engineering  
+**Priority:** P1 (High)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `area:api`, `effort:large`, `phase:1`
+
+**Key Tasks:**
+- Core Judge Framework mit LLM-Integration
+- Prompt-Engineering für 4 Dimensionen (Faithfulness, Relevance, Completeness, Coherence)
+- Response-Parsing (JSON + Fallback)
+- Configuration-System
+
+#### rag-judge-phase2.md (Phase 2 - ⚪ PLANNED)
+**For:** Multi-Dimension Evaluation Implementation  
+**Priority:** P1 (High)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `effort:large`, `phase:2`
+
+**Key Tasks:**
+- Faithfulness-Evaluation (Claim-Extraktion, NLI, Citation)
+- Relevance-Evaluation (Reverse-Questions, Intent, Noise)
+- Completeness-Evaluation (Aspect-Coverage, Depth, Missing-Info)
+- Coherence-Evaluation (Logical-Flow, Structure, Language)
+- 16+ Unit Tests + Human Correlation Studies
+
+#### rag-ethics-integration.md (Integration - 🟡 READY)
+**For:** Ethical Compliance Dimension & Ethics Module Integration  
+**Priority:** P1 (High)  
+**Effort:** 6-8 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:llm`, `area:security`, `effort:x-large`, `phase:integration`
+
+**Key Tasks:**
+- ETHICAL_COMPLIANCE als 5. Dimension mit VETO-POWER
+- Autonomy Respect (40%), Moral Diversity (30%), Citation Quality (30%)
+- ETHICAL_PERSPECTIVE_GAP Detection
+- Integration mit Ethical Guidelines Manager
+- LLMMetaAnalyzer Shared Base Class
+- UN Human Rights Compliance
+
+**Benefits:**
+- Prevents patronizing language
+- Ensures multi-perspective representation
+- Enforces source attribution for moral claims
+- Aligns with Constitutional AI principles
+
+---
 
 ### 📖 Kompendium Templates
 
