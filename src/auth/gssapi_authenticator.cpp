@@ -4,6 +4,12 @@
 #include <sstream>
 #include <cstring>
 
+#ifdef _WIN32
+#ifndef MICROSOFT_KERBEROS_NAME_A
+#define MICROSOFT_KERBEROS_NAME_A "Kerberos"
+#endif
+#endif
+
 #ifndef _WIN32
 #include <krb5.h>
 #endif
@@ -164,9 +170,17 @@ GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token
     
     // Map principal to roles
     auto roles = mapPrincipalToRoles(principal_name);
-    
+
+    std::string roles_str;
+    for (size_t i = 0; i < roles.size(); ++i) {
+        if (i > 0) {
+            roles_str += ", ";
+        }
+        roles_str += roles[i];
+    }
+
     THEMIS_INFO("Authenticated Kerberos principal: {} with roles: [{}]",
-               principal_name, fmt::join(roles, ", "));
+               principal_name, roles_str);
     
     return GSSAPIAuthResult::Success(principal_name, roles);
 }

@@ -1265,7 +1265,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/auth/jwt_validator.cpp
-    $<$<BOOL:${THEMIS_ENABLE_KERBEROS}>:../src/auth/gssapi_authenticator.cpp>
+    ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
@@ -1768,6 +1768,10 @@ target_link_libraries(themis_core
     OpenSSL::Crypto
     TBB::tbb
 )
+
+if(WIN32)
+    target_link_libraries(themis_core PUBLIC Secur32)
+endif()
 
 # Link libzip (for archive and office processing)
 if(libzip_FOUND)
