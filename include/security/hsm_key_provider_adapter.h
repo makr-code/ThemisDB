@@ -84,7 +84,12 @@ public:
      */
     explicit HSMKeyProviderAdapter(
         std::shared_ptr<HSMProvider> hsm,
-        const Config& config = Config{}
+        const Config& config
+    );
+    
+    /// Constructor with default config
+    explicit HSMKeyProviderAdapter(
+        std::shared_ptr<HSMProvider> hsm
     );
     
     ~HSMKeyProviderAdapter() override = default;

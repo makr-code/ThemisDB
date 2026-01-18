@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <map>
 
 namespace themis {
 namespace modules {

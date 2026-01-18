@@ -337,4 +337,21 @@ void PITRManager::updateProgress(RestoreProgress::Phase phase, const std::string
     }
 }
 
+// Overloaded functions with default options
+PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence) {
+    return restoreToSequence(target_sequence, RestoreOptions{});
+}
+
+PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name) {
+    return restoreToTag(tag_name, RestoreOptions{});
+}
+
+PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
+    return restoreToTimestamp(timestamp_ms, RestoreOptions{});
+}
+
+PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence) const {
+    return previewRestore(target_sequence, RestoreOptions{});
+}
+
 } // namespace themis

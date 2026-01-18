@@ -204,7 +204,7 @@ endif()
 # Kerberos/GSSAPI - PERMANENTLY DISABLED
 # Kerberos is not available on Windows and causes build issues.
 # For Windows deployments, use alternative authentication (LDAP, OAuth2, SAML, etc.)
-if(FALSE)  # Kerberos support removed from build
+if(TRUE)  # Kerberos support - enabled for tests
     # Try to find Kerberos using pkg-config first (most reliable on Unix)
     find_package(PkgConfig QUIET)
     if(PkgConfig_FOUND)
@@ -255,6 +255,10 @@ if(FALSE)  # Kerberos support removed from build
         message(STATUS "            : yum install krb5-devel (RHEL/CentOS)")
         message(STATUS "            : brew install krb5 (macOS)")
         set(THEMIS_ENABLE_KERBEROS OFF)
+    else()
+        # Kerberos was found
+        set(THEMIS_ENABLE_KERBEROS ON)
+        message(STATUS "Kerberos/GSSAPI authentication enabled (THEMIS_ENABLE_KERBEROS=ON)")
     endif()
 else()
     message(STATUS "Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF)")
