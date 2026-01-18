@@ -1504,6 +1504,7 @@ target_include_directories(themis_core
     PUBLIC
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
 )
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)

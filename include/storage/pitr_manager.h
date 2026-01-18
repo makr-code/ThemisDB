@@ -163,7 +163,10 @@ public:
      * - BACKUP_FAILED: Auto-backup creation failed
      * - REPLAY_FAILED: Event replay failed
      */
-    Status restoreToSequence(uint64_t target_sequence, const RestoreOptions& options = {});
+    Status restoreToSequence(uint64_t target_sequence, const RestoreOptions& options);
+    
+    /// Restore to sequence with default options
+    Status restoreToSequence(uint64_t target_sequence);
 
     /**
      * @brief Restore database to a named snapshot tag
@@ -176,7 +179,10 @@ public:
      * - TAG_NOT_FOUND: Tag does not exist
      * - (plus all errors from restoreToSequence)
      */
-    Status restoreToTag(const std::string& tag_name, const RestoreOptions& options = {});
+    Status restoreToTag(const std::string& tag_name, const RestoreOptions& options);
+    
+    /// Restore to tag with default options
+    Status restoreToTag(const std::string& tag_name);
 
     /**
      * @brief Restore database to a specific timestamp
@@ -191,7 +197,10 @@ public:
      * - NO_EVENTS_AT_TIME: No events found at or before timestamp
      * - (plus all errors from restoreToSequence)
      */
-    Status restoreToTimestamp(int64_t timestamp_ms, const RestoreOptions& options = {});
+    Status restoreToTimestamp(int64_t timestamp_ms, const RestoreOptions& options);
+    
+    /// Restore to timestamp with default options
+    Status restoreToTimestamp(int64_t timestamp_ms);
 
     /**
      * @brief Preview restore operation (dry-run)
@@ -205,7 +214,10 @@ public:
      * - Checking affected tables/keys
      * - Validating restore feasibility
      */
-    RestorePreview previewRestore(uint64_t target_sequence, const RestoreOptions& options = {}) const;
+    RestorePreview previewRestore(uint64_t target_sequence, const RestoreOptions& options) const;
+    
+    /// Preview restore with default options
+    RestorePreview previewRestore(uint64_t target_sequence) const;
 
     /**
      * @brief Get current restore progress
