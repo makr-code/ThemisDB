@@ -106,7 +106,6 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             tv.minDepth,
             tv.maxDepth,
             dir,
-            "",  // edge_type (not yet in TraversalQuery)
             tv.graphName.empty() ? "default" : tv.graphName
         );
         

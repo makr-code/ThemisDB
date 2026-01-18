@@ -331,14 +331,14 @@ public:
     std::pair<Status, std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
 
     // General graph traversal (non-shortest path)
-    // Performs BFS/DFS with depth filtering and direction support
+    // Performs BFS with depth filtering and direction support
+    // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
     std::pair<Status, std::vector<TraversalResult>> executeGeneralTraversal(
         const std::string& variable,
         const std::string& startVertex,
         int minDepth,
         int maxDepth,
         TraversalDirection direction,
-        const std::string& edgeType = "",
         const std::string& graphId = "default"
     ) const;
 

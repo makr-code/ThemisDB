@@ -2742,14 +2742,12 @@ QueryEngine::executeGeneralTraversal(
     int minDepth,
     int maxDepth,
     TraversalDirection direction,
-    const std::string& edgeType,
     const std::string& graphId
 ) const {
 	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
 	span.setAttribute("query.start_vertex", startVertex);
 	span.setAttribute("query.min_depth", static_cast<int64_t>(minDepth));
 	span.setAttribute("query.max_depth", static_cast<int64_t>(maxDepth));
-	span.setAttribute("query.edge_type", edgeType);
 	span.setAttribute("query.graph_id", graphId);
 	
 	if (!graphIdx_) {
@@ -2796,6 +2794,7 @@ QueryEngine::executeGeneralTraversal(
 			
 			// Try to load vertex data from storage
 			// Extract table from PK format "collection/id"
+			// Note: Uses standard key format "table:pk" consistent with rest of codebase
 			std::string table;
 			auto slashPos = current.vertex.find('/');
 			if (slashPos != std::string::npos) {
@@ -2854,15 +2853,13 @@ QueryEngine::executeGeneralTraversal(
 			}
 		}
 		
-		// Filter by edge type and graph ID if specified
+		// Filter by graph ID if specified
 		for (const auto& adj : neighbors) {
-			// Filter by edge type
-			if (!edgeType.empty() && adj.graphId != edgeType) {
-				continue;
-			}
-			
-			// Filter by graph ID (if graphId is not default)
-			if (graphId != "default" && adj.graphId != graphId) {
+			// Filter by graph ID - adj.graphId contains the graph namespace
+			// Note: Edge type filtering requires access to GraphIndexManager::getEdgeType_()
+			// which is private. For now, we rely on graphId filtering only.
+			// TODO: Add edge type filtering once exposed in TraversalQuery struct
+			if (!graphId.empty() && graphId != "default" && adj.graphId != graphId) {
 				continue;
 			}
 			
