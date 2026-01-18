@@ -11,6 +11,9 @@
 #include <string>
 #include <vector>
 
+// Forward declaration of llama.cpp types
+typedef int32_t llama_token;
+
 namespace themis {
 namespace llm {
 
@@ -145,7 +148,7 @@ private:
     std::string generateUniqueAdapterId();  // Generate unique ID for temp files
     
     // llama.cpp integration helper methods
-    std::vector<int32_t> tokenizeInternal(
+    std::vector<llama_token> tokenizeInternal(
         void* model,  // llama_model*
         const std::string& text,
         bool add_bos
@@ -153,10 +156,10 @@ private:
     
     std::string detokenizeInternal(
         void* model,  // llama_model*
-        const std::vector<int32_t>& tokens
+        const std::vector<llama_token>& tokens
     );
     
-    int32_t sampleTokenInternal(
+    llama_token sampleTokenInternal(
         void* ctx,      // llama_context*
         void* model,    // llama_model*
         float* logits,

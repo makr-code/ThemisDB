@@ -122,7 +122,7 @@ bool LlamaCppInferenceEngine::loadModel(const std::string& model_path,
         // Set up context parameters
         llama_context_params ctx_params = llama_context_default_params();
         ctx_params.n_ctx = config_.n_ctx;
-        ctx_params.n_batch = config_.n_ctx;  // Use full context as batch size
+        ctx_params.n_batch = std::min(config_.n_ctx, 512);  // Use 512 or context size, whichever is smaller
         ctx_params.n_threads = config_.n_threads;
         ctx_params.n_threads_batch = config_.n_threads;
         
@@ -1354,8 +1354,8 @@ llama_token LlamaCppInferenceEngine::sampleTokenInternal(
     }
     
     // Sample from the distribution
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    thread_local std::random_device rd;
+    thread_local std::mt19937 gen(rd());
     std::discrete_distribution<> dist(probs.begin(), probs.end());
     
     return static_cast<llama_token>(dist(gen));
