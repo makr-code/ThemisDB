@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <rocksdb/merge_operator.h>
 #include <string>

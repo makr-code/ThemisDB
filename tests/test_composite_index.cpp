@@ -806,7 +806,10 @@ TEST_F(CompositeIndexTest, BulkInsertWithCompositeIndexes) {
     std::vector<std::string> values = {"cat0", "active"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("bulk_test", cols, values);
     ASSERT_TRUE(status.ok) << status.message;
-    EXPECT_EQ(keys.size(), 5u); // 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 -> every 20th is active
+    // cat0 occurs at: 0,10,20,30,40,50,60,70,80,90 (10 items)
+    // active (even) at: 0,2,4,6,... (50 items)
+    // Intersection: 0,20,40,60,80 (5 items - every other cat0 is active)
+    EXPECT_EQ(keys.size(), 5u);
 }
 
 TEST_F(CompositeIndexTest, ConcurrentUpdatesOnCompositeIndex) {

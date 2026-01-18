@@ -1,4 +1,4 @@
-﻿#include "storage/merge_operators.h"
+#include "storage/merge_operators.h"
 #include <spdlog/spdlog.h>
 #include <charconv>
 #include <set>
