@@ -81,49 +81,25 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
 }
 
 // QueryExpressionEvaluator implementation
-// NOTE: These methods provide a stub implementation for Phase 3.
-// Full expression evaluation will be integrated in Phase 4 when Storage/Index
-// components are refactored to use the evaluator. For now, Storage/Index continue
-// to use direct QueryEngine methods via legacy pointers.
+// Stubbed: full expression evaluation will be added in a later phase.
 
-std::optional<QueryValue> QueryEngine::QueryExpressionEvaluator::evaluate(
-    std::string_view expression,
-    const RowData& row_data) const {
-    // Stub implementation for Phase 3
-    // Full implementation requires AQL parser integration and will be added in Phase 4
-    // when Storage and Index components are migrated to use this interface
-    return std::nullopt;
-}
-
-bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
-    std::string_view expression,
-    const RowData& row_data) const {
-    // Stub implementation for Phase 3
-    // Until evaluate() is fully implemented, return false to prevent incorrect behavior
-    // Storage and Index continue using legacy evaluation paths via concrete pointers
-    auto result = evaluate(expression, row_data);
-    if (!result.has_value()) return false;
-    
-    // Convert result to boolean
-    if (std::holds_alternative<bool>(*result)) {
-        return std::get<bool>(*result);
-    }
-    if (std::holds_alternative<int64_t>(*result)) {
-        return std::get<int64_t>(*result) != 0;
-    }
-    if (std::holds_alternative<double>(*result)) {
-        return std::get<double>(*result) != 0.0;
-    }
-    if (std::holds_alternative<std::string>(*result)) {
-        return !std::get<std::string>(*result).empty();
-    }
+bool QueryEngine::QueryExpressionEvaluator::evaluate(
+    const std::string& /*expression*/,
+    const void* /*context*/) const {
     return false;
 }
 
-bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view expression) const {
-    // Stub implementation for Phase 3
-    // Return false to indicate evaluation not yet implemented
-    // This prevents misuse until Phase 4 integration is complete
+std::string QueryEngine::QueryExpressionEvaluator::get_expression_type() const {
+    return "aql-stub";
+}
+
+bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
+    std::string_view /*expression*/,
+    const void* /*context*/) const {
+    return false;
+}
+
+bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view /*expression*/) const {
     return false;
 }
 

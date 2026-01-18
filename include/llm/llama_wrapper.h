@@ -10,6 +10,7 @@
 #include "llm/llm_response_cache.h"
 #include "llm/grammar.h"
 #include "llm/grammar_cache.h"
+#include "llm/llamacpp_inference_engine.h"  // provides LLMOutputValidator
 #ifdef THEMIS_ENABLE_VISION
 #include "llm/vision_encoder.h"
 #endif

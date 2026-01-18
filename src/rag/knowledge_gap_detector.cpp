@@ -274,6 +274,17 @@ DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& generated_answer,
     const GenerationContext& context
 ) {
+    // Check for ethical perspective gap first if enabled
+    if (impl_->config.enable_ethical_gap_detection) {
+        auto ethical_result = detectEthicalPerspectiveGap(query, documents);
+        if (ethical_result.gap_detected) {
+            if (impl_->gap_callback) {
+                impl_->gap_callback(ethical_result);
+            }
+            return ethical_result;
+        }
+    }
+    
     // Comprehensive detection based on mode
     switch (impl_->config.mode) {
         case DetectionMode::FAST:
@@ -1217,6 +1228,185 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     // Return empty vector as placeholder
     // Actual implementation would integrate with vector search
     return std::vector<RetrievedDocument>();
+DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
+    const std::string& query,
+    const std::vector<RetrievedDocument>& documents
+) {
+    THEMIS_DEBUG("Detecting ethical perspective gap for query: {}", query);
+    
+    DetectionResult result;
+    result.num_retrieved_docs = documents.size();
+    result.avg_similarity_score = calculateAverageSimilarity(documents);
+    
+    // Check if query has ethical context
+    if (!isEthicalQuery(query)) {
+        // Not an ethical query, no gap
+        result.gap_detected = false;
+        result.gap_type = GapType::NONE;
+        result.confidence_score = 0.9;
+        result.recommendation = FallbackStrategy::NONE;
+        return result;
+    }
+    
+    THEMIS_DEBUG("Ethical context detected in query");
+    
+    // Count ethical perspectives in documents
+    int perspectives_found = countEthicalPerspectives(documents);
+    
+    // Calculate perspective diversity
+    double diversity = calculatePerspectiveDiversity(documents);
+    
+    // Check if we have minimum required perspectives
+    if (perspectives_found < static_cast<int>(impl_->config.min_ethical_perspectives) ||
+        diversity < impl_->config.ethical_diversity_threshold) {
+        
+        result.gap_detected = true;
+        result.gap_type = GapType::ETHICAL_PERSPECTIVE_GAP;
+        result.confidence_score = 0.85;
+        result.recommendation = FallbackStrategy::EXPAND_SEARCH;
+        result.coverage_score = diversity;
+        
+        std::ostringstream explanation;
+        explanation << "Ethical context detected in query, but insufficient "
+                   << "perspective diversity in documents. Found " 
+                   << perspectives_found << " perspectives (minimum: "
+                   << impl_->config.min_ethical_perspectives << "), "
+                   << "diversity score: " << diversity;
+        result.explanation = explanation.str();
+        
+        result.missing_aspects.push_back("Diverse moral philosophical perspectives");
+        result.missing_aspects.push_back("Multiple ethical frameworks representation");
+        
+        THEMIS_INFO("Ethical perspective gap detected: {} perspectives, diversity={}",
+                   perspectives_found, diversity);
+        
+        return result;
+    }
+    
+    // Sufficient ethical perspectives found
+    result.gap_detected = false;
+    result.gap_type = GapType::NONE;
+    result.confidence_score = 0.8;
+    result.recommendation = FallbackStrategy::NONE;
+    result.coverage_score = diversity;
+    
+    return result;
+}
+
+bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
+    // Keywords that indicate ethical/moral queries
+    std::vector<std::string> ethical_keywords = {
+        "should", "ought", "moral", "ethical", "ethics",
+        "right", "wrong", "good", "bad", "justice",
+        "fair", "unfair", "virtue", "duty", "obligation",
+        "value", "principle", "conscience", "responsibility"
+    };
+    
+    std::string lower_query = query;
+    std::transform(lower_query.begin(), lower_query.end(), 
+                  lower_query.begin(), ::tolower);
+    
+    int keyword_count = 0;
+    for (const auto& keyword : ethical_keywords) {
+        if (lower_query.find(keyword) != std::string::npos) {
+            keyword_count++;
+        }
+    }
+    
+    // Query is ethical if it contains N+ ethical keywords (configurable)
+    return keyword_count >= impl_->config.ethical_keyword_threshold;
+}
+
+int KnowledgeGapDetector::countEthicalPerspectives(
+    const std::vector<RetrievedDocument>& docs
+) {
+    // Moral frameworks to look for
+    std::vector<std::string> frameworks = {
+        "utilitarian", "consequentialist", "utility",
+        "deontological", "kant", "duty", "categorical imperative",
+        "virtue", "aristotle", "character",
+        "rights", "human rights", "natural rights",
+        "care ethics", "feminist ethics",
+        "religious", "divine", "faith",
+        "cultural", "relativism"
+    };
+    
+    std::unordered_set<std::string> found_frameworks;
+    
+    for (const auto& doc : docs) {
+        std::string lower_content = doc.content;
+        std::transform(lower_content.begin(), lower_content.end(),
+                      lower_content.begin(), ::tolower);
+        
+        for (const auto& framework : frameworks) {
+            if (lower_content.find(framework) != std::string::npos) {
+                // Group similar frameworks
+                if (framework.find("utilitarian") != std::string::npos ||
+                    framework.find("consequentialist") != std::string::npos ||
+                    framework.find("utility") != std::string::npos) {
+                    found_frameworks.insert("utilitarian");
+                } else if (framework.find("deontological") != std::string::npos ||
+                          framework.find("kant") != std::string::npos ||
+                          framework.find("duty") != std::string::npos) {
+                    found_frameworks.insert("deontological");
+                } else if (framework.find("virtue") != std::string::npos ||
+                          framework.find("aristotle") != std::string::npos ||
+                          framework.find("character") != std::string::npos) {
+                    found_frameworks.insert("virtue");
+                } else if (framework.find("rights") != std::string::npos) {
+                    found_frameworks.insert("rights-based");
+                } else if (framework.find("care") != std::string::npos ||
+                          framework.find("feminist") != std::string::npos) {
+                    found_frameworks.insert("care-ethics");
+                } else if (framework.find("religious") != std::string::npos ||
+                          framework.find("divine") != std::string::npos ||
+                          framework.find("faith") != std::string::npos) {
+                    found_frameworks.insert("religious");
+                } else if (framework.find("cultural") != std::string::npos ||
+                          framework.find("relativism") != std::string::npos) {
+                    found_frameworks.insert("cultural");
+                }
+            }
+        }
+    }
+    
+    return static_cast<int>(found_frameworks.size());
+}
+
+double KnowledgeGapDetector::calculatePerspectiveDiversity(
+    const std::vector<RetrievedDocument>& docs
+) {
+    if (docs.empty()) {
+        return 0.0;
+    }
+    
+    // Count perspectives
+    int perspectives = countEthicalPerspectives(docs);
+    
+    // Calculate diversity score based on number of perspectives
+    // and their distribution across documents
+    double base_score = std::min(1.0, perspectives / 3.0);
+    
+    // Bonus if perspectives are well-distributed across documents
+    // (not all in one document)
+    int docs_with_perspectives = 0;
+    for (const auto& doc : docs) {
+        std::string lower_content = doc.content;
+        std::transform(lower_content.begin(), lower_content.end(),
+                      lower_content.begin(), ::tolower);
+        
+        if (lower_content.find("ethic") != std::string::npos ||
+            lower_content.find("moral") != std::string::npos ||
+            lower_content.find("right") != std::string::npos ||
+            lower_content.find("duty") != std::string::npos) {
+            docs_with_perspectives++;
+        }
+    }
+    
+    double distribution_bonus = 
+        std::min(0.2, docs_with_perspectives / static_cast<double>(docs.size()) * 0.2);
+    
+    return std::min(1.0, base_score + distribution_bonus);
 }
 
 // Factory implementations

@@ -27,6 +27,7 @@ enum class GapType {
     MISSING_ASPECTS,          ///< Query aspects not covered by documents
     CONFLICTING_INFO,         ///< Retrieved documents contain contradictions
     OUTDATED_INFO,           ///< Information may be outdated
+    ETHICAL_PERSPECTIVE_GAP,  ///< Ethical context detected but insufficient diverse perspectives
     NONE                     ///< No gap detected
 };
 
@@ -107,6 +108,13 @@ struct KnowledgeGapConfig {
     double outlier_zscore_threshold = 3.0;       ///< Z-score threshold for outlier detection
     
     // Phase 2: Self-Consistency Check
+    // Ethical perspective gap settings
+    bool enable_ethical_gap_detection = true;    ///< Enable ethical perspective gap detection
+    size_t min_ethical_perspectives = 2;         ///< Minimum diverse perspectives required
+    double ethical_diversity_threshold = 0.6;    ///< Minimum perspective diversity score
+    int ethical_keyword_threshold = 2;           ///< Minimum ethical keywords to classify as ethical query
+    
+    // Advanced options
     bool enable_self_consistency_check = true;   ///< Check answer consistency
     size_t self_consistency_samples = 5;         ///< Number of samples for consistency (3-5)
     std::vector<double> temperature_range = {0.7, 0.8, 0.9}; ///< Temperature variations for generating diverse samples
@@ -236,6 +244,17 @@ public:
     void setGapDetectionCallback(
         std::function<void(const DetectionResult&)> callback
     );
+    
+    /**
+     * @brief Detect ethical perspective gap
+     * @param query User query string
+     * @param documents Retrieved documents
+     * @return Detection result for ethical perspective gap
+     */
+    DetectionResult detectEthicalPerspectiveGap(
+        const std::string& query,
+        const std::vector<RetrievedDocument>& documents
+    );
 
 private:
     struct Impl;
@@ -281,6 +300,10 @@ private:
     std::string reformulateQuery(const std::string& original_query,
                                 const std::string& missing_info);
     std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query);
+    // Ethical gap detection helpers
+    bool isEthicalQuery(const std::string& query);
+    int countEthicalPerspectives(const std::vector<RetrievedDocument>& docs);
+    double calculatePerspectiveDiversity(const std::vector<RetrievedDocument>& docs);
 };
 
 /**
