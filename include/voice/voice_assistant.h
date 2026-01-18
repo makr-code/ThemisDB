@@ -13,7 +13,7 @@
 
 #include "content/stt_processor.h"
 #include "content/tts_processor.h"
-#include "llm/llamacpp_inference_engine.h"
+#include "llm/llama_wrapper.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -206,7 +206,7 @@ private:
     // Processors
     std::unique_ptr<content::STTProcessor> stt_processor_;
     std::unique_ptr<content::TTSProcessor> tts_processor_;
-    std::unique_ptr<llm::LlamaCppInferenceEngine> llm_engine_;
+    std::unique_ptr<llm::LlamaWrapper> llm_wrapper_;  // Changed from LlamaCppInferenceEngine
     
     // Session management
     std::map<std::string, VoiceSession> sessions_;

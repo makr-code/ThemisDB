@@ -2,7 +2,7 @@
  * @file voice_assistant_llm.cpp
  * @brief Voice Assistant LLM Integration Implementation (Issue #4)
  * 
- * Replaces LlamaCppInferenceEngine with EmbeddedLLM for unified interface.
+ * Uses EmbeddedLLM with LlamaWrapper plugin for unified llama.cpp integration.
  * 
  * @author ThemisDB Team / GitHub Copilot
  * @date January 2026
