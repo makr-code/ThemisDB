@@ -651,9 +651,9 @@ public:
                 {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
                 {"damping", ArgType::NUMBER, false, nlohmann::json(0.85), "Damping factor (default 0.85)"},
                 {"iterations", ArgType::INTEGER, false, nlohmann::json(20), "Number of iterations"},
-                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: {format: 'detailed'|'simple', epsilon: 1e-6}"}
+                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: {format: 'detailed'|'simple', epsilon: 1e-6}. 'detailed' returns ARRAY, 'simple' returns OBJECT"}
             },
-            ArgType::ARRAY,
+            ArgType::ARRAY,  // Default return type (detailed format)
             true,
             false,
             {"PAGERANK(edges)", "PAGERANK(edges, 0.85, 100)", "PAGERANK(edges, 0.85, 100, {format: 'simple'})"}

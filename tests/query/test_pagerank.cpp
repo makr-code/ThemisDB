@@ -124,22 +124,22 @@ TEST_F(PageRankFunctionTest, SimpleGraph_DegreeInformation) {
     }
     
     // A: out=2, in=0
-    ASSERT_TRUE(nodeMap.count("A") > 0);
+    ASSERT_TRUE(nodeMap.contains("A"));
     EXPECT_EQ(nodeMap["A"]["out_degree"].get<int64_t>(), 2);
     EXPECT_EQ(nodeMap["A"]["in_degree"].get<int64_t>(), 0);
     
     // B: out=2, in=1
-    ASSERT_TRUE(nodeMap.count("B") > 0);
+    ASSERT_TRUE(nodeMap.contains("B"));
     EXPECT_EQ(nodeMap["B"]["out_degree"].get<int64_t>(), 2);
     EXPECT_EQ(nodeMap["B"]["in_degree"].get<int64_t>(), 1);
     
     // C: out=1, in=2
-    ASSERT_TRUE(nodeMap.count("C") > 0);
+    ASSERT_TRUE(nodeMap.contains("C"));
     EXPECT_EQ(nodeMap["C"]["out_degree"].get<int64_t>(), 1);
     EXPECT_EQ(nodeMap["C"]["in_degree"].get<int64_t>(), 2);
     
     // D: out=0, in=2
-    ASSERT_TRUE(nodeMap.count("D") > 0);
+    ASSERT_TRUE(nodeMap.contains("D"));
     EXPECT_EQ(nodeMap["D"]["out_degree"].get<int64_t>(), 0);
     EXPECT_EQ(nodeMap["D"]["in_degree"].get<int64_t>(), 2);
 }
