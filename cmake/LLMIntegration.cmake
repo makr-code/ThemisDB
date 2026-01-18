@@ -28,6 +28,7 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancements - Knowledge Gap Detection & LLM-as-Judge
         ../src/rag/knowledge_gap_detector.cpp
         ../src/rag/rag_judge.cpp
+        ../src/rag/llm_integration.cpp
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp

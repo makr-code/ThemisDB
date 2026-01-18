@@ -1249,6 +1249,35 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "RAG Judge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge.cpp")
     endif()
+    
+    # LLM Integration Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
+        message(STATUS "Adding LLM Integration tests")
+        
+        add_executable(test_llm_integration
+            test_llm_integration.cpp
+        )
+        
+        target_link_libraries(test_llm_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_llm_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LLMIntegrationTests COMMAND test_llm_integration)
+        
+        set_tests_properties(LLMIntegrationTests PROPERTIES
+            LABELS "rag;llm;integration;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "LLM Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
+    endif()
 endif()
 
 # ============================================================================
