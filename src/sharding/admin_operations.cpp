@@ -73,14 +73,17 @@ nlohmann::json AdminOperations::getTopology() const {
     
     for (const auto& shard : shards) {
         nlohmann::json shard_json = {
-            {"id", shard.id},
-            {"primary_node", shard.primary_node},
-            {"replica_nodes", shard.replica_nodes},
-            {"state", static_cast<int>(shard.state)},
-            {"key_range", {
-                {"start", shard.key_range.start_key},
-                {"end", shard.key_range.end_key}
-            }}
+            {"id", shard.shard_id},
+            {"primary_endpoint", shard.primary_endpoint},
+            {"replica_endpoints", shard.replica_endpoints},
+            {"datacenter", shard.datacenter},
+            {"rack", shard.rack},
+            {"is_healthy", shard.is_healthy},
+            {"token_range", {
+                {"start", shard.token_start},
+                {"end", shard.token_end}
+            }},
+            {"capabilities", shard.capabilities}
         };
         result["shards"].push_back(shard_json);
     }
@@ -96,21 +99,25 @@ bool AdminOperations::addShard(
         return false;
     }
     
-    // Create shard info
+    // Create shard info matching the expected structure
     ShardInfo shard;
-    shard.id = shard_id;
-    shard.primary_node = endpoint;
-    shard.state = ShardState::ACTIVE;
+    shard.shard_id = shard_id;
+    shard.primary_endpoint = endpoint;
+    shard.is_healthy = true;
+    shard.token_start = 0;  // Would be calculated based on consistent hashing
+    shard.token_end = 0;
+    shard.datacenter = "default";
+    shard.rack = "default";
     
     // Add to topology
-    bool success = topology_->addShard(shard);
+    topology_->addShard(shard);
     
     // Register with metrics if enabled
-    if (success && metrics_) {
+    if (metrics_) {
         metrics_->registerShard(shard_id);
     }
     
-    return success;
+    return true;
 }
 
 bool AdminOperations::removeShard(const std::string& shard_id) {
@@ -118,15 +125,15 @@ bool AdminOperations::removeShard(const std::string& shard_id) {
         return false;
     }
     
-    // Remove from topology
-    bool success = topology_->removeShard(shard_id);
+    // Remove from topology (returns void)
+    topology_->removeShard(shard_id);
     
     // Unregister from metrics if enabled
-    if (success && metrics_) {
+    if (metrics_) {
         metrics_->unregisterShard(shard_id);
     }
     
-    return success;
+    return true;
 }
 
 std::string AdminOperations::triggerRebalance() {

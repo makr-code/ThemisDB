@@ -323,15 +323,16 @@ public:
      * @param status New health status
      */
     void updateShardHealth(const std::string& shard_id, HealthStatus status);
+    
+    /**
+     * @brief Convert health status to string
+     * Utility method for converting HealthStatus enum to string representation
+     */
+    static std::string healthStatusToString(HealthStatus status);
 
 private:
     mutable std::mutex mutex_;
     std::map<std::string, std::unique_ptr<ShardMetrics>> shard_metrics_;
-    
-    /**
-     * @brief Convert health status to string
-     */
-    static std::string healthStatusToString(HealthStatus status);
     
     /**
      * @brief Format metric for Prometheus
