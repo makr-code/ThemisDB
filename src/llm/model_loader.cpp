@@ -221,17 +221,10 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
                 return nullptr;
             }
             
-            // Simulate GGUF parsing progress (in real impl, integrate with GGUFLoader)
-            for (int i = 0; i <= 10; ++i) {
-                if (cancel_token.is_cancelled()) return nullptr;
-                
-                progress.phase_progress = i / 10.0;
-                progress.overall_percent = progress.phase_progress * 20.0;
-                if (progress_cb && i % 5 == 0) progress_cb(progress);
-                
-                // Small delay to show progress (remove in production or make conditional)
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
+            // Report parsing phase progress
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 20.0;
+            if (progress_cb) progress_cb(progress);
             
             // Phase 2: ALLOCATING (20-70%)
             progress.phase = LoadPhase::ALLOCATING;
@@ -251,7 +244,8 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             }
             
             // Perform the actual model load
-            // Note: loadModelInternal is the heavy operation
+            // Note: loadModelInternal is the heavy operation that does the real work
+            // In a full implementation, this would report progress internally
             auto* model = loadModelInternal(model_id, model_path, load_config);
             
             load_lock.unlock();
@@ -265,16 +259,10 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
                 return nullptr;
             }
             
-            // Phase 2 completion (simulate weight allocation progress)
-            for (int i = 0; i <= 10; ++i) {
-                if (cancel_token.is_cancelled()) return nullptr;
-                
-                progress.phase_progress = i / 10.0;
-                progress.overall_percent = 20.0 + (progress.phase_progress * 50.0);
-                if (progress_cb && i % 2 == 0) progress_cb(progress);
-                
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
-            }
+            // Report allocation phase complete
+            progress.phase_progress = 1.0;
+            progress.overall_percent = 70.0;
+            if (progress_cb) progress_cb(progress);
             
             // Phase 3: INITIALIZING (70-100%)
             progress.phase = LoadPhase::INITIALIZING;
@@ -282,17 +270,6 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             progress.overall_percent = 70.0;
             progress.status_msg = "Initializing context...";
             if (progress_cb) progress_cb(progress);
-            
-            // Simulate context initialization progress
-            for (int i = 0; i <= 10; ++i) {
-                if (cancel_token.is_cancelled()) return nullptr;
-                
-                progress.phase_progress = i / 10.0;
-                progress.overall_percent = 70.0 + (progress.phase_progress * 30.0);
-                if (progress_cb && i % 3 == 0) progress_cb(progress);
-                
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
-            }
             
             // Complete
             progress.phase = LoadPhase::INITIALIZING;

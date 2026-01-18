@@ -223,8 +223,9 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     }
     
     // Heuristic 3: Character diversity (low diversity suggests repetition)
+    // Note: This counts bytes, not UTF-8 characters, but is still useful for detecting
+    // repetition patterns in both ASCII and UTF-8 text
     std::unordered_set<char> unique_chars(text.begin(), text.end());
-    // Use text length for normalization (works for both ASCII and UTF-8)
     double char_diversity = static_cast<double>(unique_chars.size()) / 
                            std::max(static_cast<size_t>(1), text.length());
     if (char_diversity < 0.05) {
