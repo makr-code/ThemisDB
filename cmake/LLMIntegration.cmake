@@ -25,6 +25,10 @@ if(THEMIS_ENABLE_LLM)
         # FlashLoRA memory-efficient computation
         ../src/llm/lora_framework/flash_lora.cpp
         
+        # RAG Enhancements - Knowledge Gap Detection & LLM-as-Judge
+        ../src/rag/knowledge_gap_detector.cpp
+        ../src/rag/rag_judge.cpp
+        
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
     )
