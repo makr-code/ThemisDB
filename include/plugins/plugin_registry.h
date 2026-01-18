@@ -107,11 +107,12 @@ public:
             );
         }
         
-        // Call factory and wrap in unique_ptr with correct deleter
+        // Call factory and wrap in unique_ptr 
+        // Note: The factory already returns a unique_ptr that was released,
+        // so we can just use the default deleter here since it's the correct type
         void* raw_ptr = entry.factory();
         return std::unique_ptr<PluginInterface>(
-            static_cast<PluginInterface*>(raw_ptr),
-            entry.deleter
+            static_cast<PluginInterface*>(raw_ptr)
         );
     }
 
