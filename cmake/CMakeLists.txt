@@ -1109,6 +1109,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
+    ../src/core/security_initialization.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
