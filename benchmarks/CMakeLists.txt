@@ -424,6 +424,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance_optimizations")
 endif()
 
 # ============================================================================
+# RAG Ethics Benchmarks
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
+    message(STATUS "Adding RAG Ethics benchmarks")
+    
+    add_executable(bench_rag_ethics
+        bench_rag_ethics.cpp
+    )
+    
+    target_link_libraries(bench_rag_ethics PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(bench_rag_ethics PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_rag_ethics PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_rag_ethics
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+else()
+    message(STATUS "RAG Ethics benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
+endif()
+
+# ============================================================================
 # Benchmark Utilities
 # ============================================================================
 

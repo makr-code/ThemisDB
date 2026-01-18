@@ -2201,6 +2201,11 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
         
+        # RAG Enhancement: Quality Evaluation and Gap Detection
+        ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
+        ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
+        ../src/rag/knowledge_gap_detector.cpp     # Knowledge gap detection
+        
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
