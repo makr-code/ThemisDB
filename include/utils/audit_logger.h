@@ -26,6 +26,16 @@ enum class SecurityEventType {
     UNAUTHORIZED_ACCESS,
     PERMISSION_DENIED,
     
+    // MFA Events (Phase 3)
+    MFA_ENROLLED,
+    MFA_ENABLED,
+    MFA_DISABLED,
+    MFA_TOTP_SUCCESS,
+    MFA_TOTP_FAILED,
+    MFA_RECOVERY_CODE_USED,
+    MFA_RECOVERY_CODES_REGENERATED,
+    MFA_BACKUP_CODES_VIEWED,
+    
     // Privilege Escalation
     PRIVILEGE_ESCALATION_ATTEMPT,
     ROLE_CHANGED,
@@ -53,6 +63,12 @@ enum class SecurityEventType {
     GRAPH_EXPORT,           // Full graph exports
     TEMPORAL_QUERY,         // Historical graph queries
     
+    // GPU/VRAM Security (Phase 2)
+    VRAM_ALLOCATED,
+    VRAM_DEALLOCATED,
+    VRAM_SECURE_CLEAR,
+    GPU_MEMORY_EXHAUSTION,
+    
     // PII Operations
     PII_ACCESSED,
     PII_REVEALED,
@@ -68,6 +84,11 @@ enum class SecurityEventType {
     RATE_LIMIT_EXCEEDED,
     SUSPICIOUS_ACTIVITY,
     INTEGRITY_VIOLATION,
+    
+    // Binary Integrity (Phase 5)
+    BINARY_SIGNATURE_VERIFIED,
+    BINARY_SIGNATURE_FAILED,
+    MANIFEST_UPDATED,
     
     // System Events
     SERVER_STARTED,

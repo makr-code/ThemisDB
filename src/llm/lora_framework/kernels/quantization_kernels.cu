@@ -1,6 +1,7 @@
 #ifdef THEMIS_ENABLE_CUDA
 
 #include "llm/lora_framework/quantization_kernels.h"
+#include "security/vram_secure_clear.h"
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <cuda_fp16.h>

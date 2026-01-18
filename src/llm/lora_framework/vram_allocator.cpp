@@ -1,7 +1,9 @@
 #include "llm/lora_framework/vram_allocator.h"
+#include "security/vram_secure_clear.h"
 #include <algorithm>
 #include <cstring>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -384,25 +386,48 @@ void VRAMAllocator::deallocate_to_backend(void* ptr) {
         return;
     }
     
+    // Find the block size for secure clearing
+    size_t block_size = 0;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& block : memory_pool_) {
+            if (block.ptr == ptr) {
+                block_size = block.size;
+                break;
+            }
+        }
+    }
+    
     switch (backend_) {
 #ifdef THEMIS_ENABLE_CUDA
         case acceleration::BackendType::CUDA:
+            // Securely clear VRAM before freeing
+            if (block_size > 0) {
+                security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
+            }
             cudaFree(ptr);
             break;
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
         case acceleration::BackendType::HIP:
+            // Securely clear VRAM before freeing
+            if (block_size > 0) {
+                security::VRAMSecureClear::secureClearHIP(ptr, block_size);
+            }
             hipFree(ptr);
             break;
 #endif
         
         case acceleration::BackendType::VULKAN:
         case acceleration::BackendType::DIRECTX:
-            // TODO: Implement Vulkan/DirectX deallocation
+            // TODO: Implement Vulkan/DirectX deallocation with secure clear
             break;
             
         case acceleration::BackendType::CPU:
+            if (block_size > 0) {
+                security::VRAMSecureClear::secureClearCPU(ptr, block_size);
+            }
 #ifdef _WIN32
             _aligned_free(ptr);
 #else

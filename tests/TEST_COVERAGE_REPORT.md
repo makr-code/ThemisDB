@@ -153,7 +153,7 @@ This document provides a comprehensive analysis of existing Google Test coverage
 | Schema Encryption | test_schema_encryption.cpp | 12+ | Good coverage ✅ |
 | JWT Validator | test_jwt_validator.cpp | 10+ | Good coverage ✅ |
 | JWT Integration | test_jwt_integration.cpp | 8+ | Good coverage ✅ |
-| Auth Middleware | test_auth_middleware.cpp | 4 | Basic coverage |
+| Auth Middleware | test_auth_middleware.cpp | 20 | Excellent ✅ |
 | CMS Signing | test_cms_signing.cpp | 17 | Excellent ✅ |
 | PKI Client | test_pki_client.cpp | 12+ | Good coverage ✅ |
 | HSM Provider | test_hsm_provider.cpp | 8+ | Good coverage ✅ |
@@ -268,7 +268,7 @@ This document provides a comprehensive analysis of existing Google Test coverage
 | Hybrid Optimizations | test_hybrid_optimizations.cpp | 12+ | Good coverage ✅ |
 | Performance Allocator | test_performance_allocator.cpp | 8+ | Good coverage ✅ |
 | Performance Feature Flags | test_performance_feature_flags.cpp | 6+ | Good coverage ✅ |
-| Huge Pages | test_huge_pages.cpp | 5+ | Basic coverage |
+| Huge Pages | test_huge_pages.cpp | 20 | Excellent ✅ |
 | RCU Index | test_rcu_index.cpp | 10+ | Good coverage ✅ |
 | LIRS Cache | test_lirs_cache.cpp | 8+ | Good coverage ✅ |
 | Concurrent Cache | test_concurrent_cache.cpp | 8 | Good coverage ✅ |
@@ -279,9 +279,9 @@ This document provides a comprehensive analysis of existing Google Test coverage
 
 ### Total Test Coverage
 - **Total Test Files**: 240+ (4 new library integration tests added)
-- **Estimated Total Tests**: 2,065+ (65 new tests added)
+- **Estimated Total Tests**: 2,096+ (31 new tests: 16 Auth Middleware + 15 Huge Pages)
 - **Library Integration Tests**: 157 tests across 10 libraries
-- **Test Code Volume**: ~158,000+ lines
+- **Test Code Volume**: ~160,000+ lines
 
 ### Coverage by Phase
 | Phase | Component Count | Test Files | Coverage | Status |
@@ -297,8 +297,20 @@ This document provides a comprehensive analysis of existing Google Test coverage
 ### High Priority Gaps
 1. ⚠️ **Composite Index** - Only 1 test, needs expansion
 2. ⚠️ **AQL Proximity** - Minimal testing (2 tests)
-3. ⚠️ **Auth Middleware** - Basic coverage (4 tests)
-4. ⚠️ **Huge Pages** - Basic coverage (5 tests)
+
+### Recently Completed Coverage Expansions ✅
+1. ✅ **Auth Middleware** - Expanded from 4 to 20 tests (16 new tests)
+   - Token validation (4 tests)
+   - Authorization/RBAC (4 tests)
+   - Authentication flows (4 tests)
+   - Security edge cases (4 tests)
+   - Integration scenarios (4 tests)
+2. ✅ **Huge Pages** - Expanded from 5 to 20 tests (15 new tests)
+   - Allocation tests (4 tests)
+   - Performance benchmarks (4 tests)
+   - Memory management (4 tests)
+   - Configuration (3 tests)
+   - Integration scenarios (4 tests)
 
 ### Library Integration Completion (Phase 1) ✅ COMPLETED
 All library integration tests now complete:
