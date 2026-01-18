@@ -14,6 +14,7 @@
 #pragma once
 
 #include "function_registry.h"
+#include "index/graph_analytics.h"
 #include <string>
 #include <vector>
 #include <queue>
@@ -117,7 +118,7 @@ public:
         }
         
         // Parse options
-        std::string weightAttribute = "weight";
+        std::string weightAttribute = "";
         if (args.size() > 3 && args[3].is_object()) {
             auto opts = args[3];
             if (opts.contains("weightAttribute") && opts["weightAttribute"].is_string()) {
@@ -125,9 +126,53 @@ public:
             }
         }
         
-        // TODO: Call Yen's algorithm implementation from GraphAnalytics
-        // For now, return empty array as stub
-        return nlohmann::json::array();
+        // Get GraphAnalytics instance from context
+        auto* analytics = ctx.getGraphAnalytics();
+        if (!analytics) {
+            // If no analytics available, return empty (graceful degradation)
+            return nlohmann::json::array();
+        }
+        
+        // Call Yen's algorithm implementation
+        auto [status, paths] = analytics->kShortestPaths(startVertex, endVertex, k, weightAttribute);
+        
+        if (!status.ok) {
+            // Return empty array on error (could also throw exception)
+            return nlohmann::json::array();
+        }
+        
+        // Convert PathInfo results to JSON
+        nlohmann::json result = nlohmann::json::array();
+        for (size_t i = 0; i < paths.size(); ++i) {
+            const auto& path = paths[i];
+            
+            nlohmann::json pathObj = nlohmann::json::object();
+            pathObj["rank"] = i + 1;
+            
+            // Vertices array
+            nlohmann::json vertices = nlohmann::json::array();
+            for (const auto& v : path.vertices) {
+                vertices.push_back(v);
+            }
+            pathObj["vertices"] = vertices;
+            
+            // Edges array (from/to pairs)
+            nlohmann::json edges = nlohmann::json::array();
+            for (const auto& edge : path.edges) {
+                nlohmann::json edgeObj = nlohmann::json::object();
+                edgeObj["from"] = edge.first;
+                edgeObj["to"] = edge.second;
+                edges.push_back(edgeObj);
+            }
+            pathObj["edges"] = edges;
+            
+            pathObj["length"] = path.hop_count;
+            pathObj["distance"] = path.length;
+            
+            result.push_back(pathObj);
+        }
+        
+        return result;
     }
 };
 

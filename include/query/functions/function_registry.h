@@ -8,6 +8,12 @@
 #include <functional>
 #include <stdexcept>
 
+// Forward declarations
+namespace themis {
+    class GraphIndexManager;
+    class GraphAnalytics;
+}
+
 namespace themis {
 namespace query {
 namespace functions {
@@ -184,11 +190,20 @@ public:
     const std::string& userId() const { return user_id_; }
     void setUserId(const std::string& id) { user_id_ = id; }
 
+    // Graph infrastructure access (for graph functions)
+    void setGraphIndexManager(themis::GraphIndexManager* mgr) { graph_mgr_ = mgr; }
+    themis::GraphIndexManager* getGraphIndexManager() const { return graph_mgr_; }
+    
+    void setGraphAnalytics(themis::GraphAnalytics* analytics) { graph_analytics_ = analytics; }
+    themis::GraphAnalytics* getGraphAnalytics() const { return graph_analytics_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
     DocumentLoader doc_loader_;
     std::string user_id_;
+    themis::GraphIndexManager* graph_mgr_ = nullptr;
+    themis::GraphAnalytics* graph_analytics_ = nullptr;
 };
 
 // ============================================================================

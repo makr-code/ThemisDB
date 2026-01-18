@@ -3,6 +3,7 @@
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "query/functions/function_registry.h"
 #include <filesystem>
 #include <cmath>
 #include <chrono>
@@ -393,6 +394,99 @@ TEST_F(KShortestPathsTest, WeightedVsUnweightedDifferentOrder) {
         // Verify that weighted considers actual weights
         EXPECT_LT(paths_weighted[0].length, 10.0) << "Weighted first path should have low weight";
     }
+}
+
+// ============================================================================
+// Function Integration Tests
+// ============================================================================
+
+TEST_F(KShortestPathsTest, FunctionIntegrationWithContext) {
+    buildMultiPathGraph();
+    
+    // Test the K_SHORTEST_PATHS function through FunctionRegistry
+    auto& registry = themis::query::functions::FunctionRegistry::instance();
+    
+    // Create function context with graph analytics
+    themis::query::functions::FunctionContext ctx;
+    ctx.setGraphAnalytics(analytics_.get());
+    
+    // Prepare arguments
+    std::vector<nlohmann::json> args;
+    args.push_back(nlohmann::json("A"));  // start vertex
+    args.push_back(nlohmann::json("E"));  // end vertex
+    args.push_back(nlohmann::json(3));    // k
+    
+    // Call the function
+    auto result = registry.call("K_SHORTEST_PATHS", args, ctx);
+    
+    // Verify result structure
+    ASSERT_TRUE(result.is_array());
+    EXPECT_GT(result.size(), 0) << "Should return at least one path";
+    
+    // Check first path structure
+    if (result.size() > 0) {
+        auto path = result[0];
+        EXPECT_TRUE(path.contains("rank"));
+        EXPECT_TRUE(path.contains("vertices"));
+        EXPECT_TRUE(path.contains("edges"));
+        EXPECT_TRUE(path.contains("length"));
+        EXPECT_TRUE(path.contains("distance"));
+        
+        EXPECT_TRUE(path["vertices"].is_array());
+        EXPECT_TRUE(path["edges"].is_array());
+        EXPECT_EQ(path["rank"], 1);
+    }
+}
+
+TEST_F(KShortestPathsTest, FunctionIntegrationWeightedGraph) {
+    buildWeightedGraph();
+    
+    auto& registry = themis::query::functions::FunctionRegistry::instance();
+    
+    themis::query::functions::FunctionContext ctx;
+    ctx.setGraphAnalytics(analytics_.get());
+    
+    // Test with weight attribute
+    std::vector<nlohmann::json> args;
+    args.push_back(nlohmann::json("A"));
+    args.push_back(nlohmann::json("E"));
+    args.push_back(nlohmann::json(3));
+    
+    nlohmann::json options = nlohmann::json::object();
+    options["weightAttribute"] = "weight";
+    args.push_back(options);
+    
+    auto result = registry.call("K_SHORTEST_PATHS", args, ctx);
+    
+    ASSERT_TRUE(result.is_array());
+    EXPECT_GE(result.size(), 1);
+    
+    // Verify paths are sorted by distance
+    if (result.size() >= 2) {
+        double dist1 = result[0]["distance"].get<double>();
+        double dist2 = result[1]["distance"].get<double>();
+        EXPECT_LE(dist1, dist2) << "Paths should be sorted by distance";
+    }
+}
+
+TEST_F(KShortestPathsTest, FunctionGracefulDegradationWithoutContext) {
+    buildMultiPathGraph();
+    
+    auto& registry = themis::query::functions::FunctionRegistry::instance();
+    
+    // Create context without graph analytics (simulates missing infrastructure)
+    themis::query::functions::FunctionContext ctx;
+    
+    std::vector<nlohmann::json> args;
+    args.push_back(nlohmann::json("A"));
+    args.push_back(nlohmann::json("E"));
+    args.push_back(nlohmann::json(3));
+    
+    // Should not crash, returns empty array
+    auto result = registry.call("K_SHORTEST_PATHS", args, ctx);
+    
+    ASSERT_TRUE(result.is_array());
+    EXPECT_EQ(result.size(), 0) << "Should return empty array when analytics not available";
 }
 
 // ============================================================================
