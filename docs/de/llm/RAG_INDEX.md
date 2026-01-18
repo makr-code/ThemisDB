@@ -4,7 +4,7 @@
 
 | Dokument | Zweck | Zielgruppe |
 |----------|-------|------------|
-| [README.md](../../../src/llm/rag/README.md) | Module overview & quick start | Alle |
+| [README.md](../../../src/rag/README.md) | Module overview & quick start | Alle |
 | [RAG_IMPLEMENTATION_GUIDE.md](RAG_IMPLEMENTATION_GUIDE.md) | Praktische Nutzung & Beispiele | Entwickler |
 | [RAG_ENHANCEMENTS_SUMMARY.md](RAG_ENHANCEMENTS_SUMMARY.md) | Executive summary | Management/PM |
 
@@ -30,14 +30,14 @@
 
 ### Code
 
-3. **[include/llm/rag/knowledge_gap_detector.h](../../../include/llm/rag/knowledge_gap_detector.h)** (256 Zeilen)
+3. **[include/rag/knowledge_gap_detector.h](../../../include/rag/knowledge_gap_detector.h)** (256 Zeilen)
    - 🏛️ Complete API design
    - 📝 Ausführliche Doxygen-Dokumentation
    - 🔄 Multi-level detection interfaces
    - 🏭 Factory pattern
    - 📊 Configuration structs
 
-4. **[src/llm/rag/knowledge_gap_detector.cpp](../../../src/llm/rag/knowledge_gap_detector.cpp)** (364 Zeilen)
+4. **[src/rag/knowledge_gap_detector.cpp](../../../src/rag/knowledge_gap_detector.cpp)** (364 Zeilen)
    - ✅ Basis-Implementierung
    - 📊 Similarity-based detection
    - 🔢 Document count checks
@@ -46,7 +46,7 @@
 
 ### Kernfunktionalität
 
-**Namespace:** `themis::llm::rag::knowledge_gap`
+**Namespace:** `themis::rag::knowledge_gap`
 
 **Features:**
 - ✅ Pre-generation gap detection
@@ -84,7 +84,7 @@
 
 ### Code
 
-7. **[include/llm/rag/rag_judge.h](../../../include/llm/rag/rag_judge.h)** (405 Zeilen)
+7. **[include/rag/rag_judge.h](../../../include/rag/rag_judge.h)** (405 Zeilen)
    - 🏛️ Comprehensive API design
    - 📝 Vollständige Dokumentation
    - 🎯 4-dimension scoring
@@ -92,7 +92,7 @@
    - 📊 Metrics utilities
    - ⚖️ Comparison interfaces
 
-8. **[src/llm/rag/rag_judge.cpp](../../../src/llm/rag/rag_judge.cpp)** (514 Zeilen)
+8. **[src/rag/rag_judge.cpp](../../../src/rag/rag_judge.cpp)** (514 Zeilen)
    - ✅ Complete framework implementation
    - 🎯 Multi-dimension scoring logic
    - 👥 Ensemble voting strategies
@@ -102,7 +102,7 @@
 
 ### Kernfunktionalität
 
-**Namespace:** `themis::llm::rag::judge`
+**Namespace:** `themis::rag::judge`
 
 **Features:**
 - ✅ Multi-dimension scoring framework
@@ -144,7 +144,7 @@
     - 📋 Next Steps für Entwickler
     - 🔗 Hilfreiche Ressourcen
 
-11. **[src/llm/rag/README.md](../../../src/llm/rag/README.md)** (280 Zeilen)
+11. **[src/rag/README.md](../../../src/rag/README.md)** (280 Zeilen)
     - 📖 Module Overview
     - ⚡ Quick Start
     - 🔗 Integration Patterns
@@ -232,7 +232,7 @@
 
 ### Für Entwickler
 → Start: [RAG_IMPLEMENTATION_GUIDE.md](RAG_IMPLEMENTATION_GUIDE.md)  
-→ Code: [src/llm/rag/README.md](../../../src/llm/rag/README.md)  
+→ Code: [src/rag/README.md](../../../src/rag/README.md)  
 → TODOs: [KNOWLEDGE_GAP_DETECTOR_TODO.md](RAG_KNOWLEDGE_GAP_DETECTOR_TODO.md) | [LLM_AS_JUDGE_TODO.md](RAG_LLM_AS_JUDGE_TODO.md)
 
 ### Für Researchers

@@ -3,13 +3,13 @@
  * @brief Implementation of Knowledge Gap Detector for RAG Systems
  */
 
-#include "llm/rag/knowledge_gap_detector.h"
+#include "rag/knowledge_gap_detector.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>
 
-namespace themis::llm::rag::knowledge_gap {
+namespace themis::rag::knowledge_gap {
 
 // Private implementation details
 struct KnowledgeGapDetector::Impl {
@@ -361,4 +361,4 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::create(
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
-} // namespace themis::llm::rag::knowledge_gap
+} // namespace themis::rag::knowledge_gap

@@ -353,7 +353,7 @@ result = evaluate(
 ### 1. Namespace-Struktur
 
 ```cpp
-namespace themis::llm::rag {
+namespace themis::rag {
 namespace judge {
 
 class RAGJudge {
@@ -406,7 +406,7 @@ public:
 };
 
 } // namespace judge
-} // namespace themis::llm::rag
+} // namespace themis::rag
 ```
 
 ### 2. Integration mit ThemisDB-Komponenten

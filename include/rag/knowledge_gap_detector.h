@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace themis::llm::rag::knowledge_gap {
+namespace themis::rag::knowledge_gap {
 
 /**
  * @brief Type of knowledge gap detected
@@ -253,4 +253,4 @@ public:
     static std::unique_ptr<KnowledgeGapDetector> create(const KnowledgeGapConfig& config);
 };
 
-} // namespace themis::llm::rag::knowledge_gap
+} // namespace themis::rag::knowledge_gap

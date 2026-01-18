@@ -276,8 +276,8 @@ Beide Systeme nutzen LLM für Meta-Analyse, aber duplicate Code.
 
 **Lösung - Shared Base Class:**
 ```cpp
-// In include/llm/rag/llm_meta_analyzer.h
-namespace themis::llm::rag {
+// In include/rag/llm_meta_analyzer.h
+namespace themis::rag {
 
 /**
  * @brief Base class for LLM-based meta-analysis
@@ -323,7 +323,7 @@ class EthicalContextAnalyzer : public LLMMetaAnalyzer { ... };
 class QualityJudge : public LLMMetaAnalyzer { ... };
 class GapAnalyzer : public LLMMetaAnalyzer { ... };
 
-} // namespace themis::llm::rag
+} // namespace themis::rag
 ```
 
 ## Implementation TODO

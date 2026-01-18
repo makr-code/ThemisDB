@@ -74,14 +74,14 @@ Beide Komponenten basieren auf aktueller wissenschaftlicher Forschung und Best P
 Beide Komponenten sind in eigenen Namespaces organisiert:
 
 ```
-themis::llm::rag::knowledge_gap  - Knowledge Gap Detector
-themis::llm::rag::judge          - LLM-as-Judge
+themis::rag::knowledge_gap  - Knowledge Gap Detector
+themis::rag::judge          - LLM-as-Judge
 ```
 
 #### Header-Dateien
 
 **Knowledge Gap Detector**
-- **Datei**: `include/llm/rag/knowledge_gap_detector.h`
+- **Datei**: `include/rag/knowledge_gap_detector.h`
 - **Klassen**: 
   - `KnowledgeGapDetector` - Hauptklasse für Gap-Detection
   - `KnowledgeGapDetectorFactory` - Factory für verschiedene Modi
@@ -89,7 +89,7 @@ themis::llm::rag::judge          - LLM-as-Judge
 - **Structs**: `RetrievedDocument`, `GenerationContext`, `DetectionResult`, `KnowledgeGapConfig`
 
 **LLM-as-Judge**
-- **Datei**: `include/llm/rag/rag_judge.h`
+- **Datei**: `include/rag/rag_judge.h`
 - **Klassen**:
   - `RAGJudge` - Hauptklasse für Evaluation
   - `JudgeEnsemble` - Ensemble mehrerer Judges
@@ -101,7 +101,7 @@ themis::llm::rag::judge          - LLM-as-Judge
 #### Implementation-Dateien
 
 **Knowledge Gap Detector**
-- **Datei**: `src/llm/rag/knowledge_gap_detector.cpp`
+- **Datei**: `src/rag/knowledge_gap_detector.cpp`
 - **Status**: Basis-Implementation mit Stubs
 - **Implementiert**:
   - ✅ Similarity-basierte Erkennung
@@ -113,7 +113,7 @@ themis::llm::rag::judge          - LLM-as-Judge
   - ⏳ Self-Consistency (TODO)
 
 **LLM-as-Judge**
-- **Datei**: `src/llm/rag/rag_judge.cpp`
+- **Datei**: `src/rag/rag_judge.cpp`
 - **Status**: Basis-Implementation mit Stubs
 - **Implementiert**:
   - ✅ Multi-Dimension Scoring-Framework
@@ -129,7 +129,7 @@ themis::llm::rag::judge          - LLM-as-Judge
 ### 4. Dokumentation
 
 **README für RAG-Modul**
-- **Datei**: `src/llm/rag/README.md`
+- **Datei**: `src/rag/README.md`
 - **Inhalte**:
   - Übersicht beider Komponenten
   - Schnellstart-Beispiele

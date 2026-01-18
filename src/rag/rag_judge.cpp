@@ -3,14 +3,14 @@
  * @brief Implementation of LLM-as-Judge for RAG System Quality Evaluation
  */
 
-#include "llm/rag/rag_judge.h"
+#include "rag/rag_judge.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
 #include <chrono>
 #include <sstream>
 
-namespace themis::llm::rag::judge {
+namespace themis::rag::judge {
 
 // Private implementation details
 struct RAGJudge::Impl {
@@ -511,4 +511,4 @@ double calculateCalibrationError(
 
 } // namespace metrics
 
-} // namespace themis::llm::rag::judge
+} // namespace themis::rag::judge

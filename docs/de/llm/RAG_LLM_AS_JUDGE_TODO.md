@@ -7,7 +7,7 @@ Dieser Dokument beschreibt die detaillierten Implementierungsschritte für den L
 ## Namespace
 
 ```cpp
-themis::llm::rag::judge
+themis::rag::judge
 ```
 
 ## Phase 1: Grundlegende Judge-Implementierung (2-3 Wochen)

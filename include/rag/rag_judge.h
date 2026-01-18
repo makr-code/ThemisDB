@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace themis::llm::rag::judge {
+namespace themis::rag::judge {
 
 /**
  * @brief Evaluation dimension for scoring
@@ -402,4 +402,4 @@ double calculateCalibrationError(
 
 } // namespace metrics
 
-} // namespace themis::llm::rag::judge
+} // namespace themis::rag::judge

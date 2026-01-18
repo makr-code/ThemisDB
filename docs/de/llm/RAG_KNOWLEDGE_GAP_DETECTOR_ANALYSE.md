@@ -158,7 +158,7 @@ F1-Score = 2 * (Precision * Recall) / (Precision + Recall)
 ### 1. Namespace-Struktur
 
 ```cpp
-namespace themis::llm::rag {
+namespace themis::rag {
 namespace knowledge_gap {
 
 class KnowledgeGapDetector {
@@ -179,7 +179,7 @@ public:
 };
 
 } // namespace knowledge_gap
-} // namespace themis::llm::rag
+} // namespace themis::rag
 ```
 
 ### 2. Integration mit bestehenden ThemisDB-Komponenten

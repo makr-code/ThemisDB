@@ -7,7 +7,7 @@ Dieser Dokument beschreibt die detaillierten Implementierungsschritte für den K
 ## Namespace
 
 ```cpp
-themis::llm::rag::knowledge_gap
+themis::rag::knowledge_gap
 ```
 
 ## Phase 1: Grundlegende Implementierung (2-3 Wochen)

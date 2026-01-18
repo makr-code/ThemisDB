@@ -8,7 +8,7 @@ Diese Guide bietet einen praktischen Einstieg in die Nutzung und Weiterentwicklu
 
 ### 1. Knowledge Gap Detector
 
-**Namespace:** `themis::llm::rag::knowledge_gap`
+**Namespace:** `themis::rag::knowledge_gap`
 
 **Zweck:** Erkennt, wann abgerufene Dokumente nicht ausreichend sind, um eine Benutzeranfrage zuverlässig zu beantworten.
 
@@ -19,7 +19,7 @@ Diese Guide bietet einen praktischen Einstieg in die Nutzung und Weiterentwicklu
 
 ### 2. LLM-as-Judge
 
-**Namespace:** `themis::llm::rag::judge`
+**Namespace:** `themis::rag::judge`
 
 **Zweck:** Bewertet die Qualität von RAG-Antworten auf mehreren Dimensionen.
 
@@ -35,7 +35,7 @@ Diese Guide bietet einen praktischen Einstieg in die Nutzung und Weiterentwicklu
 ```cpp
 #include "llm/rag/knowledge_gap_detector.h"
 
-using namespace themis::llm::rag::knowledge_gap;
+using namespace themis::rag::knowledge_gap;
 
 // 1. Detector erstellen
 auto detector = KnowledgeGapDetectorFactory::createBalanced();
@@ -70,7 +70,7 @@ if (result.gap_detected) {
 ```cpp
 #include "llm/rag/rag_judge.h"
 
-using namespace themis::llm::rag::judge;
+using namespace themis::rag::judge;
 
 // 1. Judge erstellen
 auto judge = RAGJudgeFactory::createBalanced();
@@ -368,7 +368,7 @@ class InferenceEngineEnhanced {
 ## Hilfreiche Ressourcen
 
 ### Code-Beispiele
-- `src/llm/rag/README.md` - Übersicht und Quick Start
+- `src/rag/README.md` - Übersicht und Quick Start
 - Unit-Test-Templates (siehe oben)
 - Integration-Beispiele (siehe oben)
 

@@ -8,7 +8,7 @@ Dieses Verzeichnis enthält erweiterte Komponenten für das Retrieval-Augmented 
 
 ### 1. Knowledge Gap Detector
 
-**Namespace:** `themis::llm::rag::knowledge_gap`
+**Namespace:** `themis::rag::knowledge_gap`
 
 **Zweck:** Erkennt Wissenslücken in abgerufenen Dokumenten, um zu verhindern, dass das System auf Basis unzureichender Informationen antwortet.
 
@@ -20,14 +20,14 @@ Dieses Verzeichnis enthält erweiterte Komponenten für das Retrieval-Augmented 
 - Automatische Fallback-Strategien
 
 **Dateien:**
-- `include/llm/rag/knowledge_gap_detector.h` - Header mit Interface
-- `src/llm/rag/knowledge_gap_detector.cpp` - Implementation
+- `include/rag/knowledge_gap_detector.h` - Header mit Interface
+- `src/rag/knowledge_gap_detector.cpp` - Implementation
 - `docs/de/llm/RAG_KNOWLEDGE_GAP_DETECTOR_ANALYSE.md` - Wissenschaftliche Analyse
 - `docs/de/llm/RAG_KNOWLEDGE_GAP_DETECTOR_TODO.md` - Implementation Roadmap
 
 **Schnellstart:**
 ```cpp
-using namespace themis::llm::rag::knowledge_gap;
+using namespace themis::rag::knowledge_gap;
 
 // Fast detector für Production
 auto detector = KnowledgeGapDetectorFactory::createBalanced();
@@ -51,7 +51,7 @@ if (result.gap_detected) {
 
 ### 2. LLM-as-Judge
 
-**Namespace:** `themis::llm::rag::judge`
+**Namespace:** `themis::rag::judge`
 
 **Zweck:** Bewertet die Qualität von RAG-Antworten auf mehreren Dimensionen (Faithfulness, Relevance, Completeness, Coherence).
 
@@ -64,14 +64,14 @@ if (result.gap_detected) {
 - Bias Mitigation
 
 **Dateien:**
-- `include/llm/rag/rag_judge.h` - Header mit Interface
-- `src/llm/rag/rag_judge.cpp` - Implementation
+- `include/rag/rag_judge.h` - Header mit Interface
+- `src/rag/rag_judge.cpp` - Implementation
 - `docs/de/llm/RAG_LLM_AS_JUDGE_ANALYSE.md` - Wissenschaftliche Analyse
 - `docs/de/llm/RAG_LLM_AS_JUDGE_TODO.md` - Implementation Roadmap
 
 **Schnellstart:**
 ```cpp
-using namespace themis::llm::rag::judge;
+using namespace themis::rag::judge;
 
 // Balanced judge für Standard-Use-Cases
 auto judge = RAGJudgeFactory::createBalanced();
