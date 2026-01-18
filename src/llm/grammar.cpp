@@ -28,8 +28,7 @@ Grammar::Grammar(const std::string& ebnf_text, const std::string& start_symbol)
 
 Grammar::~Grammar() {
     if (grammar_ != nullptr) {
-        // TODO: llama_grammar_free not yet available in stable llama.cpp
-        // llama_grammar_free(grammar_);
+        llama_grammar_free(grammar_);
         grammar_ = nullptr;
     }
 }
@@ -46,10 +45,9 @@ Grammar::Grammar(Grammar&& other) noexcept
 Grammar& Grammar::operator=(Grammar&& other) noexcept {
     if (this != &other) {
         // Free existing grammar
-        // TODO: llama_grammar_free not yet available in stable llama.cpp
-        // if (grammar_ != nullptr) {
-        //     llama_grammar_free(grammar_);
-        // }
+        if (grammar_ != nullptr) {
+            llama_grammar_free(grammar_);
+        }
         
         // Move from other
         grammar_ = other.grammar_;
@@ -85,14 +83,18 @@ llama_grammar* Grammar::getHandle() const {
 bool Grammar::compile() {
     try {
         // Parse EBNF grammar using llama.cpp
-        // TODO: llama_grammar_init not yet available in stable llama.cpp
-        // grammar_ = llama_grammar_init(
-        //     ebnf_text_.c_str(),
-        //     start_symbol_.c_str()
-        // );
+        grammar_ = llama_grammar_init(
+            ebnf_text_.c_str(),
+            start_symbol_.c_str()
+        );
         
-        // For now, mark as successfully compiled even though we can't use grammar constraints
-        spdlog::debug("Grammar constraints requested but not yet implemented in llama.cpp");
+        if (!grammar_) {
+            error_ = "Failed to compile grammar: invalid EBNF syntax or start symbol";
+            spdlog::error("Grammar compilation failed for start symbol: {}", start_symbol_);
+            return false;
+        }
+        
+        spdlog::info("Grammar compiled successfully for start symbol: {}", start_symbol_);
         return true;
         
     } catch (const std::exception& e) {

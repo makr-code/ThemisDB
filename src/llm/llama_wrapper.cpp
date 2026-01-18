@@ -1209,12 +1209,10 @@ llama_token LlamaWrapper::sampleTokenInternal(
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
     if (grammar != nullptr) {
-        // TODO: llama_grammar_sample not yet available in stable llama.cpp
-        // For now, skip grammar filtering and use all candidates
-        // llama_grammar_sample(grammar, ctx, &candidates_p);
+        llama_grammar_sample(grammar, ctx, &candidates_p);
         
-        // After grammar filtering, candidates_p.size may be reduced
-        spdlog::debug("Grammar constraints requested but not yet implemented");
+        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+                     candidates_p.size);
     }
     
     // Apply temperature sampling
@@ -1267,8 +1265,7 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Update grammar state with sampled token (Phase 3.2)
     if (grammar != nullptr) {
-        // TODO: llama_grammar_accept not yet available in stable llama.cpp
-        // llama_grammar_accept(grammar, ctx, sampled_token);
+        llama_grammar_accept(grammar, ctx, sampled_token);
     }
     
     return sampled_token;
