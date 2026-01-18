@@ -1244,6 +1244,74 @@ else()
 endif()
 
 # ============================================================================
+# Shard Durability & Resilience Tests
+# ============================================================================
+
+# Test: Shard Durability
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_durability.cpp")
+    message(STATUS "Adding shard durability tests")
+    
+    add_executable(test_shard_durability
+        test_shard_durability.cpp
+    )
+    
+    target_link_libraries(test_shard_durability PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_shard_durability PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ShardDurabilityTests COMMAND test_shard_durability)
+    
+    set_tests_properties(ShardDurabilityTests PROPERTIES
+        LABELS "sharding;durability;wal;checkpoint"
+        TIMEOUT 180
+    )
+else()
+    message(STATUS "Shard durability tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_durability.cpp")
+endif()
+
+# Test: Shard Resilience
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resilience.cpp")
+    message(STATUS "Adding shard resilience tests")
+    
+    add_executable(test_shard_resilience
+        test_shard_resilience.cpp
+    )
+    
+    target_link_libraries(test_shard_resilience PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_shard_resilience PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ShardResilienceTests COMMAND test_shard_resilience)
+    
+    set_tests_properties(ShardResilienceTests PROPERTIES
+        LABELS "sharding;resilience;partition;quorum"
+        TIMEOUT 180
+    )
+else()
+    message(STATUS "Shard resilience tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resilience.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
