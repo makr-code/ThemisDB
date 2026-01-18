@@ -176,38 +176,46 @@ public:
                 instruction_samples.push_back(inst_sample);
             }
             
-            // Setup DataLoader with tokenizer
-            // Use llama.cpp tokenizer if base model is available, otherwise fall back to SimpleTokenizer
+            // Setup DataLoader with llama.cpp tokenizer
+            // NOTE: llama.cpp tokenizer is REQUIRED for production training
+            // Using SimpleTokenizer would cause tokenization mismatch between training/inference
             std::shared_ptr<ITokenizer> tokenizer;
             
-            if (config_.use_base_model && 
-                !config_.base_model_path.empty() && 
-                std::filesystem::exists(config_.base_model_path)) {
-                try {
-                    spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
-                    tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
-                    
-                    // Log tokenizer info
-                    size_t vocab_size = tokenizer->vocab_size();
-                    spdlog::info("✓ llama.cpp tokenizer loaded (vocab_size={})", vocab_size);
-                    spdlog::info("  BOS token: {}", tokenizer->bos_token_id());
-                    spdlog::info("  EOS token: {}", tokenizer->eos_token_id());
-                    
-                } catch (const std::exception& e) {
-                    spdlog::error("Failed to load llama.cpp tokenizer: {}", e.what());
-                    spdlog::warn("Falling back to SimpleTokenizer");
-                    tokenizer = std::make_shared<SimpleTokenizer>();
-                }
-            } else {
-                if (!config_.use_base_model) {
-                    spdlog::info("Using SimpleTokenizer (base model integration disabled)");
-                } else if (config_.base_model_path.empty()) {
-                    spdlog::info("Using SimpleTokenizer (no base model path configured)");
-                } else {
-                    spdlog::warn("Base model file not found: {}", config_.base_model_path);
-                    spdlog::info("Using SimpleTokenizer as fallback");
-                }
-                tokenizer = std::make_shared<SimpleTokenizer>();
+            // Validate base model path is provided
+            if (config_.base_model_path.empty()) {
+                result.success = false;
+                result.error_message = "base_model_path is required for LoRA training. "
+                    "llama.cpp tokenizer needs model file for correct tokenization. "
+                    "SimpleTokenizer causes train/inference mismatch.";
+                spdlog::error(result.error_message);
+                return result;
+            }
+            
+            if (!std::filesystem::exists(config_.base_model_path)) {
+                result.success = false;
+                result.error_message = "Base model file not found: " + config_.base_model_path + ". "
+                    "llama.cpp tokenizer requires valid GGUF model file.";
+                spdlog::error(result.error_message);
+                return result;
+            }
+            
+            // Load llama.cpp tokenizer from base model
+            try {
+                spdlog::info("Initializing llama.cpp tokenizer from: {}", config_.base_model_path);
+                tokenizer = std::make_shared<LlamaTokenizer>(config_.base_model_path);
+                
+                // Log tokenizer info
+                size_t vocab_size = tokenizer->vocab_size();
+                spdlog::info("✓ llama.cpp tokenizer loaded (vocab_size={})", vocab_size);
+                spdlog::info("  BOS token: {}", tokenizer->bos_token_id());
+                spdlog::info("  EOS token: {}", tokenizer->eos_token_id());
+                
+            } catch (const std::exception& e) {
+                result.success = false;
+                result.error_message = "Failed to load llama.cpp tokenizer: " + std::string(e.what()) + ". "
+                    "Ensure base_model_path points to a valid GGUF model file.";
+                spdlog::error(result.error_message);
+                return result;
             }
             
             DataLoaderConfig loader_config;
@@ -1132,20 +1140,34 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Parameters: {}", gpu_lora_layer->parameter_count());
         spdlog::info("  Device: {}", static_cast<int>(target_device.type));
         
-        // Setup tokenizer
+        // Setup llama.cpp tokenizer (REQUIRED for production training)
         std::shared_ptr<ITokenizer> tokenizer;
-        if (impl_->config_.use_base_model && 
-            !impl_->config_.base_model_path.empty() && 
-            std::filesystem::exists(impl_->config_.base_model_path)) {
-            try {
-                tokenizer = std::make_shared<LlamaTokenizer>(impl_->config_.base_model_path);
-                spdlog::info("Using LlamaTokenizer (vocab_size={})", tokenizer->vocab_size());
-            } catch (const std::exception& e) {
-                spdlog::warn("Failed to load LlamaTokenizer: {}, using SimpleTokenizer", e.what());
-                tokenizer = std::make_shared<SimpleTokenizer>();
-            }
-        } else {
-            tokenizer = std::make_shared<SimpleTokenizer>();
+        
+        // Validate base model path
+        if (impl_->config_.base_model_path.empty()) {
+            result.success = false;
+            result.error_message = "base_model_path is required for GPU training. "
+                "llama.cpp tokenizer needs model file.";
+            spdlog::error(result.error_message);
+            return result;
+        }
+        
+        if (!std::filesystem::exists(impl_->config_.base_model_path)) {
+            result.success = false;
+            result.error_message = "Base model file not found: " + impl_->config_.base_model_path;
+            spdlog::error(result.error_message);
+            return result;
+        }
+        
+        // Load llama.cpp tokenizer
+        try {
+            tokenizer = std::make_shared<LlamaTokenizer>(impl_->config_.base_model_path);
+            spdlog::info("✓ LlamaTokenizer loaded (vocab_size={})", tokenizer->vocab_size());
+        } catch (const std::exception& e) {
+            result.success = false;
+            result.error_message = "Failed to load llama.cpp tokenizer: " + std::string(e.what());
+            spdlog::error(result.error_message);
+            return result;
         }
         
         // Convert training data to instruction samples
