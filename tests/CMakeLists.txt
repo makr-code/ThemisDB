@@ -1313,6 +1313,38 @@ else()
 endif()
 
 # ============================================================================
+# Storage Engine DI Tests (Phase 2)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+    message(STATUS "Adding Storage Engine DI tests")
+    
+    add_executable(test_storage_engine_di
+        test_storage_engine_di.cpp
+    )
+    
+    target_link_libraries(test_storage_engine_di PRIVATE
+        ${TEST_LIBS}
+        GTest::gmock
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_storage_engine_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME StorageEngineDITests COMMAND test_storage_engine_di)
+    
+    set_tests_properties(StorageEngineDITests PROPERTIES
+        LABELS "storage;di;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Storage Engine DI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 

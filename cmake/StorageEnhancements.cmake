@@ -13,4 +13,7 @@ list(APPEND THEMIS_CORE_SOURCES
     
     # Paged optimizer for query performance
     ../src/llm/lora_framework/paged_optimizer.cpp
+    
+    # Storage Engine with Dependency Injection (Phase 2)
+    ../src/storage/storage_engine.cpp
 )
