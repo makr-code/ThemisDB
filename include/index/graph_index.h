@@ -16,6 +16,7 @@
 namespace themis {
 
 class BaseEntity;
+class IExpressionEvaluator;
 
 namespace utils {
     class AuditLogger;
@@ -52,6 +53,12 @@ public:
     
     // Set user context for audit logging
     void setUserContext(std::string user_id);
+    
+    // Phase 4: Set optional expression evaluator for advanced filtering
+    void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
+    
+    // Get expression evaluator
+    std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
 
 
     // Topologie aus RocksDB laden (optional beim Start)
@@ -257,6 +264,9 @@ private:
     // Phase 1: Optional AuditLogger for knowledge graph protection
     std::shared_ptr<utils::AuditLogger> audit_logger_;
     std::string user_context_ = "system";  // Default user context
+    
+    // Phase 4: Optional ExpressionEvaluator for advanced filtering
+    std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
     
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource, 

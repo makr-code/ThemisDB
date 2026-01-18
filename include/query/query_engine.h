@@ -8,8 +8,20 @@
 #include <unordered_map>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include "themis/base/interfaces/storage_interface.h"
+#include "themis/base/interfaces/index_interface.h"
+#include "themis/base/interfaces/query_interface.h"
 
 namespace themis {
+
+// Smart pointer type aliases for dependency injection
+using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
+using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
+using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;
+using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
+using IVectorIndexPtr = std::shared_ptr<IVectorIndex>;
+using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
+using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
 namespace query { struct Expression; struct Query; class CTECache; }
@@ -229,11 +241,71 @@ public:
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
-    
+    // ========================================================================
+    // LEGACY CONSTRUCTORS (Backward Compatibility)
+    // ========================================================================
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx);
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx);
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx,
                 VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx);
+    
+    // ========================================================================
+    // NEW CONSTRUCTORS (Dependency Injection via Interfaces)
+    // ========================================================================
+    
+    /**
+     * @brief Constructor with Dependency Injection via interfaces
+     * 
+     * @param storage        Storage engine for data retrieval (can be nullptr for late binding)
+     * @param index_manager  Index manager for optimization (required)
+     * 
+     * This constructor enables breaking circular dependencies by allowing
+     * late binding of storage via setStorage().
+     */
+    QueryEngine(
+        IStorageEnginePtr storage,
+        IIndexManagerPtr index_manager
+    );
+    
+    /**
+     * @brief Static factory method creating QueryEngine with default implementations
+     * 
+     * Creates a QueryEngine with built-in RocksDBWrapper and SecondaryIndexManager.
+     * This is a convenience method for backward compatibility.
+     * 
+     * @note NOT YET IMPLEMENTED - Will be available in Phase 4 when concrete
+     *       implementations are adapted to interfaces. For now, use legacy constructors
+     *       or QueryEngineBuilder with explicit dependencies.
+     * 
+     * @throws std::runtime_error Currently not implemented
+     * @return Shared pointer to QueryEngine with default dependencies
+     */
+    static std::shared_ptr<QueryEngine> createDefault();
+    
+    /**
+     * @brief Set storage engine (for late binding)
+     * 
+     * Called after QueryEngine is constructed to break circular initialization
+     * dependencies. This enables the pattern:
+     * 
+     * 1. Create QueryEngine with nullptr storage
+     * 2. Create StorageEngine that needs QueryEngine's expression evaluator
+     * 3. Inject storage back into QueryEngine via setStorage()
+     * 
+     * @param storage Storage engine instance
+     */
+    void setStorage(IStorageEnginePtr storage);
+    
+    /**
+     * @brief Provide expression evaluator for Storage and Index to use
+     * 
+     * Returns an evaluator that wraps this QueryEngine's expression evaluation
+     * logic. This breaks the circular dependency by providing a lightweight
+     * interface that Storage and Index can use without depending on QueryEngine.
+     * 
+     * @return Expression evaluator instance
+     */
+    IExpressionEvaluatorPtr get_expression_evaluator();
     
     // Forward declaration for EvaluationContext
     struct EvaluationContext;
@@ -384,11 +456,39 @@ public:
     ) const;
 
 private:
-    RocksDBWrapper& db_;
-    SecondaryIndexManager& secIdx_;
+    RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
+    SecondaryIndexManager* secIdx_ = nullptr;  // Changed from reference to pointer
     GraphIndexManager* graphIdx_ = nullptr;
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
-    SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering // Optional: für Graph-Queries
+    SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
+    
+    // New interface-based dependencies (used with DI constructors)
+    // When these are set, they take precedence over legacy pointers
+    IStorageEnginePtr storage_;
+    IIndexManagerPtr index_manager_;
+    
+    // Internal expression evaluator that wraps QueryEngine's evaluation logic
+    // This is returned by get_expression_evaluator() to break circular dependencies
+    class QueryExpressionEvaluator : public IExpressionEvaluator {
+    public:
+        explicit QueryExpressionEvaluator(QueryEngine* engine) 
+            : engine_(engine) {}
+        
+        std::optional<QueryValue> evaluate(
+            std::string_view expression,
+            const RowData& row_data) const override;
+        
+        bool evaluateBoolean(
+            std::string_view expression,
+            const RowData& row_data) const override;
+        
+        bool canEvaluate(std::string_view expression) const override;
+        
+    private:
+        QueryEngine* engine_;
+        // Note: Implementation is currently a stub for Phase 3
+        // Full evaluation will be added in Phase 4 integration
+    };
     
     // Expression evaluation helpers (implemented in cpp)
     nlohmann::json evaluateExpression(

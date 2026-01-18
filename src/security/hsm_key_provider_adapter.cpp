@@ -31,6 +31,11 @@ HSMKeyProviderAdapter::HSMKeyProviderAdapter(
     spdlog::info("  Caching: {}", config_.enable_caching ? "enabled" : "disabled");
 }
 
+HSMKeyProviderAdapter::HSMKeyProviderAdapter(
+    std::shared_ptr<HSMProvider> hsm
+) : HSMKeyProviderAdapter(hsm, Config{}) {
+}
+
 std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id) {
     // Get latest version
     std::lock_guard<std::mutex> lock(store_mutex_);

@@ -108,9 +108,11 @@ set(THEMIS_SECURITY_SOURCES
 )
 
 set(THEMIS_SHARDING_SOURCES
-    # To be populated post-v1.3.0
-    # src/sharding/*.cpp
     # Distributed system components
+    src/sharding/shard_durability.cpp
+    src/sharding/operational_metrics.cpp
+    src/sharding/admin_operations.cpp
+    # Additional sharding sources can be added here
 )
 
 set(THEMIS_LLM_SOURCES

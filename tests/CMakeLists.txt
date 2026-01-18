@@ -1262,6 +1262,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     )
     
     target_compile_definitions(test_generic_plugin_registry PRIVATE
+# Base Interfaces Tests (Phase 1: Dependency Inversion)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+    message(STATUS "Adding base interfaces tests")
+    
+    add_executable(test_base_interfaces
+        test_base_interfaces.cpp
+    )
+    
+    target_link_libraries(test_base_interfaces PRIVATE
+        ${TEST_LIBS}
+    )
+    
+    target_compile_definitions(test_base_interfaces PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
@@ -1275,6 +1290,145 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     )
 else()
     message(STATUS "Generic plugin registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+    add_test(NAME BaseInterfacesTests COMMAND test_base_interfaces)
+    
+    # Set test properties
+    set_tests_properties(BaseInterfacesTests PROPERTIES
+        LABELS "base;interfaces;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Base interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+# Auth Middleware Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+    message(STATUS "Adding auth middleware tests")
+    
+    add_executable(test_auth_middleware
+        test_auth_middleware.cpp
+    )
+    
+    target_link_libraries(test_auth_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_auth_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME AuthMiddlewareTests COMMAND test_auth_middleware)
+    
+    set_tests_properties(AuthMiddlewareTests PROPERTIES
+        LABELS "auth;middleware;security"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Auth middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+endif()
+
+# ============================================================================
+# Huge Pages Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+    message(STATUS "Adding huge pages tests")
+    
+    add_executable(test_huge_pages
+        test_huge_pages.cpp
+    )
+    
+    target_link_libraries(test_huge_pages PRIVATE
+        ${TEST_LIBS}
+    )
+    
+    target_compile_definitions(test_huge_pages PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    if(THEMIS_ENABLE_HUGE_PAGES)
+        message(STATUS "Huge pages support enabled for test_huge_pages")
+        target_compile_definitions(test_huge_pages PRIVATE
+            THEMIS_USE_HUGE_PAGES=1  # Used by test code to conditionally compile huge pages tests
+        )
+    else()
+        message(STATUS "Huge pages support disabled - tests will skip huge pages allocations")
+    endif()
+    
+    add_test(NAME HugePagesTests COMMAND test_huge_pages)
+    
+    set_tests_properties(HugePagesTests PROPERTIES
+        LABELS "performance;memory;huge_pages"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Huge pages tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_huge_pages.cpp")
+endif()
+
+# ============================================================================
+# Storage Engine DI Tests (Phase 2)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+    message(STATUS "Adding Storage Engine DI tests")
+    
+    add_executable(test_storage_engine_di
+        test_storage_engine_di.cpp
+    )
+    
+    target_link_libraries(test_storage_engine_di PRIVATE
+        ${TEST_LIBS}
+        GTest::gmock
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_storage_engine_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME StorageEngineDITests COMMAND test_storage_engine_di)
+    
+    set_tests_properties(StorageEngineDITests PROPERTIES
+        LABELS "storage;di;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Storage Engine DI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_storage_engine_di.cpp")
+endif()
+
+# ============================================================================
+# IndexManager DI Tests (Phase 4)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
+    message(STATUS "Adding IndexManager DI tests")
+    
+    add_executable(test_index_manager_di
+        test_index_manager_di.cpp
+    )
+    
+    target_link_libraries(test_index_manager_di PRIVATE
+        ${TEST_LIBS}
+        GTest::gmock
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_index_manager_di PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexManagerDITests COMMAND test_index_manager_di)
+    
+    set_tests_properties(IndexManagerDITests PROPERTIES
+        LABELS "index;di;architecture;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "IndexManager DI tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_manager_di.cpp")
 endif()
 
 # ============================================================================
