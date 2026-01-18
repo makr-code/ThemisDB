@@ -77,21 +77,21 @@ TEST_F(StorageEngineWithDITest, ConstructorAcceptsDependencies) {
 
 TEST_F(StorageEngineWithDITest, ThrowsOnNullEvaluator) {
     EXPECT_THROW(
-        StorageEngine(nullptr, mock_encryption_, mock_key_provider_),
+        StorageEngine(nullptr, mock_encryption_, mock_key_provider_, nullptr),
         std::invalid_argument
     );
 }
 
 TEST_F(StorageEngineWithDITest, ThrowsOnNullEncryption) {
     EXPECT_THROW(
-        StorageEngine(mock_evaluator_, nullptr, mock_key_provider_),
+        StorageEngine(mock_evaluator_, nullptr, mock_key_provider_, nullptr),
         std::invalid_argument
     );
 }
 
 TEST_F(StorageEngineWithDITest, ThrowsOnNullKeyProvider) {
     EXPECT_THROW(
-        StorageEngine(mock_evaluator_, mock_encryption_, nullptr),
+        StorageEngine(mock_evaluator_, mock_encryption_, nullptr, nullptr),
         std::invalid_argument
     );
 }
