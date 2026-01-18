@@ -551,12 +551,22 @@ GraphAnalytics::kShortestPaths(
     
     std::vector<PathInfo> A;  // Result: K shortest paths found so far
     
+    // Helper: Path comparator for uniqueness checking
+    auto pathKey = [](const PathInfo& p) -> std::string {
+        std::string key;
+        for (const auto& v : p.vertices) {
+            key += v + "|";
+        }
+        return key;
+    };
+    
     // Helper: Comparator for priority queue (min-heap by length)
     auto pathComparator = [](const PathInfo& a, const PathInfo& b) {
         return a.length > b.length;  // min-heap
     };
     
     std::priority_queue<PathInfo, std::vector<PathInfo>, decltype(pathComparator)> B(pathComparator);
+    std::set<std::string> candidate_keys;  // Track candidate paths to avoid duplicates
     
     // Helper: Compute shortest path using Dijkstra with optional edge exclusions
     auto dijkstra = [&](const std::string& src, const std::string& dst, 
@@ -611,8 +621,12 @@ GraphAnalytics::kShortestPaths(
                     continue;
                 }
                 
-                // Calculate edge weight (TODO: Get actual weight from edge attributes)
-                double edge_weight = 1.0;  // Default: unweighted graph
+                // Calculate edge weight
+                // NOTE: Currently only supports unweighted graphs (all edges have weight 1.0)
+                // TODO: Implement edge attribute retrieval from GraphIndexManager to support
+                //       weighted graphs using the weight_attr parameter. This requires extending
+                //       GraphIndexManager API to retrieve edge properties by (from, to) pair.
+                double edge_weight = 1.0;
                 
                 double new_dist = state.dist + edge_weight;
                 
@@ -704,20 +718,21 @@ GraphAnalytics::kShortestPaths(
                 total_path.length = root_length + spur_path.length;
                 total_path.hop_count = static_cast<int>(total_path.edges.size());
                 
-                // Check if this path is unique
+                // Check if this path is unique (not in A or candidate queue)
+                std::string path_key = pathKey(total_path);
                 bool is_unique = true;
+                
                 for (const auto& existing : A) {
-                    if (existing.vertices == total_path.vertices) {
+                    if (pathKey(existing) == path_key) {
                         is_unique = false;
                         break;
                     }
                 }
                 
-                // Check if already in candidate queue
-                if (is_unique) {
-                    // Note: We can't easily check priority_queue contents, so we may add duplicates
-                    // They will be filtered when popping
+                // Add to candidate queue only if unique
+                if (is_unique && candidate_keys.find(path_key) == candidate_keys.end()) {
                     B.push(total_path);
+                    candidate_keys.insert(path_key);
                 }
             }
         }
@@ -727,25 +742,12 @@ GraphAnalytics::kShortestPaths(
             break;
         }
         
-        // Find best candidate and add to result
+        // Get best candidate and add to result
         PathInfo best_candidate = B.top();
         B.pop();
+        candidate_keys.erase(pathKey(best_candidate));  // Remove from candidate tracking
         
-        // Check for duplicates with existing paths
-        bool is_duplicate = false;
-        for (const auto& existing : A) {
-            if (existing.vertices == best_candidate.vertices) {
-                is_duplicate = true;
-                break;
-            }
-        }
-        
-        if (!is_duplicate) {
-            A.push_back(best_candidate);
-        } else {
-            // Try next candidate
-            k_idx--;
-        }
+        A.push_back(best_candidate);
     }
     
     return {Status::OK(), std::move(A)};
