@@ -662,8 +662,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                     metrics_collector_->recordError("output_validation_failed", "llama_wrapper");
                 }
                 
-                // Optionally throw or return error response
-                // For now, log errors but allow response through with metadata
+                // Add validation errors to response metadata
+                // We don't throw here - instead we let the caller decide how to handle
+                // invalid output. This enables graceful degradation in production.
                 response.metadata["validation_errors"] = validation.errors;
                 response.metadata["validation_valid"] = false;
             }
