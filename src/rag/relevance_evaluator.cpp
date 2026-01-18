@@ -12,6 +12,7 @@
 #include <sstream>
 #include <regex>
 #include <cmath>
+#include <set>
 
 namespace themis::rag::judge {
 
