@@ -980,15 +980,24 @@ public:
                 unique_edges.insert(edge_pair);
             }
         }
+        
+        // Early return for graphs with no edges
+        if (unique_edges.empty()) {
+            nlohmann::json result = nlohmann::json::object();
+            for (const auto& [node, comm] : node_to_comm) {
+                result[node] = comm;
+            }
+            return result;
+        }
+        
         double m = static_cast<double>(unique_edges.size());
-        if (m == 0.0) m = 1.0;  // Avoid division by zero
         
         // Louvain optimization - multiple passes
         bool improved = true;
         int iteration = 0;
-        const int MAX_ITERATIONS = 100;
+        constexpr int MAX_LOUVAIN_ITERATIONS = 100;  // Prevent infinite loops
         
-        while (improved && iteration < MAX_ITERATIONS) {
+        while (improved && iteration < MAX_LOUVAIN_ITERATIONS) {
             improved = false;
             iteration++;
             
@@ -996,17 +1005,17 @@ public:
             for (const auto& node : node_list) {
                 int current_comm = node_to_comm[node];
                 
-                // Collect neighboring communities and edge counts
-                std::unordered_map<int, double> comm_edges;  // edges from node to each community
+                // Collect neighboring communities and edge counts (weighted)
+                std::unordered_map<int, double> comm_edges;  // edge weight from node to each community
                 
-                // Check outgoing neighbors
+                // Check outgoing neighbors (use edge weights)
                 for (const auto& [neighbor, weight] : graph.outNeighbors(node)) {
-                    comm_edges[node_to_comm[neighbor]] += 1.0;
+                    comm_edges[node_to_comm[neighbor]] += weight;
                 }
                 
-                // Check incoming neighbors
+                // Check incoming neighbors (use edge weights)
                 for (const auto& [neighbor, weight] : graph.inNeighbors(node)) {
-                    comm_edges[node_to_comm[neighbor]] += 1.0;
+                    comm_edges[node_to_comm[neighbor]] += weight;
                 }
                 
                 if (comm_edges.empty()) continue;  // Isolated node
@@ -1018,8 +1027,9 @@ public:
                 for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
                     if (candidate_comm == current_comm) continue;
                     
-                    // Calculate modularity change (simplified greedy heuristic)
-                    // Delta Q approximation: maximize edges within community
+                    // Simplified modularity heuristic (not full modularity calculation)
+                    // This approximates modularity gain by maximizing internal edge density
+                    // Note: Full Louvain uses Q = (e_in/m) - (k_total/(2m))^2
                     double delta_q = edges_to_comm / m;
                     
                     if (delta_q > best_delta_q) {
@@ -1111,24 +1121,24 @@ public:
             
             // Process nodes in order (deterministic for testing)
             for (const auto& node : node_list) {
-                // Count labels among neighbors
-                std::unordered_map<int, int> label_count;
+                // Count labels among neighbors (weighted voting)
+                std::unordered_map<int, double> label_count;
                 
-                // Outgoing neighbors
+                // Outgoing neighbors (use edge weights for voting)
                 for (const auto& [neighbor, weight] : graph.outNeighbors(node)) {
-                    label_count[labels[neighbor]]++;
+                    label_count[labels[neighbor]] += weight;
                 }
                 
-                // Incoming neighbors
+                // Incoming neighbors (use edge weights for voting)
                 for (const auto& [neighbor, weight] : graph.inNeighbors(node)) {
-                    label_count[labels[neighbor]]++;
+                    label_count[labels[neighbor]] += weight;
                 }
                 
                 if (label_count.empty()) continue;  // Isolated node
                 
-                // Find most frequent label
+                // Find label with highest weighted vote
                 int best_label = labels[node];
-                int best_count = 0;
+                double best_count = 0.0;
                 
                 for (const auto& [label, count] : label_count) {
                     if (count > best_count) {
