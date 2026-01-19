@@ -58,6 +58,8 @@ class PhilosophyChatApp:
         
         # Chat colors for philosophers
         self.philosopher_colors = {
+            # AI Synthesizer
+            "KI (AI Synthesizer)": "#ff1493",  # Deep Pink for AI
             # Practical Philosophy
             "Immanuel Kant": "#3498db",
             "John Stuart Mill": "#27ae60",
@@ -73,6 +75,13 @@ class PhilosophyChatApp:
             "William James": "#d35400",
             "Ludwig Wittgenstein": "#2c3e50",
             "Jean-Paul Sartre": "#34495e",
+            # Lebensphilosophie
+            "Friedrich Nietzsche": "#8b0000",  # Dark red
+            "Arthur Schopenhauer": "#2f4f4f",  # Dark slate gray
+            "Wilhelm Dilthey": "#556b2f",  # Dark olive green
+            # Political Philosophy
+            "Karl Marx": "#dc143c",  # Crimson red
+            "Hannah Arendt": "#9370db",  # Medium purple
             # Ancient Greek Philosophy
             "Sokrates": "#e8b44d",
             "Protagoras": "#95a5a6",
@@ -88,8 +97,7 @@ class PhilosophyChatApp:
             "Thomas von Aquin": "#8b4513",
             "Konfuzius": "#dc143c",
             "Buddha": "#ff6347",
-            "Philippa Foot": "#20b2aa",
-            "W.D. Ross": "#9b59b6"
+            "Philippa Foot": "#20b2aa"
         }
         
         # Create UI

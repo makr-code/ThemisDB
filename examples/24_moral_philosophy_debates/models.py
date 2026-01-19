@@ -32,6 +32,15 @@ class PhilosophySchool(Enum):
     ANALYTIC_PHILOSOPHY = "analytic_philosophy"  # Russell, Wittgenstein
     EXISTENTIALISM = "existentialism"  # Kierkegaard, Sartre, Camus
     
+    # Lebensphilosophie (Philosophy of Life)
+    LEBENSPHILOSOPHIE_NIETZSCHE = "lebensphilosophie_nietzsche"  # Friedrich Nietzsche - Will to Power, Übermensch
+    LEBENSPHILOSOPHIE_SCHOPENHAUER = "lebensphilosophie_schopenhauer"  # Arthur Schopenhauer - Will and Representation
+    LEBENSPHILOSOPHIE_DILTHEY = "lebensphilosophie_dilthey"  # Wilhelm Dilthey - Hermeneutics, Geisteswissenschaften
+    
+    # Political Philosophy
+    MARXISM = "marxism"  # Karl Marx - Historical Materialism, Class Struggle
+    ARENDTIAN = "arendtian"  # Hannah Arendt - Political Action, Plurality, Banality of Evil
+    
     # Ancient Greek Philosophy
     SOCRATIC = "socratic"  # Sokrates - Sokratische Methode
     ARISTOTELIAN = "aristotelian"  # Aristoteles - Metaphysik, Logik, Naturphilosophie
@@ -243,6 +252,7 @@ class DebateSession:
     started_at: datetime = field(default_factory=datetime.now)
     completed_at: Optional[datetime] = None
     current_round: int = 0  # Track debate rounds
+    metadata: Optional[Dict[str, Any]] = None  # For knowledge context, AI synthesis data, etc.
     
     def to_dict(self) -> Dict[str, Any]:
         """Converts to dictionary."""
@@ -258,7 +268,8 @@ class DebateSession:
             'consensus_summary': self.consensus_summary,
             'started_at': self.started_at.isoformat(),
             'completed_at': self.completed_at.isoformat() if self.completed_at else None,
-            'current_round': self.current_round
+            'current_round': self.current_round,
+            'metadata': self.metadata
         }
     
     @classmethod
@@ -289,6 +300,7 @@ class DebateSession:
         session.consensus_reached = data.get('consensus_reached', False)
         session.consensus_summary = data.get('consensus_summary', '')
         session.current_round = data.get('current_round', 0)
+        session.metadata = data.get('metadata')
         
         started = data.get('started_at')
         if started:
@@ -754,5 +766,90 @@ PHILOSOPHY_PROFILES = {
         ],
         decision_framework="Intuit prima facie duties, weigh them in context, and act on strongest duty",
         example_application="We intuitively know promise-keeping is a duty, but it may be overridden by preventing great harm"
+    ),
+    PhilosophySchool.MARXISM: PhilosophyProfile(
+        school=PhilosophySchool.MARXISM,
+        name="Marxism",
+        philosopher_name="Karl Marx",
+        description="Historical materialism analyzing society through class struggle and economic relations; critique of capitalism",
+        core_principles=[
+            "Historical materialism - economic base determines social superstructure",
+            "Class struggle as driver of historical change",
+            "Alienation under capitalism - workers alienated from labor, product, species-being",
+            "Exploitation through surplus value extraction",
+            "Communist society as resolution of contradictions",
+            "Dialectical development of history"
+        ],
+        decision_framework="Analyze through lens of class relations, material conditions, and economic interests; work toward classless society",
+        example_application="Evaluate ethical issues by examining underlying economic structures and class interests that produce them"
+    ),
+    PhilosophySchool.LEBENSPHILOSOPHIE_NIETZSCHE: PhilosophyProfile(
+        school=PhilosophySchool.LEBENSPHILOSOPHIE_NIETZSCHE,
+        name="Nietzschean Lebensphilosophie",
+        philosopher_name="Friedrich Nietzsche",
+        description="Philosophy of life emphasizing will to power, perspectivism, and transvaluation of values; critique of traditional morality",
+        core_principles=[
+            "Will to power - fundamental drive of life",
+            "Übermensch (Overman) - self-overcoming and creation of values",
+            "Eternal recurrence - amor fati, love of fate",
+            "Perspectivism - no absolute truth, only interpretations",
+            "Critique of slave morality vs master morality",
+            "Transvaluation of all values - beyond good and evil",
+            "Life-affirmation over nihilism"
+        ],
+        decision_framework="Affirm life in all its aspects; create your own values; strive for self-overcoming and excellence",
+        example_application="Rather than following herd morality, the strong individual creates values that affirm and enhance life"
+    ),
+    PhilosophySchool.LEBENSPHILOSOPHIE_SCHOPENHAUER: PhilosophyProfile(
+        school=PhilosophySchool.LEBENSPHILOSOPHIE_SCHOPENHAUER,
+        name="Schopenhauerian Lebensphilosophie",
+        philosopher_name="Arthur Schopenhauer",
+        description="Philosophy of life viewing world as will and representation; pessimistic view of existence and ethics of compassion",
+        core_principles=[
+            "World as Will and Representation - underlying reality is blind will",
+            "Life is suffering - will leads to endless striving and dissatisfaction",
+            "Principium individuationis - illusion of separation between beings",
+            "Compassion (Mitleid) - recognition of shared suffering",
+            "Aesthetic contemplation and asceticism as escape from will",
+            "Denial of will-to-live as path to liberation",
+            "Pessimism about human condition"
+        ],
+        decision_framework="Recognize shared suffering; act with compassion; minimize harm; seek aesthetic and ascetic transcendence",
+        example_application="All beings share the same underlying will; causing suffering to others is harming oneself"
+    ),
+    PhilosophySchool.LEBENSPHILOSOPHIE_DILTHEY: PhilosophyProfile(
+        school=PhilosophySchool.LEBENSPHILOSOPHIE_DILTHEY,
+        name="Diltheyan Lebensphilosophie",
+        philosopher_name="Wilhelm Dilthey",
+        description="Hermeneutic philosophy emphasizing understanding of lived experience (Erlebnis) and human sciences",
+        core_principles=[
+            "Geisteswissenschaften (human sciences) vs Naturwissenschaften (natural sciences)",
+            "Verstehen (understanding) vs Erklären (explaining)",
+            "Erlebnis (lived experience) as basis of understanding",
+            "Historical consciousness - humans are historical beings",
+            "Hermeneutic circle - whole and parts mutually illuminate",
+            "Life expresses itself in structured forms",
+            "Meaning arises from lived context"
+        ],
+        decision_framework="Understand actions through their historical and lived context; interpret meaning holistically",
+        example_application="Ethical judgments must be understood within their historical life-context, not as abstract universals"
+    ),
+    PhilosophySchool.ARENDTIAN: PhilosophyProfile(
+        school=PhilosophySchool.ARENDTIAN,
+        name="Arendtian Political Philosophy",
+        philosopher_name="Hannah Arendt",
+        description="Political philosophy emphasizing plurality, public action, and the vita activa; analysis of totalitarianism and the banality of evil",
+        core_principles=[
+            "Vita activa - labor, work, action as fundamental human activities",
+            "Plurality - humans are distinct yet equal; condition of political life",
+            "Action in the public sphere - where freedom and meaning emerge",
+            "Natality - capacity to begin something new",
+            "Banality of evil - thoughtlessness can lead to great evil (Eichmann)",
+            "Distinction between public and private realms",
+            "Judgment - faculty to think from standpoint of others",
+            "Politics as space of appearance and speech"
+        ],
+        decision_framework="Act in public sphere with others; think from multiple perspectives; take responsibility for the world",
+        example_application="Evil arises not from monsters but from thoughtless bureaucrats who fail to judge and take responsibility"
     )
 }

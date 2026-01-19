@@ -14,6 +14,19 @@ from models import (
     MessageType, ArgumentDimension, PHILOSOPHY_PROFILES
 )
 
+# Optional imports for AI Synthesizer and Knowledge Researcher
+try:
+    from ai_synthesizer import AISynthesizer
+    AI_SYNTHESIZER_AVAILABLE = True
+except ImportError:
+    AI_SYNTHESIZER_AVAILABLE = False
+
+try:
+    from knowledge_researcher import KnowledgeResearcher
+    KNOWLEDGE_RESEARCHER_AVAILABLE = True
+except ImportError:
+    KNOWLEDGE_RESEARCHER_AVAILABLE = False
+
 
 class DebateChatManager:
     """
@@ -26,15 +39,38 @@ class DebateChatManager:
     4. Synthesis attempts to find common ground
     """
     
-    def __init__(self, llm_backend: Optional['LLMBackend'] = None):
+    def __init__(
+        self,
+        llm_backend: Optional['LLMBackend'] = None,
+        enable_ai_synthesis: bool = True,
+        enable_knowledge_research: bool = True
+    ):
         """
         Initialize the chat manager.
         
         Args:
             llm_backend: Optional LLM backend for generating messages
+            enable_ai_synthesis: Enable AI synthesizer participant
+            enable_knowledge_research: Enable knowledge research for LLM context
         """
         self.llm_backend = llm_backend
         self.philosophy_profiles = PHILOSOPHY_PROFILES
+        
+        # Initialize AI Synthesizer (KI participant)
+        self.ai_synthesizer = None
+        if enable_ai_synthesis and AI_SYNTHESIZER_AVAILABLE:
+            try:
+                self.ai_synthesizer = AISynthesizer()
+            except Exception as e:
+                print(f"AI Synthesizer initialization failed: {e}")
+        
+        # Initialize Knowledge Researcher
+        self.knowledge_researcher = None
+        if enable_knowledge_research and KNOWLEDGE_RESEARCHER_AVAILABLE:
+            try:
+                self.knowledge_researcher = KnowledgeResearcher()
+            except Exception as e:
+                print(f"Knowledge Researcher initialization failed: {e}")
     
     def start_debate_chat(
         self,
@@ -56,6 +92,22 @@ class DebateChatManager:
         session.active_dimensions = dimensions
         session.current_round = 1
         
+        # Research knowledge context if available
+        if self.knowledge_researcher and session.news_article:
+            try:
+                topic = session.debate_topic or session.news_article.title
+                keywords = session.news_article.ethical_topics
+                knowledge_context = self.knowledge_researcher.research_topic(
+                    topic=topic,
+                    keywords=keywords,
+                    depth="moderate"
+                )
+                # Store in session metadata for LLM use
+                session.metadata = session.metadata or {}
+                session.metadata['knowledge_context'] = knowledge_context.to_llm_prompt_context()
+            except Exception as e:
+                print(f"Knowledge research failed: {e}")
+        
         # Phase 1: Generate initial statements for each dimension
         for dimension in dimensions:
             for philosophy in philosophies:
@@ -66,6 +118,14 @@ class DebateChatManager:
                     session.ethical_question
                 )
                 session.chat_messages.append(message)
+        
+        # Add AI Synthesizer initial statement
+        if self.ai_synthesizer:
+            try:
+                ai_message = self.ai_synthesizer.analyze_debate_round(session, 1)
+                session.chat_messages.append(ai_message)
+            except Exception as e:
+                print(f"AI Synthesizer failed: {e}")
         
         return session
     
@@ -93,6 +153,17 @@ class DebateChatManager:
         elif session.current_round == 4:
             # Phase 4: Synthesis attempts
             session = self._generate_synthesis(session)
+        
+        # Add AI Synthesizer analysis after each round
+        if self.ai_synthesizer and session.current_round <= 4:
+            try:
+                ai_message = self.ai_synthesizer.analyze_debate_round(
+                    session,
+                    session.current_round
+                )
+                session.chat_messages.append(ai_message)
+            except Exception as e:
+                print(f"AI Synthesizer failed in round {session.current_round}: {e}")
         
         return session
     
