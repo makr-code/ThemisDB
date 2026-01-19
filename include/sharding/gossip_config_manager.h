@@ -193,9 +193,11 @@ public:
      * Construct GossipConfigManager
      * @param config Configuration parameters
      * @param topology ShardTopology for peer discovery
+     * @param metrics Optional Prometheus metrics exporter
      */
     GossipConfigManager(const GossipConfigManagerConfig& config,
-                       std::shared_ptr<ShardTopology> topology);
+                       std::shared_ptr<ShardTopology> topology,
+                       std::shared_ptr<PrometheusMetrics> metrics = nullptr);
     
     ~GossipConfigManager();
     
@@ -301,6 +303,7 @@ private:
     GossipConfigManagerConfig config_;
     std::shared_ptr<ShardTopology> topology_;
     std::unique_ptr<MTLSClient> client_;
+    std::shared_ptr<PrometheusMetrics> metrics_;  // Prometheus metrics exporter
     
     // Vector clock for this shard
     VectorClock local_clock_;

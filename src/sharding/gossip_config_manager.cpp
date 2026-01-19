@@ -1,6 +1,7 @@
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
+#include "sharding/prometheus_metrics.h"
 #include <random>
 #include <algorithm>
 #include <sstream>
@@ -173,9 +174,11 @@ ResourceSnapshot ResourceSnapshot::fromProto(const proto::ResourceSnapshot& prot
 
 GossipConfigManager::GossipConfigManager(
     const GossipConfigManagerConfig& config,
-    std::shared_ptr<ShardTopology> topology
+    std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<PrometheusMetrics> metrics
 ) : config_(config),
-    topology_(std::move(topology)) {
+    topology_(std::move(topology)),
+    metrics_(std::move(metrics)) {
     
     // Initialize mTLS client if required
     if (config_.require_mtls) {
@@ -269,6 +272,11 @@ std::string GossipConfigManager::publishConfigUpdate(
     
     config_updates_sent_++;
     
+    // Record metric
+    if (metrics_) {
+        metrics_->recordGossipConfigUpdate("sent");
+    }
+    
     return update.update_id;
 }
 
@@ -288,12 +296,22 @@ void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapsh
     }
     
     resource_snapshots_sent_++;
+    
+    // Record metric
+    if (metrics_) {
+        metrics_->recordGossipResourceSnapshot("sent");
+    }
 }
 
 proto::GossipMessage GossipConfigManager::handleGossipMessage(
     const proto::GossipMessage& message
 ) {
     messages_received_++;
+    
+    // Record metric
+    if (metrics_) {
+        metrics_->recordGossipMessagesReceived();
+    }
     
     // Merge vector clock
     if (message.has_vector_clock()) {
@@ -438,6 +456,11 @@ void GossipConfigManager::antiEntropyLoop() {
 void GossipConfigManager::performGossipRound() {
     gossip_rounds_++;
     
+    // Record gossip round metric
+    if (metrics_) {
+        metrics_->recordGossipConfigRound();
+    }
+    
     // Select random peers
     auto peers = selectRandomPeers(config_.fanout);
     
@@ -454,6 +477,11 @@ void GossipConfigManager::performGossipRound() {
 
 void GossipConfigManager::performAntiEntropyScan() {
     anti_entropy_syncs_++;
+    
+    // Record anti-entropy metric
+    if (metrics_) {
+        metrics_->recordGossipConfigAntiEntropy();
+    }
     
     // Select random peers for anti-entropy
     auto peers = selectRandomPeers(config_.fanout);
@@ -546,6 +574,11 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
                     return;  // Keep existing update
                 }
                 conflicts_resolved_++;
+                
+                // Record conflict metric
+                if (metrics_) {
+                    metrics_->recordGossipConfigConflict("last_write_wins");
+                }
             }
         }
         
@@ -555,6 +588,11 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
     
     config_updates_received_++;
+    
+    // Record metric
+    if (metrics_) {
+        metrics_->recordGossipConfigUpdate("received");
+    }
     
     // Notify callback
     if (config_update_callback_) {
@@ -576,6 +614,11 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
             propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
         }
     }
+    
+    // Record propagation latency metric
+    if (metrics_) {
+        metrics_->observeGossipPropagationLatency(latency_ms);
+    }
 }
 
 void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapshot) {
@@ -593,6 +636,11 @@ void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapsho
     }
     
     resource_snapshots_received_++;
+    
+    // Record metric
+    if (metrics_) {
+        metrics_->recordGossipResourceSnapshot("received");
+    }
     
     // Notify callback
     if (resource_snapshot_callback_) {

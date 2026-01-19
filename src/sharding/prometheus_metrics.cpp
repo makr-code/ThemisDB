@@ -105,6 +105,54 @@ void PrometheusMetrics::recordGossipVersionVector(const std::string& peer_id, ui
     setGauge("themis_gossip_version_vector", static_cast<double>(version), {{"peer_id", peer_id}});
 }
 
+// ==================== Gossip Config Manager Metrics Implementation ====================
+
+void PrometheusMetrics::recordGossipConfigUpdate(const std::string& operation) {
+    incrementCounter("themis_gossip_config_updates_total", {{"operation", operation}});
+}
+
+void PrometheusMetrics::recordGossipConfigUpdateLatency(double latency_ms) {
+    observeHistogram("themis_gossip_config_update_latency_seconds", latency_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordGossipConfigConflict(const std::string& resolution_type) {
+    incrementCounter("themis_gossip_config_conflicts_total", {{"resolution", resolution_type}});
+}
+
+void PrometheusMetrics::recordGossipResourceSnapshot(const std::string& operation) {
+    incrementCounter("themis_gossip_resource_snapshots_total", {{"operation", operation}});
+}
+
+void PrometheusMetrics::recordGossipResourceSnapshotLatency(double latency_ms) {
+    observeHistogram("themis_gossip_resource_snapshot_latency_seconds", latency_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordGossipConfigRound() {
+    incrementCounter("themis_gossip_config_rounds_total", {});
+}
+
+void PrometheusMetrics::recordGossipConfigAntiEntropy() {
+    incrementCounter("themis_gossip_config_anti_entropy_syncs_total", {});
+}
+
+void PrometheusMetrics::setGossipConfigPeerCount(int count) {
+    setGauge("themis_gossip_config_peer_count", static_cast<double>(count), {});
+}
+
+void PrometheusMetrics::observeGossipPropagationLatency(double latency_ms) {
+    observeHistogram("themis_gossip_propagation_latency_seconds", latency_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordGossipMessagesSent() {
+    incrementCounter("themis_gossip_config_messages_sent_total", {});
+}
+
+void PrometheusMetrics::recordGossipMessagesReceived() {
+    incrementCounter("themis_gossip_config_messages_received_total", {});
+}
+
+// ====================================================================================
+
 void PrometheusMetrics::recordCrossShardJoin(const std::string& strategy) {
     incrementCounter("themis_cross_shard_joins_total", {{"strategy", strategy}});
 }
