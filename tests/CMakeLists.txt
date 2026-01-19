@@ -176,6 +176,41 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
     endif()
     
+    # Distributed Training Coordinator Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
+        message(STATUS "Adding Distributed Training Coordinator tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_distributed_training_coordinator
+            test_distributed_training_coordinator.cpp
+        )
+        
+        target_link_libraries(test_distributed_training_coordinator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_distributed_training_coordinator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME DistributedTrainingCoordinatorTests COMMAND test_distributed_training_coordinator)
+        set_tests_properties(DistributedTrainingCoordinatorTests PROPERTIES
+            LABELS "lora;llm;distributed;training;fault-tolerance"
+            TIMEOUT 300
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Distributed training coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
+        else()
+            message(STATUS "Distributed training coordinator tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
+    endif()
+    
     # LoRA Router Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_router.cpp")
         message(STATUS "Adding LoRA Router tests (routing automation)")
