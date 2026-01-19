@@ -429,6 +429,10 @@ private:
     // vLLM-style multi-LoRA manager
     std::unique_ptr<MultiLoRAManager> lora_manager_;
     
+    // Active LoRA adapter tracking (for auto-rebinding after context switches)
+    std::string active_lora_adapter_;  // Currently applied adapter ID
+    void* last_context_ptr_ = nullptr;  // Last context where adapter was applied
+    
     // KV-Cache Reuse (Prefix Caching)
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
     
