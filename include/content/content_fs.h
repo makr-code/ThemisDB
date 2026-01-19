@@ -5,6 +5,7 @@
 #include <optional>
 #include <cstdint>
 #include "storage/rocksdb_wrapper.h"
+#include "utils/expected.h"
 
 namespace themis {
 
@@ -23,31 +24,38 @@ public:
     void setChunkSizeBytes(uint64_t sz) { chunk_size_bytes_ = sz == 0 ? kDefaultChunkSize : sz; }
     uint64_t getChunkSizeBytes() const { return chunk_size_bytes_; }
 
-    struct Status {
-        bool ok = true;
-        std::string message;
-        static Status OK() { return {true, {}}; }
-        static Status Error(std::string msg) { return {false, std::move(msg)}; }
-        operator bool() const { return ok; }
-    };
-
     // Store entire blob in one value under content:<pk>:blob, metadata in content:<pk>:meta
-    Status put(const std::string& pk,
+    // Returns Result<void> with possible errors:
+    // - ERR_API_INVALID_REQUEST: Empty pk or checksum mismatch
+    // - ERR_STORAGE_DISK_FULL: Failed to write chunk/blob/meta
+    Result<void> put(const std::string& pk,
                const std::vector<uint8_t>& data,
                const std::string& mime,
                const std::optional<std::string>& sha256_expected_hex = std::nullopt);
 
     // Get full blob
-    std::pair<Status, std::vector<uint8_t>> get(const std::string& pk) const;
+    // Returns Result<std::vector<uint8_t>> with possible errors:
+    // - ERR_STORAGE_FILE_NOT_FOUND: Content not found
+    // - ERR_STORAGE_CORRUPTION: Invalid metadata or missing chunk
+    Result<std::vector<uint8_t>> get(const std::string& pk) const;
 
     // Range read [offset, offset+length) (length==0 => to end)
-    std::pair<Status, std::vector<uint8_t>> getRange(const std::string& pk, uint64_t offset, uint64_t length) const;
+    // Returns Result<std::vector<uint8_t>> with possible errors:
+    // - ERR_STORAGE_FILE_NOT_FOUND: Content not found
+    // - ERR_API_INVALID_REQUEST: Offset beyond file size
+    // - ERR_STORAGE_CORRUPTION: Invalid metadata or missing chunk
+    Result<std::vector<uint8_t>> getRange(const std::string& pk, uint64_t offset, uint64_t length) const;
 
     // Head (metadata only)
-    std::pair<Status, ContentMeta> head(const std::string& pk) const;
+    // Returns Result<ContentMeta> with possible errors:
+    // - ERR_STORAGE_FILE_NOT_FOUND: Content not found
+    // - ERR_STORAGE_CORRUPTION: Invalid metadata
+    Result<ContentMeta> head(const std::string& pk) const;
 
     // Delete blob + meta
-    Status remove(const std::string& pk);
+    // Returns Result<void> with possible errors:
+    // - ERR_STORAGE_FILE_NOT_FOUND: Content not found (warning only, still succeeds)
+    Result<void> remove(const std::string& pk);
 
     // Utility: compute SHA-256 hex for buffer
     static std::string sha256Hex(const std::vector<uint8_t>& data);

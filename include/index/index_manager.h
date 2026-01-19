@@ -16,6 +16,7 @@
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/storage_interface.h"
+#include "utils/expected.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -75,27 +76,27 @@ public:
     
     // IIndexManager implementation
     
-    ISecondaryIndex* createSecondaryIndex(
+    Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
         std::string_view field_name,
         const std::string& config = "") override;
     
-    IVectorIndex* createVectorIndex(
+    Result<IVectorIndex*> createVectorIndex(
         std::string_view name,
         uint32_t dimension,
         const std::string& config = "") override;
     
-    IGraphIndex* createGraphIndex(
+    Result<IGraphIndex*> createGraphIndex(
         std::string_view name,
         const std::string& config = "") override;
     
-    ISecondaryIndex* getSecondaryIndex(std::string_view name) const override;
+    Result<ISecondaryIndex*> getSecondaryIndex(std::string_view name) const override;
     
-    IVectorIndex* getVectorIndex(std::string_view name) const override;
+    Result<IVectorIndex*> getVectorIndex(std::string_view name) const override;
     
-    IGraphIndex* getGraphIndex(std::string_view name) const override;
+    Result<IGraphIndex*> getGraphIndex(std::string_view name) const override;
     
-    bool dropIndex(std::string_view name) override;
+    Result<void> dropIndex(std::string_view name) override;
     
     std::vector<std::string> listIndexes() const override;
     

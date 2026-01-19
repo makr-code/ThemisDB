@@ -20,6 +20,7 @@
 
 #include "themis/base/export.h"
 #include "themis/base/interfaces/query_interface.h"
+#include "utils/expected.h"
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -251,8 +252,9 @@ public:
     /// @param name Index name
     /// @param field_name Field to index
     /// @param config Implementation-specific configuration
-    /// @return Pointer to created index, or nullptr on failure
-    virtual ISecondaryIndex* createSecondaryIndex(
+    /// @return Result containing pointer to created index, or Error on failure
+    ///         Possible errors: ERR_INDEX_NOT_INITIALIZED, ERR_INDEX_CREATION_FAILED, ERR_API_INVALID_REQUEST
+    virtual Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
         std::string_view field_name,
         const std::string& config = "") = 0;
@@ -261,8 +263,9 @@ public:
     /// @param name Index name
     /// @param dimension Vector dimension
     /// @param config Implementation-specific configuration
-    /// @return Pointer to created index, or nullptr on failure
-    virtual IVectorIndex* createVectorIndex(
+    /// @return Result containing pointer to created index, or Error on failure
+    ///         Possible errors: ERR_INDEX_NOT_INITIALIZED, ERR_INDEX_CREATION_FAILED, ERR_API_INVALID_REQUEST
+    virtual Result<IVectorIndex*> createVectorIndex(
         std::string_view name,
         uint32_t dimension,
         const std::string& config = "") = 0;
@@ -270,30 +273,35 @@ public:
     /// @brief Create a new graph index
     /// @param name Index name
     /// @param config Implementation-specific configuration
-    /// @return Pointer to created index, or nullptr on failure
-    virtual IGraphIndex* createGraphIndex(
+    /// @return Result containing pointer to created index, or Error on failure
+    ///         Possible errors: ERR_INDEX_NOT_INITIALIZED, ERR_INDEX_CREATION_FAILED
+    virtual Result<IGraphIndex*> createGraphIndex(
         std::string_view name,
         const std::string& config = "") = 0;
 
     /// @brief Get an existing secondary index by name
     /// @param name Index name
-    /// @return Pointer to index, or nullptr if not found
-    virtual ISecondaryIndex* getSecondaryIndex(std::string_view name) const = 0;
+    /// @return Result containing pointer to index, or Error if not found
+    ///         Possible errors: ERR_INDEX_NOT_FOUND, ERR_INDEX_INVALID_TYPE
+    virtual Result<ISecondaryIndex*> getSecondaryIndex(std::string_view name) const = 0;
 
     /// @brief Get an existing vector index by name
     /// @param name Index name
-    /// @return Pointer to index, or nullptr if not found
-    virtual IVectorIndex* getVectorIndex(std::string_view name) const = 0;
+    /// @return Result containing pointer to index, or Error if not found
+    ///         Possible errors: ERR_INDEX_NOT_FOUND, ERR_INDEX_INVALID_TYPE
+    virtual Result<IVectorIndex*> getVectorIndex(std::string_view name) const = 0;
 
     /// @brief Get an existing graph index by name
     /// @param name Index name
-    /// @return Pointer to index, or nullptr if not found
-    virtual IGraphIndex* getGraphIndex(std::string_view name) const = 0;
+    /// @return Result containing pointer to index, or Error if not found
+    ///         Possible errors: ERR_INDEX_NOT_FOUND, ERR_INDEX_INVALID_TYPE
+    virtual Result<IGraphIndex*> getGraphIndex(std::string_view name) const = 0;
 
     /// @brief Drop an index by name
     /// @param name Index name
-    /// @return true if index existed and was dropped, false otherwise
-    virtual bool dropIndex(std::string_view name) = 0;
+    /// @return Result<void> indicating success or error
+    ///         Possible errors: ERR_INDEX_NOT_FOUND
+    virtual Result<void> dropIndex(std::string_view name) = 0;
 
     /// @brief List all indexes
     /// @return Vector of index names
