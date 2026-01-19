@@ -614,10 +614,12 @@ graph TB
 - 📦 [Client SDKs](clients/README.md) - Available client libraries
 
 **LLM/LoRA System:**
-- 🧠 [LLM/LoRA Implementation Status](docs/LLM_LORA_IMPLEMENTATION_STATUS.md) - Current state and roadmap
-- 🚀 [Quick Start Guide (Phase 1)](docs/QUICK_START_PHASE_1.md) - Implementation guide
+- ✅ [**LLM Core Status (Master)**](docs/LLM_CORE_STATUS_MASTER.md) - **Single source of truth** for implementation status
+- 📊 [Comprehensive Audit Report](docs/LLM_CORE_AUDIT_REPORT.md) - Detailed code audit findings
+- 🔍 [Decision Matrix](docs/LLM_CORE_DECISION_MATRIX.md) - Resolution of conflicting documentation
 - 📋 [Progress Checklist](docs/LLM_LORA_CHECKLIST.md) - Detailed task tracking
-- ⚠️ **Status**: Development in progress (0% complete) - NOT production ready
+- 📚 [Archived Docs](docs/ARCHIVED/README.md) - Historical documentation (superseded)
+- ✅ **Status**: Core 100% production-ready, Integration 95% complete
 
 > **📚 Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 

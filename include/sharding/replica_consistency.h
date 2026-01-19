@@ -12,6 +12,7 @@
 #include <functional>
 #include <memory>
 #include <variant>
+#include <chrono>
 
 namespace themisdb {
 namespace sharding {

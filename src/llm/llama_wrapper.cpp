@@ -565,6 +565,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         auto first_token_start = std::chrono::high_resolution_clock::now();
         bool first_token_generated = false;
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
@@ -579,6 +583,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (next_token == eos_token) {
                 break;
             }
+            
+            // Phase 2: Calculate and store token probability for knowledge gap detection
+            float token_prob = getProbability(logits, next_token, n_vocab);
+            token_probabilities.push_back(token_prob);
             
             generated_tokens.push_back(next_token);
             
@@ -619,6 +627,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         // 5. Detokenize generated tokens
         response.text = detokenizeInternal(lctx, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
         
         // 6. Calculate timing metrics
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -1209,12 +1220,10 @@ llama_token LlamaWrapper::sampleTokenInternal(
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
     if (grammar != nullptr) {
-        // TODO: llama_grammar_sample not yet available in stable llama.cpp
-        // For now, skip grammar filtering and use all candidates
-        // llama_grammar_sample(grammar, ctx, &candidates_p);
+        llama_grammar_sample(grammar, ctx, &candidates_p);
         
-        // After grammar filtering, candidates_p.size may be reduced
-        spdlog::debug("Grammar constraints requested but not yet implemented");
+        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+                     candidates_p.size);
     }
     
     // Apply temperature sampling
@@ -1267,8 +1276,7 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Update grammar state with sampled token (Phase 3.2)
     if (grammar != nullptr) {
-        // TODO: llama_grammar_accept not yet available in stable llama.cpp
-        // llama_grammar_accept(grammar, ctx, sampled_token);
+        llama_grammar_accept(grammar, ctx, sampled_token);
     }
     
     return sampled_token;
@@ -1567,6 +1575,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         size_t total_speculations = 0;
         size_t total_accepted = 0;
         
@@ -1612,6 +1624,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                 
                 // Get probability of draft token from target model
                 float target_prob = getProbability(target_logits, draft_tokens[i], n_vocab);
+                
+                // Phase 2: Store token probability for knowledge gap detection
+                token_probabilities.push_back(target_prob);
                 
                 if (target_prob >= config_.acceptance_threshold) {
                     generated_tokens.push_back(draft_tokens[i]);
@@ -1678,6 +1693,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         // 5. Detokenize and finalize response
         response.text = detokenizeInternal(target_context, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
         
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
@@ -1753,6 +1771,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
             llama_token next_token = sampleTokenInternal(
@@ -1762,6 +1784,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             if (next_token == eos_token) {
                 break;
             }
+            
+            // Phase 2: Calculate and store token probability for knowledge gap detection
+            float token_prob = getProbability(logits, next_token, n_vocab);
+            token_probabilities.push_back(token_prob);
             
             generated_tokens.push_back(next_token);
             
@@ -1783,6 +1809,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         response.text = detokenizeInternal(lctx, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
         
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();

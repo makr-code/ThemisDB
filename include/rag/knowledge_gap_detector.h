@@ -27,6 +27,7 @@ enum class GapType {
     MISSING_ASPECTS,          ///< Query aspects not covered by documents
     CONFLICTING_INFO,         ///< Retrieved documents contain contradictions
     OUTDATED_INFO,           ///< Information may be outdated
+    ETHICAL_PERSPECTIVE_GAP,  ///< Ethical context detected but insufficient diverse perspectives
     NONE                     ///< No gap detected
 };
 
@@ -100,9 +101,32 @@ struct KnowledgeGapConfig {
     double confidence_threshold = 0.7;           ///< Minimum confidence threshold
     double coverage_threshold = 0.8;             ///< Minimum query coverage
     
+    // Phase 2: Token Probability Tracking
+    bool enable_token_probability = true;        ///< Enable token probability tracking
+    double perplexity_threshold = 100.0;         ///< Perplexity anomaly threshold
+    size_t perplexity_window_size = 10;          ///< Sliding window size for perplexity
+    double outlier_zscore_threshold = 3.0;       ///< Z-score threshold for outlier detection
+    
+    // Phase 2: Self-Consistency Check
+    // Ethical perspective gap settings
+    bool enable_ethical_gap_detection = true;    ///< Enable ethical perspective gap detection
+    size_t min_ethical_perspectives = 2;         ///< Minimum diverse perspectives required
+    double ethical_diversity_threshold = 0.6;    ///< Minimum perspective diversity score
+    int ethical_keyword_threshold = 2;           ///< Minimum ethical keywords to classify as ethical query
+    
     // Advanced options
     bool enable_self_consistency_check = true;   ///< Check answer consistency
-    size_t self_consistency_samples = 3;         ///< Number of samples for consistency
+    size_t self_consistency_samples = 5;         ///< Number of samples for consistency (3-5)
+    std::vector<double> temperature_range = {0.7, 0.8, 0.9}; ///< Temperature variations for generating diverse samples
+    double consistency_threshold = 0.6;          ///< Minimum consistency score
+    size_t consistency_timeout_ms = 10000;       ///< Max timeout per sample (10s)
+    
+    // Phase 2: FLARE-Style Active Retrieval
+    bool enable_flare = false;                   ///< Enable FLARE active retrieval
+    size_t max_retrieval_rounds = 3;             ///< Max re-retrieval rounds
+    double flare_confidence_threshold = 0.5;     ///< Trigger re-retrieval if confidence < 0.5
+    
+    // Advanced options
     bool enable_claim_verification = true;       ///< Verify claims against sources
     bool enable_query_aspect_analysis = true;    ///< Analyze query aspect coverage
     
@@ -188,6 +212,20 @@ public:
     );
     
     /**
+     * @brief FLARE-style forward-looking active retrieval
+     * @param query User query string
+     * @param initial_documents Initial retrieved documents
+     * @return Detection result after iterative retrieval
+     * 
+     * Generates answer sentence-by-sentence, monitoring confidence
+     * and dynamically retrieving more documents when confidence drops.
+     */
+    DetectionResult detectWithActiveRetrieval(
+        const std::string& query,
+        std::vector<RetrievedDocument>& initial_documents
+    );
+    
+    /**
      * @brief Update configuration
      * @param config New configuration
      */
@@ -206,12 +244,23 @@ public:
     void setGapDetectionCallback(
         std::function<void(const DetectionResult&)> callback
     );
+    
+    /**
+     * @brief Detect ethical perspective gap
+     * @param query User query string
+     * @param documents Retrieved documents
+     * @return Detection result for ethical perspective gap
+     */
+    DetectionResult detectEthicalPerspectiveGap(
+        const std::string& query,
+        const std::vector<RetrievedDocument>& documents
+    );
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Internal detection methods
+    // Internal detection methods (Phase 1)
     double calculateAverageSimilarity(const std::vector<RetrievedDocument>& docs);
     double calculateQueryCoverage(const std::string& query, 
                                   const std::vector<RetrievedDocument>& docs);
@@ -220,11 +269,41 @@ private:
         const std::string& query,
         const std::vector<RetrievedDocument>& docs
     );
-    bool checkSelfConsistency(const std::string& query,
-                             const std::vector<RetrievedDocument>& docs);
     std::vector<std::string> extractClaims(const std::string& answer);
     bool verifyClaim(const std::string& claim,
                     const std::vector<RetrievedDocument>& docs);
+    
+    // Phase 2: Token Probability & Perplexity
+    double calculatePerplexity(const std::vector<double>& token_probs);
+    double calculateSlidingWindowPerplexity(const std::vector<double>& token_probs,
+                                           size_t window_size);
+    bool detectPerplexityAnomaly(double perplexity, double threshold);
+    double calculateConfidenceScore(const std::vector<double>& token_probs);
+    std::vector<double> removeOutlierTokens(const std::vector<double>& token_probs,
+                                           double zscore_threshold);
+    double calculateMovingAverage(const std::vector<double>& values, size_t window_size);
+    
+    // Phase 2: Self-Consistency Check
+    bool checkSelfConsistency(const std::string& query,
+                             const std::vector<RetrievedDocument>& docs);
+    std::vector<std::string> generateMultipleSamples(const std::string& query,
+                                                    const std::vector<RetrievedDocument>& docs,
+                                                    size_t num_samples);
+    double calculateSemanticSimilarity(const std::string& text1, const std::string& text2);
+    double calculateConsistencyScore(const std::vector<std::string>& samples);
+    bool detectContradiction(const std::string& text1, const std::string& text2);
+    
+    // Phase 2: FLARE Active Retrieval
+    std::vector<std::string> splitIntoSentences(const std::string& text);
+    double monitorSentenceConfidence(const std::string& sentence,
+                                    const std::vector<RetrievedDocument>& docs);
+    std::string reformulateQuery(const std::string& original_query,
+                                const std::string& missing_info);
+    std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query);
+    // Ethical gap detection helpers
+    bool isEthicalQuery(const std::string& query);
+    int countEthicalPerspectives(const std::vector<RetrievedDocument>& docs);
+    double calculatePerspectiveDiversity(const std::vector<RetrievedDocument>& docs);
 };
 
 /**

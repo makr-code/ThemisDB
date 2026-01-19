@@ -1000,8 +1000,11 @@ endif()
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
 
+    # Prefer local static build of llama.cpp to avoid shared DLL issues
+    option(THEMIS_FORCE_LLAMA_SUBDIR "Prefer local static llama.cpp even if a target exists" OFF)
+
     # Check if llama was already found via find_package (e.g. from installed version)
-    if(TARGET llama)
+    if(TARGET llama AND NOT THEMIS_FORCE_LLAMA_SUBDIR)
         message(STATUS "llama.cpp already available as target (from find_package) - skipping add_subdirectory")
     else()
         # Prefer local, non-committed root clone at ${THEMIS_ROOT_DIR}/llama.cpp
@@ -1050,8 +1053,15 @@ if(THEMIS_ENABLE_LLM)
     
     # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
     # When LLAMA_SRC_DIR is outside the current source dir (cmake/), CMake requires an explicit binary dir.
-    set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
-    add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
+    # Guard against double-add since Dependencies.cmake may have already added it
+    if(NOT TARGET llama)
+        if(THEMIS_FORCE_LLAMA_SUBDIR)
+            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_forced_build")
+        else()
+            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
+        endif()
+        add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
+    endif()
     
     # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
     if(MSVC AND TARGET llama)
@@ -1084,6 +1094,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
+    ../src/storage/nlp_metadata_extractor.cpp
     
     ../src/metadata/schema_manager.cpp
     ../src/server/schema_api_handler.cpp
@@ -1133,6 +1144,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/function_registry.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
@@ -1263,7 +1276,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/auth/jwt_validator.cpp
-    $<$<BOOL:${THEMIS_ENABLE_KERBEROS}>:../src/auth/gssapi_authenticator.cpp>
+    ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
@@ -1480,6 +1493,12 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
     )
+    
+    # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
+    list(APPEND THEMIS_CORE_SOURCES
+    ../src/rag/knowledge_gap_detector.cpp
+    )
+    # Note: rag_judge.cpp will be added in a future phase
 endif()
 
 # Ensure minimal LLM components are available when referenced from http_server.
@@ -1768,6 +1787,10 @@ target_link_libraries(themis_core
     OpenSSL::Crypto
     TBB::tbb
 )
+
+if(WIN32)
+    target_link_libraries(themis_core PUBLIC Secur32)
+endif()
 
 # Link libzip (for archive and office processing)
 if(libzip_FOUND)
@@ -2178,6 +2201,11 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
         
+        # RAG Enhancement: Quality Evaluation and Gap Detection
+        ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
+        ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
+        ../src/rag/knowledge_gap_detector.cpp     # Knowledge gap detection
+        
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
@@ -2446,8 +2474,8 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_cte_cache.cpp
         ${THEMIS_ROOT_DIR}/tests/test_aql_translator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_text_processor.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_nlp_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_nlp_metadata_extractor.cpp
+        # Standalone tests with own main() removed from themis_tests:
+        # test_nlp_integration.cpp, test_nlp_metadata_extractor.cpp, test_lora_*.cpp, test_data_loader.cpp, test_llama_tokenizer.cpp, test_office_processor.cpp, test_production_validator.cpp
     ${THEMIS_ROOT_DIR}/tests/test_prompt_manager.cpp
     ${THEMIS_ROOT_DIR}/tests/test_mock_clip.cpp
         ${THEMIS_ROOT_DIR}/tests/test_image_analysis_interface.cpp
@@ -2517,19 +2545,15 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_partition_detection.cpp
         ${THEMIS_ROOT_DIR}/tests/test_raid_redundancy.cpp
         ${THEMIS_ROOT_DIR}/tests/test_hot_spare.cpp
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_llama_integration.cpp>  # LoRA-llama.cpp integration tests (Phase 2)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_data_loader.cpp>  # Data loading and tokenization tests (Phase 2)
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_llama_tokenizer.cpp>  # llama.cpp tokenizer integration tests
-        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${THEMIS_ROOT_DIR}/tests/test_lora_training_integration.cpp>  # Training service integration tests (Phase 2a)
+        # LoRA/LLM tests with own main() moved to separate executables below
+        # test_lora_framework.cpp, test_lora_feedback.cpp, test_lora_llama_integration.cpp, test_data_loader.cpp, test_llama_tokenizer.cpp, test_lora_training_integration.cpp
         $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${THEMIS_ROOT_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
         $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
         $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_flash_lora.cpp>  # FlashLoRA memory-efficient kernel tests
         ${THEMIS_ROOT_DIR}/tests/test_raid_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${THEMIS_ROOT_DIR}/tests/test_gpu_erasure_coding.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:${THEMIS_ROOT_DIR}/tests/test_office_processor.cpp>
+        # test_office_processor.cpp removed (has own main)
         ${THEMIS_ROOT_DIR}/tests/test_stream_protocol_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_cloud_agent.cpp
         ${THEMIS_ROOT_DIR}/tests/test_pki_shard_certificate.cpp
@@ -2585,6 +2609,20 @@ if(THEMIS_BUILD_TESTS)
             Boost::system
     )
 
+    # Ensure llama runtime is available next to the test binary on Windows
+    if(TARGET llama)
+        add_custom_command(TARGET themis_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:llama>
+                    $<TARGET_FILE_DIR:themis_tests>
+        )
+        add_custom_command(TARGET themis_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    $<TARGET_FILE_DIR:llama>
+                    $<TARGET_FILE_DIR:themis_tests>
+        )
+    endif()
+
     # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
     add_executable(themis_secidx_tests
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
@@ -2636,7 +2674,7 @@ if(THEMIS_BUILD_TESTS)
             ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache.cpp
             ${THEMIS_ROOT_DIR}/tests/test_paged_attention.cpp
             ${THEMIS_ROOT_DIR}/tests/test_continuous_batch_scheduler.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
+            # test_production_validator.cpp removed (has own main)
             ${THEMIS_ROOT_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
             ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
         )
@@ -2657,6 +2695,18 @@ if(THEMIS_BUILD_TESTS)
                 GTest::gtest_main
                 Boost::system
         )
+        if(TARGET llama)
+            add_custom_command(TARGET themis_llm_tests POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                        $<TARGET_FILE:llama>
+                        $<TARGET_FILE_DIR:themis_llm_tests>
+            )
+            add_custom_command(TARGET themis_llm_tests POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        $<TARGET_FILE_DIR:llama>
+                        $<TARGET_FILE_DIR:themis_llm_tests>
+            )
+        endif()
             include(GoogleTest)
         gtest_discover_tests(themis_llm_tests
             DISCOVERY_MODE PRE_TEST
@@ -2887,6 +2937,61 @@ if(THEMIS_BUILD_BENCHMARKS)
         ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_search.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_apply_grpc.cpp
     )
+
+    # Bundle additional CPU-first benchmarks into the unified binary so they build by default
+    target_sources(themis_benchmarks PRIVATE
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_core_performance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_comprehensive.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_advanced_patterns.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hotspots_micro.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_lock_contention.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_stress.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_compression.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_index_rebuild.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_mvcc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_encryption.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_olap_analytics.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_video_processor.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_stream_protocol.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_process_mining.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_async_io_multiscan.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hsm_provider.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_shard_routing.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_transaction_throughput.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_changefeed_throughput.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis_latency.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_policy_evaluation.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/benchmark_image_analysis.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpcc.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_ycsb.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_mmdb.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpch.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_aql_functions.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_auto_buffers.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_blob_zstd.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_product_quantization.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_sanity.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_sharding_performance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_simd_distance.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_compression_lossless.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_prefilter.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_batch_insert.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_simple_insert_test.cpp
+    )
     
     target_link_libraries(themis_benchmarks
         PRIVATE
@@ -2894,6 +2999,18 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    if(TARGET llama)
+        add_custom_command(TARGET themis_benchmarks POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:llama>
+                    $<TARGET_FILE_DIR:themis_benchmarks>
+        )
+        add_custom_command(TARGET themis_benchmarks POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    $<TARGET_FILE_DIR:llama>
+                    $<TARGET_FILE_DIR:themis_benchmarks>
+        )
+    endif()
     
     # Compression benchmark (standalone)
     add_executable(bench_compression

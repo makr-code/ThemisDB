@@ -497,15 +497,13 @@ private:
         explicit QueryExpressionEvaluator(QueryEngine* engine) 
             : engine_(engine) {}
         
-        std::optional<QueryValue> evaluate(
-            std::string_view expression,
-            const RowData& row_data) const override;
-        
-        bool evaluateBoolean(
-            std::string_view expression,
-            const RowData& row_data) const override;
-        
-        bool canEvaluate(std::string_view expression) const override;
+        // Minimal stub implementation matching IExpressionEvaluator
+        bool evaluate(const std::string& expression, const void* context) const override;
+        std::string get_expression_type() const override;
+
+        // Helpers reserved for future richer evaluation paths (non-override)
+        bool evaluateBoolean(std::string_view expression, const void* context) const;
+        bool canEvaluate(std::string_view expression) const;
         
     private:
         QueryEngine* engine_;

@@ -400,16 +400,17 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Build llama server" FORCE)
     set(LLAMA_INSTALL OFF CACHE BOOL "Install llama" FORCE)
     
-    # Add llama.cpp as subdirectory - it will create the 'llama' target
-    add_subdirectory("${LLAMA_CPP_SOURCE_DIR}" llama_cpp_build EXCLUDE_FROM_ALL)
+    # Add llama.cpp as subdirectory - it will create the 'llama' target (guard against double-add)
+    if(NOT TARGET llama)
+        add_subdirectory("${LLAMA_CPP_SOURCE_DIR}" llama_cpp_build EXCLUDE_FROM_ALL)
+    endif()
     
     # Ensure OpenMP is linked to llama target
     if(TARGET llama)
         target_link_libraries(llama PUBLIC OpenMP::OpenMP_C)
+        message(STATUS "llama.cpp configured as subdirectory - enabling LLM plugin support")
+        add_compile_definitions(THEMIS_ENABLE_LLM=1)
     endif()
-    
-    message(STATUS "llama.cpp configured as subdirectory - enabling LLM plugin support")
-    add_compile_definitions(THEMIS_ENABLE_LLM=1)
     
     # Voice assistant support (requires Whisper, Piper)
     if(THEMIS_ENABLE_VOICE_ASSISTANT)

@@ -5,18 +5,27 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# CRITICAL: Force MSVC to use Dynamic CRT Runtime (/MD for Release, /MDd for Debug)
-# This must be set BEFORE any targets are defined
-# Without this, vcpkg DLLs (built with /MD) won't load correctly due to CRT mismatch
+# CRITICAL: Select MSVC CRT runtime consistently with vcpkg triplet
+# - x64-windows-static     -> /MT  (MultiThreaded)
+# - other triplets (shared)-> /MD  (MultiThreadedDLL)
 if(MSVC)
     # Set policy CMP0091 to use MSVC_RUNTIME_LIBRARY
     if(POLICY CMP0091)
         cmake_policy(SET CMP0091 NEW)
     endif()
-    
-    # Force MSVC Runtime Library selection
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "MSVC Runtime" FORCE)
-    message(STATUS "MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd)")
+
+    set(_themis_use_static_crt OFF)
+    if(DEFINED VCPKG_TARGET_TRIPLET AND VCPKG_TARGET_TRIPLET MATCHES "static")
+        set(_themis_use_static_crt ON)
+    endif()
+
+    if(_themis_use_static_crt)
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "MSVC Runtime" FORCE)
+        message(STATUS "MSVC Runtime: MultiThreaded (MT) / MultiThreadedDebug (MTd) [static triplet]")
+    else()
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "MSVC Runtime" FORCE)
+        message(STATUS "MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd) [shared triplet]")
+    endif()
 endif()
 
 # Export compile commands for IDE support (VSCode, Clion, etc)
