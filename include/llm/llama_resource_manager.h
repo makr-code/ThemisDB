@@ -15,6 +15,9 @@ namespace llm {
  * 
  * Integrates ThemisDB Backend-Infrastructure with llama.cpp.
  * Vulkan backend is prioritized for cross-platform compatibility.
+ * 
+ * Enhanced with multi-GPU distribution, load balancing, health checks,
+ * and persistent pinning support.
  */
 struct GPUBackendConfig {
     // Backend Selection (Vulkan prioritized)
@@ -46,6 +49,39 @@ struct GPUBackendConfig {
     bool enable_tensor_cores = true;
     bool enable_peer_to_peer = false;
     bool enable_unified_memory = false;
+    
+    // Multi-GPU Distribution (Tensor Parallelism)
+    enum class TensorParallelismMode {
+        NONE,           // Single GPU, no parallelism
+        PIPELINE,       // Pipeline parallelism (layer-wise)
+        TENSOR,         // Tensor parallelism (split tensors)
+        HYBRID          // Hybrid pipeline + tensor parallelism
+    };
+    TensorParallelismMode tensor_parallel_mode = TensorParallelismMode::NONE;
+    float tensor_split_ratio = 0.5f;  // Split ratio for tensor parallelism (0.0-1.0)
+    
+    // Dynamic Load Balancing
+    bool enable_dynamic_load_balancing = true;
+    float load_balance_threshold = 0.8f;  // Trigger rebalancing at 80% utilization
+    int load_balance_interval_ms = 5000;  // Check interval for load balancing
+    
+    // JIT Eviction for LoRA Adapters
+    bool enable_jit_eviction = true;
+    size_t adapter_cache_size = 10;  // Max adapters in memory per GPU
+    float eviction_threshold = 0.9f;  // Evict when VRAM usage > 90%
+    
+    // GPU Health Monitoring
+    bool enable_health_checks = true;
+    int health_check_interval_ms = 10000;  // Check interval for GPU health
+    float max_gpu_temperature_celsius = 85.0f;  // Max safe temperature
+    float max_gpu_utilization = 0.95f;  // Max safe utilization (95%)
+    bool auto_failover_on_error = true;  // Automatic failover to healthy GPUs
+    
+    // Persistent Pinning
+    bool enable_persistent_pinning = true;
+    std::vector<std::string> pinned_model_ids;  // Model IDs to keep pinned
+    std::vector<std::string> pinned_adapter_ids;  // Adapter IDs to keep pinned
+    int pinned_resource_priority = 10;  // Priority for pinned resources (higher = more important)
 };
 
 /**
