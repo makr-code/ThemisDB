@@ -96,6 +96,27 @@ public:
     void recordDatacenterLatency(const std::string& datacenter, double latency_ms);
     void recordCrossDCRequest(const std::string& source_dc, const std::string& target_dc);
 
+    // ==================== Gossip Config Manager Metrics ====================
+    
+    // Config update metrics
+    void recordGossipConfigUpdate(const std::string& operation); // sent/received
+    void recordGossipConfigUpdateLatency(double latency_ms);
+    void recordGossipConfigConflict(const std::string& resolution_type);
+    
+    // Resource snapshot metrics
+    void recordGossipResourceSnapshot(const std::string& operation); // sent/received
+    void recordGossipResourceSnapshotLatency(double latency_ms);
+    
+    // Gossip round metrics
+    void recordGossipConfigRound();
+    void recordGossipConfigAntiEntropy();
+    void setGossipConfigPeerCount(int count);
+    
+    // Propagation metrics
+    void observeGossipPropagationLatency(double latency_ms);
+    void recordGossipMessagesSent();
+    void recordGossipMessagesReceived();
+
     // ==================== Replication Metrics (RAID1/10) ====================
 
     // WALShipper metrics
