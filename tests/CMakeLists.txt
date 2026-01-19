@@ -1344,6 +1344,73 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "LLM Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
     endif()
     
+    # Model Loading from ThemisDB Tests (NEW - Issue: GAP Model Loading)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loading_from_themisdb.cpp")
+        message(STATUS "Adding Model Loading from ThemisDB tests")
+        
+        add_executable(test_model_loading_from_themisdb
+            llm/test_model_loading_from_themisdb.cpp
+        )
+        
+        target_link_libraries(test_model_loading_from_themisdb PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_model_loading_from_themisdb PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ModelLoadingFromThemisDBTests COMMAND test_model_loading_from_themisdb)
+        
+        set_tests_properties(ModelLoadingFromThemisDBTests PROPERTIES
+            LABELS "llm;model_loading;blob_storage;themisdb;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "Model Loading from ThemisDB tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loading_from_themisdb.cpp")
+    endif()
+    
+    # Model Loading Performance Benchmarks (NEW - Issue: GAP Model Loading)
+    find_package(benchmark QUIET CONFIG)
+    if(benchmark_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_model_loading_from_themisdb.cpp")
+        message(STATUS "Adding Model Loading performance benchmarks (Google Benchmark)")
+        
+        add_executable(bench_model_loading_from_themisdb
+            llm/bench_model_loading_from_themisdb.cpp
+        )
+        
+        target_link_libraries(bench_model_loading_from_themisdb PRIVATE
+            benchmark::benchmark
+            benchmark::benchmark_main
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(bench_model_loading_from_themisdb PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Benchmarks are not added to CTest by default (run manually)
+        # To run: ./bench_model_loading_from_themisdb
+    else()
+        if(NOT benchmark_FOUND)
+            message(STATUS "Google Benchmark not found - skipping performance benchmarks")
+            message(STATUS "  Install with: vcpkg install benchmark")
+        else()
+            message(STATUS "Model Loading benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_model_loading_from_themisdb.cpp")
+        endif()
+    endif()
+    
     # Claim Extractor Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
         message(STATUS "Adding Claim Extractor tests")
