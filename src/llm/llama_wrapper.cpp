@@ -3,6 +3,9 @@
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
 #include "llm/llamacpp_inference_engine.h"
+#include "llm/llm_model_storage.h"
+#include "storage/blob_storage_manager.h"
+#include "security/encryption.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -343,6 +346,161 @@ bool LlamaWrapper::loadModel(
     transitionToState(WrapperState::READY, "Model loaded successfully: " + current_model_id_);
     
     return true;
+}
+
+bool LlamaWrapper::loadModelFromThemisDB(
+    const std::string& model_id,
+    std::shared_ptr<LLMModelStorage> storage,
+    std::shared_ptr<storage::BlobStorageManager> blob_manager,
+    std::shared_ptr<security::FieldEncryption> encryption,
+    const json& config
+) {
+    spdlog::info("Loading model from ThemisDB: {}", model_id);
+    
+    // Validate parameters
+    if (!storage) {
+        spdlog::error("LLMModelStorage is null");
+        return false;
+    }
+    
+    if (!blob_manager) {
+        spdlog::error("BlobStorageManager is null");
+        return false;
+    }
+    
+    try {
+        // Step 1: Load model metadata from ThemisDB
+        spdlog::info("Step 1: Retrieving model metadata from ThemisDB...");
+        auto metadata_opt = storage->loadModel(model_id);
+        if (!metadata_opt) {
+            spdlog::error("Model not found in ThemisDB: {}", model_id);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_id);
+            return false;
+        }
+        
+        const auto& metadata = *metadata_opt;
+        spdlog::info("✓ Model metadata retrieved: {} ({})", 
+                     metadata.model_name, metadata.architecture);
+        spdlog::info("  Format: {}, Quantization: {}, Size: {} bytes", 
+                     metadata.format, metadata.quantization, metadata.size_bytes);
+        
+        // Step 2: Check if model data is stored inline or in blob storage
+        spdlog::info("Step 2: Retrieving model data...");
+        std::vector<uint8_t> model_data;
+        
+        // Try to get blob reference from metadata
+        // The loadModelBlob() method in LLMModelStorage handles blob retrieval
+        auto blob_data_opt = storage->loadModelBlob(model_id);
+        
+        if (!blob_data_opt) {
+            spdlog::error("Failed to retrieve model blob data for: {}", model_id);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_id);
+            return false;
+        }
+        
+        model_data = *blob_data_opt;
+        spdlog::info("✓ Model blob retrieved: {} bytes", model_data.size());
+        
+        // Step 3: Handle decryption if encryption is enabled
+        if (encryption && !model_data.empty()) {
+            spdlog::info("Step 3: Decrypting model data...");
+            
+            // Check if data is encrypted (starts with encrypted blob marker)
+            std::string data_str(model_data.begin(), model_data.end());
+            
+            // Try to parse as encrypted blob
+            try {
+                auto encrypted_blob = security::EncryptedBlob::fromBase64(data_str);
+                
+                spdlog::info("  Encrypted blob detected: key_id={}, key_version={}", 
+                            encrypted_blob.key_id, encrypted_blob.key_version);
+                
+                // Decrypt
+                auto decrypted = encryption->decryptToBytes(encrypted_blob);
+                model_data = decrypted;
+                
+                spdlog::info("✓ Model data decrypted: {} bytes", model_data.size());
+            } catch (const std::exception& e) {
+                // Not encrypted or decryption failed
+                spdlog::debug("Model data not encrypted or decryption skipped: {}", e.what());
+            }
+        } else {
+            spdlog::info("Step 3: Encryption not enabled, using data as-is");
+        }
+        
+        // Step 4: Write model data to temporary file
+        spdlog::info("Step 4: Writing model to temporary file...");
+        
+        // Create temporary directory for model cache
+        std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
+        std::filesystem::create_directories(temp_dir);
+        
+        // Determine file extension from format
+        std::string extension = ".gguf";  // Default
+        if (metadata.format == "safetensors") {
+            extension = ".safetensors";
+        } else if (metadata.format == "pytorch") {
+            extension = ".pt";
+        }
+        
+        // Create temp file path
+        std::filesystem::path temp_model_path = temp_dir / (model_id + extension);
+        
+        // Write model data to file
+        std::ofstream out_file(temp_model_path, std::ios::binary);
+        if (!out_file) {
+            spdlog::error("Failed to create temporary model file: {}", temp_model_path.string());
+            return false;
+        }
+        
+        out_file.write(reinterpret_cast<const char*>(model_data.data()), model_data.size());
+        out_file.close();
+        
+        if (!std::filesystem::exists(temp_model_path)) {
+            spdlog::error("Temporary model file was not created: {}", temp_model_path.string());
+            return false;
+        }
+        
+        // Verify file size
+        auto file_size = std::filesystem::file_size(temp_model_path);
+        if (file_size != model_data.size()) {
+            spdlog::error("File size mismatch: expected {}, got {}", 
+                         model_data.size(), file_size);
+            std::filesystem::remove(temp_model_path);
+            return false;
+        }
+        
+        spdlog::info("✓ Model written to temporary file: {}", temp_model_path.string());
+        spdlog::info("  File size: {} bytes", file_size);
+        
+        // Step 5: Load model using standard loadModel() method
+        spdlog::info("Step 5: Loading model into llama.cpp...");
+        
+        bool load_success = loadModel(temp_model_path.string(), config);
+        
+        if (!load_success) {
+            spdlog::error("Failed to load model from temporary file");
+            // Clean up temp file on failure
+            std::filesystem::remove(temp_model_path);
+            return false;
+        }
+        
+        spdlog::info("✓ Model loaded successfully from ThemisDB: {}", model_id);
+        
+        // Note: Temp file is left in cache directory for potential reuse
+        // It will be cleaned up when the cache directory is purged
+        
+        // Update usage statistics in ThemisDB
+        storage->updateUsageStats(model_id);
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception loading model from ThemisDB: {}", e.what());
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
+                        model_id + ": " + e.what());
+        return false;
+    }
 }
 
 void LlamaWrapper::unloadModel() {

@@ -18,6 +18,19 @@
 #include <unordered_map>
 #include <memory>
 
+// Forward declarations for ThemisDB storage classes
+namespace themis {
+namespace llm {
+    class LLMModelStorage;
+}
+namespace storage {
+    class BlobStorageManager;
+}
+namespace security {
+    class FieldEncryption;
+}
+}
+
 // Forward declarations for llama.cpp types
 struct llama_model;
 struct llama_context;
@@ -257,6 +270,39 @@ public:
         const std::string& model_path,
         const json& config = {}
     ) override;
+    
+    /**
+     * @brief Load model from ThemisDB storage
+     * 
+     * Loads a model that was previously stored in ThemisDB's blob storage.
+     * This enables native model storage in the database without requiring
+     * filesystem access.
+     * 
+     * Process:
+     * 1. Retrieve model metadata from LLMModelStorage
+     * 2. Download model blob from BlobStorageManager
+     * 3. Handle decryption if encryption is enabled
+     * 4. Write to temporary file (with cleanup)
+     * 5. Load model using standard loadModel() flow
+     * 
+     * @param model_id Unique model identifier stored in ThemisDB
+     * @param storage LLMModelStorage instance for metadata retrieval
+     * @param blob_manager BlobStorageManager for blob download
+     * @param encryption Optional encryption service for decryption
+     * @param config Optional loading configuration
+     * @return true if model loaded successfully, false otherwise
+     * 
+     * @throws std::runtime_error if model not found in storage
+     * @throws std::runtime_error if blob retrieval fails
+     * @throws std::runtime_error if decryption fails (when encryption enabled)
+     */
+    bool loadModelFromThemisDB(
+        const std::string& model_id,
+        std::shared_ptr<LLMModelStorage> storage,
+        std::shared_ptr<storage::BlobStorageManager> blob_manager,
+        std::shared_ptr<security::FieldEncryption> encryption = nullptr,
+        const json& config = {}
+    );
     
     void unloadModel() override;
     
