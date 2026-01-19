@@ -129,6 +129,7 @@ double LLMMetaAnalyzer::parseScore(
     const std::string& response,
     const std::string& dimension
 ) {
+    (void)dimension;  // Placeholder until dimension-specific scoring is used
     // Try multiple patterns to extract score
     std::vector<std::regex> patterns = {
         std::regex("(?:Score|score):\\s*([0-9]*\\.?[0-9]+)"),
@@ -162,8 +163,9 @@ double LLMMetaAnalyzer::parseScore(
 
 std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
     // Try to extract reasoning section
-    std::regex reasoning_pattern("(?:Reasoning|reasoning|Analysis|analysis):\\s*(.+?)(?:Score|score|Rating|rating|$)", 
-                                 std::regex::dotall);
+    std::regex reasoning_pattern(
+        "(?:Reasoning|reasoning|Analysis|analysis):\\s*(.+?)(?:Score|score|Rating|rating|$)",
+        std::regex::ECMAScript | std::regex::dotall);
     std::smatch match;
     
     if (std::regex_search(response, match, reasoning_pattern)) {

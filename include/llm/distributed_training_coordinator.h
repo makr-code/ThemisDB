@@ -12,7 +12,13 @@
 // Forward declarations
 class ShardRouter;
 class ShardTopology;
-class TrainingConfig;
+// Minimal training configuration used for coordinator initialization
+struct TrainingConfig {
+    int epochs = 1;
+    int total_steps = 0;
+    float learning_rate = 0.0f;
+    int batch_size = 0;
+};
 class OptimizerState;
 class TrainingMetrics;
 

@@ -3,6 +3,13 @@
 #include <spdlog/spdlog.h>
 #include <utility>
 
+// Some llama.cpp builds may not expose grammar APIs in the headers; declare minimal prototypes.
+extern "C" {
+    struct llama_grammar;
+    llama_grammar* llama_grammar_init(const char* grammar_str, const char* root_symbol);
+    void llama_grammar_free(llama_grammar* grammar);
+}
+
 namespace themis {
 namespace llm {
 

@@ -758,6 +758,8 @@ JudgeEnsemble::JudgeEnsemble(
     impl_->strategy = strategy;
 }
 
+JudgeEnsemble::~JudgeEnsemble() = default;
+
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {
     THEMIS_INFO("Evaluating with ensemble of {} judges", impl_->judges.size());
     
