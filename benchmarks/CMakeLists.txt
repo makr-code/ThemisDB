@@ -78,6 +78,55 @@ else()
     message(STATUS "LoRA framework benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_framework.cpp")
 endif()
 
+# Multi-LoRA Fusion Benchmarks (v1.5.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
+    message(STATUS "Adding Multi-LoRA fusion benchmarks")
+    
+    add_executable(bench_multi_lora_fusion
+        bench_multi_lora_fusion.cpp
+    )
+    
+    target_link_libraries(bench_multi_lora_fusion PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_multi_lora_fusion PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_multi_lora_fusion PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_multi_lora_fusion
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run Multi-LoRA fusion benchmarks
+    add_custom_target(run_benchmark_multi_lora_fusion
+        COMMAND ${CMAKE_CURRENT_BINARY_DIR}/bench_multi_lora_fusion
+        DEPENDS bench_multi_lora_fusion
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running Multi-LoRA fusion benchmarks..."
+    )
+else()
+    message(STATUS "Multi-LoRA fusion benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
+endif()
+
 # LoRA Auto-Binding Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
     message(STATUS "Adding LoRA auto-binding benchmarks")

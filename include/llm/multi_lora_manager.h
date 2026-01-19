@@ -10,6 +10,7 @@
 #include <thread>
 #include <atomic>
 #include <condition_variable>
+#include <functional>
 
 /**
  * @file multi_lora_manager.h
@@ -111,6 +112,108 @@ struct QuantizationStats {
     float min_scale = 0.0f;              // Minimum scale factor
     float max_scale = 0.0f;              // Maximum scale factor
     float avg_scale = 0.0f;              // Average scale factor
+};
+
+/**
+ * @brief Fusion strategy for combining multiple LoRA adapters
+ */
+enum class FusionStrategy {
+    STATIC = 0,        // Fixed weights, cached permanently
+    DYNAMIC = 1,       // Runtime adjustable weights
+    SCHEDULED = 2      // Time-varying weights (A/B testing, smooth transitions)
+};
+
+/**
+ * @brief Alpha scheduling function for dynamic fusion
+ * 
+ * Allows runtime computation of blend weights based on various factors:
+ * - Time-based: gradual transition between adapters
+ * - Performance-based: A/B testing with feedback
+ * - Context-based: different weights per request type
+ */
+struct AlphaSchedule {
+    std::string schedule_id;
+    FusionStrategy strategy = FusionStrategy::STATIC;
+    
+    // Static weights (for STATIC strategy)
+    std::vector<float> static_weights;
+    
+    // Dynamic scheduling parameters
+    std::chrono::system_clock::time_point start_time;
+    std::chrono::seconds transition_duration{0};  // For smooth transitions
+    
+    // Function pointer for custom scheduling logic
+    // Returns weights vector based on current time offset (seconds since start)
+    using ScheduleFunc = std::function<std::vector<float>(double time_offset)>;
+    ScheduleFunc schedule_func;
+    
+    // A/B testing parameters
+    float a_weight = 0.5f;  // Weight for adapter A in A/B test
+    float b_weight = 0.5f;  // Weight for adapter B in A/B test
+    
+    // Performance tracking for adaptive scheduling
+    size_t total_requests = 0;
+    std::vector<double> performance_scores;  // Per-adapter performance
+};
+
+/**
+ * @brief Configuration for LoRA fusion operation
+ */
+struct FusionConfig {
+    FusionStrategy strategy = FusionStrategy::STATIC;
+    std::vector<std::string> source_lora_ids;
+    std::vector<float> weights;
+    
+    // Caching behavior
+    bool enable_cache = true;
+    std::chrono::seconds cache_ttl{3600};  // 1 hour default
+    
+    // Compatibility checks
+    bool enforce_quantization_match = true;
+    bool enforce_gpu_placement_match = false;
+    bool enforce_rank_match = false;
+    
+    // Alpha scheduling (for DYNAMIC/SCHEDULED strategies)
+    AlphaSchedule alpha_schedule;
+};
+
+/**
+ * @brief Fusion cache entry metadata
+ */
+struct FusionCacheEntry {
+    std::string fusion_id;
+    std::vector<std::string> source_lora_ids;
+    std::vector<float> weights;
+    
+    std::chrono::system_clock::time_point created_at;
+    std::chrono::system_clock::time_point last_used;
+    size_t use_count = 0;
+    
+    FusionStrategy strategy = FusionStrategy::STATIC;
+    
+    // Performance metrics
+    double avg_inference_time_ms = 0.0;
+    size_t inference_count = 0;
+};
+
+/**
+ * @brief Fusion performance metrics
+ */
+struct FusionMetrics {
+    std::string fusion_id;
+    FusionStrategy strategy;
+    
+    size_t total_fusions = 0;
+    size_t cache_hits = 0;
+    size_t cache_misses = 0;
+    size_t invalidations = 0;
+    
+    double avg_fusion_time_ms = 0.0;
+    double avg_inference_time_ms = 0.0;
+    
+    // Per-strategy breakdown
+    std::map<FusionStrategy, size_t> fusions_by_strategy;
+    std::map<FusionStrategy, double> avg_time_by_strategy;
 };
 
 /**
@@ -341,6 +444,113 @@ public:
     );
     
     /**
+     * @brief Fuse multiple LoRAs with advanced configuration
+     * 
+     * Extended fusion API with dynamic composition, alpha scheduling,
+     * and fine-grained control over caching and compatibility checks.
+     * 
+     * @param fused_id New identifier for fused adapter
+     * @param config Fusion configuration including strategy and scheduling
+     * @return true if fusion successful
+     */
+    bool fuseLoRAsAdvanced(
+        const std::string& fused_id,
+        const FusionConfig& config
+    );
+    
+    /**
+     * @brief Update weights for a dynamically fused adapter
+     * 
+     * Allows runtime adjustment of blend weights for DYNAMIC fusion strategy.
+     * The fused adapter must have been created with FusionStrategy::DYNAMIC.
+     * 
+     * @param fusion_id ID of the fused adapter
+     * @param new_weights New blend weights (must match number of source LoRAs)
+     * @return true if weights updated successfully
+     */
+    bool updateFusionWeights(
+        const std::string& fusion_id,
+        const std::vector<float>& new_weights
+    );
+    
+    /**
+     * @brief Set alpha schedule for scheduled fusion
+     * 
+     * Configures time-varying weights for SCHEDULED fusion strategy.
+     * Used for A/B testing, gradual transitions, and adaptive blending.
+     * 
+     * @param fusion_id ID of the fused adapter
+     * @param schedule Alpha scheduling configuration
+     * @return true if schedule set successfully
+     */
+    bool setAlphaSchedule(
+        const std::string& fusion_id,
+        const AlphaSchedule& schedule
+    );
+    
+    /**
+     * @brief Get current fusion weights (resolves scheduled weights)
+     * 
+     * Returns the current effective weights for a fused adapter,
+     * accounting for any active alpha scheduling.
+     * 
+     * @param fusion_id ID of the fused adapter
+     * @return Current weights, or empty vector if fusion not found
+     */
+    std::vector<float> getCurrentFusionWeights(const std::string& fusion_id) const;
+    
+    /**
+     * @brief Invalidate fusion cache entry
+     * 
+     * Forces re-computation of a fused adapter on next use.
+     * Useful when source LoRAs have been modified or reloaded.
+     * 
+     * @param fusion_id ID of the fused adapter to invalidate
+     * @return true if cache entry was invalidated
+     */
+    bool invalidateFusionCache(const std::string& fusion_id);
+    
+    /**
+     * @brief Clear all fusion cache entries
+     * 
+     * Removes all cached fused adapters. Source LoRAs remain loaded.
+     * 
+     * @return Number of cache entries cleared
+     */
+    size_t clearFusionCache();
+    
+    /**
+     * @brief Get fusion cache statistics
+     * 
+     * Returns metrics about fusion caching and performance.
+     * 
+     * @return Fusion metrics including cache hit rate and timing
+     */
+    FusionMetrics getFusionMetrics() const;
+    
+    /**
+     * @brief List all cached fusion entries
+     * 
+     * @return Vector of fusion cache entry metadata
+     */
+    std::vector<FusionCacheEntry> listFusionCache() const;
+    
+    /**
+     * @brief Check compatibility of LoRAs for fusion
+     * 
+     * Validates that a set of LoRAs can be safely fused together
+     * based on quantization mode, base model, rank, and GPU placement.
+     * 
+     * @param lora_ids LoRAs to check for compatibility
+     * @param config Fusion configuration with compatibility requirements
+     * @return true if all LoRAs are compatible for fusion
+     */
+    bool checkFusionCompatibility(
+        const std::vector<std::string>& lora_ids,
+        const FusionConfig& config
+    ) const;
+    
+    /**
      * @brief Pin a LoRA in memory (prevent eviction)
      */
     void pinLoRA(const std::string& lora_id);
@@ -496,6 +706,17 @@ private:
     std::unordered_map<int, size_t> gpu_vram_usage_;  // Per-GPU VRAM tracking
     int next_round_robin_gpu_ = 0;                     // Round-robin counter
     
+    // Fusion cache and metrics (v1.5.0)
+    std::unordered_map<std::string, FusionCacheEntry> fusion_cache_;
+    std::unordered_map<std::string, FusionConfig> fusion_configs_;
+    std::unordered_map<std::string, AlphaSchedule> fusion_schedules_;
+    
+    FusionMetrics fusion_metrics_;
+    size_t total_fusions_ = 0;
+    size_t fusion_cache_hits_ = 0;
+    size_t fusion_cache_misses_ = 0;
+    size_t fusion_invalidations_ = 0;
+    
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};
@@ -530,6 +751,16 @@ private:
     void quantizeINT4(LoRASlot* lora, const std::vector<float>& weights);
     void calibrateScales(const std::vector<float>& weights, std::vector<float>& scales);
     std::vector<float> simulateWeights(size_t count);  // For testing without real weights
+    
+    // Fusion helpers (v1.5.0)
+    bool fuseLoRAsInternal(const std::string& fused_id, const FusionConfig& config);
+    std::vector<float> computeScheduledWeights(const std::string& fusion_id) const;
+    bool validateFusionCompatibility(
+        const std::vector<LoRASlot*>& source_loras,
+        const FusionConfig& config
+    ) const;
+    void updateFusionMetrics(const std::string& fusion_id, double fusion_time_ms);
+    void updateInferenceMetrics(const std::string& fusion_id, double inference_time_ms);
     
     bool hasCapacity(size_t vram_bytes) const;
     void updateMemoryUsage();
