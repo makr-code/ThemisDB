@@ -43,7 +43,8 @@ class DebateChatManager:
         self,
         llm_backend: Optional['LLMBackend'] = None,
         enable_ai_synthesis: bool = True,
-        enable_knowledge_research: bool = True
+        enable_knowledge_research: bool = True,
+        themis_client: Optional['MoralDebateClient'] = None
     ):
         """
         Initialize the chat manager.
@@ -52,9 +53,11 @@ class DebateChatManager:
             llm_backend: Optional LLM backend for generating messages
             enable_ai_synthesis: Enable AI synthesizer participant
             enable_knowledge_research: Enable knowledge research for LLM context
+            themis_client: Optional ThemisDB client for multi-model storage
         """
         self.llm_backend = llm_backend
         self.philosophy_profiles = PHILOSOPHY_PROFILES
+        self.themis_client = themis_client
         
         # Initialize AI Synthesizer (KI participant)
         self.ai_synthesizer = None
@@ -91,6 +94,22 @@ class DebateChatManager:
         """
         session.active_dimensions = dimensions
         session.current_round = 1
+        
+        # Store debate start in timeline
+        if self.themis_client:
+            try:
+                self.themis_client.add_timeline_event(
+                    debate_id=session.id,
+                    event_type="debate_started",
+                    timestamp=datetime.now(),
+                    data={
+                        "dimensions": [d.value for d in dimensions],
+                        "philosophies": [p.value for p in philosophies],
+                        "topic": session.debate_topic
+                    }
+                )
+            except Exception as e:
+                print(f"Failed to log timeline event: {e}")
         
         # Research knowledge context if available
         if self.knowledge_researcher and session.news_article:
