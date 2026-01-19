@@ -344,7 +344,6 @@ private:
     
     // State
     std::string adapter_id_;
-    TrainingConfig training_config_;
     bool is_initialized_ = false;
     bool is_running_ = false;
     int current_step_ = 0;
