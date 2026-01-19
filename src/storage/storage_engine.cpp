@@ -1,4 +1,5 @@
 #include "storage/storage_engine.h"
+#include "utils/expected.h"
 #include <stdexcept>
 
 namespace themis {
@@ -59,26 +60,60 @@ public:
 
 class DefaultIndexManager : public IIndexManager {
 public:
-    bool create_index(
-        const std::string& table_name,
-        const std::string& field_name,
-        const std::string& index_type) override {
-        // Default implementation: no-op
-        return true;
+    Result<ISecondaryIndex*> createSecondaryIndex(
+        std::string_view name,
+        std::string_view field_name,
+        const std::string& config = "") override {
+        // Default implementation: no-op, returns nullptr
+        return Ok<ISecondaryIndex*>(nullptr);
     }
     
-    bool drop_index(
-        const std::string& table_name,
-        const std::string& field_name) override {
-        // Default implementation: no-op
-        return true;
+    Result<IVectorIndex*> createVectorIndex(
+        std::string_view name,
+        uint32_t dimension,
+        const std::string& config = "") override {
+        // Default implementation: no-op, returns nullptr
+        return Ok<IVectorIndex*>(nullptr);
     }
     
-    bool has_index(
-        const std::string& table_name,
-        const std::string& field_name) const override {
-        // Default implementation: always false
-        return false;
+    Result<IGraphIndex*> createGraphIndex(
+        std::string_view name,
+        const std::string& config = "") override {
+        // Default implementation: no-op, returns nullptr
+        return Ok<IGraphIndex*>(nullptr);
+    }
+    
+    Result<ISecondaryIndex*> getSecondaryIndex(std::string_view name) const override {
+        // Default implementation: always not found
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, 
+                                       fmt::format("Index '{}' not found (default manager)", name));
+    }
+    
+    Result<IVectorIndex*> getVectorIndex(std::string_view name) const override {
+        // Default implementation: always not found
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                    fmt::format("Index '{}' not found (default manager)", name));
+    }
+    
+    Result<IGraphIndex*> getGraphIndex(std::string_view name) const override {
+        // Default implementation: always not found
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                   fmt::format("Index '{}' not found (default manager)", name));
+    }
+    
+    Result<void> dropIndex(std::string_view name) override {
+        // Default implementation: always succeeds (no-op)
+        return OkVoid();
+    }
+    
+    std::vector<std::string> listIndexes() const override {
+        // Default implementation: empty list
+        return {};
+    }
+    
+    std::optional<IndexType> getIndexType(std::string_view name) const override {
+        // Default implementation: always not found
+        return std::nullopt;
     }
 };
 
