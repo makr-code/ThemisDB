@@ -180,9 +180,67 @@ message HealthResponse {
     uint64 uptime_seconds = 3;
 }
 
+// Gossip-Enhanced Configuration Management (YARN-Inspired)
 message GossipMessage {
     string sender_shard_id = 1;
     uint64 timestamp_ns = 2;
+    
+    // Message type for routing
+    string message_type = 3;  // "config_update", "resource_snapshot", "heartbeat", "anti_entropy"
+    
+    // Vector clock for causality tracking and anti-entropy
+    VectorClock vector_clock = 4;
+    
+    // Payload (one of the following)
+    ConfigUpdate config_update = 5;
+    ResourceSnapshot resource_snapshot = 6;
+    bytes custom_payload = 7;  // For extensibility
+}
+
+// Vector Clock for anti-entropy and conflict resolution
+message VectorClock {
+    map<string, uint64> clocks = 1;  // shard_id -> logical clock
+}
+
+// Configuration Update for decentralized config management
+message ConfigUpdate {
+    string update_id = 1;              // Unique update identifier (UUID)
+    string config_key = 2;             // Configuration key (e.g., "shard.replication_factor")
+    string config_value = 3;           // Configuration value (JSON-encoded)
+    uint64 timestamp_ns = 4;           // Update timestamp
+    VectorClock vector_clock = 5;      // Causality tracking
+    string originator_shard_id = 6;    // Shard that originated the update
+    uint32 ttl = 7;                    // Time-to-live (gossip rounds)
+}
+
+// Resource Snapshot for YARN-inspired resource tracking
+message ResourceSnapshot {
+    string shard_id = 1;
+    uint64 timestamp_ns = 2;
+    
+    // Resource metrics (YARN NodeManager-inspired)
+    uint64 available_memory_bytes = 3;
+    uint64 total_memory_bytes = 4;
+    uint32 available_cpu_cores = 5;
+    uint32 total_cpu_cores = 6;
+    
+    // Storage metrics
+    uint64 available_disk_bytes = 7;
+    uint64 total_disk_bytes = 8;
+    uint64 rocksdb_sst_files_count = 9;
+    uint64 rocksdb_total_size_bytes = 10;
+    
+    // Load metrics
+    double cpu_usage_percent = 11;
+    double memory_usage_percent = 12;
+    double disk_usage_percent = 13;
+    uint64 requests_per_second = 14;
+    double avg_latency_ms = 15;
+    
+    // Health status
+    bool is_healthy = 16;
+    string status = 17;  // "healthy", "degraded", "unhealthy"
+    repeated string warnings = 18;
 }
 
 message Entity {
