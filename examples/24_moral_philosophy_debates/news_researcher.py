@@ -2,6 +2,7 @@
 News Research Module
 
 Provides functionality to fetch and analyze news articles for moral debate.
+Supports multiple sources: RSS feeds, NewsAPI, and sample data.
 """
 
 from typing import List, Optional
@@ -9,24 +10,46 @@ from datetime import datetime, timedelta
 import requests
 from models import NewsArticle
 
+try:
+    import feedparser
+    HAS_FEEDPARSER = True
+except ImportError:
+    HAS_FEEDPARSER = False
+
 
 class NewsResearcher:
     """
     Fetches and filters news articles for moral analysis.
     
-    This module can integrate with various news APIs or use sample data
-    for demonstration purposes.
+    This module can integrate with various news APIs, RSS feeds,
+    or use sample data for demonstration purposes.
     """
     
-    def __init__(self, api_key: Optional[str] = None):
+    # Default RSS feeds for German and international news
+    DEFAULT_RSS_FEEDS = [
+        "https://www.tagesschau.de/xml/rss2/",
+        "http://feeds.bbci.co.uk/news/world/rss.xml",
+        "https://www.zeit.de/index",
+    ]
+    
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        rss_feeds: Optional[List[str]] = None,
+        use_rss: bool = True
+    ):
         """
         Initialize the news researcher.
         
         Args:
             api_key: Optional API key for news services (e.g., NewsAPI)
+            rss_feeds: List of RSS feed URLs to use
+            use_rss: Whether to use RSS feeds as primary source
         """
         self.api_key = api_key
         self.session = requests.Session()
+        self.use_rss = use_rss and HAS_FEEDPARSER
+        self.rss_feeds = rss_feeds or self.DEFAULT_RSS_FEEDS
     
     def fetch_recent_news(
         self,
@@ -45,10 +68,19 @@ class NewsResearcher:
         Returns:
             List of NewsArticle objects
         """
+        # Try RSS feeds first if enabled
+        if self.use_rss:
+            try:
+                return self._fetch_from_rss(limit)
+            except Exception as e:
+                print(f"RSS fetch failed: {e}, falling back to API/samples")
+        
+        # Try API if key is available
         if self.api_key:
             return self._fetch_from_api(category, limit, language)
-        else:
-            return self._get_sample_articles(category, limit)
+        
+        # Fall back to sample articles
+        return self._get_sample_articles(category, limit)
     
     def search_news(
         self,
@@ -218,6 +250,117 @@ class NewsResearcher:
         except Exception as e:
             print(f"Error searching news: {e}")
             return []
+    
+    def _fetch_from_rss(self, limit: int) -> List[NewsArticle]:
+        """
+        Fetches news from RSS feeds.
+        
+        Args:
+            limit: Maximum number of articles
+        
+        Returns:
+            List of NewsArticle objects
+        """
+        if not HAS_FEEDPARSER:
+            raise ImportError("feedparser not installed. Install with: pip install feedparser")
+        
+        all_articles = []
+        articles_per_feed = max(1, limit // len(self.rss_feeds))
+        
+        for feed_url in self.rss_feeds:
+            try:
+                feed = feedparser.parse(feed_url)
+                
+                for entry in feed.entries[:articles_per_feed]:
+                    article = self._parse_rss_entry(entry, feed_url)
+                    if article:
+                        all_articles.append(article)
+                
+            except Exception as e:
+                print(f"Error parsing RSS feed {feed_url}: {e}")
+                continue
+        
+        # Sort by date and limit
+        all_articles.sort(key=lambda x: x.published_date or datetime.min, reverse=True)
+        return all_articles[:limit]
+    
+    def _parse_rss_entry(self, entry, feed_url: str) -> Optional[NewsArticle]:
+        """
+        Parses an RSS entry into a NewsArticle.
+        
+        Args:
+            entry: RSS entry from feedparser
+            feed_url: URL of the RSS feed
+        
+        Returns:
+            NewsArticle or None if parsing fails
+        """
+        try:
+            article = NewsArticle()
+            
+            # Title
+            article.title = entry.get('title', '')
+            
+            # Content - try various fields
+            content = (
+                entry.get('content', [{}])[0].get('value', '') or
+                entry.get('summary', '') or
+                entry.get('description', '')
+            )
+            article.content = self._clean_html(content)
+            article.summary = article.content[:300] if len(article.content) > 300 else article.content
+            
+            # URL
+            article.url = entry.get('link', '')
+            
+            # Source - extract from feed URL
+            if 'tagesschau' in feed_url:
+                article.source = 'Tagesschau'
+            elif 'bbc' in feed_url:
+                article.source = 'BBC News'
+            elif 'zeit' in feed_url:
+                article.source = 'Zeit Online'
+            elif 'spiegel' in feed_url:
+                article.source = 'Spiegel'
+            else:
+                article.source = entry.get('source', {}).get('title', 'RSS Feed')
+            
+            # Date
+            if hasattr(entry, 'published_parsed') and entry.published_parsed:
+                article.published_date = datetime(*entry.published_parsed[:6])
+            elif hasattr(entry, 'updated_parsed') and entry.updated_parsed:
+                article.published_date = datetime(*entry.updated_parsed[:6])
+            else:
+                article.published_date = datetime.now()
+            
+            # Category - try to extract from tags
+            if hasattr(entry, 'tags') and entry.tags:
+                article.category = entry.tags[0].get('term', 'general')
+            else:
+                article.category = 'general'
+            
+            return article
+            
+        except Exception as e:
+            print(f"Error parsing RSS entry: {e}")
+            return None
+    
+    def _clean_html(self, text: str) -> str:
+        """
+        Removes HTML tags from text.
+        
+        Args:
+            text: Text with potential HTML tags
+        
+        Returns:
+            Clean text
+        """
+        import re
+        # Remove HTML tags
+        text = re.sub('<[^<]+?>', '', text)
+        # Remove extra whitespace
+        text = ' '.join(text.split())
+        return text
     
     def _get_sample_articles(self, category: str, limit: int) -> List[NewsArticle]:
         """
