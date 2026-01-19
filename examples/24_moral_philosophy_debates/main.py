@@ -309,6 +309,7 @@ class PhilosophyChatApp:
             self.chat_text.tag_config(f"name_{name}", foreground=color, font=("Arial", 10, "bold"))
         self.chat_text.tag_config("timestamp", foreground="#7f8c8d", font=("Arial", 8))
         self.chat_text.tag_config("dimension", foreground="#9b59b6", font=("Arial", 8, "italic"))
+        self.chat_text.tag_config("response_to", foreground="#3498db", font=("Arial", 9, "italic"))
         
         # Control buttons
         button_frame = tk.Frame(chat_panel, bg="white", height=60)
@@ -575,10 +576,24 @@ class PhilosophyChatApp:
         }
         indicator = type_indicators.get(message.message_type, "💬")
         
+        # If this is a response, show who is being responded to
+        response_info = ""
+        if message.responds_to:
+            # Find the original message
+            original = next(
+                (msg for msg in self.current_debate.chat_messages if msg.id == message.responds_to),
+                None
+            )
+            if original:
+                original_profile = PHILOSOPHY_PROFILES[original.philosophy_school]
+                response_info = f" → @{original_profile.philosopher_name}"
+        
         # Name and timestamp
         time_str = message.timestamp.strftime("%H:%M")
         self.chat_text.insert(tk.END, f"{indicator} ")
         self.chat_text.insert(tk.END, f"{philosopher_name}", f"name_{philosopher_name}")
+        if response_info:
+            self.chat_text.insert(tk.END, response_info, "response_to")
         self.chat_text.insert(tk.END, f"  {time_str}\n", "timestamp")
         
         # Message content

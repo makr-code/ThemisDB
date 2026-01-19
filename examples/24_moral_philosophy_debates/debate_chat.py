@@ -3,10 +3,12 @@ Debate Chat System
 
 Manages the chat-like debate flow with statement, counter-arguments,
 rebuttals across different dimensions (moral, social, political, ethical).
+Philosophers speak in first person and respond to each other randomly.
 """
 
 from typing import List, Optional, Dict
 from datetime import datetime
+import random
 from models import (
     PhilosophySchool, ChatMessage, DebateSession, NewsArticle,
     MessageType, ArgumentDimension, PHILOSOPHY_PROFILES
@@ -138,6 +140,7 @@ class DebateChatManager:
     def _generate_counter_arguments(self, session: DebateSession) -> DebateSession:
         """
         Generates counter-arguments responding to initial statements.
+        Randomly selects which philosopher responds to which.
         
         Args:
             session: The debate session
@@ -153,15 +156,28 @@ class DebateChatManager:
                     statements_by_dim[msg.dimension] = []
                 statements_by_dim[msg.dimension].append(msg)
         
-        # Generate counters
+        # Generate counters with random pairings
         for dimension, statements in statements_by_dim.items():
-            for i, statement in enumerate(statements):
-                # Each philosophy counters another
-                target_idx = (i + 1) % len(statements)
-                target_statement = statements[target_idx]
+            # Create random pairings
+            philosophers = [stmt.philosophy_school for stmt in statements]
+            shuffled = philosophers.copy()
+            random.shuffle(shuffled)
+            
+            # Ensure no one responds to themselves
+            for i in range(len(philosophers)):
+                if shuffled[i] == philosophers[i]:
+                    # Swap with next if same
+                    next_idx = (i + 1) % len(shuffled)
+                    shuffled[i], shuffled[next_idx] = shuffled[next_idx], shuffled[i]
+            
+            # Generate counters based on random pairings
+            for i, responding_phil in enumerate(shuffled):
+                # Find the target statement
+                target_phil = philosophers[i]
+                target_statement = next(s for s in statements if s.philosophy_school == target_phil)
                 
                 counter = self._generate_counter(
-                    statement.philosophy_school,
+                    responding_phil,
                     target_statement,
                     session
                 )
@@ -210,6 +226,7 @@ class DebateChatManager:
     def _generate_rebuttals(self, session: DebateSession) -> DebateSession:
         """
         Generates rebuttals defending against counter-arguments.
+        Randomly decides who rebuts (not always the original speaker).
         
         Args:
             session: The debate session
@@ -221,6 +238,9 @@ class DebateChatManager:
         counters = [msg for msg in session.chat_messages 
                    if msg.message_type == MessageType.COUNTER]
         
+        # Get all participating philosophers
+        all_philosophies = list(set(msg.philosophy_school for msg in session.chat_messages))
+        
         for counter in counters:
             # Find the original statement
             original = next(
@@ -230,8 +250,20 @@ class DebateChatManager:
             )
             
             if original:
+                # 70% chance original speaker rebuts, 30% chance random other philosopher jumps in
+                if random.random() < 0.7:
+                    rebutter = original.philosophy_school
+                else:
+                    # Random other philosopher supports the original position
+                    other_phils = [p for p in all_philosophies 
+                                  if p != counter.philosophy_school and p != original.philosophy_school]
+                    if other_phils:
+                        rebutter = random.choice(other_phils)
+                    else:
+                        rebutter = original.philosophy_school
+                
                 rebuttal = self._generate_rebuttal(
-                    original.philosophy_school,
+                    rebutter,
                     counter,
                     session
                 )
@@ -345,71 +377,116 @@ class DebateChatManager:
         dimension: ArgumentDimension,
         news_article: NewsArticle
     ) -> str:
-        """Template-based statement generation."""
+        """Template-based statement generation in first person."""
         profile = self.philosophy_profiles[philosophy]
         
         dimension_focus = {
-            ArgumentDimension.MORAL: "moralische Bewertung",
-            ArgumentDimension.SOCIAL: "soziale Auswirkungen",
-            ArgumentDimension.POLITICAL: "politische Implikationen",
-            ArgumentDimension.ETHICAL: "ethische Prinzipien",
-            ArgumentDimension.ECONOMIC: "wirtschaftliche Folgen",
-            ArgumentDimension.LEGAL: "rechtliche Aspekte"
+            ArgumentDimension.MORAL: "moralischen Bewertung",
+            ArgumentDimension.SOCIAL: "sozialen Auswirkungen",
+            ArgumentDimension.POLITICAL: "politischen Implikationen",
+            ArgumentDimension.ETHICAL: "ethischen Prinzipien",
+            ArgumentDimension.ECONOMIC: "wirtschaftlichen Folgen",
+            ArgumentDimension.LEGAL: "rechtlichen Aspekten"
         }
         
         return f"""Zur {dimension_focus.get(dimension, 'Analyse')} von "{news_article.title}":
 
-Aus meiner Perspektive ist dies eine Frage von {', '.join(profile.core_principles[:2])}.
+Meiner Ansicht nach ist dies fundamentally eine Frage von {profile.core_principles[0].lower()}. Ich argumentiere, dass wir dies durch mein ethisches Rahmenwerk betrachten müssen.
 
 {profile.decision_framework}
 
-Die zentrale Herausforderung liegt in der Anwendung dieser Prinzipien auf die konkreten Umstände."""
+Ich sehe die zentrale Herausforderung darin, diese Prinzipien auf die konkreten Umstände anzuwenden, ohne ihre universelle Gültigkeit zu kompromittieren."""
     
     def _template_counter(
         self,
         philosophy: PhilosophySchool,
         target_message: ChatMessage
     ) -> str:
-        """Template-based counter-argument generation."""
+        """Template-based counter-argument generation in first person."""
         profile = self.philosophy_profiles[philosophy]
         target_profile = self.philosophy_profiles[target_message.philosophy_school]
         
-        return f"""In Erwiderung auf {target_profile.philosopher_name}:
+        responses = [
+            f"""Ich muss {target_profile.philosopher_name} hier widersprechen. Ihre Perspektive übersieht einen entscheidenden Punkt:
 
-Ich respektiere Ihre Perspektive, jedoch übersieht Ihr Ansatz wichtige Aspekte.
+Während Sie betonen, dass {target_profile.core_principles[0].lower()}, argumentiere ich, dass wir nicht vergessen dürfen: {profile.core_principles[0]}
 
-Während Sie betonen: {target_profile.core_principles[0]}, müssen wir auch berücksichtigen: {profile.core_principles[0]}.
+Aus meiner Sicht müssen wir {profile.decision_framework.lower()}""",
+            
+            f"""Mit Verlaub, {target_profile.philosopher_name}, ich sehe das anders. Ihr Ansatz hat Schwächen:
 
-{profile.decision_framework}"""
+Sie konzentrieren sich auf {target_profile.core_principles[0].lower()}, aber ich gebe zu bedenken, dass {profile.core_principles[0].lower()} mindestens ebenso wichtig ist.
+
+Mein Ansatz würde verlangen, dass wir {profile.decision_framework.lower()}""",
+            
+            f"""Ich schätze Ihren Beitrag, {target_profile.philosopher_name}, aber ich muss eine andere Position vertreten:
+
+Ihr Fokus auf {target_profile.core_principles[0].lower()} greift meiner Meinung nach zu kurz. Ich halte es für zentral, dass {profile.core_principles[0].lower()}.
+
+Nach meinem Verständnis sollten wir {profile.decision_framework.lower()}"""
+        ]
+        
+        return random.choice(responses)
     
     def _template_rebuttal(
         self,
         philosophy: PhilosophySchool,
         counter_message: ChatMessage
     ) -> str:
-        """Template-based rebuttal generation."""
+        """Template-based rebuttal generation in first person."""
         profile = self.philosophy_profiles[philosophy]
+        counter_profile = self.philosophy_profiles[counter_message.philosophy_school]
         
-        return f"""Verteidigung meiner Position:
+        rebuttals = [
+            f"""Ich muss meine Position verteidigen, {counter_profile.philosopher_name}:
 
-Der Einwand übersieht, dass {profile.core_principles[0]} fundamentaler ist als zunächst erkennbar.
+Ihr Einwand übersieht, dass {profile.core_principles[0].lower()} fundamentaler ist, als Sie annehmen. Ich vertrete die Auffassung, dass {profile.decision_framework.lower()}
 
-{profile.decision_framework}
+Diese Prinzipien sind für mich nicht verhandelbar, da sie die Grundlage jeder rationalen moralischen Urteilsfähigkeit bilden.""",
+            
+            f"""Ich danke Ihnen für die Herausforderung, {counter_profile.philosopher_name}, aber ich bleibe bei meiner Analyse:
 
-Diese Prinzipien sind nicht verhandelbar, da sie die Grundlage moralischer Urteilsfähigkeit bilden."""
+Sie unterschätzen die Bedeutung von {profile.core_principles[0].lower()}. Meiner Überzeugung nach müssen wir {profile.decision_framework.lower()}
+
+Ich sehe keinen Grund, von dieser Position abzuweichen, da sie auf soliden philosophischen Grundlagen ruht.""",
+            
+            f"""Ich höre Ihren Einwand, {counter_profile.philosopher_name}, aber ich kann ihm nicht folgen:
+
+Was Sie übersehen, ist dass {profile.core_principles[0].lower()} nicht einfach eine Option unter vielen ist. Nach meinem Verständnis ist es zwingend, dass wir {profile.decision_framework.lower()}
+
+Ich halte an meiner ursprünglichen Position fest."""
+        ]
+        
+        return random.choice(rebuttals)
     
     def _template_synthesis(
         self,
         philosophy: PhilosophySchool,
         dimension: ArgumentDimension
     ) -> str:
-        """Template-based synthesis generation."""
+        """Template-based synthesis generation in first person."""
         profile = self.philosophy_profiles[philosophy]
         
-        return f"""Versuch einer Synthese:
+        syntheses = [
+            f"""Nach dieser intensiven Diskussion möchte ich einen Versuch der Synthese wagen:
 
-Nach Betrachtung aller Perspektiven sehe ich mögliche Gemeinsamkeiten:
+Ich habe allen Kollegen aufmerksam zugehört und erkenne durchaus Gemeinsamkeiten. Wir alle stimmen überein, dass diese Situation sorgfältiger ethischer Überlegung bedarf.
 
-Alle Ansätze erkennen an, dass diese Situation sorgfältiger ethischer Überlegung bedarf. Trotz unterschiedlicher Ausgangspunkte können wir uns darauf einigen, dass {profile.core_principles[0]} ein wichtiger Orientierungspunkt ist.
+Trotz unserer unterschiedlichen Ausgangspunkte sehe ich, dass wir uns darauf einigen können, dass {profile.core_principles[0].lower()} ein wichtiger - wenn auch vielleicht nicht der einzige - Orientierungspunkt ist.
 
-Ein konstruktiver Weg vorwärts würde mehrere Perspektiven integrieren."""
+Ich schlage vor, dass wir einen Weg finden, der mehrere unserer Perspektiven berücksichtigt.""",
+            
+            f"""Lassen Sie mich versuchen, die verschiedenen Stränge zusammenzuführen:
+
+Ich beobachte, dass wir trotz unterschiedlicher Herangehensweisen gemeinsame Anliegen teilen. Jeder von uns betont verschiedene Aspekte, aber ich glaube, dass {profile.core_principles[0].lower()} als verbindendes Element dienen könnte.
+
+Meiner Ansicht nach sollten wir einen integrativen Ansatz verfolgen, der die Stärken aller Positionen nutzt.""",
+            
+            f"""Nach Anhörung aller Argumente möchte ich eine Brücke schlagen:
+
+Ich erkenne an, dass jede vorgetragene Position ihre Berechtigung hat. Obwohl ich nach wie vor überzeugt bin, dass mein Ansatz zentral ist, sehe ich auch Wert in den anderen Perspektiven.
+
+Vielleicht können wir uns darauf einigen, dass {profile.core_principles[0].lower()}, kombiniert mit den Einsichten meiner Kollegen, zu einer umfassenderen Lösung führen würde."""
+        ]
+        
+        return random.choice(syntheses)
