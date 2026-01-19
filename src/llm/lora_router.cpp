@@ -492,8 +492,8 @@ RoutingDecision LoRARouter::selectByABTest(
     }
     
     // Select adapter based on traffic split
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    thread_local std::random_device rd;
+    thread_local std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
     float rand_val = dist(gen);
@@ -547,8 +547,8 @@ RoutingDecision LoRARouter::selectByRollout(
     }
     
     // Select new adapter with rollout_percentage probability
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    thread_local std::random_device rd;
+    thread_local std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
     
     std::string selected_adapter;

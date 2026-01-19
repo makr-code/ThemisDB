@@ -2,7 +2,14 @@
 #include "llm/lora_router.h"
 #include <nlohmann/json.hpp>
 
-using namespace themis::llm;
+// Use specific types instead of namespace-wide using
+using themis::llm::ABTestConfig;
+using themis::llm::RolloutConfig;
+using themis::llm::FallbackConfig;
+using themis::llm::RoutingDecision;
+using themis::llm::RoutingMetrics;
+using themis::llm::RoutingPolicy;
+using themis::llm::LoRARouter;
 
 /**
  * LoRA Router Unit Tests
