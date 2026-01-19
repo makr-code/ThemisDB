@@ -1264,24 +1264,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     target_compile_definitions(test_generic_plugin_registry PRIVATE
         THEMIS_TEST_BUILD=1
     )
-
-# Base Interfaces Tests (Phase 1: Dependency Inversion)
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
-    message(STATUS "Adding base interfaces tests")
-    
-    add_executable(test_base_interfaces
-        test_base_interfaces.cpp
-    )
-    
-    target_link_libraries(test_base_interfaces PRIVATE
-        ${TEST_LIBS}
-    )
-    
-    target_compile_definitions(test_base_interfaces PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
     
     # Add to CTest
     add_test(NAME GenericPluginRegistryTests COMMAND test_generic_plugin_registry)
@@ -1295,7 +1277,10 @@ else()
     message(STATUS "Generic plugin registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
 endif()
 
+# ============================================================================
 # Base Interfaces Tests (Phase 1: Dependency Inversion)
+# ============================================================================
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
     message(STATUS "Adding base interfaces tests")
     
@@ -1323,6 +1308,7 @@ else()
     message(STATUS "Base interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
 endif()
 
+# ============================================================================
 # Auth Middleware Tests
 # ============================================================================
 
@@ -1561,6 +1547,25 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
     )
     
     target_link_libraries(test_rag_ethics PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+
+    target_compile_definitions(test_rag_ethics PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RAGEthicsTests COMMAND test_rag_ethics)
+    set_tests_properties(RAGEthicsTests PROPERTIES
+        LABELS "rag;llm;ethics;integration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "RAG Ethics integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
+endif()
+
 # RAG Enhancement Tests
 # ============================================================================
 
@@ -1578,18 +1583,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
         spdlog::spdlog
     )
     
-    target_compile_definitions(test_rag_ethics PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME RAGEthicsTests COMMAND test_rag_ethics)
-    
-    set_tests_properties(RAGEthicsTests PROPERTIES
-        LABELS "rag;ethics;llm;judge;integration"
-        TIMEOUT 120
-    )
-else()
-    message(STATUS "RAG Ethics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
     target_compile_definitions(test_knowledge_gap_detector PRIVATE
         THEMIS_TEST_BUILD=1
     )

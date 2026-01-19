@@ -2668,7 +2668,6 @@ if(THEMIS_BUILD_TESTS)
     if(THEMIS_ENABLE_LLM)
         target_sources(themis_tests PRIVATE
             ${THEMIS_ROOT_DIR}/tests/test_llm_plugin.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_llamacpp_integration.cpp
             ${THEMIS_ROOT_DIR}/tests/test_llm_caching.cpp
             ${THEMIS_ROOT_DIR}/tests/test_kv_cache_buffer.cpp
             ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache.cpp
@@ -2685,35 +2684,36 @@ if(THEMIS_BUILD_TESTS)
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
-        add_executable(themis_llm_tests
-            ${THEMIS_ROOT_DIR}/tests/test_llamacpp_integration.cpp
-        )
-        target_link_libraries(themis_llm_tests
-            PRIVATE
-                themis_core
-                GTest::gtest
-                GTest::gtest_main
-                Boost::system
-        )
-        if(TARGET llama)
-            add_custom_command(TARGET themis_llm_tests POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                        $<TARGET_FILE:llama>
-                        $<TARGET_FILE_DIR:themis_llm_tests>
-            )
-            add_custom_command(TARGET themis_llm_tests POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        $<TARGET_FILE_DIR:llama>
-                        $<TARGET_FILE_DIR:themis_llm_tests>
-            )
-        endif()
-            include(GoogleTest)
-        gtest_discover_tests(themis_llm_tests
-            DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
-            EXTRA_ARGS --gtest_color=yes
-            CONFIGURATIONS Release Debug
-        )
+        # Disabled: test_llamacpp_integration.cpp does not exist
+        # add_executable(themis_llm_tests
+        #     ${THEMIS_ROOT_DIR}/tests/test_llamacpp_integration.cpp
+        # )
+        # target_link_libraries(themis_llm_tests
+        #     PRIVATE
+        #         themis_core
+        #         GTest::gtest
+        #         GTest::gtest_main
+        #         Boost::system
+        # )
+        # if(TARGET llama)
+        #     add_custom_command(TARGET themis_llm_tests POST_BUILD
+        #         COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        #                 $<TARGET_FILE:llama>
+        #                 $<TARGET_FILE_DIR:themis_llm_tests>
+        #     )
+        #     add_custom_command(TARGET themis_llm_tests POST_BUILD
+        #         COMMAND ${CMAKE_COMMAND} -E copy_directory
+        #                 $<TARGET_FILE_DIR:llama>
+        #                 $<TARGET_FILE_DIR:themis_llm_tests>
+        #     )
+        # endif()
+        # include(GoogleTest)
+        # gtest_discover_tests(themis_llm_tests
+        #     DISCOVERY_MODE PRE_TEST
+        #     WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+        #     EXTRA_ARGS --gtest_color=yes
+        #     CONFIGURATIONS Release Debug
+        # )
         
         # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
         # Flash Attention Tests
