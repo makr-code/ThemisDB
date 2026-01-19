@@ -58,6 +58,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/cot_evaluator.cpp
         ../src/rag/geval_evaluator.cpp
         
+        # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
+        ../src/llm/lora_framework/adapter_consistency_checker.cpp
+        ../src/llm/lora_framework/adapter_sync_manager.cpp
+        
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
     )
