@@ -13,7 +13,8 @@ import uuid
 
 
 class PhilosophySchool(Enum):
-    """Different schools of moral philosophy."""
+    """Different schools of philosophy (practical and theoretical)."""
+    # Practical Philosophy (Ethics, Political, Social)
     KANT = "kant"
     UTILITARIANISM = "utilitarianism"
     DEONTOLOGY = "deontology"
@@ -21,16 +22,33 @@ class PhilosophySchool(Enum):
     VIRTUE_ETHICS = "virtue_ethics"
     CARE_ETHICS = "care_ethics"
     DISCOURSE_ETHICS = "discourse_ethics"
+    
+    # Theoretical Philosophy (Epistemology, Metaphysics, Logic)
+    RATIONALISM = "rationalism"  # Descartes, Spinoza, Leibniz
+    EMPIRICISM = "empiricism"  # Locke, Hume, Berkeley
+    CRITICAL_PHILOSOPHY = "critical_philosophy"  # Kant's theoretical philosophy
+    PHENOMENOLOGY = "phenomenology"  # Husserl, Heidegger
+    PRAGMATISM = "pragmatism"  # Peirce, James, Dewey
+    ANALYTIC_PHILOSOPHY = "analytic_philosophy"  # Russell, Wittgenstein
+    EXISTENTIALISM = "existentialism"  # Kierkegaard, Sartre, Camus
 
 
 class ArgumentDimension(Enum):
-    """Different dimensions of ethical analysis."""
+    """Different dimensions of philosophical analysis."""
+    # Practical Philosophy Dimensions
     MORAL = "moral"
     SOCIAL = "social"
     POLITICAL = "political"
     ETHICAL = "ethical"
     ECONOMIC = "economic"
     LEGAL = "legal"
+    
+    # Theoretical Philosophy Dimensions
+    EPISTEMOLOGICAL = "epistemological"  # Theory of knowledge
+    METAPHYSICAL = "metaphysical"  # Nature of reality
+    LOGICAL = "logical"  # Reasoning and argumentation
+    ONTOLOGICAL = "ontological"  # Being and existence
+    PHENOMENOLOGICAL = "phenomenological"  # Experience and consciousness
 
 
 class MessageType(Enum):
@@ -391,5 +409,105 @@ PHILOSOPHY_PROFILES = {
         ],
         decision_framework="Seek consensus through open, rational dialogue among all affected parties",
         example_application="Democratic deliberation reveals morally valid norms"
+    ),
+    
+    # Theoretical Philosophy
+    PhilosophySchool.RATIONALISM: PhilosophyProfile(
+        school=PhilosophySchool.RATIONALISM,
+        name="Rationalism",
+        philosopher_name="René Descartes",
+        description="Knowledge derives from reason and innate ideas, not sensory experience",
+        core_principles=[
+            "Clear and distinct ideas are the foundation of knowledge",
+            "Reason is the primary source of knowledge",
+            "Some truths are knowable a priori (independent of experience)",
+            "Innate ideas exist in the mind from birth"
+        ],
+        decision_framework="Analyze through rational deduction from self-evident first principles",
+        example_application="Mathematical truths are known through pure reason, not observation"
+    ),
+    PhilosophySchool.EMPIRICISM: PhilosophyProfile(
+        school=PhilosophySchool.EMPIRICISM,
+        name="Empiricism",
+        philosopher_name="David Hume",
+        description="All knowledge originates from sensory experience",
+        core_principles=[
+            "Experience is the sole source of knowledge",
+            "No innate ideas - mind is a 'tabula rasa' at birth",
+            "Ideas are copies of impressions (sense data)",
+            "Causation is habitual association, not necessary connection"
+        ],
+        decision_framework="Trace all concepts back to original sensory impressions",
+        example_application="We believe the sun will rise because of past experience, not logical necessity"
+    ),
+    PhilosophySchool.CRITICAL_PHILOSOPHY: PhilosophyProfile(
+        school=PhilosophySchool.CRITICAL_PHILOSOPHY,
+        name="Critical Philosophy",
+        philosopher_name="Immanuel Kant",
+        description="Knowledge requires both sensory experience and rational concepts",
+        core_principles=[
+            "Synthetic a priori knowledge is possible",
+            "Mind actively structures experience through categories",
+            "Phenomena (appearances) vs. noumena (things-in-themselves)",
+            "Limits of reason - what can we know?"
+        ],
+        decision_framework="Examine conditions of possibility for knowledge and experience",
+        example_application="Space and time are forms of intuition, not properties of things themselves"
+    ),
+    PhilosophySchool.PHENOMENOLOGY: PhilosophyProfile(
+        school=PhilosophySchool.PHENOMENOLOGY,
+        name="Phenomenology",
+        philosopher_name="Edmund Husserl",
+        description="Study of consciousness and direct experience as it appears",
+        core_principles=[
+            "Return to 'the things themselves' - direct experience",
+            "Intentionality - consciousness is always consciousness of something",
+            "Bracketing (epoché) - suspend assumptions about external reality",
+            "Essential structures of consciousness"
+        ],
+        decision_framework="Describe phenomena as they appear in consciousness without presuppositions",
+        example_application="Analyze the experience of perceiving a tree, not whether the tree really exists"
+    ),
+    PhilosophySchool.PRAGMATISM: PhilosophyProfile(
+        school=PhilosophySchool.PRAGMATISM,
+        name="Pragmatism",
+        philosopher_name="William James",
+        description="Truth is what works in practice; ideas are tools for action",
+        core_principles=[
+            "Truth is verified through practical consequences",
+            "Ideas are instruments for dealing with reality",
+            "Meaning is defined by practical effects",
+            "Inquiry is problem-solving"
+        ],
+        decision_framework="Evaluate beliefs by their practical utility and consequences",
+        example_application="A belief is true if it leads to successful action and prediction"
+    ),
+    PhilosophySchool.ANALYTIC_PHILOSOPHY: PhilosophyProfile(
+        school=PhilosophySchool.ANALYTIC_PHILOSOPHY,
+        name="Analytic Philosophy",
+        philosopher_name="Ludwig Wittgenstein",
+        description="Philosophy through logical and linguistic analysis",
+        core_principles=[
+            "Clarity through logical analysis of language",
+            "Many philosophical problems are linguistic confusions",
+            "Meaning is use in language games",
+            "Limits of language are limits of thought"
+        ],
+        decision_framework="Analyze logical structure of propositions and linguistic usage",
+        example_application="'What is the meaning of life?' may be a pseudo-problem arising from misuse of 'meaning'"
+    ),
+    PhilosophySchool.EXISTENTIALISM: PhilosophyProfile(
+        school=PhilosophySchool.EXISTENTIALISM,
+        name="Existentialism",
+        philosopher_name="Jean-Paul Sartre",
+        description="Existence precedes essence; humans create their own meaning through free choice",
+        core_principles=[
+            "Existence precedes essence - we define ourselves through choices",
+            "Radical freedom and responsibility",
+            "Authenticity vs. bad faith",
+            "Absurdity of existence without inherent meaning"
+        ],
+        decision_framework="Acknowledge freedom, take responsibility, live authentically",
+        example_application="We are 'condemned to be free' - no predetermined human nature determines our choices"
     )
 }

@@ -381,21 +381,28 @@ class DebateChatManager:
         profile = self.philosophy_profiles[philosophy]
         
         dimension_focus = {
+            # Practical Philosophy
             ArgumentDimension.MORAL: "moralischen Bewertung",
             ArgumentDimension.SOCIAL: "sozialen Auswirkungen",
             ArgumentDimension.POLITICAL: "politischen Implikationen",
             ArgumentDimension.ETHICAL: "ethischen Prinzipien",
             ArgumentDimension.ECONOMIC: "wirtschaftlichen Folgen",
-            ArgumentDimension.LEGAL: "rechtlichen Aspekten"
+            ArgumentDimension.LEGAL: "rechtlichen Aspekten",
+            # Theoretical Philosophy
+            ArgumentDimension.EPISTEMOLOGICAL: "erkenntnistheoretischen Analyse",
+            ArgumentDimension.METAPHYSICAL: "metaphysischen Betrachtung",
+            ArgumentDimension.LOGICAL: "logischen Untersuchung",
+            ArgumentDimension.ONTOLOGICAL: "ontologischen Fragestellung",
+            ArgumentDimension.PHENOMENOLOGICAL: "phänomenologischen Perspektive"
         }
         
         return f"""Zur {dimension_focus.get(dimension, 'Analyse')} von "{news_article.title}":
 
-Meiner Ansicht nach ist dies fundamentally eine Frage von {profile.core_principles[0].lower()}. Ich argumentiere, dass wir dies durch mein ethisches Rahmenwerk betrachten müssen.
+Meiner Ansicht nach ist dies fundamentally eine Frage von {profile.core_principles[0].lower()}. Ich argumentiere, dass wir dies durch mein philosophisches Rahmenwerk betrachten müssen.
 
 {profile.decision_framework}
 
-Ich sehe die zentrale Herausforderung darin, diese Prinzipien auf die konkreten Umstände anzuwenden, ohne ihre universelle Gültigkeit zu kompromittieren."""
+Ich sehe die zentrale Herausforderung darin, diese Prinzipien auf die konkreten Umstände anzuwenden, ohne ihre Gültigkeit zu kompromittieren."""
     
     def _template_counter(
         self,

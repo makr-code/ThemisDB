@@ -58,13 +58,21 @@ class PhilosophyChatApp:
         
         # Chat colors for philosophers
         self.philosopher_colors = {
+            # Practical Philosophy
             "Immanuel Kant": "#3498db",
             "John Stuart Mill": "#27ae60",
             "W.D. Ross": "#9b59b6",
             "John Rawls": "#e67e22",
             "Aristoteles": "#e74c3c",
             "Carol Gilligan": "#f39c12",
-            "Jürgen Habermas": "#1abc9c"
+            "Jürgen Habermas": "#1abc9c",
+            # Theoretical Philosophy
+            "René Descartes": "#8e44ad",
+            "David Hume": "#16a085",
+            "Edmund Husserl": "#c0392b",
+            "William James": "#d35400",
+            "Ludwig Wittgenstein": "#2c3e50",
+            "Jean-Paul Sartre": "#34495e"
         }
         
         # Create UI
@@ -264,10 +272,15 @@ class PhilosophyChatApp:
         
         self.dimension_vars = {}
         dimensions = [
+            # Practical Philosophy
             ("Moralisch", ArgumentDimension.MORAL),
             ("Sozial", ArgumentDimension.SOCIAL),
             ("Politisch", ArgumentDimension.POLITICAL),
-            ("Ethisch", ArgumentDimension.ETHICAL)
+            ("Ethisch", ArgumentDimension.ETHICAL),
+            # Theoretical Philosophy
+            ("Erkenntnistheoretisch", ArgumentDimension.EPISTEMOLOGICAL),
+            ("Metaphysisch", ArgumentDimension.METAPHYSICAL),
+            ("Logisch", ArgumentDimension.LOGICAL)
         ]
         
         for label, dim in dimensions:
@@ -278,9 +291,9 @@ class PhilosophyChatApp:
                 text=label,
                 variable=var,
                 bg="#ecf0f1",
-                font=("Arial", 9)
+                font=("Arial", 8)
             )
-            cb.pack(side=tk.LEFT, padx=5)
+            cb.pack(side=tk.LEFT, padx=3)
         
         # Chat display area
         chat_display_frame = tk.Frame(chat_panel, bg="white")
@@ -458,12 +471,38 @@ class PhilosophyChatApp:
             session = debate_engine.create_debate_session(self.selected_article)
             
             # Start chat debate
-            philosophies = [
-                PhilosophySchool.KANT,
-                PhilosophySchool.UTILITARIANISM,
-                PhilosophySchool.CONTRACTUALISM,
-                PhilosophySchool.VIRTUE_ETHICS
-            ]
+            # Select philosophers based on dimensions
+            has_practical = any(dim in [ArgumentDimension.MORAL, ArgumentDimension.SOCIAL, 
+                                       ArgumentDimension.POLITICAL, ArgumentDimension.ETHICAL]
+                              for dim in selected_dims)
+            has_theoretical = any(dim in [ArgumentDimension.EPISTEMOLOGICAL, ArgumentDimension.METAPHYSICAL,
+                                         ArgumentDimension.LOGICAL, ArgumentDimension.ONTOLOGICAL]
+                                for dim in selected_dims)
+            
+            philosophies = []
+            if has_practical:
+                philosophies.extend([
+                    PhilosophySchool.KANT,
+                    PhilosophySchool.UTILITARIANISM,
+                    PhilosophySchool.CONTRACTUALISM,
+                    PhilosophySchool.VIRTUE_ETHICS
+                ])
+            if has_theoretical:
+                philosophies.extend([
+                    PhilosophySchool.RATIONALISM,
+                    PhilosophySchool.EMPIRICISM,
+                    PhilosophySchool.CRITICAL_PHILOSOPHY,
+                    PhilosophySchool.PHENOMENOLOGY
+                ])
+            
+            # If both, limit to avoid too many participants
+            if has_practical and has_theoretical:
+                philosophies = [
+                    PhilosophySchool.KANT,
+                    PhilosophySchool.UTILITARIANISM,
+                    PhilosophySchool.RATIONALISM,
+                    PhilosophySchool.EMPIRICISM
+                ]
             
             session = self.chat_manager.start_debate_chat(
                 session,
@@ -546,10 +585,19 @@ class PhilosophyChatApp:
         # Display messages grouped by dimension
         for dimension, messages in by_dimension.items():
             dimension_names = {
+                # Practical Philosophy
                 ArgumentDimension.MORAL: "🔴 MORALISCHE DIMENSION",
                 ArgumentDimension.SOCIAL: "🔵 SOZIALE DIMENSION",
                 ArgumentDimension.POLITICAL: "🟢 POLITISCHE DIMENSION",
-                ArgumentDimension.ETHICAL: "🟡 ETHISCHE DIMENSION"
+                ArgumentDimension.ETHICAL: "🟡 ETHISCHE DIMENSION",
+                ArgumentDimension.ECONOMIC: "💰 ÖKONOMISCHE DIMENSION",
+                ArgumentDimension.LEGAL: "⚖️ RECHTLICHE DIMENSION",
+                # Theoretical Philosophy
+                ArgumentDimension.EPISTEMOLOGICAL: "🧠 ERKENNTNISTHEORETISCHE DIMENSION",
+                ArgumentDimension.METAPHYSICAL: "🌌 METAPHYSISCHE DIMENSION",
+                ArgumentDimension.LOGICAL: "🔷 LOGISCHE DIMENSION",
+                ArgumentDimension.ONTOLOGICAL: "💠 ONTOLOGISCHE DIMENSION",
+                ArgumentDimension.PHENOMENOLOGICAL: "👁️ PHÄNOMENOLOGISCHE DIMENSION"
             }
             
             self.chat_text.insert(tk.END, "\n")
