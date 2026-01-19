@@ -15,5 +15,8 @@ if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
         
         # Communication optimization
         ../src/llm/lora_framework/custom_allreduce.cpp
+        
+        # Distributed training coordinator (cross-shard, federated, fault-tolerant)
+        ../src/llm/distributed_training_coordinator.cpp
     )
 endif()
