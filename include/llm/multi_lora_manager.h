@@ -7,6 +7,9 @@
 #include <unordered_map>
 #include <mutex>
 #include <optional>
+#include <thread>
+#include <atomic>
+#include <condition_variable>
 
 /**
  * @file multi_lora_manager.h
@@ -493,6 +496,11 @@ private:
     std::unordered_map<int, size_t> gpu_vram_usage_;  // Per-GPU VRAM tracking
     int next_round_robin_gpu_ = 0;                     // Round-robin counter
     
+    // Background eviction thread
+    std::unique_ptr<std::thread> eviction_thread_;
+    std::atomic<bool> eviction_thread_running_{false};
+    std::condition_variable eviction_cv_;
+    
     // Internal helpers
     LoRASlot* loadLoRAInternal(
         const std::string& lora_id,
@@ -502,6 +510,11 @@ private:
         bool quantize = false,
         GPUPlacement placement = GPUPlacement::SINGLE_GPU
     );
+    
+    // Background eviction worker
+    void evictionWorker();
+    void startEvictionThread();
+    void stopEvictionThread();
     
     // Multi-GPU helpers (v1.4.0)
     int selectGPUForLoRA(size_t vram_bytes);  // Select best GPU for new LoRA

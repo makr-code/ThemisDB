@@ -63,9 +63,18 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
     } else {
         spdlog::info("  Multi-GPU: disabled (single GPU mode)");
     }
+    
+    // Start background eviction thread for TTL-based cleanup
+    if (config_.lora_ttl.count() > 0) {
+        startEvictionThread();
+        spdlog::info("  Background eviction thread started (TTL: {}s)", config_.lora_ttl.count());
+    }
 }
 
 MultiLoRAManager::~MultiLoRAManager() {
+    // Stop eviction thread first
+    stopEvictionThread();
+    
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Unload all LoRAs with proper cleanup
@@ -1414,6 +1423,89 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
                  result->assigned_gpus.size());
     
     return result;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Background Eviction Thread Implementation
+// ═══════════════════════════════════════════════════════════
+
+void MultiLoRAManager::startEvictionThread() {
+    if (eviction_thread_running_.load()) {
+        spdlog::warn("Eviction thread already running");
+        return;
+    }
+    
+    eviction_thread_running_.store(true);
+    eviction_thread_ = std::make_unique<std::thread>(&MultiLoRAManager::evictionWorker, this);
+    spdlog::debug("Background eviction thread started");
+}
+
+void MultiLoRAManager::stopEvictionThread() {
+    if (!eviction_thread_running_.load()) {
+        return;
+    }
+    
+    spdlog::debug("Stopping background eviction thread");
+    eviction_thread_running_.store(false);
+    eviction_cv_.notify_all();
+    
+    if (eviction_thread_ && eviction_thread_->joinable()) {
+        eviction_thread_->join();
+    }
+    
+    eviction_thread_.reset();
+    spdlog::debug("Background eviction thread stopped");
+}
+
+void MultiLoRAManager::evictionWorker() {
+    spdlog::info("Eviction worker thread started (TTL: {}s)", config_.lora_ttl.count());
+    
+    // Check every minute or TTL/4, whichever is smaller
+    auto check_interval = std::min(
+        std::chrono::seconds(60),
+        config_.lora_ttl / 4
+    );
+    
+    while (eviction_thread_running_.load()) {
+        // Sleep with condition variable for responsive shutdown
+        std::unique_lock<std::mutex> lock(mutex_);
+        eviction_cv_.wait_for(lock, check_interval, [this]() {
+            return !eviction_thread_running_.load();
+        });
+        lock.unlock();
+        
+        if (!eviction_thread_running_.load()) {
+            break;
+        }
+        
+        // Run eviction check
+        try {
+            size_t evicted = evictExpired();
+            if (evicted > 0) {
+                spdlog::info("Background eviction: {} LoRAs removed (TTL expired)", evicted);
+            }
+            
+            // Also check memory pressure and proactively evict if needed
+            lock.lock();
+            size_t vram_usage_pct = (config_.max_lora_vram_mb > 0) 
+                ? (total_vram_bytes_ / (1024 * 1024) * 100 / config_.max_lora_vram_mb)
+                : 0;
+            lock.unlock();
+            
+            // If VRAM usage is above 80%, proactively evict some LRU adapters
+            if (vram_usage_pct > 80) {
+                spdlog::info("Memory pressure detected ({}% VRAM usage), evicting LRU adapters", vram_usage_pct);
+                size_t freed = evictLRU();
+                if (freed > 0) {
+                    spdlog::info("Proactive eviction: freed {} MB VRAM", freed);
+                }
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Eviction worker error: {}", e.what());
+        }
+    }
+    
+    spdlog::info("Eviction worker thread stopped");
 }
 
 } // namespace llm
