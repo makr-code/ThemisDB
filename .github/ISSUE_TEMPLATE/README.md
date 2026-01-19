@@ -1,8 +1,64 @@
 # GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, und RAG-Enhancements.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, und Error Handling Migration.
 
 ## Verfügbare Templates
+
+### 🆕 Error Handling Migration Templates (2026-01-19)
+
+#### error-handling-meta.md (Meta Issue - Tracking)
+**Status:** Active  
+**Description:** Master tracking issue for complete error handling migration to tl::expected  
+**Scope:** Foundation + High-Value Paths + Full Migration  
+**Duration:** 18-22 weeks total
+
+**Components:**
+- Phase 1-2: Foundation (✅ COMPLETE)
+- Phase 3: High-Value Code Paths (⚪ PLANNED)
+- Phase 4: Full Migration (⚪ PLANNED)
+
+#### error-handling-phase3.md (Phase 3 - ⚪ PLANNED)
+**For:** Migration of high-traffic code paths (20-30 sites, ~10% of total)  
+**Priority:** P1 (High)  
+**Effort:** 6-8 weeks  
+**Labels:** `priority:P1`, `type:feature`, `area:core`, `effort:x-large`, `phase:3`
+
+**Key Modules:**
+- IndexManager (nullptr → Result<T*>)
+- ContentFS (Status{ok, msg} → Result<T>)
+- TSStore (std::optional → Result<T>)
+- PluginManager (nullptr → Result<T*>)
+- GraphQL Parser (mixed → Result<T>)
+- API Layer (mixed → Result<T>)
+
+**Benefits:**
+- Type-safe error propagation
+- Structured error codes with metadata
+- Rich error context
+- Zero-overhead error handling
+
+#### error-handling-phase4.md (Phase 4 - ⚪ PLANNED)
+**For:** Complete migration of remaining ~270+ error sites (~90% of total)  
+**Priority:** P2 (Medium)  
+**Effort:** 10-12 weeks  
+**Labels:** `priority:P2`, `type:feature`, `area:core`, `effort:xx-large`, `phase:4`
+
+**Key Modules:**
+- Storage Layer (50 sites)
+- Network Layer (40 sites)
+- LLM/LoRA (60 sites)
+- Query Engine (30 sites)
+- Schema Management (20 sites)
+- Utilities (40 sites)
+- Cleanup & Deprecation
+
+**Success Criteria:**
+- 100% codebase using Result<T>
+- 0 remaining legacy error patterns
+- All tests passing
+- No performance regression
+
+---
 
 ### 🆕 RAG Enhancement Templates (2026-01-18)
 
