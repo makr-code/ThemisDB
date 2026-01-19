@@ -382,6 +382,15 @@ class PhilosophyChatApp:
             font=("Arial", 10, "bold")
         )
         self.round_label.pack(side=tk.RIGHT, padx=10, pady=10)
+        
+        # Time display label
+        self.time_label = tk.Label(
+            button_frame,
+            text="⏱️ Zeit: --:--",
+            bg="white",
+            font=("Arial", 10)
+        )
+        self.time_label.pack(side=tk.RIGHT, padx=10, pady=10)
     
     def _create_status_bar(self):
         """Creates the status bar."""
@@ -553,12 +562,16 @@ class PhilosophyChatApp:
                 text=f"💬 Debatte: {session.debate_topic[:60]}..."
             )
             self.round_label.config(text=f"Runde: {session.current_round}")
+            self._update_time_display()
             
             # Display chat
             self._display_chat()
             
             # Store in ThemisDB
             self.client.store_debate_session(session)
+            
+            # Start timer update
+            self._start_timer_update()
             
             self._set_status("Debatte erfolgreich gestartet", "success")
         
@@ -575,12 +588,38 @@ class PhilosophyChatApp:
             )
             return
         
+        # Check time limit before advancing
+        if self.current_debate.is_time_limit_exceeded():
+            elapsed = self.current_debate.get_elapsed_time_minutes()
+            messagebox.showwarning(
+                "Zeitlimit überschritten",
+                f"Die Debatte hat das Zeitlimit von {self.current_debate.max_duration_minutes} Minuten überschritten.\n"
+                f"Verstrichene Zeit: {elapsed:.1f} Minuten.\n\n"
+                f"Die Debatte wird beendet."
+            )
+            self.current_debate.completed_at = datetime.now()
+            self.client.store_debate_session(self.current_debate)
+            return
+        
         if self.current_debate.current_round >= 4:
             messagebox.showinfo(
                 "Debatte abgeschlossen",
                 "Die Debatte hat alle Runden durchlaufen."
             )
+            self.current_debate.completed_at = datetime.now()
+            self.client.store_debate_session(self.current_debate)
             return
+        
+        # Warn if approaching time limit (< 10 minutes remaining)
+        remaining = self.current_debate.get_remaining_time_minutes()
+        if remaining < 10 and remaining > 0:
+            response = messagebox.askyesno(
+                "Zeitwarnung",
+                f"Nur noch {remaining:.1f} Minuten verbleiben.\n"
+                f"Möchten Sie fortfahren?"
+            )
+            if not response:
+                return
         
         self._set_status("Generiere nächste Runde...", "info")
         
@@ -590,6 +629,7 @@ class PhilosophyChatApp:
             )
             
             self.round_label.config(text=f"Runde: {self.current_debate.current_round}")
+            self._update_time_display()
             
             # Display updated chat
             self._display_chat()
@@ -597,8 +637,22 @@ class PhilosophyChatApp:
             # Store updated session
             self.client.store_debate_session(self.current_debate)
             
-            self._set_status(f"Runde {self.current_debate.current_round} generiert", "success")
+            # Check if completed due to time limit
+            if self.current_debate.completed_at:
+                self._set_status("Debatte wegen Zeitlimit beendet", "warning")
+                messagebox.showinfo(
+                    "Debatte beendet",
+                    f"Die Debatte wurde nach {self.current_debate.get_elapsed_time_minutes():.1f} Minuten beendet."
+                )
+            else:
+                self._set_status(f"Runde {self.current_debate.current_round} generiert", "success")
         
+        except ValueError as e:
+            # Time limit exceeded
+            self._set_status("Zeitlimit überschritten", "warning")
+            messagebox.showwarning("Zeitlimit", str(e))
+            self.current_debate.completed_at = datetime.now()
+            self.client.store_debate_session(self.current_debate)
         except Exception as e:
             self._set_status(f"Fehler: {str(e)}", "error")
             messagebox.showerror("Fehler", f"Konnte Runde nicht generieren:\n{str(e)}")
@@ -705,6 +759,50 @@ class PhilosophyChatApp:
         except Exception as e:
             self._set_status(f"Fehler: {str(e)}", "error")
             messagebox.showerror("Fehler", str(e))
+    
+    def _update_time_display(self):
+        """Updates the time display for the current debate."""
+        if not self.current_debate:
+            self.time_label.config(text="⏱️ Zeit: --:--", fg="black")
+            return
+        
+        elapsed = self.current_debate.get_elapsed_time_minutes()
+        remaining = self.current_debate.get_remaining_time_minutes()
+        
+        # Format elapsed time
+        elapsed_min = int(elapsed)
+        elapsed_sec = int((elapsed - elapsed_min) * 60)
+        
+        # Format remaining time
+        remaining_min = int(abs(remaining))
+        remaining_sec = int((abs(remaining) - remaining_min) * 60)
+        
+        # Color coding based on remaining time
+        if remaining < 0:
+            # Time exceeded
+            time_text = f"⏱️ Zeit: {elapsed_min:02d}:{elapsed_sec:02d} (Überschritten!)"
+            color = "#e74c3c"  # Red
+        elif remaining < 10:
+            # Less than 10 minutes remaining - warning
+            time_text = f"⏱️ Zeit: {elapsed_min:02d}:{elapsed_sec:02d} | Verbleibend: {remaining_min:02d}:{remaining_sec:02d}"
+            color = "#f39c12"  # Orange
+        else:
+            # Normal
+            time_text = f"⏱️ Zeit: {elapsed_min:02d}:{elapsed_sec:02d} / {self.current_debate.max_duration_minutes} Min"
+            color = "#27ae60"  # Green
+        
+        self.time_label.config(text=time_text, fg=color)
+    
+    def _start_timer_update(self):
+        """Starts periodic timer updates."""
+        def update():
+            if self.current_debate and not self.current_debate.completed_at:
+                self._update_time_display()
+                # Schedule next update in 1 second
+                self.root.after(1000, update)
+        
+        # Start the update loop
+        update()
     
     def run(self):
         """Runs the application."""

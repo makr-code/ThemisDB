@@ -160,7 +160,18 @@ class DebateChatManager:
         
         Returns:
             Updated session with new messages
+        
+        Raises:
+            ValueError: If time limit exceeded
         """
+        # Check time limit before advancing
+        if session.is_time_limit_exceeded():
+            elapsed = session.get_elapsed_time_minutes()
+            raise ValueError(
+                f"Debatte-Zeitlimit überschritten: {elapsed:.1f} Minuten von "
+                f"{session.max_duration_minutes} Minuten. Debatte wird automatisch beendet."
+            )
+        
         session.current_round += 1
         
         if session.current_round == 2:
@@ -183,6 +194,11 @@ class DebateChatManager:
                 session.chat_messages.append(ai_message)
             except Exception as e:
                 print(f"AI Synthesizer failed in round {session.current_round}: {e}")
+        
+        # Check time limit after round completion
+        if session.is_time_limit_exceeded():
+            session.completed_at = datetime.now()
+            print(f"Debatte nach Runde {session.current_round} wegen Zeitlimit beendet")
         
         return session
     

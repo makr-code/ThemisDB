@@ -252,6 +252,7 @@ class DebateSession:
     started_at: datetime = field(default_factory=datetime.now)
     completed_at: Optional[datetime] = None
     current_round: int = 0  # Track debate rounds
+    max_duration_minutes: int = 60  # Maximum debate duration (default: 1 hour)
     metadata: Optional[Dict[str, Any]] = None  # For knowledge context, AI synthesis data, etc.
     
     def to_dict(self) -> Dict[str, Any]:
@@ -269,8 +270,42 @@ class DebateSession:
             'started_at': self.started_at.isoformat(),
             'completed_at': self.completed_at.isoformat() if self.completed_at else None,
             'current_round': self.current_round,
+            'max_duration_minutes': self.max_duration_minutes,
             'metadata': self.metadata
         }
+    
+    def get_elapsed_time_minutes(self) -> float:
+        """
+        Returns the elapsed time of the debate in minutes.
+        
+        Returns:
+            Elapsed time in minutes
+        """
+        if self.completed_at:
+            end_time = self.completed_at
+        else:
+            end_time = datetime.now()
+        
+        elapsed = end_time - self.started_at
+        return elapsed.total_seconds() / 60.0
+    
+    def is_time_limit_exceeded(self) -> bool:
+        """
+        Checks if the debate has exceeded its time limit.
+        
+        Returns:
+            True if time limit exceeded, False otherwise
+        """
+        return self.get_elapsed_time_minutes() > self.max_duration_minutes
+    
+    def get_remaining_time_minutes(self) -> float:
+        """
+        Returns the remaining time for the debate in minutes.
+        
+        Returns:
+            Remaining time in minutes (can be negative if exceeded)
+        """
+        return self.max_duration_minutes - self.get_elapsed_time_minutes()
     
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'DebateSession':
@@ -300,6 +335,7 @@ class DebateSession:
         session.consensus_reached = data.get('consensus_reached', False)
         session.consensus_summary = data.get('consensus_summary', '')
         session.current_round = data.get('current_round', 0)
+        session.max_duration_minutes = data.get('max_duration_minutes', 60)
         session.metadata = data.get('metadata')
         
         started = data.get('started_at')
