@@ -431,6 +431,9 @@ void LLMMetricsCollector::initializeMetrics() {
         PrometheusExporter::MetricType::COUNTER,
         {"error_type", "component"}
     });
+    
+    // Initialize extended context and RoPE/YARN metrics (v1.4.0+)
+    initializeExtendedContextMetrics();
 }
 
 void LLMMetricsCollector::recordInferenceRequest(const std::string& model_id) {
@@ -531,6 +534,326 @@ void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {
 
 void LLMMetricsCollector::recordError(const std::string& error_type, const std::string& component) {
     exporter_->incrementCounter("llm_errors_total", {{"error_type", error_type}, {"component", component}});
+}
+
+// Extended Context Window metrics (v1.4.0+)
+void LLMMetricsCollector::recordContextLength(const std::string& model_id, size_t context_length) {
+    exporter_->setGauge("llm_context_length", static_cast<double>(context_length), {{"model_id", model_id}});
+    exporter_->observeHistogram("llm_context_length_histogram", static_cast<double>(context_length), {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordContextCacheSize(const std::string& model_id, size_t cache_size_mb) {
+    exporter_->setGauge("llm_context_cache_size_mb", static_cast<double>(cache_size_mb), {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordExtendedContextEnabled(const std::string& model_id, bool enabled) {
+    exporter_->setGauge("llm_extended_context_enabled", enabled ? 1.0 : 0.0, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordContextScalingFactor(const std::string& model_id, double scaling_factor) {
+    exporter_->setGauge("llm_context_scaling_factor", scaling_factor, {{"model_id", model_id}});
+}
+
+// RoPE/YARN Scaling metrics (v1.4.0+)
+void LLMMetricsCollector::recordRoPEScalingMethod(const std::string& model_id, const std::string& method) {
+    exporter_->setGauge("llm_rope_scaling_method", 1.0, {{"model_id", model_id}, {"method", method}});
+}
+
+void LLMMetricsCollector::recordRoPEScalingError(const std::string& model_id, const std::string& error) {
+    exporter_->incrementCounter("llm_rope_scaling_errors_total", {{"model_id", model_id}, {"error", error}});
+}
+
+void LLMMetricsCollector::recordYARNParameters(const std::string& model_id, 
+                                               double ext_factor, double attn_factor,
+                                               double beta_fast, double beta_slow) {
+    exporter_->setGauge("llm_yarn_ext_factor", ext_factor, {{"model_id", model_id}});
+    exporter_->setGauge("llm_yarn_attn_factor", attn_factor, {{"model_id", model_id}});
+    exporter_->setGauge("llm_yarn_beta_fast", beta_fast, {{"model_id", model_id}});
+    exporter_->setGauge("llm_yarn_beta_slow", beta_slow, {{"model_id", model_id}});
+}
+
+// Memory Profiling metrics (v1.4.0+)
+void LLMMetricsCollector::recordRAMUsage(const std::string& model_id, size_t ram_mb, size_t total_ram_mb) {
+    exporter_->setGauge("llm_ram_used_mb", static_cast<double>(ram_mb), {{"model_id", model_id}});
+    exporter_->setGauge("llm_ram_total_mb", static_cast<double>(total_ram_mb), {{"model_id", model_id}});
+    
+    // Calculate and record RAM usage percentage
+    if (total_ram_mb > 0) {
+        double usage_pct = (static_cast<double>(ram_mb) / static_cast<double>(total_ram_mb)) * 100.0;
+        exporter_->setGauge("llm_ram_usage_percent", usage_pct, {{"model_id", model_id}});
+    }
+}
+
+void LLMMetricsCollector::recordVRAMUsage(const std::string& model_id, size_t vram_mb, size_t total_vram_mb) {
+    exporter_->setGauge("llm_vram_used_mb", static_cast<double>(vram_mb), {{"model_id", model_id}});
+    exporter_->setGauge("llm_vram_total_mb", static_cast<double>(total_vram_mb), {{"model_id", model_id}});
+    
+    // Calculate and record VRAM usage percentage
+    if (total_vram_mb > 0) {
+        double usage_pct = (static_cast<double>(vram_mb) / static_cast<double>(total_vram_mb)) * 100.0;
+        exporter_->setGauge("llm_vram_usage_percent", usage_pct, {{"model_id", model_id}});
+    }
+}
+
+void LLMMetricsCollector::recordMemoryPressure(const std::string& model_id, double pressure_pct) {
+    exporter_->setGauge("llm_memory_pressure_percent", pressure_pct, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordOOMEvent(const std::string& model_id, const std::string& reason) {
+    exporter_->incrementCounter("llm_oom_events_total", {{"model_id", model_id}, {"reason", reason}});
+}
+
+void LLMMetricsCollector::recordMemoryEstimate(const std::string& model_id, 
+                                               size_t estimated_mb, size_t actual_mb) {
+    exporter_->setGauge("llm_memory_estimated_mb", static_cast<double>(estimated_mb), {{"model_id", model_id}});
+    exporter_->setGauge("llm_memory_actual_mb", static_cast<double>(actual_mb), {{"model_id", model_id}});
+    
+    // Calculate estimation accuracy with proper bounds checking
+    if (estimated_mb > 10) {  // Require at least 10MB to avoid precision issues
+        double accuracy_pct = (static_cast<double>(actual_mb) / static_cast<double>(estimated_mb)) * 100.0;
+        // Cap accuracy at reasonable bounds (50-200%) to avoid misleading values
+        accuracy_pct = std::min(std::max(accuracy_pct, 50.0), 200.0);
+        exporter_->setGauge("llm_memory_estimation_accuracy_percent", accuracy_pct, {{"model_id", model_id}});
+    } else {
+        // Set to 100% if estimate is too small to be meaningful
+        exporter_->setGauge("llm_memory_estimation_accuracy_percent", 100.0, {{"model_id", model_id}});
+    }
+}
+
+// Thread Safety metrics (v1.4.0+)
+void LLMMetricsCollector::recordLoRAAdapterSwitch(const std::string& model_id, 
+                                                  const std::string& from_adapter,
+                                                  const std::string& to_adapter,
+                                                  double duration_ms) {
+    exporter_->incrementCounter("llm_lora_adapter_switches_total", 
+                               {{"model_id", model_id}, {"from", from_adapter}, {"to", to_adapter}});
+    exporter_->observeHistogram("llm_lora_adapter_switch_duration_ms", duration_ms, {{"model_id", model_id}});
+}
+
+void LLMMetricsCollector::recordContextLockWait(const std::string& model_id, double wait_time_ms) {
+    exporter_->observeHistogram("llm_context_lock_wait_ms", wait_time_ms, {{"model_id", model_id}});
+    
+    // Track lock contention events with configurable threshold
+    // TODO: Make threshold configurable via config (default: 100ms)
+    // Higher thresholds (200-500ms) recommended for distributed systems
+    // Lower thresholds (50-100ms) for local/high-performance deployments
+    constexpr double CONTENTION_THRESHOLD_MS = 100.0;
+    
+    if (wait_time_ms > CONTENTION_THRESHOLD_MS) {
+        exporter_->incrementCounter("llm_context_lock_contention_total", {{"model_id", model_id}});
+    }
+}
+
+void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode) {
+    exporter_->setGauge("llm_lora_sequential_mode", sequential_mode ? 1.0 : 0.0, {{"model_id", model_id}});
+    
+    if (!sequential_mode) {
+        // Warn about potential thread-safety issues
+        exporter_->incrementCounter("llm_lora_concurrent_operations_total", {{"model_id", model_id}});
+    }
+}
+
+// Initialize extended context metrics (v1.4.0+)
+void LLMMetricsCollector::initializeExtendedContextMetrics() {
+    // Extended Context Window metrics
+    exporter_->registerMetric({
+        "llm_context_length",
+        "Current context window length in tokens",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_context_length_histogram",
+        "Distribution of context window lengths",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_context_cache_size_mb",
+        "Size of KV cache in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_extended_context_enabled",
+        "Whether extended context is enabled (1=yes, 0=no)",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_context_scaling_factor",
+        "Context window scaling factor (e.g., 8.0 for 32K/4K)",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    // RoPE/YARN Scaling metrics
+    exporter_->registerMetric({
+        "llm_rope_scaling_method",
+        "RoPE scaling method used (linear, ntk, yarn, dynamic)",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id", "method"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_rope_scaling_errors_total",
+        "Total number of RoPE scaling errors",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "error"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_yarn_ext_factor",
+        "YaRN extension factor parameter",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_yarn_attn_factor",
+        "YaRN attention factor parameter",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_yarn_beta_fast",
+        "YaRN beta fast parameter",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_yarn_beta_slow",
+        "YaRN beta slow parameter",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    // Memory Profiling metrics
+    exporter_->registerMetric({
+        "llm_ram_used_mb",
+        "RAM used by model in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_ram_total_mb",
+        "Total available RAM in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_ram_usage_percent",
+        "RAM usage percentage",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_vram_used_mb",
+        "VRAM used by model in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_vram_total_mb",
+        "Total available VRAM in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_vram_usage_percent",
+        "VRAM usage percentage",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_memory_pressure_percent",
+        "Memory pressure percentage (0-100)",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_oom_events_total",
+        "Total number of Out-of-Memory events",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "reason"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_memory_estimated_mb",
+        "Estimated memory requirement in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_memory_actual_mb",
+        "Actual memory usage in megabytes",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_memory_estimation_accuracy_percent",
+        "Memory estimation accuracy percentage",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    // Thread Safety metrics
+    exporter_->registerMetric({
+        "llm_lora_adapter_switches_total",
+        "Total number of LoRA adapter switches",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "from", "to"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_lora_adapter_switch_duration_ms",
+        "Duration of LoRA adapter switch in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_context_lock_wait_ms",
+        "Time waiting for context lock in milliseconds",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_context_lock_contention_total",
+        "Total number of context lock contention events (wait > 100ms)",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_lora_sequential_mode",
+        "Whether LoRA operations are in sequential mode (1=yes, 0=no)",
+        PrometheusExporter::MetricType::GAUGE,
+        {"model_id"}
+    });
+    
+    exporter_->registerMetric({
+        "llm_lora_concurrent_operations_total",
+        "Total number of concurrent LoRA operations (potential thread-safety issues)",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id"}
+    });
 }
 
 // GrafanaDashboardGenerator Implementation
