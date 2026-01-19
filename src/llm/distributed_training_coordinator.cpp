@@ -42,31 +42,31 @@ DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
     if (j.contains("compression")) 
         config.compression = static_cast<GradientCompressionType>(j["compression"].get<int>());
     if (j.contains("coordinator_shard")) 
-        config.coordinator_shard = j["coordinator_shard"];
+        config.coordinator_shard = j["coordinator_shard"].get<std::string>();
     if (j.contains("participant_shards")) 
         config.participant_shards = j["participant_shards"].get<std::vector<std::string>>();
     if (j.contains("gradient_accumulation_steps")) 
-        config.gradient_accumulation_steps = j["gradient_accumulation_steps"];
+        config.gradient_accumulation_steps = j["gradient_accumulation_steps"].get<int>();
     if (j.contains("sync_frequency")) 
-        config.sync_frequency = j["sync_frequency"];
+        config.sync_frequency = j["sync_frequency"].get<int>();
     if (j.contains("gradient_clip_norm")) 
-        config.gradient_clip_norm = j["gradient_clip_norm"];
+        config.gradient_clip_norm = j["gradient_clip_norm"].get<float>();
     if (j.contains("use_mixed_precision")) 
-        config.use_mixed_precision = j["use_mixed_precision"];
+        config.use_mixed_precision = j["use_mixed_precision"].get<bool>();
     if (j.contains("sparse_gradients")) 
-        config.sparse_gradients = j["sparse_gradients"];
+        config.sparse_gradients = j["sparse_gradients"].get<bool>();
     if (j.contains("sparse_threshold")) 
-        config.sparse_threshold = j["sparse_threshold"];
+        config.sparse_threshold = j["sparse_threshold"].get<float>();
     if (j.contains("max_retry_attempts")) 
-        config.max_retry_attempts = j["max_retry_attempts"];
+        config.max_retry_attempts = j["max_retry_attempts"].get<int>();
     if (j.contains("timeout_seconds")) 
-        config.timeout_seconds = j["timeout_seconds"];
+        config.timeout_seconds = j["timeout_seconds"].get<int>();
     if (j.contains("enable_checkpointing")) 
-        config.enable_checkpointing = j["enable_checkpointing"];
+        config.enable_checkpointing = j["enable_checkpointing"].get<bool>();
     if (j.contains("checkpoint_frequency")) 
-        config.checkpoint_frequency = j["checkpoint_frequency"];
+        config.checkpoint_frequency = j["checkpoint_frequency"].get<int>();
     if (j.contains("checkpoint_path")) 
-        config.checkpoint_path = j["checkpoint_path"];
+        config.checkpoint_path = j["checkpoint_path"].get<std::string>();
     return config;
 }
 
@@ -326,11 +326,11 @@ json GradientTensor::toJSON() const {
 
 GradientTensor GradientTensor::fromJSON(const json& j) {
     GradientTensor tensor;
-    if (j.contains("layer_name")) tensor.layer_name = j["layer_name"];
+    if (j.contains("layer_name")) tensor.layer_name = j["layer_name"].get<std::string>();
     if (j.contains("shape")) tensor.shape = j["shape"].get<std::vector<int>>();
-    if (j.contains("source_shard")) tensor.source_shard = j["source_shard"];
-    if (j.contains("timestamp_ms")) tensor.timestamp_ms = j["timestamp_ms"];
-    if (j.contains("step_number")) tensor.step_number = j["step_number"];
+    if (j.contains("source_shard")) tensor.source_shard = j["source_shard"].get<std::string>();
+    if (j.contains("timestamp_ms")) tensor.timestamp_ms = j["timestamp_ms"].get<int64_t>();
+    if (j.contains("step_number")) tensor.step_number = j["step_number"].get<int>();
     if (j.contains("compression_type")) 
         tensor.compression_type = static_cast<GradientCompressionType>(j["compression_type"].get<int>());
     
@@ -368,15 +368,15 @@ json GradientExchangeMessage::toJSON() const {
 
 GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
     GradientExchangeMessage msg;
-    if (j.contains("message_id")) msg.message_id = j["message_id"];
-    if (j.contains("source_shard")) msg.source_shard = j["source_shard"];
-    if (j.contains("destination_shard")) msg.destination_shard = j["destination_shard"];
-    if (j.contains("iteration_number")) msg.iteration_number = j["iteration_number"];
-    if (j.contains("total_participants")) msg.total_participants = j["total_participants"];
+    if (j.contains("message_id")) msg.message_id = j["message_id"].get<std::string>();
+    if (j.contains("source_shard")) msg.source_shard = j["source_shard"].get<std::string>();
+    if (j.contains("destination_shard")) msg.destination_shard = j["destination_shard"].get<std::string>();
+    if (j.contains("iteration_number")) msg.iteration_number = j["iteration_number"].get<int>();
+    if (j.contains("total_participants")) msg.total_participants = j["total_participants"].get<int>();
     if (j.contains("participants_seen")) 
         msg.participants_seen = j["participants_seen"].get<std::vector<std::string>>();
-    if (j.contains("sent_timestamp_ms")) msg.sent_timestamp_ms = j["sent_timestamp_ms"];
-    if (j.contains("received_timestamp_ms")) msg.received_timestamp_ms = j["received_timestamp_ms"];
+    if (j.contains("sent_timestamp_ms")) msg.sent_timestamp_ms = j["sent_timestamp_ms"].get<int64_t>();
+    if (j.contains("received_timestamp_ms")) msg.received_timestamp_ms = j["received_timestamp_ms"].get<int64_t>();
     
     if (j.contains("gradients")) {
         for (const auto& grad_json : j["gradients"]) {
@@ -411,19 +411,19 @@ json ShardTrainingState::toJSON() const {
 
 ShardTrainingState ShardTrainingState::fromJSON(const json& j) {
     ShardTrainingState state;
-    if (j.contains("shard_id")) state.shard_id = j["shard_id"];
-    if (j.contains("current_epoch")) state.current_epoch = j["current_epoch"];
-    if (j.contains("current_step")) state.current_step = j["current_step"];
-    if (j.contains("total_steps")) state.total_steps = j["total_steps"];
-    if (j.contains("current_loss")) state.current_loss = j["current_loss"];
-    if (j.contains("avg_grad_norm")) state.avg_grad_norm = j["avg_grad_norm"];
-    if (j.contains("samples_processed")) state.samples_processed = j["samples_processed"];
-    if (j.contains("is_active")) state.is_active = j["is_active"];
-    if (j.contains("is_synchronized")) state.is_synchronized = j["is_synchronized"];
-    if (j.contains("last_heartbeat_ms")) state.last_heartbeat_ms = j["last_heartbeat_ms"];
-    if (j.contains("consecutive_failures")) state.consecutive_failures = j["consecutive_failures"];
-    if (j.contains("gpu_utilization")) state.gpu_utilization = j["gpu_utilization"];
-    if (j.contains("memory_usage_gb")) state.memory_usage_gb = j["memory_usage_gb"];
+    if (j.contains("shard_id")) state.shard_id = j["shard_id"].get<std::string>();
+    if (j.contains("current_epoch")) state.current_epoch = j["current_epoch"].get<int>();
+    if (j.contains("current_step")) state.current_step = j["current_step"].get<int>();
+    if (j.contains("total_steps")) state.total_steps = j["total_steps"].get<int>();
+    if (j.contains("current_loss")) state.current_loss = j["current_loss"].get<float>();
+    if (j.contains("avg_grad_norm")) state.avg_grad_norm = j["avg_grad_norm"].get<float>();
+    if (j.contains("samples_processed")) state.samples_processed = j["samples_processed"].get<int>();
+    if (j.contains("is_active")) state.is_active = j["is_active"].get<bool>();
+    if (j.contains("is_synchronized")) state.is_synchronized = j["is_synchronized"].get<bool>();
+    if (j.contains("last_heartbeat_ms")) state.last_heartbeat_ms = j["last_heartbeat_ms"].get<int64_t>();
+    if (j.contains("consecutive_failures")) state.consecutive_failures = j["consecutive_failures"].get<int>();
+    if (j.contains("gpu_utilization")) state.gpu_utilization = j["gpu_utilization"].get<float>();
+    if (j.contains("memory_usage_gb")) state.memory_usage_gb = j["memory_usage_gb"].get<float>();
     return state;
 }
 
@@ -634,7 +634,8 @@ bool DistributedTrainingCoordinator::initialize(
     }
     
     adapter_id_ = adapter_id;
-    training_config_ = training_config;
+    // Note: training_config is passed in for initialization but not stored as member
+    // Individual training parameters are managed by local shard trainers
     
     spdlog::info("Initializing distributed training for adapter: {}", adapter_id);
     
