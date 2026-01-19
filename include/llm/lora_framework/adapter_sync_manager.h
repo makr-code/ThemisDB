@@ -5,12 +5,15 @@
 #include "lora_metrics.h"
 #include "sharding/shard_topology.h"
 #include "sharding/shard_rpc_client.h"
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 #include <memory>
 #include <chrono>
 #include <functional>
 #include <atomic>
+
+using json = nlohmann::json;
 
 #ifdef THEMIS_HAS_PROMETHEUS
 #include <prometheus/registry.h>
