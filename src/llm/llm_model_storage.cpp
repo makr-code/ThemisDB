@@ -1,5 +1,6 @@
 #include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
+#include "storage/security_signature_manager.h"
 #include "security/mock_key_provider.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -7,6 +8,9 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#include <iomanip>
+#include <sstream>
+#include <openssl/sha.h>
 
 namespace themis {
 namespace llm {
@@ -333,6 +337,123 @@ public:
         }
     }
     
+    std::optional<std::vector<uint8_t>> loadModelBlob(const std::string& model_id) {
+        try {
+            if (!config_.db) {
+                spdlog::error("Database not configured");
+                return std::nullopt;
+            }
+            
+            // Retrieve entity from RocksDB
+            std::string key = config_.collection_name + ":" + model_id;
+            auto data = config_.db->get(key);
+            
+            if (!data) {
+                spdlog::warn("Model {} not found", model_id);
+                return std::nullopt;
+            }
+            
+            // Decrypt if needed
+            std::vector<uint8_t> decrypted_data;
+            if (config_.enable_encryption && encryption_) {
+                try {
+                    std::string data_str(data->begin(), data->end());
+                    auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
+                    decrypted_data = encryption_->decryptToBytes(encrypted_blob);
+                } catch (const std::exception& e) {
+                    spdlog::error("Failed to decrypt model entity {}: {}", model_id, e.what());
+                    return std::nullopt;
+                }
+            } else {
+                decrypted_data = *data;
+            }
+            
+            // Deserialize BaseEntity
+            BaseEntity entity = BaseEntity::deserialize(model_id, decrypted_data);
+            
+            // Check if model data is stored inline
+            if (entity.hasField("model_data_inline")) {
+                spdlog::info("Loading model {} from inline storage", model_id);
+                auto inline_data_str = entity.getFieldAsString("model_data_inline");
+                if (inline_data_str) {
+                    std::vector<uint8_t> blob_data(inline_data_str->begin(), inline_data_str->end());
+                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes", blob_data.size());
+                    return blob_data;
+                }
+            }
+            
+            // Check if blob reference exists
+            if (!entity.hasField("blob_ref_uri")) {
+                spdlog::error("Model {} has no blob reference and no inline data", model_id);
+                return std::nullopt;
+            }
+            
+            // Reconstruct blob reference
+            storage::BlobRef blob_ref;
+            blob_ref.id = entity.getFieldAsString("blob_ref_id").value_or("");
+            blob_ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
+            blob_ref.type = static_cast<storage::BlobStorageType>(
+                entity.getFieldAsInt("blob_ref_type").value_or(0)
+            );
+            blob_ref.hash_sha256 = entity.getFieldAsString("blob_ref_hash").value_or("");
+            blob_ref.size_bytes = entity.getFieldAsInt("blob_ref_size").value_or(0);
+            blob_ref.compressed = entity.getFieldAsBool("blob_ref_compressed").value_or(false);
+            if (blob_ref.compressed) {
+                blob_ref.compression_type = entity.getFieldAsString("blob_ref_compression").value_or("");
+            }
+            
+            if (!config_.blob_manager) {
+                spdlog::error("BlobStorageManager not configured");
+                return std::nullopt;
+            }
+            
+            spdlog::info("Loading model {} from blob storage: type={}, uri={}", 
+                         model_id, static_cast<int>(blob_ref.type), blob_ref.uri);
+            
+            // Retrieve blob data
+            auto blob_data_opt = config_.blob_manager->get(blob_ref);
+            
+            if (!blob_data_opt) {
+                spdlog::error("Failed to retrieve blob for model {}", model_id);
+                return std::nullopt;
+            }
+            
+            spdlog::info("✓ Model blob loaded from storage: {} bytes", blob_data_opt->size());
+            
+            // Verify hash if available
+            if (!blob_ref.hash_sha256.empty()) {
+                spdlog::info("Verifying blob integrity with SHA256...");
+                
+                // Compute SHA256 of retrieved data
+                unsigned char hash[SHA256_DIGEST_LENGTH];
+                SHA256(blob_data_opt->data(), blob_data_opt->size(), hash);
+                
+                // Convert to hex string
+                std::stringstream ss;
+                for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+                    ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+                }
+                std::string computed_hash = ss.str();
+                
+                // Compare with stored hash
+                if (computed_hash != blob_ref.hash_sha256) {
+                    spdlog::error("Blob integrity check failed for model {}", model_id);
+                    spdlog::error("  Expected: {}", blob_ref.hash_sha256);
+                    spdlog::error("  Computed: {}", computed_hash);
+                    return std::nullopt;  // Fail if hash doesn't match
+                }
+                
+                spdlog::info("✓ Blob integrity verified (SHA256 match)");
+            }
+            
+            return blob_data_opt;
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to load model blob {}: {}", model_id, e.what());
+            return std::nullopt;
+        }
+    }
+    
     bool updateModel(const std::string& model_id, const LLMModelMetadata& metadata) {
         // For simplicity, just store again
         return storeModel(metadata, std::nullopt);
@@ -543,6 +664,10 @@ bool LLMModelStorage::storeModel(
 
 std::optional<LLMModelMetadata> LLMModelStorage::loadModel(const std::string& model_id) {
     return impl_->loadModel(model_id);
+}
+
+std::optional<std::vector<uint8_t>> LLMModelStorage::loadModelBlob(const std::string& model_id) {
+    return impl_->loadModelBlob(model_id);
 }
 
 bool LLMModelStorage::updateModel(const std::string& model_id, const LLMModelMetadata& metadata) {

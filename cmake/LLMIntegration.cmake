@@ -19,12 +19,20 @@ if(THEMIS_ENABLE_LLM)
         ../src/query/functions/lora_functions.cpp
         ../src/llm/lora_security_validator.cpp
         
+        # LoRA Router - Automatic routing automation
+        ../src/llm/lora_router.cpp
+        
         # Multi-GPU LoRA layers
         ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
         
         # FlashLoRA memory-efficient computation
         ../src/llm/lora_framework/flash_lora.cpp
         
+        # RAG Enhancements - Knowledge Gap Detection & LLM-as-Judge
+        ../src/rag/knowledge_gap_detector.cpp
+        ../src/rag/rag_judge.cpp
+        ../src/rag/llm_integration.cpp
+        ../src/rag/claim_extractor.cpp
         # RAG Enhancement: Knowledge Gap Detection
         ../src/rag/knowledge_gap_detector.cpp
         
@@ -34,6 +42,25 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/prompt_templates.cpp
         ../src/rag/response_parser.cpp
         ../src/rag/llm_judge_integration.cpp
+        
+        # RAG Enhancement: LLM-as-Judge Phase 2 - Specialized Evaluators
+        ../src/rag/faithfulness_evaluator.cpp
+        ../src/rag/relevance_evaluator.cpp
+        ../src/rag/completeness_evaluator.cpp
+        ../src/rag/coherence_evaluator.cpp
+        
+        # RAG Enhancement: LLM-as-Judge Phase 3 - Pairwise & Ensemble
+        ../src/rag/pairwise_comparator.cpp
+        ../src/rag/judge_ensemble.cpp
+        
+        # RAG Enhancement: LLM-as-Judge Phase 4 - Rubric & CoT & G-Eval
+        ../src/rag/rubric_evaluator.cpp
+        ../src/rag/cot_evaluator.cpp
+        ../src/rag/geval_evaluator.cpp
+        
+        # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
+        ../src/llm/lora_framework/adapter_consistency_checker.cpp
+        ../src/llm/lora_framework/adapter_sync_manager.cpp
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp

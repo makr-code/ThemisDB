@@ -3,6 +3,9 @@
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
 #include "llm/llamacpp_inference_engine.h"
+#include "llm/llm_model_storage.h"
+#include "storage/blob_storage_manager.h"
+#include "security/encryption.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -345,6 +348,141 @@ bool LlamaWrapper::loadModel(
     return true;
 }
 
+bool LlamaWrapper::loadModelFromThemisDB(
+    const std::string& model_id,
+    std::shared_ptr<LLMModelStorage> storage,
+    std::shared_ptr<storage::BlobStorageManager> blob_manager,
+    std::shared_ptr<security::FieldEncryption> encryption,
+    const json& config
+) {
+    spdlog::info("Loading model from ThemisDB: {}", model_id);
+    
+    // Validate parameters
+    if (!storage) {
+        spdlog::error("LLMModelStorage is null");
+        return false;
+    }
+    
+    if (!blob_manager) {
+        spdlog::error("BlobStorageManager is null");
+        return false;
+    }
+    
+    try {
+        // Step 1: Load model metadata from ThemisDB
+        spdlog::info("Step 1: Retrieving model metadata from ThemisDB...");
+        auto metadata_opt = storage->loadModel(model_id);
+        if (!metadata_opt) {
+            spdlog::error("Model not found in ThemisDB: {}", model_id);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_id);
+            return false;
+        }
+        
+        const auto& metadata = *metadata_opt;
+        spdlog::info("✓ Model metadata retrieved: {} ({})", 
+                     metadata.model_name, metadata.architecture);
+        spdlog::info("  Format: {}, Quantization: {}, Size: {} bytes", 
+                     metadata.format, metadata.quantization, metadata.size_bytes);
+        
+        // Step 2: Check if model data is stored inline or in blob storage
+        spdlog::info("Step 2: Retrieving model data...");
+        std::vector<uint8_t> model_data;
+        
+        // Try to get blob reference from metadata
+        // The loadModelBlob() method in LLMModelStorage handles blob retrieval
+        auto blob_data_opt = storage->loadModelBlob(model_id);
+        
+        if (!blob_data_opt) {
+            spdlog::error("Failed to retrieve model blob data for: {}", model_id);
+            errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_id);
+            return false;
+        }
+        
+        model_data = *blob_data_opt;
+        spdlog::info("✓ Model blob retrieved: {} bytes", model_data.size());
+        
+        // Step 3: Decryption is already handled by loadModelBlob()
+        // The data returned from loadModelBlob() is already decrypted if encryption was enabled
+        spdlog::info("Step 3: Model data ready (decryption handled by storage layer)");
+        
+        // Step 4: Write model data to temporary file
+        spdlog::info("Step 4: Writing model to temporary file...");
+        
+        // Create temporary directory for model cache
+        std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
+        std::filesystem::create_directories(temp_dir);
+        
+        // Determine file extension from format
+        std::string extension = ".gguf";  // Default
+        if (metadata.format == "safetensors") {
+            extension = ".safetensors";
+        } else if (metadata.format == "pytorch") {
+            extension = ".pt";
+        }
+        
+        // Create temp file path
+        std::filesystem::path temp_model_path = temp_dir / (model_id + extension);
+        
+        // Write model data to file
+        std::ofstream out_file(temp_model_path, std::ios::binary);
+        if (!out_file) {
+            spdlog::error("Failed to create temporary model file: {}", temp_model_path.string());
+            return false;
+        }
+        
+        out_file.write(reinterpret_cast<const char*>(model_data.data()), model_data.size());
+        out_file.close();
+        
+        if (!std::filesystem::exists(temp_model_path)) {
+            spdlog::error("Temporary model file was not created: {}", temp_model_path.string());
+            return false;
+        }
+        
+        // Verify file size
+        auto file_size = std::filesystem::file_size(temp_model_path);
+        if (file_size != model_data.size()) {
+            spdlog::error("File size mismatch: expected {}, got {}", 
+                         model_data.size(), file_size);
+            std::filesystem::remove(temp_model_path);
+            return false;
+        }
+        
+        spdlog::info("✓ Model written to temporary file: {}", temp_model_path.string());
+        spdlog::info("  File size: {} bytes", file_size);
+        
+        // Step 5: Load model using standard loadModel() method
+        spdlog::info("Step 5: Loading model into llama.cpp...");
+        
+        bool load_success = loadModel(temp_model_path.string(), config);
+        
+        if (!load_success) {
+            spdlog::error("Failed to load model from temporary file");
+            // Clean up temp file on failure
+            std::filesystem::remove(temp_model_path);
+            return false;
+        }
+        
+        spdlog::info("✓ Model loaded successfully from ThemisDB: {}", model_id);
+        
+        // Note: Temp file is kept in cache directory for potential reuse
+        // Cleanup policy: Files older than 7 days should be purged by a maintenance task
+        // Manual cleanup can be done via: rm -rf /tmp/themisdb_models/*
+        
+        // Update usage statistics in ThemisDB
+        // Note: updateUsageStats requires tokens_generated parameter
+        // We'll call it with 0 tokens since this is just a load operation
+        storage->updateUsageStats(model_id, 0);
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception loading model from ThemisDB: {}", e.what());
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
+                        model_id + ": " + e.what());
+        return false;
+    }
+}
+
 void LlamaWrapper::unloadModel() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -374,6 +512,47 @@ void LlamaWrapper::unloadModel() {
     transitionToState(WrapperState::UNINITIALIZED, "Model unloaded");
     
     spdlog::info("Model unloaded");
+}
+
+size_t LlamaWrapper::cleanupTempModels(int days_old) {
+    std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
+    
+    if (!std::filesystem::exists(temp_dir)) {
+        spdlog::debug("Temp models directory does not exist: {}", temp_dir.string());
+        return 0;
+    }
+    
+    size_t removed_count = 0;
+    auto now = std::filesystem::file_time_type::clock::now();
+    auto cutoff_time = now - std::chrono::hours(24 * days_old);
+    
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
+            if (entry.is_regular_file()) {
+                auto file_time = std::filesystem::last_write_time(entry);
+                
+                if (file_time < cutoff_time) {
+                    try {
+                        std::filesystem::remove(entry.path());
+                        removed_count++;
+                        spdlog::debug("Removed old temp model file: {}", entry.path().filename().string());
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to remove temp file {}: {}", 
+                                    entry.path().filename().string(), e.what());
+                    }
+                }
+            }
+        }
+        
+        if (removed_count > 0) {
+            spdlog::info("Cleaned up {} old temporary model file(s) (older than {} days)", 
+                        removed_count, days_old);
+        }
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to cleanup temp models: {}", e.what());
+    }
+    
+    return removed_count;
 }
 
 std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
@@ -524,7 +703,52 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
 
     // Real llama.cpp inference implementation
     try {
-        // 1. Tokenize prompt
+        // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
+        std::string prev_adapter;
+        bool adapter_applied = false;
+        bool context_changed = (last_context_ptr_ != lctx);
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
+            
+            // Check if adapter needs to be rebound after context switch
+            if (context_changed && !active_lora_adapter_.empty()) {
+                spdlog::info("Context changed, rebinding adapter {} to new context", adapter_id);
+                // Context changed - previous adapter binding is invalid
+                active_lora_adapter_.clear();
+            }
+            
+            // Check if we need to switch adapters
+            if (active_lora_adapter_ != adapter_id || context_changed) {
+                // Load adapter if not already loaded (lazy loading)
+                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                    // Adapter will be loaded by LoRAManager from storage
+                }
+                
+                // Apply adapter to context
+                if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                    adapter_applied = true;
+                    active_lora_adapter_ = adapter_id;
+                    last_context_ptr_ = lctx;
+                    spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                } else {
+                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                }
+            } else {
+                // Adapter already applied to this context
+                spdlog::debug("LoRA adapter {} already active on this context", adapter_id);
+                adapter_applied = true;  // Mark as applied for cleanup logic
+            }
+        } else if (!active_lora_adapter_.empty() && !context_changed) {
+            // No adapter requested but one is active - remove it
+            spdlog::info("Removing active adapter {} as none requested", active_lora_adapter_);
+            lora_manager_->removeLoRA(active_lora_adapter_, lctx);
+            active_lora_adapter_.clear();
+        }
+        
+        // 2. Tokenize prompt
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
         InferenceResponse response;
@@ -536,7 +760,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             response.lora_used = *request.lora_adapter_id;
         }
         
-        // 2. Prepare batch for prompt evaluation
+        // 3. Prepare batch for prompt evaluation
         llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
         
         // 3. Evaluate prompt (populate KV cache)
@@ -565,6 +789,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         auto first_token_start = std::chrono::high_resolution_clock::now();
         bool first_token_generated = false;
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
@@ -579,6 +807,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (next_token == eos_token) {
                 break;
             }
+            
+            // Phase 2: Calculate and store token probability for knowledge gap detection
+            float token_prob = getProbability(logits, next_token, n_vocab);
+            token_probabilities.push_back(token_prob);
             
             generated_tokens.push_back(next_token);
             
@@ -619,6 +851,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         // 5. Detokenize generated tokens
         response.text = detokenizeInternal(lctx, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
         
         // 6. Calculate timing metrics
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -693,10 +928,25 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             response_cache_->put(request.prompt, response);
         }
         
+        // Cleanup: Deactivate adapter if it was applied (optional - enables adapter hot-swapping)
+        // Note: We keep adapter applied for subsequent requests with same adapter for performance
+        // Only deactivate if explicitly switching to different adapter
+        if (adapter_applied && request.lora_adapter_id) {
+            // For now, keep adapter applied for better performance in consecutive requests
+            // Adapter will be automatically switched/removed when a different one is requested
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Cleanup: Remove adapter if applied (error path)
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
         
         // Record error
         if (metrics_collector_) {
@@ -1533,6 +1783,27 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
     }
     
     try {
+        // Apply LoRA adapter if specified (Auto-Binding)
+        bool adapter_applied = false;
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter for speculative decoding: {}", adapter_id);
+            
+            // Load adapter if not already loaded (lazy loading)
+            if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            }
+            
+            // Apply adapter to target context (not draft model)
+            if (lora_manager_->applyLoRA(adapter_id, target_context)) {
+                adapter_applied = true;
+                spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
+            } else {
+                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+            }
+        }
+        
         // 1. Tokenize prompt (same for both models)
         std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
         
@@ -1563,6 +1834,10 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+        
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
         
         size_t total_speculations = 0;
         size_t total_accepted = 0;
@@ -1609,6 +1884,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                 
                 // Get probability of draft token from target model
                 float target_prob = getProbability(target_logits, draft_tokens[i], n_vocab);
+                
+                // Phase 2: Store token probability for knowledge gap detection
+                token_probabilities.push_back(target_prob);
                 
                 if (target_prob >= config_.acceptance_threshold) {
                     generated_tokens.push_back(draft_tokens[i]);
@@ -1676,6 +1954,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.text = detokenizeInternal(target_context, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
         
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
+        
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
         response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
@@ -1691,10 +1972,23 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.metadata["draft_model"] = draft_model_id_;
         
         updateStatistics(response);
+        
+        // Cleanup: Keep adapter applied for performance in consecutive requests
+        if (adapter_applied && request.lora_adapter_id) {
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Speculative decoding error: {}", e.what());
+        
+        // Cleanup on error: Remove adapter if applied
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, target_context);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
+        
         spdlog::info("Falling back to regular generation");
         return generateRegular(request);
     }
@@ -1724,6 +2018,27 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
 
     // Real llama.cpp inference implementation
     try {
+        // Apply LoRA adapter if specified (Auto-Binding)
+        bool adapter_applied = false;
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
+            
+            // Load adapter if not already loaded (lazy loading)
+            if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            }
+            
+            // Apply adapter to context
+            if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                adapter_applied = true;
+                spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+            } else {
+                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+            }
+        }
+        
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
         InferenceResponse response;
@@ -1750,6 +2065,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
+        // Phase 2: Collect token probabilities for knowledge gap detection
+        std::vector<float> token_probabilities;
+        token_probabilities.reserve(max_tokens);
+        
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
             llama_token next_token = sampleTokenInternal(
@@ -1759,6 +2078,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             if (next_token == eos_token) {
                 break;
             }
+            
+            // Phase 2: Calculate and store token probability for knowledge gap detection
+            float token_prob = getProbability(logits, next_token, n_vocab);
+            token_probabilities.push_back(token_prob);
             
             generated_tokens.push_back(next_token);
             
@@ -1781,6 +2104,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         response.text = detokenizeInternal(lctx, generated_tokens);
         response.tokens_generated = static_cast<int>(generated_tokens.size());
         
+        // Phase 2: Store token probabilities in response for knowledge gap detection
+        response.logprobs = token_probabilities;
+        
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
         response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
@@ -1790,10 +2116,23 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             : 0.0f;
         
         updateStatistics(response);
+        
+        // Cleanup: Keep adapter applied for performance in consecutive requests
+        if (adapter_applied && request.lora_adapter_id) {
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Cleanup on error: Remove adapter if applied
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
+        
         throw;
     }
 }

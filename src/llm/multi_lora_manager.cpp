@@ -63,9 +63,18 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
     } else {
         spdlog::info("  Multi-GPU: disabled (single GPU mode)");
     }
+    
+    // Start background eviction thread for TTL-based cleanup
+    if (config_.lora_ttl.count() > 0) {
+        startEvictionThread();
+        spdlog::info("  Background eviction thread started (TTL: {}s)", config_.lora_ttl.count());
+    }
 }
 
 MultiLoRAManager::~MultiLoRAManager() {
+    // Stop eviction thread first
+    stopEvictionThread();
+    
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Unload all LoRAs with proper cleanup
@@ -164,6 +173,10 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     spdlog::info("Unloading LoRA: {}", lora_id);
     
     auto& lora = it->second;
+    
+    // Log unload event before removing
+    logGPUTransferEvent("unload", lora_id, lora->primary_gpu, -1,
+                       lora->vram_bytes, force ? "Forced unload" : "Normal unload");
     
     // Free adapter handle if it exists
     if (lora->adapter_handle) {
@@ -1409,11 +1422,1097 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     auto* result = lora.get();
     loras_[lora_id] = std::move(lora);
     
+    // Log load event
+    logGPUTransferEvent("load", lora_id, -1, result->primary_gpu,
+                       result->vram_bytes, "LoRA loaded successfully");
+    
     spdlog::info("LoRA loaded successfully: {} ({} MB VRAM, GPU(s): {})", 
                  lora_id, result->vram_bytes / (1024 * 1024),
                  result->assigned_gpus.size());
     
     return result;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Background Eviction Thread Implementation
+// ═══════════════════════════════════════════════════════════
+
+void MultiLoRAManager::startEvictionThread() {
+    if (eviction_thread_running_.load()) {
+        spdlog::warn("Eviction thread already running");
+        return;
+    }
+    
+    eviction_thread_running_.store(true);
+    eviction_thread_ = std::make_unique<std::thread>(&MultiLoRAManager::evictionWorker, this);
+    spdlog::debug("Background eviction thread started");
+}
+
+void MultiLoRAManager::stopEvictionThread() {
+    if (!eviction_thread_running_.load()) {
+        return;
+    }
+    
+    spdlog::debug("Stopping background eviction thread");
+    eviction_thread_running_.store(false);
+    eviction_cv_.notify_all();
+    
+    if (eviction_thread_ && eviction_thread_->joinable()) {
+        eviction_thread_->join();
+    }
+    
+    eviction_thread_.reset();
+    spdlog::debug("Background eviction thread stopped");
+}
+
+void MultiLoRAManager::evictionWorker() {
+    spdlog::info("Eviction worker thread started (TTL: {}s)", config_.lora_ttl.count());
+    
+    // Check every minute or TTL/4, whichever is smaller
+    auto check_interval = std::min(
+        std::chrono::seconds(60),
+        config_.lora_ttl / 4
+    );
+    
+    while (eviction_thread_running_.load()) {
+        // Sleep with condition variable for responsive shutdown
+        std::unique_lock<std::mutex> lock(mutex_);
+        eviction_cv_.wait_for(lock, check_interval, [this]() {
+            return !eviction_thread_running_.load();
+        });
+        lock.unlock();
+        
+        if (!eviction_thread_running_.load()) {
+            break;
+        }
+        
+        // Run eviction check
+        try {
+            size_t evicted = evictExpired();
+            if (evicted > 0) {
+                spdlog::info("Background eviction: {} LoRAs removed (TTL expired)", evicted);
+            }
+            
+            // Also check memory pressure and proactively evict if needed
+            lock.lock();
+            size_t vram_usage_pct = (config_.max_lora_vram_mb > 0) 
+                ? (total_vram_bytes_ / (1024 * 1024) * 100 / config_.max_lora_vram_mb)
+                : 0;
+            lock.unlock();
+            
+            // If VRAM usage is above 80%, proactively evict some LRU adapters
+            if (vram_usage_pct > 80) {
+                spdlog::info("Memory pressure detected ({}% VRAM usage), evicting LRU adapters", vram_usage_pct);
+                size_t freed = evictLRU();
+                if (freed > 0) {
+                    spdlog::info("Proactive eviction: freed {} MB VRAM", freed);
+                }
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Eviction worker error: {}", e.what());
+        }
+    }
+    
+    spdlog::info("Eviction worker thread stopped");
+}
+
+// ═══════════════════════════════════════════════════════════
+// Enhanced Multi-GPU Features (v1.5.0)
+// ═══════════════════════════════════════════════════════════
+
+json MultiLoRAManager::getUsageHeatmap() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    json heatmap = json::array();
+    
+    for (const auto& [id, lora] : loras_) {
+        json entry;
+        entry["lora_id"] = id;
+        entry["tenant_id"] = lora->tenant_id;
+        entry["use_count"] = lora->use_count;
+        entry["last_used"] = std::chrono::duration_cast<std::chrono::seconds>(
+            lora->last_used.time_since_epoch()).count();
+        entry["loaded_at"] = std::chrono::duration_cast<std::chrono::seconds>(
+            lora->loaded_at.time_since_epoch()).count();
+        entry["vram_bytes"] = lora->vram_bytes;
+        entry["is_pinned"] = lora->keep_loaded;
+        entry["is_active"] = lora->is_active;
+        entry["primary_gpu"] = lora->primary_gpu;
+        entry["gpu_placement"] = (lora->gpu_placement == GPUPlacement::MULTI_GPU) ? "MULTI_GPU" : "SINGLE_GPU";
+        
+        // Calculate age in seconds
+        auto now = std::chrono::system_clock::now();
+        auto age = std::chrono::duration_cast<std::chrono::seconds>(now - lora->loaded_at);
+        entry["age_seconds"] = age.count();
+        
+        // Calculate idle time
+        auto idle = std::chrono::duration_cast<std::chrono::seconds>(now - lora->last_used);
+        entry["idle_seconds"] = idle.count();
+        
+        // Calculate access frequency using helper
+        entry["access_frequency"] = calculateAccessFrequency(lora.get(), now);
+        
+        heatmap.push_back(entry);
+    }
+    
+    return heatmap;
+}
+
+size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (loras_.empty()) {
+        return 0;
+    }
+    
+    spdlog::info("Resource-aware eviction: GPU={}, target={}MB", 
+                 gpu_id == -1 ? "ALL" : std::to_string(gpu_id), target_vram_mb);
+    
+    // Build eviction candidates
+    struct EvictionCandidate {
+        std::string lora_id;
+        LoRASlot* lora;
+        double score;  // Lower score = evict first
+    };
+    
+    std::vector<EvictionCandidate> candidates;
+    auto now = std::chrono::system_clock::now();
+    
+    for (auto& [id, lora] : loras_) {
+        // Skip pinned LoRAs
+        if (lora->keep_loaded) {
+            continue;
+        }
+        
+        // Filter by GPU if specified
+        if (gpu_id >= 0 && lora->primary_gpu != gpu_id) {
+            continue;
+        }
+        
+        // Calculate eviction score based on multiple factors:
+        // - Idle time (higher = lower score)
+        // - Access frequency (higher = higher score)
+        // - VRAM size (larger = lower score for efficiency)
+        // - Age (older and unused = lower score)
+        
+        auto idle_seconds = std::chrono::duration_cast<std::chrono::seconds>(
+            now - lora->last_used).count();
+        
+        // Use helper to calculate access frequency consistently
+        double access_frequency = calculateAccessFrequency(lora.get(), now);
+        
+        // Score calculation (normalized to 0-100 range)
+        // Higher score = keep in memory
+        double score = 0.0;
+        score += std::min(access_frequency * 10.0, 40.0);  // Up to 40 points for frequency
+        score -= std::min(idle_seconds / 60.0, 30.0);      // Penalty for idle time
+        score += (lora->is_active ? 20.0 : 0.0);           // Bonus for active adapters
+        score -= (lora->vram_bytes / (1024.0 * 1024.0)) / 10.0;  // Small penalty for large size
+        
+        candidates.push_back({id, lora.get(), score});
+    }
+    
+    if (candidates.empty()) {
+        spdlog::warn("No eviction candidates available (all LoRAs pinned)");
+        return 0;
+    }
+    
+    // Sort by score (ascending - lowest score evicted first)
+    std::sort(candidates.begin(), candidates.end(),
+              [](const EvictionCandidate& a, const EvictionCandidate& b) {
+                  return a.score < b.score;
+              });
+    
+    // Evict until target is met
+    size_t freed_vram = 0;
+    size_t target_bytes = target_vram_mb * 1024 * 1024;
+    
+    for (const auto& candidate : candidates) {
+        if (target_vram_mb > 0 && freed_vram >= target_bytes) {
+            break;  // Target met
+        }
+        
+        spdlog::info("Evicting LoRA: {} (score={:.2f}, idle={}s, freq={:.2f}/hr)", 
+                     candidate.lora_id, candidate.score,
+                     std::chrono::duration_cast<std::chrono::seconds>(
+                         now - candidate.lora->last_used).count(),
+                     calculateAccessFrequency(candidate.lora, now));
+        
+        freed_vram += candidate.lora->vram_bytes;
+        
+        // Log eviction event
+        logGPUTransferEvent("evict", candidate.lora_id, 
+                           candidate.lora->primary_gpu, -1,
+                           candidate.lora->vram_bytes,
+                           "Resource-aware eviction");
+        
+        // Update memory tracking
+        total_vram_bytes_ -= candidate.lora->vram_bytes;
+        if (candidate.lora->primary_gpu >= 0) {
+            gpu_vram_usage_[candidate.lora->primary_gpu] -= candidate.lora->vram_bytes;
+        }
+        
+        evictions_++;
+        loras_.erase(candidate.lora_id);
+    }
+    
+    size_t freed_mb = freed_vram / (1024 * 1024);
+    spdlog::info("Resource-aware eviction completed: freed {} MB", freed_mb);
+    
+    return freed_mb;
+}
+
+json MultiLoRAManager::getSchedulingRecommendation(size_t lora_vram_bytes, int priority) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    json recommendation;
+    recommendation["requested_vram_mb"] = lora_vram_bytes / (1024.0 * 1024.0);
+    recommendation["priority"] = priority;
+    
+    if (!config_.multi_gpu.enabled || config_.multi_gpu.devices.empty()) {
+        recommendation["recommended_gpu"] = 0;
+        recommendation["strategy"] = "single_gpu";
+        recommendation["confidence"] = 1.0;
+        return recommendation;
+    }
+    
+    // Evaluate each GPU
+    json gpu_scores = json::array();
+    int best_gpu = -1;
+    double best_score = -1.0;
+    
+    for (int gpu_id : config_.multi_gpu.devices) {
+        json gpu_eval;
+        gpu_eval["gpu_id"] = gpu_id;
+        
+        // Check if GPU is healthy
+        bool is_healthy = isGPUHealthy(gpu_id);
+        gpu_eval["is_healthy"] = is_healthy;
+        
+        if (!is_healthy) {
+            gpu_eval["score"] = 0.0;
+            gpu_eval["reason"] = "GPU unhealthy";
+            gpu_scores.push_back(gpu_eval);
+            continue;
+        }
+        
+        // Calculate available VRAM
+        size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+        size_t used_vram = gpu_vram_usage_.count(gpu_id) ? gpu_vram_usage_.at(gpu_id) : 0;
+        size_t available_vram = (max_vram > used_vram) ? (max_vram - used_vram) : 0;
+        
+        gpu_eval["used_vram_mb"] = used_vram / (1024.0 * 1024.0);
+        gpu_eval["available_vram_mb"] = available_vram / (1024.0 * 1024.0);
+        gpu_eval["utilization"] = (max_vram > 0) ? (used_vram * 100.0 / max_vram) : 0.0;
+        
+        // Check if LoRA fits
+        if (available_vram < lora_vram_bytes) {
+            gpu_eval["score"] = 0.0;
+            gpu_eval["reason"] = "Insufficient VRAM";
+            gpu_scores.push_back(gpu_eval);
+            continue;
+        }
+        
+        // Count adapters on GPU
+        int adapter_count = 0;
+        for (const auto& [_, lora] : loras_) {
+            if (lora->primary_gpu == gpu_id) {
+                adapter_count++;
+            }
+        }
+        gpu_eval["adapter_count"] = adapter_count;
+        
+        // Calculate placement score (0-100)
+        double score = 100.0;
+        
+        // Prefer less utilized GPUs
+        double util_ratio = used_vram * 1.0 / max_vram;
+        score -= util_ratio * 50.0;  // Up to 50 point penalty for high utilization
+        
+        // Prefer GPUs with fewer adapters (for better cache locality)
+        score -= adapter_count * 2.0;  // 2 points per existing adapter
+        
+        // Small penalty for non-zero GPU (prefer spreading, but primary first)
+        if (gpu_id > 0) {
+            score -= 5.0;
+        }
+        
+        gpu_eval["score"] = score;
+        gpu_eval["estimated_load_latency_ms"] = 10.0 + (util_ratio * 20.0);  // 10-30ms estimate
+        
+        gpu_scores.push_back(gpu_eval);
+        
+        if (score > best_score) {
+            best_score = score;
+            best_gpu = gpu_id;
+        }
+    }
+    
+    recommendation["gpu_evaluations"] = gpu_scores;
+    recommendation["recommended_gpu"] = best_gpu;
+    recommendation["confidence"] = (best_score > 0) ? (best_score / 100.0) : 0.0;
+    recommendation["strategy"] = "resource_aware";
+    
+    return recommendation;
+}
+
+bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_gpu) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = loras_.find(lora_id);
+    if (it == loras_.end()) {
+        spdlog::error("Cannot migrate LoRA {}: not found", lora_id);
+        return false;
+    }
+    
+    auto& lora = it->second;
+    int source_gpu = lora->primary_gpu;
+    
+    if (source_gpu == target_gpu) {
+        spdlog::debug("LoRA {} already on GPU {}", lora_id, target_gpu);
+        return true;
+    }
+    
+    // Check if pinned
+    if (lora->keep_loaded) {
+        spdlog::warn("Cannot migrate pinned LoRA: {}", lora_id);
+        return false;
+    }
+    
+    // Check target GPU health
+    if (!isGPUHealthy(target_gpu)) {
+        spdlog::error("Target GPU {} is unhealthy", target_gpu);
+        return false;
+    }
+    
+    // Check target GPU capacity
+    size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+    size_t used_vram = gpu_vram_usage_[target_gpu];
+    size_t available = (max_vram > used_vram) ? (max_vram - used_vram) : 0;
+    
+    if (available < lora->vram_bytes) {
+        spdlog::error("Insufficient VRAM on target GPU {}: need {}, available {}",
+                     target_gpu, lora->vram_bytes, available);
+        return false;
+    }
+    
+    spdlog::info("Migrating LoRA {} from GPU {} to GPU {}", lora_id, source_gpu, target_gpu);
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    // In production with CUDA:
+    // 1. Unload from source GPU
+    // 2. Load on target GPU
+    // 3. Update handles
+    // For now, we simulate the migration
+    
+    // Update tracking
+    if (source_gpu >= 0) {
+        gpu_vram_usage_[source_gpu] -= lora->vram_bytes;
+    }
+    gpu_vram_usage_[target_gpu] += lora->vram_bytes;
+    
+    lora->primary_gpu = target_gpu;
+    lora->assigned_gpus = {target_gpu};
+    
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        end_time - start_time).count();
+    
+    // Log migration event
+    logGPUTransferEvent("migrate", lora_id, source_gpu, target_gpu,
+                       lora->vram_bytes,
+                       "Warm migration completed in " + std::to_string(duration_ms) + "ms");
+    
+    spdlog::info("Migration completed in {}ms", duration_ms);
+    
+    return true;
+}
+
+size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!config_.multi_gpu.enabled || !config_.multi_gpu.enable_fault_tolerance) {
+        return 0;
+    }
+    
+    spdlog::debug("Checking GPU health and performing auto-migration if needed");
+    
+    // Update health status
+    auto now = std::chrono::system_clock::now();
+    for (int gpu_id : config_.multi_gpu.devices) {
+        // Check if health check is due
+        if (gpu_last_health_check_.count(gpu_id) == 0 ||
+            std::chrono::duration_cast<std::chrono::seconds>(
+                now - gpu_last_health_check_[gpu_id]).count() >= 
+                config_.multi_gpu.health_check_interval_sec) {
+            
+            // Update health status
+            bool is_healthy = isGPUHealthy(gpu_id);
+            gpu_health_status_[gpu_id] = is_healthy;
+            gpu_last_health_check_[gpu_id] = now;
+            
+            if (!is_healthy) {
+                spdlog::warn("GPU {} health check failed", gpu_id);
+            }
+        }
+    }
+    
+    // Find unhealthy GPUs with LoRAs
+    std::vector<int> unhealthy_gpus;
+    for (const auto& [gpu_id, is_healthy] : gpu_health_status_) {
+        if (!is_healthy) {
+            unhealthy_gpus.push_back(gpu_id);
+        }
+    }
+    
+    if (unhealthy_gpus.empty()) {
+        return 0;  // All GPUs healthy
+    }
+    
+    // Find healthy target GPU
+    std::vector<int> healthy_gpus = getAvailableGPUs();
+    if (healthy_gpus.empty()) {
+        spdlog::error("No healthy GPUs available for migration");
+        return 0;
+    }
+    
+    // Migrate LoRAs from unhealthy GPUs
+    size_t migrated = 0;
+    
+    for (int unhealthy_gpu : unhealthy_gpus) {
+        spdlog::warn("GPU {} is unhealthy, migrating adapters", unhealthy_gpu);
+        
+        // Find LoRAs on unhealthy GPU
+        std::vector<std::string> loras_to_migrate;
+        for (const auto& [id, lora] : loras_) {
+            if (lora->primary_gpu == unhealthy_gpu) {
+                loras_to_migrate.push_back(id);
+            }
+        }
+        
+        // Migrate each LoRA
+        for (const auto& lora_id : loras_to_migrate) {
+            // Find least loaded healthy GPU
+            int target_gpu = -1;
+            size_t min_usage = std::numeric_limits<size_t>::max();
+            
+            for (int gpu_id : healthy_gpus) {
+                size_t usage = gpu_vram_usage_[gpu_id];
+                if (usage < min_usage) {
+                    min_usage = usage;
+                    target_gpu = gpu_id;
+                }
+            }
+            
+            if (target_gpu >= 0) {
+                auto& lora = loras_[lora_id];
+                
+                // Check capacity
+                size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+                if (gpu_vram_usage_[target_gpu] + lora->vram_bytes <= max_vram) {
+                    spdlog::info("Auto-migrating LoRA {} from failed GPU {} to GPU {}", 
+                                 lora_id, unhealthy_gpu, target_gpu);
+                    
+                    // Perform migration (without lock since we already have it)
+                    gpu_vram_usage_[unhealthy_gpu] -= lora->vram_bytes;
+                    gpu_vram_usage_[target_gpu] += lora->vram_bytes;
+                    
+                    lora->primary_gpu = target_gpu;
+                    lora->assigned_gpus = {target_gpu};
+                    
+                    logGPUTransferEvent("auto_migrate", lora_id, 
+                                       unhealthy_gpu, target_gpu,
+                                       lora->vram_bytes,
+                                       "GPU failure recovery");
+                    
+                    migrated++;
+                } else {
+                    spdlog::warn("Cannot migrate LoRA {}: insufficient VRAM on target GPU", 
+                                lora_id);
+                }
+            }
+        }
+    }
+    
+    if (migrated > 0) {
+        spdlog::info("Auto-migration completed: {} adapters migrated from failed GPUs", 
+                     migrated);
+    }
+    
+    return migrated;
+}
+
+void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::string& tenant_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = loras_.find(lora_id);
+    if (it != loras_.end()) {
+        it->second->tenant_id = tenant_id;
+        lora_tenants_[lora_id] = tenant_id;
+        spdlog::debug("Set tenant {} for LoRA {}", tenant_id, lora_id);
+    }
+}
+
+json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    json log = json::array();
+    
+    size_t count = 0;
+    size_t start = (limit > 0 && audit_log_.size() > limit) ? 
+                   (audit_log_.size() - limit) : 0;
+    
+    for (size_t i = start; i < audit_log_.size(); ++i) {
+        const auto& event = audit_log_[i];
+        
+        json entry;
+        entry["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+            event.timestamp.time_since_epoch()).count();
+        entry["event_type"] = event.event_type;
+        entry["lora_id"] = event.lora_id;
+        entry["tenant_id"] = event.tenant_id;
+        entry["source_gpu"] = event.source_gpu;
+        entry["target_gpu"] = event.target_gpu;
+        entry["vram_bytes"] = event.vram_bytes;
+        entry["details"] = event.details;
+        
+        log.push_back(entry);
+    }
+    
+    return log;
+}
+
+void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
+                                           const std::string& lora_id,
+                                           int source_gpu, int target_gpu,
+                                           size_t vram_bytes,
+                                           const std::string& details) {
+    // Note: Caller must hold mutex_ lock before calling this method
+    // This method is called from: loadLoRAInternal, unloadLoRA, evictResourceAware,
+    // migrateLoRAToGPU, checkGPUHealthAndMigrate
+    
+    AuditEvent event;
+    event.timestamp = std::chrono::system_clock::now();
+    event.event_type = event_type;
+    event.lora_id = lora_id;
+    event.tenant_id = lora_tenants_.count(lora_id) ? lora_tenants_[lora_id] : "";
+    event.source_gpu = source_gpu;
+    event.target_gpu = target_gpu;
+    event.vram_bytes = vram_bytes;
+    event.details = details;
+    
+    audit_log_.push_back(event);
+    
+    // Trim log if it exceeds max size
+    if (audit_log_.size() > max_audit_log_size_) {
+        audit_log_.erase(audit_log_.begin(), 
+                        audit_log_.begin() + (audit_log_.size() - max_audit_log_size_));
+    }
+    
+    // Log to spdlog for external audit systems
+    spdlog::info("[AUDIT] GPU Transfer: type={}, lora={}, tenant={}, src_gpu={}, "
+                "tgt_gpu={}, vram={}MB, details={}", 
+                event_type, lora_id, event.tenant_id, source_gpu, target_gpu,
+                vram_bytes / (1024 * 1024), details);
+}
+
+double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
+                                                 const std::chrono::system_clock::time_point& now) const {
+    // Calculate access frequency (accesses per hour)
+    // Protect against division by zero and negative age due to clock adjustments
+    auto age_seconds = std::chrono::duration_cast<std::chrono::seconds>(
+        now - lora->loaded_at).count();
+    
+    if (age_seconds > 0) {
+        return (lora->use_count * 3600.0) / age_seconds;
+    }
+    return 0.0;
+// Advanced Fusion API Implementation (v1.5.0)
+// ═══════════════════════════════════════════════════════════
+
+bool MultiLoRAManager::fuseLoRAsAdvanced(
+    const std::string& fused_id,
+    const FusionConfig& config
+) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    spdlog::info("Advanced fusion: {} with strategy {}", 
+                 fused_id, 
+                 config.strategy == FusionStrategy::STATIC ? "STATIC" :
+                 config.strategy == FusionStrategy::DYNAMIC ? "DYNAMIC" : "SCHEDULED");
+    
+    if (!config_.enable_adapter_fusion) {
+        spdlog::error("Adapter fusion is disabled in configuration");
+        return false;
+    }
+    
+    // Check cache first for STATIC fusions
+    if (config.strategy == FusionStrategy::STATIC && config.enable_cache) {
+        auto cache_it = fusion_cache_.find(fused_id);
+        if (cache_it != fusion_cache_.end()) {
+            // Check if cache is still valid
+            auto age = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now() - cache_it->second.created_at
+            );
+            
+            if (age < config.cache_ttl) {
+                spdlog::debug("Fusion cache hit: {}", fused_id);
+                fusion_cache_hits_++;
+                cache_it->second.last_used = std::chrono::system_clock::now();
+                cache_it->second.use_count++;
+                return true;
+            } else {
+                spdlog::debug("Fusion cache expired: {}", fused_id);
+                fusion_cache_.erase(cache_it);
+            }
+        }
+    }
+    
+    fusion_cache_misses_++;
+    
+    // Perform fusion
+    bool success = fuseLoRAsInternal(fused_id, config);
+    
+    if (success) {
+        // Update cache and metrics
+        if (config.enable_cache) {
+            FusionCacheEntry entry;
+            entry.fusion_id = fused_id;
+            entry.source_lora_ids = config.source_lora_ids;
+            entry.weights = config.weights;
+            entry.created_at = std::chrono::system_clock::now();
+            entry.last_used = std::chrono::system_clock::now();
+            entry.use_count = 1;
+            entry.strategy = config.strategy;
+            
+            fusion_cache_[fused_id] = entry;
+        }
+        
+        // Store configuration for dynamic updates
+        fusion_configs_[fused_id] = config;
+        
+        // Store alpha schedule if provided
+        if (config.strategy == FusionStrategy::SCHEDULED || 
+            config.strategy == FusionStrategy::DYNAMIC) {
+            fusion_schedules_[fused_id] = config.alpha_schedule;
+        }
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        double fusion_time_ms = duration.count() / 1000.0;
+        
+        updateFusionMetrics(fused_id, fusion_time_ms);
+        total_fusions_++;
+        
+        spdlog::info("Fusion completed: {} ({:.2f} ms)", fused_id, fusion_time_ms);
+    }
+    
+    return success;
+}
+
+bool MultiLoRAManager::fuseLoRAsInternal(
+    const std::string& fused_id,
+    const FusionConfig& config
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (config.source_lora_ids.empty()) {
+        errors::logError(errors::ErrorCode::ERR_LORA_FUSION_FAILED, "no LoRAs provided");
+        return false;
+    }
+    
+    if (config.source_lora_ids.size() != config.weights.size()) {
+        errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
+                        config.source_lora_ids.size(), config.weights.size());
+        return false;
+    }
+    
+    // Validate all LoRAs are loaded
+    std::vector<LoRASlot*> source_loras;
+    for (const auto& lora_id : config.source_lora_ids) {
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end()) {
+            errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
+            return false;
+        }
+        source_loras.push_back(it->second.get());
+    }
+    
+    // Validate compatibility
+    if (!validateFusionCompatibility(source_loras, config)) {
+        spdlog::error("LoRAs are not compatible for fusion");
+        return false;
+    }
+    
+    // Normalize weights
+    float weight_sum = 0.0f;
+    for (float w : config.weights) {
+        weight_sum += std::abs(w);
+    }
+    
+    if (weight_sum < 1e-6f) {
+        spdlog::error("Sum of fusion weights is too small: {}", weight_sum);
+        return false;
+    }
+    
+    std::vector<float> normalized_weights;
+    for (float w : config.weights) {
+        normalized_weights.push_back(w / weight_sum);
+    }
+    
+    // Create fused LoRA slot (reusing existing logic)
+    auto fused_lora = std::make_unique<LoRASlot>();
+    fused_lora->lora_id = fused_id;
+    fused_lora->path = "<fused>";
+    fused_lora->base_model_id = source_loras[0]->base_model_id;
+    fused_lora->loaded_at = std::chrono::system_clock::now();
+    fused_lora->last_used = std::chrono::system_clock::now();
+    fused_lora->use_count = 0;
+    
+    // Calculate fused properties
+    float avg_rank = 0.0f;
+    float avg_alpha = 0.0f;
+    size_t total_vram = 0;
+    
+    for (size_t i = 0; i < source_loras.size(); ++i) {
+        avg_rank += source_loras[i]->rank * normalized_weights[i];
+        avg_alpha += source_loras[i]->alpha * normalized_weights[i];
+        total_vram = std::max(total_vram, source_loras[i]->vram_bytes);
+    }
+    
+    fused_lora->rank = static_cast<size_t>(avg_rank);
+    fused_lora->alpha = static_cast<size_t>(avg_alpha);
+    fused_lora->vram_bytes = total_vram;
+    fused_lora->scale = 1.0f;
+    
+    // Check VRAM budget
+    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+        spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
+        while (loras_.size() > 0 && 
+               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+            evictLRU();
+        }
+    }
+    
+    // Store fused LoRA
+    total_vram_bytes_ += fused_lora->vram_bytes;
+    loras_[fused_id] = std::move(fused_lora);
+    
+    spdlog::info("LoRA fusion internal completed: {} from {} source LoRAs", 
+                 fused_id, config.source_lora_ids.size());
+    
+    return true;
+}
+
+bool MultiLoRAManager::updateFusionWeights(
+    const std::string& fusion_id,
+    const std::vector<float>& new_weights
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto config_it = fusion_configs_.find(fusion_id);
+    if (config_it == fusion_configs_.end()) {
+        spdlog::error("Fusion not found: {}", fusion_id);
+        return false;
+    }
+    
+    if (config_it->second.strategy != FusionStrategy::DYNAMIC) {
+        spdlog::error("Cannot update weights for non-DYNAMIC fusion: {}", fusion_id);
+        return false;
+    }
+    
+    if (new_weights.size() != config_it->second.source_lora_ids.size()) {
+        spdlog::error("Weight count mismatch: expected {}, got {}",
+                     config_it->second.source_lora_ids.size(), new_weights.size());
+        return false;
+    }
+    
+    // Update configuration
+    config_it->second.weights = new_weights;
+    
+    // Invalidate cache entry to force recomputation
+    invalidateFusionCache(fusion_id);
+    
+    spdlog::info("Updated fusion weights for: {}", fusion_id);
+    return true;
+}
+
+bool MultiLoRAManager::setAlphaSchedule(
+    const std::string& fusion_id,
+    const AlphaSchedule& schedule
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto config_it = fusion_configs_.find(fusion_id);
+    if (config_it == fusion_configs_.end()) {
+        spdlog::error("Fusion not found: {}", fusion_id);
+        return false;
+    }
+    
+    if (config_it->second.strategy != FusionStrategy::SCHEDULED &&
+        config_it->second.strategy != FusionStrategy::DYNAMIC) {
+        spdlog::error("Cannot set alpha schedule for STATIC fusion: {}", fusion_id);
+        return false;
+    }
+    
+    fusion_schedules_[fusion_id] = schedule;
+    
+    spdlog::info("Set alpha schedule for fusion: {}", fusion_id);
+    return true;
+}
+
+std::vector<float> MultiLoRAManager::getCurrentFusionWeights(
+    const std::string& fusion_id
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto config_it = fusion_configs_.find(fusion_id);
+    if (config_it == fusion_configs_.end()) {
+        return {};
+    }
+    
+    // For SCHEDULED strategy, compute current weights based on schedule
+    if (config_it->second.strategy == FusionStrategy::SCHEDULED) {
+        return computeScheduledWeights(fusion_id);
+    }
+    
+    // For STATIC and DYNAMIC, return configured weights
+    return config_it->second.weights;
+}
+
+std::vector<float> MultiLoRAManager::computeScheduledWeights(
+    const std::string& fusion_id
+) const {
+    // Already locked by caller
+    
+    auto schedule_it = fusion_schedules_.find(fusion_id);
+    if (schedule_it == fusion_schedules_.end()) {
+        // No schedule, return static weights
+        auto config_it = fusion_configs_.find(fusion_id);
+        if (config_it != fusion_configs_.end()) {
+            return config_it->second.weights;
+        }
+        return {};
+    }
+    
+    const auto& schedule = schedule_it->second;
+    
+    // Calculate time offset
+    auto now = std::chrono::system_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+        now - schedule.start_time
+    );
+    double time_offset = duration.count();
+    
+    // Use custom schedule function if provided
+    if (schedule.schedule_func) {
+        return schedule.schedule_func(time_offset);
+    }
+    
+    // Default linear interpolation for A/B testing
+    if (schedule.transition_duration.count() > 0) {
+        float progress = std::min(1.0f, 
+            static_cast<float>(time_offset) / schedule.transition_duration.count());
+        
+        // Linear transition from static_weights to target weights
+        std::vector<float> weights = schedule.static_weights;
+        
+        // Simple A/B blend: first adapter gets a_weight, second gets b_weight
+        if (weights.size() >= 2) {
+            weights[0] = schedule.a_weight * (1.0f - progress) + 
+                        schedule.b_weight * progress;
+            weights[1] = schedule.b_weight * (1.0f - progress) + 
+                        schedule.a_weight * progress;
+        }
+        
+        return weights;
+    }
+    
+    return schedule.static_weights;
+}
+
+bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = fusion_cache_.find(fusion_id);
+    if (it == fusion_cache_.end()) {
+        return false;
+    }
+    
+    fusion_cache_.erase(it);
+    fusion_invalidations_++;
+    
+    spdlog::info("Invalidated fusion cache entry: {}", fusion_id);
+    return true;
+}
+
+size_t MultiLoRAManager::clearFusionCache() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    size_t count = fusion_cache_.size();
+    fusion_cache_.clear();
+    fusion_invalidations_ += count;
+    
+    spdlog::info("Cleared fusion cache: {} entries removed", count);
+    return count;
+}
+
+FusionMetrics MultiLoRAManager::getFusionMetrics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    FusionMetrics metrics;
+    metrics.total_fusions = total_fusions_;
+    metrics.cache_hits = fusion_cache_hits_;
+    metrics.cache_misses = fusion_cache_misses_;
+    metrics.invalidations = fusion_invalidations_;
+    
+    // Aggregate timing data from cache entries
+    double total_inference_time = 0.0;
+    size_t total_inference_count = 0;
+    
+    for (const auto& [_, entry] : fusion_cache_) {
+        if (entry.inference_count > 0) {
+            total_inference_time += entry.avg_inference_time_ms * entry.inference_count;
+            total_inference_count += entry.inference_count;
+            
+            // Track by strategy
+            metrics.fusions_by_strategy[entry.strategy]++;
+        }
+    }
+    
+    if (total_inference_count > 0) {
+        metrics.avg_inference_time_ms = total_inference_time / total_inference_count;
+    }
+    
+    return metrics;
+}
+
+std::vector<FusionCacheEntry> MultiLoRAManager::listFusionCache() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<FusionCacheEntry> entries;
+    entries.reserve(fusion_cache_.size());
+    
+    for (const auto& [_, entry] : fusion_cache_) {
+        entries.push_back(entry);
+    }
+    
+    return entries;
+}
+
+bool MultiLoRAManager::checkFusionCompatibility(
+    const std::vector<std::string>& lora_ids,
+    const FusionConfig& config
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (lora_ids.empty()) {
+        return false;
+    }
+    
+    std::vector<LoRASlot*> source_loras;
+    for (const auto& lora_id : lora_ids) {
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end()) {
+            spdlog::debug("LoRA not loaded: {}", lora_id);
+            return false;
+        }
+        source_loras.push_back(it->second.get());
+    }
+    
+    return validateFusionCompatibility(source_loras, config);
+}
+
+bool MultiLoRAManager::validateFusionCompatibility(
+    const std::vector<LoRASlot*>& source_loras,
+    const FusionConfig& config
+) const {
+    // Already locked by caller
+    
+    if (source_loras.empty()) {
+        return false;
+    }
+    
+    const auto* first = source_loras[0];
+    
+    for (size_t i = 1; i < source_loras.size(); ++i) {
+        const auto* lora = source_loras[i];
+        
+        // Check base model match
+        if (lora->base_model_id != first->base_model_id) {
+            spdlog::debug("Base model mismatch: {} vs {}", 
+                         first->base_model_id, lora->base_model_id);
+            return false;
+        }
+        
+        // Check quantization match if enforced
+        if (config.enforce_quantization_match) {
+            if (lora->is_quantized != first->is_quantized) {
+                spdlog::debug("Quantization mismatch: {} vs {}",
+                             first->is_quantized, lora->is_quantized);
+                return false;
+            }
+            if (lora->is_quantized && 
+                lora->quantization_mode != first->quantization_mode) {
+                spdlog::debug("Quantization mode mismatch");
+                return false;
+            }
+        }
+        
+        // Check GPU placement match if enforced
+        if (config.enforce_gpu_placement_match) {
+            if (lora->gpu_placement != first->gpu_placement) {
+                spdlog::debug("GPU placement mismatch");
+                return false;
+            }
+            if (lora->primary_gpu != first->primary_gpu) {
+                spdlog::debug("Primary GPU mismatch");
+                return false;
+            }
+        }
+        
+        // Check rank match if enforced
+        if (config.enforce_rank_match) {
+            if (lora->rank != first->rank) {
+                spdlog::debug("Rank mismatch: {} vs {}", first->rank, lora->rank);
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+void MultiLoRAManager::updateFusionMetrics(
+    const std::string& fusion_id,
+    double fusion_time_ms
+) {
+    // Already locked by caller or doesn't need lock for simple counters
+    
+    auto it = fusion_cache_.find(fusion_id);
+    if (it != fusion_cache_.end()) {
+        // Update cache entry timing
+        it->second.avg_inference_time_ms = fusion_time_ms;
+    }
+}
+
+void MultiLoRAManager::updateInferenceMetrics(
+    const std::string& fusion_id,
+    double inference_time_ms
+) {
+    // Already locked by caller
+    
+    auto it = fusion_cache_.find(fusion_id);
+    if (it != fusion_cache_.end()) {
+        size_t count = it->second.inference_count;
+        double prev_avg = it->second.avg_inference_time_ms;
+        
+        // Update running average
+        it->second.avg_inference_time_ms = 
+            (prev_avg * count + inference_time_ms) / (count + 1);
+        it->second.inference_count++;
+    }
 }
 
 } // namespace llm

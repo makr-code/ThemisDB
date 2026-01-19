@@ -1247,5 +1247,425 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     return true;
 }
 
+// GPU Health Monitoring Implementation
+
+GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    GPUStats stats = {};
+    stats.device_id = gpu_device_id;
+    
+    if (!isGPUAvailable(gpu_device_id)) {
+        return stats;
+    }
+    
+    // Get VRAM stats
+    stats.total_vram_bytes = config_.max_vram_bytes;
+    stats.used_vram_bytes = 0;
+    
+    auto it = per_gpu_vram_used_.find(gpu_device_id);
+    if (it != per_gpu_vram_used_.end()) {
+        stats.used_vram_bytes = it->second;
+    }
+    
+    stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
+    
+    // Count allocations on this GPU
+    stats.num_allocations = 0;
+    for (const auto& [model_id, allocs] : allocations_) {
+        for (const auto& alloc : allocs) {
+            if (alloc.gpu_device_id == gpu_device_id && alloc.gpu_ptr != nullptr) {
+                stats.num_allocations++;
+                
+                // Track loaded models and adapters
+                if (model_id.find("adapter_") != std::string::npos) {
+                    stats.loaded_adapters.push_back(model_id);
+                } else {
+                    stats.loaded_models.push_back(model_id);
+                }
+            }
+        }
+    }
+    
+    // Get utilization
+    auto util_it = gpu_utilizations_.find(gpu_device_id);
+    if (util_it != gpu_utilizations_.end()) {
+        stats.utilization_percent = util_it->second;
+    } else {
+        stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+    }
+    
+    // Get temperature
+    auto temp_it = gpu_temperatures_.find(gpu_device_id);
+    if (temp_it != gpu_temperatures_.end()) {
+        stats.temperature_celsius = temp_it->second;
+    }
+    
+    // Get health status
+    auto health_it = gpu_health_status_.find(gpu_device_id);
+    stats.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+    
+    return stats;
+}
+
+std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<GPUStats> all_stats;
+    for (int gpu_id : available_gpus_) {
+        // Get stats inline to avoid deadlock (mutex already locked)
+        GPUStats stats = {};
+        stats.device_id = gpu_id;
+        
+        if (isGPUAvailable(gpu_id)) {
+            // Get VRAM stats
+            stats.total_vram_bytes = config_.max_vram_bytes;
+            stats.used_vram_bytes = 0;
+            
+            auto it = per_gpu_vram_used_.find(gpu_id);
+            if (it != per_gpu_vram_used_.end()) {
+                stats.used_vram_bytes = it->second;
+            }
+            
+            stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
+            
+            // Count allocations on this GPU
+            stats.num_allocations = 0;
+            for (const auto& [model_id, allocs] : allocations_) {
+                for (const auto& alloc : allocs) {
+                    if (alloc.gpu_device_id == gpu_id && alloc.gpu_ptr != nullptr) {
+                        stats.num_allocations++;
+                        
+                        // Track loaded models and adapters
+                        if (model_id.find("adapter_") != std::string::npos) {
+                            stats.loaded_adapters.push_back(model_id);
+                        } else {
+                            stats.loaded_models.push_back(model_id);
+                        }
+                    }
+                }
+            }
+            
+            // Get utilization
+            auto util_it = gpu_utilizations_.find(gpu_id);
+            if (util_it != gpu_utilizations_.end()) {
+                stats.utilization_percent = util_it->second;
+            } else {
+                stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+            }
+            
+            // Get temperature
+            auto temp_it = gpu_temperatures_.find(gpu_id);
+            if (temp_it != gpu_temperatures_.end()) {
+                stats.temperature_celsius = temp_it->second;
+            }
+            
+            // Get health status
+            auto health_it = gpu_health_status_.find(gpu_id);
+            stats.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+        }
+        
+        all_stats.push_back(stats);
+    }
+    
+    return all_stats;
+}
+
+GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    GPUHealth health = {};
+    health.device_id = gpu_device_id;
+    health.is_available = isGPUAvailable(gpu_device_id);
+    
+    if (!health.is_available) {
+        return health;
+    }
+    
+    // Check if we have stored health data
+    auto it = gpu_health_data_.find(gpu_device_id);
+    if (it != gpu_health_data_.end()) {
+        return it->second;
+    }
+    
+    // Generate default health data
+    auto health_it = gpu_health_status_.find(gpu_device_id);
+    health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+    
+    auto temp_it = gpu_temperatures_.find(gpu_device_id);
+    health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
+    
+    auto util_it = gpu_utilizations_.find(gpu_device_id);
+    health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
+    
+    auto err_it = gpu_error_counts_.find(gpu_device_id);
+    health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
+    
+    health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    return health;
+}
+
+std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<GPUHealth> all_health;
+    for (int gpu_id : available_gpus_) {
+        // Get health inline to avoid deadlock (mutex already locked)
+        GPUHealth health = {};
+        health.device_id = gpu_id;
+        health.is_available = isGPUAvailable(gpu_id);
+        
+        if (health.is_available) {
+            // Check if we have stored health data
+            auto it = gpu_health_data_.find(gpu_id);
+            if (it != gpu_health_data_.end()) {
+                health = it->second;
+            } else {
+                // Generate default health data
+                auto health_it = gpu_health_status_.find(gpu_id);
+                health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+                
+                auto temp_it = gpu_temperatures_.find(gpu_id);
+                health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
+                
+                auto util_it = gpu_utilizations_.find(gpu_id);
+                health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
+                
+                auto err_it = gpu_error_counts_.find(gpu_id);
+                health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
+                
+                health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+            }
+        }
+        
+        all_health.push_back(health);
+    }
+    
+    return all_health;
+}
+
+bool GPUMemoryManager::isGPUHealthy(int gpu_device_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = gpu_health_status_.find(gpu_device_id);
+    return (it != gpu_health_status_.end()) ? it->second : false;
+}
+
+void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& reason) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    spdlog::warn("GPU {} marked as unhealthy: {}", gpu_device_id, reason);
+    gpu_health_status_[gpu_device_id] = false;
+    
+    // Update health data
+    GPUHealth health = {};
+    health.device_id = gpu_device_id;
+    health.is_available = isGPUAvailable(gpu_device_id);
+    health.is_healthy = false;
+    health.last_error = reason;
+    
+    auto err_it = gpu_error_counts_.find(gpu_device_id);
+    if (err_it != gpu_error_counts_.end()) {
+        health.error_count = ++err_it->second;
+    } else {
+        gpu_error_counts_[gpu_device_id] = 1;
+        health.error_count = 1;
+    }
+    
+    health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    gpu_health_data_[gpu_device_id] = health;
+}
+
+void GPUMemoryManager::markGPUHealthy(int gpu_device_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    spdlog::info("GPU {} marked as healthy", gpu_device_id);
+    gpu_health_status_[gpu_device_id] = true;
+    
+    // Update health data
+    auto it = gpu_health_data_.find(gpu_device_id);
+    if (it != gpu_health_data_.end()) {
+        it->second.is_healthy = true;
+        it->second.last_error = "";
+        it->second.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+    }
+}
+
+// Load Balancing Queries
+
+int GPUMemoryManager::getLeastLoadedGPU() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    int least_loaded_gpu = -1;
+    float min_utilization = 1.0f;
+    
+    for (int gpu_id : available_gpus_) {
+        // Only consider healthy GPUs
+        auto health_it = gpu_health_status_.find(gpu_id);
+        if (health_it == gpu_health_status_.end() || !health_it->second) {
+            continue;
+        }
+        
+        // Calculate utilization
+        size_t used_vram = 0;
+        auto vram_it = per_gpu_vram_used_.find(gpu_id);
+        if (vram_it != per_gpu_vram_used_.end()) {
+            used_vram = vram_it->second;
+        }
+        
+        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        
+        if (utilization < min_utilization) {
+            min_utilization = utilization;
+            least_loaded_gpu = gpu_id;
+        }
+    }
+    
+    return least_loaded_gpu;
+}
+
+std::vector<int> GPUMemoryManager::getHealthyGPUs() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<int> healthy_gpus;
+    for (int gpu_id : available_gpus_) {
+        auto it = gpu_health_status_.find(gpu_id);
+        if (it != gpu_health_status_.end() && it->second) {
+            healthy_gpus.push_back(gpu_id);
+        }
+    }
+    
+    return healthy_gpus;
+}
+
+float GPUMemoryManager::getAverageGPULoad() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (available_gpus_.empty()) {
+        return 0.0f;
+    }
+    
+    float total_load = 0.0f;
+    int healthy_count = 0;
+    
+    for (int gpu_id : available_gpus_) {
+        auto health_it = gpu_health_status_.find(gpu_id);
+        if (health_it == gpu_health_status_.end() || !health_it->second) {
+            continue;
+        }
+        
+        size_t used_vram = 0;
+        auto vram_it = per_gpu_vram_used_.find(gpu_id);
+        if (vram_it != per_gpu_vram_used_.end()) {
+            used_vram = vram_it->second;
+        }
+        
+        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        total_load += utilization;
+        healthy_count++;
+    }
+    
+    return (healthy_count > 0) ? (total_load / healthy_count) : 0.0f;
+}
+
+bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (available_gpus_.size() < 2) {
+        return false;  // No need to rebalance with single GPU
+    }
+    
+    float avg_load = getAverageGPULoad();
+    
+    // Check if any GPU is significantly overloaded compared to average
+    for (int gpu_id : available_gpus_) {
+        auto health_it = gpu_health_status_.find(gpu_id);
+        if (health_it == gpu_health_status_.end() || !health_it->second) {
+            continue;
+        }
+        
+        size_t used_vram = 0;
+        auto vram_it = per_gpu_vram_used_.find(gpu_id);
+        if (vram_it != per_gpu_vram_used_.end()) {
+            used_vram = vram_it->second;
+        }
+        
+        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        
+        // If any GPU's load differs from average by more than threshold, rebalancing needed
+        if (std::abs(utilization - avg_load) > threshold) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
+    // This would typically query actual GPU hardware
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available_) {
+        CUDA_CHECK(cudaSetDevice(gpu_device_id));
+        
+        // Get temperature (if available through NVIDIA Management Library - NVML)
+        // This is a placeholder - actual implementation would use NVML
+        gpu_temperatures_[gpu_device_id] = 0.0f;
+        
+        // Get memory info for utilization
+        size_t free_mem, total_mem;
+        CUDA_CHECK(cudaMemGetInfo(&free_mem, &total_mem));
+        size_t used_mem = total_mem - free_mem;
+        float utilization = static_cast<float>(used_mem) / total_mem * 100.0f;
+        gpu_utilizations_[gpu_device_id] = utilization;
+    }
+#else
+    // Simulation mode - calculate based on allocations
+    size_t used_vram = 0;
+    auto it = per_gpu_vram_used_.find(gpu_device_id);
+    if (it != per_gpu_vram_used_.end()) {
+        used_vram = it->second;
+    }
+    
+    float utilization = (static_cast<float>(used_vram) / config_.max_vram_bytes) * 100.0f;
+    gpu_utilizations_[gpu_device_id] = utilization;
+    gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+#endif
+}
+
+void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
+    updateGPUHealth(gpu_device_id);
+    
+    auto util_it = gpu_utilizations_.find(gpu_device_id);
+    auto temp_it = gpu_temperatures_.find(gpu_device_id);
+    
+    bool is_healthy = true;
+    std::string reason;
+    
+    // Check temperature
+    if (temp_it != gpu_temperatures_.end() && temp_it->second > 85.0f) {
+        is_healthy = false;
+        reason = "Temperature too high: " + std::to_string(temp_it->second) + "°C";
+    }
+    
+    // Check utilization
+    if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
+        is_healthy = false;
+        if (!reason.empty()) reason += "; ";
+        reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
+    }
+    
+    if (is_healthy) {
+        markGPUHealthy(gpu_device_id);
+    } else {
+        markGPUUnhealthy(gpu_device_id, reason);
+    }
+}
+
 } // namespace llm
 } // namespace themis

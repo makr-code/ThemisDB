@@ -204,6 +204,17 @@ public:
     std::optional<LLMModelMetadata> loadModel(const std::string& model_id);
     
     /**
+     * @brief Load model blob data from storage
+     * 
+     * Retrieves the actual model file data from blob storage or inline storage.
+     * Handles both inline storage (for small models) and blob storage (for large models).
+     * 
+     * @param model_id Model identifier
+     * @return Optional vector containing model file data, or nullopt if not found/error
+     */
+    std::optional<std::vector<uint8_t>> loadModelBlob(const std::string& model_id);
+    
+    /**
      * @brief Update model metadata
      * @param model_id Model identifier
      * @param metadata Updated metadata

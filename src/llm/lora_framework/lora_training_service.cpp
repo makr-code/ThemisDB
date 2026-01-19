@@ -13,6 +13,8 @@
 #include "llm/lora_framework/gpu_data_loader.h"
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/gpu_lora_layers.h"
+#include "llm/lora_framework/model_compatibility.h"
+#include "llm/lora_framework/resource_profiler.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
@@ -1052,11 +1054,58 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         spdlog::info("  Double quantization: {}", qlora_config.use_double_quantization);
         spdlog::info("  Layer-by-layer: {}", qlora_config.layer_by_layer);
         
-        // Estimate memory requirements
+        // ===================================================================
+        // Step 1: Model Compatibility Check
+        // ===================================================================
+        spdlog::info("Checking model compatibility...");
+        auto compat_result = ModelCompatibilityChecker::check_compatibility(
+            impl_->config_.base_model_path,
+            qlora_config.quantization_type
+        );
+        
+        if (!compat_result.is_compatible) {
+            std::string error = "Model compatibility check failed:\n";
+            for (const auto& err : compat_result.errors) {
+                error += "  - " + err + "\n";
+            }
+            throw std::runtime_error(error);
+        }
+        
+        // Log warnings
+        for (const auto& warning : compat_result.warnings) {
+            spdlog::warn("Model compatibility warning: {}", warning);
+        }
+        
+        // Log recommendations
+        spdlog::info("Model compatibility check passed");
+        spdlog::info("  Recommended quantization: {}", compat_result.recommended_quantization);
+        spdlog::info("  Recommended rank: {}", compat_result.recommended_rank);
+        spdlog::info("  Recommended batch size: {}", compat_result.recommended_batch_size);
+        
+        // ===================================================================
+        // Step 2: Estimate Memory Requirements
+        // ===================================================================
         size_t estimated_memory = estimateMemoryUsage(impl_->config_.base_model_path, qlora_config);
         spdlog::info("  Estimated memory usage: {:.2f} GB", estimated_memory / (1024.0 * 1024.0 * 1024.0));
         
-        // Load quantized base model
+        // ===================================================================
+        // Step 3: Initialize Resource Profiler
+        // ===================================================================
+        ResourceProfiler::Config profiler_config;
+        profiler_config.enabled = true;
+        profiler_config.snapshot_interval_steps = 10;
+        profiler_config.log_to_file = true;
+        profiler_config.log_file = impl_->config_.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
+        profiler_config.verbose_logging = false;
+        profiler_config.enable_alerts = true;
+        
+        auto profiler = std::make_unique<ResourceProfiler>(profiler_config);
+        profiler->start();
+        spdlog::info("Resource profiler started");
+        
+        // ===================================================================
+        // Step 4: Load Quantized Base Model
+        // ===================================================================
         auto quantized_model = loadQuantizedBaseModel(impl_->config_.base_model_path, qlora_config);
         if (!quantized_model) {
             throw std::runtime_error("Failed to load quantized base model");
@@ -1230,13 +1279,21 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                         static_cast<int>(impl_->config_.mixed_precision.mode));
         }
         
-        // Register callback for progress updates
-        trainer.registerCallback([this](const GPUTrainingMetrics& metrics) {
+        // Register callback for progress updates with resource profiling
+        trainer.registerCallback([this, &profiler](const GPUTrainingMetrics& metrics) {
             impl_->current_metrics_.current_epoch = metrics.current_epoch;
             impl_->current_metrics_.current_step = metrics.current_step;
             impl_->current_metrics_.current_loss = metrics.current_loss;
             impl_->current_metrics_.learning_rate = metrics.learning_rate;
             impl_->current_metrics_.progress = metrics.progress;
+            
+            // Take resource snapshot
+            profiler->snapshot(
+                metrics.current_epoch,
+                metrics.current_step,
+                metrics.current_loss,
+                metrics.learning_rate
+            );
             
             if (impl_->training_callback_) {
                 impl_->training_callback_(impl_->current_metrics_);
@@ -1251,6 +1308,16 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             throw std::runtime_error("GPU training loop failed");
         }
         
+        // Stop profiler and compute stats
+        profiler->stop();
+        auto resource_stats = profiler->compute_stats();
+        
+        spdlog::info("Resource profiling results:");
+        spdlog::info("  Peak GPU memory: {:.2f} GB", 
+            resource_stats.peak_gpu_memory / (1024.0 * 1024.0 * 1024.0));
+        spdlog::info("  Avg GPU utilization: {:.1f}%", resource_stats.avg_gpu_utilization);
+        spdlog::info("  Avg throughput: {:.1f} samples/s", resource_stats.avg_samples_per_second);
+        
         // Finalize result
         result.success = true;
         result.final_loss = trainer.getFinalLoss();
@@ -1262,7 +1329,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             {"trainable_parameters", gpu_lora_layer->parameter_count()},
             {"gpu_accelerated", has_gpu},
             {"device_type", static_cast<int>(target_device.type)},
-            {"mixed_precision", training_config.use_mixed_precision}
+            {"mixed_precision", training_config.use_mixed_precision},
+            {"resource_stats", resource_stats.toJSON()},
+            {"compatibility_result", compat_result.toJSON()}
         };
         
         spdlog::info("GPU-accelerated QLoRA training completed successfully");
@@ -1380,6 +1449,70 @@ size_t LoRATrainingService::estimateMemoryUsage(
         config.block_size,
         config.use_double_quantization
     );
+}
+
+TrainingResult LoRATrainingService::trainDistributed(
+    const std::string& adapter_id,
+    const TrainingData& data,
+    const std::optional<LoRAHyperparameters>& hyperparameters
+) {
+    TrainingResult result;
+    result.adapter_id = adapter_id;
+    result.success = false;
+    
+    // Check if distributed training is enabled
+    if (!impl_->config_.enable_distributed_training) {
+        result.error_message = "Distributed training is not enabled. Set enable_distributed_training=true in config.";
+        spdlog::error(result.error_message);
+        return result;
+    }
+    
+    // Validate distributed configuration
+    if (impl_->config_.participant_shards.empty()) {
+        result.error_message = "No participant shards configured for distributed training";
+        spdlog::error(result.error_message);
+        return result;
+    }
+    
+    try {
+        spdlog::info("Starting distributed training for adapter: {}", adapter_id);
+        spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
+        spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
+        
+        // TODO: In a real implementation, this would:
+        // 1. Create DistributedTrainingCoordinator with shard router and topology
+        // 2. Initialize coordinator with adapter_id and training config
+        // 3. Execute training steps with gradient synchronization
+        // 4. Handle shard failures and recovery
+        // 5. Apply Byzantine fault detection (detect poisoned gradients)
+        // 6. Monitor training progress across all shards
+        // 7. Finalize and collect results
+        
+        // For now, log a placeholder message
+        spdlog::warn("Distributed training coordinator integration is placeholder in this phase");
+        spdlog::info("Required components:");
+        spdlog::info("  - ShardRouter for inter-shard communication");
+        spdlog::info("  - ShardTopology for shard discovery");
+        spdlog::info("  - Byzantine fault detection for gradient validation");
+        spdlog::info("  - Security hooks for poisoned data detection");
+        
+        // Fallback to local training for now
+        spdlog::info("Falling back to local training mode");
+        result = trainOnTheFly(adapter_id, data, hyperparameters);
+        
+        if (result.success) {
+            spdlog::info("Local training completed successfully");
+            spdlog::warn("NOTE: This was local training, not distributed");
+            result.metrics["distributed_mode"] = false;
+            result.metrics["fallback_reason"] = "Coordinator integration pending";
+        }
+        
+    } catch (const std::exception& e) {
+        result.error_message = "Distributed training failed: " + std::string(e.what());
+        spdlog::error(result.error_message);
+    }
+    
+    return result;
 }
 
 } // namespace lora

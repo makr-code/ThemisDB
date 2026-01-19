@@ -7,6 +7,10 @@
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
+#include "rag/faithfulness_evaluator.h"
+#include "rag/relevance_evaluator.h"
+#include "rag/completeness_evaluator.h"
+#include "rag/coherence_evaluator.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
@@ -20,9 +24,15 @@ struct RAGJudge::Impl {
     RAGJudgeConfig config;
     std::function<void(const EvaluationResult&)> eval_callback;
     
-    // New components for Phase 1
+    // Phase 1 components
     PromptTemplateManager template_manager;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    
+    // Phase 2 specialized evaluators
+    std::unique_ptr<FaithfulnessEvaluator> faithfulness_eval;
+    std::unique_ptr<RelevanceEvaluator> relevance_eval;
+    std::unique_ptr<CompletenessEvaluator> completeness_eval;
+    std::unique_ptr<CoherenceEvaluator> coherence_eval;
     
     // Cache for performance
     std::unordered_map<std::string, EvaluationResult> cache;
@@ -47,7 +57,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     // Initialize prompt template manager
     impl_->template_manager = PromptTemplateManager::createDefault();
     
-    // Initialize LLM integration
+    // Initialize LLM integration (Phase 1)
     LLMJudgeIntegration::Config llm_config;
     llm_config.model_name = config.judge_model;
     llm_config.temperature = 0.3; // Low temperature for consistent evaluation
@@ -55,6 +65,22 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     llm_config.use_json_mode = true;
     
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
+    
+    // Initialize Phase 2 specialized evaluators
+    FaithfulnessEvaluator::Config faith_config;
+    faith_config.max_claims_to_extract = config.max_claims_to_verify;
+    faith_config.enable_citation_check = config.enable_citation_check;
+    impl_->faithfulness_eval = std::make_unique<FaithfulnessEvaluator>(faith_config);
+    
+    RelevanceEvaluator::Config rel_config;
+    rel_config.num_reverse_questions = 3;
+    impl_->relevance_eval = std::make_unique<RelevanceEvaluator>(rel_config);
+    
+    CompletenessEvaluator::Config comp_config;
+    impl_->completeness_eval = std::make_unique<CompletenessEvaluator>(comp_config);
+    
+    CoherenceEvaluator::Config coh_config;
+    impl_->coherence_eval = std::make_unique<CoherenceEvaluator>(coh_config);
     
     THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}", 
                 static_cast<int>(config.mode), config.judge_model);
@@ -354,10 +380,10 @@ void RAGJudge::clearCache() {
     THEMIS_DEBUG("Evaluation cache cleared");
 }
 
-// Private evaluation methods (now integrated with LLM)
+// Private evaluation methods (Phase 2: Using specialized evaluators)
 
 double RAGJudge::evaluateFaithfulness(const EvaluationInput& input) {
-    THEMIS_DEBUG("Evaluating faithfulness");
+    THEMIS_DEBUG("Evaluating faithfulness with specialized evaluator");
     
     // Quick heuristic check
     if (input.documents.empty()) {
@@ -365,90 +391,69 @@ double RAGJudge::evaluateFaithfulness(const EvaluationInput& input) {
         return 0.3;
     }
     
-    // Use LLM for thorough evaluation in BALANCED and THOROUGH modes
-    if (impl_->config.mode == EvaluationMode::BALANCED || 
-        impl_->config.mode == EvaluationMode::THOROUGH) {
-        
-        auto parsed = impl_->llm_integration->evaluateWithLLM(
-            EvaluationDimension::FAITHFULNESS,
-            input,
-            impl_->template_manager
-        );
-        
-        if (parsed.success && parsed.score) {
-            // Normalize from 1-5 scale to 0-1
-            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
-        } else {
-            THEMIS_WARN("LLM evaluation failed, using fallback heuristic");
-        }
+    // Convert documents to format expected by FaithfulnessEvaluator
+    std::vector<std::pair<std::string, std::string>> doc_pairs;
+    for (const auto& doc : input.documents) {
+        doc_pairs.emplace_back(doc.id, doc.content);
     }
     
-    // Fallback heuristic
-    return 0.85;
+    // Use specialized evaluator
+    auto result = impl_->faithfulness_eval->evaluate(
+        input.generated_answer,
+        doc_pairs,
+        input.query
+    );
+    
+    THEMIS_DEBUG("Faithfulness: score={:.2f}, claims={}/{}", 
+                 result.faithfulness_score, result.supported_claims_count, result.total_claims_count);
+    
+    return result.faithfulness_score;
 }
 
 double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
-    THEMIS_DEBUG("Evaluating relevance");
+    THEMIS_DEBUG("Evaluating relevance with specialized evaluator");
     
     if (input.generated_answer.empty()) {
         return 0.0;
     }
     
-    // Use LLM for evaluation
-    if (impl_->config.mode != EvaluationMode::FAST || impl_->config.use_chain_of_thought) {
-        auto parsed = impl_->llm_integration->evaluateWithLLM(
-            EvaluationDimension::RELEVANCE,
-            input,
-            impl_->template_manager
-        );
-        
-        if (parsed.success && parsed.score) {
-            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
-        }
-    }
+    // Use specialized evaluator
+    auto result = impl_->relevance_eval->evaluate(
+        input.generated_answer,
+        input.query
+    );
     
-    // Fallback heuristic
-    return 0.8;
+    THEMIS_DEBUG("Relevance: score={:.2f}, similarity={:.2f}", 
+                 result.relevance_score, result.question_similarity_score);
+    
+    return result.relevance_score;
 }
 
 double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
-    THEMIS_DEBUG("Evaluating completeness");
+    THEMIS_DEBUG("Evaluating completeness with specialized evaluator");
     
-    // Use LLM for thorough evaluation
-    if (impl_->config.mode == EvaluationMode::BALANCED || 
-        impl_->config.mode == EvaluationMode::THOROUGH) {
-        
-        auto parsed = impl_->llm_integration->evaluateWithLLM(
-            EvaluationDimension::COMPLETENESS,
-            input,
-            impl_->template_manager
-        );
-        
-        if (parsed.success && parsed.score) {
-            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
-        }
-    }
+    // Use specialized evaluator
+    auto result = impl_->completeness_eval->evaluate(
+        input.generated_answer,
+        input.query
+    );
     
-    return 0.75;
+    THEMIS_DEBUG("Completeness: score={:.2f}, coverage={}/{}", 
+                 result.completeness_score, result.covered_aspects_count, result.total_aspects_count);
+    
+    return result.completeness_score;
 }
 
 double RAGJudge::evaluateCoherence(const EvaluationInput& input) {
-    THEMIS_DEBUG("Evaluating coherence");
+    THEMIS_DEBUG("Evaluating coherence with specialized evaluator");
     
-    // Use LLM for thorough evaluation
-    if (impl_->config.mode == EvaluationMode::THOROUGH) {
-        auto parsed = impl_->llm_integration->evaluateWithLLM(
-            EvaluationDimension::COHERENCE,
-            input,
-            impl_->template_manager
-        );
-        
-        if (parsed.success && parsed.score) {
-            return ResponseParser::normalizeScore(*parsed.score, 1.0, 5.0);
-        }
-    }
+    // Use specialized evaluator
+    auto result = impl_->coherence_eval->evaluate(input.generated_answer);
     
-    return 0.8;
+    THEMIS_DEBUG("Coherence: score={:.2f}, flow={:.2f}, structure={:.2f}", 
+                 result.coherence_score, result.logical_flow_score, result.structural_score);
+    
+    return result.coherence_score;
 }
 
 double RAGJudge::evaluateEthicalCompliance(const EvaluationInput& input) {

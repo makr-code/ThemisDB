@@ -43,6 +43,40 @@ set(TEST_LIBS
 )
 
 # ============================================================================
+# Core Utilities Tests
+# ============================================================================
+
+# Error Handling Tests (tl::expected wrapper)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_expected.cpp")
+    message(STATUS "Adding error handling tests (tl::expected)")
+    
+    add_executable(test_expected
+        test_expected.cpp
+    )
+    
+    target_link_libraries(test_expected PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_expected PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ErrorHandlingTests COMMAND test_expected)
+    
+    set_tests_properties(ErrorHandlingTests PROPERTIES
+        LABELS "core;utilities;error_handling"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Error handling tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_expected.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
@@ -109,6 +143,134 @@ if(THEMIS_ENABLE_LORA_TESTS)
         )
     else()
         message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
+    endif()
+    
+    # Multi-LoRA Fusion Tests (v1.5.0)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_lora_fusion.cpp")
+        message(STATUS "Adding Multi-LoRA fusion tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_multi_lora_fusion
+            test_multi_lora_fusion.cpp
+        )
+        
+        target_link_libraries(test_multi_lora_fusion PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_multi_lora_fusion PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MultiLoRAFusionTests COMMAND test_multi_lora_fusion)
+        set_tests_properties(MultiLoRAFusionTests PROPERTIES
+            LABELS "lora;llm;fusion;adapter;inference"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "Multi-LoRA fusion tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_lora_fusion.cpp")
+    endif()
+    
+    # LoRA Auto-Binding and Lifecycle Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
+        message(STATUS "Adding LoRA auto-binding and lifecycle tests")
+        
+        add_executable(test_lora_auto_binding
+            llm/test_lora_auto_binding.cpp
+        )
+        
+        target_link_libraries(test_lora_auto_binding PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_auto_binding PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAAutoBindingTests COMMAND test_lora_auto_binding)
+        set_tests_properties(LoRAAutoBindingTests PROPERTIES
+            LABELS "lora;llm;auto-binding;lifecycle;eviction"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
+    endif()
+    
+    # Distributed Training Coordinator Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
+        message(STATUS "Adding Distributed Training Coordinator tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_distributed_training_coordinator
+            test_distributed_training_coordinator.cpp
+        )
+        
+        target_link_libraries(test_distributed_training_coordinator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_distributed_training_coordinator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME DistributedTrainingCoordinatorTests COMMAND test_distributed_training_coordinator)
+        set_tests_properties(DistributedTrainingCoordinatorTests PROPERTIES
+            LABELS "lora;llm;distributed;training;fault-tolerance"
+            TIMEOUT 300
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Distributed training coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
+        else()
+            message(STATUS "Distributed training coordinator tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
+    endif()
+    
+    # LoRA Router Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_router.cpp")
+        message(STATUS "Adding LoRA Router tests (routing automation)")
+        
+        add_executable(test_lora_router
+            test_lora_router.cpp
+        )
+        
+        target_link_libraries(test_lora_router PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_router PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRARouterTests COMMAND test_lora_router)
+        set_tests_properties(LoRARouterTests PROPERTIES
+            LABELS "lora;llm;router;routing;semantic;ab-test;rollout"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "LoRA Router tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_router.cpp")
     endif()
     
     # LoRA Storage Key Provider Tests (Refactoring)
@@ -664,6 +826,56 @@ else()
 endif()
 
 # ============================================================================
+# Adapter Sync and Cross-Shard Consistency Tests (NEW)
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adapter_sync.cpp")
+        message(STATUS "Adding adapter sync and consistency tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_adapter_sync
+            test_adapter_sync.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/adapter_consistency_checker.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/adapter_sync_manager.cpp
+        )
+        
+        target_link_libraries(test_adapter_sync PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_adapter_sync PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME AdapterSyncTests COMMAND test_adapter_sync)
+        
+        # Set test properties
+        set_tests_properties(AdapterSyncTests PROPERTIES
+            LABELS "lora;llm;sync;consistency;sharding;raid"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - Adapter sync tests: automatic cross-shard synchronization")
+        message(STATUS "    * Consistency checking (checksum, signature)")
+        message(STATUS "    * Version comparison and conflict resolution")
+        message(STATUS "    * Multi-shard replication")
+        message(STATUS "    * Failure scenarios and recovery")
+        message(STATUS "    * RAID integration tests")
+    else()
+        message(STATUS "Adapter sync tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adapter_sync.cpp")
+    endif()
+else()
+    message(STATUS "Adapter sync tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
 # QLoRA Quantization Tests
 # ============================================================================
 
@@ -1188,6 +1400,195 @@ endif()
 # endif()
 
 # ============================================================================
+# RAG Enhancement Tests (Knowledge Gap Detector & LLM-as-Judge)
+# ============================================================================
+
+if(THEMIS_ENABLE_LLM)
+    # Knowledge Gap Detector Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+        message(STATUS "Adding Knowledge Gap Detector tests")
+        
+        add_executable(test_knowledge_gap_detector
+            test_knowledge_gap_detector.cpp
+        )
+        
+        target_link_libraries(test_knowledge_gap_detector PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_knowledge_gap_detector PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME KnowledgeGapDetectorTests COMMAND test_knowledge_gap_detector)
+        
+        set_tests_properties(KnowledgeGapDetectorTests PROPERTIES
+            LABELS "rag;llm;knowledge-gap;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Knowledge Gap Detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
+    endif()
+    
+    # RAG Judge Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge.cpp")
+        message(STATUS "Adding RAG Judge tests")
+        
+        add_executable(test_rag_judge
+            test_rag_judge.cpp
+        )
+        
+        target_link_libraries(test_rag_judge PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_rag_judge PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME RAGJudgeTests COMMAND test_rag_judge)
+        
+        set_tests_properties(RAGJudgeTests PROPERTIES
+            LABELS "rag;llm;judge;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "RAG Judge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge.cpp")
+    endif()
+    
+    # LLM Integration Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
+        message(STATUS "Adding LLM Integration tests")
+        
+        add_executable(test_llm_integration
+            test_llm_integration.cpp
+        )
+        
+        target_link_libraries(test_llm_integration PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_llm_integration PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LLMIntegrationTests COMMAND test_llm_integration)
+        
+        set_tests_properties(LLMIntegrationTests PROPERTIES
+            LABELS "rag;llm;integration;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "LLM Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
+    endif()
+    
+    # Model Loading from ThemisDB Tests (NEW - Issue: GAP Model Loading)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loading_from_themisdb.cpp")
+        message(STATUS "Adding Model Loading from ThemisDB tests")
+        
+        add_executable(test_model_loading_from_themisdb
+            llm/test_model_loading_from_themisdb.cpp
+        )
+        
+        target_link_libraries(test_model_loading_from_themisdb PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_model_loading_from_themisdb PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ModelLoadingFromThemisDBTests COMMAND test_model_loading_from_themisdb)
+        
+        set_tests_properties(ModelLoadingFromThemisDBTests PROPERTIES
+            LABELS "llm;model_loading;blob_storage;themisdb;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "Model Loading from ThemisDB tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loading_from_themisdb.cpp")
+    endif()
+    
+    # Model Loading Performance Benchmarks (NEW - Issue: GAP Model Loading)
+    find_package(benchmark QUIET CONFIG)
+    if(benchmark_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_model_loading_from_themisdb.cpp")
+        message(STATUS "Adding Model Loading performance benchmarks (Google Benchmark)")
+        
+        add_executable(bench_model_loading_from_themisdb
+            llm/bench_model_loading_from_themisdb.cpp
+        )
+        
+        target_link_libraries(bench_model_loading_from_themisdb PRIVATE
+            benchmark::benchmark
+            benchmark::benchmark_main
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(bench_model_loading_from_themisdb PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Benchmarks are not added to CTest by default (run manually)
+        # To run: ./bench_model_loading_from_themisdb
+    else()
+        if(NOT benchmark_FOUND)
+            message(STATUS "Google Benchmark not found - skipping performance benchmarks")
+            message(STATUS "  Install with: vcpkg install benchmark")
+        else()
+            message(STATUS "Model Loading benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_model_loading_from_themisdb.cpp")
+        endif()
+    endif()
+    
+    # Claim Extractor Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
+        message(STATUS "Adding Claim Extractor tests")
+        
+        add_executable(test_claim_extractor
+            test_claim_extractor.cpp
+        )
+        
+        target_link_libraries(test_claim_extractor PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_claim_extractor PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ClaimExtractorTests COMMAND test_claim_extractor)
+        
+        set_tests_properties(ClaimExtractorTests PROPERTIES
+            LABELS "rag;llm;claim;consistency;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
+    endif()
+endif()
+
+# ============================================================================
 # Integration Tests Subdirectory
 # ============================================================================
 
@@ -1632,6 +2033,105 @@ else()
     endif()
 endif()
 
+# RAG Judge Phase 2 Tests
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase2.cpp")
+    message(STATUS "Adding RAG Judge Phase 2 tests")
+    
+    add_executable(test_rag_judge_phase2
+        test_rag_judge_phase2.cpp
+    )
+    
+    target_link_libraries(test_rag_judge_phase2 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_rag_judge_phase2 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGJudgePhase2Tests COMMAND test_rag_judge_phase2)
+    
+    set_tests_properties(RAGJudgePhase2Tests PROPERTIES
+        LABELS "rag;llm;judge;phase2;unit;evaluators"
+        TIMEOUT 180
+    )
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "RAG Judge Phase 2 tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "RAG Judge Phase 2 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase2.cpp")
+    endif()
+endif()
+
+# RAG Judge Phase 3 Tests
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase3.cpp")
+    message(STATUS "Adding RAG Judge Phase 3 tests")
+    
+    add_executable(test_rag_judge_phase3
+        test_rag_judge_phase3.cpp
+    )
+    
+    target_link_libraries(test_rag_judge_phase3 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_rag_judge_phase3 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGJudgePhase3Tests COMMAND test_rag_judge_phase3)
+    
+    set_tests_properties(RAGJudgePhase3Tests PROPERTIES
+        LABELS "rag;llm;judge;phase3;unit;pairwise;ensemble"
+        TIMEOUT 240
+    )
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "RAG Judge Phase 3 tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "RAG Judge Phase 3 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase3.cpp")
+    endif()
+endif()
+
+# RAG Judge Phase 4 Tests
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase4.cpp")
+    message(STATUS "Adding RAG Judge Phase 4 tests")
+    
+    add_executable(test_rag_judge_phase4
+        test_rag_judge_phase4.cpp
+    )
+    
+    target_link_libraries(test_rag_judge_phase4 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_rag_judge_phase4 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RAGJudgePhase4Tests COMMAND test_rag_judge_phase4)
+    
+    set_tests_properties(RAGJudgePhase4Tests PROPERTIES
+        LABELS "rag;llm;judge;phase4;unit;rubric;cot"
+        TIMEOUT 240
+    )
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "RAG Judge Phase 4 tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "RAG Judge Phase 4 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge_phase4.cpp")
+    endif()
+endif()
+
 # ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
@@ -1646,6 +2146,45 @@ add_custom_target(run_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Running all ThemisDB tests..."
 )
+
+# ============================================================================
+# Multi-GPU LoRA Advanced Tests (v1.5.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+    message(STATUS "Adding Multi-GPU LoRA Advanced tests")
+    
+    add_executable(test_multi_gpu_lora_advanced
+        test_multi_gpu_lora_advanced.cpp
+    )
+    
+    target_link_libraries(test_multi_gpu_lora_advanced PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_multi_gpu_lora_advanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MultiGPULoRAAdvancedTests COMMAND test_multi_gpu_lora_advanced)
+    
+    set_tests_properties(MultiGPULoRAAdvancedTests PROPERTIES
+        LABELS "lora;llm;multi-gpu;advanced;resource-aware;migration;security"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Multi-GPU LoRA Advanced: resource-aware eviction, migration, audit logging")
+else()
+    message(STATUS "Multi-GPU LoRA Advanced tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+endif()
+
+# ============================================================================
+# Custom Test Targets
+# ============================================================================
 
 # Add custom target to run only integration tests
 add_custom_target(run_integration_tests

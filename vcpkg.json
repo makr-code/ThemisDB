@@ -31,7 +31,8 @@
     { "name": "boost-url" },
     { "name": "msgpack" },
     { "name": "crc32c" },
-    { "name": "boost-variant" }
+    { "name": "boost-variant" },
+    { "name": "tl-expected" }
   ],
   "features": {
     "gpu": {

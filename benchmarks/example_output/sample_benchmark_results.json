@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "timestamp": "2026-01-19T11:14:35Z",
+    "suite": "CHIMERA",
+    "version": "1.0.0"
+  },
+  "benchmarks": [
+    {
+      "name": "YCSB_WorkloadA",
+      "real_time": 2.543,
+      "samples/sec": 393.2,
+      "standard_reference": "YCSB [1]"
+    },
+    {
+      "name": "TPCC_NewOrder",
+      "real_time": 1.234,
+      "samples/sec": 810.4,
+      "standard_reference": "TPC-C [2]"
+    },
+    {
+      "name": "LLM_LoRA_Application",
+      "real_time": 15.67,
+      "samples/sec": 63.8,
+      "standard_reference": "vLLM [7]"
+    }
+  ]
+}

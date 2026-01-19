@@ -78,6 +78,106 @@ else()
     message(STATUS "LoRA framework benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_framework.cpp")
 endif()
 
+# Multi-LoRA Fusion Benchmarks (v1.5.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
+    message(STATUS "Adding Multi-LoRA fusion benchmarks")
+    
+    add_executable(bench_multi_lora_fusion
+        bench_multi_lora_fusion.cpp
+    )
+    
+    target_link_libraries(bench_multi_lora_fusion PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_multi_lora_fusion PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_multi_lora_fusion PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_multi_lora_fusion
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run Multi-LoRA fusion benchmarks
+    add_custom_target(run_benchmark_multi_lora_fusion
+        COMMAND ${CMAKE_CURRENT_BINARY_DIR}/bench_multi_lora_fusion
+        DEPENDS bench_multi_lora_fusion
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running Multi-LoRA fusion benchmarks..."
+    )
+else()
+    message(STATUS "Multi-LoRA fusion benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
+endif()
+
+# LoRA Auto-Binding Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
+    message(STATUS "Adding LoRA auto-binding benchmarks")
+    
+    add_executable(bench_lora_auto_binding
+        bench_lora_auto_binding.cpp
+    )
+    
+    target_link_libraries(bench_lora_auto_binding PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_lora_auto_binding PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_lora_auto_binding PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_lora_auto_binding
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run LoRA auto-binding benchmarks
+    add_custom_target(run_benchmark_lora_auto_binding
+        COMMAND bench_lora_auto_binding --benchmark_min_time=0.5
+        DEPENDS bench_lora_auto_binding
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running LoRA auto-binding benchmarks..."
+    )
+    
+    message(STATUS "  LoRA auto-binding: Auto-binding, context switching, caching, eviction")
+else()
+    message(STATUS "LoRA auto-binding benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
+endif()
+
 # ============================================================================
 # Fused Kernels Benchmarks (Phase 10.3)
 # ============================================================================
@@ -300,6 +400,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_
     message(STATUS "  Multi-GPU: data parallelism scaling efficiency")
 endif()
 
+# 2.1 Multi-GPU LoRA Advanced Benchmarks (v1.5.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lora_advanced.cpp")
+    message(STATUS "Adding Multi-GPU LoRA Advanced benchmarks")
+    
+    add_executable(bench_multi_gpu_lora_advanced
+        bench_multi_gpu_lora_advanced.cpp
+    )
+    
+    target_link_libraries(bench_multi_gpu_lora_advanced PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_multi_gpu_lora_advanced PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_multi_gpu_lora_advanced PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_multi_gpu_lora_advanced
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Multi-GPU LoRA: resource-aware eviction, dynamic scheduling, migration")
+endif()
+
 # 3. Mixed Precision Performance Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_mixed_precision_perf.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
     message(STATUS "Adding Mixed Precision Performance benchmarks")
@@ -489,7 +627,64 @@ add_custom_target(run_benchmarks_detailed
     COMMENT "Running detailed benchmarks with statistics..."
 )
 
+# ============================================================================
+# Knowledge Gap Detector Phase 2 Benchmarks (NEW)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_knowledge_gap_detector_phase2.cpp")
+    message(STATUS "Adding Knowledge Gap Detector Phase 2 benchmarks")
+    
+    add_executable(bench_knowledge_gap_detector_phase2
+        bench_knowledge_gap_detector_phase2.cpp
+    )
+    
+    target_link_libraries(bench_knowledge_gap_detector_phase2 PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_knowledge_gap_detector_phase2 PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_knowledge_gap_detector_phase2 PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_knowledge_gap_detector_phase2
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run Knowledge Gap Detector Phase 2 benchmarks
+    add_custom_target(run_benchmark_knowledge_gap_phase2
+        COMMAND bench_knowledge_gap_detector_phase2 --benchmark_min_time=0.5
+        DEPENDS bench_knowledge_gap_detector_phase2
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running Knowledge Gap Detector Phase 2 benchmarks..."
+    )
+    
+    message(STATUS "  Knowledge Gap Detector Phase 2: Token probability, perplexity, self-consistency, FLARE")
+else()
+    message(STATUS "Knowledge Gap Detector Phase 2 benchmarks not found")
+endif()
+
 message(STATUS "Benchmarks configured successfully")
-message(STATUS "  - Build benchmarks with: cmake --build . --target bench_lora_framework")
-message(STATUS "  - Run benchmarks with: ./benchmarks/bench_lora_framework")
+message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
+message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")
+message(STATUS "  - Or use: make run_benchmark_lora_auto_binding")
+message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lora_framework")
+message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")

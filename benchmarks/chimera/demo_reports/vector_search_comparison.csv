@@ -1,0 +1,6 @@
+System,Metric,Unit,N Samples,Mean,Median,Std Dev,Min,Max,P25,P75,P95,P99,CI 95% Lower,CI 95% Upper,Outliers Removed
+System Aurora,Vector Search Latency (P95),milliseconds,48,8.5095,8.6287,1.2488,5.0447,11.2280,7.8298,9.3696,10.0051,11.0018,7.9123,8.7619,2
+System Nexus,Vector Search Latency (P95),milliseconds,49,9.4320,9.3228,1.6489,6.1623,13.8169,8.2200,10.4787,12.4028,13.2673,9.0245,10.0222,1
+System Quantum,Vector Search Latency (P95),milliseconds,50,7.5881,7.8122,1.1995,4.7723,9.7289,6.7906,8.4584,9.2652,9.5281,7.2472,7.9290,0
+System Vertex,Vector Search Latency (P95),milliseconds,48,8.7690,8.4885,1.2507,6.6506,11.1461,7.9278,9.6445,10.9797,11.1198,8.3437,9.2343,2
+System Zenith,Vector Search Latency (P95),milliseconds,48,9.4734,9.5967,1.8188,5.5852,13.1579,8.1372,10.5167,12.4645,13.1082,8.7697,10.1376,2
