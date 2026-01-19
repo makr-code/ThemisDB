@@ -128,6 +128,7 @@ llm_plugins:
     # Context and processing
     context:
       # Maximum context length (tokens)
+      # For extended context (32K-128K), see config/llm_extended_context.yaml
       n_ctx: 4096
       
       # Batch size for prompt processing
@@ -135,6 +136,20 @@ llm_plugins:
       
       # CPU threads (for layers not on GPU)
       n_threads: 8
+      
+      # Extended context window configuration (v1.4.0+)
+      # For production use of 32K+ context windows with RoPE/YARN scaling
+      # See: config/llm_extended_context.yaml for detailed configuration
+      extended_context:
+        # Enable extended context support
+        enabled: false
+        
+        # Import extended context configuration
+        config_file: "config/llm_extended_context.yaml"
+        
+        # Quick enable with defaults (for testing)
+        # When true, uses YaRN scaling to extend context to 32K
+        quick_enable: false
     
     # Memory management
     memory:
