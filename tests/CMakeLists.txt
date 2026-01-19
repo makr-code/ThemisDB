@@ -145,6 +145,37 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
     endif()
     
+    # LoRA Auto-Binding and Lifecycle Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
+        message(STATUS "Adding LoRA auto-binding and lifecycle tests")
+        
+        add_executable(test_lora_auto_binding
+            llm/test_lora_auto_binding.cpp
+        )
+        
+        target_link_libraries(test_lora_auto_binding PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_auto_binding PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRAAutoBindingTests COMMAND test_lora_auto_binding)
+        set_tests_properties(LoRAAutoBindingTests PROPERTIES
+            LABELS "lora;llm;auto-binding;lifecycle;eviction"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
+    endif()
+    
     # LoRA Storage Key Provider Tests (Refactoring)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
         message(STATUS "Adding LoRA storage key provider tests")

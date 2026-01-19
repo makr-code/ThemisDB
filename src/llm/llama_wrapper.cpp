@@ -703,7 +703,52 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
 
     // Real llama.cpp inference implementation
     try {
-        // 1. Tokenize prompt
+        // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
+        std::string prev_adapter;
+        bool adapter_applied = false;
+        bool context_changed = (last_context_ptr_ != lctx);
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
+            
+            // Check if adapter needs to be rebound after context switch
+            if (context_changed && !active_lora_adapter_.empty()) {
+                spdlog::info("Context changed, rebinding adapter {} to new context", adapter_id);
+                // Context changed - previous adapter binding is invalid
+                active_lora_adapter_.clear();
+            }
+            
+            // Check if we need to switch adapters
+            if (active_lora_adapter_ != adapter_id || context_changed) {
+                // Load adapter if not already loaded (lazy loading)
+                if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                    // Adapter will be loaded by LoRAManager from storage
+                }
+                
+                // Apply adapter to context
+                if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                    adapter_applied = true;
+                    active_lora_adapter_ = adapter_id;
+                    last_context_ptr_ = lctx;
+                    spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                } else {
+                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                }
+            } else {
+                // Adapter already applied to this context
+                spdlog::debug("LoRA adapter {} already active on this context", adapter_id);
+                adapter_applied = true;  // Mark as applied for cleanup logic
+            }
+        } else if (!active_lora_adapter_.empty() && !context_changed) {
+            // No adapter requested but one is active - remove it
+            spdlog::info("Removing active adapter {} as none requested", active_lora_adapter_);
+            lora_manager_->removeLoRA(active_lora_adapter_, lctx);
+            active_lora_adapter_.clear();
+        }
+        
+        // 2. Tokenize prompt
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
         InferenceResponse response;
@@ -715,7 +760,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             response.lora_used = *request.lora_adapter_id;
         }
         
-        // 2. Prepare batch for prompt evaluation
+        // 3. Prepare batch for prompt evaluation
         llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
         
         // 3. Evaluate prompt (populate KV cache)
@@ -883,10 +928,25 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             response_cache_->put(request.prompt, response);
         }
         
+        // Cleanup: Deactivate adapter if it was applied (optional - enables adapter hot-swapping)
+        // Note: We keep adapter applied for subsequent requests with same adapter for performance
+        // Only deactivate if explicitly switching to different adapter
+        if (adapter_applied && request.lora_adapter_id) {
+            // For now, keep adapter applied for better performance in consecutive requests
+            // Adapter will be automatically switched/removed when a different one is requested
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Cleanup: Remove adapter if applied (error path)
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
         
         // Record error
         if (metrics_collector_) {
@@ -1723,6 +1783,27 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
     }
     
     try {
+        // Apply LoRA adapter if specified (Auto-Binding)
+        bool adapter_applied = false;
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter for speculative decoding: {}", adapter_id);
+            
+            // Load adapter if not already loaded (lazy loading)
+            if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            }
+            
+            // Apply adapter to target context (not draft model)
+            if (lora_manager_->applyLoRA(adapter_id, target_context)) {
+                adapter_applied = true;
+                spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
+            } else {
+                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+            }
+        }
+        
         // 1. Tokenize prompt (same for both models)
         std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
         
@@ -1891,10 +1972,23 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.metadata["draft_model"] = draft_model_id_;
         
         updateStatistics(response);
+        
+        // Cleanup: Keep adapter applied for performance in consecutive requests
+        if (adapter_applied && request.lora_adapter_id) {
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Speculative decoding error: {}", e.what());
+        
+        // Cleanup on error: Remove adapter if applied
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, target_context);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
+        
         spdlog::info("Falling back to regular generation");
         return generateRegular(request);
     }
@@ -1924,6 +2018,27 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
 
     // Real llama.cpp inference implementation
     try {
+        // Apply LoRA adapter if specified (Auto-Binding)
+        bool adapter_applied = false;
+        
+        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+            const std::string& adapter_id = *request.lora_adapter_id;
+            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
+            
+            // Load adapter if not already loaded (lazy loading)
+            if (!lora_manager_->isLoRALoaded(adapter_id)) {
+                spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            }
+            
+            // Apply adapter to context
+            if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                adapter_applied = true;
+                spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+            } else {
+                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+            }
+        }
+        
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
         
         InferenceResponse response;
@@ -2001,10 +2116,23 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             : 0.0f;
         
         updateStatistics(response);
+        
+        // Cleanup: Keep adapter applied for performance in consecutive requests
+        if (adapter_applied && request.lora_adapter_id) {
+            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Cleanup on error: Remove adapter if applied
+        if (adapter_applied && request.lora_adapter_id) {
+            lora_manager_->removeLoRA(*request.lora_adapter_id, lctx);
+            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
+        }
+        
         throw;
     }
 }

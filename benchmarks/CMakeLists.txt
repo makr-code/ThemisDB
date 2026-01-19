@@ -78,6 +78,57 @@ else()
     message(STATUS "LoRA framework benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_framework.cpp")
 endif()
 
+# LoRA Auto-Binding Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
+    message(STATUS "Adding LoRA auto-binding benchmarks")
+    
+    add_executable(bench_lora_auto_binding
+        bench_lora_auto_binding.cpp
+    )
+    
+    target_link_libraries(bench_lora_auto_binding PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_lora_auto_binding PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_lora_auto_binding PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_lora_auto_binding
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run LoRA auto-binding benchmarks
+    add_custom_target(run_benchmark_lora_auto_binding
+        COMMAND bench_lora_auto_binding --benchmark_min_time=0.5
+        DEPENDS bench_lora_auto_binding
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running LoRA auto-binding benchmarks..."
+    )
+    
+    message(STATUS "  LoRA auto-binding: Auto-binding, context switching, caching, eviction")
+else()
+    message(STATUS "LoRA auto-binding benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
+endif()
+
 # ============================================================================
 # Fused Kernels Benchmarks (Phase 10.3)
 # ============================================================================
@@ -544,6 +595,9 @@ else()
 endif()
 
 message(STATUS "Benchmarks configured successfully")
-message(STATUS "  - Build benchmarks with: cmake --build . --target bench_lora_framework")
-message(STATUS "  - Run benchmarks with: ./benchmarks/bench_lora_framework")
+message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
+message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")
+message(STATUS "  - Or use: make run_benchmark_lora_auto_binding")
+message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lora_framework")
+message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")
