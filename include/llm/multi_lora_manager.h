@@ -603,6 +603,10 @@ private:
                              int source_gpu, int target_gpu, size_t vram_bytes,
                              const std::string& details = "");
     
+    // Helper for access frequency calculation
+    double calculateAccessFrequency(const LoRASlot* lora, 
+                                   const std::chrono::system_clock::time_point& now) const;
+    
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};

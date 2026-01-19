@@ -237,9 +237,9 @@ static void BM_ResourceAwareEviction_vs_LRU(benchmark::State& state) {
         auto start = std::chrono::high_resolution_clock::now();
         
         if (use_resource_aware) {
-            manager.evictResourceAware(-1, 256);  // Free 256MB
+            manager.evictResourceAware(-1, static_cast<size_t>(256));  // Free 256MB
         } else {
-            manager.evictLRU(256);
+            manager.evictLRU(static_cast<size_t>(256));
         }
         
         auto end = std::chrono::high_resolution_clock::now();
@@ -569,7 +569,7 @@ static void BM_MemoryFragmentation_Analysis(benchmark::State& state) {
         
         // Cleanup
         for (const auto& id : loaded) {
-            manager.unloadLoRA(id, true);
+            manager.unloadLoRA(id);
         }
     }
     

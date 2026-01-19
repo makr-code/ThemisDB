@@ -1549,12 +1549,8 @@ json MultiLoRAManager::getUsageHeatmap() const {
         auto idle = std::chrono::duration_cast<std::chrono::seconds>(now - lora->last_used);
         entry["idle_seconds"] = idle.count();
         
-        // Calculate access frequency (accesses per hour)
-        if (age.count() > 0) {
-            entry["access_frequency"] = (lora->use_count * 3600.0) / age.count();
-        } else {
-            entry["access_frequency"] = 0.0;
-        }
+        // Calculate access frequency using helper
+        entry["access_frequency"] = calculateAccessFrequency(lora.get(), now);
         
         heatmap.push_back(entry);
     }
@@ -1601,11 +1597,9 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
         
         auto idle_seconds = std::chrono::duration_cast<std::chrono::seconds>(
             now - lora->last_used).count();
-        auto age_seconds = std::chrono::duration_cast<std::chrono::seconds>(
-            now - lora->loaded_at).count();
         
-        double access_frequency = (age_seconds > 0) ? 
-            (lora->use_count * 3600.0) / age_seconds : 0.0;
+        // Use helper to calculate access frequency consistently
+        double access_frequency = calculateAccessFrequency(lora.get(), now);
         
         // Score calculation (normalized to 0-100 range)
         // Higher score = keep in memory
@@ -1642,9 +1636,7 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
                      candidate.lora_id, candidate.score,
                      std::chrono::duration_cast<std::chrono::seconds>(
                          now - candidate.lora->last_used).count(),
-                     (candidate.lora->use_count * 3600.0) / 
-                     std::max(1L, std::chrono::duration_cast<std::chrono::seconds>(
-                         now - candidate.lora->loaded_at).count()));
+                     calculateAccessFrequency(candidate.lora, now));
         
         freed_vram += candidate.lora->vram_bytes;
         
@@ -1996,7 +1988,9 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
                                            int source_gpu, int target_gpu,
                                            size_t vram_bytes,
                                            const std::string& details) {
-    // Already locked by caller
+    // Note: Caller must hold mutex_ lock before calling this method
+    // This method is called from: loadLoRAInternal, unloadLoRA, evictResourceAware,
+    // migrateLoRAToGPU, checkGPUHealthAndMigrate
     
     AuditEvent event;
     event.timestamp = std::chrono::system_clock::now();
@@ -2021,6 +2015,19 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
                 "tgt_gpu={}, vram={}MB, details={}", 
                 event_type, lora_id, event.tenant_id, source_gpu, target_gpu,
                 vram_bytes / (1024 * 1024), details);
+}
+
+double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
+                                                 const std::chrono::system_clock::time_point& now) const {
+    // Calculate access frequency (accesses per hour)
+    // Protect against division by zero and negative age due to clock adjustments
+    auto age_seconds = std::chrono::duration_cast<std::chrono::seconds>(
+        now - lora->loaded_at).count();
+    
+    if (age_seconds > 0) {
+        return (lora->use_count * 3600.0) / age_seconds;
+    }
+    return 0.0;
 }
 
 } // namespace llm
