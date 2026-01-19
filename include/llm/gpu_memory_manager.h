@@ -96,8 +96,51 @@ public:
         size_t fragmentation_pct;
     };
     
+    // Per-GPU statistics
+    struct GPUStats {
+        int device_id;
+        size_t total_vram_bytes;
+        size_t used_vram_bytes;
+        size_t free_vram_bytes;
+        size_t num_allocations;
+        float utilization_percent;  // 0.0 - 100.0
+        float temperature_celsius;
+        bool is_healthy;
+        std::vector<std::string> loaded_models;
+        std::vector<std::string> loaded_adapters;
+    };
+    
+    // GPU Health status
+    struct GPUHealth {
+        int device_id;
+        bool is_available;
+        bool is_healthy;
+        float temperature_celsius;
+        float utilization_percent;
+        size_t error_count;
+        std::string last_error;
+        int64_t last_check_timestamp_ms;
+    };
+    
     Stats getStats() const;
     std::vector<std::string> getLoadedModels() const;
+    
+    // Per-GPU statistics and monitoring
+    GPUStats getGPUStats(int gpu_device_id) const;
+    std::vector<GPUStats> getAllGPUStats() const;
+    
+    // GPU Health monitoring
+    GPUHealth getGPUHealth(int gpu_device_id) const;
+    std::vector<GPUHealth> getAllGPUHealth() const;
+    bool isGPUHealthy(int gpu_device_id) const;
+    void markGPUUnhealthy(int gpu_device_id, const std::string& reason);
+    void markGPUHealthy(int gpu_device_id);
+    
+    // Load balancing queries
+    int getLeastLoadedGPU() const;  // Returns GPU with lowest utilization
+    std::vector<int> getHealthyGPUs() const;  // Returns list of healthy GPUs
+    float getAverageGPULoad() const;  // Average utilization across all GPUs
+    bool needsLoadRebalancing(float threshold) const;  // Check if rebalancing needed
     
     // Multi-GPU peer access (v1.4.0)
     bool enablePeerAccess(int src_gpu, int dst_gpu);
@@ -122,9 +165,21 @@ private:
     std::unordered_map<int, bool> gpu_health_status_;    // GPU health tracking
     std::vector<int> available_gpus_;                    // List of available GPUs
     
+    // Enhanced GPU health monitoring
+    std::unordered_map<int, GPUHealth> gpu_health_data_;  // Detailed health data per GPU
+    std::unordered_map<int, float> gpu_temperatures_;     // Temperature tracking
+    std::unordered_map<int, float> gpu_utilizations_;     // Utilization tracking
+    std::unordered_map<int, size_t> gpu_error_counts_;    // Error count per GPU
+    
+    // Adapter tracking for load balancing
+    std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU
+    std::unordered_map<int, std::vector<std::string>> gpu_models_;    // Models per GPU
+    
     void initializeGPU();
     void shutdownGPU();
     void updateMemoryStats();
+    void updateGPUHealth(int gpu_device_id);  // Update health metrics
+    void checkGPUHealth(int gpu_device_id);   // Perform health check
     
     // Defragmentation helper methods
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
