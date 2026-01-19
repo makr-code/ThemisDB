@@ -178,10 +178,11 @@ protected:
         topology_ = std::make_shared<ShardTopology>();
         
         // Add multiple shards for testing
-        for (int i = 0; i < 10; ++i) {
+        static constexpr int NUM_TEST_SHARDS = 10;
+        for (int i = 0; i < NUM_TEST_SHARDS; ++i) {
             ShardInfo shard;
             shard.shard_id = "shard-" + std::to_string(i);
-            shard.primary_endpoint = "localhost:800" + std::to_string(i);
+            shard.primary_endpoint = "localhost:" + std::to_string(8000 + i);
             shard.is_healthy = true;
             topology_->addShard(shard);
         }

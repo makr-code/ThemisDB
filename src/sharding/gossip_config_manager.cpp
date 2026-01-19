@@ -609,8 +609,9 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         propagation_latencies_ms_.push_back(latency_ms);
         
-        // Keep only last 1000 latencies
-        if (propagation_latencies_ms_.size() > 1000) {
+        // Keep only last N latencies
+        static constexpr size_t MAX_LATENCY_SAMPLES = 1000;
+        if (propagation_latencies_ms_.size() > MAX_LATENCY_SAMPLES) {
             propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
         }
     }
@@ -660,7 +661,8 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     ).count();
     
     // Reject updates older than 1 hour
-    if (now_ns - update.timestamp_ns > 3600ULL * 1000000000ULL) {
+    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;
+    if (now_ns - update.timestamp_ns > MAX_UPDATE_AGE_NS) {
         return false;
     }
     

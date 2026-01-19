@@ -24,10 +24,11 @@ public:
         // Create topology with shards
         topology_ = std::make_shared<ShardTopology>();
         
+        static constexpr int BASE_PORT = 8000;
         for (int i = 0; i < num_shards_; i++) {
             ShardInfo shard;
             shard.shard_id = "shard-" + std::to_string(i);
-            shard.primary_endpoint = "localhost:800" + std::to_string(i);
+            shard.primary_endpoint = "localhost:" + std::to_string(BASE_PORT + i);
             shard.is_healthy = true;
             topology_->addShard(shard);
         }
