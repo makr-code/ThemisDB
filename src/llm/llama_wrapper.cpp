@@ -401,32 +401,9 @@ bool LlamaWrapper::loadModelFromThemisDB(
         model_data = *blob_data_opt;
         spdlog::info("✓ Model blob retrieved: {} bytes", model_data.size());
         
-        // Step 3: Handle decryption if encryption is enabled
-        if (encryption && !model_data.empty()) {
-            spdlog::info("Step 3: Decrypting model data...");
-            
-            // Check if data is encrypted (starts with encrypted blob marker)
-            std::string data_str(model_data.begin(), model_data.end());
-            
-            // Try to parse as encrypted blob
-            try {
-                auto encrypted_blob = security::EncryptedBlob::fromBase64(data_str);
-                
-                spdlog::info("  Encrypted blob detected: key_id={}, key_version={}", 
-                            encrypted_blob.key_id, encrypted_blob.key_version);
-                
-                // Decrypt
-                auto decrypted = encryption->decryptToBytes(encrypted_blob);
-                model_data = decrypted;
-                
-                spdlog::info("✓ Model data decrypted: {} bytes", model_data.size());
-            } catch (const std::exception& e) {
-                // Not encrypted or decryption failed
-                spdlog::debug("Model data not encrypted or decryption skipped: {}", e.what());
-            }
-        } else {
-            spdlog::info("Step 3: Encryption not enabled, using data as-is");
-        }
+        // Step 3: Decryption is already handled by loadModelBlob()
+        // The data returned from loadModelBlob() is already decrypted if encryption was enabled
+        spdlog::info("Step 3: Model data ready (decryption handled by storage layer)");
         
         // Step 4: Write model data to temporary file
         spdlog::info("Step 4: Writing model to temporary file...");
@@ -487,11 +464,14 @@ bool LlamaWrapper::loadModelFromThemisDB(
         
         spdlog::info("✓ Model loaded successfully from ThemisDB: {}", model_id);
         
-        // Note: Temp file is left in cache directory for potential reuse
-        // It will be cleaned up when the cache directory is purged
+        // Note: Temp file is kept in cache directory for potential reuse
+        // Cleanup policy: Files older than 7 days should be purged by a maintenance task
+        // Manual cleanup can be done via: rm -rf /tmp/themisdb_models/*
         
         // Update usage statistics in ThemisDB
-        storage->updateUsageStats(model_id);
+        // Note: updateUsageStats requires tokens_generated parameter
+        // We'll call it with 0 tokens since this is just a load operation
+        storage->updateUsageStats(model_id, 0);
         
         return true;
         
@@ -532,6 +512,47 @@ void LlamaWrapper::unloadModel() {
     transitionToState(WrapperState::UNINITIALIZED, "Model unloaded");
     
     spdlog::info("Model unloaded");
+}
+
+size_t LlamaWrapper::cleanupTempModels(int days_old) {
+    std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
+    
+    if (!std::filesystem::exists(temp_dir)) {
+        spdlog::debug("Temp models directory does not exist: {}", temp_dir.string());
+        return 0;
+    }
+    
+    size_t removed_count = 0;
+    auto now = std::filesystem::file_time_type::clock::now();
+    auto cutoff_time = now - std::chrono::hours(24 * days_old);
+    
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(temp_dir)) {
+            if (entry.is_regular_file()) {
+                auto file_time = std::filesystem::last_write_time(entry);
+                
+                if (file_time < cutoff_time) {
+                    try {
+                        std::filesystem::remove(entry.path());
+                        removed_count++;
+                        spdlog::debug("Removed old temp model file: {}", entry.path().filename().string());
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to remove temp file {}: {}", 
+                                    entry.path().filename().string(), e.what());
+                    }
+                }
+            }
+        }
+        
+        if (removed_count > 0) {
+            spdlog::info("Cleaned up {} old temporary model file(s) (older than {} days)", 
+                        removed_count, days_old);
+        }
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to cleanup temp models: {}", e.what());
+    }
+    
+    return removed_count;
 }
 
 std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {

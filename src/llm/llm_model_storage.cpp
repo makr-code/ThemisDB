@@ -1,5 +1,6 @@
 #include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
+#include "storage/security_signature_manager.h"
 #include "security/mock_key_provider.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -7,6 +8,9 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#include <iomanip>
+#include <sstream>
+#include <openssl/sha.h>
 
 namespace themis {
 namespace llm {
@@ -418,8 +422,28 @@ public:
             
             // Verify hash if available
             if (!blob_ref.hash_sha256.empty()) {
-                // TODO: Add SHA256 verification
-                spdlog::debug("Blob hash verification skipped (not yet implemented)");
+                spdlog::info("Verifying blob integrity with SHA256...");
+                
+                // Compute SHA256 of retrieved data
+                unsigned char hash[SHA256_DIGEST_LENGTH];
+                SHA256(blob_data_opt->data(), blob_data_opt->size(), hash);
+                
+                // Convert to hex string
+                std::stringstream ss;
+                for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+                    ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+                }
+                std::string computed_hash = ss.str();
+                
+                // Compare with stored hash
+                if (computed_hash != blob_ref.hash_sha256) {
+                    spdlog::error("Blob integrity check failed for model {}", model_id);
+                    spdlog::error("  Expected: {}", blob_ref.hash_sha256);
+                    spdlog::error("  Computed: {}", computed_hash);
+                    return std::nullopt;  // Fail if hash doesn't match
+                }
+                
+                spdlog::info("✓ Blob integrity verified (SHA256 match)");
             }
             
             return blob_data_opt;

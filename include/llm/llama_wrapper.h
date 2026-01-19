@@ -304,6 +304,18 @@ public:
         const json& config = {}
     );
     
+    /**
+     * @brief Clean up old temporary model files
+     * 
+     * Removes cached model files from /tmp/themisdb_models/ that are older
+     * than the specified number of days. This helps prevent disk space issues
+     * from accumulated cached models.
+     * 
+     * @param days_old Remove files older than this many days (default: 7)
+     * @return Number of files removed
+     */
+    static size_t cleanupTempModels(int days_old = 7);
+    
     void unloadModel() override;
     
     std::optional<ModelInfo> getModelInfo() const override;
