@@ -1,10 +1,11 @@
 /**
  * @file test_rag_judge_phase4.cpp
- * @brief Unit tests for RAG Judge Phase 4 (Rubric & CoT)
+ * @brief Unit tests for RAG Judge Phase 4 (Rubric & CoT & G-Eval)
  */
 
 #include "rag/rubric_evaluator.h"
 #include "rag/cot_evaluator.h"
+#include "rag/geval_evaluator.h"
 #include <gtest/gtest.h>
 
 using namespace themis::rag::judge;
@@ -366,6 +367,176 @@ TEST_F(Phase4IntegrationTest, EmptyInput) {
     EXPECT_LE(rubric_result.overall_score, 1.0);
     EXPECT_GE(cot_result.final_score, 0.0);
     EXPECT_LE(cot_result.final_score, 1.0);
+}
+
+// ============================================================================
+// G-Eval Tests
+// ============================================================================
+
+class GEvalEvaluatorTest : public ::testing::Test {
+protected:
+    GEvalEvaluator::Config config;
+    
+    std::vector<std::pair<std::string, std::string>> sample_docs = {
+        {"doc1", "Paris is the capital of France with over 2 million people."},
+        {"doc2", "The Eiffel Tower is an iconic Paris landmark built in 1889."}
+    };
+};
+
+TEST_F(GEvalEvaluatorTest, BasicEvaluation) {
+    config.num_samples = 3;
+    GEvalEvaluator evaluator(config);
+    
+    std::string query = "What is the capital of France?";
+    std::string answer = "Paris is the capital of France.";
+    
+    auto result = evaluator.evaluate(query, answer, sample_docs, "faithfulness");
+    
+    EXPECT_GE(result.geval_score, 0.0);
+    EXPECT_LE(result.geval_score, 1.0);
+    EXPECT_EQ(result.dimension, "faithfulness");
+    EXPECT_FALSE(result.reasoning.empty());
+}
+
+TEST_F(GEvalEvaluatorTest, TokenProbabilities) {
+    GEvalEvaluator evaluator(config);
+    
+    std::string query = "Explain AI";
+    std::string answer = "AI is artificial intelligence.";
+    
+    auto result = evaluator.evaluate(query, answer, sample_docs, "relevance");
+    
+    // Should have probabilities for 5 levels
+    EXPECT_EQ(result.token_probabilities.size(), 5);
+    
+    // Probabilities should sum to approximately 1.0
+    double sum = 0.0;
+    for (double prob : result.token_probabilities) {
+        sum += prob;
+        EXPECT_GE(prob, 0.0);
+        EXPECT_LE(prob, 1.0);
+    }
+    EXPECT_NEAR(sum, 1.0, 0.01);
+}
+
+TEST_F(GEvalEvaluatorTest, MultipleSamples) {
+    config.num_samples = 5;
+    config.aggregation = AggregationMethod::MEAN;
+    GEvalEvaluator evaluator(config);
+    
+    std::string query = "What is ML?";
+    std::string answer = "Machine learning is a type of AI.";
+    
+    auto result = evaluator.evaluate(query, answer, sample_docs, "completeness");
+    
+    EXPECT_EQ(result.sample_scores.size(), 5);
+    EXPECT_GE(result.variance, 0.0);
+    EXPECT_GE(result.confidence, 0.0);
+    EXPECT_LE(result.confidence, 1.0);
+}
+
+TEST_F(GEvalEvaluatorTest, DifferentDimensions) {
+    GEvalEvaluator evaluator(config);
+    
+    std::string query = "Explain quantum computing";
+    std::string answer = "Quantum computing uses quantum mechanics principles.";
+    
+    // Test different dimensions
+    auto faith_result = evaluator.evaluate(query, answer, sample_docs, "faithfulness");
+    auto rel_result = evaluator.evaluate(query, answer, sample_docs, "relevance");
+    auto comp_result = evaluator.evaluate(query, answer, sample_docs, "completeness");
+    auto coh_result = evaluator.evaluate(query, answer, sample_docs, "coherence");
+    
+    EXPECT_EQ(faith_result.dimension, "faithfulness");
+    EXPECT_EQ(rel_result.dimension, "relevance");
+    EXPECT_EQ(comp_result.dimension, "completeness");
+    EXPECT_EQ(coh_result.dimension, "coherence");
+    
+    // All should have valid scores
+    EXPECT_GE(faith_result.geval_score, 0.0);
+    EXPECT_GE(rel_result.geval_score, 0.0);
+    EXPECT_GE(comp_result.geval_score, 0.0);
+    EXPECT_GE(coh_result.geval_score, 0.0);
+}
+
+TEST_F(GEvalEvaluatorTest, ScoreComputation) {
+    // Test static method
+    std::vector<double> probs = {0.1, 0.2, 0.4, 0.2, 0.1};
+    double score = GEvalEvaluator::computeGEvalScore(probs);
+    
+    // Expected: (1*0.1 + 2*0.2 + 3*0.4 + 4*0.2 + 5*0.1) = 3.0
+    // Normalized: (3.0 - 1) / 4 = 0.5
+    EXPECT_NEAR(score, 0.5, 0.01);
+}
+
+TEST_F(GEvalEvaluatorTest, ConfidenceComputation) {
+    // High confidence (peaked distribution)
+    std::vector<double> peaked = {0.05, 0.05, 0.8, 0.05, 0.05};
+    double high_conf = GEvalEvaluator::computeConfidence(peaked);
+    
+    // Low confidence (uniform distribution)
+    std::vector<double> uniform = {0.2, 0.2, 0.2, 0.2, 0.2};
+    double low_conf = GEvalEvaluator::computeConfidence(uniform);
+    
+    EXPECT_GT(high_conf, low_conf);
+    EXPECT_GE(high_conf, 0.0);
+    EXPECT_LE(high_conf, 1.0);
+    EXPECT_GE(low_conf, 0.0);
+    EXPECT_LE(low_conf, 1.0);
+}
+
+TEST_F(GEvalEvaluatorTest, AggregationMethods) {
+    std::vector<double> samples = {0.3, 0.5, 0.7, 0.5, 0.6};
+    
+    double mean = GEvalEvaluator::aggregateScores(samples, AggregationMethod::MEAN);
+    double median = GEvalEvaluator::aggregateScores(samples, AggregationMethod::MEDIAN);
+    double mode = GEvalEvaluator::aggregateScores(samples, AggregationMethod::MODE);
+    
+    EXPECT_NEAR(mean, 0.52, 0.01);  // (0.3+0.5+0.7+0.5+0.6)/5 = 0.52
+    EXPECT_NEAR(median, 0.5, 0.01);  // Sorted: 0.3,0.5,0.5,0.6,0.7 -> middle is 0.5
+    EXPECT_GE(mode, 0.0);
+    EXPECT_LE(mode, 1.0);
+}
+
+TEST_F(GEvalEvaluatorTest, EmptyDocuments) {
+    GEvalEvaluator evaluator(config);
+    
+    std::string query = "Test query";
+    std::string answer = "Test answer";
+    std::vector<std::pair<std::string, std::string>> empty_docs;
+    
+    auto result = evaluator.evaluate(query, answer, empty_docs, "overall");
+    
+    EXPECT_GE(result.geval_score, 0.0);
+    EXPECT_LE(result.geval_score, 1.0);
+}
+
+// ============================================================================
+// Integration Tests (with G-Eval)
+// ============================================================================
+
+TEST_F(Phase4IntegrationTest, AllThreeEvaluators) {
+    RubricEvaluator rubric_eval;
+    CoTEvaluator cot_eval;
+    GEvalEvaluator geval_eval;
+    
+    std::string query = "What is quantum computing?";
+    std::string answer = "Quantum computing uses quantum bits (qubits) to perform calculations that classical computers cannot efficiently solve.";
+    
+    auto rubric_result = rubric_eval.evaluate(query, answer, docs);
+    auto cot_result = cot_eval.evaluate(query, answer, docs, "faithfulness");
+    auto geval_result = geval_eval.evaluate(query, answer, docs, "faithfulness");
+    
+    // All should produce valid scores
+    EXPECT_GE(rubric_result.overall_score, 0.0);
+    EXPECT_LE(rubric_result.overall_score, 1.0);
+    EXPECT_GE(cot_result.final_score, 0.0);
+    EXPECT_LE(cot_result.final_score, 1.0);
+    EXPECT_GE(geval_result.geval_score, 0.0);
+    EXPECT_LE(geval_result.geval_score, 1.0);
+    
+    // G-Eval should have probability distribution
+    EXPECT_EQ(geval_result.token_probabilities.size(), 5);
 }
 
 // ============================================================================
