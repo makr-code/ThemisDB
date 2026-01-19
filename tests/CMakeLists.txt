@@ -145,6 +145,37 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
     endif()
     
+    # Multi-LoRA Fusion Tests (v1.5.0)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_lora_fusion.cpp")
+        message(STATUS "Adding Multi-LoRA fusion tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_multi_lora_fusion
+            test_multi_lora_fusion.cpp
+        )
+        
+        target_link_libraries(test_multi_lora_fusion PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_multi_lora_fusion PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MultiLoRAFusionTests COMMAND test_multi_lora_fusion)
+        set_tests_properties(MultiLoRAFusionTests PROPERTIES
+            LABELS "lora;llm;fusion;adapter;inference"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "Multi-LoRA fusion tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_lora_fusion.cpp")
+    endif()
+    
     # LoRA Auto-Binding and Lifecycle Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
         message(STATUS "Adding LoRA auto-binding and lifecycle tests")
@@ -174,6 +205,41 @@ if(THEMIS_ENABLE_LORA_TESTS)
         )
     else()
         message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
+    endif()
+    
+    # Distributed Training Coordinator Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
+        message(STATUS "Adding Distributed Training Coordinator tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_distributed_training_coordinator
+            test_distributed_training_coordinator.cpp
+        )
+        
+        target_link_libraries(test_distributed_training_coordinator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_distributed_training_coordinator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME DistributedTrainingCoordinatorTests COMMAND test_distributed_training_coordinator)
+        set_tests_properties(DistributedTrainingCoordinatorTests PROPERTIES
+            LABELS "lora;llm;distributed;training;fault-tolerance"
+            TIMEOUT 300
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Distributed training coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
+        else()
+            message(STATUS "Distributed training coordinator tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
     endif()
     
     # LoRA Router Tests
@@ -757,6 +823,56 @@ if(THEMIS_ENABLE_LORA_TESTS)
     endif()
 else()
     message(STATUS "LoRA comprehensive tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
+# Adapter Sync and Cross-Shard Consistency Tests (NEW)
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adapter_sync.cpp")
+        message(STATUS "Adding adapter sync and consistency tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_adapter_sync
+            test_adapter_sync.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/adapter_consistency_checker.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/adapter_sync_manager.cpp
+        )
+        
+        target_link_libraries(test_adapter_sync PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_adapter_sync PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME AdapterSyncTests COMMAND test_adapter_sync)
+        
+        # Set test properties
+        set_tests_properties(AdapterSyncTests PROPERTIES
+            LABELS "lora;llm;sync;consistency;sharding;raid"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - Adapter sync tests: automatic cross-shard synchronization")
+        message(STATUS "    * Consistency checking (checksum, signature)")
+        message(STATUS "    * Version comparison and conflict resolution")
+        message(STATUS "    * Multi-shard replication")
+        message(STATUS "    * Failure scenarios and recovery")
+        message(STATUS "    * RAID integration tests")
+    else()
+        message(STATUS "Adapter sync tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adapter_sync.cpp")
+    endif()
+else()
+    message(STATUS "Adapter sync tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
 endif()
 
 # ============================================================================

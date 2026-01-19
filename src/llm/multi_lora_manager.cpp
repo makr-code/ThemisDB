@@ -2028,6 +2028,491 @@ double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
         return (lora->use_count * 3600.0) / age_seconds;
     }
     return 0.0;
+// Advanced Fusion API Implementation (v1.5.0)
+// ═══════════════════════════════════════════════════════════
+
+bool MultiLoRAManager::fuseLoRAsAdvanced(
+    const std::string& fused_id,
+    const FusionConfig& config
+) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    spdlog::info("Advanced fusion: {} with strategy {}", 
+                 fused_id, 
+                 config.strategy == FusionStrategy::STATIC ? "STATIC" :
+                 config.strategy == FusionStrategy::DYNAMIC ? "DYNAMIC" : "SCHEDULED");
+    
+    if (!config_.enable_adapter_fusion) {
+        spdlog::error("Adapter fusion is disabled in configuration");
+        return false;
+    }
+    
+    // Check cache first for STATIC fusions
+    if (config.strategy == FusionStrategy::STATIC && config.enable_cache) {
+        auto cache_it = fusion_cache_.find(fused_id);
+        if (cache_it != fusion_cache_.end()) {
+            // Check if cache is still valid
+            auto age = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::system_clock::now() - cache_it->second.created_at
+            );
+            
+            if (age < config.cache_ttl) {
+                spdlog::debug("Fusion cache hit: {}", fused_id);
+                fusion_cache_hits_++;
+                cache_it->second.last_used = std::chrono::system_clock::now();
+                cache_it->second.use_count++;
+                return true;
+            } else {
+                spdlog::debug("Fusion cache expired: {}", fused_id);
+                fusion_cache_.erase(cache_it);
+            }
+        }
+    }
+    
+    fusion_cache_misses_++;
+    
+    // Perform fusion
+    bool success = fuseLoRAsInternal(fused_id, config);
+    
+    if (success) {
+        // Update cache and metrics
+        if (config.enable_cache) {
+            FusionCacheEntry entry;
+            entry.fusion_id = fused_id;
+            entry.source_lora_ids = config.source_lora_ids;
+            entry.weights = config.weights;
+            entry.created_at = std::chrono::system_clock::now();
+            entry.last_used = std::chrono::system_clock::now();
+            entry.use_count = 1;
+            entry.strategy = config.strategy;
+            
+            fusion_cache_[fused_id] = entry;
+        }
+        
+        // Store configuration for dynamic updates
+        fusion_configs_[fused_id] = config;
+        
+        // Store alpha schedule if provided
+        if (config.strategy == FusionStrategy::SCHEDULED || 
+            config.strategy == FusionStrategy::DYNAMIC) {
+            fusion_schedules_[fused_id] = config.alpha_schedule;
+        }
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        double fusion_time_ms = duration.count() / 1000.0;
+        
+        updateFusionMetrics(fused_id, fusion_time_ms);
+        total_fusions_++;
+        
+        spdlog::info("Fusion completed: {} ({:.2f} ms)", fused_id, fusion_time_ms);
+    }
+    
+    return success;
+}
+
+bool MultiLoRAManager::fuseLoRAsInternal(
+    const std::string& fused_id,
+    const FusionConfig& config
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (config.source_lora_ids.empty()) {
+        errors::logError(errors::ErrorCode::ERR_LORA_FUSION_FAILED, "no LoRAs provided");
+        return false;
+    }
+    
+    if (config.source_lora_ids.size() != config.weights.size()) {
+        errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
+                        config.source_lora_ids.size(), config.weights.size());
+        return false;
+    }
+    
+    // Validate all LoRAs are loaded
+    std::vector<LoRASlot*> source_loras;
+    for (const auto& lora_id : config.source_lora_ids) {
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end()) {
+            errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
+            return false;
+        }
+        source_loras.push_back(it->second.get());
+    }
+    
+    // Validate compatibility
+    if (!validateFusionCompatibility(source_loras, config)) {
+        spdlog::error("LoRAs are not compatible for fusion");
+        return false;
+    }
+    
+    // Normalize weights
+    float weight_sum = 0.0f;
+    for (float w : config.weights) {
+        weight_sum += std::abs(w);
+    }
+    
+    if (weight_sum < 1e-6f) {
+        spdlog::error("Sum of fusion weights is too small: {}", weight_sum);
+        return false;
+    }
+    
+    std::vector<float> normalized_weights;
+    for (float w : config.weights) {
+        normalized_weights.push_back(w / weight_sum);
+    }
+    
+    // Create fused LoRA slot (reusing existing logic)
+    auto fused_lora = std::make_unique<LoRASlot>();
+    fused_lora->lora_id = fused_id;
+    fused_lora->path = "<fused>";
+    fused_lora->base_model_id = source_loras[0]->base_model_id;
+    fused_lora->loaded_at = std::chrono::system_clock::now();
+    fused_lora->last_used = std::chrono::system_clock::now();
+    fused_lora->use_count = 0;
+    
+    // Calculate fused properties
+    float avg_rank = 0.0f;
+    float avg_alpha = 0.0f;
+    size_t total_vram = 0;
+    
+    for (size_t i = 0; i < source_loras.size(); ++i) {
+        avg_rank += source_loras[i]->rank * normalized_weights[i];
+        avg_alpha += source_loras[i]->alpha * normalized_weights[i];
+        total_vram = std::max(total_vram, source_loras[i]->vram_bytes);
+    }
+    
+    fused_lora->rank = static_cast<size_t>(avg_rank);
+    fused_lora->alpha = static_cast<size_t>(avg_alpha);
+    fused_lora->vram_bytes = total_vram;
+    fused_lora->scale = 1.0f;
+    
+    // Check VRAM budget
+    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+        spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
+        while (loras_.size() > 0 && 
+               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+            evictLRU();
+        }
+    }
+    
+    // Store fused LoRA
+    total_vram_bytes_ += fused_lora->vram_bytes;
+    loras_[fused_id] = std::move(fused_lora);
+    
+    spdlog::info("LoRA fusion internal completed: {} from {} source LoRAs", 
+                 fused_id, config.source_lora_ids.size());
+    
+    return true;
+}
+
+bool MultiLoRAManager::updateFusionWeights(
+    const std::string& fusion_id,
+    const std::vector<float>& new_weights
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto config_it = fusion_configs_.find(fusion_id);
+    if (config_it == fusion_configs_.end()) {
+        spdlog::error("Fusion not found: {}", fusion_id);
+        return false;
+    }
+    
+    if (config_it->second.strategy != FusionStrategy::DYNAMIC) {
+        spdlog::error("Cannot update weights for non-DYNAMIC fusion: {}", fusion_id);
+        return false;
+    }
+    
+    if (new_weights.size() != config_it->second.source_lora_ids.size()) {
+        spdlog::error("Weight count mismatch: expected {}, got {}",
+                     config_it->second.source_lora_ids.size(), new_weights.size());
+        return false;
+    }
+    
+    // Update configuration
+    config_it->second.weights = new_weights;
+    
+    // Invalidate cache entry to force recomputation
+    invalidateFusionCache(fusion_id);
+    
+    spdlog::info("Updated fusion weights for: {}", fusion_id);
+    return true;
+}
+
+bool MultiLoRAManager::setAlphaSchedule(
+    const std::string& fusion_id,
+    const AlphaSchedule& schedule
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto config_it = fusion_configs_.find(fusion_id);
+    if (config_it == fusion_configs_.end()) {
+        spdlog::error("Fusion not found: {}", fusion_id);
+        return false;
+    }
+    
+    if (config_it->second.strategy != FusionStrategy::SCHEDULED &&
+        config_it->second.strategy != FusionStrategy::DYNAMIC) {
+        spdlog::error("Cannot set alpha schedule for STATIC fusion: {}", fusion_id);
+        return false;
+    }
+    
+    fusion_schedules_[fusion_id] = schedule;
+    
+    spdlog::info("Set alpha schedule for fusion: {}", fusion_id);
+    return true;
+}
+
+std::vector<float> MultiLoRAManager::getCurrentFusionWeights(
+    const std::string& fusion_id
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto config_it = fusion_configs_.find(fusion_id);
+    if (config_it == fusion_configs_.end()) {
+        return {};
+    }
+    
+    // For SCHEDULED strategy, compute current weights based on schedule
+    if (config_it->second.strategy == FusionStrategy::SCHEDULED) {
+        return computeScheduledWeights(fusion_id);
+    }
+    
+    // For STATIC and DYNAMIC, return configured weights
+    return config_it->second.weights;
+}
+
+std::vector<float> MultiLoRAManager::computeScheduledWeights(
+    const std::string& fusion_id
+) const {
+    // Already locked by caller
+    
+    auto schedule_it = fusion_schedules_.find(fusion_id);
+    if (schedule_it == fusion_schedules_.end()) {
+        // No schedule, return static weights
+        auto config_it = fusion_configs_.find(fusion_id);
+        if (config_it != fusion_configs_.end()) {
+            return config_it->second.weights;
+        }
+        return {};
+    }
+    
+    const auto& schedule = schedule_it->second;
+    
+    // Calculate time offset
+    auto now = std::chrono::system_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(
+        now - schedule.start_time
+    );
+    double time_offset = duration.count();
+    
+    // Use custom schedule function if provided
+    if (schedule.schedule_func) {
+        return schedule.schedule_func(time_offset);
+    }
+    
+    // Default linear interpolation for A/B testing
+    if (schedule.transition_duration.count() > 0) {
+        float progress = std::min(1.0f, 
+            static_cast<float>(time_offset) / schedule.transition_duration.count());
+        
+        // Linear transition from static_weights to target weights
+        std::vector<float> weights = schedule.static_weights;
+        
+        // Simple A/B blend: first adapter gets a_weight, second gets b_weight
+        if (weights.size() >= 2) {
+            weights[0] = schedule.a_weight * (1.0f - progress) + 
+                        schedule.b_weight * progress;
+            weights[1] = schedule.b_weight * (1.0f - progress) + 
+                        schedule.a_weight * progress;
+        }
+        
+        return weights;
+    }
+    
+    return schedule.static_weights;
+}
+
+bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = fusion_cache_.find(fusion_id);
+    if (it == fusion_cache_.end()) {
+        return false;
+    }
+    
+    fusion_cache_.erase(it);
+    fusion_invalidations_++;
+    
+    spdlog::info("Invalidated fusion cache entry: {}", fusion_id);
+    return true;
+}
+
+size_t MultiLoRAManager::clearFusionCache() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    size_t count = fusion_cache_.size();
+    fusion_cache_.clear();
+    fusion_invalidations_ += count;
+    
+    spdlog::info("Cleared fusion cache: {} entries removed", count);
+    return count;
+}
+
+FusionMetrics MultiLoRAManager::getFusionMetrics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    FusionMetrics metrics;
+    metrics.total_fusions = total_fusions_;
+    metrics.cache_hits = fusion_cache_hits_;
+    metrics.cache_misses = fusion_cache_misses_;
+    metrics.invalidations = fusion_invalidations_;
+    
+    // Aggregate timing data from cache entries
+    double total_inference_time = 0.0;
+    size_t total_inference_count = 0;
+    
+    for (const auto& [_, entry] : fusion_cache_) {
+        if (entry.inference_count > 0) {
+            total_inference_time += entry.avg_inference_time_ms * entry.inference_count;
+            total_inference_count += entry.inference_count;
+            
+            // Track by strategy
+            metrics.fusions_by_strategy[entry.strategy]++;
+        }
+    }
+    
+    if (total_inference_count > 0) {
+        metrics.avg_inference_time_ms = total_inference_time / total_inference_count;
+    }
+    
+    return metrics;
+}
+
+std::vector<FusionCacheEntry> MultiLoRAManager::listFusionCache() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<FusionCacheEntry> entries;
+    entries.reserve(fusion_cache_.size());
+    
+    for (const auto& [_, entry] : fusion_cache_) {
+        entries.push_back(entry);
+    }
+    
+    return entries;
+}
+
+bool MultiLoRAManager::checkFusionCompatibility(
+    const std::vector<std::string>& lora_ids,
+    const FusionConfig& config
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (lora_ids.empty()) {
+        return false;
+    }
+    
+    std::vector<LoRASlot*> source_loras;
+    for (const auto& lora_id : lora_ids) {
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end()) {
+            spdlog::debug("LoRA not loaded: {}", lora_id);
+            return false;
+        }
+        source_loras.push_back(it->second.get());
+    }
+    
+    return validateFusionCompatibility(source_loras, config);
+}
+
+bool MultiLoRAManager::validateFusionCompatibility(
+    const std::vector<LoRASlot*>& source_loras,
+    const FusionConfig& config
+) const {
+    // Already locked by caller
+    
+    if (source_loras.empty()) {
+        return false;
+    }
+    
+    const auto* first = source_loras[0];
+    
+    for (size_t i = 1; i < source_loras.size(); ++i) {
+        const auto* lora = source_loras[i];
+        
+        // Check base model match
+        if (lora->base_model_id != first->base_model_id) {
+            spdlog::debug("Base model mismatch: {} vs {}", 
+                         first->base_model_id, lora->base_model_id);
+            return false;
+        }
+        
+        // Check quantization match if enforced
+        if (config.enforce_quantization_match) {
+            if (lora->is_quantized != first->is_quantized) {
+                spdlog::debug("Quantization mismatch: {} vs {}",
+                             first->is_quantized, lora->is_quantized);
+                return false;
+            }
+            if (lora->is_quantized && 
+                lora->quantization_mode != first->quantization_mode) {
+                spdlog::debug("Quantization mode mismatch");
+                return false;
+            }
+        }
+        
+        // Check GPU placement match if enforced
+        if (config.enforce_gpu_placement_match) {
+            if (lora->gpu_placement != first->gpu_placement) {
+                spdlog::debug("GPU placement mismatch");
+                return false;
+            }
+            if (lora->primary_gpu != first->primary_gpu) {
+                spdlog::debug("Primary GPU mismatch");
+                return false;
+            }
+        }
+        
+        // Check rank match if enforced
+        if (config.enforce_rank_match) {
+            if (lora->rank != first->rank) {
+                spdlog::debug("Rank mismatch: {} vs {}", first->rank, lora->rank);
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+void MultiLoRAManager::updateFusionMetrics(
+    const std::string& fusion_id,
+    double fusion_time_ms
+) {
+    // Already locked by caller or doesn't need lock for simple counters
+    
+    auto it = fusion_cache_.find(fusion_id);
+    if (it != fusion_cache_.end()) {
+        // Update cache entry timing
+        it->second.avg_inference_time_ms = fusion_time_ms;
+    }
+}
+
+void MultiLoRAManager::updateInferenceMetrics(
+    const std::string& fusion_id,
+    double inference_time_ms
+) {
+    // Already locked by caller
+    
+    auto it = fusion_cache_.find(fusion_id);
+    if (it != fusion_cache_.end()) {
+        size_t count = it->second.inference_count;
+        double prev_avg = it->second.avg_inference_time_ms;
+        
+        // Update running average
+        it->second.avg_inference_time_ms = 
+            (prev_avg * count + inference_time_ms) / (count + 1);
+        it->second.inference_count++;
+    }
 }
 
 } // namespace llm

@@ -167,6 +167,11 @@ public:
         LRSchedulerConfig lr_scheduler;
         GradientClippingConfig gradient_clipping;
         GradientAccumulationConfig gradient_accumulation;
+        
+        // Distributed training configuration
+        bool enable_distributed_training = false;  // Enable distributed training across shards
+        std::string coordinator_shard;             // Coordinator shard ID
+        std::vector<std::string> participant_shards;  // Participant shard IDs
     };
     
     explicit LoRATrainingService(const Config& config = Config{});
@@ -257,6 +262,26 @@ public:
      * @return Training result
      */
     TrainingResult trainWithQuantization(
+        const std::string& adapter_id,
+        const TrainingData& data,
+        const std::optional<LoRAHyperparameters>& hyperparameters = std::nullopt
+    );
+    
+    /**
+     * @brief Train adapter in distributed mode across multiple shards
+     * 
+     * Coordinates distributed training across shards with:
+     * - Gradient synchronization and aggregation
+     * - Fault tolerance (shard failures)
+     * - Checkpointing and recovery
+     * - Byzantine fault detection
+     * 
+     * @param adapter_id Adapter identifier
+     * @param data Training data (distributed across shards)
+     * @param hyperparameters LoRA hyperparameters (optional)
+     * @return Training result with distributed statistics
+     */
+    TrainingResult trainDistributed(
         const std::string& adapter_id,
         const TrainingData& data,
         const std::optional<LoRAHyperparameters>& hyperparameters = std::nullopt

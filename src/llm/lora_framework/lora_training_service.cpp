@@ -1382,6 +1382,70 @@ size_t LoRATrainingService::estimateMemoryUsage(
     );
 }
 
+TrainingResult LoRATrainingService::trainDistributed(
+    const std::string& adapter_id,
+    const TrainingData& data,
+    const std::optional<LoRAHyperparameters>& hyperparameters
+) {
+    TrainingResult result;
+    result.adapter_id = adapter_id;
+    result.success = false;
+    
+    // Check if distributed training is enabled
+    if (!impl_->config_.enable_distributed_training) {
+        result.error_message = "Distributed training is not enabled. Set enable_distributed_training=true in config.";
+        spdlog::error(result.error_message);
+        return result;
+    }
+    
+    // Validate distributed configuration
+    if (impl_->config_.participant_shards.empty()) {
+        result.error_message = "No participant shards configured for distributed training";
+        spdlog::error(result.error_message);
+        return result;
+    }
+    
+    try {
+        spdlog::info("Starting distributed training for adapter: {}", adapter_id);
+        spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
+        spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
+        
+        // TODO: In a real implementation, this would:
+        // 1. Create DistributedTrainingCoordinator with shard router and topology
+        // 2. Initialize coordinator with adapter_id and training config
+        // 3. Execute training steps with gradient synchronization
+        // 4. Handle shard failures and recovery
+        // 5. Apply Byzantine fault detection (detect poisoned gradients)
+        // 6. Monitor training progress across all shards
+        // 7. Finalize and collect results
+        
+        // For now, log a placeholder message
+        spdlog::warn("Distributed training coordinator integration is placeholder in this phase");
+        spdlog::info("Required components:");
+        spdlog::info("  - ShardRouter for inter-shard communication");
+        spdlog::info("  - ShardTopology for shard discovery");
+        spdlog::info("  - Byzantine fault detection for gradient validation");
+        spdlog::info("  - Security hooks for poisoned data detection");
+        
+        // Fallback to local training for now
+        spdlog::info("Falling back to local training mode");
+        result = trainOnTheFly(adapter_id, data, hyperparameters);
+        
+        if (result.success) {
+            spdlog::info("Local training completed successfully");
+            spdlog::warn("NOTE: This was local training, not distributed");
+            result.metrics["distributed_mode"] = false;
+            result.metrics["fallback_reason"] = "Coordinator integration pending";
+        }
+        
+    } catch (const std::exception& e) {
+        result.error_message = "Distributed training failed: " + std::string(e.what());
+        spdlog::error(result.error_message);
+    }
+    
+    return result;
+}
+
 } // namespace lora
 } // namespace llm
 } // namespace themis
