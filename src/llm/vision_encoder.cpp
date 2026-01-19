@@ -233,8 +233,8 @@ std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
         size_t embedding_size = getTotalEmbeddingSize();
         std::vector<float> embeddings(embedding_size, 0.0f);
         
-        // Use configurable thread count from config (default to verbosity as a proxy, or 4)
-        int n_threads = verbosity_ > 0 ? 4 : 4;  // TODO: Make this properly configurable
+        // Use 4 threads by default - TODO: Make this properly configurable from config
+        int n_threads = 4;
         if (!clip_image_encode(clip_ctx_, n_threads, img_f32, embeddings.data())) {
             clip_image_f32_free(img_f32);
             clip_image_u8_free(img_u8);

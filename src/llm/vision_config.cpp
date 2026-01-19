@@ -470,7 +470,7 @@ bool VisionConfig::validateModelUsage(const std::string& model_id, bool is_comme
 
 std::string VisionConfig::getRequiredAttribution(const std::string& model_id) const {
     auto it = models_.find(model_id);
-    if (it != models_.end()) {
+    if (it != models_.end() && it->second) {
         return it->second->attribution;
     }
     return "";

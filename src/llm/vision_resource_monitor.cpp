@@ -434,6 +434,8 @@ void VisionResourceMonitor::updateVRAMUsage(size_t vram_mb) {
 }
 
 void VisionResourceMonitor::registerModelLoad(const std::string& model_id, size_t memory_mb, size_t vram_mb) {
+    size_t model_count = 0;
+    
     {
         std::lock_guard<std::mutex> lock(models_mutex_);
         ModelInfo info;
@@ -442,11 +444,12 @@ void VisionResourceMonitor::registerModelLoad(const std::string& model_id, size_
         info.vram_mb = vram_mb;
         info.load_time = std::chrono::steady_clock::now();
         loaded_models_[model_id] = info;
+        model_count = loaded_models_.size();
     }
     
     {
         std::lock_guard<std::mutex> lock(usage_mutex_);
-        usage_.loaded_models = loaded_models_.size();
+        usage_.loaded_models = model_count;
     }
     
     updateMemoryUsage(usage_.current_memory_mb + memory_mb);
@@ -460,6 +463,7 @@ void VisionResourceMonitor::registerModelLoad(const std::string& model_id, size_
 void VisionResourceMonitor::registerModelUnload(const std::string& model_id) {
     size_t memory_mb = 0;
     size_t vram_mb = 0;
+    size_t model_count = 0;
     
     {
         std::lock_guard<std::mutex> lock(models_mutex_);
@@ -469,11 +473,12 @@ void VisionResourceMonitor::registerModelUnload(const std::string& model_id) {
             vram_mb = it->second.vram_mb;
             loaded_models_.erase(it);
         }
+        model_count = loaded_models_.size();
     }
     
     {
         std::lock_guard<std::mutex> lock(usage_mutex_);
-        usage_.loaded_models = loaded_models_.size();
+        usage_.loaded_models = model_count;
     }
     
     if (memory_mb > 0 && usage_.current_memory_mb >= memory_mb) {
