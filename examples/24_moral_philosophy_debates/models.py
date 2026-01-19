@@ -43,6 +43,17 @@ class PhilosophySchool(Enum):
     ERROR_THEORY = "error_theory"  # Mackie - all moral claims are false
     EXPRESSIVISM = "expressivism"  # Moral statements express attitudes
     PRESCRIPTIVISM = "prescriptivism"  # Hare - moral judgments are prescriptions
+    
+    # Historical Schools
+    STOICISM = "stoicism"  # Stoic ethics - Seneca, Epictetus, Marcus Aurelius
+    EPICUREANISM = "epicureanism"  # Epicurean ethics - pleasure as absence of pain
+    CHRISTIAN_ETHICS = "christian_ethics"  # Augustine, Aquinas
+    CONFUCIANISM = "confucianism"  # Confucian ethics
+    BUDDHIST_ETHICS = "buddhist_ethics"  # Buddhist ethics
+    
+    # Modern Developments
+    NATURALISM = "naturalism"  # Moral properties are natural properties
+    INTUITIONISM = "intuitionism"  # Moore, Ross - moral intuition
 
 
 class ArgumentDimension(Enum):
@@ -643,5 +654,105 @@ PHILOSOPHY_PROFILES = {
         ],
         decision_framework="Make prescriptions you're willing to universalize and apply even if you were in others' positions",
         example_application="'Lying is wrong' means 'Don't lie!' - a universal prescription for all similar situations"
+    ),
+    
+    # Historical Schools
+    PhilosophySchool.STOICISM: PhilosophyProfile(
+        school=PhilosophySchool.STOICISM,
+        name="Stoicism",
+        philosopher_name="Seneca",
+        description="Ancient philosophy emphasizing virtue, reason, and acceptance of what we cannot control",
+        core_principles=[
+            "Live according to nature and reason (logos)",
+            "Virtue is the only true good",
+            "Control what you can control (your judgments), accept what you cannot",
+            "Apatheia - freedom from destructive passions through reason"
+        ],
+        decision_framework="Distinguish what is in your control from what is not; act virtuously on what you control",
+        example_application="Focus on your character and choices, not on external events beyond your control"
+    ),
+    PhilosophySchool.EPICUREANISM: PhilosophyProfile(
+        school=PhilosophySchool.EPICUREANISM,
+        name="Epicureanism",
+        philosopher_name="Epikur",
+        description="Philosophy aiming at ataraxia (tranquility) through moderate pleasure and absence of pain",
+        core_principles=[
+            "Pleasure (hedone) as absence of pain (aponia) and mental disturbance (ataraxia)",
+            "Simple pleasures are best - avoid excessive desires",
+            "Death is nothing to fear - annihilation means no suffering",
+            "Friendship and philosophy lead to happiness"
+        ],
+        decision_framework="Seek simple pleasures, avoid pain, cultivate friendships, and practice philosophy",
+        example_application="Choose modest pleasures that don't lead to greater pain; a simple meal with friends over luxury"
+    ),
+    PhilosophySchool.CHRISTIAN_ETHICS: PhilosophyProfile(
+        school=PhilosophySchool.CHRISTIAN_ETHICS,
+        name="Christian Ethics",
+        philosopher_name="Thomas von Aquin",
+        description="Ethics based on divine command, natural law, and virtues grounded in God's will",
+        core_principles=[
+            "Love of God and neighbor (agape)",
+            "Natural law - reason reflects God's eternal law",
+            "Theological virtues: faith, hope, charity",
+            "Human dignity as image of God (imago Dei)"
+        ],
+        decision_framework="Seek God's will through scripture, reason, and natural law; act with love",
+        example_application="The moral law is knowable through reason and revelation; loving one's neighbor is paramount"
+    ),
+    PhilosophySchool.CONFUCIANISM: PhilosophyProfile(
+        school=PhilosophySchool.CONFUCIANISM,
+        name="Confucianism",
+        philosopher_name="Konfuzius",
+        description="Ethical system emphasizing social harmony, ritual propriety, and cultivation of virtue",
+        core_principles=[
+            "Ren (humaneness/benevolence) - care for others",
+            "Li (ritual propriety) - proper conduct in social roles",
+            "Filial piety (xiao) - respect for parents and ancestors",
+            "Junzi (exemplary person) - cultivated moral character"
+        ],
+        decision_framework="Cultivate virtue through learning, ritual, and fulfilling social roles properly",
+        example_application="Act according to your social role with benevolence, maintaining harmony through proper conduct"
+    ),
+    PhilosophySchool.BUDDHIST_ETHICS: PhilosophyProfile(
+        school=PhilosophySchool.BUDDHIST_ETHICS,
+        name="Buddhist Ethics",
+        philosopher_name="Buddha",
+        description="Ethics aimed at ending suffering through the Noble Eightfold Path and compassion",
+        core_principles=[
+            "Four Noble Truths - suffering, its cause, its cessation, the path",
+            "Eightfold Path - right view, intention, speech, action, livelihood, effort, mindfulness, concentration",
+            "Compassion (karuna) and loving-kindness (metta) for all beings",
+            "Non-harm (ahimsa) - avoid causing suffering"
+        ],
+        decision_framework="Follow the Eightfold Path, practice compassion, minimize harm to all sentient beings",
+        example_application="Act with mindfulness and compassion to reduce suffering for yourself and others"
+    ),
+    PhilosophySchool.NATURALISM: PhilosophyProfile(
+        school=PhilosophySchool.NATURALISM,
+        name="Ethical Naturalism",
+        philosopher_name="Philippa Foot",
+        description="Moral properties are natural properties; ethics can be grounded in human nature and flourishing",
+        core_principles=[
+            "Moral facts are natural facts about human well-being",
+            "Ethics based on human nature and function",
+            "Virtues are traits that promote human flourishing",
+            "No 'naturalistic fallacy' - 'ought' can derive from 'is'"
+        ],
+        decision_framework="Analyze human nature and needs to determine what promotes flourishing",
+        example_application="Courage is a virtue because humans with this trait genuinely flourish better"
+    ),
+    PhilosophySchool.INTUITIONISM: PhilosophyProfile(
+        school=PhilosophySchool.INTUITIONISM,
+        name="Ethical Intuitionism",
+        philosopher_name="W.D. Ross",
+        description="Moral truths are self-evident and known through rational intuition",
+        core_principles=[
+            "Prima facie duties are intuitively known",
+            "Moral properties are non-natural but knowable",
+            "Rational intuition grasps moral truths",
+            "Multiple duties may conflict - requires judgment"
+        ],
+        decision_framework="Intuit prima facie duties, weigh them in context, and act on strongest duty",
+        example_application="We intuitively know promise-keeping is a duty, but it may be overridden by preventing great harm"
     )
 }

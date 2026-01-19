@@ -81,7 +81,15 @@ class PhilosophyChatApp:
             "A.J. Ayer": "#fd79a8",
             "J.L. Mackie": "#636e72",
             "Simon Blackburn": "#00b894",
-            "R.M. Hare": "#fdcb6e"
+            "R.M. Hare": "#fdcb6e",
+            # Historical Schools
+            "Seneca": "#b8860b",
+            "Epikur": "#dda15e",
+            "Thomas von Aquin": "#8b4513",
+            "Konfuzius": "#dc143c",
+            "Buddha": "#ff6347",
+            "Philippa Foot": "#20b2aa",
+            "W.D. Ross": "#9b59b6"
         }
         
         # Create UI
@@ -497,7 +505,8 @@ class PhilosophyChatApp:
                     PhilosophySchool.KANT,
                     PhilosophySchool.UTILITARIANISM,
                     PhilosophySchool.VIRTUE_ETHICS,
-                    PhilosophySchool.SOCRATIC
+                    PhilosophySchool.SOCRATIC,
+                    PhilosophySchool.STOICISM
                 ])
             if has_theoretical:
                 philosophies.extend([
@@ -508,8 +517,9 @@ class PhilosophyChatApp:
             if has_metaethical:
                 philosophies.extend([
                     PhilosophySchool.MORAL_REALISM,
-                    PhilosophySchool.MORAL_ANTI_REALISM,
-                    PhilosophySchool.PRESCRIPTIVISM
+                    PhilosophySchool.INTUITIONISM,
+                    PhilosophySchool.PRESCRIPTIVISM,
+                    PhilosophySchool.NATURALISM
                 ])
             
             # If multiple categories, limit to avoid too many participants
@@ -517,8 +527,9 @@ class PhilosophyChatApp:
                 philosophies = [
                     PhilosophySchool.SOCRATIC,
                     PhilosophySchool.KANT,
-                    PhilosophySchool.MORAL_REALISM,
-                    PhilosophySchool.PRESCRIPTIVISM
+                    PhilosophySchool.UTILITARIANISM,
+                    PhilosophySchool.STOICISM,
+                    PhilosophySchool.MORAL_REALISM
                 ]
             
             session = self.chat_manager.start_debate_chat(
