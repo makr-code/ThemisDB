@@ -143,6 +143,10 @@ struct AdapterMetadata {
     json custom_metadata;
     uint32_t encryption_key_version = 0;  // KEK version used for encryption (0 = unencrypted or latest)
     
+    // Cross-shard sync fields
+    std::string checksum;                  // SHA-256 checksum for integrity
+    std::string signature;                 // Digital signature for authenticity
+    
     json toJSON() const {
         auto created_time_t = std::chrono::system_clock::to_time_t(created_at);
         auto updated_time_t = std::chrono::system_clock::to_time_t(updated_at);
@@ -157,7 +161,9 @@ struct AdapterMetadata {
             {"created_at", created_time_t},
             {"updated_at", updated_time_t},
             {"custom_metadata", custom_metadata},
-            {"encryption_key_version", encryption_key_version}
+            {"encryption_key_version", encryption_key_version},
+            {"checksum", checksum},
+            {"signature", signature}
         };
     }
     
@@ -179,6 +185,8 @@ struct AdapterMetadata {
         }
         if (j.contains("custom_metadata")) metadata.custom_metadata = j["custom_metadata"];
         if (j.contains("encryption_key_version")) metadata.encryption_key_version = j["encryption_key_version"];
+        if (j.contains("checksum")) metadata.checksum = j["checksum"];
+        if (j.contains("signature")) metadata.signature = j["signature"];
         return metadata;
     }
 };

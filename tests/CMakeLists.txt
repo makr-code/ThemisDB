@@ -760,6 +760,56 @@ else()
 endif()
 
 # ============================================================================
+# Adapter Sync and Cross-Shard Consistency Tests (NEW)
+# ============================================================================
+
+if(THEMIS_ENABLE_LORA_TESTS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adapter_sync.cpp")
+        message(STATUS "Adding adapter sync and consistency tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_adapter_sync
+            test_adapter_sync.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/adapter_consistency_checker.cpp
+            ${CMAKE_SOURCE_DIR}/src/llm/lora_framework/adapter_sync_manager.cpp
+        )
+        
+        target_link_libraries(test_adapter_sync PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_adapter_sync PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        # Add to CTest
+        add_test(NAME AdapterSyncTests COMMAND test_adapter_sync)
+        
+        # Set test properties
+        set_tests_properties(AdapterSyncTests PROPERTIES
+            LABELS "lora;llm;sync;consistency;sharding;raid"
+            TIMEOUT 300
+        )
+        
+        message(STATUS "  - Adapter sync tests: automatic cross-shard synchronization")
+        message(STATUS "    * Consistency checking (checksum, signature)")
+        message(STATUS "    * Version comparison and conflict resolution")
+        message(STATUS "    * Multi-shard replication")
+        message(STATUS "    * Failure scenarios and recovery")
+        message(STATUS "    * RAID integration tests")
+    else()
+        message(STATUS "Adapter sync tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adapter_sync.cpp")
+    endif()
+else()
+    message(STATUS "Adapter sync tests disabled (THEMIS_ENABLE_LORA_TESTS=OFF)")
+endif()
+
+# ============================================================================
 # QLoRA Quantization Tests
 # ============================================================================
 
