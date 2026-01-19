@@ -10,6 +10,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <string>
+#include "utils/expected.h"
 
 // RocksDB forward declarations
 // Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
@@ -431,8 +432,10 @@ public:
     // ===== Column Family Management =====
     
     /// Create or open a column family
-    /// @return Column family handle (owned by DB, don't delete)
-    rocksdb::ColumnFamilyHandle* getOrCreateColumnFamily(const std::string& cf_name);
+    /// @return Result containing column family handle (owned by DB, don't delete) or error
+    /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
+    /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
+    Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
     
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
