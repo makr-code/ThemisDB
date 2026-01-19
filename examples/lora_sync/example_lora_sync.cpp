@@ -138,8 +138,8 @@ int main() {
         AdapterMetadata metadata;
         metadata.adapter_id = adapter_id;
         metadata.base_model = "llama-2-7b";
-        metadata.version = 1;
-        metadata.created_at = std::chrono::system_clock::now().time_since_epoch().count();
+        metadata.version = "1.0.0";
+        metadata.created_at = std::chrono::system_clock::now();
         metadata.updated_at = metadata.created_at;
         metadata.checksum = consistency_checker->calculateChecksum(weights.data);
         metadata.signature = consistency_checker->generateSignature(weights.data);

@@ -92,7 +92,7 @@ TEST_F(AdapterConsistencyCheckerTest, CheckAdapterInvalidChecksum) {
     
     AdapterMetadata metadata;
     metadata.adapter_id = "test_adapter";
-    metadata.version = 1;
+    metadata.version = "1";
     metadata.checksum = "invalid_checksum";
     
     auto result = checker_->checkAdapter("test_adapter", data, metadata);
@@ -103,11 +103,11 @@ TEST_F(AdapterConsistencyCheckerTest, CheckAdapterInvalidChecksum) {
 
 TEST_F(AdapterConsistencyCheckerTest, CompareVersions) {
     ConsistencyCheckResult local;
-    local.version = 1;
+    local.version = "1";
     local.timestamp = 1000;
     
     ConsistencyCheckResult remote;
-    remote.version = 2;
+    remote.version = "2";
     remote.timestamp = 2000;
     
     EXPECT_EQ(checker_->compareVersions(local, remote), -1);  // local < remote
@@ -117,11 +117,11 @@ TEST_F(AdapterConsistencyCheckerTest, CompareVersions) {
 
 TEST_F(AdapterConsistencyCheckerTest, CompareVersionsSameVersionDifferentTimestamp) {
     ConsistencyCheckResult local;
-    local.version = 1;
+    local.version = "1";
     local.timestamp = 1000;
     
     ConsistencyCheckResult remote;
-    remote.version = 1;
+    remote.version = "1";
     remote.timestamp = 2000;
     
     EXPECT_EQ(checker_->compareVersions(local, remote), -1);  // local < remote (by timestamp)
@@ -129,16 +129,16 @@ TEST_F(AdapterConsistencyCheckerTest, CompareVersionsSameVersionDifferentTimesta
 
 TEST_F(AdapterConsistencyCheckerTest, ResolveConflictNewerWins) {
     ConsistencyCheckResult local;
-    local.version = 1;
+    local.version = "1";
     local.timestamp = 1000;
     
     ConsistencyCheckResult remote;
-    remote.version = 2;
+    remote.version = "2";
     remote.timestamp = 2000;
     
     auto winner = checker_->resolveConflict(local, remote);
     
-    EXPECT_EQ(winner.version, 2);  // Remote wins (newer)
+    EXPECT_EQ(winner.version, "2");  // Remote wins (newer)
     EXPECT_EQ(winner.timestamp, 2000);
 }
 
@@ -298,8 +298,8 @@ TEST(AdapterSyncIntegrationTest, FullSyncWorkflow) {
     AdapterMetadata metadata;
     metadata.adapter_id = "test_adapter";
     metadata.base_model = "llama-2-7b";
-    metadata.version = 1;
-    metadata.updated_at = std::chrono::system_clock::now().time_since_epoch().count();
+    metadata.version = "1";
+    metadata.updated_at = std::chrono::system_clock::now();
     metadata.checksum = consistency_checker->calculateChecksum(weights.data);
     
     // Save adapter
@@ -311,7 +311,7 @@ TEST(AdapterSyncIntegrationTest, FullSyncWorkflow) {
     // Check sync status
     auto status = sync_manager->getSyncStatus("test_adapter");
     EXPECT_TRUE(status.is_synced);
-    EXPECT_EQ(status.local_version, 1);
+    EXPECT_EQ(status.local_version, "1");
     EXPECT_EQ(status.sync_failure_count, 0);
     
     // Get stats
