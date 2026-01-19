@@ -361,8 +361,8 @@ class BenchmarkReportGenerator:
         
         return analysis
     
-    def generate_report(self, output_json: str, output_md: str) -> bool:
-        """Generate comprehensive benchmark report"""
+    def generate_report(self, output_json: str, output_md: str, output_html: str = None, output_latex: str = None) -> bool:
+        """Generate comprehensive benchmark report in multiple formats"""
         print("\n=== Analyzing Benchmark Results ===\n")
         
         # Analyze all benchmark categories
@@ -416,7 +416,242 @@ class BenchmarkReportGenerator:
             print(f"✗ Failed to save Markdown report: {e}")
             return False
         
+        # Generate HTML report if requested
+        if output_html:
+            if not self.export_html(output_html, full_report):
+                print("⚠ HTML export failed, continuing...")
+        
+        # Generate LaTeX report if requested
+        if output_latex:
+            if not self.export_latex(output_latex, full_report):
+                print("⚠ LaTeX export failed, continuing...")
+        
         return True
+    
+    def _generate_scientific_references(self) -> str:
+        """Generate scientific references section for reports"""
+        refs = []
+        refs.append("\n## Scientific References\n")
+        refs.append("\nThis benchmark suite is based on established scientific standards and methodologies.\n")
+        refs.append("For complete scientific foundation documentation, see: `docs/benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md`\n")
+        
+        refs.append("\n### Benchmark Standards\n")
+        refs.append("\n")
+        refs.append("[1] Cooper, B.F., et al. (2010). Benchmarking cloud serving systems with YCSB. ")
+        refs.append("*Proc. 1st ACM Symp. Cloud Comput. (SoCC)*, 143-154.\n\n")
+        refs.append("[2] Transaction Processing Performance Council. (2010). TPC Benchmark C Standard Specification. ")
+        refs.append("http://www.tpc.org/tpcc/\n\n")
+        refs.append("[3] Transaction Processing Performance Council. (2014). TPC Benchmark H Standard Specification. ")
+        refs.append("http://www.tpc.org/tpch/\n\n")
+        refs.append("[7] Kwon, W., et al. (2023). Efficient memory management for large language model serving with PagedAttention. ")
+        refs.append("*Proc. 29th ACM Symp. Operating Syst. Principles (SOSP)*, 611-626.\n\n")
+        
+        refs.append("### Statistical Methods\n")
+        refs.append("\n")
+        refs.append("[11] Cohen, J. (1988). *Statistical Power Analysis for the Behavioral Sciences* (2nd ed.). ")
+        refs.append("Lawrence Erlbaum Associates.\n\n")
+        refs.append("[12] Montgomery, D.C. (2017). *Design and Analysis of Experiments* (9th ed.). ")
+        refs.append("John Wiley & Sons.\n\n")
+        
+        refs.append("### Reproducibility Standards\n")
+        refs.append("\n")
+        refs.append("[13] ACM Publications Board. (2020). Artifact Review and Badging. ")
+        refs.append("https://www.acm.org/publications/policies/artifact-review-and-badging-current\n\n")
+        
+        refs.append("\n**BibTeX**: See `docs/benchmarks/references.bib` for complete bibliography in BibTeX format.\n")
+        
+        return "".join(refs)
+    
+    def _generate_html_references(self) -> str:
+        """Generate HTML formatted references section"""
+        html = []
+        html.append('\n<div class="appendix">\n')
+        html.append('<h2>Scientific References</h2>\n')
+        html.append('<p>This benchmark suite is based on established scientific standards and methodologies.</p>\n')
+        html.append('<p>For complete documentation, see: <code>docs/benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md</code></p>\n')
+        
+        html.append('<h3>Benchmark Standards</h3>\n')
+        html.append('<ol class="references">\n')
+        html.append('<li>Cooper, B.F., et al. (2010). Benchmarking cloud serving systems with YCSB. ')
+        html.append('<em>Proc. 1st ACM Symp. Cloud Comput. (SoCC)</em>, 143-154.</li>\n')
+        html.append('<li>Transaction Processing Performance Council. (2010). TPC Benchmark C Standard Specification. ')
+        html.append('<a href="http://www.tpc.org/tpcc/">http://www.tpc.org/tpcc/</a></li>\n')
+        html.append('<li>Transaction Processing Performance Council. (2014). TPC Benchmark H Standard Specification. ')
+        html.append('<a href="http://www.tpc.org/tpch/">http://www.tpc.org/tpch/</a></li>\n')
+        html.append('<li value="7">Kwon, W., et al. (2023). Efficient memory management for large language model serving with PagedAttention. ')
+        html.append('<em>Proc. 29th ACM Symp. Operating Syst. Principles (SOSP)</em>, 611-626.</li>\n')
+        html.append('</ol>\n')
+        
+        html.append('<h3>Statistical Methods</h3>\n')
+        html.append('<ol class="references" start="11">\n')
+        html.append('<li>Cohen, J. (1988). <em>Statistical Power Analysis for the Behavioral Sciences</em> (2nd ed.). ')
+        html.append('Lawrence Erlbaum Associates.</li>\n')
+        html.append('<li>Montgomery, D.C. (2017). <em>Design and Analysis of Experiments</em> (9th ed.). ')
+        html.append('John Wiley &amp; Sons.</li>\n')
+        html.append('</ol>\n')
+        
+        html.append('<h3>Reproducibility Standards</h3>\n')
+        html.append('<ol class="references" start="13">\n')
+        html.append('<li>ACM Publications Board. (2020). Artifact Review and Badging. ')
+        html.append('<a href="https://www.acm.org/publications/policies/artifact-review-and-badging-current">')
+        html.append('https://www.acm.org/publications/policies/artifact-review-and-badging-current</a></li>\n')
+        html.append('</ol>\n')
+        
+        html.append('<p><strong>BibTeX</strong>: See <code>docs/benchmarks/references.bib</code> ')
+        html.append('for complete bibliography in BibTeX format.</p>\n')
+        html.append('</div>\n')
+        
+        return "".join(html)
+    
+    def _generate_latex_references(self) -> str:
+        """Generate LaTeX formatted references section"""
+        latex = []
+        latex.append('\n\\section{References}\n\n')
+        latex.append('This benchmark suite is based on established scientific standards and methodologies. ')
+        latex.append('For complete documentation, see: \\texttt{docs/benchmarks/CHIMERA\\_SCIENTIFIC\\_FOUNDATION.md}\n\n')
+        
+        latex.append('\\subsection{Benchmark Standards}\n\n')
+        latex.append('\\begin{thebibliography}{99}\n\n')
+        
+        latex.append('\\bibitem{cooper2010ycsb}\n')
+        latex.append('B.F.~Cooper, A.~Silberstein, E.~Tam, R.~Ramakrishnan, and R.~Sears,\n')
+        latex.append('``Benchmarking cloud serving systems with YCSB,\'\'\n')
+        latex.append('in \\emph{Proceedings of the 1st ACM Symposium on Cloud Computing (SoCC)},\n')
+        latex.append('Indianapolis, IN, USA, Jun. 2010, pp. 143--154.\n\n')
+        
+        latex.append('\\bibitem{tpcc2010}\n')
+        latex.append('Transaction Processing Performance Council,\n')
+        latex.append('``TPC Benchmark C Standard Specification, Revision 5.11,\'\' 2010.\n')
+        latex.append('[Online]. Available: \\url{http://www.tpc.org/tpcc/}\n\n')
+        
+        latex.append('\\bibitem{kwon2023vllm}\n')
+        latex.append('W.~Kwon, Z.~Li, S.~Zhuang, Y.~Sheng, L.~Zheng, C.H.~Yu, J.~Gonzalez, H.~Zhang, and I.~Stoica,\n')
+        latex.append('``Efficient memory management for large language model serving with PagedAttention,\'\'\n')
+        latex.append('in \\emph{Proc. 29th ACM Symp. Operating Syst. Principles (SOSP)},\n')
+        latex.append('Koblenz, Germany, Oct. 2023, pp. 611--626.\n\n')
+        
+        latex.append('\\bibitem{cohen1988statistical}\n')
+        latex.append('J.~Cohen,\n')
+        latex.append('\\emph{Statistical Power Analysis for the Behavioral Sciences}, 2nd~ed.\n')
+        latex.append('Hillsdale, NJ, USA: Lawrence Erlbaum Associates, 1988.\n\n')
+        
+        latex.append('\\bibitem{montgomery2017design}\n')
+        latex.append('D.C.~Montgomery,\n')
+        latex.append('\\emph{Design and Analysis of Experiments}, 9th~ed.\n')
+        latex.append('Hoboken, NJ, USA: John Wiley \\& Sons, 2017.\n\n')
+        
+        latex.append('\\bibitem{acm2020badging}\n')
+        latex.append('ACM Publications Board,\n')
+        latex.append('``Artifact Review and Badging,\'\' 2020.\n')
+        latex.append('[Online]. Available: \\url{https://www.acm.org/publications/policies/artifact-review-and-badging-current}\n\n')
+        
+        latex.append('\\end{thebibliography}\n\n')
+        latex.append('\\textbf{Note}: For complete bibliography in BibTeX format, ')
+        latex.append('see \\texttt{docs/benchmarks/references.bib}.\n')
+        
+        return "".join(latex)
+    
+    def export_html(self, output_file: str, report: Dict) -> bool:
+        """Export benchmark report to HTML format with IEEE citations"""
+        try:
+            html = []
+            html.append('<!DOCTYPE html>\n')
+            html.append('<html lang="en">\n')
+            html.append('<head>\n')
+            html.append('  <meta charset="UTF-8">\n')
+            html.append('  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n')
+            html.append('  <title>GPU Training Performance Benchmark Report</title>\n')
+            html.append('  <style>\n')
+            html.append('    body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }\n')
+            html.append('    h1 { color: #333; border-bottom: 2px solid #0066cc; }\n')
+            html.append('    h2 { color: #0066cc; margin-top: 30px; }\n')
+            html.append('    h3 { color: #333; }\n')
+            html.append('    .summary { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }\n')
+            html.append('    .target { margin: 10px 0; }\n')
+            html.append('    .status { font-weight: bold; }\n')
+            html.append('    .pass { color: #28a745; }\n')
+            html.append('    .pending { color: #ffc107; }\n')
+            html.append('    .appendix { margin-top: 50px; border-top: 2px solid #ccc; padding-top: 20px; }\n')
+            html.append('    .references { line-height: 1.8; }\n')
+            html.append('    .references li { margin-bottom: 10px; }\n')
+            html.append('    code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }\n')
+            html.append('  </style>\n')
+            html.append('</head>\n')
+            html.append('<body>\n')
+            
+            html.append('<h1>GPU Training Performance Benchmark Report</h1>\n')
+            html.append(f'<p><strong>Generated:</strong> {report["metadata"]["generated_at"]}</p>\n')
+            html.append(f'<p class="status"><strong>Status:</strong> ')
+            html.append(f'<span class="{report["summary"]["status"].lower()}">{report["summary"]["status"]}</span></p>\n')
+            
+            html.append('<div class="summary">\n')
+            html.append('<h2>Executive Summary</h2>\n')
+            html.append('<h3>Performance Targets</h3>\n')
+            for target_name, target_data in report['summary']['performance_targets'].items():
+                target = target_data.get('target', 'N/A')
+                achieved = target_data.get('achieved', 'N/A')
+                status_class = "pass" if achieved and achieved != "N/A" else "pending"
+                html.append(f'<div class="target">\n')
+                html.append(f'  <strong>{target_name.replace("_", " ").title()}</strong><br>\n')
+                html.append(f'  Target: {target}<br>\n')
+                html.append(f'  Achieved: <span class="{status_class}">{achieved}</span>\n')
+                html.append('</div>\n')
+            html.append('</div>\n')
+            
+            # Append scientific references
+            html.append(self._generate_html_references())
+            
+            html.append('</body>\n')
+            html.append('</html>\n')
+            
+            with open(output_file, 'w') as f:
+                f.write("".join(html))
+            print(f"✓ HTML report exported to: {output_file}")
+            return True
+        except Exception as e:
+            print(f"✗ Failed to export HTML report: {e}")
+            return False
+    
+    def export_latex(self, output_file: str, report: Dict) -> bool:
+        """Export benchmark report to LaTeX format with IEEE bibliography"""
+        try:
+            latex = []
+            latex.append('\\documentclass[11pt,a4paper]{article}\n')
+            latex.append('\\usepackage[utf8]{inputenc}\n')
+            latex.append('\\usepackage{hyperref}\n')
+            latex.append('\\usepackage{graphicx}\n')
+            latex.append('\\usepackage{booktabs}\n')
+            latex.append('\\title{GPU Training Performance Benchmark Report}\n')
+            latex.append('\\author{ThemisDB Team}\n')
+            latex.append(f'\\date{{{report["metadata"]["generated_at"]}}}\n\n')
+            latex.append('\\begin{document}\n\n')
+            latex.append('\\maketitle\n\n')
+            
+            latex.append('\\section{Executive Summary}\n\n')
+            latex.append(f'\\textbf{{Status:}} {report["summary"]["status"]}\n\n')
+            
+            latex.append('\\subsection{Performance Targets}\n\n')
+            latex.append('\\begin{itemize}\n')
+            for target_name, target_data in report['summary']['performance_targets'].items():
+                target = target_data.get('target', 'N/A')
+                achieved = target_data.get('achieved', 'N/A')
+                latex.append(f'  \\item \\textbf{{{target_name.replace("_", " ").title()}}}:\\\\\n')
+                latex.append(f'        Target: {target}\\\\\n')
+                latex.append(f'        Achieved: {achieved}\n')
+            latex.append('\\end{itemize}\n\n')
+            
+            # Append scientific references
+            latex.append(self._generate_latex_references())
+            
+            latex.append('\\end{document}\n')
+            
+            with open(output_file, 'w') as f:
+                f.write("".join(latex))
+            print(f"✓ LaTeX report exported to: {output_file}")
+            return True
+        except Exception as e:
+            print(f"✗ Failed to export LaTeX report: {e}")
+            return False
     
     def _generate_markdown(self, report: Dict) -> str:
         """Generate Markdown report from benchmark results"""
@@ -473,25 +708,38 @@ class BenchmarkReportGenerator:
         md.append("\n---\n")
         md.append("*Generated by GPU Training Benchmark Suite*\n")
         
+        # Append scientific references
+        md.append(self._generate_scientific_references())
+        
         return "".join(md)
 
 
 def main():
     """Main entry point"""
     if len(sys.argv) < 2:
-        print("Usage: generate_benchmark_report.py <benchmark_results.json> [output_dir]")
+        print("Usage: generate_benchmark_report.py <benchmark_results.json> [output_dir] [--html] [--latex]")
         print("\nExample:")
         print("  python3 generate_benchmark_report.py benchmark_results.json ./reports")
+        print("  python3 generate_benchmark_report.py benchmark_results.json ./reports --html --latex")
+        print("\nOptions:")
+        print("  --html   Generate HTML report with IEEE citations")
+        print("  --latex  Generate LaTeX report with bibliography")
         sys.exit(1)
     
     input_file = sys.argv[1]
-    output_dir = sys.argv[2] if len(sys.argv) > 2 else "."
+    output_dir = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--') else "."
+    
+    # Check for format flags
+    generate_html = '--html' in sys.argv
+    generate_latex = '--latex' in sys.argv
     
     # Create output directory if needed
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
     output_json = os.path.join(output_dir, "gpu_training_benchmark_report.json")
     output_md = os.path.join(output_dir, "GPU_TRAINING_BENCHMARK_REPORT.md")
+    output_html = os.path.join(output_dir, "gpu_training_benchmark_report.html") if generate_html else None
+    output_latex = os.path.join(output_dir, "gpu_training_benchmark_report.tex") if generate_latex else None
     
     # Generate report
     generator = BenchmarkReportGenerator()
@@ -499,8 +747,12 @@ def main():
     if not generator.load_benchmark_results(input_file):
         sys.exit(1)
     
-    if generator.generate_report(output_json, output_md):
+    if generator.generate_report(output_json, output_md, output_html, output_latex):
         print("\n✓ Benchmark report generated successfully!")
+        if generate_html:
+            print("  → HTML report includes IEEE citations appendix")
+        if generate_latex:
+            print("  → LaTeX report includes bibliography section")
         sys.exit(0)
     else:
         print("\n✗ Failed to generate benchmark report")

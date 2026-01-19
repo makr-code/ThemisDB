@@ -6,6 +6,40 @@
 
 ---
 
+## 📊 CHIMERA BENCHMARK SUITE - SCIENTIFIC FOUNDATION (NEU - 2026-01-19)
+
+### Complete Scientific Basis & IEEE Standards Documentation
+
+ThemisDB's CHIMERA benchmark suite now includes comprehensive scientific foundation documentation following IEEE/ACM standards:
+
+**Core Documentation:**
+- [CHIMERA_SCIENTIFIC_FOUNDATION.md](benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md) - Complete scientific basis (24KB)
+  - IEEE/ACM citations for 10+ benchmark standards (YCSB, TPC-C/H, ANN, LDBC-SNB, vLLM, RAG, LinkBench, Sysbench)
+  - Statistical methodology (t-test, Mann-Whitney, ANOVA, Cohen's d, confidence intervals, power analysis)
+  - Reproducibility standards (ACM Artifact Badging compliance)
+  - Hardware profiling and dataset transparency specifications
+  - Complete bibliography with 30+ references
+
+**Supporting Files:**
+- [references.bib](benchmarks/references.bib) - BibTeX bibliography for scientific papers
+- [benchmark_config_template.toml](benchmarks/benchmark_config_template.toml) - Configuration template for reproducibility
+
+**Report Integration:**
+- HTML reports with IEEE citations appendix
+- LaTeX export with bibliography block  
+- Markdown reports with references section
+- Automated citation inclusion in all output formats
+
+**Key Features:**
+- ✅ Complete benchmark mapping to established standards
+- ✅ Rigorous statistical methodology documentation
+- ✅ ACM Artifact Badging compliance
+- ✅ Hardware/dataset transparency templates
+- ✅ Vendor neutrality guarantees
+- ✅ Multi-format export (HTML/LaTeX/Markdown)
+
+---
+
 ## 🌿 GIT FLOW BRANCHING STRATEGY (NEU - 2025-12-30)
 
 ### Branching-Konzept Implementation
