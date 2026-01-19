@@ -176,6 +176,37 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
     endif()
     
+    # LoRA Router Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_router.cpp")
+        message(STATUS "Adding LoRA Router tests (routing automation)")
+        
+        add_executable(test_lora_router
+            test_lora_router.cpp
+        )
+        
+        target_link_libraries(test_lora_router PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_lora_router PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME LoRARouterTests COMMAND test_lora_router)
+        set_tests_properties(LoRARouterTests PROPERTIES
+            LABELS "lora;llm;router;routing;semantic;ab-test;rollout"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "LoRA Router tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_router.cpp")
+    endif()
+    
     # LoRA Storage Key Provider Tests (Refactoring)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_storage_key_provider.cpp")
         message(STATUS "Adding LoRA storage key provider tests")
