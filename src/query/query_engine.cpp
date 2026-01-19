@@ -84,8 +84,8 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
 // Stubbed: full expression evaluation will be added in a later phase.
 
 bool QueryEngine::QueryExpressionEvaluator::evaluate(
-    const std::string& /*expression*/,
-    const void* /*context*/) const {
+	const std::string& /*expression*/,
+	const void* /*context*/) {
     return false;
 }
 
@@ -1588,7 +1588,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			return {Status::OK(), std::move(keys)};
 		}
 		if (optimize) {
-			QueryOptimizer opt(secIdx_);
+			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
 			auto plan = opt.chooseOrderForAndQuery(q);
 			auto [st, keys] = executeAndKeysSequential(q.table, plan.orderedPredicates);
 			if (!st.ok) { span.setStatus(false, st.message); return {st, {}}; }
@@ -3196,7 +3196,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	}
 	
 	// Optional: choose plan when vector index is available
-	auto cfg = loadHybridConfig_(db_);
+	auto cfg = loadHybridConfig_(*db_);  // Dereference pointer to reference
 	VGPlan plan = VGPlan::SpatialThenVector;
 	if (vectorIdx_) {
 		// Use cost model via QueryOptimizer

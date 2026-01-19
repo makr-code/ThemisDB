@@ -17,7 +17,6 @@ namespace themis {
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
 using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
-using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;
 using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
 using IVectorIndexPtr = std::shared_ptr<IVectorIndex>;
 using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
@@ -498,8 +497,8 @@ private:
             : engine_(engine) {}
         
         // Minimal stub implementation matching IExpressionEvaluator
-        bool evaluate(const std::string& expression, const void* context) const override;
-        std::string get_expression_type() const override;
+        bool evaluate(const std::string& expression, const void* context);
+        std::string get_expression_type() const;
 
         // Helpers reserved for future richer evaluation paths (non-override)
         bool evaluateBoolean(std::string_view expression, const void* context) const;

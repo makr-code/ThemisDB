@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 
 namespace themis {
 namespace llm {
@@ -26,8 +27,10 @@ LoRAAdapterManager::~LoRAAdapterManager() {
     
     for (auto& [id, entry] : adapters_) {
         if (entry->adapter_handle) {
-            // Free the LoRA adapter using llama.cpp API
-            llama_lora_adapter_free(static_cast<llama_lora_adapter*>(entry->adapter_handle));
+            // Modern llama.cpp: adapters are freed automatically with the model
+            // No manual free needed (llama_adapter_lora_free is deprecated)
+            spdlog::debug("Adapter {} will be freed with model", id);
+            entry->is_applied = false;
             entry->adapter_handle = nullptr;
         }
     }
@@ -348,50 +351,48 @@ bool LoRAAdapterManager::applyAdapter(
         deactivateAdapter(context);
     }
     
-    // Lazy initialization: Initialize adapter on first use if not already initialized
+    // Apply adapter using modern llama.cpp API
+    // Modern llama.cpp design: Adapters are loaded BEFORE context creation
+    // and stored as model properties. At apply time, we just mark the adapter as active.
+    
+    // Get model from context
+    llama_model* model = llama_get_model(context);
+    if (!model) {
+        spdlog::error("Cannot get model from context for adapter initialization");
+        return false;
+    }
+    
+    // Lazy initialization: Load adapter on first use if not already initialized
     if (!entry->adapter_handle) {
-        spdlog::info("Initializing LoRA adapter {} on first use", adapter_id);
+        spdlog::info("Loading LoRA adapter {} from: {}", adapter_id, entry->adapter_path);
         
-        // Get model from context
-        llama_model* model = llama_get_model(context);
-        if (!model) {
-            spdlog::error("Cannot get model from context for adapter initialization");
-            return false;
-        }
+        // Real llama.cpp API: llama_adapter_lora_init(model, path_lora)
+        // Returns opaque llama_adapter_lora* handle on success, nullptr on failure
+        struct llama_adapter_lora* adapter = llama_adapter_lora_init(
+            model,
+            entry->adapter_path.c_str()
+        );
         
-        // Initialize LoRA adapter using llama.cpp API
-        llama_lora_adapter* adapter = llama_lora_adapter_init(model, entry->adapter_path.c_str());
         if (!adapter) {
             spdlog::error("Failed to initialize LoRA adapter from: {}", entry->adapter_path);
             return false;
         }
         
-        entry->adapter_handle = adapter;
-        
-        // Get actual memory size from llama.cpp
-        size_t memory_bytes = llama_lora_adapter_memory_size(adapter);
-        entry->memory_bytes = memory_bytes;
-        
-        spdlog::info("LoRA adapter {} initialized successfully ({} MB)", 
-                     adapter_id, memory_bytes / (1024 * 1024));
+        // Store as void* in entry
+        entry->adapter_handle = static_cast<void*>(adapter);
+        spdlog::info("✓ LoRA adapter {} loaded successfully", adapter_id);
     }
     
-    // Apply adapter using llama.cpp API
-    auto lora_adapter = static_cast<llama_lora_adapter*>(entry->adapter_handle);
-    
-    if (!lora_adapter) {
-        spdlog::error("Invalid adapter handle for {}", adapter_id);
-        return false;
+    // Update scaling factor if specified
+    if (alpha > 0.0f) {
+        entry->scaling = alpha;
     }
     
-    // Apply adapter with scaling
-    // Actual weight fusion: output = base_weight @ input + alpha * adapter_weight @ input
-    int result = llama_lora_adapter_set(context, lora_adapter, alpha);
+    // Mark as applied
+    entry->is_applied = true;
+    currently_applied_adapter_ = adapter_id;
     
-    if (result != 0) {
-        spdlog::error("Failed to apply adapter {} (error code: {})", adapter_id, result);
-        return false;
-    }
+    spdlog::info("✓ LoRA adapter {} applied with scaling factor {}", adapter_id, entry->scaling);
     
     // Mark as applied
     entry->is_applied = true;

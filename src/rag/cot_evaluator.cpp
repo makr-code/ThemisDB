@@ -10,6 +10,9 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
+#include <set>
+#include <iterator>
+#include <algorithm>
 
 namespace themis::rag::judge {
 

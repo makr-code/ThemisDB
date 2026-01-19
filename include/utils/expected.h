@@ -41,7 +41,7 @@ public:
         
         // If context is provided, try to format it
         try {
-            return fmt::format(metadata.message_template, context_);
+            return fmt::vformat(metadata.message_template, fmt::make_format_args(context_));
         } catch (...) {
             // If formatting fails, append context
             return metadata.message_template + ": " + context_;

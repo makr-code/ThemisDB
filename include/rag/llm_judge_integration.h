@@ -54,6 +54,15 @@ public:
         const EvaluationInput& input,
         const PromptTemplateManager& template_mgr
     );
+
+    /**
+     * @brief Directly evaluate a prompt for a dimension.
+     *        Lightweight helper used by evaluator components.
+     */
+    std::string evaluateDimension(
+        const std::string& prompt,
+        EvaluationDimension dimension
+    );
     
     /**
      * @brief Set LLM inference function (for dependency injection/testing)

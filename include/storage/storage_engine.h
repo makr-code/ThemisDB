@@ -3,6 +3,7 @@
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/security_interface.h"
+#include "themis/base/interfaces/index_interface.h"
 #include <memory>
 #include <string>
 #include <optional>

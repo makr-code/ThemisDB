@@ -5,6 +5,7 @@
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/security_interface.h"
 #include "themis/base/interfaces/storage_interface.h"
+#include "themis/base/interfaces/index_interface.h"
 
 using namespace themis;
 using ::testing::Return;
@@ -29,18 +30,24 @@ public:
 
 class MockKeyProvider : public IKeyProvider {
 public:
-    MOCK_METHOD(std::vector<uint8_t>, get_key, (const std::string&), (override));
-    MOCK_METHOD(std::vector<uint8_t>, rotate_key, (const std::string&), (override));
+    MOCK_METHOD(std::optional<std::vector<uint8_t>>, getKey, (std::string_view, uint32_t), (const, override));
+    MOCK_METHOD(uint32_t, getLatestKeyVersion, (std::string_view), (const, override));
+    MOCK_METHOD(uint32_t, rotateKey, (std::string_view), (override));
+    MOCK_METHOD(bool, hasKey, (std::string_view), (const, override));
+    MOCK_METHOD(std::vector<std::string>, listKeys, (), (const, override));
 };
 
 class MockIndexManager : public IIndexManager {
 public:
-    MOCK_METHOD(bool, create_index,
-        (const std::string&, const std::string&, const std::string&), (override));
-    MOCK_METHOD(bool, drop_index,
-        (const std::string&, const std::string&), (override));
-    MOCK_METHOD(bool, has_index,
-        (const std::string&, const std::string&), (const, override));
+    MOCK_METHOD(ISecondaryIndex*, createSecondaryIndex, (std::string_view, std::string_view, const std::string&), (override));
+    MOCK_METHOD(IVectorIndex*, createVectorIndex, (std::string_view, uint32_t, const std::string&), (override));
+    MOCK_METHOD(IGraphIndex*, createGraphIndex, (std::string_view, const std::string&), (override));
+    MOCK_METHOD(ISecondaryIndex*, getSecondaryIndex, (std::string_view), (const, override));
+    MOCK_METHOD(IVectorIndex*, getVectorIndex, (std::string_view), (const, override));
+    MOCK_METHOD(IGraphIndex*, getGraphIndex, (std::string_view), (const, override));
+    MOCK_METHOD(bool, dropIndex, (std::string_view), (override));
+    MOCK_METHOD(std::vector<std::string>, listIndexes, (), (const, override));
+    MOCK_METHOD(std::optional<IndexType>, getIndexType, (std::string_view), (const, override));
 };
 
 // Test fixture

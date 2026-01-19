@@ -2028,6 +2028,8 @@ double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
         return (lora->use_count * 3600.0) / age_seconds;
     }
     return 0.0;
+}
+
 // Advanced Fusion API Implementation (v1.5.0)
 // ═══════════════════════════════════════════════════════════
 

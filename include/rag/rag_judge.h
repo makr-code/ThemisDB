@@ -13,6 +13,8 @@
 #include <memory>
 #include <unordered_map>
 #include <functional>
+#include <chrono>
+#include <cmath>
 
 namespace themis::rag::judge {
 

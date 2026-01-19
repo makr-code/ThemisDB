@@ -59,26 +59,50 @@ public:
 
 class DefaultIndexManager : public IIndexManager {
 public:
-    bool create_index(
-        const std::string& table_name,
-        const std::string& field_name,
-        const std::string& index_type) override {
-        // Default implementation: no-op
-        return true;
+    // Implement IIndexManager interface methods
+    
+    ISecondaryIndex* createSecondaryIndex(
+        std::string_view name,
+        std::string_view field_name,
+        const std::string& config = "") override {
+        return nullptr;  // Default: no index creation
     }
     
-    bool drop_index(
-        const std::string& table_name,
-        const std::string& field_name) override {
-        // Default implementation: no-op
-        return true;
+    IVectorIndex* createVectorIndex(
+        std::string_view name,
+        uint32_t dimension,
+        const std::string& config = "") override {
+        return nullptr;  // Default: no index creation
     }
     
-    bool has_index(
-        const std::string& table_name,
-        const std::string& field_name) const override {
-        // Default implementation: always false
-        return false;
+    IGraphIndex* createGraphIndex(
+        std::string_view name,
+        const std::string& config = "") override {
+        return nullptr;  // Default: no index creation
+    }
+    
+    ISecondaryIndex* getSecondaryIndex(std::string_view name) const override {
+        return nullptr;
+    }
+    
+    IVectorIndex* getVectorIndex(std::string_view name) const override {
+        return nullptr;
+    }
+    
+    IGraphIndex* getGraphIndex(std::string_view name) const override {
+        return nullptr;
+    }
+    
+    bool dropIndex(std::string_view name) override {
+        return false;  // Default: no-op
+    }
+    
+    std::vector<std::string> listIndexes() const override {
+        return {};  // Default: empty list
+    }
+    
+    std::optional<IndexType> getIndexType(std::string_view name) const override {
+        return std::nullopt;  // Default: index not found
     }
 };
 

@@ -34,12 +34,16 @@
     },
     {
       "name": "windows-ninja-msvc-release",
+      "displayName": "Windows Ninja MSVC Release (LLM+Tests+Benchmarks)",
+      "description": "Release build with Ninja, MSVC compiler, LLM support, tests and benchmarks",
       "inherits": [
         "base"
       ],
       "binaryDir": "${sourceDir}/build-msvc-ninja-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
       }
     },
     {

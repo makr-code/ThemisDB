@@ -89,60 +89,18 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
         return claims;
     }
     
-    // Prompt for LLM-based claim extraction
-    std::string prompt = R"(Extract atomic factual claims from the following answer. 
-Each claim should be a single, verifiable statement.
-Return claims as a JSON array of strings.
-
-Answer: )" + answer + R"(
-
-Output format:
-{
-  "claims": ["claim1", "claim2", "claim3"]
-}
-
-Claims:)";
+    // Fallback-only extraction (LLM judge integration not wired yet)
+    std::regex sentence_regex(R"([^.!?]+[.!?])");
+    auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
+    auto sentences_end = std::sregex_iterator();
     
-    try {
-        std::string llm_response = impl_->llm_integration->evaluateDimension(
-            prompt, EvaluationDimension::FAITHFULNESS
-        );
-        
-        // Parse JSON response
-        json response_json = impl_->parser.parseJSONResponse(llm_response);
-        
-        if (response_json.contains("claims") && response_json["claims"].is_array()) {
-            for (const auto& claim_text : response_json["claims"]) {
-                if (claim_text.is_string()) {
-                    Claim claim;
-                    claim.text = claim_text.get<std::string>();
-                    claim.category = "factual";  // Default category
-                    claim.support_level = SupportLevel::UNSUPPORTED;  // Will be determined later
-                    claim.confidence = 0.8;
-                    claims.push_back(claim);
-                    
-                    if (claims.size() >= impl_->config.max_claims_to_extract) {
-                        break;
-                    }
-                }
-            }
-        }
-    } catch (const std::exception& e) {
-        THEMIS_WARN("Claim extraction failed: {}", e.what());
-        
-        // Fallback: split by sentences
-        std::regex sentence_regex(R"([^.!?]+[.!?])");
-        auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
-        auto sentences_end = std::sregex_iterator();
-        
-        for (auto it = sentences_begin; it != sentences_end && claims.size() < impl_->config.max_claims_to_extract; ++it) {
-            Claim claim;
-            claim.text = it->str();
-            claim.category = "factual";
-            claim.support_level = SupportLevel::UNSUPPORTED;
-            claim.confidence = 0.6;  // Lower confidence for fallback
-            claims.push_back(claim);
-        }
+    for (auto it = sentences_begin; it != sentences_end && claims.size() < impl_->config.max_claims_to_extract; ++it) {
+        Claim claim;
+        claim.text = it->str();
+        claim.category = "factual";
+        claim.support_level = SupportLevel::UNSUPPORTED;
+        claim.confidence = 0.6;  // Lower confidence for heuristic extraction
+        claims.push_back(claim);
     }
     
     THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
