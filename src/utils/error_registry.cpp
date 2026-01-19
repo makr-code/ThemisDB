@@ -519,6 +519,233 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/networking.md"},
         {"network", "dns", "resolution", "hostname"}
     });
+    
+    // Index Errors
+    registerError({
+        ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+        "Index",
+        "Error",
+        "Index manager not initialized",
+        "The index manager or index subsystem has not been properly initialized.",
+        "1. Ensure database initialization completed successfully\n"
+        "2. Check initialization logs for errors\n"
+        "3. Verify configuration is correct\n"
+        "4. Try restarting the database",
+        {"/docs/index/initialization.md"},
+        {"index", "manager", "not initialized"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_INDEX_CREATION_FAILED,
+        "Index",
+        "Error",
+        "Failed to create index: {}",
+        "The system could not create the requested index.",
+        "1. Check available disk space\n"
+        "2. Verify index type is supported\n"
+        "3. Check for duplicate index names\n"
+        "4. Review error logs for specific failure reason",
+        {"/docs/index/management.md"},
+        {"index", "creation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_INDEX_NOT_FOUND,
+        "Index",
+        "Error",
+        "Index not found: {}",
+        "The requested index does not exist.",
+        "1. List available indexes\n"
+        "2. Check index name spelling\n"
+        "3. Verify index was created successfully\n"
+        "4. Check if index was dropped",
+        {"/docs/index/management.md"},
+        {"index", "not found"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_INDEX_INVALID_TYPE,
+        "Index",
+        "Error",
+        "Invalid index type: {}",
+        "The specified index type is not supported or recognized.",
+        "1. Review supported index types in documentation\n"
+        "2. Check type name spelling\n"
+        "3. Verify database version supports this type",
+        {"/docs/index/types.md"},
+        {"index", "type", "invalid"}
+    });
+    
+    // Query Errors
+    registerError({
+        ErrorCode::ERR_QUERY_PARSE_FAILED,
+        "Query",
+        "Error",
+        "Query parsing failed: {}",
+        "The query could not be parsed due to syntax or semantic errors.",
+        "1. Review query syntax\n"
+        "2. Check for typos in keywords\n"
+        "3. Verify table/field names exist\n"
+        "4. Consult query language documentation",
+        {"/docs/query/syntax.md"},
+        {"query", "parse", "failed", "syntax"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+        "Query",
+        "Error",
+        "Invalid query syntax at position {}: {}",
+        "The query contains invalid syntax.",
+        "1. Check query syntax matches AQL/GraphQL specification\n"
+        "2. Verify all brackets/quotes are balanced\n"
+        "3. Check for reserved keyword usage\n"
+        "4. Review query examples in documentation",
+        {"/docs/query/syntax.md"},
+        {"query", "syntax", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+        "Query",
+        "Error",
+        "Query execution failed: {}",
+        "The query was parsed successfully but failed during execution.",
+        "1. Check if referenced tables/indexes exist\n"
+        "2. Verify data types are compatible\n"
+        "3. Review constraints and permissions\n"
+        "4. Check system resources (memory, disk)",
+        {"/docs/query/execution.md"},
+        {"query", "execution", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_TIMEOUT,
+        "Query",
+        "Warning",
+        "Query execution timeout after {} seconds",
+        "The query did not complete within the configured timeout period.",
+        "1. Increase query timeout in configuration\n"
+        "2. Optimize query (add indexes, reduce data scanned)\n"
+        "3. Check for missing indexes on filter columns\n"
+        "4. Consider breaking query into smaller operations",
+        {"/docs/query/optimization.md"},
+        {"query", "timeout", "performance"}
+    });
+    
+    // API Errors
+    registerError({
+        ErrorCode::ERR_API_INVALID_REQUEST,
+        "API",
+        "Error",
+        "Invalid API request: {}",
+        "The API request is malformed or contains invalid parameters.",
+        "1. Verify request format (JSON/GraphQL/etc.)\n"
+        "2. Check required parameters are provided\n"
+        "3. Validate parameter types and values\n"
+        "4. Review API documentation",
+        {"/docs/api/reference.md"},
+        {"api", "request", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_API_UNAUTHORIZED,
+        "API",
+        "Error",
+        "Unauthorized: {}",
+        "The request lacks valid authentication credentials.",
+        "1. Verify API key or token is provided\n"
+        "2. Check credentials are not expired\n"
+        "3. Ensure user has required permissions\n"
+        "4. Review authentication configuration",
+        {"/docs/security/authentication.md"},
+        {"api", "unauthorized", "authentication"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_API_RATE_LIMIT,
+        "API",
+        "Warning",
+        "Rate limit exceeded: {} requests per {}",
+        "The API rate limit has been exceeded.",
+        "1. Reduce request frequency\n"
+        "2. Implement exponential backoff\n"
+        "3. Request rate limit increase if needed\n"
+        "4. Use batch operations where possible",
+        {"/docs/api/rate_limits.md"},
+        {"api", "rate limit", "throttling"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_API_INTERNAL_ERROR,
+        "API",
+        "Critical",
+        "Internal API error: {}",
+        "An unexpected internal error occurred while processing the request.",
+        "1. Check server logs for details\n"
+        "2. Retry the request\n"
+        "3. If persistent, report to support\n"
+        "4. Verify system health and resources",
+        {"/docs/troubleshooting.md"},
+        {"api", "internal", "error"}
+    });
+    
+    // Plugin Errors
+    registerError({
+        ErrorCode::ERR_PLUGIN_NOT_FOUND,
+        "Plugin",
+        "Error",
+        "Plugin not found: {}",
+        "The requested plugin does not exist or is not loaded.",
+        "1. List available plugins\n"
+        "2. Check plugin name spelling\n"
+        "3. Verify plugin file exists in plugins directory\n"
+        "4. Check plugin is enabled in configuration",
+        {"/docs/plugins/management.md"},
+        {"plugin", "not found"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+        "Plugin",
+        "Error",
+        "Failed to load plugin: {}",
+        "The plugin file exists but could not be loaded.",
+        "1. Check plugin file is not corrupted\n"
+        "2. Verify plugin is compatible with current version\n"
+        "3. Review plugin dependencies\n"
+        "4. Check file permissions",
+        {"/docs/plugins/development.md"},
+        {"plugin", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
+        "Plugin",
+        "Error",
+        "Plugin incompatible: {} requires version {}, found {}",
+        "The plugin is not compatible with the current database version.",
+        "1. Update plugin to compatible version\n"
+        "2. Check plugin version requirements\n"
+        "3. Update database if appropriate\n"
+        "4. Contact plugin developer for compatibility",
+        {"/docs/plugins/compatibility.md"},
+        {"plugin", "incompatible", "version"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+        "Plugin",
+        "Error",
+        "Plugin signature verification failed: {}",
+        "The plugin signature is invalid or missing.",
+        "1. Re-download plugin from trusted source\n"
+        "2. Verify plugin checksum\n"
+        "3. Check signature file exists\n"
+        "4. If self-signed, add to trusted keys",
+        {"/docs/plugins/security.md"},
+        {"plugin", "signature", "security"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
