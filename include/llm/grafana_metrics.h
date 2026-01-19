@@ -137,10 +137,40 @@ public:
     // Error metrics
     void recordError(const std::string& error_type, const std::string& component);
     
+    // Extended Context Window metrics (v1.4.0+)
+    void recordContextLength(const std::string& model_id, size_t context_length);
+    void recordContextCacheSize(const std::string& model_id, size_t cache_size_mb);
+    void recordExtendedContextEnabled(const std::string& model_id, bool enabled);
+    void recordContextScalingFactor(const std::string& model_id, double scaling_factor);
+    
+    // RoPE/YARN Scaling metrics (v1.4.0+)
+    void recordRoPEScalingMethod(const std::string& model_id, const std::string& method);
+    void recordRoPEScalingError(const std::string& model_id, const std::string& error);
+    void recordYARNParameters(const std::string& model_id, 
+                              double ext_factor, double attn_factor,
+                              double beta_fast, double beta_slow);
+    
+    // Memory Profiling metrics (v1.4.0+)
+    void recordRAMUsage(const std::string& model_id, size_t ram_mb, size_t total_ram_mb);
+    void recordVRAMUsage(const std::string& model_id, size_t vram_mb, size_t total_vram_mb);
+    void recordMemoryPressure(const std::string& model_id, double pressure_pct);
+    void recordOOMEvent(const std::string& model_id, const std::string& reason);
+    void recordMemoryEstimate(const std::string& model_id, 
+                             size_t estimated_mb, size_t actual_mb);
+    
+    // Thread Safety metrics (v1.4.0+)
+    void recordLoRAAdapterSwitch(const std::string& model_id, 
+                                 const std::string& from_adapter,
+                                 const std::string& to_adapter,
+                                 double duration_ms);
+    void recordContextLockWait(const std::string& model_id, double wait_time_ms);
+    void recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode);
+    
 private:
     PrometheusExporter* exporter_;
     
     void initializeMetrics();
+    void initializeExtendedContextMetrics();  // v1.4.0+ metrics
 };
 
 /**
