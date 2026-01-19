@@ -21,9 +21,8 @@ struct ConsistencyCheckResult {
     std::string error_message;
     
     // Version information
-    int version = 0;
-    std::string version_id;        // e.g., "v1", "v2"
-    uint64_t timestamp = 0;        // Unix timestamp
+    std::string version;           // Version string (e.g., "1.0.0", "v2")
+    uint64_t timestamp = 0;        // Unix timestamp (nanoseconds)
 };
 
 /**

@@ -150,7 +150,9 @@ public:
             status.adapter_id = adapter_id;
             status.is_synced = (synced_count >= config_.replication_factor);
             status.local_version = local_metadata.version;
-            status.last_sync_timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+            status.last_sync_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count();
             
             if (status.is_synced) {
                 status.sync_failure_count = 0;
@@ -194,10 +196,13 @@ public:
             // Sync each adapter
             for (const auto& adapter_id : adapter_ids) {
                 try {
-                    // Release lock during sync to allow concurrent operations
-                    mutex_.unlock();
-                    bool success = syncAdapter(adapter_id);
-                    mutex_.lock();
+                    // Use a scope block to safely release lock during sync
+                    bool success;
+                    {
+                        mutex_.unlock();
+                        success = syncAdapter(adapter_id);
+                        mutex_.lock();
+                    }
                     
                     if (success) {
                         result.adapters_synced++;

@@ -35,8 +35,8 @@ class LoRAStorageService;
 struct AdapterSyncStatus {
     std::string adapter_id;
     bool is_synced = false;
-    int local_version = 0;
-    int remote_version = 0;
+    std::string local_version;               // Version string
+    std::string remote_version;              // Version string
     uint64_t last_sync_timestamp = 0;
     int sync_failure_count = 0;
     std::string last_error;

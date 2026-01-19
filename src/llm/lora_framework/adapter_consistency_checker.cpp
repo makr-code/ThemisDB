@@ -112,8 +112,9 @@ public:
         
         // Extract version info
         result.version = metadata.version;
-        result.version_id = "v" + std::to_string(metadata.version);
-        result.timestamp = metadata.updated_at;
+        result.timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            metadata.updated_at.time_since_epoch()
+        ).count();
         
         return result;
     }
@@ -122,7 +123,7 @@ public:
         const ConsistencyCheckResult& local,
         const ConsistencyCheckResult& remote
     ) const {
-        // First compare version numbers
+        // First compare version strings lexicographically
         if (local.version < remote.version) {
             return -1;
         } else if (local.version > remote.version) {

@@ -74,8 +74,8 @@ TEST_F(AdapterConsistencyCheckerTest, CheckAdapter) {
     AdapterMetadata metadata;
     metadata.adapter_id = "test_adapter";
     metadata.base_model = "llama-2-7b";
-    metadata.version = 1;
-    metadata.updated_at = std::chrono::system_clock::now().time_since_epoch().count();
+    metadata.version = "1";
+    metadata.updated_at = std::chrono::system_clock::now();
     metadata.checksum = checker_->calculateChecksum(data);
     metadata.signature = checker_->generateSignature(data);
     
@@ -83,7 +83,7 @@ TEST_F(AdapterConsistencyCheckerTest, CheckAdapter) {
     
     EXPECT_TRUE(result.is_valid);
     EXPECT_TRUE(result.signature_valid);
-    EXPECT_EQ(result.version, 1);
+    EXPECT_EQ(result.version, "1");
     EXPECT_FALSE(result.checksum.empty());
 }
 
