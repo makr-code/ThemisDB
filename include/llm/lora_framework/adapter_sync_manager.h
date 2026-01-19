@@ -2,6 +2,7 @@
 
 #include "lora_config.h"
 #include "adapter_consistency_checker.h"
+#include "lora_metrics.h"
 #include "sharding/shard_topology.h"
 #include "sharding/shard_rpc_client.h"
 #include <string>
@@ -10,6 +11,13 @@
 #include <chrono>
 #include <functional>
 #include <atomic>
+
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/registry.h>
+#include <prometheus/counter.h>
+#include <prometheus/gauge.h>
+#include <prometheus/histogram.h>
+#endif
 
 namespace themis {
 namespace llm {
@@ -85,6 +93,10 @@ public:
         // Multi-LLM support
         bool enable_multi_llm = false;
         std::vector<std::string> llm_models;  // Filter by LLM models
+        
+        // Metrics
+        bool enable_metrics = true;               // Enable Prometheus metrics
+        std::string metrics_namespace = "themis_lora_sync";
     };
     
     /**

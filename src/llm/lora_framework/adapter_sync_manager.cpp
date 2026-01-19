@@ -7,6 +7,13 @@
 #include <map>
 #include <algorithm>
 
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/counter.h>
+#include <prometheus/gauge.h>
+#include <prometheus/histogram.h>
+#include <prometheus/registry.h>
+#endif
+
 namespace themis {
 namespace llm {
 namespace lora {
@@ -33,6 +40,13 @@ public:
         spdlog::info("  Replication factor: {}", config_.replication_factor);
         spdlog::info("  Auto-sync: {}", config_.enable_auto_sync);
         spdlog::info("  Max retries: {}", config_.max_retries);
+        spdlog::info("  Metrics: {}", config_.enable_metrics);
+        
+#ifdef THEMIS_HAS_PROMETHEUS
+        if (config_.enable_metrics) {
+            initializeMetrics();
+        }
+#endif
     }
     
     ~Impl() {
@@ -83,6 +97,10 @@ public:
     bool syncAdapter(const std::string& adapter_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         
+        auto start_time = std::chrono::steady_clock::now();
+        bool success = false;
+        size_t bytes = 0;
+        
         try {
             spdlog::info("Syncing adapter: {}", adapter_id);
             
@@ -97,6 +115,7 @@ public:
             
             auto& local_weights = *local_weights_opt;
             auto& local_metadata = *local_metadata_opt;
+            bytes = local_weights.data.size();
             
             // Check local consistency
             auto local_check = consistency_checker_->checkAdapter(
@@ -136,6 +155,7 @@ public:
             if (status.is_synced) {
                 status.sync_failure_count = 0;
                 stats_.successful_syncs++;
+                success = true;
                 spdlog::info("Adapter {} synced to {} shards", adapter_id, synced_count);
             } else {
                 status.sync_failure_count++;
@@ -144,13 +164,18 @@ public:
                            adapter_id, synced_count, config_.replication_factor);
             }
             
-            return status.is_synced;
-            
         } catch (const std::exception& e) {
             spdlog::error("Failed to sync adapter {}: {}", adapter_id, e.what());
             stats_.sync_failures++;
-            return false;
         }
+        
+        // Record metrics
+        auto end_time = std::chrono::steady_clock::now();
+        double duration = std::chrono::duration<double>(end_time - start_time).count();
+        recordSyncMetrics(success, duration, bytes);
+        updateMetricsGauges();
+        
+        return success;
     }
     
     SyncJobResult syncAllAdapters() {
@@ -321,6 +346,97 @@ private:
         return true;  // Assume success for now
     }
     
+#ifdef THEMIS_HAS_PROMETHEUS
+    void initializeMetrics() {
+        // Create registry if needed
+        if (!metrics_registry_) {
+            metrics_registry_ = std::make_shared<prometheus::Registry>();
+        }
+        
+        // Create metric families
+        auto& sync_total = prometheus::BuildCounter()
+            .Name(config_.metrics_namespace + "_syncs_total")
+            .Help("Total number of sync operations")
+            .Register(*metrics_registry_);
+        sync_total_counter_ = &sync_total.Add({});
+        
+        auto& sync_success = prometheus::BuildCounter()
+            .Name(config_.metrics_namespace + "_syncs_success_total")
+            .Help("Total number of successful syncs")
+            .Register(*metrics_registry_);
+        sync_success_counter_ = &sync_success.Add({});
+        
+        auto& sync_failures = prometheus::BuildCounter()
+            .Name(config_.metrics_namespace + "_syncs_failures_total")
+            .Help("Total number of failed syncs")
+            .Register(*metrics_registry_);
+        sync_failures_counter_ = &sync_failures.Add({});
+        
+        auto& bytes_transferred = prometheus::BuildCounter()
+            .Name(config_.metrics_namespace + "_bytes_transferred_total")
+            .Help("Total bytes transferred during sync")
+            .Register(*metrics_registry_);
+        bytes_transferred_counter_ = &bytes_transferred.Add({});
+        
+        auto& sync_duration = prometheus::BuildHistogram()
+            .Name(config_.metrics_namespace + "_sync_duration_seconds")
+            .Help("Sync operation duration in seconds")
+            .Register(*metrics_registry_);
+        sync_duration_histogram_ = &sync_duration.Add({}, 
+            prometheus::Histogram::BucketBoundaries{0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0, 60.0});
+        
+        auto& adapters_tracked = prometheus::BuildGauge()
+            .Name(config_.metrics_namespace + "_adapters_tracked")
+            .Help("Number of adapters being tracked")
+            .Register(*metrics_registry_);
+        adapters_tracked_gauge_ = &adapters_tracked.Add({});
+        
+        auto& replication_lag = prometheus::BuildGauge()
+            .Name(config_.metrics_namespace + "_replication_lag_seconds")
+            .Help("Time since last successful sync")
+            .Register(*metrics_registry_);
+        replication_lag_gauge_ = &replication_lag.Add({});
+        
+        spdlog::info("Prometheus metrics initialized for adapter sync");
+    }
+    
+    void recordSyncMetrics(bool success, double duration_seconds, size_t bytes) {
+#ifdef THEMIS_HAS_PROMETHEUS
+        if (config_.enable_metrics) {
+            if (sync_total_counter_) sync_total_counter_->Increment();
+            if (success && sync_success_counter_) sync_success_counter_->Increment();
+            if (!success && sync_failures_counter_) sync_failures_counter_->Increment();
+            if (bytes_transferred_counter_) bytes_transferred_counter_->Increment(bytes);
+            if (sync_duration_histogram_) sync_duration_histogram_->Observe(duration_seconds);
+        }
+#endif
+    }
+    
+    void updateMetricsGauges() {
+#ifdef THEMIS_HAS_PROMETHEUS
+        if (config_.enable_metrics) {
+            if (adapters_tracked_gauge_) {
+                adapters_tracked_gauge_->Set(sync_status_.size());
+            }
+            
+            // Calculate replication lag (time since last successful sync)
+            uint64_t max_lag = 0;
+            uint64_t now = std::chrono::system_clock::now().time_since_epoch().count();
+            for (const auto& [adapter_id, status] : sync_status_) {
+                if (status.is_synced && status.last_sync_timestamp > 0) {
+                    uint64_t lag = now - status.last_sync_timestamp;
+                    max_lag = std::max(max_lag, lag);
+                }
+            }
+            
+            if (replication_lag_gauge_) {
+                replication_lag_gauge_->Set(max_lag / 1000000000.0);  // Convert to seconds
+            }
+        }
+#endif
+    }
+#endif
+    
     Config config_;
     std::shared_ptr<LoRAStorageService> storage_service_;
     std::shared_ptr<sharding::ShardTopology> topology_;
@@ -340,6 +456,18 @@ private:
         uint64_t sync_failures = 0;
         uint64_t bytes_transferred = 0;
     } stats_;
+    
+#ifdef THEMIS_HAS_PROMETHEUS
+    // Prometheus metrics
+    std::shared_ptr<prometheus::Registry> metrics_registry_;
+    prometheus::Counter* sync_total_counter_ = nullptr;
+    prometheus::Counter* sync_success_counter_ = nullptr;
+    prometheus::Counter* sync_failures_counter_ = nullptr;
+    prometheus::Counter* bytes_transferred_counter_ = nullptr;
+    prometheus::Histogram* sync_duration_histogram_ = nullptr;
+    prometheus::Gauge* adapters_tracked_gauge_ = nullptr;
+    prometheus::Gauge* replication_lag_gauge_ = nullptr;
+#endif
 };
 
 // Constructor/Destructor
