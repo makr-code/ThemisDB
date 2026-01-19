@@ -19,6 +19,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/query/functions/lora_functions.cpp
         ../src/llm/lora_security_validator.cpp
         
+        # LoRA Router - Automatic routing automation
+        ../src/llm/lora_router.cpp
+        
         # Multi-GPU LoRA layers
         ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
         
