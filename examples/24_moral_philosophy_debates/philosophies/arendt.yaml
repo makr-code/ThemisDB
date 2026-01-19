@@ -1,0 +1,172 @@
+# Hannah Arendt - Politische Philosophie
+# Pluralität, Vita Activa, Banalität des Bösen
+
+school: arendtian
+name: "Arendtsche Politische Philosophie"
+philosopher_name: "Hannah Arendt"
+philosopher_life: "1906-1975"
+nationality: "Deutsch-Amerikanisch"
+
+description: |
+  Politische Philosophie mit Fokus auf menschliche Pluralität, Handeln im öffentlichen Raum 
+  und Analyse totalitärer Herrschaft. Kritik der Tradition und neue Konzeption des Politischen.
+
+# Hauptthesen
+main_theses:
+  vita_activa:
+    title: "Vita Activa - Arbeiten, Herstellen, Handeln"
+    description: |
+      Drei Grundtätigkeiten menschlicher Existenz: Arbeiten (labor - Lebensnotwendigkeiten), 
+      Herstellen (work - dauerhafte Welt), Handeln (action - Freiheit und Pluralität).
+    key_concepts:
+      - "Arbeiten: Lebensprozess, Notwendigkeit"
+      - "Herstellen: Verdinglichung, Haltbarkeit"
+      - "Handeln: Pluralität, Freiheit, Öffentlichkeit"
+      - "Handeln ist die politische Tätigkeit par excellence"
+  
+  plurality:
+    title: "Pluralität (Plurality)"
+    description: |
+      Menschen sind gleich und doch verschieden - das ist die Bedingung der Politik. 
+      Pluralität bedeutet, dass jeder Mensch einzigartig ist und mit anderen zusammenleben muss.
+    key_concepts:
+      - "Gleichheit und Verschiedenheit"
+      - "Bedingung der Politik"
+      - "Keine Identität, sondern Vielfalt"
+      - "Zusammenleben der Verschiedenen"
+  
+  public_private:
+    title: "Öffentlicher und Privater Raum"
+    description: |
+      Der öffentliche Raum ist der Raum der Erscheinung, wo Menschen handelnd und sprechend 
+      in Erscheinung treten. Der private Raum ist der Bereich der Notwendigkeit und Intimität.
+    key_concepts:
+      - "Öffentlicher Raum: Erscheinen, Ruhm, Politik"
+      - "Privater Raum: Notwendigkeit, Verborgenheit"
+      - "Erosion des Öffentlichen in Moderne"
+      - "Politisches Handeln braucht Öffentlichkeit"
+  
+  banality_of_evil:
+    title: "Banalität des Bösen"
+    description: |
+      Am Beispiel Eichmann: Das Böse ist oft nicht radikal, sondern banal - Gedankenlosigkeit, 
+      Unfähigkeit zu urteilen, bürokratisches Funktionieren ohne Reflexion.
+    key_concepts:
+      - "Gedankenlosigkeit als Quelle des Bösen"
+      - "Eichmann als Bürokrat, nicht als Monster"
+      - "Verlust der Urteilskraft"
+      - "Böses durch Nicht-Denken"
+  
+  natality:
+    title: "Natalität (Gebürtlichkeit)"
+    description: |
+      Menschen können immer neu anfangen - das ist die Grundlage der Freiheit. 
+      Jede Geburt ist ein neuer Anfang, jedes Handeln ein Neuanfang.
+    key_concepts:
+      - "Fähigkeit zum Neuanfang"
+      - "Geburt als Paradigma der Freiheit"
+      - "Handeln initiiert Neues"
+      - "Gegen Determinismus"
+
+# Nebenthesen
+secondary_theses:
+  totalitarianism:
+    title: "Totalitarismus"
+    description: |
+      Totalitäre Herrschaft (Nationalsozialismus, Stalinismus) ist eine neue, radikale 
+      Form der Herrschaft, die alle Bereiche durchdringt und Pluralität vernichtet.
+  
+  judgment:
+    title: "Urteilskraft"
+    description: |
+      Nach Kant: Die Fähigkeit, vom Standpunkt anderer zu denken (erweitertes Denken). 
+      Politisches Urteil ist Geschmacksurteil - ohne universelle Regeln.
+  
+  action_and_speech:
+    title: "Handeln und Sprechen"
+    description: |
+      Im politischen Raum sind Handeln und Sprechen untrennbar. Durch Sprechen offenbaren 
+      wir, wer (nicht was) wir sind.
+  
+  social_vs_political:
+    title: "Das Soziale vs. das Politische"
+    description: |
+      Die Moderne verwechselt das Soziale (Verwaltung, Ökonomie) mit dem Politischen 
+      (Freiheit, Handeln). Das Aufkommen des Sozialen bedroht das Politische.
+  
+  pariah_parvenu:
+    title: "Paria und Parvenu"
+    description: |
+      Der bewusste Paria (Außenseiter) bewahrt seine Authentizität. Der Parvenu 
+      (Emporkömmling) assimiliert sich und verliert seine Identität.
+
+# Stärken
+strengths:
+  - "Neues Verständnis des Politischen jenseits von Herrschaft"
+  - "Betonung der Pluralität und Verschiedenheit"
+  - "Tiefe Analyse des Totalitarismus"
+  - "Anerkennung menschlicher Spontaneität und Freiheit"
+  - "Verbindung von philosophischer Reflexion und politischer Wirklichkeit"
+
+# Schwächen
+weaknesses:
+  - "Idealisierung der griechischen Polis"
+  - "Scharfe Trennung öffentlich/privat problematisch"
+  - "Unterschätzung sozialer Gerechtigkeit ('das Soziale')"
+  - "Elitäre Konzeption von Politik?"
+  - "Verhältnis von Handeln und Notwendigkeit unklar"
+
+# Anwendungsbeispiel
+example_application: |
+  Digitaler Öffentlicher Raum: Soziale Medien versprechen Öffentlichkeit, aber fehlt ihnen 
+  die Haltbarkeit und das gemeinsame Erscheinen des öffentlichen Raums? Wenn jeder anonym 
+  und flüchtig agiert, gibt es keine wirkliche Pluralität. Die Banalität des Bösen zeigt 
+  sich in Shitstorms - Menschen handeln gedankenlos, ohne zu urteilen, folgen der Masse. 
+  Echter politischer Raum erfordert verantwortliches Erscheinen vor anderen.
+
+# Entscheidungsrahmen
+decision_framework: |
+  Handle im öffentlichen Raum mit anderen, anerkenne ihre Pluralität. Denke vom Standpunkt 
+  anderer (erweiterte Denkungsart). Übernimm Verantwortung für die gemeinsame Welt. 
+  Übe Urteilskraft statt gedankenloser Befolgung von Regeln. Beginne Neues.
+
+# Kernprinzipien für Debatten
+core_principles:
+  - "Vita Activa - Arbeiten, Herstellen, Handeln"
+  - "Pluralität als Bedingung der Politik"
+  - "Öffentlicher Raum als Raum der Erscheinung"
+  - "Banalität des Bösen - Gedankenlosigkeit"
+  - "Natalität - Fähigkeit zum Neuanfang"
+  - "Urteilskraft - Denken vom Standpunkt anderer"
+  - "Politik vs. Verwaltung des Sozialen"
+  - "Handeln und Sprechen als politische Tätigkeit"
+
+# Wichtige Werke
+key_works:
+  - title: "Elemente und Ursprünge totaler Herrschaft"
+    year: 1951
+    description: "Analyse des Totalitarismus"
+  
+  - title: "Vita activa oder Vom tätigen Leben"
+    year: 1958
+    description: "Hauptwerk zur politischen Philosophie"
+  
+  - title: "Eichmann in Jerusalem"
+    year: 1963
+    description: "Banalität des Bösen"
+  
+  - title: "Über die Revolution"
+    year: 1963
+    description: "Politische Freiheit und Revolution"
+  
+  - title: "Vom Leben des Geistes"
+    year: 1978
+    description: "Denken, Wollen, Urteilen"
+
+# Relevante Dimensionen
+relevant_dimensions:
+  - "political"          # Politische Philosophie
+  - "ethical"            # Ethik des Handelns
+  - "social"             # Gesellschaftstheorie
+  - "phenomenological"   # Phänomenologie des Handelns
+  - "historical"         # Totalitarismusanalyse

@@ -352,7 +352,32 @@ class PhilosophyProfile:
 
 
 # Pre-defined philosophy profiles
-PHILOSOPHY_PROFILES = {
+# Diese werden nun dynamisch aus YAML-Dateien geladen
+# Siehe philosophy_loader.py für den Lade-Mechanismus
+
+def _load_philosophy_profiles_from_yaml() -> Dict[PhilosophySchool, PhilosophyProfile]:
+    """
+    Lädt Philosophy-Profile aus YAML-Dateien.
+    Fallback zu hardcodierten Profilen wenn YAML-Dateien nicht verfügbar.
+    """
+    try:
+        # Versuche YAML-Dateien zu laden
+        from philosophy_loader import load_philosophy_profiles
+        profiles = load_philosophy_profiles()
+        if profiles:
+            print(f"✓ {len(profiles)} Philosophy-Profile aus YAML geladen")
+            return profiles
+    except Exception as e:
+        print(f"⚠ Konnte YAML-Profile nicht laden: {e}")
+    
+    # Fallback: Hart-codierte Profile
+    print("ℹ Verwende hart-codierte Philosophy-Profile als Fallback")
+    return _get_hardcoded_profiles()
+
+
+def _get_hardcoded_profiles() -> Dict[PhilosophySchool, PhilosophyProfile]:
+    """Fallback: Hart-codierte Profile wenn YAML nicht verfügbar."""
+    return {
     PhilosophySchool.KANT: PhilosophyProfile(
         school=PhilosophySchool.KANT,
         name="Kantian Ethics",
@@ -853,3 +878,8 @@ PHILOSOPHY_PROFILES = {
         example_application="Evil arises not from monsters but from thoughtless bureaucrats who fail to judge and take responsibility"
     )
 }
+
+
+# Initialisiere PHILOSOPHY_PROFILES durch Laden aus YAML
+PHILOSOPHY_PROFILES = _load_philosophy_profiles_from_yaml()
+
