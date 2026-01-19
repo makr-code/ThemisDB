@@ -2,6 +2,20 @@
 
 This directory contains performance benchmarks and testing utilities for ThemisDB.
 
+## 📚 Scientific Foundation & Standards
+
+**[CHIMERA Scientific Foundation](../docs/benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md)** ⭐ NEW - Complete Scientific Basis
+- IEEE/ACM standard citations for all benchmark categories
+- Statistical methodology (t-test, Mann-Whitney, ANOVA, Cohen's d, confidence intervals)
+- Reproducibility standards (ACM Artifact Badging compliance)
+- Hardware profiling and dataset transparency specifications
+- Complete bibliography with BibTeX export
+- Integration with HTML/LaTeX/Markdown report generation
+
+**[BibTeX References](../docs/benchmarks/references.bib)** - Complete bibliography for scientific papers
+
+**[Configuration Template](../docs/benchmarks/benchmark_config_template.toml)** - Hardware profiling and reproducibility template
+
 ## 🎯 NEW: Advanced Scientific Benchmark Suite
 
 **Status:** ✅ Phases 1-4 Complete (Weeks 1-8) - Ahead of Schedule  
