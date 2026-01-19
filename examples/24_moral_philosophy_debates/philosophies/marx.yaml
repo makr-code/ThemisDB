@@ -1,0 +1,148 @@
+# Karl Marx - Marxismus
+# Historischer Materialismus, Klassenkampf, Kapitalismuskritik
+
+school: marxism
+name: "Marxismus"
+philosopher_name: "Karl Marx"
+philosopher_life: "1818-1883"
+nationality: "Deutsch"
+
+description: |
+  Historischer Materialismus als Analyse der Gesellschaft durch Klassenkampf und ökonomische 
+  Verhältnisse. Kritik des Kapitalismus und Vision einer klassenlosen Gesellschaft.
+
+# Hauptthesen
+main_theses:
+  historical_materialism:
+    title: "Historischer Materialismus"
+    description: |
+      Die ökonomische Basis (Produktionsverhältnisse) bestimmt den gesellschaftlichen Überbau 
+      (Politik, Recht, Kultur, Ideologie).
+    key_concepts:
+      - "Produktivkräfte und Produktionsverhältnisse"
+      - "Basis und Überbau"
+      - "Ökonomische Struktur als Fundament"
+      - "Gesellschaftsformationen (Feudalismus, Kapitalismus, Sozialismus)"
+  
+  class_struggle:
+    title: "Klassenkampf"
+    description: |
+      Die Geschichte aller bisherigen Gesellschaft ist die Geschichte von Klassenkämpfen.
+      Der Widerspruch zwischen Bourgeoisie und Proletariat treibt die historische Entwicklung.
+    key_concepts:
+      - "Bourgeoisie vs. Proletariat"
+      - "Motor der Geschichte"
+      - "Revolution als Aufhebung der Klassengegensätze"
+      - "Diktatur des Proletariats als Übergangsphase"
+  
+  alienation:
+    title: "Entfremdung (Alienation)"
+    description: |
+      Im Kapitalismus ist der Arbeiter von seinem Produkt, seiner Arbeit, seinem Gattungswesen 
+      und seinen Mitmenschen entfremdet.
+    key_concepts:
+      - "Entfremdung vom Produkt der Arbeit"
+      - "Entfremdung vom Arbeitsprozess"
+      - "Entfremdung vom Gattungswesen (species-being)"
+      - "Entfremdung von anderen Menschen"
+  
+  surplus_value:
+    title: "Mehrwert (Surplus Value)"
+    description: |
+      Kapitalist eignet sich den vom Arbeiter geschaffenen Mehrwert an - das ist die Quelle 
+      der Ausbeutung und des Profits.
+    key_concepts:
+      - "Arbeitskraft als Ware"
+      - "Mehrwertextraktion"
+      - "Ausbeutung durch Lohnarbeit"
+      - "Akkumulation des Kapitals"
+
+# Nebenthesen
+secondary_theses:
+  commodity_fetishism:
+    title: "Warenfetischismus"
+    description: |
+      Im Kapitalismus erscheinen soziale Beziehungen zwischen Menschen als Beziehungen 
+      zwischen Dingen (Waren).
+  
+  ideology_critique:
+    title: "Ideologiekritik"
+    description: |
+      Die herrschende Ideologie ist die Ideologie der herrschenden Klasse. Ideologie 
+      verschleiert die wahren ökonomischen Verhältnisse.
+  
+  communist_society:
+    title: "Kommunistische Gesellschaft"
+    description: |
+      Klassenlose Gesellschaft ohne Privateigentum an Produktionsmitteln. 
+      "Jeder nach seinen Fähigkeiten, jedem nach seinen Bedürfnissen."
+  
+  crisis_theory:
+    title: "Krisentheorie"
+    description: |
+      Der Kapitalismus ist inhärent instabil und produziert zyklische Krisen durch 
+      Überproduktion und fallende Profitraten.
+
+# Stärken
+strengths:
+  - "Analyse der ökonomischen Strukturen und ihrer Auswirkungen auf Gesellschaft"
+  - "Aufdeckung von Machtstrukturen und Ausbeutungsverhältnissen"
+  - "Historische Perspektive auf gesellschaftliche Entwicklung"
+  - "Kritik der Ideologie und des falschen Bewusstseins"
+  - "Emanzipatorisches Potential für unterdrückte Klassen"
+
+# Schwächen
+weaknesses:
+  - "Ökonomischer Determinismus - unterschätzt Rolle von Kultur und Ideen"
+  - "Vernachlässigung individueller Freiheit und Pluralität"
+  - "Utopische Vision ohne klare Implementierungsstrategie"
+  - "Historische Fehlschläge sozialistischer Experimente"
+  - "Reduktion komplexer sozialer Phänomene auf Klassenkonflikt"
+
+# Anwendungsbeispiel
+example_application: |
+  Analyse von Arbeitsbedingungen in der Gig-Economy: Die Plattformökonomie (Uber, Deliveroo) 
+  reproduziert kapitalistische Ausbeutung in neuer Form. Arbeiter sind formal selbständig, 
+  faktisch aber von der Plattform abhängig, die den Mehrwert extrahiert ohne soziale 
+  Verantwortung zu übernehmen. Die Entfremdung wird verstärkt durch algorithmische Kontrolle.
+
+# Entscheidungsrahmen
+decision_framework: |
+  Analysiere durch die Linse der Klassenverhältnisse, materiellen Bedingungen und 
+  ökonomischen Interessen. Frage: Wem nützt es? Welche Klasse profitiert? Wie tragen 
+  Entscheidungen zur Überwindung oder Verfestigung von Ausbeutung bei?
+
+# Kernprinzipien für Debatten
+core_principles:
+  - "Historischer Materialismus - ökonomische Basis bestimmt Überbau"
+  - "Klassenkampf als Motor der Geschichte"
+  - "Entfremdung unter kapitalistischen Produktionsverhältnissen"
+  - "Ausbeutung durch Mehrwertextraktion"
+  - "Kommunistische Gesellschaft als Ziel der Geschichte"
+  - "Dialektische Entwicklung durch Widersprüche"
+
+# Wichtige Werke
+key_works:
+  - title: "Das Kapital"
+    year: 1867
+    description: "Hauptwerk zur Kritik der politischen Ökonomie"
+  
+  - title: "Manifest der Kommunistischen Partei"
+    year: 1848
+    description: "Mit Engels; revolutionäres Programm"
+  
+  - title: "Ökonomisch-philosophische Manuskripte"
+    year: 1844
+    description: "Frühe Schriften zur Entfremdung"
+  
+  - title: "Die deutsche Ideologie"
+    year: 1845
+    description: "Mit Engels; Materialistische Geschichtsauffassung"
+
+# Relevante Dimensionen
+relevant_dimensions:
+  - "political"      # Politische Philosophie
+  - "social"         # Sozialphilosophie
+  - "economic"       # Wirtschaftsethik
+  - "historical"     # Historische Analyse
+  - "normative"      # Normative Kritik
