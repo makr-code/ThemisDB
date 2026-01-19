@@ -1313,10 +1313,59 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
     
     std::vector<GPUStats> all_stats;
     for (int gpu_id : available_gpus_) {
-        // Unlock and relock for each call to avoid deadlock
-        mutex_.unlock();
-        all_stats.push_back(getGPUStats(gpu_id));
-        mutex_.lock();
+        // Get stats inline to avoid deadlock (mutex already locked)
+        GPUStats stats = {};
+        stats.device_id = gpu_id;
+        
+        if (isGPUAvailable(gpu_id)) {
+            // Get VRAM stats
+            stats.total_vram_bytes = config_.max_vram_bytes;
+            stats.used_vram_bytes = 0;
+            
+            auto it = per_gpu_vram_used_.find(gpu_id);
+            if (it != per_gpu_vram_used_.end()) {
+                stats.used_vram_bytes = it->second;
+            }
+            
+            stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
+            
+            // Count allocations on this GPU
+            stats.num_allocations = 0;
+            for (const auto& [model_id, allocs] : allocations_) {
+                for (const auto& alloc : allocs) {
+                    if (alloc.gpu_device_id == gpu_id && alloc.gpu_ptr != nullptr) {
+                        stats.num_allocations++;
+                        
+                        // Track loaded models and adapters
+                        if (model_id.find("adapter_") != std::string::npos) {
+                            stats.loaded_adapters.push_back(model_id);
+                        } else {
+                            stats.loaded_models.push_back(model_id);
+                        }
+                    }
+                }
+            }
+            
+            // Get utilization
+            auto util_it = gpu_utilizations_.find(gpu_id);
+            if (util_it != gpu_utilizations_.end()) {
+                stats.utilization_percent = util_it->second;
+            } else {
+                stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+            }
+            
+            // Get temperature
+            auto temp_it = gpu_temperatures_.find(gpu_id);
+            if (temp_it != gpu_temperatures_.end()) {
+                stats.temperature_celsius = temp_it->second;
+            }
+            
+            // Get health status
+            auto health_it = gpu_health_status_.find(gpu_id);
+            stats.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+        }
+        
+        all_stats.push_back(stats);
     }
     
     return all_stats;
@@ -1363,10 +1412,36 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
     
     std::vector<GPUHealth> all_health;
     for (int gpu_id : available_gpus_) {
-        // Unlock and relock for each call to avoid deadlock
-        mutex_.unlock();
-        all_health.push_back(getGPUHealth(gpu_id));
-        mutex_.lock();
+        // Get health inline to avoid deadlock (mutex already locked)
+        GPUHealth health = {};
+        health.device_id = gpu_id;
+        health.is_available = isGPUAvailable(gpu_id);
+        
+        if (health.is_available) {
+            // Check if we have stored health data
+            auto it = gpu_health_data_.find(gpu_id);
+            if (it != gpu_health_data_.end()) {
+                health = it->second;
+            } else {
+                // Generate default health data
+                auto health_it = gpu_health_status_.find(gpu_id);
+                health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+                
+                auto temp_it = gpu_temperatures_.find(gpu_id);
+                health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
+                
+                auto util_it = gpu_utilizations_.find(gpu_id);
+                health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
+                
+                auto err_it = gpu_error_counts_.find(gpu_id);
+                health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
+                
+                health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+            }
+        }
+        
+        all_health.push_back(health);
     }
     
     return all_health;

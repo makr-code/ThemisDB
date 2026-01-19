@@ -91,9 +91,14 @@ bool AdapterLoadBalancer::placeAdapter(
     // Check if adapter already exists
     if (placements_.find(adapter_id) != placements_.end()) {
         spdlog::warn("Adapter {} already placed, removing old placement", adapter_id);
-        mutex_.unlock();
-        removeAdapter(adapter_id);
-        mutex_.lock();
+        
+        // Remove inline without calling removeAdapter to avoid deadlock
+        auto it = placements_.find(adapter_id);
+        int old_gpu_id = it->second.gpu_device_id;
+        placements_.erase(it);
+        
+        auto& adapters = gpu_to_adapters_[old_gpu_id];
+        adapters.erase(std::remove(adapters.begin(), adapters.end(), adapter_id), adapters.end());
     }
     
     // Verify GPU can accommodate adapter
@@ -288,17 +293,22 @@ bool AdapterLoadBalancer::rebalance() {
             
             int target_gpu = underloaded_gpus[0];
             
-            mutex_.unlock();
-            bool success = migrateAdapter(adapter_id, target_gpu);
-            mutex_.lock();
-            
-            if (success) {
-                migrations++;
+            // Perform migration inline (mutex already locked)
+            auto it = placements_.find(adapter_id);
+            if (it != placements_.end() && !it->second.is_pinned) {
+                int source_gpu = it->second.gpu_device_id;
                 
-                // Check if target GPU is still underloaded
-                float new_load = calculateGPULoad(target_gpu);
-                if (new_load >= avg_load) {
-                    underloaded_gpus.erase(underloaded_gpus.begin());
+                bool success = performMigration(adapter_id, source_gpu, target_gpu);
+                
+                if (success) {
+                    migrations++;
+                    total_migrations_++;
+                    
+                    // Check if target GPU is still underloaded
+                    float new_load = calculateGPULoad(target_gpu);
+                    if (new_load >= avg_load) {
+                        underloaded_gpus.erase(underloaded_gpus.begin());
+                    }
                 }
             }
         }
@@ -361,9 +371,8 @@ std::vector<std::string> AdapterLoadBalancer::evictLRUAdapters(
     for (const auto& adapter_id : candidates) {
         auto it = placements_.find(adapter_id);
         if (it != placements_.end() && !it->second.is_pinned) {
-            mutex_.unlock();
+            // Perform eviction inline (mutex already locked)
             bool success = performEviction(adapter_id);
-            mutex_.lock();
             
             if (success) {
                 evicted.push_back(adapter_id);
@@ -500,10 +509,13 @@ bool AdapterLoadBalancer::shouldRebalance() const {
 }
 
 float AdapterLoadBalancer::calculateGPULoad(int gpu_device_id) const {
-    size_t used_vram = memory_manager_->getGPUVRAM(gpu_device_id);
-    size_t total_vram = 24ULL * 1024 * 1024 * 1024;  // TODO: Get from config
+    auto stats = memory_manager_->getGPUStats(gpu_device_id);
     
-    return static_cast<float>(used_vram) / total_vram;
+    if (stats.total_vram_bytes == 0) {
+        return 0.0f;
+    }
+    
+    return static_cast<float>(stats.used_vram_bytes) / stats.total_vram_bytes;
 }
 
 int AdapterLoadBalancer::findLeastLoadedHealthyGPU() const {
