@@ -92,6 +92,62 @@ void ErrorRegistry::registerDefaultErrors() {
         {"corruption", "data", "integrity", "storage"}
     });
     
+    registerError({
+        ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+        "Storage",
+        "Error",
+        "Transaction failed: {}",
+        "A database transaction could not be completed successfully.",
+        "1. Check if the database is in read-only mode\n"
+        "2. Verify transaction timeout settings\n"
+        "3. Check for deadlocks in system logs\n"
+        "4. Ensure sufficient resources (memory, disk space)",
+        {"/docs/transactions.md", "/docs/troubleshooting.md"},
+        {"transaction", "commit", "rollback", "storage", "database"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_CACHE_ERROR,
+        "Storage",
+        "Warning",
+        "Cache operation failed: {}",
+        "The cache layer encountered an error during read or write operation.",
+        "1. Check cache configuration settings\n"
+        "2. Verify cache size limits are not exceeded\n"
+        "3. Clear cache if corrupted: themis-admin cache clear\n"
+        "4. Review cache eviction policies",
+        {"/docs/caching.md", "/docs/performance.md"},
+        {"cache", "memory", "eviction", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_LOG_FULL,
+        "Storage",
+        "Critical",
+        "Write-ahead log is full: {}",
+        "The write-ahead log (WAL) has reached capacity and cannot accept new writes.",
+        "1. Trigger log checkpoint: themis-admin checkpoint\n"
+        "2. Increase WAL size limit in configuration\n"
+        "3. Check if log archiving is working\n"
+        "4. Verify disk space is available",
+        {"/docs/wal.md", "/docs/configuration.md"},
+        {"wal", "log", "full", "checkpoint", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+        "Storage",
+        "Error",
+        "Redundancy operation failed: {}",
+        "Failed to maintain data redundancy across storage backends.",
+        "1. Check connectivity to all storage backends\n"
+        "2. Verify backend credentials and permissions\n"
+        "3. Review redundancy policy configuration\n"
+        "4. Check available space on all backends",
+        {"/docs/redundancy.md", "/docs/backup.md"},
+        {"redundancy", "replication", "backup", "storage", "backend"}
+    });
+    
     // LLM Errors
     registerError({
         ErrorCode::ERR_LLM_MODEL_NOT_FOUND,
