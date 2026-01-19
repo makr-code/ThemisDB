@@ -1,0 +1,352 @@
+# =============================================================================
+# CHIMERA Suite: Vendor-Neutral Benchmark Configuration Example (TOML)
+# Version: 1.0.0
+# Standard Compliance: IEEE Std 2807-2022, ISO/IEC 14756:2015
+# =============================================================================
+
+# =============================================================================
+# METADATA
+# =============================================================================
+[metadata]
+benchmark_suite = "Multi-Model Database Performance Comparison"
+version = "1.0.0"
+date = "2026-01-19T12:00:00Z"
+operator = "Academic Research Institute"
+
+[metadata.contact]
+email = "research@university.edu"
+organization = "Database Systems Research Group"
+
+[[metadata.standards]]
+standard = "IEEE Std 2807-2022"
+[[metadata.standards]]
+standard = "ISO/IEC 14756:2015"
+[[metadata.standards]]
+standard = "TPC-C Revision 5.11"
+
+# =============================================================================
+# SYSTEMS UNDER TEST
+# =============================================================================
+[[systems]]
+system_id = "system_alpha"
+system_type = "multi_model_database"
+model = "transactional_analytical_hybrid"
+
+[systems.architecture]
+type = "native_multi_model"
+storage_engine = "lsm_tree"
+transaction_model = "mvcc"
+consistency = "acid"
+
+[systems.adapter]
+type = "NativeAdapter"
+protocol = "binary_wire"
+connection_pool_size = 20
+timeout_seconds = 30
+
+[systems.version]
+major = 1
+minor = 4
+patch = 0
+release_type = "production"
+
+[[systems]]
+system_id = "system_beta"
+system_type = "relational_database"
+model = "traditional_rdbms"
+
+[systems.architecture]
+type = "traditional_relational"
+storage_engine = "btree"
+transaction_model = "mvcc"
+consistency = "acid"
+
+[systems.adapter]
+type = "PostgreSQLAdapter"
+protocol = "postgres_wire"
+connection_pool_size = 20
+timeout_seconds = 30
+
+[systems.version]
+major = 15
+minor = 0
+patch = 0
+release_type = "production"
+
+[[systems]]
+system_id = "system_gamma"
+system_type = "document_database"
+model = "document_oriented"
+
+[systems.architecture]
+type = "document_store"
+storage_engine = "btree"
+transaction_model = "optimistic_concurrency"
+consistency = "eventual"
+
+[systems.adapter]
+type = "MongoDBAdapter"
+protocol = "mongodb_wire"
+connection_pool_size = 20
+timeout_seconds = 30
+
+[systems.version]
+major = 7
+minor = 0
+patch = 0
+release_type = "production"
+
+# =============================================================================
+# HARDWARE CONFIGURATION
+# =============================================================================
+[hardware.processor]
+architecture = "x86_64"
+vendor = "Generic"
+model = "High-Performance Multi-Core CPU"
+
+[hardware.processor.cores]
+physical = 8
+logical = 16
+
+[hardware.processor.frequency]
+base_ghz = 3.6
+turbo_ghz = 5.0
+
+[hardware.processor.cache]
+l1_kb = 64
+l2_kb = 512
+l3_mb = 16
+
+[hardware.processor]
+features = ["AVX2", "AVX512", "AES-NI"]
+tdp_watts = 125
+
+[hardware.memory]
+total_gb = 64
+type = "DDR4"
+speed_mhz = 3200
+channels = 4
+ecc_enabled = true
+numa_nodes = 1
+
+[hardware.storage.primary]
+type = "NVMe SSD"
+capacity_gb = 1000
+interface = "PCIe 4.0 x4"
+form_factor = "M.2"
+filesystem = "ext4"
+mount_options = "noatime,nodiratime"
+
+[hardware.storage.primary.performance]
+sequential_read_mbps = 7000
+sequential_write_mbps = 5000
+random_read_iops = 1000000
+random_write_iops = 700000
+queue_depth = 32
+
+[hardware.network]
+interface = "10GbE"
+bandwidth_gbps = 10
+mtu_bytes = 9000
+latency_us = 10
+topology = "single_node"
+
+[hardware.system]
+operating_system = "Linux"
+distribution = "Generic Linux Distribution"
+kernel_version = "6.5.0"
+page_size_kb = 4
+huge_pages_enabled = true
+cpu_governor = "performance"
+power_profile = "maximum_performance"
+
+# =============================================================================
+# WORKLOAD: YCSB Workload A
+# =============================================================================
+[[workloads]]
+workload_id = "ycsb_a"
+workload_family = "YCSB"
+standard_reference = "Cooper et al., SoCC 2010, DOI: 10.1145/1807128.1807152"
+description = "Update Heavy Workload (50% reads, 50% updates)"
+
+[workloads.parameters]
+record_count = 1000000
+operation_count = 1000000
+field_count = 10
+field_length = 100
+distribution = "zipfian"
+zipfian_constant = 0.99
+thread_count = 16
+target_throughput = 0  # Unlimited
+
+[workloads.parameters.operations]
+read = 50
+update = 50
+insert = 0
+scan = 0
+
+# =============================================================================
+# WORKLOAD: TPC-C
+# =============================================================================
+[[workloads]]
+workload_id = "tpc_c"
+workload_family = "TPC-C"
+standard_reference = "TPC-C v5.11"
+description = "OLTP Benchmark - Order Entry Simulation"
+
+[workloads.parameters]
+warehouses = 10
+duration_seconds = 300
+ramp_up_seconds = 60
+thread_count = 16
+think_time_ms = 0
+
+[workloads.parameters.transaction_mix]
+new_order = 45
+payment = 43
+order_status = 4
+delivery = 4
+stock_level = 4
+
+[workloads.parameters.data_generation]
+realistic_names = true
+random_seed = 42
+
+# =============================================================================
+# WORKLOAD: ANN-Benchmarks
+# =============================================================================
+[[workloads]]
+workload_id = "ann_sift1m"
+workload_family = "ANN-Benchmarks"
+standard_reference = "Aumüller et al., Information Systems 2020"
+description = "Vector Similarity Search - SIFT1M Dataset"
+
+[workloads.parameters]
+dataset = "SIFT1M"
+dataset_size = 1000000
+dimensions = 128
+distance_metric = "euclidean"
+query_set_size = 10000
+k_nearest = 10
+recall_target = 0.95
+
+[workloads.parameters.index_parameters]
+index_type = "hnsw"
+ef_construction = 200
+m = 16
+
+# =============================================================================
+# STATISTICAL METHODOLOGY
+# =============================================================================
+[methodology.statistical_testing]
+alpha = 0.05
+confidence_level = 0.95
+min_sample_size = 30
+
+[[methodology.statistical_testing.tests]]
+name = "Welch's t-test"
+reference = "Welch, B. L. (1947). Biometrika, 34(1-2), 28-35"
+use_case = "Comparing means with unequal variances"
+
+[[methodology.statistical_testing.tests]]
+name = "Mann-Whitney U test"
+reference = "Mann & Whitney (1947). Ann. Math. Stat., 18(1), 50-60"
+use_case = "Non-parametric comparison"
+
+[[methodology.statistical_testing.effect_sizes]]
+name = "Cohen's d"
+reference = "Cohen, J. (1988). Statistical Power Analysis"
+
+[methodology.statistical_testing.effect_sizes.thresholds]
+small = 0.2
+medium = 0.5
+large = 0.8
+
+[methodology.outlier_detection]
+method = "IQR"
+reference = "Tukey, J. W. (1977). Exploratory Data Analysis"
+threshold = 1.5
+action = "remove_and_report"
+
+[methodology.measurement]
+warm_up_seconds = 60
+measurement_duration_seconds = 300
+cool_down_seconds = 30
+num_runs = 5
+inter_run_delay_seconds = 60
+sampling_interval_ms = 100
+
+[methodology.reporting]
+metrics = ["mean", "median", "std_dev", "p25", "p50", "p75", "p95", "p99", "p99.9"]
+include = ["confidence_intervals", "effect_sizes", "hypothesis_test_results", "raw_data"]
+formats = ["html", "json", "csv"]
+
+[methodology.reporting.neutrality]
+color_palette = "okabe_ito"
+system_ordering = "alphabetical"
+no_branding = true
+citations_required = true
+
+# =============================================================================
+# EXECUTION PARAMETERS
+# =============================================================================
+[execution]
+mode = "sequential"
+
+[execution.isolation]
+cpu_pinning = true
+numa_binding = true
+cgroup_isolation = true
+
+[execution.monitoring]
+system_metrics = ["cpu_utilization", "memory_usage", "disk_io", "network_io"]
+collection_interval_seconds = 1
+tools = ["perf", "iostat", "vmstat"]
+
+[execution.validation]
+verify_data_integrity = true
+verify_transaction_semantics = true
+verify_result_correctness = true
+max_error_rate_percent = 0.1
+
+[execution.results]
+output_directory = "./benchmark_results"
+compress_results = true
+retention_days = 90
+
+[execution.reproducibility]
+record_environment = true
+record_configuration = true
+record_random_seeds = true
+include_system_info = true
+
+# =============================================================================
+# PERFORMANCE METRICS
+# =============================================================================
+[[metrics]]
+metric_id = "throughput"
+name = "Operations Throughput"
+unit = "operations/second"
+aggregation = "mean"
+higher_is_better = true
+
+[[metrics]]
+metric_id = "latency_p95"
+name = "95th Percentile Latency"
+unit = "milliseconds"
+aggregation = "p95"
+higher_is_better = false
+
+[[metrics]]
+metric_id = "latency_p99"
+name = "99th Percentile Latency"
+unit = "milliseconds"
+aggregation = "p99"
+higher_is_better = false
+
+[[metrics]]
+metric_id = "recall"
+name = "Recall"
+unit = "ratio"
+aggregation = "mean"
+higher_is_better = true

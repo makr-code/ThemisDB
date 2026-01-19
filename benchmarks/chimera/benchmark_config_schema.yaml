@@ -1,0 +1,687 @@
+# =============================================================================
+# CHIMERA Suite: Vendor-Neutral Benchmark Configuration Schema
+# Version: 1.0.0
+# Standard Compliance: IEEE Std 2807-2022, ISO/IEC 14756:2015
+# =============================================================================
+#
+# This schema defines a strictly vendor-neutral format for configuring
+# database and system benchmarks. All naming conventions, parameters, and
+# methodologies are standardized and scientifically referenced.
+#
+# Key Principles:
+# - No vendor-specific naming or branding
+# - Generic adapter identification
+# - IEEE/ACM/ISO referenced methodologies
+# - Hardware-agnostic configuration
+# - Statistical rigor and reproducibility
+#
+# =============================================================================
+
+# =============================================================================
+# METADATA SECTION
+# Benchmark identification and citation information
+# =============================================================================
+metadata:
+  # Benchmark suite name (descriptive, not branded)
+  benchmark_suite: "Database Multi-Model Performance Evaluation"
+  
+  # Version of this benchmark configuration
+  version: "1.0.0"
+  
+  # Date of benchmark execution (ISO 8601)
+  date: "2026-01-19T12:00:00Z"
+  
+  # Benchmark operator/organization (neutral identifier)
+  operator: "Independent Benchmark Consortium"
+  
+  # Contact information
+  contact:
+    email: "benchmarks@example.org"
+    organization: "Database Research Lab"
+  
+  # Standards compliance
+  standards:
+    - "IEEE Std 2807-2022: Framework for Performance Benchmarking of Database Management Systems"
+    - "ISO/IEC 14756:2015: Measurement and rating of performance of database management systems"
+    - "TPC Benchmark C (TPC-C) Revision 5.11"
+    - "TPC Benchmark H (TPC-H) Revision 3.0.0"
+    - "IEEE Std 730-2014: Software Quality Assurance Processes"
+  
+  # Citation for this benchmark
+  citation:
+    authors: ["Database Research Lab"]
+    title: "Vendor-Neutral Multi-Model Database Performance Evaluation"
+    year: 2026
+    doi: "10.xxxx/benchmark.2026"
+
+# =============================================================================
+# SYSTEMS UNDER TEST (SUT)
+# Anonymous, vendor-neutral system definitions
+# =============================================================================
+systems:
+  # System A - Anonymized system identifier
+  - system_id: "system_a"
+    
+    # Generic system type classification
+    system_type: "multi_model_database"
+    
+    # System model classification (no branding)
+    model: "transactional_analytical_hybrid"
+    
+    # Architecture type
+    architecture:
+      type: "native_multi_model"  # Options: native_multi_model, polyglot_persistence, federated
+      storage_engine: "lsm_tree"  # Options: lsm_tree, btree, hybrid
+      transaction_model: "mvcc"   # Options: mvcc, 2pl, occ
+      consistency: "acid"          # Options: acid, eventual, causal
+    
+    # Data models supported
+    data_models:
+      - "relational"
+      - "document"
+      - "graph"
+      - "vector"
+      - "key_value"
+      - "time_series"
+    
+    # Adapter configuration (generic naming)
+    adapter:
+      type: "NativeAdapter"
+      protocol: "binary_wire"  # Options: binary_wire, http_rest, grpc, postgres_wire
+      connection_pool_size: 20
+      timeout_seconds: 30
+    
+    # Version information (semantic, not branded)
+    version:
+      major: 1
+      minor: 4
+      patch: 0
+      release_type: "production"  # Options: alpha, beta, rc, production
+
+  # System B - Another anonymized system
+  - system_id: "system_b"
+    system_type: "relational_database"
+    model: "traditional_rdbms"
+    architecture:
+      type: "traditional_relational"
+      storage_engine: "btree"
+      transaction_model: "mvcc"
+      consistency: "acid"
+    data_models:
+      - "relational"
+    adapter:
+      type: "PostgreSQLAdapter"
+      protocol: "postgres_wire"
+      connection_pool_size: 20
+      timeout_seconds: 30
+    version:
+      major: 15
+      minor: 0
+      patch: 0
+      release_type: "production"
+
+# =============================================================================
+# HARDWARE CONFIGURATION
+# IEEE Std 2807-2022 compliant hardware specification
+# =============================================================================
+hardware:
+  # Processor specification
+  processor:
+    architecture: "x86_64"
+    vendor: "Generic"  # Anonymized vendor
+    model: "High-Performance Multi-Core CPU"
+    cores:
+      physical: 8
+      logical: 16
+    frequency:
+      base_ghz: 3.6
+      turbo_ghz: 5.0
+    cache:
+      l1_kb: 64
+      l2_kb: 512
+      l3_mb: 16
+    features:
+      - "AVX2"
+      - "AVX512"
+      - "AES-NI"
+    tdp_watts: 125
+    
+  # Memory specification
+  memory:
+    total_gb: 64
+    type: "DDR4"
+    speed_mhz: 3200
+    channels: 4
+    ecc_enabled: true
+    numa_nodes: 1
+    
+  # Storage specification
+  storage:
+    primary:
+      type: "NVMe SSD"
+      capacity_gb: 1000
+      interface: "PCIe 4.0 x4"
+      form_factor: "M.2"
+      performance:
+        sequential_read_mbps: 7000
+        sequential_write_mbps: 5000
+        random_read_iops: 1000000
+        random_write_iops: 700000
+        queue_depth: 32
+      filesystem: "ext4"
+      mount_options: "noatime,nodiratime"
+    
+    # Optional secondary storage
+    secondary:
+      type: "SATA SSD"
+      capacity_gb: 2000
+      interface: "SATA 3.0"
+      
+  # Network specification
+  network:
+    interface: "10GbE"
+    bandwidth_gbps: 10
+    mtu_bytes: 9000
+    latency_us: 10
+    topology: "single_node"  # Options: single_node, cluster, distributed
+    
+  # System configuration
+  system:
+    operating_system: "Linux"
+    distribution: "Generic Linux Distribution"
+    kernel_version: "6.5.0"
+    page_size_kb: 4
+    huge_pages_enabled: true
+    cpu_governor: "performance"
+    power_profile: "maximum_performance"
+
+# =============================================================================
+# WORKLOAD DEFINITIONS
+# Standard workload mappings with IEEE/ACM/TPC references
+# =============================================================================
+workloads:
+  # YCSB - Yahoo! Cloud Serving Benchmark
+  # Reference: Cooper et al., "Benchmarking Cloud Serving Systems with YCSB",
+  # SoCC 2010, DOI: 10.1145/1807128.1807152
+  - workload_id: "ycsb_workload_a"
+    workload_family: "YCSB"
+    standard_reference: "Cooper2010"
+    description: "Update Heavy Workload (50% reads, 50% updates)"
+    
+    parameters:
+      record_count: 1000000
+      operation_count: 1000000
+      field_count: 10
+      field_length: 100
+      
+      operations:
+        read: 50
+        update: 50
+        insert: 0
+        scan: 0
+        
+      distribution: "zipfian"  # Options: uniform, zipfian, latest, hotspot
+      zipfian_constant: 0.99
+      
+      thread_count: 16
+      target_throughput: 10000  # ops/sec, 0 = unlimited
+      
+  # TPC-C - Transaction Processing Performance Council Benchmark C
+  # Reference: TPC Benchmark C Standard Specification, Revision 5.11
+  # http://www.tpc.org/tpcc/
+  - workload_id: "tpc_c"
+    workload_family: "TPC-C"
+    standard_reference: "TPC-C-v5.11"
+    description: "OLTP Benchmark simulating order-entry environment"
+    
+    parameters:
+      warehouses: 10
+      duration_seconds: 300
+      ramp_up_seconds: 60
+      thread_count: 16
+      think_time_ms: 0
+      
+      transaction_mix:
+        new_order: 45
+        payment: 43
+        order_status: 4
+        delivery: 4
+        stock_level: 4
+        
+      data_generation:
+        realistic_names: true
+        random_seed: 42
+        
+  # TPC-H - Transaction Processing Performance Council Benchmark H
+  # Reference: TPC Benchmark H Standard Specification, Revision 3.0.0
+  # http://www.tpc.org/tpch/
+  - workload_id: "tpc_h_sf1"
+    workload_family: "TPC-H"
+    standard_reference: "TPC-H-v3.0.0"
+    description: "Decision Support Benchmark"
+    
+    parameters:
+      scale_factor: 1  # 1 GB database
+      query_streams: 1
+      refresh_streams: 1
+      random_seed: 42
+      
+      queries:
+        - 1   # Pricing Summary Report
+        - 2   # Minimum Cost Supplier
+        - 3   # Shipping Priority
+        - 6   # Forecasting Revenue Change
+        - 14  # Promotion Effect
+        
+  # ANN-Benchmarks - Approximate Nearest Neighbor Benchmarks
+  # Reference: Aumüller et al., "ANN-Benchmarks: A Benchmarking Tool for 
+  # Approximate Nearest Neighbor Algorithms", Information Systems 2020
+  # DOI: 10.1016/j.is.2019.02.006
+  - workload_id: "ann_sift1m"
+    workload_family: "ANN-Benchmarks"
+    standard_reference: "Aumueller2020"
+    description: "Vector similarity search benchmark"
+    
+    parameters:
+      dataset: "SIFT1M"
+      dataset_size: 1000000
+      dimensions: 128
+      distance_metric: "euclidean"  # Options: euclidean, cosine, dot_product
+      
+      query_set_size: 10000
+      k_nearest: 10
+      recall_target: 0.95
+      
+      index_parameters:
+        index_type: "hnsw"  # Options: hnsw, ivf, flat, pq
+        ef_construction: 200
+        m: 16
+        
+  # LDBC-SNB - Linked Data Benchmark Council Social Network Benchmark
+  # Reference: Erling et al., "The LDBC Social Network Benchmark", 
+  # arXiv:2001.02299
+  - workload_id: "ldbc_snb_interactive"
+    workload_family: "LDBC-SNB"
+    standard_reference: "Erling2020"
+    description: "Graph database benchmark based on social network"
+    
+    parameters:
+      scale_factor: "SF1"
+      workload_type: "interactive"  # Options: interactive, bi, graphanalytics
+      
+      query_mix:
+        short_reads: 50
+        complex_reads: 40
+        updates: 10
+        
+      thread_count: 16
+      
+  # vLLM Benchmark - LLM Inference Performance
+  # Reference: Kwon et al., "Efficient Memory Management for Large Language 
+  # Model Serving with PagedAttention", SOSP 2023
+  - workload_id: "vllm_serving"
+    workload_family: "vLLM"
+    standard_reference: "Kwon2023"
+    description: "LLM inference serving benchmark"
+    
+    parameters:
+      model_name: "llama-2-7b"
+      request_rate: 1.0  # requests per second
+      num_prompts: 1000
+      
+      input_length:
+        mean: 512
+        std: 128
+        
+      output_length:
+        mean: 256
+        std: 64
+        
+      batch_size: "dynamic"
+      
+  # RAGBench - Retrieval-Augmented Generation Benchmark
+  # Reference: Chen et al., "Benchmarking Large Language Models in 
+  # Retrieval-Augmented Generation", AAAI 2024
+  - workload_id: "rag_qa"
+    workload_family: "RAGBench"
+    standard_reference: "Chen2024"
+    description: "RAG system end-to-end performance"
+    
+    parameters:
+      dataset: "NaturalQuestions"
+      num_questions: 1000
+      
+      retrieval:
+        top_k: 5
+        retrieval_method: "dense"  # Options: dense, sparse, hybrid
+        
+      generation:
+        model: "llama-2-7b"
+        max_tokens: 256
+        temperature: 0.7
+        
+      metrics:
+        - "answer_accuracy"
+        - "retrieval_precision"
+        - "end_to_end_latency"
+
+# =============================================================================
+# STATISTICAL METHODOLOGY
+# IEEE compliant statistical analysis parameters
+# =============================================================================
+methodology:
+  # Statistical testing parameters
+  statistical_testing:
+    # Significance level (α)
+    alpha: 0.05
+    
+    # Confidence level for intervals
+    confidence_level: 0.95
+    
+    # Minimum sample size
+    min_sample_size: 30
+    
+    # Hypothesis tests used
+    tests:
+      - name: "Welch's t-test"
+        reference: "Welch, B. L. (1947). Biometrika, 34(1-2), 28-35"
+        use_case: "Comparing means with unequal variances"
+        
+      - name: "Mann-Whitney U test"
+        reference: "Mann & Whitney (1947). Ann. Math. Stat., 18(1), 50-60"
+        use_case: "Non-parametric comparison of distributions"
+        
+      - name: "Kolmogorov-Smirnov test"
+        reference: "Massey, F. J. (1951). J. Am. Stat. Assoc., 46(253), 68-78"
+        use_case: "Distribution comparison"
+    
+    # Effect size measures
+    effect_sizes:
+      - name: "Cohen's d"
+        reference: "Cohen, J. (1988). Statistical Power Analysis"
+        thresholds:
+          small: 0.2
+          medium: 0.5
+          large: 0.8
+          
+      - name: "Rank-biserial correlation"
+        reference: "Kerby, D. S. (2014). J. Stat. Ed., 22(3)"
+        use_case: "Effect size for Mann-Whitney U"
+  
+  # Outlier handling
+  outlier_detection:
+    method: "IQR"  # Interquartile Range
+    reference: "Tukey, J. W. (1977). Exploratory Data Analysis"
+    threshold: 1.5  # IQR multiplier
+    action: "remove_and_report"  # Options: remove, keep, flag
+  
+  # Measurement methodology
+  measurement:
+    # Warm-up period
+    warm_up_seconds: 60
+    
+    # Measurement duration
+    measurement_duration_seconds: 300
+    
+    # Cool-down period
+    cool_down_seconds: 30
+    
+    # Number of independent runs
+    num_runs: 5
+    
+    # Time between runs
+    inter_run_delay_seconds: 60
+    
+    # Metrics collection interval
+    sampling_interval_ms: 100
+  
+  # Reporting standards
+  reporting:
+    # Metrics to report
+    metrics:
+      - "mean"
+      - "median"
+      - "std_dev"
+      - "min"
+      - "max"
+      - "p25"
+      - "p50"
+      - "p75"
+      - "p95"
+      - "p99"
+      - "p99.9"
+    
+    # Include in reports
+    include:
+      - "confidence_intervals"
+      - "effect_sizes"
+      - "hypothesis_test_results"
+      - "outlier_summary"
+      - "raw_data"
+      - "system_metrics"
+    
+    # Report formats
+    formats:
+      - "html"
+      - "json"
+      - "csv"
+      - "latex"
+    
+    # Neutrality requirements
+    neutrality:
+      color_palette: "okabe_ito"  # Color-blind friendly
+      system_ordering: "alphabetical"  # Options: alphabetical, by_metric
+      no_branding: true
+      citations_required: true
+
+# =============================================================================
+# TEST EXECUTION PARAMETERS
+# Runtime configuration for benchmark execution
+# =============================================================================
+execution:
+  # Execution mode
+  mode: "sequential"  # Options: sequential, parallel, distributed
+  
+  # Resource isolation
+  isolation:
+    cpu_pinning: true
+    numa_binding: true
+    cgroup_isolation: true
+    
+  # Monitoring
+  monitoring:
+    system_metrics:
+      - "cpu_utilization"
+      - "memory_usage"
+      - "disk_io"
+      - "network_io"
+      - "cache_hit_ratio"
+      
+    collection_interval_seconds: 1
+    
+    tools:
+      - "perf"
+      - "iostat"
+      - "vmstat"
+      - "sar"
+  
+  # Validation
+  validation:
+    verify_data_integrity: true
+    verify_transaction_semantics: true
+    verify_result_correctness: true
+    max_error_rate_percent: 0.1
+  
+  # Result storage
+  results:
+    output_directory: "./benchmark_results"
+    compress_results: true
+    retention_days: 90
+    
+  # Reproducibility
+  reproducibility:
+    record_environment: true
+    record_configuration: true
+    record_random_seeds: true
+    include_system_info: true
+
+# =============================================================================
+# PERFORMANCE METRICS
+# Standardized metric definitions
+# =============================================================================
+metrics:
+  # Throughput metrics
+  - metric_id: "throughput"
+    name: "Operations Throughput"
+    unit: "operations/second"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "qps"
+    name: "Queries Per Second"
+    unit: "queries/second"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "tps"
+    name: "Transactions Per Second"
+    unit: "transactions/second"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  # Latency metrics
+  - metric_id: "latency_mean"
+    name: "Mean Latency"
+    unit: "milliseconds"
+    aggregation: "mean"
+    higher_is_better: false
+    
+  - metric_id: "latency_p95"
+    name: "95th Percentile Latency"
+    unit: "milliseconds"
+    aggregation: "p95"
+    higher_is_better: false
+    
+  - metric_id: "latency_p99"
+    name: "99th Percentile Latency"
+    unit: "milliseconds"
+    aggregation: "p99"
+    higher_is_better: false
+    
+  # Resource metrics
+  - metric_id: "cpu_utilization"
+    name: "CPU Utilization"
+    unit: "percent"
+    aggregation: "mean"
+    
+  - metric_id: "memory_usage"
+    name: "Memory Usage"
+    unit: "gigabytes"
+    aggregation: "max"
+    
+  - metric_id: "disk_io"
+    name: "Disk I/O Throughput"
+    unit: "MB/s"
+    aggregation: "mean"
+    
+  # Quality metrics
+  - metric_id: "recall"
+    name: "Recall"
+    unit: "ratio"
+    aggregation: "mean"
+    higher_is_better: true
+    
+  - metric_id: "precision"
+    name: "Precision"
+    unit: "ratio"
+    aggregation: "mean"
+    higher_is_better: true
+
+# =============================================================================
+# REFERENCES
+# IEEE/ACM/ISO citations for all methodologies
+# =============================================================================
+references:
+  standards:
+    - id: "IEEE-2807-2022"
+      title: "IEEE Standard for Framework for Performance Benchmarking of Database Management Systems"
+      year: 2022
+      organization: "IEEE"
+      
+    - id: "ISO-IEC-14756-2015"
+      title: "Information technology - Measurement and rating of performance of computer-based software systems"
+      year: 2015
+      organization: "ISO/IEC"
+      
+    - id: "TPC-C-v5.11"
+      title: "TPC Benchmark C Standard Specification"
+      version: "5.11"
+      year: 2010
+      organization: "Transaction Processing Performance Council"
+      url: "http://www.tpc.org/tpcc/"
+      
+    - id: "TPC-H-v3.0.0"
+      title: "TPC Benchmark H (Decision Support) Standard Specification"
+      version: "3.0.0"
+      year: 2021
+      organization: "Transaction Processing Performance Council"
+      url: "http://www.tpc.org/tpch/"
+  
+  research:
+    - id: "Cooper2010"
+      authors: ["Cooper, B. F.", "Silberstein, A.", "Tam, E.", "Ramakrishnan, R.", "Sears, R."]
+      title: "Benchmarking cloud serving systems with YCSB"
+      venue: "ACM Symposium on Cloud Computing (SoCC)"
+      year: 2010
+      doi: "10.1145/1807128.1807152"
+      
+    - id: "Aumueller2020"
+      authors: ["Aumüller, M.", "Bernhardsson, E.", "Faithfull, A."]
+      title: "ANN-Benchmarks: A benchmarking tool for approximate nearest neighbor algorithms"
+      venue: "Information Systems"
+      volume: 87
+      year: 2020
+      doi: "10.1016/j.is.2019.02.006"
+      
+    - id: "Erling2020"
+      authors: ["Erling, O.", "Averbuch, A.", "Larriba-Pey, J.", "et al."]
+      title: "The LDBC Social Network Benchmark"
+      venue: "arXiv preprint"
+      arxiv: "2001.02299"
+      year: 2020
+      
+    - id: "Kwon2023"
+      authors: ["Kwon, W.", "Li, Z.", "Zhuang, S.", "Sheng, Y.", "et al."]
+      title: "Efficient Memory Management for Large Language Model Serving with PagedAttention"
+      venue: "ACM Symposium on Operating Systems Principles (SOSP)"
+      year: 2023
+      
+  statistics:
+    - id: "Welch1947"
+      authors: ["Welch, B. L."]
+      title: "The generalization of 'Student's' problem when several different population variances are involved"
+      venue: "Biometrika"
+      volume: "34(1-2)"
+      pages: "28-35"
+      year: 1947
+      
+    - id: "Mann1947"
+      authors: ["Mann, H. B.", "Whitney, D. R."]
+      title: "On a test of whether one of two random variables is stochastically larger than the other"
+      venue: "The Annals of Mathematical Statistics"
+      volume: "18(1)"
+      pages: "50-60"
+      year: 1947
+      
+    - id: "Cohen1988"
+      authors: ["Cohen, J."]
+      title: "Statistical Power Analysis for the Behavioral Sciences"
+      publisher: "Lawrence Erlbaum Associates"
+      edition: "2nd"
+      year: 1988
+      
+    - id: "Tukey1977"
+      authors: ["Tukey, J. W."]
+      title: "Exploratory Data Analysis"
+      publisher: "Addison-Wesley"
+      year: 1977
