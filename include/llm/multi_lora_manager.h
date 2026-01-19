@@ -10,6 +10,7 @@
 #include <thread>
 #include <atomic>
 #include <condition_variable>
+#include <functional>
 
 /**
  * @file multi_lora_manager.h
