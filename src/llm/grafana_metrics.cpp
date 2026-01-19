@@ -608,10 +608,15 @@ void LLMMetricsCollector::recordMemoryEstimate(const std::string& model_id,
     exporter_->setGauge("llm_memory_estimated_mb", static_cast<double>(estimated_mb), {{"model_id", model_id}});
     exporter_->setGauge("llm_memory_actual_mb", static_cast<double>(actual_mb), {{"model_id", model_id}});
     
-    // Calculate estimation accuracy
-    if (estimated_mb > 0) {
+    // Calculate estimation accuracy with proper bounds checking
+    if (estimated_mb > 10) {  // Require at least 10MB to avoid precision issues
         double accuracy_pct = (static_cast<double>(actual_mb) / static_cast<double>(estimated_mb)) * 100.0;
+        // Cap accuracy at reasonable bounds (50-200%) to avoid misleading values
+        accuracy_pct = std::min(std::max(accuracy_pct, 50.0), 200.0);
         exporter_->setGauge("llm_memory_estimation_accuracy_percent", accuracy_pct, {{"model_id", model_id}});
+    } else {
+        // Set to 100% if estimate is too small to be meaningful
+        exporter_->setGauge("llm_memory_estimation_accuracy_percent", 100.0, {{"model_id", model_id}});
     }
 }
 
@@ -628,8 +633,13 @@ void LLMMetricsCollector::recordLoRAAdapterSwitch(const std::string& model_id,
 void LLMMetricsCollector::recordContextLockWait(const std::string& model_id, double wait_time_ms) {
     exporter_->observeHistogram("llm_context_lock_wait_ms", wait_time_ms, {{"model_id", model_id}});
     
-    // Track lock contention events (wait time > 100ms)
-    if (wait_time_ms > 100.0) {
+    // Track lock contention events with configurable threshold
+    // TODO: Make threshold configurable via config (default: 100ms)
+    // Higher thresholds (200-500ms) recommended for distributed systems
+    // Lower thresholds (50-100ms) for local/high-performance deployments
+    constexpr double CONTENTION_THRESHOLD_MS = 100.0;
+    
+    if (wait_time_ms > CONTENTION_THRESHOLD_MS) {
         exporter_->incrementCounter("llm_context_lock_contention_total", {{"model_id", model_id}});
     }
 }

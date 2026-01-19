@@ -180,14 +180,27 @@ production:
 
 ### Schätzung für 7B-Modell (Q4 Quantization)
 
-| Context Size | Base Memory | KV Cache | Total RAM | Total VRAM |
-|--------------|-------------|----------|-----------|------------|
-| 4K (native)  | 4.5 GB      | 1 GB     | 5.5 GB    | 6 GB       |
-| 8K           | 4.5 GB      | 2 GB     | 6.5 GB    | 7 GB       |
-| 16K          | 4.5 GB      | 4 GB     | 8.5 GB    | 10 GB      |
-| 32K          | 4.5 GB      | 8 GB     | 12.5 GB   | 16 GB      |
-| 64K          | 4.5 GB      | 16 GB    | 20.5 GB   | 28 GB      |
-| 128K         | 4.5 GB      | 32 GB    | 36.5 GB   | 52 GB      |
+**Memory Components:**
+- **Base Model:** Model weights (~4.5 GB for 7B Q4)
+- **KV Cache:** Scales with context length
+- **System Overhead:** ~10-20% additional (OS, drivers, etc.)
+
+| Context Size | Base Memory | KV Cache | Total RAM | Total VRAM* |
+|--------------|-------------|----------|-----------|-------------|
+| 4K (native)  | 4.5 GB      | 1 GB     | 5.5 GB    | 6-7 GB      |
+| 8K           | 4.5 GB      | 2 GB     | 6.5 GB    | 8-9 GB      |
+| 16K          | 4.5 GB      | 4 GB     | 8.5 GB    | 10-12 GB    |
+| 32K          | 4.5 GB      | 8 GB     | 12.5 GB   | 16-20 GB    |
+| 64K          | 4.5 GB      | 16 GB    | 20.5 GB   | 28-32 GB    |
+| 128K         | 4.5 GB      | 32 GB    | 36.5 GB   | 52-60 GB    |
+
+**\*VRAM varies based on GPU offload layers:**
+- Full GPU offload: VRAM ≈ Total RAM + 20-30% overhead
+- Partial offload (16 layers): VRAM ≈ Total RAM / 2 + overhead
+- CPU only: VRAM = 0 GB
+
+**Note:** Total VRAM includes GPU driver overhead, kernel memory, and
+working buffers which can add 20-50% beyond the calculated values.
 
 **Formel:**
 ```

@@ -71,8 +71,11 @@ rope_scaling:
   # These provide fine-grained control over scaling quality
   yarn:
     # Extension factor (1.0 = no extension)
-    # Higher values preserve high-frequency information
-    # Range: 1.0-4.0, Default: 1.0
+    # Controls preservation of high-frequency information
+    # Range: 1.0-4.0 (Recommended: 1.0-2.0 for most use cases)
+    # Values > 2.0: Better detail preservation but may affect coherence
+    # Values < 1.0: Not recommended (degrades quality)
+    # Default: 1.0
     ext_factor: 1.0
     
     # Attention factor (1.0 = no adjustment)
