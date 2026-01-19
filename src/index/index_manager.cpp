@@ -8,6 +8,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
+#include <fmt/format.h>
 #include <stdexcept>
 
 namespace themis {

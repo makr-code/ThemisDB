@@ -1,5 +1,6 @@
 #include "storage/storage_engine.h"
 #include "utils/expected.h"
+#include <fmt/format.h>
 #include <stdexcept>
 
 namespace themis {

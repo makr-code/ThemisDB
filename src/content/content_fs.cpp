@@ -1,6 +1,7 @@
 #include "content/content_fs.h"
 #include "storage/key_schema.h"
 #include "utils/expected.h"
+#include <fmt/format.h>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
