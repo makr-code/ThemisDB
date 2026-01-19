@@ -206,8 +206,8 @@ All Phase 1 & 2 deliverables have been verified:
 
 ### Long-Term Goals
 - **Q2 2026:** Complete Phase 3 (high-value paths)
-- **Q2-Q3 2026:** Execute Phase 4 (full migration)
-- **Q3 2026:** Project complete with 100% coverage
+- **Q3 2026:** Execute Phase 4 (full migration)
+- **Q3 2026 End:** Project complete with 100% coverage
 
 ---
 
