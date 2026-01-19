@@ -148,6 +148,10 @@ struct LoRASlot {
     GPUPlacement gpu_placement = GPUPlacement::SINGLE_GPU;
     std::vector<int> assigned_gpus;     // GPU device IDs where this LoRA is loaded
     int primary_gpu = 0;                 // Primary GPU for single-GPU or coordinator for multi-GPU
+    
+    // Security and audit (v1.5.0)
+    std::string tenant_id;               // Tenant identifier for isolation
+    bool is_replicated = false;          // True if replicated across multiple nodes/GPUs for HA
 };
 
 /**
@@ -408,9 +412,87 @@ public:
     size_t balanceGPULoad();
     
     /**
+     * @brief Get usage heatmap for all LoRAs (v1.5.0)
+     * 
+     * Returns a heatmap showing access patterns and usage statistics
+     * for resource-aware eviction decisions.
+     * 
+     * @return Map of LoRA ID to usage metrics (access count, last used, etc.)
+     */
+    json getUsageHeatmap() const;
+    
+    /**
+     * @brief Resource-aware eviction based on GPU VRAM pressure (v1.5.0)
+     * 
+     * Evicts LoRAs based on GPU-specific resource constraints, usage patterns,
+     * and priority. More intelligent than simple LRU eviction.
+     * 
+     * @param gpu_id GPU device to free memory on (-1 for global)
+     * @param target_vram_mb Target VRAM to free
+     * @return Amount of VRAM freed (MB)
+     */
+    size_t evictResourceAware(int gpu_id = -1, size_t target_vram_mb = 0);
+    
+    /**
+     * @brief Get scheduling recommendations for LoRA placement (v1.5.0)
+     * 
+     * Provides intelligent placement recommendations based on available
+     * slots, VRAM, expected latency, and current GPU loads.
+     * 
+     * @param lora_vram_bytes Expected VRAM usage of LoRA
+     * @param priority Priority level (0-10)
+     * @return Recommended GPU ID and placement metrics
+     */
+    json getSchedulingRecommendation(size_t lora_vram_bytes, int priority = 5) const;
+    
+    /**
+     * @brief Migrate LoRA adapter to another GPU (v1.5.0)
+     * 
+     * Performs warm migration of a LoRA adapter from current GPU to target GPU
+     * with minimal service interruption.
+     * 
+     * @param lora_id LoRA to migrate
+     * @param target_gpu Target GPU device ID
+     * @return true if migration successful
+     */
+    bool migrateLoRAToGPU(const std::string& lora_id, int target_gpu);
+    
+    /**
+     * @brief Check GPU health and trigger auto-migration on failure (v1.5.0)
+     * 
+     * Monitors GPU health and automatically migrates adapters from
+     * unhealthy GPUs to healthy ones.
+     * 
+     * @return Number of adapters migrated due to GPU failures
+     */
+    size_t checkGPUHealthAndMigrate();
+    
+    /**
      * @brief List all loaded LoRAs
      */
     std::vector<LoRAInfo> listLoRAs() const;
+    
+    /**
+     * @brief Set tenant ID for a LoRA adapter (v1.5.0 - Security)
+     * 
+     * Associates a LoRA adapter with a specific tenant for
+     * GPU memory isolation and audit logging.
+     * 
+     * @param lora_id LoRA identifier
+     * @param tenant_id Tenant identifier
+     */
+    void setLoRATenant(const std::string& lora_id, const std::string& tenant_id);
+    
+    /**
+     * @brief Get audit log for GPU transfer events (v1.5.0 - Security)
+     * 
+     * Returns audit log of all GPU transfer events including LoRA
+     * migrations, load/unload operations with timestamps and tenant info.
+     * 
+     * @param limit Maximum number of recent events to return (0 = all)
+     * @return JSON array of audit events
+     */
+    json getGPUTransferAuditLog(size_t limit = 100) const;
 
     /**
      * @brief List loaded LoRAs filtered by base model id
@@ -495,6 +577,31 @@ private:
     // Multi-GPU state (v1.4.0)
     std::unordered_map<int, size_t> gpu_vram_usage_;  // Per-GPU VRAM tracking
     int next_round_robin_gpu_ = 0;                     // Round-robin counter
+    
+    // Enhanced tracking for v1.5.0
+    std::unordered_map<std::string, std::string> lora_tenants_;  // LoRA -> Tenant mapping
+    
+    // Audit log structure (v1.5.0)
+    struct AuditEvent {
+        std::chrono::system_clock::time_point timestamp;
+        std::string event_type;  // "load", "unload", "migrate", "evict"
+        std::string lora_id;
+        std::string tenant_id;
+        int source_gpu;
+        int target_gpu;
+        size_t vram_bytes;
+        std::string details;
+    };
+    std::vector<AuditEvent> audit_log_;
+    size_t max_audit_log_size_ = 1000;
+    
+    // GPU health tracking (v1.5.0)
+    std::unordered_map<int, bool> gpu_health_status_;  // GPU ID -> healthy status
+    std::unordered_map<int, std::chrono::system_clock::time_point> gpu_last_health_check_;
+    
+    void logGPUTransferEvent(const std::string& event_type, const std::string& lora_id,
+                             int source_gpu, int target_gpu, size_t vram_bytes,
+                             const std::string& details = "");
     
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
