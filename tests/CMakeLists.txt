@@ -145,6 +145,37 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA adapter application tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_application.cpp")
     endif()
     
+    # Multi-LoRA Fusion Tests (v1.5.0)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_lora_fusion.cpp")
+        message(STATUS "Adding Multi-LoRA fusion tests (THEMIS_ENABLE_LORA_TESTS=ON)")
+        
+        add_executable(test_multi_lora_fusion
+            test_multi_lora_fusion.cpp
+        )
+        
+        target_link_libraries(test_multi_lora_fusion PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_multi_lora_fusion PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MultiLoRAFusionTests COMMAND test_multi_lora_fusion)
+        set_tests_properties(MultiLoRAFusionTests PROPERTIES
+            LABELS "lora;llm;fusion;adapter;inference"
+            TIMEOUT 300
+        )
+    else()
+        message(STATUS "Multi-LoRA fusion tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_lora_fusion.cpp")
+    endif()
+    
     # LoRA Auto-Binding and Lifecycle Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
         message(STATUS "Adding LoRA auto-binding and lifecycle tests")
