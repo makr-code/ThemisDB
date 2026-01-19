@@ -43,6 +43,40 @@ set(TEST_LIBS
 )
 
 # ============================================================================
+# Core Utilities Tests
+# ============================================================================
+
+# Error Handling Tests (tl::expected wrapper)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_expected.cpp")
+    message(STATUS "Adding error handling tests (tl::expected)")
+    
+    add_executable(test_expected
+        test_expected.cpp
+    )
+    
+    target_link_libraries(test_expected PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_expected PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ErrorHandlingTests COMMAND test_expected)
+    
+    set_tests_properties(ErrorHandlingTests PROPERTIES
+        LABELS "core;utilities;error_handling"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Error handling tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_expected.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
