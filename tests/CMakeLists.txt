@@ -2038,6 +2038,45 @@ add_custom_target(run_tests
     COMMENT "Running all ThemisDB tests..."
 )
 
+# ============================================================================
+# Multi-GPU LoRA Advanced Tests (v1.5.0)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+    message(STATUS "Adding Multi-GPU LoRA Advanced tests")
+    
+    add_executable(test_multi_gpu_lora_advanced
+        test_multi_gpu_lora_advanced.cpp
+    )
+    
+    target_link_libraries(test_multi_gpu_lora_advanced PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_multi_gpu_lora_advanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MultiGPULoRAAdvancedTests COMMAND test_multi_gpu_lora_advanced)
+    
+    set_tests_properties(MultiGPULoRAAdvancedTests PROPERTIES
+        LABELS "lora;llm;multi-gpu;advanced;resource-aware;migration;security"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Multi-GPU LoRA Advanced: resource-aware eviction, migration, audit logging")
+else()
+    message(STATUS "Multi-GPU LoRA Advanced tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+endif()
+
+# ============================================================================
+# Custom Test Targets
+# ============================================================================
+
 # Add custom target to run only integration tests
 add_custom_target(run_integration_tests
     COMMAND ${CMAKE_CTEST_COMMAND} -R integration --output-on-failure --verbose
