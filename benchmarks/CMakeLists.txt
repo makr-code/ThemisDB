@@ -400,6 +400,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_
     message(STATUS "  Multi-GPU: data parallelism scaling efficiency")
 endif()
 
+# 2.1 Multi-GPU LoRA Advanced Benchmarks (v1.5.0)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lora_advanced.cpp")
+    message(STATUS "Adding Multi-GPU LoRA Advanced benchmarks")
+    
+    add_executable(bench_multi_gpu_lora_advanced
+        bench_multi_gpu_lora_advanced.cpp
+    )
+    
+    target_link_libraries(bench_multi_gpu_lora_advanced PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_multi_gpu_lora_advanced PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_multi_gpu_lora_advanced PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_multi_gpu_lora_advanced
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Multi-GPU LoRA: resource-aware eviction, dynamic scheduling, migration")
+endif()
+
 # 3. Mixed Precision Performance Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_mixed_precision_perf.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
     message(STATUS "Adding Mixed Precision Performance benchmarks")
