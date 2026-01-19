@@ -393,7 +393,12 @@ class DebateChatManager:
             ArgumentDimension.METAPHYSICAL: "metaphysischen Betrachtung",
             ArgumentDimension.LOGICAL: "logischen Untersuchung",
             ArgumentDimension.ONTOLOGICAL: "ontologischen Fragestellung",
-            ArgumentDimension.PHENOMENOLOGICAL: "phänomenologischen Perspektive"
+            ArgumentDimension.PHENOMENOLOGICAL: "phänomenologischen Perspektive",
+            # Meta-Ethics
+            ArgumentDimension.METAETHICAL: "metaethischen Analyse",
+            ArgumentDimension.NORMATIVE: "normativen Betrachtung",
+            ArgumentDimension.APPLIED: "angewandten Ethik",
+            ArgumentDimension.DESCRIPTIVE: "deskriptiven Untersuchung"
         }
         
         return f"""Zur {dimension_focus.get(dimension, 'Analyse')} von "{news_article.title}":

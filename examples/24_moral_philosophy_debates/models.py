@@ -31,6 +31,18 @@ class PhilosophySchool(Enum):
     PRAGMATISM = "pragmatism"  # Peirce, James, Dewey
     ANALYTIC_PHILOSOPHY = "analytic_philosophy"  # Russell, Wittgenstein
     EXISTENTIALISM = "existentialism"  # Kierkegaard, Sartre, Camus
+    
+    # Ancient Greek Philosophy
+    SOCRATIC = "socratic"  # Sokrates - Sokratische Methode
+    ARISTOTELIAN = "aristotelian"  # Aristoteles - Metaphysik, Logik, Naturphilosophie
+    SOPHISM = "sophism"  # Sophisten - Protagoras, Gorgias
+    
+    # Meta-Ethics
+    MORAL_REALISM = "moral_realism"  # Moral facts exist objectively
+    MORAL_ANTI_REALISM = "moral_anti_realism"  # Non-cognitivism, Emotivism
+    ERROR_THEORY = "error_theory"  # Mackie - all moral claims are false
+    EXPRESSIVISM = "expressivism"  # Moral statements express attitudes
+    PRESCRIPTIVISM = "prescriptivism"  # Hare - moral judgments are prescriptions
 
 
 class ArgumentDimension(Enum):
@@ -49,6 +61,12 @@ class ArgumentDimension(Enum):
     LOGICAL = "logical"  # Reasoning and argumentation
     ONTOLOGICAL = "ontological"  # Being and existence
     PHENOMENOLOGICAL = "phenomenological"  # Experience and consciousness
+    
+    # Meta-Ethics and Ethics Classification
+    METAETHICAL = "metaethical"  # Nature of moral judgments, moral language
+    NORMATIVE = "normative"  # What we ought to do, moral norms
+    APPLIED = "applied"  # Application to specific domains
+    DESCRIPTIVE = "descriptive"  # Empirical study of moral systems
 
 
 class MessageType(Enum):
@@ -509,5 +527,121 @@ PHILOSOPHY_PROFILES = {
         ],
         decision_framework="Acknowledge freedom, take responsibility, live authentically",
         example_application="We are 'condemned to be free' - no predetermined human nature determines our choices"
+    ),
+    
+    # Ancient Greek Philosophy
+    PhilosophySchool.SOCRATIC: PhilosophyProfile(
+        school=PhilosophySchool.SOCRATIC,
+        name="Socratic Philosophy",
+        philosopher_name="Sokrates",
+        description="Philosophy through dialectical questioning (Socratic method) to expose contradictions and reach truth",
+        core_principles=[
+            "Know thyself (Erkenne dich selbst)",
+            "The unexamined life is not worth living",
+            "Virtue is knowledge - no one does wrong willingly",
+            "Dialectical method through questioning (Elenchus)"
+        ],
+        decision_framework="Question assumptions systematically until contradictions emerge; true knowledge requires self-awareness",
+        example_application="Through questioning, reveal that someone claiming to know courage actually contradicts themselves"
+    ),
+    PhilosophySchool.ARISTOTELIAN: PhilosophyProfile(
+        school=PhilosophySchool.ARISTOTELIAN,
+        name="Aristotelian Philosophy",
+        philosopher_name="Aristoteles",
+        description="Comprehensive system spanning metaphysics, logic, natural philosophy, and ethics",
+        core_principles=[
+            "Substance and essence - what makes a thing what it is",
+            "Four causes: material, formal, efficient, final",
+            "Potentiality and actuality (dynamis and energeia)",
+            "Logic as organon (tool for reasoning)"
+        ],
+        decision_framework="Analyze through categories, identify essence and purpose (telos), apply syllogistic logic",
+        example_application="A thing is understood through its matter, form, maker, and purpose"
+    ),
+    PhilosophySchool.SOPHISM: PhilosophyProfile(
+        school=PhilosophySchool.SOPHISM,
+        name="Sophism",
+        philosopher_name="Protagoras",
+        description="Relativist philosophy emphasizing rhetoric, persuasion, and practical wisdom over absolute truth",
+        core_principles=[
+            "Man is the measure of all things (Homo mensura)",
+            "Truth is relative to the individual or culture",
+            "Rhetoric and persuasion are central to knowledge",
+            "Practical success over theoretical certainty"
+        ],
+        decision_framework="Consider multiple perspectives, use persuasive argument, focus on practical outcomes",
+        example_application="What seems true to a person is true for that person - no absolute truth exists"
+    ),
+    
+    # Meta-Ethics
+    PhilosophySchool.MORAL_REALISM: PhilosophyProfile(
+        school=PhilosophySchool.MORAL_REALISM,
+        name="Moral Realism",
+        philosopher_name="G.E. Moore",
+        description="Moral facts exist objectively and can be known through reason or intuition",
+        core_principles=[
+            "Moral properties exist independently of human beliefs",
+            "Moral statements can be true or false",
+            "'Good' is a simple, unanalyzable property (Moore)",
+            "Moral knowledge is possible through rational intuition"
+        ],
+        decision_framework="Identify objective moral facts through careful moral reasoning and intuition",
+        example_application="'Torture is wrong' is objectively true, not merely an expression of disapproval"
+    ),
+    PhilosophySchool.MORAL_ANTI_REALISM: PhilosophyProfile(
+        school=PhilosophySchool.MORAL_ANTI_REALISM,
+        name="Moral Anti-Realism / Emotivism",
+        philosopher_name="A.J. Ayer",
+        description="Moral statements do not describe facts but express emotions or attitudes",
+        core_principles=[
+            "Moral statements are neither true nor false (non-cognitive)",
+            "'Murder is wrong' means 'Murder - boo!' (Ayer)",
+            "Moral language expresses feelings, not beliefs",
+            "No objective moral facts exist"
+        ],
+        decision_framework="Recognize moral discourse as expression of sentiment rather than factual claims",
+        example_application="'Stealing is wrong' expresses my disapproval, doesn't state a fact"
+    ),
+    PhilosophySchool.ERROR_THEORY: PhilosophyProfile(
+        school=PhilosophySchool.ERROR_THEORY,
+        name="Error Theory",
+        philosopher_name="J.L. Mackie",
+        description="Moral statements make claims about objective values, but all such claims are false",
+        core_principles=[
+            "Moral discourse presupposes objective values",
+            "But no objective values exist",
+            "Therefore all moral claims are systematically false",
+            "Argument from queerness - moral facts would be metaphysically odd"
+        ],
+        decision_framework="Acknowledge that while we speak as if morality is objective, we are systematically mistaken",
+        example_application="When I say 'charity is good', I'm making a false claim about objective goodness that doesn't exist"
+    ),
+    PhilosophySchool.EXPRESSIVISM: PhilosophyProfile(
+        school=PhilosophySchool.EXPRESSIVISM,
+        name="Expressivism",
+        philosopher_name="Simon Blackburn",
+        description="Moral statements express pro or con attitudes toward actions without describing facts",
+        core_principles=[
+            "Moral judgments express attitudes, not beliefs",
+            "Quasi-realism - explain why moral discourse seems factual",
+            "Can accommodate moral reasoning and disagreement",
+            "Projectivism - we project values onto the world"
+        ],
+        decision_framework="Express attitudes while recognizing the projective nature of moral discourse",
+        example_application="Moral disagreement is disagreement in attitude, not factual disagreement"
+    ),
+    PhilosophySchool.PRESCRIPTIVISM: PhilosophyProfile(
+        school=PhilosophySchool.PRESCRIPTIVISM,
+        name="Prescriptivism / Universal Prescriptivism",
+        philosopher_name="R.M. Hare",
+        description="Moral judgments are universal prescriptions - commands that apply to all similar cases",
+        core_principles=[
+            "Moral statements are prescriptive (action-guiding), not descriptive",
+            "Universalizability - moral judgments apply to all relevantly similar cases",
+            "Overridingness - moral judgments override other considerations",
+            "Two levels: intuitive (everyday rules) and critical (utilitarian reasoning)"
+        ],
+        decision_framework="Make prescriptions you're willing to universalize and apply even if you were in others' positions",
+        example_application="'Lying is wrong' means 'Don't lie!' - a universal prescription for all similar situations"
     )
 }

@@ -72,7 +72,16 @@ class PhilosophyChatApp:
             "Edmund Husserl": "#c0392b",
             "William James": "#d35400",
             "Ludwig Wittgenstein": "#2c3e50",
-            "Jean-Paul Sartre": "#34495e"
+            "Jean-Paul Sartre": "#34495e",
+            # Ancient Greek Philosophy
+            "Sokrates": "#e8b44d",
+            "Protagoras": "#95a5a6",
+            # Meta-Ethics
+            "G.E. Moore": "#6c5ce7",
+            "A.J. Ayer": "#fd79a8",
+            "J.L. Mackie": "#636e72",
+            "Simon Blackburn": "#00b894",
+            "R.M. Hare": "#fdcb6e"
         }
         
         # Create UI
@@ -276,11 +285,12 @@ class PhilosophyChatApp:
             ("Moralisch", ArgumentDimension.MORAL),
             ("Sozial", ArgumentDimension.SOCIAL),
             ("Politisch", ArgumentDimension.POLITICAL),
-            ("Ethisch", ArgumentDimension.ETHICAL),
             # Theoretical Philosophy
             ("Erkenntnistheoretisch", ArgumentDimension.EPISTEMOLOGICAL),
             ("Metaphysisch", ArgumentDimension.METAPHYSICAL),
-            ("Logisch", ArgumentDimension.LOGICAL)
+            # Meta-Ethics
+            ("Metaethisch", ArgumentDimension.METAETHICAL),
+            ("Normativ", ArgumentDimension.NORMATIVE),
         ]
         
         for label, dim in dimensions:
@@ -478,30 +488,37 @@ class PhilosophyChatApp:
             has_theoretical = any(dim in [ArgumentDimension.EPISTEMOLOGICAL, ArgumentDimension.METAPHYSICAL,
                                          ArgumentDimension.LOGICAL, ArgumentDimension.ONTOLOGICAL]
                                 for dim in selected_dims)
+            has_metaethical = any(dim in [ArgumentDimension.METAETHICAL, ArgumentDimension.NORMATIVE]
+                                 for dim in selected_dims)
             
             philosophies = []
             if has_practical:
                 philosophies.extend([
                     PhilosophySchool.KANT,
                     PhilosophySchool.UTILITARIANISM,
-                    PhilosophySchool.CONTRACTUALISM,
-                    PhilosophySchool.VIRTUE_ETHICS
+                    PhilosophySchool.VIRTUE_ETHICS,
+                    PhilosophySchool.SOCRATIC
                 ])
             if has_theoretical:
                 philosophies.extend([
                     PhilosophySchool.RATIONALISM,
-                    PhilosophySchool.EMPIRICISM,
-                    PhilosophySchool.CRITICAL_PHILOSOPHY,
-                    PhilosophySchool.PHENOMENOLOGY
+                    PhilosophySchool.ARISTOTELIAN,
+                    PhilosophySchool.EMPIRICISM
+                ])
+            if has_metaethical:
+                philosophies.extend([
+                    PhilosophySchool.MORAL_REALISM,
+                    PhilosophySchool.MORAL_ANTI_REALISM,
+                    PhilosophySchool.PRESCRIPTIVISM
                 ])
             
-            # If both, limit to avoid too many participants
-            if has_practical and has_theoretical:
+            # If multiple categories, limit to avoid too many participants
+            if sum([has_practical, has_theoretical, has_metaethical]) >= 2:
                 philosophies = [
+                    PhilosophySchool.SOCRATIC,
                     PhilosophySchool.KANT,
-                    PhilosophySchool.UTILITARIANISM,
-                    PhilosophySchool.RATIONALISM,
-                    PhilosophySchool.EMPIRICISM
+                    PhilosophySchool.MORAL_REALISM,
+                    PhilosophySchool.PRESCRIPTIVISM
                 ]
             
             session = self.chat_manager.start_debate_chat(
@@ -597,7 +614,12 @@ class PhilosophyChatApp:
                 ArgumentDimension.METAPHYSICAL: "🌌 METAPHYSISCHE DIMENSION",
                 ArgumentDimension.LOGICAL: "🔷 LOGISCHE DIMENSION",
                 ArgumentDimension.ONTOLOGICAL: "💠 ONTOLOGISCHE DIMENSION",
-                ArgumentDimension.PHENOMENOLOGICAL: "👁️ PHÄNOMENOLOGISCHE DIMENSION"
+                ArgumentDimension.PHENOMENOLOGICAL: "👁️ PHÄNOMENOLOGISCHE DIMENSION",
+                # Meta-Ethics
+                ArgumentDimension.METAETHICAL: "🔬 METAETHISCHE DIMENSION",
+                ArgumentDimension.NORMATIVE: "📏 NORMATIVE DIMENSION",
+                ArgumentDimension.APPLIED: "🎯 ANGEWANDTE ETHIK",
+                ArgumentDimension.DESCRIPTIVE: "📊 DESKRIPTIVE ETHIK"
             }
             
             self.chat_text.insert(tk.END, "\n")
