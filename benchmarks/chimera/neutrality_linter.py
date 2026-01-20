@@ -3,6 +3,8 @@
 CHIMERA Neutrality Linter
 
 Checks CHIMERA files for vendor-specific references and neutrality violations.
+
+Configuration can be loaded from neutrality_linter_config.yaml if present.
 """
 
 import re
@@ -10,6 +12,25 @@ import sys
 from pathlib import Path
 from typing import List, Tuple, Dict
 from dataclasses import dataclass
+
+
+# Try to load configuration from YAML file if available
+def load_config():
+    """Load configuration from YAML file if available"""
+    try:
+        import yaml
+        config_path = Path(__file__).parent / "neutrality_linter_config.yaml"
+        if config_path.exists():
+            with open(config_path) as f:
+                return yaml.safe_load(f)
+    except ImportError:
+        pass  # yaml not available
+    except Exception as e:
+        print(f"Warning: Could not load config: {e}")
+    return None
+
+
+CONFIG = load_config()
 
 
 @dataclass
@@ -31,7 +52,8 @@ class Violation:
 
 
 # Vendor names to detect (case-insensitive)
-VENDOR_NAMES = [
+# Can be overridden by neutrality_linter_config.yaml
+VENDOR_NAMES = (CONFIG.get('vendor_names', []) if CONFIG else []) or [
     "themisdb",
     "oracle",
     "microsoft",
@@ -56,7 +78,8 @@ VENDOR_NAMES = [
 ]
 
 # Marketing terms to detect
-MARKETING_TERMS = [
+# Can be overridden by neutrality_linter_config.yaml
+MARKETING_TERMS = (CONFIG.get('marketing_terms', []) if CONFIG else []) or [
     "enterprise",
     "professional",
     "ultimate",
@@ -72,7 +95,8 @@ MARKETING_TERMS = [
 ]
 
 # Allowed exceptions (contexts where vendor names are OK)
-ALLOWED_CONTEXTS = [
+# Can be overridden by neutrality_linter_config.yaml
+ALLOWED_CONTEXTS = (CONFIG.get('allowed_contexts', []) if CONFIG else []) or [
     "PostgreSQLAdapter",  # Protocol names
     "MongoDBAdapter",
     "MySQLAdapter",
@@ -178,8 +202,12 @@ class NeutralityLinter:
         """Scan directory for files matching patterns"""
         for pattern in patterns:
             for file_path in self.root_path.rglob(pattern):
-                # Skip certain directories
+                # Skip certain directories and files
                 if any(part in file_path.parts for part in ['.git', 'node_modules', '__pycache__', 'venv']):
+                    continue
+                
+                # Skip the linter config file itself
+                if file_path.name == 'neutrality_linter_config.yaml':
                     continue
                 
                 self.check_file(file_path)

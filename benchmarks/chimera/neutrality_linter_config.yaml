@@ -1,0 +1,97 @@
+# CHIMERA Neutrality Linter Configuration
+# 
+# This file defines vendor names and marketing terms that should not appear
+# in CHIMERA Suite materials (except in allowed contexts like documentation
+# examples showing what NOT to do).
+
+# Vendor and Product Names
+# These should be avoided in code, configuration, and reports
+vendor_names:
+  - themisdb
+  - oracle
+  - microsoft
+  - amazon
+  - google
+  - mongodb
+  - postgresql
+  - mysql
+  - redis
+  - elasticsearch
+  - neo4j
+  - cassandra
+  - cockroachdb
+  - yugabyte
+  - fauna
+  - snowflake
+  - databricks
+  - pinecone
+  - weaviate
+  - milvus
+  - qdrant
+
+# Marketing and Promotional Terms
+# These should be avoided as they imply bias or preference
+marketing_terms:
+  - enterprise
+  - professional
+  - ultimate
+  - premium
+  - platinum
+  - gold
+  - best
+  - winner
+  - superior
+  - leading
+  - recommended
+  - preferred
+
+# Allowed Contexts
+# Vendor names ARE allowed in these contexts
+allowed_contexts:
+  - "PostgreSQLAdapter"     # Protocol adapter names
+  - "MongoDBAdapter"
+  - "MySQLAdapter"
+  - "RedisAdapter"
+  - "Neo4jAdapter"
+  - "CassandraAdapter"
+  - "ElasticsearchAdapter"
+  - "# Example:"           # Documentation examples
+  - "# ❌"
+  - "# DON'T"
+  - "# Bad"
+  - "# Wrong"
+  - "## Prohibited:"
+  - "### ❌ DON'T"
+  - "**Prohibited:**"
+  - "**Examples:**"
+
+# Severity Levels by File Type
+severity_rules:
+  critical:
+    file_types:
+      - ".yaml"              # Configuration files
+      - ".yml"
+      - ".toml"
+      - ".json"
+    patterns:
+      - "system_id"          # System identifier fields
+      - "adapter_name"
+      
+  major:
+    file_types:
+      - ".py"                # Source code
+      - ".cpp"
+      - ".h"
+      - ".js"
+      - ".ts"
+      - ".md"                # Documentation
+      - ".rst"
+      - ".txt"
+    
+  warning:
+    # References and citations get lower severity
+    patterns:
+      - "reference"
+      - "citation"
+      - "cite"
+      - "@"                  # BibTeX entries
