@@ -120,6 +120,11 @@ struct GradientExchangeMessage {
     int64_t sent_timestamp_ms;
     int64_t received_timestamp_ms;
     
+    // Loss metrics from this shard
+    std::optional<float> local_loss;
+    std::optional<float> local_accuracy;
+    int samples_in_batch = 0;
+    
     json toJSON() const;
     static GradientExchangeMessage fromJSON(const json& j);
 };
@@ -272,6 +277,9 @@ public:
         float sync_time_ms;
         float total_time_ms;
         std::map<std::string, ShardTrainingState> shard_states;
+        std::optional<float> aggregated_loss;
+        std::optional<float> aggregated_accuracy;
+        std::map<std::string, float> per_shard_loss;  // For monitoring
     };
     StepResult executeStep();
     
@@ -291,6 +299,16 @@ public:
     // Aggregate collected gradients
     std::vector<GradientTensor> aggregateGradients(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+    );
+    
+    // Aggregate loss values from all shards
+    std::optional<float> aggregateLoss(
+        const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+    );
+    
+    // Weighted average based on samples processed
+    float computeWeightedLoss(
+        const std::vector<std::pair<float, int>>& shard_losses_and_counts
     );
     
     // Broadcast aggregated gradients to all shards

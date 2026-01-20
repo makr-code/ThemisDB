@@ -365,6 +365,15 @@ json GradientExchangeMessage::toJSON() const {
         j["gradients"].push_back(grad.toJSON());
     }
     
+    // Serialize loss metrics
+    if (local_loss.has_value()) {
+        j["local_loss"] = local_loss.value();
+    }
+    if (local_accuracy.has_value()) {
+        j["local_accuracy"] = local_accuracy.value();
+    }
+    j["samples_in_batch"] = samples_in_batch;
+    
     return j;
 }
 
@@ -384,6 +393,17 @@ GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
         for (const auto& grad_json : j["gradients"]) {
             msg.gradients.push_back(GradientTensor::fromJSON(grad_json));
         }
+    }
+    
+    // Deserialize loss metrics
+    if (j.contains("local_loss")) {
+        msg.local_loss = j["local_loss"].get<float>();
+    }
+    if (j.contains("local_accuracy")) {
+        msg.local_accuracy = j["local_accuracy"].get<float>();
+    }
+    if (j.contains("samples_in_batch")) {
+        msg.samples_in_batch = j["samples_in_batch"].get<int>();
     }
     
     return msg;
@@ -699,6 +719,21 @@ DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::execu
     // 2. Aggregate gradients
     result.aggregated_gradients = aggregateGradients(shard_gradients);
     
+    // 2b. Aggregate loss values from shards
+    result.aggregated_loss = aggregateLoss(shard_gradients);
+    
+    // Collect per-shard loss for monitoring
+    for (const auto& [shard_id, state] : shard_states_) {
+        if (state.current_loss > 0.0f) {
+            result.per_shard_loss[shard_id] = state.current_loss;
+        }
+    }
+    
+    // Log aggregated loss if available
+    if (result.aggregated_loss.has_value()) {
+        spdlog::debug("Step {} aggregated loss: {:.6f}", current_step_, result.aggregated_loss.value());
+    }
+    
     // 3. Broadcast aggregated gradients back to shards
     if (!broadcastGradients(result.aggregated_gradients, current_step_)) {
         spdlog::warn("Failed to broadcast gradients to some shards");
@@ -796,6 +831,20 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
             
             shard_grads.push_back(dummy);
             collected[shard_id] = shard_grads;
+            
+            // Simulate loss values for testing/standalone mode
+            // Each shard has a simulated loss that decreases over steps
+            float shard_loss = 1.0f / (1.0f + step_number * 0.1f);
+            // Add some variance between shards (±10%)
+            float variance = (std::hash<std::string>{}(shard_id) % 20 - 10) / 100.0f;
+            shard_loss *= (1.0f + variance);
+            
+            // Update shard state with simulated loss
+            if (shard_states_.count(shard_id) > 0) {
+                shard_states_[shard_id].current_loss = shard_loss;
+                shard_states_[shard_id].samples_processed = 32;  // Simulated batch size
+                spdlog::debug("Shard {} simulated loss: {:.6f}", shard_id, shard_loss);
+            }
         }
         
         return collected;
@@ -868,6 +917,73 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::aggregateGradients(
                  grad_list.size(), aggregator_->getStrategy());
     
     return aggregator_->aggregate(grad_list);
+}
+
+std::optional<float> DistributedTrainingCoordinator::aggregateLoss(
+    const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+) {
+    // Collect loss values and sample counts from gradients
+    // NOTE: In the current implementation, loss is stored in the first gradient's metadata
+    // In production, this would be stored in GradientExchangeMessage.local_loss
+    std::vector<std::pair<float, int>> shard_losses_and_counts;
+    
+    for (const auto& [shard_id, gradients] : shard_gradients) {
+        if (gradients.empty()) {
+            spdlog::debug("Shard {} has no gradients, skipping loss aggregation", shard_id);
+            continue;
+        }
+        
+        // Check if shard state has loss information
+        if (shard_states_.count(shard_id) > 0) {
+            const auto& state = shard_states_[shard_id];
+            if (state.current_loss > 0.0f && state.samples_processed > 0) {
+                shard_losses_and_counts.push_back({state.current_loss, state.samples_processed});
+                spdlog::debug("Shard {} contributed loss={:.6f} with {} samples", 
+                            shard_id, state.current_loss, state.samples_processed);
+            }
+        }
+    }
+    
+    if (shard_losses_and_counts.empty()) {
+        spdlog::debug("No loss values available from any shard");
+        return std::nullopt;
+    }
+    
+    // Compute weighted average
+    float aggregated = computeWeightedLoss(shard_losses_and_counts);
+    spdlog::debug("Aggregated loss from {} shards: {:.6f}", 
+                 shard_losses_and_counts.size(), aggregated);
+    
+    return aggregated;
+}
+
+float DistributedTrainingCoordinator::computeWeightedLoss(
+    const std::vector<std::pair<float, int>>& shard_losses_and_counts
+) {
+    if (shard_losses_and_counts.empty()) {
+        return 0.0f;
+    }
+    
+    // Compute weighted average: sum(loss_i * samples_i) / sum(samples_i)
+    float weighted_sum = 0.0f;
+    int total_samples = 0;
+    
+    for (const auto& [loss, samples] : shard_losses_and_counts) {
+        weighted_sum += loss * samples;
+        total_samples += samples;
+    }
+    
+    if (total_samples == 0) {
+        // Fall back to simple average if no sample counts available
+        spdlog::warn("No sample counts available, using simple average");
+        float sum = 0.0f;
+        for (const auto& [loss, _] : shard_losses_and_counts) {
+            sum += loss;
+        }
+        return sum / shard_losses_and_counts.size();
+    }
+    
+    return weighted_sum / total_samples;
 }
 
 bool DistributedTrainingCoordinator::broadcastGradients(
