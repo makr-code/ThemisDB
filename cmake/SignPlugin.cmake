@@ -131,7 +131,9 @@ function(sign_plugin TARGET_NAME)
     endif()
     
     # Step 2: Generate metadata JSON with signature
-    if(OPENSSL_CMD)
+    # Note: GenerateSignatureMetadata.cmake will be created in future enhancement
+    # For now, metadata generation is skipped
+    if(FALSE AND OPENSSL_CMD)
         add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E echo "Generating signature metadata..."
             COMMAND ${CMAKE_COMMAND}

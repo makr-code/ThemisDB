@@ -498,7 +498,6 @@ EnhancedPluginSecurityVerifier::verifyPlugin(
     VerificationLevel required_level
 ) {
     VerificationResult result;
-    result.level_achieved = VerificationLevel::LEVEL_1_HASH_ONLY;
     
     // Level 1: Hash verification
     if (!verifyHash(plugin_path, result)) {
@@ -525,8 +524,11 @@ EnhancedPluginSecurityVerifier::verifyPlugin(
     } else {
         // If embedded signature required but failed
         if (required_level >= VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE) {
-            result.passed = false;
-            return result;
+            // In development mode (allowUnsigned), we can proceed with lower levels
+            if (!policy_.allowUnsigned) {
+                result.passed = false;
+                return result;
+            }
         }
     }
     
