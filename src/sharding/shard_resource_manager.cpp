@@ -197,8 +197,8 @@ void ShardResourceManager::broadcastResourceUpdate() {
     
     auto snapshot = getCurrentSnapshot();
     
-    // Create a resource snapshot for gossip
-    ResourceSnapshot gossip_snapshot;
+    // Create a resource snapshot for gossip using GossipConfigManager's ResourceSnapshot
+    themis::sharding::ResourceSnapshot gossip_snapshot;
     gossip_snapshot.shard_id = local_shard_id_;
     gossip_snapshot.timestamp_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
         snapshot.timestamp.time_since_epoch()
@@ -210,8 +210,16 @@ void ShardResourceManager::broadcastResourceUpdate() {
             : 0.0;
     gossip_snapshot.available_memory_bytes = snapshot.ram_total_bytes - snapshot.ram_usage_bytes;
     gossip_snapshot.total_memory_bytes = snapshot.ram_total_bytes;
+    gossip_snapshot.available_cpu_cores = 0; // Would need platform-specific detection
+    gossip_snapshot.total_cpu_cores = 0;
     gossip_snapshot.available_disk_bytes = snapshot.disk_available_bytes;
     gossip_snapshot.total_disk_bytes = snapshot.disk_used_bytes + snapshot.disk_available_bytes;
+    gossip_snapshot.disk_usage_percent = 
+        (gossip_snapshot.total_disk_bytes > 0)
+            ? (static_cast<double>(snapshot.disk_used_bytes) / gossip_snapshot.total_disk_bytes * 100.0)
+            : 0.0;
+    gossip_snapshot.rocksdb_sst_files_count = 0;
+    gossip_snapshot.rocksdb_total_size_bytes = 0;
     gossip_snapshot.requests_per_second = snapshot.active_queries; // Simplified
     gossip_snapshot.avg_latency_ms = snapshot.avg_query_latency_ms;
     gossip_snapshot.is_healthy = snapshot.health_score > 50.0;
