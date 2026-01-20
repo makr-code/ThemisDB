@@ -640,7 +640,18 @@ graph TB
 
 > **Note:** Benchmarks represent optimal conditions. Actual performance varies based on hardware, data size, and workload.
 
-**📊 [Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
+### CHIMERA Suite - Scientific Benchmark Framework
+
+ThemisDB performance is evaluated using the **CHIMERA Suite** (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_) - an industry-leading, vendor-neutral benchmark framework for multi-model databases with AI integration.
+
+**Key Features:**
+- 🔬 IEEE/ACM compliant scientific methodology
+- 🎯 Multi-model workload testing (Graph, Vector, Relational, Document)
+- 🤖 Native AI/LLM benchmark support (inference, LoRA, RAG)
+- 🌐 Vendor-neutral, color-blind friendly reporting
+- 📊 Statistical rigor with confidence intervals
+
+**📊 [CHIMERA Suite Documentation](benchmarks/chimera/README.md)** | **[Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
 
 ---
 

@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **CHIMERA Suite Branding**: Rebranded benchmark framework to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_)
+  - Tagline: "Benchmark the Unbenchmarkable"
+  - Vendor-neutral, scientifically rigorous benchmark framework
+  - Updated all documentation, scripts, and CI workflows
+  - Result files now use `CHIMERA_RESULTS_*` naming pattern
+  - See [CHIMERA Suite Documentation](benchmarks/chimera/README.md)
 - Documentation Archival System - Formal process for archiving outdated documentation
 - Retroactive Release Building System - Build binaries from historical version tags
 - Schema Manager for database self-awareness and introspection
@@ -17,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Improved documentation structure and organization
+- Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
 
 ---
 

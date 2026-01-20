@@ -1,8 +1,13 @@
-# 📊 Comprehensive Benchmark Suite - Overview
+# 📊 CHIMERA Suite - Comprehensive Benchmark Guide
 
 ## Executive Summary
 
-A **production-grade benchmark suite** with **25 different benchmark scenarios** covering all major ThemisDB subsystems, executed on Windows x64 (20 CPU cores @ 3696 MHz) in Release mode.
+A **production-grade benchmark framework** developed as part of the **CHIMERA Suite** (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_) with **25+ benchmark scenarios** covering all major ThemisDB subsystems.
+
+> **"Benchmark the Unbenchmarkable"** - Evaluating hybrid multi-model databases with AI capabilities
+
+**Execution Platform**: Windows x64 (20 CPU cores @ 3696 MHz), Release mode  
+**Framework**: CHIMERA Suite v1.0
 
 ## Quick Results
 

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-Complete Benchmark Suite CLI
-============================
+CHIMERA Suite - Complete Benchmark Framework
+=============================================
 
-Kombiniert:
+Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
+
+Combines:
 ✓ Scientific Standards (Warmup, Repetitions, Statistical Rigor)
 ✓ Industry Standards (YCSB, TPC-C, TPC-H, Sysbench)
 ✓ Enterprise Comparisons (Multi-Database, Multi-Protocol)
@@ -17,8 +19,8 @@ Usage:
     python complete_benchmark_suite.py --mode tpcc --scale medium
     python complete_benchmark_suite.py --mode tpch --scale-factor 1
 
-Author: ThemisDB Team
-Date: 2025-12-04
+Author: ThemisDB Team - CHIMERA Suite
+Date: 2026-01-20
 """
 
 import asyncio
