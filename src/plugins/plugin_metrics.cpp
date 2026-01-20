@@ -124,13 +124,9 @@ void PluginMetrics::resetAll() {
 }
 
 PluginMetrics::PluginStats& PluginMetrics::getOrCreateStats(const std::string& plugin) {
-    auto it = stats_.find(plugin);
-    if (it == stats_.end()) {
-        // Create new stats entry
-        stats_[plugin] = PluginStats();
-        it = stats_.find(plugin);
-    }
-    return it->second;
+    // Note: mutex_ must be held by caller
+    auto result = stats_.emplace(plugin, PluginStats());
+    return result.first->second;
 }
 
 } // namespace plugins

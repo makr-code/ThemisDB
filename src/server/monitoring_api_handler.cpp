@@ -516,8 +516,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                     }
                 }
             }
+        } catch (const std::exception& e) {
+            // If plugin metrics fail, log and continue without them
+            THEMIS_WARN("Failed to collect plugin metrics: {}", e.what());
         } catch (...) {
-            // If plugin metrics fail, continue without them
+            // Catch any other exceptions to prevent metrics collection from breaking /metrics endpoint
+            THEMIS_WARN("Unknown error while collecting plugin metrics");
         }
 
         // Return Prometheus format response

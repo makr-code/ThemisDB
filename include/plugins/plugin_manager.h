@@ -171,6 +171,12 @@ public:
     const PluginMetrics& getMetrics() const { return metrics_; }
     
     /**
+     * @brief Get mutable plugin metrics (for testing)
+     * @return Mutable reference to plugin metrics
+     */
+    PluginMetrics& getMetricsMutable() { return metrics_; }
+    
+    /**
      * @brief Singleton instance
      */
     static PluginManager& instance();
