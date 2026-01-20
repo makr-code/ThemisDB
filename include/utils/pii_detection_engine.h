@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pki_client.h"
+#include "expected.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -199,14 +200,12 @@ public:
      * @param engine_type Engine type ("regex", "ner", "embedding")
      * @param config Engine configuration with signature metadata
      * @param pki_client PKI client for signature verification
-     * @param error_msg Output parameter for error details
-     * @return Unique pointer to engine, or nullptr if verification/creation failed
+     * @return Result containing unique pointer to engine, or error on failure
      */
-    static std::unique_ptr<IPIIDetectionEngine> createSigned(
+    static Result<std::unique_ptr<IPIIDetectionEngine>> createSigned(
         const std::string& engine_type,
         const nlohmann::json& config,
-        const VCCPKIClient& pki_client,
-        std::string& error_msg);
+        const VCCPKIClient& pki_client);
     
     /**
      * @brief Create detection engine WITHOUT signature verification
@@ -218,9 +217,9 @@ public:
      * - Fallback when PKI is unavailable
      * 
      * @param engine_type Engine type ("regex", "ner", "embedding")
-     * @return Unique pointer to engine, or nullptr if type unknown
+     * @return Result containing unique pointer to engine, or error if type unknown
      */
-    static std::unique_ptr<IPIIDetectionEngine> createUnsigned(
+    static Result<std::unique_ptr<IPIIDetectionEngine>> createUnsigned(
         const std::string& engine_type);
     
     /**
