@@ -527,8 +527,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Check if file exists
     if (!fs::exists(model_path)) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_path);
-        return tl::unexpected(Error(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, 
-            fmt::format("Model file not found: {}", model_path)));
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, 
+            fmt::format("Model file not found: {}", model_path));
     }
 
     size_t size_bytes = static_cast<size_t>(fs::file_size(model_path));
@@ -609,8 +609,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         spdlog::error("Failed to load model with both custom and native loaders");
-        return tl::unexpected(Error(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
-            fmt::format("Failed to load model from file: {}", model_path)));
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
+            fmt::format("Failed to load model from file: {}", model_path));
     }
     
     // Log which loader was used
@@ -692,8 +692,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     if (!lctx) {
         errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
         llama_free_model(lmodel);
-        return tl::unexpected(Error(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,
-            fmt::format("Failed to create context for model: {}", model_id)));
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,
+            fmt::format("Failed to create context for model: {}", model_id));
     }
 
     // Populate model info
