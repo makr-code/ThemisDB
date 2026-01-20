@@ -633,27 +633,27 @@ bool PluginManager::reloadPlugin(const std::string& name) {
 }
 
 size_t PluginManager::autoLoadPlugins() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Collect plugins to auto-load (sorted by priority)
     std::vector<std::pair<int, std::string>> to_load;
     
-    for (const auto& pair : plugins_) {
-        if (pair.second.manifest.auto_load && !pair.second.loaded) {
-            to_load.push_back({pair.second.manifest.load_priority, pair.first});
+    // Scope 1: Collect plugins to auto-load (sorted by priority)
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        for (const auto& pair : plugins_) {
+            if (pair.second.manifest.auto_load && !pair.second.loaded) {
+                to_load.push_back({pair.second.manifest.load_priority, pair.first});
+            }
         }
-    }
+        
+        // Sort by priority (lower = higher priority)
+        std::sort(to_load.begin(), to_load.end());
+    }  // Lock is automatically released here
     
-    // Sort by priority (lower = higher priority)
-    std::sort(to_load.begin(), to_load.end());
-    
+    // Scope 2: Load plugins without holding the main lock
+    // (loadPlugin() has its own locking mechanism)
     size_t loaded = 0;
     for (const auto& [priority, name] : to_load) {
-        // Temporarily unlock for loading
-        mutex_.unlock();
         auto* plugin = loadPlugin(name);
-        mutex_.lock();
-        
         if (plugin) {
             loaded++;
         }
