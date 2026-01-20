@@ -510,7 +510,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                         out += "themis_plugin_call_latency_milliseconds{plugin=\"" + plugin_name 
                              + "\",quantile=\"0.99\"} " + std::to_string(stats.p99_call_latency_ms) + "\n";
                         out += "themis_plugin_call_latency_milliseconds_sum{plugin=\"" + plugin_name 
-                             + "\"} " + std::to_string(stats.avg_call_latency_ms * stats.function_calls) + "\n";
+                             + "\"} " + std::to_string(stats.sum_call_latency_ms) + "\n";
                         out += "themis_plugin_call_latency_milliseconds_count{plugin=\"" + plugin_name 
                              + "\"} " + std::to_string(stats.function_calls) + "\n";
                     }

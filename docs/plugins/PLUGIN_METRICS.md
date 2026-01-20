@@ -302,6 +302,8 @@ If memory usage is high or growing:
 - Thread-safe implementation using mutexes
 - Minimal overhead (<1% on plugin operations)
 
+**Note**: The current implementation uses `std::vector` for latency samples with O(n) operations. For high-throughput plugins (>10k calls/sec), consider optimizing to use `std::deque` or a true circular buffer for O(1) insertions.
+
 ### Percentile Calculation
 
 - P95/P99 calculated from sorted latency samples

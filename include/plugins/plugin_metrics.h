@@ -45,6 +45,7 @@ public:
         double avg_call_latency_ms = 0.0;
         double p95_call_latency_ms = 0.0;
         double p99_call_latency_ms = 0.0;
+        double sum_call_latency_ms = 0.0;  // Actual sum for accurate reporting
         
         // Internal: latency samples for percentile calculation
         std::vector<double> latency_samples;

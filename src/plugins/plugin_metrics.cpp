@@ -66,9 +66,13 @@ void PluginMetrics::recordCall(const std::string& plugin, std::chrono::microseco
     // Convert microseconds to milliseconds
     double latency_ms = latency.count() / 1000.0;
     
+    // Add to sum for accurate reporting
+    stats.sum_call_latency_ms += latency_ms;
+    
     // Add to samples (with circular buffer behavior)
     if (stats.latency_samples.size() >= PluginStats::MAX_SAMPLES) {
         // Remove oldest sample (FIFO)
+        // Note: This is O(n). For high-throughput use cases, consider std::deque
         stats.latency_samples.erase(stats.latency_samples.begin());
     }
     stats.latency_samples.push_back(latency_ms);
@@ -94,11 +98,13 @@ void PluginMetrics::updateMemoryUsage(const std::string& plugin, size_t bytes) {
 const PluginMetrics::PluginStats& PluginMetrics::getStats(const std::string& plugin) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    static PluginStats empty_stats;
     auto it = stats_.find(plugin);
     if (it != stats_.end()) {
         return it->second;
     }
+    
+    // Return thread-local empty stats to avoid data races
+    thread_local static PluginStats empty_stats;
     return empty_stats;
 }
 
