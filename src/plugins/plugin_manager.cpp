@@ -1,4 +1,5 @@
 #include "plugins/plugin_manager.h"
+#include "plugins/plugin_dependency_resolver.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -361,7 +362,7 @@ size_t PluginManager::scanPluginDirectory(const std::string& directory) {
 IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
     
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     if (it == plugins_.end()) {
@@ -377,18 +378,72 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         return entry.instance.get();
     }
     
+    // Load dependencies first (collect them while holding lock)
+    std::vector<std::string> deps_to_load;
+    for (const auto& dep : entry.manifest.dependencies) {
+        auto dep_it = plugins_.find(dep);
+        
+        // Check if dependency exists
+        if (dep_it == plugins_.end()) {
+            THEMIS_ERROR("Plugin {} has missing dependency: {}", name, dep);
+            metrics_.recordError(name);
+            return nullptr;
+        }
+        
+        // Collect dependencies that need loading
+        if (!dep_it->second.loaded) {
+            deps_to_load.push_back(dep);
+        }
+    }
+    
+    // Load dependencies (must release lock to avoid deadlock)
+    if (!deps_to_load.empty()) {
+        lock.unlock();  // RAII-based unlock
+        
+        for (const auto& dep : deps_to_load) {
+            THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
+            auto* dep_plugin = loadPlugin(dep);
+            if (!dep_plugin) {
+                THEMIS_ERROR("Failed to load dependency {} for plugin {}", dep, name);
+                // Re-acquire lock before returning
+                lock.lock();
+                metrics_.recordError(name);
+                return nullptr;
+            }
+        }
+        
+        // Re-acquire lock and verify entry is still valid
+        lock.lock();  // RAII-based lock
+        
+        // Re-find entry as map may have been modified
+        it = plugins_.find(name);
+        if (it == plugins_.end()) {
+            THEMIS_ERROR("Plugin {} disappeared during dependency loading", name);
+            metrics_.recordError(name);
+            return nullptr;
+        }
+        
+        // If plugin was loaded while we were loading dependencies, return it
+        if (it->second.loaded && it->second.instance) {
+            return it->second.instance.get();
+        }
+    }
+    
+    // At this point we have the lock and all dependencies are loaded
+    auto& current_entry = it->second;
+    
     // Verify plugin
     std::string error_message;
-    if (!verifyPlugin(entry.path, error_message)) {
+    if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
         metrics_.recordError(name);
         return nullptr;
     }
     
     // Load library
-    void* handle = loadLibrary(entry.path);
+    void* handle = loadLibrary(current_entry.path);
     if (!handle) {
-        THEMIS_ERROR("Failed to load plugin library: {}", entry.path);
+        THEMIS_ERROR("Failed to load plugin library: {}", current_entry.path);
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
@@ -399,7 +454,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     // Get factory function
     auto createFunc = reinterpret_cast<CreatePluginFunc>(getSymbol(handle, "createPlugin"));
     if (!createFunc) {
-        THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
+        THEMIS_ERROR("Plugin does not export createPlugin: {}", current_entry.path);
         unloadLibrary(handle);
         metrics_.recordError(name);
         return nullptr;
@@ -429,10 +484,10 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     }
     
     // Store
-    entry.library_handle = handle;
-    entry.instance.reset(plugin);
-    entry.loaded = true;
-    entry.file_hash = calculateFileHash(entry.path);
+    current_entry.library_handle = handle;
+    current_entry.instance.reset(plugin);
+    current_entry.loaded = true;
+    current_entry.file_hash = calculateFileHash(current_entry.path);
     
     // Record load metrics
     auto end = std::chrono::steady_clock::now();
@@ -440,7 +495,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     metrics_.recordLoad(name, duration);
     
     THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}..., Load time: {}ms)", 
-        name, plugin->getVersion(), entry.file_hash.substr(0, 16), duration.count());
+        name, plugin->getVersion(), current_entry.file_hash.substr(0, 16), duration.count());
     
     return plugin;
 }
@@ -669,33 +724,60 @@ bool PluginManager::reloadPlugin(const std::string& name) {
 }
 
 size_t PluginManager::autoLoadPlugins() {
-    std::vector<std::pair<int, std::string>> to_load;
+    std::unique_lock<std::mutex> lock(mutex_);
     
-    // Scope 1: Collect plugins to auto-load (sorted by priority)
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        for (const auto& pair : plugins_) {
-            if (pair.second.manifest.auto_load && !pair.second.loaded) {
-                to_load.push_back({pair.second.manifest.load_priority, pair.first});
+    // 1. Build dependency graph
+    auto graph = PluginDependencyResolver::buildGraph(plugins_);
+    
+    // 2. Check for circular dependencies
+    auto cycles = PluginDependencyResolver::detectCircularDependencies(graph);
+    if (!cycles.empty()) {
+        THEMIS_ERROR("Circular dependencies detected in plugin system:");
+        for (const auto& cycle : cycles) {
+            std::string cycle_str;
+            for (size_t i = 0; i < cycle.size(); ++i) {
+                cycle_str += cycle[i];
+                if (i < cycle.size() - 1) {
+                    cycle_str += " -> ";
+                }
             }
+            THEMIS_ERROR("  Cycle: {}", cycle_str);
         }
-        
-        // Sort by priority (lower = higher priority)
-        std::sort(to_load.begin(), to_load.end());
-    }  // Lock is automatically released here
+        return 0;
+    }
     
-    // Scope 2: Load plugins without holding the main lock
-    // (loadPlugin() has its own locking mechanism)
+    // 3. Compute load order using topological sort
+    std::vector<std::string> load_order;
+    try {
+        load_order = PluginDependencyResolver::computeLoadOrder(graph);
+    } catch (const std::runtime_error& e) {
+        THEMIS_ERROR("Failed to compute plugin load order: {}", e.what());
+        return 0;
+    }
+    
+    // 4. Load plugins in dependency order
     size_t loaded = 0;
-    for (const auto& [priority, name] : to_load) {
-        auto* plugin = loadPlugin(name);
-        if (plugin) {
-            loaded++;
+    for (const auto& name : load_order) {
+        auto plugin_it = plugins_.find(name);
+        if (plugin_it != plugins_.end() && 
+            plugin_it->second.manifest.auto_load && 
+            !plugin_it->second.loaded) {
+            
+            // Temporarily release lock to avoid deadlock in loadPlugin
+            lock.unlock();  // RAII-based unlock
+            auto* plugin = loadPlugin(name);
+            lock.lock();    // RAII-based lock
+            
+            if (plugin) {
+                loaded++;
+            } else {
+                THEMIS_ERROR("Failed to auto-load plugin: {}", name);
+                // Continue loading other plugins despite this failure
+            }
         }
     }
     
-    THEMIS_INFO("Auto-loaded {} plugins", loaded);
+    THEMIS_INFO("Auto-loaded {} plugins in dependency order", loaded);
     return loaded;
 }
 
