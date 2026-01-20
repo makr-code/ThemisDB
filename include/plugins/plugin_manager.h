@@ -2,6 +2,7 @@
 
 #include "plugins/plugin_interface.h"
 #include "plugins/plugin_metrics.h"
+#include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include <string>
 #include <memory>

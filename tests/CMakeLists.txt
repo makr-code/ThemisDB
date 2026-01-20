@@ -1855,6 +1855,39 @@ else()
 endif()
 
 # ============================================================================
+# Plugin Dependency Resolver Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+    message(STATUS "Adding plugin dependency resolver tests")
+    
+    add_executable(test_plugin_dependency_resolver
+        test_plugin_dependency_resolver.cpp
+    )
+    
+    target_link_libraries(test_plugin_dependency_resolver PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_dependency_resolver PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginDependencyResolverTests COMMAND test_plugin_dependency_resolver)
+    
+    # Set test properties
+    set_tests_properties(PluginDependencyResolverTests PROPERTIES
+        LABELS "plugins;dependency;resolver;graph"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Plugin dependency resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+endif()
+
+# ============================================================================
 # Base Interfaces Tests (Phase 1: Dependency Inversion)
 # ============================================================================
 

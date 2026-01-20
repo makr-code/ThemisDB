@@ -1,4 +1,5 @@
 #include "plugins/plugin_manager.h"
+#include "plugins/plugin_dependency_resolver.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -377,6 +378,34 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         return entry.instance.get();
     }
     
+    // Load dependencies first
+    for (const auto& dep : entry.manifest.dependencies) {
+        auto dep_it = plugins_.find(dep);
+        
+        // Check if dependency exists
+        if (dep_it == plugins_.end()) {
+            THEMIS_ERROR("Plugin {} has missing dependency: {}", name, dep);
+            metrics_.recordError(name);
+            return nullptr;
+        }
+        
+        // Load dependency if not already loaded
+        if (!dep_it->second.loaded) {
+            THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
+            
+            // Temporarily release lock to avoid deadlock
+            mutex_.unlock();
+            auto* dep_plugin = loadPlugin(dep);
+            mutex_.lock();
+            
+            if (!dep_plugin) {
+                THEMIS_ERROR("Failed to load dependency {} for plugin {}", dep, name);
+                metrics_.recordError(name);
+                return nullptr;
+            }
+        }
+    }
+    
     // Verify plugin
     std::string error_message;
     if (!verifyPlugin(entry.path, error_message)) {
@@ -669,33 +698,60 @@ bool PluginManager::reloadPlugin(const std::string& name) {
 }
 
 size_t PluginManager::autoLoadPlugins() {
-    std::vector<std::pair<int, std::string>> to_load;
+    std::lock_guard<std::mutex> lock(mutex_);
     
-    // Scope 1: Collect plugins to auto-load (sorted by priority)
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        for (const auto& pair : plugins_) {
-            if (pair.second.manifest.auto_load && !pair.second.loaded) {
-                to_load.push_back({pair.second.manifest.load_priority, pair.first});
+    // 1. Build dependency graph
+    auto graph = PluginDependencyResolver::buildGraph(plugins_);
+    
+    // 2. Check for circular dependencies
+    auto cycles = PluginDependencyResolver::detectCircularDependencies(graph);
+    if (!cycles.empty()) {
+        THEMIS_ERROR("Circular dependencies detected in plugin system:");
+        for (const auto& cycle : cycles) {
+            std::string cycle_str;
+            for (size_t i = 0; i < cycle.size(); ++i) {
+                cycle_str += cycle[i];
+                if (i < cycle.size() - 1) {
+                    cycle_str += " -> ";
+                }
             }
+            THEMIS_ERROR("  Cycle: {}", cycle_str);
         }
-        
-        // Sort by priority (lower = higher priority)
-        std::sort(to_load.begin(), to_load.end());
-    }  // Lock is automatically released here
+        return 0;
+    }
     
-    // Scope 2: Load plugins without holding the main lock
-    // (loadPlugin() has its own locking mechanism)
+    // 3. Compute load order using topological sort
+    std::vector<std::string> load_order;
+    try {
+        load_order = PluginDependencyResolver::computeLoadOrder(graph);
+    } catch (const std::runtime_error& e) {
+        THEMIS_ERROR("Failed to compute plugin load order: {}", e.what());
+        return 0;
+    }
+    
+    // 4. Load plugins in dependency order
     size_t loaded = 0;
-    for (const auto& [priority, name] : to_load) {
-        auto* plugin = loadPlugin(name);
-        if (plugin) {
-            loaded++;
+    for (const auto& name : load_order) {
+        auto plugin_it = plugins_.find(name);
+        if (plugin_it != plugins_.end() && 
+            plugin_it->second.manifest.auto_load && 
+            !plugin_it->second.loaded) {
+            
+            // Temporarily release lock to avoid deadlock in loadPlugin
+            mutex_.unlock();
+            auto* plugin = loadPlugin(name);
+            mutex_.lock();
+            
+            if (plugin) {
+                loaded++;
+            } else {
+                THEMIS_ERROR("Failed to auto-load plugin: {}", name);
+                // Continue loading other plugins despite this failure
+            }
         }
     }
     
-    THEMIS_INFO("Auto-loaded {} plugins", loaded);
+    THEMIS_INFO("Auto-loaded {} plugins in dependency order", loaded);
     return loaded;
 }
 
