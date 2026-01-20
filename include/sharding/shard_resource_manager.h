@@ -112,6 +112,18 @@ private:
     std::map<std::string, ResourceSnapshot> peer_resources_;
     mutable std::shared_mutex peer_mutex_;
     
+    // Platform-specific state for resource monitoring
+#ifdef _WIN32
+    mutable void* pdh_query_ = nullptr;
+    mutable void* pdh_counter_ = nullptr;
+    mutable bool pdh_initialized_ = false;
+    mutable std::mutex pdh_mutex_;
+#else
+    mutable uint64_t prev_cpu_total_ = 0;
+    mutable uint64_t prev_cpu_idle_ = 0;
+    mutable std::mutex cpu_mutex_;
+#endif
+    
     // Monitoring loop
     void monitoringLoop();
     void collectSystemMetrics();

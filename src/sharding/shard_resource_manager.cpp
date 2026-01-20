@@ -20,6 +20,19 @@
 namespace themis::sharding {
 
 // ============================================================================
+// Utility Functions
+// ============================================================================
+
+namespace {
+    // Calculate memory usage percentage
+    double calculateMemoryUsagePercent(uint64_t used_bytes, uint64_t total_bytes) {
+        return (total_bytes > 0) 
+            ? (static_cast<double>(used_bytes) / total_bytes * 100.0)
+            : 0.0;
+    }
+}
+
+// ============================================================================
 // ResourceSnapshot Serialization
 // ============================================================================
 
@@ -89,8 +102,12 @@ ShardResourceManager::ShardResourceManager(
     const Config& config)
     : local_shard_id_(local_shard_id)
     , gossip_manager_(gossip_manager)
-    , config_(config) {
-    
+    , config_(config)
+#ifndef _WIN32
+    , prev_cpu_total_(0)
+    , prev_cpu_idle_(0)
+#endif
+{
     // Initialize local snapshot
     local_snapshot_.timestamp = std::chrono::system_clock::now();
     local_snapshot_.health_score = 100.0f;
@@ -98,6 +115,15 @@ ShardResourceManager::ShardResourceManager(
 
 ShardResourceManager::~ShardResourceManager() {
     stop();
+    
+#ifdef _WIN32
+    // Cleanup PDH resources
+    if (pdh_initialized_) {
+        if (pdh_query_) {
+            PdhCloseQuery(reinterpret_cast<PDH_HQUERY>(pdh_query_));
+        }
+    }
+#endif
 }
 
 // ============================================================================
@@ -206,13 +232,13 @@ void ShardResourceManager::broadcastResourceUpdate() {
         snapshot.timestamp.time_since_epoch()
     ).count();
     gossip_snapshot.cpu_usage_percent = snapshot.cpu_usage_percent;
-    gossip_snapshot.memory_usage_percent = 
-        (snapshot.ram_total_bytes > 0) 
-            ? (static_cast<double>(snapshot.ram_usage_bytes) / snapshot.ram_total_bytes * 100.0)
-            : 0.0;
+    gossip_snapshot.memory_usage_percent = calculateMemoryUsagePercent(
+        snapshot.ram_usage_bytes, snapshot.ram_total_bytes
+    );
     gossip_snapshot.available_memory_bytes = snapshot.ram_total_bytes - snapshot.ram_usage_bytes;
     gossip_snapshot.total_memory_bytes = snapshot.ram_total_bytes;
-    gossip_snapshot.available_cpu_cores = 0; // Would need platform-specific detection
+    // TODO: Implement platform-specific CPU core detection (sysconf on Linux, WMI on Windows)
+    gossip_snapshot.available_cpu_cores = 0;
     gossip_snapshot.total_cpu_cores = 0;
     gossip_snapshot.available_disk_bytes = snapshot.disk_available_bytes;
     gossip_snapshot.total_disk_bytes = snapshot.disk_used_bytes + snapshot.disk_available_bytes;
@@ -417,27 +443,27 @@ void ShardResourceManager::cleanupStaleSnapshots() {
 float ShardResourceManager::getCpuUsage() const {
 #ifdef _WIN32
     // Windows: Use PDH (Performance Data Helper)
-    // This is a simplified version - production code should cache the query handle
-    static PDH_HQUERY query = nullptr;
-    static PDH_HCOUNTER counter = nullptr;
-    static bool initialized = false;
+    std::lock_guard<std::mutex> lock(pdh_mutex_);
     
-    if (!initialized) {
-        PdhOpenQuery(nullptr, 0, &query);
-        PdhAddCounter(query, TEXT("\\Processor(_Total)\\% Processor Time"), 0, &counter);
-        PdhCollectQueryData(query);
-        initialized = true;
+    if (!pdh_initialized_) {
+        PdhOpenQuery(nullptr, 0, reinterpret_cast<PDH_HQUERY*>(&const_cast<void*&>(pdh_query_)));
+        PdhAddCounter(reinterpret_cast<PDH_HQUERY>(pdh_query_), 
+                     TEXT("\\Processor(_Total)\\% Processor Time"), 
+                     0, 
+                     reinterpret_cast<PDH_HCOUNTER*>(&const_cast<void*&>(pdh_counter_)));
+        PdhCollectQueryData(reinterpret_cast<PDH_HQUERY>(pdh_query_));
+        const_cast<bool&>(pdh_initialized_) = true;
     }
     
     PDH_FMT_COUNTERVALUE value;
-    PdhCollectQueryData(query);
-    PdhGetFormattedCounterValue(counter, PDH_FMT_DOUBLE, nullptr, &value);
+    PdhCollectQueryData(reinterpret_cast<PDH_HQUERY>(pdh_query_));
+    PdhGetFormattedCounterValue(reinterpret_cast<PDH_HCOUNTER>(pdh_counter_), 
+                                PDH_FMT_DOUBLE, nullptr, &value);
     
     return static_cast<float>(value.doubleValue);
 #else
     // Linux: Read /proc/stat
-    static uint64_t prev_total = 0;
-    static uint64_t prev_idle = 0;
+    std::lock_guard<std::mutex> lock(cpu_mutex_);
     
     std::ifstream stat_file("/proc/stat");
     if (!stat_file.is_open()) {
@@ -456,16 +482,16 @@ float ShardResourceManager::getCpuUsage() const {
     uint64_t total = user + nice + system + idle + iowait + irq + softirq + steal;
     uint64_t total_idle = idle + iowait;
     
-    uint64_t diff_total = total - prev_total;
-    uint64_t diff_idle = total_idle - prev_idle;
+    uint64_t diff_total = total - prev_cpu_total_;
+    uint64_t diff_idle = total_idle - prev_cpu_idle_;
     
     float usage = 0.0f;
     if (diff_total > 0) {
         usage = 100.0f * (1.0f - static_cast<float>(diff_idle) / diff_total);
     }
     
-    prev_total = total;
-    prev_idle = total_idle;
+    const_cast<uint64_t&>(prev_cpu_total_) = total;
+    const_cast<uint64_t&>(prev_cpu_idle_) = total_idle;
     
     return usage;
 #endif
