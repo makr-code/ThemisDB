@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "sharding/shard_resource_manager.h"
 #include "sharding/shard_topology.h"
+#include "sharding/gossip_config_manager.h"
 #include <thread>
 
 using namespace themis::sharding;

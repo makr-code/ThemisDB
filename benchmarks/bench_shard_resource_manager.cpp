@@ -1,6 +1,7 @@
 #include <benchmark/benchmark.h>
 #include "sharding/shard_resource_manager.h"
 #include "sharding/shard_topology.h"
+#include "sharding/gossip_config_manager.h"
 
 using namespace themis::sharding;
 
