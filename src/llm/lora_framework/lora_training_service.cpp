@@ -1478,6 +1478,8 @@ TrainingResult LoRATrainingService::trainDistributed(
     }
     
     try {
+        auto start_time = std::chrono::system_clock::now();
+        
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
         spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
         spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
@@ -1501,12 +1503,16 @@ TrainingResult LoRATrainingService::trainDistributed(
         dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
         
         // 2. Create ShardRouter and ShardTopology (in real implementation, these would come from dependency injection)
-        // For now, create minimal instances for the coordinator to function
+        // NOTE: These components would typically be injected via constructor or obtained from a service registry.
+        // For this implementation, we create the coordinator with nullptr for router/topology since the current
+        // implementation doesn't use these for core functionality (gradient aggregation works without them).
+        // In a production deployment, these would be properly injected to enable inter-shard communication.
         std::shared_ptr<ShardRouter> shard_router = nullptr;
         std::shared_ptr<ShardTopology> shard_topology = nullptr;
         
-        // Note: In production, these would be injected via constructor or obtained from a service registry
         spdlog::info("Creating DistributedTrainingCoordinator");
+        spdlog::warn("ShardRouter and ShardTopology are not injected - using standalone mode");
+        spdlog::info("For production use, inject these dependencies for full inter-shard communication");
         
         // 3. Create DistributedTrainingCoordinator
         auto coordinator = DistributedTrainingCoordinatorFactory::create(
@@ -1520,9 +1526,11 @@ TrainingResult LoRATrainingService::trainDistributed(
         }
         
         // 4. Initialize coordinator with adapter_id and training config
+        // NOTE: TrainingConfig is a forward declaration used by the coordinator interface.
+        // The actual training parameters are managed through LoRAHyperparameters.
+        // In this implementation, we create an empty TrainingConfig as the coordinator
+        // primarily manages gradient synchronization rather than local training parameters.
         TrainingConfig training_config;
-        // Note: TrainingConfig is a forward declaration. In real implementation, 
-        // we would populate it from hyperparameters and data
         
         bool initialized = coordinator->initialize(adapter_id, training_config);
         if (!initialized) {
@@ -1585,17 +1593,34 @@ TrainingResult LoRATrainingService::trainDistributed(
                     }
                 }
                 
-                // If we can continue, retry the step
-                if (can_continue) {
-                    spdlog::info("Retrying step {}", step);
-                    --step;  // Retry this step
-                    continue;
+                // If we can continue, retry the step (max 3 retries per step)
+                if (can_continue && step_result.shard_states.size() > 0) {
+                    int retry_count = 0;
+                    const int max_retries = 3;
+                    while (retry_count < max_retries) {
+                        spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
+                        step_result = coordinator->executeStep();
+                        if (step_result.success) break;
+                        retry_count++;
+                    }
+                    if (!step_result.success) {
+                        spdlog::error("Step {} failed after {} retries", step, max_retries);
+                        continue;  // Skip this step and move to next
+                    }
                 }
-            } else {
+            }
+            
+            if (step_result.success) {
                 successful_steps++;
                 avg_sync_time_ms += step_result.sync_time_ms;
                 
-                // Simulated loss tracking (in real implementation, would come from actual training)
+                // NOTE: This uses simulated loss for demonstration purposes.
+                // In a production implementation, actual loss values would be:
+                // 1. Computed by each shard during local training
+                // 2. Collected during gradient exchange
+                // 3. Aggregated across shards (e.g., average)
+                // 4. Returned in the step_result
+                // TODO: Replace with actual loss computation from distributed training
                 float simulated_loss = 1.0f / (1.0f + step * 0.1f);
                 loss_history.push_back(simulated_loss);
             }
@@ -1616,7 +1641,11 @@ TrainingResult LoRATrainingService::trainDistributed(
         // Populate result
         result.success = (successful_steps > 0);
         result.final_loss = !loss_history.empty() ? loss_history.back() : 0.0f;
-        result.training_time_seconds = stats.avg_sync_time_ms * stats.total_steps_completed / 1000.0f;
+        
+        // Calculate actual training time from start to finish
+        auto end_time = std::chrono::system_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+        result.training_time_seconds = static_cast<float>(duration.count());
         
         // Distributed metrics
         result.metrics["distributed_mode"] = true;

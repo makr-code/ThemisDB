@@ -1,5 +1,5 @@
 # Simplified Distributed LoRA Training Configuration
-# ThemisDB v1.4.0-alpha
+# ThemisDB
 # Use case: Distributed LoRA training across multiple shards
 
 # ====================================================================
