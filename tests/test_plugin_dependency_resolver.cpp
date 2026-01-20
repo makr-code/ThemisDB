@@ -41,8 +41,8 @@ protected:
         const std::vector<TestPluginEntry>& entries
     ) {
         std::map<std::string, TestPluginEntry> result;
-        for (const auto& entry : entries) {
-            result[entry.name] = entry;
+        for (auto& entry : entries) {
+            result.emplace(entry.name, entry);
         }
         return result;
     }
@@ -378,17 +378,19 @@ TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ComplexGraph) {
     EXPECT_EQ(load_order[0], "PluginF");
     
     // Verify dependency constraints are satisfied
-    auto get_pos = [&](const std::string& name) {
-        return std::find(load_order.begin(), load_order.end(), name) - load_order.begin();
-    };
+    // Build position map once for efficiency
+    std::map<std::string, size_t> positions;
+    for (size_t i = 0; i < load_order.size(); ++i) {
+        positions[load_order[i]] = i;
+    }
     
-    EXPECT_LT(get_pos("PluginF"), get_pos("PluginD"));
-    EXPECT_LT(get_pos("PluginF"), get_pos("PluginE"));
-    EXPECT_LT(get_pos("PluginD"), get_pos("PluginB"));
-    EXPECT_LT(get_pos("PluginD"), get_pos("PluginC"));
-    EXPECT_LT(get_pos("PluginE"), get_pos("PluginC"));
-    EXPECT_LT(get_pos("PluginB"), get_pos("PluginA"));
-    EXPECT_LT(get_pos("PluginC"), get_pos("PluginA"));
+    EXPECT_LT(positions["PluginF"], positions["PluginD"]);
+    EXPECT_LT(positions["PluginF"], positions["PluginE"]);
+    EXPECT_LT(positions["PluginD"], positions["PluginB"]);
+    EXPECT_LT(positions["PluginD"], positions["PluginC"]);
+    EXPECT_LT(positions["PluginE"], positions["PluginC"]);
+    EXPECT_LT(positions["PluginB"], positions["PluginA"]);
+    EXPECT_LT(positions["PluginC"], positions["PluginA"]);
     
     // A should be last
     EXPECT_EQ(load_order[5], "PluginA");

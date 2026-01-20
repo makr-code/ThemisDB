@@ -362,7 +362,7 @@ size_t PluginManager::scanPluginDirectory(const std::string& directory) {
 IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
     
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     if (it == plugins_.end()) {
@@ -398,7 +398,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     
     // Load dependencies (must release lock to avoid deadlock)
     if (!deps_to_load.empty()) {
-        mutex_.unlock();
+        lock.unlock();  // RAII-based unlock
         
         for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
@@ -406,14 +406,14 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
             if (!dep_plugin) {
                 THEMIS_ERROR("Failed to load dependency {} for plugin {}", dep, name);
                 // Re-acquire lock before returning
-                mutex_.lock();
+                lock.lock();
                 metrics_.recordError(name);
                 return nullptr;
             }
         }
         
         // Re-acquire lock and verify entry is still valid
-        mutex_.lock();
+        lock.lock();  // RAII-based lock
         
         // Re-find entry as map may have been modified
         it = plugins_.find(name);
@@ -724,7 +724,7 @@ bool PluginManager::reloadPlugin(const std::string& name) {
 }
 
 size_t PluginManager::autoLoadPlugins() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     
     // 1. Build dependency graph
     auto graph = PluginDependencyResolver::buildGraph(plugins_);
@@ -764,9 +764,9 @@ size_t PluginManager::autoLoadPlugins() {
             !plugin_it->second.loaded) {
             
             // Temporarily release lock to avoid deadlock in loadPlugin
-            mutex_.unlock();
+            lock.unlock();  // RAII-based unlock
             auto* plugin = loadPlugin(name);
-            mutex_.lock();
+            lock.lock();    // RAII-based lock
             
             if (plugin) {
                 loaded++;
