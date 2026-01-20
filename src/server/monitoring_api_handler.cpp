@@ -3,6 +3,7 @@
 #include "index/secondary_index.h"
 #include "server/auth_middleware.h"
 #include "metadata/schema_manager.h"
+#include "plugins/plugin_manager.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
 #include "utils/logger.h"
@@ -453,8 +454,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         
         // Plugin metrics
         try {
-            #include "plugins/plugin_manager.h"
-            
             auto& plugin_manager = themis::plugins::PluginManager::instance();
             auto all_stats = plugin_manager.getMetrics().getAllStats();
             
@@ -540,8 +539,6 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
 ) {
     // GET /api/plugins/metrics - Return plugin metrics in JSON format
     try {
-        #include "plugins/plugin_manager.h"
-        
         auto& plugin_manager = themis::plugins::PluginManager::instance();
         auto all_stats = plugin_manager.getMetrics().getAllStats();
         

@@ -1320,6 +1320,7 @@ namespace {
         Stats,
         CapabilitiesGet,
         Metrics,
+        PluginMetrics,  // GET /api/plugins/metrics
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1490,6 +1491,7 @@ namespace {
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
+    if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
     if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
@@ -1780,6 +1782,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::Metrics:
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
+            break;
+        case Route::PluginMetrics:
+            // Delegate to MonitoringApiHandler for plugin metrics
+            response = monitoring_api_->handlePluginMetrics(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);
