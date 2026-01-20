@@ -100,7 +100,7 @@ public:
     
     std::vector<std::string> listIndexes() const override;
     
-    std::optional<IndexType> getIndexType(std::string_view name) const override;
+    Result<IndexType> getIndexType(std::string_view name) const override;
 
 private:
     IExpressionEvaluatorPtr evaluator_;
