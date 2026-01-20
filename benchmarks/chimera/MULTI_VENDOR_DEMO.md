@@ -67,7 +67,7 @@ python3 demo_multi_vendor.py
 ### Expected Output
 
 The demo will:
-1. Generate simulated benchmark data for 10 systems across 3 workloads
+1. Generate simulated benchmark data for 9 systems across 3 workloads
 2. Apply statistical analysis uniformly to all systems
 3. Create vendor-neutral reports in `demo_reports/multi_vendor/`
 4. Display summary of vendor neutrality guarantees

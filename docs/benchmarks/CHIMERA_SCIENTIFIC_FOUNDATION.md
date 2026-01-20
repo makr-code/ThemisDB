@@ -747,10 +747,10 @@ If you use the CHIMERA benchmark suite in your research, please cite:
 
 ```bibtex
 @software{chimera2026,
-  title={{CHIMERA}: Comprehensive Hybrid Integration Measurement \& Empirical Research Architecture},
+  title={{CHIMERA}: Comprehensive, Honest, Impartial Metrics for Empirical Reporting and Analysis},
   author={{CHIMERA Suite Contributors}},
   year={2026},
-  url={https://github.com/chimera-suite/chimera},
+  url={https://github.com/makr-code/ThemisDB/tree/main/benchmarks/chimera},
   note={Vendor-neutral benchmark suite for database evaluation}
 }
 ```

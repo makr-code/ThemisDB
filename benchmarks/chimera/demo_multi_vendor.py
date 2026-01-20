@@ -3,13 +3,11 @@
 CHIMERA Multi-Vendor Demo: Vendor-Neutral Database Benchmarking
 
 This demo demonstrates CHIMERA's vendor neutrality by benchmarking
-multiple database systems side-by-side with identical workloads.
+9 database systems side-by-side with identical workloads across 3
+benchmark categories (OLTP, Vector Search, Graph Traversal).
 
-Simulated Systems:
-1. PostgreSQL - Popular relational database
-2. MongoDB - Document-oriented NoSQL database
-3. ThemisDB - Multi-model database
-4. Neo4j - Graph database
+Systems benchmarked include PostgreSQL, MongoDB, ThemisDB, Neo4j,
+Milvus, Pinecone, PostgreSQL+pgvector, ArangoDB, and JanusGraph.
 
 All systems are treated equally with vendor-neutral reporting.
 """
@@ -42,21 +40,32 @@ def generate_realistic_data(mean: float, std_dev: float, n: int = 50,
     if abs(skew) < 0.1:
         # Normal distribution
         data = np.random.normal(mean, std_dev, n)
+        
+        # Ensure base values are positive before adding outliers
+        data = np.abs(data)
+        
+        # Add realistic outliers (~4%)
+        n_outliers = max(1, int(n * 0.04))
+        outlier_indices = np.random.choice(n, n_outliers, replace=False)
+        for idx in outlier_indices:
+            # Outliers are 2-4 std devs away
+            data[idx] = mean + np.random.choice([-1, 1]) * std_dev * np.random.uniform(2, 4)
+        
+        # Ensure all values are positive
+        data = np.abs(data)
     else:
         # Skewed distribution (log-normal)
         mu = np.log(mean**2 / np.sqrt(std_dev**2 + mean**2))
         sigma = np.sqrt(np.log(1 + (std_dev**2 / mean**2)))
         data = np.random.lognormal(mu, sigma, n)
-    
-    # Add realistic outliers (3-5%)
-    n_outliers = max(1, int(n * 0.04))
-    outlier_indices = np.random.choice(n, n_outliers, replace=False)
-    for idx in outlier_indices:
-        # Outliers are 2-4 std devs away
-        data[idx] = mean + np.random.choice([-1, 1]) * std_dev * np.random.uniform(2, 4)
-    
-    # Ensure all values are positive
-    data = np.abs(data)
+        
+        # Add realistic outliers (~4%) using multiplicative factors
+        n_outliers = max(1, int(n * 0.04))
+        outlier_indices = np.random.choice(n, n_outliers, replace=False)
+        for idx in outlier_indices:
+            # Multiplicative outliers: scale values 2-4x to preserve log-normal character
+            factor = np.random.uniform(2, 4)
+            data[idx] = data[idx] * factor
     
     return data.tolist()
 
@@ -407,7 +416,7 @@ def print_summary():
     print("CHIMERA Multi-Vendor Benchmark - Summary")
     print("=" * 70)
     print("\n✅ Vendor Neutrality Demonstrated:")
-    print("   • 10 different database systems benchmarked")
+    print("   • 9 different database systems benchmarked")
     print("   • Equal treatment of all vendors")
     print("   • Alphabetical sorting (default)")
     print("   • Performance-based sorting (optional)")

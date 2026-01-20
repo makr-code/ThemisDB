@@ -575,7 +575,7 @@ If you use the CHIMERA Suite configuration format in your research, please cite:
   author = {CHIMERA Suite Contributors},
   year = {2026},
   version = {1.0.0},
-  url = {https://github.com/chimera-suite/chimera},
+  url = {https://github.com/makr-code/ThemisDB/tree/main/benchmarks/chimera},
   note = {IEEE Std 2807-2022 compliant}
 }
 ```
