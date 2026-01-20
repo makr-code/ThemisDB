@@ -116,7 +116,12 @@ std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags(
     std::vector<Snapshot> snapshots;
     
     // Scan all snapshot keys
-    auto iterator = db_.newIterator();
+    auto iterator_result = db_.newIterator();
+    if (!iterator_result) {
+        spdlog::warn("SnapshotManager: Failed to create iterator: {}", iterator_result.error().message());
+        return snapshots;
+    }
+    auto iterator = std::move(iterator_result.value());
     std::string prefix = SNAPSHOT_PREFIX;
     
     for (iterator->Seek(prefix); iterator->Valid(); iterator->Next()) {

@@ -202,7 +202,12 @@ public:
         if (config_.backend == Backend::ThemisDB && config_.db) {
             // Scan RocksDB for all adapters in collection
             std::string prefix = config_.collection_name + ":";
-            auto it = config_.db->newIterator();
+            auto it_result = config_.db->newIterator();
+            if (!it_result) {
+                spdlog::warn("LoRAStorage: Failed to create iterator: {}", it_result.error().message());
+                return adapters;
+            }
+            auto it = std::move(it_result.value());
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
                 std::string key(it->key().data(), it->key().size());
@@ -271,7 +276,12 @@ public:
         if (config_.backend == Backend::ThemisDB && config_.db) {
             // Scan for versioned keys
             std::string prefix = makeCollectionKey(adapter_id) + ":v";
-            auto it = config_.db->newIterator();
+            auto it_result = config_.db->newIterator();
+            if (!it_result) {
+                spdlog::warn("LoRAStorage: Failed to create iterator for versions: {}", it_result.error().message());
+                return versions;
+            }
+            auto it = std::move(it_result.value());
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
                 std::string key(it->key().data(), it->key().size());
