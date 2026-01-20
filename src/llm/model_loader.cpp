@@ -3,6 +3,7 @@
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 #include <spdlog/spdlog.h>
+#include <fmt/format.h>
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
@@ -724,7 +725,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
 
     spdlog::info("Model loaded successfully: {} ({} MB VRAM, {} GPU layers, Flash Attention: {})",
                  model_id, vram_mb, n_gpu_layers, use_flash_attn ? "ON" : "OFF");
-    return Ok(result);
+    return result;
 }
 
 bool LazyModelLoader::hasCapacity(size_t vram_mb, size_t ram_mb) const {
