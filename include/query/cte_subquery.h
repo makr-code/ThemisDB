@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
+#include "utils/expected.h"
 
 namespace themis {
 class QueryEngine; // forward declaration in outer namespace
@@ -177,9 +178,9 @@ public:
      * @param subquery Subquery Definition
      * @param queryEngine Query Engine für Execution
      * @param outerRow Outer Row (für correlated subqueries)
-     * @return Subquery Result (scalar value, array, or boolean)
+     * @return Subquery Result (scalar value, array, or boolean) or error
      */
-    nlohmann::json evaluateSubquery(
+    Result<nlohmann::json> evaluateSubquery(
         const query::SubqueryExpr& subquery,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow = nlohmann::json()
@@ -190,9 +191,9 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return Scalar value oder null
+     * @return Scalar value or error
      */
-    nlohmann::json evaluateScalarSubquery(
+    Result<nlohmann::json> evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
