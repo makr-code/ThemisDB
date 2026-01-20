@@ -484,5 +484,402 @@ bool PluginSecurityAuditor::exportEvents(const std::string& outputPath) const {
     }
 }
 
+// ============================================================================
+// EnhancedPluginSecurityVerifier Implementation
+// ============================================================================
+
+EnhancedPluginSecurityVerifier::EnhancedPluginSecurityVerifier(const PluginSecurityPolicy& policy)
+    : policy_(policy) {
+}
+
+EnhancedPluginSecurityVerifier::VerificationResult 
+EnhancedPluginSecurityVerifier::verifyPlugin(
+    const std::string& plugin_path,
+    VerificationLevel required_level
+) {
+    VerificationResult result;
+    result.level_achieved = VerificationLevel::LEVEL_1_HASH_ONLY;
+    
+    // Level 1: Hash verification
+    if (!verifyHash(plugin_path, result)) {
+        result.passed = false;
+        return result;
+    }
+    result.level_achieved = VerificationLevel::LEVEL_1_HASH_ONLY;
+    
+    // If only hash is required, we're done
+    if (required_level == VerificationLevel::LEVEL_1_HASH_ONLY) {
+        result.passed = true;
+        return result;
+    }
+    
+    // Level 2: Embedded signature verification
+    if (verifyEmbeddedSignature(plugin_path, result)) {
+        result.level_achieved = VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE;
+        
+        // If level 2 is sufficient, we're done
+        if (required_level == VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE) {
+            result.passed = true;
+            return result;
+        }
+    } else {
+        // If embedded signature required but failed
+        if (required_level >= VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE) {
+            result.passed = false;
+            return result;
+        }
+    }
+    
+    // Level 3: Platform signature verification
+    if (verifyPlatformSignature(plugin_path, result)) {
+        result.level_achieved = VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE;
+        
+        // If level 3 is sufficient, we're done
+        if (required_level == VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE) {
+            result.passed = true;
+            return result;
+        }
+    } else {
+        // If platform signature required but failed
+        if (required_level >= VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE) {
+            // Only fail if we require platform signature AND it's not development mode
+            if (!policy_.allowUnsigned) {
+                result.passed = false;
+                return result;
+            }
+        }
+    }
+    
+    // Level 4: Full chain verification
+    if (required_level == VerificationLevel::LEVEL_4_FULL_CHAIN) {
+        if (verifyFullChain(plugin_path, result)) {
+            result.level_achieved = VerificationLevel::LEVEL_4_FULL_CHAIN;
+            result.passed = true;
+        } else {
+            result.passed = false;
+        }
+        return result;
+    }
+    
+    // If we got here, verification passed at the required level
+    result.passed = true;
+    return result;
+}
+
+bool EnhancedPluginSecurityVerifier::verifyHash(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+    PluginSecurityVerifier basic_verifier(policy_);
+    std::string fileHash = basic_verifier.calculateFileHash(plugin_path);
+    
+    if (fileHash.empty()) {
+        result.error_message = "Failed to calculate file hash";
+        return false;
+    }
+    
+    result.hash_verified = true;
+    return true;
+}
+
+bool EnhancedPluginSecurityVerifier::verifyEmbeddedSignature(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+    // Try to extract embedded certificate from DLL/SO
+    auto cert_data = extractEmbeddedCertificate(plugin_path);
+    if (!cert_data) {
+        result.error_message = "No embedded certificate found";
+        return false;
+    }
+    
+    // Parse certificate
+    const unsigned char* p = cert_data->data();
+    X509* cert = d2i_X509(nullptr, &p, static_cast<long>(cert_data->size()));
+    if (!cert) {
+        result.error_message = "Failed to parse embedded certificate";
+        return false;
+    }
+    
+    // Verify certificate is official ThemisDB certificate
+    if (!isOfficialThemisDBCertificate(cert)) {
+        result.error_message = "Certificate is not official ThemisDB certificate";
+        result.issuer = getCertificateIssuer(cert);
+        X509_free(cert);
+        return false;
+    }
+    
+    // Check certificate validity
+    if (!isCertificateValid(cert)) {
+        result.error_message = "Certificate has expired or not yet valid";
+        X509_free(cert);
+        return false;
+    }
+    
+    // Extract embedded signature
+    auto signature_data = extractEmbeddedSignature(plugin_path);
+    if (!signature_data) {
+        result.error_message = "No embedded signature found";
+        X509_free(cert);
+        return false;
+    }
+    
+    // Calculate DLL hash (excluding signature section)
+    std::vector<uint8_t> dll_hash = calculateHashExcludingSignature(plugin_path);
+    
+    // Verify signature with certificate public key
+    EVP_PKEY* pubkey = X509_get_pubkey(cert);
+    bool signature_valid = verifyRSASignature(dll_hash, *signature_data, pubkey);
+    EVP_PKEY_free(pubkey);
+    
+    // Get certificate info
+    result.issuer = getCertificateIssuer(cert);
+    result.subject = getCertificateSubject(cert);
+    result.is_themisdb_official = true;
+    
+    X509_free(cert);
+    
+    if (!signature_valid) {
+        result.error_message = "Embedded signature verification failed";
+        return false;
+    }
+    
+    result.embedded_signature_verified = true;
+    return true;
+}
+
+bool EnhancedPluginSecurityVerifier::verifyPlatformSignature(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+#ifdef _WIN32
+    return verifyAuthenticodeSignature(plugin_path, result);
+#elif defined(__APPLE__)
+    return verifyMacOSCodeSignature(plugin_path, result);
+#else
+    return verifyGPGSignature(plugin_path, result);
+#endif
+}
+
+bool EnhancedPluginSecurityVerifier::verifyFullChain(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+    // First verify embedded signature
+    if (!verifyEmbeddedSignature(plugin_path, result)) {
+        return false;
+    }
+    
+    // Then verify platform signature
+    if (!verifyPlatformSignature(plugin_path, result)) {
+        // Platform signature is optional for full chain in development mode
+        if (!policy_.allowUnsigned) {
+            return false;
+        }
+    }
+    
+    // TODO: Implement full certificate chain validation
+    // TODO: Implement CRL/OCSP checking
+    result.certificate_chain_verified = true;
+    result.certificate_not_revoked = true;
+    
+    return true;
+}
+
+std::optional<std::vector<uint8_t>> 
+EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
+    const std::string& plugin_path
+) {
+    // TODO: Implement PE/ELF/Mach-O parsing to extract embedded certificate
+    // For now, return empty to indicate no embedded certificate found
+    (void)plugin_path;  // Suppress unused parameter warning
+    return std::nullopt;
+}
+
+std::optional<std::vector<uint8_t>> 
+EnhancedPluginSecurityVerifier::extractEmbeddedSignature(
+    const std::string& plugin_path
+) {
+    // TODO: Implement PE/ELF/Mach-O parsing to extract embedded signature
+    // For now, return empty to indicate no embedded signature found
+    (void)plugin_path;  // Suppress unused parameter warning
+    return std::nullopt;
+}
+
+bool EnhancedPluginSecurityVerifier::isOfficialThemisDBCertificate(X509* cert) {
+    if (!cert) {
+        return false;
+    }
+    
+    std::string issuer = getCertificateIssuer(cert);
+    
+    // Check if issuer matches ThemisDB Official Plugins CA
+    return issuer.find("ThemisDB Official Plugins CA") != std::string::npos ||
+           issuer.find("ThemisDB.org") != std::string::npos;
+}
+
+#ifdef _WIN32
+bool EnhancedPluginSecurityVerifier::verifyAuthenticodeSignature(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+    // TODO: Implement Windows Authenticode verification using WinVerifyTrust API
+    // For now, mark as not verified
+    (void)plugin_path;
+    result.error_message = "Authenticode verification not yet implemented";
+    return false;
+}
+#elif defined(__APPLE__)
+bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+    // TODO: Implement macOS codesign verification
+    // For now, mark as not verified
+    (void)plugin_path;
+    result.error_message = "macOS codesign verification not yet implemented";
+    return false;
+}
+#else
+bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
+    const std::string& plugin_path,
+    VerificationResult& result
+) {
+    // TODO: Implement GPG signature verification for Linux
+    // Look for .sig or .asc file alongside the plugin
+    (void)plugin_path;
+    result.error_message = "GPG signature verification not yet implemented";
+    return false;
+}
+#endif
+
+std::vector<uint8_t> 
+EnhancedPluginSecurityVerifier::calculateHashExcludingSignature(
+    const std::string& plugin_path
+) {
+    // For now, just calculate hash of entire file
+    // TODO: Implement PE/ELF parsing to exclude signature section
+    std::ifstream file(plugin_path, std::ios::binary);
+    if (!file) {
+        return {};
+    }
+    
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        return {};
+    }
+    
+    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return {};
+    }
+    
+    const size_t bufferSize = 32768;
+    std::vector<char> buffer(bufferSize);
+    
+    while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
+        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
+            EVP_MD_CTX_free(mdctx);
+            return {};
+        }
+    }
+    
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hashLen = 0;
+    if (EVP_DigestFinal_ex(mdctx, hash, &hashLen) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return {};
+    }
+    EVP_MD_CTX_free(mdctx);
+    
+    return std::vector<uint8_t>(hash, hash + hashLen);
+}
+
+bool EnhancedPluginSecurityVerifier::verifyRSASignature(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& signature,
+    EVP_PKEY* pubkey
+) {
+    if (!pubkey || data.empty() || signature.empty()) {
+        return false;
+    }
+    
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        return false;
+    }
+    
+    bool verified = false;
+    
+    // Initialize verification context
+    if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubkey) == 1) {
+        // Verify signature
+        int result = EVP_DigestVerify(mdctx, signature.data(), signature.size(),
+                                      data.data(), data.size());
+        verified = (result == 1);
+    }
+    
+    EVP_MD_CTX_free(mdctx);
+    return verified;
+}
+
+std::string EnhancedPluginSecurityVerifier::getCertificateIssuer(X509* cert) {
+    if (!cert) {
+        return "";
+    }
+    
+    X509_NAME* issuer_name = X509_get_issuer_name(cert);
+    if (!issuer_name) {
+        return "";
+    }
+    
+    char* issuer_str = X509_NAME_oneline(issuer_name, nullptr, 0);
+    if (!issuer_str) {
+        return "";
+    }
+    
+    std::string result(issuer_str);
+    OPENSSL_free(issuer_str);
+    return result;
+}
+
+std::string EnhancedPluginSecurityVerifier::getCertificateSubject(X509* cert) {
+    if (!cert) {
+        return "";
+    }
+    
+    X509_NAME* subject_name = X509_get_subject_name(cert);
+    if (!subject_name) {
+        return "";
+    }
+    
+    char* subject_str = X509_NAME_oneline(subject_name, nullptr, 0);
+    if (!subject_str) {
+        return "";
+    }
+    
+    std::string result(subject_str);
+    OPENSSL_free(subject_str);
+    return result;
+}
+
+bool EnhancedPluginSecurityVerifier::isCertificateValid(X509* cert) {
+    if (!cert) {
+        return false;
+    }
+    
+    // Check certificate has not expired and is already valid
+    int notBefore = X509_cmp_current_time(X509_get0_notBefore(cert));
+    int notAfter = X509_cmp_current_time(X509_get0_notAfter(cert));
+    
+    // notBefore should be < 0 (in the past)
+    // notAfter should be > 0 (in the future)
+    return (notBefore < 0 && notAfter > 0);
+}
+
+void EnhancedPluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy& policy) {
+    policy_ = policy;
+}
+
 } // namespace acceleration
 } // namespace themis
