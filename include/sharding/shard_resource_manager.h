@@ -123,6 +123,9 @@ private:
     std::pair<uint64_t, uint64_t> getVramUsage() const;
     std::pair<uint64_t, uint64_t> getDiskUsage() const;
     std::pair<uint64_t, uint64_t> getNetworkUsage() const;
+    
+    // Internal helper for health score calculation (no lock acquisition)
+    float calculateHealthScoreInternal(const ResourceSnapshot& snapshot) const;
 };
 
 } // namespace themis::sharding

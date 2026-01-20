@@ -294,43 +294,46 @@ std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshol
 
 float ShardResourceManager::calculateHealthScore() const {
     std::shared_lock lock(local_mutex_);
-    
+    return calculateHealthScoreInternal(local_snapshot_);
+}
+
+float ShardResourceManager::calculateHealthScoreInternal(const ResourceSnapshot& snapshot) const {
     float score = 100.0f;
     
     // CPU usage component (30% weight)
-    float cpu_penalty = (local_snapshot_.cpu_usage_percent / 100.0f) * 30.0f;
+    float cpu_penalty = (snapshot.cpu_usage_percent / 100.0f) * 30.0f;
     score -= cpu_penalty;
     
     // RAM usage component (25% weight)
-    if (local_snapshot_.ram_total_bytes > 0) {
-        float ram_ratio = static_cast<float>(local_snapshot_.ram_usage_bytes) / 
-                          local_snapshot_.ram_total_bytes;
+    if (snapshot.ram_total_bytes > 0) {
+        float ram_ratio = static_cast<float>(snapshot.ram_usage_bytes) / 
+                          snapshot.ram_total_bytes;
         float ram_penalty = ram_ratio * 25.0f;
         score -= ram_penalty;
     }
     
     // Disk usage component (20% weight)
-    uint64_t disk_total = local_snapshot_.disk_used_bytes + local_snapshot_.disk_available_bytes;
+    uint64_t disk_total = snapshot.disk_used_bytes + snapshot.disk_available_bytes;
     if (disk_total > 0) {
-        float disk_ratio = static_cast<float>(local_snapshot_.disk_used_bytes) / disk_total;
+        float disk_ratio = static_cast<float>(snapshot.disk_used_bytes) / disk_total;
         float disk_penalty = disk_ratio * 20.0f;
         score -= disk_penalty;
     }
     
     // Query latency component (15% weight)
     // Assume good latency is < 10ms, bad is > 100ms
-    if (local_snapshot_.p99_query_latency_ms > 10.0f) {
+    if (snapshot.p99_query_latency_ms > 10.0f) {
         float latency_penalty = std::min(
-            (local_snapshot_.p99_query_latency_ms - 10.0f) / 90.0f * 15.0f,
+            (snapshot.p99_query_latency_ms - 10.0f) / 90.0f * 15.0f,
             15.0f
         );
         score -= latency_penalty;
     }
     
     // Pending queries component (10% weight)
-    if (local_snapshot_.pending_queries > 0) {
+    if (snapshot.pending_queries > 0) {
         float pending_penalty = std::min(
-            static_cast<float>(local_snapshot_.pending_queries) / 10.0f * 10.0f,
+            static_cast<float>(snapshot.pending_queries) / 10.0f * 10.0f,
             10.0f
         );
         score -= pending_penalty;
@@ -382,8 +385,8 @@ void ShardResourceManager::collectSystemMetrics() {
     local_snapshot_.network_in_bps = net_in;
     local_snapshot_.network_out_bps = net_out;
     
-    // Calculate health score while still holding the lock
-    float health_score = calculateHealthScore();
+    // Calculate health score while holding the lock using internal method
+    float health_score = calculateHealthScoreInternal(local_snapshot_);
     local_snapshot_.health_score = health_score;
 }
 
