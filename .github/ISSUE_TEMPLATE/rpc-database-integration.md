@@ -169,6 +169,14 @@ json ThemisRPCService::handleGet(const json& params) {
         std::string collection = params.value("collection", "");
         std::string uuid = params.value("uuid", "");
         
+        // Validate input parameters
+        if (collection.empty() || uuid.empty()) {
+            return createError(
+                RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameters: collection, uuid"
+            );
+        }
+        
         // ✅ REPLACE: Actual database GET
         auto result = storage_->get(collection, uuid);
         if (!result) {

@@ -22,7 +22,7 @@ The LoRA security validator only validates format, not cryptographic signatures:
 
 ```cpp
 // src/llm/lora_security_validator.cpp
-spdlog::warn("Embedded LoRa signature cryptographic verification not implemented - using format validation only");
+spdlog::warn("Embedded LoRA signature cryptographic verification not implemented - using format validation only");
 result.error_message = "Cryptographic verification not implemented - format validated only";
 ```
 

@@ -101,8 +101,12 @@ THEMIS_WARN("HSMProvider STUB signing - NOT cryptographically secure!");
 Add to `vcpkg.json`:
 ```json
 {
-  "name": "pkcs11-helper",
-  "version": "1.29.0"
+  "dependencies": [
+    {
+      "name": "pkcs11-helper",
+      "version": "1.29.0"
+    }
+  ]
 }
 ```
 
