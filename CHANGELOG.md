@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Plugin Metrics and Monitoring**: Comprehensive metrics tracking for all plugins with Prometheus integration
+  - `PluginMetrics` class for thread-safe metrics collection
+  - Automatic tracking of load time, reload time, function call latency (P95/P99)
+  - Resource usage monitoring (memory per plugin)
+  - Error tracking and count metrics
+  - JSON API endpoint: `/api/plugins/metrics`
+  - Prometheus metrics integrated into `/metrics` endpoint
+  - <1% performance overhead from instrumentation
+  - See [Plugin Metrics Documentation](docs/plugins/PLUGIN_METRICS.md)
 - **CHIMERA Suite Branding**: Rebranded benchmark framework to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_)
   - Tagline: "Benchmark the Unbenchmarkable"
   - Vendor-neutral, scientifically rigorous benchmark framework
