@@ -1581,6 +1581,12 @@ TrainingResult LoRATrainingService::trainDistributed(
             if (!step_result.success) {
                 spdlog::warn("Training step {} failed", step);
                 
+                // Check if we have shard states before attempting failure handling
+                if (step_result.shard_states.empty()) {
+                    spdlog::error("No shard states available, cannot handle failures");
+                    continue;
+                }
+                
                 // Try to handle shard failures
                 bool can_continue = true;
                 for (const auto& [shard_id, state] : step_result.shard_states) {
@@ -1594,7 +1600,7 @@ TrainingResult LoRATrainingService::trainDistributed(
                 }
                 
                 // If we can continue, retry the step (max 3 retries per step)
-                if (can_continue && step_result.shard_states.size() > 0) {
+                if (can_continue) {
                     int retry_count = 0;
                     const int max_retries = 3;
                     while (retry_count < max_retries) {
@@ -1621,7 +1627,8 @@ TrainingResult LoRATrainingService::trainDistributed(
                 // 3. Aggregated across shards (e.g., average)
                 // 4. Returned in the step_result
                 // TODO: Replace with actual loss computation from distributed training
-                float simulated_loss = 1.0f / (1.0f + step * 0.1f);
+                constexpr float loss_decay_rate = 0.1f;  // Simulated learning rate
+                float simulated_loss = 1.0f / (1.0f + step * loss_decay_rate);
                 loss_history.push_back(simulated_loss);
             }
         }
@@ -1652,8 +1659,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         result.metrics["total_steps"] = stats.total_steps_completed;
         result.metrics["successful_steps"] = successful_steps;
         result.metrics["gradient_syncs"] = stats.total_gradient_syncs;
-        result.metrics["avg_sync_time_ms"] = stats.total_gradient_syncs > 0 ? 
-            stats.avg_sync_time_ms : 0.0f;
+        result.metrics["avg_sync_time_ms"] = stats.avg_sync_time_ms;
         result.metrics["max_sync_time_ms"] = stats.max_sync_time_ms;
         result.metrics["total_bytes_sent"] = static_cast<double>(stats.total_bytes_sent);
         result.metrics["total_bytes_received"] = static_cast<double>(stats.total_bytes_received);
