@@ -3,6 +3,7 @@
 #include "plugins/plugin_interface.h"
 #include "plugins/plugin_metrics.h"
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
+#include "utils/expected.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -85,17 +86,17 @@ public:
     /**
      * @brief Load a plugin by name
      * @param name Plugin name (from manifest)
-     * @return Loaded plugin instance or nullptr
+     * @return Result<IThemisPlugin*> with loaded plugin instance or error
      */
-    IThemisPlugin* loadPlugin(const std::string& name);
+    Result<IThemisPlugin*> loadPlugin(const std::string& name);
     
     /**
      * @brief Load a plugin from explicit path
      * @param path Path to plugin DLL/SO
      * @param config Optional configuration JSON
-     * @return Loaded plugin instance or nullptr
+     * @return Result<IThemisPlugin*> with loaded plugin instance or error
      */
-    IThemisPlugin* loadPluginFromPath(
+    Result<IThemisPlugin*> loadPluginFromPath(
         const std::string& path,
         const std::string& config = "{}"
     );
@@ -114,9 +115,9 @@ public:
     /**
      * @brief Get loaded plugin by name
      * @param name Plugin name
-     * @return Plugin instance or nullptr if not loaded
+     * @return Result<IThemisPlugin*> with plugin instance or ERR_PLUGIN_NOT_FOUND if not loaded
      */
-    IThemisPlugin* getPlugin(const std::string& name) const;
+    Result<IThemisPlugin*> getPlugin(const std::string& name) const;
     
     /**
      * @brief Get all plugins of a specific type

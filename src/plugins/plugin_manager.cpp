@@ -358,7 +358,7 @@ size_t PluginManager::scanPluginDirectory(const std::string& directory) {
     return discovered;
 }
 
-IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
+Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
     
     std::lock_guard<std::mutex> lock(mutex_);
@@ -367,14 +367,15 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     if (it == plugins_.end()) {
         THEMIS_ERROR("Plugin not found: {}", name);
         metrics_.recordError(name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                                    fmt::format("Plugin '{}' not found in registry", name));
     }
     
     auto& entry = it->second;
     
     // Already loaded?
     if (entry.loaded && entry.instance) {
-        return entry.instance.get();
+        return Ok(entry.instance.get());
     }
     
     // Verify plugin
@@ -382,7 +383,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     if (!verifyPlugin(entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
         metrics_.recordError(name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+                                    fmt::format("Plugin verification failed: {}", error_message));
     }
     
     // Load library
@@ -393,7 +395,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
         metrics_.recordError(name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to load plugin library from '{}'", entry.path));
     }
     
     // Get factory function
@@ -402,7 +405,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
         unloadLibrary(handle);
         metrics_.recordError(name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    "Plugin does not export createPlugin function");
     }
     
     // Create instance
@@ -411,7 +415,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         THEMIS_ERROR("Failed to create plugin instance: {}", name);
         unloadLibrary(handle);
         metrics_.recordError(name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to create plugin instance for '{}'", name));
     }
     
     // Initialize with empty config (can be configured later)
@@ -425,7 +430,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         }
         unloadLibrary(handle);
         metrics_.recordError(name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to initialize plugin '{}'", name));
     }
     
     // Store
@@ -442,10 +448,10 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}..., Load time: {}ms)", 
         name, plugin->getVersion(), entry.file_hash.substr(0, 16), duration.count());
     
-    return plugin;
+    return Ok(plugin);
 }
 
-IThemisPlugin* PluginManager::loadPluginFromPath(
+Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     const std::string& path,
     const std::string& config
 ) {
@@ -457,14 +463,16 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
     std::string error_message;
     if (!verifyPlugin(path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", path, error_message);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+                                    fmt::format("Plugin verification failed: {}", error_message));
     }
     
     // Load library
     void* handle = loadLibrary(path);
     if (!handle) {
         THEMIS_ERROR("Failed to load plugin library: {}", path);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to load plugin library from '{}'", path));
     }
     
     // Get factory function
@@ -472,7 +480,8 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
     if (!createFunc) {
         THEMIS_ERROR("Plugin does not export createPlugin: {}", path);
         unloadLibrary(handle);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    "Plugin does not export createPlugin function");
     }
     
     // Create instance
@@ -480,7 +489,8 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
     if (!plugin) {
         THEMIS_ERROR("Failed to create plugin instance from: {}", path);
         unloadLibrary(handle);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to create plugin instance from '{}'", path));
     }
     
     // Initialize with provided config
@@ -492,7 +502,8 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
             destroyFunc(plugin);
         }
         unloadLibrary(handle);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to initialize plugin from '{}'", path));
     }
     
     std::string plugin_name = plugin->getName();
@@ -519,7 +530,7 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
     THEMIS_INFO("Dynamically loaded plugin: {} v{} (Load time: {}ms)", 
         plugin_name, plugin->getVersion(), duration.count());
     
-    return plugin;
+    return Ok(plugin);
 }
 
 void PluginManager::unloadPlugin(const std::string& name) {
@@ -587,15 +598,16 @@ void PluginManager::unloadAllPlugins() {
     THEMIS_INFO("Unloaded all plugins");
 }
 
-IThemisPlugin* PluginManager::getPlugin(const std::string& name) const {
+Result<IThemisPlugin*> PluginManager::getPlugin(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     if (it != plugins_.end() && it->second.loaded) {
-        return it->second.instance.get();
+        return Ok(it->second.instance.get());
     }
     
-    return nullptr;
+    return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                                fmt::format("Plugin '{}' not found or not loaded", name));
 }
 
 std::vector<IThemisPlugin*> PluginManager::getPluginsByType(PluginType type) const {
@@ -654,7 +666,8 @@ bool PluginManager::reloadPlugin(const std::string& name) {
     unloadPlugin(name);
     
     // Then reload
-    bool success = loadPlugin(name) != nullptr;
+    auto result = loadPlugin(name);
+    bool success = result.has_value();
     
     if (success) {
         // Record reload metrics (note: loadPlugin already recorded load time)
@@ -689,8 +702,8 @@ size_t PluginManager::autoLoadPlugins() {
     // (loadPlugin() has its own locking mechanism)
     size_t loaded = 0;
     for (const auto& [priority, name] : to_load) {
-        auto* plugin = loadPlugin(name);
-        if (plugin) {
+        auto result = loadPlugin(name);
+        if (result.has_value()) {
             loaded++;
         }
     }
