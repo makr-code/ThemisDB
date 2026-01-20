@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <cstring>
 #include <ctime>
+#include <cstdint>
+#include <cstddef>
 
 void printUsage(const char* programName) {
     std::cout << "ThemisDB Certificate Embedding Tool\n";
