@@ -736,6 +736,73 @@ void ErrorRegistry::registerDefaultErrors() {
         {"query", "timeout", "performance"}
     });
     
+    registerError({
+        ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
+        "Query",
+        "Error",
+        "Circular CTE reference detected: {}",
+        "Common Table Expression contains a circular reference.",
+        "1. Review CTE dependencies\n"
+        "2. Remove circular references\n"
+        "3. Restructure query to avoid cycles",
+        {"/docs/query/cte.md"},
+        {"query", "cte", "cycle", "circular"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+        "Query",
+        "Error",
+        "Subquery execution failed: {}",
+        "A subquery within the main query failed to execute.",
+        "1. Check subquery syntax and logic\n"
+        "2. Verify subquery returns expected result type\n"
+        "3. Test subquery independently",
+        {"/docs/query/subqueries.md"},
+        {"query", "subquery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_WINDOW_SPEC,
+        "Query",
+        "Error",
+        "Invalid window specification: {}",
+        "Window function specification is invalid or malformed.",
+        "1. Check window frame bounds (ROWS/RANGE)\n"
+        "2. Verify PARTITION BY and ORDER BY clauses\n"
+        "3. Review window function documentation",
+        {"/docs/query/window_functions.md"},
+        {"query", "window", "invalid", "specification"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_INPUT,
+        "Query",
+        "Error",
+        "Invalid input for statistical function: {}",
+        "The input parameters for a statistical aggregation function are invalid.",
+        "1. Check parameter ranges (e.g., percentile 0-100)\n"
+        "2. Verify data types are numeric\n"
+        "3. Ensure input is not null or empty\n"
+        "4. Review function documentation",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "invalid", "input"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+        "Query",
+        "Error",
+        "Insufficient data for statistical function: {}",
+        "The statistical function requires more data points than provided.",
+        "1. Check minimum data requirements (e.g., variance needs ≥2 values)\n"
+        "2. Filter out null or non-numeric values\n"
+        "3. Verify data source is not empty\n"
+        "4. Consider using different aggregation function",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "insufficient", "data"}
+    });
+    
     // API Errors
     registerError({
         ErrorCode::ERR_API_INVALID_REQUEST,

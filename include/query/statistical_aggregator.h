@@ -4,6 +4,7 @@
 #include <cmath>
 #include <algorithm>
 #include <nlohmann/json.hpp>
+#include "utils/expected.h"
 
 namespace themis {
 namespace query {
@@ -41,9 +42,9 @@ public:
      * @brief Berechnet Percentile (Nearest Rank Method)
      * @param values Sorted numeric values
      * @param percentile Percentile (0..100)
-     * @return Percentile value oder null wenn empty
+     * @return Percentile value or error if invalid input
      */
-    static nlohmann::json calculatePercentile(
+    static Result<nlohmann::json> calculatePercentile(
         std::vector<double> values,
         double percentile
     );
@@ -51,58 +52,58 @@ public:
     /**
      * @brief Berechnet Median (50th Percentile)
      * @param values Sorted numeric values
-     * @return Median value oder null wenn empty
+     * @return Median value or error if empty
      */
-    static nlohmann::json calculateMedian(std::vector<double> values);
+    static Result<nlohmann::json> calculateMedian(std::vector<double> values);
     
     /**
      * @brief Berechnet Sample Standard Deviation
      * @param values Numeric values
-     * @return Standard deviation oder null wenn < 2 values
+     * @return Standard deviation or error if < 2 values
      */
-    static nlohmann::json calculateStdDev(const std::vector<double>& values);
+    static Result<nlohmann::json> calculateStdDev(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Population Standard Deviation
      * @param values Numeric values
-     * @return Population standard deviation oder null wenn empty
+     * @return Population standard deviation or error if empty
      */
-    static nlohmann::json calculateStdDevPop(const std::vector<double>& values);
+    static Result<nlohmann::json> calculateStdDevPop(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Sample Variance
      * @param values Numeric values
-     * @return Variance oder null wenn < 2 values
+     * @return Variance or error if < 2 values
      */
-    static nlohmann::json calculateVariance(const std::vector<double>& values);
+    static Result<nlohmann::json> calculateVariance(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Population Variance
      * @param values Numeric values
-     * @return Population variance oder null wenn empty
+     * @return Population variance or error if empty
      */
-    static nlohmann::json calculateVariancePop(const std::vector<double>& values);
+    static Result<nlohmann::json> calculateVariancePop(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Range (MAX - MIN)
      * @param values Numeric values
-     * @return Range oder null wenn empty
+     * @return Range or error if empty
      */
-    static nlohmann::json calculateRange(const std::vector<double>& values);
+    static Result<nlohmann::json> calculateRange(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Interquartile Range (IQR = Q3 - Q1)
      * @param values Sorted numeric values
-     * @return IQR oder null wenn < 4 values
+     * @return IQR or error if < 4 values
      */
-    static nlohmann::json calculateIQR(std::vector<double> values);
+    static Result<nlohmann::json> calculateIQR(std::vector<double> values);
     
     /**
      * @brief Berechnet Mean Absolute Deviation
      * @param values Numeric values
-     * @return MAD oder null wenn empty
+     * @return MAD or error if empty
      */
-    static nlohmann::json calculateMAD(const std::vector<double>& values);
+    static Result<nlohmann::json> calculateMAD(const std::vector<double>& values);
     
 private:
     /**
