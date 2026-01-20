@@ -736,6 +736,67 @@ void ErrorRegistry::registerDefaultErrors() {
         {"query", "timeout", "performance"}
     });
     
+    registerError({
+        ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
+        "Query",
+        "Error",
+        "Cycle detected in recursive CTE: {}",
+        "The recursive Common Table Expression contains a cycle that would cause infinite recursion.",
+        "1. Review CTE recursion logic\n"
+        "2. Add proper termination conditions\n"
+        "3. Check for circular dependencies in recursive query\n"
+        "4. Verify base case is reachable\n"
+        "5. Use MAXRECURSION hint to limit recursion depth",
+        {"/docs/query/cte.md", "/docs/query/recursive_queries.md"},
+        {"query", "cte", "cycle", "recursive", "infinite"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+        "Query",
+        "Error",
+        "Aggregation function failed: {}",
+        "A statistical aggregation function failed due to invalid input or insufficient data.",
+        "1. Verify input values are numeric (for statistical functions)\n"
+        "2. Ensure sufficient data points (e.g., variance needs ≥2 values)\n"
+        "3. Check for valid parameter ranges (e.g., percentile 0-100)\n"
+        "4. Verify data types are compatible with aggregation function\n"
+        "5. Check for NULL or empty value sets",
+        {"/docs/query/aggregations.md"},
+        {"query", "aggregation", "failed", "statistics"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_TYPE_MISMATCH,
+        "Query",
+        "Error",
+        "Type mismatch in query operation: {}",
+        "The query contains incompatible data types in an operation or comparison.",
+        "1. Verify data types match in comparisons\n"
+        "2. Use explicit type casting (e.g., TO_NUMBER, TO_STRING)\n"
+        "3. Check function parameter types match requirements\n"
+        "4. Review schema for column type definitions\n"
+        "5. Ensure aggregation expressions use compatible types",
+        {"/docs/query/types.md"},
+        {"query", "type", "mismatch", "incompatible"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+        "Query",
+        "Critical",
+        "Query resource limit exhausted: {}",
+        "The query has exhausted available system resources (memory, disk, connections).",
+        "1. Reduce query scope or add filters to limit data\n"
+        "2. Increase resource limits in configuration\n"
+        "3. Break large queries into smaller batches\n"
+        "4. Add pagination for large result sets\n"
+        "5. Check for memory leaks or resource cleanup issues\n"
+        "6. Monitor system resources during query execution",
+        {"/docs/query/resources.md", "/docs/query/optimization.md"},
+        {"query", "resource", "exhausted", "memory", "limit"}
+    });
+    
     // API Errors
     registerError({
         ErrorCode::ERR_API_INVALID_REQUEST,
