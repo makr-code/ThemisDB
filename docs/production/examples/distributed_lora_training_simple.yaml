@@ -1,0 +1,177 @@
+# Simplified Distributed LoRA Training Configuration
+# ThemisDB
+# Use case: Distributed LoRA training across multiple shards
+
+# ====================================================================
+# BASIC DISTRIBUTED LORA TRAINING SETUP
+# ====================================================================
+
+# LoRA Training Service Configuration
+lora_training:
+  # Basic settings
+  base_model_path: "models/llama-2-7b.gguf"
+  checkpoint_dir: "data/lora_checkpoints"
+  enable_checkpointing: true
+  checkpoint_interval_steps: 100
+  
+  # Distributed training configuration
+  distributed:
+    # Enable distributed training
+    enabled: true
+    
+    # Coordinator shard (orchestrates the training)
+    coordinator_shard: "shard-coordinator"
+    
+    # Participant shards (perform actual training)
+    participant_shards:
+      - "shard-1"
+      - "shard-2"
+      - "shard-3"
+    
+    # Synchronization strategy
+    sync_strategy: "all_reduce"  # Options: all_reduce, parameter_server, ring_all_reduce
+    
+    # Gradient compression (optional, for bandwidth optimization)
+    compression: "none"  # Options: none, quantization_8bit, quantization_4bit, sparse_topk
+    
+    # Gradient accumulation
+    gradient_accumulation_steps: 4
+    
+    # Sync frequency (sync every N steps)
+    sync_frequency: 1
+    
+    # Gradient clipping
+    gradient_clip_norm: 1.0
+    
+    # Mixed precision
+    use_mixed_precision: true
+    
+    # Sparse gradients (only send non-zero values)
+    sparse_gradients: false
+    sparse_threshold: 1e-6
+    
+    # Fault tolerance
+    max_retry_attempts: 3
+    timeout_seconds: 300
+    
+    # Checkpointing for distributed training
+    enable_distributed_checkpointing: true
+    distributed_checkpoint_frequency: 100
+    distributed_checkpoint_path: "data/distributed_checkpoints"
+
+# Default LoRA Hyperparameters
+default_hyperparameters:
+  rank: 16
+  alpha: 32
+  dropout: 0.1
+  learning_rate: 0.0001
+  num_epochs: 10
+  batch_size: 32
+
+# Mixed Precision Configuration
+mixed_precision:
+  enabled: true
+  dtype: "fp16"  # Options: fp16, bf16
+  gradient_scaling: true
+  initial_scale: 65536.0
+  growth_interval: 2000
+
+# Learning Rate Scheduler
+lr_scheduler:
+  enabled: true
+  type: "cosine_with_warmup"  # Options: linear, cosine, cosine_with_warmup
+  warmup_steps: 100
+  min_lr: 1e-6
+
+# Gradient Clipping
+gradient_clipping:
+  enabled: true
+  max_norm: 1.0
+  clip_type: "norm"  # Options: norm, value
+
+# Gradient Accumulation
+gradient_accumulation:
+  enabled: true
+  accumulation_steps: 4
+
+# Target modules for LoRA adaptation
+target_modules:
+  - "attention.wq"
+  - "attention.wv"
+  - "attention.wk"
+  - "attention.wo"
+  - "feed_forward.w1"
+  - "feed_forward.w2"
+  - "feed_forward.w3"
+
+# ====================================================================
+# USAGE EXAMPLES
+# ====================================================================
+
+# Example 1: Start distributed training via API
+# POST /lora/train/distributed
+# {
+#   "adapter_id": "my-adapter",
+#   "training_data": {
+#     "inputs": ["...", "..."],
+#     "targets": ["...", "..."]
+#   },
+#   "hyperparameters": {
+#     "rank": 16,
+#     "alpha": 32,
+#     "learning_rate": 0.0001,
+#     "num_epochs": 10,
+#     "batch_size": 32
+#   }
+# }
+
+# Example 2: Monitor training progress
+# GET /lora/train/distributed/status?adapter_id=my-adapter
+
+# Example 3: Check distributed training statistics
+# GET /lora/train/distributed/statistics?adapter_id=my-adapter
+# Response includes:
+# - total_steps_completed
+# - total_gradient_syncs
+# - avg_sync_time_ms
+# - bandwidth_saved_gb
+# - active_shards
+# - shard_failures
+# - effective_speedup
+
+# ====================================================================
+# ADVANCED CONFIGURATIONS
+# ====================================================================
+
+# Advanced Synchronization Strategy: Parameter Server
+# distributed:
+#   sync_strategy: "parameter_server"
+#   parameter_server:
+#     shard_weights:
+#       "shard-1": 1.0
+#       "shard-2": 1.0
+#       "shard-3": 1.0
+
+# Advanced Compression: Top-K Sparsification
+# distributed:
+#   compression: "sparse_topk"
+#   sparse_gradients: true
+#   sparse_threshold: 0.1  # Keep only top 10% of gradients
+
+# Advanced Fault Tolerance: Byzantine Detection
+# distributed:
+#   fault_tolerance:
+#     byzantine_detection: true
+#     detection_threshold: 0.05  # Flag if gradients differ by >5% from median
+
+# ====================================================================
+# TESTING CONFIGURATION
+# ====================================================================
+
+# For testing, you can use a minimal setup:
+# distributed:
+#   enabled: true
+#   coordinator_shard: "test-coordinator"
+#   participant_shards: ["test-shard-1", "test-shard-2"]
+#   sync_strategy: "all_reduce"
+#   compression: "none"
