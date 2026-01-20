@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "llm/gguf_loader.h"
 #include "llm/lora_framework/gguf_converter.h"
+#include "llm/lora_framework/quantized_model.h"
 #include <vector>
 #include <cstring>
 #include <fstream>
@@ -146,6 +147,95 @@ TEST_F(GGUFLoaderTest, CalculateElements) {
     EXPECT_EQ(10 * 20, 200);
     EXPECT_EQ(5 * 10 * 20, 1000);
     EXPECT_EQ(1024, 1024);
+}
+
+TEST_F(GGUFLoaderTest, DirectQuantizedLoading) {
+    // Test that pre-quantized weights are loaded directly without dequantization
+    // This verifies the fix for the "synthetic weights" issue
+    
+    // Create a mock Q4_K_M quantized tensor
+    std::vector<int64_t> shape = {256};  // One Q4_K block
+    TensorMetadata tensor_info;
+    tensor_info.name = "test.weight";
+    tensor_info.shape = shape;
+    tensor_info.type = GGMLType::Q4_K;
+    tensor_info.size = sizeof(gguf_blocks::Q4KBlock);
+    
+    // Create mock Q4_K_M data (one block)
+    gguf_blocks::Q4KBlock mock_block;
+    std::memset(&mock_block, 0, sizeof(mock_block));
+    mock_block.d = 0x3C00;  // 1.0 in FP16
+    mock_block.dmin = 0x0000;  // 0.0 in FP16
+    
+    // Fill with known pattern
+    for (int i = 0; i < 128; i++) {
+        mock_block.qs[i] = 0x88;  // Alternating 8 and 8 in 4-bit
+    }
+    
+    // Convert using the converter
+    QuantizedTensor converted = GGUFConverter::convertQ4KM(&mock_block, tensor_info);
+    
+    // Verify it's properly quantized in internal format
+    EXPECT_EQ(converted.type(), QuantizationType::NF4);
+    EXPECT_GT(converted.memory_bytes(), 0);
+    
+    // Verify the quantized tensor can be used to create layer weights
+    std::vector<size_t> size_t_shape = {256};
+    QuantizedLayerWeights layer_weights(std::move(converted), size_t_shape);
+    
+    EXPECT_EQ(layer_weights.type(), QuantizationType::NF4);
+    EXPECT_GT(layer_weights.memory_bytes(), 0);
+    
+    // Verify we can dequantize
+    Tensor dequantized = layer_weights.dequantize();
+    EXPECT_EQ(dequantized.shape(), size_t_shape);
+}
+
+TEST_F(GGUFLoaderTest, QuantizedModelIntegration) {
+    // Test end-to-end: convert quantized tensor -> layer weights -> model
+    
+    // Create mock Q8_0 data (simpler than Q4_K_M)
+    std::vector<int64_t> shape = {64};  // Two Q8_0 blocks (32 values each)
+    TensorMetadata tensor_info;
+    tensor_info.name = "layer.weight";
+    tensor_info.shape = shape;
+    tensor_info.type = GGMLType::Q8_0;
+    tensor_info.size = 2 * sizeof(gguf_blocks::Q8_0Block);
+    
+    // Create two mock Q8_0 blocks
+    gguf_blocks::Q8_0Block mock_blocks[2];
+    for (int block = 0; block < 2; block++) {
+        mock_blocks[block].d = 0x3C00;  // 1.0 in FP16
+        for (int i = 0; i < 32; i++) {
+            mock_blocks[block].qs[i] = static_cast<int8_t>(i - 16);  // Range: -16 to 15
+        }
+    }
+    
+    // Convert to internal format
+    QuantizedTensor converted = GGUFConverter::convertQ8_0(mock_blocks, tensor_info);
+    
+    // Create layer weights
+    std::vector<size_t> size_t_shape = {64};
+    QuantizedLayerWeights layer_weights(std::move(converted), size_t_shape);
+    
+    // Add to model
+    QuantizedModelConfig config;
+    config.quantization_type = QuantizationType::INT8;
+    QuantizedModel model(config);
+    
+    model.add_quantized_layer("layer.weight", std::move(layer_weights));
+    
+    // Verify model has the layer
+    EXPECT_EQ(model.num_layers(), 1);
+    
+    const auto* layer = model.get_layer("layer.weight");
+    ASSERT_NE(layer, nullptr);
+    EXPECT_EQ(layer->type(), QuantizationType::INT8);
+    
+    // Verify we can dequantize from model
+    Tensor dequantized = model.dequantize_layer("layer.weight");
+    EXPECT_EQ(dequantized.shape(), size_t_shape);
+    EXPECT_EQ(dequantized.size(), 64);
 }
 
 // Main test runner
