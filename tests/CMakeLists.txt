@@ -271,6 +271,41 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Training Service Registry Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_service_registry.cpp")
+        message(STATUS "Adding Training Service Registry tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_training_service_registry
+            test_training_service_registry.cpp
+        )
+        
+        target_link_libraries(test_training_service_registry PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_training_service_registry PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME TrainingServiceRegistryTests COMMAND test_training_service_registry)
+        set_tests_properties(TrainingServiceRegistryTests PROPERTIES
+            LABELS "lora;llm;distributed;training;registry;dependency-injection"
+            TIMEOUT 60
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Training service registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_service_registry.cpp")
+        else()
+            message(STATUS "Training service registry tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
+    endif()
+    
     # LoRA Router Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_router.cpp")
         message(STATUS "Adding LoRA Router tests (routing automation)")

@@ -7,6 +7,8 @@
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
+#include <future>
+#include <set>
 
 namespace themis {
 namespace llm {
@@ -775,30 +777,72 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
     spdlog::debug("Collecting gradients from {} shards for step {}", 
                  active_shards_.size(), step_number);
     
-    // In a real implementation, this would:
-    // 1. Send RPC requests to all active shards
-    // 2. Wait for responses (with timeout)
-    // 3. Handle failures and retries
-    // 4. Collect gradient tensors from each shard
+    if (!shard_router_) {
+        // Fallback to simulated mode when ShardRouter is not available
+        spdlog::warn("No ShardRouter available, using simulated gradients");
+        
+        for (const auto& shard_id : active_shards_) {
+            // Create dummy gradient for testing/standalone mode
+            std::vector<GradientTensor> shard_grads;
+            GradientTensor dummy;
+            dummy.layer_name = "test_layer";
+            dummy.source_shard = shard_id;
+            dummy.step_number = step_number;
+            dummy.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count();
+            dummy.shape = {64, 64};
+            dummy.data.resize(64 * 64, 0.1f);  // Dummy data
+            
+            shard_grads.push_back(dummy);
+            collected[shard_id] = shard_grads;
+        }
+        
+        return collected;
+    }
     
-    // For now, simulate with empty gradients
+    // Real RPC implementation using ShardRouter
+    spdlog::info("Collecting gradients via ShardRouter RPC");
+    
     for (const auto& shard_id : active_shards_) {
-        // Placeholder: In real implementation, fetch from shard via RPC
-        std::vector<GradientTensor> shard_grads;
-        
-        // Create dummy gradient for testing
-        GradientTensor dummy;
-        dummy.layer_name = "test_layer";
-        dummy.source_shard = shard_id;
-        dummy.step_number = step_number;
-        dummy.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-        dummy.shape = {64, 64};
-        dummy.data.resize(64 * 64, 0.1f);  // Dummy data
-        
-        shard_grads.push_back(dummy);
-        collected[shard_id] = shard_grads;
+        try {
+            // Create gradient collection request
+            json request = {
+                {"adapter_id", adapter_id_},
+                {"step_number", step_number},
+                {"timeout_ms", config_.timeout_seconds * 1000}
+            };
+            
+            // Send RPC request to shard
+            // Note: ShardRouter's executeQuery is used for general queries
+            // In a production system, you would add a specific gradient collection RPC method
+            std::string rpc_query = "collect_gradients:" + request.dump();
+            json response = shard_router_->executeQuery(rpc_query);
+            
+            // Parse response into gradient tensors
+            std::vector<GradientTensor> shard_grads;
+            if (response.contains("gradients") && response["gradients"].is_array()) {
+                for (const auto& grad_json : response["gradients"]) {
+                    try {
+                        auto gradient = GradientTensor::fromJSON(grad_json);
+                        shard_grads.push_back(gradient);
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to parse gradient from {}: {}", shard_id, e.what());
+                    }
+                }
+            }
+            
+            if (!shard_grads.empty()) {
+                collected[shard_id] = shard_grads;
+                spdlog::debug("Collected {} gradients from {}", shard_grads.size(), shard_id);
+            } else {
+                spdlog::warn("No gradients received from {}", shard_id);
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to collect gradients from {}: {}", shard_id, e.what());
+            handleShardFailure(shard_id);
+        }
     }
     
     return collected;
@@ -833,18 +877,86 @@ bool DistributedTrainingCoordinator::broadcastGradients(
     spdlog::debug("Broadcasting {} gradient tensors to {} shards",
                  gradients.size(), active_shards_.size());
     
-    // In real implementation, this would:
-    // 1. Optionally compress gradients
-    // 2. Send to all active shards via RPC
-    // 3. Handle failures and retries
-    // 4. Track bytes sent for statistics
+    if (!shard_router_) {
+        // Fallback to simulated mode
+        spdlog::warn("No ShardRouter available, skipping broadcast (standalone mode)");
+        
+        // Update statistics for simulated mode
+        for (const auto& grad : gradients) {
+            stats_.total_bytes_sent += grad.uncompressed_size();
+        }
+        
+        return true;
+    }
+    
+    // Real RPC implementation using ShardRouter
+    spdlog::info("Broadcasting gradients via ShardRouter RPC");
+    
+    // Optionally compress gradients if configured
+    auto gradients_to_send = config_.compression != GradientCompressionType::NONE ?
+        compressGradients(gradients) : gradients;
+    
+    // Broadcast to all shards in parallel using futures
+    std::vector<std::future<bool>> futures;
+    
+    for (const auto& shard_id : active_shards_) {
+        futures.push_back(std::async(std::launch::async, [&, shard_id]() {
+            try {
+                // Create broadcast request with gradients
+                json request = {
+                    {"step_number", step_number},
+                    {"gradients", json::array()}
+                };
+                
+                // Serialize gradients to JSON
+                for (const auto& grad : gradients_to_send) {
+                    request["gradients"].push_back(grad.toJSON());
+                }
+                
+                // Send RPC request to apply gradients
+                std::string rpc_query = "apply_gradients:" + request.dump();
+                json response = shard_router_->executeQuery(rpc_query);
+                
+                // Check if successful
+                if (response.contains("success") && response["success"].get<bool>()) {
+                    spdlog::debug("Successfully broadcast gradients to {}", shard_id);
+                    return true;
+                } else {
+                    spdlog::warn("Gradient broadcast to {} returned failure", shard_id);
+                    return false;
+                }
+                
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to broadcast gradients to {}: {}", shard_id, e.what());
+                return false;
+            }
+        }));
+    }
+    
+    // Wait for all broadcasts to complete
+    bool all_success = true;
+    for (auto& future : futures) {
+        try {
+            bool success = future.get();
+            all_success &= success;
+        } catch (const std::exception& e) {
+            spdlog::error("Broadcast future threw exception: {}", e.what());
+            all_success = false;
+        }
+    }
     
     // Update statistics
     for (const auto& grad : gradients) {
-        stats_.total_bytes_sent += grad.uncompressed_size();
+        stats_.total_bytes_sent += grad.compressed_size();
     }
     
-    return true;
+    if (all_success) {
+        spdlog::debug("All gradients broadcast successfully");
+    } else {
+        spdlog::warn("Some gradient broadcasts failed");
+    }
+    
+    return all_success;
 }
 
 std::map<std::string, ShardTrainingState> 
@@ -853,14 +965,65 @@ DistributedTrainingCoordinator::checkShardHealth() {
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
     
-    // Check each shard
-    for (auto& [shard_id, state] : shard_states_) {
-        // In real implementation, send heartbeat request
-        // For now, just update timestamp
-        state.last_heartbeat_ms = now_ms;
-        state.is_active = true;
+    if (!shard_router_) {
+        // Fallback to simulated health checks
+        spdlog::debug("No ShardRouter available, using simulated health checks");
         
-        // Check if shard is too far behind
+        for (auto& [shard_id, state] : shard_states_) {
+            state.last_heartbeat_ms = now_ms;
+            state.is_active = true;
+        }
+        
+        return shard_states_;
+    }
+    
+    // Real health checks via RPC
+    spdlog::debug("Checking shard health via ShardRouter RPC");
+    
+    for (auto& [shard_id, state] : shard_states_) {
+        try {
+            // Create health check request
+            json request = {
+                {"type", "health_check"},
+                {"timestamp", now_ms}
+            };
+            
+            // Send RPC request
+            std::string rpc_query = "health_check:" + request.dump();
+            json response = shard_router_->executeQuery(rpc_query);
+            
+            // Parse health response
+            if (response.contains("is_active")) {
+                state.is_active = response["is_active"].get<bool>();
+            }
+            if (response.contains("gpu_utilization")) {
+                state.gpu_utilization = response["gpu_utilization"].get<float>();
+            }
+            if (response.contains("memory_usage_gb")) {
+                state.memory_usage_gb = response["memory_usage_gb"].get<float>();
+            }
+            if (response.contains("last_heartbeat_ms")) {
+                state.last_heartbeat_ms = response["last_heartbeat_ms"].get<int64_t>();
+            } else {
+                state.last_heartbeat_ms = now_ms;
+            }
+            
+            // Reset failure count on successful health check
+            if (state.is_active) {
+                state.consecutive_failures = 0;
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::warn("Health check failed for {}: {}", shard_id, e.what());
+            state.consecutive_failures++;
+            
+            // Mark as inactive if too many consecutive failures
+            if (state.consecutive_failures > 3) {
+                state.is_active = false;
+            }
+        }
+        
+        // Check if shard is too far behind (timeout check)
         int64_t time_since_heartbeat = now_ms - state.last_heartbeat_ms;
         if (time_since_heartbeat > config_.timeout_seconds * 1000) {
             state.is_active = false;
@@ -1063,12 +1226,61 @@ bool DistributedTrainingCoordinator::validateShardParticipation() {
         return false;
     }
     
-    // In real implementation, verify each shard is reachable
-    for (const auto& shard_id : config_.participant_shards) {
-        spdlog::debug("Validating shard: {}", shard_id);
-        // TODO: Send ping request to shard
+    if (!shard_topology_) {
+        // Fallback to simple validation without topology
+        spdlog::warn("No ShardTopology available, skipping shard discovery");
+        spdlog::info("Assuming all configured shards are available");
+        return true;
     }
     
+    // Real validation using ShardTopology
+    spdlog::info("Validating shard participation using ShardTopology");
+    
+    // Query topology for available shards
+    auto available_shards = shard_topology_->getHealthyShards();
+    
+    // Create set of available shard IDs for fast lookup
+    std::set<std::string> available_shard_ids;
+    for (const auto& shard_info : available_shards) {
+        available_shard_ids.insert(shard_info.shard_id);
+    }
+    
+    // Verify all participant shards are available
+    for (const auto& shard_id : config_.participant_shards) {
+        if (available_shard_ids.find(shard_id) == available_shard_ids.end()) {
+            spdlog::error("Shard {} not available in topology", shard_id);
+            return false;
+        }
+        
+        // Send ping to verify reachability if ShardRouter is available
+        if (shard_router_) {
+            try {
+                json ping_request = {
+                    {"type", "ping"},
+                    {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()
+                    ).count()}
+                };
+                
+                std::string rpc_query = "ping:" + ping_request.dump();
+                json response = shard_router_->executeQuery(rpc_query);
+                
+                if (!response.contains("success") || !response["success"].get<bool>()) {
+                    spdlog::error("Shard {} not reachable (ping failed)", shard_id);
+                    return false;
+                }
+                
+                spdlog::debug("Shard {} is reachable", shard_id);
+                
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to ping shard {}: {}", shard_id, e.what());
+                return false;
+            }
+        }
+    }
+    
+    spdlog::info("All {} participant shards validated successfully", 
+                config_.participant_shards.size());
     return true;
 }
 

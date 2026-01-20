@@ -2151,8 +2151,8 @@ if(THEMIS_ENABLE_LLM)
         # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
-        # NOTE: Temporarily disabled to unblock LLM inference build; training pipeline has parse errors
-        # ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline (re-enabled for distributed training integration)
+        ../src/llm/lora_framework/training_service_registry.cpp  # Service registry for dependency injection
         ../src/llm/lora_framework/lora_layers.cpp             # LoRA layer implementations
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
