@@ -322,6 +322,21 @@ void ErrorRegistry::registerDefaultErrors() {
         {"gpu", "peer access", "failed", "multi-gpu"}
     });
     
+    registerError({
+        ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED,
+        "LLM",
+        "Error",
+        "Batch size {} exceeds maximum allowed: {}",
+        "The requested batch size is larger than the configured maximum.",
+        "1. Reduce batch size in the request\n"
+        "2. Increase max_batch_size in llm_config.yaml\n"
+        "3. Enable continuous batching for dynamic sizing\n"
+        "4. Split large batches into multiple smaller requests\n"
+        "5. Check available GPU memory if using GPU acceleration",
+        {"/docs/llm/batching.md", "/docs/llm/performance.md"},
+        {"llm", "batch", "size", "exceeded", "limit"}
+    });
+    
     // LoRA Errors
     registerError({
         ErrorCode::ERR_LORA_NOT_LOADED,
@@ -417,6 +432,38 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Try loading on different GPU or CPU",
         {"/docs/llm/lora_gpu.md"},
         {"lora", "gpu", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_LORA_ADAPTER_CONFLICT,
+        "LoRA",
+        "Error",
+        "LoRA adapter conflict detected: {}",
+        "Multiple LoRA adapters are attempting to modify the same model layers causing conflicts.",
+        "1. Review adapter layer mappings for overlaps\n"
+        "2. Use adapters that target different layers\n"
+        "3. Load adapters sequentially instead of simultaneously\n"
+        "4. Consider merging adapters offline before loading\n"
+        "5. Check adapter metadata for layer compatibility",
+        {"/docs/llm/lora_conflicts.md", "/docs/llm/lora_fusion.md"},
+        {"lora", "conflict", "adapter", "layers", "overlap"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_LORA_TRAINING_DIVERGED,
+        "LoRA",
+        "Critical",
+        "LoRA training diverged: loss={}, gradient_norm={}",
+        "Training loss diverged or gradients exploded during LoRA fine-tuning.",
+        "1. Reduce learning rate (try 1e-5 or lower)\n"
+        "2. Enable gradient clipping (max_grad_norm=1.0)\n"
+        "3. Use smaller LoRA rank (r=8 or r=16)\n"
+        "4. Check for corrupted training data\n"
+        "5. Increase warmup steps\n"
+        "6. Use mixed precision training (fp16/bf16)\n"
+        "7. Review training loss curves for instability",
+        {"/docs/llm/lora_training.md", "/docs/llm/lora_troubleshooting.md"},
+        {"lora", "training", "diverged", "loss", "gradient", "explosion"}
     });
     
     // MCP Errors
