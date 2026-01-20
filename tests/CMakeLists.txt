@@ -207,6 +207,35 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
     endif()
     
+    # Model Loader Error Handling Tests (Phase 4)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loader_error_handling.cpp")
+        message(STATUS "Adding Model Loader Error Handling tests (Phase 4)")
+        
+        add_executable(test_model_loader_error_handling
+            llm/test_model_loader_error_handling.cpp
+        )
+        
+        target_link_libraries(test_model_loader_error_handling PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            fmt::fmt
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_model_loader_error_handling PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ModelLoaderErrorHandlingTests COMMAND test_model_loader_error_handling)
+        set_tests_properties(ModelLoaderErrorHandlingTests PROPERTIES
+            LABELS "llm;error_handling;phase4;model_loader"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Model Loader Error Handling tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loader_error_handling.cpp")
+    endif()
+    
     # Distributed Training Coordinator Tests
     if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
         message(STATUS "Adding Distributed Training Coordinator tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
