@@ -900,7 +900,7 @@ TEST_F(MultiLoRAFusionTest, ScheduledFusionMultipleAdapters) {
     EXPECT_NEAR(weight_sum, 1.0f, 0.01f);
     
     // One weight should be dominant (close to 0.8)
-    float max_weight = std::max({weights[0], weights[1], weights[2]});
+    float max_weight = *std::max_element(weights.begin(), weights.end());
     EXPECT_GT(max_weight, 0.7f);
 }
 
