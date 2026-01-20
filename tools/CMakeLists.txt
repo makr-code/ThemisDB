@@ -6,6 +6,37 @@
 cmake_minimum_required(VERSION 3.20)
 project(ThemisAdminTools LANGUAGES NONE)
 
+# ============================================================================
+# C++ Tools
+# ============================================================================
+
+# Embed Certificate Tool - Convert certificates to C++ const arrays
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/embed_certificate.cpp")
+    message(STATUS "Adding embed_certificate tool")
+    
+    # Create a separate project for C++ tools
+    project(ThemisTools LANGUAGES CXX)
+    
+    add_executable(embed_certificate
+        embed_certificate.cpp
+    )
+    
+    # No external dependencies needed - uses only standard library
+    target_compile_features(embed_certificate PRIVATE cxx_std_17)
+    
+    # Install the tool to bin directory
+    install(TARGETS embed_certificate
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+    
+    message(STATUS "embed_certificate tool configured")
+endif()
+
+# ============================================================================
+# .NET Admin Tools
+# ============================================================================
+
 # Check if .NET SDK is available
 find_program(DOTNET_EXECUTABLE dotnet)
 

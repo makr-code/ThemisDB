@@ -8,6 +8,9 @@
 # Option to enable/disable plugin signing (default: OFF for development)
 option(THEMIS_SIGN_PLUGINS "Enable plugin signing (requires certificates)" OFF)
 
+# Option to enable embedded certificate generation
+option(THEMIS_EMBED_CERTIFICATES "Generate embedded certificate headers for plugins" ON)
+
 # Paths to signing certificates (can be overridden)
 set(THEMISDB_CERT_PATH "${CMAKE_SOURCE_DIR}/certs/manufacturer/themisdb-plugin-signer.crt" 
     CACHE FILEPATH "Path to ThemisDB plugin signing certificate")
@@ -15,6 +18,21 @@ set(THEMISDB_KEY_PATH "${CMAKE_SOURCE_DIR}/certs/manufacturer/themisdb-plugin-si
     CACHE FILEPATH "Path to ThemisDB plugin signing private key")
 set(THEMISDB_CA_CERT_PATH "${CMAKE_SOURCE_DIR}/certs/manufacturer/themisdb-ca.crt" 
     CACHE FILEPATH "Path to ThemisDB CA certificate")
+
+# Find embed_certificate tool
+find_program(EMBED_CERT_TOOL embed_certificate
+    HINTS
+        "${CMAKE_BINARY_DIR}/tools"
+        "${CMAKE_BINARY_DIR}/bin"
+    PATHS
+        "${CMAKE_SOURCE_DIR}/tools"
+)
+
+if(EMBED_CERT_TOOL)
+    message(STATUS "Found embed_certificate tool: ${EMBED_CERT_TOOL}")
+elseif(THEMIS_EMBED_CERTIFICATES)
+    message(STATUS "embed_certificate tool not found - will be built from source")
+endif()
 
 # Find signing tools
 if(WIN32)
@@ -130,7 +148,33 @@ function(sign_plugin TARGET_NAME)
         message(STATUS "  Platform signing tool not available - using hash-only verification")
     endif()
     
-    # Step 2: Generate metadata JSON with signature
+    # Step 2: Generate embedded certificate header (if enabled)
+    if(THEMIS_EMBED_CERTIFICATES AND EMBED_CERT_TOOL AND EXISTS "${THEMISDB_CERT_PATH}")
+        # Generate output header path
+        get_target_property(TARGET_SOURCE_DIR ${TARGET_NAME} SOURCE_DIR)
+        set(EMBEDDED_CERT_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_embedded_cert.h")
+        
+        add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Generating embedded certificate header..."
+            COMMAND ${EMBED_CERT_TOOL}
+                --cert "${THEMISDB_CERT_PATH}"
+                --output "${EMBEDDED_CERT_HEADER}"
+                --plugin-name "${TARGET_NAME}"
+                --namespace "themis::plugins"
+            COMMAND ${CMAKE_COMMAND} -E echo "✅ Embedded certificate header generated: ${EMBEDDED_CERT_HEADER}"
+            COMMENT "Embedding ThemisDB certificate in ${TARGET_NAME}"
+            BYPRODUCTS "${EMBEDDED_CERT_HEADER}"
+        )
+        
+        # Make the header available to the plugin
+        target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+        
+        message(STATUS "  Embedded certificate header will be generated at: ${EMBEDDED_CERT_HEADER}")
+    elseif(THEMIS_EMBED_CERTIFICATES AND NOT EMBED_CERT_TOOL)
+        message(STATUS "  embed_certificate tool not available - skipping embedded certificate generation")
+    endif()
+    
+    # Step 3: Generate metadata JSON with signature
     # Note: GenerateSignatureMetadata.cmake will be created in future enhancement
     # For now, metadata generation is skipped
     if(FALSE AND OPENSSL_CMD)
@@ -201,4 +245,54 @@ function(verify_plugin_signature PLUGIN_PATH)
             message(WARNING "❌ GPG signature file not found: ${SIG_FILE}")
         endif()
     endif()
+endfunction()
+
+#
+# embed_certificate_in_plugin(TARGET_NAME [CERT_PATH])
+#
+# Generate an embedded certificate header for a plugin without full signing.
+# Useful for development builds where signing is disabled but embedded certificates are desired.
+#
+function(embed_certificate_in_plugin TARGET_NAME)
+    # Parse optional CERT_PATH argument
+    set(CERT_PATH "${THEMISDB_CERT_PATH}")
+    if(ARGC GREATER 1)
+        set(CERT_PATH "${ARGV1}")
+    endif()
+    
+    if(NOT THEMIS_EMBED_CERTIFICATES)
+        message(STATUS "Embedded certificates disabled for ${TARGET_NAME} (THEMIS_EMBED_CERTIFICATES=OFF)")
+        return()
+    endif()
+    
+    if(NOT EMBED_CERT_TOOL)
+        message(WARNING "embed_certificate tool not found - cannot generate embedded certificate")
+        return()
+    endif()
+    
+    if(NOT EXISTS "${CERT_PATH}")
+        message(WARNING "Certificate not found: ${CERT_PATH}")
+        return()
+    endif()
+    
+    # Generate output header path
+    set(EMBEDDED_CERT_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_embedded_cert.h")
+    
+    add_custom_command(TARGET ${TARGET_NAME} PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo "Generating embedded certificate header for ${TARGET_NAME}..."
+        COMMAND ${EMBED_CERT_TOOL}
+            --cert "${CERT_PATH}"
+            --output "${EMBEDDED_CERT_HEADER}"
+            --plugin-name "${TARGET_NAME}"
+            --namespace "themis::plugins"
+        COMMAND ${CMAKE_COMMAND} -E echo "✅ Embedded certificate header: ${EMBEDDED_CERT_HEADER}"
+        COMMENT "Embedding ThemisDB certificate in ${TARGET_NAME}"
+        BYPRODUCTS "${EMBEDDED_CERT_HEADER}"
+    )
+    
+    # Make the header available to the plugin
+    target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+    
+    message(STATUS "Embedded certificate configured for: ${TARGET_NAME}")
+    message(STATUS "  Header: ${EMBEDDED_CERT_HEADER}")
 endfunction()
