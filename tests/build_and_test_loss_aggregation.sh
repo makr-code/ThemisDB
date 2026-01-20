@@ -39,8 +39,15 @@ if [ -z "$VCPKG_ROOT" ]; then
         export VCPKG_ROOT="$HOME/vcpkg"
         echo "Using VCPKG_ROOT=$VCPKG_ROOT"
     elif command -v vcpkg &> /dev/null; then
+        # vcpkg is typically in the root, not in a bin subdirectory
         VCPKG_PATH=$(which vcpkg)
-        export VCPKG_ROOT=$(dirname $VCPKG_PATH)
+        VCPKG_DIR=$(dirname "$VCPKG_PATH")
+        # If vcpkg is in root, use that; otherwise try parent
+        if [ -f "$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake" ]; then
+            export VCPKG_ROOT="$VCPKG_DIR"
+        else
+            export VCPKG_ROOT=$(dirname "$VCPKG_DIR")
+        fi
         echo "Using VCPKG_ROOT=$VCPKG_ROOT"
     else
         echo -e "${YELLOW}WARNING: VCPKG_ROOT not set and vcpkg not found${NC}"
@@ -75,10 +82,19 @@ fi
 
 echo -e "${GREEN}✓${NC} CMake configuration successful"
 
+# Determine number of cores for parallel build
+if command -v nproc &> /dev/null; then
+    CORES=$(nproc)
+elif command -v sysctl &> /dev/null; then
+    CORES=$(sysctl -n hw.ncpu 2>/dev/null || echo "4")
+else
+    CORES=4
+fi
+
 # Build
 echo ""
-echo "Building project..."
-cmake --build . --target test_distributed_training_coordinator -j$(nproc)
+echo "Building project with $CORES cores..."
+cmake --build . --target test_distributed_training_coordinator -j$CORES
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}ERROR: Build failed${NC}"
