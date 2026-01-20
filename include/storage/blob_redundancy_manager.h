@@ -33,6 +33,7 @@
 #include <condition_variable>
 
 #include <rocksdb/listener.h>
+#include "utils/expected.h"
 
 // Forward declaration for RocksDB
 namespace rocksdb {
@@ -45,6 +46,9 @@ namespace rocksdb {
 
 namespace themisdb {
 namespace storage {
+
+// Import Result from themis namespace
+using themis::Result;
 
 /**
  * Blob Type Classification
