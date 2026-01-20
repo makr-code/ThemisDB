@@ -137,6 +137,12 @@ if(THEMIS_BUILD_BENCHMARKS)
     add_subdirectory(benchmarks)
 endif()
 
+# CHIMERA Adapters (optional, vendor-neutral)
+option(BUILD_CHIMERA_ADAPTERS "Build CHIMERA database adapters" OFF)
+if(BUILD_CHIMERA_ADAPTERS)
+    add_subdirectory(adapters/chimera)
+endif()
+
 # Main build logic
 add_subdirectory(cmake)
 
