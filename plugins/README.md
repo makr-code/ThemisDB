@@ -569,6 +569,15 @@ To contribute a new plugin:
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for general contribution guidelines.
 
+## Monitoring and Metrics
+
+ThemisDB provides comprehensive metrics and monitoring for all loaded plugins. See [Plugin Metrics Documentation](../docs/plugins/PLUGIN_METRICS.md) for details on:
+
+- Available metrics (timing, counts, resource usage, performance)
+- API endpoints (`/api/plugins/metrics`, `/metrics`)
+- Prometheus integration and Grafana dashboards
+- Best practices for monitoring plugin health
+
 ## License
 
 - **ThemisDB Core & Plugin System**: MIT License

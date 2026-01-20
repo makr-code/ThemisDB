@@ -1743,6 +1743,82 @@ else()
 endif()
 
 # ============================================================================
+# Plugin Metrics Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+    message(STATUS "Adding plugin metrics tests")
+    
+    add_executable(test_plugin_metrics
+        test_plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+    )
+    
+    target_link_libraries(test_plugin_metrics PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_metrics PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginMetricsTests COMMAND test_plugin_metrics)
+    
+    # Set test properties
+    set_tests_properties(PluginMetricsTests PROPERTIES
+        LABELS "plugins;metrics;monitoring"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Plugin metrics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+endif()
+
+# ============================================================================
+# Plugin Metrics Integration Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+    message(STATUS "Adding plugin metrics integration tests")
+    
+    add_executable(test_plugin_metrics_integration
+        test_plugin_metrics_integration.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_plugin_metrics_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_metrics_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginMetricsIntegrationTests COMMAND test_plugin_metrics_integration)
+    
+    # Set test properties
+    set_tests_properties(PluginMetricsIntegrationTests PROPERTIES
+        LABELS "plugins;metrics;integration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Plugin metrics integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+endif()
+
+# ============================================================================
 # Base Interfaces Tests (Phase 1: Dependency Inversion)
 # ============================================================================
 
