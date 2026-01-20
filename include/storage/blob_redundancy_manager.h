@@ -47,7 +47,7 @@ namespace rocksdb {
 namespace themisdb {
 namespace storage {
 
-// Import Result from themis namespace
+// Make themis::Result available in this namespace
 using themis::Result;
 
 /**
