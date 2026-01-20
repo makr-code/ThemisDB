@@ -1,6 +1,7 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "utils/expected.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -284,7 +285,7 @@ private:
     size_t models_loaded_ = 0;
     
     // Internal helpers
-    CachedModel* loadModelInternal(
+    Result<CachedModel*> loadModelInternal(
         const std::string& model_id,
         const std::string& model_path,
         const json& config

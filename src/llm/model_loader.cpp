@@ -1,6 +1,7 @@
 #include "llm/model_loader.h"
 #include "llm/gguf_loader.h"
 #include "utils/error_registry.h"
+#include "utils/expected.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -115,7 +116,12 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     }
     
     // Load model
-    return loadModelInternal(model_id, model_path, load_config);
+    auto result = loadModelInternal(model_id, model_path, load_config);
+    if (!result) {
+        spdlog::error("Failed to load model {}: {}", model_id, result.error().message());
+        return nullptr;
+    }
+    return *result;
 }
 
 bool LazyModelLoader::preloadModel(
@@ -153,14 +159,14 @@ bool LazyModelLoader::preloadModel(
             }
             
             // Perform the actual load
-            auto* model = loadModelInternal(model_id, model_path, load_config);
-            if (model) {
+            auto result = loadModelInternal(model_id, model_path, load_config);
+            if (result) {
                 spdlog::info("Async preload completed successfully for: {}", model_id);
+                return *result;
             } else {
-                spdlog::error("Async preload failed for: {}", model_id);
+                spdlog::error("Async preload failed for: {}: {}", model_id, result.error().message());
+                return nullptr;
             }
-            
-            return model;
             
         } catch (const std::exception& e) {
             spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
@@ -246,7 +252,14 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             // Perform the actual model load
             // Note: loadModelInternal is the heavy operation that does the real work
             // In a full implementation, this would report progress internally
-            auto* model = loadModelInternal(model_id, model_path, load_config);
+            auto result = loadModelInternal(model_id, model_path, load_config);
+            
+            CachedModel* model = nullptr;
+            if (result) {
+                model = *result;
+            } else {
+                spdlog::error("Model load failed: {}", result.error().message());
+            }
             
             load_lock.unlock();
             
@@ -495,7 +508,7 @@ LazyModelLoader::Stats LazyModelLoader::getStatistics() const {
     return s;
 }
 
-CachedModel* LazyModelLoader::loadModelInternal(
+Result<CachedModel*> LazyModelLoader::loadModelInternal(
     const std::string& model_id,
     const std::string& model_path,
     const json& config
@@ -513,7 +526,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
     // Check if file exists
     if (!fs::exists(model_path)) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_path);
-        return nullptr;
+        return tl::unexpected(Error(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_path));
     }
 
     size_t size_bytes = static_cast<size_t>(fs::file_size(model_path));
@@ -594,7 +607,8 @@ CachedModel* LazyModelLoader::loadModelInternal(
     if (!lmodel) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         spdlog::error("Failed to load model with both custom and native loaders");
-        return nullptr;
+        return tl::unexpected(Error(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
+            fmt::format("Failed to load model: {}", model_path)));
     }
     
     // Log which loader was used
@@ -676,7 +690,8 @@ CachedModel* LazyModelLoader::loadModelInternal(
     if (!lctx) {
         errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
         llama_free_model(lmodel);
-        return nullptr;
+        return tl::unexpected(Error(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,
+            fmt::format("Failed to create context for model: {}", model_id)));
     }
 
     // Populate model info
@@ -709,7 +724,7 @@ CachedModel* LazyModelLoader::loadModelInternal(
 
     spdlog::info("Model loaded successfully: {} ({} MB VRAM, {} GPU layers, Flash Attention: {})",
                  model_id, vram_mb, n_gpu_layers, use_flash_attn ? "ON" : "OFF");
-    return result;
+    return Ok(result);
 }
 
 bool LazyModelLoader::hasCapacity(size_t vram_mb, size_t ram_mb) const {
