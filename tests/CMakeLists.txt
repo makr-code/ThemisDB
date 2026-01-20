@@ -1709,6 +1709,42 @@ else()
 endif()
 
 # ============================================================================
+# Enhanced Plugin Security Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_plugin_security.cpp")
+    message(STATUS "Adding enhanced plugin security tests")
+    
+    add_executable(test_enhanced_plugin_security
+        test_enhanced_plugin_security.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_enhanced_plugin_security PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_enhanced_plugin_security PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME EnhancedPluginSecurityTests COMMAND test_enhanced_plugin_security)
+    
+    # Set test properties
+    set_tests_properties(EnhancedPluginSecurityTests PROPERTIES
+        LABELS "security;plugin;signature;crypto"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Enhanced plugin security tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_plugin_security.cpp")
+endif()
+
+# ============================================================================
 # Generic Plugin Registry Tests
 # ============================================================================
 
