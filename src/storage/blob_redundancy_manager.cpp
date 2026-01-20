@@ -344,26 +344,22 @@ void BlobRedundancyManager::unregisterBlob(const std::string& blob_id) {
     }
 }
 
-BlobOperationResult BlobRedundancyManager::ensureRedundancy(const std::string& blob_id) {
+Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id) {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
     if (it == blobs_.end()) {
-        BlobOperationResult result;
-        result.success = false;
-        result.blob_id = blob_id;
-        result.error_message = "Blob not found";
-        return result;
+        return Err<void>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found: " + blob_id
+        );
     }
     
     const auto& metadata = it->second;
     
     // Check if redundancy is already satisfied
     if (metadata.isHealthy()) {
-        BlobOperationResult result;
-        result.success = true;
-        result.blob_id = blob_id;
-        return result;
+        return Ok();
     }
     
     // Queue for repair
@@ -373,26 +369,21 @@ BlobOperationResult BlobRedundancyManager::ensureRedundancy(const std::string& b
         repair_cv_.notify_one();
     }
     
-    BlobOperationResult result;
-    result.success = true;
-    result.blob_id = blob_id;
-    result.error_message = "Queued for repair";
-    return result;
+    return Ok();
+}
 }
 
-BlobOperationResult BlobRedundancyManager::repairBlob(const std::string& blob_id) {
+Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
     auto start = std::chrono::steady_clock::now();
-    
-    BlobOperationResult result;
-    result.blob_id = blob_id;
-    result.success = false;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
     if (it == blobs_.end()) {
-        result.error_message = "Blob not found";
-        return result;
+        return Err<void>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found: " + blob_id
+        );
     }
     
     const auto& metadata = it->second;
@@ -402,12 +393,11 @@ BlobOperationResult BlobRedundancyManager::repairBlob(const std::string& blob_id
     
     stats_repairs_++;
     
-    result.success = true;
-    
     auto end = std::chrono::steady_clock::now();
-    result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    return result;
+    return Ok();
+}
 }
 
 bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
@@ -426,22 +416,20 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     return metadata.isHealthy();
 }
 
-BlobOperationResult BlobRedundancyManager::writeBlob(
+Result<void> BlobRedundancyManager::writeBlob(
     const std::string& blob_id,
     const std::vector<uint8_t>& data,
     WriteHandler handler
 ) {
-    BlobOperationResult result;
-    result.blob_id = blob_id;
-    result.success = false;
-    
     // Get blob metadata
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
     if (it == blobs_.end()) {
-        result.error_message = "Blob not found";
-        return result;
+        return Err<void>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found: " + blob_id
+        );
     }
     
     const auto& metadata = it->second;
@@ -457,13 +445,18 @@ BlobOperationResult BlobRedundancyManager::writeBlob(
         }
     }
     
-    result.success = !written_shards.empty();
-    result.affected_shards = written_shards;
+    if (written_shards.empty()) {
+        return Err<void>(
+            errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+            "Failed to write blob to any shard: " + blob_id
+        );
+    }
     
-    return result;
+    return Ok();
+}
 }
 
-std::optional<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
+Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     const std::string& blob_id,
     ReadHandler handler
 ) {
@@ -471,7 +464,10 @@ std::optional<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     
     auto it = blobs_.find(blob_id);
     if (it == blobs_.end()) {
-        return std::nullopt;
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found: " + blob_id
+        );
     }
     
     const auto& metadata = it->second;
@@ -481,23 +477,29 @@ std::optional<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     auto read_shard = selectReadShard(metadata);
     
     // Read from selected shard
-    return handler(read_shard, blob_id);
+    auto result = handler(read_shard, blob_id);
+    if (!result) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Failed to read blob from shard: " + blob_id
+        );
+    }
+    
+    return Ok(std::move(*result));
 }
 
-BlobOperationResult BlobRedundancyManager::deleteBlob(
+Result<void> BlobRedundancyManager::deleteBlob(
     const std::string& blob_id,
     DeleteHandler handler
 ) {
-    BlobOperationResult result;
-    result.blob_id = blob_id;
-    result.success = false;
-    
     std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
     if (it == blobs_.end()) {
-        result.error_message = "Blob not found";
-        return result;
+        return Err<void>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found: " + blob_id
+        );
     }
     
     const auto& metadata = it->second;
@@ -514,36 +516,27 @@ BlobOperationResult BlobRedundancyManager::deleteBlob(
     blobs_.erase(it);
     stats_total_blobs_--;
     
-    result.success = true;
-    result.affected_shards = deleted_shards;
-    
-    return result;
+    return Ok();
+}
 }
 
-BlobOperationResult BlobRedundancyManager::tierDown(
+Result<void> BlobRedundancyManager::tierDown(
     const std::string& blob_id,
     StorageTier target
 ) {
-    BlobOperationResult result;
-    result.blob_id = blob_id;
-    result.success = true;
-    
     stats_tier_transitions_++;
     
-    return result;
+    return Ok();
 }
 
-BlobOperationResult BlobRedundancyManager::tierUp(
+Result<void> BlobRedundancyManager::tierUp(
     const std::string& blob_id,
     StorageTier target
 ) {
-    BlobOperationResult result;
-    result.blob_id = blob_id;
-    result.success = true;
-    
     stats_tier_transitions_++;
     
-    return result;
+    return Ok();
+}
 }
 
 std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() {
@@ -698,8 +691,8 @@ void BlobRedundancyManager::runRepairQueue() {
         lock.unlock();
         
         auto result = repairBlob(blob_id);
-        if (!result.success) {
-            spdlog::warn("Failed to repair blob {}: {}", blob_id, result.error_message);
+        if (!result) {
+            spdlog::warn("Failed to repair blob {}: {}", blob_id, result.error().message());
         }
         
         lock.lock();
@@ -746,10 +739,13 @@ std::string BlobRedundancyManager::exportPrometheusMetrics() const {
     return ss.str();
 }
 
-std::shared_ptr<rocksdb::EventListener> BlobRedundancyManager::createRocksDBListener() {
+Result<std::shared_ptr<rocksdb::EventListener>> BlobRedundancyManager::createRocksDBListener() {
     // Return event listener for RocksDB integration
     // Simplified: return nullptr for now
-    return nullptr;
+    return Err<std::shared_ptr<rocksdb::EventListener>>(
+        errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+        "RocksDB listener not implemented"
+    );
 }
 
 // ═══════════════════════════════════════════════════════════

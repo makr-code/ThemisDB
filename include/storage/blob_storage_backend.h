@@ -57,10 +57,9 @@ public:
      * @brief Store a blob
      * @param blob_id Unique blob identifier
      * @param data Blob data
-     * @return BlobRef Reference to stored blob
-     * @throws std::runtime_error on failure
+     * @return Result<BlobRef> Reference to stored blob or error
      */
-    virtual BlobRef put(
+    virtual Result<BlobRef> put(
         const std::string& blob_id,
         const std::vector<uint8_t>& data
     ) = 0;
@@ -68,18 +67,18 @@ public:
     /**
      * @brief Retrieve a blob
      * @param ref Blob reference
-     * @return Blob data or nullopt if not found
+     * @return Result<vector<uint8_t>> Blob data or error if not found
      */
-    virtual std::optional<std::vector<uint8_t>> get(
+    virtual Result<std::vector<uint8_t>> get(
         const BlobRef& ref
     ) = 0;
     
     /**
      * @brief Delete a blob
      * @param ref Blob reference
-     * @return true if deleted, false if not found
+     * @return Result<void> Success or error
      */
-    virtual bool remove(const BlobRef& ref) = 0;
+    virtual Result<void> remove(const BlobRef& ref) = 0;
     
     /**
      * @brief Check if blob exists

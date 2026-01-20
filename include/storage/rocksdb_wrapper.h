@@ -332,8 +332,8 @@ public:
     /// - Iterator itself is NOT thread-safe (use from single thread)
     /// 
     /// @param read_options Optional read options
-    /// @return SafeIterator with automatic lifecycle management
-    SafeIterator newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
+    /// @return Result<SafeIterator> with automatic lifecycle management
+    Result<SafeIterator> newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
     
     /// Scan with prefix (for index scans)
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
@@ -364,10 +364,10 @@ public:
         const std::vector<std::string>& keys);
     
     /// Create async iterator with prefetching
-    std::unique_ptr<rocksdb::Iterator> newAsyncIterator();
+    Result<std::unique_ptr<rocksdb::Iterator>> newAsyncIterator();
     
     /// Create standard iterator (for comparison)
-    std::unique_ptr<rocksdb::Iterator> newIterator();
+    Result<std::unique_ptr<rocksdb::Iterator>> newIterator();
     
     /// Check if async I/O is enabled
     bool isAsyncIOEnabled() const { return config_.enable_async_io; }
