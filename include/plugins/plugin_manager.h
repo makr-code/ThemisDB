@@ -17,6 +17,10 @@ namespace plugins {
 
 using json = nlohmann::json;
 
+// Forward declarations
+class PluginHotPlugMonitor;
+struct HotPlugConfig;
+
 /**
  * @brief Unified Plugin Manager
  * 
@@ -50,6 +54,7 @@ private:
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
     std::unordered_map<PluginType, std::vector<std::string>> type_index_;  // type -> plugin names
     PluginMetrics metrics_;  // Plugin metrics tracker
+    std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -176,6 +181,25 @@ public:
      * @return Mutable reference to plugin metrics
      */
     PluginMetrics& getMetricsMutable() { return metrics_; }
+    
+    /**
+     * @brief Enable hot-plug monitoring for a directory
+     * @param directory Directory to monitor
+     * @param config Hot-plug configuration
+     * @return true if monitoring started successfully
+     */
+    bool enableHotPlug(const std::string& directory, const HotPlugConfig& config = HotPlugConfig());
+    
+    /**
+     * @brief Disable hot-plug monitoring
+     */
+    void disableHotPlug();
+    
+    /**
+     * @brief Check if hot-plug monitoring is enabled
+     * @return true if monitoring is active
+     */
+    bool isHotPlugEnabled() const;
     
     /**
      * @brief Singleton instance

@@ -1855,6 +1855,48 @@ else()
 endif()
 
 # ============================================================================
+# Plugin Hot-Plug Monitoring Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+    message(STATUS "Adding plugin hot-plug monitoring tests")
+    
+    add_executable(test_plugin_hot_plug
+        test_plugin_hot_plug.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_hot_plug_monitor.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_plugin_hot_plug PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_hot_plug PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginHotPlugTests COMMAND test_plugin_hot_plug)
+    
+    # Set test properties
+    set_tests_properties(PluginHotPlugTests PROPERTIES
+        LABELS "plugins;monitoring;hot-plug"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Plugin hot-plug monitoring tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+endif()
+
+# ============================================================================
 # Plugin Dependency Resolver Tests
 # ============================================================================
 

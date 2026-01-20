@@ -1,0 +1,523 @@
+#include "plugins/plugin_hot_plug_monitor.h"
+#include "plugins/plugin_manager.h"
+#include "utils/logger.h"
+#include <filesystem>
+#include <thread>
+#include <chrono>
+#include <algorithm>
+
+#ifdef _WIN32
+    #include <windows.h>
+#elif defined(__APPLE__)
+    #include <CoreServices/CoreServices.h>
+    #include <sys/event.h>
+    #include <unistd.h>
+#else
+    #include <sys/inotify.h>
+    #include <unistd.h>
+    #include <errno.h>
+    #include <cstring>
+    #include <poll.h>
+#endif
+
+namespace themis {
+namespace plugins {
+
+namespace fs = std::filesystem;
+
+// ============================================================================
+// Constructor & Destructor
+// ============================================================================
+
+PluginHotPlugMonitor::PluginHotPlugMonitor(
+    PluginManager* manager,
+    const std::string& directory,
+    const HotPlugConfig& config
+) : plugin_manager_(manager),
+    watch_directory_(directory),
+    config_(config)
+{
+#ifdef _WIN32
+    dir_handle_ = nullptr;
+#elif defined(__APPLE__)
+    fs_event_stream_ = nullptr;
+#else
+    inotify_fd_ = -1;
+    watch_descriptor_ = -1;
+#endif
+}
+
+PluginHotPlugMonitor::~PluginHotPlugMonitor() {
+    stop();
+}
+
+// ============================================================================
+// Platform-specific helpers
+// ============================================================================
+
+bool PluginHotPlugMonitor::isPluginFile(const std::string& filename) const {
+    return filename.ends_with(".dll") ||
+           filename.ends_with(".so") ||
+           filename.ends_with(".dylib") ||
+           filename == "plugin.json";
+}
+
+std::string PluginHotPlugMonitor::extractPluginName(const std::string& filepath) const {
+    fs::path p(filepath);
+    
+    // If it's plugin.json, the parent directory name is the plugin name
+    if (p.filename() == "plugin.json") {
+        return p.parent_path().filename().string();
+    }
+    
+    // For .dll/.so/.dylib files, use the stem (filename without extension)
+    return p.stem().string();
+}
+
+// ============================================================================
+// Event Handling
+// ============================================================================
+
+void PluginHotPlugMonitor::handleFileEvent(
+    const std::string& filename,
+    FileEvent event
+) {
+    // Only process plugin files
+    if (!isPluginFile(filename)) {
+        return;
+    }
+    
+    std::string full_path = watch_directory_ + "/" + filename;
+    std::string plugin_name = extractPluginName(full_path);
+    
+    if (plugin_name.empty()) {
+        return;
+    }
+    
+    try {
+        switch (event) {
+            case FileEvent::CREATED:
+                if (config_.auto_load) {
+                    THEMIS_INFO("New plugin detected: {}", filename);
+                    
+                    // Wait for file to be fully written
+                    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                    
+                    // Rescan directory to discover new plugin
+                    plugin_manager_->scanPluginDirectory(watch_directory_);
+                    
+                    // Try to load the plugin
+                    auto* plugin = plugin_manager_->loadPlugin(plugin_name);
+                    if (plugin) {
+                        THEMIS_INFO("Auto-loaded plugin: {}", plugin_name);
+                    }
+                }
+                break;
+                
+            case FileEvent::MODIFIED:
+                if (config_.auto_reload) {
+                    THEMIS_INFO("Plugin modified: {}", filename);
+                    
+                    // Wait for file to be fully written
+                    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                    
+                    // Hot-reload if already loaded
+                    if (plugin_manager_->isPluginLoaded(plugin_name)) {
+                        bool reloaded = plugin_manager_->reloadPlugin(plugin_name);
+                        if (reloaded) {
+                            THEMIS_INFO("Auto-reloaded plugin: {}", plugin_name);
+                        } else {
+                            THEMIS_WARN("Failed to reload plugin: {}", plugin_name);
+                        }
+                    }
+                }
+                break;
+                
+            case FileEvent::DELETED:
+                if (config_.auto_unload) {
+                    THEMIS_INFO("Plugin removed: {}", filename);
+                    
+                    // Unload if loaded
+                    if (plugin_manager_->isPluginLoaded(plugin_name)) {
+                        plugin_manager_->unloadPlugin(plugin_name);
+                        THEMIS_INFO("Auto-unloaded plugin: {}", plugin_name);
+                    }
+                }
+                break;
+        }
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error handling file event for {}: {}", filename, e.what());
+    }
+}
+
+// ============================================================================
+// Linux Implementation (inotify)
+// ============================================================================
+
+#ifndef _WIN32
+#ifndef __APPLE__
+
+void PluginHotPlugMonitor::watchDirectoryLinux() {
+    char buffer[4096] __attribute__((aligned(__alignof__(struct inotify_event))));
+    
+    // Use poll to allow for interruption
+    struct pollfd pfd;
+    pfd.fd = inotify_fd_;
+    pfd.events = POLLIN;
+    
+    while (running_) {
+        int poll_result = poll(&pfd, 1, 1000);  // 1 second timeout
+        
+        if (poll_result < 0) {
+            if (errno != EINTR) {
+                THEMIS_ERROR("poll error: {}", strerror(errno));
+            }
+            continue;
+        }
+        
+        if (poll_result == 0) {
+            // Timeout, check if still running
+            continue;
+        }
+        
+        ssize_t length = read(inotify_fd_, buffer, sizeof(buffer));
+        if (length < 0) {
+            if (errno != EINTR && errno != EAGAIN) {
+                THEMIS_ERROR("inotify read error: {}", strerror(errno));
+            }
+            continue;
+        }
+        
+        // Process all events in the buffer
+        for (char* ptr = buffer; ptr < buffer + length; ) {
+            struct inotify_event* event = reinterpret_cast<struct inotify_event*>(ptr);
+            
+            if (event->len > 0) {
+                FileEvent file_event;
+                
+                if (event->mask & IN_CREATE) {
+                    file_event = FileEvent::CREATED;
+                } else if (event->mask & IN_MODIFY) {
+                    file_event = FileEvent::MODIFIED;
+                } else if (event->mask & IN_DELETE) {
+                    file_event = FileEvent::DELETED;
+                } else {
+                    // Ignore other events
+                    ptr += sizeof(struct inotify_event) + event->len;
+                    continue;
+                }
+                
+                handleFileEvent(event->name, file_event);
+            }
+            
+            ptr += sizeof(struct inotify_event) + event->len;
+        }
+    }
+}
+
+#endif // !__APPLE__
+#endif // !_WIN32
+
+// ============================================================================
+// Windows Implementation (ReadDirectoryChangesW)
+// ============================================================================
+
+#ifdef _WIN32
+
+void PluginHotPlugMonitor::watchDirectoryWindows() {
+    char buffer[4096];
+    DWORD bytes_returned;
+    
+    while (running_) {
+        BOOL success = ReadDirectoryChangesW(
+            dir_handle_,
+            buffer,
+            sizeof(buffer),
+            TRUE,  // Watch subdirectories
+            FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE,
+            &bytes_returned,
+            nullptr,
+            nullptr
+        );
+        
+        if (!success || !running_) {
+            break;
+        }
+        
+        if (bytes_returned == 0) {
+            continue;
+        }
+        
+        // Process events
+        FILE_NOTIFY_INFORMATION* fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
+        
+        while (true) {
+            // Convert filename from wide char to narrow
+            int filename_length = fni->FileNameLength / sizeof(wchar_t);
+            std::wstring wfilename(fni->FileName, filename_length);
+            std::string filename;
+            filename.reserve(wfilename.size());
+            for (wchar_t wc : wfilename) {
+                filename.push_back(static_cast<char>(wc));
+            }
+            
+            FileEvent event;
+            switch (fni->Action) {
+                case FILE_ACTION_ADDED:
+                    event = FileEvent::CREATED;
+                    break;
+                case FILE_ACTION_MODIFIED:
+                    event = FileEvent::MODIFIED;
+                    break;
+                case FILE_ACTION_REMOVED:
+                    event = FileEvent::DELETED;
+                    break;
+                default:
+                    // Ignore other actions
+                    if (fni->NextEntryOffset == 0) {
+                        goto next_iteration;
+                    }
+                    fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(
+                        reinterpret_cast<char*>(fni) + fni->NextEntryOffset
+                    );
+                    continue;
+            }
+            
+            handleFileEvent(filename, event);
+            
+            if (fni->NextEntryOffset == 0) {
+                break;
+            }
+            
+            fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(
+                reinterpret_cast<char*>(fni) + fni->NextEntryOffset
+            );
+        }
+        
+        next_iteration:
+        continue;
+    }
+}
+
+#endif // _WIN32
+
+// ============================================================================
+// macOS Implementation (kqueue)
+// ============================================================================
+
+#ifdef __APPLE__
+
+void PluginHotPlugMonitor::watchDirectoryMacOS() {
+    // Use kqueue for macOS
+    int kq = kqueue();
+    if (kq == -1) {
+        THEMIS_ERROR("Failed to create kqueue: {}", strerror(errno));
+        return;
+    }
+    
+    // Open directory for monitoring
+    int dir_fd = open(watch_directory_.c_str(), O_RDONLY);
+    if (dir_fd == -1) {
+        THEMIS_ERROR("Failed to open directory: {}", strerror(errno));
+        close(kq);
+        return;
+    }
+    
+    // Setup kevent for directory monitoring
+    struct kevent change;
+    EV_SET(&change, dir_fd, EVFILT_VNODE,
+           EV_ADD | EV_ENABLE | EV_CLEAR,
+           NOTE_WRITE | NOTE_EXTEND | NOTE_DELETE,
+           0, nullptr);
+    
+    if (kevent(kq, &change, 1, nullptr, 0, nullptr) == -1) {
+        THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
+        close(dir_fd);
+        close(kq);
+        return;
+    }
+    
+    // Track files we've seen
+    std::set<std::string> known_files;
+    auto scan_directory = [&]() {
+        std::set<std::string> current_files;
+        for (const auto& entry : fs::directory_iterator(watch_directory_)) {
+            if (entry.is_regular_file()) {
+                std::string filename = entry.path().filename().string();
+                if (isPluginFile(filename)) {
+                    current_files.insert(filename);
+                }
+            }
+        }
+        
+        // Detect new files
+        for (const auto& file : current_files) {
+            if (known_files.find(file) == known_files.end()) {
+                handleFileEvent(file, FileEvent::CREATED);
+            }
+        }
+        
+        // Detect deleted files
+        for (const auto& file : known_files) {
+            if (current_files.find(file) == current_files.end()) {
+                handleFileEvent(file, FileEvent::DELETED);
+            }
+        }
+        
+        known_files = current_files;
+    };
+    
+    // Initial scan
+    scan_directory();
+    
+    // Monitor loop
+    struct kevent event;
+    struct timespec timeout;
+    timeout.tv_sec = 1;
+    timeout.tv_nsec = 0;
+    
+    while (running_) {
+        int nev = kevent(kq, nullptr, 0, &event, 1, &timeout);
+        
+        if (nev < 0) {
+            if (errno != EINTR) {
+                THEMIS_ERROR("kevent error: {}", strerror(errno));
+            }
+            continue;
+        }
+        
+        if (nev > 0) {
+            // Directory changed, rescan to detect what changed
+            scan_directory();
+            
+            // Also check for modifications
+            for (const auto& file : known_files) {
+                handleFileEvent(file, FileEvent::MODIFIED);
+            }
+        }
+    }
+    
+    close(dir_fd);
+    close(kq);
+}
+
+#endif // __APPLE__
+
+// ============================================================================
+// Public Interface
+// ============================================================================
+
+bool PluginHotPlugMonitor::start() {
+    if (running_) {
+        THEMIS_WARN("Hot-plug monitor already running");
+        return false;
+    }
+    
+    // Verify directory exists
+    if (!fs::exists(watch_directory_)) {
+        THEMIS_ERROR("Watch directory does not exist: {}", watch_directory_);
+        return false;
+    }
+    
+    if (!fs::is_directory(watch_directory_)) {
+        THEMIS_ERROR("Watch path is not a directory: {}", watch_directory_);
+        return false;
+    }
+    
+    running_ = true;
+    
+#ifdef _WIN32
+    // Windows implementation
+    dir_handle_ = CreateFileA(
+        watch_directory_.c_str(),
+        FILE_LIST_DIRECTORY,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        nullptr,
+        OPEN_EXISTING,
+        FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED,
+        nullptr
+    );
+    
+    if (dir_handle_ == INVALID_HANDLE_VALUE) {
+        THEMIS_ERROR("Failed to open directory for watching: {}", watch_directory_);
+        running_ = false;
+        return false;
+    }
+    
+    monitor_thread_ = std::thread([this]() {
+        watchDirectoryWindows();
+    });
+    
+#elif defined(__APPLE__)
+    // macOS implementation
+    monitor_thread_ = std::thread([this]() {
+        watchDirectoryMacOS();
+    });
+    
+#else
+    // Linux implementation
+    inotify_fd_ = inotify_init1(IN_NONBLOCK);
+    if (inotify_fd_ < 0) {
+        THEMIS_ERROR("Failed to initialize inotify: {}", strerror(errno));
+        running_ = false;
+        return false;
+    }
+    
+    watch_descriptor_ = inotify_add_watch(
+        inotify_fd_,
+        watch_directory_.c_str(),
+        IN_CREATE | IN_MODIFY | IN_DELETE
+    );
+    
+    if (watch_descriptor_ < 0) {
+        THEMIS_ERROR("Failed to add inotify watch: {}", strerror(errno));
+        close(inotify_fd_);
+        inotify_fd_ = -1;
+        running_ = false;
+        return false;
+    }
+    
+    monitor_thread_ = std::thread([this]() {
+        watchDirectoryLinux();
+    });
+#endif
+    
+    THEMIS_INFO("Hot-plug monitoring started for: {}", watch_directory_);
+    return true;
+}
+
+void PluginHotPlugMonitor::stop() {
+    if (!running_) {
+        return;
+    }
+    
+    running_ = false;
+    
+    // Wait for thread to finish
+    if (monitor_thread_.joinable()) {
+        monitor_thread_.join();
+    }
+    
+#ifdef _WIN32
+    if (dir_handle_ != nullptr && dir_handle_ != INVALID_HANDLE_VALUE) {
+        CloseHandle(dir_handle_);
+        dir_handle_ = nullptr;
+    }
+#elif defined(__APPLE__)
+    // Cleanup handled in thread
+#else
+    if (watch_descriptor_ >= 0) {
+        inotify_rm_watch(inotify_fd_, watch_descriptor_);
+        watch_descriptor_ = -1;
+    }
+    if (inotify_fd_ >= 0) {
+        close(inotify_fd_);
+        inotify_fd_ = -1;
+    }
+#endif
+    
+    THEMIS_INFO("Hot-plug monitoring stopped");
+}
+
+} // namespace plugins
+} // namespace themis
