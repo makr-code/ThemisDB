@@ -86,7 +86,8 @@ if ($combined.Count -gt 0) {
 
 # Write a tiny README note
 $readme = @(
-    "Themis Benchmarks",
+    "CHIMERA Suite Benchmarks",
+    "Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment",
     "Timestamp: $Timestamp",
     "Output Directory: $OutDir",
     "",

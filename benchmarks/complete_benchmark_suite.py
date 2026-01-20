@@ -20,7 +20,7 @@ Usage:
     python complete_benchmark_suite.py --mode tpch --scale-factor 1
 
 Author: ThemisDB Team - CHIMERA Suite
-Date: 2025-01-20
+Date: 2026-01-20
 """
 
 import asyncio
