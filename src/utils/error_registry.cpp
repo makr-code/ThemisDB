@@ -849,6 +849,204 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/plugins/security.md"},
         {"plugin", "signature", "security"}
     });
+    
+    // Compression Errors
+    registerError({
+        ErrorCode::ERR_COMPRESSION_FAILED,
+        "Compression",
+        "Error",
+        "Compression operation failed: {}",
+        "Failed to compress data using the specified algorithm.",
+        "1. Verify input data is not corrupted\n"
+        "2. Check compression algorithm is supported\n"
+        "3. Ensure sufficient memory is available\n"
+        "4. Try a different compression level",
+        {"/docs/compression.md"},
+        {"compression", "failed", "algorithm"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_COMPRESSION_BUFFER_TOO_SMALL,
+        "Compression",
+        "Error",
+        "Compression buffer too small: {} bytes required, {} bytes available",
+        "The output buffer is insufficient for compressed data.",
+        "1. Increase buffer size in configuration\n"
+        "2. Use dynamic buffer allocation\n"
+        "3. Check compression ratio estimates",
+        {"/docs/compression.md"},
+        {"compression", "buffer", "size"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+        "Compression",
+        "Error",
+        "Invalid compression format: {}",
+        "The compressed data format is not recognized or corrupted.",
+        "1. Verify data was compressed with supported algorithm\n"
+        "2. Check for data corruption during transfer\n"
+        "3. Ensure compression format version is compatible\n"
+        "4. Re-compress data if source is available",
+        {"/docs/compression.md"},
+        {"compression", "format", "invalid", "corrupted"}
+    });
+    
+    // Crypto Errors
+    registerError({
+        ErrorCode::ERR_CRYPTO_ENCRYPTION_FAILED,
+        "Crypto",
+        "Error",
+        "Encryption operation failed: {}",
+        "Failed to encrypt data using the specified algorithm.",
+        "1. Verify encryption key is valid\n"
+        "2. Check encryption algorithm is supported\n"
+        "3. Ensure input data format is correct\n"
+        "4. Verify OpenSSL/crypto library is properly initialized",
+        {"/docs/security/encryption.md"},
+        {"crypto", "encryption", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
+        "Crypto",
+        "Error",
+        "Decryption operation failed: {}",
+        "Failed to decrypt data, possibly due to wrong key or corrupted data.",
+        "1. Verify decryption key matches encryption key\n"
+        "2. Check ciphertext is not corrupted\n"
+        "3. Ensure correct algorithm and mode are used\n"
+        "4. Verify IV/nonce if applicable",
+        {"/docs/security/encryption.md"},
+        {"crypto", "decryption", "failed", "key"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_KEY_GENERATION_FAILED,
+        "Crypto",
+        "Error",
+        "Key generation failed: {}",
+        "Failed to generate cryptographic key.",
+        "1. Verify entropy source is available (/dev/urandom)\n"
+        "2. Check key size is supported\n"
+        "3. Ensure crypto library is properly initialized\n"
+        "4. Verify sufficient system resources",
+        {"/docs/security/key_management.md"},
+        {"crypto", "key", "generation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_INVALID_KEY,
+        "Crypto",
+        "Error",
+        "Invalid cryptographic key: {}",
+        "The provided key is invalid or malformed.",
+        "1. Verify key format (PEM, DER, etc.)\n"
+        "2. Check key size matches algorithm requirements\n"
+        "3. Ensure key is not corrupted\n"
+        "4. Verify key type (RSA, EC, etc.) is correct",
+        {"/docs/security/key_management.md"},
+        {"crypto", "key", "invalid"}
+    });
+    
+    // Utility Errors
+    registerError({
+        ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        "Utility",
+        "Error",
+        "Invalid argument: {}",
+        "A function was called with an invalid argument.",
+        "1. Check function parameters are correct\n"
+        "2. Verify input data format\n"
+        "3. Review API documentation for parameter constraints\n"
+        "4. Check for null or empty values",
+        {"/docs/api/utilities.md"},
+        {"utility", "invalid", "argument", "parameter"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+        "Utility",
+        "Error",
+        "File operation failed: {}",
+        "A file operation (read, write, delete) failed.",
+        "1. Check file path is correct\n"
+        "2. Verify file permissions\n"
+        "3. Ensure parent directory exists\n"
+        "4. Check disk space is available",
+        {"/docs/troubleshooting.md"},
+        {"utility", "file", "operation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PERMISSION_DENIED,
+        "Utility",
+        "Error",
+        "Permission denied: {}",
+        "Insufficient permissions to perform the operation.",
+        "1. Check user/process permissions\n"
+        "2. Verify file/directory ownership\n"
+        "3. Review SELinux/AppArmor policies\n"
+        "4. Run with appropriate privileges if needed",
+        {"/docs/security.md"},
+        {"utility", "permission", "denied", "access"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
+        "Utility",
+        "Error",
+        "Failed to load PKI certificate: {}",
+        "Could not load or parse the certificate file.",
+        "1. Verify certificate file path is correct\n"
+        "2. Check certificate format (PEM expected)\n"
+        "3. Ensure certificate is not expired\n"
+        "4. Verify file is readable and not corrupted",
+        {"/docs/security/pki.md"},
+        {"utility", "pki", "certificate", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
+        "Utility",
+        "Error",
+        "Failed to load PKI private key: {}",
+        "Could not load or parse the private key file.",
+        "1. Verify private key file path is correct\n"
+        "2. Check key format (PEM expected)\n"
+        "3. Ensure passphrase is correct if key is encrypted\n"
+        "4. Verify file is readable and not corrupted",
+        {"/docs/security/pki.md"},
+        {"utility", "pki", "key", "private", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+        "Utility",
+        "Error",
+        "Failed to create PII detection engine: {}",
+        "Could not instantiate the PII detection engine.",
+        "1. Verify engine type is supported (regex, ner, embedding)\n"
+        "2. Check engine configuration is valid\n"
+        "3. Ensure PKI signature is valid if signed engine\n"
+        "4. Review engine initialization logs",
+        {"/docs/privacy/pii_detection.md"},
+        {"utility", "pii", "detection", "engine", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+        "Utility",
+        "Error",
+        "Retention policy not found: {}",
+        "The specified retention policy does not exist.",
+        "1. Verify policy name is correct\n"
+        "2. Check policy configuration file\n"
+        "3. Ensure policy was registered successfully\n"
+        "4. Review retention manager logs",
+        {"/docs/retention.md"},
+        {"utility", "retention", "policy", "not found"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
