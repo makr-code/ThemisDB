@@ -115,12 +115,21 @@ reporter.generate_csv_report("results.csv", sort_by='alphabetical')
 
 ### Run Demo
 
+**Basic Demo** (3 systems):
 ```bash
 cd benchmarks/chimera
 python3 demo.py
 ```
 
-This generates example reports in the `demo_reports/` directory.
+**Multi-Vendor Demo** (9 systems - proves vendor neutrality):
+```bash
+cd benchmarks/chimera
+python3 demo_multi_vendor.py
+```
+
+See [MULTI_VENDOR_DEMO.md](MULTI_VENDOR_DEMO.md) for details on the multi-vendor demonstration.
+
+Reports are generated in the `demo_reports/` directory.
 
 ---
 
