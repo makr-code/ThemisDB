@@ -1641,16 +1641,20 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     return results;
 }
 
-std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newAsyncIterator() {
+Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newAsyncIterator() {
     if (!db_) {
-        THEMIS_ERROR("newAsyncIterator: database not open");
-        return nullptr;
+        return Err<std::unique_ptr<rocksdb::Iterator>>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB not opened for async iterator"
+        );
     }
 
     auto* base_db = db_->GetBaseDB();
     if (!base_db) {
-        THEMIS_ERROR("newAsyncIterator: base DB is null");
-        return nullptr;
+        return Err<std::unique_ptr<rocksdb::Iterator>>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB base DB is null"
+        );
     }
     
     // Configure read options with async I/O if enabled
@@ -1660,33 +1664,40 @@ std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newAsyncIterator() {
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
-    return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
+    return Ok(std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts)));
 }
 
-std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
+Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newIterator() {
     if (!db_) {
-        THEMIS_ERROR("newIterator: database not open");
-        return nullptr;
+        return Err<std::unique_ptr<rocksdb::Iterator>>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB not opened for iterator"
+        );
     }
 
     auto* base_db = db_->GetBaseDB();
     if (!base_db) {
-        THEMIS_ERROR("newIterator: base DB is null");
-        return nullptr;
+        return Err<std::unique_ptr<rocksdb::Iterator>>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB base DB is null"
+        );
     }
 
     rocksdb::ReadOptions read_opts;
-    return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
+    return Ok(std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts)));
 }
 
 // SafeIterator implementation - SOLUTION 1B for iterator lifecycle safety
-RocksDBWrapper::SafeIterator RocksDBWrapper::newSafeIterator(const rocksdb::ReadOptions* read_options) {
+Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::newSafeIterator(const rocksdb::ReadOptions* read_options) {
     // Create operation guard first to extend database lifetime
     auto guard = std::make_unique<OperationGuard>(this);
     
     if (!guard || !*guard) {
-        // Database not open - return invalid iterator
-        return SafeIterator(nullptr, std::move(guard));
+        // Database not open - return error
+        return Err<SafeIterator>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB not opened for safe iterator"
+        );
     }
     
     // Use provided read options or default
@@ -1695,13 +1706,15 @@ RocksDBWrapper::SafeIterator RocksDBWrapper::newSafeIterator(const rocksdb::Read
     // Create iterator while holding guard
     auto* base_db = db_->GetBaseDB();
     if (!base_db) {
-        THEMIS_ERROR("newSafeIterator: base DB is null");
-        return SafeIterator(nullptr, std::move(guard));
+        return Err<SafeIterator>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "RocksDB base DB is null"
+        );
     }
     
     auto iter = std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(*opts));
     
-    return SafeIterator(std::move(iter), std::move(guard));
+    return Ok(SafeIterator(std::move(iter), std::move(guard)));
 }
 
 // SafeIterator method implementations

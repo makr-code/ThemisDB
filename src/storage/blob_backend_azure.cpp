@@ -87,7 +87,7 @@ public:
     
     ~AzureBlobBackend() override = default;
     
-    BlobRef put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+    Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string blob_name = getBlobName(blob_id);
@@ -113,15 +113,18 @@ public:
             ref.created_at = std::chrono::system_clock::now().time_since_epoch().count();
             
             THEMIS_DEBUG("Blob stored in Azure: id={}, size={} bytes", blob_id, data.size());
-            return ref;
+            return Ok(ref);
             
         } catch (const Azure::Core::RequestFailedException& e) {
             THEMIS_ERROR("Azure upload failed: {}", e.what());
-            throw std::runtime_error("Azure upload failed: " + std::string(e.what()));
+            return Err<BlobRef>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Azure upload failed: " + std::string(e.what())
+            );
         }
     }
     
-    std::optional<std::vector<uint8_t>> get(const BlobRef& ref) override {
+    Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string blob_name = getBlobName(ref.id);
@@ -150,23 +153,32 @@ public:
             if (actual_hash != ref.hash_sha256) {
                 THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}", 
                             ref.id, ref.hash_sha256, actual_hash);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                    "Hash mismatch for blob: " + ref.id
+                );
             }
             
             THEMIS_DEBUG("Blob retrieved from Azure: id={}, size={} bytes", ref.id, data.size());
-            return data;
+            return Ok(data);
             
         } catch (const Azure::Core::RequestFailedException& e) {
             if (e.StatusCode == Azure::Core::Http::HttpStatusCode::NotFound) {
                 THEMIS_WARN("Blob not found in Azure: {}", ref.id);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                    "Blob not found in Azure: " + ref.id
+                );
             }
             THEMIS_ERROR("Azure download failed: {}", e.what());
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Azure download failed: " + std::string(e.what())
+            );
         }
     }
     
-    bool remove(const BlobRef& ref) override {
+    Result<void> remove(const BlobRef& ref) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string blob_name = getBlobName(ref.id);
@@ -179,11 +191,14 @@ public:
             blob_client.Delete();
             
             THEMIS_DEBUG("Blob deleted from Azure: id={}", ref.id);
-            return true;
+            return Ok();
             
         } catch (const Azure::Core::RequestFailedException& e) {
             THEMIS_ERROR("Azure delete failed: {}", e.what());
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Azure delete failed: " + std::string(e.what())
+            );
         }
     }
     
