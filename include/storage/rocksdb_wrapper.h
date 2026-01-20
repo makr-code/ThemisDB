@@ -262,7 +262,8 @@ public:
         bool isActive() const { return active_; }
         
         /// Get the snapshot (for debugging)
-        const rocksdb::Snapshot* getSnapshot() const;
+        /// Returns error if transaction is inactive or not initialized
+        Result<const rocksdb::Snapshot*> getSnapshot() const;
         
     private:
         RocksDBWrapper* db_;
