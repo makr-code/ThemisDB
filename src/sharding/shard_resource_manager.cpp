@@ -170,18 +170,20 @@ void ShardResourceManager::updateQueryMetrics(uint32_t active, uint32_t pending,
 }
 
 void ShardResourceManager::throttleIfNeeded() {
-    std::shared_lock lock(local_mutex_);
+    float cpu_ratio, ram_ratio, max_load;
     
-    float cpu_ratio = local_snapshot_.cpu_usage_percent / 100.0f;
-    float ram_ratio = static_cast<float>(local_snapshot_.ram_usage_bytes) / 
-                      static_cast<float>(local_snapshot_.ram_total_bytes);
-    
-    float max_load = std::max(cpu_ratio, ram_ratio);
+    {
+        std::shared_lock lock(local_mutex_);
+        cpu_ratio = local_snapshot_.cpu_usage_percent / 100.0f;
+        ram_ratio = static_cast<float>(local_snapshot_.ram_usage_bytes) / 
+                    static_cast<float>(local_snapshot_.ram_total_bytes);
+        max_load = std::max(cpu_ratio, ram_ratio);
+    }
     
     if (max_load >= config_.critical_threshold) {
         // Critical threshold - could implement throttling here
         // For now, just update health score
-        std::unique_lock write_lock(local_mutex_);
+        std::unique_lock lock(local_mutex_);
         local_snapshot_.health_score = std::min(local_snapshot_.health_score, 20.0f);
     }
 }
@@ -380,9 +382,9 @@ void ShardResourceManager::collectSystemMetrics() {
     local_snapshot_.network_in_bps = net_in;
     local_snapshot_.network_out_bps = net_out;
     
-    // Calculate health score
-    lock.unlock();
-    local_snapshot_.health_score = calculateHealthScore();
+    // Calculate health score while still holding the lock
+    float health_score = calculateHealthScore();
+    local_snapshot_.health_score = health_score;
 }
 
 void ShardResourceManager::cleanupStaleSnapshots() {

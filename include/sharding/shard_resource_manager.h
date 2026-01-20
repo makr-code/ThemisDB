@@ -6,6 +6,7 @@
 #include <map>
 #include <chrono>
 #include <optional>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
