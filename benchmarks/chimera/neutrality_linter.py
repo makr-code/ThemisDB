@@ -1,0 +1,300 @@
+#!/usr/bin/env python3
+"""
+CHIMERA Neutrality Linter
+
+Checks CHIMERA files for vendor-specific references and neutrality violations.
+"""
+
+import re
+import sys
+from pathlib import Path
+from typing import List, Tuple, Dict
+from dataclasses import dataclass
+
+
+@dataclass
+class ViolationLevel:
+    CRITICAL = "CRITICAL"
+    MAJOR = "MAJOR"
+    MINOR = "MINOR"
+    WARNING = "WARNING"
+
+
+@dataclass
+class Violation:
+    file: str
+    line: int
+    column: int
+    level: str
+    message: str
+    context: str
+
+
+# Vendor names to detect (case-insensitive)
+VENDOR_NAMES = [
+    "themisdb",
+    "oracle",
+    "microsoft",
+    "amazon",
+    "google",
+    "mongodb",
+    "postgresql",
+    "mysql",
+    "redis",
+    "elasticsearch",
+    "neo4j",
+    "cassandra",
+    "cockroachdb",
+    "yugabyte",
+    "fauna",
+    "snowflake",
+    "databricks",
+    "pinecone",
+    "weaviate",
+    "milvus",
+    "qdrant"
+]
+
+# Marketing terms to detect
+MARKETING_TERMS = [
+    "enterprise",
+    "professional",
+    "ultimate",
+    "premium",
+    "platinum",
+    "gold",
+    "best",
+    "winner",
+    "superior",
+    "leading",
+    "recommended",
+    "preferred"
+]
+
+# Allowed exceptions (contexts where vendor names are OK)
+ALLOWED_CONTEXTS = [
+    "PostgreSQLAdapter",  # Protocol names
+    "MongoDBAdapter",
+    "MySQLAdapter",
+    "RedisAdapter",
+    "Neo4jAdapter",
+    "CassandraAdapter",
+    "ElasticsearchAdapter",
+    "# Example:",  # Documentation examples showing what NOT to do
+    "# ❌",
+    "# DON'T",
+    "# Bad",
+    "# Wrong",
+    "## Prohibited:",
+    "### ❌ DON'T"
+]
+
+
+class NeutralityLinter:
+    """Linter for checking CHIMERA neutrality compliance"""
+    
+    def __init__(self, root_path: Path):
+        self.root_path = root_path
+        self.violations: List[Violation] = []
+    
+    def check_file(self, file_path: Path) -> None:
+        """Check a single file for violations"""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            
+            for line_num, line in enumerate(lines, start=1):
+                self.check_line(file_path, line_num, line)
+                
+        except Exception as e:
+            print(f"Error checking {file_path}: {e}")
+    
+    def check_line(self, file_path: Path, line_num: int, line: str) -> None:
+        """Check a single line for violations"""
+        
+        # Skip if in allowed context
+        if any(ctx in line for ctx in ALLOWED_CONTEXTS):
+            return
+        
+        # Check for vendor names
+        for vendor in VENDOR_NAMES:
+            pattern = re.compile(rf'\b{vendor}\b', re.IGNORECASE)
+            matches = pattern.finditer(line)
+            
+            for match in matches:
+                # Determine severity based on context
+                level = self._determine_level(file_path, line, vendor)
+                
+                self.violations.append(Violation(
+                    file=str(file_path.relative_to(self.root_path)),
+                    line=line_num,
+                    column=match.start() + 1,
+                    level=level,
+                    message=f"Vendor name detected: '{vendor}'",
+                    context=line.strip()
+                ))
+        
+        # Check for marketing terms
+        for term in MARKETING_TERMS:
+            pattern = re.compile(rf'\b{term}\b', re.IGNORECASE)
+            matches = pattern.finditer(line)
+            
+            for match in matches:
+                # Lower severity for marketing terms
+                self.violations.append(Violation(
+                    file=str(file_path.relative_to(self.root_path)),
+                    line=line_num,
+                    column=match.start() + 1,
+                    level=ViolationLevel.MAJOR,
+                    message=f"Marketing term detected: '{term}'",
+                    context=line.strip()
+                ))
+    
+    def _determine_level(self, file_path: Path, line: str, vendor: str) -> str:
+        """Determine severity level based on context"""
+        
+        # Critical in system IDs and adapter names
+        if 'system_id' in line or 'adapter_name' in line:
+            return ViolationLevel.CRITICAL
+        
+        # Critical in configuration files
+        if file_path.suffix in ['.yaml', '.yml', '.toml', '.json']:
+            return ViolationLevel.CRITICAL
+        
+        # Major in code
+        if file_path.suffix in ['.py', '.cpp', '.h', '.js', '.ts']:
+            return ViolationLevel.MAJOR
+        
+        # Major in documentation
+        if file_path.suffix in ['.md', '.rst', '.txt']:
+            # But only warning in references/citations
+            if 'reference' in line.lower() or 'citation' in line.lower():
+                return ViolationLevel.WARNING
+            return ViolationLevel.MAJOR
+        
+        return ViolationLevel.MINOR
+    
+    def scan_directory(self, patterns: List[str]) -> None:
+        """Scan directory for files matching patterns"""
+        for pattern in patterns:
+            for file_path in self.root_path.rglob(pattern):
+                # Skip certain directories
+                if any(part in file_path.parts for part in ['.git', 'node_modules', '__pycache__', 'venv']):
+                    continue
+                
+                self.check_file(file_path)
+    
+    def report(self) -> Dict[str, int]:
+        """Generate report of violations"""
+        counts = {
+            ViolationLevel.CRITICAL: 0,
+            ViolationLevel.MAJOR: 0,
+            ViolationLevel.MINOR: 0,
+            ViolationLevel.WARNING: 0
+        }
+        
+        # Sort violations by level and file
+        sorted_violations = sorted(
+            self.violations,
+            key=lambda v: (
+                ['CRITICAL', 'MAJOR', 'MINOR', 'WARNING'].index(v.level),
+                v.file,
+                v.line
+            )
+        )
+        
+        current_file = None
+        for violation in sorted_violations:
+            counts[violation.level] += 1
+            
+            # Print file header if changed
+            if violation.file != current_file:
+                print(f"\n📄 {violation.file}")
+                current_file = violation.file
+            
+            # Print violation
+            icon = {
+                ViolationLevel.CRITICAL: "🔴",
+                ViolationLevel.MAJOR: "🟠",
+                ViolationLevel.MINOR: "🟡",
+                ViolationLevel.WARNING: "⚠️"
+            }[violation.level]
+            
+            print(f"  {icon} Line {violation.line}:{violation.column} [{violation.level}] {violation.message}")
+            print(f"     {violation.context[:100]}")
+        
+        return counts
+    
+    def summary(self, counts: Dict[str, int]) -> int:
+        """Print summary and return exit code"""
+        print("\n" + "=" * 70)
+        print("CHIMERA NEUTRALITY LINTER SUMMARY")
+        print("=" * 70)
+        
+        total = sum(counts.values())
+        
+        print(f"\n📊 Total violations: {total}")
+        print(f"   🔴 Critical: {counts[ViolationLevel.CRITICAL]}")
+        print(f"   🟠 Major:    {counts[ViolationLevel.MAJOR]}")
+        print(f"   🟡 Minor:    {counts[ViolationLevel.MINOR]}")
+        print(f"   ⚠️  Warning: {counts[ViolationLevel.WARNING]}")
+        
+        # Determine exit code
+        if counts[ViolationLevel.CRITICAL] > 0:
+            print("\n❌ FAILED: Critical violations found")
+            return 2
+        elif counts[ViolationLevel.MAJOR] > 0:
+            print("\n⚠️  WARNING: Major violations found")
+            return 1
+        elif counts[ViolationLevel.MINOR] > 0:
+            print("\n✓ PASSED with minor issues")
+            return 0
+        else:
+            print("\n✅ PASSED: No violations found")
+            return 0
+
+
+def main():
+    """Main entry point"""
+    print("🔬 CHIMERA Neutrality Linter")
+    print("=" * 70)
+    
+    # Get CHIMERA directory
+    chimera_dir = Path(__file__).parent
+    
+    print(f"\n📂 Scanning: {chimera_dir}")
+    print(f"   Checking for vendor-specific references...")
+    
+    # Create linter
+    linter = NeutralityLinter(chimera_dir)
+    
+    # Scan files
+    patterns = [
+        "*.py",
+        "*.md",
+        "*.yaml",
+        "*.yml",
+        "*.toml",
+        "*.json",
+        "*.html"
+    ]
+    
+    linter.scan_directory(patterns)
+    
+    # Report results
+    counts = linter.report()
+    exit_code = linter.summary(counts)
+    
+    print("\n" + "=" * 70)
+    print("💡 Tips:")
+    print("   - Use generic system identifiers (system_a, system_b)")
+    print("   - Use protocol names for adapters (PostgreSQLAdapter)")
+    print("   - Avoid marketing terms (best, winner, superior)")
+    print("   - See NEUTRALITY_STYLEGUIDE.md for details")
+    print("=" * 70)
+    
+    sys.exit(exit_code)
+
+
+if __name__ == "__main__":
+    main()

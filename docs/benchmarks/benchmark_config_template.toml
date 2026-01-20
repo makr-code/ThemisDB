@@ -105,8 +105,8 @@ compiler_flags = "-O3 -march=native -mtune=native"
 build_type = "Release"
 
 # Database Version
-database_name = "ThemisDB"
-database_version = "1.4.0-alpha"
+database_name = "System Under Test"
+database_version = "1.0.0"
 database_commit = "abc123def456"
 
 # Dependencies
@@ -255,9 +255,9 @@ dataset_documented = true
 parameters_documented = true
 
 # Version Control
-code_repository = "https://github.com/makr-code/ThemisDB"
+code_repository = "https://github.com/your-org/your-system"
 commit_hash = "abc123def456"
-tag = "v1.4.0-alpha"
+tag = "v1.0.0"
 
 # Data Availability
 data_generation_scripts = true
@@ -266,7 +266,7 @@ analysis_scripts_available = true
 
 # Environment
 containerized = true
-container_image = "themisdb/benchmark:1.4.0"
+container_image = "your-org/system-benchmark:1.0.0"
 container_registry = "docker.io"
 
 # ============================================================

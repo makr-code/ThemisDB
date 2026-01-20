@@ -81,7 +81,7 @@ systems:
       protocol: "postgres_wire"
       connection_pool_size: 20
       timeout_seconds: 30
-      connection_string: "postgresql://localhost:5432/benchmark_db"
+      connection_string: "postgres://localhost:5432/benchmark_db"
     
     version:
       major: 15
@@ -109,7 +109,7 @@ systems:
       protocol: "mongodb_wire"
       connection_pool_size: 20
       timeout_seconds: 30
-      connection_string: "mongodb://localhost:27017"
+      connection_string: "mongo://localhost:27017"
     
     version:
       major: 7

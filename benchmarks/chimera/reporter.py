@@ -457,7 +457,7 @@ class ChimeraReporter:
     <footer>
         <p><strong>CHIMERA v{self.report_metadata['chimera_version']}</strong></p>
         <p>Generated: {self.report_metadata['generated_at']}</p>
-        <p>© {datetime.now().year} ThemisDB Project. Released under MIT License.</p>
+        <p>© {datetime.now().year} CHIMERA Project. Released under MIT License.</p>
     </footer>
 </body>
 </html>

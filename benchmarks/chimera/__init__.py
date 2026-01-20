@@ -22,7 +22,7 @@ Usage:
 """
 
 __version__ = "1.0.0"
-__author__ = "ThemisDB Team"
+__author__ = "CHIMERA Development Team"
 __license__ = "MIT"
 
 from .reporter import ChimeraReporter
