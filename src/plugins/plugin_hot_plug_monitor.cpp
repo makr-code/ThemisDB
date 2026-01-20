@@ -60,6 +60,8 @@ PluginHotPlugMonitor::~PluginHotPlugMonitor() {
 // ============================================================================
 
 bool PluginHotPlugMonitor::isPluginFile(const std::string& filename) const {
+    // Check for plugin-related file extensions
+    // Note: ends_with is C++20, but this project uses C++20
     return filename.ends_with(".dll") ||
            filename.ends_with(".so") ||
            filename.ends_with(".dylib") ||
@@ -255,7 +257,8 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
         // Process events
         FILE_NOTIFY_INFORMATION* fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
         
-        while (true) {
+        bool has_more_events = true;
+        while (has_more_events) {
             // Convert filename from wide char to narrow
             int filename_length = fni->FileNameLength / sizeof(wchar_t);
             std::wstring wfilename(fni->FileName, filename_length);
@@ -266,6 +269,7 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
             }
             
             FileEvent event;
+            bool should_handle = true;
             switch (fni->Action) {
                 case FILE_ACTION_ADDED:
                     event = FileEvent::CREATED;
@@ -278,28 +282,23 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
                     break;
                 default:
                     // Ignore other actions
-                    if (fni->NextEntryOffset == 0) {
-                        goto next_iteration;
-                    }
-                    fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(
-                        reinterpret_cast<char*>(fni) + fni->NextEntryOffset
-                    );
-                    continue;
+                    should_handle = false;
+                    break;
             }
             
-            handleFileEvent(filename, event);
+            if (should_handle) {
+                handleFileEvent(filename, event);
+            }
             
+            // Check if there are more events
             if (fni->NextEntryOffset == 0) {
-                break;
+                has_more_events = false;
+            } else {
+                fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(
+                    reinterpret_cast<char*>(fni) + fni->NextEntryOffset
+                );
             }
-            
-            fni = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(
-                reinterpret_cast<char*>(fni) + fni->NextEntryOffset
-            );
         }
-        
-        next_iteration:
-        continue;
     }
 }
 

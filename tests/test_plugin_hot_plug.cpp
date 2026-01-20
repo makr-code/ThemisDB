@@ -2,6 +2,7 @@
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_interface.h"
+#include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
 #include <thread>
