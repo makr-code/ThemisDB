@@ -454,7 +454,7 @@ This benchmark compares three document databases:
 3. **Configuration Schema** - Validates neutral naming
 4. **Report Analyzer** - Checks sorting and presentation
 
-**See:** [.github/workflows/neutrality-check.yml](../../.github/workflows/neutrality-check.yml)
+**See:** [.github/workflows/chimera-neutrality-check.yml](../../.github/workflows/chimera-neutrality-check.yml)
 
 ### 10.2 Manual Review
 

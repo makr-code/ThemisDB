@@ -620,7 +620,7 @@ If you use the CHIMERA Suite configuration format in your research, please cite:
 
 For questions, issues, or suggestions:
 
-- **GitHub Discussions:** [CHIMERA Suite Community](https://github.com/chimera-benchmark/discussions)
+- **GitHub Discussions:** [CHIMERA Suite Community](https://github.com/chimera-benchmark/chimera-suite/discussions)
 - **Documentation:** Full documentation available in the docs/ directory
 - **Examples:** See the chimera/ directory for configuration examples
 

@@ -36,7 +36,7 @@ jobs:
         id: linter
         run: |
           cd benchmarks/chimera
-          python3 neutrality_linter.py || true
+          python3 neutrality_linter.py
           exit_code=$?
           echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
           exit $exit_code

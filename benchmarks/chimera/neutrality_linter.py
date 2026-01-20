@@ -10,8 +10,9 @@ Configuration can be loaded from neutrality_linter_config.yaml if present.
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple, Dict
+from typing import List, Dict
 from dataclasses import dataclass
+from enum import Enum
 
 
 # Try to load configuration from YAML file if available
@@ -33,8 +34,8 @@ def load_config():
 CONFIG = load_config()
 
 
-@dataclass
-class ViolationLevel:
+class ViolationLevel(str, Enum):
+    """Severity levels for neutrality violations"""
     CRITICAL = "CRITICAL"
     MAJOR = "MAJOR"
     MINOR = "MINOR"
@@ -110,7 +111,10 @@ ALLOWED_CONTEXTS = (CONFIG.get('allowed_contexts', []) if CONFIG else []) or [
     "# Bad",
     "# Wrong",
     "## Prohibited:",
-    "### ❌ DON'T"
+    "### ❌ DON'T",
+    "### Prohibited",
+    "### Prohibited Terms",
+    "**Prohibited:**"
 ]
 
 
@@ -136,16 +140,39 @@ class NeutralityLinter:
     def check_line(self, file_path: Path, line_num: int, line: str) -> None:
         """Check a single line for violations"""
         
-        # Skip if in allowed context
-        if any(ctx in line for ctx in ALLOWED_CONTEXTS):
-            return
-        
         # Check for vendor names
         for vendor in VENDOR_NAMES:
             pattern = re.compile(rf'\b{vendor}\b', re.IGNORECASE)
             matches = pattern.finditer(line)
             
             for match in matches:
+                # Check if this specific match is in an allowed context
+                matched_text = match.group()
+                start_pos = match.start()
+                
+                # Check if vendor name is part of a URI scheme (e.g., postgresql:// or mongodb://)
+                if start_pos + len(matched_text) < len(line):
+                    if line[start_pos + len(matched_text):start_pos + len(matched_text) + 3] == "://":
+                        # This is a URI scheme, which is allowed for standard protocols
+                        continue
+                
+                # Check if vendor name is part of an allowed context pattern
+                is_allowed = False
+                for ctx in ALLOWED_CONTEXTS:
+                    # Check if the context pattern appears near the matched vendor name
+                    if ctx in line:
+                        # For adapter names, check if vendor is part of the adapter name
+                        if "Adapter" in ctx and matched_text.lower() in ctx.lower():
+                            is_allowed = True
+                            break
+                        # For documentation markers, check if they appear on the line
+                        elif ctx.startswith("#") or ctx.startswith("**") or ctx.startswith("###"):
+                            is_allowed = True
+                            break
+                
+                if is_allowed:
+                    continue
+                
                 # Determine severity based on context
                 level = self._determine_level(file_path, line, vendor)
                 
@@ -215,17 +242,18 @@ class NeutralityLinter:
     def report(self) -> Dict[str, int]:
         """Generate report of violations"""
         counts = {
-            ViolationLevel.CRITICAL: 0,
-            ViolationLevel.MAJOR: 0,
-            ViolationLevel.MINOR: 0,
-            ViolationLevel.WARNING: 0
+            ViolationLevel.CRITICAL.value: 0,
+            ViolationLevel.MAJOR.value: 0,
+            ViolationLevel.MINOR.value: 0,
+            ViolationLevel.WARNING.value: 0
         }
         
         # Sort violations by level and file
         sorted_violations = sorted(
             self.violations,
             key=lambda v: (
-                ['CRITICAL', 'MAJOR', 'MINOR', 'WARNING'].index(v.level),
+                [ViolationLevel.CRITICAL.value, ViolationLevel.MAJOR.value, 
+                 ViolationLevel.MINOR.value, ViolationLevel.WARNING.value].index(v.level),
                 v.file,
                 v.line
             )
@@ -242,10 +270,10 @@ class NeutralityLinter:
             
             # Print violation
             icon = {
-                ViolationLevel.CRITICAL: "🔴",
-                ViolationLevel.MAJOR: "🟠",
-                ViolationLevel.MINOR: "🟡",
-                ViolationLevel.WARNING: "⚠️"
+                ViolationLevel.CRITICAL.value: "🔴",
+                ViolationLevel.MAJOR.value: "🟠",
+                ViolationLevel.MINOR.value: "🟡",
+                ViolationLevel.WARNING.value: "⚠️"
             }[violation.level]
             
             print(f"  {icon} Line {violation.line}:{violation.column} [{violation.level}] {violation.message}")
@@ -262,19 +290,19 @@ class NeutralityLinter:
         total = sum(counts.values())
         
         print(f"\n📊 Total violations: {total}")
-        print(f"   🔴 Critical: {counts[ViolationLevel.CRITICAL]}")
-        print(f"   🟠 Major:    {counts[ViolationLevel.MAJOR]}")
-        print(f"   🟡 Minor:    {counts[ViolationLevel.MINOR]}")
-        print(f"   ⚠️  Warning: {counts[ViolationLevel.WARNING]}")
+        print(f"   🔴 Critical: {counts[ViolationLevel.CRITICAL.value]}")
+        print(f"   🟠 Major:    {counts[ViolationLevel.MAJOR.value]}")
+        print(f"   🟡 Minor:    {counts[ViolationLevel.MINOR.value]}")
+        print(f"   ⚠️  Warning: {counts[ViolationLevel.WARNING.value]}")
         
         # Determine exit code
-        if counts[ViolationLevel.CRITICAL] > 0:
+        if counts[ViolationLevel.CRITICAL.value] > 0:
             print("\n❌ FAILED: Critical violations found")
             return 2
-        elif counts[ViolationLevel.MAJOR] > 0:
+        elif counts[ViolationLevel.MAJOR.value] > 0:
             print("\n⚠️  WARNING: Major violations found")
             return 1
-        elif counts[ViolationLevel.MINOR] > 0:
+        elif counts[ViolationLevel.MINOR.value] > 0:
             print("\n✓ PASSED with minor issues")
             return 0
         else:
