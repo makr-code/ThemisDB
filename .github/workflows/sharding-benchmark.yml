@@ -1,4 +1,7 @@
-name: Sharding Benchmarks (Weekly)
+name: CHIMERA Suite - Sharding Benchmarks (Weekly)
+
+# Part of CHIMERA Suite: Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
+# "Benchmark the Unbenchmarkable"
 
 on:
   schedule:
@@ -29,29 +32,30 @@ jobs:
           cmake -S . -B build-ci -DCMAKE_BUILD_TYPE=Release
           cmake --build build-ci --config Release --parallel 8
 
-      - name: Run Sharding Benchmarks
+      - name: Run CHIMERA Suite - Sharding Benchmarks
         run: |
+          # CHIMERA Suite sharding evaluation
           # Expected scripts (see SHARDING_BENCHMARK_PLAN_v1.4.md)
           python tools/shard_loader.py --config config/sharding/shard-router-example.yaml --dataset oltp_100m.json
-          python tools/shard_bench.py --mix A,B,C,D,E --output shard_results.json
+          python tools/shard_bench.py --mix A,B,C,D,E --output CHIMERA_shard_results.json
           python tools/fault_injector.py --scenario rebalance --config config/sharding/shard-router-example.yaml
-          python tools/aggregate_shard_results.py --input shard_results.json --output sharding_summary.json
+          python tools/aggregate_shard_results.py --input CHIMERA_shard_results.json --output CHIMERA_sharding_summary.json
 
       - name: Cost Comparison (vs Hyperscalers)
         run: |
           python tools/compare_hyperscaler.py \
-            --results sharding_summary.json \
+            --results CHIMERA_sharding_summary.json \
             --template benchmarks/SHARDING_COST_COMPARISON_TEMPLATE.csv \
-            --output cost_comparison.csv
+            --output CHIMERA_cost_comparison.csv
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: sharding-benchmarks
+          name: chimera-sharding-benchmarks
           path: |
-            sharding_summary.json
-            cost_comparison.csv
-            shard_results.json
+            CHIMERA_sharding_summary.json
+            CHIMERA_cost_comparison.csv
+            CHIMERA_shard_results.json
 
       - name: Slack notify (optional)
         if: failure()

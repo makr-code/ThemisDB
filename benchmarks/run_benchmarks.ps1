@@ -4,6 +4,10 @@ param(
     [string]$OutRoot = "build/benchmarks"
 )
 
+# CHIMERA Suite - Benchmark Runner
+# Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
+# "Benchmark the Unbenchmarkable"
+
 $ErrorActionPreference = 'Stop'
 
 function Ensure-Dir($path) {
