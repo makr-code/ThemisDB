@@ -5,12 +5,16 @@
 #include <thread>
 #include <chrono>
 #include <algorithm>
+#include <set>
 
 #ifdef _WIN32
     #include <windows.h>
 #elif defined(__APPLE__)
     #include <CoreServices/CoreServices.h>
     #include <sys/event.h>
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <fcntl.h>
     #include <unistd.h>
 #else
     #include <sys/inotify.h>
