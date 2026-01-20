@@ -378,7 +378,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
         return entry.instance.get();
     }
     
-    // Load dependencies first
+    // Load dependencies first (collect them while holding lock)
+    std::vector<std::string> deps_to_load;
     for (const auto& dep : entry.manifest.dependencies) {
         auto dep_it = plugins_.find(dep);
         
@@ -389,35 +390,60 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
             return nullptr;
         }
         
-        // Load dependency if not already loaded
+        // Collect dependencies that need loading
         if (!dep_it->second.loaded) {
+            deps_to_load.push_back(dep);
+        }
+    }
+    
+    // Load dependencies (must release lock to avoid deadlock)
+    if (!deps_to_load.empty()) {
+        mutex_.unlock();
+        
+        for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
-            
-            // Temporarily release lock to avoid deadlock
-            mutex_.unlock();
             auto* dep_plugin = loadPlugin(dep);
-            mutex_.lock();
-            
             if (!dep_plugin) {
                 THEMIS_ERROR("Failed to load dependency {} for plugin {}", dep, name);
+                // Re-acquire lock before returning
+                mutex_.lock();
                 metrics_.recordError(name);
                 return nullptr;
             }
         }
+        
+        // Re-acquire lock and verify entry is still valid
+        mutex_.lock();
+        
+        // Re-find entry as map may have been modified
+        it = plugins_.find(name);
+        if (it == plugins_.end()) {
+            THEMIS_ERROR("Plugin {} disappeared during dependency loading", name);
+            metrics_.recordError(name);
+            return nullptr;
+        }
+        
+        // If plugin was loaded while we were loading dependencies, return it
+        if (it->second.loaded && it->second.instance) {
+            return it->second.instance.get();
+        }
     }
+    
+    // At this point we have the lock and all dependencies are loaded
+    auto& current_entry = it->second;
     
     // Verify plugin
     std::string error_message;
-    if (!verifyPlugin(entry.path, error_message)) {
+    if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
         metrics_.recordError(name);
         return nullptr;
     }
     
     // Load library
-    void* handle = loadLibrary(entry.path);
+    void* handle = loadLibrary(current_entry.path);
     if (!handle) {
-        THEMIS_ERROR("Failed to load plugin library: {}", entry.path);
+        THEMIS_ERROR("Failed to load plugin library: {}", current_entry.path);
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
@@ -428,7 +454,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     // Get factory function
     auto createFunc = reinterpret_cast<CreatePluginFunc>(getSymbol(handle, "createPlugin"));
     if (!createFunc) {
-        THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
+        THEMIS_ERROR("Plugin does not export createPlugin: {}", current_entry.path);
         unloadLibrary(handle);
         metrics_.recordError(name);
         return nullptr;
@@ -458,10 +484,10 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     }
     
     // Store
-    entry.library_handle = handle;
-    entry.instance.reset(plugin);
-    entry.loaded = true;
-    entry.file_hash = calculateFileHash(entry.path);
+    current_entry.library_handle = handle;
+    current_entry.instance.reset(plugin);
+    current_entry.loaded = true;
+    current_entry.file_hash = calculateFileHash(current_entry.path);
     
     // Record load metrics
     auto end = std::chrono::steady_clock::now();
@@ -469,7 +495,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     metrics_.recordLoad(name, duration);
     
     THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}..., Load time: {}ms)", 
-        name, plugin->getVersion(), entry.file_hash.substr(0, 16), duration.count());
+        name, plugin->getVersion(), current_entry.file_hash.substr(0, 16), duration.count());
     
     return plugin;
 }

@@ -47,7 +47,9 @@ public:
     /**
      * @brief Build dependency graph from plugin entries
      * 
-     * @tparam PluginEntryType Type that has .name and .manifest.dependencies fields
+     * @tparam PluginEntryType Type that has a .manifest field which contains
+     *         a .dependencies field (std::vector<std::string>)
+     *         Example: struct PluginEntry { PluginManifest manifest; ... }
      * @param plugins Map of plugin name to plugin entry
      * @return Complete dependency graph
      */
