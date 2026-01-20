@@ -15,6 +15,7 @@
 #include "llm/lora_framework/gpu_lora_layers.h"
 #include "llm/lora_framework/model_compatibility.h"
 #include "llm/lora_framework/resource_profiler.h"
+#include "llm/lora_framework/training_service_registry.h"
 #include "llm/distributed_training_coordinator.h"
 #include "sharding/shard_router.h"
 #include "sharding/shard_topology.h"
@@ -122,6 +123,20 @@ public:
         spdlog::info("  Base model: {}", config_.base_model_path);
         spdlog::info("  Max concurrent: {}", config_.max_concurrent_training);
         spdlog::info("  Checkpointing: {}", config_.enable_checkpointing);
+        
+        // Register shard infrastructure if provided
+        if (config_.shard_router && config_.shard_topology) {
+            auto& registry = TrainingServiceRegistry::getInstance();
+            registry.registerShardRouter(config_.shard_router);
+            registry.registerShardTopology(config_.shard_topology);
+            
+            spdlog::info("Shard infrastructure registered for distributed training");
+            spdlog::info("  ShardRouter: registered");
+            spdlog::info("  ShardTopology: registered");
+        } else if (config_.enable_distributed_training) {
+            spdlog::warn("Distributed training enabled but ShardRouter/ShardTopology not provided");
+            spdlog::info("Will attempt to use previously registered instances or run in standalone mode");
+        }
         
         // Create checkpoint directory if it doesn't exist
         if (config_.enable_checkpointing && !config_.checkpoint_dir.empty()) {
@@ -1502,17 +1517,31 @@ TrainingResult LoRATrainingService::trainDistributed(
         dist_config.checkpoint_frequency = impl_->config_.checkpoint_interval_steps;
         dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
         
-        // 2. Create ShardRouter and ShardTopology (in real implementation, these would come from dependency injection)
-        // NOTE: These components would typically be injected via constructor or obtained from a service registry.
-        // For this implementation, we create the coordinator with nullptr for router/topology since the current
-        // implementation doesn't use these for core functionality (gradient aggregation works without them).
-        // In a production deployment, these would be properly injected to enable inter-shard communication.
-        std::shared_ptr<ShardRouter> shard_router = nullptr;
-        std::shared_ptr<ShardTopology> shard_topology = nullptr;
+        // 2. Get ShardRouter and ShardTopology from registry
+        // First check if they were provided in config, otherwise get from registry
+        std::shared_ptr<ShardRouter> shard_router = impl_->config_.shard_router;
+        std::shared_ptr<ShardTopology> shard_topology = impl_->config_.shard_topology;
         
-        spdlog::info("Creating DistributedTrainingCoordinator");
-        spdlog::warn("ShardRouter and ShardTopology are not injected - using standalone mode");
-        spdlog::info("For production use, inject these dependencies for full inter-shard communication");
+        if (!shard_router || !shard_topology) {
+            // Try to get from registry
+            auto& registry = TrainingServiceRegistry::getInstance();
+            if (!shard_router) {
+                shard_router = registry.getShardRouter();
+            }
+            if (!shard_topology) {
+                shard_topology = registry.getShardTopology();
+            }
+        }
+        
+        if (!shard_router || !shard_topology) {
+            spdlog::warn("ShardRouter/ShardTopology not available");
+            spdlog::info("Running in standalone mode (simulated gradients)");
+            spdlog::info("For production use, provide shard_router and shard_topology in config");
+        } else {
+            spdlog::info("Using ShardRouter and ShardTopology for inter-shard communication");
+            spdlog::info("  ShardRouter: available");
+            spdlog::info("  ShardTopology: available ({} shards)", shard_topology->getShardCount());
+        }
         
         // 3. Create DistributedTrainingCoordinator
         auto coordinator = DistributedTrainingCoordinatorFactory::create(
