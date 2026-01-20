@@ -1,6 +1,7 @@
 #pragma once
 
 #include "plugins/plugin_interface.h"
+#include "plugins/plugin_metrics.h"
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include <string>
 #include <memory>
@@ -47,6 +48,7 @@ private:
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
     std::unordered_map<PluginType, std::vector<std::string>> type_index_;  // type -> plugin names
+    PluginMetrics metrics_;  // Plugin metrics tracker
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -161,6 +163,12 @@ public:
      * @return Manifest or nullopt if not found
      */
     std::optional<PluginManifest> getManifest(const std::string& name) const;
+    
+    /**
+     * @brief Get plugin metrics
+     * @return Reference to plugin metrics
+     */
+    const PluginMetrics& getMetrics() const { return metrics_; }
     
     /**
      * @brief Singleton instance

@@ -359,11 +359,14 @@ size_t PluginManager::scanPluginDirectory(const std::string& directory) {
 }
 
 IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
+    auto start = std::chrono::steady_clock::now();
+    
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     if (it == plugins_.end()) {
         THEMIS_ERROR("Plugin not found: {}", name);
+        metrics_.recordError(name);
         return nullptr;
     }
     
@@ -378,6 +381,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     std::string error_message;
     if (!verifyPlugin(entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
+        metrics_.recordError(name);
         return nullptr;
     }
     
@@ -388,6 +392,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
+        metrics_.recordError(name);
         return nullptr;
     }
     
@@ -396,6 +401,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     if (!createFunc) {
         THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
         unloadLibrary(handle);
+        metrics_.recordError(name);
         return nullptr;
     }
     
@@ -404,6 +410,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     if (!plugin) {
         THEMIS_ERROR("Failed to create plugin instance: {}", name);
         unloadLibrary(handle);
+        metrics_.recordError(name);
         return nullptr;
     }
     
@@ -417,6 +424,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
             destroyFunc(plugin);
         }
         unloadLibrary(handle);
+        metrics_.recordError(name);
         return nullptr;
     }
     
@@ -426,8 +434,13 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     entry.loaded = true;
     entry.file_hash = calculateFileHash(entry.path);
     
-    THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}...)", 
-        name, plugin->getVersion(), entry.file_hash.substr(0, 16));
+    // Record load metrics
+    auto end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    metrics_.recordLoad(name, duration);
+    
+    THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}..., Load time: {}ms)", 
+        name, plugin->getVersion(), entry.file_hash.substr(0, 16), duration.count());
     
     return plugin;
 }
@@ -436,6 +449,8 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
     const std::string& path,
     const std::string& config
 ) {
+    auto start = std::chrono::steady_clock::now();
+    
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Verify plugin
@@ -480,9 +495,11 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
         return nullptr;
     }
     
+    std::string plugin_name = plugin->getName();
+    
     // Create entry for dynamically loaded plugin
     PluginEntry entry;
-    entry.name = plugin->getName();
+    entry.name = plugin_name;
     entry.type = plugin->getType();
     entry.path = path;
     entry.library_handle = handle;
@@ -492,9 +509,15 @@ IThemisPlugin* PluginManager::loadPluginFromPath(
     
     // Store
     plugins_[entry.name] = std::move(entry);
-    type_index_[plugin->getType()].push_back(plugin->getName());
+    type_index_[plugin->getType()].push_back(plugin_name);
     
-    THEMIS_INFO("Dynamically loaded plugin: {} v{}", plugin->getName(), plugin->getVersion());
+    // Record load metrics
+    auto end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    metrics_.recordLoad(plugin_name, duration);
+    
+    THEMIS_INFO("Dynamically loaded plugin: {} v{} (Load time: {}ms)", 
+        plugin_name, plugin->getVersion(), duration.count());
     
     return plugin;
 }
@@ -625,11 +648,24 @@ bool PluginManager::isPluginLoaded(const std::string& name) const {
 }
 
 bool PluginManager::reloadPlugin(const std::string& name) {
+    auto start = std::chrono::steady_clock::now();
+    
     // Unload first
     unloadPlugin(name);
     
     // Then reload
-    return loadPlugin(name) != nullptr;
+    bool success = loadPlugin(name) != nullptr;
+    
+    if (success) {
+        // Record reload metrics (note: loadPlugin already recorded load time)
+        auto end = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        metrics_.recordReload(name, duration);
+    } else {
+        metrics_.recordError(name);
+    }
+    
+    return success;
 }
 
 size_t PluginManager::autoLoadPlugins() {

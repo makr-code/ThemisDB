@@ -450,6 +450,76 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             out += "# TYPE themis_range_scan_steps_total counter\n";
             out += "themis_range_scan_steps_total " + std::to_string(range_scan_steps) + "\n";
         }
+        
+        // Plugin metrics
+        try {
+            #include "plugins/plugin_manager.h"
+            
+            auto& plugin_manager = themis::plugins::PluginManager::instance();
+            auto all_stats = plugin_manager.getMetrics().getAllStats();
+            
+            if (!all_stats.empty()) {
+                out += "\n# HELP themis_plugin_loads_total Total number of plugin loads\n";
+                out += "# TYPE themis_plugin_loads_total counter\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    out += "themis_plugin_loads_total{plugin=\"" + plugin_name + "\"} 1\n";
+                }
+                
+                out += "\n# HELP themis_plugin_reloads_total Total number of plugin reloads\n";
+                out += "# TYPE themis_plugin_reloads_total counter\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    out += "themis_plugin_reloads_total{plugin=\"" + plugin_name + "\"} " 
+                         + std::to_string(stats.reload_count) + "\n";
+                }
+                
+                out += "\n# HELP themis_plugin_errors_total Total number of plugin errors\n";
+                out += "# TYPE themis_plugin_errors_total counter\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    out += "themis_plugin_errors_total{plugin=\"" + plugin_name + "\"} " 
+                         + std::to_string(stats.errors) + "\n";
+                }
+                
+                out += "\n# HELP themis_plugin_function_calls_total Total number of plugin function calls\n";
+                out += "# TYPE themis_plugin_function_calls_total counter\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    out += "themis_plugin_function_calls_total{plugin=\"" + plugin_name + "\"} " 
+                         + std::to_string(stats.function_calls) + "\n";
+                }
+                
+                out += "\n# HELP themis_plugin_load_duration_seconds Plugin load duration\n";
+                out += "# TYPE themis_plugin_load_duration_seconds histogram\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    double load_seconds = stats.load_time.count() / 1000.0;
+                    out += "themis_plugin_load_duration_seconds_sum{plugin=\"" + plugin_name + "\"} " 
+                         + std::to_string(load_seconds) + "\n";
+                    out += "themis_plugin_load_duration_seconds_count{plugin=\"" + plugin_name + "\"} 1\n";
+                }
+                
+                out += "\n# HELP themis_plugin_memory_bytes Plugin memory usage in bytes\n";
+                out += "# TYPE themis_plugin_memory_bytes gauge\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    out += "themis_plugin_memory_bytes{plugin=\"" + plugin_name + "\"} " 
+                         + std::to_string(stats.memory_bytes) + "\n";
+                }
+                
+                out += "\n# HELP themis_plugin_call_latency_milliseconds Plugin call latency metrics\n";
+                out += "# TYPE themis_plugin_call_latency_milliseconds summary\n";
+                for (const auto& [plugin_name, stats] : all_stats) {
+                    if (stats.function_calls > 0) {
+                        out += "themis_plugin_call_latency_milliseconds{plugin=\"" + plugin_name 
+                             + "\",quantile=\"0.95\"} " + std::to_string(stats.p95_call_latency_ms) + "\n";
+                        out += "themis_plugin_call_latency_milliseconds{plugin=\"" + plugin_name 
+                             + "\",quantile=\"0.99\"} " + std::to_string(stats.p99_call_latency_ms) + "\n";
+                        out += "themis_plugin_call_latency_milliseconds_sum{plugin=\"" + plugin_name 
+                             + "\"} " + std::to_string(stats.avg_call_latency_ms * stats.function_calls) + "\n";
+                        out += "themis_plugin_call_latency_milliseconds_count{plugin=\"" + plugin_name 
+                             + "\"} " + std::to_string(stats.function_calls) + "\n";
+                    }
+                }
+            }
+        } catch (...) {
+            // If plugin metrics fail, continue without them
+        }
 
         // Return Prometheus format response
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -462,6 +532,51 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
                                  std::string("Failed to generate metrics: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
+    const http::request<http::string_body>& req
+) {
+    // GET /api/plugins/metrics - Return plugin metrics in JSON format
+    try {
+        #include "plugins/plugin_manager.h"
+        
+        auto& plugin_manager = themis::plugins::PluginManager::instance();
+        auto all_stats = plugin_manager.getMetrics().getAllStats();
+        
+        json response;
+        
+        for (const auto& [plugin_name, stats] : all_stats) {
+            // Convert loaded_at to ISO 8601 string
+            auto time_t_val = std::chrono::system_clock::to_time_t(stats.loaded_at);
+            std::tm tm_val;
+            #ifdef _WIN32
+                gmtime_s(&tm_val, &time_t_val);
+            #else
+                gmtime_r(&time_t_val, &tm_val);
+            #endif
+            char time_buf[32];
+            std::strftime(time_buf, sizeof(time_buf), "%Y-%m-%dT%H:%M:%SZ", &tm_val);
+            
+            response[plugin_name] = {
+                {"load_time_ms", stats.load_time.count()},
+                {"last_reload_ms", stats.last_reload_time.count()},
+                {"loaded_at", time_buf},
+                {"reload_count", stats.reload_count},
+                {"function_calls", stats.function_calls},
+                {"errors", stats.errors},
+                {"memory_bytes", stats.memory_bytes},
+                {"avg_latency_ms", stats.avg_call_latency_ms},
+                {"p95_latency_ms", stats.p95_call_latency_ms},
+                {"p99_latency_ms", stats.p99_call_latency_ms}
+            };
+        }
+        
+        return makeResponse(http::status::ok, response.dump(2), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, 
+                                 std::string("Failed to get plugin metrics: ") + e.what(), req);
     }
 }
 
