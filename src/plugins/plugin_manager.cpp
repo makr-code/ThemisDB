@@ -293,12 +293,13 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
 // Plugin Discovery & Loading
 // ============================================================================
 
-size_t PluginManager::scanPluginDirectory(const std::string& directory) {
+Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!fs::exists(directory) || !fs::is_directory(directory)) {
         THEMIS_WARN("Plugin directory does not exist: {}", directory);
-        return 0;
+        return Err<size_t>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                           fmt::format("Plugin directory does not exist: {}", directory));
     }
     
     size_t discovered = 0;
@@ -355,30 +356,32 @@ size_t PluginManager::scanPluginDirectory(const std::string& directory) {
     }
     
     THEMIS_INFO("Discovered {} plugins in {}", discovered, directory);
-    return discovered;
+    return Ok(discovered);
 }
 
-IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
+Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     if (it == plugins_.end()) {
         THEMIS_ERROR("Plugin not found: {}", name);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                                    fmt::format("Plugin not found: {}", name));
     }
     
     auto& entry = it->second;
     
     // Already loaded?
     if (entry.loaded && entry.instance) {
-        return entry.instance.get();
+        return Ok(entry.instance.get());
     }
     
     // Verify plugin
     std::string error_message;
     if (!verifyPlugin(entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+                                    fmt::format("Plugin verification failed for {}: {}", name, error_message));
     }
     
     // Load library
@@ -388,7 +391,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to load plugin library: {}", entry.path));
     }
     
     // Get factory function
@@ -396,7 +400,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     if (!createFunc) {
         THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
         unloadLibrary(handle);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Plugin does not export createPlugin: {}", entry.path));
     }
     
     // Create instance
@@ -404,7 +409,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     if (!plugin) {
         THEMIS_ERROR("Failed to create plugin instance: {}", name);
         unloadLibrary(handle);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to create plugin instance: {}", name));
     }
     
     // Initialize with empty config (can be configured later)
@@ -417,7 +423,8 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
             destroyFunc(plugin);
         }
         unloadLibrary(handle);
-        return nullptr;
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                                    fmt::format("Failed to initialize plugin: {}", name));
     }
     
     // Store
@@ -429,7 +436,7 @@ IThemisPlugin* PluginManager::loadPlugin(const std::string& name) {
     THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}...)", 
         name, plugin->getVersion(), entry.file_hash.substr(0, 16));
     
-    return plugin;
+    return Ok(plugin);
 }
 
 IThemisPlugin* PluginManager::loadPluginFromPath(
