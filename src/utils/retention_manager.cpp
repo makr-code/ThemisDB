@@ -1,4 +1,6 @@
 #include "utils/retention_manager.h"
+#include "utils/expected.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
@@ -64,12 +66,14 @@ std::vector<RetentionManager::RetentionPolicy> RetentionManager::getPolicies() c
     return result;
 }
 
-const RetentionManager::RetentionPolicy* RetentionManager::getPolicy(const std::string& policy_name) const {
+themis::Result<const RetentionManager::RetentionPolicy*> RetentionManager::getPolicy(const std::string& policy_name) const {
     auto it = policies_.find(policy_name);
     if (it == policies_.end()) {
-        return nullptr;
+        return themis::Err<const RetentionPolicy*>(
+            themis::errors::ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+            "Retention policy not found: " + policy_name);
     }
-    return &it->second;
+    return themis::Ok(&it->second);
 }
 
 bool RetentionManager::shouldArchive(
@@ -78,10 +82,11 @@ bool RetentionManager::shouldArchive(
     const std::string& policy_name) const {
     (void)entity_id;
     
-    const auto* policy = getPolicy(policy_name);
-    if (!policy) {
+    auto policy_result = getPolicy(policy_name);
+    if (!policy_result) {
         return false;
     }
+    const auto* policy = *policy_result;
     
     auto now = std::chrono::system_clock::now();
     auto age = std::chrono::duration_cast<std::chrono::seconds>(now - created_at);
@@ -95,8 +100,13 @@ bool RetentionManager::shouldPurge(
     const std::string& policy_name) const {
     (void)entity_id;
     
-    const auto* policy = getPolicy(policy_name);
-    if (!policy || !policy->auto_purge_enabled) {
+    auto policy_result = getPolicy(policy_name);
+    if (!policy_result) {
+        return false;
+    }
+    const auto* policy = *policy_result;
+    
+    if (!policy->auto_purge_enabled) {
         return false;
     }
     
@@ -117,13 +127,14 @@ RetentionManager::RetentionAction RetentionManager::archiveEntity(
     action.policy_name = policy_name;
     action.timestamp = std::chrono::system_clock::now();
     
-    const auto* policy = getPolicy(policy_name);
-    if (!policy) {
+    auto policy_result = getPolicy(policy_name);
+    if (!policy_result) {
         action.success = false;
         action.error_message = "Policy not found: " + policy_name;
         logAction(action);
         return action;
     }
+    const auto* policy = *policy_result;
     
     try {
         action.success = archive_handler(entity_id);
@@ -158,13 +169,14 @@ RetentionManager::RetentionAction RetentionManager::purgeEntity(
     action.policy_name = policy_name;
     action.timestamp = std::chrono::system_clock::now();
     
-    const auto* policy = getPolicy(policy_name);
-    if (!policy) {
+    auto policy_result = getPolicy(policy_name);
+    if (!policy_result) {
         action.success = false;
         action.error_message = "Policy not found: " + policy_name;
         logAction(action);
         return action;
     }
+    const auto* policy = *policy_result;
     
     if (!policy->auto_purge_enabled) {
         action.success = false;
