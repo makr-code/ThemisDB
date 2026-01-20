@@ -41,7 +41,7 @@ protected:
         const std::vector<TestPluginEntry>& entries
     ) {
         std::map<std::string, TestPluginEntry> result;
-        for (auto& entry : entries) {
+        for (const auto& entry : entries) {
             result.emplace(entry.name, entry);
         }
         return result;
@@ -381,7 +381,7 @@ TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ComplexGraph) {
     // Build position map once for efficiency
     std::map<std::string, size_t> positions;
     for (size_t i = 0; i < load_order.size(); ++i) {
-        positions[load_order[i]] = i;
+        positions.emplace(load_order[i], i);
     }
     
     EXPECT_LT(positions["PluginF"], positions["PluginD"]);
