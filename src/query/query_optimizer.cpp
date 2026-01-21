@@ -4,6 +4,7 @@
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
+#include "utils/expected.h"
 
 #include <algorithm>
 #include <numeric>
@@ -77,14 +78,28 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
     return plan;
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryOptimizer::executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
-	return engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+	auto [status, keys] = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+	if (!status.ok) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Optimized key execution failed: {}", status.message)
+		);
+	}
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
-	return engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
+	auto [status, entities] = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
+	if (!status.ok) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Optimized entity execution failed: {}", status.message)
+		);
+	}
+	return Ok(std::move(entities));
 }
 
 // ---------------- Vector+Geo Cost Model ----------------

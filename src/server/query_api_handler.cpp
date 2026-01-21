@@ -204,7 +204,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 if (optimize) {
                     themis::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
-                    res = opt.executeOptimizedKeys(engine, q, plan);
+                    auto result = opt.executeOptimizedKeys(engine, q, plan);
+                    if (!result) {
+                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    } else {
+                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    }
                     exec_mode = "index_optimized";
                     if (explain) {
                         plan_json["mode"] = exec_mode;
@@ -255,7 +260,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 if (optimize) {
                     themis::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
-                    res = opt.executeOptimizedEntities(engine, q, plan);
+                    auto result = opt.executeOptimizedEntities(engine, q, plan);
+                    if (!result) {
+                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    } else {
+                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    }
                     exec_mode = "index_optimized";
                     if (explain) {
                         plan_json["mode"] = exec_mode;
@@ -2204,7 +2214,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             } else if (optimize) {
                 themis::QueryOptimizer opt(*secondary_index_);
                 auto plan = opt.chooseOrderForAndQuery(q);
-                res = opt.executeOptimizedEntities(engine, q, plan);
+                auto result = opt.executeOptimizedEntities(engine, q, plan);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                }
                 exec_mode = "index_optimized";
                 
                 if (explain) {
