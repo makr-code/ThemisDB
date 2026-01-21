@@ -110,6 +110,11 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	const double C_index_spatial = 0.02; // spatial index candidate fetch cost
 	const double prefilterDiscountFactor = 0.65;
 
+	// Validate vectorDim to prevent division by zero
+	if (in.vectorDim == 0) {
+		spdlog::warn("QueryOptimizer::chooseVectorGeoPlan: vectorDim is 0, using default 128");
+	}
+
 	double dimScale = static_cast<double>(in.vectorDim == 0 ? 128 : in.vectorDim) / 128.0;
 	double C_vec = C_vec_base * dimScale;
 	std::size_t universe = in.spatialIndexEntries ? in.spatialIndexEntries : 100000; // fallback
@@ -177,9 +182,20 @@ QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const Co
 
 // ---------------- Graph Path Cost Model (rough estimate) ----------------
 QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const GraphPathCostInput& in) {
+	// Protect against exponential overflow
+	constexpr double MAX_EXPANDED = 1e9; // Reasonable upper limit
+	
 	double expanded = 1.0; // start node
 	for (size_t d = 1; d <= in.maxDepth; ++d) {
-		expanded += std::pow(in.branchingFactor, static_cast<int>(d));
+		double increment = std::pow(in.branchingFactor, static_cast<int>(d));
+		
+		// Check for overflow before adding
+		if (expanded + increment > MAX_EXPANDED) {
+			spdlog::warn("QueryOptimizer::estimateGraphPath: Node expansion would overflow, capping at {}", MAX_EXPANDED);
+			expanded = MAX_EXPANDED;
+			break;
+		}
+		expanded += increment;
 	}
 	if (in.hasSpatialConstraint) {
 		expanded *= in.spatialSelectivity; // prune by spatial fraction

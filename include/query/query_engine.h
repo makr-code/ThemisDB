@@ -372,11 +372,11 @@ public:
     ) const;
 
     // Sequenzielles Ausführen in vorgegebener Reihenfolge (z. B. vom Optimizer)
-    std::pair<Status, std::vector<std::string>> executeAndKeysSequential(
+    Result<std::vector<std::string>> executeAndKeysSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
-    std::pair<Status, std::vector<BaseEntity>> executeAndEntitiesSequential(
+    Result<std::vector<BaseEntity>> executeAndEntitiesSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
