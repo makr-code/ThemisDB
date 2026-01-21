@@ -3540,6 +3540,19 @@ if(THEMIS_BUILD_BENCHMARKS)
         target_link_libraries(bench_qlora_gpu_kernels PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
         message(STATUS "QLoRA GPU Kernels Benchmark: Enabled")
     endif()
+    
+    # Plugin Hot-Plug Monitoring Benchmark
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/bench_plugin_hot_plug.cpp")
+        add_executable(bench_plugin_hot_plug
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_plugin_hot_plug.cpp
+        )
+        target_link_libraries(bench_plugin_hot_plug PRIVATE 
+            themis_core 
+            benchmark::benchmark 
+            benchmark::benchmark_main
+        )
+        message(STATUS "Plugin Hot-Plug Monitoring Benchmark: Enabled")
+    endif()
 
 endif()
 

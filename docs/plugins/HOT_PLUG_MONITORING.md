@@ -185,6 +185,59 @@ Comprehensive test suite in `tests/test_plugin_hot_plug.cpp`:
 - Plugin deletion detection
 - Thread safety with concurrent operations
 
+### Running Tests
+
+```bash
+# Build and run hot-plug tests
+cmake -B build -DTHEMIS_BUILD_TESTS=ON
+cmake --build build --target test_plugin_hot_plug
+ctest -R PluginHotPlugTests --output-on-failure
+
+# Run specific test
+./build/tests/test_plugin_hot_plug --gtest_filter="PluginHotPlugTest.EnableDisableMonitoring"
+```
+
+## Performance Benchmarks
+
+Comprehensive benchmark suite in `benchmarks/bench_plugin_hot_plug.cpp`:
+
+### Available Benchmarks
+
+1. **EnableDisableMonitoring**: Measures lifecycle overhead
+2. **MonitoringOverhead**: Steady-state background monitoring cost
+3. **FileCreationDetectionLatency**: Detection latency including debounce
+4. **MultipleFileCreations**: Batch file creation performance
+5. **AutoLoadDisabledVsEnabled**: Configuration impact comparison
+6. **ConcurrentFileCreations**: Thread safety under concurrent load
+7. **MonitorMemoryFootprint**: Memory usage patterns
+8. **RapidEnableDisable**: Enable/disable churn performance
+9. **MixedOperations**: Real-world usage patterns
+
+### Running Benchmarks
+
+```bash
+# Build benchmarks
+cmake -B build -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build build --target bench_plugin_hot_plug
+
+# Run all hot-plug benchmarks
+./build/benchmarks/bench_plugin_hot_plug
+
+# Run specific benchmark
+./build/benchmarks/bench_plugin_hot_plug --benchmark_filter="FileCreationDetectionLatency"
+
+# Generate JSON output
+./build/benchmarks/bench_plugin_hot_plug --benchmark_format=json --benchmark_out=results.json
+```
+
+### Expected Performance
+
+- **Enable/Disable**: < 10ms per cycle
+- **File Detection**: 500-700ms (includes debounce)
+- **Monitoring Overhead**: < 0.1% CPU during idle
+- **Thread Safety**: No contention under 4 concurrent threads
+- **Memory Footprint**: < 1MB per monitor instance
+
 ## Example Scenarios
 
 ### Development Workflow
@@ -263,3 +316,32 @@ Potential future improvements:
 - Plugin Consistency Analysis: `docs/de/plugins/PLUGIN_SYSTEM_CONSISTENCY_ANALYSIS.md`
 - PluginManager API: `include/plugins/plugin_manager.h`
 - Test Suite: `tests/test_plugin_hot_plug.cpp`
+- Benchmark Suite: `benchmarks/bench_plugin_hot_plug.cpp`
+
+## Code Review Checklist
+
+When reviewing hot-plug monitoring changes:
+
+### Correctness
+- [ ] Platform-specific code compiles on all targets (Linux/Windows/macOS)
+- [ ] Thread safety: Proper use of atomics and mutexes
+- [ ] Resource cleanup: No file descriptor leaks
+- [ ] Error handling: All system calls checked for errors
+
+### Performance
+- [ ] No blocking operations in critical paths
+- [ ] Debounce timing appropriate for use case
+- [ ] Background thread doesn't starve main thread
+- [ ] Memory usage scales linearly with watched directories
+
+### Testing
+- [ ] All gtest tests pass on target platform
+- [ ] Benchmarks show acceptable performance
+- [ ] Manual testing on real filesystems
+- [ ] Edge cases covered (permissions, disk full, rapid changes)
+
+### Documentation
+- [ ] API documentation complete
+- [ ] Usage examples clear and correct
+- [ ] Platform differences documented
+- [ ] Performance characteristics documented
