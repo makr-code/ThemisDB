@@ -271,6 +271,42 @@ if(THEMIS_ENABLE_LORA_TESTS)
         endif()
     endif()
     
+    # Byzantine Detector Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_byzantine_detector.cpp")
+        message(STATUS "Adding Byzantine Detector tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_byzantine_detector
+            test_byzantine_detector.cpp
+        )
+        
+        target_link_libraries(test_byzantine_detector PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            fmt::fmt
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_byzantine_detector PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ByzantineDetectorTests COMMAND test_byzantine_detector)
+        set_tests_properties(ByzantineDetectorTests PROPERTIES
+            LABELS "byzantine;security;distributed;training;unit"
+            TIMEOUT 120
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Byzantine detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_byzantine_detector.cpp")
+        else()
+            message(STATUS "Byzantine detector tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
+    endif()
+    
     # Training Service Registry Tests
     if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_service_registry.cpp")
         message(STATUS "Adding Training Service Registry tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
