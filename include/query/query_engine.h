@@ -390,7 +390,7 @@ public:
     // Join/LET/COLLECT Support (MVP) - Declared in cpp to avoid header dependency
     struct EvaluationContext;
     
-    std::pair<Status, std::vector<nlohmann::json>> executeJoin(
+    Result<std::vector<nlohmann::json>> executeJoin(
         const std::vector<query::ForNode>& for_nodes,
         const std::vector<std::shared_ptr<query::FilterNode>>& filters,
         const std::vector<query::LetNode>& let_nodes,
@@ -400,7 +400,7 @@ public:
         const EvaluationContext* parent_context = nullptr  // Phase 4.1: For CTE results
     ) const;
     
-    std::pair<Status, std::vector<nlohmann::json>> executeGroupBy(
+    Result<std::vector<nlohmann::json>> executeGroupBy(
         const query::ForNode& for_node,
         const std::shared_ptr<query::CollectNode>& collect,
         const std::vector<std::shared_ptr<query::FilterNode>>& filters,

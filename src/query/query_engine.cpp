@@ -1870,7 +1870,7 @@ static EquiJoinCondition analyzeEquiJoin(
 	return result;
 }
 
-std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::executeJoin(
+Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	const std::vector<query::ForNode>& for_nodes,
 	const std::vector<std::shared_ptr<query::FilterNode>>& filters,
 	const std::vector<query::LetNode>& let_nodes,
@@ -1883,7 +1883,10 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 	span.setAttribute("join.for_count", static_cast<int64_t>(for_nodes.size()));
 	
 	if (for_nodes.empty()) {
-		return {Status::Error("executeJoin: No FOR clauses"), {}};
+		return Err<std::vector<nlohmann::json>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeJoin: No FOR clauses provided"
+		);
 	}
 	
 	std::vector<nlohmann::json> results;
@@ -2316,10 +2319,10 @@ apply_sort_limit:
 	
 	span.setAttribute("join.result_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
-std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
+Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	const query::ForNode& for_node,
 	const std::shared_ptr<query::CollectNode>& collect,
 	const std::vector<std::shared_ptr<query::FilterNode>>& filters,
@@ -2328,7 +2331,10 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 	auto span = Tracer::startSpan("QueryEngine.executeGroupBy");
 	
 	if (!collect || collect->groups.empty()) {
-		return {Status::Error("executeGroupBy: No GROUP BY clause"), {}};
+		return Err<std::vector<nlohmann::json>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeGroupBy: No GROUP BY clause provided"
+		);
 	}
 	
 	// Hash-based grouping
@@ -2461,7 +2467,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 	
 	span.setAttribute("groupby.group_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
 // Forward declaration for helper function
@@ -3676,7 +3682,7 @@ QueryEngine::Status QueryEngine::executeCTEs(
         if (translation.join.has_value()) {
             // JOIN query
             auto& join = translation.join.value();
-            auto [status, results] = executeJoin(
+            auto result = executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -3684,12 +3690,12 @@ QueryEngine::Status QueryEngine::executeCTEs(
                 join.sort,
                 join.limit
             );
-            if (!status.ok) {
+            if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' JOIN execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' JOIN execution failed: " + result.error().message());
             }
-            cte_results = std::move(results);
+            cte_results = std::move(*result);
             
         } else if (translation.success && !translation.join.has_value() && !translation.disjunctive.has_value() && !translation.traversal.has_value()) {
             // Conjunctive query (default query field)

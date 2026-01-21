@@ -355,7 +355,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
-            auto [status, joinResults] = queryEngine.executeJoin(
+            auto result = queryEngine.executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -365,14 +365,14 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
                 &context  // Pass context for parent bindings
             );
             
-            if (!status.ok) {
-                THEMIS_ERROR("Scalar subquery JOIN execution failed: {}", status.message);
+            if (!result) {
+                THEMIS_ERROR("Scalar subquery JOIN execution failed: {}", result.error().message());
                 return Err<nlohmann::json>(
                     ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                    fmt::format("Scalar subquery JOIN execution failed: {}", status.message)
+                    fmt::format("Scalar subquery JOIN execution failed: {}", result.error().message())
                 );
             }
-            results = std::move(joinResults);
+            results = std::move(*result);
             
         } else if (translation.success) {
             // Conjunctive query
@@ -458,7 +458,7 @@ Result<bool> SubqueryEvaluator::evaluateInSubquery(
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
-            auto [status, joinResults] = queryEngine.executeJoin(
+            auto result = queryEngine.executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -468,14 +468,14 @@ Result<bool> SubqueryEvaluator::evaluateInSubquery(
                 &context
             );
             
-            if (!status.ok) {
-                THEMIS_ERROR("IN subquery JOIN execution failed: {}", status.message);
+            if (!result) {
+                THEMIS_ERROR("IN subquery JOIN execution failed: {}", result.error().message());
                 return Err<bool>(
                     ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                    fmt::format("IN subquery JOIN execution failed: {}", status.message)
+                    fmt::format("IN subquery JOIN execution failed: {}", result.error().message())
                 );
             }
-            results = std::move(joinResults);
+            results = std::move(*result);
             
         } else if (translation.success) {
             auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
@@ -562,7 +562,7 @@ Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
-            auto [status, joinResults] = queryEngine.executeJoin(
+            auto result = queryEngine.executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -572,15 +572,15 @@ Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
                 &context
             );
             
-            if (!status.ok) {
-                THEMIS_ERROR("EXISTS subquery JOIN execution failed: {}", status.message);
+            if (!result) {
+                THEMIS_ERROR("EXISTS subquery JOIN execution failed: {}", result.error().message());
                 return Err<bool>(
                     ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                    fmt::format("EXISTS subquery JOIN execution failed: {}", status.message)
+                    fmt::format("EXISTS subquery JOIN execution failed: {}", result.error().message())
                 );
             }
             
-            return Ok(!joinResults.empty());
+            return Ok(!result->empty());
             
         } else if (translation.success) {
             auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
