@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include "utils/expected.h"
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
@@ -512,7 +513,7 @@ private:
     };
     
     // Expression evaluation helpers (implemented in cpp)
-    nlohmann::json evaluateExpression(
+    Result<nlohmann::json> evaluateExpression(
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;
