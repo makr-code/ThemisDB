@@ -1933,6 +1933,48 @@ else()
 endif()
 
 # ============================================================================
+# Enhanced Hot-Reload Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+    message(STATUS "Adding enhanced hot-reload tests")
+    
+    add_executable(test_plugin_hot_reload_enhanced
+        test_plugin_hot_reload_enhanced.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_hot_plug_monitor.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_plugin_hot_reload_enhanced PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_hot_reload_enhanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME EnhancedHotReloadTests COMMAND test_plugin_hot_reload_enhanced)
+    
+    # Set test properties
+    set_tests_properties(EnhancedHotReloadTests PROPERTIES
+        LABELS "plugins;hot-reload;state-preservation"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Enhanced hot-reload tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+endif()
+
+# ============================================================================
 # Plugin Dependency Resolver Tests
 # ============================================================================
 
