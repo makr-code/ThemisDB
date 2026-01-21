@@ -387,3 +387,112 @@ TEST_F(PropertyGraphTest, AddEdgesBatch_Atomic) {
     ASSERT_TRUE(st2.ok);
     EXPECT_EQ(connectsEdges.size(), 5u);
 }
+
+TEST_F(PropertyGraphTest, DeleteNode_CascadeDeletesConnectedEdges) {
+    // Setup: Create a small graph with nodes and edges
+    // Node A has outgoing edges to B and C
+    // Node B has incoming edge from A and outgoing edge to C
+    // Node C has incoming edges from A and B
+    
+    // Create nodes
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    nodeA.setField("_labels", "Person");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    nodeB.setField("_labels", "Person");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    nodeC.setField("_labels", "Person");
+    pgm_->addNode(nodeC);
+    
+    // Create edges
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    edgeAB.setField("_type", "FOLLOWS");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeAC("edgeAC");
+    edgeAC.setField("id", "edgeAC");
+    edgeAC.setField("_from", "nodeA");
+    edgeAC.setField("_to", "nodeC");
+    edgeAC.setField("_type", "FOLLOWS");
+    pgm_->addEdge(edgeAC);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    edgeBC.setField("_type", "FOLLOWS");
+    pgm_->addEdge(edgeBC);
+    
+    // Verify edges exist before deletion
+    auto [st1, followsEdgesBefore] = pgm_->getEdgesByType("FOLLOWS");
+    ASSERT_TRUE(st1.ok);
+    EXPECT_EQ(followsEdgesBefore.size(), 3u);
+    
+    // Delete nodeA - should cascade delete edgeAB and edgeAC
+    auto st2 = pgm_->deleteNode("nodeA");
+    ASSERT_TRUE(st2.ok) << st2.message;
+    
+    // Verify nodeA is deleted
+    auto [st3, personNodes] = pgm_->getNodesByLabel("Person");
+    ASSERT_TRUE(st3.ok);
+    EXPECT_EQ(personNodes.size(), 2u);  // Only B and C remain
+    
+    // Verify edges connected to nodeA are deleted
+    auto [st4, followsEdgesAfter] = pgm_->getEdgesByType("FOLLOWS");
+    ASSERT_TRUE(st4.ok);
+    EXPECT_EQ(followsEdgesAfter.size(), 1u);  // Only edgeBC remains
+    EXPECT_EQ(followsEdgesAfter[0].edgeId, "edgeBC");
+    
+    // Verify edge entity is deleted
+    auto edgeABKey = db_->get("edge:default:edgeAB");
+    EXPECT_FALSE(edgeABKey.has_value());
+    
+    auto edgeACKey = db_->get("edge:default:edgeAC");
+    EXPECT_FALSE(edgeACKey.has_value());
+    
+    // Verify adjacency indices are cleaned up
+    // Check that graph:out:default:nodeA: prefix has no entries
+    int outCount = 0;
+    db_->scanPrefix("graph:out:default:nodeA:", [&outCount](std::string_view, std::string_view) {
+        outCount++;
+        return true;
+    });
+    EXPECT_EQ(outCount, 0);
+    
+    // Check that graph:in:default:nodeB:edgeAB and graph:in:default:nodeC:edgeAC are deleted
+    auto inKeyB = db_->get("graph:in:default:nodeB:edgeAB");
+    EXPECT_FALSE(inKeyB.has_value());
+    
+    auto inKeyC = db_->get("graph:in:default:nodeC:edgeAC");
+    EXPECT_FALSE(inKeyC.has_value());
+    
+    // Verify edgeBC is still intact
+    auto edgeBCKey = db_->get("edge:default:edgeBC");
+    EXPECT_TRUE(edgeBCKey.has_value());
+    
+    // Delete nodeB - should cascade delete edgeBC (incoming edge to C)
+    auto st5 = pgm_->deleteNode("nodeB");
+    ASSERT_TRUE(st5.ok) << st5.message;
+    
+    // Verify all FOLLOWS edges are now deleted
+    auto [st6, followsEdgesFinal] = pgm_->getEdgesByType("FOLLOWS");
+    ASSERT_TRUE(st6.ok);
+    EXPECT_EQ(followsEdgesFinal.size(), 0u);
+    
+    // Verify type index is cleaned up
+    int typeCount = 0;
+    db_->scanPrefix("type:default:FOLLOWS:", [&typeCount](std::string_view, std::string_view) {
+        typeCount++;
+        return true;
+    });
+    EXPECT_EQ(typeCount, 0);
+}

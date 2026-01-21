@@ -68,7 +68,7 @@ void registerBuiltinFunctions() {
         registerCrsFunctions(registry);         // Coordinate transformations (ETRS89, UTM, etc.)
         registerVectorFunctions(registry);      // ML embeddings & similarity
         registerGraphFunctions(registry);       // Graph traversal & analysis
-        registerGraphExtensions(registry);      // Advanced graph functions (community detection)
+//         registerGraphExtensions(registry);      // Advanced graph functions (community detection)
         
         // SQL-compatible functions
         registerRelationalFunctions(registry);  // Joins, aggregation, window functions
