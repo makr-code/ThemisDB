@@ -7,23 +7,6 @@
 
 namespace themis::sharding {
 
-// Helper function to generate unique IDs
-static std::string generateUniqueId() {
-    auto now = std::chrono::system_clock::now();
-    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
-    
-    std::stringstream ss;
-    ss << std::hex << std::setfill('0') << std::setw(16) << ms;
-    
-    // Add random component
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
-    ss << "-" << std::hex << std::setfill('0') << std::setw(8) << dist(gen);
-    
-    return ss.str();
-}
-
 // CoordinatorTask JSON serialization
 nlohmann::json DistributedCoordinator::CoordinatorTask::toJson() const {
     nlohmann::json j;
@@ -183,6 +166,8 @@ void DistributedCoordinator::startElection() {
     requestVotes();
     
     // Wait for election timeout
+    // Note: This blocks the calling thread by design for simplicity.
+    // Production implementations should make this asynchronous or allow interruption.
     std::this_thread::sleep_for(
         std::chrono::milliseconds(config_.election_timeout_ms)
     );
@@ -208,22 +193,30 @@ void DistributedCoordinator::startElection() {
 }
 
 void DistributedCoordinator::becomeLeader() {
-    std::lock_guard<std::shared_mutex> lock(leader_mutex_);
-    
-    role_.store(CoordinatorRole::LEADER);
-    current_leader_ = local_shard_id_;
-    leader_lease_expires_ = std::chrono::system_clock::now() + 
-                            std::chrono::seconds(config_.leader_lease_seconds);
-    last_leader_heartbeat_ = std::chrono::system_clock::now();
-    
-    stats_.elections_won++;
-    
-    THEMIS_INFO("Became leader for term {}", current_term_.load());
-    
-    // Trigger callback
-    if (leader_elected_callback_) {
+    // Capture callback before taking lock to avoid deadlock
+    LeaderElectedCallback callback;
+    {
         std::lock_guard<std::mutex> cb_lock(callback_mutex_);
-        leader_elected_callback_(local_shard_id_);
+        callback = leader_elected_callback_;
+    }
+    
+    {
+        std::lock_guard<std::shared_mutex> lock(leader_mutex_);
+        
+        role_.store(CoordinatorRole::LEADER);
+        current_leader_ = local_shard_id_;
+        leader_lease_expires_ = std::chrono::system_clock::now() + 
+                                std::chrono::seconds(config_.leader_lease_seconds);
+        last_leader_heartbeat_ = std::chrono::system_clock::now();
+        
+        stats_.elections_won++;
+        
+        THEMIS_INFO("Became leader for term {}", current_term_.load());
+    }
+    
+    // Trigger callback outside of locks to avoid deadlock
+    if (callback) {
+        callback(local_shard_id_);
     }
 }
 
@@ -358,11 +351,18 @@ void DistributedCoordinator::taskExecutorLoop() {
         tasks_to_execute = pending_tasks_;
     }
     
+    // Get executor outside of any locks to avoid deadlock
+    TaskExecutor executor;
+    {
+        std::lock_guard<std::mutex> cb_lock(callback_mutex_);
+        executor = task_executor_;
+    }
+    
+    // Execute tasks without holding any locks
     for (auto& task : tasks_to_execute) {
-        if (task_executor_) {
-            std::lock_guard<std::mutex> cb_lock(callback_mutex_);
+        if (executor) {
             try {
-                bool success = task_executor_(task);
+                bool success = executor(task);
                 if (success) {
                     // Remove task from pending
                     cancelTask(task.task_id);
@@ -376,7 +376,7 @@ void DistributedCoordinator::taskExecutorLoop() {
 
 // Leader detection
 void DistributedCoordinator::detectLeaderFailure() {
-    std::shared_lock<std::shared_mutex> lock(leader_mutex_);
+    std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
     if (!current_leader_.has_value()) {
         return;
@@ -389,7 +389,7 @@ void DistributedCoordinator::detectLeaderFailure() {
         stats_.leader_failures_detected++;
         
         // Clear current leader
-        const_cast<DistributedCoordinator*>(this)->current_leader_.reset();
+        current_leader_.reset();
     }
 }
 
