@@ -781,7 +781,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesSequential");
 	span.setAttribute("query.table", table);
 	auto keysResult = executeAndKeysSequential(table, orderedPredicates);
-	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().message());
 
 	const auto& keys = *keysResult;
 
@@ -1203,7 +1203,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					return extractPoint(parseRes);
 				} catch (const std::exception& e) {
 					// Parse failed, continue to other checks
-					spdlog::debug("ST_Within extractPoint: JSON parse failed - {}", e.what());
+					spdlog::debug("ST_Within extractPoint: Failed to parse string as JSON - {}", e.what());
 				}
 			}
 			if (g.is_array() && g.size() >= 2) {
@@ -1229,7 +1229,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					return extractMBR(parsed);
 				} catch (const std::exception& e) {
 					// Parse failed, log and continue to other checks
-					spdlog::debug("ST_Within extractMBR: JSON parse failed - {}", e.what());
+					spdlog::debug("ST_Within extractMBR: Failed to parse string as JSON - {}", e.what());
 				}
 			}
 			if (g.is_array() && g.size() == 4) {
@@ -1265,7 +1265,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!mRes) {
 			// Fail-open: return true to avoid rejecting docs on parse errors
 			// This preserves backward compatibility for edge cases where geometry parsing is ambiguous
-			spdlog::debug("ST_Within: Failed to extract MBR, failing open (returning true)");
+			spdlog::debug("ST_Within: Failed to extract MBR (backward compat: failing open, returning true)");
 			return Ok(nlohmann::json(true));
 		}
 		auto p = *pRes;
