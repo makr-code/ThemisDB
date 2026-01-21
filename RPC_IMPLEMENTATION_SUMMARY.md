@@ -3,6 +3,25 @@
 ## Overview
 This document summarizes the database operations implemented in the ThemisDB RPC service located at `src/server/rpc/rpc_service_impl.cpp`.
 
+**Status:** ✅ Complete and Refactored  
+**Last Updated:** January 21, 2026
+
+## Refactoring Update (2026-01-21)
+
+The RPC service has been **refactored** to eliminate the dependency on the non-existent `ThemisDB` class. The service now uses `RocksDBWrapper*` directly, providing a cleaner architecture.
+
+### Changes Made
+- **Constructor**: Changed from `ThemisRPCService(ThemisDB* db)` to `ThemisRPCService(RocksDBWrapper* storage)`
+- **Member Variable**: Changed from `ThemisDB* db_` to `RocksDBWrapper* storage_`
+- **Removed**: `getStorage()` helper function that always returned `nullptr`
+- **Direct Access**: All operations now directly access `storage_` member
+
+### Benefits
+1. **Eliminates Fictional Dependency**: No longer depends on unimplemented `ThemisDB` class
+2. **Production Ready**: All operations can now work with an actual storage instance
+3. **Cleaner Testing**: Mock `RocksDBWrapper` can be injected directly
+4. **Clearer Intent**: Constructor signature explicitly shows storage requirement
+
 ## What Was Implemented
 
 ### 1. Core CRUD Operations (✅ Complete)

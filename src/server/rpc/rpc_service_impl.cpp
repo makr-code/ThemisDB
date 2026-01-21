@@ -21,18 +21,6 @@ static uint64_t getCurrentTimestampNs() {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
 }
 
-// Helper to get storage from ThemisDB
-// Note: This assumes ThemisDB will have a storage() method returning RocksDBWrapper*
-// For now, db_ is nullptr so operations will return appropriate errors
-static RocksDBWrapper* getStorage(ThemisDB* db) {
-    if (!db) {
-        return nullptr;
-    }
-    // This will be implemented as: return db->storage();
-    // For now, return nullptr
-    return nullptr;
-}
-
 json ThemisRPCService::handleGet(const json& params) {
     try {
         std::string model = params.value("model", "");
@@ -47,7 +35,7 @@ json ThemisRPCService::handleGet(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -118,7 +106,7 @@ json ThemisRPCService::handlePut(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -183,7 +171,7 @@ json ThemisRPCService::handleDelete(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -228,7 +216,7 @@ json ThemisRPCService::handleBatchGet(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -307,7 +295,7 @@ json ThemisRPCService::handleBatchPut(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -392,7 +380,7 @@ json ThemisRPCService::handleQuery(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -439,7 +427,7 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -472,7 +460,7 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
 json ThemisRPCService::handleGraphTraverse(const json& params) {
     try {
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -522,7 +510,7 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -569,7 +557,7 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -619,7 +607,7 @@ static uint64_t transaction_counter = 0;
 json ThemisRPCService::handleTransactionBegin(const json& params) {
     try {
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -666,7 +654,7 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -722,7 +710,7 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
         }
         
         // Get storage engine
-        auto storage = getStorage(db_);
+        auto storage = storage_;
         if (!storage) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
