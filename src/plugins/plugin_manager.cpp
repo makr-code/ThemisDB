@@ -21,6 +21,13 @@ namespace plugins {
 namespace fs = std::filesystem;
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+// Brief delay after unloading to allow OS to release file handles and cleanup
+constexpr auto RELOAD_UNLOAD_DELAY_MS = std::chrono::milliseconds(50);
+
+// ============================================================================
 // Platform-specific DLL loading (reused from acceleration/plugin_loader.cpp)
 // ============================================================================
 
@@ -729,7 +736,7 @@ bool PluginManager::reloadPlugin(const std::string& name) {
                 for (size_t i = 0; i < dependents.size(); ++i) {
                     if (i > 0) list += ", ";
                     list += dependents[i];
-                    if (i >= 4) {  // Limit to first 5
+                    if (i >= 5) {  // Limit to first 5
                         list += "...";
                         break;
                     }
@@ -802,8 +809,8 @@ bool PluginManager::reloadPlugin(const std::string& name) {
     lock.unlock();
     notifyPluginReload(name, PluginReloadPhase::AFTER_UNLOAD);
     
-    // 7. Wait briefly for cleanup
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    // 7. Wait briefly for OS to release file handles and complete cleanup
+    std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);
     lock.lock();
     
     // 8. Verify new plugin binary

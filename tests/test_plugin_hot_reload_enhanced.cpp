@@ -39,11 +39,15 @@ public:
         
         // Try to restore state from config
         try {
-            if (config_json && std::string(config_json) != "{}") {
-                nlohmann::json config = nlohmann::json::parse(config_json);
-                if (config.contains("restored_state")) {
-                    std::string state = config["restored_state"];
-                    restoreState(state);
+            if (config_json && config_json[0] != '\0') {
+                // Quick check for empty object before parsing
+                std::string_view config_str(config_json);
+                if (config_str != "{}") {
+                    nlohmann::json config = nlohmann::json::parse(config_json);
+                    if (config.contains("restored_state")) {
+                        std::string state = config["restored_state"];
+                        restoreState(state);
+                    }
                 }
             }
         } catch (...) {
