@@ -84,7 +84,7 @@ json ThemisRPCService::handleGet(const json& params) {
             {"found", true},
             {"entity", entity},
             {"version", entity.value("_version", 1)},
-            {"timestamp_ns", getCurrentTimestampNs()}
+            {"timestamp_ns", entity.value("_timestamp_ns", 0)}
         };
         
         return createSuccess(result);
@@ -135,7 +135,10 @@ json ThemisRPCService::handlePut(const json& params) {
         entity["_model"] = model;
         entity["uuid"] = uuid;
         entity["_timestamp_ns"] = getCurrentTimestampNs();
-        entity["_version"] = entity.value("_version", 1) + 1;
+        
+        // Set version: 1 for new entities, increment for existing
+        int current_version = entity.value("_version", 0);
+        entity["_version"] = current_version + 1;
         
         // Serialize to JSON string
         std::string value = entity.dump();
@@ -257,10 +260,9 @@ json ThemisRPCService::handleBatchGet(const json& params) {
         for (size_t i = 0; i < values.size(); ++i) {
             json result_item;
             if (values[i].has_value()) {
-                // Convert vector<uint8_t> to string
-                std::string value_str(values[i]->begin(), values[i]->end());
+                // Parse JSON entity directly from vector<uint8_t>
                 try {
-                    json entity = json::parse(value_str);
+                    json entity = json::parse(values[i]->begin(), values[i]->end());
                     result_item = {
                         {"found", true},
                         {"entity", entity}
@@ -340,12 +342,14 @@ json ThemisRPCService::handleBatchPut(const json& params) {
             entity["_model"] = model;
             entity["uuid"] = uuid;
             entity["_timestamp_ns"] = timestamp;
-            entity["_version"] = entity.value("_version", 1) + 1;
+            
+            // Set version: 1 for new entities, increment for existing
+            int current_version = entity.value("_version", 0);
+            entity["_version"] = current_version + 1;
             
             // Serialize and add to batch
             std::string value = entity.dump();
-            std::vector<uint8_t> value_bytes(value.begin(), value.end());
-            batch->put(key, value_bytes);
+            batch->put(key, std::vector<uint8_t>(value.begin(), value.end()));
             count++;
         }
         
@@ -601,7 +605,11 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
 }
 
 // Transaction state management
-// In a real implementation, this would be managed with a transaction manager
+// NOTE: These are currently global static variables for simplicity.
+// In a production system, these should be:
+// 1. Instance variables of ThemisRPCService, or
+// 2. Managed by a dedicated TransactionManager class
+// This allows proper cleanup, testing, and multi-instance support.
 static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
 static std::mutex transaction_mutex;
 static uint64_t transaction_counter = 0;
@@ -625,7 +633,7 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
         std::string tx_id = "tx_" + std::to_string(++transaction_counter);
         
         // Create transaction wrapper
-        auto tx = storage->createTransaction();
+        auto tx = storage->beginTransaction();
         active_transactions[tx_id] = std::move(tx);
         
         json result = {
@@ -731,15 +739,8 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
         }
         
         // Rollback the transaction
-        bool success = it->second->rollback();
+        it->second->rollback();
         active_transactions.erase(it);
-        
-        if (!success) {
-            return createError(
-                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Transaction rollback failed"
-            );
-        }
         
         json result = {
             {"success", true},
