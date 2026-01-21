@@ -3,6 +3,12 @@
 
 using namespace themis::sharding;
 
+// Test configuration constants
+namespace {
+    constexpr uint32_t TEST_GOSSIP_INTERVAL_MS = 10000; // Disable auto-gossip for benchmarks
+    constexpr const char* TEST_LOCAL_ENDPOINT = "localhost:8001";
+}
+
 static void BM_LocalityRouter_RouteQuery(benchmark::State& state) {
     auto topology = std::make_shared<ShardTopology>();
     for (int i = 0; i < state.range(0); ++i) {
@@ -15,9 +21,9 @@ static void BM_LocalityRouter_RouteQuery(benchmark::State& state) {
     }
     
     GossipConfigManagerConfig gossip_config;
-    gossip_config.gossip_interval_ms = 10000; // Disable auto-gossip
+    gossip_config.gossip_interval_ms = TEST_GOSSIP_INTERVAL_MS;
     gossip_config.local_shard_id = "shard0";
-    gossip_config.local_endpoint = "localhost:8001";
+    gossip_config.local_endpoint = TEST_LOCAL_ENDPOINT;
     
     auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
     auto resource_mgr = std::make_shared<ShardResourceManager>("shard0", gossip);
@@ -56,9 +62,9 @@ static void BM_LocalityRouter_ComputeAffinity(benchmark::State& state) {
     }
     
     GossipConfigManagerConfig gossip_config;
-    gossip_config.gossip_interval_ms = 10000; // Disable auto-gossip
+    gossip_config.gossip_interval_ms = TEST_GOSSIP_INTERVAL_MS;
     gossip_config.local_shard_id = "shard0";
-    gossip_config.local_endpoint = "localhost:8001";
+    gossip_config.local_endpoint = TEST_LOCAL_ENDPOINT;
     
     auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
     auto resource_mgr = std::make_shared<ShardResourceManager>("shard0", gossip);
@@ -92,9 +98,9 @@ static void BM_LocalityRouter_UpdatePlacement(benchmark::State& state) {
     topology->addShard(shard);
     
     GossipConfigManagerConfig gossip_config;
-    gossip_config.gossip_interval_ms = 10000; // Disable auto-gossip
+    gossip_config.gossip_interval_ms = TEST_GOSSIP_INTERVAL_MS;
     gossip_config.local_shard_id = "shard0";
-    gossip_config.local_endpoint = "localhost:8001";
+    gossip_config.local_endpoint = TEST_LOCAL_ENDPOINT;
     
     auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
     auto resource_mgr = std::make_shared<ShardResourceManager>("shard0", gossip);
@@ -123,9 +129,9 @@ static void BM_LocalityRouter_HasData(benchmark::State& state) {
     topology->addShard(shard);
     
     GossipConfigManagerConfig gossip_config;
-    gossip_config.gossip_interval_ms = 10000; // Disable auto-gossip
+    gossip_config.gossip_interval_ms = TEST_GOSSIP_INTERVAL_MS;
     gossip_config.local_shard_id = "shard0";
-    gossip_config.local_endpoint = "localhost:8001";
+    gossip_config.local_endpoint = TEST_LOCAL_ENDPOINT;
     
     auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
     auto resource_mgr = std::make_shared<ShardResourceManager>("shard0", gossip);
@@ -158,9 +164,9 @@ static void BM_LocalityRouter_MultiShardQuery(benchmark::State& state) {
     }
     
     GossipConfigManagerConfig gossip_config;
-    gossip_config.gossip_interval_ms = 10000; // Disable auto-gossip
+    gossip_config.gossip_interval_ms = TEST_GOSSIP_INTERVAL_MS;
     gossip_config.local_shard_id = "shard0";
-    gossip_config.local_endpoint = "localhost:8001";
+    gossip_config.local_endpoint = TEST_LOCAL_ENDPOINT;
     
     auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
     auto resource_mgr = std::make_shared<ShardResourceManager>("shard0", gossip);

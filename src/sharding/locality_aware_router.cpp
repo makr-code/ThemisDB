@@ -5,6 +5,14 @@
 
 namespace themis::sharding {
 
+// Load score calculation constants
+namespace {
+    constexpr float LOAD_CPU_WEIGHT = 0.4f;
+    constexpr float LOAD_RAM_WEIGHT = 0.3f;
+    constexpr float LOAD_HEALTH_WEIGHT = 0.3f;
+    constexpr float CACHE_CLEANUP_PERCENT = 0.10f;
+}
+
 // ShardAffinity JSON serialization
 nlohmann::json LocalityAwareRouter::ShardAffinity::toJson() const {
     return nlohmann::json{
@@ -26,6 +34,15 @@ LocalityAwareRouter::LocalityAwareRouter(
       topology_(topology),
       resource_mgr_(resource_mgr),
       config_(config) {
+    
+    // Validate that weights sum to approximately 1.0
+    float weight_sum = config_.locality_weight + config_.load_weight + config_.network_weight;
+    if (std::abs(weight_sum - 1.0f) > 0.01f) {
+        // Auto-normalize weights if they don't sum to 1.0
+        config_.locality_weight /= weight_sum;
+        config_.load_weight /= weight_sum;
+        config_.network_weight /= weight_sum;
+    }
 }
 
 // Destructor
@@ -307,6 +324,21 @@ float LocalityAwareRouter::calculateLocalityScore(
     return static_cast<float>(local_keys) / spec.accessed_keys.size();
 }
 
+// Helper function to calculate load score from resource snapshot
+namespace {
+    float computeLoadFromSnapshot(float cpu_percent, uint64_t ram_used, 
+                                   uint64_t ram_total, float health_score) {
+        float cpu_score = cpu_percent / 100.0f;
+        float ram_score = (ram_total > 0) ?
+            static_cast<float>(ram_used) / ram_total : 0.0f;
+        float health_penalty = 1.0f - (health_score / 100.0f);
+        
+        return (cpu_score * LOAD_CPU_WEIGHT + 
+                ram_score * LOAD_RAM_WEIGHT + 
+                health_penalty * LOAD_HEALTH_WEIGHT);
+    }
+}
+
 float LocalityAwareRouter::calculateLoadScore(const std::string& shard_id) const {
     if (!resource_mgr_) {
         return 0.0f; // No load information available
@@ -319,29 +351,23 @@ float LocalityAwareRouter::calculateLoadScore(const std::string& shard_id) const
         // If it's the local shard, get current snapshot
         if (shard_id == local_shard_id_) {
             auto local_snapshot = resource_mgr_->getCurrentSnapshot();
-            
-            // Combine CPU, RAM, and latency metrics
-            float cpu_score = local_snapshot.cpu_usage_percent / 100.0f;
-            float ram_score = (local_snapshot.ram_total_bytes > 0) ?
-                static_cast<float>(local_snapshot.ram_usage_bytes) / 
-                local_snapshot.ram_total_bytes : 0.0f;
-            
-            // Simple weighted average
-            return (cpu_score * 0.4f + ram_score * 0.3f) * 
-                   (1.0f - (local_snapshot.health_score / 100.0f)) * 0.3f;
+            return computeLoadFromSnapshot(
+                local_snapshot.cpu_usage_percent,
+                local_snapshot.ram_usage_bytes,
+                local_snapshot.ram_total_bytes,
+                local_snapshot.health_score
+            );
         }
         return 0.5f; // Unknown load, assume medium
     }
     
-    // Calculate composite load score from resource snapshot
-    float cpu_score = peer_snapshot->cpu_usage_percent / 100.0f;
-    float ram_score = (peer_snapshot->ram_total_bytes > 0) ?
-        static_cast<float>(peer_snapshot->ram_usage_bytes) / 
-        peer_snapshot->ram_total_bytes : 0.0f;
-    
-    // Simple weighted average
-    return (cpu_score * 0.4f + ram_score * 0.3f) * 
-           (1.0f - (peer_snapshot->health_score / 100.0f)) * 0.3f;
+    // Calculate composite load score from peer resource snapshot
+    return computeLoadFromSnapshot(
+        peer_snapshot->cpu_usage_percent,
+        peer_snapshot->ram_usage_bytes,
+        peer_snapshot->ram_total_bytes,
+        peer_snapshot->health_score
+    );
 }
 
 float LocalityAwareRouter::calculateNetworkScore(const std::string& shard_id) const {
@@ -371,14 +397,16 @@ std::string LocalityAwareRouter::makeCacheKey(
 }
 
 void LocalityAwareRouter::cleanupStaleEntries() {
-    // Simple strategy: remove oldest 10% of entries
+    // Simple strategy: remove oldest percentage of entries
     // In a production system, this would use TTL timestamps
     
     if (placement_cache_.empty()) {
         return;
     }
     
-    size_t entries_to_remove = placement_cache_.size() / 10;
+    size_t entries_to_remove = static_cast<size_t>(
+        placement_cache_.size() * CACHE_CLEANUP_PERCENT
+    );
     if (entries_to_remove == 0) {
         entries_to_remove = 1;
     }
