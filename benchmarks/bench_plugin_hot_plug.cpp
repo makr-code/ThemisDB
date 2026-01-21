@@ -25,6 +25,13 @@ using json = nlohmann::json;
 namespace fs = std::filesystem;
 
 // ============================================================================
+// Benchmark Configuration Constants
+// ============================================================================
+
+// Debounce wait time from monitor implementation (500ms) + margin
+constexpr int DEBOUNCE_WAIT_MS = 600;
+
+// ============================================================================
 // Benchmark Fixtures
 // ============================================================================
 
@@ -86,14 +93,10 @@ BENCHMARK_F(HotPlugBenchmarkFixture, EnableDisableMonitoring)(benchmark::State& 
         config.enabled = true;
         config.auto_load = false;
         
-        auto start = std::chrono::high_resolution_clock::now();
+        // Benchmark automatically times this section
         bool enabled = manager->enableHotPlug(test_dir, config);
         benchmark::DoNotOptimize(enabled);
         manager->disableHotPlug();
-        auto end = std::chrono::high_resolution_clock::now();
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
     }
     state.SetLabel("Monitor lifecycle overhead");
 }
@@ -107,15 +110,22 @@ BENCHMARK_F(HotPlugBenchmarkFixture, MonitoringOverhead)(benchmark::State& state
     
     manager->enableHotPlug(test_dir, config);
     
-    // Measure steady-state overhead while monitoring is active
+    // Measure overhead by checking monitor state repeatedly
+    // This represents the cost of querying monitoring status
     for (auto _ : state) {
-        // Simulate some work while monitoring is active
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
-        benchmark::DoNotOptimize(manager->isHotPlugEnabled());
+        bool is_enabled = manager->isHotPlugEnabled();
+        benchmark::DoNotOptimize(is_enabled);
+        
+        // Brief CPU-bound work to represent typical application activity
+        volatile int sum = 0;
+        for (int i = 0; i < 1000; i++) {
+            sum += i;
+        }
+        benchmark::DoNotOptimize(sum);
     }
     
     manager->disableHotPlug();
-    state.SetLabel("Background monitoring overhead");
+    state.SetLabel("Background monitoring query overhead");
 }
 
 // ============================================================================
@@ -138,7 +148,7 @@ BENCHMARK_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)(benchmark::St
         createTestManifest(plugin_name);
         
         // Wait for detection (monitor debounce is 500ms)
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::this_thread::sleep_for(std::chrono::milliseconds(DEBOUNCE_WAIT_MS));
         
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -170,8 +180,8 @@ BENCHMARK_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::State& st
             createTestManifest("multi_test_" + std::to_string(i));
         }
         
-        // Wait for all detections
-        std::this_thread::sleep_for(std::chrono::milliseconds(700));
+        // Wait for all detections (debounce + margin)
+        std::this_thread::sleep_for(std::chrono::milliseconds(DEBOUNCE_WAIT_MS + 100));
         
         auto end = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -209,8 +219,8 @@ BENCHMARK_F(HotPlugBenchmarkFixture, AutoLoadDisabledVsEnabled)(benchmark::State
         std::string plugin_name = "config_test_" + std::to_string(iteration++);
         createTestManifest(plugin_name);
         
-        // Wait for processing
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        // Wait for processing (debounce time)
+        std::this_thread::sleep_for(std::chrono::milliseconds(DEBOUNCE_WAIT_MS));
         
         manager->disableHotPlug();
         
@@ -252,8 +262,8 @@ BENCHMARK_F(HotPlugBenchmarkFixture, ConcurrentFileCreations)(benchmark::State& 
             thread.join();
         }
         
-        // Wait for all detections
-        std::this_thread::sleep_for(std::chrono::milliseconds(700));
+        // Wait for all detections (debounce + margin for thread coordination)
+        std::this_thread::sleep_for(std::chrono::milliseconds(DEBOUNCE_WAIT_MS + 100));
         
         state.PauseTiming();
         

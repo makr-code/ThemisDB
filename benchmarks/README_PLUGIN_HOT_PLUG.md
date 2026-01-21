@@ -197,7 +197,7 @@ cmake --build build --target bench_plugin_hot_plug
 ./build/benchmarks/bench_plugin_hot_plug --benchmark_format=json --benchmark_out=after.json
 
 # Compare
-python3 tools/compare.py benchmarks before.json after.json
+python3 compare.py benchmarks before.json after.json
 ```
 
 ## Platform-Specific Notes
