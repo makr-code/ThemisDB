@@ -136,7 +136,8 @@ json ThemisRPCService::handlePut(const json& params) {
         entity["uuid"] = uuid;
         entity["_timestamp_ns"] = getCurrentTimestampNs();
         
-        // Set version: 1 for new entities, increment for existing
+        // Set version: Client provides version in entity, or 0 for new entities
+        // This supports both insert (version 0 -> 1) and update (version N -> N+1)
         int current_version = entity.value("_version", 0);
         entity["_version"] = current_version + 1;
         
@@ -343,7 +344,8 @@ json ThemisRPCService::handleBatchPut(const json& params) {
             entity["uuid"] = uuid;
             entity["_timestamp_ns"] = timestamp;
             
-            // Set version: 1 for new entities, increment for existing
+            // Set version: Client provides version in entity, or 0 for new entities
+            // This supports both insert (version 0 -> 1) and update (version N -> N+1)
             int current_version = entity.value("_version", 0);
             entity["_version"] = current_version + 1;
             
