@@ -1441,11 +1441,29 @@ static nlohmann::json qe_evalExpr(const std::shared_ptr<themis::query::Expressio
 	throw std::runtime_error("Unknown expression type in QueryEngine evaluator");
 }
 
-nlohmann::json QueryEngine::evaluateExpression(
+Result<nlohmann::json> QueryEngine::evaluateExpression(
 	const std::shared_ptr<query::Expression>& expr,
 	const EvaluationContext& ctx
 ) const {
-	return qe_evalExpr(expr, ctx);
+	try {
+		nlohmann::json result = qe_evalExpr(expr, ctx);
+		return Ok(result);
+	} catch (const std::runtime_error& e) {
+		return Err<nlohmann::json>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Expression evaluation failed: {}", e.what())
+		);
+	} catch (const std::exception& e) {
+		return Err<nlohmann::json>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Expression evaluation error: {}", e.what())
+		);
+	} catch (...) {
+		return Err<nlohmann::json>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"Expression evaluation failed with unknown error"
+		);
+	}
 }
 
 bool QueryEngine::evaluateCondition(
@@ -1852,7 +1870,7 @@ static EquiJoinCondition analyzeEquiJoin(
 	return result;
 }
 
-std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::executeJoin(
+Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	const std::vector<query::ForNode>& for_nodes,
 	const std::vector<std::shared_ptr<query::FilterNode>>& filters,
 	const std::vector<query::LetNode>& let_nodes,
@@ -1865,7 +1883,10 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 	span.setAttribute("join.for_count", static_cast<int64_t>(for_nodes.size()));
 	
 	if (for_nodes.empty()) {
-		return {Status::Error("executeJoin: No FOR clauses"), {}};
+		return Err<std::vector<nlohmann::json>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeJoin: No FOR clauses provided"
+		);
 	}
 	
 	std::vector<nlohmann::json> results;
@@ -2091,8 +2112,13 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 					}
 				
 					if (return_node) {
-						nlohmann::json result = evaluateExpression(return_node->expression, ctx);
-						results.push_back(std::move(result));
+						auto result_or_err = evaluateExpression(return_node->expression, ctx);
+						if (!result_or_err) {
+							// Expression evaluation failed - log and skip this result
+							THEMIS_WARN("Expression evaluation failed in join: {}", result_or_err.error().message());
+							continue;
+						}
+						results.push_back(std::move(*result_or_err));
 					}
 				}
 			};
@@ -2167,8 +2193,13 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 				
 				// Evaluate RETURN expression
 				if (return_node) {
-					auto result = evaluateExpression(return_node->expression, ctx);
-					results.push_back(std::move(result));
+					auto result_or_err = evaluateExpression(return_node->expression, ctx);
+					if (!result_or_err) {
+						// Expression evaluation failed - log and skip this result
+						THEMIS_WARN("Expression evaluation failed in nested loop join: {}", result_or_err.error().message());
+						return;
+					}
+					results.push_back(std::move(*result_or_err));
 				}
 				return;
 			}
@@ -2261,9 +2292,13 @@ apply_sort_limit:
 			EvaluationContext ctxA, ctxB;
 			ctxA.bindings["doc"] = a;
 			ctxB.bindings["doc"] = b;
-			auto valA = evaluateExpression(spec.expression, ctxA);
-			auto valB = evaluateExpression(spec.expression, ctxB);
-			return spec.ascending ? (valA < valB) : (valA > valB);
+			auto valA_or_err = evaluateExpression(spec.expression, ctxA);
+			auto valB_or_err = evaluateExpression(spec.expression, ctxB);
+			// If either evaluation fails, fall back to comparing original jsons
+			if (!valA_or_err || !valB_or_err) {
+				return a.dump() < b.dump();
+			}
+			return spec.ascending ? (*valA_or_err < *valB_or_err) : (*valA_or_err > *valB_or_err);
 		});
 	}
 	
@@ -2284,10 +2319,10 @@ apply_sort_limit:
 	
 	span.setAttribute("join.result_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
-std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
+Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	const query::ForNode& for_node,
 	const std::shared_ptr<query::CollectNode>& collect,
 	const std::vector<std::shared_ptr<query::FilterNode>>& filters,
@@ -2296,7 +2331,10 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 	auto span = Tracer::startSpan("QueryEngine.executeGroupBy");
 	
 	if (!collect || collect->groups.empty()) {
-		return {Status::Error("executeGroupBy: No GROUP BY clause"), {}};
+		return Err<std::vector<nlohmann::json>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeGroupBy: No GROUP BY clause provided"
+		);
 	}
 	
 	// Hash-based grouping
@@ -2328,8 +2366,13 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 			if (!passFilters) return true; // Continue to next document
 			
 			// Evaluate group key
-			auto groupKey = evaluateExpression(collect->groups[0].second, ctx);
-			std::string key_str = groupKey.dump();
+			auto groupKey_or_err = evaluateExpression(collect->groups[0].second, ctx);
+			if (!groupKey_or_err) {
+				// Failed to evaluate group key - skip this document
+				THEMIS_WARN("Failed to evaluate group key: {}", groupKey_or_err.error().message());
+				return true;
+			}
+			std::string key_str = groupKey_or_err->dump();
 			
 			groups[key_str].push_back(doc);
 		} catch (...) {
@@ -2364,9 +2407,9 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 				for (const auto& doc : docs) {
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, doc);
-					auto val = evaluateExpression(agg.argument, docCtx);
-					if (val.is_number()) {
-						sum += val.get<double>();
+					auto val_or_err = evaluateExpression(agg.argument, docCtx);
+					if (val_or_err && val_or_err->is_number()) {
+						sum += val_or_err->get<double>();
 					}
 				}
 				aggValue = sum;
@@ -2376,9 +2419,9 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 				for (const auto& doc : docs) {
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, doc);
-					auto val = evaluateExpression(agg.argument, docCtx);
-					if (val.is_number()) {
-						sum += val.get<double>();
+					auto val_or_err = evaluateExpression(agg.argument, docCtx);
+					if (val_or_err && val_or_err->is_number()) {
+						sum += val_or_err->get<double>();
 						count++;
 					}
 				}
@@ -2388,9 +2431,9 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 				for (const auto& doc : docs) {
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, doc);
-					auto val = evaluateExpression(agg.argument, docCtx);
-					if (val.is_number()) {
-						minVal = std::min(minVal, val.get<double>());
+					auto val_or_err = evaluateExpression(agg.argument, docCtx);
+					if (val_or_err && val_or_err->is_number()) {
+						minVal = std::min(minVal, val_or_err->get<double>());
 					}
 				}
 				aggValue = minVal;
@@ -2399,9 +2442,9 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 				for (const auto& doc : docs) {
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, doc);
-					auto val = evaluateExpression(agg.argument, docCtx);
-					if (val.is_number()) {
-						maxVal = std::max(maxVal, val.get<double>());
+					auto val_or_err = evaluateExpression(agg.argument, docCtx);
+					if (val_or_err && val_or_err->is_number()) {
+						maxVal = std::max(maxVal, val_or_err->get<double>());
 					}
 				}
 				aggValue = maxVal;
@@ -2412,14 +2455,19 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 		
 		// Evaluate RETURN expression
 		if (return_node) {
-			auto result = evaluateExpression(return_node->expression, ctx);
-			results.push_back(std::move(result));
+			auto result_or_err = evaluateExpression(return_node->expression, ctx);
+			if (!result_or_err) {
+				// Expression evaluation failed - log and skip this group
+				THEMIS_WARN("Expression evaluation failed in group-by return: {}", result_or_err.error().message());
+				continue;
+			}
+			results.push_back(std::move(*result_or_err));
 		}
 	}
 	
 	span.setAttribute("groupby.group_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
 // Forward declaration for helper function
@@ -3634,7 +3682,7 @@ QueryEngine::Status QueryEngine::executeCTEs(
         if (translation.join.has_value()) {
             // JOIN query
             auto& join = translation.join.value();
-            auto [status, results] = executeJoin(
+            auto result = executeJoin(
                 join.for_nodes,
                 join.filters,
                 join.let_nodes,
@@ -3642,12 +3690,12 @@ QueryEngine::Status QueryEngine::executeCTEs(
                 join.sort,
                 join.limit
             );
-            if (!status.ok) {
+            if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' JOIN execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' JOIN execution failed: " + result.error().message());
             }
-            cte_results = std::move(results);
+            cte_results = std::move(*result);
             
         } else if (translation.success && !translation.join.has_value() && !translation.disjunctive.has_value() && !translation.traversal.has_value()) {
             // Conjunctive query (default query field)
