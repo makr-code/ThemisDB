@@ -27,6 +27,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <chrono>  // for std::chrono::high_resolution_clock
 
 using namespace themis::llm;
 

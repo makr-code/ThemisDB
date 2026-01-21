@@ -3,6 +3,7 @@
 #include "llm/distributed_training_coordinator.h"
 #include <random>
 #include <algorithm>
+#include <cstring>  // for std::memcpy
 
 namespace themis {
 namespace llm {
