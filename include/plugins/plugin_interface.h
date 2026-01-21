@@ -122,6 +122,43 @@ public:
 };
 
 /**
+ * @brief Stateful Plugin Interface
+ * 
+ * Optional interface for plugins that need state preservation during hot-reload.
+ * Plugins implementing this interface can save their state before unload
+ * and restore it after reload, enabling zero-downtime updates.
+ * 
+ * Thread-Safety: Implementations must be thread-safe
+ */
+class IStatefulPlugin {
+public:
+    virtual ~IStatefulPlugin() = default;
+    
+    /**
+     * @brief Save plugin state before reload
+     * 
+     * Called by PluginManager before unloading during hot-reload.
+     * The returned state will be passed back to restoreState() after reload.
+     * 
+     * @return Serialized state as JSON string, or empty string if no state
+     * @throws std::exception on serialization error (will be logged, not fatal)
+     */
+    virtual std::string saveState() = 0;
+    
+    /**
+     * @brief Restore plugin state after reload
+     * 
+     * Called by PluginManager after successful reload.
+     * The plugin should restore its internal state from the provided data.
+     * 
+     * @param state Previously saved state from saveState()
+     * @return true if state restored successfully, false otherwise
+     * @note If restoration fails, plugin remains loaded with default state
+     */
+    virtual bool restoreState(const std::string& state) = 0;
+};
+
+/**
  * @brief Plugin Entry Points
  * 
  * Every plugin DLL must export these two functions:
