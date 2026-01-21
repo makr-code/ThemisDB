@@ -1308,6 +1308,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
     ../src/sharding/gossip_config_manager.cpp
+    ../src/sharding/distributed_coordinator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/raft_configuration.cpp
     ../src/sharding/raft_log.cpp
