@@ -110,12 +110,13 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	const double C_index_spatial = 0.02; // spatial index candidate fetch cost
 	const double prefilterDiscountFactor = 0.65;
 
-	// Validate vectorDim to prevent division by zero
+	// Handle vectorDim == 0 by using default 128
+	size_t safeDim = in.vectorDim == 0 ? 128 : in.vectorDim;
 	if (in.vectorDim == 0) {
-		spdlog::warn("QueryOptimizer::chooseVectorGeoPlan: vectorDim is 0, using default 128");
+		spdlog::warn("QueryOptimizer::chooseVectorGeoPlan: vectorDim is 0, using default {}", safeDim);
 	}
 
-	double dimScale = static_cast<double>(in.vectorDim == 0 ? 128 : in.vectorDim) / 128.0;
+	double dimScale = static_cast<double>(safeDim) / 128.0;
 	double C_vec = C_vec_base * dimScale;
 	std::size_t universe = in.spatialIndexEntries ? in.spatialIndexEntries : 100000; // fallback
 	if (in.prefilterSize > 0 && in.prefilterSize < universe) universe = in.prefilterSize;

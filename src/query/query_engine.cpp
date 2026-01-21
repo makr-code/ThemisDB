@@ -1198,7 +1198,8 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto g2 = *g2Res;
 		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g) -> Result<std::pair<double,double>> {
 			if (g.is_string()) {
-				try { return extractPoint(nlohmann::json::parse(g.get<std::string>())); } catch (...) { /* fallthrough */ }
+				auto parseRes = nlohmann::json::parse(g.get<std::string>());
+				return extractPoint(parseRes);
 			}
 			if (g.is_array() && g.size() >= 2) {
 				double x = g[0].get<double>();
@@ -1218,11 +1219,11 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 
 		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_string()) {
-				try { 
+				try {
 					auto parsed = nlohmann::json::parse(g.get<std::string>());
 					return extractMBR(parsed);
-				} catch (...) { 
-					// fallthrough
+				} catch (...) {
+					// fallthrough to other checks
 				}
 			}
 			if (g.is_array() && g.size() == 4) {
@@ -1388,7 +1389,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		} else if (t=="Polygon" && coords.is_array()) {
 			for (const auto& ring : coords) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && pt.size()>=3) upd(pt[2].get<double>());
 		}
-		return Ok(nlohmann::json(hasZ ? nlohmann::json(acc) : nlohmann::json(nullptr)));
+		return Ok(hasZ ? nlohmann::json(acc) : nlohmann::json(nullptr));
 	}
 
 	if (funcName == "ST_GeomFromText") {
