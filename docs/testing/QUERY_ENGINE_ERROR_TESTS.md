@@ -159,24 +159,34 @@ When migrating to Result<> pattern:
 ```bash
 mkdir build && cd build
 cmake .. -DTHEMIS_BUILD_TESTS=ON
-make test_query_engine_error_handling
-make test_cte_error_handling
+make
 ```
 
 ### Run Tests
 ```bash
-./test_query_engine_error_handling
-./test_cte_error_handling
+# Run all tests
+ctest --output-on-failure
+
+# Or run specific test executables if they are built
+# (executable names depend on CMake configuration)
+ctest -R query_engine_error -V
+ctest -R cte_error -V
 ```
 
 ### Run Specific Test
 ```bash
-./test_query_engine_error_handling --gtest_filter=QueryEngineErrorTest.VeryLargeResultSet_HandlesGracefully
+# Run specific test pattern
+ctest -R query_engine_error -V --gtest_filter=QueryEngineErrorTest.VeryLargeResultSet*
 ```
 
 ### Run with Valgrind (Memory Leak Detection)
 ```bash
-valgrind --leak-check=full ./test_query_engine_error_handling
+# First, find the actual test executable name
+cd build
+find . -name "*query_engine_error*" -o -name "*cte_error*"
+
+# Then run with Valgrind
+valgrind --leak-check=full ./<actual_test_executable_name>
 ```
 
 ## Integration with CI/CD

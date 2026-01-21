@@ -16,6 +16,8 @@
 
 using namespace themis;
 
+// Generate unique temporary path for test databases
+// Note: Cleanup is handled by TearDown in each test (db.close())
 static std::string tmpPath(const std::string& name) {
     namespace fs = std::filesystem;
     auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -341,7 +343,8 @@ TEST(QueryEngineErrorTest, MultiplePredicates_OneIndexMissing_HandlesCorrectly) 
     auto [st, keys] = engine.executeAndKeys(q);
     
     // Should either fail with clear error or handle with partial index
-    EXPECT_FALSE(st.ok || keys.size() == 1u);
+    // Either: error (not ok) OR success with 1 result
+    EXPECT_TRUE(!st.ok || keys.size() == 1u);
     if (!st.ok) {
         EXPECT_FALSE(st.message.empty());
     }

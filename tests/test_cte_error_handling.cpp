@@ -14,18 +14,31 @@
 using namespace themis::query;
 using namespace themis;
 
+// Generate unique temporary path for test databases
+static std::string tmpCTEPath() {
+    namespace fs = std::filesystem;
+    auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    return (fs::temp_directory_path() / ("cte_err_test_" + std::to_string(now))).string();
+}
+
 class CTEErrorTest : public ::testing::Test {
 protected:
+    std::string dbPath;
+    
     void SetUp() override {
-        std::filesystem::remove_all("data/themis_cte_error_test");
+        dbPath = tmpCTEPath();
+        std::filesystem::remove_all(dbPath);
         
         RocksDBWrapper::Config cfg;
-        cfg.db_path = "data/themis_cte_error_test";
+        cfg.db_path = dbPath;
         db = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db->open());
         
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         graphIdx = std::make_unique<GraphIndexManager>(*db);
+        
+        // QueryEngine constructor may accept nullptr for optional parameters
+        // (expressionEvaluator and vectorIndex are optional)
         engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, nullptr, nullptr);
     }
     
@@ -34,7 +47,7 @@ protected:
         graphIdx.reset();
         secIdx.reset();
         db.reset();
-        std::filesystem::remove_all("data/themis_cte_error_test");
+        std::filesystem::remove_all(dbPath);
     }
     
     void setupCircularData() {
