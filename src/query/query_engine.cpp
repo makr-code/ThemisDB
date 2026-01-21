@@ -2112,7 +2112,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 						auto result_or_err = evaluateExpression(return_node->expression, ctx);
 						if (!result_or_err) {
 							// Expression evaluation failed - log and skip this result
-							spdlog::warn("Expression evaluation failed in join: {}", result_or_err.error().message());
+							THEMIS_WARN("Expression evaluation failed in join: {}", result_or_err.error().message());
 							continue;
 						}
 						results.push_back(std::move(*result_or_err));
@@ -2193,7 +2193,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 					auto result_or_err = evaluateExpression(return_node->expression, ctx);
 					if (!result_or_err) {
 						// Expression evaluation failed - log and skip this result
-						spdlog::warn("Expression evaluation failed in nested loop join: {}", result_or_err.error().message());
+						THEMIS_WARN("Expression evaluation failed in nested loop join: {}", result_or_err.error().message());
 						return;
 					}
 					results.push_back(std::move(*result_or_err));
@@ -2363,7 +2363,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 			auto groupKey_or_err = evaluateExpression(collect->groups[0].second, ctx);
 			if (!groupKey_or_err) {
 				// Failed to evaluate group key - skip this document
-				spdlog::warn("Failed to evaluate group key: {}", groupKey_or_err.error().message());
+				THEMIS_WARN("Failed to evaluate group key: {}", groupKey_or_err.error().message());
 				return true;
 			}
 			std::string key_str = groupKey_or_err->dump();
@@ -2452,7 +2452,7 @@ std::pair<QueryEngine::Status, std::vector<nlohmann::json>> QueryEngine::execute
 			auto result_or_err = evaluateExpression(return_node->expression, ctx);
 			if (!result_or_err) {
 				// Expression evaluation failed - log and skip this group
-				spdlog::warn("Expression evaluation failed in group-by return: {}", result_or_err.error().message());
+				THEMIS_WARN("Expression evaluation failed in group-by return: {}", result_or_err.error().message());
 				continue;
 			}
 			results.push_back(std::move(*result_or_err));
