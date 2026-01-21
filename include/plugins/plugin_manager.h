@@ -22,6 +22,28 @@ class PluginHotPlugMonitor;
 struct HotPlugConfig;
 
 /**
+ * @brief Plugin Reload Phase
+ * 
+ * Used for event notifications during hot-reload operations
+ */
+enum class PluginReloadPhase {
+    BEFORE_UNLOAD,  ///< About to unload plugin
+    AFTER_UNLOAD,   ///< Plugin unloaded successfully
+    AFTER_LOAD      ///< Plugin reloaded successfully
+};
+
+/**
+ * @brief Plugin Reload Event Listener
+ * 
+ * Callback type for reload event notifications.
+ * Listeners are notified during different phases of plugin reload.
+ * 
+ * @param plugin_name Name of the plugin being reloaded
+ * @param phase Current reload phase
+ */
+using PluginReloadListener = std::function<void(const std::string& plugin_name, PluginReloadPhase phase)>;
+
+/**
  * @brief Unified Plugin Manager
  * 
  * Consolidates existing plugin systems:
@@ -55,6 +77,7 @@ private:
     std::unordered_map<PluginType, std::vector<std::string>> type_index_;  // type -> plugin names
     PluginMetrics metrics_;  // Plugin metrics tracker
     std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
+    std::vector<PluginReloadListener> reload_listeners_;  // Reload event listeners
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -72,6 +95,10 @@ private:
     bool verifyPlugin(const std::string& path, std::string& error_message);
     
     std::string calculateFileHash(const std::string& path);
+    
+    // Hot-reload helper methods
+    std::vector<std::string> findDependentPlugins(const std::string& name) const;
+    void notifyPluginReload(const std::string& name, PluginReloadPhase phase);
     
 public:
     PluginManager() = default;
@@ -200,6 +227,25 @@ public:
      * @return true if monitoring is active
      */
     bool isHotPlugEnabled() const;
+    
+    /**
+     * @brief Register a reload event listener
+     * 
+     * Listeners are notified during plugin reload phases:
+     * - BEFORE_UNLOAD: Before unloading old plugin
+     * - AFTER_UNLOAD: After unloading old plugin
+     * - AFTER_LOAD: After loading new plugin
+     * 
+     * @param listener Callback function to be notified
+     * @note Thread-safe: Can be called from any thread
+     */
+    void registerReloadListener(PluginReloadListener listener);
+    
+    /**
+     * @brief Clear all reload event listeners
+     * @note Thread-safe: Can be called from any thread
+     */
+    void clearReloadListeners();
     
     /**
      * @brief Singleton instance
