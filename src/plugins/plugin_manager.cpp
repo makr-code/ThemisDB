@@ -1,5 +1,6 @@
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_dependency_resolver.h"
+#include "plugins/plugin_hot_plug_monitor.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -833,6 +834,48 @@ std::unique_ptr<IThemisPlugin> PluginRegistry::createPlugin(const std::string& n
 PluginRegistry& PluginRegistry::instance() {
     static PluginRegistry instance;
     return instance;
+}
+
+// ============================================================================
+// Hot-Plug Monitoring
+// ============================================================================
+
+bool PluginManager::enableHotPlug(const std::string& directory, const HotPlugConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (hot_plug_monitor_) {
+        THEMIS_WARN("Hot-plug monitoring already enabled");
+        return false;
+    }
+    
+    hot_plug_monitor_ = std::make_unique<PluginHotPlugMonitor>(this, directory, config);
+    bool started = hot_plug_monitor_->start();
+    
+    if (!started) {
+        hot_plug_monitor_.reset();
+        return false;
+    }
+    
+    THEMIS_INFO("Hot-plug monitoring enabled for: {}", directory);
+    return true;
+}
+
+void PluginManager::disableHotPlug() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!hot_plug_monitor_) {
+        return;
+    }
+    
+    hot_plug_monitor_->stop();
+    hot_plug_monitor_.reset();
+    
+    THEMIS_INFO("Hot-plug monitoring disabled");
+}
+
+bool PluginManager::isHotPlugEnabled() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();
 }
 
 } // namespace plugins
