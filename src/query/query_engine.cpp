@@ -911,7 +911,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 									  const themis::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
-	auto evalArg = [&](size_t i) -> Result<nlohmann::json> { return Ok(qe_evalExpr(args[i], ctx)); };
+	auto evalArg = [&](size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
 
 	// Basic string/number functions (subset, mirroring LetEvaluator)
 	if (funcName == "LENGTH") {
@@ -1109,9 +1109,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Distance: Expected Point geometry");
 		};
 		auto p1 = extractPoint(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code, p1.error().message);
+		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
 		auto p2 = extractPoint(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code, p2.error().message);
+		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
 		auto [x1,y1] = *p1;
 		auto [x2,y2] = *p2;
 		double dx=x2-x1, dy=y2-y1; double distance = std::sqrt(dx*dx+dy*dy);
@@ -1213,22 +1213,27 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					return std::pair<double,double>{x,y};
 				}
 			}
-			throw std::runtime_error("ST_Within: Expected Point geometry");
+			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Expected Point geometry");
 		};
 
-		std::function<utils::geo::MBR(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g){
+		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_string()) {
-				try { return extractMBR(nlohmann::json::parse(g.get<std::string>())); } catch (...) { /* fallthrough */ }
+				try { 
+					auto parsed = nlohmann::json::parse(g.get<std::string>());
+					return extractMBR(parsed);
+				} catch (...) { 
+					// fallthrough
+				}
 			}
 			if (g.is_array() && g.size() == 4) {
-				return utils::geo::MBR{ g[0].get<double>(), g[1].get<double>(), g[2].get<double>(), g[3].get<double>() };
+				return Ok(utils::geo::MBR{ g[0].get<double>(), g[1].get<double>(), g[2].get<double>(), g[3].get<double>() });
 			}
 			if (g.is_object() && g.contains("type")) {
 				std::string t = g["type"];
 				if (t == "Point" && g.contains("coordinates") && g["coordinates"].size() >= 2) {
 					double x = g["coordinates"][0].get<double>();
 					double y = g["coordinates"][1].get<double>();
-					return utils::geo::MBR{x,y,x,y};
+					return Ok(utils::geo::MBR{x,y,x,y});
 				}
 				if (t == "Polygon" && g.contains("coordinates")) {
 					const auto& rings = g["coordinates"];
@@ -1240,19 +1245,20 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 							double x=c[0].get<double>(), y=c[1].get<double>();
 							minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
 						}
-						return utils::geo::MBR{minx,miny,maxx,maxy};
+						return Ok(utils::geo::MBR{minx,miny,maxx,maxy});
 					}
 				}
 			}
-			throw std::runtime_error("ST_Within: Could not extract MBR");
+			return Err<utils::geo::MBR>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Could not extract MBR");
 		};
 
-		try {
-			auto p = extractPoint(g1); auto m = extractMBR(g2);
-			return Ok(nlohmann::json(p.first>=m.minx && p.first<=m.maxx && p.second>=m.miny && p.second<=m.maxy));
-		} catch (...) {
-			return Ok(nlohmann::json(true)); // fail open to avoid rejecting docs on parse errors
-		}
+		auto pRes = extractPoint(g1);
+		if (!pRes) return Err<nlohmann::json>(pRes.error().code(), pRes.error().message());
+		auto mRes = extractMBR(g2);
+		if (!mRes) return Ok(nlohmann::json(true)); // fail open to avoid rejecting docs on parse errors
+		auto p = *pRes;
+		auto m = *mRes;
+		return Ok(nlohmann::json(p.first>=m.minx && p.first<=m.maxx && p.second>=m.miny && p.second<=m.maxy));
 	}
 
 	if (funcName == "ST_Contains") {
@@ -1287,15 +1293,15 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					}
 				}
 			}
-			throw std::runtime_error("ST_Contains: Could not extract MBR");
+			return Err<utils::geo::MBR>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Contains: Could not extract MBR");
 		};
-		try {
-			auto m1=extractMBR(g1); auto m2=extractMBR(g2);
-			return Ok(nlohmann::json(m2.minx>=m1.minx && m2.maxx<=m1.maxx && m2.miny>=m1.miny && m2.maxy<=m1.maxy));
-		} catch (const std::exception& e) {
-			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
-				fmt::format("ST_Contains: {}", e.what()));
-		}
+		auto m1Res = extractMBR(g1);
+		if (!m1Res) return Err<nlohmann::json>(m1Res.error().code(), m1Res.error().message());
+		auto m2Res = extractMBR(g2);
+		if (!m2Res) return Err<nlohmann::json>(m2Res.error().code(), m2Res.error().message());
+		auto m1 = *m1Res;
+		auto m2 = *m2Res;
+		return Ok(nlohmann::json(m2.minx>=m1.minx && m2.maxx<=m1.maxx && m2.miny>=m1.miny && m2.maxy<=m1.maxy));
 	}
 
 	if (funcName == "ST_DWithin") {
@@ -1619,15 +1625,18 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 					}
 				}
 			}
-			throw std::runtime_error("ST_Union: Unsupported geometry type for MVP");
+			return Err<utils::geo::MBR>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Union: Unsupported geometry type for MVP");
 		};
-		try {
-			auto m1=mbrOf(g1), m2=mbrOf(g2);
-			utils::geo::MBR u{ std::min(m1.minx,m2.minx), std::min(m1.miny,m2.miny), std::max(m1.maxx,m2.maxx), std::max(m1.maxy,m2.maxy) };
-			nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
-			nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
-			return Ok(nlohmann::json(poly));
-		} catch (const std::exception& e) {
+		auto m1Res = mbrOf(g1);
+		if (!m1Res) return Err<nlohmann::json>(m1Res.error().code(), m1Res.error().message());
+		auto m2Res = mbrOf(g2);
+		if (!m2Res) return Err<nlohmann::json>(m2Res.error().code(), m2Res.error().message());
+		auto m1 = *m1Res;
+		auto m2 = *m2Res;
+		utils::geo::MBR u{ std::min(m1.minx,m2.minx), std::min(m1.miny,m2.miny), std::max(m1.maxx,m2.maxx), std::max(m1.maxy,m2.maxy) };
+		nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
+		nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
+		return Ok(nlohmann::json(poly));
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
 				fmt::format("ST_Union: {}", e.what()));
 		}
