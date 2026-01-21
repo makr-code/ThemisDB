@@ -690,7 +690,7 @@ ThemisDB builds upon excellent open-source projects:
 - **CozoDB** - Hybrid relational-graph-vector design inspiration
 
 **[→ Complete Attribution & Dependencies](docs/de/legal/ATTRIBUTIONS.md)**  
-**[→ Implementation Origins & Code Attribution](IMPLEMENTATION_ORIGINS.md)**
+**[→ Implementation Origins & Code Attribution](docs/implementation-history/IMPLEMENTATION_ORIGINS.md)** (Historical)
 
 ---
 
