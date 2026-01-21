@@ -11,6 +11,7 @@
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
+#include "utils/expected.h"  // For Result<T> pattern
 
 namespace themis {
 
@@ -245,6 +246,9 @@ class GraphIndexManager;
 
 class QueryEngine {
 public:
+    // DEPRECATED: Legacy Status struct - use Result<T> instead
+    // Kept temporarily for backward compatibility during migration
+    [[deprecated("Use Result<T> pattern instead")]]
     struct Status {
         bool ok = true;
         std::string message;
