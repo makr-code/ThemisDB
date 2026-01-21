@@ -2547,6 +2547,41 @@ else()
 endif()
 
 # ============================================================================
+# Property Graph Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+    message(STATUS "Adding Property Graph tests")
+    
+    add_executable(test_property_graph
+        test_property_graph.cpp
+    )
+    
+    target_link_libraries(test_property_graph PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_property_graph PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PropertyGraphTests COMMAND test_property_graph)
+    
+    set_tests_properties(PropertyGraphTests PROPERTIES
+        LABELS "index;property-graph;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Property Graph: edge cascade deletion, node/edge management")
+else()
+    message(STATUS "Property Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 

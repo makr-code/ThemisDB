@@ -5,6 +5,7 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
 
 namespace themis {
 
@@ -141,7 +142,8 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
     }
 
     // Collect all edges connected to this node (both outgoing and incoming)
-    std::vector<std::string> edgesToDelete;
+    // Use unordered_set to avoid duplicates and improve lookup performance
+    std::unordered_set<std::string> edgesToDelete;
     
     // Scan outgoing edges: graph:out:<graph_id>:<pk>:
     {
@@ -153,10 +155,10 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
             // Extract edgeId from key: graph:out:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
             size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon >= outPrefix.size() - 1) {
+            if (lastColon != std::string::npos && lastColon > outPrefix.size() - 1) {
                 std::string edgeId = keyStr.substr(lastColon + 1);
                 if (!edgeId.empty()) {
-                    edgesToDelete.push_back(edgeId);
+                    edgesToDelete.insert(edgeId);
                 }
             }
             return true;  // Continue scanning
@@ -173,10 +175,10 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
             // Extract edgeId from key: graph:in:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
             size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon >= inPrefix.size() - 1) {
+            if (lastColon != std::string::npos && lastColon > inPrefix.size() - 1) {
                 std::string edgeId = keyStr.substr(lastColon + 1);
                 if (!edgeId.empty()) {
-                    edgesToDelete.push_back(edgeId);
+                    edgesToDelete.insert(edgeId);
                 }
             }
             return true;  // Continue scanning
