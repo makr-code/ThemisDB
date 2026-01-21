@@ -2512,6 +2512,41 @@ else()
 endif()
 
 # ============================================================================
+# Distributed Coordinator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
+    message(STATUS "Adding Distributed Coordinator tests")
+    
+    add_executable(test_distributed_coordinator
+        test_distributed_coordinator.cpp
+    )
+    
+    target_link_libraries(test_distributed_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_distributed_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME DistributedCoordinatorTests COMMAND test_distributed_coordinator)
+    
+    set_tests_properties(DistributedCoordinatorTests PROPERTIES
+        LABELS "sharding;coordinator;leader-election;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Distributed Coordinator: ephemeral leader election, task scheduling")
+else()
+    message(STATUS "Distributed Coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
