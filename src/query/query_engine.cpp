@@ -1176,9 +1176,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Intersects: Expected Point geometry");
 		};
 		auto p1 = extractPoint(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code, p1.error().message);
+		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
 		auto p2 = extractPoint(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code, p2.error().message);
+		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
 		auto [x1,y1] = *p1;
 		auto [x2,y2] = *p2;
 		const double eps=1e-5;
@@ -1196,24 +1196,24 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!g2Res) return g2Res;
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
-		std::function<std::pair<double,double>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g){
+		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g) -> Result<std::pair<double,double>> {
 			if (g.is_string()) {
 				try { return extractPoint(nlohmann::json::parse(g.get<std::string>())); } catch (...) { /* fallthrough */ }
 			}
 			if (g.is_array() && g.size() >= 2) {
 				double x = g[0].get<double>();
 				double y = g[1].get<double>();
-				return std::pair<double,double>{x,y};
+				return Ok(std::pair<double,double>{x,y});
 			}
 			if (g.is_object() && g.contains("type") && g["type"] == "Point" && g.contains("coordinates")) {
 				auto coords = g["coordinates"];
 				if (coords.is_array() && coords.size() >= 2) {
 					double x = coords[0].get<double>();
 					double y = coords[1].get<double>();
-					return std::pair<double,double>{x,y};
+					return Ok(std::pair<double,double>{x,y});
 				}
 			}
-			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Expected Point geometry");
+			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Expected Point geometry");
 		};
 
 		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g) -> Result<utils::geo::MBR> {
@@ -1272,12 +1272,12 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!g2Res) return g2Res;
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
-		auto extractMBR = [](const nlohmann::json& g){
+		auto extractMBR = [](const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_object() && g.contains("type")) {
 				std::string t=g["type"];
 				if (t=="Point" && g.contains("coordinates") && g["coordinates"].size()>=2) {
 					double x=g["coordinates"][0].get<double>(), y=g["coordinates"][1].get<double>();
-					return utils::geo::MBR{x,y,x,y};
+					return Ok(utils::geo::MBR{x,y,x,y});
 				}
 				if (t=="Polygon" && g.contains("coordinates")) {
 					const auto& rings=g["coordinates"];
@@ -1289,7 +1289,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 							double x=c[0].get<double>(), y=c[1].get<double>();
 							minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
 						}
-						return utils::geo::MBR{minx,miny,maxx,maxy};
+						return Ok(utils::geo::MBR{minx,miny,maxx,maxy});
 					}
 				}
 			}
@@ -1325,9 +1325,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_DWithin: Expected Point geometry");
 		};
 		auto p1 = extractPoint(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code, p1.error().message);
+		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
 		auto p2 = extractPoint(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code, p2.error().message);
+		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
 		auto [x1,y1] = *p1;
 		auto [x2,y2] = *p2;
 		double dx=x2-x1, dy=y2-y1; double d=std::sqrt(dx*dx+dy*dy);
@@ -1507,9 +1507,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::tuple<double,double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_3DDistance: Expected Point");
 		};
 		auto p1 = extract(g1);
-		if (!p1) return Err<nlohmann::json>(p1.error().code, p1.error().message);
+		if (!p1) return Err<nlohmann::json>(p1.error().code(), p1.error().message());
 		auto p2 = extract(g2);
-		if (!p2) return Err<nlohmann::json>(p2.error().code, p2.error().message);
+		if (!p2) return Err<nlohmann::json>(p2.error().code(), p2.error().message());
 		auto [x1,y1,z1] = *p1;
 		auto [x2,y2,z2] = *p2;
 		double dx=x2-x1, dy=y2-y1, dz=z2-z1;
@@ -1613,15 +1613,15 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!g2Res) return g2Res;
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
-		auto mbrOf=[](const nlohmann::json& g){
+		auto mbrOf=[](const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_object() && g.contains("type")){
 				std::string t=g["type"];
-				if (t=="Point" && g.contains("coordinates") && g["coordinates"].size()>=2){ double x=g["coordinates"][0].get<double>(), y=g["coordinates"][1].get<double>(); return utils::geo::MBR{x,y,x,y}; }
+				if (t=="Point" && g.contains("coordinates") && g["coordinates"].size()>=2){ double x=g["coordinates"][0].get<double>(), y=g["coordinates"][1].get<double>(); return Ok(utils::geo::MBR{x,y,x,y}); }
 				if (t=="Polygon" && g.contains("coordinates")){
 					const auto& rings=g["coordinates"]; if (rings.is_array()&&!rings.empty()){
 						double minx=std::numeric_limits<double>::max(),miny=std::numeric_limits<double>::max(); double maxx=std::numeric_limits<double>::lowest(),maxy=std::numeric_limits<double>::lowest();
 						const auto& ext=rings[0]; for (const auto& pt:ext) if (pt.is_array()&&pt.size()>=2){ double x=pt[0].get<double>(), y=pt[1].get<double>(); minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);} 
-						return utils::geo::MBR{minx,miny,maxx,maxy};
+						return Ok(utils::geo::MBR{minx,miny,maxx,maxy});
 					}
 				}
 			}
@@ -1637,8 +1637,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
 		nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
 		return Ok(nlohmann::json(poly));
-			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
-				fmt::format("ST_Union: {}", e.what()));
 		}
 	}
 
