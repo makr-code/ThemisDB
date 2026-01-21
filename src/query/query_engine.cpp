@@ -1198,8 +1198,13 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto g2 = *g2Res;
 		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g) -> Result<std::pair<double,double>> {
 			if (g.is_string()) {
-				auto parseRes = nlohmann::json::parse(g.get<std::string>());
-				return extractPoint(parseRes);
+				try {
+					auto parseRes = nlohmann::json::parse(g.get<std::string>());
+					return extractPoint(parseRes);
+				} catch (const std::exception& e) {
+					// Parse failed, continue to other checks
+					spdlog::debug("ST_Within extractPoint: JSON parse failed - {}", e.what());
+				}
 			}
 			if (g.is_array() && g.size() >= 2) {
 				double x = g[0].get<double>();
@@ -1222,8 +1227,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				try {
 					auto parsed = nlohmann::json::parse(g.get<std::string>());
 					return extractMBR(parsed);
-				} catch (...) {
-					// fallthrough to other checks
+				} catch (const std::exception& e) {
+					// Parse failed, log and continue to other checks
+					spdlog::debug("ST_Within extractMBR: JSON parse failed - {}", e.what());
 				}
 			}
 			if (g.is_array() && g.size() == 4) {
@@ -1256,7 +1262,12 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto pRes = extractPoint(g1);
 		if (!pRes) return Err<nlohmann::json>(pRes.error().code(), pRes.error().message());
 		auto mRes = extractMBR(g2);
-		if (!mRes) return Ok(nlohmann::json(true)); // fail open to avoid rejecting docs on parse errors
+		if (!mRes) {
+			// Fail-open: return true to avoid rejecting docs on parse errors
+			// This preserves backward compatibility for edge cases where geometry parsing is ambiguous
+			spdlog::debug("ST_Within: Failed to extract MBR, failing open (returning true)");
+			return Ok(nlohmann::json(true));
+		}
 		auto p = *pRes;
 		auto m = *mRes;
 		return Ok(nlohmann::json(p.first>=m.minx && p.first<=m.maxx && p.second>=m.miny && p.second<=m.maxy));
