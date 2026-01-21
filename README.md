@@ -7,7 +7,7 @@
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)
+  [![Version](https://img.shields.io/badge/version-1.4.1--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
@@ -164,8 +164,9 @@ graph TB
 
 **Linux (Debian/Ubuntu):**
 ```bash
-wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.3.0-1_amd64.deb
-sudo apt install ./themisdb_1.3.0-1_amd64.deb
+# Download the latest release from GitHub
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_amd64.deb
+sudo apt install ./themisdb_amd64.deb
 sudo systemctl start themisdb
 ```
 
@@ -689,7 +690,7 @@ ThemisDB builds upon excellent open-source projects:
 - **CozoDB** - Hybrid relational-graph-vector design inspiration
 
 **[→ Complete Attribution & Dependencies](docs/de/legal/ATTRIBUTIONS.md)**  
-**[→ Implementation Origins & Code Attribution](IMPLEMENTATION_ORIGINS.md)**
+**[→ Implementation Origins & Code Attribution](docs/implementation-history/IMPLEMENTATION_ORIGINS.md)** (Historical)
 
 ---
 

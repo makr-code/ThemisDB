@@ -31,6 +31,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Independent Health/Error service on alternate port (9090)
 
 ### Changed
+- **Documentation Reorganization**: Major cleanup and restructuring of documentation
+  - Fixed version inconsistencies across README, VERSION file, and badges
+  - Moved 70+ historical implementation documents to `docs/implementation-history/` archive
+  - Created comprehensive archive README explaining historical documents
+  - Updated all broken links in main documentation files
+  - Added archive reference in main documentation index
+  - Cleaner root directory with only essential documentation files
 - Improved documentation structure and organization
 - Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
 
@@ -100,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Thread-safety for Context Scaling with LoRA/Adapters
 - ✅ Comprehensive RAM/VRAM profiling and monitoring
 - ✅ Feature flags and backward compatibility
-- Reference: [INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md](INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md)
+- Reference: [INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md](docs/implementation-history/INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md)
 
 **Production Readiness Score:**
 - v1.4.0-alpha: 38% → v1.4.0-stable: 93%
