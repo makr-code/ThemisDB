@@ -77,10 +77,10 @@ TEST(QueryEngineTest, OptimizedSequentialOrder) {
     // age=99 should be first due to low estimate
     EXPECT_EQ(plan.orderedPredicates[0].column, "age");
 
-    auto [stK, keys] = opt.executeOptimizedKeys(engine, q, plan);
-    ASSERT_TRUE(stK.ok);
-    ASSERT_EQ(keys.size(), 1u);
-    EXPECT_EQ(keys[0], "rare");
+    auto keys_result = opt.executeOptimizedKeys(engine, q, plan);
+    ASSERT_TRUE(keys_result.has_value()) << keys_result.error().message();
+    ASSERT_EQ(keys_result->size(), 1u);
+    EXPECT_EQ((*keys_result)[0], "rare");
     db.close();
 }
 
