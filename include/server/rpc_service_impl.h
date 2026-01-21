@@ -15,13 +15,8 @@
  * for ThemisDB operations (GET, PUT, DELETE, Query, etc.)
  */
 
-/**
- * @brief Forward declaration of ThemisDB
- * 
- * Full definition will be in themis/themis_db.h when integrated
- */
 namespace themis {
-class ThemisDB;
+class RocksDBWrapper;  // Forward declaration
 }
 
 namespace themis {
@@ -31,16 +26,13 @@ namespace rpc {
 using json = nlohmann::json;
 
 /**
- * @brief Forward declaration of ThemisDB
- */
-class ThemisDB;
-
-/**
  * @brief RPC Method Handler for ThemisDB operations
+ * 
+ * Refactored to use RocksDBWrapper directly for database operations.
  */
 class ThemisRPCService {
 public:
-    explicit ThemisRPCService(ThemisDB* db) : db_(db) {}
+    explicit ThemisRPCService(RocksDBWrapper* storage) : storage_(storage) {}
     
     /**
      * @brief Handle GET operation
@@ -123,7 +115,7 @@ public:
     json dispatch(const std::string& method, const json& params, const themis::plugins::rpc::RPCRequestContext& context);
     
 private:
-    ThemisDB* db_;
+    RocksDBWrapper* storage_;
     
     /**
      * @brief Verify authentication token from context

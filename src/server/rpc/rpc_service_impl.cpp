@@ -1,6 +1,9 @@
 #include "server/rpc_service_impl.h"
 #include "plugins/rpc_plugin_interface.h"
+#include "storage/rocksdb_wrapper.h"
 #include <sstream>
+#include <chrono>
+#include <unordered_map>
 
 // Define THEMIS_VERSION_STRING if not already defined
 #ifndef THEMIS_VERSION_STRING
@@ -10,6 +13,13 @@
 namespace themis {
 namespace server {
 namespace rpc {
+
+// Helper function to get timestamp in nanoseconds
+static uint64_t getCurrentTimestampNs() {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+}
 
 json ThemisRPCService::handleGet(const json& params) {
     try {
@@ -24,19 +34,45 @@ json ThemisRPCService::handleGet(const json& params) {
             );
         }
         
-        // TODO(v1.3.1): Implement actual database GET operation
-        // Issue: https://github.com/makr-code/ThemisDB/issues/XXX
-        // Integration with db_->storage().get() will be added in v1.3.1
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Construct storage key: collection:model:uuid
+        std::string key = collection + ":" + model + ":" + uuid;
+        
+        // Get value from storage
+        std::string value;
+        bool found = storage->get(key, value);
+        
+        if (!found) {
+            json result = {
+                {"found", false}
+            };
+            return createSuccess(result);
+        }
+        
+        // Parse the stored JSON entity
+        json entity;
+        try {
+            entity = json::parse(value);
+        } catch (const json::exception& e) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                std::string("Failed to parse stored entity: ") + e.what()
+            );
+        }
+        
         json result = {
             {"found", true},
-            {"entity", {
-                {"uuid", uuid},
-                {"_collection", collection},
-                {"_model", model},
-                {"data", "placeholder"}
-            }},
-            {"version", 1},
-            {"timestamp_ns", 0}
+            {"entity", entity},
+            {"version", entity.value("_version", 1)},
+            {"timestamp_ns", entity.value("_timestamp_ns", 0)}
         };
         
         return createSuccess(result);
@@ -69,10 +105,46 @@ json ThemisRPCService::handlePut(const json& params) {
             );
         }
         
-        // TODO: Implement actual database PUT operation
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Construct storage key
+        std::string key = collection + ":" + model + ":" + uuid;
+        
+        // Get entity and add metadata
+        json entity = params["entity"];
+        entity["_collection"] = collection;
+        entity["_model"] = model;
+        entity["uuid"] = uuid;
+        entity["_timestamp_ns"] = getCurrentTimestampNs();
+        
+        // Set version: Client provides version in entity, or 0 for new entities
+        // This supports both insert (version 0 -> 1) and update (version N -> N+1)
+        int current_version = entity.value("_version", 0);
+        entity["_version"] = current_version + 1;
+        
+        // Serialize to JSON string
+        std::string value = entity.dump();
+        
+        // Store in database
+        bool success = storage->put(key, value);
+        
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to write to database"
+            );
+        }
+        
         json result = {
             {"success", true},
-            {"version", 1}
+            {"version", entity["_version"]}
         };
         
         return createSuccess(result);
@@ -98,7 +170,28 @@ json ThemisRPCService::handleDelete(const json& params) {
             );
         }
         
-        // TODO: Implement actual database DELETE operation
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Construct storage key
+        std::string key = collection + ":" + model + ":" + uuid;
+        
+        // Delete from database
+        bool success = storage->del(key);
+        
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to delete from database"
+            );
+        }
+        
         json result = {
             {"success", true}
         };
@@ -122,10 +215,64 @@ json ThemisRPCService::handleBatchGet(const json& params) {
             );
         }
         
-        // TODO: Implement actual batch GET operation
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        const auto& keys_array = params["keys"];
+        std::vector<std::string> keys;
+        std::vector<json> results_array;
+        
+        // Build keys list
+        for (const auto& key_obj : keys_array) {
+            if (!key_obj.contains("collection") || !key_obj.contains("model") || !key_obj.contains("uuid")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Each key must contain collection, model, and uuid"
+                );
+            }
+            std::string key = key_obj["collection"].get<std::string>() + ":" +
+                            key_obj["model"].get<std::string>() + ":" +
+                            key_obj["uuid"].get<std::string>();
+            keys.push_back(key);
+        }
+        
+        // Perform batch get
+        auto values = storage->multiGet(keys);
+        
+        // Build results
+        for (size_t i = 0; i < values.size(); ++i) {
+            json result_item;
+            if (values[i].has_value()) {
+                // Parse JSON entity directly from vector<uint8_t>
+                try {
+                    json entity = json::parse(values[i]->begin(), values[i]->end());
+                    result_item = {
+                        {"found", true},
+                        {"entity", entity}
+                    };
+                } catch (const json::exception&) {
+                    result_item = {
+                        {"found", false},
+                        {"error", "Failed to parse entity"}
+                    };
+                }
+            } else {
+                result_item = {
+                    {"found", false}
+                };
+            }
+            results_array.push_back(result_item);
+        }
+        
         json result = {
-            {"results", json::array()},
-            {"count", 0}
+            {"results", results_array},
+            {"count", results_array.size()}
         };
         
         return createSuccess(result);
@@ -147,10 +294,68 @@ json ThemisRPCService::handleBatchPut(const json& params) {
             );
         }
         
-        // TODO: Implement actual batch PUT operation
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        const auto& entities_array = params["entities"];
+        
+        // Create write batch for atomic operation
+        auto batch = storage->createWriteBatch();
+        
+        uint64_t timestamp = getCurrentTimestampNs();
+        int count = 0;
+        
+        for (const auto& item : entities_array) {
+            if (!item.contains("collection") || !item.contains("model") || 
+                !item.contains("uuid") || !item.contains("entity")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Each item must contain collection, model, uuid, and entity"
+                );
+            }
+            
+            std::string collection = item["collection"];
+            std::string model = item["model"];
+            std::string uuid = item["uuid"];
+            std::string key = collection + ":" + model + ":" + uuid;
+            
+            // Add metadata to entity
+            json entity = item["entity"];
+            entity["_collection"] = collection;
+            entity["_model"] = model;
+            entity["uuid"] = uuid;
+            entity["_timestamp_ns"] = timestamp;
+            
+            // Set version: Client provides version in entity, or 0 for new entities
+            // This supports both insert (version 0 -> 1) and update (version N -> N+1)
+            int current_version = entity.value("_version", 0);
+            entity["_version"] = current_version + 1;
+            
+            // Serialize and add to batch
+            std::string value = entity.dump();
+            batch->put(key, std::vector<uint8_t>(value.begin(), value.end()));
+            count++;
+        }
+        
+        // Commit batch atomically
+        bool success = batch->commit();
+        
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to commit batch write"
+            );
+        }
+        
         json result = {
             {"success", true},
-            {"count", 0}
+            {"count", count}
         };
         
         return createSuccess(result);
@@ -174,11 +379,23 @@ json ThemisRPCService::handleQuery(const json& params) {
             );
         }
         
-        // TODO: Implement actual AQL query execution
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // TODO: Full AQL query engine integration required
+        // For now, return empty results with a note
+        // The full implementation will parse AQL and execute against storage
         json result = {
             {"results", json::array()},
             {"has_more", false},
-            {"count", 0}
+            {"count", 0},
+            {"note", "AQL query engine integration pending"}
         };
         
         return createSuccess(result);
@@ -209,9 +426,25 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
             );
         }
         
-        // TODO: Implement actual vector search
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Extract parameters
+        int k = params.value("k", 10);  // default top-k = 10
+        std::string metric = params.value("metric", "cosine");  // cosine, euclidean, dot
+        
+        // TODO: Vector search requires vector index integration
+        // For now, return empty results with a note
+        // The full implementation will query vector indices
         json result = {
-            {"results", json::array()}
+            {"results", json::array()},
+            {"note", "Vector search engine integration pending"}
         };
         
         return createSuccess(result);
@@ -226,10 +459,33 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
 
 json ThemisRPCService::handleGraphTraverse(const json& params) {
     try {
-        // TODO: Implement graph traversal
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Extract parameters
+        std::string start_vertex = params.value("start_vertex", "");
+        std::string direction = params.value("direction", "outbound");  // outbound, inbound, any
+        int max_depth = params.value("max_depth", 1);
+        
+        if (start_vertex.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: start_vertex"
+            );
+        }
+        
+        // TODO: Graph traversal requires graph index integration
+        // For now, return empty results with a note
         json result = {
             {"vertices", json::array()},
-            {"edges", json::array()}
+            {"edges", json::array()},
+            {"note", "Graph traversal engine integration pending"}
         };
         
         return createSuccess(result);
@@ -253,9 +509,30 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
             );
         }
         
-        // TODO: Implement geo query
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Extract geo query parameters
+        std::string query_type = params.value("type", "");  // within, near, intersects
+        
+        if (query_type.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: type (within, near, intersects)"
+            );
+        }
+        
+        // TODO: Geospatial query requires geo index integration
+        // For now, return empty results with a note
         json result = {
-            {"results", json::array()}
+            {"results", json::array()},
+            {"note", "Geospatial query engine integration pending"}
         };
         
         return createSuccess(result);
@@ -279,9 +556,32 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
             );
         }
         
-        // TODO: Implement time series query
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Extract time series parameters
+        uint64_t start_time = params.value("start_time", 0);
+        uint64_t end_time = params.value("end_time", 0);
+        std::string aggregation = params.value("aggregation", "");  // sum, avg, min, max, count
+        
+        if (start_time == 0 || end_time == 0) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameters: start_time, end_time"
+            );
+        }
+        
+        // TODO: Time series query requires time series index integration
+        // For now, return empty results with a note
         json result = {
-            {"buckets", json::array()}
+            {"buckets", json::array()},
+            {"note", "Time series query engine integration pending"}
         };
         
         return createSuccess(result);
@@ -294,12 +594,42 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
     }
 }
 
+// Transaction state management
+// NOTE: These are currently global static variables for simplicity.
+// In a production system, these should be:
+// 1. Instance variables of ThemisRPCService, or
+// 2. Managed by a dedicated TransactionManager class
+// This allows proper cleanup, testing, and multi-instance support.
+static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
+static std::mutex transaction_mutex;
+static uint64_t transaction_counter = 0;
+
 json ThemisRPCService::handleTransactionBegin(const json& params) {
     try {
-        // TODO: Implement transaction begin
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Extract isolation level if provided
+        std::string isolation = params.value("isolation_level", "READ_COMMITTED");
+        
+        // Create new transaction
+        std::lock_guard<std::mutex> lock(transaction_mutex);
+        std::string tx_id = "tx_" + std::to_string(++transaction_counter);
+        
+        // Create transaction wrapper
+        auto tx = storage->beginTransaction();
+        active_transactions[tx_id] = std::move(tx);
+        
         json result = {
-            {"transaction_id", "tx_placeholder"},
-            {"status", "active"}
+            {"transaction_id", tx_id},
+            {"status", "active"},
+            {"isolation_level", isolation}
         };
         
         return createSuccess(result);
@@ -323,9 +653,39 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
             );
         }
         
-        // TODO: Implement transaction commit
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Find and commit transaction
+        std::lock_guard<std::mutex> lock(transaction_mutex);
+        auto it = active_transactions.find(tx_id);
+        if (it == active_transactions.end()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Transaction not found: " + tx_id
+            );
+        }
+        
+        // Commit the transaction
+        bool success = it->second->commit();
+        active_transactions.erase(it);
+        
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Transaction commit failed"
+            );
+        }
+        
         json result = {
-            {"success", true}
+            {"success", true},
+            {"transaction_id", tx_id}
         };
         
         return createSuccess(result);
@@ -349,9 +709,32 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
             );
         }
         
-        // TODO: Implement transaction abort
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Find and rollback transaction
+        std::lock_guard<std::mutex> lock(transaction_mutex);
+        auto it = active_transactions.find(tx_id);
+        if (it == active_transactions.end()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Transaction not found: " + tx_id
+            );
+        }
+        
+        // Rollback the transaction
+        it->second->rollback();
+        active_transactions.erase(it);
+        
         json result = {
-            {"success", true}
+            {"success", true},
+            {"transaction_id", tx_id}
         };
         
         return createSuccess(result);
