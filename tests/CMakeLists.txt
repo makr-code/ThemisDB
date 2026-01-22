@@ -2648,171 +2648,37 @@ else()
 endif()
 
 # ============================================================================
-# Columnar Format Tests
+# Result Streaming and Pagination Tests
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
-    message(STATUS "Adding Columnar Format tests")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
+    message(STATUS "Adding Result Streaming tests")
     
-    add_executable(test_columnar_format
-        test_columnar_format.cpp
+    add_executable(test_result_stream
+        test_result_stream.cpp
     )
     
-    target_link_libraries(test_columnar_format PRIVATE
-# Transaction Isolation Level Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
-    message(STATUS "Adding Transaction Isolation Level tests")
-    
-    add_executable(test_transaction_isolation_levels
-        test_transaction_isolation_levels.cpp
-    )
-    
-    target_link_libraries(test_transaction_isolation_levels PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        RocksDB::rocksdb
-# Index Maintenance Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
-    message(STATUS "Adding Index Maintenance tests")
-    
-    add_executable(test_index_maintenance
-        test_index_maintenance.cpp
-    )
-    
-    target_link_libraries(test_index_maintenance PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        RocksDB::rocksdb
-# GraphQL Parser Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
-    message(STATUS "Adding GraphQL parser tests")
-    
-    add_executable(test_graphql
-        test_graphql.cpp
-    )
-    
-    target_link_libraries(test_graphql PRIVATE
+    target_link_libraries(test_result_stream PRIVATE
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
     )
     
-    target_compile_definitions(test_columnar_format PRIVATE
+    target_compile_definitions(test_result_stream PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME ColumnarFormatTests COMMAND test_columnar_format)
+    add_test(NAME ResultStreamTests COMMAND test_result_stream)
     
-    set_tests_properties(ColumnarFormatTests PROPERTIES
-        LABELS "storage;columnar;compression;unit"
-        TIMEOUT 120
+    set_tests_properties(ResultStreamTests PROPERTIES
+        LABELS "query;streaming;pagination;unit"
+        TIMEOUT 60
     )
     
-    message(STATUS "  Columnar Format: RLE, Dictionary, Bit-Packing, Frame-of-Reference encoding")
+    message(STATUS "  Result Streaming: pagination, batching, memory management")
 else()
-    message(STATUS "Columnar Format tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
-        Threads::Threads
-    )
-    
-    target_compile_definitions(test_transaction_isolation_levels PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME TransactionIsolationLevelTests COMMAND test_transaction_isolation_levels)
-    
-    set_tests_properties(TransactionIsolationLevelTests PROPERTIES
-        LABELS "storage;transaction;isolation;unit"
-        TIMEOUT 120
-    )
-    
-    message(STATUS "  Transaction Isolation: ReadCommitted vs Snapshot isolation levels")
-else()
-    message(STATUS "Transaction Isolation Level tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
-    target_compile_definitions(test_index_maintenance PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
-    
-    set_tests_properties(IndexMaintenanceTests PROPERTIES
-        LABELS "storage;index;maintenance;unit"
-        TIMEOUT 180
-    )
-    
-    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
-else()
-    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
-endif()
-
-# ============================================================================
-# Compression Strategy Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
-    add_executable(test_compression_strategy
-        test_compression_strategy.cpp
-    )
-    
-    target_link_libraries(test_compression_strategy PRIVATE
-        GTest::gtest
-        GTest::gtest_main
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-    
-    target_compile_definitions(test_compression_strategy PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME CompressionStrategyTests COMMAND test_compression_strategy)
-    
-    set_tests_properties(CompressionStrategyTests PROPERTIES
-        LABELS "storage;compression;encoding;unit"
-        TIMEOUT 120
-    )
-    
-    message(STATUS "  Compression Strategy: ZSTD, RLE, Delta, Dictionary encoding, adaptive compression")
-else()
-    message(STATUS "Compression Strategy tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
-endif()
-
-# ============================================================================
-# GraphQL Parser Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
-    add_executable(test_graphql
-        test_graphql.cpp
-    )
-    
-    target_link_libraries(test_graphql PRIVATE
-        GTest::gtest
-        GTest::gtest_main
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-    
-    target_compile_definitions(test_graphql PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME GraphQLParserTests COMMAND test_graphql)
-    
-    set_tests_properties(GraphQLParserTests PROPERTIES
-        LABELS "api;graphql;parser;unit"
-        TIMEOUT 120
-    )
-    
-    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
-else()
-    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    message(STATUS "Result Streaming tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
 endif()
 
 # ============================================================================
