@@ -77,6 +77,40 @@ else()
 endif()
 
 # ============================================================================
+# Memory Pool Allocator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+    message(STATUS "Adding memory pool allocator tests")
+    
+    add_executable(test_pool_allocator
+        test_pool_allocator.cpp
+    )
+    
+    target_link_libraries(test_pool_allocator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pool_allocator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MemoryPoolAllocatorTests COMMAND test_pool_allocator)
+    
+    set_tests_properties(MemoryPoolAllocatorTests PROPERTIES
+        LABELS "core;memory;allocator;pool"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Memory pool allocator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
@@ -1686,6 +1720,38 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
     endif()
+    
+    # ML Model Manager Tests (NEW)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+        message(STATUS "Adding ML Model Manager tests")
+        
+        add_executable(test_ml_model_manager
+            test_ml_model_manager.cpp
+        )
+        
+        target_link_libraries(test_ml_model_manager PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_ml_model_manager PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MLModelManagerTests COMMAND test_ml_model_manager)
+        
+        set_tests_properties(MLModelManagerTests PROPERTIES
+            LABELS "llm;ml;model_management;inference;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "ML Model Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+    endif()
 endif()
 
 # ============================================================================
@@ -2596,6 +2662,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
         ${TEST_LIBS}
         themis_core
         RocksDB::rocksdb
+# Index Maintenance Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    message(STATUS "Adding Index Maintenance tests")
+    
+    add_executable(test_index_maintenance
+        test_index_maintenance.cpp
+    )
+    
+    target_link_libraries(test_index_maintenance PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    message(STATUS "Adding GraphQL parser tests")
+    
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
         Threads::Threads
@@ -2615,6 +2708,34 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     message(STATUS "  Transaction Isolation: ReadCommitted vs Snapshot isolation levels")
 else()
     message(STATUS "Transaction Isolation Level tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+    target_compile_definitions(test_index_maintenance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    
+    set_tests_properties(IndexMaintenanceTests PROPERTIES
+        LABELS "storage;index;maintenance;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
+else()
+    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    target_compile_definitions(test_graphql PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    
+    set_tests_properties(GraphQLParserTests PROPERTIES
+        LABELS "api;graphql;parser;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
+else()
+    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
 endif()
 
 # ============================================================================
