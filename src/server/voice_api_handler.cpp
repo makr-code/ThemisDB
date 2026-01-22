@@ -8,6 +8,7 @@
 
 #include "server/voice_api_handler.h"
 #include "voice/voice_assistant.h"
+#include "utils/http_client_pool.h"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
@@ -16,6 +17,12 @@ namespace themis::server {
 
 VoiceApiHandler::VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant)
     : voice_assistant_(voice_assistant) {
+    // Initialize HTTP client pool for downloading audio from URLs
+    utils::HTTPClientPool::Config http_config;
+    http_config.max_connections = 10;
+    http_config.connect_timeout = std::chrono::seconds(10);
+    http_config.request_timeout = std::chrono::seconds(60); // Audio files may be large
+    http_client_pool_ = std::make_shared<utils::HTTPClientPool>(http_config);
 }
 
 http::response<http::string_body> VoiceApiHandler::handleRequest(
@@ -110,12 +117,17 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     if (body->contains("audio_base64")) {
         audio_data = decodeBase64((*body)["audio_base64"]);
     } else if (body->contains("audio_url")) {
-        // Download audio from URL (not implemented)
-        return createErrorResponse(
-            http::status::not_implemented,
-            "Not Implemented",
-            "Audio URL download not yet supported"
-        );
+        // Download audio from URL
+        try {
+            std::string audio_url = (*body)["audio_url"];
+            audio_data = downloadAudioFromUrl(audio_url);
+        } catch (const std::exception& e) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                std::string("Failed to download audio from URL: ") + e.what()
+            );
+        }
     } else {
         return createErrorResponse(
             http::status::bad_request,
@@ -509,6 +521,39 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     // For now, return empty string to avoid crashes
     // Real implementation should use a base64 library (e.g., Boost.Beast base64)
     return "";
+}
+
+std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {
+    // Validate URL format
+    if (url.empty()) {
+        throw std::invalid_argument("URL cannot be empty");
+    }
+    
+    // Check if URL starts with http:// or https://
+    if (url.find("http://") != 0 && url.find("https://") != 0) {
+        throw std::invalid_argument("URL must start with http:// or https://");
+    }
+    
+    // Download audio using HTTP client pool
+    auto response_future = http_client_pool_->get(url);
+    auto response = response_future.get();
+    
+    // Check if download was successful
+    if (!response.isSuccess()) {
+        throw std::runtime_error(
+            "Failed to download audio: HTTP " + std::to_string(response.status_code)
+        );
+    }
+    
+    // Check if response body is not empty
+    if (response.body.empty()) {
+        throw std::runtime_error("Downloaded audio is empty");
+    }
+    
+    // Convert response body to vector<uint8_t>
+    std::vector<uint8_t> audio_data(response.body.begin(), response.body.end());
+    
+    return audio_data;
 }
 
 } // namespace themis::server
