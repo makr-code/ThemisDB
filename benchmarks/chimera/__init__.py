@@ -27,7 +27,7 @@ Usage:
 """
 
 __version__ = "1.0.0"
-__author__ = "CHIMERA Suite Contributors"
+__author__ = "CHIMERA Development Team"
 __license__ = "MIT"
 
 from .reporter import ChimeraReporter

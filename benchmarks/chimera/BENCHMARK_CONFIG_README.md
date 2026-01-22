@@ -572,10 +572,10 @@ If you use the CHIMERA Suite configuration format in your research, please cite:
 ```bibtex
 @software{chimera_config_2026,
   title = {CHIMERA Suite: Vendor-Neutral Benchmark Configuration Format},
-  author = {CHIMERA Suite Contributors},
+  author = {CHIMERA Development Team},
   year = {2026},
   version = {1.0.0},
-  url = {https://github.com/makr-code/ThemisDB/tree/main/benchmarks/chimera},
+  url = {https://github.com/chimera-benchmark/chimera-suite},
   note = {IEEE Std 2807-2022 compliant}
 }
 ```
@@ -620,8 +620,9 @@ If you use the CHIMERA Suite configuration format in your research, please cite:
 
 For questions, issues, or suggestions:
 
-- **Documentation:** See the CHIMERA documentation in your benchmarking repository
-- **Examples:** [benchmarks/chimera/](.)
+- **GitHub Discussions:** [CHIMERA Suite Community](https://github.com/chimera-benchmark/chimera-suite/discussions)
+- **Documentation:** Full documentation available in the docs/ directory
+- **Examples:** See the chimera/ directory for configuration examples
 
 ---
 

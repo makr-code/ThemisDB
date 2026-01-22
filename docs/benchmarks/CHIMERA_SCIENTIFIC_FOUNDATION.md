@@ -524,7 +524,7 @@ The CHIMERA suite is designed to provide fair, unbiased, and scientifically soun
 
 ### 4.5 Conflict of Interest
 
-**Independence Declaration**: The CHIMERA Suite is developed as an independent, vendor-neutral benchmarking framework. When benchmarking any system (including the one in this repository), all comparisons are subject to the same rigorous standards.
+**Disclosure**: This benchmark suite is vendor-neutral and system-agnostic. All systems tested are subject to the same rigorous standards regardless of vendor affiliation.
 
 **Mitigation**:
 - Independent validation encouraged
@@ -728,8 +728,9 @@ See accompanying file: `references.bib`
 
 ### 9.1 Maintainers
 
-- CHIMERA Suite Contributors
-- Repository: See the benchmarks/chimera directory in your database benchmarking repository
+- CHIMERA Development Team
+- Email: [Repository maintainers]
+- GitHub: https://github.com/chimera-benchmark/chimera-suite
 
 ### 9.2 Contributing
 
@@ -748,9 +749,9 @@ If you use the CHIMERA benchmark suite in your research, please cite:
 ```bibtex
 @software{chimera2026,
   title={{CHIMERA}: Comprehensive, Honest, Impartial Metrics for Empirical Reporting and Analysis},
-  author={{CHIMERA Suite Contributors}},
+  author={{CHIMERA Development Team}},
   year={2026},
-  url={https://github.com/makr-code/ThemisDB/tree/main/benchmarks/chimera},
+  url={https://github.com/chimera-benchmark/chimera-suite},
   note={Vendor-neutral benchmark suite for database evaluation}
 }
 ```
@@ -771,4 +772,4 @@ If you use the CHIMERA benchmark suite in your research, please cite:
 
 ---
 
-*This document is part of the CHIMERA Suite project and is licensed under the MIT License.*
+*This document is part of the CHIMERA project and is licensed under the MIT License.*
