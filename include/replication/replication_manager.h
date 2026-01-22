@@ -442,6 +442,49 @@ public:
     // Demote this leader to follower
     bool demoteToFollower();
     
+    /**
+     * Enable multi-region replication
+     * @param region_id: Identifier for this region
+     * @param peer_regions: List of peer region endpoints
+     * @return true on success
+     */
+    bool enableMultiRegion(const std::string& region_id,
+                          const std::vector<std::string>& peer_regions);
+    
+    /**
+     * Promote a read replica to primary
+     * @param replica_id: Node ID of replica to promote
+     * @return true on success
+     */
+    bool promoteReplica(const std::string& replica_id);
+    
+    /**
+     * Setup cascading replication (replica replicating to other replicas)
+     * @param source_replica: Source replica node ID
+     * @param target_replicas: Target replica node IDs
+     * @return true on success
+     */
+    bool setupCascadingReplication(const std::string& source_replica,
+                                   const std::vector<std::string>& target_replicas);
+    
+    /**
+     * Get replication lag for specific replica
+     * @param replica_id: Node ID of replica
+     * @return Lag in milliseconds
+     */
+    int64_t getReplicationLag(const std::string& replica_id) const;
+    
+    /**
+     * Check cluster health
+     * @return Health status map (node_id -> is_healthy)
+     */
+    std::map<std::string, bool> getClusterHealth() const;
+    
+    /**
+     * Export metrics in Prometheus format
+     * @return Prometheus-formatted metrics string
+     */
+    std::string exportPrometheusMetrics() const;
     // Get health status of all replicas
     std::vector<std::pair<std::string, HealthStatus>> getReplicaHealthStatus() const;
     
