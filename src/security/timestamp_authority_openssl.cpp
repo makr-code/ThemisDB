@@ -216,6 +216,44 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     unsigned char* der=nullptr; int der_len=i2d_PKCS7(pkcs7,&der);
     if(der_len>0 && der){ token.token_der.assign(der, der+der_len); OPENSSL_free(der); }
     token.token_b64 = b64Encode(token.token_der);
+    
+    // Extract TSA certificate from PKCS7 (if cert_req was true)
+    STACK_OF(X509)* certs = PKCS7_get0_signers(pkcs7, nullptr, 0);
+    if(certs && sk_X509_num(certs) > 0){
+        X509* tsa_x509 = sk_X509_value(certs, 0);
+        if(tsa_x509){
+            // Store certificate in DER format
+            unsigned char* cert_der = nullptr;
+            int cert_len = i2d_X509(tsa_x509, &cert_der);
+            if(cert_len > 0 && cert_der){
+                token.tsa_cert.assign(cert_der, cert_der + cert_len);
+                OPENSSL_free(cert_der);
+            }
+            
+            // Extract certificate serial number
+            const ASN1_INTEGER* cert_serial = X509_get0_serialNumber(tsa_x509);
+            if(cert_serial){
+                BIGNUM* bn = ASN1_INTEGER_to_BN(cert_serial, nullptr);
+                char* hexStr = BN_bn2hex(bn);
+                token.tsa_serial = hexStr;
+                OPENSSL_free(hexStr);
+                BN_free(bn);
+            }
+            
+            // Extract subject name
+            X509_NAME* subject = X509_get_subject_name(tsa_x509);
+            if(subject){
+                BIO* name_bio = BIO_new(BIO_s_mem());
+                X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
+                BUF_MEM* name_buf;
+                BIO_get_mem_ptr(name_bio, &name_buf);
+                token.tsa_name.assign(name_buf->data, name_buf->length);
+                BIO_free(name_bio);
+            }
+        }
+    }
+    if(certs) sk_X509_free(certs);
+    
     TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
     if(tst){
         const ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst);
@@ -228,6 +266,23 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
         if(serial){ BIGNUM* bn = ASN1_INTEGER_to_BN(serial,nullptr); char* hexStr = BN_bn2hex(bn); token.serial_number = hexStr; OPENSSL_free(hexStr); BN_free(bn);}        
         ASN1_OBJECT* policy = TS_TST_INFO_get_policy_id(tst);
         if(policy){ char buf[128]; OBJ_obj2txt(buf,sizeof(buf),policy,1); token.policy_oid=buf; }
+        
+        // Extract accuracy metadata (RFC 3161 - optional)
+        const TS_ACCURACY* accuracy = TS_TST_INFO_get_accuracy(tst);
+        if(accuracy){
+            token.has_accuracy = true;
+            const ASN1_INTEGER* seconds = TS_ACCURACY_get_seconds(accuracy);
+            const ASN1_INTEGER* millis = TS_ACCURACY_get_millis(accuracy);
+            const ASN1_INTEGER* micros = TS_ACCURACY_get_micros(accuracy);
+            if(seconds) token.accuracy_seconds = ASN1_INTEGER_get(seconds);
+            if(millis) token.accuracy_millis = ASN1_INTEGER_get(millis);
+            if(micros) token.accuracy_micros = ASN1_INTEGER_get(micros);
+        }
+        
+        // Extract ordering hint (RFC 3161 - optional, default FALSE)
+        int ordering = TS_TST_INFO_get_ordering(tst);
+        token.ordering = (ordering != 0);
+        
         TS_TST_INFO_free(tst);
     }
     token.success=true; token.verified=false; // separate verification step
@@ -244,6 +299,12 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     auto token = parseTSPResponse(resp);
     token.nonce = nonce;
     token.hash_algorithm = config_.hash_algorithm;
+    
+    // Cache the TSA certificate for getTSACertificate()
+    if(!token.tsa_cert.empty()){
+        cached_tsa_cert_ = token.tsa_cert;
+    }
+    
     return token;
 }
 
@@ -274,7 +335,29 @@ bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data,const 
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& der){ return parseTSPResponse(der); }
 TimestampToken TimestampAuthority::parseToken(const std::string& b64){ auto der = b64Decode(b64); return parseTSPResponse(der); }
 
-std::optional<std::string> TimestampAuthority::getTSACertificate(){ return std::nullopt; }
+std::optional<std::string> TimestampAuthority::getTSACertificate(){
+    if(cached_tsa_cert_.empty()) return std::nullopt;
+    
+    // Convert DER to PEM format
+    const unsigned char* p = cached_tsa_cert_.data();
+    X509* cert = d2i_X509(nullptr, &p, cached_tsa_cert_.size());
+    if(!cert) return std::nullopt;
+    
+    BIO* bio = BIO_new(BIO_s_mem());
+    if(!bio){
+        X509_free(cert);
+        return std::nullopt;
+    }
+    
+    PEM_write_bio_X509(bio, cert);
+    BUF_MEM* mem;
+    BIO_get_mem_ptr(bio, &mem);
+    std::string pem(mem->data, mem->length);
+    
+    BIO_free(bio);
+    X509_free(cert);
+    return pem;
+}
 
 bool TimestampAuthority::isAvailable(){
     if(!impl_->curl) return false;
