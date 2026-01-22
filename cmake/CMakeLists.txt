@@ -1274,6 +1274,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
+    ../src/security/access_control_manager.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
