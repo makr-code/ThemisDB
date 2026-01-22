@@ -2617,6 +2617,17 @@ else()
 endif()
 
 # ============================================================================
+# RPC Geospatial Query Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
+    message(STATUS "Adding RPC Geospatial Query tests")
+    
+    add_executable(test_rpc_geo_query
+        test_rpc_geo_query.cpp
+    )
+    
+    target_link_libraries(test_rpc_geo_query PRIVATE
 # Index Maintenance Tests
 # ============================================================================
 
@@ -2664,6 +2675,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
         themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_rpc_geo_query PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RPCGeoQueryTests COMMAND test_rpc_geo_query)
+    
+    set_tests_properties(RPCGeoQueryTests PROPERTIES
+        LABELS "rpc;geospatial;query;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  RPC Geo Query: intersects, within, near spatial queries")
+else()
+    message(STATUS "RPC Geo Query tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
         Threads::Threads
     )
     
