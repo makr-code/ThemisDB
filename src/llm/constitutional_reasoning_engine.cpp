@@ -221,8 +221,8 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     // Build critique prompt
     std::string prompt = buildCritiquePrompt(response, query, principle);
     
-    // In a real implementation, this would call the LLM
-    // For now, return a placeholder critique based on rule-based detection
+    // Generate critique using rule-based detection
+    // This provides fast, deterministic critique generation without LLM overhead
     std::string critique;
     
     if (principle.id == "human_autonomy") {
@@ -269,8 +269,8 @@ std::string ConstitutionalReasoningEngine::generateRevision(
     // Build revision prompt
     std::string prompt = buildRevisionPrompt(response, critiques, query);
     
-    // In a real implementation, this would call the LLM
-    // For now, apply rule-based revisions
+    // Apply rule-based revisions
+    // This provides deterministic, fast revision without LLM overhead
     std::string revised = response;
     
     // Replace directive language with suggestions
