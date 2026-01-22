@@ -2280,71 +2280,51 @@ SecondaryIndexManager::scanFulltextFuzzy(
 		return {Status::OK(), {}};
 	}
 	
-	// For fuzzy search, we need to scan all tokens in the index and find similar ones
-	std::unordered_set<std::string> candidatePKs;
+	// For fuzzy search, we need to scan tokens in the index and find similar ones
+	// Optimization: Scan index once and check all query tokens
+	std::unordered_map<std::string, std::unordered_set<std::string>> tokenToDocs;
 	std::unordered_map<std::string, double> pkScores;
 	
-	// Scan all fulltext index entries for this table/column
+	// Scan all fulltext index entries for this table/column once
 	std::string prefix = "ftidx:" + std::string(table) + ":" + std::string(column) + ":";
 	
-	// Collect similar tokens for each query token
-	std::unordered_set<std::string> similarTokens;
-	for (const auto& queryToken : queryTokens) {
-		// Scan the index to find tokens within edit distance
-		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
-			// Extract token from ftidx:table:column:token:pk
-			std::string keyStr(key);
-			size_t thirdColon = keyStr.find(':', prefix.size());
-			if (thirdColon != std::string::npos) {
+	// Single scan: collect similar tokens and their documents
+	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
+		// Extract token from ftidx:table:column:token:pk
+		std::string keyStr(key);
+		size_t thirdColon = keyStr.find(':', prefix.size());
+		if (thirdColon != std::string::npos) {
+			size_t fourthColon = keyStr.find(':', thirdColon + 1);
+			if (fourthColon != std::string::npos) {
 				std::string token = keyStr.substr(prefix.size(), thirdColon - prefix.size());
+				std::string pk = keyStr.substr(fourthColon + 1);
 				
-				// Calculate Levenshtein distance
-				int distance = levenshteinDistance(queryToken, token);
-				if (distance <= maxDistance) {
-					similarTokens.insert(token);
-				}
-			}
-			return true;
-		});
-	}
-	
-	// Now collect documents containing similar tokens
-	for (const auto& token : similarTokens) {
-		std::string tokenPrefix = makeFulltextIndexPrefix(table, column, token);
-		
-		db_.scanPrefix(tokenPrefix, [&](std::string_view key, std::string_view /*val*/) {
-			size_t lastColon = key.rfind(':');
-			if (lastColon != std::string_view::npos) {
-				std::string pk = std::string(key.substr(lastColon + 1));
-				candidatePKs.insert(pk);
-				
-				// Score based on inverse of distance (closer = higher score)
-				// Simple scoring: 1.0 / (1 + distance)
-				bool found = false;
-				double bestScore = 0.0;
+				// Check token against all query tokens
 				for (const auto& queryToken : queryTokens) {
-					int dist = levenshteinDistance(queryToken, token);
-					double score = 1.0 / (1.0 + dist);
-					if (score > bestScore) {
-						bestScore = score;
-						found = true;
+					int distance = levenshteinDistance(queryToken, token);
+					if (distance <= maxDistance) {
+						tokenToDocs[token].insert(pk);
+						
+						// Update score: better distance = higher score
+						double score = 1.0 / (1.0 + distance);
+						auto it = pkScores.find(pk);
+						if (it == pkScores.end()) {
+							pkScores[pk] = score;
+						} else {
+							it->second = std::max(it->second, score);
+						}
 					}
 				}
-				
-				if (found) {
-					pkScores[pk] = std::max(pkScores[pk], bestScore);
-				}
 			}
-			return true;
-		});
-	}
+		}
+		return true;
+	});
 	
 	// Convert to results with scores
 	std::vector<FulltextResult> results;
-	results.reserve(candidatePKs.size());
+	results.reserve(pkScores.size());
 	
-	for (const auto& pk : candidatePKs) {
-		double score = pkScores.count(pk) ? pkScores[pk] : 0.5;
+	for (const auto& [pk, score] : pkScores) {
 		results.push_back({pk, score});
 	}
 	

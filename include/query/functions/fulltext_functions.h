@@ -82,9 +82,9 @@ public:
     FunctionSignature signature() const override {
         return {
             "FUZZY",
-            {ParamType::STRING, ParamType::STRING, ParamType::STRING},
+            {ParamType::STRING, ParamType::STRING, ParamType::STRING, ParamType::NUMBER, ParamType::NUMBER},
             ParamType::ARRAY,
-            3, 4,  // collection, field, query, optional maxDistance (default 2)
+            3, 5,  // collection, field, query, optional maxDistance (INTEGER), optional limit (INTEGER)
             "Performs fuzzy search using Levenshtein distance",
             FunctionCost{CostComplexity::LINEAR, 20.0, 0.3, true, false, "fulltext"}
         };
