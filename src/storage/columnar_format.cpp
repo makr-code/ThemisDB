@@ -222,6 +222,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     pos += sizeof(uint32_t);
 
     // Validate dictionary size to prevent excessive memory allocation
+    // Limit prevents DoS attacks: 10M entries * ~100 bytes avg = ~1GB max dictionary memory
     constexpr uint32_t kMaxDictSize = 10'000'000;  // 10 million entries
     if (dict_size > kMaxDictSize) {
         return tl::unexpected(Error(
@@ -255,6 +256,8 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
         pos += sizeof(uint32_t);
 
         // Validate string length to prevent excessive memory allocation
+        // Limit prevents DoS attacks: single string cannot exceed 100MB
+        // This is reasonable for categorical data while preventing memory exhaustion
         constexpr uint32_t kMaxStringLen = 100'000'000;  // 100 MB per string
         if (str_len > kMaxStringLen) {
             return tl::unexpected(Error(
@@ -341,13 +344,14 @@ uint8_t BitPackingCodec::calculateBitsRequired(int64_t min_val, int64_t max_val)
         // Both non-negative: simple unsigned subtraction is safe
         range = static_cast<uint64_t>(max_val) - static_cast<uint64_t>(min_val);
     } else if (min_val < 0 && max_val < 0) {
-        // Both negative: use absolute values
-        uint64_t min_abs = static_cast<uint64_t>(-(min_val + 1)) + 1;
-        uint64_t max_abs = static_cast<uint64_t>(-(max_val + 1)) + 1;
+        // Both negative: compute difference of absolute values
+        // For negative int64, use two's complement: abs(x) = ~x + 1 for x < 0
+        uint64_t min_abs = static_cast<uint64_t>(~min_val) + 1;
+        uint64_t max_abs = static_cast<uint64_t>(~max_val) + 1;
         range = min_abs - max_abs;
     } else {
-        // Range crosses zero: distance is abs(min_val) + max_val
-        uint64_t min_abs = static_cast<uint64_t>(-(min_val + 1)) + 1;
+        // Range crosses zero: abs(min_val) + max_val
+        uint64_t min_abs = static_cast<uint64_t>(~min_val) + 1;
         range = min_abs + static_cast<uint64_t>(max_val);
     }
     
