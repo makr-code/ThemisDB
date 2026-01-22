@@ -18,9 +18,12 @@ namespace themis::server {
 
 namespace {
     /**
-     * @brief Check if a string represents a valid IPv4 address
+     * @brief Parse and validate IPv4 address, returning octets
+     * @param str Input string
+     * @param octets Output array of 4 octets
+     * @return true if valid IPv4, false otherwise
      */
-    bool isValidIPv4(const std::string& str) {
+    bool parseIPv4(const std::string& str, int octets[4]) {
         std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
         std::smatch match;
         
@@ -29,11 +32,12 @@ namespace {
         }
         
         // Validate each octet is 0-255
-        for (int i = 1; i <= 4; i++) {
-            int octet = std::stoi(match[i].str());
+        for (int i = 0; i < 4; i++) {
+            int octet = std::stoi(match[i + 1].str());
             if (octet < 0 || octet > 255) {
                 return false;
             }
+            octets[i] = octet;
         }
         
         return true;
@@ -41,18 +45,17 @@ namespace {
     
     /**
      * @brief Check if an IPv4 address is in a private or restricted range
+     * @param ip IPv4 address string
+     * @return true if the address is restricted, false otherwise
      */
     bool isRestrictedIPv4(const std::string& ip) {
-        if (!isValidIPv4(ip)) {
+        int octets[4];
+        if (!parseIPv4(ip, octets)) {
             return false; // Not a valid IP, let it pass through to fail later
         }
         
-        std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
-        std::smatch match;
-        std::regex_match(ip, match, ipv4_regex);
-        
-        int a = std::stoi(match[1].str());
-        int b = std::stoi(match[2].str());
+        int a = octets[0];
+        int b = octets[1];
         
         // Loopback: 127.0.0.0/8
         if (a == 127) return true;
@@ -624,13 +627,19 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     }
     
     // Check if host is an IPv4 address and validate it's not private/restricted
-    if (isValidIPv4(host_lower)) {
+    int octets[4];
+    if (parseIPv4(host_lower, octets)) {
         if (isRestrictedIPv4(host_lower)) {
             throw std::invalid_argument("Access to private or restricted IP addresses is not allowed");
         }
     }
-    // For domain names, we do basic checks but cannot prevent all SSRF without DNS resolution
-    // Additional mitigations should be done at network level (firewall rules, etc.)
+    // NOTE: Security Limitation - Domain names are not resolved to check for private IPs
+    // A malicious domain could resolve to 127.0.0.1 or other private addresses.
+    // For production use, consider:
+    // 1. Implementing DNS resolution and validating resolved IPs
+    // 2. Using network-level controls (firewall rules, egress filtering)
+    // 3. Running this service in a sandboxed network environment
+    // 4. Maintaining an allowlist of trusted domains
     
     // Download audio using HTTP client pool
     // Note: The HTTP client pool has built-in timeouts (connect_timeout and request_timeout)
