@@ -168,6 +168,13 @@ QuantizedTensor GGUFConverter::convertQ4KM_direct(
     // Create output tensor with NF4 quantization
     QuantizedTensor result(QuantizationType::NF4, shape, GGUF_CONVERSION_BLOCK_SIZE);
     
+    // Initialize all block parameters to track scales correctly
+    for (auto& block : result.blocks()) {
+        block.scale = 0.0f;  // Will track maximum effective scale
+        block.zero_point = 0.0f;
+        block.size = 0;
+    }
+    
     // Process each GGUF block
     for (size_t gguf_block_idx = 0; gguf_block_idx < num_gguf_blocks; ++gguf_block_idx) {
         const gguf_blocks::Q4KBlock* gguf_block = 
@@ -180,6 +187,9 @@ QuantizedTensor GGUFConverter::convertQ4KM_direct(
         // Process values in this GGUF block (up to 256 values)
         size_t block_start = gguf_block_idx * GGUF_Q4K_BLOCK_SIZE;
         size_t block_elements = std::min(GGUF_Q4K_BLOCK_SIZE, num_elements - block_start);
+        
+        // Track maximum effective scale for this GGUF block
+        float max_effective_scale = 0.0f;
         
         // Copy/convert each 4-bit value directly
         for (size_t i = 0; i < block_elements; ++i) {
@@ -204,16 +214,24 @@ QuantizedTensor GGUFConverter::convertQ4KM_direct(
                 result.data()[out_byte_idx] = (result.data()[out_byte_idx] & 0x0F) | ((nibble & 0x0F) << 4);
             }
             
-            // Update quantization block parameters
-            // Map to our internal block structure
-            size_t internal_block_idx = global_idx / GGUF_CONVERSION_BLOCK_SIZE;
-            if (internal_block_idx < result.blocks().size()) {
-                // Store scale and offset information
-                // For Q4_K, the scale varies per sub-block, so we average or use the dominant one
-                float effective_scale = d * static_cast<float>(scale_nibble);
-                result.blocks()[internal_block_idx].scale = std::max(result.blocks()[internal_block_idx].scale, effective_scale);
-                result.blocks()[internal_block_idx].zero_point = dmin;
-            }
+            // Track maximum effective scale for block parameter updates
+            float effective_scale = d * static_cast<float>(scale_nibble);
+            max_effective_scale = std::max(max_effective_scale, effective_scale);
+        }
+        
+        // Update quantization block parameters (once per GGUF block)
+        // Map GGUF blocks to our internal block structure
+        size_t start_internal_block = block_start / GGUF_CONVERSION_BLOCK_SIZE;
+        size_t end_internal_block = (block_start + block_elements - 1) / GGUF_CONVERSION_BLOCK_SIZE;
+        
+        for (size_t internal_block_idx = start_internal_block; internal_block_idx <= end_internal_block && internal_block_idx < result.blocks().size(); ++internal_block_idx) {
+            // Store scale information (max effective scale)
+            result.blocks()[internal_block_idx].scale = std::max(result.blocks()[internal_block_idx].scale, max_effective_scale);
+            result.blocks()[internal_block_idx].zero_point = dmin;
+            // Calculate block size
+            size_t block_begin = internal_block_idx * GGUF_CONVERSION_BLOCK_SIZE;
+            size_t block_end = std::min(block_begin + GGUF_CONVERSION_BLOCK_SIZE, num_elements);
+            result.blocks()[internal_block_idx].size = block_end - block_begin;
         }
     }
     
@@ -254,6 +272,13 @@ QuantizedTensor GGUFConverter::convertQ8_0_direct(
     // Create output tensor with INT8 quantization
     QuantizedTensor result(QuantizationType::INT8, shape, GGUF_CONVERSION_BLOCK_SIZE);
     
+    // Initialize all block scales to 0 for proper max tracking
+    for (auto& block : result.blocks()) {
+        block.scale = 0.0f;
+        block.zero_point = 128.0f;  // Zero point for signed-to-unsigned conversion
+        block.size = 0;
+    }
+    
     // Process each GGUF block
     for (size_t gguf_block_idx = 0; gguf_block_idx < num_gguf_blocks; ++gguf_block_idx) {
         const gguf_blocks::Q8_0Block* gguf_block = 
@@ -273,17 +298,24 @@ QuantizedTensor GGUFConverter::convertQ8_0_direct(
             // GGUF Q8_0 uses symmetric quantization: value = q * scale
             // Our internal INT8 also uses symmetric quantization with offset
             // Convert from signed int8 (-128..127) to unsigned uint8 (0..255)
+            // Clamp to prevent overflow: q is in [-128, 127], so q+128 is in [0, 255]
             int8_t q = gguf_block->qs[i];
-            result.data()[global_idx] = static_cast<uint8_t>(q + 128);
-            
-            // Update quantization block parameters
-            size_t internal_block_idx = global_idx / GGUF_CONVERSION_BLOCK_SIZE;
-            if (internal_block_idx < result.blocks().size()) {
-                // Store scale information (max scale in block)
-                result.blocks()[internal_block_idx].scale = std::max(result.blocks()[internal_block_idx].scale, d);
-                result.blocks()[internal_block_idx].zero_point = 0.0f;  // Symmetric quantization
-                result.blocks()[internal_block_idx].size = std::max(result.blocks()[internal_block_idx].size, global_idx - internal_block_idx * GGUF_CONVERSION_BLOCK_SIZE + 1);
-            }
+            int16_t offset_val = static_cast<int16_t>(q) + 128;
+            result.data()[global_idx] = static_cast<uint8_t>(std::max(0, std::min(255, offset_val)));
+        }
+        
+        // Update quantization block parameters (once per GGUF block)
+        // Map GGUF blocks to our internal block structure
+        size_t start_internal_block = block_start / GGUF_CONVERSION_BLOCK_SIZE;
+        size_t end_internal_block = (block_start + block_elements - 1) / GGUF_CONVERSION_BLOCK_SIZE;
+        
+        for (size_t internal_block_idx = start_internal_block; internal_block_idx <= end_internal_block && internal_block_idx < result.blocks().size(); ++internal_block_idx) {
+            // Store scale information (max scale in block)
+            result.blocks()[internal_block_idx].scale = std::max(result.blocks()[internal_block_idx].scale, d);
+            // Calculate block size
+            size_t block_begin = internal_block_idx * GGUF_CONVERSION_BLOCK_SIZE;
+            size_t block_end = std::min(block_begin + GGUF_CONVERSION_BLOCK_SIZE, num_elements);
+            result.blocks()[internal_block_idx].size = block_end - block_begin;
         }
     }
     
