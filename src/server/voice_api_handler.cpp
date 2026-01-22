@@ -12,8 +12,69 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <regex>
 
 namespace themis::server {
+
+namespace {
+    /**
+     * @brief Check if a string represents a valid IPv4 address
+     */
+    bool isValidIPv4(const std::string& str) {
+        std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
+        std::smatch match;
+        
+        if (!std::regex_match(str, match, ipv4_regex)) {
+            return false;
+        }
+        
+        // Validate each octet is 0-255
+        for (int i = 1; i <= 4; i++) {
+            int octet = std::stoi(match[i].str());
+            if (octet < 0 || octet > 255) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * @brief Check if an IPv4 address is in a private or restricted range
+     */
+    bool isRestrictedIPv4(const std::string& ip) {
+        if (!isValidIPv4(ip)) {
+            return false; // Not a valid IP, let it pass through to fail later
+        }
+        
+        std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
+        std::smatch match;
+        std::regex_match(ip, match, ipv4_regex);
+        
+        int a = std::stoi(match[1].str());
+        int b = std::stoi(match[2].str());
+        
+        // Loopback: 127.0.0.0/8
+        if (a == 127) return true;
+        
+        // Private: 10.0.0.0/8
+        if (a == 10) return true;
+        
+        // Private: 172.16.0.0/12
+        if (a == 172 && b >= 16 && b <= 31) return true;
+        
+        // Private: 192.168.0.0/16
+        if (a == 192 && b == 168) return true;
+        
+        // Link-local: 169.254.0.0/16
+        if (a == 169 && b == 254) return true;
+        
+        // 0.0.0.0/8
+        if (a == 0) return true;
+        
+        return false;
+    }
+}
 
 VoiceApiHandler::VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant)
     : voice_assistant_(voice_assistant) {
@@ -524,55 +585,52 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
 }
 
 std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {
-    // Validate URL format
+    // Validate URL format - parseURL will handle this
     if (url.empty()) {
         throw std::invalid_argument("URL cannot be empty");
     }
     
-    // Check if URL starts with http:// or https://
-    if (url.find("http://") != 0 && url.find("https://") != 0) {
-        throw std::invalid_argument("URL must start with http:// or https://");
-    }
-    
     // SSRF Protection: Parse URL and validate host to prevent access to internal resources
+    utils::URLComponents components;
     try {
-        auto components = utils::parseURL(url);
-        std::string host_lower = components.host;
-        std::transform(host_lower.begin(), host_lower.end(), host_lower.begin(), ::tolower);
-        
-        // Block localhost and loopback addresses
-        if (host_lower == "localhost" || 
-            host_lower == "127.0.0.1" ||
-            host_lower.find("127.") == 0 ||
-            host_lower == "::1" ||
-            host_lower.find("[::1]") == 0) {
-            throw std::invalid_argument("Access to localhost is not allowed");
-        }
-        
-        // Block private IP ranges (RFC 1918)
-        if (host_lower.find("10.") == 0 ||
-            host_lower.find("192.168.") == 0 ||
-            (host_lower.find("172.") == 0 && 
-             std::stoi(host_lower.substr(4, host_lower.find('.', 4) - 4)) >= 16 &&
-             std::stoi(host_lower.substr(4, host_lower.find('.', 4) - 4)) <= 31)) {
-            throw std::invalid_argument("Access to private IP addresses is not allowed");
-        }
-        
-        // Block link-local addresses (169.254.0.0/16)
-        if (host_lower.find("169.254.") == 0) {
-            throw std::invalid_argument("Access to link-local addresses is not allowed");
-        }
-        
-        // Block metadata endpoints commonly used in cloud environments
-        if (host_lower == "169.254.169.254" || host_lower == "metadata.google.internal") {
-            throw std::invalid_argument("Access to metadata endpoints is not allowed");
-        }
-        
-    } catch (const std::invalid_argument& e) {
-        throw; // Re-throw validation errors
+        components = utils::parseURL(url);
     } catch (const std::exception& e) {
         throw std::invalid_argument("Invalid URL format");
     }
+    
+    // Only allow HTTP and HTTPS
+    if (components.protocol != "http" && components.protocol != "https") {
+        throw std::invalid_argument("Only HTTP and HTTPS protocols are allowed");
+    }
+    
+    std::string host_lower = components.host;
+    std::transform(host_lower.begin(), host_lower.end(), host_lower.begin(), ::tolower);
+    
+    // Block localhost and loopback variations
+    if (host_lower == "localhost" || 
+        host_lower == "0.0.0.0" ||
+        host_lower == "::1" ||
+        host_lower.find("[::1]") != std::string::npos ||
+        host_lower.find("::ffff:127.") != std::string::npos) {
+        throw std::invalid_argument("Access to localhost is not allowed");
+    }
+    
+    // Block cloud metadata endpoints
+    if (host_lower == "169.254.169.254" || 
+        host_lower == "metadata.google.internal" ||
+        host_lower == "metadata" ||
+        host_lower.find("metadata") != std::string::npos) {
+        throw std::invalid_argument("Access to metadata endpoints is not allowed");
+    }
+    
+    // Check if host is an IPv4 address and validate it's not private/restricted
+    if (isValidIPv4(host_lower)) {
+        if (isRestrictedIPv4(host_lower)) {
+            throw std::invalid_argument("Access to private or restricted IP addresses is not allowed");
+        }
+    }
+    // For domain names, we do basic checks but cannot prevent all SSRF without DNS resolution
+    // Additional mitigations should be done at network level (firewall rules, etc.)
     
     // Download audio using HTTP client pool
     // Note: The HTTP client pool has built-in timeouts (connect_timeout and request_timeout)
