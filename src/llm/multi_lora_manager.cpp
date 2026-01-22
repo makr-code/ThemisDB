@@ -2305,30 +2305,154 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
     );
     double time_offset = duration.count();
     
-    // Use custom schedule function if provided
-    if (schedule.schedule_func) {
-        return schedule.schedule_func(time_offset);
+    // Handle different scheduling strategies
+    switch (schedule.scheduling_strategy) {
+        case SchedulingStrategy::CUSTOM:
+            // Use custom schedule function if provided
+            if (schedule.schedule_func) {
+                return schedule.schedule_func(time_offset);
+            }
+            // Fall back to static weights if no custom function
+            return schedule.static_weights;
+            
+        case SchedulingStrategy::LINEAR:
+            return computeLinearSchedule(schedule, time_offset);
+            
+        case SchedulingStrategy::EXPONENTIAL:
+            return computeExponentialSchedule(schedule, time_offset);
+            
+        case SchedulingStrategy::STEP_WISE:
+            return computeStepWiseSchedule(schedule, time_offset);
+            
+        default:
+            // Fallback to static weights for unknown strategy
+            spdlog::warn("Unknown scheduling strategy for fusion_id: {}, using static weights", 
+                        fusion_id);
+            return schedule.static_weights;
+    }
+}
+
+std::vector<float> MultiLoRAManager::computeLinearSchedule(
+    const AlphaSchedule& schedule,
+    double time_offset
+) const {
+    // Linear interpolation for smooth transitions
+    if (schedule.transition_duration.count() <= 0) {
+        return schedule.static_weights;
     }
     
-    // Default linear interpolation for A/B testing
-    if (schedule.transition_duration.count() > 0) {
-        float progress = std::min(1.0f, 
-            static_cast<float>(time_offset) / schedule.transition_duration.count());
-        
-        // Linear transition from static_weights to target weights [a_weight, b_weight]
-        std::vector<float> weights = schedule.static_weights;
-        
-        // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
-        if (weights.size() >= 2) {
-            float start_weight_0 = weights[0];
-            float start_weight_1 = weights[1];
-            weights[0] = start_weight_0 * (1.0f - progress) + schedule.a_weight * progress;
-            weights[1] = start_weight_1 * (1.0f - progress) + schedule.b_weight * progress;
+    float progress = std::min(1.0f, 
+        static_cast<float>(time_offset) / schedule.transition_duration.count());
+    
+    // Determine target weights
+    std::vector<float> target_weights;
+    if (!schedule.target_weights.empty()) {
+        target_weights = schedule.target_weights;
+    } else if (schedule.static_weights.size() >= 2) {
+        // Backward compatibility: use a_weight and b_weight
+        target_weights = {schedule.a_weight, schedule.b_weight};
+    } else {
+        return schedule.static_weights;
+    }
+    
+    // Linear transition from static_weights to target_weights
+    std::vector<float> weights = schedule.static_weights;
+    size_t num_weights = std::min(weights.size(), target_weights.size());
+    
+    // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
+    for (size_t i = 0; i < num_weights; ++i) {
+        weights[i] = weights[i] * (1.0f - progress) + target_weights[i] * progress;
+    }
+    
+    return weights;
+}
+
+std::vector<float> MultiLoRAManager::computeExponentialSchedule(
+    const AlphaSchedule& schedule,
+    double time_offset
+) const {
+    // Exponential decay or growth
+    if (schedule.transition_duration.count() <= 0) {
+        return schedule.static_weights;
+    }
+    
+    // Normalize time to [0, 1] range
+    float normalized_time = std::min(1.0f, 
+        static_cast<float>(time_offset) / schedule.transition_duration.count());
+    
+    // Determine target weights
+    std::vector<float> target_weights;
+    if (!schedule.target_weights.empty()) {
+        target_weights = schedule.target_weights;
+    } else if (schedule.static_weights.size() >= 2) {
+        target_weights = {schedule.a_weight, schedule.b_weight};
+    } else {
+        return schedule.static_weights;
+    }
+    
+    // Compute exponential progress
+    // For decay: progress = 1 - exp(-base * t)
+    // For growth: progress = (exp(base * t) - 1) / (exp(base) - 1)
+    float progress;
+    if (schedule.exponential_decay) {
+        // Exponential decay: fast transition at start, slow at end
+        progress = 1.0f - std::exp(-schedule.exponential_base * normalized_time);
+        // Normalize to ensure we reach 1.0 at t=1
+        float max_progress = 1.0f - std::exp(-schedule.exponential_base);
+        progress /= max_progress;
+    } else {
+        // Exponential growth: slow transition at start, fast at end
+        float exp_base = std::exp(schedule.exponential_base);
+        float exp_t = std::exp(schedule.exponential_base * normalized_time);
+        progress = (exp_t - 1.0f) / (exp_base - 1.0f);
+    }
+    
+    // Clamp progress to [0, 1]
+    progress = std::max(0.0f, std::min(1.0f, progress));
+    
+    // Exponential transition from static_weights to target_weights
+    std::vector<float> weights = schedule.static_weights;
+    size_t num_weights = std::min(weights.size(), target_weights.size());
+    
+    for (size_t i = 0; i < num_weights; ++i) {
+        weights[i] = weights[i] * (1.0f - progress) + target_weights[i] * progress;
+    }
+    
+    return weights;
+}
+
+std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
+    const AlphaSchedule& schedule,
+    double time_offset
+) const {
+    // Step-wise discrete transitions at specified time points
+    
+    // If no steps defined, return static weights
+    if (schedule.step_times.empty() || schedule.step_weights.empty()) {
+        return schedule.static_weights;
+    }
+    
+    // Find the appropriate step based on current time
+    size_t step_index = 0;
+    for (size_t i = 0; i < schedule.step_times.size(); ++i) {
+        if (time_offset >= schedule.step_times[i]) {
+            step_index = i + 1;  // Move to next step after this time
+        } else {
+            break;
         }
-        
-        return weights;
     }
     
+    // Return weights for current step
+    if (step_index < schedule.step_weights.size()) {
+        return schedule.step_weights[step_index];
+    }
+    
+    // If we've passed all steps, return the last step's weights
+    if (!schedule.step_weights.empty()) {
+        return schedule.step_weights.back();
+    }
+    
+    // Fallback to static weights
     return schedule.static_weights;
 }
 
