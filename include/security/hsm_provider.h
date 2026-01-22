@@ -226,12 +226,10 @@ private:
     std::string last_error_;
 
     // PKCS#11 helper discovery functions (only active when THEMIS_ENABLE_HSM_REAL)
-    void discoverKeys();
-    void discoverCertificate();
-    // Session-pool helpers (only used when THEMIS_ENABLE_HSM_REAL)
     struct SessionEntry; // forward
     void discoverKeysSession(SessionEntry& s);
     void discoverCertificateSession(SessionEntry& s);
+    // Pool-Hilfen (nur real)
     SessionEntry* acquireSession();
     void releaseSession(SessionEntry* s);
 };
