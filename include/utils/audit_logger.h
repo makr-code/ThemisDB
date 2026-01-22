@@ -48,6 +48,22 @@ enum class SecurityEventType {
     KEY_DELETED,
     KEY_ACCESS,
     
+    // HSM Operations (Hardware Security Module)
+    HSM_INITIALIZED,
+    HSM_FINALIZED,
+    HSM_KEY_GENERATED,
+    HSM_KEY_IMPORTED,
+    HSM_CERT_IMPORTED,
+    HSM_SIGN_OPERATION,
+    HSM_VERIFY_OPERATION,
+    HSM_SIGN_FAILED,
+    HSM_VERIFY_FAILED,
+    HSM_SESSION_OPENED,
+    HSM_SESSION_CLOSED,
+    HSM_LOGIN_SUCCESS,
+    HSM_LOGIN_FAILED,
+    HSM_KEY_ACCESS,
+    
     // Data Access
     DATA_READ,
     DATA_WRITE,
