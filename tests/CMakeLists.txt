@@ -2617,6 +2617,41 @@ else()
 endif()
 
 # ============================================================================
+# HTTP Client Pool Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
+    message(STATUS "Adding HTTP Client Pool tests")
+    
+    add_executable(test_http_client_pool
+        test_http_client_pool.cpp
+    )
+    
+    target_link_libraries(test_http_client_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Boost::beast
+        Boost::system
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_http_client_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME HTTPClientPoolTests COMMAND test_http_client_pool)
+    
+    set_tests_properties(HTTPClientPoolTests PROPERTIES
+        LABELS "utils;http;connection-pool;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  HTTP Client Pool: striped locking, stale connection removal, timeouts")
+else()
+    message(STATUS "HTTP Client Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
 # RPC Geospatial Query Tests
 # ============================================================================
 
