@@ -937,7 +937,15 @@ int main(int argc, char* argv[]) {
                 auto db_ptr = db;
                 auto sec_idx_ptr = secondary_index;
                 
-                retention_thread = std::thread([retention_mgr, &retention_stop, retention_interval_hours, db_ptr, sec_idx_ptr, audit_logger]() {
+                // Create main audit logger instance for retention operations
+                themis::utils::AuditLoggerConfig main_audit_cfg;
+                main_audit_cfg.enabled = true;
+                main_audit_cfg.encrypt_then_sign = true;
+                main_audit_cfg.log_path = "data/logs/audit.jsonl";
+                main_audit_cfg.key_id = "saga_log";
+                auto main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
+                
+                retention_thread = std::thread([retention_mgr, &retention_stop, retention_interval_hours, db_ptr, sec_idx_ptr, audit_logger, main_audit_logger]() {
                     using namespace std::chrono;
                     auto interval = hours(retention_interval_hours);
                     auto next_run = system_clock::now();
@@ -946,9 +954,27 @@ int main(int argc, char* argv[]) {
                         auto now_tp = system_clock::now();
                         if (now_tp >= next_run) {
                             // Entity provider: enumerate entities per policy from DB
-                            auto entity_provider = [db_ptr, sec_idx_ptr](const std::string& policy_name) 
+                            auto entity_provider = [db_ptr, sec_idx_ptr, main_audit_logger](const std::string& policy_name) 
                                 -> std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> {
                                 std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> entities;
+                                
+                                // Special handling for audit_logs policy - enumerate from audit log files
+                                if (policy_name == "audit_logs" || policy_name.find("audit") != std::string::npos) {
+                                    try {
+                                        auto entries = main_audit_logger->enumerateEntries();
+                                        for (const auto& entry : entries) {
+                                            // Use entry number as entity ID
+                                            std::string entry_id = "audit_entry_" + std::to_string(entry.entry_number);
+                                            entities.emplace_back(entry_id, entry.timestamp);
+                                        }
+                                        THEMIS_INFO("[Retention] Enumerated {} audit log entries for policy '{}'", 
+                                                    entries.size(), policy_name);
+                                        return entities;
+                                    } catch (const std::exception& e) {
+                                        THEMIS_ERROR("[Retention] Failed to enumerate audit logs: {}", e.what());
+                                        return entities;
+                                    }
+                                }
                                 
                                 // Map policy names to collections (example heuristic)
                                 // In production: use policy metadata or a mapping table
@@ -957,8 +983,6 @@ int main(int argc, char* argv[]) {
                                     collection = "users";
                                 } else if (policy_name.find("transaction") != std::string::npos) {
                                     collection = "transactions";
-                                } else if (policy_name.find("audit") != std::string::npos) {
-                                    collection = "audit_logs";
                                 } else if (policy_name.find("session") != std::string::npos) {
                                     collection = "sessions";
                                 } else if (policy_name.find("analytics") != std::string::npos) {
@@ -1016,7 +1040,53 @@ int main(int argc, char* argv[]) {
                                 return entities;
                             };
                             
-                            auto archive_handler = [db_ptr, audit_logger](const std::string& entity_id) -> bool {
+                            // Track whether we've already processed audit logs in this retention run
+                            auto audit_archived = std::make_shared<std::atomic<bool>>(false);
+                            auto audit_purged = std::make_shared<std::atomic<bool>>(false);
+                            
+                            auto archive_handler = [db_ptr, audit_logger, main_audit_logger, audit_archived](const std::string& entity_id) -> bool {
+                                // Special handling for audit log entries - bulk operation
+                                if (entity_id.find("audit_entry_") == 0) {
+                                    // Only perform the bulk archive operation once per retention run
+                                    bool expected = false;
+                                    if (!audit_archived->compare_exchange_strong(expected, true)) {
+                                        // Already archived in this run
+                                        return true;
+                                    }
+                                    
+                                    try {
+                                        // Archive all entries older than 5 years (from policy)
+                                        auto now = std::chrono::system_clock::now();
+                                        auto archive_threshold = now - std::chrono::hours(24 * 1825); // 5 years (archive_days from policy)
+                                        
+                                        std::string archive_path = "data/logs/audit_archive.jsonl";
+                                        size_t archived = main_audit_logger->archiveOldEntries(archive_threshold, archive_path);
+                                        
+                                        THEMIS_INFO("[Retention] Archived {} audit log entries to {}", archived, archive_path);
+                                        
+                                        // Log the archival action
+                                        try {
+                                            nlohmann::json audit_event;
+                                            audit_event["action"] = "AUDIT_LOG_ARCHIVE";
+                                            audit_event["archived_count"] = archived;
+                                            audit_event["archive_path"] = archive_path;
+                                            audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                                now.time_since_epoch()
+                                            ).count();
+                                            audit_event["classification"] = "retention_lifecycle";
+                                            audit_logger->logEvent(audit_event);
+                                        } catch (...) {
+                                            THEMIS_WARN("[Retention] Failed to audit-log archive operation");
+                                        }
+                                        
+                                        return true; // Report success even if 0 archived
+                                    } catch (const std::exception& e) {
+                                        THEMIS_ERROR("[Retention] Failed to archive audit logs: {}", e.what());
+                                        return false;
+                                    }
+                                }
+                                
+                                // Regular entity archival
                                 THEMIS_INFO("[Retention] Archive entity {}", entity_id);
                                 
                                 // Audit log the archival action
@@ -1038,7 +1108,47 @@ int main(int argc, char* argv[]) {
                                 return true;
                             };
                             
-                            auto purge_handler = [db_ptr, audit_logger](const std::string& entity_id) -> bool {
+                            auto purge_handler = [db_ptr, audit_logger, main_audit_logger, audit_purged](const std::string& entity_id) -> bool {
+                                // Special handling for audit log entries - bulk operation
+                                if (entity_id.find("audit_entry_") == 0) {
+                                    // Only perform the bulk purge operation once per retention run
+                                    bool expected = false;
+                                    if (!audit_purged->compare_exchange_strong(expected, true)) {
+                                        // Already purged in this run
+                                        return true;
+                                    }
+                                    
+                                    try {
+                                        // Purge all entries older than 7 years (from policy)
+                                        auto now = std::chrono::system_clock::now();
+                                        auto purge_threshold = now - std::chrono::hours(24 * 2555); // 7 years (retention_days from policy)
+                                        
+                                        size_t purged = main_audit_logger->purgeOldEntries(purge_threshold);
+                                        
+                                        THEMIS_INFO("[Retention] Purged {} audit log entries", purged);
+                                        
+                                        // Log the purge action
+                                        try {
+                                            nlohmann::json audit_event;
+                                            audit_event["action"] = "AUDIT_LOG_PURGE";
+                                            audit_event["purged_count"] = purged;
+                                            audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                                now.time_since_epoch()
+                                            ).count();
+                                            audit_event["classification"] = "retention_lifecycle";
+                                            audit_logger->logEvent(audit_event);
+                                        } catch (...) {
+                                            THEMIS_WARN("[Retention] Failed to audit-log purge operation");
+                                        }
+                                        
+                                        return true; // Report success even if 0 purged
+                                    } catch (const std::exception& e) {
+                                        THEMIS_ERROR("[Retention] Failed to purge audit logs: {}", e.what());
+                                        return false;
+                                    }
+                                }
+                                
+                                // Regular entity purge
                                 THEMIS_INFO("[Retention] Purge entity {}", entity_id);
                                 
                                 // Audit log the purge action

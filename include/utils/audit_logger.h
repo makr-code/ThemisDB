@@ -161,6 +161,42 @@ public:
      * @return JSON with last_hash, entry_count, last_timestamp
      */
     nlohmann::json getChainState() const;
+    
+    /**
+     * @brief Structure representing an audit log entry with metadata
+     */
+    struct AuditLogEntry {
+        uint64_t entry_number;                              // Sequential entry number
+        std::chrono::system_clock::time_point timestamp;    // Entry timestamp
+        nlohmann::json record;                              // Full JSON record
+    };
+    
+    /**
+     * @brief Enumerate all audit log entries with their timestamps
+     * @return Vector of audit log entries
+     */
+    std::vector<AuditLogEntry> enumerateEntries() const;
+    
+    /**
+     * @brief Archive audit log entries older than specified timestamp
+     * @param older_than Archive entries created before this timestamp
+     * @param archive_path Path to archive file (appends to existing archive)
+     * @return Number of entries archived
+     */
+    size_t archiveOldEntries(std::chrono::system_clock::time_point older_than, 
+                             const std::string& archive_path);
+    
+    /**
+     * @brief Purge audit log entries older than specified timestamp
+     * @param older_than Purge entries created before this timestamp
+     * @return Number of entries purged
+     */
+    size_t purgeOldEntries(std::chrono::system_clock::time_point older_than);
+    
+    /**
+     * @brief Get the configured log file path
+     */
+    std::string getLogPath() const { return cfg_.log_path; }
 
 private:
     std::shared_ptr<themis::FieldEncryption> enc_;
