@@ -12,9 +12,14 @@ typedef uint32_t CK_RV;      // return value
 typedef uint32_t CK_SLOT_ID;  // slot identifier
 typedef uint32_t CK_SESSION_HANDLE; // session handle
 typedef uint32_t CK_OBJECT_HANDLE;  // object handle
+typedef uint32_t CK_ULONG;    // unsigned long value
 
 typedef uint8_t CK_BYTE;
+typedef uint8_t CK_BBOOL;
 typedef CK_BYTE* CK_BYTE_PTR;
+
+typedef uint32_t CK_OBJECT_CLASS;
+typedef uint32_t CK_CERTIFICATE_TYPE;
 
 typedef struct CK_MECHANISM {
     uint32_t mechanism; // Mechanism type
@@ -75,9 +80,6 @@ struct CK_FUNCTION_LIST;
 typedef CK_FUNCTION_LIST* CK_FUNCTION_LIST_PTR;
 
 typedef CK_RV (*CK_C_GetFunctionList)(CK_FUNCTION_LIST_PTR*);
-typedef uint8_t CK_BBOOL;
-typedef uint32_t CK_OBJECT_CLASS;
-typedef uint32_t CK_CERTIFICATE_TYPE;
 
 // Function list structure (subset of pointers)
 struct CK_FUNCTION_LIST {

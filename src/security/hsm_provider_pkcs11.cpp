@@ -638,21 +638,43 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
 
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready) return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
-    auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;
+    if(!impl_->real_ready) {
+        return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
+    }
+    
+    auto api = impl_->loader.api(); 
+    if(!api || !api->C_GetAttributeValue) {
+        return std::nullopt;
+    }
+    
     // Find first session with certObj
     HSMProvider::SessionEntry* sess = nullptr; 
-    for(auto& s: impl_->pool){ 
-        if(s.certObj){ 
-            sess=&s; 
+    for(auto& s: impl_->pool) { 
+        if(s.certObj) { 
+            sess = &s; 
             break; 
         } 
     }
-    if(!sess || sess->certObj == 0) return std::nullopt;
-    CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen==0) return std::nullopt;
-    std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue = der.data();
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) return std::nullopt;
+    
+    if(!sess || sess->certObj == 0) {
+        return std::nullopt;
+    }
+    
+    CK_ATTRIBUTE valAttr; 
+    valAttr.type = CKA_VALUE; 
+    valAttr.pValue = nullptr; 
+    valAttr.ulValueLen = 0;
+    
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen == 0) {
+        return std::nullopt;
+    }
+    
+    std::vector<unsigned char> der(valAttr.ulValueLen); 
+    valAttr.pValue = der.data();
+    
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) {
+        return std::nullopt;
+    }
     const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p, der.size()); if(!x) return std::nullopt;
     BIO* mem = BIO_new(BIO_s_mem());
     PEM_write_bio_X509(mem, x);
