@@ -22,5 +22,6 @@ list(APPEND THEMIS_CORE_SOURCES
     
     # Compression Strategy Manager and Metrics
     ../src/storage/compression_strategy.cpp
+    ../src/storage/compressed_storage.cpp
     ../src/utils/compression_metrics.cpp
 )
