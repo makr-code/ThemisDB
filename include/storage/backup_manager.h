@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include "utils/expected.h"
 
 namespace themis {
 
@@ -158,6 +159,9 @@ public:
      */
     bool createFullBackup(const std::string& dest_dir, std::error_code& ec, 
                           const BackupOptions& options = BackupOptions());
+     * @return Result<std::string> containing backup directory path on success, Error on failure
+     */
+    Result<std::string> createFullBackup(const std::string& dest_dir);
 
     /**
      * Create an incremental backup (WAL files since last backup)
@@ -179,14 +183,23 @@ public:
      */
     bool createDifferentialBackup(const std::string& dest_dir, std::error_code& ec,
                                    const BackupOptions& options = BackupOptions());
+     * @return Result<std::string> containing backup directory path on success, Error on failure
+     */
+    Result<std::string> createIncrementalBackup(const std::string& dest_dir);
+    
+    /**
+     * Create a differential backup (changes since last full backup)
+     * @param dest_dir: Base backup directory
+     * @return Result<std::string> containing backup directory path on success, Error on failure
+     */
+    Result<std::string> createDifferentialBackup(const std::string& dest_dir);
 
     /**
      * Archive WAL files to destination directory
      * @param dest_dir: Destination for WAL files
-     * @param ec: Error code on failure
-     * @return true on success, false otherwise
+     * @return Result<void> on success, Error on failure
      */
-    bool archiveWAL(const std::string& dest_dir, std::error_code& ec);
+    Result<void> archiveWAL(const std::string& dest_dir);
 
     /**
      * Restore database from backup directory
@@ -220,6 +233,9 @@ public:
     bool restoreCollections(const std::string& src_dir, 
                            const std::vector<std::string>& collections,
                            std::error_code& ec);
+     * @return Result<void> on success, Error on failure
+     */
+    Result<void> restoreFromBackup(const std::string& src_dir);
 
     /**
      * List available backups in directory
@@ -229,13 +245,27 @@ public:
     std::vector<std::string> listBackups(const std::string& backup_dir);
 
     /**
-     * Verify backup integrity
+     * Verify backup integrity with checksum validation
      * For RAID5/6: Verifies ALL shards are present and consistent
      * @param backup_dir: Backup directory to verify
-     * @param ec: Error code on failure
-     * @return true if backup is valid, false otherwise
+     * @return Result<void> on success, Error on failure
      */
-    bool verifyBackup(const std::string& backup_dir, std::error_code& ec);
+    Result<void> verifyBackup(const std::string& backup_dir);
+    
+    /**
+     * Compress a backup directory
+     * @param backup_dir: Backup directory to compress
+     * @return Result<std::string> containing compressed file path on success, Error on failure
+     */
+    Result<std::string> compressBackup(const std::string& backup_dir);
+    
+    /**
+     * Decompress a backup file
+     * @param compressed_file: Compressed backup file
+     * @param dest_dir: Destination directory
+     * @return Result<std::string> containing decompressed directory path on success, Error on failure
+     */
+    Result<std::string> decompressBackup(const std::string& compressed_file, const std::string& dest_dir);
     
     /**
      * Detect RAID configuration from environment variables
@@ -249,8 +279,7 @@ public:
      * Verifies that all required shards (data + parity) are backed up
      * @param backup_dir: Backup directory to check
      * @param raid_config: RAID configuration
-     * @param ec: Error code on failure
-     * @return true if backup is complete, false otherwise
+     * @return Result<void> on success, Error on failure
      */
     bool isBackupComplete(const std::string& backup_dir, 
                          const RAIDConfig& raid_config, 
@@ -287,6 +316,8 @@ public:
      * @return Timestamp of most recent recoverable point
      */
     std::chrono::system_clock::time_point getRPO(const std::string& backup_dir);
+    Result<void> isBackupComplete(const std::string& backup_dir, 
+                                   const RAIDConfig& raid_config);
 
 private:
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
@@ -296,16 +327,22 @@ private:
     std::string getTimestamp() const;
     
     // Helper: Create backup manifest file (with RAID info)
-    bool createManifest(const std::string& backup_dir, const std::string& type,
-                        uint64_t sequence_number, std::error_code& ec);
+    Result<void> createManifest(const std::string& backup_dir, const std::string& type,
+                                uint64_t sequence_number);
     
     // Helper: Read backup manifest (including RAID info)
-    bool readManifest(const std::string& backup_dir, std::string& type,
-                      uint64_t& sequence_number, std::error_code& ec);
+    Result<void> readManifest(const std::string& backup_dir, std::string& type,
+                              uint64_t& sequence_number);
     
     // Helper: Copy WAL files with sequence number filtering
-    bool copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
-                      uint64_t min_sequence, std::error_code& ec);
+    Result<void> copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
+                              uint64_t min_sequence);
+    
+    // Helper: Calculate checksum for a file
+    Result<std::string> calculateChecksum(const std::string& file_path);
+    
+    // Helper: Verify checksum of a file
+    Result<void> verifyChecksum(const std::string& file_path, const std::string& expected_checksum);
     
     // Helper: Get current WAL sequence number from RocksDB
     uint64_t getCurrentSequenceNumber() const;

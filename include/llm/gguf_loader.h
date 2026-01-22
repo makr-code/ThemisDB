@@ -105,6 +105,19 @@ public:
     // Extract specific tensor data
     std::vector<uint8_t> getTensorData(const std::string& tensor_name);
     
+    /**
+     * @brief Validate quantization metadata for a tensor
+     * 
+     * Checks that the tensor's quantization format is valid:
+     * - Block sizes match expected values
+     * - Data size is consistent with tensor dimensions
+     * - Quantization type is supported
+     * 
+     * @param tensor_name Name of the tensor to validate
+     * @return true if validation passes, false otherwise
+     */
+    bool validateQuantizationMetadata(const std::string& tensor_name) const;
+    
 private:
     GGUFMetadata metadata_;
     std::string filepath_;
