@@ -14,6 +14,7 @@
 #include "core/query_engine_builder.h"
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/index_interface.h"
+#include "utils/expected.h"
 
 using namespace themis;
 
@@ -113,40 +114,43 @@ public:
 /// @brief Mock index manager for testing
 class MockIndexManager : public IIndexManager {
 public:
-    ISecondaryIndex* createSecondaryIndex(
+    Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
         std::string_view field_name,
         const std::string& config) override {
-        return nullptr;
+        return Ok<ISecondaryIndex*>(nullptr);
     }
     
-    IVectorIndex* createVectorIndex(
+    Result<IVectorIndex*> createVectorIndex(
         std::string_view name,
         uint32_t dimension,
         const std::string& config) override {
-        return nullptr;
+        return Ok<IVectorIndex*>(nullptr);
     }
     
-    IGraphIndex* createGraphIndex(
+    Result<IGraphIndex*> createGraphIndex(
         std::string_view name,
         const std::string& config) override {
-        return nullptr;
+        return Ok<IGraphIndex*>(nullptr);
     }
     
-    ISecondaryIndex* getSecondaryIndex(std::string_view name) const override {
-        return nullptr;
+    Result<ISecondaryIndex*> getSecondaryIndex(std::string_view name) const override {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, 
+                                       fmt::format("Index '{}' not found (mock)", name));
     }
     
-    IVectorIndex* getVectorIndex(std::string_view name) const override {
-        return nullptr;
+    Result<IVectorIndex*> getVectorIndex(std::string_view name) const override {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                    fmt::format("Index '{}' not found (mock)", name));
     }
     
-    IGraphIndex* getGraphIndex(std::string_view name) const override {
-        return nullptr;
+    Result<IGraphIndex*> getGraphIndex(std::string_view name) const override {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                   fmt::format("Index '{}' not found (mock)", name));
     }
     
-    bool dropIndex(std::string_view name) override {
-        return true;
+    Result<void> dropIndex(std::string_view name) override {
+        return OkVoid();
     }
     
     std::vector<std::string> listIndexes() const override {

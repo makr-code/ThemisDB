@@ -169,14 +169,6 @@ public:
      */
     explicit FieldEncryption(std::shared_ptr<KeyProvider> key_provider);
     
-    /**
-     * @brief Construct with IKeyProvider interface (DI)
-     * 
-     * @param key_provider Key management provider interface
-     * @throws std::invalid_argument if key_provider is null
-     */
-    explicit FieldEncryption(IKeyProviderPtr key_provider);
-    
     ~FieldEncryption();
     
     /**

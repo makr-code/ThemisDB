@@ -382,4 +382,89 @@ void WALShipper::healthCheck(ReplicaInfo& replica) {
     replica.is_healthy = response.success;
 }
 
+// Phase 3: Adaptive batch sizing
+size_t WALShipper::calculateOptimalBatchSize(double network_latency_ms,
+                                             double cpu_utilization,
+                                             size_t disk_iops_available) const {
+    // Base batch size from config
+    size_t base_batch_size = config_.batch_size;
+    
+    if (!config_.adaptive_batch_size) {
+        return base_batch_size;
+    }
+    
+    // Factor 1: Network latency adjustment
+    // Lower latency = smaller batches (reduce lag)
+    // Higher latency = larger batches (amortize overhead)
+    double latency_factor = 1.0;
+    if (network_latency_ms < 1.0) {
+        latency_factor = 0.5;  // Very fast network, use smaller batches
+    } else if (network_latency_ms < 5.0) {
+        latency_factor = 0.75;
+    } else if (network_latency_ms > 50.0) {
+        latency_factor = 2.0;  // Slow network, use larger batches
+    } else if (network_latency_ms > 20.0) {
+        latency_factor = 1.5;
+    }
+    
+    // Factor 2: CPU utilization adjustment
+    // Lower CPU = larger batches (more compression)
+    // Higher CPU = smaller batches (reduce load)
+    double cpu_factor = 1.0;
+    if (cpu_utilization < 0.3) {
+        cpu_factor = 1.5;  // Low CPU, can handle larger batches
+    } else if (cpu_utilization > 0.8) {
+        cpu_factor = 0.6;  // High CPU, reduce batch size
+    }
+    
+    // Factor 3: Disk IOPS adjustment
+    // Higher IOPS available = larger batches (maximize throughput)
+    double iops_factor = 1.0;
+    if (disk_iops_available > 50000) {
+        iops_factor = 1.5;  // Abundant IOPS, use larger batches
+    } else if (disk_iops_available < 10000) {
+        iops_factor = 0.7;  // Limited IOPS, smaller batches
+    }
+    
+    // Combine factors
+    double combined_factor = latency_factor * cpu_factor * iops_factor;
+    size_t optimal_batch_size = static_cast<size_t>(base_batch_size * combined_factor);
+    
+    // Clamp to configured min/max
+    optimal_batch_size = std::max(optimal_batch_size, config_.min_batch_size);
+    optimal_batch_size = std::min(optimal_batch_size, config_.max_batch_size);
+    
+    return optimal_batch_size;
+}
+
+// Phase 3: Intelligent compression selection
+WALShipperConfig::CompressionType WALShipper::selectCompressionType(
+    size_t payload_size,
+    bool is_repetitive,
+    double cpu_utilization) const {
+    
+    // Small payloads: No compression (overhead not worth it)
+    if (payload_size < 4096) {  // < 4KB
+        return WALShipperConfig::CompressionType::None;
+    }
+    
+    // CPU constrained: Use faster or no compression
+    if (cpu_utilization > 0.85) {
+        return WALShipperConfig::CompressionType::None;  // or LZ4 if available
+    }
+    
+    // Medium CPU load and repetitive data: Use Zstd
+    if (is_repetitive && cpu_utilization < 0.7) {
+        return WALShipperConfig::CompressionType::Zstd;
+    }
+    
+    // High CPU load but still acceptable: Use LZ4
+    if (cpu_utilization < 0.85) {
+        return WALShipperConfig::CompressionType::LZ4;  // Faster than Zstd
+    }
+    
+    // Default: No compression
+    return WALShipperConfig::CompressionType::None;
+}
+
 } // namespace themis::sharding

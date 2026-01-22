@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
+#include "utils/expected.h"
 
 namespace themis {
 class QueryEngine; // forward declaration in outer namespace
@@ -67,9 +68,9 @@ public:
      * @param cte Die CTE-Definition
      * @param queryEngine Query Engine für Sub-Query Execution
      * @param is_recursive true wenn CTE recursive ist
-     * @return true wenn erfolgreich
+     * @return Result indicating success or error
      */
-    bool evaluateCTE(
+    Result<void> evaluateCTE(
         const CTEDefinition& cte,
         ::themis::QueryEngine& queryEngine,
         bool is_recursive = false
@@ -79,9 +80,9 @@ public:
      * @brief Evaluiert eine recursive CTE mit fixpoint iteration
      * @param cte Die recursive CTE-Definition
      * @param queryEngine Query Engine für Execution
-     * @return true wenn erfolgreich
+     * @return Result indicating success or error
      */
-    bool evaluateRecursiveCTE(
+    Result<void> evaluateRecursiveCTE(
         const CTEDefinition& cte,
         ::themis::QueryEngine& queryEngine
     );
@@ -177,9 +178,9 @@ public:
      * @param subquery Subquery Definition
      * @param queryEngine Query Engine für Execution
      * @param outerRow Outer Row (für correlated subqueries)
-     * @return Subquery Result (scalar value, array, or boolean)
+     * @return Result containing subquery result (scalar value, array, or boolean)
      */
-    nlohmann::json evaluateSubquery(
+    Result<nlohmann::json> evaluateSubquery(
         const query::SubqueryExpr& subquery,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow = nlohmann::json()
@@ -190,9 +191,9 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return Scalar value oder null
+     * @return Result containing scalar value
      */
-    nlohmann::json evaluateScalarSubquery(
+    Result<nlohmann::json> evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
@@ -204,9 +205,9 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return true wenn value in result set
+     * @return Result containing boolean (true wenn value in result set)
      */
-    bool evaluateInSubquery(
+    Result<bool> evaluateInSubquery(
         const nlohmann::json& value,
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
@@ -218,9 +219,9 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return true wenn Subquery mindestens ein Result liefert
+     * @return Result containing boolean (true wenn Subquery mindestens ein Result liefert)
      */
-    bool evaluateExistsSubquery(
+    Result<bool> evaluateExistsSubquery(
         const std::shared_ptr<query::Query>& query,
         ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow

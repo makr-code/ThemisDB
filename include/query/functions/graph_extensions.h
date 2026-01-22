@@ -382,11 +382,6 @@ public:
 };
 */
 
-// NOTE: Community detection functions are implemented in graph_functions.h
-// Duplicate class definitions here caused redefinition errors. Intentionally removed.
-
-// NOTE: Duplicate LabelPropagationCommunitiesFunction removed; see graph_functions.h
-
 // ============================================================================
 // BETWEENNESS_CENTRALITY - Calculate betweenness centrality for vertices
 // ============================================================================
@@ -452,8 +447,8 @@ public:
 // ============================================================================
 
 inline void registerGraphExtensions(FunctionRegistry& registry) {
-    // Community detection functions (implemented)
-    // Duplicates removed. Community functions are registered in registerGraphFunctions().
+    // Community detection functions (implemented in graph_functions.h)
+    // Duplicates removed to avoid redefinition errors
     
     // TODO: Implement these stub functions
     // registry.registerFunction(std::make_unique<AllShortestPathsFunction>());

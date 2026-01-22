@@ -14,6 +14,7 @@
 #include "llm/llm_plugin_interface.h"
 #include <thread>
 #include <chrono>
+#include <algorithm>
 
 using namespace themis::llm;
 
@@ -699,4 +700,291 @@ TEST_F(MultiLoRAFusionTest, SetScheduleForStaticFusion) {
     AlphaSchedule schedule;
     bool set = manager.setAlphaSchedule("noschedule-fusion", schedule);
     EXPECT_FALSE(set);  // Cannot set schedule for STATIC fusion
+}
+
+// ═══════════════════════════════════════════════════════════
+// Comprehensive SCHEDULED Fusion Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionWeightTransitionOverTime) {
+    MultiLoRAManager manager(config_);
+    
+    manager.loadLoRA("transition-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("transition-b", "/path/to/b.bin", "base-model", 1.0f);
+    
+    // Create SCHEDULED fusion with linear transition from 90/10 to 10/90 over 2 seconds
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"transition-a", "transition-b"};
+    config.weights = {0.9f, 0.1f};  // Initial weights
+    
+    AlphaSchedule schedule;
+    schedule.strategy = FusionStrategy::SCHEDULED;
+    schedule.static_weights = {0.9f, 0.1f};  // Start: 90% A, 10% B
+    schedule.a_weight = 0.1f;  // End: 10% A
+    schedule.b_weight = 0.9f;  // End: 90% B
+    schedule.start_time = std::chrono::system_clock::now();
+    schedule.transition_duration = std::chrono::seconds(2);
+    
+    config.alpha_schedule = schedule;
+    
+    bool fused = manager.fuseLoRAsAdvanced("transition-fusion", config);
+    EXPECT_TRUE(fused);
+    
+    manager.setAlphaSchedule("transition-fusion", schedule);
+    
+    // Test weights at different time points
+    // At start: should be close to 90/10
+    auto weights_start = manager.getCurrentFusionWeights("transition-fusion");
+    EXPECT_EQ(weights_start.size(), 2);
+    EXPECT_GT(weights_start[0], 0.8f);  // Should be close to 90%
+    
+    // Wait 1 second (halfway through transition)
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    auto weights_mid = manager.getCurrentFusionWeights("transition-fusion");
+    EXPECT_EQ(weights_mid.size(), 2);
+    EXPECT_NEAR(weights_mid[0], 0.5f, 0.15f);  // Should be around 50% (with some tolerance)
+    EXPECT_NEAR(weights_mid[1], 0.5f, 0.15f);
+    
+    // Wait another second (end of transition)
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    auto weights_end = manager.getCurrentFusionWeights("transition-fusion");
+    EXPECT_EQ(weights_end.size(), 2);
+    EXPECT_LT(weights_end[0], 0.2f);  // Should be close to 10%
+    EXPECT_GT(weights_end[1], 0.8f);  // Should be close to 90%
+}
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionWithCustomScheduleFunction) {
+    MultiLoRAManager manager(config_);
+    
+    manager.loadLoRA("custom-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("custom-b", "/path/to/b.bin", "base-model", 1.0f);
+    
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"custom-a", "custom-b"};
+    config.weights = {0.5f, 0.5f};
+    
+    // Custom schedule: Step function that switches at 1 second
+    AlphaSchedule schedule;
+    schedule.strategy = FusionStrategy::SCHEDULED;
+    schedule.start_time = std::chrono::system_clock::now();
+    schedule.schedule_func = [](double time_offset) -> std::vector<float> {
+        if (time_offset < 1.0) {
+            return {0.9f, 0.1f};  // Before 1 second: 90/10
+        } else {
+            return {0.1f, 0.9f};  // After 1 second: 10/90
+        }
+    };
+    
+    config.alpha_schedule = schedule;
+    
+    bool fused = manager.fuseLoRAsAdvanced("custom-schedule-fusion", config);
+    EXPECT_TRUE(fused);
+    
+    manager.setAlphaSchedule("custom-schedule-fusion", schedule);
+    
+    // Test before step
+    auto weights_before = manager.getCurrentFusionWeights("custom-schedule-fusion");
+    EXPECT_EQ(weights_before.size(), 2);
+    EXPECT_NEAR(weights_before[0], 0.9f, 0.05f);
+    EXPECT_NEAR(weights_before[1], 0.1f, 0.05f);
+    
+    // Wait for step to occur
+    std::this_thread::sleep_for(std::chrono::milliseconds(1100));
+    
+    // Test after step
+    auto weights_after = manager.getCurrentFusionWeights("custom-schedule-fusion");
+    EXPECT_EQ(weights_after.size(), 2);
+    EXPECT_NEAR(weights_after[0], 0.1f, 0.05f);
+    EXPECT_NEAR(weights_after[1], 0.9f, 0.05f);
+}
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionFallbackToStaticWeights) {
+    MultiLoRAManager manager(config_);
+    
+    manager.loadLoRA("fallback-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("fallback-b", "/path/to/b.bin", "base-model", 1.0f);
+    
+    // Create SCHEDULED fusion but don't set a schedule
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"fallback-a", "fallback-b"};
+    config.weights = {0.7f, 0.3f};  // Static fallback weights
+    
+    bool fused = manager.fuseLoRAsAdvanced("fallback-fusion", config);
+    EXPECT_TRUE(fused);
+    
+    // Should fall back to static weights when no schedule is set
+    auto weights = manager.getCurrentFusionWeights("fallback-fusion");
+    EXPECT_EQ(weights.size(), 2);
+    EXPECT_NEAR(weights[0], 0.7f, 0.01f);
+    EXPECT_NEAR(weights[1], 0.3f, 0.01f);
+}
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionDoesNotUseStaticCache) {
+    MultiLoRAManager manager(config_);
+    
+    manager.loadLoRA("nocache-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("nocache-b", "/path/to/b.bin", "base-model", 1.0f);
+    
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"nocache-a", "nocache-b"};
+    config.weights = {0.5f, 0.5f};
+    config.enable_cache = true;  // Enable cache
+    
+    AlphaSchedule schedule;
+    schedule.strategy = FusionStrategy::SCHEDULED;
+    schedule.start_time = std::chrono::system_clock::now();
+    schedule.static_weights = {0.5f, 0.5f};
+    
+    config.alpha_schedule = schedule;
+    
+    auto metrics_before = manager.getFusionMetrics();
+    
+    // First fusion
+    manager.fuseLoRAsAdvanced("nocache-fusion", config);
+    
+    auto metrics_after_first = manager.getFusionMetrics();
+    size_t cache_misses_after_first = metrics_after_first.cache_misses;
+    
+    // Second fusion with same ID - SCHEDULED should not use static cache
+    // so this should still result in a cache miss
+    manager.fuseLoRAsAdvanced("nocache-fusion", config);
+    
+    auto metrics_after_second = manager.getFusionMetrics();
+    
+    // For SCHEDULED, each call should process the fusion (not use static cache)
+    EXPECT_GT(metrics_after_second.cache_misses, cache_misses_after_first);
+}
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionMultipleAdapters) {
+    MultiLoRAManager manager(config_);
+    
+    // Load three adapters for blending
+    manager.loadLoRA("multi-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("multi-b", "/path/to/b.bin", "base-model", 1.0f);
+    manager.loadLoRA("multi-c", "/path/to/c.bin", "base-model", 1.0f);
+    
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"multi-a", "multi-b", "multi-c"};
+    config.weights = {0.33f, 0.33f, 0.34f};
+    
+    // Schedule that rotates focus among three adapters
+    AlphaSchedule schedule;
+    schedule.strategy = FusionStrategy::SCHEDULED;
+    schedule.start_time = std::chrono::system_clock::now();
+    schedule.schedule_func = [](double time_offset) -> std::vector<float> {
+        // Rotate focus every 1 second: A -> B -> C
+        int phase = static_cast<int>(time_offset) % 3;
+        if (phase == 0) return {0.8f, 0.1f, 0.1f};  // Focus on A
+        if (phase == 1) return {0.1f, 0.8f, 0.1f};  // Focus on B
+        return {0.1f, 0.1f, 0.8f};  // Focus on C
+    };
+    
+    config.alpha_schedule = schedule;
+    
+    bool fused = manager.fuseLoRAsAdvanced("multi-fusion", config);
+    EXPECT_TRUE(fused);
+    
+    manager.setAlphaSchedule("multi-fusion", schedule);
+    
+    // Verify three weights are returned
+    auto weights = manager.getCurrentFusionWeights("multi-fusion");
+    EXPECT_EQ(weights.size(), 3);
+    
+    // Verify weights sum to approximately 1.0
+    float weight_sum = weights[0] + weights[1] + weights[2];
+    EXPECT_NEAR(weight_sum, 1.0f, 0.01f);
+    
+    // One weight should be dominant (close to 0.8)
+    float max_weight = *std::max_element(weights.begin(), weights.end());
+    EXPECT_GT(max_weight, 0.7f);
+}
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionCanUpdateSchedule) {
+    MultiLoRAManager manager(config_);
+    
+    manager.loadLoRA("update-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("update-b", "/path/to/b.bin", "base-model", 1.0f);
+    
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"update-a", "update-b"};
+    config.weights = {0.5f, 0.5f};
+    
+    // Initial schedule: favor A
+    AlphaSchedule schedule1;
+    schedule1.strategy = FusionStrategy::SCHEDULED;
+    schedule1.start_time = std::chrono::system_clock::now();
+    schedule1.static_weights = {0.9f, 0.1f};
+    schedule1.schedule_func = [](double) { return std::vector<float>{0.9f, 0.1f}; };
+    
+    config.alpha_schedule = schedule1;
+    
+    bool fused = manager.fuseLoRAsAdvanced("update-schedule-fusion", config);
+    EXPECT_TRUE(fused);
+    
+    manager.setAlphaSchedule("update-schedule-fusion", schedule1);
+    
+    auto weights1 = manager.getCurrentFusionWeights("update-schedule-fusion");
+    EXPECT_NEAR(weights1[0], 0.9f, 0.05f);
+    
+    // Update schedule: favor B
+    AlphaSchedule schedule2;
+    schedule2.strategy = FusionStrategy::SCHEDULED;
+    schedule2.start_time = std::chrono::system_clock::now();
+    schedule2.static_weights = {0.1f, 0.9f};
+    schedule2.schedule_func = [](double) { return std::vector<float>{0.1f, 0.9f}; };
+    
+    bool updated = manager.setAlphaSchedule("update-schedule-fusion", schedule2);
+    EXPECT_TRUE(updated);
+    
+    auto weights2 = manager.getCurrentFusionWeights("update-schedule-fusion");
+    EXPECT_NEAR(weights2[0], 0.1f, 0.05f);
+    EXPECT_NEAR(weights2[1], 0.9f, 0.05f);
+}
+
+TEST_F(MultiLoRAFusionTest, ScheduledFusionMetricsTracking) {
+    MultiLoRAManager manager(config_);
+    
+    manager.loadLoRA("metrics-a", "/path/to/a.bin", "base-model", 1.0f);
+    manager.loadLoRA("metrics-b", "/path/to/b.bin", "base-model", 1.0f);
+    
+    auto metrics_before = manager.getFusionMetrics();
+    size_t fusions_before = metrics_before.total_fusions;
+    
+    FusionConfig config;
+    config.strategy = FusionStrategy::SCHEDULED;
+    config.source_lora_ids = {"metrics-a", "metrics-b"};
+    config.weights = {0.5f, 0.5f};
+    
+    AlphaSchedule schedule;
+    schedule.strategy = FusionStrategy::SCHEDULED;
+    schedule.start_time = std::chrono::system_clock::now();
+    schedule.static_weights = {0.5f, 0.5f};
+    
+    config.alpha_schedule = schedule;
+    
+    manager.fuseLoRAsAdvanced("metrics-fusion", config);
+    
+    auto metrics_after = manager.getFusionMetrics();
+    
+    // Verify total fusions increased
+    EXPECT_GT(metrics_after.total_fusions, fusions_before);
+    
+    // Verify fusion is tracked in cache
+    auto cache_entries = manager.listFusionCache();
+    bool found = false;
+    for (const auto& entry : cache_entries) {
+        if (entry.fusion_id == "metrics-fusion") {
+            found = true;
+            EXPECT_EQ(entry.strategy, FusionStrategy::SCHEDULED);
+            EXPECT_EQ(entry.source_lora_ids.size(), 2);
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
 }

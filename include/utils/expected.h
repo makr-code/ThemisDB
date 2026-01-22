@@ -4,6 +4,7 @@
 #include "utils/error_registry.h"
 #include <string>
 #include <system_error>
+#include <type_traits>
 
 namespace themis {
 
@@ -39,13 +40,9 @@ public:
             return metadata.message_template;
         }
         
-        // If context is provided, try to format it
-        try {
-            return fmt::vformat(metadata.message_template, fmt::make_format_args(context_));
-        } catch (...) {
-            // If formatting fails, append context
-            return metadata.message_template + ": " + context_;
-        }
+        // Simply append context to template without fmt::format
+        // (fmt::format causes constexpr evaluation issues)
+        return metadata.message_template + ": " + context_;
     }
     
     // Get error metadata
@@ -119,8 +116,8 @@ Result<T> Err(errors::ErrorCode code, std::string context = "") {
  * Usage: return Ok(value);
  */
 template<typename T>
-Result<T> Ok(T&& value) {
-    return Result<T>(std::forward<T>(value));
+Result<std::decay_t<T>> Ok(T&& value) {
+    return Result<std::decay_t<T>>(std::forward<T>(value));
 }
 
 // Specialization for void-like operations

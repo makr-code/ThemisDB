@@ -2358,15 +2358,15 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
         float progress = std::min(1.0f, 
             static_cast<float>(time_offset) / schedule.transition_duration.count());
         
-        // Linear transition from static_weights to target weights
+        // Linear transition from static_weights to target weights [a_weight, b_weight]
         std::vector<float> weights = schedule.static_weights;
         
-        // Simple A/B blend: first adapter gets a_weight, second gets b_weight
+        // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
         if (weights.size() >= 2) {
-            weights[0] = schedule.a_weight * (1.0f - progress) + 
-                        schedule.b_weight * progress;
-            weights[1] = schedule.b_weight * (1.0f - progress) + 
-                        schedule.a_weight * progress;
+            float start_weight_0 = weights[0];
+            float start_weight_1 = weights[1];
+            weights[0] = start_weight_0 * (1.0f - progress) + schedule.a_weight * progress;
+            weights[1] = start_weight_1 * (1.0f - progress) + schedule.b_weight * progress;
         }
         
         return weights;

@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "themis/base/interfaces/security_interface.h"
 
 namespace themis {
 
@@ -119,9 +120,19 @@ private:
  * provider->rotateKey("user_pii");
  * @endcode
  */
-class KeyProvider {
+class KeyProvider : public virtual IKeyProvider {
 public:
     virtual ~KeyProvider() = default;
+    
+    // IKeyProvider interface implementation (with defaults)
+    std::vector<uint8_t> get_key(const std::string& key_id) override {
+        return getKey(key_id);
+    }
+    
+    std::vector<uint8_t> rotate_key(const std::string& key_id) override {
+        rotateKey(key_id);
+        return getKey(key_id);
+    }
     
     /**
      * @brief Retrieve an encryption key by ID (latest active version)

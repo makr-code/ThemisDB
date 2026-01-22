@@ -60,12 +60,17 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     // Note: Key provider initialization deferred - to be properly implemented in future
     // For now, security layer can be used with external key management
     
-    // Create field encryption with stub (to be properly integrated)
-    // auto field_enc = std::make_shared<FieldEncryption>(key_provider_);
-    // if (!encryption_config_.empty()) {
-    //     field_enc->setEncryptionConfig(encryption_config_);
-    // }
-    // layer.field_encryption = field_enc;
+    // Create field encryption
+    auto key_provider_impl = std::dynamic_pointer_cast<KeyProvider>(key_provider_);
+    if (!key_provider_impl) {
+        // If it's not a KeyProvider, create a default mock
+        key_provider_impl = std::make_shared<MockKeyProvider>();
+    }
+    auto field_enc = std::make_shared<FieldEncryption>(key_provider_impl);
+    if (!encryption_config_.empty()) {
+        field_enc->setEncryptionConfig(encryption_config_);
+    }
+    layer.field_encryption = field_enc;
     
     // Create RBAC
     security::RBACConfig rbac_config;
@@ -109,8 +114,72 @@ std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     return buffer.str();
 }
 
-// NOTE: createKeyProvider() implementation removed - key provider types not properly integrated yet
-// This function is deprecated and not used in the current architecture
-// To be re-implemented with proper interface design
+IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
+    KeyProviderType type,
+    const std::string& config_json)
+{
+    nlohmann::json config;
+    
+    try {
+        if (!config_json.empty() && config_json != "{}") {
+            config = nlohmann::json::parse(config_json);
+        }
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Failed to parse key provider config JSON: " + std::string(e.what()));
+    }
+    
+    switch (type) {
+        case KeyProviderType::LOCAL: {
+            return std::make_shared<MockKeyProvider>();
+        }
+        
+        case KeyProviderType::VAULT: {
+            VaultKeyProvider::Config vault_config;
+            
+            if (config.contains("vault_addr")) {
+                vault_config.vault_addr = config["vault_addr"].get<std::string>();
+            }
+            if (config.contains("vault_token")) {
+                vault_config.vault_token = config["vault_token"].get<std::string>();
+            }
+            if (config.contains("kv_mount_path")) {
+                vault_config.kv_mount_path = config["kv_mount_path"].get<std::string>();
+            }
+            
+            if (vault_config.vault_addr.empty() || vault_config.vault_token.empty()) {
+                throw std::runtime_error("VAULT key provider requires vault_addr and vault_token in config");
+            }
+            
+            return std::make_shared<VaultKeyProvider>(vault_config);
+        }
+        
+        // HSM case commented out due to missing dependencies
+        // case KeyProviderType::HSM: {
+        //     // HSM configuration
+        //     std::string library_path;
+        //     std::string slot_id;
+        //     std::string pin;
+        //     
+        //     if (config.contains("library_path")) {
+        //         library_path = config["library_path"].get<std::string>();
+        //     }
+        //     if (config.contains("slot_id")) {
+        //         slot_id = config["slot_id"].get<std::string>();
+        //     }
+        //     if (config.contains("pin")) {
+        //         pin = config["pin"].get<std::string>();
+        //     }
+        //     
+        //     if (library_path.empty()) {
+        //         throw std::runtime_error("HSM key provider requires library_path in config");
+        //     }
+        //     
+        //     return std::make_shared<HSMKeyProviderAdapter>(library_path, slot_id, pin);
+        // }
+        
+        default:
+            throw std::runtime_error("Unknown key provider type");
+    }
+}
 
 } // namespace themis

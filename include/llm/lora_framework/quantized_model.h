@@ -40,6 +40,13 @@ public:
     QuantizedLayerWeights(const Tensor& weights, const QuantizedModelConfig& config);
     
     /**
+     * @brief Construct from pre-quantized tensor (e.g., from GGUF)
+     * @param quantized Pre-quantized tensor
+     * @param original_shape Original tensor shape
+     */
+    QuantizedLayerWeights(QuantizedTensor&& quantized, const std::vector<size_t>& original_shape);
+    
+    /**
      * @brief Dequantize weights back to full precision
      * @return Full precision tensor
      */
@@ -82,6 +89,13 @@ public:
      * @param weights Full precision weights (will be quantized)
      */
     void add_layer(const std::string& layer_name, const Tensor& weights);
+    
+    /**
+     * @brief Add a layer with pre-quantized weights (e.g., from GGUF)
+     * @param layer_name Name/identifier for the layer
+     * @param quantized_weights Pre-quantized layer weights
+     */
+    void add_quantized_layer(const std::string& layer_name, QuantizedLayerWeights&& quantized_weights);
     
     /**
      * @brief Get quantized weights for a layer

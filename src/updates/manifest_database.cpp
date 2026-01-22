@@ -32,15 +32,24 @@ ManifestDatabase::~ManifestDatabase() {
 }
 
 void ManifestDatabase::initializeColumnFamilies() {
-    try {
-        cf_manifests_ = storage_->getOrCreateColumnFamily("release_manifests");
-        cf_files_ = storage_->getOrCreateColumnFamily("file_registry");
-        cf_signatures_ = storage_->getOrCreateColumnFamily("signature_cache");
-        cf_cache_ = storage_->getOrCreateColumnFamily("download_cache");
-        
+    auto cf_manifests = storage_->getOrCreateColumnFamily("release_manifests");
+    auto cf_files = storage_->getOrCreateColumnFamily("file_registry");
+    auto cf_signatures = storage_->getOrCreateColumnFamily("signature_cache");
+    auto cf_cache = storage_->getOrCreateColumnFamily("download_cache");
+    
+    if (cf_manifests && cf_files && cf_signatures && cf_cache) {
+        cf_manifests_ = *cf_manifests;
+        cf_files_ = *cf_files;
+        cf_signatures_ = *cf_signatures;
+        cf_cache_ = *cf_cache;
         LOG_INFO("ManifestDatabase column families initialized");
-    } catch (const std::exception& e) {
-        LOG_ERROR("Failed to initialize ManifestDatabase column families: {}", e.what());
+    } else {
+        LOG_ERROR("Failed to initialize ManifestDatabase column families:");
+        if (!cf_manifests) LOG_ERROR("  - release_manifests: {}", cf_manifests.error().message());
+        if (!cf_files) LOG_ERROR("  - file_registry: {}", cf_files.error().message());
+        if (!cf_signatures) LOG_ERROR("  - signature_cache: {}", cf_signatures.error().message());
+        if (!cf_cache) LOG_ERROR("  - download_cache: {}", cf_cache.error().message());
+        
         // Fall back to default CF
         cf_manifests_ = nullptr;
         cf_files_ = nullptr;

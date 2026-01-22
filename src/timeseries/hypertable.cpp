@@ -36,15 +36,15 @@ rocksdb::ColumnFamilyHandle* Hypertable::getOrCreateChunk(int64_t timestamp) {
     std::string chunk_name = getChunkName(timestamp);
     
     // Try to get existing chunk CF
-    auto* cf_handle = db_->getOrCreateColumnFamily(chunk_name);
+    auto cf_result = db_->getOrCreateColumnFamily(chunk_name);
     
-    if (cf_handle) {
+    if (cf_result) {
         THEMIS_DEBUG("Using chunk: {}", chunk_name);
+        return *cf_result;
     } else {
-        THEMIS_ERROR("Failed to create chunk: {}", chunk_name);
+        THEMIS_ERROR("Failed to create chunk: {} - {}", chunk_name, cf_result.error().message());
+        return nullptr;
     }
-    
-    return cf_handle;
 }
 
 std::string Hypertable::buildKey(int64_t timestamp, uint64_t sequence_id) {

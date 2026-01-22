@@ -7,6 +7,8 @@
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
+#include "utils/expected.h"
+#include <fmt/format.h>
 #include <stdexcept>
 
 namespace themis {
@@ -87,7 +89,7 @@ std::shared_ptr<GraphIndexManager> IndexManager::getGraphIndexManager() const {
 
 // IIndexManager implementation
 
-ISecondaryIndex* IndexManager::createSecondaryIndex(
+Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string_view name,
     std::string_view field_name,
     const std::string& config) {
@@ -96,7 +98,8 @@ ISecondaryIndex* IndexManager::createSecondaryIndex(
     
     if (!secondary_manager_) {
         THEMIS_ERROR("IndexManager::createSecondaryIndex: Secondary manager not initialized");
-        return nullptr;
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED, 
+                                       fmt::format("Index manager not initialized for index '{}'", name));
     }
     
     std::string name_str(name);
@@ -104,7 +107,7 @@ ISecondaryIndex* IndexManager::createSecondaryIndex(
     // Check if index already exists
     if (secondary_indices_.find(name_str) != secondary_indices_.end()) {
         THEMIS_WARN("IndexManager::createSecondaryIndex: Index '{}' already exists", name_str);
-        return secondary_indices_[name_str];
+        return Ok<ISecondaryIndex*>(secondary_indices_[name_str]);
     }
     
     // Parse config for index type (default: REGULAR)
@@ -124,7 +127,8 @@ ISecondaryIndex* IndexManager::createSecondaryIndex(
     if (!status.ok) {
         THEMIS_ERROR("IndexManager::createSecondaryIndex: Failed to create index '{}': {}", 
                      name_str, status.message);
-        return nullptr;
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_CREATION_FAILED,
+                                       fmt::format("Failed to create index '{}': {}", name_str, status.message));
     }
     
     // For now, we return nullptr as ISecondaryIndex wrapper is not yet implemented
@@ -132,10 +136,10 @@ ISecondaryIndex* IndexManager::createSecondaryIndex(
     index_types_[name_str] = IndexType::SECONDARY;
     
     THEMIS_INFO("IndexManager::createSecondaryIndex: Created index '{}'", name_str);
-    return nullptr;
+    return Ok<ISecondaryIndex*>(nullptr);
 }
 
-IVectorIndex* IndexManager::createVectorIndex(
+Result<IVectorIndex*> IndexManager::createVectorIndex(
     std::string_view name,
     uint32_t dimension,
     const std::string& config) {
@@ -144,7 +148,8 @@ IVectorIndex* IndexManager::createVectorIndex(
     
     if (!vector_manager_) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Vector manager not initialized");
-        return nullptr;
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+                                    fmt::format("Vector index manager not initialized for index '{}'", name));
     }
     
     std::string name_str(name);
@@ -152,7 +157,7 @@ IVectorIndex* IndexManager::createVectorIndex(
     // Check if index already exists
     if (vector_indices_.find(name_str) != vector_indices_.end()) {
         THEMIS_WARN("IndexManager::createVectorIndex: Index '{}' already exists", name_str);
-        return vector_indices_[name_str];
+        return Ok<IVectorIndex*>(vector_indices_[name_str]);
     }
     
     // Initialize vector index
@@ -168,7 +173,8 @@ IVectorIndex* IndexManager::createVectorIndex(
     if (!status.ok) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Failed to create index '{}': {}", 
                      name_str, status.message);
-        return nullptr;
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_CREATION_FAILED,
+                                    fmt::format("Failed to create vector index '{}': {}", name_str, status.message));
     }
     
     // For now, we return nullptr as IVectorIndex wrapper is not yet implemented
@@ -176,10 +182,10 @@ IVectorIndex* IndexManager::createVectorIndex(
     
     THEMIS_INFO("IndexManager::createVectorIndex: Created index '{}' with dimension {}", 
                 name_str, dimension);
-    return nullptr;
+    return Ok<IVectorIndex*>(nullptr);
 }
 
-IGraphIndex* IndexManager::createGraphIndex(
+Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
     const std::string& config) {
     
@@ -187,7 +193,8 @@ IGraphIndex* IndexManager::createGraphIndex(
     
     if (!graph_manager_) {
         THEMIS_ERROR("IndexManager::createGraphIndex: Graph manager not initialized");
-        return nullptr;
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+                                   fmt::format("Graph index manager not initialized for index '{}'", name));
     }
     
     std::string name_str(name);
@@ -195,53 +202,56 @@ IGraphIndex* IndexManager::createGraphIndex(
     // Check if index already exists
     if (graph_indices_.find(name_str) != graph_indices_.end()) {
         THEMIS_WARN("IndexManager::createGraphIndex: Index '{}' already exists", name_str);
-        return graph_indices_[name_str];
+        return Ok<IGraphIndex*>(graph_indices_[name_str]);
     }
     
     // Graph index is always available, just track it
     index_types_[name_str] = IndexType::GRAPH;
     
     THEMIS_INFO("IndexManager::createGraphIndex: Created graph index '{}'", name_str);
-    return nullptr;
+    return Ok<IGraphIndex*>(nullptr);
 }
 
-ISecondaryIndex* IndexManager::getSecondaryIndex(std::string_view name) const {
+Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = secondary_indices_.find(name_str);
     if (it != secondary_indices_.end()) {
-        return it->second;
+        return Ok<ISecondaryIndex*>(it->second);
     }
     
-    return nullptr;
+    return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                   fmt::format("Secondary index '{}' not found", name_str));
 }
 
-IVectorIndex* IndexManager::getVectorIndex(std::string_view name) const {
+Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = vector_indices_.find(name_str);
     if (it != vector_indices_.end()) {
-        return it->second;
+        return Ok<IVectorIndex*>(it->second);
     }
     
-    return nullptr;
+    return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                fmt::format("Vector index '{}' not found", name_str));
 }
 
-IGraphIndex* IndexManager::getGraphIndex(std::string_view name) const {
+Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = graph_indices_.find(name_str);
     if (it != graph_indices_.end()) {
-        return it->second;
+        return Ok<IGraphIndex*>(it->second);
     }
     
-    return nullptr;
+    return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                               fmt::format("Graph index '{}' not found", name_str));
 }
 
-bool IndexManager::dropIndex(std::string_view name) {
+Result<void> IndexManager::dropIndex(std::string_view name) {
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     std::string name_str(name);
@@ -250,7 +260,8 @@ bool IndexManager::dropIndex(std::string_view name) {
     auto type_it = index_types_.find(name_str);
     if (type_it == index_types_.end()) {
         THEMIS_WARN("IndexManager::dropIndex: Index '{}' not found", name_str);
-        return false;
+        return ErrVoid(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                       fmt::format("Index '{}' not found", name_str));
     }
     
     bool success = false;
@@ -286,9 +297,11 @@ bool IndexManager::dropIndex(std::string_view name) {
     if (success) {
         index_types_.erase(name_str);
         THEMIS_INFO("IndexManager::dropIndex: Dropped index '{}'", name_str);
+        return OkVoid();
     }
     
-    return success;
+    return ErrVoid(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                   fmt::format("Failed to drop index '{}'", name_str));
 }
 
 std::vector<std::string> IndexManager::listIndexes() const {

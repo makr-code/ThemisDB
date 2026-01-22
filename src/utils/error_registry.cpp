@@ -92,6 +92,208 @@ void ErrorRegistry::registerDefaultErrors() {
         {"corruption", "data", "integrity", "storage"}
     });
     
+    registerError({
+        ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+        "Storage",
+        "Error",
+        "Transaction failed: {}",
+        "A database transaction could not be completed successfully.",
+        "1. Check if the database is in read-only mode\n"
+        "2. Verify transaction timeout settings\n"
+        "3. Check for deadlocks in system logs\n"
+        "4. Ensure sufficient resources (memory, disk space)",
+        {"/docs/transactions.md", "/docs/troubleshooting.md"},
+        {"transaction", "commit", "rollback", "storage", "database"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_CACHE_ERROR,
+        "Storage",
+        "Warning",
+        "Cache operation failed: {}",
+        "The cache layer encountered an error during read or write operation.",
+        "1. Check cache configuration settings\n"
+        "2. Verify cache size limits are not exceeded\n"
+        "3. Clear cache if corrupted: themis-admin cache clear\n"
+        "4. Review cache eviction policies",
+        {"/docs/caching.md", "/docs/performance.md"},
+        {"cache", "memory", "eviction", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_LOG_FULL,
+        "Storage",
+        "Critical",
+        "Write-ahead log is full: {}",
+        "The write-ahead log (WAL) has reached capacity and cannot accept new writes.",
+        "1. Trigger log checkpoint: themis-admin checkpoint\n"
+        "2. Increase WAL size limit in configuration\n"
+        "3. Check if log archiving is working\n"
+        "4. Verify disk space is available",
+        {"/docs/wal.md", "/docs/configuration.md"},
+        {"wal", "log", "full", "checkpoint", "storage"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
+        "Storage",
+        "Error",
+        "Redundancy operation failed: {}",
+        "Failed to maintain data redundancy across storage backends.",
+        "1. Check connectivity to all storage backends\n"
+        "2. Verify backend credentials and permissions\n"
+        "3. Review redundancy policy configuration\n"
+        "4. Check available space on all backends",
+        {"/docs/redundancy.md", "/docs/backup.md"},
+        {"redundancy", "replication", "backup", "storage", "backend"}
+    });
+    
+    // Backup & Recovery Errors
+    registerError({
+        ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup creation failed: {}",
+        "Failed to create database backup.",
+        "1. Check available disk space\n"
+        "2. Verify backup destination permissions\n"
+        "3. Ensure database is accessible\n"
+        "4. Review backup logs for specific errors",
+        {"/docs/backup.md", "/docs/operations.md"},
+        {"backup", "creation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup restoration failed: {}",
+        "Failed to restore database from backup.",
+        "1. Verify backup integrity\n"
+        "2. Check backup file permissions\n"
+        "3. Ensure sufficient disk space\n"
+        "4. Try restoring from an earlier backup",
+        {"/docs/backup.md", "/docs/recovery.md"},
+        {"backup", "restore", "recovery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+        "Backup",
+        "Warning",
+        "Backup verification failed: {}",
+        "Backup integrity check detected issues.",
+        "1. Run full backup verification\n"
+        "2. Check backup checksums\n"
+        "3. Consider creating a new full backup",
+        {"/docs/backup.md"},
+        {"backup", "verification", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_NOT_FOUND,
+        "Backup",
+        "Error",
+        "Backup not found: {}",
+        "The specified backup does not exist.",
+        "1. Verify backup path\n"
+        "2. List available backups\n"
+        "3. Check backup retention policies",
+        {"/docs/backup.md"},
+        {"backup", "not found", "missing"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INVALID_TYPE,
+        "Backup",
+        "Error",
+        "Invalid backup type: {}",
+        "The backup type is not supported for this operation.",
+        "1. Use full backup for restoration\n"
+        "2. Restore from full backup then apply incremental/differential",
+        {"/docs/backup.md"},
+        {"backup", "type", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INCOMPLETE,
+        "Backup",
+        "Critical",
+        "Backup incomplete: {}",
+        "Backup is missing required components (e.g., RAID shards).",
+        "1. Verify all backup components exist\n"
+        "2. For RAID configs, ensure all shards are backed up\n"
+        "3. Create a new complete backup",
+        {"/docs/backup.md", "/docs/raid.md"},
+        {"backup", "incomplete", "missing", "raid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup compression failed: {}",
+        "Failed to compress backup data.",
+        "1. Check available disk space\n"
+        "2. Verify tar/gzip availability\n"
+        "3. Check file permissions",
+        {"/docs/backup.md"},
+        {"backup", "compression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup decompression failed: {}",
+        "Failed to decompress backup archive.",
+        "1. Verify backup file integrity\n"
+        "2. Check for corruption\n"
+        "3. Ensure tar/gzip is available",
+        {"/docs/backup.md"},
+        {"backup", "decompression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_CHECKSUM_MISMATCH,
+        "Backup",
+        "Critical",
+        "Backup checksum mismatch: {}",
+        "Backup file checksum does not match expected value.",
+        "1. Do not use this backup - it may be corrupted\n"
+        "2. Verify backup source integrity\n"
+        "3. Create a new backup\n"
+        "4. Check for disk errors",
+        {"/docs/backup.md", "/docs/troubleshooting.md"},
+        {"backup", "checksum", "corruption", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+        "Backup",
+        "Error",
+        "Backup manifest corrupt: {}",
+        "Backup metadata file is corrupted or unreadable.",
+        "1. Check backup directory structure\n"
+        "2. Verify JSON format of MANIFEST.json\n"
+        "3. Restore from an earlier backup",
+        {"/docs/backup.md"},
+        {"backup", "manifest", "corrupt", "metadata"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED,
+        "Backup",
+        "Error",
+        "WAL archive failed: {}",
+        "Failed to archive Write-Ahead Log files.",
+        "1. Check WAL directory permissions\n"
+        "2. Verify available disk space\n"
+        "3. Review database logs",
+        {"/docs/backup.md", "/docs/wal.md"},
+        {"backup", "wal", "archive", "failed"}
+    });
+    
     // LLM Errors
     registerError({
         ErrorCode::ERR_LLM_MODEL_NOT_FOUND,
@@ -266,6 +468,21 @@ void ErrorRegistry::registerDefaultErrors() {
         {"gpu", "peer access", "failed", "multi-gpu"}
     });
     
+    registerError({
+        ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED,
+        "LLM",
+        "Error",
+        "Batch size {} exceeds maximum allowed: {}",
+        "The requested batch size is larger than the configured maximum.",
+        "1. Reduce batch size in the request\n"
+        "2. Increase max_batch_size in llm_config.yaml\n"
+        "3. Enable continuous batching for dynamic sizing\n"
+        "4. Split large batches into multiple smaller requests\n"
+        "5. Check available GPU memory if using GPU acceleration",
+        {"/docs/llm/batching.md", "/docs/llm/performance.md"},
+        {"llm", "batch", "size", "exceeded", "limit"}
+    });
+    
     // LoRA Errors
     registerError({
         ErrorCode::ERR_LORA_NOT_LOADED,
@@ -361,6 +578,38 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Try loading on different GPU or CPU",
         {"/docs/llm/lora_gpu.md"},
         {"lora", "gpu", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_LORA_ADAPTER_CONFLICT,
+        "LoRA",
+        "Error",
+        "LoRA adapter conflict detected: {}",
+        "Multiple LoRA adapters are attempting to modify the same model layers causing conflicts.",
+        "1. Review adapter layer mappings for overlaps\n"
+        "2. Use adapters that target different layers\n"
+        "3. Load adapters sequentially instead of simultaneously\n"
+        "4. Consider merging adapters offline before loading\n"
+        "5. Check adapter metadata for layer compatibility",
+        {"/docs/llm/lora_conflicts.md", "/docs/llm/lora_fusion.md"},
+        {"lora", "conflict", "adapter", "layers", "overlap"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_LORA_TRAINING_DIVERGED,
+        "LoRA",
+        "Critical",
+        "LoRA training diverged: loss={}, gradient_norm={}",
+        "Training loss diverged or gradients exploded during LoRA fine-tuning.",
+        "1. Reduce learning rate (try 1e-5 or lower)\n"
+        "2. Enable gradient clipping (max_grad_norm=1.0)\n"
+        "3. Use smaller LoRA rank (r=8 or r=16)\n"
+        "4. Check for corrupted training data\n"
+        "5. Increase warmup steps\n"
+        "6. Use mixed precision training (fp16/bf16)\n"
+        "7. Review training loss curves for instability",
+        {"/docs/llm/lora_training.md", "/docs/llm/lora_troubleshooting.md"},
+        {"lora", "training", "diverged", "loss", "gradient", "explosion"}
     });
     
     // MCP Errors
@@ -633,6 +882,127 @@ void ErrorRegistry::registerDefaultErrors() {
         {"query", "timeout", "performance"}
     });
     
+    registerError({
+        ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
+        "Query",
+        "Error",
+        "Cycle detected in recursive CTE: {}",
+        "The recursive Common Table Expression contains a cycle that would cause infinite recursion.",
+        "1. Review CTE recursion logic\n"
+        "2. Add proper termination conditions\n"
+        "3. Check for circular dependencies in recursive query\n"
+        "4. Verify base case is reachable\n"
+        "5. Use MAXRECURSION hint to limit recursion depth",
+        {"/docs/query/cte.md", "/docs/query/recursive_queries.md"},
+        {"query", "cte", "cycle", "recursive", "infinite"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+        "Query",
+        "Error",
+        "Aggregation function failed: {}",
+        "A statistical aggregation function failed due to invalid input or insufficient data.",
+        "1. Verify input values are numeric (for statistical functions)\n"
+        "2. Ensure sufficient data points (e.g., variance needs ≥2 values)\n"
+        "3. Check for valid parameter ranges (e.g., percentile 0-100)\n"
+        "4. Verify data types are compatible with aggregation function\n"
+        "5. Check for NULL or empty value sets",
+        {"/docs/query/aggregations.md"},
+        {"query", "aggregation", "failed", "statistics"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_TYPE_MISMATCH,
+        "Query",
+        "Error",
+        "Type mismatch in query operation: {}",
+        "The query contains incompatible data types in an operation or comparison.",
+        "1. Verify data types match in comparisons\n"
+        "2. Use explicit type casting (e.g., TO_NUMBER, TO_STRING)\n"
+        "3. Check function parameter types match requirements\n"
+        "4. Review schema for column type definitions\n"
+        "5. Ensure aggregation expressions use compatible types",
+        {"/docs/query/types.md"},
+        {"query", "type", "mismatch", "incompatible"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+        "Query",
+        "Critical",
+        "Query resource limit exhausted: {}",
+        "The query has exhausted available system resources (memory, disk, connections).",
+        "1. Reduce query scope or add filters to limit data\n"
+        "2. Increase resource limits in configuration\n"
+        "3. Break large queries into smaller batches\n"
+        "4. Add pagination for large result sets\n"
+        "5. Check for memory leaks or resource cleanup issues\n"
+        "6. Monitor system resources during query execution",
+        {"/docs/query/resources.md", "/docs/query/optimization.md"},
+        {"query", "resource", "exhausted", "memory", "limit"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID,
+        "Query",
+        "Error",
+        "Invalid query: {}",
+        "The query is invalid or malformed.",
+        "1. Check query syntax and structure\n"
+        "2. Verify all required parameters are provided\n"
+        "3. Ensure query string is not empty\n"
+        "4. Review query documentation for correct format",
+        {"/docs/query/syntax.md"},
+        {"query", "invalid", "malformed", "syntax"}
+    });
+    
+    // Cache Errors
+    registerError({
+        ErrorCode::ERR_CACHE_FULL,
+        "Cache",
+        "Warning",
+        "Cache is full: {}",
+        "The cache has reached its maximum capacity and cannot store new entries.",
+        "1. Increase cache size limits in configuration\n"
+        "2. Review cache eviction policy settings\n"
+        "3. Monitor cache hit rates and adjust TTL settings\n"
+        "4. Consider using memory-aware eviction\n"
+        "5. Clear expired entries manually if needed",
+        {"/docs/cache/configuration.md"},
+        {"cache", "full", "capacity", "memory", "limit"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE,
+        "Cache",
+        "Warning",
+        "Cache entry too large: {}",
+        "The entry exceeds the maximum allowed size for caching.",
+        "1. Increase max_entry_size in cache configuration\n"
+        "2. Consider result set pagination for large queries\n"
+        "3. Review query to reduce result size\n"
+        "4. Use compression for large result sets\n"
+        "5. Store partial results if applicable",
+        {"/docs/cache/configuration.md"},
+        {"cache", "entry", "size", "limit", "exceeded"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_INVALIDATION_FAILED,
+        "Cache",
+        "Error",
+        "Cache invalidation failed: {}",
+        "Failed to invalidate cache entries as requested.",
+        "1. Check cache service is running\n"
+        "2. Verify cache key or dependency pattern is correct\n"
+        "3. Review cache logs for detailed error information\n"
+        "4. Consider clearing entire cache if needed\n"
+        "5. Ensure sufficient permissions for cache operations",
+        {"/docs/cache/invalidation.md"},
+        {"cache", "invalidation", "failed", "error"}
+    });
+    
     // API Errors
     registerError({
         ErrorCode::ERR_API_INVALID_REQUEST,
@@ -745,6 +1115,300 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. If self-signed, add to trusted keys",
         {"/docs/plugins/security.md"},
         {"plugin", "signature", "security"}
+    });
+    
+    // Compression Errors
+    registerError({
+        ErrorCode::ERR_COMPRESSION_FAILED,
+        "Compression",
+        "Error",
+        "Compression operation failed: {}",
+        "Failed to compress data using the specified algorithm.",
+        "1. Verify input data is not corrupted\n"
+        "2. Check compression algorithm is supported\n"
+        "3. Ensure sufficient memory is available\n"
+        "4. Try a different compression level",
+        {"/docs/compression.md"},
+        {"compression", "failed", "algorithm"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_COMPRESSION_BUFFER_TOO_SMALL,
+        "Compression",
+        "Error",
+        "Compression buffer too small: {} bytes required, {} bytes available",
+        "The output buffer is insufficient for compressed data.",
+        "1. Increase buffer size in configuration\n"
+        "2. Use dynamic buffer allocation\n"
+        "3. Check compression ratio estimates",
+        {"/docs/compression.md"},
+        {"compression", "buffer", "size"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+        "Compression",
+        "Error",
+        "Invalid compression format: {}",
+        "The compressed data format is not recognized or corrupted.",
+        "1. Verify data was compressed with supported algorithm\n"
+        "2. Check for data corruption during transfer\n"
+        "3. Ensure compression format version is compatible\n"
+        "4. Re-compress data if source is available",
+        {"/docs/compression.md"},
+        {"compression", "format", "invalid", "corrupted"}
+    });
+    
+    // Crypto Errors
+    registerError({
+        ErrorCode::ERR_CRYPTO_ENCRYPTION_FAILED,
+        "Crypto",
+        "Error",
+        "Encryption operation failed: {}",
+        "Failed to encrypt data using the specified algorithm.",
+        "1. Verify encryption key is valid\n"
+        "2. Check encryption algorithm is supported\n"
+        "3. Ensure input data format is correct\n"
+        "4. Verify OpenSSL/crypto library is properly initialized",
+        {"/docs/security/encryption.md"},
+        {"crypto", "encryption", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_DECRYPTION_FAILED,
+        "Crypto",
+        "Error",
+        "Decryption operation failed: {}",
+        "Failed to decrypt data, possibly due to wrong key or corrupted data.",
+        "1. Verify decryption key matches encryption key\n"
+        "2. Check ciphertext is not corrupted\n"
+        "3. Ensure correct algorithm and mode are used\n"
+        "4. Verify IV/nonce if applicable",
+        {"/docs/security/encryption.md"},
+        {"crypto", "decryption", "failed", "key"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_KEY_GENERATION_FAILED,
+        "Crypto",
+        "Error",
+        "Key generation failed: {}",
+        "Failed to generate cryptographic key.",
+        "1. Verify entropy source is available (/dev/urandom)\n"
+        "2. Check key size is supported\n"
+        "3. Ensure crypto library is properly initialized\n"
+        "4. Verify sufficient system resources",
+        {"/docs/security/key_management.md"},
+        {"crypto", "key", "generation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CRYPTO_INVALID_KEY,
+        "Crypto",
+        "Error",
+        "Invalid cryptographic key: {}",
+        "The provided key is invalid or malformed.",
+        "1. Verify key format (PEM, DER, etc.)\n"
+        "2. Check key size matches algorithm requirements\n"
+        "3. Ensure key is not corrupted\n"
+        "4. Verify key type (RSA, EC, etc.) is correct",
+        {"/docs/security/key_management.md"},
+        {"crypto", "key", "invalid"}
+    });
+    
+    // Utility Errors
+    registerError({
+        ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        "Utility",
+        "Error",
+        "Invalid argument: {}",
+        "A function was called with an invalid argument.",
+        "1. Check function parameters are correct\n"
+        "2. Verify input data format\n"
+        "3. Review API documentation for parameter constraints\n"
+        "4. Check for null or empty values",
+        {"/docs/api/utilities.md"},
+        {"utility", "invalid", "argument", "parameter"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+        "Utility",
+        "Error",
+        "File operation failed: {}",
+        "A file operation (read, write, delete) failed.",
+        "1. Check file path is correct\n"
+        "2. Verify file permissions\n"
+        "3. Ensure parent directory exists\n"
+        "4. Check disk space is available",
+        {"/docs/troubleshooting.md"},
+        {"utility", "file", "operation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PERMISSION_DENIED,
+        "Utility",
+        "Error",
+        "Permission denied: {}",
+        "Insufficient permissions to perform the operation.",
+        "1. Check user/process permissions\n"
+        "2. Verify file/directory ownership\n"
+        "3. Review SELinux/AppArmor policies\n"
+        "4. Run with appropriate privileges if needed",
+        {"/docs/security.md"},
+        {"utility", "permission", "denied", "access"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
+        "Utility",
+        "Error",
+        "Failed to load PKI certificate: {}",
+        "Could not load or parse the certificate file.",
+        "1. Verify certificate file path is correct\n"
+        "2. Check certificate format (PEM expected)\n"
+        "3. Ensure certificate is not expired\n"
+        "4. Verify file is readable and not corrupted",
+        {"/docs/security/pki.md"},
+        {"utility", "pki", "certificate", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
+        "Utility",
+        "Error",
+        "Failed to load PKI private key: {}",
+        "Could not load or parse the private key file.",
+        "1. Verify private key file path is correct\n"
+        "2. Check key format (PEM expected)\n"
+        "3. Ensure passphrase is correct if key is encrypted\n"
+        "4. Verify file is readable and not corrupted",
+        {"/docs/security/pki.md"},
+        {"utility", "pki", "key", "private", "load", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_PII_ENGINE_CREATION_FAILED,
+        "Utility",
+        "Error",
+        "Failed to create PII detection engine: {}",
+        "Could not instantiate the PII detection engine.",
+        "1. Verify engine type is supported (regex, ner, embedding)\n"
+        "2. Check engine configuration is valid\n"
+        "3. Ensure PKI signature is valid if signed engine\n"
+        "4. Review engine initialization logs",
+        {"/docs/privacy/pii_detection.md"},
+        {"utility", "pii", "detection", "engine", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+        "Utility",
+        "Error",
+        "Retention policy not found: {}",
+        "The specified retention policy does not exist.",
+        "1. Verify policy name is correct\n"
+        "2. Check policy configuration file\n"
+        "3. Ensure policy was registered successfully\n"
+        "4. Review retention manager logs",
+        {"/docs/retention.md"},
+        {"utility", "retention", "policy", "not found"}
+    });
+    
+    // Memory Pool Errors
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_EXHAUSTED,
+        "Memory",
+        "Critical",
+        "Memory pool exhausted: requested {} bytes, available {} bytes",
+        "The memory pool has run out of available memory blocks.",
+        "1. Increase pool size in configuration\n"
+        "2. Enable dynamic pool expansion\n"
+        "3. Check for memory leaks\n"
+        "4. Review allocation patterns and optimize",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "exhausted", "out of memory"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_ALLOCATION_FAILED,
+        "Memory",
+        "Critical",
+        "Memory allocation failed: requested {} bytes",
+        "Failed to allocate memory from the system.",
+        "1. Check available system memory\n"
+        "2. Reduce memory usage in configuration\n"
+        "3. Enable memory compression\n"
+        "4. Check for memory leaks",
+        {"/docs/memory/troubleshooting.md"},
+        {"memory", "allocation", "failed", "oom"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_SIZE,
+        "Memory",
+        "Error",
+        "Invalid allocation size: {} bytes",
+        "The requested allocation size is invalid or exceeds limits.",
+        "1. Verify allocation size is positive and non-zero\n"
+        "2. Check size does not exceed max allocation limit\n"
+        "3. Ensure size is properly aligned if required",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "invalid", "size", "allocation"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_ALIGNMENT,
+        "Memory",
+        "Error",
+        "Invalid memory alignment: requested {} bytes, must be power of 2",
+        "The requested alignment is not a power of 2.",
+        "1. Verify alignment is a power of 2 (e.g., 8, 16, 32, 64)\n"
+        "2. Use standard alignment values (16 or 64 bytes)\n"
+        "3. Check alignment requirements for your data structure",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "alignment", "invalid", "power of 2"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_DOUBLE_FREE,
+        "Memory",
+        "Critical",
+        "Double free detected: address {}",
+        "Attempted to free memory that was already freed.",
+        "1. Check for double free bugs in code\n"
+        "2. Ensure proper ownership semantics\n"
+        "3. Use smart pointers or RAII patterns\n"
+        "4. Run with AddressSanitizer to detect memory errors",
+        {"/docs/memory/debugging.md"},
+        {"memory", "double free", "corruption", "bug"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_NOT_INITIALIZED,
+        "Memory",
+        "Error",
+        "Memory pool not initialized",
+        "Attempted to use a memory pool before initialization.",
+        "1. Ensure pool is initialized before use\n"
+        "2. Check initialization order\n"
+        "3. Verify pool configuration is valid",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "not initialized", "initialization"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_FRAGMENTATION,
+        "Memory",
+        "Warning",
+        "Memory fragmentation detected: {} free blocks, largest {} bytes",
+        "Memory pool is fragmented with many small free blocks.",
+        "1. Enable pool defragmentation\n"
+        "2. Increase pool size\n"
+        "3. Adjust allocation sizes\n"
+        "4. Consider pool reset during low-activity periods",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "fragmentation", "performance", "optimization"}
     });
 }
 

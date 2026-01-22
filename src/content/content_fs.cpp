@@ -1,5 +1,7 @@
 #include "content/content_fs.h"
 #include "storage/key_schema.h"
+#include "utils/expected.h"
+#include <fmt/format.h>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -47,15 +49,21 @@ std::string ContentFS::sha256Hex(const std::vector<uint8_t>& data) {
     return toHex(md, mdLen);
 }
 
-ContentFS::Status ContentFS::put(const std::string& pk,
+Result<void> ContentFS::put(const std::string& pk,
                                  const std::vector<uint8_t>& data,
                                  const std::string& mime,
                                  const std::optional<std::string>& sha256_expected_hex) {
-    if (pk.empty()) return Status::Error("put: pk must not be empty");
+    if (pk.empty()) {
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, 
+                       "put: pk must not be empty");
+    }
+    
     // Compute checksum
     std::string hex = sha256Hex(data);
     if (sha256_expected_hex && !sha256_expected_hex->empty() && *sha256_expected_hex != hex) {
-        return Status::Error("put: checksum mismatch");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                       fmt::format("put: checksum mismatch for '{}': expected {}, got {}", 
+                                   pk, *sha256_expected_hex, hex));
     }
 
     // Decide storage layout: chunked for large payloads
@@ -75,7 +83,8 @@ ContentFS::Status ContentFS::put(const std::string& pk,
             std::vector<uint8_t> part;
             part.insert(part.end(), data.begin() + static_cast<ptrdiff_t>(off), data.begin() + static_cast<ptrdiff_t>(end));
             if (!db_.put(chunkKey(pk, i), part)) {
-                return Status::Error("put: failed to write chunk");
+                return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                               fmt::format("put: failed to write chunk {} for '{}'", i, pk));
             }
         }
         // Ensure legacy blob key is removed to avoid confusion
@@ -83,7 +92,8 @@ ContentFS::Status ContentFS::put(const std::string& pk,
     } else {
         // Single blob write
         if (!db_.put(blobKey(pk), data)) {
-            return Status::Error("put: failed to write blob");
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                           fmt::format("put: failed to write blob for '{}'", pk));
         }
         // Optionally remove old chunks if any existed (best-effort): read old meta to know chunk count
         auto oldMeta = db_.get(metaKey(pk));
@@ -107,22 +117,30 @@ ContentFS::Status ContentFS::put(const std::string& pk,
     auto metaBytes = nlohmann::json::to_cbor(j);
 
     if (!db_.put(metaKey(pk), metaBytes)) {
-        return Status::Error("put: failed to write meta");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       fmt::format("put: failed to write metadata for '{}'", pk));
     }
-    return Status::OK();
+    return OkVoid();
 }
 
-std::pair<ContentFS::Status, std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
+Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
     // Read meta first to decide storage format
     auto meta = db_.get(metaKey(pk));
-    if (!meta) return {Status::Error("get: not found"), {}};
+    if (!meta) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                          fmt::format("get: content '{}' not found", pk));
+    }
+    
     try {
         auto j = nlohmann::json::from_cbor(*meta);
         uint64_t chunks = j.value("chunks", static_cast<uint64_t>(0));
         if (chunks == 0) {
             auto blob = db_.get(blobKey(pk));
-            if (!blob) return {Status::Error("get: not found"), {}};
-            return {Status::OK(), *blob};
+            if (!blob) {
+                return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                                   fmt::format("get: blob for '{}' not found", pk));
+            }
+            return Ok(std::move(*blob));
         } else {
             uint64_t total = j.value("size", static_cast<uint64_t>(0));
             uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
@@ -130,43 +148,68 @@ std::pair<ContentFS::Status, std::vector<uint8_t>> ContentFS::get(const std::str
             out.reserve(static_cast<size_t>(total));
             for (uint64_t i = 0; i < chunks; ++i) {
                 auto part = db_.get(chunkKey(pk, i));
-                if (!part) return {Status::Error("get: missing chunk"), {}};
+                if (!part) {
+                    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                                       fmt::format("get: missing chunk {} for '{}'", i, pk));
+                }
                 out.insert(out.end(), part->begin(), part->end());
             }
-            return {Status::OK(), std::move(out)};
+            return Ok(std::move(out));
         }
     } catch (...) {
-        return {Status::Error("get: invalid meta"), {}};
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                           fmt::format("get: invalid metadata for '{}'", pk));
     }
 }
 
-std::pair<ContentFS::Status, std::vector<uint8_t>> ContentFS::getRange(const std::string& pk, uint64_t offset, uint64_t length) const {
+Result<std::vector<uint8_t>> ContentFS::getRange(const std::string& pk, uint64_t offset, uint64_t length) const {
     auto meta = db_.get(metaKey(pk));
-    if (!meta) return {Status::Error("getRange: not found"), {}};
+    if (!meta) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                          fmt::format("getRange: content '{}' not found", pk));
+    }
+    
     try {
         auto j = nlohmann::json::from_cbor(*meta);
         uint64_t total = j.value("size", static_cast<uint64_t>(0));
         uint64_t chunks = j.value("chunks", static_cast<uint64_t>(0));
-        if (offset > total) return {Status::Error("getRange: offset beyond end"), {}};
+        
+        if (offset > total) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                              fmt::format("getRange: offset {} beyond end {} for '{}'", offset, total, pk));
+        }
+        
         uint64_t end = (length == 0) ? total : std::min(total, offset + length);
         if (end < offset) end = offset;
         std::vector<uint8_t> out;
         out.reserve(static_cast<size_t>(end - offset));
+        
         if (chunks == 0) {
             // Unchunked: slice from full blob (fallback)
             auto blob = db_.get(blobKey(pk));
-            if (!blob) return {Status::Error("getRange: not found"), {}};
+            if (!blob) {
+                return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                                   fmt::format("getRange: blob for '{}' not found", pk));
+            }
             out.insert(out.end(), blob->begin() + static_cast<ptrdiff_t>(offset), blob->begin() + static_cast<ptrdiff_t>(end));
-            return {Status::OK(), std::move(out)};
+            return Ok(std::move(out));
         } else {
             uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
             uint64_t start_idx = offset / chunk_sz;
             uint64_t end_idx = (end == 0) ? 0 : ((end - 1) / chunk_sz);
-            if (start_idx >= chunks) return {Status::Error("getRange: offset beyond end"), {}};
+            
+            if (start_idx >= chunks) {
+                return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                                  fmt::format("getRange: offset beyond end for '{}'", pk));
+            }
             if (end_idx >= chunks) end_idx = chunks - 1;
+            
             for (uint64_t i = start_idx; i <= end_idx; ++i) {
                 auto part = db_.get(chunkKey(pk, i));
-                if (!part) return {Status::Error("getRange: missing chunk"), {}};
+                if (!part) {
+                    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                                       fmt::format("getRange: missing chunk {} for '{}'", i, pk));
+                }
                 uint64_t chunk_off = i * chunk_sz;
                 uint64_t part_start = (i == start_idx) ? (offset - chunk_off) : 0;
                 uint64_t part_end = (i == end_idx) ? (end - chunk_off) : static_cast<uint64_t>(part->size());
@@ -174,16 +217,21 @@ std::pair<ContentFS::Status, std::vector<uint8_t>> ContentFS::getRange(const std
                 if (part_start > part_end) part_start = part_end;
                 out.insert(out.end(), part->begin() + static_cast<ptrdiff_t>(part_start), part->begin() + static_cast<ptrdiff_t>(part_end));
             }
-            return {Status::OK(), std::move(out)};
+            return Ok(std::move(out));
         }
     } catch (...) {
-        return {Status::Error("getRange: invalid meta"), {}};
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                           fmt::format("getRange: invalid metadata for '{}'", pk));
     }
 }
 
-std::pair<ContentFS::Status, ContentMeta> ContentFS::head(const std::string& pk) const {
+Result<ContentMeta> ContentFS::head(const std::string& pk) const {
     auto meta = db_.get(metaKey(pk));
-    if (!meta) return {Status::Error("head: not found"), {}};
+    if (!meta) {
+        return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                 fmt::format("head: content '{}' not found", pk));
+    }
+    
     try {
         auto j = nlohmann::json::from_cbor(*meta);
         ContentMeta m;
@@ -193,13 +241,14 @@ std::pair<ContentFS::Status, ContentMeta> ContentFS::head(const std::string& pk)
         m.sha256_hex = j.value("sha256_hex", std::string{});
         m.chunk_size = j.value("chunk_size", static_cast<uint64_t>(0));
         m.chunks = j.value("chunks", static_cast<uint64_t>(0));
-        return {Status::OK(), m};
+        return Ok(std::move(m));
     } catch (...) {
-        return {Status::Error("head: invalid meta encoding"), {}};
+        return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                 fmt::format("head: invalid metadata encoding for '{}'", pk));
     }
 }
 
-ContentFS::Status ContentFS::remove(const std::string& pk) {
+Result<void> ContentFS::remove(const std::string& pk) {
     // Read meta to know if chunked
     uint64_t chunks = 0;
     if (auto meta = db_.get(metaKey(pk))) {
@@ -208,6 +257,7 @@ ContentFS::Status ContentFS::remove(const std::string& pk) {
             chunks = j.value("chunks", static_cast<uint64_t>(0));
         } catch (...) {}
     }
+    
     bool ok1 = db_.del(metaKey(pk));
     bool ok2 = db_.del(blobKey(pk));
     bool ok3 = false;
@@ -218,8 +268,10 @@ ContentFS::Status ContentFS::remove(const std::string& pk) {
             ok3 = ok3 && r;
         }
     }
-    if (!ok1 && !ok2 && chunks == 0) return Status::Error("remove: not found");
-    return Status::OK();
+    
+    // Note: delete operations are best-effort, we succeed even if nothing was found
+    // This makes remove() idempotent
+    return OkVoid();
 }
 
 } // namespace themis

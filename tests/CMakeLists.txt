@@ -77,6 +77,40 @@ else()
 endif()
 
 # ============================================================================
+# Memory Pool Allocator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+    message(STATUS "Adding memory pool allocator tests")
+    
+    add_executable(test_pool_allocator
+        test_pool_allocator.cpp
+    )
+    
+    target_link_libraries(test_pool_allocator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pool_allocator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MemoryPoolAllocatorTests COMMAND test_pool_allocator)
+    
+    set_tests_properties(MemoryPoolAllocatorTests PROPERTIES
+        LABELS "core;memory;allocator;pool"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Memory pool allocator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
@@ -207,6 +241,35 @@ if(THEMIS_ENABLE_LORA_TESTS)
         message(STATUS "LoRA auto-binding tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_lora_auto_binding.cpp")
     endif()
     
+    # Model Loader Error Handling Tests (Phase 4)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loader_error_handling.cpp")
+        message(STATUS "Adding Model Loader Error Handling tests (Phase 4)")
+        
+        add_executable(test_model_loader_error_handling
+            llm/test_model_loader_error_handling.cpp
+        )
+        
+        target_link_libraries(test_model_loader_error_handling PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            fmt::fmt
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_model_loader_error_handling PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ModelLoaderErrorHandlingTests COMMAND test_model_loader_error_handling)
+        set_tests_properties(ModelLoaderErrorHandlingTests PROPERTIES
+            LABELS "llm;error_handling;phase4;model_loader"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Model Loader Error Handling tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_model_loader_error_handling.cpp")
+    endif()
+    
     # Distributed Training Coordinator Tests
     if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
         message(STATUS "Adding Distributed Training Coordinator tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
@@ -239,6 +302,77 @@ if(THEMIS_ENABLE_LORA_TESTS)
             message(STATUS "Distributed training coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_training_coordinator.cpp")
         else()
             message(STATUS "Distributed training coordinator tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
+    endif()
+    
+    # Byzantine Detector Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_byzantine_detector.cpp")
+        message(STATUS "Adding Byzantine Detector tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_byzantine_detector
+            test_byzantine_detector.cpp
+        )
+        
+        target_link_libraries(test_byzantine_detector PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            fmt::fmt
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_byzantine_detector PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ByzantineDetectorTests COMMAND test_byzantine_detector)
+        set_tests_properties(ByzantineDetectorTests PROPERTIES
+            LABELS "byzantine;security;distributed;training;unit"
+            TIMEOUT 120
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Byzantine detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_byzantine_detector.cpp")
+        else()
+            message(STATUS "Byzantine detector tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
+        endif()
+    endif()
+    
+    # Training Service Registry Tests
+    if(THEMIS_ENABLE_DISTRIBUTED_TRAINING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_service_registry.cpp")
+        message(STATUS "Adding Training Service Registry tests (THEMIS_ENABLE_DISTRIBUTED_TRAINING=ON)")
+        
+        add_executable(test_training_service_registry
+            test_training_service_registry.cpp
+        )
+        
+        target_link_libraries(test_training_service_registry PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_training_service_registry PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME TrainingServiceRegistryTests COMMAND test_training_service_registry)
+        set_tests_properties(TrainingServiceRegistryTests PROPERTIES
+            LABELS "lora;llm;distributed;training;registry;dependency-injection"
+            TIMEOUT 60
+        )
+    else()
+        if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
+            message(STATUS "Training service registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_service_registry.cpp")
+        else()
+            message(STATUS "Training service registry tests skipped (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)")
         endif()
     endif()
     
@@ -1586,6 +1720,38 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
     endif()
+    
+    # ML Model Manager Tests (NEW)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+        message(STATUS "Adding ML Model Manager tests")
+        
+        add_executable(test_ml_model_manager
+            test_ml_model_manager.cpp
+        )
+        
+        target_link_libraries(test_ml_model_manager PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_ml_model_manager PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MLModelManagerTests COMMAND test_ml_model_manager)
+        
+        set_tests_properties(MLModelManagerTests PROPERTIES
+            LABELS "llm;ml;model_management;inference;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "ML Model Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+    endif()
 endif()
 
 # ============================================================================
@@ -1645,6 +1811,42 @@ else()
 endif()
 
 # ============================================================================
+# Enhanced Plugin Security Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_plugin_security.cpp")
+    message(STATUS "Adding enhanced plugin security tests")
+    
+    add_executable(test_enhanced_plugin_security
+        test_enhanced_plugin_security.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_enhanced_plugin_security PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_enhanced_plugin_security PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME EnhancedPluginSecurityTests COMMAND test_enhanced_plugin_security)
+    
+    # Set test properties
+    set_tests_properties(EnhancedPluginSecurityTests PROPERTIES
+        LABELS "security;plugin;signature;crypto"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Enhanced plugin security tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_plugin_security.cpp")
+endif()
+
+# ============================================================================
 # Generic Plugin Registry Tests
 # ============================================================================
 
@@ -1676,6 +1878,199 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     )
 else()
     message(STATUS "Generic plugin registry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
+endif()
+
+# ============================================================================
+# Plugin Metrics Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+    message(STATUS "Adding plugin metrics tests")
+    
+    add_executable(test_plugin_metrics
+        test_plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+    )
+    
+    target_link_libraries(test_plugin_metrics PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_metrics PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginMetricsTests COMMAND test_plugin_metrics)
+    
+    # Set test properties
+    set_tests_properties(PluginMetricsTests PROPERTIES
+        LABELS "plugins;metrics;monitoring"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Plugin metrics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+endif()
+
+# ============================================================================
+# Plugin Metrics Integration Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+    message(STATUS "Adding plugin metrics integration tests")
+    
+    add_executable(test_plugin_metrics_integration
+        test_plugin_metrics_integration.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_plugin_metrics_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_metrics_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginMetricsIntegrationTests COMMAND test_plugin_metrics_integration)
+    
+    # Set test properties
+    set_tests_properties(PluginMetricsIntegrationTests PROPERTIES
+        LABELS "plugins;metrics;integration"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Plugin metrics integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+endif()
+
+# ============================================================================
+# Plugin Hot-Plug Monitoring Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+    message(STATUS "Adding plugin hot-plug monitoring tests")
+    
+    add_executable(test_plugin_hot_plug
+        test_plugin_hot_plug.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_hot_plug_monitor.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_plugin_hot_plug PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_hot_plug PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginHotPlugTests COMMAND test_plugin_hot_plug)
+    
+    # Set test properties
+    set_tests_properties(PluginHotPlugTests PROPERTIES
+        LABELS "plugins;monitoring;hot-plug"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Plugin hot-plug monitoring tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+endif()
+
+# ============================================================================
+# Enhanced Hot-Reload Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+    message(STATUS "Adding enhanced hot-reload tests")
+    
+    add_executable(test_plugin_hot_reload_enhanced
+        test_plugin_hot_reload_enhanced.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/plugins/plugin_hot_plug_monitor.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/acceleration/plugin_security.cpp
+    )
+    
+    target_link_libraries(test_plugin_hot_reload_enhanced PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_hot_reload_enhanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME EnhancedHotReloadTests COMMAND test_plugin_hot_reload_enhanced)
+    
+    # Set test properties
+    set_tests_properties(EnhancedHotReloadTests PROPERTIES
+        LABELS "plugins;hot-reload;state-preservation"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Enhanced hot-reload tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+endif()
+
+# ============================================================================
+# Plugin Dependency Resolver Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+    message(STATUS "Adding plugin dependency resolver tests")
+    
+    add_executable(test_plugin_dependency_resolver
+        test_plugin_dependency_resolver.cpp
+    )
+    
+    target_link_libraries(test_plugin_dependency_resolver PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_plugin_dependency_resolver PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME PluginDependencyResolverTests COMMAND test_plugin_dependency_resolver)
+    
+    # Set test properties
+    set_tests_properties(PluginDependencyResolverTests PROPERTIES
+        LABELS "plugins;dependency;resolver;graph"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "Plugin dependency resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
 endif()
 
 # ============================================================================
@@ -2149,6 +2544,139 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
     message(STATUS "  Multi-GPU LoRA Advanced: resource-aware eviction, migration, audit logging")
 else()
     message(STATUS "Multi-GPU LoRA Advanced tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+endif()
+
+# ============================================================================
+# Distributed Coordinator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
+    message(STATUS "Adding Distributed Coordinator tests")
+    
+    add_executable(test_distributed_coordinator
+        test_distributed_coordinator.cpp
+    )
+    
+    target_link_libraries(test_distributed_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_distributed_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME DistributedCoordinatorTests COMMAND test_distributed_coordinator)
+    
+    set_tests_properties(DistributedCoordinatorTests PROPERTIES
+        LABELS "sharding;coordinator;leader-election;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Distributed Coordinator: ephemeral leader election, task scheduling")
+else()
+    message(STATUS "Distributed Coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
+endif()
+
+# ============================================================================
+# Property Graph Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+    message(STATUS "Adding Property Graph tests")
+    
+    add_executable(test_property_graph
+        test_property_graph.cpp
+    )
+    
+    target_link_libraries(test_property_graph PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_property_graph PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PropertyGraphTests COMMAND test_property_graph)
+    
+    set_tests_properties(PropertyGraphTests PROPERTIES
+        LABELS "index;property-graph;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Property Graph: edge cascade deletion, node/edge management")
+else()
+    message(STATUS "Property Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+endif()
+
+# ============================================================================
+# Index Maintenance Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    message(STATUS "Adding Index Maintenance tests")
+    
+    add_executable(test_index_maintenance
+        test_index_maintenance.cpp
+    )
+    
+    target_link_libraries(test_index_maintenance PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    message(STATUS "Adding GraphQL parser tests")
+    
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_index_maintenance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    
+    set_tests_properties(IndexMaintenanceTests PROPERTIES
+        LABELS "storage;index;maintenance;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
+else()
+    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    target_compile_definitions(test_graphql PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    
+    set_tests_properties(GraphQLParserTests PROPERTIES
+        LABELS "api;graphql;parser;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
+else()
+    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
 endif()
 
 # ============================================================================

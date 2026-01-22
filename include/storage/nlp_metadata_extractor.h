@@ -90,7 +90,7 @@ public:
     /**
      * @brief Constructor with configuration
      */
-    explicit NlpMetadataExtractor(const Config& config = Config());
+    explicit NlpMetadataExtractor(const Config& config);
     
     /**
      * @brief Extract metadata from text content

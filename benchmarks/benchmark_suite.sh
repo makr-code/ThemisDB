@@ -1,11 +1,14 @@
 #!/bin/bash
-# Comprehensive Benchmark Suite: ThemisDB Wire Protocol vs PostgreSQL vs MongoDB
+# CHIMERA Suite: Comprehensive Multi-Database Benchmark
+# "Benchmark the Unbenchmarkable"
+# 
+# Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
 # Tests: Latency, Throughput, Memory, Connection Overhead
 # Report: CSV + JSON + HTML
 
 set -e
 
-RESULTS_DIR="benchmark_results_$(date +%Y%m%d_%H%M%S)"
+RESULTS_DIR="CHIMERA_RESULTS_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$RESULTS_DIR"
 
 THEMIS_HOST="localhost"
@@ -28,7 +31,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}=== ThemisDB Benchmark Suite ===${NC}"
+echo -e "${YELLOW}=== CHIMERA Suite - Multi-Database Benchmark ===${NC}"
 echo "Results directory: $RESULTS_DIR"
 echo ""
 

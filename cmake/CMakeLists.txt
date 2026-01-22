@@ -1128,6 +1128,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
@@ -1136,6 +1137,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/query_cache.cpp
 
     
     
@@ -1249,6 +1251,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/memory/pool_allocator.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1307,6 +1310,10 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/cloud_agent.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
+    ../src/sharding/gossip_config_manager.cpp
+    ../src/sharding/distributed_coordinator.cpp
+    ../src/sharding/shard_resource_manager.cpp
+    ../src/sharding/locality_aware_router.cpp
     ../src/sharding/raft_configuration.cpp
     ../src/sharding/raft_log.cpp
     ../src/sharding/raft_state.cpp
@@ -1342,7 +1349,9 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
+    ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
+    ../src/plugins/plugin_metrics.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
@@ -2149,8 +2158,8 @@ if(THEMIS_ENABLE_LLM)
         # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
-        # NOTE: Temporarily disabled to unblock LLM inference build; training pipeline has parse errors
-        # ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline (re-enabled for distributed training integration)
+        ../src/llm/lora_framework/training_service_registry.cpp  # Service registry for dependency injection
         ../src/llm/lora_framework/lora_layers.cpp             # LoRA layer implementations
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
@@ -2410,6 +2419,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_optimizer_cost_model.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stats_api.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_range_index.cpp
               ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
@@ -2442,6 +2452,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_video_processor_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_sse.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_governance.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_timeseries.cpp
     ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
@@ -2493,6 +2504,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_graph_type_filtering.cpp
         ${THEMIS_ROOT_DIR}/tests/test_gnn_embeddings.cpp
         ${THEMIS_ROOT_DIR}/tests/test_semantic_cache.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_query_cache.cpp
         ${THEMIS_ROOT_DIR}/tests/test_tsstore.cpp
         ${THEMIS_ROOT_DIR}/tests/test_gorilla.cpp
     ${THEMIS_ROOT_DIR}/tests/test_gorilla_probe.cpp
@@ -2575,6 +2587,7 @@ if(THEMIS_BUILD_TESTS)
         # Phase 1 Performance Optimization Tests (from PR #157)
         ${THEMIS_ROOT_DIR}/tests/test_performance_feature_flags.cpp
         ${THEMIS_ROOT_DIR}/tests/test_performance_allocator.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_pool_allocator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_huge_pages.cpp
         ${THEMIS_ROOT_DIR}/tests/test_rcu_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lirs_cache.cpp
@@ -3535,6 +3548,19 @@ if(THEMIS_BUILD_BENCHMARKS)
         )
         target_link_libraries(bench_qlora_gpu_kernels PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
         message(STATUS "QLoRA GPU Kernels Benchmark: Enabled")
+    endif()
+    
+    # Plugin Hot-Plug Monitoring Benchmark
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/bench_plugin_hot_plug.cpp")
+        add_executable(bench_plugin_hot_plug
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_plugin_hot_plug.cpp
+        )
+        target_link_libraries(bench_plugin_hot_plug PRIVATE 
+            themis_core 
+            benchmark::benchmark 
+            benchmark::benchmark_main
+        )
+        message(STATUS "Plugin Hot-Plug Monitoring Benchmark: Enabled")
     endif()
 
 endif()

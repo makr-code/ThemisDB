@@ -8,15 +8,18 @@
 #include <unordered_map>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include "utils/expected.h"
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
+#include "utils/expected.h"  // For Result<T> pattern
 
 namespace themis {
 
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
 using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
+// using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;  // IQueryEngine not defined
 using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
 using IVectorIndexPtr = std::shared_ptr<IVectorIndex>;
 using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
@@ -244,6 +247,9 @@ class GraphIndexManager;
 
 class QueryEngine {
 public:
+    // DEPRECATED: Legacy Status struct - use Result<T> instead
+    // Kept temporarily for backward compatibility during migration
+    [[deprecated("Use Result<T> pattern instead")]]
     struct Status {
         bool ok = true;
         std::string message;
@@ -366,11 +372,11 @@ public:
     ) const;
 
     // Sequenzielles Ausführen in vorgegebener Reihenfolge (z. B. vom Optimizer)
-    std::pair<Status, std::vector<std::string>> executeAndKeysSequential(
+    Result<std::vector<std::string>> executeAndKeysSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
-    std::pair<Status, std::vector<BaseEntity>> executeAndEntitiesSequential(
+    Result<std::vector<BaseEntity>> executeAndEntitiesSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
@@ -388,7 +394,7 @@ public:
     // Join/LET/COLLECT Support (MVP) - Declared in cpp to avoid header dependency
     struct EvaluationContext;
     
-    std::pair<Status, std::vector<nlohmann::json>> executeJoin(
+    Result<std::vector<nlohmann::json>> executeJoin(
         const std::vector<query::ForNode>& for_nodes,
         const std::vector<std::shared_ptr<query::FilterNode>>& filters,
         const std::vector<query::LetNode>& let_nodes,
@@ -398,7 +404,7 @@ public:
         const EvaluationContext* parent_context = nullptr  // Phase 4.1: For CTE results
     ) const;
     
-    std::pair<Status, std::vector<nlohmann::json>> executeGroupBy(
+    Result<std::vector<nlohmann::json>> executeGroupBy(
         const query::ForNode& for_node,
         const std::shared_ptr<query::CollectNode>& collect,
         const std::vector<std::shared_ptr<query::FilterNode>>& filters,
@@ -497,8 +503,8 @@ private:
             : engine_(engine) {}
         
         // Minimal stub implementation matching IExpressionEvaluator
-        bool evaluate(const std::string& expression, const void* context);
-        std::string get_expression_type() const;
+        bool evaluate(const std::string& expression, const void* context) override;
+        std::string get_expression_type() const override;
 
         // Helpers reserved for future richer evaluation paths (non-override)
         bool evaluateBoolean(std::string_view expression, const void* context) const;
@@ -511,7 +517,7 @@ private:
     };
     
     // Expression evaluation helpers (implemented in cpp)
-    nlohmann::json evaluateExpression(
+    Result<nlohmann::json> evaluateExpression(
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;

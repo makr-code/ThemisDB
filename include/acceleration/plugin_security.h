@@ -132,6 +132,135 @@ private:
     bool checkOCSP(const std::string& certificate);
 };
 
+// ============================================================================
+// Enhanced Plugin Security with Embedded Signatures
+// ============================================================================
+
+/**
+ * @brief Enhanced plugin security verifier with multi-level verification
+ * 
+ * This class extends the basic PluginSecurityVerifier with support for:
+ * - Embedded manufacturer certificates (in DLL/SO)
+ * - Platform-native code signing (Authenticode, codesign, GPG)
+ * - Multi-level verification (4 levels from hash-only to full chain)
+ * - Certificate chain validation
+ */
+class EnhancedPluginSecurityVerifier {
+public:
+    /**
+     * @brief Verification level defines how thorough the plugin check should be
+     */
+    enum class VerificationLevel {
+        LEVEL_1_HASH_ONLY,           ///< Only SHA-256 hash (fast)
+        LEVEL_2_EMBEDDED_SIGNATURE,  ///< Embedded signature check
+        LEVEL_3_PLATFORM_SIGNATURE,  ///< Platform code-signing (PE/ELF/Mach-O)
+        LEVEL_4_FULL_CHAIN           ///< Complete cert chain + CRL/OCSP
+    };
+    
+    /**
+     * @brief Detailed verification result
+     */
+    struct VerificationResult {
+        bool passed = false;
+        VerificationLevel level_achieved = VerificationLevel::LEVEL_1_HASH_ONLY;
+        std::string error_message;
+        
+        // Individual check results
+        bool hash_verified = false;
+        bool embedded_signature_verified = false;
+        bool platform_signature_verified = false;
+        bool certificate_chain_verified = false;
+        bool certificate_not_revoked = false;
+        
+        // Certificate information
+        std::string issuer;
+        std::string subject;
+        std::chrono::system_clock::time_point valid_from;
+        std::chrono::system_clock::time_point valid_until;
+        bool is_themisdb_official = false;
+    };
+    
+    explicit EnhancedPluginSecurityVerifier(const PluginSecurityPolicy& policy);
+    ~EnhancedPluginSecurityVerifier() = default;
+    
+    /**
+     * @brief Verify plugin with multi-level checks
+     * @param plugin_path Path to DLL/SO file
+     * @param required_level Minimum verification level required
+     * @return Verification result with detailed information
+     */
+    VerificationResult verifyPlugin(
+        const std::string& plugin_path,
+        VerificationLevel required_level = VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE
+    );
+    
+    /**
+     * @brief Update security policy at runtime
+     */
+    void updatePolicy(const PluginSecurityPolicy& policy);
+    
+    /**
+     * @brief Get current policy
+     */
+    const PluginSecurityPolicy& getPolicy() const { return policy_; }
+    
+private:
+    PluginSecurityPolicy policy_;
+    
+    // Level 1: Hash verification (from base class)
+    bool verifyHash(const std::string& plugin_path, VerificationResult& result);
+    
+    // Level 2: Embedded signature verification
+    bool verifyEmbeddedSignature(const std::string& plugin_path, VerificationResult& result);
+    
+    // Level 3: Platform-specific code signing
+    bool verifyPlatformSignature(const std::string& plugin_path, VerificationResult& result);
+    
+    // Level 4: Full certificate chain + revocation
+    bool verifyFullChain(const std::string& plugin_path, VerificationResult& result);
+    
+    // Extract embedded certificate from DLL/SO
+    std::optional<std::vector<uint8_t>> extractEmbeddedCertificate(
+        const std::string& plugin_path
+    );
+    
+    // Extract embedded signature from DLL/SO
+    std::optional<std::vector<uint8_t>> extractEmbeddedSignature(
+        const std::string& plugin_path
+    );
+    
+    // Verify ThemisDB.org official certificate
+    bool isOfficialThemisDBCertificate(X509* cert);
+    
+    // Platform-specific signature verification
+#ifdef _WIN32
+    bool verifyAuthenticodeSignature(const std::string& plugin_path, VerificationResult& result);
+#elif defined(__APPLE__)
+    bool verifyMacOSCodeSignature(const std::string& plugin_path, VerificationResult& result);
+#else
+    bool verifyGPGSignature(const std::string& plugin_path, VerificationResult& result);
+#endif
+    
+    // Helper: Calculate hash excluding signature section
+    std::vector<uint8_t> calculateHashExcludingSignature(const std::string& plugin_path);
+    
+    // Helper: Verify RSA signature
+    bool verifyRSASignature(
+        const std::vector<uint8_t>& data,
+        const std::vector<uint8_t>& signature,
+        EVP_PKEY* pubkey
+    );
+    
+    // Helper: Get certificate issuer DN
+    std::string getCertificateIssuer(X509* cert);
+    
+    // Helper: Get certificate subject DN
+    std::string getCertificateSubject(X509* cert);
+    
+    // Helper: Check if certificate is currently valid
+    bool isCertificateValid(X509* cert);
+};
+
 // Audit logging for plugin security events
 struct PluginSecurityEvent {
     enum class EventType {

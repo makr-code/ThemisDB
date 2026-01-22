@@ -3,7 +3,7 @@
 **Status**: ✅ Implemented  
 **Version**: 1.3.0+  
 **Priority**: P0 - Critical  
-**Related**: REMAINING_GAPS_SUMMARY.md §3
+**Related**: implementation-history/REMAINING_GAPS_SUMMARY.md §3 (Historical)
 
 ---
 
@@ -544,7 +544,7 @@ if (engine.getActiveAdapters().size() >= MAX_ADAPTERS) {
 - [LoRa Storage Backend](LORA_STORAGE_BACKEND_COMPLETION.md)
 - [LoRa Training Guide](lora_production_training.md)
 - [LLM Plugin Interface](../include/llm/llm_plugin_interface.h)
-- [REMAINING_GAPS_SUMMARY.md](../REMAINING_GAPS_SUMMARY.md) §3
+- [REMAINING_GAPS_SUMMARY.md](../implementation-history/REMAINING_GAPS_SUMMARY.md) §3 (Historical)
 
 ## Support
 

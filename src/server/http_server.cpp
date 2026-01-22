@@ -339,12 +339,13 @@ HttpServer::HttpServer(
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
-        try {
-            pii_cf_handle_ = storage_->getOrCreateColumnFamily("pii_mappings");
+        auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
+        if (cf_result) {
+            pii_cf_handle_ = *cf_result;
             pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);
             THEMIS_INFO("PII Manager initialized with dedicated CF 'pii_mappings'");
-        } catch (const std::exception& ex) {
-            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", ex.what());
+        } else {
+            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
         }
     } else {
         // Fallback: use default CF (still functional, just no separation)
@@ -357,12 +358,13 @@ HttpServer::HttpServer(
         // Try to create a dedicated column family for prompt templates; fall back to default CF
         prompt_cf_handle_ = nullptr;
         if (storage_) {
-            try {
-                prompt_cf_handle_ = storage_->getOrCreateColumnFamily("prompt_templates");
+            auto cf_result = storage_->getOrCreateColumnFamily("prompt_templates");
+            if (cf_result) {
+                prompt_cf_handle_ = *cf_result;
                 THEMIS_INFO("PromptManager: using dedicated CF 'prompt_templates'");
                 prompt_manager_ = std::make_shared<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", ex.what());
+            } else {
+                THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", cf_result.error().message());
                 prompt_manager_ = std::make_shared<themis::PromptManager>();
             }
         } else {
@@ -1318,6 +1320,7 @@ namespace {
         Stats,
         CapabilitiesGet,
         Metrics,
+        PluginMetrics,  // GET /api/plugins/metrics
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1488,6 +1491,7 @@ namespace {
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
+    if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
     if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
@@ -1778,6 +1782,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::Metrics:
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
+            break;
+        case Route::PluginMetrics:
+            // Delegate to MonitoringApiHandler for plugin metrics
+            response = monitoring_api_->handlePluginMetrics(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);

@@ -290,11 +290,14 @@ void PIIDetector::initializeDefaultEngine() {
     engines_.clear();
     
     // Create unsigned regex engine with embedded defaults
-    auto engine = PIIDetectionEngineFactory::createUnsigned("regex");
-    if (!engine) {
-        spdlog::error("PIIDetector: Failed to create default regex engine");
+    auto engine_result = PIIDetectionEngineFactory::createUnsigned("regex");
+    if (!engine_result) {
+        spdlog::error("PIIDetector: Failed to create default regex engine: {}", 
+                     engine_result.error().message());
         return;
     }
+    
+    auto engine = std::move(*engine_result);
     
     // Initialize with empty config (will use embedded defaults)
     nlohmann::json empty_config;
@@ -327,16 +330,15 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
         }
         
         std::unique_ptr<IPIIDetectionEngine> engine;
-        std::string error_msg;
         
         // If PKI client is configured, use signed loading
         if (pki_client_) {
-            engine = PIIDetectionEngineFactory::createSigned(
-                engine_type, engine_config, *pki_client_, error_msg);
+            auto engine_result = PIIDetectionEngineFactory::createSigned(
+                engine_type, engine_config, *pki_client_);
             
-            if (!engine) {
+            if (!engine_result) {
                 spdlog::error("PIIDetector: PKI verification failed for '{}': {}", 
-                             engine_type, error_msg);
+                             engine_type, engine_result.error().message());
                 
                 // Check if fallback to unsigned is allowed
                 auto global_settings = engine_config.value("global_settings", nlohmann::json::object());
@@ -344,23 +346,31 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                 
                 if (allow_fallback && engine_type == "regex") {
                     spdlog::warn("PIIDetector: Falling back to unsigned regex engine");
-                    engine = PIIDetectionEngineFactory::createUnsigned(engine_type);
-                    if (engine) {
+                    auto unsigned_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
+                    if (unsigned_result) {
+                        engine = std::move(*unsigned_result);
                         engine->initialize(engine_config);
+                    } else {
+                        return false;
                     }
                 } else {
                     return false;
                 }
+            } else {
+                engine = std::move(*engine_result);
             }
         } else {
             // No PKI client - load unsigned
             spdlog::warn("PIIDetector: Loading engine '{}' WITHOUT PKI verification", engine_type);
-            engine = PIIDetectionEngineFactory::createUnsigned(engine_type);
+            auto engine_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
             
-            if (!engine) {
-                spdlog::error("PIIDetector: Failed to create engine '{}'", engine_type);
+            if (!engine_result) {
+                spdlog::error("PIIDetector: Failed to create engine '{}': {}", 
+                             engine_type, engine_result.error().message());
                 return false;
             }
+            
+            engine = std::move(*engine_result);
             
             if (!engine->initialize(engine_config)) {
                 spdlog::error("PIIDetector: Engine '{}' initialization failed: {}", 

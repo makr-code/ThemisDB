@@ -10,6 +10,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <string>
+#include "utils/expected.h"
 
 // RocksDB forward declarations
 // Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
@@ -331,8 +332,8 @@ public:
     /// - Iterator itself is NOT thread-safe (use from single thread)
     /// 
     /// @param read_options Optional read options
-    /// @return SafeIterator with automatic lifecycle management
-    SafeIterator newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
+    /// @return Result<SafeIterator> with automatic lifecycle management
+    Result<SafeIterator> newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
     
     /// Scan with prefix (for index scans)
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
@@ -363,10 +364,10 @@ public:
         const std::vector<std::string>& keys);
     
     /// Create async iterator with prefetching
-    std::unique_ptr<rocksdb::Iterator> newAsyncIterator();
+    Result<std::unique_ptr<rocksdb::Iterator>> newAsyncIterator();
     
     /// Create standard iterator (for comparison)
-    std::unique_ptr<rocksdb::Iterator> newIterator();
+    Result<std::unique_ptr<rocksdb::Iterator>> newIterator();
     
     /// Check if async I/O is enabled
     bool isAsyncIOEnabled() const { return config_.enable_async_io; }
@@ -431,8 +432,10 @@ public:
     // ===== Column Family Management =====
     
     /// Create or open a column family
-    /// @return Column family handle (owned by DB, don't delete)
-    rocksdb::ColumnFamilyHandle* getOrCreateColumnFamily(const std::string& cf_name);
+    /// @return Result containing column family handle (owned by DB, don't delete) or error
+    /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
+    /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
+    Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
     
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }

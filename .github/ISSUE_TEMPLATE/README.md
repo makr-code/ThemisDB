@@ -1,8 +1,78 @@
 # GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, und Error Handling Migration.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, und Distributed Training Enhancements.
 
 ## Verfügbare Templates
+
+### 🆕 Distributed Training Enhancement Templates (2026-01-20)
+
+#### distributed-training-loss-aggregation.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Replace simulated loss values with actual loss aggregation from distributed shard trainers  
+**Priority:** P2 (Medium)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:llm`, `effort:medium`, `component:distributed-training`
+
+**Key Tasks:**
+- Extend GradientExchangeMessage to include loss values
+- Implement loss aggregation in coordinator (weighted average)
+- Integrate with local shard trainers
+- Remove simulated loss calculation
+- Support multiple aggregation strategies (mean, median, weighted)
+
+**Benefits:**
+- Accurate monitoring of distributed training convergence
+- Early detection of training issues (divergence, overfitting)
+- Better debugging with per-shard loss tracking
+- Production-ready loss metrics for MLOps pipelines
+
+#### distributed-training-shard-communication.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement full inter-shard RPC communication for distributed training  
+**Priority:** P1 (High)  
+**Effort:** 4-5 weeks  
+**Labels:** `priority:P1`, `type:enhancement`, `area:sharding`, `effort:large`, `component:distributed-training`
+
+**Key Tasks:**
+- Create service registry for dependency injection
+- Update LoRATrainingService to accept ShardRouter/ShardTopology
+- Implement real RPC for gradient collection and broadcasting
+- Add shard discovery and health monitoring
+- Support multiple protocols (gRPC, NCCL, RDMA)
+
+**Benefits:**
+- Production-ready distributed training with real inter-shard communication
+- Scalability to hundreds of shards across data centers
+- Fault tolerance with automatic shard discovery and failover
+- Observability with real-time shard health monitoring
+
+#### distributed-training-byzantine-detection.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement Byzantine fault detection to protect against malicious or corrupted gradients  
+**Priority:** P2 (Medium - High for production)  
+**Effort:** 5-6 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:security`, `effort:large`, `component:distributed-training`
+
+**Key Tasks:**
+- Implement gradient statistics collection
+- Add detection algorithms (Median, Krum, Bulyan)
+- Integrate with DistributedTrainingCoordinator
+- Create attack simulation for testing
+- Add monitoring and alerting
+- Comprehensive documentation
+
+**Benefits:**
+- Security: Protection against adversarial attacks and data poisoning
+- Reliability: Automatic detection and recovery from hardware failures
+- Model Quality: Prevent corrupted gradients from degrading model
+- Trust: Enable distributed training in multi-tenant environments
+
+**Detection Methods:**
+- **Median + MAD**: O(n log n), < n/2 tolerance, ~1-2% overhead
+- **Krum**: O(n²), < n/2 - 2 tolerance, ~3-5% overhead
+- **Bulyan**: O(n²), < n/4 tolerance, ~5-8% overhead (strongest guarantees)
+
+---
 
 ### 🆕 Error Handling Migration Templates (2026-01-19)
 
