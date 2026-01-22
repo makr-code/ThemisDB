@@ -1720,6 +1720,38 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
     endif()
+    
+    # ML Model Manager Tests (NEW)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+        message(STATUS "Adding ML Model Manager tests")
+        
+        add_executable(test_ml_model_manager
+            test_ml_model_manager.cpp
+        )
+        
+        target_link_libraries(test_ml_model_manager PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_ml_model_manager PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MLModelManagerTests COMMAND test_ml_model_manager)
+        
+        set_tests_properties(MLModelManagerTests PROPERTIES
+            LABELS "llm;ml;model_management;inference;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "ML Model Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+    endif()
 endif()
 
 # ============================================================================
