@@ -9,9 +9,16 @@ import argparse
 import json
 import sys
 import time
-import requests
 from typing import Dict, List, Optional
 from datetime import datetime
+
+# Check for required dependencies
+try:
+    import requests
+except ImportError:
+    print("Error: 'requests' library is required but not installed.", file=sys.stderr)
+    print("Install it with: pip3 install requests", file=sys.stderr)
+    sys.exit(1)
 
 class ThemisDBProfiler:
     """Client for ThemisDB profiling API"""
