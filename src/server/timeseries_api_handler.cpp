@@ -57,12 +57,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
         ts_point.tags = body.value("tags", nlohmann::json::object());
         ts_point.metadata = body.value("metadata", nlohmann::json::object());
         
-        auto status = ts_store_->putDataPoint(ts_point);
+        auto result = ts_store_->putDataPoint(ts_point);
         
-        if (!status.ok) {
+        if (!result) {
             span.setStatus(false, "put_failed");
             return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Failed to store data point" : status.message, req);
+                result.error().message(), req);
         }
         
         nlohmann::json response = {
@@ -119,13 +119,15 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto [status, points] = ts_store_->query(query_opts);
+        auto result = ts_store_->query(query_opts);
         
-        if (!status.ok) {
+        if (!result) {
             span.setStatus(false, "query_failed");
             return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Query failed" : status.message, req);
+                result.error().message(), req);
         }
+        
+        auto& points = *result;
         
         nlohmann::json response = {
             {"metric", metric},
@@ -190,13 +192,15 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto [status, agg] = ts_store_->aggregate(query_opts);
+        auto result = ts_store_->aggregate(query_opts);
         
-        if (!status.ok) {
+        if (!result) {
             span.setStatus(false, "aggregate_failed");
             return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Aggregation failed" : status.message, req);
+                result.error().message(), req);
         }
+        
+        auto& agg = *result;
         
         nlohmann::json response = {
             {"metric", metric},

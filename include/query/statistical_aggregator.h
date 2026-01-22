@@ -42,7 +42,7 @@ public:
      * @brief Berechnet Percentile (Nearest Rank Method)
      * @param values Sorted numeric values
      * @param percentile Percentile (0..100)
-     * @return Result containing percentile value or error
+     * @return Percentile value or error if invalid input
      */
     static Result<nlohmann::json> calculatePercentile(
         std::vector<double> values,
@@ -52,56 +52,56 @@ public:
     /**
      * @brief Berechnet Median (50th Percentile)
      * @param values Sorted numeric values
-     * @return Result containing median value or error
+     * @return Median value or error if empty
      */
     static Result<nlohmann::json> calculateMedian(std::vector<double> values);
     
     /**
      * @brief Berechnet Sample Standard Deviation
      * @param values Numeric values
-     * @return Result containing standard deviation or error
+     * @return Standard deviation or error if < 2 values
      */
     static Result<nlohmann::json> calculateStdDev(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Population Standard Deviation
      * @param values Numeric values
-     * @return Result containing population standard deviation or error
+     * @return Population standard deviation or error if empty
      */
     static Result<nlohmann::json> calculateStdDevPop(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Sample Variance
      * @param values Numeric values
-     * @return Result containing variance or error
+     * @return Variance or error if < 2 values
      */
     static Result<nlohmann::json> calculateVariance(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Population Variance
      * @param values Numeric values
-     * @return Result containing population variance or error
+     * @return Population variance or error if empty
      */
     static Result<nlohmann::json> calculateVariancePop(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Range (MAX - MIN)
      * @param values Numeric values
-     * @return Result containing range or error
+     * @return Range or error if empty
      */
     static Result<nlohmann::json> calculateRange(const std::vector<double>& values);
     
     /**
      * @brief Berechnet Interquartile Range (IQR = Q3 - Q1)
      * @param values Sorted numeric values
-     * @return Result containing IQR or error
+     * @return IQR or error if < 4 values
      */
     static Result<nlohmann::json> calculateIQR(std::vector<double> values);
     
     /**
      * @brief Berechnet Mean Absolute Deviation
      * @param values Numeric values
-     * @return Result containing MAD or error
+     * @return MAD or error if empty
      */
     static Result<nlohmann::json> calculateMAD(const std::vector<double>& values);
     

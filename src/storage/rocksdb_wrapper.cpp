@@ -728,8 +728,8 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::crea
 
 // TransactionWrapper implementation (MVCC)
 
-RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db)
-    : db_(db) {
+RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation)
+    : db_(db), isolation_(isolation) {
     if (!db_ || !db_->db_) {
         THEMIS_ERROR("MVCC Transaction: db_ is nullptr");
         active_ = false;
@@ -743,7 +743,11 @@ RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db)
         return;
     }
 
-    THEMIS_DEBUG("MVCC Transaction started with snapshot");
+    if (isolation_ == TransactionIsolationLevel::Snapshot) {
+        THEMIS_DEBUG("MVCC Transaction started with Snapshot isolation");
+    } else {
+        THEMIS_DEBUG("MVCC Transaction started with ReadCommitted isolation");
+    }
 }
 
 RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
@@ -762,7 +766,13 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
     
     std::string value;
     rocksdb::ReadOptions read_opts;
-    read_opts.snapshot = txn_->GetSnapshot();
+    
+    // OPTIMIZATION: Only use snapshot for Snapshot isolation level
+    // ReadCommitted reads latest committed data without snapshot overhead
+    if (isolation_ == TransactionIsolationLevel::Snapshot) {
+        read_opts.snapshot = txn_->GetSnapshot();
+    }
+    // For ReadCommitted, snapshot is nullptr, reads latest committed data
     
     rocksdb::Status status = txn_->Get(read_opts, rocksdb::Slice(key.data(), key.size()), &value);
     
@@ -857,11 +867,14 @@ void RocksDBWrapper::TransactionWrapper::rollback() {
     THEMIS_DEBUG("MVCC Transaction rolled back");
 }
 
-const rocksdb::Snapshot* RocksDBWrapper::TransactionWrapper::getSnapshot() const {
+Result<const rocksdb::Snapshot*> RocksDBWrapper::TransactionWrapper::getSnapshot() const {
     if (!txn_ || !active_) {
-        return nullptr;
+        return Err<const rocksdb::Snapshot*>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Transaction not active or not initialized"
+        );
     }
-    return txn_->GetSnapshot();
+    return Ok(txn_->GetSnapshot());
 }
 
 bool RocksDBWrapper::TransactionWrapper::prepare() {
@@ -875,8 +888,8 @@ bool RocksDBWrapper::TransactionWrapper::prepare() {
     return true;
 }
 
-std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction() {
-    return std::make_unique<TransactionWrapper>(this);
+std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction(TransactionIsolationLevel isolation) {
+    return std::make_unique<TransactionWrapper>(this, isolation);
 }
 
 bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {

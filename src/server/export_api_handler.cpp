@@ -42,11 +42,13 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         
         // Load JSONL LLM exporter plugin
         auto& pm = plugins::PluginManager::instance();
-        auto* plugin = pm.loadPlugin("jsonl_llm_exporter");
-        if (!plugin) {
+        auto result = pm.loadPlugin("jsonl_llm_exporter");
+        if (!result.has_value()) {
             return errorResponse(http::status::internal_server_error,
-                "JSONL LLM exporter plugin not found");
+                fmt::format("JSONL LLM exporter plugin not found: {}", 
+                            result.error().message()));
         }
+        auto* plugin = *result;
 
         auto* exporter = static_cast<exporters::IExporter*>(plugin->getInstance());
         if (!exporter) {

@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include "utils/expected.h"
 
 // Forward declarations for RocksDB types
 namespace rocksdb {
@@ -107,13 +108,6 @@ public:
         int64_t newest_timestamp_ms = 0;
     };
     
-    struct Status {
-        bool ok = true;
-        std::string message;
-        static Status OK() { return {}; }
-        static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
-    };
-    
     /**
      * @brief Construct TSStore
      * @param db RocksDB TransactionDB instance (not owned)
@@ -143,7 +137,7 @@ public:
     /**
      * @brief Write a data point
      * @param point Data point to store
-     * @return Status
+     * @return Result<void> - success or error with detailed context
      * 
      * @note STORAGE METHOD: Singular RocksDB Entity
      * Single data points are always stored as individual RocksDB entities
@@ -151,12 +145,12 @@ public:
      * the compression configuration. For Gorilla compression, use putDataPoints()
      * with multiple points for batch compression.
      */
-    Status putDataPoint(const DataPoint& point);
+    Result<void> putDataPoint(const DataPoint& point);
     
     /**
      * @brief Write multiple data points (batch operation)
      * @param points Vector of data points
-     * @return Status
+     * @return Result<void> - success or error with detailed context
      * 
      * @note STORAGE METHOD: Batch with Gorilla Compression (if enabled)
      * When compression is enabled (config.compression = CompressionType::Gorilla),
@@ -165,31 +159,31 @@ public:
      * This provides 10-20x compression ratio. Without compression, points are
      * stored as individual entities like putDataPoint().
      */
-    Status putDataPoints(const std::vector<DataPoint>& points);
+    Result<void> putDataPoints(const std::vector<DataPoint>& points);
     
     /**
      * @brief Query data points with filters
      * @param options Query options (time range, entity, tags)
-     * @return Pair of Status and vector of data points
+     * @return Result<std::vector<DataPoint>> - data points or error
      */
-    std::pair<Status, std::vector<DataPoint>> query(const QueryOptions& options) const;
+    Result<std::vector<DataPoint>> query(const QueryOptions& options) const;
     
     /**
      * @brief Compute aggregations over time range
      * @param options Query options
-     * @return Pair of Status and aggregation result
+     * @return Result<AggregationResult> - aggregation result or error
      * 
      * Automatically uses pre-computed aggregates when available for better performance.
      */
-    std::pair<Status, AggregationResult> aggregate(const QueryOptions& options) const;
+    Result<AggregationResult> aggregate(const QueryOptions& options) const;
     
     /**
      * @brief Compute aggregations with optimizer hints
      * @param options Query options
      * @param use_optimizer Enable query optimization (default: true)
-     * @return Pair of Status and aggregation result
+     * @return Result<AggregationResult> - aggregation result or error
      */
-    std::pair<Status, AggregationResult> aggregateOptimized(
+    Result<AggregationResult> aggregateOptimized(
         const QueryOptions& options,
         bool use_optimizer = true) const;
     
@@ -217,9 +211,9 @@ public:
     /**
      * @brief Delete all data for a specific metric
      * @param metric Metric name
-     * @return Status
+     * @return Result<void> - success or error
      */
-    Status deleteMetric(const std::string& metric);
+    Result<void> deleteMetric(const std::string& metric);
     
     /**
      * @brief Clear all time-series data (admin operation)
@@ -258,7 +252,11 @@ private:
         std::string entity;
         int64_t timestamp_ms;
     };
-    std::optional<KeyComponents> parseKey(const std::string& key) const;
+    // Internal helper that returns std::optional for compatibility
+    std::optional<KeyComponents> parseKeyInternal(const std::string& key) const;
+    
+    // Public Result-based API
+    Result<KeyComponents> parseKey(const std::string& key) const;
     
     // Check if data point matches tag filter
     bool matchesTagFilter(const DataPoint& point, const nlohmann::json& tag_filter) const;

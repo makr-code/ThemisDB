@@ -26,7 +26,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
 
-**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[Release Notes](CHANGELOG.md)**
+**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
 
 ---
 
@@ -653,6 +653,18 @@ ThemisDB performance is evaluated using the **CHIMERA Suite** (_Comprehensive Hy
 - 📊 Statistical rigor with confidence intervals
 
 **📊 [CHIMERA Suite Documentation](benchmarks/chimera/README.md)** | **[Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
+
+### Independent Benchmarking
+
+ThemisDB performance can be independently evaluated using the **[CHIMERA Suite](benchmarks/chimera/CHIMERA_README.md)** - a vendor-neutral, IEEE-compliant benchmarking framework that supports fair comparison across multiple database systems.
+
+CHIMERA Suite features:
+- Vendor-neutral reporting and visualization
+- Statistical rigor (IEEE Std 2807-2022 compliant)
+- Color-blind friendly design
+- Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
+
+Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
 
 ---
 

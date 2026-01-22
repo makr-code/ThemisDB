@@ -478,5 +478,223 @@ void AuditLogger::flush() {
     // This method is kept for API compatibility
 }
 
+// ============================================================================
+// Retention Support Methods
+// ============================================================================
+
+std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
+    std::vector<AuditLogEntry> entries;
+    
+    if (!std::filesystem::exists(cfg_.log_path)) {
+        return entries;
+    }
+    
+    try {
+        std::ifstream ifs(cfg_.log_path);
+        std::string line;
+        uint64_t entry_num = 0;
+        
+        while (std::getline(ifs, line)) {
+            if (line.empty()) continue;
+            
+            try {
+                nlohmann::json record = nlohmann::json::parse(line);
+                
+                AuditLogEntry entry;
+                entry.entry_number = entry_num++;
+                entry.record = record;
+                
+                // Extract timestamp from record
+                if (record.contains("ts")) {
+                    auto ts_ms = record["ts"].get<uint64_t>();
+                    entry.timestamp = std::chrono::system_clock::time_point(
+                        std::chrono::milliseconds(ts_ms));
+                } else {
+                    // Missing timestamp is suspicious - log warning and use current time
+                    THEMIS_WARN("Audit log entry at line {} missing timestamp field - possible data corruption", entry_num + 1);
+                    entry.timestamp = std::chrono::system_clock::now();
+                }
+                
+                entries.push_back(entry);
+                
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to parse audit log entry {}: {}", entry_num, e.what());
+            }
+        }
+        
+        THEMIS_INFO("Enumerated {} audit log entries from {}", entries.size(), cfg_.log_path);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to enumerate audit entries: {}", e.what());
+    }
+    
+    return entries;
+}
+
+size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point older_than,
+                                      const std::string& archive_path) {
+    std::scoped_lock lock(file_mu_);
+    
+    if (!std::filesystem::exists(cfg_.log_path)) {
+        return 0;
+    }
+    
+    try {
+        // Read all entries
+        std::ifstream ifs(cfg_.log_path);
+        std::string line;
+        std::vector<std::string> kept_entries;
+        std::vector<std::string> archived_entries;
+        
+        while (std::getline(ifs, line)) {
+            if (line.empty()) continue;
+            
+            try {
+                nlohmann::json record = nlohmann::json::parse(line);
+                
+                // Extract timestamp
+                std::chrono::system_clock::time_point entry_ts;
+                if (record.contains("ts")) {
+                    auto ts_ms = record["ts"].get<uint64_t>();
+                    entry_ts = std::chrono::system_clock::time_point(
+                        std::chrono::milliseconds(ts_ms));
+                } else {
+                    // If no timestamp, keep the entry (don't archive unknown)
+                    kept_entries.push_back(line);
+                    continue;
+                }
+                
+                // Check if entry should be archived
+                if (entry_ts < older_than) {
+                    archived_entries.push_back(line);
+                } else {
+                    kept_entries.push_back(line);
+                }
+                
+            } catch (const std::exception& e) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            }
+        }
+        ifs.close();
+        
+        // If nothing to archive, return early
+        if (archived_entries.empty()) {
+            return 0;
+        }
+        
+        // Write archived entries to archive file (append)
+        auto archive_dir = std::filesystem::path(archive_path).parent_path();
+        std::filesystem::create_directories(archive_dir);
+        
+        std::ofstream archive_ofs(archive_path, std::ios::app);
+        if (!archive_ofs.is_open() || !archive_ofs.good()) {
+            THEMIS_ERROR("Failed to open archive file for writing: {}", archive_path);
+            return 0;
+        }
+        
+        for (const auto& entry : archived_entries) {
+            archive_ofs << entry << "\n";
+        }
+        archive_ofs.close();
+        
+        // Rewrite main log file with only kept entries
+        std::ofstream main_ofs(cfg_.log_path, std::ios::trunc);
+        if (!main_ofs.is_open() || !main_ofs.good()) {
+            THEMIS_ERROR("Failed to open main log file for rewriting: {}", cfg_.log_path);
+            return 0;
+        }
+        
+        for (const auto& entry : kept_entries) {
+            main_ofs << entry << "\n";
+        }
+        main_ofs.close();
+        
+        THEMIS_INFO("Archived {} audit log entries to {} (kept {} entries)", 
+                    archived_entries.size(), archive_path, kept_entries.size());
+        
+        return archived_entries.size();
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to archive audit entries: {}", e.what());
+        return 0;
+    }
+}
+
+size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_than) {
+    std::scoped_lock lock(file_mu_);
+    
+    if (!std::filesystem::exists(cfg_.log_path)) {
+        return 0;
+    }
+    
+    try {
+        // Read all entries
+        std::ifstream ifs(cfg_.log_path);
+        std::string line;
+        std::vector<std::string> kept_entries;
+        size_t purged_count = 0;
+        
+        while (std::getline(ifs, line)) {
+            if (line.empty()) continue;
+            
+            try {
+                nlohmann::json record = nlohmann::json::parse(line);
+                
+                // Extract timestamp
+                std::chrono::system_clock::time_point entry_ts;
+                if (record.contains("ts")) {
+                    auto ts_ms = record["ts"].get<uint64_t>();
+                    entry_ts = std::chrono::system_clock::time_point(
+                        std::chrono::milliseconds(ts_ms));
+                } else {
+                    // If no timestamp, keep the entry (don't purge unknown)
+                    kept_entries.push_back(line);
+                    continue;
+                }
+                
+                // Check if entry should be purged
+                if (entry_ts < older_than) {
+                    purged_count++;
+                    // Entry is purged (not added to kept_entries)
+                } else {
+                    kept_entries.push_back(line);
+                }
+                
+            } catch (const std::exception& e) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            }
+        }
+        ifs.close();
+        
+        // If nothing to purge, return early
+        if (purged_count == 0) {
+            return 0;
+        }
+        
+        // Rewrite main log file with only kept entries
+        std::ofstream main_ofs(cfg_.log_path, std::ios::trunc);
+        if (!main_ofs.is_open() || !main_ofs.good()) {
+            THEMIS_ERROR("Failed to open main log file for rewriting: {}", cfg_.log_path);
+            return 0;
+        }
+        
+        for (const auto& entry : kept_entries) {
+            main_ofs << entry << "\n";
+        }
+        main_ofs.close();
+        
+        THEMIS_INFO("Purged {} audit log entries (kept {} entries)", 
+                    purged_count, kept_entries.size());
+        
+        return purged_count;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to purge audit entries: {}", e.what());
+        return 0;
+    }
+}
+
 } // namespace utils
 } // namespace themis

@@ -178,7 +178,7 @@ public:
      * @param subquery Subquery Definition
      * @param queryEngine Query Engine für Execution
      * @param outerRow Outer Row (für correlated subqueries)
-     * @return Result containing subquery result (scalar value, array, or boolean)
+     * @return Subquery Result (scalar value, array, or boolean) or error
      */
     Result<nlohmann::json> evaluateSubquery(
         const query::SubqueryExpr& subquery,
@@ -191,7 +191,7 @@ public:
      * @param query Subquery
      * @param queryEngine Query Engine
      * @param outerRow Outer Row
-     * @return Result containing scalar value
+     * @return Scalar value or error
      */
     Result<nlohmann::json> evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,

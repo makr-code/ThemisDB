@@ -68,7 +68,7 @@ std::string TSStore::makeKey(const std::string& metric,
 }
 
 std::optional<TSStore::KeyComponents> 
-TSStore::parseKey(const std::string& key) const {
+TSStore::parseKeyInternal(const std::string& key) const {
     // Expected format: "ts:{metric}:{entity}:{timestamp_ms}"
     if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
         return std::nullopt;
@@ -94,6 +94,18 @@ TSStore::parseKey(const std::string& key) const {
     return comp;
 }
 
+Result<TSStore::KeyComponents> 
+TSStore::parseKey(const std::string& key) const {
+    auto comp = parseKeyInternal(key);
+    if (!comp.has_value()) {
+        return Err<KeyComponents>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            fmt::format("Invalid time-series key format: {}", key)
+        );
+    }
+    return Ok(std::move(*comp));
+}
+
 bool TSStore::matchesTagFilter(const DataPoint& point, 
                                        const nlohmann::json& tag_filter) const {
     if (tag_filter.is_null() || tag_filter.empty()) {
@@ -112,8 +124,7 @@ bool TSStore::matchesTagFilter(const DataPoint& point,
     return true;
 }
 
-TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
-    auto start_time = std::chrono::steady_clock::now();
+Result<void> TSStore::putDataPoint(const DataPoint& point) {
     auto span = Tracer::startSpan("TSStore.putDataPoint");
     span.setAttribute("metric", point.metric);
     span.setAttribute("entity", point.entity);
@@ -121,21 +132,11 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
     
     if (point.metric.empty()) {
         span.recordError("Metric name cannot be empty");
-        if (metrics_) {
-            auto latency = std::chrono::duration<double, std::milli>(
-                std::chrono::steady_clock::now() - start_time).count();
-            metrics_->recordDataPointWrite(point.metric, latency, false);
-        }
-        return Status::Error("Metric name cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Metric name cannot be empty");
     }
     if (point.entity.empty()) {
         span.recordError("Entity ID cannot be empty");
-        if (metrics_) {
-            auto latency = std::chrono::duration<double, std::milli>(
-                std::chrono::steady_clock::now() - start_time).count();
-            metrics_->recordDataPointWrite(point.metric, latency, false);
-        }
-        return Status::Error("Entity ID cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Entity ID cannot be empty");
     }
     
     // STORAGE METHOD: Singular RocksDB Entity
@@ -165,30 +166,23 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write data point {}: {}", key, s.ToString());
-        if (metrics_) {
-            metrics_->recordDataPointWrite(point.metric, latency, false);
-        }
-        return Status::Error("Failed to write data point: " + s.ToString());
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       fmt::format("Failed to write data point {}: {}", key, s.ToString()));
     }
     
     THEMIS_DEBUG("Wrote data point: metric={}, entity={}, timestamp={}, value={}, compression={}", 
                  point.metric, point.entity, point.timestamp_ms, point.value,
                  config_.compression == CompressionType::Gorilla ? "gorilla" : "none");
     
-    if (metrics_) {
-        metrics_->recordDataPointWrite(point.metric, latency, true);
-    }
-    
-    return Status::OK();
+    return OkVoid();
 }
 
-TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
-    auto start_time = std::chrono::steady_clock::now();
+Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     auto span = Tracer::startSpan("TSStore.putDataPoints");
     span.setAttribute("batch_size", static_cast<int64_t>(points.size()));
     
     if (points.empty()) {
-        return Status::OK();
+        return OkVoid();
     }
     
     // STORAGE METHOD: Batch with Gorilla Compression (if enabled)
@@ -205,7 +199,8 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         std::map<std::string, std::vector<DataPoint>> grouped;
         for (const auto& point : points) {
             if (point.metric.empty() || point.entity.empty()) {
-                return Status::Error("Invalid data point: metric and entity cannot be empty");
+                return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                               "Invalid data point: metric and entity cannot be empty");
             }
             std::string group_key = point.metric + ":" + point.entity;
             grouped[group_key].push_back(point);
@@ -275,12 +270,8 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Gorilla compression failed for {}: {}", group_key, e.what());
-                auto latency = std::chrono::duration<double, std::milli>(
-                    std::chrono::steady_clock::now() - start_time).count();
-                if (metrics_) {
-                    metrics_->recordBatchWrite(points.size(), latency, true, false);
-                }
-                return Status::Error("Gorilla compression failed: " + std::string(e.what()));
+                return ErrVoid(errors::ErrorCode::ERR_COMPRESSION_FAILED,
+                               fmt::format("Gorilla compression failed for {}: {}", group_key, e.what()));
             }
         }
         
@@ -292,18 +283,13 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         
         if (!s.ok()) {
             THEMIS_ERROR("Failed to write Gorilla-compressed batch: {}", s.ToString());
-            if (metrics_) {
-                metrics_->recordBatchWrite(points.size(), latency, true, false);
-            }
-            return Status::Error("Failed to write batch: " + s.ToString());
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           fmt::format("Failed to write batch: {}", s.ToString()));
         }
         
         THEMIS_INFO("Wrote Gorilla-compressed batch of {} data points ({} chunks)", 
             points.size(), grouped.size());
-        if (metrics_) {
-            metrics_->recordBatchWrite(points.size(), latency, true, true);
-        }
-        return Status::OK();
+        return OkVoid();
     }
     
     // STORAGE METHOD: Singular RocksDB Entities (No Compression)
@@ -314,7 +300,8 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     
     for (const auto& point : points) {
         if (point.metric.empty() || point.entity.empty()) {
-            return Status::Error("Invalid data point: metric and entity cannot be empty");
+            return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                           "Invalid data point: metric and entity cannot be empty");
         }
         
         std::string key = makeKey(point.metric, point.entity, point.timestamp_ms);
@@ -335,20 +322,15 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write batch of {} data points: {}", points.size(), s.ToString());
-        if (metrics_) {
-            metrics_->recordBatchWrite(points.size(), latency, false, false);
-        }
-        return Status::Error("Failed to write batch: " + s.ToString());
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       fmt::format("Failed to write batch of {} data points: {}", points.size(), s.ToString()));
     }
     
     THEMIS_INFO("Wrote batch of {} data points (raw)", points.size());
-    if (metrics_) {
-        metrics_->recordBatchWrite(points.size(), latency, false, true);
-    }
-    return Status::OK();
+    return OkVoid();
 }
 
-std::pair<TSStore::Status, std::vector<TSStore::DataPoint>>
+Result<std::vector<TSStore::DataPoint>>
 TSStore::query(const QueryOptions& options) const {
     auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.query");
@@ -364,7 +346,8 @@ TSStore::query(const QueryOptions& options) const {
     
     if (options.metric.empty()) {
         span.recordError("Metric name is required");
-        return {Status::Error("Metric name is required"), results};
+        return Err<std::vector<DataPoint>>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                             "Metric name is required");
     }
     
     // Scan both raw data (ts:) and compressed chunks (tsc:)
@@ -506,7 +489,8 @@ TSStore::query(const QueryOptions& options) const {
         });
     
     if (!it->status().ok()) {
-        return {Status::Error("Scan failed: " + it->status().ToString()), results};
+        return Err<std::vector<DataPoint>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                             fmt::format("Scan failed: {}", it->status().ToString()));
     }
     
     auto latency = std::chrono::duration<double, std::milli>(
@@ -514,20 +498,15 @@ TSStore::query(const QueryOptions& options) const {
     int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
     
     THEMIS_DEBUG("Query returned {} data points for metric={}", results.size(), options.metric);
-    
-    if (metrics_) {
-        metrics_->recordQuery(options.metric, latency, results.size(), time_range);
-    }
-    
-    return {Status::OK(), results};
+    return Ok(std::move(results));
 }
 
-std::pair<TSStore::Status, TSStore::AggregationResult>
+Result<TSStore::AggregationResult>
 TSStore::aggregate(const QueryOptions& options) const {
     return aggregateOptimized(options, true);
 }
 
-std::pair<TSStore::Status, TSStore::AggregationResult>
+Result<TSStore::AggregationResult>
 TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) const {
     auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.aggregate");
@@ -570,20 +549,15 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
             QueryOptions agg_options = options;
             agg_options.metric = plan.source_metric;
             
-            auto [status, data_points] = query(agg_options);
-            if (!status.ok) {
+            auto result_or_error = query(agg_options);
+            if (!result_or_error) {
                 // Fallback to raw data
-                optimizer_used = false;
-                THEMIS_WARN("Aggregate query failed, falling back to raw data: {}", status.message);
+                THEMIS_WARN("Aggregate query failed, falling back to raw data: {}", result_or_error.error().message());
             } else {
+                auto data_points = std::move(*result_or_error);
                 if (data_points.empty()) {
                     span.setAttribute("result_count", static_cast<int64_t>(0));
-                    auto latency = std::chrono::duration<double, std::milli>(
-                        std::chrono::steady_clock::now() - start_time).count();
-                    if (metrics_) {
-                        metrics_->recordAggregation(options.metric, latency, 0, optimizer_used);
-                    }
-                    return {Status::OK(), result};
+                    return Ok(AggregationResult{});
                 }
                 
                 result.count = data_points.size();
@@ -605,13 +579,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
                 THEMIS_DEBUG("Aggregation (optimized): count={}, min={}, max={}, avg={}, sum={}", 
                            result.count, result.min, result.max, result.avg, result.sum);
                 
-                auto latency = std::chrono::duration<double, std::milli>(
-                    std::chrono::steady_clock::now() - start_time).count();
-                if (metrics_) {
-                    metrics_->recordAggregation(options.metric, latency, data_points.size(), optimizer_used);
-                }
-                
-                return {Status::OK(), result};
+                return Ok(std::move(result));
             }
         } else {
             span.setAttribute("optimized", false);
@@ -620,20 +588,16 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     }
     
     // Original implementation (raw data)
-    auto [status, data_points] = query(options);
-    if (!status.ok) {
-        span.recordError("Query failed: " + status.message);
-        return {status, result};
+    auto result_or_error = query(options);
+    if (!result_or_error) {
+        span.recordError("Query failed: " + result_or_error.error().message());
+        return tl::unexpected(result_or_error.error());
     }
     
+    auto data_points = std::move(*result_or_error);
     if (data_points.empty()) {
         span.setAttribute("result_count", static_cast<int64_t>(0));
-        auto latency = std::chrono::duration<double, std::milli>(
-            std::chrono::steady_clock::now() - start_time).count();
-        if (metrics_) {
-            metrics_->recordAggregation(options.metric, latency, 0, optimizer_used);
-        }
-        return {Status::OK(), result};
+        return Ok(AggregationResult{});
     }
     
     result.count = data_points.size();
@@ -655,13 +619,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     THEMIS_DEBUG("Aggregation: count={}, min={}, max={}, avg={}, sum={}", 
                  result.count, result.min, result.max, result.avg, result.sum);
     
-    auto latency = std::chrono::duration<double, std::milli>(
-        std::chrono::steady_clock::now() - start_time).count();
-    if (metrics_) {
-        metrics_->recordAggregation(options.metric, latency, data_points.size(), optimizer_used);
-    }
-    
-    return {Status::OK(), result};
+    return Ok(std::move(result));
 }
 
 TSStore::Stats TSStore::getStats() const {
@@ -691,7 +649,7 @@ TSStore::Stats TSStore::getStats() const {
             break;
         }
         
-        auto comp = parseKey(key);
+        auto comp = parseKeyInternal(key);
         if (comp.has_value()) {
             unique_metrics.insert(comp->metric);
             oldest_ts = std::min(oldest_ts, comp->timestamp_ms);
@@ -744,7 +702,7 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
             break;
         }
         
-        auto comp = parseKey(key);
+        auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->timestamp_ms < before_timestamp_ms) {
             if (cf_) {
                 batch.Delete(cf_, key);
@@ -799,7 +757,7 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     while (it->Valid()) {
         std::string key = it->key().ToString();
         if (key.compare(0, prefix.size(), prefix) != 0) break;
-        auto comp = parseKey(key);
+        auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->metric == metric && comp->timestamp_ms < before_timestamp_ms) {
             if (cf_) batch.Delete(cf_, key); else batch.Delete(key);
             deleted_count++;
@@ -825,9 +783,9 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     return deleted_count;
 }
 
-TSStore::Status TSStore::deleteMetric(const std::string& metric) {
+Result<void> TSStore::deleteMetric(const std::string& metric) {
     if (metric.empty()) {
-        return Status::Error("Metric name cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Metric name cannot be empty");
     }
     
     rocksdb::ReadOptions read_opts;
@@ -867,13 +825,14 @@ TSStore::Status TSStore::deleteMetric(const std::string& metric) {
         
         if (!s.ok()) {
             THEMIS_ERROR("Failed to delete metric {}: {}", metric, s.ToString());
-            return Status::Error("Failed to delete metric: " + s.ToString());
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           fmt::format("Failed to delete metric {}: {}", metric, s.ToString()));
         }
         
         THEMIS_INFO("Deleted metric {} ({} data points)", metric, count);
     }
     
-    return Status::OK();
+    return OkVoid();
 }
 
 void TSStore::clear() {
