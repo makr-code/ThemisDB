@@ -3380,12 +3380,15 @@ BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_1Thread) (benchmark::State&
     state.SetItemsProcessed(state.iterations() * 100);
 }
 
-// Sharded: 4 threads
+// Sharded: 4 threads (each processes 25 items = 100 total)
 BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_4Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(4);
+        // ParallelExecutor creates 4 threads, each processes 25 iterations
+        // Thread 0: work_id 0-24, Thread 1: work_id 25-49, Thread 2: work_id 50-74, Thread 3: work_id 75-99
         executor.execute([this](int work_id) {
             int thread_id = work_id / 25;  // 4 threads, 25 items each
+            if (thread_id >= 4) thread_id = 3;  // Handle edge case
             auto& sim = shards_[thread_id];
             std::string table = "parallel_shard_" + std::to_string(thread_id);
             
@@ -3395,15 +3398,17 @@ BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_4Threads) (benchmark::State
                 {"value", static_cast<double>(work_id)}
             });
             sim->put(table, e);
-        }, 25);
+        }, 25);  // iterations_per_thread (4 threads × 25 = 100 total)
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
 
-// Sharded: 8 threads
+// Sharded: 8 threads (each processes 12 items = 96 total)
 BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_8Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(8);
+        // ParallelExecutor creates 8 threads, each processes 12 iterations
+        // Thread 0: work_id 0-11, Thread 1: work_id 12-23, ..., Thread 7: work_id 84-95
         executor.execute([this](int work_id) {
             int thread_id = work_id / 12;  // 8 threads, 12 items each (96 total)
             if (thread_id >= 8) thread_id = 7;  // Handle remainder
@@ -3416,15 +3421,17 @@ BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_8Threads) (benchmark::State
                 {"value", static_cast<double>(work_id)}
             });
             sim->put(table, e);
-        }, 12);
+        }, 12);  // iterations_per_thread (8 threads × 12 = 96 total)
     }
     state.SetItemsProcessed(state.iterations() * 96);
 }
 
-// Sharded: 16 threads
+// Sharded: 16 threads (each processes 6 items = 96 total)
 BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_16Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(16);
+        // ParallelExecutor creates 16 threads, each processes 6 iterations
+        // Thread 0: work_id 0-5, Thread 1: work_id 6-11, ..., Thread 15: work_id 90-95
         executor.execute([this](int work_id) {
             int thread_id = work_id / 6;  // 16 threads, 6 items each (96 total)
             if (thread_id >= 16) thread_id = 15;  // Handle remainder
@@ -3437,15 +3444,17 @@ BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_16Threads) (benchmark::Stat
                 {"value", static_cast<double>(work_id)}
             });
             sim->put(table, e);
-        }, 6);
+        }, 6);  // iterations_per_thread (16 threads × 6 = 96 total)
     }
     state.SetItemsProcessed(state.iterations() * 96);
 }
 
-// Sharded: 32 threads
+// Sharded: 32 threads (each processes 3 items = 96 total)
 BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_32Threads) (benchmark::State& state) {
     for (auto _ : state) {
         ParallelExecutor executor(32);
+        // ParallelExecutor creates 32 threads, each processes 3 iterations
+        // Thread 0: work_id 0-2, Thread 1: work_id 3-5, ..., Thread 31: work_id 93-95
         executor.execute([this](int work_id) {
             int thread_id = work_id / 3;  // 32 threads, 3 items each (96 total)
             if (thread_id >= 32) thread_id = 31;  // Handle remainder
@@ -3458,7 +3467,7 @@ BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_32Threads) (benchmark::Stat
                 {"value", static_cast<double>(work_id)}
             });
             sim->put(table, e);
-        }, 3);
+        }, 3);  // iterations_per_thread (32 threads × 3 = 96 total)
     }
     state.SetItemsProcessed(state.iterations() * 96);
 }
