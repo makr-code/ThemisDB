@@ -80,8 +80,8 @@ public:
             THEMIS_INFO("AzureBlobBackend initialized: container={}, prefix={}", 
                         container_name_, prefix_);
         } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to initialize Azure Blob Storage: {}", e.what());
-            throw;
+            // Log error but don't throw - operations will fail with proper error handling
+            THEMIS_ERROR("Failed to initialize Azure Blob Storage: {} (operations will fail with proper errors)", e.what());
         }
     }
     
@@ -235,7 +235,8 @@ public:
             // Test connectivity
             container_client_->GetProperties();
             return true;
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("AzureBlobBackend::isAvailable check failed: {}", e.what());
             return false;
         }
     }

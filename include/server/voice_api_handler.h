@@ -27,6 +27,9 @@ namespace themis {
 namespace voice {
 class VoiceAssistant;
 }
+namespace utils {
+class HTTPClientPool;
+}
 }
 
 namespace themis::server {
@@ -149,7 +152,10 @@ private:
     
     std::string encodeBase64(const std::vector<uint8_t>& data);
     
+    std::vector<uint8_t> downloadAudioFromUrl(const std::string& url);
+    
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
+    std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
 };
 
 } // namespace themis::server

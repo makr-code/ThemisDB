@@ -1,0 +1,503 @@
+#include "server/api_gateway.h"
+#include "core/error_codes.h"
+#include <chrono>
+#include <spdlog/spdlog.h>
+
+// Helper to create error responses
+namespace {
+    class Error : public std::runtime_error {
+    public:
+        Error(int code, const std::string& msg) 
+            : std::runtime_error(msg), code_(code) {}
+        int code() const { return code_; }
+    private:
+        int code_;
+    };
+    
+    enum class ErrorCode {
+        FeatureDisabled = 1,
+        ConfigurationError = 2
+    };
+}
+
+namespace themis::server {
+
+APIGateway::APIGateway(
+    const Config& config,
+    std::shared_ptr<AuthMiddleware> auth,
+    std::shared_ptr<RateLimiter> rate_limiter,
+    std::shared_ptr<LoadShedder> load_shedder,
+    std::shared_ptr<sharding::ShardRouter> shard_router,
+    std::shared_ptr<observability::PrometheusMetrics> metrics
+) : config_(config),
+    auth_(std::move(auth)),
+    rate_limiter_(std::move(rate_limiter)),
+    load_shedder_(std::move(load_shedder)),
+    shard_router_(std::move(shard_router)),
+    metrics_(std::move(metrics))
+{
+    spdlog::info("APIGateway initialized: id={}, datacenter={}, sharding={}, federation={}",
+                 config_.gateway_id, config_.datacenter, 
+                 config_.enable_sharding, config_.enable_query_federation);
+    
+    // Verify configuration
+    if (config_.enable_sharding && !shard_router_) {
+        spdlog::warn("Sharding enabled but no shard router provided");
+    }
+    if (config_.enable_query_federation && !shard_router_) {
+        spdlog::warn("Query federation enabled but no shard router provided");
+    }
+}
+
+http::response<http::string_body> APIGateway::handleRequest(
+    const http::request<http::string_body>& req,
+    std::function<http::response<http::string_body>(const http::request<http::string_body>&)> local_handler
+) {
+    auto start_time = std::chrono::steady_clock::now();
+    total_requests_++;
+    
+    try {
+        // 1. Authentication check
+        if (auth_ && !auth_->authenticate(req)) {
+            rate_limited_requests_++;
+            return makeErrorResponse(http::status::unauthorized, 
+                                    "Authentication failed", req);
+        }
+        
+        // 2. Rate limiting check
+        if (config_.enable_rate_limiting && !checkRateLimit(req)) {
+            rate_limited_requests_++;
+            return makeErrorResponse(http::status::too_many_requests, 
+                                    "Rate limit exceeded", req);
+        }
+        
+        // 3. Load shedding check
+        if (config_.enable_load_shedding && !checkLoadShedding(req)) {
+            load_shed_requests_++;
+            return makeErrorResponse(http::status::service_unavailable, 
+                                    "Service temporarily unavailable due to high load", req);
+        }
+        
+        // 4. Determine routing target
+        RouteTarget target = determineRouteTarget(req);
+        
+        // 5. Execute request based on target
+        http::response<http::string_body> response;
+        
+        switch (target) {
+            case RouteTarget::LOCAL:
+                local_requests_++;
+                response = executeLocal(req, local_handler);
+                break;
+                
+            case RouteTarget::SHARD:
+                distributed_requests_++;
+                // Extract shard ID from request path/URN
+                // For now, fallback to local execution if extraction fails
+                if (shard_router_) {
+                    // TODO: Extract URN from request and route to appropriate shard
+                    // For now, use local execution as fallback
+                    response = executeLocal(req, local_handler);
+                } else {
+                    response = executeLocal(req, local_handler);
+                }
+                break;
+                
+            case RouteTarget::SCATTER_GATHER:
+                distributed_requests_++;
+                response = executeScatterGather(req);
+                break;
+                
+            case RouteTarget::FEDERATION:
+                federated_queries_++;
+                // Federation is handled separately via executeFederatedQuery
+                response = makeErrorResponse(http::status::bad_request,
+                    "Federation queries should use executeFederatedQuery", req);
+                break;
+        }
+        
+        // 6. Record metrics
+        auto end_time = std::chrono::steady_clock::now();
+        auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time).count();
+        recordMetrics(req, response, duration_ms, target);
+        
+        successful_requests_++;
+        return response;
+        
+    } catch (const std::exception& e) {
+        failed_requests_++;
+        spdlog::error("APIGateway::handleRequest error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, 
+                                std::string("Internal error: ") + e.what(), req);
+    }
+}
+
+nlohmann::json APIGateway::executeFederatedQuery(
+    const std::string& query,
+    const AuthContext& auth_context
+) {
+    federated_queries_++;
+    
+    if (!config_.enable_query_federation) {
+        throw Error(static_cast<int>(ErrorCode::FeatureDisabled), 
+                   "Query federation is not enabled");
+    }
+    
+    if (!shard_router_) {
+        throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
+                   "Shard router not configured for query federation");
+    }
+    
+    try {
+        spdlog::info("Executing federated query: user={}", auth_context.user_id);
+        
+        // Use shard router to execute the query
+        // The shard router handles:
+        // - Query analysis
+        // - Routing to appropriate shards
+        // - Result aggregation
+        auto result = shard_router_->executeQuery(query);
+        
+        return result;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Federated query execution failed: {}", e.what());
+        throw;
+    }
+}
+
+nlohmann::json APIGateway::getStatistics() const {
+    nlohmann::json stats;
+    
+    stats["gateway_id"] = config_.gateway_id;
+    stats["datacenter"] = config_.datacenter;
+    
+    // Request statistics
+    stats["requests"] = {
+        {"total", total_requests_.load()},
+        {"successful", successful_requests_.load()},
+        {"failed", failed_requests_.load()},
+        {"rate_limited", rate_limited_requests_.load()},
+        {"load_shed", load_shed_requests_.load()},
+        {"circuit_breaker_rejections", circuit_breaker_rejections_.load()}
+    };
+    
+    // Routing statistics
+    stats["routing"] = {
+        {"local", local_requests_.load()},
+        {"distributed", distributed_requests_.load()},
+        {"federated_queries", federated_queries_.load()}
+    };
+    
+    // Feature status
+    stats["features"] = {
+        {"sharding", config_.enable_sharding},
+        {"rate_limiting", config_.enable_rate_limiting},
+        {"load_shedding", config_.enable_load_shedding},
+        {"circuit_breaker", config_.enable_circuit_breaker},
+        {"query_federation", config_.enable_query_federation}
+    };
+    
+    return stats;
+}
+
+nlohmann::json APIGateway::getHealthStatus() const {
+    nlohmann::json health;
+    
+    health["status"] = "healthy";
+    health["gateway_id"] = config_.gateway_id;
+    
+    // Component health
+    health["components"] = nlohmann::json::object();
+    
+    if (auth_) {
+        health["components"]["auth"] = "healthy";
+    }
+    
+    if (rate_limiter_) {
+        health["components"]["rate_limiter"] = "healthy";
+    }
+    
+    if (load_shedder_) {
+        health["components"]["load_shedder"] = "healthy";
+    }
+    
+    if (shard_router_) {
+        health["components"]["shard_router"] = "healthy";
+        // Could check shard router health here
+    }
+    
+    // Check if any requests are failing
+    uint64_t total = total_requests_.load();
+    uint64_t failed = failed_requests_.load();
+    if (total > 0) {
+        double error_rate = static_cast<double>(failed) / total;
+        health["error_rate"] = error_rate;
+        
+        if (error_rate > 0.5) {
+            health["status"] = "unhealthy";
+        } else if (error_rate > 0.1) {
+            health["status"] = "degraded";
+        }
+    }
+    
+    return health;
+}
+
+void APIGateway::updateConfig(const Config& config) {
+    spdlog::info("Updating APIGateway configuration");
+    config_ = config;
+}
+
+void APIGateway::registerHandler(
+    const std::string& pattern,
+    std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
+) {
+    spdlog::info("Registering handler for pattern: {}", pattern);
+    handlers_[pattern] = std::move(handler);
+}
+
+APIGateway::RouteTarget APIGateway::determineRouteTarget(
+    const http::request<http::string_body>& req
+) {
+    std::string path = std::string(req.target());
+    
+    // If sharding is not enabled, always use local
+    if (!config_.enable_sharding) {
+        return RouteTarget::LOCAL;
+    }
+    
+    // Query endpoints that might need federation
+    if (path.find("/query/aql") != std::string::npos ||
+        path.find("/query/federated") != std::string::npos) {
+        if (config_.enable_query_federation) {
+            return RouteTarget::FEDERATION;
+        }
+    }
+    
+    // Entity operations by URN - route to specific shard
+    if (path.find("/entities/") != std::string::npos) {
+        return RouteTarget::SHARD;
+    }
+    
+    // Collection scans - scatter-gather
+    if (path.find("/collections/") != std::string::npos && 
+        req.method() == http::verb::get) {
+        return RouteTarget::SCATTER_GATHER;
+    }
+    
+    // Default to local execution
+    if (config_.prefer_local_execution) {
+        return RouteTarget::LOCAL;
+    }
+    
+    return RouteTarget::LOCAL;
+}
+
+bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
+    if (!rate_limiter_) {
+        return true;
+    }
+    
+    // Extract client ID from request (could be IP, user ID, etc.)
+    std::string client_id = "default";
+    
+    // Check if Authorization header exists
+    auto auth_header = req.find(http::field::authorization);
+    if (auth_header != req.end()) {
+        // Use auth header as client ID
+        client_id = std::string(auth_header->value());
+    } else {
+        // Fall back to IP or other identifier
+        client_id = "anonymous";
+    }
+    
+    return rate_limiter_->allowRequest(client_id);
+}
+
+bool APIGateway::checkLoadShedding(const http::request<http::string_body>& req) {
+    if (!load_shedder_) {
+        return true;
+    }
+    
+    return load_shedder_->shouldAcceptRequest();
+}
+
+std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
+    const std::string& backend_id
+) {
+    auto it = circuit_breakers_.find(backend_id);
+    if (it != circuit_breakers_.end()) {
+        return it->second;
+    }
+    
+    // Create new circuit breaker for this backend
+    auto cb = std::make_shared<sharding::CircuitBreaker>(
+        backend_id,
+        config_.circuit_breaker_config
+    );
+    circuit_breakers_[backend_id] = cb;
+    return cb;
+}
+
+http::response<http::string_body> APIGateway::executeLocal(
+    const http::request<http::string_body>& req,
+    std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
+) {
+    try {
+        return handler(req);
+    } catch (const std::exception& e) {
+        spdlog::error("Local execution failed: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, 
+                                std::string("Local execution error: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> APIGateway::executeRemote(
+    const http::request<http::string_body>& req,
+    const std::string& shard_id
+) {
+    if (!shard_router_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                "Shard router not available", req);
+    }
+    
+    // Check circuit breaker
+    if (config_.enable_circuit_breaker) {
+        auto cb = getCircuitBreaker(shard_id);
+        if (cb->isOpen()) {
+            circuit_breaker_rejections_++;
+            return makeErrorResponse(http::status::service_unavailable,
+                                    "Circuit breaker open for shard: " + shard_id, req);
+        }
+    }
+    
+    try {
+        // Execute request on remote shard via shard router
+        // Note: This requires full URN extraction and routing logic
+        // which depends on the specific request format
+        
+        // For now, this is a placeholder for future implementation
+        // In production, this would:
+        // 1. Extract URN or entity ID from request
+        // 2. Resolve to shard location via URN resolver
+        // 3. Execute request via remote executor
+        // 4. Record success/failure in circuit breaker
+        
+        spdlog::warn("Remote shard execution called but not fully implemented");
+        return makeErrorResponse(http::status::internal_server_error,
+                                "Remote shard execution requires additional configuration", req);
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Remote execution failed: {}", e.what());
+        
+        // Record failure in circuit breaker
+        if (config_.enable_circuit_breaker) {
+            auto cb = getCircuitBreaker(shard_id);
+            cb->recordFailure();
+        }
+        
+        return makeErrorResponse(http::status::service_unavailable,
+                                std::string("Remote execution error: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> APIGateway::executeScatterGather(
+    const http::request<http::string_body>& req
+) {
+    if (!shard_router_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                "Shard router not available", req);
+    }
+    
+    try {
+        // Parse request body as query
+        nlohmann::json req_body = nlohmann::json::parse(req.body());
+        std::string query = req_body.value("query", "");
+        
+        if (query.empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                                    "Query parameter required", req);
+        }
+        
+        // Execute scatter-gather via shard router
+        auto results = shard_router_->scatterGather(query);
+        
+        // Aggregate results
+        nlohmann::json response_body;
+        response_body["results"] = nlohmann::json::array();
+        
+        for (const auto& result : results) {
+            if (result.success) {
+                response_body["results"].push_back(result.data);
+            } else {
+                spdlog::warn("Shard {} failed: {}", result.shard_id, result.error_msg);
+            }
+        }
+        
+        http::response<http::string_body> response{http::status::ok, req.version()};
+        response.set(http::field::content_type, "application/json");
+        response.body() = response_body.dump();
+        response.prepare_payload();
+        return response;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Scatter-gather failed: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error,
+                                std::string("Scatter-gather error: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> APIGateway::makeErrorResponse(
+    http::status status,
+    const std::string& message,
+    const http::request<http::string_body>& req
+) {
+    nlohmann::json error_body;
+    error_body["error"] = message;
+    error_body["status"] = static_cast<int>(status);
+    
+    http::response<http::string_body> response{status, req.version()};
+    response.set(http::field::content_type, "application/json");
+    response.body() = error_body.dump();
+    response.prepare_payload();
+    response.keep_alive(req.keep_alive());
+    
+    return response;
+}
+
+void APIGateway::recordMetrics(
+    const http::request<http::string_body>& req,
+    const http::response<http::string_body>& response,
+    uint64_t duration_ms,
+    RouteTarget target
+) {
+    if (!metrics_) {
+        return;
+    }
+    
+    // Record request count
+    std::string target_str;
+    switch (target) {
+        case RouteTarget::LOCAL: target_str = "local"; break;
+        case RouteTarget::SHARD: target_str = "shard"; break;
+        case RouteTarget::SCATTER_GATHER: target_str = "scatter_gather"; break;
+        case RouteTarget::FEDERATION: target_str = "federation"; break;
+    }
+    
+    // Record metrics using Prometheus format
+    std::string metric_name = config_.metrics_prefix + "requests_total";
+    std::map<std::string, std::string> labels = {
+        {"method", std::string(req.method_string())},
+        {"target", target_str},
+        {"status", std::to_string(static_cast<int>(response.result()))}
+    };
+    
+    // This would integrate with actual Prometheus metrics
+    // For now, just log
+    spdlog::debug("Metric: {} {} duration_ms={}", metric_name, 
+                 nlohmann::json(labels).dump(), duration_ms);
+}
+
+} // namespace themis::server

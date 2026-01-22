@@ -29,6 +29,7 @@ This is the central hub for all documentation related to the ThemisDB LoRA (Low-
 | [**LoRA Framework Developer Guide**](LORA_FRAMEWORK_DEVELOPER_GUIDE.md) | Complete API reference and architecture | Developers |
 | [**Integration Examples**](LORA_INTEGRATION_EXAMPLES.md) | Code examples in C++, Python, REST, AQL | Developers |
 | [**Training Guide**](LORA_TRAINING_GUIDE.md) | How to train and fine-tune adapters | ML Engineers |
+| [**Scheduled Weights Guide**](LORA_SCHEDULED_WEIGHTS.md) | Time-based adapter scheduling and transitions | Developers |
 
 ### Reference Documentation
 

@@ -61,16 +61,16 @@ std::string TSAutoBuffer::makeBufferKey(const std::string& metric,
     return metric + ":" + entity;
 }
 
-TSStore::Status TSAutoBuffer::add(const TSStore::DataPoint& point) {
+Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
     auto span = Tracer::startSpan("TSAutoBuffer.add");
     span.setAttribute("metric", point.metric);
     span.setAttribute("entity", point.entity);
     
     if (point.metric.empty()) {
-        return TSStore::Status::Error("Metric name cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Metric name cannot be empty");
     }
     if (point.entity.empty()) {
-        return TSStore::Status::Error("Entity ID cannot be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Entity ID cannot be empty");
     }
     
     std::string buffer_key = makeBufferKey(point.metric, point.entity);
@@ -115,7 +115,7 @@ TSStore::Status TSAutoBuffer::add(const TSStore::DataPoint& point) {
         flush_cv_.notify_one();
     }
     
-    return TSStore::Status::OK();
+    return OkVoid();
 }
 
 size_t TSAutoBuffer::flush() {
@@ -181,10 +181,10 @@ size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& bu
     std::vector<TSStore::DataPoint> points(buffer.points.begin(), buffer.points.end());
     
     // Use putDataPoints for batch compression
-    auto status = tsstore_->putDataPoints(points);
+    auto result = tsstore_->putDataPoints(points);
     
-    if (!status.ok) {
-        THEMIS_ERROR("Failed to flush buffer {}: {}", buffer_key, status.message);
+    if (!result) {
+        THEMIS_ERROR("Failed to flush buffer {}: {}", buffer_key, result.error().message());
         return 0;
     }
     

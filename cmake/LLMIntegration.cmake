@@ -64,5 +64,8 @@ if(THEMIS_ENABLE_LLM)
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp
+        
+        # ML Model Management and Inference
+        ../src/llm/ml_model_manager.cpp
     )
 endif()
