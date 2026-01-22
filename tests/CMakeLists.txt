@@ -2300,6 +2300,38 @@ else()
 endif()
 
 # ============================================================================
+# JSON Path Function Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_json_path_functions.cpp")
+    message(STATUS "Adding JSON Path function tests")
+    
+    add_executable(test_json_path_functions
+        test_json_path_functions.cpp
+    )
+    
+    target_link_libraries(test_json_path_functions PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_json_path_functions PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME JsonPathFunctionTests COMMAND test_json_path_functions)
+    
+    set_tests_properties(JsonPathFunctionTests PROPERTIES
+        LABELS "aql;json;document;query;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "JSON Path function tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_json_path_functions.cpp")
+endif()
+
+# ============================================================================
 # PageRank Function Tests
 # ============================================================================
 
