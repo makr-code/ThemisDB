@@ -400,7 +400,11 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
         size_t query_pos = target.find('?');
         if (query_pos != std::string::npos) {
             std::string query_string = target.substr(query_pos + 1);
-            if (query_string.find("format=prometheus") != std::string::npos) {
+            // Check for format parameter with proper boundary checking
+            if (query_string == "format=prometheus" || 
+                query_string.find("format=prometheus&") == 0 ||
+                query_string.find("&format=prometheus&") != std::string::npos ||
+                query_string.find("&format=prometheus") == query_string.length() - 18) {
                 format = "prometheus";
             }
         }
