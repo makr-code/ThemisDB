@@ -1,0 +1,766 @@
+#include "llm/ml_model_manager.h"
+#include "utils/logging.h"
+#include <sstream>
+#include <algorithm>
+#include <random>
+#include <thread>
+#include <chrono>
+
+namespace themis {
+namespace llm {
+
+MLModelManager::MLModelManager(const Config& config)
+    : config_(config)
+    , running_(false) {
+    LOG_INFO("MLModelManager initialized");
+}
+
+MLModelManager::~MLModelManager() {
+    shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Model Lifecycle Management
+// ═══════════════════════════════════════════════════════════
+
+Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    if (models_.find(config.model_id) != models_.end()) {
+        return Result<bool>::error("Model already registered: " + config.model_id);
+    }
+    
+    auto entry = std::make_unique<ModelEntry>();
+    entry->config = config;
+    entry->status = MLModelStatus::REGISTERED;
+    entry->registered_at = std::chrono::system_clock::now();
+    
+    models_[config.model_id] = std::move(entry);
+    
+    LOG_INFO("Registered model: " + config.model_id + " (type: " + std::to_string(static_cast<int>(config.type)) + ")");
+    
+    return Result<bool>::ok(true);
+}
+
+Result<std::vector<std::string>> MLModelManager::deployModel(
+    const std::string& model_id,
+    size_t num_instances
+) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<std::vector<std::string>>::error("Model not found: " + model_id);
+    }
+    
+    auto& entry = it->second;
+    if (entry->status == MLModelStatus::DEPLOYED) {
+        return Result<std::vector<std::string>>::error("Model already deployed: " + model_id);
+    }
+    
+    entry->status = MLModelStatus::DEPLOYING;
+    std::vector<std::string> instance_ids;
+    
+    for (size_t i = 0; i < num_instances; ++i) {
+        auto result = deployInstance(model_id, entry->config);
+        if (result.has_error()) {
+            LOG_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error());
+            // Rollback: shutdown already deployed instances
+            for (const auto& inst_id : instance_ids) {
+                shutdownInstance(inst_id);
+            }
+            entry->status = MLModelStatus::FAILED;
+            return Result<std::vector<std::string>>::error("Deployment failed: " + result.error());
+        }
+        instance_ids.push_back(result.value());
+    }
+    
+    entry->status = MLModelStatus::DEPLOYED;
+    entry->deployed_at = std::chrono::system_clock::now();
+    
+    LOG_INFO("Deployed model: " + model_id + " with " + std::to_string(num_instances) + " instances");
+    
+    return Result<std::vector<std::string>>::ok(instance_ids);
+}
+
+Result<bool> MLModelManager::updateModel(
+    const std::string& model_id,
+    const MLModelConfig& new_config
+) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<bool>::error("Model not found: " + model_id);
+    }
+    
+    auto& entry = it->second;
+    
+    // Rolling update: deploy new instances, then shutdown old ones
+    entry->status = MLModelStatus::UPDATING;
+    
+    std::vector<std::unique_ptr<MLModelInstance>> old_instances = std::move(entry->instances);
+    entry->instances.clear();
+    
+    // Deploy new instances
+    size_t num_instances = old_instances.size();
+    if (num_instances == 0) {
+        num_instances = new_config.min_instances;
+    }
+    
+    std::vector<std::string> new_instance_ids;
+    for (size_t i = 0; i < num_instances; ++i) {
+        auto result = deployInstance(model_id, new_config);
+        if (result.has_error()) {
+            // Rollback
+            for (const auto& inst_id : new_instance_ids) {
+                shutdownInstance(inst_id);
+            }
+            entry->instances = std::move(old_instances);
+            entry->status = MLModelStatus::DEPLOYED;
+            return Result<bool>::error("Update failed: " + result.error());
+        }
+        new_instance_ids.push_back(result.value());
+    }
+    
+    // Shutdown old instances
+    for (const auto& old_inst : old_instances) {
+        shutdownInstance(old_inst->instance_id);
+    }
+    
+    entry->config = new_config;
+    entry->status = MLModelStatus::DEPLOYED;
+    
+    LOG_INFO("Updated model: " + model_id);
+    
+    return Result<bool>::ok(true);
+}
+
+Result<bool> MLModelManager::retireModel(
+    const std::string& model_id,
+    int drain_timeout_ms
+) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<bool>::error("Model not found: " + model_id);
+    }
+    
+    auto& entry = it->second;
+    entry->status = MLModelStatus::RETIRED;
+    
+    // Wait for pending requests to drain
+    auto start = std::chrono::steady_clock::now();
+    bool drained = false;
+    
+    while (true) {
+        size_t active = 0;
+        for (const auto& inst : entry->instances) {
+            active += inst->active_requests;
+        }
+        
+        if (active == 0) {
+            drained = true;
+            break;
+        }
+        
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start
+        ).count();
+        
+        if (elapsed >= drain_timeout_ms) {
+            break;
+        }
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    
+    LOG_INFO("Retired model: " + model_id + " (drained: " + std::to_string(drained) + ")");
+    
+    return Result<bool>::ok(drained);
+}
+
+Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<bool>::error("Model not found: " + model_id);
+    }
+    
+    auto& entry = it->second;
+    if (entry->status != MLModelStatus::RETIRED) {
+        return Result<bool>::error("Model must be retired before unregistering: " + model_id);
+    }
+    
+    // Shutdown all instances
+    for (const auto& inst : entry->instances) {
+        shutdownInstance(inst->instance_id);
+    }
+    
+    models_.erase(it);
+    
+    LOG_INFO("Unregistered model: " + model_id);
+    
+    return Result<bool>::ok(true);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Model Query and Discovery
+// ═══════════════════════════════════════════════════════════
+
+std::vector<std::string> MLModelManager::listModels(const json& filter) const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    std::vector<std::string> result;
+    
+    for (const auto& [model_id, entry] : models_) {
+        bool matches = true;
+        
+        if (filter.contains("type")) {
+            int type_filter = filter["type"];
+            if (static_cast<int>(entry->config.type) != type_filter) {
+                matches = false;
+            }
+        }
+        
+        if (filter.contains("status")) {
+            int status_filter = filter["status"];
+            if (static_cast<int>(entry->status) != status_filter) {
+                matches = false;
+            }
+        }
+        
+        if (matches) {
+            result.push_back(model_id);
+        }
+    }
+    
+    return result;
+}
+
+Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id) const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<MLModelConfig>::error("Model not found: " + model_id);
+    }
+    
+    return Result<MLModelConfig>::ok(it->second->config);
+}
+
+Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id) const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<MLModelStatus>::error("Model not found: " + model_id);
+    }
+    
+    return Result<MLModelStatus>::ok(it->second->status);
+}
+
+std::vector<MLModelInstance> MLModelManager::listModelInstances(const std::string& model_id) const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    std::vector<MLModelInstance> result;
+    
+    auto it = models_.find(model_id);
+    if (it != models_.end()) {
+        for (const auto& inst : it->second->instances) {
+            result.push_back(*inst);
+        }
+    }
+    
+    return result;
+}
+
+json MLModelManager::getModelMetrics(const std::string& model_id) const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return json{{"error", "Model not found"}};
+    }
+    
+    const auto& entry = it->second;
+    
+    json metrics;
+    metrics["model_id"] = model_id;
+    metrics["status"] = static_cast<int>(entry->status);
+    metrics["num_instances"] = entry->instances.size();
+    
+    size_t total_requests = 0;
+    size_t successful_requests = 0;
+    size_t failed_requests = 0;
+    size_t active_requests = 0;
+    float total_latency = 0.0f;
+    
+    json instances = json::array();
+    for (const auto& inst : entry->instances) {
+        instances.push_back(inst->toJSON());
+        total_requests += inst->total_requests;
+        successful_requests += inst->successful_requests;
+        failed_requests += inst->failed_requests;
+        active_requests += inst->active_requests;
+        total_latency += inst->avg_latency_ms * inst->total_requests;
+    }
+    
+    metrics["instances"] = instances;
+    metrics["total_requests"] = total_requests;
+    metrics["successful_requests"] = successful_requests;
+    metrics["failed_requests"] = failed_requests;
+    metrics["active_requests"] = active_requests;
+    metrics["success_rate"] = total_requests > 0 ? (float)successful_requests / total_requests : 0.0f;
+    metrics["avg_latency_ms"] = total_requests > 0 ? total_latency / total_requests : 0.0f;
+    
+    return metrics;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Inference Operations
+// ═══════════════════════════════════════════════════════════
+
+Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& request) {
+    auto start = std::chrono::steady_clock::now();
+    
+    // Select instance
+    MLModelInstance* instance = selectInstance(request.model_id);
+    if (!instance) {
+        MLInferenceResponse response;
+        response.success = false;
+        response.error_message = "No available instance for model: " + request.model_id;
+        return Result<MLInferenceResponse>::ok(response);
+    }
+    
+    instance->active_requests++;
+    
+    auto queue_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start
+    ).count();
+    
+    MLInferenceResponse response;
+    response.model_id = request.model_id;
+    response.instance_id = instance->instance_id;
+    response.queue_time_ms = static_cast<float>(queue_time);
+    
+    auto infer_start = std::chrono::steady_clock::now();
+    
+    // TODO: Actual inference logic based on model type
+    // For now, simulate inference
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    
+    response.success = true;
+    response.output_data = json{{"result", "simulated"}};
+    
+    auto infer_end = std::chrono::steady_clock::now();
+    auto inference_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+        infer_end - infer_start
+    ).count();
+    
+    response.inference_time_ms = static_cast<float>(inference_time);
+    response.total_time_ms = response.queue_time_ms + response.inference_time_ms;
+    
+    instance->active_requests--;
+    
+    updateInstanceMetrics(instance, response.total_time_ms, response.success);
+    
+    if (response.success) {
+        successful_requests_++;
+    } else {
+        failed_requests_++;
+    }
+    total_requests_++;
+    
+    return Result<MLInferenceResponse>::ok(response);
+}
+
+std::string MLModelManager::inferAsync(
+    const MLInferenceRequest& request,
+    std::function<void(const MLInferenceResponse&)> callback
+) {
+    std::string request_id = generateRequestId();
+    
+    // Launch async inference
+    std::thread([this, request, callback, request_id]() {
+        auto result = infer(request);
+        if (result.has_value()) {
+            callback(result.value());
+        } else {
+            MLInferenceResponse error_response;
+            error_response.success = false;
+            error_response.error_message = result.error();
+            callback(error_response);
+        }
+    }).detach();
+    
+    return request_id;
+}
+
+bool MLModelManager::cancelInference(const std::string& request_id) {
+    // TODO: Implement request cancellation
+    LOG_WARN("Inference cancellation not yet implemented for request: " + request_id);
+    return false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Instance Management
+// ═══════════════════════════════════════════════════════════
+
+Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_instances) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<bool>::error("Model not found: " + model_id);
+    }
+    
+    auto& entry = it->second;
+    size_t current_instances = entry->instances.size();
+    
+    if (num_instances == current_instances) {
+        return Result<bool>::ok(true);
+    }
+    
+    if (num_instances > current_instances) {
+        // Scale up
+        for (size_t i = current_instances; i < num_instances; ++i) {
+            auto result = deployInstance(model_id, entry->config);
+            if (result.has_error()) {
+                return Result<bool>::error("Failed to scale up: " + result.error());
+            }
+        }
+    } else {
+        // Scale down
+        for (size_t i = current_instances; i > num_instances; --i) {
+            if (!entry->instances.empty()) {
+                auto& last_inst = entry->instances.back();
+                shutdownInstance(last_inst->instance_id);
+                entry->instances.pop_back();
+            }
+        }
+    }
+    
+    LOG_INFO("Scaled model " + model_id + " from " + std::to_string(current_instances) + 
+             " to " + std::to_string(num_instances) + " instances");
+    
+    return Result<bool>::ok(true);
+}
+
+bool MLModelManager::healthCheck(const std::string& instance_id) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    for (auto& [model_id, entry] : models_) {
+        for (auto& inst : entry->instances) {
+            if (inst->instance_id == instance_id) {
+                // Perform basic health check
+                bool healthy = (inst->status == MLModelStatus::DEPLOYED);
+                
+                inst->last_health_check = std::chrono::system_clock::now();
+                
+                if (healthy) {
+                    inst->consecutive_health_check_failures = 0;
+                    if (inst->status == MLModelStatus::DEGRADED) {
+                        inst->status = MLModelStatus::DEPLOYED;
+                        LOG_INFO("Instance " + instance_id + " recovered");
+                    }
+                } else {
+                    inst->consecutive_health_check_failures++;
+                    if (inst->consecutive_health_check_failures >= entry->config.unhealthy_threshold) {
+                        inst->status = MLModelStatus::DEGRADED;
+                        LOG_WARN("Instance " + instance_id + " marked as degraded");
+                    }
+                }
+                
+                return healthy;
+            }
+        }
+    }
+    
+    return false;
+}
+
+Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    for (auto& [model_id, entry] : models_) {
+        for (size_t i = 0; i < entry->instances.size(); ++i) {
+            if (entry->instances[i]->instance_id == instance_id) {
+                // Shutdown old instance
+                shutdownInstance(instance_id);
+                
+                // Deploy new instance
+                auto result = deployInstance(model_id, entry->config);
+                if (result.has_error()) {
+                    return Result<bool>::error("Failed to restart instance: " + result.error());
+                }
+                
+                LOG_INFO("Restarted instance: " + instance_id);
+                return Result<bool>::ok(true);
+            }
+        }
+    }
+    
+    return Result<bool>::error("Instance not found: " + instance_id);
+}
+
+// ═══════════════════════════════════════════════════════════
+// System Management
+// ═══════════════════════════════════════════════════════════
+
+void MLModelManager::start() {
+    if (running_.exchange(true)) {
+        return;  // Already running
+    }
+    
+    if (config_.enable_health_monitoring) {
+        health_monitor_thread_ = std::make_unique<std::thread>([this]() {
+            healthMonitorLoop();
+        });
+    }
+    
+    if (config_.enable_auto_scaling) {
+        auto_scaler_thread_ = std::make_unique<std::thread>([this]() {
+            autoScalerLoop();
+        });
+    }
+    
+    LOG_INFO("MLModelManager started");
+}
+
+void MLModelManager::shutdown() {
+    if (!running_.exchange(false)) {
+        return;  // Already stopped
+    }
+    
+    // Stop background threads
+    if (health_monitor_thread_ && health_monitor_thread_->joinable()) {
+        health_monitor_thread_->join();
+    }
+    
+    if (auto_scaler_thread_ && auto_scaler_thread_->joinable()) {
+        auto_scaler_thread_->join();
+    }
+    
+    // Shutdown all models
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    for (auto& [model_id, entry] : models_) {
+        for (auto& inst : entry->instances) {
+            shutdownInstance(inst->instance_id);
+        }
+    }
+    
+    LOG_INFO("MLModelManager shutdown");
+}
+
+json MLModelManager::getSystemStats() const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    json stats;
+    stats["total_models"] = models_.size();
+    stats["total_requests"] = total_requests_.load();
+    stats["successful_requests"] = successful_requests_.load();
+    stats["failed_requests"] = failed_requests_.load();
+    stats["success_rate"] = total_requests_ > 0 ? 
+        (float)successful_requests_ / total_requests_ : 0.0f;
+    
+    size_t total_instances = 0;
+    size_t healthy_instances = 0;
+    size_t active_requests = 0;
+    
+    for (const auto& [model_id, entry] : models_) {
+        total_instances += entry->instances.size();
+        for (const auto& inst : entry->instances) {
+            if (inst->status == MLModelStatus::DEPLOYED) {
+                healthy_instances++;
+            }
+            active_requests += inst->active_requests;
+        }
+    }
+    
+    stats["total_instances"] = total_instances;
+    stats["healthy_instances"] = healthy_instances;
+    stats["active_requests"] = active_requests;
+    
+    return stats;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Internal Methods
+// ═══════════════════════════════════════════════════════════
+
+void MLModelManager::healthMonitorLoop() {
+    while (running_) {
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(config_.health_check_interval_ms)
+        );
+        
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        
+        for (auto& [model_id, entry] : models_) {
+            if (!entry->config.enable_health_check) {
+                continue;
+            }
+            
+            for (auto& inst : entry->instances) {
+                healthCheck(inst->instance_id);
+            }
+        }
+    }
+}
+
+void MLModelManager::autoScalerLoop() {
+    while (running_) {
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(config_.scaling_check_interval_ms)
+        );
+        
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        
+        for (auto& [model_id, entry] : models_) {
+            if (!entry->config.enable_auto_scaling) {
+                continue;
+            }
+            
+            // Calculate average utilization
+            float total_utilization = 0.0f;
+            for (const auto& inst : entry->instances) {
+                float utilization = static_cast<float>(inst->active_requests) / 
+                                   entry->config.max_concurrent_requests;
+                total_utilization += utilization;
+            }
+            
+            float avg_utilization = entry->instances.empty() ? 0.0f : 
+                                   total_utilization / entry->instances.size();
+            
+            // Scale decision
+            size_t current_instances = entry->instances.size();
+            size_t target_instances = current_instances;
+            
+            if (avg_utilization > entry->config.scale_up_threshold && 
+                current_instances < entry->config.max_instances) {
+                target_instances = current_instances + 1;
+                LOG_INFO("Auto-scaling up model " + model_id + " (utilization: " + 
+                        std::to_string(avg_utilization) + ")");
+            } else if (avg_utilization < entry->config.scale_down_threshold && 
+                      current_instances > entry->config.min_instances) {
+                target_instances = current_instances - 1;
+                LOG_INFO("Auto-scaling down model " + model_id + " (utilization: " + 
+                        std::to_string(avg_utilization) + ")");
+            }
+            
+            if (target_instances != current_instances) {
+                // Note: We can't call scaleModel here because it would deadlock
+                // Instead, do the scaling inline
+                if (target_instances > current_instances) {
+                    auto result = deployInstance(model_id, entry->config);
+                    if (result.has_error()) {
+                        LOG_ERROR("Auto-scale up failed: " + result.error());
+                    }
+                } else if (target_instances < current_instances && !entry->instances.empty()) {
+                    auto& last_inst = entry->instances.back();
+                    shutdownInstance(last_inst->instance_id);
+                    entry->instances.pop_back();
+                }
+            }
+        }
+    }
+}
+
+Result<std::string> MLModelManager::deployInstance(
+    const std::string& model_id,
+    const MLModelConfig& config
+) {
+    // Find the model entry (assumes caller holds lock)
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return Result<std::string>::error("Model not found");
+    }
+    
+    auto& entry = it->second;
+    
+    auto instance = std::make_unique<MLModelInstance>();
+    instance->instance_id = generateInstanceId(model_id);
+    instance->model_id = model_id;
+    instance->status = MLModelStatus::DEPLOYED;
+    instance->gpu_device_id = config.gpu_device_id;
+    instance->deployed_at = std::chrono::system_clock::now();
+    instance->last_health_check = std::chrono::system_clock::now();
+    
+    // TODO: Actual model loading logic based on model type
+    // For LLM models, use LazyModelLoader
+    // For other models, implement appropriate loaders
+    
+    std::string instance_id = instance->instance_id;
+    entry->instances.push_back(std::move(instance));
+    
+    return Result<std::string>::ok(instance_id);
+}
+
+bool MLModelManager::shutdownInstance(const std::string& instance_id) {
+    // TODO: Actual cleanup logic
+    LOG_INFO("Shutdown instance: " + instance_id);
+    return true;
+}
+
+MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    
+    auto it = models_.find(model_id);
+    if (it == models_.end() || it->second->instances.empty()) {
+        return nullptr;
+    }
+    
+    auto& entry = it->second;
+    
+    // Simple round-robin selection
+    // TODO: Implement more sophisticated load balancing strategies
+    MLModelInstance* selected = nullptr;
+    size_t min_active = SIZE_MAX;
+    
+    for (auto& inst : entry->instances) {
+        if (inst->status == MLModelStatus::DEPLOYED && 
+            inst->active_requests < min_active) {
+            selected = inst.get();
+            min_active = inst->active_requests;
+        }
+    }
+    
+    return selected;
+}
+
+void MLModelManager::updateInstanceMetrics(
+    MLModelInstance* instance,
+    float latency_ms,
+    bool success
+) {
+    if (!instance) return;
+    
+    instance->total_requests++;
+    instance->last_request_at = std::chrono::system_clock::now();
+    
+    if (success) {
+        instance->successful_requests++;
+    } else {
+        instance->failed_requests++;
+    }
+    
+    // Update rolling average latency
+    float alpha = 0.1f;  // Exponential smoothing factor
+    instance->avg_latency_ms = instance->avg_latency_ms * (1.0f - alpha) + latency_ms * alpha;
+    
+    // TODO: Update percentile metrics (requires histogram)
+}
+
+std::string MLModelManager::generateInstanceId(const std::string& model_id) {
+    return model_id + "-inst-" + std::to_string(instance_counter_++);
+}
+
+std::string MLModelManager::generateRequestId() {
+    return "req-" + std::to_string(request_counter_++);
+}
+
+} // namespace llm
+} // namespace themis

@@ -1,6 +1,6 @@
 # Phase 4: Complete Full Error Handling Migration - Matrix
 
-**Date:** 2026-01-19  
+**Date:** 2026-01-20 (Updated)  
 **Status:** 🟡 IN PROGRESS  
 **Dependencies:** ✅ Phase 3 Complete (IndexManager, ContentFS migrated)
 
@@ -8,27 +8,29 @@
 
 ## 🎯 Objective
 
-Complete migration of all remaining error sites from legacy error patterns to unified `tl::expected`-based error handling system. This document provides a detailed inventory and migration strategy for ~91 remaining `return nullptr` sites and ~373 `Status/Result` returns that need standardization.
+Complete migration of all remaining error sites from legacy error patterns to unified `tl::expected`-based error handling system. This document provides a detailed inventory and migration strategy for **~181 `return nullptr` sites**, **~916 `std::optional` usages**, and **~19+ Status struct definitions** that need standardization.
 
 ---
 
 ## 📊 Executive Summary
 
-### Current State (Post-Phase 3)
+### Current State (Post-Phase 3) - UPDATED INVENTORY
 
 | Metric | Count | Notes |
 |--------|-------|-------|
-| **Completed Migrations** | IndexManager, ContentFS | Phase 3 ✅ |
-| **Remaining nullptr Sites** | 91 | Across 6 modules |
-| **Status/Result Returns** | 373 | Need standardization to Result<T> |
-| **Error Codes Defined** | 31 | Storage, LLM, LoRA, MCP, Schema, Network, Index, Query, API, Plugin |
+| **Completed Migrations** | IndexManager, ContentFS, 1 storage function | Phase 3 ✅ + Phase 4 started |
+| **Remaining nullptr Sites** | **181** | Significantly more than initially estimated (was 91) |
+| **std::optional Usage** | **916** | Not previously counted - many for error handling |
+| **Status Struct Definitions** | **19+** | Need removal/consolidation |
+| **Error Codes Defined** | 31+ | Storage, LLM, LoRA, MCP, Schema, Network, Index, Query, API, Plugin |
 | **Infrastructure** | Complete | `include/utils/expected.h` ready |
 
-### Phase 4 Scope
+### Phase 4 Scope - REVISED
 
-- **Total Files to Update:** ~104 files
-- **Effort Estimate:** 10-12 weeks
+- **Total Files to Update:** ~200+ files (revised from 104)
+- **Effort Estimate:** 14-16 weeks (revised from 10-12 weeks)
 - **Priority Modules:** Query Engine (P0), LLM/LoRA (P0), Storage (P1)
+- **Complexity:** VERY HIGH - scope significantly larger than initially estimated
 
 ---
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <variant>
 #include <nlohmann/json.hpp>
+#include "utils/expected.h"
 
 namespace themis {
 namespace query {
@@ -564,31 +565,17 @@ struct ParseError {
 };
 
 // ============================================================================
-// Parser Result
+// Parser Error (for backward compatibility in error context)
 // ============================================================================
 
-struct ParseResult {
-    bool success = false;
-    std::shared_ptr<Query> query;
-    ParseError error;
-    
-    static ParseResult Success(std::shared_ptr<Query> q) {
-        ParseResult result;
-        result.success = true;
-        result.query = std::move(q);
-        return result;
-    }
-    
-    static ParseResult Failure(std::string msg, size_t line = 0, size_t col = 0, std::string ctx = "") {
-        ParseResult result;
-        result.success = false;
-        result.error.message = std::move(msg);
-        result.error.line = line;
-        result.error.column = col;
-        result.error.context = std::move(ctx);
-        return result;
-    }
+struct ParseError {
+    std::string message;
+    size_t line = 0;
+    size_t column = 0;
+    std::string context;  // Snippet of problematic query
 };
+
+// Note: ParseResult struct removed - now using Result<std::shared_ptr<Query>> directly
 
 // ============================================================================
 // AQL Parser
@@ -602,17 +589,17 @@ public:
      * Parse an AQL query string into an AST.
      * 
      * @param query_string The AQL query to parse
-     * @return ParseResult containing either the AST or an error
+     * @return Result<std::shared_ptr<Query>> containing either the AST or an error
      * 
      * Example:
      *   auto result = parser.parse("FOR doc IN users FILTER doc.age > 18 RETURN doc");
-     *   if (result.success) {
-     *       // Use result.query
+     *   if (result) {
+     *       // Use *result
      *   } else {
-     *       // Handle result.error
+     *       // Handle result.error()
      *   }
      */
-    ParseResult parse(const std::string& query_string);
+    Result<std::shared_ptr<Query>> parse(const std::string& query_string);
     
 private:
     // Helper methods (implemented in aql_parser.cpp)
