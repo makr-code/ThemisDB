@@ -1,4 +1,5 @@
 #include "timeseries/tsstore.h"
+#include "timeseries/timeseries_metrics.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "timeseries/gorilla.h"
@@ -11,7 +12,7 @@
 #include <map>
 #include <unordered_set>
 #include <algorithm>
-#include <unordered_set>
+#include <chrono>
 
 namespace themis {
 
@@ -112,6 +113,7 @@ bool TSStore::matchesTagFilter(const DataPoint& point,
 }
 
 TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.putDataPoint");
     span.setAttribute("metric", point.metric);
     span.setAttribute("entity", point.entity);
@@ -119,10 +121,20 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
     
     if (point.metric.empty()) {
         span.recordError("Metric name cannot be empty");
+        if (metrics_) {
+            auto latency = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - start_time).count();
+            metrics_->recordDataPointWrite(point.metric, latency, false);
+        }
         return Status::Error("Metric name cannot be empty");
     }
     if (point.entity.empty()) {
         span.recordError("Entity ID cannot be empty");
+        if (metrics_) {
+            auto latency = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - start_time).count();
+            metrics_->recordDataPointWrite(point.metric, latency, false);
+        }
         return Status::Error("Entity ID cannot be empty");
     }
     
@@ -148,8 +160,14 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
         s = db_->Put(write_opts, key, value);
     }
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write data point {}: {}", key, s.ToString());
+        if (metrics_) {
+            metrics_->recordDataPointWrite(point.metric, latency, false);
+        }
         return Status::Error("Failed to write data point: " + s.ToString());
     }
     
@@ -157,10 +175,15 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
                  point.metric, point.entity, point.timestamp_ms, point.value,
                  config_.compression == CompressionType::Gorilla ? "gorilla" : "none");
     
+    if (metrics_) {
+        metrics_->recordDataPointWrite(point.metric, latency, true);
+    }
+    
     return Status::OK();
 }
 
 TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.putDataPoints");
     span.setAttribute("batch_size", static_cast<int64_t>(points.size()));
     
@@ -244,8 +267,19 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     group_points.size(), group_key,
                     static_cast<double>(group_points.size() * (sizeof(int64_t) + sizeof(double))) / compressed.size());
                 
+                // Record compression metrics
+                if (metrics_) {
+                    size_t uncompressed_size = group_points.size() * (sizeof(int64_t) + sizeof(double));
+                    metrics_->recordCompression(group_points.front().metric, uncompressed_size, compressed.size());
+                }
+                
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Gorilla compression failed for {}: {}", group_key, e.what());
+                auto latency = std::chrono::duration<double, std::milli>(
+                    std::chrono::steady_clock::now() - start_time).count();
+                if (metrics_) {
+                    metrics_->recordBatchWrite(points.size(), latency, true, false);
+                }
                 return Status::Error("Gorilla compression failed: " + std::string(e.what()));
             }
         }
@@ -253,13 +287,22 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         rocksdb::WriteOptions write_opts;
         rocksdb::Status s = db_->Write(write_opts, &batch);
         
+        auto latency = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - start_time).count();
+        
         if (!s.ok()) {
             THEMIS_ERROR("Failed to write Gorilla-compressed batch: {}", s.ToString());
+            if (metrics_) {
+                metrics_->recordBatchWrite(points.size(), latency, true, false);
+            }
             return Status::Error("Failed to write batch: " + s.ToString());
         }
         
         THEMIS_INFO("Wrote Gorilla-compressed batch of {} data points ({} chunks)", 
             points.size(), grouped.size());
+        if (metrics_) {
+            metrics_->recordBatchWrite(points.size(), latency, true, true);
+        }
         return Status::OK();
     }
     
@@ -287,17 +330,27 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s = db_->Write(write_opts, &batch);
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write batch of {} data points: {}", points.size(), s.ToString());
+        if (metrics_) {
+            metrics_->recordBatchWrite(points.size(), latency, false, false);
+        }
         return Status::Error("Failed to write batch: " + s.ToString());
     }
     
     THEMIS_INFO("Wrote batch of {} data points (raw)", points.size());
+    if (metrics_) {
+        metrics_->recordBatchWrite(points.size(), latency, false, true);
+    }
     return Status::OK();
 }
 
 std::pair<TSStore::Status, std::vector<TSStore::DataPoint>>
 TSStore::query(const QueryOptions& options) const {
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.query");
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
@@ -456,7 +509,16 @@ TSStore::query(const QueryOptions& options) const {
         return {Status::Error("Scan failed: " + it->status().ToString()), results};
     }
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
+    
     THEMIS_DEBUG("Query returned {} data points for metric={}", results.size(), options.metric);
+    
+    if (metrics_) {
+        metrics_->recordQuery(options.metric, latency, results.size(), time_range);
+    }
+    
     return {Status::OK(), results};
 }
 
@@ -467,6 +529,7 @@ TSStore::aggregate(const QueryOptions& options) const {
 
 std::pair<TSStore::Status, TSStore::AggregationResult>
 TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) const {
+    auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.aggregate");
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
@@ -477,6 +540,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     span.setAttribute("use_optimizer", use_optimizer);
     
     AggregationResult result;
+    bool optimizer_used = false;
     
     // Try optimizer first if enabled
     if (use_optimizer) {
@@ -495,6 +559,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
         );
         
         if (plan.uses_aggregate) {
+            optimizer_used = true;
             THEMIS_INFO("Using pre-computed aggregate: {} ({}x speedup)", 
                        plan.source_metric, plan.estimated_speedup);
             span.setAttribute("optimized", true);
@@ -508,10 +573,16 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
             auto [status, data_points] = query(agg_options);
             if (!status.ok) {
                 // Fallback to raw data
+                optimizer_used = false;
                 THEMIS_WARN("Aggregate query failed, falling back to raw data: {}", status.message);
             } else {
                 if (data_points.empty()) {
                     span.setAttribute("result_count", static_cast<int64_t>(0));
+                    auto latency = std::chrono::duration<double, std::milli>(
+                        std::chrono::steady_clock::now() - start_time).count();
+                    if (metrics_) {
+                        metrics_->recordAggregation(options.metric, latency, 0, optimizer_used);
+                    }
                     return {Status::OK(), result};
                 }
                 
@@ -534,6 +605,12 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
                 THEMIS_DEBUG("Aggregation (optimized): count={}, min={}, max={}, avg={}, sum={}", 
                            result.count, result.min, result.max, result.avg, result.sum);
                 
+                auto latency = std::chrono::duration<double, std::milli>(
+                    std::chrono::steady_clock::now() - start_time).count();
+                if (metrics_) {
+                    metrics_->recordAggregation(options.metric, latency, data_points.size(), optimizer_used);
+                }
+                
                 return {Status::OK(), result};
             }
         } else {
@@ -551,6 +628,11 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     
     if (data_points.empty()) {
         span.setAttribute("result_count", static_cast<int64_t>(0));
+        auto latency = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - start_time).count();
+        if (metrics_) {
+            metrics_->recordAggregation(options.metric, latency, 0, optimizer_used);
+        }
         return {Status::OK(), result};
     }
     
@@ -572,6 +654,12 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     
     THEMIS_DEBUG("Aggregation: count={}, min={}, max={}, avg={}, sum={}", 
                  result.count, result.min, result.max, result.avg, result.sum);
+    
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    if (metrics_) {
+        metrics_->recordAggregation(options.metric, latency, data_points.size(), optimizer_used);
+    }
     
     return {Status::OK(), result};
 }
@@ -620,10 +708,20 @@ TSStore::Stats TSStore::getStats() const {
     stats.newest_timestamp_ms = newest_ts;
     stats.total_size_bytes = total_size;
     
+    // Update metrics if available
+    if (metrics_) {
+        metrics_->updateStorageStats(stats.total_data_points, stats.total_metrics, stats.total_size_bytes);
+    }
+    
     return stats;
 }
 
+void TSStore::setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics) {
+    metrics_ = metrics;
+}
+
 size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
+    auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     
     rocksdb::ReadOptions read_opts;
@@ -672,11 +770,18 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
                     deleted_count, before_timestamp_ms);
     }
     
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    if (metrics_) {
+        metrics_->recordRetention("", deleted_count, latency);
+    }
+    
     return deleted_count;
 }
 
 size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before_timestamp_ms) {
     if (metric.empty()) return 0;
+    auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -710,6 +815,13 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
         }
         THEMIS_INFO("Deleted {} old data points for metric {} (before {})", deleted_count, metric, before_timestamp_ms);
     }
+    
+    auto latency = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - start_time).count();
+    if (metrics_) {
+        metrics_->recordRetention(metric, deleted_count, latency);
+    }
+    
     return deleted_count;
 }
 

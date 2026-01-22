@@ -5,6 +5,7 @@
 #include <vector>
 #include <optional>
 #include <cstdint>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 // Forward declarations for RocksDB types
@@ -14,6 +15,9 @@ namespace rocksdb {
 }
 
 namespace themis {
+
+// Forward declaration
+class TimeSeriesMetrics;
 
 /**
  * @brief Time-Series Storage MVP (Sprint B)
@@ -221,11 +225,24 @@ public:
      * @brief Clear all time-series data (admin operation)
      */
     void clear();
+    
+    /**
+     * @brief Set metrics collector for monitoring
+     * @param metrics Shared pointer to TimeSeriesMetrics instance
+     */
+    void setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics);
+    
+    /**
+     * @brief Get metrics collector
+     * @return Shared pointer to TimeSeriesMetrics instance (may be null)
+     */
+    std::shared_ptr<TimeSeriesMetrics> getMetrics() const { return metrics_; }
 
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
     Config config_;
+    std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
     
     static constexpr const char* KEY_PREFIX = "ts:";
     static constexpr const char* GORILLA_CHUNK_PREFIX = "tsc:";
