@@ -1369,6 +1369,7 @@ namespace {
     // Additional TimeSeries endpoints (list aggregates/retention)
     TimeSeriesAggregatesGet,
     TimeSeriesRetentionGet,
+    TimeSeriesMetricsGet,
         // Sprint C
         IndexSuggestionsGet,
         IndexPatternsGet,
@@ -1570,6 +1571,7 @@ namespace {
     if (target == "/ts/config" && method == http::verb::put) return Route::TimeSeriesConfigPut;
     if (path_only == "/ts/aggregates" && method == http::verb::get) return Route::TimeSeriesAggregatesGet;
     if (path_only == "/ts/retention" && method == http::verb::get) return Route::TimeSeriesRetentionGet;
+    if (path_only == "/ts/metrics" && method == http::verb::get) return Route::TimeSeriesMetricsGet;
         // Sprint C endpoints
         if (target.find("/index/suggestions") == 0 && method == http::verb::get) return Route::IndexSuggestionsGet;
         if (target.find("/index/patterns") == 0 && method == http::verb::get) return Route::IndexPatternsGet;
@@ -2108,6 +2110,14 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::TimeSeriesRetentionGet:
             if (timeseries_api_) {
                 response = timeseries_api_->handleRetentionGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
+            break;
+        case Route::TimeSeriesMetricsGet:
+            if (timeseries_api_) {
+                response = timeseries_api_->handleMetricsGet(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
                     "Time-series feature not enabled", req);

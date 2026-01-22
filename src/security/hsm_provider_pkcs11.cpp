@@ -13,9 +13,9 @@
 #include <cstring>
 #include <openssl/evp.h>
 #include <openssl/x509.h>
-#include <openssl/bn.h>
-#include <openssl/pem.h>
 #include <openssl/bio.h>
+#include <openssl/pem.h>
+#include <openssl/bn.h>
 
 #if defined(_WIN32)
     #include <windows.h>
@@ -157,49 +157,51 @@ bool HSMProvider::initialize(){
                 rv = api->C_GetSlotList(1, slots.data(), &slotCount);
                 if(rv == CKR_OK){
                     CK_SLOT_ID chosen = slots[0];
-                    if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr, &impl_->session) == CKR_OK){
-                        std::string pin = config_.pin;
-                        if(pin.empty()){ const char* envPin = std::getenv("THEMIS_HSM_PIN"); if(envPin) pin = envPin; }
-                        if(!pin.empty()){
-                            rv = api->C_Login(impl_->session, CKU_USER, (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
-                            if(rv == CKR_OK){ 
-                                // Discover private/public key by label (best effort)
-                                // Session-Pool erstellen
-                                uint32_t poolSize = config_.session_pool_size;
-                                if(const char* envPool = std::getenv("THEMIS_HSM_SESSION_POOL")){
-                                    poolSize = std::max(1u, (uint32_t)std::atoi(envPool));
-                                }
-                                impl_->pool.resize(poolSize);
-                                for(uint32_t i=0;i<poolSize;++i){
-                                    if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr, &impl_->pool[i].handle) != CKR_OK){
-                                        impl_->fallbackLogOnce("OpenSession im Pool fehlgeschlagen");
-                                        continue;
-                                    }
-                                    // Login pro Session (einige HSMs verlangen das)
-                                    if(!pin.empty()){
-                                        CK_RV rvLogin = api->C_Login(impl_->pool[i].handle, CKU_USER, (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
-                                        if(rvLogin != CKR_OK && rvLogin != CKR_PIN_INCORRECT){
-                                            impl_->fallbackLogOnce("Login in Session fehlgeschlagen");
-                                            continue;
-                                        }
-                                    }
-                                    discoverKeysSession(impl_->pool[i]);
-                                    discoverCertificateSession(impl_->pool[i]);
-                                    impl_->pool[i].ready = (impl_->pool[i].privKey != 0);
-                                }
-                                // Serial einmalig setzen (erste gefundene Zert-Session)
-                                for(auto& s : impl_->pool){ if(s.certObj){ impl_->real_ready = s.ready; break; } }
-                                if(!impl_->real_ready){
-                                    // Falls kein privKey entdeckt, dennoch fallback aktiv
-                                    impl_->fallbackLogOnce("Kein Private Key im Pool gefunden – Fallback");
-                                }
-                                if(!impl_->real_ready) impl_->fallbackLogOnce("Kein Private Key gefunden – Fallback aktiv");
-                            }
-                            else { last_error_ = mapError(rv); impl_->fallbackLogOnce("Login fehlgeschlagen"); }
-                        } else {
-                            impl_->fallbackLogOnce("PIN leer – Login uebersprungen");
+                    // Session-Pool erstellen
+                    std::string pin = config_.pin;
+                    if(pin.empty()){ const char* envPin = std::getenv("THEMIS_HSM_PIN"); if(envPin) pin = envPin; }
+                    
+                    uint32_t poolSize = config_.session_pool_size;
+                    if(const char* envPool = std::getenv("THEMIS_HSM_SESSION_POOL")){
+                        poolSize = std::max(1u, (uint32_t)std::atoi(envPool));
+                    }
+                    impl_->pool.resize(poolSize);
+                    for(uint32_t i=0;i<poolSize;++i){
+                        if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr, &impl_->pool[i].handle) != CKR_OK){
+                            impl_->pool[i].handle = 0; // ensure invalid handle on failure
+                            impl_->fallbackLogOnce("OpenSession im Pool fehlgeschlagen");
+                            continue;
                         }
-                    } else impl_->fallbackLogOnce("Session Open fehlgeschlagen");
+                        // Login pro Session (einige HSMs verlangen das)
+                        if(!pin.empty()){
+                            CK_RV rvLogin = api->C_Login(impl_->pool[i].handle, CKU_USER, (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
+                            if(rvLogin == CKR_PIN_INCORRECT){
+                                impl_->fallbackLogOnce("Login in Session fehlgeschlagen: PIN inkorrekt");
+                                continue;
+                            } else if(rvLogin != CKR_OK){
+                                impl_->fallbackLogOnce("Login in Session fehlgeschlagen");
+                                continue;
+                            }
+                        }
+                        discoverKeysSession(impl_->pool[i]);
+                        discoverCertificateSession(impl_->pool[i]);
+                        impl_->pool[i].ready = (impl_->pool[i].privKey != 0);
+                    }
+                    // Globale Ready-Flag setzen, falls irgendeine Session einen Private Key hat
+                    impl_->real_ready = false;
+                    for(auto& s : impl_->pool){
+                        if(s.ready){
+                            impl_->real_ready = true;
+                            break;
+                        }
+                    }
+                    if(!impl_->real_ready){
+                        // Falls kein privKey entdeckt, dennoch fallback aktiv
+                        impl_->fallbackLogOnce("Kein Private Key im Pool gefunden – Fallback");
+                    }
+                    if(pin.empty()) {
+                        impl_->fallbackLogOnce("PIN leer – Login uebersprungen");
+                    }
                 } else impl_->fallbackLogOnce("SlotList Abruf fehlgeschlagen");
             } else impl_->fallbackLogOnce("Keine Slots gefunden");
         }
@@ -216,20 +218,21 @@ void HSMProvider::finalize(){
     if(!initialized_) return;
     if(impl_->real_ready && impl_->loader.api()){
         auto api = impl_->loader.api();
-        // Close all pool sessions
-        for(auto& s : impl_->pool){
-            if(s.handle){
-                api->C_Logout(s.handle);
-                api->C_CloseSession(s.handle);
+        // Close all sessions in the pool
+        for(auto& s : impl_->pool) {
+            if(s.handle) {
+                CK_RV rv = api->C_Logout(s.handle);
+                if(rv != CKR_OK && rv != CKR_USER_NOT_LOGGED_IN){
+                    THEMIS_WARN("PKCS11 C_Logout failed for session: {}", mapError(rv));
+                }
+                rv = api->C_CloseSession(s.handle);
+                if(rv != CKR_OK){
+                    THEMIS_WARN("PKCS11 C_CloseSession failed for session: {}", mapError(rv));
+                }
                 s.handle = 0;
             }
         }
-        // Close main session if it exists
-        if(impl_->session) { 
-            api->C_Logout(impl_->session); 
-            api->C_CloseSession(impl_->session); 
-            impl_->session = 0;
-        }
+        impl_->pool.clear();
         impl_->loader.unload();
     }
     impl_->pool.clear();
@@ -291,14 +294,28 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
     if(api->C_FindObjectsInit(s.handle, certTemplate, 2)==CKR_OK){
         CK_OBJECT_HANDLE h; uint32_t found=0; if(api->C_FindObjects(s.handle,&h,1,&found)==CKR_OK && found==1) s.certObj=h; api->C_FindObjectsFinal(s.handle);
     }
-    if(s.certObj && api->C_GetAttributeValue && cert_serial_cache_.empty()){
+    if(s.certObj && api->C_GetAttributeValue && impl_->cert_serial_cache_.empty()){
         CK_ATTRIBUTE valAttr; valAttr.type=CKA_VALUE; valAttr.pValue=nullptr; valAttr.ulValueLen=0;
         if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK && valAttr.ulValueLen>0){
             std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
             if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
-                const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr,&p,der.size());
-                if(x){ ASN1_INTEGER* si = X509_get_serialNumber(x); if(si){ BIGNUM* bn=ASN1_INTEGER_to_BN(si,nullptr); if(bn){ char* hex=BN_bn2hex(bn); if(hex){ cert_serial_cache_ = hex; OPENSSL_free(hex);} BN_free(bn);} }
-                    X509_free(x); }
+                const unsigned char* p = der.data(); 
+                X509* x = d2i_X509(nullptr, &p, der.size());
+                if(x){
+                    ASN1_INTEGER* si = X509_get_serialNumber(x);
+                    if(si){
+                        BIGNUM* bn = ASN1_INTEGER_to_BN(si, nullptr);
+                        if(bn){
+                            char* hex = BN_bn2hex(bn);
+                            if(hex){
+                                impl_->cert_serial_cache_ = hex;
+                                OPENSSL_free(hex);
+                            }
+                            BN_free(bn);
+                        }
+                    }
+                    X509_free(x);
+                }
             }
         }
     }
@@ -397,7 +414,7 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     r.signature_b64 = toBase64(std::vector<uint8_t>(sig.begin(), sig.end()));
     r.algorithm = config_.signature_algorithm; 
     r.key_id = key_label.empty()?config_.key_label:key_label; 
-    r.cert_serial = cert_serial_cache_.empty()?"REAL-CERT":cert_serial_cache_; 
+    r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_; 
     r.timestamp_ms = nowMs();
     releaseSession(sess);
     return r;
@@ -637,43 +654,15 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
 
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready) {
-        return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
-    }
-    
-    auto api = impl_->loader.api(); 
-    if(!api || !api->C_GetAttributeValue) {
-        return std::nullopt;
-    }
-    
-    // Find first session with certObj
-    HSMProvider::SessionEntry* sess = nullptr; 
-    for(auto& s: impl_->pool) { 
-        if(s.certObj) { 
-            sess = &s; 
-            break; 
-        } 
-    }
-    
-    if(!sess || sess->certObj == 0) {
-        return std::nullopt;
-    }
-    
-    CK_ATTRIBUTE valAttr; 
-    valAttr.type = CKA_VALUE; 
-    valAttr.pValue = nullptr; 
-    valAttr.ulValueLen = 0;
-    
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen == 0) {
-        return std::nullopt;
-    }
-    
-    std::vector<unsigned char> der(valAttr.ulValueLen); 
-    valAttr.pValue = der.data();
-    
-    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) {
-        return std::nullopt;
-    }
+    if(!impl_->real_ready) return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
+    auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;
+    CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
+    // Zertifikat aus erster Session mit certObj
+    HSMProvider::SessionEntry* sess = nullptr; for(auto& s: impl_->pool){ if(s.certObj){ sess=&s; break; } }
+    if(!sess) return std::nullopt;
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLen==0) return std::nullopt;
+    std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue = der.data();
+    if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) return std::nullopt;
     const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p, der.size()); if(!x) return std::nullopt;
     BIO* mem = BIO_new(BIO_s_mem());
     PEM_write_bio_X509(mem, x);

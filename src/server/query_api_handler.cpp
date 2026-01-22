@@ -426,6 +426,26 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     // Cursor-based pagination parameters
         std::string cursor_token = body.contains("cursor") ? body["cursor"].get<std::string>() : "";
         bool use_cursor = body.contains("use_cursor") ? body["use_cursor"].get<bool>() : false;
+        
+        // Page size configuration with validation
+        themis::utils::PaginationConfig pagination_config;
+        size_t page_size = body.contains("page_size") ? body["page_size"].get<size_t>() : pagination_config.default_page_size;
+        page_size = themis::utils::Cursor::normalizePageSize(page_size, pagination_config);
+        
+        // Cursor expiration check
+        if (use_cursor && !cursor_token.empty()) {
+            if (!themis::utils::Cursor::isValid(cursor_token, pagination_config.cursor_ttl_seconds)) {
+                // Log expired cursor attempt for monitoring/debugging
+                auto cursorSpan = Tracer::startSpan("cursor.expired");
+                cursorSpan.setAttribute("cursor_length", static_cast<int64_t>(cursor_token.length()));
+                cursorSpan.recordError("Cursor has expired");
+                cursorSpan.setStatus(false);
+                
+                return makeErrorResponse(http::status::bad_request, 
+                    "Cursor has expired. Please start a new query.", req);
+            }
+        }
+        
     auto page_fetch_start = std::chrono::steady_clock::now();
         
     // Cursor-Pagination: Wir verlagern Cursor-Handling in die Engine (Anker-basiert)
@@ -2130,13 +2150,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         bool early_empty_due_to_cursor = false;
         size_t requested_count_for_cursor = 0;
         if (use_cursor && q.orderBy.has_value()) {
-            // Bestimme angeforderte Seitengr��e aus LIMIT
+            // Use configured page size
+            requested_count_for_cursor = page_size;
+            
+            // Override with LIMIT if present
             if (parse_result.query && parse_result.query->limit) {
                 requested_count_for_cursor = static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count));
-            } else {
-                requested_count_for_cursor = 1000;
+                requested_count_for_cursor = themis::utils::Cursor::normalizePageSize(requested_count_for_cursor, pagination_config);
             }
-            // Engine soll count+1 liefern (extra Element f�r has_more detection)
+            
+            // Engine soll count+1 liefern (extra Element für has_more detection)
             // Add safety margin for cursor pagination: when using cursor with ORDER BY,
             // the query engine may filter items after cursor positioning (e.g., if there
             // are equality predicates), which can result in fewer items than requested.
@@ -2146,38 +2169,45 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             size_t safety_margin = (num_predicates > 0) ? CURSOR_SAFETY_MARGIN * num_predicates : CURSOR_SAFETY_MARGIN;
             q.orderBy->limit = requested_count_for_cursor + safety_margin + 1;
 
-            // Wenn ein Cursor-Token �bergeben wurde, ermittle Anker (value, pk)
+            // Wenn ein Cursor-Token übergeben wurde, ermittle Anker (value, pk)
             if (!cursor_token.empty()) {
-                auto decoded = themis::utils::Cursor::decode(cursor_token);
-                if (!decoded.has_value()) {
+                // Use enhanced cursor decoding
+                auto cursor_info = themis::utils::Cursor::decodeDetailed(cursor_token);
+                if (!cursor_info.has_value()) {
                     early_empty_due_to_cursor = true;
                 } else {
-                    const auto& decoded_pair = decoded.value();
-                    const std::string& pk = decoded_pair.first;
-                    const std::string& collection = decoded_pair.second;
+                    const std::string& pk = cursor_info->pk;
+                    const std::string& collection = cursor_info->collection;
                     if (collection != table) {
                         // Falsche Collection im Cursor
                         early_empty_due_to_cursor = true;
                     } else {
-                        // Entit�t laden, um Sortierspaltenwert zu extrahieren
-                        auto blob = storage_->get(table + ":" + pk);
-                        if (!blob.has_value()) {
-                            early_empty_due_to_cursor = true;
+                        // Check if cursor already contains ORDER BY value (keyset pagination)
+                        if (cursor_info->order_value.has_value()) {
+                            // Use value from cursor directly (more efficient)
+                            q.orderBy->cursor_value = *cursor_info->order_value;
+                            q.orderBy->cursor_pk = pk;
                         } else {
-                            try {
-                                auto entity = themis::BaseEntity::deserialize(pk, *blob);
-                                // Sortierspalte extrahieren
-                                const std::string sortCol = q.orderBy->column;
-                                auto maybeVal = entity.extractField(sortCol);
-                                if (maybeVal.has_value()) {
-                                    q.orderBy->cursor_value = *maybeVal;
-                                    q.orderBy->cursor_pk = pk;
-                                } else {
-                                    // Ohne Sortwert kein sicherer Anker
+                            // Fallback: Entität laden, um Sortierspaltenwert zu extrahieren
+                            auto blob = storage_->get(table + ":" + pk);
+                            if (!blob.has_value()) {
+                                early_empty_due_to_cursor = true;
+                            } else {
+                                try {
+                                    auto entity = themis::BaseEntity::deserialize(pk, *blob);
+                                    // Sortierspalte extrahieren
+                                    const std::string sortCol = q.orderBy->column;
+                                    auto maybeVal = entity.extractField(sortCol);
+                                    if (maybeVal.has_value()) {
+                                        q.orderBy->cursor_value = *maybeVal;
+                                        q.orderBy->cursor_pk = pk;
+                                    } else {
+                                        // Ohne Sortwert kein sicherer Anker
+                                        early_empty_due_to_cursor = true;
+                                    }
+                                } catch (...) {
                                     early_empty_due_to_cursor = true;
                                 }
-                            } catch (...) {
-                                early_empty_due_to_cursor = true;
                             }
                         }
                     }
@@ -2808,15 +2838,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         if (use_cursor) {
             // Cursor-basierte Antwort wurde nach Engine-Paginierung erstellt
             themis::utils::PaginatedResponse paged;
-            // Bestimme angeforderte Seitengr��e
-            size_t requested_count = parse_result.query && parse_result.query->limit 
-                ? static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count))
-                : 1000;
+            // Use configured page size (already normalized)
+            size_t requested_count = page_size;
+            
+            // Override with query LIMIT if present
+            if (parse_result.query && parse_result.query->limit) {
+                requested_count = static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count));
+                // Re-normalize with configuration
+                requested_count = themis::utils::Cursor::normalizePageSize(requested_count, pagination_config);
+            }
 
             bool has_more = false;
             if (sliced.size() > requested_count) {
                 has_more = true;
-                // Trenne das +1 Element ab (nur f�r has_more Erkennung)
+                // Trenne das +1 Element ab (nur für has_more Erkennung)
                 sliced.resize(requested_count);
             }
 
@@ -2827,8 +2862,36 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             paged.items = std::move(page_items);
             paged.batch_size = sliced.size();
             paged.has_more = has_more;
+            paged.method = themis::utils::PaginationMethod::CURSOR;
+            
+            // Populate enhanced PageInfo
+            paged.page_info.page_size = sliced.size();
+            paged.page_info.has_next_page = has_more;
+            paged.page_info.has_prev_page = !cursor_token.empty(); // Has previous if cursor was provided
+            
+            // Generate next cursor with ORDER BY value if available
             if (has_more && !sliced.empty()) {
-                paged.next_cursor = themis::utils::Cursor::encode(sliced.back().getPrimaryKey(), table);
+                std::optional<std::string> order_value;
+                
+                // If query has ORDER BY, encode the sort value in cursor for keyset pagination
+                if (parse_result.query && parse_result.query->orderBy.has_value()) {
+                    try {
+                        const auto& last_entity = sliced.back();
+                        const std::string& sort_column = parse_result.query->orderBy->column;
+                        auto maybe_value = last_entity.extractField(sort_column);
+                        if (maybe_value.has_value()) {
+                            order_value = *maybe_value;
+                        }
+                    } catch (...) {
+                        // If extraction fails, continue without order_value
+                    }
+                }
+                
+                paged.next_cursor = themis::utils::Cursor::encode(
+                    sliced.back().getPrimaryKey(), 
+                    table,
+                    order_value
+                );
             }
             response_body = paged.toJSON();
         } else {

@@ -886,121 +886,67 @@ void ErrorRegistry::registerDefaultErrors() {
         ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
         "Query",
         "Error",
-        "Cycle detected in recursive CTE: {}",
-        "The recursive Common Table Expression contains a cycle that would cause infinite recursion.",
-        "1. Review CTE recursion logic\n"
-        "2. Add proper termination conditions\n"
-        "3. Check for circular dependencies in recursive query\n"
-        "4. Verify base case is reachable\n"
-        "5. Use MAXRECURSION hint to limit recursion depth",
-        {"/docs/query/cte.md", "/docs/query/recursive_queries.md"},
-        {"query", "cte", "cycle", "recursive", "infinite"}
+        "Circular CTE reference detected: {}",
+        "Common Table Expression contains a circular reference.",
+        "1. Review CTE dependencies\n"
+        "2. Remove circular references\n"
+        "3. Restructure query to avoid cycles",
+        {"/docs/query/cte.md"},
+        {"query", "cte", "cycle", "circular"}
     });
     
     registerError({
-        ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+        ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
         "Query",
         "Error",
-        "Aggregation function failed: {}",
-        "A statistical aggregation function failed due to invalid input or insufficient data.",
-        "1. Verify input values are numeric (for statistical functions)\n"
-        "2. Ensure sufficient data points (e.g., variance needs ≥2 values)\n"
-        "3. Check for valid parameter ranges (e.g., percentile 0-100)\n"
-        "4. Verify data types are compatible with aggregation function\n"
-        "5. Check for NULL or empty value sets",
-        {"/docs/query/aggregations.md"},
-        {"query", "aggregation", "failed", "statistics"}
+        "Subquery execution failed: {}",
+        "A subquery within the main query failed to execute.",
+        "1. Check subquery syntax and logic\n"
+        "2. Verify subquery returns expected result type\n"
+        "3. Test subquery independently",
+        {"/docs/query/subqueries.md"},
+        {"query", "subquery", "failed"}
     });
     
     registerError({
-        ErrorCode::ERR_QUERY_TYPE_MISMATCH,
+        ErrorCode::ERR_QUERY_INVALID_WINDOW_SPEC,
         "Query",
         "Error",
-        "Type mismatch in query operation: {}",
-        "The query contains incompatible data types in an operation or comparison.",
-        "1. Verify data types match in comparisons\n"
-        "2. Use explicit type casting (e.g., TO_NUMBER, TO_STRING)\n"
-        "3. Check function parameter types match requirements\n"
-        "4. Review schema for column type definitions\n"
-        "5. Ensure aggregation expressions use compatible types",
-        {"/docs/query/types.md"},
-        {"query", "type", "mismatch", "incompatible"}
+        "Invalid window specification: {}",
+        "Window function specification is invalid or malformed.",
+        "1. Check window frame bounds (ROWS/RANGE)\n"
+        "2. Verify PARTITION BY and ORDER BY clauses\n"
+        "3. Review window function documentation",
+        {"/docs/query/window_functions.md"},
+        {"query", "window", "invalid", "specification"}
     });
     
     registerError({
-        ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
-        "Query",
-        "Critical",
-        "Query resource limit exhausted: {}",
-        "The query has exhausted available system resources (memory, disk, connections).",
-        "1. Reduce query scope or add filters to limit data\n"
-        "2. Increase resource limits in configuration\n"
-        "3. Break large queries into smaller batches\n"
-        "4. Add pagination for large result sets\n"
-        "5. Check for memory leaks or resource cleanup issues\n"
-        "6. Monitor system resources during query execution",
-        {"/docs/query/resources.md", "/docs/query/optimization.md"},
-        {"query", "resource", "exhausted", "memory", "limit"}
-    });
-    
-    registerError({
-        ErrorCode::ERR_QUERY_INVALID,
+        ErrorCode::ERR_QUERY_INVALID_INPUT,
         "Query",
         "Error",
-        "Invalid query: {}",
-        "The query is invalid or malformed.",
-        "1. Check query syntax and structure\n"
-        "2. Verify all required parameters are provided\n"
-        "3. Ensure query string is not empty\n"
-        "4. Review query documentation for correct format",
-        {"/docs/query/syntax.md"},
-        {"query", "invalid", "malformed", "syntax"}
-    });
-    
-    // Cache Errors
-    registerError({
-        ErrorCode::ERR_CACHE_FULL,
-        "Cache",
-        "Warning",
-        "Cache is full: {}",
-        "The cache has reached its maximum capacity and cannot store new entries.",
-        "1. Increase cache size limits in configuration\n"
-        "2. Review cache eviction policy settings\n"
-        "3. Monitor cache hit rates and adjust TTL settings\n"
-        "4. Consider using memory-aware eviction\n"
-        "5. Clear expired entries manually if needed",
-        {"/docs/cache/configuration.md"},
-        {"cache", "full", "capacity", "memory", "limit"}
+        "Invalid input for statistical function: {}",
+        "The input parameters for a statistical aggregation function are invalid.",
+        "1. Check parameter ranges (e.g., percentile 0-100)\n"
+        "2. Verify data types are numeric\n"
+        "3. Ensure input is not null or empty\n"
+        "4. Review function documentation",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "invalid", "input"}
     });
     
     registerError({
-        ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE,
-        "Cache",
-        "Warning",
-        "Cache entry too large: {}",
-        "The entry exceeds the maximum allowed size for caching.",
-        "1. Increase max_entry_size in cache configuration\n"
-        "2. Consider result set pagination for large queries\n"
-        "3. Review query to reduce result size\n"
-        "4. Use compression for large result sets\n"
-        "5. Store partial results if applicable",
-        {"/docs/cache/configuration.md"},
-        {"cache", "entry", "size", "limit", "exceeded"}
-    });
-    
-    registerError({
-        ErrorCode::ERR_CACHE_INVALIDATION_FAILED,
-        "Cache",
+        ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+        "Query",
         "Error",
-        "Cache invalidation failed: {}",
-        "Failed to invalidate cache entries as requested.",
-        "1. Check cache service is running\n"
-        "2. Verify cache key or dependency pattern is correct\n"
-        "3. Review cache logs for detailed error information\n"
-        "4. Consider clearing entire cache if needed\n"
-        "5. Ensure sufficient permissions for cache operations",
-        {"/docs/cache/invalidation.md"},
-        {"cache", "invalidation", "failed", "error"}
+        "Insufficient data for statistical function: {}",
+        "The statistical function requires more data points than provided.",
+        "1. Check minimum data requirements (e.g., variance needs ≥2 values)\n"
+        "2. Filter out null or non-numeric values\n"
+        "3. Verify data source is not empty\n"
+        "4. Consider using different aggregation function",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "insufficient", "data"}
     });
     
     // API Errors

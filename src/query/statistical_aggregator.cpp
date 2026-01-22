@@ -1,5 +1,5 @@
 #include "query/statistical_aggregator.h"
-#include "utils/error_registry.h"
+#include "utils/logger.h"
 #include <numeric>
 #include <cmath>
 #include <limits>
@@ -20,15 +20,15 @@ Result<nlohmann::json> StatisticalAggregator::calculatePercentile(
 ) {
     if (values.empty()) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            "Empty value set for percentile calculation"
+            errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+            "Cannot calculate percentile: empty dataset"
         );
     }
     
     if (percentile < 0.0 || percentile > 100.0) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            fmt::format("Invalid percentile value: {} (must be 0-100)", percentile)
+            errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+            fmt::format("Invalid percentile value: {}. Must be between 0 and 100", percentile)
         );
     }
     
@@ -76,8 +76,8 @@ double StatisticalAggregator::calculateMean(const std::vector<double>& values) {
 Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vector<double>& values) {
     if (values.size() < 2) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            fmt::format("Insufficient data for variance calculation: {} values (need ≥2)", values.size())
+            errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+            fmt::format("Cannot calculate variance: need at least 2 values, got {}", values.size())
         );
     }
     
@@ -96,8 +96,8 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vecto
 Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::vector<double>& values) {
     if (values.empty()) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            "Empty value set for population variance calculation"
+            errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+            "Cannot calculate population variance: empty dataset"
         );
     }
     
@@ -121,7 +121,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateStdDev(const std::vector<
     auto variance = calculateVariance(values);
     
     if (!variance) {
-        return Err<nlohmann::json>(variance.error().code(), variance.error().context());
+        return variance;  // Propagate error
     }
     
     return Ok(nlohmann::json(std::sqrt(variance->get<double>())));
@@ -131,7 +131,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateStdDevPop(const std::vect
     auto variance = calculateVariancePop(values);
     
     if (!variance) {
-        return Err<nlohmann::json>(variance.error().code(), variance.error().context());
+        return variance;  // Propagate error
     }
     
     return Ok(nlohmann::json(std::sqrt(variance->get<double>())));
@@ -144,8 +144,8 @@ Result<nlohmann::json> StatisticalAggregator::calculateStdDevPop(const std::vect
 Result<nlohmann::json> StatisticalAggregator::calculateRange(const std::vector<double>& values) {
     if (values.empty()) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            "Empty value set for range calculation"
+            errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+            "Cannot calculate range: empty dataset"
         );
     }
     
@@ -156,8 +156,8 @@ Result<nlohmann::json> StatisticalAggregator::calculateRange(const std::vector<d
 Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> values) {
     if (values.size() < 4) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            fmt::format("Insufficient data for IQR calculation: {} values (need ≥4)", values.size())
+            errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+            fmt::format("Cannot calculate IQR: need at least 4 values, got {}", values.size())
         );
     }
     
@@ -166,7 +166,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> v
     
     if (!q1 || !q3) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
             "Failed to calculate quartiles for IQR"
         );
     }
@@ -177,8 +177,8 @@ Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> v
 Result<nlohmann::json> StatisticalAggregator::calculateMAD(const std::vector<double>& values) {
     if (values.empty()) {
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
-            "Empty value set for MAD calculation"
+            errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+            "Cannot calculate MAD: empty dataset"
         );
     }
     
