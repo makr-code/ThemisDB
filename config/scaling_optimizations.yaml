@@ -186,6 +186,9 @@ hnsw_optimization:
     # Pruning threshold multiplier (k * multiplier)
     # If candidate_count > k * multiplier, skip deeper layers
     threshold_multiplier: 5
+    
+    # Minimum samples for statistical confidence (optional, has default)
+    min_samples: 5
   
   # Adaptive layer selection
   adaptive_layer_selection:
@@ -193,6 +196,9 @@ hnsw_optimization:
     
     # Window size for layer efficiency statistics
     stats_window_size: 1000
+    
+    # Minimum samples for statistical confidence (optional, has default)
+    min_samples: 10
   
   # Batch insert optimization
   batch_insert:

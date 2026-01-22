@@ -112,7 +112,7 @@ int HnswLayerOptimizer::getOptimalEf(size_t k) const {
     double best_avg_time = std::numeric_limits<double>::max();
     
     for (const auto& [ef, perf] : ef_performance) {
-        if (perf.second >= config_.layer_pruning.min_samples) {
+        if (perf.second >= config_.adaptive_layer_selection.min_samples) {
             double avg_time = perf.first / perf.second;
             if (avg_time < best_avg_time) {
                 best_avg_time = avg_time;

@@ -127,12 +127,14 @@ void VectorIndexManager::loadHnswOptimizationConfig_() {
 			auto lp = hnsw_opt["layer_pruning"];
 			opt_config.layer_pruning.enabled = lp["enabled"].as<bool>(false);
 			opt_config.layer_pruning.threshold_multiplier = lp["threshold_multiplier"].as<double>(5.0);
+			opt_config.layer_pruning.min_samples = lp["min_samples"].as<size_t>(5);
 		}
 		
 		if (hnsw_opt["adaptive_layer_selection"]) {
 			auto als = hnsw_opt["adaptive_layer_selection"];
 			opt_config.adaptive_layer_selection.enabled = als["enabled"].as<bool>(false);
 			opt_config.adaptive_layer_selection.stats_window_size = als["stats_window_size"].as<size_t>(1000);
+			opt_config.adaptive_layer_selection.min_samples = als["min_samples"].as<size_t>(10);
 		}
 		
 		if (hnsw_opt["batch_insert"]) {
