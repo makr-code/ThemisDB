@@ -1095,6 +1095,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/nlp_metadata_extractor.cpp
+    ../src/storage/columnar_format.cpp
     
     ../src/metadata/schema_manager.cpp
     ../src/server/schema_api_handler.cpp
@@ -1129,6 +1130,8 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/graph/graph_query_optimizer.cpp
+    ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
@@ -1137,6 +1140,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/result_stream.cpp
+    ../src/query/query_cache.cpp
 
     
     
@@ -1250,6 +1255,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/memory/pool_allocator.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1268,6 +1274,11 @@ set(THEMIS_CORE_SOURCES
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
+    ../src/security/access_control.cpp
+    ../src/security/user_registration_plugin.cpp
+    ../src/security/arrow_user_registration_plugin.cpp
+    ../src/security/webdav_user_registration_plugin.cpp
+    ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_provider_pkcs11.cpp
     ../src/security/hsm_key_provider_adapter.cpp
@@ -2414,10 +2425,12 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_ttl_fulltext_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_index_stats.cpp
         ${THEMIS_ROOT_DIR}/tests/test_graph_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_hnsw_layer_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_optimizer_cost_model.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stats_api.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_range_index.cpp
               ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
@@ -2450,6 +2463,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_video_processor_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_sse.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_governance.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_timeseries.cpp
     ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
@@ -2501,6 +2515,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_graph_type_filtering.cpp
         ${THEMIS_ROOT_DIR}/tests/test_gnn_embeddings.cpp
         ${THEMIS_ROOT_DIR}/tests/test_semantic_cache.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_query_cache.cpp
         ${THEMIS_ROOT_DIR}/tests/test_tsstore.cpp
         ${THEMIS_ROOT_DIR}/tests/test_gorilla.cpp
     ${THEMIS_ROOT_DIR}/tests/test_gorilla_probe.cpp
@@ -2583,6 +2598,7 @@ if(THEMIS_BUILD_TESTS)
         # Phase 1 Performance Optimization Tests (from PR #157)
         ${THEMIS_ROOT_DIR}/tests/test_performance_feature_flags.cpp
         ${THEMIS_ROOT_DIR}/tests/test_performance_allocator.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_pool_allocator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_huge_pages.cpp
         ${THEMIS_ROOT_DIR}/tests/test_rcu_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lirs_cache.cpp
@@ -2971,6 +2987,7 @@ if(THEMIS_BUILD_BENCHMARKS)
         ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
@@ -3233,6 +3250,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_graph_traversal
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Graph Query Optimizer benchmark
+    add_executable(bench_graph_query_optimizer
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
+    )
+    
+    target_link_libraries(bench_graph_query_optimizer
         PRIVATE
             themis_core
             benchmark::benchmark
