@@ -167,13 +167,17 @@ bool HSMProvider::initialize(){
                     impl_->pool.resize(poolSize);
                     for(uint32_t i=0;i<poolSize;++i){
                         if(api->C_OpenSession(chosen, CKF_SERIAL_SESSION, nullptr, nullptr, &impl_->pool[i].handle) != CKR_OK){
+                            impl_->pool[i].handle = 0; // ensure invalid handle on failure
                             impl_->fallbackLogOnce("OpenSession im Pool fehlgeschlagen");
                             continue;
                         }
                         // Login pro Session (einige HSMs verlangen das)
                         if(!pin.empty()){
                             CK_RV rvLogin = api->C_Login(impl_->pool[i].handle, CKU_USER, (CK_BYTE_PTR)pin.data(), (uint32_t)pin.size());
-                            if(rvLogin != CKR_OK && rvLogin != CKR_PIN_INCORRECT){
+                            if(rvLogin == CKR_PIN_INCORRECT){
+                                impl_->fallbackLogOnce("Login in Session fehlgeschlagen: PIN inkorrekt");
+                                continue;
+                            } else if(rvLogin != CKR_OK){
                                 impl_->fallbackLogOnce("Login in Session fehlgeschlagen");
                                 continue;
                             }
@@ -182,8 +186,14 @@ bool HSMProvider::initialize(){
                         discoverCertificateSession(impl_->pool[i]);
                         impl_->pool[i].ready = (impl_->pool[i].privKey != 0);
                     }
-                    // Serial einmalig setzen (erste gefundene Zert-Session)
-                    for(auto& s : impl_->pool){ if(s.certObj){ impl_->real_ready = s.ready; break; } }
+                    // Globale Ready-Flag setzen, falls irgendeine Session einen Private Key hat
+                    impl_->real_ready = false;
+                    for(auto& s : impl_->pool){
+                        if(s.ready){
+                            impl_->real_ready = true;
+                            break;
+                        }
+                    }
                     if(!impl_->real_ready){
                         // Falls kein privKey entdeckt, dennoch fallback aktiv
                         impl_->fallbackLogOnce("Kein Private Key im Pool gefunden – Fallback");
@@ -210,8 +220,14 @@ void HSMProvider::finalize(){
         // Close all sessions in the pool
         for(auto& s : impl_->pool) {
             if(s.handle) {
-                api->C_Logout(s.handle);
-                api->C_CloseSession(s.handle);
+                CK_RV rv = api->C_Logout(s.handle);
+                if(rv != CKR_OK && rv != CKR_USER_NOT_LOGGED_IN){
+                    THEMIS_WARN("PKCS11 C_Logout failed for session: {}", mapError(rv));
+                }
+                rv = api->C_CloseSession(s.handle);
+                if(rv != CKR_OK){
+                    THEMIS_WARN("PKCS11 C_CloseSession failed for session: {}", mapError(rv));
+                }
                 s.handle = 0;
             }
         }
@@ -281,9 +297,23 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
         if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK && valAttr.ulValueLen>0){
             std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
             if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
-                const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr,&p,der.size());
-                if(x){ ASN1_INTEGER* si = X509_get_serialNumber(x); if(si){ BIGNUM* bn=ASN1_INTEGER_to_BN(si,nullptr); if(bn){ char* hex=BN_bn2hex(bn); if(hex){ impl_->cert_serial_cache_ = hex; OPENSSL_free(hex);} BN_free(bn);} }
-                    X509_free(x); }
+                const unsigned char* p = der.data(); 
+                X509* x = d2i_X509(nullptr, &p, der.size());
+                if(x){
+                    ASN1_INTEGER* si = X509_get_serialNumber(x);
+                    if(si){
+                        BIGNUM* bn = ASN1_INTEGER_to_BN(si, nullptr);
+                        if(bn){
+                            char* hex = BN_bn2hex(bn);
+                            if(hex){
+                                impl_->cert_serial_cache_ = hex;
+                                OPENSSL_free(hex);
+                            }
+                            BN_free(bn);
+                        }
+                    }
+                    X509_free(x);
+                }
             }
         }
     }
