@@ -4,7 +4,6 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
-#include <regex>
 
 namespace themis {
 namespace query {
@@ -158,7 +157,12 @@ public:
                     *current = nlohmann::json::object();
                 }
                 if (!current->contains(segment.field)) {
-                    (*current)[segment.field] = nlohmann::json::object();
+                    // Check next segment to decide what to create
+                    if (i + 1 < segments.size() - 1 && segments[i + 1].type == SegmentType::INDEX) {
+                        (*current)[segment.field] = nlohmann::json::array();
+                    } else {
+                        (*current)[segment.field] = nlohmann::json::object();
+                    }
                 }
                 current = &(*current)[segment.field];
             } else if (segment.type == SegmentType::INDEX) {
@@ -246,25 +250,53 @@ public:
     }
     
     /**
-     * @brief Get the depth of a JSON structure
+     * @brief Get the depth of a JSON structure (iterative with max depth limit)
      */
     static int depth(const nlohmann::json& root) {
         if (!root.is_object() && !root.is_array()) {
             return 0;
         }
         
-        int max_depth = 0;
-        if (root.is_object()) {
-            for (auto it = root.begin(); it != root.end(); ++it) {
-                max_depth = std::max(max_depth, depth(it.value()));
+        // Use iterative approach with stack to avoid stack overflow
+        // and support early termination
+        constexpr int MAX_DEPTH = 1000; // Reasonable limit
+        
+        struct StackItem {
+            const nlohmann::json* node;
+            int level;
+        };
+        
+        std::vector<StackItem> stack;
+        stack.push_back({&root, 1});
+        int max_depth = 1;
+        
+        while (!stack.empty()) {
+            auto item = stack.back();
+            stack.pop_back();
+            
+            max_depth = std::max(max_depth, item.level);
+            
+            if (item.level >= MAX_DEPTH) {
+                // Hit depth limit, return current max
+                continue;
             }
-        } else if (root.is_array()) {
-            for (const auto& elem : root) {
-                max_depth = std::max(max_depth, depth(elem));
+            
+            if (item.node->is_object()) {
+                for (auto it = item.node->begin(); it != item.node->end(); ++it) {
+                    if (it.value().is_object() || it.value().is_array()) {
+                        stack.push_back({&it.value(), item.level + 1});
+                    }
+                }
+            } else if (item.node->is_array()) {
+                for (const auto& elem : *item.node) {
+                    if (elem.is_object() || elem.is_array()) {
+                        stack.push_back({&elem, item.level + 1});
+                    }
+                }
             }
         }
         
-        return max_depth + 1;
+        return max_depth;
     }
     
     /**
