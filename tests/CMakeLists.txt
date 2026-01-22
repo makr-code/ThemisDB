@@ -2616,6 +2616,20 @@ else()
 endif()
 
 # ============================================================================
+# Index Maintenance Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    message(STATUS "Adding Index Maintenance tests")
+    
+    add_executable(test_index_maintenance
+        test_index_maintenance.cpp
+    )
+    
+    target_link_libraries(test_index_maintenance PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
 # GraphQL Parser Tests
 # ============================================================================
 
@@ -2634,6 +2648,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
         Threads::Threads
     )
     
+    target_compile_definitions(test_index_maintenance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    
+    set_tests_properties(IndexMaintenanceTests PROPERTIES
+        LABELS "storage;index;maintenance;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
+else()
+    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
     target_compile_definitions(test_graphql PRIVATE
         THEMIS_TEST_BUILD=1
     )
