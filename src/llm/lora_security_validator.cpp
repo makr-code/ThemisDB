@@ -340,7 +340,11 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     // Perform cryptographic signature verification
     // Check if we have a certificate PEM for the signer
     // In a production system, this would be retrieved from a certificate store
-    std::string cert_pem;  // TODO: Retrieve from certificate store by fingerprint
+    // TODO: Implement certificate store integration for production deployments:
+    //       - Support X.509 certificate lookup by fingerprint
+    //       - Integrate with system certificate stores (e.g., /etc/ssl/certs)
+    //       - Consider HashiCorp Vault or HSM integration for enterprise deployments
+    std::string cert_pem;
     
     // Check if certificate is embedded in metadata
     if (metadata.contains("certificate")) {
@@ -359,6 +363,7 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
             result.is_valid = false;
             result.error_message = "Cryptographic signature verification failed: " + verify_result.error_message;
             
+            // TODO: Implement audit logging for security events (tracked in security hardening epic)
             // Audit log (skipped - audit logger not available)
             spdlog::debug("Embedded crypto verification failed for {}", lora_path);
             
@@ -369,8 +374,14 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
         
         // Cryptographic verification succeeded
         result.is_valid = true;
-        result.signer_identity = verify_result.signer_identity.empty() ? 
-                                signer : verify_result.signer_identity;
+        
+        // Use signer identity from certificate if available, otherwise use fingerprint
+        if (!verify_result.signer_identity.empty()) {
+            result.signer_identity = verify_result.signer_identity;
+        } else {
+            result.signer_identity = signer;
+        }
+        
         result.signature_algorithm = verify_result.algorithm;
         
         spdlog::info("Embedded LoRa signature cryptographically verified for {}: signer={}", 
