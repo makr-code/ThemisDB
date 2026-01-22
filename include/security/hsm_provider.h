@@ -228,8 +228,10 @@ private:
     // PKCS#11 helper discovery functions (only active when THEMIS_ENABLE_HSM_REAL)
     void discoverKeys();
     void discoverCertificate();
-    // Pool-Hilfen (nur real)
+    // Session-pool helpers (only used when THEMIS_ENABLE_HSM_REAL)
     struct SessionEntry; // forward
+    void discoverKeysSession(SessionEntry& s);
+    void discoverCertificateSession(SessionEntry& s);
     SessionEntry* acquireSession();
     void releaseSession(SessionEntry* s);
 };
