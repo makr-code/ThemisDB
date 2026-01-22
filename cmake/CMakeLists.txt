@@ -1128,6 +1128,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/graph/graph_query_optimizer.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
@@ -2413,6 +2414,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_ttl_fulltext_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_index_stats.cpp
         ${THEMIS_ROOT_DIR}/tests/test_graph_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
