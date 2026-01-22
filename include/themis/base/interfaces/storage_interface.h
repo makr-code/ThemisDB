@@ -64,4 +64,20 @@ public:
 /// Shared pointer type for IStorageEngine
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
 
+/**
+ * @brief Factory interface for storage engines
+ */
+class IStorageEngineFactory {
+public:
+    virtual ~IStorageEngineFactory() = default;
+    
+    /**
+     * @brief Create a storage engine instance
+     * 
+     * @param db_path Path to database directory
+     * @return Shared pointer to storage engine
+     */
+    virtual IStorageEnginePtr create(const std::string& db_path) = 0;
+};
+
 } // namespace themis

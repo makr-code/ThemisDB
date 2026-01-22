@@ -4,6 +4,10 @@
 #include <vector>
 #include <cstdint>
 #include <optional>
+#include <chrono>
+#include <openssl/x509.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
 
 namespace themis {
 namespace acceleration {

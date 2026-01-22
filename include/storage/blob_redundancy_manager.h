@@ -33,6 +33,7 @@
 #include <condition_variable>
 
 #include <rocksdb/listener.h>
+#include "utils/expected.h"
 
 // Forward declaration for RocksDB
 namespace rocksdb {
@@ -45,6 +46,9 @@ namespace rocksdb {
 
 namespace themisdb {
 namespace storage {
+
+// Make themis::Result available in this namespace
+using themis::Result;
 
 /**
  * Blob Type Classification
@@ -396,12 +400,12 @@ public:
     void unregisterBlob(const std::string& blob_id);
     
     // Redundancy Operations
-    Result<void> ensureRedundancy(const std::string& blob_id);
-    Result<void> repairBlob(const std::string& blob_id);
+    Result<bool> ensureRedundancy(const std::string& blob_id);
+    Result<bool> repairBlob(const std::string& blob_id);
     bool verifyBlob(const std::string& blob_id);
     
     // Read/Write with redundancy
-    Result<void> writeBlob(
+    Result<bool> writeBlob(
         const std::string& blob_id,
         const std::vector<uint8_t>& data,
         WriteHandler handler
@@ -412,14 +416,14 @@ public:
         ReadHandler handler
     );
     
-    Result<void> deleteBlob(
+    Result<bool> deleteBlob(
         const std::string& blob_id,
         DeleteHandler handler
     );
     
     // Tier Management
-    Result<void> tierDown(const std::string& blob_id, StorageTier target);
-    Result<void> tierUp(const std::string& blob_id, StorageTier target);
+    Result<bool> tierDown(const std::string& blob_id, StorageTier target);
+    Result<bool> tierUp(const std::string& blob_id, StorageTier target);
     std::vector<std::string> getBlobsForTierDown();
     
     // Health and Monitoring

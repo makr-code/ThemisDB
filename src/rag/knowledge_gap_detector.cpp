@@ -10,6 +10,8 @@
 #include <cmath>
 #include <chrono>
 #include <ctime>
+#include <unordered_set>
+#include <sstream>
 
 namespace themis::rag::knowledge_gap {
 
@@ -1228,6 +1230,8 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     // Return empty vector as placeholder
     // Actual implementation would integrate with vector search
     return std::vector<RetrievedDocument>();
+}
+
 DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents

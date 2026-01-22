@@ -5,6 +5,8 @@
 
 #include <fstream>
 #include <filesystem>
+#include <thread>
+#include <chrono>
 
 using namespace themis;
 using namespace themis::utils;
@@ -143,4 +145,194 @@ TEST_F(AuditLoggerTest, MultipleEvents) {
         ++count;
     }
     EXPECT_EQ(count, 5);
+}
+
+// ============================================================================
+// Retention Tests
+// ============================================================================
+
+TEST_F(AuditLoggerTest, EnumerateEntries) {
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;  // Use plaintext for easier testing
+    cfg.log_path = log_path_;
+    
+    AuditLogger logger(enc_, pki_, cfg);
+    
+    // Log some events with known timestamps
+    for (int i = 0; i < 3; ++i) {
+        nlohmann::json event = {
+            {"event_id", i},
+            {"action", "test_enumerate"}
+        };
+        logger.logEvent(event);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    
+    // Enumerate entries
+    auto entries = logger.enumerateEntries();
+    
+    EXPECT_EQ(entries.size(), 3);
+    for (size_t i = 0; i < entries.size(); ++i) {
+        EXPECT_EQ(entries[i].entry_number, i);
+        EXPECT_TRUE(entries[i].record.contains("ts"));
+    }
+}
+
+TEST_F(AuditLoggerTest, ArchiveOldEntries) {
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;
+    cfg.log_path = log_path_;
+    
+    AuditLogger logger(enc_, pki_, cfg);
+    
+    // Log events with different timestamps
+    auto now = std::chrono::system_clock::now();
+    auto old_ts = now - std::chrono::hours(24 * 365 * 6); // 6 years old
+    auto recent_ts = now - std::chrono::hours(24 * 30);   // 1 month old
+    
+    // Manually create log entries with specific timestamps
+    {
+        std::ofstream ofs(log_path_);
+        
+        // Old entry (should be archived)
+        nlohmann::json old_record = {
+            {"ts", std::chrono::duration_cast<std::chrono::milliseconds>(
+                old_ts.time_since_epoch()).count()},
+            {"category", "AUDIT"},
+            {"payload", {{"type", "plaintext"}, {"data", "old_event"}}}
+        };
+        ofs << old_record.dump() << "\n";
+        
+        // Recent entry (should be kept)
+        nlohmann::json recent_record = {
+            {"ts", std::chrono::duration_cast<std::chrono::milliseconds>(
+                recent_ts.time_since_epoch()).count()},
+            {"category", "AUDIT"},
+            {"payload", {{"type", "plaintext"}, {"data", "recent_event"}}}
+        };
+        ofs << recent_record.dump() << "\n";
+    }
+    
+    // Archive entries older than 5 years
+    auto archive_threshold = now - std::chrono::hours(24 * 365 * 5);
+    std::string archive_path = "data/logs/test_audit_archive.jsonl";
+    std::filesystem::remove(archive_path);
+    
+    size_t archived = logger.archiveOldEntries(archive_threshold, archive_path);
+    
+    EXPECT_EQ(archived, 1);
+    
+    // Verify archive file exists and contains the old entry
+    ASSERT_TRUE(std::filesystem::exists(archive_path));
+    std::ifstream archive_ifs(archive_path);
+    std::string line;
+    ASSERT_TRUE(std::getline(archive_ifs, line));
+    auto archived_record = nlohmann::json::parse(line);
+    EXPECT_EQ(archived_record["payload"]["data"], "old_event");
+    
+    // Verify main log only contains recent entry
+    std::ifstream main_ifs(log_path_);
+    int main_count = 0;
+    while (std::getline(main_ifs, line)) {
+        if (!line.empty()) {
+            auto record = nlohmann::json::parse(line);
+            EXPECT_EQ(record["payload"]["data"], "recent_event");
+            ++main_count;
+        }
+    }
+    EXPECT_EQ(main_count, 1);
+    
+    std::filesystem::remove(archive_path);
+}
+
+TEST_F(AuditLoggerTest, PurgeOldEntries) {
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;
+    cfg.log_path = log_path_;
+    
+    AuditLogger logger(enc_, pki_, cfg);
+    
+    // Log events with different timestamps
+    auto now = std::chrono::system_clock::now();
+    auto very_old_ts = now - std::chrono::hours(24 * 365 * 8); // 8 years old
+    auto recent_ts = now - std::chrono::hours(24 * 30);        // 1 month old
+    
+    // Manually create log entries with specific timestamps
+    {
+        std::ofstream ofs(log_path_);
+        
+        // Very old entry (should be purged)
+        nlohmann::json old_record = {
+            {"ts", std::chrono::duration_cast<std::chrono::milliseconds>(
+                very_old_ts.time_since_epoch()).count()},
+            {"category", "AUDIT"},
+            {"payload", {{"type", "plaintext"}, {"data", "very_old_event"}}}
+        };
+        ofs << old_record.dump() << "\n";
+        
+        // Recent entry (should be kept)
+        nlohmann::json recent_record = {
+            {"ts", std::chrono::duration_cast<std::chrono::milliseconds>(
+                recent_ts.time_since_epoch()).count()},
+            {"category", "AUDIT"},
+            {"payload", {{"type", "plaintext"}, {"data", "recent_event"}}}
+        };
+        ofs << recent_record.dump() << "\n";
+    }
+    
+    // Purge entries older than 7 years
+    auto purge_threshold = now - std::chrono::hours(24 * 365 * 7);
+    
+    size_t purged = logger.purgeOldEntries(purge_threshold);
+    
+    EXPECT_EQ(purged, 1);
+    
+    // Verify main log only contains recent entry
+    std::ifstream main_ifs(log_path_);
+    std::string line;
+    int main_count = 0;
+    while (std::getline(main_ifs, line)) {
+        if (!line.empty()) {
+            auto record = nlohmann::json::parse(line);
+            EXPECT_EQ(record["payload"]["data"], "recent_event");
+            ++main_count;
+        }
+    }
+    EXPECT_EQ(main_count, 1);
+}
+
+TEST_F(AuditLoggerTest, RetentionWithNoOldEntries) {
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;
+    cfg.log_path = log_path_;
+    
+    AuditLogger logger(enc_, pki_, cfg);
+    
+    // Log only recent events
+    for (int i = 0; i < 3; ++i) {
+        nlohmann::json event = {
+            {"event_id", i},
+            {"action", "recent_event"}
+        };
+        logger.logEvent(event);
+    }
+    
+    // Try to archive/purge with thresholds that won't match anything
+    auto future = std::chrono::system_clock::now() + std::chrono::hours(24);
+    std::string archive_path = "data/logs/test_audit_archive2.jsonl";
+    
+    size_t archived = logger.archiveOldEntries(future, archive_path);
+    EXPECT_EQ(archived, 0);
+    EXPECT_FALSE(std::filesystem::exists(archive_path));
+    
+    size_t purged = logger.purgeOldEntries(future);
+    EXPECT_EQ(purged, 0);
+    
+    // Verify all 3 entries are still present
+    auto entries = logger.enumerateEntries();
+    EXPECT_EQ(entries.size(), 3);
 }

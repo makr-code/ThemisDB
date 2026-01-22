@@ -80,26 +80,26 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
 
 Result<std::vector<std::string>>
 QueryOptimizer::executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
-	auto [status, keys] = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
-	if (!status.ok) {
+	auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+	if (!result.has_value()) {
 		return Err<std::vector<std::string>>(
 			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-			fmt::format("Optimized key execution failed: {}", status.message)
+			fmt::format("Optimized key execution failed")
 		);
 	}
-	return Ok(std::move(keys));
+	return Ok(result.value());
 }
 
 Result<std::vector<BaseEntity>>
 QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
-	auto [status, entities] = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
-	if (!status.ok) {
+	auto result = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
+	if (!result.has_value()) {
 		return Err<std::vector<BaseEntity>>(
 			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-			fmt::format("Optimized entity execution failed: {}", status.message)
+			fmt::format("Optimized entity execution failed")
 		);
 	}
-	return Ok(std::move(entities));
+	return Ok(result.value());
 }
 
 // ---------------- Vector+Geo Cost Model ----------------

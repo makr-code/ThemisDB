@@ -12,6 +12,9 @@
 #include <condition_variable>
 #include <functional>
 
+// Forward declaration from llama.cpp
+struct llama_context;
+
 /**
  * @file multi_lora_manager.h
  * @brief vLLM-inspired multi-LoRA management for ThemisDB
@@ -124,6 +127,16 @@ enum class FusionStrategy {
 };
 
 /**
+ * @brief Scheduling strategy for SCHEDULED fusion mode
+ */
+enum class SchedulingStrategy {
+    LINEAR = 0,        // Linear interpolation between weights
+    EXPONENTIAL = 1,   // Exponential decay/growth between weights
+    STEP_WISE = 2,     // Step-wise discrete transitions
+    CUSTOM = 3         // User-defined custom schedule function
+};
+
+/**
  * @brief Alpha scheduling function for dynamic fusion
  * 
  * Allows runtime computation of blend weights based on various factors:
@@ -134,20 +147,32 @@ enum class FusionStrategy {
 struct AlphaSchedule {
     std::string schedule_id;
     FusionStrategy strategy = FusionStrategy::STATIC;
+    SchedulingStrategy scheduling_strategy = SchedulingStrategy::LINEAR;
     
     // Static weights (for STATIC strategy)
     std::vector<float> static_weights;
     
+    // Target weights (for SCHEDULED strategy transitions)
+    std::vector<float> target_weights;
+    
     // Dynamic scheduling parameters
     std::chrono::system_clock::time_point start_time;
     std::chrono::seconds transition_duration{0};  // For smooth transitions
+    
+    // Exponential scheduling parameters
+    float exponential_base = 2.0f;  // Controls curve steepness (higher = faster/slower transition)
+    bool exponential_decay = true;  // true for decay, false for growth
+    
+    // Step-wise scheduling parameters
+    std::vector<double> step_times;         // Time points (seconds) for step transitions
+    std::vector<std::vector<float>> step_weights;  // Weight vectors at each step
     
     // Function pointer for custom scheduling logic
     // Returns weights vector based on current time offset (seconds since start)
     using ScheduleFunc = std::function<std::vector<float>(double time_offset)>;
     ScheduleFunc schedule_func;
     
-    // A/B testing parameters
+    // A/B testing parameters (for backward compatibility)
     float a_weight = 0.5f;  // Weight for adapter A in A/B test
     float b_weight = 0.5f;  // Weight for adapter B in A/B test
     
@@ -402,17 +427,17 @@ public:
      * Multiple LoRAs can be active simultaneously if backend supports it.
      * 
      * @param lora_id LoRA to activate
-     * @param context_handle Model context to apply to
+     * @param context Model context to apply to (llama_context*)
      * @return true if applied successfully
      */
-    bool applyLoRA(const std::string& lora_id, void* context_handle);
+    bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
      * @brief Remove LoRA from model context
      * 
      * Deactivates a LoRA adapter.
      */
-    bool removeLoRA(const std::string& lora_id, void* context_handle);
+    bool removeLoRA(const std::string& lora_id, llama_context* context);
     
     /**
      * @brief Batch inference with multiple LoRAs (vLLM-style)
@@ -427,7 +452,7 @@ public:
      */
     std::vector<InferenceResponse> batchInferenceMultiLoRA(
         const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-        void* model_context
+        llama_context* model_context
     );
     
     /**
@@ -865,6 +890,9 @@ private:
     // Fusion helpers (v1.5.0)
     bool fuseLoRAsInternal(const std::string& fused_id, const FusionConfig& config);
     std::vector<float> computeScheduledWeights(const std::string& fusion_id) const;
+    std::vector<float> computeLinearSchedule(const AlphaSchedule& schedule, double time_offset) const;
+    std::vector<float> computeExponentialSchedule(const AlphaSchedule& schedule, double time_offset) const;
+    std::vector<float> computeStepWiseSchedule(const AlphaSchedule& schedule, double time_offset) const;
     bool validateFusionCompatibility(
         const std::vector<LoRASlot*>& source_loras,
         const FusionConfig& config

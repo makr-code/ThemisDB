@@ -53,14 +53,14 @@ GPUMemoryManager::~GPUMemoryManager() {
                 if (gpu_available_) {
                     cudaSetDevice(alloc.gpu_device_id);
                     // Securely clear VRAM before freeing
-                    security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.size);
+                    security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.vram_bytes);
                     CUDA_CHECK(cudaFree(alloc.gpu_ptr));
                 } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
+                    security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
                     std::free(alloc.gpu_ptr);
                 }
 #else
-                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
                 std::free(alloc.gpu_ptr);  // Simulation mode
 #endif
             }
@@ -69,18 +69,18 @@ GPUMemoryManager::~GPUMemoryManager() {
 #ifdef THEMIS_ENABLE_CUDA
                     if (gpu_available_) {
                         // Clear pinned memory before freeing
-                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                         CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
                     } else {
-                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                         std::free(alloc.cpu_ptr);
                     }
 #else
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                     std::free(alloc.cpu_ptr);  // Simulation mode
 #endif
                 } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                     std::free(alloc.cpu_ptr);
                 }
             }
@@ -357,14 +357,14 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
 #ifdef THEMIS_ENABLE_CUDA
             if (gpu_available_) {
                 cudaSetDevice(alloc_it->gpu_device_id);
-                security::VRAMSecureClear::secureClearCUDA(ptr, alloc_it->size);
+                security::VRAMSecureClear::secureClearCUDA(ptr, alloc_it->vram_bytes);
                 CUDA_CHECK(cudaFree(ptr));
             } else {
-                security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->size);
+                security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->vram_bytes);
                 std::free(ptr);
             }
 #else
-            security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->size);
+            security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->vram_bytes);
             std::free(ptr);  // Simulation mode
 #endif
             
@@ -436,14 +436,14 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
 #ifdef THEMIS_ENABLE_CUDA
             if (gpu_available_) {
                 cudaSetDevice(alloc.gpu_device_id);
-                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.vram_bytes);
                 CUDA_CHECK(cudaFree(alloc.gpu_ptr));
             } else {
-                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
                 std::free(alloc.gpu_ptr);
             }
 #else
-            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
+            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
             std::free(alloc.gpu_ptr);  // Simulation mode
 #endif
             freed_vram += alloc.vram_bytes;
@@ -452,18 +452,18 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
             if (alloc.is_pinned) {
 #ifdef THEMIS_ENABLE_CUDA
                 if (gpu_available_) {
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                     CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
                 } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                     std::free(alloc.cpu_ptr);
                 }
 #else
-                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                 std::free(alloc.cpu_ptr);  // Simulation mode
 #endif
             } else {
-                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
                 std::free(alloc.cpu_ptr);
             }
             freed_ram += alloc.ram_bytes;
@@ -675,111 +675,93 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
     for (const auto& alloc : gpu_allocs) {
         per_device_allocs[alloc.gpu_device_id].push_back(alloc);
     }
-    
+
     // Defragment each device separately
     for (const auto& [device_id, device_allocs] : per_device_allocs) {
         if (device_allocs.size() <= 1) {
             continue;
         }
-        
-        // Calculate total memory needed
+
         size_t total_vram = 0;
         for (const auto& alloc : device_allocs) {
             total_vram += alloc.vram_bytes;
         }
-        
-        // Allocate new consolidated block
+
         void* new_ptr = nullptr;
-        
+
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
             cudaSetDevice(device_id);
-            cudaError_t err = cudaMalloc(&new_ptr, total_vram);
-            if (err != cudaSuccess) {
-                spdlog::warn("Failed to allocate consolidated GPU memory for model {}: {}", 
-                           model_id, cudaGetErrorString(err));
-                return false;
+            if (cudaMalloc(&new_ptr, total_vram) != cudaSuccess) {
+                spdlog::warn("Failed to allocate consolidated GPU memory for model {} on device {}", model_id, device_id);
+                continue;
             }
-            
-            // Copy data from fragmented blocks to new consolidated block
+
             size_t offset = 0;
             for (const auto& alloc : device_allocs) {
-                cudaMemcpy(static_cast<char*>(new_ptr) + offset, 
-                          alloc.gpu_ptr, 
-                          alloc.vram_bytes, 
-                          cudaMemcpyDeviceToDevice);
+                cudaMemcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes, cudaMemcpyDeviceToDevice);
                 offset += alloc.vram_bytes;
             }
         } else {
-            // Simulation mode fallback
             new_ptr = std::malloc(total_vram);
             if (!new_ptr) {
-                return false;
+                continue;
             }
-            
             size_t offset = 0;
             for (const auto& alloc : device_allocs) {
-                std::memcpy(static_cast<char*>(new_ptr) + offset, 
-                           alloc.gpu_ptr, 
-                           alloc.vram_bytes);
+                std::memcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes);
                 offset += alloc.vram_bytes;
             }
         }
 #else
-        // Simulation mode
         new_ptr = std::malloc(total_vram);
         if (!new_ptr) {
-            return false;
+            continue;
         }
-        
         size_t offset = 0;
         for (const auto& alloc : device_allocs) {
-            std::memcpy(static_cast<char*>(new_ptr) + offset, 
-                       alloc.gpu_ptr, 
-                       alloc.vram_bytes);
+            std::memcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes);
             offset += alloc.vram_bytes;
         }
 #endif
-        
+
         // Free old fragmented blocks
         for (const auto& alloc : device_allocs) {
 #ifdef THEMIS_ENABLE_CUDA
             if (gpu_available_) {
                 cudaSetDevice(device_id);
-                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.vram_bytes);
                 CUDA_CHECK(cudaFree(alloc.gpu_ptr));
             } else {
-                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
+                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
                 std::free(alloc.gpu_ptr);
             }
 #else
-            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.size);
+            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
             std::free(alloc.gpu_ptr);
 #endif
         }
-        
-        // Update allocations list - remove old fragmented allocations for this device
+
+        // Update allocations list for this model/device
         auto& model_allocs = allocations_[model_id];
         model_allocs.erase(
             std::remove_if(model_allocs.begin(), model_allocs.end(),
                 [device_id](const MemoryAllocation& alloc) {
                     return alloc.gpu_device_id == device_id && alloc.vram_bytes > 0;
                 }),
-            model_allocs.end()
-        );
-        
-        // Add new consolidated allocation
+            model_allocs.end());
+
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.vram_bytes = total_vram;
         consolidated.gpu_ptr = new_ptr;
         consolidated.gpu_device_id = device_id;
         model_allocs.push_back(consolidated);
-        
+
         spdlog::debug("Consolidated {} GPU allocations for model {} on device {} into single {} MB block",
-                     device_allocs.size(), model_id, device_id, total_vram / (1024.0 * 1024));
+                      device_allocs.size(), model_id, device_id, total_vram / (1024.0 * 1024));
     }
-    
+
     return true;
 }
 
@@ -1074,14 +1056,14 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
 #ifdef THEMIS_ENABLE_CUDA
                 if (gpu_available_) {
                     cudaSetDevice(gpu_device_id);
-                    security::VRAMSecureClear::secureClearCUDA(alloc_it->gpu_ptr, alloc_it->size);
+                    security::VRAMSecureClear::secureClearCUDA(alloc_it->gpu_ptr, alloc_it->vram_bytes);
                     CUDA_CHECK(cudaFree(alloc_it->gpu_ptr));
                 } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->size);
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->vram_bytes);
                     std::free(alloc_it->gpu_ptr);
                 }
 #else
-                security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->size);
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->vram_bytes);
                 std::free(alloc_it->gpu_ptr);  // Simulation mode
 #endif
                 freed_vram += alloc_it->vram_bytes;
@@ -1093,18 +1075,18 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
                 if (alloc_it->is_pinned) {
 #ifdef THEMIS_ENABLE_CUDA
                     if (gpu_available_) {
-                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
+                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
                         CUDA_CHECK(cudaFreeHost(alloc_it->cpu_ptr));
                     } else {
-                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
+                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
                         std::free(alloc_it->cpu_ptr);
                     }
 #else
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
                     std::free(alloc_it->cpu_ptr);  // Simulation mode
 #endif
                 } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->size);
+                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
                     std::free(alloc_it->cpu_ptr);
                 }
                 freed_ram += alloc_it->ram_bytes;

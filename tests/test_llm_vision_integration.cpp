@@ -283,3 +283,13 @@ TEST_F(LlamaWrapperVisionTest, VisionCapabilityQuery) {
     auto response2 = wrapper2.generateVision(request);
     EXPECT_FALSE(response2.success);  // Will fail due to missing models
 }
+
+TEST_F(LlamaWrapperVisionTest, VisionRateLimiter) {
+    // Validate rate limiting for vision requests
+    themis::llm::RateLimiter limiter(2, 2);  // 2 req/min, burst 2
+    EXPECT_TRUE(limiter.tryAcquire());
+    EXPECT_TRUE(limiter.tryAcquire());
+    EXPECT_FALSE(limiter.tryAcquire());  // Third should be throttled
+    auto wait_time = limiter.timeUntilNextToken();
+    EXPECT_GE(wait_time.count(), 0);
+}

@@ -16,16 +16,19 @@ namespace llm {
 namespace lora {
 
 /**
- * @brief Manages lifecycle of LoRA adapters
+ * @brief DEPRECATED: Use MultiLoRAManager instead
  * 
- * Features:
- * - Hot-swapping without service restart
- * - LRU cache for frequently used adapters
- * - Lazy loading on first use
- * - Automatic unloading of unused adapters
- * - Thread-safe operations
+ * This class is maintained for backward compatibility only.
+ * All new code should use MultiLoRAManager which provides:
+ * - Better type safety (llama_context* instead of void*)
+ * - Multi-LoRA support (vLLM-style)
+ * - Improved performance and caching
+ * 
+ * This class will be removed in v2.0.
+ * 
+ * @deprecated Use themis::llm::MultiLoRAManager instead
  */
-class LoRAAdapterManager {
+class [[deprecated("Use MultiLoRAManager instead")]] LoRAAdapterManager {
 public:
     /**
      * @brief Configuration for adapter manager
