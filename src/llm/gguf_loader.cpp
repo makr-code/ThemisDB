@@ -571,6 +571,122 @@ std::vector<uint8_t> GGUFLoader::getTensorData(const std::string& tensor_name) {
     return {};
 }
 
+bool GGUFLoader::validateQuantizationMetadata(const std::string& tensor_name) const {
+    // Find tensor
+    const TensorMetadata* tensor = nullptr;
+    for (const auto& t : metadata_.tensors) {
+        if (t.name == tensor_name) {
+            tensor = &t;
+            break;
+        }
+    }
+    
+    if (tensor == nullptr) {
+        return false;  // Tensor not found
+    }
+    
+    // Calculate expected number of elements
+    size_t num_elements = 1;
+    for (auto dim : tensor->shape) {
+        if (dim <= 0) {
+            return false;  // Invalid dimension
+        }
+        num_elements *= static_cast<size_t>(dim);
+    }
+    
+    // Validate block size and data size based on quantization type
+    size_t expected_block_size = 0;
+    size_t elements_per_block = 0;
+    
+    switch (tensor->type) {
+        case GGMLType::F32:
+            expected_block_size = 4;
+            elements_per_block = 1;
+            break;
+        case GGMLType::F16:
+            expected_block_size = 2;
+            elements_per_block = 1;
+            break;
+        case GGMLType::Q4_0:
+            expected_block_size = 18;
+            elements_per_block = 32;
+            break;
+        case GGMLType::Q4_1:
+            expected_block_size = 20;
+            elements_per_block = 32;
+            break;
+        case GGMLType::Q5_0:
+            expected_block_size = 22;
+            elements_per_block = 32;
+            break;
+        case GGMLType::Q5_1:
+            expected_block_size = 24;
+            elements_per_block = 32;
+            break;
+        case GGMLType::Q8_0:
+            expected_block_size = 34;
+            elements_per_block = 32;
+            break;
+        case GGMLType::Q8_1:
+            expected_block_size = 36;
+            elements_per_block = 32;
+            break;
+        case GGMLType::Q4_K:
+            expected_block_size = 144;
+            elements_per_block = 256;
+            break;
+        case GGMLType::Q5_K:
+            expected_block_size = 176;
+            elements_per_block = 256;
+            break;
+        case GGMLType::Q6_K:
+            expected_block_size = 210;
+            elements_per_block = 256;
+            break;
+        case GGMLType::Q8_K:
+            expected_block_size = 292;
+            elements_per_block = 256;
+            break;
+        case GGMLType::I8:
+            expected_block_size = 1;
+            elements_per_block = 1;
+            break;
+        case GGMLType::I16:
+            expected_block_size = 2;
+            elements_per_block = 1;
+            break;
+        case GGMLType::I32:
+            expected_block_size = 4;
+            elements_per_block = 1;
+            break;
+        default:
+            return false;  // Unsupported type
+    }
+    
+    // Calculate expected data size
+    size_t expected_size;
+    if (elements_per_block > 1) {
+        // Block-based quantization
+        size_t num_blocks = (num_elements + elements_per_block - 1) / elements_per_block;
+        expected_size = num_blocks * expected_block_size;
+    } else {
+        // Element-wise encoding
+        expected_size = num_elements * expected_block_size;
+    }
+    
+    // Validate tensor size matches expected size
+    if (tensor->size != expected_size) {
+        return false;  // Size mismatch
+    }
+    
+    // Validate tensor offset is within file bounds
+    if (metadata_.data_offset + tensor->offset + tensor->size > metadata_.total_size) {
+        return false;  // Tensor extends beyond file
+    }
+    
+    return true;
+}
+
 size_t GGUFLoader::getDtypeSize(const std::string& dtype) {
     if (dtype == "float32") return 4;
     if (dtype == "float16") return 2;

@@ -157,8 +157,9 @@ public:
         return {};
     }
     
-    std::optional<IndexType> getIndexType(std::string_view name) const override {
-        return std::nullopt;
+    Result<IndexType> getIndexType(std::string_view name) const override {
+        return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, 
+                               std::string(name));
     }
 };
 

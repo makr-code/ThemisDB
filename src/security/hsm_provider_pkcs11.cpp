@@ -92,6 +92,7 @@ public:
     HSMConfig config;
 
     PKCS11Loader loader;
+    CK_SESSION_HANDLE session = 0; // Main session handle (for backwards compatibility)
     struct SessionEntry {
         CK_SESSION_HANDLE handle = 0;
         CK_OBJECT_HANDLE privKey = 0;
@@ -234,6 +235,7 @@ void HSMProvider::finalize(){
         impl_->pool.clear();
         impl_->loader.unload();
     }
+    impl_->pool.clear();
     impl_->real_ready = false;
     initialized_ = false;
 }
@@ -478,17 +480,176 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys(){
 
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready){ THEMIS_WARN("generateKeyPair Fallback stub (label='{}')", label); return false; }
-    // Key generation omitted (would use C_GenerateKeyPair)
-    THEMIS_WARN("generateKeyPair reale Implementierung noch nicht vorhanden");
-    return false;
+    if(!impl_->real_ready){ 
+        THEMIS_WARN("generateKeyPair Fallback stub (label='{}')", label); 
+        return false; 
+    }
+    
+    auto api = impl_->loader.api();
+    if(!api) return false;
+    
+    // Get first ready session
+    auto sess = acquireSession();
+    if(!sess || !sess->handle){
+        THEMIS_ERROR("generateKeyPair: No ready session available");
+        return false;
+    }
+    
+    // Validate key size
+    if(key_size != 2048 && key_size != 3072 && key_size != 4096){
+        THEMIS_ERROR("generateKeyPair: Invalid key size {}. Must be 2048, 3072, or 4096", key_size);
+        releaseSession(sess);
+        return false;
+    }
+    
+    // Public key template
+    CK_BBOOL ck_true = CK_TRUE;
+    CK_BBOOL ck_extractable = extractable ? CK_TRUE : CK_FALSE;
+    CK_ULONG modulus_bits = key_size;
+    CK_BYTE public_exponent[] = {0x01, 0x00, 0x01}; // 65537
+    
+    CK_ATTRIBUTE pub_template[] = {
+        {CKA_CLASS, (void*)&CKO_PUBLIC_KEY, sizeof(CKO_PUBLIC_KEY)},
+        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_TOKEN, &ck_true, sizeof(ck_true)},
+        {CKA_VERIFY, &ck_true, sizeof(ck_true)},
+        {CKA_MODULUS_BITS, &modulus_bits, sizeof(modulus_bits)},
+        {CKA_PUBLIC_EXPONENT, public_exponent, sizeof(public_exponent)}
+    };
+    
+    // Private key template
+    CK_ATTRIBUTE priv_template[] = {
+        {CKA_CLASS, (void*)&CKO_PRIVATE_KEY, sizeof(CKO_PRIVATE_KEY)},
+        {CKA_LABEL, (void*)label.c_str(), label.size()},
+        {CKA_TOKEN, &ck_true, sizeof(ck_true)},
+        {CKA_PRIVATE, &ck_true, sizeof(ck_true)},
+        {CKA_SENSITIVE, &ck_true, sizeof(ck_true)},
+        {CKA_SIGN, &ck_true, sizeof(ck_true)},
+        {CKA_EXTRACTABLE, &ck_extractable, sizeof(ck_extractable)}
+    };
+    
+    CK_MECHANISM mech = {CKM_RSA_PKCS_KEY_PAIR_GEN, nullptr, 0};
+    CK_OBJECT_HANDLE pub_key = 0, priv_key = 0;
+    
+    CK_RV rv = api->C_GenerateKeyPair(
+        sess->handle,
+        &mech,
+        pub_template, sizeof(pub_template) / sizeof(CK_ATTRIBUTE),
+        priv_template, sizeof(priv_template) / sizeof(CK_ATTRIBUTE),
+        &pub_key,
+        &priv_key
+    );
+    
+    releaseSession(sess);
+    
+    if(rv != CKR_OK){
+        last_error_ = mapError(rv);
+        THEMIS_ERROR("generateKeyPair failed: {}", last_error_);
+        return false;
+    }
+    
+    THEMIS_INFO("Generated RSA-{} key pair with label '{}'", key_size, label);
+    return true;
 }
 
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready){ THEMIS_WARN("importCertificate Fallback stub (key='{}')", key_label); return false; }
-    // Would create certificate object; store serial
-    return false;
+    if(!impl_->real_ready){ 
+        THEMIS_WARN("importCertificate Fallback stub (key='{}')", key_label); 
+        return false; 
+    }
+    
+    auto api = impl_->loader.api();
+    if(!api) return false;
+    
+    // Get first ready session
+    auto sess = acquireSession();
+    if(!sess || !sess->handle){
+        THEMIS_ERROR("importCertificate: No ready session available");
+        return false;
+    }
+    
+    // Parse PEM certificate to DER format
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), cert_pem.size());
+    if(!bio){
+        THEMIS_ERROR("importCertificate: Failed to create BIO");
+        releaseSession(sess);
+        return false;
+    }
+    
+    X509* x509 = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    
+    if(!x509){
+        THEMIS_ERROR("importCertificate: Failed to parse PEM certificate");
+        releaseSession(sess);
+        return false;
+    }
+    
+    // Convert to DER
+    unsigned char* der = nullptr;
+    int der_len = i2d_X509(x509, &der);
+    if(der_len <= 0 || !der){
+        THEMIS_ERROR("importCertificate: Failed to convert certificate to DER");
+        X509_free(x509);
+        releaseSession(sess);
+        return false;
+    }
+    
+    // Extract serial number for metadata
+    ASN1_INTEGER* serial_int = X509_get_serialNumber(x509);
+    std::string serial_hex;
+    if(serial_int){
+        BIGNUM* bn = ASN1_INTEGER_to_BN(serial_int, nullptr);
+        if(bn){
+            char* hex = BN_bn2hex(bn);
+            if(hex){
+                serial_hex = hex;
+                OPENSSL_free(hex);
+            }
+            BN_free(bn);
+        }
+    }
+    
+    // Create certificate object in HSM
+    CK_OBJECT_CLASS cert_class = CKO_CERTIFICATE;
+    CK_CERTIFICATE_TYPE cert_type = CKC_X_509;
+    CK_BBOOL ck_true = CK_TRUE;
+    
+    CK_ATTRIBUTE cert_template[] = {
+        {CKA_CLASS, &cert_class, sizeof(cert_class)},
+        {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
+        {CKA_LABEL, (void*)key_label.c_str(), key_label.size()},
+        {CKA_TOKEN, &ck_true, sizeof(ck_true)},
+        {CKA_VALUE, der, (CK_ULONG)der_len}
+    };
+    
+    CK_OBJECT_HANDLE cert_obj = 0;
+    CK_RV rv = api->C_CreateObject(
+        sess->handle,
+        cert_template,
+        sizeof(cert_template) / sizeof(CK_ATTRIBUTE),
+        &cert_obj
+    );
+    
+    // Cleanup
+    OPENSSL_free(der);
+    X509_free(x509);
+    releaseSession(sess);
+    
+    if(rv != CKR_OK){
+        last_error_ = mapError(rv);
+        THEMIS_ERROR("importCertificate failed: {}", last_error_);
+        return false;
+    }
+    
+    // Update cert serial cache if this is the first certificate
+    if(impl_->cert_serial_cache_.empty() && !serial_hex.empty()){
+        impl_->cert_serial_cache_ = serial_hex;
+    }
+    
+    THEMIS_INFO("Imported certificate for key '{}' (serial: {})", key_label, serial_hex);
+    return true;
 }
 
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
