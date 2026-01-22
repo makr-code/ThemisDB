@@ -1128,6 +1128,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/graph/graph_query_optimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
@@ -2416,6 +2417,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_ttl_fulltext_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_index_stats.cpp
         ${THEMIS_ROOT_DIR}/tests/test_graph_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
@@ -2976,6 +2978,7 @@ if(THEMIS_BUILD_BENCHMARKS)
         ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
@@ -3238,6 +3241,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_graph_traversal
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Graph Query Optimizer benchmark
+    add_executable(bench_graph_query_optimizer
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
+    )
+    
+    target_link_libraries(bench_graph_query_optimizer
         PRIVATE
             themis_core
             benchmark::benchmark
