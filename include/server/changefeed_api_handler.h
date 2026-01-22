@@ -101,6 +101,11 @@ private:
     // Authorization helper
     std::optional<http::response<http::string_body>> checkAuth(
         const http::request<http::string_body>& req, const std::string& required_scope);
+    
+    // Governance headers
+    void applyGovernanceHeaders(
+        const http::request<http::string_body>& req,
+        http::response<http::string_body>& res);
 };
 
 } // namespace server
