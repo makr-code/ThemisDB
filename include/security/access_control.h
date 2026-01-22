@@ -224,27 +224,8 @@ public:
         const std::string& new_password
     );
     
-    /**
-     * @brief Validate password against policy
-     * @param password Password to validate
-     * @return Result with error message if invalid
-     */
-    Result<void> validatePassword(const std::string& password) const;
-    
-    /**
-     * @brief Hash password using bcrypt
-     * @param password Plain text password
-     * @return Hashed password
-     */
-    std::string hashPassword(const std::string& password) const;
-    
-    /**
-     * @brief Verify password against hash
-     * @param password Plain text password
-     * @param hash Hashed password
-     * @return true if password matches hash
-     */
-    bool verifyPassword(const std::string& password, const std::string& hash) const;
+    // NOTE: Password validation, hashing, and verification are delegated to plugins.
+    // AccessControl does NOT handle password management directly.
     
     // ========================================================================
     // Multi-Factor Authentication (MFA)
@@ -497,9 +478,12 @@ private:
     std::unique_ptr<utils::AuditLogger> audit_logger_;
     std::unique_ptr<UserRegistrationPluginManager> user_registration_plugin_manager_;
     
-    // User authentication data (password hashes)
-    std::unordered_map<std::string, std::string> password_hashes_;
-    std::unordered_map<std::string, std::vector<std::string>> password_history_;
+    // NOTE: ThemisDB does NOT store user passwords locally.
+    // All user authentication is delegated to plugins:
+    // - WebDAV plugin (Active Directory, SharePoint)
+    // - Apache authentication
+    // - Arrow plugin (data warehouse integration)
+    // - Embedded plugin (for standalone/embedded deployments only)
     
     // Session management
     std::unordered_map<std::string, Session> sessions_;
@@ -528,7 +512,6 @@ private:
     } stats_;
     
     // Helper methods
-    bool checkPasswordPolicy(const std::string& password) const;
     bool isSessionExpired(const Session& session) const;
     void cleanupExpiredSessions();
     std::string generateSessionToken() const;

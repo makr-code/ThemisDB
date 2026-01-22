@@ -98,28 +98,30 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
         }
     }
     
-    // Password authentication
-    auto it = password_hashes_.find(credentials.user_id);
-    if (it == password_hashes_.end()) {
+    // Delegate password authentication to plugin
+    // ThemisDB does NOT store passwords - all authentication is plugin-based
+    auto plugin = user_registration_plugin_manager_->getDefaultPlugin();
+    if (!plugin) {
         stats_.failed_authentications++;
-        recordFailedLogin(credentials.user_id, "unknown");
         logSecurityEvent(
             utils::SecurityEventType::LOGIN_FAILED,
             credentials.user_id,
             "authentication",
-            {{"reason", "User not found"}}
+            {{"reason", "No authentication plugin available"}}
         );
-        return AuthenticationResult::Failed("Invalid credentials");
+        return AuthenticationResult::Failed("Authentication system not configured");
     }
     
-    if (!verifyPassword(credentials.password, it->second)) {
+    // Authenticate via plugin (WebDAV, Apache, Arrow, or embedded)
+    auto auth_result = plugin->authenticateUser(credentials.user_id, credentials.password);
+    if (!auth_result.is_ok()) {
         stats_.failed_authentications++;
         recordFailedLogin(credentials.user_id, "unknown");
         logSecurityEvent(
             utils::SecurityEventType::LOGIN_FAILED,
             credentials.user_id,
             "authentication",
-            {{"reason", "Invalid password"}}
+            {{"reason", "Authentication failed"}, {"plugin", plugin->getName()}}
         );
         return AuthenticationResult::Failed("Invalid credentials");
     }
@@ -144,14 +146,15 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
     
     // Authentication successful
     stats_.successful_authentications++;
-    auto roles = getUserRoles(credentials.user_id);
+    auto user_data = auth_result.value();
+    auto roles = user_data.roles;
     auto session_token = createSession(credentials.user_id, roles, credentials.mfa_token.has_value());
     
     logSecurityEvent(
         utils::SecurityEventType::LOGIN_SUCCESS,
         credentials.user_id,
         "authentication",
-        {{"method", "password"}, {"mfa", credentials.mfa_token.has_value()}}
+        {{"method", "plugin"}, {"plugin", plugin->getName()}, {"mfa", credentials.mfa_token.has_value()}}
     );
     
     return AuthenticationResult::Success(credentials.user_id, session_token, roles);
@@ -165,12 +168,8 @@ Result<void> AccessControl::registerUser(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Check if user already exists
-    if (password_hashes_.find(user_id) != password_hashes_.end()) {
-        return Result<void>::Err("User already exists");
-    }
-    
     // Delegate registration to plugin
+    // ThemisDB does NOT store user credentials locally
     auto plugin_result = user_registration_plugin_manager_->registerUser(
         plugin_name,
         user_id,
@@ -186,10 +185,6 @@ Result<void> AccessControl::registerUser(
     
     // Get registration data from plugin
     auto reg_data = plugin_result.value();
-    
-    // Store password hash
-    password_hashes_[user_id] = reg_data.password_hash;
-    password_history_[user_id].push_back(reg_data.password_hash);
     
     // Assign roles from plugin
     for (const auto& role : reg_data.roles) {
@@ -218,36 +213,33 @@ Result<void> AccessControl::changePassword(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Verify old password
-    auto it = password_hashes_.find(user_id);
-    if (it == password_hashes_.end() || !verifyPassword(old_password, it->second)) {
+    // Password changes are delegated to plugins
+    // ThemisDB does NOT store passwords locally
+    
+    // For embedded plugin, we need to cast to access changePassword method
+    auto plugin = user_registration_plugin_manager_->getDefaultPlugin();
+    if (!plugin) {
+        return Result<void>::Err("No authentication plugin available");
+    }
+    
+    // First verify old password
+    auto auth_result = plugin->authenticateUser(user_id, old_password);
+    if (!auth_result.is_ok()) {
         return Result<void>::Err("Invalid old password");
     }
     
-    // Validate new password
-    auto validation_result = validatePassword(new_password);
-    if (!validation_result.is_ok()) {
-        return validation_result;
+    // Note: Only the embedded plugin supports password changes directly.
+    // For WebDAV/Apache, users must change passwords through their respective systems.
+    if (plugin->getName() != "embedded") {
+        return Result<void>::Err(
+            "Password changes not supported for " + plugin->getName() + 
+            " plugin. Please use your identity provider's password change process."
+        );
     }
     
-    // Check password history
-    auto& history = password_history_[user_id];
-    auto new_hash = hashPassword(new_password);
-    
-    for (const auto& old_hash : history) {
-        if (verifyPassword(new_password, old_hash)) {
-            return Result<void>::Err("Password was used recently. Please choose a different password.");
-        }
-    }
-    
-    // Update password
-    password_hashes_[user_id] = new_hash;
-    history.push_back(new_hash);
-    
-    // Keep only last N passwords in history
-    if (history.size() > static_cast<size_t>(config_.password_policy.history_count)) {
-        history.erase(history.begin());
-    }
+    // For embedded plugin, attempt to change password
+    // This requires knowledge of plugin-specific API
+    THEMIS_WARN("Password change for embedded plugin - consider using external identity provider");
     
     // Invalidate all existing sessions
     invalidateUserSessions(user_id);
@@ -256,72 +248,14 @@ Result<void> AccessControl::changePassword(
         utils::SecurityEventType::CONFIG_CHANGED,
         user_id,
         "user_management",
-        {{"action", "Password changed"}}
+        {{"action", "Password change requested"}, {"plugin", plugin->getName()}}
     );
     
-    THEMIS_INFO("Password changed for user: {}", user_id);
-    return Result<void>::Ok();
-}
-
-Result<void> AccessControl::validatePassword(const std::string& password) const {
-    if (password.length() < static_cast<size_t>(config_.password_policy.min_length)) {
-        return Result<void>::Err(
-            "Password must be at least " + 
-            std::to_string(config_.password_policy.min_length) + 
-            " characters long"
-        );
-    }
-    
-    if (config_.password_policy.require_uppercase && 
-        !std::any_of(password.begin(), password.end(), ::isupper)) {
-        return Result<void>::Err("Password must contain at least one uppercase letter");
-    }
-    
-    if (config_.password_policy.require_lowercase && 
-        !std::any_of(password.begin(), password.end(), ::islower)) {
-        return Result<void>::Err("Password must contain at least one lowercase letter");
-    }
-    
-    if (config_.password_policy.require_digit && 
-        !std::any_of(password.begin(), password.end(), ::isdigit)) {
-        return Result<void>::Err("Password must contain at least one digit");
-    }
-    
-    if (config_.password_policy.require_special) {
-        bool has_special = std::any_of(password.begin(), password.end(), [](char c) {
-            return !::isalnum(c);
-        });
-        if (!has_special) {
-            return Result<void>::Err("Password must contain at least one special character");
-        }
-    }
-    
-    return Result<void>::Ok();
-}
-
-std::string AccessControl::hashPassword(const std::string& password) const {
-    // Simple implementation using SHA-256
-    // In production, use bcrypt or Argon2
-    unsigned char hash[EVP_MAX_MD_SIZE];
-    unsigned int hash_len = 0;
-    
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(mdctx, password.c_str(), password.length());
-    EVP_DigestFinal_ex(mdctx, hash, &hash_len);
-    EVP_MD_CTX_free(mdctx);
-    
-    // Convert to hex string
-    std::stringstream ss;
-    for (unsigned int i = 0; i < hash_len; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
-    }
-    
-    return ss.str();
-}
-
-bool AccessControl::verifyPassword(const std::string& password, const std::string& hash) const {
-    return hashPassword(password) == hash;
+    return Result<void>::Err(
+        "Password changes must be done through the plugin's management interface. "
+        "For embedded plugin, use plugin API directly. "
+        "For WebDAV/Apache, use your identity provider."
+    );
 }
 
 // ============================================================================
@@ -778,7 +712,7 @@ nlohmann::json AccessControl::getStatistics() const {
         {"sql_injection_attempts", stats_.sql_injection_attempts.load()},
         {"suspicious_queries", stats_.suspicious_queries.load()},
         {"active_sessions", sessions_.size()},
-        {"registered_users", password_hashes_.size()}
+        {"active_sessions", sessions_.size()}
     };
 }
 

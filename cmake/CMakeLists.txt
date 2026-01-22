@@ -1274,6 +1274,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
     ../src/security/webdav_user_registration_plugin.cpp
+    ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_provider_pkcs11.cpp
     ../src/security/hsm_key_provider_adapter.cpp
