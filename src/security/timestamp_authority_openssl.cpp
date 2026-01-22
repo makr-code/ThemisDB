@@ -280,8 +280,8 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
         }
         
         // Extract ordering hint (RFC 3161 - optional, default FALSE)
-        const ASN1_BOOLEAN* ordering = TS_TST_INFO_get_ordering(tst);
-        if(ordering) token.ordering = (*ordering != 0);
+        int ordering = TS_TST_INFO_get_ordering(tst);
+        token.ordering = (ordering != 0);
         
         TS_TST_INFO_free(tst);
     }
