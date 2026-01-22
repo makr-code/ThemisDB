@@ -495,7 +495,6 @@ Result<std::string> BackupManager::createDifferentialBackup(const std::string& d
 }
 
 Result<void> BackupManager::archiveWAL(const std::string& dest_dir) {
-Result<void> BackupManager::archiveWAL(const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
         std::error_code ec;
