@@ -67,5 +67,11 @@ if(THEMIS_ENABLE_LLM)
         
         # ML Model Management and Inference
         ../src/llm/ml_model_manager.cpp
+        
+        # Prompt Engineering and Optimization Framework
+        ../src/llm/prompt_optimizer.cpp
+        ../src/llm/prompt_evaluator.cpp
+        ../src/llm/fewshot_optimizer.cpp
+        ../src/llm/meta_prompt_generator.cpp
     )
 endif()
