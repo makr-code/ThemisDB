@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <unordered_map>
+#include <mutex>
 
 namespace themis {
 namespace storage {
