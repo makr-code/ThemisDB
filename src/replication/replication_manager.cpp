@@ -118,6 +118,32 @@ int64_t ReplicaInfo::replicationLagMs() const {
     ).count();
 }
 
+void ReplicaInfo::updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t degraded_lag_threshold_ms) {
+    auto now = std::chrono::system_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now - last_heartbeat
+    ).count();
+    
+    HealthStatus old_status = health_status;
+    
+    // Check if replica has timed out
+    if (elapsed_ms > heartbeat_timeout_ms) {
+        consecutive_failures++;
+        last_failure_time = now;
+        health_status = HealthStatus::FAILED;
+    }
+    // Check if replica is lagging
+    else if (elapsed_ms > degraded_lag_threshold_ms) {
+        health_status = HealthStatus::DEGRADED;
+        consecutive_failures = 0;  // Reset failure count if responsive
+    }
+    // Replica is healthy
+    else {
+        health_status = HealthStatus::HEALTHY;
+        consecutive_failures = 0;
+    }
+}
+
 // ============================================================================
 // ReplicationStats Implementation
 // ============================================================================
@@ -148,7 +174,23 @@ std::string ReplicationStats::toPrometheusFormat() const {
     oss << "# HELP themisdb_replication_lag_ms Current replication lag in milliseconds\n"
         << "# TYPE themisdb_replication_lag_ms gauge\n"
         << "themisdb_replication_lag_max_ms " << max_replication_lag_ms.load() << "\n"
-        << "themisdb_replication_lag_avg_ms " << avg_replication_lag_ms.load() << "\n";
+        << "themisdb_replication_lag_avg_ms " << avg_replication_lag_ms.load() << "\n\n";
+    
+    oss << "# HELP themisdb_automatic_failovers_total Total automatic failovers executed\n"
+        << "# TYPE themisdb_automatic_failovers_total counter\n"
+        << "themisdb_automatic_failovers_total " << automatic_failovers.load() << "\n\n";
+    
+    oss << "# HELP themisdb_manual_failovers_total Total manual failovers executed\n"
+        << "# TYPE themisdb_manual_failovers_total counter\n"
+        << "themisdb_manual_failovers_total " << manual_failovers.load() << "\n\n";
+    
+    oss << "# HELP themisdb_replica_failures_detected_total Total replica failures detected\n"
+        << "# TYPE themisdb_replica_failures_detected_total counter\n"
+        << "themisdb_replica_failures_detected_total " << replica_failures_detected.load() << "\n\n";
+    
+    oss << "# HELP themisdb_network_partitions_detected_total Total network partitions detected\n"
+        << "# TYPE themisdb_network_partitions_detected_total counter\n"
+        << "themisdb_network_partitions_detected_total " << network_partitions_detected.load() << "\n";
     
     return oss.str();
 }
@@ -521,6 +563,7 @@ bool ReplicationManager::initialize() {
     // Start background threads
     heartbeat_thread_ = std::thread(&ReplicationManager::heartbeatLoop, this);
     compaction_thread_ = std::thread(&ReplicationManager::compactionLoop, this);
+    health_monitor_thread_ = std::thread(&ReplicationManager::healthMonitorLoop, this);
     
     return true;
 }
@@ -537,6 +580,9 @@ void ReplicationManager::shutdown() {
     }
     if (compaction_thread_.joinable()) {
         compaction_thread_.join();
+    }
+    if (health_monitor_thread_.joinable()) {
+        health_monitor_thread_.join();
     }
     
     for (auto& stream : streams_) {
@@ -657,8 +703,23 @@ void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> liste
 }
 
 bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
-    // Implementation would send a message to target node to start election
-    return true;
+    // Manual failover
+    stats_.manual_failovers++;
+    
+    // In a real implementation, this would send a message to target node to start election
+    // For now, if this node is the target, start election
+    if (target_node_id == node_id_ && election_) {
+        election_->startElection();
+        
+        if (election_->isLeader()) {
+            notifyListeners([this](IReplicationListener& l) {
+                l.onFailoverCompleted(node_id_, true);
+            });
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 bool ReplicationManager::promoteToLeader() {
@@ -716,6 +777,216 @@ void ReplicationManager::notifyListeners(
             callback(*listener);
         }
     }
+}
+
+std::vector<std::pair<std::string, HealthStatus>> ReplicationManager::getReplicaHealthStatus() const {
+    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(manager_mutex_));
+    std::vector<std::pair<std::string, HealthStatus>> result;
+    
+    for (const auto& replica : replicas_) {
+        result.emplace_back(replica.node_id, replica.health_status);
+    }
+    
+    return result;
+}
+
+bool ReplicationManager::hasQuorum() const {
+    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(manager_mutex_));
+    
+    size_t healthy_voting_members = 0;
+    size_t total_voting_members = 0;
+    
+    for (const auto& replica : replicas_) {
+        if (replica.is_voting_member) {
+            total_voting_members++;
+            if (replica.health_status == HealthStatus::HEALTHY || 
+                replica.health_status == HealthStatus::DEGRADED) {
+                healthy_voting_members++;
+            }
+        }
+    }
+    
+    // Add self if leader
+    if (election_ && election_->isLeader()) {
+        total_voting_members++;
+        healthy_voting_members++;
+    }
+    
+    // Quorum is majority of voting members
+    return healthy_voting_members > (total_voting_members / 2);
+}
+
+void ReplicationManager::performHealthCheck() {
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    
+    for (auto& replica : replicas_) {
+        HealthStatus old_status = replica.health_status;
+        updateReplicaHealth(replica);
+        
+        if (old_status != replica.health_status) {
+            notifyListeners([&replica, old_status](IReplicationListener& l) {
+                l.onReplicaHealthChanged(replica.node_id, old_status, replica.health_status);
+            });
+        }
+    }
+}
+
+bool ReplicationManager::detectNetworkPartition() const {
+    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(manager_mutex_));
+    
+    // Count failed replicas
+    size_t failed_count = 0;
+    for (const auto& replica : replicas_) {
+        if (replica.health_status == HealthStatus::FAILED) {
+            failed_count++;
+        }
+    }
+    
+    // Network partition detected if more than half of replicas are unreachable
+    return failed_count > (replicas_.size() / 2);
+}
+
+void ReplicationManager::setReadPreference(ReadPreference preference) {
+    config_.default_read_preference = preference;
+}
+
+void ReplicationManager::healthMonitorLoop() {
+    while (running_.load()) {
+        performHealthCheck();
+        
+        // Check for leader failure and trigger automatic failover if enabled
+        if (config_.enable_auto_failover && !election_->isLeader()) {
+            std::lock_guard<std::mutex> lock(manager_mutex_);
+            
+            // Find the current leader replica
+            for (const auto& replica : replicas_) {
+                if (replica.role == ReplicationRole::LEADER && 
+                    replica.health_status == HealthStatus::FAILED) {
+                    
+                    stats_.replica_failures_detected++;
+                    attemptAutomaticFailover(replica.node_id);
+                    break;
+                }
+            }
+        }
+        
+        // Check for network partition
+        if (detectNetworkPartition()) {
+            stats_.network_partitions_detected++;
+            
+            std::vector<std::string> unreachable_nodes;
+            {
+                std::lock_guard<std::mutex> lock(manager_mutex_);
+                for (const auto& replica : replicas_) {
+                    if (replica.health_status == HealthStatus::FAILED) {
+                        unreachable_nodes.push_back(replica.node_id);
+                    }
+                }
+            }
+            
+            notifyListeners([&unreachable_nodes](IReplicationListener& l) {
+                l.onNetworkPartitionDetected(unreachable_nodes);
+            });
+        }
+        
+        // Update replication lag metrics
+        {
+            std::lock_guard<std::mutex> lock(manager_mutex_);
+            int64_t max_lag = 0;
+            int64_t total_lag = 0;
+            size_t replica_count = 0;
+            
+            for (const auto& replica : replicas_) {
+                int64_t lag = replica.replicationLagMs();
+                max_lag = std::max(max_lag, lag);
+                total_lag += lag;
+                replica_count++;
+                
+                // Notify listeners of excessive lag
+                if (lag > static_cast<int64_t>(config_.max_replication_lag_ms)) {
+                    notifyListeners([lag](IReplicationListener& l) {
+                        l.onReplicationLagWarning(lag);
+                    });
+                }
+            }
+            
+            stats_.max_replication_lag_ms.store(max_lag);
+            if (replica_count > 0) {
+                stats_.avg_replication_lag_ms.store(total_lag / replica_count);
+            }
+        }
+        
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(config_.heartbeat_interval_ms)
+        );
+    }
+}
+
+void ReplicationManager::attemptAutomaticFailover(const std::string& failed_node_id) {
+    // Check if we have quorum to proceed with failover
+    if (!hasQuorum()) {
+        return;
+    }
+    
+    // Elect new leader
+    bool success = electNewLeader();
+    
+    if (success) {
+        stats_.automatic_failovers++;
+        
+        std::string new_leader_id = election_ ? election_->getLeaderId() : "";
+        
+        notifyListeners([&failed_node_id, &new_leader_id](IReplicationListener& l) {
+            l.onFailoverStarted(failed_node_id, new_leader_id);
+        });
+        
+        notifyListeners([&new_leader_id](IReplicationListener& l) {
+            l.onFailoverCompleted(new_leader_id, true);
+        });
+    } else {
+        notifyListeners([](IReplicationListener& l) {
+            l.onFailoverCompleted("", false);
+        });
+    }
+}
+
+bool ReplicationManager::electNewLeader() {
+    if (!election_) {
+        return false;
+    }
+    
+    // Find the replica with highest priority and most up-to-date log
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    
+    ReplicaInfo* best_candidate = nullptr;
+    for (auto& replica : replicas_) {
+        if (!replica.is_voting_member || 
+            replica.health_status == HealthStatus::FAILED) {
+            continue;
+        }
+        
+        if (!best_candidate || 
+            replica.priority > best_candidate->priority ||
+            (replica.priority == best_candidate->priority && 
+             replica.last_applied_sequence > best_candidate->last_applied_sequence)) {
+            best_candidate = &replica;
+        }
+    }
+    
+    if (best_candidate && best_candidate->node_id == node_id_) {
+        // This node is the best candidate
+        election_->startElection();
+        return election_->isLeader();
+    }
+    
+    return false;
+}
+
+void ReplicationManager::updateReplicaHealth(ReplicaInfo& replica) {
+    replica.updateHealthStatus(
+        config_.failure_detection_timeout_ms,
+        config_.degraded_lag_threshold_ms
+    );
 }
 
 // ============================================================================
