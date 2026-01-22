@@ -93,7 +93,7 @@ public:
     
     ~S3BlobBackend() override = default;
     
-    BlobRef put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+    Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(blob_id);
@@ -117,7 +117,10 @@ public:
             auto error = outcome.GetError();
             THEMIS_ERROR("S3 PutObject failed: {} - {}", 
                         error.GetExceptionName(), error.GetMessage());
-            throw std::runtime_error("S3 upload failed: " + error.GetMessage());
+            return Err<BlobRef>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "S3 upload failed: " + error.GetMessage()
+            );
         }
         
         // Create blob reference
@@ -130,10 +133,10 @@ public:
         ref.created_at = std::chrono::system_clock::now().time_since_epoch().count();
         
         THEMIS_DEBUG("Blob stored in S3: id={}, size={} bytes", blob_id, data.size());
-        return ref;
+        return Ok(ref);
     }
     
-    std::optional<std::vector<uint8_t>> get(const BlobRef& ref) override {
+    Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(ref.id);
@@ -150,11 +153,17 @@ public:
             auto error = outcome.GetError();
             if (error.GetErrorType() == Aws::S3::S3Errors::NO_SUCH_KEY) {
                 THEMIS_WARN("Blob not found in S3: {}", ref.id);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                    "Blob not found in S3: " + ref.id
+                );
             }
             THEMIS_ERROR("S3 GetObject failed: {} - {}", 
                         error.GetExceptionName(), error.GetMessage());
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "S3 download failed: " + error.GetMessage()
+            );
         }
         
         // Read data from stream
@@ -175,14 +184,17 @@ public:
         if (actual_hash != ref.hash_sha256) {
             THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}", 
                         ref.id, ref.hash_sha256, actual_hash);
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                "Hash mismatch for blob: " + ref.id
+            );
         }
         
         THEMIS_DEBUG("Blob retrieved from S3: id={}, size={} bytes", ref.id, data.size());
-        return data;
+        return Ok(data);
     }
     
-    bool remove(const BlobRef& ref) override {
+    Result<void> remove(const BlobRef& ref) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(ref.id);
@@ -199,11 +211,14 @@ public:
             auto error = outcome.GetError();
             THEMIS_ERROR("S3 DeleteObject failed: {} - {}", 
                         error.GetExceptionName(), error.GetMessage());
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "S3 delete failed: " + error.GetMessage()
+            );
         }
         
         THEMIS_DEBUG("Blob deleted from S3: id={}", ref.id);
-        return true;
+        return Ok();
     }
     
     bool exists(const BlobRef& ref) override {

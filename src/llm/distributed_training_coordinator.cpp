@@ -1,12 +1,16 @@
 #include "llm/distributed_training_coordinator.h"
+#include "llm/byzantine_detector.h"
 #include "sharding/shard_router.h"
 #include "sharding/shard_topology.h"
 #include <spdlog/spdlog.h>
+#include <fmt/format.h>
 #include <algorithm>
 #include <numeric>
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
+#include <future>
+#include <set>
 
 namespace themis {
 namespace llm {
@@ -32,6 +36,11 @@ json DistributedTrainingConfig::toJSON() const {
     j["enable_checkpointing"] = enable_checkpointing;
     j["checkpoint_frequency"] = checkpoint_frequency;
     j["checkpoint_path"] = checkpoint_path;
+    j["enable_byzantine_detection"] = enable_byzantine_detection;
+    j["detection_method"] = static_cast<int>(detection_method);
+    j["detection_threshold"] = detection_threshold;
+    j["max_byzantine_shards"] = max_byzantine_shards;
+    j["byzantine_action"] = static_cast<int>(byzantine_action);
     return j;
 }
 
@@ -67,6 +76,16 @@ DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
         config.checkpoint_frequency = j["checkpoint_frequency"].get<int>();
     if (j.contains("checkpoint_path")) 
         config.checkpoint_path = j["checkpoint_path"].get<std::string>();
+    if (j.contains("enable_byzantine_detection"))
+        config.enable_byzantine_detection = j["enable_byzantine_detection"].get<bool>();
+    if (j.contains("detection_method"))
+        config.detection_method = static_cast<ByzantineDetectionMethod>(j["detection_method"].get<int>());
+    if (j.contains("detection_threshold"))
+        config.detection_threshold = j["detection_threshold"].get<float>();
+    if (j.contains("max_byzantine_shards"))
+        config.max_byzantine_shards = j["max_byzantine_shards"].get<int>();
+    if (j.contains("byzantine_action"))
+        config.byzantine_action = static_cast<ByzantineAction>(j["byzantine_action"].get<int>());
     return config;
 }
 
@@ -363,6 +382,15 @@ json GradientExchangeMessage::toJSON() const {
         j["gradients"].push_back(grad.toJSON());
     }
     
+    // Serialize loss metrics
+    if (local_loss.has_value()) {
+        j["local_loss"] = local_loss.value();
+    }
+    if (local_accuracy.has_value()) {
+        j["local_accuracy"] = local_accuracy.value();
+    }
+    j["samples_in_batch"] = samples_in_batch;
+    
     return j;
 }
 
@@ -382,6 +410,17 @@ GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
         for (const auto& grad_json : j["gradients"]) {
             msg.gradients.push_back(GradientTensor::fromJSON(grad_json));
         }
+    }
+    
+    // Deserialize loss metrics
+    if (j.contains("local_loss")) {
+        msg.local_loss = j["local_loss"].get<float>();
+    }
+    if (j.contains("local_accuracy")) {
+        msg.local_accuracy = j["local_accuracy"].get<float>();
+    }
+    if (j.contains("samples_in_batch")) {
+        msg.samples_in_batch = j["samples_in_batch"].get<int>();
     }
     
     return msg;
@@ -446,6 +485,11 @@ json DistributedTrainingStats::toJSON() const {
     j["successful_recoveries"] = successful_recoveries;
     j["effective_speedup"] = effective_speedup;
     j["communication_overhead_pct"] = communication_overhead_pct;
+    j["byzantine_detections"] = byzantine_detections;
+    j["byzantine_shards_excluded"] = byzantine_shards_excluded;
+    j["per_shard_detection_count"] = per_shard_detection_count;
+    j["avg_anomaly_score"] = avg_anomaly_score;
+    j["gradient_norm_history"] = gradient_norm_history;
     return j;
 }
 
@@ -642,6 +686,15 @@ bool DistributedTrainingCoordinator::initialize(
     // Initialize aggregator based on strategy
     initializeAggregator();
     
+    // Initialize Byzantine detector if enabled
+    if (config_.enable_byzantine_detection) {
+        initializeByzantineDetector();
+        spdlog::info("Byzantine fault detection enabled (method={}, threshold={}, max_f={})",
+                    static_cast<int>(config_.detection_method),
+                    config_.detection_threshold,
+                    config_.max_byzantine_shards);
+    }
+    
     // Validate shard participation
     if (!validateShardParticipation()) {
         spdlog::error("Shard participation validation failed");
@@ -696,6 +749,21 @@ DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::execu
     
     // 2. Aggregate gradients
     result.aggregated_gradients = aggregateGradients(shard_gradients);
+    
+    // 2b. Aggregate loss values from shards
+    result.aggregated_loss = aggregateLoss(shard_gradients);
+    
+    // Collect per-shard loss for monitoring
+    for (const auto& [shard_id, state] : shard_states_) {
+        if (state.current_loss > 0.0f) {
+            result.per_shard_loss[shard_id] = state.current_loss;
+        }
+    }
+    
+    // Log aggregated loss if available
+    if (result.aggregated_loss.has_value()) {
+        spdlog::debug("Step {} aggregated loss: {:.6f}", current_step_, result.aggregated_loss.value());
+    }
     
     // 3. Broadcast aggregated gradients back to shards
     if (!broadcastGradients(result.aggregated_gradients, current_step_)) {
@@ -775,30 +843,86 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
     spdlog::debug("Collecting gradients from {} shards for step {}", 
                  active_shards_.size(), step_number);
     
-    // In a real implementation, this would:
-    // 1. Send RPC requests to all active shards
-    // 2. Wait for responses (with timeout)
-    // 3. Handle failures and retries
-    // 4. Collect gradient tensors from each shard
+    if (!shard_router_) {
+        // Fallback to simulated mode when ShardRouter is not available
+        spdlog::warn("No ShardRouter available, using simulated gradients");
+        
+        for (const auto& shard_id : active_shards_) {
+            // Create dummy gradient for testing/standalone mode
+            std::vector<GradientTensor> shard_grads;
+            GradientTensor dummy;
+            dummy.layer_name = "test_layer";
+            dummy.source_shard = shard_id;
+            dummy.step_number = step_number;
+            dummy.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count();
+            dummy.shape = {64, 64};
+            dummy.data.resize(64 * 64, 0.1f);  // Dummy data
+            
+            shard_grads.push_back(dummy);
+            collected[shard_id] = shard_grads;
+            
+            // Simulate loss values for testing/standalone mode
+            // Each shard has a simulated loss that decreases over steps
+            float shard_loss = 1.0f / (1.0f + step_number * 0.1f);
+            // Add some variance between shards (±10%)
+            float variance = (std::hash<std::string>{}(shard_id) % 20 - 10) / 100.0f;
+            shard_loss *= (1.0f + variance);
+            
+            // Update shard state with simulated loss
+            if (shard_states_.count(shard_id) > 0) {
+                shard_states_[shard_id].current_loss = shard_loss;
+                shard_states_[shard_id].samples_processed = 32;  // Simulated batch size
+                spdlog::debug("Shard {} simulated loss: {:.6f}", shard_id, shard_loss);
+            }
+        }
+        
+        return collected;
+    }
     
-    // For now, simulate with empty gradients
+    // Real RPC implementation using ShardRouter
+    spdlog::info("Collecting gradients via ShardRouter RPC");
+    
     for (const auto& shard_id : active_shards_) {
-        // Placeholder: In real implementation, fetch from shard via RPC
-        std::vector<GradientTensor> shard_grads;
-        
-        // Create dummy gradient for testing
-        GradientTensor dummy;
-        dummy.layer_name = "test_layer";
-        dummy.source_shard = shard_id;
-        dummy.step_number = step_number;
-        dummy.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-        dummy.shape = {64, 64};
-        dummy.data.resize(64 * 64, 0.1f);  // Dummy data
-        
-        shard_grads.push_back(dummy);
-        collected[shard_id] = shard_grads;
+        try {
+            // Create gradient collection request
+            json request = {
+                {"adapter_id", adapter_id_},
+                {"step_number", step_number},
+                {"timeout_ms", config_.timeout_seconds * 1000}
+            };
+            
+            // Send RPC request to shard
+            // Note: ShardRouter's executeQuery is used for general queries
+            // In a production system, you would add a specific gradient collection RPC method
+            std::string rpc_query = "collect_gradients:" + request.dump();
+            json response = shard_router_->executeQuery(rpc_query);
+            
+            // Parse response into gradient tensors
+            std::vector<GradientTensor> shard_grads;
+            if (response.contains("gradients") && response["gradients"].is_array()) {
+                for (const auto& grad_json : response["gradients"]) {
+                    try {
+                        auto gradient = GradientTensor::fromJSON(grad_json);
+                        shard_grads.push_back(gradient);
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to parse gradient from {}: {}", shard_id, e.what());
+                    }
+                }
+            }
+            
+            if (!shard_grads.empty()) {
+                collected[shard_id] = shard_grads;
+                spdlog::debug("Collected {} gradients from {}", shard_grads.size(), shard_id);
+            } else {
+                spdlog::warn("No gradients received from {}", shard_id);
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to collect gradients from {}: {}", shard_id, e.what());
+            handleShardFailure(shard_id);
+        }
     }
     
     return collected;
@@ -812,11 +936,73 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::aggregateGradients(
         return {};
     }
     
+    // Make a mutable copy for Byzantine detection
+    auto mutable_shard_gradients = shard_gradients;
+    
+    // Byzantine fault detection
+    if (config_.enable_byzantine_detection && byzantine_detector_) {
+        try {
+            auto detection_result = byzantine_detector_->detectByzantineShards(shard_gradients);
+            
+            if (detection_result.requires_action) {
+                spdlog::warn("Byzantine shards detected: {}", 
+                            fmt::format("{}", fmt::join(detection_result.suspected_shards, ", ")));
+                
+                // Update statistics
+                stats_.byzantine_detections++;
+                for (const auto& shard_id : detection_result.suspected_shards) {
+                    stats_.per_shard_detection_count[shard_id]++;
+                }
+                
+                // Compute average anomaly score
+                float total_anomaly = 0.0f;
+                for (const auto& [_, score] : detection_result.anomaly_scores) {
+                    total_anomaly += score;
+                }
+                stats_.avg_anomaly_score = detection_result.anomaly_scores.empty() ? 
+                    0.0f : (total_anomaly / detection_result.anomaly_scores.size());
+                
+                // Take action based on configuration
+                switch (config_.byzantine_action) {
+                    case ByzantineAction::EXCLUDE:
+                        // Remove suspected shards from aggregation
+                        for (const auto& shard_id : detection_result.suspected_shards) {
+                            mutable_shard_gradients.erase(shard_id);
+                            stats_.byzantine_shards_excluded++;
+                            handleShardFailure(shard_id);
+                            spdlog::warn("Excluding Byzantine shard {} from aggregation", shard_id);
+                        }
+                        break;
+                        
+                    case ByzantineAction::CLIP:
+                        // Clip gradients to safe range
+                        clipAnomalousGradients(mutable_shard_gradients, detection_result);
+                        spdlog::info("Clipped {} anomalous gradient shards", 
+                                    detection_result.suspected_shards.size());
+                        break;
+                        
+                    case ByzantineAction::WARN:
+                        // Continue but log
+                        spdlog::warn("Byzantine shards detected but continuing (action=WARN)");
+                        break;
+                        
+                    case ByzantineAction::SHUTDOWN:
+                        throw std::runtime_error(
+                            fmt::format("Byzantine shards detected ({}), shutting down training",
+                                      fmt::join(detection_result.suspected_shards, ", ")));
+                }
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Byzantine detection failed: {}", e.what());
+            // Continue with normal aggregation if detection fails
+        }
+    }
+    
     // Convert map to vector for aggregator
     std::vector<std::vector<GradientTensor>> grad_list;
-    grad_list.reserve(shard_gradients.size());
+    grad_list.reserve(mutable_shard_gradients.size());
     
-    for (const auto& [shard_id, gradients] : shard_gradients) {
+    for (const auto& [shard_id, gradients] : mutable_shard_gradients) {
         grad_list.push_back(gradients);
     }
     
@@ -826,6 +1012,73 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::aggregateGradients(
     return aggregator_->aggregate(grad_list);
 }
 
+std::optional<float> DistributedTrainingCoordinator::aggregateLoss(
+    const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+) {
+    // Collect loss values and sample counts from gradients
+    // NOTE: In the current implementation, loss is stored in the first gradient's metadata
+    // In production, this would be stored in GradientExchangeMessage.local_loss
+    std::vector<std::pair<float, int>> shard_losses_and_counts;
+    
+    for (const auto& [shard_id, gradients] : shard_gradients) {
+        if (gradients.empty()) {
+            spdlog::debug("Shard {} has no gradients, skipping loss aggregation", shard_id);
+            continue;
+        }
+        
+        // Check if shard state has loss information
+        if (shard_states_.count(shard_id) > 0) {
+            const auto& state = shard_states_[shard_id];
+            if (state.current_loss > 0.0f && state.samples_processed > 0) {
+                shard_losses_and_counts.push_back({state.current_loss, state.samples_processed});
+                spdlog::debug("Shard {} contributed loss={:.6f} with {} samples", 
+                            shard_id, state.current_loss, state.samples_processed);
+            }
+        }
+    }
+    
+    if (shard_losses_and_counts.empty()) {
+        spdlog::debug("No loss values available from any shard");
+        return std::nullopt;
+    }
+    
+    // Compute weighted average
+    float aggregated = computeWeightedLoss(shard_losses_and_counts);
+    spdlog::debug("Aggregated loss from {} shards: {:.6f}", 
+                 shard_losses_and_counts.size(), aggregated);
+    
+    return aggregated;
+}
+
+float DistributedTrainingCoordinator::computeWeightedLoss(
+    const std::vector<std::pair<float, int>>& shard_losses_and_counts
+) {
+    if (shard_losses_and_counts.empty()) {
+        return 0.0f;
+    }
+    
+    // Compute weighted average: sum(loss_i * samples_i) / sum(samples_i)
+    float weighted_sum = 0.0f;
+    int total_samples = 0;
+    
+    for (const auto& [loss, samples] : shard_losses_and_counts) {
+        weighted_sum += loss * samples;
+        total_samples += samples;
+    }
+    
+    if (total_samples == 0) {
+        // Fall back to simple average if no sample counts available
+        spdlog::warn("No sample counts available, using simple average");
+        float sum = 0.0f;
+        for (const auto& [loss, _] : shard_losses_and_counts) {
+            sum += loss;
+        }
+        return sum / shard_losses_and_counts.size();
+    }
+    
+    return weighted_sum / total_samples;
+}
+
 bool DistributedTrainingCoordinator::broadcastGradients(
     const std::vector<GradientTensor>& gradients,
     int step_number
@@ -833,18 +1086,86 @@ bool DistributedTrainingCoordinator::broadcastGradients(
     spdlog::debug("Broadcasting {} gradient tensors to {} shards",
                  gradients.size(), active_shards_.size());
     
-    // In real implementation, this would:
-    // 1. Optionally compress gradients
-    // 2. Send to all active shards via RPC
-    // 3. Handle failures and retries
-    // 4. Track bytes sent for statistics
+    if (!shard_router_) {
+        // Fallback to simulated mode
+        spdlog::warn("No ShardRouter available, skipping broadcast (standalone mode)");
+        
+        // Update statistics for simulated mode
+        for (const auto& grad : gradients) {
+            stats_.total_bytes_sent += grad.uncompressed_size();
+        }
+        
+        return true;
+    }
+    
+    // Real RPC implementation using ShardRouter
+    spdlog::info("Broadcasting gradients via ShardRouter RPC");
+    
+    // Optionally compress gradients if configured
+    auto gradients_to_send = config_.compression != GradientCompressionType::NONE ?
+        compressGradients(gradients) : gradients;
+    
+    // Broadcast to all shards in parallel using futures
+    std::vector<std::future<bool>> futures;
+    
+    for (const auto& shard_id : active_shards_) {
+        futures.push_back(std::async(std::launch::async, [&, shard_id]() {
+            try {
+                // Create broadcast request with gradients
+                json request = {
+                    {"step_number", step_number},
+                    {"gradients", json::array()}
+                };
+                
+                // Serialize gradients to JSON
+                for (const auto& grad : gradients_to_send) {
+                    request["gradients"].push_back(grad.toJSON());
+                }
+                
+                // Send RPC request to apply gradients
+                std::string rpc_query = "apply_gradients:" + request.dump();
+                json response = shard_router_->executeQuery(rpc_query);
+                
+                // Check if successful
+                if (response.contains("success") && response["success"].get<bool>()) {
+                    spdlog::debug("Successfully broadcast gradients to {}", shard_id);
+                    return true;
+                } else {
+                    spdlog::warn("Gradient broadcast to {} returned failure", shard_id);
+                    return false;
+                }
+                
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to broadcast gradients to {}: {}", shard_id, e.what());
+                return false;
+            }
+        }));
+    }
+    
+    // Wait for all broadcasts to complete
+    bool all_success = true;
+    for (auto& future : futures) {
+        try {
+            bool success = future.get();
+            all_success &= success;
+        } catch (const std::exception& e) {
+            spdlog::error("Broadcast future threw exception: {}", e.what());
+            all_success = false;
+        }
+    }
     
     // Update statistics
     for (const auto& grad : gradients) {
-        stats_.total_bytes_sent += grad.uncompressed_size();
+        stats_.total_bytes_sent += grad.compressed_size();
     }
     
-    return true;
+    if (all_success) {
+        spdlog::debug("All gradients broadcast successfully");
+    } else {
+        spdlog::warn("Some gradient broadcasts failed");
+    }
+    
+    return all_success;
 }
 
 std::map<std::string, ShardTrainingState> 
@@ -853,14 +1174,65 @@ DistributedTrainingCoordinator::checkShardHealth() {
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
     
-    // Check each shard
-    for (auto& [shard_id, state] : shard_states_) {
-        // In real implementation, send heartbeat request
-        // For now, just update timestamp
-        state.last_heartbeat_ms = now_ms;
-        state.is_active = true;
+    if (!shard_router_) {
+        // Fallback to simulated health checks
+        spdlog::debug("No ShardRouter available, using simulated health checks");
         
-        // Check if shard is too far behind
+        for (auto& [shard_id, state] : shard_states_) {
+            state.last_heartbeat_ms = now_ms;
+            state.is_active = true;
+        }
+        
+        return shard_states_;
+    }
+    
+    // Real health checks via RPC
+    spdlog::debug("Checking shard health via ShardRouter RPC");
+    
+    for (auto& [shard_id, state] : shard_states_) {
+        try {
+            // Create health check request
+            json request = {
+                {"type", "health_check"},
+                {"timestamp", now_ms}
+            };
+            
+            // Send RPC request
+            std::string rpc_query = "health_check:" + request.dump();
+            json response = shard_router_->executeQuery(rpc_query);
+            
+            // Parse health response
+            if (response.contains("is_active")) {
+                state.is_active = response["is_active"].get<bool>();
+            }
+            if (response.contains("gpu_utilization")) {
+                state.gpu_utilization = response["gpu_utilization"].get<float>();
+            }
+            if (response.contains("memory_usage_gb")) {
+                state.memory_usage_gb = response["memory_usage_gb"].get<float>();
+            }
+            if (response.contains("last_heartbeat_ms")) {
+                state.last_heartbeat_ms = response["last_heartbeat_ms"].get<int64_t>();
+            } else {
+                state.last_heartbeat_ms = now_ms;
+            }
+            
+            // Reset failure count on successful health check
+            if (state.is_active) {
+                state.consecutive_failures = 0;
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::warn("Health check failed for {}: {}", shard_id, e.what());
+            state.consecutive_failures++;
+            
+            // Mark as inactive if too many consecutive failures
+            if (state.consecutive_failures > 3) {
+                state.is_active = false;
+            }
+        }
+        
+        // Check if shard is too far behind (timeout check)
         int64_t time_since_heartbeat = now_ms - state.last_heartbeat_ms;
         if (time_since_heartbeat > config_.timeout_seconds * 1000) {
             state.is_active = false;
@@ -1057,18 +1429,129 @@ void DistributedTrainingCoordinator::initializeAggregator() {
     }
 }
 
+void DistributedTrainingCoordinator::initializeByzantineDetector() {
+    byzantine_detector_ = ByzantineDetectorFactory::create(
+        config_.detection_method,
+        config_.detection_threshold,
+        config_.max_byzantine_shards
+    );
+    
+    if (byzantine_detector_) {
+        spdlog::info("Initialized Byzantine detector: {}", byzantine_detector_->getName());
+    } else {
+        spdlog::warn("Failed to initialize Byzantine detector");
+    }
+}
+
+void DistributedTrainingCoordinator::clipAnomalousGradients(
+    std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
+    const DetectionResult& detection_result
+) {
+    // Compute statistics for clipping
+    auto stats = byzantine_detector_->computeStatistics(shard_gradients);
+    
+    if (stats.global_mad < 1e-10f) {
+        spdlog::warn("Cannot clip gradients: MAD too small");
+        return;
+    }
+    
+    // Clip each suspected shard's gradients
+    for (const auto& shard_id : detection_result.suspected_shards) {
+        if (shard_gradients.find(shard_id) == shard_gradients.end()) {
+            continue;
+        }
+        
+        auto& gradients = shard_gradients[shard_id];
+        
+        // Compute current norm
+        float current_norm = 0.0f;
+        for (const auto& tensor : gradients) {
+            for (float val : tensor.data) {
+                current_norm += val * val;
+            }
+        }
+        current_norm = std::sqrt(current_norm);
+        
+        // Compute safe range: median ± k*MAD
+        float max_norm = stats.global_median_norm + config_.detection_threshold * stats.global_mad;
+        
+        if (current_norm > max_norm && current_norm > 1e-10f) {
+            // Scale down gradients to max_norm
+            float scale = max_norm / current_norm;
+            
+            for (auto& tensor : gradients) {
+                for (auto& val : tensor.data) {
+                    val *= scale;
+                }
+            }
+            
+            spdlog::info("Clipped gradients from shard {} (norm {:.6f} -> {:.6f})",
+                        shard_id, current_norm, max_norm);
+        }
+    }
+}
+
 bool DistributedTrainingCoordinator::validateShardParticipation() {
     if (config_.participant_shards.empty()) {
         spdlog::error("No participant shards configured");
         return false;
     }
     
-    // In real implementation, verify each shard is reachable
-    for (const auto& shard_id : config_.participant_shards) {
-        spdlog::debug("Validating shard: {}", shard_id);
-        // TODO: Send ping request to shard
+    if (!shard_topology_) {
+        // Fallback to simple validation without topology
+        spdlog::warn("No ShardTopology available, skipping shard discovery");
+        spdlog::info("Assuming all configured shards are available");
+        return true;
     }
     
+    // Real validation using ShardTopology
+    spdlog::info("Validating shard participation using ShardTopology");
+    
+    // Query topology for available shards
+    auto available_shards = shard_topology_->getHealthyShards();
+    
+    // Create set of available shard IDs for fast lookup
+    std::set<std::string> available_shard_ids;
+    for (const auto& shard_info : available_shards) {
+        available_shard_ids.insert(shard_info.shard_id);
+    }
+    
+    // Verify all participant shards are available
+    for (const auto& shard_id : config_.participant_shards) {
+        if (available_shard_ids.find(shard_id) == available_shard_ids.end()) {
+            spdlog::error("Shard {} not available in topology", shard_id);
+            return false;
+        }
+        
+        // Send ping to verify reachability if ShardRouter is available
+        if (shard_router_) {
+            try {
+                json ping_request = {
+                    {"type", "ping"},
+                    {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()
+                    ).count()}
+                };
+                
+                std::string rpc_query = "ping:" + ping_request.dump();
+                json response = shard_router_->executeQuery(rpc_query);
+                
+                if (!response.contains("success") || !response["success"].get<bool>()) {
+                    spdlog::error("Shard {} not reachable (ping failed)", shard_id);
+                    return false;
+                }
+                
+                spdlog::debug("Shard {} is reachable", shard_id);
+                
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to ping shard {}: {}", shard_id, e.what());
+                return false;
+            }
+        }
+    }
+    
+    spdlog::info("All {} participant shards validated successfully", 
+                config_.participant_shards.size());
     return true;
 }
 

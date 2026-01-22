@@ -6,11 +6,13 @@
 
 ---
 
-## 📊 CHIMERA BENCHMARK SUITE - SCIENTIFIC FOUNDATION (NEU - 2026-01-19)
+## 📊 CHIMERA BENCHMARK SUITE - INDEPENDENT EVALUATION FRAMEWORK (NEU - 2026-01-19)
 
-### Complete Scientific Basis & IEEE Standards Documentation
+### Vendor-Neutral Database Benchmarking
 
-ThemisDB's CHIMERA benchmark suite now includes comprehensive scientific foundation documentation following IEEE/ACM standards:
+The **CHIMERA Suite** (Comprehensive, Honest, Impartial Metrics for Empirical Reporting and Analysis) is an independent, vendor-neutral benchmarking framework that can evaluate ThemisDB alongside other database systems with complete scientific rigor.
+
+**Important:** CHIMERA is a **separate, independent project** designed to benchmark any database system fairly. ThemisDB is one of many systems that can be evaluated using CHIMERA.
 
 **Core Documentation:**
 - [CHIMERA_SCIENTIFIC_FOUNDATION.md](benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md) - Complete scientific basis (24KB)
@@ -23,6 +25,8 @@ ThemisDB's CHIMERA benchmark suite now includes comprehensive scientific foundat
 **Supporting Files:**
 - [references.bib](benchmarks/references.bib) - BibTeX bibliography for scientific papers
 - [benchmark_config_template.toml](benchmarks/benchmark_config_template.toml) - Configuration template for reproducibility
+- [CHIMERA_README.md](../benchmarks/chimera/CHIMERA_README.md) - Independent project overview
+- [CHIMERA_STYLEGUIDE.md](../benchmarks/chimera/CHIMERA_STYLEGUIDE.md) - Vendor-neutral branding guidelines
 
 **Report Integration:**
 - HTML reports with IEEE citations appendix
@@ -37,6 +41,7 @@ ThemisDB's CHIMERA benchmark suite now includes comprehensive scientific foundat
 - ✅ Hardware/dataset transparency templates
 - ✅ Vendor neutrality guarantees
 - ✅ Multi-format export (HTML/LaTeX/Markdown)
+- ✅ Support for multiple database systems
 
 ---
 

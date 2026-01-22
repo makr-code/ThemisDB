@@ -1,27 +1,46 @@
-# ThemisDB Benchmarks
+# ThemisDB Benchmarks - CHIMERA Suite
 
-This directory contains performance benchmarks and testing utilities for ThemisDB.
+**CHIMERA Suite** - _Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_
+
+> **"Benchmark the Unbenchmarkable"** - The industry's first comprehensive benchmark suite for hybrid multi-model databases with native AI/LLM integration.
+
+This directory contains the CHIMERA Suite, a scientifically rigorous benchmark framework for ThemisDB and comparative database systems.
+
+## 🎯 What is CHIMERA Suite?
+
+The CHIMERA Suite represents a new generation of database benchmarking that goes beyond traditional single-model tests. Like the mythical Chimera - a creature composed of multiple beings - this suite evaluates the hybrid nature of modern databases:
+
+- **Multi-Model Workloads**: Graph + Vector + Relational + Document in unified transactions
+- **AI/LLM Integration**: Native LLM inference, LoRA adapters, RAG workflows
+- **Hybrid Inferencing**: Combining database queries with machine learning inference
+- **Scientific Standards**: IEEE/ACM compliant methodology with vendor neutrality
 
 ## 📚 Scientific Foundation & Standards
 
-**[CHIMERA Scientific Foundation](../docs/benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md)** ⭐ NEW - Complete Scientific Basis
+**[CHIMERA Suite Documentation](chimera/README.md)** ⭐ Core Framework
+- Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
+- Vendor-neutral reporting framework with IEEE/ACM compliance
+- Statistical rigor (t-test, Mann-Whitney, Cohen's d, confidence intervals)
+- Color-blind friendly visualizations (Okabe-Ito, Paul Tol palettes)
+- Multi-format reports (HTML, CSV, PDF)
+
+**[CHIMERA Scientific Foundation](../docs/benchmarks/CHIMERA_SCIENTIFIC_FOUNDATION.md)** ⭐ Methodology
 - IEEE/ACM standard citations for all benchmark categories
-- Statistical methodology (t-test, Mann-Whitney, ANOVA, Cohen's d, confidence intervals)
+- Statistical methodology with complete mathematical foundations
 - Reproducibility standards (ACM Artifact Badging compliance)
 - Hardware profiling and dataset transparency specifications
 - Complete bibliography with BibTeX export
-- Integration with HTML/LaTeX/Markdown report generation
 
 **[BibTeX References](../docs/benchmarks/references.bib)** - Complete bibliography for scientific papers
 
 **[Configuration Template](../docs/benchmarks/benchmark_config_template.toml)** - Hardware profiling and reproducibility template
 
-## 🎯 NEW: Advanced Scientific Benchmark Suite
+## 🎯 CHIMERA Suite: Advanced Scientific Benchmarks
 
-**Status:** ✅ Phases 1-4 Complete (Weeks 1-8) - Ahead of Schedule  
-**Documentation:** ~125KB | **Code:** ~70KB C++ | **Timeline:** 14 weeks total
+**Status:** ✅ Phases 1-4 Complete (Weeks 1-8) - Production Ready  
+**Documentation:** ~125KB | **Code:** ~70KB C++ | **Framework:** Python + C++
 
-> **Zusammenfassung (German):** Als Antwort auf die Anforderung nach mehr und besseren Benchmarks für moderne Datenbanken und KI-Systeme haben wir eine umfassende Forschungs- und Implementierungsgrundlage geschaffen, die auf wissenschaftlichen und industriellen Standards (TPC, YCSB, LDBC, ANN-Benchmarks) basiert. **Phasen 1-4 sind komplett:** Research, Hardware-Skalierung, TPC-C, YCSB, und der weltweit erste MMDB-E Benchmark für Multi-Modell-Datenbanken mit Embeddings und LLM-Integration.
+> **Mission:** Provide the world's first comprehensive benchmark suite for hybrid multi-model databases with native AI/LLM integration, following scientific standards (TPC, YCSB, LDBC, ANN-Benchmarks) with vendor neutrality.
 
 ### 📖 Start Here
 

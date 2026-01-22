@@ -736,7 +736,7 @@ See accompanying file: `references.bib`
 
 We welcome contributions to improve the CHIMERA benchmark suite:
 
-1. **Bug Reports**: File issues on GitHub
+1. **Bug Reports**: File issues in your repository
 2. **Feature Requests**: Propose new benchmarks or improvements
 3. **Code Contributions**: Submit pull requests
 4. **Documentation**: Help improve this documentation

@@ -7,7 +7,7 @@
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)
+  [![Version](https://img.shields.io/badge/version-1.4.1--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
@@ -26,7 +26,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
 
-**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[Release Notes](CHANGELOG.md)**
+**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
 
 ---
 
@@ -164,8 +164,9 @@ graph TB
 
 **Linux (Debian/Ubuntu):**
 ```bash
-wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.3.0-1_amd64.deb
-sudo apt install ./themisdb_1.3.0-1_amd64.deb
+# Download the latest release from GitHub
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_amd64.deb
+sudo apt install ./themisdb_amd64.deb
 sudo systemctl start themisdb
 ```
 
@@ -640,7 +641,30 @@ graph TB
 
 > **Note:** Benchmarks represent optimal conditions. Actual performance varies based on hardware, data size, and workload.
 
-**📊 [Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
+### CHIMERA Suite - Scientific Benchmark Framework
+
+ThemisDB performance is evaluated using the **CHIMERA Suite** (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_) - an industry-leading, vendor-neutral benchmark framework for multi-model databases with AI integration.
+
+**Key Features:**
+- 🔬 IEEE/ACM compliant scientific methodology
+- 🎯 Multi-model workload testing (Graph, Vector, Relational, Document)
+- 🤖 Native AI/LLM benchmark support (inference, LoRA, RAG)
+- 🌐 Vendor-neutral, color-blind friendly reporting
+- 📊 Statistical rigor with confidence intervals
+
+**📊 [CHIMERA Suite Documentation](benchmarks/chimera/README.md)** | **[Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
+
+### Independent Benchmarking
+
+ThemisDB performance can be independently evaluated using the **[CHIMERA Suite](benchmarks/chimera/CHIMERA_README.md)** - a vendor-neutral, IEEE-compliant benchmarking framework that supports fair comparison across multiple database systems.
+
+CHIMERA Suite features:
+- Vendor-neutral reporting and visualization
+- Statistical rigor (IEEE Std 2807-2022 compliant)
+- Color-blind friendly design
+- Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
+
+Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
 
 ---
 
@@ -678,7 +702,7 @@ ThemisDB builds upon excellent open-source projects:
 - **CozoDB** - Hybrid relational-graph-vector design inspiration
 
 **[→ Complete Attribution & Dependencies](docs/de/legal/ATTRIBUTIONS.md)**  
-**[→ Implementation Origins & Code Attribution](IMPLEMENTATION_ORIGINS.md)**
+**[→ Implementation Origins & Code Attribution](docs/implementation-history/IMPLEMENTATION_ORIGINS.md)** (Historical)
 
 ---
 

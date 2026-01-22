@@ -106,6 +106,13 @@ public:
      * @return HTTP response with metrics in Prometheus format
      */
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
+    
+    /**
+     * @brief Handle GET /api/plugins/metrics request
+     * @param req HTTP request
+     * @return HTTP response with plugin metrics in JSON format
+     */
+    http::response<http::string_body> handlePluginMetrics(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;

@@ -1,10 +1,12 @@
-# Enterprise Comparison Suite - Complete Documentation
+# CHIMERA Suite - Enterprise Comparison Framework
 
 ## Overview
 
-Das Enterprise Comparison Suite ist ein umfassendes Benchmarking-System, das ThemisDB gegen 50+ Konkurrenten in 8 Datenbankklassen über mehrere Protokolle vergleicht.
+The CHIMERA Enterprise Comparison Framework is a comprehensive benchmarking system that evaluates ThemisDB against 50+ competitors across 8 database categories using multiple protocols.
 
-**Status: ✓ KOMPLETT UND FUNKTIONSFÄHIG**
+**Status: ✓ COMPLETE AND FUNCTIONAL**
+
+> Part of the **CHIMERA Suite** - _Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_
 
 ## Datenbankklassen (8)
 

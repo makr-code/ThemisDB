@@ -9,6 +9,14 @@
 #include <vector>
 #include <functional>
 
+// Forward declarations for shard infrastructure
+namespace themis {
+namespace sharding {
+    class ShardRouter;
+    class ShardTopology;
+}
+}
+
 namespace themis {
 namespace llm {
 namespace lora {
@@ -172,6 +180,11 @@ public:
         bool enable_distributed_training = false;  // Enable distributed training across shards
         std::string coordinator_shard;             // Coordinator shard ID
         std::vector<std::string> participant_shards;  // Participant shard IDs
+        
+        // Shard infrastructure (optional - for dependency injection)
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology;
+        bool auto_discover_shards = true;          // Auto-discover shards from topology
     };
     
     explicit LoRATrainingService(const Config& config = Config{});

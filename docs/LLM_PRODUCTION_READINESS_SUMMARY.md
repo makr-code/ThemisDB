@@ -517,7 +517,7 @@ llama_grammar_free(grammar_);
 ## 📚 References
 
 - **Detailed Verification Report:** `docs/LLM_CORE_VERIFICATION_REPORT.md`
-- **Gap Analysis:** `GAP_ANALYSIS_FINAL_SUMMARY.md`
+- **Gap Analysis:** `implementation-history/GAP_ANALYSIS_FINAL_SUMMARY.md` (Historical)
 - **Implementation Docs:** `docs/LLAMA_IMPL_FINAL.md`
 - **Grammar Docs:** `docs/GRAMMAR_IMPLEMENTATION_SUMMARY.md`
 - **llama.cpp:** https://github.com/ggerganov/llama.cpp

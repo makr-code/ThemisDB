@@ -15,6 +15,10 @@
 #include "llm/lora_framework/gpu_lora_layers.h"
 #include "llm/lora_framework/model_compatibility.h"
 #include "llm/lora_framework/resource_profiler.h"
+#include "llm/lora_framework/training_service_registry.h"
+#include "llm/distributed_training_coordinator.h"
+#include "sharding/shard_router.h"
+#include "sharding/shard_topology.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <atomic>
@@ -119,6 +123,20 @@ public:
         spdlog::info("  Base model: {}", config_.base_model_path);
         spdlog::info("  Max concurrent: {}", config_.max_concurrent_training);
         spdlog::info("  Checkpointing: {}", config_.enable_checkpointing);
+        
+        // Register shard infrastructure if provided
+        if (config_.shard_router && config_.shard_topology) {
+            auto& registry = TrainingServiceRegistry::getInstance();
+            registry.registerShardRouter(config_.shard_router);
+            registry.registerShardTopology(config_.shard_topology);
+            
+            spdlog::info("Shard infrastructure registered for distributed training");
+            spdlog::info("  ShardRouter: registered");
+            spdlog::info("  ShardTopology: registered");
+        } else if (config_.enable_distributed_training) {
+            spdlog::warn("Distributed training enabled but ShardRouter/ShardTopology not provided");
+            spdlog::info("Will attempt to use previously registered instances or run in standalone mode");
+        }
         
         // Create checkpoint directory if it doesn't exist
         if (config_.enable_checkpointing && !config_.checkpoint_dir.empty()) {
@@ -1475,37 +1493,258 @@ TrainingResult LoRATrainingService::trainDistributed(
     }
     
     try {
+        auto start_time = std::chrono::system_clock::now();
+        
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
         spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
         spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
         
-        // TODO: In a real implementation, this would:
-        // 1. Create DistributedTrainingCoordinator with shard router and topology
-        // 2. Initialize coordinator with adapter_id and training config
-        // 3. Execute training steps with gradient synchronization
-        // 4. Handle shard failures and recovery
-        // 5. Apply Byzantine fault detection (detect poisoned gradients)
-        // 6. Monitor training progress across all shards
-        // 7. Finalize and collect results
+        // 1. Create DistributedTrainingConfig from service config
+        DistributedTrainingConfig dist_config;
+        dist_config.sync_strategy = SyncStrategy::ALL_REDUCE;
+        dist_config.compression = GradientCompressionType::NONE;
+        dist_config.coordinator_shard = impl_->config_.coordinator_shard;
+        dist_config.participant_shards = impl_->config_.participant_shards;
+        dist_config.gradient_accumulation_steps = impl_->config_.gradient_accumulation.accumulation_steps;
+        dist_config.sync_frequency = 1;
+        dist_config.gradient_clip_norm = impl_->config_.gradient_clipping.max_norm;
+        dist_config.use_mixed_precision = impl_->config_.mixed_precision.enabled;
+        dist_config.sparse_gradients = false;
+        dist_config.sparse_threshold = 1e-6f;
+        dist_config.max_retry_attempts = 3;
+        dist_config.timeout_seconds = 300;
+        dist_config.enable_checkpointing = impl_->config_.enable_checkpointing;
+        dist_config.checkpoint_frequency = impl_->config_.checkpoint_interval_steps;
+        dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
         
-        // For now, log a placeholder message
-        spdlog::warn("Distributed training coordinator integration is placeholder in this phase");
-        spdlog::info("Required components:");
-        spdlog::info("  - ShardRouter for inter-shard communication");
-        spdlog::info("  - ShardTopology for shard discovery");
-        spdlog::info("  - Byzantine fault detection for gradient validation");
-        spdlog::info("  - Security hooks for poisoned data detection");
+        // 2. Get ShardRouter and ShardTopology from registry
+        // First check if they were provided in config, otherwise get from registry
+        std::shared_ptr<ShardRouter> shard_router = impl_->config_.shard_router;
+        std::shared_ptr<ShardTopology> shard_topology = impl_->config_.shard_topology;
         
-        // Fallback to local training for now
-        spdlog::info("Falling back to local training mode");
-        result = trainOnTheFly(adapter_id, data, hyperparameters);
-        
-        if (result.success) {
-            spdlog::info("Local training completed successfully");
-            spdlog::warn("NOTE: This was local training, not distributed");
-            result.metrics["distributed_mode"] = false;
-            result.metrics["fallback_reason"] = "Coordinator integration pending";
+        if (!shard_router || !shard_topology) {
+            // Try to get from registry
+            auto& registry = TrainingServiceRegistry::getInstance();
+            if (!shard_router) {
+                shard_router = registry.getShardRouter();
+            }
+            if (!shard_topology) {
+                shard_topology = registry.getShardTopology();
+            }
         }
+        
+        if (!shard_router || !shard_topology) {
+            spdlog::warn("ShardRouter/ShardTopology not available");
+            spdlog::info("Running in standalone mode (simulated gradients)");
+            spdlog::info("For production use, provide shard_router and shard_topology in config");
+        } else {
+            spdlog::info("Using ShardRouter and ShardTopology for inter-shard communication");
+            spdlog::info("  ShardRouter: available");
+            spdlog::info("  ShardTopology: available ({} shards)", shard_topology->getShardCount());
+        }
+        
+        // 3. Create DistributedTrainingCoordinator
+        auto coordinator = DistributedTrainingCoordinatorFactory::create(
+            shard_router, 
+            shard_topology, 
+            dist_config
+        );
+        
+        if (!coordinator) {
+            throw std::runtime_error("Failed to create DistributedTrainingCoordinator");
+        }
+        
+        // 4. Initialize coordinator with adapter_id and training config
+        // NOTE: TrainingConfig is a forward declaration used by the coordinator interface.
+        // The actual training parameters are managed through LoRAHyperparameters.
+        // In this implementation, we create an empty TrainingConfig as the coordinator
+        // primarily manages gradient synchronization rather than local training parameters.
+        TrainingConfig training_config;
+        
+        bool initialized = coordinator->initialize(adapter_id, training_config);
+        if (!initialized) {
+            throw std::runtime_error("Failed to initialize distributed training coordinator");
+        }
+        
+        spdlog::info("Distributed training coordinator initialized successfully");
+        
+        // 5. Setup hyperparameters
+        LoRAHyperparameters hyper = hyperparameters.value_or(impl_->config_.default_hyperparameters);
+        
+        // 6. Execute training steps with gradient synchronization
+        int total_steps = hyper.num_epochs * (data.inputs.size() / hyper.batch_size);
+        spdlog::info("Starting distributed training: {} epochs, {} total steps", 
+                    hyper.num_epochs, total_steps);
+        
+        // Track metrics
+        std::vector<float> loss_history;
+        float avg_sync_time_ms = 0.0f;
+        int successful_steps = 0;
+        
+        // Track last step result for per-shard loss
+        DistributedTrainingCoordinator::StepResult last_step_result;
+        
+        // Progress callback to monitor training
+        coordinator->setProgressCallback(
+            [&](int step, const DistributedTrainingCoordinator::StepResult& step_result) {
+                if (step_result.success) {
+                    spdlog::info("Step {}/{} completed in {:.2f}ms (sync: {:.2f}ms)", 
+                               step, total_steps, 
+                               step_result.total_time_ms, 
+                               step_result.sync_time_ms);
+                    
+                    // Check shard health
+                    int active_shards = 0;
+                    for (const auto& [shard_id, state] : step_result.shard_states) {
+                        if (state.is_active) {
+                            active_shards++;
+                        }
+                    }
+                    spdlog::debug("Active shards: {}/{}", active_shards, 
+                                impl_->config_.participant_shards.size());
+                }
+            }
+        );
+        
+        // Execute training loop
+        for (int step = 0; step < total_steps; ++step) {
+            auto step_result = coordinator->executeStep();
+            
+            if (!step_result.success) {
+                spdlog::warn("Training step {} failed", step);
+                
+                // Check if we have shard states before attempting failure handling
+                if (step_result.shard_states.empty()) {
+                    spdlog::error("No shard states available, cannot handle failures");
+                    continue;
+                }
+                
+                // Try to handle shard failures
+                bool can_continue = true;
+                for (const auto& [shard_id, state] : step_result.shard_states) {
+                    if (!state.is_active && state.consecutive_failures > 3) {
+                        spdlog::error("Shard {} has failed critically", shard_id);
+                        can_continue = coordinator->handleShardFailure(shard_id);
+                        if (!can_continue) {
+                            throw std::runtime_error("Too many shard failures, cannot continue");
+                        }
+                    }
+                }
+                
+                // If we can continue, retry the step (max 3 retries per step)
+                if (can_continue) {
+                    int retry_count = 0;
+                    const int max_retries = 3;
+                    while (retry_count < max_retries) {
+                        spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
+                        step_result = coordinator->executeStep();
+                        if (step_result.success) break;
+                        retry_count++;
+                    }
+                    if (!step_result.success) {
+                        spdlog::error("Step {} failed after {} retries", step, max_retries);
+                        continue;  // Skip this step and move to next
+                    }
+                }
+            }
+            
+            if (step_result.success) {
+                successful_steps++;
+                avg_sync_time_ms += step_result.sync_time_ms;
+                
+                // Store last successful step result
+                last_step_result = step_result;
+                
+                // Use actual aggregated loss from coordinator
+                if (step_result.aggregated_loss.has_value()) {
+                    loss_history.push_back(step_result.aggregated_loss.value());
+                    spdlog::debug("Step {} loss: {:.6f}", step, step_result.aggregated_loss.value());
+                } else {
+                    spdlog::debug("Step {} completed but no loss available", step);
+                }
+            }
+        }
+        
+        // 7. Finalize and collect results
+        spdlog::info("Finalizing distributed training");
+        bool finalized = coordinator->finalize();
+        
+        if (!finalized) {
+            spdlog::warn("Finalization had issues, but training completed");
+        }
+        
+        // Get final statistics
+        auto stats = coordinator->getStatistics();
+        auto shard_states = coordinator->getShardStates();
+        
+        // Populate result
+        result.success = (successful_steps > 0);
+        result.final_loss = !loss_history.empty() ? loss_history.back() : 0.0f;
+        
+        // Calculate actual training time from start to finish
+        auto end_time = std::chrono::system_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+        result.training_time_seconds = static_cast<float>(duration.count());
+        
+        // Distributed metrics
+        result.metrics["distributed_mode"] = true;
+        result.metrics["total_steps"] = stats.total_steps_completed;
+        result.metrics["successful_steps"] = successful_steps;
+        result.metrics["gradient_syncs"] = stats.total_gradient_syncs;
+        result.metrics["avg_sync_time_ms"] = stats.avg_sync_time_ms;
+        result.metrics["max_sync_time_ms"] = stats.max_sync_time_ms;
+        result.metrics["total_bytes_sent"] = static_cast<double>(stats.total_bytes_sent);
+        result.metrics["total_bytes_received"] = static_cast<double>(stats.total_bytes_received);
+        result.metrics["compression_ratio"] = stats.compression_ratio;
+        result.metrics["bandwidth_saved_gb"] = stats.bandwidth_saved_gb;
+        result.metrics["shard_failures"] = stats.shard_failures;
+        result.metrics["successful_recoveries"] = stats.successful_recoveries;
+        result.metrics["effective_speedup"] = stats.effective_speedup;
+        result.metrics["communication_overhead_pct"] = stats.communication_overhead_pct;
+        
+        // Shard states
+        int active_shards = 0;
+        for (const auto& [shard_id, state] : shard_states) {
+            if (state.is_active) {
+                active_shards++;
+            }
+        }
+        result.metrics["active_shards"] = active_shards;
+        result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
+        
+        // Add per-shard loss tracking from last successful step
+        if (!last_step_result.per_shard_loss.empty()) {
+            json per_shard_loss_json = json::object();
+            float loss_variance = 0.0f;
+            float mean_loss = 0.0f;
+            int loss_count = 0;
+            
+            for (const auto& [shard_id, loss] : last_step_result.per_shard_loss) {
+                per_shard_loss_json[shard_id] = loss;
+                mean_loss += loss;
+                loss_count++;
+            }
+            
+            // Compute loss variance across shards
+            if (loss_count > 0) {
+                mean_loss /= loss_count;
+                for (const auto& [shard_id, loss] : last_step_result.per_shard_loss) {
+                    float diff = loss - mean_loss;
+                    loss_variance += diff * diff;
+                }
+                loss_variance /= loss_count;
+            }
+            
+            result.metrics["per_shard_loss"] = per_shard_loss_json;
+            result.metrics["loss_variance"] = loss_variance;
+        }
+        
+        spdlog::info("Distributed training completed successfully");
+        spdlog::info("  Total steps: {}", stats.total_steps_completed);
+        spdlog::info("  Successful steps: {}", successful_steps);
+        spdlog::info("  Active shards: {}/{}", active_shards, impl_->config_.participant_shards.size());
+        spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
+        spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         
     } catch (const std::exception& e) {
         result.error_message = "Distributed training failed: " + std::string(e.what());

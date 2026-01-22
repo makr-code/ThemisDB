@@ -10,6 +10,8 @@ namespace spdlog {
     inline void debug(const char*, Args&&...) {}
     template<typename... Args>
     inline void info(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(const char*, Args&&...) {}
 }
 #endif
 
@@ -47,6 +49,14 @@ QuantizedLayerWeights::QuantizedLayerWeights(const Tensor& weights,
                    (data.size() * sizeof(float))) * 100.0f);
 }
 
+QuantizedLayerWeights::QuantizedLayerWeights(QuantizedTensor&& quantized, 
+                                             const std::vector<size_t>& original_shape)
+    : quantized_(std::move(quantized)), original_shape_(original_shape) {
+    
+    spdlog::debug("Created QuantizedLayerWeights from pre-quantized tensor: {} bytes",
+                  quantized_.memory_bytes());
+}
+
 Tensor QuantizedLayerWeights::dequantize() const {
     std::vector<float> data;
     quantization::dequantize(quantized_, data);
@@ -69,6 +79,12 @@ QuantizedModel::QuantizedModel(const QuantizedModelConfig& config)
 void QuantizedModel::add_layer(const std::string& layer_name, const Tensor& weights) {
     spdlog::debug("Adding layer '{}' to quantized model", layer_name);
     layers_.emplace(layer_name, QuantizedLayerWeights(weights, config_));
+}
+
+void QuantizedModel::add_quantized_layer(const std::string& layer_name, 
+                                         QuantizedLayerWeights&& quantized_weights) {
+    spdlog::debug("Adding pre-quantized layer '{}' to quantized model", layer_name);
+    layers_.emplace(layer_name, std::move(quantized_weights));
 }
 
 const QuantizedLayerWeights* QuantizedModel::get_layer(const std::string& layer_name) const {
@@ -339,11 +355,7 @@ QuantizedModel load_from_gguf(
         }
         
         try {
-            // Convert based on type - currently only full precision (F16/F32) can be
-            // directly converted and added to the model via add_layer()
-            // Pre-quantized formats (Q4_K_M, Q8_0) are loaded but need further
-            // integration work for direct use
-            
+            // Convert based on type
             if (tensor_info.type == llm::GGMLType::F16 || 
                 tensor_info.type == llm::GGMLType::F32) {
                 // Full precision - convert to FP32 and quantize via normal path
@@ -368,28 +380,27 @@ QuantizedModel load_from_gguf(
                 
             } else if (tensor_info.type == llm::GGMLType::Q4_K || 
                       tensor_info.type == llm::GGMLType::Q8_0) {
-                // Pre-quantized formats - for now, dequantize and re-quantize
-                // Future optimization: Direct use of converted QuantizedTensor
-                std::vector<float> fp32_data;
-                
-                if (tensor_info.type == llm::GGMLType::Q4_K) {
-                    fp32_data = GGUFConverter::dequantizeQ4KM(tensor_data, 
-                        GGUFConverter::calculateElements(tensor_info.shape));
-                } else {
-                    fp32_data = GGUFConverter::dequantizeQ8_0(tensor_data,
-                        GGUFConverter::calculateElements(tensor_info.shape));
-                }
-                
-                // Create Tensor and add to model (will be re-quantized)
+                // Pre-quantized formats - directly convert to QuantizedTensor
+                // Uses DIRECT conversion (Q4_K → NF4 or Q8_0 → INT8) without FP32 intermediate
+                // This preserves original quantization quality and avoids precision loss
+                QuantizedTensor quantized_tensor;
                 std::vector<size_t> shape;
+                
                 for (auto dim : tensor_info.shape) {
                     shape.push_back(static_cast<size_t>(dim));
                 }
-                Tensor tensor(shape);
-                tensor.data() = std::move(fp32_data);
                 
-                model.add_layer(tensor_info.name, tensor);
-                spdlog::debug("Loaded quantized tensor: {} -> dequantized -> re-quantized",
+                if (tensor_info.type == llm::GGMLType::Q4_K) {
+                    quantized_tensor = GGUFConverter::convertQ4KM(tensor_data, tensor_info);
+                } else {
+                    quantized_tensor = GGUFConverter::convertQ8_0(tensor_data, tensor_info);
+                }
+                
+                // Create QuantizedLayerWeights and add directly to model
+                QuantizedLayerWeights layer_weights(std::move(quantized_tensor), shape);
+                model.add_quantized_layer(tensor_info.name, std::move(layer_weights));
+                
+                spdlog::debug("Loaded pre-quantized tensor: {} (using real quantized weights)",
                              tensor_info.name);
                 converted++;
             }

@@ -282,17 +282,6 @@ struct BlobMetadata {
 };
 
 /**
- * Blob Operation Result
- */
-struct BlobOperationResult {
-    bool success = false;
-    std::string blob_id;
-    std::string error_message;
-    std::chrono::milliseconds latency{0};
-    std::vector<std::string> affected_shards;
-};
-
-/**
  * Blob Redundancy Statistics
  */
 struct BlobRedundancyStats {
@@ -407,30 +396,30 @@ public:
     void unregisterBlob(const std::string& blob_id);
     
     // Redundancy Operations
-    BlobOperationResult ensureRedundancy(const std::string& blob_id);
-    BlobOperationResult repairBlob(const std::string& blob_id);
+    Result<void> ensureRedundancy(const std::string& blob_id);
+    Result<void> repairBlob(const std::string& blob_id);
     bool verifyBlob(const std::string& blob_id);
     
     // Read/Write with redundancy
-    BlobOperationResult writeBlob(
+    Result<void> writeBlob(
         const std::string& blob_id,
         const std::vector<uint8_t>& data,
         WriteHandler handler
     );
     
-    std::optional<std::vector<uint8_t>> readBlob(
+    Result<std::vector<uint8_t>> readBlob(
         const std::string& blob_id,
         ReadHandler handler
     );
     
-    BlobOperationResult deleteBlob(
+    Result<void> deleteBlob(
         const std::string& blob_id,
         DeleteHandler handler
     );
     
     // Tier Management
-    BlobOperationResult tierDown(const std::string& blob_id, StorageTier target);
-    BlobOperationResult tierUp(const std::string& blob_id, StorageTier target);
+    Result<void> tierDown(const std::string& blob_id, StorageTier target);
+    Result<void> tierUp(const std::string& blob_id, StorageTier target);
     std::vector<std::string> getBlobsForTierDown();
     
     // Health and Monitoring
@@ -448,7 +437,7 @@ public:
     std::string exportPrometheusMetrics() const;
     
     // RocksDB Integration
-    std::shared_ptr<rocksdb::EventListener> createRocksDBListener();
+    Result<std::shared_ptr<rocksdb::EventListener>> createRocksDBListener();
     
 private:
     Config config_;

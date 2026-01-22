@@ -124,7 +124,9 @@ TEST_F(AsyncIOMultiScanTest, AsyncIterator) {
     insertTestData(num_records);
 
     // Create async iterator
-    auto it = db_->newAsyncIterator();
+    auto it_result = db_->newAsyncIterator();
+    ASSERT_TRUE(it_result.has_value()) << "Failed to create iterator: " << it_result.error().message();
+    auto it = std::move(it_result.value());
     ASSERT_NE(it, nullptr);
 
     int count = 0;
