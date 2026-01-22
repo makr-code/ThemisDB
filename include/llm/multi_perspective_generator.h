@@ -215,7 +215,8 @@ public:
      * - Deontological (duty-based)
      * - Virtue ethics (character-based)
      * - Care ethics (relationship-based)
-     * - Religious perspectives (multiple traditions)
+     * - Rights-based ethics
+     * - Justice-based ethics
      */
     void loadDefaultPerspectives();
     

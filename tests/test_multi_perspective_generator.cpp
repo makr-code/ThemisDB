@@ -687,9 +687,8 @@ TEST_F(MultiPerspectiveGeneratorTest, VeryLongQuery) {
     std::string query(10000, 'x');
     bool requires = generator_->requiresMultiPerspective(query);
     
-    // Should handle long queries without crashing
-    EXPECT_GE(requires, false);
-    EXPECT_LE(requires, true);
+    // Should handle long queries without crashing (result is valid boolean)
+    (void)requires; // Suppress unused warning - just testing no crash
 }
 
 TEST_F(MultiPerspectiveGeneratorTest, SpecialCharactersQuery) {
@@ -711,9 +710,8 @@ TEST_F(MultiPerspectiveGeneratorTest, NonEnglishQuery) {
     std::string query = "¿Es ético usar inteligencia artificial?";
     bool requires = generator_->requiresMultiPerspective(query);
     
-    // Should attempt to detect ethical queries in other languages
-    EXPECT_GE(requires, false);
-    EXPECT_LE(requires, true);
+    // Should attempt to detect ethical queries in other languages (result is valid boolean)
+    (void)requires; // Suppress unused warning - just testing no crash
 }
 
 TEST_F(MultiPerspectiveGeneratorTest, NoPerspectivesAvailable) {
