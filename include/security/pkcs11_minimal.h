@@ -12,9 +12,14 @@ typedef uint32_t CK_RV;      // return value
 typedef uint32_t CK_SLOT_ID;  // slot identifier
 typedef uint32_t CK_SESSION_HANDLE; // session handle
 typedef uint32_t CK_OBJECT_HANDLE;  // object handle
+typedef uint32_t CK_ULONG;    // unsigned long value
 
 typedef uint8_t CK_BYTE;
+typedef uint8_t CK_BBOOL;
 typedef CK_BYTE* CK_BYTE_PTR;
+
+typedef uint32_t CK_OBJECT_CLASS;
+typedef uint32_t CK_CERTIFICATE_TYPE;
 
 typedef struct CK_MECHANISM {
     uint32_t mechanism; // Mechanism type
@@ -32,16 +37,29 @@ typedef struct CK_ATTRIBUTE {
 #define CKM_RSA_PKCS 0x00000001U
 #define CKM_SHA256_RSA_PKCS 0x00000040U
 #define CKM_ECDSA 0x00001041U
+#define CKM_RSA_PKCS_KEY_PAIR_GEN 0x00000000U
 
 // Object classes (subset)
 #define CKO_PRIVATE_KEY 0x00000003U
 #define CKO_PUBLIC_KEY  0x00000002U
 #define CKO_CERTIFICATE 0x00000001U
 
+// Certificate types
+#define CKC_X_509 0x00000000U
+
 // Attribute types (subset)
 #define CKA_CLASS       0x00000000U
 #define CKA_LABEL       0x00000003U
 #define CKA_VALUE       0x00000011U
+#define CKA_TOKEN       0x00000001U
+#define CKA_PRIVATE     0x00000002U
+#define CKA_SENSITIVE   0x00000103U
+#define CKA_SIGN        0x00000108U
+#define CKA_VERIFY      0x0000010AU
+#define CKA_EXTRACTABLE 0x00000162U
+#define CKA_MODULUS_BITS 0x00000121U
+#define CKA_PUBLIC_EXPONENT 0x00000122U
+#define CKA_CERTIFICATE_TYPE 0x00000080U
 
 // Return values (subset)
 #define CKR_OK                  0x00000000U
@@ -80,6 +98,8 @@ struct CK_FUNCTION_LIST {
     CK_RV (*C_VerifyInit)(CK_SESSION_HANDLE, CK_MECHANISM*, CK_OBJECT_HANDLE);
     CK_RV (*C_Verify)(CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t);
     CK_RV (*C_GetAttributeValue)(CK_SESSION_HANDLE, CK_OBJECT_HANDLE, CK_ATTRIBUTE*, uint32_t);
+    CK_RV (*C_GenerateKeyPair)(CK_SESSION_HANDLE, CK_MECHANISM*, CK_ATTRIBUTE*, uint32_t, CK_ATTRIBUTE*, uint32_t, CK_OBJECT_HANDLE*, CK_OBJECT_HANDLE*);
+    CK_RV (*C_CreateObject)(CK_SESSION_HANDLE, CK_ATTRIBUTE*, uint32_t, CK_OBJECT_HANDLE*);
 };
 
 } // extern "C"

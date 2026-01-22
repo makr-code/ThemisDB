@@ -96,6 +96,36 @@ public:
     static QuantizationType getInternalType(GGMLType type);
     
     /**
+     * @brief Convert Q4_K_M directly to internal NF4 format (no FP32 intermediate)
+     * 
+     * This is the preferred method for quantized loading as it avoids
+     * precision loss from dequantize/requantize cycle.
+     * 
+     * @param gguf_data Raw GGUF tensor data
+     * @param tensor_info GGUF tensor metadata
+     * @return QuantizedTensor in NF4 format
+     */
+    static QuantizedTensor convertQ4KM_direct(
+        const void* gguf_data,
+        const TensorMetadata& tensor_info
+    );
+    
+    /**
+     * @brief Convert Q8_0 directly to internal INT8 format (no FP32 intermediate)
+     * 
+     * This is the preferred method for quantized loading as it avoids
+     * precision loss from dequantize/requantize cycle.
+     * 
+     * @param gguf_data Raw GGUF tensor data
+     * @param tensor_info GGUF tensor metadata
+     * @return QuantizedTensor in INT8 format
+     */
+    static QuantizedTensor convertQ8_0_direct(
+        const void* gguf_data,
+        const TensorMetadata& tensor_info
+    );
+    
+    /**
      * @brief Dequantize Q4_K_M data to FP32
      * 
      * @param data Raw Q4_K_M data

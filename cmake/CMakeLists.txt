@@ -2450,6 +2450,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_video_processor_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_sse.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_governance.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_timeseries.cpp
     ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
