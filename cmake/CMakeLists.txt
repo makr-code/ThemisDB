@@ -1137,6 +1137,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/query_cache.cpp
 
     
     
@@ -1250,6 +1251,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/memory/pool_allocator.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -2503,6 +2505,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_graph_type_filtering.cpp
         ${THEMIS_ROOT_DIR}/tests/test_gnn_embeddings.cpp
         ${THEMIS_ROOT_DIR}/tests/test_semantic_cache.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_query_cache.cpp
         ${THEMIS_ROOT_DIR}/tests/test_tsstore.cpp
         ${THEMIS_ROOT_DIR}/tests/test_gorilla.cpp
     ${THEMIS_ROOT_DIR}/tests/test_gorilla_probe.cpp
@@ -2585,6 +2588,7 @@ if(THEMIS_BUILD_TESTS)
         # Phase 1 Performance Optimization Tests (from PR #157)
         ${THEMIS_ROOT_DIR}/tests/test_performance_feature_flags.cpp
         ${THEMIS_ROOT_DIR}/tests/test_performance_allocator.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_pool_allocator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_huge_pages.cpp
         ${THEMIS_ROOT_DIR}/tests/test_rcu_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lirs_cache.cpp
