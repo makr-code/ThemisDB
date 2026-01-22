@@ -2971,6 +2971,7 @@ if(THEMIS_BUILD_BENCHMARKS)
         ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
         ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
@@ -3233,6 +3234,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_graph_traversal
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Graph Query Optimizer benchmark
+    add_executable(bench_graph_query_optimizer
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
+    )
+    
+    target_link_libraries(bench_graph_query_optimizer
         PRIVATE
             themis_core
             benchmark::benchmark
