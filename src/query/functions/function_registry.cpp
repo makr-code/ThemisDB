@@ -32,6 +32,7 @@
 #include "query/functions/array_functions.h"
 #include "query/functions/date_functions.h"
 #include "query/functions/document_functions.h"
+#include "query/functions/json_path_functions.h"
 #include "query/functions/geo_functions.h"
 #include "query/functions/crs_functions.h"
 #include "query/functions/vector_functions.h"
@@ -62,6 +63,7 @@ void registerBuiltinFunctions() {
         registerArrayFunctions(registry);
         registerDateFunctions(registry);
         registerDocumentFunctions(registry);
+        registerJsonPathFunctions(registry);    // JSONPath query functions
         
         // Multi-model functions
         registerGeoFunctions(registry);         // Spatial/GIS operations
