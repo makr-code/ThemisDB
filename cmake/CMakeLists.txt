@@ -1128,6 +1128,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
@@ -2416,6 +2417,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_optimizer_cost_model.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stats_api.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_range_index.cpp
               ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
@@ -2448,6 +2450,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_video_processor_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_sse.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_governance.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_timeseries.cpp
     ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
