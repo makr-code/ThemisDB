@@ -21,12 +21,14 @@ struct HnswOptimizationConfig {
     struct LayerPruning {
         bool enabled = false;
         double threshold_multiplier = 5.0;  // candidate_count > k * multiplier
+        size_t min_samples = 5;              // Minimum samples for ef optimization
     } layer_pruning;
     
     // Adaptive layer selection configuration
     struct AdaptiveLayerSelection {
         bool enabled = false;
         size_t stats_window_size = 1000;  // Moving window for statistics
+        size_t min_samples = 10;          // Minimum samples for statistical confidence
     } adaptive_layer_selection;
     
     // Batch insert optimization configuration
@@ -62,7 +64,7 @@ public:
             total_search_time_ms += search_time_ms;
             avg_search_time_ms = total_search_time_ms / access_count;
             efficiency_score = (avg_search_time_ms > 0) ? 
-                (static_cast<double>(candidates_found) / total_search_time_ms) : 0.0;
+                (static_cast<double>(candidates_found) / avg_search_time_ms) : 0.0;
         }
     };
     

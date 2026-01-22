@@ -151,7 +151,7 @@ TEST(HnswLayerOptimizerTest, EfficiencyScoreCalculation) {
     auto stats = optimizer.getLayerStats();
     auto layer0_stats = stats[0];
     
-    // Efficiency = candidates_found / total_search_time = 100 / 2.0 = 50.0
+    // Efficiency = candidates_found / avg_search_time = 100 / (2.0 / 1) = 100 / 2.0 = 50.0
     EXPECT_DOUBLE_EQ(50.0, layer0_stats.efficiency_score);
 }
 

@@ -143,8 +143,18 @@ void VectorIndexManager::loadHnswOptimizationConfig_() {
 		
 		// Create optimizer if configuration is enabled
 		if (opt_config.enabled) {
-			hnsw_optimizer_ = std::make_unique<HnswLayerOptimizer>(opt_config);
-			THEMIS_INFO("HNSW optimization enabled for index '{}'", objectName_);
+			try {
+				hnsw_optimizer_ = std::make_unique<HnswLayerOptimizer>(opt_config);
+				if (!hnsw_optimizer_) {
+					THEMIS_WARN("Failed to create HNSW optimizer for index '{}'", objectName_);
+					hnsw_optimizer_.reset();
+				} else {
+					THEMIS_INFO("HNSW optimization enabled for index '{}'", objectName_);
+				}
+			} catch (const std::exception& opt_error) {
+				THEMIS_WARN("Failed to create HNSW optimizer for index '{}': {}", objectName_, opt_error.what());
+				hnsw_optimizer_.reset();
+			}
 		} else {
 			THEMIS_DEBUG("HNSW optimization disabled in configuration");
 		}
@@ -999,6 +1009,8 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				double query_time_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
 				
 				// Estimate layers traversed (HNSW formula: log2(N))
+				// Note: This is an approximation based on the probabilistic layer model.
+				// For more accurate layer information, consider using actual layer data from the HNSW index.
 				int estimated_layers = static_cast<int>(std::log2(idToPk_.size() + 1));
 				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
 			}
