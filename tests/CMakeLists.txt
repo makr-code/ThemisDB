@@ -77,6 +77,40 @@ else()
 endif()
 
 # ============================================================================
+# Memory Pool Allocator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+    message(STATUS "Adding memory pool allocator tests")
+    
+    add_executable(test_pool_allocator
+        test_pool_allocator.cpp
+    )
+    
+    target_link_libraries(test_pool_allocator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pool_allocator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MemoryPoolAllocatorTests COMMAND test_pool_allocator)
+    
+    set_tests_properties(MemoryPoolAllocatorTests PROPERTIES
+        LABELS "core;memory;allocator;pool"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Memory pool allocator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
@@ -2579,6 +2613,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
     message(STATUS "  Property Graph: edge cascade deletion, node/edge management")
 else()
     message(STATUS "Property Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    message(STATUS "Adding GraphQL parser tests")
+    
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graphql PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    
+    set_tests_properties(GraphQLParserTests PROPERTIES
+        LABELS "api;graphql;parser;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
+else()
+    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
 endif()
 
 # ============================================================================
