@@ -16,6 +16,13 @@ namespace themis {
 namespace server {
 namespace rpc {
 
+// Constants for geospatial calculations
+namespace {
+    constexpr double PI = 3.14159265358979323846;
+    constexpr double DEG_TO_RAD = PI / 180.0;
+    constexpr double EARTH_RADIUS_METERS = 6371000.0;
+}
+
 // Helper function to get timestamp in nanoseconds
 static uint64_t getCurrentTimestampNs() {
     auto now = std::chrono::system_clock::now();
@@ -626,7 +633,7 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
             // Rough approximation: 1 degree latitude ≈ 111km
             // 1 degree longitude varies by latitude
             constexpr double METERS_PER_DEGREE_LAT = 111000.0;
-            double meters_per_degree_lon = METERS_PER_DEGREE_LAT * std::cos(lat * 3.14159265358979323846 / 180.0);
+            double meters_per_degree_lon = METERS_PER_DEGREE_LAT * std::cos(lat * DEG_TO_RAD);
             
             double lat_delta = radius / METERS_PER_DEGREE_LAT;
             double lon_delta = radius / meters_per_degree_lon;
@@ -657,16 +664,16 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
                 double result_lat = (result.mbr.miny + result.mbr.maxy) / 2.0;
                 
                 // Haversine formula for great circle distance
-                double lat1_rad = lat * 3.14159265358979323846 / 180.0;
-                double lat2_rad = result_lat * 3.14159265358979323846 / 180.0;
-                double dlat = (result_lat - lat) * 3.14159265358979323846 / 180.0;
-                double dlon = (result_lon - lon) * 3.14159265358979323846 / 180.0;
+                double lat1_rad = lat * DEG_TO_RAD;
+                double lat2_rad = result_lat * DEG_TO_RAD;
+                double dlat = (result_lat - lat) * DEG_TO_RAD;
+                double dlon = (result_lon - lon) * DEG_TO_RAD;
                 
                 double a = std::sin(dlat/2) * std::sin(dlat/2) +
                           std::cos(lat1_rad) * std::cos(lat2_rad) *
                           std::sin(dlon/2) * std::sin(dlon/2);
                 double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));
-                double distance = 6371000.0 * c; // Earth radius in meters
+                double distance = EARTH_RADIUS_METERS * c;
                 
                 result_obj["distance"] = distance;
                 
