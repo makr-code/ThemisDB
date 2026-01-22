@@ -649,10 +649,16 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     // 4. Maintaining an allowlist of trusted domains
     
     // Download audio using HTTP client pool
-    // Note: response_future.get() blocks synchronously, but the HTTPClientPool has built-in
-    // timeouts (connect_timeout=10s, request_timeout=60s) that prevent indefinite blocking.
+    // Note: We use wait_for() with a timeout as an additional safety measure, even though
+    // the HTTPClientPool has built-in timeouts (connect_timeout=10s, request_timeout=60s).
     // The std::async in HTTPClientPool::get() runs the request in a separate thread.
     auto response_future = http_client_pool_->get(url);
+    
+    // Wait with timeout (70s = 10s connect + 60s request + 10s buffer)
+    if (response_future.wait_for(std::chrono::seconds(70)) == std::future_status::timeout) {
+        throw std::runtime_error("Audio download timed out");
+    }
+    
     auto response = response_future.get();
     
     // Check if download was successful
