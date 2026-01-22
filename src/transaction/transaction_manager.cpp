@@ -241,7 +241,12 @@ TransactionManager::Transaction::Transaction(TransactionId id,
                                              IsolationLevel isolation)
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()) {
-    mvcc_txn_ = db_.beginTransaction();
+    // Convert ThemisDB IsolationLevel to RocksDB TransactionIsolationLevel
+    auto rocksdb_isolation = (isolation_ == IsolationLevel::Snapshot) 
+        ? RocksDBWrapper::TransactionIsolationLevel::Snapshot
+        : RocksDBWrapper::TransactionIsolationLevel::ReadCommitted;
+    
+    mvcc_txn_ = db_.beginTransaction(rocksdb_isolation);
     if (!mvcc_txn_) {
         throw std::runtime_error("Failed to create MVCC transaction");
     }
