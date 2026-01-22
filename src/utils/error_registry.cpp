@@ -148,6 +148,152 @@ void ErrorRegistry::registerDefaultErrors() {
         {"redundancy", "replication", "backup", "storage", "backend"}
     });
     
+    // Backup & Recovery Errors
+    registerError({
+        ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup creation failed: {}",
+        "Failed to create database backup.",
+        "1. Check available disk space\n"
+        "2. Verify backup destination permissions\n"
+        "3. Ensure database is accessible\n"
+        "4. Review backup logs for specific errors",
+        {"/docs/backup.md", "/docs/operations.md"},
+        {"backup", "creation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup restoration failed: {}",
+        "Failed to restore database from backup.",
+        "1. Verify backup integrity\n"
+        "2. Check backup file permissions\n"
+        "3. Ensure sufficient disk space\n"
+        "4. Try restoring from an earlier backup",
+        {"/docs/backup.md", "/docs/recovery.md"},
+        {"backup", "restore", "recovery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+        "Backup",
+        "Warning",
+        "Backup verification failed: {}",
+        "Backup integrity check detected issues.",
+        "1. Run full backup verification\n"
+        "2. Check backup checksums\n"
+        "3. Consider creating a new full backup",
+        {"/docs/backup.md"},
+        {"backup", "verification", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_NOT_FOUND,
+        "Backup",
+        "Error",
+        "Backup not found: {}",
+        "The specified backup does not exist.",
+        "1. Verify backup path\n"
+        "2. List available backups\n"
+        "3. Check backup retention policies",
+        {"/docs/backup.md"},
+        {"backup", "not found", "missing"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INVALID_TYPE,
+        "Backup",
+        "Error",
+        "Invalid backup type: {}",
+        "The backup type is not supported for this operation.",
+        "1. Use full backup for restoration\n"
+        "2. Restore from full backup then apply incremental/differential",
+        {"/docs/backup.md"},
+        {"backup", "type", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INCOMPLETE,
+        "Backup",
+        "Critical",
+        "Backup incomplete: {}",
+        "Backup is missing required components (e.g., RAID shards).",
+        "1. Verify all backup components exist\n"
+        "2. For RAID configs, ensure all shards are backed up\n"
+        "3. Create a new complete backup",
+        {"/docs/backup.md", "/docs/raid.md"},
+        {"backup", "incomplete", "missing", "raid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup compression failed: {}",
+        "Failed to compress backup data.",
+        "1. Check available disk space\n"
+        "2. Verify tar/gzip availability\n"
+        "3. Check file permissions",
+        {"/docs/backup.md"},
+        {"backup", "compression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup decompression failed: {}",
+        "Failed to decompress backup archive.",
+        "1. Verify backup file integrity\n"
+        "2. Check for corruption\n"
+        "3. Ensure tar/gzip is available",
+        {"/docs/backup.md"},
+        {"backup", "decompression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_CHECKSUM_MISMATCH,
+        "Backup",
+        "Critical",
+        "Backup checksum mismatch: {}",
+        "Backup file checksum does not match expected value.",
+        "1. Do not use this backup - it may be corrupted\n"
+        "2. Verify backup source integrity\n"
+        "3. Create a new backup\n"
+        "4. Check for disk errors",
+        {"/docs/backup.md", "/docs/troubleshooting.md"},
+        {"backup", "checksum", "corruption", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+        "Backup",
+        "Error",
+        "Backup manifest corrupt: {}",
+        "Backup metadata file is corrupted or unreadable.",
+        "1. Check backup directory structure\n"
+        "2. Verify JSON format of MANIFEST.json\n"
+        "3. Restore from an earlier backup",
+        {"/docs/backup.md"},
+        {"backup", "manifest", "corrupt", "metadata"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED,
+        "Backup",
+        "Error",
+        "WAL archive failed: {}",
+        "Failed to archive Write-Ahead Log files.",
+        "1. Check WAL directory permissions\n"
+        "2. Verify available disk space\n"
+        "3. Review database logs",
+        {"/docs/backup.md", "/docs/wal.md"},
+        {"backup", "wal", "archive", "failed"}
+    });
+    
     // LLM Errors
     registerError({
         ErrorCode::ERR_LLM_MODEL_NOT_FOUND,
@@ -795,6 +941,66 @@ void ErrorRegistry::registerDefaultErrors() {
         "6. Monitor system resources during query execution",
         {"/docs/query/resources.md", "/docs/query/optimization.md"},
         {"query", "resource", "exhausted", "memory", "limit"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID,
+        "Query",
+        "Error",
+        "Invalid query: {}",
+        "The query is invalid or malformed.",
+        "1. Check query syntax and structure\n"
+        "2. Verify all required parameters are provided\n"
+        "3. Ensure query string is not empty\n"
+        "4. Review query documentation for correct format",
+        {"/docs/query/syntax.md"},
+        {"query", "invalid", "malformed", "syntax"}
+    });
+    
+    // Cache Errors
+    registerError({
+        ErrorCode::ERR_CACHE_FULL,
+        "Cache",
+        "Warning",
+        "Cache is full: {}",
+        "The cache has reached its maximum capacity and cannot store new entries.",
+        "1. Increase cache size limits in configuration\n"
+        "2. Review cache eviction policy settings\n"
+        "3. Monitor cache hit rates and adjust TTL settings\n"
+        "4. Consider using memory-aware eviction\n"
+        "5. Clear expired entries manually if needed",
+        {"/docs/cache/configuration.md"},
+        {"cache", "full", "capacity", "memory", "limit"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE,
+        "Cache",
+        "Warning",
+        "Cache entry too large: {}",
+        "The entry exceeds the maximum allowed size for caching.",
+        "1. Increase max_entry_size in cache configuration\n"
+        "2. Consider result set pagination for large queries\n"
+        "3. Review query to reduce result size\n"
+        "4. Use compression for large result sets\n"
+        "5. Store partial results if applicable",
+        {"/docs/cache/configuration.md"},
+        {"cache", "entry", "size", "limit", "exceeded"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_INVALIDATION_FAILED,
+        "Cache",
+        "Error",
+        "Cache invalidation failed: {}",
+        "Failed to invalidate cache entries as requested.",
+        "1. Check cache service is running\n"
+        "2. Verify cache key or dependency pattern is correct\n"
+        "3. Review cache logs for detailed error information\n"
+        "4. Consider clearing entire cache if needed\n"
+        "5. Ensure sufficient permissions for cache operations",
+        {"/docs/cache/invalidation.md"},
+        {"cache", "invalidation", "failed", "error"}
     });
     
     // API Errors
