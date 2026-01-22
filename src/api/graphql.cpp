@@ -1,10 +1,13 @@
 #include "api/graphql.h"
+#include "utils/error_registry.h"
 #include <cctype>
 #include <sstream>
 #include <algorithm>
 
 namespace themis {
 namespace graphql {
+
+using errors::ErrorCode;
 
 // ============================================================================
 // Parser Implementation
@@ -24,25 +27,27 @@ Parser::Result Parser::parseDocument() {
     skipWhitespace();
     
     while (pos_ < source_.size()) {
-        auto op = parseOperation();
-        if (op) {
-            result.document.operations.push_back(std::move(*op));
-        } else if (!errors_.empty()) {
+        auto opResult = parseOperation();
+        if (opResult) {
+            result.document.operations.push_back(std::move(*opResult));
+        } else {
+            result.errors.push_back(convertToParseError(opResult.error()));
             result.success = false;
             break;
         }
         skipWhitespace();
     }
     
-    result.errors = std::move(errors_);
-    if (!result.errors.empty()) {
+    // Add any accumulated errors from the error() method
+    if (!errors_.empty()) {
+        result.errors.insert(result.errors.end(), errors_.begin(), errors_.end());
         result.success = false;
     }
     
     return result;
 }
 
-std::optional<Operation> Parser::parseOperation() {
+themis::Result<Operation> Parser::parseOperation() {
     Operation op;
     
     skipWhitespace();
@@ -58,17 +63,17 @@ std::optional<Operation> Parser::parseOperation() {
         // Anonymous query
         op.type = OperationType::Query;
     } else {
-        error("Expected 'query', 'mutation', 'subscription', or '{'");
-        return std::nullopt;
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            getLocationContext() + ": Expected 'query', 'mutation', 'subscription', or '{'");
     }
     
     skipWhitespace();
     
     // Optional operation name
     if (op.type != OperationType::Query || !peek('{') && !peek('(')) {
-        auto name = parseName();
-        if (name) {
-            op.name = *name;
+        auto nameResult = parseName();
+        if (nameResult) {
+            op.name = *nameResult;
         }
     }
     
@@ -78,16 +83,16 @@ std::optional<Operation> Parser::parseOperation() {
     if (match('(')) {
         while (!peek(')') && pos_ < source_.size()) {
             skipWhitespace();
-            auto varDef = parseVariableDefinition();
-            if (varDef) {
-                op.variables.push_back(std::move(*varDef));
+            auto varDefResult = parseVariableDefinition();
+            if (!varDefResult) {
+                return themis::Err<Operation>(varDefResult.error().code(), varDefResult.error().context());
             }
+            op.variables.push_back(std::move(*varDefResult));
             skipWhitespace();
             match(',');
         }
         if (!match(')')) {
-            error("Expected ')'");
-            return std::nullopt;
+            return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ')'");
         }
     }
     
@@ -95,53 +100,51 @@ std::optional<Operation> Parser::parseOperation() {
     
     // Selection set
     if (!match('{')) {
-        error("Expected '{'");
-        return std::nullopt;
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '{'");
     }
     
     while (!peek('}') && pos_ < source_.size()) {
         skipWhitespace();
-        auto field = parseField();
-        if (field) {
-            op.selections.push_back(std::move(*field));
+        auto fieldResult = parseField();
+        if (!fieldResult) {
+            return themis::Err<Operation>(fieldResult.error().code(), fieldResult.error().context());
         }
+        op.selections.push_back(std::move(*fieldResult));
         skipWhitespace();
     }
     
     if (!match('}')) {
-        error("Expected '}'");
-        return std::nullopt;
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
     }
     
-    return op;
+    return themis::Ok(std::move(op));
 }
 
-std::optional<Field> Parser::parseField() {
+themis::Result<Field> Parser::parseField() {
     Field field;
     
     skipWhitespace();
     
     // Field name or alias
-    auto nameOrAlias = parseName();
-    if (!nameOrAlias) {
-        error("Expected field name");
-        return std::nullopt;
+    auto nameOrAliasResult = parseName();
+    if (!nameOrAliasResult) {
+        return themis::Err<Field>(nameOrAliasResult.error().code(), nameOrAliasResult.error().context());
     }
     
     skipWhitespace();
     
     // Check for alias
     if (match(':')) {
-        field.alias = *nameOrAlias;
+        field.alias = *nameOrAliasResult;
         skipWhitespace();
-        auto fieldName = parseName();
-        if (!fieldName) {
-            error("Expected field name after alias");
-            return std::nullopt;
+        auto fieldNameResult = parseName();
+        if (!fieldNameResult) {
+            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                getLocationContext() + ": Expected field name after alias");
         }
-        field.name = *fieldName;
+        field.name = *fieldNameResult;
     } else {
-        field.name = *nameOrAlias;
+        field.name = *nameOrAliasResult;
     }
     
     skipWhitespace();
@@ -150,28 +153,27 @@ std::optional<Field> Parser::parseField() {
     if (match('(')) {
         while (!peek(')') && pos_ < source_.size()) {
             skipWhitespace();
-            auto argName = parseName();
-            if (!argName) {
-                error("Expected argument name");
-                return std::nullopt;
+            auto argNameResult = parseName();
+            if (!argNameResult) {
+                return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected argument name");
             }
             skipWhitespace();
             if (!match(':')) {
-                error("Expected ':' after argument name");
-                return std::nullopt;
+                return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected ':' after argument name");
             }
             skipWhitespace();
-            auto argValue = parseValue();
-            if (!argValue) {
-                return std::nullopt;
+            auto argValueResult = parseValue();
+            if (!argValueResult) {
+                return themis::Err<Field>(argValueResult.error().code(), argValueResult.error().context());
             }
-            field.arguments[*argName] = *argValue;
+            field.arguments[*argNameResult] = *argValueResult;
             skipWhitespace();
             match(',');
         }
         if (!match(')')) {
-            error("Expected ')'");
-            return std::nullopt;
+            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ')'");
         }
     }
     
@@ -181,44 +183,44 @@ std::optional<Field> Parser::parseField() {
     if (match('{')) {
         while (!peek('}') && pos_ < source_.size()) {
             skipWhitespace();
-            auto nestedField = parseField();
-            if (nestedField) {
-                field.selections.push_back(std::move(*nestedField));
+            auto nestedFieldResult = parseField();
+            if (!nestedFieldResult) {
+                return themis::Err<Field>(nestedFieldResult.error().code(), nestedFieldResult.error().context());
             }
+            field.selections.push_back(std::move(*nestedFieldResult));
             skipWhitespace();
         }
         if (!match('}')) {
-            error("Expected '}'");
-            return std::nullopt;
+            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
         }
     }
     
-    return field;
+    return themis::Ok(std::move(field));
 }
 
-std::optional<std::shared_ptr<Value>> Parser::parseValue() {
+themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     skipWhitespace();
     
     // Null
     if (match("null")) {
-        return Value::null();
+        return themis::Ok(Value::null());
     }
     
     // Boolean
     if (match("true")) {
-        return Value::boolean(true);
+        return themis::Ok(Value::boolean(true));
     }
     if (match("false")) {
-        return Value::boolean(false);
+        return themis::Ok(Value::boolean(false));
     }
     
     // String
     if (peek('"')) {
-        auto str = parseString();
-        if (str) {
-            return Value::string(std::move(*str));
+        auto strResult = parseString();
+        if (!strResult) {
+            return themis::Err<std::shared_ptr<Value>>(strResult.error().code(), strResult.error().context());
         }
-        return std::nullopt;
+        return themis::Ok(Value::string(std::move(*strResult)));
     }
     
     // Number (int or float)
@@ -262,9 +264,9 @@ std::optional<std::shared_ptr<Value>> Parser::parseValue() {
         
         std::string numStr(source_.substr(start, pos_ - start));
         if (isFloat) {
-            return Value::floating(std::stod(numStr));
+            return themis::Ok(Value::floating(std::stod(numStr)));
         } else {
-            return Value::integer(std::stoll(numStr));
+            return themis::Ok(Value::integer(std::stoll(numStr)));
         }
     }
     
@@ -273,19 +275,18 @@ std::optional<std::shared_ptr<Value>> Parser::parseValue() {
         ValueList list;
         while (!peek(']') && pos_ < source_.size()) {
             skipWhitespace();
-            auto val = parseValue();
-            if (!val) {
-                return std::nullopt;
+            auto valResult = parseValue();
+            if (!valResult) {
+                return themis::Err<std::shared_ptr<Value>>(valResult.error().code(), valResult.error().context());
             }
-            list.push_back(*val);
+            list.push_back(*valResult);
             skipWhitespace();
             match(',');
         }
         if (!match(']')) {
-            error("Expected ']'");
-            return std::nullopt;
+            return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ']'");
         }
-        return Value::list(std::move(list));
+        return themis::Ok(Value::list(std::move(list)));
     }
     
     // Object
@@ -293,72 +294,69 @@ std::optional<std::shared_ptr<Value>> Parser::parseValue() {
         ValueMap obj;
         while (!peek('}') && pos_ < source_.size()) {
             skipWhitespace();
-            auto key = parseName();
-            if (!key) {
-                error("Expected object key");
-                return std::nullopt;
+            auto keyResult = parseName();
+            if (!keyResult) {
+                return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected object key");
             }
             skipWhitespace();
             if (!match(':')) {
-                error("Expected ':' in object");
-                return std::nullopt;
+                return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                    getLocationContext() + ": Expected ':' in object");
             }
             skipWhitespace();
-            auto val = parseValue();
-            if (!val) {
-                return std::nullopt;
+            auto valResult = parseValue();
+            if (!valResult) {
+                return themis::Err<std::shared_ptr<Value>>(valResult.error().code(), valResult.error().context());
             }
-            obj[*key] = *val;
+            obj[*keyResult] = *valResult;
             skipWhitespace();
             match(',');
         }
         if (!match('}')) {
-            error("Expected '}'");
-            return std::nullopt;
+            return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
         }
-        return Value::object(std::move(obj));
+        return themis::Ok(Value::object(std::move(obj)));
     }
     
     // Variable reference ($name)
     if (match('$')) {
-        auto name = parseName();
-        if (!name) {
-            error("Expected variable name after '$'");
-            return std::nullopt;
+        auto nameResult = parseName();
+        if (!nameResult) {
+            return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+                getLocationContext() + ": Expected variable name after '$'");
         }
         // Return as special string value (will be resolved at execution)
-        return Value::string("$" + *name);
+        return themis::Ok(Value::string("$" + *nameResult));
     }
     
     // Enum value (bare name)
-    auto enumVal = parseName();
-    if (enumVal) {
-        return Value::enumValue(std::move(*enumVal));
+    auto enumValResult = parseName();
+    if (enumValResult) {
+        return themis::Ok(Value::enumValue(std::move(*enumValResult)));
     }
     
-    error("Expected value");
-    return std::nullopt;
+    return themis::Err<std::shared_ptr<Value>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected value");
 }
 
-std::optional<VariableDefinition> Parser::parseVariableDefinition() {
+themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
     VariableDefinition def;
     
     if (!match('$')) {
-        error("Expected '$' for variable definition");
-        return std::nullopt;
+        return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            getLocationContext() + ": Expected '$' for variable definition");
     }
     
-    auto name = parseName();
-    if (!name) {
-        error("Expected variable name");
-        return std::nullopt;
+    auto nameResult = parseName();
+    if (!nameResult) {
+        return themis::Err<VariableDefinition>(nameResult.error().code(), nameResult.error().context());
     }
-    def.name = *name;
+    def.name = *nameResult;
     
     skipWhitespace();
     if (!match(':')) {
-        error("Expected ':' after variable name");
-        return std::nullopt;
+        return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            getLocationContext() + ": Expected ':' after variable name");
     }
     
     skipWhitespace();
@@ -367,26 +365,23 @@ std::optional<VariableDefinition> Parser::parseVariableDefinition() {
     if (match('[')) {
         def.is_list = true;
         skipWhitespace();
-        auto typeName = parseName();
-        if (!typeName) {
-            error("Expected type name");
-            return std::nullopt;
+        auto typeNameResult = parseName();
+        if (!typeNameResult) {
+            return themis::Err<VariableDefinition>(typeNameResult.error().code(), typeNameResult.error().context());
         }
-        def.type_name = *typeName;
+        def.type_name = *typeNameResult;
         skipWhitespace();
         match('!');  // Inner non-null
         skipWhitespace();
         if (!match(']')) {
-            error("Expected ']'");
-            return std::nullopt;
+            return themis::Err<VariableDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected ']'");
         }
     } else {
-        auto typeName = parseName();
-        if (!typeName) {
-            error("Expected type name");
-            return std::nullopt;
+        auto typeNameResult = parseName();
+        if (!typeNameResult) {
+            return themis::Err<VariableDefinition>(typeNameResult.error().code(), typeNameResult.error().context());
         }
-        def.type_name = *typeName;
+        def.type_name = *typeNameResult;
     }
     
     skipWhitespace();
@@ -399,14 +394,14 @@ std::optional<VariableDefinition> Parser::parseVariableDefinition() {
     // Default value
     if (match('=')) {
         skipWhitespace();
-        auto val = parseValue();
-        if (!val) {
-            return std::nullopt;
+        auto valResult = parseValue();
+        if (!valResult) {
+            return themis::Err<VariableDefinition>(valResult.error().code(), valResult.error().context());
         }
-        def.default_value = *val;
+        def.default_value = *valResult;
     }
     
-    return def;
+    return themis::Ok(std::move(def));
 }
 
 void Parser::skipWhitespace() {
@@ -466,7 +461,7 @@ bool Parser::peek(char c) const {
     return pos_ < source_.size() && source_[pos_] == c;
 }
 
-std::optional<std::string> Parser::parseName() {
+themis::Result<std::string> Parser::parseName() {
     size_t start = pos_;
     
     // Name must start with letter or underscore
@@ -477,14 +472,14 @@ std::optional<std::string> Parser::parseName() {
             ++pos_;
             ++column_;
         }
-        return std::string(source_.substr(start, pos_ - start));
+        return themis::Ok(std::string(source_.substr(start, pos_ - start)));
     }
-    return std::nullopt;
+    return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected name");
 }
 
-std::optional<std::string> Parser::parseString() {
+themis::Result<std::string> Parser::parseString() {
     if (!match('"')) {
-        return std::nullopt;
+        return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected string");
     }
     
     std::string result;
@@ -505,8 +500,7 @@ std::optional<std::string> Parser::parseString() {
                 ++column_;
             }
         } else if (source_[pos_] == '\n') {
-            error("Unterminated string");
-            return std::nullopt;
+            return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Unterminated string");
         } else {
             result += source_[pos_];
             ++pos_;
@@ -515,11 +509,10 @@ std::optional<std::string> Parser::parseString() {
     }
     
     if (!match('"')) {
-        error("Unterminated string");
-        return std::nullopt;
+        return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Unterminated string");
     }
     
-    return result;
+    return themis::Ok(std::move(result));
 }
 
 void Parser::error(std::string message) {
@@ -528,6 +521,21 @@ void Parser::error(std::string message) {
     err.line = line_;
     err.column = column_;
     errors_.push_back(std::move(err));
+}
+
+std::string Parser::getLocationContext() const {
+    return "Line " + std::to_string(line_) + ", Column " + std::to_string(column_);
+}
+
+ParseError Parser::convertToParseError(const themis::Error& error) {
+    ParseError err;
+    err.message = error.message();
+    // Note: Location information is already included in the error message's context,
+    // which was captured at the point where the error occurred.
+    // The current parser line/column are set here to provide position where the error was detected.
+    err.line = line_;
+    err.column = column_;
+    return err;
 }
 
 // ============================================================================
