@@ -71,7 +71,10 @@ public:
 class ReplicationHATest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_dir_ = "/tmp/themis_replication_ha_test";
+        // Use portable temp directory
+        auto temp_base = std::filesystem::temp_directory_path();
+        test_dir_ = (temp_base / "themis_replication_ha_test").string();
+        
         std::filesystem::remove_all(test_dir_);
         std::filesystem::create_directories(test_dir_);
         

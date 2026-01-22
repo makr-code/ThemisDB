@@ -855,12 +855,15 @@ void ReplicationManager::healthMonitorLoop() {
         performHealthCheck();
         
         // Check for leader failure and trigger automatic failover if enabled
-        if (config_.enable_auto_failover && !election_->isLeader()) {
+        if (config_.enable_auto_failover && election_ && !election_->isLeader()) {
             std::lock_guard<std::mutex> lock(manager_mutex_);
             
-            // Find the current leader replica
+            // Get current leader ID
+            std::string current_leader_id = election_->getLeaderId();
+            
+            // Check if current leader replica has failed
             for (const auto& replica : replicas_) {
-                if (replica.role == ReplicationRole::LEADER && 
+                if (replica.node_id == current_leader_id && 
                     replica.health_status == HealthStatus::FAILED) {
                     
                     stats_.replica_failures_detected++;
@@ -973,8 +976,8 @@ bool ReplicationManager::electNewLeader() {
         }
     }
     
+    // If this node is the best candidate, start election
     if (best_candidate && best_candidate->node_id == node_id_) {
-        // This node is the best candidate
         election_->startElection();
         return election_->isLeader();
     }
