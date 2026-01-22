@@ -2826,6 +2826,54 @@ add_custom_target(run_integration_tests
     COMMENT "Running ThemisDB integration tests..."
 )
 
+# ============================================================================
+# CHIMERA Adapter Factory Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
+    message(STATUS "Adding CHIMERA Adapter Factory tests")
+    
+    # Create chimera adapter library first
+    add_library(chimera_adapter STATIC
+        ${CMAKE_SOURCE_DIR}/src/chimera/adapter_factory.cpp
+        ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
+    )
+    
+    target_include_directories(chimera_adapter PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+    )
+    
+    target_link_libraries(chimera_adapter PUBLIC
+        spdlog::spdlog
+    )
+    
+    # Add test executable
+    add_executable(test_adapter_factory
+        chimera/test_adapter_factory.cpp
+    )
+    
+    target_link_libraries(test_adapter_factory PRIVATE
+        ${TEST_LIBS}
+        chimera_adapter
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_adapter_factory PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CHIMERAAdapterFactoryTests COMMAND test_adapter_factory)
+    
+    set_tests_properties(CHIMERAAdapterFactoryTests PROPERTIES
+        LABELS "chimera;adapter;unit;benchmark-infrastructure"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  CHIMERA: vendor-neutral adapter architecture for benchmark suite")
+else()
+    message(STATUS "CHIMERA Adapter Factory tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")
 message(STATUS "  - Build tests with: cmake --build . --target test_lora_framework")
 message(STATUS "  - Run tests with: ctest --output-on-failure")
