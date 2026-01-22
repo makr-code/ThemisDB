@@ -564,17 +564,6 @@ struct ParseError {
     }
 };
 
-// ============================================================================
-// Parser Error (for backward compatibility in error context)
-// ============================================================================
-
-struct ParseError {
-    std::string message;
-    size_t line = 0;
-    size_t column = 0;
-    std::string context;  // Snippet of problematic query
-};
-
 // Note: ParseResult struct removed - now using Result<std::shared_ptr<Query>> directly
 
 // ============================================================================

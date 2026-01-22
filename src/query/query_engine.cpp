@@ -39,6 +39,8 @@ namespace geo = themis::geo;
 
 namespace themis {
 
+using errors::ErrorCode;  // Make ErrorCode directly accessible
+
 namespace utils {
 namespace geo = ::themis::geo;
 }

@@ -333,32 +333,6 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
                                    "Failed to copy WAL files: " + wal_result.error().message());
         }
         
-        // Apply compression if requested
-        if (options.compression != CompressionType::NONE) {
-            THEMIS_INFO("Compressing backup with compression type: {}", 
-                       static_cast<int>(options.compression));
-            auto compressed_dir = backup_dir.string() + ".compressed";
-            if (!compressPath(backup_dir.string(), compressed_dir, options.compression, ec)) {
-                THEMIS_ERROR("Failed to compress backup");
-                return false;
-            }
-            // Remove uncompressed backup
-            fs::remove_all(backup_dir, ec);
-            fs::rename(compressed_dir, backup_dir, ec);
-        }
-        
-        // Apply encryption if requested
-        if (options.encrypt && !options.encryption_key.empty()) {
-            THEMIS_INFO("Encrypting backup");
-            auto encrypted_dir = backup_dir.string() + ".encrypted";
-            if (!encryptFile(backup_dir.string(), encrypted_dir, options.encryption_key, ec)) {
-                THEMIS_ERROR("Failed to encrypt backup");
-                return false;
-            }
-            fs::remove_all(backup_dir, ec);
-            fs::rename(encrypted_dir, backup_dir, ec);
-        }
-        
         // Create manifest
         uint64_t seq = getCurrentSequenceNumber();
         auto manifest_result = createManifest(backup_dir.string(), "full", seq);
@@ -366,22 +340,6 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
             THEMIS_ERROR("Failed to create backup manifest");
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
                                    "Failed to create backup manifest: " + manifest_result.error().message());
-        }
-        
-        // Upload to cloud if configured
-        if (options.storage != StorageBackend::LOCAL) {
-            THEMIS_INFO("Uploading backup to cloud storage");
-            if (!uploadToCloud(backup_dir.string(), options.storage_path, 
-                              options.storage, options.cloud_config, ec)) {
-                THEMIS_WARN("Failed to upload to cloud storage: {}", ec.message());
-                // Continue - local backup still exists
-            }
-        }
-        
-        // Verify backup if requested
-        if (options.verify_after_backup && !verifyBackup(backup_dir.string(), ec)) {
-            THEMIS_ERROR("Backup verification failed");
-            return false;
         }
         
         // Update 'latest' symlink
@@ -449,27 +407,6 @@ Result<std::string> BackupManager::createIncrementalBackup(const std::string& de
                                    "Failed to copy incremental WAL files: " + wal_result.error().message());
         }
         
-        // Apply compression/encryption if requested
-        if (options.compression != CompressionType::NONE) {
-            auto compressed_dir = backup_dir.string() + ".compressed";
-            if (!compressPath(backup_dir.string(), compressed_dir, options.compression, ec)) {
-                THEMIS_ERROR("Failed to compress backup");
-                return false;
-            }
-            fs::remove_all(backup_dir, ec);
-            fs::rename(compressed_dir, backup_dir, ec);
-        }
-        
-        if (options.encrypt && !options.encryption_key.empty()) {
-            auto encrypted_dir = backup_dir.string() + ".encrypted";
-            if (!encryptFile(backup_dir.string(), encrypted_dir, options.encryption_key, ec)) {
-                THEMIS_ERROR("Failed to encrypt backup");
-                return false;
-            }
-            fs::remove_all(backup_dir, ec);
-            fs::rename(encrypted_dir, backup_dir, ec);
-        }
-        
         // Create manifest
         uint64_t seq = getCurrentSequenceNumber();
         auto manifest_result = createManifest(backup_dir.string(), "incremental", seq);
@@ -477,14 +414,6 @@ Result<std::string> BackupManager::createIncrementalBackup(const std::string& de
             THEMIS_ERROR("Failed to create incremental backup manifest");
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
                                    "Failed to create incremental backup manifest: " + manifest_result.error().message());
-        }
-        
-        // Upload to cloud if configured
-        if (options.storage != StorageBackend::LOCAL) {
-            if (!uploadToCloud(backup_dir.string(), options.storage_path, 
-                              options.storage, options.cloud_config, ec)) {
-                THEMIS_WARN("Failed to upload to cloud storage: {}", ec.message());
-            }
         }
         
         THEMIS_INFO("Incremental backup created successfully: {}", backup_dir.string());
@@ -511,7 +440,8 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         auto last_full_dir = fs::path(dest_dir) / last_full;
         std::string type;
         uint64_t min_sequence = 0;
-        if (!readManifest(last_full_dir.string(), type, min_sequence, ec)) {
+        auto manifest_result = readManifest(last_full_dir.string(), type, min_sequence);
+        if (!manifest_result) {
             THEMIS_ERROR("Could not read last full backup manifest");
             return false;
         }
@@ -532,7 +462,8 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         // Copy WAL files since last full backup
         auto wal_dir = backup_dir / "wal";
         auto db_path = db_wrapper_->getConfig().db_path;
-        if (!copyWALFiles(db_path, wal_dir.string(), min_sequence, ec)) {
+        auto wal_result = copyWALFiles(db_path, wal_dir.string(), min_sequence);
+        if (!wal_result) {
             THEMIS_ERROR("Failed to copy differential WAL files");
             return false;
         }
@@ -560,7 +491,8 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         
         // Create manifest with base_backup reference
         uint64_t seq = getCurrentSequenceNumber();
-        if (!createManifest(backup_dir.string(), "differential", seq, ec)) {
+        auto manifest_result = createManifest(backup_dir.string(), "differential", seq);
+        if (!manifest_result) {
             THEMIS_ERROR("Failed to create differential backup manifest");
             return false;
         }
@@ -1180,7 +1112,8 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
         // Read backup manifest
         std::string type;
         uint64_t sequence_number;
-        if (!readManifest(src_dir, type, sequence_number, ec)) {
+        auto manifest_result = readManifest(src_dir, type, sequence_number);
+        if (!manifest_result) {
             THEMIS_ERROR("Failed to read backup manifest");
             return false;
         }
@@ -1192,7 +1125,8 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
         }
         
         // Verify backup integrity
-        if (!verifyBackup(src_dir, ec)) {
+        auto verify_result = verifyBackup(src_dir);
+        if (!verify_result) {
             THEMIS_ERROR("Backup integrity verification failed");
             return false;
         }
@@ -1425,8 +1359,8 @@ std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& b
         // Read manifest to get timestamp
         std::string type;
         uint64_t seq;
-        std::error_code ec;
-        if (!readManifest(backup_path.string(), type, seq, ec)) {
+        auto manifest_result = readManifest(backup_path.string(), type, seq);
+        if (!manifest_result) {
             return std::chrono::system_clock::time_point{};
         }
         

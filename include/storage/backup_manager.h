@@ -159,6 +159,10 @@ public:
      */
     bool createFullBackup(const std::string& dest_dir, std::error_code& ec, 
                           const BackupOptions& options = BackupOptions());
+    
+    /**
+     * Create a full backup (simplified Result-based API)
+     * @param dest_dir: Base backup directory
      * @return Result<std::string> containing backup directory path on success, Error on failure
      */
     Result<std::string> createFullBackup(const std::string& dest_dir);
@@ -175,6 +179,13 @@ public:
                                   const BackupOptions& options = BackupOptions());
     
     /**
+     * Create an incremental backup (simplified Result-based API)
+     * @param dest_dir: Base backup directory
+     * @return Result<std::string> containing backup directory path on success, Error on failure
+     */
+    Result<std::string> createIncrementalBackup(const std::string& dest_dir);
+    
+    /**
      * Create a differential backup (changes since last full backup)
      * @param dest_dir: Base backup directory
      * @param ec: Error code on failure
@@ -183,12 +194,9 @@ public:
      */
     bool createDifferentialBackup(const std::string& dest_dir, std::error_code& ec,
                                    const BackupOptions& options = BackupOptions());
-     * @return Result<std::string> containing backup directory path on success, Error on failure
-     */
-    Result<std::string> createIncrementalBackup(const std::string& dest_dir);
     
     /**
-     * Create a differential backup (changes since last full backup)
+     * Create a differential backup (simplified Result-based API)
      * @param dest_dir: Base backup directory
      * @return Result<std::string> containing backup directory path on success, Error on failure
      */
@@ -199,6 +207,7 @@ public:
      * @param dest_dir: Destination for WAL files
      * @return Result<void> on success, Error on failure
      */
+    bool archiveWAL(const std::string& dest_dir, std::error_code& ec);
     Result<void> archiveWAL(const std::string& dest_dir);
 
     /**
@@ -233,6 +242,10 @@ public:
     bool restoreCollections(const std::string& src_dir, 
                            const std::vector<std::string>& collections,
                            std::error_code& ec);
+    
+    /**
+     * Restore database from backup (simplified Result-based API)
+     * @param src_dir: Source backup directory
      * @return Result<void> on success, Error on failure
      */
     Result<void> restoreFromBackup(const std::string& src_dir);
@@ -357,6 +370,8 @@ private:
     bool verifyRAIDShardsInBackup(const std::string& backup_dir, 
                                   const RAIDConfig& raid_config,
                                   std::error_code& ec);
+    Result<void> verifyRAIDShardsInBackup(const std::string& backup_dir, 
+                                          const RAIDConfig& raid_config);
     
     // Helper: Compress file/directory
     bool compressPath(const std::string& src_path, const std::string& dest_path,

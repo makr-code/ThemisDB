@@ -312,7 +312,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
 }
 
 bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
-                                         double min_compression_ratio) {
+                                         [[maybe_unused]] double min_compression_ratio) {
     if (data.empty()) return false;
 
     // Calculate unique strings
@@ -731,7 +731,7 @@ Result<std::vector<int64_t>> FrameOfReferenceCodec::decodeInt64(const std::vecto
 // TODO: Integrate LZ4 and Snappy libraries in future version
 // ============================================================================
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vector<uint8_t>& data) {
+Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4([[maybe_unused]] const std::vector<uint8_t>& data) {
     // TODO: Implement LZ4 compression when library is integrated
     // Requires: lz4 library (vcpkg install lz4)
     return tl::unexpected(Error(
@@ -740,14 +740,14 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
     ));
 }
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::vector<uint8_t>& compressed) {
+Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4([[maybe_unused]] const std::vector<uint8_t>& compressed) {
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_COMPRESSION_FAILED,
         "LZ4 decompression not yet implemented - requires lz4 library"
     ));
 }
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::vector<uint8_t>& data) {
+Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy([[maybe_unused]] const std::vector<uint8_t>& data) {
     // TODO: Implement Snappy compression when library is integrated
     // Requires: snappy library (vcpkg install snappy)
     return tl::unexpected(Error(
@@ -756,7 +756,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::
     ));
 }
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std::vector<uint8_t>& compressed) {
+Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy([[maybe_unused]] const std::vector<uint8_t>& compressed) {
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_COMPRESSION_FAILED,
         "Snappy decompression not yet implemented - requires snappy library"
