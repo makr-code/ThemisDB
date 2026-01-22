@@ -1,6 +1,6 @@
 # LoRA Scheduled Weight Mode
 
-**Version:** 1.5.0  
+**Version:** See repository `VERSION` file (currently 1.4.1-dev, targeting 1.5.0)  
 **Date:** 2026-01-22  
 **Status:** Complete
 
@@ -146,7 +146,9 @@ schedule.start_time = std::chrono::system_clock::now();
 // Custom schedule: Sine wave oscillation
 schedule.schedule_func = [](double time_offset) -> std::vector<float> {
     // Oscillate between adapters with a 1-hour period
-    float phase = std::sin(2.0 * M_PI * time_offset / 3600.0);
+    // Using portable constant for pi (C++ standard compatible)
+    constexpr double pi = 3.14159265358979323846;
+    float phase = std::sin(2.0 * pi * time_offset / 3600.0);
     float weight_a = 0.5f + 0.4f * phase;  // Range: 0.1 to 0.9
     float weight_b = 1.0f - weight_a;
     return {weight_a, weight_b};

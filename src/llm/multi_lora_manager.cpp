@@ -2305,14 +2305,23 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
     );
     double time_offset = duration.count();
     
+    // For backward compatibility, prefer custom schedule function if provided,
+    // regardless of the configured scheduling strategy
+    if (schedule.schedule_func) {
+        if (schedule.scheduling_strategy != SchedulingStrategy::CUSTOM) {
+            spdlog::warn(
+                "Fusion_id {} has custom schedule_func but scheduling_strategy != CUSTOM; "
+                "using custom function for backward compatibility.",
+                fusion_id
+            );
+        }
+        return schedule.schedule_func(time_offset);
+    }
+    
     // Handle different scheduling strategies
     switch (schedule.scheduling_strategy) {
         case SchedulingStrategy::CUSTOM:
-            // Use custom schedule function if provided
-            if (schedule.schedule_func) {
-                return schedule.schedule_func(time_offset);
-            }
-            // Fall back to static weights if no custom function
+            // No custom function: fall back to static weights
             return schedule.static_weights;
             
         case SchedulingStrategy::LINEAR:
@@ -2341,8 +2350,14 @@ std::vector<float> MultiLoRAManager::computeLinearSchedule(
         return schedule.static_weights;
     }
     
-    float progress = std::min(1.0f, 
-        static_cast<float>(time_offset) / schedule.transition_duration.count());
+    // If schedule hasn't started yet, return static weights
+    if (time_offset < 0) {
+        return schedule.static_weights;
+    }
+    
+    // Clamp progress to [0, 1] range
+    float progress = std::max(0.0f, std::min(1.0f, 
+        static_cast<float>(time_offset) / schedule.transition_duration.count()));
     
     // Determine target weights
     std::vector<float> target_weights;
@@ -2444,15 +2459,27 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
         return schedule.static_weights;
     }
     
-    // Find the appropriate step based on current time
-    size_t step_index = 0;
-    for (size_t i = 0; i < schedule.step_times.size(); ++i) {
-        if (time_offset >= schedule.step_times[i]) {
-            step_index = i + 1;  // Move to next step after this time
-        } else {
-            break;
+    // Validate that all step_weights have consistent sizes
+    if (!schedule.static_weights.empty()) {
+        size_t expected_size = schedule.static_weights.size();
+        for (const auto& step_weight : schedule.step_weights) {
+            if (step_weight.size() != expected_size) {
+                spdlog::warn("Step-wise schedule has inconsistent weight vector sizes; "
+                           "expected {}, got {}. Falling back to static weights.",
+                           expected_size, step_weight.size());
+                return schedule.static_weights;
+            }
         }
     }
+    
+    // Use binary search to find the appropriate step (O(log n))
+    // Find first step_time that is > time_offset
+    auto it = std::upper_bound(schedule.step_times.begin(), 
+                               schedule.step_times.end(), 
+                               time_offset);
+    
+    // Calculate step index based on iterator position
+    size_t step_index = std::distance(schedule.step_times.begin(), it);
     
     // Return weights for current step
     if (step_index < schedule.step_weights.size()) {
