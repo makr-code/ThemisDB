@@ -426,6 +426,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     // Cursor-based pagination parameters
         std::string cursor_token = body.contains("cursor") ? body["cursor"].get<std::string>() : "";
         bool use_cursor = body.contains("use_cursor") ? body["use_cursor"].get<bool>() : false;
+        
+        // Page size configuration with validation
+        themis::utils::PaginationConfig pagination_config;
+        size_t page_size = body.contains("page_size") ? body["page_size"].get<size_t>() : pagination_config.default_page_size;
+        page_size = themis::utils::Cursor::normalizePageSize(page_size, pagination_config);
+        
+        // Cursor expiration check
+        if (use_cursor && !cursor_token.empty()) {
+            if (!themis::utils::Cursor::isValid(cursor_token, pagination_config.cursor_ttl_seconds)) {
+                return makeErrorResponse(http::status::bad_request, 
+                    "Cursor has expired. Please start a new query.", req);
+            }
+        }
+        
     auto page_fetch_start = std::chrono::steady_clock::now();
         
     // Cursor-Pagination: Wir verlagern Cursor-Handling in die Engine (Anker-basiert)
