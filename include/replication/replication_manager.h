@@ -66,6 +66,27 @@ enum class ConflictResolution {
 };
 
 /**
+ * Replica Health Status
+ */
+enum class HealthStatus {
+    HEALTHY,        // Replica is responding and up-to-date
+    DEGRADED,       // Replica is lagging but responsive
+    FAILED,         // Replica is not responding
+    UNKNOWN         // Health status not yet determined
+};
+
+/**
+ * Read Preference for query routing
+ */
+enum class ReadPreference {
+    PRIMARY,        // Read from primary only
+    SECONDARY,      // Read from secondary replicas only
+    PRIMARY_PREFERRED,  // Prefer primary, fallback to secondary
+    SECONDARY_PREFERRED, // Prefer secondary, fallback to primary
+    NEAREST         // Read from replica with lowest latency
+};
+
+/**
  * Write-Ahead Log Entry
  */
 struct WALEntry {
@@ -98,13 +119,25 @@ struct ReplicaInfo {
     bool is_voting_member;
     std::string datacenter;
     int32_t priority;               // For leader election preference
+    HealthStatus health_status = HealthStatus::UNKNOWN;
+    uint32_t consecutive_failures = 0;
+    std::chrono::system_clock::time_point last_failure_time;
     
     bool isHealthy() const {
+        return health_status == HealthStatus::HEALTHY;
+    }
+    
+    bool isHealthyWithTimeout(uint32_t timeout_ms) const {
         auto now = std::chrono::system_clock::now();
-        return (now - last_heartbeat) < std::chrono::seconds(30);
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - last_heartbeat
+        ).count();
+        return elapsed < static_cast<int64_t>(timeout_ms);
     }
     
     int64_t replicationLagMs() const;
+    
+    void updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t degraded_lag_threshold_ms);
 };
 
 /**
@@ -137,6 +170,14 @@ struct ReplicationConfig {
     bool allow_stale_reads = false;
     uint32_t max_replication_lag_ms = 10000;
     
+    // HA settings
+    bool enable_auto_failover = true;
+    uint32_t failure_detection_timeout_ms = 5000;
+    uint32_t min_quorum_for_failover = 2;  // Minimum replicas needed for quorum
+    uint32_t max_consecutive_failures = 3;  // Failures before marking as FAILED
+    uint32_t degraded_lag_threshold_ms = 5000;  // Lag threshold for DEGRADED status
+    ReadPreference default_read_preference = ReadPreference::PRIMARY_PREFERRED;
+    
     // TLS/Security
     std::string cert_path;
     std::string key_path;
@@ -158,6 +199,10 @@ struct ReplicationStats {
     std::atomic<uint64_t> conflicts_resolved{0};
     std::atomic<int64_t> max_replication_lag_ms{0};
     std::atomic<int64_t> avg_replication_lag_ms{0};
+    std::atomic<uint64_t> automatic_failovers{0};
+    std::atomic<uint64_t> manual_failovers{0};
+    std::atomic<uint64_t> replica_failures_detected{0};
+    std::atomic<uint64_t> network_partitions_detected{0};
     
     // Prometheus metrics export
     std::string toPrometheusFormat() const;
@@ -197,6 +242,10 @@ public:
     virtual void onReplicaRemoved(const std::string& node_id) = 0;
     virtual void onConflictDetected(const std::string& document_id) = 0;
     virtual void onReplicationLagWarning(int64_t lag_ms) = 0;
+    virtual void onReplicaHealthChanged(const std::string& node_id, HealthStatus old_status, HealthStatus new_status) = 0;
+    virtual void onFailoverStarted(const std::string& failed_leader_id, const std::string& new_leader_id) = 0;
+    virtual void onFailoverCompleted(const std::string& new_leader_id, bool success) = 0;
+    virtual void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) = 0;
 };
 
 /**
@@ -392,6 +441,67 @@ public:
     
     // Demote this leader to follower
     bool demoteToFollower();
+    
+    /**
+     * Enable multi-region replication
+     * @param region_id: Identifier for this region
+     * @param peer_regions: List of peer region endpoints
+     * @return true on success
+     */
+    bool enableMultiRegion(const std::string& region_id,
+                          const std::vector<std::string>& peer_regions);
+    
+    /**
+     * Promote a read replica to primary
+     * @param replica_id: Node ID of replica to promote
+     * @return true on success
+     */
+    bool promoteReplica(const std::string& replica_id);
+    
+    /**
+     * Setup cascading replication (replica replicating to other replicas)
+     * @param source_replica: Source replica node ID
+     * @param target_replicas: Target replica node IDs
+     * @return true on success
+     */
+    bool setupCascadingReplication(const std::string& source_replica,
+                                   const std::vector<std::string>& target_replicas);
+    
+    /**
+     * Get replication lag for specific replica
+     * @param replica_id: Node ID of replica
+     * @return Lag in milliseconds
+     */
+    int64_t getReplicationLag(const std::string& replica_id) const;
+    
+    /**
+     * Check cluster health
+     * @return Health status map (node_id -> is_healthy)
+     */
+    std::map<std::string, bool> getClusterHealth() const;
+    
+    /**
+     * Export metrics in Prometheus format
+     * @return Prometheus-formatted metrics string
+     */
+    std::string exportPrometheusMetrics() const;
+    // Get health status of all replicas
+    std::vector<std::pair<std::string, HealthStatus>> getReplicaHealthStatus() const;
+    
+    // Check if cluster has quorum
+    bool hasQuorum() const;
+    
+    // Trigger health check on all replicas
+    void performHealthCheck();
+    
+    // Detect network partition
+    bool detectNetworkPartition() const;
+    
+    // Get read preference configuration
+    ReadPreference getReadPreference() const { return config_.default_read_preference; }
+    
+    // Set read preference
+    void setReadPreference(ReadPreference preference);
 
 private:
     ReplicationConfig config_;
@@ -415,10 +525,15 @@ private:
     // Background threads
     std::thread heartbeat_thread_;
     std::thread compaction_thread_;
+    std::thread health_monitor_thread_;
     
     void heartbeatLoop();
     void compactionLoop();
+    void healthMonitorLoop();
     void notifyListeners(std::function<void(IReplicationListener&)> callback);
+    void attemptAutomaticFailover(const std::string& failed_node_id);
+    bool electNewLeader();
+    void updateReplicaHealth(ReplicaInfo& replica);
 };
 
 } // namespace replication

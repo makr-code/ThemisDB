@@ -318,7 +318,8 @@ public:
             
             return res == CURLE_OK && response_code == 200;
             
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("WebDAVBlobBackend::exists check failed: {}", e.what());
             curl_easy_cleanup(curl);
             return false;
         }
@@ -350,7 +351,8 @@ public:
             
             return res == CURLE_OK;
             
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("WebDAVBlobBackend::isAvailable check failed: {}", e.what());
             curl_easy_cleanup(curl);
             return false;
         }

@@ -1,25 +1,24 @@
 cmake_minimum_required(VERSION 3.20)
-project(ThemisDB_SyntaxCheck CXX)
+project(OptimizerCostModelTest CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add include directories
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+# Minimal configuration - no includes from parent
+include_directories(../include)
 
-# Check if key headers compile
-add_library(training_service_registry OBJECT
-    src/llm/lora_framework/training_service_registry.cpp
+# Compile the implementation
+add_library(optimizer_cost_model OBJECT
+    ../src/query/optimizer_cost_model.cpp
 )
 
-target_include_directories(training_service_registry PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+target_include_directories(optimizer_cost_model PUBLIC 
+    ../include
 )
 
-# Set C++20
-set_target_properties(training_service_registry PROPERTIES
+set_target_properties(optimizer_cost_model PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
 
-message(STATUS "Syntax check configuration complete")
+message(STATUS "Optimizer cost model compilation check complete")

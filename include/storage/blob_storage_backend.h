@@ -5,6 +5,7 @@
 #include <optional>
 #include <memory>
 #include <cstdint>
+#include "utils/expected.h"
 
 namespace themis {
 namespace storage {

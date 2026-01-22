@@ -1,0 +1,420 @@
+#include "sharding/locality_aware_router.h"
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+
+namespace themis::sharding {
+
+// Load score calculation constants
+namespace {
+    constexpr float LOAD_CPU_WEIGHT = 0.4f;
+    constexpr float LOAD_RAM_WEIGHT = 0.3f;
+    constexpr float LOAD_HEALTH_WEIGHT = 0.3f;
+    constexpr float CACHE_CLEANUP_PERCENT = 0.10f;
+}
+
+// ShardAffinity JSON serialization
+nlohmann::json LocalityAwareRouter::ShardAffinity::toJson() const {
+    return nlohmann::json{
+        {"shard_id", shard_id},
+        {"locality_score", locality_score},
+        {"load_score", load_score},
+        {"network_score", network_score},
+        {"combined_score", combined_score}
+    };
+}
+
+// Constructor
+LocalityAwareRouter::LocalityAwareRouter(
+    const std::string& local_shard_id,
+    std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<ShardResourceManager> resource_mgr,
+    const Config& config)
+    : local_shard_id_(local_shard_id),
+      topology_(topology),
+      resource_mgr_(resource_mgr),
+      config_(config) {
+    
+    // Validate that weights sum to approximately 1.0
+    float weight_sum = config_.locality_weight + config_.load_weight + config_.network_weight;
+    if (std::abs(weight_sum - 1.0f) > 0.01f) {
+        // Auto-normalize weights if they don't sum to 1.0
+        config_.locality_weight /= weight_sum;
+        config_.load_weight /= weight_sum;
+        config_.network_weight /= weight_sum;
+    }
+}
+
+// Destructor
+LocalityAwareRouter::~LocalityAwareRouter() = default;
+
+// Main routing interface
+std::string LocalityAwareRouter::routeQuery(const QuerySpec& spec) {
+    stats_.queries_routed.fetch_add(1, std::memory_order_relaxed);
+    
+    // Compute affinity for all shards
+    auto affinities = computeAffinity(spec);
+    
+    if (affinities.empty()) {
+        // Fallback to local shard if no affinity data
+        stats_.local_routes.fetch_add(1, std::memory_order_relaxed);
+        return local_shard_id_;
+    }
+    
+    // Sort by combined score (highest first)
+    std::sort(affinities.begin(), affinities.end(),
+              [](const ShardAffinity& a, const ShardAffinity& b) {
+                  return a.combined_score > b.combined_score;
+              });
+    
+    // Update statistics
+    double total_locality = 0.0;
+    double total_combined = 0.0;
+    for (const auto& affinity : affinities) {
+        total_locality += affinity.locality_score;
+        total_combined += affinity.combined_score;
+    }
+    
+    if (!affinities.empty()) {
+        stats_.avg_locality_score.store(
+            total_locality / affinities.size(),
+            std::memory_order_relaxed
+        );
+        stats_.avg_combined_score.store(
+            total_combined / affinities.size(),
+            std::memory_order_relaxed
+        );
+    }
+    
+    // Select best shard
+    std::string target_shard = affinities[0].shard_id;
+    
+    if (target_shard == local_shard_id_) {
+        stats_.local_routes.fetch_add(1, std::memory_order_relaxed);
+    } else {
+        stats_.remote_routes.fetch_add(1, std::memory_order_relaxed);
+    }
+    
+    return target_shard;
+}
+
+std::vector<std::string> LocalityAwareRouter::routeMultiShardQuery(const QuerySpec& spec) {
+    stats_.queries_routed.fetch_add(1, std::memory_order_relaxed);
+    
+    // Compute affinity for all shards
+    auto affinities = computeAffinity(spec);
+    
+    std::vector<std::string> result;
+    
+    if (affinities.empty()) {
+        // Return local shard as default
+        result.push_back(local_shard_id_);
+        return result;
+    }
+    
+    // Sort by combined score (highest first)
+    std::sort(affinities.begin(), affinities.end(),
+              [](const ShardAffinity& a, const ShardAffinity& b) {
+                  return a.combined_score > b.combined_score;
+              });
+    
+    // Return shards with positive locality scores
+    for (const auto& affinity : affinities) {
+        if (affinity.locality_score > 0.0f) {
+            result.push_back(affinity.shard_id);
+        }
+    }
+    
+    return result;
+}
+
+// Affinity calculation
+std::vector<LocalityAwareRouter::ShardAffinity> 
+LocalityAwareRouter::computeAffinity(const QuerySpec& spec) {
+    std::vector<ShardAffinity> result;
+    
+    // Get all healthy shards
+    auto shards = topology_->getHealthyShards();
+    
+    for (const auto& shard : shards) {
+        auto affinity = computeShardAffinity(shard.shard_id, spec);
+        result.push_back(affinity);
+    }
+    
+    return result;
+}
+
+LocalityAwareRouter::ShardAffinity 
+LocalityAwareRouter::computeShardAffinity(
+    const std::string& shard_id,
+    const QuerySpec& spec) {
+    
+    ShardAffinity affinity;
+    affinity.shard_id = shard_id;
+    
+    // Calculate individual scores
+    affinity.locality_score = calculateLocalityScore(shard_id, spec);
+    affinity.load_score = calculateLoadScore(shard_id);
+    affinity.network_score = calculateNetworkScore(shard_id);
+    
+    // Calculate combined score with weights
+    // Load score is inverted: lower load is better
+    affinity.combined_score = 
+        (config_.locality_weight * affinity.locality_score) +
+        (config_.load_weight * (1.0f - affinity.load_score)) +
+        (config_.network_weight * affinity.network_score);
+    
+    // Apply local shard bonus
+    if (config_.prefer_local_shard && shard_id == local_shard_id_) {
+        affinity.combined_score += config_.local_shard_bonus;
+    }
+    
+    // Clamp combined score to [0, 1]
+    affinity.combined_score = std::min(1.0f, std::max(0.0f, affinity.combined_score));
+    
+    return affinity;
+}
+
+// Data placement tracking
+void LocalityAwareRouter::updateDataPlacement(
+    const std::string& collection,
+    const std::string& key,
+    const std::string& shard_id) {
+    
+    if (!config_.enable_placement_cache) {
+        return;
+    }
+    
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
+    
+    std::string cache_key = makeCacheKey(collection, key);
+    placement_cache_[cache_key].insert(shard_id);
+    
+    // Simple cache size management
+    if (placement_cache_.size() > config_.max_cache_entries) {
+        cleanupStaleEntries();
+    }
+}
+
+void LocalityAwareRouter::removeDataPlacement(
+    const std::string& collection,
+    const std::string& key) {
+    
+    if (!config_.enable_placement_cache) {
+        return;
+    }
+    
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
+    
+    std::string cache_key = makeCacheKey(collection, key);
+    placement_cache_.erase(cache_key);
+}
+
+bool LocalityAwareRouter::hasData(
+    const std::string& shard_id,
+    const std::string& collection,
+    const std::string& key) const {
+    
+    if (!config_.enable_placement_cache) {
+        return false;
+    }
+    
+    std::shared_lock<std::shared_mutex> lock(cache_mutex_);
+    
+    std::string cache_key = makeCacheKey(collection, key);
+    auto it = placement_cache_.find(cache_key);
+    
+    if (it == placement_cache_.end()) {
+        return false;
+    }
+    
+    return it->second.find(shard_id) != it->second.end();
+}
+
+// Optimization hints
+std::vector<std::string> LocalityAwareRouter::suggestCoLocation(
+    const std::vector<std::string>& collections) {
+    
+    std::vector<std::string> suggestions;
+    
+    // Simple heuristic: suggest co-locating collections that are accessed together
+    if (collections.size() > 1) {
+        suggestions.push_back(
+            "Consider co-locating collections: " + 
+            std::accumulate(collections.begin() + 1, collections.end(), 
+                          collections[0],
+                          [](const std::string& a, const std::string& b) {
+                              return a + ", " + b;
+                          })
+        );
+    }
+    
+    return suggestions;
+}
+
+// Statistics
+LocalityAwareRouter::Statistics LocalityAwareRouter::getStatistics() const {
+    Statistics stats;
+    stats.queries_routed.store(
+        stats_.queries_routed.load(std::memory_order_relaxed),
+        std::memory_order_relaxed
+    );
+    stats.local_routes.store(
+        stats_.local_routes.load(std::memory_order_relaxed),
+        std::memory_order_relaxed
+    );
+    stats.remote_routes.store(
+        stats_.remote_routes.load(std::memory_order_relaxed),
+        std::memory_order_relaxed
+    );
+    stats.cross_shard_avoided.store(
+        stats_.cross_shard_avoided.load(std::memory_order_relaxed),
+        std::memory_order_relaxed
+    );
+    stats.avg_locality_score.store(
+        stats_.avg_locality_score.load(std::memory_order_relaxed),
+        std::memory_order_relaxed
+    );
+    stats.avg_combined_score.store(
+        stats_.avg_combined_score.load(std::memory_order_relaxed),
+        std::memory_order_relaxed
+    );
+    return stats;
+}
+
+nlohmann::json LocalityAwareRouter::getStatisticsJson() const {
+    auto stats = getStatistics();
+    return nlohmann::json{
+        {"queries_routed", stats.queries_routed.load(std::memory_order_relaxed)},
+        {"local_routes", stats.local_routes.load(std::memory_order_relaxed)},
+        {"remote_routes", stats.remote_routes.load(std::memory_order_relaxed)},
+        {"cross_shard_avoided", stats.cross_shard_avoided.load(std::memory_order_relaxed)},
+        {"avg_locality_score", stats.avg_locality_score.load(std::memory_order_relaxed)},
+        {"avg_combined_score", stats.avg_combined_score.load(std::memory_order_relaxed)}
+    };
+}
+
+// Private helper methods
+float LocalityAwareRouter::calculateLocalityScore(
+    const std::string& shard_id,
+    const QuerySpec& spec) const {
+    
+    if (spec.accessed_keys.empty()) {
+        // No keys specified, assume uniform distribution
+        return 0.5f;
+    }
+    
+    std::shared_lock<std::shared_mutex> lock(cache_mutex_);
+    
+    size_t local_keys = 0;
+    for (const auto& key : spec.accessed_keys) {
+        // Check each collection for this key
+        for (const auto& collection : spec.accessed_collections) {
+            std::string cache_key = makeCacheKey(collection, key);
+            auto it = placement_cache_.find(cache_key);
+            
+            if (it != placement_cache_.end() && 
+                it->second.find(shard_id) != it->second.end()) {
+                local_keys++;
+                break; // Found in this collection, move to next key
+            }
+        }
+    }
+    
+    return static_cast<float>(local_keys) / spec.accessed_keys.size();
+}
+
+// Helper function to calculate load score from resource snapshot
+namespace {
+    float computeLoadFromSnapshot(float cpu_percent, uint64_t ram_used, 
+                                   uint64_t ram_total, float health_score) {
+        float cpu_score = cpu_percent / 100.0f;
+        float ram_score = (ram_total > 0) ?
+            static_cast<float>(ram_used) / ram_total : 0.0f;
+        float health_penalty = 1.0f - (health_score / 100.0f);
+        
+        return (cpu_score * LOAD_CPU_WEIGHT + 
+                ram_score * LOAD_RAM_WEIGHT + 
+                health_penalty * LOAD_HEALTH_WEIGHT);
+    }
+}
+
+float LocalityAwareRouter::calculateLoadScore(const std::string& shard_id) const {
+    if (!resource_mgr_) {
+        return 0.0f; // No load information available
+    }
+    
+    // Get resource snapshot for the shard
+    auto peer_snapshot = resource_mgr_->getPeerResource(shard_id);
+    
+    if (!peer_snapshot.has_value()) {
+        // If it's the local shard, get current snapshot
+        if (shard_id == local_shard_id_) {
+            auto local_snapshot = resource_mgr_->getCurrentSnapshot();
+            return computeLoadFromSnapshot(
+                local_snapshot.cpu_usage_percent,
+                local_snapshot.ram_usage_bytes,
+                local_snapshot.ram_total_bytes,
+                local_snapshot.health_score
+            );
+        }
+        return 0.5f; // Unknown load, assume medium
+    }
+    
+    // Calculate composite load score from peer resource snapshot
+    return computeLoadFromSnapshot(
+        peer_snapshot->cpu_usage_percent,
+        peer_snapshot->ram_usage_bytes,
+        peer_snapshot->ram_total_bytes,
+        peer_snapshot->health_score
+    );
+}
+
+float LocalityAwareRouter::calculateNetworkScore(const std::string& shard_id) const {
+    // Get shard information
+    auto shard_info = topology_->getShard(shard_id);
+    auto local_info = topology_->getShard(local_shard_id_);
+    
+    if (!shard_info.has_value() || !local_info.has_value()) {
+        return 0.5f; // Unknown location
+    }
+    
+    // Same datacenter = 1.0 (best)
+    // Different datacenter = 0.5
+    // Different region = 0.1
+    if (shard_info->datacenter == local_info->datacenter) {
+        return 1.0f;
+    } else {
+        // Simple heuristic: different datacenter
+        return 0.5f;
+    }
+}
+
+std::string LocalityAwareRouter::makeCacheKey(
+    const std::string& collection,
+    const std::string& key) const {
+    return collection + ":" + key;
+}
+
+void LocalityAwareRouter::cleanupStaleEntries() {
+    // Simple strategy: remove oldest percentage of entries
+    // In a production system, this would use TTL timestamps
+    
+    if (placement_cache_.empty()) {
+        return;
+    }
+    
+    size_t entries_to_remove = static_cast<size_t>(
+        placement_cache_.size() * CACHE_CLEANUP_PERCENT
+    );
+    if (entries_to_remove == 0) {
+        entries_to_remove = 1;
+    }
+    
+    auto it = placement_cache_.begin();
+    for (size_t i = 0; i < entries_to_remove && it != placement_cache_.end(); ++i) {
+        it = placement_cache_.erase(it);
+    }
+}
+
+} // namespace themis::sharding
