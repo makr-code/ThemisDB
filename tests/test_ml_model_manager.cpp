@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include <thread>
 #include <chrono>
+#include <nlohmann/json.hpp>
 
 using namespace themis::llm;
 

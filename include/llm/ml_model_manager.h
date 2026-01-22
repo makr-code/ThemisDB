@@ -9,6 +9,9 @@
 #include <vector>
 #include <unordered_map>
 #include <mutex>
+#include <thread>
+#include <atomic>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
