@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include <chrono>
 
 namespace themis {
 namespace utils {
@@ -65,18 +66,33 @@ std::optional<std::string> Cursor::base64Decode(const std::string& input) {
     return output;
 }
 
-std::string Cursor::encode(const std::string& last_pk, const std::string& collection) {
+int64_t Cursor::getCurrentTimestamp() {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::seconds>(duration).count();
+}
+
+std::string Cursor::encode(
+    const std::string& last_pk, 
+    const std::string& collection,
+    const std::optional<std::string>& order_value
+) {
     nlohmann::json cursor_data = {
         {"pk", last_pk},
         {"collection", collection},
-        {"version", 1}  // For future compatibility
+        {"version", 1},
+        {"created_at", getCurrentTimestamp()}
     };
+    
+    if (order_value.has_value()) {
+        cursor_data["order_value"] = *order_value;
+    }
     
     std::string json_str = cursor_data.dump();
     return base64Encode(json_str);
 }
 
-std::optional<std::pair<std::string, std::string>> Cursor::decode(const std::string& cursor_token) {
+std::optional<CursorInfo> Cursor::decodeDetailed(const std::string& cursor_token) {
     auto decoded = base64Decode(cursor_token);
     if (!decoded.has_value()) {
         return std::nullopt;
@@ -90,13 +106,64 @@ std::optional<std::pair<std::string, std::string>> Cursor::decode(const std::str
             return std::nullopt;
         }
         
-        std::string pk = cursor_data["pk"].get<std::string>();
-        std::string collection = cursor_data["collection"].get<std::string>();
+        CursorInfo info;
+        info.pk = cursor_data["pk"].get<std::string>();
+        info.collection = cursor_data["collection"].get<std::string>();
         
-        return std::make_pair(pk, collection);
+        // Optional fields
+        if (cursor_data.contains("order_value") && !cursor_data["order_value"].is_null()) {
+            info.order_value = cursor_data["order_value"].get<std::string>();
+        }
+        
+        if (cursor_data.contains("created_at")) {
+            info.created_at = cursor_data["created_at"].get<int64_t>();
+        }
+        
+        if (cursor_data.contains("version")) {
+            info.version = cursor_data["version"].get<int>();
+        }
+        
+        return info;
     } catch (const nlohmann::json::exception&) {
         return std::nullopt;
     }
+}
+
+std::optional<std::pair<std::string, std::string>> Cursor::decode(const std::string& cursor_token) {
+    auto info = decodeDetailed(cursor_token);
+    if (!info.has_value()) {
+        return std::nullopt;
+    }
+    
+    return std::make_pair(info->pk, info->collection);
+}
+
+bool Cursor::isValid(const std::string& cursor_token, int64_t ttl_seconds) {
+    auto info = decodeDetailed(cursor_token);
+    if (!info.has_value()) {
+        return false;
+    }
+    
+    // If no TTL specified, just check if cursor decodes
+    if (ttl_seconds <= 0) {
+        return true;
+    }
+    
+    // Check expiration
+    int64_t now = getCurrentTimestamp();
+    int64_t age = now - info->created_at;
+    
+    return age <= ttl_seconds;
+}
+
+size_t Cursor::normalizePageSize(size_t requested_size, const PaginationConfig& config) {
+    if (requested_size < config.min_page_size) {
+        return config.min_page_size;
+    }
+    if (requested_size > config.max_page_size) {
+        return config.max_page_size;
+    }
+    return requested_size;
 }
 
 } // namespace utils
