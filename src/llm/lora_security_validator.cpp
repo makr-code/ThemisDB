@@ -337,20 +337,58 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
         return result;
     }
     
-    // NOTE: Cryptographic signature verification not yet implemented
-    // This requires X.509 certificate store integration which is deployment-specific
-    // Format validation above provides basic security checks, but NOT cryptographic verification
-    spdlog::warn("Embedded LoRa signature cryptographic verification not implemented - using format validation only");
+    // Perform cryptographic signature verification
+    // Check if we have a certificate PEM for the signer
+    // In a production system, this would be retrieved from a certificate store
+    std::string cert_pem;  // TODO: Retrieve from certificate store by fingerprint
     
-    // For now, if format is valid and signer is trusted, we accept the signature
-    // This provides some security (trusted signers + format validation) but not full crypto verification
-    result.is_valid = true;
-    result.signer_identity = signer;
-    result.signature_algorithm = "RSA-SHA256 (format validation only)";
-    result.error_message = "Cryptographic verification not implemented - format validated only";
+    // Check if certificate is embedded in metadata
+    if (metadata.contains("certificate")) {
+        cert_pem = metadata["certificate"];
+        spdlog::debug("Using embedded certificate for verification");
+    }
     
-    spdlog::info("Embedded LoRa signature format validated for {}: signer={} (crypto verification pending)", 
-             lora_path, signer);
+    if (!cert_pem.empty()) {
+        // Create signature verifier
+        themis::llm::security::RSA_SHA256_Verifier verifier;
+        
+        // Perform cryptographic verification
+        auto verify_result = verifier.verify(lora_data, signature, cert_pem);
+        
+        if (!verify_result.is_valid) {
+            result.is_valid = false;
+            result.error_message = "Cryptographic signature verification failed: " + verify_result.error_message;
+            
+            // Audit log (skipped - audit logger not available)
+            spdlog::debug("Embedded crypto verification failed for {}", lora_path);
+            
+            spdlog::error("Embedded LoRa cryptographic signature verification failed for {}: {}", 
+                     lora_path, verify_result.error_message);
+            return result;
+        }
+        
+        // Cryptographic verification succeeded
+        result.is_valid = true;
+        result.signer_identity = verify_result.signer_identity.empty() ? 
+                                signer : verify_result.signer_identity;
+        result.signature_algorithm = verify_result.algorithm;
+        
+        spdlog::info("Embedded LoRa signature cryptographically verified for {}: signer={}", 
+                 lora_path, result.signer_identity);
+    } else {
+        // Certificate not available - fall back to format validation only
+        // This provides basic security but not full cryptographic verification
+        spdlog::warn("Embedded LoRa signature: Certificate not available for {}, using format validation only", 
+                 signer);
+        
+        result.is_valid = true;
+        result.signer_identity = signer;
+        result.signature_algorithm = "RSA-SHA256 (format validation only)";
+        result.error_message = "Certificate not available - format validated only";
+        
+        spdlog::info("Embedded LoRa signature format validated for {}: signer={} (full verification requires certificate)", 
+                 lora_path, signer);
+    }
     
     return result;
 }
