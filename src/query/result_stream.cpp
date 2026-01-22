@@ -1,6 +1,7 @@
 #include "query/result_stream.h"
 #include "utils/error_registry.h"
 #include <algorithm>
+#include <limits>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -151,6 +152,14 @@ Result<void> ResultStream<T>::skip(size_t count) {
     }
     
     if (is_materialized_) {
+        // Check for potential overflow before addition
+        if (count > std::numeric_limits<size_t>::max() - cursor_.offset) {
+            // Would overflow - just set to end
+            cursor_.offset = materialized_data_.size();
+            cursor_.has_more = false;
+            return OkVoid();
+        }
+        
         size_t new_offset = cursor_.offset + count;
         if (new_offset >= materialized_data_.size()) {
             cursor_.offset = materialized_data_.size();

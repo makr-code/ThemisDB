@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <limits>
 
 using namespace themis;
 using namespace themis::query;
@@ -226,6 +227,18 @@ TEST_F(ResultStreamTest, SkipPartiallyAvailable) {
     
     auto skip_result = stream->skip(2);
     EXPECT_TRUE(skip_result.has_value()); // Partial skip succeeds
+    EXPECT_FALSE(stream->hasNext());
+}
+
+TEST_F(ResultStreamTest, SkipWithPotentialOverflow) {
+    std::vector<std::string> small_dataset = {"a", "b", "c"};
+    auto stream = createKeyStream(small_dataset);
+    
+    // Try to skip an extremely large number
+    auto skip_result = stream->skip(std::numeric_limits<size_t>::max());
+    ASSERT_TRUE(skip_result.has_value());
+    
+    // Should be at the end
     EXPECT_FALSE(stream->hasNext());
 }
 
