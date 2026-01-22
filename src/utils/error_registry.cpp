@@ -943,6 +943,66 @@ void ErrorRegistry::registerDefaultErrors() {
         {"query", "resource", "exhausted", "memory", "limit"}
     });
     
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID,
+        "Query",
+        "Error",
+        "Invalid query: {}",
+        "The query is invalid or malformed.",
+        "1. Check query syntax and structure\n"
+        "2. Verify all required parameters are provided\n"
+        "3. Ensure query string is not empty\n"
+        "4. Review query documentation for correct format",
+        {"/docs/query/syntax.md"},
+        {"query", "invalid", "malformed", "syntax"}
+    });
+    
+    // Cache Errors
+    registerError({
+        ErrorCode::ERR_CACHE_FULL,
+        "Cache",
+        "Warning",
+        "Cache is full: {}",
+        "The cache has reached its maximum capacity and cannot store new entries.",
+        "1. Increase cache size limits in configuration\n"
+        "2. Review cache eviction policy settings\n"
+        "3. Monitor cache hit rates and adjust TTL settings\n"
+        "4. Consider using memory-aware eviction\n"
+        "5. Clear expired entries manually if needed",
+        {"/docs/cache/configuration.md"},
+        {"cache", "full", "capacity", "memory", "limit"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE,
+        "Cache",
+        "Warning",
+        "Cache entry too large: {}",
+        "The entry exceeds the maximum allowed size for caching.",
+        "1. Increase max_entry_size in cache configuration\n"
+        "2. Consider result set pagination for large queries\n"
+        "3. Review query to reduce result size\n"
+        "4. Use compression for large result sets\n"
+        "5. Store partial results if applicable",
+        {"/docs/cache/configuration.md"},
+        {"cache", "entry", "size", "limit", "exceeded"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_INVALIDATION_FAILED,
+        "Cache",
+        "Error",
+        "Cache invalidation failed: {}",
+        "Failed to invalidate cache entries as requested.",
+        "1. Check cache service is running\n"
+        "2. Verify cache key or dependency pattern is correct\n"
+        "3. Review cache logs for detailed error information\n"
+        "4. Consider clearing entire cache if needed\n"
+        "5. Ensure sufficient permissions for cache operations",
+        {"/docs/cache/invalidation.md"},
+        {"cache", "invalidation", "failed", "error"}
+    });
+    
     // API Errors
     registerError({
         ErrorCode::ERR_API_INVALID_REQUEST,
@@ -1253,6 +1313,102 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Review retention manager logs",
         {"/docs/retention.md"},
         {"utility", "retention", "policy", "not found"}
+    });
+    
+    // Memory Pool Errors
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_EXHAUSTED,
+        "Memory",
+        "Critical",
+        "Memory pool exhausted: requested {} bytes, available {} bytes",
+        "The memory pool has run out of available memory blocks.",
+        "1. Increase pool size in configuration\n"
+        "2. Enable dynamic pool expansion\n"
+        "3. Check for memory leaks\n"
+        "4. Review allocation patterns and optimize",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "exhausted", "out of memory"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_ALLOCATION_FAILED,
+        "Memory",
+        "Critical",
+        "Memory allocation failed: requested {} bytes",
+        "Failed to allocate memory from the system.",
+        "1. Check available system memory\n"
+        "2. Reduce memory usage in configuration\n"
+        "3. Enable memory compression\n"
+        "4. Check for memory leaks",
+        {"/docs/memory/troubleshooting.md"},
+        {"memory", "allocation", "failed", "oom"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_SIZE,
+        "Memory",
+        "Error",
+        "Invalid allocation size: {} bytes",
+        "The requested allocation size is invalid or exceeds limits.",
+        "1. Verify allocation size is positive and non-zero\n"
+        "2. Check size does not exceed max allocation limit\n"
+        "3. Ensure size is properly aligned if required",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "invalid", "size", "allocation"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_ALIGNMENT,
+        "Memory",
+        "Error",
+        "Invalid memory alignment: requested {} bytes, must be power of 2",
+        "The requested alignment is not a power of 2.",
+        "1. Verify alignment is a power of 2 (e.g., 8, 16, 32, 64)\n"
+        "2. Use standard alignment values (16 or 64 bytes)\n"
+        "3. Check alignment requirements for your data structure",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "alignment", "invalid", "power of 2"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_DOUBLE_FREE,
+        "Memory",
+        "Critical",
+        "Double free detected: address {}",
+        "Attempted to free memory that was already freed.",
+        "1. Check for double free bugs in code\n"
+        "2. Ensure proper ownership semantics\n"
+        "3. Use smart pointers or RAII patterns\n"
+        "4. Run with AddressSanitizer to detect memory errors",
+        {"/docs/memory/debugging.md"},
+        {"memory", "double free", "corruption", "bug"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_NOT_INITIALIZED,
+        "Memory",
+        "Error",
+        "Memory pool not initialized",
+        "Attempted to use a memory pool before initialization.",
+        "1. Ensure pool is initialized before use\n"
+        "2. Check initialization order\n"
+        "3. Verify pool configuration is valid",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "not initialized", "initialization"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_FRAGMENTATION,
+        "Memory",
+        "Warning",
+        "Memory fragmentation detected: {} free blocks, largest {} bytes",
+        "Memory pool is fragmented with many small free blocks.",
+        "1. Enable pool defragmentation\n"
+        "2. Increase pool size\n"
+        "3. Adjust allocation sizes\n"
+        "4. Consider pool reset during low-activity periods",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "fragmentation", "performance", "optimization"}
     });
 }
 
