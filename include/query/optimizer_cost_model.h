@@ -30,7 +30,7 @@ public:
         size_t pageCount = 0;
         double avgRowSize = 0.0;  // bytes
         bool isStale = false;
-        int64_t lastUpdated = 0;  // timestamp
+        int64_t lastUpdated = 0;  // Unix timestamp in seconds (epoch time)
     };
     
     struct ColumnStatistics {
@@ -70,6 +70,7 @@ public:
         // Memory costs
         double memoryPenaltyFactor = 0.1;      // Penalty when exceeding available memory
         size_t availableMemory = 1024 * 1024 * 1024;  // 1GB default
+        double memoryThresholdRatio = 0.8;     // Trigger external sort at 80% memory usage
         
         // Network costs
         double networkBandwidth = 1000.0;      // MB/s
@@ -81,6 +82,11 @@ public:
         double joinOverhead = 50.0;
         double aggregationOverhead = 20.0;
         double sortOverhead = 30.0;
+        
+        // Hash table constants
+        size_t hashTableKeySize = 8;           // Default hash key size in bytes
+        size_t hashTablePointerSize = 8;       // Pointer size (use sizeof(void*) on target platform)
+        size_t hashTableGroupOverhead = 64;    // Overhead per group in aggregation
     };
     
     // =============================

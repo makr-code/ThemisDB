@@ -46,8 +46,11 @@ double OptimizerCostModel::estimateCardinality(size_t baseRows, double selectivi
 // Check if external sort is needed
 bool OptimizerCostModel::needsExternalSort(size_t rowCount, size_t rowSize) const {
     size_t totalSize = rowCount * rowSize;
-    // External sort needed if data size exceeds 80% of available memory
-    return totalSize > (constants_.availableMemory * 8 / 10);
+    // External sort needed if data size exceeds threshold of available memory
+    size_t memoryThreshold = static_cast<size_t>(
+        constants_.availableMemory * constants_.memoryThresholdRatio
+    );
+    return totalSize > memoryThreshold;
 }
 
 // =============================
@@ -198,7 +201,7 @@ OptimizerCostModel::JoinCost OptimizerCostModel::estimateHashJoin(
     cost.cpuCost = buildCost + probeCost + constants_.joinOverhead;
     
     // Memory cost: hash table for left table
-    size_t hashTableSize = leftRows * (hashKeySize + 8);  // key + pointer
+    size_t hashTableSize = leftRows * (hashKeySize + constants_.hashTablePointerSize);
     cost.memoryCost = calculateMemoryCost(hashTableSize);
     
     cost.estimatedRows = static_cast<size_t>(leftRows * rightRows * selectivity);
@@ -243,6 +246,8 @@ OptimizerCostModel::AggregationCost OptimizerCostModel::estimateAggregation(
     size_t estimatedGroups,
     size_t numAggregates) const {
     
+    constexpr size_t AGGREGATE_VALUE_SIZE = 8;  // Size of each aggregate value
+    
     AggregationCost cost;
     cost.inputRows = inputRows;
     cost.outputRows = estimatedGroups;
@@ -257,7 +262,8 @@ OptimizerCostModel::AggregationCost OptimizerCostModel::estimateAggregation(
     cost.cpuCost = hashCost + aggregateCost + constants_.aggregationOverhead;
     
     // Memory cost: hash table for groups
-    size_t hashTableSize = estimatedGroups * (64 + numAggregates * 8);  // key + aggregates
+    size_t hashTableSize = estimatedGroups * 
+        (constants_.hashTableGroupOverhead + numAggregates * AGGREGATE_VALUE_SIZE);
     cost.memoryCost = calculateMemoryCost(hashTableSize);
     
     cost.totalCost = cost.cpuCost + cost.memoryCost;
@@ -390,8 +396,8 @@ void OptimizerCostModel::calibrateCosts(
     const std::map<std::string, double>& measurements) {
     
     // Adjust cost constants based on actual measurements
-    for (const auto& [name, value] : measurements) {
-        updateConstant(name, value);
+    for (const auto& pair : measurements) {
+        updateConstant(pair.first, pair.second);
     }
 }
 
