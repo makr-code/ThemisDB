@@ -47,6 +47,7 @@ public:
                                 SecondaryIndexManager& secIdx,
                                 GraphIndexManager& graphIdx,
                                 VectorIndexManager& vecIdx);
+    ~TransactionManager();
 
     class Transaction {
     public:
@@ -159,6 +160,42 @@ public:
     
     // Cleanup old completed transactions (after 1 hour by default)
     void cleanupOldTransactions(std::chrono::seconds max_age = std::chrono::hours(1));
+    
+    // Deadlock detection
+    struct DeadlockInfo {
+        std::vector<TransactionId> cycle;  // Transaction IDs involved in deadlock
+        std::chrono::system_clock::time_point detected_at;
+        TransactionId victim_id;  // Transaction chosen to abort
+    };
+    
+    /**
+     * @brief Enable or disable deadlock detection
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    void setDeadlockDetection(bool enabled);
+    
+    /**
+     * @brief Set deadlock detection timeout
+     * 
+     * @param timeout_ms timeout in milliseconds
+     */
+    void setDeadlockTimeout(std::chrono::milliseconds timeout_ms);
+    
+    /**
+     * @brief Get recent deadlocks
+     * 
+     * @param max_age maximum age of deadlocks to return
+     * @return vector of deadlock information
+     */
+    std::vector<DeadlockInfo> getDeadlocks(std::chrono::seconds max_age = std::chrono::hours(24)) const;
+    
+    /**
+     * @brief Get deadlock statistics
+     * 
+     * @return total number of deadlocks detected
+     */
+    uint64_t getDeadlockCount() const { return total_deadlocks_.load(std::memory_order_relaxed); }
 
 private:
     RocksDBWrapper& db_;
@@ -187,6 +224,37 @@ private:
     
     // Helper to update statistics with sequence lock protocol
     void updateStatsWithSeqLock(std::function<void()> update);
+    
+    // Deadlock detection state
+    std::atomic<bool> deadlock_detection_enabled_{false};
+    std::atomic<uint64_t> deadlock_timeout_ms_{1000};
+    std::atomic<uint64_t> total_deadlocks_{0};
+    
+    // Lock tracking for deadlock detection
+    struct LockInfo {
+        TransactionId holder;
+        std::chrono::system_clock::time_point acquired_at;
+    };
+    
+    mutable std::mutex lock_tracking_mutex_;
+    std::unordered_map<std::string, LockInfo> held_locks_;  // key -> transaction holding it
+    std::unordered_map<TransactionId, std::unordered_set<std::string>> waiting_for_;  // txn -> keys it's waiting for
+    std::vector<DeadlockInfo> recent_deadlocks_;
+    
+    // Deadlock detection thread
+    std::unique_ptr<std::thread> deadlock_detector_thread_;
+    std::atomic<bool> deadlock_detector_running_{false};
+    std::condition_variable deadlock_detector_cv_;
+    
+    void deadlockDetectorLoop();
+    bool detectDeadlockCycle(std::vector<TransactionId>& cycle);
+    void resolveDeadlock(const std::vector<TransactionId>& cycle);
+    
+    // Lock tracking helpers called by transactions
+    void trackLockAcquired(TransactionId txn_id, const std::string& key);
+    void trackLockReleased(TransactionId txn_id, const std::string& key);
+    void trackLockWaiting(TransactionId txn_id, const std::string& key);
+    void clearWaiting(TransactionId txn_id);
 };
 
 } // namespace themis

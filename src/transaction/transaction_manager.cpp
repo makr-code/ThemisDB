@@ -15,7 +15,213 @@ TransactionManager::TransactionManager(RocksDBWrapper& db,
                                        SecondaryIndexManager& secIdx,
                                        GraphIndexManager& graphIdx,
                                        VectorIndexManager& vecIdx)
-    : db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx) {}
+    : db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx) {
+    // Start deadlock detector thread
+    deadlock_detector_running_ = true;
+    deadlock_detector_thread_ = std::make_unique<std::thread>(&TransactionManager::deadlockDetectorLoop, this);
+}
+
+TransactionManager::~TransactionManager() {
+    // Stop deadlock detector thread
+    deadlock_detector_running_ = false;
+    deadlock_detector_cv_.notify_all();
+    if (deadlock_detector_thread_ && deadlock_detector_thread_->joinable()) {
+        deadlock_detector_thread_->join();
+    }
+}
+
+// Deadlock detection methods
+void TransactionManager::setDeadlockDetection(bool enabled) {
+    deadlock_detection_enabled_.store(enabled, std::memory_order_relaxed);
+    if (enabled) {
+        THEMIS_INFO("Deadlock detection enabled");
+    } else {
+        THEMIS_INFO("Deadlock detection disabled");
+    }
+}
+
+void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms) {
+    deadlock_timeout_ms_.store(timeout_ms.count(), std::memory_order_relaxed);
+    THEMIS_INFO("Deadlock timeout set to {} ms", timeout_ms.count());
+}
+
+std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(std::chrono::seconds max_age) const {
+    std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+    
+    auto cutoff = std::chrono::system_clock::now() - max_age;
+    std::vector<DeadlockInfo> result;
+    
+    for (const auto& deadlock : recent_deadlocks_) {
+        if (deadlock.detected_at >= cutoff) {
+            result.push_back(deadlock);
+        }
+    }
+    
+    return result;
+}
+
+void TransactionManager::trackLockAcquired(TransactionId txn_id, const std::string& key) {
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    
+    std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+    held_locks_[key] = LockInfo{txn_id, std::chrono::system_clock::now()};
+    
+    // Clear waiting status for this transaction
+    auto it = waiting_for_.find(txn_id);
+    if (it != waiting_for_.end()) {
+        it->second.erase(key);
+        if (it->second.empty()) {
+            waiting_for_.erase(it);
+        }
+    }
+}
+
+void TransactionManager::trackLockReleased(TransactionId txn_id, const std::string& key) {
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    
+    std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+    auto it = held_locks_.find(key);
+    if (it != held_locks_.end() && it->second.holder == txn_id) {
+        held_locks_.erase(it);
+    }
+}
+
+void TransactionManager::trackLockWaiting(TransactionId txn_id, const std::string& key) {
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    
+    std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+    waiting_for_[txn_id].insert(key);
+}
+
+void TransactionManager::clearWaiting(TransactionId txn_id) {
+    if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) return;
+    
+    std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+    waiting_for_.erase(txn_id);
+}
+
+void TransactionManager::deadlockDetectorLoop() {
+    while (deadlock_detector_running_.load(std::memory_order_relaxed)) {
+        // Wait for the configured timeout period
+        {
+            std::unique_lock<std::mutex> lock(lock_tracking_mutex_);
+            auto timeout = std::chrono::milliseconds(deadlock_timeout_ms_.load(std::memory_order_relaxed));
+            deadlock_detector_cv_.wait_for(lock, timeout, [this]() {
+                return !deadlock_detector_running_.load(std::memory_order_relaxed);
+            });
+        }
+        
+        if (!deadlock_detector_running_.load(std::memory_order_relaxed)) break;
+        if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) continue;
+        
+        // Check for deadlocks
+        std::vector<TransactionId> cycle;
+        if (detectDeadlockCycle(cycle)) {
+            THEMIS_WARN("Deadlock detected involving {} transactions", cycle.size());
+            resolveDeadlock(cycle);
+            total_deadlocks_.fetch_add(1, std::memory_order_relaxed);
+        }
+    }
+}
+
+bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) {
+    std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+    
+    if (waiting_for_.empty()) return false;
+    
+    // Build wait-for graph: txn -> transactions it's waiting for
+    std::unordered_map<TransactionId, std::unordered_set<TransactionId>> wait_graph;
+    
+    for (const auto& [waiting_txn, keys] : waiting_for_) {
+        for (const auto& key : keys) {
+            auto lock_it = held_locks_.find(key);
+            if (lock_it != held_locks_.end()) {
+                TransactionId holding_txn = lock_it->second.holder;
+                if (holding_txn != waiting_txn) {
+                    wait_graph[waiting_txn].insert(holding_txn);
+                }
+            }
+        }
+    }
+    
+    // Detect cycle using DFS
+    std::unordered_set<TransactionId> visited;
+    std::unordered_set<TransactionId> rec_stack;
+    std::vector<TransactionId> path;
+    
+    std::function<bool(TransactionId)> dfs = [&](TransactionId node) -> bool {
+        visited.insert(node);
+        rec_stack.insert(node);
+        path.push_back(node);
+        
+        auto it = wait_graph.find(node);
+        if (it != wait_graph.end()) {
+            for (TransactionId neighbor : it->second) {
+                if (rec_stack.count(neighbor)) {
+                    // Found a cycle
+                    auto cycle_start = std::find(path.begin(), path.end(), neighbor);
+                    cycle.assign(cycle_start, path.end());
+                    return true;
+                }
+                if (!visited.count(neighbor)) {
+                    if (dfs(neighbor)) return true;
+                }
+            }
+        }
+        
+        path.pop_back();
+        rec_stack.erase(node);
+        return false;
+    };
+    
+    for (const auto& [txn_id, _] : wait_graph) {
+        if (!visited.count(txn_id)) {
+            if (dfs(txn_id)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle) {
+    if (cycle.empty()) return;
+    
+    // Choose victim: youngest transaction (highest ID)
+    TransactionId victim_id = *std::max_element(cycle.begin(), cycle.end());
+    
+    THEMIS_WARN("Deadlock resolution: aborting transaction {} (youngest in cycle)", victim_id);
+    
+    // Record deadlock info
+    DeadlockInfo info;
+    info.cycle = cycle;
+    info.detected_at = std::chrono::system_clock::now();
+    info.victim_id = victim_id;
+    
+    {
+        std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
+        recent_deadlocks_.push_back(info);
+        
+        // Keep only last 100 deadlocks
+        if (recent_deadlocks_.size() > 100) {
+            recent_deadlocks_.erase(recent_deadlocks_.begin());
+        }
+        
+        // Clear waiting and locks for victim
+        waiting_for_.erase(victim_id);
+        for (auto it = held_locks_.begin(); it != held_locks_.end();) {
+            if (it->second.holder == victim_id) {
+                it = held_locks_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+    
+    // Abort the victim transaction
+    rollbackTransaction(victim_id);
+}
 
 // Session-based transaction management
 TransactionManager::TransactionId TransactionManager::generateTransactionId() {
