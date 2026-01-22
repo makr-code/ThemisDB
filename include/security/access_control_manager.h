@@ -5,6 +5,7 @@
 #include <memory>
 #include <optional>
 #include <functional>
+#include <unordered_map>
 #include "security/rbac.h"
 
 namespace themis {
