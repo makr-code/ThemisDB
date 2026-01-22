@@ -523,7 +523,7 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
         
         // Adjust score based on cache behavior
         double cache_hit_rate = static_cast<double>(pattern.cache_hits) / 
-                               std::max(1L, pattern.cache_hits + pattern.cache_misses);
+                               std::max(static_cast<decltype(pattern.cache_hits)>(1), pattern.cache_hits + pattern.cache_misses);
         
         // Penalty for high cache miss rate
         double cache_penalty = 0.0;

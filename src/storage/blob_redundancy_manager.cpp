@@ -70,6 +70,7 @@ std::string BlobMetadata::toJson() const {
 
 std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
     // Simplified JSON deserialization
+    (void)json;
     return std::nullopt;
 }
 
@@ -82,11 +83,13 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
 ) {
     // Simplified YAML loading
     // In production, use yaml-cpp
+    (void)path;
     return std::nullopt;
 }
 
 bool CollectionRedundancyConfig::saveToYaml(const std::string& path) const {
     // Simplified YAML saving
+    (void)path;
     return false;
 }
 
@@ -344,7 +347,7 @@ void BlobRedundancyManager::unregisterBlob(const std::string& blob_id) {
     }
 }
 
-Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id) {
+Result<bool> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id) {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
@@ -373,7 +376,7 @@ Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id)
 }
 }
 
-Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
+Result<bool> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
     auto start = std::chrono::steady_clock::now();
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
@@ -416,7 +419,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     return metadata.isHealthy();
 }
 
-Result<void> BlobRedundancyManager::writeBlob(
+Result<bool> BlobRedundancyManager::writeBlob(
     const std::string& blob_id,
     const std::vector<uint8_t>& data,
     WriteHandler handler
@@ -488,7 +491,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     return Ok(std::move(*result));
 }
 
-Result<void> BlobRedundancyManager::deleteBlob(
+Result<bool> BlobRedundancyManager::deleteBlob(
     const std::string& blob_id,
     DeleteHandler handler
 ) {
@@ -520,19 +523,21 @@ Result<void> BlobRedundancyManager::deleteBlob(
 }
 }
 
-Result<void> BlobRedundancyManager::tierDown(
+Result<bool> BlobRedundancyManager::tierDown(
     const std::string& blob_id,
     StorageTier target
 ) {
+    (void)target;
     stats_tier_transitions_++;
     
     return Ok();
 }
 
-Result<void> BlobRedundancyManager::tierUp(
+Result<bool> BlobRedundancyManager::tierUp(
     const std::string& blob_id,
     StorageTier target
 ) {
+    (void)target;
     stats_tier_transitions_++;
     
     return Ok();
@@ -946,6 +951,7 @@ void RocksDBBlobListener::OnFlushCompleted(
     const rocksdb::FlushJobInfo& info
 ) {
     // New SST file created
+    (void)db;
     spdlog::debug("SST file created (flush): {}", info.file_path);
     
     // Register with blob manager
@@ -963,6 +969,7 @@ void RocksDBBlobListener::OnCompactionCompleted(
     const rocksdb::CompactionJobInfo& info
 ) {
     // New SST files created by compaction
+    (void)db;
     spdlog::debug("Compaction completed, output files: {}", info.output_files.size());
     
     for (const auto& file_path : info.output_files) {

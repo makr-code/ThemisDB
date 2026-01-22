@@ -85,8 +85,8 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
 // Stubbed: full expression evaluation will be added in a later phase.
 
 bool QueryEngine::QueryExpressionEvaluator::evaluate(
-    const std::string& /*expression*/,
-    const void* /*context*/) {
+	const std::string& /*expression*/,
+	const void* /*context*/) {
     return false;
 }
 
@@ -903,7 +903,7 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 }
 
 // Forward decl
-static nlohmann::json qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
+static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
 								  const themis::QueryEngine::EvaluationContext& ctx);
 
 static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
@@ -1649,7 +1649,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
 		nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
 		return Ok(nlohmann::json(poly));
-		}
 	}
 
 	return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -1914,7 +1913,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			return {Status::OK(), std::move(keys)};
 		}
 		if (optimize) {
-			QueryOptimizer opt(*secIdx_);
+			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
 			auto plan = opt.chooseOrderForAndQuery(q);
 			auto keysResult = executeAndKeysSequential(q.table, plan.orderedPredicates);
 			if (!keysResult) { 
@@ -3555,7 +3554,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	}
 	
 	// Optional: choose plan when vector index is available
-	auto cfg = loadHybridConfig_(*db_);
+	auto cfg = loadHybridConfig_(*db_);  // Dereference pointer to reference
 	VGPlan plan = VGPlan::SpatialThenVector;
 	if (vectorIdx_) {
 		// Use cost model via QueryOptimizer

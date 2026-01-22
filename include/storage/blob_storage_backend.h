@@ -5,6 +5,7 @@
 #include <optional>
 #include <memory>
 #include <cstdint>
+#include "utils/expected.h"
 
 namespace themis {
 namespace storage {
@@ -76,9 +77,9 @@ public:
     /**
      * @brief Delete a blob
      * @param ref Blob reference
-     * @return Result<void> Success or error
+     * @return Result<bool> Success or error
      */
-    virtual Result<void> remove(const BlobRef& ref) = 0;
+    virtual Result<bool> remove(const BlobRef& ref) = 0;
     
     /**
      * @brief Check if blob exists

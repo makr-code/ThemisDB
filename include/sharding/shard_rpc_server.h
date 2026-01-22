@@ -27,6 +27,20 @@ public:
     };
     
     /**
+     * @brief Configuration for the RPC server
+     */
+    struct Config {
+        std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
+        
+        // mTLS Configuration (optional, required for production)
+        bool enable_mtls = false;       // Enable mutual TLS authentication
+        std::string tls_cert_path;      // Path to server certificate (PEM format)
+        std::string tls_key_path;       // Path to server private key (PEM format)
+        std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)
+        bool tls_require_client_cert = true;  // Require client certificates (mutual TLS)
+    };
+    
+    /**
      * @brief Handler interface for processing incoming RPC requests
      * 
      * Implement this interface to handle RPC requests in your application
@@ -74,6 +88,12 @@ public:
      * @param listen_address Address to listen on (e.g., "0.0.0.0:50051")
      */
     explicit ShardRPCServer(const std::string& listen_address);
+    
+    /**
+     * @brief Create a new ShardRPCServer with configuration
+     * @param config Server configuration including mTLS settings
+     */
+    explicit ShardRPCServer(const Config& config);
     
     ~ShardRPCServer();
     

@@ -312,7 +312,7 @@ bool LlamaWrapper::loadModel(
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
         // Transition to ERROR state
-        transitionToState(WrapperState::ERROR, "Model load failed: " + model_path);
+        transitionToState(WrapperState::ERROR_STATE, "Model load failed: " + model_path);
         
         if (metrics_collector_) {
             metrics_collector_->recordError("model_load_failed", "model_loader");
@@ -702,10 +702,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 
     // Real llama.cpp inference implementation
+    // Declare adapter tracking outside try to access in catch
+    bool adapter_applied = false;
+    
     try {
         // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
         std::string prev_adapter;
-        bool adapter_applied = false;
         bool context_changed = (last_context_ptr_ != lctx);
         
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
@@ -1459,10 +1461,12 @@ llama_token LlamaWrapper::sampleTokenInternal(
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
     if (grammar != nullptr) {
-        llama_grammar_sample(grammar, ctx, &candidates_p);
+        // llama_grammar_sample(grammar, ctx, &candidates_p);
+        // NOTE: Grammar API removed from llama.cpp - needs migration to new API
+        spdlog::warn("Grammar sampling not available - llama.cpp API changed");
         
-        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
-                     candidates_p.size);
+        // spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+        //              candidates_p.size);
     }
     
     // Apply temperature sampling
@@ -1515,7 +1519,9 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Update grammar state with sampled token (Phase 3.2)
     if (grammar != nullptr) {
-        llama_grammar_accept(grammar, ctx, sampled_token);
+        // llama_grammar_accept(grammar, ctx, sampled_token);
+        // NOTE: Grammar API removed from llama.cpp - needs migration to new API
+        spdlog::warn("Grammar accept not available - llama.cpp API changed");
     }
     
     return sampled_token;
@@ -1782,9 +1788,11 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         return generateRegular(request);
     }
     
+    // Declare adapter tracking outside try to access in catch
+    bool adapter_applied = false;
+    
     try {
         // Apply LoRA adapter if specified (Auto-Binding)
-        bool adapter_applied = false;
         
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
             const std::string& adapter_id = *request.lora_adapter_id;
@@ -2017,9 +2025,11 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     }
 
     // Real llama.cpp inference implementation
+    // Declare adapter tracking outside try to access in catch
+    bool adapter_applied = false;
+    
     try {
         // Apply LoRA adapter if specified (Auto-Binding)
-        bool adapter_applied = false;
         
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
             const std::string& adapter_id = *request.lora_adapter_id;
@@ -2588,7 +2598,7 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
         case WrapperState::UNINITIALIZED: return "UNINITIALIZED";
         case WrapperState::LOADING:       return "LOADING";
         case WrapperState::READY:         return "READY";
-        case WrapperState::ERROR:         return "ERROR";
+        case WrapperState::ERROR_STATE:   return "ERROR";
         case WrapperState::UNAVAILABLE:   return "UNAVAILABLE";
         default:                          return "UNKNOWN";
     }

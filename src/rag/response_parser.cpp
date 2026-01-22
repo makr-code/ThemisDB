@@ -138,6 +138,21 @@ ParsedResponse ResponseParser::parseWithRegex(const std::string& response) {
     return result;
 }
 
+nlohmann::json ResponseParser::parseJSONResponse(const std::string& response) {
+    try {
+        size_t start = response.find('{');
+        size_t end = response.rfind('}');
+        if (start == std::string::npos || end == std::string::npos || start >= end) {
+            return nlohmann::json::object();
+        }
+        std::string json_str = response.substr(start, end - start + 1);
+        return nlohmann::json::parse(json_str);
+    } catch (const std::exception& e) {
+        THEMIS_DEBUG("parseJSONResponse failed: {}", e.what());
+        return nlohmann::json::object();
+    }
+}
+
 bool ResponseParser::validate(const ParsedResponse& parsed) {
     if (!parsed.score) {
         return false;

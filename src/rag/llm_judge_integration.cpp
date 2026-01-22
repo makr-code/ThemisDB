@@ -77,6 +77,37 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     return parsed;
 }
 
+std::string LLMJudgeIntegration::evaluateDimension(
+    const std::string& prompt,
+    EvaluationDimension dimension
+) {
+    THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
+                 static_cast<int>(dimension), prompt.size());
+
+    int attempts = 0;
+    std::string response;
+
+    while (attempts < config_.max_retries) {
+        try {
+            response = callLLM(prompt);
+            if (!response.empty()) {
+                return response;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLM call failed (attempt {}/{}): {}",
+                        attempts + 1, config_.max_retries, e.what());
+        }
+        attempts++;
+        if (attempts < config_.max_retries) {
+            int delay_ms = 100 * (1 << attempts);
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+        }
+    }
+
+    THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
+    return "{}";  // Return empty JSON object as safe fallback
+}
+
 void LLMJudgeIntegration::setInferenceFunction(
     std::function<std::string(const std::string&)> fn
 ) {

@@ -7,6 +7,11 @@
 #include <random>
 #include <numeric>
 
+// llama.cpp forward declarations (newer API may not be present in headers)
+extern "C" {
+    int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale);
+}
+
 namespace themis {
 namespace llm {
 
@@ -214,7 +219,12 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
     return it->second.get();
 }
 
-bool MultiLoRAManager::applyLoRA(const std::string& lora_id, void* context_handle) {
+bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
+    if (!context) {
+        spdlog::error("Cannot apply LoRA: null context");
+        return false;
+    }
+    
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
@@ -223,25 +233,40 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, void* context_handl
     
     spdlog::debug("Applying LoRA: {} to context", lora_id);
     
-    // Apply LoRA adapter to context
-    if (lora->adapter_handle && context_handle) {
-        // In llama.cpp, LoRA adapters are applied through the context
-        // The actual implementation would use llama_lora_adapter_set
-        // For now, mark as active
+    // Apply LoRA adapter to context using modern llama.cpp API
+    if (lora->adapter_handle && context) {
+        // Get adapter index from handle
+        int adapter_index = static_cast<int>(reinterpret_cast<uintptr_t>(lora->adapter_handle));
+        
+        // Apply adapter with scale factor using llama.cpp API
+        // This sets the adapter for subsequent decode/inference calls
+        int result = llama_lora_adapter_set(context, adapter_index, lora->scale);
+        
+        if (result != 0) {
+            spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
+            return false;
+        }
+        
         lora->is_active = true;
         switches_++;
-        spdlog::info("LoRA {} applied successfully", lora_id);
+        spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, lora->scale);
         return true;
     }
     
-    spdlog::warn("LoRA adapter handle not available for {}", lora_id);
-    lora->is_active = true;
-    switches_++;
+    if (!lora->adapter_handle) {
+        spdlog::error("LoRA adapter handle not initialized for {}", lora_id);
+        return false;
+    }
     
-    return true;
+    return false;
 }
 
-bool MultiLoRAManager::removeLoRA(const std::string& lora_id, void* context_handle) {
+bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
+    if (!context) {
+        spdlog::error("Cannot remove LoRA: null context");
+        return false;
+    }
+    
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         return false;
@@ -249,22 +274,35 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, void* context_hand
     
     spdlog::debug("Removing LoRA: {} from context", lora_id);
     
-    // Remove LoRA adapter from context
-    if (lora->adapter_handle && context_handle) {
-        // The actual implementation would use llama_lora_adapter_remove
+    // Remove LoRA adapter from context using llama.cpp API
+    if (lora->adapter_handle && context) {
+        // Set adapter with scale 0.0 to effectively disable it
+        int adapter_index = static_cast<int>(reinterpret_cast<uintptr_t>(lora->adapter_handle));
+        int result = llama_lora_adapter_set(context, adapter_index, 0.0f);
+        
+        if (result != 0) {
+            spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
+        }
+        
         lora->is_active = false;
         spdlog::info("LoRA {} removed successfully", lora_id);
         return true;
     }
     
-    lora->is_active = false;
-    return true;
+    if (!lora->adapter_handle) {
+        spdlog::warn("LoRA {} has no adapter handle to remove", lora_id);
+        lora->is_active = false;
+        return true;
+    }
+    
+    return false;
 }
 
 std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-    void* model_context
+    llama_context* model_context
 ) {
+    (void)model_context;  // Backend integration pending
     spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
     
     if (!config_.enable_multi_lora_batch) {
@@ -308,7 +346,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
         }
         
         // Process requests with this LoRA
-        // In production, this would use llama.cpp's batch processing
+        // Use llama.cpp's batch processing API
         for (size_t idx : indices) {
             const auto& [request, _] = requests[idx];
             
@@ -316,11 +354,14 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             response.model_used = lora->base_model_id;
             response.lora_used = lora_id;
             
-            // Placeholder for actual inference
-            // In production: response.text = llama_cpp_batch_generate(request, lora->adapter_handle);
-            response.text = "[Batch inference with LoRA " + lora_id + ": " + request.prompt.substr(0, 50) + "...]";
-            response.tokens_generated = 10;  // Placeholder
-            response.latency_ms = 50;        // Placeholder
+            // Real inference would happen here via llama.cpp batch API
+            // For now, return error indicating not fully implemented
+            response.text = "ERROR: Batch multi-LoRA inference not fully integrated with llama.cpp backend yet. "
+                           "Use single-request inference instead.";
+            response.tokens_generated = 0;
+            response.latency_ms = 0;
+            
+            spdlog::warn("Batch multi-LoRA inference called but llama.cpp backend integration incomplete");
             
             responses.push_back(response);
         }
@@ -2028,6 +2069,8 @@ double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
         return (lora->use_count * 3600.0) / age_seconds;
     }
     return 0.0;
+}
+
 // Advanced Fusion API Implementation (v1.5.0)
 // ═══════════════════════════════════════════════════════════
 
@@ -2303,33 +2346,216 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(
         now - schedule.start_time
     );
-    double time_offset = duration.count();
+    double time_offset = static_cast<double>(duration.count());
     
-    // Use custom schedule function if provided
+    // For backward compatibility, prefer custom schedule function if provided,
+    // regardless of the configured scheduling strategy
     if (schedule.schedule_func) {
+        if (schedule.scheduling_strategy != SchedulingStrategy::CUSTOM) {
+            spdlog::warn(
+                "Fusion_id {} has custom schedule_func but scheduling_strategy != CUSTOM; "
+                "using custom function for backward compatibility.",
+                fusion_id
+            );
+        }
         return schedule.schedule_func(time_offset);
     }
     
-    // Default linear interpolation for A/B testing
-    if (schedule.transition_duration.count() > 0) {
-        float progress = std::min(1.0f, 
-            static_cast<float>(time_offset) / schedule.transition_duration.count());
-        
-        // Linear transition from static_weights to target weights [a_weight, b_weight]
-        std::vector<float> weights = schedule.static_weights;
-        
-        // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
-        if (weights.size() >= 2) {
-            float start_weight_0 = weights[0];
-            float start_weight_1 = weights[1];
-            weights[0] = start_weight_0 * (1.0f - progress) + schedule.a_weight * progress;
-            weights[1] = start_weight_1 * (1.0f - progress) + schedule.b_weight * progress;
-        }
-        
-        return weights;
+    // Handle different scheduling strategies
+    switch (schedule.scheduling_strategy) {
+        case SchedulingStrategy::CUSTOM:
+            // No custom function: fall back to static weights
+            return schedule.static_weights;
+            
+        case SchedulingStrategy::LINEAR:
+            return computeLinearSchedule(schedule, time_offset);
+            
+        case SchedulingStrategy::EXPONENTIAL:
+            return computeExponentialSchedule(schedule, time_offset);
+            
+        case SchedulingStrategy::STEP_WISE:
+            return computeStepWiseSchedule(schedule, time_offset);
+            
+        default:
+            // Fallback to static weights for unknown strategy
+            spdlog::warn("Unknown scheduling strategy for fusion_id: {}, using static weights", 
+                        fusion_id);
+            return schedule.static_weights;
+    }
+}
+
+std::vector<float> MultiLoRAManager::computeLinearSchedule(
+    const AlphaSchedule& schedule,
+    double time_offset
+) const {
+    // Linear interpolation for smooth transitions
+    if (schedule.transition_duration.count() <= 0) {
+        return schedule.static_weights;
     }
     
+    // If schedule hasn't started yet, return static weights
+    if (time_offset < 0) {
+        return schedule.static_weights;
+    }
+    
+    // Clamp progress to [0, 1] range
+    float progress = std::max(0.0f, std::min(1.0f, 
+        static_cast<float>(time_offset) / schedule.transition_duration.count()));
+    
+    // Determine target weights
+    std::vector<float> target_weights;
+    if (!schedule.target_weights.empty()) {
+        target_weights = schedule.target_weights;
+    } else if (schedule.static_weights.size() >= 2) {
+        // Backward compatibility: use a_weight and b_weight
+        target_weights = {schedule.a_weight, schedule.b_weight};
+    } else {
+        return schedule.static_weights;
+    }
+    
+    // Linear transition from static_weights to target_weights
+    std::vector<float> weights = schedule.static_weights;
+    size_t num_weights = std::min(weights.size(), target_weights.size());
+    
+    // Interpolate: weight(t) = start_weight * (1 - progress) + end_weight * progress
+    for (size_t i = 0; i < num_weights; ++i) {
+        weights[i] = weights[i] * (1.0f - progress) + target_weights[i] * progress;
+    }
+    
+    return weights;
+}
+
+std::vector<float> MultiLoRAManager::computeExponentialSchedule(
+    const AlphaSchedule& schedule,
+    double time_offset
+) const {
+    // Exponential decay or growth
+    if (schedule.transition_duration.count() <= 0) {
+        return schedule.static_weights;
+    }
+    
+    // Normalize time to [0, 1] range
+    float normalized_time = std::min(1.0f, 
+        static_cast<float>(time_offset) / schedule.transition_duration.count());
+    
+    // Determine target weights
+    std::vector<float> target_weights;
+    if (!schedule.target_weights.empty()) {
+        target_weights = schedule.target_weights;
+    } else if (schedule.static_weights.size() >= 2) {
+        target_weights = {schedule.a_weight, schedule.b_weight};
+    } else {
+        return schedule.static_weights;
+    }
+    
+    // Validate exponential_base to avoid division by zero
+    float safe_base = std::max(0.1f, std::abs(schedule.exponential_base));
+    
+    // Compute exponential progress
+    // For decay: progress = 1 - exp(-base * t)
+    // For growth: progress = (exp(base * t) - 1) / (exp(base) - 1)
+    float progress;
+    if (schedule.exponential_decay) {
+        // Exponential decay: fast transition at start, slow at end
+        progress = 1.0f - std::exp(-safe_base * normalized_time);
+        // Normalize to ensure we reach 1.0 at t=1
+        float max_progress = 1.0f - std::exp(-safe_base);
+        if (max_progress > 1e-6f) {  // Avoid division by near-zero
+            progress /= max_progress;
+        } else {
+            progress = normalized_time;  // Fallback to linear
+        }
+    } else {
+        // Exponential growth: slow transition at start, fast at end
+        float exp_base = std::exp(safe_base);
+        float exp_t = std::exp(safe_base * normalized_time);
+        float denominator = exp_base - 1.0f;
+        if (std::abs(denominator) > 1e-6f) {  // Avoid division by near-zero
+            progress = (exp_t - 1.0f) / denominator;
+        } else {
+            progress = normalized_time;  // Fallback to linear
+        }
+    }
+    
+    // Clamp progress to [0, 1]
+    progress = std::max(0.0f, std::min(1.0f, progress));
+    
+    // Exponential transition from static_weights to target_weights
+    std::vector<float> weights = schedule.static_weights;
+    size_t num_weights = std::min(weights.size(), target_weights.size());
+    
+    for (size_t i = 0; i < num_weights; ++i) {
+        weights[i] = weights[i] * (1.0f - progress) + target_weights[i] * progress;
+    }
+    
+    return weights;
+}
+
+std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
+    const AlphaSchedule& schedule,
+    double time_offset
+) const {
+    // Step-wise discrete transitions at specified time points
+    
+    // If no steps defined, return static weights
+    if (schedule.step_times.empty() || schedule.step_weights.empty()) {
+        return schedule.static_weights;
+    }
+    
+    // Validate that all step_weights have consistent sizes
+    if (!schedule.static_weights.empty()) {
+        size_t expected_size = schedule.static_weights.size();
+        for (const auto& step_weight : schedule.step_weights) {
+            if (step_weight.size() != expected_size) {
+                spdlog::warn("Step-wise schedule has inconsistent weight vector sizes; "
+                           "expected {}, got {}. Falling back to static weights.",
+                           expected_size, step_weight.size());
+                return schedule.static_weights;
+            }
+        }
+    }
+    
+    // Use binary search to find the appropriate step (O(log n))
+    // Find first step_time that is > time_offset
+    auto it = std::upper_bound(schedule.step_times.begin(), 
+                               schedule.step_times.end(), 
+                               time_offset);
+    
+    // Calculate step index based on iterator position
+    size_t step_index = std::distance(schedule.step_times.begin(), it);
+    
+    // Return weights for current step
+    if (step_index < schedule.step_weights.size()) {
+        return schedule.step_weights[step_index];
+    }
+    
+    // If we've passed all steps, return the last step's weights
+    if (!schedule.step_weights.empty()) {
+        return schedule.step_weights.back();
+    }
+    
+    // Fallback to static weights
     return schedule.static_weights;
+    // If no custom function and no transition duration, use static weights
+    // Weights should already be normalized to sum to 1.0
+    std::vector<float> final_weights = schedule.static_weights;
+    
+    // Verify weights are normalized (sum to ~1.0)
+    float weight_sum = 0.0f;
+    for (float w : final_weights) {
+        weight_sum += w;
+    }
+    
+    if (std::abs(weight_sum - 1.0f) > 1e-5f && weight_sum > 0.0f) {
+        // Normalize weights if they don't sum to 1.0
+        for (float& w : final_weights) {
+            w /= weight_sum;
+        }
+        spdlog::debug("Normalized scheduled weights for fusion {}: sum was {}, now 1.0", 
+                     fusion_id, weight_sum);
+    }
+    
+    return final_weights;
 }
 
 bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {

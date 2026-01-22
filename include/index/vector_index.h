@@ -15,6 +15,8 @@ class BaseEntity;
 class SecondaryIndexManager;
 class ProductQuantizer;
 class IExpressionEvaluator;
+class HnswLayerOptimizer;
+struct HnswOptimizationConfig;
 
 namespace utils {
     class AuditLogger;
@@ -276,6 +278,9 @@ public:
     std::string getHnswKeyId() const { return hnswKeyId_; }
     void setHnswKeyId(const std::string& keyId) { hnswKeyId_ = keyId; }
     
+    // Phase 4: HNSW Layer Optimizer access
+    HnswLayerOptimizer* getHnswOptimizer() const { return hnsw_optimizer_.get(); }
+    
     // Flush pending encrypted writes (Phase 1 batching)
     void flushEncryptedWrites() const;
 
@@ -343,9 +348,15 @@ private:
     // Phase 4: Optional ExpressionEvaluator for advanced filtering
     std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
     
+    // Phase 4: HNSW Layer Optimizer for vector index optimization
+    std::unique_ptr<HnswLayerOptimizer> hnsw_optimizer_;
+    
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource,
                        const std::string& operation, size_t count = 0) const;
+    
+    // Helper: Load HNSW optimization configuration from YAML
+    void loadHnswOptimizationConfig_();
 };
 
 } // namespace themis

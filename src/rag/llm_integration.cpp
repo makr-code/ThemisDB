@@ -90,7 +90,7 @@ std::string LLMIntegration::generate(
         request.base_request.prompt = prompt;
         request.base_request.max_tokens = options.max_tokens;
         request.base_request.temperature = options.temperature;
-        request.base_request.stream = options.stream;
+        // Streaming handled via callbacks; no 'stream' field in base_request
         request.allow_caching = true;
         request.priority = 0;
         
@@ -106,18 +106,20 @@ std::string LLMIntegration::generate(
         
         // Call token probability callback if provided
         if (options.token_callback && options.include_token_probabilities) {
-            // Note: Token probabilities would need to be extracted from response
-            // This is a simplified implementation
-            for (size_t i = 0; i < response.tokens.size(); ++i) {
+            // Simplified: derive pseudo tokens from response text
+            std::istringstream iss(response.text);
+            std::string tok;
+            size_t pos = 0;
+            while (iss >> tok) {
                 TokenProbability tp;
-                tp.token = response.tokens[i];
-                tp.probability = 0.8; // Placeholder - would come from actual response
-                tp.position = i;
+                tp.token = tok;
+                tp.probability = 0.8; // Placeholder probability
+                tp.position = pos++;
                 options.token_callback(tp);
             }
         }
         
-        THEMIS_DEBUG("LLM generation completed: {} tokens", response.tokens.size());
+        THEMIS_DEBUG("LLM generation completed: {} tokens", response.tokens_generated);
         return response.text;
         
     } catch (const std::exception& e) {
@@ -191,7 +193,7 @@ LLMEvaluationResponse LLMIntegration::parseEvaluationResponse(
         }
         
         // Look for explanation
-        std::regex explanation_regex(R"("explanation"\s*:\s*"([^"]+)")");
+        std::regex explanation_regex(R"EX("explanation"\s*:\s*"([^"]+)")EX");
         if (std::regex_search(response, match, explanation_regex)) {
             result.explanation = match[1];
         }
