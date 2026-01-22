@@ -830,7 +830,7 @@ json ThemisRPCService::handleSearch(const json& params) {
         if (!iter_result) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to create iterator: " + std::string(iter_result.error())
+                "Failed to create iterator: " + iter_result.error().message()
             );
         }
         
@@ -1160,7 +1160,7 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         if (!iter_result) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to create iterator: " + std::string(iter_result.error())
+                "Failed to create iterator: " + iter_result.error().message()
             );
         }
         
@@ -1294,7 +1294,7 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
         if (!iter_result) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to create iterator: " + std::string(iter_result.error())
+                "Failed to create iterator: " + iter_result.error().message()
             );
         }
         
@@ -1418,7 +1418,7 @@ json ThemisRPCService::handleListCollections(const json& params) {
         if (!iter_result) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to create iterator: " + std::string(iter_result.error())
+                "Failed to create iterator: " + iter_result.error().message()
             );
         }
         
@@ -1574,7 +1574,7 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
         if (!iter_result) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to create iterator: " + std::string(iter_result.error())
+                "Failed to create iterator: " + iter_result.error().message()
             );
         }
         

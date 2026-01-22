@@ -61,6 +61,7 @@ if(MSVC)
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
+        /EHsc            # Exception handling (C++ with external C functions)
     )
     
     # Fix for missing standard library headers (when VSDevCmd not initialized)

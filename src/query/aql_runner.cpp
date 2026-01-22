@@ -22,16 +22,17 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
     // Parse AQL query
     query::AQLParser parser;
     auto parseResult = parser.parse(aql);
-    if (!parseResult.success) {
-        return { QueryEngine::Status::Error(parseResult.error.toString()), nlohmann::json{{"error","parse"}} };
+    if (!parseResult) {
+        return { QueryEngine::Status::Error(parseResult.error().message()), nlohmann::json{{"error","parse"}} };
     }
     
     // Translate to internal query representation
-    auto tr = AQLTranslator::translate(parseResult.query);
+    auto query_ptr = parseResult.value();
+    auto tr = AQLTranslator::translate(query_ptr);
     if (!tr.success) {
         return { QueryEngine::Status::Error(tr.error_message), nlohmann::json{{"error","translate"}} };
     }
-
+    
     // Vector+Geo hybrid dispatch
     if (tr.vector_geo.has_value()) {
         auto [st, res] = engine.executeVectorGeoQuery(*tr.vector_geo);

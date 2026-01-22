@@ -440,8 +440,8 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         auto last_full_dir = fs::path(dest_dir) / last_full;
         std::string type;
         uint64_t min_sequence = 0;
-        auto manifest_result = readManifest(last_full_dir.string(), type, min_sequence);
-        if (!manifest_result) {
+        auto last_full_manifest = readManifest(last_full_dir.string(), type, min_sequence);
+        if (!last_full_manifest) {
             THEMIS_ERROR("Could not read last full backup manifest");
             return false;
         }
@@ -537,7 +537,7 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
         
         if (!found_full) {
             THEMIS_INFO("No full backup found, creating full backup instead");
-            return createFullBackup(dest_dir);
+            return createFullBackup(dest_dir, ec);
         }
         
         // Create timestamped differential backup directory
@@ -547,12 +547,10 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
         THEMIS_INFO("Creating differential backup to {} (since seq {})", 
                     backup_dir.string(), base_sequence);
         
-        std::error_code ec;
         fs::create_directories(backup_dir, ec);
         if (ec) {
             THEMIS_ERROR("Failed to create differential backup directory: {}", ec.message());
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
-                                   "Failed to create differential backup directory: " + ec.message());
+            return false;
         }
         
         // Copy WAL files since last full backup
@@ -561,8 +559,7 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
         auto wal_result = copyWALFiles(db_path, wal_dir.string(), base_sequence);
         if (!wal_result) {
             THEMIS_ERROR("Failed to copy differential WAL files");
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
-                                   "Failed to copy differential WAL files: " + wal_result.error().message());
+            return false;
         }
         
         // Create manifest
@@ -570,16 +567,15 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
         auto manifest_result = createManifest(backup_dir.string(), "differential", seq);
         if (!manifest_result) {
             THEMIS_ERROR("Failed to create differential backup manifest");
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
-                                   "Failed to create differential backup manifest: " + manifest_result.error().message());
+            return false;
         }
         
         THEMIS_INFO("Differential backup created successfully: {}", backup_dir.string());
-        return Ok(backup_dir.string());
+        return true;
     } catch (const std::exception& e) {
+        ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception creating differential backup: {}", e.what());
-        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
-                               "Exception creating differential backup: " + std::string(e.what()));
+        return false;
     }
 }
 
@@ -1365,6 +1361,7 @@ std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& b
         }
         
         // Return the last write time of the backup
+        std::error_code ec;
         auto ftime = fs::last_write_time(backup_path, ec);
         if (ec) {
             return std::chrono::system_clock::time_point{};
