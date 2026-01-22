@@ -1128,6 +1128,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
@@ -1249,6 +1250,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/memory/pool_allocator.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -2416,6 +2418,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_optimizer_cost_model.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stats_api.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_range_index.cpp
               ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
@@ -2448,6 +2451,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_video_processor_extended.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_sse.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_governance.cpp
         ${THEMIS_ROOT_DIR}/tests/test_http_timeseries.cpp
     ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
@@ -2581,6 +2585,7 @@ if(THEMIS_BUILD_TESTS)
         # Phase 1 Performance Optimization Tests (from PR #157)
         ${THEMIS_ROOT_DIR}/tests/test_performance_feature_flags.cpp
         ${THEMIS_ROOT_DIR}/tests/test_performance_allocator.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_pool_allocator.cpp
         ${THEMIS_ROOT_DIR}/tests/test_huge_pages.cpp
         ${THEMIS_ROOT_DIR}/tests/test_rcu_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lirs_cache.cpp
