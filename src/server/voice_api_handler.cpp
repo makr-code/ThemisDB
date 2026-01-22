@@ -32,12 +32,17 @@ namespace {
         }
         
         // Validate each octet is 0-255
-        for (int i = 0; i < 4; i++) {
-            int octet = std::stoi(match[i + 1].str());
-            if (octet < 0 || octet > 255) {
-                return false;
+        try {
+            for (int i = 0; i < 4; i++) {
+                int octet = std::stoi(match[i + 1].str());
+                if (octet < 0 || octet > 255) {
+                    return false;
+                }
+                octets[i] = octet;
             }
-            octets[i] = octet;
+        } catch (const std::exception&) {
+            // std::stoi can throw invalid_argument or out_of_range
+            return false;
         }
         
         return true;
@@ -618,11 +623,13 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
         throw std::invalid_argument("Access to localhost is not allowed");
     }
     
-    // Block cloud metadata endpoints
+    // Block cloud metadata endpoints (common in AWS, GCP, Azure)
     if (host_lower == "169.254.169.254" || 
         host_lower == "metadata.google.internal" ||
         host_lower == "metadata" ||
-        host_lower.find("metadata") != std::string::npos) {
+        host_lower == "metadata.azure.com" ||
+        host_lower.find(".metadata.google.internal") != std::string::npos ||
+        host_lower.find(".metadata.azure.com") != std::string::npos) {
         throw std::invalid_argument("Access to metadata endpoints is not allowed");
     }
     
@@ -642,8 +649,9 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     // 4. Maintaining an allowlist of trusted domains
     
     // Download audio using HTTP client pool
-    // Note: The HTTP client pool has built-in timeouts (connect_timeout and request_timeout)
-    // which prevent indefinite blocking
+    // Note: response_future.get() blocks synchronously, but the HTTPClientPool has built-in
+    // timeouts (connect_timeout=10s, request_timeout=60s) that prevent indefinite blocking.
+    // The std::async in HTTPClientPool::get() runs the request in a separate thread.
     auto response_future = http_client_pool_->get(url);
     auto response = response_future.get();
     
