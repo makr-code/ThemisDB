@@ -875,10 +875,17 @@ json ThemisRPCService::handleSearch(const json& params) {
             iter.Next();
         }
         
+        // Check if there are more results in the collection
+        bool has_more = false;
+        if (iter.Valid()) {
+            std::string key = iter.key();
+            has_more = (key.substr(0, prefix.length()) == prefix);
+        }
+        
         json result = {
             {"results", results},
             {"count", count},
-            {"has_more", iter.Valid()}
+            {"has_more", has_more}
         };
         
         return createSuccess(result);
@@ -1195,11 +1202,18 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
             iter.Next();
         }
         
+        // Check if there are more results in the collection
+        bool has_more = false;
+        if (iter.Valid()) {
+            std::string key = iter.key();
+            has_more = (key.substr(0, prefix.length()) == prefix);
+        }
+        
         json result = {
             {"results", results},
             {"count", count},
-            {"has_more", iter.Valid()},
-            {"next_cursor", next_cursor}
+            {"has_more", has_more},
+            {"next_cursor", count > 0 ? next_cursor : ""}
         };
         
         return createSuccess(result);
@@ -1332,8 +1346,20 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
                 }
                 results = filtered;
             } else if (stage_name == "$limit") {
-                // Limit results
+                // Limit results - validate limit is positive
+                if (!stage_spec.is_number_integer()) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                        "$limit stage requires integer value"
+                    );
+                }
                 int limit = stage_spec.get<int>();
+                if (limit < 0) {
+                    return createError(
+                        themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                        "$limit value must be non-negative"
+                    );
+                }
                 if (results.size() > static_cast<size_t>(limit)) {
                     results = json::array(results.begin(), results.begin() + limit);
                 }
@@ -1343,6 +1369,13 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
                 for (const auto& doc : results) {
                     json proj_doc = json::object();
                     for (auto& [field, include] : stage_spec.items()) {
+                        // Validate projection spec is boolean
+                        if (!include.is_boolean()) {
+                            return createError(
+                                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                                "$project field values must be boolean"
+                            );
+                        }
                         if (include.get<bool>() && doc.contains(field)) {
                             proj_doc[field] = doc[field];
                         }
