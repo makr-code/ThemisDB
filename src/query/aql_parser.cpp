@@ -1,9 +1,11 @@
 ﻿#include "query/aql_parser.h"
+#include "utils/error_registry.h"
 #include <cctype>
 #include <optional>
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
@@ -303,24 +305,28 @@ public:
     explicit Parser(std::vector<Token> tokens)
         : tokens_(std::move(tokens)), pos_(0) {}
     
-    ParseResult parse() {
+    Result<std::shared_ptr<Query>> parse() {
         try {
             // Check for invalid tokens first
             for (const auto& token : tokens_) {
                 if (token.type == TokenType::INVALID) {
-                    return ParseResult::Failure(
-                        "Invalid token: " + token.value,
-                        token.line,
-                        token.column
+                    return Err<std::shared_ptr<Query>>(
+                        errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                        fmt::format("Invalid token '{}' at line {}, column {}", 
+                                    token.value, token.line, token.column)
                     );
                 }
             }
             
             auto query = parseQuery(false); // false = not a subquery
-            return ParseResult::Success(query);
+            return Ok(query);
         } catch (const std::runtime_error& e) {
             const auto& tok = current();
-            return ParseResult::Failure(e.what(), tok.line, tok.column);
+            return Err<std::shared_ptr<Query>>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Parse error at line {}, column {}: {}", 
+                            tok.line, tok.column, e.what())
+            );
         }
     }
     
@@ -1058,7 +1064,7 @@ private:
 // Parser Implementation
 // ============================================================================
 
-ParseResult AQLParser::parse(const std::string& query_string) {
+Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string) {
     try {
         // Tokenize
         Tokenizer tokenizer(query_string);
@@ -1069,7 +1075,10 @@ ParseResult AQLParser::parse(const std::string& query_string) {
         return parser.parse();
         
     } catch (const std::exception& e) {
-        return ParseResult::Failure(e.what(), 0, 0, query_string);
+        return Err<std::shared_ptr<Query>>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            fmt::format("Failed to parse query: {}", e.what())
+        );
     }
 }
 

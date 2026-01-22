@@ -381,7 +381,8 @@ QuantizedModel load_from_gguf(
             } else if (tensor_info.type == llm::GGMLType::Q4_K || 
                       tensor_info.type == llm::GGMLType::Q8_0) {
                 // Pre-quantized formats - directly convert to QuantizedTensor
-                // This avoids the dequantize/re-quantize overhead
+                // Uses DIRECT conversion (Q4_K → NF4 or Q8_0 → INT8) without FP32 intermediate
+                // This preserves original quantization quality and avoids precision loss
                 QuantizedTensor quantized_tensor;
                 std::vector<size_t> shape;
                 

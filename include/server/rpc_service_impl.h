@@ -17,6 +17,9 @@
 
 namespace themis {
 class RocksDBWrapper;  // Forward declaration
+namespace index {
+class SpatialIndexManager;  // Forward declaration
+}
 }
 
 namespace themis {
@@ -32,7 +35,10 @@ using json = nlohmann::json;
  */
 class ThemisRPCService {
 public:
-    explicit ThemisRPCService(RocksDBWrapper* storage) : storage_(storage) {}
+    explicit ThemisRPCService(
+        RocksDBWrapper* storage,
+        themis::index::SpatialIndexManager* spatial_index = nullptr
+    ) : storage_(storage), spatial_index_(spatial_index) {}
     
     /**
      * @brief Handle GET operation
@@ -110,12 +116,68 @@ public:
     json handleAuthenticate(const json& params);
     
     /**
+     * @brief Handle search operation - search by collection and field filters
+     */
+    json handleSearch(const json& params);
+    
+    /**
+     * @brief Handle statistics retrieval - get real database statistics
+     */
+    json handleStats(const json& params);
+    
+    /**
+     * @brief Handle entity update - update entity with merge logic
+     */
+    json handleUpdateEntity(const json& params);
+    
+    /**
+     * @brief Handle batch update - batch update operations
+     */
+    json handleBatchUpdate(const json& params);
+    
+    /**
+     * @brief Handle paginated query - paginated query execution with cursor
+     */
+    json handlePaginatedQuery(const json& params);
+    
+    /**
+     * @brief Handle index operations retrieval - get index management info
+     */
+    json handleGetIndexOperations(const json& params);
+    
+    /**
+     * @brief Handle aggregation pipeline - execute aggregation pipeline
+     */
+    json handleAggregationPipeline(const json& params);
+    
+    /**
+     * @brief Handle list collections - list all collections in database
+     */
+    json handleListCollections(const json& params);
+    
+    /**
+     * @brief Handle create index - create index on collection
+     */
+    json handleCreateIndex(const json& params);
+    
+    /**
+     * @brief Handle drop index - drop index from collection
+     */
+    json handleDropIndex(const json& params);
+    
+    /**
+     * @brief Handle get collection metadata - retrieve collection metadata
+     */
+    json handleGetCollectionMetadata(const json& params);
+    
+    /**
      * @brief Dispatch method call
      */
     json dispatch(const std::string& method, const json& params, const themis::plugins::rpc::RPCRequestContext& context);
     
 private:
     RocksDBWrapper* storage_;
+    themis::index::SpatialIndexManager* spatial_index_;
     
     /**
      * @brief Verify authentication token from context

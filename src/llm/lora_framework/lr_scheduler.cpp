@@ -235,6 +235,74 @@ LRSchedulerConfig WarmupLinearLR::config() const {
 }
 
 // ============================================================================
+// CyclicLR Implementation (Triangular)
+// ============================================================================
+
+float CyclicLR::get_lr(int step) const {
+    int cycle_length = step_size_up_ + step_size_down_;
+    if (cycle_length <= 0) {
+        return base_lr_;
+    }
+    int cycle_pos = step % cycle_length;
+
+    if (cycle_pos <= step_size_up_) {
+        float progress = static_cast<float>(cycle_pos) / static_cast<float>(std::max(1, step_size_up_));
+        return base_lr_ + (max_lr_ - base_lr_) * progress;
+    }
+
+    int down_pos = cycle_pos - step_size_up_;
+    float progress = static_cast<float>(down_pos) / static_cast<float>(std::max(1, step_size_down_));
+    return max_lr_ - (max_lr_ - base_lr_) * progress;
+}
+
+LRSchedulerConfig CyclicLR::config() const {
+    LRSchedulerConfig cfg;
+    cfg.type = SchedulerType::CYCLIC;
+    cfg.base_lr = base_lr_;
+    cfg.max_lr = max_lr_;
+    cfg.step_size_up = step_size_up_;
+    cfg.step_size_down = step_size_down_;
+    return cfg;
+}
+
+// ============================================================================
+// OneCycleLR Implementation
+// ============================================================================
+
+float OneCycleLR::get_lr(int step) const {
+    int warmup_steps = static_cast<int>(pct_start_ * total_steps_);
+    warmup_steps = std::max(1, warmup_steps);
+    int decay_steps = total_steps_ - warmup_steps;
+    if (decay_steps < 1) decay_steps = 1;
+
+    if (step < warmup_steps) {
+        float progress = static_cast<float>(step) / static_cast<float>(warmup_steps);
+        return base_lr_ + (max_lr_ - base_lr_) * progress;
+    }
+
+    int decay_step = step - warmup_steps;
+    if (decay_step >= decay_steps) {
+        return max_lr_ / final_div_factor_;
+    }
+
+    float progress = static_cast<float>(decay_step) / static_cast<float>(decay_steps);
+    float min_lr = max_lr_ / final_div_factor_;
+    float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
+    return min_lr + (max_lr_ - min_lr) * cosine_decay;
+}
+
+LRSchedulerConfig OneCycleLR::config() const {
+    LRSchedulerConfig cfg;
+    cfg.type = SchedulerType::ONE_CYCLE;
+    cfg.max_lr = max_lr_;
+    cfg.base_lr = base_lr_;
+    cfg.final_div_factor = final_div_factor_;
+    cfg.total_steps = total_steps_;
+    cfg.pct_start = pct_start_;
+    return cfg;
+}
+
+// ============================================================================
 // LRSchedulerFactory Implementation
 // ============================================================================
 
@@ -282,6 +350,18 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
             // Warmup + linear decay
             return std::make_unique<WarmupLinearLR>(
                 config.max_lr, config.min_lr, config.warmup_steps, config.total_steps
+            );
+        
+        case SchedulerType::CYCLIC:
+            return std::make_unique<CyclicLR>(
+                config.base_lr, config.max_lr,
+                static_cast<int>(config.step_size_up), static_cast<int>(config.step_size_down)
+            );
+        
+        case SchedulerType::ONE_CYCLE:
+            return std::make_unique<OneCycleLR>(
+                config.max_lr, config.base_lr, config.final_div_factor,
+                config.total_steps, config.pct_start
             );
         
         default:

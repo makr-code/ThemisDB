@@ -113,6 +113,7 @@ std::vector<uint8_t> ChunkInfo::serialize() const {
 std::optional<ChunkInfo> ChunkInfo::deserialize(const std::vector<uint8_t>& data) {
     // Simple binary deserialization
     // In production, use protobuf or similar
+    (void)data;
     return std::nullopt;
 }
 
@@ -133,13 +134,14 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     std::vector<uint32_t> missing;
     for (size_t i = 0; i < data_chunks.size(); ++i) {
         if (data_chunks[i].shard_id.empty()) {
-            missing.push_back(i);
+            missing.push_back(static_cast<uint32_t>(i));
         }
     }
     return missing;
 }
 
 bool StripeGroup::canRecover(uint32_t data_shards, uint32_t parity_shards) const {
+    (void)parity_shards;
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
         if (!chunk.shard_id.empty()) available++;
@@ -163,7 +165,7 @@ WriteResult WriteResult::successful(const std::string& doc_id,
     result.success = true;
     result.document_id = doc_id;
     result.written_shards = shards;
-    result.acknowledgements = shards.size();
+    result.acknowledgements = static_cast<uint32_t>(shards.size());
     result.latency = lat;
     return result;
 }
@@ -228,6 +230,8 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
 ) {
     // Simplified reconstruction
     // In production, implement proper Reed-Solomon decoding
+    (void)missing_indices;
+    (void)parity_shards;
     
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
@@ -253,7 +257,8 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
 
 uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
     // Simplified Galois Field division
-    return a / (b + 1);  // Placeholder
+    (void)b;
+    return a / 1;  // Placeholder
 }
 
 void ReedSolomonCoder::gf_matrix_mul(
@@ -263,6 +268,9 @@ void ReedSolomonCoder::gf_matrix_mul(
 ) {
     // Matrix multiplication in Galois Field
     // Placeholder implementation
+    (void)matrix;
+    (void)vec;
+    (void)result;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -295,7 +303,6 @@ uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     
     // Use Fermat's Little Theorem: a^(2^8 - 2) = a^254 = a^(-1) in GF(2^8)
     // Compute using repeated squaring
-    uint8_t p = a;
     uint8_t result = 1;
     
     // Exponent 254 = 11111110 in binary
@@ -1060,7 +1067,7 @@ ReadResult RedundancyStrategy::readStripe(
     
     result.success = true;
     result.data = std::string(merged.begin(), merged.end());
-    result.chunks_read = chunks.size();
+    result.chunks_read = static_cast<uint32_t>(chunks.size());
     
     return result;
 }
@@ -1071,6 +1078,8 @@ ReadResult RedundancyStrategy::readParity(
     ShardTopology& topology,
     ReadHandler handler
 ) {
+    (void)ring;
+    (void)topology;
     if (!erasure_coder_) {
         ReadResult result;
         result.success = false;
@@ -1120,7 +1129,7 @@ ReadResult RedundancyStrategy::readParity(
         
         result.success = true;
         result.data = std::string(recovered.begin(), recovered.end());
-        result.chunks_read = available_chunks.size();
+        result.chunks_read = static_cast<uint32_t>(available_chunks.size());
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to decode chunks: {}", e.what());
@@ -1208,6 +1217,11 @@ bool RedundancyStrategy::remove(
 ) {
     // Implementation depends on mode
     // For now, delete from all replicas
+    (void)document_id;
+    (void)collection;
+    (void)ring;
+    (void)topology;
+    (void)handler;
     return true;
 }
 
@@ -1219,6 +1233,12 @@ bool RedundancyStrategy::recoverDocument(
     ReadHandler read_handler,
     WriteHandler write_handler
 ) {
+    (void)document_id;
+    (void)collection;
+    (void)ring;
+    (void)topology;
+    (void)read_handler;
+    (void)write_handler;
     stats_recoveries_++;
     return false;  // Not yet implemented
 }
@@ -1230,6 +1250,11 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     ShardTopology& topology,
     ReadHandler handler
 ) {
+    (void)document_id;
+    (void)collection;
+    (void)ring;
+    (void)topology;
+    (void)handler;
     DocumentHealth health;
     health.is_healthy = true;
     health.available_replicas = 0;

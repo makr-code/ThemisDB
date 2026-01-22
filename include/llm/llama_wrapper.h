@@ -102,7 +102,7 @@ enum class WrapperState {
     UNINITIALIZED,   // Constructor called, not yet loading
     LOADING,         // Async model load in progress
     READY,           // Model loaded, context created, ready for inference
-    ERROR,           // Unrecoverable error (e.g., model load failed)
+    ERROR_STATE,     // Unrecoverable error (e.g., model load failed) - renamed from ERROR to avoid Windows macro conflict
     UNAVAILABLE      // Temporary unavailability (e.g., OOM, evicted)
 };
 
@@ -119,27 +119,6 @@ struct StateTransition {
         : from_state(from), to_state(to), reason(r),
           timestamp(std::chrono::system_clock::now()) {}
 };
-
-} // namespace llm
-} // namespace themis
-
-/**
- * @file llama_wrapper.h
- * @brief Reference implementation of LLM plugin using llama.cpp backend
- * 
- * This plugin demonstrates:
- * - Loading GGUF models (quantized llama.cpp format)
- * - LoRA adapter management
- * - GPU acceleration (CUDA/Metal/Vulkan)
- * - Zero-copy integration with ThemisDB vector storage
- * - Ollama-style lazy model loading
- * - vLLM-style multi-LoRA management
- * 
- * Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md v1.3.0 design.
- */
-
-namespace themis {
-namespace llm {
 
 /**
  * @brief llama.cpp plugin implementation
