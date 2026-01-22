@@ -141,6 +141,18 @@ struct Q8_0Block {
    - Reduced memory bandwidth requirements
    - Zero-copy access via mmap
 
+## Security & Safety
+
+### Overflow Prevention
+- **INT8 Conversion**: Clamped to [0, 255] range to prevent overflow
+- **Scale Validation**: Block scales initialized to 0.0f for proper tracking
+- **Zero Point**: Correctly set to 128.0f for symmetric signed-to-unsigned conversion
+
+### Data Integrity
+- Metadata validation checks tensor sizes and block counts
+- Bounds checking for tensor offsets within file
+- Format validation for all quantization types
+
 ## Testing
 
 See `tests/test_gguf_loader.cpp` for comprehensive test coverage:

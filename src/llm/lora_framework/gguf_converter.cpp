@@ -301,7 +301,7 @@ QuantizedTensor GGUFConverter::convertQ8_0_direct(
             // Clamp to prevent overflow: q is in [-128, 127], so q+128 is in [0, 255]
             int8_t q = gguf_block->qs[i];
             int16_t offset_val = static_cast<int16_t>(q) + 128;
-            result.data()[global_idx] = static_cast<uint8_t>(std::max(0, std::min(255, offset_val)));
+            result.data()[global_idx] = static_cast<uint8_t>(std::max(static_cast<int16_t>(0), std::min(static_cast<int16_t>(255), offset_val)));
         }
         
         // Update quantization block parameters (once per GGUF block)
