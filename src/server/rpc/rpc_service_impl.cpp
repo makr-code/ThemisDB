@@ -839,8 +839,8 @@ json ThemisRPCService::handleSearch(const json& params) {
         int count = 0;
         
         // Scan keys with prefix
-        iter.seek(prefix);
-        while (iter.valid() && count < limit) {
+        iter.Seek(prefix);
+        while (iter.Valid() && count < limit) {
             std::string key = iter.key();
             
             // Check if key still matches prefix
@@ -872,13 +872,13 @@ json ThemisRPCService::handleSearch(const json& params) {
                 // Skip invalid JSON entries
             }
             
-            iter.next();
+            iter.Next();
         }
         
         json result = {
             {"results", results},
             {"count", count},
-            {"has_more", iter.valid()}
+            {"has_more", iter.Valid()}
         };
         
         return createSuccess(result);
@@ -904,13 +904,19 @@ json ThemisRPCService::handleStats(const json& params) {
         
         // Get statistics from RocksDB
         json stats = {
-            {"database_path", storage->getDbPath()},
+            {"database_path", storage->getConfig().db_path},
             {"is_open", storage->isOpen()}
         };
         
-        // Try to get RocksDB properties
-        // Note: RocksDBWrapper may need getProperty() method exposed
-        // For now, return basic stats
+        // Try to get RocksDB statistics if available
+        try {
+            std::string rocksdb_stats = storage->getStats();
+            if (!rocksdb_stats.empty()) {
+                stats["rocksdb_stats"] = rocksdb_stats;
+            }
+        } catch (...) {
+            // Ignore errors getting stats
+        }
         
         json result = {
             {"stats", stats},
@@ -1156,18 +1162,18 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         
         // Seek to cursor position or start of prefix
         if (!cursor.empty()) {
-            iter.seek(cursor);
-            if (iter.valid() && iter.key() == cursor) {
-                iter.next(); // Skip cursor position
+            iter.Seek(cursor);
+            if (iter.Valid() && iter.key() == cursor) {
+                iter.Next(); // Skip cursor position
             }
         } else {
-            iter.seek(prefix);
+            iter.Seek(prefix);
         }
         
         // Collect page_size results
         int count = 0;
         std::string next_cursor;
-        while (iter.valid() && count < page_size) {
+        while (iter.Valid() && count < page_size) {
             std::string key = iter.key();
             
             // Check if key still matches prefix
@@ -1186,13 +1192,13 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
                 // Skip invalid JSON entries
             }
             
-            iter.next();
+            iter.Next();
         }
         
         json result = {
             {"results", results},
             {"count", count},
-            {"has_more", iter.valid()},
+            {"has_more", iter.Valid()},
             {"next_cursor", next_cursor}
         };
         
@@ -1281,8 +1287,8 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
         auto& iter = iter_result.value();
         json documents = json::array();
         
-        iter.seek(prefix);
-        while (iter.valid()) {
+        iter.Seek(prefix);
+        while (iter.Valid()) {
             std::string key = iter.key();
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -1296,7 +1302,7 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
                 // Skip invalid entries
             }
             
-            iter.next();
+            iter.Next();
         }
         
         // Apply pipeline stages
@@ -1386,8 +1392,8 @@ json ThemisRPCService::handleListCollections(const json& params) {
         auto& iter = iter_result.value();
         std::unordered_map<std::string, int> collections;
         
-        iter.seekToFirst();
-        while (iter.valid()) {
+        iter.SeekToFirst();
+        while (iter.Valid()) {
             std::string key = iter.key();
             
             // Parse key format: collection:model:uuid
@@ -1397,7 +1403,7 @@ json ThemisRPCService::handleListCollections(const json& params) {
                 collections[collection]++;
             }
             
-            iter.next();
+            iter.Next();
         }
         
         // Build result
@@ -1544,8 +1550,8 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
         uint64_t total_size = 0;
         std::unordered_map<std::string, int> models;
         
-        iter.seek(prefix);
-        while (iter.valid()) {
+        iter.Seek(prefix);
+        while (iter.Valid()) {
             std::string key = iter.key();
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
@@ -1562,7 +1568,7 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
             document_count++;
             total_size += iter.value().length();
             
-            iter.next();
+            iter.Next();
         }
         
         // Build models array
