@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "ingestion_time": "2026-01-22T16:09:33.337408",
+    "source_directory": "/home/runner/work/ThemisDB/ThemisDB/docs",
+    "config": {
+      "source_dir": "/home/runner/work/ThemisDB/ThemisDB/docs",
+      "output_file": "/home/runner/work/ThemisDB/ThemisDB/build_minimal/data/docs_database.json.tmp.0.json",
+      "db_path": "ingestion_tracker.db",
+      "include_extensions": [
+        ".md",
+        ".txt",
+        ".rst",
+        ".json",
+        ".yaml",
+        ".yml",
+        ".cpp",
+        ".h",
+        ".py",
+        ".js",
+        ".ts",
+        ".sql"
+      ],
+      "exclude_extensions": [
+        ".exe",
+        ".dll",
+        ".so",
+        ".dylib",
+        ".bin"
+      ],
+      "exclude_patterns": [
+        ".git",
+        "__pycache__",
+        "node_modules",
+        ".venv"
+      ],
+      "max_file_size_mb": 100.0,
+      "extract_text_preview": true,
+      "preview_length": 500,
+      "generate_vector_metadata": true,
+      "generate_graph_metadata": true,
+      "generate_relational_metadata": true,
+      "metadata_file_patterns": [
+        "*.meta.json",
+        "*.meta.yaml",
+        "*.meta.yml"
+      ]
+    }
+  },
+  "statistics": {
+    "total_files_scanned": 1541,
+    "files_processed": 0,
+    "files_skipped": 1541,
+    "files_failed": 0,
+    "total_size_bytes": 23573860,
+    "elapsed_seconds": 0.13093972206115723,
+    "total_files": 1650,
+    "total_size_mb": 22.48178482055664
+  },
+  "ingested_files": []
+}

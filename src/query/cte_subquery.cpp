@@ -4,6 +4,7 @@
 #include "utils/logger.h"
 #include "utils/error_registry.h"
 #include "storage/base_entity.h"
+#include <fmt/format.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4100)  // unreferenced formal parameter
@@ -322,9 +323,8 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
     const nlohmann::json& outerRow
 ) {
     if (!query) {
-        THEMIS_ERROR("Scalar subquery is null");
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
             "Scalar subquery is null"
         );
     }
@@ -333,9 +333,8 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
         // Translate subquery to executable form
         auto translation = AQLTranslator::translate(query);
         if (!translation.success) {
-            THEMIS_ERROR("Scalar subquery translation failed: {}", translation.error_message);
             return Err<nlohmann::json>(
-                ErrorCode::ERR_QUERY_PARSE_FAILED,
+                errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
                 fmt::format("Scalar subquery translation failed: {}", translation.error_message)
             );
         }
@@ -365,11 +364,10 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
                 &context  // Pass context for parent bindings
             );
             
-            if (!result) {
-                THEMIS_ERROR("Scalar subquery JOIN execution failed: {}", result.error().message());
+            if (!status.ok) {
                 return Err<nlohmann::json>(
-                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                    fmt::format("Scalar subquery JOIN execution failed: {}", result.error().message())
+                    errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                    fmt::format("Scalar subquery JOIN execution failed: {}", status.message)
                 );
             }
             results = std::move(*result);
@@ -378,9 +376,8 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
             // Conjunctive query
             auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
             if (!status.ok) {
-                THEMIS_ERROR("Scalar subquery execution failed: {}", status.message);
                 return Err<nlohmann::json>(
-                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
                     fmt::format("Scalar subquery execution failed: {}", status.message)
                 );
             }
@@ -391,18 +388,16 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
             }
         }
         
-        // Return null if no results
+        // Return null JSON if no results (valid case for some queries)
         if (results.empty()) {
             return Ok(nlohmann::json(nullptr));
         }
         
         // Validate single-row constraint for scalar subquery
         if (results.size() > 1) {
-            std::string err = fmt::format("Scalar subquery returned {} rows (expected 1)", results.size());
-            THEMIS_ERROR("{}", err);
             return Err<nlohmann::json>(
-                ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                err
+                errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+                fmt::format("Scalar subquery returned {} rows (expected 1)", results.size())
             );
         }
         
@@ -410,9 +405,8 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
         return Ok(results[0]);
         
     } catch (const std::exception& e) {
-        THEMIS_ERROR("Scalar subquery evaluation exception: {}", e.what());
         return Err<nlohmann::json>(
-            ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
             fmt::format("Scalar subquery evaluation exception: {}", e.what())
         );
     }

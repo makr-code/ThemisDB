@@ -173,28 +173,32 @@ wal_optimization:
       prefer_zstd_for_repetitive: true
 
 # =============================================================================
-# PHASE 4: HNSW VECTOR INDEX LAYER PRUNING (Future)
+# PHASE 4: HNSW VECTOR INDEX LAYER PRUNING
 # =============================================================================
-# Note: Phase 4 is designed but not yet implemented
-# See docs/performance/phase4_hnsw_layer_optimization.md for details
 hnsw_optimization:
-  # Enable HNSW layer optimization (future feature)
-  enabled: false
+  # Enable HNSW layer optimization
+  enabled: true
   
   # Predictive layer pruning
   layer_pruning:
-    enabled: false
+    enabled: true
     
     # Pruning threshold multiplier (k * multiplier)
     # If candidate_count > k * multiplier, skip deeper layers
     threshold_multiplier: 5
+    
+    # Minimum samples for statistical confidence (optional, has default)
+    min_samples: 5
   
   # Adaptive layer selection
   adaptive_layer_selection:
-    enabled: false
+    enabled: true
     
     # Window size for layer efficiency statistics
     stats_window_size: 1000
+    
+    # Minimum samples for statistical confidence (optional, has default)
+    min_samples: 10
   
   # Batch insert optimization
   batch_insert:
