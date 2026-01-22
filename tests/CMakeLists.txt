@@ -2648,6 +2648,17 @@ else()
 endif()
 
 # ============================================================================
+# Columnar Format Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
+    message(STATUS "Adding Columnar Format tests")
+    
+    add_executable(test_columnar_format
+        test_columnar_format.cpp
+    )
+    
+    target_link_libraries(test_columnar_format PRIVATE
 # Transaction Isolation Level Tests
 # ============================================================================
 
@@ -2691,6 +2702,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
         themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_columnar_format PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ColumnarFormatTests COMMAND test_columnar_format)
+    
+    set_tests_properties(ColumnarFormatTests PROPERTIES
+        LABELS "storage;columnar;compression;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Columnar Format: RLE, Dictionary, Bit-Packing, Frame-of-Reference encoding")
+else()
+    message(STATUS "Columnar Format tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
         Threads::Threads
     )
     
