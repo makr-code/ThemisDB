@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "security/access_control.h"
+#include "mock_user_registration_plugin.h"
 #include <thread>
 #include <chrono>
 
@@ -19,6 +20,10 @@ protected:
         config.audit_config.enable_audit_logging = true;
         
         access_control_ = std::make_unique<AccessControl>(config);
+        
+        // Register mock plugin for testing
+        auto mock_plugin = std::make_shared<MockUserRegistrationPlugin>();
+        access_control_->getUserRegistrationPluginManager().registerPlugin(mock_plugin);
     }
     
     std::unique_ptr<AccessControl> access_control_;

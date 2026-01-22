@@ -1,4 +1,5 @@
 #include "security/access_control.h"
+#include "security/user_registration_plugin.h"
 #include "server/auth_middleware.h"
 #include "auth/mfa_authenticator.h"
 #include "utils/audit_logger.h"
@@ -25,6 +26,7 @@ AccessControl::AccessControl(const Config& config)
     , auth_middleware_(std::make_unique<AuthMiddleware>())
     , mfa_authenticator_(std::make_unique<auth::MFAAuthenticator>())
     , audit_logger_(std::make_unique<utils::AuditLogger>())
+    , user_registration_plugin_manager_(std::make_unique<UserRegistrationPluginManager>())
 {
     THEMIS_INFO("Initializing Access Control Framework");
     
@@ -40,6 +42,8 @@ AccessControl::AccessControl(const Config& config)
         "access_control",
         {{"message", "Access Control Framework initialized"}}
     );
+    
+    THEMIS_INFO("User registration will be handled via plugins (Apache Arrow, WebDAV)");
 }
 
 AccessControl::~AccessControl() {
@@ -153,7 +157,12 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
     return AuthenticationResult::Success(credentials.user_id, session_token, roles);
 }
 
-Result<void> AccessControl::registerUser(const std::string& user_id, const std::string& password) {
+Result<void> AccessControl::registerUser(
+    const std::string& user_id,
+    const std::string& password,
+    const std::string& plugin_name,
+    const std::unordered_map<std::string, std::string>& attributes
+) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check if user already exists
@@ -161,25 +170,44 @@ Result<void> AccessControl::registerUser(const std::string& user_id, const std::
         return Result<void>::Err("User already exists");
     }
     
-    // Validate password
-    auto validation_result = validatePassword(password);
-    if (!validation_result.is_ok()) {
-        return validation_result;
+    // Delegate registration to plugin
+    auto plugin_result = user_registration_plugin_manager_->registerUser(
+        plugin_name,
+        user_id,
+        password,
+        attributes
+    );
+    
+    if (!plugin_result.is_ok()) {
+        return Result<void>::Err(
+            "User registration via plugin failed: " + plugin_result.error()
+        );
     }
     
-    // Hash and store password
-    auto hash = hashPassword(password);
-    password_hashes_[user_id] = hash;
-    password_history_[user_id].push_back(hash);
+    // Get registration data from plugin
+    auto reg_data = plugin_result.value();
+    
+    // Store password hash
+    password_hashes_[user_id] = reg_data.password_hash;
+    password_history_[user_id].push_back(reg_data.password_hash);
+    
+    // Assign roles from plugin
+    for (const auto& role : reg_data.roles) {
+        user_role_store_->assignRole(user_id, role);
+    }
     
     logSecurityEvent(
         utils::SecurityEventType::TOKEN_CREATED,
         user_id,
         "user_management",
-        {{"action", "User registered"}}
+        {
+            {"action", "User registered"},
+            {"source", reg_data.source},
+            {"plugin", plugin_name.empty() ? "default" : plugin_name}
+        }
     );
     
-    THEMIS_INFO("User registered: {}", user_id);
+    THEMIS_INFO("User registered via plugin '{}': {}", reg_data.source, user_id);
     return Result<void>::Ok();
 }
 

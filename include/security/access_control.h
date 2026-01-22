@@ -12,6 +12,7 @@
 #include <nlohmann/json.hpp>
 
 #include "security/rbac.h"
+#include "security/user_registration_plugin.h"
 #include "utils/result.h"
 
 // Forward declarations
@@ -193,11 +194,22 @@ public:
     
     /**
      * @brief Register new user with password
+     * 
+     * User registration is delegated to plugins (Apache Arrow, WebDAV).
+     * If no plugin is specified, uses the default available plugin.
+     * 
      * @param user_id User identifier
      * @param password User password
+     * @param plugin_name Optional plugin name ("arrow", "webdav", or empty for default)
+     * @param attributes Optional user attributes for plugin
      * @return Result indicating success or error
      */
-    Result<void> registerUser(const std::string& user_id, const std::string& password);
+    Result<void> registerUser(
+        const std::string& user_id,
+        const std::string& password,
+        const std::string& plugin_name = "",
+        const std::unordered_map<std::string, std::string>& attributes = {}
+    );
     
     /**
      * @brief Change user password
@@ -461,6 +473,17 @@ public:
      */
     UserRoleStore& getUserRoleStore() { return *user_role_store_; }
     const UserRoleStore& getUserRoleStore() const { return *user_role_store_; }
+    
+    /**
+     * @brief Get user registration plugin manager
+     * @return UserRegistrationPluginManager instance
+     */
+    UserRegistrationPluginManager& getUserRegistrationPluginManager() { 
+        return *user_registration_plugin_manager_; 
+    }
+    const UserRegistrationPluginManager& getUserRegistrationPluginManager() const { 
+        return *user_registration_plugin_manager_; 
+    }
 
 private:
     Config config_;
@@ -472,6 +495,7 @@ private:
     std::unique_ptr<AuthMiddleware> auth_middleware_;
     std::unique_ptr<auth::MFAAuthenticator> mfa_authenticator_;
     std::unique_ptr<utils::AuditLogger> audit_logger_;
+    std::unique_ptr<UserRegistrationPluginManager> user_registration_plugin_manager_;
     
     // User authentication data (password hashes)
     std::unordered_map<std::string, std::string> password_hashes_;
