@@ -510,7 +510,8 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
                     entry.timestamp = std::chrono::system_clock::time_point(
                         std::chrono::milliseconds(ts_ms));
                 } else {
-                    // Fallback: use current time if timestamp missing
+                    // Missing timestamp is suspicious - log warning and use current time
+                    THEMIS_WARN("Audit log entry {} missing timestamp field - possible data corruption", entry_num);
                     entry.timestamp = std::chrono::system_clock::now();
                 }
                 
@@ -587,6 +588,11 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         std::filesystem::create_directories(archive_dir);
         
         std::ofstream archive_ofs(archive_path, std::ios::app);
+        if (!archive_ofs.is_open() || !archive_ofs.good()) {
+            THEMIS_ERROR("Failed to open archive file for writing: {}", archive_path);
+            return 0;
+        }
+        
         for (const auto& entry : archived_entries) {
             archive_ofs << entry << "\n";
         }
@@ -594,6 +600,11 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         
         // Rewrite main log file with only kept entries
         std::ofstream main_ofs(cfg_.log_path, std::ios::trunc);
+        if (!main_ofs.is_open() || !main_ofs.good()) {
+            THEMIS_ERROR("Failed to open main log file for rewriting: {}", cfg_.log_path);
+            return 0;
+        }
+        
         for (const auto& entry : kept_entries) {
             main_ofs << entry << "\n";
         }
@@ -664,6 +675,11 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
         
         // Rewrite main log file with only kept entries
         std::ofstream main_ofs(cfg_.log_path, std::ios::trunc);
+        if (!main_ofs.is_open() || !main_ofs.good()) {
+            THEMIS_ERROR("Failed to open main log file for rewriting: {}", cfg_.log_path);
+            return 0;
+        }
+        
         for (const auto& entry : kept_entries) {
             main_ofs << entry << "\n";
         }

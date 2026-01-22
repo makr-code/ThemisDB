@@ -1044,7 +1044,7 @@ int main(int argc, char* argv[]) {
                             auto audit_archived = std::make_shared<std::atomic<bool>>(false);
                             auto audit_purged = std::make_shared<std::atomic<bool>>(false);
                             
-                            auto archive_handler = [db_ptr, audit_logger, main_audit_logger, audit_archived](const std::string& entity_id) -> bool {
+                            auto archive_handler = [db_ptr, audit_logger, main_audit_logger, audit_archived, retention_mgr](const std::string& entity_id) -> bool {
                                 // Special handling for audit log entries - bulk operation
                                 if (entity_id.find("audit_entry_") == 0) {
                                     // Only perform the bulk archive operation once per retention run
@@ -1055,9 +1055,16 @@ int main(int argc, char* argv[]) {
                                     }
                                     
                                     try {
-                                        // Archive all entries older than 5 years (from policy)
+                                        // Get archive threshold from policy
+                                        auto policy_result = retention_mgr->getPolicy("audit_logs");
+                                        if (!policy_result) {
+                                            THEMIS_ERROR("[Retention] Failed to get audit_logs policy");
+                                            return false;
+                                        }
+                                        const auto* policy = *policy_result;
+                                        
                                         auto now = std::chrono::system_clock::now();
-                                        auto archive_threshold = now - std::chrono::hours(24 * 1825); // 5 years (archive_days from policy)
+                                        auto archive_threshold = now - policy->archive_after;
                                         
                                         std::string archive_path = "data/logs/audit_archive.jsonl";
                                         size_t archived = main_audit_logger->archiveOldEntries(archive_threshold, archive_path);
@@ -1108,7 +1115,7 @@ int main(int argc, char* argv[]) {
                                 return true;
                             };
                             
-                            auto purge_handler = [db_ptr, audit_logger, main_audit_logger, audit_purged](const std::string& entity_id) -> bool {
+                            auto purge_handler = [db_ptr, audit_logger, main_audit_logger, audit_purged, retention_mgr](const std::string& entity_id) -> bool {
                                 // Special handling for audit log entries - bulk operation
                                 if (entity_id.find("audit_entry_") == 0) {
                                     // Only perform the bulk purge operation once per retention run
@@ -1119,9 +1126,16 @@ int main(int argc, char* argv[]) {
                                     }
                                     
                                     try {
-                                        // Purge all entries older than 7 years (from policy)
+                                        // Get purge threshold from policy
+                                        auto policy_result = retention_mgr->getPolicy("audit_logs");
+                                        if (!policy_result) {
+                                            THEMIS_ERROR("[Retention] Failed to get audit_logs policy");
+                                            return false;
+                                        }
+                                        const auto* policy = *policy_result;
+                                        
                                         auto now = std::chrono::system_clock::now();
-                                        auto purge_threshold = now - std::chrono::hours(24 * 2555); // 7 years (retention_days from policy)
+                                        auto purge_threshold = now - policy->retention_period;
                                         
                                         size_t purged = main_audit_logger->purgeOldEntries(purge_threshold);
                                         
