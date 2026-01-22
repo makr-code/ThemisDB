@@ -3,6 +3,7 @@
 
 #include "sharding/shard_rpc_server.h"
 #include "utils/logger.h"
+#include "utils/file_utils.h"
 #include <stdexcept>
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -19,6 +20,7 @@
 #endif
 
 namespace themis::sharding {
+
 
 #if THEMIS_HAS_SHARD_GRPC
 
@@ -158,19 +160,30 @@ private:
 struct ShardRPCServer::Impl {
     std::string listen_address;
     RequestHandler* handler = nullptr;
+    ShardRPCServer::Config config;  // Store full configuration
     
 #if THEMIS_HAS_SHARD_GRPC
     std::unique_ptr<grpc::Server> server;
     std::unique_ptr<ShardServiceImpl> service;
 #endif
     
-    explicit Impl(const std::string& addr) : listen_address(addr) {}
+    explicit Impl(const std::string& addr) : listen_address(addr) {
+        config.listen_address = addr;
+    }
+    
+    explicit Impl(const ShardRPCServer::Config& cfg) : listen_address(cfg.listen_address), config(cfg) {}
 };
 
 ShardRPCServer::ShardRPCServer(const std::string& listen_address)
     : impl_(std::make_unique<Impl>(listen_address))
 {
     THEMIS_INFO("ShardRPCServer created on: {}", listen_address);
+}
+
+ShardRPCServer::ShardRPCServer(const Config& config)
+    : impl_(std::make_unique<Impl>(config))
+{
+    THEMIS_INFO("ShardRPCServer created on: {} (mTLS: {})", config.listen_address, config.enable_mtls);
 }
 
 ShardRPCServer::~ShardRPCServer() {
@@ -188,8 +201,51 @@ bool ShardRPCServer::start() {
         
         grpc::ServerBuilder builder;
         
-        // Configure server with keepalive settings
-        builder.AddListeningPort(impl_->listen_address, grpc::InsecureServerCredentials());
+        // Configure server credentials
+        std::shared_ptr<grpc::ServerCredentials> credentials;
+        
+        if (impl_->config.enable_mtls) {
+            // mTLS enabled - create SSL server credentials
+            try {
+                grpc::SslServerCredentialsOptions ssl_opts;
+                
+                // Load CA certificate for client verification
+                if (!impl_->config.tls_ca_cert_path.empty()) {
+                    ssl_opts.pem_root_certs = themis::utils::readFileContents(impl_->config.tls_ca_cert_path);
+                    THEMIS_INFO("Loaded CA certificate from: {}", impl_->config.tls_ca_cert_path);
+                }
+                
+                // Load server certificate and private key
+                if (!impl_->config.tls_cert_path.empty() && !impl_->config.tls_key_path.empty()) {
+                    grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
+                    key_cert_pair.private_key = themis::utils::readFileContents(impl_->config.tls_key_path);
+                    key_cert_pair.cert_chain = themis::utils::readFileContents(impl_->config.tls_cert_path);
+                    ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
+                    THEMIS_INFO("Loaded server certificate from: {}", impl_->config.tls_cert_path);
+                }
+                
+                // Configure client certificate requirement
+                if (impl_->config.tls_require_client_cert) {
+                    ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
+                    THEMIS_INFO("Client certificate verification enabled (mutual TLS)");
+                } else {
+                    ssl_opts.client_certificate_request = GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
+                }
+                
+                credentials = grpc::SslServerCredentials(ssl_opts);
+                THEMIS_INFO("mTLS enabled for shard RPC server");
+                
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                credentials = grpc::InsecureServerCredentials();
+            }
+        } else {
+            // mTLS not enabled - use insecure credentials (development only)
+            credentials = grpc::InsecureServerCredentials();
+            THEMIS_WARN("mTLS is disabled for shard RPC server. This is insecure and should only be used in development.");
+        }
+        
+        builder.AddListeningPort(impl_->listen_address, credentials);
         builder.RegisterService(impl_->service.get());
         
         // Keepalive settings (match client settings)
