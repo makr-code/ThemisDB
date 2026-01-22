@@ -26,7 +26,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
 
-**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[Release Notes](CHANGELOG.md)**
+**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
 
 ---
 
