@@ -102,9 +102,9 @@ void TransactionManager::clearWaiting(TransactionId txn_id) {
 
 void TransactionManager::deadlockDetectorLoop() {
     while (deadlock_detector_running_.load(std::memory_order_relaxed)) {
-        // Wait for the configured timeout period
+        // Wait for the configured timeout period using separate mutex
         {
-            std::unique_lock<std::mutex> lock(lock_tracking_mutex_);
+            std::unique_lock<std::mutex> lock(deadlock_detector_mutex_);
             auto timeout = std::chrono::milliseconds(deadlock_timeout_ms_.load(std::memory_order_relaxed));
             deadlock_detector_cv_.wait_for(lock, timeout, [this]() {
                 return !deadlock_detector_running_.load(std::memory_order_relaxed);
@@ -203,9 +203,9 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
         recent_deadlocks_.push_back(info);
         
-        // Keep only last 100 deadlocks
+        // Keep only last 100 deadlocks (use pop_front for efficiency with deque)
         if (recent_deadlocks_.size() > 100) {
-            recent_deadlocks_.erase(recent_deadlocks_.begin());
+            recent_deadlocks_.pop_front();
         }
         
         // Clear waiting and locks for victim

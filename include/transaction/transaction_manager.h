@@ -4,9 +4,13 @@
 #include <string_view>
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 #include <mutex>
 #include <atomic>
 #include <chrono>
+#include <thread>
+#include <condition_variable>
+#include <deque>
 #include "storage/rocksdb_wrapper.h"
 
 namespace themis {
@@ -239,11 +243,12 @@ private:
     mutable std::mutex lock_tracking_mutex_;
     std::unordered_map<std::string, LockInfo> held_locks_;  // key -> transaction holding it
     std::unordered_map<TransactionId, std::unordered_set<std::string>> waiting_for_;  // txn -> keys it's waiting for
-    std::vector<DeadlockInfo> recent_deadlocks_;
+    std::deque<DeadlockInfo> recent_deadlocks_;  // Use deque for efficient removal from front
     
     // Deadlock detection thread
     std::unique_ptr<std::thread> deadlock_detector_thread_;
     std::atomic<bool> deadlock_detector_running_{false};
+    mutable std::mutex deadlock_detector_mutex_;  // Separate mutex for condition variable
     std::condition_variable deadlock_detector_cv_;
     
     void deadlockDetectorLoop();

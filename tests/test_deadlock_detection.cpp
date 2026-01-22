@@ -9,6 +9,7 @@
 #include "index/vector_index.h"
 #include <thread>
 #include <chrono>
+#include <filesystem>
 
 using namespace themis;
 
