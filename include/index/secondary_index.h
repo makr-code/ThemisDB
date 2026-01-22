@@ -113,6 +113,23 @@ public:
         size_t limit = 1000
     ) const;
 
+    // Phrase search: exact phrase matching with position awareness
+    std::pair<Status, std::vector<FulltextResult>> scanFulltextPhrase(
+        std::string_view table,
+        std::string_view column,
+        std::string_view phrase,
+        size_t limit = 1000
+    ) const;
+
+    // Fuzzy search: Levenshtein distance-based similarity matching
+    std::pair<Status, std::vector<FulltextResult>> scanFulltextFuzzy(
+        std::string_view table,
+        std::string_view column,
+        std::string_view query,
+        int maxDistance = 2,  // Maximum Levenshtein distance
+        size_t limit = 1000
+    ) const;
+
     // Geo-Queries: Bounding Box [minLat, maxLat] x [minLon, maxLon]
     std::pair<Status, std::vector<std::string>> scanGeoBox(
         std::string_view table,
