@@ -1720,6 +1720,38 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
     endif()
+    
+    # ML Model Manager Tests (NEW)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+        message(STATUS "Adding ML Model Manager tests")
+        
+        add_executable(test_ml_model_manager
+            test_ml_model_manager.cpp
+        )
+        
+        target_link_libraries(test_ml_model_manager PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_ml_model_manager PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MLModelManagerTests COMMAND test_ml_model_manager)
+        
+        set_tests_properties(MLModelManagerTests PROPERTIES
+            LABELS "llm;ml;model_management;inference;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "ML Model Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+    endif()
 endif()
 
 # ============================================================================
@@ -2616,6 +2648,31 @@ else()
 endif()
 
 # ============================================================================
+# Columnar Format Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
+    message(STATUS "Adding Columnar Format tests")
+    
+    add_executable(test_columnar_format
+        test_columnar_format.cpp
+    )
+    
+    target_link_libraries(test_columnar_format PRIVATE
+# Transaction Isolation Level Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+    message(STATUS "Adding Transaction Isolation Level tests")
+    
+    add_executable(test_transaction_isolation_levels
+        test_transaction_isolation_levels.cpp
+    )
+    
+    target_link_libraries(test_transaction_isolation_levels PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
 # Index Maintenance Tests
 # ============================================================================
 
@@ -2645,9 +2702,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
         themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_columnar_format PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ColumnarFormatTests COMMAND test_columnar_format)
+    
+    set_tests_properties(ColumnarFormatTests PROPERTIES
+        LABELS "storage;columnar;compression;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Columnar Format: RLE, Dictionary, Bit-Packing, Frame-of-Reference encoding")
+else()
+    message(STATUS "Columnar Format tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
         Threads::Threads
     )
     
+    target_compile_definitions(test_transaction_isolation_levels PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME TransactionIsolationLevelTests COMMAND test_transaction_isolation_levels)
+    
+    set_tests_properties(TransactionIsolationLevelTests PROPERTIES
+        LABELS "storage;transaction;isolation;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Transaction Isolation: ReadCommitted vs Snapshot isolation levels")
+else()
+    message(STATUS "Transaction Isolation Level tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     target_compile_definitions(test_index_maintenance PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -2662,6 +2749,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
     message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
 else()
     message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+endif()
+
+# ============================================================================
+# Compression Strategy Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
+    add_executable(test_compression_strategy
+        test_compression_strategy.cpp
+    )
+    
+    target_link_libraries(test_compression_strategy PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_compression_strategy PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CompressionStrategyTests COMMAND test_compression_strategy)
+    
+    set_tests_properties(CompressionStrategyTests PROPERTIES
+        LABELS "storage;compression;encoding;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Compression Strategy: ZSTD, RLE, Delta, Dictionary encoding, adaptive compression")
+else()
+    message(STATUS "Compression Strategy tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
     target_compile_definitions(test_graphql PRIVATE
         THEMIS_TEST_BUILD=1
     )
