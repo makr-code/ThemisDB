@@ -1581,6 +1581,9 @@ TrainingResult LoRATrainingService::trainDistributed(
         float avg_sync_time_ms = 0.0f;
         int successful_steps = 0;
         
+        // Track last step result for per-shard loss
+        DistributedTrainingCoordinator::StepResult last_step_result;
+        
         // Progress callback to monitor training
         coordinator->setProgressCallback(
             [&](int step, const DistributedTrainingCoordinator::StepResult& step_result) {
@@ -1649,16 +1652,16 @@ TrainingResult LoRATrainingService::trainDistributed(
                 successful_steps++;
                 avg_sync_time_ms += step_result.sync_time_ms;
                 
-                // NOTE: This uses simulated loss for demonstration purposes.
-                // In a production implementation, actual loss values would be:
-                // 1. Computed by each shard during local training
-                // 2. Collected during gradient exchange
-                // 3. Aggregated across shards (e.g., average)
-                // 4. Returned in the step_result
-                // TODO: Replace with actual loss computation from distributed training
-                constexpr float loss_decay_rate = 0.1f;  // Simulated learning rate
-                float simulated_loss = 1.0f / (1.0f + step * loss_decay_rate);
-                loss_history.push_back(simulated_loss);
+                // Store last successful step result
+                last_step_result = step_result;
+                
+                // Use actual aggregated loss from coordinator
+                if (step_result.aggregated_loss.has_value()) {
+                    loss_history.push_back(step_result.aggregated_loss.value());
+                    spdlog::debug("Step {} loss: {:.6f}", step, step_result.aggregated_loss.value());
+                } else {
+                    spdlog::debug("Step {} completed but no loss available", step);
+                }
             }
         }
         
@@ -1708,6 +1711,33 @@ TrainingResult LoRATrainingService::trainDistributed(
         }
         result.metrics["active_shards"] = active_shards;
         result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
+        
+        // Add per-shard loss tracking from last successful step
+        if (!last_step_result.per_shard_loss.empty()) {
+            json per_shard_loss_json = json::object();
+            float loss_variance = 0.0f;
+            float mean_loss = 0.0f;
+            int loss_count = 0;
+            
+            for (const auto& [shard_id, loss] : last_step_result.per_shard_loss) {
+                per_shard_loss_json[shard_id] = loss;
+                mean_loss += loss;
+                loss_count++;
+            }
+            
+            // Compute loss variance across shards
+            if (loss_count > 0) {
+                mean_loss /= loss_count;
+                for (const auto& [shard_id, loss] : last_step_result.per_shard_loss) {
+                    float diff = loss - mean_loss;
+                    loss_variance += diff * diff;
+                }
+                loss_variance /= loss_count;
+            }
+            
+            result.metrics["per_shard_loss"] = per_shard_loss_json;
+            result.metrics["loss_variance"] = loss_variance;
+        }
         
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);

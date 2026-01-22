@@ -1,4 +1,6 @@
 #include "plugins/plugin_manager.h"
+#include "plugins/plugin_dependency_resolver.h"
+#include "plugins/plugin_hot_plug_monitor.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -17,6 +19,13 @@ namespace themis {
 namespace plugins {
 
 namespace fs = std::filesystem;
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+// Brief delay after unloading to allow OS to release file handles and cleanup
+constexpr auto RELOAD_UNLOAD_DELAY_MS = std::chrono::milliseconds(50);
 
 // ============================================================================
 // Platform-specific DLL loading (reused from acceleration/plugin_loader.cpp)
@@ -293,12 +302,13 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
 // Plugin Discovery & Loading
 // ============================================================================
 
-size_t PluginManager::scanPluginDirectory(const std::string& directory) {
+Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!fs::exists(directory) || !fs::is_directory(directory)) {
         THEMIS_WARN("Plugin directory does not exist: {}", directory);
-        return 0;
+        return Err<size_t>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                           fmt::format("Plugin directory does not exist: {}", directory));
     }
     
     size_t discovered = 0;
@@ -355,7 +365,7 @@ size_t PluginManager::scanPluginDirectory(const std::string& directory) {
     }
     
     THEMIS_INFO("Discovered {} plugins in {}", discovered, directory);
-    return discovered;
+    return Ok(discovered);
 }
 
 Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
@@ -378,9 +388,45 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         return Ok(entry.instance.get());
     }
     
+    // Load dependencies (must release lock to avoid deadlock)
+    if (!deps_to_load.empty()) {
+        lock.unlock();  // RAII-based unlock
+        
+        for (const auto& dep : deps_to_load) {
+            THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
+            auto* dep_plugin = loadPlugin(dep);
+            if (!dep_plugin) {
+                THEMIS_ERROR("Failed to load dependency {} for plugin {}", dep, name);
+                // Re-acquire lock before returning
+                lock.lock();
+                metrics_.recordError(name);
+                return nullptr;
+            }
+        }
+        
+        // Re-acquire lock and verify entry is still valid
+        lock.lock();  // RAII-based lock
+        
+        // Re-find entry as map may have been modified
+        it = plugins_.find(name);
+        if (it == plugins_.end()) {
+            THEMIS_ERROR("Plugin {} disappeared during dependency loading", name);
+            metrics_.recordError(name);
+            return nullptr;
+        }
+        
+        // If plugin was loaded while we were loading dependencies, return it
+        if (it->second.loaded && it->second.instance) {
+            return it->second.instance.get();
+        }
+    }
+    
+    // At this point we have the lock and all dependencies are loaded
+    auto& current_entry = it->second;
+    
     // Verify plugin
     std::string error_message;
-    if (!verifyPlugin(entry.path, error_message)) {
+    if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
@@ -388,9 +434,9 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     }
     
     // Load library
-    void* handle = loadLibrary(entry.path);
+    void* handle = loadLibrary(current_entry.path);
     if (!handle) {
-        THEMIS_ERROR("Failed to load plugin library: {}", entry.path);
+        THEMIS_ERROR("Failed to load plugin library: {}", current_entry.path);
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
@@ -402,7 +448,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     // Get factory function
     auto createFunc = reinterpret_cast<CreatePluginFunc>(getSymbol(handle, "createPlugin"));
     if (!createFunc) {
-        THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
+        THEMIS_ERROR("Plugin does not export createPlugin: {}", current_entry.path);
         unloadLibrary(handle);
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -435,10 +481,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     }
     
     // Store
-    entry.library_handle = handle;
-    entry.instance.reset(plugin);
-    entry.loaded = true;
-    entry.file_hash = calculateFileHash(entry.path);
+    current_entry.library_handle = handle;
+    current_entry.instance.reset(plugin);
+    current_entry.loaded = true;
+    current_entry.file_hash = calculateFileHash(current_entry.path);
     
     // Record load metrics
     auto end = std::chrono::steady_clock::now();
@@ -446,7 +492,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     metrics_.recordLoad(name, duration);
     
     THEMIS_INFO("Loaded plugin: {} v{} (Hash: {}..., Load time: {}ms)", 
-        name, plugin->getVersion(), entry.file_hash.substr(0, 16), duration.count());
+        name, plugin->getVersion(), current_entry.file_hash.substr(0, 16), duration.count());
     
     return Ok(plugin);
 }
@@ -533,12 +579,18 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     return Ok(plugin);
 }
 
-void PluginManager::unloadPlugin(const std::string& name) {
+Result<void> PluginManager::unloadPlugin(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
-    if (it == plugins_.end() || !it->second.loaded) {
-        return;
+    if (it == plugins_.end()) {
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                       fmt::format("Plugin not found: {}", name));
+    }
+    
+    if (!it->second.loaded) {
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                       fmt::format("Plugin not loaded: {}", name));
     }
     
     auto& entry = it->second;
@@ -566,9 +618,10 @@ void PluginManager::unloadPlugin(const std::string& name) {
     entry.loaded = false;
     
     THEMIS_INFO("Unloaded plugin: {}", name);
+    return OkVoid();
 }
 
-void PluginManager::unloadAllPlugins() {
+Result<void> PluginManager::unloadAllPlugins() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     for (auto& pair : plugins_) {
@@ -596,6 +649,7 @@ void PluginManager::unloadAllPlugins() {
     }
     
     THEMIS_INFO("Unloaded all plugins");
+    return OkVoid();
 }
 
 Result<IThemisPlugin*> PluginManager::getPlugin(const std::string& name) const {
@@ -659,11 +713,12 @@ bool PluginManager::isPluginLoaded(const std::string& name) const {
     return it != plugins_.end() && it->second.loaded;
 }
 
-bool PluginManager::reloadPlugin(const std::string& name) {
-    auto start = std::chrono::steady_clock::now();
-    
+Result<void> PluginManager::reloadPlugin(const std::string& name) {
     // Unload first
-    unloadPlugin(name);
+    auto unload_result = unloadPlugin(name);
+    if (!unload_result) {
+        return tl::unexpected(unload_result.error());
+    }
     
     // Then reload
     auto result = loadPlugin(name);
@@ -678,28 +733,312 @@ bool PluginManager::reloadPlugin(const std::string& name) {
         metrics_.recordError(name);
     }
     
-    return success;
+    return OkVoid();
+}
+
+Result<size_t> PluginManager::autoLoadPlugins() {
+    std::vector<std::pair<int, std::string>> to_load;
+    
+    auto it = plugins_.find(name);
+    if (it == plugins_.end()) {
+        THEMIS_ERROR("Plugin not found: {}", name);
+        return false;
+    }
+    
+    if (!it->second.loaded) {
+        THEMIS_WARN("Plugin {} is not loaded, cannot reload", name);
+        return false;
+    }
+    
+    // 1. Check for dependent plugins
+    std::vector<std::string> dependents = findDependentPlugins(name);
+    if (!dependents.empty()) {
+        THEMIS_ERROR("Cannot reload plugin {} - {} plugins depend on it: {}", 
+            name, dependents.size(), 
+            [&]() {
+                std::string list;
+                for (size_t i = 0; i < dependents.size(); ++i) {
+                    if (i > 0) list += ", ";
+                    list += dependents[i];
+                    if (i >= 5) {  // Limit to first 5
+                        list += "...";
+                        break;
+                    }
+                }
+                return list;
+            }());
+        return false;
+    }
+    
+    auto& entry = it->second;
+    
+    // 2. Notify listeners: BEFORE_UNLOAD
+    lock.unlock();
+    notifyPluginReload(name, PluginReloadPhase::BEFORE_UNLOAD);
+    lock.lock();
+    
+    // 3. Save plugin state (if supported)
+    std::string saved_state;
+    if (entry.instance) {
+        try {
+            // Try to cast to IStatefulPlugin
+            auto* stateful = dynamic_cast<IStatefulPlugin*>(entry.instance.get());
+            if (stateful) {
+                saved_state = stateful->saveState();
+                if (!saved_state.empty()) {
+                    THEMIS_INFO("Saved state for plugin {} ({} bytes)", name, saved_state.size());
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to save plugin state for {}: {}", name, e.what());
+            // Continue with reload even if state save fails
+        }
+    }
+    
+    // 4. Store old plugin information for rollback
+    std::string old_hash = entry.file_hash;
+    std::string old_path = entry.path;
+    void* old_handle = entry.library_handle;
+    std::unique_ptr<IThemisPlugin> old_instance = std::move(entry.instance);
+    
+    // 5. Unload old plugin
+    if (old_instance) {
+        try {
+            old_instance->shutdown();
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Exception during plugin shutdown for {}: {}", name, e.what());
+        }
+        
+        auto destroyFunc = reinterpret_cast<DestroyPluginFunc>(
+            getSymbol(old_handle, "destroyPlugin")
+        );
+        
+        if (destroyFunc) {
+            try {
+                destroyFunc(old_instance.release());
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Exception destroying plugin {}: {}", name, e.what());
+            }
+        } else {
+            old_instance.reset();
+        }
+    }
+    
+    unloadLibrary(old_handle);
+    entry.library_handle = nullptr;
+    entry.instance = nullptr;
+    entry.loaded = false;
+    
+    // 6. Notify listeners: AFTER_UNLOAD
+    lock.unlock();
+    notifyPluginReload(name, PluginReloadPhase::AFTER_UNLOAD);
+    
+    // 7. Wait briefly for OS to release file handles and complete cleanup
+    std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);
+    lock.lock();
+    
+    // 8. Verify new plugin binary
+    std::string error_message;
+    if (!verifyPlugin(entry.path, error_message)) {
+        THEMIS_ERROR("Plugin verification failed after reload for {}: {}", name, error_message);
+        
+        // Attempt rollback
+        THEMIS_WARN("Attempting to rollback plugin {} to previous version", name);
+        entry.library_handle = old_handle;
+        entry.instance = std::move(old_instance);
+        entry.loaded = true;
+        entry.file_hash = old_hash;
+        
+        metrics_.recordError(name);
+        return false;
+    }
+    
+    // 9. Load new plugin binary
+    void* handle = loadLibrary(entry.path);
+    if (!handle) {
+        THEMIS_ERROR("Failed to reload plugin library: {}", entry.path);
+        
+        // Attempt rollback
+        THEMIS_WARN("Attempting to rollback plugin {} to previous version", name);
+        entry.library_handle = old_handle;
+        entry.instance = std::move(old_instance);
+        entry.loaded = true;
+        entry.file_hash = old_hash;
+        
+        metrics_.recordError(name);
+        return false;
+    }
+    
+    auto createFunc = reinterpret_cast<CreatePluginFunc>(
+        getSymbol(handle, "createPlugin")
+    );
+    if (!createFunc) {
+        THEMIS_ERROR("Plugin does not export createPlugin: {}", entry.path);
+        unloadLibrary(handle);
+        
+        // Attempt rollback
+        THEMIS_WARN("Attempting to rollback plugin {} to previous version", name);
+        entry.library_handle = old_handle;
+        entry.instance = std::move(old_instance);
+        entry.loaded = true;
+        entry.file_hash = old_hash;
+        
+        metrics_.recordError(name);
+        return false;
+    }
+    
+    IThemisPlugin* plugin = nullptr;
+    try {
+        plugin = createFunc();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception creating plugin instance for {}: {}", name, e.what());
+        unloadLibrary(handle);
+        
+        // Attempt rollback
+        THEMIS_WARN("Attempting to rollback plugin {} to previous version", name);
+        entry.library_handle = old_handle;
+        entry.instance = std::move(old_instance);
+        entry.loaded = true;
+        entry.file_hash = old_hash;
+        
+        metrics_.recordError(name);
+        return false;
+    }
+    
+    if (!plugin) {
+        THEMIS_ERROR("Failed to create plugin instance: {}", name);
+        unloadLibrary(handle);
+        
+        // Attempt rollback
+        THEMIS_WARN("Attempting to rollback plugin {} to previous version", name);
+        entry.library_handle = old_handle;
+        entry.instance = std::move(old_instance);
+        entry.loaded = true;
+        entry.file_hash = old_hash;
+        
+        metrics_.recordError(name);
+        return false;
+    }
+    
+    // 10. Initialize with configuration and state
+    std::string init_config = "{}";
+    if (!saved_state.empty()) {
+        try {
+            nlohmann::json config;
+            config["restored_state"] = saved_state;
+            init_config = config.dump();
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to create init config with state for {}: {}", name, e.what());
+            // Continue with empty config
+        }
+    }
+    
+    bool init_success = false;
+    try {
+        init_success = plugin->initialize(init_config.c_str());
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception initializing reloaded plugin {}: {}", name, e.what());
+    }
+    
+    if (!init_success) {
+        THEMIS_ERROR("Failed to initialize reloaded plugin: {}", name);
+        
+        auto destroyFunc = reinterpret_cast<DestroyPluginFunc>(
+            getSymbol(handle, "destroyPlugin")
+        );
+        if (destroyFunc) {
+            try {
+                destroyFunc(plugin);
+            } catch (...) {}
+        }
+        unloadLibrary(handle);
+        
+        // Attempt rollback
+        THEMIS_WARN("Attempting to rollback plugin {} to previous version", name);
+        entry.library_handle = old_handle;
+        entry.instance = std::move(old_instance);
+        entry.loaded = true;
+        entry.file_hash = old_hash;
+        
+        metrics_.recordError(name);
+        return false;
+    }
+    
+    // 11. Restore state if plugin supports it
+    if (!saved_state.empty()) {
+        try {
+            auto* stateful = dynamic_cast<IStatefulPlugin*>(plugin);
+            if (stateful) {
+                if (stateful->restoreState(saved_state)) {
+                    THEMIS_INFO("Successfully restored state for plugin {}", name);
+                } else {
+                    THEMIS_WARN("Failed to restore state for plugin {} - using default state", name);
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Exception restoring plugin state for {}: {}", name, e.what());
+            // Continue with default state
+        }
+    }
+    
+    // 12. Update entry with new plugin
+    entry.library_handle = handle;
+    entry.instance.reset(plugin);
+    entry.loaded = true;
+    std::string new_hash = calculateFileHash(entry.path);
+    entry.file_hash = new_hash;
+    
+    // 13. Record metrics
+    auto end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    metrics_.recordReload(name, duration);
+    
+    // 14. Notify listeners: AFTER_LOAD
+    lock.unlock();
+    notifyPluginReload(name, PluginReloadPhase::AFTER_LOAD);
+    
+    THEMIS_INFO("Successfully reloaded plugin: {} (old hash: {}..., new hash: {}..., duration: {}ms)",
+        name, 
+        old_hash.substr(0, 16), 
+        new_hash.substr(0, 16),
+        duration.count());
+    
+    return true;
 }
 
 size_t PluginManager::autoLoadPlugins() {
-    std::vector<std::pair<int, std::string>> to_load;
+    std::unique_lock<std::mutex> lock(mutex_);
     
-    // Scope 1: Collect plugins to auto-load (sorted by priority)
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        for (const auto& pair : plugins_) {
-            if (pair.second.manifest.auto_load && !pair.second.loaded) {
-                to_load.push_back({pair.second.manifest.load_priority, pair.first});
+    // 1. Build dependency graph
+    auto graph = PluginDependencyResolver::buildGraph(plugins_);
+    
+    // 2. Check for circular dependencies
+    auto cycles = PluginDependencyResolver::detectCircularDependencies(graph);
+    if (!cycles.empty()) {
+        THEMIS_ERROR("Circular dependencies detected in plugin system:");
+        for (const auto& cycle : cycles) {
+            std::string cycle_str;
+            for (size_t i = 0; i < cycle.size(); ++i) {
+                cycle_str += cycle[i];
+                if (i < cycle.size() - 1) {
+                    cycle_str += " -> ";
+                }
             }
+            THEMIS_ERROR("  Cycle: {}", cycle_str);
         }
-        
-        // Sort by priority (lower = higher priority)
-        std::sort(to_load.begin(), to_load.end());
-    }  // Lock is automatically released here
+        return 0;
+    }
     
-    // Scope 2: Load plugins without holding the main lock
-    // (loadPlugin() has its own locking mechanism)
+    // 3. Compute load order using topological sort
+    std::vector<std::string> load_order;
+    try {
+        load_order = PluginDependencyResolver::computeLoadOrder(graph);
+    } catch (const std::runtime_error& e) {
+        THEMIS_ERROR("Failed to compute plugin load order: {}", e.what());
+        return 0;
+    }
+    
+    // 4. Load plugins in dependency order
     size_t loaded = 0;
     for (const auto& [priority, name] : to_load) {
         auto result = loadPlugin(name);
@@ -709,18 +1048,19 @@ size_t PluginManager::autoLoadPlugins() {
     }
     
     THEMIS_INFO("Auto-loaded {} plugins", loaded);
-    return loaded;
+    return Ok(loaded);
 }
 
-std::optional<PluginManifest> PluginManager::getManifest(const std::string& name) const {
+Result<PluginManifest> PluginManager::getManifest(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     if (it != plugins_.end()) {
-        return it->second.manifest;
+        return Ok(it->second.manifest);
     }
     
-    return std::nullopt;
+    return Err<PluginManifest>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                                fmt::format("Plugin manifest not found: {}", name));
 }
 
 PluginManager::~PluginManager() {
@@ -764,6 +1104,101 @@ std::unique_ptr<IThemisPlugin> PluginRegistry::createPlugin(const std::string& n
 PluginRegistry& PluginRegistry::instance() {
     static PluginRegistry instance;
     return instance;
+}
+
+// ============================================================================
+// Hot-Plug Monitoring
+// ============================================================================
+
+bool PluginManager::enableHotPlug(const std::string& directory, const HotPlugConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (hot_plug_monitor_) {
+        THEMIS_WARN("Hot-plug monitoring already enabled");
+        return false;
+    }
+    
+    hot_plug_monitor_ = std::make_unique<PluginHotPlugMonitor>(this, directory, config);
+    bool started = hot_plug_monitor_->start();
+    
+    if (!started) {
+        hot_plug_monitor_.reset();
+        return false;
+    }
+    
+    THEMIS_INFO("Hot-plug monitoring enabled for: {}", directory);
+    return true;
+}
+
+void PluginManager::disableHotPlug() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!hot_plug_monitor_) {
+        return;
+    }
+    
+    hot_plug_monitor_->stop();
+    hot_plug_monitor_.reset();
+    
+    THEMIS_INFO("Hot-plug monitoring disabled");
+}
+
+bool PluginManager::isHotPlugEnabled() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();
+}
+
+// ============================================================================
+// Reload Event Listeners
+// ============================================================================
+
+void PluginManager::registerReloadListener(PluginReloadListener listener) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    reload_listeners_.push_back(std::move(listener));
+}
+
+void PluginManager::clearReloadListeners() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    reload_listeners_.clear();
+}
+
+// ============================================================================
+// Hot-Reload Helper Methods
+// ============================================================================
+
+std::vector<std::string> PluginManager::findDependentPlugins(const std::string& name) const {
+    std::vector<std::string> dependents;
+    
+    for (const auto& [plugin_name, entry] : plugins_) {
+        if (plugin_name == name || !entry.loaded) continue;
+        
+        for (const auto& dep : entry.manifest.dependencies) {
+            if (dep == name) {
+                dependents.push_back(plugin_name);
+                break;
+            }
+        }
+    }
+    
+    return dependents;
+}
+
+void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhase phase) {
+    // Make a copy of listeners to avoid deadlock if listener calls back into PluginManager
+    std::vector<PluginReloadListener> listeners_copy;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        listeners_copy = reload_listeners_;
+    }
+    
+    // Notify all listeners (outside of mutex lock)
+    for (const auto& listener : listeners_copy) {
+        try {
+            listener(name, phase);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Reload listener threw exception: {}", e.what());
+        }
+    }
 }
 
 } // namespace plugins

@@ -497,6 +497,173 @@ TEST_F(DistributedTrainingCoordinatorTest, Aggregator_MismatchedSizes) {
 }
 
 // ============================================================================
+// Loss Aggregation Tests
+// ============================================================================
+
+TEST_F(DistributedTrainingCoordinatorTest, GradientExchangeMessage_LossMetricsSerialization) {
+    GradientExchangeMessage msg;
+    msg.message_id = "test-msg-123";
+    msg.source_shard = "shard-1";
+    msg.destination_shard = "shard-2";
+    msg.iteration_number = 5;
+    msg.local_loss = 0.456f;
+    msg.local_accuracy = 0.89f;
+    msg.samples_in_batch = 32;
+    
+    // Serialize
+    json j = msg.toJSON();
+    
+    EXPECT_TRUE(j.contains("local_loss"));
+    EXPECT_TRUE(j.contains("local_accuracy"));
+    EXPECT_TRUE(j.contains("samples_in_batch"));
+    EXPECT_FLOAT_EQ(j["local_loss"].get<float>(), 0.456f);
+    EXPECT_FLOAT_EQ(j["local_accuracy"].get<float>(), 0.89f);
+    EXPECT_EQ(j["samples_in_batch"].get<int>(), 32);
+    
+    // Deserialize
+    auto msg_restored = GradientExchangeMessage::fromJSON(j);
+    
+    EXPECT_TRUE(msg_restored.local_loss.has_value());
+    EXPECT_TRUE(msg_restored.local_accuracy.has_value());
+    EXPECT_FLOAT_EQ(msg_restored.local_loss.value(), 0.456f);
+    EXPECT_FLOAT_EQ(msg_restored.local_accuracy.value(), 0.89f);
+    EXPECT_EQ(msg_restored.samples_in_batch, 32);
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, GradientExchangeMessage_OptionalLossFields) {
+    GradientExchangeMessage msg;
+    msg.message_id = "test-msg-456";
+    msg.source_shard = "shard-3";
+    
+    // Don't set loss fields - should be optional
+    EXPECT_FALSE(msg.local_loss.has_value());
+    EXPECT_FALSE(msg.local_accuracy.has_value());
+    
+    // Serialize without loss
+    json j = msg.toJSON();
+    
+    // Should not crash and should handle missing fields
+    auto msg_restored = GradientExchangeMessage::fromJSON(j);
+    EXPECT_FALSE(msg_restored.local_loss.has_value());
+    EXPECT_FALSE(msg_restored.local_accuracy.has_value());
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, Coordinator_ComputeWeightedLoss_SimpleAverage) {
+    auto coordinator = std::make_unique<DistributedTrainingCoordinator>(
+        shard_router_, shard_topology_, config_
+    );
+    
+    // Test weighted loss computation with equal samples
+    std::vector<std::pair<float, int>> losses_and_counts = {
+        {1.0f, 32},  // Shard 1: loss=1.0, 32 samples
+        {2.0f, 32},  // Shard 2: loss=2.0, 32 samples
+        {3.0f, 32}   // Shard 3: loss=3.0, 32 samples
+    };
+    
+    float weighted_loss = coordinator->computeWeightedLoss(losses_and_counts);
+    
+    // Expected: (1.0*32 + 2.0*32 + 3.0*32) / (32+32+32) = 6.0*32/96 = 2.0
+    EXPECT_FLOAT_EQ(weighted_loss, 2.0f);
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, Coordinator_ComputeWeightedLoss_UnequalSamples) {
+    auto coordinator = std::make_unique<DistributedTrainingCoordinator>(
+        shard_router_, shard_topology_, config_
+    );
+    
+    // Test weighted loss with different sample counts
+    std::vector<std::pair<float, int>> losses_and_counts = {
+        {1.0f, 10},  // Shard 1: loss=1.0, 10 samples
+        {2.0f, 20},  // Shard 2: loss=2.0, 20 samples
+        {4.0f, 30}   // Shard 3: loss=4.0, 30 samples
+    };
+    
+    float weighted_loss = coordinator->computeWeightedLoss(losses_and_counts);
+    
+    // Expected: (1.0*10 + 2.0*20 + 4.0*30) / (10+20+30) = (10 + 40 + 120) / 60 = 170/60 = 2.833...
+    EXPECT_NEAR(weighted_loss, 2.8333f, 0.001f);
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, Coordinator_ComputeWeightedLoss_ZeroSamples) {
+    auto coordinator = std::make_unique<DistributedTrainingCoordinator>(
+        shard_router_, shard_topology_, config_
+    );
+    
+    // Test with zero samples - should fall back to simple average
+    std::vector<std::pair<float, int>> losses_and_counts = {
+        {1.0f, 0},
+        {2.0f, 0},
+        {3.0f, 0}
+    };
+    
+    float weighted_loss = coordinator->computeWeightedLoss(losses_and_counts);
+    
+    // Should fall back to simple average: (1.0 + 2.0 + 3.0) / 3 = 2.0
+    EXPECT_FLOAT_EQ(weighted_loss, 2.0f);
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, Coordinator_ComputeWeightedLoss_EmptyInput) {
+    auto coordinator = std::make_unique<DistributedTrainingCoordinator>(
+        shard_router_, shard_topology_, config_
+    );
+    
+    std::vector<std::pair<float, int>> empty_losses;
+    
+    float weighted_loss = coordinator->computeWeightedLoss(empty_losses);
+    
+    // Should return 0.0 for empty input
+    EXPECT_FLOAT_EQ(weighted_loss, 0.0f);
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, Coordinator_ExecuteStep_ReturnsAggregatedLoss) {
+    auto coordinator = std::make_unique<DistributedTrainingCoordinator>(
+        shard_router_, shard_topology_, config_
+    );
+    
+    TrainingConfig training_config;
+    training_config.epochs = 1;
+    
+    // Initialize (will use simulated mode without real shards)
+    bool initialized = coordinator->initialize("test-adapter-loss", training_config);
+    
+    if (initialized) {
+        // Execute a step
+        auto step_result = coordinator->executeStep();
+        
+        if (step_result.success) {
+            // Should have aggregated loss in simulated mode
+            EXPECT_TRUE(step_result.aggregated_loss.has_value());
+            
+            if (step_result.aggregated_loss.has_value()) {
+                // Loss should be positive and reasonable
+                EXPECT_GT(step_result.aggregated_loss.value(), 0.0f);
+                EXPECT_LT(step_result.aggregated_loss.value(), 10.0f);
+            }
+            
+            // Should have per-shard loss
+            EXPECT_FALSE(step_result.per_shard_loss.empty());
+            EXPECT_EQ(step_result.per_shard_loss.size(), config_.participant_shards.size());
+        }
+    }
+}
+
+TEST_F(DistributedTrainingCoordinatorTest, StepResult_ContainsLossFields) {
+    // Create a step result and verify it has the new fields
+    DistributedTrainingCoordinator::StepResult result;
+    
+    result.aggregated_loss = 0.123f;
+    result.aggregated_accuracy = 0.95f;
+    result.per_shard_loss["shard-1"] = 0.12f;
+    result.per_shard_loss["shard-2"] = 0.13f;
+    
+    EXPECT_TRUE(result.aggregated_loss.has_value());
+    EXPECT_TRUE(result.aggregated_accuracy.has_value());
+    EXPECT_EQ(result.per_shard_loss.size(), 2);
+    EXPECT_FLOAT_EQ(result.aggregated_loss.value(), 0.123f);
+    EXPECT_FLOAT_EQ(result.aggregated_accuracy.value(), 0.95f);
+}
+
+// ============================================================================
 // Main Test Runner
 // ============================================================================
 

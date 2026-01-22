@@ -131,8 +131,12 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
     // Join query
     if (tr.join.has_value()) {
         auto& j = *tr.join;
-        auto [st, rows] = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
-        return { st, nlohmann::json{{"type","join"},{"results", rows}} };
+        auto result = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
+        if (!result) {
+            return { QueryEngine::Status{false, result.error().message()}, nlohmann::json{} };
+        }
+        auto rows = std::move(*result);
+        return { QueryEngine::Status::OK(), nlohmann::json{{"type","join"},{"results", rows}} };
     }
 
     // Conjunctive (default) query

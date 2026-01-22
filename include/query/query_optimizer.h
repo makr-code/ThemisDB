@@ -42,10 +42,10 @@ public:
                                        size_t maxProbePerPred = 1000) const;
 
     // Führt die Anfrage mit der geplanten Reihenfolge aus (sequenziell)
-    std::pair<QueryEngine::Status, std::vector<std::string>>
+    Result<std::vector<std::string>>
     executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
-    std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+    Result<std::vector<BaseEntity>>
     executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
     // =============================

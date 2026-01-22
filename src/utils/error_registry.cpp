@@ -148,6 +148,152 @@ void ErrorRegistry::registerDefaultErrors() {
         {"redundancy", "replication", "backup", "storage", "backend"}
     });
     
+    // Backup & Recovery Errors
+    registerError({
+        ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup creation failed: {}",
+        "Failed to create database backup.",
+        "1. Check available disk space\n"
+        "2. Verify backup destination permissions\n"
+        "3. Ensure database is accessible\n"
+        "4. Review backup logs for specific errors",
+        {"/docs/backup.md", "/docs/operations.md"},
+        {"backup", "creation", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+        "Backup",
+        "Error",
+        "Backup restoration failed: {}",
+        "Failed to restore database from backup.",
+        "1. Verify backup integrity\n"
+        "2. Check backup file permissions\n"
+        "3. Ensure sufficient disk space\n"
+        "4. Try restoring from an earlier backup",
+        {"/docs/backup.md", "/docs/recovery.md"},
+        {"backup", "restore", "recovery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+        "Backup",
+        "Warning",
+        "Backup verification failed: {}",
+        "Backup integrity check detected issues.",
+        "1. Run full backup verification\n"
+        "2. Check backup checksums\n"
+        "3. Consider creating a new full backup",
+        {"/docs/backup.md"},
+        {"backup", "verification", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_NOT_FOUND,
+        "Backup",
+        "Error",
+        "Backup not found: {}",
+        "The specified backup does not exist.",
+        "1. Verify backup path\n"
+        "2. List available backups\n"
+        "3. Check backup retention policies",
+        {"/docs/backup.md"},
+        {"backup", "not found", "missing"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INVALID_TYPE,
+        "Backup",
+        "Error",
+        "Invalid backup type: {}",
+        "The backup type is not supported for this operation.",
+        "1. Use full backup for restoration\n"
+        "2. Restore from full backup then apply incremental/differential",
+        {"/docs/backup.md"},
+        {"backup", "type", "invalid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_INCOMPLETE,
+        "Backup",
+        "Critical",
+        "Backup incomplete: {}",
+        "Backup is missing required components (e.g., RAID shards).",
+        "1. Verify all backup components exist\n"
+        "2. For RAID configs, ensure all shards are backed up\n"
+        "3. Create a new complete backup",
+        {"/docs/backup.md", "/docs/raid.md"},
+        {"backup", "incomplete", "missing", "raid"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup compression failed: {}",
+        "Failed to compress backup data.",
+        "1. Check available disk space\n"
+        "2. Verify tar/gzip availability\n"
+        "3. Check file permissions",
+        {"/docs/backup.md"},
+        {"backup", "compression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+        "Backup",
+        "Error",
+        "Backup decompression failed: {}",
+        "Failed to decompress backup archive.",
+        "1. Verify backup file integrity\n"
+        "2. Check for corruption\n"
+        "3. Ensure tar/gzip is available",
+        {"/docs/backup.md"},
+        {"backup", "decompression", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_CHECKSUM_MISMATCH,
+        "Backup",
+        "Critical",
+        "Backup checksum mismatch: {}",
+        "Backup file checksum does not match expected value.",
+        "1. Do not use this backup - it may be corrupted\n"
+        "2. Verify backup source integrity\n"
+        "3. Create a new backup\n"
+        "4. Check for disk errors",
+        {"/docs/backup.md", "/docs/troubleshooting.md"},
+        {"backup", "checksum", "corruption", "integrity"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+        "Backup",
+        "Error",
+        "Backup manifest corrupt: {}",
+        "Backup metadata file is corrupted or unreadable.",
+        "1. Check backup directory structure\n"
+        "2. Verify JSON format of MANIFEST.json\n"
+        "3. Restore from an earlier backup",
+        {"/docs/backup.md"},
+        {"backup", "manifest", "corrupt", "metadata"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED,
+        "Backup",
+        "Error",
+        "WAL archive failed: {}",
+        "Failed to archive Write-Ahead Log files.",
+        "1. Check WAL directory permissions\n"
+        "2. Verify available disk space\n"
+        "3. Review database logs",
+        {"/docs/backup.md", "/docs/wal.md"},
+        {"backup", "wal", "archive", "failed"}
+    });
+    
     // LLM Errors
     registerError({
         ErrorCode::ERR_LLM_MODEL_NOT_FOUND,
@@ -736,6 +882,73 @@ void ErrorRegistry::registerDefaultErrors() {
         {"query", "timeout", "performance"}
     });
     
+    registerError({
+        ErrorCode::ERR_QUERY_CTE_CYCLE_DETECTED,
+        "Query",
+        "Error",
+        "Circular CTE reference detected: {}",
+        "Common Table Expression contains a circular reference.",
+        "1. Review CTE dependencies\n"
+        "2. Remove circular references\n"
+        "3. Restructure query to avoid cycles",
+        {"/docs/query/cte.md"},
+        {"query", "cte", "cycle", "circular"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
+        "Query",
+        "Error",
+        "Subquery execution failed: {}",
+        "A subquery within the main query failed to execute.",
+        "1. Check subquery syntax and logic\n"
+        "2. Verify subquery returns expected result type\n"
+        "3. Test subquery independently",
+        {"/docs/query/subqueries.md"},
+        {"query", "subquery", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_WINDOW_SPEC,
+        "Query",
+        "Error",
+        "Invalid window specification: {}",
+        "Window function specification is invalid or malformed.",
+        "1. Check window frame bounds (ROWS/RANGE)\n"
+        "2. Verify PARTITION BY and ORDER BY clauses\n"
+        "3. Review window function documentation",
+        {"/docs/query/window_functions.md"},
+        {"query", "window", "invalid", "specification"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID_INPUT,
+        "Query",
+        "Error",
+        "Invalid input for statistical function: {}",
+        "The input parameters for a statistical aggregation function are invalid.",
+        "1. Check parameter ranges (e.g., percentile 0-100)\n"
+        "2. Verify data types are numeric\n"
+        "3. Ensure input is not null or empty\n"
+        "4. Review function documentation",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "invalid", "input"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
+        "Query",
+        "Error",
+        "Insufficient data for statistical function: {}",
+        "The statistical function requires more data points than provided.",
+        "1. Check minimum data requirements (e.g., variance needs ≥2 values)\n"
+        "2. Filter out null or non-numeric values\n"
+        "3. Verify data source is not empty\n"
+        "4. Consider using different aggregation function",
+        {"/docs/query/statistical_functions.md"},
+        {"query", "statistical", "insufficient", "data"}
+    });
+    
     // API Errors
     registerError({
         ErrorCode::ERR_API_INVALID_REQUEST,
@@ -1046,6 +1259,102 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Review retention manager logs",
         {"/docs/retention.md"},
         {"utility", "retention", "policy", "not found"}
+    });
+    
+    // Memory Pool Errors
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_EXHAUSTED,
+        "Memory",
+        "Critical",
+        "Memory pool exhausted: requested {} bytes, available {} bytes",
+        "The memory pool has run out of available memory blocks.",
+        "1. Increase pool size in configuration\n"
+        "2. Enable dynamic pool expansion\n"
+        "3. Check for memory leaks\n"
+        "4. Review allocation patterns and optimize",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "exhausted", "out of memory"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_ALLOCATION_FAILED,
+        "Memory",
+        "Critical",
+        "Memory allocation failed: requested {} bytes",
+        "Failed to allocate memory from the system.",
+        "1. Check available system memory\n"
+        "2. Reduce memory usage in configuration\n"
+        "3. Enable memory compression\n"
+        "4. Check for memory leaks",
+        {"/docs/memory/troubleshooting.md"},
+        {"memory", "allocation", "failed", "oom"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_SIZE,
+        "Memory",
+        "Error",
+        "Invalid allocation size: {} bytes",
+        "The requested allocation size is invalid or exceeds limits.",
+        "1. Verify allocation size is positive and non-zero\n"
+        "2. Check size does not exceed max allocation limit\n"
+        "3. Ensure size is properly aligned if required",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "invalid", "size", "allocation"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_INVALID_ALIGNMENT,
+        "Memory",
+        "Error",
+        "Invalid memory alignment: requested {} bytes, must be power of 2",
+        "The requested alignment is not a power of 2.",
+        "1. Verify alignment is a power of 2 (e.g., 8, 16, 32, 64)\n"
+        "2. Use standard alignment values (16 or 64 bytes)\n"
+        "3. Check alignment requirements for your data structure",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "alignment", "invalid", "power of 2"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_DOUBLE_FREE,
+        "Memory",
+        "Critical",
+        "Double free detected: address {}",
+        "Attempted to free memory that was already freed.",
+        "1. Check for double free bugs in code\n"
+        "2. Ensure proper ownership semantics\n"
+        "3. Use smart pointers or RAII patterns\n"
+        "4. Run with AddressSanitizer to detect memory errors",
+        {"/docs/memory/debugging.md"},
+        {"memory", "double free", "corruption", "bug"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_POOL_NOT_INITIALIZED,
+        "Memory",
+        "Error",
+        "Memory pool not initialized",
+        "Attempted to use a memory pool before initialization.",
+        "1. Ensure pool is initialized before use\n"
+        "2. Check initialization order\n"
+        "3. Verify pool configuration is valid",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "pool", "not initialized", "initialization"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_MEMORY_FRAGMENTATION,
+        "Memory",
+        "Warning",
+        "Memory fragmentation detected: {} free blocks, largest {} bytes",
+        "Memory pool is fragmented with many small free blocks.",
+        "1. Enable pool defragmentation\n"
+        "2. Increase pool size\n"
+        "3. Adjust allocation sizes\n"
+        "4. Consider pool reset during low-activity periods",
+        {"/docs/memory/pool_allocator.md"},
+        {"memory", "fragmentation", "performance", "optimization"}
     });
 }
 

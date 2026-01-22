@@ -247,7 +247,8 @@ public:
         try {
             auto outcome = client_->ListBuckets();
             return outcome.IsSuccess();
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("S3BlobBackend::isAvailable check failed: {}", e.what());
             return false;
         }
     }

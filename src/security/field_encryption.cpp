@@ -278,14 +278,6 @@ FieldEncryption::FieldEncryption(std::shared_ptr<KeyProvider> key_provider)
     }
 }
 
-FieldEncryption::FieldEncryption(IKeyProviderPtr key_provider)
-    : key_provider_(std::dynamic_pointer_cast<KeyProvider>(key_provider))
-{
-    if (!key_provider_) {
-        throw std::invalid_argument("FieldEncryption: key_provider cannot be null");
-    }
-}
-
 FieldEncryption::~FieldEncryption() = default;
 
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
