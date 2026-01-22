@@ -479,12 +479,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty() && parse_result.query->for_nodes.size() >= 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
-            const auto& f1 = parse_result.query->for_nodes[0];
-            const auto& f2 = parse_result.query->for_nodes[1];
-            const std::string var1 = f1.variable;
-            const std::string var2 = f2.variable;
-            const std::string table1 = f1.collection;
-            const std::string table2 = f2.collection;
+            const auto& f1_ref = parse_result.query->for_nodes[0];
+            const auto& f2_ref = parse_result.query->for_nodes[1];
+            const std::string var1 = f1_ref.variable;
+            const std::string var2 = f2_ref.variable;
+            const std::string table1 = f1_ref.collection;
+            const std::string table2 = f2_ref.collection;
             joinSpan.setAttribute("join.var_left", var1);
             joinSpan.setAttribute("join.var_right", var2);
             joinSpan.setAttribute("join.table_left", table1);

@@ -364,10 +364,10 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
                 &context  // Pass context for parent bindings
             );
             
-            if (!status.ok) {
+            if (!result.ok()) {
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
-                    fmt::format("Scalar subquery JOIN execution failed: {}", status.message)
+                    fmt::format("Scalar subquery JOIN execution failed: {}", result.error().message())
                 );
             }
             results = std::move(*result);
