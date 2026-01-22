@@ -127,15 +127,18 @@ Result<void> QueryCache::put(
     // Add to cache
     cache_.emplace(fingerprint, std::move(internal_entry));
     
+    // Get reference to the newly inserted entry
+    auto& inserted_entry = cache_[fingerprint].entry;
+    
     // Add to dependency index
     addToDependencyIndex(fingerprint, dependencies);
     
     // Update stats
     stats_.current_entries++;
-    stats_.current_memory_bytes += entry.result_size_bytes;
+    stats_.current_memory_bytes += inserted_entry.result_size_bytes;
     
     THEMIS_DEBUG("Cached query: fingerprint={}, size={} bytes, deps={}", 
-                fingerprint.substr(0, 16), entry.result_size_bytes, dependencies.size());
+                fingerprint.substr(0, 16), inserted_entry.result_size_bytes, dependencies.size());
     
     return OkVoid();
 }
