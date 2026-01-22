@@ -654,6 +654,18 @@ ThemisDB performance is evaluated using the **CHIMERA Suite** (_Comprehensive Hy
 
 **📊 [CHIMERA Suite Documentation](benchmarks/chimera/README.md)** | **[Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**
 
+### Independent Benchmarking
+
+ThemisDB performance can be independently evaluated using the **[CHIMERA Suite](benchmarks/chimera/CHIMERA_README.md)** - a vendor-neutral, IEEE-compliant benchmarking framework that supports fair comparison across multiple database systems.
+
+CHIMERA Suite features:
+- Vendor-neutral reporting and visualization
+- Statistical rigor (IEEE Std 2807-2022 compliant)
+- Color-blind friendly design
+- Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
+
+Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
+
 ---
 
 ## Community & Support

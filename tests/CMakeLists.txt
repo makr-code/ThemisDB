@@ -2648,6 +2648,31 @@ else()
 endif()
 
 # ============================================================================
+# Columnar Format Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
+    message(STATUS "Adding Columnar Format tests")
+    
+    add_executable(test_columnar_format
+        test_columnar_format.cpp
+    )
+    
+    target_link_libraries(test_columnar_format PRIVATE
+# Transaction Isolation Level Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+    message(STATUS "Adding Transaction Isolation Level tests")
+    
+    add_executable(test_transaction_isolation_levels
+        test_transaction_isolation_levels.cpp
+    )
+    
+    target_link_libraries(test_transaction_isolation_levels PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
 # Index Maintenance Tests
 # ============================================================================
 
@@ -2677,9 +2702,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
         themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_columnar_format PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ColumnarFormatTests COMMAND test_columnar_format)
+    
+    set_tests_properties(ColumnarFormatTests PROPERTIES
+        LABELS "storage;columnar;compression;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Columnar Format: RLE, Dictionary, Bit-Packing, Frame-of-Reference encoding")
+else()
+    message(STATUS "Columnar Format tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_columnar_format.cpp")
         Threads::Threads
     )
     
+    target_compile_definitions(test_transaction_isolation_levels PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME TransactionIsolationLevelTests COMMAND test_transaction_isolation_levels)
+    
+    set_tests_properties(TransactionIsolationLevelTests PROPERTIES
+        LABELS "storage;transaction;isolation;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Transaction Isolation: ReadCommitted vs Snapshot isolation levels")
+else()
+    message(STATUS "Transaction Isolation Level tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
     target_compile_definitions(test_index_maintenance PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -2694,6 +2749,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
     message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
 else()
     message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+endif()
+
+# ============================================================================
+# Compression Strategy Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
+    add_executable(test_compression_strategy
+        test_compression_strategy.cpp
+    )
+    
+    target_link_libraries(test_compression_strategy PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_compression_strategy PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CompressionStrategyTests COMMAND test_compression_strategy)
+    
+    set_tests_properties(CompressionStrategyTests PROPERTIES
+        LABELS "storage;compression;encoding;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Compression Strategy: ZSTD, RLE, Delta, Dictionary encoding, adaptive compression")
+else()
+    message(STATUS "Compression Strategy tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
     target_compile_definitions(test_graphql PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -2720,6 +2825,54 @@ add_custom_target(run_integration_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Running ThemisDB integration tests..."
 )
+
+# ============================================================================
+# CHIMERA Adapter Factory Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
+    message(STATUS "Adding CHIMERA Adapter Factory tests")
+    
+    # Create chimera adapter library first
+    add_library(chimera_adapter STATIC
+        ${CMAKE_SOURCE_DIR}/src/chimera/adapter_factory.cpp
+        ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
+    )
+    
+    target_include_directories(chimera_adapter PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+    )
+    
+    target_link_libraries(chimera_adapter PUBLIC
+        spdlog::spdlog
+    )
+    
+    # Add test executable
+    add_executable(test_adapter_factory
+        chimera/test_adapter_factory.cpp
+    )
+    
+    target_link_libraries(test_adapter_factory PRIVATE
+        ${TEST_LIBS}
+        chimera_adapter
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_adapter_factory PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CHIMERAAdapterFactoryTests COMMAND test_adapter_factory)
+    
+    set_tests_properties(CHIMERAAdapterFactoryTests PROPERTIES
+        LABELS "chimera;adapter;unit;benchmark-infrastructure"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  CHIMERA: vendor-neutral adapter architecture for benchmark suite")
+else()
+    message(STATUS "CHIMERA Adapter Factory tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
+endif()
 
 message(STATUS "Tests configured successfully")
 message(STATUS "  - Build tests with: cmake --build . --target test_lora_framework")

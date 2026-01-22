@@ -212,18 +212,17 @@ struct ParseError {
  */
 class Parser {
 public:
-    struct Result {
-        bool success = false;
-        Document document;
-        std::vector<ParseError> errors;
-    };
-    
-    static Result parse(std::string_view query);
+    /**
+     * Parse a GraphQL query string
+     * @param query The GraphQL query string to parse
+     * @return Result<Document> containing the parsed document or error
+     */
+    static themis::Result<Document> parse(std::string_view query);
     
 private:
     Parser(std::string_view query);
     
-    Result parseDocument();
+    themis::Result<Document> parseDocument();
     themis::Result<Operation> parseOperation();
     themis::Result<Field> parseField();
     themis::Result<std::shared_ptr<Value>> parseValue();
@@ -237,6 +236,8 @@ private:
     bool peek(char c) const;
     themis::Result<std::string> parseName();
     themis::Result<std::string> parseString();
+    themis::Result<int64_t> parseInt();
+    themis::Result<double> parseFloat();
     
     // Helper methods
     std::string getLocationContext() const;

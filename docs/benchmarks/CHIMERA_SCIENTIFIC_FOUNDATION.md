@@ -524,7 +524,7 @@ The CHIMERA suite is designed to provide fair, unbiased, and scientifically soun
 
 ### 4.5 Conflict of Interest
 
-**Disclosure**: This benchmark suite is developed as part of the ThemisDB project. All comparisons involving ThemisDB are subject to the same rigorous standards as external systems.
+**Disclosure**: This benchmark suite is vendor-neutral and system-agnostic. All systems tested are subject to the same rigorous standards regardless of vendor affiliation.
 
 **Mitigation**:
 - Independent validation encouraged
@@ -728,15 +728,15 @@ See accompanying file: `references.bib`
 
 ### 9.1 Maintainers
 
-- ThemisDB Team
+- CHIMERA Development Team
 - Email: [Repository maintainers]
-- GitHub: https://github.com/makr-code/ThemisDB
+- GitHub: https://github.com/chimera-benchmark/chimera-suite
 
 ### 9.2 Contributing
 
 We welcome contributions to improve the CHIMERA benchmark suite:
 
-1. **Bug Reports**: File issues on GitHub
+1. **Bug Reports**: File issues in your repository
 2. **Feature Requests**: Propose new benchmarks or improvements
 3. **Code Contributions**: Submit pull requests
 4. **Documentation**: Help improve this documentation
@@ -748,11 +748,11 @@ If you use the CHIMERA benchmark suite in your research, please cite:
 
 ```bibtex
 @software{chimera2026,
-  title={{CHIMERA}: Comprehensive Hybrid Integration Measurement \& Empirical Research Architecture},
-  author={{ThemisDB Team}},
+  title={{CHIMERA}: Comprehensive, Honest, Impartial Metrics for Empirical Reporting and Analysis},
+  author={{CHIMERA Development Team}},
   year={2026},
-  url={https://github.com/makr-code/ThemisDB},
-  note={Benchmark suite for multi-model database evaluation}
+  url={https://github.com/chimera-benchmark/chimera-suite},
+  note={Vendor-neutral benchmark suite for database evaluation}
 }
 ```
 
@@ -772,4 +772,4 @@ If you use the CHIMERA benchmark suite in your research, please cite:
 
 ---
 
-*This document is part of the ThemisDB project and is licensed under the MIT License.*
+*This document is part of the CHIMERA project and is licensed under the MIT License.*
