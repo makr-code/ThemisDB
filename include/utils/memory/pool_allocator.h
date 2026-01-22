@@ -47,6 +47,25 @@ struct AllocationStats {
     std::atomic<uint64_t> bytes_freed{0};
     std::atomic<uint64_t> peak_memory_usage{0};
     
+    AllocationStats() = default;
+    AllocationStats(const AllocationStats& other) noexcept
+        : total_allocations(other.total_allocations.load()),
+          total_deallocations(other.total_deallocations.load()),
+          allocation_failures(other.allocation_failures.load()),
+          bytes_allocated(other.bytes_allocated.load()),
+          bytes_freed(other.bytes_freed.load()),
+          peak_memory_usage(other.peak_memory_usage.load()) {}
+    
+    AllocationStats& operator=(const AllocationStats& other) noexcept {
+        total_allocations.store(other.total_allocations.load());
+        total_deallocations.store(other.total_deallocations.load());
+        allocation_failures.store(other.allocation_failures.load());
+        bytes_allocated.store(other.bytes_allocated.load());
+        bytes_freed.store(other.bytes_freed.load());
+        peak_memory_usage.store(other.peak_memory_usage.load());
+        return *this;
+    }
+    
     void reset() {
         total_allocations.store(0);
         total_deallocations.store(0);
@@ -108,6 +127,10 @@ public:
     
     /**
      * @brief Reset allocator state (free all allocations)
+     * 
+     * WARNING: This method is not thread-safe with respect to statistics.
+     * It should only be called when no other threads are actively using
+     * the allocator. Typically used during shutdown or testing.
      */
     virtual Result<void> reset() = 0;
     
@@ -262,21 +285,31 @@ public:
      * @brief Configuration for pool allocator
      */
     struct Config {
-        size_t buddy_pool_size = 16 * 1024 * 1024;  // 16 MB
-        size_t buddy_min_block = 64;
+        size_t buddy_pool_size;
+        size_t buddy_min_block;
         
         // Common slab sizes (powers of 2)
-        std::vector<size_t> slab_sizes = {64, 128, 256, 512, 1024, 2048};
-        size_t slab_objects_per_slab = 64;
-        size_t slab_max_slabs = 256;
+        std::vector<size_t> slab_sizes;
+        size_t slab_objects_per_slab;
+        size_t slab_max_slabs;
         
-        size_t stack_capacity = 1 * 1024 * 1024;  // 1 MB
+        size_t stack_capacity;
         
-        bool enable_thread_local_cache = true;
-        bool enable_statistics = true;
+        bool enable_thread_local_cache;
+        bool enable_statistics;
+        
+        Config()
+            : buddy_pool_size(16 * 1024 * 1024),
+              buddy_min_block(64),
+              slab_sizes({64, 128, 256, 512, 1024, 2048}),
+              slab_objects_per_slab(64),
+              slab_max_slabs(256),
+              stack_capacity(1 * 1024 * 1024),
+              enable_thread_local_cache(true),
+              enable_statistics(true) {}
     };
     
-    explicit PoolAllocator(const Config& config = Config{});
+    explicit PoolAllocator(const Config& config = Config());
     ~PoolAllocator();
     
     /**

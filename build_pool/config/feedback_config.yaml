@@ -1,0 +1,225 @@
+# LoRA Feedback System Configuration
+# 
+# This file configures the feedback collection and training pipeline
+# for LoRA adapters in ThemisDB.
+
+feedback:
+  # Enable/disable feedback collection
+  enabled: true
+  
+  # Collection name in RocksDB
+  collection_name: help_feedback
+  
+  # Enable graph links between feedback and adapters
+  enable_graph_links: true
+  
+  # Cache-aware training weights
+  cache_weighting:
+    # Weight for direct (non-cached) LLM responses
+    # Full weight - these are fresh responses that should be learned
+    direct_response_weight: 1.0
+    
+    # Weight for exact cache hits (similarity = 1.0)
+    # Lower weight - already validated responses, prevent overtraining
+    exact_cache_weight: 0.4
+    
+    # Base weight for semantic cache matches (similarity < 1.0)
+    # Starting weight for similar but not identical responses
+    semantic_cache_base_weight: 0.3
+    
+    # Factor for similarity-based weight adjustment
+    # Higher similarity = higher weight
+    # Formula: base_weight + (similarity - 0.9) * factor * 10
+    similarity_weight_factor: 0.5
+    
+    # Disable training on cached responses completely
+    # If true, cached responses will not be used for training at all
+    disable_cache_training: false
+    
+  # Training trigger configuration
+  training_trigger:
+    # Minimum number of feedback items before considering training
+    min_batch_size: 50
+    
+    # Maximum batch size - trigger training if exceeded
+    max_batch_size: 200
+    
+    # Minimum average rating to trigger training
+    # Lower ratings might indicate model issues
+    min_avg_rating: 3.5
+    
+    # Maximum time to wait before triggering training (hours)
+    max_wait_time_hours: 24
+    
+    # Use effective batch size (weighted) instead of raw count
+    # If true, uses sum of training weights instead of count
+    # Example: 100 cached (0.4 each) = 40 effective vs 100 raw
+    use_effective_batch_size: true
+    
+  # Plugin configuration
+  plugins:
+    # Base validation plugin
+    - type: base
+      enabled: true
+      config:
+        min_rating: 1
+        max_rating: 5
+        
+    # Privacy filter plugin (remove PII)
+    - type: privacy
+      enabled: true
+      config:
+        filter_emails: true
+        filter_phones: true
+        filter_ssn: true
+        filter_credit_cards: true
+        replacement_text: "[REDACTED]"
+        
+    # Content validation plugin
+    - type: content_validation
+      enabled: true
+      config:
+        min_text_length: 3
+        max_text_length: 10000
+        max_urls: 3
+        max_repetition: 10
+        check_spam: true
+        
+    # Training trigger plugin
+    - type: training_trigger
+      enabled: true
+      # config is taken from training_trigger section above
+      
+    # Cache-aware weighting plugin
+    - type: cache_weighting
+      enabled: true
+      # config is taken from cache_weighting section above
+
+# Training pipeline configuration
+training:
+  # Adapter-specific training settings
+  adapters:
+    themis_help_lora:
+      # Enable automated training for this adapter
+      auto_training: true
+      
+      # Training schedule
+      schedule:
+        # Cron-like schedule (optional)
+        # cron: "0 2 * * *"  # Daily at 2 AM
+        
+        # Or use interval (hours)
+        interval_hours: 24
+        
+      # Training parameters
+      hyperparameters:
+        rank: 8
+        alpha: 16.0
+        dropout: 0.1
+        learning_rate: 0.0003
+        batch_size: 4
+        num_epochs: 3
+        max_seq_length: 512
+        
+      # Quality thresholds
+      quality:
+        min_validation_accuracy: 0.80
+        enable_ab_testing: true
+        enable_auto_rollback: true
+        
+      # Weight adjustments for different feedback types
+      # These multiply with cache weights
+      type_weights:
+        positive: 1.0    # High-quality responses
+        negative: 1.2    # Prioritize corrections
+        neutral: 0.8     # Lower priority
+        
+# Storage configuration
+storage:
+  # RocksDB settings
+  rocksdb:
+    # Write buffer size for feedback collection
+    write_buffer_size_mb: 64
+    
+    # Compression
+    compression: snappy
+    
+  # Indexes to create
+  indexes:
+    - field: adapter_id
+      type: hash
+    - field: timestamp
+      type: skiplist
+    - field: training_weight
+      type: skiplist
+    - field: is_cached_response
+      type: hash
+      
+# Monitoring and metrics
+monitoring:
+  # Enable Prometheus metrics
+  enable_metrics: true
+  
+  # Metrics to track
+  metrics:
+    - feedback_created_total
+    - feedback_by_rating
+    - feedback_by_adapter
+    - feedback_cached_vs_direct
+    - training_triggered_total
+    - effective_batch_size
+    - cache_weight_distribution
+    
+  # Alerting thresholds
+  alerts:
+    # Alert if feedback rate drops significantly
+    min_feedback_per_hour: 10
+    
+    # Alert if too many low ratings
+    max_low_rating_percentage: 30
+    
+    # Alert if cache hit rate is too high (might indicate stale responses)
+    max_cache_percentage: 80
+
+# API configuration
+api:
+  # Enable REST API endpoints
+  enabled: true
+  
+  # Rate limiting
+  rate_limit:
+    enabled: true
+    requests_per_minute: 60
+    burst: 10
+    
+  # Authentication
+  auth:
+    require_jwt: true
+    # Allow anonymous feedback (with limits)
+    allow_anonymous: false
+    
+  # CORS settings
+  cors:
+    enabled: true
+    allowed_origins:
+      - https://example.com
+      - http://localhost:3000
+
+# Logging
+logging:
+  # Log level for feedback system
+  level: info
+  
+  # Log all feedback operations
+  log_operations: true
+  
+  # Log training triggers
+  log_training_events: true
+  
+  # Log file
+  file: logs/feedback.log
+  
+  # Rotation
+  rotation:
+    max_size_mb: 100
+    max_files: 10

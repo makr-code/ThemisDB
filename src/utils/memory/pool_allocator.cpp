@@ -7,6 +7,7 @@
 #include <cmath>
 #include <algorithm>
 #include <unordered_map>
+#include <map>
 #include <mutex>
 
 namespace themis {
@@ -42,8 +43,9 @@ static inline size_t alignSize(size_t size, size_t alignment) {
 struct BuddyAllocator::Block {
     size_t size;
     bool is_free;
-    Block* next;  // For free list
+    uintptr_t next;  // Address of next free block (0 if none)
 };
+
 
 struct BuddyAllocator::Impl {
     uint8_t* memory;
@@ -51,11 +53,11 @@ struct BuddyAllocator::Impl {
     size_t min_block_size;
     size_t max_order;
     
-    // Free lists for each order
-    std::vector<Block*> free_lists;
+    // Free lists for each order - use indices into blocks map
+    std::vector<uintptr_t> free_list_heads;  // heads[i] is address of first free block at order i
     
-    // Block metadata (address -> block info)
-    std::unordered_map<uintptr_t, Block> blocks;
+    // Block metadata (address -> block info) - use std::map for stable pointers
+    std::map<uintptr_t, Block> blocks;
     
     std::mutex mutex;
     
@@ -82,18 +84,18 @@ struct BuddyAllocator::Impl {
         memory = new uint8_t[total_size];
         std::memset(memory, 0, total_size);
         
-        // Initialize free lists
-        free_lists.resize(max_order + 1, nullptr);
+        // Initialize free list heads
+        free_list_heads.resize(max_order + 1, 0);
         
         // Add initial block to free list
         Block initial_block;
         initial_block.size = total_size;
         initial_block.is_free = true;
-        initial_block.next = nullptr;
+        initial_block.next = 0;
         
         uintptr_t addr = reinterpret_cast<uintptr_t>(memory);
         blocks[addr] = initial_block;
-        free_lists[max_order] = &blocks[addr];
+        free_list_heads[max_order] = addr;
     }
     
     ~Impl() {
@@ -113,36 +115,35 @@ struct BuddyAllocator::Impl {
     void* allocateBlock(size_t order) {
         // Find a free block at this order or higher
         for (size_t i = order; i <= max_order; ++i) {
-            if (free_lists[i] != nullptr) {
-                // Found a free block
-                Block* block = free_lists[i];
-                free_lists[i] = block->next;
+            if (free_list_heads[i] == 0) continue;  // No free block at this order
+            
+            uintptr_t block_addr = free_list_heads[i];
+            auto it = blocks.find(block_addr);
+            if (it == blocks.end()) return nullptr;
+            
+            Block& block = it->second;
+            free_list_heads[i] = block.next;  // Update head to next block
+            
+            // Split if necessary
+            size_t current_order = i;
+            while (current_order > order) {
+                current_order--;
+                size_t buddy_size = min_block_size << current_order;
+                uintptr_t buddy_addr = block_addr + buddy_size;
                 
-                // Split if necessary
-                while (i > order) {
-                    i--;
-                    size_t buddy_size = min_block_size << i;
-                    
-                    uintptr_t block_addr = reinterpret_cast<uintptr_t>(memory) +
-                        (reinterpret_cast<uint8_t*>(block) - memory);
-                    uintptr_t buddy_addr = block_addr + buddy_size;
-                    
-                    // Create buddy block
-                    Block buddy_block;
-                    buddy_block.size = buddy_size;
-                    buddy_block.is_free = true;
-                    buddy_block.next = free_lists[i];
-                    blocks[buddy_addr] = buddy_block;
-                    free_lists[i] = &blocks[buddy_addr];
-                    
-                    block->size = buddy_size;
-                }
+                // Create buddy block
+                Block buddy_block;
+                buddy_block.size = buddy_size;
+                buddy_block.is_free = true;
+                buddy_block.next = free_list_heads[current_order];
+                blocks[buddy_addr] = buddy_block;
+                free_list_heads[current_order] = buddy_addr;
                 
-                block->is_free = false;
-                return reinterpret_cast<void*>(
-                    memory + (reinterpret_cast<uint8_t*>(block) - 
-                              reinterpret_cast<uint8_t*>(&blocks.begin()->second)));
+                block.size = buddy_size;
             }
+            
+            block.is_free = false;
+            return reinterpret_cast<void*>(block_addr);
         }
         
         return nullptr;
@@ -155,15 +156,53 @@ struct BuddyAllocator::Impl {
             return;
         }
         
-        Block* block = &it->second;
-        block->is_free = true;
+        Block& block = it->second;
+        block.is_free = true;
+        size_t order = getOrder(block.size);
+        uintptr_t current_addr = addr;
         
-        // Try to coalesce with buddy
-        size_t order = getOrder(block->size);
+        // Try to coalesce with buddy blocks
+        while (order < max_order) {
+            size_t block_size = min_block_size << order;
+            // Calculate buddy address (flip the bit at this level)
+            uintptr_t buddy_addr = current_addr ^ block_size;
+            
+            // Check if buddy exists and is free
+            auto buddy_it = blocks.find(buddy_addr);
+            if (buddy_it == blocks.end() || !buddy_it->second.is_free || 
+                buddy_it->second.size != block_size) {
+                break;  // Cannot coalesce
+            }
+            
+            // Remove buddy from its free list
+            uintptr_t* list_ptr = &free_list_heads[order];
+            while (*list_ptr != 0) {
+                if (*list_ptr == buddy_addr) {
+                    auto& buddy_block = blocks[*list_ptr];
+                    *list_ptr = buddy_block.next;
+                    break;
+                }
+                auto& current_block = blocks[*list_ptr];
+                list_ptr = &current_block.next;
+            }
+            
+            // Merge: keep the lower address block, remove the buddy
+            uintptr_t merged_addr = std::min(current_addr, buddy_addr);
+            blocks.erase(std::max(current_addr, buddy_addr));
+            
+            auto& merged_block = blocks[merged_addr];
+            merged_block.size = block_size * 2;
+            merged_block.is_free = true;
+            merged_block.next = 0;
+            
+            current_addr = merged_addr;
+            order++;
+        }
         
-        // Add back to free list
-        block->next = free_lists[order];
-        free_lists[order] = block;
+        // Add final merged block to free list
+        auto& final_block = blocks[current_addr];
+        final_block.next = free_list_heads[order];
+        free_list_heads[order] = current_addr;
     }
 };
 
@@ -203,11 +242,13 @@ Result<void*> BuddyAllocator::allocate(size_t size, AllocationHint hint) {
     stats_.total_allocations.fetch_add(1);
     stats_.bytes_allocated.fetch_add(size);
     
+    // Update peak with retry limit to avoid infinite loop
     uint64_t current_usage = stats_.getCurrentUsage();
     uint64_t peak = stats_.peak_memory_usage.load();
-    while (current_usage > peak && 
+    int retry_count = 0;
+    while (current_usage > peak && retry_count < 10 && 
            !stats_.peak_memory_usage.compare_exchange_weak(peak, current_usage)) {
-        // Retry if another thread updated peak
+        retry_count++;
     }
     
     return ptr;
@@ -241,17 +282,17 @@ Result<void> BuddyAllocator::reset() {
     
     // Clear all blocks and free lists
     impl_->blocks.clear();
-    std::fill(impl_->free_lists.begin(), impl_->free_lists.end(), nullptr);
+    std::fill(impl_->free_list_heads.begin(), impl_->free_list_heads.end(), 0);
     
     // Re-add initial block
     Block initial_block;
     initial_block.size = impl_->total_size;
     initial_block.is_free = true;
-    initial_block.next = nullptr;
+    initial_block.next = 0;
     
     uintptr_t addr = reinterpret_cast<uintptr_t>(impl_->memory);
     impl_->blocks[addr] = initial_block;
-    impl_->free_lists[impl_->max_order] = &impl_->blocks[addr];
+    impl_->free_list_heads[impl_->max_order] = addr;
     
     stats_.reset();
     
@@ -264,12 +305,14 @@ double BuddyAllocator::getFragmentation() const {
     size_t free_blocks = 0;
     size_t total_free_space = 0;
     
-    for (const auto& list_ptr : impl_->free_lists) {
-        Block* block = list_ptr;
-        while (block != nullptr) {
+    for (size_t i = 0; i < impl_->free_list_heads.size(); ++i) {
+        uintptr_t block_addr = impl_->free_list_heads[i];
+        while (block_addr != 0) {
+            auto it = impl_->blocks.find(block_addr);
+            if (it == impl_->blocks.end()) break;
             free_blocks++;
-            total_free_space += block->size;
-            block = block->next;
+            total_free_space += it->second.size;
+            block_addr = it->second.next;
         }
     }
     
@@ -279,8 +322,8 @@ double BuddyAllocator::getFragmentation() const {
     
     // Fragmentation = 1 - (largest_block / total_free_space)
     size_t largest_block = 0;
-    for (size_t i = impl_->max_order; i >= 0 && i <= impl_->max_order; --i) {
-        if (impl_->free_lists[i] != nullptr) {
+    for (int i = static_cast<int>(impl_->max_order); i >= 0; --i) {
+        if (impl_->free_list_heads[i] != 0) {
             largest_block = impl_->min_block_size << i;
             break;
         }
@@ -450,11 +493,13 @@ Result<void*> SlabAllocator::allocate(size_t size, AllocationHint hint) {
     stats_.total_allocations.fetch_add(1);
     stats_.bytes_allocated.fetch_add(impl_->object_size);
     
+    // Update peak with retry limit
     uint64_t current_usage = stats_.getCurrentUsage();
     uint64_t peak = stats_.peak_memory_usage.load();
-    while (current_usage > peak && 
+    int retry_count = 0;
+    while (current_usage > peak && retry_count < 10 && 
            !stats_.peak_memory_usage.compare_exchange_weak(peak, current_usage)) {
-        // Retry
+        retry_count++;
     }
     
     return ptr;
@@ -531,12 +576,15 @@ struct StackAllocator::Impl {
     
     std::mutex mutex;
     
-    // Track allocations for validation
-    std::vector<uintptr_t> allocation_stack;
+    // Track allocations for validation - store pairs of (address, size)
+    std::vector<std::pair<uintptr_t, size_t>> allocation_stack;
     
     Impl(size_t cap) : capacity(cap), offset(0) {
         memory = new uint8_t[capacity];
         std::memset(memory, 0, capacity);
+        // Reserve space for allocation tracking to reduce reallocations
+        // Assume typical use case of 256 allocations
+        allocation_stack.reserve(256);
     }
     
     ~Impl() {
@@ -570,17 +618,19 @@ Result<void*> StackAllocator::allocate(size_t size, AllocationHint hint) {
     void* ptr = impl_->memory + impl_->offset;
     impl_->offset += aligned_size;
     
-    // Track allocation
-    impl_->allocation_stack.push_back(reinterpret_cast<uintptr_t>(ptr));
+    // Track allocation with size
+    impl_->allocation_stack.push_back({reinterpret_cast<uintptr_t>(ptr), aligned_size});
     
     stats_.total_allocations.fetch_add(1);
     stats_.bytes_allocated.fetch_add(aligned_size);
     
+    // Update peak with retry limit
     uint64_t current_usage = stats_.getCurrentUsage();
     uint64_t peak = stats_.peak_memory_usage.load();
-    while (current_usage > peak && 
+    int retry_count = 0;
+    while (current_usage > peak && retry_count < 10 && 
            !stats_.peak_memory_usage.compare_exchange_weak(peak, current_usage)) {
-        // Retry
+        retry_count++;
     }
     
     return ptr;
@@ -599,26 +649,20 @@ Result<void> StackAllocator::deallocate(void* ptr) {
                       "Stack allocator: no allocations to free");
     }
     
-    uintptr_t last_alloc = impl_->allocation_stack.back();
+    uintptr_t last_addr = impl_->allocation_stack.back().first;
+    size_t last_size = impl_->allocation_stack.back().second;
     uintptr_t ptr_addr = reinterpret_cast<uintptr_t>(ptr);
     
-    if (last_alloc != ptr_addr) {
+    if (last_addr != ptr_addr) {
         return ErrVoid(errors::ErrorCode::ERR_MEMORY_DOUBLE_FREE,
                       "Stack allocator: non-LIFO deallocation attempted");
     }
     
     impl_->allocation_stack.pop_back();
     
-    // Calculate size freed (distance to next allocation or end)
-    size_t bytes_freed;
-    if (impl_->allocation_stack.empty()) {
-        bytes_freed = impl_->offset;
-        impl_->offset = 0;
-    } else {
-        uintptr_t prev_alloc = impl_->allocation_stack.back();
-        bytes_freed = ptr_addr - prev_alloc;
-        impl_->offset = prev_alloc - reinterpret_cast<uintptr_t>(impl_->memory);
-    }
+    // Calculate size freed from tracked allocation
+    size_t bytes_freed = last_size;
+    impl_->offset -= bytes_freed;
     
     stats_.total_deallocations.fetch_add(1);
     stats_.bytes_freed.fetch_add(bytes_freed);
@@ -664,7 +708,7 @@ Result<void> StackAllocator::restorePosition(size_t position) {
     
     // Clear allocation stack to match position
     while (!impl_->allocation_stack.empty()) {
-        uintptr_t addr = impl_->allocation_stack.back();
+        uintptr_t addr = impl_->allocation_stack.back().first;
         size_t alloc_offset = addr - reinterpret_cast<uintptr_t>(impl_->memory);
         if (alloc_offset < position) {
             break;
