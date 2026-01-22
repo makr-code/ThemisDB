@@ -1,5 +1,6 @@
 #pragma once
 
+#include "expected.h"
 #include <string>
 #include <chrono>
 #include <functional>
@@ -82,8 +83,9 @@ public:
 
     /**
      * @brief Get a specific policy by name
+     * @return Result containing pointer to policy, or error if not found
      */
-    const RetentionPolicy* getPolicy(const std::string& policy_name) const;
+    themis::Result<const RetentionPolicy*> getPolicy(const std::string& policy_name) const;
 
     /**
      * @brief Check if an entity should be archived

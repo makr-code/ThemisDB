@@ -1,4 +1,6 @@
 #include "utils/pki_client.h"
+#include "utils/expected.h"
+#include "utils/error_registry.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4505)  // unreferenced local function
@@ -21,6 +23,7 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <iomanip>
+#include <fmt/format.h>
 
 namespace themis {
 namespace utils {
@@ -215,10 +218,18 @@ static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
     return len;
 }
 
-static EVP_PKEY* load_private_key(const PKIConfig& cfg) {
-    if (cfg.key_path.empty()) return nullptr;
+static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
+    if (cfg.key_path.empty()) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, 
+            "Private key path is empty");
+    }
+    
     BIO* bio = BIO_new_file(cfg.key_path.c_str(), "r");
-    if (!bio) return nullptr;
+    if (!bio) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
+            fmt::format("Failed to open private key file: {}", cfg.key_path));
+    }
+    
     EVP_PKEY* pkey = nullptr;
     if (!cfg.key_passphrase.empty()) {
         std::string pwd = cfg.key_passphrase;
@@ -227,7 +238,13 @@ static EVP_PKEY* load_private_key(const PKIConfig& cfg) {
         pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
     }
     BIO_free(bio);
-    return pkey;
+    
+    if (!pkey) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
+            fmt::format("Failed to read private key from file: {}", cfg.key_path));
+    }
+    
+    return Ok(pkey);
 }
 
 static std::string to_hex_serial(ASN1_INTEGER* s) {
@@ -241,19 +258,39 @@ static std::string to_hex_serial(ASN1_INTEGER* s) {
     return out;
 }
 
-static EVP_PKEY* load_public_key_and_serial(const PKIConfig& cfg, std::string& serial_out) {
+static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::string& serial_out) {
     serial_out.clear();
-    if (cfg.cert_path.empty()) return nullptr;
+    
+    if (cfg.cert_path.empty()) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            "Certificate path is empty");
+    }
+    
     BIO* bio = BIO_new_file(cfg.cert_path.c_str(), "r");
-    if (!bio) return nullptr;
+    if (!bio) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
+            fmt::format("Failed to open certificate file: {}", cfg.cert_path));
+    }
+    
     X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
     BIO_free(bio);
-    if (!cert) return nullptr;
+    
+    if (!cert) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
+            fmt::format("Failed to read certificate from file: {}", cfg.cert_path));
+    }
+    
     EVP_PKEY* pub = X509_get_pubkey(cert);
     ASN1_INTEGER* s = X509_get_serialNumber(cert);
     serial_out = to_hex_serial(s);
     X509_free(cert);
-    return pub;
+    
+    if (!pub) {
+        return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
+            fmt::format("Failed to extract public key from certificate: {}", cfg.cert_path));
+    }
+    
+    return Ok(pub);
 }
 
 // Configure CURL handle with certificate pinning
@@ -281,9 +318,9 @@ VCCPKIClient::VCCPKIClient(PKIConfig cfg) : cfg_(std::move(cfg)) {}
 
 std::optional<std::string> VCCPKIClient::getCertSerial() const {
     std::string serial;
-    EVP_PKEY* pub = load_public_key_and_serial(cfg_, serial);
-    if (!pub) return std::nullopt;
-    EVP_PKEY_free(pub);
+    auto pub_result = load_public_key_and_serial(cfg_, serial);
+    if (!pub_result) return std::nullopt;
+    EVP_PKEY_free(*pub_result);
     if (serial.empty()) return std::nullopt;
     return serial;
 }
@@ -389,8 +426,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
 
     // Try real RSA signing if key is available and hash length matches
     if (!cfg_.key_path.empty() && (expected_len == 0 || hash_bytes.size() == expected_len)) {
-        EVP_PKEY* pkey = load_private_key(cfg_);
-        if (pkey) {
+        auto pkey_result = load_private_key(cfg_);
+        if (pkey_result) {
+            EVP_PKEY* pkey = *pkey_result;
             // Use EVP_PKEY signing (preferred) instead of deprecated RSA_sign API.
             int max_sig_len = EVP_PKEY_size(pkey);
             if (max_sig_len > 0) {
@@ -406,9 +444,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                             res.signature_b64 = base64_encode(sig);
                     // Try to set cert serial if available
                     std::string serial;
-                    EVP_PKEY* pub = load_public_key_and_serial(cfg_, serial);
-                    if (pub) {
-                        EVP_PKEY_free(pub);
+                    auto pub_result = load_public_key_and_serial(cfg_, serial);
+                    if (pub_result) {
+                        EVP_PKEY_free(*pub_result);
                         res.cert_serial = serial.empty() ? std::string("LOCAL-KEY") : serial;
                     } else {
                         res.cert_serial = "LOCAL-KEY";
@@ -522,8 +560,9 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     // Try real RSA verify if certificate is available and hash length matches
     if (!cfg_.cert_path.empty() && (expected_len == 0 || hash_bytes.size() == expected_len)) {
         std::string serial;
-        EVP_PKEY* pub = load_public_key_and_serial(cfg_, serial);
-        if (pub) {
+        auto pub_result = load_public_key_and_serial(cfg_, serial);
+        if (pub_result) {
+            EVP_PKEY* pub = *pub_result;
             // Use EVP_PKEY verification instead of deprecated RSA_verify
             int max_sig_len = EVP_PKEY_size(pub);
             (void)max_sig_len;

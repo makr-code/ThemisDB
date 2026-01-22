@@ -263,11 +263,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
             }
             THEMIS_INFO("Optimized predicate order: [{}]", orderStr);
 
-            auto [st2, ents2] = opt.executeOptimizedEntities(qe, q, plan);
-            if (!st2.ok) {
-                THEMIS_ERROR("Optimized query failed: {}", st2.message);
+            auto result = opt.executeOptimizedEntities(qe, q, plan);
+            if (!result) {
+                THEMIS_ERROR("Optimized query failed: {}", result.error().message());
             } else {
-                for (const auto& en : ents2) {
+                for (const auto& en : *result) {
                     THEMIS_INFO("  Opt-Match: PK={} -> {}", en.getPrimaryKey(), en.toJson());
                 }
             }

@@ -89,8 +89,9 @@ TEST_F(AQLSTQueryEngineTest, Filter_ST_Within_GeoJSON_Field)
     // RETURN
     auto ret = std::make_shared<ReturnNode>(fieldKey);
 
-    auto [st, results] = engine->executeJoin(fors, filters, {}, ret, nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, filters, {}, ret, nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
 
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_string());
@@ -126,8 +127,9 @@ TEST_F(AQLSTQueryEngineTest, Return_ST_AsText_Buffer_Result)
     auto cond = std::make_shared<BinaryOpExpr>(BinaryOperator::Eq, fieldName, litInside);
     auto filter = std::make_shared<FilterNode>(cond);
 
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callAsText), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callAsText), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_string());
     std::string wkt = results[0].get<std::string>();
@@ -165,8 +167,9 @@ TEST_F(AQLSTQueryEngineTest, Filter_ST_DWithin_GeoJSON_Field)
 
     std::vector<ForNode> fors; ForNode f; f.variable = "doc"; f.collection = "places"; fors.push_back(f);
     auto filter = std::make_shared<FilterNode>(cond);
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_string());
     EXPECT_EQ(results[0].get<std::string>(), "p1");
@@ -200,8 +203,9 @@ TEST_F(AQLSTQueryEngineTest, Filter_ST_ZBetween_3D_Point)
 
     std::vector<ForNode> fors; ForNode f; f.variable = "doc"; f.collection = "places"; fors.push_back(f);
     auto filter = std::make_shared<FilterNode>(cond);
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(fieldKey), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0].get<std::string>(), "p3");
 }
@@ -236,8 +240,9 @@ TEST_F(AQLSTQueryEngineTest, Return_ST_Union_Two_Points)
     auto filter = std::make_shared<FilterNode>(cond);
 
     std::vector<ForNode> fors; ForNode f; f.variable="doc"; f.collection="places"; fors.push_back(f);
-    auto [st, results] = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callUnion), nullptr, nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto results_result = engine->executeJoin(fors, {filter}, {}, std::make_shared<ReturnNode>(callUnion), nullptr, nullptr);
+    ASSERT_TRUE(results_result.has_value()) << results_result.error().message();
+    auto& results = *results_result;
     ASSERT_EQ(results.size(), 1u);
     ASSERT_TRUE(results[0].is_object());
     EXPECT_EQ(results[0]["type"], "Polygon");

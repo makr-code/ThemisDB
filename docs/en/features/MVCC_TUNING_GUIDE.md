@@ -18,9 +18,19 @@
 
 ## MVCC Architecture Overview
 
-### Snapshot Isolation Explanation
+### Isolation Levels and MVCC
 
-ThemisDB implements **Multi-Version Concurrency Control (MVCC)** using RocksDB's TransactionDB with the `WriteUnprepared` policy, providing snapshot isolation for consistent reads without blocking writes.
+ThemisDB implements **Multi-Version Concurrency Control (MVCC)** using RocksDB's TransactionDB with the `WriteUnprepared` policy, supporting two isolation levels:
+
+1. **ReadCommitted** (Default): Reads latest committed data without snapshot overhead
+   - 10-20% faster than Snapshot isolation
+   - Lower memory usage (no snapshot bookkeeping)
+   - Suitable for simple read-write transactions
+
+2. **Snapshot**: Full snapshot isolation for repeatable reads
+   - Consistent point-in-time view of the database
+   - Prevents non-repeatable reads and phantom reads
+   - Required for complex business logic with multiple reads
 
 **Key Concepts:**
 
@@ -47,25 +57,36 @@ ThemisDB implements **Multi-Version Concurrency Control (MVCC)** using RocksDB's
 
 **Implementation Details:**
 
-1. **Snapshot Creation:**
-   - Each transaction captures the current `SequenceNumber` at BEGIN
+1. **Isolation Level Selection (v1.4.1+):**
+   - **ReadCommitted** (default): No snapshot created at transaction BEGIN
+     - Each read operation fetches the latest committed version
+     - Minimal memory overhead
+     - No snapshot bookkeeping required
+   - **Snapshot**: Snapshot created at transaction BEGIN
+     - Captures the current `SequenceNumber`
+     - All reads use this snapshot for consistency
+     - Higher memory overhead for snapshot tracking
+
+2. **Snapshot Creation (Snapshot isolation only):**
+   - Transaction captures the current `SequenceNumber` at BEGIN
    - Snapshot represents a consistent point-in-time view of the database
    - Read operations use this snapshot to retrieve data
 
-2. **Version Storage:**
+3. **Version Storage:**
    - Multiple versions of the same key coexist in RocksDB
    - Each version tagged with `SequenceNumber`
    - Old versions retained until no transaction needs them
 
-3. **Visibility Rules:**
-   - Transaction sees only data committed before its snapshot
-   - Uncommitted changes from other transactions are invisible
-   - Own uncommitted changes are visible within transaction
+4. **Visibility Rules:**
+   - **ReadCommitted**: Sees latest committed data (may change during transaction)
+   - **Snapshot**: Sees only data committed before snapshot creation
+   - Uncommitted changes from other transactions are invisible (both levels)
+   - Own uncommitted changes are visible within transaction (both levels)
 
 **Code Example:**
 
 ```cpp
-// ThemisDB MVCC Implementation
+// ThemisDB MVCC Implementation (v1.4.1+)
 class TransactionManager::Transaction {
     TransactionId id_;
     IsolationLevel isolation_;
@@ -73,25 +94,33 @@ class TransactionManager::Transaction {
     std::chrono::steady_clock::time_point start_time_;
     
 public:
-    // Begin transaction with snapshot isolation
+    // Begin transaction with configurable isolation level
     Transaction(IsolationLevel level) 
         : isolation_(level), 
           start_time_(std::chrono::steady_clock::now()) {
         
-        // Create snapshot at current sequence number
-        if (isolation_ == IsolationLevel::Snapshot) {
-            mvcc_txn_->SetSnapshot();  // Captures SequenceNumber
-        }
+        // Convert to RocksDB isolation level and create transaction
+        auto rocksdb_isolation = (level == IsolationLevel::Snapshot)
+            ? RocksDBWrapper::TransactionIsolationLevel::Snapshot
+            : RocksDBWrapper::TransactionIsolationLevel::ReadCommitted;
+        
+        mvcc_txn_ = db_.beginTransaction(rocksdb_isolation);
+        
+        // Snapshot is created ONLY for Snapshot isolation
+        // ReadCommitted does not use snapshot (optimization)
     }
     
-    // Read with snapshot isolation
+    // Read with isolation-dependent behavior
     Status get(std::string_view key, std::string& value) {
-        // Reads use snapshot's SequenceNumber
-        // Only sees data committed before snapshot creation
+        // Snapshot: Reads use snapshot's SequenceNumber
+        //   - Only sees data committed before snapshot creation
+        // ReadCommitted: Reads latest committed data
+        //   - No snapshot overhead
+        //   - 10-20% faster, lower memory usage
         return mvcc_txn_->Get(key, value);
     }
     
-    // Write creates new version
+    // Write creates new version (same for both isolation levels)
     Status put(std::string_view key, std::string_view value) {
         // New version created with next SequenceNumber
         // Visible only to this transaction until commit

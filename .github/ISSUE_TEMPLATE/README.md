@@ -1,8 +1,173 @@
 # GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, und Error Handling Migration.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, Distributed Training Enhancements, und Columnar Storage Optimizations.
 
 ## Verfügbare Templates
+
+### 🆕 Columnar Storage Enhancement Templates (2026-01-22)
+
+#### columnar-lz4-snappy-compression.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Integrate LZ4 and Snappy compression codecs for general-purpose columnar compression  
+**Priority:** P2 (Medium)  
+**Effort:** 1-2 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:storage`, `effort:small`, `component:columnar-format`
+
+**Key Tasks:**
+- Add vcpkg dependencies for LZ4 and Snappy
+- Implement GenericCompressionCodec methods
+- Update codec selection logic
+- Add unit tests and benchmarks
+
+**Benefits:**
+- 10-30% additional compression on mixed workloads
+- Better compression for float/double columns
+- Fallback for high-cardinality strings
+
+#### columnar-bitmap-indices.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement bitmap indices to accelerate queries on low-cardinality categorical columns  
+**Priority:** P2 (Medium)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:storage`, `effort:medium`, `component:columnar-format`
+
+**Key Tasks:**
+- Implement Roaring Bitmap-based indices
+- Integrate with ColumnSegment
+- Add query optimization with bitmap operations
+- Support equality and IN queries
+
+**Benefits:**
+- 10-100x speedup on categorical column queries
+- Memory-efficient sparse bitmap storage
+- Fast set operations (AND, OR, NOT)
+
+#### columnar-bloom-filters.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement Bloom filters for high-cardinality sparse columns  
+**Priority:** P2 (Medium)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:storage`, `effort:medium`, `component:columnar-format`
+
+**Key Tasks:**
+- Implement probabilistic Bloom filter
+- Segment-level filter construction
+- Query integration for segment skipping
+- Adaptive sizing based on cardinality
+
+**Benefits:**
+- 10-50x speedup on high-cardinality point queries
+- <1% false positive rate
+- <10 bits per element memory usage
+
+#### columnar-simd-optimization.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** SIMD vectorization for encode/decode operations  
+**Priority:** P3 (Nice to Have)  
+**Effort:** 4-5 weeks  
+**Labels:** `priority:P3`, `type:performance`, `area:storage`, `effort:large`, `component:columnar-format`
+
+**Key Tasks:**
+- AVX2 implementations for RLE, Bit-Packing, Dictionary
+- Runtime CPU feature detection
+- SIMD benchmarks and validation
+- ARM NEON support (optional)
+
+**Benefits:**
+- 4-10x encode/decode throughput improvement
+- Better CPU utilization
+- Reduced compression latency
+
+#### columnar-vectorized-execution.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Vectorized query execution engine for columnar data  
+**Priority:** P1 (High)  
+**Effort:** 6-8 weeks  
+**Labels:** `priority:P1`, `type:enhancement`, `area:query`, `effort:large`, `component:columnar-format`
+
+**Key Tasks:**
+- Implement VectorBatch and SelectionVector
+- Vectorized operators (scan, filter, project, aggregate)
+- SIMD-accelerated expression evaluation
+- Integration with query engine
+
+**Benefits:**
+- 10-100x query throughput improvement
+- <1s latency for 1B row aggregations
+- SIMD utilization for better performance
+- Production-ready OLAP engine
+
+---
+
+### 🆕 Distributed Training Enhancement Templates (2026-01-20)
+
+#### distributed-training-loss-aggregation.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Replace simulated loss values with actual loss aggregation from distributed shard trainers  
+**Priority:** P2 (Medium)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:llm`, `effort:medium`, `component:distributed-training`
+
+**Key Tasks:**
+- Extend GradientExchangeMessage to include loss values
+- Implement loss aggregation in coordinator (weighted average)
+- Integrate with local shard trainers
+- Remove simulated loss calculation
+- Support multiple aggregation strategies (mean, median, weighted)
+
+**Benefits:**
+- Accurate monitoring of distributed training convergence
+- Early detection of training issues (divergence, overfitting)
+- Better debugging with per-shard loss tracking
+- Production-ready loss metrics for MLOps pipelines
+
+#### distributed-training-shard-communication.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement full inter-shard RPC communication for distributed training  
+**Priority:** P1 (High)  
+**Effort:** 4-5 weeks  
+**Labels:** `priority:P1`, `type:enhancement`, `area:sharding`, `effort:large`, `component:distributed-training`
+
+**Key Tasks:**
+- Create service registry for dependency injection
+- Update LoRATrainingService to accept ShardRouter/ShardTopology
+- Implement real RPC for gradient collection and broadcasting
+- Add shard discovery and health monitoring
+- Support multiple protocols (gRPC, NCCL, RDMA)
+
+**Benefits:**
+- Production-ready distributed training with real inter-shard communication
+- Scalability to hundreds of shards across data centers
+- Fault tolerance with automatic shard discovery and failover
+- Observability with real-time shard health monitoring
+
+#### distributed-training-byzantine-detection.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement Byzantine fault detection to protect against malicious or corrupted gradients  
+**Priority:** P2 (Medium - High for production)  
+**Effort:** 5-6 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:security`, `effort:large`, `component:distributed-training`
+
+**Key Tasks:**
+- Implement gradient statistics collection
+- Add detection algorithms (Median, Krum, Bulyan)
+- Integrate with DistributedTrainingCoordinator
+- Create attack simulation for testing
+- Add monitoring and alerting
+- Comprehensive documentation
+
+**Benefits:**
+- Security: Protection against adversarial attacks and data poisoning
+- Reliability: Automatic detection and recovery from hardware failures
+- Model Quality: Prevent corrupted gradients from degrading model
+- Trust: Enable distributed training in multi-tenant environments
+
+**Detection Methods:**
+- **Median + MAD**: O(n log n), < n/2 tolerance, ~1-2% overhead
+- **Krum**: O(n²), < n/2 - 2 tolerance, ~3-5% overhead
+- **Bulyan**: O(n²), < n/4 tolerance, ~5-8% overhead (strongest guarantees)
+
+---
 
 ### 🆕 Error Handling Migration Templates (2026-01-19)
 

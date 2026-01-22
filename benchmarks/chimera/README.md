@@ -1,6 +1,10 @@
-# CHIMERA Suite: Vendor-Neutral Reporting Framework
+# CHIMERA Suite
 
-**C**omprehensive, **H**onest, **I**mpartial **M**etrics for **E**mpirical **R**eporting and **A**nalysis
+**C**omprehensive **H**ybrid **I**nferencing & **M**ulti-model **E**valuation **R**esource **A**ssessment
+
+_"Benchmark the Unbenchmarkable"_
+
+> The CHIMERA Suite is a scientifically rigorous, vendor-neutral benchmark framework for multi-model databases with native AI/LLM integration. Like the mythical Chimera - a hybrid creature - this suite evaluates the diverse capabilities of modern database systems: Graph, Vector, Relational, Document models, combined with LLM/LoRA inferencing capabilities.
 
 [![IEEE Compliant](https://img.shields.io/badge/IEEE-Compliant-blue)](https://www.ieee.org/)
 [![Color Blind Friendly](https://img.shields.io/badge/ColorBlind-Friendly-green)](https://jfly.uni-koeln.de/color/)
@@ -8,7 +12,15 @@
 
 ## Overview
 
-CHIMERA is a scientifically rigorous, vendor-neutral framework for benchmark reporting and visualization that complies with IEEE/ACM standards. It ensures fair, transparent, and accessible reporting of benchmark results without vendor bias.
+The CHIMERA Suite is a comprehensive benchmark framework designed for evaluating modern multi-model databases with AI capabilities. It provides scientifically rigorous, vendor-neutral reporting and visualization that complies with IEEE/ACM standards, ensuring fair, transparent, and accessible reporting of benchmark results without vendor bias.
+
+### What Makes CHIMERA Unique
+
+- **Multi-Model Coverage**: Benchmarks for Relational, Graph, Vector (embeddings), and Document models
+- **AI/LLM Integration**: Native support for evaluating LLM inference, LoRA adapters, and RAG workflows
+- **Hybrid Workloads**: Tests that span multiple data models in single transactions
+- **Scientific Rigor**: IEEE-compliant statistical methodology with proper citations
+- **Vendor Neutrality**: No branding, fair comparisons, color-blind friendly visualizations
 
 ## Key Features
 

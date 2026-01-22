@@ -4,6 +4,7 @@
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
+#include "utils/expected.h"
 
 #include <algorithm>
 #include <numeric>
@@ -77,14 +78,28 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
     return plan;
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryOptimizer::executeOptimizedKeys(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
-	return engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+	auto [status, keys] = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+	if (!status.ok) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Optimized key execution failed: {}", status.message)
+		);
+	}
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const {
-	return engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
+	auto [status, entities] = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
+	if (!status.ok) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("Optimized entity execution failed: {}", status.message)
+		);
+	}
+	return Ok(std::move(entities));
 }
 
 // ---------------- Vector+Geo Cost Model ----------------
@@ -95,7 +110,13 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	const double C_index_spatial = 0.02; // spatial index candidate fetch cost
 	const double prefilterDiscountFactor = 0.65;
 
-	double dimScale = static_cast<double>(in.vectorDim == 0 ? 128 : in.vectorDim) / 128.0;
+	// Handle vectorDim == 0 by using default 128
+	size_t safeDim = in.vectorDim == 0 ? 128 : in.vectorDim;
+	if (in.vectorDim == 0) {
+		spdlog::warn("QueryOptimizer::chooseVectorGeoPlan: vectorDim is 0, using default {}", safeDim);
+	}
+
+	double dimScale = static_cast<double>(safeDim) / 128.0;
 	double C_vec = C_vec_base * dimScale;
 	std::size_t universe = in.spatialIndexEntries ? in.spatialIndexEntries : 100000; // fallback
 	if (in.prefilterSize > 0 && in.prefilterSize < universe) universe = in.prefilterSize;
@@ -162,9 +183,20 @@ QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const Co
 
 // ---------------- Graph Path Cost Model (rough estimate) ----------------
 QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const GraphPathCostInput& in) {
+	// Protect against exponential overflow
+	constexpr double MAX_EXPANDED = 1e9; // Reasonable upper limit
+	
 	double expanded = 1.0; // start node
 	for (size_t d = 1; d <= in.maxDepth; ++d) {
-		expanded += std::pow(in.branchingFactor, static_cast<int>(d));
+		double increment = std::pow(in.branchingFactor, static_cast<int>(d));
+		
+		// Check for overflow before adding
+		if (expanded + increment > MAX_EXPANDED) {
+			spdlog::warn("QueryOptimizer::estimateGraphPath: Node expansion would overflow, capping at {}", MAX_EXPANDED);
+			expanded = MAX_EXPANDED;
+			break;
+		}
+		expanded += increment;
 	}
 	if (in.hasSpatialConstraint) {
 		expanded *= in.spatialSelectivity; // prune by spatial fraction
