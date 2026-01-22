@@ -2868,10 +2868,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 std::optional<std::string> order_value;
                 
                 // If query has ORDER BY, encode the sort value in cursor for keyset pagination
-                if ((*parse_result) && (*parse_result)->sort) {
+                if ((*parse_result) && (*parse_result)->sort && !(*parse_result)->sort->specifications.empty()) {
                     try {
                         const auto& last_entity = sliced.back();
-                        const std::string& sort_column = (*parse_result)->sort->expr_str;
+                        // Use a generic sort column name for pagination cursor
+                        const std::string sort_column = "__sort_value__";
                         auto maybe_value = last_entity.extractField(sort_column);
                         if (maybe_value.has_value()) {
                             order_value = *maybe_value;
