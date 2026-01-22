@@ -815,11 +815,14 @@ bool BackupManager::isBackupComplete(const std::string& backup_dir,
 
 bool BackupManager::compressPath(const std::string& src_path, const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
-    // Placeholder implementation - in production, use zlib, zstd, or lz4 libraries
+    // TODO: Integrate actual compression libraries
+    // - GZIP: Use zlib (https://www.zlib.net/)
+    // - ZSTD: Use Facebook's Zstandard (https://github.com/facebook/zstd)
+    // - LZ4: Use LZ4 (https://github.com/lz4/lz4)
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Compressing {} to {}", src_path, dest_path);
-        // For now, just copy the directory (compression not implemented)
+        // Placeholder: just copy the directory (compression not yet implemented)
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for compression: {}", ec.message());
@@ -854,7 +857,9 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
                                 const std::string& key, std::error_code& ec) {
-    // Placeholder implementation - in production, use OpenSSL AES-256
+    // TODO: Integrate OpenSSL for AES-256-GCM encryption
+    // Use EVP_CIPHER_CTX with EVP_aes_256_gcm() for authenticated encryption
+    // Reference: https://wiki.openssl.org/index.php/EVP_Authenticated_Encryption_and_Decryption
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Encrypting {} to {}", src_path, dest_path);
@@ -894,10 +899,13 @@ bool BackupManager::uploadToCloud(const std::string& local_path, const std::stri
                                   StorageBackend backend, 
                                   const std::map<std::string, std::string>& config,
                                   std::error_code& ec) {
-    // Placeholder implementation - in production, integrate with AWS SDK, GCS SDK, Azure SDK
+    // TODO: Integrate cloud storage SDKs
+    // - S3: Use AWS SDK for C++ (https://github.com/aws/aws-sdk-cpp)
+    // - GCS: Use Google Cloud Storage C++ Client (https://github.com/googleapis/google-cloud-cpp)
+    // - Azure: Use Azure Storage C++ Client (https://github.com/Azure/azure-storage-cpp)
     try {
         THEMIS_INFO("Uploading {} to cloud backend {}", local_path, static_cast<int>(backend));
-        // Simulate successful upload
+        // Placeholder: simulate successful upload
         return true;
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);

@@ -8,6 +8,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <string>
+#include <thread>
 
 namespace fs = std::filesystem;
 

@@ -720,11 +720,14 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
         return false;
     }
     
-    // In production, this would:
-    // 1. Ensure replica is caught up
-    // 2. Stop writes to current primary
-    // 3. Promote replica to primary
-    // 4. Redirect traffic
+    // TODO: Complete replica promotion implementation
+    // Required steps for production:
+    // 1. Wait for replica to catch up to leader's commit index
+    // 2. Pause writes on current primary
+    // 3. Verify replica has all committed transactions
+    // 4. Promote replica to primary role
+    // 5. Update cluster routing to direct writes to new primary
+    // 6. Notify all other replicas of new leader
     
     THEMIS_INFO("Replica {} promoted successfully", replica_id);
     notifyListeners([&replica_id](IReplicationListener& l) {

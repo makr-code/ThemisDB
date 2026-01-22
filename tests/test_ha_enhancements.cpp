@@ -7,6 +7,7 @@
 #include "replication/replication_manager.h"
 #include <thread>
 #include <chrono>
+#include <filesystem>
 
 using namespace themisdb::replication;
 
