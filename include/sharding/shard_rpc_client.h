@@ -30,6 +30,13 @@ public:
         int timeout_ms = 5000;          // RPC timeout in milliseconds
         int max_retries = 3;            // Maximum retry attempts
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
+        
+        // mTLS Configuration (optional, required for production)
+        bool enable_mtls = false;       // Enable mutual TLS authentication
+        std::string tls_cert_path;      // Path to client certificate (PEM format)
+        std::string tls_key_path;       // Path to client private key (PEM format)
+        std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
+        bool tls_verify_server = true;  // Verify server certificate against CA
     };
     
     explicit ShardRPCClient(const Config& config);

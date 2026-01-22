@@ -1,0 +1,99 @@
+# Remote LLM Model Configuration for Docker/Cloud Deployments
+# Uses Ollama-style remote model loading
+# Version: 1.0
+
+# =============================================================================
+# Ollama Configuration
+# =============================================================================
+ollama:
+  # Ollama API endpoint
+  # For Docker: Use service name from docker-compose.yml
+  # For local: http://localhost:11434
+  # For remote: http://your-ollama-server:11434
+  endpoint: "http://ollama:11434"
+  
+  # API timeout in seconds
+  timeout: 300
+  
+  # Enable automatic model pulling on startup
+  auto_pull: true
+  
+  # Cache directory for downloaded models
+  cache_dir: "/var/lib/themisdb/models"
+
+# =============================================================================
+# Model Definitions
+# =============================================================================
+models:
+  # Default model for ThemisHelpLoRA
+  themis_help:
+    ollama_model: "llama2:7b"
+    fallback_url: "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf"
+    description: "Documentation assistant base model"
+    context_length: 4096
+    gpu_layers: 32
+    
+  # Alternative models
+  mistral:
+    ollama_model: "mistral:7b"
+    fallback_url: "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf"
+    description: "Mistral 7B instruct model"
+    context_length: 8192
+    gpu_layers: 32
+    
+  codellama:
+    ollama_model: "codellama:7b"
+    fallback_url: "https://huggingface.co/TheBloke/CodeLlama-7B-GGUF/resolve/main/codellama-7b.Q4_K_M.gguf"
+    description: "Code generation and analysis"
+    context_length: 4096
+    gpu_layers: 32
+
+# =============================================================================
+# ThemisHelpLoRA Configuration
+# =============================================================================
+themis_help_lora:
+  # Base model to use
+  base_model: "themis_help"
+  
+  # Adapter configuration
+  adapter_id: "themis_help_lora"
+  
+  # Enable remote model loading
+  enable_remote: true
+  
+  # Retry configuration
+  max_retries: 3
+  retry_delay_seconds: 5
+  
+  # Download progress
+  show_progress: true
+
+# =============================================================================
+# Docker Compose Integration
+# =============================================================================
+# Example docker-compose.yml service definition:
+# 
+# services:
+#   ollama:
+#     image: ollama/ollama:latest
+#     ports:
+#       - "11434:11434"
+#     volumes:
+#       - ollama_data:/root/.ollama
+#     environment:
+#       - OLLAMA_HOST=0.0.0.0
+#   
+#   themisdb:
+#     image: themisdb:latest
+#     depends_on:
+#       - ollama
+#     environment:
+#       - LLM_CONFIG=/config/llm_remote_models.yaml
+#       - OLLAMA_ENDPOINT=http://ollama:11434
+#     volumes:
+#       - ./config:/config
+#       - themisdb_models:/var/lib/themisdb/models
+# 
+# volumes:
+#   ollama_data:
+#   themisdb_models:

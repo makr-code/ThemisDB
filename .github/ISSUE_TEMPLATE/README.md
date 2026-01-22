@@ -1,8 +1,103 @@
 # GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, und Distributed Training Enhancements.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, Distributed Training Enhancements, und Columnar Storage Optimizations.
 
 ## Verfügbare Templates
+
+### 🆕 Columnar Storage Enhancement Templates (2026-01-22)
+
+#### columnar-lz4-snappy-compression.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Integrate LZ4 and Snappy compression codecs for general-purpose columnar compression  
+**Priority:** P2 (Medium)  
+**Effort:** 1-2 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:storage`, `effort:small`, `component:columnar-format`
+
+**Key Tasks:**
+- Add vcpkg dependencies for LZ4 and Snappy
+- Implement GenericCompressionCodec methods
+- Update codec selection logic
+- Add unit tests and benchmarks
+
+**Benefits:**
+- 10-30% additional compression on mixed workloads
+- Better compression for float/double columns
+- Fallback for high-cardinality strings
+
+#### columnar-bitmap-indices.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement bitmap indices to accelerate queries on low-cardinality categorical columns  
+**Priority:** P2 (Medium)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:storage`, `effort:medium`, `component:columnar-format`
+
+**Key Tasks:**
+- Implement Roaring Bitmap-based indices
+- Integrate with ColumnSegment
+- Add query optimization with bitmap operations
+- Support equality and IN queries
+
+**Benefits:**
+- 10-100x speedup on categorical column queries
+- Memory-efficient sparse bitmap storage
+- Fast set operations (AND, OR, NOT)
+
+#### columnar-bloom-filters.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Implement Bloom filters for high-cardinality sparse columns  
+**Priority:** P2 (Medium)  
+**Effort:** 2-3 weeks  
+**Labels:** `priority:P2`, `type:enhancement`, `area:storage`, `effort:medium`, `component:columnar-format`
+
+**Key Tasks:**
+- Implement probabilistic Bloom filter
+- Segment-level filter construction
+- Query integration for segment skipping
+- Adaptive sizing based on cardinality
+
+**Benefits:**
+- 10-50x speedup on high-cardinality point queries
+- <1% false positive rate
+- <10 bits per element memory usage
+
+#### columnar-simd-optimization.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** SIMD vectorization for encode/decode operations  
+**Priority:** P3 (Nice to Have)  
+**Effort:** 4-5 weeks  
+**Labels:** `priority:P3`, `type:performance`, `area:storage`, `effort:large`, `component:columnar-format`
+
+**Key Tasks:**
+- AVX2 implementations for RLE, Bit-Packing, Dictionary
+- Runtime CPU feature detection
+- SIMD benchmarks and validation
+- ARM NEON support (optional)
+
+**Benefits:**
+- 4-10x encode/decode throughput improvement
+- Better CPU utilization
+- Reduced compression latency
+
+#### columnar-vectorized-execution.md (📋 PLANNED)
+**Status:** Planned  
+**Description:** Vectorized query execution engine for columnar data  
+**Priority:** P1 (High)  
+**Effort:** 6-8 weeks  
+**Labels:** `priority:P1`, `type:enhancement`, `area:query`, `effort:large`, `component:columnar-format`
+
+**Key Tasks:**
+- Implement VectorBatch and SelectionVector
+- Vectorized operators (scan, filter, project, aggregate)
+- SIMD-accelerated expression evaluation
+- Integration with query engine
+
+**Benefits:**
+- 10-100x query throughput improvement
+- <1s latency for 1B row aggregations
+- SIMD utilization for better performance
+- Production-ready OLAP engine
+
+---
 
 ### 🆕 Distributed Training Enhancement Templates (2026-01-20)
 

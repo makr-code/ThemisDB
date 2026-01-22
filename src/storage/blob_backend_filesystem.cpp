@@ -37,9 +37,13 @@ private:
     }
     
     // Get hierarchical path for blob_id
-    std::string getPath(const std::string& blob_id) const {
+    // Returns Result<std::string> to avoid throwing exceptions
+    Result<std::string> getPath(const std::string& blob_id) const {
         if (blob_id.length() < 4) {
-            throw std::runtime_error("Invalid blob_id: too short");
+            return Err<std::string>(
+                errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                "Invalid blob_id: too short (minimum 4 characters required)"
+            );
         }
         
         // Create hierarchical structure: blob_id[:2]/blob_id[2:4]/blob_id.blob
@@ -47,24 +51,30 @@ private:
         std::string subdir = blob_id.substr(2, 2);
         
         fs::path dir_path = fs::path(base_path_) / prefix / subdir;
-        return (dir_path / (blob_id + ".blob")).string();
+        return Ok((dir_path / (blob_id + ".blob")).string());
     }
     
 public:
     explicit FilesystemBlobBackend(const std::string& base_path)
         : base_path_(base_path) {
         // Create base directory if not exists
+        // Note: Directory creation failures are handled at operation time
         try {
             fs::create_directories(base_path_);
             THEMIS_INFO("FilesystemBlobBackend initialized: path={}", base_path_);
         } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to create blob storage directory: {}", e.what());
-            throw;
+            // Log error but don't throw - operations will fail with proper error handling
+            THEMIS_ERROR("Failed to create blob storage directory: {} (operations will fail with proper errors)", e.what());
         }
     }
     
     Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
-        std::string file_path = getPath(blob_id);
+        // Get path - now returns Result<>
+        auto path_result = getPath(blob_id);
+        if (!path_result) {
+            return Err<BlobRef>(path_result.error().code(), path_result.error().context());
+        }
+        std::string file_path = *path_result;
         
         try {
             // Create parent directories
@@ -175,7 +185,8 @@ public:
     bool isAvailable() const override {
         try {
             return fs::exists(base_path_) && fs::is_directory(base_path_);
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_WARN("FilesystemBlobBackend::isAvailable check failed: {}", e.what());
             return false;
         }
     }

@@ -3,6 +3,7 @@
 
 #include "sharding/shard_rpc_client.h"
 #include "utils/logger.h"
+#include "utils/file_utils.h"
 #include <thread>
 #include <chrono>
 #include <stdexcept>
@@ -23,6 +24,7 @@
 #endif
 
 namespace themis::sharding {
+
 
 struct ShardRPCClient::Impl {
     Config config;
@@ -75,11 +77,53 @@ struct ShardRPCClient::Impl {
         args.SetInt(GRPC_ARG_MAX_RECONNECT_BACKOFF_MS, 10000);  // 10 seconds max
         args.SetInt(GRPC_ARG_INITIAL_RECONNECT_BACKOFF_MS, 1000);  // 1 second initial
         
-        // Create channel with insecure credentials for now
-        // TODO: Add mTLS support for production
+        // Create channel with appropriate credentials
+        std::shared_ptr<grpc::ChannelCredentials> credentials;
+        
+        if (config.enable_mtls) {
+            // mTLS enabled - create SSL credentials
+            try {
+                grpc::SslCredentialsOptions ssl_opts;
+                
+                // Load CA certificate for server verification
+                if (!config.tls_ca_cert_path.empty()) {
+                    ssl_opts.pem_root_certs = themis::utils::readFileContents(config.tls_ca_cert_path);
+                    THEMIS_INFO("Loaded CA certificate from: {}", config.tls_ca_cert_path);
+                }
+                
+                // Load client certificate and private key for mutual authentication
+                if (!config.tls_cert_path.empty() && !config.tls_key_path.empty()) {
+                    ssl_opts.pem_cert_chain = themis::utils::readFileContents(config.tls_cert_path);
+                    ssl_opts.pem_private_key = themis::utils::readFileContents(config.tls_key_path);
+                    THEMIS_INFO("Loaded client certificate from: {}", config.tls_cert_path);
+                }
+                
+                credentials = grpc::SslCredentials(ssl_opts);
+                THEMIS_INFO("mTLS enabled for shard RPC communication (server verification: {})", 
+                           config.tls_verify_server);
+                
+                // Note: Server certificate verification is controlled by the presence of
+                // pem_root_certs in SslCredentialsOptions. If pem_root_certs is provided,
+                // gRPC will verify the server certificate against the CA. If you want to
+                // disable verification (e.g., for testing), don't set pem_root_certs or
+                // leave tls_ca_cert_path empty.
+                if (!config.tls_verify_server) {
+                    THEMIS_WARN("Server certificate verification is disabled. This is insecure and should only be used in development/testing.");
+                }
+                
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                credentials = grpc::InsecureChannelCredentials();
+            }
+        } else {
+            // mTLS not enabled - use insecure credentials (development only)
+            credentials = grpc::InsecureChannelCredentials();
+            THEMIS_WARN("mTLS is disabled for shard RPC communication. This is insecure and should only be used in development.");
+        }
+        
         channel = grpc::CreateCustomChannel(
             config.endpoint,
-            grpc::InsecureChannelCredentials(),
+            credentials,
             args
         );
         

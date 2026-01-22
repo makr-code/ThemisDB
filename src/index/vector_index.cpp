@@ -3,6 +3,7 @@
 #include "index/vector_index.h"
 #include "index/product_quantizer.h"
 #include "index/secondary_index.h"
+#include "index/hnsw_layer_optimizer.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -39,6 +40,7 @@
 #include <fstream>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 
 namespace themis {
 
@@ -97,6 +99,70 @@ void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std
 	} catch (const std::exception& e) {
 		// Don't fail vector operations if audit logging fails
 		THEMIS_WARN("Failed to log audit event: {}", e.what());
+	}
+}
+
+// Phase 4: Load HNSW optimization configuration from YAML
+void VectorIndexManager::loadHnswOptimizationConfig_() {
+	try {
+		// Try to load configuration from scaling_optimizations.yaml
+		std::string config_path = "./config/scaling_optimizations.yaml";
+		if (!std::filesystem::exists(config_path)) {
+			THEMIS_DEBUG("HNSW optimization config not found at {}, using defaults", config_path);
+			return;
+		}
+		
+		YAML::Node config = YAML::LoadFile(config_path);
+		if (!config["hnsw_optimization"]) {
+			THEMIS_DEBUG("No hnsw_optimization section in config");
+			return;
+		}
+		
+		HnswOptimizationConfig opt_config;
+		auto hnsw_opt = config["hnsw_optimization"];
+		
+		opt_config.enabled = hnsw_opt["enabled"].as<bool>(false);
+		
+		if (hnsw_opt["layer_pruning"]) {
+			auto lp = hnsw_opt["layer_pruning"];
+			opt_config.layer_pruning.enabled = lp["enabled"].as<bool>(false);
+			opt_config.layer_pruning.threshold_multiplier = lp["threshold_multiplier"].as<double>(5.0);
+			opt_config.layer_pruning.min_samples = lp["min_samples"].as<size_t>(5);
+		}
+		
+		if (hnsw_opt["adaptive_layer_selection"]) {
+			auto als = hnsw_opt["adaptive_layer_selection"];
+			opt_config.adaptive_layer_selection.enabled = als["enabled"].as<bool>(false);
+			opt_config.adaptive_layer_selection.stats_window_size = als["stats_window_size"].as<size_t>(1000);
+			opt_config.adaptive_layer_selection.min_samples = als["min_samples"].as<size_t>(10);
+		}
+		
+		if (hnsw_opt["batch_insert"]) {
+			auto bi = hnsw_opt["batch_insert"];
+			opt_config.batch_insert.enabled = bi["enabled"].as<bool>(false);
+			opt_config.batch_insert.batch_size = bi["batch_size"].as<size_t>(100);
+		}
+		
+		// Create optimizer if configuration is enabled
+		if (opt_config.enabled) {
+			try {
+				hnsw_optimizer_ = std::make_unique<HnswLayerOptimizer>(opt_config);
+				if (!hnsw_optimizer_) {
+					THEMIS_WARN("Failed to create HNSW optimizer for index '{}'", objectName_);
+					hnsw_optimizer_.reset();
+				} else {
+					THEMIS_INFO("HNSW optimization enabled for index '{}'", objectName_);
+				}
+			} catch (const std::exception& opt_error) {
+				THEMIS_WARN("Failed to create HNSW optimizer for index '{}': {}", objectName_, opt_error.what());
+				hnsw_optimizer_.reset();
+			}
+		} else {
+			THEMIS_DEBUG("HNSW optimization disabled in configuration");
+		}
+		
+	} catch (const std::exception& e) {
+		THEMIS_WARN("Failed to load HNSW optimization config: {}", e.what());
 	}
 }
 
@@ -379,6 +445,9 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		appr->ef_ = efSearch;
 		hnswIndex_ = static_cast<void*>(appr);
 		useHnsw_ = true;
+		
+		// Phase 4: Load HNSW optimization configuration
+		loadHnswOptimizationConfig_();
 	} catch (...) {
 		useHnsw_ = false;
 		THEMIS_WARN("init: HNSW initialisierung fehlgeschlagen, Fallback auf Brute-Force");
@@ -919,7 +988,35 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			std::vector<float> q = query;
 			if (metric_ == Metric::COSINE) normalizeL2(q);
+			
+			// Phase 4: Use adaptive ef parameter if optimizer is enabled
+			int ef_to_use = efSearch_;
+			if (hnsw_optimizer_ && hnsw_optimizer_->isEnabled()) {
+				int optimal_ef = hnsw_optimizer_->getOptimalEf(k);
+				if (optimal_ef > 0) {
+					ef_to_use = optimal_ef;
+					appr->ef_ = ef_to_use;
+					THEMIS_DEBUG("Using adaptive ef={} for k={}", ef_to_use, k);
+				}
+			}
+			
+			// Phase 4: Record query start time
+			auto query_start = std::chrono::steady_clock::now();
+			
 			auto topk = appr->searchKnn(q.data(), static_cast<size_t>(k));
+			
+			// Phase 4: Record query statistics
+			if (hnsw_optimizer_ && hnsw_optimizer_->isEnabled()) {
+				auto query_end = std::chrono::steady_clock::now();
+				double query_time_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
+				
+				// Estimate layers traversed (HNSW formula: log2(N))
+				// Note: This is an approximation based on the probabilistic layer model.
+				// For more accurate layer information, consider using actual layer data from the HNSW index.
+				int estimated_layers = static_cast<int>(std::log2(idToPk_.size() + 1));
+				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
+			}
+			
 			std::vector<Result> out;
 			out.reserve(topk.size());
 			while (!topk.empty()) {

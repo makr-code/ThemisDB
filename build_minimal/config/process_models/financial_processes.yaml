@@ -1,0 +1,577 @@
+# Financial Process Models
+# =========================
+# Process models for financial and accounting workflows
+# Based on financial best practices and regulatory requirements
+#
+# Version: 1.1
+# Date: 2025-12-24
+# Status: Enhanced with LLM Support
+#
+# LLM Integration: See LLM_INTEGRATION_GUIDE.md for framework details
+
+financial_models:
+  
+  # =========================================================================
+  # Invoice Processing (Accounts Payable)
+  # =========================================================================
+  
+  - id: invoice_processing_ap
+    name: "Rechnungsverarbeitung (Kreditorenbuchhaltung)"
+    name_en: "Invoice Processing (Accounts Payable)"
+    domain: "Finanzwesen"
+    domain_en: "Finance"
+    description: "Prozess zur Verarbeitung eingehender Rechnungen"
+    description_en: "Process for processing incoming invoices"
+    
+    activities:
+      - id: "invoice_receipt"
+        name: "Rechnungseingang"
+        name_en: "Invoice Receipt"
+        type: "start"
+        description: "Eingang der Rechnung"
+        sla_hours: 0
+        
+      - id: "invoice_scanning"
+        name: "Digitalisierung"
+        name_en: "Scanning"
+        type: "task"
+        description: "Digitalisierung der Papierrechnung"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+        optional: true
+        
+      - id: "invoice_validation"
+        name: "Formale Prüfung"
+        name_en: "Validation"
+        type: "task"
+        description: "Prüfung auf Vollständigkeit und Richtigkeit"
+        sla_hours: 16
+        responsible_role: "Buchhaltung"
+        
+      - id: "goods_receipt_verification"
+        name: "Wareneingangs-Prüfung"
+        name_en: "Goods Receipt Verification"
+        type: "task"
+        description: "Abgleich mit Wareneingang (3-Wege-Match)"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+        
+      - id: "budget_check"
+        name: "Budgetprüfung"
+        name_en: "Budget Check"
+        type: "task"
+        description: "Prüfung der Budgetverfügbarkeit"
+        sla_hours: 4
+        responsible_role: "Controlling"
+        
+      - id: "approval_workflow"
+        name: "Freigabeworkflow"
+        name_en: "Approval Workflow"
+        type: "task"
+        description: "Mehrstufige Freigabe"
+        sla_hours: 48
+        responsible_role: "Management"
+        
+      - id: "posting"
+        name: "Buchung"
+        name_en: "Posting"
+        type: "task"
+        description: "Verbuchung in der Finanzbuchhaltung"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+        
+      - id: "payment_scheduling"
+        name: "Zahlungsplanung"
+        name_en: "Payment Scheduling"
+        type: "task"
+        description: "Einplanung der Zahlung"
+        sla_hours: 24
+        responsible_role: "Treasury"
+        
+      - id: "payment_execution"
+        name: "Zahlungsausführung"
+        name_en: "Payment Execution"
+        type: "task"
+        description: "Ausführung der Überweisung"
+        sla_hours: 8
+        responsible_role: "Treasury"
+        
+      - id: "archiving"
+        name: "Archivierung"
+        name_en: "Archiving"
+        type: "end"
+        description: "GoBD-konforme Archivierung"
+        sla_hours: 4
+        responsible_role: "Buchhaltung"
+    
+    edges:
+      - from: "invoice_receipt"
+        to: "invoice_scanning"
+        type: "conditional"
+        condition: "paper_invoice"
+      - from: "invoice_receipt"
+        to: "invoice_validation"
+        type: "conditional"
+        condition: "electronic_invoice"
+      - from: "invoice_scanning"
+        to: "invoice_validation"
+      - from: "invoice_validation"
+        to: "goods_receipt_verification"
+      - from: "goods_receipt_verification"
+        to: "budget_check"
+      - from: "budget_check"
+        to: "approval_workflow"
+      - from: "approval_workflow"
+        to: "posting"
+      - from: "posting"
+        to: "payment_scheduling"
+      - from: "payment_scheduling"
+        to: "payment_execution"
+      - from: "payment_execution"
+        to: "archiving"
+    
+    approval_levels:
+      - amount_threshold: 1000
+        approver: "Abteilungsleiter"
+        
+      - amount_threshold: 10000
+        approver: "Bereichsleiter"
+        
+      - amount_threshold: 50000
+        approver: "Geschäftsführung"
+    
+    compliance:
+      - rule: "GoBD"
+        description: "Grundsätze zur ordnungsmäßigen Führung und Aufbewahrung von Büchern"
+        check_type: "tax_law"
+        
+      - rule: "§14 UStG"
+        description: "Pflichtangaben für Rechnungen"
+        check_type: "tax_law"
+        
+      - rule: "Vier-Augen-Prinzip"
+        description: "Trennung von Erfassung und Freigabe"
+        check_type: "separation_of_duties"
+        
+      - rule: "10-Jahres-Aufbewahrungsfrist"
+        description: "Aufbewahrung von Buchungsbelegen"
+        check_type: "archiving"
+    
+    semantic_tags:
+      - "Buchhaltung"
+      - "Kreditorenbuchhaltung"
+      - "Rechnungsverarbeitung"
+      - "GoBD"
+  
+  # =========================================================================
+  # Expense Claim Processing
+  # =========================================================================
+  
+  - id: expense_claim_processing
+    name: "Reisekostenabrechnung"
+    name_en: "Expense Claim Processing"
+    domain: "Finanzwesen"
+    domain_en: "Finance"
+    description: "Prozess für Reisekosten und Auslagen"
+    
+    activities:
+      - id: "expense_submission"
+        name: "Antrag einreichen"
+        name_en: "Expense Submission"
+        type: "start"
+        description: "Mitarbeiter reicht Kostenerstattung ein"
+        sla_hours: 0
+        responsible_role: "Mitarbeiter"
+        
+      - id: "completeness_check"
+        name: "Vollständigkeitsprüfung"
+        name_en: "Completeness Check"
+        type: "task"
+        description: "Prüfung auf vollständige Belege"
+        sla_hours: 24
+        responsible_role: "Buchhaltung"
+        
+      - id: "policy_compliance_check"
+        name: "Richtlinienprüfung"
+        name_en: "Policy Compliance Check"
+        type: "task"
+        description: "Prüfung gegen Reiserichtlinien"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+        
+      - id: "manager_approval"
+        name: "Vorgesetztenfreigabe"
+        name_en: "Manager Approval"
+        type: "task"
+        description: "Genehmigung durch Vorgesetzten"
+        sla_hours: 48
+        responsible_role: "Manager"
+        
+      - id: "tax_calculation"
+        name: "Steuerberechnung"
+        name_en: "Tax Calculation"
+        type: "task"
+        description: "Berechnung steuerlicher Auswirkungen"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+        
+      - id: "payment_processing"
+        name: "Auszahlung"
+        name_en: "Payment Processing"
+        type: "task"
+        description: "Erstattung an Mitarbeiter"
+        sla_hours: 24
+        responsible_role: "Treasury"
+        
+      - id: "accounting_posting"
+        name: "Buchung"
+        name_en: "Accounting Posting"
+        type: "end"
+        description: "Verbuchung in Finanzbuchhaltung"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+    
+    edges:
+      - from: "expense_submission"
+        to: "completeness_check"
+      - from: "completeness_check"
+        to: "policy_compliance_check"
+      - from: "policy_compliance_check"
+        to: "manager_approval"
+      - from: "manager_approval"
+        to: "tax_calculation"
+      - from: "tax_calculation"
+        to: "payment_processing"
+      - from: "payment_processing"
+        to: "accounting_posting"
+    
+    expense_categories:
+      - category: "Fahrtkosten"
+        rate_per_km: 0.30
+        documentation_required: "Fahrtenbuch"
+        
+      - category: "Übernachtung"
+        max_amount: 120
+        documentation_required: "Hotelrechnung"
+        
+      - category: "Verpflegung"
+        daily_allowance: 28
+        documentation_required: "Abwesenheitsnachweis"
+        
+      - category: "Sonstige Auslagen"
+        max_amount: null
+        documentation_required: "Originalbeleg"
+    
+    compliance:
+      - rule: "Reisekostenrichtlinie"
+        description: "Firmeninterne Reisekostenrichtlinie"
+        check_type: "policy"
+        
+      - rule: "§9 EStG"
+        description: "Werbungskosten - steuerliche Behandlung"
+        check_type: "tax_law"
+        
+      - rule: "Belegpflicht"
+        description: "Originalbelege erforderlich"
+        check_type: "documentation"
+    
+    semantic_tags:
+      - "Reisekosten"
+      - "Spesen"
+      - "Mitarbeiter"
+      - "Erstattung"
+  
+  # =========================================================================
+  # Month-End Closing
+  # =========================================================================
+  
+  - id: month_end_closing
+    name: "Monatsabschluss"
+    name_en: "Month-End Closing"
+    domain: "Finanzwesen"
+    domain_en: "Finance"
+    description: "Prozess für monatlichen Finanzabschluss"
+    
+    activities:
+      - id: "closing_preparation"
+        name: "Abschlussvorbereitung"
+        name_en: "Closing Preparation"
+        type: "start"
+        description: "Vorbereitung des Monatsabschlusses"
+        sla_hours: 8
+        responsible_role: "Buchhaltung"
+        
+      - id: "accounts_reconciliation"
+        name: "Kontenabstimmung"
+        name_en: "Accounts Reconciliation"
+        type: "task"
+        description: "Abstimmung aller Konten"
+        sla_hours: 24
+        responsible_role: "Buchhaltung"
+        
+      - id: "accruals_deferrals"
+        name: "Abgrenzungen"
+        name_en: "Accruals and Deferrals"
+        type: "task"
+        description: "Buchung von Rechnungsabgrenzungen"
+        sla_hours: 16
+        responsible_role: "Buchhaltung"
+        
+      - id: "depreciation_calculation"
+        name: "Abschreibungen"
+        name_en: "Depreciation Calculation"
+        type: "task"
+        description: "Berechnung und Buchung der Abschreibungen"
+        sla_hours: 8
+        responsible_role: "Anlagenbuchhaltung"
+        
+      - id: "provisions_calculation"
+        name: "Rückstellungen"
+        name_en: "Provisions Calculation"
+        type: "task"
+        description: "Berechnung und Buchung von Rückstellungen"
+        sla_hours: 16
+        responsible_role: "Controlling"
+        
+      - id: "intercompany_elimination"
+        name: "Konzernkonsolidierung"
+        name_en: "Intercompany Elimination"
+        type: "task"
+        description: "Eliminierung konzerninterner Transaktionen"
+        sla_hours: 24
+        responsible_role: "Konzernbuchhaltung"
+        optional: true
+        
+      - id: "financial_statements"
+        name: "Abschlusserstellung"
+        name_en: "Financial Statements"
+        type: "task"
+        description: "Erstellung von GuV und Bilanz"
+        sla_hours: 16
+        responsible_role: "Buchhaltung"
+        
+      - id: "management_review"
+        name: "Management Review"
+        name_en: "Management Review"
+        type: "task"
+        description: "Prüfung durch Geschäftsführung"
+        sla_hours: 24
+        responsible_role: "CFO"
+        
+      - id: "closing_approval"
+        name: "Abschlussfreigabe"
+        name_en: "Closing Approval"
+        type: "end"
+        description: "Formelle Freigabe des Abschlusses"
+        sla_hours: 8
+        responsible_role: "CFO"
+    
+    edges:
+      - from: "closing_preparation"
+        to: "accounts_reconciliation"
+      - from: "accounts_reconciliation"
+        to: "accruals_deferrals"
+      - from: "accruals_deferrals"
+        to: "depreciation_calculation"
+      - from: "depreciation_calculation"
+        to: "provisions_calculation"
+      - from: "provisions_calculation"
+        to: "intercompany_elimination"
+        type: "conditional"
+        condition: "is_group_entity"
+      - from: "provisions_calculation"
+        to: "financial_statements"
+        type: "conditional"
+        condition: "is_single_entity"
+      - from: "intercompany_elimination"
+        to: "financial_statements"
+      - from: "financial_statements"
+        to: "management_review"
+      - from: "management_review"
+        to: "closing_approval"
+    
+    closing_checklist:
+      - item: "Alle Bankkonten abgestimmt"
+        responsible: "Buchhaltung"
+        
+      - item: "Offene Posten bereinigt"
+        responsible: "Debitorenbuchhaltung"
+        
+      - item: "Inventurdifferenzen gebucht"
+        responsible: "Lagerbuchhaltung"
+        
+      - item: "Abschreibungen gebucht"
+        responsible: "Anlagenbuchhaltung"
+        
+      - item: "Rückstellungen bewertet"
+        responsible: "Controlling"
+    
+    compliance:
+      - rule: "HGB §238-263"
+        description: "Handelsrechtliche Rechnungslegung"
+        check_type: "accounting_standard"
+        
+      - rule: "GoB"
+        description: "Grundsätze ordnungsmäßiger Buchführung"
+        check_type: "accounting_standard"
+        
+      - rule: "Vier-Augen-Prinzip"
+        description: "Trennung zwischen Buchung und Freigabe"
+        check_type: "separation_of_duties"
+    
+    semantic_tags:
+      - "Monatsabschluss"
+      - "Finanzabschluss"
+      - "Buchhaltung"
+      - "Reporting"
+
+# =============================================================================
+# Model Metadata
+# =============================================================================
+
+metadata:
+  version: "1.0"
+  last_updated: "2025-12-24"
+  author: "ThemisDB Team"
+  license: "MIT"
+  language: "de-DE"
+  
+  categories:
+    - id: "accounts_payable"
+      name: "Kreditorenbuchhaltung"
+      name_en: "Accounts Payable"
+      models: ["invoice_processing_ap"]
+      
+    - id: "expense_management"
+      name: "Reisekosten"
+      name_en: "Expense Management"
+      models: ["expense_claim_processing"]
+      
+    - id: "financial_closing"
+      name: "Finanzabschluss"
+      name_en: "Financial Closing"
+      models: ["month_end_closing"]
+  
+  regulations:
+    - name: "HGB (Handelsgesetzbuch)"
+      description: "German Commercial Code - Accounting regulations"
+      url: "https://www.gesetze-im-internet.de/hgb/"
+      
+    - name: "GoBD"
+      description: "Grundsätze zur ordnungsmäßigen Führung und Aufbewahrung von Büchern"
+      url: "https://www.bundesfinanzministerium.de/Content/DE/Downloads/BMF_Schreiben/Weitere_Steuerthemen/Abgabenordnung/2019-11-28-GoBD.pdf"
+      
+    - name: "EStG (Einkommensteuergesetz)"
+      description: "German Income Tax Act"
+      url: "https://www.gesetze-im-internet.de/estg/"
+      
+    - name: "UStG (Umsatzsteuergesetz)"
+      description: "German VAT Act"
+      url: "https://www.gesetze-im-internet.de/ustg_1980/"
+
+# =============================================================================
+# LLM Integration for Financial Processes
+# =============================================================================
+
+llm_integration:
+  invoice_processing:
+    llm_prompts:
+      - task: "extract_invoice_data"
+        prompt: |
+          Extrahiere strukturierte Daten aus dieser Rechnung:
+          
+          Rechnungstext/OCR: {invoice_text}
+          
+          Extrahiere:
+          1. Rechnungsnummer
+          2. Datum
+          3. Lieferant
+          4. Beträge (netto, Steuer, brutto)
+          5. Kostenstellen
+          6. Pflichtangaben nach §14 UStG vorhanden?
+      
+      - task: "detect_fraud"
+        prompt: |
+          Prüfe diese Rechnung auf Anomalien und Betrugsrisiken:
+          
+          Rechnung: {invoice_data}
+          Lieferant: {vendor}
+          Historische Daten: {historical_invoices}
+          
+          Suche nach:
+          1. Ungewöhnliche Beträge
+          2. Duplikate
+          3. Lieferant nicht verifiziert
+          4. Abweichungen von Bestellungen
+        expected_output:
+          schema:
+            type: "object"
+            required: ["fraud_risk_score", "anomalies"]
+            properties:
+              fraud_risk_score: {type: "number", minimum: 0, maximum: 1}
+              anomalies: {type: "array"}
+              requires_manual_review: {type: "boolean"}
+    
+    llm_test_cases:
+      - name: "Valid invoice with all requirements"
+        input:
+          has_all_fields: true
+          paragraph_14_compliant: true
+          matches_purchase_order: true
+        expected_behavior:
+          fraud_risk_score: "< 0.1"
+          anomalies_count: 0
+          requires_manual_review: false
+      
+      - name: "Duplicate invoice detected"
+        input:
+          invoice_number: "INV-12345"
+          already_processed: true
+        expected_behavior:
+          fraud_risk_score: "> 0.8"
+          anomaly_type: "duplicate"
+          requires_manual_review: true
+  
+  expense_claims:
+    llm_prompts:
+      - task: "verify_policy_compliance"
+        prompt: |
+          Prüfe Reisekosten gegen Firmenrichtlinie:
+          
+          Spesen: {expenses}
+          Richtlinie: {policy}
+          
+          Prüfe:
+          1. Beträge innerhalb Limits?
+          2. Belege vollständig?
+          3. Plausibilität der Ausgaben
+          4. Steuerliche Korrektheit
+  
+  month_end_closing:
+    llm_prompts:
+      - task: "validate_closing_checklist"
+        prompt: |
+          Prüfe Vollständigkeit des Monatsabschlusses:
+          
+          Checkliste: {checklist}
+          Durchgeführte Schritte: {completed_steps}
+          
+          Verifiziere:
+          1. Alle Konten abgestimmt?
+          2. Abgrenzungen gebucht?
+          3. Abschreibungen berücksichtigt?
+          4. GoB und HGB eingehalten?
+
+llm_benchmarks:
+  accuracy_requirements:
+    invoice_data_extraction: ">= 0.95"
+    fraud_detection: ">= 0.90"
+    policy_compliance_check: ">= 0.92"
+    gob_compliance_verification: ">= 0.95"
+  
+  performance_requirements:
+    max_response_time_seconds: 5
+  
+  quality_requirements:
+    false_positive_fraud: "< 0.05"
+    extraction_accuracy_mandatory_fields: ">= 0.98"
