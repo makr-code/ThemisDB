@@ -2582,6 +2582,40 @@ else()
 endif()
 
 # ============================================================================
+# Result Streaming and Pagination Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
+    message(STATUS "Adding Result Streaming tests")
+    
+    add_executable(test_result_stream
+        test_result_stream.cpp
+    )
+    
+    target_link_libraries(test_result_stream PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_result_stream PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ResultStreamTests COMMAND test_result_stream)
+    
+    set_tests_properties(ResultStreamTests PROPERTIES
+        LABELS "query;streaming;pagination;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  Result Streaming: pagination, batching, memory management")
+else()
+    message(STATUS "Result Streaming tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 

@@ -1136,6 +1136,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/result_stream.cpp
 
     
     
