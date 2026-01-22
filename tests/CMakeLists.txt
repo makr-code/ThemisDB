@@ -2722,6 +2722,56 @@ else()
     message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
 else()
     message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+endif()
+
+# ============================================================================
+# Compression Strategy Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
+    add_executable(test_compression_strategy
+        test_compression_strategy.cpp
+    )
+    
+    target_link_libraries(test_compression_strategy PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_compression_strategy PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CompressionStrategyTests COMMAND test_compression_strategy)
+    
+    set_tests_properties(CompressionStrategyTests PROPERTIES
+        LABELS "storage;compression;encoding;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Compression Strategy: ZSTD, RLE, Delta, Dictionary encoding, adaptive compression")
+else()
+    message(STATUS "Compression Strategy tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_compression_strategy.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
     target_compile_definitions(test_graphql PRIVATE
         THEMIS_TEST_BUILD=1
     )
