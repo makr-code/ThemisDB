@@ -534,7 +534,49 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
         throw std::invalid_argument("URL must start with http:// or https://");
     }
     
+    // SSRF Protection: Parse URL and validate host to prevent access to internal resources
+    try {
+        auto components = utils::parseURL(url);
+        std::string host_lower = components.host;
+        std::transform(host_lower.begin(), host_lower.end(), host_lower.begin(), ::tolower);
+        
+        // Block localhost and loopback addresses
+        if (host_lower == "localhost" || 
+            host_lower == "127.0.0.1" ||
+            host_lower.find("127.") == 0 ||
+            host_lower == "::1" ||
+            host_lower.find("[::1]") == 0) {
+            throw std::invalid_argument("Access to localhost is not allowed");
+        }
+        
+        // Block private IP ranges (RFC 1918)
+        if (host_lower.find("10.") == 0 ||
+            host_lower.find("192.168.") == 0 ||
+            (host_lower.find("172.") == 0 && 
+             std::stoi(host_lower.substr(4, host_lower.find('.', 4) - 4)) >= 16 &&
+             std::stoi(host_lower.substr(4, host_lower.find('.', 4) - 4)) <= 31)) {
+            throw std::invalid_argument("Access to private IP addresses is not allowed");
+        }
+        
+        // Block link-local addresses (169.254.0.0/16)
+        if (host_lower.find("169.254.") == 0) {
+            throw std::invalid_argument("Access to link-local addresses is not allowed");
+        }
+        
+        // Block metadata endpoints commonly used in cloud environments
+        if (host_lower == "169.254.169.254" || host_lower == "metadata.google.internal") {
+            throw std::invalid_argument("Access to metadata endpoints is not allowed");
+        }
+        
+    } catch (const std::invalid_argument& e) {
+        throw; // Re-throw validation errors
+    } catch (const std::exception& e) {
+        throw std::invalid_argument("Invalid URL format");
+    }
+    
     // Download audio using HTTP client pool
+    // Note: The HTTP client pool has built-in timeouts (connect_timeout and request_timeout)
+    // which prevent indefinite blocking
     auto response_future = http_client_pool_->get(url);
     auto response = response_future.get();
     
