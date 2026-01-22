@@ -1,6 +1,7 @@
 #include "query/result_stream.h"
 #include "utils/error_registry.h"
 #include <algorithm>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace query {
@@ -243,10 +244,13 @@ void ResultStream<T>::updateCursor(const T& item) {
 // Explicit Template Instantiations
 // ============================================================================
 
-// Instantiate for common types
+// Instantiate for common types used in QueryEngine
 template class ResultStream<std::string>;
 template class ResultStream<int>;
 template class ResultStream<double>;
+
+// Instantiate for nlohmann::json (commonly used for query results)
+template class ResultStream<nlohmann::json>;
 
 // Helper function implementation
 std::shared_ptr<ResultStream<std::string>> createKeyStream(

@@ -59,6 +59,10 @@ struct ResultBatch {
  * - Multiple pagination strategies
  * - Backpressure handling
  * - Memory-efficient large result sets
+ * 
+ * @note ResultIterator instances are not thread-safe. Each iterator should
+ *       be used by a single thread. For concurrent access, create separate
+ *       iterators or use external synchronization.
  */
 template<typename T>
 class ResultIterator {
