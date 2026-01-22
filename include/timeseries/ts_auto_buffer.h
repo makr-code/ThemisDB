@@ -125,9 +125,9 @@ public:
     /**
      * @brief Add a data point (will be buffered)
      * @param point Data point to buffer
-     * @return Status
+     * @return Result<void> - success or error
      */
-    TSStore::Status add(const TSStore::DataPoint& point);
+    Result<void> add(const TSStore::DataPoint& point);
     
     /**
      * @brief Force immediate flush of all buffered points

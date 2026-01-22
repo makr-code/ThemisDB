@@ -77,6 +77,40 @@ else()
 endif()
 
 # ============================================================================
+# Memory Pool Allocator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+    message(STATUS "Adding memory pool allocator tests")
+    
+    add_executable(test_pool_allocator
+        test_pool_allocator.cpp
+    )
+    
+    target_link_libraries(test_pool_allocator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pool_allocator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MemoryPoolAllocatorTests COMMAND test_pool_allocator)
+    
+    set_tests_properties(MemoryPoolAllocatorTests PROPERTIES
+        LABELS "core;memory;allocator;pool"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Memory pool allocator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
@@ -1686,6 +1720,38 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "Claim Extractor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_claim_extractor.cpp")
     endif()
+    
+    # ML Model Manager Tests (NEW)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+        message(STATUS "Adding ML Model Manager tests")
+        
+        add_executable(test_ml_model_manager
+            test_ml_model_manager.cpp
+        )
+        
+        target_link_libraries(test_ml_model_manager PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            RocksDB::rocksdb
+        )
+        
+        target_compile_definitions(test_ml_model_manager PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MLModelManagerTests COMMAND test_ml_model_manager)
+        
+        set_tests_properties(MLModelManagerTests PROPERTIES
+            LABELS "llm;ml;model_management;inference;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "ML Model Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
+    endif()
 endif()
 
 # ============================================================================
@@ -2582,6 +2648,40 @@ else()
 endif()
 
 # ============================================================================
+# Result Streaming and Pagination Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
+    message(STATUS "Adding Result Streaming tests")
+    
+    add_executable(test_result_stream
+        test_result_stream.cpp
+    )
+    
+    target_link_libraries(test_result_stream PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_result_stream PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ResultStreamTests COMMAND test_result_stream)
+    
+    set_tests_properties(ResultStreamTests PROPERTIES
+        LABELS "query;streaming;pagination;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  Result Streaming: pagination, batching, memory management")
+else()
+    message(STATUS "Result Streaming tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
@@ -2591,6 +2691,54 @@ add_custom_target(run_integration_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Running ThemisDB integration tests..."
 )
+
+# ============================================================================
+# CHIMERA Adapter Factory Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
+    message(STATUS "Adding CHIMERA Adapter Factory tests")
+    
+    # Create chimera adapter library first
+    add_library(chimera_adapter STATIC
+        ${CMAKE_SOURCE_DIR}/src/chimera/adapter_factory.cpp
+        ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
+    )
+    
+    target_include_directories(chimera_adapter PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+    )
+    
+    target_link_libraries(chimera_adapter PUBLIC
+        spdlog::spdlog
+    )
+    
+    # Add test executable
+    add_executable(test_adapter_factory
+        chimera/test_adapter_factory.cpp
+    )
+    
+    target_link_libraries(test_adapter_factory PRIVATE
+        ${TEST_LIBS}
+        chimera_adapter
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_adapter_factory PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CHIMERAAdapterFactoryTests COMMAND test_adapter_factory)
+    
+    set_tests_properties(CHIMERAAdapterFactoryTests PROPERTIES
+        LABELS "chimera;adapter;unit;benchmark-infrastructure"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  CHIMERA: vendor-neutral adapter architecture for benchmark suite")
+else()
+    message(STATUS "CHIMERA Adapter Factory tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
+endif()
 
 message(STATUS "Tests configured successfully")
 message(STATUS "  - Build tests with: cmake --build . --target test_lora_framework")

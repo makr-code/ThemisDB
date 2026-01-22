@@ -6,6 +6,55 @@ _"Benchmark the Unbenchmarkable"_
 
 > The CHIMERA Suite is a scientifically rigorous, vendor-neutral benchmark framework for multi-model databases with native AI/LLM integration. Like the mythical Chimera - a hybrid creature - this suite evaluates the diverse capabilities of modern database systems: Graph, Vector, Relational, Document models, combined with LLM/LoRA inferencing capabilities.
 
+## NEW: C++ Adapter Architecture
+
+The CHIMERA Suite now includes a **vendor-neutral C++ adapter architecture** for integrating arbitrary database systems into benchmark workloads. This provides:
+
+- **Complete Vendor Neutrality**: No system-specific names, colors, or concepts
+- **Multi-Model Support**: Interfaces for Relational, Vector, Graph, Document, and Transaction operations
+- **Factory Pattern**: Dynamic adapter registration and instantiation
+- **Capability Discovery**: Runtime querying of supported features
+- **IEEE Compliance**: Standards-compliant design and documentation
+
+### Quick Start (C++ Adapter)
+
+```cpp
+#include "chimera/database_adapter.hpp"
+#include "chimera/themisdb_adapter.hpp"
+
+// Register your database adapter
+AdapterFactory::register_adapter("MyDatabase",
+    []() { return std::make_unique<MyDatabaseAdapter>(); });
+
+// Create and use adapter
+auto adapter = AdapterFactory::create("MyDatabase");
+adapter->connect("connection_string");
+
+// Check capabilities
+if (adapter->has_capability(Capability::VECTOR_SEARCH)) {
+    // Perform vector operations
+}
+```
+
+### Documentation
+
+- **Full API Reference**: See [docs/chimera/ARCHITECTURE_INTERFACE.md](../../docs/chimera/ARCHITECTURE_INTERFACE.md)
+- **Example Program**: [chimera_example.cpp](chimera_example.cpp)
+- **Headers**: [include/chimera/database_adapter.hpp](../../include/chimera/database_adapter.hpp)
+
+### Building the Example
+
+```bash
+cd benchmarks/chimera
+g++ -std=c++17 -I../../include chimera_example.cpp \
+    ../../src/chimera/adapter_factory.cpp \
+    ../../src/chimera/themisdb_adapter.cpp \
+    -o chimera_example
+./chimera_example
+```
+
+---
+
 [![IEEE Compliant](https://img.shields.io/badge/IEEE-Compliant-blue)](https://www.ieee.org/)
 [![Color Blind Friendly](https://img.shields.io/badge/ColorBlind-Friendly-green)](https://jfly.uni-koeln.de/color/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -300,6 +349,29 @@ Run the test suite:
 cd benchmarks/chimera
 pytest test_chimera.py -v
 ```
+
+## Neutrality Documentation
+
+CHIMERA provides comprehensive documentation on vendor neutrality:
+
+- **[NEUTRALITY_GUARANTEES.md](NEUTRALITY_GUARANTEES.md)** - Complete neutrality principles and guarantees
+- **[NEUTRALITY_STYLEGUIDE.md](NEUTRALITY_STYLEGUIDE.md)** - Style guide for contributors
+- **[ADAPTER_API.md](ADAPTER_API.md)** - API documentation for integrating new systems
+
+### Neutrality Verification
+
+Check compliance with neutrality standards:
+
+```bash
+cd benchmarks/chimera
+python3 neutrality_linter.py
+```
+
+The linter checks for:
+- Vendor-specific names in code/config
+- Marketing terminology
+- Non-neutral color schemes
+- Biased report presentation
 
 ## References
 

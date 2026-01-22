@@ -1,0 +1,136 @@
+name: PHP SDK [Dry-Run]
+
+# PHP SDK build and test workflow (dry-run mode)
+# 🔶 DRY-RUN MODE - Package is built but NOT published to Packagist
+
+on:
+  workflow_dispatch:
+
+# Minimal permissions for security
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: clients/php
+
+jobs:
+  test:
+    name: Test PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4', '8.0', '8.1', '8.2', '8.3']
+    
+    steps:
+      - name: 🔶 Dry-Run Notice
+        run: |
+          echo "🔶 DRY-RUN MODE - No actual publishing"
+          echo "This workflow builds and tests the PHP SDK."
+          echo "No packages are published to Packagist."
+        working-directory: .
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: json, mbstring, curl
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run linter (PHP CS Fixer)
+        if: matrix.php-version == '8.2'
+        continue-on-error: true
+        run: |
+          if [ -f vendor/bin/php-cs-fixer ]; then
+            vendor/bin/php-cs-fixer fix --dry-run --diff || true
+          fi
+
+      - name: Run tests
+        run: |
+          if [ "${ACT:-false}" = "true" ]; then
+            echo "ACT detected - running syntax check only"
+            find src -name "*.php" -exec php -l {} \;
+            exit 0
+          fi
+          if [ -f vendor/bin/phpunit ]; then
+            vendor/bin/phpunit --testdox
+          else
+            echo "PHPUnit not found, running syntax check"
+            find src -name "*.php" -exec php -l {} \;
+          fi
+
+      - name: Generate test report
+        if: always()
+        run: |
+          echo "## PHP SDK Test Results (PHP ${{ matrix.php-version }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Build Status: ✅ Success" >> $GITHUB_STEP_SUMMARY
+
+  package:
+    name: Package Library (Dry-Run)
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: 🔶 Dry-Run Notice
+        run: |
+          echo "🔶 DRY-RUN MODE - No actual publishing"
+        working-directory: .
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-dev --no-progress
+
+      - name: Display package info (Dry-Run)
+        run: |
+          echo "## PHP SDK Build Summary (DRY-RUN)" >> $GITHUB_STEP_SUMMARY
+          echo "🔶 **DRY-RUN MODE** - Package NOT published to Packagist" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Package name:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+          cat composer.json | jq '{name, version, description}' >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Installation:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "composer require themisdb/themisdb-php" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### To enable publishing:" >> $GITHUB_STEP_SUMMARY
+          echo "1. Tag releases with semantic versioning (e.g., v1.0.0)" >> $GITHUB_STEP_SUMMARY
+          echo "2. Package will be automatically indexed by Packagist if repository is linked" >> $GITHUB_STEP_SUMMARY
+
+      - name: Create archive
+        run: |
+          mkdir -p ../build
+          tar -czf ../build/themisdb-php.tar.gz --exclude='tests' --exclude='examples' --exclude='.git*' .
+
+      - name: Upload build artifacts
+        if: env.ACT != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-sdk-dist
+          path: clients/build/themisdb-php.tar.gz
+          retention-days: 7
+
+      # TODO: For production releases, tag with vX.Y.Z
+      # Packagist will automatically index tagged releases

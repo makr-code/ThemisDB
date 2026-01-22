@@ -124,7 +124,8 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLoadingWithPerformanceMetric
         auto start = std::chrono::steady_clock::now();
         
         EXPECT_NO_THROW({
-            IThemisPlugin* plugin = plugin_manager_->loadPlugin(name);
+            auto result = plugin_manager_->loadPlugin(name);
+            IThemisPlugin* plugin = result.has_value() ? *result : nullptr;
             
             auto end = std::chrono::steady_clock::now();
             auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -331,7 +332,8 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLifecycleWithFullMetrics) {
     
     // Load attempt phase
     t1 = std::chrono::steady_clock::now();
-    IThemisPlugin* plugin = plugin_manager_->loadPlugin("lifecycle_plugin");
+    auto result = plugin_manager_->loadPlugin("lifecycle_plugin");
+    IThemisPlugin* plugin = result.has_value() ? *result : nullptr;
     t2 = std::chrono::steady_clock::now();
     metrics.recordQuery("plugin_load",
         std::chrono::duration<double, std::milli>(t2 - t1).count(), plugin ? 1 : 0);
@@ -442,13 +444,15 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, ErrorHandlingWithMetrics) {
         
         // Load non-existent plugin
         start = std::chrono::steady_clock::now();
-        IThemisPlugin* plugin = plugin_manager_->loadPlugin("nonexistent");
+        auto result = plugin_manager_->loadPlugin("nonexistent");
+        IThemisPlugin* plugin = result.has_value() ? *result : nullptr;
         end = std::chrono::steady_clock::now();
         
         metrics.recordQuery("plugin_load_error",
             std::chrono::duration<double, std::milli>(end - start).count(), 0);
         
         EXPECT_EQ(plugin, nullptr);
+        EXPECT_FALSE(result.has_value());
     });
     
     // Verify error metrics are tracked
