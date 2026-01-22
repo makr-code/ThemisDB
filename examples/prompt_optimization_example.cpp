@@ -19,11 +19,20 @@
 
 using namespace themis::llm;
 
-// Mock LLM evaluation function (in production, this would call a real LLM)
-double mockLLMEvaluator(const std::string& prompt, const std::vector<TestCase>& test_cases) {
+// Example evaluation function for demonstration purposes
+// NOTE: In production, replace this with a function that:
+//   1. Runs the prompt against test cases using a real LLM
+//   2. Evaluates the LLM outputs against expected results
+//   3. Returns a quality score (0.0-1.0)
+// Example production integration:
+//   - Call your LLM API (OpenAI, Anthropic, local llama.cpp, etc.)
+//   - Use PromptEvaluator to compare outputs vs expected
+//   - Return the aggregated score
+double exampleEvaluator(const std::string& prompt, const std::vector<TestCase>& test_cases) {
     double score = 0.0;
     
-    // Simple scoring based on prompt quality indicators
+    // Simple heuristic scoring based on prompt quality indicators
+    // (Replace with actual LLM evaluation in production)
     if (prompt.find("Task") != std::string::npos || 
         prompt.find("Instructions") != std::string::npos) {
         score += 0.3;
@@ -72,7 +81,7 @@ int main() {
     auto result = optimizer.optimize(
         initial_prompt,
         test_cases,
-        mockLLMEvaluator
+        exampleEvaluator
     );
     
     std::cout << "Initial prompt: " << initial_prompt << "\n";

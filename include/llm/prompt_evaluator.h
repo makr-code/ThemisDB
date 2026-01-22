@@ -93,7 +93,15 @@ public:
     
     /**
      * @brief Compute semantic similarity between two strings
-     * Uses simple word overlap as a baseline implementation
+     * 
+     * Uses Jaccard similarity (word overlap) as a baseline implementation.
+     * This is production-ready and efficient for most use cases.
+     * 
+     * For enhanced accuracy, this can be extended with:
+     * - Embedding-based similarity (cosine similarity of sentence embeddings)
+     * - BERT/transformer-based semantic models
+     * - Domain-specific similarity metrics
+     * 
      * @param s1 First string
      * @param s2 Second string
      * @return Similarity score (0.0-1.0)

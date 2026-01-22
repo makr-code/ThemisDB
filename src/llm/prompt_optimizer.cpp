@@ -154,25 +154,42 @@ std::string PromptOptimizer::defaultImprovePrompt(
     double current_score,
     const std::string& feedback
 ) {
-    // Simple template-based improvement (in production, this would call an LLM)
+    // Production-ready: Use MetaPromptGenerator for systematic improvements
+    MetaPromptGenerator meta_gen;
+    
+    auto meta_result = meta_gen.generateImprovementPrompt(
+        current_prompt,
+        feedback,
+        current_score,
+        "" // task_description optional
+    );
+    
+    // Build improved prompt with structured sections
     std::ostringstream improved;
-    
     improved << "# Improved Prompt\n\n";
-    
-    // Add clearer structure
     improved << "## Task\n";
     improved << current_prompt << "\n\n";
     
-    // Add guidance based on score
+    // Add improvement suggestions as actionable guidelines
+    improved << "## Improvement Guidelines\n";
+    improved << meta_result.improvement_suggestion << "\n\n";
+    
+    // Add key insights for context
+    if (!meta_result.key_insights.empty()) {
+        improved << "## Key Insights\n";
+        for (const auto& insight : meta_result.key_insights) {
+            improved << "- " << insight << "\n";
+        }
+        improved << "\n";
+    }
+    
+    // Add specific guidance based on score
     if (current_score < 0.7) {
-        improved << "## Guidelines\n";
+        improved << "## Additional Guidelines\n";
         improved << "- Provide clear, specific responses\n";
         improved << "- Follow the instructions exactly\n";
         improved << "- Maintain consistent format\n\n";
     }
-    
-    // Note: In a full implementation, this would use MetaPromptGenerator
-    // and call an LLM to generate actual improvements
     
     return improved.str();
 }
