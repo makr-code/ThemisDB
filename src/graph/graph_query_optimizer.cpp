@@ -223,10 +223,6 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         
         for (const auto& neighbor : filtered_neighbors) {
             if (visited.find(neighbor) == visited.end()) {
-                if (constraints.unique_vertices && visited.count(neighbor) > 0) {
-                    continue;
-                }
-                
                 // Check forbidden vertices
                 if (std::find(constraints.forbidden_vertices.begin(), 
                             constraints.forbidden_vertices.end(), neighbor) 
@@ -488,24 +484,36 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
         // Reconstruct path
         std::vector<std::string> forward_path;
         std::string current = meeting_point.value();
+        
+        // Build forward path from start to meeting point
         while (current != std::string(start_vertex)) {
             forward_path.push_back(current);
-            if (forward_parents.find(current) == forward_parents.end()) {
+            auto it = forward_parents.find(current);
+            if (it == forward_parents.end()) {
                 break;
             }
-            current = forward_parents[current];
+            current = it->second;
         }
         forward_path.push_back(std::string(start_vertex));
         std::reverse(forward_path.begin(), forward_path.end());
         
+        // Build backward path from meeting point to target
         std::vector<std::string> backward_path;
-        current = meeting_point.value();
-        while (current != std::string(target_vertex)) {
-            if (backward_parents.find(current) == backward_parents.end()) {
+        current = backward_parents.find(meeting_point.value()) != backward_parents.end() 
+                  ? backward_parents[meeting_point.value()] : "";
+        
+        while (!current.empty() && current != std::string(target_vertex)) {
+            backward_path.push_back(current);
+            auto it = backward_parents.find(current);
+            if (it == backward_parents.end()) {
                 break;
             }
-            current = backward_parents[current];
-            backward_path.push_back(current);
+            current = it->second;
+        }
+        
+        // Add target vertex if we reached it
+        if (!current.empty()) {
+            backward_path.push_back(std::string(target_vertex));
         }
         
         result.path = forward_path;

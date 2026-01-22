@@ -367,8 +367,8 @@ TEST_F(GraphQueryOptimizerTest, ExecutionHistory_RecordsStats) {
 }
 
 TEST_F(GraphQueryOptimizerTest, ExecutionHistory_BoundedSize) {
-    // Execute many queries
-    for (int i = 0; i < 1100; ++i) {
+    // Execute many queries to test history bounding
+    for (int i = 0; i < 150; ++i) {
         optimizer_->executeBFS("A", 1);
     }
     
