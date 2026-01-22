@@ -77,6 +77,40 @@ else()
 endif()
 
 # ============================================================================
+# Memory Pool Allocator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+    message(STATUS "Adding memory pool allocator tests")
+    
+    add_executable(test_pool_allocator
+        test_pool_allocator.cpp
+    )
+    
+    target_link_libraries(test_pool_allocator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pool_allocator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MemoryPoolAllocatorTests COMMAND test_pool_allocator)
+    
+    set_tests_properties(MemoryPoolAllocatorTests PROPERTIES
+        LABELS "core;memory;allocator;pool"
+        TIMEOUT 120
+    )
+else()
+    message(STATUS "Memory pool allocator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pool_allocator.cpp")
+endif()
+
+# ============================================================================
 # LoRA Framework Tests (NEW)
 # ============================================================================
 
