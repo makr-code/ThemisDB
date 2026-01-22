@@ -13,6 +13,10 @@
 namespace themis {
 namespace memory {
 
+// Constants
+constexpr int PEAK_UPDATE_MAX_RETRIES = 10;  // Max retries for atomic peak memory update
+constexpr size_t STACK_ALLOC_RESERVE_RATIO = 256;  // Reserve 1/256th of capacity for tracking
+
 // Helper function to check if a number is a power of 2
 static inline bool isPowerOfTwo(size_t n) {
     return n > 0 && (n & (n - 1)) == 0;
@@ -246,7 +250,7 @@ Result<void*> BuddyAllocator::allocate(size_t size, AllocationHint hint) {
     uint64_t current_usage = stats_.getCurrentUsage();
     uint64_t peak = stats_.peak_memory_usage.load();
     int retry_count = 0;
-    while (current_usage > peak && retry_count < 10 && 
+    while (current_usage > peak && retry_count < PEAK_UPDATE_MAX_RETRIES && 
            !stats_.peak_memory_usage.compare_exchange_weak(peak, current_usage)) {
         retry_count++;
     }
@@ -497,7 +501,7 @@ Result<void*> SlabAllocator::allocate(size_t size, AllocationHint hint) {
     uint64_t current_usage = stats_.getCurrentUsage();
     uint64_t peak = stats_.peak_memory_usage.load();
     int retry_count = 0;
-    while (current_usage > peak && retry_count < 10 && 
+    while (current_usage > peak && retry_count < PEAK_UPDATE_MAX_RETRIES && 
            !stats_.peak_memory_usage.compare_exchange_weak(peak, current_usage)) {
         retry_count++;
     }
@@ -583,8 +587,11 @@ struct StackAllocator::Impl {
         memory = new uint8_t[capacity];
         std::memset(memory, 0, capacity);
         // Reserve space for allocation tracking to reduce reallocations
-        // Assume typical use case of 256 allocations
-        allocation_stack.reserve(256);
+        // Reserve approximately 1/256th of capacity, with min 16 and max 1024
+        size_t reserve_size = std::max(size_t(16), 
+                                      std::min(size_t(1024), 
+                                              capacity / STACK_ALLOC_RESERVE_RATIO));
+        allocation_stack.reserve(reserve_size);
     }
     
     ~Impl() {
@@ -628,7 +635,7 @@ Result<void*> StackAllocator::allocate(size_t size, AllocationHint hint) {
     uint64_t current_usage = stats_.getCurrentUsage();
     uint64_t peak = stats_.peak_memory_usage.load();
     int retry_count = 0;
-    while (current_usage > peak && retry_count < 10 && 
+    while (current_usage > peak && retry_count < PEAK_UPDATE_MAX_RETRIES && 
            !stats_.peak_memory_usage.compare_exchange_weak(peak, current_usage)) {
         retry_count++;
     }
