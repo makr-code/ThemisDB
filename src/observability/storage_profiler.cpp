@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <mutex>
 #include <numeric>
+#include <optional>
 
 namespace themis {
 namespace observability {

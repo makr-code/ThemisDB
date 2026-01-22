@@ -5,6 +5,7 @@
 #include <chrono>
 #include <memory>
 #include <unordered_map>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
