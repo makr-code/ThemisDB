@@ -47,9 +47,10 @@ TEST(QueryEngineJoinLetTest, SingleFor_LetFilterEvaluatedAfterBinding) {
 
     QueryEngine engine(db, idx);
     const auto& jq = *translate.join;
-    auto [status, rows] = engine.executeJoin(jq.for_nodes, jq.filters, jq.let_nodes, jq.return_node, jq.sort, jq.limit);
+    auto rows_result = engine.executeJoin(jq.for_nodes, jq.filters, jq.let_nodes, jq.return_node, jq.sort, jq.limit);
 
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(rows_result.has_value()) << rows_result.error().message();
+    auto& rows = *rows_result;
     ASSERT_EQ(rows.size(), 1u);
     ASSERT_TRUE(rows[0].is_object());
     EXPECT_EQ(rows[0]["name"].get<std::string>(), "Alice");
@@ -81,9 +82,10 @@ TEST(QueryEngineJoinLetTest, DoubleFor_LetFiltersUseDerivedValues) {
 
     QueryEngine engine(db, idx);
     const auto& jq = *translate.join;
-    auto [status, rows] = engine.executeJoin(jq.for_nodes, jq.filters, jq.let_nodes, jq.return_node, jq.sort, jq.limit);
+    auto rows_result = engine.executeJoin(jq.for_nodes, jq.filters, jq.let_nodes, jq.return_node, jq.sort, jq.limit);
 
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(rows_result.has_value()) << rows_result.error().message();
+    auto& rows = *rows_result;
     ASSERT_EQ(rows.size(), 2u); // orders o2 and o3 survive amount filter
 
     std::vector<std::string> users;
@@ -123,9 +125,10 @@ TEST(QueryEngineJoinLetTest, ReturnDistinctRemovesDuplicateJoinRows) {
 
     QueryEngine engine(db, idx);
     const auto& jq = *translate.join;
-    auto [status, rows] = engine.executeJoin(jq.for_nodes, jq.filters, jq.let_nodes, jq.return_node, jq.sort, jq.limit);
+    auto rows_result = engine.executeJoin(jq.for_nodes, jq.filters, jq.let_nodes, jq.return_node, jq.sort, jq.limit);
 
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(rows_result.has_value()) << rows_result.error().message();
+    auto& rows = *rows_result;
     ASSERT_EQ(rows.size(), 2u);
     std::vector<std::string> names;
     for (const auto& row : rows) {

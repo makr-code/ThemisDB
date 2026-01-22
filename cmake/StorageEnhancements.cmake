@@ -16,4 +16,12 @@ list(APPEND THEMIS_CORE_SOURCES
     
     # Storage Engine with Dependency Injection (Phase 2)
     ../src/storage/storage_engine.cpp
+    
+    # Index Maintenance Automation (Phase 4)
+    ../src/storage/index_maintenance.cpp
+    
+    # Compression Strategy Manager and Metrics
+    ../src/storage/compression_strategy.cpp
+    ../src/storage/compressed_storage.cpp
+    ../src/utils/compression_metrics.cpp
 )

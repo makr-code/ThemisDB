@@ -1,32 +1,42 @@
 #include "query/statistical_aggregator.h"
+#include "utils/error_registry.h"
 #include <numeric>
 #include <cmath>
 #include <limits>
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
+
+using errors::ErrorCode;
 
 // ============================================================================
 // Percentile Calculation
 // ============================================================================
 
-nlohmann::json StatisticalAggregator::calculatePercentile(
+Result<nlohmann::json> StatisticalAggregator::calculatePercentile(
     std::vector<double> values,
     double percentile
 ) {
     if (values.empty()) {
-        return nullptr;
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            "Empty value set for percentile calculation"
+        );
     }
     
     if (percentile < 0.0 || percentile > 100.0) {
-        return nullptr;  // Invalid percentile
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            fmt::format("Invalid percentile value: {} (must be 0-100)", percentile)
+        );
     }
     
     // Sort values
     std::sort(values.begin(), values.end());
     
     if (values.size() == 1) {
-        return values[0];
+        return Ok(nlohmann::json(values[0]));
     }
     
     // Nearest Rank Method
@@ -36,17 +46,17 @@ nlohmann::json StatisticalAggregator::calculatePercentile(
     size_t upperIndex = static_cast<size_t>(std::ceil(rank));
     
     if (lowerIndex == upperIndex) {
-        return values[lowerIndex];
+        return Ok(nlohmann::json(values[lowerIndex]));
     }
     
     // Linear interpolation
     double weight = rank - lowerIndex;
     double result = values[lowerIndex] * (1.0 - weight) + values[upperIndex] * weight;
     
-    return result;
+    return Ok(nlohmann::json(result));
 }
 
-nlohmann::json StatisticalAggregator::calculateMedian(std::vector<double> values) {
+Result<nlohmann::json> StatisticalAggregator::calculateMedian(std::vector<double> values) {
     return calculatePercentile(std::move(values), 50.0);
 }
 
@@ -63,9 +73,12 @@ double StatisticalAggregator::calculateMean(const std::vector<double>& values) {
     return sum / values.size();
 }
 
-nlohmann::json StatisticalAggregator::calculateVariance(const std::vector<double>& values) {
+Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vector<double>& values) {
     if (values.size() < 2) {
-        return nullptr;  // Variance requires at least 2 values
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            fmt::format("Insufficient data for variance calculation: {} values (need ≥2)", values.size())
+        );
     }
     
     double mean = calculateMean(values);
@@ -77,16 +90,19 @@ nlohmann::json StatisticalAggregator::calculateVariance(const std::vector<double
         sumSquaredDiffs += diff * diff;
     }
     
-    return sumSquaredDiffs / (values.size() - 1);
+    return Ok(nlohmann::json(sumSquaredDiffs / (values.size() - 1)));
 }
 
-nlohmann::json StatisticalAggregator::calculateVariancePop(const std::vector<double>& values) {
+Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::vector<double>& values) {
     if (values.empty()) {
-        return nullptr;
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            "Empty value set for population variance calculation"
+        );
     }
     
     if (values.size() == 1) {
-        return 0.0;  // Population variance of single value is 0
+        return Ok(nlohmann::json(0.0));  // Population variance of single value is 0
     }
     
     double mean = calculateMean(values);
@@ -98,60 +114,72 @@ nlohmann::json StatisticalAggregator::calculateVariancePop(const std::vector<dou
         sumSquaredDiffs += diff * diff;
     }
     
-    return sumSquaredDiffs / values.size();
+    return Ok(nlohmann::json(sumSquaredDiffs / values.size()));
 }
 
-nlohmann::json StatisticalAggregator::calculateStdDev(const std::vector<double>& values) {
+Result<nlohmann::json> StatisticalAggregator::calculateStdDev(const std::vector<double>& values) {
     auto variance = calculateVariance(values);
     
-    if (variance.is_null()) {
-        return nullptr;
+    if (!variance) {
+        return Err<nlohmann::json>(variance.error().code(), variance.error().context());
     }
     
-    return std::sqrt(variance.get<double>());
+    return Ok(nlohmann::json(std::sqrt(variance->get<double>())));
 }
 
-nlohmann::json StatisticalAggregator::calculateStdDevPop(const std::vector<double>& values) {
+Result<nlohmann::json> StatisticalAggregator::calculateStdDevPop(const std::vector<double>& values) {
     auto variance = calculateVariancePop(values);
     
-    if (variance.is_null()) {
-        return nullptr;
+    if (!variance) {
+        return Err<nlohmann::json>(variance.error().code(), variance.error().context());
     }
     
-    return std::sqrt(variance.get<double>());
+    return Ok(nlohmann::json(std::sqrt(variance->get<double>())));
 }
 
 // ============================================================================
 // Additional Statistical Measures
 // ============================================================================
 
-nlohmann::json StatisticalAggregator::calculateRange(const std::vector<double>& values) {
+Result<nlohmann::json> StatisticalAggregator::calculateRange(const std::vector<double>& values) {
     if (values.empty()) {
-        return nullptr;
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            "Empty value set for range calculation"
+        );
     }
     
     auto [minIt, maxIt] = std::minmax_element(values.begin(), values.end());
-    return *maxIt - *minIt;
+    return Ok(nlohmann::json(*maxIt - *minIt));
 }
 
-nlohmann::json StatisticalAggregator::calculateIQR(std::vector<double> values) {
+Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> values) {
     if (values.size() < 4) {
-        return nullptr;  // IQR requires at least 4 values
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            fmt::format("Insufficient data for IQR calculation: {} values (need ≥4)", values.size())
+        );
     }
     
     auto q1 = calculatePercentile(values, 25.0);
     auto q3 = calculatePercentile(values, 75.0);
     
-    if (q1.is_null() || q3.is_null()) {
-        return nullptr;
+    if (!q1 || !q3) {
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            "Failed to calculate quartiles for IQR"
+        );
     }
     
-    return q3.get<double>() - q1.get<double>();
+    return Ok(nlohmann::json(q3->get<double>() - q1->get<double>()));
 }
 
-nlohmann::json StatisticalAggregator::calculateMAD(const std::vector<double>& values) {
+Result<nlohmann::json> StatisticalAggregator::calculateMAD(const std::vector<double>& values) {
     if (values.empty()) {
-        return nullptr;
+        return Err<nlohmann::json>(
+            ErrorCode::ERR_QUERY_AGGREGATION_FAILED,
+            "Empty value set for MAD calculation"
+        );
     }
     
     double mean = calculateMean(values);
@@ -162,7 +190,7 @@ nlohmann::json StatisticalAggregator::calculateMAD(const std::vector<double>& va
         sumAbsDiffs += std::abs(val - mean);
     }
     
-    return sumAbsDiffs / values.size();
+    return Ok(nlohmann::json(sumAbsDiffs / values.size()));
 }
 
 // ============================================================================

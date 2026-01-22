@@ -18,6 +18,15 @@ class TrainingMetrics;
 
 namespace themis {
 namespace llm {
+    class ByzantineDetector;
+    struct DetectionResult;
+    enum class ByzantineDetectionMethod;
+    enum class ByzantineAction;
+}
+}
+
+namespace themis {
+namespace llm {
 
 using json = nlohmann::json;
 
@@ -67,6 +76,13 @@ struct DistributedTrainingConfig {
     bool enable_checkpointing = true;
     int checkpoint_frequency = 100;             // Steps between checkpoints
     std::string checkpoint_path;
+    
+    // Byzantine fault detection
+    bool enable_byzantine_detection = false;
+    ByzantineDetectionMethod detection_method = ByzantineDetectionMethod::MEDIAN;
+    float detection_threshold = 3.0f;           // For median-based (MAD multiplier)
+    int max_byzantine_shards = 1;               // For Krum/Bulyan (f parameter)
+    ByzantineAction byzantine_action = ByzantineAction::EXCLUDE;
     
     json toJSON() const;
     static DistributedTrainingConfig fromJSON(const json& j);
@@ -119,6 +135,11 @@ struct GradientExchangeMessage {
     // Timing
     int64_t sent_timestamp_ms;
     int64_t received_timestamp_ms;
+    
+    // Loss metrics from this shard
+    std::optional<float> local_loss;
+    std::optional<float> local_accuracy;
+    int samples_in_batch = 0;
     
     json toJSON() const;
     static GradientExchangeMessage fromJSON(const json& j);
@@ -181,6 +202,13 @@ struct DistributedTrainingStats {
     // Speedup
     float effective_speedup = 1.0f;             // vs single shard
     float communication_overhead_pct = 0.0f;    // % time spent on network
+    
+    // Byzantine detection metrics
+    int byzantine_detections = 0;
+    int byzantine_shards_excluded = 0;
+    std::map<std::string, int> per_shard_detection_count;
+    float avg_anomaly_score = 0.0f;
+    std::vector<float> gradient_norm_history;
     
     json toJSON() const;
 };
@@ -272,6 +300,9 @@ public:
         float sync_time_ms;
         float total_time_ms;
         std::map<std::string, ShardTrainingState> shard_states;
+        std::optional<float> aggregated_loss;
+        std::optional<float> aggregated_accuracy;
+        std::map<std::string, float> per_shard_loss;  // For monitoring
     };
     StepResult executeStep();
     
@@ -291,6 +322,16 @@ public:
     // Aggregate collected gradients
     std::vector<GradientTensor> aggregateGradients(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+    );
+    
+    // Aggregate loss values from all shards
+    std::optional<float> aggregateLoss(
+        const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
+    );
+    
+    // Weighted average based on samples processed
+    float computeWeightedLoss(
+        const std::vector<std::pair<float, int>>& shard_losses_and_counts
     );
     
     // Broadcast aggregated gradients to all shards
@@ -355,6 +396,9 @@ private:
     // Gradient aggregator
     std::unique_ptr<GradientAggregator> aggregator_;
     
+    // Byzantine detector
+    std::unique_ptr<ByzantineDetector> byzantine_detector_;
+    
     // Statistics
     DistributedTrainingStats stats_;
     std::chrono::steady_clock::time_point start_time_;
@@ -364,10 +408,15 @@ private:
     
     // Helper methods
     void initializeAggregator();
+    void initializeByzantineDetector();
     bool validateShardParticipation();
     void updateStatistics(const StepResult& result);
     std::vector<GradientTensor> compressGradients(const std::vector<GradientTensor>& gradients);
     std::vector<GradientTensor> decompressGradients(const std::vector<GradientTensor>& gradients);
+    void clipAnomalousGradients(
+        std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
+        const DetectionResult& detection_result
+    );
 };
 
 // ============================================================================

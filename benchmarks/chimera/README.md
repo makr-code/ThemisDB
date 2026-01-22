@@ -350,6 +350,29 @@ cd benchmarks/chimera
 pytest test_chimera.py -v
 ```
 
+## Neutrality Documentation
+
+CHIMERA provides comprehensive documentation on vendor neutrality:
+
+- **[NEUTRALITY_GUARANTEES.md](NEUTRALITY_GUARANTEES.md)** - Complete neutrality principles and guarantees
+- **[NEUTRALITY_STYLEGUIDE.md](NEUTRALITY_STYLEGUIDE.md)** - Style guide for contributors
+- **[ADAPTER_API.md](ADAPTER_API.md)** - API documentation for integrating new systems
+
+### Neutrality Verification
+
+Check compliance with neutrality standards:
+
+```bash
+cd benchmarks/chimera
+python3 neutrality_linter.py
+```
+
+The linter checks for:
+- Vendor-specific names in code/config
+- Marketing terminology
+- Non-neutral color schemes
+- Biased report presentation
+
 ## References
 
 1. **Cohen, J. (1988)**. Statistical Power Analysis for the Behavioral Sciences. Lawrence Erlbaum Associates.

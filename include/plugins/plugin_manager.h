@@ -1,6 +1,8 @@
 #pragma once
 
 #include "plugins/plugin_interface.h"
+#include "plugins/plugin_metrics.h"
+#include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include <string>
 #include <memory>
@@ -14,6 +16,32 @@ namespace themis {
 namespace plugins {
 
 using json = nlohmann::json;
+
+// Forward declarations
+class PluginHotPlugMonitor;
+struct HotPlugConfig;
+
+/**
+ * @brief Plugin Reload Phase
+ * 
+ * Used for event notifications during hot-reload operations
+ */
+enum class PluginReloadPhase {
+    BEFORE_UNLOAD,  ///< About to unload plugin
+    AFTER_UNLOAD,   ///< Plugin unloaded successfully
+    AFTER_LOAD      ///< Plugin reloaded successfully
+};
+
+/**
+ * @brief Plugin Reload Event Listener
+ * 
+ * Callback type for reload event notifications.
+ * Listeners are notified during different phases of plugin reload.
+ * 
+ * @param plugin_name Name of the plugin being reloaded
+ * @param phase Current reload phase
+ */
+using PluginReloadListener = std::function<void(const std::string& plugin_name, PluginReloadPhase phase)>;
 
 /**
  * @brief Unified Plugin Manager
@@ -47,6 +75,9 @@ private:
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
     std::unordered_map<PluginType, std::vector<std::string>> type_index_;  // type -> plugin names
+    PluginMetrics metrics_;  // Plugin metrics tracker
+    std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
+    std::vector<PluginReloadListener> reload_listeners_;  // Reload event listeners
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -64,6 +95,10 @@ private:
     bool verifyPlugin(const std::string& path, std::string& error_message);
     
     std::string calculateFileHash(const std::string& path);
+    
+    // Hot-reload helper methods
+    std::vector<std::string> findDependentPlugins(const std::string& name) const;
+    void notifyPluginReload(const std::string& name, PluginReloadPhase phase);
     
 public:
     PluginManager() = default;
@@ -161,6 +196,56 @@ public:
      * @return Manifest or nullopt if not found
      */
     std::optional<PluginManifest> getManifest(const std::string& name) const;
+    
+    /**
+     * @brief Get plugin metrics
+     * @return Reference to plugin metrics
+     */
+    const PluginMetrics& getMetrics() const { return metrics_; }
+    
+    /**
+     * @brief Get mutable plugin metrics (for testing)
+     * @return Mutable reference to plugin metrics
+     */
+    PluginMetrics& getMetricsMutable() { return metrics_; }
+    
+    /**
+     * @brief Enable hot-plug monitoring for a directory
+     * @param directory Directory to monitor
+     * @param config Hot-plug configuration
+     * @return true if monitoring started successfully
+     */
+    bool enableHotPlug(const std::string& directory, const HotPlugConfig& config = HotPlugConfig());
+    
+    /**
+     * @brief Disable hot-plug monitoring
+     */
+    void disableHotPlug();
+    
+    /**
+     * @brief Check if hot-plug monitoring is enabled
+     * @return true if monitoring is active
+     */
+    bool isHotPlugEnabled() const;
+    
+    /**
+     * @brief Register a reload event listener
+     * 
+     * Listeners are notified during plugin reload phases:
+     * - BEFORE_UNLOAD: Before unloading old plugin
+     * - AFTER_UNLOAD: After unloading old plugin
+     * - AFTER_LOAD: After loading new plugin
+     * 
+     * @param listener Callback function to be notified
+     * @note Thread-safe: Can be called from any thread
+     */
+    void registerReloadListener(PluginReloadListener listener);
+    
+    /**
+     * @brief Clear all reload event listeners
+     * @note Thread-safe: Can be called from any thread
+     */
+    void clearReloadListeners();
     
     /**
      * @brief Singleton instance

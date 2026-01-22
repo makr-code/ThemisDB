@@ -18,6 +18,7 @@ namespace sharding {
 // Forward declarations
 class ShardTopology;
 class MTLSClient;
+class PrometheusMetrics;
 
 /**
  * @brief Vector Clock for causality tracking in distributed systems

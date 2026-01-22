@@ -318,11 +318,12 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
     
     try {
         // Scan all keys and extract table names from key prefixes
-        auto it = db_.newIterator();
-        if (!it) {
-            spdlog::warn("SchemaManager: Failed to create iterator");
+        auto it_result = db_.newIterator();
+        if (!it_result) {
+            spdlog::warn("SchemaManager: Failed to create iterator: {}", it_result.error().message());
             return {};
         }
+        auto it = std::move(it_result.value());
         
         it->SeekToFirst();
         while (it->Valid()) {
@@ -373,11 +374,12 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
         // Build key prefix for this table
         std::string prefix = std::string(table_name) + ":";
         
-        auto it = db_.newIterator();
-        if (!it) {
-            spdlog::warn("SchemaManager: Failed to create iterator for properties");
+        auto it_result = db_.newIterator();
+        if (!it_result) {
+            spdlog::warn("SchemaManager: Failed to create iterator for properties: {}", it_result.error().message());
             return {};
         }
+        auto it = std::move(it_result.value());
         
         it->Seek(prefix);
         
@@ -576,10 +578,11 @@ size_t SchemaManager::estimateRowCount(std::string_view table_name) {
     try {
         std::string prefix = std::string(table_name) + ":";
         
-        auto it = db_.newIterator();
-        if (!it) {
+        auto it_result = db_.newIterator();
+        if (!it_result) {
             return 0;
         }
+        auto it = std::move(it_result.value());
         
         it->Seek(prefix);
         

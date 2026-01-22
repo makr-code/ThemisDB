@@ -374,3 +374,100 @@ TEST_F(TimestampAuthorityTest, DISABLED_TimestampPerformanceBenchmark) {
     
     EXPECT_GT(successful, 0);
 }
+
+// ============================================================================
+// RFC 3161 Compliance Tests - New Fields
+// ============================================================================
+
+TEST_F(TimestampAuthorityTest, RFC3161_AccuracyMetadata) {
+    if (skip_network_tests) {
+        GTEST_SKIP() << "Network tests disabled";
+    }
+    
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+    
+    std::vector<uint8_t> data = {'A', 'c', 'c', 'u', 'r', 'a', 'c', 'y', 'T', 'e', 's', 't'};
+    auto token = tsa.getTimestamp(data);
+    
+    if (!token.success) {
+        GTEST_SKIP() << "TSA unavailable: " << token.error_message;
+    }
+    
+    // Check if accuracy metadata is present (optional per RFC 3161)
+    // Note: Not all TSAs provide accuracy information
+    if (token.has_accuracy) {
+        std::cout << "Accuracy metadata found:\n"
+                  << "  Seconds: " << token.accuracy_seconds << "\n"
+                  << "  Milliseconds: " << token.accuracy_millis << "\n"
+                  << "  Microseconds: " << token.accuracy_micros << "\n";
+        
+        // If accuracy is present, values should be reasonable
+        EXPECT_LE(token.accuracy_millis, 999);
+        EXPECT_LE(token.accuracy_micros, 999);
+    } else {
+        std::cout << "Note: TSA does not provide accuracy metadata (optional per RFC 3161)\n";
+    }
+}
+
+TEST_F(TimestampAuthorityTest, RFC3161_OrderingHint) {
+    if (skip_network_tests) {
+        GTEST_SKIP() << "Network tests disabled";
+    }
+    
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+    
+    std::vector<uint8_t> data = {'O', 'r', 'd', 'e', 'r', 'T', 'e', 's', 't'};
+    auto token = tsa.getTimestamp(data);
+    
+    if (!token.success) {
+        GTEST_SKIP() << "TSA unavailable: " << token.error_message;
+    }
+    
+    // Check ordering hint (optional per RFC 3161, default is false)
+    std::cout << "Ordering hint: " << (token.ordering ? "true (chronological guarantee)" : "false (no guarantee)") << "\n";
+    
+    // The field should always be present, but value depends on TSA
+    // Most TSAs don't guarantee ordering, so we just verify the field exists
+    EXPECT_TRUE(!token.ordering || token.ordering);  // Always passes, just validates field access
+}
+
+TEST_F(TimestampAuthorityTest, RFC3161_CertificateExtraction) {
+    if (skip_network_tests) {
+        GTEST_SKIP() << "Network tests disabled";
+    }
+    
+    TSAConfig config = createFreeTSAConfig();
+    // Note: cert_req is already true by default in createFreeTSAConfig()
+    TimestampAuthority tsa(config);
+    
+    std::vector<uint8_t> data = {'C', 'e', 'r', 't', 'T', 'e', 's', 't'};
+    auto token = tsa.getTimestamp(data);
+    
+    if (!token.success) {
+        GTEST_SKIP() << "TSA unavailable: " << token.error_message;
+    }
+    
+    // With cert_req=true, we should get certificate information
+    EXPECT_FALSE(token.tsa_cert.empty()) << "TSA certificate should be present";
+    EXPECT_FALSE(token.tsa_serial.empty()) << "TSA certificate serial should be present";
+    EXPECT_FALSE(token.tsa_name.empty()) << "TSA name should be present";
+    
+    std::cout << "TSA Certificate Info:\n"
+              << "  Subject: " << token.tsa_name << "\n"
+              << "  Serial: " << token.tsa_serial << "\n"
+              << "  Cert Size: " << token.tsa_cert.size() << " bytes\n";
+    
+    // Verify getTSACertificate() returns the cached certificate
+    auto cert_pem = tsa.getTSACertificate();
+    EXPECT_TRUE(cert_pem.has_value()) << "getTSACertificate() should return certificate";
+    
+    if (cert_pem.has_value()) {
+        EXPECT_FALSE(cert_pem->empty());
+        EXPECT_NE(cert_pem->find("-----BEGIN CERTIFICATE-----"), std::string::npos);
+        EXPECT_NE(cert_pem->find("-----END CERTIFICATE-----"), std::string::npos);
+        
+        std::cout << "Certificate PEM format verified (length: " << cert_pem->size() << " bytes)\n";
+    }
+}

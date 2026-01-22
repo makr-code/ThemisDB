@@ -63,7 +63,7 @@ public:
         }
     }
     
-    BlobRef put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+    Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
         std::string file_path = getPath(blob_id);
         
         try {
@@ -73,14 +73,20 @@ public:
             // Write blob to file
             std::ofstream ofs(file_path, std::ios::binary);
             if (!ofs) {
-                throw std::runtime_error("Failed to open file for writing: " + file_path);
+                return Err<BlobRef>(
+                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                    "Failed to open file for writing: " + file_path
+                );
             }
             
             ofs.write(reinterpret_cast<const char*>(data.data()), data.size());
             ofs.close();
             
             if (!ofs) {
-                throw std::runtime_error("Failed to write blob to file: " + file_path);
+                return Err<BlobRef>(
+                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                    "Failed to write blob to file: " + file_path
+                );
             }
             
             // Create BlobRef
@@ -97,20 +103,26 @@ public:
             THEMIS_DEBUG("FilesystemBlobBackend: Stored blob {} ({} bytes) at {}", 
                 blob_id, data.size(), file_path);
             
-            return ref;
+            return Ok(ref);
             
         } catch (const std::exception& e) {
             THEMIS_ERROR("FilesystemBlobBackend::put failed for {}: {}", blob_id, e.what());
-            throw;
+            return Err<BlobRef>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Failed to store blob: " + std::string(e.what())
+            );
         }
     }
     
-    std::optional<std::vector<uint8_t>> get(const BlobRef& ref) override {
+    Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
         try {
             std::ifstream ifs(ref.uri, std::ios::binary);
             if (!ifs) {
                 THEMIS_WARN("FilesystemBlobBackend: Blob not found: {}", ref.uri);
-                return std::nullopt;
+                return Err<std::vector<uint8_t>>(
+                    errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                    "Blob not found: " + ref.uri
+                );
             }
             
             // Read entire file
@@ -122,24 +134,33 @@ public:
             THEMIS_DEBUG("FilesystemBlobBackend: Retrieved blob {} ({} bytes)", 
                 ref.id, data.size());
             
-            return data;
+            return Ok(data);
             
         } catch (const std::exception& e) {
             THEMIS_ERROR("FilesystemBlobBackend::get failed for {}: {}", ref.id, e.what());
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Failed to read blob: " + std::string(e.what())
+            );
         }
     }
     
-    bool remove(const BlobRef& ref) override {
+    Result<void> remove(const BlobRef& ref) override {
         try {
             if (fs::remove(ref.uri)) {
                 THEMIS_DEBUG("FilesystemBlobBackend: Removed blob {}", ref.id);
-                return true;
+                return Ok();
             }
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                "Blob not found: " + ref.uri
+            );
         } catch (const std::exception& e) {
             THEMIS_ERROR("FilesystemBlobBackend::remove failed for {}: {}", ref.id, e.what());
-            return false;
+            return Err<void>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Failed to remove blob: " + std::string(e.what())
+            );
         }
     }
     
