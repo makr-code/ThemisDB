@@ -1108,6 +1108,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/index/vector_index.cpp
+    ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
     
