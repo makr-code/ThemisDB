@@ -1596,6 +1596,93 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "RAG Judge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_judge.cpp")
     endif()
     
+    # Ethics-Aware Confidence Detector Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_aware_confidence_detector.cpp")
+        message(STATUS "Adding Ethics-Aware Confidence Detector tests")
+        
+        add_executable(test_ethics_aware_confidence_detector
+            test_ethics_aware_confidence_detector.cpp
+        )
+        
+        target_link_libraries(test_ethics_aware_confidence_detector PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_ethics_aware_confidence_detector PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME EthicsAwareConfidenceDetectorTests COMMAND test_ethics_aware_confidence_detector)
+        
+        set_tests_properties(EthicsAwareConfidenceDetectorTests PROPERTIES
+            LABELS "llm;ethics;confidence;hallucination;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "Ethics-Aware Confidence Detector tests not found")
+    endif()
+    
+    # Constitutional Reasoning Engine Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_constitutional_reasoning.cpp")
+        message(STATUS "Adding Constitutional Reasoning Engine tests")
+        
+        add_executable(test_constitutional_reasoning
+            test_constitutional_reasoning.cpp
+        )
+        
+        target_link_libraries(test_constitutional_reasoning PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_constitutional_reasoning PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME ConstitutionalReasoningTests COMMAND test_constitutional_reasoning)
+        
+        set_tests_properties(ConstitutionalReasoningTests PROPERTIES
+            LABELS "llm;ethics;constitutional;hallucination;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "Constitutional Reasoning Engine tests not found")
+    endif()
+    
+    # Multi-Perspective Generator Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_perspective_generator.cpp")
+        message(STATUS "Adding Multi-Perspective Generator tests")
+        
+        add_executable(test_multi_perspective_generator
+            test_multi_perspective_generator.cpp
+        )
+        
+        target_link_libraries(test_multi_perspective_generator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_multi_perspective_generator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MultiPerspectiveGeneratorTests COMMAND test_multi_perspective_generator)
+        
+        set_tests_properties(MultiPerspectiveGeneratorTests PROPERTIES
+            LABELS "llm;ethics;perspective;hallucination;unit"
+            TIMEOUT 120
+        )
+    else()
+        message(STATUS "Multi-Perspective Generator tests not found")
+    endif()
+    
     # LLM Integration Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_integration.cpp")
         message(STATUS "Adding LLM Integration tests")
