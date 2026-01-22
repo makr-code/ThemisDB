@@ -5,7 +5,6 @@
 #include <vector>
 #include <unordered_map>
 #include <variant>
-#include <optional>
 #include <memory>
 #include <functional>
 #include "utils/expected.h"
@@ -240,6 +239,11 @@ private:
     themis::Result<int64_t> parseInt();
     themis::Result<double> parseFloat();
     
+    // Helper methods
+    std::string getLocationContext() const;
+    ParseError convertToParseError(const themis::Error& error);
+    
+    // Deprecated: Use Result<T> return types instead of error() method
     void error(std::string message);
     
     std::string_view source_;

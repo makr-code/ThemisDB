@@ -1,0 +1,179 @@
+#pragma once
+
+#include "sharding/gossip_config_manager.h"
+#include "sharding/shard_topology.h"
+#include <nlohmann/json.hpp>
+#include <atomic>
+#include <shared_mutex>
+#include <thread>
+#include <chrono>
+
+namespace themis::sharding {
+
+class DistributedCoordinator {
+public:
+    enum class CoordinatorRole : uint8_t {
+        FOLLOWER = 0,     // Normal shard (default)
+        CANDIDATE = 1,    // Requesting to become leader
+        LEADER = 2        // Current coordinator
+    };
+    
+    enum class TaskType : uint8_t {
+        REBALANCE = 0,
+        REPAIR = 1,
+        MAINTENANCE = 2,
+        SCHEMA_MIGRATION = 3,
+        BACKUP = 4,
+        RESTORE = 5
+    };
+    
+    struct CoordinatorTask {
+        std::string task_id;
+        TaskType type;
+        nlohmann::json payload;
+        std::chrono::seconds ttl{600};  // 10 min default
+        std::chrono::system_clock::time_point created_at;
+        std::chrono::system_clock::time_point started_at;
+        std::string assigned_leader;
+        
+        nlohmann::json toJson() const;
+        static CoordinatorTask fromJson(const nlohmann::json& j);
+    };
+    
+    struct Config {
+        uint32_t leader_lease_seconds = 30;          // 30s lease
+        uint32_t heartbeat_interval_ms = 5000;       // 5s heartbeats
+        uint32_t election_timeout_ms = 10000;        // 10s election timeout
+        bool enable_automatic_failover = true;
+        bool enable_leader_stickiness = true;        // Prefer current leader
+        float leader_stickiness_bonus = 0.3f;        // 30% bonus for re-election
+    };
+    
+    struct LeaderInfo {
+        std::string shard_id;
+        CoordinatorRole role;
+        std::chrono::system_clock::time_point lease_expires_at;
+        std::chrono::system_clock::time_point last_heartbeat;
+        uint32_t term;  // Raft-inspired term number
+        
+        nlohmann::json toJson() const;
+    };
+    
+    struct Statistics {
+        std::atomic<uint64_t> elections_started{0};
+        std::atomic<uint64_t> elections_won{0};
+        std::atomic<uint64_t> elections_lost{0};
+        std::atomic<uint64_t> leader_failures_detected{0};
+        std::atomic<uint64_t> tasks_coordinated{0};
+        std::atomic<double> avg_lease_duration_seconds{0.0};
+    };
+    
+    using TaskExecutor = std::function<bool(const CoordinatorTask&)>;
+    using LeaderElectedCallback = std::function<void(const std::string& leader_id)>;
+    
+    explicit DistributedCoordinator(
+        const std::string& local_shard_id,
+        std::shared_ptr<ShardTopology> topology,
+        std::shared_ptr<GossipConfigManager> gossip_mgr,
+        const Config& config = Config{}
+    );
+    
+    ~DistributedCoordinator();
+    
+    // Lifecycle
+    void start();
+    void stop();
+    bool isRunning() const { return running_.load(); }
+    
+    // Role management
+    CoordinatorRole getRole() const { return role_.load(); }
+    bool isLeader() const { return role_.load() == CoordinatorRole::LEADER; }
+    std::optional<std::string> getCurrentLeader() const;
+    
+    // Leader election (Gossip-based, no centralized coordination)
+    void startElection();
+    void becomeLeader();
+    void stepDown();
+    
+    // Task coordination (only if leader)
+    std::string scheduleTask(const CoordinatorTask& task);
+    bool cancelTask(const std::string& task_id);
+    std::vector<CoordinatorTask> getPendingTasks() const;
+    
+    // Task execution callback
+    void setTaskExecutor(TaskExecutor executor);
+    
+    // Leader info
+    LeaderInfo getLeaderInfo() const;
+    
+    // Callbacks
+    void setLeaderElectedCallback(LeaderElectedCallback callback);
+    
+    // Statistics
+    Statistics getStatistics() const;
+    nlohmann::json getStatisticsJson() const;
+    
+private:
+    std::string local_shard_id_;
+    std::shared_ptr<ShardTopology> topology_;
+    std::shared_ptr<GossipConfigManager> gossip_mgr_;
+    Config config_;
+    
+    std::atomic<bool> running_{false};
+    std::atomic<CoordinatorRole> role_{CoordinatorRole::FOLLOWER};
+    std::atomic<uint32_t> current_term_{0};
+    
+    // Leader state
+    std::optional<std::string> current_leader_;
+    std::chrono::system_clock::time_point leader_lease_expires_;
+    std::chrono::system_clock::time_point last_leader_heartbeat_;
+    mutable std::shared_mutex leader_mutex_;
+    
+    // Tasks (only used if leader)
+    std::vector<CoordinatorTask> pending_tasks_;
+    mutable std::shared_mutex tasks_mutex_;
+    
+    // Threads
+    std::thread election_thread_;
+    std::thread heartbeat_thread_;
+    std::thread task_executor_thread_;
+    
+    // Callbacks
+    TaskExecutor task_executor_;
+    LeaderElectedCallback leader_elected_callback_;
+    std::mutex callback_mutex_;
+    
+    // Statistics
+    Statistics stats_;
+    
+    // Election logic (Raft-inspired but gossip-based)
+    void electionLoop();
+    void heartbeatLoop();
+    void taskExecutorLoop();
+    
+    // Leader detection
+    void detectLeaderFailure();
+    bool isLeaderHealthy() const;
+    
+    // Heartbeats
+    void sendHeartbeat();
+    void receiveHeartbeat(const std::string& leader_id, uint32_t term);
+    
+    // Election
+    void requestVotes();
+    void receiveVoteRequest(const std::string& candidate_id, uint32_t term);
+    void sendVote(const std::string& candidate_id, bool granted);
+    
+    // Task distribution (gossip-based)
+    void broadcastTask(const CoordinatorTask& task);
+    void receiveTask(const CoordinatorTask& task);
+    
+    // Lease management
+    bool hasValidLease() const;
+    void renewLease();
+    
+    // Graceful handoff
+    void transferLeadership(const std::string& new_leader);
+};
+
+} // namespace themis::sharding

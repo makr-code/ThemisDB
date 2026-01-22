@@ -10,6 +10,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Query Result Pagination**: Comprehensive pagination support for query results with multiple strategies
+  - **Cursor-based pagination** with expiration and versioning (1-hour TTL default)
+  - **Keyset pagination** using ORDER BY values for O(log n) performance
+  - **Configurable page sizes** with validation (min: 1, max: 10,000, default: 100)
+  - Enhanced `PaginatedResponse` with detailed metadata (`PageInfo`, `has_next_page`, `has_prev_page`)
+  - ORDER BY value encoding in cursors eliminates database lookups for sort values
+  - Cursor expiration prevents stale cursor accumulation
+  - Multiple pagination methods supported: CURSOR, OFFSET, KEYSET
+  - 17 comprehensive tests with 100% pass rate
+  - Backward compatible with existing pagination API
+  - Related to #751
+- **Plugin Metrics and Monitoring**: Comprehensive metrics tracking for all plugins with Prometheus integration
+  - `PluginMetrics` class for thread-safe metrics collection
+  - Automatic tracking of load time, reload time, function call latency (P95/P99)
+  - Resource usage monitoring (memory per plugin)
+  - Error tracking and count metrics
+  - JSON API endpoint: `/api/plugins/metrics`
+  - Prometheus metrics integrated into `/metrics` endpoint
+  - <1% performance overhead from instrumentation
+  - See [Plugin Metrics Documentation](docs/plugins/PLUGIN_METRICS.md)
 - **CHIMERA Suite Branding**: Rebranded benchmark framework to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_)
   - Tagline: "Benchmark the Unbenchmarkable"
   - Vendor-neutral, scientifically rigorous benchmark framework
@@ -21,7 +41,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Schema Manager for database self-awareness and introspection
 - Independent Health/Error service on alternate port (9090)
 
+### Performance
+- **Query Pagination Improvements**:
+  - Reduced database lookups by storing ORDER BY values in cursors
+  - O(log n) keyset pagination vs O(n) offset-based pagination
+  - Memory efficiency through configurable page size limits (max 10,000 items)
+  - Cursor expiration prevents stale cursor accumulation
+
 ### Changed
+- **Documentation Reorganization**: Major cleanup and restructuring of documentation
+  - Fixed version inconsistencies across README, VERSION file, and badges
+  - Moved 70+ historical implementation documents to `docs/implementation-history/` archive
+  - Created comprehensive archive README explaining historical documents
+  - Updated all broken links in main documentation files
+  - Added archive reference in main documentation index
+  - Cleaner root directory with only essential documentation files
 - Improved documentation structure and organization
 - Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
 
@@ -91,7 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Thread-safety for Context Scaling with LoRA/Adapters
 - ✅ Comprehensive RAM/VRAM profiling and monitoring
 - ✅ Feature flags and backward compatibility
-- Reference: [INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md](INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md)
+- Reference: [INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md](docs/implementation-history/INVESTIGATION_GAPS_SIMULATIONS_THEMISDB.md)
 
 **Production Readiness Score:**
 - v1.4.0-alpha: 38% → v1.4.0-stable: 93%

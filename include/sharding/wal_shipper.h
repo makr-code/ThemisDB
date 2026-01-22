@@ -144,6 +144,41 @@ public:
      * Set Prometheus metrics exporter (optional)
      */
     void setMetricsExporter(std::shared_ptr<class PrometheusMetrics> metrics);
+    
+    /**
+     * Phase 3: Calculate optimal batch size based on network and system metrics
+     * 
+     * Adapts batch size dynamically based on:
+     * - Network latency (lower latency = smaller batches for lower lag)
+     * - CPU utilization (lower CPU = larger batches for compression)
+     * - Disk IOPS available (higher IOPS = larger batches)
+     * 
+     * @param network_latency_ms Average network latency in milliseconds
+     * @param cpu_utilization CPU utilization (0.0 - 1.0)
+     * @param disk_iops_available Available disk IOPS
+     * @return Optimal batch size
+     */
+    size_t calculateOptimalBatchSize(double network_latency_ms,
+                                     double cpu_utilization,
+                                     size_t disk_iops_available) const;
+    
+    /**
+     * Phase 3: Select optimal compression type based on payload characteristics
+     * 
+     * Analyzes payload to select best compression:
+     * - Small payloads (<4KB): No compression (overhead not worth it)
+     * - Large, repetitive payloads: Zstd (best ratio)
+     * - Large, random payloads: LZ4 or None (faster)
+     * - CPU constrained: LZ4 or None
+     * 
+     * @param payload_size Size of payload in bytes
+     * @param is_repetitive Whether payload has high repetition (JSON, text)
+     * @param cpu_utilization Current CPU utilization (0.0 - 1.0)
+     * @return Recommended compression type
+     */
+    WALShipperConfig::CompressionType selectCompressionType(size_t payload_size,
+                                                            bool is_repetitive,
+                                                            double cpu_utilization) const;
 
 private:
     WALShipperConfig config_;

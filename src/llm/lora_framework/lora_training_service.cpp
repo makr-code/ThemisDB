@@ -15,6 +15,7 @@
 #include "llm/lora_framework/gpu_lora_layers.h"
 #include "llm/lora_framework/model_compatibility.h"
 #include "llm/lora_framework/resource_profiler.h"
+#include "llm/lora_framework/training_service_registry.h"
 #include "llm/distributed_training_coordinator.h"
 #include "sharding/shard_router.h"
 #include "sharding/shard_topology.h"
@@ -122,6 +123,20 @@ public:
         spdlog::info("  Base model: {}", config_.base_model_path);
         spdlog::info("  Max concurrent: {}", config_.max_concurrent_training);
         spdlog::info("  Checkpointing: {}", config_.enable_checkpointing);
+        
+        // Register shard infrastructure if provided
+        if (config_.shard_router && config_.shard_topology) {
+            auto& registry = TrainingServiceRegistry::getInstance();
+            registry.registerShardRouter(config_.shard_router);
+            registry.registerShardTopology(config_.shard_topology);
+            
+            spdlog::info("Shard infrastructure registered for distributed training");
+            spdlog::info("  ShardRouter: registered");
+            spdlog::info("  ShardTopology: registered");
+        } else if (config_.enable_distributed_training) {
+            spdlog::warn("Distributed training enabled but ShardRouter/ShardTopology not provided");
+            spdlog::info("Will attempt to use previously registered instances or run in standalone mode");
+        }
         
         // Create checkpoint directory if it doesn't exist
         if (config_.enable_checkpointing && !config_.checkpoint_dir.empty()) {
@@ -1502,17 +1517,31 @@ TrainingResult LoRATrainingService::trainDistributed(
         dist_config.checkpoint_frequency = impl_->config_.checkpoint_interval_steps;
         dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
         
-        // 2. Create ShardRouter and ShardTopology (in real implementation, these would come from dependency injection)
-        // NOTE: These components would typically be injected via constructor or obtained from a service registry.
-        // For this implementation, we create the coordinator with nullptr for router/topology since the current
-        // implementation doesn't use these for core functionality (gradient aggregation works without them).
-        // In a production deployment, these would be properly injected to enable inter-shard communication.
-        std::shared_ptr<ShardRouter> shard_router = nullptr;
-        std::shared_ptr<ShardTopology> shard_topology = nullptr;
+        // 2. Get ShardRouter and ShardTopology from registry
+        // First check if they were provided in config, otherwise get from registry
+        std::shared_ptr<ShardRouter> shard_router = impl_->config_.shard_router;
+        std::shared_ptr<ShardTopology> shard_topology = impl_->config_.shard_topology;
         
-        spdlog::info("Creating DistributedTrainingCoordinator");
-        spdlog::warn("ShardRouter and ShardTopology are not injected - using standalone mode");
-        spdlog::info("For production use, inject these dependencies for full inter-shard communication");
+        if (!shard_router || !shard_topology) {
+            // Try to get from registry
+            auto& registry = TrainingServiceRegistry::getInstance();
+            if (!shard_router) {
+                shard_router = registry.getShardRouter();
+            }
+            if (!shard_topology) {
+                shard_topology = registry.getShardTopology();
+            }
+        }
+        
+        if (!shard_router || !shard_topology) {
+            spdlog::warn("ShardRouter/ShardTopology not available");
+            spdlog::info("Running in standalone mode (simulated gradients)");
+            spdlog::info("For production use, provide shard_router and shard_topology in config");
+        } else {
+            spdlog::info("Using ShardRouter and ShardTopology for inter-shard communication");
+            spdlog::info("  ShardRouter: available");
+            spdlog::info("  ShardTopology: available ({} shards)", shard_topology->getShardCount());
+        }
         
         // 3. Create DistributedTrainingCoordinator
         auto coordinator = DistributedTrainingCoordinatorFactory::create(
@@ -1551,6 +1580,9 @@ TrainingResult LoRATrainingService::trainDistributed(
         std::vector<float> loss_history;
         float avg_sync_time_ms = 0.0f;
         int successful_steps = 0;
+        
+        // Track last step result for per-shard loss
+        DistributedTrainingCoordinator::StepResult last_step_result;
         
         // Progress callback to monitor training
         coordinator->setProgressCallback(
@@ -1620,16 +1652,16 @@ TrainingResult LoRATrainingService::trainDistributed(
                 successful_steps++;
                 avg_sync_time_ms += step_result.sync_time_ms;
                 
-                // NOTE: This uses simulated loss for demonstration purposes.
-                // In a production implementation, actual loss values would be:
-                // 1. Computed by each shard during local training
-                // 2. Collected during gradient exchange
-                // 3. Aggregated across shards (e.g., average)
-                // 4. Returned in the step_result
-                // TODO: Replace with actual loss computation from distributed training
-                constexpr float loss_decay_rate = 0.1f;  // Simulated learning rate
-                float simulated_loss = 1.0f / (1.0f + step * loss_decay_rate);
-                loss_history.push_back(simulated_loss);
+                // Store last successful step result
+                last_step_result = step_result;
+                
+                // Use actual aggregated loss from coordinator
+                if (step_result.aggregated_loss.has_value()) {
+                    loss_history.push_back(step_result.aggregated_loss.value());
+                    spdlog::debug("Step {} loss: {:.6f}", step, step_result.aggregated_loss.value());
+                } else {
+                    spdlog::debug("Step {} completed but no loss available", step);
+                }
             }
         }
         
@@ -1679,6 +1711,33 @@ TrainingResult LoRATrainingService::trainDistributed(
         }
         result.metrics["active_shards"] = active_shards;
         result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
+        
+        // Add per-shard loss tracking from last successful step
+        if (!last_step_result.per_shard_loss.empty()) {
+            json per_shard_loss_json = json::object();
+            float loss_variance = 0.0f;
+            float mean_loss = 0.0f;
+            int loss_count = 0;
+            
+            for (const auto& [shard_id, loss] : last_step_result.per_shard_loss) {
+                per_shard_loss_json[shard_id] = loss;
+                mean_loss += loss;
+                loss_count++;
+            }
+            
+            // Compute loss variance across shards
+            if (loss_count > 0) {
+                mean_loss /= loss_count;
+                for (const auto& [shard_id, loss] : last_step_result.per_shard_loss) {
+                    float diff = loss - mean_loss;
+                    loss_variance += diff * diff;
+                }
+                loss_variance /= loss_count;
+            }
+            
+            result.metrics["per_shard_loss"] = per_shard_loss_json;
+            result.metrics["loss_variance"] = loss_variance;
+        }
         
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);

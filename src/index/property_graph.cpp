@@ -5,6 +5,7 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
 
 namespace themis {
 
@@ -138,6 +139,82 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
     auto batch = db_.createWriteBatch();
     if (!batch) {
         return Status::Error("deleteNode: Could not create write batch");
+    }
+
+    // Collect all edges connected to this node (both outgoing and incoming)
+    // Use unordered_set to avoid duplicates and improve lookup performance
+    std::unordered_set<std::string> edgesToDelete;
+    
+    // Scan outgoing edges: graph:out:<graph_id>:<pk>:
+    {
+        std::ostringstream oss;
+        oss << "graph:out:" << graph_id << ":" << pk << ":";
+        std::string outPrefix = oss.str();
+        
+        db_.scanPrefix(outPrefix, [&edgesToDelete, &outPrefix](std::string_view key, std::string_view /*val*/) {
+            // Extract edgeId from key: graph:out:<graph_id>:<pk>:<edgeId>
+            std::string keyStr(key);
+            size_t lastColon = keyStr.rfind(':');
+            if (lastColon != std::string::npos && lastColon > outPrefix.size() - 1) {
+                std::string edgeId = keyStr.substr(lastColon + 1);
+                if (!edgeId.empty()) {
+                    edgesToDelete.insert(edgeId);
+                }
+            }
+            return true;  // Continue scanning
+        });
+    }
+    
+    // Scan incoming edges: graph:in:<graph_id>:<pk>:
+    {
+        std::ostringstream oss;
+        oss << "graph:in:" << graph_id << ":" << pk << ":";
+        std::string inPrefix = oss.str();
+        
+        db_.scanPrefix(inPrefix, [&edgesToDelete, &inPrefix](std::string_view key, std::string_view /*val*/) {
+            // Extract edgeId from key: graph:in:<graph_id>:<pk>:<edgeId>
+            std::string keyStr(key);
+            size_t lastColon = keyStr.rfind(':');
+            if (lastColon != std::string::npos && lastColon > inPrefix.size() - 1) {
+                std::string edgeId = keyStr.substr(lastColon + 1);
+                if (!edgeId.empty()) {
+                    edgesToDelete.insert(edgeId);
+                }
+            }
+            return true;  // Continue scanning
+        });
+    }
+    
+    // Delete all connected edges
+    for (const auto& edgeId : edgesToDelete) {
+        // Load edge to get _from, _to, _type
+        std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
+        auto edgeBlob = db_.get(edgeKey);
+        if (!edgeBlob.has_value()) {
+            continue;  // Edge already deleted
+        }
+        
+        BaseEntity edge = BaseEntity::deserialize(edgeId, *edgeBlob);
+        auto fromOpt = edge.getFieldAsString("_from");
+        auto toOpt = edge.getFieldAsString("_to");
+        std::optional<std::string> typeOpt = extractType_(edge);
+        
+        // Delete edge entity
+        batch->del(edgeKey);
+        
+        // Delete graph adjacency indices
+        if (fromOpt && toOpt) {
+            std::string outdexKey = makeGraphOutdexKey_(graph_id, *fromOpt, edgeId);
+            std::string indegKey = makeGraphIndegKey_(graph_id, *toOpt, edgeId);
+            batch->del(outdexKey);
+            batch->del(indegKey);
+        }
+        
+        // Delete type index entry if type exists
+        if (typeOpt.has_value()) {
+            std::string typeKey = makeTypeIndexKey_(graph_id, *typeOpt, edgeId);
+            batch->del(typeKey);
+        }
     }
 
     // Delete node entity
