@@ -94,13 +94,17 @@ std::future<HTTPResponse> HTTPClientPool::post(
     
     // Post work to io_context instead of spawning new threads
     net::post(*io_context_, [this, url, body, headers, promise]() {
+        std::shared_ptr<HTTPClient> client;
         try {
-            auto client = acquireConnection();
+            client = acquireConnection();
             auto response = client->post(url, body, headers);
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
         } catch (...) {
+            if (client) {
+                releaseConnection(client);
+            }
             promise->set_exception(std::current_exception());
         }
     });
@@ -117,13 +121,17 @@ std::future<HTTPResponse> HTTPClientPool::get(
     
     // Post work to io_context instead of spawning new threads
     net::post(*io_context_, [this, url, headers, promise]() {
+        std::shared_ptr<HTTPClient> client;
         try {
-            auto client = acquireConnection();
+            client = acquireConnection();
             auto response = client->get(url, headers);
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
         } catch (...) {
+            if (client) {
+                releaseConnection(client);
+            }
             promise->set_exception(std::current_exception());
         }
     });
@@ -161,15 +169,19 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
     }
     
     // Create new connection if under limit
-    if (total_connections_.load() < config_.max_connections) {
+    // Use atomic increment to avoid race condition
+    size_t current_count = total_connections_.fetch_add(1);
+    if (current_count < config_.max_connections) {
         auto client = createClient();
         auto pooled = std::make_shared<PooledConnection>();
         pooled->client = client;
         pooled->in_use = true;
         pooled->last_used = now;
         stripe->connections.push_back(pooled);
-        total_connections_++;
         return client;
+    } else {
+        // Exceeded limit, roll back the increment
+        total_connections_--;
     }
     
     // Wait for connection with timeout

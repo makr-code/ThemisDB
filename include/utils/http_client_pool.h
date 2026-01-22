@@ -23,6 +23,7 @@
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/ssl/stream.hpp>
+#include <boost/asio/post.hpp>
 
 namespace beast = boost::beast;
 namespace http = beast::http;
