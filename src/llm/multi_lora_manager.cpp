@@ -2390,21 +2390,33 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
         return schedule.static_weights;
     }
     
+    // Validate exponential_base to avoid division by zero
+    float safe_base = std::max(0.1f, std::abs(schedule.exponential_base));
+    
     // Compute exponential progress
     // For decay: progress = 1 - exp(-base * t)
     // For growth: progress = (exp(base * t) - 1) / (exp(base) - 1)
     float progress;
     if (schedule.exponential_decay) {
         // Exponential decay: fast transition at start, slow at end
-        progress = 1.0f - std::exp(-schedule.exponential_base * normalized_time);
+        progress = 1.0f - std::exp(-safe_base * normalized_time);
         // Normalize to ensure we reach 1.0 at t=1
-        float max_progress = 1.0f - std::exp(-schedule.exponential_base);
-        progress /= max_progress;
+        float max_progress = 1.0f - std::exp(-safe_base);
+        if (max_progress > 1e-6f) {  // Avoid division by near-zero
+            progress /= max_progress;
+        } else {
+            progress = normalized_time;  // Fallback to linear
+        }
     } else {
         // Exponential growth: slow transition at start, fast at end
-        float exp_base = std::exp(schedule.exponential_base);
-        float exp_t = std::exp(schedule.exponential_base * normalized_time);
-        progress = (exp_t - 1.0f) / (exp_base - 1.0f);
+        float exp_base = std::exp(safe_base);
+        float exp_t = std::exp(safe_base * normalized_time);
+        float denominator = exp_base - 1.0f;
+        if (std::abs(denominator) > 1e-6f) {  // Avoid division by near-zero
+            progress = (exp_t - 1.0f) / denominator;
+        } else {
+            progress = normalized_time;  // Fallback to linear
+        }
     }
     
     // Clamp progress to [0, 1]

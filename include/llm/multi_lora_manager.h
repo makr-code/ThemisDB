@@ -157,7 +157,7 @@ struct AlphaSchedule {
     std::chrono::seconds transition_duration{0};  // For smooth transitions
     
     // Exponential scheduling parameters
-    float exponential_base = 2.0f;  // Base for exponential function (e.g., 2.0 for doubling)
+    float exponential_base = 2.0f;  // Controls curve steepness (higher = faster/slower transition)
     bool exponential_decay = true;  // true for decay, false for growth
     
     // Step-wise scheduling parameters
