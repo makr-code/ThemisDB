@@ -126,7 +126,7 @@ jobs:
           echo "### Swift Package Manager:" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`swift" >> $GITHUB_STEP_SUMMARY
           echo "dependencies: [" >> $GITHUB_STEP_SUMMARY
-          echo '    .package(url: "https://github.com/makr-code/ThemisDB.git", from: "1.0.0")' >> $GITHUB_STEP_SUMMARY
+          echo '    .package(url: "https://github.com/${{ github.repository }}.git", from: "1.0.0")' >> $GITHUB_STEP_SUMMARY
           echo "]" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
