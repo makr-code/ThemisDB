@@ -728,6 +728,104 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 query.fulltextPredicate = PredicateFulltext{column, queryStr, limit};
                 continue; // Skip normal predicate extraction for this filter
             }
+            
+            // Handle PHRASE function
+            if (funcName == "phrase") {
+                // Parse PHRASE(column, phrase [, limit])
+                if (funcCall->arguments.size() < 2 || funcCall->arguments.size() > 3) {
+                    return TranslationResult::Error("PHRASE() requires 2-3 arguments: PHRASE(column, phrase [, limit])");
+                }
+                
+                // Extract column (must be field access: doc.column)
+                if (funcCall->arguments[0]->getType() != ASTNodeType::FieldAccess) {
+                    return TranslationResult::Error("PHRASE() first argument must be field access (e.g., doc.content)");
+                }
+                std::string column = extractColumnName(funcCall->arguments[0]);
+                
+                // Extract phrase string (must be literal)
+                if (funcCall->arguments[1]->getType() != ASTNodeType::Literal) {
+                    return TranslationResult::Error("PHRASE() second argument must be string literal");
+                }
+                auto phraseLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[1]);
+                if (!std::holds_alternative<std::string>(phraseLiteral->value)) {
+                    return TranslationResult::Error("PHRASE() phrase must be a string");
+                }
+                std::string phraseStr = std::get<std::string>(phraseLiteral->value);
+                
+                // Extract optional limit
+                size_t limit = 1000; // default
+                if (funcCall->arguments.size() == 3) {
+                    if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
+                        return TranslationResult::Error("PHRASE() third argument (limit) must be integer literal");
+                    }
+                    auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
+                    if (std::holds_alternative<int64_t>(limitLiteral->value)) {
+                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                    } else {
+                        return TranslationResult::Error("PHRASE() limit must be an integer");
+                    }
+                }
+                
+                // Set phrase predicate
+                query.phrasePredicate = PredicatePhrase{column, phraseStr, limit};
+                continue; // Skip normal predicate extraction for this filter
+            }
+            
+            // Handle FUZZY function
+            if (funcName == "fuzzy") {
+                // Parse FUZZY(column, query [, maxDistance] [, limit])
+                if (funcCall->arguments.size() < 2 || funcCall->arguments.size() > 4) {
+                    return TranslationResult::Error("FUZZY() requires 2-4 arguments: FUZZY(column, query [, maxDistance] [, limit])");
+                }
+                
+                // Extract column (must be field access: doc.column)
+                if (funcCall->arguments[0]->getType() != ASTNodeType::FieldAccess) {
+                    return TranslationResult::Error("FUZZY() first argument must be field access (e.g., doc.content)");
+                }
+                std::string column = extractColumnName(funcCall->arguments[0]);
+                
+                // Extract query string (must be literal)
+                if (funcCall->arguments[1]->getType() != ASTNodeType::Literal) {
+                    return TranslationResult::Error("FUZZY() second argument must be string literal");
+                }
+                auto queryLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[1]);
+                if (!std::holds_alternative<std::string>(queryLiteral->value)) {
+                    return TranslationResult::Error("FUZZY() query must be a string");
+                }
+                std::string queryStr = std::get<std::string>(queryLiteral->value);
+                
+                // Extract optional maxDistance (default 2)
+                int maxDistance = 2;
+                if (funcCall->arguments.size() >= 3) {
+                    if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
+                        return TranslationResult::Error("FUZZY() third argument (maxDistance) must be integer literal");
+                    }
+                    auto distLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
+                    if (std::holds_alternative<int64_t>(distLiteral->value)) {
+                        maxDistance = static_cast<int>(std::get<int64_t>(distLiteral->value));
+                    } else {
+                        return TranslationResult::Error("FUZZY() maxDistance must be an integer");
+                    }
+                }
+                
+                // Extract optional limit (default 1000)
+                size_t limit = 1000;
+                if (funcCall->arguments.size() == 4) {
+                    if (funcCall->arguments[3]->getType() != ASTNodeType::Literal) {
+                        return TranslationResult::Error("FUZZY() fourth argument (limit) must be integer literal");
+                    }
+                    auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[3]);
+                    if (std::holds_alternative<int64_t>(limitLiteral->value)) {
+                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                    } else {
+                        return TranslationResult::Error("FUZZY() limit must be an integer");
+                    }
+                }
+                
+                // Set fuzzy predicate
+                query.fuzzyPredicate = PredicateFuzzy{column, queryStr, maxDistance, limit};
+                continue; // Skip normal predicate extraction for this filter
+            }
         }
         
         // Check if filter contains FULLTEXT combined with AND
