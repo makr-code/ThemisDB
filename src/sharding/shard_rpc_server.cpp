@@ -3,9 +3,8 @@
 
 #include "sharding/shard_rpc_server.h"
 #include "utils/logger.h"
+#include "utils/file_utils.h"
 #include <stdexcept>
-#include <fstream>
-#include <sstream>
 
 #ifdef THEMIS_ENABLE_GRPC
 #if __has_include("shard_rpc.grpc.pb.h")
@@ -21,17 +20,6 @@
 #endif
 
 namespace themis::sharding {
-
-// Helper function to read file contents
-static std::string readFileContents(const std::string& path) {
-    std::ifstream file(path, std::ios::binary);
-    if (!file) {
-        throw std::runtime_error("Failed to open file: " + path);
-    }
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
 
 
 #if THEMIS_HAS_SHARD_GRPC
@@ -223,15 +211,15 @@ bool ShardRPCServer::start() {
                 
                 // Load CA certificate for client verification
                 if (!impl_->config.tls_ca_cert_path.empty()) {
-                    ssl_opts.pem_root_certs = readFileContents(impl_->config.tls_ca_cert_path);
+                    ssl_opts.pem_root_certs = themis::utils::readFileContents(impl_->config.tls_ca_cert_path);
                     THEMIS_INFO("Loaded CA certificate from: {}", impl_->config.tls_ca_cert_path);
                 }
                 
                 // Load server certificate and private key
                 if (!impl_->config.tls_cert_path.empty() && !impl_->config.tls_key_path.empty()) {
                     grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
-                    key_cert_pair.private_key = readFileContents(impl_->config.tls_key_path);
-                    key_cert_pair.cert_chain = readFileContents(impl_->config.tls_cert_path);
+                    key_cert_pair.private_key = themis::utils::readFileContents(impl_->config.tls_key_path);
+                    key_cert_pair.cert_chain = themis::utils::readFileContents(impl_->config.tls_cert_path);
                     ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
                     THEMIS_INFO("Loaded server certificate from: {}", impl_->config.tls_cert_path);
                 }
