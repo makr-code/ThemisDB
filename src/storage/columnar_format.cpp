@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstring>
 #include <limits>
+#include <unordered_set>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -158,6 +159,13 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
     for (const auto& str : data) {
         auto it = dictionary.find(str);
         if (it == dictionary.end()) {
+            // Validate dictionary size to prevent overflow
+            if (dict_values.size() >= static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+                return tl::unexpected(Error(
+                    errors::ErrorCode::ERR_COMPRESSION_FAILED,
+                    "Dictionary encode: dictionary size exceeds uint32_t limit"
+                ));
+            }
             uint32_t idx = static_cast<uint32_t>(dict_values.size());
             dictionary[str] = idx;
             dict_values.push_back(str);
@@ -177,6 +185,13 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
 
     // Dictionary entries
     for (const auto& str : dict_values) {
+        // Validate string length to prevent overflow
+        if (str.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_COMPRESSION_FAILED,
+                "Dictionary encode: string length exceeds uint32_t limit"
+            ));
+        }
         uint32_t str_len = static_cast<uint32_t>(str.size());
         const uint8_t* len_bytes = reinterpret_cast<const uint8_t*>(&str_len);
         encoded.insert(encoded.end(), len_bytes, len_bytes + sizeof(uint32_t));
@@ -206,6 +221,23 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     std::memcpy(&dict_size, &encoded[pos], sizeof(uint32_t));
     pos += sizeof(uint32_t);
 
+    // Validate dictionary size to prevent excessive memory allocation
+    constexpr uint32_t kMaxDictSize = 10'000'000;  // 10 million entries
+    if (dict_size > kMaxDictSize) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Dictionary decode: dictionary size exceeds maximum limit"
+        ));
+    }
+
+    // Ensure there is at least enough data for the length prefixes
+    if (dict_size > 0 && (encoded.size() - pos) < dict_size * sizeof(uint32_t)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Dictionary decode: insufficient data for dictionary entries"
+        ));
+    }
+
     // Read dictionary entries
     std::vector<std::string> dictionary;
     dictionary.reserve(dict_size);
@@ -221,6 +253,15 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
         uint32_t str_len;
         std::memcpy(&str_len, &encoded[pos], sizeof(uint32_t));
         pos += sizeof(uint32_t);
+
+        // Validate string length to prevent excessive memory allocation
+        constexpr uint32_t kMaxStringLen = 100'000'000;  // 100 MB per string
+        if (str_len > kMaxStringLen) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+                "Dictionary decode: string length exceeds maximum limit"
+            ));
+        }
 
         if (pos + str_len > encoded.size()) {
             return tl::unexpected(Error(
@@ -288,7 +329,28 @@ bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
 // ============================================================================
 
 uint8_t BitPackingCodec::calculateBitsRequired(int64_t min_val, int64_t max_val) {
-    uint64_t range = static_cast<uint64_t>(max_val - min_val);
+    // Handle edge case where min > max (shouldn't happen, but be defensive)
+    if (min_val > max_val) {
+        std::swap(min_val, max_val);
+    }
+    
+    // Calculate range safely to avoid overflow
+    uint64_t range = 0;
+    
+    if (min_val >= 0 && max_val >= 0) {
+        // Both non-negative: simple unsigned subtraction is safe
+        range = static_cast<uint64_t>(max_val) - static_cast<uint64_t>(min_val);
+    } else if (min_val < 0 && max_val < 0) {
+        // Both negative: use absolute values
+        uint64_t min_abs = static_cast<uint64_t>(-(min_val + 1)) + 1;
+        uint64_t max_abs = static_cast<uint64_t>(-(max_val + 1)) + 1;
+        range = min_abs - max_abs;
+    } else {
+        // Range crosses zero: distance is abs(min_val) + max_val
+        uint64_t min_abs = static_cast<uint64_t>(-(min_val + 1)) + 1;
+        range = min_abs + static_cast<uint64_t>(max_val);
+    }
+    
     if (range == 0) return 1;
 
     uint8_t bits = 0;
@@ -315,6 +377,14 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt32(const std::vector<int3
     const uint8_t* min_bytes = reinterpret_cast<const uint8_t*>(&min_val);
     encoded.insert(encoded.end(), min_bytes, min_bytes + sizeof(int32_t));
     encoded.push_back(bits_required);
+
+    // Validate data size to prevent overflow
+    if (data.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Bit-packing encode: data size exceeds uint32_t limit"
+        ));
+    }
 
     uint32_t count = static_cast<uint32_t>(data.size());
     const uint8_t* count_bytes = reinterpret_cast<const uint8_t*>(&count);
@@ -362,6 +432,14 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
     const uint8_t* min_bytes = reinterpret_cast<const uint8_t*>(&min_val);
     encoded.insert(encoded.end(), min_bytes, min_bytes + sizeof(int64_t));
     encoded.push_back(bits_required);
+
+    // Validate data size to prevent overflow
+    if (data.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Bit-packing encode: data size exceeds uint32_t limit"
+        ));
+    }
 
     uint32_t count = static_cast<uint32_t>(data.size());
     const uint8_t* count_bytes = reinterpret_cast<const uint8_t*>(&count);
@@ -416,6 +494,25 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
     std::memcpy(&count, &encoded[pos], sizeof(uint32_t));
     pos += sizeof(uint32_t);
 
+    // Validate count against remaining encoded size to avoid excessive allocation
+    size_t remaining = encoded.size() - pos;
+    size_t bytes_per_value;
+    if (bits_required <= 8) {
+        bytes_per_value = sizeof(uint8_t);
+    } else if (bits_required <= 16) {
+        bytes_per_value = sizeof(uint16_t);
+    } else {
+        bytes_per_value = sizeof(int32_t);
+    }
+
+    size_t max_count_by_size = remaining / bytes_per_value;
+    if (static_cast<size_t>(count) > max_count_by_size) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Bit-packing decode: count exceeds available data"
+        ));
+    }
+
     std::vector<int32_t> decoded;
     decoded.reserve(count);
 
@@ -465,6 +562,27 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     uint32_t count;
     std::memcpy(&count, &encoded[pos], sizeof(uint32_t));
     pos += sizeof(uint32_t);
+
+    // Validate count against remaining encoded size to avoid excessive allocation
+    size_t remaining = encoded.size() - pos;
+    size_t bytes_per_value;
+    if (bits_required <= 8) {
+        bytes_per_value = sizeof(uint8_t);
+    } else if (bits_required <= 16) {
+        bytes_per_value = sizeof(uint16_t);
+    } else if (bits_required <= 32) {
+        bytes_per_value = sizeof(uint32_t);
+    } else {
+        bytes_per_value = sizeof(int64_t);
+    }
+
+    size_t max_count_by_size = remaining / bytes_per_value;
+    if (static_cast<size_t>(count) > max_count_by_size) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Bit-packing decode: count exceeds available data"
+        ));
+    }
 
     std::vector<int64_t> decoded;
     decoded.reserve(count);
