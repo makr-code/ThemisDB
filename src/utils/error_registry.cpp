@@ -797,6 +797,66 @@ void ErrorRegistry::registerDefaultErrors() {
         {"query", "resource", "exhausted", "memory", "limit"}
     });
     
+    registerError({
+        ErrorCode::ERR_QUERY_INVALID,
+        "Query",
+        "Error",
+        "Invalid query: {}",
+        "The query is invalid or malformed.",
+        "1. Check query syntax and structure\n"
+        "2. Verify all required parameters are provided\n"
+        "3. Ensure query string is not empty\n"
+        "4. Review query documentation for correct format",
+        {"/docs/query/syntax.md"},
+        {"query", "invalid", "malformed", "syntax"}
+    });
+    
+    // Cache Errors
+    registerError({
+        ErrorCode::ERR_CACHE_FULL,
+        "Cache",
+        "Warning",
+        "Cache is full: {}",
+        "The cache has reached its maximum capacity and cannot store new entries.",
+        "1. Increase cache size limits in configuration\n"
+        "2. Review cache eviction policy settings\n"
+        "3. Monitor cache hit rates and adjust TTL settings\n"
+        "4. Consider using memory-aware eviction\n"
+        "5. Clear expired entries manually if needed",
+        {"/docs/cache/configuration.md"},
+        {"cache", "full", "capacity", "memory", "limit"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE,
+        "Cache",
+        "Warning",
+        "Cache entry too large: {}",
+        "The entry exceeds the maximum allowed size for caching.",
+        "1. Increase max_entry_size in cache configuration\n"
+        "2. Consider result set pagination for large queries\n"
+        "3. Review query to reduce result size\n"
+        "4. Use compression for large result sets\n"
+        "5. Store partial results if applicable",
+        {"/docs/cache/configuration.md"},
+        {"cache", "entry", "size", "limit", "exceeded"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_CACHE_INVALIDATION_FAILED,
+        "Cache",
+        "Error",
+        "Cache invalidation failed: {}",
+        "Failed to invalidate cache entries as requested.",
+        "1. Check cache service is running\n"
+        "2. Verify cache key or dependency pattern is correct\n"
+        "3. Review cache logs for detailed error information\n"
+        "4. Consider clearing entire cache if needed\n"
+        "5. Ensure sufficient permissions for cache operations",
+        {"/docs/cache/invalidation.md"},
+        {"cache", "invalidation", "failed", "error"}
+    });
+    
     // API Errors
     registerError({
         ErrorCode::ERR_API_INVALID_REQUEST,
