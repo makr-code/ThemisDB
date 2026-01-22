@@ -211,9 +211,6 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
     info.detected_at = std::chrono::system_clock::now();
     info.victim_id = victim_id;
     
-    // Get reference to victim transaction before clearing locks
-    std::shared_ptr<Transaction> victim_txn;
-    
     {
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
         recent_deadlocks_.push_back(info);
