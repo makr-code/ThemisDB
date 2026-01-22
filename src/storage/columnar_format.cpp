@@ -278,6 +278,8 @@ bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
     double cardinality_ratio = static_cast<double>(unique_strings.size()) / data.size();
     
     // Use dictionary if less than 30% unique values
+    // This threshold balances compression ratio with dictionary overhead
+    // Typical categorical columns have <10% cardinality
     return cardinality_ratio < 0.3;
 }
 
@@ -308,18 +310,39 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt32(const std::vector<int3
     
     uint8_t bits_required = calculateBitsRequired(min_val, max_val);
     
-    // Store header: min_val, bits_required
+    // Store header: min_val, bits_required, count
     std::vector<uint8_t> encoded;
     const uint8_t* min_bytes = reinterpret_cast<const uint8_t*>(&min_val);
     encoded.insert(encoded.end(), min_bytes, min_bytes + sizeof(int32_t));
     encoded.push_back(bits_required);
     
-    // Simple implementation: store normalized values
-    // (A full bit-packing implementation would pack bits tightly)
-    for (int32_t val : data) {
-        int32_t normalized = val - min_val;
-        const uint8_t* val_bytes = reinterpret_cast<const uint8_t*>(&normalized);
-        encoded.insert(encoded.end(), val_bytes, val_bytes + sizeof(int32_t));
+    uint32_t count = static_cast<uint32_t>(data.size());
+    const uint8_t* count_bytes = reinterpret_cast<const uint8_t*>(&count);
+    encoded.insert(encoded.end(), count_bytes, count_bytes + sizeof(uint32_t));
+    
+    // Pack bits: Simple byte-aligned packing for now
+    // For better compression, use proper bit-packing library
+    // This is a simplified implementation that achieves some compression
+    if (bits_required <= 8) {
+        // Can fit in uint8_t
+        for (int32_t val : data) {
+            uint8_t normalized = static_cast<uint8_t>(val - min_val);
+            encoded.push_back(normalized);
+        }
+    } else if (bits_required <= 16) {
+        // Can fit in uint16_t
+        for (int32_t val : data) {
+            uint16_t normalized = static_cast<uint16_t>(val - min_val);
+            const uint8_t* norm_bytes = reinterpret_cast<const uint8_t*>(&normalized);
+            encoded.insert(encoded.end(), norm_bytes, norm_bytes + sizeof(uint16_t));
+        }
+    } else {
+        // Full int32_t needed
+        for (int32_t val : data) {
+            int32_t normalized = val - min_val;
+            const uint8_t* val_bytes = reinterpret_cast<const uint8_t*>(&normalized);
+            encoded.insert(encoded.end(), val_bytes, val_bytes + sizeof(int32_t));
+        }
     }
     
     return encoded;
@@ -340,17 +363,41 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
     encoded.insert(encoded.end(), min_bytes, min_bytes + sizeof(int64_t));
     encoded.push_back(bits_required);
     
-    for (int64_t val : data) {
-        int64_t normalized = val - min_val;
-        const uint8_t* val_bytes = reinterpret_cast<const uint8_t*>(&normalized);
-        encoded.insert(encoded.end(), val_bytes, val_bytes + sizeof(int64_t));
+    uint32_t count = static_cast<uint32_t>(data.size());
+    const uint8_t* count_bytes = reinterpret_cast<const uint8_t*>(&count);
+    encoded.insert(encoded.end(), count_bytes, count_bytes + sizeof(uint32_t));
+    
+    // Byte-aligned packing based on bits required
+    if (bits_required <= 8) {
+        for (int64_t val : data) {
+            uint8_t normalized = static_cast<uint8_t>(val - min_val);
+            encoded.push_back(normalized);
+        }
+    } else if (bits_required <= 16) {
+        for (int64_t val : data) {
+            uint16_t normalized = static_cast<uint16_t>(val - min_val);
+            const uint8_t* norm_bytes = reinterpret_cast<const uint8_t*>(&normalized);
+            encoded.insert(encoded.end(), norm_bytes, norm_bytes + sizeof(uint16_t));
+        }
+    } else if (bits_required <= 32) {
+        for (int64_t val : data) {
+            uint32_t normalized = static_cast<uint32_t>(val - min_val);
+            const uint8_t* norm_bytes = reinterpret_cast<const uint8_t*>(&normalized);
+            encoded.insert(encoded.end(), norm_bytes, norm_bytes + sizeof(uint32_t));
+        }
+    } else {
+        for (int64_t val : data) {
+            int64_t normalized = val - min_val;
+            const uint8_t* val_bytes = reinterpret_cast<const uint8_t*>(&normalized);
+            encoded.insert(encoded.end(), val_bytes, val_bytes + sizeof(int64_t));
+        }
     }
     
     return encoded;
 }
 
 Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(int32_t) + 1) {
+    if (encoded.size() < sizeof(int32_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Bit-packing decode: insufficient header data"
@@ -365,20 +412,42 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
     
     uint8_t bits_required = encoded[pos++];
     
+    uint32_t count;
+    std::memcpy(&count, &encoded[pos], sizeof(uint32_t));
+    pos += sizeof(uint32_t);
+    
     std::vector<int32_t> decoded;
-    while (pos + sizeof(int32_t) <= encoded.size()) {
-        int32_t normalized;
-        std::memcpy(&normalized, &encoded[pos], sizeof(int32_t));
-        pos += sizeof(int32_t);
-        
-        decoded.push_back(normalized + min_val);
+    decoded.reserve(count);
+    
+    if (bits_required <= 8) {
+        // Stored as uint8_t
+        for (uint32_t i = 0; i < count && pos < encoded.size(); ++i) {
+            uint8_t normalized = encoded[pos++];
+            decoded.push_back(static_cast<int32_t>(normalized) + min_val);
+        }
+    } else if (bits_required <= 16) {
+        // Stored as uint16_t
+        for (uint32_t i = 0; i < count && pos + sizeof(uint16_t) <= encoded.size(); ++i) {
+            uint16_t normalized;
+            std::memcpy(&normalized, &encoded[pos], sizeof(uint16_t));
+            pos += sizeof(uint16_t);
+            decoded.push_back(static_cast<int32_t>(normalized) + min_val);
+        }
+    } else {
+        // Stored as int32_t
+        for (uint32_t i = 0; i < count && pos + sizeof(int32_t) <= encoded.size(); ++i) {
+            int32_t normalized;
+            std::memcpy(&normalized, &encoded[pos], sizeof(int32_t));
+            pos += sizeof(int32_t);
+            decoded.push_back(normalized + min_val);
+        }
     }
     
     return decoded;
 }
 
 Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(int64_t) + 1) {
+    if (encoded.size() < sizeof(int64_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Bit-packing decode: insufficient header data"
@@ -393,13 +462,39 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     
     uint8_t bits_required = encoded[pos++];
     
+    uint32_t count;
+    std::memcpy(&count, &encoded[pos], sizeof(uint32_t));
+    pos += sizeof(uint32_t);
+    
     std::vector<int64_t> decoded;
-    while (pos + sizeof(int64_t) <= encoded.size()) {
-        int64_t normalized;
-        std::memcpy(&normalized, &encoded[pos], sizeof(int64_t));
-        pos += sizeof(int64_t);
-        
-        decoded.push_back(normalized + min_val);
+    decoded.reserve(count);
+    
+    if (bits_required <= 8) {
+        for (uint32_t i = 0; i < count && pos < encoded.size(); ++i) {
+            uint8_t normalized = encoded[pos++];
+            decoded.push_back(static_cast<int64_t>(normalized) + min_val);
+        }
+    } else if (bits_required <= 16) {
+        for (uint32_t i = 0; i < count && pos + sizeof(uint16_t) <= encoded.size(); ++i) {
+            uint16_t normalized;
+            std::memcpy(&normalized, &encoded[pos], sizeof(uint16_t));
+            pos += sizeof(uint16_t);
+            decoded.push_back(static_cast<int64_t>(normalized) + min_val);
+        }
+    } else if (bits_required <= 32) {
+        for (uint32_t i = 0; i < count && pos + sizeof(uint32_t) <= encoded.size(); ++i) {
+            uint32_t normalized;
+            std::memcpy(&normalized, &encoded[pos], sizeof(uint32_t));
+            pos += sizeof(uint32_t);
+            decoded.push_back(static_cast<int64_t>(normalized) + min_val);
+        }
+    } else {
+        for (uint32_t i = 0; i < count && pos + sizeof(int64_t) <= encoded.size(); ++i) {
+            int64_t normalized;
+            std::memcpy(&normalized, &encoded[pos], sizeof(int64_t));
+            pos += sizeof(int64_t);
+            decoded.push_back(normalized + min_val);
+        }
     }
     
     return decoded;
@@ -511,35 +606,38 @@ Result<std::vector<int64_t>> FrameOfReferenceCodec::decodeInt64(const std::vecto
 
 // ============================================================================
 // Generic Compression Stubs (LZ4/Snappy require external libraries)
+// TODO: Integrate LZ4 and Snappy libraries in future version
 // ============================================================================
 
 Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vector<uint8_t>& data) {
-    // TODO: Implement LZ4 compression when library is available
+    // TODO: Implement LZ4 compression when library is integrated
+    // Requires: lz4 library (vcpkg install lz4)
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "LZ4 compression not yet implemented"
+        "LZ4 compression not yet implemented - requires lz4 library"
     ));
 }
 
 Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::vector<uint8_t>& compressed) {
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "LZ4 decompression not yet implemented"
+        "LZ4 decompression not yet implemented - requires lz4 library"
     ));
 }
 
 Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::vector<uint8_t>& data) {
-    // TODO: Implement Snappy compression when library is available
+    // TODO: Implement Snappy compression when library is integrated
+    // Requires: snappy library (vcpkg install snappy)
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "Snappy compression not yet implemented"
+        "Snappy compression not yet implemented - requires snappy library"
     ));
 }
 
 Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std::vector<uint8_t>& compressed) {
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "Snappy decompression not yet implemented"
+        "Snappy decompression not yet implemented - requires snappy library"
     ));
 }
 

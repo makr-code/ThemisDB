@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "storage/columnar_format.h"
+#include <spdlog/spdlog.h>
 #include <vector>
 #include <string>
 
