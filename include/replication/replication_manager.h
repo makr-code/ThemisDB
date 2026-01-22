@@ -27,6 +27,7 @@
 #include <thread>
 #include <optional>
 #include <queue>
+#include <map>
 
 namespace themisdb {
 namespace replication {
