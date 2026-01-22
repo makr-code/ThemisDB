@@ -17,7 +17,7 @@ struct PaginationConfig {
     size_t min_page_size = 1;           // Minimum allowed page size
     size_t max_page_size = 10000;       // Maximum allowed page size
     int64_t cursor_ttl_seconds = 3600;  // Cursor validity duration (1 hour)
-    bool enable_total_count = false;     // Whether to compute total count (expensive)
+    bool enable_total_count = false;     // Whether to compute total count (expensive, future feature)
 };
 
 /**
@@ -41,6 +41,9 @@ struct CursorInfo {
  * - Cursor expiration and versioning
  * 
  * Format: base64(json({pk, collection, order_value?, created_at, version}))
+ * 
+ * Security Note: Cursor tokens use Base64 encoding (not encryption).
+ * This is appropriate for position markers but should not contain sensitive data.
  */
 class Cursor {
 public:

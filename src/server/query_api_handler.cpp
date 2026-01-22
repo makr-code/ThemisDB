@@ -435,6 +435,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // Cursor expiration check
         if (use_cursor && !cursor_token.empty()) {
             if (!themis::utils::Cursor::isValid(cursor_token, pagination_config.cursor_ttl_seconds)) {
+                // Log expired cursor attempt for monitoring/debugging
+                auto cursorSpan = Tracer::startSpan("cursor.expired");
+                cursorSpan.setAttribute("cursor_length", static_cast<int64_t>(cursor_token.length()));
+                cursorSpan.recordError("Cursor has expired");
+                cursorSpan.setStatus(false);
+                
                 return makeErrorResponse(http::status::bad_request, 
                     "Cursor has expired. Please start a new query.", req);
             }

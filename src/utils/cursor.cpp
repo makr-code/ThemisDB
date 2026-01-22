@@ -8,6 +8,9 @@ namespace themis {
 namespace utils {
 
 // Simple Base64 encoding table
+// Note: Custom implementation for lightweight encoding without external dependencies.
+// For production systems requiring cryptographic operations, consider using
+// established libraries (boost::beast::detail::base64, OpenSSL BIO).
 static const char base64_chars[] = 
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz"
