@@ -112,9 +112,10 @@ public:
         return {};
     }
     
-    std::optional<IndexType> getIndexType(std::string_view name) const override {
+    Result<IndexType> getIndexType(std::string_view name) const override {
         // Default implementation: always not found
-        return std::nullopt;
+        return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                              fmt::format("Index not found: {}", std::string(name)));
     }
 };
 

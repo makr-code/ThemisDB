@@ -15,6 +15,7 @@ test_*/
 /release
 /build/
 /build-*/
+/build_*/
 /out/
 /bin/
 /lib/
@@ -107,6 +108,17 @@ Thumbs.db
 *.exe
 *.pdb
 *.ilk
+
+# Security: Private keys and sensitive certificates
+*.key
+*.pfx
+*.p12
+*.pem
+!**/certificate-chain.pem
+!**/manufacturer/*ca.crt
+!**/manufacturer/*signer.crt
+certs/manufacturer/*.key
+certs/test/*.key
 
 # Docker build artifacts
 .docker/

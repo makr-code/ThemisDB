@@ -12,6 +12,8 @@
 - [Überblick](#überblick)
 - [Plugin-Integration](#plugin-integration)
 - [Datensicherheit](#datensicherheit)
+  - [Mehrschichtige Signaturverifikation](#mehrschichtige-signaturverifikation)
+  - [Embedded Manufacturer Signature](#embedded-manufacturer-signature)
 - [Performance](#performance)
 - [Namespace-Verfügbarkeit](#namespace-verfügbarkeit)
 - [Dynamische Plugin-Verwaltung](#dynamische-plugin-verwaltung)
@@ -28,6 +30,7 @@ Das Plugin-System von ThemisDB ermöglicht die dynamische Erweiterung der Datenb
 - **Dynamisches Laden**: Plugins können zur Laufzeit geladen und entladen werden
 - **Typsicherheit**: Strenge Typisierung durch C++ Template-System
 - **Sicherheit**: Mehrschichtige Sicherheitsüberprüfung vor Plugin-Laden
+  - **NEU in v1.5.0**: 4-stufige Signaturverifikation mit embedded manufacturer signatures
 - **Performance**: Minimaler Overhead durch direkte Funktionsaufrufe
 - **Isolation**: Plugins laufen in eigenen Namespaces
 
@@ -256,7 +259,135 @@ ThemisDB implementiert ein Defense-in-Depth Modell für Plugins:
 └─────────────────────────────────────────┘
 ```
 
-### 2. PluginSecurityVerifier
+### 🆕 NEU in v1.5.0: Mehrschichtige Signaturverifikation
+
+ThemisDB v1.5.0 führt ein **4-stufiges Signaturverifikations-System** ein:
+
+#### Verifikations-Level
+
+```cpp
+enum class VerificationLevel {
+    LEVEL_1_HASH_ONLY,           // Nur SHA-256 Hash (schnell)
+    LEVEL_2_EMBEDDED_SIGNATURE,  // Embedded Herstellersignatur
+    LEVEL_3_PLATFORM_SIGNATURE,  // Platform Code-Signing
+    LEVEL_4_FULL_CHAIN           // Komplette Zertifikatskette + CRL/OCSP
+};
+```
+
+| Level | Beschreibung | Geschwindigkeit | Sicherheit | Verwendung |
+|-------|--------------|-----------------|------------|------------|
+| **Level 1** | Hash-only | ⚡⚡⚡ | ⭐⭐ | Development |
+| **Level 2** | Embedded Signature | ⚡⚡ | ⭐⭐⭐ | Testing |
+| **Level 3** | Platform Signature | ⚡ | ⭐⭐⭐⭐ | **Production** (Standard) |
+| **Level 4** | Full Chain + CRL/OCSP | 🐌 | ⭐⭐⭐⭐⭐ | Hochsicherheit |
+
+#### Embedded Manufacturer Signature
+
+**Problem in v1.4.0 und früher:**
+- Signatur nur in externer `.json` Datei
+- JSON kann durch Angreifer ersetzt werden
+- Keine Code-Signing auf PE/ELF-Ebene
+
+**Lösung in v1.5.0:**
+- **Embedded ThemisDB.org Certificate** direkt in DLL/SO
+- **Platform-native Code-Signing**: Authenticode (Windows), codesign (macOS), GPG (Linux)
+- **Certificate Chain Validation** mit CRL/OCSP
+
+#### Verwendung der Enhanced Security
+
+```cpp
+#include "acceleration/plugin_security.h"
+
+using namespace themis::acceleration;
+
+// Policy definieren
+PluginSecurityPolicy policy;
+policy.requireSignature = true;
+policy.allowUnsigned = false;  // Production: false
+policy.checkRevocation = true;
+
+// Enhanced Verifier erstellen
+EnhancedPluginSecurityVerifier verifier(policy);
+
+// Plugin verifizieren (Level 3 = Production Standard)
+auto result = verifier.verifyPlugin(
+    "./plugins/my_plugin.so",
+    EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE
+);
+
+if (result.passed) {
+    std::cout << "✅ Plugin verified successfully!\n";
+    std::cout << "   Level achieved: " << (int)result.level_achieved << "\n";
+    std::cout << "   Issuer: " << result.issuer << "\n";
+    std::cout << "   ThemisDB Official: " << result.is_themisdb_official << "\n";
+} else {
+    std::cerr << "❌ Verification failed: " << result.error_message << "\n";
+}
+```
+
+#### VerificationResult Details
+
+```cpp
+struct VerificationResult {
+    bool passed;                              // Gesamtergebnis
+    VerificationLevel level_achieved;         // Erreichtes Level
+    std::string error_message;                // Fehler bei Fehlschlag
+    
+    // Individual Check Results
+    bool hash_verified;                       // ✅ Hash OK?
+    bool embedded_signature_verified;         // ✅ Embedded Sig OK?
+    bool platform_signature_verified;         // ✅ Platform Sig OK?
+    bool certificate_chain_verified;          // ✅ Cert Chain OK?
+    bool certificate_not_revoked;             // ✅ Nicht widerrufen?
+    
+    // Certificate Info
+    std::string issuer;                       // CN=ThemisDB Official Plugins CA
+    std::string subject;                      // CN=ThemisDB Plugin Signer
+    std::chrono::system_clock::time_point valid_from;
+    std::chrono::system_clock::time_point valid_until;
+    bool is_themisdb_official;                // ✅ Von ThemisDB.org signiert?
+};
+```
+
+### 🔐 Plugin Signierung (Build-Zeit)
+
+#### CMake Integration
+
+```cmake
+# In plugin CMakeLists.txt
+include(SignPlugin)
+
+add_library(my_plugin SHARED
+    my_plugin.cpp
+)
+
+# Plugin signieren
+sign_plugin(my_plugin)
+```
+
+Dies führt automatisch folgende Schritte aus:
+1. **SHA-256 Hash** berechnen
+2. **Digitale Signatur** mit ThemisDB Zertifikat
+3. **Platform-Signing**:
+   - **Windows**: Authenticode mit `signtool.exe`
+   - **macOS**: `codesign` mit Developer ID
+   - **Linux**: GPG-Signatur (`.asc` Datei)
+4. **Metadata JSON** generieren
+
+#### Zertifikate generieren
+
+```bash
+# ThemisDB CA Zertifikat
+cd certs/scripts
+./generate_ca.sh
+
+# Code-Signing Zertifikat
+./generate_signing_cert.sh
+```
+
+⚠️ **WICHTIG:** Private Keys niemals in Git committen!
+
+### 2. PluginSecurityVerifier (Legacy)
 
 ```cpp
 namespace themis {

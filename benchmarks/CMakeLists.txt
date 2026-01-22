@@ -681,6 +681,57 @@ else()
     message(STATUS "Knowledge Gap Detector Phase 2 benchmarks not found")
 endif()
 
+# ============================================================================
+# Distributed Coordinator Benchmarks
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_coordinator.cpp")
+    message(STATUS "Adding Distributed Coordinator benchmarks")
+    
+    add_executable(bench_distributed_coordinator
+        bench_distributed_coordinator.cpp
+    )
+    
+    target_link_libraries(bench_distributed_coordinator PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_distributed_coordinator PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_distributed_coordinator PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_distributed_coordinator
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run Distributed Coordinator benchmarks
+    add_custom_target(run_benchmark_distributed_coordinator
+        COMMAND bench_distributed_coordinator --benchmark_min_time=0.5
+        DEPENDS bench_distributed_coordinator
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running Distributed Coordinator benchmarks..."
+    )
+    
+    message(STATUS "  Distributed Coordinator: Leader election, task scheduling, failover")
+else()
+    message(STATUS "Distributed Coordinator benchmarks not found")
+endif()
+
 message(STATUS "Benchmarks configured successfully")
 message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
 message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")

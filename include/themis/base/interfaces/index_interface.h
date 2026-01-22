@@ -310,7 +310,7 @@ public:
     /// @brief Get type of an index
     /// @param name Index name
     /// @return Index type, or std::nullopt if index doesn't exist
-    virtual std::optional<IndexType> getIndexType(std::string_view name) const = 0;
+    virtual Result<IndexType> getIndexType(std::string_view name) const = 0;
 };
 
 } // namespace themis

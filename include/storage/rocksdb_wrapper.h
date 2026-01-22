@@ -234,13 +234,21 @@ public:
     
     // ===== MVCC Transaction Operations =====
     
-    /// Create a new MVCC transaction with snapshot isolation
+    /// Isolation level for transactions (matches themis::IsolationLevel)
+    enum class TransactionIsolationLevel {
+        ReadCommitted,  // Read latest committed data (no snapshot overhead)
+        Snapshot        // Snapshot isolation (repeatable reads, point-in-time consistency)
+    };
+    
+    /// Create a new MVCC transaction with configurable isolation level
     class TransactionWrapper {
     public:
-        explicit TransactionWrapper(RocksDBWrapper* db);
+        explicit TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
         ~TransactionWrapper();
         
-        /// Get value with snapshot isolation
+        /// Get value with isolation-dependent behavior
+        /// ReadCommitted: reads latest committed data
+        /// Snapshot: reads from transaction snapshot
         std::optional<std::vector<uint8_t>> get(std::string_view key);
         
         /// Put key-value pair (visible only after commit)
@@ -268,12 +276,13 @@ public:
     private:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::Transaction> txn_;
+        TransactionIsolationLevel isolation_;
         bool active_ = true;
         bool prepared_ = false;
         friend class RocksDBWrapper;
     };
     
-    std::unique_ptr<TransactionWrapper> beginTransaction();
+    std::unique_ptr<TransactionWrapper> beginTransaction(TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
     
     // ===== Iteration / Scanning =====
     

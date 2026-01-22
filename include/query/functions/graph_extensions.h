@@ -385,7 +385,8 @@ public:
 // ============================================================================
 // LOUVAIN_COMMUNITIES - Community detection using Louvain algorithm
 // ============================================================================
-
+// NOTE: This class is now defined in graph_functions.h to avoid duplication
+/*
 class LouvainCommunitiesFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -410,149 +411,150 @@ public:
         return nlohmann::json::array();
     }
 };
+*/
 
 // ============================================================================
 // LABEL_PROPAGATION_COMMUNITIES - Fast community detection
 // ============================================================================
 
-class LabelPropagationCommunitiesFunction : public IFunction {
-public:
-    FunctionSignature signature() const override {
-        return {
-            "LABEL_PROPAGATION_COMMUNITIES",
-            "Graph",
-            "Fast community detection using label propagation",
-            {
-                {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
-                {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: max_iterations (default: 100)"}
-            },
-            ArgType::ARRAY,
-            true,
-            false,
-            {"LABEL_PROPAGATION_COMMUNITIES([edges])"},
-            FunctionCost{CostComplexity::LINEAR, 200.0, 2.0, true, true, "graph"}
-        };
-    }
-    
-    nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext&) const override {
-        if (args.empty() || !args[0].is_array()) {
-            // Return structured empty result for consistency with success path
-            return nlohmann::json{
-                {"communities", nlohmann::json::array()},
-                {"num_communities", 0}
-            };
-        }
-        
-        const auto& edges = args[0];
-        int max_iterations = 100;
-        
-        // Parse options
-        if (args.size() > 1 && args[1].is_object()) {
-            if (args[1].contains("max_iterations")) {
-                max_iterations = args[1]["max_iterations"].get<int>();
-            }
-        }
-        
-        // Extract nodes and build adjacency (treating graph as undirected)
-        std::unordered_set<std::string> node_set;
-        std::unordered_map<std::string, std::vector<std::string>> adjacency;
-        
-        for (const auto& edge : edges) {
-            if (!edge.is_object() || !edge.contains("_from") || !edge.contains("_to")) {
-                continue;
-            }
-            
-            std::string from = edge["_from"].get<std::string>();
-            std::string to = edge["_to"].get<std::string>();
-            
-            node_set.insert(from);
-            node_set.insert(to);
-            adjacency[from].push_back(to);
-            adjacency[to].push_back(from);  // Treat as undirected
-        }
-        
-        if (node_set.empty()) {
-            // Return structured empty result for consistency with success path
-            return nlohmann::json{
-                {"communities", nlohmann::json::array()},
-                {"num_communities", 0}
-            };
-        }
-        
-        std::vector<std::string> nodes(node_set.begin(), node_set.end());
-        
-        // Initialize: each node gets unique label
-        std::unordered_map<std::string, int> labels;
-        int next_label = 0;
-        for (const auto& node : nodes) {
-            labels[node] = next_label++;
-        }
-        
-        // Iterative label propagation
-        bool changed = true;
-        int iteration = 0;
-        
-        while (changed && iteration < max_iterations) {
-            changed = false;
-            iteration++;
-            
-            for (const auto& node : nodes) {
-                // Count labels among neighbors
-                std::unordered_map<int, int> label_count;
-                
-                for (const auto& neighbor : adjacency[node]) {
-                    label_count[labels[neighbor]]++;
-                }
-                
-                if (label_count.empty()) continue;
-                
-                // Find most frequent label
-                int best_label = labels[node];
-                int best_count = 0;
-                
-                for (const auto& [label, count] : label_count) {
-                    if (count > best_count) {
-                        best_count = count;
-                        best_label = label;
-                    }
-                }
-                
-                // Update label if changed
-                if (best_label != labels[node]) {
-                    labels[node] = best_label;
-                    changed = true;
-                }
-            }
-        }
-        
-        // Group nodes by community (label)
-        std::unordered_map<int, std::vector<std::string>> communities;
-        for (const auto& [node, label] : labels) {
-            communities[label].push_back(node);
-        }
-        
-        // Format result
-        nlohmann::json result = nlohmann::json::array();
-        int comm_id = 0;
-        
-        for (const auto& [_, members] : communities) {
-            nlohmann::json comm_obj = {
-                {"id", comm_id++},
-                {"members", members},
-                {"size", members.size()}
-            };
-            
-            result.push_back(comm_obj);
-        }
-        
-        return nlohmann::json{
-            {"communities", result},
-            {"num_communities", communities.size()}
-        };
-    }
-};
-
+// class LabelPropagationCommunitiesFunction : public IFunction {
+// public:
+//     FunctionSignature signature() const override {
+//         return {
+//             "LABEL_PROPAGATION_COMMUNITIES",
+//             "Graph",
+//             "Fast community detection using label propagation",
+//             {
+//                 {"edges", ArgType::ARRAY, true, nullptr, "Array of edge documents"},
+//                 {"options", ArgType::OBJECT, false, nlohmann::json::object(), "Options: max_iterations (default: 100)"}
+//             },
+//             ArgType::ARRAY,
+//             true,
+//             false,
+//             {"LABEL_PROPAGATION_COMMUNITIES([edges])"},
+//             FunctionCost{CostComplexity::LINEAR, 200.0, 2.0, true, true, "graph"}
+//         };
+//     }
+//     
+//     nlohmann::json execute(const std::vector<nlohmann::json>& args,
+//                           const FunctionContext&) const override {
+//         if (args.empty() || !args[0].is_array()) {
+//             // Return structured empty result for consistency with success path
+//             return nlohmann::json{
+//                 {"communities", nlohmann::json::array()},
+//                 {"num_communities", 0}
+//             };
+//         }
+//         
+//         const auto& edges = args[0];
+//         int max_iterations = 100;
+//         
+//         // Parse options
+//         if (args.size() > 1 && args[1].is_object()) {
+//             if (args[1].contains("max_iterations")) {
+//                 max_iterations = args[1]["max_iterations"].get<int>();
+//             }
+//         }
+//         
+//         // Extract nodes and build adjacency (treating graph as undirected)
+//         std::unordered_set<std::string> node_set;
+//         std::unordered_map<std::string, std::vector<std::string>> adjacency;
+//         
+//         for (const auto& edge : edges) {
+//             if (!edge.is_object() || !edge.contains("_from") || !edge.contains("_to")) {
+//                 continue;
+//             }
+//             
+//             std::string from = edge["_from"].get<std::string>();
+//             std::string to = edge["_to"].get<std::string>();
+//             
+//             node_set.insert(from);
+//             node_set.insert(to);
+//             adjacency[from].push_back(to);
+//             adjacency[to].push_back(from);  // Treat as undirected
+//         }
+//         
+//         if (node_set.empty()) {
+//             // Return structured empty result for consistency with success path
+//             return nlohmann::json{
+//                 {"communities", nlohmann::json::array()},
+//                 {"num_communities", 0}
+//             };
+//         }
+//         
+//         std::vector<std::string> nodes(node_set.begin(), node_set.end());
+//         
+//         // Initialize: each node gets unique label
+//         std::unordered_map<std::string, int> labels;
+//         int next_label = 0;
+//         for (const auto& node : nodes) {
+//             labels[node] = next_label++;
+//         }
+//         
+//         // Iterative label propagation
+//         bool changed = true;
+//         int iteration = 0;
+//         
+//         while (changed && iteration < max_iterations) {
+//             changed = false;
+//             iteration++;
+//             
+//             for (const auto& node : nodes) {
+//                 // Count labels among neighbors
+//                 std::unordered_map<int, int> label_count;
+//                 
+//                 for (const auto& neighbor : adjacency[node]) {
+//                     label_count[labels[neighbor]]++;
+//                 }
+//                 
+//                 if (label_count.empty()) continue;
+//                 
+//                 // Find most frequent label
+//                 int best_label = labels[node];
+//                 int best_count = 0;
+//                 
+//                 for (const auto& [label, count] : label_count) {
+//                     if (count > best_count) {
+//                         best_count = count;
+//                         best_label = label;
+//                     }
+//                 }
+//                 
+//                 // Update label if changed
+//                 if (best_label != labels[node]) {
+//                     labels[node] = best_label;
+//                     changed = true;
+//                 }
+//             }
+//         }
+//         
+//         // Group nodes by community (label)
+//         std::unordered_map<int, std::vector<std::string>> communities;
+//         for (const auto& [node, label] : labels) {
+//             communities[label].push_back(node);
+//         }
+//         
+//         // Format result
+//         nlohmann::json result = nlohmann::json::array();
+//         int comm_id = 0;
+//         
+//         for (const auto& [_, members] : communities) {
+//             nlohmann::json comm_obj = {
+//                 {"id", comm_id++},
+//                 {"members", members},
+//                 {"size", members.size()}
+//             };
+//             
+//             result.push_back(comm_obj);
+//         }
+//         
+//         return nlohmann::json{
+//             {"communities", result},
+//             {"num_communities", communities.size()}
+//         };
+//     }
+// };
+// 
 // ============================================================================
 // BETWEENNESS_CENTRALITY - Calculate betweenness centrality for vertices
 // ============================================================================
@@ -619,8 +621,8 @@ public:
 
 inline void registerGraphExtensions(FunctionRegistry& registry) {
     // Community detection functions (implemented)
-    registry.registerFunction(std::make_unique<LouvainCommunitiesFunction>());
-    registry.registerFunction(std::make_unique<LabelPropagationCommunitiesFunction>());
+//     registry.registerFunction(std::make_unique<LouvainCommunitiesFunction>());
+//     registry.registerFunction(std::make_unique<LabelPropagationCommunitiesFunction>());
     
     // TODO: Implement these stub functions
     // registry.registerFunction(std::make_unique<AllShortestPathsFunction>());
