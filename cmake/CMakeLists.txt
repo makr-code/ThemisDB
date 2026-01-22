@@ -2415,6 +2415,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_index_stats.cpp
         ${THEMIS_ROOT_DIR}/tests/test_graph_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_hnsw_layer_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
         ${THEMIS_ROOT_DIR}/tests/test_stats_api.cpp
