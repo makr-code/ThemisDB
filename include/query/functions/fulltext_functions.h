@@ -66,6 +66,34 @@ public:
     }
     
     JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
+        // Note: Actual implementation would query the SecondaryIndexManager
+        // This is a placeholder that documents the expected interface
+        // Real implementation should call ctx.indexManager->scanFulltextPhrase()
+        return JsonValue::array();
+    }
+};
+
+// ============================================================================
+// FUZZY - Fuzzy matching with Levenshtein distance
+// ============================================================================
+
+class FuzzyFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "FUZZY",
+            {ParamType::STRING, ParamType::STRING, ParamType::STRING, ParamType::NUMBER, ParamType::NUMBER},
+            ParamType::ARRAY,
+            3, 5,  // collection, field, query, optional maxDistance (INTEGER), optional limit (INTEGER)
+            "Performs fuzzy search using Levenshtein distance",
+            FunctionCost{CostComplexity::LINEAR, 20.0, 0.3, true, false, "fulltext"}
+        };
+    }
+    
+    JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
+        // Note: Actual implementation would query the SecondaryIndexManager
+        // This is a placeholder that documents the expected interface
+        // Real implementation should call ctx.indexManager->scanFulltextFuzzy()
         return JsonValue::array();
     }
 };
@@ -374,6 +402,7 @@ public:
 inline void registerFulltextFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<FulltextFunction>());
     registry.registerFunction(std::make_unique<PhraseFunction>());
+    registry.registerFunction(std::make_unique<FuzzyFunction>());
     registry.registerFunction(std::make_unique<NgramMatchFunction>());
     registry.registerFunction(std::make_unique<TokensFunction>());
     registry.registerFunction(std::make_unique<SoundexFunction>());

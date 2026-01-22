@@ -85,8 +85,8 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
 // Stubbed: full expression evaluation will be added in a later phase.
 
 bool QueryEngine::QueryExpressionEvaluator::evaluate(
-    const std::string& /*expression*/,
-    const void* /*context*/) {
+	const std::string& /*expression*/,
+	const void* /*context*/) {
     return false;
 }
 
@@ -113,7 +113,130 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
 	span.setAttribute("query.order_by", q.orderBy.has_value());
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
+	span.setAttribute("query.phrase", q.phrasePredicate.has_value());
+	span.setAttribute("query.fuzzy", q.fuzzyPredicate.has_value());
 	if (q.table.empty()) return {Status::Error("executeAndKeys: table darf nicht leer sein"), {}};
+	
+	// Handle phrase search queries
+	if (q.phrasePredicate.has_value()) {
+		const auto& ph = *q.phrasePredicate;
+		auto child = Tracer::startSpan("index.scanPhrase");
+		child.setAttribute("index.table", q.table);
+		child.setAttribute("index.column", ph.column);
+		child.setAttribute("index.phrase", ph.phrase);
+		child.setAttribute("index.limit", static_cast<int64_t>(ph.limit));
+		
+		auto [st, results] = secIdx_->scanFulltextPhrase(q.table, ph.column, ph.phrase, ph.limit);
+		if (!st.ok) {
+			child.setStatus(false, st.message);
+			return {Status::Error(st.message), {}};
+		}
+		
+		// Extract PKs from results
+		std::vector<std::string> phraseKeys;
+		phraseKeys.reserve(results.size());
+		for (const auto& res : results) {
+			phraseKeys.push_back(res.pk);
+		}
+		
+		child.setAttribute("index.result_count", static_cast<int64_t>(phraseKeys.size()));
+		child.setStatus(true);
+		
+		// If there are additional predicates, intersect
+		if (!q.predicates.empty() || !q.rangePredicates.empty()) {
+			auto intersectSpan = Tracer::startSpan("query.phrase_and_intersection");
+			
+			ConjunctiveQuery structuralQuery;
+			structuralQuery.table = q.table;
+			structuralQuery.predicates = q.predicates;
+			structuralQuery.rangePredicates = q.rangePredicates;
+			structuralQuery.orderBy = q.orderBy;
+			
+			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
+			if (!structStatus.ok) {
+				intersectSpan.setStatus(false, structStatus.message);
+				return {structStatus, {}};
+			}
+			
+			tbb::parallel_sort(phraseKeys.begin(), phraseKeys.end());
+			tbb::parallel_sort(structKeys.begin(), structKeys.end());
+			
+			std::vector<std::string> intersection;
+			std::set_intersection(
+				phraseKeys.begin(), phraseKeys.end(),
+				structKeys.begin(), structKeys.end(),
+				std::back_inserter(intersection)
+			);
+			
+			intersectSpan.setStatus(true);
+			span.setStatus(true);
+			return {Status::OK(), std::move(intersection)};
+		}
+		
+		span.setStatus(true);
+		return {Status::OK(), std::move(phraseKeys)};
+	}
+	
+	// Handle fuzzy search queries
+	if (q.fuzzyPredicate.has_value()) {
+		const auto& fz = *q.fuzzyPredicate;
+		auto child = Tracer::startSpan("index.scanFuzzy");
+		child.setAttribute("index.table", q.table);
+		child.setAttribute("index.column", fz.column);
+		child.setAttribute("index.query", fz.query);
+		child.setAttribute("index.maxDistance", static_cast<int64_t>(fz.maxDistance));
+		child.setAttribute("index.limit", static_cast<int64_t>(fz.limit));
+		
+		auto [st, results] = secIdx_->scanFulltextFuzzy(q.table, fz.column, fz.query, fz.maxDistance, fz.limit);
+		if (!st.ok) {
+			child.setStatus(false, st.message);
+			return {Status::Error(st.message), {}};
+		}
+		
+		// Extract PKs from results
+		std::vector<std::string> fuzzyKeys;
+		fuzzyKeys.reserve(results.size());
+		for (const auto& res : results) {
+			fuzzyKeys.push_back(res.pk);
+		}
+		
+		child.setAttribute("index.result_count", static_cast<int64_t>(fuzzyKeys.size()));
+		child.setStatus(true);
+		
+		// If there are additional predicates, intersect
+		if (!q.predicates.empty() || !q.rangePredicates.empty()) {
+			auto intersectSpan = Tracer::startSpan("query.fuzzy_and_intersection");
+			
+			ConjunctiveQuery structuralQuery;
+			structuralQuery.table = q.table;
+			structuralQuery.predicates = q.predicates;
+			structuralQuery.rangePredicates = q.rangePredicates;
+			structuralQuery.orderBy = q.orderBy;
+			
+			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
+			if (!structStatus.ok) {
+				intersectSpan.setStatus(false, structStatus.message);
+				return {structStatus, {}};
+			}
+			
+			tbb::parallel_sort(fuzzyKeys.begin(), fuzzyKeys.end());
+			tbb::parallel_sort(structKeys.begin(), structKeys.end());
+			
+			std::vector<std::string> intersection;
+			std::set_intersection(
+				fuzzyKeys.begin(), fuzzyKeys.end(),
+				structKeys.begin(), structKeys.end(),
+				std::back_inserter(intersection)
+			);
+			
+			intersectSpan.setStatus(true);
+			span.setStatus(true);
+			return {Status::OK(), std::move(intersection)};
+		}
+		
+		span.setStatus(true);
+		return {Status::OK(), std::move(fuzzyKeys)};
+	}
 	
 	// Handle fulltext queries
 	if (q.fulltextPredicate.has_value()) {
@@ -903,7 +1026,7 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 }
 
 // Forward decl
-static nlohmann::json qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
+static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
 								  const themis::QueryEngine::EvaluationContext& ctx);
 
 static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
@@ -1649,7 +1772,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
 		nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
 		return Ok(nlohmann::json(poly));
-		}
 	}
 
 	return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -1914,7 +2036,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			return {Status::OK(), std::move(keys)};
 		}
 		if (optimize) {
-			QueryOptimizer opt(*secIdx_);
+			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
 			auto plan = opt.chooseOrderForAndQuery(q);
 			auto keysResult = executeAndKeysSequential(q.table, plan.orderedPredicates);
 			if (!keysResult) { 
@@ -3555,7 +3677,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	}
 	
 	// Optional: choose plan when vector index is available
-	auto cfg = loadHybridConfig_(*db_);
+	auto cfg = loadHybridConfig_(*db_);  // Dereference pointer to reference
 	VGPlan plan = VGPlan::SpatialThenVector;
 	if (vectorIdx_) {
 		// Use cost model via QueryOptimizer

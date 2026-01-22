@@ -272,6 +272,7 @@ private:
         CacheEntry entry;
         std::list<std::string>::iterator lru_it;  // Iterator for LRU list
         
+        InternalCacheEntry() = default;
         InternalCacheEntry(CacheEntry e) : entry(std::move(e)) {}
     };
     

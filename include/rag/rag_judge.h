@@ -13,6 +13,8 @@
 #include <memory>
 #include <unordered_map>
 #include <functional>
+#include <chrono>
+#include <cmath>
 
 namespace themis::rag::judge {
 
@@ -347,6 +349,8 @@ public:
         std::vector<std::shared_ptr<RAGJudge>> judges,
         VotingStrategy strategy = VotingStrategy::WEIGHTED_AVERAGE
     );
+
+    ~JudgeEnsemble();
     
     /**
      * @brief Evaluate with ensemble

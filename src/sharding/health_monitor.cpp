@@ -41,6 +41,7 @@ void HealthMonitor::stop() {
 
 HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id, 
                                                  const std::string& endpoint) {
+    (void)endpoint;
     total_health_checks_++;
     
     HealthCheckResult result;
@@ -237,6 +238,7 @@ void HealthMonitor::handleNodeFailure(const std::string& node_id) {
 }
 
 bool HealthMonitor::shouldTriggerFailover(const std::string& node_id) const {
+    (void)node_id;
     if (!config_.auto_failover_enabled) {
         return false;
     }

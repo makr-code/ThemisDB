@@ -81,4 +81,34 @@ public:
 /// Shared pointer type for IKeyProvider
 using IKeyProviderPtr = std::shared_ptr<IKeyProvider>;
 
+/**
+ * @brief Factory interface for field encryption
+ */
+class IFieldEncryptionFactory {
+public:
+    virtual ~IFieldEncryptionFactory() = default;
+    
+    /**
+     * @brief Create a field encryption instance
+     * 
+     * @return Shared pointer to field encryption
+     */
+    virtual IFieldEncryptionPtr create() = 0;
+};
+
+/**
+ * @brief Factory interface for key provider
+ */
+class IKeyProviderFactory {
+public:
+    virtual ~IKeyProviderFactory() = default;
+    
+    /**
+     * @brief Create a key provider instance
+     * 
+     * @return Shared pointer to key provider
+     */
+    virtual IKeyProviderPtr create() = 0;
+};
+
 } // namespace themis

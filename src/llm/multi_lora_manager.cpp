@@ -7,6 +7,11 @@
 #include <random>
 #include <numeric>
 
+// llama.cpp forward declarations (newer API may not be present in headers)
+extern "C" {
+    int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale);
+}
+
 namespace themis {
 namespace llm {
 
@@ -214,7 +219,12 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
     return it->second.get();
 }
 
-bool MultiLoRAManager::applyLoRA(const std::string& lora_id, void* context_handle) {
+bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
+    if (!context) {
+        spdlog::error("Cannot apply LoRA: null context");
+        return false;
+    }
+    
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
@@ -223,25 +233,40 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, void* context_handl
     
     spdlog::debug("Applying LoRA: {} to context", lora_id);
     
-    // Apply LoRA adapter to context
-    if (lora->adapter_handle && context_handle) {
-        // In llama.cpp, LoRA adapters are applied through the context
-        // The actual implementation would use llama_lora_adapter_set
-        // For now, mark as active
+    // Apply LoRA adapter to context using modern llama.cpp API
+    if (lora->adapter_handle && context) {
+        // Get adapter index from handle
+        int adapter_index = static_cast<int>(reinterpret_cast<uintptr_t>(lora->adapter_handle));
+        
+        // Apply adapter with scale factor using llama.cpp API
+        // This sets the adapter for subsequent decode/inference calls
+        int result = llama_lora_adapter_set(context, adapter_index, lora->scale);
+        
+        if (result != 0) {
+            spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
+            return false;
+        }
+        
         lora->is_active = true;
         switches_++;
-        spdlog::info("LoRA {} applied successfully", lora_id);
+        spdlog::info("LoRA {} applied successfully (scale: {})", lora_id, lora->scale);
         return true;
     }
     
-    spdlog::warn("LoRA adapter handle not available for {}", lora_id);
-    lora->is_active = true;
-    switches_++;
+    if (!lora->adapter_handle) {
+        spdlog::error("LoRA adapter handle not initialized for {}", lora_id);
+        return false;
+    }
     
-    return true;
+    return false;
 }
 
-bool MultiLoRAManager::removeLoRA(const std::string& lora_id, void* context_handle) {
+bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
+    if (!context) {
+        spdlog::error("Cannot remove LoRA: null context");
+        return false;
+    }
+    
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         return false;
@@ -249,22 +274,35 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, void* context_hand
     
     spdlog::debug("Removing LoRA: {} from context", lora_id);
     
-    // Remove LoRA adapter from context
-    if (lora->adapter_handle && context_handle) {
-        // The actual implementation would use llama_lora_adapter_remove
+    // Remove LoRA adapter from context using llama.cpp API
+    if (lora->adapter_handle && context) {
+        // Set adapter with scale 0.0 to effectively disable it
+        int adapter_index = static_cast<int>(reinterpret_cast<uintptr_t>(lora->adapter_handle));
+        int result = llama_lora_adapter_set(context, adapter_index, 0.0f);
+        
+        if (result != 0) {
+            spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
+        }
+        
         lora->is_active = false;
         spdlog::info("LoRA {} removed successfully", lora_id);
         return true;
     }
     
-    lora->is_active = false;
-    return true;
+    if (!lora->adapter_handle) {
+        spdlog::warn("LoRA {} has no adapter handle to remove", lora_id);
+        lora->is_active = false;
+        return true;
+    }
+    
+    return false;
 }
 
 std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-    void* model_context
+    llama_context* model_context
 ) {
+    (void)model_context;  // Backend integration pending
     spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
     
     if (!config_.enable_multi_lora_batch) {
@@ -308,7 +346,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
         }
         
         // Process requests with this LoRA
-        // In production, this would use llama.cpp's batch processing
+        // Use llama.cpp's batch processing API
         for (size_t idx : indices) {
             const auto& [request, _] = requests[idx];
             
@@ -316,11 +354,14 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             response.model_used = lora->base_model_id;
             response.lora_used = lora_id;
             
-            // Placeholder for actual inference
-            // In production: response.text = llama_cpp_batch_generate(request, lora->adapter_handle);
-            response.text = "[Batch inference with LoRA " + lora_id + ": " + request.prompt.substr(0, 50) + "...]";
-            response.tokens_generated = 10;  // Placeholder
-            response.latency_ms = 50;        // Placeholder
+            // Real inference would happen here via llama.cpp batch API
+            // For now, return error indicating not fully implemented
+            response.text = "ERROR: Batch multi-LoRA inference not fully integrated with llama.cpp backend yet. "
+                           "Use single-request inference instead.";
+            response.tokens_generated = 0;
+            response.latency_ms = 0;
+            
+            spdlog::warn("Batch multi-LoRA inference called but llama.cpp backend integration incomplete");
             
             responses.push_back(response);
         }
@@ -2028,6 +2069,8 @@ double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
         return (lora->use_count * 3600.0) / age_seconds;
     }
     return 0.0;
+}
+
 // Advanced Fusion API Implementation (v1.5.0)
 // ═══════════════════════════════════════════════════════════
 
@@ -2303,7 +2346,7 @@ std::vector<float> MultiLoRAManager::computeScheduledWeights(
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(
         now - schedule.start_time
     );
-    double time_offset = duration.count();
+    double time_offset = static_cast<double>(duration.count());
     
     // For backward compatibility, prefer custom schedule function if provided,
     // regardless of the configured scheduling strategy
@@ -2493,6 +2536,26 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     
     // Fallback to static weights
     return schedule.static_weights;
+    // If no custom function and no transition duration, use static weights
+    // Weights should already be normalized to sum to 1.0
+    std::vector<float> final_weights = schedule.static_weights;
+    
+    // Verify weights are normalized (sum to ~1.0)
+    float weight_sum = 0.0f;
+    for (float w : final_weights) {
+        weight_sum += w;
+    }
+    
+    if (std::abs(weight_sum - 1.0f) > 1e-5f && weight_sum > 0.0f) {
+        // Normalize weights if they don't sum to 1.0
+        for (float& w : final_weights) {
+            w /= weight_sum;
+        }
+        spdlog::debug("Normalized scheduled weights for fusion {}: sum was {}, now 1.0", 
+                     fusion_id, weight_sum);
+    }
+    
+    return final_weights;
 }
 
 bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {

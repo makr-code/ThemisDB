@@ -194,6 +194,21 @@ struct PredicateFulltext {
     size_t limit = 1000;
 };
 
+// Phrase Search Predicate for exact phrase matching
+struct PredicatePhrase {
+    std::string column;
+    std::string phrase;
+    size_t limit = 1000;
+};
+
+// Fuzzy Search Predicate for approximate matching with Levenshtein distance
+struct PredicateFuzzy {
+    std::string column;
+    std::string query;
+    int maxDistance = 2;  // Maximum edit distance
+    size_t limit = 1000;
+};
+
 // Spatial Predicate for Geo queries (G3 - AQL Parser Integration)
 struct PredicateSpatial {
     enum class Operation {
@@ -232,6 +247,8 @@ struct ConjunctiveQuery {
     std::vector<PredicateRange> rangePredicates; // zusätzliche AND-Range-Prädikate
     std::optional<OrderBy> orderBy; // optionales ORDER BY über Range-Index
     std::optional<PredicateFulltext> fulltextPredicate; // optional: FULLTEXT(column, query, limit)
+    std::optional<PredicatePhrase> phrasePredicate; // optional: PHRASE(column, phrase, limit)
+    std::optional<PredicateFuzzy> fuzzyPredicate; // optional: FUZZY(column, query, maxDistance, limit)
     std::optional<PredicateSpatial> spatialPredicate; // optional: ST_*(geometry_column, ...) (G3)
 };
 

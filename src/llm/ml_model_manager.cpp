@@ -1,5 +1,5 @@
 #include "llm/ml_model_manager.h"
-#include "utils/logging.h"
+#include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
 #include <random>
@@ -12,7 +12,7 @@ namespace llm {
 MLModelManager::MLModelManager(const Config& config)
     : config_(config)
     , running_(false) {
-    LOG_INFO("MLModelManager initialized");
+    THEMIS_INFO("MLModelManager initialized");
 }
 
 MLModelManager::~MLModelManager() {
@@ -27,7 +27,7 @@ Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     if (models_.find(config.model_id) != models_.end()) {
-        return Result<bool>::error("Model already registered: " + config.model_id);
+        return Err<bool>("Model already registered: " + config.model_id);
     }
     
     auto entry = std::make_unique<ModelEntry>();
@@ -37,9 +37,9 @@ Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     
     models_[config.model_id] = std::move(entry);
     
-    LOG_INFO("Registered model: " + config.model_id + " (type: " + std::to_string(static_cast<int>(config.type)) + ")");
+    THEMIS_INFO("Registered model: " + config.model_id + " (type: " + std::to_string(static_cast<int>(config.type)) + ")");
     
-    return Result<bool>::ok(true);
+    return Ok(true);
 }
 
 Result<std::vector<std::string>> MLModelManager::deployModel(
@@ -63,8 +63,8 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     
     for (size_t i = 0; i < num_instances; ++i) {
         auto result = deployInstance(model_id, entry->config);
-        if (result.has_error()) {
-            LOG_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error());
+        if (result!has_value()) {
+            THEMIS_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error());
             // Rollback: shutdown already deployed instances
             for (const auto& inst_id : instance_ids) {
                 shutdownInstance(inst_id);
@@ -78,7 +78,7 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     entry->status = MLModelStatus::DEPLOYED;
     entry->deployed_at = std::chrono::system_clock::now();
     
-    LOG_INFO("Deployed model: " + model_id + " with " + std::to_string(num_instances) + " instances");
+    THEMIS_INFO("Deployed model: " + model_id + " with " + std::to_string(num_instances) + " instances");
     
     return Result<std::vector<std::string>>::ok(instance_ids);
 }
@@ -91,7 +91,7 @@ Result<bool> MLModelManager::updateModel(
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<bool>::error("Model not found: " + model_id);
+        return Err<bool>("Model not found: " + model_id);
     }
     
     auto& entry = it->second;
@@ -111,14 +111,14 @@ Result<bool> MLModelManager::updateModel(
     std::vector<std::string> new_instance_ids;
     for (size_t i = 0; i < num_instances; ++i) {
         auto result = deployInstance(model_id, new_config);
-        if (result.has_error()) {
+        if (result!has_value()) {
             // Rollback
             for (const auto& inst_id : new_instance_ids) {
                 shutdownInstance(inst_id);
             }
             entry->instances = std::move(old_instances);
             entry->status = MLModelStatus::DEPLOYED;
-            return Result<bool>::error("Update failed: " + result.error());
+            return Err<bool>("Update failed: " + result.error());
         }
         new_instance_ids.push_back(result.value());
     }
@@ -131,9 +131,9 @@ Result<bool> MLModelManager::updateModel(
     entry->config = new_config;
     entry->status = MLModelStatus::DEPLOYED;
     
-    LOG_INFO("Updated model: " + model_id);
+    THEMIS_INFO("Updated model: " + model_id);
     
-    return Result<bool>::ok(true);
+    return Ok(true);
 }
 
 Result<bool> MLModelManager::retireModel(
@@ -144,7 +144,7 @@ Result<bool> MLModelManager::retireModel(
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<bool>::error("Model not found: " + model_id);
+        return Err<bool>("Model not found: " + model_id);
     }
     
     auto& entry = it->second;
@@ -176,9 +176,9 @@ Result<bool> MLModelManager::retireModel(
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
-    LOG_INFO("Retired model: " + model_id + " (drained: " + std::to_string(drained) + ")");
+    THEMIS_INFO("Retired model: " + model_id + " (drained: " + std::to_string(drained) + ")");
     
-    return Result<bool>::ok(drained);
+    return Ok(drained);
 }
 
 Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
@@ -186,12 +186,12 @@ Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<bool>::error("Model not found: " + model_id);
+        return Err<bool>("Model not found: " + model_id);
     }
     
-    auto& entry = it->second;
+    const auto& entry = it->second;
     if (entry->status != MLModelStatus::RETIRED) {
-        return Result<bool>::error("Model must be retired before unregistering: " + model_id);
+        return Err<bool>("Model must be retired before unregistering: " + model_id);
     }
     
     // Shutdown all instances
@@ -201,9 +201,9 @@ Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
     
     models_.erase(it);
     
-    LOG_INFO("Unregistered model: " + model_id);
+    THEMIS_INFO("Unregistered model: " + model_id);
     
-    return Result<bool>::ok(true);
+    return Ok(true);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -245,10 +245,10 @@ Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<MLModelConfig>::error("Model not found: " + model_id);
+        return Err<bool>("Model not found: " + model_id);
     }
     
-    return Result<MLModelConfig>::ok(it->second->config);
+    return Ok(it->second->config);
 }
 
 Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id) const {
@@ -256,10 +256,10 @@ Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<MLModelStatus>::error("Model not found: " + model_id);
+        return Err<bool>("Model not found: " + model_id);
     }
     
-    return Result<MLModelStatus>::ok(it->second->status);
+    return Ok(it->second->status);
 }
 
 std::vector<MLModelInstance> MLModelManager::listModelInstances(const std::string& model_id) const {
@@ -332,7 +332,7 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
         MLInferenceResponse response;
         response.success = false;
         response.error_message = "No available instance for model: " + request.model_id;
-        return Result<MLInferenceResponse>::ok(response);
+        return Ok(response);
     }
     
     instance->active_requests++;
@@ -374,7 +374,7 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     }
     total_requests_++;
     
-    return Result<MLInferenceResponse>::ok(response);
+    return Ok(response);
 }
 
 std::string MLModelManager::inferAsync(
@@ -401,7 +401,7 @@ std::string MLModelManager::inferAsync(
 
 bool MLModelManager::cancelInference(const std::string& request_id) {
     // TODO: Implement request cancellation
-    LOG_WARN("Inference cancellation not yet implemented for request: " + request_id);
+    THEMIS_WARN("Inference cancellation not yet implemented for request: " + request_id);
     return false;
 }
 
@@ -414,22 +414,22 @@ Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<bool>::error("Model not found: " + model_id);
+        return Err<bool>("Model not found: " + model_id);
     }
     
     auto& entry = it->second;
     size_t current_instances = entry->instances.size();
     
     if (num_instances == current_instances) {
-        return Result<bool>::ok(true);
+        return Ok(true);
     }
     
     if (num_instances > current_instances) {
         // Scale up
         for (size_t i = current_instances; i < num_instances; ++i) {
             auto result = deployInstance(model_id, entry->config);
-            if (result.has_error()) {
-                return Result<bool>::error("Failed to scale up: " + result.error());
+            if (result!has_value()) {
+                return Err<bool>("Failed to scale up: " + result.error());
             }
         }
     } else {
@@ -443,10 +443,10 @@ Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_
         }
     }
     
-    LOG_INFO("Scaled model " + model_id + " from " + std::to_string(current_instances) + 
+    THEMIS_INFO("Scaled model " + model_id + " from " + std::to_string(current_instances) + 
              " to " + std::to_string(num_instances) + " instances");
     
-    return Result<bool>::ok(true);
+    return Ok(true);
 }
 
 bool MLModelManager::healthCheck(const std::string& instance_id) {
@@ -464,13 +464,13 @@ bool MLModelManager::healthCheck(const std::string& instance_id) {
                     inst->consecutive_health_check_failures = 0;
                     if (inst->status == MLModelStatus::DEGRADED) {
                         inst->status = MLModelStatus::DEPLOYED;
-                        LOG_INFO("Instance " + instance_id + " recovered");
+                        THEMIS_INFO("Instance " + instance_id + " recovered");
                     }
                 } else {
                     inst->consecutive_health_check_failures++;
                     if (inst->consecutive_health_check_failures >= entry->config.unhealthy_threshold) {
                         inst->status = MLModelStatus::DEGRADED;
-                        LOG_WARN("Instance " + instance_id + " marked as degraded");
+                        THEMIS_WARN("Instance " + instance_id + " marked as degraded");
                     }
                 }
                 
@@ -493,17 +493,17 @@ Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
                 
                 // Deploy new instance
                 auto result = deployInstance(model_id, entry->config);
-                if (result.has_error()) {
-                    return Result<bool>::error("Failed to restart instance: " + result.error());
+                if (result!has_value()) {
+                    return Err<bool>("Failed to restart instance: " + result.error());
                 }
                 
-                LOG_INFO("Restarted instance: " + instance_id);
-                return Result<bool>::ok(true);
+                THEMIS_INFO("Restarted instance: " + instance_id);
+                return Ok(true);
             }
         }
     }
     
-    return Result<bool>::error("Instance not found: " + instance_id);
+    return Err<bool>("Instance not found: " + instance_id);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -527,7 +527,7 @@ void MLModelManager::start() {
         });
     }
     
-    LOG_INFO("MLModelManager started");
+    THEMIS_INFO("MLModelManager started");
 }
 
 void MLModelManager::shutdown() {
@@ -552,7 +552,7 @@ void MLModelManager::shutdown() {
         }
     }
     
-    LOG_INFO("MLModelManager shutdown");
+    THEMIS_INFO("MLModelManager shutdown");
 }
 
 json MLModelManager::getSystemStats() const {
@@ -642,12 +642,12 @@ void MLModelManager::autoScalerLoop() {
             if (avg_utilization > entry->config.scale_up_threshold && 
                 current_instances < entry->config.max_instances) {
                 target_instances = current_instances + 1;
-                LOG_INFO("Auto-scaling up model " + model_id + " (utilization: " + 
+                THEMIS_INFO("Auto-scaling up model " + model_id + " (utilization: " + 
                         std::to_string(avg_utilization) + ")");
             } else if (avg_utilization < entry->config.scale_down_threshold && 
                       current_instances > entry->config.min_instances) {
                 target_instances = current_instances - 1;
-                LOG_INFO("Auto-scaling down model " + model_id + " (utilization: " + 
+                THEMIS_INFO("Auto-scaling down model " + model_id + " (utilization: " + 
                         std::to_string(avg_utilization) + ")");
             }
             
@@ -656,8 +656,8 @@ void MLModelManager::autoScalerLoop() {
                 // Instead, do the scaling inline
                 if (target_instances > current_instances) {
                     auto result = deployInstance(model_id, entry->config);
-                    if (result.has_error()) {
-                        LOG_ERROR("Auto-scale up failed: " + result.error());
+                    if (result!has_value()) {
+                        THEMIS_ERROR("Auto-scale up failed: " + result.error());
                     }
                 } else if (target_instances < current_instances && !entry->instances.empty()) {
                     auto& last_inst = entry->instances.back();
@@ -676,7 +676,7 @@ Result<std::string> MLModelManager::deployInstance(
     // Find the model entry (assumes caller holds lock)
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<std::string>::error("Model not found");
+        return Err<bool>("Model not found");
     }
     
     auto& entry = it->second;
@@ -696,12 +696,12 @@ Result<std::string> MLModelManager::deployInstance(
     std::string instance_id = instance->instance_id;
     entry->instances.push_back(std::move(instance));
     
-    return Result<std::string>::ok(instance_id);
+    return Ok(instance_id);
 }
 
 bool MLModelManager::shutdownInstance(const std::string& instance_id) {
     // TODO: Actual cleanup logic
-    LOG_INFO("Shutdown instance: " + instance_id);
+    THEMIS_INFO("Shutdown instance: " + instance_id);
     return true;
 }
 

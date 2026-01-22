@@ -682,6 +682,60 @@ else()
 endif()
 
 # ============================================================================
+# Advanced Patterns Benchmarks (Sharding Strategy)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_advanced_patterns.cpp")
+    message(STATUS "Adding Advanced Patterns benchmarks")
+    
+    add_executable(bench_advanced_patterns
+        bench_advanced_patterns.cpp
+    )
+    
+    target_link_libraries(bench_advanced_patterns PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_advanced_patterns PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_advanced_patterns PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+    
+    # Install benchmark
+    install(TARGETS bench_advanced_patterns
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    # Custom target to run Advanced Patterns benchmarks
+    add_custom_target(run_benchmark_advanced_patterns
+        COMMAND bench_advanced_patterns --benchmark_min_time=0.5
+        DEPENDS bench_advanced_patterns
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running Advanced Patterns benchmarks..."
+    )
+    
+    message(STATUS "  Advanced Patterns: Parallel scalability, sharding strategy, read/write ratios")
+else()
+    message(STATUS "Advanced Patterns benchmarks not found")
+endif()
+
+# ============================================================================
 # Distributed Coordinator Benchmarks
 # ============================================================================
 

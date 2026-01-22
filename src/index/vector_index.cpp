@@ -332,6 +332,8 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 }
 
 // Mean-centered cosine distance (1 - cosine) – improves matching for near-constant queries
+// Note: Currently unused, kept for future implementation
+#if 0
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
 	if (a.size() != b.size() || a.empty()) return 1.0f;
 	std::vector<float> ac(a), bc(b);
@@ -353,6 +355,7 @@ static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::
 	float cosv = denom > 0 ? (dot / denom) : 0.0f;
 	return 1.0f - cosv;
 }
+#endif
 
 void VectorIndexManager::normalizeL2(std::vector<float>& v) {
 	float n2 = 0.0f;

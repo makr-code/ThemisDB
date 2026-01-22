@@ -3,6 +3,7 @@
 #include "plugins/plugin_interface.h"
 #include "plugins/plugin_metrics.h"
 #include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
+#include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include "utils/expected.h"
 #include <string>

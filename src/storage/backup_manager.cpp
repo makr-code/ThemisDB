@@ -103,7 +103,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
         case RAIDMode::RAID0:
             // RAID0: Data striped across all shards, no redundancy
             // All shards required for complete backup
-            config.data_shards = config.shards.size();
+            config.data_shards = static_cast<uint32_t>(config.shards.size());
             config.parity_shards = 0;
             config.is_coordinated = true;  // Need all shards for complete data
             break;
@@ -111,7 +111,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
         case RAIDMode::RAID1:
             // RAID1: Full mirroring across shards
             // Any single shard contains complete data, but all should be backed up for redundancy
-            config.data_shards = config.shards.size();
+            config.data_shards = static_cast<uint32_t>(config.shards.size());
             config.parity_shards = 0;
             config.is_coordinated = false;  // Any shard backup is complete, but all recommended
             break;
@@ -119,7 +119,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
         case RAIDMode::RAID5:
             // RAID5: N-1 data shards, 1 parity shard
             if (config.shards.size() >= 3) {
-                config.data_shards = config.shards.size() - 1;
+                config.data_shards = static_cast<uint32_t>(config.shards.size() - 1);
                 config.parity_shards = 1;
                 config.is_coordinated = true;  // Need all shards (data + parity)
             }
@@ -128,7 +128,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
         case RAIDMode::RAID6:
             // RAID6: N-2 data shards, 2 parity shards
             if (config.shards.size() >= 4) {
-                config.data_shards = config.shards.size() - 2;
+                config.data_shards = static_cast<uint32_t>(config.shards.size() - 2);
                 config.parity_shards = 2;
                 config.is_coordinated = true;  // Need all shards (data + double parity)
             }
@@ -138,7 +138,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             // RAID10: Striping + Mirroring
             // Striped across N/2 groups, each group mirrored
             // All shards should be backed up
-            config.data_shards = config.shards.size();
+            config.data_shards = static_cast<uint32_t>(config.shards.size());
             config.parity_shards = 0;
             config.is_coordinated = true;  // Need all shards for complete striped data
             break;

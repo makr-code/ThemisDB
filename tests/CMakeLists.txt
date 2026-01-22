@@ -1240,7 +1240,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lib_zstd_integration.cpp")
     
     target_link_libraries(test_lib_zstd_integration PRIVATE
         ${TEST_LIBS}
-        zstd::libzstd_static
+           zstd::libzstd
     )
     
     target_compile_definitions(test_lib_zstd_integration PRIVATE
@@ -2300,6 +2300,38 @@ else()
 endif()
 
 # ============================================================================
+# JSON Path Function Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_json_path_functions.cpp")
+    message(STATUS "Adding JSON Path function tests")
+    
+    add_executable(test_json_path_functions
+        test_json_path_functions.cpp
+    )
+    
+    target_link_libraries(test_json_path_functions PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+    )
+    
+    target_compile_definitions(test_json_path_functions PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME JsonPathFunctionTests COMMAND test_json_path_functions)
+    
+    set_tests_properties(JsonPathFunctionTests PROPERTIES
+        LABELS "aql;json;document;query;unit"
+        TIMEOUT 60
+    )
+else()
+    message(STATUS "JSON Path function tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_json_path_functions.cpp")
+endif()
+
+# ============================================================================
 # PageRank Function Tests
 # ============================================================================
 
@@ -2360,37 +2392,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
     )
 else()
     message(STATUS "RAG Ethics integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ethics.cpp")
-endif()
-
-# RAG Enhancement Tests
-# ============================================================================
-
-# Knowledge Gap Detector Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
-    message(STATUS "Adding Knowledge Gap Detector tests")
-    
-    add_executable(test_knowledge_gap_detector
-        test_knowledge_gap_detector.cpp
-    )
-    
-    target_link_libraries(test_knowledge_gap_detector PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-    )
-    
-    target_compile_definitions(test_knowledge_gap_detector PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME KnowledgeGapDetectorTests COMMAND test_knowledge_gap_detector)
-    
-    set_tests_properties(KnowledgeGapDetectorTests PROPERTIES
-        LABELS "rag;llm;knowledge_gap;unit"
-        TIMEOUT 120
-    )
-else()
-    message(STATUS "Knowledge Gap Detector tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_knowledge_gap_detector.cpp")
 endif()
 
 # RAG Judge Phase 1 Tests
@@ -2648,37 +2649,161 @@ else()
 endif()
 
 # ============================================================================
-# Result Streaming and Pagination Tests
+# Fulltext Phrase and Fuzzy Search Tests
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
-    message(STATUS "Adding Result Streaming tests")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
+    message(STATUS "Adding Fulltext Phrase and Fuzzy Search tests")
     
-    add_executable(test_result_stream
-        test_result_stream.cpp
+    add_executable(test_fulltext_phrase_fuzzy
+        test_fulltext_phrase_fuzzy.cpp
     )
     
-    target_link_libraries(test_result_stream PRIVATE
+    target_link_libraries(test_fulltext_phrase_fuzzy PRIVATE
+# HTTP Client Pool Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
+    message(STATUS "Adding HTTP Client Pool tests")
+    
+    add_executable(test_http_client_pool
+        test_http_client_pool.cpp
+    )
+    
+    target_link_libraries(test_http_client_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Boost::beast
+        Boost::system
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_http_client_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME HTTPClientPoolTests COMMAND test_http_client_pool)
+    
+    set_tests_properties(HTTPClientPoolTests PROPERTIES
+        LABELS "utils;http;connection-pool;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  HTTP Client Pool: striped locking, stale connection removal, timeouts")
+else()
+    message(STATUS "HTTP Client Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
+# RPC Geospatial Query Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
+    message(STATUS "Adding RPC Geospatial Query tests")
+    
+    add_executable(test_rpc_geo_query
+        test_rpc_geo_query.cpp
+    )
+    
+    target_link_libraries(test_rpc_geo_query PRIVATE
+# Index Maintenance Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    message(STATUS "Adding Index Maintenance tests")
+    
+    add_executable(test_index_maintenance
+        test_index_maintenance.cpp
+    )
+    
+    target_link_libraries(test_index_maintenance PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_index_maintenance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    
+    set_tests_properties(IndexMaintenanceTests PROPERTIES
+        LABELS "storage;index;maintenance;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
+else()
+    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+endif()
+
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    message(STATUS "Adding GraphQL parser tests")
+    
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
     )
     
-    target_compile_definitions(test_result_stream PRIVATE
+    target_compile_definitions(test_fulltext_phrase_fuzzy PRIVATE
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME ResultStreamTests COMMAND test_result_stream)
+    add_test(NAME FulltextPhraseFuzzyTests COMMAND test_fulltext_phrase_fuzzy)
     
-    set_tests_properties(ResultStreamTests PROPERTIES
-        LABELS "query;streaming;pagination;unit"
+    set_tests_properties(FulltextPhraseFuzzyTests PROPERTIES
+        LABELS "index;fulltext;phrase;fuzzy;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Fulltext: phrase matching, fuzzy search with Levenshtein distance")
+else()
+    message(STATUS "Fulltext Phrase and Fuzzy Search tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
+    )
+    
+    target_compile_definitions(test_rpc_geo_query PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RPCGeoQueryTests COMMAND test_rpc_geo_query)
+    
+    set_tests_properties(RPCGeoQueryTests PROPERTIES
+        LABELS "rpc;geospatial;query;unit"
         TIMEOUT 60
     )
     
-    message(STATUS "  Result Streaming: pagination, batching, memory management")
+    message(STATUS "  RPC Geo Query: intersects, within, near spatial queries")
 else()
-    message(STATUS "Result Streaming tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_result_stream.cpp")
+    message(STATUS "RPC Geo Query tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graphql PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    
+    set_tests_properties(GraphQLParserTests PROPERTIES
+        LABELS "api;graphql;parser;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
+else()
+    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
 endif()
 
 # ============================================================================
@@ -2691,54 +2816,6 @@ add_custom_target(run_integration_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Running ThemisDB integration tests..."
 )
-
-# ============================================================================
-# CHIMERA Adapter Factory Tests
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
-    message(STATUS "Adding CHIMERA Adapter Factory tests")
-    
-    # Create chimera adapter library first
-    add_library(chimera_adapter STATIC
-        ${CMAKE_SOURCE_DIR}/src/chimera/adapter_factory.cpp
-        ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
-    )
-    
-    target_include_directories(chimera_adapter PUBLIC
-        ${CMAKE_SOURCE_DIR}/include
-    )
-    
-    target_link_libraries(chimera_adapter PUBLIC
-        spdlog::spdlog
-    )
-    
-    # Add test executable
-    add_executable(test_adapter_factory
-        chimera/test_adapter_factory.cpp
-    )
-    
-    target_link_libraries(test_adapter_factory PRIVATE
-        ${TEST_LIBS}
-        chimera_adapter
-        spdlog::spdlog
-    )
-    
-    target_compile_definitions(test_adapter_factory PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME CHIMERAAdapterFactoryTests COMMAND test_adapter_factory)
-    
-    set_tests_properties(CHIMERAAdapterFactoryTests PROPERTIES
-        LABELS "chimera;adapter;unit;benchmark-infrastructure"
-        TIMEOUT 60
-    )
-    
-    message(STATUS "  CHIMERA: vendor-neutral adapter architecture for benchmark suite")
-else()
-    message(STATUS "CHIMERA Adapter Factory tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/chimera/test_adapter_factory.cpp")
-endif()
 
 message(STATUS "Tests configured successfully")
 message(STATUS "  - Build tests with: cmake --build . --target test_lora_framework")

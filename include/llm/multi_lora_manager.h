@@ -12,6 +12,9 @@
 #include <condition_variable>
 #include <functional>
 
+// Forward declaration from llama.cpp
+struct llama_context;
+
 /**
  * @file multi_lora_manager.h
  * @brief vLLM-inspired multi-LoRA management for ThemisDB
@@ -424,17 +427,17 @@ public:
      * Multiple LoRAs can be active simultaneously if backend supports it.
      * 
      * @param lora_id LoRA to activate
-     * @param context_handle Model context to apply to
+     * @param context Model context to apply to (llama_context*)
      * @return true if applied successfully
      */
-    bool applyLoRA(const std::string& lora_id, void* context_handle);
+    bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
      * @brief Remove LoRA from model context
      * 
      * Deactivates a LoRA adapter.
      */
-    bool removeLoRA(const std::string& lora_id, void* context_handle);
+    bool removeLoRA(const std::string& lora_id, llama_context* context);
     
     /**
      * @brief Batch inference with multiple LoRAs (vLLM-style)
@@ -449,7 +452,7 @@ public:
      */
     std::vector<InferenceResponse> batchInferenceMultiLoRA(
         const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-        void* model_context
+        llama_context* model_context
     );
     
     /**

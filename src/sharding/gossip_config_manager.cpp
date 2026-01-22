@@ -6,7 +6,9 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
-#include <uuid/uuid.h>
+// Note: uuid/uuid.h is Linux-specific, Windows uses different UUID APIs
+// For cross-platform UUID support, consider using boost::uuid or similar
+// #include <uuid/uuid.h>
 
 namespace themis {
 namespace sharding {
@@ -690,13 +692,18 @@ void GossipConfigManager::mergeVectorClock(const VectorClock& other) {
 }
 
 std::string GossipConfigManager::generateUpdateId() const {
-    uuid_t uuid;
-    uuid_generate(uuid);
+    // Generate a simple unique ID using timestamp and random number
+    // For production, consider using Windows UUID APIs (CoCreateGuid) or boost::uuid
+    auto now = std::chrono::system_clock::now();
+    auto timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<uint64_t> dis;
+    uint64_t random_part = dis(gen);
     
-    char uuid_str[37];
-    uuid_unparse(uuid, uuid_str);
-    
-    return std::string(uuid_str);
+    std::stringstream ss;
+    ss << std::hex << timestamp << "-" << random_part;
+    return ss.str();
 }
 
 proto::GossipMessage GossipConfigManager::createHeartbeatMessage() {

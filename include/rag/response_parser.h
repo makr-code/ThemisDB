@@ -53,6 +53,13 @@ public:
      * @return Parsed response or error
      */
     static ParsedResponse parseWithRegex(const std::string& response);
+
+    /**
+     * @brief Extract JSON object from response (best-effort)
+     * @param response Raw response string
+     * @return Parsed JSON object (empty if parsing fails)
+     */
+    static nlohmann::json parseJSONResponse(const std::string& response);
     
     /**
      * @brief Validate parsed response
