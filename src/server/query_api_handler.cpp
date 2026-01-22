@@ -460,14 +460,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         themis::query::AQLParser parser;
         auto parse_result = parser.parse(aql_query);
         
-        if (!parse_result.success) {
-            std::string error_msg = "AQL parse error: " + parse_result.error.message + 
-                " at line " + std::to_string(parse_result.error.line) + 
-                ", column " + std::to_string(parse_result.error.column);
-            
-            if (!parse_result.error.context.empty()) {
-                error_msg += " (context: " + parse_result.error.context + ")";
-            }
+        if (!parse_result.has_value()) {
+            std::string error_msg = fmt::format("AQL parse error: {}", parse_result.error().message());
             
             parseSpan.setStatus(false, error_msg);
             span.setStatus(false, "Parse error");
@@ -476,11 +470,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         parseSpan.setStatus(true);
 
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
-        if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty() && parse_result.query->for_nodes.size() >= 2) {
+        if (*parse_result && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
-            const auto& f1_ref = parse_result.query->for_nodes[0];
-            const auto& f2_ref = parse_result.query->for_nodes[1];
+            const auto& f1_ref = (*parse_result)->for_nodes[0];
+            const auto& f2_ref = (*parse_result)->for_nodes[1];
             const std::string var1 = f1_ref.variable;
             const std::string var2 = f2_ref.variable;
             const std::string table1 = f1_ref.collection;
@@ -533,7 +527,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (bin->left->getType() == ASTNodeType::Literal) { std::string rv; std::string col = fieldFromFA(bin->right, rv); if (!col.empty()) { auto lit = std::static_pointer_cast<LiteralExpr>(bin->left); if (rv == var1) eq1.push_back({col, literalToString(lit->value)}); else if (rv == var2) eq2.push_back({col, literalToString(lit->value)}); } return; }
                 }
             };
-            for (const auto& f : parse_result.query->filters) collectPreds(f->condition);
+            for (const auto& f : (*parse_result)->filters) collectPreds(f->condition);
             if (!joinCols.has_value()) {
                 joinSpan.setStatus(false, "join_predicate_missing"); span.setStatus(false, "JOIN requires equality predicate between variables");
                 return makeErrorResponse(http::status::bad_request, "JOIN requires equality predicate between variables", req);
@@ -550,14 +544,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             auto getFieldStr = [&](const themis::BaseEntity& e, const std::string& col)->std::optional<std::string> { auto v = e.getFieldAsString(col); if (v.has_value()) return v; auto d = e.getFieldAsDouble(col); if (d.has_value()) return std::to_string(*d); return std::nullopt; };
             if (buildLeft) { hash.reserve(leftVec.size()*2+1); for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (k.has_value()) hash.emplace(*k, e); } }
             else { hash.reserve(rightVec.size()*2+1); for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (k.has_value()) hash.emplace(*k, e); } }
-            std::string retVar; if (parse_result.query->return_node && parse_result.query->return_node->expression) { if (auto* v = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get())) { retVar = v->name; } }
+            std::string retVar; if ((*parse_result)->return_node && (*parse_result)->return_node->expression) { if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) { retVar = v->name; } }
             if (retVar != var1 && retVar != var2) { joinSpan.setStatus(false, "return_not_supported_for_join"); span.setStatus(false, "JOIN currently supports RETURN of one bound variable (left or right)"); return makeErrorResponse(http::status::bad_request, "JOIN currently supports RETURN of one bound variable (left or right)", req); }
             std::vector<themis::BaseEntity> out;
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
-            if (parse_result.query && parse_result.query->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
+            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
             nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", entities}};
-            if (explain) { response_body["query"] = aql_query; response_body["ast"] = parse_result.query->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
+            if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
             return makeResponse(http::status::ok, response_body.dump(), req);
         }
@@ -566,15 +560,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     // Spezialfall: LET-Variablen in FILTER (MVP) – vor Übersetzung einfache Ersetzung erlauben
     bool letFilterHandled = false; // wenn true, nutzen wir einen manuell konstruierten ConjunctiveQuery
     themis::ConjunctiveQuery letQuery;
-    if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty()) {
+    if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty()) {
         // Wir unterstützen nur den einfachen relationalen Fall mit genau einer FOR-Klausel
-        const auto& forNode = parse_result.query->for_node;
+        const auto& forNode = (*parse_result)->for_node;
         const std::string loopVar = forNode.variable;
         const std::string table = forNode.collection;
-        if (!parse_result.query->filters.empty() && !parse_result.query->let_nodes.empty()) {
+        if (!(*parse_result)->filters.empty() && !(*parse_result)->let_nodes.empty()) {
             // Map der LET-Bindings: var -> expr
             std::unordered_map<std::string, std::shared_ptr<themis::query::Expression>> letMap;
-            for (const auto& ln : parse_result.query->let_nodes) letMap[ln.variable] = ln.expression;
+            for (const auto& ln : (*parse_result)->let_nodes) letMap[ln.variable] = ln.expression;
 
             using namespace themis::query;
             // Helfer: löse Ausdruck zu einer Feldspalte der Loop-Variable auf, ggf. via LET-Variable
@@ -638,7 +632,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     return;
                 }
             };
-            for (const auto& f : parse_result.query->filters) visit(f->condition);
+            for (const auto& f : (*parse_result)->filters) visit(f->condition);
 
             // Wenn wir etwas extrahieren konnten, nutzen wir dafür einen direkten ConjunctiveQuery
             if (!eqPreds.empty()) {
@@ -652,7 +646,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     auto translateSpan = Tracer::startSpan("aql.translate");
     auto translate_result = letFilterHandled
         ? themis::AQLTranslator::TranslationResult::Success(letQuery)
-        : themis::AQLTranslator::translate(parse_result.query);
+        : themis::AQLTranslator::translate((*parse_result));
         
         if (!translate_result.success) {
             translateSpan.setStatus(false, translate_result.error_message);
@@ -685,9 +679,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Bestimme Return-Modus anhand RETURN-Ausdruck: v (default), e, p
             enum class RetMode { Vertex, Edge, Path };
             RetMode retMode = RetMode::Vertex;
-            if (parse_result.query->return_node && parse_result.query->return_node->expression) {
+            if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
                 using namespace themis::query;
-                auto* var = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get());
+                auto* var = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get());
                 if (var) {
                     if (var->name == "e") retMode = RetMode::Edge;
                     else if (var->name == "p") retMode = RetMode::Path;
@@ -820,9 +814,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<SimplePred> preds;
             // XOR-Unterst�tzung: Paare einfacher Pr�dikate (links XOR rechts)
             std::vector<std::pair<SimplePred, SimplePred>> xorPreds;
-            if (!parse_result.query->filters.empty()) {
+            if (!(*parse_result)->filters.empty()) {
                 using namespace themis::query;
-                for (const auto& f : parse_result.query->filters) {
+                for (const auto& f : (*parse_result)->filters) {
                     auto* be = dynamic_cast<BinaryOpExpr*>(f->condition.get());
                     if (!be) continue;
 
@@ -1225,14 +1219,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             };
 
             // Vorab: Wenn alle FILTER-Ausdr�cke keine v/e-Referenz enthalten, einmal bewerten und ggf. fr�h abbrechen
-            if (!parse_result.query->filters.empty()) {
+            if (!(*parse_result)->filters.empty()) {
                 bool anyUsesVE = false;
-                for (const auto& f : parse_result.query->filters) {
+                for (const auto& f : (*parse_result)->filters) {
                     if (usesVE(f->condition.get())) { anyUsesVE = true; break; }
                 }
                 if (!anyUsesVE) {
                     bool allPass = true;
-                    for (const auto& f : parse_result.query->filters) {
+                    for (const auto& f : (*parse_result)->filters) {
                         if (!evalBoolExpr(f->condition.get(), std::string{}, std::nullopt)) { allPass = false; break; }
                     }
                     if (!allPass) {
@@ -1256,11 +1250,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
                     // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
-                    if (parse_result.query && parse_result.query->traversal == nullptr && !parse_result.query->for_nodes.empty() && parse_result.query->for_nodes.size() >= 2) {
+                    if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
                         auto joinSpan = Tracer::startSpan("aql.join");
                         // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
-                        const auto& f1 = parse_result.query->for_nodes[0];
-                        const auto& f2 = parse_result.query->for_nodes[1];
+                        const auto& f1 = (*parse_result)->for_nodes[0];
+                        const auto& f2 = (*parse_result)->for_nodes[1];
                         const std::string var1 = f1.variable;
                         const std::string var2 = f2.variable;
                         const std::string table1 = f1.collection;
@@ -1370,7 +1364,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 // Range auf rechter oder linker Seite bereits obigen Fällen abgedeckt (nur MVP)
                             }
                         };
-                        for (const auto& f : parse_result.query->filters) {
+                        for (const auto& f : (*parse_result)->filters) {
                             collectPreds(f->condition);
                         }
                         if (!joinCols.has_value()) {
@@ -1412,8 +1406,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                         // Bestimme welche Variable im RETURN zurückgegeben werden soll
                         std::string retVar;
-                        if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                            if (auto* v = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get())) {
+                        if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
+                            if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) {
                                 retVar = v->name;
                             }
                         }
@@ -1446,9 +1440,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
 
                         // LIMIT (post-join slicing)
-                        if (parse_result.query && parse_result.query->limit) {
-                            auto off = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->offset));
-                            auto cnt = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->count));
+                        if ((*parse_result) && (*parse_result)->limit) {
+                            auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset));
+                            auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count));
                             if (off < out.size()) {
                                 size_t last = std::min(out.size(), off + cnt);
                                 std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off);
@@ -1467,7 +1461,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         };
                         if (explain) {
                             response_body["query"] = aql_query;
-                            response_body["ast"] = parse_result.query->toJSON();
+                            response_body["ast"] = (*parse_result)->toJSON();
                             nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp;
                         }
                         joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size()));
@@ -1605,14 +1599,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (!(depth == 0 && t.minDepth > 0)) {
                         // Filterauswertung pro "Zeile" (Knoten + eingehende Kante) mit voller Bool-Logik
                         bool pass = true;
-                        if (!parse_result.query->filters.empty()) {
+                        if (!(*parse_result)->filters.empty()) {
                             filterEvaluationsTotal++;
                             std::optional<std::string> edgeIdOpt;
                             if (depth > 0) {
                                 auto itp = parent.find(node);
                                 if (itp != parent.end()) edgeIdOpt = itp->second.edgeId;
                             }
-                            for (const auto& f : parse_result.query->filters) {
+                            for (const auto& f : (*parse_result)->filters) {
                                 if (!evalBoolExpr(f->condition.get(), node, edgeIdOpt)) { pass = false; break; }
                             }
                         }
@@ -1879,7 +1873,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             
             if (explain) {
                 response_body["query"] = aql_query;
-                response_body["ast"] = parse_result.query->toJSON();
+                response_body["ast"] = (*parse_result)->toJSON();
                 response_body["disjunctive_query"] = true;
                 response_body["disjunct_count"] = dq.disjuncts.size();
             }
@@ -2068,7 +2062,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 
                 if (explain) {
                     response_body["query"] = aql_query;
-                    response_body["ast"] = parse_result.query->toJSON();
+                    response_body["ast"] = (*parse_result)->toJSON();
                     response_body["join_query"] = true;
                 }
                 
@@ -2087,7 +2081,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // Detect function-based SORT (BM25(doc) or FULLTEXT_SCORE()) to avoid range-index ORDER BY
         bool sortByScoreFunction = false;
         bool sortAsc = true;
-        if (parse_result.query && parse_result.query->sort && !parse_result.query->sort->specifications.empty()) {
+        if ((*parse_result) && (*parse_result)->sort && !(*parse_result)->sort->specifications.empty()) {
             // Helper: recursively check if expression contains a specific function name
             std::function<bool(const std::shared_ptr<themis::query::Expression>&, const std::string&)> exprContainsFn;
             exprContainsFn = [&](const std::shared_ptr<themis::query::Expression>& expr, const std::string& name)->bool{
@@ -2123,7 +2117,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return false;
                 }
             };
-            const auto& spec = parse_result.query->sort->specifications[0];
+            const auto& spec = (*parse_result)->sort->specifications[0];
             sortAsc = spec.ascending;
             if (exprContainsFn(spec.expression, "bm25") || exprContainsFn(spec.expression, "fulltext_score")) {
                 sortByScoreFunction = true;
@@ -2154,8 +2148,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             requested_count_for_cursor = page_size;
             
             // Override with LIMIT if present
-            if (parse_result.query && parse_result.query->limit) {
-                requested_count_for_cursor = static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count));
+            if ((*parse_result) && (*parse_result)->limit) {
+                requested_count_for_cursor = static_cast<size_t>(std::max<int64_t>(1, (*parse_result)->limit->count));
                 requested_count_for_cursor = themis::utils::Cursor::normalizePageSize(requested_count_for_cursor, pagination_config);
             }
             
@@ -2329,11 +2323,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             });
         }
 
-        if (!use_cursor && parse_result.query && parse_result.query->limit) {
+        if (!use_cursor && (*parse_result) && (*parse_result)->limit) {
             auto limitSpan = Tracer::startSpan("aql.limit");
             // Klassisches LIMIT offset,count Verhalten
-            auto off = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->offset));
-            auto cnt = static_cast<size_t>(std::max<int64_t>(0, parse_result.query->limit->count));
+            auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset));
+            auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count));
             limitSpan.setAttribute("limit.offset", static_cast<int64_t>(off));
             limitSpan.setAttribute("limit.count", static_cast<int64_t>(cnt));
             limitSpan.setAttribute("limit.input_count", static_cast<int64_t>(sliced.size()));
@@ -2371,9 +2365,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         }
 
         // COLLECT/GROUP BY (MVP): falls vorhanden, f�hre In-Memory-Gruppierung/Aggregation �ber die Ergebnisse aus
-        if (parse_result.query && parse_result.query->collect && !use_cursor) {
+        if ((*parse_result) && (*parse_result)->collect && !use_cursor) {
             auto collectSpan = Tracer::startSpan("aql.collect");
-            const auto& collect = *parse_result.query->collect;
+            const auto& collect = *(*parse_result)->collect;
             using namespace themis::query;
             
             collectSpan.setAttribute("collect.input_count", static_cast<int64_t>(sliced.size()));
@@ -2494,7 +2488,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             };
             if (explain) {
                 response_body["query"] = aql_query;
-                response_body["ast"] = parse_result.query->toJSON();
+                response_body["ast"] = (*parse_result)->toJSON();
                 if (!plan_json.is_null()) response_body["plan"] = plan_json;
             }
             
@@ -2510,7 +2504,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         returnSpan.setAttribute("return.input_count", static_cast<int64_t>(sliced.size()));
 
         using namespace themis::query;
-        const std::string loopVar = parse_result.query->for_node.variable;
+        const std::string loopVar = (*parse_result)->for_node.variable;
 
         // Helper: extract column path from FieldAccess rooted at loop var
         std::function<std::optional<std::string>(const std::shared_ptr<Expression>&, bool&)> extractColFromFA;
@@ -2561,14 +2555,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         };
 
         bool usesFulltextScore = false;
-        if (parse_result.query) {
+        if ((*parse_result)) {
             // RETURN
-            if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                usesFulltextScore = containsFunction(parse_result.query->return_node->expression, "fulltext_score");
+            if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
+                usesFulltextScore = containsFunction((*parse_result)->return_node->expression, "fulltext_score");
             }
             // LETs
             if (!usesFulltextScore) {
-                for (const auto& ln : parse_result.query->let_nodes) {
+                for (const auto& ln : (*parse_result)->let_nodes) {
                     if (containsFunction(ln.expression, "fulltext_score")) { usesFulltextScore = true; break; }
                 }
             }
@@ -2576,12 +2570,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         // If FULLTEXT_SCORE() or BM25() is referenced in RETURN/LET, ensure scores are prepared (and validate FULLTEXT_SCORE usage)
         bool usesScoreFn = usesFulltextScore;
-        if (!usesScoreFn && parse_result.query) {
-            if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                usesScoreFn = containsFunction(parse_result.query->return_node->expression, "bm25");
+        if (!usesScoreFn && (*parse_result)) {
+            if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
+                usesScoreFn = containsFunction((*parse_result)->return_node->expression, "bm25");
             }
             if (!usesScoreFn) {
-                for (const auto& ln : parse_result.query->let_nodes) {
+                for (const auto& ln : (*parse_result)->let_nodes) {
                     if (containsFunction(ln.expression, "bm25")) { usesScoreFn = true; break; }
                 }
             }
@@ -2803,9 +2797,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         // Decide if we can fast-path return of the loop variable
         bool simpleReturnLoopVar = false;
-        if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-            if (auto* v = dynamic_cast<VariableExpr*>(parse_result.query->return_node->expression.get())) {
-                simpleReturnLoopVar = (v->name == loopVar) && (parse_result.query->let_nodes.empty());
+        if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
+            if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) {
+                simpleReturnLoopVar = (v->name == loopVar) && ((*parse_result)->let_nodes.empty());
             }
         }
 
@@ -2816,14 +2810,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             for (const auto& e : sliced) {
                 // Build LET environment per row
                 std::unordered_map<std::string, nlohmann::json> env;
-                for (const auto& ln : parse_result.query->let_nodes) {
+                for (const auto& ln : (*parse_result)->let_nodes) {
                     // Only allow Literal, FieldAccess and Variable
                     auto val = evalExpr(ln.expression, e, env);
                     env[ln.variable] = std::move(val);
                 }
                 // Evaluate RETURN expression; if missing, default to loop var entity
-                if (parse_result.query->return_node && parse_result.query->return_node->expression) {
-                    auto out = evalExpr(parse_result.query->return_node->expression, e, env);
+                if ((*parse_result)->return_node && (*parse_result)->return_node->expression) {
+                    auto out = evalExpr((*parse_result)->return_node->expression, e, env);
                     entities.push_back(std::move(out));
                 } else {
                     entities.push_back(e.toJson());
@@ -2842,8 +2836,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             size_t requested_count = page_size;
             
             // Override with query LIMIT if present
-            if (parse_result.query && parse_result.query->limit) {
-                requested_count = static_cast<size_t>(std::max<int64_t>(1, parse_result.query->limit->count));
+            if ((*parse_result) && (*parse_result)->limit) {
+                requested_count = static_cast<size_t>(std::max<int64_t>(1, (*parse_result)->limit->count));
                 // Re-normalize with configuration
                 requested_count = themis::utils::Cursor::normalizePageSize(requested_count, pagination_config);
             }
@@ -2874,10 +2868,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 std::optional<std::string> order_value;
                 
                 // If query has ORDER BY, encode the sort value in cursor for keyset pagination
-                if (parse_result.query && parse_result.query->orderBy.has_value()) {
+                if ((*parse_result) && (*parse_result)->orderBy.has_value()) {
                     try {
                         const auto& last_entity = sliced.back();
-                        const std::string& sort_column = parse_result.query->orderBy->column;
+                        const std::string& sort_column = (*parse_result)->orderBy->column;
                         auto maybe_value = last_entity.extractField(sort_column);
                         if (maybe_value.has_value()) {
                             order_value = *maybe_value;
@@ -2907,7 +2901,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
         if (explain) {
             response_body["query"] = aql_query;
-            response_body["ast"] = parse_result.query->toJSON();
+            response_body["ast"] = (*parse_result)->toJSON();
             if (!plan_json.is_null()) {
                 // Markiere, wenn LET-Filter vor der Übersetzung extrahiert wurden (MVP-Sonderpfad)
                 if (letFilterHandled) {

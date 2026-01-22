@@ -364,7 +364,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
                 &context  // Pass context for parent bindings
             );
             
-            if (!result.ok()) {
+            if (!result.has_value()) {
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
                     fmt::format("Scalar subquery JOIN execution failed: {}", result.error().message())
