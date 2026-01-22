@@ -22,9 +22,15 @@ TransactionManager::TransactionManager(RocksDBWrapper& db,
 }
 
 TransactionManager::~TransactionManager() {
-    // Stop deadlock detector thread
+    // Stop deadlock detector thread with proper synchronization
     deadlock_detector_running_ = false;
-    deadlock_detector_cv_.notify_all();
+    
+    // Notify with proper mutex locking
+    {
+        std::lock_guard<std::mutex> lock(deadlock_detector_mutex_);
+        deadlock_detector_cv_.notify_all();
+    }
+    
     if (deadlock_detector_thread_ && deadlock_detector_thread_->joinable()) {
         deadlock_detector_thread_->join();
     }
@@ -43,6 +49,12 @@ void TransactionManager::setDeadlockDetection(bool enabled) {
 void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms) {
     deadlock_timeout_ms_.store(timeout_ms.count(), std::memory_order_relaxed);
     THEMIS_INFO("Deadlock timeout set to {} ms", timeout_ms.count());
+    
+    // Wake up detector thread to use new timeout immediately
+    {
+        std::lock_guard<std::mutex> lock(deadlock_detector_mutex_);
+        deadlock_detector_cv_.notify_one();
+    }
 }
 
 std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(std::chrono::seconds max_age) const {
@@ -199,6 +211,9 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
     info.detected_at = std::chrono::system_clock::now();
     info.victim_id = victim_id;
     
+    // Get reference to victim transaction before clearing locks
+    std::shared_ptr<Transaction> victim_txn;
+    
     {
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
         recent_deadlocks_.push_back(info);
@@ -219,7 +234,8 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
         }
     }
     
-    // Abort the victim transaction
+    // Abort the victim transaction (outside lock to avoid potential deadlock)
+    // Note: rollbackTransaction has its own internal locking
     rollbackTransaction(victim_id);
 }
 
