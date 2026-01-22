@@ -8,14 +8,90 @@
 
 #include "server/voice_api_handler.h"
 #include "voice/voice_assistant.h"
+#include "utils/http_client_pool.h"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <regex>
 
 namespace themis::server {
 
+namespace {
+    /**
+     * @brief Parse and validate IPv4 address, returning octets
+     * @param str Input string
+     * @param octets Output array of 4 octets
+     * @return true if valid IPv4, false otherwise
+     */
+    bool parseIPv4(const std::string& str, int octets[4]) {
+        std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
+        std::smatch match;
+        
+        if (!std::regex_match(str, match, ipv4_regex)) {
+            return false;
+        }
+        
+        // Validate each octet is 0-255
+        try {
+            for (int i = 0; i < 4; i++) {
+                int octet = std::stoi(match[i + 1].str());
+                if (octet < 0 || octet > 255) {
+                    return false;
+                }
+                octets[i] = octet;
+            }
+        } catch (const std::exception&) {
+            // std::stoi can throw invalid_argument or out_of_range
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * @brief Check if an IPv4 address is in a private or restricted range
+     * @param ip IPv4 address string
+     * @return true if the address is restricted, false otherwise
+     */
+    bool isRestrictedIPv4(const std::string& ip) {
+        int octets[4];
+        if (!parseIPv4(ip, octets)) {
+            return false; // Not a valid IP, let it pass through to fail later
+        }
+        
+        int a = octets[0];
+        int b = octets[1];
+        
+        // Loopback: 127.0.0.0/8
+        if (a == 127) return true;
+        
+        // Private: 10.0.0.0/8
+        if (a == 10) return true;
+        
+        // Private: 172.16.0.0/12
+        if (a == 172 && b >= 16 && b <= 31) return true;
+        
+        // Private: 192.168.0.0/16
+        if (a == 192 && b == 168) return true;
+        
+        // Link-local: 169.254.0.0/16
+        if (a == 169 && b == 254) return true;
+        
+        // 0.0.0.0/8
+        if (a == 0) return true;
+        
+        return false;
+    }
+}
+
 VoiceApiHandler::VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant)
     : voice_assistant_(voice_assistant) {
+    // Initialize HTTP client pool for downloading audio from URLs
+    utils::HTTPClientPool::Config http_config;
+    http_config.max_connections = 10;
+    http_config.connect_timeout = std::chrono::seconds(10);
+    http_config.request_timeout = std::chrono::seconds(60); // Audio files may be large
+    http_client_pool_ = std::make_shared<utils::HTTPClientPool>(http_config);
 }
 
 http::response<http::string_body> VoiceApiHandler::handleRequest(
@@ -110,12 +186,17 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     if (body->contains("audio_base64")) {
         audio_data = decodeBase64((*body)["audio_base64"]);
     } else if (body->contains("audio_url")) {
-        // Download audio from URL (not implemented)
-        return createErrorResponse(
-            http::status::not_implemented,
-            "Not Implemented",
-            "Audio URL download not yet supported"
-        );
+        // Download audio from URL
+        try {
+            std::string audio_url = (*body)["audio_url"];
+            audio_data = downloadAudioFromUrl(audio_url);
+        } catch (const std::exception& e) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                std::string("Failed to download audio from URL: ") + e.what()
+            );
+        }
     } else {
         return createErrorResponse(
             http::status::bad_request,
@@ -509,6 +590,93 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     // For now, return empty string to avoid crashes
     // Real implementation should use a base64 library (e.g., Boost.Beast base64)
     return "";
+}
+
+std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {
+    // Validate URL format - parseURL will handle this
+    if (url.empty()) {
+        throw std::invalid_argument("URL cannot be empty");
+    }
+    
+    // SSRF Protection: Parse URL and validate host to prevent access to internal resources
+    utils::URLComponents components;
+    try {
+        components = utils::parseURL(url);
+    } catch (const std::exception& e) {
+        throw std::invalid_argument("Invalid URL format");
+    }
+    
+    // Only allow HTTP and HTTPS
+    if (components.protocol != "http" && components.protocol != "https") {
+        throw std::invalid_argument("Only HTTP and HTTPS protocols are allowed");
+    }
+    
+    std::string host_lower = components.host;
+    std::transform(host_lower.begin(), host_lower.end(), host_lower.begin(), ::tolower);
+    
+    // Block localhost and loopback variations
+    if (host_lower == "localhost" || 
+        host_lower == "0.0.0.0" ||
+        host_lower == "::1" ||
+        host_lower.find("[::1]") != std::string::npos ||
+        host_lower.find("::ffff:127.") != std::string::npos) {
+        throw std::invalid_argument("Access to localhost is not allowed");
+    }
+    
+    // Block cloud metadata endpoints (common in AWS, GCP, Azure)
+    if (host_lower == "169.254.169.254" || 
+        host_lower == "metadata.google.internal" ||
+        host_lower == "metadata" ||
+        host_lower == "metadata.azure.com" ||
+        host_lower.find(".metadata.google.internal") != std::string::npos ||
+        host_lower.find(".metadata.azure.com") != std::string::npos) {
+        throw std::invalid_argument("Access to metadata endpoints is not allowed");
+    }
+    
+    // Check if host is an IPv4 address and validate it's not private/restricted
+    int octets[4];
+    if (parseIPv4(host_lower, octets)) {
+        if (isRestrictedIPv4(host_lower)) {
+            throw std::invalid_argument("Access to private or restricted IP addresses is not allowed");
+        }
+    }
+    // NOTE: Security Limitation - Domain names are not resolved to check for private IPs
+    // A malicious domain could resolve to 127.0.0.1 or other private addresses.
+    // For production use, consider:
+    // 1. Implementing DNS resolution and validating resolved IPs
+    // 2. Using network-level controls (firewall rules, egress filtering)
+    // 3. Running this service in a sandboxed network environment
+    // 4. Maintaining an allowlist of trusted domains
+    
+    // Download audio using HTTP client pool
+    // Note: We use wait_for() with a timeout as an additional safety measure, even though
+    // the HTTPClientPool has built-in timeouts (connect_timeout=10s, request_timeout=60s).
+    // The std::async in HTTPClientPool::get() runs the request in a separate thread.
+    auto response_future = http_client_pool_->get(url);
+    
+    // Wait with timeout (70s = 10s connect + 60s request + 10s buffer)
+    if (response_future.wait_for(std::chrono::seconds(70)) == std::future_status::timeout) {
+        throw std::runtime_error("Audio download timed out");
+    }
+    
+    auto response = response_future.get();
+    
+    // Check if download was successful
+    if (!response.isSuccess()) {
+        throw std::runtime_error(
+            "Failed to download audio: HTTP " + std::to_string(response.status_code)
+        );
+    }
+    
+    // Check if response body is not empty
+    if (response.body.empty()) {
+        throw std::runtime_error("Downloaded audio is empty");
+    }
+    
+    // Convert response body to vector<uint8_t>
+    std::vector<uint8_t> audio_data(response.body.begin(), response.body.end());
+    
+    return audio_data;
 }
 
 } // namespace themis::server

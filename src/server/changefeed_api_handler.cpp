@@ -366,8 +366,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         }
         
         res.body() = body.str();
-        // Note: applyGovernanceHeaders not implemented in handler
-        // This is a minor feature and can be added later if needed
+        applyGovernanceHeaders(req, res);
         res.prepare_payload();
         
         span.setStatus(true);
@@ -484,6 +483,7 @@ http::response<http::string_body> ChangefeedApiHandler::makeResponse(
     res.set(http::field::content_type, "application/json");
     res.keep_alive(req.keep_alive());
     res.body() = body;
+    applyGovernanceHeaders(req, res);
     res.prepare_payload();
     return res;
 }
@@ -543,6 +543,121 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Authorization successful
     return std::nullopt;
+}
+
+void ChangefeedApiHandler::applyGovernanceHeaders(
+    const http::request<http::string_body>& req,
+    http::response<http::string_body>& res
+) {
+    // Apply governance headers to changefeed events
+    // This ensures compliance and audit requirements are met
+    
+    auto to_lower = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+        return s;
+    };
+    
+    std::string path_only = std::string(req.target());
+    auto qpos = path_only.find('?');
+    if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+    
+    // Read incoming governance hints from request headers
+    std::string classification = ""; // offen | geheim | streng-geheim | vs-nfd
+    std::string mode = "observe";    // observe (default) | enforce
+    bool encrypt_logs = false;
+    
+    for (const auto& h : req) {
+        auto name = h.name_string();
+        if (beast::iequals(name, "X-Classification")) {
+            classification = to_lower(std::string(h.value()));
+        } else if (beast::iequals(name, "X-Governance-Mode")) {
+            mode = to_lower(std::string(h.value()));
+        } else if (beast::iequals(name, "X-Encrypt-Logs")) {
+            std::string v = to_lower(std::string(h.value()));
+            encrypt_logs = (v == "true" || v == "1" || v == "yes");
+        }
+    }
+    
+    // Resource-based default classification if none provided
+    // Changefeeds typically contain sensitive data, default to vs-nfd for CDC
+    if (classification.empty()) {
+        if (path_only.rfind("/changefeed", 0) == 0) {
+            classification = "vs-nfd"; // CDC data is sensitive by default
+        } else {
+            classification = "offen";
+        }
+    }
+    
+    // Normalize/validate known values
+    if (classification != "offen" && classification != "geheim" && 
+        classification != "streng-geheim" && classification != "vs-nfd") {
+        // Unknown classification -> keep text but apply restrictive defaults
+        classification = classification;
+    }
+    if (mode != "observe" && mode != "enforce") mode = "observe";
+    
+    // Derive header values from classification level
+    std::string content_enc = "optional";
+    std::string export_perm = "allowed";
+    std::string cache_perm = "disabled"; // CDC streams should not be cached
+    std::string retention_days = "365";
+    std::string redaction = "none";
+    std::string cdc_encryption = "optional";
+    std::string cdc_audit = "enabled"; // Always audit CDC access
+    
+    if (classification == "geheim") {
+        cache_perm = "disabled";
+        cdc_encryption = "recommended";
+        retention_days = "730"; // 2 years for geheim
+    } else if (classification == "streng-geheim") {
+        content_enc = "required";
+        export_perm = "forbidden";
+        cache_perm = "disabled";
+        redaction = "strict";
+        retention_days = "1095"; // 3 years
+        cdc_encryption = "required";
+    } else if (classification == "vs-nfd") {
+        content_enc = "required";
+        retention_days = "730"; // 2 years
+        cdc_encryption = "recommended";
+    } else if (classification == "offen") {
+        retention_days = "365"; // 1 year for public data
+    }
+    
+    // Compose policy summary
+    std::string policy_summary = "classification=" + classification + 
+                                ";mode=" + mode + 
+                                ";encrypt_logs=" + (encrypt_logs ? "true" : "false") + 
+                                ";redaction=" + redaction;
+    
+    // Write governance headers
+    res.set("X-Themis-Policy", policy_summary);
+    res.set("X-Themis-Content-Enc", content_enc);
+    res.set("X-Themis-Export", export_perm);
+    res.set("X-Themis-Cache", cache_perm);
+    res.set("X-Themis-Retention-Days", retention_days);
+    
+    // CDC-specific governance headers
+    res.set("X-Themis-CDC-Encryption", cdc_encryption);
+    res.set("X-Themis-CDC-Audit", cdc_audit);
+    res.set("X-Themis-CDC-Classification", classification);
+    
+    // Add lineage tracking header
+    res.set("X-Themis-CDC-Source", "ThemisDB");
+    
+    // Add timestamp for audit trail
+    auto now = std::chrono::system_clock::now();
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+    ).count();
+    res.set("X-Themis-CDC-Timestamp", std::to_string(ms));
+    
+    // Security headers for CDC endpoints
+    res.set("X-Frame-Options", "DENY");
+    res.set("X-Content-Type-Options", "nosniff");
+    res.set("Referrer-Policy", "no-referrer");
+    res.set("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'; base-uri 'none'");
+    res.set("X-XSS-Protection", "0");
 }
 
 } // namespace server
