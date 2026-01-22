@@ -139,6 +139,12 @@ public:
 private:
     QuantizedModelConfig config_;
     std::unordered_map<std::string, QuantizedLayerWeights> layers_;
+    
+public:
+    // Model metadata extracted from GGUF
+    uint32_t embedding_dim = 768;          // Standard dimension, updated from GGUF metadata
+    uint32_t metadata_num_layers = 32;     // Number of transformer layers (metadata)
+    std::string model_type = "";          // Model architecture (llama, mistral, etc.)
 };
 
 /**

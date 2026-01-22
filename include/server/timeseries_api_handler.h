@@ -104,6 +104,14 @@ public:
      * @return HTTP response with retention policies
      */
     http::response<http::string_body> handleRetentionGet(const http::request<http::string_body>& req);
+    
+    /**
+     * @brief Handle GET /ts/metrics request
+     * @param req HTTP request
+     * @param format Output format: "json" or "prometheus" (default: json)
+     * @return HTTP response with time series metrics
+     */
+    http::response<http::string_body> handleMetricsGet(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;

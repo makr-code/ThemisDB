@@ -5,9 +5,9 @@
 #include <vector>
 #include <unordered_map>
 #include <variant>
-#include <optional>
 #include <memory>
 #include <functional>
+#include "utils/expected.h"
 
 namespace themis {
 namespace graphql {
@@ -212,22 +212,21 @@ struct ParseError {
  */
 class Parser {
 public:
-    struct Result {
-        bool success = false;
-        Document document;
-        std::vector<ParseError> errors;
-    };
-    
-    static Result parse(std::string_view query);
+    /**
+     * Parse a GraphQL query string
+     * @param query The GraphQL query string to parse
+     * @return Result<Document> containing the parsed document or error
+     */
+    static themis::Result<Document> parse(std::string_view query);
     
 private:
     Parser(std::string_view query);
     
-    Result parseDocument();
-    std::optional<Operation> parseOperation();
-    std::optional<Field> parseField();
-    std::optional<std::shared_ptr<Value>> parseValue();
-    std::optional<VariableDefinition> parseVariableDefinition();
+    themis::Result<Document> parseDocument();
+    themis::Result<Operation> parseOperation();
+    themis::Result<Field> parseField();
+    themis::Result<std::shared_ptr<Value>> parseValue();
+    themis::Result<VariableDefinition> parseVariableDefinition();
     
     // Tokenization helpers
     void skipWhitespace();
@@ -235,11 +234,16 @@ private:
     bool match(char c);
     bool match(std::string_view s);
     bool peek(char c) const;
-    std::optional<std::string> parseName();
-    std::optional<std::string> parseString();
-    std::optional<int64_t> parseInt();
-    std::optional<double> parseFloat();
+    themis::Result<std::string> parseName();
+    themis::Result<std::string> parseString();
+    themis::Result<int64_t> parseInt();
+    themis::Result<double> parseFloat();
     
+    // Helper methods
+    std::string getLocationContext() const;
+    ParseError convertToParseError(const themis::Error& error);
+    
+    // Deprecated: Use Result<T> return types instead of error() method
     void error(std::string message);
     
     std::string_view source_;

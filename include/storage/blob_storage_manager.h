@@ -97,7 +97,11 @@ public:
             throw std::runtime_error("No suitable blob storage backend available");
         }
         
-        return backend->put(blob_id, data);
+        auto result = backend->put(blob_id, data);
+        if (!result.has_value()) {
+            throw std::runtime_error(result.error().message());
+        }
+        return result.value();
     }
     
     /**
@@ -121,7 +125,11 @@ public:
             );
         }
         
-        return backend->get(ref);
+        auto result = backend->get(ref);
+        if (!result.has_value()) {
+            return std::nullopt;
+        }
+        return result.value();
     }
     
     /**
@@ -143,7 +151,11 @@ public:
             return false;
         }
         
-        return backend->remove(ref);
+        auto result = backend->remove(ref);
+        if (!result.has_value()) {
+            return false;
+        }
+        return true;
     }
     
     /**

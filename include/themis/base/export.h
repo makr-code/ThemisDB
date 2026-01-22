@@ -95,16 +95,36 @@
 
 // Legacy compatibility: When building monolithic core (pre-v1.3.0)
 // all APIs default to the current behavior
-#ifndef THEMIS_BASE_ENABLED
+#ifndef THEMIS_BASE_API
     #define THEMIS_BASE_API
+#endif
+#ifndef THEMIS_STORAGE_API
     #define THEMIS_STORAGE_API
+#endif
+#ifndef THEMIS_QUERY_API
     #define THEMIS_QUERY_API
+#endif
+#ifndef THEMIS_SECURITY_API
     #define THEMIS_SECURITY_API
+#endif
+#ifndef THEMIS_SHARDING_API
     #define THEMIS_SHARDING_API
+#endif
+#ifndef THEMIS_LLM_API
     #define THEMIS_LLM_API
+#endif
+#ifndef THEMIS_CONTENT_API
     #define THEMIS_CONTENT_API
+#endif
+#ifndef THEMIS_TIMESERIES_API
     #define THEMIS_TIMESERIES_API
+#endif
+#ifndef THEMIS_NETWORK_API
     #define THEMIS_NETWORK_API
+#endif
+#ifndef THEMIS_GEO_API
     #define THEMIS_GEO_API
+#endif
+#ifndef THEMIS_GRAPH_API
     #define THEMIS_GRAPH_API
 #endif

@@ -1,0 +1,85 @@
+name: CHIMERA Neutrality Check
+
+on:
+  pull_request:
+    paths:
+      - 'benchmarks/chimera/**'
+      - 'docs/benchmarks/CHIMERA_*'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'benchmarks/chimera/**'
+      - 'docs/benchmarks/CHIMERA_*'
+
+jobs:
+  neutrality-check:
+    name: Check Vendor Neutrality
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          cd benchmarks/chimera
+          pip install -r requirements.txt
+      
+      - name: Run Neutrality Linter
+        id: linter
+        run: |
+          cd benchmarks/chimera
+          python3 neutrality_linter.py
+          exit_code=$?
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          exit $exit_code
+        continue-on-error: true
+      
+      - name: Check Result
+        run: |
+          if [ "${{ steps.linter.outputs.exit_code }}" -eq "2" ]; then
+            echo "❌ CRITICAL: Neutrality violations found"
+            exit 1
+          elif [ "${{ steps.linter.outputs.exit_code }}" -eq "1" ]; then
+            echo "⚠️ WARNING: Major violations found (non-blocking)"
+            exit 0
+          else
+            echo "✅ PASSED: No critical violations"
+            exit 0
+          fi
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.linter.outputs.exit_code != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const exitCode = '${{ steps.linter.outputs.exit_code }}';
+            let message = '## 🔬 CHIMERA Neutrality Check\n\n';
+            
+            if (exitCode === '2') {
+              message += '❌ **CRITICAL**: Neutrality violations detected\n\n';
+              message += 'Critical violations must be fixed before merge.\n\n';
+            } else if (exitCode === '1') {
+              message += '⚠️ **WARNING**: Major violations detected\n\n';
+              message += 'Please review these violations.\n\n';
+            }
+            
+            message += '### Guidelines\n\n';
+            message += '- Use generic system identifiers (e.g., `system_a`, `system_b`)\n';
+            message += '- Use protocol names for adapters (e.g., `PostgreSQLAdapter`)\n';
+            message += '- Avoid vendor names and marketing terms\n\n';
+            message += 'See [NEUTRALITY_STYLEGUIDE.md](../blob/main/benchmarks/chimera/NEUTRALITY_STYLEGUIDE.md) for details.';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });

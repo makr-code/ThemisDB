@@ -40,8 +40,9 @@ struct GEvalEvaluator::Impl {
     std::shared_ptr<llm::InferenceEngineEnhanced> llm;
     
     Impl(const Config& cfg) : config(cfg) {
-        // Initialize LLM engine
-        llm = std::make_shared<llm::InferenceEngineEnhanced>();
+        // Initialize LLM engine with default config
+        llm::InferenceEngineEnhanced::Config engine_cfg;
+        llm = std::make_shared<llm::InferenceEngineEnhanced>(engine_cfg);
     }
     
     /**

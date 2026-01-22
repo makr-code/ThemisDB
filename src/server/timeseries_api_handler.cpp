@@ -57,12 +57,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
         ts_point.tags = body.value("tags", nlohmann::json::object());
         ts_point.metadata = body.value("metadata", nlohmann::json::object());
         
-        auto status = ts_store_->putDataPoint(ts_point);
+        auto result = ts_store_->putDataPoint(ts_point);
         
-        if (!status.ok) {
+        if (!result) {
             span.setStatus(false, "put_failed");
             return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Failed to store data point" : status.message, req);
+                result.error().message(), req);
         }
         
         nlohmann::json response = {
@@ -119,13 +119,15 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto [status, points] = ts_store_->query(query_opts);
+        auto result = ts_store_->query(query_opts);
         
-        if (!status.ok) {
+        if (!result) {
             span.setStatus(false, "query_failed");
             return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Query failed" : status.message, req);
+                result.error().message(), req);
         }
+        
+        auto& points = *result;
         
         nlohmann::json response = {
             {"metric", metric},
@@ -190,13 +192,15 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto [status, agg] = ts_store_->aggregate(query_opts);
+        auto result = ts_store_->aggregate(query_opts);
         
-        if (!status.ok) {
+        if (!result) {
             span.setStatus(false, "aggregate_failed");
             return makeErrorResponse(http::status::internal_server_error, 
-                status.message.empty() ? "Aggregation failed" : status.message, req);
+                result.error().message(), req);
         }
+        
+        auto& agg = *result;
         
         nlohmann::json response = {
             {"metric", metric},
@@ -377,6 +381,70 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
         };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
+    } catch (const std::exception& e) {
+        span.setStatus(false, "error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handleTimeSeriesMetricsGet");
+    
+    if (!ts_store_) {
+        span.setStatus(false, "feature_disabled");
+        return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
+    }
+    
+    try {
+        // Check format parameter from query string
+        std::string format = "json"; // default
+        std::string target = std::string(req.target());
+        size_t query_pos = target.find('?');
+        if (query_pos != std::string::npos) {
+            std::string query_string = target.substr(query_pos + 1);
+            // Check for format parameter with proper boundary checking
+            if (query_string == "format=prometheus" || 
+                query_string.find("format=prometheus&") == 0 ||
+                query_string.find("&format=prometheus&") != std::string::npos ||
+                query_string.find("&format=prometheus") == query_string.length() - 18) {
+                format = "prometheus";
+            }
+        }
+        
+        auto metrics = ts_store_->getMetrics();
+        if (!metrics) {
+            nlohmann::json response = {
+                {"error", false},
+                {"message", "Metrics collection is not enabled for time series"},
+                {"enabled", false}
+            };
+            span.setStatus(true);
+            return makeResponse(http::status::ok, response.dump(), req);
+        }
+        
+        // Also update stats from TSStore before exporting metrics
+        auto stats = ts_store_->getStats();
+        metrics->updateStorageStats(stats.total_data_points, stats.total_metrics, stats.total_size_bytes);
+        
+        if (format == "prometheus") {
+            // Return Prometheus text format
+            std::string prom_text = metrics->exportPrometheus();
+            http::response<http::string_body> res{http::status::ok, req.version()};
+            res.set(http::field::server, "THEMIS/0.1.0");
+            res.set(http::field::content_type, "text/plain; version=0.0.4");
+            res.keep_alive(req.keep_alive());
+            res.body() = prom_text;
+            res.prepare_payload();
+            span.setStatus(true);
+            return res;
+        } else {
+            // Return JSON format
+            std::string json_text = metrics->exportJson();
+            span.setStatus(true);
+            return makeResponse(http::status::ok, json_text, req);
+        }
     } catch (const std::exception& e) {
         span.setStatus(false, "error");
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);

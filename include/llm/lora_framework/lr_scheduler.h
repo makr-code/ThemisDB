@@ -25,7 +25,9 @@ enum class SchedulerType {
     EXPONENTIAL,            // Exponential decay
     WARMUP_CONSTANT,        // Linear warmup then constant
     WARMUP_COSINE,          // Linear warmup then cosine
-    WARMUP_LINEAR           // Linear warmup then linear decay
+    WARMUP_LINEAR,          // Linear warmup then linear decay
+    CYCLIC,                 // Triangular / cyclic schedule
+    ONE_CYCLE               // OneCycle policy (Smith 2018)
 };
 
 /**
@@ -42,6 +44,10 @@ struct LRSchedulerConfig {
     float step_size = 100;              // Step size for step decay
     float gamma = 0.1f;                 // Multiplicative factor for step/exp decay
     int num_cycles = 1;                 // Number of cycles for cosine with restarts
+    int step_size_up = 200;             // Steps for increasing LR (cyclic/one-cycle)
+    int step_size_down = 200;           // Steps for decreasing LR (cyclic/one-cycle)
+    float pct_start = 0.3f;             // Fraction of steps to increase LR (one-cycle)
+    float final_div_factor = 25.0f;     // Final LR = max_lr/final_div_factor (one-cycle)
     
     json toJSON() const {
         return json{
@@ -54,7 +60,11 @@ struct LRSchedulerConfig {
             {"decay_power", decay_power},
             {"step_size", step_size},
             {"gamma", gamma},
-            {"num_cycles", num_cycles}
+            {"num_cycles", num_cycles},
+            {"step_size_up", step_size_up},
+            {"step_size_down", step_size_down},
+            {"pct_start", pct_start},
+            {"final_div_factor", final_div_factor}
         };
     }
     
@@ -70,6 +80,10 @@ struct LRSchedulerConfig {
         if (j.contains("step_size")) config.step_size = j["step_size"];
         if (j.contains("gamma")) config.gamma = j["gamma"];
         if (j.contains("num_cycles")) config.num_cycles = j["num_cycles"];
+        if (j.contains("step_size_up")) config.step_size_up = j["step_size_up"];
+        if (j.contains("step_size_down")) config.step_size_down = j["step_size_down"];
+        if (j.contains("pct_start")) config.pct_start = j["pct_start"];
+        if (j.contains("final_div_factor")) config.final_div_factor = j["final_div_factor"];
         return config;
     }
 };
@@ -265,6 +279,48 @@ private:
     float min_lr_;
     int warmup_steps_;
     int total_steps_;
+
+};
+
+/**
+ * @brief Cyclic learning rate scheduler (triangular)
+ */
+class CyclicLR : public LRScheduler {
+public:
+    CyclicLR(float base_lr, float max_lr, int step_size_up, int step_size_down)
+        : base_lr_(base_lr), max_lr_(max_lr), step_size_up_(step_size_up), step_size_down_(step_size_down) {}
+    
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::CYCLIC; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float base_lr_;
+    float max_lr_;
+    int step_size_up_;
+    int step_size_down_;
+};
+
+/**
+ * @brief OneCycle learning rate scheduler
+ */
+class OneCycleLR : public LRScheduler {
+public:
+    OneCycleLR(float max_lr, float base_lr, float final_div_factor,
+               int total_steps, float pct_start)
+        : max_lr_(max_lr), base_lr_(base_lr), final_div_factor_(final_div_factor),
+          total_steps_(total_steps), pct_start_(pct_start) {}
+
+    float get_lr(int step) const override;
+    SchedulerType type() const override { return SchedulerType::ONE_CYCLE; }
+    LRSchedulerConfig config() const override;
+
+private:
+    float max_lr_;
+    float base_lr_;
+    float final_div_factor_;
+    int total_steps_;
+    float pct_start_;
 };
 
 /**
