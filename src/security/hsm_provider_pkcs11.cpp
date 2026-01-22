@@ -487,7 +487,6 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     
     // Public key template
     CK_BBOOL ck_true = CK_TRUE;
-    CK_BBOOL ck_false = CK_FALSE;
     CK_BBOOL ck_extractable = extractable ? CK_TRUE : CK_FALSE;
     CK_ULONG modulus_bits = key_size;
     CK_BYTE public_exponent[] = {0x01, 0x00, 0x01}; // 65537
