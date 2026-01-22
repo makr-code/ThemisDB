@@ -2119,6 +2119,248 @@ SecondaryIndexManager::scanFulltextWithScores(
 	return computeBM25Scores_(table, column, query, limit);
 }
 
+// Phrase search: exact phrase matching with position awareness
+std::pair<SecondaryIndexManager::Status, std::vector<SecondaryIndexManager::FulltextResult>>
+SecondaryIndexManager::scanFulltextPhrase(
+	std::string_view table,
+	std::string_view column,
+	std::string_view phrase,
+	size_t limit
+) const {
+	if (!hasFulltextIndex(table, column)) {
+		return {Status::Error("scanFulltextPhrase: No fulltext index for " + std::string(table) + "." + std::string(column)), {}};
+	}
+	
+	if (phrase.empty()) {
+		return {Status::OK(), {}};
+	}
+	
+	// Get index config and tokenize phrase
+	auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
+	auto tokens = tokenize(phrase, config);
+	
+	if (tokens.empty()) {
+		return {Status::OK(), {}};
+	}
+	
+	// Get candidate documents that contain all tokens
+	std::vector<std::unordered_set<std::string>> tokenResults;
+	for (const auto& token : tokens) {
+		std::string prefix = makeFulltextIndexPrefix(table, column, token);
+		std::unordered_set<std::string> pks;
+		
+		db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
+			size_t lastColon = key.rfind(':');
+			if (lastColon != std::string_view::npos) {
+				pks.insert(std::string(key.substr(lastColon + 1)));
+			}
+			return true;
+		});
+		
+		tokenResults.push_back(std::move(pks));
+	}
+	
+	// Intersect all sets (AND logic)
+	if (tokenResults.empty()) {
+		return {Status::OK(), {}};
+	}
+	
+	std::unordered_set<std::string> candidates = tokenResults[0];
+	for (size_t i = 1; i < tokenResults.size(); ++i) {
+		std::unordered_set<std::string> intersection;
+		for (const auto& pk : candidates) {
+			if (tokenResults[i].count(pk)) {
+				intersection.insert(pk);
+			}
+		}
+		candidates = std::move(intersection);
+	}
+	
+	if (candidates.empty()) {
+		return {Status::OK(), {}};
+	}
+	
+	// Verify exact phrase match by checking original document
+	std::vector<FulltextResult> results;
+	std::string phraseNorm = std::string(phrase);
+	if (config.normalize_umlauts) {
+		phraseNorm = utils::Normalizer::normalizeUmlauts(phraseNorm);
+	}
+	std::transform(phraseNorm.begin(), phraseNorm.end(), phraseNorm.begin(), 
+		[](unsigned char c){ return std::tolower(c); });
+	
+	for (const auto& pk : candidates) {
+		auto pkey = KeySchema::makeRelationalKey(table, pk);
+		auto blob = db_.get(pkey);
+		
+		if (blob && !blob->empty()) {
+			try {
+				BaseEntity::Blob beBlob(blob->begin(), blob->end());
+				BaseEntity entity = BaseEntity::deserialize(pk, beBlob);
+				auto maybeVal = entity.extractField(column);
+				
+				if (maybeVal.has_value()) {
+					std::string field = *maybeVal;
+					if (config.normalize_umlauts) {
+						field = utils::Normalizer::normalizeUmlauts(field);
+					}
+					std::transform(field.begin(), field.end(), field.begin(), 
+						[](unsigned char c){ return std::tolower(c); });
+					
+					// Check if exact phrase exists in the field
+					if (field.find(phraseNorm) != std::string::npos) {
+						// Simple scoring: 1.0 for exact match, could be enhanced with position/proximity
+						results.push_back({pk, 1.0});
+					}
+				}
+			} catch (...) {
+				// Skip documents that fail to deserialize
+			}
+		}
+		
+		if (results.size() >= limit) {
+			break;
+		}
+	}
+	
+	return {Status::OK(), std::move(results)};
+}
+
+// Helper function to calculate Levenshtein distance
+namespace {
+	int levenshteinDistance(const std::string& s1, const std::string& s2) {
+		const size_t m = s1.size();
+		const size_t n = s2.size();
+		
+		if (m == 0) return static_cast<int>(n);
+		if (n == 0) return static_cast<int>(m);
+		
+		std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
+		
+		for (size_t i = 0; i <= m; ++i) dp[i][0] = static_cast<int>(i);
+		for (size_t j = 0; j <= n; ++j) dp[0][j] = static_cast<int>(j);
+		
+		for (size_t i = 1; i <= m; ++i) {
+			for (size_t j = 1; j <= n; ++j) {
+				int cost = (s1[i-1] == s2[j-1]) ? 0 : 1;
+				dp[i][j] = std::min({
+					dp[i-1][j] + 1,      // deletion
+					dp[i][j-1] + 1,      // insertion
+					dp[i-1][j-1] + cost  // substitution
+				});
+			}
+		}
+		
+		return dp[m][n];
+	}
+}
+
+// Fuzzy search: Levenshtein distance-based similarity matching
+std::pair<SecondaryIndexManager::Status, std::vector<SecondaryIndexManager::FulltextResult>>
+SecondaryIndexManager::scanFulltextFuzzy(
+	std::string_view table,
+	std::string_view column,
+	std::string_view query,
+	int maxDistance,
+	size_t limit
+) const {
+	if (!hasFulltextIndex(table, column)) {
+		return {Status::Error("scanFulltextFuzzy: No fulltext index for " + std::string(table) + "." + std::string(column)), {}};
+	}
+	
+	if (query.empty() || maxDistance < 0) {
+		return {Status::OK(), {}};
+	}
+	
+	// Get index config and tokenize query
+	auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
+	auto queryTokens = tokenize(query, config);
+	
+	if (queryTokens.empty()) {
+		return {Status::OK(), {}};
+	}
+	
+	// For fuzzy search, we need to scan all tokens in the index and find similar ones
+	std::unordered_set<std::string> candidatePKs;
+	std::unordered_map<std::string, double> pkScores;
+	
+	// Scan all fulltext index entries for this table/column
+	std::string prefix = "ftidx:" + std::string(table) + ":" + std::string(column) + ":";
+	
+	// Collect similar tokens for each query token
+	std::unordered_set<std::string> similarTokens;
+	for (const auto& queryToken : queryTokens) {
+		// Scan the index to find tokens within edit distance
+		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
+			// Extract token from ftidx:table:column:token:pk
+			std::string keyStr(key);
+			size_t thirdColon = keyStr.find(':', prefix.size());
+			if (thirdColon != std::string::npos) {
+				std::string token = keyStr.substr(prefix.size(), thirdColon - prefix.size());
+				
+				// Calculate Levenshtein distance
+				int distance = levenshteinDistance(queryToken, token);
+				if (distance <= maxDistance) {
+					similarTokens.insert(token);
+				}
+			}
+			return true;
+		});
+	}
+	
+	// Now collect documents containing similar tokens
+	for (const auto& token : similarTokens) {
+		std::string tokenPrefix = makeFulltextIndexPrefix(table, column, token);
+		
+		db_.scanPrefix(tokenPrefix, [&](std::string_view key, std::string_view /*val*/) {
+			size_t lastColon = key.rfind(':');
+			if (lastColon != std::string_view::npos) {
+				std::string pk = std::string(key.substr(lastColon + 1));
+				candidatePKs.insert(pk);
+				
+				// Score based on inverse of distance (closer = higher score)
+				// Simple scoring: 1.0 / (1 + distance)
+				bool found = false;
+				double bestScore = 0.0;
+				for (const auto& queryToken : queryTokens) {
+					int dist = levenshteinDistance(queryToken, token);
+					double score = 1.0 / (1.0 + dist);
+					if (score > bestScore) {
+						bestScore = score;
+						found = true;
+					}
+				}
+				
+				if (found) {
+					pkScores[pk] = std::max(pkScores[pk], bestScore);
+				}
+			}
+			return true;
+		});
+	}
+	
+	// Convert to results with scores
+	std::vector<FulltextResult> results;
+	results.reserve(candidatePKs.size());
+	
+	for (const auto& pk : candidatePKs) {
+		double score = pkScores.count(pk) ? pkScores[pk] : 0.5;
+		results.push_back({pk, score});
+	}
+	
+	// Sort by score descending
+	std::sort(results.begin(), results.end(), [](const FulltextResult& a, const FulltextResult& b) {
+		return a.score > b.score;
+	});
+	
+	// Return top-k results
+	if (results.size() > limit) {
+		results.resize(limit);
+	}
+	
+	return {Status::OK(), std::move(results)};
+}
+
 bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& value) {
 	return !value.has_value() || value->empty() || *value == "null";
 }
