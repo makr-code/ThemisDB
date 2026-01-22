@@ -1,8 +1,13 @@
 #include "query/query_federation.h"
-#include "core/error.h"
 #include <chrono>
 #include <algorithm>
 #include <spdlog/spdlog.h>
+
+// Configuration constants
+namespace {
+    // Threshold for using partition pruning strategy
+    constexpr size_t PARTITION_PRUNING_THRESHOLD = 5;
+}
 
 namespace themis::query {
 
@@ -51,15 +56,27 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
                 
             case ExecutionPlan::Strategy::BROADCAST_JOIN:
                 broadcast_joins_++;
-                // Handled by executeJoin
-                return executeJoin(metadata.tables[0], metadata.tables[1], 
-                                 metadata.joins[0]);
+                // Handled by executeJoin - check if we have enough tables
+                if (metadata.tables.size() >= 2 && !metadata.joins.empty()) {
+                    return executeJoin(metadata.tables[0], metadata.tables[1], 
+                                     metadata.joins[0]);
+                } else {
+                    spdlog::warn("Broadcast join requested but insufficient metadata");
+                    shard_results = shard_router_->scatterGather(query);
+                }
+                break;
                 
             case ExecutionPlan::Strategy::SHUFFLE_JOIN:
                 shuffle_joins_++;
-                // Handled by executeJoin
-                return executeJoin(metadata.tables[0], metadata.tables[1], 
-                                 metadata.joins[0]);
+                // Handled by executeJoin - check if we have enough tables
+                if (metadata.tables.size() >= 2 && !metadata.joins.empty()) {
+                    return executeJoin(metadata.tables[0], metadata.tables[1], 
+                                     metadata.joins[0]);
+                } else {
+                    spdlog::warn("Shuffle join requested but insufficient metadata");
+                    shard_results = shard_router_->scatterGather(query);
+                }
+                break;
                 
             case ExecutionPlan::Strategy::MAP_REDUCE:
                 // Execute map phase on shards, reduce locally
@@ -125,7 +142,7 @@ QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
         // Determine which shards are relevant based on predicates
         plan.target_shards = determineRelevantShards(metadata);
         
-        if (plan.target_shards.size() < 5) { // Arbitrary threshold
+        if (plan.target_shards.size() < PARTITION_PRUNING_THRESHOLD) {
             plan.strategy = ExecutionPlan::Strategy::PARTITION_PRUNING;
             spdlog::debug("Using partition pruning: {} shards", 
                          plan.target_shards.size());
@@ -294,12 +311,23 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
 ) {
     // Simplified shard determination
     // Real implementation would analyze predicates and determine
-    // which shards contain relevant data
+    // which shards contain relevant data based on:
+    // - Partition key values in predicates
+    // - Shard topology and partition ranges
+    // - Data distribution statistics
     
     std::vector<std::string> shards;
     
-    // For now, return all shards
-    // In reality, would use partition key analysis
+    // TODO: Implement actual shard determination logic
+    // For now, return placeholder shard IDs
+    // In production, this would query the shard topology:
+    // - Extract partition key from predicates
+    // - Query URN resolver for relevant shards
+    // - Return list of shard IDs that need to be queried
+    
+    spdlog::debug("Determining relevant shards - placeholder implementation");
+    
+    // Placeholder: return small set of shards
     shards.push_back("shard-001");
     shards.push_back("shard-002");
     

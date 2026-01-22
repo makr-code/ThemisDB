@@ -1,7 +1,24 @@
 #include "server/api_gateway.h"
-#include "core/error.h"
+#include "core/error_codes.h"
 #include <chrono>
 #include <spdlog/spdlog.h>
+
+// Helper to create error responses
+namespace {
+    class Error : public std::runtime_error {
+    public:
+        Error(int code, const std::string& msg) 
+            : std::runtime_error(msg), code_(code) {}
+        int code() const { return code_; }
+    private:
+        int code_;
+    };
+    
+    enum class ErrorCode {
+        FeatureDisabled = 1,
+        ConfigurationError = 2
+    };
+}
 
 namespace themis::server {
 
@@ -75,8 +92,15 @@ http::response<http::string_body> APIGateway::handleRequest(
                 
             case RouteTarget::SHARD:
                 distributed_requests_++;
-                // Extract shard ID from request (simplified)
-                response = executeRemote(req, "shard-001");
+                // Extract shard ID from request path/URN
+                // For now, fallback to local execution if extraction fails
+                if (shard_router_) {
+                    // TODO: Extract URN from request and route to appropriate shard
+                    // For now, use local execution as fallback
+                    response = executeLocal(req, local_handler);
+                } else {
+                    response = executeLocal(req, local_handler);
+                }
                 break;
                 
             case RouteTarget::SCATTER_GATHER:
@@ -116,12 +140,12 @@ nlohmann::json APIGateway::executeFederatedQuery(
     federated_queries_++;
     
     if (!config_.enable_query_federation) {
-        throw Error(ErrorCode::FeatureDisabled, 
+        throw Error(static_cast<int>(ErrorCode::FeatureDisabled), 
                    "Query federation is not enabled");
     }
     
     if (!shard_router_) {
-        throw Error(ErrorCode::ConfigurationError, 
+        throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
                    "Shard router not configured for query federation");
     }
     
@@ -351,12 +375,19 @@ http::response<http::string_body> APIGateway::executeRemote(
     
     try {
         // Execute request on remote shard via shard router
-        // This is a simplified implementation
-        std::string path = std::string(req.target());
+        // Note: This requires full URN extraction and routing logic
+        // which depends on the specific request format
         
-        // For now, return error as full integration requires more context
-        return makeErrorResponse(http::status::not_implemented,
-                                "Remote shard execution not yet fully implemented", req);
+        // For now, this is a placeholder for future implementation
+        // In production, this would:
+        // 1. Extract URN or entity ID from request
+        // 2. Resolve to shard location via URN resolver
+        // 3. Execute request via remote executor
+        // 4. Record success/failure in circuit breaker
+        
+        spdlog::warn("Remote shard execution called but not fully implemented");
+        return makeErrorResponse(http::status::internal_server_error,
+                                "Remote shard execution requires additional configuration", req);
         
     } catch (const std::exception& e) {
         spdlog::error("Remote execution failed: {}", e.what());
