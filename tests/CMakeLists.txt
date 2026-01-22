@@ -2582,6 +2582,42 @@ else()
 endif()
 
 # ============================================================================
+# Fulltext Phrase and Fuzzy Search Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
+    message(STATUS "Adding Fulltext Phrase and Fuzzy Search tests")
+    
+    add_executable(test_fulltext_phrase_fuzzy
+        test_fulltext_phrase_fuzzy.cpp
+    )
+    
+    target_link_libraries(test_fulltext_phrase_fuzzy PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_fulltext_phrase_fuzzy PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME FulltextPhraseFuzzyTests COMMAND test_fulltext_phrase_fuzzy)
+    
+    set_tests_properties(FulltextPhraseFuzzyTests PROPERTIES
+        LABELS "index;fulltext;phrase;fuzzy;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Fulltext: phrase matching, fuzzy search with Levenshtein distance")
+else()
+    message(STATUS "Fulltext Phrase and Fuzzy Search tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
