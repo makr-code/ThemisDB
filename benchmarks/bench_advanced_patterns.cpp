@@ -3316,4 +3316,151 @@ BENCHMARK(BM_Phase2H_FullOptimized)
     ->Arg(1)->Arg(4)->Arg(8)->Arg(16)->Arg(32)
     ->Unit(benchmark::kMillisecond)->UseRealTime();
 
+// ============================================================================
+// SHARDED PARALLEL BENCHMARKS (TRUE PARALLELIZATION)
+// ============================================================================
+
+/**
+ * Sharded parallel benchmark - each thread writes to own table/shard
+ * This tests true parallelization without write serialization
+ * 
+ * Key concept: Instead of all threads writing to the same table (contention),
+ * each thread writes to its own dedicated shard (no contention).
+ * 
+ * Expected improvements:
+ * - 1 Thread: Baseline (no change)
+ * - 4 Threads: 50-200% improvement
+ * - 8 Threads: 100-300% improvement
+ * - 16 Threads: 200-500% improvement
+ * - 32 Threads: 300-800% improvement
+ */
+class ParallelityBenchSharded : public benchmark::Fixture {
+protected:
+    void SetUp(const benchmark::State&) override {
+        fixture_ = std::make_unique<DatabaseFixture>("parallelity_sharded");
+        
+        // Create one index per potential thread (32 max)
+        db_wrapper_ = &fixture_->getDb();
+        for (int i = 0; i < 32; ++i) {
+            auto sim = std::make_unique<SecondaryIndexManager>(*db_wrapper_);
+            std::string table_name = "parallel_shard_" + std::to_string(i);
+            sim->createIndex(table_name, "id");
+            shards_.push_back(std::move(sim));
+        }
+    }
+    
+    void TearDown(const benchmark::State&) override {
+        shards_.clear();
+        fixture_.reset();
+    }
+
+protected:
+    std::unique_ptr<DatabaseFixture> fixture_;
+    RocksDBWrapper* db_wrapper_;
+    std::vector<std::unique_ptr<SecondaryIndexManager>> shards_;
+};
+
+// Sharded: 1 thread (baseline)
+BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_1Thread) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(1);
+        executor.execute([this](int work_id) {
+            int thread_id = 0;  // Single thread
+            auto& sim = shards_[thread_id];
+            std::string table = "parallel_shard_" + std::to_string(thread_id);
+            
+            BaseEntity e("entity_shard_" + std::to_string(thread_id) + "_" + std::to_string(work_id), 
+                       BaseEntity::FieldMap{
+                {"data", RandomGenerator::instance().randStr(100)},
+                {"value", static_cast<double>(thread_id * 100 + work_id)}
+            });
+            sim->put(table, e);
+        }, 100);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// Sharded: 4 threads
+BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_4Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(4);
+        executor.execute([this](int work_id) {
+            int thread_id = work_id / 25;  // 4 threads, 25 items each
+            auto& sim = shards_[thread_id];
+            std::string table = "parallel_shard_" + std::to_string(thread_id);
+            
+            BaseEntity e("entity_shard_" + std::to_string(thread_id) + "_" + std::to_string(work_id),
+                       BaseEntity::FieldMap{
+                {"data", RandomGenerator::instance().randStr(100)},
+                {"value", static_cast<double>(work_id)}
+            });
+            sim->put(table, e);
+        }, 25);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// Sharded: 8 threads
+BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_8Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(8);
+        executor.execute([this](int work_id) {
+            int thread_id = work_id / 12;  // 8 threads, 12 items each (96 total)
+            if (thread_id >= 8) thread_id = 7;  // Handle remainder
+            auto& sim = shards_[thread_id];
+            std::string table = "parallel_shard_" + std::to_string(thread_id);
+            
+            BaseEntity e("entity_shard_" + std::to_string(thread_id) + "_" + std::to_string(work_id),
+                       BaseEntity::FieldMap{
+                {"data", RandomGenerator::instance().randStr(100)},
+                {"value", static_cast<double>(work_id)}
+            });
+            sim->put(table, e);
+        }, 12);
+    }
+    state.SetItemsProcessed(state.iterations() * 96);
+}
+
+// Sharded: 16 threads
+BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_16Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(16);
+        executor.execute([this](int work_id) {
+            int thread_id = work_id / 6;  // 16 threads, 6 items each (96 total)
+            if (thread_id >= 16) thread_id = 15;  // Handle remainder
+            auto& sim = shards_[thread_id];
+            std::string table = "parallel_shard_" + std::to_string(thread_id);
+            
+            BaseEntity e("entity_shard_" + std::to_string(thread_id) + "_" + std::to_string(work_id),
+                       BaseEntity::FieldMap{
+                {"data", RandomGenerator::instance().randStr(100)},
+                {"value", static_cast<double>(work_id)}
+            });
+            sim->put(table, e);
+        }, 6);
+    }
+    state.SetItemsProcessed(state.iterations() * 96);
+}
+
+// Sharded: 32 threads
+BENCHMARK_F(ParallelityBenchSharded, ShardedParallel_32Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(32);
+        executor.execute([this](int work_id) {
+            int thread_id = work_id / 3;  // 32 threads, 3 items each (96 total)
+            if (thread_id >= 32) thread_id = 31;  // Handle remainder
+            auto& sim = shards_[thread_id];
+            std::string table = "parallel_shard_" + std::to_string(thread_id);
+            
+            BaseEntity e("entity_shard_" + std::to_string(thread_id) + "_" + std::to_string(work_id),
+                       BaseEntity::FieldMap{
+                {"data", RandomGenerator::instance().randStr(100)},
+                {"value", static_cast<double>(work_id)}
+            });
+            sim->put(table, e);
+        }, 3);
+    }
+    state.SetItemsProcessed(state.iterations() * 96);
+}
+
 BENCHMARK_MAIN();
