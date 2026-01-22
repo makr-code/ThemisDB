@@ -7,6 +7,7 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <cctype>
 
 namespace themis {
 namespace llm {
@@ -312,11 +313,27 @@ nlohmann::json MetaPromptGenerator::analyzePromptStructure(const std::string& pr
     nlohmann::json analysis;
     
     analysis["length"] = prompt.length();
-    analysis["has_examples"] = (prompt.find("xample") != std::string::npos);
-    analysis["has_steps"] = (prompt.find("tep") != std::string::npos || 
-                             prompt.find("1.") != std::string::npos);
+    
+    // Use word boundary checks for more accurate detection
+    auto contains_word = [&prompt](const std::string& word) {
+        // Simple word boundary check - could be improved with regex
+        std::string lower_prompt = prompt;
+        std::transform(lower_prompt.begin(), lower_prompt.end(), lower_prompt.begin(), ::tolower);
+        size_t pos = lower_prompt.find(word);
+        if (pos == std::string::npos) return false;
+        
+        // Check boundaries
+        bool start_ok = (pos == 0 || !std::isalnum(lower_prompt[pos - 1]));
+        bool end_ok = (pos + word.length() >= lower_prompt.length() || 
+                      !std::isalnum(lower_prompt[pos + word.length()]));
+        return start_ok && end_ok;
+    };
+    
+    analysis["has_examples"] = contains_word("example") || contains_word("examples");
+    analysis["has_steps"] = contains_word("step") || contains_word("steps") || 
+                            prompt.find("1.") != std::string::npos;
     analysis["has_headers"] = (prompt.find("#") != std::string::npos);
-    analysis["has_format_spec"] = (prompt.find("ormat") != std::string::npos);
+    analysis["has_format_spec"] = contains_word("format") || contains_word("output");
     
     // Count sentences (rough approximation)
     size_t sentence_count = 0;

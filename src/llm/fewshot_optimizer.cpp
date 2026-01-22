@@ -233,9 +233,9 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
     std::vector<FewShotExample> selected;
     std::vector<FewShotExample> remaining = candidates;
     
-    // Compute relevance scores for all candidates
+    // Compute relevance scores for all candidates (modifying our copy)
     for (auto& ex : remaining) {
-        const_cast<FewShotExample&>(ex).relevance_score = computeRelevance(query, ex);
+        ex.relevance_score = computeRelevance(query, ex);
     }
     
     // Sort by relevance
@@ -273,8 +273,8 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
             }
         }
         
-        const_cast<FewShotExample&>(remaining[best_idx]).diversity_score = 
-            1.0 - best_score; // Store diversity contribution
+        // Store the diversity contribution for this selection
+        remaining[best_idx].diversity_score = config_.diversity_weight * (1.0 - min_similarity);
         
         selected.push_back(remaining[best_idx]);
         remaining.erase(remaining.begin() + best_idx);

@@ -12,6 +12,12 @@ class PromptOptimizerTest : public ::testing::Test {
 protected:
     OptimizationConfig config_;
     
+    // Constants for mock evaluation
+    static constexpr double BASE_SCORE_DENOMINATOR = 200.0;
+    static constexpr double TASK_BONUS = 0.2;
+    static constexpr double EXAMPLE_BONUS = 0.15;
+    static constexpr double GUIDELINES_BONUS = 0.1;
+    
     void SetUp() override {
         config_.max_iterations = 3;
         config_.min_improvement = 0.05;
@@ -25,17 +31,17 @@ protected:
         const std::vector<TestCase>& test_cases
     ) {
         // Simple mock: longer prompts score better (up to a point)
-        double base_score = std::min(0.5, prompt.length() / 200.0);
+        double base_score = std::min(0.5, prompt.length() / BASE_SCORE_DENOMINATOR);
         
         // Bonus for having "Task" or "Example"
         if (prompt.find("Task") != std::string::npos) {
-            base_score += 0.2;
+            base_score += TASK_BONUS;
         }
         if (prompt.find("Example") != std::string::npos) {
-            base_score += 0.15;
+            base_score += EXAMPLE_BONUS;
         }
         if (prompt.find("Guidelines") != std::string::npos) {
-            base_score += 0.1;
+            base_score += GUIDELINES_BONUS;
         }
         
         return std::min(1.0, base_score);
