@@ -959,7 +959,7 @@ int main(int argc, char* argv[]) {
                                 std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> entities;
                                 
                                 // Special handling for audit_logs policy - enumerate from audit log files
-                                if (policy_name == "audit_logs" || policy_name.find("audit") != std::string::npos) {
+                                if (policy_name == "audit_logs") {
                                     try {
                                         auto entries = main_audit_logger->enumerateEntries();
                                         for (const auto& entry : entries) {

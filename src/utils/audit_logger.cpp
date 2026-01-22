@@ -511,7 +511,7 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
                         std::chrono::milliseconds(ts_ms));
                 } else {
                     // Missing timestamp is suspicious - log warning and use current time
-                    THEMIS_WARN("Audit log entry {} missing timestamp field - possible data corruption", entry_num);
+                    THEMIS_WARN("Audit log entry at line {} missing timestamp field - possible data corruption", entry_num + 1);
                     entry.timestamp = std::chrono::system_clock::now();
                 }
                 

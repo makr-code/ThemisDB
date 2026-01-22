@@ -199,8 +199,8 @@ Potential improvements for future releases:
 2. **Remote Archive**: Upload archived logs to S3/Azure Blob/Google Cloud Storage
 3. **Encrypted Archive**: Encrypt archived logs with separate key for long-term storage
 4. **Retention Reports**: Generate compliance reports showing retention policy adherence
-5. **Flexible Thresholds**: Read archive/purge thresholds directly from policy configuration instead of hardcoded values
-6. **Archive Rotation**: Rotate archive files by year/month for better organization
+5. **Archive Rotation**: Rotate archive files by year/month for better organization
+6. **Multi-policy Support**: Support different retention policies for different audit event types
 
 ## References
 
