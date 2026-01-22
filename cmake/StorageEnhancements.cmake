@@ -19,4 +19,8 @@ list(APPEND THEMIS_CORE_SOURCES
     
     # Index Maintenance Automation (Phase 4)
     ../src/storage/index_maintenance.cpp
+    
+    # Compression Strategy Manager and Metrics
+    ../src/storage/compression_strategy.cpp
+    ../src/utils/compression_metrics.cpp
 )
