@@ -172,16 +172,20 @@ TEST_F(GGUFLoaderTest, DirectQuantizedLoading) {
         mock_block.qs[i] = 0x88;  // Alternating 8 and 8 in 4-bit
     }
     
-    // Convert using the converter
-    QuantizedTensor converted = GGUFConverter::convertQ4KM(&mock_block, tensor_info);
+    // Test DIRECT conversion (new method)
+    QuantizedTensor converted_direct = GGUFConverter::convertQ4KM_direct(&mock_block, tensor_info);
     
     // Verify it's properly quantized in internal format
-    EXPECT_EQ(converted.type(), QuantizationType::NF4);
-    EXPECT_GT(converted.memory_bytes(), 0);
+    EXPECT_EQ(converted_direct.type(), QuantizationType::NF4);
+    EXPECT_GT(converted_direct.memory_bytes(), 0);
+    
+    // Test that direct method is now the default
+    QuantizedTensor converted_default = GGUFConverter::convertQ4KM(&mock_block, tensor_info);
+    EXPECT_EQ(converted_default.type(), QuantizationType::NF4);
     
     // Verify the quantized tensor can be used to create layer weights
     std::vector<size_t> size_t_shape = {256};
-    QuantizedLayerWeights layer_weights(std::move(converted), size_t_shape);
+    QuantizedLayerWeights layer_weights(std::move(converted_direct), size_t_shape);
     
     EXPECT_EQ(layer_weights.type(), QuantizationType::NF4);
     EXPECT_GT(layer_weights.memory_bytes(), 0);
@@ -189,6 +193,63 @@ TEST_F(GGUFLoaderTest, DirectQuantizedLoading) {
     // Verify we can dequantize
     Tensor dequantized = layer_weights.dequantize();
     EXPECT_EQ(dequantized.shape(), size_t_shape);
+}
+
+TEST_F(GGUFLoaderTest, DirectQ8_0Loading) {
+    // Test direct Q8_0 → INT8 conversion without FP32 intermediate
+    
+    // Create mock Q8_0 data (simpler than Q4_K_M)
+    std::vector<int64_t> shape = {64};  // Two Q8_0 blocks (32 values each)
+    TensorMetadata tensor_info;
+    tensor_info.name = "layer.weight";
+    tensor_info.shape = shape;
+    tensor_info.type = GGMLType::Q8_0;
+    tensor_info.size = 2 * sizeof(gguf_blocks::Q8_0Block);
+    
+    // Create two mock Q8_0 blocks
+    gguf_blocks::Q8_0Block mock_blocks[2];
+    for (int block = 0; block < 2; block++) {
+        mock_blocks[block].d = 0x3C00;  // 1.0 in FP16
+        for (int i = 0; i < 32; i++) {
+            mock_blocks[block].qs[i] = static_cast<int8_t>(i - 16);  // Range: -16 to 15
+        }
+    }
+    
+    // Test DIRECT conversion
+    QuantizedTensor converted_direct = GGUFConverter::convertQ8_0_direct(mock_blocks, tensor_info);
+    
+    EXPECT_EQ(converted_direct.type(), QuantizationType::INT8);
+    EXPECT_GT(converted_direct.memory_bytes(), 0);
+    
+    // Test that direct method is now the default
+    QuantizedTensor converted_default = GGUFConverter::convertQ8_0(mock_blocks, tensor_info);
+    EXPECT_EQ(converted_default.type(), QuantizationType::INT8);
+    
+    // Create layer weights
+    std::vector<size_t> size_t_shape = {64};
+    QuantizedLayerWeights layer_weights(std::move(converted_direct), size_t_shape);
+    
+    EXPECT_EQ(layer_weights.type(), QuantizationType::INT8);
+    
+    // Verify we can dequantize
+    Tensor dequantized = layer_weights.dequantize();
+    EXPECT_EQ(dequantized.shape(), size_t_shape);
+    EXPECT_EQ(dequantized.size(), 64);
+}
+
+TEST_F(GGUFLoaderTest, QuantizationMetadataValidation) {
+    // Test quantization metadata validation
+    GGUFLoader loader;
+    
+    // Since we can't easily create a real GGUF file, we'll test the logic
+    // by checking the validation function exists and can be called
+    // In a real scenario, this would validate actual GGUF file tensors
+    
+    // Test with non-existent tensor (should return false)
+    EXPECT_FALSE(loader.validateQuantizationMetadata("non_existent_tensor"));
+    
+    // Note: Testing with actual tensors would require a valid GGUF file
+    // or mock setup of the internal metadata_ structure
 }
 
 TEST_F(GGUFLoaderTest, QuantizedModelIntegration) {
