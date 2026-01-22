@@ -2631,6 +2631,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
         ${TEST_LIBS}
         themis_core
         RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_index_maintenance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    
+    set_tests_properties(IndexMaintenanceTests PROPERTIES
+        LABELS "storage;index;maintenance;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
+else()
+    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+endif()
+
 # GraphQL Parser Tests
 # ============================================================================
 
@@ -2649,20 +2667,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
         Threads::Threads
     )
     
-    target_compile_definitions(test_index_maintenance PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
-    
-    set_tests_properties(IndexMaintenanceTests PROPERTIES
-        LABELS "storage;index;maintenance;unit"
-        TIMEOUT 180
-    )
-    
-    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
-else()
-    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
     target_compile_definitions(test_graphql PRIVATE
         THEMIS_TEST_BUILD=1
     )

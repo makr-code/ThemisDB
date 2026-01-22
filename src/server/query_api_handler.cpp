@@ -1954,15 +1954,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     jq.limit
                 );
                 
-                if (!res.first.ok) {
-                    joinSpan.setStatus(false, res.first.message);
+                if (!res.has_value()) {
+                    joinSpan.setStatus(false, res.error().message());
                     span.setStatus(false, "JOIN execution failed");
-                    return makeErrorResponse(http::status::bad_request, res.first.message, req);
+                    return makeErrorResponse(http::status::bad_request, res.error().message(), req);
                 }
                 
                 nlohmann::json response_body;
                 nlohmann::json entities = nlohmann::json::array();
-                for (const auto& result : res.second) {
+                for (const auto& result : res.value()) {
                     entities.push_back(result);
                 }
                 

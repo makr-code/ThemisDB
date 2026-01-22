@@ -903,7 +903,7 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 }
 
 // Forward decl
-static nlohmann::json qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
+static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
 								  const themis::QueryEngine::EvaluationContext& ctx);
 
 static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
@@ -1649,7 +1649,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
 		nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
 		return Ok(nlohmann::json(poly));
-		}
 	}
 
 	return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
