@@ -269,11 +269,9 @@ public:
         /// Check if transaction is still active
         bool isActive() const { return active_; }
         
-        /// Get the isolation level
-        TransactionIsolationLevel getIsolationLevel() const { return isolation_; }
-        
-        /// Get the snapshot (for debugging, only meaningful for Snapshot isolation)
-        const rocksdb::Snapshot* getSnapshot() const;
+        /// Get the snapshot (for debugging)
+        /// Returns error if transaction is inactive or not initialized
+        Result<const rocksdb::Snapshot*> getSnapshot() const;
         
     private:
         RocksDBWrapper* db_;

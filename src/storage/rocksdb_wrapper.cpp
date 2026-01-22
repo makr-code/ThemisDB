@@ -867,11 +867,14 @@ void RocksDBWrapper::TransactionWrapper::rollback() {
     THEMIS_DEBUG("MVCC Transaction rolled back");
 }
 
-const rocksdb::Snapshot* RocksDBWrapper::TransactionWrapper::getSnapshot() const {
+Result<const rocksdb::Snapshot*> RocksDBWrapper::TransactionWrapper::getSnapshot() const {
     if (!txn_ || !active_) {
-        return nullptr;
+        return Err<const rocksdb::Snapshot*>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Transaction not active or not initialized"
+        );
     }
-    return txn_->GetSnapshot();
+    return Ok(txn_->GetSnapshot());
 }
 
 bool RocksDBWrapper::TransactionWrapper::prepare() {
