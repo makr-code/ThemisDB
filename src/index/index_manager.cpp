@@ -327,7 +327,7 @@ Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
     }
     
     return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
-                          fmt::format("Index type not found for: {}", name_str));
+                           fmt::format("Index '{}' not found", name_str));
 }
 
 } // namespace themis

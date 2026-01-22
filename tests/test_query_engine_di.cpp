@@ -158,8 +158,8 @@ public:
     }
     
     Result<IndexType> getIndexType(std::string_view name) const override {
-        return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
-                              std::string("Index not found: ") + std::string(name));
+        return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, 
+                               std::string(name));
     }
 };
 

@@ -119,7 +119,7 @@ public:
     /**
      * @brief Load a plugin by name
      * @param name Plugin name (from manifest)
-     * @return Result<IThemisPlugin*> - Loaded plugin instance or error
+     * @return Result<IThemisPlugin*> with loaded plugin instance or error
      */
     Result<IThemisPlugin*> loadPlugin(const std::string& name);
     
@@ -127,7 +127,7 @@ public:
      * @brief Load a plugin from explicit path
      * @param path Path to plugin DLL/SO
      * @param config Optional configuration JSON
-     * @return Result<IThemisPlugin*> - Loaded plugin instance or error
+     * @return Result<IThemisPlugin*> with loaded plugin instance or error
      */
     Result<IThemisPlugin*> loadPluginFromPath(
         const std::string& path,
@@ -150,9 +150,9 @@ public:
     /**
      * @brief Get loaded plugin by name
      * @param name Plugin name
-     * @return Plugin instance or nullptr if not loaded
+     * @return Result<IThemisPlugin*> with plugin instance or ERR_PLUGIN_NOT_FOUND if not loaded
      */
-    IThemisPlugin* getPlugin(const std::string& name) const;
+    Result<IThemisPlugin*> getPlugin(const std::string& name) const;
     
     /**
      * @brief Get all plugins of a specific type

@@ -240,6 +240,9 @@ TEST_F(IndexManagerWithDITest, ConcurrentGetIndexType) {
         threads.emplace_back([this]() {
             auto type = index_manager_->getIndexType("test");
             EXPECT_FALSE(type.has_value());
+            if (!type.has_value()) {
+                EXPECT_EQ(type.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+            }
         });
     }
     
