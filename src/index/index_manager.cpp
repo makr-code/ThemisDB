@@ -317,16 +317,17 @@ std::vector<std::string> IndexManager::listIndexes() const {
     return indices;
 }
 
-std::optional<IndexType> IndexManager::getIndexType(std::string_view name) const {
+Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = index_types_.find(name_str);
     if (it != index_types_.end()) {
-        return it->second;
+        return Ok(it->second);
     }
     
-    return std::nullopt;
+    return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                          fmt::format("Index type not found for: {}", name_str));
 }
 
 } // namespace themis

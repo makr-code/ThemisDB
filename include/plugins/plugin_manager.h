@@ -4,6 +4,7 @@
 #include "plugins/plugin_metrics.h"
 #include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
+#include "utils/expected.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -111,24 +112,24 @@ public:
     /**
      * @brief Scan plugin directory for manifests
      * @param directory Path to plugin directory
-     * @return Number of plugins discovered
+     * @return Result<size_t> - Number of plugins discovered or error
      */
-    size_t scanPluginDirectory(const std::string& directory);
+    Result<size_t> scanPluginDirectory(const std::string& directory);
     
     /**
      * @brief Load a plugin by name
      * @param name Plugin name (from manifest)
-     * @return Loaded plugin instance or nullptr
+     * @return Result<IThemisPlugin*> - Loaded plugin instance or error
      */
-    IThemisPlugin* loadPlugin(const std::string& name);
+    Result<IThemisPlugin*> loadPlugin(const std::string& name);
     
     /**
      * @brief Load a plugin from explicit path
      * @param path Path to plugin DLL/SO
      * @param config Optional configuration JSON
-     * @return Loaded plugin instance or nullptr
+     * @return Result<IThemisPlugin*> - Loaded plugin instance or error
      */
-    IThemisPlugin* loadPluginFromPath(
+    Result<IThemisPlugin*> loadPluginFromPath(
         const std::string& path,
         const std::string& config = "{}"
     );
@@ -136,13 +137,15 @@ public:
     /**
      * @brief Unload a plugin
      * @param name Plugin name
+     * @return Result<void> - success or error
      */
-    void unloadPlugin(const std::string& name);
+    Result<void> unloadPlugin(const std::string& name);
     
     /**
      * @brief Unload all plugins
+     * @return Result<void> - success or error
      */
-    void unloadAllPlugins();
+    Result<void> unloadAllPlugins();
     
     /**
      * @brief Get loaded plugin by name
@@ -180,22 +183,22 @@ public:
     /**
      * @brief Reload a plugin (hot-reload)
      * @param name Plugin name
-     * @return true if successful
+     * @return Result<void> - success or error
      */
-    bool reloadPlugin(const std::string& name);
+    Result<void> reloadPlugin(const std::string& name);
     
     /**
      * @brief Auto-load plugins marked with auto_load=true
-     * @return Number of plugins loaded
+     * @return Result<size_t> - Number of plugins loaded or error
      */
-    size_t autoLoadPlugins();
+    Result<size_t> autoLoadPlugins();
     
     /**
      * @brief Get plugin manifest
      * @param name Plugin name
-     * @return Manifest or nullopt if not found
+     * @return Result<PluginManifest> - Manifest or error if not found
      */
-    std::optional<PluginManifest> getManifest(const std::string& name) const;
+    Result<PluginManifest> getManifest(const std::string& name) const;
     
     /**
      * @brief Get plugin metrics

@@ -123,9 +123,10 @@ TEST_F(IndexManagerWithDITest, ListIndexesEmptyInitially) {
     EXPECT_TRUE(indices.empty());
 }
 
-TEST_F(IndexManagerWithDITest, GetIndexTypeReturnsNulloptForNonExistent) {
+TEST_F(IndexManagerWithDITest, GetIndexTypeReturnsErrorForNonExistent) {
     auto type = index_manager_->getIndexType("nonexistent");
     EXPECT_FALSE(type.has_value());
+    EXPECT_EQ(type.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
 }
 
 TEST_F(IndexManagerWithDITest, GetVectorIndexReturnsNullForNonExistent) {
