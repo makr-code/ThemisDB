@@ -1109,6 +1109,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/index/vector_index.cpp
+    ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
     
@@ -2426,6 +2427,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_graph_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_hnsw_layer_optimizer.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
         ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
         ${THEMIS_ROOT_DIR}/tests/test_optimizer_cost_model.cpp
