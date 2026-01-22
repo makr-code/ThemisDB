@@ -2582,6 +2582,42 @@ else()
 endif()
 
 # ============================================================================
+# Transaction Isolation Level Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+    message(STATUS "Adding Transaction Isolation Level tests")
+    
+    add_executable(test_transaction_isolation_levels
+        test_transaction_isolation_levels.cpp
+    )
+    
+    target_link_libraries(test_transaction_isolation_levels PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_transaction_isolation_levels PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME TransactionIsolationLevelTests COMMAND test_transaction_isolation_levels)
+    
+    set_tests_properties(TransactionIsolationLevelTests PROPERTIES
+        LABELS "storage;transaction;isolation;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Transaction Isolation: ReadCommitted vs Snapshot isolation levels")
+else()
+    message(STATUS "Transaction Isolation Level tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
