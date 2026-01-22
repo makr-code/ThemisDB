@@ -439,7 +439,7 @@ TEST_F(TimestampAuthorityTest, RFC3161_CertificateExtraction) {
     }
     
     TSAConfig config = createFreeTSAConfig();
-    config.cert_req = true;  // Request certificate in response
+    // Note: cert_req is already true by default in createFreeTSAConfig()
     TimestampAuthority tsa(config);
     
     std::vector<uint8_t> data = {'C', 'e', 'r', 't', 'T', 'e', 's', 't'};
