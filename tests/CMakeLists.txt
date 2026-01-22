@@ -1752,6 +1752,122 @@ if(THEMIS_ENABLE_LLM)
     else()
         message(STATUS "ML Model Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_model_manager.cpp")
     endif()
+    
+    # Prompt Optimizer Tests (NEW - Prompt Engineering Framework)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_optimizer.cpp")
+        message(STATUS "Adding Prompt Optimizer tests")
+        
+        add_executable(test_prompt_optimizer
+            test_prompt_optimizer.cpp
+        )
+        
+        target_link_libraries(test_prompt_optimizer PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_prompt_optimizer PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME PromptOptimizerTests COMMAND test_prompt_optimizer)
+        
+        set_tests_properties(PromptOptimizerTests PROPERTIES
+            LABELS "llm;prompt;optimization;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Prompt Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_optimizer.cpp")
+    endif()
+    
+    # Prompt Evaluator Tests (NEW - Prompt Engineering Framework)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp")
+        message(STATUS "Adding Prompt Evaluator tests")
+        
+        add_executable(test_prompt_evaluator
+            test_prompt_evaluator.cpp
+        )
+        
+        target_link_libraries(test_prompt_evaluator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_prompt_evaluator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME PromptEvaluatorTests COMMAND test_prompt_evaluator)
+        
+        set_tests_properties(PromptEvaluatorTests PROPERTIES
+            LABELS "llm;prompt;evaluation;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Prompt Evaluator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp")
+    endif()
+    
+    # FewShot Optimizer Tests (NEW - Prompt Engineering Framework)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fewshot_optimizer.cpp")
+        message(STATUS "Adding FewShot Optimizer tests")
+        
+        add_executable(test_fewshot_optimizer
+            test_fewshot_optimizer.cpp
+        )
+        
+        target_link_libraries(test_fewshot_optimizer PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_fewshot_optimizer PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME FewShotOptimizerTests COMMAND test_fewshot_optimizer)
+        
+        set_tests_properties(FewShotOptimizerTests PROPERTIES
+            LABELS "llm;prompt;fewshot;optimization;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "FewShot Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fewshot_optimizer.cpp")
+    endif()
+    
+    # Meta Prompt Generator Tests (NEW - Prompt Engineering Framework)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_meta_prompt_generator.cpp")
+        message(STATUS "Adding Meta Prompt Generator tests")
+        
+        add_executable(test_meta_prompt_generator
+            test_meta_prompt_generator.cpp
+        )
+        
+        target_link_libraries(test_meta_prompt_generator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+        )
+        
+        target_compile_definitions(test_meta_prompt_generator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        
+        add_test(NAME MetaPromptGeneratorTests COMMAND test_meta_prompt_generator)
+        
+        set_tests_properties(MetaPromptGeneratorTests PROPERTIES
+            LABELS "llm;prompt;meta;generation;unit"
+            TIMEOUT 60
+        )
+    else()
+        message(STATUS "Meta Prompt Generator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_meta_prompt_generator.cpp")
+    endif()
 endif()
 
 # ============================================================================
