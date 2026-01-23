@@ -3171,6 +3171,38 @@ else()
     message(STATUS "Utilities comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
 endif()
 
+# Graph Index Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+    message(STATUS "Adding Graph Index comprehensive tests")
+    
+    add_executable(test_graph_index_comprehensive
+        test_graph_index_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_graph_index_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graph_index_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphIndexComprehensiveTests COMMAND test_graph_index_comprehensive)
+    
+    set_tests_properties(GraphIndexComprehensiveTests PROPERTIES
+        LABELS "index;graph;traversal;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs")
+else()
+    message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+endif()
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================
