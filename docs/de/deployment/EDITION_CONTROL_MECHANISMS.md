@@ -151,19 +151,17 @@ public:
 
 **Application-Level Sharding (Supported):**
 ```cpp
-// Community Edition: app handles sharding routing
+// Community Edition: app handles routing across 5 nodes
 class AppShardRouter {
     ThemisDB shard_0;  // Node 0
-    ThemisDB shard_1;  // Node 1
+    ThemisDB shard_1;  // Node 1  
     ThemisDB shard_2;  // Node 2
+    ThemisDB shard_3;  // Node 3
+    ThemisDB shard_4;  // Node 4
     
     void insert(const Document& doc) {
-        int shard_id = hash(doc.id) % 3;
-        switch(shard_id) {
-            case 0: shard_0.insert(doc); break;
-            case 1: shard_1.insert(doc); break;
-            case 2: shard_2.insert(doc); break;
-        }
+        int shard_id = hash(doc.id) % 5;
+        shards[shard_id].insert(doc);
     }
 };
 ```
@@ -177,7 +175,7 @@ class AppShardRouter {
 - ❌ Automatic shard rebalancing
 - ❌ Cross-shard joins
 - ❌ Distributed transactions
-- ❌ Shard migration (node down = downtime)
+- ❌ Zero-downtime migration
 
 ### Enterprise Edition: Automatic Sharding (1-100 nodes)
 

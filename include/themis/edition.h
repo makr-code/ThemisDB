@@ -66,7 +66,7 @@ constexpr EditionType GetEditionType() {
 constexpr int GPU_MAX_VRAM_GB = THEMIS_GPU_MAX_VRAM_GB;
 
 // Sharding constraints (maximum number of shard nodes)
-// COMMUNITY: 1      (single-node only, no sharding)
+// COMMUNITY: 5      (small clusters, HA setups, startups)
 // ENTERPRISE: 100   (distributed deployment)
 // HYPERSCALER: Unlimited (massive clustering)
 #ifndef THEMIS_SHARDING_MAX_NODES
