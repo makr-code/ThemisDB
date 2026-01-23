@@ -186,10 +186,11 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::createChannel(
     
     // Set keepalive options
     if (config_.enable_keepalive) {
+        // Convert seconds to milliseconds safely
         args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 
-                    static_cast<int>(config_.keepalive_time.count() * 1000));
+                    static_cast<int>(std::min<int64_t>(config_.keepalive_time.count() * 1000, INT_MAX)));
         args.SetInt(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 
-                    static_cast<int>(config_.keepalive_timeout.count() * 1000));
+                    static_cast<int>(std::min<int64_t>(config_.keepalive_timeout.count() * 1000, INT_MAX)));
         args.SetInt(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
     }
     

@@ -145,8 +145,7 @@ private:
     std::condition_variable queue_cv_;
     std::queue<T> pending_queue_;
     
-    // Processing thread
-    std::thread processing_thread_;
+    // Atomics (safe to access from multiple threads)
     std::atomic<bool> running_{false};
     std::atomic<bool> shutdown_{false};
     
@@ -160,6 +159,9 @@ private:
     std::atomic<size_t> queue_full_count_{0};
     std::atomic<double> total_latency_ms_{0.0};
     std::atomic<double> total_throughput_{0.0};
+    
+    // Processing thread (declared last for proper destruction order)
+    std::thread processing_thread_;
 };
 
 // Template implementation

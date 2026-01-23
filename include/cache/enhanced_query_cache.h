@@ -45,7 +45,7 @@ public:
         size_t max_memory_mb = 512;                     ///< Max memory usage (MB)
     };
     
-    explicit EnhancedQueryCache(const Config& config = Config{});
+    explicit EnhancedQueryCache(const Config& config);
     ~EnhancedQueryCache() = default;
     
     /**

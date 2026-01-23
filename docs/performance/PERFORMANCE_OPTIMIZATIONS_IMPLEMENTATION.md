@@ -1,7 +1,7 @@
 # ThemisDB Performance Optimization Implementation
 
 **Date:** January 23, 2026  
-**Version:** 1.3.0+  
+**Version:** 1.3.1  
 **Status:** ✅ Implemented
 
 ---
@@ -402,5 +402,5 @@ Potential additional optimizations for future releases:
 ---
 
 **Status:** Ready for production use  
-**Version:** 1.3.0+  
+**Version:** 1.3.1  
 **License:** See LICENSE file

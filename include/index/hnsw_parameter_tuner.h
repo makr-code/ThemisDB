@@ -50,7 +50,7 @@ public:
         bool scale_with_dataset = true;          ///< Scale efSearch with dataset size
     };
     
-    explicit HnswParameterTuner(const Config& config = Config{});
+    explicit HnswParameterTuner(const Config& config);
     ~HnswParameterTuner() = default;
     
     /**
