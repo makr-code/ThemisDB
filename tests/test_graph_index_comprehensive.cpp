@@ -6,7 +6,7 @@
  * - Validate graph index operations with real graph traversals
  * - Test node and edge creation, updates, deletion
  * - Verify graph queries (BFS, DFS, shortest path, neighbors)
- - Test graph properties and metadata
+ * - Test graph properties and metadata
  * - Validate concurrent graph operations
  * - Test edge cases and error conditions
  * 

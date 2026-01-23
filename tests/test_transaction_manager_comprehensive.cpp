@@ -524,14 +524,14 @@ TEST_F(TransactionManagerComprehensiveTest, TransactionTimeout) {
     auto txn = txn_mgr_->beginTransaction();
     ASSERT_NE(txn, nullptr);
     
-    // Set short timeout (1 second)
-    txn->setTimeout(std::chrono::seconds(1));
+    // Set short timeout (500 milliseconds)
+    txn->setTimeout(std::chrono::milliseconds(500));
     
     std::vector<uint8_t> value = {0x01};
     ASSERT_TRUE(txn->put("timeout:key", value));
     
     // Wait longer than timeout
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::milliseconds(750));
     
     // Commit should fail due to timeout
     bool result = txn->commit();

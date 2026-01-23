@@ -474,6 +474,6 @@ TEST_F(PITRManagerComprehensiveTest, RecoveryPerformance) {
     
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    // Recovery should complete in reasonable time (< 5 seconds for 5000 events)
-    EXPECT_LT(duration.count(), 5000) << "Recovery took " << duration.count() << "ms";
+    // Recovery should complete in reasonable time (< 2 seconds for 5000 events - catches performance regressions)
+    EXPECT_LT(duration.count(), 2000) << "Recovery took " << duration.count() << "ms";
 }

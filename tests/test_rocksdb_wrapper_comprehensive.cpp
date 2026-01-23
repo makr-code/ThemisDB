@@ -457,8 +457,8 @@ TEST_F(RocksDBWrapperComprehensiveTest, HighVolumeWrites) {
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    // Verify writes completed in reasonable time (< 10 seconds)
-    EXPECT_LT(duration.count(), 10000);
+    // Verify writes completed in reasonable time (< 3 seconds for performance regression detection)
+    EXPECT_LT(duration.count(), 3000);
     
     // Spot check some keys
     auto result = db_->get("perf:key5000");
