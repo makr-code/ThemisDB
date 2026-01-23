@@ -126,9 +126,11 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         // Add to buffer
         auto status = ts_buffer_->add(point);
 
-        if (!status.ok) {
-            return makeErrorResponse(http::status::internal_server_error,
-                                    status.message, req);
+        if (!status.has_value()) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                status.error().message(),
+                req);
         }
         
         // Return success with stats

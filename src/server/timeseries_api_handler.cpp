@@ -2,6 +2,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "timeseries/timeseries_metrics.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"

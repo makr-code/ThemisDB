@@ -303,7 +303,7 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
 // ============================================================================
 
 Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     
     if (!fs::exists(directory) || !fs::is_directory(directory)) {
         THEMIS_WARN("Plugin directory does not exist: {}", directory);
@@ -390,7 +390,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     
     // Load dependencies (must release lock to avoid deadlock)
     if (!deps_to_load.empty()) {
-        lock.unlock();  // RAII-based unlock
+        lock.unlock();  // release while loading deps
         
         for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
@@ -405,7 +405,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         }
         
         // Re-acquire lock and verify entry is still valid
-        lock.lock();  // RAII-based lock
+        lock.lock();  // re-lock
         
         // Re-find entry as map may have been modified
         it = plugins_.find(name);

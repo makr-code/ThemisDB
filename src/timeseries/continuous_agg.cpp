@@ -30,8 +30,11 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
         qopt.to_timestamp_ms = wend;
         qopt.limit = 1000000; // big window cap
 
-        auto [st, points] = store_->query(qopt);
-        if (!st.ok || points.empty()) continue;
+        auto result = store_->query(qopt);
+        if (!result.has_value() || result->empty()) {
+            continue;
+        }
+        const auto& points = *result;
 
         // Compute aggregates
         double minv = points[0].value;

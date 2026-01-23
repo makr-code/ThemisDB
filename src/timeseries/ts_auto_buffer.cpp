@@ -76,7 +76,7 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
     std::string buffer_key = makeBufferKey(point.metric, point.entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -84,10 +84,10 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without holding the lock
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            lock.lock();
         }
         
         // Add to buffer
