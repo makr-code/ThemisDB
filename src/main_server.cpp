@@ -315,16 +315,59 @@ int main(int argc, char* argv[]) {
                 THEMIS_ERROR("WARNING: License has expired!");
                 THEMIS_ERROR("Please contact {} to renew your license.", 
                            license->contact_email.empty() ? "your license provider" : license->contact_email);
-                // Note: We continue to start the server but log the warning
-                // Production deployments may want to enforce license expiry
+                
+                // HYPERSCALER: FATAL error if license expired
+                #ifdef THEMIS_HYPERSCALER_EDITION
+                THEMIS_ERROR("HYPERSCALER Edition requires a valid license. Server cannot start.");
+                return 1;
+                #endif
+                
+                // ENTERPRISE Release: FATAL error if license expired
+                #if defined(THEMIS_ENTERPRISE_EDITION) && defined(NDEBUG)
+                THEMIS_ERROR("ENTERPRISE Edition (Release build) requires a valid license. Server cannot start.");
+                return 1;
+                #endif
+                
+                // Note: We continue to start the server for Community/Debug builds but log the warning
             } else {
                 int days = themis::license::getDaysUntilExpiry(*license);
                 if (days < 30) {
                     THEMIS_WARN("License will expire in {} days. Please renew soon.", days);
                 }
             }
+            
+            // Verify license signature (if present)
+            if (!license->signature.empty() && !themis::license::verifyLicenseSignature(*license)) {
+                THEMIS_ERROR("License signature verification FAILED!");
+                
+                // HYPERSCALER: FATAL error if signature invalid
+                #ifdef THEMIS_HYPERSCALER_EDITION
+                THEMIS_ERROR("HYPERSCALER Edition requires a valid license signature. Server cannot start.");
+                return 1;
+                #endif
+                
+                // ENTERPRISE: Warning for invalid signature, continue
+                #ifdef THEMIS_ENTERPRISE_EDITION
+                THEMIS_WARN("License signature is invalid. This may indicate a tampered license.");
+                #endif
+            }
         } else {
             THEMIS_INFO("No embedded license data (running without license embedding)");
+            
+            // HYPERSCALER Edition: License is MANDATORY
+            #ifdef THEMIS_HYPERSCALER_EDITION
+            THEMIS_ERROR("HYPERSCALER Edition requires an embedded license.");
+            THEMIS_ERROR("Please rebuild with -DTHEMIS_LICENSE_FILE=/path/to/license.json");
+            return 1;
+            #endif
+            
+            // ENTERPRISE Release: License is MANDATORY
+            #if defined(THEMIS_ENTERPRISE_EDITION) && defined(NDEBUG)
+            THEMIS_ERROR("ENTERPRISE Edition (Release build) requires an embedded license.");
+            THEMIS_ERROR("For development, use Debug build: cmake -DCMAKE_BUILD_TYPE=Debug");
+            THEMIS_ERROR("For production, rebuild with: cmake -DCMAKE_BUILD_TYPE=Release -DTHEMIS_LICENSE_FILE=/path/to/license.json");
+            return 1;
+            #endif
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to display license information: {}", e.what());
