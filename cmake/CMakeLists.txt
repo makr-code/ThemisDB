@@ -395,7 +395,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     
 elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
-    set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Max sharding nodes for Community Edition")
+    set(THEMIS_SHARDING_MAX_NODES 5 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
     set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
@@ -420,7 +420,7 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
         set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Community Edition (default ON)")
     endif()
     
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
     message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
     message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
     if(THEMIS_ENABLE_VULKAN)
@@ -489,6 +489,54 @@ elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
     message(STATUS "Edition: HYPERSCALER - Unlimited GPU VRAM, unlimited nodes, full custom capabilities")
 
+endif()
+
+# ============================================================================
+# LICENSE ENFORCEMENT (v1.4.0+)
+# ============================================================================
+# Enforce license requirements for ENTERPRISE and HYPERSCALER editions
+
+# ENTERPRISE Edition: License REQUIRED for Release builds only
+if(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    # Check CMAKE_BUILD_TYPE - if not set, default to Release for safety
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+    endif()
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        # Release builds: License is MANDATORY
+        if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+            message(FATAL_ERROR 
+                "ENTERPRISE Edition Release builds require an embedded license file.\n"
+                "Usage: cmake -B build -S . \\\n"
+                "  -DTHEMIS_EDITION=ENTERPRISE \\\n"
+                "  -DCMAKE_BUILD_TYPE=Release \\\n"
+                "  -DTHEMIS_LICENSE_FILE=/path/to/license.json\n"
+                "\n"
+                "For development/testing, use Debug build:\n"
+                "  cmake -B build -S . -DTHEMIS_EDITION=ENTERPRISE -DCMAKE_BUILD_TYPE=Debug\n")
+        endif()
+        message(STATUS "ENTERPRISE Edition (Release): License requirement ENFORCED")
+    else()
+        # Debug/Development builds: License is OPTIONAL
+        message(STATUS "ENTERPRISE Edition (${CMAKE_BUILD_TYPE}): License requirement OPTIONAL (dev build)")
+    endif()
+endif()
+
+# HYPERSCALER Edition: License ALWAYS MANDATORY (no exceptions)
+if(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+        message(FATAL_ERROR 
+            "HYPERSCALER Edition requires an embedded license file (mandatory for all builds).\n"
+            "This edition is only available with volume licensing.\n"
+            "\n"
+            "Usage: cmake -B build -S . \\\n"
+            "  -DTHEMIS_EDITION=HYPERSCALER \\\n"
+            "  -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json\n"
+            "\n"
+            "For licensing inquiries, contact: licensing@themisdb.io\n")
+    endif()
+    message(STATUS "HYPERSCALER Edition: License requirement ENFORCED (mandatory)")
 endif()
 
 # Compile-time edition identifier for runtime checks and telemetry
@@ -607,7 +655,16 @@ if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
     
     # Validate that license edition matches build edition
     if(THEMIS_LICENSE_EDITION AND NOT THEMIS_LICENSE_EDITION STREQUAL THEMIS_EDITION)
-        message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+        # For ENTERPRISE and HYPERSCALER, edition mismatch is a FATAL error
+        if(THEMIS_EDITION STREQUAL "ENTERPRISE" OR THEMIS_EDITION STREQUAL "HYPERSCALER")
+            message(FATAL_ERROR 
+                "License edition mismatch: License is for '${THEMIS_LICENSE_EDITION}' but build is '${THEMIS_EDITION}'.\n"
+                "You must use a license file that matches your build edition.\n"
+                "License file: ${THEMIS_LICENSE_FILE}")
+        else()
+            # For MINIMAL/COMMUNITY, just warn
+            message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+        endif()
     endif()
 else()
     if(THEMIS_LICENSE_FILE)
