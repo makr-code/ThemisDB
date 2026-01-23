@@ -170,9 +170,9 @@ ThemisDB bietet **drei Editions-Modelle** mit unterschiedlichen Features, Lizenz
 
 | Edition | Lizenz | GPU VRAM Limit | Max. Nodes | Plugins | LLM Features | Build Script |
 |---------|--------|----------------|------------|---------|--------------|--------------|
-| **Community** | MIT (Open Source) | 24 GB | 5 (Small Clusters) | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
-| **Enterprise** | Commercial (Required for Release) | 256 GB | 100 (Production) | Enterprise Add-Ons | + Fine-Tuning, Model Management | `build-enterprise-release.ps1` |
-| **Hyperscaler** | Custom OEM (Mandatory) | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
+| **Community** | MIT (Open Source) | 24 GB | **5** ✅ | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
+| **Enterprise** | Commercial Subscription | 256 GB | **100** ✅ (Sharding) | Enterprise Add-Ons | + Fine-Tuning, Model Management | `build-enterprise-release.ps1` |
+| **Hyperscaler** | Custom OEM/Cloud | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
 
 ### Community Edition Build
 
@@ -211,16 +211,19 @@ cmake --build build-community -j$(nproc)
 - ✅ Kern-Datenbankfunktionalität (JSON, Graph, Vector, Time-Series)
 - ✅ LLM Core Features (Embedding, Similarity Search, Inference)
 - ✅ GPU Acceleration (bis 24 GB VRAM)
+- ✅ Multi-Node Support (bis **5 Nodes** ✅)
 - ✅ Basic Monitoring & Metrics (Prometheus/Grafana)
 - ❌ Keine Enterprise Plugins
-- ❌ Kein Sharding/Multi-Master
+- ❌ Kein Auto-Sharding (manuelle Konfiguration möglich)
 - ❌ Kein RBAC/Field-Encryption
 
 ### Enterprise Edition Build
 
 **Zielgruppe:** Mittlere bis große Unternehmen, Production Deployments
 
-**⚠️ LIZENZ ERFORDERLICH:** Enterprise Edition benötigt gültige Lizenz-Datei
+**⚠️ LIZENZ ERFORDERLICH:** Enterprise Edition benötigt gültige Lizenz-Datei für **Release Builds** (Debug optional)
+
+**Kontakt:** service@themisdb.org
 
 ```powershell
 # Windows - Enterprise Edition
