@@ -152,7 +152,7 @@ Complete documentation of all 35 directories in `src/` - addressing the document
 ---
 
 #### Schritt 2: Skalierungs-Analyse ✅
-[SCALING_ANALYSIS_v1.3.4.md](SCALING_ANALYSIS_v1.3.4.md)
+[SCALING_ANALYSIS_v1.3.4.md](archive/SCALING_ANALYSIS_v1.3.4.md)
 - 300+ Zeilen
 - 100k → 1B items Projektionen
 - Performance-Degradation Kurven
@@ -173,7 +173,7 @@ Recommended Limits:
 ---
 
 #### Schritt 3: Memory & Latency Profiling ✅
-[MEMORY_LATENCY_PROFILING_v1.3.4.md](MEMORY_LATENCY_PROFILING_v1.3.4.md)
+[MEMORY_LATENCY_PROFILING_v1.3.4.md](archive/MEMORY_LATENCY_PROFILING_v1.3.4.md)
 - 400+ Zeilen
 - Detaillierte Speicheraufteilung
 - Latenz-Breakdown pro Operation
@@ -279,7 +279,7 @@ RELEASE: March 31, 2026
 ---
 
 #### Schritt 7: CI/CD Benchmark Automation ✅
-[CI_CD_BENCHMARK_AUTOMATION.md](CI_CD_BENCHMARK_AUTOMATION.md)
+[CI_CD_BENCHMARK_AUTOMATION.md](de/deployment/CI_CD_BENCHMARK_AUTOMATION.md)
 - 1600+ Zeilen
 - 4 Complete GitHub Actions Workflows
 - 3 Python Helper Scripts
@@ -331,7 +331,7 @@ RELEASE: March 31, 2026
 ### REFERENZ-DOKUMENTE (Aus Vorherigen Phasen)
 
 #### Benchmark Report v1.3.4 ✅
-[BENCHMARK_REPORT_v1.3.4.md](BENCHMARK_REPORT_v1.3.4.md)
+[BENCHMARK_REPORT_v1.3.4.md](archive/BENCHMARK_REPORT_v1.3.4.md)
 - Technischer Überblick
 - 1,078 Benchmarks Zusammenfassung
 - Hardware-Spezifikationen
@@ -340,7 +340,7 @@ RELEASE: March 31, 2026
 ---
 
 #### Comparative Analysis v1.3.4 ✅
-[COMPARATIVE_ANALYSIS_v1.3.4.md](COMPARATIVE_ANALYSIS_v1.3.4.md)
+[COMPARATIVE_ANALYSIS_v1.3.4.md](archive/COMPARATIVE_ANALYSIS_v1.3.4.md)
 - Version-Geschichte (v1.3.0 → v1.3.4)
 - Competitive Benchmarking (8 Konkurrenten)
 - Performance-Trends
@@ -352,7 +352,7 @@ RELEASE: March 31, 2026
 ---
 
 #### Benchmark Auswertung Final ✅
-[BENCHMARK_AUSWERTUNG_FINAL.md](BENCHMARK_AUSWERTUNG_FINAL.md)
+[BENCHMARK_AUSWERTUNG_FINAL.md](archive/BENCHMARK_AUSWERTUNG_FINAL.md)
 - Executive Summary
 - Overall Scorecard: 7.8/10
 - Use-Case Empfehlungen
@@ -609,13 +609,13 @@ SUPPORT:
 - **Performance Optimization:** [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md)
 - **Development Roadmap:** [v1.4_DEVELOPMENT_ROADMAP.md](v1.4_DEVELOPMENT_ROADMAP.md)
 - **Release Notes:** [RELEASE_NOTES_v1.4.md](RELEASE_NOTES_v1.4.md)
-- **CI/CD Automation:** [CI_CD_BENCHMARK_AUTOMATION.md](CI_CD_BENCHMARK_AUTOMATION.md)
+- **CI/CD Automation:** [CI_CD_BENCHMARK_AUTOMATION.md](de/deployment/CI_CD_BENCHMARK_AUTOMATION.md)
 - **Marketing Materials:** [MARKETING_MATERIALS_v1.4.md](MARKETING_MATERIALS_v1.4.md)
 
 ### Analysis
 - **Bottleneck Analysis:** [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md) (Part 1)
-- **Scaling Analysis:** [SCALING_ANALYSIS_v1.3.4.md](SCALING_ANALYSIS_v1.3.4.md)
-- **Memory/Latency:** [MEMORY_LATENCY_PROFILING_v1.3.4.md](MEMORY_LATENCY_PROFILING_v1.3.4.md)
+- **Scaling Analysis:** [SCALING_ANALYSIS_v1.3.4.md](archive/SCALING_ANALYSIS_v1.3.4.md)
+- **Memory/Latency:** [MEMORY_LATENCY_PROFILING_v1.3.4.md](archive/MEMORY_LATENCY_PROFILING_v1.3.4.md)
 
 ### Data
 - **Version History:** [VERSION_HISTORY.csv](VERSION_HISTORY.csv)
@@ -630,14 +630,14 @@ SUPPORT:
 - ✅ PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md (1500+ lines)
 - ✅ v1.4_DEVELOPMENT_ROADMAP.md (1200+ lines)
 - ✅ RELEASE_NOTES_v1.4.md (1800+ lines)
-- ✅ CI_CD_BENCHMARK_AUTOMATION.md (1600+ lines)
+- ✅ CI_CD_BENCHMARK_AUTOMATION.md (1600+ lines) - moved to de/deployment/
 - ✅ MARKETING_MATERIALS_v1.4.md (1400+ lines)
 - ✅ PROJECT_SUMMARY_THEMIS_v1.4.md (800+ lines)
-- ✅ BENCHMARK_REPORT_v1.3.4.md
-- ✅ COMPARATIVE_ANALYSIS_v1.3.4.md
-- ✅ SCALING_ANALYSIS_v1.3.4.md
-- ✅ MEMORY_LATENCY_PROFILING_v1.3.4.md
-- ✅ BENCHMARK_AUSWERTUNG_FINAL.md
+- ✅ BENCHMARK_REPORT_v1.3.4.md - archived
+- ✅ COMPARATIVE_ANALYSIS_v1.3.4.md - archived
+- ✅ SCALING_ANALYSIS_v1.3.4.md - archived
+- ✅ MEMORY_LATENCY_PROFILING_v1.3.4.md - archived
+- ✅ BENCHMARK_AUSWERTUNG_FINAL.md - archived
 - ✅ VERSION_HISTORY.csv
 - ✅ COMPETITOR_COMPARISON.csv
 - ✅ benchmark_summary.csv
