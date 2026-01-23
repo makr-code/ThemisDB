@@ -265,10 +265,12 @@ TEST_F(EncryptionKeyRotationIntegrationTest, ConcurrentAccessDuringRotation) {
     
     // Step 4: Simulate concurrent reads (should still work)
     std::vector<std::future<std::string>> read_futures;
+    // Copy the encrypted blob to avoid reference issues
+    EncryptedBlob encrypted_copy = encrypted_v1;
     for (int i = 0; i < 5; ++i) {
         read_futures.push_back(std::async(std::launch::async, 
-            [&encryption_service, &encrypted_v1]() {
-                return encryption_service->decrypt(encrypted_v1);
+            [encryption_service_ptr = encryption_service.get(), encrypted_copy]() {
+                return encryption_service_ptr->decrypt(encrypted_copy);
             }
         ));
     }
@@ -277,9 +279,9 @@ TEST_F(EncryptionKeyRotationIntegrationTest, ConcurrentAccessDuringRotation) {
     std::vector<std::future<EncryptedBlob>> write_futures;
     for (int i = 0; i < 5; ++i) {
         write_futures.push_back(std::async(std::launch::async,
-            [&encryption_service, i]() {
+            [encryption_service_ptr = encryption_service.get(), i]() {
                 std::string data = "New data " + std::to_string(i);
-                return encryption_service->encrypt("test_key", data);
+                return encryption_service_ptr->encrypt("test_key", data);
             }
         ));
     }
