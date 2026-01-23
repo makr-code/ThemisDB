@@ -29,98 +29,47 @@ project(Themis
 set(THEMIS_VERSION_STRING "${_ver_raw}")
 
 # ============================================================================
-# BUILD OPTIONS & FEATURE FLAGS
+# MODULAR CMAKE INCLUDES - REFACTORED BUILD SYSTEM
 # ============================================================================
+# Build order (critical):
+# 1. Version info
+# 2. Compiler settings
+# 3. Platform detection (arch/OS)
+# 4. Architecture optimizations
+# 5. Preload targets
+# 6. Dependencies
+# 7. Edition selection (AFTER platform!)
+# 8. Feature configuration (AFTER edition!)
+# 9. Validation (platform, edition, features)
 
-set(THEMIS_EDITION "COMMUNITY" CACHE STRING "ThemisDB Edition")
-option(THEMIS_BUILD_TESTS "Build unit tests" ON)
-option(THEMIS_BUILD_BENCHMARKS "Build benchmarks" ON)
-option(THEMIS_STRICT_BUILD "Treat warnings as errors" OFF)
-option(THEMIS_ENABLE_ASAN "Enable AddressSanitizer" OFF)
-option(THEMIS_ENABLE_AVX2 "Enable AVX2 SIMD" ON)
-option(THEMIS_QNAP_BUILD "Build for QNAP NAS" OFF)
-option(THEMIS_CORE_SHARED "Build themis_core as shared library" OFF)
-option(THEMIS_STATIC_BUILD "Build fully static binary" OFF)
-option(THEMIS_ENABLE_GRPC "Enable gRPC" ON)
-option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry tracing" OFF)
-option(THEMIS_ENABLE_LLM "Enable LLM plugin" ON)
-option(THEMIS_ENABLE_VISION "Enable CLIP-based vision (LLaVA) support" OFF)
-option(THEMIS_ENABLE_GPU "Enable GPU acceleration" ON)
-option(THEMIS_ENABLE_CUDA "Enable CUDA backend" OFF)
-option(THEMIS_ENABLE_HIP "Enable HIP backend" OFF)
-option(THEMIS_ENABLE_HTTP2 "Enable HTTP/2" OFF)
-option(THEMIS_ENABLE_HTTP3 "Enable HTTP/3" OFF)
-option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket" OFF)
-option(THEMIS_ENABLE_MQTT "Enable MQTT" OFF)
-option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire" OFF)
-option(THEMIS_ENABLE_MCP "Enable MCP" OFF)
-option(THEMIS_ENABLE_SSE "Enable Server-Sent Events" OFF)
-option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL" OFF)
-option(THEMIS_ENABLE_HTTP_SERVER "Enable built-in HTTP server (httplib-based)" ON)
-option(THEMIS_ENABLE_CONTENT "Enable content ingestion module" OFF)
-option(THEMIS_ENABLE_MIMALLOC "Enable mimalloc" ON)
-option(THEMIS_ENABLE_HSM_REAL "Enable real HSM provider" OFF)
-option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors" OFF)
-option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID benchmark" OFF)
-# Kerberos permanently disabled - not available on Windows
-# option(THEMIS_ENABLE_KERBEROS "Enable Kerberos/GSSAPI authentication" OFF)
-
-# ============================================================================
-# OPTIONAL STORAGE AND DISTRIBUTION FEATURES
-# ============================================================================
-option(THEMIS_ENABLE_S3 "Enable S3 blob storage backend" OFF)
-option(THEMIS_ENABLE_AZURE "Enable Azure Blob Storage backend" OFF)
-option(THEMIS_ENABLE_WEBDAV "Enable WebDAV blob storage backend" OFF)
-option(THEMIS_ENABLE_DISTRIBUTED_TRAINING "Enable distributed multi-GPU training" OFF)
-option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI backend" OFF)
-option(THEMIS_ENABLE_OPENCL "Enable OpenCL backend" OFF)
-
-# ============================================================================
-# PHASE 1 PERFORMANCE FEATURES (auto-enable for tests/benchmarks)
-# ============================================================================
-option(THEMIS_ENABLE_RCU_INDEX "Enable RCU Index for lock-free reads" OFF)
-option(THEMIS_ENABLE_LIRS_CACHE "Enable LIRS cache replacement policy" OFF)
-option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages (Linux-only)" OFF)
-option(THEMIS_PERF_AUTO_ENABLE "Auto-enable Phase 1 features when building tests/benchmarks" ON)
-
-# Auto-enable Phase 1 features if building tests or benchmarks
-if(THEMIS_PERF_AUTO_ENABLE AND (THEMIS_BUILD_TESTS OR THEMIS_BUILD_BENCHMARKS))
-    set(THEMIS_ENABLE_RCU_INDEX ON CACHE BOOL "Enable RCU Index for lock-free reads" FORCE)
-    set(THEMIS_ENABLE_LIRS_CACHE ON CACHE BOOL "Enable LIRS cache replacement policy" FORCE)
-    message(STATUS ">> Auto-enabling Phase 1 performance optimizations for tests/benchmarks")
-    message(STATUS "   - THEMIS_ENABLE_RCU_INDEX=ON (auto)")
-    message(STATUS "   - THEMIS_ENABLE_LIRS_CACHE=ON (auto)")
-endif()
-
-# Phase 2 optimization features
-option(THEMIS_ENABLE_WISCKEY "Enable WiscKey" OFF)
-option(THEMIS_ENABLE_DOSTOEVSKY "Enable Dostoevsky" OFF)
-option(THEMIS_ENABLE_CICADA "Enable Cicada" OFF)
-option(THEMIS_ENABLE_LIGRA "Enable Ligra" OFF)
-option(THEMIS_ENABLE_RABITQ "Enable RaBitQ" OFF)
-
-# Phase 3 optimization features
-option(THEMIS_ENABLE_DISKANN "Enable DiskANN" OFF)
-option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree" OFF)
-option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB" OFF)
-option(THEMIS_ENABLE_GUNROCK "Enable Gunrock" OFF)
-option(THEMIS_ENABLE_BAO "Enable Bao" OFF)
-
-# ============================================================================
-# MODULAR CMAKE INCLUDES
-# ============================================================================
-
-# Compiler setup
-include(cmake/CompilerOptions.cmake)
-
-# Version management
+# 1. Version management (version info only)
 include(cmake/Versions.cmake)
 
-# Preload targets for system packages
+# 2. Compiler setup
+include(cmake/CompilerOptions.cmake)
+
+# 3. Platform detection (OS, CPU, triplet)
+include(cmake/platforms/PlatformDetection.cmake)
+
+# 4. Architecture optimizations (AVX2, NEON, etc.)
+include(cmake/platforms/ArchitectureOptimizations.cmake)
+
+# 5. Preload targets for system packages
 include(cmake/PreloadTargets.cmake)
 
-# Dependencies
+# 6. Dependencies
 include(cmake/Dependencies.cmake)
+
+# 7. Edition selection (MINIMAL, COMMUNITY, ENTERPRISE, HYPERSCALER)
+include(cmake/editions/EditionDefaults.cmake)
+
+# 8. Feature configuration (LLM, GPU, Network, Security, Tools, Optimizations)
+include(cmake/features/FeatureDefaults.cmake)
+
+# 9. Validation layer
+include(cmake/validation/PlatformValidation.cmake)
+include(cmake/validation/EditionValidation.cmake)
+include(cmake/validation/FeatureValidation.cmake)
 
 # Testing
 if(THEMIS_BUILD_TESTS)
