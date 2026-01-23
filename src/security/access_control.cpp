@@ -25,7 +25,17 @@ AccessControl::AccessControl(const Config& config)
     , user_role_store_(std::make_unique<UserRoleStore>())
     , auth_middleware_(std::make_unique<AuthMiddleware>())
     , mfa_authenticator_(std::make_unique<auth::MFAAuthenticator>())
-    , audit_logger_(std::make_unique<utils::AuditLogger>())
+    , audit_logger_(std::make_unique<utils::AuditLogger>(
+        nullptr, 
+        nullptr, 
+        utils::AuditLoggerConfig{
+            /* enabled */ config.audit_config.enable_audit_logging,
+            /* encrypt_then_sign */ false,
+            /* log_path */ config.audit_config.audit_log_path,
+            /* key_id */ "access_control",
+            /* enable_hash_chain */ false
+        }
+    ))
     , user_registration_plugin_manager_(std::make_unique<UserRegistrationPluginManager>())
 {
     THEMIS_INFO("Initializing Access Control Framework");
@@ -114,7 +124,7 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
     
     // Authenticate via plugin (WebDAV, Apache, Arrow, or embedded)
     auto auth_result = plugin->authenticateUser(credentials.user_id, credentials.password);
-    if (!auth_result.is_ok()) {
+    if (!auth_result.has_value()) {
         stats_.failed_authentications++;
         recordFailedLogin(credentials.user_id, "unknown");
         logSecurityEvent(
@@ -177,9 +187,10 @@ Result<void> AccessControl::registerUser(
         attributes
     );
     
-    if (!plugin_result.is_ok()) {
-        return Result<void>::Err(
-            "User registration via plugin failed: " + plugin_result.error()
+    if (!plugin_result.has_value()) {
+        return themis::ErrVoid(
+            themis::errors::ErrorCode::ERR_API_UNAUTHORIZED,
+            "User registration via plugin failed: " + plugin_result.error().message()
         );
     }
     
@@ -203,7 +214,7 @@ Result<void> AccessControl::registerUser(
     );
     
     THEMIS_INFO("User registered via plugin '{}': {}", reg_data.source, user_id);
-    return Result<void>::Ok();
+    return themis::OkVoid();
 }
 
 Result<void> AccessControl::changePassword(
@@ -219,19 +230,26 @@ Result<void> AccessControl::changePassword(
     // For embedded plugin, we need to cast to access changePassword method
     auto plugin = user_registration_plugin_manager_->getDefaultPlugin();
     if (!plugin) {
-        return Result<void>::Err("No authentication plugin available");
+        return themis::ErrVoid(
+            themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+            "No authentication plugin available"
+        );
     }
     
     // First verify old password
     auto auth_result = plugin->authenticateUser(user_id, old_password);
-    if (!auth_result.is_ok()) {
-        return Result<void>::Err("Invalid old password");
+    if (!auth_result.has_value()) {
+        return themis::ErrVoid(
+            themis::errors::ErrorCode::ERR_API_UNAUTHORIZED,
+            "Invalid old password"
+        );
     }
     
     // Note: Only the embedded plugin supports password changes directly.
     // For WebDAV/Apache, users must change passwords through their respective systems.
     if (plugin->getName() != "embedded") {
-        return Result<void>::Err(
+        return themis::ErrVoid(
+            themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
             "Password changes not supported for " + plugin->getName() + 
             " plugin. Please use your identity provider's password change process."
         );
@@ -251,7 +269,8 @@ Result<void> AccessControl::changePassword(
         {{"action", "Password change requested"}, {"plugin", plugin->getName()}}
     );
     
-    return Result<void>::Err(
+    return themis::ErrVoid(
+        themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
         "Password changes must be done through the plugin's management interface. "
         "For embedded plugin, use plugin API directly. "
         "For WebDAV/Apache, use your identity provider."
@@ -283,7 +302,7 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     );
     
     THEMIS_INFO("MFA enrolled for user: {}", user_id);
-    return Result<nlohmann::json>::Ok(result);
+    return themis::Ok(std::move(result));
 }
 
 bool AccessControl::verifyMFA(const std::string& user_id, const std::string& token) {
@@ -308,7 +327,7 @@ Result<void> AccessControl::disableMFA(const std::string& user_id) {
     );
     
     THEMIS_INFO("MFA disabled for user: {}", user_id);
-    return Result<void>::Ok();
+    return themis::OkVoid();
 }
 
 // ============================================================================
@@ -405,7 +424,10 @@ Result<void> AccessControl::assignRole(const std::string& user_id, const std::st
     // Check if role exists
     auto role_opt = rbac_->getRole(role);
     if (!role_opt.has_value()) {
-        return Result<void>::Err("Role not found: " + role);
+        return themis::ErrVoid(
+            themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
+            "Role not found: " + role
+        );
     }
     
     user_role_store_->assignRole(user_id, role);
@@ -418,7 +440,7 @@ Result<void> AccessControl::assignRole(const std::string& user_id, const std::st
     );
     
     THEMIS_INFO("Role '{}' assigned to user '{}'", role, user_id);
-    return Result<void>::Ok();
+    return themis::OkVoid();
 }
 
 Result<void> AccessControl::revokeRole(const std::string& user_id, const std::string& role) {
@@ -434,7 +456,7 @@ Result<void> AccessControl::revokeRole(const std::string& user_id, const std::st
     );
     
     THEMIS_INFO("Role '{}' revoked from user '{}'", role, user_id);
-    return Result<void>::Ok();
+    return themis::OkVoid();
 }
 
 std::vector<std::string> AccessControl::getUserRoles(const std::string& user_id) const {

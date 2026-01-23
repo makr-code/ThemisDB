@@ -2,6 +2,7 @@
 // Unit tests for EnhancedPluginSecurityVerifier
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "acceleration/plugin_security.h"
 #include <fstream>
 #include <filesystem>

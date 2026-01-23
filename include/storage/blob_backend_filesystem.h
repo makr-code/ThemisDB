@@ -15,7 +15,7 @@ public:
 
     Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override;
     Result<std::vector<uint8_t>> get(const BlobRef& ref) override;
-    Result<bool> remove(const BlobRef& ref) override;
+    Result<void> remove(const BlobRef& ref) override;
     bool exists(const BlobRef& ref) override;
     std::string name() const override;
     bool isAvailable() const override;

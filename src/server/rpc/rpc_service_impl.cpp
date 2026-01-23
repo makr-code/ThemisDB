@@ -23,9 +23,9 @@ static uint64_t getCurrentTimestampNs() {
 
 json ThemisRPCService::handleGet(const json& params) {
     try {
-        std::string model = params.value("model", "");
-        std::string collection = params.value("collection", "");
-        std::string uuid = params.value("uuid", "");
+        std::string model(params.value("model", ""));
+        std::string collection(params.value("collection", ""));
+        std::string uuid(params.value("uuid", ""));
         
         if (model.empty() || collection.empty() || uuid.empty()) {
             return createError(
@@ -87,9 +87,9 @@ json ThemisRPCService::handleGet(const json& params) {
 
 json ThemisRPCService::handlePut(const json& params) {
     try {
-        std::string model = params.value("model", "");
-        std::string collection = params.value("collection", "");
-        std::string uuid = params.value("uuid", "");
+        std::string model(params.value("model", ""));
+        std::string collection(params.value("collection", ""));
+        std::string uuid(params.value("uuid", ""));
         
         if (model.empty() || collection.empty() || uuid.empty()) {
             return createError(
@@ -159,9 +159,9 @@ json ThemisRPCService::handlePut(const json& params) {
 
 json ThemisRPCService::handleDelete(const json& params) {
     try {
-        std::string model = params.value("model", "");
-        std::string collection = params.value("collection", "");
-        std::string uuid = params.value("uuid", "");
+        std::string model(params.value("model", ""));
+        std::string collection(params.value("collection", ""));
+        std::string uuid(params.value("uuid", ""));
         
         if (model.empty() || collection.empty() || uuid.empty()) {
             return createError(
@@ -370,7 +370,7 @@ json ThemisRPCService::handleBatchPut(const json& params) {
 
 json ThemisRPCService::handleQuery(const json& params) {
     try {
-        std::string aql = params.value("aql", "");
+        std::string aql(params.value("aql", ""));
         
         if (aql.empty()) {
             return createError(
@@ -410,7 +410,7 @@ json ThemisRPCService::handleQuery(const json& params) {
 
 json ThemisRPCService::handleVectorSearch(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -437,7 +437,7 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
         
         // Extract parameters
         int k = params.value("k", 10);  // default top-k = 10
-        std::string metric = params.value("metric", "cosine");  // cosine, euclidean, dot
+        std::string metric(params.value("metric", "cosine"));  // cosine, euclidean, dot
         
         // TODO: Vector search requires vector index integration
         // For now, return empty results with a note
@@ -469,8 +469,8 @@ json ThemisRPCService::handleGraphTraverse(const json& params) {
         }
         
         // Extract parameters
-        std::string start_vertex = params.value("start_vertex", "");
-        std::string direction = params.value("direction", "outbound");  // outbound, inbound, any
+        std::string start_vertex(params.value("start_vertex", ""));
+        std::string direction(params.value("direction", "outbound"));  // outbound, inbound, any
         int max_depth = params.value("max_depth", 1);
         
         if (start_vertex.empty()) {
@@ -500,7 +500,7 @@ json ThemisRPCService::handleGraphTraverse(const json& params) {
 
 json ThemisRPCService::handleGeoQuery(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -519,7 +519,7 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
         }
         
         // Extract geo query parameters
-        std::string query_type = params.value("type", "");  // within, near, intersects
+        std::string query_type(params.value("type", ""));  // within, near, intersects
         
         if (query_type.empty()) {
             return createError(
@@ -547,7 +547,7 @@ json ThemisRPCService::handleGeoQuery(const json& params) {
 
 json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -568,7 +568,7 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
         // Extract time series parameters
         uint64_t start_time = params.value("start_time", 0);
         uint64_t end_time = params.value("end_time", 0);
-        std::string aggregation = params.value("aggregation", "");  // sum, avg, min, max, count
+        std::string aggregation(params.value("aggregation", ""));  // sum, avg, min, max, count
         
         if (start_time == 0 || end_time == 0) {
             return createError(
@@ -616,7 +616,7 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
         }
         
         // Extract isolation level if provided
-        std::string isolation = params.value("isolation_level", "READ_COMMITTED");
+        std::string isolation(params.value("isolation_level", "READ_COMMITTED"));
         
         // Create new transaction
         std::lock_guard<std::mutex> lock(transaction_mutex);
@@ -644,7 +644,7 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
 
 json ThemisRPCService::handleTransactionCommit(const json& params) {
     try {
-        std::string tx_id = params.value("transaction_id", "");
+        std::string tx_id(params.value("transaction_id", ""));
         
         if (tx_id.empty()) {
             return createError(
@@ -700,7 +700,7 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
 
 json ThemisRPCService::handleTransactionAbort(const json& params) {
     try {
-        std::string tx_id = params.value("transaction_id", "");
+        std::string tx_id(params.value("transaction_id", ""));
         
         if (tx_id.empty()) {
             return createError(
@@ -767,8 +767,8 @@ json ThemisRPCService::handleHealthCheck(const json& params) {
 
 json ThemisRPCService::handleAuthenticate(const json& params) {
     try {
-        std::string username = params.value("username", "");
-        std::string password = params.value("password", "");
+        std::string username(params.value("username", ""));
+        std::string password(params.value("password", ""));
         
         if (username.empty() || password.empty()) {
             return createError(
@@ -797,7 +797,7 @@ json ThemisRPCService::handleAuthenticate(const json& params) {
 
 json ThemisRPCService::handleSearch(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -816,7 +816,7 @@ json ThemisRPCService::handleSearch(const json& params) {
         }
         
         // Extract search parameters
-        std::string model = params.value("model", "");
+        std::string model(params.value("model", ""));
         json filter = params.value("filter", json::object());
         int limit = params.value("limit", 100);
         
@@ -841,7 +841,7 @@ json ThemisRPCService::handleSearch(const json& params) {
         // Scan keys with prefix
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             
             // Check if key still matches prefix
             if (key.substr(0, prefix.length()) != prefix) {
@@ -849,7 +849,7 @@ json ThemisRPCService::handleSearch(const json& params) {
             }
             
             // Parse entity
-            std::string value = iter.value();
+            std::string value(iter.value());
             try {
                 json entity = json::parse(value);
                 
@@ -878,7 +878,7 @@ json ThemisRPCService::handleSearch(const json& params) {
         // Check if there are more results in the collection
         bool has_more = false;
         if (iter.Valid()) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             has_more = (key.substr(0, prefix.length()) == prefix);
         }
         
@@ -942,9 +942,9 @@ json ThemisRPCService::handleStats(const json& params) {
 
 json ThemisRPCService::handleUpdateEntity(const json& params) {
     try {
-        std::string model = params.value("model", "");
-        std::string collection = params.value("collection", "");
-        std::string uuid = params.value("uuid", "");
+        std::string model(params.value("model", ""));
+        std::string collection(params.value("collection", ""));
+        std::string uuid(params.value("uuid", ""));
         
         if (model.empty() || collection.empty() || uuid.empty()) {
             return createError(
@@ -1127,7 +1127,7 @@ json ThemisRPCService::handleBatchUpdate(const json& params) {
 
 json ThemisRPCService::handlePaginatedQuery(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -1146,9 +1146,9 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         }
         
         // Extract pagination parameters
-        std::string cursor = params.value("cursor", "");
+        std::string cursor(params.value("cursor", ""));
         int page_size = params.value("page_size", 50);
-        std::string model = params.value("model", "");
+        std::string model(params.value("model", ""));
         
         // Create iterator
         std::string prefix = collection + ":";
@@ -1181,7 +1181,7 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         int count = 0;
         std::string next_cursor;
         while (iter.Valid() && count < page_size) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             
             // Check if key still matches prefix
             if (key.substr(0, prefix.length()) != prefix) {
@@ -1189,7 +1189,7 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
             }
             
             // Parse entity
-            std::string value = iter.value();
+            std::string value(iter.value());
             try {
                 json entity = json::parse(value);
                 results.push_back(entity);
@@ -1205,7 +1205,7 @@ json ThemisRPCService::handlePaginatedQuery(const json& params) {
         // Check if there are more results in the collection
         bool has_more = false;
         if (iter.Valid()) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             has_more = (key.substr(0, prefix.length()) == prefix);
         }
         
@@ -1260,7 +1260,7 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
 
 json ThemisRPCService::handleAggregationPipeline(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -1303,12 +1303,12 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
         
         iter.Seek(prefix);
         while (iter.Valid()) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
             }
             
-            std::string value = iter.value();
+            std::string value(iter.value());
             try {
                 json entity = json::parse(value);
                 documents.push_back(entity);
@@ -1361,7 +1361,11 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
                     );
                 }
                 if (results.size() > static_cast<size_t>(limit)) {
-                    results = json::array(results.begin(), results.begin() + limit);
+                    json limited = json::array();
+                    for (size_t i = 0; i < static_cast<size_t>(limit); ++i) {
+                        limited.push_back(results[i]);
+                    }
+                    results = limited;
                 }
             } else if (stage_name == "$project") {
                 // Project fields
@@ -1427,7 +1431,7 @@ json ThemisRPCService::handleListCollections(const json& params) {
         
         iter.SeekToFirst();
         while (iter.Valid()) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             
             // Parse key format: collection:model:uuid
             size_t first_colon = key.find(':');
@@ -1465,8 +1469,8 @@ json ThemisRPCService::handleListCollections(const json& params) {
 
 json ThemisRPCService::handleCreateIndex(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
-        std::string field = params.value("field", "");
+        std::string collection(params.value("collection", ""));
+        std::string field(params.value("field", ""));
         
         if (collection.empty() || field.empty()) {
             return createError(
@@ -1487,7 +1491,7 @@ json ThemisRPCService::handleCreateIndex(const json& params) {
         // Note: Index creation would require secondary index infrastructure
         // For now, return success with metadata
         std::string index_name = collection + "_" + field + "_idx";
-        std::string index_type = params.value("type", "btree");
+        std::string index_type(params.value("type", "btree"));
         
         json result = {
             {"success", true},
@@ -1510,8 +1514,8 @@ json ThemisRPCService::handleCreateIndex(const json& params) {
 
 json ThemisRPCService::handleDropIndex(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
-        std::string index_name = params.value("index_name", "");
+        std::string collection(params.value("collection", ""));
+        std::string index_name(params.value("index_name", ""));
         
         if (collection.empty() || index_name.empty()) {
             return createError(
@@ -1550,7 +1554,7 @@ json ThemisRPCService::handleDropIndex(const json& params) {
 
 json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
     try {
-        std::string collection = params.value("collection", "");
+        std::string collection(params.value("collection", ""));
         
         if (collection.empty()) {
             return createError(
@@ -1585,7 +1589,7 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
         
         iter.Seek(prefix);
         while (iter.Valid()) {
-            std::string key = iter.key();
+            std::string key(iter.key());
             if (key.substr(0, prefix.length()) != prefix) {
                 break;
             }

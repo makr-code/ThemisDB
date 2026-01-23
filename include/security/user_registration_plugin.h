@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include "utils/result.h"
+#include "utils/expected.h"
 
 namespace themis {
 namespace security {

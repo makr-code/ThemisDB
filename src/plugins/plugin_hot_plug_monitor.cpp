@@ -113,9 +113,11 @@ void PluginHotPlugMonitor::handleFileEvent(
                     plugin_manager_->scanPluginDirectory(watch_directory_);
                     
                     // Try to load the plugin
-                    auto* plugin = plugin_manager_->loadPlugin(plugin_name);
-                    if (plugin) {
+                    auto result = plugin_manager_->loadPlugin(plugin_name);
+                    if (result) {
                         THEMIS_INFO("Auto-loaded plugin: {}", plugin_name);
+                    } else {
+                        THEMIS_WARN("Failed to auto-load plugin {}: {}", plugin_name, result.error().message());
                     }
                 }
                 break;
@@ -129,8 +131,8 @@ void PluginHotPlugMonitor::handleFileEvent(
                     
                     // Hot-reload if already loaded
                     if (plugin_manager_->isPluginLoaded(plugin_name)) {
-                        bool reloaded = plugin_manager_->reloadPlugin(plugin_name);
-                        if (reloaded) {
+                        auto reload_result = plugin_manager_->reloadPlugin(plugin_name);
+                        if (reload_result.has_value()) {
                             THEMIS_INFO("Auto-reloaded plugin: {}", plugin_name);
                         } else {
                             THEMIS_WARN("Failed to reload plugin: {}", plugin_name);

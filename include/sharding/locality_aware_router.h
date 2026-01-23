@@ -57,6 +57,27 @@ public:
         std::atomic<uint64_t> cross_shard_avoided{0};
         std::atomic<double> avg_locality_score{0.0};
         std::atomic<double> avg_combined_score{0.0};
+
+        Statistics() = default;
+        Statistics(const Statistics& other) {
+            queries_routed.store(other.queries_routed.load());
+            local_routes.store(other.local_routes.load());
+            remote_routes.store(other.remote_routes.load());
+            cross_shard_avoided.store(other.cross_shard_avoided.load());
+            avg_locality_score.store(other.avg_locality_score.load());
+            avg_combined_score.store(other.avg_combined_score.load());
+        }
+        Statistics& operator=(const Statistics& other) {
+            if (this != &other) {
+                queries_routed.store(other.queries_routed.load());
+                local_routes.store(other.local_routes.load());
+                remote_routes.store(other.remote_routes.load());
+                cross_shard_avoided.store(other.cross_shard_avoided.load());
+                avg_locality_score.store(other.avg_locality_score.load());
+                avg_combined_score.store(other.avg_combined_score.load());
+            }
+            return *this;
+        }
     };
     
     explicit LocalityAwareRouter(

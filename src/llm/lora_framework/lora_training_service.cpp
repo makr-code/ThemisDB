@@ -284,6 +284,7 @@ public:
             std::unique_ptr<LoRALayer> lora_layer;
             std::unique_ptr<LoRAEnhancedModel> enhanced_model;
             std::unique_ptr<QuantizedModel> quantized_model;  // For QLoRA
+            bool using_base_model = false;
             
             if (using_qlora) {
                 spdlog::info("Initializing QLoRA model with base model: {}", config_.base_model_path);
@@ -307,7 +308,6 @@ public:
                 }
             } else {
                 // Standard LoRA: Try to initialize with base model if path is provided, valid, and enabled
-                bool using_base_model = false;
                 if (config_.use_base_model && 
                     !config_.base_model_path.empty() && 
                     std::filesystem::exists(config_.base_model_path)) {
@@ -367,59 +367,7 @@ public:
                     spdlog::info("Initialized standalone LoRA layer with {} parameters", 
                                 lora_layer->parameter_count());
                 }
-                    
-                    // Configure LoRA-enhanced model
-                    LoRAEnhancedModel::Config model_config;
-                    model_config.base_model_path = config_.base_model_path;
-                    model_config.lora_config = params;
-                    model_config.target_modules = config_.target_modules;
-                    model_config.freeze_base_model = true;
-                    
-                    enhanced_model = std::make_unique<LoRAEnhancedModel>(model_config);
-                    
-                    // Initialize the enhanced model (loads base model + creates LoRA adapters)
-                    if (enhanced_model->initialize()) {
-                        using_base_model = true;
-                        
-                        spdlog::info("LoRA-enhanced model initialized successfully");
-                        spdlog::info("  Base model parameters: {:L}", enhanced_model->getBaseModelParameterCount());
-                        spdlog::info("  LoRA trainable parameters: {:L}", enhanced_model->getLoRAParameterCount());
-                        
-                        float reduction = 100.0f * (1.0f - 
-                            static_cast<float>(enhanced_model->getLoRAParameterCount()) / 
-                            static_cast<float>(enhanced_model->getBaseModelParameterCount()));
-                        spdlog::info("  Parameter reduction: {:.2f}%", reduction);
-                    } else {
-                        spdlog::warn("Failed to initialize LoRA-enhanced model, falling back to standalone layer");
-                        enhanced_model.reset();
-                    }
-                } catch (const std::exception& e) {
-                    spdlog::warn("Could not load base model: {}", e.what());
-                    spdlog::info("Falling back to standalone LoRA layer");
-                    enhanced_model.reset();
-                }
-            } else {
-                if (!config_.use_base_model) {
-                    spdlog::info("Base model integration disabled (use_base_model=false)");
-                } else if (config_.base_model_path.empty()) {
-                    spdlog::info("No base model path configured");
-                } else {
-                    spdlog::warn("Base model file not found: {}", config_.base_model_path);
-                }
-                spdlog::info("Using standalone LoRA layer for training");
             }
-            
-            // Create standalone LoRA layer if base model not used
-            if (!using_base_model) {
-                lora_layer = std::make_unique<LoRALayer>(
-                    hidden_dim, 
-                    hidden_dim, 
-                    params.rank,
-                    params.alpha / params.rank  // Scaling factor
-                );
-                
-                spdlog::info("Initialized standalone LoRA layer with {} parameters", 
-                            lora_layer->parameter_count());
             
             // Create optimizer and register trainable parameters
             SGDOptimizer optimizer(params.learning_rate, 0.0f, 0.0f);  // learning_rate, momentum, weight_decay

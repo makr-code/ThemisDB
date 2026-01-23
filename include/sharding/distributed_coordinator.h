@@ -66,6 +66,27 @@ public:
         std::atomic<uint64_t> leader_failures_detected{0};
         std::atomic<uint64_t> tasks_coordinated{0};
         std::atomic<double> avg_lease_duration_seconds{0.0};
+
+        Statistics() = default;
+        Statistics(const Statistics& other) {
+            elections_started.store(other.elections_started.load());
+            elections_won.store(other.elections_won.load());
+            elections_lost.store(other.elections_lost.load());
+            leader_failures_detected.store(other.leader_failures_detected.load());
+            tasks_coordinated.store(other.tasks_coordinated.load());
+            avg_lease_duration_seconds.store(other.avg_lease_duration_seconds.load());
+        }
+        Statistics& operator=(const Statistics& other) {
+            if (this != &other) {
+                elections_started.store(other.elections_started.load());
+                elections_won.store(other.elections_won.load());
+                elections_lost.store(other.elections_lost.load());
+                leader_failures_detected.store(other.leader_failures_detected.load());
+                tasks_coordinated.store(other.tasks_coordinated.load());
+                avg_lease_duration_seconds.store(other.avg_lease_duration_seconds.load());
+            }
+            return *this;
+        }
     };
     
     using TaskExecutor = std::function<bool(const CoordinatorTask&)>;

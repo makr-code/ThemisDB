@@ -129,6 +129,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
     span.setAttribute("metric", point.metric);
     span.setAttribute("entity", point.entity);
     span.setAttribute("timestamp_ms", point.timestamp_ms);
+    auto start_time = std::chrono::steady_clock::now();
     
     if (point.metric.empty()) {
         span.recordError("Metric name cannot be empty");
@@ -180,6 +181,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
 Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     auto span = Tracer::startSpan("TSStore.putDataPoints");
     span.setAttribute("batch_size", static_cast<int64_t>(points.size()));
+    auto start_time = std::chrono::steady_clock::now();
     
     if (points.empty()) {
         return OkVoid();

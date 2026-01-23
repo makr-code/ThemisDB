@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <random>
 #include <rocksdb/db.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/statistics.h>
 
 namespace themis {
@@ -465,7 +466,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
     
     try {
         // Get RocksDB statistics if available
-        auto db = db_wrapper_->getDB();
+        auto db = db_wrapper_->getRawDB();
         if (!db) {
             return Err<FragmentationMetrics>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                                              "Database not initialized");
@@ -537,7 +538,7 @@ Result<void> IndexMaintenanceManager::performRebuild(
     THEMIS_INFO("Starting index rebuild for: {}", index_name);
     
     try {
-        auto db = db_wrapper_->getDB();
+        auto db = db_wrapper_->getRawDB();
         if (!db) {
             return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                           "Database not initialized");
@@ -588,7 +589,7 @@ Result<void> IndexMaintenanceManager::performReorganize(
     THEMIS_INFO("Starting index reorganization for: {}", index_name);
     
     try {
-        auto db = db_wrapper_->getDB();
+        auto db = db_wrapper_->getRawDB();
         if (!db) {
             return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                           "Database not initialized");
@@ -663,7 +664,7 @@ Result<void> IndexMaintenanceManager::performOrphanCleanup(
     THEMIS_INFO("Cleaning up orphan entries for: {}", index_name);
     
     try {
-        auto db = db_wrapper_->getDB();
+        auto db = db_wrapper_->getRawDB();
         if (!db) {
             return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                           "Database not initialized");
@@ -702,7 +703,7 @@ Result<void> IndexMaintenanceManager::performConsistencyCheck(
     THEMIS_INFO("Checking consistency for: {} (repair={})", index_name, repair);
     
     try {
-        auto db = db_wrapper_->getDB();
+        auto db = db_wrapper_->getRawDB();
         if (!db) {
             return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                           "Database not initialized");

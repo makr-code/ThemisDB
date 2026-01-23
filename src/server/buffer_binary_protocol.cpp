@@ -148,11 +148,10 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBuffered(
         // Add to buffer
         auto status = ts_buffer_->add(point);
         
-        if (status.ok) {
+        if (status.has_value()) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer data point");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.error().message());
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -182,7 +181,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBufferedBatch(
             point.value = data.at("value").as<double>();
             
             auto status = ts_buffer_->add(point);
-            if (status.ok) {
+            if (status.has_value()) {
                 buffered_count++;
             }
         }
@@ -226,9 +225,8 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorAddBuffered(
         
         if (status.ok) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer vector add");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.message);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -260,9 +258,8 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorRemoveBuffered(
         
         if (status.ok) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer vector remove");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.message);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }
@@ -289,9 +286,8 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphNodeBuffered(
         
         if (status.ok) {
             return createResponse(STATUS_SUCCESS);
-        } else {
-            return createErrorResponse(STATUS_PROCESSING_ERROR, "Failed to buffer graph node");
         }
+        return createErrorResponse(STATUS_PROCESSING_ERROR, status.message);
     } catch (const std::exception& e) {
         return createErrorResponse(STATUS_MALFORMED_PAYLOAD, e.what());
     }

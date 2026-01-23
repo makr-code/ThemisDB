@@ -1,4 +1,6 @@
 #include "storage/blob_backend_filesystem.h"
+#include "utils/error_registry.h"
+#include "utils/expected.h"
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
@@ -46,7 +48,7 @@ FilesystemBlobBackend::FilesystemBlobBackend(const std::string& base_path)
     }
 }
 
-BlobRef FilesystemBlobBackend::put(const std::string& blob_id, const std::vector<uint8_t>& data) {
+Result<BlobRef> FilesystemBlobBackend::put(const std::string& blob_id, const std::vector<uint8_t>& data) {
     std::string file_path = getPath(blob_id);
 
     try {
@@ -77,20 +79,21 @@ BlobRef FilesystemBlobBackend::put(const std::string& blob_id, const std::vector
         THEMIS_DEBUG("FilesystemBlobBackend: Stored blob {} ({} bytes) at {}",
             blob_id, data.size(), file_path);
 
-        return ref;
+        return Ok(std::move(ref));
 
     } catch (const std::exception& e) {
         THEMIS_ERROR("FilesystemBlobBackend::put failed for {}: {}", blob_id, e.what());
-        throw;
+        return Err<BlobRef>(errors::ErrorCode::ERR_STORAGE_DISK_FULL, e.what());
     }
 }
 
-std::optional<std::vector<uint8_t>> FilesystemBlobBackend::get(const BlobRef& ref) {
+Result<std::vector<uint8_t>> FilesystemBlobBackend::get(const BlobRef& ref) {
     try {
         std::ifstream ifs(ref.uri, std::ios::binary);
         if (!ifs) {
             THEMIS_WARN("FilesystemBlobBackend: Blob not found: {}", ref.uri);
-            return std::nullopt;
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                             "Blob not found: " + ref.uri);
         }
 
         std::vector<uint8_t> data(
@@ -101,24 +104,27 @@ std::optional<std::vector<uint8_t>> FilesystemBlobBackend::get(const BlobRef& re
         THEMIS_DEBUG("FilesystemBlobBackend: Retrieved blob {} ({} bytes)",
             ref.id, data.size());
 
-        return data;
+        return Ok(std::move(data));
 
     } catch (const std::exception& e) {
         THEMIS_ERROR("FilesystemBlobBackend::get failed for {}: {}", ref.id, e.what());
-        return std::nullopt;
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION, e.what());
     }
 }
 
-bool FilesystemBlobBackend::remove(const BlobRef& ref) {
+Result<void> FilesystemBlobBackend::remove(const BlobRef& ref) {
     try {
         if (fs::remove(ref.uri)) {
             THEMIS_DEBUG("FilesystemBlobBackend: Removed blob {}", ref.id);
-            return true;
+            return OkVoid();
         }
-        return false;
+        return Err<void>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found: " + ref.uri
+        );
     } catch (const std::exception& e) {
         THEMIS_ERROR("FilesystemBlobBackend::remove failed for {}: {}", ref.id, e.what());
-        return false;
+        return Err<void>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED, e.what());
     }
 }
 

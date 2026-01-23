@@ -13,7 +13,7 @@
 
 #include "security/rbac.h"
 #include "security/user_registration_plugin.h"
-#include "utils/result.h"
+#include "utils/expected.h"
 
 // Forward declarations
 namespace themis {

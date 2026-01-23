@@ -27,7 +27,10 @@ Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     if (models_.find(config.model_id) != models_.end()) {
-        return Err<bool>("Model already registered: " + config.model_id);
+        return themis::Err<bool>(
+            themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+            "Model already registered: " + config.model_id
+        );
     }
     
     auto entry = std::make_unique<ModelEntry>();
@@ -50,12 +53,18 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Result<std::vector<std::string>>::error("Model not found: " + model_id);
+        return themis::Err<std::vector<std::string>>(
+            themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+            "Model not found: " + model_id
+        );
     }
     
     auto& entry = it->second;
     if (entry->status == MLModelStatus::DEPLOYED) {
-        return Result<std::vector<std::string>>::error("Model already deployed: " + model_id);
+        return themis::Err<std::vector<std::string>>(
+            themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+            "Model already deployed: " + model_id
+        );
     }
     
     entry->status = MLModelStatus::DEPLOYING;
@@ -63,14 +72,17 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     
     for (size_t i = 0; i < num_instances; ++i) {
         auto result = deployInstance(model_id, entry->config);
-        if (result!has_value()) {
-            THEMIS_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error());
+        if (!result.has_value()) {
+            THEMIS_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error().message());
             // Rollback: shutdown already deployed instances
             for (const auto& inst_id : instance_ids) {
                 shutdownInstance(inst_id);
             }
             entry->status = MLModelStatus::FAILED;
-            return Result<std::vector<std::string>>::error("Deployment failed: " + result.error());
+            return themis::Err<std::vector<std::string>>(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Deployment failed: " + result.error().message()
+            );
         }
         instance_ids.push_back(result.value());
     }
@@ -80,7 +92,7 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     
     THEMIS_INFO("Deployed model: " + model_id + " with " + std::to_string(num_instances) + " instances");
     
-    return Result<std::vector<std::string>>::ok(instance_ids);
+    return themis::Ok(instance_ids);
 }
 
 Result<bool> MLModelManager::updateModel(
@@ -91,7 +103,10 @@ Result<bool> MLModelManager::updateModel(
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found: " + model_id);
+        return themis::Err<bool>(
+            themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+            "Model not found: " + model_id
+        );
     }
     
     auto& entry = it->second;
@@ -111,14 +126,17 @@ Result<bool> MLModelManager::updateModel(
     std::vector<std::string> new_instance_ids;
     for (size_t i = 0; i < num_instances; ++i) {
         auto result = deployInstance(model_id, new_config);
-        if (result!has_value()) {
+        if (!result.has_value()) {
             // Rollback
             for (const auto& inst_id : new_instance_ids) {
                 shutdownInstance(inst_id);
             }
             entry->instances = std::move(old_instances);
             entry->status = MLModelStatus::DEPLOYED;
-            return Err<bool>("Update failed: " + result.error());
+            return themis::Err<bool>(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Update failed: " + result.error().message()
+            );
         }
         new_instance_ids.push_back(result.value());
     }
@@ -144,7 +162,10 @@ Result<bool> MLModelManager::retireModel(
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found: " + model_id);
+        return themis::Err<bool>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "Model not found: " + model_id
+        );
     }
     
     auto& entry = it->second;
@@ -186,12 +207,18 @@ Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found: " + model_id);
+        return themis::Err<bool>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "Model not found: " + model_id
+        );
     }
     
     const auto& entry = it->second;
     if (entry->status != MLModelStatus::RETIRED) {
-        return Err<bool>("Model must be retired before unregistering: " + model_id);
+        return themis::Err<bool>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "Model must be retired before unregistering: " + model_id
+        );
     }
     
     // Shutdown all instances
@@ -245,7 +272,10 @@ Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found: " + model_id);
+        return themis::Err<MLModelConfig>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "Model not found: " + model_id
+        );
     }
     
     return Ok(it->second->config);
@@ -256,7 +286,10 @@ Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found: " + model_id);
+        return themis::Err<MLModelStatus>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "Model not found: " + model_id
+        );
     }
     
     return Ok(it->second->status);
@@ -391,7 +424,7 @@ std::string MLModelManager::inferAsync(
         } else {
             MLInferenceResponse error_response;
             error_response.success = false;
-            error_response.error_message = result.error();
+            error_response.error_message = result.error().message();
             callback(error_response);
         }
     }).detach();
@@ -414,7 +447,10 @@ Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found: " + model_id);
+        return themis::Err<bool>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "Model not found: " + model_id
+        );
     }
     
     auto& entry = it->second;
@@ -428,8 +464,11 @@ Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_
         // Scale up
         for (size_t i = current_instances; i < num_instances; ++i) {
             auto result = deployInstance(model_id, entry->config);
-            if (result!has_value()) {
-                return Err<bool>("Failed to scale up: " + result.error());
+            if (!result.has_value()) {
+                return themis::Err<bool>(
+                    themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                    "Failed to scale up"
+                );
             }
         }
     } else {
@@ -493,8 +532,11 @@ Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
                 
                 // Deploy new instance
                 auto result = deployInstance(model_id, entry->config);
-                if (result!has_value()) {
-                    return Err<bool>("Failed to restart instance: " + result.error());
+                if (!result.has_value()) {
+                    return themis::Err<bool>(
+                        themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                        "Failed to restart instance: " + result.error().message()
+                    );
                 }
                 
                 THEMIS_INFO("Restarted instance: " + instance_id);
@@ -503,7 +545,10 @@ Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
         }
     }
     
-    return Err<bool>("Instance not found: " + instance_id);
+    return themis::Err<bool>(
+        themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+        "Instance not found: " + instance_id
+    );
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -656,8 +701,8 @@ void MLModelManager::autoScalerLoop() {
                 // Instead, do the scaling inline
                 if (target_instances > current_instances) {
                     auto result = deployInstance(model_id, entry->config);
-                    if (result!has_value()) {
-                        THEMIS_ERROR("Auto-scale up failed: " + result.error());
+                    if (!result.has_value()) {
+                        THEMIS_ERROR("Auto-scale up failed: " + result.error().message());
                     }
                 } else if (target_instances < current_instances && !entry->instances.empty()) {
                     auto& last_inst = entry->instances.back();
@@ -676,7 +721,10 @@ Result<std::string> MLModelManager::deployInstance(
     // Find the model entry (assumes caller holds lock)
     auto it = models_.find(model_id);
     if (it == models_.end()) {
-        return Err<bool>("Model not found");
+        return themis::Err<std::string>(
+            themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+            "Model not found"
+        );
     }
     
     auto& entry = it->second;

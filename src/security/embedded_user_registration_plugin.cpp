@@ -69,13 +69,13 @@ public:
         
         // Check if user already exists
         if (users_.find(user_id) != users_.end()) {
-            return Result<UserRegistrationData>::Err("User already exists");
+            return themis::Err<UserRegistrationData>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, "User already exists");
         }
         
         // Validate password
         auto validation_result = validatePassword(password);
-        if (!validation_result.is_ok()) {
-            return Result<UserRegistrationData>::Err(validation_result.error());
+        if (!validation_result) {
+            return tl::unexpected(validation_result.error());
         }
         
         // Hash password
@@ -104,7 +104,7 @@ public:
         
         THEMIS_WARN("User '{}' registered via EMBEDDED plugin - consider using WebDAV/Apache for production", user_id);
         
-        return Result<UserRegistrationData>::Ok(reg_data);
+        return themis::Ok(std::move(reg_data));
     }
     
     Result<UserRegistrationData> authenticateUser(
@@ -117,12 +117,12 @@ public:
         
         auto it = users_.find(user_id);
         if (it == users_.end()) {
-            return Result<UserRegistrationData>::Err("User not found");
+            return themis::Err<UserRegistrationData>(errors::ErrorCode::ERR_API_UNAUTHORIZED, "User not found");
         }
         
         // Verify password
         if (!verifyPassword(password, it->second.password_hash)) {
-            return Result<UserRegistrationData>::Err("Invalid password");
+            return themis::Err<UserRegistrationData>(errors::ErrorCode::ERR_API_UNAUTHORIZED, "Invalid password");
         }
         
         // Return user data
@@ -134,7 +134,7 @@ public:
         reg_data.roles = it->second.roles;
         reg_data.attributes = it->second.attributes;
         
-        return Result<UserRegistrationData>::Ok(reg_data);
+        return themis::Ok(std::move(reg_data));
     }
     
     Result<std::vector<UserRegistrationData>> syncUsers() override {
@@ -152,7 +152,7 @@ public:
             result.push_back(reg_data);
         }
         
-        return Result<std::vector<UserRegistrationData>>::Ok(result);
+        return themis::Ok(std::move(result));
     }
     
     Result<UserRegistrationData> updateUser(const std::string& user_id) override {
@@ -160,7 +160,7 @@ public:
         
         auto it = users_.find(user_id);
         if (it == users_.end()) {
-            return Result<UserRegistrationData>::Err("User not found");
+            return themis::Err<UserRegistrationData>(errors::ErrorCode::ERR_API_UNAUTHORIZED, "User not found");
         }
         
         UserRegistrationData reg_data;
@@ -171,7 +171,7 @@ public:
         reg_data.roles = it->second.roles;
         reg_data.attributes = it->second.attributes;
         
-        return Result<UserRegistrationData>::Ok(reg_data);
+        return themis::Ok(std::move(reg_data));
     }
     
     // Additional methods for embedded plugin
@@ -188,17 +188,17 @@ public:
         
         auto it = users_.find(user_id);
         if (it == users_.end()) {
-            return Result<void>::Err("User not found");
+            return themis::ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, "User not found");
         }
         
         // Verify old password
         if (!verifyPassword(old_password, it->second.password_hash)) {
-            return Result<void>::Err("Invalid old password");
+            return themis::ErrVoid(errors::ErrorCode::ERR_API_UNAUTHORIZED, "Invalid old password");
         }
         
         // Validate new password
         auto validation_result = validatePassword(new_password);
-        if (!validation_result.is_ok()) {
+        if (!validation_result.has_value()) {
             return validation_result;
         }
         
@@ -206,7 +206,7 @@ public:
         auto new_hash = hashPassword(new_password);
         for (const auto& old_hash : it->second.password_history) {
             if (verifyPassword(new_password, old_hash)) {
-                return Result<void>::Err("Password was used recently. Please choose a different password.");
+                return themis::ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, "Password was used recently. Please choose a different password.");
             }
         }
         
@@ -220,7 +220,7 @@ public:
         }
         
         THEMIS_INFO("Password changed for embedded user '{}'", user_id);
-        return Result<void>::Ok();
+        return themis::OkVoid();
     }
     
     /**
@@ -246,7 +246,8 @@ private:
     
     Result<void> validatePassword(const std::string& password) const {
         if (password.length() < static_cast<size_t>(config_.min_password_length)) {
-            return Result<void>::Err(
+            return themis::ErrVoid(
+                errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                 "Password must be at least " + 
                 std::to_string(config_.min_password_length) + 
                 " characters long"
@@ -255,17 +256,17 @@ private:
         
         if (config_.require_uppercase && 
             !std::any_of(password.begin(), password.end(), ::isupper)) {
-            return Result<void>::Err("Password must contain at least one uppercase letter");
+            return themis::ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, "Password must contain at least one uppercase letter");
         }
         
         if (config_.require_lowercase && 
             !std::any_of(password.begin(), password.end(), ::islower)) {
-            return Result<void>::Err("Password must contain at least one lowercase letter");
+            return themis::ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, "Password must contain at least one lowercase letter");
         }
         
         if (config_.require_digit && 
             !std::any_of(password.begin(), password.end(), ::isdigit)) {
-            return Result<void>::Err("Password must contain at least one digit");
+            return themis::ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, "Password must contain at least one digit");
         }
         
         if (config_.require_special) {
@@ -273,11 +274,11 @@ private:
                 return !::isalnum(c);
             });
             if (!has_special) {
-                return Result<void>::Err("Password must contain at least one special character");
+                return themis::ErrVoid(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, "Password must contain at least one special character");
             }
         }
         
-        return Result<void>::Ok();
+        return themis::OkVoid();
     }
     
     std::string hashPassword(const std::string& password) const {

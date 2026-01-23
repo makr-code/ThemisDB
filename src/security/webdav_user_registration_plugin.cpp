@@ -77,9 +77,10 @@ public:
 #ifdef THEMIS_ENABLE_WEBDAV
         // First authenticate the user with WebDAV server
         auto auth_result = authenticateWithWebDAV(user_id, password);
-        if (!auth_result.is_ok()) {
-            return Result<UserRegistrationData>::Err(
-                "WebDAV authentication failed: " + auth_result.error()
+        if (!auth_result) {
+            return themis::Err<UserRegistrationData>(
+                errors::ErrorCode::ERR_API_UNAUTHORIZED,
+                "WebDAV authentication failed: " + auth_result.error().message()
             );
         }
         
@@ -113,9 +114,10 @@ public:
             data.roles.push_back("readonly");
         }
         
-        return Result<UserRegistrationData>::Ok(data);
+        return themis::Ok(std::move(data));
 #else
-        return Result<UserRegistrationData>::Err(
+        return themis::Err<UserRegistrationData>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
             "WebDAV support not enabled in build"
         );
 #endif
@@ -137,7 +139,8 @@ public:
         // If authentication successful, register the user
         return registerUser(user_id, password, {});
 #else
-        return Result<UserRegistrationData>::Err(
+        return themis::Err<UserRegistrationData>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
             "WebDAV support not enabled in build"
         );
 #endif
@@ -156,9 +159,10 @@ public:
         // 4. If Active Directory mode, query AD properties
         
         THEMIS_INFO("WebDAV plugin: Synced {} users", users.size());
-        return Result<std::vector<UserRegistrationData>>::Ok(users);
+        return themis::Ok(std::move(users));
 #else
-        return Result<std::vector<UserRegistrationData>>::Err(
+        return themis::Err<std::vector<UserRegistrationData>>(
+            errors::ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
             "WebDAV support not enabled in build"
         );
 #endif
@@ -176,9 +180,10 @@ public:
         data.source = "webdav";
         data.source_uri = config_.webdav_base_url;
         
-        return Result<UserRegistrationData>::Ok(data);
+        return themis::Ok(std::move(data));
 #else
-        return Result<UserRegistrationData>::Err(
+        return themis::Err<UserRegistrationData>(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
             "WebDAV support not enabled in build"
         );
 #endif

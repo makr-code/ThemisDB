@@ -400,12 +400,12 @@ public:
     void unregisterBlob(const std::string& blob_id);
     
     // Redundancy Operations
-    Result<bool> ensureRedundancy(const std::string& blob_id);
-    Result<bool> repairBlob(const std::string& blob_id);
+    Result<void> ensureRedundancy(const std::string& blob_id);
+    Result<void> repairBlob(const std::string& blob_id);
     bool verifyBlob(const std::string& blob_id);
     
     // Read/Write with redundancy
-    Result<bool> writeBlob(
+    Result<void> writeBlob(
         const std::string& blob_id,
         const std::vector<uint8_t>& data,
         WriteHandler handler
@@ -416,14 +416,14 @@ public:
         ReadHandler handler
     );
     
-    Result<bool> deleteBlob(
+    Result<void> deleteBlob(
         const std::string& blob_id,
         DeleteHandler handler
     );
     
     // Tier Management
-    Result<bool> tierDown(const std::string& blob_id, StorageTier target);
-    Result<bool> tierUp(const std::string& blob_id, StorageTier target);
+    Result<void> tierDown(const std::string& blob_id, StorageTier target);
+    Result<void> tierUp(const std::string& blob_id, StorageTier target);
     std::vector<std::string> getBlobsForTierDown();
     
     // Health and Monitoring

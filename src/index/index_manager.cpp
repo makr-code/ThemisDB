@@ -107,7 +107,8 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     // Check if index already exists
     if (secondary_indices_.find(name_str) != secondary_indices_.end()) {
         THEMIS_WARN("IndexManager::createSecondaryIndex: Index '{}' already exists", name_str);
-        return Ok<ISecondaryIndex*>(secondary_indices_[name_str]);
+        auto* existing = secondary_indices_[name_str];
+        return Ok<ISecondaryIndex*>(std::move(existing));
     }
     
     // Parse config for index type (default: REGULAR)
@@ -157,7 +158,8 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     // Check if index already exists
     if (vector_indices_.find(name_str) != vector_indices_.end()) {
         THEMIS_WARN("IndexManager::createVectorIndex: Index '{}' already exists", name_str);
-        return Ok<IVectorIndex*>(vector_indices_[name_str]);
+        auto* existing = vector_indices_[name_str];
+        return Ok<IVectorIndex*>(std::move(existing));
     }
     
     // Initialize vector index
@@ -202,7 +204,8 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     // Check if index already exists
     if (graph_indices_.find(name_str) != graph_indices_.end()) {
         THEMIS_WARN("IndexManager::createGraphIndex: Index '{}' already exists", name_str);
-        return Ok<IGraphIndex*>(graph_indices_[name_str]);
+        auto* existing = graph_indices_[name_str];
+        return Ok<IGraphIndex*>(std::move(existing));
     }
     
     // Graph index is always available, just track it
@@ -218,7 +221,8 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) 
     std::string name_str(name);
     auto it = secondary_indices_.find(name_str);
     if (it != secondary_indices_.end()) {
-        return Ok<ISecondaryIndex*>(it->second);
+        ISecondaryIndex* ptr = it->second;
+        return themis::Ok(ptr);
     }
     
     return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -231,7 +235,8 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const 
     std::string name_str(name);
     auto it = vector_indices_.find(name_str);
     if (it != vector_indices_.end()) {
-        return Ok<IVectorIndex*>(it->second);
+        IVectorIndex* ptr = it->second;
+        return themis::Ok(ptr);
     }
     
     return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -244,7 +249,8 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
     std::string name_str(name);
     auto it = graph_indices_.find(name_str);
     if (it != graph_indices_.end()) {
-        return Ok<IGraphIndex*>(it->second);
+        IGraphIndex* ptr = it->second;
+        return themis::Ok(ptr);
     }
     
     return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,

@@ -164,8 +164,8 @@ double LLMMetaAnalyzer::parseScore(
 std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
     // Try to extract reasoning section
     std::regex reasoning_pattern(
-        "(?:Reasoning|reasoning|Analysis|analysis):\\s*(.+?)(?:Score|score|Rating|rating|$)",
-        std::regex::ECMAScript | std::regex::dotall);
+        "(?s)(?:Reasoning|reasoning|Analysis|analysis):\\s*(.+?)(?:Score|score|Rating|rating|$)",
+        std::regex::ECMAScript);
     std::smatch match;
     
     if (std::regex_search(response, match, reasoning_pattern)) {

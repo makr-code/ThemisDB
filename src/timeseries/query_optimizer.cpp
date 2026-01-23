@@ -160,9 +160,9 @@ bool TSQueryOptimizer::aggregateExists(
     opts.metric = agg_metric;
     opts.limit = 1;  // Just check existence
     
-    auto [status, points] = store_->query(opts);
+    auto result = store_->query(opts);
     
-    return status.ok && !points.empty();
+    return result.has_value() && !result.value().empty();
 }
 
 void TSQueryOptimizer::registerAvailableAggregate(

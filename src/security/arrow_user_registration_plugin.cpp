@@ -77,9 +77,10 @@ public:
         // Default role
         data.roles.push_back("readonly");
         
-        return Result<UserRegistrationData>::Ok(data);
+        return themis::Ok(std::move(data));
 #else
-        return Result<UserRegistrationData>::Err(
+        return themis::Err<UserRegistrationData>(
+            errors::ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
             "Apache Arrow support not enabled in build"
         );
 #endif
@@ -97,7 +98,8 @@ public:
         
         return registerUser(user_id, password, {});
 #else
-        return Result<UserRegistrationData>::Err(
+        return themis::Err<UserRegistrationData>(
+            errors::ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
             "Apache Arrow support not enabled in build"
         );
 #endif
@@ -116,9 +118,10 @@ public:
         // 4. Return list of users
         
         THEMIS_INFO("Arrow plugin: Synced {} users", users.size());
-        return Result<std::vector<UserRegistrationData>>::Ok(users);
+        return themis::Ok(std::move(users));
 #else
-        return Result<std::vector<UserRegistrationData>>::Err(
+        return themis::Err<std::vector<UserRegistrationData>>(
+            errors::ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
             "Apache Arrow support not enabled in build"
         );
 #endif
@@ -136,9 +139,10 @@ public:
         data.source = "arrow";
         data.source_uri = config_.arrow_source_uri;
         
-        return Result<UserRegistrationData>::Ok(data);
+        return themis::Ok(std::move(data));
 #else
-        return Result<UserRegistrationData>::Err(
+        return themis::Err<UserRegistrationData>(
+            themis::errors::ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
             "Apache Arrow support not enabled in build"
         );
 #endif

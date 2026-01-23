@@ -102,9 +102,10 @@ public:
                                    fmt::format("Index '{}' not found (default manager)", name));
     }
     
-    Result<bool> dropIndex(std::string_view name) override {
+    Result<void> dropIndex(std::string_view name) override {
         // Default implementation: always succeeds (no-op)
-        return Ok<bool>(true);
+        (void)name;
+        return OkVoid();
     }
     
     std::vector<std::string> listIndexes() const override {

@@ -81,20 +81,23 @@ Result<UserRegistrationData> UserRegistrationPluginManager::registerUser(
     if (plugin_name.empty()) {
         plugin = getDefaultPlugin();
         if (!plugin) {
-            return Result<UserRegistrationData>::Err(
+            return themis::Err<UserRegistrationData>(
+                errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                 "No user registration plugins available"
             );
         }
     } else {
         plugin = getPlugin(plugin_name);
         if (!plugin) {
-            return Result<UserRegistrationData>::Err(
+            return themis::Err<UserRegistrationData>(
+                errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                 "User registration plugin not found: " + plugin_name
             );
         }
         
         if (!plugin->isAvailable()) {
-            return Result<UserRegistrationData>::Err(
+            return themis::Err<UserRegistrationData>(
+                errors::ErrorCode::ERR_PLUGIN_INCOMPATIBLE,
                 "User registration plugin not available: " + plugin_name
             );
         }

@@ -79,7 +79,7 @@ public:
      * @param ref Blob reference
      * @return Result<bool> Success or error
      */
-    virtual Result<bool> remove(const BlobRef& ref) = 0;
+    virtual Result<void> remove(const BlobRef& ref) = 0;
     
     /**
      * @brief Check if blob exists
