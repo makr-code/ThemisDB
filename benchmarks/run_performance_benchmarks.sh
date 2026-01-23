@@ -87,7 +87,7 @@ for bench in "${BENCHMARKS[@]}"; do
     echo ""
 done
 
-# Combine results
+# Combine results into valid JSON
 echo "================================================"
 echo "Combining results..."
 echo "================================================"
@@ -102,7 +102,7 @@ combined_file="$OUTPUT_DIR/all_benchmarks_${TIMESTAMP}.json"
     echo "    \"os\": \"$(uname -s)\","
     echo "    \"architecture\": \"$(uname -m)\""
     echo "  },"
-    echo "  \"benchmarks\": ["
+    echo "  \"benchmark_files\": ["
     
     first=true
     for bench in "${BENCHMARKS[@]}"; do
@@ -112,7 +112,10 @@ combined_file="$OUTPUT_DIR/all_benchmarks_${TIMESTAMP}.json"
                 echo ","
             fi
             first=false
-            cat "$result_file"
+            echo "    {"
+            echo "      \"name\": \"$bench\","
+            echo "      \"file\": \"$result_file\""
+            echo -n "    }"
         fi
     done
     

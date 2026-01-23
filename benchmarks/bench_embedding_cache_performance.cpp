@@ -396,7 +396,8 @@ static void BM_EmbeddingCache_SimilarityThreshold(benchmark::State& state) {
     }
     
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("threshold_" + std::to_string(state.range(0)));
+    std::string label = "threshold_" + std::to_string(state.range(0));
+    state.SetLabel(label);
 }
 BENCHMARK(BM_EmbeddingCache_SimilarityThreshold)
     ->Arg(90)  // 0.90 threshold
@@ -490,8 +491,9 @@ static void BM_EmbeddingCache_CostSavings(benchmark::State& state) {
     double savings = hits * cost_per_call;
     
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("hit_rate_" + std::to_string(state.range(0)) + 
-                   "_savings_$" + std::to_string(savings));
+    std::string label = "hit_rate_" + std::to_string(state.range(0)) + 
+                        "_savings_$" + std::to_string(savings);
+    state.SetLabel(label);
 }
 BENCHMARK(BM_EmbeddingCache_CostSavings)
     ->Arg(50)  // 50% hit rate

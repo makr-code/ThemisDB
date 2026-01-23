@@ -558,7 +558,8 @@ static void BM_OLAP_ComplexQuery(benchmark::State& state) {
         
         // Calculate averages
         std::vector<double> averages;
-        for (const auto& [region, stats] : groups) {
+        for (const auto& group_entry : groups) {
+            const auto& stats = group_entry.second;
             if (stats.second > 0) {
                 averages.push_back(stats.first / stats.second);
             }

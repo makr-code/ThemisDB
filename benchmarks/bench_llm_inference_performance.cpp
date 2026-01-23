@@ -94,8 +94,12 @@ LoRAAdapterManager::Config createAdapterConfig() {
     return cfg;
 }
 
+// Mock context address generation
+constexpr uintptr_t MOCK_CONTEXT_BASE = 0x1000;
+constexpr uintptr_t MOCK_CONTEXT_STRIDE = 0x100;
+
 void* getMockContext(int id) {
-    return reinterpret_cast<void*>(static_cast<uintptr_t>(0x1000 + id * 0x100));
+    return reinterpret_cast<void*>(MOCK_CONTEXT_BASE + id * MOCK_CONTEXT_STRIDE);
 }
 
 // ═══════════════════════════════════════════════════════════

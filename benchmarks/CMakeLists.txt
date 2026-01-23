@@ -809,10 +809,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
         THEMIS_BENCHMARK_BUILD=1
     )
     
+    # Optimization flags for benchmarks (configurable via BENCHMARK_ARCH_FLAGS)
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            # Default: Use -march=native for maximum performance on build machine
+            # Override with -DBENCHMARK_ARCH_FLAGS="-march=x86-64" for portability
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
         target_compile_options(bench_storage_performance PRIVATE
             -O3
-            -march=native
+            ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
         )
     endif()
@@ -845,9 +851,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_performance.cpp")
     )
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
         target_compile_options(bench_olap_performance PRIVATE
             -O3
-            -march=native
+            ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
         )
     endif()
@@ -880,9 +889,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
     )
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
         target_compile_options(bench_embedding_cache_performance PRIVATE
             -O3
-            -march=native
+            ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
         )
     endif()
@@ -915,9 +927,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
     )
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
         target_compile_options(bench_llm_inference_performance PRIVATE
             -O3
-            -march=native
+            ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
         )
     endif()
