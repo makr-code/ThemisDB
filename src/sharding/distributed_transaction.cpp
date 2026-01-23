@@ -1,5 +1,30 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
+//
+// Distributed Transaction Coordinator with Two-Phase Commit (2PC)
+//
+// This implementation provides ACID guarantees for transactions spanning multiple
+// shards using the classical 2PC protocol enhanced with TrueTime for external
+// consistency.
+//
+// Key Features:
+// - Two-phase commit protocol (PREPARE → COMMIT/ABORT)
+// - TrueTime integration for globally consistent timestamps
+// - Parallel participant communication for better performance
+// - Snapshot isolation for read-only transactions (wait-free)
+// - Configurable timeouts and retry logic
+//
+// Protocol Flow:
+//   1. BEGIN: Create transaction, register participants
+//   2. OPERATIONS: Accumulate operations per shard
+//   3. COMMIT:
+//      a. Phase 1 (PREPARE): All participants vote COMMIT or ABORT
+//      b. Assign TrueTime commit timestamp
+//      c. Wait until timestamp is in the past (external consistency)
+//      d. Phase 2 (COMMIT): Apply changes with timestamp
+//   4. Transaction complete (COMMITTED or ABORTED)
+//
+// For detailed documentation, see docs/DISTRIBUTED_TRANSACTIONS.md
 
 #include "sharding/distributed_transaction.h"
 #include "sharding/shard_rpc_client.h"

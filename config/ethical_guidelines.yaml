@@ -556,3 +556,70 @@ config:
   
   # Language preference (de, en, both)
   language_mode: "both"
+
+# ═══════════════════════════════════════════════════════════
+# Hallucination Prevention (NEW)
+# ═══════════════════════════════════════════════════════════
+hallucination_prevention:
+  # Enable ethics-aware confidence detection
+  enable_confidence_detector: true
+  
+  # Enable constitutional reasoning (self-critique and revision)
+  enable_constitutional_reasoning: true
+  
+  # Enable multi-perspective generation for ethical queries
+  enable_multi_perspective: true
+  
+  # Constitutional AI principles
+  constitution:
+    principles:
+      - "Respects human dignity and autonomy"
+      - "Does not discriminate"
+      - "Provides transparent reasoning"
+      - "Does no intentional harm"
+    domain_constraints: []  # Domain-specific additions
+    
+    # Reasoning settings
+    max_iterations: 3
+    improvement_threshold: 0.05
+    min_acceptable_score: 0.7
+  
+  # Confidence thresholds
+  confidence:
+    min_autonomy_respect: 0.7
+    min_transparency: 0.6
+    min_technical_confidence: 0.5
+    
+    # Weights for combined confidence score
+    technical_weight: 0.40
+    autonomy_weight: 0.35
+    transparency_weight: 0.25
+  
+  # Multi-perspective settings
+  multi_perspective:
+    min_perspectives: 2
+    max_perspectives: 4
+    min_diversity_score: 0.6
+    require_contrasting_views: true
+    enable_synthesis: true
+    preserve_all_perspectives: true
+    highlight_disagreements: true
+
+# ═══════════════════════════════════════════════════════════
+# RAG Judge Ethical Evaluation (ENHANCED)
+# ═══════════════════════════════════════════════════════════
+rag_judge:
+  ethical_evaluation:
+    enabled: true
+    veto_power: true              # Ethical compliance can VETO low-quality responses
+    threshold: 0.7                # Minimum ethical compliance score
+    
+    # Weights for ethical sub-dimensions (must sum to 1.0)
+    weights:
+      autonomy_respect: 0.4       # Respect for human autonomy
+      moral_diversity: 0.3        # Multiple moral perspectives
+      source_transparency: 0.3    # Citation for ethical claims
+    
+    # Detection thresholds
+    bias_detection_threshold: 5   # Number of absolute statements for bias detection
+    min_perspectives: 2           # Minimum moral perspectives required

@@ -17,6 +17,9 @@
 
 namespace themis {
 class RocksDBWrapper;  // Forward declaration
+namespace index {
+class SpatialIndexManager;  // Forward declaration
+}
 }
 
 namespace themis {
@@ -32,7 +35,10 @@ using json = nlohmann::json;
  */
 class ThemisRPCService {
 public:
-    explicit ThemisRPCService(RocksDBWrapper* storage) : storage_(storage) {}
+    explicit ThemisRPCService(
+        RocksDBWrapper* storage,
+        themis::index::SpatialIndexManager* spatial_index = nullptr
+    ) : storage_(storage), spatial_index_(spatial_index) {}
     
     /**
      * @brief Handle GET operation
@@ -171,6 +177,7 @@ public:
     
 private:
     RocksDBWrapper* storage_;
+    themis::index::SpatialIndexManager* spatial_index_;
     
     /**
      * @brief Verify authentication token from context

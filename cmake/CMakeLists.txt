@@ -395,7 +395,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     
 elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
-    set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Max sharding nodes for Community Edition")
+    set(THEMIS_SHARDING_MAX_NODES 5 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
     set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
@@ -420,7 +420,7 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
         set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM support in Community Edition (default ON)")
     endif()
     
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
     message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
     message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
     if(THEMIS_ENABLE_VULKAN)
@@ -489,6 +489,54 @@ elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
     message(STATUS "Edition: HYPERSCALER - Unlimited GPU VRAM, unlimited nodes, full custom capabilities")
 
+endif()
+
+# ============================================================================
+# LICENSE ENFORCEMENT (v1.4.0+)
+# ============================================================================
+# Enforce license requirements for ENTERPRISE and HYPERSCALER editions
+
+# ENTERPRISE Edition: License REQUIRED for Release builds only
+if(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    # Check CMAKE_BUILD_TYPE - if not set, default to Release for safety
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+    endif()
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        # Release builds: License is MANDATORY
+        if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+            message(FATAL_ERROR 
+                "ENTERPRISE Edition Release builds require an embedded license file.\n"
+                "Usage: cmake -B build -S . \\\n"
+                "  -DTHEMIS_EDITION=ENTERPRISE \\\n"
+                "  -DCMAKE_BUILD_TYPE=Release \\\n"
+                "  -DTHEMIS_LICENSE_FILE=/path/to/license.json\n"
+                "\n"
+                "For development/testing, use Debug build:\n"
+                "  cmake -B build -S . -DTHEMIS_EDITION=ENTERPRISE -DCMAKE_BUILD_TYPE=Debug\n")
+        endif()
+        message(STATUS "ENTERPRISE Edition (Release): License requirement ENFORCED")
+    else()
+        # Debug/Development builds: License is OPTIONAL
+        message(STATUS "ENTERPRISE Edition (${CMAKE_BUILD_TYPE}): License requirement OPTIONAL (dev build)")
+    endif()
+endif()
+
+# HYPERSCALER Edition: License ALWAYS MANDATORY (no exceptions)
+if(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+        message(FATAL_ERROR 
+            "HYPERSCALER Edition requires an embedded license file (mandatory for all builds).\n"
+            "This edition is only available with volume licensing.\n"
+            "\n"
+            "Usage: cmake -B build -S . \\\n"
+            "  -DTHEMIS_EDITION=HYPERSCALER \\\n"
+            "  -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json\n"
+            "\n"
+            "For licensing inquiries, contact: licensing@themisdb.io\n")
+    endif()
+    message(STATUS "HYPERSCALER Edition: License requirement ENFORCED (mandatory)")
 endif()
 
 # Compile-time edition identifier for runtime checks and telemetry
@@ -607,7 +655,16 @@ if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
     
     # Validate that license edition matches build edition
     if(THEMIS_LICENSE_EDITION AND NOT THEMIS_LICENSE_EDITION STREQUAL THEMIS_EDITION)
-        message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+        # For ENTERPRISE and HYPERSCALER, edition mismatch is a FATAL error
+        if(THEMIS_EDITION STREQUAL "ENTERPRISE" OR THEMIS_EDITION STREQUAL "HYPERSCALER")
+            message(FATAL_ERROR 
+                "License edition mismatch: License is for '${THEMIS_LICENSE_EDITION}' but build is '${THEMIS_EDITION}'.\n"
+                "You must use a license file that matches your build edition.\n"
+                "License file: ${THEMIS_LICENSE_FILE}")
+        else()
+            # For MINIMAL/COMMUNITY, just warn
+            message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+        endif()
     endif()
 else()
     if(THEMIS_LICENSE_FILE)
@@ -649,17 +706,8 @@ if(MSVC)
     endforeach()
 endif()
 
-# Detect target architecture
-set(THEMIS_TARGET_ARCH "unknown")
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
-    set(THEMIS_TARGET_ARCH "x86_64")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
-    set(THEMIS_TARGET_ARCH "aarch64")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm|ARM|armv7l)$")
-    set(THEMIS_TARGET_ARCH "armv7")
-endif()
-
-message(STATUS "Target architecture: ${THEMIS_TARGET_ARCH} (${CMAKE_SYSTEM_PROCESSOR})")
+# Note: Architecture detection and optimization moved to cmake/platforms/
+# See cmake/platforms/PlatformDetection.cmake and ArchitectureOptimizations.cmake
 
 # Compiler warnings and optimizations
 if(MSVC)
@@ -679,9 +727,7 @@ if(MSVC)
     add_compile_options($<$<CONFIG:Release>:/O2> $<$<CONFIG:Release>:/GL>)
     # Disable iterator debugging in Release to match vcpkg RocksDB
     add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
-    if(THEMIS_ENABLE_AVX2 AND THEMIS_TARGET_ARCH STREQUAL "x86_64" AND NOT THEMIS_QNAP_BUILD)
-        add_compile_options($<$<CONFIG:Release>:/arch:AVX2>)
-    endif()
+    # Note: AVX2 optimization moved to cmake/platforms/ArchitectureOptimizations.cmake
     # Ensure Link-Time Code Generation to avoid link restart messages
     add_link_options($<$<CONFIG:Release>:/LTCG>)
 else()
@@ -692,29 +738,7 @@ else()
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
-        # Architecture-specific optimizations
-        if(THEMIS_TARGET_ARCH STREQUAL "x86_64")
-            # QNAP build: disable AVX/FMA for old Celeron CPUs (N5095 has AVX2 but no FMA3)
-            if(THEMIS_QNAP_BUILD)
-                add_compile_options(-march=x86-64 -msse4.2)
-                message(STATUS "QNAP build: SSE4.2 only (Celeron compatible, no AVX/FMA)")
-            else()
-                # Use native optimizations for x86_64 (maximum performance)
-                add_compile_options(-march=native)
-            endif()
-        elseif(THEMIS_TARGET_ARCH STREQUAL "aarch64")
-            # ARM64/AArch64 optimizations - enable NEON (standard on AArch64)
-            add_compile_options(-march=armv8-a)
-            message(STATUS "Enabling ARM64 NEON optimizations")
-        elseif(THEMIS_TARGET_ARCH STREQUAL "armv7")
-            # ARMv7 optimizations - enable NEON if available
-            # Note: Not all ARMv7 CPUs have NEON, but Raspberry Pi 2/3 do
-            add_compile_options(-march=armv7-a -mfpu=neon -mfloat-abi=hard)
-            message(STATUS "Enabling ARMv7 NEON optimizations")
-        else()
-            # Generic optimizations for unknown architectures
-            message(STATUS "Using generic optimizations for ${THEMIS_TARGET_ARCH}")
-        endif()
+        # Note: Architecture-specific optimizations moved to cmake/platforms/ArchitectureOptimizations.cmake
     endif()
 endif()
 
