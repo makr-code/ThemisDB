@@ -649,17 +649,8 @@ if(MSVC)
     endforeach()
 endif()
 
-# Detect target architecture
-set(THEMIS_TARGET_ARCH "unknown")
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
-    set(THEMIS_TARGET_ARCH "x86_64")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
-    set(THEMIS_TARGET_ARCH "aarch64")
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm|ARM|armv7l)$")
-    set(THEMIS_TARGET_ARCH "armv7")
-endif()
-
-message(STATUS "Target architecture: ${THEMIS_TARGET_ARCH} (${CMAKE_SYSTEM_PROCESSOR})")
+# Note: Architecture detection and optimization moved to cmake/platforms/
+# See cmake/platforms/PlatformDetection.cmake and ArchitectureOptimizations.cmake
 
 # Compiler warnings and optimizations
 if(MSVC)
@@ -679,9 +670,7 @@ if(MSVC)
     add_compile_options($<$<CONFIG:Release>:/O2> $<$<CONFIG:Release>:/GL>)
     # Disable iterator debugging in Release to match vcpkg RocksDB
     add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
-    if(THEMIS_ENABLE_AVX2 AND THEMIS_TARGET_ARCH STREQUAL "x86_64" AND NOT THEMIS_QNAP_BUILD)
-        add_compile_options($<$<CONFIG:Release>:/arch:AVX2>)
-    endif()
+    # Note: AVX2 optimization moved to cmake/platforms/ArchitectureOptimizations.cmake
     # Ensure Link-Time Code Generation to avoid link restart messages
     add_link_options($<$<CONFIG:Release>:/LTCG>)
 else()
@@ -692,29 +681,7 @@ else()
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
-        # Architecture-specific optimizations
-        if(THEMIS_TARGET_ARCH STREQUAL "x86_64")
-            # QNAP build: disable AVX/FMA for old Celeron CPUs (N5095 has AVX2 but no FMA3)
-            if(THEMIS_QNAP_BUILD)
-                add_compile_options(-march=x86-64 -msse4.2)
-                message(STATUS "QNAP build: SSE4.2 only (Celeron compatible, no AVX/FMA)")
-            else()
-                # Use native optimizations for x86_64 (maximum performance)
-                add_compile_options(-march=native)
-            endif()
-        elseif(THEMIS_TARGET_ARCH STREQUAL "aarch64")
-            # ARM64/AArch64 optimizations - enable NEON (standard on AArch64)
-            add_compile_options(-march=armv8-a)
-            message(STATUS "Enabling ARM64 NEON optimizations")
-        elseif(THEMIS_TARGET_ARCH STREQUAL "armv7")
-            # ARMv7 optimizations - enable NEON if available
-            # Note: Not all ARMv7 CPUs have NEON, but Raspberry Pi 2/3 do
-            add_compile_options(-march=armv7-a -mfpu=neon -mfloat-abi=hard)
-            message(STATUS "Enabling ARMv7 NEON optimizations")
-        else()
-            # Generic optimizations for unknown architectures
-            message(STATUS "Using generic optimizations for ${THEMIS_TARGET_ARCH}")
-        endif()
+        # Note: Architecture-specific optimizations moved to cmake/platforms/ArchitectureOptimizations.cmake
     endif()
 endif()
 

@@ -1,0 +1,30 @@
+# ThemisDB HYPERSCALER Edition Configuration
+# Maximum performance edition with all features enabled
+
+message(STATUS "Configuring HYPERSCALER edition...")
+
+# Hardware limits - no limits
+set(THEMIS_GPU_MAX_VRAM_GB 0 CACHE STRING "GPU VRAM limit (GB) - 0 = unlimited" FORCE)
+set(THEMIS_SHARDING_MAX_NODES 0 CACHE STRING "Maximum sharding nodes - 0 = unlimited" FORCE)
+set(THEMIS_MAX_CACHE_SIZE_MB 0 CACHE STRING "Maximum cache size (MB) - 0 = unlimited" FORCE)
+
+# Feature defaults for HYPERSCALER edition
+# All features enabled
+set(THEMIS_ENABLE_LLM ON CACHE BOOL "LLM enabled for HYPERSCALER edition" FORCE)
+set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC enabled for HYPERSCALER edition" FORCE)
+set(THEMIS_ENABLE_GPU ON CACHE BOOL "GPU enabled for HYPERSCALER edition" FORCE)
+set(THEMIS_ENABLE_TRACING ON CACHE BOOL "Tracing enabled for HYPERSCALER edition" FORCE)
+set(THEMIS_ENABLE_DISTRIBUTED_TRAINING ON CACHE BOOL "Distributed training enabled for HYPERSCALER edition" FORCE)
+
+# All optional features available (user can disable if needed)
+if(NOT DEFINED THEMIS_ENABLE_HSM_REAL)
+    set(THEMIS_ENABLE_HSM_REAL ON CACHE BOOL "Real HSM available in HYPERSCALER edition")
+endif()
+
+# Edition-specific compile definitions
+add_compile_definitions(THEMIS_HYPERSCALER_EDITION)
+add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=0)
+add_compile_definitions(THEMIS_SHARDING_MAX_NODES=0)
+
+message(STATUS "  Hardware limits: Unlimited GPU VRAM, unlimited nodes, unlimited cache")
+message(STATUS "  Features: All features enabled")
