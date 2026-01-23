@@ -621,19 +621,19 @@ cmake --build build --parallel 32
 |---------|------------|---------------|---------|
 | **MINIMAL** | ✅ Optional | ✅ Optional | N/A (Open Source) |
 | **COMMUNITY** | ✅ Optional | ✅ Optional | N/A (Open Source) |
-| **ENTERPRISE** | ✅ Optional | ❌ **Required** ⚠️ | enterprise@themisdb.io |
-| **HYPERSCALER** | ❌ **Mandatory** | ❌ **Mandatory** | oem@themisdb.io |
+| **ENTERPRISE** | ✅ Optional | ❌ **Required** ⚠️ | service@themisdb.org |
+| **HYPERSCALER** | ❌ **Mandatory** | ❌ **Mandatory** | service@themisdb.org |
 
 ### How to Get a License
 
 **ENTERPRISE:**
-1. Kontaktiere: enterprise@themisdb.io
+1. Kontaktiere: service@themisdb.org
 2. Preis: Ab €5.000/Monat (abhängig von Nodes)
 3. Trial: 30 Tage kostenlos
 4. Support: 24/7 Commercial
 
 **HYPERSCALER:**
-1. Kontaktiere: oem@themisdb.io
+1. Kontaktiere: service@themisdb.org
 2. Preis: Custom OEM Deal
 3. Features: Unlimited + Custom Engineering
 4. Support: Dedicated Team

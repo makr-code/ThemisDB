@@ -157,7 +157,7 @@ ENTERPRISE Edition benötigt eine **Lizenz für Release Builds**, aber **nicht f
 │  Release Builds:                            │
 │  ❌ License REQUIRED (Production Safety)    │
 │  🔒 Build fails without license             │
-│  📧 enterprise@themisdb.io                  │
+│  📧 service@themisdb.org                  │
 │                                             │
 └─────────────────────────────────────────────┘
 ```
@@ -225,8 +225,8 @@ CMake Error at CMakeLists.txt:123 (message):
   ║  2. Use Debug mode: -DCMAKE_BUILD_TYPE=Debug                  ║
   ║                                                                ║
   ║  To obtain a license:                                          ║
-  ║  - Email: enterprise@themisdb.io                               ║
-  ║  - Web: https://themisdb.io/enterprise                         ║
+  ║  - Email: service@themisdb.org                               ║
+  ║  - Web: https://themisdb.org/enterprise                         ║
   ║  - Trial: 30 days free                                         ║
   ║                                                                ║
   ╚════════════════════════════════════════════════════════════════╝
@@ -296,7 +296,7 @@ HYPERSCALER Edition benötigt **Lizenz für ALLE Builds** (Debug & Release):
 │  ❌ Debug Builds:   License MANDATORY       │
 │  ❌ Release Builds: License MANDATORY       │
 │  🔒 No exceptions                           │
-│  📧 oem@themisdb.io                         │
+│  📧 service@themisdb.org                         │
 │                                             │
 │  💼 OEM Deal erforderlich                   │
 │  👥 Dedicated Engineering Team              │
@@ -342,8 +342,8 @@ CMake Error at CMakeLists.txt:145 (message):
   ║  Usage: -DTHEMIS_LICENSE_FILE=/path/to/license.json           ║
   ║                                                                ║
   ║  To obtain a HYPERSCALER license:                              ║
-  ║  - Email: oem@themisdb.io                                      ║
-  ║  - Web: https://themisdb.io/hyperscaler                        ║
+  ║  - Email: service@themisdb.org                                      ║
+  ║  - Web: https://themisdb.org/hyperscaler                        ║
   ║  - OEM Deal required                                           ║
   ║                                                                ║
   ║  Note: There is no Debug build exception for HYPERSCALER.     ║
@@ -400,8 +400,8 @@ cmake --build build
 ### ENTERPRISE License
 
 **Kontakt:**
-- 📧 Email: enterprise@themisdb.io
-- 🌐 Web: https://themisdb.io/enterprise
+- 📧 Email: service@themisdb.org
+- 🌐 Web: https://themisdb.org/enterprise
 - 📞 Phone: +49 (0)123 456789 (optional)
 
 **Prozess:**
@@ -421,7 +421,7 @@ cmake --build build
 
 Request:
 ```bash
-curl -X POST https://api.themisdb.io/v1/licenses/trial \
+curl -X POST https://api.themisdb.org/v1/licenses/trial \
   -H "Content-Type: application/json" \
   -d '{
     "company": "ACME Corp",
@@ -436,15 +436,15 @@ Response:
 {
   "license_id": "ent-trial-abc123",
   "valid_until": "2026-02-23",
-  "download_url": "https://licenses.themisdb.io/trial/abc123.json"
+  "download_url": "https://licenses.themisdb.org/trial/abc123.json"
 }
 ```
 
 ### HYPERSCALER License
 
 **Kontakt:**
-- 📧 Email: oem@themisdb.io
-- 🌐 Web: https://themisdb.io/hyperscaler
+- 📧 Email: service@themisdb.org
+- 🌐 Web: https://themisdb.org/hyperscaler
 
 **Prozess:**
 1. **OEM Inquiry:** Kontaktaufnahme mit Ihrer Use Case
@@ -636,7 +636,7 @@ void validate_runtime_license() {
     if (license.expired()) {
         throw std::runtime_error(
             "ENTERPRISE license expired: " + license.expires_at().to_string() +
-            "\nRenew at: enterprise@themisdb.io"
+            "\nRenew at: service@themisdb.org"
         );
     }
     
@@ -691,7 +691,7 @@ void LicenseMonitor::check_expiry() {
     auto days_remaining = license.days_until_expiry();
     
     if (days_remaining <= 30) {
-        THEMIS_WARN("License expires in {} days! Renew at: enterprise@themisdb.io",
+        THEMIS_WARN("License expires in {} days! Renew at: service@themisdb.org",
                     days_remaining);
     }
     
@@ -741,11 +741,11 @@ CMake Error: License file not found: /path/to/license.json
 **Problem:**
 ```
 ERROR: ENTERPRISE license expired: 2026-01-01
-Renew at: enterprise@themisdb.io
+Renew at: service@themisdb.org
 ```
 
 **Lösungen:**
-1. **Lizenz erneuern:** Kontaktiere enterprise@themisdb.io
+1. **Lizenz erneuern:** Kontaktiere service@themisdb.org
 2. **Neue Lizenz erhalten:** Download neue `license.json`
 3. **Rebuild:** Mit neuer Lizenz
    ```bash
@@ -764,7 +764,7 @@ ERROR: Invalid license signature! License may be tampered.
 **Lösungen:**
 1. **Lizenz neu herunterladen:** Möglicherweise korrupiert
 2. **Keine manuelle Bearbeitung:** Lizenz nicht editieren!
-3. **Support kontaktieren:** enterprise@themisdb.io
+3. **Support kontaktieren:** service@themisdb.org
 
 ### Error: Edition Mismatch
 
@@ -799,7 +799,7 @@ Upgrade to HYPERSCALER for unlimited nodes.
 
 **Lösungen:**
 1. **Weniger Nodes:** Reduzieren auf ≤100
-2. **Upgrade zu HYPERSCALER:** Kontaktiere oem@themisdb.io
+2. **Upgrade zu HYPERSCALER:** Kontaktiere service@themisdb.org
 
 ### Warning: License Expires Soon
 
@@ -809,7 +809,7 @@ WARNING: License expires in 7 days! URGENT renewal required!
 ```
 
 **Lösungen:**
-1. **Lizenz erneuern:** Kontaktiere enterprise@themisdb.io
+1. **Lizenz erneuern:** Kontaktiere service@themisdb.org
 2. **Trial verlängern:** Falls Trial-Lizenz
 3. **Subscription checken:** Auto-Renewal aktiviert?
 
@@ -823,8 +823,8 @@ WARNING: License expires in 7 days! URGENT renewal required!
 |---------|-------|---------|---------|
 | **MINIMAL** | ✅ Optional | ✅ Optional | N/A (Open Source) |
 | **COMMUNITY** | ✅ Optional | ✅ Optional | N/A (Open Source) |
-| **ENTERPRISE** | ✅ Optional | ❌ **Required** | enterprise@themisdb.io |
-| **HYPERSCALER** | ❌ **Mandatory** | ❌ **Mandatory** | oem@themisdb.io |
+| **ENTERPRISE** | ✅ Optional | ❌ **Required** | service@themisdb.org |
+| **HYPERSCALER** | ❌ **Mandatory** | ❌ **Mandatory** | service@themisdb.org |
 
 ### Key Takeaways
 
@@ -846,4 +846,4 @@ WARNING: License expires in 7 days! URGENT renewal required!
 
 **Letzte Aktualisierung:** 23. Januar 2026  
 **Version:** v1.4.0  
-**Kontakt:** enterprise@themisdb.io | oem@themisdb.io
+**Kontakt:** service@themisdb.org | service@themisdb.org

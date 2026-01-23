@@ -105,13 +105,13 @@ void GPUMemoryManager::check_vram_exceeded() {
 
 ## 2️⃣ Sharding Node Limit
 
-### Community Edition: Single Node or Manual Sharding
+### Community Edition: Up to 5 Nodes
 
 ```cpp
 // src/sharding/shard_manager.cpp
 
 #ifdef THEMIS_EDITION_COMMUNITY
-    const int MAX_SHARD_NODES = 1;  // Single node only - no automatic sharding
+    const int MAX_SHARD_NODES = 5;  // Up to 5 nodes (v1.4.0+)
 #elif defined(THEMIS_EDITION_ENTERPRISE)
     const int MAX_SHARD_NODES = 100;  // Up to 100 nodes
 #elif defined(THEMIS_EDITION_HYPERSCALER)
@@ -124,18 +124,19 @@ public:
         int requested_shards = config.num_shard_nodes;
         
         #ifdef THEMIS_EDITION_COMMUNITY
-            if (requested_shards > 1) {
+            if (requested_shards > 5) {
                 throw std::runtime_error(
-                    "Sharding is not available in Community Edition. "
-                    "Community Edition supports single-node deployments. "
-                    "For multi-node sharding, upgrade to Enterprise Edition at https://themisdb.io/enterprise"
+                    "Community Edition supports up to 5 nodes. "
+                    "Requested: " + std::to_string(requested_shards) + ". "
+                    "For more nodes, upgrade to Enterprise Edition (100 nodes). "
+                    "Contact: service@themisdb.org"
                 );
             }
         #elif defined(THEMIS_EDITION_ENTERPRISE)
             if (requested_shards > MAX_SHARD_NODES) {
                 throw std::runtime_error(
                     fmt::format("Enterprise Edition supports up to {} shard nodes. "
-                               "Requested: {}. For larger clusters, contact sales.",
+                               "Requested: {}. For larger clusters, contact service@themisdb.org",
                                MAX_SHARD_NODES, requested_shards)
                 );
             }
@@ -168,7 +169,7 @@ class AppShardRouter {
 ```
 
 **This approach works fine for:**
-- ✅ 1-10 shards (manageable in app code)
+- ✅ 1-5 nodes (manageable in app code)
 - ✅ Static shard topology (doesn't change often)
 - ✅ Deployments where shard rebalancing is rare
 
@@ -314,7 +315,7 @@ Featured Plugins:
 | Aspect | Community | Enterprise | Hyperscaler |
 |--------|-----------|-----------|------------|
 | **GPU VRAM** | 24 GB max | 256 GB max | Unlimited |
-| **Shard Nodes** | Single node only | 1-100 nodes | 1-10000+ nodes |
+| **Shard Nodes** | Up to 5 nodes | 1-100 nodes | 1-10000+ nodes |
 | **Plugin System** | None (built-in only) | Custom plugins | Custom + OEM |
 | **Fallback Behavior** | Graceful CPU spill | Allocate more | No limits |
 | **Cost of Limit** | Free (app sharding) | Automatic | Automatic |
@@ -337,7 +338,7 @@ void validate_enterprise_license() {
         throw std::runtime_error(
             "Invalid or missing THEMIS_LICENSE_KEY. "
             "Enterprise Edition requires valid license. "
-            "Contact: enterprise@themisdb.io"
+            "Contact: service@themisdb.org"
         );
     }
     

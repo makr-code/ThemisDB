@@ -764,7 +764,7 @@ cd themisdb
 
 ```powershell
 # 1. Obtain license
-# Contact: enterprise@themisdb.io
+# Contact: service@themisdb.org
 
 # 2. Save license
 # C:\licenses\enterprise-license.json
@@ -824,7 +824,7 @@ wsl ./scripts/build-linux.sh --config release --edition COMMUNITY
 
 ```powershell
 # 1. Obtain OEM license
-# Contact: oem@themisdb.io
+# Contact: service@themisdb.org
 
 # 2. Build for customer
 .\scripts\build-hyperscaler-release.ps1 `
