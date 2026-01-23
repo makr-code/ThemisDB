@@ -170,9 +170,9 @@ ThemisDB bietet **drei Editions-Modelle** mit unterschiedlichen Features, Lizenz
 
 | Edition | Lizenz | GPU VRAM Limit | Max. Nodes | Plugins | LLM Features | Build Script |
 |---------|--------|----------------|------------|---------|--------------|--------------|
-| **Community** | MIT (Open Source) | 24 GB | 1 (Single-Node) | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
-| **Enterprise** | Commercial Subscription | 256 GB | 100 (Sharding) | Enterprise Add-Ons | + Fine-Tuning, Model Management | `build-enterprise-release.ps1` |
-| **Hyperscaler** | Custom OEM/Cloud | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
+| **Community** | MIT (Open Source) | 24 GB | 5 (Small Clusters) | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
+| **Enterprise** | Commercial (Required for Release) | 256 GB | 100 (Production) | Enterprise Add-Ons | + Fine-Tuning, Model Management | `build-enterprise-release.ps1` |
+| **Hyperscaler** | Custom OEM (Mandatory) | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
 
 ### Community Edition Build
 
