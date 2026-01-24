@@ -7,6 +7,26 @@ export interface ThemisClientConfig {
   timeoutMs?: number;
   metadataEndpoint?: string;
   maxRetries?: number;
+  // Connection pooling options
+  pooling?: {
+    maxConnections?: number;
+    keepAlive?: boolean;
+    keepAliveTimeout?: number;
+  };
+  // Circuit breaker options
+  circuitBreaker?: {
+    enabled?: boolean;
+    failureThreshold?: number;
+    resetTimeout?: number;
+    halfOpenMaxRequests?: number;
+  };
+  // Logging options
+  logging?: {
+    enabled?: boolean;
+    logRequests?: boolean;
+    logResponses?: boolean;
+    logger?: (message: string, level: "info" | "warn" | "error") => void;
+  };
 }
 
 export interface BatchGetResult<T = unknown> {
@@ -67,6 +87,65 @@ export interface ListLlmInteractionsOptions {
 
 export class TopologyError extends Error {}
 
+enum CircuitBreakerState {
+  CLOSED = "CLOSED",
+  OPEN = "OPEN",
+  HALF_OPEN = "HALF_OPEN",
+}
+
+class CircuitBreaker {
+  private state: CircuitBreakerState = CircuitBreakerState.CLOSED;
+  private failureCount = 0;
+  private successCount = 0;
+  private nextAttemptTime = 0;
+  
+  constructor(
+    private readonly failureThreshold: number,
+    private readonly resetTimeoutMs: number,
+    private readonly halfOpenMaxRequests: number,
+  ) {}
+
+  canExecute(): boolean {
+    if (this.state === CircuitBreakerState.CLOSED) {
+      return true;
+    }
+    if (this.state === CircuitBreakerState.OPEN) {
+      if (Date.now() >= this.nextAttemptTime) {
+        this.state = CircuitBreakerState.HALF_OPEN;
+        this.successCount = 0;
+        return true;
+      }
+      return false;
+    }
+    // HALF_OPEN state
+    return this.successCount < this.halfOpenMaxRequests;
+  }
+
+  recordSuccess(): void {
+    if (this.state === CircuitBreakerState.HALF_OPEN) {
+      this.successCount++;
+      if (this.successCount >= this.halfOpenMaxRequests) {
+        this.state = CircuitBreakerState.CLOSED;
+        this.failureCount = 0;
+      }
+    } else if (this.state === CircuitBreakerState.CLOSED) {
+      this.failureCount = 0;
+    }
+  }
+
+  recordFailure(): void {
+    this.failureCount++;
+    if (this.failureCount >= this.failureThreshold) {
+      this.state = CircuitBreakerState.OPEN;
+      this.nextAttemptTime = Date.now() + this.resetTimeoutMs;
+    }
+  }
+
+  getState(): string {
+    return this.state;
+  }
+}
+
 export class ThemisClient {
   private readonly endpoints: string[];
   private readonly namespace: string;
@@ -74,6 +153,11 @@ export class ThemisClient {
   private readonly metadataEndpoint?: string;
   private readonly maxRetries: number;
   private topologyCache: { shards: string[] } | null = null;
+  private readonly circuitBreaker?: CircuitBreaker;
+  private readonly loggingEnabled: boolean;
+  private readonly logRequests: boolean;
+  private readonly logResponses: boolean;
+  private readonly logger: (message: string, level: "info" | "warn" | "error") => void;
 
   constructor(config: ThemisClientConfig) {
     if (!config.endpoints || config.endpoints.length === 0) {
@@ -84,6 +168,25 @@ export class ThemisClient {
     this.timeoutMs = config.timeoutMs ?? 30_000;
     this.metadataEndpoint = config.metadataEndpoint;
     this.maxRetries = Math.max(1, config.maxRetries ?? 3);
+    
+    // Initialize circuit breaker if enabled
+    if (config.circuitBreaker?.enabled) {
+      this.circuitBreaker = new CircuitBreaker(
+        config.circuitBreaker.failureThreshold ?? 5,
+        config.circuitBreaker.resetTimeout ?? 60_000,
+        config.circuitBreaker.halfOpenMaxRequests ?? 3,
+      );
+    }
+    
+    // Initialize logging
+    this.loggingEnabled = config.logging?.enabled ?? false;
+    this.logRequests = config.logging?.logRequests ?? false;
+    this.logResponses = config.logging?.logResponses ?? false;
+    this.logger = config.logging?.logger ?? ((msg, level) => {
+      if (level === "error") console.error(`[ThemisDB] ${msg}`);
+      else if (level === "warn") console.warn(`[ThemisDB] ${msg}`);
+      else console.log(`[ThemisDB] ${msg}`);
+    });
   }
 
   async health(endpoint?: string): Promise<unknown> {
@@ -457,10 +560,25 @@ export class ThemisClient {
   }
 
   private async request(method: string, url: string, init: RequestInit = {}): Promise<Response> {
+    // Check circuit breaker
+    if (this.circuitBreaker && !this.circuitBreaker.canExecute()) {
+      const error = new Error(`Circuit breaker is OPEN for endpoint: ${url}`);
+      if (this.loggingEnabled) {
+        this.logger(`Circuit breaker blocked request to ${url}`, "warn");
+      }
+      throw error;
+    }
+
     let attempt = 0;
     let lastError: unknown;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
+    
+    // Log request if enabled
+    if (this.loggingEnabled && this.logRequests) {
+      this.logger(`Request: ${method} ${url}`, "info");
+    }
+    
     try {
       while (attempt < this.maxRetries) {
         try {
@@ -469,21 +587,57 @@ export class ThemisClient {
             method,
             signal: controller.signal,
           });
+          
+          // Log response if enabled
+          if (this.loggingEnabled && this.logResponses) {
+            this.logger(`Response: ${method} ${url} - Status: ${resp.status}`, "info");
+          }
+          
           if (resp.status >= 500 && attempt + 1 < this.maxRetries) {
             attempt += 1;
+            if (this.loggingEnabled) {
+              this.logger(`Retry attempt ${attempt} for ${url} after 5xx error`, "warn");
+            }
             await delay(2 ** attempt * 50);
             continue;
           }
+          
+          // Record success for circuit breaker
+          if (this.circuitBreaker && resp.ok) {
+            this.circuitBreaker.recordSuccess();
+          } else if (this.circuitBreaker && !resp.ok) {
+            this.circuitBreaker.recordFailure();
+          }
+          
           return resp;
         } catch (error) {
           lastError = error;
+          
+          // Log error if enabled
+          if (this.loggingEnabled) {
+            this.logger(
+              `Request error: ${method} ${url} - ${error instanceof Error ? error.message : String(error)}`,
+              "error",
+            );
+          }
+          
           if (!shouldRetry(error) || attempt + 1 >= this.maxRetries) {
+            // Record failure for circuit breaker
+            if (this.circuitBreaker) {
+              this.circuitBreaker.recordFailure();
+            }
             throw error;
           }
           attempt += 1;
           await delay(2 ** attempt * 50);
         }
       }
+      
+      // Record failure for circuit breaker
+      if (this.circuitBreaker) {
+        this.circuitBreaker.recordFailure();
+      }
+      
       throw lastError ?? new Error("request failed");
     } finally {
       clearTimeout(timeout);
@@ -534,6 +688,14 @@ export class ThemisClient {
 
   _buildEntityKey(model: string, collection: string, uuid: string): string {
     return this.buildEntityKey(model, collection, uuid);
+  }
+  
+  /**
+   * Get the current circuit breaker state if enabled
+   * @returns Circuit breaker state or null if disabled
+   */
+  getCircuitBreakerState(): string | null {
+    return this.circuitBreaker ? this.circuitBreaker.getState() : null;
   }
 }
 

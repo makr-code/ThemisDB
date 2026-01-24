@@ -11,6 +11,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,6 +27,12 @@ public class ThemisClient {
     private final HttpClient httpClient;
     private final Gson gson;
     private final Duration timeout;
+    private final int maxRetries;
+    private final CircuitBreaker circuitBreaker;
+    private final boolean loggingEnabled;
+    private final boolean logRequests;
+    private final boolean logResponses;
+    private final ClientConfig.Logger logger;
 
     /**
      * Create a new ThemisDB client
@@ -43,6 +50,17 @@ public class ThemisClient {
      * @param timeout Request timeout duration
      */
     public ThemisClient(List<String> endpoints, Duration timeout) {
+        this(endpoints, timeout, null);
+    }
+    
+    /**
+     * Create a new ThemisDB client with full configuration
+     * 
+     * @param endpoints List of ThemisDB server endpoints
+     * @param timeout Request timeout duration
+     * @param config Client configuration (can be null for defaults)
+     */
+    public ThemisClient(List<String> endpoints, Duration timeout, ClientConfig config) {
         if (endpoints == null || endpoints.isEmpty()) {
             throw new IllegalArgumentException("At least one endpoint is required");
         }
@@ -53,6 +71,42 @@ public class ThemisClient {
                 .build();
         this.gson = new Gson();
         this.timeout = timeout;
+        
+        // Apply configuration or use defaults
+        if (config != null) {
+            this.maxRetries = config.getMaxRetries();
+            
+            // Initialize circuit breaker if enabled
+            if (config.getCircuitBreaker() != null && config.getCircuitBreaker().isEnabled()) {
+                this.circuitBreaker = new CircuitBreaker(
+                    config.getCircuitBreaker().getFailureThreshold(),
+                    config.getCircuitBreaker().getResetTimeout(),
+                    config.getCircuitBreaker().getHalfOpenMaxRequests()
+                );
+            } else {
+                this.circuitBreaker = null;
+            }
+            
+            // Initialize logging
+            if (config.getLogging() != null && config.getLogging().isEnabled()) {
+                this.loggingEnabled = true;
+                this.logRequests = config.getLogging().isLogRequests();
+                this.logResponses = config.getLogging().isLogResponses();
+                this.logger = config.getLogging().getLogger();
+            } else {
+                this.loggingEnabled = false;
+                this.logRequests = false;
+                this.logResponses = false;
+                this.logger = null;
+            }
+        } else {
+            this.maxRetries = 3;
+            this.circuitBreaker = null;
+            this.loggingEnabled = false;
+            this.logRequests = false;
+            this.logResponses = false;
+            this.logger = null;
+        }
     }
 
     /**
@@ -90,7 +144,7 @@ public class ThemisClient {
                 .GET()
                 .build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = sendRequestWithRetry(request);
         
         if (response.statusCode() != 200) {
             throw new IOException("GET request failed with status: " + response.statusCode());
@@ -119,7 +173,7 @@ public class ThemisClient {
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = sendRequestWithRetry(request);
         
         if (response.statusCode() != 200 && response.statusCode() != 201) {
             throw new IOException("PUT request failed with status: " + response.statusCode());
@@ -143,7 +197,7 @@ public class ThemisClient {
                 .DELETE()
                 .build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = sendRequestWithRetry(request);
         
         if (response.statusCode() != 200 && response.statusCode() != 204) {
             throw new IOException("DELETE request failed with status: " + response.statusCode());
@@ -660,5 +714,100 @@ public class ThemisClient {
         public double getScore() { return score; }
         public Double getDistance() { return distance; }
         public JsonObject getMetadata() { return metadata; }
+    }
+    
+    /**
+     * Helper method to send HTTP requests with retry and circuit breaker support
+     */
+    private HttpResponse<String> sendRequestWithRetry(HttpRequest request) throws IOException, InterruptedException {
+        // Check circuit breaker
+        if (circuitBreaker != null && !circuitBreaker.canExecute()) {
+            if (loggingEnabled) {
+                logger.log("Circuit breaker is OPEN, request blocked: " + request.uri(), 
+                    ClientConfig.Logger.Level.WARN);
+            }
+            throw new IOException("Circuit breaker is OPEN");
+        }
+        
+        IOException lastException = null;
+        for (int attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                if (attempt > 0) {
+                    // Exponential backoff
+                    long backoffMs = (long) (Math.pow(2, attempt - 1) * 100);
+                    if (loggingEnabled) {
+                        logger.log(String.format("Retry attempt %d after %dms", attempt, backoffMs),
+                            ClientConfig.Logger.Level.INFO);
+                    }
+                    Thread.sleep(backoffMs);
+                }
+                
+                // Log request if enabled
+                if (loggingEnabled && logRequests) {
+                    logger.log("Request: " + request.method() + " " + request.uri(),
+                        ClientConfig.Logger.Level.INFO);
+                }
+                
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                
+                // Log response if enabled
+                if (loggingEnabled && logResponses) {
+                    logger.log("Response: " + request.method() + " " + request.uri() + " - Status: " + response.statusCode(),
+                        ClientConfig.Logger.Level.INFO);
+                }
+                
+                // Retry on 5xx errors
+                if (response.statusCode() >= 500 && attempt + 1 < maxRetries) {
+                    lastException = new IOException("Server error: " + response.statusCode());
+                    if (loggingEnabled) {
+                        logger.log("Server error " + response.statusCode() + ", will retry",
+                            ClientConfig.Logger.Level.WARN);
+                    }
+                    if (circuitBreaker != null) {
+                        circuitBreaker.recordFailure();
+                    }
+                    continue;
+                }
+                
+                // Success
+                if (circuitBreaker != null && response.statusCode() < 400) {
+                    circuitBreaker.recordSuccess();
+                }
+                
+                // Failure
+                if (circuitBreaker != null && response.statusCode() >= 400) {
+                    circuitBreaker.recordFailure();
+                }
+                
+                return response;
+                
+            } catch (IOException | InterruptedException e) {
+                lastException = new IOException(e);
+                if (loggingEnabled) {
+                    logger.log("Request error: " + e.getMessage(), ClientConfig.Logger.Level.ERROR);
+                }
+                if (circuitBreaker != null) {
+                    circuitBreaker.recordFailure();
+                }
+                if (attempt + 1 >= maxRetries) {
+                    throw lastException;
+                }
+            }
+        }
+        
+        // All retries exhausted
+        if (circuitBreaker != null) {
+            circuitBreaker.recordFailure();
+        }
+        throw lastException != null ? lastException : new IOException("Request failed after " + maxRetries + " attempts");
+    }
+    
+    /**
+     * Get the current circuit breaker state
+     * 
+     * @return Circuit breaker state or null if disabled
+     */
+    public String getCircuitBreakerState() {
+        return circuitBreaker != null ? circuitBreaker.getState().name() : null;
     }
 }
