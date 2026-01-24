@@ -28,12 +28,18 @@ This operations guide provides comprehensive documentation for deploying, managi
 - [Post-Deployment Checklist](production/CHECKLISTS/post_deployment.md) - Validation after deployment
 
 ### Day-to-Day Operations
-- [Operational Runbooks](production/RUNBOOKS.md) - Standard operational procedures
+- [Operational Runbooks](production/RUNBOOKS.md) - Standard operational procedures (Upgrade, Restore, Failover, Scaling)
 - [Monitoring Guide](production/MONITORING.md) - Metrics, dashboards, and alerting
 - [Troubleshooting Guide](production/TROUBLESHOOTING.md) - Common issues and solutions
 
+### Operational Excellence
+- [Disaster Recovery Plan](production/DISASTER_RECOVERY.md) - DR procedures, RTO/RPO, backup strategies
+- [SLA Monitoring](production/SLA_MONITORING.md) - Service level agreements, Prometheus alerts, Grafana dashboards
+- [Auto-Scaling Guide](production/AUTOSCALING.md) - Kubernetes HPA/VPA, load balancer integration
+
 ### Security & Compliance
 - [Security Hardening](production/SECURITY.md) - Security best practices and configuration
+- [Compliance Checklists](production/CHECKLISTS/compliance.md) - SOC2, GDPR, HIPAA compliance
 - [Incident Response](production/CHECKLISTS/incident_response.md) - Structured incident handling
 
 ### Performance
@@ -51,12 +57,16 @@ docs/
     ├── PERFORMANCE_TUNING.md      # Optimization guide
     ├── MONITORING.md              # Observability setup
     ├── TROUBLESHOOTING.md         # Problem resolution
-    ├── RUNBOOKS.md                # Operational procedures
+    ├── RUNBOOKS.md                # Operational procedures (Upgrade, Restore, Failover, Scaling)
+    ├── DISASTER_RECOVERY.md       # DR plans, RTO/RPO, backup strategies
+    ├── SLA_MONITORING.md          # SLA definitions, Prometheus alerts, Grafana dashboards
+    ├── AUTOSCALING.md             # Kubernetes HPA/VPA, load balancing
     ├── SECURITY.md                # Security hardening
     ├── CHECKLISTS/
     │   ├── pre_deployment.md      # Pre-deployment validation
     │   ├── post_deployment.md     # Post-deployment validation
-    │   └── incident_response.md   # Incident handling
+    │   ├── incident_response.md   # Incident handling
+    │   └── compliance.md          # SOC2, GDPR, HIPAA compliance
     └── examples/
         ├── single_gpu_setup.yaml      # Single GPU configuration
         ├── multi_gpu_setup.yaml       # Multi-GPU configuration
