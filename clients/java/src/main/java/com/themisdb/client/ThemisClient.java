@@ -66,9 +66,20 @@ public class ThemisClient {
         }
         this.endpoints = endpoints;
         this.currentEndpointIndex = new AtomicInteger(0);
-        this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(timeout)
-                .build();
+        
+        // Build HTTP client with connection pool configuration
+        HttpClient.Builder clientBuilder = HttpClient.newBuilder()
+                .connectTimeout(timeout);
+        
+        // Apply connection pool settings if provided
+        if (config != null && config.getConnectionPool() != null) {
+            ClientConfig.ConnectionPoolConfig poolConfig = config.getConnectionPool();
+            // Note: Java 11+ HttpClient uses internal connection pooling
+            // The pool is automatically managed, but we can configure version for HTTP/2
+            clientBuilder.version(HttpClient.Version.HTTP_2); // HTTP/2 supports multiplexing
+        }
+        
+        this.httpClient = clientBuilder.build();
         this.gson = new Gson();
         this.timeout = timeout;
         

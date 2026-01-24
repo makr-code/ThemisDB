@@ -14,12 +14,14 @@ public class ClientConfig {
     private final Duration timeout;
     private final CircuitBreakerConfig circuitBreaker;
     private final LoggingConfig logging;
+    private final ConnectionPoolConfig connectionPool;
     
     private ClientConfig(Builder builder) {
         this.maxRetries = builder.maxRetries;
         this.timeout = builder.timeout;
         this.circuitBreaker = builder.circuitBreaker;
         this.logging = builder.logging;
+        this.connectionPool = builder.connectionPool;
     }
     
     public int getMaxRetries() {
@@ -38,6 +40,10 @@ public class ClientConfig {
         return logging;
     }
     
+    public ConnectionPoolConfig getConnectionPool() {
+        return connectionPool;
+    }
+    
     /**
      * Builder for ClientConfig
      */
@@ -46,6 +52,7 @@ public class ClientConfig {
         private Duration timeout = Duration.ofSeconds(30);
         private CircuitBreakerConfig circuitBreaker = null;
         private LoggingConfig logging = null;
+        private ConnectionPoolConfig connectionPool = null;
         
         public Builder maxRetries(int maxRetries) {
             this.maxRetries = maxRetries;
@@ -64,6 +71,11 @@ public class ClientConfig {
         
         public Builder logging(LoggingConfig logging) {
             this.logging = logging;
+            return this;
+        }
+        
+        public Builder connectionPool(ConnectionPoolConfig connectionPool) {
+            this.connectionPool = connectionPool;
             return this;
         }
         
@@ -218,6 +230,70 @@ public class ClientConfig {
         @Override
         public void log(String message, Level level) {
             System.out.println("[ThemisDB] [" + level + "] " + message);
+        }
+    }
+    
+    /**
+     * Connection pool configuration
+     */
+    public static class ConnectionPoolConfig {
+        private final int maxConnections;
+        private final int maxConnectionsPerRoute;
+        private final Duration keepAliveTimeout;
+        private final Duration idleTimeout;
+        
+        private ConnectionPoolConfig(Builder builder) {
+            this.maxConnections = builder.maxConnections;
+            this.maxConnectionsPerRoute = builder.maxConnectionsPerRoute;
+            this.keepAliveTimeout = builder.keepAliveTimeout;
+            this.idleTimeout = builder.idleTimeout;
+        }
+        
+        public int getMaxConnections() {
+            return maxConnections;
+        }
+        
+        public int getMaxConnectionsPerRoute() {
+            return maxConnectionsPerRoute;
+        }
+        
+        public Duration getKeepAliveTimeout() {
+            return keepAliveTimeout;
+        }
+        
+        public Duration getIdleTimeout() {
+            return idleTimeout;
+        }
+        
+        public static class Builder {
+            private int maxConnections = 100;
+            private int maxConnectionsPerRoute = 50;
+            private Duration keepAliveTimeout = Duration.ofSeconds(60);
+            private Duration idleTimeout = Duration.ofSeconds(30);
+            
+            public Builder maxConnections(int maxConnections) {
+                this.maxConnections = maxConnections;
+                return this;
+            }
+            
+            public Builder maxConnectionsPerRoute(int maxConnectionsPerRoute) {
+                this.maxConnectionsPerRoute = maxConnectionsPerRoute;
+                return this;
+            }
+            
+            public Builder keepAliveTimeout(Duration keepAliveTimeout) {
+                this.keepAliveTimeout = keepAliveTimeout;
+                return this;
+            }
+            
+            public Builder idleTimeout(Duration idleTimeout) {
+                this.idleTimeout = idleTimeout;
+                return this;
+            }
+            
+            public ConnectionPoolConfig build() {
+                return new ConnectionPoolConfig(this);
+            }
         }
     }
 }
