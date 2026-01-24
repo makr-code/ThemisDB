@@ -135,9 +135,10 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         
         try {
-            std::regex regex(std::string(pattern));
+            std::regex pattern_regex = std::regex(std::string(pattern));
+            std::smatch match_obj;
             for (auto it = cache_.begin(); it != cache_.end();) {
-                if (std::regex_match(it->first, regex)) {
+                if (std::regex_match(it->first, match_obj, pattern_regex)) {
                     strategy_->onRemove(it->first);
                     it = cache_.erase(it);
                 } else {
