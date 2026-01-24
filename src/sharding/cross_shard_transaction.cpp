@@ -4,6 +4,7 @@
 #include "sharding/cross_shard_transaction.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <set>
 
 namespace themisdb {
 namespace sharding {
@@ -535,7 +536,7 @@ bool CrossShardTransactionCoordinator::detectCycle(
     const std::string& start_node,
     std::set<std::string>& visited,
     std::set<std::string>& rec_stack
-) const {
+) {
     if (rec_stack.find(start_node) != rec_stack.end()) {
         return true;  // Cycle detected
     }

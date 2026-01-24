@@ -73,6 +73,7 @@
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
 #include "server/diff_api_handler.h"
+#include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 #include "analytics/diff_engine.h"
 #include "sharding/multi_primary_coordinator.h"

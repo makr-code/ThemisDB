@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <memory>
 #include <functional>
 #include <nlohmann/json.hpp>
@@ -327,7 +328,7 @@ private:
         const std::string& start_node,
         std::set<std::string>& visited,
         std::set<std::string>& rec_stack
-    ) const;
+    );
     
     CrossShardTransactionConfig config_;
     std::shared_ptr<ConsensusModule> consensus_;

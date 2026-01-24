@@ -301,11 +301,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
     target_link_libraries(test_http_client_pool PRIVATE
         ${TEST_LIBS}
         themis_core
-        Boost::beast
-        Boost::system
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        nlohmann_json::nlohmann_json
         Threads::Threads
     )
     
@@ -470,6 +465,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
     )
     
     target_link_libraries(test_rpc_geo_query PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_rpc_geo_query PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RPCGeoQueryTests COMMAND test_rpc_geo_query)
+    
+    set_tests_properties(RPCGeoQueryTests PROPERTIES
+        LABELS "rpc;geospatial;query;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  RPC Geo Query: intersects, within, near spatial queries")
+else()
+    message(STATUS "RPC Geo Query tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
+endif()
+
+# ============================================================================
 # Index Maintenance Tests
 # ============================================================================
 
@@ -571,39 +588,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
     message(STATUS "  Fulltext: phrase matching, fuzzy search with Levenshtein distance")
 else()
     message(STATUS "Fulltext Phrase and Fuzzy Search tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
-    )
-    
-    target_compile_definitions(test_rpc_geo_query PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME RPCGeoQueryTests COMMAND test_rpc_geo_query)
-    
-    set_tests_properties(RPCGeoQueryTests PROPERTIES
-        LABELS "rpc;geospatial;query;unit"
-        TIMEOUT 60
-    )
-    
-    message(STATUS "  RPC Geo Query: intersects, within, near spatial queries")
-else()
-    message(STATUS "RPC Geo Query tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
-        Threads::Threads
-    )
-    
-    target_compile_definitions(test_graphql PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-    
-    add_test(NAME GraphQLParserTests COMMAND test_graphql)
-    
-    set_tests_properties(GraphQLParserTests PROPERTIES
-        LABELS "api;graphql;parser;unit"
-        TIMEOUT 120
-    )
-    
-    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
-else()
-    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
 endif()
 
 # ============================================================================

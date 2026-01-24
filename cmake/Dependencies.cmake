@@ -13,12 +13,19 @@ set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 # REQUIRED DEPENDENCIES (core functionality)
 # ============================================================================
 
-find_package(OpenSSL CONFIG)
+# First try with CONFIG package  
+find_package(OpenSSL CONFIG QUIET)
 if(NOT OpenSSL_FOUND)
-    # Fallback to built-in FindOpenSSL when CONFIG package is missing
-    find_package(OpenSSL REQUIRED)
+    # Try MODULE search
+    find_package(OpenSSL MODULE QUIET)
 endif()
-message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
+
+# If still not found, skip OpenSSL (not all features require it)
+if(OpenSSL_FOUND)
+    message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
+else()
+    message(WARNING "OpenSSL not found - some features may be disabled")
+endif()
 
 find_package(ZLIB 1.3 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")

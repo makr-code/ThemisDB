@@ -62,7 +62,7 @@ TEST_F(ConcernsContextTest, NoOpTracerWorks) {
     EXPECT_FALSE(span->isValid()); // NoOp span is not valid
     
     span->setAttribute("key", "value");
-    span->setAttribute("count", 42);
+    span->setAttribute("count", 42.0);
     span->setAttribute("ratio", 3.14);
     span->setAttribute("flag", true);
     span->recordError("test error");
@@ -74,7 +74,7 @@ TEST_F(ConcernsContextTest, ScopedSpanWorks) {
     // Should not crash or throw
     ScopedSpan span(context->tracer(), "scoped_span");
     span.setAttribute("operation", "test");
-    span.setAttribute("count", 10);
+    span.setAttribute("count", 10.0);
     // Span ends automatically when scope exits
 }
 

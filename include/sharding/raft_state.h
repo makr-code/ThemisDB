@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "sharding/raft_log.h"
+#include "sharding/consensus_module.h"  // For VoteRequest/VoteResponse
 
 namespace themisdb {
 namespace sharding {
@@ -40,24 +41,7 @@ enum class RaftNodeState {
     LEADER      // Sends heartbeats and replicates log
 };
 
-/**
- * @brief Vote request structure
- */
-struct VoteRequest {
-    uint64_t term;                  // Candidate's term
-    std::string candidate_id;        // Candidate requesting vote
-    uint64_t last_log_index;        // Index of candidate's last log entry
-    uint64_t last_log_term;         // Term of candidate's last log entry
-};
-
-/**
- * @brief Vote response structure
- */
-struct VoteResponse {
-    uint64_t term;          // Current term for candidate to update itself
-    bool vote_granted;      // True if vote was granted
-    std::string voter_id;   // ID of the node that voted
-};
+// VoteRequest and VoteResponse are defined in consensus_module.h
 
 /**
  * @brief Raft configuration

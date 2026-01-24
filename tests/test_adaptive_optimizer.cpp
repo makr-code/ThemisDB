@@ -343,7 +343,10 @@ TEST(NumaAwareOptimizer, GetNumaNodeCount) {
 // ============================================================================
 
 TEST(QueryOptimizer, VectorWorkloadSmallDataset) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // Small dataset should use flat index
@@ -355,7 +358,10 @@ TEST(QueryOptimizer, VectorWorkloadSmallDataset) {
 }
 
 TEST(QueryOptimizer, VectorWorkloadMediumDataset) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // Medium dataset should use IVF
@@ -367,7 +373,10 @@ TEST(QueryOptimizer, VectorWorkloadMediumDataset) {
 }
 
 TEST(QueryOptimizer, VectorWorkloadLargeDataset) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // Large dataset should use HNSW
@@ -381,7 +390,10 @@ TEST(QueryOptimizer, VectorWorkloadLargeDataset) {
 }
 
 TEST(QueryOptimizer, VectorWorkloadHighRecallTarget) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // High recall target should increase ef_search
@@ -396,7 +408,10 @@ TEST(QueryOptimizer, VectorWorkloadHighRecallTarget) {
 // ============================================================================
 
 TEST(QueryOptimizer, GraphWorkloadSmallExpansion) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // Small expansion - no need for parallelism
@@ -409,7 +424,10 @@ TEST(QueryOptimizer, GraphWorkloadSmallExpansion) {
 }
 
 TEST(QueryOptimizer, GraphWorkloadLargeExpansion) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // Large branching factor - should use bidirectional search
@@ -420,7 +438,10 @@ TEST(QueryOptimizer, GraphWorkloadLargeExpansion) {
 }
 
 TEST(QueryOptimizer, GraphWorkloadSpatialConstraint) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // With spatial constraint - should enable pruning
@@ -430,7 +451,10 @@ TEST(QueryOptimizer, GraphWorkloadSpatialConstraint) {
 }
 
 TEST(QueryOptimizer, GraphWorkloadMediumExpansion) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     
     // Medium expansion - should suggest some parallelism

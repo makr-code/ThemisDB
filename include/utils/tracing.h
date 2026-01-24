@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <optional>
+#include <chrono>
 
 #ifdef THEMIS_ENABLE_TRACING
 #include <opentelemetry/trace/provider.h>

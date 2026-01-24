@@ -29,11 +29,16 @@ bool GossipConsensusAdapter::initialize(
     cluster_nodes_ = cluster_nodes;
     
     try {
-        // Initialize gossip protocol
-        gossip_ = std::make_unique<themis::sharding::GossipProtocol>();
+        // Initialize gossip protocol with default config
+        themis::sharding::GossipConfig gossip_config;
+        auto topology = std::make_shared<themis::sharding::ShardTopology>();
+        gossip_ = std::make_unique<themis::sharding::GossipProtocol>(gossip_config, topology);
         
         // Initialize distributed coordinator
-        coordinator_ = std::make_unique<themis::sharding::DistributedCoordinator>();
+        themis::sharding::GossipConfigManagerConfig mgr_config;
+        auto gossip_mgr = std::make_shared<themis::sharding::GossipConfigManager>(mgr_config, topology);
+        coordinator_ = std::make_unique<themis::sharding::DistributedCoordinator>(
+            node_id, topology, gossip_mgr);
         
         return true;
     } catch (const std::exception& e) {

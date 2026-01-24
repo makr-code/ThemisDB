@@ -232,7 +232,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     }
                 } else {
                     exec_mode = "index_parallel";
-                    res = engine.executeAndKeys(q);
+                    auto result = engine.executeAndKeys(q);
+                    if (!result) {
+                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    } else {
+                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    }
                     if (explain) {
                         plan_json = {
                             {"mode", exec_mode},
@@ -293,7 +298,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     }
                 } else {
                     exec_mode = "index_parallel";
-                    res = engine.executeAndEntities(q);
+                    auto result = engine.executeAndEntities(q);
+                    if (!result) {
+                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    } else {
+                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    }
                     if (explain) {
                         plan_json = {
                             {"mode", exec_mode},
@@ -2278,13 +2288,23 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Wenn FULLTEXT vorhanden ist, delegiere direkt an Engine (Optimizer kennt FULLTEXT nicht)
             if (q.fulltextPredicate.has_value()) {
                 exec_mode = "fulltext";
-                res = engine.executeAndEntities(q);
+                auto result = engine.executeAndEntities(q);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                }
             }
             // Range-aware: Wenn Range-Prädikate oder ORDER BY vorhanden sind,
             // nutze direkt die range-fähige Engine-Logik (Optimizer unterstützt nur Gleichheit).
             else if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
                 exec_mode = "index_rangeaware";
-                res = engine.executeAndEntities(q);
+                auto result = engine.executeAndEntities(q);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                }
             } else if (optimize) {
                 themis::QueryOptimizer opt(*secondary_index_);
                 auto plan = opt.chooseOrderForAndQuery(q);
@@ -2312,7 +2332,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else {
                 exec_mode = "index_parallel";
-                res = engine.executeAndEntities(q);
+                auto result = engine.executeAndEntities(q);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                }
                 
                 if (explain) {
                     plan_json = {

@@ -244,11 +244,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
             SecondaryIndexManager idxm(db);
             QueryEngine qe(db, idxm);
             ConjunctiveQuery q{ "users", { {"age", "30"}, {"active", "true"} } };
-            auto [st, ents] = qe.executeAndEntities(q);
-            if (!st.ok) {
-                THEMIS_ERROR("Parallel query failed: {}", st.message);
+            auto result = qe.executeAndEntities(q);
+            if (!result) {
+                THEMIS_ERROR("Parallel query failed: {}", result.error().message());
             } else {
-                for (const auto& en : ents) {
+                for (const auto& en : *result) {
                     THEMIS_INFO("  Match: PK={} -> {}", en.getPrimaryKey(), en.toJson());
                 }
             }
@@ -263,11 +263,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
             }
             THEMIS_INFO("Optimized predicate order: [{}]", orderStr);
 
-            auto result = opt.executeOptimizedEntities(qe, q, plan);
-            if (!result) {
-                THEMIS_ERROR("Optimized query failed: {}", result.error().message());
+            auto optResult = opt.executeOptimizedEntities(qe, q, plan);
+            if (!optResult) {
+                THEMIS_ERROR("Optimized query failed: {}", optResult.error().message());
             } else {
-                for (const auto& en : *result) {
+                for (const auto& en : *optResult) {
                     THEMIS_INFO("  Opt-Match: PK={} -> {}", en.getPrimaryKey(), en.toJson());
                 }
             }

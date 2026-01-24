@@ -143,7 +143,7 @@ TEST_F(DistributedTracingTest, ConcurrentSpans) {
         threads.emplace_back([spans_per_thread]() {
             for (int j = 0; j < spans_per_thread; j++) {
                 ScopedSpan span("concurrent.operation");
-                span.setAttribute("thread_local", j);
+                span.setAttribute("thread_local", static_cast<double>(j));
             }
         });
     }

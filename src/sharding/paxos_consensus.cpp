@@ -172,7 +172,7 @@ std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
 }
 
 uint64_t PaxosConsensus::getCommitIndex() const {
-    return commit_index_.load();
+    return commit_index_;
 }
 
 bool PaxosConsensus::addNode(
@@ -236,8 +236,8 @@ bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
 ConsensusStats PaxosConsensus::getStats() const {
     ConsensusStats stats{};
     stats.current_term = current_round_;
-    stats.commit_index = commit_index_.load();
-    stats.last_applied = commit_index_.load();
+    stats.commit_index = commit_index_;
+    stats.last_applied = commit_index_;
     stats.state = state_.load();
     stats.current_leader = current_leader_;
     stats.cluster_size = cluster_nodes_.size();

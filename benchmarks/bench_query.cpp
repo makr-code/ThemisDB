@@ -94,11 +94,12 @@ static void BM_Pagination_Offset(benchmark::State& state) {
             ConjunctiveQuery q; q.table = "bench_users";
             OrderBy ob; ob.column = "age"; ob.desc = false; ob.limit = static_cast<size_t>(pageSize) + offset;
             q.orderBy = ob;
-            auto [st, ents] = engine.executeAndEntities(q);
-            if (!st.ok) {
-                state.SkipWithError(st.message.c_str());
+            auto result = engine.executeAndEntities(q);
+            if (!result) {
+                state.SkipWithError(result.error().message().c_str());
                 return;
             }
+            auto& ents = *result;
             // emulate HTTP post-fetch slicing of last page
             if (ents.size() > offset) {
                 size_t last = std::min(ents.size(), offset + static_cast<size_t>(pageSize));
@@ -130,8 +131,12 @@ static void BM_Pagination_Cursor(benchmark::State& state) {
             OrderBy ob; ob.column = "age"; ob.desc = false; ob.limit = static_cast<size_t>(pageSize) + 1;
             ob.cursor_value = anchorValue; ob.cursor_pk = anchorPk; // first page: std::nullopt
             q.orderBy = ob;
-            auto [st, ents] = engine.executeAndEntities(q);
-            if (!st.ok) { state.SkipWithError(st.message.c_str()); return; }
+            auto result = engine.executeAndEntities(q);
+            if (!result) { 
+                state.SkipWithError(result.error().message().c_str()); 
+                return; 
+            }
+            auto& ents = *result;
             bool has_more = ents.size() > static_cast<size_t>(pageSize);
             size_t count = std::min(ents.size(), static_cast<size_t>(pageSize));
             totalFetched += count;

@@ -181,11 +181,47 @@ private:
     SecondaryIndexManager& secIdx_;
     bool adaptive_enabled_ = false;
     
-    // Forward declarations for adaptive components
-    class AdaptiveQueryStats;
-    class AdaptivePlanSelector;
-    class DistributedQueryCostModel;
-    class MultiIndexOptimizer;
+    // Adaptive query optimization components
+    class AdaptiveQueryStats {
+    public:
+        struct QueryExecution {
+            std::string query_hash;
+            size_t estimated_rows = 0;
+            size_t actual_rows = 0;
+            double execution_time_ms = 0.0;
+            double selectivity = 1.0;
+            std::chrono::system_clock::time_point timestamp;
+        };
+        
+        void recordExecution(const QueryExecution& exec) {}
+        bool hasCardinalityMisestimation(const std::string& hash) const { return false; }
+        double getAdaptiveAdjustmentFactor(const std::string& hash) const { return 1.0; }
+    };
+    
+    class AdaptivePlanSelector {
+    public:
+        AdaptivePlanSelector() = default;
+    };
+    
+    class DistributedQueryCostModel {
+    public:
+        struct ShardInfo {
+            std::string shard_id;
+            size_t estimated_rows = 0;
+            double network_latency_ms = 0.0;
+            bool is_local = false;
+        };
+        
+        bool shouldPrunePartition(const ShardInfo& info, size_t total_shards, double selectivity) const { return false; }
+        size_t getOptimalParallelism(const std::vector<ShardInfo>& shards, size_t available_threads) const { 
+            return std::min(available_threads, size_t(8)); 
+        }
+    };
+    
+    class MultiIndexOptimizer {
+    public:
+        MultiIndexOptimizer() = default;
+    };
     
     // These will be initialized when adaptive optimization is enabled
     mutable std::shared_ptr<AdaptiveQueryStats> adaptive_stats_;

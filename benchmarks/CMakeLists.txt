@@ -918,7 +918,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
 endif()
 
 # LLM Inference Performance Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
     message(STATUS "Adding LLM Inference Performance benchmarks")
     
     add_executable(bench_llm_inference_performance

@@ -61,13 +61,13 @@ static EvaluationInput createInput(const std::string& query, const std::string& 
     input.generated_answer = answer;
     
     // Add some dummy documents
-    RetrievedDocument doc1;
+    themis::rag::judge::RetrievedDocument doc1;
     doc1.id = "doc1";
     doc1.content = "Surveillance ethics involves balancing security and privacy.";
     doc1.similarity_score = 0.9;
     input.documents.push_back(doc1);
     
-    RetrievedDocument doc2;
+    themis::rag::judge::RetrievedDocument doc2;
     doc2.id = "doc2";
     doc2.content = "Human rights frameworks emphasize privacy protection.";
     doc2.similarity_score = 0.85;
@@ -239,8 +239,8 @@ static void BM_EthicalGapDetection_EthicalQuery(benchmark::State& state) {
     config.min_ethical_perspectives = 2;
     KnowledgeGapDetector detector(config);
     
-    std::vector<RetrievedDocument> docs;
-    RetrievedDocument doc1;
+    std::vector<themis::rag::knowledge_gap::RetrievedDocument> docs;
+    themis::rag::knowledge_gap::RetrievedDocument doc1;
     doc1.id = "doc1";
     doc1.content = "Utilitarian ethics emphasizes overall welfare.";
     doc1.similarity_score = 0.9;
@@ -258,8 +258,8 @@ static void BM_EthicalGapDetection_NonEthicalQuery(benchmark::State& state) {
     config.enable_ethical_gap_detection = true;
     KnowledgeGapDetector detector(config);
     
-    std::vector<RetrievedDocument> docs;
-    RetrievedDocument doc1;
+    std::vector<themis::rag::knowledge_gap::RetrievedDocument> docs;
+    themis::rag::knowledge_gap::RetrievedDocument doc1;
     doc1.id = "doc1";
     doc1.content = "Paris is the capital and largest city of France.";
     doc1.similarity_score = 0.95;
@@ -278,21 +278,21 @@ static void BM_EthicalGapDetection_SufficientPerspectives(benchmark::State& stat
     config.min_ethical_perspectives = 2;
     KnowledgeGapDetector detector(config);
     
-    std::vector<RetrievedDocument> docs;
+    std::vector<themis::rag::knowledge_gap::RetrievedDocument> docs;
     
-    RetrievedDocument doc1;
+    themis::rag::knowledge_gap::RetrievedDocument doc1;
     doc1.id = "doc1";
     doc1.content = "Utilitarian ethics emphasizes maximizing overall welfare and happiness.";
     doc1.similarity_score = 0.9;
     docs.push_back(doc1);
     
-    RetrievedDocument doc2;
+    themis::rag::knowledge_gap::RetrievedDocument doc2;
     doc2.id = "doc2";
     doc2.content = "Deontological ethics focuses on moral duties and rules.";
     doc2.similarity_score = 0.85;
     docs.push_back(doc2);
     
-    RetrievedDocument doc3;
+    themis::rag::knowledge_gap::RetrievedDocument doc3;
     doc3.id = "doc3";
     doc3.content = "Virtue ethics considers character and moral excellence.";
     doc3.similarity_score = 0.8;
@@ -490,9 +490,9 @@ static void BM_EthicalGapDetection_VaryingDocCount(benchmark::State& state) {
     KnowledgeGapDetector detector(config);
     
     // Generate docs based on state.range(0)
-    std::vector<RetrievedDocument> docs;
+    std::vector<themis::rag::knowledge_gap::RetrievedDocument> docs;
     for (int i = 0; i < state.range(0); ++i) {
-        RetrievedDocument doc;
+        themis::rag::knowledge_gap::RetrievedDocument doc;
         doc.id = "doc" + std::to_string(i);
         doc.content = "Ethical considerations from various perspectives.";
         doc.similarity_score = 0.9 - (i * 0.01);

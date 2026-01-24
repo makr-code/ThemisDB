@@ -23,19 +23,23 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
     query::AQLParser parser;
     auto parseResult = parser.parse(aql);
     if (!parseResult) {
-        return { QueryEngine::Status::Error(parseResult.error().message()), nlohmann::json{{"error","parse"}} };
+        return std::make_pair(QueryEngine::Status::Error(parseResult.error().message()), nlohmann::json{{"error","parse"}});
     }
     
     // Translate to internal query representation
     auto query_ptr = parseResult.value();
     auto tr = AQLTranslator::translate(query_ptr);
     if (!tr.success) {
-        return { QueryEngine::Status::Error(tr.error_message), nlohmann::json{{"error","translate"}} };
+        return std::make_pair(QueryEngine::Status::Error(tr.error_message), nlohmann::json{{"error","translate"}});
     }
     
     // Vector+Geo hybrid dispatch
     if (tr.vector_geo.has_value()) {
-        auto [st, res] = engine.executeVectorGeoQuery(*tr.vector_geo);
+        auto result = engine.executeVectorGeoQuery(*tr.vector_geo);
+        if (!result) {
+            return std::make_pair(QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","query_execution"}});
+        }
+        auto res = *result;
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& r : res) {
             arr.push_back({
@@ -44,11 +48,15 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
                 {"entity", r.entity}
             });
         }
-        return { st, nlohmann::json{{"type","vector_geo"},{"results", arr}} };
+        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","vector_geo"},{"results", arr}}));
     }
     // Content+Geo hybrid dispatch (FULLTEXT + PROXIMITY)
     if (tr.content_geo.has_value()) {
-        auto [st, res] = engine.executeContentGeoQuery(*tr.content_geo);
+        auto result = engine.executeContentGeoQuery(*tr.content_geo);
+        if (!result) {
+            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","query_execution"}} };
+        }
+        auto res = *result;
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& r : res) {
             nlohmann::json row = {
@@ -59,21 +67,21 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
             arr.push_back(std::move(row));
         }
-        return { st, nlohmann::json{{"type","content_geo"},{"results", arr}} };
+        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json::object({{"type","content_geo"},{"results", arr}}));
     }
 
     // Disjunctive OR query
     if (tr.disjunctive.has_value()) {
         auto result = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
         if (!result) {
-            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}} };
+            return std::make_pair(QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}});
         }
         auto ents = std::move(*result);
         nlohmann::json arr = nlohmann::json::array();
         for (auto& e : ents) {
             arr.push_back(nlohmann::json::parse(e.toJson()));
         }
-        return { QueryEngine::Status::OK(), nlohmann::json{{"type","or"},{"results", arr}} };
+        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","or"},{"results", arr}}));
     }
 
     // Traversal / Shortest Path dispatch
@@ -88,7 +96,7 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             auto paths = std::move(*result);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
-            return { QueryEngine::Status::OK(), nlohmann::json{{"type","shortest_path"},{"paths", arr}} };
+            return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","shortest_path"},{"paths", arr}}));
         }
         
         // General traversal (non-shortest path)
@@ -136,7 +144,7 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             arr.push_back(std::move(item));
         }
         
-        return { QueryEngine::Status::OK(), nlohmann::json{{"type","traversal"},{"results", arr}} };
+        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","traversal"},{"results", arr}}));
     }
 
     // Join query
@@ -144,21 +152,21 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         auto& j = *tr.join;
         auto result = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
         if (!result) {
-            return { QueryEngine::Status{false, result.error().message()}, nlohmann::json{} };
+            return std::make_pair(QueryEngine::Status{false, result.error().message()}, nlohmann::json{});
         }
         auto rows = std::move(*result);
-        return { QueryEngine::Status::OK(), nlohmann::json{{"type","join"},{"results", rows}} };
+        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","join"},{"results", rows}}));
     }
 
     // Conjunctive (default) query
     auto result = engine.executeAndEntitiesWithFallback(tr.query, true);
     if (!result) {
-        return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}} };
+        return std::make_pair(QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}});
     }
     auto entities = std::move(*result);
     nlohmann::json arr = nlohmann::json::array();
     for (auto& e : entities) arr.push_back(nlohmann::json::parse(e.toJson()));
-    return { QueryEngine::Status::OK(), nlohmann::json{{"type","and"},{"results", arr}} };
+    return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","and"},{"results", arr}}));
 }
 
 } // namespace themis

@@ -170,8 +170,8 @@ bool AdaptivePlanSelector::shouldSwitchPlan(
         double ratio = extrapolated_total / estimated_total;
         
         if (ratio > misestimation_threshold || ratio < (1.0 / misestimation_threshold)) {
-            spdlog::info("Plan switch recommended: extrapolated={:.0f}, estimated={}, progress={:.1%}",
-                        extrapolated_total, estimated_total, progress);
+            spdlog::info("Plan switch recommended: extrapolated={:.0f}, estimated={}, progress={:.1f}%",
+                        extrapolated_total, estimated_total, progress * 100.0);
             return true;
         }
     }

@@ -77,15 +77,17 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         
         try {
-            std::regex regex(std::string(pattern));
+            // Use basic_regex directly to avoid potential macro conflicts with 'regex'
+            const ::std::string pattern_str(pattern);
+            const ::std::basic_regex<char> rx{pattern_str};
             for (auto it = cache_.begin(); it != cache_.end();) {
-                if (std::regex_match(it->first, regex)) {
+                if (::std::regex_match(it->first, rx)) {
                     it = cache_.erase(it);
                 } else {
                     ++it;
                 }
             }
-        } catch (const std::regex_error&) {
+        } catch (const ::std::regex_error&) {
             // Invalid regex pattern, do nothing
         }
     }
