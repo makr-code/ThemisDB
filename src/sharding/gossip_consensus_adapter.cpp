@@ -1,0 +1,325 @@
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
+
+#include "sharding/gossip_consensus_adapter.h"
+#include <spdlog/spdlog.h>
+
+namespace themisdb {
+namespace sharding {
+
+GossipConsensusAdapter::GossipConsensusAdapter(const ConsensusConfig& config)
+    : config_(config)
+    , running_(false)
+    , next_log_index_(1)
+    , commit_index_(0)
+    , total_operations_(0)
+    , failed_operations_(0)
+{
+}
+
+GossipConsensusAdapter::~GossipConsensusAdapter() {
+    stop();
+}
+
+bool GossipConsensusAdapter::initialize(
+    const std::string& node_id,
+    const std::vector<std::string>& cluster_nodes
+) {
+    node_id_ = node_id;
+    cluster_nodes_ = cluster_nodes;
+    
+    try {
+        // Initialize gossip protocol
+        gossip_ = std::make_unique<themis::sharding::GossipProtocol>();
+        
+        // Initialize distributed coordinator
+        coordinator_ = std::make_unique<themis::sharding::DistributedCoordinator>();
+        
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to initialize Gossip consensus: {}", e.what());
+        return false;
+    }
+}
+
+bool GossipConsensusAdapter::start() {
+    if (running_.load()) {
+        spdlog::warn("Gossip consensus already running");
+        return false;
+    }
+    
+    running_.store(true);
+    
+    // Start gossip thread
+    gossip_thread_ = std::thread(&GossipConsensusAdapter::gossipThread, this);
+    
+    spdlog::info("Gossip consensus started for node {}", node_id_);
+    return true;
+}
+
+void GossipConsensusAdapter::stop() {
+    if (!running_.load()) {
+        return;
+    }
+    
+    running_.store(false);
+    gossip_cv_.notify_all();
+    
+    if (gossip_thread_.joinable()) {
+        gossip_thread_.join();
+    }
+    
+    spdlog::info("Gossip consensus stopped for node {}", node_id_);
+}
+
+bool GossipConsensusAdapter::isLeader() const {
+    // Gossip is leaderless, so we'll return true if we're the "coordinator"
+    // based on deterministic selection
+    if (cluster_nodes_.empty()) return false;
+    
+    std::string expected_coordinator = *std::min_element(
+        cluster_nodes_.begin(), cluster_nodes_.end()
+    );
+    
+    return node_id_ == expected_coordinator;
+}
+
+std::string GossipConsensusAdapter::getLeaderId() const {
+    if (cluster_nodes_.empty()) return "";
+    
+    // Return the deterministic "leader" (lowest node ID)
+    return *std::min_element(cluster_nodes_.begin(), cluster_nodes_.end());
+}
+
+ConsensusState GossipConsensusAdapter::getState() const {
+    // Gossip doesn't have traditional states
+    // We'll return LEADER if we're the coordinator, FOLLOWER otherwise
+    return isLeader() ? ConsensusState::LEADER : ConsensusState::FOLLOWER;
+}
+
+std::optional<uint64_t> GossipConsensusAdapter::propose(
+    const std::string& operation,
+    const nlohmann::json& data
+) {
+    if (!running_.load()) {
+        spdlog::error("Cannot propose: Gossip not running");
+        return std::nullopt;
+    }
+    
+    // Create log entry
+    ConsensusLogEntry entry;
+    entry.index = next_log_index_++;
+    entry.term = 0;  // Gossip doesn't use terms
+    entry.operation = operation;
+    entry.data = data;
+    entry.timestamp = std::chrono::system_clock::now();
+    
+    // Add to log
+    {
+        std::lock_guard<std::mutex> lock(log_mutex_);
+        log_entries_[entry.index] = entry;
+        log_acknowledgments_[entry.index].insert(node_id_);  // Self-acknowledge
+    }
+    
+    // Wake up gossip thread to propagate
+    gossip_cv_.notify_one();
+    total_operations_++;
+    
+    return entry.index;
+}
+
+bool GossipConsensusAdapter::waitForCommit(
+    uint64_t log_index,
+    std::chrono::milliseconds timeout
+) {
+    auto start = std::chrono::steady_clock::now();
+    
+    while (running_.load()) {
+        if (hasReachedQuorum(log_index)) {
+            return true;
+        }
+        
+        auto elapsed = std::chrono::steady_clock::now() - start;
+        if (elapsed >= timeout) {
+            return false;
+        }
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    
+    return false;
+}
+
+std::vector<ConsensusLogEntry> GossipConsensusAdapter::readLog(
+    uint64_t start_index,
+    std::optional<uint64_t> end_index
+) {
+    std::vector<ConsensusLogEntry> result;
+    std::lock_guard<std::mutex> lock(log_mutex_);
+    
+    uint64_t end = end_index.value_or(commit_index_.load());
+    
+    for (uint64_t i = start_index; i <= end; ++i) {
+        auto it = log_entries_.find(i);
+        if (it != log_entries_.end() && hasReachedQuorum(i)) {
+            result.push_back(it->second);
+        }
+    }
+    
+    return result;
+}
+
+uint64_t GossipConsensusAdapter::getCommitIndex() const {
+    return commit_index_.load();
+}
+
+bool GossipConsensusAdapter::addNode(
+    const std::string& node_id,
+    const std::string& endpoint
+) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    if (std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id) != cluster_nodes_.end()) {
+        spdlog::warn("Node {} already in cluster", node_id);
+        return false;
+    }
+    
+    cluster_nodes_.push_back(node_id);
+    spdlog::info("Added node {} to cluster", node_id);
+    return true;
+}
+
+bool GossipConsensusAdapter::removeNode(const std::string& node_id) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
+    if (it == cluster_nodes_.end()) {
+        spdlog::warn("Node {} not found in cluster", node_id);
+        return false;
+    }
+    
+    cluster_nodes_.erase(it);
+    spdlog::info("Removed node {} from cluster", node_id);
+    return true;
+}
+
+bool GossipConsensusAdapter::transferLeadership(const std::string& target_node_id) {
+    // Gossip is leaderless, so this is a no-op
+    spdlog::info("Gossip is leaderless, leadership transfer not applicable");
+    return true;
+}
+
+bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
+    spdlog::warn("Gossip snapshot not yet implemented");
+    return false;
+}
+
+bool GossipConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) {
+    spdlog::warn("Gossip snapshot restore not yet implemented");
+    return false;
+}
+
+ConsensusStats GossipConsensusAdapter::getStats() const {
+    ConsensusStats stats{};
+    stats.current_term = 0;  // Gossip doesn't use terms
+    stats.commit_index = commit_index_.load();
+    stats.last_applied = commit_index_.load();
+    stats.state = getState();
+    stats.current_leader = getLeaderId();
+    stats.cluster_size = cluster_nodes_.size();
+    stats.reachable_nodes = cluster_nodes_.size();  // Simplified
+    stats.total_operations = total_operations_.load();
+    stats.failed_operations = failed_operations_.load();
+    return stats;
+}
+
+nlohmann::json GossipConsensusAdapter::getStatus() const {
+    auto stats = getStats();
+    
+    return {
+        {"type", "Gossip"},
+        {"node_id", node_id_},
+        {"is_coordinator", isLeader()},
+        {"coordinator_id", stats.current_leader},
+        {"state", static_cast<int>(stats.state)},
+        {"commit_index", stats.commit_index},
+        {"cluster_size", stats.cluster_size},
+        {"total_operations", stats.total_operations}
+    };
+}
+
+void GossipConsensusAdapter::onCommit(
+    std::function<void(const ConsensusLogEntry&)> callback
+) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_commit_callback_ = std::move(callback);
+}
+
+void GossipConsensusAdapter::onStateChange(
+    std::function<void(ConsensusState, ConsensusState)> callback
+) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_state_change_callback_ = std::move(callback);
+}
+
+void GossipConsensusAdapter::onLeaderChange(
+    std::function<void(const std::string&, const std::string&)> callback
+) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_leader_change_callback_ = std::move(callback);
+}
+
+// Private methods
+
+void GossipConsensusAdapter::gossipThread() {
+    spdlog::debug("Gossip thread started");
+    
+    while (running_.load()) {
+        std::unique_lock<std::mutex> lock(state_mutex_);
+        
+        // Wait for gossip interval
+        gossip_cv_.wait_for(lock, config_.gossip_interval, [this] {
+            return !running_.load();
+        });
+        
+        if (!running_.load()) break;
+        
+        lock.unlock();
+        
+        // Simulate gossip propagation
+        {
+            std::lock_guard<std::mutex> log_lock(log_mutex_);
+            
+            // Check which entries have reached quorum
+            for (auto& [index, entry] : log_entries_) {
+                if (index > commit_index_.load() && hasReachedQuorum(index)) {
+                    commit_index_ = index;
+                    
+                    // Call commit callback
+                    std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                    if (on_commit_callback_) {
+                        on_commit_callback_(entry);
+                    }
+                }
+            }
+        }
+    }
+    
+    spdlog::debug("Gossip thread stopped");
+}
+
+bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
+    std::lock_guard<std::mutex> lock(log_mutex_);
+    
+    auto it = log_acknowledgments_.find(log_index);
+    if (it == log_acknowledgments_.end()) {
+        return false;
+    }
+    
+    // Calculate quorum (majority)
+    size_t quorum_size = (cluster_nodes_.size() / 2) + 1;
+    return it->second.size() >= quorum_size;
+}
+
+} // namespace sharding
+} // namespace themisdb

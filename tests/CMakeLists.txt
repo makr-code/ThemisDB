@@ -155,6 +155,38 @@ else()
     message(STATUS "Distributed Coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
 endif()
 
+# Consensus Module Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consensus_module.cpp")
+    message(STATUS "Adding Consensus Module tests")
+    
+    add_executable(test_consensus_module
+        test_consensus_module.cpp
+    )
+    
+    target_link_libraries(test_consensus_module PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_consensus_module PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ConsensusModuleTests COMMAND test_consensus_module)
+    
+    set_tests_properties(ConsensusModuleTests PROPERTIES
+        LABELS "sharding;consensus;raft;gossip;paxos;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Consensus Module: Raft, Gossip, Paxos implementations")
+else()
+    message(STATUS "Consensus Module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_consensus_module.cpp")
+endif()
+
 # ============================================================================
 # Property Graph Tests
 # ============================================================================

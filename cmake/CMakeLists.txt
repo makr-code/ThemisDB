@@ -1376,6 +1376,11 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/health_monitor.cpp
     ../src/sharding/truetime.cpp
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/consensus_factory.cpp
+    ../src/sharding/raft_consensus_adapter.cpp
+    ../src/sharding/gossip_consensus_adapter.cpp
+    ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
