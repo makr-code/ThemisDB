@@ -1,6 +1,7 @@
 ﻿// Cost-based Query Optimizer implementation
 
 #include "query/query_optimizer.h"
+#include "query/adaptive_optimizer.h"
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
@@ -8,6 +9,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <memory>
 
 namespace themis {
 
@@ -203,6 +205,118 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 	}
 	double timeMs = expanded * 0.02; // arbitrary scaling
 	return {expanded, timeMs};
+}
+
+// ---------------- Adaptive & Distributed Optimization ----------------
+
+void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
+	adaptive_enabled_ = enable;
+	
+	if (enable && !adaptive_stats_) {
+		// Initialize adaptive components
+		adaptive_stats_ = std::make_shared<AdaptiveQueryStats>();
+		adaptive_selector_ = std::make_shared<AdaptivePlanSelector>();
+		distributed_model_ = std::make_shared<DistributedQueryCostModel>();
+		multi_index_optimizer_ = std::make_shared<MultiIndexOptimizer>();
+		
+		spdlog::info("QueryOptimizer: Adaptive optimization enabled");
+	}
+}
+
+void QueryOptimizer::recordQueryExecution(
+	const std::string& query_hash,
+	size_t estimated_rows,
+	size_t actual_rows,
+	double execution_time_ms) {
+	
+	if (!adaptive_enabled_ || !adaptive_stats_) {
+		return;
+	}
+	
+	AdaptiveQueryStats::QueryExecution exec;
+	exec.query_hash = query_hash;
+	exec.estimated_rows = estimated_rows;
+	exec.actual_rows = actual_rows;
+	exec.execution_time_ms = execution_time_ms;
+	exec.selectivity = estimated_rows > 0 ? 
+		static_cast<double>(actual_rows) / estimated_rows : 1.0;
+	exec.timestamp = std::chrono::system_clock::now();
+	
+	adaptive_stats_->recordExecution(exec);
+	
+	// Log significant misestimations
+	if (adaptive_stats_->hasCardinalityMisestimation(query_hash)) {
+		spdlog::warn("QueryOptimizer: Cardinality misestimation detected for query {}", 
+					 query_hash.substr(0, 8));
+	}
+}
+
+double QueryOptimizer::getAdaptiveAdjustment(const std::string& query_hash) const {
+	if (!adaptive_enabled_ || !adaptive_stats_) {
+		return 1.0;
+	}
+	
+	return adaptive_stats_->getAdaptiveAdjustmentFactor(query_hash);
+}
+
+QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
+	const ConjunctiveQuery& q,
+	const std::vector<std::string>& available_shards,
+	bool enable_partition_pruning) const {
+	
+	DistributedPlan plan;
+	plan.shard_ids = available_shards;
+	
+	if (!distributed_model_) {
+		// Fallback: simple plan without optimization
+		plan.recommended_parallelism = std::min(available_shards.size(), size_t(8));
+		return plan;
+	}
+	
+	// Build shard info for cost estimation
+	std::vector<DistributedQueryCostModel::ShardInfo> shard_infos;
+	for (const auto& shard_id : available_shards) {
+		DistributedQueryCostModel::ShardInfo info;
+		info.shard_id = shard_id;
+		// Estimate rows per shard (in real implementation, query shard metadata)
+		info.estimated_rows = 10000;  // Placeholder
+		info.network_latency_ms = 1.0;
+		info.is_local = (shard_id == available_shards[0]); // First shard assumed local
+		shard_infos.push_back(info);
+	}
+	
+	// Partition pruning
+	if (enable_partition_pruning) {
+		std::vector<std::string> pruned_shards;
+		for (const auto& info : shard_infos) {
+			// Simple heuristic: check selectivity
+			double selectivity = 0.5; // Placeholder - compute from predicates
+			if (!distributed_model_->shouldPrunePartition(info, available_shards.size(), selectivity)) {
+				pruned_shards.push_back(info.shard_id);
+			}
+		}
+		
+		if (!pruned_shards.empty()) {
+			plan.shard_ids = pruned_shards;
+			plan.use_partition_pruning = true;
+			spdlog::info("QueryOptimizer: Partition pruning reduced shards from {} to {}", 
+						 available_shards.size(), pruned_shards.size());
+		}
+	}
+	
+	// Determine optimal parallelism
+	size_t available_threads = std::thread::hardware_concurrency();
+	plan.recommended_parallelism = distributed_model_->getOptimalParallelism(
+		shard_infos, available_threads);
+	
+	// Determine join strategy for multi-shard queries
+	if (plan.shard_ids.size() > 1) {
+		// For simplicity, recommend broadcast for small result sets
+		size_t estimated_results = 1000;  // Placeholder
+		plan.join_strategy = estimated_results < 10000 ? "broadcast" : "repartition";
+	}
+	
+	return plan;
 }
 
 } // namespace themis

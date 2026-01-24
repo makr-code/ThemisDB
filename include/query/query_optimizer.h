@@ -101,8 +101,64 @@ public:
     };
     static GraphPathCostResult estimateGraphPath(const GraphPathCostInput& in);
 
+    // =============================
+    // Adaptive & Distributed Optimization (New)
+    // =============================
+    
+    /**
+     * @brief Enable adaptive optimization with runtime statistics
+     */
+    void enableAdaptiveOptimization(bool enable = true);
+    
+    /**
+     * @brief Check if adaptive optimization is enabled
+     */
+    bool isAdaptiveOptimizationEnabled() const { return adaptive_enabled_; }
+    
+    /**
+     * @brief Record query execution statistics for adaptive learning
+     */
+    void recordQueryExecution(
+        const std::string& query_hash,
+        size_t estimated_rows,
+        size_t actual_rows,
+        double execution_time_ms);
+    
+    /**
+     * @brief Get adaptive adjustment factor for a query pattern
+     */
+    double getAdaptiveAdjustment(const std::string& query_hash) const;
+    
+    /**
+     * @brief Optimize for distributed/sharded execution
+     */
+    struct DistributedPlan {
+        std::vector<std::string> shard_ids;
+        bool use_partition_pruning = false;
+        std::string join_strategy;  // "broadcast", "repartition", "semi_join"
+        size_t recommended_parallelism = 1;
+    };
+    
+    DistributedPlan optimizeForDistribution(
+        const ConjunctiveQuery& q,
+        const std::vector<std::string>& available_shards,
+        bool enable_partition_pruning = true) const;
+
 private:
     SecondaryIndexManager& secIdx_;
+    bool adaptive_enabled_ = false;
+    
+    // Forward declarations for adaptive components
+    class AdaptiveQueryStats;
+    class AdaptivePlanSelector;
+    class DistributedQueryCostModel;
+    class MultiIndexOptimizer;
+    
+    // These will be initialized when adaptive optimization is enabled
+    mutable std::shared_ptr<AdaptiveQueryStats> adaptive_stats_;
+    mutable std::shared_ptr<AdaptivePlanSelector> adaptive_selector_;
+    mutable std::shared_ptr<DistributedQueryCostModel> distributed_model_;
+    mutable std::shared_ptr<MultiIndexOptimizer> multi_index_optimizer_;
 };
 
 } // namespace themis
