@@ -314,11 +314,8 @@ TEST_F(GeneralTraversalTest, InvalidDepthRange) {
         2,  // maxDepth (less than minDepth)
         TraversalDirection::OUTBOUND
     );
-    ASSERT_TRUE(result.has_value()) << result.error().message();
-    auto results = std::move(*result);
 
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(results.empty());
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(GeneralTraversalTest, EmptyStartVertex) {
@@ -331,9 +328,6 @@ TEST_F(GeneralTraversalTest, EmptyStartVertex) {
         2,
         TraversalDirection::OUTBOUND
     );
-    ASSERT_TRUE(result.has_value()) << result.error().message();
-    auto results = std::move(*result);
 
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(results.empty());
+    EXPECT_FALSE(result.has_value());
 }
