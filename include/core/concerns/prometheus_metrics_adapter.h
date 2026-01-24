@@ -18,12 +18,10 @@ public:
         : collector_(observability::MetricsCollector::getInstance()) {}
 
     void incrementCounter(const std::string& name, int64_t value = 1, const Labels& labels = {}) override {
-        // Use existing collector methods where possible
-        // For generic counter, we'll track it internally
-        for (int64_t i = 0; i < value; ++i) {
-            // Note: MetricsCollector doesn't have generic counter with labels,
-            // so we use specialized methods or extend it
-        }
+        // Note: MetricsCollector doesn't have generic counter with labels.
+        // This adapter provides compatibility by mapping to specific methods
+        // or could be extended to add generic counter support.
+        // For now, this is a no-op for generic counters.
     }
 
     void setGauge(const std::string& name, double value, const Labels& labels = {}) override {
@@ -36,16 +34,19 @@ public:
     }
 
     void incrementGauge(const std::string& name, double delta, const Labels& labels = {}) override {
-        // Gauge increment/decrement not directly supported by MetricsCollector
-        // Would need to track state or extend the collector
+        // Note: MetricsCollector doesn't support generic gauge increment.
+        // To fully implement, would need to maintain gauge state or extend MetricsCollector.
+        // For now, this provides interface compatibility.
     }
 
     void decrementGauge(const std::string& name, double delta, const Labels& labels = {}) override {
-        // Gauge increment/decrement not directly supported by MetricsCollector
+        // Note: MetricsCollector doesn't support generic gauge decrement.
+        // To fully implement, would need to maintain gauge state or extend MetricsCollector.
     }
 
     void observeHistogram(const std::string& name, double value, const Labels& labels = {}) override {
-        // Histogram observations are done through specific methods in MetricsCollector
+        // Note: Histogram observations in MetricsCollector are done through specific methods.
+        // Generic histogram support would require extending MetricsCollector.
     }
 
     void recordLatency(const std::string& operation, double latencyMs, const Labels& labels = {}) override {

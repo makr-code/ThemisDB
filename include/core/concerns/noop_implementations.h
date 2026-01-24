@@ -1,6 +1,9 @@
 #pragma once
 
 #include "core/concerns/i_logger.h"
+#include "core/concerns/i_tracer.h"
+#include "core/concerns/i_metrics.h"
+#include "core/concerns/i_cache.h"
 
 namespace themis {
 namespace core {

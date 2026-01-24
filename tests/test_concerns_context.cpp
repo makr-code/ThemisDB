@@ -4,6 +4,8 @@
 #include "core/concerns/inmemory_cache_impl.h"
 #include <gtest/gtest.h>
 #include <memory>
+#include <thread>
+#include <chrono>
 
 using namespace themis::core::concerns;
 
