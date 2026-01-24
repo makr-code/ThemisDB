@@ -38,6 +38,8 @@ service:
   type: ClusterIP
   port: 8080
   targetPort: 8080
+  # Metrics port for Prometheus
+  metricsPort: 4318
 
 ingress:
   enabled: false
@@ -89,6 +91,32 @@ tolerations: []
 
 affinity: {}
 
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 80
+  # Custom metrics for advanced autoscaling
+  customMetrics: []
+  # Example custom metric:
+  # - name: themisdb_requests_per_second
+  #   targetAverageValue: "1000"
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      percentagePolicyValue: 50
+      podsPolicyValue: 1
+      periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      percentagePolicyValue: 100
+      podsPolicyValue: 2
+      periodSeconds: 30
+      selectPolicy: Max
+
 # ThemisDB specific configuration
 themisdb:
   # Log level: trace, debug, info, warn, error
@@ -98,6 +126,19 @@ themisdb:
   # Configuration file content (JSON)
   # Note: logLevel above is for documentation; the actual log level is set in the config below
   config: |
+
+# Metrics and monitoring configuration
+metrics:
+  # Enable Prometheus metrics endpoint
+  enabled: true
+  # ServiceMonitor for Prometheus Operator
+  serviceMonitor:
+    enabled: false
+    namespace: ""
+    labels: {}
+    interval: 30s
+    scrapeTimeout: 10s
+    relabelings: []
     {
       "storage": {
         "path": "/data/themisdb"

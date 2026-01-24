@@ -1,0 +1,321 @@
+{
+  "dashboard": {
+    "title": "ThemisDB - SLA Monitoring",
+    "tags": ["themisdb", "sla", "operations"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Overall Availability (Monthly)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg_over_time(up{job=\"themisdb\"}[30d]) * 100",
+            "legendFormat": "Availability %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "red" },
+                { "value": 99.0, "color": "yellow" },
+                { "value": 99.9, "color": "green" }
+              ]
+            },
+            "unit": "percent",
+            "decimals": 3
+          }
+        },
+        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 2,
+        "title": "SLA Target: 99.9%",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "99.9"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" }
+              ]
+            },
+            "unit": "percent",
+            "decimals": 1
+          }
+        },
+        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 3,
+        "title": "Downtime This Month",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "((1 - avg_over_time(up{job=\"themisdb\"}[30d])) * 30 * 24 * 60)",
+            "legendFormat": "Minutes"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 43, "color": "yellow" },
+                { "value": 90, "color": "red" }
+              ]
+            },
+            "unit": "m",
+            "decimals": 1
+          }
+        },
+        "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 4,
+        "title": "SLA Budget Remaining",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "43 - ((1 - avg_over_time(up{job=\"themisdb\"}[30d])) * 30 * 24 * 60)",
+            "legendFormat": "Minutes"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "red" },
+                { "value": 10, "color": "yellow" },
+                { "value": 20, "color": "green" }
+              ]
+            },
+            "min": 0,
+            "max": 43,
+            "unit": "m"
+          }
+        },
+        "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 }
+      },
+      {
+        "id": 5,
+        "title": "Request Success Rate (SLI)",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate(themisdb_requests_total{status=~\"2..\"}[5m])) / sum(rate(themisdb_requests_total[5m])) * 100",
+            "legendFormat": "Success Rate"
+          },
+          {
+            "expr": "99.9",
+            "legendFormat": "SLA Target"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 99,
+            "max": 100,
+            "custom": {
+              "lineWidth": 2
+            }
+          }
+        },
+        "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 }
+      },
+      {
+        "id": 6,
+        "title": "P95 Latency (SLI)",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(themisdb_request_duration_seconds_bucket[5m])) * 1000",
+            "legendFormat": "P95 Latency"
+          },
+          {
+            "expr": "200",
+            "legendFormat": "SLA Target (200ms)"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ms",
+            "custom": {
+              "lineWidth": 2
+            }
+          }
+        },
+        "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 }
+      },
+      {
+        "id": 7,
+        "title": "Error Budget Burn Rate",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "(1 - (sum(rate(themisdb_requests_total{status=~\"2..\"}[1h])) / sum(rate(themisdb_requests_total[1h])))) / 0.001",
+            "legendFormat": "Burn Rate (1h)"
+          },
+          {
+            "expr": "1",
+            "legendFormat": "Sustainable Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "lineWidth": 2
+            }
+          }
+        },
+        "gridPos": { "x": 0, "y": 12, "w": 12, "h": 8 }
+      },
+      {
+        "id": 8,
+        "title": "SLO Compliance by Service",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "avg_over_time(up{job=\"themisdb\"}[24h]) * 100",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "fieldConfig": {
+          "overrides": [
+            {
+              "matcher": { "id": "byName", "options": "Value" },
+              "properties": [
+                {
+                  "id": "custom.displayMode",
+                  "value": "color-background"
+                },
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "steps": [
+                      { "value": 0, "color": "red" },
+                      { "value": 99.0, "color": "yellow" },
+                      { "value": 99.9, "color": "green" }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": { "x": 12, "y": 12, "w": 12, "h": 8 }
+      },
+      {
+        "id": 9,
+        "title": "Incident Count by Severity",
+        "type": "bargauge",
+        "targets": [
+          {
+            "expr": "count by (severity) (ALERTS{job=\"themisdb\", alertstate=\"firing\"})",
+            "legendFormat": "{{severity}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 1, "color": "yellow" },
+                { "value": 5, "color": "red" }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 0, "y": 20, "w": 8, "h": 6 }
+      },
+      {
+        "id": 10,
+        "title": "MTTR (Mean Time To Recovery)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg_over_time(themisdb_incident_duration_seconds[30d]) / 60",
+            "legendFormat": "MTTR"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 30, "color": "yellow" },
+                { "value": 60, "color": "red" }
+              ]
+            },
+            "unit": "m",
+            "decimals": 1
+          }
+        },
+        "gridPos": { "x": 8, "y": 20, "w": 8, "h": 6 }
+      },
+      {
+        "id": 11,
+        "title": "MTTD (Mean Time To Detect)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg_over_time(themisdb_incident_detection_seconds[30d]) / 60",
+            "legendFormat": "MTTD"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 2, "color": "yellow" },
+                { "value": 5, "color": "red" }
+              ]
+            },
+            "unit": "m",
+            "decimals": 2
+          }
+        },
+        "gridPos": { "x": 16, "y": 20, "w": 8, "h": 6 }
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "name": "Incidents",
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "ALERTS{job=\"themisdb\", severity=\"critical\"}",
+          "iconColor": "red",
+          "tags": ["incident"]
+        },
+        {
+          "name": "Deployments",
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "themisdb_deployment_info",
+          "iconColor": "blue",
+          "tags": ["deployment"]
+        }
+      ]
+    }
+  }
+}
