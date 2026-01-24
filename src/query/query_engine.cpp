@@ -667,13 +667,23 @@ QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 	return result;
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeys");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
-	if (q.table.empty()) return {Status::Error("executeOrKeys: table darf nicht leer sein"), {}};
-	if (q.disjuncts.empty()) return {Status::Error("executeOrKeys: keine Disjunkte"), {}};
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"executeOrKeys: table darf nicht leer sein"
+		);
+	}
+	if (q.disjuncts.empty()) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"executeOrKeys: keine Disjunkte"
+		);
+	}
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
@@ -686,14 +696,15 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 			auto child = Tracer::startSpan("or.disjunct.execute");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
-			auto [st, keys] = executeAndKeys(disjunct);
-			if (!st.ok) {
-				THEMIS_ERROR("Parallel OR disjunct error: {}", st.message);
-				errors.push_back(st.message);
-				child.setStatus(false, st.message);
+			auto result = executeAndKeys(disjunct);
+			if (!result) {
+				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
+				errors.push_back(result.error().context());
+				child.setStatus(false, result.error().context());
 				return;
 			}
 			// Sort for later union
+			auto keys = *result;
 			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
@@ -703,14 +714,17 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	tg.wait();
 
 	if (!errors.empty()) {
-		return {Status::Error("executeOrKeys: " + errors.front()), {}};
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeOrKeys: " + errors.front()
+		);
 	}
 
 	// Union all result sets
 	auto keys = unionSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
 std::pair<QueryEngine::Status, std::vector<std::string>>
@@ -800,12 +814,15 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 	return {Status::OK(), std::move(out)};
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntities");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeOrKeys(q);
-	if (!st.ok) return {st, {}};
+	auto result = executeOrKeys(q);
+	if (!result) {
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
+	}
+	auto keys = *result;
 
 	// Parallel entity loading (same logic as executeAndEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -852,7 +869,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 Result<std::vector<std::string>>
