@@ -290,11 +290,14 @@ bool HnswRuntimeAdapter::shouldRebuildIndex(
     // Rebuild if index has grown significantly
     // HNSW performance degrades with many post-construction insertions
     
-    if (current_size < initial_size * 2) {
+    constexpr size_t ACCEPTABLE_GROWTH_FACTOR = 2;
+    constexpr size_t REBUILD_THRESHOLD_FACTOR = 5;
+    
+    if (current_size < initial_size * ACCEPTABLE_GROWTH_FACTOR) {
         return false;  // Less than 2x growth is acceptable
     }
     
-    if (current_size > initial_size * 5) {
+    if (current_size > initial_size * REBUILD_THRESHOLD_FACTOR) {
         spdlog::info("HNSW: Index size {}x initial - rebuild recommended", 
                     current_size / std::max(initial_size, size_t(1)));
         return true;

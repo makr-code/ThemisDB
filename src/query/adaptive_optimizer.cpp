@@ -187,6 +187,7 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
     using Strategy = PlanChoice::Strategy;
     
     PlanChoice alternative;
+    alternative.strategy = Strategy::INDEX_SCAN;  // Default initialization
     
     // If we significantly underestimated, prefer simpler strategies
     if (actual_rows > estimated_rows * 5) {
@@ -209,9 +210,8 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
         }
     }
     
-    if (alternative.strategy == AdaptivePlanSelector::PlanChoice::Strategy::INDEX_SCAN &&
-        alternative.description.empty()) {
-        // No better alternative found, keep current
+    // If no better alternative was found (description still empty), keep current
+    if (alternative.description.empty()) {
         alternative = current_plan;
         alternative.description += " (no alternative)";
     }

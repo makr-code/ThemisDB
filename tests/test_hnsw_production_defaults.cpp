@@ -83,6 +83,7 @@ TEST(HnswProductionDefaults, GetRecommendedEfConstruction) {
 
 TEST(HnswProductionDefaults, GetRecommendedEfSearch) {
     size_t k = 10;
+    const int k_int = static_cast<int>(k);
     
     int ef_latency = HnswProductionDefaults::getRecommendedEfSearch(
         k, HnswProductionDefaults::PerformanceProfile::LATENCY_OPTIMIZED);
@@ -94,9 +95,9 @@ TEST(HnswProductionDefaults, GetRecommendedEfSearch) {
         k, HnswProductionDefaults::PerformanceProfile::RECALL_OPTIMIZED);
     
     // ef_search must be at least k
-    EXPECT_GE(ef_latency, static_cast<int>(k));
-    EXPECT_GE(ef_balanced, static_cast<int>(k));
-    EXPECT_GE(ef_recall, static_cast<int>(k));
+    EXPECT_GE(ef_latency, k_int);
+    EXPECT_GE(ef_balanced, k_int);
+    EXPECT_GE(ef_recall, k_int);
     
     // Profile ordering
     EXPECT_LE(ef_latency, ef_balanced);
