@@ -360,6 +360,12 @@ QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
 	
 	VectorWorkloadPlan plan;
 	
+	// Validate input parameters
+	if (k == 0) {
+		spdlog::warn("VectorWorkloadPlan: k=0 is invalid, using k=1");
+		k = 1;
+	}
+	
 	// Use HNSW for large datasets
 	if (dataset_size > 10000) {
 		plan.index_type = "hnsw";
@@ -410,6 +416,12 @@ QueryOptimizer::GraphWorkloadPlan QueryOptimizer::optimizeGraphWorkload(
 	bool has_spatial_constraint) const {
 	
 	GraphWorkloadPlan plan;
+	
+	// Validate input parameters
+	if (estimated_branching_factor == 0) {
+		spdlog::warn("GraphWorkloadPlan: branching_factor=0 is invalid, using 1");
+		estimated_branching_factor = 1;
+	}
 	
 	// Limit expansion based on branching factor with overflow protection
 	size_t estimated_expansion = 1;
