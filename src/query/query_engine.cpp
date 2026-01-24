@@ -107,7 +107,7 @@ bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view /*expre
 }
 
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeys");
 	span.setAttribute("query.table", q.table);
@@ -117,7 +117,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
 	span.setAttribute("query.phrase", q.phrasePredicate.has_value());
 	span.setAttribute("query.fuzzy", q.fuzzyPredicate.has_value());
-	if (q.table.empty()) return {Status::Error("executeAndKeys: table darf nicht leer sein"), {}};
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Table name cannot be empty"
+		);
+	}
 	
 	// Handle phrase search queries
 	if (q.phrasePredicate.has_value()) {
@@ -131,7 +136,10 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		auto [st, results] = secIdx_->scanFulltextPhrase(q.table, ph.column, ph.phrase, ph.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::string>>(
+				errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				fmt::format("Phrase search failed: {}", st.message)
+			);
 		}
 		
 		// Extract PKs from results
@@ -154,11 +162,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.rangePredicates = q.rangePredicates;
 			structuralQuery.orderBy = q.orderBy;
 			
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			tbb::parallel_sort(phraseKeys.begin(), phraseKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
@@ -172,11 +181,11 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			intersectSpan.setStatus(true);
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		span.setStatus(true);
-		return {Status::OK(), std::move(phraseKeys)};
+		return Ok(std::move(phraseKeys));
 	}
 	
 	// Handle fuzzy search queries
@@ -192,7 +201,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		auto [st, results] = secIdx_->scanFulltextFuzzy(q.table, fz.column, fz.query, fz.maxDistance, fz.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, fmt::format("Fuzzy search failed: {}", st.message));
 		}
 		
 		// Extract PKs from results
@@ -215,11 +224,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.rangePredicates = q.rangePredicates;
 			structuralQuery.orderBy = q.orderBy;
 			
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			tbb::parallel_sort(fuzzyKeys.begin(), fuzzyKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
@@ -233,11 +243,11 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			intersectSpan.setStatus(true);
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		span.setStatus(true);
-		return {Status::OK(), std::move(fuzzyKeys)};
+		return Ok(std::move(fuzzyKeys));
 	}
 	
 	// Handle fulltext queries
@@ -252,7 +262,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		auto [st, results] = secIdx_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, fmt::format("Fulltext search failed: {}", st.message));
 		}
 		
 		// Extract PKs from results
@@ -280,11 +290,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.orderBy = q.orderBy;
 			
 			// Execute structural predicates
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			// Intersect fulltext results with structural predicate results
 			// Both lists should be sorted for efficient intersection
@@ -302,19 +313,19 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			intersectSpan.setStatus(true);
 			span.setAttribute("query.result_count", static_cast<int64_t>(intersection.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		// Standalone FULLTEXT (no additional predicates)
 		span.setAttribute("query.result_count", static_cast<int64_t>(fulltextKeys.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(fulltextKeys)};
+		return Ok(std::move(fulltextKeys));
 	}
 	
 	// Handle spatial queries (G3 - AQL Parser Integration)
 	if (q.spatialPredicate.has_value()) {
 		if (!spatialIdx_) {
-			return {Status::Error("Spatial index manager not available"), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Spatial index manager not available");
 		}
 		
 		const auto& sp = *q.spatialPredicate;
@@ -326,7 +337,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		// Check if table has spatial index
 		if (!spatialIdx_->hasSpatialIndex(q.table)) {
 			child.setStatus(false, "No spatial index on table");
-			return {Status::Error("Table " + q.table + " has no spatial index"), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Table " + q.table + " has no spatial index");
 		}
 		
 		// Execute spatial query based on operation type
@@ -346,7 +357,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			}
 		} else {
 			child.setStatus(false, "Spatial predicate missing bbox");
-			return {Status::Error("Spatial predicate must have computed bbox"), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Spatial predicate must have computed bbox");
 		}
 		
 		child.setAttribute("index.result_count", static_cast<int64_t>(spatialKeys.size()));
@@ -367,11 +378,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.orderBy = q.orderBy;
 			
 			// Execute structural predicates
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			// Intersect spatial results with structural predicate results
 			tbb::parallel_sort(spatialKeys.begin(), spatialKeys.end());
@@ -388,18 +400,18 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			intersectSpan.setStatus(true);
 			span.setAttribute("query.result_count", static_cast<int64_t>(intersection.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		// Standalone SPATIAL (no additional predicates)
 		span.setAttribute("query.result_count", static_cast<int64_t>(spatialKeys.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(spatialKeys)};
+		return Ok(std::move(spatialKeys));
 	}
 	
 	// Erlaube ORDER BY ohne weitere Prädikate (liefert die ersten N gemäß Range-Index)
 	if (q.predicates.empty() && q.rangePredicates.empty() && !q.orderBy.has_value()) {
-		return {Status::Error("executeAndKeys: keine Prädikate"), {}};
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeAndKeys: keine Prädikate");
 	}
 
 	// Wenn Range-Prädikate vorhanden sind, nutze die range-aware Logik (inkl. ORDER BY)
@@ -435,19 +447,19 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	tg.wait();
 
 	if (!errors.empty()) {
-		return {Status::Error("executeAndKeys: " + errors.front()), {}};
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, "executeAndKeys: " + errors.front());
 	}
 
 	// Leere Listen früh abbrechen
 	for (const auto& l : all_lists) {
-		if (l.empty()) return {Status::OK(), {}};
+		if (l.empty()) return Ok(std::vector<std::string>{});
 	}
 
 	// Schnittmenge bilden
 	auto keys = intersectSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
 std::pair<QueryEngine::Status, QueryEngine::KeysWithScores>
