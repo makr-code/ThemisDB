@@ -8,6 +8,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
+#include "utils/tracing.h"
 #include <fmt/format.h>
 #include <stdexcept>
 
@@ -94,10 +95,16 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string_view field_name,
     const std::string& config) {
     
+    TracedSpan span("IndexManager.createSecondaryIndex");
+    span.setAttribute("index.name", std::string(name));
+    span.setAttribute("index.field", std::string(field_name));
+    span.setAttribute("index.config", config);
+    
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     if (!secondary_manager_) {
         THEMIS_ERROR("IndexManager::createSecondaryIndex: Secondary manager not initialized");
+        span.setStatus(false, "Secondary manager not initialized");
         return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED, 
                                        fmt::format("Index manager not initialized for index '{}'", name));
     }
@@ -128,6 +135,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     if (!status.ok) {
         THEMIS_ERROR("IndexManager::createSecondaryIndex: Failed to create index '{}': {}", 
                      name_str, status.message);
+        span.setStatus(false, status.message);
         return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_CREATION_FAILED,
                                        fmt::format("Failed to create index '{}': {}", name_str, status.message));
     }
@@ -137,6 +145,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     index_types_[name_str] = IndexType::SECONDARY;
     
     THEMIS_INFO("IndexManager::createSecondaryIndex: Created index '{}'", name_str);
+    span.setStatus(true);
     return Ok<ISecondaryIndex*>(nullptr);
 }
 
@@ -144,6 +153,11 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     std::string_view name,
     uint32_t dimension,
     const std::string& config) {
+    
+    TracedSpan span("IndexManager.createVectorIndex");
+    span.setAttribute("index.name", std::string(name));
+    span.setAttribute("index.dimension", static_cast<int64_t>(dimension));
+    span.setAttribute("index.config", config);
     
     (void)config;
     std::lock_guard<std::mutex> lock(registry_mutex_);

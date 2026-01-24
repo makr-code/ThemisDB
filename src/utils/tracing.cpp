@@ -1,5 +1,6 @@
 #include "utils/tracing.h"
 #include "utils/logger.h"
+#include "observability/metrics_collector.h"
 
 #include <regex>
 #include <string>
@@ -36,6 +37,8 @@ namespace themis {
 otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::tracer_;
 #endif
 bool Tracer::initialized_ = false;
+std::atomic<int64_t> Tracer::total_spans_{0};
+std::atomic<int64_t> Tracer::active_spans_{0};
 
 bool Tracer::initialize(const std::string& serviceName, const std::string& endpoint) {
 #ifdef THEMIS_ENABLE_TRACING
@@ -171,6 +174,8 @@ Tracer::Span Tracer::startSpan(const std::string& name) {
     }
     
     auto span = tracer->StartSpan(name);
+    total_spans_++;
+    active_spans_++;
     return Span(span);
 #else
     (void)name;
@@ -190,6 +195,8 @@ Tracer::Span Tracer::startChildSpan(const std::string& name, const Span& parent)
     options.parent = parent.context_;
     
     auto span = tracer->StartSpan(name, options);
+    total_spans_++;
+    active_spans_++;
     return Span(span);
 #else
     (void)name;
@@ -198,10 +205,18 @@ Tracer::Span Tracer::startChildSpan(const std::string& name, const Span& parent)
 #endif
 }
 
+int64_t Tracer::getTotalSpans() {
+    return total_spans_.load();
+}
+
+int64_t Tracer::getActiveSpans() {
+    return active_spans_.load();
+}
+
 // Span implementation
 #ifdef THEMIS_ENABLE_TRACING
 Tracer::Span::Span(otel::nostd::shared_ptr<otel::trace::Span> span)
-    : span_(span), valid_(span != nullptr), ended_(false) {
+    : span_(span), valid_(span != nullptr), ended_(false), start_time_(std::chrono::steady_clock::now()) {
     if (span_) {
         context_ = otel::context::RuntimeContext::GetCurrent().SetValue(
             otel::trace::kSpanKey, span_);
@@ -212,6 +227,9 @@ Tracer::Span::Span(otel::nostd::shared_ptr<otel::trace::Span> span)
 Tracer::Span::~Span() {
     if (valid_ && !ended_) {
         end();
+    }
+    if (valid_) {
+        active_spans_--;
     }
 }
 
@@ -316,6 +334,70 @@ void Tracer::Span::end() {
     }
 #endif
     ended_ = true;
+}
+
+double Tracer::Span::durationMs() const {
+#ifdef THEMIS_ENABLE_TRACING
+    if (!valid_) return 0.0;
+    auto now = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time_);
+    return duration.count() / 1000.0;
+#else
+    return 0.0;
+#endif
+}
+
+// ScopedSpan implementation
+ScopedSpan::~ScopedSpan() {
+    // Default implementation, can be extended if needed
+}
+
+// TracedSpan implementation
+TracedSpan::TracedSpan(const std::string& name) 
+    : span_(Tracer::startSpan(name))
+    , name_(name)
+    , start_time_(std::chrono::steady_clock::now()) {
+}
+
+TracedSpan::~TracedSpan() {
+    auto end_time = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time_);
+    double duration_ms = duration.count() / 1000.0;
+    
+    // Record span duration to Prometheus metrics
+    if (span_.isValid()) {
+        observability::MetricsCollector::getInstance().recordSpanDuration(name_, duration_ms);
+        observability::MetricsCollector::getInstance().recordActiveSpans(Tracer::getActiveSpans());
+        observability::MetricsCollector::getInstance().recordTotalSpans(Tracer::getTotalSpans());
+    }
+}
+
+void TracedSpan::setAttribute(const std::string& key, const std::string& value) {
+    span_.setAttribute(key, value);
+}
+
+void TracedSpan::setAttribute(const std::string& key, int64_t value) {
+    span_.setAttribute(key, value);
+}
+
+void TracedSpan::setAttribute(const std::string& key, double value) {
+    span_.setAttribute(key, value);
+}
+
+void TracedSpan::setAttribute(const std::string& key, bool value) {
+    span_.setAttribute(key, value);
+}
+
+void TracedSpan::recordError(const std::string& errorMessage) {
+    span_.recordError(errorMessage);
+}
+
+void TracedSpan::setStatus(bool ok, const std::string& description) {
+    span_.setStatus(ok, description);
+}
+
+Tracer::Span& TracedSpan::span() {
+    return span_;
 }
 
 } // namespace themis

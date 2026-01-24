@@ -65,6 +65,11 @@ public:
     void recordCPUUsage(double percent);
     void recordDiskIOps(size_t read_ops, size_t write_ops);
     
+    // Tracing Metrics
+    void recordSpanDuration(const std::string& span_name, double duration_ms);
+    void recordActiveSpans(int64_t count);
+    void recordTotalSpans(int64_t count);
+    
     // Get metrics in Prometheus text format
     std::string getPrometheusMetrics() const;
     
