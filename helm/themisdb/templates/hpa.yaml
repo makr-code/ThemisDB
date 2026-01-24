@@ -3,7 +3,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "themisdb.fullname" . }}
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "themisdb.labels" . | nindent 4 }}
 spec:
@@ -14,27 +13,52 @@ spec:
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
-    {{- with .Values.autoscaling.customMetrics }}
-    {{- toYaml . | nindent 2 }}
-    {{- end }}
-  {{- with .Values.autoscaling.behavior }}
-  behavior:
-    {{- toYaml . | nindent 4 }}
+  {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
   {{- end }}
+  {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+  {{- end }}
+  {{- if .Values.autoscaling.customMetrics }}
+  {{- range .Values.autoscaling.customMetrics }}
+  - type: Pods
+    pods:
+      metric:
+        name: {{ .name }}
+      target:
+        type: AverageValue
+        averageValue: {{ .targetAverageValue }}
+  {{- end }}
+  {{- end }}
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: {{ .Values.autoscaling.behavior.scaleDown.stabilizationWindowSeconds | default 300 }}
+      policies:
+      - type: Percent
+        value: {{ .Values.autoscaling.behavior.scaleDown.percentagePolicyValue | default 50 }}
+        periodSeconds: {{ .Values.autoscaling.behavior.scaleDown.periodSeconds | default 60 }}
+      - type: Pods
+        value: {{ .Values.autoscaling.behavior.scaleDown.podsPolicyValue | default 1 }}
+        periodSeconds: {{ .Values.autoscaling.behavior.scaleDown.periodSeconds | default 60 }}
+      selectPolicy: {{ .Values.autoscaling.behavior.scaleDown.selectPolicy | default "Min" }}
+    scaleUp:
+      stabilizationWindowSeconds: {{ .Values.autoscaling.behavior.scaleUp.stabilizationWindowSeconds | default 0 }}
+      policies:
+      - type: Percent
+        value: {{ .Values.autoscaling.behavior.scaleUp.percentagePolicyValue | default 100 }}
+        periodSeconds: {{ .Values.autoscaling.behavior.scaleUp.periodSeconds | default 30 }}
+      - type: Pods
+        value: {{ .Values.autoscaling.behavior.scaleUp.podsPolicyValue | default 2 }}
+        periodSeconds: {{ .Values.autoscaling.behavior.scaleUp.periodSeconds | default 30 }}
+      selectPolicy: {{ .Values.autoscaling.behavior.scaleUp.selectPolicy | default "Max" }}
 {{- end }}

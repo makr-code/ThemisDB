@@ -27,8 +27,17 @@ This operations guide provides comprehensive documentation for deploying, managi
 - [Deployment Guide](production/DEPLOYMENT.md) - Step-by-step deployment instructions
 - [Post-Deployment Checklist](production/CHECKLISTS/post_deployment.md) - Validation after deployment
 
+### Auto-Scaling & High Availability
+- [Kubernetes HPA Configuration](../helm/themisdb/templates/hpa.yaml) - Horizontal Pod Autoscaler setup
+- [Scaling Runbook](production/RUNBOOKS/SCALING_RUNBOOK.md) - Horizontal and vertical scaling procedures
+- [Load Balancer Integration](production/LOAD_BALANCER_INTEGRATION.md) - NGINX, AWS ALB, GCP LB, Istio, HAProxy
+
 ### Day-to-Day Operations
-- [Operational Runbooks](production/RUNBOOKS.md) - Standard operational procedures (Upgrade, Restore, Failover, Scaling)
+- [Operational Runbooks](production/RUNBOOKS.md) - Standard operational procedures
+  - [Upgrade Runbook](production/RUNBOOKS/UPGRADE_RUNBOOK.md) - Zero-downtime upgrade procedures
+  - [Restore Runbook](production/RUNBOOKS/RESTORE_RUNBOOK.md) - Backup restoration procedures
+  - [Failover Runbook](production/RUNBOOKS/FAILOVER_RUNBOOK.md) - Failover and recovery procedures
+  - [Scaling Runbook](production/RUNBOOKS/SCALING_RUNBOOK.md) - Horizontal and vertical scaling
 - [Monitoring Guide](production/MONITORING.md) - Metrics, dashboards, and alerting
 - [Troubleshooting Guide](production/TROUBLESHOOTING.md) - Common issues and solutions
 
@@ -41,9 +50,14 @@ This operations guide provides comprehensive documentation for deploying, managi
 - [Security Hardening](production/SECURITY.md) - Security best practices and configuration
 - [Compliance Checklists](production/CHECKLISTS/compliance.md) - SOC2, GDPR, HIPAA compliance
 - [Incident Response](production/CHECKLISTS/incident_response.md) - Structured incident handling
+- [Operational Compliance Checklist](production/CHECKLISTS/operational_compliance.md) - Monthly compliance verification
 
 ### Performance
 - [Performance Tuning](production/PERFORMANCE_TUNING.md) - Optimization techniques and best practices
+- [Load Balancer Integration](production/LOAD_BALANCER_INTEGRATION.md) - Load balancer configuration and setup
+
+### Disaster Recovery
+- [Disaster Recovery Plan](production/DISASTER_RECOVERY_PLAN.md) - Complete DR plan with RTO/RPO targets
 
 ---
 
@@ -53,25 +67,42 @@ This operations guide provides comprehensive documentation for deploying, managi
 docs/
 ├── OPERATIONS.md (this file)
 └── production/
-    ├── DEPLOYMENT.md              # Installation and configuration
-    ├── PERFORMANCE_TUNING.md      # Optimization guide
-    ├── MONITORING.md              # Observability setup
-    ├── TROUBLESHOOTING.md         # Problem resolution
-    ├── RUNBOOKS.md                # Operational procedures (Upgrade, Restore, Failover, Scaling)
-    ├── DISASTER_RECOVERY.md       # DR plans, RTO/RPO, backup strategies
-    ├── SLA_MONITORING.md          # SLA definitions, Prometheus alerts, Grafana dashboards
-    ├── AUTOSCALING.md             # Kubernetes HPA/VPA, load balancing
-    ├── SECURITY.md                # Security hardening
+    ├── DEPLOYMENT.md                  # Installation and configuration
+    ├── DISASTER_RECOVERY_PLAN.md      # Complete DR plan with RTO/RPO
+    ├── LOAD_BALANCER_INTEGRATION.md   # Load balancer configuration
+    ├── PERFORMANCE_TUNING.md          # Optimization guide
+    ├── MONITORING.md                  # Observability setup
+    ├── TROUBLESHOOTING.md             # Problem resolution
+    ├── RUNBOOKS.md                    # Operational procedures
+    ├── SECURITY.md                    # Security hardening
+    ├── RUNBOOKS/
+    │   ├── UPGRADE_RUNBOOK.md         # Upgrade procedures
+    │   ├── RESTORE_RUNBOOK.md         # Backup restoration
+    │   ├── FAILOVER_RUNBOOK.md        # Failover & recovery
+    │   └── SCALING_RUNBOOK.md         # Scaling operations
     ├── CHECKLISTS/
-    │   ├── pre_deployment.md      # Pre-deployment validation
-    │   ├── post_deployment.md     # Post-deployment validation
-    │   ├── incident_response.md   # Incident handling
-    │   └── compliance.md          # SOC2, GDPR, HIPAA compliance
+    │   ├── pre_deployment.md          # Pre-deployment validation
+    │   ├── post_deployment.md         # Post-deployment validation
+    │   ├── incident_response.md       # Incident handling
+    │   └── operational_compliance.md  # Monthly compliance check
     └── examples/
         ├── single_gpu_setup.yaml      # Single GPU configuration
         ├── multi_gpu_setup.yaml       # Multi-GPU configuration
         ├── distributed_training.yaml  # Distributed training
         └── raid_configuration.yaml    # High-availability storage
+
+grafana/
+└── dashboards/
+    └── sla-monitoring.json            # SLA monitoring dashboard
+
+prometheus/
+└── alerts/
+    └── sla-rules.yml                  # SLA alerting rules
+
+helm/themisdb/
+└── templates/
+    ├── hpa.yaml                       # Horizontal Pod Autoscaler
+    └── servicemonitor.yaml            # Prometheus ServiceMonitor
 ```
 
 ---
@@ -194,6 +225,11 @@ themisdb-cli lora deploy --adapter custom-adapter
 - [Monitoring Setup](production/MONITORING.md)
 - [Key Metrics](production/MONITORING.md#key-metrics)
 - [Alerting Rules](production/MONITORING.md#alerting-rules)
+
+**SLA Monitoring:**
+- [SLA Dashboard](../grafana/dashboards/sla-monitoring.json) - Track availability, latency, and error budgets
+- [SLA Alerting Rules](../prometheus/alerts/sla-rules.yml) - Prometheus alerts for SLA breaches
+- Target: 99.9% availability, P95 < 200ms, < 0.1% error rate
 
 ### Troubleshooting
 
