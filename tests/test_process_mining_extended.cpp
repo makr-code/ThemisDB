@@ -578,9 +578,6 @@ TEST_F(ProcessMiningExtendedTest, IdenticalTracesVariantAnalysis) {
 }
 
 // Main function for Google Test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
 
 #endif // PROCESS_MINING_EXTENDED_TEMP_DISABLED

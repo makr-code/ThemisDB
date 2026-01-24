@@ -29,7 +29,6 @@ namespace fs = std::filesystem;
 using namespace themis;
 using namespace themis::llm;
 using namespace themis::storage;
-using namespace themis::security;
 
 // ═══════════════════════════════════════════════════════════
 // Test Fixtures
@@ -47,8 +46,11 @@ protected:
         fs::create_directories(blob_path_);
         
         // Initialize RocksDB
-        db_ = std::make_shared<RocksDBWrapper>();
-        ASSERT_TRUE(db_->open(db_path_.string()));
+        RocksDBWrapper::Config db_config;
+        db_config.db_path = db_path_.string();
+        db_config.create_if_missing = true;
+        db_ = std::make_shared<RocksDBWrapper>(db_config);
+        ASSERT_TRUE(db_->open());
         
         // Initialize BlobStorageManager with filesystem backend
         BlobStorageConfig blob_config;
@@ -396,7 +398,4 @@ TEST_F(ModelLoadingFromThemisDBTest, Performance_LoadMultipleTimes) {
 // Main
 // ═══════════════════════════════════════════════════════════
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

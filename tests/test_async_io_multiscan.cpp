@@ -324,9 +324,6 @@ TEST_F(AsyncIOMultiScanTest, SyncVsAsyncPerformance) {
     EXPECT_LT(duration_async.count(), 30000);  // Should complete in < 30 seconds
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
 
 #endif // disabled async IO multiscan tests pending API update

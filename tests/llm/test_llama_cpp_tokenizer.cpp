@@ -440,6 +440,7 @@ TEST_F(LlamaCppTokenizerTest, DifferentFromSimpleTokenizer) {
         spdlog::info("SimpleTokenizer not available (expected in production): {}", e.what());
         GTEST_SKIP() << "SimpleTokenizer not available - test skipped";
     }
+}
 
 // ═══════════════════════════════════════════════════════════
 // Edge Cases
@@ -494,12 +495,3 @@ TEST_F(LlamaCppTokenizerTest, HandlesNewlines) {
 // ═══════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Set log level
-    spdlog::set_level(spdlog::level::info);
-    
-    return RUN_ALL_TESTS();
-}

@@ -1,0 +1,179 @@
+# Load Balancer Configuration for ThemisDB
+# NGINX Ingress with advanced load balancing
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: themisdb-ingress
+  namespace: themisdb
+  annotations:
+    # NGINX specific annotations
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    
+    # Load balancing algorithm
+    nginx.ingress.kubernetes.io/load-balance: "least_conn"
+    # Options: round_robin, least_conn, ip_hash, random
+    
+    # Session affinity (sticky sessions)
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "themisdb-session"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "3600"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
+    
+    # Rate limiting
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-connections: "50"
+    
+    # Timeouts
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    
+    # Buffer sizes for large requests
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    
+    # Health checks
+    nginx.ingress.kubernetes.io/health-check-path: "/health"
+    nginx.ingress.kubernetes.io/health-check-interval: "10s"
+    
+    # TLS configuration
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    
+    # CORS
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    
+spec:
+  ingressClassName: nginx
+  
+  tls:
+    - hosts:
+        - themisdb.example.com
+        - api.themisdb.example.com
+      secretName: themisdb-tls
+  
+  rules:
+    - host: themisdb.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: themisdb
+                port:
+                  number: 8080
+    
+    - host: api.themisdb.example.com
+      http:
+        paths:
+          # Inference API
+          - path: /v1/inference
+            pathType: Prefix
+            backend:
+              service:
+                name: themisdb-inference
+                port:
+                  number: 8080
+          
+          # Admin API
+          - path: /v1/admin
+            pathType: Prefix
+            backend:
+              service:
+                name: themisdb-admin
+                port:
+                  number: 8081
+
+---
+# Service for load balancing
+apiVersion: v1
+kind: Service
+metadata:
+  name: themisdb
+  namespace: themisdb
+  annotations:
+    # Cloud provider load balancer annotations (AWS)
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "10"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "5"
+    service.beta.kubernetes.io/aws-load-balancer-healthy-threshold: "2"
+    service.beta.kubernetes.io/aws-load-balancer-unhealthy-threshold: "2"
+spec:
+  type: LoadBalancer
+  sessionAffinity: ClientIP  # IP-based session affinity
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600  # 1 hour
+  
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+    
+    - name: https
+      port: 443
+      targetPort: 8080
+      protocol: TCP
+    
+    - name: metrics
+      port: 9091
+      targetPort: 9091
+      protocol: TCP
+  
+  selector:
+    app: themisdb
+
+---
+# Alternative: Cloud provider specific load balancer (GCP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: themisdb-gcp
+  namespace: themisdb
+  annotations:
+    cloud.google.com/load-balancer-type: "Internal"
+    cloud.google.com/backend-config: '{"default": "themisdb-backend-config"}'
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.0.100  # Reserve static IP
+  
+  ports:
+    - port: 80
+      targetPort: 8080
+  
+  selector:
+    app: themisdb
+
+---
+# Backend configuration for GCP
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: themisdb-backend-config
+  namespace: themisdb
+spec:
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 5
+    healthyThreshold: 2
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /health
+    port: 8080
+  
+  connectionDraining:
+    drainingTimeoutSec: 60
+  
+  timeoutSec: 300
+  
+  sessionAffinity:
+    affinityType: "CLIENT_IP"
+    affinityCookieTtlSec: 3600

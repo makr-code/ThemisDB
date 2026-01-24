@@ -380,9 +380,3 @@ TEST_F(FusedKernelsTest, FullTrainingLoop_CUDA_FusedVsUnfused) {
     EXPECT_TRUE(tensors_close(*params_fused[1], *params_unfused[1], EPSILON))
         << "Final A parameters should match";
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    spdlog::set_level(spdlog::level::info);
-    return RUN_ALL_TESTS();
-}

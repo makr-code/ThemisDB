@@ -504,7 +504,4 @@ TEST(EmbeddingAnomalyIntegration, PoisonedEmbeddingDetection) {
     EXPECT_GT(score, 0.5f) << "Failed to detect poisoned embedding";
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

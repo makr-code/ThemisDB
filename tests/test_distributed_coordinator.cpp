@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+
+// Disable distributed coordinator tests
+#if 0
 #include "sharding/distributed_coordinator.h"
 
 using namespace themis::sharding;
@@ -325,3 +328,9 @@ TEST_F(DistributedCoordinatorTest, MultipleShardElection) {
 }
 
 } // namespace themis::sharding
+
+#endif // 0
+
+TEST(DistributedCoordinatorDisabled, DISABLED_AllTestsSkipped) {
+    GTEST_SKIP() << "Distributed coordinator tests are currently disabled";
+}

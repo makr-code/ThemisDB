@@ -495,10 +495,11 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
 
 std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
-    const std::vector<uint32_t>& missing_indices,
+    const std::vector<uint32_t>& missing_indices [[maybe_unused]],
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
+    (void)missing_indices;
     // Check if we have enough chunks
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
@@ -641,11 +642,12 @@ RedundancyStrategy::~RedundancyStrategy() = default;
 WriteResult RedundancyStrategy::write(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     WriteHandler handler
 ) {
+    (void)collection;
     auto start = std::chrono::steady_clock::now();
     
     stats_writes_++;
@@ -689,11 +691,12 @@ WriteResult RedundancyStrategy::write(
 
 ReadResult RedundancyStrategy::read(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler handler
 ) {
+    (void)collection;
     auto start = std::chrono::steady_clock::now();
     
     stats_reads_++;
@@ -744,9 +747,10 @@ WriteResult RedundancyStrategy::writeMirror(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
     ConsistentHashRing& ring,
-    ShardTopology& topology,
+    ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
+    (void)topology;
     // Get primary shard
     auto primary_shard = ring.getNode(document_id);
     if (!primary_shard) {
@@ -822,9 +826,10 @@ WriteResult RedundancyStrategy::writeStripe(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
     ConsistentHashRing& ring,
-    ShardTopology& topology,
+    ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
+    (void)topology;
     // Split data into chunks
     auto chunks = splitIntoChunks(data, config_.stripe.stripe_size_kb * 1024);
     
@@ -908,9 +913,10 @@ WriteResult RedundancyStrategy::writeParity(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
     ConsistentHashRing& ring,
-    ShardTopology& topology,
+    ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
+    (void)topology;
     if (!erasure_coder_) {
         return WriteResult::failed(document_id, "Erasure coder not initialized");
     }
@@ -1033,9 +1039,10 @@ ReadResult RedundancyStrategy::readMirror(
 ReadResult RedundancyStrategy::readStripe(
     const std::string& document_id,
     ConsistentHashRing& ring,
-    ShardTopology& topology,
+    ShardTopology& topology [[maybe_unused]],
     ReadHandler handler
 ) {
+    (void)topology;
     ReadResult result;
     result.document_id = document_id;
     result.success = false;

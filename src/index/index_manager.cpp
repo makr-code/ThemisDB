@@ -145,6 +145,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     uint32_t dimension,
     const std::string& config) {
     
+    (void)config;
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     if (!vector_manager_) {
@@ -191,6 +192,7 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
     const std::string& config) {
     
+    (void)config;
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     if (!graph_manager_) {

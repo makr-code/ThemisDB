@@ -65,7 +65,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, VoiceCommandWithMetricsTracking) {
     std::string session_id = "cross-func-test-001";
     std::string command = "Show me the database statistics";
     
-    EXPECT_NO_THROW({
+    auto run_command = [&]() {
         std::string response = assistant.processTextCommand(command, session_id);
         
         auto end = std::chrono::steady_clock::now();
@@ -74,7 +74,9 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, VoiceCommandWithMetricsTracking) {
         // Record metrics for voice processing
         metrics.recordContentImport("text/plain", command.size());
         metrics.recordQuery("voice_command", duration_ms, 1);
-    });
+        (void)response;
+    };
+    EXPECT_NO_THROW(run_command());
     
     // Verify metrics were collected
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -100,7 +102,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, PhoneCallRecordingWithStorageMetri
     
     auto start = std::chrono::steady_clock::now();
     
-    EXPECT_NO_THROW({
+    auto record_call = [&]() {
         json result = assistant.recordPhoneCall(audio_data, call_metadata);
         
         auto end = std::chrono::steady_clock::now();
@@ -112,7 +114,9 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, PhoneCallRecordingWithStorageMetri
         
         // Record storage metrics
         metrics.recordMemoryUsage(audio_data.size());
-    });
+        (void)result;
+    };
+    EXPECT_NO_THROW(record_call());
     
     // Verify comprehensive metrics
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -137,7 +141,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, MeetingProtocolWithAuditMetrics) {
     
     auto start = std::chrono::steady_clock::now();
     
-    EXPECT_NO_THROW({
+    auto generate_protocol = [&]() {
         json protocol = assistant.generateMeetingProtocol(audio_data, meeting);
         
         auto end = std::chrono::steady_clock::now();
@@ -152,7 +156,9 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, MeetingProtocolWithAuditMetrics) {
         for (const auto& participant : meeting.participants) {
             metrics.recordAuthAttempt(true);
         }
-    });
+        (void)protocol;
+    };
+    EXPECT_NO_THROW(generate_protocol());
     
     // Verify all metrics categories are present
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -219,7 +225,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, AudioConversionWithPerformanceTrac
         
         auto start = std::chrono::steady_clock::now();
         
-        EXPECT_NO_THROW({
+        auto convert = [&]() {
             std::vector<uint8_t> converted = assistant.convertAudioFormat(audio_data, "mp3");
             
             auto end = std::chrono::steady_clock::now();
@@ -230,11 +236,12 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, AudioConversionWithPerformanceTrac
             metrics.recordMemoryUsage(size + converted.size());
             
             // Record compression ratio if applicable
-            if (converted.size() > 0) {
+            if (!converted.empty()) {
                 double ratio = static_cast<double>(converted.size()) / size;
                 metrics.recordTSStoreCompression("audio", ratio);
             }
-        });
+        };
+        EXPECT_NO_THROW(convert());
     }
     
     // Verify performance metrics across different sizes
@@ -258,7 +265,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, VoiceStorageWithFullMetrics) {
     
     auto start = std::chrono::steady_clock::now();
     
-    EXPECT_NO_THROW({
+    auto store = [&]() {
         std::string doc_id = assistant.storeRecording(audio_data, transcript, metadata);
         
         auto end = std::chrono::steady_clock::now();
@@ -274,7 +281,8 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, VoiceStorageWithFullMetrics) {
         
         // Record successful operation
         EXPECT_FALSE(doc_id.empty());
-    });
+    };
+    EXPECT_NO_THROW(store());
     
     // Verify storage metrics
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -305,7 +313,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, SessionStatisticsWithMetricsExport
     }
     
     // Get statistics from both systems
-    EXPECT_NO_THROW({
+    auto export_stats = [&]() {
         json voice_stats = assistant.getStatistics();
         std::string metrics_export = metrics.getPrometheusMetrics();
         
@@ -314,7 +322,8 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, SessionStatisticsWithMetricsExport
         
         // Verify cross-system consistency
         EXPECT_NE(metrics_export.find("queries_total"), std::string::npos);
-    });
+    };
+    EXPECT_NO_THROW(export_stats());
 }
 
 // ============================================================================
@@ -326,7 +335,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, ErrorHandlingWithMetricsTracking) 
     auto& metrics = MetricsCollector::getInstance();
     
     // Test error scenarios
-    EXPECT_NO_THROW({
+    auto error_flow = [&]() {
         // Empty audio
         std::vector<uint8_t> empty_audio;
         assistant.processVoiceCommand(empty_audio, "error-test");
@@ -339,7 +348,8 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, ErrorHandlingWithMetricsTracking) 
         assistant.convertAudioFormat(audio, "invalid_format");
         
         metrics.recordQuery("conversion_error", 0.1, 0);
-    });
+    };
+    EXPECT_NO_THROW(error_flow());
     
     // Verify error metrics are tracked
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -350,7 +360,4 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, ErrorHandlingWithMetricsTracking) 
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

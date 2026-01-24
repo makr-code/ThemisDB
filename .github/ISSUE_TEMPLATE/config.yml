@@ -1,8 +1,0 @@
-blank_issues_enabled: true
-contact_links:
-  - name: Phase 4 Query Engine Migration - Documentation
-    url: https://github.com/makr-code/ThemisDB/blob/develop/MIGRATION_ROADMAP.md
-    about: View the complete migration roadmap and documentation
-  - name: Phase 1-2 Completion Summary
-    url: https://github.com/makr-code/ThemisDB/blob/develop/CURRENT_STATUS.md
-    about: Review the completed Phase 1-2 work

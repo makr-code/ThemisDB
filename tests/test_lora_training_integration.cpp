@@ -351,12 +351,3 @@ TEST_F(LoRATrainingIntegrationTest, BaseModelIntegration_FallbackOnError) {
     EXPECT_TRUE(result.success || !result.error_message.empty());
     // Training should succeed with fallback, not fail completely
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Set log level for testing
-    spdlog::set_level(spdlog::level::warn);  // Reduce noise during tests
-    
-    return RUN_ALL_TESTS();
-}

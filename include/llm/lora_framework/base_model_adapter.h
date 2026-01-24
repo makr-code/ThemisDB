@@ -28,7 +28,7 @@ struct BaseLayerInfo {
 /**
  * @brief Model architecture information
  */
-struct ModelArchitecture {
+struct ModelArchitectureInfo {
     std::string architecture;      // "llama", "mistral", "gpt-neox"
     int num_layers;                // Number of transformer layers
     int hidden_size;               // Hidden dimension
@@ -65,7 +65,7 @@ public:
      * @brief Get model architecture information
      * @return Model architecture details
      */
-    const ModelArchitecture& getArchitecture() const { return architecture_; }
+    const ModelArchitectureInfo& getArchitecture() const { return architecture_; }
     
     /**
      * @brief Get all available layers for LoRA adaptation
@@ -177,7 +177,7 @@ private:
     std::string model_name_;
     bool model_loaded_;
     
-    ModelArchitecture architecture_;
+    ModelArchitectureInfo architecture_;
     std::vector<BaseLayerInfo> adaptable_layers_;
     
     // Cached layer information for fast lookup

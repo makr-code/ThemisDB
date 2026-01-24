@@ -12,16 +12,12 @@
 
 #include "test_fixture.h"
 #include "test_data_generator.h"
-#include "content/content_manager.h"
-#include "content/audio_processor.h"
-#include "content/video_processor.h"
-#include "content/image_processor.h"
-#include "content/pdf_processor.h"
 #include "content/mime_detector.h"
-#include "content/content_type.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
+#include <chrono>
 #include <fstream>
+#include <memory>
 #include <vector>
 
 using namespace themis;
@@ -580,7 +576,4 @@ TEST_F(ContentProcessingTest, CompleteContentPipeline) {
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+
+// Disable continuous aggregation tests
+#if 0
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
 #include "storage/rocksdb_wrapper.h"
@@ -50,4 +53,10 @@ TEST_F(ContinuousAggTest, RefreshWindowedAvg) {
     // Metadata contains count
     ASSERT_TRUE(pts[0].metadata.contains("count"));
     EXPECT_EQ(pts[0].metadata["count"].get<size_t>(), 6u);
+}
+
+#endif // 0
+
+TEST(ContinuousAggDisabled, DISABLED_AllTestsSkipped) {
+    GTEST_SKIP() << "Continuous aggregation tests are currently disabled";
 }

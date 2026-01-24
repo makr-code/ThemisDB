@@ -1215,7 +1215,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
-    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/feedback_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
@@ -1336,6 +1336,8 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
+    ../src/utils/file_utils.cpp
+    ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
@@ -2428,255 +2430,11 @@ if(WIN32 AND THEMIS_ENABLE_MIMALLOC)
     endif()
 endif()
 
-# Tests
+# Tests - Delegated to tests/CMakeLists.txt
 if(THEMIS_BUILD_TESTS)
     enable_testing()
     find_package(GTest CONFIG REQUIRED)
-
-    option(THEMIS_ENABLE_LIB_JSON_TEST "Build simdjson integration test" OFF)
-    
-    add_executable(themis_tests
-        ${THEMIS_ROOT_DIR}/tests/test_env.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_base_entity.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_rocksdb_high_parallel_tuning.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_rocksdb_stats_json.cpp
-        # Library integration tests (systematic coverage)
-        ${THEMIS_ROOT_DIR}/tests/test_lib_rocksdb_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_lib_openssl_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_lib_tbb_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_composite_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_unique_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_range_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_sparse_geo_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_ttl_fulltext_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_index_stats.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_graph_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_graph_query_optimizer.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_vector_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_hnsw_layer_optimizer.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_query_engine.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_query_or.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_optimizer_cost_model.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_adaptive_optimizer.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_hnsw_production_defaults.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_stats_api.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_range_index.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_normalization.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_phrase_search.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_fulltext.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_or.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_fulltext_hybrid.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_bm25.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_similarity.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_similarity_dispatch.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_proximity.cpp
-              ${THEMIS_ROOT_DIR}/tests/test_aql_proximity_dispatch.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_metrics_api.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_query_range.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_aql.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_aql_fulltext_score.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_aql_fulltext_or.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_http_aql_join.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_http_aql_let.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_aql_collect.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_config.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_aql_graph.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_crash_recovery_direct.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_aql_collect.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_vector.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_vector_largescale.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_content.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_video_processor_extended.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_sse.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_changefeed_governance.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_timeseries.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_stemming.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_stopwords.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_governance.cpp
-        
-        # Geo tests
-        ${THEMIS_ROOT_DIR}/tests/geo/test_geo_ewkb.cpp
-        ${THEMIS_ROOT_DIR}/tests/geo/test_spatial_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/geo/test_aql_st_functions.cpp
-        ${THEMIS_ROOT_DIR}/tests/geo/test_aql_st_queryengine.cpp
-        ${THEMIS_ROOT_DIR}/tests/geo/test_geo_3d_functions.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_geo_index_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_aql_let_st.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_hybrid_queries.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_audit.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_transaction_manager.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_transaction_isolation.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_snapshot_manager.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_changefeed_ordering.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_gorilla_codec_edge_cases.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_saga_concurrent_execution.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_consistent_hash_distribution.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_vulkan_backend.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_postgres_importer_datatypes.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_plugin_lifecycle.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_mvcc.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_aql_parser.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_aql_with_clause.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_aql_subqueries.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_cte_cache.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_aql_translator.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_text_processor.cpp
-        # Standalone tests with own main() removed from themis_tests:
-        # test_nlp_integration.cpp, test_nlp_metadata_extractor.cpp, test_lora_*.cpp, test_data_loader.cpp, test_llama_tokenizer.cpp, test_office_processor.cpp, test_production_validator.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_prompt_manager.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_mock_clip.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_image_analysis_interface.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_image_analysis_quality.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_backup_restore.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_raid5_backup.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_cursor.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_temporal_graph.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_temporal_aggregation.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_temporal_aggregation_property.cpp
-        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_recursive_path_query.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_timerange_query.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_property_graph.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_graph_type_filtering.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_gnn_embeddings.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_semantic_cache.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_query_cache.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_tsstore.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_gorilla.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_gorilla_probe.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_timeseries_retention.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_continuous_agg.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_adaptive_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_adaptive_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_encryption.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_hkdf_cache.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_field_encryption_batch.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_pki_eidas.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_pki_api_handler.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_wal_archiving.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_encryption_e2e.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_vault_key_provider.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_vault_key_provider_retry.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_wal_backup_manager.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_wal_grpc_apply.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_wal_replication_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_audit_logger.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_pii_detector.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_retention_manager.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_saga_logger.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_retention_api.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_policy_yaml.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_pki_client.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_cms_signing.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_keyprovider_signing.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_vault_signing_provider.cpp
-        # Enterprise tests (only if enterprise source is available)
-        $<$<AND:$<BOOL:${THEMIS_BUILD_ENTERPRISE}>,$<TARGET_EXISTS:themis_enterprise_common>>:tests/test_enterprise_scalability.cpp>
-        ${THEMIS_ROOT_DIR}/tests/test_http_policies_export.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_pii_soft_delete.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_http_pii_lazy_init.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_http_pii_manager_new.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_jwt_validator.cpp
-    # Kerberos test removed - not available on Windows
-    # ${THEMIS_ROOT_DIR}/tests/test_gssapi_authenticator.cpp
-    ${THEMIS_ROOT_DIR}/tests/test_jwt_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_jwt_rotation_unit.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_llm_api_handler_jwt.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_auth_middleware.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_usb_admin_authenticator.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_pki_client_rest.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_group_dek.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_input_validator.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_sharding_core.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_raft_consensus.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_quorum_writes.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_partition_detection.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_raid_redundancy.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_hot_spare.cpp
-        # LoRA/LLM tests with own main() moved to separate executables below
-        # test_lora_framework.cpp, test_lora_feedback.cpp, test_lora_llama_integration.cpp, test_data_loader.cpp, test_llama_tokenizer.cpp, test_lora_training_integration.cpp
-        $<$<BOOL:${THEMIS_ENABLE_DIRECTX}>:${THEMIS_ROOT_DIR}/tests/test_directx_backend.cpp>  # DirectX 12 compute pipeline tests (Phase 10.2)
-        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_qlora_gpu_kernels.cpp>  # QLoRA GPU kernel tests
-        $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_ENABLE_CUDA}>>:${THEMIS_ROOT_DIR}/tests/test_flash_lora.cpp>  # FlashLoRA memory-efficient kernel tests
-        ${THEMIS_ROOT_DIR}/tests/test_raid_integration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_predictive_detector.cpp
-        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${THEMIS_ROOT_DIR}/tests/test_gpu_erasure_coding.cpp>
-        # test_office_processor.cpp removed (has own main)
-        ${THEMIS_ROOT_DIR}/tests/test_stream_protocol_extended.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_cloud_agent.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_pki_shard_certificate.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_mtls_client.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_signed_request.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_shard_communication.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_rebalance_migration.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_monitoring_ops.cpp
-        ${THEMIS_ROOT_DIR}/tests/update_checker_test.cpp
-        
-        # New feature tests
-        ${THEMIS_ROOT_DIR}/tests/test_tenant_manager.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_graphql.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_olap.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_olap_extended.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_process_mining_extended.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
-        
-        # Phase 1 Performance Optimization Tests (from PR #157)
-        ${THEMIS_ROOT_DIR}/tests/test_performance_feature_flags.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_performance_allocator.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_pool_allocator.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_huge_pages.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_rcu_index.cpp
-        ${THEMIS_ROOT_DIR}/tests/test_lirs_cache.cpp
-        
-        # Phase 2 Performance Optimization Tests (from this PR)
-        ${THEMIS_ROOT_DIR}/tests/test_phase2_optimizations.cpp
-        
-        # Protocol tests (conditional based on build flags)
-        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_server_push.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:tests/test_http3_protocol.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:tests/test_websocket_cdc.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_MQTT}>:tests/test_mqtt_protocol.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:tests/test_postgres_wire.cpp>
-        $<$<BOOL:${THEMIS_ENABLE_MCP}>:tests/test_mcp_protocol.cpp>
-        
-        # Vector encryption integration tests
-        ${THEMIS_ROOT_DIR}/tests/test_vector_encryption_integration.cpp
-        
-        # LLM plugin tests (v1.3.0+) are added conditionally below
-    )
-
-    if(THEMIS_ENABLE_LIB_JSON_TEST)
-        target_sources(themis_tests PRIVATE ${THEMIS_ROOT_DIR}/tests/test_lib_json_integration.cpp)
-    endif()
-    
-    target_link_libraries(themis_tests
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-            Boost::system
-    )
-
-    # Ensure llama runtime is available next to the test binary on Windows
-    if(TARGET llama)
-        add_custom_command(TARGET themis_tests POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                    $<TARGET_FILE:llama>
-                    $<TARGET_FILE_DIR:themis_tests>
-        )
-        add_custom_command(TARGET themis_tests POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                    $<TARGET_FILE_DIR:llama>
-                    $<TARGET_FILE_DIR:themis_tests>
-        )
-    endif()
+    add_subdirectory(${THEMIS_ROOT_DIR}/tests tests)
 
     # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
     add_executable(themis_secidx_tests
@@ -2721,22 +2479,7 @@ if(THEMIS_BUILD_TESTS)
 
     # Conditionally add LLM tests only when LLM is enabled
     if(THEMIS_ENABLE_LLM)
-        target_sources(themis_tests PRIVATE
-            ${THEMIS_ROOT_DIR}/tests/test_llm_plugin.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_llm_caching.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_kv_cache_buffer.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_paged_attention.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_continuous_batch_scheduler.cpp
-            # test_production_validator.cpp removed (has own main)
-            ${THEMIS_ROOT_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
-            ${THEMIS_ROOT_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
-        )
-
-        # P1: Enhanced inference engine tests
-        target_sources(themis_tests PRIVATE
-            ${THEMIS_ROOT_DIR}/tests/test_inference_engine_enhanced.cpp
-        )
+        # LLM tests are now handled in tests/CMakeLists.txt via file(GLOB_RECURSE)
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
         # Disabled: test_llamacpp_integration.cpp does not exist
@@ -2806,25 +2549,7 @@ if(THEMIS_BUILD_TESTS)
         )
     endif()
 
-    # Discover individual GoogleTest tests for better CTest integration
-    include(GoogleTest)
-    # On multi-config generators (MSVC), ensure correct working dir for runtime assets
-    if(CMAKE_CONFIGURATION_TYPES)
-        set(_gtest_workdir "$<TARGET_FILE_DIR:themis_tests>")
-    else()
-        set(_gtest_workdir ${CMAKE_CURRENT_BINARY_DIR})
-    endif()
-    gtest_discover_tests(themis_tests
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-
-    # Note: Do not add an aggregate test that runs the entire suite again.
-    # gtest_discover_tests already registers each test case with CTest. Adding
-    # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
-    # the full suite a second time and can make CI appear to hang on the last
-    # test (previously "Test #619: ThemisTests").
+    # Note: themis_tests discovery is now handled in tests/CMakeLists.txt
     
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)
@@ -2839,7 +2564,7 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_diskann
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_diskann>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
@@ -2856,7 +2581,7 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_bwtree
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bwtree>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
@@ -2873,7 +2598,7 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_splinterdb
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_splinterdb>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
@@ -2890,7 +2615,7 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_gunrock
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gunrock>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
@@ -2907,7 +2632,7 @@ if(THEMIS_BUILD_TESTS)
         )
         gtest_discover_tests(test_bao
             DISCOVERY_MODE PRE_TEST
-            WORKING_DIRECTORY ${_gtest_workdir}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
@@ -2944,16 +2669,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
-    add_executable(bench_advanced_patterns
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_advanced_patterns.cpp
-    )
-    
-    target_link_libraries(bench_advanced_patterns
-        PRIVATE
-            themis_core
-            benchmark::benchmark
-            benchmark::benchmark_main
-    )
+    if(NOT TARGET bench_advanced_patterns)
+        add_executable(bench_advanced_patterns
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_advanced_patterns.cpp
+        )
+
+        target_link_libraries(bench_advanced_patterns
+            PRIVATE
+                themis_core
+                benchmark::benchmark
+                benchmark::benchmark_main
+        )
+    endif()
 
     add_executable(bench_hotspots_micro
         ${THEMIS_ROOT_DIR}/benchmarks/bench_hotspots_micro.cpp
@@ -2993,61 +2720,10 @@ if(THEMIS_BUILD_BENCHMARKS)
         ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_apply_grpc.cpp
     )
 
-    # Bundle additional CPU-first benchmarks into the unified binary so they build by default
-    target_sources(themis_benchmarks PRIVATE
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_core_performance.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_comprehensive.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_advanced_patterns.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_hotspots_micro.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_lock_contention.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_wal_stress.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_compression.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_index_rebuild.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_mvcc.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_encryption.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_olap_analytics.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_video_processor.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_stream_protocol.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_process_mining.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_async_io_multiscan.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_hsm_provider.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_shard_routing.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_transaction_throughput.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_changefeed_throughput.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_timeseries_ingestion.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_saga_compensation.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_traversal.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_graph_query_optimizer.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_pagerank.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_content_versioning.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_text_extraction.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_image_analysis_latency.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_policy_evaluation.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/benchmark_image_analysis.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpcc.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_ycsb.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_mmdb.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_tpch.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_aql_functions.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_auto_buffers.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_blob_zstd.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_product_quantization.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_sanity.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_sharding_performance.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_simd_distance.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_compression_lossless.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_vector_prefilter.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_batch_insert.cpp
-        ${THEMIS_ROOT_DIR}/benchmarks/bench_simple_insert_test.cpp
-    )
+    # Many legacy benchmark sources embed their own BENCHMARK_MAIN / int main().
+    # Linking them all into the unified themis_benchmarks target produced duplicate
+    # entry points on MSVC. Until those files are refactored to be main-free, keep
+    # the unified binary minimal to avoid linker collisions.
     
     target_link_libraries(themis_benchmarks
         PRIVATE

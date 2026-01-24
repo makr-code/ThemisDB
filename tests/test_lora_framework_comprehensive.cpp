@@ -998,34 +998,4 @@ TEST_F(LoRAFrameworkComprehensiveTest, Integration_MultiAdapterScenario) {
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Print test banner using GTest's testing::Message
-    testing::Message banner;
-    banner << "\n";
-    banner << "╔══════════════════════════════════════════════════════════════════╗\n";
-    banner << "║  ThemisDB LoRA Framework - Comprehensive Unit Test Suite        ║\n";
-    banner << "╚══════════════════════════════════════════════════════════════════╝\n";
-    banner << "\n";
-    banner << "Test Coverage:\n";
-    banner << "  ✓ LoRAStorageService (save, load, delete, versioning)\n";
-    banner << "  ✓ LoRAAdapterManager (lifecycle, caching, hot-swap)\n";
-    banner << "  ✓ LoRATrainingService (training, callbacks, checkpoints)\n";
-    banner << "  ✓ MultiLoRAManager (quantization, multi-GPU, fusion)\n";
-    banner << "  ✓ Thread-safety (concurrent reads/writes)\n";
-    banner << "  ✓ Error handling and edge cases\n";
-    banner << "  ✓ Memory management and leak detection\n";
-    banner << "  ✓ Performance benchmarks\n";
-    banner << "  ✓ Integration scenarios\n";
-    banner << "\n";
-    
-    // Only print banner if not in quiet mode
-    if (testing::GTEST_FLAG(print_time) || !testing::GTEST_FLAG(brief)) {
-        printf("%s", banner.GetString().c_str());
-    }
-    
-    int result = RUN_ALL_TESTS();
-    
-    return result;
-}
+

@@ -543,7 +543,4 @@ TEST_F(Phase4IntegrationTest, AllThreeEvaluators) {
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
