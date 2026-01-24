@@ -281,10 +281,18 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	for (const auto& shard_id : available_shards) {
 		DistributedQueryCostModel::ShardInfo info;
 		info.shard_id = shard_id;
-		// Estimate rows per shard (in real implementation, query shard metadata)
-		info.estimated_rows = 10000;  // Placeholder
+		
+		// TODO: Query actual shard metadata for accurate row estimation
+		// For now, use a reasonable default estimate
+		info.estimated_rows = 10000;
+		
+		// TODO: Measure actual network latency to each shard
+		// For now, use default latency
 		info.network_latency_ms = 1.0;
-		info.is_local = (shard_id == available_shards[0]); // First shard assumed local
+		
+		// First shard assumed local as conservative default
+		info.is_local = (shard_id == available_shards[0]);
+		
 		shard_infos.push_back(info);
 	}
 	
@@ -292,8 +300,10 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	if (enable_partition_pruning) {
 		std::vector<std::string> pruned_shards;
 		for (const auto& info : shard_infos) {
-			// Simple heuristic: check selectivity
-			double selectivity = 0.5; // Placeholder - compute from predicates
+			// TODO: Calculate actual selectivity from query predicates
+			// For now, use conservative estimate that doesn't prune aggressively
+			double selectivity = 0.5;
+			
 			if (!distributed_model_->shouldPrunePartition(info, available_shards.size(), selectivity)) {
 				pruned_shards.push_back(info.shard_id);
 			}
@@ -316,10 +326,17 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	if (plan.shard_ids.size() >= 4 && available_threads >= 8) {
 		plan.enable_numa_awareness = true;
 		
-		// Use NumaAwareOptimizer if available (created when adaptive is enabled)
-		// For now, suggest CPU affinity for first NUMA node
-		for (size_t i = 0; i < std::min(plan.recommended_parallelism, size_t(8)); ++i) {
-			plan.preferred_cpu_affinity.push_back(static_cast<int>(i));
+		// Get actual NUMA topology if available
+		if (NumaAwareOptimizer::isNumaAvailable()) {
+			// Use NumaAwareOptimizer to get actual NUMA placement
+			NumaAwareOptimizer numa_opt;
+			auto placement = numa_opt.getOptimalPlacement(0, plan.recommended_parallelism);
+			plan.preferred_cpu_affinity = placement.cpu_affinity;
+		} else {
+			// Fallback: suggest sequential CPU affinity
+			for (size_t i = 0; i < std::min(plan.recommended_parallelism, size_t(8)); ++i) {
+				plan.preferred_cpu_affinity.push_back(static_cast<int>(i));
+			}
 		}
 		
 		spdlog::debug("QueryOptimizer: NUMA awareness enabled for distributed query");
@@ -394,10 +411,24 @@ QueryOptimizer::GraphWorkloadPlan QueryOptimizer::optimizeGraphWorkload(
 	
 	GraphWorkloadPlan plan;
 	
-	// Limit expansion based on branching factor
+	// Limit expansion based on branching factor with overflow protection
 	size_t estimated_expansion = 1;
-	for (size_t d = 1; d <= max_depth && estimated_expansion < 100000; ++d) {
+	constexpr size_t MAX_SAFE_EXPANSION = 1000000;  // 1M nodes max
+	
+	for (size_t d = 1; d <= max_depth; ++d) {
+		// Check for potential overflow before multiplication
+		if (estimated_expansion > MAX_SAFE_EXPANSION / estimated_branching_factor) {
+			estimated_expansion = MAX_SAFE_EXPANSION;
+			spdlog::warn("GraphWorkloadPlan: Estimated expansion capped at {} to prevent overflow", 
+						 MAX_SAFE_EXPANSION);
+			break;
+		}
 		estimated_expansion *= estimated_branching_factor;
+		
+		if (estimated_expansion >= MAX_SAFE_EXPANSION) {
+			estimated_expansion = MAX_SAFE_EXPANSION;
+			break;
+		}
 	}
 	
 	// If expansion would be too large, reduce depth or use bidirectional search
