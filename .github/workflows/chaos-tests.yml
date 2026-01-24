@@ -1,0 +1,206 @@
+name: Chaos and Sanitizer Tests
+
+# Extended testing workflow for integration, chaos, and sanitizer tests
+# Runs ThreadSanitizer to detect race conditions and data races
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+  pull_request:
+    paths:
+      - 'tests/test_*chaos*.cpp'
+      - 'tests/test_*concurrency*.cpp'
+      - 'tests/test_*failover*.cpp'
+      - 'tests/test_*stress*.cpp'
+      - 'tests/test_multi_shard*.cpp'
+      - '.github/workflows/chaos-tests.yml'
+
+permissions:
+  contents: read
+
+env:
+  BUILD_TYPE: RelWithDebInfo  # Debug info for sanitizers
+
+jobs:
+  thread-sanitizer:
+    name: ThreadSanitizer Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            clang-15 libc++-15-dev libc++abi-15-dev \
+            libssl-dev libcurl4-openssl-dev \
+            librocksdb-dev libtbb-dev \
+            libspdlog-dev nlohmann-json3-dev \
+            libboost-dev libboost-system-dev \
+            libyaml-cpp-dev libzstd-dev \
+            libgtest-dev
+
+      - name: Configure CMake with ThreadSanitizer
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_C_COMPILER=clang-15 \
+            -DCMAKE_CXX_COMPILER=clang++-15 \
+            -DCMAKE_CXX_FLAGS="-fsanitize=thread -g -O1" \
+            -DCMAKE_C_FLAGS="-fsanitize=thread -g -O1" \
+            -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=thread" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF
+
+      - name: Build with ThreadSanitizer
+        run: |
+          cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Run Concurrency Tests
+        run: |
+          cd build
+          # Run only concurrency-related tests
+          ctest -R "Concurrency|Race" --output-on-failure --timeout 600
+        env:
+          TSAN_OPTIONS: "second_deadlock_stack=1:suppressions=../tsan_suppressions.txt:halt_on_error=0"
+
+      - name: Upload ThreadSanitizer Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tsan-report
+          path: |
+            build/Testing/Temporary/LastTest.log
+          retention-days: 14
+
+  chaos-tests:
+    name: Chaos Engineering Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            libssl-dev libcurl4-openssl-dev \
+            librocksdb-dev libtbb-dev \
+            libspdlog-dev nlohmann-json3-dev \
+            libboost-dev libboost-system-dev \
+            libyaml-cpp-dev libzstd-dev \
+            libgtest-dev
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF
+
+      - name: Build
+        run: |
+          cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Run Chaos Tests
+        run: |
+          cd build
+          # Run chaos, failover, and stress tests
+          ctest -R "Chaos|Failover|Stress|Network.*Chaos|MultiShard" \
+            --output-on-failure --timeout 900
+
+      - name: Upload Chaos Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chaos-test-results
+          path: |
+            build/Testing/Temporary/LastTest.log
+          retention-days: 14
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            libssl-dev libcurl4-openssl-dev \
+            librocksdb-dev libtbb-dev \
+            libspdlog-dev nlohmann-json3-dev \
+            libboost-dev libboost-system-dev \
+            libyaml-cpp-dev libzstd-dev \
+            libgtest-dev
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF
+
+      - name: Build
+        run: |
+          cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Run All Integration Tests
+        run: |
+          cd build
+          # Run all new integration tests
+          ctest -R "MultiShard|AutoFailover|LongRunning" \
+            --output-on-failure --timeout 900
+
+      - name: Upload Integration Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: |
+            build/Testing/Temporary/LastTest.log
+          retention-days: 14
+
+  summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [thread-sanitizer, chaos-tests, integration-tests]
+    if: always()
+    
+    steps:
+      - name: Generate Summary
+        run: |
+          echo "## Chaos and Sanitizer Tests Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Jobs" >> $GITHUB_STEP_SUMMARY
+          echo "- ThreadSanitizer: ${{ needs.thread-sanitizer.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Chaos Tests: ${{ needs.chaos-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Integration Tests: ${{ needs.integration-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Race/Concurrency Detection (ThreadSanitizer)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Network Protocol Chaos" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Multi-Shard Transactions" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Auto-Failover & Recovery" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Long-Running Stress Tests" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Chaos Engineering Scenarios" >> $GITHUB_STEP_SUMMARY
