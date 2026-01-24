@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <numeric>
 #include <memory>
+#include <cmath>
+#include <thread>
 
 namespace themis {
 
@@ -310,12 +312,120 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	plan.recommended_parallelism = distributed_model_->getOptimalParallelism(
 		shard_infos, available_threads);
 	
+	// Enable NUMA awareness for large distributed queries
+	if (plan.shard_ids.size() >= 4 && available_threads >= 8) {
+		plan.enable_numa_awareness = true;
+		
+		// Use NumaAwareOptimizer if available (created when adaptive is enabled)
+		// For now, suggest CPU affinity for first NUMA node
+		for (size_t i = 0; i < std::min(plan.recommended_parallelism, size_t(8)); ++i) {
+			plan.preferred_cpu_affinity.push_back(static_cast<int>(i));
+		}
+		
+		spdlog::debug("QueryOptimizer: NUMA awareness enabled for distributed query");
+	}
+	
 	// Determine join strategy for multi-shard queries
 	if (plan.shard_ids.size() > 1) {
 		// For simplicity, recommend broadcast for small result sets
 		size_t estimated_results = 1000;  // Placeholder
 		plan.join_strategy = estimated_results < 10000 ? "broadcast" : "repartition";
 	}
+	
+	return plan;
+}
+
+QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
+	size_t k,
+	size_t dataset_size,
+	size_t dimension,
+	double target_recall) const {
+	
+	VectorWorkloadPlan plan;
+	
+	// Use HNSW for large datasets
+	if (dataset_size > 10000) {
+		plan.index_type = "hnsw";
+		
+		// Adaptive ef_search based on k and dataset size
+		// Formula: ef_search = max(k, k * log2(dataset_size / 1000))
+		double log_factor = std::log2(static_cast<double>(dataset_size) / 1000.0);
+		plan.recommended_ef_search = static_cast<int>(
+			std::max(static_cast<double>(k), k * std::max(1.0, log_factor)));
+		
+		// Adjust for recall target
+		if (target_recall > 0.97) {
+			plan.recommended_ef_search = static_cast<int>(plan.recommended_ef_search * 1.5);
+		} else if (target_recall < 0.93) {
+			plan.recommended_ef_search = static_cast<int>(plan.recommended_ef_search * 0.7);
+		}
+		
+		// Cap ef_search at reasonable bounds
+		plan.recommended_ef_search = std::min(std::max(plan.recommended_ef_search, 16), 512);
+		
+		// Overfetch for post-filtering
+		plan.recommended_k_overfetch = k * 2;  // 2x overfetch is typical
+		plan.use_prefiltering = true;
+		
+	} else if (dataset_size > 1000) {
+		plan.index_type = "ivf";
+		plan.recommended_ef_search = static_cast<int>(k * 2);
+		plan.recommended_k_overfetch = k;
+		plan.use_prefiltering = false;
+		
+	} else {
+		// Small dataset - use flat/brute force
+		plan.index_type = "flat";
+		plan.recommended_ef_search = 0;
+		plan.recommended_k_overfetch = k;
+		plan.use_prefiltering = false;
+	}
+	
+	spdlog::debug("VectorWorkloadPlan: index_type={}, ef_search={}, k_overfetch={}, dataset_size={}", 
+				  plan.index_type, plan.recommended_ef_search, plan.recommended_k_overfetch, dataset_size);
+	
+	return plan;
+}
+
+QueryOptimizer::GraphWorkloadPlan QueryOptimizer::optimizeGraphWorkload(
+	size_t max_depth,
+	size_t estimated_branching_factor,
+	bool has_spatial_constraint) const {
+	
+	GraphWorkloadPlan plan;
+	
+	// Limit expansion based on branching factor
+	size_t estimated_expansion = 1;
+	for (size_t d = 1; d <= max_depth && estimated_expansion < 100000; ++d) {
+		estimated_expansion *= estimated_branching_factor;
+	}
+	
+	// If expansion would be too large, reduce depth or use bidirectional search
+	if (estimated_expansion > 50000) {
+		plan.use_bidirectional_search = true;
+		plan.max_expansion_depth = max_depth;  // Bidirectional cuts search space
+		spdlog::info("GraphWorkloadPlan: Using bidirectional search for large expansion (est={})", 
+					 estimated_expansion);
+	} else {
+		plan.use_bidirectional_search = false;
+		plan.max_expansion_depth = max_depth;
+	}
+	
+	// Enable spatial pruning if constraint present
+	plan.enable_spatial_pruning = has_spatial_constraint;
+	
+	// Parallelism based on expected work
+	size_t hw_threads = std::thread::hardware_concurrency();
+	if (estimated_expansion > 10000) {
+		plan.recommended_parallelism = std::min(hw_threads, size_t(8));
+	} else if (estimated_expansion > 1000) {
+		plan.recommended_parallelism = std::min(hw_threads, size_t(4));
+	} else {
+		plan.recommended_parallelism = 1;  // Small graphs don't benefit from parallelism
+	}
+	
+	spdlog::debug("GraphWorkloadPlan: max_depth={}, bidirectional={}, parallelism={}", 
+				  plan.max_expansion_depth, plan.use_bidirectional_search, plan.recommended_parallelism);
 	
 	return plan;
 }
