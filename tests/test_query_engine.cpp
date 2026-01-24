@@ -128,8 +128,9 @@ TEST(QueryEngineTest, NoIndexWithFallbackReturnsKeys) {
 
     QueryEngine engine(db, idx);
     ConjunctiveQuery q{"users", {{"age","30"}, {"city","Berlin"}}};
-    auto [stK, keys] = engine.executeAndKeysWithFallback(q, true);
-    ASSERT_TRUE(stK.ok);
+    auto result = engine.executeAndKeysWithFallback(q, true);
+    ASSERT_TRUE(result.has_value());
+    auto keys = *result;
     ASSERT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "u1");
     db.close();

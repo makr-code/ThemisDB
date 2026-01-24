@@ -374,13 +374,14 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
             
         } else if (translation.success) {
             // Conjunctive query
-            auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
                 return Err<nlohmann::json>(
-                    errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
-                    fmt::format("Scalar subquery execution failed: {}", status.message)
+                    result.error().code(),
+                    fmt::format("Scalar subquery execution failed: {}", result.error().message())
                 );
             }
+            auto entities = std::move(*result);
             
             // Convert entities to JSON
             for (const auto& entity : entities) {
@@ -472,14 +473,15 @@ Result<bool> SubqueryEvaluator::evaluateInSubquery(
             results = std::move(*result);
             
         } else if (translation.success) {
-            auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
-                THEMIS_ERROR("IN subquery execution failed: {}", status.message);
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
+                THEMIS_ERROR("IN subquery execution failed: {}", result.error().message());
                 return Err<bool>(
-                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                    fmt::format("IN subquery execution failed: {}", status.message)
+                    result.error().code(),
+                    fmt::format("IN subquery execution failed: {}", result.error().message())
                 );
             }
+            auto entities = std::move(*result);
             
             for (const auto& entity : entities) {
                 results.push_back(entityToJSON(entity));
@@ -577,14 +579,15 @@ Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
             return Ok(!result->empty());
             
         } else if (translation.success) {
-            auto [status, entities] = queryEngine.executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
-                THEMIS_ERROR("EXISTS subquery execution failed: {}", status.message);
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
+                THEMIS_ERROR("EXISTS subquery execution failed: {}", result.error().message());
                 return Err<bool>(
-                    ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                    fmt::format("EXISTS subquery execution failed: {}", status.message)
+                    result.error().code(),
+                    fmt::format("EXISTS subquery execution failed: {}", result.error().message())
                 );
             }
+            auto entities = std::move(*result);
             
             return Ok(!entities.empty());
         }

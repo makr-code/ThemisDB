@@ -64,12 +64,16 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
 
     // Disjunctive OR query
     if (tr.disjunctive.has_value()) {
-        auto [st, ents] = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
+        auto result = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
+        if (!result) {
+            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}} };
+        }
+        auto ents = std::move(*result);
         nlohmann::json arr = nlohmann::json::array();
         for (auto& e : ents) {
             arr.push_back(nlohmann::json::parse(e.toJson()));
         }
-        return { st, nlohmann::json{{"type","or"},{"results", arr}} };
+        return { QueryEngine::Status::OK(), nlohmann::json{{"type","or"},{"results", arr}} };
     }
 
     // Traversal / Shortest Path dispatch
@@ -141,10 +145,14 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
     }
 
     // Conjunctive (default) query
-    auto [st, entities] = engine.executeAndEntitiesWithFallback(tr.query, true);
+    auto result = engine.executeAndEntitiesWithFallback(tr.query, true);
+    if (!result) {
+        return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}} };
+    }
+    auto entities = std::move(*result);
     nlohmann::json arr = nlohmann::json::array();
     for (auto& e : entities) arr.push_back(nlohmann::json::parse(e.toJson()));
-    return { st, nlohmann::json{{"type","and"},{"results", arr}} };
+    return { QueryEngine::Status::OK(), nlohmann::json{{"type","and"},{"results", arr}} };
 }
 
 } // namespace themis

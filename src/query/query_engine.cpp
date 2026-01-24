@@ -727,13 +727,17 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeysWithFallback");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
-	if (q.table.empty()) return {Status::Error("executeOrKeysWithFallback: table darf nicht leer sein"), {}};
-	if (q.disjuncts.empty()) return {Status::Error("executeOrKeysWithFallback: keine Disjunkte"), {}};
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: table darf nicht leer sein");
+	}
+	if (q.disjuncts.empty()) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: keine Disjunkte");
+	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
 	tbb::task_group tg;
@@ -743,12 +747,13 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
-			auto [st, keys] = executeAndKeysWithFallback(disjunct, optimize);
-			if (!st.ok) {
-				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", st.message);
-				child.setStatus(false, st.message);
+			auto result = executeAndKeysWithFallback(disjunct, optimize);
+			if (!result) {
+				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", result.error().message());
+				child.setStatus(false, result.error().message());
 				return; // Dieser Disjunkt liefert keine Ergebnisse
 			}
+			auto keys = std::move(*result);
 			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
@@ -760,15 +765,18 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	auto keys = unionSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntitiesWithFallback");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeOrKeysWithFallback(q, optimize);
-	if (!st.ok) return {st, {}};
+	auto result = executeOrKeysWithFallback(q, optimize);
+	if (!result) {
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
+	}
+	auto keys = std::move(*result);
 
 	// Parallel entity loading (analog zu executeOrEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -811,7 +819,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 Result<std::vector<BaseEntity>>
@@ -2025,7 +2033,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	return out;
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithFallback");
 	span.setAttribute("query.table", q.table);
@@ -2037,7 +2045,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 		span.setAttribute("query.exec_mode", "full_scan");
 		span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(keys)};
+		return Ok(std::move(keys));
 	}
 	
 	// Try index-based path; on failure due to missing index, fallback to full scan
@@ -2064,12 +2072,15 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	if (!missingIndex) {
 		if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
-			auto [st, keys] = executeAndKeysRangeAware_(q);
-			if (!st.ok) { span.setStatus(false, st.message); return {st, {}}; }
+			auto result = executeAndKeysRangeAware_(q);
+			if (!result) {
+				span.setStatus(false, result.error().message());
+				return Err<std::vector<std::string>>(result.error().code(), result.error().context());
+			}
 			span.setAttribute("query.exec_mode", "range_aware");
-			span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
+			span.setAttribute("query.result_count", static_cast<int64_t>(result->size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(keys)};
+			return Ok(std::move(*result));
 		}
 		if (optimize) {
 			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
@@ -2077,19 +2088,22 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			auto keysResult = executeAndKeysSequential(q.table, plan.orderedPredicates);
 			if (!keysResult) { 
 				span.setStatus(false, keysResult.error().message()); 
-				return {Status::Error(keysResult.error().message()), {}};
+				return Err<std::vector<std::string>>(keysResult.error().code(), keysResult.error().context());
 			}
 			span.setAttribute("query.exec_mode", "index_optimized");
 			span.setAttribute("query.result_count", static_cast<int64_t>(keysResult->size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(*keysResult)};
+			return Ok(std::move(*keysResult));
 		}
-		auto [st, keys] = executeAndKeys(q);
-		if (!st.ok) { span.setStatus(false, st.message); return {st, {}}; }
+		auto result = executeAndKeys(q);
+		if (!result) {
+			span.setStatus(false, result.error().message());
+			return Err<std::vector<std::string>>(result.error().code(), result.error().context());
+		}
 		span.setAttribute("query.exec_mode", "index_parallel");
-		span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
+		span.setAttribute("query.result_count", static_cast<int64_t>(result->size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(keys)};
+		return Ok(std::move(*result));
 	}
 
 	// Fallback: full scan (inkl. Range-Prädikate)
@@ -2097,15 +2111,18 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	span.setAttribute("query.exec_mode", "full_scan_fallback");
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesWithFallback");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeAndKeysWithFallback(q, optimize);
-	if (!st.ok) return {st, {}};
+	auto result = executeAndKeysWithFallback(q, optimize);
+	if (!result) {
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
+	}
+	auto keys = std::move(*result);
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		auto blob = db_->get(q.table + ":" + pk);
@@ -2115,7 +2132,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 // ===== Range-aware Ausführung =====
@@ -4168,12 +4185,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
         } else if (translation.success && !translation.join.has_value() && !translation.disjunctive.has_value() && !translation.traversal.has_value()) {
             // Conjunctive query (default query field)
-            auto [status, entities] = executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
+            auto result = executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' conjunctive execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' conjunctive execution failed: " + result.error().message());
             }
+            auto entities = std::move(*result);
             cte_results.reserve(entities.size());
             for (auto& entity : entities) {
                 cte_results.push_back(entity.toJson());
@@ -4181,12 +4199,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
         } else if (translation.disjunctive.has_value()) {
             // Disjunctive query
-            auto [status, entities] = executeOrEntitiesWithFallback(translation.disjunctive.value());
-            if (!status.ok) {
+            auto result = executeOrEntitiesWithFallback(translation.disjunctive.value());
+            if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' disjunctive execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' disjunctive execution failed: " + result.error().message());
             }
+            auto entities = std::move(*result);
             cte_results.reserve(entities.size());
             for (auto& entity : entities) {
                 cte_results.push_back(entity.toJson());
