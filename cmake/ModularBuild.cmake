@@ -495,74 +495,113 @@ function(themis_build_modular)
     # Core modules (always required)
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
-        DEPENDENCIES ""
+        DEPENDENCIES 
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            fmt::fmt
+            spdlog::spdlog
+            Boost::system
+            nlohmann_json::nlohmann_json
+            ${THEMIS_YAML_TARGET}
     )
     
     themis_add_module(storage
         SOURCES ${THEMIS_STORAGE_SOURCES}
-        DEPENDENCIES themis_base ${THEMIS_ROCKSDB_TARGET}
+        DEPENDENCIES 
+            themis_base 
+            ${THEMIS_ROCKSDB_TARGET}
+            simdjson::simdjson
+            TBB::tbb
     )
     
     themis_add_module(query
         SOURCES ${THEMIS_QUERY_SOURCES}
-        DEPENDENCIES themis_base themis_storage
+        DEPENDENCIES 
+            themis_base 
+            themis_storage
+            ${THEMIS_ARROW_TARGET}
+            ${THEMIS_PARQUET_TARGET}
     )
     
     themis_add_module(security
         SOURCES ${THEMIS_SECURITY_SOURCES}
-        DEPENDENCIES themis_base OpenSSL::SSL OpenSSL::Crypto
+        DEPENDENCIES 
+            themis_base 
+            OpenSSL::SSL 
+            OpenSSL::Crypto
     )
     
     themis_add_module(transaction
         SOURCES ${THEMIS_TRANSACTION_SOURCES}
-        DEPENDENCIES themis_base themis_storage
+        DEPENDENCIES 
+            themis_base 
+            themis_storage
     )
     
     themis_add_module(network
         SOURCES ${THEMIS_NETWORK_SOURCES}
-        DEPENDENCIES themis_base themis_storage themis_query themis_transaction
+        DEPENDENCIES 
+            themis_base 
+            themis_storage 
+            themis_query 
+            themis_transaction
     )
     
     # Optional modules
     if(THEMIS_MODULE_SHARDING)
         themis_add_module(sharding
             SOURCES ${THEMIS_SHARDING_SOURCES}
-            DEPENDENCIES themis_base themis_storage themis_security
+            DEPENDENCIES 
+                themis_base 
+                themis_storage 
+                themis_security
+                themis_transaction
         )
     endif()
     
     if(THEMIS_MODULE_TIMESERIES)
         themis_add_module(timeseries
             SOURCES ${THEMIS_TIMESERIES_SOURCES}
-            DEPENDENCIES themis_base themis_storage
+            DEPENDENCIES 
+                themis_base 
+                themis_storage
         )
     endif()
     
     if(THEMIS_MODULE_LLM)
         themis_add_module(llm
             SOURCES ${THEMIS_LLM_SOURCES}
-            DEPENDENCIES themis_base themis_storage
+            DEPENDENCIES 
+                themis_base 
+                themis_storage
         )
     endif()
     
     if(THEMIS_MODULE_GEO)
         themis_add_module(geo
             SOURCES ${THEMIS_GEO_SOURCES}
-            DEPENDENCIES themis_base themis_storage
+            DEPENDENCIES 
+                themis_base 
+                themis_storage
+                Boost::geometry
         )
     endif()
     
     if(THEMIS_MODULE_GRAPH)
         themis_add_module(graph
             SOURCES ${THEMIS_GRAPH_SOURCES}
-            DEPENDENCIES themis_base themis_storage
+            DEPENDENCIES 
+                themis_base 
+                themis_storage
         )
     endif()
     
     if(THEMIS_MODULE_CONTENT)
         themis_add_module(content
             SOURCES ${THEMIS_CONTENT_SOURCES}
-            DEPENDENCIES themis_base themis_storage
+            DEPENDENCIES 
+                themis_base 
+                themis_storage
         )
     endif()
     

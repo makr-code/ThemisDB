@@ -1570,6 +1570,30 @@ endif()
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
 
+# ============================================================================
+# BUILD MODE SELECTION: Modular vs Monolithic
+# ============================================================================
+# Check if modular build is enabled (v1.4.0+ feature)
+if(THEMIS_BUILD_MODULAR)
+    message(STATUS "==============================================")
+    message(STATUS "MODULAR BUILD MODE ENABLED")
+    message(STATUS "Building ThemisDB as separate module libraries")
+    message(STATUS "==============================================")
+    
+    # Call the modular build function to create all module targets
+    themis_build_modular()
+    
+    # Create themis_core as an interface library that links all modules
+    # This maintains compatibility with existing code that links to themis_core
+    add_library(themis_core INTERFACE)
+    target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    
+    message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
+    
+else()
+    # Traditional monolithic build (default for v1.3.x and earlier)
+    message(STATUS "Building ThemisDB as monolithic themis_core library")
+
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
 if(THEMIS_CORE_SHARED)
@@ -2398,6 +2422,13 @@ if(THEMIS_ENABLE_TRACING)
     )
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_TRACING)
 endif()
+
+# End of monolithic build configuration
+endif() # THEMIS_BUILD_MODULAR
+
+# ============================================================================
+# EXECUTABLES AND TESTS (work with both modular and monolithic builds)
+# ============================================================================
 
 # Main executable (demo)
 add_executable(themis_demo
