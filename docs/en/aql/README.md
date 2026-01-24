@@ -3,7 +3,7 @@
 **Category:** 🔍 Core AQL  
 **Version:** v1.4.0  
 **Status:** ✅ Production Ready  
-**Date:** Januar 2026
+**Date:** January 2026
 
 ---
 
