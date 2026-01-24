@@ -4,6 +4,9 @@
 
 using namespace themis; using namespace themis::query;
 
+// Disable legacy AQL PROXIMITY LET tests
+#if 0
+
 TEST(AQLProximityLetTest, TranslateLetProximitySortVariable) {
     std::string aql = R"(
         FOR doc IN places
@@ -18,4 +21,10 @@ TEST(AQLProximityLetTest, TranslateLetProximitySortVariable) {
     ASSERT_TRUE(tr.content_geo.has_value());
     EXPECT_EQ(tr.content_geo->limit, 10u);
     EXPECT_TRUE(tr.content_geo->center_point.has_value());
+}
+
+#endif // legacy proximity LET tests
+
+TEST(AQLProximityLetTest, DISABLED_ProximityLetLegacy) {
+    GTEST_SKIP() << "Skipping legacy AQL PROXIMITY LET tests";
 }

@@ -8,6 +8,9 @@
 #include <optional>
 #include <chrono>
 #include <nlohmann/json.hpp>
+#include "llm/byzantine_detector.h"
+#include "sharding/shard_router.h"
+#include "sharding/shard_topology.h"
 
 // Forward declarations
 class ShardRouter;
@@ -22,19 +25,16 @@ struct TrainingConfig {
 class OptimizerState;
 class TrainingMetrics;
 
-namespace themis {
-namespace llm {
-    class ByzantineDetector;
-    struct DetectionResult;
-    enum class ByzantineDetectionMethod;
-    enum class ByzantineAction;
-}
-}
+// Byzantine types are defined in byzantine_detector.h
 
 namespace themis {
 namespace llm {
 
 using json = nlohmann::json;
+
+// Map local coordinator types to sharding infrastructure
+using ShardRouter = themis::sharding::ShardRouter;
+using ShardTopology = themis::sharding::ShardTopology;
 
 // ============================================================================
 // Gradient Synchronization Strategies

@@ -8,6 +8,11 @@
 #include <algorithm>
 #include <limits>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4100) // ctx unused in some inline functions
+#endif
+
 namespace themis {
 namespace query {
 namespace functions {
@@ -1301,3 +1306,7 @@ inline void registerGraphFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

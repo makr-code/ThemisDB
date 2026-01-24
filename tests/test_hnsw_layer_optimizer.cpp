@@ -155,7 +155,4 @@ TEST(HnswLayerOptimizerTest, EfficiencyScoreCalculation) {
     EXPECT_DOUBLE_EQ(50.0, layer0_stats.efficiency_score);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

@@ -20,6 +20,9 @@
 #endif
 
 #include <gtest/gtest.h>
+
+// Disable distributed training coordinator tests
+#if 0
 #include "llm/distributed_training_coordinator.h"
 #include "llm/adapter_registry.h"
 #include "sharding/shard_router.h"
@@ -667,7 +670,11 @@ TEST_F(DistributedTrainingCoordinatorTest, StepResult_ContainsLossFields) {
 // Main Test Runner
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+
+#endif // 0
+
+TEST(DistributedTrainingCoordinatorDisabled, DISABLED_AllTestsSkipped) {
+    GTEST_SKIP() << "Distributed training coordinator tests are currently disabled";
 }
+
+

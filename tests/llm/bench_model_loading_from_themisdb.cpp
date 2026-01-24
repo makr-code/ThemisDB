@@ -31,7 +31,6 @@ namespace fs = std::filesystem;
 using namespace themis;
 using namespace themis::llm;
 using namespace themis::storage;
-using namespace themis::security;
 
 // ═══════════════════════════════════════════════════════════
 // Test Data Generation
@@ -91,7 +90,11 @@ public:
         fs::create_directories(blob_path);
         
         db = std::make_shared<RocksDBWrapper>();
-        db->open(db_path.string());
+        RocksDBConfig db_config;
+        db_config.db_path = db_path.string();
+        db_config.create_if_missing = true;
+        db_config.use_default_cf = true;
+        db->open(db_config);
         
         BlobStorageConfig blob_config;
         blob_config.enable_filesystem = true;

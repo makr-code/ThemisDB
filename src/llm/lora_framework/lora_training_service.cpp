@@ -144,6 +144,9 @@ public:
         }
     }
     
+    // Allow outer service to access internal configuration and metrics safely
+    friend class LoRATrainingService;
+    
     TrainingResult trainOnTheFly(
         const std::string& adapter_id,
         const TrainingData& data,
@@ -442,18 +445,23 @@ public:
                 if (params.lr_scheduler == "constant") {
                     lr_scheduler = std::make_unique<ConstantLR>(params.learning_rate);
                 } else if (params.lr_scheduler == "linear_warmup") {
-                    lr_scheduler = std::make_unique<LinearWarmupLR>(
+                    // Linear warmup then constant
+                    lr_scheduler = std::make_unique<WarmupConstantLR>(
                         params.learning_rate,
                         params.warmup_steps
                     );
                 } else if (params.lr_scheduler == "cosine") {
+                    // Cosine annealing between max_lr and a small min_lr
                     lr_scheduler = std::make_unique<CosineAnnealingLR>(
                         params.learning_rate,
+                        std::max(1e-6f, params.learning_rate * 0.1f),
                         total_steps
                     );
                 } else if (params.lr_scheduler == "cosine_warmup") {
-                    lr_scheduler = std::make_unique<CosineAnnealingWarmupLR>(
+                    // Linear warmup then cosine annealing
+                    lr_scheduler = std::make_unique<WarmupCosineLR>(
                         params.learning_rate,
+                        std::max(1e-6f, params.learning_rate * 0.1f),
                         params.warmup_steps,
                         total_steps
                     );
@@ -629,7 +637,7 @@ public:
                             }
                         }
                     }
-                    int global_step = epoch * steps_per_epoch + step;
+                    int global_step = epoch * data_loader.num_batches() + step;
                     current_metrics_.current_step = global_step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
@@ -651,19 +659,8 @@ public:
                     //   1. Tokenize input text using llama.cpp tokenizer
                     //   2. Create embeddings from base model
                     //   3. Apply LoRA adapter on top of base model outputs
-                    // For Phase 1, we use random tensors to validate the training loop mechanics
-                    Tensor batch_input = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
-                    Tensor batch_target = tensor_utils::randn({static_cast<size_t>(params.batch_size), hidden_dim}, 0.0f, 1.0f);
-                    
-                    // Convert to lower precision if mixed precision enabled
-                    if (mixed_precision->is_enabled()) {
-                        batch_input = mixed_precision->to_lower_precision(batch_input);
-                    }
-                    
                     // Forward pass
-                    optimizer.zero_grad();
                     Tensor predictions;
-                    
                     if (using_base_model && enhanced_model) {
                         // Forward through LoRA-enhanced model (base frozen + LoRA trainable)
                         // For now, use layer 0 as default (will be extended for multi-layer training)
@@ -682,7 +679,7 @@ public:
                             adamw_optimizer->zero_grad();
                         }
                     }
-                    Tensor predictions = lora_layer->forward(batch_input);
+                    
                     
                     // Compute loss
                     float batch_loss = compute_mse_loss(predictions, batch_target);
@@ -723,10 +720,15 @@ public:
                         // Optimizer step when accumulation is complete
                         if (gradient_accumulator->should_step()) {
                             auto accumulated_grads = gradient_accumulator->get_accumulated_gradients();
-                            // Copy accumulated gradients back to parameters
+                            // Attach accumulated gradients to parameter grad fields (avoid copy assignment)
                             for (size_t i = 0; i < gradients.size() && i < accumulated_grads.size(); ++i) {
                                 if (gradients[i] && accumulated_grads[i]) {
-                                    *gradients[i] = *accumulated_grads[i];
+                                    // Initialize or update the grad tensor
+                                    if (!gradients[i]->grad) {
+                                        gradients[i]->grad = std::make_unique<Tensor>(accumulated_grads[i]->clone());
+                                    } else {
+                                        gradients[i]->grad->data() = accumulated_grads[i]->data();
+                                    }
                                 }
                             }
                             
@@ -1688,8 +1690,10 @@ size_t LoRATrainingService::estimateMemoryUsage(
                                     // Estimate params from block count: 
                                     // ~150M params per block for 7B models
                                     // More accurate: params = blocks * layers * hidden_dim^2
-                                    estimated_params = std::max(1'000'000'000ul, 
-                                                               static_cast<size_t>(param_val) * 150'000'000ul);
+                                    estimated_params = std::max<size_t>(
+                                        static_cast<size_t>(1'000'000'000ull),
+                                        static_cast<size_t>(param_val) * static_cast<size_t>(150'000'000ull)
+                                    );
                                     spdlog::info("Estimated parameters from block count: {} (blocks: {})", 
                                                estimated_params, param_val);
                                 }
@@ -1782,7 +1786,9 @@ TrainingResult LoRATrainingService::trainDistributed(
         dist_config.gradient_accumulation_steps = impl_->config_.gradient_accumulation.accumulation_steps;
         dist_config.sync_frequency = 1;
         dist_config.gradient_clip_norm = impl_->config_.gradient_clipping.max_norm;
-        dist_config.use_mixed_precision = impl_->config_.mixed_precision.enabled;
+        dist_config.use_mixed_precision = (
+            impl_->config_.mixed_precision.mode != PrecisionMode::FP32
+        );
         dist_config.sparse_gradients = false;
         dist_config.sparse_threshold = 1e-6f;
         dist_config.max_retry_attempts = 3;
@@ -1793,8 +1799,8 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // 2. Get ShardRouter and ShardTopology from registry
         // First check if they were provided in config, otherwise get from registry
-        std::shared_ptr<ShardRouter> shard_router = impl_->config_.shard_router;
-        std::shared_ptr<ShardTopology> shard_topology = impl_->config_.shard_topology;
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router = impl_->config_.shard_router;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = impl_->config_.shard_topology;
         
         if (!shard_router || !shard_topology) {
             // Try to get from registry
@@ -1846,7 +1852,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         LoRAHyperparameters hyper = hyperparameters.value_or(impl_->config_.default_hyperparameters);
         
         // 6. Execute training steps with gradient synchronization
-        int total_steps = hyper.num_epochs * (data.inputs.size() / hyper.batch_size);
+        int total_steps = hyper.num_epochs * (static_cast<int>(data.size()) / hyper.batch_size);
         spdlog::info("Starting distributed training: {} epochs, {} total steps", 
                     hyper.num_epochs, total_steps);
         
@@ -1958,7 +1964,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         // Calculate actual training time from start to finish
         auto end_time = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
-        result.training_time_seconds = static_cast<float>(duration.count());
+        result.training_time = duration;
         
         // Distributed metrics
         result.metrics["distributed_mode"] = true;

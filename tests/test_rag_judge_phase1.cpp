@@ -436,7 +436,4 @@ TEST(RAGJudgeFactoryTest, CreateEnsemble) {
     ASSERT_NE(ensemble, nullptr);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

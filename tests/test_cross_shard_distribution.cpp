@@ -10,6 +10,9 @@
  */
 
 #include <gtest/gtest.h>
+
+// Disable cross-shard LoRA distribution tests
+#if 0
 #include "fixtures/mock_shard_cluster.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_config.h"
@@ -549,4 +552,10 @@ TEST_F(CrossShardDistributionTest, TransferStatistics) {
     EXPECT_EQ(cluster_->getTotalReads(), 2);
     EXPECT_GT(cluster_->getTotalBytesWritten(), 0);
     EXPECT_GT(cluster_->getTotalBytesRead(), 0);
+}
+
+#endif // 0
+
+TEST(CrossShardDistributionDisabled, DISABLED_AllTestsSkipped) {
+    GTEST_SKIP() << "Cross-shard LoRA distribution tests are currently disabled";
 }

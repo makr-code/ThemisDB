@@ -71,12 +71,8 @@ include(cmake/validation/PlatformValidation.cmake)
 include(cmake/validation/EditionValidation.cmake)
 include(cmake/validation/FeatureValidation.cmake)
 
-# Testing
-if(THEMIS_BUILD_TESTS)
-    include(CTest)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+# Testing - handled in cmake/CMakeLists.txt via add_subdirectory(tests)
+# (Moved to cmake/CMakeLists.txt to be closer to target definitions)
 
 # Set root directory for use in subdirectories (MUST be before add_subdirectory(cmake))
 set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")

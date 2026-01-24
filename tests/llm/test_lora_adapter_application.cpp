@@ -430,11 +430,4 @@ TEST_F(LoraAdapterApplicationTest, DocumentationTest_ProductionIntegration) {
 // Main
 // ═══════════════════════════════════════════════════════════
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Set log level
-    spdlog::set_level(spdlog::level::info);
-    
-    return RUN_ALL_TESTS();
-}
+

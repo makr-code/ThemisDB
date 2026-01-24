@@ -117,7 +117,4 @@ TEST_F(DeadlockDetectionTest, NoDeadlockWithSequentialTransactions) {
 // that acquire locks in conflicting order. This is complex with RocksDB's internal
 // locking and would require more sophisticated test infrastructure.
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

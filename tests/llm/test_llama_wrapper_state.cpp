@@ -62,7 +62,7 @@ TEST_F(LlamaWrapperStateTest, LoadModelTransitionsToLoading) {
     EXPECT_FALSE(history.empty());
     
     // Should end in ERROR state since model doesn't exist
-    EXPECT_EQ(wrapper.state(), WrapperState::ERROR);
+    EXPECT_EQ(wrapper.state(), WrapperState::ERROR_STATE);
 }
 
 TEST_F(LlamaWrapperStateTest, StateTransitionHistory) {
@@ -242,7 +242,4 @@ TEST_F(LlamaWrapperStateTest, StatePreventsSilentFailures) {
                exception_msg.find("UNINITIALIZED") != std::string::npos);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

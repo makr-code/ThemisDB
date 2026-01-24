@@ -272,7 +272,4 @@ TEST_F(ModelLoaderAsyncTest, ProgressUpdatesMultipleTimes) {
     EXPECT_GT(update_count.load(), 1);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

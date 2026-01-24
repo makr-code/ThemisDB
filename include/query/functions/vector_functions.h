@@ -6,6 +6,11 @@
 #include <numeric>
 #include <random>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4100) // ctx unused in some inline functions
+#endif
+
 namespace themis {
 namespace query {
 namespace functions {
@@ -1034,3 +1039,7 @@ inline void registerVectorFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

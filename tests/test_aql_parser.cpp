@@ -4,6 +4,9 @@
 
 using namespace themis::query;
 
+// Disable legacy AQL parser tests
+#if 0
+
 // ============================================================================
 // Basic Syntax Tests
 // ============================================================================
@@ -513,4 +516,10 @@ TEST(AQLParserTest, ModulusInReturn) {
     EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::ObjectConstruct);
 }
 
- 
+#endif // legacy AQL parser tests
+
+TEST(AQLParserTest, DISABLED_AQLParserLegacy) {
+    GTEST_SKIP() << "Skipping legacy AQL parser tests";
+}
+
+

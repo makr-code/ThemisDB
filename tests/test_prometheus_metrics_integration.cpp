@@ -156,7 +156,4 @@ TEST_F(PrometheusMetricsTest, PrometheusFormatCompliance) {
     EXPECT_TRUE(std::regex_search(output, metric_regex));
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

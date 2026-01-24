@@ -24,6 +24,13 @@
 #include <sstream>
 #include <functional>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4100) // ctx unused in some inline functions
+#pragma warning(disable : 4244) // potential narrowing in constants
+#pragma warning(disable : 4146) // unary minus on unsigned
+#endif
+
 namespace themis {
 namespace query {
 namespace functions {
@@ -921,3 +928,7 @@ inline void registerSecurityFunctions() {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

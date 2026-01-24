@@ -446,7 +446,8 @@ public:
 // Registration
 // ============================================================================
 
-inline void registerGraphExtensions(FunctionRegistry& registry) {
+inline void registerGraphExtensions(FunctionRegistry& registry [[maybe_unused]]) {
+    (void)registry;
     // Community detection functions (implemented in graph_functions.h)
     // Duplicates removed to avoid redefinition errors
     

@@ -258,8 +258,5 @@ TEST(PostgreSQLImporterTest, LargeObjectHandling) {
 
 // Disabled custom main to avoid multiple definition; rely on gtest_main.
 #if 0
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
 #endif

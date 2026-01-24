@@ -338,7 +338,4 @@ TEST_F(RateLimiterTest, UsageExample) {
     EXPECT_GT(retry_after, 0);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

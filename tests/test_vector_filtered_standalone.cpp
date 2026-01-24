@@ -108,7 +108,4 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
     if (results.size() >= 2) EXPECT_EQ(results[1].pk, "doc3");
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

@@ -447,7 +447,4 @@ TEST_F(SignatureVerifierTest, Performance_BulkVerification) {
     EXPECT_TRUE(true) << "Stub: Bulk verification to be benchmarked";
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

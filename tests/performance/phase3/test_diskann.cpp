@@ -227,7 +227,4 @@ TEST_F(DiskANNTest, DimensionMismatch) {
     EXPECT_THROW(index.add(1, {1.0f, 0.0f, 0.0f}), std::invalid_argument);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
