@@ -310,8 +310,10 @@ double HnswRuntimeAdapter::getOverfetchMultiplier(
     double filter_selectivity,
     size_t k) {
     
-    // Protect against division by zero
-    if (filter_selectivity <= 0.0) {
+    constexpr double MIN_SELECTIVITY = 1e-6;  // Minimum meaningful selectivity
+    
+    // Protect against division by zero and very small values
+    if (filter_selectivity < MIN_SELECTIVITY) {
         return 20.0;  // Maximum overfetch for invalid/zero selectivity
     }
     
@@ -326,7 +328,8 @@ double HnswRuntimeAdapter::getOverfetchMultiplier(
         return 5.0;  // Low selectivity
     } else {
         // Very low selectivity - use heuristic based on k
-        return std::min(20.0, std::max(10.0, k / filter_selectivity));
+        double overfetch = k / filter_selectivity;
+        return std::min(20.0, std::max(10.0, overfetch));
     }
 }
 

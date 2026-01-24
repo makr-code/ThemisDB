@@ -257,14 +257,17 @@ DistributedQueryCostModel::estimateCrossShardJoinCost(
     result.total_cost = CROSS_SHARD_JOIN_OVERHEAD;
     
     // Determine optimal join strategy
-    if (left_rows < 1000 || right_rows < 1000) {
+    constexpr size_t SMALL_TABLE_THRESHOLD = 1000;
+    constexpr double SIMILAR_SIZE_THRESHOLD = 0.3;  // 30% size difference tolerance
+    
+    if (left_rows < SMALL_TABLE_THRESHOLD || right_rows < SMALL_TABLE_THRESHOLD) {
         // Small table - broadcast it
         result.recommended_strategy = "broadcast";
         size_t rows_to_broadcast = std::min(left_rows, right_rows);
         result.network_cost = rows_to_broadcast * NETWORK_TRANSFER_COST_PER_ROW;
         result.compute_cost = left_rows * right_rows * 0.001; // Hash join cost
     } else if (std::abs(static_cast<int>(left_rows - right_rows)) < 
-               static_cast<int>(left_rows * 0.3)) {
+               static_cast<int>(left_rows * SIMILAR_SIZE_THRESHOLD)) {
         // Similar sizes - repartition both
         result.recommended_strategy = "repartition";
         result.network_cost = (left_rows + right_rows) * NETWORK_TRANSFER_COST_PER_ROW * 0.5;
