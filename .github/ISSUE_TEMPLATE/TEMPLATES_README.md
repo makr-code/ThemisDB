@@ -1,8 +1,29 @@
-# GitHub Issue Templates for Query Engine Migration
+# GitHub Issue Templates for ThemisDB
 
-This directory contains GitHub issue templates for the remaining phases of the Query Engine error handling migration.
+This directory contains GitHub issue templates for various components and migration efforts in ThemisDB.
 
-## 📋 Available Templates
+## 📋 Template Categories
+
+### 🌐 Distributed Sharding Templates (NEW - v1.4)
+
+**See:** `SHARDING_TEMPLATES_README.md` for complete documentation
+
+Specialized templates for distributed sharding, consensus, and transaction coordination:
+
+- **`sharding_bug.md`** - Report bugs in Raft/Paxos/Gossip consensus or cross-shard transactions
+- **`sharding_feature.md`** - Request new distributed systems features
+- **`sharding_performance.md`** - Report performance issues in consensus or transactions
+- **`consensus_implementation.md`** - Track consensus module stub completions
+- **`transaction_implementation.md`** - Track transaction protocol stub completions
+
+### 🐛 General Templates
+
+- **`bug_report.md`** - Standard bug report template
+- **`feature_request.md`** - Standard feature request template
+
+### 🔄 Query Engine Migration Templates
+
+Templates for the remaining phases of the Query Engine error handling migration:
 
 ### Phase 3: AQL Translator Migration
 **File:** `phase3_aql_translator_migration.md`  
