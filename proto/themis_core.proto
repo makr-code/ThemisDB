@@ -5,6 +5,12 @@ package themis.core;
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
 
+// API Version Information
+// Current API version: v1.4.1
+// Minimum supported version: v1.0.0
+// Version negotiation: Use metadata key "api-version" in gRPC calls
+// For REST API: Use "Accept-Version" header
+
 // Main ThemisDB Core Service - provides CRUD, Transactions, and Query operations
 service ThemisCoreService {
   // CRUD operations
@@ -37,6 +43,14 @@ service ThemisCoreService {
 }
 
 // Common types
+
+// API Version metadata (for version negotiation in requests/responses)
+message APIVersionInfo {
+  uint32 major = 1;
+  uint32 minor = 2;
+  uint32 patch = 3;
+}
+
 message Document {
   string collection = 1;
   string key = 2;
@@ -275,6 +289,8 @@ message StatusResponse {
   int64 uptime_seconds = 2;
   DatabaseStats stats = 3;
   map<string, string> config = 4;
+  APIVersionInfo api_version = 5;  // Current API version
+  repeated APIVersionInfo supported_api_versions = 6;  // List of supported API versions
 }
 
 message DatabaseStats {
