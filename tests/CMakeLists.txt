@@ -3010,6 +3010,200 @@ else()
 endif()
 
 # ============================================================================
+# Comprehensive Real Unit Tests (PR: Implement Real Unit Tests)
+# ============================================================================
+
+# RocksDBWrapper Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_wrapper_comprehensive.cpp")
+    message(STATUS "Adding RocksDBWrapper comprehensive tests")
+    
+    add_executable(test_rocksdb_wrapper_comprehensive
+        test_rocksdb_wrapper_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_rocksdb_wrapper_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_rocksdb_wrapper_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RocksDBWrapperComprehensiveTests COMMAND test_rocksdb_wrapper_comprehensive)
+    
+    set_tests_properties(RocksDBWrapperComprehensiveTests PROPERTIES
+        LABELS "storage;rocksdb;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  RocksDBWrapper Comprehensive: CRUD, transactions, MVCC, backup/restore, iterators, column families")
+else()
+    message(STATUS "RocksDBWrapper comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_wrapper_comprehensive.cpp")
+endif()
+
+# PITR Manager Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
+    message(STATUS "Adding PITR Manager comprehensive tests")
+    
+    add_executable(test_pitr_manager_comprehensive
+        test_pitr_manager_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_pitr_manager_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pitr_manager_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PITRManagerComprehensiveTests COMMAND test_pitr_manager_comprehensive)
+    
+    set_tests_properties(PITRManagerComprehensiveTests PROPERTIES
+        LABELS "storage;pitr;recovery;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  PITR Manager Comprehensive: point-in-time recovery, changefeed replay, snapshots, consistency")
+else()
+    message(STATUS "PITR Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
+endif()
+
+# Vector Index Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+    message(STATUS "Adding Vector Index comprehensive tests")
+    
+    add_executable(test_vector_index_comprehensive
+        test_vector_index_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_vector_index_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_vector_index_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME VectorIndexComprehensiveTests COMMAND test_vector_index_comprehensive)
+    
+    set_tests_properties(VectorIndexComprehensiveTests PROPERTIES
+        LABELS "index;vector;hnsw;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Vector Index Comprehensive: HNSW, distance metrics, filtered search, persistence, concurrency")
+else()
+    message(STATUS "Vector Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+endif()
+
+# Transaction Manager Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
+    message(STATUS "Adding Transaction Manager comprehensive tests")
+    
+    add_executable(test_transaction_manager_comprehensive
+        test_transaction_manager_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_transaction_manager_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_transaction_manager_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME TransactionManagerComprehensiveTests COMMAND test_transaction_manager_comprehensive)
+    
+    set_tests_properties(TransactionManagerComprehensiveTests PROPERTIES
+        LABELS "transaction;mvcc;acid;distributed;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Transaction Manager Comprehensive: ACID, isolation levels, deadlock detection, 2PC, savepoints")
+else()
+    message(STATUS "Transaction Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
+endif()
+
+# Utilities Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
+    message(STATUS "Adding Utilities comprehensive tests")
+    
+    add_executable(test_utilities_comprehensive
+        test_utilities_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_utilities_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_utilities_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME UtilitiesComprehensiveTests COMMAND test_utilities_comprehensive)
+    
+    set_tests_properties(UtilitiesComprehensiveTests PROPERTIES
+        LABELS "utilities;error;pii;stemming;olap;comprehensive;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Utilities Comprehensive: error handling, PII detection, stemming, OLAP engine")
+else()
+    message(STATUS "Utilities comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
+endif()
+
+# Graph Index Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+    message(STATUS "Adding Graph Index comprehensive tests")
+    
+    add_executable(test_graph_index_comprehensive
+        test_graph_index_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_graph_index_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graph_index_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphIndexComprehensiveTests COMMAND test_graph_index_comprehensive)
+    
+    set_tests_properties(GraphIndexComprehensiveTests PROPERTIES
+        LABELS "index;graph;traversal;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs")
+else()
+    message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
