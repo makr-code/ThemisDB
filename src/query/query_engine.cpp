@@ -472,7 +472,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	if (!q.fulltextPredicate.has_value()) {
 		auto keysResult = executeAndKeys(q);
 		if (!keysResult) {
-			return Err<KeysWithScores>(keysResult.error());
+			return Err<KeysWithScores>(keysResult.error().code(), keysResult.error().context());
 		}
 		KeysWithScores result;
 		result.keys = std::move(keysResult.value());
@@ -523,11 +523,12 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		structuralQuery.orderBy = q.orderBy;
 		
 		// Execute structural predicates
-		auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-		if (!structStatus.ok) {
-			intersectSpan.setStatus(false, structStatus.message);
-			return Err<KeysWithScores>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, structStatus.message);
+		auto structResult = executeAndKeysRangeAware_(structuralQuery);
+		if (!structResult) {
+			intersectSpan.setStatus(false, structResult.error().context());
+			return Err<KeysWithScores>(structResult.error().code(), structResult.error().context());
 		}
+		auto structKeys = *structResult;
 		
 		// Intersect fulltext results with structural predicate results
 		tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
