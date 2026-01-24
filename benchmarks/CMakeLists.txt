@@ -786,6 +786,165 @@ else()
     message(STATUS "Distributed Coordinator benchmarks not found")
 endif()
 
+# ============================================================================
+# Real Performance Benchmarks (Issue: Implement Real Google Benchmark Tests)
+# ============================================================================
+
+# Storage Performance Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
+    message(STATUS "Adding Storage Performance benchmarks")
+    
+    add_executable(bench_storage_performance
+        bench_storage_performance.cpp
+    )
+    
+    target_link_libraries(bench_storage_performance PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_storage_performance PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    # Optimization flags for benchmarks (configurable via BENCHMARK_ARCH_FLAGS)
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            # Default: Use -march=native for maximum performance on build machine
+            # Override with -DBENCHMARK_ARCH_FLAGS="-march=x86-64" for portability
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_storage_performance PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_storage_performance
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Storage: mimalloc, huge pages, RCU index")
+endif()
+
+# OLAP Performance Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_performance.cpp")
+    message(STATUS "Adding OLAP Performance benchmarks")
+    
+    add_executable(bench_olap_performance
+        bench_olap_performance.cpp
+    )
+    
+    target_link_libraries(bench_olap_performance PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_olap_performance PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_olap_performance PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_olap_performance
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  OLAP: Aggregations, GROUP BY, filters at scale")
+endif()
+
+# Embedding Cache Performance Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
+    message(STATUS "Adding Embedding Cache Performance benchmarks")
+    
+    add_executable(bench_embedding_cache_performance
+        bench_embedding_cache_performance.cpp
+    )
+    
+    target_link_libraries(bench_embedding_cache_performance PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_embedding_cache_performance PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_embedding_cache_performance PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_embedding_cache_performance
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Embedding Cache: HNSW, hit/miss, batch operations")
+endif()
+
+# LLM Inference Performance Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
+    message(STATUS "Adding LLM Inference Performance benchmarks")
+    
+    add_executable(bench_llm_inference_performance
+        bench_llm_inference_performance.cpp
+    )
+    
+    target_link_libraries(bench_llm_inference_performance PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_llm_inference_performance PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_llm_inference_performance PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_llm_inference_performance
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  LLM: Inference, LoRA adapters, throughput")
+endif()
+
 message(STATUS "Benchmarks configured successfully")
 message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
 message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")
@@ -793,3 +952,5 @@ message(STATUS "  - Or use: make run_benchmark_lora_auto_binding")
 message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lora_framework")
 message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")
+message(STATUS "  - Performance benchmarks: bench_storage_performance, bench_olap_performance,")
+message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance")
