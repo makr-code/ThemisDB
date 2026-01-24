@@ -10,6 +10,10 @@ namespace themis {
 namespace core {
 namespace concerns {
 
+// Forward declarations
+class IEvictionStrategy;
+struct CacheMetrics;
+
 /**
  * @brief Value stored in cache with metadata.
  */
@@ -52,6 +56,14 @@ public:
     // Configuration
     virtual void setMaxSize(size_t maxSize) = 0;
     virtual void setDefaultTTL(uint64_t ttl_ms) = 0;
+    
+    // Optional: Strategy pattern support (not all implementations need this)
+    // Return nullptr if strategy pattern is not supported
+    virtual IEvictionStrategy* getEvictionStrategy() { return nullptr; }
+    
+    // Optional: Metrics support (not all implementations need this)
+    // Return nullptr if detailed metrics are not available
+    virtual const CacheMetrics* getMetrics() const { return nullptr; }
 };
 
 } // namespace concerns
