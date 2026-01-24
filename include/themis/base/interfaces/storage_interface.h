@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include "utils/expected.h"
 
 namespace themis {
 
@@ -26,9 +27,9 @@ public:
      * @brief Open/initialize the storage engine
      * 
      * @param db_path Path to database directory
-     * @return true if opened successfully, false otherwise
+     * @return Result<void> - success or error with details
      */
-    virtual bool open(const std::string& db_path) = 0;
+    virtual Result<void> open(const std::string& db_path) = 0;
     
     /**
      * @brief Close the storage engine
@@ -40,25 +41,25 @@ public:
      * 
      * @param key The key
      * @param value The value
-     * @return true if successful, false otherwise
+     * @return Result<void> - success or error with details
      */
-    virtual bool put(const std::string& key, const std::string& value) = 0;
+    virtual Result<void> put(const std::string& key, const std::string& value) = 0;
     
     /**
      * @brief Get a value by key
      * 
      * @param key The key
-     * @return The value if found, empty optional otherwise
+     * @return Result<std::string> - The value if found, or error with details
      */
-    virtual std::optional<std::string> get(const std::string& key) = 0;
+    virtual Result<std::string> get(const std::string& key) = 0;
     
     /**
      * @brief Delete a key-value pair
      * 
      * @param key The key to delete
-     * @return true if successful, false otherwise
+     * @return Result<void> - success or error with details
      */
-    virtual bool del(const std::string& key) = 0;
+    virtual Result<void> del(const std::string& key) = 0;
 };
 
 /// Shared pointer type for IStorageEngine
