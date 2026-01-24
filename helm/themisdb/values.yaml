@@ -126,6 +126,18 @@ themisdb:
   # Configuration file content (JSON)
   # Note: logLevel above is for documentation; the actual log level is set in the config below
   config: |
+    {
+      "storage": {
+        "path": "/data/themisdb"
+      },
+      "server": {
+        "port": 8080,
+        "host": "0.0.0.0"
+      },
+      "logging": {
+        "level": "info"
+      }
+    }
 
 # Metrics and monitoring configuration
 metrics:
@@ -139,15 +151,3 @@ metrics:
     interval: 30s
     scrapeTimeout: 10s
     relabelings: []
-    {
-      "storage": {
-        "path": "/data/themisdb"
-      },
-      "server": {
-        "port": 8080,
-        "host": "0.0.0.0"
-      },
-      "logging": {
-        "level": "info"
-      }
-    }
