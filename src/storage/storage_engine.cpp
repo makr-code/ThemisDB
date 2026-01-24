@@ -1,5 +1,6 @@
 #include "storage/storage_engine.h"
 #include "utils/expected.h"
+#include "utils/tracing.h"
 #include <fmt/format.h>
 #include <stdexcept>
 
@@ -196,29 +197,45 @@ void StorageEngine::close() {
 }
 
 bool StorageEngine::put(const std::string& key, const std::string& value) {
+    TracedSpan span("StorageEngine.put");
+    span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
+    span.setAttribute("storage.value_size", static_cast<int64_t>(value.size()));
+    
     if (!is_open_) {
+        span.setStatus(false, "Storage not open");
         return false;
     }
     
     // Real implementation would write to RocksDB here
+    span.setStatus(true);
     return true;
 }
 
 std::optional<std::string> StorageEngine::get(const std::string& key) {
+    TracedSpan span("StorageEngine.get");
+    span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
+    
     if (!is_open_) {
+        span.setStatus(false, "Storage not open");
         return std::nullopt;
     }
     
     // Real implementation would read from RocksDB here
+    span.setStatus(true);
     return std::nullopt;
 }
 
 bool StorageEngine::del(const std::string& key) {
+    TracedSpan span("StorageEngine.del");
+    span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
+    
     if (!is_open_) {
+        span.setStatus(false, "Storage not open");
         return false;
     }
     
     // Real implementation would delete from RocksDB here
+    span.setStatus(true);
     return true;
 }
 

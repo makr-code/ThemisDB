@@ -3,6 +3,7 @@
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -304,10 +305,14 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
 // ============================================================================
 
 Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) {
+    TracedSpan span("PluginManager.scanPluginDirectory");
+    span.setAttribute("plugin.directory", directory);
+    
     std::unique_lock<std::mutex> lock(mutex_);
     
     if (!fs::exists(directory) || !fs::is_directory(directory)) {
         THEMIS_WARN("Plugin directory does not exist: {}", directory);
+        span.setStatus(false, "Directory does not exist");
         return Err<size_t>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                            fmt::format("Plugin directory does not exist: {}", directory));
     }
@@ -366,10 +371,15 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
     }
     
     THEMIS_INFO("Discovered {} plugins in {}", discovered, directory);
+    span.setAttribute("plugin.discovered_count", static_cast<int64_t>(discovered));
+    span.setStatus(true);
     return Ok(discovered);
 }
 
 Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
+    TracedSpan span("PluginManager.loadPlugin");
+    span.setAttribute("plugin.name", name);
+    
     auto start = std::chrono::steady_clock::now();
     
     std::unique_lock<std::mutex> lock(mutex_);
@@ -377,6 +387,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     if (it == plugins_.end()) {
         THEMIS_ERROR("Plugin not found: {}", name);
         metrics_.recordError(name);
+        span.setStatus(false, "Plugin not found");
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                                     fmt::format("Plugin '{}' not found in registry", name));
     }
