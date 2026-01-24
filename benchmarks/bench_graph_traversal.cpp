@@ -519,11 +519,13 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalOutbound)(b
             TraversalDirection::OUTBOUND,
             "default"
         );
-        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        
         if (!result) {
             state.SkipWithError("Traversal failed: " + result.error().message());
+            return;
         }
         
+        auto results = std::move(*result);
         benchmark::DoNotOptimize(results);
     }
     
@@ -563,11 +565,13 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalInbound)(be
             TraversalDirection::INBOUND,
             "default"
         );
-        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        
         if (!result) {
             state.SkipWithError("Traversal failed: " + result.error().message());
+            return;
         }
         
+        auto results = std::move(*result);
         benchmark::DoNotOptimize(results);
     }
     
@@ -601,11 +605,13 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalAny)(benchm
             TraversalDirection::ANY,
             "default"
         );
-        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        
         if (!result) {
             state.SkipWithError("Traversal failed: " + result.error().message());
+            return;
         }
         
+        auto results = std::move(*result);
         benchmark::DoNotOptimize(results);
     }
     
@@ -638,11 +644,13 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalDepthFilter
             TraversalDirection::OUTBOUND,
             "default"
         );
-        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        
         if (!result) {
             state.SkipWithError("Traversal failed: " + result.error().message());
+            return;
         }
         
+        auto results = std::move(*result);
         benchmark::DoNotOptimize(results);
     }
     
@@ -674,11 +682,13 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResult
             TraversalDirection::OUTBOUND,
             "default"
         );
-        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        
         if (!result) {
             state.SkipWithError("Traversal failed: " + result.error().message());
+            return;
         }
         
+        auto results = std::move(*result);
         state.counters["result_count"] = results.size();
         benchmark::DoNotOptimize(results);
     }
