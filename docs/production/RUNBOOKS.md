@@ -722,24 +722,24 @@ sudo systemctl start themisdb
 
 ```bash
 # 1. Pre-upgrade checks
-themisdb-cli version check --target v1.4.1
+themisdb-cli version check --target $TARGET_VERSION
 themisdb-cli health --full
-themisdb-cli backup create --type full --label "pre-upgrade-v1.4.1"
+themisdb-cli backup create --type full --label "pre-upgrade-$TARGET_VERSION"
 
 # 2. Enable maintenance mode (optional, for major upgrades)
 themisdb-cli maintenance enable --mode soft  # Allows existing jobs to complete
 
 # 3. Upgrade coordinator first
 themisdb-cli upgrade coordinator \
-  --version v1.4.1 \
+  --version $TARGET_VERSION \
   --strategy rolling \
   --wait-for-health
 
 # Expected output:
-# ✓ Downloaded version v1.4.1
+# ✓ Downloaded version $TARGET_VERSION
 # ✓ Backup created
 # ✓ Stopping coordinator (graceful)
-# ✓ Installing v1.4.1
+# ✓ Installing $TARGET_VERSION
 # ✓ Starting coordinator
 # ✓ Health check passed
 # Coordinator upgraded successfully
@@ -753,7 +753,7 @@ for worker in worker-1 worker-2 worker-3; do
   
   # Upgrade
   themisdb-cli upgrade node $worker \
-    --version v1.4.1 \
+    --version $TARGET_VERSION \
     --wait-for-health
   
   # Verify
@@ -770,11 +770,11 @@ done
 themisdb-cli cluster status
 themisdb-cli version --all-nodes
 
-# Expected output:
-# Coordinator: v1.4.1
-# Worker-1: v1.4.1
-# Worker-2: v1.4.1
-# Worker-3: v1.4.1
+# Expected output (example with v1.4.1):
+# Coordinator: $TARGET_VERSION
+# Worker-1: $TARGET_VERSION
+# Worker-2: $TARGET_VERSION
+# Worker-3: $TARGET_VERSION
 # Cluster Status: HEALTHY
 
 # 6. Run post-upgrade tests
@@ -797,11 +797,11 @@ themisdb-cli cluster pause
 
 # 2. Restore from backup
 themisdb-cli restore \
-  --backup pre-upgrade-v1.4.1 \
+  --backup pre-upgrade-$TARGET_VERSION \
   --verify
 
 # 3. Restart cluster with previous version
-themisdb-cli cluster restart --force-version v1.4.0
+themisdb-cli cluster restart --force-version $PREVIOUS_VERSION
 
 # 4. Verify rollback
 themisdb-cli health --full
@@ -830,13 +830,16 @@ themisdb-cli backup create --type full
 # 4. Stop service
 sudo systemctl stop themisdb
 
-# 5. Upgrade
-sudo apt update && sudo apt install themisdb=1.4.1
-# OR
-docker pull themisdb/themisdb:v1.4.1
+# 5. Upgrade (example for specific version)
+# Choose appropriate method for your environment:
+# - Package manager: sudo apt update && sudo apt install themisdb=$TARGET_VERSION
+# - Docker: docker pull themisdb/themisdb:$TARGET_VERSION
+sudo apt update && sudo apt install themisdb  # Updates to latest
+# OR for specific version:
+# sudo apt install themisdb=1.4.1
 
 # 6. Run database migrations (if needed)
-themisdb-cli db migrate --version v1.4.1
+themisdb-cli db migrate --auto
 
 # 7. Start service
 sudo systemctl start themisdb

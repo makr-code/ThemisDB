@@ -703,7 +703,8 @@ themisdb-cli sla error-budget --tier tier1
 # Projected Budget End: 2026-03-15
 
 # If budget low, trigger policy
-if [ $(themisdb-cli sla error-budget --tier tier1 --json | jq '.remaining') -lt 0.25 ]; then
+BUDGET_REMAINING=$(themisdb-cli sla error-budget --tier tier1 --json | jq -r '.remaining')
+if (( $(echo "$BUDGET_REMAINING < 0.25" | bc -l) )); then
   themisdb-cli deployment freeze --reason "Error budget exhausted"
 fi
 ```
