@@ -25,6 +25,9 @@ using namespace themis::errors;
 
 namespace fs = std::filesystem;
 
+namespace themis {
+namespace test {
+
 // Test fixture for model loader error handling tests
 class ModelLoaderErrorHandlingTest : public ::testing::Test {
 protected:

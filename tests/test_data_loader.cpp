@@ -459,7 +459,4 @@ TEST_F(DataLoaderTest, DataLoader_CustomFormatter) {
     EXPECT_EQ(loader.size(), 1);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

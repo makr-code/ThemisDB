@@ -352,17 +352,3 @@ TEST(KVCacheReuseAcceptanceCriteria, AllCriteriaMet) {
 // ============================================================================
 // Main
 // ============================================================================
-
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    
-    int result = RUN_ALL_TESTS();
-    
-    if (result == 0) {
-        std::cout << "\n✓ All KV-Cache Reuse tests PASSED\n";
-    } else {
-        std::cout << "\n✗ Some KV-Cache Reuse tests FAILED\n";
-    }
-    
-    return result;
-}

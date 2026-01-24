@@ -372,7 +372,4 @@ TEST_F(RAGJudgeTest, EmptyDocuments) {
     EXPECT_LE(result.overall_score, 1.0);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

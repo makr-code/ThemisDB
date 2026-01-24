@@ -456,7 +456,4 @@ TEST_F(LoRALlamaIntegrationTest, LoRAEnhancedModel_GetBaseModel) {
     // But we can't test that without a real model file
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

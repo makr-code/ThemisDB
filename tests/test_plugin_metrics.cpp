@@ -198,7 +198,4 @@ TEST_F(PluginMetricsTest, LatencySampleLimit) {
     EXPECT_GE(stats.p99_call_latency_ms, stats.p95_call_latency_ms);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

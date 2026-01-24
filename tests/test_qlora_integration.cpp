@@ -297,7 +297,4 @@ TEST_F(QLoRAIntegrationTest, ArchitectureStringConversion) {
     EXPECT_EQ(ModelMetadata::string_to_architecture("Mistral-7B"), ModelArchitecture::MISTRAL);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

@@ -218,7 +218,4 @@ TEST_F(ProductQuantizerTest, Different1024DimensionWith16Subquantizers) {
     EXPECT_FLOAT_EQ(pq.getCompressionRatio(), expected_ratio);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

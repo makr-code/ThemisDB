@@ -630,9 +630,6 @@ TEST_F(VideoProcessorExtendedTest, ChunkSizeConfiguration) {
 }
 
 // Main function for Google Test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
 
 #endif // disabled video processor extended tests pending API update

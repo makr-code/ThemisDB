@@ -322,12 +322,3 @@ TEST_F(LoraAutoBindingTest, MultipleAdaptersCanBeLoadedSimultaneously) {
 // ═══════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Set log level for tests
-    spdlog::set_level(spdlog::level::info);
-    
-    return RUN_ALL_TESTS();
-}

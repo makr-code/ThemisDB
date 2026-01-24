@@ -337,10 +337,3 @@ TEST_F(EthicsAwareConfidenceDetectorTest, VeryLongText) {
     EXPECT_GE(result.combined_confidence, 0.0f);
     EXPECT_LE(result.combined_confidence, 1.0f);
 }
-
-} // anonymous namespace
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

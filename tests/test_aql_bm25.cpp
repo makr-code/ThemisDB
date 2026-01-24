@@ -87,12 +87,13 @@ TEST_F(AQLBm25Test, BasicBM25FunctionParsing) {
     
     AQLParser parser;
     auto result = parser.parse(query);
-    ASSERT_TRUE(result.success) << "Parse error: " << result.error.message;
-    ASSERT_TRUE(result.query);
-    ASSERT_TRUE(result.query->return_node);
+    ASSERT_TRUE(result.has_value()) << "Parse error: " << (result ? "" : result.error().message());
+    auto query_ptr = *result;
+    ASSERT_TRUE(query_ptr);
+    ASSERT_TRUE(query_ptr->return_node);
     
     // Check that RETURN expression is a function call
-    auto returnExpr = result.query->return_node->expression;
+    auto returnExpr = query_ptr->return_node->expression;
     ASSERT_EQ(returnExpr->getType(), ASTNodeType::FunctionCall);
     
     auto funcCall = std::static_pointer_cast<FunctionCallExpr>(returnExpr);

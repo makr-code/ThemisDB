@@ -532,9 +532,11 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
 }
 
 void GossipConfigManager::sendGossipMessage(
-    const std::string& peer_endpoint,
-    const proto::GossipMessage& message
+    const std::string& peer_endpoint [[maybe_unused]],
+    const proto::GossipMessage& message [[maybe_unused]]
 ) {
+    (void)peer_endpoint;
+    (void)message;
     if (!client_) return;
     
     try {
@@ -548,6 +550,7 @@ void GossipConfigManager::sendGossipMessage(
         // In a real implementation, we'd measure round-trip time
         
     } catch (const std::exception& e) {
+        (void)e; // silence unused warning in stub
         // Log error (in production, use proper logging)
     }
 }
