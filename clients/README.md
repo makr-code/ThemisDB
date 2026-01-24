@@ -2,6 +2,16 @@
 
 This directory contains official client SDKs for ThemisDB in multiple programming languages.
 
+## 🆕 SDK Enhancements (v1.4.0-alpha)
+
+**New Features** (All Backwards Compatible):
+- ✅ **Circuit Breaker Pattern**: Prevents cascading failures
+- ✅ **Retry with Exponential Backoff**: Handles transient failures
+- ✅ **Request/Response Logging**: Comprehensive debugging support
+- ✅ **Connection Pooling**: Efficient HTTP connection management
+
+See [SDK_ENHANCEMENTS.md](SDK_ENHANCEMENTS.md) for detailed documentation and usage examples.
+
 ## Available SDKs
 
 ### C# (.NET)
@@ -99,11 +109,19 @@ All SDKs now support the same feature set (as of v1.4.0-alpha, January 2026):
 | Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ | N/A | N/A |
 | TLS/mTLS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **🆕 Circuit Breaker** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| **🆕 Retry + Backoff** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| **🆕 Request/Response Logging** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Connection Pooling | ⚠️  | ⚠️  | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| Binary Protocol | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 **Legend:**
 - ✅ = Implemented and tested
+- ⚠️  = Implicit/Built-in (e.g., browser fetch, standard HTTP client)
+- ❌ = Not implemented
 - 📋 = Planned (template available in Python/JavaScript clients)
 - N/A = Not applicable for this language
+- 🆕 = New in v1.4.0-alpha
 
 ## Documentation
 

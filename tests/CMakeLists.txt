@@ -150,8 +150,661 @@ target_compile_definitions(themis_tests PRIVATE
 )
 
 add_test(NAME AllTests COMMAND themis_tests)
-set_tests_properties(AllTests PROPERTIES TIMEOUT 600)
+set_tests_properties(AllTests PROPERTIES
+    LABELS "all;unified"
+    TIMEOUT 600
+)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+    message(STATUS "Adding Multi-GPU LoRA Advanced tests")
+    
+    add_executable(test_multi_gpu_lora_advanced
+        test_multi_gpu_lora_advanced.cpp
+    )
+    
+    target_link_libraries(test_multi_gpu_lora_advanced PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_multi_gpu_lora_advanced PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME MultiGPULoRAAdvancedTests COMMAND test_multi_gpu_lora_advanced)
+    
+    set_tests_properties(MultiGPULoRAAdvancedTests PROPERTIES
+        LABELS "lora;llm;multi-gpu;advanced;resource-aware;migration;security"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Multi-GPU LoRA Advanced: resource-aware eviction, migration, audit logging")
+else()
+    message(STATUS "Multi-GPU LoRA Advanced tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
+endif()
 
+# ============================================================================
+# Distributed Coordinator Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
+    message(STATUS "Adding Distributed Coordinator tests")
+    
+    add_executable(test_distributed_coordinator
+        test_distributed_coordinator.cpp
+    )
+    
+    target_link_libraries(test_distributed_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_distributed_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME DistributedCoordinatorTests COMMAND test_distributed_coordinator)
+    
+    set_tests_properties(DistributedCoordinatorTests PROPERTIES
+        LABELS "sharding;coordinator;leader-election;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Distributed Coordinator: ephemeral leader election, task scheduling")
+else()
+    message(STATUS "Distributed Coordinator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_coordinator.cpp")
+endif()
+
+# Consensus Module Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_consensus_module.cpp")
+    message(STATUS "Adding Consensus Module tests")
+    
+    add_executable(test_consensus_module
+        test_consensus_module.cpp
+    )
+    
+    target_link_libraries(test_consensus_module PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_consensus_module PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME ConsensusModuleTests COMMAND test_consensus_module)
+    
+    set_tests_properties(ConsensusModuleTests PROPERTIES
+        LABELS "sharding;consensus;raft;gossip;paxos;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Consensus Module: Raft, Gossip, Paxos implementations")
+else()
+    message(STATUS "Consensus Module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_consensus_module.cpp")
+endif()
+
+# ============================================================================
+# Property Graph Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+    message(STATUS "Adding Property Graph tests")
+    
+    add_executable(test_property_graph
+        test_property_graph.cpp
+    )
+    
+    target_link_libraries(test_property_graph PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_property_graph PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PropertyGraphTests COMMAND test_property_graph)
+    
+    set_tests_properties(PropertyGraphTests PROPERTIES
+        LABELS "index;property-graph;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Property Graph: edge cascade deletion, node/edge management")
+else()
+    message(STATUS "Property Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_property_graph.cpp")
+endif()
+
+# ============================================================================
+# HTTP Client Pool Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
+    message(STATUS "Adding HTTP Client Pool tests")
+    
+    add_executable(test_http_client_pool
+        test_http_client_pool.cpp
+    )
+    
+    target_link_libraries(test_http_client_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Boost::beast
+        Boost::system
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_http_client_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME HTTPClientPoolTests COMMAND test_http_client_pool)
+    
+    set_tests_properties(HTTPClientPoolTests PROPERTIES
+        LABELS "utils;http;connection-pool;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  HTTP Client Pool: striped locking, stale connection removal, timeouts")
+else()
+    message(STATUS "HTTP Client Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
+endif()
+
+# ============================================================================
+# gRPC Channel Pool Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_channel_pool.cpp")
+    message(STATUS "Adding gRPC Channel Pool tests")
+    
+    add_executable(test_grpc_channel_pool
+        test_grpc_channel_pool.cpp
+    )
+    
+    target_link_libraries(test_grpc_channel_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        gRPC::grpc++
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_grpc_channel_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GrpcChannelPoolTests COMMAND test_grpc_channel_pool)
+    
+    set_tests_properties(GrpcChannelPoolTests PROPERTIES
+        LABELS "utils;grpc;connection-pool;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  gRPC Channel Pool: channel reuse, keepalive, stale pruning")
+else()
+    message(STATUS "gRPC Channel Pool tests not found")
+endif()
+
+# ============================================================================
+# Batch Operation Manager Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_batch_operation_manager.cpp")
+    message(STATUS "Adding Batch Operation Manager tests")
+    
+    add_executable(test_batch_operation_manager
+        test_batch_operation_manager.cpp
+    )
+    
+    target_link_libraries(test_batch_operation_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_batch_operation_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME BatchOperationManagerTests COMMAND test_batch_operation_manager)
+    
+    set_tests_properties(BatchOperationManagerTests PROPERTIES
+        LABELS "utils;batch;performance;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  Batch Operation Manager: adaptive sizing, queue management")
+else()
+    message(STATUS "Batch Operation Manager tests not found")
+endif()
+
+# ============================================================================
+# HNSW Parameter Tuner Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hnsw_parameter_tuner.cpp")
+    message(STATUS "Adding HNSW Parameter Tuner tests")
+    
+    add_executable(test_hnsw_parameter_tuner
+        test_hnsw_parameter_tuner.cpp
+    )
+    
+    target_link_libraries(test_hnsw_parameter_tuner PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_hnsw_parameter_tuner PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME HnswParameterTunerTests COMMAND test_hnsw_parameter_tuner)
+    
+    set_tests_properties(HnswParameterTunerTests PROPERTIES
+        LABELS "index;hnsw;performance;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  HNSW Parameter Tuner: adaptive efSearch, memory optimization")
+else()
+    message(STATUS "HNSW Parameter Tuner tests not found")
+endif()
+
+# ============================================================================
+# Enhanced Query Cache Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
+    message(STATUS "Adding Enhanced Query Cache tests")
+    
+    add_executable(test_enhanced_query_cache
+        test_enhanced_query_cache.cpp
+    )
+    
+    target_link_libraries(test_enhanced_query_cache PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_enhanced_query_cache PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME EnhancedQueryCacheTests COMMAND test_enhanced_query_cache)
+    
+    set_tests_properties(EnhancedQueryCacheTests PROPERTIES
+        LABELS "cache;performance;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  Enhanced Query Cache: TBB concurrent hash map, TTL, LRU eviction")
+else()
+    message(STATUS "Enhanced Query Cache tests not found")
+endif()
+
+# RPC Geospatial Query Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
+    message(STATUS "Adding RPC Geospatial Query tests")
+    
+    add_executable(test_rpc_geo_query
+        test_rpc_geo_query.cpp
+    )
+    
+    target_link_libraries(test_rpc_geo_query PRIVATE
+# Index Maintenance Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+    message(STATUS "Adding Index Maintenance tests")
+    
+    add_executable(test_index_maintenance
+        test_index_maintenance.cpp
+    )
+    
+    target_link_libraries(test_index_maintenance PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_index_maintenance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    
+    set_tests_properties(IndexMaintenanceTests PROPERTIES
+        LABELS "storage;index;maintenance;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics")
+else()
+    message(STATUS "Index Maintenance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_index_maintenance.cpp")
+endif()
+
+# GraphQL Parser Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+    message(STATUS "Adding GraphQL parser tests")
+    
+    add_executable(test_graphql
+        test_graphql.cpp
+    )
+    
+    target_link_libraries(test_graphql PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graphql PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    
+    set_tests_properties(GraphQLParserTests PROPERTIES
+        LABELS "query;graphql;parser;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
+else()
+    message(STATUS "GraphQL Parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+endif()
+
+# ============================================================================
+# Fulltext Phrase and Fuzzy Search Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
+    message(STATUS "Adding Fulltext Phrase and Fuzzy Search tests")
+    
+    add_executable(test_fulltext_phrase_fuzzy
+        test_fulltext_phrase_fuzzy.cpp
+    )
+    
+    target_link_libraries(test_fulltext_phrase_fuzzy PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_fulltext_phrase_fuzzy PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME FulltextPhraseFuzzyTests COMMAND test_fulltext_phrase_fuzzy)
+    
+    set_tests_properties(FulltextPhraseFuzzyTests PROPERTIES
+        LABELS "index;fulltext;phrase;fuzzy;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Fulltext: phrase matching, fuzzy search with Levenshtein distance")
+else()
+    message(STATUS "Fulltext Phrase and Fuzzy Search tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fulltext_phrase_fuzzy.cpp")
+    )
+    
+    target_compile_definitions(test_rpc_geo_query PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RPCGeoQueryTests COMMAND test_rpc_geo_query)
+    
+    set_tests_properties(RPCGeoQueryTests PROPERTIES
+        LABELS "rpc;geospatial;query;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  RPC Geo Query: intersects, within, near spatial queries")
+else()
+    message(STATUS "RPC Geo Query tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graphql PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    
+    set_tests_properties(GraphQLParserTests PROPERTIES
+        LABELS "api;graphql;parser;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  GraphQL Parser: query parsing, arguments, validation")
+else()
+    message(STATUS "GraphQL parser tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql.cpp")
+endif()
+
+# ============================================================================
+# Comprehensive Real Unit Tests (PR: Implement Real Unit Tests)
+# ============================================================================
+
+# RocksDBWrapper Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_wrapper_comprehensive.cpp")
+    message(STATUS "Adding RocksDBWrapper comprehensive tests")
+    
+    add_executable(test_rocksdb_wrapper_comprehensive
+        test_rocksdb_wrapper_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_rocksdb_wrapper_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_rocksdb_wrapper_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RocksDBWrapperComprehensiveTests COMMAND test_rocksdb_wrapper_comprehensive)
+    
+    set_tests_properties(RocksDBWrapperComprehensiveTests PROPERTIES
+        LABELS "storage;rocksdb;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  RocksDBWrapper Comprehensive: CRUD, transactions, MVCC, backup/restore, iterators, column families")
+else()
+    message(STATUS "RocksDBWrapper comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_wrapper_comprehensive.cpp")
+endif()
+
+# PITR Manager Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
+    message(STATUS "Adding PITR Manager comprehensive tests")
+    
+    add_executable(test_pitr_manager_comprehensive
+        test_pitr_manager_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_pitr_manager_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_pitr_manager_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME PITRManagerComprehensiveTests COMMAND test_pitr_manager_comprehensive)
+    
+    set_tests_properties(PITRManagerComprehensiveTests PROPERTIES
+        LABELS "storage;pitr;recovery;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  PITR Manager Comprehensive: point-in-time recovery, changefeed replay, snapshots, consistency")
+else()
+    message(STATUS "PITR Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
+endif()
+
+# Vector Index Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+    message(STATUS "Adding Vector Index comprehensive tests")
+    
+    add_executable(test_vector_index_comprehensive
+        test_vector_index_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_vector_index_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_vector_index_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME VectorIndexComprehensiveTests COMMAND test_vector_index_comprehensive)
+    
+    set_tests_properties(VectorIndexComprehensiveTests PROPERTIES
+        LABELS "index;vector;hnsw;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Vector Index Comprehensive: HNSW, distance metrics, filtered search, persistence, concurrency")
+else()
+    message(STATUS "Vector Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+endif()
+
+# Transaction Manager Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
+    message(STATUS "Adding Transaction Manager comprehensive tests")
+    
+    add_executable(test_transaction_manager_comprehensive
+        test_transaction_manager_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_transaction_manager_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_transaction_manager_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME TransactionManagerComprehensiveTests COMMAND test_transaction_manager_comprehensive)
+    
+    set_tests_properties(TransactionManagerComprehensiveTests PROPERTIES
+        LABELS "transaction;mvcc;acid;distributed;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Transaction Manager Comprehensive: ACID, isolation levels, deadlock detection, 2PC, savepoints")
+else()
+    message(STATUS "Transaction Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
+endif()
+
+# Utilities Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
+    message(STATUS "Adding Utilities comprehensive tests")
+    
+    add_executable(test_utilities_comprehensive
+        test_utilities_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_utilities_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+    )
+    
+    target_compile_definitions(test_utilities_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME UtilitiesComprehensiveTests COMMAND test_utilities_comprehensive)
+    
+    set_tests_properties(UtilitiesComprehensiveTests PROPERTIES
+        LABELS "utilities;error;pii;stemming;olap;comprehensive;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Utilities Comprehensive: error handling, PII detection, stemming, OLAP engine")
+else()
+    message(STATUS "Utilities comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
+endif()
+
+# Graph Index Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+    message(STATUS "Adding Graph Index comprehensive tests")
+    
+    add_executable(test_graph_index_comprehensive
+        test_graph_index_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_graph_index_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_graph_index_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GraphIndexComprehensiveTests COMMAND test_graph_index_comprehensive)
+    
+    set_tests_properties(GraphIndexComprehensiveTests PROPERTIES
+        LABELS "index;graph;traversal;comprehensive;unit"
+        TIMEOUT 300
+    )
+    
+    message(STATUS "  Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs")
+else()
+    message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+endif()
+
+# ============================================================================
+# Custom Test Targets
+# ============================================================================
+
+# Add custom target to run all tests
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

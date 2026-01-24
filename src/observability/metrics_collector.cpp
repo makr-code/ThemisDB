@@ -133,6 +133,21 @@ void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     incrementCounter("disk_write_ops_total", {});
 }
 
+// ===== Tracing Metrics =====
+
+void MetricsCollector::recordSpanDuration(const std::string& span_name, double duration_ms) {
+    observeHistogram("trace_span_duration_ms", duration_ms, {{"span", span_name}});
+    incrementCounter("trace_spans_total", {{"span", span_name}});
+}
+
+void MetricsCollector::recordActiveSpans(int64_t count) {
+    setGauge("trace_active_spans", static_cast<double>(count), {});
+}
+
+void MetricsCollector::recordTotalSpans(int64_t count) {
+    setGauge("trace_total_spans", static_cast<double>(count), {});
+}
+
 // ===== Prometheus Text Format Export =====
 
 std::string MetricsCollector::getPrometheusMetrics() const {

@@ -199,7 +199,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             std::pair<themis::QueryEngine::Status, std::vector<std::string>> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
-                res = engine.executeAndKeysWithFallback(q, optimize);
+                auto result = engine.executeAndKeysWithFallback(q, optimize);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                }
             } else {
                 if (optimize) {
                     themis::QueryOptimizer opt(*secondary_index_);
@@ -255,7 +260,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
-                res = engine.executeAndEntitiesWithFallback(q, optimize);
+                auto result = engine.executeAndEntitiesWithFallback(q, optimize);
+                if (!result) {
+                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                } else {
+                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                }
             } else {
                 if (optimize) {
                     themis::QueryOptimizer opt(*secondary_index_);
@@ -535,9 +545,23 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
             themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
             themis::QueryEngine engine(*storage_, *secondary_index_);
-            auto res1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
+            
+            auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
+            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
+            if (!result1) {
+                res1 = {themis::QueryEngine::Status{false, result1.error().message()}, {}};
+            } else {
+                res1 = {themis::QueryEngine::Status::OK(), std::move(*result1)};
+            }
             if (!res1.first.ok) { joinSpan.setStatus(false, res1.first.message); span.setStatus(false, "Left side execution failed"); return makeErrorResponse(http::status::bad_request, res1.first.message, req); }
-            auto res2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
+            
+            auto result2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
+            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;
+            if (!result2) {
+                res2 = {themis::QueryEngine::Status{false, result2.error().message()}, {}};
+            } else {
+                res2 = {themis::QueryEngine::Status::OK(), std::move(*result2)};
+            }
             if (!res2.first.ok) { joinSpan.setStatus(false, res2.first.message); span.setStatus(false, "Right side execution failed"); return makeErrorResponse(http::status::bad_request, res2.first.message, req); }
             const auto& leftVec = res1.second; const auto& rightVec = res2.second; bool buildLeft = leftVec.size() <= rightVec.size();
             const auto [colLeft, colRight] = *joinCols; std::unordered_multimap<std::string, themis::BaseEntity> hash;
@@ -1377,13 +1401,27 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
                         themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
                         themis::QueryEngine engine(*storage_, *secondary_index_);
-                        auto res1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
+                        
+                        auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
+                        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
+                        if (!result1) {
+                            res1 = {themis::QueryEngine::Status{false, result1.error().message()}, {}};
+                        } else {
+                            res1 = {themis::QueryEngine::Status::OK(), std::move(*result1)};
+                        }
                         if (!res1.first.ok) {
                             joinSpan.setStatus(false, res1.first.message);
                             span.setStatus(false, "Left side execution failed");
                             return makeErrorResponse(http::status::bad_request, res1.first.message, req);
                         }
-                        auto res2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
+                        
+                        auto result2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
+                        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;
+                        if (!result2) {
+                            res2 = {themis::QueryEngine::Status{false, result2.error().message()}, {}};
+                        } else {
+                            res2 = {themis::QueryEngine::Status::OK(), std::move(*result2)};
+                        }
                         if (!res2.first.ok) {
                             joinSpan.setStatus(false, res2.first.message);
                             span.setStatus(false, "Right side execution failed");
@@ -1839,7 +1877,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             
             themis::QueryEngine engine(*storage_, *secondary_index_);
             // Nutze Fallback-Variante, damit OR-Queries auch ohne passende Indizes funktionieren
-            auto [status, keys] = engine.executeOrKeysWithFallback(dq, optimize);
+            auto result = engine.executeOrKeysWithFallback(dq, optimize);
+            std::pair<themis::QueryEngine::Status, std::vector<std::string>> statusKeys;
+            if (!result) {
+                statusKeys = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+            } else {
+                statusKeys = {themis::QueryEngine::Status::OK(), std::move(*result)};
+            }
+            auto [status, keys] = statusKeys;
             
             if (!status.ok) {
                 orSpan.setStatus(false, status.message);
@@ -2223,7 +2268,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
         if (allow_full_scan) {
             exec_mode = "full_scan_fallback";
-            res = engine.executeAndEntitiesWithFallback(q, optimize);
+            auto result = engine.executeAndEntitiesWithFallback(q, optimize);
+            if (!result) {
+                res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+            } else {
+                res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+            }
         } else {
             // Wenn FULLTEXT vorhanden ist, delegiere direkt an Engine (Optimizer kennt FULLTEXT nicht)
             if (q.fulltextPredicate.has_value()) {

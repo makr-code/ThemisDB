@@ -1,0 +1,479 @@
+#include "query/adaptive_optimizer.h"
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+#include <spdlog/spdlog.h>
+
+#ifdef __linux__
+#include <sched.h>
+#include <numa.h>
+#include <pthread.h>
+#endif
+
+namespace themis {
+
+// ============================================================================
+// AdaptiveQueryStats Implementation
+// ============================================================================
+
+void AdaptiveQueryStats::recordExecution(const QueryExecution& exec) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto& history = executions_[exec.query_hash];
+    history.push_back(exec);
+    
+    // Limit history size per query
+    if (history.size() > MAX_HISTORY_PER_QUERY) {
+        history.erase(history.begin());
+    }
+    
+    total_queries_.fetch_add(1, std::memory_order_relaxed);
+}
+
+std::vector<AdaptiveQueryStats::QueryExecution> 
+AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = executions_.find(query_hash);
+    if (it == executions_.end()) {
+        return {};
+    }
+    
+    const auto& history = it->second;
+    size_t count = std::min(limit, history.size());
+    
+    return std::vector<QueryExecution>(
+        history.end() - count,
+        history.end()
+    );
+}
+
+double AdaptiveQueryStats::getAverageSelectivity(const std::string& query_hash) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = executions_.find(query_hash);
+    if (it == executions_.end() || it->second.empty()) {
+        return 1.0; // Default to no adjustment
+    }
+    
+    const auto& history = it->second;
+    double sum = 0.0;
+    size_t valid_count = 0;
+    
+    for (const auto& exec : history) {
+        if (exec.estimated_rows > 0) {
+            sum += static_cast<double>(exec.actual_rows) / exec.estimated_rows;
+            valid_count++;
+        }
+    }
+    
+    return valid_count > 0 ? sum / valid_count : 1.0;
+}
+
+bool AdaptiveQueryStats::hasCardinalityMisestimation(
+    const std::string& query_hash, 
+    double threshold) const {
+    
+    double avg_selectivity = getAverageSelectivity(query_hash);
+    
+    // Check if average selectivity is significantly off from 1.0
+    return avg_selectivity < (1.0 / threshold) || avg_selectivity > threshold;
+}
+
+double AdaptiveQueryStats::getAdaptiveAdjustmentFactor(
+    const std::string& query_hash) const {
+    
+    double avg_selectivity = getAverageSelectivity(query_hash);
+    
+    // Use exponential smoothing to avoid over-correction
+    const double smoothing = 0.7;
+    return smoothing * avg_selectivity + (1.0 - smoothing) * 1.0;
+}
+
+void AdaptiveQueryStats::pruneOldStats(std::chrono::hours retention) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto cutoff = std::chrono::system_clock::now() - retention;
+    
+    for (auto& [hash, history] : executions_) {
+        history.erase(
+            std::remove_if(history.begin(), history.end(),
+                [cutoff](const QueryExecution& exec) {
+                    return exec.timestamp < cutoff;
+                }),
+            history.end()
+        );
+    }
+    
+    // Remove empty histories
+    for (auto it = executions_.begin(); it != executions_.end();) {
+        if (it->second.empty()) {
+            it = executions_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+// ============================================================================
+// AdaptivePlanSelector Implementation
+// ============================================================================
+
+AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::selectPlan(
+    const std::vector<PlanChoice>& alternatives,
+    const std::string& query_hash,
+    const AdaptiveQueryStats& stats) const {
+    
+    if (alternatives.empty()) {
+        throw std::invalid_argument("No plan alternatives provided");
+    }
+    
+    // Get adaptive adjustment based on historical data
+    double adjustment = stats.getAdaptiveAdjustmentFactor(query_hash);
+    
+    // Find plan with minimum adjusted cost
+    auto best = std::min_element(
+        alternatives.begin(), 
+        alternatives.end(),
+        [adjustment](const PlanChoice& a, const PlanChoice& b) {
+            return a.estimated_cost * adjustment < b.estimated_cost * adjustment;
+        }
+    );
+    
+    spdlog::debug("Selected plan: {} (adjusted cost: {:.2f}, adjustment factor: {:.2f})",
+                  best->description, best->estimated_cost * adjustment, adjustment);
+    
+    return *best;
+}
+
+bool AdaptivePlanSelector::shouldSwitchPlan(
+    size_t rows_so_far,
+    size_t estimated_total,
+    double progress,
+    double misestimation_threshold) const {
+    
+    // Don't switch if we're almost done
+    if (progress > 0.9) {
+        return false;
+    }
+    
+    // Don't switch too early (need enough data)
+    if (progress < 0.1) {
+        return false;
+    }
+    
+    // Extrapolate final row count
+    double extrapolated_total = rows_so_far / std::max(progress, 0.01);
+    
+    // Check if extrapolated count is significantly off from estimate
+    if (estimated_total > 0) {
+        double ratio = extrapolated_total / estimated_total;
+        
+        if (ratio > misestimation_threshold || ratio < (1.0 / misestimation_threshold)) {
+            spdlog::info("Plan switch recommended: extrapolated={:.0f}, estimated={}, progress={:.1%}",
+                        extrapolated_total, estimated_total, progress);
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
+    const PlanChoice& current_plan,
+    size_t actual_rows,
+    size_t estimated_rows) const {
+    
+    using Strategy = PlanChoice::Strategy;
+    
+    PlanChoice alternative;
+    alternative.strategy = Strategy::INDEX_SCAN;  // Default initialization
+    
+    // If we significantly underestimated, prefer simpler strategies
+    if (actual_rows > estimated_rows * 5) {
+        if (current_plan.strategy == Strategy::INDEX_SCAN) {
+            alternative.strategy = Strategy::TABLE_SCAN;
+            alternative.description = "Switch to table scan (underestimated selectivity)";
+        } else if (current_plan.strategy == Strategy::HASH_JOIN) {
+            alternative.strategy = Strategy::NESTED_LOOP_JOIN;
+            alternative.description = "Switch to nested loop join (underestimated cardinality)";
+        }
+    }
+    // If we significantly overestimated, prefer more selective strategies
+    else if (estimated_rows > actual_rows * 5) {
+        if (current_plan.strategy == Strategy::TABLE_SCAN) {
+            alternative.strategy = Strategy::INDEX_SCAN;
+            alternative.description = "Switch to index scan (overestimated selectivity)";
+        } else if (current_plan.strategy == Strategy::NESTED_LOOP_JOIN) {
+            alternative.strategy = Strategy::HASH_JOIN;
+            alternative.description = "Switch to hash join (overestimated cardinality)";
+        }
+    }
+    
+    // If no better alternative was found (description still empty), keep current
+    if (alternative.description.empty()) {
+        alternative = current_plan;
+        alternative.description += " (no alternative)";
+    }
+    
+    return alternative;
+}
+
+// ============================================================================
+// DistributedQueryCostModel Implementation
+// ============================================================================
+
+double DistributedQueryCostModel::estimateDistributedQueryCost(
+    const std::vector<ShardInfo>& involved_shards,
+    size_t estimated_result_rows) const {
+    
+    double total_cost = 0.0;
+    
+    for (const auto& shard : involved_shards) {
+        // Local processing cost
+        double processing_cost = shard.estimated_rows * LOCAL_ROW_PROCESSING_COST;
+        
+        // Network transfer cost (if not local)
+        double network_cost = 0.0;
+        if (!shard.is_local) {
+            network_cost = shard.estimated_rows * NETWORK_TRANSFER_COST_PER_ROW;
+            network_cost += shard.network_latency_ms; // Base latency
+        }
+        
+        total_cost += processing_cost + network_cost;
+    }
+    
+    return total_cost;
+}
+
+DistributedQueryCostModel::CrossShardJoinCost 
+DistributedQueryCostModel::estimateCrossShardJoinCost(
+    const ShardInfo& left_shard,
+    const ShardInfo& right_shard,
+    size_t left_rows,
+    size_t right_rows) const {
+    
+    CrossShardJoinCost result;
+    result.total_cost = CROSS_SHARD_JOIN_OVERHEAD;
+    
+    // Determine optimal join strategy
+    constexpr size_t SMALL_TABLE_THRESHOLD = 1000;
+    constexpr double SIMILAR_SIZE_THRESHOLD = 0.3;  // 30% size difference tolerance
+    
+    if (left_rows < SMALL_TABLE_THRESHOLD || right_rows < SMALL_TABLE_THRESHOLD) {
+        // Small table - broadcast it
+        result.recommended_strategy = "broadcast";
+        size_t rows_to_broadcast = std::min(left_rows, right_rows);
+        result.network_cost = rows_to_broadcast * NETWORK_TRANSFER_COST_PER_ROW;
+        result.compute_cost = left_rows * right_rows * 0.001; // Hash join cost
+    } else if (std::abs(static_cast<int>(left_rows - right_rows)) < 
+               static_cast<int>(left_rows * SIMILAR_SIZE_THRESHOLD)) {
+        // Similar sizes - repartition both
+        result.recommended_strategy = "repartition";
+        result.network_cost = (left_rows + right_rows) * NETWORK_TRANSFER_COST_PER_ROW * 0.5;
+        result.compute_cost = (left_rows + right_rows) * 0.01;
+    } else {
+        // Use semi-join to reduce network transfer
+        result.recommended_strategy = "semi_join";
+        size_t smaller = std::min(left_rows, right_rows);
+        result.network_cost = smaller * NETWORK_TRANSFER_COST_PER_ROW * 1.5;
+        result.compute_cost = smaller * 0.005;
+    }
+    
+    result.total_cost += result.network_cost + result.compute_cost;
+    
+    return result;
+}
+
+bool DistributedQueryCostModel::shouldPrunePartition(
+    const ShardInfo& shard,
+    size_t total_shards,
+    double selectivity) const {
+    
+    // Prune if shard has very few relevant rows
+    if (selectivity < 0.01) {
+        return true;
+    }
+    
+    // Prune if network cost exceeds benefit
+    double network_cost = shard.network_latency_ms + 
+                         shard.estimated_rows * NETWORK_TRANSFER_COST_PER_ROW;
+    double benefit = shard.estimated_rows * selectivity * LOCAL_ROW_PROCESSING_COST;
+    
+    return network_cost > benefit * 10.0;
+}
+
+size_t DistributedQueryCostModel::getOptimalParallelism(
+    const std::vector<ShardInfo>& shards,
+    size_t available_threads) const {
+    
+    // At least one thread per shard
+    size_t min_threads = shards.size();
+    
+    // Calculate total work
+    size_t total_rows = 0;
+    for (const auto& shard : shards) {
+        total_rows += shard.estimated_rows;
+    }
+    
+    // Target: ~10000 rows per thread
+    size_t optimal_threads = std::max(min_threads, total_rows / 10000);
+    
+    return std::min(optimal_threads, available_threads);
+}
+
+// ============================================================================
+// MultiIndexOptimizer Implementation
+// ============================================================================
+
+MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAccess(
+    const std::vector<IndexCandidate>& available_indexes,
+    size_t table_size) const {
+    
+    IntersectionPlan plan;
+    
+    if (available_indexes.empty()) {
+        plan.estimated_result_rows = table_size;
+        return plan;
+    }
+    
+    // Sort indexes by selectivity (most selective first)
+    std::vector<IndexCandidate> sorted_indexes = available_indexes;
+    std::sort(sorted_indexes.begin(), sorted_indexes.end(),
+        [](const IndexCandidate& a, const IndexCandidate& b) {
+            return a.estimated_selectivity < b.estimated_selectivity;
+        });
+    
+    // Decide whether to use single index or intersection
+    if (sorted_indexes.size() == 1 || 
+        sorted_indexes[0].estimated_selectivity < table_size * 0.01) {
+        // Very selective - use single index
+        plan.indexes_to_use.push_back(sorted_indexes[0].index_name);
+        plan.estimated_result_rows = sorted_indexes[0].estimated_selectivity;
+        plan.estimated_cost = sorted_indexes[0].access_cost;
+    } else {
+        // Consider index intersection
+        size_t result_rows = table_size;
+        double total_cost = 0.0;
+        
+        for (const auto& idx : sorted_indexes) {
+            double selectivity_factor = 
+                static_cast<double>(idx.estimated_selectivity) / result_rows;
+            
+            // Add index if it significantly reduces result set
+            if (selectivity_factor < 0.8) {
+                plan.indexes_to_use.push_back(idx.index_name);
+                result_rows = std::min(result_rows, idx.estimated_selectivity);
+                total_cost += idx.access_cost;
+                
+                // Use bitmap if multiple indexes and selectivity warrants it
+                if (plan.indexes_to_use.size() > 1 && 
+                    selectivity_factor < getBitmapIntersectionThreshold()) {
+                    plan.use_bitmap_intersection = true;
+                }
+            }
+        }
+        
+        plan.estimated_result_rows = result_rows;
+        plan.estimated_cost = total_cost;
+    }
+    
+    return plan;
+}
+
+bool MultiIndexOptimizer::shouldUseIndexIntersection(
+    const std::vector<IndexCandidate>& candidates,
+    size_t table_size) const {
+    
+    if (candidates.size() < 2) {
+        return false;
+    }
+    
+    // Check if intersection would be beneficial
+    size_t min_selectivity = table_size;
+    for (const auto& idx : candidates) {
+        min_selectivity = std::min(min_selectivity, idx.estimated_selectivity);
+    }
+    
+    // Use intersection if no single index is very selective
+    return min_selectivity > table_size * 0.05;
+}
+
+// ============================================================================
+// NumaAwareOptimizer Implementation
+// ============================================================================
+
+NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
+    size_t data_size_bytes,
+    size_t parallelism) const {
+    
+    NumaPlacement placement;
+    placement.preferred_numa_node = 0;  // Default to node 0
+    placement.use_local_memory = true;
+    
+#ifdef __linux__
+    if (isNumaAvailable()) {
+        size_t num_nodes = getNumaNodeCount();
+        
+        // Prefer node with most free memory
+        long max_free = 0;
+        int best_node = 0;
+        
+        for (size_t i = 0; i < num_nodes; i++) {
+            long free_mem = numa_node_size64(i, nullptr);
+            if (free_mem > max_free) {
+                max_free = free_mem;
+                best_node = i;
+            }
+        }
+        
+        placement.preferred_numa_node = best_node;
+        
+        // Get CPU IDs for this node
+        struct bitmask* cpus = numa_allocate_cpumask();
+        if (numa_node_to_cpus(best_node, cpus) == 0) {
+            for (size_t i = 0; i < numa_num_possible_cpus(); i++) {
+                if (numa_bitmask_isbitset(cpus, i)) {
+                    placement.cpu_affinity.push_back(i);
+                }
+            }
+        }
+        numa_free_cpumask(cpus);
+    }
+#endif
+    
+    return placement;
+}
+
+bool NumaAwareOptimizer::isNumaAvailable() {
+#ifdef __linux__
+    return numa_available() != -1;
+#else
+    return false;
+#endif
+}
+
+size_t NumaAwareOptimizer::getNumaNodeCount() {
+#ifdef __linux__
+    if (isNumaAvailable()) {
+        return numa_num_configured_nodes();
+    }
+#endif
+    return 1;
+}
+
+bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
+#ifdef __linux__
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(cpu_id, &cpuset);
+    
+    pthread_t thread = pthread_self();
+    return pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset) == 0;
+#else
+    [[maybe_unused]] int unused_cpu_id = cpu_id;
+    return false;
+#endif
+}
+
+} // namespace themis

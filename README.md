@@ -25,6 +25,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
+- 🏗️ **Modular Architecture (v1.4.0+)** - Optional modular build for faster compilation and selective features
 
 **📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
 
@@ -107,6 +108,13 @@ cd ThemisDB
 ```
 
 > **📖 Build Guide:** See [docs/de/guides/guides_build_strategy.md](docs/de/guides/guides_build_strategy.md) for detailed build instructions.
+
+> **🔧 Modular Build (v1.4.0+):** Enable modular architecture to resolve Windows COFF symbol limits and improve build times:
+> ```bash
+> cmake -B build -DTHEMIS_BUILD_MODULAR=ON
+> cmake --build build
+> ```
+> See [docs/architecture/MODULARIZATION_GUIDE.md](docs/architecture/MODULARIZATION_GUIDE.md) for details.
 
 ### Deployment Architecture
 

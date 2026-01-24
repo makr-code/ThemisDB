@@ -1,5 +1,6 @@
 #include "storage/storage_engine.h"
 #include "utils/expected.h"
+#include "utils/tracing.h"
 #include <fmt/format.h>
 #include <stdexcept>
 
@@ -173,16 +174,17 @@ std::shared_ptr<StorageEngine> StorageEngine::createDefault() {
     );
 }
 
-bool StorageEngine::open(const std::string& db_path) {
+Result<void> StorageEngine::open(const std::string& db_path) {
     if (is_open_) {
-        return false; // Already open
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED, 
+                       "Storage engine already open");
     }
     
     db_path_ = db_path;
     is_open_ = true;
     
     // Real implementation would initialize RocksDB here
-    return true;
+    return OkVoid();
 }
 
 void StorageEngine::close() {
@@ -195,31 +197,52 @@ void StorageEngine::close() {
     // Real implementation would close RocksDB here
 }
 
-bool StorageEngine::put(const std::string& key, const std::string& value) {
+Result<void> StorageEngine::put(const std::string& key, const std::string& value) {
+    TracedSpan span("StorageEngine.put");
+    span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
+    span.setAttribute("storage.value_size", static_cast<int64_t>(value.size()));
+    
     if (!is_open_) {
-        return false;
+        span.setStatus(false, "Storage not open");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
     }
     
     // Real implementation would write to RocksDB here
-    return true;
+    span.setStatus(true);
+    return OkVoid();
 }
 
-std::optional<std::string> StorageEngine::get(const std::string& key) {
+Result<std::string> StorageEngine::get(const std::string& key) {
+    TracedSpan span("StorageEngine.get");
+    span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
+    
     if (!is_open_) {
-        return std::nullopt;
+        span.setStatus(false, "Storage not open");
+        return Err<std::string>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                "Storage engine not open");
     }
     
     // Real implementation would read from RocksDB here
-    return std::nullopt;
+    // For now, return key not found
+    span.setStatus(false, "Key not found");
+    return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                            fmt::format("Key '{}' not found", key));
 }
 
-bool StorageEngine::del(const std::string& key) {
+Result<void> StorageEngine::del(const std::string& key) {
+    TracedSpan span("StorageEngine.del");
+    span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
+    
     if (!is_open_) {
-        return false;
+        span.setStatus(false, "Storage not open");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
     }
     
     // Real implementation would delete from RocksDB here
-    return true;
+    span.setStatus(true);
+    return OkVoid();
 }
 
 bool StorageEngine::apply_filter(const std::string& filter_expr, const void* context) {

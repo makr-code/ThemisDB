@@ -7,9 +7,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - TBD
+
+### Added - Modular Architecture
+
+- **Modular Build System**: Split monolithic `themis_core` into focused module libraries
+  - `themis_base`: Core utilities, cross-cutting concerns, plugin infrastructure
+  - `themis_storage`: Storage engine, indexes, backup management
+  - `themis_query`: Query engine, AQL parser, analytics
+  - `themis_security`: Encryption, PKI, RBAC, authentication
+  - `themis_transaction`: Transaction management, CDC, saga support
+  - `themis_network`: HTTP/gRPC servers, API handlers
+  - `themis_sharding`: Distributed system (optional)
+  - `themis_llm`: LLM integration (optional)
+  - `themis_content`: Content processors (optional)
+  - `themis_timeseries`: Time-series support (optional)
+  - `themis_graph`: Graph analytics (optional)
+  - `themis_geo`: Geospatial features (optional)
+- **Export Macro System**: Platform-specific DLL export/import macros for all modules
+- **Configurable Modules**: Optional modules can be excluded via CMake options
+- **Backward Compatibility**: Monolithic build remains default; modular enabled with `-DTHEMIS_BUILD_MODULAR=ON`
+
+### Fixed
+
+- **Windows Build Issues**: Resolves COFF symbol limit (>65,000 symbols) by splitting into smaller modules
+- **Build Performance**: Parallel module compilation reduces full rebuild time by 30-50%
+
+### Documentation
+
+- Added `docs/architecture/MODULARIZATION_GUIDE.md` with comprehensive usage examples
+- Updated build documentation with modular build instructions
+
+---
+
 ## [Unreleased]
 
 ### Added
+- **API Versioning and Compatibility Strategy**: Comprehensive API versioning infrastructure
+  - **Accept-Version header** support for REST APIs to specify desired API version
+  - **API-Version response header** indicating the API version used to process the request
+  - **Deprecation tracking system** with automated warning headers (Deprecation, Sunset, Link)
+  - **24-month deprecation policy** ensuring backward compatibility and smooth migrations
+  - **gRPC version negotiation** via metadata (`api-version` key)
+  - **Version resolution** supporting formats: `v1.4.1`, `v1.4`, `v1`, `latest`
+  - **APIVersionManager** class for centralized version management
+  - **Compatibility matrix** documenting supported versions (v1.0.0 to v1.4.1)
+  - **Migration guide framework** with templates and best practices
+  - Comprehensive documentation:
+    - [API Versioning Strategy](docs/api/API_VERSIONING.md)
+    - [Deprecation Registry](docs/api/DEPRECATION_REGISTRY.md)
+    - [Migration Guides](docs/migration/README.md)
+    - [v1.3 to v1.4 Migration Guide](docs/migration/v1.3-to-v1.4.md)
+  - Updated proto files with API version metadata
+  - Related to #751 (API-Versionierung und Kompatibilitäts-Strategie)
 - **Query Result Pagination**: Comprehensive pagination support for query results with multiple strategies
   - **Cursor-based pagination** with expiration and versioning (1-hour TTL default)
   - **Keyset pagination** using ORDER BY values for O(log n) performance

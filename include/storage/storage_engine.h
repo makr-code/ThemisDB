@@ -53,11 +53,11 @@ public:
     static std::shared_ptr<StorageEngine> createDefault();
     
     // IStorageEngine interface implementation
-    bool open(const std::string& db_path) override;
+    Result<void> open(const std::string& db_path) override;
     void close() override;
-    bool put(const std::string& key, const std::string& value) override;
-    std::optional<std::string> get(const std::string& key) override;
-    bool del(const std::string& key) override;
+    Result<void> put(const std::string& key, const std::string& value) override;
+    Result<std::string> get(const std::string& key) override;
+    Result<void> del(const std::string& key) override;
     
     /**
      * @brief Apply a filter expression to stored data

@@ -19,6 +19,61 @@ pub struct ThemisClientConfig {
     pub metadata_endpoint: Option<String>,
     #[serde(default = "default_max_retries")]
     pub max_retries: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub circuit_breaker: Option<CircuitBreakerConfig>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub logging: Option<LoggingConfig>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CircuitBreakerConfig {
+    pub enabled: bool,
+    #[serde(default = "default_failure_threshold")]
+    pub failure_threshold: usize,
+    #[serde(default = "default_reset_timeout_secs")]
+    pub reset_timeout_secs: u64,
+    #[serde(default = "default_half_open_max_requests")]
+    pub half_open_max_requests: usize,
+}
+
+impl Default for CircuitBreakerConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            failure_threshold: default_failure_threshold(),
+            reset_timeout_secs: default_reset_timeout_secs(),
+            half_open_max_requests: default_half_open_max_requests(),
+        }
+    }
+}
+
+fn default_failure_threshold() -> usize {
+    5
+}
+
+fn default_reset_timeout_secs() -> u64 {
+    60
+}
+
+fn default_half_open_max_requests() -> usize {
+    3
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LoggingConfig {
+    pub enabled: bool,
+    pub log_requests: bool,
+    pub log_responses: bool,
+}
+
+impl Default for LoggingConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            log_requests: true,
+            log_responses: true,
+        }
+    }
 }
 
 impl Default for ThemisClientConfig {
@@ -29,6 +84,8 @@ impl Default for ThemisClientConfig {
             timeout_ms: default_timeout_ms(),
             metadata_endpoint: None,
             max_retries: default_max_retries(),
+            circuit_breaker: None,
+            logging: None,
         }
     }
 }
@@ -158,7 +215,85 @@ pub enum ThemisError {
 
 pub type Result<T> = std::result::Result<T, ThemisError>;
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CircuitBreakerState {
+    Closed,
+    Open,
+    HalfOpen,
+}
+
+pub struct CircuitBreaker {
+    state: Arc<RwLock<CircuitBreakerState>>,
+    failure_count: Arc<RwLock<usize>>,
+    success_count: Arc<RwLock<usize>>,
+    next_attempt_time: Arc<RwLock<std::time::Instant>>,
+    config: CircuitBreakerConfig,
+}
+
+impl CircuitBreaker {
+    pub fn new(config: CircuitBreakerConfig) -> Self {
+        Self {
+            state: Arc::new(RwLock::new(CircuitBreakerState::Closed)),
+            failure_count: Arc::new(RwLock::new(0)),
+            success_count: Arc::new(RwLock::new(0)),
+            next_attempt_time: Arc::new(RwLock::new(std::time::Instant::now())),
+            config,
+        }
+    }
+
+    pub async fn can_execute(&self) -> bool {
+        let state = *self.state.read().await;
+        
+        match state {
+            CircuitBreakerState::Closed => true,
+            CircuitBreakerState::Open => {
+                let next_attempt = *self.next_attempt_time.read().await;
+                if std::time::Instant::now() >= next_attempt {
+                    *self.state.write().await = CircuitBreakerState::HalfOpen;
+                    *self.success_count.write().await = 0;
+                    true
+                } else {
+                    false
+                }
+            }
+            CircuitBreakerState::HalfOpen => {
+                let success_count = *self.success_count.read().await;
+                success_count < self.config.half_open_max_requests
+            }
+        }
+    }
+
+    pub async fn record_success(&self) {
+        *self.failure_count.write().await = 0;
+        
+        let state = *self.state.read().await;
+        if state == CircuitBreakerState::HalfOpen {
+            let mut success_count = self.success_count.write().await;
+            *success_count += 1;
+            if *success_count >= self.config.half_open_max_requests {
+                *self.state.write().await = CircuitBreakerState::Closed;
+            }
+        }
+    }
+
+    pub async fn record_failure(&self) {
+        let mut failure_count = self.failure_count.write().await;
+        *failure_count += 1;
+        *self.success_count.write().await = 0;
+        
+        if *failure_count >= self.config.failure_threshold {
+            *self.state.write().await = CircuitBreakerState::Open;
+            let reset_duration = Duration::from_secs(self.config.reset_timeout_secs);
+            *self.next_attempt_time.write().await = std::time::Instant::now() + reset_duration;
+        }
+    }
+
+    pub async fn get_state(&self) -> CircuitBreakerState {
+        *self.state.read().await
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum IsolationLevel {
     ReadCommitted,
@@ -191,6 +326,7 @@ pub struct ThemisClient {
     http: Client,
     config: ThemisClientConfig,
     topology: Arc<RwLock<Option<Vec<String>>>>,
+    circuit_breaker: Option<Arc<CircuitBreaker>>,
 }
 
 impl ThemisClient {
@@ -203,11 +339,37 @@ impl ThemisClient {
         let client = Client::builder()
             .timeout(Duration::from_millis(config.timeout_ms))
             .build()?;
+        
+        let circuit_breaker = config
+            .circuit_breaker
+            .as_ref()
+            .filter(|cb| cb.enabled)
+            .map(|cb| Arc::new(CircuitBreaker::new(cb.clone())));
+        
         Ok(Self {
             http: client,
             config,
             topology: Arc::new(RwLock::new(None)),
+            circuit_breaker,
         })
+    }
+    
+    /// Get the circuit breaker state
+    pub async fn get_circuit_breaker_state(&self) -> Option<CircuitBreakerState> {
+        if let Some(cb) = &self.circuit_breaker {
+            Some(cb.get_state().await)
+        } else {
+            None
+        }
+    }
+    
+    /// Log a message if logging is enabled
+    fn log(&self, level: &str, message: &str) {
+        if let Some(logging) = &self.config.logging {
+            if logging.enabled {
+                println!("[ThemisDB] [{}] {}", level, message);
+            }
+        }
     }
 
     pub async fn health(&self) -> Result<Value> {
@@ -808,8 +970,27 @@ impl ThemisClient {
         body: Option<RequestBody>,
         headers: Option<HashMap<String, String>>,
     ) -> Result<Response> {
+        // Check circuit breaker
+        if let Some(cb) = &self.circuit_breaker {
+            if !cb.can_execute().await {
+                self.log("ERROR", &format!("Circuit breaker is OPEN for {}", url));
+                return Err(ThemisError::InvalidConfig(
+                    "Circuit breaker is OPEN".into(),
+                ));
+            }
+        }
+
+        // Log request
+        if let Some(logging) = &self.config.logging {
+            if logging.enabled && logging.log_requests {
+                self.log("INFO", &format!("{} {}", method, url));
+            }
+        }
+
         let mut attempt = 0usize;
         let max_attempts = self.config.max_retries.max(1);
+        let mut last_error = None;
+
         loop {
             let mut builder = self.http.request(method.clone(), &url);
             if let Some(body) = &body {
@@ -825,21 +1006,50 @@ impl ThemisClient {
                     builder = builder.header(key, value);
                 }
             }
+
             let result = builder.send().await;
             match result {
                 Ok(response) => {
-                    if response.status().is_server_error() && attempt + 1 < max_attempts {
+                    let status = response.status();
+
+                    // Log response
+                    if let Some(logging) = &self.config.logging {
+                        if logging.enabled && logging.log_responses {
+                            self.log("INFO", &format!("{} {} -> {}", method, url, status));
+                        }
+                    }
+
+                    if status.is_server_error() && attempt + 1 < max_attempts {
+                        // Record failure in circuit breaker
+                        if let Some(cb) = &self.circuit_breaker {
+                            cb.record_failure().await;
+                        }
+                        self.log("WARN", &format!("Server error {}, retrying...", status));
                         attempt += 1;
                         sleep(backoff(attempt)).await;
                         continue;
                     }
+
+                    // Record success in circuit breaker
+                    if let Some(cb) = &self.circuit_breaker {
+                        cb.record_success().await;
+                    }
+
                     return Ok(response);
                 }
                 Err(err) => {
+                    // Record failure in circuit breaker
+                    if let Some(cb) = &self.circuit_breaker {
+                        cb.record_failure().await;
+                    }
+
+                    self.log("ERROR", &format!("Request failed: {}", err));
+
                     if attempt + 1 >= max_attempts || !should_retry(&err) {
                         return Err(ThemisError::Transport(err));
                     }
                     attempt += 1;
+                    last_error = Some(err);
                     sleep(backoff(attempt)).await;
                 }
             }

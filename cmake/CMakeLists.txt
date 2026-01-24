@@ -1135,6 +1135,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/vector_index.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
+    ../src/index/hnsw_production_defaults.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
     
@@ -1155,6 +1156,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
@@ -1259,6 +1261,10 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/logger.cpp
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
+    
+    # Cross-cutting concerns abstraction layer
+    ../src/core/concerns/i_logger.cpp
+    ../src/core/concerns/concerns_context.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
@@ -1375,6 +1381,11 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/shard_durability.cpp
     ../src/sharding/truetime.cpp
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/consensus_factory.cpp
+    ../src/sharding/raft_consensus_adapter.cpp
+    ../src/sharding/gossip_consensus_adapter.cpp
+    ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
@@ -1575,6 +1586,30 @@ if(NOT THEMIS_ENABLE_LLM)
 endif()
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
+
+# ============================================================================
+# BUILD MODE SELECTION: Modular vs Monolithic
+# ============================================================================
+# Check if modular build is enabled (v1.4.0+ feature)
+if(THEMIS_BUILD_MODULAR)
+    message(STATUS "==============================================")
+    message(STATUS "MODULAR BUILD MODE ENABLED")
+    message(STATUS "Building ThemisDB as separate module libraries")
+    message(STATUS "==============================================")
+    
+    # Call the modular build function to create all module targets
+    themis_build_modular()
+    
+    # Create themis_core as an interface library that links all modules
+    # This maintains compatibility with existing code that links to themis_core
+    add_library(themis_core INTERFACE)
+    target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    
+    message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
+    
+else()
+    # Traditional monolithic build (default for v1.3.x and earlier)
+    message(STATUS "Building ThemisDB as monolithic themis_core library")
 
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
@@ -2410,6 +2445,13 @@ if(THEMIS_ENABLE_TRACING)
     )
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_TRACING)
 endif()
+
+# End of monolithic build configuration
+endif() # THEMIS_BUILD_MODULAR
+
+# ============================================================================
+# EXECUTABLES AND TESTS (work with both modular and monolithic builds)
+# ============================================================================
 
 # Main executable (demo)
 add_executable(themis_demo

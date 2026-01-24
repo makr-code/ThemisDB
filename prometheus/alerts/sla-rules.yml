@@ -1,0 +1,47 @@
+groups:
+  - name: sla_monitoring
+    interval: 30s
+    rules:
+      # Availability SLO: 99.9% uptime
+      - alert: SLAAvailabilityAtRisk
+        expr: avg_over_time(up{job="themisdb"}[1h]) < 0.999
+        for: 5m
+        labels:
+          severity: warning
+          slo: availability
+        annotations:
+          summary: "SLA availability at risk"
+          description: "Availability {{ $value | humanizePercentage }} (SLO: 99.9%)"
+          
+      # Latency SLO: P95 < 200ms
+      - alert: SLALatencyBreached
+        expr: histogram_quantile(0.95, rate(themisdb_request_duration_seconds_bucket[5m])) > 0.200
+        for: 10m
+        labels:
+          severity: warning
+          slo: latency
+        annotations:
+          summary: "SLA latency target exceeded"
+          description: "P95 latency {{ $value | humanizeDuration }} (SLO: 200ms)"
+          
+      # Error Rate SLO: < 0.1%
+      - alert: SLAErrorRateBreached
+        expr: (sum(rate(themisdb_requests_total{status=~"5.."}[5m])) / sum(rate(themisdb_requests_total[5m]))) > 0.001
+        for: 10m
+        labels:
+          severity: warning
+          slo: error_rate
+        annotations:
+          summary: "SLA error rate elevated"
+          description: "Error rate {{ $value | humanizePercentage }} (SLO: < 0.1%)"
+          
+      # Error Budget
+      - alert: ErrorBudgetBurnRateFast
+        expr: (1 - (sum(rate(themisdb_requests_total{status=~"2.."}[1h])) / sum(rate(themisdb_requests_total[1h])))) / 0.001 > 14.4
+        for: 2m
+        labels:
+          severity: critical
+          slo: error_budget
+        annotations:
+          summary: "Error budget burning too fast"
+          description: "Entire monthly error budget will be consumed in < 2 days"

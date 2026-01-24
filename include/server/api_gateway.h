@@ -3,6 +3,7 @@
 #include "server/auth_middleware.h"
 #include "server/rate_limiter.h"
 #include "server/load_shedder.h"
+#include "server/api_version.h"
 #include "sharding/shard_router.h"
 #include "sharding/circuit_breaker.h"
 #include "observability/prometheus_metrics.h"
@@ -77,6 +78,10 @@ public:
         // Metrics
         bool enable_metrics = true;
         std::string metrics_prefix = "themis_gateway_";
+        
+        // API Versioning
+        bool enable_api_versioning = true;      // Enable API version negotiation
+        bool enforce_version_check = false;     // Enforce version compatibility
     };
     
     /**
@@ -185,6 +190,7 @@ private:
     std::shared_ptr<LoadShedder> load_shedder_;
     std::shared_ptr<sharding::ShardRouter> shard_router_;
     std::shared_ptr<observability::PrometheusMetrics> metrics_;
+    std::shared_ptr<APIVersionManager> version_manager_;
     
     // Circuit breakers per backend
     std::unordered_map<std::string, std::shared_ptr<sharding::CircuitBreaker>> circuit_breakers_;
@@ -268,6 +274,31 @@ private:
      */
     http::response<http::string_body> executeScatterGather(
         const http::request<http::string_body>& req
+    );
+    
+    /**
+     * @brief Process API version headers and add response headers
+     * 
+     * @param req Request to parse version from
+     * @param response Response to add version headers to
+     * @return Resolved API version
+     */
+    APIVersion processVersionHeaders(
+        const http::request<http::string_body>& req,
+        http::response<http::string_body>& response
+    );
+    
+    /**
+     * @brief Add deprecation headers if endpoint is deprecated
+     * 
+     * @param req Request
+     * @param response Response to add headers to
+     * @param version API version being used
+     */
+    void addDeprecationHeaders(
+        const http::request<http::string_body>& req,
+        http::response<http::string_body>& response,
+        const APIVersion& version
     );
     
     /**
