@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "query/adaptive_optimizer.h"
+#include "query/query_optimizer.h"
+#include "index/secondary_index.h"
 #include <thread>
 #include <chrono>
 
@@ -334,4 +336,131 @@ TEST(NumaAwareOptimizer, GetNumaNodeCount) {
     
     // Should be at least 1 (even on non-NUMA systems)
     EXPECT_GE(count, 1);
+}
+
+// ============================================================================
+// QueryOptimizer Vector Workload Tests
+// ============================================================================
+
+TEST(QueryOptimizer, VectorWorkloadSmallDataset) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // Small dataset should use flat index
+    auto plan = optimizer.optimizeVectorWorkload(10, 500, 128, 0.95);
+    
+    EXPECT_EQ(plan.index_type, "flat");
+    EXPECT_EQ(plan.recommended_k_overfetch, 10);
+    EXPECT_FALSE(plan.use_prefiltering);
+}
+
+TEST(QueryOptimizer, VectorWorkloadMediumDataset) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // Medium dataset should use IVF
+    auto plan = optimizer.optimizeVectorWorkload(10, 5000, 128, 0.95);
+    
+    EXPECT_EQ(plan.index_type, "ivf");
+    EXPECT_GT(plan.recommended_ef_search, 0);
+    EXPECT_EQ(plan.recommended_k_overfetch, 10);
+}
+
+TEST(QueryOptimizer, VectorWorkloadLargeDataset) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // Large dataset should use HNSW
+    auto plan = optimizer.optimizeVectorWorkload(10, 50000, 128, 0.95);
+    
+    EXPECT_EQ(plan.index_type, "hnsw");
+    EXPECT_GE(plan.recommended_ef_search, 16);
+    EXPECT_LE(plan.recommended_ef_search, 512);
+    EXPECT_EQ(plan.recommended_k_overfetch, 20);  // 2x overfetch
+    EXPECT_TRUE(plan.use_prefiltering);
+}
+
+TEST(QueryOptimizer, VectorWorkloadHighRecallTarget) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // High recall target should increase ef_search
+    auto plan_high = optimizer.optimizeVectorWorkload(10, 50000, 128, 0.99);
+    auto plan_low = optimizer.optimizeVectorWorkload(10, 50000, 128, 0.90);
+    
+    EXPECT_GT(plan_high.recommended_ef_search, plan_low.recommended_ef_search);
+}
+
+// ============================================================================
+// QueryOptimizer Graph Workload Tests
+// ============================================================================
+
+TEST(QueryOptimizer, GraphWorkloadSmallExpansion) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // Small expansion - no need for parallelism
+    auto plan = optimizer.optimizeGraphWorkload(3, 2, false);
+    
+    EXPECT_EQ(plan.max_expansion_depth, 3);
+    EXPECT_FALSE(plan.use_bidirectional_search);
+    EXPECT_EQ(plan.recommended_parallelism, 1);
+    EXPECT_FALSE(plan.enable_spatial_pruning);
+}
+
+TEST(QueryOptimizer, GraphWorkloadLargeExpansion) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // Large branching factor - should use bidirectional search
+    auto plan = optimizer.optimizeGraphWorkload(5, 10, false);
+    
+    EXPECT_TRUE(plan.use_bidirectional_search);
+    EXPECT_GT(plan.recommended_parallelism, 1);
+}
+
+TEST(QueryOptimizer, GraphWorkloadSpatialConstraint) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // With spatial constraint - should enable pruning
+    auto plan = optimizer.optimizeGraphWorkload(4, 5, true);
+    
+    EXPECT_TRUE(plan.enable_spatial_pruning);
+}
+
+TEST(QueryOptimizer, GraphWorkloadMediumExpansion) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    
+    // Medium expansion - should suggest some parallelism
+    auto plan = optimizer.optimizeGraphWorkload(4, 8, false);
+    
+    EXPECT_GT(plan.recommended_parallelism, 1);
+    EXPECT_LE(plan.recommended_parallelism, 8);
+}
+
+// ============================================================================
+// QueryOptimizer Distributed Plan with NUMA Tests
+// ============================================================================
+
+TEST(QueryOptimizer, DistributedPlanNumaAwareness) {
+    SecondaryIndexManager secIdx;
+    QueryOptimizer optimizer(secIdx);
+    optimizer.enableAdaptiveOptimization(true);
+    
+    ConjunctiveQuery query;
+    query.table = "test_table";
+    
+    // Large number of shards should enable NUMA awareness
+    std::vector<std::string> shards = {"s1", "s2", "s3", "s4", "s5", "s6"};
+    auto plan = optimizer.optimizeForDistribution(query, shards, true);
+    
+    EXPECT_LE(plan.shard_ids.size(), shards.size());
+    EXPECT_GT(plan.recommended_parallelism, 0);
+    
+    // Check if NUMA awareness is enabled (depends on hardware)
+    if (plan.enable_numa_awareness) {
+        EXPECT_GT(plan.preferred_cpu_affinity.size(), 0);
+    }
 }

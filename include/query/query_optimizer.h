@@ -137,12 +137,45 @@ public:
         bool use_partition_pruning = false;
         std::string join_strategy;  // "broadcast", "repartition", "semi_join"
         size_t recommended_parallelism = 1;
+        bool enable_numa_awareness = false;
+        std::vector<int> preferred_cpu_affinity;
     };
     
     DistributedPlan optimizeForDistribution(
         const ConjunctiveQuery& q,
         const std::vector<std::string>& available_shards,
         bool enable_partition_pruning = true) const;
+    
+    /**
+     * @brief Optimize for vector workload with adaptive HNSW tuning
+     */
+    struct VectorWorkloadPlan {
+        int recommended_ef_search;
+        size_t recommended_k_overfetch;
+        bool use_prefiltering;
+        std::string index_type;  // "hnsw", "ivf", "flat"
+    };
+    
+    VectorWorkloadPlan optimizeVectorWorkload(
+        size_t k,
+        size_t dataset_size,
+        size_t dimension,
+        double target_recall = 0.95) const;
+    
+    /**
+     * @brief Optimize for graph workload
+     */
+    struct GraphWorkloadPlan {
+        size_t max_expansion_depth;
+        bool use_bidirectional_search;
+        bool enable_spatial_pruning;
+        size_t recommended_parallelism;
+    };
+    
+    GraphWorkloadPlan optimizeGraphWorkload(
+        size_t max_depth,
+        size_t estimated_branching_factor,
+        bool has_spatial_constraint = false) const;
 
 private:
     SecondaryIndexManager& secIdx_;
