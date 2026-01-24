@@ -1,28 +1,36 @@
 # 🔍 AQL (Advanced Query Language) Module
 
 **Category:** 🔍 Core AQL  
-**Version:** v1.3.0  
+**Version:** v1.4.0  
 **Status:** ✅ Production Ready  
-**Date:** December 22, 2025
+**Date:** January 2026
 
 ---
 
-## 📑 Table of Contents
+## 📑 Inhaltsverzeichnis
 
-- [📋 Overview](#-overview)
+- [📋 Übersicht](#-übersicht)
 - [✨ Features & Highlights](#-features--highlights)
-- [🚀 Quick Start](#-quick-start)
-- [📖 Detailed Documentation](#-detailed-documentation)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
 - [💡 Best Practices](#-best-practices)
 - [🔧 Troubleshooting](#-troubleshooting)
-- [📚 See Also](#-see-also)
+- [📚 Siehe auch](#-siehe-auch)
 - [📝 Changelog](#-changelog)
 
 ---
 
-## 📋 Overview
+## 📋 Übersicht
 
-ThemisDB implements an extended version of **AQL (Advanced Query Language)** – a declarative, SQL-like query language with additional features for multi-model queries across relational data, graphs, vectors, and documents.
+ThemisDB implementiert eine erweiterte Version von **AQL (Advanced Query Language)** – eine deklarative, SQL-ähnliche Abfragesprache mit zusätzlichen Features für Multi-Model-Queries über relationale Daten, Graphen, Vektoren und Dokumente.
+
+### Vollständige AQL-Dokumentation (v1.4)
+
+ThemisDB v1.4 bietet umfassende AQL-Dokumentation mit Performance-Optimierung und Best Practices:
+
+- **[AQL Syntax Guide](AQL_SYNTAX_GUIDE.md)** - Komplette Sprachreferenz mit 50+ Beispielen, Datentypen, Operatoren, Funktionen, Graph/Vector-Operationen
+- **[AQL Best Practices](AQL_BEST_PRACTICES.md)** - Query-Struktur, Index-Nutzung, Performance-Optimierung, Sicherheit, Edge Cases, Testing
+- **[AQL Performance Guide](AQL_PERFORMANCE_GUIDE.md)** - Query Optimizer Internals, Index-Strategien, Execution Plans, Profiling, Monitoring
 
 ## Source Code Reference
 
