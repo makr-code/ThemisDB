@@ -109,11 +109,11 @@ All SDKs now support the same feature set (as of v1.4.0-alpha, January 2026):
 | Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ | N/A | N/A |
 | TLS/mTLS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **🆕 Circuit Breaker** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **🆕 Retry + Backoff** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
-| **🆕 Request/Response Logging** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Connection Pooling | ✅ | ⚠️  | ⚠️  | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| Binary Protocol | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **🆕 Circuit Breaker** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| **🆕 Retry + Backoff** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| **🆕 Request/Response Logging** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Connection Pooling | ⚠️  | ⚠️  | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| Binary Protocol | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 **Legend:**
 - ✅ = Implemented and tested

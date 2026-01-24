@@ -523,6 +523,20 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             // Catch any other exceptions to prevent metrics collection from breaking /metrics endpoint
             THEMIS_WARN("Unknown error while collecting plugin metrics");
         }
+        
+        // Add distributed tracing metrics
+        try {
+            out += "\n# HELP themis_trace_spans_total Total number of trace spans created\n";
+            out += "# TYPE themis_trace_spans_total counter\n";
+            out += "themis_trace_spans_total " + std::to_string(Tracer::getTotalSpans()) + "\n";
+            
+            out += "# HELP themis_trace_active_spans Number of currently active spans\n";
+            out += "# TYPE themis_trace_active_spans gauge\n";
+            out += "themis_trace_active_spans " + std::to_string(Tracer::getActiveSpans()) + "\n";
+        } catch (...) {
+            // If tracing metrics fail, log and continue
+            THEMIS_WARN("Failed to collect tracing metrics");
+        }
 
         // Return Prometheus format response
         http::response<http::string_body> res{http::status::ok, req.version()};

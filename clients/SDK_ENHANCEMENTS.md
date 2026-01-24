@@ -245,6 +245,172 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+### Rust
+
+```rust
+use themisdb_sdk::{ThemisClientConfig, CircuitBreakerConfig, LoggingConfig};
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Create configuration with circuit breaker and logging
+    let config = ThemisClientConfig {
+        endpoints: vec!["http://localhost:8080".to_string()],
+        namespace: "default".to_string(),
+        timeout_ms: 30_000,
+        metadata_endpoint: None,
+        max_retries: 3,
+        circuit_breaker: Some(CircuitBreakerConfig {
+            enabled: true,
+            failure_threshold: 5,
+            reset_timeout_secs: 60,
+            half_open_max_requests: 3,
+        }),
+        logging: Some(LoggingConfig {
+            enabled: true,
+            log_requests: true,
+            log_responses: true,
+        }),
+    };
+    
+    let client = themisdb_sdk::ThemisClient::new(config)?;
+    
+    // Check circuit breaker state
+    if let Some(state) = client.get_circuit_breaker_state().await {
+        println!("Circuit breaker state: {:?}", state);
+    }
+    
+    // Normal operations
+    let user = client.get("mymodel", "users", "user-123").await?;
+    println!("{:?}", user);
+    
+    Ok(())
+}
+```
+
+### Ruby
+
+```ruby
+require 'themisdb'
+
+# Create client with circuit breaker and logging
+client = ThemisDB::Client.new(
+  ['http://localhost:8080'],
+  namespace: 'default',
+  max_retries: 3,
+  circuit_breaker: {
+    enabled: true,
+    failure_threshold: 5,
+    reset_timeout: 60,
+    half_open_max_requests: 3
+  },
+  logging: {
+    enabled: true,
+    log_requests: true,
+    log_responses: true
+  }
+)
+
+# Check circuit breaker state
+puts "Circuit breaker state: #{client.circuit_breaker_state}"
+
+# Normal operations
+user = client.get('mymodel', 'users', 'user-123')
+puts user.inspect
+```
+
+### PHP
+
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use ThemisDB\ThemisClient;
+
+// Create client with circuit breaker and logging
+$client = new ThemisClient(
+    ['http://localhost:8080'],
+    [
+        'namespace' => 'default',
+        'max_retries' => 3,
+        'circuit_breaker' => [
+            'enabled' => true,
+            'failure_threshold' => 5,
+            'reset_timeout' => 60,
+            'half_open_max_requests' => 3,
+        ],
+        'logging' => [
+            'enabled' => true,
+            'log_requests' => true,
+            'log_responses' => true,
+        ],
+    ]
+);
+
+// Check circuit breaker state
+$state = $client->getCircuitBreakerState();
+echo "Circuit breaker state: {$state}\n";
+
+// Normal operations
+$user = $client->get('mymodel', 'users', 'user-123');
+print_r($user);
+```
+
+### C#
+
+```csharp
+using ThemisDB.Client;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        // Create configuration with all features
+        var config = new ClientConfig
+        {
+            MaxRetries = 3,
+            Timeout = TimeSpan.FromSeconds(30),
+            CircuitBreaker = new ClientConfig.CircuitBreakerConfig
+            {
+                Enabled = true,
+                FailureThreshold = 5,
+                ResetTimeout = TimeSpan.FromSeconds(60),
+                HalfOpenMaxRequests = 3
+            },
+            Logging = new ClientConfig.LoggingConfig
+            {
+                Enabled = true,
+                LogRequests = true,
+                LogResponses = true,
+                Logger = (message, level) => Console.WriteLine($"[{level}] {message}")
+            },
+            ConnectionPool = new ClientConfig.ConnectionPoolConfig
+            {
+                MaxConnections = 100,
+                MaxConnectionsPerEndpoint = 50,
+                IdleTimeout = TimeSpan.FromSeconds(30),
+                KeepAliveTimeout = TimeSpan.FromSeconds(60)
+            }
+        };
+        
+        // Create client
+        using var client = new ThemisClient(
+            new[] { "http://localhost:8080" },
+            config
+        );
+        
+        // Check circuit breaker state
+        var state = client.GetCircuitBreakerState();
+        Console.WriteLine($"Circuit breaker state: {state}");
+        
+        // Normal operations
+        var user = await client.GetAsync<dynamic>("mymodel", "users", "user-123");
+        Console.WriteLine(user);
+    }
+}
+```
+
 ---
 
 ## Configuration Options
@@ -382,10 +548,10 @@ setInterval(() => {
 
 | Feature | JS/TS | Go | Java | Python | Rust | C# | Ruby | PHP | Swift |
 |---------|-------|----|----|--------|------|----|----|-----|-------|
-| Circuit Breaker | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Retry + Backoff | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
-| Logging | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Connection Pool | ⚠️  | ⚠️  | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| Circuit Breaker | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Retry + Backoff | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Logging | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Connection Pool | ⚠️  | ⚠️  | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | Async/Await | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
 | Binary Protocol | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
@@ -393,6 +559,11 @@ setInterval(() => {
 - ✅ Implemented
 - ⚠️  Implicit/Built-in
 - ❌ Not implemented
+
+**Updated: January 2026**
+- All major SDKs (JS, Go, Java, Python, C#, Rust, Ruby, PHP) now have circuit breaker, retry, and logging
+- Java and C# have explicit connection pooling configuration
+- Go and Java have binary protocol support
 
 ---
 

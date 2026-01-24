@@ -4,6 +4,7 @@
 #include "auth/mfa_authenticator.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 
 #include <random>
 #include <sstream>
@@ -72,6 +73,10 @@ AccessControl::~AccessControl() {
 // ============================================================================
 
 AccessControl::AuthenticationResult AccessControl::authenticate(const Credentials& credentials) {
+    TracedSpan span("AccessControl.authenticate");
+    span.setAttribute("security.user_id", credentials.user_id);
+    span.setAttribute("security.auth_type", credentials.oauth_token.has_value() ? "oauth" : "password");
+    
     std::lock_guard<std::mutex> lock(mutex_);
     
     stats_.total_authentications++;
@@ -85,6 +90,7 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
             "authentication",
             {{"reason", "Account locked due to failed login attempts"}}
         );
+        span.setStatus(false, "Account locked");
         return AuthenticationResult::Failed("Account locked. Please try again later.");
     }
     
@@ -167,6 +173,7 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
         {{"method", "plugin"}, {"plugin", plugin->getName()}, {"mfa", credentials.mfa_token.has_value()}}
     );
     
+    span.setStatus(true);
     return AuthenticationResult::Success(credentials.user_id, session_token, roles);
 }
 

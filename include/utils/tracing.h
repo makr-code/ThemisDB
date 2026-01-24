@@ -82,6 +82,11 @@ public:
          */
         bool isValid() const { return valid_; }
         
+        /**
+         * Get span duration in milliseconds (for metrics)
+         */
+        double durationMs() const;
+        
     private:
         friend class Tracer;
         
@@ -89,6 +94,7 @@ public:
         explicit Span(otel::nostd::shared_ptr<otel::trace::Span> span);
         otel::nostd::shared_ptr<otel::trace::Span> span_;
         otel::context::Context context_;
+        std::chrono::steady_clock::time_point start_time_;
 #endif
         bool valid_ = false;
         bool ended_ = false;
@@ -105,12 +111,24 @@ public:
      */
     static Span startChildSpan(const std::string& name, const Span& parent);
     
+    /**
+     * Get total number of spans created (for metrics)
+     */
+    static int64_t getTotalSpans();
+    
+    /**
+     * Get active span count (for metrics)
+     */
+    static int64_t getActiveSpans();
+    
 private:
 #ifdef THEMIS_ENABLE_TRACING
     static otel::nostd::shared_ptr<otel::trace::Tracer> getTracer();
     static otel::nostd::shared_ptr<otel::trace::Tracer> tracer_;
 #endif
     static bool initialized_;
+    static std::atomic<int64_t> total_spans_;
+    static std::atomic<int64_t> active_spans_;
 };
 
 /**
@@ -125,7 +143,7 @@ private:
  */
 class ScopedSpan {
 public:
-    explicit ScopedSpan(const std::string& name) : span_(Tracer::startSpan(name)) {}
+    explicit ScopedSpan(const std::string& name) : span_(Tracer::startSpan(name)), name_(name) {}
     
     void setAttribute(const std::string& key, const std::string& value) {
         span_.setAttribute(key, value);
@@ -153,8 +171,40 @@ public:
     
     Tracer::Span& span() { return span_; }
     
+    ~ScopedSpan();
+    
 private:
     Tracer::Span span_;
+    std::string name_;
+};
+
+/**
+ * RAII helper for scoped spans with automatic metrics recording
+ * 
+ * Usage:
+ *   void myFunction() {
+ *       TracedSpan span("myFunction");
+ *       span.setAttribute("param", value);
+ *       // ... work ...
+ *   } // span ends and duration is automatically recorded to Prometheus
+ */
+class TracedSpan {
+public:
+    explicit TracedSpan(const std::string& name);
+    ~TracedSpan();
+    
+    void setAttribute(const std::string& key, const std::string& value);
+    void setAttribute(const std::string& key, int64_t value);
+    void setAttribute(const std::string& key, double value);
+    void setAttribute(const std::string& key, bool value);
+    void recordError(const std::string& errorMessage);
+    void setStatus(bool ok, const std::string& description = "");
+    Tracer::Span& span();
+    
+private:
+    Tracer::Span span_;
+    std::string name_;
+    std::chrono::steady_clock::time_point start_time_;
 };
 
 } // namespace themis

@@ -14,6 +14,12 @@ public class ThemisClient : IDisposable
     private readonly SemaphoreSlim _endpointLock = new(1, 1);
     private int _currentEndpointIndex;
     private bool _disposed;
+    private readonly int _maxRetries;
+    private readonly CircuitBreaker? _circuitBreaker;
+    private readonly bool _loggingEnabled;
+    private readonly bool _logRequests;
+    private readonly bool _logResponses;
+    private readonly Action<string, ClientConfig.LogLevel>? _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ThemisClient"/> class
@@ -22,6 +28,17 @@ public class ThemisClient : IDisposable
     /// <param name="timeout">Optional HTTP timeout</param>
     /// <exception cref="ArgumentException">Thrown when endpoints list is null or empty</exception>
     public ThemisClient(IEnumerable<string> endpoints, TimeSpan? timeout = null)
+        : this(endpoints, null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ThemisClient"/> class with full configuration
+    /// </summary>
+    /// <param name="endpoints">List of ThemisDB server endpoints</param>
+    /// <param name="config">Client configuration</param>
+    /// <exception cref="ArgumentException">Thrown when endpoints list is null or empty</exception>
+    public ThemisClient(IEnumerable<string> endpoints, ClientConfig? config)
     {
         if (endpoints == null || !endpoints.Any())
         {
@@ -29,10 +46,58 @@ public class ThemisClient : IDisposable
         }
 
         _endpoints = endpoints.ToList();
-        _httpClient = new HttpClient
+        
+        // Apply configuration or use defaults
+        config ??= new ClientConfig();
+        _maxRetries = config.MaxRetries;
+
+        // Configure HTTP client with connection pooling
+        var handler = new SocketsHttpHandler
         {
-            Timeout = timeout ?? TimeSpan.FromSeconds(30)
+            PooledConnectionLifetime = config.ConnectionPool?.KeepAliveTimeout ?? TimeSpan.FromSeconds(60),
+            PooledConnectionIdleTimeout = config.ConnectionPool?.IdleTimeout ?? TimeSpan.FromSeconds(30),
+            MaxConnectionsPerServer = config.ConnectionPool?.MaxConnectionsPerEndpoint ?? 50
         };
+
+        _httpClient = new HttpClient(handler)
+        {
+            Timeout = config.Timeout
+        };
+
+        // Initialize circuit breaker if enabled
+        if (config.CircuitBreaker?.Enabled == true)
+        {
+            _circuitBreaker = new CircuitBreaker(
+                config.CircuitBreaker.FailureThreshold,
+                config.CircuitBreaker.ResetTimeout,
+                config.CircuitBreaker.HalfOpenMaxRequests
+            );
+        }
+
+        // Initialize logging
+        if (config.Logging?.Enabled == true)
+        {
+            _loggingEnabled = true;
+            _logRequests = config.Logging.LogRequests;
+            _logResponses = config.Logging.LogResponses;
+            _logger = config.Logging.Logger ?? DefaultLogger;
+        }
+    }
+
+    /// <summary>
+    /// Default logger that writes to console
+    /// </summary>
+    private static void DefaultLogger(string message, ClientConfig.LogLevel level)
+    {
+        Console.WriteLine($"[ThemisDB] [{level}] {message}");
+    }
+
+    /// <summary>
+    /// Gets the circuit breaker state
+    /// </summary>
+    public string? GetCircuitBreakerState()
+    {
+        return _circuitBreaker?.State.ToString();
     }
 
     /// <summary>
@@ -68,6 +133,82 @@ public class ThemisClient : IDisposable
     }
 
     /// <summary>
+    /// Execute an HTTP request with retry logic, circuit breaker, and logging
+    /// </summary>
+    private async Task<HttpResponseMessage> ExecuteWithRetryAsync(
+        Func<Task<HttpResponseMessage>> requestFunc,
+        string method,
+        string url,
+        CancellationToken cancellationToken)
+    {
+        Exception? lastException = null;
+
+        for (int attempt = 0; attempt <= _maxRetries; attempt++)
+        {
+            try
+            {
+                // Check circuit breaker
+                if (_circuitBreaker != null && !await _circuitBreaker.CanExecuteAsync())
+                {
+                    throw new InvalidOperationException("Circuit breaker is OPEN");
+                }
+
+                // Log request
+                if (_loggingEnabled && _logRequests)
+                {
+                    _logger?.Invoke($"{method} {url} (attempt {attempt + 1}/{_maxRetries + 1})", ClientConfig.LogLevel.Info);
+                }
+
+                // Execute request
+                var response = await requestFunc();
+
+                // Log response
+                if (_loggingEnabled && _logResponses)
+                {
+                    _logger?.Invoke($"{method} {url} -> {(int)response.StatusCode} {response.StatusCode}", ClientConfig.LogLevel.Info);
+                }
+
+                // Record success in circuit breaker
+                if (_circuitBreaker != null)
+                {
+                    await _circuitBreaker.RecordSuccessAsync();
+                }
+
+                response.EnsureSuccessStatusCode();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+
+                // Record failure in circuit breaker
+                if (_circuitBreaker != null)
+                {
+                    await _circuitBreaker.RecordFailureAsync();
+                }
+
+                // Log error
+                if (_loggingEnabled)
+                {
+                    _logger?.Invoke($"{method} {url} failed: {ex.Message}", ClientConfig.LogLevel.Error);
+                }
+
+                // Don't retry if circuit breaker is open or if it's the last attempt
+                if (attempt >= _maxRetries || (_circuitBreaker != null && _circuitBreaker.State == CircuitBreaker.CircuitBreakerState.Open))
+                {
+                    break;
+                }
+
+                // Exponential backoff
+                var delay = TimeSpan.FromMilliseconds(Math.Pow(2, attempt) * 100);
+                await Task.Delay(delay, cancellationToken);
+            }
+        }
+
+        throw lastException ?? new Exception("Request failed after all retry attempts");
+    }
+
+    /// <summary>
     /// Gets a document from the database
     /// </summary>
     /// <typeparam name="T">Type of the document</typeparam>
@@ -81,8 +222,11 @@ public class ThemisClient : IDisposable
         var endpoint = await GetCurrentEndpointAsync();
         var url = $"{endpoint}/api/{model}/{collection}/{uuid}";
         
-        var response = await _httpClient.GetAsync(url, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        var response = await ExecuteWithRetryAsync(
+            () => _httpClient.GetAsync(url, cancellationToken),
+            "GET",
+            url,
+            cancellationToken);
         
         return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
     }
@@ -101,8 +245,11 @@ public class ThemisClient : IDisposable
         var endpoint = await GetCurrentEndpointAsync();
         var url = $"{endpoint}/api/{model}/{collection}/{uuid}";
         
-        var response = await _httpClient.PutAsJsonAsync(url, data, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        await ExecuteWithRetryAsync(
+            () => _httpClient.PutAsJsonAsync(url, data, cancellationToken),
+            "PUT",
+            url,
+            cancellationToken);
     }
 
     /// <summary>
@@ -117,8 +264,11 @@ public class ThemisClient : IDisposable
         var endpoint = await GetCurrentEndpointAsync();
         var url = $"{endpoint}/api/{model}/{collection}/{uuid}";
         
-        var response = await _httpClient.DeleteAsync(url, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        await ExecuteWithRetryAsync(
+            () => _httpClient.DeleteAsync(url, cancellationToken),
+            "DELETE",
+            url,
+            cancellationToken);
     }
 
     /// <summary>
