@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 #include "server/api_version.h"
+#include "server/api_version_config.h"
 
 using namespace themis::server;
 
@@ -55,9 +56,9 @@ TEST_F(APIVersionTest, ParseVersionMajorOnly) {
 TEST_F(APIVersionTest, ParseLatestKeyword) {
     auto v1 = APIVersion::parse("latest");
     ASSERT_TRUE(v1.has_value());
-    EXPECT_EQ(v1->major, 1);
-    EXPECT_EQ(v1->minor, 4);
-    EXPECT_EQ(v1->patch, 1);
+    EXPECT_EQ(v1->major, APIVersionConfig::CURRENT_MAJOR);
+    EXPECT_EQ(v1->minor, APIVersionConfig::CURRENT_MINOR);
+    EXPECT_EQ(v1->patch, APIVersionConfig::CURRENT_PATCH);
 }
 
 TEST_F(APIVersionTest, ParseInvalidVersion) {
@@ -121,16 +122,16 @@ protected:
 
 TEST_F(APIVersionManagerTest, GetCurrentVersion) {
     auto version = manager.getCurrentVersion();
-    EXPECT_EQ(version.major, 1);
-    EXPECT_EQ(version.minor, 4);
-    EXPECT_EQ(version.patch, 1);
+    EXPECT_EQ(version.major, APIVersionConfig::CURRENT_MAJOR);
+    EXPECT_EQ(version.minor, APIVersionConfig::CURRENT_MINOR);
+    EXPECT_EQ(version.patch, APIVersionConfig::CURRENT_PATCH);
 }
 
 TEST_F(APIVersionManagerTest, GetMinimumVersion) {
     auto version = manager.getMinimumVersion();
-    EXPECT_EQ(version.major, 1);
-    EXPECT_EQ(version.minor, 0);
-    EXPECT_EQ(version.patch, 0);
+    EXPECT_EQ(version.major, APIVersionConfig::MINIMUM_MAJOR);
+    EXPECT_EQ(version.minor, APIVersionConfig::MINIMUM_MINOR);
+    EXPECT_EQ(version.patch, APIVersionConfig::MINIMUM_PATCH);
 }
 
 TEST_F(APIVersionManagerTest, IsVersionSupported) {

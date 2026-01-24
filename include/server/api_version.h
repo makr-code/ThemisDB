@@ -119,8 +119,9 @@ private:
     // Map of endpoint to deprecation info
     std::unordered_map<std::string, APIDeprecationInfo> deprecations_;
     
-    // 24-month deprecation policy in seconds
-    static constexpr int64_t DEPRECATION_PERIOD_SECONDS = 24 * 30 * 24 * 3600; // ~24 months
+    // 24-month deprecation policy in seconds (approximation: 730 days)
+    // Note: Uses 730 days as approximation of 24 months for consistency
+    static constexpr int64_t DEPRECATION_PERIOD_SECONDS = 730 * 24 * 3600; // 24 months (~2 years)
 };
 
 /**

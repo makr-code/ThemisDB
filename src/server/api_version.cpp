@@ -1,4 +1,5 @@
 #include "server/api_version.h"
+#include "server/api_version_config.h"
 #include <sstream>
 #include <regex>
 #include <algorithm>
@@ -14,9 +15,13 @@ std::optional<APIVersion> APIVersion::parse(const std::string& version_str) {
     
     std::string str = version_str;
     
-    // Handle "latest" keyword
+    // Handle "latest" keyword - use current version from config
     if (str == "latest") {
-        return APIVersion{1, 4, 1}; // Current version from VERSION file
+        return APIVersion{
+            APIVersionConfig::CURRENT_MAJOR,
+            APIVersionConfig::CURRENT_MINOR,
+            APIVersionConfig::CURRENT_PATCH
+        };
     }
     
     // Remove 'v' prefix if present
@@ -76,8 +81,16 @@ bool APIVersion::operator>=(const APIVersion& other) const {
 
 // APIVersionManager implementation
 APIVersionManager::APIVersionManager() 
-    : current_version_{1, 4, 1},  // v1.4.1-dev from VERSION file
-      minimum_version_{1, 0, 0}   // Minimum supported version
+    : current_version_{
+        APIVersionConfig::CURRENT_MAJOR,
+        APIVersionConfig::CURRENT_MINOR,
+        APIVersionConfig::CURRENT_PATCH
+      },
+      minimum_version_{
+        APIVersionConfig::MINIMUM_MAJOR,
+        APIVersionConfig::MINIMUM_MINOR,
+        APIVersionConfig::MINIMUM_PATCH
+      }
 {
     // Initialize supported versions
     // Support current major version and previous major version for backward compatibility
@@ -87,7 +100,7 @@ APIVersionManager::APIVersionManager()
         {1, 2, 0},
         {1, 3, 0},
         {1, 4, 0},
-        {1, 4, 1}
+        {APIVersionConfig::CURRENT_MAJOR, APIVersionConfig::CURRENT_MINOR, APIVersionConfig::CURRENT_PATCH}
     };
     
     spdlog::info("APIVersionManager initialized: current={}, minimum={}", 

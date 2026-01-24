@@ -1,4 +1,5 @@
 #include "server/api_gateway.h"
+#include "server/api_version_config.h"
 #include "core/error_codes.h"
 #include <chrono>
 #include <ctime>
@@ -7,9 +8,9 @@
 // Portable wrappers for tm <-> time_t conversions
 static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #ifdef _WIN32
-    gmtime_s(out, t);
+    gmtime_s(out, t);  // Windows: gmtime_s(tm*, time_t*)
 #else
-    gmtime_r(t, out);
+    gmtime_r(t, out);  // POSIX: gmtime_r(time_t*, tm*)
 #endif
 }
 
@@ -523,7 +524,12 @@ APIVersion APIGateway::processVersionHeaders(
     http::response<http::string_body>& response
 ) {
     if (!version_manager_) {
-        return APIVersion{1, 4, 1};
+        // Return current version from config if manager not available
+        return APIVersion{
+            APIVersionConfig::CURRENT_MAJOR,
+            APIVersionConfig::CURRENT_MINOR,
+            APIVersionConfig::CURRENT_PATCH
+        };
     }
     
     // Parse Accept-Version header
