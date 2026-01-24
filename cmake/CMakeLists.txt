@@ -1134,6 +1134,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/graph_analytics.cpp
     ../src/index/vector_index.cpp
     ../src/index/hnsw_layer_optimizer.cpp
+    ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
     
@@ -1276,6 +1277,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
+    ../src/utils/grpc_channel_pool.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp

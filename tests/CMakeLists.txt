@@ -2898,6 +2898,142 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
     message(STATUS "  HTTP Client Pool: striped locking, stale connection removal, timeouts")
 else()
     message(STATUS "HTTP Client Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_client_pool.cpp")
+endif()
+
+# ============================================================================
+# gRPC Channel Pool Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_channel_pool.cpp")
+    message(STATUS "Adding gRPC Channel Pool tests")
+    
+    add_executable(test_grpc_channel_pool
+        test_grpc_channel_pool.cpp
+    )
+    
+    target_link_libraries(test_grpc_channel_pool PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        gRPC::grpc++
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_grpc_channel_pool PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME GrpcChannelPoolTests COMMAND test_grpc_channel_pool)
+    
+    set_tests_properties(GrpcChannelPoolTests PROPERTIES
+        LABELS "utils;grpc;connection-pool;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  gRPC Channel Pool: channel reuse, keepalive, stale pruning")
+else()
+    message(STATUS "gRPC Channel Pool tests not found")
+endif()
+
+# ============================================================================
+# Batch Operation Manager Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_batch_operation_manager.cpp")
+    message(STATUS "Adding Batch Operation Manager tests")
+    
+    add_executable(test_batch_operation_manager
+        test_batch_operation_manager.cpp
+    )
+    
+    target_link_libraries(test_batch_operation_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_batch_operation_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME BatchOperationManagerTests COMMAND test_batch_operation_manager)
+    
+    set_tests_properties(BatchOperationManagerTests PROPERTIES
+        LABELS "utils;batch;performance;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  Batch Operation Manager: adaptive sizing, queue management")
+else()
+    message(STATUS "Batch Operation Manager tests not found")
+endif()
+
+# ============================================================================
+# HNSW Parameter Tuner Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hnsw_parameter_tuner.cpp")
+    message(STATUS "Adding HNSW Parameter Tuner tests")
+    
+    add_executable(test_hnsw_parameter_tuner
+        test_hnsw_parameter_tuner.cpp
+    )
+    
+    target_link_libraries(test_hnsw_parameter_tuner PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_hnsw_parameter_tuner PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME HnswParameterTunerTests COMMAND test_hnsw_parameter_tuner)
+    
+    set_tests_properties(HnswParameterTunerTests PROPERTIES
+        LABELS "index;hnsw;performance;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  HNSW Parameter Tuner: adaptive efSearch, memory optimization")
+else()
+    message(STATUS "HNSW Parameter Tuner tests not found")
+endif()
+
+# ============================================================================
+# Enhanced Query Cache Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
+    message(STATUS "Adding Enhanced Query Cache tests")
+    
+    add_executable(test_enhanced_query_cache
+        test_enhanced_query_cache.cpp
+    )
+    
+    target_link_libraries(test_enhanced_query_cache PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_enhanced_query_cache PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME EnhancedQueryCacheTests COMMAND test_enhanced_query_cache)
+    
+    set_tests_properties(EnhancedQueryCacheTests PROPERTIES
+        LABELS "cache;performance;concurrency;unit"
+        TIMEOUT 60
+    )
+    
+    message(STATUS "  Enhanced Query Cache: TBB concurrent hash map, TTL, LRU eviction")
+else()
+    message(STATUS "Enhanced Query Cache tests not found")
+endif()
+
 # RPC Geospatial Query Tests
 # ============================================================================
 
