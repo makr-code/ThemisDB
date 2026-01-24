@@ -239,8 +239,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q1.graph_id = "social";
     q1.max_depth = 3;
 
-    auto [st1, paths1] = queryEngine_->executeRecursivePathQuery(q1);
-    ASSERT_TRUE(st1.ok);
+    auto result1 = queryEngine_->executeRecursivePathQuery(q1);
+    ASSERT_TRUE(result1.has_value()) << result1.error().message();
+    auto paths1 = std::move(*result1);
     // Should reach bob (via FOLLOWS) but not charlie (blocked by LIKES edge)
     EXPECT_EQ(paths1.size(), 1);
     EXPECT_EQ(paths1[0].size(), 2); // alice -> bob
@@ -254,8 +255,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q2.graph_id = "social";
     q2.max_depth = 3;
 
-    auto [st2, paths2] = queryEngine_->executeRecursivePathQuery(q2);
-    ASSERT_TRUE(st2.ok);
+    auto result2 = queryEngine_->executeRecursivePathQuery(q2);
+    ASSERT_TRUE(result2.has_value()) << result2.error().message();
+    auto paths2 = std::move(*result2);
     EXPECT_EQ(paths2.size(), 1);
     EXPECT_EQ(paths2[0].size(), 2); // bob -> charlie
     EXPECT_EQ(paths2[0][0], "bob");
@@ -269,8 +271,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q3.graph_id = "social";
     q3.max_depth = 3;
 
-    auto [st3, paths3] = queryEngine_->executeRecursivePathQuery(q3);
-    ASSERT_TRUE(st3.ok);
+    auto result3 = queryEngine_->executeRecursivePathQuery(q3);
+    ASSERT_TRUE(result3.has_value()) << result3.error().message();
+    auto paths3 = std::move(*result3);
     // Should fail because alice -> charlie requires FOLLOWS then LIKES
     EXPECT_EQ(paths3.size(), 0);
 
@@ -281,8 +284,9 @@ TEST_F(GraphTypeFilteringTest, RecursivePathQuery_WithTypeFilter_UsesServerSideF
     q4.graph_id = "social";
     q4.max_depth = 3;
 
-    auto [st4, paths4] = queryEngine_->executeRecursivePathQuery(q4);
-    ASSERT_TRUE(st4.ok);
+    auto result4 = queryEngine_->executeRecursivePathQuery(q4);
+    ASSERT_TRUE(result4.has_value()) << result4.error().message();
+    auto paths4 = std::move(*result4);
     EXPECT_EQ(paths4.size(), 1);
     EXPECT_EQ(paths4[0].size(), 3); // alice -> bob -> charlie
 }

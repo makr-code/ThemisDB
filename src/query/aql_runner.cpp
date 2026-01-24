@@ -81,10 +81,14 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         const auto &tv = *tr.traversal;
         if (tv.shortestPath) {
             RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = ""; // edge_type placeholder
-            auto [st, paths] = engine.executeRecursivePathQuery(rq);
+            auto result = engine.executeRecursivePathQuery(rq);
+            if (!result) {
+                return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}} };
+            }
+            auto paths = std::move(*result);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
-            return { st, nlohmann::json{{"type","shortest_path"},{"paths", arr}} };
+            return { QueryEngine::Status::OK(), nlohmann::json{{"type","shortest_path"},{"paths", arr}} };
         }
         
         // General traversal (non-shortest path)
@@ -105,7 +109,7 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
                 break;
         }
         
-        auto [st, results] = engine.executeGeneralTraversal(
+        auto result = engine.executeGeneralTraversal(
             tv.variable,
             tv.startVertex,
             tv.minDepth,
@@ -114,23 +118,25 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             tv.graphName.empty() ? "default" : tv.graphName
         );
         
-        if (!st.ok) {
-            return { st, nlohmann::json{{"error", "traversal_failed"}, {"message", st.message}} };
+        if (!result) {
+            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error", "traversal_failed"}, {"message", result.error().message()}} };
         }
+        
+        auto results = std::move(*result);
         
         // Format results as JSON array
         nlohmann::json arr = nlohmann::json::array();
-        for (const auto& result : results) {
+        for (const auto& r : results) {
             nlohmann::json item;
-            item["vertex"] = result.vertex_pk;
-            item["depth"] = result.depth;
-            item["path"] = result.path;
-            item["edges"] = result.edges;
-            item["data"] = result.vertex_data;
+            item["vertex"] = r.vertex_pk;
+            item["depth"] = r.depth;
+            item["path"] = r.path;
+            item["edges"] = r.edges;
+            item["data"] = r.vertex_data;
             arr.push_back(std::move(item));
         }
         
-        return { st, nlohmann::json{{"type","traversal"},{"results", arr}} };
+        return { QueryEngine::Status::OK(), nlohmann::json{{"type","traversal"},{"results", arr}} };
     }
 
     // Join query

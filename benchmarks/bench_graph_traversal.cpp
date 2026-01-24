@@ -511,7 +511,7 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalOutbound)(b
     int depth = state.range(2);
     
     for (auto _ : state) {
-        auto [status, results] = query_engine_->executeGeneralTraversal(
+        auto result = query_engine_->executeGeneralTraversal(
             "v",
             start_node,
             1,        // minDepth
@@ -519,9 +519,9 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalOutbound)(b
             TraversalDirection::OUTBOUND,
             "default"
         );
-        
-        if (!status.ok) {
-            state.SkipWithError("Traversal failed: " + status.message);
+        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        if (!result) {
+            state.SkipWithError("Traversal failed: " + result.error().message());
         }
         
         benchmark::DoNotOptimize(results);
@@ -555,7 +555,7 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalInbound)(be
     int depth = state.range(2);
     
     for (auto _ : state) {
-        auto [status, results] = query_engine_->executeGeneralTraversal(
+        auto result = query_engine_->executeGeneralTraversal(
             "v",
             start_node,
             1,
@@ -563,9 +563,9 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalInbound)(be
             TraversalDirection::INBOUND,
             "default"
         );
-        
-        if (!status.ok) {
-            state.SkipWithError("Traversal failed: " + status.message);
+        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        if (!result) {
+            state.SkipWithError("Traversal failed: " + result.error().message());
         }
         
         benchmark::DoNotOptimize(results);
@@ -593,7 +593,7 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalAny)(benchm
     int depth = state.range(2);
     
     for (auto _ : state) {
-        auto [status, results] = query_engine_->executeGeneralTraversal(
+        auto result = query_engine_->executeGeneralTraversal(
             "v",
             start_node,
             1,
@@ -601,9 +601,9 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalAny)(benchm
             TraversalDirection::ANY,
             "default"
         );
-        
-        if (!status.ok) {
-            state.SkipWithError("Traversal failed: " + status.message);
+        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        if (!result) {
+            state.SkipWithError("Traversal failed: " + result.error().message());
         }
         
         benchmark::DoNotOptimize(results);
@@ -630,7 +630,7 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalDepthFilter
     std::string start_node = node_ids_[0];
     
     for (auto _ : state) {
-        auto [status, results] = query_engine_->executeGeneralTraversal(
+        auto result = query_engine_->executeGeneralTraversal(
             "v",
             start_node,
             2,        // minDepth = 2 (filter out depth 0 and 1)
@@ -638,9 +638,9 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalDepthFilter
             TraversalDirection::OUTBOUND,
             "default"
         );
-        
-        if (!status.ok) {
-            state.SkipWithError("Traversal failed: " + status.message);
+        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        if (!result) {
+            state.SkipWithError("Traversal failed: " + result.error().message());
         }
         
         benchmark::DoNotOptimize(results);
@@ -666,7 +666,7 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResult
     std::string start_node = node_ids_[0];
     
     for (auto _ : state) {
-        auto [status, results] = query_engine_->executeGeneralTraversal(
+        auto result = query_engine_->executeGeneralTraversal(
             "v",
             start_node,
             0,        // Include start vertex
@@ -674,9 +674,9 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResult
             TraversalDirection::OUTBOUND,
             "default"
         );
-        
-        if (!status.ok) {
-            state.SkipWithError("Traversal failed: " + status.message);
+        auto results = result ? std::move(*result) : std::vector<TraversalResult>{};
+        if (!result) {
+            state.SkipWithError("Traversal failed: " + result.error().message());
         }
         
         state.counters["result_count"] = results.size();

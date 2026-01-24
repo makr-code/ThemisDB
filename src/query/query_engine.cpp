@@ -2962,7 +2962,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
 );
 
 // Recursive Path Query Implementation (Multi-Hop Traversal with Temporal Support)
-std::pair<QueryEngine::Status, std::vector<std::vector<std::string>>>
+Result<std::vector<std::vector<std::string>>>
 QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeRecursivePathQuery");
 	span.setAttribute("query.start_node", q.start_node);
@@ -2970,11 +2970,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	span.setAttribute("query.max_depth", static_cast<int64_t>(q.max_depth));
 	
 	if (!graphIdx_) {
-		return {Status::Error("GraphIndexManager nicht verfügbar"), {}};
+		return Err<std::vector<std::vector<std::string>>>(ERR_INDEX_NOT_FOUND, "GraphIndexManager nicht verfügbar");
 	}
 	
 	if (q.start_node.empty()) {
-		return {Status::Error("start_node darf nicht leer sein"), {}};
+		return Err<std::vector<std::vector<std::string>>>(ERR_QUERY_INVALID_INPUT, "start_node darf nicht leer sein");
 	}
 	
 	// Dynamische Branching-Faktor Schätzung (Sampling über erste 2 Tiefen)
@@ -3020,7 +3020,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	if (gcr.estimatedExpandedVertices > ABORT_THRESHOLD) {
 		span.setAttribute("optimizer.graph.aborted", true);
 		span.setStatus(true);
-		return {Status::OK(), {}}; // leere Pfadliste als Schutz vor Explosion
+		return Ok(std::vector<std::vector<std::string>>{}); // leere Pfadliste als Schutz vor Explosion
 	}
 	// Temporal filter setup
 	std::optional<int64_t> timestamp_ms;
@@ -3063,7 +3063,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		// "No path found" is not an error, just an empty result
 		if (!st.ok && st.message.find("Kein Pfad gefunden") == std::string::npos) {
 			span.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::vector<std::string>>>(ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		// Early exit: if shortestPath flag set (from AQL sugar) and path found, skip spatial filtering unless required
 		// bool needSpatial = q.spatial_constraint.has_value(); // unused currently
@@ -3072,7 +3072,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			allPaths.push_back({q.start_node});
 			span.setAttribute("query.path_count", static_cast<int64_t>(1));
 			span.setStatus(true);
-			return {Status::OK(), std::move(allPaths)};
+			return Ok(std::move(allPaths));
 		}
 		
 		// Graph + Geo: Apply spatial filter to path vertices
@@ -3166,7 +3166,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		
 		if (!st.ok) {
 			span.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::vector<std::string>>>(ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		
 		// Graph + Geo: Apply spatial filter to reachable nodes (early pruning)
@@ -3238,14 +3238,14 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	
 	span.setAttribute("query.path_count", static_cast<int64_t>(allPaths.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(allPaths)};
+	return Ok(std::move(allPaths));
 }
 
 // ============================================================================
 // General Graph Traversal (Non-Shortest Path)
 // ============================================================================
 
-std::pair<QueryEngine::Status, std::vector<TraversalResult>>
+Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
     const std::string& variable,
     const std::string& startVertex,
@@ -3261,16 +3261,16 @@ QueryEngine::executeGeneralTraversal(
 	span.setAttribute("query.graph_id", graphId);
 	
 	if (!graphIdx_) {
-		return {Status::Error("GraphIndexManager not available"), {}};
+		return Err<std::vector<TraversalResult>>(ERR_INDEX_NOT_FOUND, "GraphIndexManager not available");
 	}
 	
 	if (startVertex.empty()) {
-		return {Status::Error("startVertex cannot be empty"), {}};
+		return Err<std::vector<TraversalResult>>(ERR_QUERY_INVALID_INPUT, "startVertex cannot be empty");
 	}
 	
 	if (minDepth < 0 || maxDepth < minDepth) {
-		return {Status::Error("Invalid depth range: minDepth=" + std::to_string(minDepth) + 
-		                      ", maxDepth=" + std::to_string(maxDepth)), {}};
+		return Err<std::vector<TraversalResult>>(ERR_QUERY_INVALID_INPUT, "Invalid depth range: minDepth=" + std::to_string(minDepth) + 
+		                      ", maxDepth=" + std::to_string(maxDepth));
 	}
 	
 	// Safety limit to prevent excessive memory consumption
@@ -3336,7 +3336,7 @@ QueryEngine::executeGeneralTraversal(
 			if (results.size() >= MAX_RESULTS) {
 				span.setAttribute("query.result_limit_reached", true);
 				span.setStatus(true);
-				return {Status::OK(), std::move(results)};
+				return Ok(std::move(results));
 			}
 		}
 		
@@ -3404,7 +3404,7 @@ QueryEngine::executeGeneralTraversal(
 	
 	span.setAttribute("query.result_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
 // ============================================================================
