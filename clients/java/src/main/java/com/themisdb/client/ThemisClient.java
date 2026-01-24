@@ -769,14 +769,13 @@ public class ThemisClient {
                     continue;
                 }
                 
-                // Success
-                if (circuitBreaker != null && response.statusCode() < 400) {
-                    circuitBreaker.recordSuccess();
-                }
-                
-                // Failure
-                if (circuitBreaker != null && response.statusCode() >= 400) {
-                    circuitBreaker.recordFailure();
+                // Record success/failure for circuit breaker
+                if (circuitBreaker != null) {
+                    if (response.statusCode() < 400) {
+                        circuitBreaker.recordSuccess();
+                    } else {
+                        circuitBreaker.recordFailure();
+                    }
                 }
                 
                 return response;

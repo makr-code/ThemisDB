@@ -165,6 +165,7 @@ func (cb *circuitBreaker) canExecute() bool {
 	}
 	if cb.state == circuitOpen {
 		if time.Now().After(cb.nextAttemptTime) {
+			// Don't transition here, let caller handle it if request succeeds
 			return true
 		}
 		return false
@@ -396,10 +397,13 @@ func (c *Client) request(ctx context.Context, method, path string, body interfac
 			}
 			return err
 		}
-		// Transition to half-open if needed
+		// Transition to half-open if needed (under lock)
+		c.circuitBreaker.mu.Lock()
 		if c.circuitBreaker.state == circuitOpen && time.Now().After(c.circuitBreaker.nextAttemptTime) {
-			c.circuitBreaker.transitionToHalfOpen()
+			c.circuitBreaker.state = circuitHalfOpen
+			c.circuitBreaker.successCount = 0
 		}
+		c.circuitBreaker.mu.Unlock()
 	}
 
 	var lastErr error

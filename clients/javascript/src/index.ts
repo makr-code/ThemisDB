@@ -602,11 +602,9 @@ export class ThemisClient {
             continue;
           }
           
-          // Record success for circuit breaker
-          if (this.circuitBreaker && resp.ok) {
-            this.circuitBreaker.recordSuccess();
-          } else if (this.circuitBreaker && !resp.ok) {
-            this.circuitBreaker.recordFailure();
+          // Record success/failure for circuit breaker
+          if (this.circuitBreaker) {
+            resp.ok ? this.circuitBreaker.recordSuccess() : this.circuitBreaker.recordFailure();
           }
           
           return resp;
