@@ -438,13 +438,19 @@ ProposalNumber PaxosConsensus::generateProposalNumber() {
 }
 
 bool PaxosConsensus::loadPersistentState() {
-    // Placeholder for loading persistent state
-    return false;
+    // TODO: Complete implementation
+    // Should load current_round_, next_slot_, commit_index_,
+    // instances_, and committed_log_ from persistent storage (e.g., RocksDB)
+    // For now, returns false indicating no state to load
+    return false;  // Placeholder - no persistent state loaded
 }
 
 bool PaxosConsensus::savePersistentState() {
-    // Placeholder for saving persistent state
-    return true;
+    // TODO: Complete implementation
+    // Should save current_round_, next_slot_, commit_index_,
+    // instances_, and committed_log_ to persistent storage (e.g., RocksDB)
+    // For now, returns true indicating save succeeded (no-op)
+    return true;  // Placeholder - no persistent state saved
 }
 
 bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {

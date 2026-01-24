@@ -319,8 +319,10 @@ bool CrossShardTransactionCoordinator::executeSaga(
     for (size_t i = 0; i < steps.size(); ++i) {
         const auto& step = steps[i];
         
-        // Execute step (simplified - would send to appropriate shard)
-        bool success = true;  // Placeholder
+        // TODO: Complete implementation
+        // Execute step - should send operation to appropriate shard via RPC
+        // and wait for result, respecting saga_step_timeout
+        bool success = true;  // Placeholder - assumes step succeeds
         
         if (!success) {
             spdlog::error("SAGA step {} failed, executing compensation", i);
@@ -460,30 +462,36 @@ bool CrossShardTransactionCoordinator::sendPrepare(
     const std::string& shard_id,
     const std::string& transaction_id
 ) {
-    // Placeholder - would send actual RPC to shard
+    // TODO: Complete implementation
+    // Placeholder - should use ShardRPCClient to send prepare request
+    // and wait for response, respecting prepare_timeout
     spdlog::debug("Sending prepare to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    return true;
+    return true;  // Placeholder - assumes success
 }
 
 bool CrossShardTransactionCoordinator::sendCommit(
     const std::string& shard_id,
     const std::string& transaction_id
 ) {
-    // Placeholder - would send actual RPC to shard
+    // TODO: Complete implementation
+    // Placeholder - should use ShardRPCClient to send commit request
+    // and wait for response, respecting commit_timeout
     spdlog::debug("Sending commit to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    return true;
+    return true;  // Placeholder - assumes success
 }
 
 bool CrossShardTransactionCoordinator::sendAbort(
     const std::string& shard_id,
     const std::string& transaction_id
 ) {
-    // Placeholder - would send actual RPC to shard
+    // TODO: Complete implementation
+    // Placeholder - should use ShardRPCClient to send abort request
+    // and wait for response, respecting abort_timeout
     spdlog::debug("Sending abort to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    return true;
+    return true;  // Placeholder - assumes success
 }
 
 void CrossShardTransactionCoordinator::deadlockDetectionThread() {

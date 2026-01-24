@@ -83,10 +83,12 @@ ConsensusState RaftConsensusAdapter::getState() const {
 }
 
 ConsensusState RaftConsensusAdapter::convertState(RaftState state) {
+    // TODO: Complete implementation
     // Note: RaftState is a class, not enum in the actual implementation
     // This is a placeholder - actual implementation would need to check
-    // the state from raft_->getRaftState()
-    return ConsensusState::FOLLOWER;  // Placeholder
+    // the state from raft_->getRaftState().getNodeState()
+    // and convert RaftNodeState enum to ConsensusState
+    return ConsensusState::FOLLOWER;  // Placeholder - returns FOLLOWER as safe default
 }
 
 std::optional<uint64_t> RaftConsensusAdapter::propose(
@@ -108,10 +110,11 @@ std::optional<uint64_t> RaftConsensusAdapter::propose(
         // Propose to Raft
         auto future = raft_->propose(command);
         
+        // TODO: Get actual log index from Raft implementation
         // For now, we'll use a simple counter for log index
-        // In production, this should come from Raft
+        // In production, this should come from raft_->getRaftState().getLastLogIndex()
         static std::atomic<uint64_t> log_index_counter{1};
-        return log_index_counter++;
+        return log_index_counter++;  // Placeholder
     } catch (const std::exception& e) {
         spdlog::error("Failed to propose operation: {}", e.what());
         return std::nullopt;
@@ -122,19 +125,23 @@ bool RaftConsensusAdapter::waitForCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
 ) {
-    // Placeholder implementation
-    // In production, this should wait for the specific log index to be committed
+    // TODO: Complete implementation
+    // Placeholder implementation - should poll raft_->getRaftState().getCommitIndex()
+    // and compare with log_index, using condition variable for efficient waiting
+    // For now, just sleep briefly to simulate waiting
     std::this_thread::sleep_for(std::min(timeout, std::chrono::milliseconds(100)));
-    return true;
+    return true;  // Placeholder - assumes success
 }
 
 std::vector<ConsensusLogEntry> RaftConsensusAdapter::readLog(
     uint64_t start_index,
     std::optional<uint64_t> end_index
 ) {
-    // Placeholder implementation
-    // In production, this should read from Raft's log
-    return {};
+    // TODO: Complete implementation
+    // Placeholder implementation - should read from raft_->getRaftState().getLog()
+    // and convert LogEntry objects to ConsensusLogEntry using convertLogEntry()
+    // For now, returns empty vector
+    return {};  // Placeholder
 }
 
 uint64_t RaftConsensusAdapter::getCommitIndex() const {
