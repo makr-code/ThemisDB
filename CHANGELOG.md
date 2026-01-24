@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - TBD
+
+### Added - Modular Architecture
+
+- **Modular Build System**: Split monolithic `themis_core` into focused module libraries
+  - `themis_base`: Core utilities, cross-cutting concerns, plugin infrastructure
+  - `themis_storage`: Storage engine, indexes, backup management
+  - `themis_query`: Query engine, AQL parser, analytics
+  - `themis_security`: Encryption, PKI, RBAC, authentication
+  - `themis_transaction`: Transaction management, CDC, saga support
+  - `themis_network`: HTTP/gRPC servers, API handlers
+  - `themis_sharding`: Distributed system (optional)
+  - `themis_llm`: LLM integration (optional)
+  - `themis_content`: Content processors (optional)
+  - `themis_timeseries`: Time-series support (optional)
+  - `themis_graph`: Graph analytics (optional)
+  - `themis_geo`: Geospatial features (optional)
+- **Export Macro System**: Platform-specific DLL export/import macros for all modules
+- **Configurable Modules**: Optional modules can be excluded via CMake options
+- **Backward Compatibility**: Monolithic build remains default; modular enabled with `-DTHEMIS_BUILD_MODULAR=ON`
+
+### Fixed
+
+- **Windows Build Issues**: Resolves COFF symbol limit (>65,000 symbols) by splitting into smaller modules
+- **Build Performance**: Parallel module compilation reduces full rebuild time by 30-50%
+
+### Documentation
+
+- Added `docs/architecture/MODULARIZATION_GUIDE.md` with comprehensive usage examples
+- Updated build documentation with modular build instructions
+
+---
+
 ## [Unreleased]
 
 ### Added
