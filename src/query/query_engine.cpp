@@ -2970,11 +2970,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	span.setAttribute("query.max_depth", static_cast<int64_t>(q.max_depth));
 	
 	if (!graphIdx_) {
-		return Err<std::vector<std::vector<std::string>>>(ERR_INDEX_NOT_FOUND, "GraphIndexManager nicht verfügbar");
+		return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager nicht verfügbar");
 	}
 	
 	if (q.start_node.empty()) {
-		return Err<std::vector<std::vector<std::string>>>(ERR_QUERY_INVALID_INPUT, "start_node darf nicht leer sein");
+		return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_INVALID_INPUT, "start_node darf nicht leer sein");
 	}
 	
 	// Dynamische Branching-Faktor Schätzung (Sampling über erste 2 Tiefen)
@@ -3063,7 +3063,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		// "No path found" is not an error, just an empty result
 		if (!st.ok && st.message.find("Kein Pfad gefunden") == std::string::npos) {
 			span.setStatus(false, st.message);
-			return Err<std::vector<std::vector<std::string>>>(ERR_QUERY_EXECUTION_FAILED, st.message);
+			return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		// Early exit: if shortestPath flag set (from AQL sugar) and path found, skip spatial filtering unless required
 		// bool needSpatial = q.spatial_constraint.has_value(); // unused currently
@@ -3166,7 +3166,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		
 		if (!st.ok) {
 			span.setStatus(false, st.message);
-			return Err<std::vector<std::vector<std::string>>>(ERR_QUERY_EXECUTION_FAILED, st.message);
+			return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		
 		// Graph + Geo: Apply spatial filter to reachable nodes (early pruning)
@@ -3261,15 +3261,15 @@ QueryEngine::executeGeneralTraversal(
 	span.setAttribute("query.graph_id", graphId);
 	
 	if (!graphIdx_) {
-		return Err<std::vector<TraversalResult>>(ERR_INDEX_NOT_FOUND, "GraphIndexManager not available");
+		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager not available");
 	}
 	
 	if (startVertex.empty()) {
-		return Err<std::vector<TraversalResult>>(ERR_QUERY_INVALID_INPUT, "startVertex cannot be empty");
+		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_QUERY_INVALID_INPUT, "startVertex cannot be empty");
 	}
 	
 	if (minDepth < 0 || maxDepth < minDepth) {
-		return Err<std::vector<TraversalResult>>(ERR_QUERY_INVALID_INPUT, "Invalid depth range: minDepth=" + std::to_string(minDepth) + 
+		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_QUERY_INVALID_INPUT, "Invalid depth range: minDepth=" + std::to_string(minDepth) + 
 		                      ", maxDepth=" + std::to_string(maxDepth));
 	}
 	
