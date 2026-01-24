@@ -15,6 +15,8 @@
 #include <vector>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
+#include <condition_variable>
 #include <chrono>
 #include <random>
 
@@ -243,7 +245,7 @@ TEST(ConcurrencyRaceTest, ReaderWriterLock) {
         });
     }
     
-    // Writers
+    // Writer threads
     for (int i = 0; i < NUM_WRITERS; ++i) {
         threads.emplace_back([&]() {
             for (int j = 0; j < OPERATIONS; ++j) {

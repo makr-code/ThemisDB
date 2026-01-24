@@ -443,6 +443,7 @@ TEST(LongRunningStressTest, PerformanceDegradationUnderLoad) {
  */
 TEST(LongRunningStressTest, ThreadPoolExhaustion) {
     constexpr int MAX_THREADS = 20;
+    constexpr int TOTAL_TASKS = 40;
     constexpr int THREAD_DURATION_MS = 100;
     
     std::atomic<int> active_threads{0};
@@ -451,9 +452,9 @@ TEST(LongRunningStressTest, ThreadPoolExhaustion) {
     
     std::vector<std::thread> threads;
     
-    for (int i = 0; i < MAX_THREADS * 2; ++i) {
+    for (int i = 0; i < TOTAL_TASKS; ++i) {
         if (active_threads.load() < MAX_THREADS) {
-            threads.emplace_back([&active_threads, &completed_tasks]() {
+            threads.emplace_back([&active_threads, &completed_tasks, THREAD_DURATION_MS]() {
                 active_threads.fetch_add(1);
                 
                 // Simulate work
@@ -479,7 +480,7 @@ TEST(LongRunningStressTest, ThreadPoolExhaustion) {
     // Verify behavior
     EXPECT_GT(completed_tasks.load(), 0);
     EXPECT_GT(rejected_tasks.load(), 0); // Should have rejected some tasks
-    EXPECT_EQ(completed_tasks + rejected_tasks, MAX_THREADS * 2);
+    EXPECT_EQ(completed_tasks + rejected_tasks, TOTAL_TASKS);
 }
 
 } // namespace test

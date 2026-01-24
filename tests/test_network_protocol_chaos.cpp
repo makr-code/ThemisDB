@@ -124,8 +124,9 @@ TEST(NetworkProtocolChaosTest, LatencySimulation) {
     for (const auto& req : requests) {
         auto latency = std::chrono::duration_cast<std::chrono::microseconds>(
             req.received_time - req.sent_time);
-        total_latency_us += latency.count();
-        max_latency_us = std::max(max_latency_us, latency.count());
+        long long latency_count = latency.count();
+        total_latency_us += latency_count;
+        max_latency_us = (latency_count > max_latency_us) ? latency_count : max_latency_us;
     }
     
     long long avg_latency_us = total_latency_us / NUM_REQUESTS;
