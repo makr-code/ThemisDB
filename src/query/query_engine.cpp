@@ -774,7 +774,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 	span.setAttribute("query.table", q.table);
 	auto result = executeOrKeysWithFallback(q, optimize);
 	if (!result) {
-		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
 	}
 	auto keys = std::move(*result);
 
@@ -2120,7 +2120,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	span.setAttribute("query.table", q.table);
 	auto result = executeAndKeysWithFallback(q, optimize);
 	if (!result) {
-		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
 	}
 	auto keys = std::move(*result);
 	std::vector<BaseEntity> out; out.reserve(keys.size());
