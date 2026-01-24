@@ -293,6 +293,7 @@ On Windows with MSVC:
 
 ## References
 
-- [ModularBuild.cmake](../cmake/ModularBuild.cmake) - Module definitions
-- [export.h](../include/themis/export.h) - Export macros
-- [CMakeLists.txt](../cmake/CMakeLists.txt) - Build system integration
+- [ModularBuild.cmake](../../cmake/ModularBuild.cmake) - Module definitions
+- [export.h](../../include/themis/export.h) - Export macros
+- [CMakeLists.txt (root)](../../CMakeLists.txt) - Root build configuration
+- [CMakeLists.txt (cmake)](../../cmake/CMakeLists.txt) - Main build system integration
