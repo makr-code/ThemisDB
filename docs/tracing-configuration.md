@@ -220,6 +220,28 @@ ThemisDB automatically adds contextual attributes to spans:
 
 ## Performance Considerations
 
+### Overhead When Tracing is Enabled
+
+Tracing adds minimal overhead when enabled:
+- **Span creation**: ~100-200ns per span
+- **Attribute addition**: ~50-100ns per attribute
+- **OTLP export**: Asynchronous, non-blocking
+- **Memory**: ~200-500 bytes per active span
+
+### Overhead When Tracing is Disabled
+
+When compiled without `THEMIS_ENABLE_TRACING`:
+- All tracing calls become no-ops at compile time
+- Zero runtime overhead
+- Code optimized away by compiler
+
+### High-Throughput Scenarios
+
+For very high-throughput operations (>100k ops/sec), consider:
+1. **Compile-time control**: Build without `THEMIS_ENABLE_TRACING` for maximum performance
+2. **Selective tracing**: Only enable tracing on specific environments (staging, troubleshooting)
+3. **Operation sampling**: In storage-heavy workloads, tracing every operation may add 1-2% overhead
+
 ### Sampling (Future Enhancement)
 
 For high-throughput production environments, consider implementing sampling:

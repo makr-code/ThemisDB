@@ -164,6 +164,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     
     if (!vector_manager_) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Vector manager not initialized");
+        span.setStatus(false, "Vector manager not initialized");
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
                                     fmt::format("Vector index manager not initialized for index '{}'", name));
     }
@@ -190,6 +191,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     if (!status.ok) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Failed to create index '{}': {}", 
                      name_str, status.message);
+        span.setStatus(false, status.message);
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_CREATION_FAILED,
                                     fmt::format("Failed to create vector index '{}': {}", name_str, status.message));
     }
@@ -199,6 +201,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     
     THEMIS_INFO("IndexManager::createVectorIndex: Created index '{}' with dimension {}", 
                 name_str, dimension);
+    span.setStatus(true);
     return Ok<IVectorIndex*>(nullptr);
 }
 
