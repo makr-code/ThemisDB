@@ -104,15 +104,15 @@ protected:
 TEST_F(GeneralTraversalTest, BasicOutboundTraversal) {
     createLinearGraph();
 
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "A",
         1,  // minDepth
         2,  // maxDepth
         TraversalDirection::OUTBOUND
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     
     // Should find B (depth 1) and C (depth 2)
     EXPECT_GE(results.size(), 2);
@@ -131,15 +131,15 @@ TEST_F(GeneralTraversalTest, BasicOutboundTraversal) {
 TEST_F(GeneralTraversalTest, MinDepthFiltering) {
     createLinearGraph();
 
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "A",
         2,  // minDepth - only vertices at depth 2+
         3,  // maxDepth
         TraversalDirection::OUTBOUND
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     
     // Should find C (depth 2) and D (depth 3), but NOT B (depth 1)
     for (const auto& result : results) {
@@ -155,15 +155,15 @@ TEST_F(GeneralTraversalTest, InboundDirection) {
     createLinearGraph();
 
     // Traverse backwards from D
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "D",
         1,  // minDepth
         2,  // maxDepth
         TraversalDirection::INBOUND
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     
     // Should find C (depth 1) and B (depth 2)
     EXPECT_GE(results.size(), 2);
@@ -183,15 +183,15 @@ TEST_F(GeneralTraversalTest, AnyDirection) {
     createLinearGraph();
 
     // From B, ANY direction should find both A (inbound) and C (outbound)
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "B",
         1,  // minDepth
         1,  // maxDepth
         TraversalDirection::ANY
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     
     // Should find at least A and C
     EXPECT_GE(results.size(), 2);
@@ -209,15 +209,15 @@ TEST_F(GeneralTraversalTest, AnyDirection) {
 TEST_F(GeneralTraversalTest, PathTracking) {
     createLinearGraph();
 
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "A",
         2,  // minDepth
         2,  // maxDepth
         TraversalDirection::OUTBOUND
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     ASSERT_GE(results.size(), 1);
     
     // Find result for vertex C (depth 2)
@@ -245,15 +245,15 @@ TEST_F(GeneralTraversalTest, PathTracking) {
 TEST_F(GeneralTraversalTest, EdgeTracking) {
     createLinearGraph();
 
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "A",
         1,  // minDepth
         1,  // maxDepth
         TraversalDirection::OUTBOUND
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     ASSERT_GE(results.size(), 1);
     
     // Find result for vertex B (depth 1)
@@ -276,15 +276,15 @@ TEST_F(GeneralTraversalTest, DiamondGraphMultiplePaths) {
     createDiamondGraph();
 
     // From A, depth 2 should reach D via both paths (through B and C)
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "A",
         0,  // minDepth - include start
         2,  // maxDepth
         TraversalDirection::OUTBOUND
     );
-
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto results = std::move(*result);
     
     // Should find: A (depth 0), B (depth 1), C (depth 1), D (depth 2)
     EXPECT_GE(results.size(), 4);
@@ -307,7 +307,7 @@ TEST_F(GeneralTraversalTest, InvalidDepthRange) {
     createLinearGraph();
 
     // minDepth > maxDepth should return error
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "A",
         3,  // minDepth
@@ -315,14 +315,13 @@ TEST_F(GeneralTraversalTest, InvalidDepthRange) {
         TraversalDirection::OUTBOUND
     );
 
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(results.empty());
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(GeneralTraversalTest, EmptyStartVertex) {
     createLinearGraph();
 
-    auto [st, results] = engine->executeGeneralTraversal(
+    auto result = engine->executeGeneralTraversal(
         "v",
         "",  // empty start vertex
         1,
@@ -330,6 +329,5 @@ TEST_F(GeneralTraversalTest, EmptyStartVertex) {
         TraversalDirection::OUTBOUND
     );
 
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(results.empty());
+    EXPECT_FALSE(result.has_value());
 }

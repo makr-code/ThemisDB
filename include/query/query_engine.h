@@ -350,12 +350,12 @@ public:
     ) const;
     
     // Rekursive Pfadabfrage (Multi-Hop Traversal)
-    std::pair<Status, std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
+    Result<std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
 
     // General graph traversal (non-shortest path)
     // Performs BFS with depth filtering and direction support
     // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
-    std::pair<Status, std::vector<TraversalResult>> executeGeneralTraversal(
+    Result<std::vector<TraversalResult>> executeGeneralTraversal(
         const std::string& variable,
         const std::string& startVertex,
         int minDepth,
@@ -365,25 +365,25 @@ public:
     ) const;
 
     // Führt alle Gleichheitsprädikate parallel über Sekundärindizes aus und schneidet die PK-Mengen
-    std::pair<Status, std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;
-    std::pair<Status, std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
+    Result<std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;
+    Result<std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
 
     // Variant with BM25 score support for FULLTEXT queries
     struct KeysWithScores {
         std::vector<std::string> keys;
         std::shared_ptr<std::unordered_map<std::string, double>> bm25_scores; // pk -> score
     };
-    std::pair<Status, KeysWithScores> executeAndKeysWithScores(const ConjunctiveQuery& q) const;
+    Result<KeysWithScores> executeAndKeysWithScores(const ConjunctiveQuery& q) const;
 
     // OR-Queries: Union von mehreren AND-Blöcken
-    std::pair<Status, std::vector<std::string>> executeOrKeys(const DisjunctiveQuery& q) const;
-    std::pair<Status, std::vector<BaseEntity>> executeOrEntities(const DisjunctiveQuery& q) const;
+    Result<std::vector<std::string>> executeOrKeys(const DisjunctiveQuery& q) const;
+    Result<std::vector<BaseEntity>> executeOrEntities(const DisjunctiveQuery& q) const;
     // Varianten mit Fallback (nutzen Full-Scan, wenn kein Index vorhanden ist)
-    std::pair<Status, std::vector<std::string>> executeOrKeysWithFallback(
+    Result<std::vector<std::string>> executeOrKeysWithFallback(
         const DisjunctiveQuery& q,
         bool optimize = true
     ) const;
-    std::pair<Status, std::vector<BaseEntity>> executeOrEntitiesWithFallback(
+    Result<std::vector<BaseEntity>> executeOrEntitiesWithFallback(
         const DisjunctiveQuery& q,
         bool optimize = true
     ) const;
@@ -399,11 +399,11 @@ public:
     ) const;
 
     // Varianten mit Fallback (nutzen Full-Scan, wenn kein Index vorhanden ist)
-    std::pair<Status, std::vector<std::string>> executeAndKeysWithFallback(
+    Result<std::vector<std::string>> executeAndKeysWithFallback(
         const ConjunctiveQuery& q,
         bool optimize = true
     ) const;
-    std::pair<Status, std::vector<BaseEntity>> executeAndEntitiesWithFallback(
+    Result<std::vector<BaseEntity>> executeAndEntitiesWithFallback(
         const ConjunctiveQuery& q,
         bool optimize = true
     ) const;
@@ -451,7 +451,7 @@ public:
         float vector_distance;
         nlohmann::json entity;
     };
-    std::pair<Status, std::vector<VectorGeoResult>> executeVectorGeoQuery(
+    Result<std::vector<VectorGeoResult>> executeVectorGeoQuery(
         const VectorGeoQuery& q
     ) const;
     
@@ -463,7 +463,7 @@ public:
         std::optional<double> geo_distance; // if boost_by_distance enabled
         nlohmann::json entity;
     };
-    std::pair<Status, std::vector<ContentGeoResult>> executeContentGeoQuery(
+    Result<std::vector<ContentGeoResult>> executeContentGeoQuery(
         const ContentGeoQuery& q
     ) const;
     
@@ -474,7 +474,7 @@ public:
         float vector_distance;
         nlohmann::json entity;
     };
-    std::pair<Status, std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
+    Result<std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
         const FilteredVectorSearchQuery& q
     ) const;
     
@@ -485,7 +485,7 @@ public:
         float vector_distance;
         nlohmann::json entity;
     };
-    std::pair<Status, std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
+    Result<std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
         const RadiusVectorSearchQuery& q
     ) const;
     
@@ -496,7 +496,7 @@ public:
         double bm25_score;
         nlohmann::json entity;
     };
-    std::pair<Status, std::vector<ContentSearchResult>> executeContentSearch(
+    Result<std::vector<ContentSearchResult>> executeContentSearch(
         const ContentSearchQuery& q
     ) const;
 
@@ -546,8 +546,8 @@ private:
     std::vector<std::string> fullScanAndFilter_(const ConjunctiveQuery& q) const;
 
     // Range-Unterstützung
-    std::pair<Status, std::vector<std::string>> executeAndKeysRangeAware_(const ConjunctiveQuery& q) const;
-    std::pair<Status, std::vector<BaseEntity>> executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const;
+    Result<std::vector<std::string>> executeAndKeysRangeAware_(const ConjunctiveQuery& q) const;
+    Result<std::vector<BaseEntity>> executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const;
 };
 
 // EvaluationContext Definition (moved from class body to avoid json dependency in header)

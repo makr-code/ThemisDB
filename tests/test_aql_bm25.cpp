@@ -107,8 +107,9 @@ TEST_F(AQLBm25Test, ExecuteAndKeysWithScores) {
     q.table = "articles";
     q.fulltextPredicate = PredicateFulltext{"content", "machine learning", 100};
     
-    auto [st, result] = engine_->executeAndKeysWithScores(q);
-    ASSERT_TRUE(st.ok) << "Execution error: " << st.message;
+    auto resultOrErr = engine_->executeAndKeysWithScores(q);
+    ASSERT_TRUE(resultOrErr) << "Execution error: " << resultOrErr.error().message;
+    auto result = std::move(resultOrErr.value());
     
     // Should match doc1 and doc2 (both mention "machine learning")
     ASSERT_GE(result.keys.size(), 2u);
@@ -132,8 +133,9 @@ TEST_F(AQLBm25Test, BM25ScoresDecreaseWithRelevance) {
     q.table = "articles";
     q.fulltextPredicate = PredicateFulltext{"content", "machine", 100};
     
-    auto [st, result] = engine_->executeAndKeysWithScores(q);
-    ASSERT_TRUE(st.ok);
+    auto resultOrErr = engine_->executeAndKeysWithScores(q);
+    ASSERT_TRUE(resultOrErr);
+    auto result = std::move(resultOrErr.value());
     ASSERT_GE(result.keys.size(), 2u);
     
     // Get scores for doc1 and doc2
@@ -166,8 +168,9 @@ TEST_F(AQLBm25Test, NoScoresForNonFulltextQuery) {
     q.table = "articles";
     q.predicates.push_back(PredicateEq{"title", "Machine learning basics"});
     
-    auto [st, result] = engine_->executeAndKeysWithScores(q);
-    ASSERT_TRUE(st.ok) << "Execution error: " << st.message;
+    auto resultOrErr = engine_->executeAndKeysWithScores(q);
+    ASSERT_TRUE(resultOrErr) << "Execution error: " << resultOrErr.error().message;
+    auto result = std::move(resultOrErr.value());
     
     // Should have empty score map
     ASSERT_TRUE(result.bm25_scores);

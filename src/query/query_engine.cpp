@@ -107,7 +107,7 @@ bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view /*expre
 }
 
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeys");
 	span.setAttribute("query.table", q.table);
@@ -117,7 +117,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
 	span.setAttribute("query.phrase", q.phrasePredicate.has_value());
 	span.setAttribute("query.fuzzy", q.fuzzyPredicate.has_value());
-	if (q.table.empty()) return {Status::Error("executeAndKeys: table darf nicht leer sein"), {}};
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Table name cannot be empty"
+		);
+	}
 	
 	// Handle phrase search queries
 	if (q.phrasePredicate.has_value()) {
@@ -131,7 +136,10 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		auto [st, results] = secIdx_->scanFulltextPhrase(q.table, ph.column, ph.phrase, ph.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::string>>(
+				errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				fmt::format("Phrase search failed: {}", st.message)
+			);
 		}
 		
 		// Extract PKs from results
@@ -154,11 +162,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.rangePredicates = q.rangePredicates;
 			structuralQuery.orderBy = q.orderBy;
 			
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			tbb::parallel_sort(phraseKeys.begin(), phraseKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
@@ -172,11 +181,11 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			intersectSpan.setStatus(true);
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		span.setStatus(true);
-		return {Status::OK(), std::move(phraseKeys)};
+		return Ok(std::move(phraseKeys));
 	}
 	
 	// Handle fuzzy search queries
@@ -192,7 +201,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		auto [st, results] = secIdx_->scanFulltextFuzzy(q.table, fz.column, fz.query, fz.maxDistance, fz.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, fmt::format("Fuzzy search failed: {}", st.message));
 		}
 		
 		// Extract PKs from results
@@ -215,11 +224,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.rangePredicates = q.rangePredicates;
 			structuralQuery.orderBy = q.orderBy;
 			
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			tbb::parallel_sort(fuzzyKeys.begin(), fuzzyKeys.end());
 			tbb::parallel_sort(structKeys.begin(), structKeys.end());
@@ -233,11 +243,11 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			intersectSpan.setStatus(true);
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		span.setStatus(true);
-		return {Status::OK(), std::move(fuzzyKeys)};
+		return Ok(std::move(fuzzyKeys));
 	}
 	
 	// Handle fulltext queries
@@ -252,7 +262,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		auto [st, results] = secIdx_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
 		if (!st.ok) {
 			child.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, fmt::format("Fulltext search failed: {}", st.message));
 		}
 		
 		// Extract PKs from results
@@ -280,11 +290,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.orderBy = q.orderBy;
 			
 			// Execute structural predicates
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			// Intersect fulltext results with structural predicate results
 			// Both lists should be sorted for efficient intersection
@@ -302,19 +313,19 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			intersectSpan.setStatus(true);
 			span.setAttribute("query.result_count", static_cast<int64_t>(intersection.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		// Standalone FULLTEXT (no additional predicates)
 		span.setAttribute("query.result_count", static_cast<int64_t>(fulltextKeys.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(fulltextKeys)};
+		return Ok(std::move(fulltextKeys));
 	}
 	
 	// Handle spatial queries (G3 - AQL Parser Integration)
 	if (q.spatialPredicate.has_value()) {
 		if (!spatialIdx_) {
-			return {Status::Error("Spatial index manager not available"), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Spatial index manager not available");
 		}
 		
 		const auto& sp = *q.spatialPredicate;
@@ -326,7 +337,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		// Check if table has spatial index
 		if (!spatialIdx_->hasSpatialIndex(q.table)) {
 			child.setStatus(false, "No spatial index on table");
-			return {Status::Error("Table " + q.table + " has no spatial index"), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Table " + q.table + " has no spatial index");
 		}
 		
 		// Execute spatial query based on operation type
@@ -346,7 +357,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			}
 		} else {
 			child.setStatus(false, "Spatial predicate missing bbox");
-			return {Status::Error("Spatial predicate must have computed bbox"), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Spatial predicate must have computed bbox");
 		}
 		
 		child.setAttribute("index.result_count", static_cast<int64_t>(spatialKeys.size()));
@@ -367,11 +378,12 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			structuralQuery.orderBy = q.orderBy;
 			
 			// Execute structural predicates
-			auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-			if (!structStatus.ok) {
-				intersectSpan.setStatus(false, structStatus.message);
-				return {structStatus, {}};
+			auto structResult = executeAndKeysRangeAware_(structuralQuery);
+			if (!structResult) {
+				intersectSpan.setStatus(false, structResult.error().context());
+				return Err<std::vector<std::string>>(structResult.error().code(), structResult.error().context());
 			}
+			auto structKeys = *structResult;
 			
 			// Intersect spatial results with structural predicate results
 			tbb::parallel_sort(spatialKeys.begin(), spatialKeys.end());
@@ -388,18 +400,18 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			intersectSpan.setStatus(true);
 			span.setAttribute("query.result_count", static_cast<int64_t>(intersection.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(intersection)};
+			return Ok(std::move(intersection));
 		}
 		
 		// Standalone SPATIAL (no additional predicates)
 		span.setAttribute("query.result_count", static_cast<int64_t>(spatialKeys.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(spatialKeys)};
+		return Ok(std::move(spatialKeys));
 	}
 	
 	// Erlaube ORDER BY ohne weitere Prädikate (liefert die ersten N gemäß Range-Index)
 	if (q.predicates.empty() && q.rangePredicates.empty() && !q.orderBy.has_value()) {
-		return {Status::Error("executeAndKeys: keine Prädikate"), {}};
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeAndKeys: keine Prädikate");
 	}
 
 	// Wenn Range-Prädikate vorhanden sind, nutze die range-aware Logik (inkl. ORDER BY)
@@ -435,22 +447,22 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	tg.wait();
 
 	if (!errors.empty()) {
-		return {Status::Error("executeAndKeys: " + errors.front()), {}};
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, "executeAndKeys: " + errors.front());
 	}
 
 	// Leere Listen früh abbrechen
 	for (const auto& l : all_lists) {
-		if (l.empty()) return {Status::OK(), {}};
+		if (l.empty()) return Ok(std::vector<std::string>{});
 	}
 
 	// Schnittmenge bilden
 	auto keys = intersectSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, QueryEngine::KeysWithScores>
+Result<QueryEngine::KeysWithScores>
 QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithScores");
 	span.setAttribute("query.table", q.table);
@@ -458,11 +470,14 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	
 	// If no FULLTEXT predicate, delegate to standard method (no scores)
 	if (!q.fulltextPredicate.has_value()) {
-		auto [st, keys] = executeAndKeys(q);
+		auto keysResult = executeAndKeys(q);
+		if (!keysResult) {
+			return Err<KeysWithScores>(keysResult.error().code(), keysResult.error().context());
+		}
 		KeysWithScores result;
-		result.keys = std::move(keys);
+		result.keys = std::move(keysResult.value());
 		result.bm25_scores = std::make_shared<std::unordered_map<std::string, double>>();
-		return {st, std::move(result)};
+		return Ok(std::move(result));
 	}
 	
 	// FULLTEXT query: Extract scores
@@ -476,7 +491,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	auto [st, results] = secIdx_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
 	if (!st.ok) {
 		child.setStatus(false, st.message);
-		return {Status::Error(st.message), KeysWithScores{}};
+		return Err<KeysWithScores>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 	}
 	
 	// Build score map and key list
@@ -508,11 +523,12 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		structuralQuery.orderBy = q.orderBy;
 		
 		// Execute structural predicates
-		auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
-		if (!structStatus.ok) {
-			intersectSpan.setStatus(false, structStatus.message);
-			return {structStatus, KeysWithScores{}};
+		auto structResult = executeAndKeysRangeAware_(structuralQuery);
+		if (!structResult) {
+			intersectSpan.setStatus(false, structResult.error().context());
+			return Err<KeysWithScores>(structResult.error().code(), structResult.error().context());
 		}
+		auto structKeys = *structResult;
 		
 		// Intersect fulltext results with structural predicate results
 		tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
@@ -543,7 +559,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		KeysWithScores result;
 		result.keys = std::move(intersection);
 		result.bm25_scores = std::move(filteredScores);
-		return {Status::OK(), std::move(result)};
+		return Ok(std::move(result));
 	}
 	
 	// Standalone FULLTEXT (no additional predicates)
@@ -553,15 +569,16 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	KeysWithScores result;
 	result.keys = std::move(fulltextKeys);
 	result.bm25_scores = std::move(scoreMap);
-	return {Status::OK(), std::move(result)};
+	return Ok(std::move(result));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeAndKeys(q);
-	if (!st.ok) return {st, {}};
+	auto keysResult = executeAndKeys(q);
+	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	auto keys = std::move(keysResult.value());
 
 	// Paralleles Entity-Loading für große Ergebnismengen (Batch-Verarbeitung)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -610,7 +627,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 std::vector<std::string>
@@ -650,13 +667,23 @@ QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 	return result;
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeys");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
-	if (q.table.empty()) return {Status::Error("executeOrKeys: table darf nicht leer sein"), {}};
-	if (q.disjuncts.empty()) return {Status::Error("executeOrKeys: keine Disjunkte"), {}};
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"executeOrKeys: table darf nicht leer sein"
+		);
+	}
+	if (q.disjuncts.empty()) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"executeOrKeys: keine Disjunkte"
+		);
+	}
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
@@ -669,14 +696,15 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 			auto child = Tracer::startSpan("or.disjunct.execute");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
-			auto [st, keys] = executeAndKeys(disjunct);
-			if (!st.ok) {
-				THEMIS_ERROR("Parallel OR disjunct error: {}", st.message);
-				errors.push_back(st.message);
-				child.setStatus(false, st.message);
+			auto result = executeAndKeys(disjunct);
+			if (!result) {
+				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
+				errors.push_back(result.error().context());
+				child.setStatus(false, result.error().context());
 				return;
 			}
 			// Sort for later union
+			auto keys = *result;
 			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
@@ -686,23 +714,30 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	tg.wait();
 
 	if (!errors.empty()) {
-		return {Status::Error("executeOrKeys: " + errors.front()), {}};
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeOrKeys: " + errors.front()
+		);
 	}
 
 	// Union all result sets
 	auto keys = unionSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeysWithFallback");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
-	if (q.table.empty()) return {Status::Error("executeOrKeysWithFallback: table darf nicht leer sein"), {}};
-	if (q.disjuncts.empty()) return {Status::Error("executeOrKeysWithFallback: keine Disjunkte"), {}};
+	if (q.table.empty()) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: table darf nicht leer sein");
+	}
+	if (q.disjuncts.empty()) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: keine Disjunkte");
+	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
 	tbb::task_group tg;
@@ -712,12 +747,13 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
-			auto [st, keys] = executeAndKeysWithFallback(disjunct, optimize);
-			if (!st.ok) {
-				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", st.message);
-				child.setStatus(false, st.message);
+			auto result = executeAndKeysWithFallback(disjunct, optimize);
+			if (!result) {
+				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", result.error().message());
+				child.setStatus(false, result.error().message());
 				return; // Dieser Disjunkt liefert keine Ergebnisse
 			}
+			auto keys = std::move(*result);
 			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
@@ -729,15 +765,18 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	auto keys = unionSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntitiesWithFallback");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeOrKeysWithFallback(q, optimize);
-	if (!st.ok) return {st, {}};
+	auto result = executeOrKeysWithFallback(q, optimize);
+	if (!result) {
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
+	}
+	auto keys = std::move(*result);
 
 	// Parallel entity loading (analog zu executeOrEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -780,15 +819,18 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntities");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeOrKeys(q);
-	if (!st.ok) return {st, {}};
+	auto result = executeOrKeys(q);
+	if (!result) {
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
+	}
+	auto keys = *result;
 
 	// Parallel entity loading (same logic as executeAndEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -835,7 +877,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 Result<std::vector<std::string>>
@@ -1991,7 +2033,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	return out;
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithFallback");
 	span.setAttribute("query.table", q.table);
@@ -2003,7 +2045,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 		span.setAttribute("query.exec_mode", "full_scan");
 		span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(keys)};
+		return Ok(std::move(keys));
 	}
 	
 	// Try index-based path; on failure due to missing index, fallback to full scan
@@ -2030,12 +2072,15 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	if (!missingIndex) {
 		if (!q.rangePredicates.empty() || q.orderBy.has_value()) {
-			auto [st, keys] = executeAndKeysRangeAware_(q);
-			if (!st.ok) { span.setStatus(false, st.message); return {st, {}}; }
+			auto result = executeAndKeysRangeAware_(q);
+			if (!result) {
+				span.setStatus(false, result.error().message());
+				return Err<std::vector<std::string>>(result.error().code(), result.error().context());
+			}
 			span.setAttribute("query.exec_mode", "range_aware");
-			span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
+			span.setAttribute("query.result_count", static_cast<int64_t>(result->size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(keys)};
+			return Ok(std::move(*result));
 		}
 		if (optimize) {
 			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
@@ -2043,19 +2088,22 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			auto keysResult = executeAndKeysSequential(q.table, plan.orderedPredicates);
 			if (!keysResult) { 
 				span.setStatus(false, keysResult.error().message()); 
-				return {Status::Error(keysResult.error().message()), {}};
+				return Err<std::vector<std::string>>(keysResult.error().code(), keysResult.error().context());
 			}
 			span.setAttribute("query.exec_mode", "index_optimized");
 			span.setAttribute("query.result_count", static_cast<int64_t>(keysResult->size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(*keysResult)};
+			return Ok(std::move(*keysResult));
 		}
-		auto [st, keys] = executeAndKeys(q);
-		if (!st.ok) { span.setStatus(false, st.message); return {st, {}}; }
+		auto result = executeAndKeys(q);
+		if (!result) {
+			span.setStatus(false, result.error().message());
+			return Err<std::vector<std::string>>(result.error().code(), result.error().context());
+		}
 		span.setAttribute("query.exec_mode", "index_parallel");
-		span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
+		span.setAttribute("query.result_count", static_cast<int64_t>(result->size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(keys)};
+		return Ok(std::move(*result));
 	}
 
 	// Fallback: full scan (inkl. Range-Prädikate)
@@ -2063,15 +2111,18 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	span.setAttribute("query.exec_mode", "full_scan_fallback");
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(keys)};
+	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesWithFallback");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeAndKeysWithFallback(q, optimize);
-	if (!st.ok) return {st, {}};
+	auto result = executeAndKeysWithFallback(q, optimize);
+	if (!result) {
+		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
+	}
+	auto keys = std::move(*result);
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		auto blob = db_->get(q.table + ":" + pk);
@@ -2081,7 +2132,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 // ===== Range-aware Ausführung =====
@@ -2089,7 +2140,7 @@ namespace {
 static inline size_t bigLimit() { return static_cast<size_t>(1000000000ULL); }
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysRangeAware");
 	span.setAttribute("query.table", q.table);
@@ -2103,7 +2154,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
 		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
-		if (!st.ok) return {Status::Error(st.message), {}};
+		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
@@ -2113,7 +2164,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	// 2) Range-Prädikate
 	for (const auto& r : q.rangePredicates) {
 		if (!secIdx_->hasRangeIndex(q.table, r.column)) {
-			return {Status::Error("Missing range index for column: " + r.column), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Missing range index for column: " + r.column);
 		}
 		auto child = Tracer::startSpan("index.scanRange");
 		child.setAttribute("index.table", q.table);
@@ -2123,7 +2174,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("range.includeLower", r.includeLower);
 		child.setAttribute("range.includeUpper", r.includeUpper);
 		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
-		if (!st.ok) return {Status::Error(st.message), {}};
+		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
@@ -2143,7 +2194,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	if (q.orderBy.has_value()) {
 		const auto& ob = q.orderBy.value();
 		if (!secIdx_->hasRangeIndex(q.table, ob.column)) {
-			return {Status::Error("ORDER BY requires range index on column: " + ob.column), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "ORDER BY requires range index on column: " + ob.column);
 		}
 		// Bestimme Bounds aus passendem Range-Prädikat, falls vorhanden
 		std::optional<std::string> lb; std::optional<std::string> ub; bool il=true, iu=true;
@@ -2162,7 +2213,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			anchor = std::make_pair(ob.cursor_value.value(), ob.cursor_pk.value());
 		}
 		auto [st, scan] = secIdx_->scanKeysRangeAnchored(q.table, ob.column, lb, ub, il, iu, bigLimit(), ob.desc, anchor);
-		if (!st.ok) return {Status::Error(st.message), {}};
+		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		for (const auto& k : scan) {
 			if (!candSet.empty() && candSet.find(k) == candSet.end()) continue; // filter
 			ordered.push_back(k);
@@ -2170,19 +2221,20 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		}
 		span.setAttribute("query.ordered_count", static_cast<int64_t>(ordered.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(ordered)};
+		return Ok(std::move(ordered));
 	}
 	span.setAttribute("query.result_count", static_cast<int64_t>(candidates.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(candidates)};
+	return Ok(std::move(candidates));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesRangeAware");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeAndKeysRangeAware_(q);
-	if (!st.ok) return {st, {}};
+	auto keysResult = executeAndKeysRangeAware_(q);
+	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	auto& keys = *keysResult;
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		auto blob = db_->get(q.table + ":" + pk);
@@ -2192,7 +2244,7 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 // ============================================================================
@@ -2911,7 +2963,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
 );
 
 // Recursive Path Query Implementation (Multi-Hop Traversal with Temporal Support)
-std::pair<QueryEngine::Status, std::vector<std::vector<std::string>>>
+Result<std::vector<std::vector<std::string>>>
 QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeRecursivePathQuery");
 	span.setAttribute("query.start_node", q.start_node);
@@ -2919,11 +2971,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	span.setAttribute("query.max_depth", static_cast<int64_t>(q.max_depth));
 	
 	if (!graphIdx_) {
-		return {Status::Error("GraphIndexManager nicht verfügbar"), {}};
+		return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager nicht verfügbar");
 	}
 	
 	if (q.start_node.empty()) {
-		return {Status::Error("start_node darf nicht leer sein"), {}};
+		return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_INVALID_INPUT, "start_node darf nicht leer sein");
 	}
 	
 	// Dynamische Branching-Faktor Schätzung (Sampling über erste 2 Tiefen)
@@ -2969,7 +3021,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	if (gcr.estimatedExpandedVertices > ABORT_THRESHOLD) {
 		span.setAttribute("optimizer.graph.aborted", true);
 		span.setStatus(true);
-		return {Status::OK(), {}}; // leere Pfadliste als Schutz vor Explosion
+		return Ok(std::vector<std::vector<std::string>>{}); // leere Pfadliste als Schutz vor Explosion
 	}
 	// Temporal filter setup
 	std::optional<int64_t> timestamp_ms;
@@ -3012,7 +3064,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		// "No path found" is not an error, just an empty result
 		if (!st.ok && st.message.find("Kein Pfad gefunden") == std::string::npos) {
 			span.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		// Early exit: if shortestPath flag set (from AQL sugar) and path found, skip spatial filtering unless required
 		// bool needSpatial = q.spatial_constraint.has_value(); // unused currently
@@ -3021,7 +3073,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			allPaths.push_back({q.start_node});
 			span.setAttribute("query.path_count", static_cast<int64_t>(1));
 			span.setStatus(true);
-			return {Status::OK(), std::move(allPaths)};
+			return Ok(std::move(allPaths));
 		}
 		
 		// Graph + Geo: Apply spatial filter to path vertices
@@ -3115,7 +3167,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		
 		if (!st.ok) {
 			span.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
+			return Err<std::vector<std::vector<std::string>>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		}
 		
 		// Graph + Geo: Apply spatial filter to reachable nodes (early pruning)
@@ -3187,14 +3239,14 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	
 	span.setAttribute("query.path_count", static_cast<int64_t>(allPaths.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(allPaths)};
+	return Ok(std::move(allPaths));
 }
 
 // ============================================================================
 // General Graph Traversal (Non-Shortest Path)
 // ============================================================================
 
-std::pair<QueryEngine::Status, std::vector<TraversalResult>>
+Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
     const std::string& variable,
     const std::string& startVertex,
@@ -3210,16 +3262,16 @@ QueryEngine::executeGeneralTraversal(
 	span.setAttribute("query.graph_id", graphId);
 	
 	if (!graphIdx_) {
-		return {Status::Error("GraphIndexManager not available"), {}};
+		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager not available");
 	}
 	
 	if (startVertex.empty()) {
-		return {Status::Error("startVertex cannot be empty"), {}};
+		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_QUERY_INVALID_INPUT, "startVertex cannot be empty");
 	}
 	
 	if (minDepth < 0 || maxDepth < minDepth) {
-		return {Status::Error("Invalid depth range: minDepth=" + std::to_string(minDepth) + 
-		                      ", maxDepth=" + std::to_string(maxDepth)), {}};
+		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_QUERY_INVALID_INPUT, "Invalid depth range: minDepth=" + std::to_string(minDepth) + 
+		                      ", maxDepth=" + std::to_string(maxDepth));
 	}
 	
 	// Safety limit to prevent excessive memory consumption
@@ -3285,7 +3337,7 @@ QueryEngine::executeGeneralTraversal(
 			if (results.size() >= MAX_RESULTS) {
 				span.setAttribute("query.result_limit_reached", true);
 				span.setStatus(true);
-				return {Status::OK(), std::move(results)};
+				return Ok(std::move(results));
 			}
 		}
 		
@@ -3353,7 +3405,7 @@ QueryEngine::executeGeneralTraversal(
 	
 	span.setAttribute("query.result_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
 // ============================================================================
@@ -3498,7 +3550,7 @@ enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 }
 
 // Vector + Geo: Spatial-filtered ANN search
-std::pair<QueryEngine::Status, std::vector<QueryEngine::VectorGeoResult>>
+Result<std::vector<QueryEngine::VectorGeoResult>>
 QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeVectorGeoQuery");
 	span.setAttribute("query.table", q.table);
@@ -3602,7 +3654,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		if (!first) {
 			indexPrefilter = std::move(current);
 			span.setAttribute("index_prefilter_size", static_cast<int64_t>(indexPrefilter->size()));
-			if (indexPrefilter->empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
+			if (indexPrefilter->empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<VectorGeoResult>{}); }
 		}
 	}
 	
@@ -3619,7 +3671,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		if (vectorIdx_) {
 			// Falls Index-Prefilter vorhanden, als Whitelist verwenden
 			auto [st, vr] = vectorIdx_->searchKnn(q.query_vector, k, indexPrefilter ? &*indexPrefilter : nullptr);
-			if (!st.ok) return {Status::Error(st.message), {}};
+			if (!st.ok) return Err<std::vector<VectorGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 			// Lade Entities
 			std::vector<std::string> keys; keys.reserve(vr.size());
 			for (auto& r : vr) keys.push_back(q.table + ":" + r.pk);
@@ -3636,7 +3688,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				if (!ok) continue;
 				VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc); results.push_back(std::move(r));
 			}
-			return {Status::OK(), std::move(results)};
+			return Ok(std::move(results));
 		}
 		// Brute-force Scan
 		std::vector<std::pair<std::string,float>> tmp;
@@ -3675,7 +3727,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			}
 			results.push_back(std::move(r));
 		}
-		return {Status::OK(), std::move(results)};
+		return Ok(std::move(results));
 	}
 	
 	// Optional: choose plan when vector index is available
@@ -3766,7 +3818,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			child0.setStatus(true);
 			span.setAttribute("result_count", static_cast<int64_t>(results.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(results)};
+			return Ok(std::move(results));
 		}
 		// If vector-first failed, fall through to spatial-first plan
 	}
@@ -3882,7 +3934,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	if (spatialCandidates.empty()) {
 		span.setAttribute("result_count", static_cast<int64_t>(0));
 		span.setStatus(true);
-		return {Status::OK(), {}};
+		return Ok(std::vector<VectorGeoResult>{});
 	}
 	
 	// Phase 2: Vector search with whitelist
@@ -3913,7 +3965,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			child2.setStatus(true);
 			span.setAttribute("result_count", static_cast<int64_t>(results.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(results)};
+			return Ok(std::move(results));
 		} else {
 			THEMIS_WARN("VectorIndexManager::searchKnn failed: {}, falling back to brute-force", st.message);
 		}
@@ -3982,11 +4034,11 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	
 	span.setAttribute("result_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
 // Content + Geo: Fulltext + Spatial hybrid search
-std::pair<QueryEngine::Status, std::vector<QueryEngine::ContentGeoResult>>
+Result<std::vector<QueryEngine::ContentGeoResult>>
 QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeContentGeoQuery");
 	span.setAttribute("query.table", q.table);
@@ -3994,7 +4046,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 
 	std::vector<ContentGeoResult> results;
 	if (!q.spatial_filter) {
-		return {Status::Error("Content+Geo query requires spatial_filter"), {}};
+		return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Content+Geo query requires spatial_filter");
 	}
 
 	// Kostenmodell: wähle Reihenfolge (Fulltext->Spatial oder Spatial->Fulltext)
@@ -4019,9 +4071,9 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		// Phase 1: Fulltext search
 		auto child1 = Tracer::startSpan("phase1.fulltext_search");
 		auto [st, ftResults] = secIdx_->scanFulltextWithScores(q.table, q.text_field, q.fulltext_query, q.limit);
-		if (!st.ok) { child1.setStatus(false, st.message); span.setStatus(false, st.message); return {Status::Error(st.message), {}}; }
+		if (!st.ok) { child1.setStatus(false, st.message); span.setStatus(false, st.message); return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message); }
 		child1.setAttribute("fulltext_results", static_cast<int64_t>(ftResults.size())); child1.setStatus(true);
-		if (ftResults.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
+		if (ftResults.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<ContentGeoResult>{}); }
 		// Phase 2: Spatial filtering
 		auto child2 = Tracer::startSpan("phase2.spatial_filter");
 		std::vector<std::string> keys; keys.reserve(ftResults.size());
@@ -4053,7 +4105,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			}
 		}
 		childS.setAttribute("spatial_candidates", static_cast<int64_t>(spatialCandidates.size())); childS.setStatus(true);
-		if (spatialCandidates.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
+		if (spatialCandidates.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<ContentGeoResult>{}); }
 		// Fulltext-Evaluation (naiv) über Kandidaten: AND aller Tokens
 		auto childFT = Tracer::startSpan("phase2.fulltext_eval");
 		auto tokens = SecondaryIndexManager::tokenize(q.fulltext_query);
@@ -4080,7 +4132,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.bm25_score > b.bm25_score; });
 	}
 	if (results.size() > q.limit) results.resize(q.limit);
-	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return {Status::OK(), std::move(results)};
+	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return Ok(std::move(results));
 }
 
 // Phase 4.1: Execute CTEs and store results in context
@@ -4134,12 +4186,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
         } else if (translation.success && !translation.join.has_value() && !translation.disjunctive.has_value() && !translation.traversal.has_value()) {
             // Conjunctive query (default query field)
-            auto [status, entities] = executeAndEntitiesWithFallback(translation.query);
-            if (!status.ok) {
+            auto result = executeAndEntitiesWithFallback(translation.query);
+            if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' conjunctive execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' conjunctive execution failed: " + result.error().message());
             }
+            auto entities = std::move(*result);
             cte_results.reserve(entities.size());
             for (auto& entity : entities) {
                 cte_results.push_back(entity.toJson());
@@ -4147,12 +4200,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
         } else if (translation.disjunctive.has_value()) {
             // Disjunctive query
-            auto [status, entities] = executeOrEntitiesWithFallback(translation.disjunctive.value());
-            if (!status.ok) {
+            auto result = executeOrEntitiesWithFallback(translation.disjunctive.value());
+            if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' disjunctive execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' disjunctive execution failed: " + result.error().message());
             }
+            auto entities = std::move(*result);
             cte_results.reserve(entities.size());
             for (auto& entity : entities) {
                 cte_results.push_back(entity.toJson());
@@ -4166,12 +4220,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
 		} else if (translation.vector_geo.has_value()) {
             // Vector+Geo hybrid
-			auto [status, results] = executeVectorGeoQuery(translation.vector_geo.value());
-            if (!status.ok) {
+			auto vgResult = executeVectorGeoQuery(translation.vector_geo.value());
+            if (!vgResult) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' vector+geo execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' vector+geo execution failed: " + vgResult.error().message());
             }
+            auto& results = *vgResult;
             cte_results.reserve(results.size());
             for (auto& result : results) {
                 cte_results.push_back(result.entity);
@@ -4179,12 +4234,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
 		} else if (translation.content_geo.has_value()) {
             // Content+Geo hybrid
-			auto [status, results] = executeContentGeoQuery(translation.content_geo.value());
-            if (!status.ok) {
+			auto cgResult = executeContentGeoQuery(translation.content_geo.value());
+            if (!cgResult) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' content+geo execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' content+geo execution failed: " + cgResult.error().message());
             }
+            auto& results = *cgResult;
             cte_results.reserve(results.size());
             for (auto& result : results) {
                 cte_results.push_back(result.entity);

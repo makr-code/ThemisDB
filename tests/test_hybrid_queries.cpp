@@ -395,8 +395,9 @@ TEST_F(HybridQueriesTest, GraphGeo_SpatialConstrainedTraversal_GermanyOnly)
 
     q.spatial_constraint = sc;
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
 
     // Should reach Potsdam and Dresden, but NOT Paris
     ASSERT_GE(paths.size(), 1u);
@@ -445,8 +446,9 @@ TEST_F(HybridQueriesTest, GraphGeo_ShortestPathWithSpatialFilter_BerlinToDresden
     // DEBUG: Check if edges exist
     auto [adjSt, adj] = graphIdx->outAdjacency("locations/berlin");
 
-    auto [st, paths] = engine->executeRecursivePathQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeRecursivePathQuery(q);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    auto paths = std::move(*result);
 
     // Should find path: Berlin -> Potsdam -> Dresden
     ASSERT_EQ(paths.size(), 1u);

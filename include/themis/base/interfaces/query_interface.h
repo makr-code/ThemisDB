@@ -3,12 +3,17 @@
 #include <memory>
 #include <string>
 #include <optional>
+#include "utils/expected.h"
 
 namespace themis {
 
 /**
  * @brief Result of a query execution
+ * 
+ * @deprecated Use Result<T> pattern instead
+ * Kept for backward compatibility during migration
  */
+[[deprecated("Use Result<T> pattern instead")]]
 struct QueryResult {
     bool success = false;
     std::optional<std::string> error_message;
@@ -60,32 +65,35 @@ public:
      * @brief Execute a query
      * 
      * @param query Query string
-     * @return Query result with status and optional error message
+     * @return Result<std::string> with query output or error details
+     * 
+     * @note Legacy signature returning QueryResult is deprecated.
+     *       Implementations should migrate to Result<std::string>.
      */
-    virtual QueryResult execute(const std::string& query) = 0;
+    virtual Result<std::string> execute(const std::string& query) = 0;
     
     /**
      * @brief Validate a query without executing it
      * 
      * @param query Query string
-     * @return true if query is valid, false otherwise
+     * @return Result<void> - success if valid, error with details otherwise
      */
-    virtual bool validate(const std::string& query) const = 0;
+    virtual Result<void> validate(const std::string& query) const = 0;
     
     /**
      * @brief Create an expression evaluator
      * 
-     * @return Unique pointer to evaluator, or nullptr on error
+     * @return Result<std::unique_ptr<IExpressionEvaluator>> with evaluator or error
      */
-    virtual std::unique_ptr<IExpressionEvaluator> createExpressionEvaluator() const = 0;
+    virtual Result<std::unique_ptr<IExpressionEvaluator>> createExpressionEvaluator() const = 0;
     
     /**
      * @brief Generate execution plan explanation
      * 
      * @param query Query string
-     * @return Human-readable execution plan
+     * @return Result<std::string> with execution plan or error
      */
-    virtual std::string explainQuery(const std::string& query) const = 0;
+    virtual Result<std::string> explainQuery(const std::string& query) const = 0;
 };
 
 /// Shared pointer type for IQueryEngine
