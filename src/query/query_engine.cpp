@@ -2140,7 +2140,7 @@ namespace {
 static inline size_t bigLimit() { return static_cast<size_t>(1000000000ULL); }
 }
 
-std::pair<QueryEngine::Status, std::vector<std::string>>
+Result<std::vector<std::string>>
 QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysRangeAware");
 	span.setAttribute("query.table", q.table);
@@ -2154,7 +2154,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
 		auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
-		if (!st.ok) return {Status::Error(st.message), {}};
+		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
@@ -2164,7 +2164,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	// 2) Range-Prädikate
 	for (const auto& r : q.rangePredicates) {
 		if (!secIdx_->hasRangeIndex(q.table, r.column)) {
-			return {Status::Error("Missing range index for column: " + r.column), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "Missing range index for column: " + r.column);
 		}
 		auto child = Tracer::startSpan("index.scanRange");
 		child.setAttribute("index.table", q.table);
@@ -2174,7 +2174,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("range.includeLower", r.includeLower);
 		child.setAttribute("range.includeUpper", r.includeUpper);
 		auto [st, keys] = secIdx_->scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
-		if (!st.ok) return {Status::Error(st.message), {}};
+		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
@@ -2194,7 +2194,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	if (q.orderBy.has_value()) {
 		const auto& ob = q.orderBy.value();
 		if (!secIdx_->hasRangeIndex(q.table, ob.column)) {
-			return {Status::Error("ORDER BY requires range index on column: " + ob.column), {}};
+			return Err<std::vector<std::string>>(errors::ErrorCode::ERR_INDEX_NOT_FOUND, "ORDER BY requires range index on column: " + ob.column);
 		}
 		// Bestimme Bounds aus passendem Range-Prädikat, falls vorhanden
 		std::optional<std::string> lb; std::optional<std::string> ub; bool il=true, iu=true;
@@ -2213,7 +2213,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 			anchor = std::make_pair(ob.cursor_value.value(), ob.cursor_pk.value());
 		}
 		auto [st, scan] = secIdx_->scanKeysRangeAnchored(q.table, ob.column, lb, ub, il, iu, bigLimit(), ob.desc, anchor);
-		if (!st.ok) return {Status::Error(st.message), {}};
+		if (!st.ok) return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 		for (const auto& k : scan) {
 			if (!candSet.empty() && candSet.find(k) == candSet.end()) continue; // filter
 			ordered.push_back(k);
@@ -2221,19 +2221,20 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		}
 		span.setAttribute("query.ordered_count", static_cast<int64_t>(ordered.size()));
 		span.setStatus(true);
-		return {Status::OK(), std::move(ordered)};
+		return Ok(std::move(ordered));
 	}
 	span.setAttribute("query.result_count", static_cast<int64_t>(candidates.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(candidates)};
+	return Ok(std::move(candidates));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntitiesRangeAware");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeAndKeysRangeAware_(q);
-	if (!st.ok) return {st, {}};
+	auto keysResult = executeAndKeysRangeAware_(q);
+	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	auto& keys = *keysResult;
 	std::vector<BaseEntity> out; out.reserve(keys.size());
 	for (const auto& pk : keys) {
 		auto blob = db_->get(q.table + ":" + pk);
@@ -2243,7 +2244,7 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 // ============================================================================
@@ -3549,7 +3550,7 @@ enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 }
 
 // Vector + Geo: Spatial-filtered ANN search
-std::pair<QueryEngine::Status, std::vector<QueryEngine::VectorGeoResult>>
+Result<std::vector<QueryEngine::VectorGeoResult>>
 QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeVectorGeoQuery");
 	span.setAttribute("query.table", q.table);
@@ -3653,7 +3654,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		if (!first) {
 			indexPrefilter = std::move(current);
 			span.setAttribute("index_prefilter_size", static_cast<int64_t>(indexPrefilter->size()));
-			if (indexPrefilter->empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
+			if (indexPrefilter->empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<VectorGeoResult>{}); }
 		}
 	}
 	
@@ -3670,7 +3671,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		if (vectorIdx_) {
 			// Falls Index-Prefilter vorhanden, als Whitelist verwenden
 			auto [st, vr] = vectorIdx_->searchKnn(q.query_vector, k, indexPrefilter ? &*indexPrefilter : nullptr);
-			if (!st.ok) return {Status::Error(st.message), {}};
+			if (!st.ok) return Err<std::vector<VectorGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 			// Lade Entities
 			std::vector<std::string> keys; keys.reserve(vr.size());
 			for (auto& r : vr) keys.push_back(q.table + ":" + r.pk);
@@ -3687,7 +3688,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				if (!ok) continue;
 				VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc); results.push_back(std::move(r));
 			}
-			return {Status::OK(), std::move(results)};
+			return Ok(std::move(results));
 		}
 		// Brute-force Scan
 		std::vector<std::pair<std::string,float>> tmp;
@@ -3726,7 +3727,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			}
 			results.push_back(std::move(r));
 		}
-		return {Status::OK(), std::move(results)};
+		return Ok(std::move(results));
 	}
 	
 	// Optional: choose plan when vector index is available
@@ -3817,7 +3818,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			child0.setStatus(true);
 			span.setAttribute("result_count", static_cast<int64_t>(results.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(results)};
+			return Ok(std::move(results));
 		}
 		// If vector-first failed, fall through to spatial-first plan
 	}
@@ -3933,7 +3934,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	if (spatialCandidates.empty()) {
 		span.setAttribute("result_count", static_cast<int64_t>(0));
 		span.setStatus(true);
-		return {Status::OK(), {}};
+		return Ok(std::vector<VectorGeoResult>{});
 	}
 	
 	// Phase 2: Vector search with whitelist
@@ -3964,7 +3965,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			child2.setStatus(true);
 			span.setAttribute("result_count", static_cast<int64_t>(results.size()));
 			span.setStatus(true);
-			return {Status::OK(), std::move(results)};
+			return Ok(std::move(results));
 		} else {
 			THEMIS_WARN("VectorIndexManager::searchKnn failed: {}, falling back to brute-force", st.message);
 		}
@@ -4033,11 +4034,11 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	
 	span.setAttribute("result_count", static_cast<int64_t>(results.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(results)};
+	return Ok(std::move(results));
 }
 
 // Content + Geo: Fulltext + Spatial hybrid search
-std::pair<QueryEngine::Status, std::vector<QueryEngine::ContentGeoResult>>
+Result<std::vector<QueryEngine::ContentGeoResult>>
 QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeContentGeoQuery");
 	span.setAttribute("query.table", q.table);
@@ -4045,7 +4046,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 
 	std::vector<ContentGeoResult> results;
 	if (!q.spatial_filter) {
-		return {Status::Error("Content+Geo query requires spatial_filter"), {}};
+		return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "Content+Geo query requires spatial_filter");
 	}
 
 	// Kostenmodell: wähle Reihenfolge (Fulltext->Spatial oder Spatial->Fulltext)
@@ -4070,9 +4071,9 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		// Phase 1: Fulltext search
 		auto child1 = Tracer::startSpan("phase1.fulltext_search");
 		auto [st, ftResults] = secIdx_->scanFulltextWithScores(q.table, q.text_field, q.fulltext_query, q.limit);
-		if (!st.ok) { child1.setStatus(false, st.message); span.setStatus(false, st.message); return {Status::Error(st.message), {}}; }
+		if (!st.ok) { child1.setStatus(false, st.message); span.setStatus(false, st.message); return Err<std::vector<ContentGeoResult>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message); }
 		child1.setAttribute("fulltext_results", static_cast<int64_t>(ftResults.size())); child1.setStatus(true);
-		if (ftResults.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
+		if (ftResults.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<ContentGeoResult>{}); }
 		// Phase 2: Spatial filtering
 		auto child2 = Tracer::startSpan("phase2.spatial_filter");
 		std::vector<std::string> keys; keys.reserve(ftResults.size());
@@ -4104,7 +4105,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			}
 		}
 		childS.setAttribute("spatial_candidates", static_cast<int64_t>(spatialCandidates.size())); childS.setStatus(true);
-		if (spatialCandidates.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return {Status::OK(), {}}; }
+		if (spatialCandidates.empty()) { span.setAttribute("result_count", static_cast<int64_t>(0)); span.setStatus(true); return Ok(std::vector<ContentGeoResult>{}); }
 		// Fulltext-Evaluation (naiv) über Kandidaten: AND aller Tokens
 		auto childFT = Tracer::startSpan("phase2.fulltext_eval");
 		auto tokens = SecondaryIndexManager::tokenize(q.fulltext_query);
@@ -4131,7 +4132,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.bm25_score > b.bm25_score; });
 	}
 	if (results.size() > q.limit) results.resize(q.limit);
-	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return {Status::OK(), std::move(results)};
+	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return Ok(std::move(results));
 }
 
 // Phase 4.1: Execute CTEs and store results in context
@@ -4219,12 +4220,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
 		} else if (translation.vector_geo.has_value()) {
             // Vector+Geo hybrid
-			auto [status, results] = executeVectorGeoQuery(translation.vector_geo.value());
-            if (!status.ok) {
+			auto vgResult = executeVectorGeoQuery(translation.vector_geo.value());
+            if (!vgResult) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' vector+geo execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' vector+geo execution failed: " + vgResult.error().message());
             }
+            auto& results = *vgResult;
             cte_results.reserve(results.size());
             for (auto& result : results) {
                 cte_results.push_back(result.entity);
@@ -4232,12 +4234,13 @@ QueryEngine::Status QueryEngine::executeCTEs(
             
 		} else if (translation.content_geo.has_value()) {
             // Content+Geo hybrid
-			auto [status, results] = executeContentGeoQuery(translation.content_geo.value());
-            if (!status.ok) {
+			auto cgResult = executeContentGeoQuery(translation.content_geo.value());
+            if (!cgResult) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' content+geo execution failed: " + status.message);
+                return Status::Error("CTE '" + cte.name + "' content+geo execution failed: " + cgResult.error().message());
             }
+            auto& results = *cgResult;
             cte_results.reserve(results.size());
             for (auto& result : results) {
                 cte_results.push_back(result.entity);
