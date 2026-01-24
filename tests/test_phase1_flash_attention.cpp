@@ -260,19 +260,3 @@ TEST(FlashAttentionAcceptanceCriteria, AllCriteriaMet) {
 // ============================================================================
 // Main
 // ============================================================================
-
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    
-    // Run tests
-    int result = RUN_ALL_TESTS();
-    
-    // Summary
-    if (result == 0) {
-        std::cout << "\n✓ All Flash Attention tests PASSED\n";
-    } else {
-        std::cout << "\n✗ Some Flash Attention tests FAILED\n";
-    }
-    
-    return result;
-}

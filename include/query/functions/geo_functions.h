@@ -6,6 +6,11 @@
 #include <algorithm>
 #include <limits>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4100) // ctx unused in some inline functions
+#endif
+
 // Ensure M_PI is defined for portability
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -1162,3 +1167,7 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif

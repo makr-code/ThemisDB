@@ -41,8 +41,14 @@ This operations guide provides comprehensive documentation for deploying, managi
 - [Monitoring Guide](production/MONITORING.md) - Metrics, dashboards, and alerting
 - [Troubleshooting Guide](production/TROUBLESHOOTING.md) - Common issues and solutions
 
+### Operational Excellence
+- [Disaster Recovery Plan](production/DISASTER_RECOVERY.md) - DR procedures, RTO/RPO, backup strategies
+- [SLA Monitoring](production/SLA_MONITORING.md) - Service level agreements, Prometheus alerts, Grafana dashboards
+- [Auto-Scaling Guide](production/AUTOSCALING.md) - Kubernetes HPA/VPA, load balancer integration
+
 ### Security & Compliance
 - [Security Hardening](production/SECURITY.md) - Security best practices and configuration
+- [Compliance Checklists](production/CHECKLISTS/compliance.md) - SOC2, GDPR, HIPAA compliance
 - [Incident Response](production/CHECKLISTS/incident_response.md) - Structured incident handling
 - [Operational Compliance Checklist](production/CHECKLISTS/operational_compliance.md) - Monthly compliance verification
 

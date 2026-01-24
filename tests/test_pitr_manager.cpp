@@ -367,7 +367,4 @@ TEST_F(PITRManagerTest, ProgressElapsedTimeCalculation) {
     EXPECT_EQ(final_elapsed, progress.end_time_ms - progress.start_time_ms);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

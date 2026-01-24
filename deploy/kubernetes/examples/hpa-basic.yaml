@@ -1,0 +1,77 @@
+# Kubernetes Autoscaling for ThemisDB
+# Horizontal Pod Autoscaler (HPA) configuration
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: themisdb-hpa
+  namespace: themisdb
+  labels:
+    app: themisdb
+    component: autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: themisdb
+  
+  minReplicas: 2
+  maxReplicas: 10
+  
+  metrics:
+    # Scale based on CPU utilization
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    
+    # Scale based on memory utilization
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    
+    # Scale based on custom metric: requests per second
+    - type: Pods
+      pods:
+        metric:
+          name: themisdb_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "1000"
+    
+    # Scale based on custom metric: inference queue depth
+    - type: Pods
+      pods:
+        metric:
+          name: themisdb_inference_queue_depth
+        target:
+          type: AverageValue
+          averageValue: "50"
+  
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300  # Wait 5 minutes before scaling down
+      policies:
+        - type: Percent
+          value: 50  # Remove at most 50% of pods
+          periodSeconds: 60
+        - type: Pods
+          value: 2  # Remove at most 2 pods
+          periodSeconds: 60
+      selectPolicy: Min  # Use the policy that scales down the least
+    
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Scale up immediately
+      policies:
+        - type: Percent
+          value: 100  # Double the number of pods
+          periodSeconds: 15
+        - type: Pods
+          value: 4  # Add at most 4 pods
+          periodSeconds: 15
+      selectPolicy: Max  # Use the policy that scales up the most

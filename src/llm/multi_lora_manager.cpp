@@ -2536,26 +2536,6 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     
     // Fallback to static weights
     return schedule.static_weights;
-    // If no custom function and no transition duration, use static weights
-    // Weights should already be normalized to sum to 1.0
-    std::vector<float> final_weights = schedule.static_weights;
-    
-    // Verify weights are normalized (sum to ~1.0)
-    float weight_sum = 0.0f;
-    for (float w : final_weights) {
-        weight_sum += w;
-    }
-    
-    if (std::abs(weight_sum - 1.0f) > 1e-5f && weight_sum > 0.0f) {
-        // Normalize weights if they don't sum to 1.0
-        for (float& w : final_weights) {
-            w /= weight_sum;
-        }
-        spdlog::debug("Normalized scheduled weights for fusion {}: sum was {}, now 1.0", 
-                     fusion_id, weight_sum);
-    }
-    
-    return final_weights;
 }
 
 bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {

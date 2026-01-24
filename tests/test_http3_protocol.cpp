@@ -304,7 +304,4 @@ TEST(HTTP3ProtocolTest, QPackDynamicTableSize) {
 
 #endif // THEMIS_ENABLE_HTTP3
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

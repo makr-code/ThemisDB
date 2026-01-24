@@ -322,7 +322,4 @@ TEST_F(LLMValidatorTest, InvalidResponseWithMultipleIssues) {
     EXPECT_GT(result.errors.size(), 1);  // Should have multiple errors
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

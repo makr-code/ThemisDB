@@ -35,8 +35,8 @@ namespace fs = std::filesystem;
 class CrossFunctionalPluginQueryMetricsTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create test plugin directory
-        test_plugin_dir_ = "/tmp/themis_cross_func_plugins";
+        // Create test plugin directory in temp location
+        test_plugin_dir_ = fs::temp_directory_path() / "themis_cross_func_plugins";
         fs::create_directories(test_plugin_dir_);
         
         // Reset metrics
@@ -64,13 +64,13 @@ protected:
         manifest["description"] = "Test plugin for integration testing";
         manifest["library"] = name + ".so";
         
-        std::string path = test_plugin_dir_ + "/" + name + ".json";
-        std::ofstream file(path);
+        fs::path path = test_plugin_dir_ / (name + ".json");
+        std::ofstream file(path.string());
         file << manifest.dump(2);
         file.close();
     }
-    
-    std::string test_plugin_dir_;
+
+    fs::path test_plugin_dir_;
     std::unique_ptr<PluginManager> plugin_manager_;
 };
 
@@ -83,13 +83,15 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginDiscoveryWithMetrics) {
     
     // Create test plugins
     createTestPluginManifest("compute_plugin", PluginType::COMPUTE_BACKEND);
-    createTestPluginManifest("content_plugin", PluginType::CONTENT_PROCESSOR);
-    createTestPluginManifest("storage_plugin", PluginType::STORAGE_BACKEND);
+    createTestPluginManifest("content_plugin", PluginType::EMBEDDING);
+    createTestPluginManifest("storage_plugin", PluginType::BLOB_STORAGE);
     
     auto start = std::chrono::steady_clock::now();
     
-    EXPECT_NO_THROW({
-        size_t count = plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    auto discover = [&]() {
+        auto scan_result = plugin_manager_->scanPluginDirectory(test_plugin_dir_.string());
+        ASSERT_TRUE(scan_result.has_value());
+        size_t count = scan_result.value();
         
         auto end = std::chrono::steady_clock::now();
         auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -99,7 +101,8 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginDiscoveryWithMetrics) {
         // Record metrics for plugin discovery
         metrics.recordQuery("plugin_scan", duration_ms, count);
         metrics.recordIndexScan("plugin_index", count);
-    });
+    };
+    EXPECT_NO_THROW(discover());
     
     // Verify metrics
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -115,7 +118,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLoadingWithPerformanceMetric
         createTestPluginManifest(name, PluginType::COMPUTE_BACKEND);
     }
     
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     // Attempt to load plugins and track metrics
     for (int i = 0; i < 5; i++) {
@@ -123,7 +126,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLoadingWithPerformanceMetric
         
         auto start = std::chrono::steady_clock::now();
         
-        EXPECT_NO_THROW({
+        auto load_plugin = [&]() {
             auto result = plugin_manager_->loadPlugin(name);
             IThemisPlugin* plugin = result.has_value() ? *result : nullptr;
             
@@ -132,7 +135,8 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLoadingWithPerformanceMetric
             
             // Record load attempt metrics (will fail without real library)
             metrics.recordQuery("plugin_load_attempt", duration_ms, plugin ? 1 : 0);
-        });
+        };
+        EXPECT_NO_THROW(load_plugin());
     }
     
     // Verify load metrics
@@ -150,16 +154,16 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginQueryWithMetricsTracking) {
     // Create plugins of different types
     createTestPluginManifest("compute1", PluginType::COMPUTE_BACKEND);
     createTestPluginManifest("compute2", PluginType::COMPUTE_BACKEND);
-    createTestPluginManifest("content1", PluginType::CONTENT_PROCESSOR);
-    createTestPluginManifest("storage1", PluginType::STORAGE_BACKEND);
+    createTestPluginManifest("content1", PluginType::EMBEDDING);
+    createTestPluginManifest("storage1", PluginType::BLOB_STORAGE);
     
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     // Query plugins by type with metrics
     std::vector<PluginType> types = {
         PluginType::COMPUTE_BACKEND,
-        PluginType::CONTENT_PROCESSOR,
-        PluginType::STORAGE_BACKEND
+        PluginType::EMBEDDING,
+        PluginType::BLOB_STORAGE
     };
     
     for (auto type : types) {
@@ -188,7 +192,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginInfoRetrievalWithCacheMetric
         createTestPluginManifest("plugin" + std::to_string(i), PluginType::COMPUTE_BACKEND);
     }
     
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     // Query plugin info multiple times (simulating cache behavior)
     for (int round = 0; round < 3; round++) {
@@ -196,7 +200,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginInfoRetrievalWithCacheMetric
             std::string name = "plugin" + std::to_string(i);
             
             auto start = std::chrono::steady_clock::now();
-            auto info = plugin_manager_->getPluginInfo(name);
+            auto info = plugin_manager_->getManifest(name);
             auto end = std::chrono::steady_clock::now();
             auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
             
@@ -231,7 +235,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, ConcurrentPluginAccessWithMetrics)
         createTestPluginManifest("concurrent_plugin" + std::to_string(i), PluginType::COMPUTE_BACKEND);
     }
     
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     const int num_threads = 10;
     std::vector<std::thread> threads;
@@ -244,10 +248,10 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, ConcurrentPluginAccessWithMetrics)
                 auto start = std::chrono::steady_clock::now();
                 
                 // Query plugin info
-                auto info = plugin_manager_->getPluginInfo(name);
+                auto info = plugin_manager_->getManifest(name);
                 
                 // Check if loaded
-                bool loaded = plugin_manager_->isLoaded(name);
+                bool loaded = plugin_manager_->isPluginLoaded(name);
                 
                 auto end = std::chrono::steady_clock::now();
                 auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -281,17 +285,17 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginStatisticsWithMetricsExport)
     
     // Create various plugin types
     createTestPluginManifest("compute_plugin", PluginType::COMPUTE_BACKEND);
-    createTestPluginManifest("content_plugin", PluginType::CONTENT_PROCESSOR);
-    createTestPluginManifest("storage_plugin", PluginType::STORAGE_BACKEND);
-    createTestPluginManifest("security_plugin", PluginType::SECURITY_MODULE);
+    createTestPluginManifest("content_plugin", PluginType::EMBEDDING);
+    createTestPluginManifest("storage_plugin", PluginType::BLOB_STORAGE);
+    createTestPluginManifest("security_plugin", PluginType::CUSTOM);
     
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     auto start = std::chrono::steady_clock::now();
     
-    EXPECT_NO_THROW({
+    auto export_stats = [&]() {
         // Get plugin statistics
-        json stats = plugin_manager_->getStatistics();
+        auto stats = plugin_manager_->listPlugins();
         
         // Get metrics export
         std::string metrics_export = metrics.getPrometheusMetrics();
@@ -302,9 +306,10 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginStatisticsWithMetricsExport)
         // Record statistics gathering metrics
         metrics.recordQuery("get_plugin_statistics", duration_ms, stats.size());
         
-        EXPECT_TRUE(stats.is_object());
+        EXPECT_FALSE(stats.empty());
         EXPECT_FALSE(metrics_export.empty());
-    });
+    };
+    EXPECT_NO_THROW(export_stats());
 }
 
 // ============================================================================
@@ -318,14 +323,16 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLifecycleWithFullMetrics) {
     
     // Discovery phase
     auto t1 = std::chrono::steady_clock::now();
-    size_t count = plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    auto discovery = plugin_manager_->scanPluginDirectory(test_plugin_dir_.string());
+    ASSERT_TRUE(discovery.has_value());
+    size_t count = discovery.value();
     auto t2 = std::chrono::steady_clock::now();
     metrics.recordQuery("plugin_discovery", 
         std::chrono::duration<double, std::milli>(t2 - t1).count(), count);
     
     // Query phase
     t1 = std::chrono::steady_clock::now();
-    auto info = plugin_manager_->getPluginInfo("lifecycle_plugin");
+    auto info = plugin_manager_->getManifest("lifecycle_plugin");
     t2 = std::chrono::steady_clock::now();
     metrics.recordQuery("plugin_info_query",
         std::chrono::duration<double, std::milli>(t2 - t1).count(), 1);
@@ -340,7 +347,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginLifecycleWithFullMetrics) {
     
     // Check status phase
     t1 = std::chrono::steady_clock::now();
-    bool loaded = plugin_manager_->isLoaded("lifecycle_plugin");
+    bool loaded = plugin_manager_->isPluginLoaded("lifecycle_plugin");
     t2 = std::chrono::steady_clock::now();
     metrics.recordQuery("plugin_status_check",
         std::chrono::duration<double, std::milli>(t2 - t1).count(), loaded ? 1 : 0);
@@ -363,11 +370,11 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, MultiTypePluginQueryWithIndexMetri
         createTestPluginManifest("mixed_plugin" + std::to_string(i), type);
     }
     
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     // Query all plugins
     auto start = std::chrono::steady_clock::now();
-    auto all_plugins = plugin_manager_->getAllPlugins();
+    auto all_plugins = plugin_manager_->listPlugins();
     auto end = std::chrono::steady_clock::now();
     
     metrics.recordQuery("get_all_plugins",
@@ -401,13 +408,14 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginHotReloadWithMetrics) {
     auto& metrics = MetricsCollector::getInstance();
     
     createTestPluginManifest("reload_plugin", PluginType::COMPUTE_BACKEND);
-    plugin_manager_->scanPluginDirectory(test_plugin_dir_);
+    ASSERT_TRUE(plugin_manager_->scanPluginDirectory(test_plugin_dir_.string()).has_value());
     
     // Attempt reload multiple times with metrics
     for (int i = 0; i < 5; i++) {
         auto start = std::chrono::steady_clock::now();
         
-        bool result = plugin_manager_->reloadPlugin("reload_plugin");
+        auto reload_result = plugin_manager_->reloadPlugin("reload_plugin");
+        bool result = reload_result.has_value();
         
         auto end = std::chrono::steady_clock::now();
         auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -432,11 +440,12 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, PluginHotReloadWithMetrics) {
 TEST_F(CrossFunctionalPluginQueryMetricsTest, ErrorHandlingWithMetrics) {
     auto& metrics = MetricsCollector::getInstance();
     
-    EXPECT_NO_THROW({
+    auto error_flow = [&]() {
         // Query non-existent plugin
         auto start = std::chrono::steady_clock::now();
-        auto info = plugin_manager_->getPluginInfo("nonexistent");
+        auto info = plugin_manager_->getManifest("nonexistent");
         auto end = std::chrono::steady_clock::now();
+        (void)info;
         
         metrics.recordQuery("plugin_query_error",
             std::chrono::duration<double, std::milli>(end - start).count(), 0);
@@ -453,7 +462,8 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, ErrorHandlingWithMetrics) {
         
         EXPECT_EQ(plugin, nullptr);
         EXPECT_FALSE(result.has_value());
-    });
+    };
+    EXPECT_NO_THROW(error_flow());
     
     // Verify error metrics are tracked
     std::string prometheus_metrics = metrics.getPrometheusMetrics();
@@ -464,7 +474,4 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, ErrorHandlingWithMetrics) {
 // Main
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

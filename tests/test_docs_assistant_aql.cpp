@@ -475,10 +475,7 @@ TEST_F(DocsAssistantAQLTest, PerformanceCaching) {
 /**
  * @brief Main function
  */
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
 
 /**
  * ============================================================================

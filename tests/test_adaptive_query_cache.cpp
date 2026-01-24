@@ -303,8 +303,3 @@ TEST_F(AdaptiveQueryCacheTest, ConcurrentAccess) {
     EXPECT_GT(stats.l1_hits + stats.l2_hits + stats.l3_hits, 0);
     EXPECT_EQ(total_hits.load() + total_misses.load(), num_threads * ops_per_thread);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

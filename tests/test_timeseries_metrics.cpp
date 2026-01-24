@@ -180,7 +180,4 @@ TEST_F(TimeSeriesMetricsTest, TestErrorRecording) {
     EXPECT_NE(json.find("write_errors_total"), std::string::npos);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+

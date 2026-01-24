@@ -254,6 +254,7 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
     while (selected.size() < num_examples && !remaining.empty()) {
         double best_score = -1.0;
         size_t best_idx = 0;
+        double best_min_similarity = 1.0;
         
         for (size_t i = 0; i < remaining.size(); ++i) {
             // Compute minimum similarity to already selected examples
@@ -270,11 +271,12 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
             if (score > best_score) {
                 best_score = score;
                 best_idx = i;
+                best_min_similarity = min_similarity;
             }
         }
         
         // Store the diversity contribution for this selection
-        remaining[best_idx].diversity_score = config_.diversity_weight * (1.0 - min_similarity);
+        remaining[best_idx].diversity_score = config_.diversity_weight * (1.0 - best_min_similarity);
         
         selected.push_back(remaining[best_idx]);
         remaining.erase(remaining.begin() + best_idx);

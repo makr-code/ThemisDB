@@ -549,8 +549,9 @@ std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() {
         
         auto age_days = std::chrono::duration_cast<std::chrono::hours>(
             now - metadata.last_accessed).count() / 24;
+        auto threshold_days = static_cast<int64_t>(metadata.config.tier_down_after_days);
         
-        if (age_days >= metadata.config.tier_down_after_days) {
+        if (age_days >= threshold_days) {
             candidates.push_back(blob_id);
         }
     }
@@ -914,11 +915,13 @@ std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
 }
 
 void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
+    (void)blob;
     // Update distributed metadata store (etcd, etc.)
     // Simplified: no-op for now
 }
 
 void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) {
+    (void)blob_id;
     // Remove from distributed metadata store
     // Simplified: no-op for now
 }

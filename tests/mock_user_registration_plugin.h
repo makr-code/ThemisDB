@@ -38,7 +38,7 @@ public:
         data.roles.push_back("readonly");
         data.attributes = attributes;
         
-        return Result<UserRegistrationData>::Ok(data);
+        return data;
     }
     
     Result<UserRegistrationData> authenticateUser(
@@ -49,14 +49,14 @@ public:
     }
     
     Result<std::vector<UserRegistrationData>> syncUsers() override {
-        return Result<std::vector<UserRegistrationData>>::Ok({});
+        return std::vector<UserRegistrationData>{};
     }
     
     Result<UserRegistrationData> updateUser(const std::string& user_id) override {
         UserRegistrationData data;
         data.user_id = user_id;
         data.source = "mock";
-        return Result<UserRegistrationData>::Ok(data);
+        return data;
     }
 
 private:
