@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **API Versioning and Compatibility Strategy**: Comprehensive API versioning infrastructure
+  - **Accept-Version header** support for REST APIs to specify desired API version
+  - **API-Version response header** indicating the API version used to process the request
+  - **Deprecation tracking system** with automated warning headers (Deprecation, Sunset, Link)
+  - **24-month deprecation policy** ensuring backward compatibility and smooth migrations
+  - **gRPC version negotiation** via metadata (`api-version` key)
+  - **Version resolution** supporting formats: `v1.4.1`, `v1.4`, `v1`, `latest`
+  - **APIVersionManager** class for centralized version management
+  - **Compatibility matrix** documenting supported versions (v1.0.0 to v1.4.1)
+  - **Migration guide framework** with templates and best practices
+  - Comprehensive documentation:
+    - [API Versioning Strategy](docs/api/API_VERSIONING.md)
+    - [Deprecation Registry](docs/api/DEPRECATION_REGISTRY.md)
+    - [Migration Guides](docs/migration/README.md)
+    - [v1.3 to v1.4 Migration Guide](docs/migration/v1.3-to-v1.4.md)
+  - Updated proto files with API version metadata
+  - Related to #751 (API-Versionierung und Kompatibilitäts-Strategie)
 - **Query Result Pagination**: Comprehensive pagination support for query results with multiple strategies
   - **Cursor-based pagination** with expiration and versioning (1-hour TTL default)
   - **Keyset pagination** using ORDER BY values for O(log n) performance

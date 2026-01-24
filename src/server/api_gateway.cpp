@@ -1,7 +1,17 @@
 #include "server/api_gateway.h"
 #include "core/error_codes.h"
 #include <chrono>
+#include <ctime>
 #include <spdlog/spdlog.h>
+
+// Portable wrappers for tm <-> time_t conversions
+static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
+#ifdef _WIN32
+    gmtime_s(out, t);
+#else
+    gmtime_r(t, out);
+#endif
+}
 
 // Helper to create error responses
 namespace {
@@ -34,11 +44,13 @@ APIGateway::APIGateway(
     rate_limiter_(std::move(rate_limiter)),
     load_shedder_(std::move(load_shedder)),
     shard_router_(std::move(shard_router)),
-    metrics_(std::move(metrics))
+    metrics_(std::move(metrics)),
+    version_manager_(std::make_shared<APIVersionManager>())
 {
-    spdlog::info("APIGateway initialized: id={}, datacenter={}, sharding={}, federation={}",
+    spdlog::info("APIGateway initialized: id={}, datacenter={}, sharding={}, federation={}, versioning={}",
                  config_.gateway_id, config_.datacenter, 
-                 config_.enable_sharding, config_.enable_query_federation);
+                 config_.enable_sharding, config_.enable_query_federation,
+                 config_.enable_api_versioning);
     
     // Verify configuration
     if (config_.enable_sharding && !shard_router_) {
@@ -116,7 +128,13 @@ http::response<http::string_body> APIGateway::handleRequest(
                 break;
         }
         
-        // 6. Record metrics
+        // 6. Process API versioning
+        if (config_.enable_api_versioning) {
+            APIVersion version = processVersionHeaders(req, response);
+            addDeprecationHeaders(req, response, version);
+        }
+        
+        // 7. Record metrics
         auto end_time = std::chrono::steady_clock::now();
         auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             end_time - start_time).count();
@@ -498,6 +516,82 @@ void APIGateway::recordMetrics(
     // For now, just log
     spdlog::debug("Metric: {} {} duration_ms={}", metric_name, 
                  nlohmann::json(labels).dump(), duration_ms);
+}
+
+APIVersion APIGateway::processVersionHeaders(
+    const http::request<http::string_body>& req,
+    http::response<http::string_body>& response
+) {
+    if (!version_manager_) {
+        return APIVersion{1, 4, 1};
+    }
+    
+    // Parse Accept-Version header
+    std::string version_header;
+    auto it = req.find(APIHeaders::ACCEPT_VERSION);
+    if (it != req.end()) {
+        version_header = std::string(it->value());
+    }
+    
+    // Resolve version
+    APIVersion version = version_manager_->resolveVersion(version_header);
+    
+    // Add API-Version response header
+    response.set(APIHeaders::API_VERSION, version.toString());
+    
+    // Check if version is supported
+    if (!version_manager_->isVersionSupported(version)) {
+        spdlog::warn("Unsupported API version requested: {}", version.toString());
+        
+        if (config_.enforce_version_check) {
+            // Could reject the request here if enforcement is enabled
+            // For now, just log and proceed with current version
+        }
+    }
+    
+    return version;
+}
+
+void APIGateway::addDeprecationHeaders(
+    const http::request<http::string_body>& req,
+    http::response<http::string_body>& response,
+    const APIVersion& version
+) {
+    if (!version_manager_) {
+        return;
+    }
+    
+    // Extract endpoint path
+    std::string endpoint = std::string(req.target());
+    
+    // Check if endpoint is deprecated
+    auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);
+    if (!deprecation) {
+        return;
+    }
+    
+    // Add Deprecation header (RFC draft)
+    response.set(APIHeaders::DEPRECATION_WARNING, 
+                 "true; deprecated-version=\"" + deprecation->deprecated_in.toString() + 
+                 "\"; removal-version=\"" + deprecation->removed_in.toString() + "\"");
+    
+    // Add Sunset header (RFC 8594) with removal date
+    auto removal_time = std::chrono::system_clock::to_time_t(deprecation->removal_date);
+    std::tm removal_tm;
+    portable_gmtime_r_impl(&removal_time, &removal_tm);
+    char sunset_buf[100];
+    std::strftime(sunset_buf, sizeof(sunset_buf), "%a, %d %b %Y %H:%M:%S GMT", &removal_tm);
+    response.set(APIHeaders::SUNSET, sunset_buf);
+    
+    // Add Link header to migration guide
+    if (!deprecation->migration_guide_url.empty()) {
+        response.set(APIHeaders::LINK, 
+                     "<" + deprecation->migration_guide_url + ">; rel=\"deprecation\"");
+    }
+    
+    // Log deprecation warning
+    spdlog::warn("Deprecated endpoint accessed: {} (version {}), will be removed in version {}", 
+                 endpoint, version.toString(), deprecation->removed_in.toString());
 }
 
 } // namespace themis::server
