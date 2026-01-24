@@ -186,7 +186,9 @@ TEST(ConcurrencyRaceTest, ProducerConsumerPattern) {
         threads.emplace_back([&]() {
             while (!done.load(std::memory_order_acquire)) {
                 std::unique_lock<std::mutex> lock(queue_mutex);
-                cv.wait_for(lock, 10ms, [&]() { return !queue.empty() || done.load(); });
+                cv.wait_for(lock, 10ms, [&]() { 
+                    return !queue.empty() || done.load(std::memory_order_acquire); 
+                });
                 
                 if (!queue.empty()) {
                     volatile int item = queue.back();

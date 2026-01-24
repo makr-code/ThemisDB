@@ -55,8 +55,8 @@ TEST(NetworkProtocolChaosTest, RandomMessageFuzzing) {
     constexpr int NUM_FUZZ_ITERATIONS = 100;
     constexpr int MAX_MESSAGE_SIZE = 1024;
     
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // Use fixed seed for deterministic testing
+    std::mt19937 gen(12345);  // Fixed seed for reproducibility
     std::uniform_int_distribution<> size_dis(0, MAX_MESSAGE_SIZE);
     std::uniform_int_distribution<> byte_dis(0, 255);
     
