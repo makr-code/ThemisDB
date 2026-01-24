@@ -10,9 +10,11 @@
 #include "llm/lora_framework/gradient_utils.h"
 #include "llm/lora_framework/quantized_model.h"
 #include "llm/lora_framework/quantization.h"
+#if THEMIS_ENABLE_GPU
 #include "llm/lora_framework/gpu_data_loader.h"
 #include "llm/lora_framework/gpu_training_loop.h"
 #include "llm/lora_framework/gpu_lora_layers.h"
+#endif
 #include "llm/lora_framework/model_compatibility.h"
 #include "llm/lora_framework/resource_profiler.h"
 #include "llm/lora_framework/training_service_registry.h"
@@ -1209,6 +1211,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // GPU-Accelerated Training Integration
         // ===================================================================
+        #if THEMIS_ENABLE_GPU
         
         // Detect available GPU backend
         Device target_device = Device::cpu();
@@ -1402,10 +1405,19 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             {"resource_stats", resource_stats.toJSON()},
             {"compatibility_result", compat_result.toJSON()}
         };
+        #else
+        // GPU disabled at build-time; return an error
+        result.success = false;
+        result.error_message = "GPU training requested but built without GPU support";
+        spdlog::error("GPU training path invoked but THEMIS_ENABLE_GPU=OFF at build-time");
+        return result;
+        #endif
         
+        #if THEMIS_ENABLE_GPU
         spdlog::info("GPU-accelerated QLoRA training completed successfully");
         spdlog::info("  Final loss: {:.6f}", result.final_loss);
         spdlog::info("  GPU accelerated: {}", has_gpu);
+        #endif
         
     } catch (const std::exception& e) {
         result.success = false;

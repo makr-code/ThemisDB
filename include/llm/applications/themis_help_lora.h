@@ -156,6 +156,26 @@ public:
      * @return true if trained
      */
     bool isTrained() const;
+
+    /**
+     * @brief Check if the adapter is currently loaded
+     */
+    bool isAdapterLoaded() const;
+
+    /**
+     * @brief Reload the adapter after an update
+     */
+    bool reloadAdapter();
+
+    /**
+     * @brief Get current adapter version
+     */
+    std::string getAdapterVersion() const;
+
+    /**
+     * @brief Roll back to the previous adapter version
+     */
+    bool rollbackToPreviousVersion();
     
 private:
     /**

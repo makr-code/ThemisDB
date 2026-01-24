@@ -18,7 +18,7 @@ endif()
 
 # Content ingestion module
 if(NOT DEFINED THEMIS_ENABLE_CONTENT)
-    option(THEMIS_ENABLE_CONTENT "Enable content ingestion module" OFF)
+    option(THEMIS_ENABLE_CONTENT "Enable content ingestion module" ON)
 endif()
 
 # Display LLM features

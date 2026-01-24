@@ -6,6 +6,7 @@
 #include <atomic>
 #include <functional>
 #include <optional>
+#include <algorithm>
 #include <tbb/concurrent_hash_map.h>
 
 namespace themis {

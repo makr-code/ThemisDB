@@ -1,14 +1,6 @@
 #include "llm/grammar.h"
-#include <llama.h>
 #include <spdlog/spdlog.h>
 #include <utility>
-
-// Some llama.cpp builds may not expose grammar APIs in the headers; declare minimal prototypes.
-extern "C" {
-    struct llama_grammar;
-    llama_grammar* llama_grammar_init(const char* grammar_str, const char* root_symbol);
-    void llama_grammar_free(llama_grammar* grammar);
-}
 
 namespace themis {
 namespace llm {
@@ -34,10 +26,8 @@ Grammar::Grammar(const std::string& ebnf_text, const std::string& start_symbol)
 }
 
 Grammar::~Grammar() {
-    if (grammar_ != nullptr) {
-        llama_grammar_free(grammar_);
-        grammar_ = nullptr;
-    }
+    // No external resources to free when grammar support is unavailable
+    grammar_ = nullptr;
 }
 
 Grammar::Grammar(Grammar&& other) noexcept
@@ -52,11 +42,7 @@ Grammar::Grammar(Grammar&& other) noexcept
 Grammar& Grammar::operator=(Grammar&& other) noexcept {
     if (this != &other) {
         // Free existing grammar
-        if (grammar_ != nullptr) {
-            llama_grammar_free(grammar_);
-        }
-        
-        // Move from other
+        // Move from other (no external resources to free in this build)
         grammar_ = other.grammar_;
         ebnf_text_ = std::move(other.ebnf_text_);
         start_symbol_ = std::move(other.start_symbol_);
@@ -88,28 +74,11 @@ llama_grammar* Grammar::getHandle() const {
 }
 
 bool Grammar::compile() {
-    try {
-        // Parse EBNF grammar using llama.cpp
-        grammar_ = llama_grammar_init(
-            ebnf_text_.c_str(),
-            start_symbol_.c_str()
-        );
-        
-        if (!grammar_) {
-            error_ = "Failed to compile grammar: invalid EBNF syntax or start symbol";
-            spdlog::error("Grammar compilation failed for start symbol: {}", start_symbol_);
-            return false;
-        }
-        
-        spdlog::info("Grammar compiled successfully for start symbol: {}", start_symbol_);
-        return true;
-        
-    } catch (const std::exception& e) {
-        error_ = std::string("Exception during grammar compilation: ") + e.what();
-        spdlog::error("Grammar compilation exception: {}", error_);
-        grammar_ = nullptr;
-        return false;
-    }
+    // Grammar API from llama.cpp is not available in this build; keep object invalid
+    error_ = "Grammar support is unavailable (llama grammar API not present)";
+    spdlog::warn("Grammar compilation skipped: {}", error_);
+    grammar_ = nullptr;
+    return false;
 }
 
 } // namespace llm

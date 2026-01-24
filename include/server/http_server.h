@@ -55,7 +55,11 @@
 #include "server/classification_api_handler.h"
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
+#if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
+#else
+namespace themis { namespace server { class FeedbackAPIHandler; } }
+#endif
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/transaction_api_handler.h"

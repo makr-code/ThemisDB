@@ -102,12 +102,14 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/auth_middleware.h"
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
+#if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
-#include "server/schema_api_handler.h"
-#include "metadata/schema_manager.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
+#endif
+#include "server/schema_api_handler.h"
+#include "metadata/schema_manager.h"
 
 #ifdef THEMIS_ENABLE_HTTP2
 #include "server/http2_session.h"
@@ -727,6 +729,7 @@ HttpServer::HttpServer(
     }
     
     // Initialize Feedback API Handler
+#if THEMIS_ENABLE_LLM
     try {
         using namespace llm::lora;
         
@@ -777,6 +780,9 @@ HttpServer::HttpServer(
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
     }
+#else
+    feedback_api_handler_ = nullptr;
+#endif
 
     // Initialize SchemaManager and Schema API Handler
     try {
@@ -2254,6 +2260,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
             
+#if THEMIS_ENABLE_LLM
         // Feedback API routes
         case Route::FeedbackPost:
             if (feedback_api_handler_) {
@@ -2345,6 +2352,18 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Feedback API not available", req);
             }
             break;
+#else
+        case Route::FeedbackPost:
+        case Route::FeedbackGet:
+        case Route::FeedbackGetById:
+        case Route::FeedbackPut:
+        case Route::FeedbackDelete:
+        case Route::FeedbackAdapterGet:
+        case Route::FeedbackStatsGet:
+            response = makeErrorResponse(http::status::service_unavailable,
+                "Feedback API disabled (LLM feature off)", req);
+            break;
+#endif
             
         case Route::TransactionPost:
             response = transaction_api_->handleTransaction(req);

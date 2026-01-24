@@ -4,11 +4,13 @@
 #include "sharding/shard_topology.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <algorithm>
 #include <numeric>
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
+#include <fstream>
 #include <future>
 #include <set>
 

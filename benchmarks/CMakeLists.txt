@@ -79,7 +79,7 @@ else()
 endif()
 
 # Multi-LoRA Fusion Benchmarks (v1.5.0)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
     message(STATUS "Adding Multi-LoRA fusion benchmarks")
     
     add_executable(bench_multi_lora_fusion
@@ -124,11 +124,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
         COMMENT "Running Multi-LoRA fusion benchmarks..."
     )
 else()
-    message(STATUS "Multi-LoRA fusion benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fusion.cpp")
+    message(STATUS "Multi-LoRA fusion benchmarks skipped (LLM disabled or file missing)")
 endif()
 
 # LoRA Auto-Binding Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
     message(STATUS "Adding LoRA auto-binding benchmarks")
     
     add_executable(bench_lora_auto_binding
@@ -175,7 +175,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
     
     message(STATUS "  LoRA auto-binding: Auto-binding, context switching, caching, eviction")
 else()
-    message(STATUS "LoRA auto-binding benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_binding.cpp")
+    message(STATUS "LoRA auto-binding benchmarks skipped (LLM disabled or file missing)")
 endif()
 
 # ============================================================================
@@ -229,7 +229,7 @@ else()
 endif()
 
 # Fused LoRA Kernels Benchmarks (Issue #36)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_kernels.cpp" AND (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
     message(STATUS "Adding Fused LoRA Kernels benchmarks (CUDA/HIP)")
     
     add_executable(bench_fused_lora_kernels
@@ -271,7 +271,7 @@ else()
     if(NOT (THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP))
         message(STATUS "Fused LoRA kernels benchmarks skipped (CUDA/HIP not enabled)")
     else()
-        message(STATUS "Fused LoRA kernels benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_kernels.cpp")
+        message(STATUS "Fused LoRA kernels benchmarks skipped (LLM disabled or file missing)")
     endif()
 endif()
 
@@ -401,7 +401,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_
 endif()
 
 # 2.1 Multi-GPU LoRA Advanced Benchmarks (v1.5.0)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lora_advanced.cpp")
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lora_advanced.cpp")
     message(STATUS "Adding Multi-GPU LoRA Advanced benchmarks")
     
     add_executable(bench_multi_gpu_lora_advanced
@@ -436,6 +436,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lora_advanced.cpp")
     )
     
     message(STATUS "  Multi-GPU LoRA: resource-aware eviction, dynamic scheduling, migration")
+else()
+    message(STATUS "Multi-GPU LoRA Advanced benchmarks skipped (LLM disabled or file missing)")
 endif()
 
 # 3. Mixed Precision Performance Benchmarks
@@ -515,7 +517,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND (THEMIS_ENAB
 endif()
 
 # 5. Backend Comparison Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_comparison.cpp")
+if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_comparison.cpp")
     message(STATUS "Adding Backend Comparison benchmarks")
     
     add_executable(bench_backend_comparison
@@ -550,6 +552,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_comparison.cpp")
     )
     
     message(STATUS "  Backend Comparison: CUDA vs HIP vs Vulkan vs CPU")
+else()
+    message(STATUS "Backend Comparison benchmarks skipped (GPU disabled or file missing)")
 endif()
 
 # ============================================================================
@@ -604,28 +608,34 @@ endif()
 # Benchmark Utilities
 # ============================================================================
 
-# Custom target to run all benchmarks
-add_custom_target(run_benchmarks
-    COMMAND bench_lora_framework --benchmark_out=benchmark_results.json --benchmark_out_format=json
-    DEPENDS bench_lora_framework
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    COMMENT "Running all ThemisDB benchmarks..."
-)
+# Custom target to run all benchmarks (LLM-only when enabled)
+if(THEMIS_ENABLE_LLM)
+    add_custom_target(run_benchmarks
+        COMMAND bench_lora_framework --benchmark_out=benchmark_results.json --benchmark_out_format=json
+        DEPENDS bench_lora_framework
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running all ThemisDB benchmarks..."
+    )
+endif()
 
-# Custom target to run benchmarks with various filters
-add_custom_target(run_benchmarks_quick
-    COMMAND bench_lora_framework --benchmark_filter="Storage|Manager" --benchmark_min_time=0.1
-    DEPENDS bench_lora_framework
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    COMMENT "Running quick benchmarks..."
-)
+# Custom target to run benchmarks with various filters (LLM-only when enabled)
+if(THEMIS_ENABLE_LLM)
+    add_custom_target(run_benchmarks_quick
+        COMMAND bench_lora_framework --benchmark_filter="Storage|Manager" --benchmark_min_time=0.1
+        DEPENDS bench_lora_framework
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running quick benchmarks..."
+    )
+endif()
 
-add_custom_target(run_benchmarks_detailed
-    COMMAND bench_lora_framework --benchmark_repetitions=10 --benchmark_report_aggregates_only=true
-    DEPENDS bench_lora_framework
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    COMMENT "Running detailed benchmarks with statistics..."
-)
+if(THEMIS_ENABLE_LLM)
+    add_custom_target(run_benchmarks_detailed
+        COMMAND bench_lora_framework --benchmark_repetitions=10 --benchmark_report_aggregates_only=true
+        DEPENDS bench_lora_framework
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running detailed benchmarks with statistics..."
+    )
+endif()
 
 # ============================================================================
 # Knowledge Gap Detector Phase 2 Benchmarks (NEW)

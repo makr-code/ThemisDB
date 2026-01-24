@@ -1190,7 +1190,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/index_api_handler.cpp
     ../src/server/timeseries_api_handler.cpp
     ../src/server/entity_api_handler.cpp
-    ../src/server/content_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
     ../src/server/wal_api_handler.cpp
     ../src/server/audit_api_handler.cpp
@@ -1246,6 +1246,7 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/temporal_conflict_resolver.cpp
     
     ../src/timeseries/timeseries.cpp
+    ../src/timeseries/timeseries_metrics.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp
     ../src/timeseries/retention.cpp
@@ -1311,9 +1312,12 @@ set(THEMIS_CORE_SOURCES
     ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
+    ../src/security/binary_manifest.cpp
+    ../src/security/manifest_signer.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
@@ -1368,6 +1372,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/replica_topology.cpp
     ../src/sharding/multi_primary_coordinator.cpp
     ../src/sharding/health_monitor.cpp
+    ../src/sharding/shard_durability.cpp
     ../src/sharding/truetime.cpp
     ../src/sharding/distributed_transaction.cpp
     ../src/sharding/redundancy_strategy.cpp
@@ -1539,11 +1544,23 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/prompt_manager.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
+    ../src/llm/adapter_load_balancer.cpp
+    ../src/llm/lora_framework/resource_profiler.cpp
+    ../src/llm/lora_framework/model_compatibility.cpp
+    ../src/llm/lora_framework/embedding_provider.cpp
+    ../src/llm/llm_model_audit_logger.cpp
+    ../src/llm/llama_lora_adapter_stub.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    )
+
+    # Test utilities linked for LLM integration tests
+    list(APPEND THEMIS_CORE_SOURCES
+    ../tests/utils/raid_simulator.cpp
+    ../tests/utils/shard_failure_injector.cpp
     )
     # Note: rag_judge.cpp will be added in a future phase
 endif()
@@ -1833,6 +1850,7 @@ target_link_libraries(themis_core
     OpenSSL::SSL
     OpenSSL::Crypto
     TBB::tbb
+    $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
 
 if(WIN32)
@@ -2215,6 +2233,9 @@ if(THEMIS_ENABLE_LLM)
         # QLoRA quantization support
         ../src/llm/lora_framework/quantization.cpp            # NF4/INT8 quantization (CPU)
         ../src/llm/lora_framework/quantized_model.cpp         # Quantized model management
+        ../src/llm/distributed_training_coordinator.cpp       # Coordinator implementation (link fixes)
+        ../src/llm/applications/themis_help_lora.cpp          # Themis Help LoRA app (link fixes)
+        ../src/llm/security/signature_verifier.cpp            # LLM signature verification
         
         # Dynamic batch size adaptation (Issue #39)
         ../src/llm/lora_framework/adaptive_batcher.cpp        # Adaptive batch sizing for optimal GPU utilization
@@ -2325,6 +2346,8 @@ if(THEMIS_ENABLE_LLM)
         # Include headers for llama.cpp
         if(DEFINED LLAMA_SRC_DIR)
             target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/include)
+            # Access internal llama grammar headers when needed
+            target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/src)
         endif()
         message(STATUS "LLM Plugin: Linked llama.cpp library")
     else()

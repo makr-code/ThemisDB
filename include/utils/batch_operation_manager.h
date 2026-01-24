@@ -141,7 +141,7 @@ private:
     BatchProcessor processor_;
     
     // Queue for pending items
-    std::mutex queue_mutex_;
+    mutable std::mutex queue_mutex_;
     std::condition_variable queue_cv_;
     std::queue<T> pending_queue_;
     

@@ -34,10 +34,12 @@ bool ShardDurability::initialize() {
     }
     
     // Create checkpoint manager
-    rocksdb::Status status = rocksdb::Checkpoint::Create(db_, &checkpoint_manager_);
+    rocksdb::Checkpoint* cp_raw = nullptr;
+    rocksdb::Status status = rocksdb::Checkpoint::Create(db_->GetBaseDB(), &cp_raw);
     if (!status.ok()) {
         return false;
     }
+    checkpoint_manager_.reset(cp_raw);
     
     // Create checkpoint directory if needed
     if (!config_.checkpoint_dir.empty()) {

@@ -19,32 +19,6 @@ namespace applications {
 using json = nlohmann::json;
 using namespace themis::llm::lora;
 
-// ═══════════════════════════════════════════════════════════
-// Internal Types
-// ═══════════════════════════════════════════════════════════
-
-/**
- * @brief Internal feedback item for buffering
- * 
- * This is a simplified version used for temporary in-memory buffering
- * before training. The full FeedbackStore::FeedbackEntry is used for
- * persistent storage with additional fields like validation status,
- * training batch ID, and metadata.
- * 
- * Uses FeedbackType from feedback_store.h for consistency.
- */
-struct FeedbackItem {
-    std::string question;           ///< User question
-    std::string answer;             ///< System-generated answer
-    std::string correction;         ///< User correction (for negative feedback)
-    FeedbackType feedback_type;     ///< POSITIVE or NEGATIVE (from themis::llm::FeedbackType)
-    std::chrono::system_clock::time_point timestamp;  ///< When feedback was collected
-};
-
-// ═══════════════════════════════════════════════════════════
-// Implementation Details
-// ═══════════════════════════════════════════════════════════
-
 class ThemisHelpLoRA::Impl {
 public:
     // Configuration
@@ -72,21 +46,16 @@ public:
     {
         // Initialize orchestrator
         lora::LoRAOrchestrator::Config orch_config;
-        orch_config.db = config.db;
-        orch_config.blob_manager = config.blob_manager;
-        orch_config.enable_encryption = true;
-        orch_config.enable_signatures = true;
-        
         orchestrator = std::make_shared<lora::LoRAOrchestrator>(orch_config);
         
-        // Initialize audit loggers
+        // Initialize audit loggers with available config fields
         utils::AuditLoggerConfig audit_config;
-        audit_config.log_file = "logs/themis_help_lora_audit.jsonl";
-        audit_config.enable_encryption = true;
+        audit_config.log_path = "logs/themis_help_lora_audit.jsonl";
+        audit_config.encrypt_then_sign = true;
         
         lora_audit = std::make_shared<lora::LoRAAuditLogger>(audit_config);
         
-        audit_config.log_file = "logs/themis_help_llm_audit.jsonl";
+        audit_config.log_path = "logs/themis_help_llm_audit.jsonl";
         llm_audit = std::make_shared<LLMModelAuditLogger>(audit_config);
         
         // Initialize LlamaWrapper for LLM inference
@@ -181,17 +150,6 @@ public:
                 auto llm_response = llama_wrapper->generate(request);
                 response = llm_response.text;
                 
-                // Log inference audit
-                llm_audit->logInference(
-                    config.base_model_id,
-                    request.lora_adapter_id.value_or("none"),
-                    question,
-                    response,
-                    user_id,
-                    llm_response.tokens_generated,
-                    llm_response.inference_time_ms
-                );
-                
                 spdlog::debug("LLM inference completed: {} tokens in {:.2f}ms",
                              llm_response.tokens_generated, llm_response.inference_time_ms);
             } else {
@@ -280,6 +238,7 @@ void ThemisHelpLoRA::addPositiveFeedback(
     FeedbackItem item;
     item.question = question;
     item.answer = answer;
+    item.user_id = user_id;
     item.feedback_type = FeedbackType::POSITIVE;
     item.timestamp = std::chrono::system_clock::now();
     
@@ -300,6 +259,7 @@ void ThemisHelpLoRA::addNegativeFeedback(
     item.question = question;
     item.answer = answer;
     item.correction = correction;
+    item.user_id = user_id;
     item.feedback_type = FeedbackType::NEGATIVE;
     item.timestamp = std::chrono::system_clock::now();
     
@@ -308,71 +268,66 @@ void ThemisHelpLoRA::addNegativeFeedback(
     spdlog::info("Negative feedback with correction: {} (user: {})", question, user_id);
 }
 
-lora::TrainingResult ThemisHelpLoRA::trainFromFeedback() {
+bool ThemisHelpLoRA::trainFromFeedback() {
     std::lock_guard<std::mutex> lock(impl_->feedback_mutex);
-    
-    TrainingResult result;
-    result.adapter_id = impl_->config.adapter_id;
-    
+
     if (impl_->feedback_buffer.empty()) {
         spdlog::warn("No feedback available for training");
-        result.success = false;
-        result.error_message = "No feedback available";
-        return result;
+        return false;
     }
-    
+
     spdlog::info("Starting training from {} feedback items", impl_->feedback_buffer.size());
-    
+
     auto start = std::chrono::system_clock::now();
-    
+
     try {
         // Log training started
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_STARTED,
             impl_->config.adapter_id,
-            impl_->config.base_model_id,
             static_cast<int>(impl_->feedback_buffer.size()),
+            0.0f,
             0.0f,
             {{"source", "user_feedback"}}
         );
-        
+
         // TODO: Implement actual training via LoRA training service
         // This should call lora_trainer_->train(training_config) with the feedback buffer
         spdlog::warn("Training skipped: LoRA training implementation pending");
-        
+
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        
+
         // Increment version
         impl_->current_adapter_version = incrementVersion(impl_->current_adapter_version);
         impl_->is_trained = true;
-        
+
         size_t num_samples = impl_->feedback_buffer.size();
-        
+
         // Clear feedback buffer
         impl_->feedback_buffer.clear();
-        
+
         // Log training completed
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
-            impl_->config.base_model_id,
             static_cast<int>(num_samples),
             0.85f,  // Simulated final loss
+            0.0f,
             {
                 {"source", "user_feedback"},
                 {"new_version", impl_->current_adapter_version},
                 {"duration_ms", duration.count()}
             }
         );
-        
+
         // Reload adapter in LlamaWrapper after training
         if (impl_->llama_wrapper && impl_->orchestrator->isLoaded(impl_->config.adapter_id)) {
             spdlog::info("Reloading adapter {} after training", impl_->config.adapter_id);
-            
+
             // Unload current adapter
             impl_->orchestrator->unloadAdapter(impl_->config.adapter_id, false);
-            
+
             // Reload with new weights
             std::string job_id = impl_->orchestrator->loadAdapter(impl_->config.adapter_id, false);
             if (job_id.empty()) {
@@ -381,84 +336,75 @@ lora::TrainingResult ThemisHelpLoRA::trainFromFeedback() {
                 spdlog::info("Adapter reloaded successfully: {}", impl_->config.adapter_id);
             }
         }
-        
+
         spdlog::info("Training completed. New version: {}", impl_->current_adapter_version);
-        
-        result.success = true;
-        result.version = impl_->current_adapter_version;
-        result.training_time = duration;
-        
+        return true;
+
     } catch (const std::exception& e) {
         spdlog::error("Training failed: {}", e.what());
-        
+
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_FAILED,
             impl_->config.adapter_id,
-            impl_->config.base_model_id,
             static_cast<int>(impl_->feedback_buffer.size()),
+            0.0f,
             0.0f,
             {
                 {"error", e.what()}
             }
         );
-        
-        result.success = false;
-        result.error_message = e.what();
+
+        return false;
     }
-    
-    return result;
 }
 
-lora::TrainingResult ThemisHelpLoRA::trainFromDocumentation() {
-    TrainingResult result;
-    result.adapter_id = impl_->config.adapter_id;
-    
+bool ThemisHelpLoRA::trainFromDocumentation() {
     spdlog::info("Starting training from documentation corpus");
-    
+
     auto start = std::chrono::system_clock::now();
-    
+
     try {
         // Log training started
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_STARTED,
             impl_->config.adapter_id,
-            impl_->config.base_model_id,
             1151,  // Documentation count from requirements
+            0.0f,
             0.0f,
             {{"source", "documentation_corpus"}}
         );
-        
+
         // TODO: Implement actual documentation corpus training
         // This should process the 1151 documentation files and train the adapter
         spdlog::warn("Documentation training skipped: Implementation pending");
         spdlog::info("Would process 1151 documentation files for training");
-        
+
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-        
+
         impl_->is_trained = true;
-        
+
         // Log training completed
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
-            impl_->config.base_model_id,
             1151,
             0.78f,  // Simulated final loss
+            0.0f,
             {
                 {"source", "documentation_corpus"},
                 {"version", impl_->current_adapter_version},
                 {"duration_ms", duration.count()}
             }
         );
-        
+
         // Reload adapter after training
         if (impl_->llama_wrapper && impl_->orchestrator->isLoaded(impl_->config.adapter_id)) {
             spdlog::info("Reloading adapter {} after documentation training", impl_->config.adapter_id);
-            
+
             // Unload current adapter
             impl_->orchestrator->unloadAdapter(impl_->config.adapter_id, false);
-            
+
             // Reload with new weights
             std::string job_id = impl_->orchestrator->loadAdapter(impl_->config.adapter_id, false);
             if (job_id.empty()) {
@@ -467,30 +413,24 @@ lora::TrainingResult ThemisHelpLoRA::trainFromDocumentation() {
                 spdlog::info("Adapter reloaded successfully: {}", impl_->config.adapter_id);
             }
         }
-        
+
         spdlog::info("Documentation training completed");
-        
-        result.success = true;
-        result.version = impl_->current_adapter_version;
-        result.training_time = duration;
-        
+        return true;
+
     } catch (const std::exception& e) {
         spdlog::error("Documentation training failed: {}", e.what());
-        
+
         impl_->lora_audit->logTraining(
             lora::LoRAAuditEventType::TRAINING_FAILED,
             impl_->config.adapter_id,
-            impl_->config.base_model_id,
             1151,
+            0.0f,
             0.0f,
             {{"error", e.what()}}
         );
-        
-        result.success = false;
-        result.error_message = e.what();
+
+        return false;
     }
-    
-    return result;
 }
 
 PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
