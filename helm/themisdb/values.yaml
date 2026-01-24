@@ -89,6 +89,55 @@ tolerations: []
 
 affinity: {}
 
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+  # Custom metrics for advanced scaling
+  customMetrics: []
+  #  - type: Pods
+  #    pods:
+  #      metric:
+  #        name: themisdb_requests_per_second
+  #      target:
+  #        type: AverageValue
+  #        averageValue: "1000"
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+        - type: Pods
+          value: 4
+          periodSeconds: 15
+      selectPolicy: Max
+
+# Vertical Pod Autoscaler
+vpa:
+  enabled: false
+  updateMode: "Auto"  # Options: Off, Initial, Recreate, Auto
+  minAllowed:
+    cpu: 500m
+    memory: 1Gi
+  maxAllowed:
+    cpu: 8
+    memory: 32Gi
+
 # ThemisDB specific configuration
 themisdb:
   # Log level: trace, debug, info, warn, error

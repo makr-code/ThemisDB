@@ -709,6 +709,380 @@ sudo systemctl start themisdb
 
 ---
 
+## Upgrade Procedures
+
+### Zero-Downtime Rolling Upgrade
+
+**Prerequisites:**
+- New version tested in staging
+- Backup completed
+- Rollback plan prepared
+
+**Procedure:**
+
+```bash
+# 1. Pre-upgrade checks
+themisdb-cli version check --target v1.4.1
+themisdb-cli health --full
+themisdb-cli backup create --type full --label "pre-upgrade-v1.4.1"
+
+# 2. Enable maintenance mode (optional, for major upgrades)
+themisdb-cli maintenance enable --mode soft  # Allows existing jobs to complete
+
+# 3. Upgrade coordinator first
+themisdb-cli upgrade coordinator \
+  --version v1.4.1 \
+  --strategy rolling \
+  --wait-for-health
+
+# Expected output:
+# ✓ Downloaded version v1.4.1
+# ✓ Backup created
+# ✓ Stopping coordinator (graceful)
+# ✓ Installing v1.4.1
+# ✓ Starting coordinator
+# ✓ Health check passed
+# Coordinator upgraded successfully
+
+# 4. Upgrade workers (one at a time)
+for worker in worker-1 worker-2 worker-3; do
+  echo "Upgrading $worker..."
+  
+  # Drain worker
+  themisdb-cli node drain $worker --timeout 10m
+  
+  # Upgrade
+  themisdb-cli upgrade node $worker \
+    --version v1.4.1 \
+    --wait-for-health
+  
+  # Verify
+  themisdb-cli node health $worker
+  
+  # Re-enable
+  themisdb-cli node enable $worker
+  
+  # Wait for stability before next node
+  sleep 60
+done
+
+# 5. Verify cluster after upgrade
+themisdb-cli cluster status
+themisdb-cli version --all-nodes
+
+# Expected output:
+# Coordinator: v1.4.1
+# Worker-1: v1.4.1
+# Worker-2: v1.4.1
+# Worker-3: v1.4.1
+# Cluster Status: HEALTHY
+
+# 6. Run post-upgrade tests
+themisdb-cli test upgrade-validation
+
+# 7. Disable maintenance mode
+themisdb-cli maintenance disable
+
+# 8. Monitor for issues
+themisdb-cli monitor --duration 2h --alert-on-anomaly
+```
+
+**Rollback Procedure:**
+
+```bash
+# If upgrade fails, rollback immediately
+
+# 1. Stop upgraded nodes
+themisdb-cli cluster pause
+
+# 2. Restore from backup
+themisdb-cli restore \
+  --backup pre-upgrade-v1.4.1 \
+  --verify
+
+# 3. Restart cluster with previous version
+themisdb-cli cluster restart --force-version v1.4.0
+
+# 4. Verify rollback
+themisdb-cli health --full
+themisdb-cli version --all-nodes
+
+# 5. Investigate upgrade failure
+themisdb-cli logs --component upgrade --last 1000
+```
+
+### In-Place Upgrade (Single Node)
+
+```bash
+# For single-node deployments with planned downtime
+
+# 1. Announce downtime
+themisdb-cli maintenance announce \
+  --start "2026-01-25 02:00:00 UTC" \
+  --duration 1h
+
+# 2. Stop all jobs gracefully
+themisdb-cli jobs stop-all --graceful --timeout 10m
+
+# 3. Backup
+themisdb-cli backup create --type full
+
+# 4. Stop service
+sudo systemctl stop themisdb
+
+# 5. Upgrade
+sudo apt update && sudo apt install themisdb=1.4.1
+# OR
+docker pull themisdb/themisdb:v1.4.1
+
+# 6. Run database migrations (if needed)
+themisdb-cli db migrate --version v1.4.1
+
+# 7. Start service
+sudo systemctl start themisdb
+
+# 8. Verify
+themisdb-cli health --full
+themisdb-cli version
+
+# 9. Resume operations
+themisdb-cli maintenance complete
+```
+
+### GPU Driver Upgrade
+
+```bash
+# Critical: GPU driver upgrades require careful planning
+
+# 1. Check compatibility
+themisdb-cli gpu driver-compatibility --target-driver 535.129.03
+
+# 2. Test on one GPU first
+themisdb-cli gpu maintenance --device 0
+
+# 3. Upgrade driver
+sudo apt install nvidia-driver-535
+# OR
+sudo nvidia-installer --update
+
+# 4. Reboot (may be required)
+sudo reboot
+
+# 5. Verify GPU
+nvidia-smi
+themisdb-cli gpu test --device 0
+
+# 6. Bring GPU back online
+themisdb-cli gpu enable --device 0
+
+# 7. Repeat for remaining GPUs
+```
+
+---
+
+## Failover Procedures
+
+### Automatic Failover (Hot Spare)
+
+**Configuration:**
+
+```yaml
+# /etc/themisdb/failover.yaml
+failover:
+  enabled: true
+  mode: hot_spare
+  
+  primary:
+    id: primary-node
+    host: 192.168.1.100
+    priority: 100
+  
+  hot_spare:
+    id: spare-node
+    host: 192.168.1.101
+    priority: 90
+  
+  detection:
+    heartbeat_interval: 5s
+    failure_threshold: 3
+    health_check_timeout: 30s
+  
+  takeover:
+    automatic: true
+    delay: 10s  # Prevent flapping
+    sync_timeout: 60s
+  
+  recovery:
+    automatic_fallback: true
+    fallback_delay: 300s  # Wait 5 min after primary recovers
+```
+
+**Enable Failover:**
+
+```bash
+# 1. Configure hot spare
+themisdb-cli failover configure \
+  --config /etc/themisdb/failover.yaml
+
+# 2. Start hot spare in standby mode
+themisdb-cli failover enable-spare \
+  --node spare-node \
+  --sync-from primary-node
+
+# Expected output:
+# ✓ Spare node initialized
+# ✓ Data sync started (0/100GB)
+# ✓ Sync progress: 100% (100/100GB)
+# ✓ Spare node ready
+# ✓ Failover armed
+
+# 3. Verify failover readiness
+themisdb-cli failover status
+
+# Expected output:
+# Primary: HEALTHY (192.168.1.100)
+# Spare: READY (192.168.1.101)
+# Failover: ARMED
+# Last Sync: 2026-01-24 06:15:00 UTC
+# Sync Lag: 2.3 seconds
+```
+
+**Manual Failover:**
+
+```bash
+# 1. Initiate failover
+themisdb-cli failover initiate \
+  --from primary-node \
+  --to spare-node \
+  --reason "Planned maintenance"
+
+# 2. Monitor failover progress
+themisdb-cli failover status --follow
+
+# Expected output:
+# [06:15:01] Draining primary node
+# [06:15:15] Final sync to spare
+# [06:15:20] Promoting spare to primary
+# [06:15:25] Spare promoted
+# [06:15:30] Redirecting traffic
+# [06:15:35] Failover complete
+# 
+# New Primary: 192.168.1.101 (formerly spare-node)
+# Old Primary: 192.168.1.100 (now standby)
+# Failover Duration: 34 seconds
+
+# 3. Verify new primary
+themisdb-cli health --node 192.168.1.101
+
+# 4. Update DNS/load balancer (if manual)
+# Update DNS: themisdb.example.com -> 192.168.1.101
+```
+
+**Fallback After Recovery:**
+
+```bash
+# After original primary is repaired
+
+# 1. Verify original primary is healthy
+themisdb-cli health --node 192.168.1.100
+
+# 2. Sync data from current primary to original
+themisdb-cli failover sync \
+  --from 192.168.1.101 \
+  --to 192.168.1.100
+
+# 3. Fallback to original primary
+themisdb-cli failover fallback \
+  --from 192.168.1.101 \
+  --to 192.168.1.100 \
+  --wait-for-sync
+
+# 4. Verify
+themisdb-cli failover status
+```
+
+### Multi-Region Disaster Recovery Failover
+
+**Scenario:** Primary region fails, failover to DR region
+
+```bash
+# Pre-configured DR setup required (see DISASTER_RECOVERY.md)
+
+# 1. Declare disaster
+themisdb-cli dr declare-disaster \
+  --region us-west-2 \
+  --reason "Region outage"
+
+# 2. Activate DR site
+themisdb-cli dr activate \
+  --region us-east-1 \
+  --mode emergency
+
+# Expected output:
+# ✓ Validating DR site readiness
+# ✓ Promoting read replicas to primary
+# ✓ Redirecting traffic to us-east-1
+# ✓ Updating DNS (propagation may take 60s)
+# ✓ DR site active
+# 
+# New Primary Region: us-east-1
+# RPO: 15 seconds (data loss window)
+# RTO: 3 minutes (recovery time)
+
+# 3. Verify DR site operations
+themisdb-cli health --region us-east-1
+
+# 4. Monitor recovery
+themisdb-cli dr status --follow
+
+# 5. When primary region recovers, sync back
+themisdb-cli dr failback \
+  --from us-east-1 \
+  --to us-west-2 \
+  --sync-mode full
+```
+
+### Shard Failover
+
+```bash
+# When a shard fails in a multi-shard setup
+
+# 1. Detect failed shard (automatic)
+# System automatically detects shard-2 failure
+
+# 2. Verify failover occurred
+themisdb-cli shard status
+
+# Expected output:
+# Shard-0: HEALTHY (GPU 0)
+# Shard-1: HEALTHY (GPU 1)
+# Shard-2: FAILED (GPU 2) -> FAILOVER to spare-0
+# Spare-0: ACTIVE (GPU 3, replacing shard-2)
+
+# 3. Manual shard failover (if needed)
+themisdb-cli shard failover \
+  --from shard-2 \
+  --to spare-0 \
+  --sync-mode fast
+
+# 4. Replace failed hardware
+# - Physical GPU replacement
+# - Driver installation
+
+# 5. Restore original shard
+themisdb-cli shard restore \
+  --shard-id shard-2 \
+  --gpu-device 2 \
+  --sync-from spare-0
+
+# 6. Return spare to standby
+themisdb-cli shard demote \
+  --shard-id spare-0 \
+  --mode standby
+```
+
+---
+
 ## Scaling Operations
 
 ### Scale Up (Add GPUs)
