@@ -462,7 +462,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	return Ok(std::move(keys));
 }
 
-std::pair<QueryEngine::Status, QueryEngine::KeysWithScores>
+Result<QueryEngine::KeysWithScores>
 QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithScores");
 	span.setAttribute("query.table", q.table);
@@ -470,11 +470,14 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	
 	// If no FULLTEXT predicate, delegate to standard method (no scores)
 	if (!q.fulltextPredicate.has_value()) {
-		auto [st, keys] = executeAndKeys(q);
+		auto keysResult = executeAndKeys(q);
+		if (!keysResult) {
+			return Err<KeysWithScores>(keysResult.error());
+		}
 		KeysWithScores result;
-		result.keys = std::move(keys);
+		result.keys = std::move(keysResult.value());
 		result.bm25_scores = std::make_shared<std::unordered_map<std::string, double>>();
-		return {st, std::move(result)};
+		return Ok(std::move(result));
 	}
 	
 	// FULLTEXT query: Extract scores
@@ -488,7 +491,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	auto [st, results] = secIdx_->scanFulltextWithScores(q.table, ft.column, ft.query, ft.limit);
 	if (!st.ok) {
 		child.setStatus(false, st.message);
-		return {Status::Error(st.message), KeysWithScores{}};
+		return Err<KeysWithScores>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, st.message);
 	}
 	
 	// Build score map and key list
@@ -523,7 +526,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		auto [structStatus, structKeys] = executeAndKeysRangeAware_(structuralQuery);
 		if (!structStatus.ok) {
 			intersectSpan.setStatus(false, structStatus.message);
-			return {structStatus, KeysWithScores{}};
+			return Err<KeysWithScores>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED, structStatus.message);
 		}
 		
 		// Intersect fulltext results with structural predicate results
@@ -555,7 +558,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		KeysWithScores result;
 		result.keys = std::move(intersection);
 		result.bm25_scores = std::move(filteredScores);
-		return {Status::OK(), std::move(result)};
+		return Ok(std::move(result));
 	}
 	
 	// Standalone FULLTEXT (no additional predicates)
@@ -565,7 +568,7 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	KeysWithScores result;
 	result.keys = std::move(fulltextKeys);
 	result.bm25_scores = std::move(scoreMap);
-	return {Status::OK(), std::move(result)};
+	return Ok(std::move(result));
 }
 
 std::pair<QueryEngine::Status, std::vector<BaseEntity>>
