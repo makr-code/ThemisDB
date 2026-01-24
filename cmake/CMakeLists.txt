@@ -1260,6 +1260,10 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/logger.cpp
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
+    
+    # Cross-cutting concerns abstraction layer
+    ../src/core/concerns/i_logger.cpp
+    ../src/core/concerns/concerns_context.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
