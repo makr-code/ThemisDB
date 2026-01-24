@@ -307,6 +307,11 @@ double HnswRuntimeAdapter::getOverfetchMultiplier(
     double filter_selectivity,
     size_t k) {
     
+    // Protect against division by zero
+    if (filter_selectivity <= 0.0) {
+        return 20.0;  // Maximum overfetch for invalid/zero selectivity
+    }
+    
     // When applying post-filters, need to fetch more candidates
     // to ensure we get k results after filtering
     

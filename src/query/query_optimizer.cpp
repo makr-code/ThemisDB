@@ -246,8 +246,9 @@ void QueryOptimizer::recordQueryExecution(
 	
 	// Log significant misestimations
 	if (adaptive_stats_->hasCardinalityMisestimation(query_hash)) {
+		constexpr size_t HASH_DISPLAY_LENGTH = 8;
 		spdlog::warn("QueryOptimizer: Cardinality misestimation detected for query {}", 
-					 query_hash.substr(0, 8));
+					 query_hash.substr(0, std::min(query_hash.size(), HASH_DISPLAY_LENGTH)));
 	}
 }
 

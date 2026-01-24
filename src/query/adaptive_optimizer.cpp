@@ -209,7 +209,7 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
         }
     }
     
-    if (alternative.strategy != Strategy::INDEX_SCAN && 
+    if (alternative.strategy == AdaptivePlanSelector::PlanChoice::Strategy::INDEX_SCAN &&
         alternative.description.empty()) {
         // No better alternative found, keep current
         alternative = current_plan;
@@ -468,7 +468,7 @@ bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
     pthread_t thread = pthread_self();
     return pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset) == 0;
 #else
-    (void)cpu_id;  // Unused parameter
+    [[maybe_unused]] int unused_cpu_id = cpu_id;
     return false;
 #endif
 }
