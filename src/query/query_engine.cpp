@@ -572,12 +572,13 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	return Ok(std::move(result));
 }
 
-std::pair<QueryEngine::Status, std::vector<BaseEntity>>
+Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
-	auto [st, keys] = executeAndKeys(q);
-	if (!st.ok) return {st, {}};
+	auto keysResult = executeAndKeys(q);
+	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
+	auto keys = std::move(keysResult.value());
 
 	// Paralleles Entity-Loading für große Ergebnismengen (Batch-Verarbeitung)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -626,7 +627,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
-	return {Status::OK(), std::move(out)};
+	return Ok(std::move(out));
 }
 
 std::vector<std::string>
