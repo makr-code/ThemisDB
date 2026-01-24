@@ -1135,6 +1135,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/vector_index.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
+    ../src/index/hnsw_production_defaults.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
     
@@ -1155,6 +1156,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
+    ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
