@@ -38,12 +38,28 @@ class BaseEntity;
 /// High-level wrapper around RocksDB TransactionDB for MVCC support
 /// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
 /// 
-/// Thread-Safety:
-/// - Thread-safe for concurrent operations (reads, writes, transactions)
-/// - Column family operations protected by internal mutex
-/// - Iterator operations use reference counting to prevent use-after-free
-/// - Safe concurrent access to multiple methods
-/// - close() waits for active operations before shutdown
+/// @thread_safety
+/// - **Read-safe**: Multiple threads can call read operations (get, scan, etc) concurrently
+/// - **Write-safe**: Write operations (put, delete) are thread-safe (use internal locking)
+/// - **NOT move-safe**: Move constructor and assignment should NOT be called during concurrent access
+///   - Only safe during initialization/teardown when no other threads are accessing the object
+///   - Never move during active operation
+///   - Debug mode (THEMIS_DEBUG_THREADING) will detect and log concurrent move operations
+/// - **NOT copyable**: Copy operations are deleted
+/// - **Iterator-safe**: Iterator operations use reference counting to prevent use-after-free
+/// - **close() waits**: close() waits for active operations before shutdown
+/// 
+/// @code
+/// // ✅ OK: Move during initialization
+/// std::unique_ptr<RocksDBWrapper> db = std::make_unique<RocksDBWrapper>(config);
+/// 
+/// // ❌ WRONG: Move while other threads are accessing
+/// db = std::make_unique<RocksDBWrapper>(other_config);  // Race condition!
+/// @endcode
+/// 
+/// @warning Move constructor and assignment should only be called when no other
+///          threads are accessing the object. Typically done during initialization
+///          or teardown, not during active operation.
 class RocksDBWrapper {
 public:
     struct Config {
@@ -508,6 +524,12 @@ private:
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
     mutable std::atomic<int> active_operations_{0};
+    
+    #ifdef THEMIS_DEBUG_THREADING
+    // Track if object is being moved (debug only)
+    // Used to detect concurrent move operations during development
+    mutable std::atomic<bool> is_being_moved_{false};
+    #endif
     
     void configureOptions();
     bool commitBatch(rocksdb::WriteBatch* batch);

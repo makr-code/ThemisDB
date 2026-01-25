@@ -36,6 +36,12 @@ RocksDBWrapper::RocksDBWrapper(const Config& config) : config_(config) {
 }
 
 RocksDBWrapper::~RocksDBWrapper() {
+    #ifdef THEMIS_DEBUG_THREADING
+    // Ensure not being accessed during destruction
+    if (is_being_moved_.load(std::memory_order_acquire)) {
+        THEMIS_WARN("RocksDBWrapper being destroyed while in move state!");
+    }
+    #endif
     close();
 }
 
@@ -47,14 +53,48 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     , txn_options_(std::move(other.txn_options_))
     , read_options_(std::move(other.read_options_))
     , write_options_(std::move(other.write_options_)) {
+    
+    #ifdef THEMIS_DEBUG_THREADING
+    // ✅ DEBUG: Mark source object as being moved
+    bool expected = false;
+    if (!other.is_being_moved_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+        THEMIS_ERROR("Concurrent move operation detected on RocksDBWrapper!");
+        // In production, this indicates a threading bug
+        // The assertion helps catch the issue during development
+    }
+    #endif
+    
     // RACE CONDITION FIX #1: Protect cf_handles_ during move
     std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
     cf_handles_ = std::move(other.cf_handles_);
+    
+    // Clear source object's state to prevent double-free
+    other.db_.reset();
+    other.cf_handles_.clear();
+    
+    #ifdef THEMIS_DEBUG_THREADING
+    other.is_being_moved_.store(false, std::memory_order_release);
+    #endif
 }
 
 RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     if (this != &other) {
+        #ifdef THEMIS_DEBUG_THREADING
+        // ✅ CRITICAL: Synchronize on both objects
+        bool expected = false;
+        if (!is_being_moved_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+            THEMIS_ERROR("Concurrent move-assign operation detected on destination object!");
+        }
+        expected = false;
+        if (!other.is_being_moved_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+            THEMIS_ERROR("Concurrent move-assign detected on source object!");
+        }
+        #endif
+        
+        // Close our existing resources
         close();
+        
+        // Move ownership from other
         config_ = std::move(other.config_);
         db_ = std::move(other.db_);
         options_ = std::move(other.options_);
@@ -62,9 +102,19 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
         txn_options_ = std::move(other.txn_options_);
         read_options_ = std::move(other.read_options_);
         write_options_ = std::move(other.write_options_);
+        
         // RACE CONDITION FIX #1: Protect cf_handles_ during move
         std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
         cf_handles_ = std::move(other.cf_handles_);
+        
+        // Clear source object's state to prevent double-free
+        other.db_.reset();
+        other.cf_handles_.clear();
+        
+        #ifdef THEMIS_DEBUG_THREADING
+        is_being_moved_.store(false, std::memory_order_release);
+        other.is_being_moved_.store(false, std::memory_order_release);
+        #endif
     }
     return *this;
 }
