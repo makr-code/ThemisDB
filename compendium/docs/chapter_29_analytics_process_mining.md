@@ -1695,6 +1695,178 @@ flowchart TB
 
 Abb. 29.4: Conformance-Checking-Flow
 
+### 29.5.4 Production-Ready Process Mining AQL Examples {#chapter_29_5_4_production_aql_examples}
+
+**Praktische AQL-Queries für Enterprise Process Mining** basierend auf realen Anwendungsfällen.
+
+**Use Case 1: Hybrid Similarity Search für Verwaltungsprozesse**
+
+Finde alle Bauanträge mit ähnlichem Prozessmuster (kombiniert Graph-, Vector- und Behavioral-Similarity):
+
+```aql
+// Lade Standard-Prozessmodell
+LET ideal_model = PM_LOAD_ADMIN_MODEL("bauantrag_standard")
+
+// Hybrid Similarity Search with weighted metrics
+// NOTE: Weights must sum to 1.0 (0.4 + 0.3 + 0.3 = 1.0)
+// Adjust weights based on use case:
+// - Structure-focused: increase graph_weight (e.g., 0.6, 0.2, 0.2)
+// - Semantics-focused: increase vector_weight (e.g., 0.2, 0.6, 0.2)
+// - Behavior-focused: increase behavioral_weight (e.g., 0.2, 0.2, 0.6)
+LET similar_processes = PM_FIND_SIMILAR(ideal_model, {
+  method: "hybrid",
+  threshold: 0.75,          // Minimum 75% Ähnlichkeit
+  limit: 50,
+  graph_weight: 0.4,        // Prozessstruktur (40%)
+  vector_weight: 0.3,       // Semantik/NLP (30%)
+  behavioral_weight: 0.3    // Ausführungsverhalten (30%)
+                            // Sum: 1.0 ✓
+})
+
+FOR result IN similar_processes
+  SORT result.overall_similarity DESC
+  RETURN {
+    case_id: result.case_id,
+    similarity: result.overall_similarity,
+    metrics: {
+      graph: result.metrics.graph_similarity,
+      vector: result.metrics.vector_similarity,
+      behavioral: result.metrics.behavioral_similarity
+    },
+    deviations: {
+      extra: result.extra_activities,
+      missing: result.missing_activities
+    },
+    duration_days: DATE_DIFF(result.end_time, result.start_time, 'day')
+  }
+```
+
+**Use Case 2: Conformance Checking mit Repair Actions**
+
+Prüfe Prozess-Konformität und generiere automatische Repair-Vorschläge:
+
+```aql
+// Conformance Check für alle aktiven Fälle
+FOR process IN running_processes
+  FILTER process.status == 'active'
+  
+  // Prüfe gegen Standard-Modell
+  LET conformance = PM_CHECK_CONFORMANCE(
+    process.case_id,
+    "bauantrag_standard",
+    {
+      check_order: true,          // Prüfe Aktivitätsreihenfolge
+      check_mandatory: true,      // Prüfe Pflichtaktivitäten
+      check_forbidden: true,      // Prüfe verbotene Aktivitäten
+      suggest_repairs: true       // Generiere Repair-Vorschläge
+    }
+  )
+  
+  FILTER conformance.is_conformant == false
+  
+  RETURN {
+    case_id: process.case_id,
+    violations: conformance.violations,
+    severity: conformance.severity_score,
+    repair_suggestions: conformance.repairs
+  }
+```
+
+**Use Case 3: Performance Bottleneck Detection**
+
+Identifiziere Engpässe im Prozess mit Ursachenanalyse:
+
+```aql
+// Bottleneck-Analyse für letzte 90 Tage
+LET time_window = DATE_SUBTRACT(DATE_NOW(), 90, 'day')
+
+// Berechne durchschnittliche Durchlaufzeit pro Aktivität
+FOR event IN process_events
+  FILTER event.timestamp >= time_window
+  COLLECT activity = event.activity INTO events
+  
+  LET durations = (
+    FOR e IN events[*].event
+      FILTER e.lifecycle == 'complete'
+      LET start = FIRST(
+        FOR s IN events[*].event
+          FILTER s.case_id == e.case_id 
+          AND s.activity == activity
+          AND s.lifecycle == 'start'
+          RETURN s.timestamp
+      )
+      FILTER start != null
+      RETURN DATE_DIFF(e.timestamp, start, 'hour')
+  )
+  
+  LET avg_duration = AVG(durations)
+  LET p95_duration = PERCENTILE(durations, 95)
+  
+  // Bottleneck: p95 > 2× Durchschnitt
+  LET is_bottleneck = p95_duration > (2 * avg_duration)
+  
+  FILTER is_bottleneck
+  SORT p95_duration DESC
+  
+  RETURN {
+    activity: activity,
+    cases_count: LENGTH(durations),
+    avg_duration_hours: ROUND(avg_duration, 1),
+    p95_duration_hours: ROUND(p95_duration, 1),
+    bottleneck_severity: p95_duration / avg_duration,
+    improvement_potential: p95_duration - avg_duration
+  }
+```
+
+**Use Case 4: Process Variant Analysis**
+
+Analysiere Prozessvarianten und ihre Performance:
+
+```aql
+// Gruppiere Cases nach Prozessvariante (Aktivitätsfolge)
+FOR case_doc IN process_cases
+  FILTER case_doc.end_time >= DATE_SUBTRACT(DATE_NOW(), 180, 'day')
+  
+  // Extrahiere Aktivitätssequenz
+  LET activities = (
+    FOR event IN process_events
+      FILTER event.case_id == case_doc.case_id
+      SORT event.timestamp ASC
+      RETURN event.activity
+  )
+  
+  LET variant_signature = CONCAT_SEPARATOR(" → ", activities)
+  
+  COLLECT variant = variant_signature INTO cases
+  
+  LET cases_count = LENGTH(cases)
+  LET avg_duration = AVG(
+    FOR c IN cases[*].case_doc
+      RETURN DATE_DIFF(c.end_time, c.start_time, 'day')
+  )
+  
+  SORT cases_count DESC
+  LIMIT 10
+  
+  RETURN {
+    variant: variant,
+    frequency: cases_count,
+    avg_duration_days: ROUND(avg_duration, 1),
+    efficiency_score: ROUND(1000 / avg_duration, 2)
+  }
+```
+
+**Best Practices:**
+
+1. **Similarity Weights**: Start mit 40/30/30 (Graph/Vector/Behavioral), tunen basierend auf Use Case
+2. **Conformance Checks**: Run wöchentlich für historische Cases, daily für laufende
+3. **Bottleneck Analysis**: p95 Latenz >2× avg ist kritisch, >3× erfordert sofortige Aktion
+4. **Variant Monitoring**: Neue Varianten >5% Frequency erfordern Review
+
+**Siehe auch:**
+- `docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md` - Weitere 15+ Praxisbeispiele
+- Section 29.7: Performance Analysis für Optimierungs-Strategien
+
 ---
 
 ## 29.6 Predictive Process Analytics {#chapter_29_6_predictive_analytics}

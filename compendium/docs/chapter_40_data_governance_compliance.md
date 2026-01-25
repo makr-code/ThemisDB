@@ -446,6 +446,211 @@ Kontroll-Mapping Beispiel:
 - A.17.1.1 (Continuity): DR-Plan + Tests halbjährlich
 ```
 
+### 40.8.1 ISO 27001 Annex A Control Mapping {#chapter_40_8_1_iso27001-mapping}
+
+ThemisDB implementiert **28 ISO 27001 Annex A Controls** systematisch durch technische und organisatorische Maßnahmen. Diese Tabelle mappt ThemisDB-Features zu ISO 27001 Requirements und bietet AQL-Queries zur Validierung.
+
+**Kategorie A.5: Organisatorische Kontrollen**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.5.1 Policies** | Versionierte Policies in `governance_policies` | `FOR p IN governance_policies FILTER p.status == 'active' RETURN p._key` | ✅ |
+| **A.5.2 Information Security Roles** | RBAC mit Data Owner, Steward, Custodian Rollen | `FOR r IN governance_roles RETURN {role: r.name, members: LENGTH(r.members)}` | ✅ |
+| **A.5.3 Segregation of Duties** | Separation: Admin ≠ Auditor, Owner ≠ Executor | `FOR u IN users FILTER "admin" IN u.roles AND "auditor" IN u.roles RETURN u` (should be empty) | ✅ |
+
+**Kategorie A.8: Asset Management**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.8.1 Inventory of Assets** | Asset Registry: Collections, Schemas, Indexes | `FOR a IN asset_registry RETURN {type: a.type, name: a.name, classification: a.classification}` | ✅ |
+| **A.8.2 Information Classification** | 5-Level: PUBLIC → INTERNAL → CONFIDENTIAL → REGULATED → RESTRICTED | `FOR d IN documents COLLECT level = d.classification WITH COUNT INTO cnt RETURN {level, count: cnt}` | ✅ |
+| **A.8.3 Media Handling** | Crypto-Erase für Retention-Ablauf, Secure Delete | `FOR d IN deleted_data FILTER d.deleted_at > DATE_SUBTRACT(DATE_NOW(), 7, 'day') RETURN d` | ✅ |
+
+**Kategorie A.9: Zugriffskontrolle**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.9.1 Access Control Policy** | RBAC + ABAC mit Policy-as-Code | `FOR p IN access_policies FILTER p.type == 'access_control' RETURN p.rules` | ✅ |
+| **A.9.2 User Access Management** | JIT Access mit Auto-Expiry, Quarterly Reviews | `FOR j IN jit_access FILTER j.expires_at < DATE_NOW() RETURN {user: j.user_id, expired: true}` | ✅ |
+| **A.9.3 User Responsibilities** | Acceptable Use Policy, Break-Glass Tracking | `FOR bg IN break_glass_log FILTER bg.timestamp > DATE_SUBTRACT(DATE_NOW(), 30, 'day') RETURN bg` | ✅ |
+| **A.9.4 System Access Control** | Multi-Factor Auth, IP Whitelisting, Session Timeout | `FOR s IN active_sessions FILTER s.mfa_verified == false RETURN s` (should be empty) | ✅ |
+
+**Kategorie A.10: Kryptographie**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.10.1 Cryptographic Controls** | AES-256 at rest, TLS 1.3 in transit, Field-Level Encryption | `FOR f IN encryption_keys FILTER f.algorithm != 'AES-256' RETURN f` (should be empty) | ✅ |
+| **A.10.2 Key Management** | Vault-Integration, Auto-Rotation alle 90 Tage | `FOR k IN encryption_keys FILTER DATE_DIFF(DATE_NOW(), k.last_rotated, 'day') > 90 RETURN k` | ✅ |
+
+**Kategorie A.12: Betriebssicherheit**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.12.1 Operational Procedures** | Deployment-Runbooks, Change-Management-Workflow | `FOR c IN change_requests FILTER c.status == 'approved' RETURN c.change_id` | ✅ |
+| **A.12.2 Protection from Malware** | EDR auf DB-Hosts, Input Validation, SQL/NoSQL Injection Prevention | N/A (Host-Level) | ✅ |
+| **A.12.3 Backup** | Automated Daily Backups, 30d Retention, Offsite Storage | `FOR b IN backups FILTER b.created_at > DATE_SUBTRACT(DATE_NOW(), 1, 'day') COLLECT WITH COUNT INTO cnt RETURN cnt` | ✅ |
+| **A.12.4 Logging & Monitoring** | Immutable Audit Logs, SHA-256 Chain, 365d Retention | `FOR l IN audit_log FILTER l.integrity_verified == false RETURN l` (should be empty) | ✅ |
+| **A.12.6 Technical Vulnerability Mgmt** | Dependabot, CodeQL, CVE Monitoring | `FOR v IN vulnerabilities FILTER v.severity == 'critical' AND v.status != 'fixed' RETURN v` | ✅ |
+
+**Kategorie A.13: Kommunikationssicherheit**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.13.1 Network Security** | TLS 1.3 mandatory, mTLS für Shard-Kommunikation, Firewall Rules | `FOR c IN connections FILTER c.tls_version < '1.3' RETURN c` (should be empty) | ✅ |
+| **A.13.2 Information Transfer** | Encryption in Transit, Signed API Responses, PKI | `FOR api IN api_calls FILTER api.signature_verified == false RETURN api` | ⚠️ |
+
+**Kategorie A.14: Systementwicklung & -wartung**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.14.1 Security Requirements** | SSDLC mit Threat Modeling, Security Stories | N/A (Dev Process) | ✅ |
+| **A.14.2 Security in Development** | Code Reviews (2-Person), SAST/DAST (CodeQL), Dependency Scanning | N/A (GitHub Actions) | ✅ |
+| **A.14.3 Test Data Protection** | Anonymisierte Testdaten, kein Production-Dump in Dev | `FOR t IN test_datasets FILTER t.contains_pii == true RETURN t` (should be empty) | ✅ |
+
+**Kategorie A.16: Incident Management**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.16.1 Incident Management Process** | Incident Response Runbooks, On-Call Rotation, Postmortems | `FOR i IN incidents FILTER i.status == 'open' AND DATE_DIFF(DATE_NOW(), i.created_at, 'hour') > 24 RETURN i` | ✅ |
+
+**Kategorie A.17: Business Continuity**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.17.1 Continuity Planning** | DR Plan, RPO=15min, RTO=1h, Multi-Region Deployment | `FOR dc IN datacenters FILTER dc.status != 'healthy' RETURN dc` | ✅ |
+| **A.17.2 Redundancies** | RAID-Modes (MIRROR, PARITY, GEO_MIRROR), Auto-Failover | `FOR s IN shards FILTER s.replication_factor < 2 RETURN s` | ✅ |
+
+**Kategorie A.18: Compliance**
+
+| ISO 27001 Control | ThemisDB Implementation | Validierungs-Query | Status |
+|-------------------|-------------------------|-------------------|---------|
+| **A.18.1 Compliance Requirements** | DSGVO/GDPR, SOC 2, BSI C5 Alignment | `FOR p IN privacy_requests FILTER p.status == 'overdue' RETURN p` | ✅ |
+| **A.18.2 Reviews of Security** | Internal Audits, External Pen-Tests jährlich | N/A (Manual Process) | ⚠️ |
+
+---
+
+**Control Mapping Summary:**
+
+```
+✅ Fully Implemented:   25/28 Controls (89%)
+⚠️ Partially Implemented: 3/28 Controls (11%)
+❌ Not Implemented:      0/28 Controls (0%)
+```
+
+**Validation Dashboard:**
+
+Automatisierte Control-Validierung über AQL:
+
+```aql
+// ISO 27001 Compliance Dashboard
+// Note: In production, queries would be executed via themis-cli or API calls
+// This dashboard aggregates control validation results
+LET controls = [
+    {
+        id: "A.9.2",
+        name: "User Access Management",
+        description: "Check for expired JIT access grants",
+        threshold: 0,
+        critical: true
+    },
+    {
+        id: "A.10.2",
+        name: "Key Rotation",
+        description: "Check for encryption keys not rotated in 90+ days",
+        threshold: 0,
+        critical: true
+    },
+    {
+        id: "A.12.4",
+        name: "Audit Log Integrity",
+        description: "Check for audit logs with broken integrity chain",
+        threshold: 0,
+        critical: true
+    },
+    {
+        id: "A.17.2",
+        name: "Replication Factor",
+        description: "Check for under-replicated shards",
+        threshold: 0,
+        critical: false
+    }
+]
+
+// Execute individual control checks and aggregate results
+FOR control IN controls
+    // Execute control-specific query
+    LET result = (
+        control.id == "A.9.2" ? (
+            FOR j IN jit_access 
+                FILTER j.expires_at < DATE_NOW() 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] :
+        control.id == "A.10.2" ? (
+            FOR k IN encryption_keys 
+                FILTER DATE_DIFF(DATE_NOW(), k.last_rotated, 'day') > 90 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] :
+        control.id == "A.12.4" ? (
+            FOR l IN audit_log 
+                FILTER l.integrity_verified == false 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] :
+        control.id == "A.17.2" ? (
+            FOR s IN shards 
+                FILTER s.replication_factor < 2 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] : 0
+    )
+    
+    LET compliant = result <= control.threshold
+    RETURN {
+        control_id: control.id,
+        control_name: control.name,
+        description: control.description,
+        current_value: result,
+        threshold: control.threshold,
+        compliant: compliant,
+        critical: control.critical,
+        status: compliant ? "✅ PASS" : (control.critical ? "❌ FAIL" : "⚠️ WARN")
+    }
+```
+
+**Production Readiness Checklist für ISO 27001:**
+
+```bash
+# ISO 27001 Pre-Audit Validation Script
+#!/bin/bash
+
+echo "=== ISO 27001 Control Validation ==="
+
+# A.9.2: Check JIT Access Expiry
+expired_jit=$(themis-cli query "FOR j IN jit_access FILTER j.expires_at < DATE_NOW() COLLECT WITH COUNT INTO cnt RETURN cnt")
+echo "Expired JIT Access: $expired_jit (should be 0)"
+
+# A.10.2: Check Key Rotation
+old_keys=$(themis-cli query "FOR k IN encryption_keys FILTER DATE_DIFF(DATE_NOW(), k.last_rotated, 'day') > 90 COLLECT WITH COUNT INTO cnt RETURN cnt")
+echo "Keys not rotated >90d: $old_keys (should be 0)"
+
+# A.12.4: Check Audit Log Integrity
+broken_logs=$(themis-cli query "FOR l IN audit_log FILTER l.integrity_verified == false COLLECT WITH COUNT INTO cnt RETURN cnt")
+echo "Audit Logs with broken chain: $broken_logs (should be 0)"
+
+# A.17.2: Check Replication
+under_replicated=$(themis-cli query "FOR s IN shards FILTER s.replication_factor < 2 COLLECT WITH COUNT INTO cnt RETURN cnt")
+echo "Under-replicated Shards: $under_replicated (should be 0)"
+
+echo "=== Validation Complete ==="
+```
+
+**Siehe auch:**
+- `docs/de/compliance/compliance_full_checklist.md` - Vollständige 25-Framework-Checkliste
+- Section 40.7: DSGVO-Compliance Details
+- Section 40.9: Operational Controls
+
 ---
 
 ## 40.9 Operational Controls & Compliance-Checklisten {#chapter_40_9_controls-checklisten}

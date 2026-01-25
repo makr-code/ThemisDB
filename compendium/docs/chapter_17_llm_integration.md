@@ -3109,6 +3109,332 @@ FOR v, e, p IN 1..10 OUTBOUND
   }
 ```
 
+### 17.13.6 LoRA Production Workflow & PEFT Framework Integration
+
+**Production-Ready Training Pipeline mit HuggingFace PEFT**
+
+ThemisDB integriert mit dem HuggingFace PEFT (Parameter-Efficient Fine-Tuning) Framework für professionelle LoRA-Trainings-Workflows:
+
+**Schritt 1: Daten Export aus ThemisDB**
+
+```python
+# Python Training Script mit ThemisDB Integration
+from themisdb import ThemisDBClient
+import datasets
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import LoraConfig, get_peft_model, TaskType
+
+# ThemisDB Client
+client = ThemisDBClient("http://localhost:8765")
+
+# Export Training Data als JSONL Stream
+query = """
+FOR doc IN customer_support_conversations
+  FILTER doc.quality_score > 0.8
+  FILTER doc.created_at > DATE_SUBTRACT(DATE_NOW(), 3, 'month')
+  RETURN {
+    instruction: doc.question,
+    input: doc.context,
+    output: doc.answer,
+    metadata: {
+      quality: doc.quality_score,
+      timestamp: doc.created_at,
+      agent_id: doc.agent_id
+    }
+  }
+"""
+
+# Streaming Export (kein vollständiger Download)
+training_data = client.export_jsonl_llm(
+    query=query,
+    format="instruction",
+    max_length=2048,
+    weight_by_freshness=True,
+    deduplicate=True
+)
+
+# HuggingFace Dataset
+dataset = datasets.Dataset.from_generator(
+    lambda: training_data,
+    features=datasets.Features({
+        'instruction': datasets.Value('string'),
+        'input': datasets.Value('string'),
+        'output': datasets.Value('string')
+    })
+)
+```
+
+**Schritt 2: LoRA Training mit PEFT**
+
+```python
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from transformers import Trainer, TrainingArguments
+
+# Base Model laden
+model_name = "meta-llama/Llama-2-7b-hf"
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    load_in_8bit=True,  # QLoRA: 8-bit Quantisierung
+    device_map="auto",
+    trust_remote_code=True
+)
+model = prepare_model_for_kbit_training(model)
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer.pad_token = tokenizer.eos_token
+
+# LoRA Config
+lora_config = LoraConfig(
+    r=16,                    # Rank (ThemisDB Standard: 8, 16, 32)
+    lora_alpha=32,           # Alpha (typischerweise 2×rank)
+    target_modules=[         # Module die trainiert werden
+        "q_proj", "k_proj", "v_proj", "o_proj",  # Attention
+        "gate_proj", "up_proj", "down_proj"       # MLP
+    ],
+    lora_dropout=0.05,
+    bias="none",
+    task_type=TaskType.CAUSAL_LM
+)
+
+# PEFT Model
+model = get_peft_model(model, lora_config)
+model.print_trainable_parameters()
+# Output: trainable params: 4,194,304 || all params: 6,742,609,920 || trainable%: 0.0622%
+
+# Training Args
+training_args = TrainingArguments(
+    output_dir="./lora-customer-support-v2",
+    num_train_epochs=3,
+    per_device_train_batch_size=8,
+    gradient_accumulation_steps=4,
+    learning_rate=3e-4,
+    fp16=True,
+    logging_steps=10,
+    save_strategy="steps",
+    save_steps=500,
+    evaluation_strategy="steps",
+    eval_steps=100,
+    warmup_steps=100,
+    lr_scheduler_type="cosine",
+    optim="adamw_torch",
+    report_to="tensorboard"  # Monitoring
+)
+
+# Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset,
+    data_collator=data_collator
+)
+
+# Training starten
+trainer.train()
+
+# Adapter speichern
+model.save_pretrained("./lora-customer-support-v2")
+```
+
+**Schritt 3: Adapter zurück in ThemisDB speichern**
+
+```python
+# Adapter Metadata und Weights zurück in ThemisDB
+adapter_metadata = {
+    "_key": "customer-support-v2",
+    "adapter_name": "Customer Support Assistant v2",
+    "base_model_id": "llama-2-7b",
+    
+    # LoRA Config
+    "rank": 16,
+    "alpha": 32,
+    "dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", 
+                       "gate_proj", "up_proj", "down_proj"],
+    
+    # Training Info
+    "training_dataset": "customer_support_conversations",
+    "training_samples": len(dataset),
+    "training_epochs": 3,
+    "learning_rate": 3e-4,
+    "batch_size": 8,
+    
+    # Evaluation Metrics
+    "eval_loss": trainer.state.best_metric,
+    "perplexity": 2 ** trainer.state.best_metric,
+    
+    # Storage
+    "weights_path": "s3://themis-lora-adapters/customer-support-v2.safetensors",
+    "size_mb": 67,
+    
+    # Audit
+    "created_by": "data_scientist_42",
+    "created_at": "2026-01-25T10:00:00Z",
+    "status": "testing",
+    "deployment_tier": "staging"
+}
+
+# In ThemisDB registrieren
+client.execute_aql("""
+    INSERT @metadata INTO lora_adapters
+    
+    // Graph-Relationship zum Base Model
+    INSERT {
+        _from: CONCAT('lora_adapters/', @metadata._key),
+        _to: 'llm_models/llama-2-7b',
+        type: 'ADAPTED_FROM',
+        timestamp: DATE_NOW()
+    } INTO model_lineage
+""", bind_vars={"metadata": adapter_metadata})
+```
+
+**Schritt 4: A/B Testing & Quality Validation**
+
+```python
+# A/B Test: Baseline vs. neuer Adapter
+test_queries = client.execute_aql("""
+    FOR doc IN test_dataset
+      LIMIT 100
+      RETURN {
+        _key: doc._key,
+        question: doc.question,
+        expected_answer: doc.answer
+      }
+""")
+
+results = []
+for test in test_queries:
+    # Baseline (kein Adapter)
+    baseline_response = client.execute_aql("""
+        RETURN PROMPT('llama-2-7b', @prompt, {temperature: 0.3})
+    """, bind_vars={"prompt": test['question']})
+    
+    # Neuer Adapter
+    adapter_response = client.execute_aql("""
+        RETURN PROMPT_LORA('llama-2-7b', 'customer-support-v2', 
+                           @prompt, {temperature: 0.3})
+    """, bind_vars={"prompt": test['question']})
+    
+    results.append({
+        'test_id': test['_key'],
+        'baseline': baseline_response,
+        'adapter': adapter_response,
+        'expected': test['expected_answer']
+    })
+
+# Quality-Evaluation mit LLM-as-Judge
+for result in results:
+    score = client.execute_aql("""
+        RETURN LLM_AS_JUDGE(
+            @candidate_response,
+            @reference_response,
+            {criteria: ['accuracy', 'helpfulness', 'safety']}
+        )
+    """, bind_vars={
+        "candidate_response": result['adapter'],
+        "reference_response": result['expected']
+    })
+    
+    result['quality_score'] = score
+
+# Durchschnittliche Quality Score
+avg_score = sum(r['quality_score'] for r in results) / len(results)
+print(f"Average Quality Score: {avg_score:.2f}")
+
+# Bei ausreichender Qualität: Production Deployment
+if avg_score > 0.85:
+    client.execute_aql("""
+        UPDATE 'customer-support-v2' WITH {
+            status: 'production',
+            deployment_tier: 'hot',
+            promoted_at: DATE_NOW()
+        } IN lora_adapters
+    """)
+```
+
+**Schritt 5: Multi-LoRA Serving mit vLLM**
+
+```python
+# vLLM Multi-LoRA Deployment
+from vllm import LLM, SamplingParams
+from vllm.lora.request import LoRARequest
+
+# Base Model mit Multi-LoRA Support
+llm = LLM(
+    model="meta-llama/Llama-2-7b-hf",
+    enable_lora=True,
+    max_lora_rank=64,
+    max_cpu_loras=10,
+    max_num_seqs=256
+)
+
+# LoRA Adapter registrieren
+lora_adapters = {
+    "customer-support-v2": LoRARequest(
+        lora_name="customer-support-v2",
+        lora_int_id=1,
+        lora_local_path="./lora-customer-support-v2"
+    ),
+    "medical-assistant-v1": LoRARequest(
+        lora_name="medical-assistant-v1",
+        lora_int_id=2,
+        lora_local_path="./lora-medical-v1"
+    )
+}
+
+# Batch-Inference mit verschiedenen Adaptern
+prompts = [
+    "Wie kann ich mein Passwort zurücksetzen?",  # Customer Support
+    "Was sind Symptome von Diabetes Typ 2?"      # Medical
+]
+
+# Dynamisches Adapter-Routing
+lora_requests = [
+    lora_adapters["customer-support-v2"],
+    lora_adapters["medical-assistant-v1"]
+]
+
+outputs = llm.generate(
+    prompts,
+    SamplingParams(temperature=0.3, max_tokens=500),
+    lora_requests=lora_requests
+)
+
+for output in outputs:
+    print(f"Prompt: {output.prompt}")
+    print(f"Generated: {output.outputs[0].text}")
+    print(f"Adapter: {output.lora_request.lora_name}")
+```
+
+**Production Deployment Checklist:**
+
+- [ ] **Training Data Quality**: >0.8 Quality Score, mindestens 1000 Samples
+- [ ] **A/B Test Results**: >85% Quality Score vs. Baseline
+- [ ] **Evaluation Metrics**: Loss <0.5, Perplexity <20
+- [ ] **Adapter Storage**: Weights in S3/Hot Storage, Metadata in ThemisDB
+- [ ] **Monitoring Setup**: Prometheus Metrics, Grafana Dashboard
+- [ ] **Rollback Plan**: Vorherige Adapter-Version in Warm Storage
+- [ ] **Load Testing**: >100 requests/sec mit <200ms p99 Latenz
+- [ ] **Security Review**: PII-Filtering, Content Moderation aktiv
+
+**PEFT Framework Compatibility:**
+
+| Framework | ThemisDB Support | Use Case |
+|-----------|------------------|----------|
+| **HuggingFace PEFT** | ✅ Vollständig | Standard LoRA/QLoRA Training |
+| **vLLM** | ✅ Multi-LoRA Serving | Production Inference |
+| **llama.cpp** | ✅ LoRA Support | Edge/Local Inference |
+| **DeepSpeed** | ✅ Distributed Training | Large-Scale Training |
+| **Axolotl** | ✅ Config-based Training | Rapid Prototyping |
+
+**Best Practices:**
+
+1. **Rank Selection**: Start with r=16 (Balance zwischen Qualität und Speicher)
+2. **Target Modules**: Attention-Module (q/k/v/o_proj) sind meist ausreichend
+3. **Learning Rate**: 3e-4 für LoRA, 1e-4 für QLoRA
+4. **Batch Size**: 8-16 mit Gradient Accumulation für stabiles Training
+5. **Evaluation**: Mindestens 100 Test-Samples mit LLM-as-Judge Validation
+6. **Deployment**: Staging → A/B Test → Production mit Monitoring
+
 ## 17.14 llama.cpp Integration
 
 <!-- Source: LLM_LORA_LLAMACPP_INTEGRATION.md -->

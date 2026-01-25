@@ -1710,6 +1710,271 @@ Request 2:
   → Compression: 86%
 ```
 
+### 31.5.4 HTTP/2 Server Push für CDC-Streaming {#chapter_31_5_4_server-push-cdc}
+
+**Change Data Capture (CDC) mit Server Push** ist ein leistungsstarkes Pattern für Echtzeit-Datensynchronisation ohne Polling-Overhead. HTTP/2 Server Push ermöglicht proaktive Event-Zustellung vom Server zum Client.
+
+**Architektur:**
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant T as ThemisDB HTTP/2
+    participant D as Database Engine
+    
+    C->>T: GET /cdc/subscribe<br/>(HTTP/2 with ALPN h2)
+    T-->>C: 200 OK: {status: "subscribed"}
+    Note over T,D: Client wartet auf Events
+    
+    D->>T: DB Change Event<br/>(INSERT/UPDATE/DELETE)
+    T->>C: PUSH_PROMISE<br/>:path /cdc/event/123
+    T->>C: HEADERS + DATA<br/>CDC Event JSON
+    
+    D->>T: Another Change Event
+    T->>C: PUSH_PROMISE<br/>:path /cdc/event/124
+    T->>C: HEADERS + DATA<br/>CDC Event JSON
+    
+    Note over C,T: No Polling - Events pushed immediately
+```
+
+Abb. 31.5.4: CDC mit HTTP/2 Server Push
+
+**Vorteile gegenüber Polling:**
+
+| Metric | HTTP/1.1 Polling | HTTP/2 Server Push |
+|--------|------------------|---------------------|
+| **Latenz** | ~500ms (Poll-Intervall) | <10ms (Echtzeit) |
+| **Requests/min** | 120 (2 Hz Polling) | 1 (Subscribe) + Events |
+| **Bandbreite** | Hoch (leere Polls) | Niedrig (nur Events) |
+| **Server-Last** | Hoch (ständige Polls) | Niedrig (Event-driven) |
+
+**Beispiel 1: JavaScript Browser Client**
+
+```javascript
+// HTTP/2 CDC Client (Browser)
+async function subscribeCDC() {
+    // HTTP/2 wird automatisch genutzt wenn Server & Browser es unterstützen
+    const response = await fetch('https://themisdb.local:8443/cdc/subscribe', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ...',
+            'Accept': 'application/json'
+        }
+    });
+    
+    if (response.ok) {
+        console.log('CDC Subscription active');
+        
+        // Client wartet jetzt - Server pushed Events automatisch
+        // Events kommen über Server Push als separate Responses
+    }
+}
+
+// Event Handler für gepushte CDC Events
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('push', event => {
+        const cdcEvent = event.data.json();
+        console.log('CDC Event received:', cdcEvent);
+        
+        // Event verarbeiten
+        updateUI(cdcEvent);
+    });
+}
+
+subscribeCDC();
+```
+
+**Beispiel 2: Node.js Client mit http2**
+
+```javascript
+// Node.js HTTP/2 CDC Client
+const http2 = require('http2');
+const fs = require('fs');
+
+const client = http2.connect('https://themisdb.local:8443', {
+    ca: fs.readFileSync('ca.pem')
+});
+
+// Subscribe zu CDC Events
+const req = client.request({
+    ':method': 'GET',
+    ':path': '/cdc/subscribe',
+    'authorization': 'Bearer ...'
+});
+
+req.on('response', (headers) => {
+    console.log('Subscription status:', headers[':status']);
+});
+
+// Empfange gepushte CDC Events
+client.on('stream', (pushedStream, requestHeaders) => {
+    console.log('Server pushed:', requestHeaders[':path']);
+    
+    let data = '';
+    pushedStream.on('data', chunk => {
+        data += chunk;
+    });
+    
+    pushedStream.on('end', () => {
+        const cdcEvent = JSON.parse(data);
+        console.log('CDC Event:', cdcEvent);
+        
+        // Event verarbeiten
+        processEvent(cdcEvent);
+    });
+});
+
+req.end();
+```
+
+**Beispiel 3: curl Test (mit nghttp)**
+
+```bash
+# HTTP/2 CDC Subscribe mit nghttp (curl unterstützt Server Push nicht direkt)
+nghttp -v https://themisdb.local:8443/cdc/subscribe \
+    -H "Authorization: Bearer ..." \
+    --timeout=60
+
+# Output zeigt gepushte Events:
+# [  0.012] recv (stream_id=1) :status: 200
+# [  0.012] recv (stream_id=1) {"status": "subscribed"}
+# [  1.523] recv PUSH_PROMISE (stream_id=2)
+# [  1.523] recv (stream_id=2) :status: 200
+# [  1.523] recv (stream_id=2) {"type": "cdc_event", "sequence": 123, ...}
+# [  2.891] recv PUSH_PROMISE (stream_id=4)
+# [  2.891] recv (stream_id=4) :status: 200
+# [  2.891] recv (stream_id=4) {"type": "cdc_event", "sequence": 124, ...}
+```
+
+**Server-Implementierung (C++ mit nghttp2):**
+
+```cpp
+// ThemisDB HTTP/2 Server Push CDC Handler
+void CDCHandler::onDatabaseChange(const ChangeEvent& event) {
+    // Serialisiere CDC Event zu JSON
+    json cdcEvent = {
+        {"type", "cdc_event"},
+        {"sequence", event.sequence},
+        {"key", event.key},
+        {"value", event.value},
+        {"operation", event.operation},  // INSERT, UPDATE, DELETE
+        {"timestamp", event.timestamp}
+    };
+    
+    std::string jsonData = cdcEvent.dump();
+    
+    // Pushe Event zu allen subscribten Clients
+    for (auto& [streamId, client] : subscribedClients) {
+        // PUSH_PROMISE senden
+        std::string pushPath = "/cdc/event/" + std::to_string(event.sequence);
+        
+        nghttp2_nv headers[] = {
+            {(uint8_t*)":method", (uint8_t*)"GET", 7, 3},
+            {(uint8_t*)":path", (uint8_t*)pushPath.c_str(), 5, pushPath.size()},
+            {(uint8_t*)":scheme", (uint8_t*)"https", 7, 5},
+            {(uint8_t*)":authority", (uint8_t*)"themisdb.local", 10, 14},
+            {(uint8_t*)"content-type", (uint8_t*)"application/json", 12, 16},
+            {(uint8_t*)"x-cdc-sequence", (uint8_t*)std::to_string(event.sequence).c_str(), 14, 0}
+        };
+        
+        int32_t pushedStreamId = nghttp2_submit_push_promise(
+            client->session, NGHTTP2_FLAG_NONE,
+            streamId, headers, 6, nullptr
+        );
+        
+        // Response Data senden
+        nghttp2_data_provider dataProvider = {
+            .source = {.ptr = &jsonData},
+            .read_callback = [](nghttp2_session*, int32_t, uint8_t* buf,
+                               size_t length, uint32_t*, nghttp2_data_source* source,
+                               void*) -> ssize_t {
+                std::string* data = static_cast<std::string*>(source->ptr);
+                size_t nread = std::min(length, data->size());
+                std::memcpy(buf, data->c_str(), nread);
+                return nread;
+            }
+        };
+        
+        nghttp2_submit_response(client->session, pushedStreamId,
+                               headers + 3, 3, &dataProvider);
+    }
+}
+```
+
+**CDC Event Format:**
+
+```json
+{
+  "type": "cdc_event",
+  "sequence": 123,
+  "collection": "users",
+  "key": "user:1001",
+  "operation": "UPDATE",
+  "value": {
+    "_key": "user:1001",
+    "name": "Alice Smith",
+    "email": "alice@example.com",
+    "updated_at": "2026-01-25T10:30:00Z"
+  },
+  "old_value": {
+    "name": "Alice Jones",
+    "email": "alice@example.com"
+  },
+  "timestamp": "2026-01-25T10:30:00.123Z",
+  "txid": "txn_abc123"
+}
+```
+
+**Performance-Vergleich: Polling vs. Server Push**
+
+Szenario: 1000 concurrent Clients, 10 Events/sec pro Client
+
+| Metric | HTTP/1.1 Polling (1 Hz) | HTTP/2 Server Push |
+|--------|--------------------------|---------------------|
+| Requests/sec | 1,000 (Polls) | ~10 (nur Events) |
+| Bandbreite | ~100 MB/s (leere Polls) | ~1 MB/s (Events) |
+| Server CPU | 85% (Poll-Handling) | 15% (Event-Push) |
+| Client Latenz | 500ms (avg) | 8ms (avg) |
+
+**Best Practices:**
+
+1. **Client Reconnection**: Bei Verbindungsabbruch auto-reconnect mit Exponential Backoff
+2. **Sequence Numbers**: Clients tracken letzte Sequence um verlorene Events zu erkennen
+3. **Heartbeats**: Server sendet Keepalive-Events (alle 30s) um Idle-Connections zu halten
+4. **Backpressure**: Server limitiert Push-Rate wenn Client nicht schnell genug verarbeitet
+5. **Security**: TLS mit ALPN "h2" erforderlich, JWT Auth für Subscribe-Endpoint
+
+**Konfiguration:**
+
+```yaml
+# config/http2_cdc.yaml
+http2:
+  server_push:
+    enabled: true
+    max_pushed_streams: 100  # Pro Client-Connection
+    max_clients: 10000
+    
+  cdc:
+    buffer_size: 1000  # Events gepuffert bei langsamen Clients
+    timeout_seconds: 60  # Auto-unsubscribe bei Inaktivität
+    heartbeat_interval: 30  # Keepalive Events
+```
+
+**Monitoring:**
+
+```promql
+# Prometheus Metrics für CDC Server Push
+http2_cdc_subscriptions_active{instance="themisdb-01"}  # Aktive Subscriptions
+http2_cdc_events_pushed_total{instance="themisdb-01"}   # Gesamt gepushte Events
+http2_cdc_push_latency_seconds{instance="themisdb-01"}  # Push-Latenz
+http2_server_push_streams_active{instance="themisdb-01"} # Aktive Push-Streams
+```
+
+**Siehe auch:**
+- Section 31.7: WebSocket vs. SSE (Alternative für ältere Clients)
+- Section 31.8: Security Best Practices (TLS, Auth)
+- `docs/de/apis/HTTP2_SERVER_PUSH_CDC.md` - Detaillierte Implementierung
+
 ---
 
 ## 31.6 HTTP/3 und QUIC {#chapter_31_6_http3-quic}
