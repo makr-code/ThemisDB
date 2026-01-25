@@ -12,6 +12,7 @@
 #include <chrono>
 #include <thread>
 #include <filesystem>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace rpc {
@@ -201,6 +202,23 @@ public:
     }
     
     SnapshotStatus ReceiveChunk(const themis::sharding::SnapshotChunk& chunk) {
+        // Initialize snapshot directory if not set (for receiving mode)
+        if (snapshot_dir_.empty()) {
+            if (chunk.snapshot_id().empty()) {
+                spdlog::error("Cannot initialize snapshot directory: snapshot_id is empty");
+                return SnapshotStatus::ERROR_INVALID_CONFIG;
+            }
+            snapshot_dir_ = "/tmp/themis_snapshots/" + chunk.snapshot_id();
+            
+            // Create the snapshot directory if it doesn't exist
+            try {
+                fs::create_directories(snapshot_dir_);
+            } catch (const fs::filesystem_error& e) {
+                spdlog::error("Failed to create snapshot directory: {}", e.what());
+                return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+            }
+        }
+        
         // Verify checksum
         std::string calculated_checksum = CalculateChecksum(chunk.data());
         if (calculated_checksum != chunk.checksum()) {
@@ -219,38 +237,94 @@ public:
             return SnapshotStatus::ERROR_COMPRESSION_FAILED;
         }
         
-        // Write to file - SECURITY: Validate path to prevent directory traversal
-        fs::path relative_path(chunk.file_path());
-        fs::path file_path = snapshot_dir_ / relative_path;
-        
-        // Canonicalize and verify path is within snapshot directory
-        // Use more robust path validation to prevent bypasses
+        // SECURITY: Validate path to prevent directory traversal (CWE-22)
+        // Step 1: Get canonical directory path
+        fs::path snapshot_dir_canonical;
         try {
-            fs::path canonical_dir = fs::canonical(snapshot_dir_);
-            
-            // Create parent directories first to enable canonicalization
-            fs::create_directories(file_path.parent_path());
-            fs::path canonical_file = fs::canonical(file_path.parent_path()) / file_path.filename();
-            
-            // Use lexically_relative for more robust path traversal detection
-            // This prevents bypasses with specially crafted paths like "dir/../../../etc/passwd"
-            auto relative = canonical_file.lexically_relative(canonical_dir);
-            if (relative.empty() || relative.string().find("..") != std::string::npos) {
-                return SnapshotStatus::ERROR_INVALID_CONFIG;  // Path traversal attempt detected
-            }
-            
-            // Additional check: ensure canonical file is actually under canonical directory
-            auto [it1, it2] = std::mismatch(canonical_dir.begin(), canonical_dir.end(),
-                                           canonical_file.begin());
-            if (it1 != canonical_dir.end()) {
-                return SnapshotStatus::ERROR_INVALID_CONFIG;  // Not a subdirectory
-            }
-        } catch (const fs::filesystem_error&) {
-            return SnapshotStatus::ERROR_INVALID_CONFIG;
+            snapshot_dir_canonical = fs::canonical(snapshot_dir_);
+        } catch (const fs::filesystem_error& e) {
+            spdlog::error("Failed to canonicalize snapshot directory: {}", e.what());
+            return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
         }
         
-        std::ofstream file(file_path, std::ios::binary | std::ios::app);
-        if (!file) {
+        // Step 2: Construct target path from user-supplied file path
+        fs::path file_path = snapshot_dir_canonical / chunk.file_path();
+        
+        // Step 3: Validate canonical path is within snapshot directory
+        fs::path canonical_file_path;
+        try {
+            canonical_file_path = fs::canonical(file_path);
+        } catch (const fs::filesystem_error& e) {
+            // File doesn't exist yet - construct canonical parent path
+            if (e.code() == std::errc::no_such_file_or_directory) {
+                fs::path parent = file_path.parent_path();
+                
+                // Validate parent directory first before creating
+                fs::path canonical_parent;
+                if (fs::exists(parent)) {
+                    // Parent exists, canonicalize it
+                    try {
+                        canonical_parent = fs::canonical(parent);
+                    } catch (const fs::filesystem_error& canon_err) {
+                        spdlog::error("Failed to canonicalize existing parent path: {}", canon_err.what());
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                } else {
+                    // Parent doesn't exist - validate its intended location first
+                    // Get the nearest existing ancestor
+                    fs::path ancestor = parent;
+                    while (!ancestor.empty() && !fs::exists(ancestor)) {
+                        ancestor = ancestor.parent_path();
+                    }
+                    
+                    if (ancestor.empty()) {
+                        spdlog::error("Cannot determine parent directory location");
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                    
+                    // Canonicalize the existing ancestor
+                    fs::path canonical_ancestor;
+                    try {
+                        canonical_ancestor = fs::canonical(ancestor);
+                    } catch (const fs::filesystem_error& canon_err) {
+                        spdlog::error("Failed to canonicalize ancestor path: {}", canon_err.what());
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                    
+                    // Check if ancestor is within snapshot directory
+                    if (!IsPathWithinDirectory(canonical_ancestor, snapshot_dir_canonical, "ancestor validation")) {
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                    
+                    // Now safe to create the parent directories
+                    try {
+                        fs::create_directories(parent);
+                    } catch (const fs::filesystem_error& create_err) {
+                        spdlog::error("Failed to create parent directory: {}", create_err.what());
+                        return SnapshotStatus::ERROR_ROCKSDB_ERROR;  // Filesystem error, not security
+                    }
+                    
+                    canonical_parent = fs::canonical(parent);
+                }
+                
+                // Append filename to canonical parent
+                canonical_file_path = canonical_parent / file_path.filename();
+            } else {
+                spdlog::error("Canonicalization failed: {}", e.what());
+                return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+            }
+        }
+        
+        // Step 4: Verify canonical path is within snapshot directory
+        // Use lexically_relative for robust path validation to prevent bypasses
+        if (!IsPathWithinDirectory(canonical_file_path, snapshot_dir_canonical, "final path validation")) {
+            return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+        }
+        
+        // Step 5: Now safe to use canonical_file_path
+        std::ofstream file(canonical_file_path, std::ios::binary | std::ios::app);
+        if (!file.is_open()) {
+            spdlog::error("Failed to open file for writing: {}", canonical_file_path.string());
             return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
         
@@ -304,6 +378,40 @@ public:
     }
 
 private:
+    // Helper function to validate that a path is within the expected directory
+    // Returns true if the path is safe, false if path traversal is detected
+    bool IsPathWithinDirectory(const fs::path& target_path, 
+                               const fs::path& base_directory,
+                               const std::string& error_context = "") {
+        auto relative = target_path.lexically_relative(base_directory);
+        
+        // Check if relative path is empty (paths are not related)
+        if (relative.empty()) {
+            if (!error_context.empty()) {
+                spdlog::error("Path traversal attempt detected ({}): {} not under {}", 
+                             error_context,
+                             target_path.string(), 
+                             base_directory.string());
+            }
+            return false;
+        }
+        
+        // Check each path component for ".." to detect path traversal
+        // This avoids false positives for filenames containing ".." like "file..txt"
+        for (const auto& component : relative) {
+            if (component == "..") {
+                if (!error_context.empty()) {
+                    spdlog::error("Path traversal attempt detected ({}): {} not under {}", 
+                                 error_context,
+                                 target_path.string(), 
+                                 base_directory.string());
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
     SnapshotStatus CompressData(const std::string& input, std::string* output) {
         switch (config_.compression_type) {
             case themis::sharding::COMPRESSION_NONE:
