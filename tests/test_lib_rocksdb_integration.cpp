@@ -317,3 +317,172 @@ TEST_F(RocksDBLibIntegrationTest, BulkInsertPerformance) {
     // Sanity check: should handle at least 1000 ops/sec
     EXPECT_GT(ops_per_sec, 1000.0);
 }
+
+// Test: Transaction cleanup on BeginTransaction failure
+TEST_F(RocksDBLibIntegrationTest, TransactionCreationFailureCleanup) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = test_db_path_;
+    
+    RocksDBWrapper wrapper(cfg);
+    ASSERT_TRUE(wrapper.open());
+    
+    // Create a transaction successfully
+    auto txn = wrapper.beginTransaction();
+    ASSERT_NE(txn, nullptr);
+    EXPECT_TRUE(txn->isActive());
+    
+    // Close the DB to simulate a scenario where subsequent transactions might fail
+    wrapper.close();
+    
+    // Try to create a new transaction on a closed DB
+    // This should not crash or leak resources
+    auto failed_txn = wrapper.beginTransaction();
+    ASSERT_NE(failed_txn, nullptr);  // Object is created
+    EXPECT_FALSE(failed_txn->isActive());  // But not active
+    
+    // Destructor should handle cleanup properly without crashing
+}
+
+// Test: Transaction state transitions
+TEST_F(RocksDBLibIntegrationTest, TransactionStateTransitions) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = test_db_path_;
+    
+    RocksDBWrapper wrapper(cfg);
+    ASSERT_TRUE(wrapper.open());
+    
+    // Test 1: Active -> Committed
+    {
+        auto txn = wrapper.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        EXPECT_TRUE(txn->isActive());
+        
+        std::vector<uint8_t> value{'t', 'e', 's', 't'};
+        EXPECT_TRUE(txn->put("key1", value));
+        EXPECT_TRUE(txn->commit());
+        EXPECT_FALSE(txn->isActive());  // No longer active after commit
+        
+        // Operations after commit should fail
+        EXPECT_FALSE(txn->put("key2", value));
+        EXPECT_FALSE(txn->del("key1"));
+    }
+    
+    // Test 2: Active -> Rolledback
+    {
+        auto txn = wrapper.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        EXPECT_TRUE(txn->isActive());
+        
+        std::vector<uint8_t> value{'t', 'e', 's', 't'};
+        EXPECT_TRUE(txn->put("key3", value));
+        txn->rollback();
+        EXPECT_FALSE(txn->isActive());  // No longer active after rollback
+        
+        // Operations after rollback should fail
+        EXPECT_FALSE(txn->put("key4", value));
+        EXPECT_FALSE(txn->del("key3"));
+    }
+}
+
+// Test: Transaction auto-rollback on destructor
+TEST_F(RocksDBLibIntegrationTest, TransactionAutoRollback) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = test_db_path_;
+    
+    RocksDBWrapper wrapper(cfg);
+    ASSERT_TRUE(wrapper.open());
+    
+    // Put initial value
+    EXPECT_TRUE(wrapper.put("auto_key", "initial"));
+    
+    // Create a transaction and modify value, but don't commit
+    {
+        auto txn = wrapper.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        
+        std::vector<uint8_t> new_value{'m', 'o', 'd', 'i', 'f', 'i', 'e', 'd'};
+        EXPECT_TRUE(txn->put("auto_key", new_value));
+        
+        // Destructor should auto-rollback
+    }
+    
+    // Verify original value is still present (auto-rollback worked)
+    std::string value;
+    EXPECT_TRUE(wrapper.get("auto_key", value));
+    EXPECT_EQ(value, "initial");
+}
+
+// Test: Transaction exception safety
+TEST_F(RocksDBLibIntegrationTest, TransactionExceptionSafety) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = test_db_path_;
+    
+    RocksDBWrapper wrapper(cfg);
+    ASSERT_TRUE(wrapper.open());
+    
+    auto txn = wrapper.beginTransaction();
+    ASSERT_NE(txn, nullptr);
+    EXPECT_TRUE(txn->isActive());
+    
+    // Put a valid value
+    std::vector<uint8_t> value{'v', 'a', 'l', 'i', 'd'};
+    EXPECT_TRUE(txn->put("exception_key", value));
+    
+    // Commit should work
+    EXPECT_TRUE(txn->commit());
+    EXPECT_FALSE(txn->isActive());
+    
+    // Create another transaction and verify operations after commit fail gracefully
+    auto txn2 = wrapper.beginTransaction();
+    ASSERT_NE(txn2, nullptr);
+    
+    // Commit the transaction
+    EXPECT_TRUE(txn2->commit());
+    
+    // Try to use transaction after commit - should fail gracefully
+    EXPECT_FALSE(txn2->put("another_key", value));
+    EXPECT_FALSE(txn2->del("exception_key"));
+    
+    // Destructor should not crash even though transaction is already committed
+}
+
+// Test: Multiple transaction operations with state tracking
+TEST_F(RocksDBLibIntegrationTest, MultipleTransactionOperationsWithState) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = test_db_path_;
+    
+    RocksDBWrapper wrapper(cfg);
+    ASSERT_TRUE(wrapper.open());
+    
+    // Create and use multiple transactions
+    for (int i = 0; i < 5; ++i) {
+        auto txn = wrapper.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        EXPECT_TRUE(txn->isActive());
+        
+        std::string key = "multi_key_" + std::to_string(i);
+        std::vector<uint8_t> value{'v', 'a', 'l', static_cast<uint8_t>('0' + i)};
+        
+        EXPECT_TRUE(txn->put(key, value));
+        
+        if (i % 2 == 0) {
+            EXPECT_TRUE(txn->commit());
+        } else {
+            txn->rollback();
+        }
+        
+        EXPECT_FALSE(txn->isActive());
+    }
+    
+    // Verify only committed transactions persisted
+    for (int i = 0; i < 5; ++i) {
+        std::string key = "multi_key_" + std::to_string(i);
+        std::string value;
+        
+        if (i % 2 == 0) {
+            EXPECT_TRUE(wrapper.get(key, value)) << "Key " << key << " should exist";
+        } else {
+            EXPECT_FALSE(wrapper.get(key, value)) << "Key " << key << " should not exist";
+        }
+    }
+}
