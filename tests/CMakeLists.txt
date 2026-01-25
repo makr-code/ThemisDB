@@ -145,9 +145,12 @@ target_link_libraries(themis_tests PRIVATE
     OpenSSL::Crypto
     CURL::libcurl
     protobuf::libprotobuf
-    gRPC::grpc++
     Threads::Threads
 )
+
+if(THEMIS_ENABLE_GRPC)
+    target_link_libraries(themis_tests PRIVATE gRPC::grpc++)
+endif()
 
 if(TARGET llama)
     target_link_libraries(themis_tests PRIVATE llama)
@@ -332,7 +335,7 @@ endif()
 # gRPC Channel Pool Tests
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_channel_pool.cpp")
+if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_channel_pool.cpp")
     message(STATUS "Adding gRPC Channel Pool tests")
     
     add_executable(test_grpc_channel_pool
@@ -359,7 +362,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_channel_pool.cpp")
     
     message(STATUS "  gRPC Channel Pool: channel reuse, keepalive, stale pruning")
 else()
-    message(STATUS "gRPC Channel Pool tests not found")
+    message(STATUS "gRPC Channel Pool tests not found or gRPC disabled")
 endif()
 
 # ============================================================================
