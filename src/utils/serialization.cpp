@@ -87,9 +87,9 @@ void Serialization::Encoder::encodeFloatVector(const std::vector<float>& vec) {
     writeUInt32(static_cast<uint32_t>(vec.size()));
     
     // Write floats as raw bytes (platform-dependent but fast)
-    // Note: reinterpret_cast to char* is explicitly allowed by C++ standard
+    // Note: reinterpret_cast to uint8_t* (or char*) is explicitly allowed by C++ standard
     // for accessing object representation (not a strict aliasing violation)
-    const char* data = reinterpret_cast<const char*>(vec.data());
+    const uint8_t* data = reinterpret_cast<const uint8_t*>(vec.data());
     buffer_.insert(buffer_.end(), data, data + vec.size() * sizeof(float));
 }
 
