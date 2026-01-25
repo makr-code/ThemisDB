@@ -202,6 +202,23 @@ public:
     }
     
     SnapshotStatus ReceiveChunk(const themis::sharding::SnapshotChunk& chunk) {
+        // Initialize snapshot directory if not set (for receiving mode)
+        if (snapshot_dir_.empty()) {
+            if (chunk.snapshot_id().empty()) {
+                spdlog::error("Cannot initialize snapshot directory: snapshot_id is empty");
+                return SnapshotStatus::ERROR_INVALID_CONFIG;
+            }
+            snapshot_dir_ = "/tmp/themis_snapshots/" + chunk.snapshot_id();
+            
+            // Create the snapshot directory if it doesn't exist
+            try {
+                fs::create_directories(snapshot_dir_);
+            } catch (const fs::filesystem_error& e) {
+                spdlog::error("Failed to create snapshot directory: {}", e.what());
+                return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+            }
+        }
+        
         // Verify checksum
         std::string calculated_checksum = CalculateChecksum(chunk.data());
         if (calculated_checksum != chunk.checksum()) {
@@ -284,7 +301,7 @@ public:
                         fs::create_directories(parent);
                     } catch (const fs::filesystem_error& create_err) {
                         spdlog::error("Failed to create parent directory: {}", create_err.what());
-                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                        return SnapshotStatus::ERROR_ROCKSDB_ERROR;  // Filesystem error, not security
                     }
                     
                     canonical_parent = fs::canonical(parent);
@@ -367,7 +384,9 @@ private:
                                const fs::path& base_directory,
                                const std::string& error_context = "") {
         auto relative = target_path.lexically_relative(base_directory);
-        if (relative.empty() || relative.string().find("..") != std::string::npos) {
+        
+        // Check if relative path is empty (paths are not related)
+        if (relative.empty()) {
             if (!error_context.empty()) {
                 spdlog::error("Path traversal attempt detected ({}): {} not under {}", 
                              error_context,
@@ -375,6 +394,20 @@ private:
                              base_directory.string());
             }
             return false;
+        }
+        
+        // Check each path component for ".." to detect path traversal
+        // This avoids false positives for filenames containing ".." like "file..txt"
+        for (const auto& component : relative) {
+            if (component == "..") {
+                if (!error_context.empty()) {
+                    spdlog::error("Path traversal attempt detected ({}): {} not under {}", 
+                                 error_context,
+                                 target_path.string(), 
+                                 base_directory.string());
+                }
+                return false;
+            }
         }
         return true;
     }
