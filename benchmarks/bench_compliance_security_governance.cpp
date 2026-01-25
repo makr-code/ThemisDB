@@ -322,19 +322,23 @@ static void BM_AuditLog_HashChainVerification(benchmark::State& state) {
     // Simulate hash chain integrity verification
     
     const int chain_length = state.range(0);
-    std::vector<std::string> hashes;
-    hashes.reserve(chain_length);
-    
-    // Build hash chain
-    std::string prev_hash = "genesis";
-    for (int i = 0; i < chain_length; i++) {
-        std::string current = prev_hash + std::to_string(i);
-        hashes.push_back(current);
-        prev_hash = current;
-    }
     
     for (auto _ : state) {
-        // Verify chain integrity
+        state.PauseTiming();
+        
+        // Build hash chain (setup phase)
+        std::vector<std::string> hashes;
+        hashes.reserve(chain_length);
+        std::string prev_hash = "genesis";
+        for (int i = 0; i < chain_length; i++) {
+            std::string current = prev_hash + std::to_string(i);
+            hashes.push_back(current);
+            prev_hash = current;
+        }
+        
+        state.ResumeTiming();
+        
+        // Verify chain integrity (measured phase)
         bool valid = true;
         for (size_t i = 1; i < hashes.size(); i++) {
             if (hashes[i].find(hashes[i-1]) == std::string::npos) {

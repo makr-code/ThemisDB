@@ -146,8 +146,8 @@ def benchmark_document_graph_themisdb() -> BenchmarkResult:
                         "author_id": 1
                     }
                 )
-            except:
-                pass
+            except Exception as e:
+                print(f"[Setup] Error inserting doc_{i}: {e}")
         
         # Insert author
         try:
@@ -157,24 +157,24 @@ def benchmark_document_graph_themisdb() -> BenchmarkResult:
                 uuid="author_1",
                 data={"id": 1, "name": "John Doe"}
             )
-        except:
-            pass
+        except Exception as e:
+            print(f"[Setup] Error inserting author: {e}")
         
         # Warmup
         for _ in range(5):
             try:
                 client.get("documents", "docs", "doc_1")
-            except:
-                pass
+            except Exception as e:
+                print(f"[Warmup] Error: {e}")
         
         # Benchmark
         for _ in range(50):
-            start = time.perf_counter()
             try:
+                start = time.perf_counter()
                 doc = client.get("documents", "docs", "doc_1")
-            except:
-                pass
-            result.latencies_ms.append((time.perf_counter() - start) * 1000)
+                result.latencies_ms.append((time.perf_counter() - start) * 1000)
+            except Exception as e:
+                print(f"[Benchmark] Error skipped: {e}")
         
         client.close()
     except Exception as e:
@@ -249,24 +249,24 @@ def benchmark_document_vector_themisdb() -> BenchmarkResult:
                         "vector": [0.1 * j for j in range(384)]
                     }
                 )
-            except:
-                pass
+            except Exception as e:
+                print(f"[Setup] Error inserting doc_v_{i}: {e}")
         
         # Warmup
         for _ in range(5):
             try:
                 client.get("documents", "vectors", "doc_v_1")
-            except:
-                pass
+            except Exception as e:
+                print(f"[Warmup] Error: {e}")
         
         # Benchmark
         for _ in range(50):
-            start = time.perf_counter()
             try:
+                start = time.perf_counter()
                 doc = client.get("documents", "vectors", "doc_v_1")
-            except:
-                pass
-            result.latencies_ms.append((time.perf_counter() - start) * 1000)
+                result.latencies_ms.append((time.perf_counter() - start) * 1000)
+            except Exception as e:
+                print(f"[Benchmark] Error skipped: {e}")
         
         client.close()
     except Exception as e:
@@ -349,24 +349,24 @@ def benchmark_olap_document_themisdb() -> BenchmarkResult:
                         "timestamp": time.time()
                     }
                 )
-            except:
-                pass
+            except Exception as e:
+                print(f"[Setup] Error inserting stat_{i}: {e}")
         
         # Warmup
         for _ in range(5):
             try:
                 client.get("analytics", "stats", "stat_1")
-            except:
-                pass
+            except Exception as e:
+                print(f"[Warmup] Error: {e}")
         
         # Benchmark
         for _ in range(50):
-            start = time.perf_counter()
             try:
+                start = time.perf_counter()
                 doc = client.get("analytics", "stats", "stat_1")
-            except:
-                pass
-            result.latencies_ms.append((time.perf_counter() - start) * 1000)
+                result.latencies_ms.append((time.perf_counter() - start) * 1000)
+            except Exception as e:
+                print(f"[Benchmark] Error skipped: {e}")
         
         client.close()
     except Exception as e:
