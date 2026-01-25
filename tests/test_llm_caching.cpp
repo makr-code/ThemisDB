@@ -218,10 +218,21 @@ TEST(PagedBlockManagerTest, GetBlock) {
     auto block_ids = mgr.allocateBlocks(1);
     ASSERT_FALSE(block_ids.empty());
     
-    auto* block = mgr.getBlock(block_ids[0]);
-    ASSERT_NE(block, nullptr);
-    EXPECT_EQ(block->block_id, block_ids[0]);
-    EXPECT_FALSE(block->is_free);
+    // Test callback pattern (withBlock)
+    bool callback_executed = false;
+    mgr.withBlock(block_ids[0], [&](const PagedBlockManager::Block& block) {
+        callback_executed = true;
+        EXPECT_EQ(block.block_id, block_ids[0]);
+        EXPECT_FALSE(block.is_free);
+    });
+    EXPECT_TRUE(callback_executed);
+    
+    // Test reference wrapper pattern (getBlockRef)
+    auto block_ref = mgr.getBlockRef(block_ids[0]);
+    ASSERT_TRUE(block_ref.has_value());
+    const PagedBlockManager::Block& block = block_ref->get();
+    EXPECT_EQ(block.block_id, block_ids[0]);
+    EXPECT_FALSE(block.is_free);
 }
 
 TEST(PagedBlockManagerTest, ConcurrentAllocation) {

@@ -78,6 +78,8 @@ public:
         bool unique_edges = false;
         std::vector<std::string> forbidden_vertices;
         std::vector<std::string> required_vertices;
+        
+        QueryConstraints() = default;
     };
 
     /**
