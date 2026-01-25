@@ -58,7 +58,8 @@ enum class SnapshotStatus {
     ERROR_CHECKSUM_MISMATCH,
     ERROR_ROCKSDB_ERROR,
     ERROR_INVALID_CONFIG,
-    ERROR_NETWORK_ERROR
+    ERROR_NETWORK_ERROR,
+    ERROR_SECURITY_PATH_TRAVERSAL  // Path traversal attempt detected
 };
 
 // Callback for chunk streaming
@@ -122,8 +123,19 @@ public:
     /**
      * Receive and apply snapshot chunks.
      * 
-     * @param chunk Received snapshot chunk
-     * @return Status code
+     * SECURITY: This method validates file paths using canonical path resolution
+     * to prevent path traversal attacks (CWE-22). User-supplied file paths are
+     * verified to be within the snapshot directory before any file operations.
+     * 
+     * Path validation includes:
+     * - Canonical path resolution with fs::canonical()
+     * - Verification that resolved path is within snapshot directory
+     * - Handling of non-existent parent directories
+     * - Rejection of absolute paths and .. traversal attempts
+     * - Logging of security violations
+     * 
+     * @param chunk Received snapshot chunk with file path and data
+     * @return Status code (ERROR_SECURITY_PATH_TRAVERSAL on path traversal attempt)
      */
     SnapshotStatus ReceiveChunk(const themis::sharding::SnapshotChunk& chunk);
     
