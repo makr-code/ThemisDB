@@ -1,5 +1,6 @@
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
+#include <fmt/format.h>
 
 #include <algorithm>
 #include <stdexcept>

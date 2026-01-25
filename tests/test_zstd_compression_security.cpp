@@ -68,8 +68,10 @@ TEST_F(ZstdCompressionSecurityTest, RejectInputTooLarge) {
     // Input size exceeding MAX_INPUT_SIZE (1GB) should fail
     size_t too_large = compression::MAX_INPUT_SIZE + 1;
     
-    // We don't actually allocate this much memory, just test the validation
-    auto result = zstd_compress_safe(reinterpret_cast<const uint8_t*>(0x1000), too_large, 3);
+    // Create a small valid buffer but claim it's much larger
+    // The validation should happen before any memory access
+    std::vector<uint8_t> dummy(1);
+    auto result = zstd_compress_safe(dummy.data(), too_large, 3);
     
     ASSERT_FALSE(result.has_value());
     EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
@@ -80,7 +82,10 @@ TEST_F(ZstdCompressionSecurityTest, RejectInputMaxSize) {
     // Input size at UINT64_MAX should fail (DoS attack scenario)
     size_t max_size = std::numeric_limits<size_t>::max();
     
-    auto result = zstd_compress_safe(reinterpret_cast<const uint8_t*>(0x1000), max_size, 3);
+    // Create a small valid buffer but claim it's much larger
+    // The validation should happen before any memory access
+    std::vector<uint8_t> dummy(1);
+    auto result = zstd_compress_safe(dummy.data(), max_size, 3);
     
     ASSERT_FALSE(result.has_value());
     EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
@@ -88,10 +93,10 @@ TEST_F(ZstdCompressionSecurityTest, RejectInputMaxSize) {
 
 TEST_F(ZstdCompressionSecurityTest, CompressAtBoundary) {
     // Input size exactly at MAX_INPUT_SIZE should succeed (boundary test)
-    // Note: We can't actually allocate 1GB in a test, so we test the logic
-    // with a smaller size and verify the limit is correctly set
-    EXPECT_EQ(compression::MAX_INPUT_SIZE, 1024ULL * 1024 * 1024);  // 1GB
-    EXPECT_EQ(compression::MAX_OUTPUT_SIZE, 1024ULL * 1024 * 2048); // 2GB
+    // Verify the size limits are correctly defined
+    EXPECT_EQ(compression::MAX_INPUT_SIZE, 1024ULL * 1024 * 1024);       // 1GB
+    EXPECT_EQ(compression::MAX_OUTPUT_SIZE, 1024ULL * 1024 * 1024 * 2);  // 2GB
+    EXPECT_EQ(compression::MAX_DECOMPRESSED_SIZE, 1024ULL * 1024 * 1024 * 4); // 4GB
 }
 
 // ============================================================================
@@ -130,9 +135,8 @@ TEST_F(ZstdCompressionSecurityTest, RejectInvalidCompressedData) {
 
 TEST_F(ZstdCompressionSecurityTest, RejectDecompressedSizeTooLarge) {
     // This test validates that decompressed size validation works
-    // We can't easily create a valid ZSTD frame claiming huge decompressed size
-    // So we verify the constants are set correctly
-    EXPECT_EQ(compression::MAX_DECOMPRESSED_SIZE, 1024ULL * 1024 * 4096);  // 4GB
+    // Verify the constants are set correctly
+    EXPECT_EQ(compression::MAX_DECOMPRESSED_SIZE, 1024ULL * 1024 * 1024 * 4);  // 4GB
 }
 
 TEST_F(ZstdCompressionSecurityTest, RejectCompressedDataTooLarge) {
@@ -162,7 +166,10 @@ TEST_F(ZstdCompressionSecurityTest, LegacyAPICompressNormal) {
 TEST_F(ZstdCompressionSecurityTest, LegacyAPICompressInvalidReturnsEmpty) {
     // Legacy API returns empty on failure
     size_t too_large = compression::MAX_INPUT_SIZE + 1;
-    auto compressed = zstd_compress(reinterpret_cast<const uint8_t*>(0x1000), too_large, 3);
+    
+    // Create a small valid buffer but claim it's much larger
+    std::vector<uint8_t> dummy(1);
+    auto compressed = zstd_compress(dummy.data(), too_large, 3);
     
     EXPECT_TRUE(compressed.empty());
 }
@@ -233,7 +240,10 @@ TEST_F(ZstdCompressionSecurityTest, RoundTripDifferentCompressionLevels) {
 
 TEST_F(ZstdCompressionSecurityTest, ErrorMessageInputTooLarge) {
     size_t too_large = compression::MAX_INPUT_SIZE + 1;
-    auto result = zstd_compress_safe(reinterpret_cast<const uint8_t*>(0x1000), too_large, 3);
+    
+    // Create a small valid buffer but claim it's much larger
+    std::vector<uint8_t> dummy(1);
+    auto result = zstd_compress_safe(dummy.data(), too_large, 3);
     
     ASSERT_FALSE(result.has_value());
     

@@ -14,9 +14,9 @@ namespace utils {
 
 // Maximum sizes to prevent denial of service attacks
 namespace compression {
-    constexpr size_t MAX_INPUT_SIZE = 1024 * 1024 * 1024;           // 1GB max input
-    constexpr size_t MAX_OUTPUT_SIZE = 1024 * 1024 * 2048;          // 2GB max compressed output
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 4096; // 4GB max decompressed output
+    constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024 * 1024;           // 1GB max input
+    constexpr size_t MAX_OUTPUT_SIZE = 1024ULL * 1024 * 1024 * 2;      // 2GB max compressed output
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 1024 * 4; // 4GB max decompressed output
 }
 
 // Compress a buffer with ZSTD. Returns compressed bytes on success; empty on failure/unsupported.
