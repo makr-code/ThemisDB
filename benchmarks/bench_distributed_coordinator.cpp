@@ -4,28 +4,34 @@
 using namespace themis::sharding;
 
 static void BM_Coordinator_StartElection(benchmark::State& state) {
-    auto topology = std::make_shared<ShardTopology>();
-    for (int i = 0; i < state.range(0); ++i) {
-        ShardInfo shard;
-        shard.shard_id = "shard" + std::to_string(i);
-        shard.primary_endpoint = "localhost:" + std::to_string(8000 + i);
-        shard.is_healthy = true;
-        topology->addShard(shard);
-    }
-    
-    GossipConfigManagerConfig gossip_config;
-    gossip_config.local_shard_id = "shard0";
-    gossip_config.local_endpoint = "localhost:8000";
-    gossip_config.enabled = false;
-    
-    auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
-    
-    DistributedCoordinator::Config config;
-    config.election_timeout_ms = 100;  // Faster for benchmarking
-    
-    DistributedCoordinator coordinator("shard0", topology, gossip, config);
-    
     for (auto _ : state) {
+        state.PauseTiming();
+        
+        // Setup topology (not measured)
+        auto topology = std::make_shared<ShardTopology>();
+        for (int i = 0; i < state.range(0); ++i) {
+            ShardInfo shard;
+            shard.shard_id = "shard" + std::to_string(i);
+            shard.primary_endpoint = "localhost:" + std::to_string(8000 + i);
+            shard.is_healthy = true;
+            topology->addShard(shard);
+        }
+        
+        GossipConfigManagerConfig gossip_config;
+        gossip_config.local_shard_id = "shard0";
+        gossip_config.local_endpoint = "localhost:8000";
+        gossip_config.enabled = false;
+        
+        auto gossip = std::make_shared<GossipConfigManager>(gossip_config, topology);
+        
+        DistributedCoordinator::Config config;
+        config.election_timeout_ms = 100;  // Faster for benchmarking
+        
+        DistributedCoordinator coordinator("shard0", topology, gossip, config);
+        
+        state.ResumeTiming();
+        
+        // Measured operations
         coordinator.startElection();
         coordinator.stepDown();  // Reset for next iteration
     }
@@ -37,6 +43,7 @@ BENCHMARK(BM_Coordinator_StartElection)
     ->Unit(benchmark::kMillisecond);
 
 static void BM_Coordinator_ScheduleTask(benchmark::State& state) {
+    // Setup (one-time, not measured)
     auto topology = std::make_shared<ShardTopology>();
     
     GossipConfigManagerConfig gossip_config;
@@ -178,6 +185,7 @@ static void BM_Coordinator_TaskJsonDeserialization(benchmark::State& state) {
 BENCHMARK(BM_Coordinator_TaskJsonDeserialization)->Unit(benchmark::kMicrosecond);
 
 static void BM_Coordinator_GetPendingTasks(benchmark::State& state) {
+    // Setup (one-time, not measured)
     auto topology = std::make_shared<ShardTopology>();
     
     GossipConfigManagerConfig gossip_config;

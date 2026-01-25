@@ -374,4 +374,4 @@ BENCHMARK(BM_TransactionContention)
     ->Threads(16)
     ->Unit(benchmark::kMicrosecond);
 
-// BENCHMARK_MAIN entfernt – Nutzung von benchmark_main Library durch CMake.
+BENCHMARK_MAIN();
