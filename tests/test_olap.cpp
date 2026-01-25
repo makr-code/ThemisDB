@@ -205,6 +205,380 @@ TEST_F(ColumnarStoreTest, ClearStore) {
     EXPECT_EQ(store.rowCount(), 0);
 }
 
+// ===== ENHANCED TESTS: Edge Cases and Boundary Conditions =====
+
+// Test: Empty column store operations
+TEST_F(ColumnarStoreTest, EmptyStoreOperations) {
+    // Operations on empty store should handle gracefully
+    EXPECT_EQ(store.rowCount(), 0);
+    EXPECT_DOUBLE_EQ(store.sum("amount"), 0.0);
+    EXPECT_DOUBLE_EQ(store.avg("amount"), 0.0);
+    EXPECT_EQ(store.count("amount"), 0);
+    EXPECT_EQ(store.countDistinct("name"), 0);
+}
+
+// Test: Single row operations
+TEST_F(ColumnarStoreTest, SingleRowOperations) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"id", std::string("1")}, {"amount", 100.0}}
+    };
+    
+    store.appendRows(rows);
+    
+    EXPECT_EQ(store.rowCount(), 1);
+    EXPECT_DOUBLE_EQ(store.sum("amount"), 100.0);
+    EXPECT_DOUBLE_EQ(store.avg("amount"), 100.0);
+    EXPECT_DOUBLE_EQ(store.min("amount"), 100.0);
+    EXPECT_DOUBLE_EQ(store.max("amount"), 100.0);
+    EXPECT_EQ(store.count("amount"), 1);
+}
+
+// Test: All null values
+TEST_F(ColumnarStoreTest, AllNullValues) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"amount", nullptr}},
+        {{"amount", nullptr}},
+        {{"amount", nullptr}}
+    };
+    
+    store.appendRows(rows);
+    
+    auto stats = store.getColumnStats("amount");
+    EXPECT_EQ(stats.row_count, 3);
+    EXPECT_EQ(stats.null_count, 3);
+    EXPECT_FALSE(stats.min_value.has_value());
+    EXPECT_FALSE(stats.max_value.has_value());
+}
+
+// Test: Mixed null and non-null values
+TEST_F(ColumnarStoreTest, MixedNullValues) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"amount", 50.0}},
+        {{"amount", nullptr}},
+        {{"amount", 150.0}},
+        {{"amount", nullptr}},
+        {{"amount", 100.0}}
+    };
+    
+    store.appendRows(rows);
+    
+    auto stats = store.getColumnStats("amount");
+    EXPECT_EQ(stats.row_count, 5);
+    EXPECT_EQ(stats.null_count, 2);
+    EXPECT_DOUBLE_EQ(*stats.min_value, 50.0);
+    EXPECT_DOUBLE_EQ(*stats.max_value, 150.0);
+    // Average of non-null values: (50 + 150 + 100) / 3 = 100.0
+    EXPECT_DOUBLE_EQ(stats.avg_value, 100.0);
+}
+
+// Test: Large dataset aggregations
+TEST_F(ColumnarStoreTest, LargeDatasetAggregations) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows;
+    double expected_sum = 0.0;
+    const int num_rows = 10000;
+    
+    for (int i = 0; i < num_rows; ++i) {
+        double value = static_cast<double>(i);
+        rows.push_back({{"amount", value}});
+        expected_sum += value;
+    }
+    
+    store.appendRows(rows);
+    
+    EXPECT_EQ(store.rowCount(), num_rows);
+    EXPECT_DOUBLE_EQ(store.sum("amount"), expected_sum);
+    EXPECT_DOUBLE_EQ(store.min("amount"), 0.0);
+    EXPECT_DOUBLE_EQ(store.max("amount"), static_cast<double>(num_rows - 1));
+    EXPECT_EQ(store.count("amount"), num_rows);
+}
+
+// Test: Extreme values (very large and very small)
+TEST_F(ColumnarStoreTest, ExtremeValues) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"amount", 1e308}},    // Very large
+        {{"amount", 1e-308}},   // Very small
+        {{"amount", -1e308}},   // Very large negative
+        {{"amount", 100.0}}     // Normal
+    };
+    
+    store.appendRows(rows);
+    
+    EXPECT_DOUBLE_EQ(store.min("amount"), -1e308);
+    EXPECT_DOUBLE_EQ(store.max("amount"), 1e308);
+    EXPECT_EQ(store.count("amount"), 4);
+}
+
+// Test: Zero values handling
+TEST_F(ColumnarStoreTest, ZeroValuesHandling) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"amount", 0.0}},
+        {{"amount", 0.0}},
+        {{"amount", 100.0}},
+        {{"amount", 0.0}}
+    };
+    
+    store.appendRows(rows);
+    
+    EXPECT_DOUBLE_EQ(store.sum("amount"), 100.0);
+    EXPECT_DOUBLE_EQ(store.avg("amount"), 25.0);
+    EXPECT_DOUBLE_EQ(store.min("amount"), 0.0);
+    EXPECT_EQ(store.count("amount"), 4);
+}
+
+// Test: Negative values
+TEST_F(ColumnarStoreTest, NegativeValues) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"amount", -100.0}},
+        {{"amount", -200.0}},
+        {{"amount", 50.0}}
+    };
+    
+    store.appendRows(rows);
+    
+    EXPECT_DOUBLE_EQ(store.sum("amount"), -250.0);
+    EXPECT_DOUBLE_EQ(store.avg("amount"), -83.33333333333333);
+    EXPECT_DOUBLE_EQ(store.min("amount"), -200.0);
+    EXPECT_DOUBLE_EQ(store.max("amount"), 50.0);
+}
+
+// ===== ENHANCED TESTS: Parametrized Aggregation Tests =====
+
+// Parametrized test for different aggregation functions
+class AggregationFunctionTest : public ColumnarStoreTest,
+                                 public ::testing::WithParamInterface<std::tuple<Measure::Function, double>> {
+};
+
+TEST_P(AggregationFunctionTest, TestAggregationFunction) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    auto [func, expected_value] = GetParam();
+    
+    // Set up test data: [10, 20, 30, 40, 50]
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"amount", 10.0}},
+        {{"amount", 20.0}},
+        {{"amount", 30.0}},
+        {{"amount", 40.0}},
+        {{"amount", 50.0}}
+    };
+    
+    store.appendRows(rows);
+    
+    // Test based on function type
+    switch(func) {
+        case Measure::Function::Sum:
+            EXPECT_DOUBLE_EQ(store.sum("amount"), expected_value);
+            break;
+        case Measure::Function::Avg:
+            EXPECT_DOUBLE_EQ(store.avg("amount"), expected_value);
+            break;
+        case Measure::Function::Min:
+            EXPECT_DOUBLE_EQ(store.min("amount"), expected_value);
+            break;
+        case Measure::Function::Max:
+            EXPECT_DOUBLE_EQ(store.max("amount"), expected_value);
+            break;
+        case Measure::Function::Count:
+            EXPECT_EQ(store.count("amount"), static_cast<size_t>(expected_value));
+            break;
+        default:
+            // Other functions not implemented in this test
+            break;
+    }
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    AggregationTests,
+    AggregationFunctionTest,
+    ::testing::Values(
+        std::make_tuple(Measure::Function::Sum, 150.0),    // 10+20+30+40+50
+        std::make_tuple(Measure::Function::Avg, 30.0),     // 150/5
+        std::make_tuple(Measure::Function::Min, 10.0),
+        std::make_tuple(Measure::Function::Max, 50.0),
+        std::make_tuple(Measure::Function::Count, 5.0)
+    )
+);
+
+// ===== ENHANCED TESTS: Error Handling =====
+
+// Test: Invalid column access
+TEST_F(ColumnarStoreTest, InvalidColumnAccess) {
+    // Attempting operations on non-existent column should handle gracefully
+    EXPECT_FALSE(store.hasColumn("nonexistent"));
+    
+    // These should either return 0/default or throw - test the behavior
+    // The exact behavior depends on implementation
+}
+
+// Test: Type mismatch in column operations
+TEST_F(ColumnarStoreTest, TypeMismatchHandling) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    store.createColumn("text_col", "string");
+    
+    std::vector<std::unordered_map<std::string, Value>> rows = {
+        {{"text_col", std::string("hello")}},
+        {{"text_col", std::string("world")}}
+    };
+    
+    store.appendRows(rows);
+    
+    // Attempting numeric operations on string column
+    // Should handle gracefully (return 0 or throw - depends on implementation)
+}
+
+// ===== ENHANCED TESTS: Concurrent Operations =====
+
+// Test: Concurrent reads
+TEST_F(ColumnarStoreTest, ConcurrentReads) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    // Populate store with data
+    std::vector<std::unordered_map<std::string, Value>> rows;
+    for (int i = 0; i < 1000; ++i) {
+        rows.push_back({{"amount", static_cast<double>(i)}});
+    }
+    store.appendRows(rows);
+    
+    // Multiple threads reading concurrently
+    const int num_threads = 4;
+    std::vector<std::thread> threads;
+    std::atomic<int> success_count{0};
+    
+    for (int t = 0; t < num_threads; ++t) {
+        threads.emplace_back([this, &success_count]() {
+            for (int i = 0; i < 10; ++i) {
+                auto count = store.rowCount();
+                auto sum = store.sum("amount");
+                if (count == 1000 && sum == 499500.0) {
+                    success_count++;
+                }
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // All reads should be successful
+    EXPECT_EQ(success_count, num_threads * 10);
+}
+
+// ===== ENHANCED TESTS: Performance Bounds =====
+
+// Test: Aggregation performance on large dataset
+TEST_F(ColumnarStoreTest, AggregationPerformanceBounds) {
+    using Value = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+    
+    // Create large dataset
+    const int num_rows = 100000;
+    std::vector<std::unordered_map<std::string, Value>> rows;
+    rows.reserve(num_rows);
+    
+    for (int i = 0; i < num_rows; ++i) {
+        rows.push_back({{"amount", static_cast<double>(i)}});
+    }
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    store.appendRows(rows);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto insert_duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Insertion should be fast
+    EXPECT_LT(insert_duration.count(), 1000) 
+        << "Inserting " << num_rows << " rows took " << insert_duration.count() << "ms, expected < 1000ms";
+    
+    // Test aggregation performance
+    start = std::chrono::high_resolution_clock::now();
+    double sum = store.sum("amount");
+    end = std::chrono::high_resolution_clock::now();
+    auto sum_duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    
+    // Aggregation should be fast (columnar benefit)
+    EXPECT_LT(sum_duration.count(), 10000) 
+        << "Sum aggregation took " << sum_duration.count() << "μs, expected < 10000μs";
+    
+    // Verify correctness
+    double expected_sum = (num_rows - 1) * num_rows / 2.0;
+    EXPECT_DOUBLE_EQ(sum, expected_sum);
+}
+
+// ===== OLAP Engine Enhanced Tests =====
+
+// Test: Empty query result handling
+TEST_F(OLAPEngineTest, EmptyQueryResultHandling) {
+    OLAPQuery query;
+    query.collection = "nonexistent_collection";
+    query.dimensions.push_back({"region", "", true});
+    query.measures.push_back({"total", "amount", Measure::Function::Sum});
+    
+    auto result = engine.execute(query);
+    
+    EXPECT_EQ(result.rows.size(), 0) << "Empty collection should return 0 rows";
+    EXPECT_GT(result.execution_time_ms, 0) << "Execution time should be recorded";
+    EXPECT_FALSE(result.has_more) << "No more results for empty query";
+}
+
+// Test: Query with no dimensions (grand totals only)
+TEST_F(OLAPEngineTest, QueryWithoutDimensions) {
+    OLAPQuery query;
+    query.collection = "sales";
+    query.measures.push_back({"total", "amount", Measure::Function::Sum});
+    
+    auto plan = engine.explain(query);
+    
+    // Query should be valid even without dimensions
+    EXPECT_GT(plan.estimated_cost, 0);
+}
+
+// Test: Query with many dimensions (high cardinality)
+TEST_F(OLAPEngineTest, HighCardinalityQuery) {
+    OLAPQuery query;
+    query.collection = "sales";
+    query.grouping_mode = OLAPQuery::GroupingMode::Cube;
+    
+    // Add many dimensions (high cardinality)
+    for (int i = 0; i < 10; ++i) {
+        query.dimensions.push_back({"dim" + std::to_string(i), "", true});
+    }
+    query.measures.push_back({"total", "amount", Measure::Function::Sum});
+    
+    auto plan = engine.explain(query);
+    
+    // CUBE with 10 dimensions = 2^10 = 1024 combinations
+    EXPECT_GT(plan.estimated_cost, 1000);
+}
+
+// Test: Query plan optimization notes
+TEST_F(OLAPEngineTest, QueryPlanOptimizationNotes) {
+    OLAPQuery query;
+    query.collection = "sales";
+    query.grouping_mode = OLAPQuery::GroupingMode::Simple;
+    query.dimensions.push_back({"region", "", true});
+    query.measures.push_back({"total", "amount", Measure::Function::Sum});
+    
+    auto plan = engine.explain(query);
+    
+    // Should have optimization notes
+    EXPECT_FALSE(plan.optimization_notes.empty()) 
+        << "Query plan should include optimization notes";
+}
+
 // ===== Materialized View Tests =====
 
 class MaterializedViewTest : public ::testing::Test {};

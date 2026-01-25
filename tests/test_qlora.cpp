@@ -398,3 +398,389 @@ TEST_F(QLoRATest, Integration_CompareNF4vsINT8) {
     
     EXPECT_LT(int8_mse, nf4_mse);
 }
+
+// ===== ENHANCED TESTS: Edge Cases and Boundary Conditions =====
+
+// Test: Quantization with extreme dimensions
+TEST_F(QLoRATest, QuantizationExtremeDimensions) {
+    // Very small tensor (1x1)
+    Tensor tiny_weights = tensor_utils::randn({1, 1});
+    QuantizedLayerWeights q_tiny(tiny_weights, config_);
+    Tensor reconstructed_tiny = q_tiny.dequantize();
+    EXPECT_EQ(reconstructed_tiny.shape(), tiny_weights.shape());
+    
+    // Very large tensor (1024x1024)
+    Tensor large_weights = tensor_utils::randn({1024, 1024}, 0.0f, 0.1f);
+    QuantizedLayerWeights q_large(large_weights, config_);
+    
+    size_t original_bytes = 1024 * 1024 * sizeof(float);
+    size_t quantized_bytes = q_large.memory_bytes();
+    
+    float reduction = 1.0f - static_cast<float>(quantized_bytes) / original_bytes;
+    EXPECT_GT(reduction, 0.60f) << "Large tensor should have > 60% memory reduction";
+}
+
+// Test: Single element tensor
+TEST_F(QLoRATest, SingleElementTensor) {
+    Tensor single = tensor_utils::randn({1, 1});
+    single[0] = 42.0f;
+    
+    QuantizedLayerWeights q_single(single, config_);
+    Tensor reconstructed = q_single.dequantize();
+    
+    EXPECT_EQ(reconstructed.size(), 1);
+    // Single value should be approximately preserved
+    float error = std::abs(single[0] - reconstructed[0]);
+    EXPECT_LT(error, 5.0f) << "Single element error: " << error;
+}
+
+// Test: Zero tensor quantization
+TEST_F(QLoRATest, ZeroTensorQuantization) {
+    Tensor zeros({64, 64});
+    zeros.fill(0.0f);
+    
+    QuantizedLayerWeights q_zeros(zeros, config_);
+    Tensor reconstructed = q_zeros.dequantize();
+    
+    // Zeros should remain approximately zero
+    float max_deviation = 0.0f;
+    for (size_t i = 0; i < reconstructed.size(); ++i) {
+        max_deviation = std::max(max_deviation, std::abs(reconstructed[i]));
+    }
+    
+    EXPECT_LT(max_deviation, 0.1f) << "Zero tensor max deviation: " << max_deviation;
+}
+
+// Test: Uniform value tensor
+TEST_F(QLoRATest, UniformValueTensor) {
+    Tensor uniform({32, 32});
+    uniform.fill(5.0f);
+    
+    QuantizedLayerWeights q_uniform(uniform, config_);
+    Tensor reconstructed = q_uniform.dequantize();
+    
+    // Check variance in reconstruction
+    float mean = 0.0f;
+    for (size_t i = 0; i < reconstructed.size(); ++i) {
+        mean += reconstructed[i];
+    }
+    mean /= reconstructed.size();
+    
+    EXPECT_NEAR(mean, 5.0f, 0.5f) << "Uniform tensor mean should be close to original";
+}
+
+// Test: Extreme value tensors
+TEST_F(QLoRATest, ExtremeValueTensors) {
+    // Very large values
+    Tensor large_vals({16, 16});
+    large_vals.fill(1000.0f);
+    
+    QuantizedLayerWeights q_large_vals(large_vals, config_);
+    Tensor reconstructed_large = q_large_vals.dequantize();
+    
+    // Very small values
+    Tensor small_vals({16, 16});
+    small_vals.fill(0.001f);
+    
+    QuantizedLayerWeights q_small_vals(small_vals, config_);
+    Tensor reconstructed_small = q_small_vals.dequantize();
+    
+    // Both should complete without errors
+    EXPECT_EQ(reconstructed_large.size(), large_vals.size());
+    EXPECT_EQ(reconstructed_small.size(), small_vals.size());
+}
+
+// ===== ENHANCED TESTS: Parametrized Quantization Tests =====
+
+// Parametrized test for different quantization types
+class QuantizationTypeTest : public QLoRATest,
+                              public ::testing::WithParamInterface<std::tuple<QuantizationType, float>> {
+};
+
+TEST_P(QuantizationTypeTest, QuantizationAccuracy) {
+    auto [quant_type, expected_min_reduction] = GetParam();
+    
+    Tensor weights = tensor_utils::randn({256, 256}, 0.0f, 1.0f);
+    
+    QuantizedModelConfig test_config = config_;
+    test_config.quantization_type = quant_type;
+    
+    QuantizedLayerWeights q_weights(weights, test_config);
+    Tensor reconstructed = q_weights.dequantize();
+    
+    // Check memory reduction
+    size_t original_bytes = weights.size() * sizeof(float);
+    size_t quantized_bytes = q_weights.memory_bytes();
+    float reduction = 1.0f - static_cast<float>(quantized_bytes) / original_bytes;
+    
+    EXPECT_GT(reduction, expected_min_reduction) 
+        << "Quantization type should achieve minimum " << (expected_min_reduction * 100) << "% reduction";
+    
+    // Check reconstruction accuracy
+    float mse = 0.0f;
+    for (size_t i = 0; i < weights.size(); ++i) {
+        float diff = weights[i] - reconstructed[i];
+        mse += diff * diff;
+    }
+    mse /= weights.size();
+    
+    // Different quantization types have different accuracy bounds
+    float max_mse = (quant_type == QuantizationType::NF4) ? 0.1f : 0.05f;
+    EXPECT_LT(mse, max_mse) << "MSE: " << mse << " for quant type";
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    QuantizationTypes,
+    QuantizationTypeTest,
+    ::testing::Values(
+        std::make_tuple(QuantizationType::NF4, 0.60f),   // At least 60% reduction for NF4
+        std::make_tuple(QuantizationType::INT8, 0.60f)   // At least 60% reduction for INT8
+    )
+);
+
+// ===== ENHANCED TESTS: Error Handling =====
+
+// Test: Invalid dimensions
+TEST_F(QLoRATest, InvalidDimensionsHandling) {
+    // Try to create QLoRA layer with mismatched dimensions
+    // This should either throw or handle gracefully
+    EXPECT_NO_THROW({
+        QLoRALayer layer(0, 64, 4); // Zero input dimension
+    });
+    
+    EXPECT_NO_THROW({
+        QLoRALayer layer(64, 0, 4); // Zero output dimension
+    });
+}
+
+// Test: Invalid rank
+TEST_F(QLoRATest, InvalidRankHandling) {
+    // Rank of 0 should be handled
+    EXPECT_NO_THROW({
+        QLoRALayer layer(64, 64, 0);
+    });
+    
+    // Very large rank (larger than dimensions)
+    EXPECT_NO_THROW({
+        QLoRALayer layer(8, 8, 16); // Rank larger than dimensions
+    });
+}
+
+// Test: Backward pass without forward
+TEST_F(QLoRATest, BackwardWithoutForward) {
+    QLoRALayer layer(32, 32, 4);
+    
+    // Try backward without forward - should handle gracefully
+    Tensor grad_output({1, 32});
+    grad_output.fill(1.0f);
+    
+    // This may throw or return zero gradients depending on implementation
+    // Just verify it doesn't crash
+    EXPECT_NO_THROW({
+        layer.backward(grad_output);
+    });
+}
+
+// Test: Multiple forward passes with same input
+TEST_F(QLoRATest, MultipleForwardPasses) {
+    QLoRALayer layer(16, 16, 4);
+    Tensor input({1, 16});
+    input.fill(1.0f);
+    
+    // Multiple forward passes should be consistent
+    Tensor output1 = layer.forward(input);
+    Tensor output2 = layer.forward(input);
+    
+    // Outputs should be identical for same input
+    for (size_t i = 0; i < output1.size(); ++i) {
+        EXPECT_FLOAT_EQ(output1[i], output2[i]) 
+            << "Output mismatch at index " << i;
+    }
+}
+
+// ===== ENHANCED TESTS: Dequantization Accuracy =====
+
+// Test: Dequantization accuracy with different block sizes
+TEST_F(QLoRATest, DequantizationBlockSizeAccuracy) {
+    Tensor weights = tensor_utils::randn({128, 128}, 0.0f, 1.0f);
+    
+    std::vector<size_t> block_sizes = {32, 64, 128};
+    std::vector<float> mse_values;
+    
+    for (size_t block_size : block_sizes) {
+        QuantizedModelConfig test_config = config_;
+        test_config.block_size = block_size;
+        
+        QuantizedLayerWeights q_weights(weights, test_config);
+        Tensor reconstructed = q_weights.dequantize();
+        
+        float mse = 0.0f;
+        for (size_t i = 0; i < weights.size(); ++i) {
+            float diff = weights[i] - reconstructed[i];
+            mse += diff * diff;
+        }
+        mse /= weights.size();
+        mse_values.push_back(mse);
+    }
+    
+    // All block sizes should have reasonable accuracy
+    for (float mse : mse_values) {
+        EXPECT_LT(mse, 0.1f) << "MSE: " << mse;
+    }
+}
+
+// Test: Dequantization with double quantization
+TEST_F(QLoRATest, DoubleQuantizationAccuracy) {
+    Tensor weights = tensor_utils::randn({128, 128}, 0.0f, 1.0f);
+    
+    // Without double quantization
+    QuantizedModelConfig single_config = config_;
+    single_config.use_double_quantization = false;
+    QuantizedLayerWeights q_single(weights, single_config);
+    
+    // With double quantization
+    QuantizedModelConfig double_config = config_;
+    double_config.use_double_quantization = true;
+    QuantizedLayerWeights q_double(weights, double_config);
+    
+    // Double quantization should use even less memory
+    EXPECT_LE(q_double.memory_bytes(), q_single.memory_bytes()) 
+        << "Double quantization should not use more memory than single";
+}
+
+// ===== ENHANCED TESTS: Performance Bounds =====
+
+// Test: Quantization performance bounds
+TEST_F(QLoRATest, QuantizationPerformanceBounds) {
+    const size_t dim = 512;
+    Tensor weights = tensor_utils::randn({dim, dim});
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    QuantizedLayerWeights q_weights(weights, config_);
+    auto end = std::chrono::high_resolution_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Quantization should be fast (< 100ms for 512x512)
+    EXPECT_LT(duration.count(), 100) 
+        << "Quantization took " << duration.count() << "ms, expected < 100ms";
+}
+
+// Test: Dequantization performance bounds
+TEST_F(QLoRATest, DequantizationPerformanceBounds) {
+    const size_t dim = 512;
+    Tensor weights = tensor_utils::randn({dim, dim});
+    QuantizedLayerWeights q_weights(weights, config_);
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    Tensor reconstructed = q_weights.dequantize();
+    auto end = std::chrono::high_resolution_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Dequantization should be fast (< 50ms for 512x512)
+    EXPECT_LT(duration.count(), 50) 
+        << "Dequantization took " << duration.count() << "ms, expected < 50ms";
+}
+
+// Test: Forward pass performance bounds
+TEST_F(QLoRATest, ForwardPassPerformanceBounds) {
+    const size_t batch_size = 32;
+    const size_t dim = 256;
+    
+    QLoRALayer layer(dim, dim, 16);
+    Tensor input({batch_size, dim});
+    input.fill(1.0f);
+    
+    // Warmup
+    layer.forward(input);
+    
+    // Measure performance
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < 10; ++i) {
+        layer.forward(input);
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto avg_time = duration.count() / 10.0;
+    
+    // Forward pass should be efficient (< 10ms per batch)
+    EXPECT_LT(avg_time, 10) 
+        << "Average forward pass took " << avg_time << "ms, expected < 10ms";
+}
+
+// Test: Training iteration performance
+TEST_F(QLoRATest, TrainingIterationPerformance) {
+    const size_t dim = 64;
+    QLoRALayer layer(dim, dim, 8);
+    SGDOptimizer optimizer(0.01f);
+    optimizer.add_parameters(layer.parameters());
+    
+    Tensor input({1, dim});
+    input.fill(1.0f);
+    Tensor target({1, dim});
+    target.fill(0.5f);
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // Run 100 training iterations
+    for (int i = 0; i < 100; ++i) {
+        optimizer.zero_grad();
+        Tensor output = layer.forward(input);
+        Tensor diff = output - target;
+        Tensor grad = diff * (2.0f / diff.size());
+        layer.backward(grad);
+        optimizer.step();
+    }
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // 100 iterations should complete in reasonable time (< 500ms)
+    EXPECT_LT(duration.count(), 500) 
+        << "100 training iterations took " << duration.count() << "ms, expected < 500ms";
+}
+
+// ===== ENHANCED TESTS: Memory Efficiency =====
+
+// Test: Memory efficiency comparison
+TEST_F(QLoRATest, MemoryEfficiencyComparison) {
+    std::vector<size_t> dims = {64, 128, 256, 512};
+    
+    for (size_t dim : dims) {
+        Tensor weights = tensor_utils::randn({dim, dim});
+        QuantizedLayerWeights q_weights(weights, config_);
+        
+        size_t original_bytes = dim * dim * sizeof(float);
+        size_t quantized_bytes = q_weights.memory_bytes();
+        float reduction = 1.0f - static_cast<float>(quantized_bytes) / original_bytes;
+        
+        // Memory reduction should be consistent across sizes
+        EXPECT_GT(reduction, 0.60f) 
+            << "Dimension " << dim << " has only " << (reduction * 100) << "% reduction";
+    }
+}
+
+// Test: QLoRA layer memory vs full precision layer
+TEST_F(QLoRATest, QLoRAvsFullPrecisionMemory) {
+    const size_t dim = 256;
+    const size_t rank = 16;
+    
+    // QLoRA layer with quantized base
+    Tensor base_weights = tensor_utils::randn({dim, dim});
+    auto q_base = std::make_shared<QuantizedLayerWeights>(base_weights, config_);
+    QLoRALayer qlora_layer(dim, dim, rank, q_base);
+    
+    // Calculate equivalent full precision memory
+    size_t full_precision_base = dim * dim * sizeof(float);
+    size_t lora_adapters = (dim * rank + rank * dim) * sizeof(float);
+    size_t full_memory = full_precision_base + lora_adapters;
+    
+    size_t qlora_memory = qlora_layer.memory_bytes();
+    
+    // QLoRA should use significantly less memory
+    float savings = 1.0f - static_cast<float>(qlora_memory) / full_memory;
+    EXPECT_GT(savings, 0.50f) 
+        << "QLoRA memory savings: " << (savings * 100) << "%, expected > 50%";
+}

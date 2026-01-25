@@ -377,3 +377,378 @@ TEST_F(SpdlogLibIntegrationTest, HighVolumeLogging) {
     EXPECT_NE(content.find("Performance test message 0"), std::string::npos);
     EXPECT_NE(content.find("Performance test message 9999"), std::string::npos);
 }
+
+// ===== ENHANCED TESTS: Thread Safety & Concurrency =====
+
+// Test 16: Concurrent logging with race condition detection
+TEST_F(SpdlogLibIntegrationTest, ConcurrentLoggingRaceConditions) {
+    std::string log_path = test_log_dir_ + "/concurrent_race.log";
+    auto logger = spdlog::basic_logger_mt("concurrent_race_logger", log_path);
+    logger->set_pattern("[%t] %v");
+    
+    const int num_threads = 10;
+    const int messages_per_thread = 100;
+    std::atomic<int> completed_threads{0};
+    
+    std::vector<std::thread> threads;
+    for (int t = 0; t < num_threads; ++t) {
+        threads.emplace_back([&logger, t, messages_per_thread, &completed_threads]() {
+            for (int i = 0; i < messages_per_thread; ++i) {
+                logger->info("Thread_{}_Message_{}", t, i);
+            }
+            completed_threads++;
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    EXPECT_EQ(completed_threads, num_threads);
+    
+    logger->flush();
+    spdlog::drop("concurrent_race_logger");
+    
+    std::string content = readLogFile(log_path);
+    // Verify all threads logged their messages
+    int message_count = 0;
+    size_t pos = 0;
+    while ((pos = content.find("Thread_", pos)) != std::string::npos) {
+        ++message_count;
+        ++pos;
+    }
+    EXPECT_EQ(message_count, num_threads * messages_per_thread) 
+        << "Expected " << (num_threads * messages_per_thread) << " messages, got " << message_count;
+}
+
+// Test 17: Async logger with high concurrency
+TEST_F(SpdlogLibIntegrationTest, AsyncHighConcurrency) {
+    std::string log_path = test_log_dir_ + "/async_high_concurrency.log";
+    
+    spdlog::init_thread_pool(16384, 2); // Larger queue, more worker threads
+    auto logger = spdlog::basic_logger_mt<spdlog::async_factory>("async_high_concurrency", log_path);
+    logger->set_pattern("%v");
+    
+    const int num_threads = 8;
+    const int messages_per_thread = 500;
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    std::vector<std::thread> threads;
+    for (int t = 0; t < num_threads; ++t) {
+        threads.emplace_back([&logger, t, messages_per_thread]() {
+            for (int i = 0; i < messages_per_thread; ++i) {
+                logger->info("Async thread {} msg {}", t, i);
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    logger->flush();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    spdlog::drop("async_high_concurrency");
+    
+    // Performance bound: Should handle 4000 messages from 8 threads in under 2 seconds
+    EXPECT_LT(duration.count(), 2000) 
+        << "Async logging took " << duration.count() << "ms, expected < 2000ms";
+    
+    std::string content = readLogFile(log_path);
+    // Verify messages are present
+    EXPECT_NE(content.find("Async thread 0"), std::string::npos);
+    EXPECT_NE(content.find("Async thread 7"), std::string::npos);
+}
+
+// ===== ENHANCED TESTS: Log Rotation Edge Cases =====
+
+// Test 18: Log rotation with exact size boundary
+TEST_F(SpdlogLibIntegrationTest, RotationExactSizeBoundary) {
+    std::string log_path = test_log_dir_ + "/rotation_boundary.log";
+    size_t max_size = 512; // Small size for easier testing
+    size_t max_files = 3;
+    
+    auto logger = spdlog::rotating_logger_mt("rotation_boundary", log_path, max_size, max_files);
+    logger->set_pattern("%v");
+    
+    // Write exactly enough to trigger rotation
+    std::string msg(100, 'X'); // 100 character message
+    for (int i = 0; i < 10; ++i) { // 10 * 100 = 1000 bytes > 512
+        logger->info("{}", msg);
+    }
+    
+    logger->flush();
+    spdlog::drop("rotation_boundary");
+    
+    // Check that main file exists
+    EXPECT_TRUE(fs::exists(log_path));
+    
+    // Check that at least one rotated file exists
+    std::string rotated_file = log_path + ".1";
+    EXPECT_TRUE(fs::exists(rotated_file)) 
+        << "Expected rotated file: " << rotated_file;
+}
+
+// Test 19: Log rotation max files limit
+TEST_F(SpdlogLibIntegrationTest, RotationMaxFilesLimit) {
+    std::string log_path = test_log_dir_ + "/rotation_max_files.log";
+    size_t max_size = 256;
+    size_t max_files = 2; // Only keep 2 rotated files
+    
+    auto logger = spdlog::rotating_logger_mt("rotation_max_files", log_path, max_size, max_files);
+    logger->set_pattern("%v");
+    
+    // Write enough to trigger multiple rotations
+    std::string msg(100, 'Y');
+    for (int i = 0; i < 15; ++i) {
+        logger->info("{}", msg);
+        logger->flush(); // Force flush to trigger rotation
+    }
+    
+    spdlog::drop("rotation_max_files");
+    
+    // Count rotation files
+    int rotation_count = 0;
+    for (size_t i = 1; i <= 5; ++i) {
+        std::string rotated = log_path + "." + std::to_string(i);
+        if (fs::exists(rotated)) {
+            rotation_count++;
+        }
+    }
+    
+    // Should not exceed max_files
+    EXPECT_LE(rotation_count, max_files) 
+        << "Found " << rotation_count << " rotated files, expected <= " << max_files;
+}
+
+// ===== ENHANCED TESTS: Pattern Format Validation =====
+
+// Test 20: Complex pattern format validation
+TEST_F(SpdlogLibIntegrationTest, ComplexPatternFormat) {
+    std::string log_path = test_log_dir_ + "/complex_pattern.log";
+    auto logger = spdlog::basic_logger_mt("complex_pattern", log_path);
+    
+    // Complex pattern with multiple fields
+    logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] [%s:%#] %v");
+    logger->info("Complex pattern test");
+    
+    logger->flush();
+    spdlog::drop("complex_pattern");
+    
+    std::string content = readLogFile(log_path);
+    
+    // Verify all pattern elements are present
+    EXPECT_NE(content.find("[complex_pattern]"), std::string::npos) << "Logger name not found";
+    EXPECT_NE(content.find("[info]"), std::string::npos) << "Log level not found";
+    EXPECT_NE(content.find("[thread"), std::string::npos) << "Thread ID not found";
+    EXPECT_NE(content.find("Complex pattern test"), std::string::npos) << "Message not found";
+}
+
+// Test 21: Custom pattern with colors (terminal)
+TEST_F(SpdlogLibIntegrationTest, ColorPatternFormat) {
+    auto logger = spdlog::stdout_color_mt("color_pattern");
+    
+    // Set pattern with color codes
+    logger->set_pattern("%^[%l]%$ %v");
+    
+    // These should not throw
+    EXPECT_NO_THROW(logger->info("Info with color"));
+    EXPECT_NO_THROW(logger->warn("Warning with color"));
+    EXPECT_NO_THROW(logger->error("Error with color"));
+}
+
+// ===== ENHANCED TESTS: Error Conditions & Edge Cases =====
+
+// Test 22: Invalid file path handling
+TEST_F(SpdlogLibIntegrationTest, InvalidFilePath) {
+    // Try to create logger with invalid path (directory doesn't exist)
+    EXPECT_THROW({
+        auto logger = spdlog::basic_logger_mt("invalid_path", 
+            "/nonexistent/directory/that/does/not/exist/file.log");
+    }, spdlog::spdlog_ex);
+}
+
+// Test 23: Duplicate logger name handling
+TEST_F(SpdlogLibIntegrationTest, DuplicateLoggerName) {
+    auto logger1 = spdlog::stdout_color_mt("duplicate_name");
+    ASSERT_NE(logger1, nullptr);
+    
+    // Try to create another logger with the same name
+    EXPECT_THROW({
+        auto logger2 = spdlog::stdout_color_mt("duplicate_name");
+    }, spdlog::spdlog_ex);
+}
+
+// Test 24: Null/empty message handling
+TEST_F(SpdlogLibIntegrationTest, EmptyMessageHandling) {
+    std::string log_path = test_log_dir_ + "/empty_message.log";
+    auto logger = spdlog::basic_logger_mt("empty_message", log_path);
+    logger->set_pattern("%v");
+    
+    // Log empty strings
+    EXPECT_NO_THROW(logger->info(""));
+    EXPECT_NO_THROW(logger->info(""));
+    
+    logger->flush();
+    spdlog::drop("empty_message");
+    
+    std::string content = readLogFile(log_path);
+    // File should exist but might be empty or have newlines
+    EXPECT_TRUE(fs::exists(log_path));
+}
+
+// Test 25: Logging with special characters
+TEST_F(SpdlogLibIntegrationTest, SpecialCharacterHandling) {
+    std::string log_path = test_log_dir_ + "/special_chars.log";
+    auto logger = spdlog::basic_logger_mt("special_chars", log_path);
+    logger->set_pattern("%v");
+    
+    // Test various special characters
+    logger->info("Special: \n\t\r {} {{}} %% \" \' \\");
+    logger->info("Unicode: café résumé 日本語");
+    
+    logger->flush();
+    spdlog::drop("special_chars");
+    
+    std::string content = readLogFile(log_path);
+    EXPECT_NE(content.find("Special:"), std::string::npos);
+    EXPECT_NE(content.find("Unicode:"), std::string::npos);
+}
+
+// ===== ENHANCED TESTS: Performance Bounds =====
+
+// Test 26: Sync logging performance bounds
+TEST_F(SpdlogLibIntegrationTest, SyncLoggingPerformanceBounds) {
+    std::string log_path = test_log_dir_ + "/sync_perf.log";
+    auto logger = spdlog::basic_logger_mt("sync_perf", log_path);
+    logger->set_pattern("%v");
+    
+    const int num_messages = 1000;
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    for (int i = 0; i < num_messages; ++i) {
+        logger->info("Sync message {}", i);
+    }
+    
+    logger->flush();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    
+    spdlog::drop("sync_perf");
+    
+    // Performance bound: 1000 sync messages should complete in under 500ms
+    EXPECT_LT(duration.count(), 500000) 
+        << "Sync logging took " << duration.count() << "μs, expected < 500000μs";
+    
+    // Calculate throughput
+    double throughput = (num_messages * 1000000.0) / duration.count();
+    EXPECT_GT(throughput, 2000) << "Throughput: " << throughput << " msgs/sec, expected > 2000 msgs/sec";
+}
+
+// Test 27: Async logging latency bounds
+TEST_F(SpdlogLibIntegrationTest, AsyncLoggingLatencyBounds) {
+    std::string log_path = test_log_dir_ + "/async_latency.log";
+    
+    spdlog::init_thread_pool(8192, 1);
+    auto logger = spdlog::basic_logger_mt<spdlog::async_factory>("async_latency", log_path);
+    logger->set_pattern("%v");
+    
+    // Measure individual message latency
+    std::vector<long long> latencies;
+    const int num_samples = 100;
+    
+    for (int i = 0; i < num_samples; ++i) {
+        auto start = std::chrono::high_resolution_clock::now();
+        logger->info("Latency test message {}", i);
+        auto end = std::chrono::high_resolution_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        latencies.push_back(latency.count());
+    }
+    
+    logger->flush();
+    spdlog::drop("async_latency");
+    
+    // Calculate average and max latency
+    long long avg_latency = 0;
+    long long max_latency = 0;
+    for (auto latency : latencies) {
+        avg_latency += latency;
+        max_latency = std::max(max_latency, latency);
+    }
+    avg_latency /= latencies.size();
+    
+    // Performance bounds
+    EXPECT_LT(avg_latency, 100) << "Average latency: " << avg_latency << "μs, expected < 100μs";
+    EXPECT_LT(max_latency, 1000) << "Max latency: " << max_latency << "μs, expected < 1000μs";
+}
+
+// ===== ENHANCED TESTS: Resource Cleanup =====
+
+// Test 28: Logger lifecycle and resource cleanup
+TEST_F(SpdlogLibIntegrationTest, LoggerLifecycleCleanup) {
+    std::string log_path = test_log_dir_ + "/lifecycle.log";
+    
+    {
+        // Create logger in scope
+        auto logger = spdlog::basic_logger_mt("lifecycle", log_path);
+        logger->info("Message before cleanup");
+        logger->flush();
+        spdlog::drop("lifecycle");
+    }
+    
+    // Verify file is accessible after logger dropped
+    EXPECT_TRUE(fs::exists(log_path));
+    
+    std::string content = readLogFile(log_path);
+    EXPECT_NE(content.find("Message before cleanup"), std::string::npos);
+    
+    // Should be able to create logger with same name again
+    EXPECT_NO_THROW({
+        auto logger = spdlog::basic_logger_mt("lifecycle", log_path);
+        logger->info("Message after recreation");
+        logger->flush();
+        spdlog::drop("lifecycle");
+    });
+}
+
+// Test 29: Multiple logger cleanup
+TEST_F(SpdlogLibIntegrationTest, MultipleLoggerCleanup) {
+    // Create multiple loggers
+    std::vector<std::string> logger_names;
+    for (int i = 0; i < 5; ++i) {
+        std::string name = "cleanup_logger_" + std::to_string(i);
+        logger_names.push_back(name);
+        auto logger = spdlog::stdout_color_mt(name);
+        logger->info("Test message");
+    }
+    
+    // Drop all loggers
+    spdlog::drop_all();
+    
+    // Verify all loggers are gone
+    for (const auto& name : logger_names) {
+        auto logger = spdlog::get(name);
+        EXPECT_EQ(logger, nullptr) << "Logger " << name << " still exists after drop_all";
+    }
+}
+
+// Test 30: File handle release verification
+TEST_F(SpdlogLibIntegrationTest, FileHandleRelease) {
+    std::string log_path = test_log_dir_ + "/file_handle.log";
+    
+    {
+        auto logger = spdlog::basic_logger_mt("file_handle", log_path);
+        logger->info("Test message");
+        logger->flush();
+        spdlog::drop("file_handle");
+    }
+    
+    // Should be able to delete file after logger is dropped
+    std::error_code ec;
+    bool removed = fs::remove(log_path, ec);
+    EXPECT_TRUE(removed || !fs::exists(log_path)) 
+        << "Could not remove log file, file handle might not be released. Error: " << ec.message();
+}
