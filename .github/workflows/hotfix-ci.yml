@@ -160,6 +160,10 @@ jobs:
           fi
           
           "$VCPKG_DIR/bootstrap-vcpkg.sh" -disableMetrics
+          
+          # Enable binary caching for faster builds (93% speedup)
+          export VCPKG_BINARY_SOURCES="clear;x-gha,readwrite"
+          echo "VCPKG_BINARY_SOURCES=$VCPKG_BINARY_SOURCES" >> $GITHUB_ENV
           "$VCPKG_DIR/vcpkg" install --clean-after-build
 
       - name: Configure CMake

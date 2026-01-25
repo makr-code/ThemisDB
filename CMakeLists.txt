@@ -37,10 +37,11 @@ set(THEMIS_VERSION_STRING "${_ver_raw}")
 # 3. Platform detection (arch/OS)
 # 4. Architecture optimizations
 # 5. Preload targets
-# 6. Dependencies
-# 7. Edition selection (AFTER platform!)
-# 8. Feature configuration (AFTER edition!)
-# 9. Validation (platform, edition, features)
+# 6. Edition selection (BEFORE vcpkg to set feature flags!)
+# 7. Feature configuration (BEFORE vcpkg to enable correct features!)
+# 8. vcpkg Configuration (AFTER features are set!)
+# 9. Dependencies
+# 10. Validation (platform, edition, features)
 
 # 1. Version management (version info only)
 include(cmake/Versions.cmake)
@@ -57,16 +58,22 @@ include(cmake/platforms/ArchitectureOptimizations.cmake)
 # 5. Preload targets for system packages
 include(cmake/PreloadTargets.cmake)
 
-# 6. Dependencies
-include(cmake/Dependencies.cmake)
-
-# 7. Edition selection (MINIMAL, COMMUNITY, ENTERPRISE, HYPERSCALER)
+# 6. Edition selection (MINIMAL, COMMUNITY, ENTERPRISE, HYPERSCALER)
 include(cmake/editions/EditionDefaults.cmake)
 
-# 8. Feature configuration (LLM, GPU, Network, Security, Tools, Optimizations)
+# 7. Feature configuration (LLM, GPU, Network, Security, Tools, Optimizations)
 include(cmake/features/FeatureDefaults.cmake)
 
-# 9. Validation layer
+# 7.5. Edition-Feature Matrix Validation (ensures features are compatible with edition)
+include(cmake/EditionMatrix.cmake)
+
+# 8. vcpkg Configuration (binary cache, feature dependencies)
+include(cmake/VcpkgConfiguration.cmake)
+
+# 9. Dependencies
+include(cmake/Dependencies.cmake)
+
+# 10. Validation layer
 include(cmake/validation/PlatformValidation.cmake)
 include(cmake/validation/EditionValidation.cmake)
 include(cmake/validation/FeatureValidation.cmake)
