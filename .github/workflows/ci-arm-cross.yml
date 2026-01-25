@@ -1,0 +1,325 @@
+name: ARM Cross-Compilation
+
+on:
+  push:
+    branches: [ main, develop, release/** ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 4 * * 0'  # Weekly on Sunday
+  workflow_dispatch:
+
+jobs:
+  arm64-cross-compile:
+    name: ARM64 Cross-Compilation
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install ARM64 Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu \
+            binutils-aarch64-linux-gnu \
+            qemu-user-static \
+            ninja-build \
+            cmake
+
+      - name: Install ARM64 Libraries
+        run: |
+          sudo dpkg --add-architecture arm64
+          sudo apt-get update
+          sudo apt-get install -y \
+            libssl-dev:arm64 \
+            zlib1g-dev:arm64 || true
+
+      - name: Create Toolchain File
+        run: |
+          cat > arm64-toolchain.cmake << 'EOF'
+          set(CMAKE_SYSTEM_NAME Linux)
+          set(CMAKE_SYSTEM_PROCESSOR aarch64)
+          
+          set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)
+          set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)
+          
+          set(CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu)
+          set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+          set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+          set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+          
+          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv8-a")
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv8-a")
+          EOF
+
+      - name: Configure CMake
+        run: |
+          cmake -B build \
+            -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=arm64-toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_EXAMPLES=OFF \
+            2>&1 | tee configure.log
+        continue-on-error: true
+
+      - name: Build
+        run: |
+          cmake --build build --verbose 2>&1 | tee build.log
+        continue-on-error: true
+
+      - name: Parse Build Errors
+        if: always()
+        run: |
+          python3 tools/compiler_diagnostics/diagnostic_scanner.py \
+            build.log \
+            --output errors-arm64.db \
+            --compiler gcc \
+            --platform arm \
+            --json errors-arm64.json
+        continue-on-error: true
+
+      - name: Check for ARM-Specific Issues
+        if: always()
+        run: |
+          echo "=== Checking for common ARM issues ==="
+          grep -i "alignment\|unaligned\|sigbus\|endian\|neon\|intrinsic" build.log || echo "No ARM-specific issues found"
+        continue-on-error: true
+
+      - name: Test with QEMU (if build succeeded)
+        if: success()
+        run: |
+          echo "=== Testing ARM64 binary with QEMU ==="
+          file build/themis_server || echo "Binary not found"
+          qemu-aarch64-static -L /usr/aarch64-linux-gnu build/themis_server --version || echo "Test skipped"
+        continue-on-error: true
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: arm64-build-logs
+          path: |
+            configure.log
+            build.log
+            errors-arm64.db
+            errors-arm64.json
+          retention-days: 30
+
+  armv7-cross-compile:
+    name: ARMv7 Cross-Compilation
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install ARMv7 Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-arm-linux-gnueabihf \
+            g++-arm-linux-gnueabihf \
+            binutils-arm-linux-gnueabihf \
+            qemu-user-static \
+            ninja-build \
+            cmake
+
+      - name: Create ARMv7 Toolchain File
+        run: |
+          cat > armv7-toolchain.cmake << 'EOF'
+          set(CMAKE_SYSTEM_NAME Linux)
+          set(CMAKE_SYSTEM_PROCESSOR armv7l)
+          
+          set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+          set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+          
+          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv7-a -mfpu=neon -mfloat-abi=hard")
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv7-a -mfpu=neon -mfloat-abi=hard")
+          
+          set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
+          set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+          set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+          set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+          EOF
+
+      - name: Configure CMake
+        run: |
+          cmake -B build \
+            -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=armv7-toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_EXAMPLES=OFF \
+            2>&1 | tee configure.log
+        continue-on-error: true
+
+      - name: Build
+        run: |
+          cmake --build build --verbose 2>&1 | tee build.log
+        continue-on-error: true
+
+      - name: Parse Build Errors
+        if: always()
+        run: |
+          python3 tools/compiler_diagnostics/diagnostic_scanner.py \
+            build.log \
+            --output errors-armv7.db \
+            --compiler gcc \
+            --platform arm
+        continue-on-error: true
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: armv7-build-logs
+          path: |
+            configure.log
+            build.log
+            errors-armv7.db
+          retention-days: 30
+
+  arm-error-analysis:
+    name: ARM Error Analysis
+    needs: [arm64-cross-compile, armv7-cross-compile]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Error Databases
+        uses: actions/download-artifact@v3
+        with:
+          path: error-artifacts
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Analyze ARM-Specific Issues
+        run: |
+          echo "=== ARM Cross-Compilation Error Analysis ==="
+          
+          for db in error-artifacts/*/errors-*.db; do
+            if [ -f "$db" ]; then
+              echo "Processing: $db"
+              sqlite3 "$db" "SELECT category, COUNT(*) as count FROM errors GROUP BY category ORDER BY count DESC;" || true
+            fi
+          done
+        continue-on-error: true
+
+      - name: Generate ARM Error Report
+        run: |
+          python3 tools/compiler_diagnostics/issue_tracker.py report \
+            --output arm-error-report.md
+        continue-on-error: true
+
+      - name: Create ARM Issue Summary
+        run: |
+          cat > arm-summary.md << 'EOF'
+          # ARM Cross-Compilation Summary
+          
+          ## ARM64 (AArch64)
+          - **Status**: See build logs
+          - **Common Issues**: 
+            - Endianness handling
+            - Alignment requirements
+            - NEON intrinsics
+          
+          ## ARMv7
+          - **Status**: See build logs
+          - **Common Issues**:
+            - Hard-float ABI
+            - NEON availability
+            - Memory alignment
+          
+          ## Recommendations
+          1. Use memcpy for unaligned access
+          2. Provide NEON equivalents for SSE intrinsics
+          3. Test endianness in serialization code
+          4. Ensure proper alignment attributes
+          
+          See [BUILD_ARM_ERRORS.md](docs/build-guide/BUILD_ARM_ERRORS.md) for details.
+          EOF
+        continue-on-error: true
+
+      - name: Upload ARM Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: arm-error-report
+          path: |
+            arm-error-report.md
+            arm-summary.md
+          retention-days: 90
+
+  docker-arm-test:
+    name: Docker ARM Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - linux/arm64
+          - linux/arm/v7
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create Dockerfile
+        run: |
+          cat > Dockerfile.arm << 'EOF'
+          FROM ubuntu:22.04
+          
+          RUN apt-get update && apt-get install -y \
+              build-essential \
+              cmake \
+              ninja-build \
+              git \
+              python3 \
+              libssl-dev \
+              zlib1g-dev
+          
+          WORKDIR /build
+          COPY . .
+          
+          RUN cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+              -DTHEMIS_BUILD_TESTS=OFF \
+              -DTHEMIS_BUILD_EXAMPLES=OFF
+          
+          RUN cmake --build build || true
+          
+          CMD ["echo", "ARM build test complete"]
+          EOF
+
+      - name: Build Docker Image
+        run: |
+          docker buildx build \
+            --platform ${{ matrix.platform }} \
+            -f Dockerfile.arm \
+            -t themisdb-arm:test \
+            --load \
+            .
+        continue-on-error: true
+
+      - name: Test in Container
+        run: |
+          docker run --rm --platform ${{ matrix.platform }} themisdb-arm:test
+        continue-on-error: true

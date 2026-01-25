@@ -1,0 +1,245 @@
+name: Windows Full Build & Error Tracking
+
+on:
+  push:
+    branches: [ main, develop, release/**, hotfix/** ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_BINARY_SOURCES: 'clear;x-gha,readwrite'
+
+jobs:
+  windows-msvc-build:
+    name: Windows MSVC ${{ matrix.config.name }}
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: "Release"
+            build_type: "Release"
+          - name: "Debug"
+            build_type: "Debug"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup MSVC
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: '17.0'
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
+
+      - name: Export GitHub Actions cache environment variables
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Configure CMake
+        run: |
+          cmake -B ${{github.workspace}}/build `
+            -G "Visual Studio 17 2022" `
+            -A x64 `
+            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} `
+            -DTHEMIS_BUILD_TESTS=ON `
+            -DTHEMIS_BUILD_EXAMPLES=OFF `
+            -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake `
+            -DVCPKG_TARGET_TRIPLET=x64-windows `
+            2>&1 | Tee-Object -FilePath configure.log
+
+      - name: Build
+        run: |
+          cmake --build ${{github.workspace}}/build `
+            --config ${{ matrix.config.build_type }} `
+            --parallel 4 `
+            --verbose `
+            2>&1 | Tee-Object -FilePath build.log
+        continue-on-error: true
+
+      - name: Parse Compiler Errors
+        if: always()
+        run: |
+          python tools/compiler_diagnostics/diagnostic_scanner.py `
+            build.log `
+            --output errors-${{ matrix.config.build_type }}.db `
+            --compiler msvc `
+            --platform windows `
+            --json errors-${{ matrix.config.build_type }}.json
+        continue-on-error: true
+
+      - name: Generate Error Report
+        if: always()
+        run: |
+          python tools/compiler_diagnostics/issue_tracker.py track `
+            --ci-log build.log `
+            --build-id "${{ github.run_id }}-${{ matrix.config.build_type }}" `
+            --compiler msvc `
+            --platform windows
+        continue-on-error: true
+
+      - name: Run Tests
+        if: success()
+        working-directory: ${{github.workspace}}/build
+        run: |
+          ctest -C ${{ matrix.config.build_type }} `
+            --output-on-failure `
+            --verbose `
+            2>&1 | Tee-Object -FilePath ../test.log
+        continue-on-error: true
+
+      - name: Check Symbol Exports (Release only)
+        if: matrix.config.build_type == 'Release' && success()
+        run: |
+          dumpbin /EXPORTS build\Release\themis_base.dll > symbols.txt
+          echo "=== Exported Symbols ==="
+          Get-Content symbols.txt
+        continue-on-error: true
+
+      - name: Upload Build Logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-logs-${{ matrix.config.build_type }}
+          path: |
+            configure.log
+            build.log
+            test.log
+            errors-${{ matrix.config.build_type }}.db
+            errors-${{ matrix.config.build_type }}.json
+            symbols.txt
+          retention-days: 30
+
+      - name: Upload Error Database
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-error-db-${{ matrix.config.build_type }}
+          path: errors-${{ matrix.config.build_type }}.db
+          retention-days: 90
+
+  windows-clang-cl:
+    name: Windows Clang-CL
+    runs-on: windows-2022
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Clang
+        run: |
+          choco install llvm --version=15.0.0 -y
+
+      - name: Configure with Clang-CL
+        run: |
+          cmake -B ${{github.workspace}}/build `
+            -G "Visual Studio 17 2022" `
+            -A x64 `
+            -T ClangCL `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DTHEMIS_BUILD_TESTS=ON `
+            2>&1 | Tee-Object -FilePath configure-clang.log
+        continue-on-error: true
+
+      - name: Build with Clang-CL
+        run: |
+          cmake --build ${{github.workspace}}/build `
+            --config Release `
+            --verbose `
+            2>&1 | Tee-Object -FilePath build-clang.log
+        continue-on-error: true
+
+      - name: Parse Clang-CL Errors
+        if: always()
+        run: |
+          python tools/compiler_diagnostics/diagnostic_scanner.py `
+            build-clang.log `
+            --output errors-clang.db `
+            --compiler clang `
+            --platform windows
+        continue-on-error: true
+
+      - name: Upload Clang-CL Logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-clang-logs
+          path: |
+            configure-clang.log
+            build-clang.log
+            errors-clang.db
+          retention-days: 30
+
+  error-summary:
+    name: Generate Error Summary
+    needs: [windows-msvc-build, windows-clang-cl]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download All Error Databases
+        uses: actions/download-artifact@v3
+        with:
+          path: error-artifacts
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Generate Weekly Report
+        run: |
+          # Merge all error databases
+          for db in error-artifacts/*/errors-*.db; do
+            echo "Processing $db"
+          done
+          
+          python tools/compiler_diagnostics/issue_tracker.py report \
+            --output windows-error-report.md
+        continue-on-error: true
+
+      - name: Upload Error Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-error-report
+          path: windows-error-report.md
+          retention-days: 90
+
+      - name: Comment PR with Errors (if PR)
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('windows-error-report.md')) {
+              const report = fs.readFileSync('windows-error-report.md', 'utf8');
+              const body = `## Windows Build Error Report\n\n${report.substring(0, 60000)}`;
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }
+        continue-on-error: true
