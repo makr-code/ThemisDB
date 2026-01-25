@@ -150,6 +150,9 @@ enum class ErrorCode {
     ERR_MEMORY_POOL_NOT_INITIALIZED = 9105,
     ERR_MEMORY_FRAGMENTATION = 9106,
     
+    // Security Errors (9200-9299)
+    ERR_SECURITY_PATH_TRAVERSAL = 9200,
+    
     // Unknown
     ERR_UNKNOWN = 9999
 };
