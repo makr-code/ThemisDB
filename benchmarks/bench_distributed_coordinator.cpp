@@ -43,9 +43,7 @@ BENCHMARK(BM_Coordinator_StartElection)
     ->Unit(benchmark::kMillisecond);
 
 static void BM_Coordinator_ScheduleTask(benchmark::State& state) {
-    state.PauseTiming();
-    
-    // Setup (not measured)
+    // Setup (one-time, not measured)
     auto topology = std::make_shared<ShardTopology>();
     
     GossipConfigManagerConfig gossip_config;
@@ -57,8 +55,6 @@ static void BM_Coordinator_ScheduleTask(benchmark::State& state) {
     
     DistributedCoordinator coordinator("shard1", topology, gossip);
     coordinator.becomeLeader();  // Manually become leader
-    
-    state.ResumeTiming();
     
     int counter = 0;
     for (auto _ : state) {
@@ -189,9 +185,7 @@ static void BM_Coordinator_TaskJsonDeserialization(benchmark::State& state) {
 BENCHMARK(BM_Coordinator_TaskJsonDeserialization)->Unit(benchmark::kMicrosecond);
 
 static void BM_Coordinator_GetPendingTasks(benchmark::State& state) {
-    state.PauseTiming();
-    
-    // Setup (not measured)
+    // Setup (one-time, not measured)
     auto topology = std::make_shared<ShardTopology>();
     
     GossipConfigManagerConfig gossip_config;
@@ -213,8 +207,6 @@ static void BM_Coordinator_GetPendingTasks(benchmark::State& state) {
         task.assigned_leader = "shard1";
         coordinator.scheduleTask(task);
     }
-    
-    state.ResumeTiming();
     
     for (auto _ : state) {
         auto tasks = coordinator.getPendingTasks();

@@ -169,8 +169,8 @@ def benchmark_document_graph_themisdb() -> BenchmarkResult:
         
         # Benchmark
         for _ in range(50):
-            start = time.perf_counter()
             try:
+                start = time.perf_counter()
                 doc = client.get("documents", "docs", "doc_1")
                 result.latencies_ms.append((time.perf_counter() - start) * 1000)
             except Exception as e:
@@ -261,8 +261,8 @@ def benchmark_document_vector_themisdb() -> BenchmarkResult:
         
         # Benchmark
         for _ in range(50):
-            start = time.perf_counter()
             try:
+                start = time.perf_counter()
                 doc = client.get("documents", "vectors", "doc_v_1")
                 result.latencies_ms.append((time.perf_counter() - start) * 1000)
             except Exception as e:
@@ -361,8 +361,8 @@ def benchmark_olap_document_themisdb() -> BenchmarkResult:
         
         # Benchmark
         for _ in range(50):
-            start = time.perf_counter()
             try:
+                start = time.perf_counter()
                 doc = client.get("analytics", "stats", "stat_1")
                 result.latencies_ms.append((time.perf_counter() - start) * 1000)
             except Exception as e:
