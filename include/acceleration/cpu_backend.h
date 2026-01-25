@@ -142,8 +142,8 @@ public:
         const double* polygonCoords,
         size_t numPolygonVertices
     ) override;
-    
-private:
+
+protected:
     double haversineDistance(double lat1, double lon1, double lat2, double lon2) const;
     double vincentyDistance(double lat1, double lon1, double lat2, double lon2) const;
 };

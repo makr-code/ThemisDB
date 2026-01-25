@@ -22,6 +22,15 @@ if(THEMIS_ENABLE_LLM)
         # LoRA Router - Automatic routing automation
         ../src/llm/lora_router.cpp
         
+        # Adapter Registry - Adapter lifecycle management
+        ../src/llm/adapter_registry.cpp
+        
+        # Distributed Training Coordinator (cross-shard, federated, fault-tolerant)
+        ../src/llm/distributed_training_coordinator.cpp
+        
+        # Byzantine fault detection for distributed training
+        ../src/llm/byzantine_detector.cpp
+        
         # Multi-GPU LoRA layers
         ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
         

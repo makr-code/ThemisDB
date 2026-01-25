@@ -357,20 +357,23 @@ endif()
 # ============================================================================
 
 # CUDA (GPU acceleration)
+# GPU acceleration support (FAISS for vector search)
+if(THEMIS_ENABLE_GPU)
+    # FAISS is always required for GPU vector search (CPU or CUDA backend)
+    find_package(faiss QUIET)
+    if(faiss_FOUND)
+        message(STATUS "FAISS found - enabling GPU-accelerated vector search")
+        add_compile_definitions(THEMIS_HAS_FAISS=1)
+    else()
+        message(WARNING "FAISS not found - GPU vector search will be limited")
+    endif()
+endif()
+
 if(THEMIS_ENABLE_CUDA)
     find_package(CUDA REQUIRED)
     find_package(CUDAToolkit REQUIRED)
     message(STATUS "CUDA Toolkit found: ${CUDAToolkit_VERSION}")
     add_compile_definitions(THEMIS_ENABLE_CUDA=1)
-    
-    # Optional: FAISS for GPU-accelerated vector search
-    find_package(faiss QUIET)
-    if(faiss_FOUND)
-        message(STATUS "FAISS found - enabling GPU vector search")
-        add_compile_definitions(THEMIS_HAS_FAISS=1)
-    else()
-        message(STATUS "FAISS not found - using CuBLAS for vector operations")
-    endif()
 endif()
 
 # HIP (AMD GPU acceleration) - optional alternative to CUDA

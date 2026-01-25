@@ -177,7 +177,7 @@ uint64_t PaxosConsensus::getCommitIndex() const {
 
 bool PaxosConsensus::addNode(
     const std::string& node_id,
-    const std::string& endpoint
+    const std::string& /*endpoint*/
 ) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -223,12 +223,12 @@ bool PaxosConsensus::transferLeadership(const std::string& target_node_id) {
     return true;
 }
 
-bool PaxosConsensus::takeSnapshot(const nlohmann::json& snapshot_data) {
+bool PaxosConsensus::takeSnapshot(const nlohmann::json& /*snapshot_data*/) {
     spdlog::warn("Paxos snapshot not yet implemented");
     return false;
 }
 
-bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
+bool PaxosConsensus::restoreSnapshot(const nlohmann::json& /*snapshot_data*/) {
     spdlog::warn("Paxos snapshot restore not yet implemented");
     return false;
 }
@@ -453,15 +453,15 @@ bool PaxosConsensus::savePersistentState() {
     return true;  // Placeholder - no persistent state saved
 }
 
-bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {
+bool PaxosConsensus::handlePrepare(uint64_t /*slot*/, const ProposalNumber& /*proposal*/) {
     // Simplified prepare handler
     return true;
 }
 
 bool PaxosConsensus::handleAccept(
-    uint64_t slot,
-    const ProposalNumber& proposal,
-    const ConsensusLogEntry& value
+    uint64_t /*slot*/,
+    const ProposalNumber& /*proposal*/,
+    const ConsensusLogEntry& /*value*/
 ) {
     // Simplified accept handler
     return true;

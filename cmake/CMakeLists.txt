@@ -105,7 +105,12 @@ endif()
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
-option(THEMIS_ENABLE_GPU "Enable GPU acceleration for vector search" ON)
+
+# GPU and LLM are ALWAYS ON by default (Core Features)
+# GPU acceleration includes FAISS, OpenBLAS, LAPACK via vcpkg
+set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (ALWAYS ON - Core Feature)" FORCE)
+set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM plugin support with llama.cpp (ALWAYS ON - Core Feature)" FORCE)
+
 option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
 option(THEMIS_ENABLE_ASAN "Enable AddressSanitizer for debugging" OFF)
 option(THEMIS_STRICT_BUILD "Treat warnings as errors" OFF)
@@ -123,10 +128,9 @@ if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core to avoid Windows DLL export limit (LNK1189)" FORCE)
 endif()
 
-# LLM Support (v1.3.0+)
+# Note: THEMIS_ENABLE_LLM is now set above as FORCE ON (Core Feature)
 # Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
 # Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
-option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" ON)
 
 # Voice Assistant Support (v1.4.0+) - Enterprise Feature
 # Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
@@ -1518,6 +1522,8 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/AccelerationBackends.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/ContentProcessors.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/LLMIntegration.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/DistributedTraining.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ChimeraAdapters.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/VoiceAssistant.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/BlobStorage.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/BufferManagement.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/ErrorHealthServices.cmake)

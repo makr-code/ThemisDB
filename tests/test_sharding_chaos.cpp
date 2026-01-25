@@ -65,7 +65,7 @@ public:
         return *this;
     }
     
-    bool processRequest(const std::string& request) {
+    bool processRequest(const std::string& /*request*/) {
         std::lock_guard<std::mutex> lock(*mutex_);
         request_count_++;
         

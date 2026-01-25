@@ -61,7 +61,7 @@ if(MSVC)
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
-        /EHsc            # Exception handling (C++ with external C functions)
+        /EHa             # Exception handling (C++ + SEH) - Required for _set_se_translator()
     )
     
     # Fix for missing standard library headers (when VSDevCmd not initialized)

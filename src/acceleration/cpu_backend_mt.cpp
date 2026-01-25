@@ -157,7 +157,7 @@ public:
             }
             
             // Horizontal sum
-            auto hsum = [](__ m256 v) {
+            auto hsum = [](__m256 v) {
                 __m128 sum_high = _mm256_extractf128_ps(v, 1);
                 __m128 sum_low = _mm256_castps256_ps128(v);
                 __m128 sum = _mm_add_ps(sum_low, sum_high);

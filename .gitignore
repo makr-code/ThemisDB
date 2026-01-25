@@ -5,6 +5,7 @@ env/
 env-*/
 compendium/chrome/
 compendium/temp
+build-*/
 
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md

@@ -79,6 +79,10 @@ struct BenchEnv {
 };
 } // namespace
 
+/*
+// Pagination benchmarks (not currently registered with BENCHMARK() macros)
+// These can be enabled when needed for performance testing
+
 static void BM_Pagination_Offset(benchmark::State& state) {
     // Args: page_size, pages
     const int pageSize = static_cast<int>(state.range(0));
@@ -154,6 +158,7 @@ static void BM_Pagination_Cursor(benchmark::State& state) {
         state.counters["fetched_items"] = static_cast<double>(totalFetched);
     }
 }
+*/
 
 // Register with typical settings: page_size=50, pages=50
 // DISABLED: Pagination benchmarks timeout due to QueryEngine performance issues

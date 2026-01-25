@@ -318,7 +318,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     // Execute steps sequentially
     size_t completed_steps = 0;
     for (size_t i = 0; i < steps.size(); ++i) {
-        const auto& step = steps[i];
+        (void)steps[i];  // Step would be used in full implementation
         
         // TODO: Complete implementation
         // Execute step - should send operation to appropriate shard via RPC
@@ -330,7 +330,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
             
             // Execute compensations for completed steps in reverse order
             for (int j = static_cast<int>(completed_steps) - 1; j >= 0; --j) {
-                const auto& compensation = compensations[j];
+                (void)compensations[j];  // Compensation would be used in full implementation
                 // Execute compensation (simplified)
                 spdlog::info("Executing compensation for step {}", j);
             }

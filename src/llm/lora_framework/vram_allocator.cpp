@@ -159,7 +159,7 @@ void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
         return nullptr;
     }
     
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
     
     // Align size
     size_bytes = align_up(size_bytes, alignment);
@@ -198,7 +198,7 @@ void VRAMAllocator::deallocate(void* ptr) {
         return;
     }
     
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
     
     // Find block in pool
     for (auto& block : memory_pool_) {
@@ -293,7 +293,7 @@ bool VRAMAllocator::download(void* dst, const void* src, size_t size_bytes) {
 }
 
 VRAMAllocator::Stats VRAMAllocator::get_stats() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
     
     Stats stats;
     stats.total_bytes = pool_size_bytes_;
@@ -323,7 +323,7 @@ VRAMAllocator::Stats VRAMAllocator::get_stats() const {
 }
 
 void VRAMAllocator::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::recursive_mutex> lock(mutex_);
     
     // Free all allocated blocks
     for (auto& block : memory_pool_) {
@@ -389,7 +389,7 @@ void VRAMAllocator::deallocate_to_backend(void* ptr) {
     // Find the block size for secure clearing
     size_t block_size = 0;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::recursive_mutex> lock(mutex_);
         for (const auto& block : memory_pool_) {
             if (block.ptr == ptr) {
                 block_size = block.size;

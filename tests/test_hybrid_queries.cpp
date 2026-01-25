@@ -468,8 +468,8 @@ TEST_F(HybridQueriesTest, GraphGeo_ShortestPathWithSpatialFilter_BerlinToDresden
 TEST_F(HybridQueriesTest, VectorGeo_WithVectorIndexManager_UsesHNSW)
 {
     // Setup: Create VectorIndexManager for images table
-    auto vectorIdx = std::make_unique<VectorIndexManager>(*db);
-    auto initSt = vectorIdx->init("images", 3, VectorIndexManager::Metric::L2);
+    auto vectorIndexMgr = std::make_unique<VectorIndexManager>(*db);
+    auto initSt = vectorIndexMgr->init("images", 3, VectorIndexManager::Metric::L2);
     ASSERT_TRUE(initSt.ok) << initSt.message;
 
     // Add vectors to index
@@ -477,18 +477,18 @@ TEST_F(HybridQueriesTest, VectorGeo_WithVectorIndexManager_UsesHNSW)
     img1.setField("name", std::string("Berlin Tower"));
     img1.setField("embedding", std::vector<float>{0.1f, 0.2f, 0.3f});
     img1.setField("location", std::string(R"({"type":"Point","coordinates":[13.405,52.52]})"));
-    vectorIdx->addEntity(img1, "embedding");
+    vectorIndexMgr->addEntity(img1, "embedding");
     secIdx->put("images", img1);
 
     BaseEntity img2("img2");
     img2.setField("name", std::string("Paris Tower"));
     img2.setField("embedding", std::vector<float>{0.15f, 0.25f, 0.35f});
     img2.setField("location", std::string(R"({"type":"Point","coordinates":[2.35,48.86]})"));
-    vectorIdx->addEntity(img2, "embedding");
+    vectorIndexMgr->addEntity(img2, "embedding");
     secIdx->put("images", img2);
 
     // Create optimized QueryEngine with VectorIndexManager
-    auto optimizedEngine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), nullptr);
+    auto optimizedEngine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIndexMgr.get(), nullptr);
 
     // Query: Find similar images within Berlin region
     VectorGeoQuery q;

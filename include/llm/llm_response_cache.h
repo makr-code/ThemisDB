@@ -136,6 +136,7 @@ private:
         std::string prompt;
         InferenceResponse response;
         std::chrono::system_clock::time_point timestamp;
+        std::vector<float> embedding;
     };
 
     std::string cache_name_;

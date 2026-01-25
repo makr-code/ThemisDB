@@ -74,6 +74,15 @@ void HealthErrorService::stop() {
     
     running_.store(false);
     
+    // Close acceptor to immediately reject new connections
+    if (acceptor_) {
+        beast::error_code ec;
+        acceptor_->close(ec);
+        if (ec) {
+            THEMIS_DEBUG("Accept close error: {}", ec.message());
+        }
+    }
+
     // Stop the io_context
     if (ioc_) {
         ioc_->stop();
