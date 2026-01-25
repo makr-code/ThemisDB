@@ -121,10 +121,20 @@ bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
 #pragma warning(disable: 4996)  // OpenSSL deprecated APIs
 #endif
     auto rsa = utils::make_rsa();
-    if (!rsa || RSA_set0_key(rsa.get(), n.release(), e.release(), nullptr) != 1) {
+    if (!rsa) return false;
+    
+    // RSA_set0_key takes ownership only on success, so we need to release after success
+    if (RSA_set0_key(rsa.get(), n.get(), e.get(), nullptr) != 1) {
+        // Failed - n and e will be cleaned up by unique_ptr
         return false;
     }
-    if (EVP_PKEY_assign_RSA(pkey.get(), rsa.release()) != 1) return false;
+    // Success - RSA now owns n and e, so release them from unique_ptr
+    n.release();
+    e.release();
+    
+    if (EVP_PKEY_assign_RSA(pkey.get(), rsa.get()) != 1) return false;
+    // Success - pkey now owns rsa, so release it from unique_ptr
+    rsa.release();
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
