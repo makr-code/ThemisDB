@@ -1,5 +1,6 @@
 #include "security/access_control.h"
 #include "security/user_registration_plugin.h"
+#include "security/aql_injection_detector.h"
 #include "server/auth_middleware.h"
 #include "auth/mfa_authenticator.h"
 #include "utils/audit_logger.h"
@@ -592,22 +593,11 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
         return false;
     }
     
-    // Simple SQL injection detection patterns
-    std::vector<std::regex> patterns = {
-        std::regex("('|(\\-\\-)|(;)|(\\|\\|)|(\\*))"),  // Basic SQL injection chars
-        std::regex("(union.*select)", std::regex::icase),
-        std::regex("(drop.*table)", std::regex::icase),
-        std::regex("(insert.*into)", std::regex::icase),
-        std::regex("(exec(\\s|\\+)+(s|x)p\\w+)", std::regex::icase)
-    };
+    // Use AST-based injection detection for robust security
+    security::AQLInjectionDetector detector;
+    auto validation_result = detector.validateAQLAST(query);
     
-    for (const auto& pattern : patterns) {
-        if (std::regex_search(query, pattern)) {
-            return true;
-        }
-    }
-    
-    return false;
+    return !validation_result.is_safe;
 }
 
 bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::string& user_id) {
