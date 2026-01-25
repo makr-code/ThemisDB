@@ -350,7 +350,7 @@ TEST_F(ColumnarStoreTest, NegativeValues) {
     store.appendRows(rows);
     
     EXPECT_DOUBLE_EQ(store.sum("amount"), -250.0);
-    EXPECT_DOUBLE_EQ(store.avg("amount"), -83.33333333333333);
+    EXPECT_NEAR(store.avg("amount"), -250.0 / 3.0, 1e-10);
     EXPECT_DOUBLE_EQ(store.min("amount"), -200.0);
     EXPECT_DOUBLE_EQ(store.max("amount"), 50.0);
 }

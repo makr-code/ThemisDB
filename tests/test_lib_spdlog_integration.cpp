@@ -453,9 +453,9 @@ TEST_F(SpdlogLibIntegrationTest, AsyncHighConcurrency) {
     
     spdlog::drop("async_high_concurrency");
     
-    // Performance bound: Should handle 4000 messages from 8 threads in under 2 seconds
-    EXPECT_LT(duration.count(), 2000) 
-        << "Async logging took " << duration.count() << "ms, expected < 2000ms";
+    // Performance bound: Should handle 4000 messages from 8 threads efficiently
+    EXPECT_LT(duration.count(), 500) 
+        << "Async logging took " << duration.count() << "ms, expected < 500ms";
     
     std::string content = readLogFile(log_path);
     // Verify messages are present

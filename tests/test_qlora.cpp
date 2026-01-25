@@ -526,7 +526,7 @@ TEST_P(QuantizationTypeTest, QuantizationAccuracy) {
     
     // Different quantization types have different accuracy bounds
     float max_mse = (quant_type == QuantizationType::NF4) ? 0.1f : 0.05f;
-    EXPECT_LT(mse, max_mse) << "MSE: " << mse << " for quant type";
+    EXPECT_LT(mse, max_mse) << "MSE: " << mse << " for quant type: " << static_cast<int>(quant_type);
 }
 
 INSTANTIATE_TEST_SUITE_P(

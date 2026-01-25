@@ -242,16 +242,16 @@ template<>
 struct EdgeCaseGenerator<double> {
     static std::vector<double> GetEdgeCases() {
         return {
-            0.0,                  // Zero
-            1.0,                  // One
-            -1.0,                 // Negative one
-            1e-10,                // Very small positive
-            -1e-10,               // Very small negative
-            1e10,                 // Very large positive
-            -1e10,                // Very large negative
-            INFINITY,             // Infinity
-            -INFINITY,            // Negative infinity
-            NAN                   // Not a number
+            0.0,                                          // Zero
+            1.0,                                          // One
+            -1.0,                                         // Negative one
+            1e-10,                                        // Very small positive
+            -1e-10,                                       // Very small negative
+            1e10,                                         // Very large positive
+            -1e10,                                        // Very large negative
+            std::numeric_limits<double>::infinity(),     // Infinity
+            -std::numeric_limits<double>::infinity(),    // Negative infinity
+            std::numeric_limits<double>::quiet_NaN()     // Not a number
         };
     }
 };
@@ -377,28 +377,20 @@ private:
 // ===== Memory Testing Helpers =====
 
 /**
- * @brief Assert memory usage is within bounds
- * @param operation Operation to measure
- * @param max_memory_bytes Maximum allowed memory usage
+ * @brief Verify operation completes successfully (basic sanity check)
+ * @param operation Operation to execute
  * @param operation_name Name for error messages
  * 
- * Note: This is a simplified version. For accurate memory measurement,
- * consider using platform-specific APIs or valgrind/sanitizers.
+ * Note: For accurate memory measurement, use platform-specific APIs,
+ * valgrind, or sanitizers. This is a basic sanity check only.
  */
 template<typename Func>
-void AssertMemoryBound(Func operation,
-                      size_t max_memory_bytes,
-                      const std::string& operation_name = "Operation") {
-    // Simplified memory check - actual implementation would need
-    // platform-specific memory measurement
-    
-    // Execute operation
+void AssertOperationCompletes(Func operation,
+                             const std::string& operation_name = "Operation") {
+    // Execute operation and verify it completes without throwing
     EXPECT_NO_THROW({
         operation();
-    }) << operation_name << " threw exception during memory test";
-    
-    // Note: Actual memory measurement would go here
-    // For now, just verify operation completes
+    }) << operation_name << " threw exception";
 }
 
 /**
