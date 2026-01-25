@@ -241,39 +241,71 @@ public:
             // File doesn't exist yet - construct canonical parent path
             if (e.code() == std::errc::no_such_file_or_directory) {
                 fs::path parent = file_path.parent_path();
-                if (!fs::exists(parent)) {
-                    // Try to create parent directories
+                
+                // Validate parent directory first before creating
+                fs::path canonical_parent;
+                if (fs::exists(parent)) {
+                    // Parent exists, canonicalize it
+                    try {
+                        canonical_parent = fs::canonical(parent);
+                    } catch (const fs::filesystem_error& canon_err) {
+                        spdlog::error("Failed to canonicalize existing parent path: {}", canon_err.what());
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                } else {
+                    // Parent doesn't exist - validate its intended location first
+                    // Get the nearest existing ancestor
+                    fs::path ancestor = parent;
+                    while (!ancestor.empty() && !fs::exists(ancestor)) {
+                        ancestor = ancestor.parent_path();
+                    }
+                    
+                    if (ancestor.empty()) {
+                        spdlog::error("Cannot determine parent directory location");
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                    
+                    // Canonicalize the existing ancestor
+                    fs::path canonical_ancestor;
+                    try {
+                        canonical_ancestor = fs::canonical(ancestor);
+                    } catch (const fs::filesystem_error& canon_err) {
+                        spdlog::error("Failed to canonicalize ancestor path: {}", canon_err.what());
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                    
+                    // Check if ancestor is within snapshot directory
+                    auto relative_ancestor = canonical_ancestor.lexically_relative(snapshot_dir_canonical);
+                    if (relative_ancestor.empty() || relative_ancestor.string().find("..") == 0) {
+                        spdlog::error("Path traversal attempt: ancestor not under snapshot directory");
+                        return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
+                    }
+                    
+                    // Now safe to create the parent directories
                     try {
                         fs::create_directories(parent);
                     } catch (const fs::filesystem_error& create_err) {
                         spdlog::error("Failed to create parent directory: {}", create_err.what());
                         return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
                     }
+                    
+                    canonical_parent = fs::canonical(parent);
                 }
                 
-                // Canonicalize parent and append filename
-                try {
-                    canonical_file_path = fs::canonical(parent) / file_path.filename();
-                } catch (const fs::filesystem_error& canon_err) {
-                    spdlog::error("Failed to canonicalize parent path: {}", canon_err.what());
-                    return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
-                }
+                // Append filename to canonical parent
+                canonical_file_path = canonical_parent / file_path.filename();
             } else {
                 spdlog::error("Canonicalization failed: {}", e.what());
                 return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
             }
         }
         
-        // Step 4: Verify canonical path starts with snapshot directory
-        const std::string canonical_str = canonical_file_path.string();
-        const std::string dir_str = snapshot_dir_canonical.string();
-        
-        // Check if canonical path is within snapshot directory
-        if (canonical_str.find(dir_str) != 0 || 
-            (canonical_str.length() > dir_str.length() && 
-             canonical_str[dir_str.length()] != fs::path::preferred_separator)) {
+        // Step 4: Verify canonical path is within snapshot directory
+        // Use lexically_relative for robust path validation to prevent bypasses
+        auto relative_path = canonical_file_path.lexically_relative(snapshot_dir_canonical);
+        if (relative_path.empty() || relative_path.string().find("..") == 0) {
             spdlog::error("Path traversal attempt detected: {} not under {}", 
-                         canonical_str, dir_str);
+                         canonical_file_path.string(), snapshot_dir_canonical.string());
             return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
         }
         
