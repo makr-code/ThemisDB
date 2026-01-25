@@ -30,8 +30,8 @@ protected:
         
         // Load test models (may be empty in stub implementation)
         auto result = matcher->loadAdministrativeModels();
-        ASSERT_TRUE(result);
-        auto& models = *result;
+        ASSERT_TRUE(result.first.ok());
+        auto& models = result.second;
         models_ = std::move(models);
         
         // Initialize LLM analyzer
@@ -112,8 +112,8 @@ TEST_F(ProcessMiningE2ETest, FindSimilarProcesses) {
     config.max_results = 10;
     
     auto result = matcher->findSimilar(pattern, config);
-    ASSERT_TRUE(result);
-    auto& results = *result;
+    ASSERT_TRUE(result.first.ok());
+    auto& results = result.second;
     
     // Results would be populated with real data
 }
@@ -252,8 +252,8 @@ TEST_F(ProcessMiningE2ETest, HybridSearchAllMethods) {
     config.max_results = 25;
     
     auto result = matcher->findSimilar(pattern, config);
-    ASSERT_TRUE(result);
-    auto& results = *result;
+    ASSERT_TRUE(result.first.ok());
+    auto& results = result.second;
     // Verify weights are applied correctly
 }
 
