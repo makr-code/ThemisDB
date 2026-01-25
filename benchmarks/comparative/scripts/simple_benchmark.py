@@ -82,7 +82,13 @@ def benchmark_themis_simple_document_insert() -> BenchmarkResult:
             "title": f"Warmup Document {i}",
             "content": "Sample content"
         }
-        client.post("/entities", json=payload)
+        try:
+            response = client.post("/entities", json=payload)
+            response.raise_for_status()
+        except httpx.HTTPError as e:
+            print(f"[Warmup] HTTP error: {e}")
+        except Exception as e:
+            print(f"[Warmup] Error: {e}")
     
     # Benchmark
     for i in range(BENCHMARK_ITERATIONS):
@@ -95,9 +101,15 @@ def benchmark_themis_simple_document_insert() -> BenchmarkResult:
         }
         
         start = time.perf_counter()
-        client.post("/entities", json=payload)
-        latency_ms = (time.perf_counter() - start) * 1000
-        result.latencies_ms.append(latency_ms)
+        try:
+            response = client.post("/entities", json=payload)
+            response.raise_for_status()
+            latency_ms = (time.perf_counter() - start) * 1000
+            result.latencies_ms.append(latency_ms)
+        except httpx.HTTPError as e:
+            print(f"[Benchmark] HTTP error skipped: {e}")
+        except Exception as e:
+            print(f"[Benchmark] Error skipped: {e}")
     
     client.close()
     return result
@@ -200,18 +212,36 @@ def benchmark_themis_document_query() -> BenchmarkResult:
         "title": "Query Test Document",
         "content": "Content for query"
     }
-    client.post("/entities", json=test_doc)
+    try:
+        response = client.post("/entities", json=test_doc)
+        response.raise_for_status()
+    except httpx.HTTPError as e:
+        print(f"[Setup] HTTP error: {e}")
+    except Exception as e:
+        print(f"[Setup] Error: {e}")
     
     # Warmup
     for _ in range(WARMUP_ITERATIONS):
-        client.get(f"/entities/query_test")
+        try:
+            response = client.get(f"/entities/query_test")
+            response.raise_for_status()
+        except httpx.HTTPError as e:
+            print(f"[Warmup] HTTP error: {e}")
+        except Exception as e:
+            print(f"[Warmup] Error: {e}")
     
     # Benchmark
     for _ in range(BENCHMARK_ITERATIONS):
         start = time.perf_counter()
-        client.get(f"/entities/query_test")
-        latency_ms = (time.perf_counter() - start) * 1000
-        result.latencies_ms.append(latency_ms)
+        try:
+            response = client.get(f"/entities/query_test")
+            response.raise_for_status()
+            latency_ms = (time.perf_counter() - start) * 1000
+            result.latencies_ms.append(latency_ms)
+        except httpx.HTTPError as e:
+            print(f"[Benchmark] HTTP error skipped: {e}")
+        except Exception as e:
+            print(f"[Benchmark] Error skipped: {e}")
     
     client.close()
     return result

@@ -130,25 +130,34 @@ def benchmark_document_graph_themisdb() -> BenchmarkResult:
                 "author": "author_1"
             }
             try:
-                client.post("/entities", json=payload)
-            except:
-                pass
+                response = client.post("/entities", json=payload)
+                response.raise_for_status()
+            except httpx.HTTPError as e:
+                print(f"[Setup] HTTP error for doc_{i}: {e}")
+            except Exception as e:
+                print(f"[Setup] Error for doc_{i}: {e}")
         
         # Warmup
         for _ in range(5):
             try:
-                client.get("/entities/doc_1")
-            except:
-                pass
+                response = client.get("/entities/doc_1")
+                response.raise_for_status()
+            except httpx.HTTPError as e:
+                print(f"[Warmup] HTTP error: {e}")
+            except Exception as e:
+                print(f"[Warmup] Error: {e}")
         
         # Benchmark
         for _ in range(50):
             start = time.perf_counter()
             try:
-                client.get("/entities/doc_1")
-            except:
-                pass
-            result.latencies_ms.append((time.perf_counter() - start) * 1000)
+                response = client.get("/entities/doc_1")
+                response.raise_for_status()
+                result.latencies_ms.append((time.perf_counter() - start) * 1000)
+            except httpx.HTTPError as e:
+                print(f"[Benchmark] HTTP error skipped: {e}")
+            except Exception as e:
+                print(f"[Benchmark] Error skipped: {e}")
         
         client.close()
     except Exception as e:
@@ -215,25 +224,34 @@ def benchmark_document_vector_themisdb() -> BenchmarkResult:
                 "vector": [0.1 * j for j in range(384)]  # Dummy 384-dim vector
             }
             try:
-                client.post("/entities", json=payload)
-            except:
-                pass
+                response = client.post("/entities", json=payload)
+                response.raise_for_status()
+            except httpx.HTTPError as e:
+                print(f"[Setup] HTTP error for doc_v_{i}: {e}")
+            except Exception as e:
+                print(f"[Setup] Error for doc_v_{i}: {e}")
         
         # Warmup
         for _ in range(5):
             try:
-                client.get("/entities/doc_v_1")
-            except:
-                pass
+                response = client.get("/entities/doc_v_1")
+                response.raise_for_status()
+            except httpx.HTTPError as e:
+                print(f"[Warmup] HTTP error: {e}")
+            except Exception as e:
+                print(f"[Warmup] Error: {e}")
         
         # Benchmark
         for _ in range(50):
             start = time.perf_counter()
             try:
-                client.get("/entities/doc_v_1")
-            except:
-                pass
-            result.latencies_ms.append((time.perf_counter() - start) * 1000)
+                response = client.get("/entities/doc_v_1")
+                response.raise_for_status()
+                result.latencies_ms.append((time.perf_counter() - start) * 1000)
+            except httpx.HTTPError as e:
+                print(f"[Benchmark] HTTP error skipped: {e}")
+            except Exception as e:
+                print(f"[Benchmark] Error skipped: {e}")
         
         client.close()
     except Exception as e:
@@ -308,25 +326,34 @@ def benchmark_olap_document_themisdb() -> BenchmarkResult:
                 "timestamp": time.time()
             }
             try:
-                client.post("/entities", json=payload)
-            except:
-                pass
+                response = client.post("/entities", json=payload)
+                response.raise_for_status()
+            except httpx.HTTPError as e:
+                print(f"[Setup] HTTP error for stat_{i}: {e}")
+            except Exception as e:
+                print(f"[Setup] Error for stat_{i}: {e}")
         
         # Warmup
         for _ in range(5):
             try:
-                client.get("/entities/stat_1")
-            except:
-                pass
+                response = client.get("/entities/stat_1")
+                response.raise_for_status()
+            except httpx.HTTPError as e:
+                print(f"[Warmup] HTTP error: {e}")
+            except Exception as e:
+                print(f"[Warmup] Error: {e}")
         
         # Benchmark: Aggregate and fetch in single operation
         for _ in range(50):
             start = time.perf_counter()
             try:
-                client.get("/entities/stat_1")
-            except:
-                pass
-            result.latencies_ms.append((time.perf_counter() - start) * 1000)
+                response = client.get("/entities/stat_1")
+                response.raise_for_status()
+                result.latencies_ms.append((time.perf_counter() - start) * 1000)
+            except httpx.HTTPError as e:
+                print(f"[Benchmark] HTTP error skipped: {e}")
+            except Exception as e:
+                print(f"[Benchmark] Error skipped: {e}")
         
         client.close()
     except Exception as e:
