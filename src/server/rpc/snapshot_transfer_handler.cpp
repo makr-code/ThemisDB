@@ -275,9 +275,7 @@ public:
                     }
                     
                     // Check if ancestor is within snapshot directory
-                    auto relative_ancestor = canonical_ancestor.lexically_relative(snapshot_dir_canonical);
-                    if (relative_ancestor.empty() || relative_ancestor.string().find("..") != std::string::npos) {
-                        spdlog::error("Path traversal attempt: ancestor not under snapshot directory");
+                    if (!IsPathWithinDirectory(canonical_ancestor, snapshot_dir_canonical, "ancestor validation")) {
                         return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
                     }
                     
@@ -302,10 +300,7 @@ public:
         
         // Step 4: Verify canonical path is within snapshot directory
         // Use lexically_relative for robust path validation to prevent bypasses
-        auto relative_path = canonical_file_path.lexically_relative(snapshot_dir_canonical);
-        if (relative_path.empty() || relative_path.string().find("..") != std::string::npos) {
-            spdlog::error("Path traversal attempt detected: {} not under {}", 
-                         canonical_file_path.string(), snapshot_dir_canonical.string());
+        if (!IsPathWithinDirectory(canonical_file_path, snapshot_dir_canonical, "final path validation")) {
             return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
         }
         
@@ -366,6 +361,24 @@ public:
     }
 
 private:
+    // Helper function to validate that a path is within the expected directory
+    // Returns true if the path is safe, false if path traversal is detected
+    bool IsPathWithinDirectory(const fs::path& target_path, 
+                               const fs::path& base_directory,
+                               const std::string& error_context = "") {
+        auto relative = target_path.lexically_relative(base_directory);
+        if (relative.empty() || relative.string().find("..") != std::string::npos) {
+            if (!error_context.empty()) {
+                spdlog::error("Path traversal attempt detected ({}): {} not under {}", 
+                             error_context,
+                             target_path.string(), 
+                             base_directory.string());
+            }
+            return false;
+        }
+        return true;
+    }
+
     SnapshotStatus CompressData(const std::string& input, std::string* output) {
         switch (config_.compression_type) {
             case themis::sharding::COMPRESSION_NONE:
