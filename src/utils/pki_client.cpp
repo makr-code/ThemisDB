@@ -1,6 +1,7 @@
 #include "utils/pki_client.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/openssl_deleter.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4505)  // unreferenced local function
@@ -224,7 +225,7 @@ static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
             "Private key path is empty");
     }
     
-    BIO* bio = BIO_new_file(cfg.key_path.c_str(), "r");
+    auto bio = make_bio_file(cfg.key_path.c_str(), "r");
     if (!bio) {
         return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
             fmt::format("Failed to open private key file: {}", cfg.key_path));
@@ -233,11 +234,10 @@ static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
     EVP_PKEY* pkey = nullptr;
     if (!cfg.key_passphrase.empty()) {
         std::string pwd = cfg.key_passphrase;
-        pkey = PEM_read_bio_PrivateKey(bio, nullptr, password_cb, &pwd);
+        pkey = PEM_read_bio_PrivateKey(bio.get(), nullptr, password_cb, &pwd);
     } else {
-        pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
+        pkey = PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr);
     }
-    BIO_free(bio);
     
     if (!pkey) {
         return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_KEY_LOAD_FAILED,
@@ -249,12 +249,11 @@ static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
 
 static std::string to_hex_serial(ASN1_INTEGER* s) {
     if (!s) return std::string();
-    BIGNUM* bn = ASN1_INTEGER_to_BN(s, nullptr);
+    auto bn = BIGNUMPtr(ASN1_INTEGER_to_BN(s, nullptr));
     if (!bn) return std::string();
-    char* hex = BN_bn2hex(bn);
+    char* hex = BN_bn2hex(bn.get());
     std::string out = hex ? std::string(hex) : std::string();
     if (hex) OPENSSL_free(hex);
-    BN_free(bn);
     return out;
 }
 
@@ -266,24 +265,22 @@ static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::s
             "Certificate path is empty");
     }
     
-    BIO* bio = BIO_new_file(cfg.cert_path.c_str(), "r");
+    auto bio = make_bio_file(cfg.cert_path.c_str(), "r");
     if (!bio) {
         return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
             fmt::format("Failed to open certificate file: {}", cfg.cert_path));
     }
     
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    auto cert = X509Ptr(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     
     if (!cert) {
         return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,
             fmt::format("Failed to read certificate from file: {}", cfg.cert_path));
     }
     
-    EVP_PKEY* pub = X509_get_pubkey(cert);
-    ASN1_INTEGER* s = X509_get_serialNumber(cert);
+    EVP_PKEY* pub = X509_get_pubkey(cert.get());
+    ASN1_INTEGER* s = X509_get_serialNumber(cert.get());
     serial_out = to_hex_serial(s);
-    X509_free(cert);
     
     if (!pub) {
         return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_PKI_CERT_LOAD_FAILED,

@@ -1,5 +1,6 @@
 #include "sharding/signed_request.h"
 #include "sharding/pki_shard_certificate.h"
+#include "utils/openssl_deleter.h"
 #include <sstream>
 #include <chrono>
 #include <random>
@@ -18,33 +19,31 @@ namespace themis::sharding {
 namespace {
     // Base64 encode helper
     std::string base64Encode(const unsigned char* data, size_t len) {
-        BIO* bio = BIO_new(BIO_s_mem());
+        auto bio = utils::BIOPtr(BIO_new(BIO_s_mem()));
         BIO* b64 = BIO_new(BIO_f_base64());
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        bio = BIO_push(b64, bio);
+        BIO_push(b64, bio.get());
         
-        BIO_write(bio, data, static_cast<int>(len));
-        BIO_flush(bio);
+        BIO_write(bio.get(), data, static_cast<int>(len));
+        BIO_flush(bio.get());
         
         BUF_MEM* buffer_ptr;
-        BIO_get_mem_ptr(bio, &buffer_ptr);
+        BIO_get_mem_ptr(bio.get(), &buffer_ptr);
         
         std::string result(buffer_ptr->data, buffer_ptr->length);
-        BIO_free_all(bio);
         
         return result;
     }
     
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64Decode(const std::string& encoded) {
-        BIO* bio = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
+        auto bio = utils::make_bio_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
         BIO* b64 = BIO_new(BIO_f_base64());
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        bio = BIO_push(b64, bio);
+        BIO_push(b64, bio.get());
         
         std::vector<unsigned char> decoded(encoded.size());
-        int decoded_len = BIO_read(bio, decoded.data(), static_cast<int>(decoded.size()));
-        BIO_free_all(bio);
+        int decoded_len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
         
         if (decoded_len < 0) {
             return std::nullopt;
