@@ -122,7 +122,7 @@ public:
     Result<OptimizationPlan> optimizeShortestPath(
         std::string_view start_vertex,
         std::string_view target_vertex,
-        const QueryConstraints& constraints = {}
+        QueryConstraints constraints = QueryConstraints{}
     );
 
     /**
@@ -131,7 +131,7 @@ public:
     Result<OptimizationPlan> optimizeKHopNeighborhood(
         std::string_view start_vertex,
         int k,
-        const QueryConstraints& constraints = {}
+        QueryConstraints constraints = QueryConstraints{}
     );
 
     /**
@@ -140,7 +140,7 @@ public:
     Result<OptimizationPlan> optimizePatternMatch(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
-        const QueryConstraints& constraints = {}
+        QueryConstraints constraints = QueryConstraints{}
     );
 
     /**
@@ -149,7 +149,7 @@ public:
     Result<OptimizationPlan> optimizeReachability(
         std::string_view start_vertex,
         std::string_view target_vertex,
-        const QueryConstraints& constraints = {}
+        QueryConstraints constraints = QueryConstraints{}
     );
 
     /**
@@ -158,7 +158,7 @@ public:
     Result<std::vector<std::string>> executeBFS(
         std::string_view start_vertex,
         int max_depth,
-        const QueryConstraints& constraints = {},
+        QueryConstraints constraints = QueryConstraints{},
         ExecutionStats* stats = nullptr
     );
 
@@ -168,7 +168,7 @@ public:
     Result<std::vector<std::string>> executeDFS(
         std::string_view start_vertex,
         int max_depth,
-        const QueryConstraints& constraints = {},
+        QueryConstraints constraints = QueryConstraints{},
         ExecutionStats* stats = nullptr
     );
 
@@ -178,7 +178,7 @@ public:
     Result<GraphIndexManager::PathResult> executeDijkstra(
         std::string_view start_vertex,
         std::string_view target_vertex,
-        const QueryConstraints& constraints = {},
+        QueryConstraints constraints = QueryConstraints{},
         ExecutionStats* stats = nullptr
     );
 
@@ -189,7 +189,7 @@ public:
         std::string_view start_vertex,
         std::string_view target_vertex,
         std::function<double(const std::string&)> heuristic,
-        const QueryConstraints& constraints = {},
+        QueryConstraints constraints = QueryConstraints{},
         ExecutionStats* stats = nullptr
     );
 
@@ -199,7 +199,7 @@ public:
     Result<GraphIndexManager::PathResult> executeBidirectional(
         std::string_view start_vertex,
         std::string_view target_vertex,
-        const QueryConstraints& constraints = {},
+        QueryConstraints constraints = QueryConstraints{},
         ExecutionStats* stats = nullptr
     );
 
@@ -260,7 +260,7 @@ private:
     double estimateCost(
         TraversalAlgorithm algorithm,
         size_t estimated_depth,
-        const QueryConstraints& constraints
+        QueryConstraints constraints
     ) const;
 
     /**
@@ -269,7 +269,7 @@ private:
     TraversalAlgorithm selectAlgorithm(
         QueryPattern pattern,
         size_t estimated_depth,
-        const QueryConstraints& constraints
+        QueryConstraints constraints
     ) const;
 
     /**
@@ -277,7 +277,7 @@ private:
      */
     size_t estimateDepth(
         QueryPattern pattern,
-        const QueryConstraints& constraints
+        QueryConstraints constraints
     ) const;
 
     /**
@@ -287,7 +287,7 @@ private:
         QueryPattern pattern,
         std::string_view start,
         std::string_view target,
-        const QueryConstraints& constraints
+        QueryConstraints constraints
     ) const;
 
     /**

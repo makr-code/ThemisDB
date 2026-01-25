@@ -23,7 +23,7 @@ GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShortestPath(
     std::string_view start_vertex,
     std::string_view target_vertex,
-    const QueryConstraints& constraints) {
+    QueryConstraints constraints) {
     
     // Check plan cache
     if (plan_caching_enabled_) {
@@ -91,7 +91,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopNeighborhood(
     std::string_view start_vertex,
     int k,
-    const QueryConstraints& constraints) {
+    QueryConstraints constraints) {
     
     OptimizationPlan plan;
     plan.pattern = QueryPattern::K_HOP_NEIGHBORS;
@@ -119,7 +119,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatternMatch(
     const std::vector<std::string>& pattern_vertices,
     const std::vector<std::pair<std::string, std::string>>& pattern_edges,
-    const QueryConstraints& constraints) {
+    QueryConstraints constraints) {
     
     OptimizationPlan plan;
     plan.pattern = QueryPattern::PATTERN_MATCH;
@@ -147,7 +147,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReachability(
     std::string_view start_vertex,
     std::string_view target_vertex,
-    const QueryConstraints& constraints) {
+    QueryConstraints constraints) {
     
     OptimizationPlan plan;
     plan.pattern = QueryPattern::REACHABILITY;
@@ -179,7 +179,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
 Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     std::string_view start_vertex,
     int max_depth,
-    const QueryConstraints& constraints,
+    QueryConstraints constraints,
     ExecutionStats* stats) {
     
     auto start_time = std::chrono::steady_clock::now();
@@ -263,7 +263,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     std::string_view start_vertex,
     int max_depth,
-    const QueryConstraints& constraints,
+    QueryConstraints constraints,
     ExecutionStats* stats) {
     
     auto start_time = std::chrono::steady_clock::now();
@@ -330,7 +330,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
 Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     std::string_view start_vertex,
     std::string_view target_vertex,
-    const QueryConstraints& constraints,
+    QueryConstraints constraints,
     ExecutionStats* stats) {
     
     auto start_time = std::chrono::steady_clock::now();
@@ -363,7 +363,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     std::string_view start_vertex,
     std::string_view target_vertex,
     std::function<double(const std::string&)> heuristic,
-    const QueryConstraints& constraints,
+    QueryConstraints constraints,
     ExecutionStats* stats) {
     
     auto start_time = std::chrono::steady_clock::now();
@@ -395,7 +395,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
 Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     std::string_view start_vertex,
     std::string_view target_vertex,
-    const QueryConstraints& constraints,
+    QueryConstraints constraints,
     ExecutionStats* stats) {
     
     auto start_time = std::chrono::steady_clock::now();
@@ -629,7 +629,7 @@ void GraphQueryOptimizer::clearPlanCache() {
 double GraphQueryOptimizer::estimateCost(
     TraversalAlgorithm algorithm,
     size_t estimated_depth,
-    const QueryConstraints& constraints) const {
+    QueryConstraints constraints) const {
     
     double base_cost = 1.0;
     double branching = statistics_.avg_branching_factor > 0 ? statistics_.avg_branching_factor : 2.0;
@@ -683,7 +683,7 @@ double GraphQueryOptimizer::estimateCost(
 GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
     QueryPattern pattern,
     size_t estimated_depth,
-    const QueryConstraints& constraints) const {
+    QueryConstraints constraints) const {
     
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
@@ -716,7 +716,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
 
 size_t GraphQueryOptimizer::estimateDepth(
     QueryPattern pattern,
-    const QueryConstraints& constraints) const {
+    QueryConstraints constraints) const {
     
     if (constraints.max_depth.has_value()) {
         return static_cast<size_t>(constraints.max_depth.value());
@@ -755,7 +755,7 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     QueryPattern pattern,
     std::string_view start,
     std::string_view target,
-    const QueryConstraints& constraints) const {
+    QueryConstraints constraints) const {
     
     std::string key = std::to_string(static_cast<int>(pattern)) + ":" +
                      std::string(start) + ":" + std::string(target);
