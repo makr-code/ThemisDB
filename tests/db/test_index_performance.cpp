@@ -403,6 +403,10 @@ TEST_F(IndexPerformanceTest, LargeDataset_100kItems) {
  */
 TEST_F(IndexPerformanceTest, Concurrent_IndexMaintenance) {
     const int num_initial_items = 5000;
+    const int items_per_thread = 100;
+    const int num_writer_threads = 5;
+    const int num_reader_threads = 5;
+    const int queries_per_reader = 50;
     
     // Insert initial data
     for (int i = 0; i < num_initial_items; ++i) {
@@ -424,9 +428,9 @@ TEST_F(IndexPerformanceTest, Concurrent_IndexMaintenance) {
     std::vector<std::thread> threads;
     
     // Writer threads
-    for (int i = 0; i < 5; ++i) {
-        threads.emplace_back([this, i, num_initial_items, &inserts_completed]() {
-            for (int j = 0; j < 100; ++j) {
+    for (int i = 0; i < num_writer_threads; ++i) {
+        threads.emplace_back([this, i, num_initial_items, items_per_thread, &inserts_completed]() {
+            for (int j = 0; j < items_per_thread; ++j) {
                 std::string key = "item_" + std::to_string(num_initial_items + i * 100 + j);
                 BaseEntity entity(key);
                 entity.setField("priority", int64_t((i * 100 + j) % 100));
@@ -439,9 +443,9 @@ TEST_F(IndexPerformanceTest, Concurrent_IndexMaintenance) {
     }
     
     // Reader threads
-    for (int i = 0; i < 5; ++i) {
-        threads.emplace_back([this, &queries_completed]() {
-            for (int j = 0; j < 50; ++j) {
+    for (int i = 0; i < num_reader_threads; ++i) {
+        threads.emplace_back([this, queries_per_reader, &queries_completed]() {
+            for (int j = 0; j < queries_per_reader; ++j) {
                 auto results = secondary_index_->rangeQuery(
                     "tasks", "priority", int64_t(0), int64_t(50));
                 if (results.size() > 0) {
@@ -456,7 +460,7 @@ TEST_F(IndexPerformanceTest, Concurrent_IndexMaintenance) {
         thread.join();
     }
     
-    EXPECT_EQ(inserts_completed.load(), 500);
+    EXPECT_EQ(inserts_completed.load(), num_writer_threads * items_per_thread);
     EXPECT_GT(queries_completed.load(), 0) << "Queries should succeed under concurrent load";
     
     std::cout << "Concurrent test: " << inserts_completed.load() 

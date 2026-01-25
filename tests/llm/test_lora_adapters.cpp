@@ -405,7 +405,7 @@ TEST_F(LoRAAdapterTest, StateConsistency_MetadataIntegrity) {
  * - Adapters not unloaded while in use
  * - Proper cleanup when ref count reaches zero
  */
-TEST_F(LoRAAdapterTest, StateConsistency_ReferenceCouting) {
+TEST_F(LoRAAdapterTest, StateConsistency_ReferenceCounting) {
 #ifdef THEMIS_ENABLE_LLM
     // Would test reference counting
     // Multiple references, verify unload only when safe

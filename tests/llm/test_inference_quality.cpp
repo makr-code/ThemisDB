@@ -24,6 +24,7 @@
 #include "../test_performance_helpers.h"
 #include <string>
 #include <vector>
+#include <set>
 #include <algorithm>
 #include <cmath>
 

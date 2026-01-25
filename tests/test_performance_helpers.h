@@ -118,6 +118,9 @@ private:
 };
 
 // Performance assertion macros
+// Note: These macros evaluate the expression directly, so avoid passing
+// expressions with side effects. For complex operations, assign to a
+// variable first then pass the variable to the macro.
 
 // Assert that operation completes within specified milliseconds
 #define ASSERT_LATENCY_MS(expression, max_ms) \
