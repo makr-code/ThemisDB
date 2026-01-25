@@ -1,8 +1,10 @@
 #include "scheduler/task_scheduler.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "security/aql_injection_detector.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/audit_logger.h"
 #include <sstream>
 #include <fstream>
 #include <iomanip>
@@ -697,30 +699,45 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
         throw std::invalid_argument("AQL query cannot be empty");
     }
     
-    // Check for suspicious patterns that might indicate injection attempts
-    // Note: We focus on SQL-style injection patterns that would be unusual in AQL
-    std::vector<std::string> dangerous_patterns = {
-        ";--",           // SQL comment injection
-        "'; DROP",       // SQL injection attempt with quote
-        "; DROP",        // SQL DROP injection
-        "\\x00",         // Null byte injection
-        "../",           // Path traversal
-        "SYSTEM(",       // System command execution
-        "EXEC(",         // Command execution
-        "'; EXEC",       // Command injection with quote
-    };
+    // Use AST-based injection detection for robust security
+    security::AQLInjectionDetector detector;
+    auto validation_result = detector.validateAQLAST(aql);
     
-    std::string aql_upper = aql;
-    std::transform(aql_upper.begin(), aql_upper.end(), aql_upper.begin(), ::toupper);
-    
-    for (const auto& pattern : dangerous_patterns) {
-        std::string pattern_upper = pattern;
-        std::transform(pattern_upper.begin(), pattern_upper.end(), pattern_upper.begin(), ::toupper);
+    if (!validation_result.is_safe) {
+        THEMIS_ERROR("AQL injection detected: {}", validation_result.error_message);
         
-        if (aql_upper.find(pattern_upper) != std::string::npos) {
-            THEMIS_ERROR("Suspicious pattern detected in AQL query: {}", pattern);
-            throw std::invalid_argument("AQL query contains potentially dangerous pattern: " + pattern);
+        // Log security event for audit trail
+        try {
+            utils::AuditLogger audit_logger(
+                nullptr, 
+                nullptr,
+                utils::AuditLoggerConfig{
+                    /* enabled */ true,
+                    /* encrypt_then_sign */ false,
+                    /* log_path */ "audit.log",
+                    /* key_id */ "task_scheduler",
+                    /* enable_hash_chain */ false
+                }
+            );
+            
+            nlohmann::json details;
+            details["error"] = validation_result.error_message;
+            if (!validation_result.detected_patterns.empty()) {
+                details["detected_patterns"] = validation_result.detected_patterns;
+            }
+            details["query_preview"] = aql.substr(0, std::min(size_t(100), aql.length()));
+            
+            audit_logger.logEvent(
+                utils::SecurityEventType::SUSPICIOUS_ACTIVITY,
+                "task_scheduler",
+                "aql_validation",
+                details
+            );
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to log security event: {}", e.what());
         }
+        
+        throw std::invalid_argument("AQL query validation failed: " + validation_result.error_message);
     }
     
     // Check for reasonable length limit (prevent DoS)
