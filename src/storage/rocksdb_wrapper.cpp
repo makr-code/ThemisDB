@@ -56,11 +56,11 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     
     #ifdef THEMIS_DEBUG_THREADING
     // ✅ DEBUG: Mark source object as being moved
+    // In debug mode, we fail fast on concurrent move operations
     bool expected = false;
     if (!other.is_being_moved_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         THEMIS_ERROR("Concurrent move operation detected on RocksDBWrapper!");
-        // In production, this indicates a threading bug
-        // The assertion helps catch the issue during development
+        assert(false && "Concurrent move operation - threading bug detected!");
     }
     #endif
     
@@ -68,26 +68,32 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
     cf_handles_ = std::move(other.cf_handles_);
     
+    #ifdef THEMIS_DEBUG_THREADING
+    // Reset flag BEFORE clearing source object to avoid race window
+    other.is_being_moved_.store(false, std::memory_order_release);
+    #endif
+    
     // Clear source object's state to prevent double-free
     other.db_.reset();
     other.cf_handles_.clear();
-    
-    #ifdef THEMIS_DEBUG_THREADING
-    other.is_being_moved_.store(false, std::memory_order_release);
-    #endif
 }
 
 RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     if (this != &other) {
         #ifdef THEMIS_DEBUG_THREADING
         // ✅ CRITICAL: Synchronize on both objects
+        // Fail fast in debug mode if concurrent operations detected
         bool expected = false;
         if (!is_being_moved_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
             THEMIS_ERROR("Concurrent move-assign operation detected on destination object!");
+            assert(false && "Concurrent move-assign on destination - threading bug detected!");
         }
         expected = false;
         if (!other.is_being_moved_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
             THEMIS_ERROR("Concurrent move-assign detected on source object!");
+            // Clean up destination flag before failing
+            is_being_moved_.store(false, std::memory_order_release);
+            assert(false && "Concurrent move-assign on source - threading bug detected!");
         }
         #endif
         
