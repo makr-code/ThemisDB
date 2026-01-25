@@ -1261,6 +1261,34 @@ void ErrorRegistry::registerDefaultErrors() {
         {"utility", "retention", "policy", "not found"}
     });
     
+    registerError({
+        ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+        "Utility",
+        "Error",
+        "Compression operation failed: {}",
+        "Failed to compress or decompress data using ZSTD.",
+        "1. Check if data is corrupted\n"
+        "2. Verify input data is valid\n"
+        "3. Review compression error logs\n"
+        "4. Check available memory",
+        {"/docs/utils/compression.md"},
+        {"utility", "compression", "zstd", "failed"}
+    });
+    
+    registerError({
+        ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+        "Utility",
+        "Critical",
+        "Memory allocation failed: {}",
+        "Failed to allocate memory for compression/decompression operation.",
+        "1. Check available system memory\n"
+        "2. Reduce input data size\n"
+        "3. Check for memory leaks\n"
+        "4. Consider increasing system resources",
+        {"/docs/utils/compression.md"},
+        {"utility", "memory", "allocation", "failed", "oom"}
+    });
+    
     // Memory Pool Errors
     registerError({
         ErrorCode::ERR_MEMORY_POOL_EXHAUSTED,
