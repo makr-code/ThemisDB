@@ -1,4 +1,5 @@
 #include "cache/semantic_cache.h"
+#include "utils/logger.h"
 #include <openssl/sha.h>
 #include <iomanip>
 #include <sstream>
@@ -170,6 +171,13 @@ SemanticCache::Stats SemanticCache::getStats() const {
         cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)
     );
     
+    // Check for null iterator before use
+    if (!it) {
+        THEMIS_ERROR("Failed to create iterator for semantic cache stats collection");
+        // Return stats with default values for entry count/size
+        return stats;
+    }
+    
     uint64_t count = 0;
     uint64_t size = 0;
     
@@ -189,6 +197,12 @@ uint64_t SemanticCache::clearExpired() {
     std::unique_ptr<rocksdb::Iterator> it(
         cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)
     );
+    
+    // Check for null iterator before use
+    if (!it) {
+        THEMIS_ERROR("Failed to create iterator for semantic cache expiration cleanup");
+        return 0; // Return 0 entries removed on iterator creation failure
+    }
     
     rocksdb::WriteBatch batch;
     uint64_t removed = 0;
@@ -226,6 +240,12 @@ bool SemanticCache::clear() {
     std::unique_ptr<rocksdb::Iterator> it(
         cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)
     );
+    
+    // Check for null iterator before use
+    if (!it) {
+        THEMIS_ERROR("Failed to create iterator for semantic cache clearing");
+        return false; // Return failure on iterator creation failure
+    }
     
     rocksdb::WriteBatch batch;
     
