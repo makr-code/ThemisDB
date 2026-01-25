@@ -361,6 +361,8 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_channel_
     )
     
     message(STATUS "  gRPC Channel Pool: channel reuse, keepalive, stale pruning")
+elseif(NOT THEMIS_ENABLE_GRPC)
+    message(STATUS "gRPC Channel Pool tests skipped (gRPC disabled)")
 else()
     message(STATUS "gRPC Channel Pool tests not found or gRPC disabled")
 endif()

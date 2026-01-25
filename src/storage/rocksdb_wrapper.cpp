@@ -729,20 +729,21 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::crea
 // TransactionWrapper implementation (MVCC)
 
 RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation)
-    : db_(db), isolation_(isolation) {
+    : db_(db), isolation_(isolation), state_(State::NotStarted) {
     if (!db_ || !db_->db_) {
         THEMIS_ERROR("MVCC Transaction: db_ is nullptr");
-        active_ = false;
+        state_ = State::NotStarted;
         return;
     }
 
     txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
     if (!txn_) {
         THEMIS_ERROR("MVCC Transaction: BeginTransaction returned nullptr");
-        active_ = false;
+        state_ = State::CreationFailed;
         return;
     }
 
+    state_ = State::Active;
     if (isolation_ == TransactionIsolationLevel::Snapshot) {
         THEMIS_DEBUG("MVCC Transaction started with Snapshot isolation");
     } else {
@@ -751,15 +752,46 @@ RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db, Trans
 }
 
 RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
-    if (active_ && txn_) {
-        THEMIS_WARN("Transaction not committed or rolled back - auto-rolling back");
-        rollback();
+    // Always attempt cleanup regardless of state
+    if (txn_) {
+        try {
+            if (state_ == State::Active && db_ && db_->getRawDB()) {
+                THEMIS_WARN("Transaction not committed or rolled back - auto-rolling back");
+                txn_->Rollback();
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Exception during transaction cleanup: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("Unknown exception during transaction cleanup");
+        }
+        
+        // IMPORTANT: If the DB is closed (getRawDB() is null), we cannot safely destroy
+        // the transaction object because it may try to access the closed DB.
+        // Instead, release the pointer without calling its destructor.
+        // 
+        // This scenario occurs when:
+        // 1. Transaction is created
+        // 2. DB is closed (e.g., RocksDBWrapper::close() is called)
+        // 3. Transaction destructor runs (transaction still holds pointer to closed DB)
+        //
+        // Mitigation strategies:
+        // - Normal case: Application properly commits/rollbacks before closing DB (no leak)
+        // - Edge case: If DB closes first, we leak the transaction pointer to avoid crash
+        // - The leak is acceptable because it only happens at shutdown when DB is closing
+        // - Alternative: Implement weak_ptr tracking of all transactions in RocksDBWrapper
+        //   to invalidate them before DB close (would add complexity and overhead)
+        if (db_ && db_->getRawDB()) {
+            txn_.reset();  // Safe to destroy when DB is open
+        } else {
+            // DB is closed, just release without destroying to avoid crash
+            txn_.release();  // Intentional leak in rare edge case (DB shutdown)
+        }
     }
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std::string_view key) {
     if (!txn_) return std::nullopt;
-    if (!active_) {
+    if (state_ != State::Active) {
         THEMIS_ERROR("TransactionWrapper::get: transaction not active");
         return std::nullopt;
     }
@@ -788,21 +820,30 @@ bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::ve
         THEMIS_ERROR("TransactionWrapper::put: txn_ is nullptr");
         return false;
     }
-    if (!active_) {
+    if (state_ != State::Active) {
         THEMIS_ERROR("TransactionWrapper::put: transaction not active");
         return false;
     }
     
-    rocksdb::Status status = txn_->Put(
-        rocksdb::Slice(key.data(), key.size()),
-        rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
-    );
-    
-    if (!status.ok()) {
-        THEMIS_ERROR("TransactionWrapper::put: Put() failed: " + status.ToString());
+    try {
+        rocksdb::Status status = txn_->Put(
+            rocksdb::Slice(key.data(), key.size()),
+            rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
+        );
+        
+        if (!status.ok()) {
+            THEMIS_ERROR("TransactionWrapper::put: Put() failed: " + status.ToString());
+            // Transaction is still active, caller should decide to rollback or retry
+            return false;
+        }
+        
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during transaction put: {}", e.what());
+        // Transaction state is uncertain after exception, mark as failed
+        state_ = State::CreationFailed;
+        return false;
     }
-    
-    return status.ok();
 }
 
 bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
@@ -810,65 +851,88 @@ bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
         THEMIS_ERROR("TransactionWrapper::del: txn_ is nullptr");
         return false;
     }
-    if (!active_) {
+    if (state_ != State::Active) {
         THEMIS_ERROR("TransactionWrapper::del: transaction not active");
         return false;
     }
 
-    rocksdb::Status status = txn_->Delete(rocksdb::Slice(key.data(), key.size()));
-    if (!status.ok()) {
-        THEMIS_ERROR("TransactionWrapper::del: Delete() failed: {}", status.ToString());
+    try {
+        rocksdb::Status status = txn_->Delete(rocksdb::Slice(key.data(), key.size()));
+        if (!status.ok()) {
+            THEMIS_ERROR("TransactionWrapper::del: Delete() failed: {}", status.ToString());
+            // Transaction is still active, caller should decide to rollback or retry
+            return false;
+        }
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during transaction delete: {}", e.what());
+        // Transaction state is uncertain after exception, mark as failed
+        state_ = State::CreationFailed;
+        return false;
     }
-
-    return status.ok();
 }
 
 bool RocksDBWrapper::TransactionWrapper::commit() {
-    if (!txn_ || !active_) {
+    if (!txn_ || state_ != State::Active) {
         return false;
     }
-    // If WritePrepared is active or skip_prepare is false, ensure Prepare() is called
-    bool require_prepare = false;
-    if (db_) {
-        // Only require prepare when skip_prepare is explicitly disabled
-        require_prepare = (db_->txn_options_ && !db_->txn_options_->skip_prepare);
-    }
-    if (require_prepare && !prepared_) {
-        rocksdb::Status prep_st = txn_->Prepare();
-        if (!prep_st.ok()) {
-            THEMIS_ERROR("Transaction prepare failed before commit: {}", prep_st.ToString());
+    
+    try {
+        // If WritePrepared is active or skip_prepare is false, ensure Prepare() is called
+        bool require_prepare = false;
+        if (db_) {
+            // Only require prepare when skip_prepare is explicitly disabled
+            require_prepare = (db_->txn_options_ && !db_->txn_options_->skip_prepare);
+        }
+        if (require_prepare && !prepared_) {
+            rocksdb::Status prep_st = txn_->Prepare();
+            if (!prep_st.ok()) {
+                THEMIS_ERROR("Transaction prepare failed before commit: {}", prep_st.ToString());
+                // Transaction is still active but prepare failed, caller should rollback
+                return false;
+            }
+            prepared_ = true;
+        }
+        
+        rocksdb::Status status = txn_->Commit();
+        
+        if (!status.ok()) {
+            if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
+                THEMIS_WARN("MVCC Conflict detected: {} - Transaction must be retried", status.ToString());
+            } else {
+                THEMIS_ERROR("Transaction commit failed: {}", status.ToString());
+            }
+            // Transaction is still active but commit failed, caller should rollback
             return false;
         }
-        prepared_ = true;
-    }
-    
-    rocksdb::Status status = txn_->Commit();
-    
-    if (!status.ok()) {
-        if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
-            THEMIS_WARN("MVCC Conflict detected: {} - Transaction must be retried", status.ToString());
-        } else {
-            THEMIS_ERROR("Transaction commit failed: {}", status.ToString());
-        }
+        
+        state_ = State::Committed;
+        
+        THEMIS_DEBUG("MVCC Transaction committed successfully");
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during transaction commit: {}", e.what());
+        // Transaction state is uncertain after exception, mark as failed
+        state_ = State::CreationFailed;
         return false;
     }
-    
-    active_ = false;
-    
-    THEMIS_DEBUG("MVCC Transaction committed successfully");
-    return true;
 }
 
 void RocksDBWrapper::TransactionWrapper::rollback() {
-    if (!txn_ || !active_) return;
+    if (!txn_ || state_ != State::Active) return;
     
-    txn_->Rollback();
-    active_ = false;
-    THEMIS_DEBUG("MVCC Transaction rolled back");
+    try {
+        txn_->Rollback();
+        state_ = State::Rolledback;
+        THEMIS_DEBUG("MVCC Transaction rolled back");
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during transaction rollback: {}", e.what());
+        state_ = State::CreationFailed;
+    }
 }
 
 Result<const rocksdb::Snapshot*> RocksDBWrapper::TransactionWrapper::getSnapshot() const {
-    if (!txn_ || !active_) {
+    if (!txn_ || state_ != State::Active) {
         return Err<const rocksdb::Snapshot*>(
             errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
             "Transaction not active or not initialized"
@@ -878,14 +942,23 @@ Result<const rocksdb::Snapshot*> RocksDBWrapper::TransactionWrapper::getSnapshot
 }
 
 bool RocksDBWrapper::TransactionWrapper::prepare() {
-    if (!txn_ || !active_) return false;
-    rocksdb::Status status = txn_->Prepare();
-    if (!status.ok()) {
-        THEMIS_ERROR("Transaction prepare failed: {}", status.ToString());
+    if (!txn_ || state_ != State::Active) return false;
+    
+    try {
+        rocksdb::Status status = txn_->Prepare();
+        if (!status.ok()) {
+            THEMIS_ERROR("Transaction prepare failed: {}", status.ToString());
+            // Transaction is still active but prepare failed
+            return false;
+        }
+        prepared_ = true;
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during transaction prepare: {}", e.what());
+        // Transaction state is uncertain after exception, mark as failed
+        state_ = State::CreationFailed;
         return false;
     }
-    prepared_ = true;
-    return true;
 }
 
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction(TransactionIsolationLevel isolation) {
