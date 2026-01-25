@@ -706,36 +706,14 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
     if (!validation_result.is_safe) {
         THEMIS_ERROR("AQL injection detected: {}", validation_result.error_message);
         
-        // Log security event for audit trail
-        try {
-            utils::AuditLogger audit_logger(
-                nullptr, 
-                nullptr,
-                utils::AuditLoggerConfig{
-                    /* enabled */ true,
-                    /* encrypt_then_sign */ false,
-                    /* log_path */ "audit.log",
-                    /* key_id */ "task_scheduler",
-                    /* enable_hash_chain */ false
-                }
-            );
-            
-            nlohmann::json details;
-            details["error"] = validation_result.error_message;
-            if (!validation_result.detected_patterns.empty()) {
-                details["detected_patterns"] = validation_result.detected_patterns;
-            }
-            details["query_preview"] = aql.substr(0, std::min(size_t(100), aql.length()));
-            
-            audit_logger.logEvent(
-                utils::SecurityEventType::SUSPICIOUS_ACTIVITY,
-                "task_scheduler",
-                "aql_validation",
-                details
-            );
-        } catch (const std::exception& e) {
-            THEMIS_WARN("Failed to log security event: {}", e.what());
+        // Log detected patterns for security diagnostics
+        for (const auto& pattern : validation_result.detected_patterns) {
+            THEMIS_WARN("Injection pattern detected: {}", pattern);
         }
+        
+        // Note: Formal audit logging could be added here via a class-level
+        // AuditLogger instance if AccessControl integration is required.
+        // For now, structured logging via THEMIS_WARN is sufficient.
         
         throw std::invalid_argument("AQL query validation failed: " + validation_result.error_message);
     }

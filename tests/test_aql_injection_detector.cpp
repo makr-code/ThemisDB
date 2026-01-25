@@ -306,7 +306,7 @@ TEST(AQLInjectionDetectorTest, RejectParameterWithComments) {
 TEST(AQLInjectionDetectorTest, RejectExcessivelyLongParameter) {
     AQLInjectionDetector detector;
     
-    std::string long_param(20000, 'A');  // 20KB string
+    std::string long_param(20000, 'A');  // 20000 bytes (exceeds MAX_PARAM_LENGTH of 10240 bytes = 10 KiB)
     
     auto result = detector.validateParameterizedQuery(
         "FOR doc IN users FILTER doc.name == @param0 RETURN doc",
