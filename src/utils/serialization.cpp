@@ -1,4 +1,5 @@
 ﻿#include "utils/serialization.h"
+#include "utils/safe_cast.h"
 #include <cstring>
 
 namespace themis {
@@ -57,15 +58,15 @@ void Serialization::Encoder::encodeUInt64(uint64_t value) {
 
 void Serialization::Encoder::encodeFloat(float value) {
     writeTag(TypeTag::FLOAT);
-    uint32_t bits;
-    std::memcpy(&bits, &value, sizeof(float));
+    // Use safe_cast helper for clarity and consistency
+    uint32_t bits = FloatBits::to_u32(value);
     writeUInt32(bits);
 }
 
 void Serialization::Encoder::encodeDouble(double value) {
     writeTag(TypeTag::DOUBLE);
-    uint64_t bits;
-    std::memcpy(&bits, &value, sizeof(double));
+    // Use safe_cast helper for clarity and consistency
+    uint64_t bits = FloatBits::to_u64(value);
     writeUInt64(bits);
 }
 
@@ -86,6 +87,8 @@ void Serialization::Encoder::encodeFloatVector(const std::vector<float>& vec) {
     writeUInt32(static_cast<uint32_t>(vec.size()));
     
     // Write floats as raw bytes (platform-dependent but fast)
+    // Note: reinterpret_cast to uint8_t* (or char*) is explicitly allowed by C++ standard
+    // for accessing object representation (not a strict aliasing violation)
     const uint8_t* data = reinterpret_cast<const uint8_t*>(vec.data());
     buffer_.insert(buffer_.end(), data, data + vec.size() * sizeof(float));
 }
@@ -178,22 +181,22 @@ uint64_t Serialization::Decoder::decodeUInt64() {
 float Serialization::Decoder::decodeFloat() {
     readTag();
     uint32_t bits = readUInt32();
-    float value;
-    std::memcpy(&value, &bits, sizeof(float));
-    return value;
+    // Use safe_cast helper for clarity and consistency
+    return FloatBits::from_u32(bits);
 }
 
 double Serialization::Decoder::decodeDouble() {
     readTag();
     uint64_t bits = readUInt64();
-    double value;
-    std::memcpy(&value, &bits, sizeof(double));
-    return value;
+    // Use safe_cast helper for clarity and consistency
+    return FloatBits::from_u64(bits);
 }
 
 std::string Serialization::Decoder::decodeString() {
     readTag();
     uint32_t size = readUInt32();
+    // Note: reinterpret_cast to char* is explicitly allowed by C++ standard
+    // for accessing object representation (not a strict aliasing violation)
     std::string str(reinterpret_cast<const char*>(&data_[pos_]), size);
     pos_ += size;
     return str;

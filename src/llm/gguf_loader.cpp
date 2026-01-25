@@ -91,6 +91,8 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
     }
     file.seekg(0, std::ios::beg);
     file_buffer_.resize(static_cast<size_t>(size));
+    // Note: reinterpret_cast to char* for std::istream::read is explicitly
+    // allowed and is the standard way to read binary data into a buffer
     if (!file.read(reinterpret_cast<char*>(file_buffer_.data()), size)) {
         file_buffer_.clear();
         return false;
