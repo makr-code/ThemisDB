@@ -1,5 +1,6 @@
 #include "sharding/signed_request.h"
 #include "sharding/pki_shard_certificate.h"
+#include "utils/openssl_deleter.h"
 #include <sstream>
 #include <chrono>
 #include <random>
@@ -18,33 +19,35 @@ namespace themis::sharding {
 namespace {
     // Base64 encode helper
     std::string base64Encode(const unsigned char* data, size_t len) {
-        BIO* bio = BIO_new(BIO_s_mem());
+        BIO* bmem = BIO_new(BIO_s_mem());
+        if (!bmem) return "";
         BIO* b64 = BIO_new(BIO_f_base64());
+        if (!b64) { BIO_free(bmem); return ""; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        bio = BIO_push(b64, bio);
+        auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
-        BIO_write(bio, data, static_cast<int>(len));
-        BIO_flush(bio);
+        BIO_write(bio.get(), data, static_cast<int>(len));
+        BIO_flush(bio.get());
         
         BUF_MEM* buffer_ptr;
-        BIO_get_mem_ptr(bio, &buffer_ptr);
+        BIO_get_mem_ptr(bio.get(), &buffer_ptr);
         
         std::string result(buffer_ptr->data, buffer_ptr->length);
-        BIO_free_all(bio);
         
         return result;
     }
     
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64Decode(const std::string& encoded) {
-        BIO* bio = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
+        BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
+        if (!bmem) return std::nullopt;
         BIO* b64 = BIO_new(BIO_f_base64());
+        if (!b64) { BIO_free(bmem); return std::nullopt; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        bio = BIO_push(b64, bio);
+        auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
         std::vector<unsigned char> decoded(encoded.size());
-        int decoded_len = BIO_read(bio, decoded.data(), static_cast<int>(decoded.size()));
-        BIO_free_all(bio);
+        int decoded_len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
         
         if (decoded_len < 0) {
             return std::nullopt;
@@ -172,58 +175,47 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
         return std::nullopt;
     }
     
-    EVP_PKEY* pkey = nullptr;
+    EVP_PKEY* pkey_raw = nullptr;
     if (!config_.key_passphrase.empty()) {
-        pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr,
+        pkey_raw = PEM_read_PrivateKey(key_file, nullptr, nullptr,
                                    const_cast<char*>(config_.key_passphrase.c_str()));
     } else {
-        pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
+        pkey_raw = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
     }
     fclose(key_file);
     
+    auto pkey = utils::EVPKeyPtr(pkey_raw);
     if (!pkey) {
         return std::nullopt;
     }
     
     // Create signature context
-    EVP_MD_CTX* md_ctx = EVP_MD_CTX_new();
+    auto md_ctx = utils::make_evp_md_ctx();
     if (!md_ctx) {
-        EVP_PKEY_free(pkey);
         return std::nullopt;
     }
     
     // Initialize signing
-    if (EVP_DigestSignInit(md_ctx, nullptr, EVP_sha256(), nullptr, pkey) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) != 1) {
         return std::nullopt;
     }
     
     // Update with data
-    if (EVP_DigestSignUpdate(md_ctx, data.c_str(), data.size()) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(), data.size()) != 1) {
         return std::nullopt;
     }
     
     // Get signature length
     size_t sig_len = 0;
-    if (EVP_DigestSignFinal(md_ctx, nullptr, &sig_len) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignFinal(md_ctx.get(), nullptr, &sig_len) != 1) {
         return std::nullopt;
     }
     
     // Get signature
     std::vector<unsigned char> signature(sig_len);
-    if (EVP_DigestSignFinal(md_ctx, signature.data(), &sig_len) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignFinal(md_ctx.get(), signature.data(), &sig_len) != 1) {
         return std::nullopt;
     }
-    
-    EVP_MD_CTX_free(md_ctx);
-    EVP_PKEY_free(pkey);
     
     // Base64 encode signature
     return base64Encode(signature.data(), sig_len);

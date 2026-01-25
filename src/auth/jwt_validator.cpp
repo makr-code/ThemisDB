@@ -1,5 +1,6 @@
 #include "auth/jwt_validator.h"
 #include "utils/hkdf_helper.h"
+#include "utils/openssl_deleter.h"
 
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
@@ -42,13 +43,16 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string& input) {
     std::replace(base64.begin(), base64.end(), '-', '+');
     std::replace(base64.begin(), base64.end(), '_', '/');
     while (base64.size() % 4 != 0) base64 += '=';
-    BIO* bio = BIO_new_mem_buf(base64.data(), static_cast<int>(base64.size()));
+    
+    BIO* bmem = BIO_new_mem_buf(base64.data(), static_cast<int>(base64.size()));
+    if (!bmem) return {};
     BIO* b64 = BIO_new(BIO_f_base64());
-    bio = BIO_push(b64, bio);
-    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+    if (!b64) { BIO_free(bmem); return {}; }
+    auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
+    BIO_set_flags(bio.get(), BIO_FLAGS_BASE64_NO_NL);
+    
     std::vector<uint8_t> decoded(base64.size());
-    int len = BIO_read(bio, decoded.data(), static_cast<int>(decoded.size()));
-    BIO_free_all(bio);
+    int len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
     if (len < 0) return {};
     decoded.resize(len);
     return decoded;
@@ -104,38 +108,44 @@ bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
     if (n_b64.empty() || e_b64.empty()) return false;
     auto n_bytes = decodeBase64Url(n_b64);
     auto e_bytes = decodeBase64Url(e_b64);
-    BIGNUM* n = BN_bin2bn(n_bytes.data(), (int)n_bytes.size(), nullptr);
-    BIGNUM* e = BN_bin2bn(e_bytes.data(), (int)e_bytes.size(), nullptr);
-    if (!n || !e) { if (n) BN_free(n); if (e) BN_free(e); return false; }
+    auto n = utils::BIGNUMPtr(BN_bin2bn(n_bytes.data(), (int)n_bytes.size(), nullptr));
+    auto e = utils::BIGNUMPtr(BN_bin2bn(e_bytes.data(), (int)e_bytes.size(), nullptr));
+    if (!n || !e) return false;
     
     // Use EVP_PKEY directly instead of deprecated RSA_new()
-    EVP_PKEY* pkey = EVP_PKEY_new();
-    if (!pkey) { BN_free(n); BN_free(e); return false; }
+    auto pkey = utils::make_evp_key();
+    if (!pkey) return false;
     
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4996)  // OpenSSL deprecated APIs
 #endif
-    RSA* rsa = RSA_new();
-    if (!rsa || RSA_set0_key(rsa, n, e, nullptr) != 1) { 
-        EVP_PKEY_free(pkey); 
-        if (rsa) RSA_free(rsa); else { BN_free(n); BN_free(e); }
-        return false; 
+    auto rsa = utils::make_rsa();
+    if (!rsa) return false;
+    
+    // RSA_set0_key takes ownership only on success, so we need to release after success
+    if (RSA_set0_key(rsa.get(), n.get(), e.get(), nullptr) != 1) {
+        // Failed - n and e will be cleaned up by unique_ptr
+        return false;
     }
-    if (EVP_PKEY_assign_RSA(pkey, rsa) != 1) { RSA_free(rsa); EVP_PKEY_free(pkey); return false; }
+    // Success - RSA now owns n and e, so release them from unique_ptr
+    n.release();
+    e.release();
+    
+    if (EVP_PKEY_assign_RSA(pkey.get(), rsa.get()) != 1) return false;
+    // Success - pkey now owns rsa, so release it from unique_ptr
+    rsa.release();
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
     // Verify using EVP_DigestVerify to compute SHA256 and PKCS#1 v1.5
-    EVP_MD_CTX* mctx = EVP_MD_CTX_new();
-    if (!mctx) { EVP_PKEY_free(pkey); return false; }
-    int ok = EVP_DigestVerifyInit(mctx, nullptr, EVP_sha256(), nullptr, pkey);
-    if (ok != 1) { EVP_MD_CTX_free(mctx); EVP_PKEY_free(pkey); return false; }
-    ok = EVP_DigestVerifyUpdate(mctx, header_payload.data(), header_payload.size());
-    if (ok != 1) { EVP_MD_CTX_free(mctx); EVP_PKEY_free(pkey); return false; }
-    ok = EVP_DigestVerifyFinal(mctx, signature.data(), signature.size());
-    EVP_MD_CTX_free(mctx);
-    EVP_PKEY_free(pkey);
+    auto mctx = utils::make_evp_md_ctx();
+    if (!mctx) return false;
+    int ok = EVP_DigestVerifyInit(mctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get());
+    if (ok != 1) return false;
+    ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size());
+    if (ok != 1) return false;
+    ok = EVP_DigestVerifyFinal(mctx.get(), signature.data(), signature.size());
     return ok == 1;
 }
 

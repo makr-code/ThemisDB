@@ -5,6 +5,7 @@
  */
 
 #include "themis/license_info.h"
+#include "utils/openssl_deleter.h"
 #include <sstream>
 #include <iomanip>
 #include <ctime>
@@ -276,14 +277,15 @@ int getDaysUntilExpiry(const LicenseData& license) {
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* b64 = BIO_new(BIO_f_base64());
     BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
-    bmem = BIO_push(b64, bmem);
-    BIO_set_flags(bmem, BIO_FLAGS_BASE64_NO_NL);
+    if (!bmem) return {};
+    BIO* b64 = BIO_new(BIO_f_base64());
+    if (!b64) { BIO_free(bmem); return {}; }
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    auto bio = themis::utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bmem, output.data(), static_cast<int>(output.size()));
-    BIO_free_all(bmem);
+    int decoded_size = BIO_read(bio.get(), output.data(), static_cast<int>(output.size()));
     
     if (decoded_size < 0) {
         return {};
@@ -312,13 +314,12 @@ bool verifyLicenseSignature(const LicenseData& license) {
     std::string data_to_verify = data_stream.str();
     
     // Load the embedded public key
-    BIO* key_bio = BIO_new_mem_buf(THEMIS_LICENSE_PUBLIC_KEY_PEM, -1);
+    auto key_bio = themis::utils::make_bio_mem_buf(THEMIS_LICENSE_PUBLIC_KEY_PEM, -1);
     if (!key_bio) {
         return false;
     }
     
-    EVP_PKEY* public_key = PEM_read_bio_PUBKEY(key_bio, nullptr, nullptr, nullptr);
-    BIO_free(key_bio);
+    auto public_key = themis::utils::EVPKeyPtr(PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr));
     
     if (!public_key) {
         return false;
@@ -327,27 +328,22 @@ bool verifyLicenseSignature(const LicenseData& license) {
     // Decode the base64 signature
     std::vector<uint8_t> signature_bytes = base64Decode(license.signature);
     if (signature_bytes.empty()) {
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     // Verify the signature using SHA-256
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    auto ctx = themis::utils::make_evp_md_ctx();
     if (!ctx) {
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     bool valid = false;
-    if (EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, public_key) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx, data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size());
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
             valid = (verify_result == 1);
         }
     }
-    
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(public_key);
     
     return valid;
 }

@@ -1,4 +1,5 @@
 #include "sharding/pki_shard_certificate.h"
+#include "utils/openssl_deleter.h"
 #include <fstream>
 #include <sstream>
 #include <chrono>
@@ -30,14 +31,13 @@ namespace {
     std::string asn1TimeToString(const ASN1_TIME* time) {
         if (!time) return "";
         
-        BIO* bio = BIO_new(BIO_s_mem());
-        ASN1_TIME_print(bio, time);
+        auto bio = themis::utils::BIOPtr(BIO_new(BIO_s_mem()));
+        ASN1_TIME_print(bio.get(), time);
         
         char* data = nullptr;
-        long len = BIO_get_mem_data(bio, &data);
+        long len = BIO_get_mem_data(bio.get(), &data);
         std::string result(data, len);
         
-        BIO_free(bio);
         return result;
     }
     
@@ -83,13 +83,12 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const 
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(const std::string& pem_data) {
-    BIO* bio = BIO_new_mem_buf(pem_data.c_str(), static_cast<int>(pem_data.size()));
+    auto bio = utils::make_bio_mem_buf(pem_data.c_str(), static_cast<int>(pem_data.size()));
     if (!bio) {
         return std::nullopt;
     }
     
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    auto cert = utils::read_x509_from_bio(bio.get());
     
     if (!cert) {
         return std::nullopt;
@@ -98,7 +97,7 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     ShardCertificateInfo info;
     
     // Extract subject CN
-    X509_NAME* subject = X509_get_subject_name(cert);
+    X509_NAME* subject = X509_get_subject_name(cert.get());
     if (subject) {
         char cn_buf[256] = {0};
         X509_NAME_get_text_by_NID(subject, NID_commonName, cn_buf, sizeof(cn_buf));
@@ -106,7 +105,7 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     }
     
     // Extract issuer CN
-    X509_NAME* issuer = X509_get_issuer_name(cert);
+    X509_NAME* issuer = X509_get_issuer_name(cert.get());
     if (issuer) {
         char issuer_buf[256] = {0};
         X509_NAME_get_text_by_NID(issuer, NID_commonName, issuer_buf, sizeof(issuer_buf));
@@ -114,34 +113,31 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     }
     
     // Extract serial number
-    ASN1_INTEGER* serial = X509_get_serialNumber(cert);
+    ASN1_INTEGER* serial = X509_get_serialNumber(cert.get());
     if (serial) {
-        BIGNUM* bn = ASN1_INTEGER_to_BN(serial, nullptr);
+        auto bn = utils::BIGNUMPtr(ASN1_INTEGER_to_BN(serial, nullptr));
         if (bn) {
-            char* hex = BN_bn2hex(bn);
+            char* hex = BN_bn2hex(bn.get());
             if (hex) {
                 info.serial_number = hex;
                 OPENSSL_free(hex);
             }
-            BN_free(bn);
         }
     }
     
     // Extract validity dates
-    const ASN1_TIME* not_before = X509_get0_notBefore(cert);
-    const ASN1_TIME* not_after = X509_get0_notAfter(cert);
+    const ASN1_TIME* not_before = X509_get0_notBefore(cert.get());
+    const ASN1_TIME* not_after = X509_get0_notAfter(cert.get());
     info.not_before = asn1TimeToString(not_before);
     info.not_after = asn1TimeToString(not_after);
     
     // Parse Subject Alternative Names
-    parseSAN(cert, info);
+    parseSAN(cert.get(), info);
     
     // Parse custom extensions (shard-specific)
     // Note: In Phase 2, we're providing the structure
     // Actual custom OID parsing would be implemented in production
-    parseCustomExtensions(cert, info);
-    
-    X509_free(cert);
+    parseCustomExtensions(cert.get(), info);
     
     return info;
 }
@@ -160,38 +156,29 @@ bool PKIShardCertificate::verifyCertificate(const std::string& cert_path, const 
     }
     
     // Parse certificate
-    BIO* cert_bio = BIO_new_mem_buf(cert_pem->c_str(), static_cast<int>(cert_pem->size()));
-    X509* cert = PEM_read_bio_X509(cert_bio, nullptr, nullptr, nullptr);
-    BIO_free(cert_bio);
+    auto cert_bio = utils::make_bio_mem_buf(cert_pem->c_str(), static_cast<int>(cert_pem->size()));
+    auto cert = utils::read_x509_from_bio(cert_bio.get());
     
     if (!cert) {
         return false;
     }
     
     // Parse CA certificate
-    BIO* ca_bio = BIO_new_mem_buf(ca_pem->c_str(), static_cast<int>(ca_pem->size()));
-    X509* ca_cert = PEM_read_bio_X509(ca_bio, nullptr, nullptr, nullptr);
-    BIO_free(ca_bio);
+    auto ca_bio = utils::make_bio_mem_buf(ca_pem->c_str(), static_cast<int>(ca_pem->size()));
+    auto ca_cert = utils::read_x509_from_bio(ca_bio.get());
     
     if (!ca_cert) {
-        X509_free(cert);
         return false;
     }
     
     // Get CA public key
-    EVP_PKEY* ca_pubkey = X509_get_pubkey(ca_cert);
+    auto ca_pubkey = utils::EVPKeyPtr(X509_get_pubkey(ca_cert.get()));
     if (!ca_pubkey) {
-        X509_free(cert);
-        X509_free(ca_cert);
         return false;
     }
     
     // Verify certificate signature
-    int result = X509_verify(cert, ca_pubkey);
-    
-    EVP_PKEY_free(ca_pubkey);
-    X509_free(cert);
-    X509_free(ca_cert);
+    int result = X509_verify(cert.get(), ca_pubkey.get());
     
     return result == 1;
 }
@@ -203,22 +190,20 @@ bool PKIShardCertificate::isRevoked(const std::string& serial_number, const std:
         return false; // If CRL doesn't exist, assume not revoked
     }
     
-    BIO* bio = BIO_new_mem_buf(crl_pem->c_str(), static_cast<int>(crl_pem->size()));
+    auto bio = utils::make_bio_mem_buf(crl_pem->c_str(), static_cast<int>(crl_pem->size()));
     if (!bio) {
         return false;
     }
     
-    X509_CRL* crl = PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    auto crl = utils::read_x509_crl_from_bio(bio.get());
     
     if (!crl) {
         return false;
     }
     
     // Check if serial number is in CRL
-    STACK_OF(X509_REVOKED)* revoked = X509_CRL_get_REVOKED(crl);
+    STACK_OF(X509_REVOKED)* revoked = X509_CRL_get_REVOKED(crl.get());
     if (!revoked) {
-        X509_CRL_free(crl);
         return false;
     }
     
@@ -227,22 +212,20 @@ bool PKIShardCertificate::isRevoked(const std::string& serial_number, const std:
         X509_REVOKED* r = sk_X509_REVOKED_value(revoked, i);
         const ASN1_INTEGER* r_serial = X509_REVOKED_get0_serialNumber(r);
         
-        BIGNUM* bn = ASN1_INTEGER_to_BN(r_serial, nullptr);
+        auto bn = utils::BIGNUMPtr(ASN1_INTEGER_to_BN(r_serial, nullptr));
         if (bn) {
-            char* hex = BN_bn2hex(bn);
+            char* hex = BN_bn2hex(bn.get());
             if (hex) {
                 if (serial_number == hex) {
                     found = true;
                 }
                 OPENSSL_free(hex);
             }
-            BN_free(bn);
         }
         
         if (found) break;
     }
     
-    X509_CRL_free(crl);
     return found;
 }
 
