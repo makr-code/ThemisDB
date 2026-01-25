@@ -227,13 +227,13 @@ template<>
 struct EdgeCaseGenerator<int> {
     static std::vector<int> GetEdgeCases() {
         return {
-            0,                    // Zero
-            1,                    // Single element
-            -1,                   // Negative
-            INT_MAX,              // Maximum
-            INT_MIN,              // Minimum
-            100,                  // Small positive
-            -100                  // Small negative
+            0,                                      // Zero
+            1,                                      // Single element
+            -1,                                     // Negative
+            std::numeric_limits<int>::max(),       // Maximum
+            std::numeric_limits<int>::min(),       // Minimum
+            100,                                    // Small positive
+            -100                                    // Small negative
         };
     }
 };
