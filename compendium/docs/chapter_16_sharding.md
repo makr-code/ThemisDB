@@ -1092,7 +1092,7 @@ services:
 
 ## 16.11 High Availability Features (v1.4.0-alpha)
 
-### 16.10.1 Hot Spare
+### 16.11.1 Hot Spare
 
 **Neu in v1.4.0-alpha:** Automatisches Failover bei Node-Ausfällen mit Hot-Spare-Nodes für maximale Verfügbarkeit.
 
@@ -1349,7 +1349,7 @@ watch -n 0.5 'curl -s http://localhost:8765/cluster/status | jq .nodes'
 4. **Monitoring kritisch** - Alerts bei hoher Replication Lag (>100ms)
 5. **Hot Spare kontinuierlich synchronisieren** - Via WAL Replication (siehe unten)
 
-### 16.10.2 WAL Replication
+### 16.11.2 WAL Replication
 
 **Neu in v1.4.0-alpha:** Write-Ahead-Log basierte Replikation für Zero-Data-Loss und kontinuierliche Synchronisation.
 

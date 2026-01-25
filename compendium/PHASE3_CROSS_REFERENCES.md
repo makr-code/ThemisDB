@@ -417,9 +417,8 @@ Dieses Dokument definiert alle Cross-References zwischen Kompendium-Kapiteln fü
 
 ### Kapitel 36: Security Hardening
 **Verweist auf:**
-- → Kapitel 21 (Auth) - Authentication
+- → Kapitel 21 (Auth) - Authentication & Authorization
 - → Kapitel 40 (Data Governance) - Governance & Compliance
-- → Kapitel 22 (Encryption) - **Note:** Chapter 22 ist Clients, nicht Encryption - FIXME
 
 **Wird referenziert von:**
 - ← Kapitel 21 (Auth) - Security Context
@@ -562,11 +561,11 @@ Siehe auch:
 
 ## Identifizierte Probleme (FIXMEs)
 
-1. **Kapitel 16 → Kapitel 17:** Referenz auf "Scaling" aber Kapitel 17 ist "LLM Integration"
-   - **Fix:** Ändern zu Kapitel 18 (HA) oder entfernen
-   
-2. **Kapitel 36 → Kapitel 22:** Referenz auf "Encryption" aber Kapitel 22 ist "Clients"
-   - **Fix:** Sollte auf Kapitel 21 (Auth) oder neues Security-Kapitel verweisen
+1. ~~**Kapitel 36 → Kapitel 22:** Referenz auf "Encryption" aber Kapitel 22 ist "Clients"~~
+   - **Status:** ✅ FIXED - Geändert zu Kapitel 21 (Auth)
+
+2. **Kapitel 16 → Kapitel 17:** Referenz auf "Scaling" aber Kapitel 17 ist "LLM Integration"
+   - **Fix:** Ändern zu Kapitel 18 (HA) oder entfernen (bereits in docs gefixt)
 
 3. **Monitoring Split:** Kapitel 19 und 19b überschneiden sich
    - **Empfehlung:** Konsolidieren oder klare Abgrenzung definieren
