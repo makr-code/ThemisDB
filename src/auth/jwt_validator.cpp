@@ -43,10 +43,14 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string& input) {
     std::replace(base64.begin(), base64.end(), '-', '+');
     std::replace(base64.begin(), base64.end(), '_', '/');
     while (base64.size() % 4 != 0) base64 += '=';
-    auto bio = utils::make_bio_mem_buf(base64.data(), static_cast<int>(base64.size()));
+    
+    BIO* bmem = BIO_new_mem_buf(base64.data(), static_cast<int>(base64.size()));
+    if (!bmem) return {};
     BIO* b64 = BIO_new(BIO_f_base64());
-    BIO_push(b64, bio.get());
+    if (!b64) { BIO_free(bmem); return {}; }
+    auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
     BIO_set_flags(bio.get(), BIO_FLAGS_BASE64_NO_NL);
+    
     std::vector<uint8_t> decoded(base64.size());
     int len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
     if (len < 0) return {};

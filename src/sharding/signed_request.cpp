@@ -19,10 +19,12 @@ namespace themis::sharding {
 namespace {
     // Base64 encode helper
     std::string base64Encode(const unsigned char* data, size_t len) {
-        auto bio = utils::BIOPtr(BIO_new(BIO_s_mem()));
+        BIO* bmem = BIO_new(BIO_s_mem());
+        if (!bmem) return "";
         BIO* b64 = BIO_new(BIO_f_base64());
+        if (!b64) { BIO_free(bmem); return ""; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        BIO_push(b64, bio.get());
+        auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
         BIO_write(bio.get(), data, static_cast<int>(len));
         BIO_flush(bio.get());
@@ -37,10 +39,12 @@ namespace {
     
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64Decode(const std::string& encoded) {
-        auto bio = utils::make_bio_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
+        BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
+        if (!bmem) return std::nullopt;
         BIO* b64 = BIO_new(BIO_f_base64());
+        if (!b64) { BIO_free(bmem); return std::nullopt; }
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        BIO_push(b64, bio.get());
+        auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
         std::vector<unsigned char> decoded(encoded.size());
         int decoded_len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));

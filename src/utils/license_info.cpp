@@ -277,13 +277,15 @@ int getDaysUntilExpiry(const LicenseData& license) {
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    auto bmem = themis::utils::make_bio_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
+    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
+    if (!bmem) return {};
     BIO* b64 = BIO_new(BIO_f_base64());
-    BIO_push(b64, bmem.get());
-    BIO_set_flags(bmem.get(), BIO_FLAGS_BASE64_NO_NL);
+    if (!b64) { BIO_free(bmem); return {}; }
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    auto bio = themis::utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bmem.get(), output.data(), static_cast<int>(output.size()));
+    int decoded_size = BIO_read(bio.get(), output.data(), static_cast<int>(output.size()));
     
     if (decoded_size < 0) {
         return {};
