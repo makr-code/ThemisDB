@@ -243,6 +243,15 @@ public:
     /// Create a new MVCC transaction with configurable isolation level
     class TransactionWrapper {
     public:
+        /// Transaction state enum for better lifecycle management
+        enum class State {
+            NotStarted,      // Never attempted to start (db_ was null)
+            CreationFailed,  // BeginTransaction() failed or operation failed
+            Active,          // Transaction is alive and can be used
+            Rolledback,      // Transaction rolled back
+            Committed        // Transaction committed
+        };
+        
         explicit TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
         ~TransactionWrapper();
         
@@ -267,7 +276,7 @@ public:
         bool prepare();
         
         /// Check if transaction is still active
-        bool isActive() const { return active_; }
+        bool isActive() const { return state_ == State::Active; }
         
         /// Get the snapshot (for debugging)
         /// Returns error if transaction is inactive or not initialized
@@ -277,7 +286,7 @@ public:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::Transaction> txn_;
         TransactionIsolationLevel isolation_;
-        bool active_ = true;
+        State state_ = State::NotStarted;
         bool prepared_ = false;
         friend class RocksDBWrapper;
     };
