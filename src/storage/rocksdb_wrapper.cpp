@@ -917,6 +917,7 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
     scan_options.prefix_same_as_start = true;
     
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(scan_options));
+    
     if (!it) {
         THEMIS_ERROR("scanPrefix: failed to create iterator");
         return;
@@ -947,6 +948,7 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     }
 
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    
     if (!it) {
         THEMIS_ERROR("scanRange: failed to create iterator");
         return;
@@ -977,6 +979,7 @@ void RocksDBWrapper::scanAll(ScanCallback callback) {
     }
 
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    
     if (!it) {
         THEMIS_ERROR("scanAll: failed to create iterator");
         return;
