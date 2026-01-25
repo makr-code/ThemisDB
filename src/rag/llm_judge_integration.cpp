@@ -11,7 +11,7 @@
 namespace themis::rag::judge {
 
 LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
-    : config_(config) {
+    : config_(config), mock_mode_warning_shown_(false) {
     // Only set default inference function if mock mode is explicitly enabled
     if (config_.use_mock_mode) {
         inference_fn_ = defaultInference;
@@ -21,9 +21,7 @@ LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
     } else {
         // In production mode, require inference function to be set
         inference_fn_ = nullptr;
-        if (config_.require_inference_function) {
-            THEMIS_INFO("LLMJudgeIntegration initialized - inference function must be set before use");
-        }
+        THEMIS_INFO("LLMJudgeIntegration initialized - inference function must be set before use");
     }
 }
 
@@ -124,12 +122,6 @@ void LLMJudgeIntegration::setInferenceFunction(
 ) {
     inference_fn_ = fn;
     THEMIS_INFO("Custom inference function set for LLM judge");
-    
-    // Disable mock mode when custom function is set
-    if (config_.use_mock_mode) {
-        config_.use_mock_mode = false;
-        THEMIS_INFO("Mock mode disabled - using custom inference function");
-    }
 }
 
 void LLMJudgeIntegration::setConfig(const Config& config) {
@@ -142,17 +134,18 @@ LLMJudgeIntegration::Config LLMJudgeIntegration::getConfig() const {
 
 std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     if (!inference_fn_) {
+        // Provide helpful error message
         std::string error_msg = "No inference function set. ";
-        if (config_.require_inference_function) {
-            error_msg += "Call setInferenceFunction() with a valid LLM inference function or enable mock mode for testing.";
-        }
+        error_msg += "Call setInferenceFunction() with a valid LLM inference function, ";
+        error_msg += "or enable mock mode (config.use_mock_mode = true) for testing.";
         THEMIS_ERROR("{}", error_msg);
         throw std::runtime_error(error_msg);
     }
     
-    // Warn if in mock mode
-    if (config_.use_mock_mode && config_.warn_on_mock_mode) {
-        THEMIS_WARN("LLM evaluation using MOCK MODE - results are not real");
+    // Warn once if in mock mode
+    if (config_.use_mock_mode && config_.warn_on_mock_mode && !mock_mode_warning_shown_) {
+        THEMIS_WARN("LLM evaluation using MOCK MODE - results are not real (warning shown once)");
+        mock_mode_warning_shown_ = true;
     }
     
     THEMIS_DEBUG("Calling LLM with prompt length: {} chars", prompt.length());

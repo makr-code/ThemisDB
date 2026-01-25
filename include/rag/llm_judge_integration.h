@@ -63,8 +63,7 @@ public:
         
         // Mock mode configuration
         bool use_mock_mode = false;           // Enable mock responses (for testing only)
-        bool require_inference_function = true; // Require inference function to be set
-        bool warn_on_mock_mode = true;        // Log warnings when in mock mode
+        bool warn_on_mock_mode = true;        // Log warning once when mock mode is used
     };
     
     /**
@@ -124,6 +123,7 @@ public:
 private:
     Config config_;
     std::function<std::string(const std::string&)> inference_fn_;
+    bool mock_mode_warning_shown_ = false;  // Track if warning has been shown
     
     /**
      * @brief Call LLM inference with retries
