@@ -1,6 +1,9 @@
 # ThemisDB Architecture-Specific Optimizations
 # Applies -march flags based on architecture and platform
 # Requires: PlatformDetection.cmake to be included first
+#
+# Note: AVX2 flags are handled in CompilerOptions.cmake to avoid duplication.
+# This file focuses on architecture-specific march flags and ARM optimizations.
 
 if(NOT THEMIS_PLATFORM_DETECTED)
     message(FATAL_ERROR "ArchitectureOptimizations.cmake requires PlatformDetection.cmake to be included first")
@@ -34,14 +37,12 @@ if(THEMIS_TARGET_ARCH STREQUAL "x86_64")
         endif()
         message(STATUS "  x86_64 optimization: SSE4.2 only (QNAP Celeron compatible)")
     elseif(THEMIS_ENABLE_AVX2)
-        # Enable AVX2 + FMA for modern x86_64 CPUs
-        if(MSVC)
-            add_compile_options(/arch:AVX2)
-        else()
+        # AVX2 flags are already added in CompilerOptions.cmake
+        # Just add -march=native for GCC/Clang (not for MSVC which uses /arch:AVX2)
+        if(NOT MSVC)
             add_compile_options(-march=native)
         endif()
-        add_compile_definitions(THEMIS_HAS_AVX2=1)
-        message(STATUS "  x86_64 optimization: AVX2 + FMA (native)")
+        message(STATUS "  x86_64 optimization: AVX2 + FMA (native, flags set in CompilerOptions.cmake)")
     else()
         # Baseline x86_64 without AVX2
         if(NOT MSVC)

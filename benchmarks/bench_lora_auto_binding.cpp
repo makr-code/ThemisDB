@@ -72,14 +72,14 @@ static void BM_AutoBinding_FirstApplication(benchmark::State& state) {
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
-        mgr.applyLoRA("test-adapter", ctx);
+        mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         state.SetIterationTime(duration.count() / 1e6);
         
         // Remove for next iteration
-        mgr.removeLoRA("test-adapter", ctx);
+        mgr.removeLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
         benchmark::ClobberMemory();
     }
     
@@ -98,7 +98,7 @@ static void BM_AutoBinding_ReuseOptimization(benchmark::State& state) {
     
     // Pre-load and apply adapter
     mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
-    mgr.applyLoRA("test-adapter", ctx);
+    mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
@@ -137,7 +137,7 @@ static void BM_AutoBinding_AdapterSwitching(benchmark::State& state) {
         const std::string& adapter_id = use_a ? "adapter-a" : "adapter-b";
         
         auto start = std::chrono::high_resolution_clock::now();
-        mgr.applyLoRA(adapter_id, ctx);
+        mgr.applyLoRA(adapter_id, reinterpret_cast<llama_context*>(ctx));
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -205,8 +205,8 @@ static void BM_ContextSwitch_Rebinding(benchmark::State& state) {
         
         auto start = std::chrono::high_resolution_clock::now();
         // Simulate context switch detection and rebinding
-        mgr.removeLoRA("test-adapter", current_ctx);
-        mgr.applyLoRA("test-adapter", current_ctx);
+        mgr.removeLoRA("test-adapter", reinterpret_cast<llama_context*>(current_ctx));
+        mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(current_ctx));
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -460,10 +460,10 @@ static void BM_Lifecycle_Complete(benchmark::State& state) {
         mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
         
         // Apply
-        mgr.applyLoRA("test-adapter", ctx);
+        mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
         
         // Remove
-        mgr.removeLoRA("test-adapter", ctx);
+        mgr.removeLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
         
         // Unload
         mgr.unloadLoRA("test-adapter", true);
@@ -502,9 +502,9 @@ static void BM_Throughput_MultiAdapter(benchmark::State& state) {
         const std::string& adapter_id = adapters[idx++ % adapters.size()];
         
         // Simulate inference request with adapter
-        mgr.applyLoRA(adapter_id, ctx);
+        mgr.applyLoRA(adapter_id, reinterpret_cast<llama_context*>(ctx));
         benchmark::DoNotOptimize(mgr.getLoRA(adapter_id));
-        mgr.removeLoRA(adapter_id, ctx);
+        mgr.removeLoRA(adapter_id, reinterpret_cast<llama_context*>(ctx));
         
         benchmark::ClobberMemory();
     }
