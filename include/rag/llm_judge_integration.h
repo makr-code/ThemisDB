@@ -21,6 +21,32 @@ namespace themis::rag::judge {
  * - Prompt generation and submission
  * - Response retrieval and parsing
  * - Error handling and retries
+ * 
+ * Usage Example (Production with EmbeddedLLM):
+ * @code
+ *   LLMJudgeIntegration::Config config;
+ *   config.use_mock_mode = false;
+ *   LLMJudgeIntegration integration(config);
+ *   
+ *   // Option 1: Use EmbeddedLLM directly
+ *   auto& llm = EmbeddedLLMManager::instance().get();
+ *   integration.setInferenceFunction([&llm](const std::string& prompt) {
+ *       return llm.generate(prompt, 1024);
+ *   });
+ * 
+ *   // Option 2: Use custom backend
+ *   integration.setInferenceFunction([](const std::string& prompt) {
+ *       return myCustomLLMBackend.infer(prompt);
+ *   });
+ * @endcode
+ * 
+ * Usage Example (Testing with Mock):
+ * @code
+ *   LLMJudgeIntegration::Config config;
+ *   config.use_mock_mode = true;
+ *   LLMJudgeIntegration integration(config);
+ *   // No inference function needed - will use mock responses
+ * @endcode
  */
 class LLMJudgeIntegration {
 public:
@@ -34,6 +60,11 @@ public:
         int max_retries = 3;
         int timeout_ms = 30000;
         bool use_json_mode = true;
+        
+        // Mock mode configuration
+        bool use_mock_mode = false;           // Enable mock responses (for testing only)
+        bool require_inference_function = true; // Require inference function to be set
+        bool warn_on_mock_mode = true;        // Log warnings when in mock mode
     };
     
     /**
@@ -83,6 +114,12 @@ public:
      * @return Current configuration
      */
     Config getConfig() const;
+    
+    /**
+     * @brief Check if currently in mock mode
+     * @return true if using mock responses
+     */
+    bool isMockMode() const;
 
 private:
     Config config_;

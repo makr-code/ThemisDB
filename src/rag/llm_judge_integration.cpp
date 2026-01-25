@@ -12,8 +12,19 @@ namespace themis::rag::judge {
 
 LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
     : config_(config) {
-    // Set default inference function (stub for now)
-    inference_fn_ = defaultInference;
+    // Only set default inference function if mock mode is explicitly enabled
+    if (config_.use_mock_mode) {
+        inference_fn_ = defaultInference;
+        if (config_.warn_on_mock_mode) {
+            THEMIS_WARN("LLMJudgeIntegration initialized in MOCK MODE - evaluations will use stub responses");
+        }
+    } else {
+        // In production mode, require inference function to be set
+        inference_fn_ = nullptr;
+        if (config_.require_inference_function) {
+            THEMIS_INFO("LLMJudgeIntegration initialized - inference function must be set before use");
+        }
+    }
 }
 
 ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
@@ -113,6 +124,12 @@ void LLMJudgeIntegration::setInferenceFunction(
 ) {
     inference_fn_ = fn;
     THEMIS_INFO("Custom inference function set for LLM judge");
+    
+    // Disable mock mode when custom function is set
+    if (config_.use_mock_mode) {
+        config_.use_mock_mode = false;
+        THEMIS_INFO("Mock mode disabled - using custom inference function");
+    }
 }
 
 void LLMJudgeIntegration::setConfig(const Config& config) {
@@ -125,7 +142,17 @@ LLMJudgeIntegration::Config LLMJudgeIntegration::getConfig() const {
 
 std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     if (!inference_fn_) {
-        throw std::runtime_error("No inference function set");
+        std::string error_msg = "No inference function set. ";
+        if (config_.require_inference_function) {
+            error_msg += "Call setInferenceFunction() with a valid LLM inference function or enable mock mode for testing.";
+        }
+        THEMIS_ERROR("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    // Warn if in mock mode
+    if (config_.use_mock_mode && config_.warn_on_mock_mode) {
+        THEMIS_WARN("LLM evaluation using MOCK MODE - results are not real");
     }
     
     THEMIS_DEBUG("Calling LLM with prompt length: {} chars", prompt.length());
@@ -139,10 +166,10 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
 }
 
 std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
-    // This is a stub implementation that returns a mock response
-    // In production, this should call the actual LLM inference engine
+    // Mock inference function for testing only
+    // This should only be used when explicitly enabled via config.use_mock_mode = true
     
-    THEMIS_DEBUG("Using default (stub) inference function");
+    THEMIS_DEBUG("Using mock inference function (for testing only)");
     
     // Return a mock JSON response
     return R"({
@@ -152,6 +179,10 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
   "supporting_claims": ["Mock claim 1", "Mock claim 2"],
   "unsupported_claims": []
 })";
+}
+
+bool LLMJudgeIntegration::isMockMode() const {
+    return config_.use_mock_mode;
 }
 
 } // namespace themis::rag::judge
