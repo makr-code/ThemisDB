@@ -250,8 +250,8 @@ bool SemanticCache::clear() {
     rocksdb::WriteBatch batch;
     
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-    if (cf_handle_) batch.Delete(cf_handle_, it->key());
-    else batch.Delete(it->key());
+        if (cf_handle_) batch.Delete(cf_handle_, it->key());
+        else batch.Delete(it->key());
     }
     
     rocksdb::WriteOptions write_opts;
