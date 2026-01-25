@@ -917,6 +917,11 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
     scan_options.prefix_same_as_start = true;
     
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(scan_options));
+    if (!it) {
+        THEMIS_ERROR("scanPrefix: failed to create iterator");
+        return;
+    }
+    
     rocksdb::Slice prefix_slice(prefix.data(), prefix.size());
     
     for (it->Seek(prefix_slice); it->Valid() && it->key().starts_with(prefix_slice); it->Next()) {
@@ -942,6 +947,11 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     }
 
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    if (!it) {
+        THEMIS_ERROR("scanRange: failed to create iterator");
+        return;
+    }
+    
     rocksdb::Slice start_slice(start_key.data(), start_key.size());
     rocksdb::Slice end_slice(end_key.data(), end_key.size());
     
@@ -967,6 +977,10 @@ void RocksDBWrapper::scanAll(ScanCallback callback) {
     }
 
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    if (!it) {
+        THEMIS_ERROR("scanAll: failed to create iterator");
+        return;
+    }
     
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         std::string_view key(it->key().data(), it->key().size());
@@ -1462,6 +1476,10 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
     
     // Create iterator
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
+    if (!it) {
+        THEMIS_ERROR("scanWithAsyncIO: failed to create iterator");
+        return results;
+    }
     
     // Seek to prefix or start of database
     if (prefix.empty()) {
@@ -1520,6 +1538,10 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQ
     
     // Create iterator
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
+    if (!it) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO: failed to create iterator");
+        return results;
+    }
     
     // Seek to start key
     it->Seek(start_key);
@@ -1572,6 +1594,10 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     
     // Create iterator
     std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
+    if (!it) {
+        THEMIS_ERROR("reverseScanWithAsyncIO: failed to create iterator");
+        return results;
+    }
     
     // Seek to start key or last if empty
     if (start_key.empty()) {
@@ -1677,7 +1703,15 @@ Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newAsyncIterator() {
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
-    return Ok(std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts)));
+    auto it = std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
+    if (!it) {
+        return Err<std::unique_ptr<rocksdb::Iterator>>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Failed to create async iterator"
+        );
+    }
+    
+    return Ok(std::move(it));
 }
 
 Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newIterator() {
@@ -1697,7 +1731,15 @@ Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newIterator() {
     }
 
     rocksdb::ReadOptions read_opts;
-    return Ok(std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts)));
+    auto it = std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
+    if (!it) {
+        return Err<std::unique_ptr<rocksdb::Iterator>>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Failed to create iterator"
+        );
+    }
+    
+    return Ok(std::move(it));
 }
 
 // SafeIterator implementation - SOLUTION 1B for iterator lifecycle safety
@@ -1726,6 +1768,12 @@ Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::newSafeIterator(const rocks
     }
     
     auto iter = std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(*opts));
+    if (!iter) {
+        return Err<SafeIterator>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Failed to create safe iterator"
+        );
+    }
     
     return Ok(SafeIterator(std::move(iter), std::move(guard)));
 }
