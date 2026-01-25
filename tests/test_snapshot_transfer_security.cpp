@@ -183,10 +183,8 @@ TEST_F(SnapshotTransferSecurityTest, RejectBackslashTraversal) {
     
     auto status = handler_->ReceiveChunk(chunk);
     
-    // Should be safe - either rejected or treated as literal filename
-    EXPECT_TRUE(status == SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL ||
-                status == SnapshotStatus::ERROR_INVALID_CONFIG ||
-                status != SnapshotStatus::OK);
+    // Should fail with security error or invalid config
+    EXPECT_NE(status, SnapshotStatus::OK);
 }
 
 // Test 10: Test symlink escape prevention (requires fs::canonical)

@@ -276,7 +276,7 @@ public:
                     
                     // Check if ancestor is within snapshot directory
                     auto relative_ancestor = canonical_ancestor.lexically_relative(snapshot_dir_canonical);
-                    if (relative_ancestor.empty() || relative_ancestor.string().find("..") == 0) {
+                    if (relative_ancestor.empty() || relative_ancestor.string().find("..") != std::string::npos) {
                         spdlog::error("Path traversal attempt: ancestor not under snapshot directory");
                         return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
                     }
@@ -303,7 +303,7 @@ public:
         // Step 4: Verify canonical path is within snapshot directory
         // Use lexically_relative for robust path validation to prevent bypasses
         auto relative_path = canonical_file_path.lexically_relative(snapshot_dir_canonical);
-        if (relative_path.empty() || relative_path.string().find("..") == 0) {
+        if (relative_path.empty() || relative_path.string().find("..") != std::string::npos) {
             spdlog::error("Path traversal attempt detected: {} not under {}", 
                          canonical_file_path.string(), snapshot_dir_canonical.string());
             return SnapshotStatus::ERROR_SECURITY_PATH_TRAVERSAL;
