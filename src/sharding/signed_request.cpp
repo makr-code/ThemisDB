@@ -171,58 +171,47 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
         return std::nullopt;
     }
     
-    EVP_PKEY* pkey = nullptr;
+    EVP_PKEY* pkey_raw = nullptr;
     if (!config_.key_passphrase.empty()) {
-        pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr,
+        pkey_raw = PEM_read_PrivateKey(key_file, nullptr, nullptr,
                                    const_cast<char*>(config_.key_passphrase.c_str()));
     } else {
-        pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
+        pkey_raw = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
     }
     fclose(key_file);
     
+    auto pkey = utils::EVPKeyPtr(pkey_raw);
     if (!pkey) {
         return std::nullopt;
     }
     
     // Create signature context
-    EVP_MD_CTX* md_ctx = EVP_MD_CTX_new();
+    auto md_ctx = utils::make_evp_md_ctx();
     if (!md_ctx) {
-        EVP_PKEY_free(pkey);
         return std::nullopt;
     }
     
     // Initialize signing
-    if (EVP_DigestSignInit(md_ctx, nullptr, EVP_sha256(), nullptr, pkey) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) != 1) {
         return std::nullopt;
     }
     
     // Update with data
-    if (EVP_DigestSignUpdate(md_ctx, data.c_str(), data.size()) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(), data.size()) != 1) {
         return std::nullopt;
     }
     
     // Get signature length
     size_t sig_len = 0;
-    if (EVP_DigestSignFinal(md_ctx, nullptr, &sig_len) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignFinal(md_ctx.get(), nullptr, &sig_len) != 1) {
         return std::nullopt;
     }
     
     // Get signature
     std::vector<unsigned char> signature(sig_len);
-    if (EVP_DigestSignFinal(md_ctx, signature.data(), &sig_len) != 1) {
-        EVP_MD_CTX_free(md_ctx);
-        EVP_PKEY_free(pkey);
+    if (EVP_DigestSignFinal(md_ctx.get(), signature.data(), &sig_len) != 1) {
         return std::nullopt;
     }
-    
-    EVP_MD_CTX_free(md_ctx);
-    EVP_PKEY_free(pkey);
     
     // Base64 encode signature
     return base64Encode(signature.data(), sig_len);

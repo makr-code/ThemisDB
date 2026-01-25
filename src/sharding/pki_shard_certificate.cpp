@@ -31,14 +31,13 @@ namespace {
     std::string asn1TimeToString(const ASN1_TIME* time) {
         if (!time) return "";
         
-        BIO* bio = BIO_new(BIO_s_mem());
-        ASN1_TIME_print(bio, time);
+        auto bio = themis::utils::BIOPtr(BIO_new(BIO_s_mem()));
+        ASN1_TIME_print(bio.get(), time);
         
         char* data = nullptr;
-        long len = BIO_get_mem_data(bio, &data);
+        long len = BIO_get_mem_data(bio.get(), &data);
         std::string result(data, len);
         
-        BIO_free(bio);
         return result;
     }
     
