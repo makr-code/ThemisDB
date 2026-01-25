@@ -1,4 +1,6 @@
 #include "server/rpc/snapshot_transfer_handler.h"
+#include "utils/zstd_codec.h"
+#include "utils/logger.h"
 #include <rocksdb/db.h>
 #include <rocksdb/checkpoint.h>
 #include <rocksdb/options.h>
@@ -419,8 +421,27 @@ private:
                 return SnapshotStatus::OK;
                 
             case themis::sharding::COMPRESSION_LZ4: {
+                // Validate input size before compression
+                if (input.size() > themis::utils::compression::MAX_INPUT_SIZE) {
+                    THEMIS_ERROR("LZ4: Input too large for compression: {} bytes", input.size());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
                 int max_size = LZ4_compressBound(input.size());
-                output->resize(max_size);
+                
+                // Validate compression bound
+                if (static_cast<size_t>(max_size) > themis::utils::compression::MAX_OUTPUT_SIZE) {
+                    THEMIS_ERROR("LZ4: Compression bound too large: {} bytes", max_size);
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
+                try {
+                    output->resize(max_size);
+                } catch (const std::bad_alloc& e) {
+                    THEMIS_ERROR("LZ4: Failed to allocate memory: {}", e.what());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
                 int compressed_size = LZ4_compress_default(
                     input.data(),
                     &(*output)[0],
@@ -435,24 +456,46 @@ private:
             }
             
             case themis::sharding::COMPRESSION_ZSTD: {
-                size_t max_size = ZSTD_compressBound(input.size());
-                output->resize(max_size);
-                size_t compressed_size = ZSTD_compress(
-                    &(*output)[0],
-                    max_size,
-                    input.data(),
+                // Use our secure zstd_compress_safe function
+                auto result = themis::utils::zstd_compress_safe(
+                    reinterpret_cast<const uint8_t*>(input.data()),
                     input.size(),
                     config_.compression_level
                 );
-                if (ZSTD_isError(compressed_size)) {
+                
+                if (!result) {
+                    THEMIS_ERROR("ZSTD compression failed: {}", result.error().message());
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
-                output->resize(compressed_size);
+                
+                // Convert vector<uint8_t> to string
+                const auto& compressed = *result;
+                output->assign(reinterpret_cast<const char*>(compressed.data()), compressed.size());
                 return SnapshotStatus::OK;
             }
             
             case themis::sharding::COMPRESSION_SNAPPY: {
-                size_t compressed_size;
+                // Validate input size before compression
+                if (input.size() > themis::utils::compression::MAX_INPUT_SIZE) {
+                    THEMIS_ERROR("Snappy: Input too large for compression: {} bytes", input.size());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
+                size_t compressed_size = snappy::MaxCompressedLength(input.size());
+                
+                // Validate compression bound
+                if (compressed_size > themis::utils::compression::MAX_OUTPUT_SIZE) {
+                    THEMIS_ERROR("Snappy: Compression bound too large: {} bytes", compressed_size);
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
+                try {
+                    output->resize(compressed_size);
+                } catch (const std::bad_alloc& e) {
+                    THEMIS_ERROR("Snappy: Failed to allocate memory: {}", e.what());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
                 snappy::RawCompress(input.data(), input.size(),
                                    &(*output)[0], &compressed_size);
                 output->resize(compressed_size);
@@ -471,8 +514,27 @@ private:
                 return SnapshotStatus::OK;
                 
             case themis::sharding::COMPRESSION_LZ4: {
+                // Validate compressed input size
+                if (input.size() > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                    THEMIS_ERROR("LZ4: Compressed data too large: {} bytes", input.size());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
                 // Note: For production, would need to know uncompressed size beforehand
-                output->resize(input.size() * 10);  // Estimate
+                size_t estimated_size = input.size() * 10;  // Estimate
+                
+                // Validate estimated size
+                if (estimated_size > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                    estimated_size = themis::utils::compression::MAX_DECOMPRESSED_SIZE;
+                }
+                
+                try {
+                    output->resize(estimated_size);
+                } catch (const std::bad_alloc& e) {
+                    THEMIS_ERROR("LZ4: Failed to allocate memory: {}", e.what());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
                 int decompressed_size = LZ4_decompress_safe(
                     input.data(),
                     &(*output)[0],
@@ -487,26 +549,28 @@ private:
             }
             
             case themis::sharding::COMPRESSION_ZSTD: {
-                size_t decompressed_size = ZSTD_getFrameContentSize(
-                    input.data(), input.size());
-                if (decompressed_size == ZSTD_CONTENTSIZE_ERROR ||
-                    decompressed_size == ZSTD_CONTENTSIZE_UNKNOWN) {
+                // Use our secure zstd_decompress_safe function
+                std::vector<uint8_t> compressed_vec(input.begin(), input.end());
+                auto result = themis::utils::zstd_decompress_safe(compressed_vec);
+                
+                if (!result) {
+                    THEMIS_ERROR("ZSTD decompression failed: {}", result.error().message());
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
-                output->resize(decompressed_size);
-                size_t actual_size = ZSTD_decompress(
-                    &(*output)[0],
-                    decompressed_size,
-                    input.data(),
-                    input.size()
-                );
-                if (ZSTD_isError(actual_size)) {
-                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
-                }
+                
+                // Convert vector<uint8_t> to string
+                const auto& decompressed = *result;
+                output->assign(reinterpret_cast<const char*>(decompressed.data()), decompressed.size());
                 return SnapshotStatus::OK;
             }
             
             case themis::sharding::COMPRESSION_SNAPPY: {
+                // Validate compressed input size
+                if (input.size() > themis::utils::compression::MAX_DECOMPRESSED_SIZE) {
+                    THEMIS_ERROR("Snappy: Compressed data too large: {} bytes", input.size());
+                    return SnapshotStatus::ERROR_COMPRESSION_FAILED;
+                }
+                
                 if (!snappy::Uncompress(input.data(), input.size(), output)) {
                     return SnapshotStatus::ERROR_COMPRESSION_FAILED;
                 }
