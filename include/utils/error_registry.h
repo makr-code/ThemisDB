@@ -154,6 +154,7 @@ enum class ErrorCode {
     
     // Security Errors (9200-9299)
     ERR_SECURITY_PATH_TRAVERSAL = 9200,
+    ERR_SECURITY_INJECTION_DETECTED = 9201,
     
     // Unknown
     ERR_UNKNOWN = 9999

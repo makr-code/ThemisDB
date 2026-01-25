@@ -1384,6 +1384,21 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/memory/pool_allocator.md"},
         {"memory", "fragmentation", "performance", "optimization"}
     });
+    
+    // Security Errors
+    registerError({
+        ErrorCode::ERR_SECURITY_INJECTION_DETECTED,
+        "Security",
+        "Critical",
+        "AQL injection detected: {}",
+        "The query contains patterns that indicate a SQL/AQL injection attempt.",
+        "1. Use parameterized queries instead of string concatenation\n"
+        "2. Validate all user input before using in queries\n"
+        "3. Review the query for suspicious patterns (DROP, DELETE, --, etc.)\n"
+        "4. Check security audit logs for the source of the malicious query",
+        {"/docs/security/injection_prevention.md"},
+        {"security", "injection", "sql", "aql", "validation", "attack"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
