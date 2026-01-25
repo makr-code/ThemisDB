@@ -41,23 +41,46 @@ try:
 except:
     pass
 
-# ✅ GOOD: Proper error handling with logging
-try:
-    response = client.get("/api/endpoint")
-    response.raise_for_status()
-    latency_ms = (time.perf_counter() - start) * 1000
-    result.latencies_ms.append(latency_ms)
-except httpx.HTTPError as e:
-    print(f"[Benchmark] HTTP error skipped: {e}")
-except Exception as e:
-    print(f"[Benchmark] Error skipped: {e}")
+# ✅ GOOD: Proper error handling with logging (Pattern 1 - timing inside try)
+for _ in range(iterations):
+    try:
+        start = time.perf_counter()
+        response = client.get("/api/endpoint")
+        response.raise_for_status()
+        latency_ms = (time.perf_counter() - start) * 1000
+        result.latencies_ms.append(latency_ms)
+    except httpx.HTTPError as e:
+        print(f"[Benchmark] HTTP error skipped: {e}")
+    except Exception as e:
+        print(f"[Benchmark] Error skipped: {e}")
+
+# ✅ ALSO GOOD: Alternative pattern (Pattern 2 - timing outside try)
+for _ in range(iterations):
+    start = time.perf_counter()
+    try:
+        response = client.get("/api/endpoint")
+        response.raise_for_status()
+        result.latencies_ms.append((time.perf_counter() - start) * 1000)
+    except httpx.HTTPError as e:
+        print(f"[Benchmark] HTTP error skipped: {e}")
+    except Exception as e:
+        print(f"[Benchmark] Error skipped: {e}")
 ```
+
+**Important Notes:**
+- Both patterns are correct and measure the actual operation time
+- Pattern 1 (timing inside try): Measures from operation start to completion
+- Pattern 2 (timing outside try): Also measures from operation start, records only on success
+- Pattern 2 is slightly preferred as it makes timing scope more explicit
+- On failure, no timing is recorded in either pattern (iteration is skipped)
+- The goal is to measure successful operations only, excluding failed attempts
 
 **Key points:**
 - Use `raise_for_status()` to catch HTTP errors (4xx, 5xx)
 - Only record timing for successful requests
 - Log errors for debugging but don't let them crash the benchmark
 - Skip failed requests rather than recording them with incorrect timing
+- The timing should include the full HTTP request/response cycle
 
 ### Warmup Phases
 
