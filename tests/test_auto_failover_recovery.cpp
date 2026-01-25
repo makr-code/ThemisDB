@@ -41,6 +41,14 @@ public:
         : node_id_(id), role_(Role::FOLLOWER), is_healthy_(true), 
           heartbeat_count_(0), data_version_(0) {}
     
+    // Copy constructor deleted due to std::atomic member
+    MockReplicaNode(const MockReplicaNode&) = delete;
+    MockReplicaNode& operator=(const MockReplicaNode&) = delete;
+    
+    // Move constructor and assignment
+    MockReplicaNode(MockReplicaNode&&) noexcept = default;
+    MockReplicaNode& operator=(MockReplicaNode&&) noexcept = default;
+    
     void setRole(Role role) {
         std::lock_guard<std::mutex> lock(mutex_);
         role_ = role;
@@ -116,44 +124,44 @@ private:
  */
 TEST(AutoFailoverRecoveryTest, AutomaticLeaderFailover) {
     constexpr int NUM_NODES = 5;
-    std::vector<MockReplicaNode> cluster;
+    std::vector<std::unique_ptr<MockReplicaNode>> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
-        cluster.emplace_back(i);
+        cluster.emplace_back(std::make_unique<MockReplicaNode>(i));
     }
     
     // Initial setup: node 0 is leader
-    cluster[0].setRole(MockReplicaNode::Role::LEADER);
+    cluster[0]->setRole(MockReplicaNode::Role::LEADER);
     for (int i = 1; i < NUM_NODES; ++i) {
-        cluster[i].setRole(MockReplicaNode::Role::FOLLOWER);
+        cluster[i]->setRole(MockReplicaNode::Role::FOLLOWER);
     }
     
     // Simulate leader failure
-    cluster[0].setHealth(false);
+    cluster[0]->setHealth(false);
     
     // Detect leader failure (no heartbeats)
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     
-    bool leader_available = cluster[0].isHealthy();
+    bool leader_available = cluster[0]->isHealthy();
     EXPECT_FALSE(leader_available);
     
     // Election: select new leader (highest ID wins in this simulation)
     int new_leader_id = -1;
     for (int i = NUM_NODES - 1; i >= 0; --i) {
-        if (cluster[i].isHealthy()) {
+        if (cluster[i]->isHealthy()) {
             new_leader_id = i;
-            cluster[i].setRole(MockReplicaNode::Role::LEADER);
+            cluster[i]->setRole(MockReplicaNode::Role::LEADER);
             break;
         }
     }
     
     ASSERT_NE(new_leader_id, -1);
     ASSERT_NE(new_leader_id, 0); // Should not be old leader
-    EXPECT_EQ(cluster[new_leader_id].getRole(), MockReplicaNode::Role::LEADER);
+    EXPECT_EQ(cluster[new_leader_id]->getRole(), MockReplicaNode::Role::LEADER);
     
     // Verify cluster still operational
-    cluster[new_leader_id].writeData("test_key", 42);
-    EXPECT_EQ(cluster[new_leader_id].readData("test_key"), 42);
+    cluster[new_leader_id]->writeData("test_key", 42);
+    EXPECT_EQ(cluster[new_leader_id]->readData("test_key"), 42);
 }
 
 /**

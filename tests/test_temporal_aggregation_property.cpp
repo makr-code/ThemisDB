@@ -97,43 +97,43 @@ protected:
 
 TEST_F(TemporalAggregationPropertyTest, SumAvgMinMaxNoType) {
     // range [1000,2000] overlaps e1,e2,e3,e4,e5 (e4 has no cost)
-    auto [st, res] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::SUM, 1000, 2000, false, std::nullopt);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status_sum, res] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::SUM, 1000, 2000, false, std::nullopt);
+    ASSERT_TRUE(status_sum.ok) << status_sum.message;
     EXPECT_EQ(res.count, 4u); // four edges with numeric cost
     EXPECT_DOUBLE_EQ(res.value, 100.0);
 
-    auto [st2, res2] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::AVG, 1000, 2000, false, std::nullopt);
-    ASSERT_TRUE(st2.ok) << st2.message;
+    auto [status_avg, res2] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::AVG, 1000, 2000, false, std::nullopt);
+    ASSERT_TRUE(status_avg.ok) << status_avg.message;
     EXPECT_EQ(res2.count, 4u);
     EXPECT_DOUBLE_EQ(res2.value, 25.0);
 
-    auto [st3, rmin] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::MIN, 1000, 2000, false, std::nullopt);
-    ASSERT_TRUE(st3.ok) << st3.message;
+    auto [status_min, rmin] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::MIN, 1000, 2000, false, std::nullopt);
+    ASSERT_TRUE(status_min.ok) << status_min.message;
     EXPECT_EQ(rmin.count, 4u);
     EXPECT_DOUBLE_EQ(rmin.value, 10.0);
 
-    auto [st4, rmax] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::MAX, 1000, 2000, false, std::nullopt);
-    ASSERT_TRUE(st4.ok) << st4.message;
+    auto [status_max, rmax] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::MAX, 1000, 2000, false, std::nullopt);
+    ASSERT_TRUE(status_max.ok) << status_max.message;
     EXPECT_EQ(rmax.count, 4u);
     EXPECT_DOUBLE_EQ(rmax.value, 40.0);
 }
 
 TEST_F(TemporalAggregationPropertyTest, CountAllEdges) {
-    auto [st, res] = graphIdx_->aggregateEdgePropertyInTimeRange("ignored", GraphIndexManager::Aggregation::COUNT, 1000, 2000, false, std::nullopt);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status_count, res] = graphIdx_->aggregateEdgePropertyInTimeRange("ignored", GraphIndexManager::Aggregation::COUNT, 1000, 2000, false, std::nullopt);
+    ASSERT_TRUE(status_count.ok) << status_count.message;
     EXPECT_EQ(res.count, 5u);
 }
 
 TEST_F(TemporalAggregationPropertyTest, TypeFilterSum) {
-    auto [st, res] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::SUM, 1000, 2000, false, std::optional<std::string_view>(std::string_view("A")));
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status_sum_type, res] = graphIdx_->aggregateEdgePropertyInTimeRange("cost", GraphIndexManager::Aggregation::SUM, 1000, 2000, false, std::optional<std::string_view>(std::string_view("A")));
+    ASSERT_TRUE(status_sum_type.ok) << status_sum_type.message;
     EXPECT_EQ(res.count, 3u);
     EXPECT_DOUBLE_EQ(res.value, 80.0);
 }
 
 TEST_F(TemporalAggregationPropertyTest, NonexistentProperty) {
-    auto [st, res] = graphIdx_->aggregateEdgePropertyInTimeRange("no_such", GraphIndexManager::Aggregation::SUM, 1000, 2000, false, std::nullopt);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status_missing, res] = graphIdx_->aggregateEdgePropertyInTimeRange("no_such", GraphIndexManager::Aggregation::SUM, 1000, 2000, false, std::nullopt);
+    ASSERT_TRUE(status_missing.ok) << status_missing.message;
     EXPECT_EQ(res.count, 0u);
     EXPECT_DOUBLE_EQ(res.value, 0.0);
 }

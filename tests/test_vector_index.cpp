@@ -74,9 +74,9 @@ TEST_F(VectorIndexTest, SearchKnn_FindsNearestNeighbors) {
     
     // Search for nearest to [1, 0, 0]
     std::vector<float> query{1.0f, 0.0f, 0.0f};
-    auto [st, results] = vector_mgr_->searchKnn(query, 2);
+    auto [status, results] = vector_mgr_->searchKnn(query, 2);
     
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_GE(results.size(), 1u);
     // doc1 or doc3 should be closest
     EXPECT_TRUE(results[0].pk == "doc1" || results[0].pk == "doc3");
@@ -100,9 +100,9 @@ TEST_F(VectorIndexTest, SearchKnn_WithWhitelist) {
     // Search with whitelist: only doc2 and doc3
     std::vector<std::string> whitelist{"doc2", "doc3"};
     std::vector<float> query{1.0f, 0.0f, 0.0f};
-    auto [st, results] = vector_mgr_->searchKnn(query, 2, &whitelist);
+    auto [status, results] = vector_mgr_->searchKnn(query, 2, &whitelist);
     
-    ASSERT_TRUE(st.ok);
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_GE(results.size(), 1u);
     // doc3 should be closest among whitelist
     EXPECT_EQ(results[0].pk, "doc3");
@@ -120,8 +120,8 @@ TEST_F(VectorIndexTest, RemoveByPk_DeletesVector) {
     
     // Search should return empty or not find doc1
     std::vector<float> query{1.0f, 0.0f, 0.0f};
-    auto [st2, results] = vector_mgr_->searchKnn(query, 1);
-    ASSERT_TRUE(st2.ok);
+    auto [status, results] = vector_mgr_->searchKnn(query, 1);
+    ASSERT_TRUE(status.ok) << status.message;
     // Either empty or doesn't contain doc1
     for (const auto& r : results) {
         EXPECT_NE(r.pk, "doc1");
@@ -143,8 +143,8 @@ TEST_F(VectorIndexTest, UpdateEntity_UpdatesVector) {
     
     // Search for [0, 1, 0] should find doc1
     std::vector<float> query{0.0f, 1.0f, 0.0f};
-    auto [st2, results] = vector_mgr_->searchKnn(query, 1);
-    ASSERT_TRUE(st2.ok);
+    auto [status, results] = vector_mgr_->searchKnn(query, 1);
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_GE(results.size(), 1u);
     EXPECT_EQ(results[0].pk, "doc1");
 }
@@ -170,8 +170,8 @@ TEST_F(VectorIndexTest, CosineVsL2_DifferentRanking) {
     vector_mgr_->addEntity(e3, "vec");
     
     std::vector<float> query{1.0f, 0.0f};
-    auto [st_l2_search, results_l2] = vector_mgr_->searchKnn(query, 3);
-    ASSERT_TRUE(st_l2_search.ok);
+    auto [status_l2_search, results_l2] = vector_mgr_->searchKnn(query, 3);
+    ASSERT_TRUE(status_l2_search.ok) << status_l2_search.message;
     ASSERT_EQ(results_l2.size(), 3u);
     // L2: doc1 closest (distance 0), then doc3, then doc2 (distance 9)
     EXPECT_EQ(results_l2[0].pk, "doc1");
@@ -194,8 +194,8 @@ TEST_F(VectorIndexTest, CosineVsL2_DifferentRanking) {
     c3.setField("vec", std::vector<float>{0.7f, 0.7f}); // Different direction
     vector_mgr_->addEntity(c3, "vec");
     
-    auto [st_cos_search, results_cos] = vector_mgr_->searchKnn(query, 3);
-    ASSERT_TRUE(st_cos_search.ok);
+    auto [status_cos_search, results_cos] = vector_mgr_->searchKnn(query, 3);
+    ASSERT_TRUE(status_cos_search.ok) << status_cos_search.message;
     ASSERT_EQ(results_cos.size(), 3u);
     // Cosine: doc1 and doc2 should have same/similar score (same direction after normalization)
     // Both should rank higher than doc3
@@ -225,8 +225,8 @@ TEST_F(VectorIndexTest, DotProductMetric_NoNormalization) {
     
     // Query with [1, 0]
     std::vector<float> query{1.0f, 0.0f};
-    auto [st_search, results] = vector_mgr_->searchKnn(query, 3);
-    ASSERT_TRUE(st_search.ok);
+    auto [status_search, results] = vector_mgr_->searchKnn(query, 3);
+    ASSERT_TRUE(status_search.ok) << status_search.message;
     ASSERT_EQ(results.size(), 3u);
     
     // DOT: Higher dot product = more similar (lower distance after negation)
@@ -262,8 +262,8 @@ TEST_F(VectorIndexTest, PersistenceRoundtrip_SaveAndLoad) {
     
     // Search before save
     std::vector<float> query{1.0f, 0.0f, 0.0f};
-    auto [st_before, results_before] = vector_mgr_->searchKnn(query, 2);
-    ASSERT_TRUE(st_before.ok);
+    auto [status_before, results_before] = vector_mgr_->searchKnn(query, 2);
+    ASSERT_TRUE(status_before.ok) << status_before.message;
     ASSERT_GE(results_before.size(), 1u);
     std::string first_pk_before = results_before[0].pk;
     
@@ -291,8 +291,8 @@ TEST_F(VectorIndexTest, PersistenceRoundtrip_SaveAndLoad) {
     ASSERT_TRUE(st_load.ok) << st_load.message;
     
     // Search after load - should give same results
-    auto [st_after, results_after] = vector_mgr_->searchKnn(query, 2);
-    ASSERT_TRUE(st_after.ok);
+    auto [status_after, results_after] = vector_mgr_->searchKnn(query, 2);
+    ASSERT_TRUE(status_after.ok) << status_after.message;
     ASSERT_GE(results_after.size(), 1u);
     EXPECT_EQ(results_after[0].pk, first_pk_before);
     
@@ -317,23 +317,20 @@ TEST_F(VectorIndexTest, SetEfSearch_UpdatesSearchParameter) {
     ASSERT_TRUE(st_ef_low.ok);
     
     std::vector<float> query{0.5f, 0.0f, 0.0f};
-    auto [st1, results1] = vector_mgr_->searchKnn(query, 3);
-    ASSERT_TRUE(st1.ok);
-    
+    auto [status_low, results_low] = vector_mgr_->searchKnn(query, 3);
+    ASSERT_TRUE(status_low.ok) << status_low.message;
+
     // Set efSearch to high value (should improve recall)
     auto st_ef_high = vector_mgr_->setEfSearch(200);
     ASSERT_TRUE(st_ef_high.ok);
-    
-    auto [st2, results2] = vector_mgr_->searchKnn(query, 3);
-    ASSERT_TRUE(st2.ok);
-    
-    // Both should return results (exact ranking may vary slightly)
-    EXPECT_GE(results1.size(), 1u);
-    EXPECT_GE(results2.size(), 1u);
-}
 
-TEST_F(VectorIndexTest, PersistenceLoadInvalidDirectory_ReturnsError) {
-    std::string invalid_dir = "./data/nonexistent_index_dir";
+    auto [status_high, results_high] = vector_mgr_->searchKnn(query, 3);
+    ASSERT_TRUE(status_high.ok) << status_high.message;
+
+    // Both should return results (exact ranking may vary slightly)
+    EXPECT_GE(results_low.size(), 1u);
+    EXPECT_GE(results_high.size(), 1u);
+    std::string invalid_dir = "./data/vector_index_invalid_dir";
     fs::remove_all(invalid_dir);
     
     auto st = vector_mgr_->loadIndex(invalid_dir);
@@ -378,8 +375,8 @@ TEST_F(VectorIndexTest, SearchKnnFiltered_AttributeEquals) {
     std::vector<themis::VectorIndexManager::AttributeFilter> filters;
     filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should only return doc1 and doc3 (both science category)
     EXPECT_EQ(results.size(), 2);
@@ -413,8 +410,8 @@ TEST_F(VectorIndexTest, SearchKnnFiltered_AttributeNotEquals) {
     std::vector<themis::VectorIndexManager::AttributeFilter> filters;
     filters.push_back({"status", "archived", themis::VectorIndexManager::AttributeFilter::Op::NOT_EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     EXPECT_EQ(results.size(), 2);
     EXPECT_EQ(results[0].pk, "doc2");
@@ -447,8 +444,8 @@ TEST_F(VectorIndexTest, SearchKnnFiltered_AttributeContains) {
     std::vector<themis::VectorIndexManager::AttributeFilter> filters;
     filters.push_back({"tags", "ai", themis::VectorIndexManager::AttributeFilter::Op::CONTAINS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     EXPECT_EQ(results.size(), 2);
     EXPECT_EQ(results[0].pk, "doc1");
@@ -492,8 +489,8 @@ TEST_F(VectorIndexTest, SearchKnnFiltered_MultipleFilters) {
     filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     filters.push_back({"status", "active", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should return doc1 and doc4 (both science AND active)
     EXPECT_EQ(results.size(), 2);
@@ -515,8 +512,8 @@ TEST_F(VectorIndexTest, SearchKnnFiltered_NoMatchesAfterFilter) {
     std::vector<themis::VectorIndexManager::AttributeFilter> filters;
     filters.push_back({"category", "nonexistent", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(results.size(), 0);
 }
 

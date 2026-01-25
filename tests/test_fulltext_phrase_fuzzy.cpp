@@ -76,8 +76,8 @@ protected:
 
 TEST_F(FulltextPhraseFuzzyTest, PhraseSearchExactMatch) {
     auto [status, results] = secIdx->scanFulltextPhrase("articles", "content", "deep learning", 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GE(results.size(), 1);
     
     // Should find doc2 which has exact phrase "deep learning"
@@ -93,8 +93,8 @@ TEST_F(FulltextPhraseFuzzyTest, PhraseSearchExactMatch) {
 
 TEST_F(FulltextPhraseFuzzyTest, PhraseSearchMultipleWords) {
     auto [status, results] = secIdx->scanFulltextPhrase("articles", "content", "neural network", 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GE(results.size(), 1);
     
     // Should find doc3 which has exact phrase "neural network"
@@ -109,8 +109,8 @@ TEST_F(FulltextPhraseFuzzyTest, PhraseSearchMultipleWords) {
 
 TEST_F(FulltextPhraseFuzzyTest, PhraseSearchLongerPhrase) {
     auto [status, results] = secIdx->scanFulltextPhrase("articles", "content", "quick brown fox", 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GE(results.size(), 1);
     
     // Should find doc4 which has the phrase
@@ -125,15 +125,15 @@ TEST_F(FulltextPhraseFuzzyTest, PhraseSearchLongerPhrase) {
 
 TEST_F(FulltextPhraseFuzzyTest, PhraseSearchNoMatch) {
     auto [status, results] = secIdx->scanFulltextPhrase("articles", "content", "quantum computing", 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(results.size(), 0);
 }
 
 TEST_F(FulltextPhraseFuzzyTest, PhraseSearchCaseInsensitive) {
     auto [status, results] = secIdx->scanFulltextPhrase("articles", "content", "DEEP LEARNING", 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GE(results.size(), 1);
     
     // Should find doc2 despite case difference
@@ -156,8 +156,8 @@ TEST_F(FulltextPhraseFuzzyTest, PhraseSearchWithLimit) {
     }
     
     auto [status, results] = secIdx->scanFulltextPhrase("articles", "content", "machine learning", 5);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_LE(results.size(), 5);
 }
 
@@ -167,8 +167,8 @@ TEST_F(FulltextPhraseFuzzyTest, PhraseSearchWithLimit) {
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchExactMatch) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "learning", 2, 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GT(results.size(), 0);
     
     // Should find documents with "learning" (exact match has highest score)
@@ -184,8 +184,7 @@ TEST_F(FulltextPhraseFuzzyTest, FuzzySearchExactMatch) {
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchOneCharDifference) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "lerning", 1, 10);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     // Should find documents with "learning" (1 edit distance)
     // Depends on tokenization - may or may not find matches
@@ -194,8 +193,7 @@ TEST_F(FulltextPhraseFuzzyTest, FuzzySearchOneCharDifference) {
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchTwoCharDifference) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "machene", 2, 10);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     // Should potentially find documents with "machine" (2 edits: i->e, add i)
     // Results depend on actual token similarity
@@ -203,8 +201,8 @@ TEST_F(FulltextPhraseFuzzyTest, FuzzySearchTwoCharDifference) {
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchMaxDistanceZero) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "learning", 0, 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GT(results.size(), 0);
     
     // With max distance 0, only exact matches should be found
@@ -215,8 +213,7 @@ TEST_F(FulltextPhraseFuzzyTest, FuzzySearchMaxDistanceZero) {
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchSortedByScore) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "learning", 2, 10);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     // Results should be sorted by score (descending)
     for (size_t i = 1; i < results.size(); ++i) {
@@ -227,22 +224,22 @@ TEST_F(FulltextPhraseFuzzyTest, FuzzySearchSortedByScore) {
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchWithLimit) {
     // Fuzzy search with low limit
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "neural", 2, 2);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_LE(results.size(), 2);
 }
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchEmptyQuery) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "", 2, 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(results.size(), 0);
 }
 
 TEST_F(FulltextPhraseFuzzyTest, FuzzySearchNegativeDistance) {
     auto [status, results] = secIdx->scanFulltextFuzzy("articles", "content", "learning", -1, 10);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(results.size(), 0);
 }
 

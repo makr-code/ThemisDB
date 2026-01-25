@@ -101,12 +101,12 @@ TEST_F(GNNEmbeddingTest, RegisterModel) {
     auto st = gem->registerModel("gnn_model", "GraphSAGE", 128, "{\"layers\": 2}");
     EXPECT_TRUE(st.ok);
     
-    auto [st2, models] = gem->listModels();
-    EXPECT_TRUE(st2.ok);
+    auto [status_models, models] = gem->listModels();
+    EXPECT_TRUE(status_models.ok);
     EXPECT_GE(models.size(), 2);  // test_model + gnn_model
     
-    auto [st3, modelInfo] = gem->getModelInfo("gnn_model");
-    EXPECT_TRUE(st3.ok);
+    auto [status_model_info, modelInfo] = gem->getModelInfo("gnn_model");
+    EXPECT_TRUE(status_model_info.ok);
     EXPECT_EQ(modelInfo.name, "gnn_model");
     EXPECT_EQ(modelInfo.type, "GraphSAGE");
     EXPECT_EQ(modelInfo.embedding_dim, 128);
@@ -120,8 +120,8 @@ TEST_F(GNNEmbeddingTest, GenerateNodeEmbeddings) {
     EXPECT_TRUE(st.ok);
     
     // Verify embeddings were created
-    auto [st2, embInfo] = gem->getNodeEmbedding("person1", "g1", "test_model");
-    EXPECT_TRUE(st2.ok);
+    auto [status_embedding, embInfo] = gem->getNodeEmbedding("person1", "g1", "test_model");
+    EXPECT_TRUE(status_embedding.ok);
     EXPECT_EQ(embInfo.entity_id, "person1");
     EXPECT_EQ(embInfo.entity_type, "node");
     EXPECT_EQ(embInfo.model_name, "test_model");
@@ -136,8 +136,8 @@ TEST_F(GNNEmbeddingTest, UpdateNodeEmbedding) {
     EXPECT_TRUE(st.ok);
     
     // Verify embedding
-    auto [st2, embInfo] = gem->getNodeEmbedding("person1", "g1", "test_model");
-    EXPECT_TRUE(st2.ok);
+    auto [status_embedding, embInfo] = gem->getNodeEmbedding("person1", "g1", "test_model");
+    EXPECT_TRUE(status_embedding.ok);
     EXPECT_FALSE(embInfo.embedding.empty());
     
     // Verify embedding is normalized
@@ -156,13 +156,13 @@ TEST_F(GNNEmbeddingTest, GenerateEdgeEmbeddings) {
     EXPECT_TRUE(st.ok);
     
     // Verify edge embeddings
-    auto [st2, edges] = pgm->getEdgesByType("knows", "g1");
-    EXPECT_TRUE(st2.ok);
+    auto [status_edges, edges] = pgm->getEdgesByType("knows", "g1");
+    EXPECT_TRUE(status_edges.ok);
     EXPECT_GE(edges.size(), 2);
     
     if (!edges.empty()) {
-        auto [st3, embInfo] = gem->getEdgeEmbedding(edges[0].edgeId, "g1", "test_model");
-        EXPECT_TRUE(st3.ok);
+        auto [status_edge_embedding, embInfo] = gem->getEdgeEmbedding(edges[0].edgeId, "g1", "test_model");
+        EXPECT_TRUE(status_edge_embedding.ok);
         EXPECT_EQ(embInfo.entity_type, "edge");
     }
 }
@@ -174,8 +174,8 @@ TEST_F(GNNEmbeddingTest, FindSimilarNodes) {
     gem->generateNodeEmbeddings("g1", "Person", "test_model");
     
     // Find similar nodes to person1
-    auto [st, similar] = gem->findSimilarNodes("person1", "g1", 2, "test_model");
-    EXPECT_TRUE(st.ok);
+    auto [status_similar, similar] = gem->findSimilarNodes("person1", "g1", 2, "test_model");
+    EXPECT_TRUE(status_similar.ok);
     
     // Should find person2 and person3 (excluding person1 itself)
     EXPECT_LE(similar.size(), 2);
@@ -195,15 +195,15 @@ TEST_F(GNNEmbeddingTest, FindSimilarEdges) {
     gem->generateEdgeEmbeddings("g1", "knows", "test_model");
     
     // Get first edge
-    auto [st1, edges] = pgm->getEdgesByType("knows", "g1");
-    ASSERT_TRUE(st1.ok);
+    auto [status_edges, edges] = pgm->getEdgesByType("knows", "g1");
+    ASSERT_TRUE(status_edges.ok);
     ASSERT_GE(edges.size(), 1);
     
     std::string queryEdgeId = edges[0].edgeId;
     
     // Find similar edges
-    auto [st2, similar] = gem->findSimilarEdges(queryEdgeId, "g1", 1, "test_model");
-    EXPECT_TRUE(st2.ok);
+    auto [status_similar, similar] = gem->findSimilarEdges(queryEdgeId, "g1", 1, "test_model");
+    EXPECT_TRUE(status_similar.ok);
     
     // Should find other edges (excluding query edge)
     for (const auto& res : similar) {
@@ -218,13 +218,13 @@ TEST_F(GNNEmbeddingTest, GenerateGraphEmbedding) {
     gem->generateNodeEmbeddings("g1", "Person", "test_model");
     
     // Generate graph-level embedding with mean pooling
-    auto [st, graphEmb] = gem->generateGraphEmbedding("g1", "test_model", "mean");
-    EXPECT_TRUE(st.ok);
+    auto [status_graph_emb, graphEmb] = gem->generateGraphEmbedding("g1", "test_model", "mean");
+    EXPECT_TRUE(status_graph_emb.ok);
     EXPECT_EQ(graphEmb.size(), 64);
     
     // Test sum pooling
-    auto [st2, graphEmbSum] = gem->generateGraphEmbedding("g1", "test_model", "sum");
-    EXPECT_TRUE(st2.ok);
+    auto [status_graph_emb_sum, graphEmbSum] = gem->generateGraphEmbedding("g1", "test_model", "sum");
+    EXPECT_TRUE(status_graph_emb_sum.ok);
     
     // Sum should be larger than mean (3 nodes)
     float sumNorm = 0.0f, meanNorm = 0.0f;
@@ -245,8 +245,9 @@ TEST_F(GNNEmbeddingTest, BatchOperations) {
     
     // Verify all embeddings created
     for (const auto& pk : node_pks) {
-        auto [st2, embInfo] = gem->getNodeEmbedding(pk, "g1", "test_model");
-        EXPECT_TRUE(st2.ok) << "Failed for node: " << pk;
+        auto [status_embedding, embInfo] = gem->getNodeEmbedding(pk, "g1", "test_model");
+        EXPECT_TRUE(status_embedding.ok) << " Failed for node: " << pk;
+        [[maybe_unused]] auto& embInfoRef = embInfo;
     }
 }
 
@@ -258,8 +259,8 @@ TEST_F(GNNEmbeddingTest, GetStats) {
     gem->generateEdgeEmbeddings("g1", "knows", "test_model");
     
     // Get stats
-    auto [st, stats] = gem->getStats();
-    EXPECT_TRUE(st.ok);
+    auto [status_stats, stats] = gem->getStats();
+    EXPECT_TRUE(status_stats.ok);
     EXPECT_EQ(stats.total_node_embeddings, 3);
     EXPECT_GE(stats.total_edge_embeddings, 2);
     EXPECT_GT(stats.embeddings_per_model["test_model"], 0);
@@ -286,8 +287,8 @@ TEST_F(GNNEmbeddingTest, MultiGraphIsolation) {
     gem->updateNodeEmbedding("node2", "g2", "test_model");
     
     // Verify isolation: similar search in g1 should not find node2
-    auto [st, similar] = gem->findSimilarNodes("node1", "g1", 10, "test_model");
-    EXPECT_TRUE(st.ok);
+    auto [status_similar, similar] = gem->findSimilarNodes("node1", "g1", 10, "test_model");
+    EXPECT_TRUE(status_similar.ok);
     
     for (const auto& res : similar) {
         EXPECT_EQ(res.graph_id, "g1");
@@ -312,8 +313,8 @@ TEST_F(GNNEmbeddingTest, FeatureExtraction) {
     EXPECT_TRUE(st.ok);
     
     // Verify embedding was created
-    auto [st2, embInfo] = gem->getNodeEmbedding("test_node", "g1", "test_model");
-    EXPECT_TRUE(st2.ok);
+    auto [status_embedding, embInfo] = gem->getNodeEmbedding("test_node", "g1", "test_model");
+    EXPECT_TRUE(status_embedding.ok);
     EXPECT_FALSE(embInfo.embedding.empty());
 }
 
@@ -329,11 +330,11 @@ TEST_F(GNNEmbeddingTest, MultiModelSupport) {
     gem->updateNodeEmbedding("person1", "g1", "model_128");
     
     // Verify different embeddings exist
-    auto [st1, emb64] = gem->getNodeEmbedding("person1", "g1", "model_64");
-    auto [st2, emb128] = gem->getNodeEmbedding("person1", "g1", "model_128");
-    
-    EXPECT_TRUE(st1.ok);
-    EXPECT_TRUE(st2.ok);
+    auto [status_emb64, emb64] = gem->getNodeEmbedding("person1", "g1", "model_64");
+    auto [status_emb128, emb128] = gem->getNodeEmbedding("person1", "g1", "model_128");
+
+    EXPECT_TRUE(status_emb64.ok);
+    EXPECT_TRUE(status_emb128.ok);
     EXPECT_EQ(emb64.embedding.size(), 64);
     EXPECT_EQ(emb128.embedding.size(), 128);
 }
@@ -349,6 +350,6 @@ TEST_F(GNNEmbeddingTest, ErrorHandling) {
     EXPECT_FALSE(st2.ok);
     
     // Test getting non-existent embedding
-    auto [st3, embInfo] = gem->getNodeEmbedding("person1", "g1", "test_model");
-    EXPECT_FALSE(st3.ok);  // No embedding generated yet
+    auto [status_embedding, embedding] = gem->getNodeEmbedding("person1", "g1", "test_model");
+    EXPECT_FALSE(status_embedding.ok);  // No embedding generated yet
 }

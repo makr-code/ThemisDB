@@ -244,7 +244,7 @@ public:
 /// - Route queries to appropriate indexes
 /// - Coordinate multi-index updates
 /// - Provide query optimization hints
-class THEMIS_BASE_API IIndexManager {
+class IIndexManager {
 public:
     virtual ~IIndexManager() = default;
 

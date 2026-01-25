@@ -249,8 +249,9 @@ TEST_F(AQLFulltextHybridTest, ExecuteFulltextAndEquality) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeAndKeys(translateResult.query);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeAndKeys(translateResult.query);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find only a4 (machine learning + 2024)
     // a1 has machine learning but year=2023
@@ -274,8 +275,9 @@ TEST_F(AQLFulltextHybridTest, ExecuteFulltextAndRange) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeAndKeys(translateResult.query);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeAndKeys(translateResult.query);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find a2 (neural + views=5000) and a4 (neural + views=3000)
     EXPECT_EQ(keys.size(), 2);
@@ -299,8 +301,9 @@ TEST_F(AQLFulltextHybridTest, ExecuteFulltextAndCategory) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeAndKeys(translateResult.query);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeAndKeys(translateResult.query);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find a1, a2, a4 (all have "learning" and category=AI)
     EXPECT_EQ(keys.size(), 3);
@@ -325,8 +328,9 @@ TEST_F(AQLFulltextHybridTest, ExecuteFulltextAndMultiplePredicates) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeAndKeys(translateResult.query);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeAndKeys(translateResult.query);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find only a2 and a4 (neural + AI + 2024)
     EXPECT_EQ(keys.size(), 2);
@@ -350,8 +354,9 @@ TEST_F(AQLFulltextHybridTest, ExecuteFulltextAndNoIntersection) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeAndKeys(translateResult.query);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeAndKeys(translateResult.query);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // No articles match both criteria
     EXPECT_EQ(keys.size(), 0);
@@ -394,8 +399,9 @@ TEST_F(AQLFulltextHybridTest, ReverseOrderFulltextAnd) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success) << translateResult.error_message;
     
-    auto [status, keys] = engine->executeAndKeys(translateResult.query);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeAndKeys(translateResult.query);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should work the same as FULLTEXT first
     EXPECT_EQ(keys.size(), 3);

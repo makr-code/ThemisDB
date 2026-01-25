@@ -53,14 +53,14 @@ TEST_F(PhraseSearchTest, ExactPhraseFiltersCandidates) {
     // Unquoted: both tokens present in both docs -> two results
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "machine learning");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 2u);
     }
 
     // Quoted phrase should match only d1
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "\"machine learning\"");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "a");
     }
@@ -82,7 +82,7 @@ TEST_F(PhraseSearchTest, PhraseWithUmlautNormalization) {
     // Phrase without umlaut should match with normalization enabled
     {
         auto [status, results] = idx_->scanFulltext("docs", "text", "\"er lauft\"");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "x");
     }

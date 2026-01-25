@@ -60,13 +60,13 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_AttributeEquals) {
     std::vector<themis::VectorIndexManager::AttributeFilter> filters;
     filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, data] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should only return doc1 and doc3 (both science category)
-    EXPECT_EQ(results.size(), 2);
-    if (results.size() >= 1) EXPECT_EQ(results[0].pk, "doc1");
-    if (results.size() >= 2) EXPECT_EQ(results[1].pk, "doc3");
+    EXPECT_EQ(data.size(), 2);
+    if (data.size() >= 1) EXPECT_EQ(data[0].pk, "doc1");
+    if (data.size() >= 2) EXPECT_EQ(data[1].pk, "doc3");
 }
 
 TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
@@ -99,13 +99,13 @@ TEST_F(VectorFilteredTest, SearchKnnFiltered_MultipleFilters) {
     filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     filters.push_back({"status", "active", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
     
-    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, data] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should return doc1 and doc3 (both science AND active)
-    EXPECT_EQ(results.size(), 2);
-    if (results.size() >= 1) EXPECT_EQ(results[0].pk, "doc1");
-    if (results.size() >= 2) EXPECT_EQ(results[1].pk, "doc3");
+    EXPECT_EQ(data.size(), 2);
+    if (data.size() >= 1) EXPECT_EQ(data[0].pk, "doc1");
+    if (data.size() >= 2) EXPECT_EQ(data[1].pk, "doc3");
 }
 
 

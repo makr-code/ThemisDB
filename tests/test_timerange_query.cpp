@@ -112,8 +112,8 @@ TEST_F(TimeRangeQueryTest, GetEdgesInTimeRange_Overlap) {
     createTemporalEdges();
 
     // Query range [1200, 1800]: should include e1 and e2 (overlap)
-    auto [st, edges] = graphIdx->getEdgesInTimeRange(1200, 1800, false);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, edges] = graphIdx->getEdgesInTimeRange(1200, 1800, false);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // e1 [1000-2000] overlaps, e2 [1500-3000] overlaps, e3 [2500-4000] no overlap, e4 always valid
     EXPECT_GE(edges.size(), 2);
@@ -131,8 +131,8 @@ TEST_F(TimeRangeQueryTest, GetEdgesInTimeRange_FullContainment) {
     createTemporalEdges();
 
     // Query range [1000, 3000] with full containment
-    auto [st, edges] = graphIdx->getEdgesInTimeRange(1000, 3000, true);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, edges] = graphIdx->getEdgesInTimeRange(1000, 3000, true);
+    ASSERT_TRUE(status.ok) << status.message;
     
     std::vector<std::string> edgeIds;
     for (const auto& e : edges) {
@@ -150,8 +150,8 @@ TEST_F(TimeRangeQueryTest, GetOutEdgesInTimeRange) {
     createTemporalEdges();
 
     // Query outgoing edges from A in range [1200, 2500]
-    auto [st, edges] = graphIdx->getOutEdgesInTimeRange("A", 1200, 2500, false);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, edges] = graphIdx->getOutEdgesInTimeRange("A", 1200, 2500, false);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // A has e1 [1000-2000] and e2 [1500-3000], both overlap with [1200, 2500]
     EXPECT_EQ(edges.size(), 2);
@@ -166,8 +166,8 @@ TEST_F(TimeRangeQueryTest, GetOutEdgesInTimeRange_NoMatch) {
     createTemporalEdges();
 
     // Query outgoing edges from A in range [5000, 6000] (far future)
-    auto [st, edges] = graphIdx->getOutEdgesInTimeRange("A", 5000, 6000, false);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, edges] = graphIdx->getOutEdgesInTimeRange("A", 5000, 6000, false);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // No edges from A are valid in this range
     EXPECT_EQ(edges.size(), 0);
@@ -177,8 +177,8 @@ TEST_F(TimeRangeQueryTest, UnboundedEdges_AlwaysIncluded) {
     createTemporalEdges();
 
     // Query range [100, 200] (very early time)
-    auto [st, edges] = graphIdx->getEdgesInTimeRange(100, 200, false);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, edges] = graphIdx->getEdgesInTimeRange(100, 200, false);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Only e4 (unbounded) should match (no valid_from/valid_to)
     bool hasE4 = false;
@@ -195,8 +195,8 @@ TEST_F(TimeRangeQueryTest, UnboundedEdges_AlwaysIncluded) {
 TEST_F(TimeRangeQueryTest, EdgeInfo_ContainsTemporalData) {
     createTemporalEdges();
 
-    auto [st, edges] = graphIdx->getEdgesInTimeRange(1000, 2000, false);
-    ASSERT_TRUE(st.ok);
+    auto [status, edges] = graphIdx->getEdgesInTimeRange(1000, 2000, false);
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_GT(edges.size(), 0);
 
     // Verify EdgeInfo structure contains temporal data

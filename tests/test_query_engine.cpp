@@ -41,13 +41,15 @@ TEST(QueryEngineTest, AndQuery_UsesSecondaryIndexes) {
     ConjunctiveQuery q{"users", {{"age","30"},{"city","Berlin"}}};
 
     // Parallel execution
-    auto [stK, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(stK.ok) << stK.message;
+    auto resultK = engine.executeAndKeys(q);
+    ASSERT_TRUE(resultK);
+    auto& keys = *resultK;
     ASSERT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "u1");
 
-    auto [stE, ents] = engine.executeAndEntities(q);
-    ASSERT_TRUE(stE.ok);
+    auto resultE = engine.executeAndEntities(q);
+    ASSERT_TRUE(resultE);
+    auto& ents = *resultE;
     ASSERT_EQ(ents.size(), 1u);
     db.close();
 }
@@ -96,8 +98,8 @@ TEST(QueryEngineTest, NoIndexReturnsError) {
 
     QueryEngine engine(db, idx);
     ConjunctiveQuery q{"users", {{"age","30"}}};
-    auto [stK, keys] = engine.executeAndKeys(q);
-    EXPECT_FALSE(stK.ok);
+    auto resultK = engine.executeAndKeys(q);
+    EXPECT_FALSE(resultK);
     db.close();
 }
 
@@ -112,8 +114,9 @@ TEST(QueryEngineTest, NoMatchReturnsEmpty) {
 
     QueryEngine engine(db, idx);
     ConjunctiveQuery q{"users", {{"age","99"}}};
-    auto [stK, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(stK.ok);
+    auto resultK = engine.executeAndKeys(q);
+    ASSERT_TRUE(resultK);
+    auto& keys = *resultK;
     EXPECT_TRUE(keys.empty());
     db.close();
 }

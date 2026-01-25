@@ -102,7 +102,7 @@ TEST_F(OrNotQueryTest, SimpleOrQuery) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
@@ -110,8 +110,9 @@ TEST_F(OrNotQueryTest, SimpleOrQuery) {
     EXPECT_EQ(disjQuery.disjuncts.size(), 2); // Two OR branches
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 4); // Alice, Bob, Charlie, Eve (all from Berlin or Munich)
 }
 
@@ -123,15 +124,16 @@ TEST_F(OrNotQueryTest, OrWithRangePredicates) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
     EXPECT_EQ(disjQuery.disjuncts.size(), 2);
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 3); // Alice (25), Diana (25), Eve (40)
 }
 
@@ -143,7 +145,7 @@ TEST_F(OrNotQueryTest, ComplexOrQuery) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
@@ -158,8 +160,9 @@ TEST_F(OrNotQueryTest, ComplexOrQuery) {
     EXPECT_EQ(disjQuery.disjuncts[1].rangePredicates.size(), 1); // age < 35
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 2); // Charlie (Berlin, 35), Bob (Munich, 30)
 }
 
@@ -176,15 +179,16 @@ TEST_F(OrNotQueryTest, SimpleNotQuery) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
     EXPECT_EQ(disjQuery.disjuncts.size(), 2); // Converted to OR of two range predicates
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 3); // Bob (Munich), Diana (Hamburg), Eve (Munich)
 }
 
@@ -197,7 +201,7 @@ TEST_F(OrNotQueryTest, NotWithRangePredicate) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
 
     // Should be converted to simple conjunctive query with age >= 30
     // (NOT flips < to >=)
@@ -225,7 +229,7 @@ TEST_F(OrNotQueryTest, DeMorganLaw_NotOrBecomesAndNot) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
@@ -235,8 +239,9 @@ TEST_F(OrNotQueryTest, DeMorganLaw_NotOrBecomesAndNot) {
     EXPECT_GT(disjQuery.disjuncts.size(), 0);
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 1); // Only Diana (Hamburg) - not in Berlin or Munich
 }
 
@@ -251,15 +256,16 @@ TEST_F(OrNotQueryTest, DeMorganLaw_NotAndBecomesOrNot) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
     EXPECT_GT(disjQuery.disjuncts.size(), 0);
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 4); // Bob, Charlie, Diana, Eve (all except Alice who is Berlin AND age < 30)
 }
 
@@ -272,7 +278,7 @@ TEST_F(OrNotQueryTest, DoubleNegation) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
 
     // Should simplify to simple equality query
     if (std::holds_alternative<AQLTranslator::TranslationResult::ConjunctiveQuery>(result.value())) {
@@ -296,15 +302,16 @@ TEST_F(OrNotQueryTest, NeqConvertedToOr) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
     EXPECT_EQ(disjQuery.disjuncts.size(), 2); // Two OR branches
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 3); // Bob (Munich), Diana (Hamburg), Eve (Munich)
 }
 
@@ -317,7 +324,7 @@ TEST_F(OrNotQueryTest, NeqWithAndCondition) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
@@ -329,8 +336,9 @@ TEST_F(OrNotQueryTest, NeqWithAndCondition) {
     }
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 3); // Bob (30), Diana (should not match), Eve (40) -> Actually Bob and Eve
 }
 
@@ -347,15 +355,16 @@ TEST_F(OrNotQueryTest, ComplexNotOrAnd) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
     EXPECT_GT(disjQuery.disjuncts.size(), 0);
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_GT(keys.size(), 0); // Should return users not matching the condition
 }
 
@@ -367,15 +376,16 @@ TEST_F(OrNotQueryTest, MultipleOrConditions) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
     ASSERT_TRUE(std::holds_alternative<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value()));
 
     auto& disjQuery = std::get<AQLTranslator::TranslationResult::DisjunctiveQuery>(result.value());
     EXPECT_EQ(disjQuery.disjuncts.size(), 3); // Three OR branches
 
     // Execute query
-    auto [status, keys] = engine->executeOrKeys(disjQuery);
-    ASSERT_TRUE(status.ok);
+    auto result = engine->executeOrKeys(disjQuery);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 5); // All users
 }
 
@@ -388,7 +398,7 @@ TEST_F(OrNotQueryTest, NotInequality) {
     ASSERT_TRUE(query != nullptr);
 
     auto result = translator.translate(query);
-    ASSERT_TRUE(result.ok());
+    ASSERT_TRUE(result.ok);
 
     // Should be simple conjunctive query
     if (std::holds_alternative<AQLTranslator::TranslationResult::ConjunctiveQuery>(result.value())) {

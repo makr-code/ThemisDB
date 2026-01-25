@@ -45,8 +45,9 @@ TEST_F(ContinuousAggTest, RefreshWindowedAvg) {
 
     // Query derived metric
     TSStore::QueryOptions q; q.metric = ContinuousAggregateManager::derivedMetricName("temp", std::chrono::minutes(1)); q.entity = std::string("sensorA"); q.from_timestamp_ms = base_; q.to_timestamp_ms = base_ + 120000; q.limit = 10;
-    auto [st, pts] = store_->query(q);
-    ASSERT_TRUE(st.ok);
+    auto result = store_->query(q);
+    ASSERT_TRUE(result);
+    auto& pts = *result;
     ASSERT_EQ(pts.size(), 2u);
     // First minute values: 20..25 (6 points) avg = 22.5
     EXPECT_NEAR(pts[0].value, 22.5, 1e-9);

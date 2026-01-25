@@ -29,8 +29,9 @@ protected:
         matcher = std::make_unique<ProcessPatternMatcher>(*db_wrapper_, nullptr, nullptr);
         
         // Load test models (may be empty in stub implementation)
-        auto [status, models] = matcher->loadAdministrativeModels();
-        ASSERT_TRUE(status.ok()) << status.message;
+        auto result = matcher->loadAdministrativeModels();
+        ASSERT_TRUE(result);
+        auto& models = *result;
         models_ = std::move(models);
         
         // Initialize LLM analyzer
@@ -110,9 +111,10 @@ TEST_F(ProcessMiningE2ETest, FindSimilarProcesses) {
     config.min_similarity = 0.5;
     config.max_results = 10;
     
-    auto [status, results] = matcher->findSimilar(pattern, config);
+    auto result = matcher->findSimilar(pattern, config);
+    ASSERT_TRUE(result);
+    auto& results = *result;
     
-    EXPECT_TRUE(status.ok()) << status.message;
     // Results would be populated with real data
 }
 
@@ -249,9 +251,9 @@ TEST_F(ProcessMiningE2ETest, HybridSearchAllMethods) {
     config.min_similarity = 0.7;
     config.max_results = 25;
     
-    auto [status, results] = matcher->findSimilar(pattern, config);
-    
-    EXPECT_TRUE(status.ok()) << status.message;
+    auto result = matcher->findSimilar(pattern, config);
+    ASSERT_TRUE(result);
+    auto& results = *result;
     // Verify weights are applied correctly
 }
 

@@ -344,10 +344,10 @@ TEST_F(ProcessGraphTest, ValidateProcess_ValidProcess) {
     pgm_->addProcessEdge("valid-process", flow1);
     pgm_->addProcessEdge("valid-process", flow2);
     
-    auto [st, result] = pgm_->validateProcess("valid-process");
-    ASSERT_TRUE(st.ok) << st.message;
-    EXPECT_TRUE(result.is_valid) << "Errors: " << (result.errors.empty() ? "none" : result.errors[0]);
-    EXPECT_TRUE(result.errors.empty());
+    auto [validateStatus, validateResult] = pgm_->validateProcess("valid-process");
+    ASSERT_TRUE(validateStatus.ok) << validateStatus.message;
+    EXPECT_TRUE(validateResult.is_valid) << "Errors: " << (validateResult.errors.empty() ? "none" : validateResult.errors[0]);
+    EXPECT_TRUE(validateResult.errors.empty());
 }
 
 TEST_F(ProcessGraphTest, ValidateProcess_MissingStart) {
@@ -363,14 +363,14 @@ TEST_F(ProcessGraphTest, ValidateProcess_MissingStart) {
     themis::ProcessEdgeInfo flow{.edge_id = "f1", .from_node = "task", .to_node = "end"};
     pgm_->addProcessEdge("no-start", flow);
     
-    auto [st, result] = pgm_->validateProcess("no-start");
-    ASSERT_TRUE(st.ok);
-    EXPECT_FALSE(result.is_valid);
-    EXPECT_FALSE(result.errors.empty());
+    auto [validateStatus, validateResult] = pgm_->validateProcess("no-start");
+    ASSERT_TRUE(validateStatus.ok) << validateStatus.message;
+    EXPECT_FALSE(validateResult.is_valid);
+    EXPECT_FALSE(validateResult.errors.empty());
     
     // Check that the error mentions missing start
     bool hasStartError = false;
-    for (const auto& err : result.errors) {
+    for (const auto& err : validateResult.errors) {
         if (err.find("start") != std::string::npos) {
             hasStartError = true;
             break;
@@ -398,13 +398,13 @@ TEST_F(ProcessGraphTest, StartAndGetProcessInstance) {
     
     // Start the process
     nlohmann::json initialVars = {{"orderId", "ORD-123"}, {"amount", 100.0}};
-    auto [st, instanceId] = pgm_->startProcess("exec-test", initialVars);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [startStatus, instanceId] = pgm_->startProcess("exec-test", initialVars);
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
     EXPECT_FALSE(instanceId.empty());
     
     // Get the process instance
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok) << st2.message;
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     EXPECT_EQ(instance.instance_id, instanceId);
     EXPECT_EQ(instance.process_definition_id, "exec-test");
     EXPECT_EQ(instance.state, themis::ProcessInstance::State::RUNNING);
@@ -433,11 +433,11 @@ TEST_F(ProcessGraphTest, AdvanceToken) {
     pgm_->addProcessEdge("advance-test", flow2);
     
     // Start and get instance
-    auto [st, instanceId] = pgm_->startProcess("advance-test");
-    ASSERT_TRUE(st.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("advance-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     ASSERT_FALSE(instance.tokens.empty());
     
     std::string tokenId = instance.tokens[0].token_id;
@@ -447,8 +447,8 @@ TEST_F(ProcessGraphTest, AdvanceToken) {
     ASSERT_TRUE(st3.ok) << st3.message;
     
     // Verify token moved
-    auto [st4, instance2] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st4.ok);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     ASSERT_FALSE(instance2.tokens.empty());
     EXPECT_EQ(instance2.tokens[0].current_node, "task");
 }
@@ -459,21 +459,23 @@ TEST_F(ProcessGraphTest, SuspendResumeProcess) {
     themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
     pgm_->addProcessNode("suspend-test", start);
     
-    auto [st, instanceId] = pgm_->startProcess("suspend-test");
-    ASSERT_TRUE(st.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("suspend-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
     
     // Suspend
     auto st2 = pgm_->suspendProcess(instanceId);
     ASSERT_TRUE(st2.ok);
-    
-    auto [st3, instance] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     EXPECT_EQ(instance.state, themis::ProcessInstance::State::SUSPENDED);
     
     // Resume
     auto st4 = pgm_->resumeProcess(instanceId);
     ASSERT_TRUE(st4.ok);
-    
-    auto [st5, instance2] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     EXPECT_EQ(instance2.state, themis::ProcessInstance::State::RUNNING);
 }
 
@@ -483,13 +485,14 @@ TEST_F(ProcessGraphTest, TerminateProcess) {
     themis::ProcessNodeInfo start{.node_id = "start", .name = "Start", .node_type = themis::BPMNNodeType::START_EVENT};
     pgm_->addProcessNode("terminate-test", start);
     
-    auto [st, instanceId] = pgm_->startProcess("terminate-test");
-    ASSERT_TRUE(st.ok);
-    
+    auto [startStatus, instanceId] = pgm_->startProcess("terminate-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
     auto st2 = pgm_->terminateProcess(instanceId, "Testing termination");
     ASSERT_TRUE(st2.ok);
-    
-    auto [st3, instance] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     EXPECT_EQ(instance.state, themis::ProcessInstance::State::TERMINATED);
 }
 
@@ -567,11 +570,11 @@ TEST_F(ProcessGraphTest, ConditionEvaluation) {
     
     // Test with high amount (should go to task_high)
     nlohmann::json vars1 = {{"amount", 2000}};
-    auto [st1, instanceId1] = pgm_->startProcess("cond-test", vars1);
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance1] = pgm_->getProcessInstance(instanceId1);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus1, instanceId1] = pgm_->startProcess("cond-test", vars1);
+    ASSERT_TRUE(startStatus1.ok) << startStatus1.message;
+
+    auto [instanceStatus1, instance1] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus1.ok) << instanceStatus1.message;
     ASSERT_FALSE(instance1.tokens.empty());
     
     // Advance to gateway
@@ -579,30 +582,31 @@ TEST_F(ProcessGraphTest, ConditionEvaluation) {
     ASSERT_TRUE(st3.ok);
     
     // Advance through gateway (should choose high value path)
-    auto [st4, instance2] = pgm_->getProcessInstance(instanceId1);
-    ASSERT_TRUE(st4.ok);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     auto st5 = pgm_->advanceToken(instanceId1, instance2.tokens[0].token_id);
     ASSERT_TRUE(st5.ok);
     
-    auto [st6, instance3] = pgm_->getProcessInstance(instanceId1);
-    ASSERT_TRUE(st6.ok);
+    auto [instanceStatus3, instance3] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus3.ok) << instanceStatus3.message;
     EXPECT_EQ(instance3.tokens[0].current_node, "task_high");
     
     // Test with low amount (should go to task_low)
     nlohmann::json vars2 = {{"amount", 500}};
-    auto [st7, instanceId2] = pgm_->startProcess("cond-test", vars2);
-    ASSERT_TRUE(st7.ok);
-    
-    auto [st8, instance4] = pgm_->getProcessInstance(instanceId2);
-    ASSERT_TRUE(st8.ok);
+    auto [startStatus2, instanceId2] = pgm_->startProcess("cond-test", vars2);
+    ASSERT_TRUE(startStatus2.ok) << startStatus2.message;
+
+    auto [instanceStatus4, instance4] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus4.ok) << instanceStatus4.message;
     
     // Advance to gateway and through it
     pgm_->advanceToken(instanceId2, instance4.tokens[0].token_id);
-    auto [st9, instance5] = pgm_->getProcessInstance(instanceId2);
+    auto [instanceStatus5, instance5] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus5.ok) << instanceStatus5.message;
     pgm_->advanceToken(instanceId2, instance5.tokens[0].token_id);
-    
-    auto [st10, instance6] = pgm_->getProcessInstance(instanceId2);
-    ASSERT_TRUE(st10.ok);
+
+    auto [instanceStatus6, instance6] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus6.ok) << instanceStatus6.message;
     EXPECT_EQ(instance6.tokens[0].current_node, "task_low");
 }
 
@@ -649,20 +653,22 @@ TEST_F(ProcessGraphTest, EventHandling) {
     pgm_->addProcessEdge("event-test", flow4);
     
     // Start process
-    auto [st1, instanceId] = pgm_->startProcess("event-test");
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("event-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     
     // Advance to task1
     pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
     
     // Advance to event (token should be at event now)
-    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     pgm_->advanceToken(instanceId, instance2.tokens[0].token_id);
-    
-    auto [st4, instance3] = pgm_->getProcessInstance(instanceId);
+
+    auto [instanceStatus3, instance3] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus3.ok) << instanceStatus3.message;
     EXPECT_EQ(instance3.tokens[0].current_node, "event1");
     
     // Set token to WAITING state to simulate waiting for event
@@ -680,7 +686,8 @@ TEST_F(ProcessGraphTest, EventHandling) {
     ASSERT_TRUE(st5.ok) << st5.message;
     
     // Verify token is now READY
-    auto [st6, instance4] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus4, instance4] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus4.ok) << instanceStatus4.message;
     EXPECT_EQ(instance4.tokens[0].state, themis::ProcessToken::State::READY);
     EXPECT_TRUE(instance4.tokens[0].variables.contains("approved"));
     EXPECT_EQ(instance4.tokens[0].variables["approved"], true);
@@ -710,17 +717,18 @@ TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
     pgm_->addProcessEdge("assign-test", flow3);
     
     // Start process
-    auto [st1, instanceId] = pgm_->startProcess("assign-test");
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus, instanceId] = pgm_->startProcess("assign-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     
     // Advance to task1
     pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
     
     // Add assignment metadata to token at task1
-    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     std::string tokenKey = "process:token:" + instanceId + ":" + instance2.tokens[0].token_id;
     auto tokenBlob = db_->get(tokenKey);
     if (tokenBlob) {
@@ -731,8 +739,8 @@ TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
     }
     
     // Query tasks by assignee
-    auto [st4, tasks] = pgm_->findActiveTasks("john");
-    ASSERT_TRUE(st4.ok) << st4.message;
+    auto [tasksStatus, tasks] = pgm_->findActiveTasks("john");
+    ASSERT_TRUE(tasksStatus.ok) << tasksStatus.message;
     EXPECT_FALSE(tasks.empty());
     
     if (!tasks.empty()) {
@@ -740,8 +748,8 @@ TEST_F(ProcessGraphTest, TaskAssignmentQueries) {
     }
     
     // Query by role
-    auto [st5, tasks2] = pgm_->findActiveTasks("manager");
-    ASSERT_TRUE(st5.ok);
+    auto [tasksStatus2, tasks2] = pgm_->findActiveTasks("manager");
+    ASSERT_TRUE(tasksStatus2.ok) << tasksStatus2.message;
     EXPECT_FALSE(tasks2.empty());
 }
 
@@ -764,22 +772,24 @@ TEST_F(ProcessGraphTest, NodeHistory) {
     pgm_->addProcessEdge("history-test", flow2);
     
     // Start multiple instances
-    auto [st1, instanceId1] = pgm_->startProcess("history-test");
-    auto [st2, instanceId2] = pgm_->startProcess("history-test");
-    
-    ASSERT_TRUE(st1.ok);
-    ASSERT_TRUE(st2.ok);
+    auto [startStatus1, instanceId1] = pgm_->startProcess("history-test");
+    auto [startStatus2, instanceId2] = pgm_->startProcess("history-test");
+
+    ASSERT_TRUE(startStatus1.ok) << startStatus1.message;
+    ASSERT_TRUE(startStatus2.ok) << startStatus2.message;
     
     // Advance both to task
-    auto [st3, instance1] = pgm_->getProcessInstance(instanceId1);
+    auto [instanceStatus1, instance1] = pgm_->getProcessInstance(instanceId1);
+    ASSERT_TRUE(instanceStatus1.ok) << instanceStatus1.message;
     pgm_->advanceToken(instanceId1, instance1.tokens[0].token_id);
-    
-    auto [st4, instance2] = pgm_->getProcessInstance(instanceId2);
+
+    auto [instanceStatus2b, instance2] = pgm_->getProcessInstance(instanceId2);
+    ASSERT_TRUE(instanceStatus2b.ok) << instanceStatus2b.message;
     pgm_->advanceToken(instanceId2, instance2.tokens[0].token_id);
     
     // Query history for task node
-    auto [st5, history] = pgm_->getNodeHistory("history-test", "task", std::nullopt);
-    ASSERT_TRUE(st5.ok) << st5.message;
+    auto [historyStatus, history] = pgm_->getNodeHistory("history-test", "task", std::nullopt);
+    ASSERT_TRUE(historyStatus.ok) << historyStatus.message;
     EXPECT_GE(history.size(), 2u); // At least 2 tokens should have visited this node
 }
 
@@ -802,16 +812,18 @@ TEST_F(ProcessGraphTest, ProcessMetrics) {
     pgm_->addProcessEdge("metrics-test", flow2);
     
     // Start an instance and complete it
-    auto [st1, instanceId] = pgm_->startProcess("metrics-test");
-    ASSERT_TRUE(st1.ok);
-    
-    auto [st2, instance] = pgm_->getProcessInstance(instanceId);
+    auto [startStatus, instanceId] = pgm_->startProcess("metrics-test");
+    ASSERT_TRUE(startStatus.ok) << startStatus.message;
+
+    auto [instanceStatus, instance] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus.ok) << instanceStatus.message;
     
     // Advance and complete task
     pgm_->advanceToken(instanceId, instance.tokens[0].token_id);
     
     // Add completed_at timestamp to simulate completion
-    auto [st3, instance2] = pgm_->getProcessInstance(instanceId);
+    auto [instanceStatus2, instance2] = pgm_->getProcessInstance(instanceId);
+    ASSERT_TRUE(instanceStatus2.ok) << instanceStatus2.message;
     std::string tokenKey = "process:token:" + instanceId + ":" + instance2.tokens[0].token_id;
     auto tokenBlob = db_->get(tokenKey);
     if (tokenBlob) {
@@ -825,8 +837,8 @@ TEST_F(ProcessGraphTest, ProcessMetrics) {
     }
     
     // Get metrics
-    auto [st4, metrics] = pgm_->getProcessMetrics("metrics-test");
-    ASSERT_TRUE(st4.ok) << st4.message;
+    auto [metricsStatus, metrics] = pgm_->getProcessMetrics("metrics-test");
+    ASSERT_TRUE(metricsStatus.ok) << metricsStatus.message;
     EXPECT_FALSE(metrics.empty());
     
     // Verify metrics structure
@@ -859,8 +871,8 @@ TEST_F(ProcessGraphTest, CriticalPath) {
     pgm_->addProcessEdge("critical-test", flow3);
     
     // Find critical path (may be empty if no executions yet)
-    auto [st, path] = pgm_->findCriticalPath("critical-test");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [criticalStatus, criticalPath] = pgm_->findCriticalPath("critical-test");
+    ASSERT_TRUE(criticalStatus.ok) << criticalStatus.message;
     // Path can be empty if no metrics available, which is ok
 }
 
@@ -888,8 +900,8 @@ TEST_F(ProcessGraphTest, HyperedgeStatus) {
     pgm_->addHyperedge("hyperedge-test", hyperedge);
     
     // Get hyperedge status
-    auto [st, retrievedHe] = pgm_->getHyperedgeStatus("he1");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [hyperedgeStatus, retrievedHe] = pgm_->getHyperedgeStatus("he1");
+    ASSERT_TRUE(hyperedgeStatus.ok) << hyperedgeStatus.message;
     EXPECT_EQ(retrievedHe.hyperedge_id, "he1");
     EXPECT_EQ(retrievedHe.source_nodes.size(), 2u);
 }
@@ -918,7 +930,7 @@ TEST_F(ProcessGraphTest, HyperedgeReadiness) {
     pgm_->addHyperedge("ready-test", hyperedge);
     
     // Check readiness (should not be ready as no sources activated)
-    auto [st, ready] = pgm_->isHyperedgeReady("he2");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [readyStatus, ready] = pgm_->isHyperedgeReady("he2");
+    ASSERT_TRUE(readyStatus.ok) << readyStatus.message;
     EXPECT_FALSE(ready); // Not ready yet as no sources activated
 }

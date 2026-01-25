@@ -117,8 +117,8 @@ TEST_F(KShortestPathsTest, FindsSingleShortestPath) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 1);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_EQ(paths.size(), 1);
     
     // Shortest path should be A -> C -> E (length 2)
@@ -133,8 +133,8 @@ TEST_F(KShortestPathsTest, FindsMultiplePaths) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 3);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_GE(paths.size(), 2);  // Should find at least 2 paths
     ASSERT_LE(paths.size(), 3);  // Should not exceed k
     
@@ -149,8 +149,7 @@ TEST_F(KShortestPathsTest, PathsAreUnique) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 5);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     // Check that all paths are unique
     for (size_t i = 0; i < paths.size(); ++i) {
@@ -165,8 +164,7 @@ TEST_F(KShortestPathsTest, PathsAreLoopless) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 5);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     // Check that no path contains loops
     for (const auto& path : paths) {
@@ -191,33 +189,33 @@ TEST_F(KShortestPathsTest, NoPathExists) {
     ASSERT_TRUE(graphMgr_->addEdge(e2).ok);
     
     auto [status, paths] = analytics_->kShortestPaths("A", "D", 3);
-    
     ASSERT_TRUE(status.ok);
+    
     EXPECT_EQ(paths.size(), 0) << "Should return empty when no path exists";
 }
 
 TEST_F(KShortestPathsTest, KIsZero) {
     buildMultiPathGraph();
     
-    auto [status, paths] = analytics_->kShortestPaths("A", "E", 0);
+    auto [status_zero, paths_zero] = analytics_->kShortestPaths("A", "E", 0);
     
-    EXPECT_FALSE(status.ok) << "Should return error for k=0";
+    EXPECT_FALSE(status_zero.ok) << "Should return error for k=0";
 }
 
 TEST_F(KShortestPathsTest, KIsNegative) {
     buildMultiPathGraph();
     
-    auto [status, paths] = analytics_->kShortestPaths("A", "E", -1);
+    auto [status_negative, paths_negative] = analytics_->kShortestPaths("A", "E", -1);
     
-    EXPECT_FALSE(status.ok) << "Should return error for negative k";
+    EXPECT_FALSE(status_negative.ok) << "Should return error for negative k";
 }
 
 TEST_F(KShortestPathsTest, KExceedsAvailablePaths) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 100);
-    
     ASSERT_TRUE(status.ok);
+    
     EXPECT_GT(paths.size(), 0) << "Should return available paths";
     EXPECT_LT(paths.size(), 100) << "Should not return more paths than exist";
 }
@@ -226,8 +224,8 @@ TEST_F(KShortestPathsTest, SourceEqualsTarget) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "A", 3);
-    
     ASSERT_TRUE(status.ok);
+    
     // Depending on implementation, this might return empty or a single-node path
     // For now, we just check it doesn't crash
 }
@@ -237,8 +235,8 @@ TEST_F(KShortestPathsTest, SingleEdgePath) {
     ASSERT_TRUE(graphMgr_->addEdge(e1).ok);
     
     auto [status, paths] = analytics_->kShortestPaths("A", "B", 1);
-    
     ASSERT_TRUE(status.ok);
+    
     ASSERT_EQ(paths.size(), 1);
     EXPECT_EQ(paths[0].vertices.size(), 2);
     EXPECT_EQ(paths[0].hop_count, 1);
@@ -275,8 +273,8 @@ TEST_F(KShortestPathsTest, GridGraph) {
     ASSERT_TRUE(graphMgr_->addEdge(createEdge("e12", "F", "I")).ok);
     
     auto [status, paths] = analytics_->kShortestPaths("A", "I", 5);
-    
     ASSERT_TRUE(status.ok);
+    
     EXPECT_GT(paths.size(), 0);
     
     // Shortest path should have length 4 (minimum distance in grid)
@@ -291,8 +289,8 @@ TEST_F(KShortestPathsTest, PathContainsCorrectVertices) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 1);
-    
     ASSERT_TRUE(status.ok);
+    
     ASSERT_EQ(paths.size(), 1);
     
     // Check vertices list
@@ -306,8 +304,8 @@ TEST_F(KShortestPathsTest, PathContainsCorrectEdges) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 1);
-    
     ASSERT_TRUE(status.ok);
+    
     ASSERT_EQ(paths.size(), 1);
     
     // Verify edges connect consecutive vertices
@@ -321,7 +319,6 @@ TEST_F(KShortestPathsTest, HopCountMatchesEdgeCount) {
     buildMultiPathGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 3);
-    
     ASSERT_TRUE(status.ok);
     
     for (const auto& path : paths) {
@@ -355,8 +352,8 @@ TEST_F(KShortestPathsTest, WeightedGraphShortestByWeight) {
     buildWeightedGraph();
     
     auto [status, paths] = analytics_->kShortestPaths("A", "E", 3, "weight");
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_GE(paths.size(), 3);
     
     // Paths should be sorted by total weight, not hop count
@@ -379,13 +376,13 @@ TEST_F(KShortestPathsTest, WeightedVsUnweightedDifferentOrder) {
     buildWeightedGraph();
     
     // Get paths with weight attribute
-    auto [status_w, paths_weighted] = analytics_->kShortestPaths("A", "E", 3, "weight");
+    auto [status_weighted, paths_weighted] = analytics_->kShortestPaths("A", "E", 3, "weight");
     
     // Get paths without weight attribute (uses default _weight or 1.0)
-    auto [status_u, paths_unweighted] = analytics_->kShortestPaths("A", "E", 3);
+    auto [status_unweighted, paths_unweighted] = analytics_->kShortestPaths("A", "E", 3);
     
-    ASSERT_TRUE(status_w.ok);
-    ASSERT_TRUE(status_u.ok);
+    ASSERT_TRUE(status_weighted.ok);
+    ASSERT_TRUE(status_unweighted.ok);
     
     // Weighted should prefer A->D->E (weight 5, hops 2)
     // Unweighted should prefer A->B->E or A->C->E (hops 2)

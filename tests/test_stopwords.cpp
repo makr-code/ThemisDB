@@ -94,14 +94,14 @@ TEST_F(StopwordsTest, EN_DefaultStopwords_FilteredInQueryAndIndex) {
     // Query on a stopword-only term should return no results
     {
         auto [status, results] = idx_->scanFulltext("articles", "content", "the");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         EXPECT_EQ(results.size(), 0u);
     }
 
     // Stopword in query is removed; AND behaves as if only non-stopwords remain
     {
         auto [status, results] = idx_->scanFulltext("articles", "content", "the quick");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "doc1");
     }
@@ -122,7 +122,7 @@ TEST_F(StopwordsTest, EN_NoStopwords_StopwordIsIndexedAndQueryable) {
 
     // Query for stopword should match when stopwords are disabled
     auto [status, results] = idx_->scanFulltext("articles", "content", "the");
-    ASSERT_TRUE(status.ok);
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0], "doc1");
 }
@@ -144,14 +144,14 @@ TEST_F(StopwordsTest, CustomStopwords_Filtered) {
     // Query consisting solely of a custom stopword yields no results
     {
         auto [status, results] = idx_->scanFulltext("notes", "body", "foo");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         EXPECT_EQ(results.size(), 0u);
     }
 
     // Mixed query behaves as if custom stopword removed
     {
         auto [status, results] = idx_->scanFulltext("notes", "body", "foo bar");
-        ASSERT_TRUE(status.ok);
+        ASSERT_TRUE(status.ok) << status.message;
         ASSERT_EQ(results.size(), 1u);
         EXPECT_EQ(results[0], "n1");
     }

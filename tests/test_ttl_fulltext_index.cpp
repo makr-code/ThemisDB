@@ -67,21 +67,21 @@ TEST_F(TTLFulltextIndexTest, TTLIndex_AutoMaintenance) {
     ASSERT_TRUE(idx_->put("sessions", session).ok);
     
     // Immediately: entity should exist
-    auto [st1, pks1] = idx_->scanKeysEqual("sessions", "user", "alice");
-    ASSERT_TRUE(st1.ok);
+    auto [status1, pks1] = idx_->scanKeysEqual("sessions", "user", "alice");
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(pks1.size(), 1);
     
     // Wait for TTL to expire (2 seconds + margin)
     std::this_thread::sleep_for(std::chrono::seconds(3));
     
     // Cleanup expired entities
-    auto [st2, deletedCount] = idx_->cleanupExpiredEntities("sessions", "created_at");
-    ASSERT_TRUE(st2.ok) << st2.message;
+    auto [status2, deletedCount] = idx_->cleanupExpiredEntities("sessions", "created_at");
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(deletedCount, 1);
     
     // Entity should be gone
-    auto [st3, pks3] = idx_->scanKeysEqual("sessions", "user", "alice");
-    ASSERT_TRUE(st3.ok);
+    auto [status3, pks3] = idx_->scanKeysEqual("sessions", "user", "alice");
+    ASSERT_TRUE(status3.ok);
     EXPECT_TRUE(pks3.empty());
 }
 
@@ -102,8 +102,8 @@ TEST_F(TTLFulltextIndexTest, TTLIndex_MultipleEntities) {
     std::this_thread::sleep_for(std::chrono::seconds(2));
     
     // Cleanup
-    auto [st2, deletedCount] = idx_->cleanupExpiredEntities("cache", "timestamp");
-    ASSERT_TRUE(st2.ok);
+    auto [status2, deletedCount] = idx_->cleanupExpiredEntities("cache", "timestamp");
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(deletedCount, 3);
 }
 
@@ -166,24 +166,24 @@ TEST_F(TTLFulltextIndexTest, Fulltext_AutoMaintenance) {
     ASSERT_TRUE(idx_->put("documents", doc3).ok);
     
     // Search: "quick" -> should find doc1 and doc3
-    auto [st1, pks1] = idx_->scanFulltext("documents", "content", "quick");
-    ASSERT_TRUE(st1.ok) << st1.message;
+    auto [status1, pks1] = idx_->scanFulltext("documents", "content", "quick");
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(pks1.size(), 2);
     std::sort(pks1.begin(), pks1.end());
     EXPECT_EQ(pks1[0], "doc1");
     EXPECT_EQ(pks1[1], "doc3");
     
     // Search: "lazy" -> should find doc1 and doc2
-    auto [st2, pks2] = idx_->scanFulltext("documents", "content", "lazy");
-    ASSERT_TRUE(st2.ok);
+    auto [status2, pks2] = idx_->scanFulltext("documents", "content", "lazy");
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(pks2.size(), 2);
     std::sort(pks2.begin(), pks2.end());
     EXPECT_EQ(pks2[0], "doc1");
     EXPECT_EQ(pks2[1], "doc2");
     
     // Search: "cat" -> should find only doc2
-    auto [st3, pks3] = idx_->scanFulltext("documents", "content", "cat");
-    ASSERT_TRUE(st3.ok);
+    auto [status3, pks3] = idx_->scanFulltext("documents", "content", "cat");
+    ASSERT_TRUE(status3.ok);
     EXPECT_EQ(pks3.size(), 1);
     EXPECT_EQ(pks3[0], "doc2");
 }
@@ -206,22 +206,22 @@ TEST_F(TTLFulltextIndexTest, Fulltext_MultiTokenAND) {
     ASSERT_TRUE(idx_->put("documents", doc3).ok);
     
     // Search: "apple banana" (AND logic) -> should find doc1 and doc2
-    auto [st1, pks1] = idx_->scanFulltext("documents", "content", "apple banana");
-    ASSERT_TRUE(st1.ok);
+    auto [status1, pks1] = idx_->scanFulltext("documents", "content", "apple banana");
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(pks1.size(), 2);
     std::sort(pks1.begin(), pks1.end());
     EXPECT_EQ(pks1[0], "doc1");
     EXPECT_EQ(pks1[1], "doc2");
     
     // Search: "apple banana orange" (AND) -> should find only doc1
-    auto [st2, pks2] = idx_->scanFulltext("documents", "content", "apple banana orange");
-    ASSERT_TRUE(st2.ok);
+    auto [status2, pks2] = idx_->scanFulltext("documents", "content", "apple banana orange");
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(pks2.size(), 1);
     EXPECT_EQ(pks2[0], "doc1");
     
     // Search: "kiwi" -> should find nothing
-    auto [st3, pks3] = idx_->scanFulltext("documents", "content", "kiwi");
-    ASSERT_TRUE(st3.ok);
+    auto [status3, pks3] = idx_->scanFulltext("documents", "content", "kiwi");
+    ASSERT_TRUE(status3.ok);
     EXPECT_TRUE(pks3.empty());
 }
 
@@ -234,15 +234,15 @@ TEST_F(TTLFulltextIndexTest, Fulltext_DeleteRemovesTokens) {
     ASSERT_TRUE(idx_->put("documents", doc1).ok);
     
     // Verify search works
-    auto [st1, pks1] = idx_->scanFulltext("documents", "content", "hello");
-    ASSERT_TRUE(st1.ok);
+    auto [status1, pks1] = idx_->scanFulltext("documents", "content", "hello");
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(pks1.size(), 1);
     
     // Delete document
     ASSERT_TRUE(idx_->erase("documents", "doc1").ok);
     
     // Search should return nothing
-    auto [st2, pks2] = idx_->scanFulltext("documents", "content", "hello");
-    ASSERT_TRUE(st2.ok);
+    auto [status2, pks2] = idx_->scanFulltext("documents", "content", "hello");
+    ASSERT_TRUE(status2.ok);
     EXPECT_TRUE(pks2.empty());
 }

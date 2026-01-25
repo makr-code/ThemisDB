@@ -129,8 +129,8 @@ TEST_F(VectorStatsTest, GetStatistics_ReturnsBasicInfo) {
     }
     vector_mgr_->addBatch(entities);
     
-    auto [st, stats] = vector_mgr_->getStatistics();
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, stats] = vector_mgr_->getStatistics();
+    ASSERT_TRUE(status.ok) << status.message;
     
     EXPECT_EQ(stats.vector_count, 5);
     EXPECT_EQ(stats.dimension, 3);
@@ -159,8 +159,8 @@ TEST_F(VectorStatsTest, ComputeCentroid_ReturnsAverageVector) {
     
     vector_mgr_->addBatch(entities);
     
-    auto [st, centroid] = vector_mgr_->computeCentroid();
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, centroid] = vector_mgr_->computeCentroid();
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_EQ(centroid.size(), 3);
     
     EXPECT_NEAR(centroid[0], 0.333f, 0.01f);
@@ -188,8 +188,8 @@ TEST_F(VectorStatsTest, ComputeVariance_ReturnsDimensionWiseVariance) {
     
     vector_mgr_->addBatch(entities);
     
-    auto [st, variance] = vector_mgr_->computeVariance();
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, variance] = vector_mgr_->computeVariance();
+    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_EQ(variance.size(), 2);
     
     // Variance of [1, 3, 5] = ((1-3)^2 + (3-3)^2 + (5-3)^2) / 3 = 8/3 = 2.667
@@ -220,8 +220,8 @@ TEST_F(VectorStatsTest, FindOutliers_IdentifiesFarVectors) {
     
     vector_mgr_->addBatch(entities);
     
-    auto [st, outliers] = vector_mgr_->findOutliers(2.0f);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [status, outliers] = vector_mgr_->findOutliers(2.0f);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should find the outlier
     EXPECT_GE(outliers.size(), 1);

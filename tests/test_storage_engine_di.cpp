@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "storage/storage_engine.h"
 #include "utils/error_registry.h"
 #include <memory>

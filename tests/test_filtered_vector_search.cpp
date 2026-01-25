@@ -48,9 +48,10 @@ protected:
         std::cout << "DEBUG SetUp: VectorIndex has " << vectorIdx->getVectorCount() << " vectors\n";
         
         // Debug: Verify secondary index populated
-        auto [st, techDocs] = secIdx->scanKeysEqual("documents", "category", "tech");
-        std::cout << "DEBUG SetUp: SecondaryIndex scan for category=tech returned " 
-              << techDocs.size() << " results (status: " << st.message << ")\n";
+          auto [status_scan, techDocs] = secIdx->scanKeysEqual("documents", "category", "tech");
+        ASSERT_TRUE(status_scan.ok) << status_scan.message;
+          std::cout << "DEBUG SetUp: SecondaryIndex scan for category=tech returned " 
+              << techDocs.size() << " results (status: ok)\n";
     }
     
     void TearDown() override {
@@ -173,9 +174,9 @@ TEST_F(FilteredVectorSearchTest, RangeFilter_ScoreGTE) {
     filter.value = "0.8"; // String encoding for range index
     fvq.filters.push_back(filter);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     EXPECT_GT(results.size(), 0);
     
     // Verify all results have score >= 0.8
@@ -211,9 +212,9 @@ TEST_F(FilteredVectorSearchTest, CombinedFilters_CategoryAndScore) {
     f2.value = "0.7";
     fvq.filters.push_back(f2);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     EXPECT_GT(results.size(), 0);
     
     // Verify all results match both filters
@@ -243,9 +244,9 @@ TEST_F(FilteredVectorSearchTest, InFilter_MultipleCategories) {
     filter.values = {"tech", "science"};
     fvq.filters.push_back(filter);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     ASSERT_EQ(results.size(), 10);
     
     // Verify all results are tech OR science
@@ -275,9 +276,9 @@ TEST_F(FilteredVectorSearchTest, RangeFilter_ScoreBetween) {
     filter.value_max = "0.8";
     fvq.filters.push_back(filter);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     EXPECT_GT(results.size(), 0);
     
     // Verify all results in range
@@ -313,9 +314,9 @@ TEST_F(FilteredVectorSearchTest, EmptyResultSet_HighlySelective) {
     f2.value = "1.0";
     fvq.filters.push_back(f2);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     EXPECT_EQ(results.size(), 0); // No results expected
 }
 
@@ -338,9 +339,9 @@ TEST_F(FilteredVectorSearchTest, HighSelectivity_SmallCategory) {
     filter.value = "art";
     fvq.filters.push_back(filter);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     EXPECT_LE(results.size(), 10); // Max 10 art docs exist
     
     // Verify all are art
@@ -382,10 +383,10 @@ TEST_F(FilteredVectorSearchTest, TripleFilter_CategoryScoreLang) {
     f3.value = "en";
     fvq.filters.push_back(f3);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
-    
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
+
     // Verify all results match all three filters
     for (const auto& r : results) {
         EXPECT_EQ(r.entity["category"].get<std::string>(), "tech");
@@ -413,11 +414,11 @@ TEST_F(FilteredVectorSearchTest, DistanceOrdering_Ascending) {
     filter.value = "tech";
     fvq.filters.push_back(filter);
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     ASSERT_GT(results.size(), 1);
-    
+
     // Verify results are ordered by distance (ascending)
     for (size_t i = 1; i < results.size(); ++i) {
         EXPECT_LE(results[i-1].vector_distance, results[i].vector_distance);
@@ -437,9 +438,9 @@ TEST_F(FilteredVectorSearchTest, NoFilters_StandardKNN) {
     fvq.k = 10;
     // No filters
     
-    auto [status, results] = engine.executeFilteredVectorSearch(fvq);
-    
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine.executeFilteredVectorSearch(fvq);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& results = *result;
     EXPECT_EQ(results.size(), 10);
 }
 

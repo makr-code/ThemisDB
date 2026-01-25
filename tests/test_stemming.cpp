@@ -170,16 +170,16 @@ TEST_F(StemmingTest, Integration_EnglishStemming) {
     
     // Search with base form should match variations
     auto [status1, results1] = idx_->scanFulltext("articles", "content", "run");
-    ASSERT_TRUE(status1.ok);
+    ASSERT_TRUE(status1.ok) << status1.message;
     EXPECT_EQ(results1.size(), 2);  // Matches "running" and "run"
     
     auto [status2, results2] = idx_->scanFulltext("articles", "content", "cat");
-    ASSERT_TRUE(status2.ok);
+    ASSERT_TRUE(status2.ok) << status2.message;
     EXPECT_EQ(results2.size(), 1);  // Matches "cats"
     
     // Search with inflected form should also work
     auto [status3, results3] = idx_->scanFulltext("articles", "content", "dogs");
-    ASSERT_TRUE(status3.ok);
+    ASSERT_TRUE(status3.ok) << status3.message;
     EXPECT_EQ(results3.size(), 1);  // "dogs" stems to "dog", matches doc1
 }
 
@@ -200,7 +200,7 @@ TEST_F(StemmingTest, Integration_GermanStemming) {
     
     // Search should work with stem
     auto [status, results] = idx_->scanFulltext("dokumente", "inhalt", "lauf");
-    ASSERT_TRUE(status.ok);
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_GE(results.size(), 1);  // At least matches "laufen"
 }
 
@@ -216,12 +216,12 @@ TEST_F(StemmingTest, Integration_NoStemmingExactMatch) {
     
     // Exact match works
     auto [status1, results1] = idx_->scanFulltext("articles", "content", "running");
-    ASSERT_TRUE(status1.ok);
+    ASSERT_TRUE(status1.ok) << status1.message;
     EXPECT_EQ(results1.size(), 1);
     
     // Stem form does NOT match (no stemming enabled)
     auto [status2, results2] = idx_->scanFulltext("articles", "content", "run");
-    ASSERT_TRUE(status2.ok);
+    ASSERT_TRUE(status2.ok) << status2.message;
     EXPECT_EQ(results2.size(), 0);
 }
 
@@ -237,7 +237,7 @@ TEST_F(StemmingTest, Integration_DeleteWithStemming) {
     
     // Verify indexed
     auto [status1, results1] = idx_->scanFulltext("docs", "text", "run");
-    ASSERT_TRUE(status1.ok);
+    ASSERT_TRUE(status1.ok) << status1.message;
     EXPECT_EQ(results1.size(), 1);
     
     // Delete document
@@ -245,7 +245,7 @@ TEST_F(StemmingTest, Integration_DeleteWithStemming) {
     
     // Should be removed from index
     auto [status2, results2] = idx_->scanFulltext("docs", "text", "run");
-    ASSERT_TRUE(status2.ok);
+    ASSERT_TRUE(status2.ok) << status2.message;
     EXPECT_EQ(results2.size(), 0);
 }
 
@@ -273,7 +273,7 @@ TEST_F(StemmingTest, BM25_StemmingRelevance) {
     
     // Query with stemmed terms
     auto [status, results] = idx_->scanFulltextWithScores("articles", "content", "machine learning", 10);
-    ASSERT_TRUE(status.ok);
+    ASSERT_TRUE(status.ok) << status.message;
     
     // Should match both doc1 and doc2 ("machines" -> "machine", "learn" -> "learn")
     EXPECT_GE(results.size(), 2);

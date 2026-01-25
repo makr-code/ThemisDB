@@ -246,8 +246,9 @@ TEST_F(AQLOrTest, ExecuteSimpleOr) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeOrKeys(*translateResult.disjunctive);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeOrKeys(*translateResult.disjunctive);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find u1 (active), u3 (active), u4 (pending)
     EXPECT_EQ(keys.size(), 3);
@@ -272,8 +273,9 @@ TEST_F(AQLOrTest, ExecuteOrWithRange) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeOrKeys(*translateResult.disjunctive);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeOrKeys(*translateResult.disjunctive);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find u1 (age=25), u5 (age=40)
     EXPECT_EQ(keys.size(), 2);
@@ -297,8 +299,9 @@ TEST_F(AQLOrTest, ExecuteMixedAndOr) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeOrKeys(*translateResult.disjunctive);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeOrKeys(*translateResult.disjunctive);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find u1 (active + Berlin), u3 (age=35), u5 (age=40)
     EXPECT_EQ(keys.size(), 3);
@@ -323,8 +326,9 @@ TEST_F(AQLOrTest, ExecuteComplexDNF) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeOrKeys(*translateResult.disjunctive);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeOrKeys(*translateResult.disjunctive);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find only u1 (Berlin + active)
     // u2 is Munich but inactive, u3 is Hamburg (not Berlin/Munich)
@@ -346,8 +350,9 @@ TEST_F(AQLOrTest, ExecuteTripleOr) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeOrKeys(*translateResult.disjunctive);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeOrKeys(*translateResult.disjunctive);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should find all 5 users (all cities covered)
     EXPECT_EQ(keys.size(), 5);
@@ -367,8 +372,9 @@ TEST_F(AQLOrTest, ExecuteOrNoResults) {
     auto translateResult = AQLTranslator::translate(parseResult.query);
     ASSERT_TRUE(translateResult.success);
     
-    auto [status, keys] = engine->executeOrKeys(*translateResult.disjunctive);
-    ASSERT_TRUE(status.ok) << status.message;
+    auto result = engine->executeOrKeys(*translateResult.disjunctive);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     EXPECT_EQ(keys.size(), 0);
 }
 

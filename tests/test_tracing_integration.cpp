@@ -5,6 +5,9 @@
 #include "query/query_engine.h"
 #include "observability/metrics_collector.h"
 #include <memory>
+#include <future>
+#include <thread>
+#include <chrono>
 
 using namespace themis;
 using namespace themis::observability;

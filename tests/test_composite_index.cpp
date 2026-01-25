@@ -98,7 +98,7 @@ TEST_F(CompositeIndexTest, ScanEqualComposite) {
     // Query: city=Berlin AND age=30
     std::vector<std::string> values = {"Berlin", "30"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("users", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     EXPECT_EQ(keys.size(), 2u);
     EXPECT_NE(std::find(keys.begin(), keys.end(), "user1"), keys.end());
@@ -107,7 +107,7 @@ TEST_F(CompositeIndexTest, ScanEqualComposite) {
     // Query: city=Munich AND age=30
     values = {"Munich", "30"};
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("users", cols, values);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     
     EXPECT_EQ(keys2.size(), 1u);
     EXPECT_EQ(keys2[0], "user4");
@@ -115,7 +115,7 @@ TEST_F(CompositeIndexTest, ScanEqualComposite) {
     // Query: city=Berlin AND age=25
     values = {"Berlin", "25"};
     auto [status3, keys3] = idx_mgr_->scanKeysEqualComposite("users", cols, values);
-    ASSERT_TRUE(status3.ok) << status3.message;
+    ASSERT_TRUE(status3.ok);
     
     EXPECT_EQ(keys3.size(), 1u);
     EXPECT_EQ(keys3[0], "user2");
@@ -176,7 +176,7 @@ TEST_F(CompositeIndexTest, UpdateEntityMaintainsIndex) {
     // Verify indexed
     std::vector<std::string> values = {"Engineering", "Senior"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("employees", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "emp1");
     
@@ -186,14 +186,14 @@ TEST_F(CompositeIndexTest, UpdateEntityMaintainsIndex) {
     ASSERT_TRUE(st.ok) << st.message;
     
     // Old index should be gone
-    auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("employees", cols, values);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    auto [status_old, keys2] = idx_mgr_->scanKeysEqualComposite("employees", cols, values);
+    ASSERT_TRUE(status_old.ok);
     EXPECT_EQ(keys2.size(), 0u);
     
     // New index should exist
     values = {"Sales", "Senior"};
-    auto [status3, keys3] = idx_mgr_->scanKeysEqualComposite("employees", cols, values);
-    ASSERT_TRUE(status3.ok) << status3.message;
+    auto [status_new, keys3] = idx_mgr_->scanKeysEqualComposite("employees", cols, values);
+    ASSERT_TRUE(status_new.ok);
     EXPECT_EQ(keys3.size(), 1u);
     EXPECT_EQ(keys3[0], "emp1");
 }
@@ -212,7 +212,7 @@ TEST_F(CompositeIndexTest, DeleteEntityRemovesIndexEntry) {
     
     std::vector<std::string> values = {"Germany", "Bavaria"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("locations", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     
     // Delete
@@ -221,7 +221,7 @@ TEST_F(CompositeIndexTest, DeleteEntityRemovesIndexEntry) {
     
     // Index entry should be gone
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("locations", cols, values);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(keys2.size(), 0u);
 }
 
@@ -273,7 +273,7 @@ TEST_F(CompositeIndexTest, ThreeColumnComposite) {
     // Query: EU, 2024, Q1
     std::vector<std::string> values = {"EU", "2024", "Q1"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("sales", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     EXPECT_EQ(keys.size(), 2u);
     EXPECT_NE(std::find(keys.begin(), keys.end(), "sale1"), keys.end());
@@ -302,7 +302,7 @@ TEST_F(CompositeIndexTest, InsertWithMultipleCompositeKeys) {
     // Query for electronics + premium
     std::vector<std::string> values = {"electronics", "premium"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("products", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 2u); // prod0 and prod4
 }
 
@@ -328,7 +328,7 @@ TEST_F(CompositeIndexTest, GetWithCompositeKey) {
     // Get addresses in USA, CA
     std::vector<std::string> values = {"USA", "CA"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("addresses", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "addr1");
 }
@@ -353,7 +353,7 @@ TEST_F(CompositeIndexTest, DeleteWithCompositeKey) {
     // Verify both exist
     std::vector<std::string> values = {"online", "pending"};
     auto [status1, keys1] = idx_mgr_->scanKeysEqualComposite("orders", cols, values);
-    ASSERT_TRUE(status1.ok) << status1.message;
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys1.size(), 2u);
     
     // Delete one
@@ -362,7 +362,7 @@ TEST_F(CompositeIndexTest, DeleteWithCompositeKey) {
     
     // Verify only one remains
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("orders", cols, values);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(keys2.size(), 1u);
     EXPECT_EQ(keys2[0], "order2");
 }
@@ -382,7 +382,7 @@ TEST_F(CompositeIndexTest, UpdateCompositeIndexedData) {
     // Verify original index
     std::vector<std::string> values1 = {"10", "A"};
     auto [status1, keys1] = idx_mgr_->scanKeysEqualComposite("students", cols, values1);
-    ASSERT_TRUE(status1.ok) << status1.message;
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys1.size(), 1u);
     
     // Update section
@@ -392,13 +392,13 @@ TEST_F(CompositeIndexTest, UpdateCompositeIndexedData) {
     
     // Old index should be empty
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("students", cols, values1);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(keys2.size(), 0u);
     
     // New index should contain student
     std::vector<std::string> values2 = {"10", "B"};
     auto [status3, keys3] = idx_mgr_->scanKeysEqualComposite("students", cols, values2);
-    ASSERT_TRUE(status3.ok) << status3.message;
+    ASSERT_TRUE(status3.ok);
     EXPECT_EQ(keys3.size(), 1u);
     EXPECT_EQ(keys3[0], "student1");
 }
@@ -429,7 +429,7 @@ TEST_F(CompositeIndexTest, FourColumnComposite) {
     // Query for specific 4-column combination
     std::vector<std::string> values = {"2024", "Q1", "EU", "electronics"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("sales_data", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "sale1");
 }
@@ -457,7 +457,7 @@ TEST_F(CompositeIndexTest, SortedScanAscending) {
     std::vector<std::string> values = {"1", ""};
     // Note: This test verifies data insertion; actual sorting would need range scan support
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("tickets", cols, {"1", "1001"});
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
 }
 
 TEST_F(CompositeIndexTest, IndexScanValidation) {
@@ -487,7 +487,7 @@ TEST_F(CompositeIndexTest, IndexScanValidation) {
     // Scan should return all ERROR logs
     std::vector<std::string> values = {"ERROR", "2024-01-01T11:00:00"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("logs", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
 }
 
@@ -512,7 +512,7 @@ TEST_F(CompositeIndexTest, CompositeKeyOrdering) {
     // Query should work with exact match
     std::vector<std::string> values = {"Engineering", "100000"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("employees_sal", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "emp1");
 }
@@ -544,7 +544,7 @@ TEST_F(CompositeIndexTest, PrefixQuerySimulation) {
     // Query for specific subcategory
     std::vector<std::string> values = {"books", "fiction"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("items", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "item1");
 }
@@ -579,7 +579,7 @@ TEST_F(CompositeIndexTest, FilterFirstColumnOnly) {
     // Filter by brand only (first column)
     std::vector<std::string> values = {"Toyota", "Camry"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("cars", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
 }
 
@@ -610,7 +610,7 @@ TEST_F(CompositeIndexTest, CombinedFiltersAND) {
     // Combined filter: blue AND M
     std::vector<std::string> values = {"blue", "M"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("shirts", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "shirt1");
 }
@@ -638,13 +638,13 @@ TEST_F(CompositeIndexTest, MultipleIndexesOnSameTable) {
     // Query using first index
     std::vector<std::string> values1 = {"John Doe", "2024"};
     auto [status1, keys1] = idx_mgr_->scanKeysEqualComposite("books", cols1, values1);
-    ASSERT_TRUE(status1.ok) << status1.message;
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys1.size(), 1u);
     
     // Query using second index
     std::vector<std::string> values2 = {"SciFi", "English"};
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("books", cols2, values2);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(keys2.size(), 1u);
 }
 
@@ -668,13 +668,13 @@ TEST_F(CompositeIndexTest, FilterSecondColumnDifferentValues) {
     // Query for different second column values
     std::vector<std::string> values1 = {"alpha", "developer"};
     auto [status1, keys1] = idx_mgr_->scanKeysEqualComposite("members", cols, values1);
-    ASSERT_TRUE(status1.ok) << status1.message;
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys1.size(), 1u);
     EXPECT_EQ(keys1[0], "member1");
     
     std::vector<std::string> values2 = {"alpha", "manager"};
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("members", cols, values2);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(keys2.size(), 1u);
     EXPECT_EQ(keys2[0], "member2");
 }
@@ -703,7 +703,7 @@ TEST_F(CompositeIndexTest, EmptyStringInCompositeKey) {
     // Query with empty string
     std::vector<std::string> values = {"", "value2"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("test_empty", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "entity1");
 }
@@ -728,7 +728,7 @@ TEST_F(CompositeIndexTest, SpecialCharactersInCompositeKey) {
     // Query with special characters
     std::vector<std::string> values = {"test@example.com", "$%^&*"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("test_special", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "entity1");
 }
@@ -751,7 +751,7 @@ TEST_F(CompositeIndexTest, VeryLongCompositeKeys) {
     // Query with long values
     std::vector<std::string> values = {long_value1, long_value2};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("test_long", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "entity1");
 }
@@ -777,7 +777,7 @@ TEST_F(CompositeIndexTest, NumericStringsInCompositeKey) {
     // Query with numeric strings
     std::vector<std::string> values = {"0", "100"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("test_numeric", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);
     EXPECT_EQ(keys[0], "entity1");
 }
@@ -805,7 +805,7 @@ TEST_F(CompositeIndexTest, BulkInsertWithCompositeIndexes) {
     // Query a specific combination
     std::vector<std::string> values = {"cat0", "active"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("bulk_test", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     // cat0 occurs at: 0,10,20,30,40,50,60,70,80,90 (10 items)
     // active (even) at: 0,2,4,6,... (50 items)
     // Intersection: 0,20,40,60,80 (5 items - every other cat0 is active)
@@ -838,13 +838,13 @@ TEST_F(CompositeIndexTest, ConcurrentUpdatesOnCompositeIndex) {
     // Verify old index is empty
     std::vector<std::string> values1 = {"v1", "draft"};
     auto [status1, keys1] = idx_mgr_->scanKeysEqualComposite("concurrent_test", cols, values1);
-    ASSERT_TRUE(status1.ok) << status1.message;
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys1.size(), 0u);
     
     // Verify new index has all items
     std::vector<std::string> values2 = {"v1", "published"};
     auto [status2, keys2] = idx_mgr_->scanKeysEqualComposite("concurrent_test", cols, values2);
-    ASSERT_TRUE(status2.ok) << status2.message;
+    ASSERT_TRUE(status2.ok);
     EXPECT_EQ(keys2.size(), 10u);
 }
 
@@ -866,7 +866,7 @@ TEST_F(CompositeIndexTest, IndexSizeVsQueryPerformance) {
     // Query specific combination
     std::vector<std::string> values = {"zone0", "tier0"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("perf_test", cols, values);
-    ASSERT_TRUE(status.ok) << status.message;
+    ASSERT_TRUE(status.ok);
     
     // Verify correct number of results
     // zone0: 0,5,10,15,20,25,30,35,40,45 (10 items)

@@ -469,7 +469,10 @@ TEST(QueryOptimizer, GraphWorkloadMediumExpansion) {
 // ============================================================================
 
 TEST(QueryOptimizer, DistributedPlanNumaAwareness) {
-    SecondaryIndexManager secIdx;
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = ":memory:";
+    RocksDBWrapper db(cfg);
+    SecondaryIndexManager secIdx(db);
     QueryOptimizer optimizer(secIdx);
     optimizer.enableAdaptiveOptimization(true);
     

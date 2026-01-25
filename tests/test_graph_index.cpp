@@ -46,14 +46,14 @@ TEST_F(GraphIndexTest, AddEdge_CreatesOutdexAndIndex) {
     ASSERT_TRUE(st.ok) << st.message;
 
     // Check outdex: graph:out:user1:edge1 -> user2
-    auto [st1, outNeighbors] = graph_mgr_->outNeighbors("user1");
-    ASSERT_TRUE(st1.ok) << st1.message;
+    auto [outStatus, outNeighbors] = graph_mgr_->outNeighbors("user1");
+    ASSERT_TRUE(outStatus.ok) << outStatus.message;
     ASSERT_EQ(outNeighbors.size(), 1u);
     EXPECT_EQ(outNeighbors[0], "user2");
 
     // Check index: graph:in:user2:edge1 -> user1
-    auto [st2, inNeighbors] = graph_mgr_->inNeighbors("user2");
-    ASSERT_TRUE(st2.ok) << st2.message;
+    auto [inStatus, inNeighbors] = graph_mgr_->inNeighbors("user2");
+    ASSERT_TRUE(inStatus.ok) << inStatus.message;
     ASSERT_EQ(inNeighbors.size(), 1u);
     EXPECT_EQ(inNeighbors[0], "user1");
 }
@@ -69,12 +69,12 @@ TEST_F(GraphIndexTest, DeleteEdge_RemovesIndices) {
     ASSERT_TRUE(st.ok) << st.message;
 
     // Verify indices are removed
-    auto [st1, outNeighbors] = graph_mgr_->outNeighbors("user1");
-    ASSERT_TRUE(st1.ok);
+    auto [outStatus, outNeighbors] = graph_mgr_->outNeighbors("user1");
+    ASSERT_TRUE(outStatus.ok) << outStatus.message;
     EXPECT_EQ(outNeighbors.size(), 0u);
 
-    auto [st2, inNeighbors] = graph_mgr_->inNeighbors("user2");
-    ASSERT_TRUE(st2.ok);
+    auto [inStatus, inNeighbors] = graph_mgr_->inNeighbors("user2");
+    ASSERT_TRUE(inStatus.ok) << inStatus.message;
     EXPECT_EQ(inNeighbors.size(), 0u);
 }
 
@@ -91,8 +91,8 @@ TEST_F(GraphIndexTest, MultipleEdges_OutNeighbors) {
     e2.setField("_to", "user3");
     graph_mgr_->addEdge(e2);
 
-    auto [st, neighbors] = graph_mgr_->outNeighbors("user1");
-    ASSERT_TRUE(st.ok);
+    auto [outStatus, neighbors] = graph_mgr_->outNeighbors("user1");
+    ASSERT_TRUE(outStatus.ok) << outStatus.message;
     ASSERT_EQ(neighbors.size(), 2u);
     EXPECT_TRUE(std::find(neighbors.begin(), neighbors.end(), "user2") != neighbors.end());
     EXPECT_TRUE(std::find(neighbors.begin(), neighbors.end(), "user3") != neighbors.end());
@@ -112,8 +112,8 @@ TEST_F(GraphIndexTest, BFS_SingleLevel) {
     e2.setField("_to", "user3");
     graph_mgr_->addEdge(e2);
 
-    auto [st, order] = graph_mgr_->bfs("user1", 1);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [bfsStatus, order] = graph_mgr_->bfs("user1", 1);
+    ASSERT_TRUE(bfsStatus.ok) << bfsStatus.message;
     ASSERT_EQ(order.size(), 3u); // user1, user2, user3
     EXPECT_EQ(order[0], "user1");
     EXPECT_TRUE(std::find(order.begin(), order.end(), "user2") != order.end());
@@ -134,8 +134,8 @@ TEST_F(GraphIndexTest, BFS_TwoLevels) {
     e2.setField("_to", "user3");
     graph_mgr_->addEdge(e2);
 
-    auto [st, order] = graph_mgr_->bfs("user1", 2);
-    ASSERT_TRUE(st.ok);
+    auto [bfsStatus, order] = graph_mgr_->bfs("user1", 2);
+    ASSERT_TRUE(bfsStatus.ok) << bfsStatus.message;
     ASSERT_EQ(order.size(), 3u);
     EXPECT_EQ(order[0], "user1");
     EXPECT_EQ(order[1], "user2");
@@ -162,8 +162,8 @@ TEST_F(GraphIndexTest, BFS_CycleHandling) {
     e3.setField("_to", "user1");
     graph_mgr_->addEdge(e3);
 
-    auto [st, order] = graph_mgr_->bfs("user1", 5);
-    ASSERT_TRUE(st.ok);
+    auto [bfsStatus, order] = graph_mgr_->bfs("user1", 5);
+    ASSERT_TRUE(bfsStatus.ok) << bfsStatus.message;
     // Should visit each node exactly once despite cycle
     ASSERT_EQ(order.size(), 3u);
     EXPECT_EQ(order[0], "user1");
@@ -221,8 +221,8 @@ TEST_F(GraphIndexTest, InMemoryTopology_OutNeighbors) {
     ASSERT_TRUE(st.ok);
 
     // Query neighbors using in-memory topology (should be O(1))
-    auto [st1, neighbors] = graph_mgr_->outNeighbors("A");
-    ASSERT_TRUE(st1.ok);
+    auto [outStatus, neighbors] = graph_mgr_->outNeighbors("A");
+    ASSERT_TRUE(outStatus.ok) << outStatus.message;
     ASSERT_EQ(neighbors.size(), 2u);
     
     // Order may vary, so check both are present
@@ -249,8 +249,8 @@ TEST_F(GraphIndexTest, InMemoryTopology_InNeighbors) {
     ASSERT_TRUE(st.ok);
 
     // Query incoming neighbors
-    auto [st1, inNeighbors] = graph_mgr_->inNeighbors("C");
-    ASSERT_TRUE(st1.ok);
+    auto [inStatus, inNeighbors] = graph_mgr_->inNeighbors("C");
+    ASSERT_TRUE(inStatus.ok) << inStatus.message;
     ASSERT_EQ(inNeighbors.size(), 2u);
     
     EXPECT_TRUE(std::find(inNeighbors.begin(), inNeighbors.end(), "A") != inNeighbors.end());
@@ -279,8 +279,8 @@ TEST_F(GraphIndexTest, InMemoryTopology_BFS_Performance) {
     ASSERT_TRUE(st.ok);
 
     // BFS from node1 with max depth 3
-    auto [st1, order] = graph_mgr_->bfs("node1", 3);
-    ASSERT_TRUE(st1.ok);
+    auto [bfsStatus, order] = graph_mgr_->bfs("node1", 3);
+    ASSERT_TRUE(bfsStatus.ok) << bfsStatus.message;
     
     // Should visit: node1, node2, node6 (depth 1), node3 (depth 2), node4 (depth 3)
     EXPECT_EQ(order.size(), 5u);
@@ -313,8 +313,8 @@ TEST_F(GraphIndexTest, InMemoryTopology_UpdateAfterDelete) {
     // Topology should be updated automatically
     EXPECT_EQ(graph_mgr_->getTopologyEdgeCount(), 1u);
     
-    auto [st3, neighbors] = graph_mgr_->outNeighbors("A");
-    ASSERT_TRUE(st3.ok);
+    auto [outStatus2, neighbors] = graph_mgr_->outNeighbors("A");
+    ASSERT_TRUE(outStatus2.ok) << outStatus2.message;
     ASSERT_EQ(neighbors.size(), 1u);
     EXPECT_EQ(neighbors[0], "C");
 }
@@ -343,8 +343,8 @@ TEST_F(GraphIndexTest, Dijkstra_SimpleUnweightedPath) {
     e3.setField("_to", "D");
     graph_mgr_->addEdge(e3);
 
-    auto [st, result] = graph_mgr_->dijkstra("A", "D");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [dijkstraStatus, result] = graph_mgr_->dijkstra("A", "D");
+    ASSERT_TRUE(dijkstraStatus.ok) << dijkstraStatus.message;
     
     ASSERT_EQ(result.path.size(), 4u);
     EXPECT_EQ(result.path[0], "A");
@@ -358,7 +358,7 @@ TEST_F(GraphIndexTest, Dijkstra_WeightedPath) {
     // Graph mit Gewichten:
     // A --(5)--> B --(1)--> D
     // A --(2)--> C --(2)--> D
-    // Kürzester Pfad: A -> C -> D (cost = 4)
+    // Kï¿½rzester Pfad: A -> C -> D (cost = 4)
     
     themis::BaseEntity e1("edge1");
     e1.setField("id", "edge1");
@@ -388,8 +388,8 @@ TEST_F(GraphIndexTest, Dijkstra_WeightedPath) {
     e4.setField("_weight", 2.0);
     graph_mgr_->addEdge(e4);
 
-    auto [st, result] = graph_mgr_->dijkstra("A", "D");
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [dijkstraStatus, result] = graph_mgr_->dijkstra("A", "D");
+    ASSERT_TRUE(dijkstraStatus.ok) << dijkstraStatus.message;
     
     ASSERT_EQ(result.path.size(), 3u);
     EXPECT_EQ(result.path[0], "A");
@@ -412,9 +412,10 @@ TEST_F(GraphIndexTest, Dijkstra_NoPathExists) {
     e2.setField("_to", "D");
     graph_mgr_->addEdge(e2);
 
-    auto [st, result] = graph_mgr_->dijkstra("A", "D");
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("Kein Pfad") != std::string::npos);
+    auto [dijkstraStatus, result] = graph_mgr_->dijkstra("A", "D");
+    EXPECT_FALSE(dijkstraStatus.ok);
+    EXPECT_TRUE(dijkstraStatus.message.find("Kein Pfad") != std::string::npos);
+    (void)result;
 }
 
 TEST_F(GraphIndexTest, AStar_WithHeuristic) {
@@ -451,8 +452,8 @@ TEST_F(GraphIndexTest, AStar_WithHeuristic) {
     // Heuristik (admissible): konstant 0 = entspricht Dijkstra
     auto heuristic = [](const std::string&) { return 0.0; };
 
-    auto [st, result] = graph_mgr_->aStar("A", "D", heuristic);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [aStarStatus, result] = graph_mgr_->aStar("A", "D", heuristic);
+    ASSERT_TRUE(aStarStatus.ok) << aStarStatus.message;
     
     ASSERT_EQ(result.path.size(), 3u);
     EXPECT_EQ(result.path[0], "A");
@@ -483,10 +484,10 @@ TEST_F(GraphIndexTest, AStar_WithoutHeuristic_FallsToDijkstra) {
     e3.setField("_weight", 1.0);
     graph_mgr_->addEdge(e3);
 
-    auto [st, result] = graph_mgr_->aStar("A", "B", nullptr);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto [aStarStatus, result] = graph_mgr_->aStar("A", "B", nullptr);
+    ASSERT_TRUE(aStarStatus.ok) << aStarStatus.message;
     
-    // Kürzester Pfad: A -> C -> B (cost = 2)
+    // Kuerszester Pfad: A -> C -> B (cost = 2)
     ASSERT_EQ(result.path.size(), 3u);
     EXPECT_EQ(result.path[0], "A");
     EXPECT_EQ(result.path[1], "C");
@@ -514,8 +515,8 @@ TEST_F(GraphIndexTest, Dijkstra_WithInMemoryTopology) {
     auto st = graph_mgr_->rebuildTopology();
     ASSERT_TRUE(st.ok);
 
-    auto [st1, result] = graph_mgr_->dijkstra("A", "C");
-    ASSERT_TRUE(st1.ok) << st1.message;
+    auto [dijkstraStatus, result] = graph_mgr_->dijkstra("A", "C");
+    ASSERT_TRUE(dijkstraStatus.ok) << dijkstraStatus.message;
     
     ASSERT_EQ(result.path.size(), 3u);
     EXPECT_EQ(result.path[0], "A");

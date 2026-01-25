@@ -1,11 +1,21 @@
 #include "llm/llm_model_audit_logger.h"
 #include <spdlog/spdlog.h>
+#include <utility>
 
 namespace themis {
 namespace llm {
 
-LLMModelAuditLogger::LLMModelAuditLogger(const utils::AuditLoggerConfig& config) {
-    spdlog::debug("LLMModelAuditLogger stub initialized: {}", config.log_path);
+// Pimpl stub to keep ABI stable while the implementation is fleshed out later.
+class LLMModelAuditLogger::Impl {
+public:
+    explicit Impl(utils::AuditLoggerConfig cfg) : config(std::move(cfg)) {}
+
+    utils::AuditLoggerConfig config;
+};
+
+LLMModelAuditLogger::LLMModelAuditLogger(const utils::AuditLoggerConfig& config)
+    : impl_(std::make_unique<Impl>(config)) {
+    spdlog::debug("LLMModelAuditLogger stub initialized: {}", impl_->config.log_path);
 }
 
 LLMModelAuditLogger::~LLMModelAuditLogger() = default;

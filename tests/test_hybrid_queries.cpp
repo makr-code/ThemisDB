@@ -226,8 +226,9 @@ TEST_F(HybridQueriesTest, VectorGeo_SpatialFilteredANN_BerlinRegion)
         EXPECT_TRUE(filterPassed) << "Spatial filter should pass for img1 (Berlin in Berlin-region)";
     }
 
-    auto [st, results] = engine->executeVectorGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeVectorGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // Only img1 (Berlin) should match; img2 (Paris), img3 (Munich) outside region
     ASSERT_EQ(results.size(), 1u);
@@ -265,8 +266,9 @@ TEST_F(HybridQueriesTest, VectorGeo_NoSpatialMatches_EmptyResult)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
 
-    auto [st, results] = engine->executeVectorGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeVectorGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
     EXPECT_EQ(results.size(), 0u);
 }
 
@@ -304,8 +306,9 @@ TEST_F(HybridQueriesTest, ContentGeo_FulltextWithSpatial_BerlinHotels)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
 
-    auto [st, results] = engine->executeContentGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeContentGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // Only doc1 (Berlin hotel) should match
     ASSERT_EQ(results.size(), 1u);
@@ -347,8 +350,9 @@ TEST_F(HybridQueriesTest, ContentGeo_ProximityBoosting_NearestFirst)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callCenter, litDist }
     );
 
-    auto [st, results] = engine->executeContentGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine->executeContentGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // All hotels match, but Berlin should be first (closest)
     ASSERT_GE(results.size(), 1u);
@@ -514,8 +518,9 @@ TEST_F(HybridQueriesTest, VectorGeo_WithVectorIndexManager_UsesHNSW)
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
 
-    auto [st, results] = optimizedEngine->executeVectorGeoQuery(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = optimizedEngine->executeVectorGeoQuery(q);
+    ASSERT_TRUE(result) << result.error().message();
+    auto& results = *result;
 
     // Only img1 (Berlin) should match
     ASSERT_EQ(results.size(), 1u);

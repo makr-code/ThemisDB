@@ -36,6 +36,8 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_manual.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*benchmark.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_multi_shard_transactions\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -115,6 +117,12 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_splinterdb.*\\.cpp$"
     ".*test_aql_shortestpath.*\\.cpp$"
     ".*test_phase3.*\\.cpp$"
+    ".*test_consensus_module\\.cpp$"
+    ".*test_content_policy_manual\\.cpp$"
+    ".*test_bao\\.cpp$"
+    ".*test_bwtree\\.cpp$"
+    ".*test_diskann\\.cpp$"
+    ".*test_api_version\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")

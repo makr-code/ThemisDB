@@ -97,8 +97,9 @@ TEST_F(QueryOrTest, OrQuery_CityBerlinOrMunich) {
     q.disjuncts.push_back(berlin_query);
     q.disjuncts.push_back(munich_query);
     
-    auto [st, keys] = engine_->executeOrKeys(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine_->executeOrKeys(q);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should return alice, charlie (Berlin) + bob (Munich) = 3 results
     ASSERT_EQ(keys.size(), 3);
@@ -125,8 +126,9 @@ TEST_F(QueryOrTest, OrQuery_Age25Or30) {
     q.disjuncts.push_back(age25_query);
     q.disjuncts.push_back(age30_query);
     
-    auto [st, keys] = engine_->executeOrKeys(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine_->executeOrKeys(q);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should return alice (25) + bob (30) = 2 results
     ASSERT_EQ(keys.size(), 2);
@@ -154,8 +156,9 @@ TEST_F(QueryOrTest, OrQuery_ComplexConditions) {
     q.disjuncts.push_back(berlin_25);
     q.disjuncts.push_back(munich_30);
     
-    auto [st, keys] = engine_->executeOrKeys(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine_->executeOrKeys(q);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should return alice (Berlin, 25) + bob (Munich, 30) = 2 results
     ASSERT_EQ(keys.size(), 2);
@@ -182,8 +185,9 @@ TEST_F(QueryOrTest, OrQuery_NoDuplicates) {
     q.disjuncts.push_back(berlin_query);
     q.disjuncts.push_back(age25_query);
     
-    auto [st, keys] = engine_->executeOrKeys(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine_->executeOrKeys(q);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should return alice, charlie (Berlin) + alice (age 25) but deduplicated = 2 unique
     ASSERT_EQ(keys.size(), 2);
@@ -209,8 +213,9 @@ TEST_F(QueryOrTest, OrQuery_EmptyDisjunct) {
     q.disjuncts.push_back(nonexistent_query);
     q.disjuncts.push_back(berlin_query);
     
-    auto [st, keys] = engine_->executeOrKeys(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto result = engine_->executeOrKeys(q);
+    ASSERT_TRUE(result);
+    auto& keys = *result;
     
     // Should return alice, charlie (Berlin only)
     ASSERT_EQ(keys.size(), 2);

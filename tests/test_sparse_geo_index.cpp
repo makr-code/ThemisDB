@@ -65,8 +65,8 @@ TEST_F(SparseGeoIndexTest, SparseIndex_SkipsNullValues) {
     e2.setField("name", "Bob");
     // email fehlt absichtlich
 
-    // TODO: Implementierung muss in put() Sparse-Index-Logik hinzufügen
-    // Für jetzt nur create/drop testen
+    // TODO: Implementierung muss in put() Sparse-Index-Logik hinzufï¿½gen
+    // Fï¿½r jetzt nur create/drop testen
 }
 
 TEST_F(SparseGeoIndexTest, SparseIndex_UniqueConstraint) {
@@ -122,13 +122,13 @@ TEST_F(SparseGeoIndexTest, GeoBox_ScanNonExistent) {
     ASSERT_TRUE(st.ok);
 
     // Scan empty index
-    auto [st2, results] = idx_->scanGeoBox("locations", "position",
-        50.0, 55.0,  // lat range
-        10.0, 15.0,  // lon range
-        100);
+	auto [status, results] = idx_->scanGeoBox("locations", "position",
+		50.0, 55.0,  // lat range
+		10.0, 15.0,  // lon range
+		100);
     
-    ASSERT_TRUE(st2.ok) << st2.message;
-    EXPECT_TRUE(results.empty());
+	ASSERT_TRUE(status.ok) << status.message;
+	EXPECT_TRUE(results.empty());
 }
 
 TEST_F(SparseGeoIndexTest, GeoRadius_ScanNonExistent) {
@@ -136,22 +136,22 @@ TEST_F(SparseGeoIndexTest, GeoRadius_ScanNonExistent) {
     ASSERT_TRUE(st.ok);
 
     // Scan empty index
-    auto [st2, results] = idx_->scanGeoRadius("locations", "position",
-        52.52, 13.405,  // center (Berlin)
-        100.0,           // radius km
-        100);
+	auto [status, results] = idx_->scanGeoRadius("locations", "position",
+		52.52, 13.405,  // center (Berlin)
+		100.0,           // radius km
+		100);
     
-    ASSERT_TRUE(st2.ok) << st2.message;
-    EXPECT_TRUE(results.empty());
+	ASSERT_TRUE(status.ok) << status.message;
+	EXPECT_TRUE(results.empty());
 }
 
 TEST_F(SparseGeoIndexTest, GeoIndex_NoIndexError) {
     // Scan without creating index
-    auto [st, results] = idx_->scanGeoBox("locations", "position",
-        50.0, 55.0, 10.0, 15.0, 100);
+	auto [status, results] = idx_->scanGeoBox("locations", "position",
+		50.0, 55.0, 10.0, 15.0, 100);
     
-    EXPECT_FALSE(st.ok);
-    EXPECT_TRUE(st.message.find("Kein Geo-Index") != std::string::npos);
+	EXPECT_FALSE(status.ok);
+	EXPECT_TRUE(status.message.find("Kein Geo-Index") != std::string::npos);
 }
 
 // Integration-Test: Automatische Sparse-Index-Wartung bei put/erase
@@ -160,7 +160,7 @@ TEST_F(SparseGeoIndexTest, SparseIndex_AutoMaintenance) {
 	auto st = idx_->createSparseIndex("Products", "discount", false);
 	ASSERT_TRUE(st.ok);
 	
-	// Entities einfügen: einige mit discount, andere ohne (NULL/leer)
+	// Entities einfï¿½gen: einige mit discount, andere ohne (NULL/leer)
 	themis::BaseEntity p1("p1");
 	p1.setField("name", "Product A");
 	p1.setField("discount", "10%");
@@ -184,30 +184,30 @@ TEST_F(SparseGeoIndexTest, SparseIndex_AutoMaintenance) {
 	ASSERT_TRUE(idx_->put("Products", p4).ok);
 	
 	// Scan: Nur p1 und p4 sollten im Index sein (mit discount-Werten)
-	auto [st1, pks1] = idx_->scanKeysEqual("Products", "discount", "10%");
-	ASSERT_TRUE(st1.ok);
+	auto [status1, pks1] = idx_->scanKeysEqual("Products", "discount", "10%");
+	ASSERT_TRUE(status1.ok) << status1.message;
 	EXPECT_EQ(pks1.size(), 1);
 	EXPECT_EQ(pks1[0], "p1");
 	
-	auto [st2, pks2] = idx_->scanKeysEqual("Products", "discount", "20%");
-	ASSERT_TRUE(st2.ok);
+	auto [status2, pks2] = idx_->scanKeysEqual("Products", "discount", "20%");
+	ASSERT_TRUE(status2.ok) << status2.message;
 	EXPECT_EQ(pks2.size(), 1);
 	EXPECT_EQ(pks2[0], "p4");
 	
 	// Leerer Wert sollte nicht gefunden werden
-	auto [st3, pks3] = idx_->scanKeysEqual("Products", "discount", "");
-	ASSERT_TRUE(st3.ok);
+	auto [status3, pks3] = idx_->scanKeysEqual("Products", "discount", "");
+	ASSERT_TRUE(status3.ok) << status3.message;
 	EXPECT_TRUE(pks3.empty());
 	
-	// p1 löschen -> Index-Eintrag sollte verschwinden
+	// p1 lï¿½schen -> Index-Eintrag sollte verschwinden
 	ASSERT_TRUE(idx_->erase("Products", "p1").ok);
-	auto [st4, pks4] = idx_->scanKeysEqual("Products", "discount", "10%");
-	ASSERT_TRUE(st4.ok);
+	auto [status4, pks4] = idx_->scanKeysEqual("Products", "discount", "10%");
+	ASSERT_TRUE(status4.ok) << status4.message;
 	EXPECT_TRUE(pks4.empty());
 	
 	// p4 sollte noch da sein
-	auto [st5, pks5] = idx_->scanKeysEqual("Products", "discount", "20%");
-	ASSERT_TRUE(st5.ok);
+	auto [status5, pks5] = idx_->scanKeysEqual("Products", "discount", "20%");
+	ASSERT_TRUE(status5.ok) << status5.message;
 	EXPECT_EQ(pks5.size(), 1);
 	EXPECT_EQ(pks5[0], "p4");
 }
@@ -218,7 +218,7 @@ TEST_F(SparseGeoIndexTest, GeoIndex_AutoMaintenance) {
 	auto st = idx_->createGeoIndex("Locations", "position");
 	ASSERT_TRUE(st.ok);
 	
-	// Locations einfügen (Berlin, Paris, London)
+	// Locations einfï¿½gen (Berlin, Paris, London)
 	themis::BaseEntity berlin("berlin");
 	berlin.setField("name", "Berlin");
 	berlin.setField("position_lat", "52.52");
@@ -246,23 +246,23 @@ TEST_F(SparseGeoIndexTest, GeoIndex_AutoMaintenance) {
 	ASSERT_TRUE(idx_->put("Locations", tokyo).ok);
 	
 	// Bounding Box: Europa (Lat: 40-60, Lon: -10-20)
-	auto [st1, pks1] = idx_->scanGeoBox("Locations", "position", 40.0, 60.0, -10.0, 20.0);
-	ASSERT_TRUE(st1.ok);
+	auto [status1, pks1] = idx_->scanGeoBox("Locations", "position", 40.0, 60.0, -10.0, 20.0);
+	ASSERT_TRUE(status1.ok) << status1.message;
 	EXPECT_EQ(pks1.size(), 3);  // Berlin, Paris, London
 	
 	// Radius-Suche: 500km um Berlin
-	auto [st2, pks2] = idx_->scanGeoRadius("Locations", "position", 52.52, 13.405, 500.0);
-	ASSERT_TRUE(st2.ok);
+	auto [status2, pks2] = idx_->scanGeoRadius("Locations", "position", 52.52, 13.405, 500.0);
+	ASSERT_TRUE(status2.ok) << status2.message;
 	EXPECT_GE(pks2.size(), 1);  // Mindestens Berlin selbst
 	// Paris ist ~877km entfernt, London ~930km -> sollten nicht dabei sein
 	EXPECT_LE(pks2.size(), 1);
 	
-	// Tokyo löschen
+	// Tokyo lï¿½schen
 	ASSERT_TRUE(idx_->erase("Locations", "tokyo").ok);
 	
 	// Bounding Box weltweit sollte Tokyo nicht mehr enthalten
-	auto [st3, pks3] = idx_->scanGeoBox("Locations", "position", -90.0, 90.0, -180.0, 180.0);
-	ASSERT_TRUE(st3.ok);
+	auto [status3, pks3] = idx_->scanGeoBox("Locations", "position", -90.0, 90.0, -180.0, 180.0);
+	ASSERT_TRUE(status3.ok) << status3.message;
 	EXPECT_EQ(pks3.size(), 3);  // Berlin, Paris, London (ohne Tokyo)
 	
 	// Verify Tokyo ist wirklich weg

@@ -3,6 +3,7 @@
 #include "utils/audit_logger.h"
 #include <string>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace themis {

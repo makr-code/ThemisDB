@@ -96,8 +96,8 @@ static void BM_VectorSearch_efSearch(benchmark::State& state) {
     size_t queries = 0;
     for (auto _ : state) {
         const auto& q = env.dataset[pick(rng)];
-        auto [st, res] = env.vix->searchKnn(q, static_cast<size_t>(k));
-        if (!st.ok) { state.SkipWithError(st.message.c_str()); break; }
+        auto [status, res] = env.vix->searchKnn(q, static_cast<size_t>(k));
+        if (!status.ok) { state.SkipWithError(status.message.c_str()); break; }
         benchmark::DoNotOptimize(res);
         ++queries;
     }

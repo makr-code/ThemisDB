@@ -40,10 +40,33 @@ public:
     
     explicit ChaosShard(int id) 
         : shard_id_(id), state_(State::HEALTHY), 
-          request_count_(0), error_count_(0) {}
+          request_count_(0), error_count_(0),
+          mutex_(std::make_unique<std::mutex>()) {}
+    
+    // Non-copyable but movable
+    ChaosShard(const ChaosShard&) = delete;
+    ChaosShard& operator=(const ChaosShard&) = delete;
+    
+    ChaosShard(ChaosShard&& other) noexcept
+        : shard_id_(other.shard_id_),
+          state_(other.state_),
+          request_count_(other.request_count_.load()),
+          error_count_(other.error_count_.load()),
+          mutex_(std::move(other.mutex_)) {}
+    
+    ChaosShard& operator=(ChaosShard&& other) noexcept {
+        if (this != &other) {
+            shard_id_ = other.shard_id_;
+            state_ = other.state_;
+            request_count_.store(other.request_count_.load());
+            error_count_.store(other.error_count_.load());
+            mutex_ = std::move(other.mutex_);
+        }
+        return *this;
+    }
     
     bool processRequest(const std::string& request) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lock(*mutex_);
         request_count_++;
         
         switch (state_) {
@@ -72,12 +95,12 @@ public:
     }
     
     void setState(State new_state) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lock(*mutex_);
         state_ = new_state;
     }
     
     State getState() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lock(*mutex_);
         return state_;
     }
     
@@ -90,7 +113,7 @@ private:
     State state_;
     std::atomic<int> request_count_;
     std::atomic<int> error_count_;
-    mutable std::mutex mutex_;
+    mutable std::unique_ptr<std::mutex> mutex_;
 };
 
 /**

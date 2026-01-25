@@ -101,8 +101,8 @@ TEST_F(AQLGeneralTraversalTest, BasicOutboundTraversal) {
     )";
 
     auto [status, result] = executeAql(aql, *engine);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_TRUE(result.contains("type"));
     EXPECT_EQ(result["type"], "traversal");
     
@@ -132,8 +132,8 @@ TEST_F(AQLGeneralTraversalTest, MinDepthFiltering) {
     )";
 
     auto [status, result] = executeAql(aql, *engine);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_TRUE(result.contains("results"));
     
     auto results = result["results"];
@@ -155,8 +155,8 @@ TEST_F(AQLGeneralTraversalTest, InboundDirection) {
     )";
 
     auto [status, result] = executeAql(aql, *engine);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_TRUE(result.contains("results"));
     
     auto results = result["results"];
@@ -186,8 +186,8 @@ TEST_F(AQLGeneralTraversalTest, AnyDirection) {
     )";
 
     auto [status, result] = executeAql(aql, *engine);
+    ASSERT_TRUE(status.ok);
     
-    ASSERT_TRUE(status.ok) << status.message;
     ASSERT_TRUE(result.contains("results"));
     
     auto results = result["results"];
@@ -211,9 +211,7 @@ TEST_F(AQLGeneralTraversalTest, PathAndEdgeTracking) {
         FOR v IN 2..2 OUTBOUND "users/alice" GRAPH "social"
         RETURN v
     )";
-
     auto [status, result] = executeAql(aql, *engine);
-    
     ASSERT_TRUE(status.ok) << status.message;
     ASSERT_TRUE(result.contains("results"));
     
@@ -243,9 +241,7 @@ TEST_F(AQLGeneralTraversalTest, DepthZeroIncludesStart) {
         FOR v IN 0..1 OUTBOUND "users/alice" GRAPH "social"
         RETURN v
     )";
-
     auto [status, result] = executeAql(aql, *engine);
-    
     ASSERT_TRUE(status.ok) << status.message;
     ASSERT_TRUE(result.contains("results"));
     

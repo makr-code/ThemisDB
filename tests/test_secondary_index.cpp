@@ -103,8 +103,8 @@ TEST(SecondaryIndexTest, CreatePutScanDelete) {
     ASSERT_TRUE(st.ok) << st.message;
 
     // Scan equals age=30 -> expect u1
-    auto [st1, keys] = idx.scanKeysEqual("users", "age", "30");
-    ASSERT_TRUE(st1.ok) << st1.message;
+    auto [status1, keys] = idx.scanKeysEqual("users", "age", "30");
+    ASSERT_TRUE(status1.ok);
     ASSERT_EQ(keys.size(), 1);
     EXPECT_EQ(keys[0], "u1");
 
@@ -115,20 +115,20 @@ TEST(SecondaryIndexTest, CreatePutScanDelete) {
     ASSERT_TRUE(st.ok) << st.message;
 
     // Old index should be gone
-    auto [st2a, keys_old] = idx.scanKeysEqual("users", "age", "30");
-    ASSERT_TRUE(st2a.ok);
+    auto [status2a, keys_old] = idx.scanKeysEqual("users", "age", "30");
+    ASSERT_TRUE(status2a.ok);
     EXPECT_TRUE(keys_old.empty());
     // New index
-    auto [st2b, keys_new] = idx.scanKeysEqual("users", "age", "31");
-    ASSERT_TRUE(st2b.ok);
+    auto [status2b, keys_new] = idx.scanKeysEqual("users", "age", "31");
+    ASSERT_TRUE(status2b.ok);
     ASSERT_EQ(keys_new.size(), 1);
     EXPECT_EQ(keys_new[0], "u1");
 
     // Delete entity
     st = idx.erase("users", "u1");
     ASSERT_TRUE(st.ok) << st.message;
-    auto [st3, keys_post] = idx.scanKeysEqual("users", "age", "31");
-    ASSERT_TRUE(st3.ok);
+    auto [status3, keys_post] = idx.scanKeysEqual("users", "age", "31");
+    ASSERT_TRUE(status3.ok);
     EXPECT_TRUE(keys_post.empty());
 
     db.close();
@@ -142,8 +142,8 @@ TEST(SecondaryIndexTest, EstimateCountAndNoIndex) {
     SecondaryIndexManager idx(db);
 
     // No index yet -> scans should error, estimate = 0
-    auto [st0, keys0] = idx.scanKeysEqual("users", "age", "30");
-    EXPECT_FALSE(st0.ok);
+    auto [status0, keys0] = idx.scanKeysEqual("users", "age", "30");
+    EXPECT_FALSE(status0.ok);
     bool capped=false; 
     EXPECT_EQ(idx.estimateCountEqual("users","age","30", 10, &capped), 0u);
     EXPECT_FALSE(capped);
@@ -161,8 +161,8 @@ TEST(SecondaryIndexTest, EstimateCountAndNoIndex) {
     EXPECT_EQ(c, 2u);
     EXPECT_TRUE(capped);
 
-    auto [st1, keys] = idx.scanKeysEqual("users","age","30");
-    ASSERT_TRUE(st1.ok);
+    auto [status1, keys] = idx.scanKeysEqual("users","age","30");
+    ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys.size(), 3u);
 
     db.close();

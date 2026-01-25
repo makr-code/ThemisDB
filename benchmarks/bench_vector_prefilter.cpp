@@ -106,8 +106,8 @@ static void BM_VectorWhitelistPrefilter(benchmark::State& state) {
     size_t queries = 0;
     for(auto _ : state) {
         const auto& q = env.data[pick(rng)];
-        auto [st, res] = env.vix->searchKnn(q, k, &whitelist);
-        if(!st.ok) { state.SkipWithError(st.message.c_str()); break; }
+        auto [status, res] = env.vix->searchKnn(q, k, &whitelist);
+        if(!status.ok) { state.SkipWithError(status.message.c_str()); break; }
         benchmark::DoNotOptimize(res);
         ++queries;
     }

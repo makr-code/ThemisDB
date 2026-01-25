@@ -25,7 +25,7 @@ TEST(QueryEngineRangeTest, RangeWithOrderByAscendingLimit) {
     ASSERT_TRUE(idx.createRangeIndex("users","age").ok);
 
     auto put = [&](const std::string& pk, const std::string& age){
-        BaseEntity::FieldMap f{{"age", age}}; // String-encoding für lexicographische Ordnung
+        BaseEntity::FieldMap f{{"age", age}}; // String-encoding fï¿½r lexicographische Ordnung
         auto e = BaseEntity::fromFields(pk, f);
         ASSERT_TRUE(idx.put("users", e).ok);
     };
@@ -36,8 +36,9 @@ TEST(QueryEngineRangeTest, RangeWithOrderByAscendingLimit) {
     q.rangePredicates.push_back({"age", std::make_optional<std::string>("20"), std::make_optional<std::string>("35"), true, true});
     q.orderBy = OrderBy{"age", false, 3};
 
-    auto [st, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(st.ok) << st.message;
+    auto keysResult = engine.executeAndKeys(q);
+    ASSERT_TRUE(keysResult) << keysResult.error().message();
+    auto& keys = *keysResult;
     ASSERT_EQ(keys.size(), 3u);
     EXPECT_EQ(keys[0], "u20");
     EXPECT_EQ(keys[1], "u25");
@@ -61,8 +62,9 @@ TEST(QueryEngineRangeTest, RangeExclusive) {
     ConjunctiveQuery q{"users"};
     q.rangePredicates.push_back({"age", std::make_optional<std::string>("20"), std::make_optional<std::string>("35"), false, false});
 
-    auto [st, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(st.ok);
+    auto keysResult = engine.executeAndKeys(q);
+    ASSERT_TRUE(keysResult) << keysResult.error().message();
+    auto& keys = *keysResult;
     std::sort(keys.begin(), keys.end());
     ASSERT_EQ(keys.size(), 2u);
     EXPECT_EQ(keys[0], "u25");
@@ -83,8 +85,9 @@ TEST(QueryEngineRangeTest, OrderByDescending) {
     ConjunctiveQuery q; q.table = "users";
     q.orderBy = OrderBy{"age", true, 2};
 
-    auto [st, keys] = engine.executeAndKeys(q);
-    ASSERT_TRUE(st.ok);
+    auto keysResult = engine.executeAndKeys(q);
+    ASSERT_TRUE(keysResult) << keysResult.error().message();
+    auto& keys = *keysResult;
     ASSERT_EQ(keys.size(), 2u);
     EXPECT_EQ(keys[0], "u35");
     EXPECT_EQ(keys[1], "u30");

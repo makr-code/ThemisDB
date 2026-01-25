@@ -114,8 +114,8 @@ TEST_F(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges) {
     ASSERT_TRUE(graphIdx_->rebuildTopology().ok);
 
     // BFS from alice with FOLLOWS filter (should reach bob and dave via bob)
-    auto [st1, followsNodes] = graphIdx_->bfs("alice", 3, "FOLLOWS", "social");
-    ASSERT_TRUE(st1.ok);
+    auto [followsStatus, followsNodes] = graphIdx_->bfs("alice", 3, "FOLLOWS", "social");
+    ASSERT_TRUE(followsStatus.ok) << followsStatus.message;
     EXPECT_EQ(followsNodes.size(), 3); // alice, bob, dave
     EXPECT_TRUE(std::find(followsNodes.begin(), followsNodes.end(), "alice") != followsNodes.end());
     EXPECT_TRUE(std::find(followsNodes.begin(), followsNodes.end(), "bob") != followsNodes.end());
@@ -123,8 +123,8 @@ TEST_F(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges) {
     EXPECT_FALSE(std::find(followsNodes.begin(), followsNodes.end(), "charlie") != followsNodes.end());
 
     // BFS from alice with LIKES filter (should reach dave only)
-    auto [st2, likesNodes] = graphIdx_->bfs("alice", 3, "LIKES", "social");
-    ASSERT_TRUE(st2.ok);
+    auto [likesStatus, likesNodes] = graphIdx_->bfs("alice", 3, "LIKES", "social");
+    ASSERT_TRUE(likesStatus.ok) << likesStatus.message;
     EXPECT_EQ(likesNodes.size(), 2); // alice, dave
     EXPECT_TRUE(std::find(likesNodes.begin(), likesNodes.end(), "alice") != likesNodes.end());
     EXPECT_TRUE(std::find(likesNodes.begin(), likesNodes.end(), "dave") != likesNodes.end());
@@ -132,8 +132,8 @@ TEST_F(GraphTypeFilteringTest, BFS_WithTypeFilter_OnlyTraversesMatchingEdges) {
     EXPECT_FALSE(std::find(likesNodes.begin(), likesNodes.end(), "charlie") != likesNodes.end());
 
     // BFS from alice without filter (should reach all)
-    auto [st3, allNodes] = graphIdx_->bfs("alice", 3);
-    ASSERT_TRUE(st3.ok);
+    auto [allStatus, allNodes] = graphIdx_->bfs("alice", 3);
+    ASSERT_TRUE(allStatus.ok) << allStatus.message;
     EXPECT_EQ(allNodes.size(), 4); // alice, bob, charlie, dave
 }
 
@@ -184,24 +184,24 @@ TEST_F(GraphTypeFilteringTest, Dijkstra_WithTypeFilter_FindsShortestPathOfType) 
     ASSERT_TRUE(graphIdx_->rebuildTopology().ok);
 
     // Find shortest path with FOLLOWS filter
-    auto [st1, followsPath] = graphIdx_->dijkstra("alice", "charlie", "FOLLOWS", "social");
-    ASSERT_TRUE(st1.ok);
+    auto [followsStatus, followsPath] = graphIdx_->dijkstra("alice", "charlie", "FOLLOWS", "social");
+    ASSERT_TRUE(followsStatus.ok) << followsStatus.message;
     ASSERT_EQ(followsPath.path.size(), 3); // alice -> bob -> charlie
     EXPECT_EQ(followsPath.path[0], "alice");
     EXPECT_EQ(followsPath.path[1], "bob");
     EXPECT_EQ(followsPath.path[2], "charlie");
 
     // Find shortest path with LIKES filter
-    auto [st2, likesPath] = graphIdx_->dijkstra("alice", "charlie", "LIKES", "social");
-    ASSERT_TRUE(st2.ok);
+    auto [likesStatus, likesPath] = graphIdx_->dijkstra("alice", "charlie", "LIKES", "social");
+    ASSERT_TRUE(likesStatus.ok) << likesStatus.message;
     ASSERT_EQ(likesPath.path.size(), 3); // alice -> dave -> charlie
     EXPECT_EQ(likesPath.path[0], "alice");
     EXPECT_EQ(likesPath.path[1], "dave");
     EXPECT_EQ(likesPath.path[2], "charlie");
 
     // Find shortest path without filter (should use any edge type)
-    auto [st3, anyPath] = graphIdx_->dijkstra("alice", "charlie");
-    ASSERT_TRUE(st3.ok);
+    auto [anyStatus, anyPath] = graphIdx_->dijkstra("alice", "charlie");
+    ASSERT_TRUE(anyStatus.ok) << anyStatus.message;
     EXPECT_EQ(anyPath.path.size(), 3); // Could be either path
 }
 
@@ -314,8 +314,8 @@ TEST_F(GraphTypeFilteringTest, TypeFilter_WithNonexistentType_ReturnsEmpty) {
     ASSERT_TRUE(graphIdx_->rebuildTopology().ok);
 
     // Query with nonexistent type
-    auto [st, nodes] = graphIdx_->bfs("alice", 3, "NONEXISTENT", "social");
-    ASSERT_TRUE(st.ok);
+    auto [status, nodes] = graphIdx_->bfs("alice", 3, "NONEXISTENT", "social");
+    ASSERT_TRUE(status.ok) << status.message;
     EXPECT_EQ(nodes.size(), 1); // Only alice (start node)
     EXPECT_EQ(nodes[0], "alice");
 }

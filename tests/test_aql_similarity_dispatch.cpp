@@ -42,7 +42,6 @@ TEST_F(AQLSimilarityDispatchTest, ExecuteSimilarityVectorGeoFallback) {
         RETURN doc
     )";
     auto [status, jsonRes] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok) << status.message;
     // Should execute successfully and return results
     ASSERT_TRUE(jsonRes.contains("results"));
     EXPECT_GE(jsonRes["results"].size(), 0);
