@@ -125,6 +125,39 @@ else()
     endif()
 endif()
 
+# ============================================================================
+# LINK-TIME CODE GENERATION (LTCG) / INTERPROCEDURAL OPTIMIZATION (IPO)
+# ============================================================================
+# Enable Link-Time Code Generation for Release builds to improve performance
+# This allows the compiler to optimize across translation units
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    # Check if IPO/LTO is supported
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
+    
+    if(ipo_supported)
+        # Enable IPO/LTO for all targets
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+        
+        if(MSVC)
+            # MSVC: Enable Link-Time Code Generation (LTCG)
+            add_compile_options(/GL)
+            add_link_options(/LTCG:INCREMENTAL)  # Incremental LTCG for faster iterative builds
+            message(STATUS "LTCG enabled: /GL (compile) + /LTCG:INCREMENTAL (link)")
+        else()
+            # GCC/Clang: Enable Link-Time Optimization (LTO)
+            add_compile_options(-flto)
+            add_link_options(-flto)
+            message(STATUS "LTO enabled: -flto")
+        endif()
+    else()
+        message(WARNING "IPO/LTO not supported: ${ipo_error}")
+    endif()
+else()
+    message(STATUS "IPO/LTO skipped (only enabled in Release mode)")
+endif()
+
 # Platform-specific handling
 if(WIN32)
     add_compile_definitions(
