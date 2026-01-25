@@ -157,6 +157,22 @@ endif()
 
 # Validate build configuration completeness
 message(STATUS "Feature validation: OK")
+
+# Calculate total GPU backends for summary
+set(_gpu_backend_count 0)
+if(THEMIS_ENABLE_CUDA)
+    math(EXPR _gpu_backend_count "${_gpu_backend_count} + 1")
+endif()
+if(THEMIS_ENABLE_HIP)
+    math(EXPR _gpu_backend_count "${_gpu_backend_count} + 1")
+endif()
+if(THEMIS_ENABLE_ONEAPI)
+    math(EXPR _gpu_backend_count "${_gpu_backend_count} + 1")
+endif()
+if(THEMIS_ENABLE_OPENCL)
+    math(EXPR _gpu_backend_count "${_gpu_backend_count} + 1")
+endif()
+
 message(STATUS "  Total features enabled: ${_gpu_backend_count} GPU backend(s)")
 
 # Summary of key features

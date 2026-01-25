@@ -48,7 +48,7 @@
       "dependencies": []
     },
     "rpc": {
-      "description": "Enable RPC framework with gRPC (v1.3.0+)",
+      "description": "Enable RPC framework with gRPC (v1.3.0+) - Alias for 'grpc' feature for backward compatibility",
       "dependencies": [
         "grpc",
         "protobuf"
@@ -70,7 +70,7 @@
       ]
     },
     "grpc": {
-      "description": "Enable gRPC protocol support",
+      "description": "Enable gRPC protocol support - Alias for 'rpc' feature",
       "dependencies": [
         "grpc",
         "protobuf"

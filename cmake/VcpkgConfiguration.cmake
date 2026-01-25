@@ -17,21 +17,35 @@ if(DEFINED ENV{VCPKG_BINARY_SOURCES})
     message(STATUS "  Source: $ENV{VCPKG_BINARY_SOURCES}")
 else()
     # Set default binary cache location for local builds
+    set(_default_cache_dir "")
+    
     if(WIN32)
-        set(_default_cache_dir "$ENV{LOCALAPPDATA}/vcpkg/archives")
+        if(DEFINED ENV{LOCALAPPDATA})
+            set(_default_cache_dir "$ENV{LOCALAPPDATA}/vcpkg/archives")
+        else()
+            set(_default_cache_dir "${CMAKE_BINARY_DIR}/.vcpkg_cache")
+        endif()
     else()
-        set(_default_cache_dir "$ENV{HOME}/.cache/vcpkg/archives")
+        if(DEFINED ENV{HOME})
+            set(_default_cache_dir "$ENV{HOME}/.cache/vcpkg/archives")
+        else()
+            set(_default_cache_dir "${CMAKE_BINARY_DIR}/.vcpkg_cache")
+        endif()
     endif()
     
     # Create cache directory if it doesn't exist
-    file(MAKE_DIRECTORY "${_default_cache_dir}")
-    
-    # Set binary cache environment variable for vcpkg
-    set(ENV{VCPKG_BINARY_SOURCES} "clear;files,${_default_cache_dir},readwrite")
-    
-    message(STATUS "Binary cache: Enabled (default local cache)")
-    message(STATUS "  Location: ${_default_cache_dir}")
-    message(STATUS "  Mode: Read-Write")
+    if(_default_cache_dir)
+        file(MAKE_DIRECTORY "${_default_cache_dir}")
+        
+        # Set binary cache environment variable for vcpkg
+        set(ENV{VCPKG_BINARY_SOURCES} "clear;files,${_default_cache_dir},readwrite")
+        
+        message(STATUS "Binary cache: Enabled (default local cache)")
+        message(STATUS "  Location: ${_default_cache_dir}")
+        message(STATUS "  Mode: Read-Write")
+    else()
+        message(WARNING "Binary cache: Could not determine cache directory")
+    endif()
 endif()
 
 # ============================================================================
