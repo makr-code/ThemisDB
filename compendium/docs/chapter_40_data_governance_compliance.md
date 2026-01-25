@@ -543,43 +543,74 @@ Automatisierte Control-Validierung über AQL:
 
 ```aql
 // ISO 27001 Compliance Dashboard
+// Note: In production, queries would be executed via themis-cli or API calls
+// This dashboard aggregates control validation results
 LET controls = [
     {
         id: "A.9.2",
         name: "User Access Management",
-        query: "FOR j IN jit_access FILTER j.expires_at < DATE_NOW() COLLECT WITH COUNT INTO cnt RETURN cnt",
+        description: "Check for expired JIT access grants",
         threshold: 0,
         critical: true
     },
     {
         id: "A.10.2",
         name: "Key Rotation",
-        query: "FOR k IN encryption_keys FILTER DATE_DIFF(DATE_NOW(), k.last_rotated, 'day') > 90 COLLECT WITH COUNT INTO cnt RETURN cnt",
+        description: "Check for encryption keys not rotated in 90+ days",
         threshold: 0,
         critical: true
     },
     {
         id: "A.12.4",
         name: "Audit Log Integrity",
-        query: "FOR l IN audit_log FILTER l.integrity_verified == false COLLECT WITH COUNT INTO cnt RETURN cnt",
+        description: "Check for audit logs with broken integrity chain",
         threshold: 0,
         critical: true
     },
     {
         id: "A.17.2",
         name: "Replication Factor",
-        query: "FOR s IN shards FILTER s.replication_factor < 2 COLLECT WITH COUNT INTO cnt RETURN cnt",
+        description: "Check for under-replicated shards",
         threshold: 0,
         critical: false
     }
 ]
 
+// Execute individual control checks and aggregate results
 FOR control IN controls
-    LET result = FIRST((FOR x IN @query RETURN x))
+    // Execute control-specific query
+    LET result = (
+        control.id == "A.9.2" ? (
+            FOR j IN jit_access 
+                FILTER j.expires_at < DATE_NOW() 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] :
+        control.id == "A.10.2" ? (
+            FOR k IN encryption_keys 
+                FILTER DATE_DIFF(DATE_NOW(), k.last_rotated, 'day') > 90 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] :
+        control.id == "A.12.4" ? (
+            FOR l IN audit_log 
+                FILTER l.integrity_verified == false 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] :
+        control.id == "A.17.2" ? (
+            FOR s IN shards 
+                FILTER s.replication_factor < 2 
+                COLLECT WITH COUNT INTO cnt 
+                RETURN cnt
+        )[0] : 0
+    )
+    
     LET compliant = result <= control.threshold
     RETURN {
         control_id: control.id,
         control_name: control.name,
+        description: control.description,
         current_value: result,
         threshold: control.threshold,
         compliant: compliant,

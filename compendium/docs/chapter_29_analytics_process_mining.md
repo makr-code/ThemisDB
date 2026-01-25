@@ -1707,14 +1707,20 @@ Finde alle Bauanträge mit ähnlichem Prozessmuster (kombiniert Graph-, Vector- 
 // Lade Standard-Prozessmodell
 LET ideal_model = PM_LOAD_ADMIN_MODEL("bauantrag_standard")
 
-// Hybrid Similarity Search (40% Structure, 30% Semantics, 30% Behavior)
+// Hybrid Similarity Search with weighted metrics
+// NOTE: Weights must sum to 1.0 (0.4 + 0.3 + 0.3 = 1.0)
+// Adjust weights based on use case:
+// - Structure-focused: increase graph_weight (e.g., 0.6, 0.2, 0.2)
+// - Semantics-focused: increase vector_weight (e.g., 0.2, 0.6, 0.2)
+// - Behavior-focused: increase behavioral_weight (e.g., 0.2, 0.2, 0.6)
 LET similar_processes = PM_FIND_SIMILAR(ideal_model, {
   method: "hybrid",
   threshold: 0.75,          // Minimum 75% Ähnlichkeit
   limit: 50,
-  graph_weight: 0.4,        // Prozessstruktur
-  vector_weight: 0.3,       // Semantik (NLP)
-  behavioral_weight: 0.3    // Ausführungsverhalten
+  graph_weight: 0.4,        // Prozessstruktur (40%)
+  vector_weight: 0.3,       // Semantik/NLP (30%)
+  behavioral_weight: 0.3    // Ausführungsverhalten (30%)
+                            // Sum: 1.0 ✓
 })
 
 FOR result IN similar_processes
