@@ -125,7 +125,8 @@ else()
     endif()
     
     # UndefinedBehaviorSanitizer support for detecting alignment issues
-    if(THEMIS_ENABLE_SANITIZERS)
+    # Use separate flag to avoid conflicts with other sanitizers
+    if(THEMIS_ENABLE_UBSAN)
         add_compile_options(-fsanitize=undefined -fno-omit-frame-pointer)
         add_link_options(-fsanitize=undefined)
         message(STATUS "UndefinedBehaviorSanitizer enabled for alignment checking")

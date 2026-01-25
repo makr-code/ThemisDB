@@ -98,7 +98,7 @@ THEMIS_STATIC_ASSERT_SIZE(Vec2d, 16);
 struct alignas(32) Vec8f {
     float data[8];
     
-    Vec8f() { for (int i = 0; i < 8; ++i) data[i] = 0.0f; }
+    Vec8f() : data{} {}  // Zero-initialize using aggregate initialization
 };
 
 THEMIS_STATIC_ASSERT_ALIGNED(Vec8f, 32);
@@ -118,7 +118,7 @@ THEMIS_STATIC_ASSERT_SIZE(Vec8f, 32);
 struct alignas(64) Vec16f {
     float data[16];
     
-    Vec16f() { for (int i = 0; i < 16; ++i) data[i] = 0.0f; }
+    Vec16f() : data{} {}  // Zero-initialize using aggregate initialization
 };
 
 THEMIS_STATIC_ASSERT_ALIGNED(Vec16f, 64);

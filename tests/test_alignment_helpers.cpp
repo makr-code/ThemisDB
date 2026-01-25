@@ -354,16 +354,40 @@ TEST(AlignmentHelpersTest, SIMDAlignment) {
 }
 
 TEST(AlignmentHelpersTest, AllocatedMemoryAlignment) {
-    // Test alignment of dynamically allocated memory
-    void* ptr16 = ::operator new(64, std::align_val_t(16));
-    EXPECT_TRUE(is_aligned<16>(ptr16));
-    ::operator delete(ptr16, std::align_val_t(16));
+    // Test alignment of dynamically allocated memory using RAII
     
-    void* ptr32 = ::operator new(64, std::align_val_t(32));
-    EXPECT_TRUE(is_aligned<32>(ptr32));
-    ::operator delete(ptr32, std::align_val_t(32));
+    // Helper to manage aligned allocation/deallocation
+    struct AlignedDeleter {
+        size_t alignment;
+        void operator()(void* ptr) const {
+            ::operator delete(ptr, std::align_val_t(alignment));
+        }
+    };
     
-    void* ptr64 = ::operator new(128, std::align_val_t(64));
-    EXPECT_TRUE(is_aligned<64>(ptr64));
-    ::operator delete(ptr64, std::align_val_t(64));
+    // 16-byte aligned allocation
+    {
+        std::unique_ptr<void, AlignedDeleter> ptr16(
+            ::operator new(64, std::align_val_t(16)),
+            AlignedDeleter{16}
+        );
+        EXPECT_TRUE(is_aligned<16>(ptr16.get()));
+    }
+    
+    // 32-byte aligned allocation
+    {
+        std::unique_ptr<void, AlignedDeleter> ptr32(
+            ::operator new(64, std::align_val_t(32)),
+            AlignedDeleter{32}
+        );
+        EXPECT_TRUE(is_aligned<32>(ptr32.get()));
+    }
+    
+    // 64-byte aligned allocation
+    {
+        std::unique_ptr<void, AlignedDeleter> ptr64(
+            ::operator new(128, std::align_val_t(64)),
+            AlignedDeleter{64}
+        );
+        EXPECT_TRUE(is_aligned<64>(ptr64.get()));
+    }
 }
