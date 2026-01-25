@@ -1,0 +1,286 @@
+name: Linux Full Build & Error Tracking
+
+on:
+  push:
+    branches: [ main, develop, release/**, hotfix/** ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  linux-gcc-build:
+    name: Linux GCC ${{ matrix.gcc_version }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        gcc_version: ['11', '12', '13']
+        build_type: ['Release', 'Debug']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install GCC ${{ matrix.gcc_version }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-${{ matrix.gcc_version }} \
+            g++-${{ matrix.gcc_version }} \
+            ninja-build
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install -y \
+            cmake \
+            libssl-dev \
+            librocksdb-dev \
+            libgrpc++-dev \
+            protobuf-compiler \
+            libboost-all-dev \
+            libbenchmark-dev \
+            libgtest-dev
+
+      - name: Configure CMake
+        env:
+          CC: gcc-${{ matrix.gcc_version }}
+          CXX: g++-${{ matrix.gcc_version }}
+        run: |
+          cmake -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_EXAMPLES=OFF \
+            -DCMAKE_CXX_FLAGS="-Wall -Wextra -Werror" \
+            2>&1 | tee configure.log
+
+      - name: Build
+        run: |
+          cmake --build build --verbose 2>&1 | tee build.log
+        continue-on-error: true
+
+      - name: Parse Compiler Errors
+        if: always()
+        run: |
+          python3 tools/compiler_diagnostics/diagnostic_scanner.py \
+            build.log \
+            --output errors-gcc${{ matrix.gcc_version }}-${{ matrix.build_type }}.db \
+            --compiler gcc \
+            --platform linux \
+            --json errors-gcc${{ matrix.gcc_version }}-${{ matrix.build_type }}.json
+        continue-on-error: true
+
+      - name: Track Errors
+        if: always()
+        run: |
+          python3 tools/compiler_diagnostics/issue_tracker.py track \
+            --ci-log build.log \
+            --build-id "${{ github.run_id }}-gcc${{ matrix.gcc_version }}-${{ matrix.build_type }}" \
+            --compiler gcc \
+            --platform linux
+        continue-on-error: true
+
+      - name: Run Tests
+        if: success()
+        working-directory: build
+        run: |
+          ctest --output-on-failure --verbose 2>&1 | tee ../test.log
+        continue-on-error: true
+
+      - name: Check Symbol Exports
+        if: matrix.build_type == 'Release' && success()
+        run: |
+          echo "=== Exported Symbols (themis_base) ==="
+          nm -D build/libthemis_base.so | grep " T " | head -20 || true
+          echo ""
+          echo "=== Checking for unresolved symbols ==="
+          ldd -r build/libthemis_base.so || true
+        continue-on-error: true
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-gcc${{ matrix.gcc_version }}-${{ matrix.build_type }}-logs
+          path: |
+            configure.log
+            build.log
+            test.log
+            errors-gcc${{ matrix.gcc_version }}-${{ matrix.build_type }}.db
+            errors-gcc${{ matrix.gcc_version }}-${{ matrix.build_type }}.json
+          retention-days: 30
+
+  linux-clang-build:
+    name: Linux Clang ${{ matrix.clang_version }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        clang_version: ['14', '15', '16']
+        build_type: ['Release', 'Debug']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Clang ${{ matrix.clang_version }}
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh ${{ matrix.clang_version }}
+          sudo apt-get install -y \
+            clang-${{ matrix.clang_version }} \
+            libc++-${{ matrix.clang_version }}-dev \
+            libc++abi-${{ matrix.clang_version }}-dev \
+            ninja-build
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install -y \
+            cmake \
+            libssl-dev \
+            librocksdb-dev \
+            libgrpc++-dev \
+            protobuf-compiler \
+            libboost-all-dev
+
+      - name: Configure CMake
+        env:
+          CC: clang-${{ matrix.clang_version }}
+          CXX: clang++-${{ matrix.clang_version }}
+        run: |
+          cmake -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DCMAKE_CXX_FLAGS="-Wall -Wextra -Werror" \
+            2>&1 | tee configure.log
+
+      - name: Build
+        run: |
+          cmake --build build --verbose 2>&1 | tee build.log
+        continue-on-error: true
+
+      - name: Parse Compiler Errors
+        if: always()
+        run: |
+          python3 tools/compiler_diagnostics/diagnostic_scanner.py \
+            build.log \
+            --output errors-clang${{ matrix.clang_version }}-${{ matrix.build_type }}.db \
+            --compiler clang \
+            --platform linux
+        continue-on-error: true
+
+      - name: Run Tests
+        if: success()
+        working-directory: build
+        run: |
+          ctest --output-on-failure --verbose 2>&1 | tee ../test.log
+        continue-on-error: true
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-clang${{ matrix.clang_version }}-${{ matrix.build_type }}-logs
+          path: |
+            configure.log
+            build.log
+            test.log
+            errors-clang${{ matrix.clang_version }}-${{ matrix.build_type }}.db
+          retention-days: 30
+
+  linux-compatibility-check:
+    name: Linux Compatibility Check
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run Source Audit
+        run: |
+          python3 tools/compiler_diagnostics/source_audit.py \
+            --root . \
+            --output docs/SOURCE_AUDIT_REPORT.md \
+            --json source_audit.json
+        continue-on-error: true
+
+      - name: Upload Audit Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: source-audit-report
+          path: |
+            docs/SOURCE_AUDIT_REPORT.md
+            source_audit.json
+          retention-days: 90
+
+  error-summary:
+    name: Generate Linux Error Summary
+    needs: [linux-gcc-build, linux-clang-build, linux-compatibility-check]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download All Error Databases
+        uses: actions/download-artifact@v3
+        with:
+          path: error-artifacts
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Generate Error Report
+        run: |
+          python3 tools/compiler_diagnostics/issue_tracker.py report \
+            --output linux-error-report.md
+        continue-on-error: true
+
+      - name: Update Platform Compatibility Matrix
+        run: |
+          echo "TODO: Auto-update PLATFORM_COMPATIBILITY_MATRIX.md based on results"
+        continue-on-error: true
+
+      - name: Upload Error Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-error-report
+          path: linux-error-report.md
+          retention-days: 90
+
+      - name: Comment PR with Summary
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('linux-error-report.md')) {
+              const report = fs.readFileSync('linux-error-report.md', 'utf8');
+              const body = `## Linux Build Error Report\n\n${report.substring(0, 60000)}`;
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }
+        continue-on-error: true
