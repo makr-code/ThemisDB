@@ -755,7 +755,7 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
     // Always attempt cleanup regardless of state
     if (txn_) {
         try {
-            if (state_ == State::Active) {
+            if (state_ == State::Active && db_ && db_->db_) {
                 THEMIS_WARN("Transaction not committed or rolled back - auto-rolling back");
                 txn_->Rollback();
             }
