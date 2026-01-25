@@ -5,6 +5,8 @@
 #include <queue>
 #include <mutex>
 #include <memory>
+#include <functional>
+#include <optional>
 
 namespace themis {
 namespace llm {
@@ -87,17 +89,36 @@ public:
     void deallocate(int block_id);
     
     /**
-     * @brief Get block metadata (lock-free read)
+     * @brief Safe accessor pattern - executes callback with block reference
+     * 
+     * Prevents dangling pointer issues by passing block as reference to callback.
+     * Callback is executed only if block exists.
      * 
      * @param block_id Block ID
-     * @return Block* Pointer to block (nullptr if not found)
+     * @param callback Function to execute with block reference
+     * 
+     * Example usage:
+     *   mgr.withBlock(block_id, [](const Block& block) {
+     *       std::cout << "Block ID: " << block.block_id << std::endl;
+     *   });
      */
-    Block* getBlock(int block_id);
+    void withBlock(int block_id, std::function<void(const Block&)> callback) const;
     
     /**
-     * @brief Get block metadata (const version)
+     * @brief Get read-only reference to block (safe alternative to pointer)
+     * 
+     * Returns std::nullopt if block not found.
+     * 
+     * @param block_id Block ID
+     * @return std::optional<std::reference_wrapper<const Block>> Reference to block or nullopt
+     * 
+     * Example usage:
+     *   if (auto block_ref = mgr.getBlockRef(block_id)) {
+     *       const Block& block = block_ref->get();
+     *       std::cout << "Block ID: " << block.block_id << std::endl;
+     *   }
      */
-    const Block* getBlock(int block_id) const;
+    std::optional<std::reference_wrapper<const Block>> getBlockRef(int block_id) const;
     
     /**
      * @brief Get statistics
