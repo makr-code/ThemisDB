@@ -123,6 +123,35 @@ else()
         add_link_options(-fsanitize=address)
         message(STATUS "AddressSanitizer enabled for debugging")
     endif()
+    
+    # UndefinedBehaviorSanitizer support for detecting alignment issues
+    if(THEMIS_ENABLE_SANITIZERS)
+        add_compile_options(-fsanitize=undefined -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=undefined)
+        message(STATUS "UndefinedBehaviorSanitizer enabled for alignment checking")
+    endif()
+endif()
+
+# ============================================================================
+# ARM/AARCH64 STRICT ALIGNMENT REQUIREMENTS
+# ============================================================================
+# ARM platforms strictly require aligned memory access for performance and correctness
+# Unaligned access can cause SIGBUS crashes or severe performance degradation
+
+if(THEMIS_TARGET_ARCH MATCHES "^(aarch64|armv7)$")
+    if(NOT MSVC)
+        # Enable strict alignment warnings/errors for ARM platforms
+        add_compile_options(-Werror=cast-align)
+        add_compile_definitions(THEMIS_STRICT_ALIGNMENT=1)
+        message(STATUS "ARM Strict Alignment: Enabled (-Werror=cast-align)")
+    endif()
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
+    if(NOT MSVC)
+        # Android also uses ARM processors which require strict alignment
+        add_compile_options(-Werror=cast-align)
+        add_compile_definitions(THEMIS_STRICT_ALIGNMENT=1)
+        message(STATUS "Android/ARM Strict Alignment: Enabled (-Werror=cast-align)")
+    endif()
 endif()
 
 # ============================================================================
