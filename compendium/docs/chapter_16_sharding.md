@@ -381,7 +381,411 @@ themis-cli cluster rebalance-status --watch
 
 ---
 
-## 16.5 Fault Tolerance
+## 16.5 RAID-äquivalente Redundanz-Modi
+
+ThemisDB unterstützt **6 Redundanzmodi** analog zu RAID-Levels, die unterschiedliche Trade-offs zwischen Performance, Speichereffizienz und Fault Tolerance bieten.
+
+### Überblick: Redundanzmodi im Vergleich
+
+| Modus | RF* | Speicher-<br/>effizienz | Through-<br/>put | Latenz | Ausfallsicher |
+|-------|-----|-------------------------|------------------|--------|---------------|
+| **NONE** | 1 | 100% | 1× | 1× | 0 Shards |
+| **MIRROR (RF=2)** | 2 | 50% | 2× | 1.2× | 1 Shard |
+| **MIRROR (RF=3)** | 3 | 33% | 3× | 1.5× | 2 Shards |
+| **STRIPE** | 1 | 100% | 4× | 0.8× | 0 Shards |
+| **STRIPE_MIRROR** | 2 | 50% | 2-3× | 1× | 1 Shard |
+| **PARITY (4+2)** | 4+2 | 67% | 1.5× | 1.3× | 2 Shards |
+| **PARITY (8+3)** | 8+3 | 73% | 1.3× | 1.5× | 3 Shards |
+| **GEO_MIRROR** | 3 | 33% | Lokal 3× | Lokal 2× | 2 DCs |
+
+*RF = Replication Factor
+
+### 16.5.1 NONE Mode - Keine Redundanz
+
+**RAID-Äquivalent:** Einzelne Disk ohne Redundanz
+
+**Charakteristiken:**
+- ✅ Maximale Speichereffizienz (100%)
+- ✅ Keine Replikations-Latenz
+- ❌ **Kein Datenverlust-Schutz** - Bei Shard-Ausfall sind Daten verloren
+- ❌ Kein automatisches Failover
+
+**Use Case:** Entwicklung, Test-Umgebungen, ephemerale Caches
+
+**Beispiel-Konfiguration:**
+```yaml
+cluster:
+  name: "themis-dev"
+  mode: "NONE"
+
+shard:
+  id: "shard_001"
+  replication:
+    mode: NONE
+    replication_factor: 1
+    write_concern: IMMEDIATE
+```
+
+**Wann verwenden:**
+- Nicht für Production!
+- Nur für unkritische Daten oder Dev/Test
+- Wenn regelmäßige externe Backups vorhanden sind
+
+---
+
+### 16.5.2 MIRROR Mode - Vollständige Spiegelung (RAID-1)
+
+**RAID-Äquivalent:** RAID-1 (gespiegelt)
+
+**Charakteristiken:**
+- ✅ **Hohe Verfügbarkeit** - N-1 Shards können ausfallen (bei RF=N)
+- ✅ Read-Skalierung (2× bei RF=2, 3× bei RF=3)
+- ⚠️ Speichereffizienz: 50% (RF=2) oder 33% (RF=3)
+- ⚠️ Write-Latenz: +20% (RF=2) bis +50% (RF=3)
+
+**Use Case:** Production-Deployments mit High Availability Anforderungen
+
+**Beispiel-Konfiguration (RF=2):**
+```yaml
+cluster:
+  name: "themis-prod"
+  mode: "MIRROR"
+
+shard:
+  id: "shard_001"
+  replication:
+    mode: MIRROR
+    replication_factor: 2
+    write_concern: QUORUM  # Warte auf 2/2 Replicas
+    sync_mode: ASYNC_WAL   # WAL sync, dann async replication
+    
+  failover:
+    auto_failover: true
+    election_timeout_ms: 5000
+    heartbeat_interval_ms: 1000
+```
+
+**Failover-Verhalten:**
+```
+Primary-Ausfall:          Automatisches Failover:
+┌─────────┐ ✗             ┌─────────────┐
+│ Primary │               │ New Primary │ (promoted)
+│ (DEAD)  │               │ (ex-Replica)│
+└─────────┘               └─────────────┘
+     │                           │
+┌─────────┐               ┌─────────────┐
+│ Replica │──────────────>│ New Replica │ (rebuilt)
+│  (ok)   │               │   (new)     │
+└─────────┘               └─────────────┘
+
+Failover-Zeit: <15 Sekunden
+Data Loss: 0 (mit QUORUM write)
+```
+
+**Wann verwenden:**
+- **Standard für Production** - Beste Balance zwischen Verfügbarkeit und Kosten
+- RF=2 ausreichend für die meisten Szenarien
+- RF=3 für kritische Systeme (Banking, Healthcare)
+
+---
+
+### 16.5.3 STRIPE Mode - Daten-Striping (RAID-0)
+
+**RAID-Äquivalent:** RAID-0 (striped, kein Parity)
+
+**Charakteristiken:**
+- ✅ **Maximaler Throughput** (4× bei 4 Shards)
+- ✅ Niedrige Latenz (0.8× Single-Node durch Parallelität)
+- ✅ 100% Speichereffizienz
+- ❌ **Kein Redundanz** - 1 Shard-Ausfall = Datenverlust
+
+**Use Case:** HPC, Analytics mit externem Backup, temporäre Verarbeitung
+
+**Beispiel-Konfiguration:**
+```yaml
+cluster:
+  name: "themis-analytics"
+  mode: "STRIPE"
+
+shard:
+  stripe_width: 4  # Daten über 4 Shards verteilen
+  chunk_size_kb: 256
+  
+  replication:
+    mode: STRIPE
+    replication_factor: 1
+```
+
+**Datenverteilung:**
+```
+Dokument A (1 MB):
+┌──────┬──────┬──────┬──────┐
+│256KB │256KB │256KB │256KB │
+└──┬───┴──┬───┴──┬───┴──┬───┘
+   │      │      │      │
+   v      v      v      v
+Shard1 Shard2 Shard3 Shard4
+
+Read: 4× parallele Chunks = 4× Throughput
+Write: 4× parallele Writes = 4× Throughput
+```
+
+**Wann verwenden:**
+- Nur wenn **externe Backup-Strategie** vorhanden!
+- Big Data Analytics mit S3/HDFS Backup
+- Temporäre ETL-Verarbeitung
+- Niemals für kritische Produktionsdaten ohne Backup
+
+---
+
+### 16.5.4 STRIPE_MIRROR Mode - Kombiniert (RAID-10)
+
+**RAID-Äquivalent:** RAID-10 (striped + mirrored)
+
+**Charakteristiken:**
+- ✅ **Hoher Throughput** (2-3× Single-Node)
+- ✅ **High Availability** (1 Shard pro Stripe-Gruppe kann ausfallen)
+- ⚠️ Speichereffizienz: 50% (wie MIRROR)
+- ⚠️ Moderate Latenz (+0-20%)
+
+**Use Case:** Production mit hohen Throughput-Anforderungen
+
+**Beispiel-Konfiguration:**
+```yaml
+cluster:
+  name: "themis-prod-highperf"
+  mode: "STRIPE_MIRROR"
+
+shard:
+  stripe_groups:
+    - group_id: 1
+      shards: [shard_001, shard_002]  # Stripe-Gruppe 1
+      replication_factor: 2
+    - group_id: 2
+      shards: [shard_003, shard_004]  # Stripe-Gruppe 2
+      replication_factor: 2
+```
+
+**Architektur:**
+```
+┌────────────────────────────────────┐
+│ Stripe-Gruppe 1 (50% der Daten)   │
+│ ┌─────────┐      ┌─────────┐      │
+│ │ Shard 1 │ ◄──► │ Shard 1'│      │
+│ │ Primary │      │ Replica │      │
+│ └─────────┘      └─────────┘      │
+└────────────────────────────────────┘
+
+┌────────────────────────────────────┐
+│ Stripe-Gruppe 2 (50% der Daten)   │
+│ ┌─────────┐      ┌─────────┐      │
+│ │ Shard 2 │ ◄──► │ Shard 2'│      │
+│ │ Primary │      │ Replica │      │
+│ └─────────┘      └─────────┘      │
+└────────────────────────────────────┘
+
+Throughput: 2× (Striping über 2 Gruppen)
+Availability: Jede Gruppe toleriert 1 Ausfall
+```
+
+**Wann verwenden:**
+- Production mit >100K ops/sec Anforderung
+- Balance zwischen Performance und Verfügbarkeit
+- Bevorzugt gegenüber reinem MIRROR wenn Throughput wichtiger als Latenz
+
+---
+
+### 16.5.5 PARITY Mode - Erasure Coding (RAID-5/6)
+
+**RAID-Äquivalent:** RAID-5/6 (mit Parity Chunks)
+
+**Charakteristiken:**
+- ✅ **Hohe Speichereffizienz** (67% bei 4+2, 73% bei 8+3)
+- ✅ **Multi-Fault-Tolerance** (k Shards können ausfallen, k=Parity-Chunks)
+- ⚠️ Read: Moderate Performance (1.5× Single-Node)
+- ⚠️ Write: Parity-Overhead (+30-50% Latenz)
+- ⚠️ Rebuild: Langsamer als MIRROR (Parity-Berechnungen)
+
+**Use Case:** Large-Scale Data Warehouse, Cold Storage, kostenoptimiert
+
+**Beispiel-Konfiguration (4+2):**
+```yaml
+cluster:
+  name: "themis-warehouse"
+  mode: "PARITY"
+
+shard:
+  erasure_coding:
+    data_shards: 4      # 4 Daten-Shards
+    parity_shards: 2    # 2 Parity-Shards
+    algorithm: "reed_solomon"
+    
+  replication:
+    mode: PARITY
+    write_concern: ALL  # Warte auf alle 6 Shards
+```
+
+**Datenverteilung:**
+```
+Dokument A (1 MB):
+┌──────┬──────┬──────┬──────┐──────┬──────┐
+│ D1   │ D2   │ D3   │ D4   │ P1   │ P2   │
+│250KB │250KB │250KB │250KB │125KB │125KB │
+└──┬───┴──┬───┴──┬───┴──┬───┴──┬───┴──┬───┘
+   │      │      │      │      │      │
+   v      v      v      v      v      v
+Shard1 Shard2 Shard3 Shard4 Shard5 Shard6
+
+Speichereffizienz: 1 MB / 1.5 MB = 67%
+Ausfallsicher: Bis zu 2 Shards (P1, P2)
+```
+
+**Rebuild bei Ausfall:**
+```
+Shard 3 fällt aus:
+D3 = D1 ⊕ D2 ⊕ D4 ⊕ P1  (XOR-Berechnung)
+
+Rebuild-Zeit: ~2× MIRROR (wegen Parity-Berechnung)
+```
+
+**Wann verwenden:**
+- **Cold/Warm Storage** (weniger häufig geschrieben)
+- **Cost-Optimierung** für große Datenmengen (>100 TB)
+- Wenn 2+ Shard-Ausfälle toleriert werden müssen
+- Data Warehouses mit Read-Heavy Workload
+
+**Cost-Vergleich:**
+```
+10 TB Nutzbare Kapazität:
+
+MIRROR (RF=2):  20 TB Raw Storage = 100% Overhead
+PARITY (4+2):   15 TB Raw Storage =  50% Overhead
+PARITY (8+3):   13.75 TB Raw Storage = 37.5% Overhead
+
+Savings: 25-62.5% Speicherkosten
+```
+
+---
+
+### 16.5.6 GEO_MIRROR Mode - Multi-Region
+
+**RAID-Äquivalent:** RAID-1 über Data Centers
+
+**Charakteristiken:**
+- ✅ **Disaster Recovery** - N-1 Data Centers können ausfallen
+- ✅ **Geo-Distribution** - Niedrige Latenz für regionale Clients
+- ⚠️ Speichereffizienz: 33% (RF=3 über 3 DCs)
+- ⚠️ Cross-DC Latenz: +50-200ms (abhängig von Entfernung)
+
+**Use Case:** Multi-Region Deployment, Disaster Recovery
+
+**Beispiel-Konfiguration:**
+```yaml
+cluster:
+  name: "themis-global"
+  mode: "GEO_MIRROR"
+
+shard:
+  id: "shard_001"
+  replication:
+    mode: GEO_MIRROR
+    replication_factor: 3
+    geo_regions:
+      - region: "eu-central-1"   # Frankfurt
+        datacenter: "dc1"
+      - region: "us-east-1"      # Virginia
+        datacenter: "dc2"
+      - region: "ap-southeast-1" # Singapore
+        datacenter: "dc3"
+    
+    write_concern: LOCAL_QUORUM  # 2/3 im lokalen DC
+    read_preference: NEAREST     # Nächster DC
+```
+
+**Architektur:**
+```
+┌────────────────────────┐
+│   EU (Frankfurt)       │
+│ ┌────────┐             │
+│ │Primary │───────┐     │
+│ └────────┘       │     │
+└──────────────────┼─────┘
+                   │
+    ┌──────────────┼──────────────┐
+    │              │              │
+    │         ┌────▼────┐         │
+┌───▼─────────┴─────────▼─────────▼───┐
+│   US (Virginia)   │   APAC (Singapore)│
+│ ┌────────┐        │   ┌────────┐     │
+│ │Replica │        │   │Replica │     │
+│ └────────┘        │   └────────┘     │
+└───────────────────┴──────────────────┘
+
+Lokale Reads: <5ms (innerhalb DC)
+Cross-DC Writes: +100ms (async replication)
+```
+
+**Failover-Strategie:**
+```
+DC-Ausfall (z.B. EU):
+1. Auto-Promote Replica in US oder APAC
+2. Reroute Clients zum neuen Primary
+3. Rebuild in anderem DC (eu-west-1)
+
+Failover-Zeit: <60 Sekunden
+Data Loss: 0 (mit LOCAL_QUORUM)
+```
+
+**Wann verwenden:**
+- **Global Services** mit Benutzern in mehreren Kontinenten
+- **Disaster Recovery** für kritische Systeme
+- **Compliance** (Daten-Residency in bestimmten Regionen)
+- Banking, Healthcare, Government
+
+---
+
+### 16.5.7 Entscheidungsmatrix
+
+**Welcher Modus für welchen Use Case?**
+
+```mermaid
+graph TD
+    Start[Welcher Redundanzmodus?] --> Q1{Production?}
+    Q1 -->|Nein| NONE[NONE Mode<br/>Dev/Test only]
+    Q1 -->|Ja| Q2{Geo-Distributed?}
+    
+    Q2 -->|Ja| GEO[GEO_MIRROR<br/>Multi-Region]
+    Q2 -->|Nein| Q3{Throughput<br/>>100K ops/sec?}
+    
+    Q3 -->|Ja| Q4{Kann Failover<br/>tolerieren?}
+    Q4 -->|Nein| STRIPE_M[STRIPE_MIRROR<br/>High Perf + HA]
+    Q4 -->|Ja| STRIPE[STRIPE<br/>Max Perf<br/>⚠️ Mit Backup!]
+    
+    Q3 -->|Nein| Q5{Cold Storage<br/>>100 TB?}
+    Q5 -->|Ja| PARITY[PARITY 8+3<br/>Cost-optimiert]
+    Q5 -->|Nein| MIRROR[MIRROR RF=2<br/>Standard Prod]
+    
+    style NONE fill:#ff6b6b
+    style GEO fill:#4ecdc4
+    style STRIPE_M fill:#ffe66d
+    style MIRROR fill:#95e1d3
+    style PARITY fill:#a8e6cf
+    style STRIPE fill:#ffd93d
+```
+
+Abb. 16.5.7: Entscheidungsbaum für Redundanzmodus-Wahl
+
+**Zusammenfassung:**
+- **Dev/Test:** NONE
+- **Standard Production:** MIRROR (RF=2)
+- **High Throughput Production:** STRIPE_MIRROR
+- **Cold Storage / Data Warehouse:** PARITY (4+2 oder 8+3)
+- **Global / Disaster Recovery:** GEO_MIRROR
+- **Max Performance (mit Backup):** STRIPE
+
+---
+
+## 16.6 Fault Tolerance
 
 ### Replica Failure (RF=2)
 
@@ -447,7 +851,7 @@ network:
 
 ---
 
-## 16.6 Performance-Benchmarks
+## 16.7 Performance-Benchmarks
 
 ### Scaling Efficiency
 
@@ -503,7 +907,7 @@ def custom_shard_key(doc):
 
 ---
 
-## 16.7 Hyperscaler-Vergleich
+## 16.8 Hyperscaler-Vergleich
 
 ### Cost-Performance-Analyse
 
@@ -529,7 +933,7 @@ def custom_shard_key(doc):
 
 ---
 
-## 16.8 Production Deployment
+## 16.9 Production Deployment
 
 ### Deployment-Checkliste
 
@@ -617,7 +1021,7 @@ python tools/shard_bench.py \
 
 ---
 
-## 16.9 Best Practices
+## 16.10 Best Practices
 
 ### 1. Shard-Key Auswahl
 
@@ -686,7 +1090,7 @@ services:
 
 ---
 
-## 16.10 High Availability Features (v1.4.0-alpha)
+## 16.11 High Availability Features (v1.4.0-alpha)
 
 ### 16.10.1 Hot Spare
 
@@ -1210,7 +1614,7 @@ sharding:
 - ✅ <10% Write-Latenz Overhead
 - ✅ Vollautomatische Recovery
 
-## 16.11 Troubleshooting
+## 16.12 Troubleshooting
 
 ### Problem: Ungleiche Shard-Verteilung
 
@@ -1279,7 +1683,7 @@ rebalance:
 
 ---
 
-## 16.12 Zusammenfassung
+## 16.13 Zusammenfassung
 
 **ThemisDB Sharding bietet:**
 - ✅ **Production-Ready:** 91% Scaling Efficiency bis 8 Nodes
@@ -1291,7 +1695,9 @@ rebalance:
 **Nächste Schritte:**
 - Kapitel 19: Monitoring für detailliertes Observability-Setup
 - Kapitel 21: Performance-Tuning für Sharding-spezifische Optimierungen
+- Kapitel 18: High Availability für Multi-DC-Szenarien (siehe auch 16.5.6 GEO_MIRROR)
 - `docs/de/SHARDING_DOCUMENTATION_INDEX.md`: Vollständige technische Dokumentation
+- `docs/de/SHARDING_RAID_MODES_CONFIGURATION_v1.4.md`: Detaillierte RAID-Modus-Konfigurationen
 
 **Production-Deployment?** Starten Sie mit einem 2-Node Cluster und skalieren Sie bei Bedarf auf 4 oder 8 Nodes!
 
@@ -1301,8 +1707,10 @@ rebalance:
 
 **Dokumentation:**
 - `docs/de/SHARDING_INTEGRATION_SUMMARY.md` - Master-Übersicht
+- `docs/de/SHARDING_RAID_MODES_CONFIGURATION_v1.4.md` - RAID-Redundanzmodi Details
 - `docs/de/SHARDING_BENCHMARK_PLAN_v1.4.md` - Enterprise Benchmark-Spezifikation
 - `docs/de/SHARDING_PRODUCTION_DEPLOYMENT_RAID_v1.4.md` - Production Deployment Guide
+- `docs/de/SHARDING_MONITORING_OBSERVABILITY_RAID_v1.4.md` - Monitoring & Observability
 
 **Tools:**
 - `tools/shard_loader.py` - Daten-Loader für Sharding-Tests
