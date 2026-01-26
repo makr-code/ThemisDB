@@ -377,5 +377,5 @@ The tests follow best practices:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2026-01-26  
-**Author:** Copilot SWE Agent
+**Last Updated:** January 2026  
+**Maintained By:** ThemisDB Team
