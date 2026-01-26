@@ -9,6 +9,10 @@ compendium/temp
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md
 
+# Example binaries
+examples/**/usage_example
+examples/**/usage_example_enabled
+
 # Build directories (CMake, Ninja, MSVC, other build outputs)
 enterprise*/
 test_*/

@@ -81,6 +81,76 @@ include(cmake/validation/FeatureValidation.cmake)
 # Testing - handled in cmake/CMakeLists.txt via add_subdirectory(tests)
 # (Moved to cmake/CMakeLists.txt to be closer to target definitions)
 
+# ============================================================================
+# PERFORMANCE MEASUREMENT FEATURE FLAGS
+# ============================================================================
+
+option(THEMIS_ENABLE_CYCLE_METRICS 
+       "Enable CPU cycle measurement (low overhead: ~0.05%)" 
+       OFF)
+
+option(THEMIS_ENABLE_DETAILED_METRICS 
+       "Enable detailed per-function metrics (overhead: ~5-10%)" 
+       OFF)
+
+option(THEMIS_ENABLE_GPU_CYCLE_METRICS 
+       "Enable GPU cycle measurement via CUDA events (overhead: ~10-20%)" 
+       OFF)
+
+option(THEMIS_ENABLE_PMU_COUNTERS 
+       "Enable hardware performance counters via perf (overhead: ~10-50%)" 
+       OFF)
+
+option(THEMIS_ENABLE_METRICS_EXPORT 
+       "Enable Prometheus/CHIMERA export (adds async overhead)" 
+       OFF)
+
+option(THEMIS_BENCHMARK_MODE 
+       "Enable all performance measurement features (FOR BENCHMARKING ONLY!)" 
+       OFF)
+
+# When THEMIS_BENCHMARK_MODE is ON, enable all measurement features
+if(THEMIS_BENCHMARK_MODE)
+    set(THEMIS_ENABLE_CYCLE_METRICS ON CACHE BOOL "" FORCE)
+    set(THEMIS_ENABLE_DETAILED_METRICS ON CACHE BOOL "" FORCE)
+    set(THEMIS_ENABLE_GPU_CYCLE_METRICS ON CACHE BOOL "" FORCE)
+    set(THEMIS_ENABLE_PMU_COUNTERS ON CACHE BOOL "" FORCE)
+    set(THEMIS_ENABLE_METRICS_EXPORT ON CACHE BOOL "" FORCE)
+    
+    message(WARNING "==========================================")
+    message(WARNING "THEMIS_BENCHMARK_MODE is ENABLED")
+    message(WARNING "All performance measurement features are ON")
+    message(WARNING "Expected overhead: 5-50%")
+    message(WARNING "FOR BENCHMARKING ONLY - NOT FOR PRODUCTION")
+    message(WARNING "==========================================")
+endif()
+
+# Set compile definitions based on options
+if(THEMIS_ENABLE_CYCLE_METRICS)
+    add_compile_definitions(THEMIS_ENABLE_CYCLE_METRICS)
+    message(STATUS "Cycle metrics: ENABLED")
+endif()
+
+if(THEMIS_ENABLE_DETAILED_METRICS)
+    add_compile_definitions(THEMIS_ENABLE_DETAILED_METRICS)
+    message(STATUS "Detailed metrics: ENABLED")
+endif()
+
+if(THEMIS_ENABLE_GPU_CYCLE_METRICS)
+    add_compile_definitions(THEMIS_ENABLE_GPU_CYCLE_METRICS)
+    message(STATUS "GPU cycle metrics: ENABLED")
+endif()
+
+if(THEMIS_ENABLE_PMU_COUNTERS)
+    add_compile_definitions(THEMIS_ENABLE_PMU_COUNTERS)
+    message(STATUS "PMU counters: ENABLED")
+endif()
+
+if(THEMIS_ENABLE_METRICS_EXPORT)
+    add_compile_definitions(THEMIS_ENABLE_METRICS_EXPORT)
+    message(STATUS "Metrics export: ENABLED")
+endif()
+
 # Set root directory for use in subdirectories (MUST be before add_subdirectory(cmake))
 set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")
 

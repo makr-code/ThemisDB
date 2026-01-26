@@ -1,0 +1,167 @@
+{
+  "dashboard": {
+    "title": "ThemisDB Cycle Metrics",
+    "tags": ["performance", "cycles", "rag"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "RAG Pipeline Breakdown",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "themis_hnsw_search_cycles{operation=\"rag_pipeline\"}",
+            "legendFormat": "HNSW Search"
+          },
+          {
+            "expr": "themis_pointer_passing_cycles{operation=\"rag_pipeline\"}",
+            "legendFormat": "Pointer Passing"
+          },
+          {
+            "expr": "themis_llm_inference_cycles{operation=\"rag_pipeline\"}",
+            "legendFormat": "LLM Inference"
+          }
+        ],
+        "yaxes": [
+          {"label": "Cycles", "format": "short"},
+          {"show": false}
+        ],
+        "stack": true
+      },
+      {
+        "id": 2,
+        "title": "Pointer Passing Efficiency",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "themis_pointer_passing_cycles{operation=\"rag_pipeline\"}",
+            "legendFormat": "Cycles"
+          }
+        ],
+        "options": {
+          "colorMode": "background"
+        },
+        "thresholds": [
+          {"value": 0, "color": "green"},
+          {"value": 500, "color": "yellow"},
+          {"value": 1000, "color": "red"}
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Memory Hierarchy Breakdown",
+        "type": "piechart",
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
+        "targets": [
+          {
+            "expr": "themis_cache_miss_cycles{level=\"l1\"}",
+            "legendFormat": "L1 Cache"
+          },
+          {
+            "expr": "themis_cache_miss_cycles{level=\"l2\"}",
+            "legendFormat": "L2 Cache"
+          },
+          {
+            "expr": "themis_cache_miss_cycles{level=\"l3\"}",
+            "legendFormat": "L3 Cache"
+          },
+          {
+            "expr": "themis_cache_miss_cycles{level=\"ram\"}",
+            "legendFormat": "RAM"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "PCIe Transfer Efficiency",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "themis_pcie_transfer_cycles{direction=\"h2d\"} / 335000",
+            "legendFormat": "Host to Device (MB transferred)"
+          },
+          {
+            "expr": "themis_pcie_transfer_cycles{direction=\"d2h\"} / 335000",
+            "legendFormat": "Device to Host (MB transferred)"
+          }
+        ],
+        "yaxes": [
+          {"label": "MB", "format": "decmbytes"},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Deviation Heatmap",
+        "type": "heatmap",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "(themis_hnsw_search_cycles - 4500000) / 4500000 * 100",
+            "legendFormat": "HNSW Search"
+          },
+          {
+            "expr": "(themis_pointer_passing_cycles - 150) / 150 * 100",
+            "legendFormat": "Pointer Passing"
+          },
+          {
+            "expr": "(themis_llm_inference_cycles - 800000000) / 800000000 * 100",
+            "legendFormat": "LLM Inference"
+          }
+        ],
+        "yAxis": {
+          "format": "percentunit"
+        },
+        "color": {
+          "mode": "spectrum",
+          "scheme": "RdYlGn-reverse"
+        }
+      },
+      {
+        "id": 6,
+        "title": "CPU Efficiency Ratio",
+        "type": "gauge",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 4},
+        "targets": [
+          {
+            "expr": "themis_cpu_efficiency_ratio",
+            "legendFormat": "Efficiency"
+          }
+        ],
+        "options": {
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "thresholds": [
+          {"value": 0.0, "color": "red"},
+          {"value": 0.5, "color": "yellow"},
+          {"value": 0.8, "color": "green"}
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Total Operation Cycles",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "themis_total_operation_cycles",
+            "legendFormat": "{{operation}}"
+          }
+        ],
+        "yaxes": [
+          {"label": "Cycles", "format": "short", "logBase": 10},
+          {"show": false}
+        ]
+      }
+    ],
+    "refresh": "5s",
+    "time": {
+      "from": "now-15m",
+      "to": "now"
+    }
+  }
+}

@@ -116,6 +116,73 @@ When adding a new optimization:
 
 Full references: [`docs/de/research/`](../../docs/de/research/)
 
+## Cycle-Based Performance Measurement
+
+### Overview
+
+ThemisDB includes a comprehensive cycle-based performance measurement system for system-independent performance comparison.
+
+### Key Files
+
+- **`cycle_metrics.h`**: Hardware cycle counter and metrics structures
+- **`cycle_metrics_config.h`**: Zero-cost abstraction macros
+- **`expected_cycles.h`**: Expected cycle counts for validation
+- **`lockfree_metrics_buffer.h`**: Lock-free SPSC ring buffer
+- **`runtime_config.h`**: Runtime configuration API
+
+### Quick Start
+
+```cpp
+#include "performance/cycle_metrics.h"
+#include "performance/cycle_metrics_config.h"
+
+using namespace themis::performance;
+
+// Measure cycles
+uint64_t cycles;
+THEMIS_MEASURE_CYCLES_START(cycles);
+// ... your code ...
+THEMIS_MEASURE_CYCLES_END(cycles);
+
+// Or use RAII timer
+{
+    THEMIS_SCOPED_CYCLE_TIMER(cycles);
+    // ... your code ...
+}
+```
+
+### Build Flags
+
+```bash
+# Production (zero overhead)
+cmake -B build -DTHEMIS_ENABLE_CYCLE_METRICS=OFF
+
+# Monitored (low overhead)
+cmake -B build -DTHEMIS_ENABLE_CYCLE_METRICS=ON -DTHEMIS_ENABLE_METRICS_EXPORT=ON
+
+# Benchmark mode (all features)
+cmake -B build -DTHEMIS_BENCHMARK_MODE=ON
+```
+
+### Performance Impact
+
+| Configuration | Overhead | Use Case |
+|--------------|----------|----------|
+| All OFF | 0% | Production ✅ |
+| Sampling 1:100 | <0.1% | Monitoring ✅ |
+| Benchmark Mode | 5-10% | Testing only ⚠️ |
+
+### Documentation
+
+Full documentation: [`docs/performance/CYCLE_METRICS.md`](../../docs/performance/CYCLE_METRICS.md)
+
+### Key Insight
+
+The cycle metrics system proves that **pointer passing** in ThemisDB's RAG pipeline:
+- Has ~150 cycles overhead (0.000019% of total)
+- Is **53x faster** than copying 10KB of memory
+- Is essentially **free** compared to HNSW search and LLM inference
+
 ---
 
 **Last Updated**: 2025-12-24  
