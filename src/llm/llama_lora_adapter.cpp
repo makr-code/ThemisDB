@@ -413,10 +413,19 @@ int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float s
     }
     
     // Convert integer handle back to pointer
-    // Note: This assumes MultiLoRAManager stored a valid pointer as an integer
+    // IMPORTANT: This assumes adapter_index was originally obtained from a valid
+    // llama_lora_adapter_init() call and stored as an integer by MultiLoRAManager.
+    // We cannot validate the pointer's validity here - that's done by llama.cpp
+    // when we call g_llama_lora_adapter_set(). Invalid pointers will be detected
+    // and the function will return an error code.
+    //
+    // Design rationale: MultiLoRAManager stores adapter handles as uintptr_t cast to int
+    // to avoid carrying around void* pointers in the slot structure. This is a common
+    // pattern in C++ code that interfaces with C APIs.
     void* adapter = reinterpret_cast<void*>(static_cast<uintptr_t>(adapter_index));
     
-    spdlog::debug("Applying LoRA adapter (handle: {}) with scale: {}", adapter_index, scale);
+    spdlog::debug("Applying LoRA adapter (handle: 0x{:x}) with scale: {}", 
+                  static_cast<uintptr_t>(adapter_index), scale);
     
     // Call the real llama.cpp function
     if (!g_llama_lora_adapter_set) {
