@@ -1,18 +1,13 @@
 #include <llama.h>
 #include <spdlog/spdlog.h>
 #include <mutex>
+#include <cstdint>
 
 // Platform-specific dynamic library loading
 #ifdef _WIN32
     #include <windows.h>
-    #define DLSYM_HANDLE HMODULE
-    #define DLSYM_DEFAULT nullptr
-    #define dlsym_load(handle, name) GetProcAddress(GetModuleHandle(nullptr), name)
 #else
     #include <dlfcn.h>
-    #define DLSYM_HANDLE void*
-    #define DLSYM_DEFAULT RTLD_DEFAULT
-    #define dlsym_load(handle, name) dlsym(handle, name)
 #endif
 
 // ═══════════════════════════════════════════════════════════
@@ -180,17 +175,21 @@ int llama_lora_adapter_set(struct llama_context* ctx, const char* adapter_path) 
         return -1;
     }
     
-    // Note: This simplified signature is for backward compatibility
-    // The modern API requires an adapter handle from llama_lora_adapter_init
-    // For now, we log a warning and return success to maintain compatibility
-    // Real implementation should be done through MultiLoRAManager
-    spdlog::warn("llama_lora_adapter_set called with legacy signature");
-    spdlog::warn("  Use MultiLoRAManager::applyLoRA() for full LoRA support");
-    spdlog::warn("  Adapter: {}", adapter_path);
+    // Note: This simplified signature is for backward compatibility only
+    // The modern API requires separate init and set steps:
+    // 1. adapter = llama_lora_adapter_init(model, path)
+    // 2. llama_lora_adapter_set_with_scale(ctx, adapter, scale)
+    //
+    // Since we don't have the model pointer here, we cannot load the adapter.
+    // Real implementation should be done through MultiLoRAManager which properly
+    // handles the full lifecycle.
+    spdlog::error("llama_lora_adapter_set(ctx, path): Legacy signature not supported");
+    spdlog::error("  This function requires both model and context, but only context is provided");
+    spdlog::error("  Use MultiLoRAManager::applyLoRA() or the full API instead:");
+    spdlog::error("    1. adapter = llama_lora_adapter_init(model, path)");
+    spdlog::error("    2. llama_lora_adapter_set_with_scale(ctx, adapter, scale)");
     
-    // Return success since the caller likely uses MultiLoRAManager
-    // which properly handles adapter initialization and application
-    return 0;
+    return -1;
 }
 
 /**
@@ -387,12 +386,23 @@ bool themis_llama_lora_available() {
  * @param adapter_index Integer representation of adapter handle
  * @param scale Scaling factor
  * @return 0 on success, -1 on error
+ * 
+ * @note This function assumes adapter_index was obtained from a valid adapter handle.
+ *       Invalid adapter indices will be detected by llama.cpp and return an error.
  */
 int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale) {
     ensureAPIInitialized();
     
     if (!ctx) {
         spdlog::error("llama_lora_adapter_set: null context provided");
+        return -1;
+    }
+    
+    // Validate adapter index (should not be negative or zero in normal usage)
+    // Note: MultiLoRAManager stores handles as positive integers
+    if (adapter_index <= 0) {
+        spdlog::error("llama_lora_adapter_set: invalid adapter handle ({})", adapter_index);
+        spdlog::error("  Adapter handles should be positive integers obtained from adapter loading");
         return -1;
     }
     
@@ -403,12 +413,8 @@ int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float s
     }
     
     // Convert integer handle back to pointer
+    // Note: This assumes MultiLoRAManager stored a valid pointer as an integer
     void* adapter = reinterpret_cast<void*>(static_cast<uintptr_t>(adapter_index));
-    
-    if (!adapter) {
-        spdlog::error("llama_lora_adapter_set: null adapter handle");
-        return -1;
-    }
     
     spdlog::debug("Applying LoRA adapter (handle: {}) with scale: {}", adapter_index, scale);
     
@@ -424,6 +430,10 @@ int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float s
         spdlog::debug("✓ LoRA adapter applied successfully");
     } else {
         spdlog::error("✗ Failed to apply LoRA adapter (error: {})", result);
+        spdlog::error("  This may indicate:");
+        spdlog::error("    - Invalid adapter handle");
+        spdlog::error("    - Adapter incompatible with model");
+        spdlog::error("    - Context already has maximum adapters applied");
     }
     
     return result;
