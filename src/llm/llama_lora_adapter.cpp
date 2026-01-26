@@ -1,7 +1,19 @@
 #include <llama.h>
 #include <spdlog/spdlog.h>
-#include <dlfcn.h>
 #include <mutex>
+
+// Platform-specific dynamic library loading
+#ifdef _WIN32
+    #include <windows.h>
+    #define DLSYM_HANDLE HMODULE
+    #define DLSYM_DEFAULT nullptr
+    #define dlsym_load(handle, name) GetProcAddress(GetModuleHandle(nullptr), name)
+#else
+    #include <dlfcn.h>
+    #define DLSYM_HANDLE void*
+    #define DLSYM_DEFAULT RTLD_DEFAULT
+    #define dlsym_load(handle, name) dlsym(handle, name)
+#endif
 
 // ═══════════════════════════════════════════════════════════
 // Dynamic LoRA API Loading
@@ -53,6 +65,26 @@ namespace {
         
         // Try to get function pointers from current process
         // Note: If llama.cpp is statically linked, these symbols should be available
+        #ifdef _WIN32
+        // On Windows, get handle to current process
+        HMODULE hModule = GetModuleHandle(nullptr);
+        g_llama_lora_adapter_init = reinterpret_cast<llama_lora_adapter_init_fn>(
+            GetProcAddress(hModule, "llama_lora_adapter_init")
+        );
+        g_llama_lora_adapter_set = reinterpret_cast<llama_lora_adapter_set_fn>(
+            GetProcAddress(hModule, "llama_lora_adapter_set")
+        );
+        g_llama_lora_adapter_remove = reinterpret_cast<llama_lora_adapter_remove_fn>(
+            GetProcAddress(hModule, "llama_lora_adapter_remove")
+        );
+        g_llama_lora_adapter_clear = reinterpret_cast<llama_lora_adapter_clear_fn>(
+            GetProcAddress(hModule, "llama_lora_adapter_clear")
+        );
+        g_llama_lora_adapter_free = reinterpret_cast<llama_lora_adapter_free_fn>(
+            GetProcAddress(hModule, "llama_lora_adapter_free")
+        );
+        #else
+        // On Unix-like systems, use dlsym
         g_llama_lora_adapter_init = reinterpret_cast<llama_lora_adapter_init_fn>(
             dlsym(RTLD_DEFAULT, "llama_lora_adapter_init")
         );
@@ -68,6 +100,7 @@ namespace {
         g_llama_lora_adapter_free = reinterpret_cast<llama_lora_adapter_free_fn>(
             dlsym(RTLD_DEFAULT, "llama_lora_adapter_free")
         );
+        #endif
         
         // Check if all critical functions are available
         if (g_llama_lora_adapter_init && g_llama_lora_adapter_set) {
