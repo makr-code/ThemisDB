@@ -4,6 +4,7 @@
   
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
+  [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
@@ -502,6 +503,21 @@ graph TB
 - Role-Based Access Control (RBAC)
 - Field-level encryption
 - Audit logging with SIEM integration
+
+**🔒 Compliance & Audit Framework (v1.4.1+):**
+
+ThemisDB maintains comprehensive compliance with international security standards through a structured audit framework:
+
+- **Standards Coverage:** ISO 27001, NIST CSF, OWASP ASVS Level 2, BSI C5, SOC 2, SLSA Level 3
+- **Automated Audits:** Continuous SAST/DAST scanning, dependency checks, coverage analysis
+- **Audit Documentation:** [`docs/audit-framework/`](docs/audit-framework/)
+  - [Audit Charter & Planning](docs/audit-framework/audit_charter_planning.md) - Framework governance and methodology
+  - [Audit Gate Template](docs/audit-framework/AUDIT_GATE_TEMPLATE.md) - 113-point checklist for release audits
+  - [Audit Runbook](docs/audit-framework/AUDIT_RUNBOOK.md) - Step-by-step execution guide
+  - [Compliance Mapping](docs/audit-framework/COMPLIANCE_MAPPING.md) - 400+ controls mapped to ThemisDB features
+- **CI/CD Integration:** Automated audit checks on every PR ([`audit-check.yml`](.github/workflows/audit-check.yml))
+
+> 📋 **See also:** [Security Policy](SECURITY.md) | [Compliance Documentation](docs/de/compliance/)
 
 ### Distribution & Scaling
 
