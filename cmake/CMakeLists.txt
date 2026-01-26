@@ -1561,7 +1561,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/model_compatibility.cpp
     ../src/llm/lora_framework/embedding_provider.cpp
     ../src/llm/llm_model_audit_logger.cpp
-    ../src/llm/llama_lora_adapter_stub.cpp
+    ../src/llm/llama_lora_adapter.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
