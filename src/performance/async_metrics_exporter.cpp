@@ -9,6 +9,7 @@
 #include <condition_variable>
 #include <chrono>
 #include <map>
+#include <set>
 
 namespace themis {
 namespace performance {

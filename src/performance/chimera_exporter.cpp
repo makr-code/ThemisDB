@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iomanip>
 #include <ctime>
+#include <vector>
+#include <map>
 
 namespace themis {
 namespace performance {
