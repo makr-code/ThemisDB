@@ -377,4 +377,56 @@ bool themis_llama_lora_available() {
     return g_lora_api_available;
 }
 
+/**
+ * @brief Apply LoRA adapter with integer handle (compatibility overload)
+ * 
+ * This overload is used by MultiLoRAManager which stores adapter handles as integers.
+ * It casts the integer back to a void* pointer for the actual API call.
+ * 
+ * @param ctx Context to apply adapter to
+ * @param adapter_index Integer representation of adapter handle
+ * @param scale Scaling factor
+ * @return 0 on success, -1 on error
+ */
+int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale) {
+    ensureAPIInitialized();
+    
+    if (!ctx) {
+        spdlog::error("llama_lora_adapter_set: null context provided");
+        return -1;
+    }
+    
+    if (!g_lora_api_available) {
+        spdlog::error("llama_lora_adapter_set: LoRA API not available in this llama.cpp build");
+        spdlog::error("  Rebuild llama.cpp with LLAMA_LORA=ON to enable LoRA support");
+        return -1;
+    }
+    
+    // Convert integer handle back to pointer
+    void* adapter = reinterpret_cast<void*>(static_cast<uintptr_t>(adapter_index));
+    
+    if (!adapter) {
+        spdlog::error("llama_lora_adapter_set: null adapter handle");
+        return -1;
+    }
+    
+    spdlog::debug("Applying LoRA adapter (handle: {}) with scale: {}", adapter_index, scale);
+    
+    // Call the real llama.cpp function
+    if (!g_llama_lora_adapter_set) {
+        spdlog::error("llama_lora_adapter_set function pointer not initialized");
+        return -1;
+    }
+    
+    int result = g_llama_lora_adapter_set(ctx, adapter, scale);
+    
+    if (result == 0) {
+        spdlog::debug("✓ LoRA adapter applied successfully");
+    } else {
+        spdlog::error("✗ Failed to apply LoRA adapter (error: {})", result);
+    }
+    
+    return result;
+}
+
 } // extern "C"
