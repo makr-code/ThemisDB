@@ -238,60 +238,66 @@ h_v' = σ(W · CONCAT(h_v, h_N(v)))
 
 #### Phase 1: Proof of Concept (1-2 Sprints)
 
-**Ziel:** Minimal viable GNN-Index für einfache MATCH queries
+**Ziel:** Minimal viable GNN-Index für einfache MATCH queries mit nativer C++ Training-Implementation
 
 **Komponenten:**
-1. **GNN Training Pipeline**
-   - Graph sampling from ThemisDB
-   - PyTorch/DGL-based training
-   - Export zu ONNX für C++ Inference
+1. **Native C++ GNN Training Engine**
+   - Integration mit DistributedTrainingCoordinator
+   - Graph sampling direkt aus RocksDB
+   - Wiederverwendung der LLM Training-Infrastruktur
+   - GPU Acceleration via bestehendes LoRA-RAID System
 
-2. **C++ Inference Engine**
-   - ONNX Runtime Integration
-   - Embedding Cache in RocksDB
-   - GPU Acceleration (optional)
+2. **Python Verification Pipeline** (nur für Testing)
+   - PyTorch/DGL-based Referenzimplementierung
+   - Vergleichstests gegen C++ Implementation
+   - Export zu ONNX für Cross-Validation
 
 3. **Index Integration**
    - `GnnIndex` class als Secondary Index Type
    - Query Planner Modification
    - Performance Benchmarking
 
-**Code-Beispiel:**
+**Code-Beispiel (Native C++ Training):**
 ```cpp
-// include/themis/storage/gnn_index.hpp
+// include/themis/ml/gnn_training.hpp
 #pragma once
 
-#include <onnxruntime_cxx_api.h>
-#include "themis/storage/secondary_index.hpp"
+#include "llm/distributed_training_coordinator.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/property_graph.h"
 
-namespace themis::storage {
+namespace themis::ml {
 
-class GnnIndex : public SecondaryIndex {
+class GnnTrainingEngine {
 public:
-    explicit GnnIndex(const std::string& name, 
-                      const std::string& model_path);
-    
-    // Encode query pattern to embedding
-    std::vector<float> encodeQuery(const QueryPattern& pattern);
-    
-    // Find similar subgraphs
-    std::vector<NodeId> findMatches(
-        const std::vector<float>& query_embedding,
-        size_t top_k = 100
+    explicit GnnTrainingEngine(
+        RocksDBWrapper& db,
+        PropertyGraphManager& pgm,
+        DistributedTrainingCoordinator& coordinator
     );
     
-    // Update embeddings incrementally
-    void updateEmbeddings(const std::vector<NodeId>& nodes);
+    // Native C++ GNN Training
+    Status trainGraphSAGE(
+        const std::string& graph_id,
+        const TrainingConfig& config
+    );
+    
+    // Generate embeddings using trained model
+    std::vector<float> generateEmbedding(
+        const std::string& node_id,
+        const std::string& graph_id
+    );
     
 private:
-    std::unique_ptr<Ort::Session> onnx_session_;
-    std::unique_ptr<EmbeddingCache> cache_;
+    RocksDBWrapper& db_;
+    PropertyGraphManager& pgm_;
+    DistributedTrainingCoordinator& coordinator_;
 };
 
-} // namespace themis::storage
+} // namespace themis::ml
 ```
 
-**Aufwand:** ~2000 LOC (C++), ~1000 LOC (Python Training)
+**Aufwand:** ~3000 LOC (C++), ~800 LOC (Python Verification)
 
 #### Phase 2: Production Integration (3-4 Sprints)
 
@@ -771,17 +777,20 @@ Multi-Modal GNN:    NDCG@10 = 0.81
 #### Phase 1: Foundation (Q2 2026) - 3 Monate
 
 **Ziele:**
-- ✅ GNN Training Pipeline (Python/PyTorch)
-- ✅ ONNX Export & C++ Inference
+- ✅ Native C++ GNN Training (Integration mit DistributedTrainingCoordinator)
 - ✅ Basic GraphEmbeddingIndex
 - ✅ Integration mit Vector Index
+- ✅ Python Training Pipeline (für Verification/Testing)
 
 **Deliverables:**
-- GNN Training Scripts (`tools/gnn/`)
-- C++ Inference Engine (`src/ml/gnn_inference.cpp`)
+- Native C++ GNN Training Engine (`src/ml/gnn_training.cpp`)
+- Integration mit bestehendem DistributedTrainingCoordinator
+- Python Verification Scripts (`tools/gnn/` - nur für Testing)
 - Benchmark Suite
 
-**Aufwand:** 3000 LOC (C++), 2000 LOC (Python)
+**Aufwand:** 4000 LOC (C++), 1000 LOC (Python für Verification)
+
+**Hinweis:** Python Training dient nur zur Verifikation der C++ Implementation. Die Hauptimplementierung nutzt ThemisDB's native Training-Infrastruktur.
 
 #### Phase 2: Production Features (Q3 2026) - 3 Monate
 
@@ -789,14 +798,15 @@ Multi-Modal GNN:    NDCG@10 = 0.81
 - ✅ Incremental Embedding Updates
 - ✅ GNN Query Optimizer Integration
 - ✅ AQL Function Extensions (SIMILAR_NODES, EMBEDDING, etc.)
-- ✅ Multi-GPU Support
+- ✅ Multi-GPU Support (via LoRA-RAID)
 
 **Deliverables:**
 - Production-ready GnnIndex
 - AQL Grammar Updates
 - Query Optimizer Enhancements
+- Multi-GPU Training Support
 
-**Aufwand:** 4000 LOC (C++), 1000 LOC (Python)
+**Aufwand:** 4000 LOC (C++), 500 LOC (Python für Testing)
 
 #### Phase 3: Advanced Features (Q4 2026) - 4 Monate
 
@@ -804,16 +814,19 @@ Multi-Modal GNN:    NDCG@10 = 0.81
 - ✅ Multi-Modal Embeddings
 - ✅ Semantic Graph Search (LLM + GNN)
 - ✅ Temporal GNN Support
-- ✅ Distributed Training (Sharding-aware)
+- ✅ Distributed Sharding-aware Training (vollständig nativ)
 
 **Deliverables:**
 - Multi-Modal GNN Models
 - LLM Integration Enhancements
 - Documentation & Tutorials
+- Production-grade Distributed Training
 
-**Aufwand:** 5000 LOC (C++), 3000 LOC (Python)
+**Aufwand:** 5000 LOC (C++), 500 LOC (Python für Testing)
 
-**Gesamt-Aufwand:** 12,000 LOC (C++), 6,000 LOC (Python), 10 Monate
+**Gesamt-Aufwand:** 13,000 LOC (C++), 2,000 LOC (Python für Verification), 10 Monate
+
+**Architektur-Philosophie:** Native C++ Training ist die primäre Implementierung. Python-Tools dienen ausschließlich zur Verifikation und zum Vergleich mit PyTorch Geometric Referenzimplementierungen.
 
 ---
 

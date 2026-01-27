@@ -1,82 +1,100 @@
 # GNN Tools for ThemisDB
 
-This directory contains tools for training and using Graph Neural Network (GNN) models with ThemisDB.
+This directory contains **verification and testing tools** for Graph Neural Network (GNN) implementations in ThemisDB.
+
+## Purpose
+
+**Important:** These Python tools are **NOT** the primary training implementation. They serve to:
+
+- ✅ **Verify** native C++ GNN training implementations
+- ✅ **Test** GNN algorithms against PyTorch Geometric reference implementations
+- ✅ **Benchmark** ThemisDB's native implementation vs. standard frameworks
+- ✅ **Prototype** new GNN architectures before C++ implementation
+
+**Primary Implementation:** ThemisDB uses native C++ training integrated with `DistributedTrainingCoordinator` and the existing LLM training infrastructure.
 
 ## Overview
 
-ThemisDB supports GNN-based embeddings for graph data through the `GNNEmbeddingManager` class. This enables:
+ThemisDB supports GNN-based embeddings for graph data through the `GNNEmbeddingManager` class with native C++ training. The Python tools in this directory provide:
 
-- **Node Embeddings**: Vector representations of graph nodes based on their features and structure
-- **Edge Embeddings**: Vector representations of graph edges
-- **Similarity Search**: Find similar nodes/edges based on embedding similarity
-- **Query Optimization**: Use GNN-based embeddings to improve query performance
+- **Reference Implementations**: PyTorch Geometric versions for comparison
+- **Verification Scripts**: Validate C++ training produces correct results
+- **Testing Utilities**: Generate test data and validate embeddings
+- **Benchmarking**: Compare performance between implementations
 
-## Quick Start
+## Quick Start (Verification Workflow)
 
-### 1. Export Graph Data
+### 1. Train Native C++ Model (Primary)
 
-First, export your graph data from ThemisDB for training:
+First, train using ThemisDB's native C++ implementation:
+
+```cpp
+// C++ Training (Primary Implementation)
+GnnTrainingEngine trainer(db, pgm, coordinator);
+TrainingConfig config{
+    .model_type = "graphsage",
+    .embedding_dim = 128,
+    .epochs = 100
+};
+trainer.trainGraphSAGE("social_network", config);
+```
+
+### 2. Verify with Python Reference (Optional)
+
+For verification, compare against PyTorch Geometric reference:
 
 ```bash
+# Export data for verification
 python export_graph_data.py \
     --host localhost \
     --port 8080 \
     --graph social_network \
     --output data/social_network.parquet
-```
 
-### 2. Train GNN Model
-
-Train a GraphSAGE model on your exported data:
-
-```bash
+# Train reference model
 python train_gnn.py \
     --input data/social_network.parquet \
     --model graphsage \
     --embedding-dim 128 \
     --epochs 100 \
-    --output models/social_network_graphsage.pth
+    --output models/reference_graphsage.pth
+
+# Compare embeddings
+python verify_embeddings.py \
+    --cpp-embeddings data/cpp_embeddings.npy \
+    --pytorch-embeddings models/reference_graphsage.pth \
+    --threshold 0.95
 ```
 
-### 3. Export to ONNX
+### 3. Benchmark Performance
 
-Convert the trained PyTorch model to ONNX format for C++ inference:
+Compare training performance:
 
 ```bash
-python export_to_onnx.py \
-    --model models/social_network_graphsage.pth \
-    --output models/social_network_graphsage.onnx \
-    --embedding-dim 128
-```
-
-### 4. Register Model in ThemisDB
-
-Register the ONNX model in ThemisDB (currently uses simple feature-based embeddings as MVP):
-
-```cpp
-// C++ API
-GNNEmbeddingManager gnn(db, pgm, vim);
-gnn.registerModel("social_graphsage", "graphsage", 128, "{}");
-
-// Generate embeddings
-gnn.generateNodeEmbeddings("social_network", "Person", "social_graphsage");
-
-// Find similar nodes
-auto [st, similar] = gnn.findSimilarNodes("alice", "social_network", 10, "social_graphsage");
+python benchmark_training.py \
+    --cpp-host localhost \
+    --cpp-port 8080 \
+    --graph social_network \
+    --iterations 10
 ```
 
 ## Available Tools
 
-### Training Scripts
+### Verification Scripts
 
-- **`train_gnn.py`**: Train GNN models (GraphSAGE, GCN, GAT)
-- **`export_graph_data.py`**: Export graph data from ThemisDB
-- **`export_to_onnx.py`**: Convert PyTorch models to ONNX
+- **`train_gnn.py`**: PyTorch Geometric reference implementation for verification
+- **`verify_embeddings.py`**: Compare C++ vs PyTorch embeddings
+- **`benchmark_training.py`**: Performance comparison between implementations
 
-### Utilities
+### Testing Utilities
 
-- **`gnn_example.py`**: End-to-end example of training and using GNN embeddings
-- **`evaluate_model.py`**: Evaluate model quality and performance
+- **`gnn_example.py`**: Standalone PyTorch example for understanding GNN concepts
+- **`export_graph_data.py`**: Export ThemisDB graphs for external testing
+- **`export_to_onnx.py`**: Convert PyTorch models (for cross-validation)
+
+### Analysis Tools
+
+- **`evaluate_model.py`**: Evaluate embedding quality
 - **`visualize_embeddings.py`**: Visualize embeddings with t-SNE/UMAP
 
 ## Dependencies
@@ -158,27 +176,32 @@ python train_gnn.py --config config.yaml
 
 ## Current Status
 
-### ✅ Implemented (MVP)
+### ✅ C++ Native Implementation (Primary)
 
-- Basic `GNNEmbeddingManager` C++ class
-- Feature extraction from graph nodes
-- Simple embedding computation (feature-based)
-- Vector index integration for similarity search
-- Batch processing support
+- Native GNN Training via `DistributedTrainingCoordinator`
+- Integration with existing LLM training infrastructure
+- Multi-GPU support via LoRA-RAID system
+- Direct training from RocksDB without export
+- Production-ready sharding-aware distributed training
+
+### ✅ Python Verification Tools (This Directory)
+
+- PyTorch Geometric reference implementations
+- Verification scripts for correctness testing
+- Benchmarking tools for performance comparison
+- Testing utilities for algorithm validation
 
 ### 🚧 In Progress
 
-- Python training pipeline (this directory)
-- ONNX model inference integration
-- Multi-hop neighbor aggregation
-- Incremental embedding updates
+- Verification script integration with C++ training API
+- Automated correctness testing pipeline
+- Performance benchmarking framework
 
 ### 🔮 Planned
 
-- Distributed training (multi-GPU)
-- Temporal graph support
-- Multi-modal embeddings (text + graph + image)
-- LLM integration for semantic search
+- Additional GNN architectures (GIN, RGCN)
+- Temporal GNN verification
+- Multi-modal embedding verification
 
 ## Examples
 
