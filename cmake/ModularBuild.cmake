@@ -160,6 +160,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/secondary_index.cpp
     ../src/index/vector_index.cpp
     ../src/index/rotary_embeddings.cpp
+    ../src/index/learnable_rope.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
