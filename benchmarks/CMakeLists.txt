@@ -955,6 +955,48 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
 endif()
 
+# ============================================================================
+# Rotary Embeddings Benchmarks (NEW)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rotary_embeddings.cpp")
+    message(STATUS "Adding Rotary Embeddings benchmarks")
+    
+    add_executable(bench_rotary_embeddings
+        bench_rotary_embeddings.cpp
+    )
+    
+    target_link_libraries(bench_rotary_embeddings PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_rotary_embeddings PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_rotary_embeddings PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_rotary_embeddings
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  Rotary Embeddings: Single rotation, batch, relational, VectorIndex integration")
+endif()
+
 message(STATUS "Benchmarks configured successfully")
 message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
 message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")
@@ -963,4 +1005,4 @@ message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lo
 message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")
 message(STATUS "  - Performance benchmarks: bench_storage_performance, bench_olap_performance,")
-message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance")
+message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance, bench_rotary_embeddings")

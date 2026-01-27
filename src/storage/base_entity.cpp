@@ -551,4 +551,25 @@ void BaseEntity::clearGeometry() {
     geo_sidecar_.reset();
 }
 
+// ===== Rotary Embeddings Support =====
+
+bool BaseEntity::hasRotatedEmbedding(std::string_view field_name) const {
+    std::string rotation_pos_field = std::string(field_name) + "_rotation_pos";
+    return hasField(rotation_pos_field);
+}
+
+std::optional<size_t> BaseEntity::getRotationPosition(std::string_view field_name) const {
+    std::string rotation_pos_field = std::string(field_name) + "_rotation_pos";
+    auto pos_value = getFieldAsInt(rotation_pos_field);
+    if (pos_value && *pos_value >= 0) {
+        return static_cast<size_t>(*pos_value);
+    }
+    return std::nullopt;
+}
+
+std::optional<std::string> BaseEntity::getRotationType(std::string_view field_name) const {
+    std::string rotation_type_field = std::string(field_name) + "_rotation_type";
+    return getFieldAsString(rotation_type_field);
+}
+
 } // namespace themis

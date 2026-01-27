@@ -171,6 +171,20 @@ public:
     /// Extract fields matching a prefix (e.g., "metadata.*")
     Attributes extractFieldsWithPrefix(std::string_view prefix) const;
     
+    // ===== Rotary Embeddings Support =====
+    
+    /// Check if entity has a rotated embedding for given field
+    /// Looks for field_name + "_rotation_pos" metadata
+    bool hasRotatedEmbedding(std::string_view field_name) const;
+    
+    /// Get rotation position used for this field's embedding
+    /// Returns nullopt if field is not rotated
+    std::optional<size_t> getRotationPosition(std::string_view field_name) const;
+    
+    /// Get rotation type (relation type for relational rotation)
+    /// Returns nullopt if field is not relationally rotated
+    std::optional<std::string> getRotationType(std::string_view field_name) const;
+    
     // ===== Metadata =====
     
     /// Get blob size in bytes
