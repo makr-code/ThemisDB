@@ -1,0 +1,459 @@
+# SIEM Security Alerts for ThemisDB
+# Compliance: SOC2, GDPR, HIPAA
+# 
+# These alerts detect security-relevant events for Security Information 
+# and Event Management (SIEM) systems.
+#
+# Documentation: docs/en/observability/siem_integration.md
+
+groups:
+  # ========================================================================
+  # Authentication & Authorization Alerts
+  # ========================================================================
+  - name: siem_authentication
+    interval: 30s
+    rules:
+      - alert: BruteForceAttackDetected
+        expr: sum by (source_ip, user) (rate(themis_auth_failures_total[2m])) > 0.5
+        for: 2m
+        labels:
+          severity: critical
+          category: authentication
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: high
+        annotations:
+          summary: "Potential brute force attack detected"
+          description: "Multiple failed login attempts detected from IP {{ $labels.source_ip }} for user {{ $labels.user }}: {{ $value | humanize }} attempts/sec over 2 minutes"
+          action: "IMMEDIATE: Block source IP, review authentication logs, notify security team"
+          compliance_impact: "SOC2 CC6.1, GDPR Article 32"
+          siem_category: "authentication_attack"
+          remediation: "1. Block IP at firewall level\n2. Reset affected user passwords\n3. Review authentication logs for successful logins from this IP\n4. Generate incident report"
+      
+      - alert: UnusualAuthenticationPattern
+        expr: |
+          sum by (user) (rate(themis_auth_attempts_total[5m])) 
+          / 
+          avg_over_time(sum by (user) (rate(themis_auth_attempts_total[5m]))[1h:5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          category: authentication
+          compliance: "soc2,gdpr"
+          siem_priority: medium
+        annotations:
+          summary: "Unusual authentication activity for user {{ $labels.user }}"
+          description: "Authentication rate is {{ $value | humanize }}x higher than normal baseline"
+          action: "Review user activity, verify legitimate use case, consider MFA enforcement"
+          siem_category: "authentication_anomaly"
+      
+      - alert: PrivilegeEscalationDetected
+        expr: sum by (user, from_role, to_role) (rate(themis_privilege_escalation_total[5m])) > 0
+        for: 1m
+        labels:
+          severity: critical
+          category: authorization
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: critical
+        annotations:
+          summary: "Privilege escalation detected for user {{ $labels.user }}"
+          description: "User {{ $labels.user }} escalated from role {{ $labels.from_role }} to {{ $labels.to_role }}"
+          action: "IMMEDIATE: Review authorization logs, verify legitimacy, audit user permissions"
+          compliance_impact: "SOC2 CC6.2, GDPR Article 32"
+          siem_category: "privilege_escalation"
+          remediation: "1. Verify authorization workflow\n2. Review approval chain\n3. Audit similar privilege changes\n4. Update RBAC policies if needed"
+      
+      - alert: FailedAuthenticationAfterSuccess
+        expr: |
+          (sum by (user, source_ip) (increase(themis_auth_failures_total[5m])) > 3)
+          and ignoring(status)
+          (sum by (user, source_ip) (increase(themis_auth_attempts_total{status="success"}[15m])) > 0)
+        for: 2m
+        labels:
+          severity: high
+          category: authentication
+          compliance: "soc2,gdpr"
+          siem_priority: high
+        annotations:
+          summary: "Failed authentications after successful login"
+          description: "User {{ $labels.user }} from IP {{ $labels.source_ip }} has failed authentications after recent successful login - possible credential compromise"
+          action: "Force session invalidation, notify user, require password reset"
+          siem_category: "credential_compromise"
+      
+      - alert: UnauthorizedAccessAttempt
+        expr: sum by (user, resource) (rate(themis_authorization_denied_total[5m])) > 0.1
+        for: 3m
+        labels:
+          severity: warning
+          category: authorization
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: medium
+        annotations:
+          summary: "Multiple unauthorized access attempts by user {{ $labels.user }}"
+          description: "User {{ $labels.user }} attempting to access unauthorized resource {{ $labels.resource }}: {{ $value | humanize }} attempts/sec"
+          action: "Review user permissions, verify legitimate need, audit access patterns"
+          siem_category: "unauthorized_access"
+      
+      - alert: RateLimitingViolation
+        expr: sum by (source_ip, endpoint) (rate(themis_rate_limit_exceeded_total[1m])) > 1
+        for: 2m
+        labels:
+          severity: warning
+          category: rate_limiting
+          compliance: "soc2"
+          siem_priority: medium
+        annotations:
+          summary: "Rate limit exceeded from IP {{ $labels.source_ip }}"
+          description: "Source {{ $labels.source_ip }} exceeding rate limits on {{ $labels.endpoint }}: {{ $value | humanize }} violations/sec"
+          action: "Review traffic patterns, consider IP blocking, verify not DoS attempt"
+          siem_category: "rate_limit_violation"
+
+  # ========================================================================
+  # Audit & Security Event Alerts
+  # ========================================================================
+  - name: siem_audit_events
+    interval: 30s
+    rules:
+      - alert: SuspiciousAdminActivity
+        expr: sum by (user, action) (rate(themis_admin_actions_total[5m])) > 0.2
+        for: 3m
+        labels:
+          severity: high
+          category: admin_activity
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: high
+        annotations:
+          summary: "High frequency of admin actions by {{ $labels.user }}"
+          description: "Admin user {{ $labels.user }} performing action {{ $labels.action }} at {{ $value | humanize }} ops/sec"
+          action: "Review admin activity logs, verify legitimate operations, check for automation"
+          compliance_impact: "SOC2 CC6.2, GDPR Article 5"
+          siem_category: "admin_activity_anomaly"
+      
+      - alert: UnauthorizedDataExport
+        expr: |
+          sum by (user, destination) (rate(themis_data_export_events_total[5m])) > 0.5
+          and 
+          sum by (user) (rate(themis_data_export_events_total{authorized="false"}[5m])) > 0
+        for: 1m
+        labels:
+          severity: critical
+          category: data_exfiltration
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: critical
+        annotations:
+          summary: "Unauthorized data export detected"
+          description: "User {{ $labels.user }} attempting unauthorized data export to {{ $labels.destination }}"
+          action: "IMMEDIATE: Block export, suspend user access, initiate data breach protocol"
+          compliance_impact: "GDPR Article 33 (Breach Notification), HIPAA Breach Notification Rule"
+          siem_category: "data_exfiltration"
+          remediation: "1. Block network access immediately\n2. Secure exported data location\n3. Audit data access history\n4. Notify DPO/Security Officer\n5. Prepare breach notification if required"
+      
+      - alert: BulkDataAccess
+        expr: sum by (user) (rate(themis_records_accessed_total[5m])) > 1000
+        for: 3m
+        labels:
+          severity: high
+          category: data_access
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: high
+        annotations:
+          summary: "Bulk data access detected for user {{ $labels.user }}"
+          description: "User {{ $labels.user }} accessing {{ $value | humanize }} records/sec - possible data scraping"
+          action: "Review access patterns, verify legitimate batch processing, consider rate limiting"
+          compliance_impact: "GDPR Article 32, HIPAA Security Rule"
+          siem_category: "bulk_data_access"
+      
+      - alert: UnauthorizedConfigurationChange
+        expr: sum by (user, component) (rate(themis_config_changes_total{authorized="false"}[5m])) > 0
+        for: 1m
+        labels:
+          severity: critical
+          category: configuration
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: critical
+        annotations:
+          summary: "Unauthorized configuration change detected"
+          description: "User {{ $labels.user }} made unauthorized changes to {{ $labels.component }}"
+          action: "IMMEDIATE: Revert changes, suspend user, audit configuration history"
+          compliance_impact: "SOC2 CC6.1, CC6.2"
+          siem_category: "unauthorized_config_change"
+      
+      - alert: SecurityPolicyViolation
+        expr: sum by (policy_type, user) (rate(themis_policy_violations_total[5m])) > 0
+        for: 2m
+        labels:
+          severity: high
+          category: policy_violation
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: high
+        annotations:
+          summary: "Security policy violation detected"
+          description: "User {{ $labels.user }} violated {{ $labels.policy_type }} policy"
+          action: "Review violation details, apply remediation per policy, escalate if needed"
+          compliance_impact: "SOC2 CC6.1, GDPR Article 32"
+          siem_category: "policy_violation"
+      
+      - alert: SensitiveDataAccessWithoutJustification
+        expr: |
+          sum by (user, data_classification) (rate(themis_data_access_total{classification="sensitive"}[5m])) > 0.1
+          and on(user)
+          sum by (user) (rate(themis_access_justification_provided_total[5m])) == 0
+        for: 2m
+        labels:
+          severity: high
+          category: data_access
+          compliance: "gdpr,hipaa"
+          siem_priority: high
+        annotations:
+          summary: "Sensitive data access without justification"
+          description: "User {{ $labels.user }} accessing {{ $labels.data_classification }} data without providing justification"
+          action: "Require access justification, review data access policies, audit similar access"
+          compliance_impact: "GDPR Article 5 (Purpose Limitation), HIPAA Minimum Necessary"
+          siem_category: "unjustified_data_access"
+      
+      - alert: AuditLogTamperingAttempt
+        expr: sum(rate(themis_audit_log_integrity_failures_total[5m])) > 0
+        for: 1m
+        labels:
+          severity: critical
+          category: audit_integrity
+          compliance: "soc2,gdpr,hipaa"
+          siem_priority: critical
+        annotations:
+          summary: "Audit log tampering detected"
+          description: "Integrity check failures detected in audit logs - possible tampering attempt"
+          action: "IMMEDIATE: Secure audit logs, investigate access history, escalate to security team"
+          compliance_impact: "SOC2 CC6.1, GDPR Article 32, HIPAA Audit Controls"
+          siem_category: "audit_tampering"
+          remediation: "1. Lock down audit log storage\n2. Review file system access logs\n3. Verify backup integrity\n4. Restore from known good backup\n5. Generate incident report"
+
+  # ========================================================================
+  # Query Performance & Anomaly Detection
+  # ========================================================================
+  - name: siem_performance_anomalies
+    interval: 30s
+    rules:
+      - alert: AnomalousQueryPattern
+        expr: |
+          sum by (user, query_type) (rate(themis_query_requests_total[5m]))
+          /
+          avg_over_time(sum by (user, query_type) (rate(themis_query_requests_total[5m]))[1h:5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          category: query_anomaly
+          compliance: "soc2"
+          siem_priority: medium
+        annotations:
+          summary: "Anomalous query pattern detected for user {{ $labels.user }}"
+          description: "Query rate for {{ $labels.query_type }} is {{ $value | humanize }}x higher than baseline"
+          action: "Review query patterns, verify legitimate use case, check for automated tools"
+          siem_category: "query_anomaly"
+      
+      - alert: HighErrorRate
+        expr: |
+          (sum(rate(themis_query_errors_total[5m])) / sum(rate(themis_query_requests_total[5m]))) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          category: performance
+          compliance: "soc2"
+          siem_priority: medium
+        annotations:
+          summary: "High query error rate detected"
+          description: "Error rate at {{ $value | humanizePercentage }} - may indicate DoS or system issues"
+          action: "Review error logs, check system resources, verify not under attack"
+          siem_category: "high_error_rate"
+      
+      - alert: SlowQueryAnomaly
+        expr: |
+          rate(themis_slow_queries_total[5m])
+          /
+          avg_over_time(rate(themis_slow_queries_total[5m])[1h:5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          category: performance
+          compliance: "soc2"
+          siem_priority: low
+        annotations:
+          summary: "Unusual increase in slow queries"
+          description: "Slow query rate {{ $value | humanize }}x higher than baseline - possible resource exhaustion"
+          action: "Check database performance, review query patterns, verify system resources"
+          siem_category: "performance_degradation"
+      
+      - alert: DatabaseConnectionExhaustion
+        expr: themis_active_connections / themis_max_connections > 0.9
+        for: 3m
+        labels:
+          severity: high
+          category: availability
+          compliance: "soc2"
+          siem_priority: high
+        annotations:
+          summary: "Database connection pool near exhaustion"
+          description: "Connection usage at {{ $value | humanizePercentage }} - possible connection leak or DoS"
+          action: "Review connection metrics, check for connection leaks, scale if needed"
+          siem_category: "resource_exhaustion"
+
+  # ========================================================================
+  # Infrastructure & System Health
+  # ========================================================================
+  - name: siem_infrastructure
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+        for: 5m
+        labels:
+          severity: warning
+          category: infrastructure
+          compliance: "soc2"
+          siem_priority: medium
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage at {{ $value | humanize }}% - may impact service availability"
+          action: "Review process list, check for resource-intensive operations, scale if needed"
+          siem_category: "resource_utilization"
+      
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          category: infrastructure
+          compliance: "soc2"
+          siem_priority: medium
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage at {{ $value | humanize }}% - risk of OOM conditions"
+          action: "Review memory consumers, check for memory leaks, scale if needed"
+          siem_category: "resource_utilization"
+      
+      - alert: DiskSpaceCritical
+        expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100 > 95
+        for: 3m
+        labels:
+          severity: critical
+          category: infrastructure
+          compliance: "soc2"
+          siem_priority: high
+        annotations:
+          summary: "Disk space critically low"
+          description: "Disk usage at {{ $value | humanize }}% - immediate action required"
+          action: "IMMEDIATE: Free disk space, archive old data, expand storage"
+          compliance_impact: "SOC2 CC7.2 (System Monitoring)"
+          siem_category: "storage_critical"
+      
+      - alert: ReplicationLagHigh
+        expr: themis_replication_lag_seconds > 10
+        for: 3m
+        labels:
+          severity: warning
+          category: replication
+          compliance: "soc2"
+          siem_priority: medium
+        annotations:
+          summary: "High replication lag detected"
+          description: "Replica {{ $labels.replica_id }} lagging by {{ $value | humanize }} seconds"
+          action: "Check replica health, review replication logs, verify network connectivity"
+          compliance_impact: "SOC2 CC7.2 (Data Backup)"
+          siem_category: "replication_lag"
+      
+      - alert: ReplicationFailure
+        expr: themis_replication_errors_total > 0
+        for: 2m
+        labels:
+          severity: critical
+          category: replication
+          compliance: "soc2,hipaa"
+          siem_priority: critical
+        annotations:
+          summary: "Replication failure detected"
+          description: "Replication errors detected for replica {{ $labels.replica_id }}"
+          action: "IMMEDIATE: Check replica status, review error logs, initiate failover if needed"
+          compliance_impact: "SOC2 CC7.2, HIPAA Disaster Recovery"
+          siem_category: "replication_failure"
+      
+      - alert: ServiceUnavailable
+        expr: up{job="themisdb"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          category: availability
+          compliance: "soc2"
+          siem_priority: critical
+        annotations:
+          summary: "ThemisDB service unavailable"
+          description: "ThemisDB instance {{ $labels.instance }} is down"
+          action: "IMMEDIATE: Check service status, review logs, initiate recovery procedures"
+          compliance_impact: "SOC2 CC7.1 (System Operations)"
+          siem_category: "service_down"
+
+  # ========================================================================
+  # Compliance-Specific Alerts
+  # ========================================================================
+  - name: siem_compliance
+    interval: 1m
+    rules:
+      - alert: GDPRDataRetentionViolation
+        expr: sum by (data_category) (themis_data_retention_days) > 730
+        for: 1h
+        labels:
+          severity: high
+          category: compliance
+          compliance: "gdpr"
+          siem_priority: high
+        annotations:
+          summary: "GDPR data retention policy violation"
+          description: "Data category {{ $labels.data_category }} exceeds 2-year retention limit"
+          action: "Review retention policy, schedule data deletion, update DPO"
+          compliance_impact: "GDPR Article 5 (Storage Limitation)"
+          siem_category: "retention_violation"
+      
+      - alert: SOC2AuditLogGapDetected
+        expr: |
+          absent_over_time(themis_audit_events_total[10m])
+          and 
+          up{job="themisdb"} == 1
+        for: 5m
+        labels:
+          severity: high
+          category: compliance
+          compliance: "soc2"
+          siem_priority: high
+        annotations:
+          summary: "Audit log gap detected"
+          description: "No audit events recorded for 10 minutes while system is operational"
+          action: "Check audit logging system, verify log collection, investigate gap"
+          compliance_impact: "SOC2 CC6.1 (Logical Access)"
+          siem_category: "audit_gap"
+      
+      - alert: EncryptionKeyRotationOverdue
+        expr: (time() - themis_encryption_key_last_rotation_timestamp) > (90 * 24 * 3600)
+        for: 1h
+        labels:
+          severity: high
+          category: compliance
+          compliance: "soc2,hipaa"
+          siem_priority: medium
+        annotations:
+          summary: "Encryption key rotation overdue"
+          description: "Encryption keys have not been rotated for {{ $value | humanizeDuration }}"
+          action: "Schedule key rotation, update key management procedures"
+          compliance_impact: "SOC2 CC6.7, HIPAA Security Rule"
+          siem_category: "key_rotation_overdue"
+      
+      - alert: BackupFailure
+        expr: time() - themis_last_successful_backup_timestamp > (24 * 3600)
+        for: 1h
+        labels:
+          severity: critical
+          category: compliance
+          compliance: "soc2,hipaa"
+          siem_priority: critical
+        annotations:
+          summary: "Backup failure detected"
+          description: "No successful backup in the last {{ $value | humanizeDuration }}"
+          action: "IMMEDIATE: Check backup system, verify backup storage, run manual backup"
+          compliance_impact: "SOC2 CC7.2, HIPAA Disaster Recovery"
+          siem_category: "backup_failure"

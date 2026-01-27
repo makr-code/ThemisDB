@@ -5,6 +5,11 @@ global:
     cluster: 'themisdb-raid'
     environment: 'benchmark'
 
+# Load alert rules
+rule_files:
+  - '/etc/prometheus/alerts/siem_security_alerts.yaml'
+  - '/etc/prometheus/alerts/graph_security.yaml'
+
 # Scrape configurations
 scrape_configs:
   # Prometheus self-monitoring
