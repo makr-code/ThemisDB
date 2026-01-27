@@ -21,6 +21,7 @@ if(THEMIS_ENABLE_HIP)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/acceleration/hip_backend.cpp
         ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp
+        ../src/index/rotary_embeddings_hip.cpp
     )
 endif()
 
@@ -28,6 +29,7 @@ endif()
 if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/llm/lora_framework/nccl_backend.cpp
+        ../src/index/rotary_embeddings_cuda.cu
     )
 endif()
 
