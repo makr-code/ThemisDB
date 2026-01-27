@@ -8,6 +8,13 @@
 namespace themis {
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+// Default standard deviation for random initialization of LoRA matrices
+constexpr double LORA_INIT_STD_DEV = 0.01;
+
+// ============================================================================
 // LoRARopeAdapter Implementation
 // ============================================================================
 
@@ -26,10 +33,10 @@ LoRARopeAdapter LoRARopeAdapter::createRandom(
     adapter.enabled = true;
     adapter.scaling = 1.0f;
     
-    // Initialize random number generator
+    // Initialize random number generator with small random values
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::normal_distribution<double> dist(0.0, 0.01);  // Small random values
+    std::normal_distribution<double> dist(0.0, LORA_INIT_STD_DEV);
     
     // Initialize matrix B: (num_rotation_pairs, rank)
     adapter.matrix_B.resize(num_rotation_pairs);
@@ -317,18 +324,17 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
         w /= weight_sum;
     }
     
-    // Compute base rotation
-    std::vector<float> base_rotation = rotate(embedding, position);
-    
-    // Compute each adapter's contribution as pure weighted average
-    // Note: adapter rotations already include base rotation, so we don't add base separately
-    std::vector<float> result(base_rotation.size(), 0.0f);
+    // Get embedding size from first adapter rotation
+    // (We compute this once to determine result vector size)
+    auto first_rotation = rotateWithAdapter(embedding, position, adapter_names[0]);
+    std::vector<float> result(first_rotation.size(), 0.0f);
     
     // Weighted average of all adapter rotations
+    // Note: adapter rotations already include base rotation, so we blend them directly
     for (size_t i = 0; i < adapter_names.size(); ++i) {
         if (normalized_weights[i] <= 0.0f) continue;
         
-        auto adapter_rotation = rotateWithAdapter(embedding, position, adapter_names[i]);
+        auto adapter_rotation = (i == 0) ? first_rotation : rotateWithAdapter(embedding, position, adapter_names[i]);
         for (size_t j = 0; j < result.size(); ++j) {
             result[j] += normalized_weights[i] * adapter_rotation[j];
         }

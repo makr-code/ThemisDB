@@ -135,7 +135,8 @@ public:
     // ===== Core rotation operations with LoRA =====
     
     /// Rotate embedding using a specific LoRA adapter
-    /// Applies: rotation' = rotation + α * scaling * (B @ A @ rotation_features)
+    /// Applies base rotation followed by additional LoRA-modified rotation
+    /// The LoRA adapter modifies the rotation angles through low-rank transformation
     /// @param embedding Input embedding vector
     /// @param position Position index for rotation
     /// @param adapter_name Name of registered adapter to use

@@ -2,6 +2,7 @@
 #include "index/lora_rope.h"
 #include <numeric>
 #include <cmath>
+#include <thread>
 
 using namespace themis;
 
