@@ -35,6 +35,14 @@ Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technisch
    - Implementierungs-Roadmap und Empfehlungen
    - **Status:** ✅ Abgeschlossen (27. Januar 2026)
 
+4. **[HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)** 🆕
+   - Dense-Sparse Hybridmethoden (BM25 + Vector Search)
+   - Cross-Modal Retrieval (CLIP, ALIGN, BLIP)
+   - Multi-Vector Representations (ColBERT, Poly-Encoders)
+   - Fusion-Strategien (RRF, Linear Combination)
+   - ThemisDB Integration Roadmap
+   - **Status:** ✅ Abgeschlossen (27. Januar 2026)
+
 ---
 
 ## 🎯 Forschungsthemen
@@ -64,6 +72,18 @@ Fokus-Bereiche:
 - **Production-Integration:** ONNX Runtime, GPU-Acceleration, RocksDB Cache
 
 **Dokument:** [GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
+
+### 3. Hybrid Search Optimization
+
+> **"Wie können Dense- und Sparse-Ansätze kombiniert werden für optimale Suchperformance?"**
+
+Fokus-Bereiche:
+- **Dense-Sparse Hybridmethoden:** BM25 + Vector Search mit RRF Fusion
+- **Cross-Modal Retrieval:** Text-Image Search mit CLIP, ALIGN, BLIP
+- **Multi-Vector Representations:** ColBERT, Poly-Encoders, Aspect-based Search
+- **Production Implementation:** API Design, Performance Optimization
+
+**Dokument:** [HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)
 
 ---
 
@@ -258,6 +278,26 @@ json McpServer::toolGetSchema(const json& args) {
 
 **Empfehlung:** ✅ **GRÜNES LICHT** für GNN-Integration. Die Investition ist gerechtfertigt durch signifikante Performance-Verbesserungen und neue Produktfeatures.
 
+### Hybrid Search Optimization
+
+1. **Essentiell für moderne Suche:**
+   - **Hybrid Search (BM25 + Dense Vector)** verbessert Recall um 5-15%
+   - **RRF (Reciprocal Rank Fusion)** als robuste, einfache Fusion-Methode
+   - ThemisDB fehlt aktuell BM25 Sparse Retrieval
+
+2. **Cross-Modal Retrieval als Differentiator:**
+   - ✅ CLIP Integration für Text-Image Search
+   - ✅ Neue Use Cases: E-Commerce, Media, Compliance
+   - ✅ Python Microservice oder ONNX Runtime Integration möglich
+
+3. **Implementierungs-Roadmap:**
+   - **Phase 1 (3 Monate):** BM25 + RRF Fusion - ~2000 LOC
+   - **Phase 2 (4 Monate):** CLIP Cross-Modal - ~3000 LOC
+   - **Phase 3 (3 Monate):** Multi-Vector - ~1500 LOC
+   - **Gesamt:** ~6500 LOC, 10 Monate
+
+**Empfehlung:** ✅ **P0-PRIORITÄT** für Hybrid Search (Phase 1). Schließt Feature-Gap zu Weaviate/Vespa und ist Industry Standard.
+
 ---
 
 ## 📚 Nächste Schritte
@@ -276,6 +316,12 @@ json McpServer::toolGetSchema(const json& args) {
 3. **Proof-of-Concept:** GNN Training Pipeline (Python/PyTorch)
 4. **Prototype:** ONNX Inference Integration in C++
 
+**Hybrid Search:**
+1. **Lesen:** [HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)
+2. **Spike:** BM25 Proof-of-Concept in RocksDB (1 Sprint)
+3. **Design:** Hybrid Search API Design Review
+4. **Benchmark:** BEIR Evaluation Setup
+
 ### Für Product Owner
 
 **Agentic AI:**
@@ -289,11 +335,18 @@ json McpServer::toolGetSchema(const json& args) {
 3. **Sprint Planning:** 10 Monate für vollständige GNN-Integration
 4. **Milestone:** "GNN-Enhanced ThemisDB v1.6"
 
+**Hybrid Search:**
+1. **Priorisierung:** Hybrid Search als P0 Feature für v1.5
+2. **Sprint Planning:** 3-4 Monate für Phase 1 (BM25 + RRF)
+3. **Cross-Modal:** 4 Monate für Phase 2 (CLIP Integration)
+4. **Milestone:** "Hybrid Search ThemisDB v1.5"
+
 ### Für Community
 
 1. **Feedback:** Welche Features sind am wichtigsten?
-2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing
+2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing und Hybrid Search
 3. **Testing:** Beta-Testing für neue Features
+4. **Benchmarks:** BEIR und MTEB Evaluation Results
 
 ---
 
@@ -311,6 +364,11 @@ json McpServer::toolGetSchema(const json& args) {
 - [LoRA-RAID System](../../LORA_ADAPTER_IMPLEMENTATION_COMPLETE.md)
 - [GPU Acceleration Guide](../performance/)
 
+**Hybrid Search:**
+- [Vector Operations Guide](../de/features/features_vector_ops.md)
+- [Vector Search Example](../../examples/07_vector_search_documents/)
+- [HNSW Index Configuration](../de/features/features_vector_ops.md)
+
 ### External Resources
 
 **Agentic AI:**
@@ -325,18 +383,28 @@ json McpServer::toolGetSchema(const json& args) {
 - [Stanford CS224W](http://web.stanford.edu/class/cs224w/) - Graph ML Course
 - [Open Graph Benchmark](https://ogb.stanford.edu/) - GNN Benchmarks
 
+**Hybrid Search & Embeddings:**
+- [Sentence Transformers](https://www.sbert.net/) - Dense Embeddings
+- [OpenCLIP](https://github.com/mlfoundations/open_clip) - Cross-Modal Models
+- [Haystack](https://haystack.deepset.ai/) - Hybrid Search Pipeline
+- [BEIR Benchmark](https://github.com/beir-cellar/beir) - Retrieval Evaluation
+- [MTEB Leaderboard](https://huggingface.co/spaces/mteb/leaderboard) - Embedding Models
+
 **Research Papers:**
 - Kraska et al. (2018): "The Case for Learned Index Structures"
 - Marcus et al. (2019): "Neo: A Learned Query Optimizer"
 - Sun et al. (2020): "Neural Subgraph Matching"
 - Hamilton et al. (2017): "GraphSAGE: Inductive Representation Learning"
+- Cormack et al. (2009): "Reciprocal Rank Fusion"
+- Khattab & Zaharia (2020): "ColBERT: Contextualized Late Interaction"
+- Radford et al. (2021): "CLIP: Learning Transferable Visual Models"
 
 ---
 
 **Erstellt:** 11. Januar 2026  
 **Letzte Aktualisierung:** 27. Januar 2026  
 **Autor:** Research Team  
-**Version:** 2.0
+**Version:** 3.0
 
 ---
 
@@ -344,5 +412,6 @@ json McpServer::toolGetSchema(const json& args) {
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
+| 2026-01-27 | 3.0 | Hybrid Search Optimization Research hinzugefügt |
 | 2026-01-27 | 2.0 | GNN Research hinzugefügt, README umstrukturiert |
 | 2026-01-11 | 1.0 | Initiale Research Documentation (Agentic AI) |
