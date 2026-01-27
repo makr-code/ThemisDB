@@ -1,10 +1,12 @@
-# Grafana Integration für ThemisDB LLM/llama.cpp
+# Grafana Integration für ThemisDB
 
-Umfassendes Monitoring und Visualisierung für das LLM-Subsystem von ThemisDB.
+Umfassendes Monitoring und Visualisierung für ThemisDB - LLM-Subsystem und SIEM-Sicherheitsüberwachung.
 
 ## Übersicht
 
 Diese Grafana-Integration bietet Echtzeit-Monitoring für:
+
+### LLM/llama.cpp Monitoring
 - **Inference Performance** (Latenz, Throughput, Tokens/sec)
 - **GPU Metriken** (Memory, Utilization, Temperature)
 - **Model Management** (Loaded Models, Memory Usage)
@@ -12,20 +14,35 @@ Diese Grafana-Integration bietet Echtzeit-Monitoring für:
 - **Scheduler Status** (Queue Length, Batch Size, Preemptions)
 - **Error Tracking** (Fehlerrate, Error Types)
 
+### SIEM Security Monitoring (NEU)
+- **Authentication & Authorization** (Failed Logins, Privilege Escalation, Rate Limiting)
+- **Audit & Security Events** (CRUD, Admin Actions, Policy Checks, Security Incidents)
+- **Query & Performance** (Error Rate, Slow Queries, Request Rate, Cache Hit Rate)
+- **Infrastructure** (CPU, Memory, Storage, Network, Replication)
+- **Compliance** (SOC2, GDPR, HIPAA)
+
 ## Verzeichnisstruktur
 
 ```
 grafana/
 ├── dashboards/
-│   └── themisdb-llm-dashboard.json    # Hauptdashboard
+│   ├── themisdb-llm-dashboard.json           # LLM Monitoring Dashboard
+│   └── sla-monitoring.json
+├── siem-security-monitoring.json             # SIEM Security Dashboard (NEU)
+├── alerts/
+│   ├── graph_security.yaml                   # Graph Security Alerts
+│   └── siem_security_alerts.yaml             # SIEM Security Alerts (NEU)
 ├── provisioning/
 │   ├── datasources/
-│   │   └── prometheus.yml             # Prometheus Datasource
+│   │   └── prometheus.yml                    # Prometheus Datasource
 │   ├── dashboards/
-│   │   └── dashboards.yml             # Dashboard Provisioning
-│   └── alerts.yml                     # Alert Rules
-├── docker-compose.yml                 # Docker Setup
-└── README.md                          # Diese Datei
+│   │   └── dashboards.yml                    # Dashboard Provisioning
+│   └── alerts.yml                            # Alert Rules
+├── compliance_exporter.py                    # Compliance Report Generator (NEU)
+├── COMPLIANCE_EXPORTER_README.md             # Compliance Exporter Documentation (NEU)
+├── docker-compose.yml                        # Docker Setup
+├── prometheus.yml                            # Prometheus Configuration
+└── README.md                                 # Diese Datei
 ```
 
 ## Quick Start
@@ -358,9 +375,76 @@ groups:
         expr: (1 - (rate(llm_inference_failures_total[5m]) / rate(llm_inference_requests_total[5m]))) * 100
 ```
 
+## SIEM Security Monitoring (NEU)
+
+### Verfügbare SIEM-Dashboards
+
+**ThemisDB SIEM Security Monitoring** (`siem-security-monitoring.json`)
+- Umfassendes Security-Dashboard für SOC-Teams
+- 4 Hauptbereiche: Authentication, Audit Events, Query Performance, Infrastructure
+- Echtzeit-Bedrohungserkennung
+- Compliance-Mapping (SOC2, GDPR, HIPAA)
+
+### Dokumentation
+
+- **Integration Guide**: `docs/en/observability/siem_integration.md` (English)
+- **Integration Guide**: `docs/de/observability/siem_integration.md` (Deutsch)
+- **User Guide**: `docs/en/observability/siem_dashboard_user_guide.md`
+- **Compliance Exporter**: `COMPLIANCE_EXPORTER_README.md`
+
+### SIEM-relevante Alarme
+
+Alle SIEM-Alarme sind in `alerts/siem_security_alerts.yaml` definiert:
+
+**Kritische Alarme**:
+- `BruteForceAttackDetected` - Mehrfache fehlgeschlagene Logins
+- `PrivilegeEscalationDetected` - Unbefugte Rechteänderungen
+- `UnauthorizedDataExport` - Datenexfiltration
+- `AuditLogTamperingAttempt` - Audit-Log-Manipulation
+
+**Compliance-Alarme**:
+- `GDPRDataRetentionViolation` - DSGVO-Datenhaltung
+- `SOC2AuditLogGapDetected` - SOC2-Audit-Lücken
+- `EncryptionKeyRotationOverdue` - Schlüsselrotation überfällig
+- `BackupFailure` - Backup-Fehler
+
+### Compliance-Reporting
+
+Automatische Compliance-Berichte generieren:
+
+```bash
+# SOC2-Bericht für letzte 30 Tage (PDF)
+python3 compliance_exporter.py --framework soc2 --period 30d
+
+# GDPR-Bericht (JSON)
+python3 compliance_exporter.py --framework gdpr --period 7d --format json
+
+# HIPAA-Bericht (CSV)
+python3 compliance_exporter.py --framework hipaa --period 90d --format csv
+```
+
+Siehe `COMPLIANCE_EXPORTER_README.md` für Details.
+
+### Integration mit SIEM-Systemen
+
+**Splunk**:
+```bash
+pip install prometheus-splunk-exporter
+# Siehe docs/en/observability/siem_integration.md für Konfiguration
+```
+
+**ELK Stack**:
+- Logstash-Konfiguration verfügbar
+- Siehe docs/en/observability/siem_integration.md
+
+**Syslog (RFC 5424)**:
+- Native Unterstützung in ThemisDB
+- Strukturierte Ereignisse mit Compliance-Kontext
+
 ## Support
 
 - **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
+- **Security Contact**: security@themisdb.io
 - **Metrics Endpoint**: http://localhost:9091/metrics
 - **Prometheus UI**: http://localhost:9090
 - **Grafana UI**: http://localhost:3000
