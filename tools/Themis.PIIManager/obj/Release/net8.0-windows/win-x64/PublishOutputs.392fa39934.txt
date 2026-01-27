@@ -1,3 +1,0 @@
-C:\VCC\themis\dist\Themis.PIIManager\Themis.PIIManager.pdb
-C:\VCC\themis\dist\Themis.PIIManager\Themis.AdminTools.Shared.pdb
-C:\VCC\themis\dist\Themis.PIIManager\Themis.PIIManager.exe
