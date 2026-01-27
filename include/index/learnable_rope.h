@@ -134,18 +134,20 @@ public:
     /// @return Average validation loss
     float computeValidationLoss(const std::vector<TrainingSample>& samples) const;
     
+    // Rotate using learnable parameters (shadows base class method)
+    // This provides the same interface but uses learnable theta values
+    std::vector<float> rotate(
+        const std::vector<float>& embedding,
+        size_t position
+    ) const;
+    
+private:
     // ===== Internal Rotation Helpers =====
     
     /// Compute rotation angles using learnable theta
     /// (Similar to base class but uses learnable parameters)
     std::pair<double, double> computeLearnableRotationAngles(
         size_t position, size_t pair_idx
-    ) const;
-    
-    /// Rotate embedding using learnable parameters (override behavior)
-    std::vector<float> rotateWithLearnableTheta(
-        const std::vector<float>& embedding,
-        size_t position
     ) const;
     
     bool trainable_;                      // Are parameters trainable?

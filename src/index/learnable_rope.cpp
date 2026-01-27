@@ -49,25 +49,7 @@ void LearnableRotaryEmbedding::resetToBase() {
 // Rotation with Learnable Parameters
 // ============================================================================
 
-std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngles(
-    size_t position, 
-    size_t pair_idx
-) const {
-    if (pair_idx >= learnable_theta_.size()) {
-        throw std::out_of_range(
-            "Pair index out of range: " + std::to_string(pair_idx) +
-            " >= " + std::to_string(learnable_theta_.size())
-        );
-    }
-    
-    // Use learnable theta instead of base theta
-    double theta = learnable_theta_[pair_idx];
-    double angle = static_cast<double>(position) * theta;
-    
-    return {std::cos(angle), std::sin(angle)};
-}
-
-std::vector<float> LearnableRotaryEmbedding::rotateWithLearnableTheta(
+std::vector<float> LearnableRotaryEmbedding::rotate(
     const std::vector<float>& embedding,
     size_t position
 ) const {
@@ -117,6 +99,24 @@ std::vector<float> LearnableRotaryEmbedding::rotateWithLearnableTheta(
     return rotated;
 }
 
+std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngles(
+    size_t position, 
+    size_t pair_idx
+) const {
+    if (pair_idx >= learnable_theta_.size()) {
+        throw std::out_of_range(
+            "Pair index out of range: " + std::to_string(pair_idx) +
+            " >= " + std::to_string(learnable_theta_.size())
+        );
+    }
+    
+    // Use learnable theta instead of base theta
+    double theta = learnable_theta_[pair_idx];
+    double angle = static_cast<double>(position) * theta;
+    
+    return {std::cos(angle), std::sin(angle)};
+}
+
 // ============================================================================
 // Gradient Computation
 // ============================================================================
@@ -138,28 +138,39 @@ std::vector<double> LearnableRotaryEmbedding::computeGradients(
     const double epsilon = 1e-6;
     
     // Rotate with current parameters
-    auto rotated = rotateWithLearnableTheta(embedding, position);
+    auto rotated = rotate(embedding, position);
     
-    // Compute baseline "loss" (negative similarity)
-    double base_loss = -target_similarity; // Simplified loss
+    // Compute baseline loss based on the rotated embedding
+    // Simple loss: mean squared deviation from target
+    double base_loss = 0.0;
+    for (size_t i = 0; i < rotated.size(); ++i) {
+        double diff = rotated[i] - (embedding[i] * target_similarity);
+        base_loss += diff * diff;
+    }
+    base_loss /= rotated.size();
     
     // Compute gradient for each theta parameter using finite differences
     for (size_t i = 0; i < learnable_theta_.size(); ++i) {
         // Perturb theta[i] by epsilon
         double original_theta = learnable_theta_[i];
-        const_cast<LearnableRotaryEmbedding*>(this)->learnable_theta_[i] = original_theta + epsilon;
+        learnable_theta_[i] = original_theta + epsilon;
         
-        // Recompute rotation
-        auto perturbed = rotateWithLearnableTheta(embedding, position);
+        // Recompute rotation with perturbed theta
+        auto perturbed = rotate(embedding, position);
         
-        // Compute perturbed "loss"
-        double perturbed_loss = -target_similarity; // Simplified
+        // Compute perturbed loss
+        double perturbed_loss = 0.0;
+        for (size_t j = 0; j < perturbed.size(); ++j) {
+            double diff = perturbed[j] - (embedding[j] * target_similarity);
+            perturbed_loss += diff * diff;
+        }
+        perturbed_loss /= perturbed.size();
         
         // Gradient approximation: (loss' - loss) / epsilon
         gradients[i] = (perturbed_loss - base_loss) / epsilon;
         
-        // Restore original theta
-        const_cast<LearnableRotaryEmbedding*>(this)->learnable_theta_[i] = original_theta;
+        // Restore original theta (safe now that we're modifying non-const object)
+        learnable_theta_[i] = original_theta;
     }
     
     return gradients;
@@ -253,19 +264,25 @@ float LearnableRotaryEmbedding::computeContrastiveLoss(
         return 0.0f;
     }
     
-    // Simplified contrastive loss computation
-    // In a full implementation, this would compute pairwise similarities
-    // and use the SimCLR-style contrastive objective
+    // Improved contrastive loss computation
+    // Computes loss based on actual rotated embeddings
     
     float total_loss = 0.0f;
     
     for (const auto& sample : batch) {
         // Rotate the embedding using learnable theta
-        auto rotated = rotateWithLearnableTheta(sample.embedding, sample.position);
+        auto rotated = rotate(sample.embedding, sample.position);
         
-        // Compute a simple loss: difference from target
-        // In practice, this should be based on similarity to positive/negative pairs
-        float sample_loss = std::abs(1.0f - sample.similarity_target);
+        // Compute loss as mean squared difference between rotated and target-scaled embedding
+        // This encourages the rotation to preserve similarity according to target
+        float sample_loss = 0.0f;
+        for (size_t i = 0; i < rotated.size(); ++i) {
+            float target_val = sample.embedding[i] * sample.similarity_target;
+            float diff = rotated[i] - target_val;
+            sample_loss += diff * diff;
+        }
+        sample_loss /= static_cast<float>(rotated.size());
+        
         total_loss += sample_loss;
     }
     
