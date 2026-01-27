@@ -346,7 +346,7 @@ json McpServer::toolGetSchema(const json& args) {
 3. **Sprint Planning:** 7 Monate für vollständige KG Embedding Integration
 4. **Milestone:** "KG Embedding-Enhanced ThemisDB v1.5"
 
-### For Community
+### Für Community
 
 1. **Feedback:** Welche Features sind am wichtigsten?
 2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing und KG Embeddings

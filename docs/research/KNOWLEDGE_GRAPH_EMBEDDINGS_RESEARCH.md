@@ -135,9 +135,11 @@ Hits@10     | 0.533  | 0.465  | 0.428   | 0.501
 Metric      | RotatE | TransE | ComplEx | ConvE
 ------------|--------|--------|---------|-------
 MRR         | 0.476  | 0.226  | 0.440   | 0.430
-Hits@1      | 0.428  | 0.000  | 0.410   | 0.400
+Hits@1      | 0.428  | 0.043  | 0.410   | 0.400
 Hits@10     | 0.571  | 0.501  | 0.510   | 0.520
 ```
+
+**Note:** TransE performs poorly on WN18RR due to its inability to model symmetric relations effectively.
 
 ### 2.5 Implementierungs-Details
 
@@ -207,6 +209,8 @@ MRR         | 0.700  | 0.797  | 0.692   | 0.657
 Hits@1      | 0.627  | 0.746  | 0.599   | 0.558
 Hits@10     | 0.836  | 0.884  | 0.840   | 0.831
 ```
+
+**Note:** RotatE shows better overall performance on FB15k, while QuatE excels on specific relation types involving complex interactions.
 
 **WN18RR Dataset:**
 ```
