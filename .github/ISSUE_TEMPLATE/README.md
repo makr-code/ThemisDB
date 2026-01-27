@@ -1,8 +1,191 @@
 # GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, Distributed Training Enhancements, und Columnar Storage Optimizations.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, Distributed Training Enhancements, Columnar Storage Optimizations, und Research/Paper-Recherche.
 
 ## Verfügbare Templates
+
+### 🔬 Research & Paper Investigation Templates (2026-01-27)
+
+#### research_paper_investigation.md (🆕 NEW)
+**Status:** Available  
+**Description:** General template for research paper investigation and state-of-the-art method evaluation  
+**Priority:** P2 (Medium)  
+**Labels:** `type:discussion`, `area:docs`, `priority:P2`
+
+**Use Cases:**
+- Literature review and paper analysis
+- Comparative analysis of methods
+- Technology evaluation
+- Proof-of-concept planning
+
+**Key Sections:**
+- Research objectives and scope
+- Papers & references
+- Evaluation criteria
+- Expected outcomes & deliverables
+- Timeline and success criteria
+
+---
+
+#### vector_indexing_research.md (🆕 NEW)
+**Status:** Available  
+**Description:** Comprehensive template for vector indexing research (methods beyond HNSW)  
+**Priority:** P2 (Medium)  
+**Labels:** `type:discussion`, `area:llm`, `area:performance`, `priority:P2`
+
+**Focus Areas:**
+- Product Quantization (PQ) Improvements
+- Learned Index Structures
+- GPU-optimized Indexing Methods
+- Hybrid Approaches
+- ANN Algorithm Evaluation
+
+**Key Sections:**
+- Current state & limitations
+- Research objectives with target metrics
+- State-of-the-art methods comparison
+- Proof-of-concept plan (3 phases)
+- Integration considerations
+
+**Target Improvements:**
+- Query latency reduction (5-10x)
+- Memory footprint reduction (4-10x)
+- Scalability to 100M+ vectors
+- GPU acceleration support
+
+---
+
+#### product_quantization_research.md (🆕 NEW)
+**Status:** Available  
+**Description:** Specialized template for Product Quantization (PQ) improvements research  
+**Priority:** P2 (Medium)  
+**Effort:** 6-8 weeks  
+**Labels:** `type:discussion`, `area:llm`, `area:performance`, `priority:P2`, `effort:medium`
+
+**PQ Variants Covered:**
+- ✅ Optimized Product Quantization (OPQ) - +5-10% recall
+- ✅ Additive Quantization (AQ) - Better reconstruction
+- ✅ Residual Quantization (RQ) - Multi-stage refinement
+- ✅ Polysemous Codes - 2-5x faster filtering
+- ✅ Locally-Adaptive PQ - +5-8% recall
+- ✅ Cartesian k-means - +10-15% recall
+
+**Key Papers:**
+- Ge et al., "Optimized Product Quantization" (CVPR 2014)
+- Babenko & Lempitsky, "Additive Quantization" (ICCV 2014)
+- Douze et al., "Polysemous Codes" (ECCV 2016)
+- Norouzi & Fleet, "Cartesian k-means" (CVPR 2013)
+
+**Expected Benefits:**
+- 16:1 to 32:1 compression ratio
+- 90%+ recall@10 maintained
+- <5% query latency overhead
+- 10-30x memory reduction
+
+---
+
+#### learned_index_research.md (🆕 NEW)
+**Status:** Available  
+**Description:** Template for learned/neural index structures research  
+**Priority:** P2 (Medium)  
+**Effort:** 8-12 weeks  
+**Labels:** `type:discussion`, `area:llm`, `area:performance`, `priority:P2`, `effort:large`
+
+**Approaches Covered:**
+- 🧠 Neural Approximate Nearest Neighbor (NANN)
+- 🧠 Learning to Hash (Deep Hashing)
+- 🧠 Learned Space Partitioning
+- 🧠 End-to-End Learned Vector Search
+- 🧠 Hybrid Learned/Traditional Indexes
+- 🧠 Graph Neural Networks for Vector Search
+
+**Key Papers:**
+- Kraska et al., "The Case for Learned Index Structures" (SIGMOD 2018)
+- Wang et al., "Deep Hashing for ANN Search" (IEEE TPAMI 2021)
+- Prokhorenkova et al., "Learning to Route in Similarity Graphs" (KDD 2020)
+- Jaiswal et al., "SONG: ANN Search on GPU" (NeurIPS 2022)
+
+**Success Criteria:**
+- ≥5% improvement in recall@10 over HNSW
+- Index size ≤ 2x HNSW
+- Query latency ≤ 1.5x HNSW
+- <5% performance drop on out-of-distribution queries
+
+---
+
+#### gpu_indexing_research.md (🆕 NEW)
+**Status:** Available  
+**Description:** Template for GPU-optimized vector indexing research  
+**Priority:** P2 (Medium)  
+**Effort:** 8-12 weeks  
+**Labels:** `type:discussion`, `area:llm`, `area:performance`, `priority:P2`, `effort:large`
+
+**GPU Methods Covered:**
+- 🎮 Brute-Force GPU Search
+- 🎮 GPU-Accelerated IVF (Inverted File Index)
+- 🎮 GPU-Accelerated HNSW
+- 🎮 GPU Product Quantization
+- 🎮 Multi-GPU Scaling
+- 🎮 Tensor Core Utilization
+- 🎮 GPU-CPU Hybrid Approaches
+
+**Key Libraries & Papers:**
+- FAISS-GPU (Meta AI) - Johnson et al. (IEEE TBDATA 2019)
+- RAFT/CAGRA (NVIDIA) - GPU graph-based ANN
+- SONG (NeurIPS 2022) - Learned hash on GPU
+- NGT-QG (Yahoo Japan) - Quantized graph on GPU
+
+**Expected Benefits:**
+- 10-100x speedup for batch queries
+- <10ms p95 latency for single queries
+- Linear scaling to 2-4 GPUs
+- Reduced TCO vs. CPU-only clusters
+
+**Hardware Requirements:**
+- NVIDIA GPUs: CUDA 11.8+, 16GB+ VRAM
+- AMD GPUs: ROCm/HIP support
+- Multi-GPU: NVLink for best performance
+
+---
+
+### 🎯 Research Template Usage / Verwendung
+
+**When to use Research Templates:**
+1. **Before Implementation:** Evaluate state-of-the-art methods before coding
+2. **Technology Evaluation:** Compare multiple approaches systematically
+3. **Performance Optimization:** Identify bottlenecks and research solutions
+4. **Innovation:** Explore cutting-edge methods from recent papers
+
+**Workflow:**
+```
+1. Create Issue with Research Template
+   → Select appropriate template based on focus area
+   
+2. Literature Review Phase
+   → Identify key papers and implementations
+   → Document evaluation criteria
+   
+3. Proof-of-Concept Phase
+   → Implement 2-3 most promising methods
+   → Benchmark against current implementation
+   
+4. Analysis & Recommendation
+   → Document findings
+   → Provide clear recommendations
+   → Estimate integration effort
+   
+5. Implementation Planning
+   → Create follow-up feature issues if promising
+   → Define integration roadmap
+```
+
+**Example Research Issues:**
+- "Paper-Recherche: Advanced Vector Indexing (über HNSW hinaus)"
+- "Evaluate Learned Index Structures for ThemisDB Vector Search"
+- "GPU Acceleration Strategy for 100M+ Vector Collections"
+- "Product Quantization Improvements: OPQ vs AQ vs RQ"
+
+---
 
 ### 🆕 Columnar Storage Enhancement Templates (2026-01-22)
 
