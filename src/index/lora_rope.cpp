@@ -320,19 +320,11 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
     // Compute base rotation
     std::vector<float> base_rotation = rotate(embedding, position);
     
-    // Compute each adapter's contribution and blend with weights
+    // Compute each adapter's contribution as pure weighted average
+    // Note: adapter rotations already include base rotation, so we don't add base separately
     std::vector<float> result(base_rotation.size(), 0.0f);
     
-    // Add base contribution weighted by (1 - sum of adapter weights)
-    float adapter_weight_sum = std::accumulate(normalized_weights.begin(), normalized_weights.end(), 0.0f);
-    float base_weight = 1.0f - adapter_weight_sum;
-    if (base_weight > 0.0f) {
-        for (size_t j = 0; j < result.size(); ++j) {
-            result[j] += base_weight * base_rotation[j];
-        }
-    }
-    
-    // Add each adapter's contribution weighted by its weight
+    // Weighted average of all adapter rotations
     for (size_t i = 0; i < adapter_names.size(); ++i) {
         if (normalized_weights[i] <= 0.0f) continue;
         
