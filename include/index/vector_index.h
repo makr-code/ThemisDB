@@ -16,7 +16,9 @@ class SecondaryIndexManager;
 class ProductQuantizer;
 class IExpressionEvaluator;
 class HnswLayerOptimizer;
+class RotaryEmbedding;
 struct HnswOptimizationConfig;
+struct RotationConfig;
 
 namespace utils {
     class AuditLogger;
@@ -283,6 +285,43 @@ public:
     
     // Flush pending encrypted writes (Phase 1 batching)
     void flushEncryptedWrites() const;
+    
+    // ===== Rotary Embeddings Support =====
+    
+    /// Enable/disable rotary embeddings with configuration
+    Status setRotaryEmbeddingConfig(const struct RotationConfig& config);
+    
+    /// Check if rotary embeddings are enabled
+    bool isRotaryEmbeddingEnabled() const { return rotary_enabled_; }
+    
+    /// Get current rotary embedding configuration
+    /// Returns nullopt if rotary embeddings are not enabled
+    std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+    
+    /// Add entity with automatic positional rotation
+    /// The embedding is rotated based on the position parameter before storage
+    Status addEntityWithRotation(
+        const BaseEntity& e,
+        std::string_view vectorField,
+        size_t position
+    );
+    
+    /// Add entity with relational rotation (for Knowledge Graph edges)
+    /// The embedding is rotated based on the relation type
+    Status addEntityWithRelationalRotation(
+        const BaseEntity& e,
+        std::string_view vectorField,
+        const std::string& relation_type
+    );
+    
+    /// KNN search with rotation-aware query
+    /// Rotates the query vector before search
+    std::pair<Status, std::vector<Result>> searchWithRotation(
+        const std::vector<float>& query,
+        int k,
+        size_t query_position,
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
 
 private:
     RocksDBWrapper& db_;
@@ -350,6 +389,10 @@ private:
     
     // Phase 4: HNSW Layer Optimizer for vector index optimization
     std::unique_ptr<HnswLayerOptimizer> hnsw_optimizer_;
+    
+    // Rotary Embeddings support
+    std::unique_ptr<RotaryEmbedding> rotary_embedding_;
+    bool rotary_enabled_ = false;
     
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource,
