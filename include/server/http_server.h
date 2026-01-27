@@ -35,6 +35,7 @@
 #include "server/audit_api_handler.h"
 #include "server/admin_api_handler.h"
 #include "server/vector_api_handler.h"
+#include "server/rope_api_handler.h"
 #include "server/spatial_api_handler.h"
 #include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
@@ -597,6 +598,9 @@ private:
     
     // Vector API Handler
     std::unique_ptr<themis::server::VectorApiHandler> vector_api_;
+    
+    // RoPE API Handler
+    std::unique_ptr<themis::server::RopeApiHandler> rope_api_;
     
     // Spatial API Handler
     std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
