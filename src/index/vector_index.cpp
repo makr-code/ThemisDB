@@ -1,6 +1,7 @@
 ﻿// Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include "index/rotary_embeddings.h"
 #include "index/product_quantizer.h"
 #include "index/secondary_index.h"
 #include "index/hnsw_layer_optimizer.h"
@@ -2405,6 +2406,148 @@ VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats()
 	}
 	
 	return stats;
+}
+
+// ============================================================================
+// Rotary Embeddings Support
+// ============================================================================
+
+VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const RotationConfig& config) {
+	if (!config.isValid()) {
+		return Status::Error("Invalid RotationConfig");
+	}
+	
+	try {
+		// Create new rotary embedding instance
+		rotary_embedding_ = std::make_unique<RotaryEmbedding>(config);
+		rotary_enabled_ = true;
+		
+		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
+		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
+		           config.hidden_dim, config.num_rotation_pairs, config.base_theta, config.normalize_after);
+		
+		// Log audit event if logger is set
+		logAuditEvent_("config", "rotary_embeddings", "enable", config.num_rotation_pairs);
+		
+		return Status::OK();
+	} catch (const std::exception& e) {
+		rotary_enabled_ = false;
+		rotary_embedding_.reset();
+		return Status::Error(std::string("Failed to enable rotary embeddings: ") + e.what());
+	}
+}
+
+std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
+	}
+	return rotary_embedding_->getConfig();
+}
+
+VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
+	const BaseEntity& e,
+	std::string_view vectorField,
+	size_t position
+) {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return Status::Error("Rotary embeddings not enabled");
+	}
+	
+	// Extract original vector
+	auto vec_opt = e.extractVector(vectorField);
+	if (!vec_opt) {
+		return Status::Error("Vector field not found or invalid: " + std::string(vectorField));
+	}
+	
+	try {
+		// Apply rotation
+		auto rotated = rotary_embedding_->rotate(*vec_opt, position);
+		
+		// Create new entity with rotated embedding and metadata
+		BaseEntity rotated_entity = e;
+		rotated_entity.setField(std::string(vectorField), rotated);
+		rotated_entity.setField(std::string(vectorField) + "_rotation_pos", 
+		                       static_cast<int64_t>(position));
+		
+		// Store using existing method
+		auto status = addEntity(rotated_entity, vectorField);
+		
+		// Log audit event if logger is set
+		if (status.ok) {
+			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
+		}
+		
+		return status;
+	} catch (const std::exception& e) {
+		return Status::Error(std::string("Rotation failed: ") + e.what());
+	}
+}
+
+VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
+	const BaseEntity& e,
+	std::string_view vectorField,
+	const std::string& relation_type
+) {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return Status::Error("Rotary embeddings not enabled");
+	}
+	
+	// Extract original vector
+	auto vec_opt = e.extractVector(vectorField);
+	if (!vec_opt) {
+		return Status::Error("Vector field not found or invalid: " + std::string(vectorField));
+	}
+	
+	try {
+		// Apply relational rotation
+		auto rotated = rotary_embedding_->rotateRelational(*vec_opt, relation_type);
+		
+		// Create new entity with rotated embedding and metadata
+		BaseEntity rotated_entity = e;
+		rotated_entity.setField(std::string(vectorField), rotated);
+		rotated_entity.setField(std::string(vectorField) + "_rotation_type", relation_type);
+		
+		// Store using existing method
+		auto status = addEntity(rotated_entity, vectorField);
+		
+		// Log audit event if logger is set
+		if (status.ok) {
+			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
+		}
+		
+		return status;
+	} catch (const std::exception& e) {
+		return Status::Error(std::string("Relational rotation failed: ") + e.what());
+	}
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>> 
+VectorIndexManager::searchWithRotation(
+	const std::vector<float>& query,
+	int k,
+	size_t query_position,
+	const std::vector<std::string>* whitelistPks
+) const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return {Status::Error("Rotary embeddings not enabled"), {}};
+	}
+	
+	try {
+		// Rotate query vector
+		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		
+		// Perform standard search with rotated query
+		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
+		
+		// Log audit event if logger is set
+		if (status.ok) {
+			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
+		}
+		
+		return {status, results};
+	} catch (const std::exception& e) {
+		return {Status::Error(std::string("Rotation search failed: ") + e.what()), {}};
+	}
 }
 
 } // namespace themis
