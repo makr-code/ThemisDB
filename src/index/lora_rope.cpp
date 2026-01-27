@@ -317,21 +317,28 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
         w /= weight_sum;
     }
     
-    // Start with base rotation
-    std::vector<float> result = rotate(embedding, position);
+    // Compute base rotation
+    std::vector<float> base_rotation = rotate(embedding, position);
     
-    // Apply each adapter with its weight
+    // Compute each adapter's contribution and blend with weights
+    std::vector<float> result(base_rotation.size(), 0.0f);
+    
+    // Add base contribution weighted by (1 - sum of adapter weights)
+    float adapter_weight_sum = std::accumulate(normalized_weights.begin(), normalized_weights.end(), 0.0f);
+    float base_weight = 1.0f - adapter_weight_sum;
+    if (base_weight > 0.0f) {
+        for (size_t j = 0; j < result.size(); ++j) {
+            result[j] += base_weight * base_rotation[j];
+        }
+    }
+    
+    // Add each adapter's contribution weighted by its weight
     for (size_t i = 0; i < adapter_names.size(); ++i) {
         if (normalized_weights[i] <= 0.0f) continue;
         
-        // Get adapter-modified rotation
         auto adapter_rotation = rotateWithAdapter(embedding, position, adapter_names[i]);
-        
-        // Blend: weighted combination
-        // result = (1-w) * result + w * adapter_rotation
-        float w = normalized_weights[i];
         for (size_t j = 0; j < result.size(); ++j) {
-            result[j] = (1.0f - w) * result[j] + w * adapter_rotation[j];
+            result[j] += normalized_weights[i] * adapter_rotation[j];
         }
     }
     
@@ -341,59 +348,6 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
 // ============================================================================
 // Private Helper Methods
 // ============================================================================
-
-std::vector<double> LoRARotaryEmbedding::applyLoRAModification(
-    const LoRARopeAdapter& adapter,
-    size_t position
-) const {
-    // Extract rotation features
-    std::vector<double> features = extractRotationFeatures(position);
-    
-    // Apply LoRA: B @ (A @ features)
-    // Step 1: A @ features -> intermediate (size = rank)
-    std::vector<double> intermediate(adapter.rank, 0.0);
-    for (size_t r = 0; r < adapter.rank; ++r) {
-        for (size_t i = 0; i < features.size(); ++i) {
-            intermediate[r] += adapter.matrix_A[r][i] * features[i];
-        }
-    }
-    
-    // Step 2: B @ intermediate -> result (size = num_rotation_pairs)
-    std::vector<double> result(getConfig().num_rotation_pairs, 0.0);
-    for (size_t i = 0; i < getConfig().num_rotation_pairs; ++i) {
-        for (size_t r = 0; r < adapter.rank; ++r) {
-            result[i] += adapter.matrix_B[i][r] * intermediate[r];
-        }
-        
-        // Add theta_delta if present
-        if (!adapter.theta_delta.empty()) {
-            result[i] += adapter.theta_delta[i];
-        }
-        
-        // Scale by alpha and adapter scaling
-        result[i] *= adapter.alpha * adapter.scaling;
-    }
-    
-    return result;
-}
-
-std::pair<double, double> LoRARotaryEmbedding::computeLoRARotationAngles(
-    size_t position,
-    size_t pair_idx,
-    const LoRARopeAdapter& adapter
-) const {
-    // Get base theta value
-    double base_theta = getConfig().theta_cache[pair_idx];
-    
-    // Apply LoRA modification
-    auto theta_modifications = applyLoRAModification(adapter, position);
-    double modified_theta = base_theta + theta_modifications[pair_idx];
-    
-    // Compute angle for this position
-    double angle = static_cast<double>(position) * modified_theta;
-    
-    return {std::cos(angle), std::sin(angle)};
-}
 
 std::vector<double> LoRARotaryEmbedding::extractRotationFeatures(size_t position) const {
     // Create a feature vector based on position and base theta values

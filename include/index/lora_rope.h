@@ -208,27 +208,6 @@ private:
     
     // ===== Internal helpers =====
     
-    /// Apply LoRA adapter to rotation angles
-    /// Computes the low-rank modification: delta_theta = B @ A @ features
-    /// @param adapter LoRA adapter to apply
-    /// @param position Position index
-    /// @return Modified theta values
-    std::vector<double> applyLoRAModification(
-        const LoRARopeAdapter& adapter,
-        size_t position
-    ) const;
-    
-    /// Compute modified rotation angles with LoRA
-    /// @param position Position index
-    /// @param pair_idx Rotation pair index
-    /// @param adapter LoRA adapter to apply
-    /// @return Modified (cos_theta, sin_theta) pair
-    std::pair<double, double> computeLoRARotationAngles(
-        size_t position,
-        size_t pair_idx,
-        const LoRARopeAdapter& adapter
-    ) const;
-    
     /// Extract rotation features for LoRA input
     /// Creates a feature vector from position that can be transformed by LoRA matrices
     /// @param position Position index
