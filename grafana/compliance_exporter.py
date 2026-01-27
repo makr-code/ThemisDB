@@ -15,6 +15,7 @@ Requirements:
 """
 
 import argparse
+import os
 import requests
 import pandas as pd
 import json
@@ -30,7 +31,8 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 
 # Configuration
-PROMETHEUS_URL = "http://localhost:9090"
+# For production, use environment variable: PROMETHEUS_URL=http://your-prometheus:9090
+PROMETHEUS_URL = os.environ.get("PROMETHEUS_URL", "http://localhost:9090")
 DEFAULT_OUTPUT_DIR = "./compliance_reports"
 
 # Compliance frameworks configuration
@@ -212,7 +214,9 @@ class ComplianceExporter:
         data = response.json()
         
         if data["status"] != "success":
-            raise ValueError(f"Prometheus query failed: {data}")
+            error_msg = data.get("error", "Unknown error")
+            error_type = data.get("errorType", "Unknown")
+            raise ValueError(f"Prometheus query failed [{error_type}]: {error_msg}")
         
         return data["data"]["result"]
     
@@ -292,7 +296,7 @@ class ComplianceExporter:
         else:
             raise ValueError(f"Unsupported format: {format}")
         
-        print(f"\\nSOC2 report generated: {output_file}")
+        print(f"\nSOC2 report generated: {output_file}")
         return report_data
     
     def _extract_metric_name(self, query: str) -> str:
@@ -471,7 +475,7 @@ def main():
     elif args.framework == "hipaa":
         print("HIPAA reporting not yet implemented")
     
-    print("\\nDone!")
+    print("\nDone!")
 
 
 if __name__ == "__main__":

@@ -30,6 +30,12 @@ groups:
           remediation: "1. Block IP at firewall level\n2. Reset affected user passwords\n3. Review authentication logs for successful logins from this IP\n4. Generate incident report"
       
       - alert: UnusualAuthenticationPattern
+        # NOTE: This query with nested aggregations can be resource-intensive.
+        # For production, consider using a recording rule:
+        #   - record: themis:auth_attempts_rate_baseline:1h
+        #     expr: avg_over_time(sum by (user) (rate(themis_auth_attempts_total[5m]))[1h:5m])
+        # Then simplify this alert to:
+        #   expr: sum by (user) (rate(themis_auth_attempts_total[5m])) / themis:auth_attempts_rate_baseline:1h > 5
         expr: |
           sum by (user) (rate(themis_auth_attempts_total[5m])) 
           / 
@@ -63,6 +69,11 @@ groups:
           remediation: "1. Verify authorization workflow\n2. Review approval chain\n3. Audit similar privilege changes\n4. Update RBAC policies if needed"
       
       - alert: FailedAuthenticationAfterSuccess
+        # Note: Uses different time windows intentionally:
+        # - 5m for failures: Detect recent attack attempts
+        # - 15m for success: Look back further to find successful login session
+        # This helps identify credential compromise scenarios where attacker
+        # gains access briefly then loses it or legitimate user changes password
         expr: |
           (sum by (user, source_ip) (increase(themis_auth_failures_total[5m])) > 3)
           and ignoring(status)
