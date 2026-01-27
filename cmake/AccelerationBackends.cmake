@@ -66,4 +66,18 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/llm/lora_framework/paged_memory_manager.cpp
     ../src/llm/lora_framework/custom_allreduce.cpp
 )
+
+# RoPE GPU implementation fallback
+# If neither CUDA nor HIP is enabled, use CPU-only implementation
+if(NOT THEMIS_ENABLE_CUDA AND NOT THEMIS_ENABLE_HIP)
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/index/rotary_embeddings_gpu_cpu.cpp
+    )
+endif()
+
+else()
+    # GPU disabled entirely - add CPU-only RoPE GPU implementation
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/index/rotary_embeddings_gpu_cpu.cpp
+    )
 endif()
