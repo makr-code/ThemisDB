@@ -24,7 +24,7 @@ public:
     std::vector<std::vector<float>> rotateBatch(
         const std::vector<std::vector<float>>& embeddings,
         const std::vector<size_t>& positions
-    ) const override;
+    ) const;
     
     /// GPU-accelerated batch rotation (explicit GPU method)
     std::vector<std::vector<float>> rotateBatchGPU(

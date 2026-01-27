@@ -84,7 +84,6 @@ TEST_F(RotaryEmbeddingGPUTest, GPUBackendDetection) {
     if (gpu_rope_cuda_) {
         EXPECT_TRUE(gpu_rope_cuda_->getBackend() == GPUBackend::CUDA);
         if (gpu_rope_cuda_->isGPUAvailable()) {
-            EXPECT_TRUE(gpu_rope_cuda_->isGPUAvailable());
             std::cout << "CUDA GPU available for testing" << std::endl;
         } else {
             std::cout << "CUDA GPU not available - will fall back to CPU" << std::endl;
@@ -94,7 +93,6 @@ TEST_F(RotaryEmbeddingGPUTest, GPUBackendDetection) {
     if (gpu_rope_hip_) {
         EXPECT_TRUE(gpu_rope_hip_->getBackend() == GPUBackend::HIP);
         if (gpu_rope_hip_->isGPUAvailable()) {
-            EXPECT_TRUE(gpu_rope_hip_->isGPUAvailable());
             std::cout << "HIP GPU available for testing" << std::endl;
         } else {
             std::cout << "HIP GPU not available - will fall back to CPU" << std::endl;

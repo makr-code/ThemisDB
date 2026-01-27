@@ -107,15 +107,11 @@ RotaryEmbeddingGPU::RotaryEmbeddingGPU(const RotationConfig& config, GPUBackend 
     , gpu_available_(false)
     , gpu_resources_(std::make_unique<GPUResources>())
 {
+    // CUDA-specific implementation - only handle CUDA backend
     if (backend_ == GPUBackend::CUDA) {
         gpu_available_ = initializeGPU();
-    } else if (backend_ == GPUBackend::HIP) {
-        // HIP support would be initialized here
-        gpu_available_ = false;
-    } else {
-        // CPU fallback
-        gpu_available_ = false;
     }
+    // Other backends (HIP, CPU) are not handled in this CUDA-specific file
 }
 
 RotaryEmbeddingGPU::~RotaryEmbeddingGPU() {
