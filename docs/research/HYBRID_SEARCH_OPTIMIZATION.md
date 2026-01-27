@@ -356,7 +356,7 @@ Contrastive Loss: Images und Texts im gleichen Raum
 
 **Innovation:**
 - Caption Generation zusätzlich zu Contrastive Learning
-- Synthetic Captions für bessere Datenaualität
+- Synthetic Captions für bessere Datenqualität
 
 **Architektur:**
 ```
