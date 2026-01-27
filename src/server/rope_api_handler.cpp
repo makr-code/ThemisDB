@@ -6,6 +6,7 @@
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include <chrono>
 
 namespace themis {
 namespace server {
@@ -215,13 +216,22 @@ http::response<http::string_body> RopeApiHandler::handleConfigDelete(
         std::string index_name = *index_name_opt;
         span.setAttribute("rope.index_name", index_name);
         
-        // Disable RoPE by setting an invalid/empty configuration
-        // Note: The VectorIndexManager should have a method to disable RoPE
-        // For now, we'll return success to indicate intent
+        // Check if RoPE is currently enabled
+        if (!vector_index_->isRotaryEmbeddingEnabled()) {
+            span.setStatus(false, "RoPE not enabled");
+            return makeErrorResponse(http::status::not_found,
+                "RoPE is not enabled for index '" + index_name + "'", req);
+        }
+        
+        // Note: VectorIndexManager does not currently provide a disable method.
+        // This endpoint returns success to indicate intent, but RoPE remains configured.
+        // Future enhancement: Add disableRotaryEmbedding() method to VectorIndexManager
+        // to fully support disabling RoPE at runtime.
         
         json response = {
             {"status", "success"},
-            {"message", "RoPE disabled for index '" + index_name + "'"}
+            {"message", "RoPE disable requested for index '" + index_name + "'"},
+            {"note", "RoPE configuration persists until server restart"}
         };
         
         span.setStatus(true);
@@ -548,8 +558,14 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         span.setAttribute("rope.k", static_cast<int64_t>(k));
         span.setAttribute("rope.query_dim", static_cast<int64_t>(query_vector.size()));
         
+        // Measure search time
+        auto start_time = std::chrono::high_resolution_clock::now();
+        
         // Perform search with rotation
         auto [status, results] = vector_index_->searchWithRotation(query_vector, k, position);
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
         
         if (!status.ok) {
             span.setStatus(false, status.message);
@@ -570,7 +586,7 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
         json response = {
             {"status", "success"},
             {"results", results_array},
-            {"query_time_ms", 0.0},  // TODO: Add timing
+            {"query_time_ms", duration_ms},
             {"rotation_enabled", true},
             {"k", k},
             {"count", results.size()}
@@ -772,11 +788,15 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
             
-            // TODO: Add real statistics when available
+            // Note: Detailed rotation statistics are not currently tracked by VectorIndexManager.
+            // Future enhancement: Add statistics tracking to RotaryEmbedding class
+            // - Track rotation count, average time, relational vs positional rotations
+            // - Integrate with performance monitoring infrastructure
             response["statistics"] = {
-                {"total_rotated_entities", 0},
-                {"avg_rotation_time_us", 0.0},
-                {"relational_rotations", 0}
+                {"note", "Detailed statistics not yet available"},
+                {"total_rotated_entities", "N/A"},
+                {"avg_rotation_time_us", "N/A"},
+                {"relational_rotations", "N/A"}
             };
         }
         
@@ -821,12 +841,22 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     const std::string& resource,
     const std::string& path)
 {
+    // Suppress unused parameter warnings for parameters reserved for future use
     (void)permission; (void)resource; (void)path;
+    
+    // Basic authentication check - if auth middleware is not configured or not enabled,
+    // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;
+        return std::nullopt;  // null = access allowed
     }
-    // TODO: implement fine-grained scope checks; currently allow if auth is enabled.
-    return std::nullopt;
+    
+    // Note: Fine-grained permission checks (vector:read, vector:write, data:read, data:write)
+    // are not yet implemented. This matches the pattern used in VectorApiHandler.
+    // Current behavior: If authentication is enabled, all authenticated requests are allowed.
+    // Future enhancement: Integrate with ThemisDB RBAC system to check specific permissions.
+    // Example: if (!auth_->hasPermission(req, permission)) return makeErrorResponse(403, "Forbidden", req);
+    
+    return std::nullopt;  // null = access allowed
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {
