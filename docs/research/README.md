@@ -1,14 +1,14 @@
-# Agentic AI Self-Awareness Research - Summary
+# ThemisDB Research Documentation - Summary
 
-**Datum:** 11. Januar 2026  
 **Projekt:** ThemisDB  
-**Kategorie:** Research Documentation
+**Kategorie:** Research Documentation  
+**Letzte Aktualisierung:** 27. Januar 2026
 
 ---
 
 ## 📋 Dokumenten-Übersicht
 
-Diese Research-Initiative analysiert und dokumentiert die "Self-Awareness"-Fähigkeiten von ThemisDB für Agentic AI-Anwendungen.
+Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technische Analysen für ThemisDB.
 
 ### Verfügbare Dokumente
 
@@ -17,7 +17,7 @@ Diese Research-Initiative analysiert und dokumentiert die "Self-Awareness"-Fähi
    - Analyse der MCP Server Implementation
    - Bewertung der LLM-Integration
    - Gap-Analyse und Empfehlungen
-   - **Status:** ✅ Abgeschlossen
+   - **Status:** ✅ Abgeschlossen (11. Januar 2026)
 
 2. **[AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md](AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md)**
    - Konkrete Code-Beispiele für die Implementierung
@@ -25,11 +25,21 @@ Diese Research-Initiative analysiert und dokumentiert die "Self-Awareness"-Fähi
    - REST API Endpoint Implementierung
    - MCP Integration Code
    - LLM System-Prompts
-   - **Status:** ✅ Design Proof-of-Concept
+   - **Status:** ✅ Design Proof-of-Concept (11. Januar 2026)
+
+3. **[GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)** 🆕
+   - Graph Neural Networks für Databases
+   - GNN-basierte Indexierungs-Methoden
+   - Graph-Aware Embeddings für Query-Optimierung
+   - Bewertung des Potenzials für ThemisDB
+   - Implementierungs-Roadmap und Empfehlungen
+   - **Status:** ✅ Abgeschlossen (27. Januar 2026)
 
 ---
 
-## 🎯 Kernfrage
+## 🎯 Forschungsthemen
+
+### 1. Agentic AI Self-Awareness
 
 > **"Gibt es eine Form der self-awareness der Themis (+llama.cpp) die kommunizieren kann welche Daten in der DB gespeichert sind und wie die benutzt werden können (Agentic AI)?"**
 
@@ -38,14 +48,30 @@ Konkret: Kann ein Nutzer die Datenbank fragen:
 - "Wo sind die Daten?"
 - "Wie sind die Daten aufgebaut?"
 - "Was ist deine Aufgabe?"
-- **"Welche Behördendaten speicherst du?"** (Domain-spezifisch, Update 11.01.2026)
-- **"Welche LoRA-Adapter sind geladen?"** (LoRA-RAID-Verbund, Update 11.01.2026)
+- **"Welche Behördendaten speicherst du?"** (Domain-spezifisch)
+- **"Welche LoRA-Adapter sind geladen?"** (LoRA-RAID-Verbund)
+
+**Dokumente:** [AGENTIC_AI_SELF_AWARENESS_RESEARCH.md](AGENTIC_AI_SELF_AWARENESS_RESEARCH.md), [AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md](AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md)
+
+### 2. Graph Neural Networks für Databases
+
+> **"Wie können Graph Neural Networks die Indexierungs- und Embedding-Fähigkeiten von ThemisDB verbessern?"**
+
+Fokus-Bereiche:
+- **GNN-basiertes Indexing:** 10-100x schnellere Subgraph-Queries
+- **Graph-Aware Embeddings:** Semantische Suche und Query-Optimierung
+- **Multi-Modal Embeddings:** Integration mit LLM und Vector Search
+- **Production-Integration:** ONNX Runtime, GPU-Acceleration, RocksDB Cache
+
+**Dokument:** [GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
 
 ---
 
 ## ✅ Wichtigste Erkenntnisse
 
-### 1. Vorhandene Basis (Already Implemented)
+### Agentic AI Self-Awareness
+
+#### 1. Vorhandene Basis (Already Implemented)
 
 ThemisDB hat **bereits eine solide Grundlage** für Agentic AI Self-Awareness:
 
@@ -67,7 +93,7 @@ ThemisDB hat **bereits eine solide Grundlage** für Agentic AI Self-Awareness:
 ✅ **Multi-Protocol Support**
 - HTTP/REST, gRPC, PostgreSQL Wire, MCP, GraphQL
 
-### 2. Hauptproblem (Core Issue)
+#### 2. Hauptproblem (Core Issue)
 
 ⚠️ **MCP-Integration ist nur "Minimal"**
 
@@ -192,7 +218,7 @@ json McpServer::toolGetSchema(const json& args) {
 
 ## 💡 Schlussfolgerungen
 
-### Zusammenfassung
+### Agentic AI Self-Awareness
 
 1. **Gute Nachricht:** 
    - ThemisDB hat bereits die **technische Infrastruktur** für Agentic AI Self-Awareness
@@ -208,19 +234,29 @@ json McpServer::toolGetSchema(const json& args) {
    - Implementierung in **3-4 Sprints** möglich
    - Kein komplettes Redesign nötig
 
-### Empfehlung
+**Empfehlung:** Priorität 1 ist Schema-Discovery implementieren. Dies ist der kritische Pfad für alle weiteren Self-Awareness-Features.
 
-**Priorität 1: Schema-Discovery implementieren**
+### Graph Neural Networks für Databases
 
-Die Implementation eines `SchemaManager` mit vollständiger Schema-Discovery ist der **kritische Pfad** für alle weiteren Self-Awareness-Features. 
+1. **Enormes Potenzial:**
+   - **10-100x schnellere** Subgraph-Queries (vs. traditionelle Methoden)
+   - Neue Features: Semantic Search, Fraud Detection, Recommendation
+   - Production-ready Frameworks verfügbar (PyTorch Geometric, ONNX Runtime)
 
-Sobald dieser implementiert ist, können die REST API und MCP-Integration mit minimalem Aufwand vervollständigt werden.
+2. **Ideale Basis in ThemisDB:**
+   - ✅ Multi-Model (Graph + Vector + Relational)
+   - ✅ GPU Support bereits vorhanden
+   - ✅ LLM Integration für Semantic Features
+   - ✅ RocksDB als robustes Storage-Backend
+   - ✅ LoRA-RAID für Multi-GPU Training
 
-**ROI:** 
-- Hoch: Unlock aller Self-Awareness-Features
-- Mittel: ~1100 LOC
-- Zeit: 3-4 Sprints
-- Risiko: Niedrig (keine breaking changes)
+3. **Implementierungs-Roadmap:**
+   - **Phase 1 (Q2 2026):** Proof of Concept - 3 Monate
+   - **Phase 2 (Q3 2026):** Production Features - 3 Monate
+   - **Phase 3 (Q4 2026+):** Advanced Features - 4 Monate
+   - **Gesamt:** ~18,000 LOC, 10 Monate
+
+**Empfehlung:** ✅ **GRÜNES LICHT** für GNN-Integration. Die Investition ist gerechtfertigt durch signifikante Performance-Verbesserungen und neue Produktfeatures.
 
 ---
 
@@ -228,43 +264,79 @@ Sobald dieser implementiert ist, können die REST API und MCP-Integration mit mi
 
 ### Für Entwickler
 
+**Agentic AI:**
 1. **Lesen:** [AGENTIC_AI_SELF_AWARENESS_RESEARCH.md](AGENTIC_AI_SELF_AWARENESS_RESEARCH.md)
 2. **Design Review:** [AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md](AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md)
 3. **Issue erstellen:** "Implement Full MCP Schema Integration"
 4. **Proof-of-Concept:** Schema-Discovery aus RocksDB
 
+**GNN Research:**
+1. **Lesen:** [GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
+2. **Evaluation:** Bewertung der GNN-Ansätze für spezifische Use Cases
+3. **Proof-of-Concept:** GNN Training Pipeline (Python/PyTorch)
+4. **Prototype:** ONNX Inference Integration in C++
+
 ### Für Product Owner
 
+**Agentic AI:**
 1. **Priorisierung:** Schema-Discovery als High-Priority Feature
 2. **Sprint Planning:** 3-4 Sprints für vollständige Implementation
 3. **Milestone:** "Self-Aware ThemisDB v1.5"
 
+**GNN Integration:**
+1. **Team-Aufbau:** 2-3 ML Engineers für GNN-Integration
+2. **Infrastruktur:** GPU-Ressourcen bereitstellen
+3. **Sprint Planning:** 10 Monate für vollständige GNN-Integration
+4. **Milestone:** "GNN-Enhanced ThemisDB v1.6"
+
 ### Für Community
 
-1. **Feedback:** Ist diese Funktionalität nützlich?
-2. **Use Cases:** Welche Fragen würdet ihr der DB stellen?
-3. **Testing:** Beta-Testing nach Phase 1-3
+1. **Feedback:** Welche Features sind am wichtigsten?
+2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing
+3. **Testing:** Beta-Testing für neue Features
 
 ---
 
 ## 🔗 Weitere Ressourcen
 
 ### ThemisDB Dokumentation
+
+**Agentic AI:**
 - [MCP Protocol Support](../apis/MCP_PROTOCOL_SUPPORT.md)
 - [LLM Integration README](../llm/README.md)
 - [HTTP API Reference](../apis/HTTP_API_REFERENCE.md)
 
+**GNN & Machine Learning:**
+- [Vector Search Documentation](../features/) (if exists)
+- [LoRA-RAID System](../../LORA_ADAPTER_IMPLEMENTATION_COMPLETE.md)
+- [GPU Acceleration Guide](../performance/)
+
 ### External Resources
+
+**Agentic AI:**
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 - [Anthropic Claude Desktop Integration](https://docs.anthropic.com/claude/docs)
 - [llama.cpp Documentation](https://github.com/ggerganov/llama.cpp)
 
+**GNN & Graph ML:**
+- [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/) - GNN Training Framework
+- [Deep Graph Library (DGL)](https://www.dgl.ai/) - Alternative GNN Framework
+- [ONNX Runtime](https://onnxruntime.ai/) - C++ Inference
+- [Stanford CS224W](http://web.stanford.edu/class/cs224w/) - Graph ML Course
+- [Open Graph Benchmark](https://ogb.stanford.edu/) - GNN Benchmarks
+
+**Research Papers:**
+- Kraska et al. (2018): "The Case for Learned Index Structures"
+- Marcus et al. (2019): "Neo: A Learned Query Optimizer"
+- Sun et al. (2020): "Neural Subgraph Matching"
+- Hamilton et al. (2017): "GraphSAGE: Inductive Representation Learning"
+
 ---
 
 **Erstellt:** 11. Januar 2026  
+**Letzte Aktualisierung:** 27. Januar 2026  
 **Autor:** Research Team  
-**Version:** 1.0  
-**Status:** Abgeschlossen
+**Version:** 2.0
 
 ---
 
@@ -272,4 +344,5 @@ Sobald dieser implementiert ist, können die REST API und MCP-Integration mit mi
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
-| 2026-01-11 | 1.0 | Initiale Research Documentation |
+| 2026-01-27 | 2.0 | GNN Research hinzugefügt, README umstrukturiert |
+| 2026-01-11 | 1.0 | Initiale Research Documentation (Agentic AI) |
