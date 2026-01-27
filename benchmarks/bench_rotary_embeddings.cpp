@@ -159,8 +159,10 @@ static void BM_VectorIndex_AddWithoutRotation(benchmark::State& state) {
     }
     
     size_t doc_id = 0;
+    std::string entity_id_base = "doc";
     for (auto _ : state) {
-        BaseEntity entity("doc" + std::to_string(doc_id++));
+        std::string entity_id = entity_id_base + std::to_string(doc_id++);
+        BaseEntity entity(entity_id);
         std::vector<float> embedding(128, 1.0f);
         entity.setField("embedding", embedding);
         
@@ -213,8 +215,10 @@ static void BM_VectorIndex_AddWithRotation(benchmark::State& state) {
     }
     
     size_t doc_id = 0;
+    std::string entity_id_base = "doc";
     for (auto _ : state) {
-        BaseEntity entity("doc" + std::to_string(doc_id));
+        std::string entity_id = entity_id_base + std::to_string(doc_id);
+        BaseEntity entity(entity_id);
         std::vector<float> embedding(128, 1.0f);
         entity.setField("embedding", embedding);
         
@@ -274,8 +278,10 @@ static void BM_VectorIndex_SearchWithRotation(benchmark::State& state) {
     
     // Add documents
     size_t num_docs = state.range(0);
+    std::string entity_id_base = "doc";
     for (size_t i = 0; i < num_docs; ++i) {
-        BaseEntity entity("doc" + std::to_string(i));
+        std::string entity_id = entity_id_base + std::to_string(i);
+        BaseEntity entity(entity_id);
         std::vector<float> embedding(128);
         std::iota(embedding.begin(), embedding.end(), static_cast<float>(i));
         entity.setField("embedding", embedding);

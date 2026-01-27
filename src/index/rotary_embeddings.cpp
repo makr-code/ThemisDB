@@ -197,9 +197,10 @@ size_t RotaryEmbedding::hashRelationType(const std::string& relation_type) const
     std::hash<std::string> hasher;
     size_t hash_value = hasher(relation_type);
     
-    // Map hash to reasonable position range (0 to 10000)
+    // Map hash to reasonable position range (0 to RELATION_POSITION_RANGE)
     // This ensures consistent but distributed rotation angles
-    size_t position = hash_value % 10000;
+    constexpr size_t RELATION_POSITION_RANGE = 10000;
+    size_t position = hash_value % RELATION_POSITION_RANGE;
     
     // Cache the result
     relation_cache_[relation_type] = position;

@@ -2423,8 +2423,8 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 		rotary_enabled_ = true;
 		
 		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
-		           "dim={}, rotation_pairs={}, base_theta={}",
-		           config.hidden_dim, config.num_rotation_pairs, config.base_theta);
+		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
+		           config.hidden_dim, config.num_rotation_pairs, config.base_theta, config.normalize_after);
 		
 		// Log audit event if logger is set
 		logAuditEvent_("config", "rotary_embeddings", "enable", config.num_rotation_pairs);
