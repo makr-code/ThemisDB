@@ -1010,7 +1010,7 @@ def create_ethics_ai_stack() -> Dict[str, ContainerConfig]:
         tag="latest",
         ports={3000: 3000},
         environment={
-            "GF_SECURITY_ADMIN_PASSWORD": "admin",
+            "GF_SECURITY_ADMIN_PASSWORD": os.environ.get("GRAFANA_ADMIN_PASSWORD", "CHANGE-ME-IN-PRODUCTION"),
             "GF_INSTALL_PLUGINS": "grafana-piechart-panel"
         },
         volumes={
