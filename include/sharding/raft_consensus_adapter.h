@@ -106,7 +106,7 @@ private:
     
     // State tracking
     mutable std::mutex state_mutex_;
-    ConsensusState current_state_;
+    mutable ConsensusState current_state_;
     std::string current_leader_;
 };
 
