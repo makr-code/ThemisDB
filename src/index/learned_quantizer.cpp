@@ -1,10 +1,9 @@
 #include "index/learned_quantizer.h"
 #include "utils/logger.h"
-<parameter name="algorithm">
+#include <algorithm>
 #include <cmath>
 #include <limits>
 #include <numeric>
-#include <algorithm>
 
 namespace themis {
 
