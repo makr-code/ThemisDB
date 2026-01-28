@@ -1137,6 +1137,9 @@ set(THEMIS_CORE_SOURCES
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
     ../src/index/product_quantizer.cpp
+    ../src/index/binary_quantizer.cpp
+    ../src/index/learned_quantizer.cpp
+    ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
     
     ../src/security/mock_key_provider.cpp
