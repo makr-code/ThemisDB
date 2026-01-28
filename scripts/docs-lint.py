@@ -69,13 +69,9 @@ class DocumentationLinter:
         
         for i, line in enumerate(lines, 1):
             # Track code blocks
-            if line.strip().startswith('```'):
-                if in_code_block:
-                    in_code_block = False
-                    code_block_marker = None
-                else:
-                    in_code_block = True
-                    code_block_marker = line.strip()
+            stripped = line.strip()
+            if stripped.startswith('```'):
+                in_code_block = not in_code_block
                 continue
             
             if in_code_block:
@@ -99,6 +95,7 @@ class DocumentationLinter:
                         self.add_error(str(file_path), i, "Empty link URL")
             
             # Check for incorrect heading format (missing space after #)
+            # Only check lines that look like headings (start with #)
             if line.startswith('#') and not line.startswith('#' * 10):
                 heading_match = re.match(r'^(#{1,6})([^\s#])', line)
                 if heading_match:
@@ -108,8 +105,9 @@ class DocumentationLinter:
                         "Missing space after heading marker"
                     )
             
-            # Check for trailing whitespace
-            if line.rstrip() != line.rstrip('\n').rstrip('\r'):
+            # Check for trailing whitespace (spaces/tabs before newline)
+            line_without_newline = line.rstrip('\n\r')
+            if line_without_newline != line_without_newline.rstrip():
                 self.add_warning(str(file_path), i, "Trailing whitespace")
 
     def check_required_sections(self, file_path: Path, lines: List[str], filename: str):

@@ -229,9 +229,16 @@ class LinkChecker:
         # Pattern for markdown links
         link_pattern = r'\[([^\]]*)\]\(([^\)]+)\)'
         
+        in_code_block = False
         for line_num, line in enumerate(lines, 1):
-            # Skip code blocks
-            if line.strip().startswith('```'):
+            # Track code blocks properly
+            stripped = line.strip()
+            if stripped.startswith('```'):
+                in_code_block = not in_code_block
+                continue
+            
+            # Skip lines inside code blocks
+            if in_code_block:
                 continue
             
             matches = re.finditer(link_pattern, line)
@@ -255,7 +262,9 @@ class LinkChecker:
             for link, line_num in links:
                 if self.is_external_link(link):
                     self.stats['external_links'] += 1
-                    self.check_external_link(file_path, link, line_num)
+                    # Only check external links if not in internal-only mode
+                    if not self.config.get('internal_only', False):
+                        self.check_external_link(file_path, link, line_num)
                 else:
                     self.stats['internal_links'] += 1
                     self.check_internal_link(file_path, link, line_num)
@@ -389,8 +398,9 @@ def main():
     # Get base path
     base_path = Path(__file__).parent.parent
     
-    # Create checker
-    checker = LinkChecker(base_path)
+    # Create checker with config
+    config = {'internal_only': args.internal_only}
+    checker = LinkChecker(base_path, config)
     
     # Scan all files first
     scan_paths = [base_path / p for p in args.paths]
