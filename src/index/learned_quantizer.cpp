@@ -131,13 +131,17 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
             if (centroid_counts[b] > 0) {
                 centroids[b] = static_cast<float>(centroid_sums[b] / centroid_counts[b]);
             } else {
-                // Handle empty bin: use midpoint of adjacent bins
-                if (b > 0 && b < num_bins_ - 1) {
-                    centroids[b] = (centroids[b - 1] + centroids[b + 1]) / 2.0f;
-                } else if (b == 0 && num_bins_ > 1) {
-                    centroids[b] = centroids[1] - 0.1f;
+                // Handle empty bin: use midpoint between adjacent thresholds
+                // This ensures centroids are properly ordered and within threshold boundaries
+                if (b == 0) {
+                    // First bin: use value below first threshold
+                    centroids[b] = (b < num_bins_ - 1) ? thresholds[0] - 1.0f : 0.0f;
+                } else if (b == num_bins_ - 1) {
+                    // Last bin: use value above last threshold
+                    centroids[b] = thresholds[num_bins_ - 2] + 1.0f;
                 } else {
-                    centroids[b] = centroids[num_bins_ - 2] + 0.1f;
+                    // Middle bins: use midpoint between adjacent thresholds
+                    centroids[b] = (thresholds[b - 1] + thresholds[b]) / 2.0f;
                 }
                 has_empty_bin = true;
             }
@@ -324,7 +328,9 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
         return std::numeric_limits<float>::max();
     }
     
-    // Decode and compute L2 distance
+    // TODO: Optimize by computing distance directly from codes/centroids without full decoding
+    // Similar to Product Quantization's lookup table approach
+    // Current implementation: decode + L2 distance (simple but slower)
     auto decoded = decode(codes);
     if (decoded.empty()) {
         return std::numeric_limits<float>::max();
@@ -344,15 +350,9 @@ int LearnedQuantizer::findBin(float value, const std::vector<float>& thresholds)
         return 0;
     }
     
-    // Binary search for the appropriate bin
-    int bin = 0;
-    for (float threshold : thresholds) {
-        if (value >= threshold) {
-            bin++;
-        } else {
-            break;
-        }
-    }
+    // Binary search for the appropriate bin (O(log n) instead of O(n))
+    auto it = std::lower_bound(thresholds.begin(), thresholds.end(), value);
+    int bin = static_cast<int>(std::distance(thresholds.begin(), it));
     
     return std::min(bin, num_bins_ - 1);
 }

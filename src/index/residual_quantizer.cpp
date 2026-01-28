@@ -198,7 +198,10 @@ float ResidualQuantizer::asymmetricDistance(const std::vector<float>& query,
         return std::numeric_limits<float>::max();
     }
     
-    // Compute distance progressively through stages
+    // Compute L2 distance between query and decoded vector
+    // Process: For each stage, compute distance between current residual and stage approximation,
+    // then update residual for next stage. This accumulates squared errors across all stages.
+    // Final result: ||query - (approx_stage0 + approx_stage1 + ... + approx_stageN)||²
     std::vector<float> query_residual = query;
     float total_distance_sq = 0.0f;
     
@@ -215,7 +218,7 @@ float ResidualQuantizer::asymmetricDistance(const std::vector<float>& query,
         // Decode stage approximation
         auto stage_approx = stage_quantizers_[stage]->decode(stage_codes);
         
-        // Compute distance contribution from this stage
+        // Accumulate squared distance and update residual
         for (int d = 0; d < dimension_; d++) {
             float diff = query_residual[d] - stage_approx[d];
             total_distance_sq += diff * diff;
