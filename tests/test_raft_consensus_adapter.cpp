@@ -114,11 +114,17 @@ TEST_F(RaftConsensusAdapterTest, ReadLogWithRange) {
     ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
     adapter.start();
     
-    // Try to read a range
+    // Try to read a range from index 1 to 10
     auto entries = adapter.readLog(1, 10);
     
     // Should be empty or return only committed entries
-    EXPECT_TRUE(entries.empty() || entries.size() <= 10);
+    // Since we haven't committed anything, it should be empty
+    EXPECT_TRUE(entries.empty());
+    
+    // Verify the size constraint if not empty
+    if (!entries.empty()) {
+        EXPECT_LE(entries.size(), 10u);
+    }
     
     adapter.stop();
 }
@@ -163,9 +169,12 @@ TEST_F(RaftConsensusAdapterTest, AddNodeDuplicate) {
     ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
     adapter.start();
     
-    // Try to add an existing node
-    // This would fail even if we were leader
-    // We test the validation logic
+    // Even if not leader, trying to add a duplicate node should fail
+    // We test the validation logic for duplicate detection
+    bool result = adapter.addNode("node2", "localhost:8002");
+    
+    // Should fail - either because not leader or because node already exists
+    EXPECT_FALSE(result);
     
     adapter.stop();
 }
@@ -248,9 +257,9 @@ TEST_F(RaftConsensusAdapterTest, LogEntryConversion) {
     EXPECT_NO_THROW({
         for (const auto& entry : entries) {
             // Access fields to ensure they're properly populated
-            auto idx = entry.index;
-            auto term = entry.term;
-            auto op = entry.operation;
+            EXPECT_GE(entry.index, 0u);
+            EXPECT_GE(entry.term, 0u);
+            EXPECT_FALSE(entry.operation.empty());
         }
     });
     

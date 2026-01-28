@@ -80,17 +80,18 @@ std::string RaftConsensusAdapter::getLeaderId() const {
 }
 
 ConsensusState RaftConsensusAdapter::getState() const {
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    
-    // Get actual state from Raft and convert it
+    // Get state from Raft without holding our own lock to avoid lock ordering issues
+    // RaftState::getState() has its own internal synchronization
     if (raft_) {
-        current_state_ = convertState(raft_->getRaftState());
+        return convertState(raft_->getRaftState());
     }
     
+    // Fallback to cached state if Raft is not available
+    std::lock_guard<std::mutex> lock(state_mutex_);
     return current_state_;
 }
 
-ConsensusState RaftConsensusAdapter::convertState(RaftState state) {
+ConsensusState RaftConsensusAdapter::convertState(const RaftState& state) {
     // Extract the actual RaftNodeState from RaftState and convert to ConsensusState
     RaftNodeState node_state = state.getState();
     
@@ -122,13 +123,17 @@ std::optional<uint64_t> RaftConsensusAdapter::propose(
         };
         std::string command = command_json.dump();
         
+        // Get the log index before proposing to handle potential race conditions
+        // Note: There's still a small race window here. In a production system,
+        // the propose() method should return the log index directly.
+        uint64_t expected_index = raft_->getRaftState().getLog().getLastLogIndex() + 1;
+        
         // Propose to Raft
         auto future = raft_->propose(command);
         
-        // Get actual log index from Raft implementation
-        // The log index is the last log index after the propose operation
-        uint64_t log_index = raft_->getRaftState().getLog().getLastLogIndex();
-        return log_index;
+        // Return the expected log index
+        // In a production system, we would verify this matches the actual appended index
+        return expected_index;
     } catch (const std::exception& e) {
         spdlog::error("Failed to propose operation: {}", e.what());
         return std::nullopt;
@@ -147,6 +152,9 @@ bool RaftConsensusAdapter::waitForCommit(
     auto end_time = start_time + timeout;
     
     // Poll the commit index until it reaches the target log_index or timeout
+    // Note: This is a simple polling implementation. A production implementation
+    // should use a condition variable to be notified of commit index changes
+    // rather than busy-waiting, which would be more efficient.
     while (std::chrono::steady_clock::now() < end_time) {
         uint64_t commit_index = raft_->getRaftState().getLog().getCommitIndex();
         
@@ -175,6 +183,8 @@ std::vector<ConsensusLogEntry> RaftConsensusAdapter::readLog(
     
     try {
         // Get reference to the Raft log
+        // Note: RaftLog methods are internally synchronized via mutex,
+        // so these calls are thread-safe individually
         const RaftLog& log = raft_->getRaftState().getLog();
         
         // Determine the actual end index
@@ -221,17 +231,21 @@ bool RaftConsensusAdapter::addNode(
         return false;
     }
     
-    // Check if node already exists
-    auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
-    if (it != cluster_nodes_.end()) {
-        spdlog::warn("Node {} already exists in cluster", node_id);
-        return false;
+    {
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
+        
+        // Check if node already exists
+        auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
+        if (it != cluster_nodes_.end()) {
+            spdlog::warn("Node {} already exists in cluster", node_id);
+            return false;
+        }
+        
+        // Add to local cluster nodes list
+        cluster_nodes_.push_back(node_id);
     }
     
     try {
-        // Add to local cluster nodes list
-        cluster_nodes_.push_back(node_id);
-        
         // Note: Full Raft membership change implementation would require:
         // 1. Two-phase configuration change (joint consensus)
         // 2. Replicating configuration change log entry
@@ -240,9 +254,16 @@ bool RaftConsensusAdapter::addNode(
         // For now, we update the local state and log a warning
         
         spdlog::info("Node {} added to cluster (endpoint: {}). Note: Full Raft configuration "
-                    "change protocol not yet implemented", node_id, endpoint);
+                    "change protocol not yet implemented - this only updates local state", 
+                    node_id, endpoint);
         return true;
     } catch (const std::exception& e) {
+        // Rollback on error
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
+        auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
+        if (it != cluster_nodes_.end()) {
+            cluster_nodes_.erase(it);
+        }
         spdlog::error("Failed to add node {}: {}", node_id, e.what());
         return false;
     }
@@ -254,23 +275,29 @@ bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
         return false;
     }
     
-    // Check if node exists
-    auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
-    if (it == cluster_nodes_.end()) {
-        spdlog::warn("Node {} not found in cluster", node_id);
-        return false;
-    }
-    
     // Cannot remove self
     if (node_id == node_id_) {
         spdlog::error("Cannot remove self from cluster");
         return false;
     }
     
-    try {
-        // Remove from local cluster nodes list
-        cluster_nodes_.erase(it);
+    std::string removed_node;
+    {
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
         
+        // Check if node exists
+        auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
+        if (it == cluster_nodes_.end()) {
+            spdlog::warn("Node {} not found in cluster", node_id);
+            return false;
+        }
+        
+        // Remove from local cluster nodes list
+        removed_node = *it;
+        cluster_nodes_.erase(it);
+    }
+    
+    try {
         // Note: Full Raft membership change implementation would require:
         // 1. Two-phase configuration change (joint consensus)
         // 2. Replicating configuration change log entry
@@ -279,9 +306,13 @@ bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
         // For now, we update the local state and log a warning
         
         spdlog::info("Node {} removed from cluster. Note: Full Raft configuration "
-                    "change protocol not yet implemented", node_id);
+                    "change protocol not yet implemented - this only updates local state", 
+                    node_id);
         return true;
     } catch (const std::exception& e) {
+        // Rollback on error
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
+        cluster_nodes_.push_back(removed_node);
         spdlog::error("Failed to remove node {}: {}", node_id, e.what());
         return false;
     }
@@ -309,7 +340,11 @@ ConsensusStats RaftConsensusAdapter::getStats() const {
         stats.current_term = raft_->getCurrentTerm();
         stats.state = getState();
         stats.current_leader = raft_->getLeaderId();
-        stats.cluster_size = cluster_nodes_.size();
+        
+        {
+            std::lock_guard<std::mutex> lock(cluster_mutex_);
+            stats.cluster_size = cluster_nodes_.size();
+        }
         
         auto partition_status = raft_->getPartitionStatus();
         stats.reachable_nodes = partition_status.reachable_nodes.size();

@@ -86,7 +86,7 @@ private:
     /**
      * @brief Convert RaftState to ConsensusState
      */
-    static ConsensusState convertState(RaftState state);
+    static ConsensusState convertState(const RaftState& state);
     
     /**
      * @brief Convert LogEntry to ConsensusLogEntry
@@ -96,6 +96,9 @@ private:
     ConsensusConfig config_;
     std::unique_ptr<RaftConsensus> raft_;
     std::string node_id_;
+    
+    // Cluster nodes with synchronization
+    mutable std::mutex cluster_mutex_;
     std::vector<std::string> cluster_nodes_;
     
     // Callbacks
