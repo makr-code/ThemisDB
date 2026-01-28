@@ -57,22 +57,22 @@ jobs:
         run: |
           if [ -f lint-report.json ]; then
             echo "## Documentation Lint Report" >> $GITHUB_STEP_SUMMARY
-            python3 -c "
-import json
-with open('lint-report.json') as f:
-    data = json.load(f)
-    print(f\"**Files checked:** {data['stats']['files_checked']}\")
-    print(f\"**Errors:** {data['stats']['errors']}\")
-    print(f\"**Warnings:** {data['stats']['warnings']}\")
-    if data['errors']:
-        print('\n### Errors:')
-        for error in data['errors'][:10]:  # Limit to first 10
-            print(f\"- {error['file']}:{error['line']} - {error['message']}\")
-    if data['warnings']:
-        print('\n### Warnings:')
-        for warning in data['warnings'][:10]:  # Limit to first 10
-            print(f\"- {warning['file']}:{warning['line']} - {warning['message']}\")
-            " >> $GITHUB_STEP_SUMMARY
+            python3 << 'PYEOF' >> $GITHUB_STEP_SUMMARY
+          import json
+          with open('lint-report.json') as f:
+              data = json.load(f)
+              print(f"**Files checked:** {data['stats']['files_checked']}")
+              print(f"**Errors:** {data['stats']['errors']}")
+              print(f"**Warnings:** {data['stats']['warnings']}")
+              if data['errors']:
+                  print('\n### Errors:')
+                  for error in data['errors'][:10]:
+                      print(f"- {error['file']}:{error['line']} - {error['message']}")
+              if data['warnings']:
+                  print('\n### Warnings:')
+                  for warning in data['warnings'][:10]:
+                      print(f"- {warning['file']}:{warning['line']} - {warning['message']}")
+          PYEOF
           fi
       
       - name: Upload lint report
@@ -117,22 +117,22 @@ with open('lint-report.json') as f:
         run: |
           if [ -f link-report.json ]; then
             echo "## Link Validation Report" >> $GITHUB_STEP_SUMMARY
-            python3 -c "
-import json
-with open('link-report.json') as f:
-    data = json.load(f)
-    print(f\"**Files checked:** {data['stats']['files_checked']}\")
-    print(f\"**Internal links:** {data['stats']['internal_links']}\")
-    print(f\"**External links:** {data['stats']['external_links']}\")
-    print(f\"**Broken internal links:** {data['stats']['broken_internal']}\")
-    print(f\"**Broken external links:** {data['stats']['broken_external']}\")
-    if data['errors']:
-        print('\n### Errors:')
-        for error in data['errors'][:10]:  # Limit to first 10
-            print(f\"- {error['file']}:{error['line']} - {error['message']}\")
-            if error.get('link'):
-                print(f\"  Link: {error['link']}\")
-            " >> $GITHUB_STEP_SUMMARY
+            python3 << 'PYEOF' >> $GITHUB_STEP_SUMMARY
+          import json
+          with open('link-report.json') as f:
+              data = json.load(f)
+              print(f"**Files checked:** {data['stats']['files_checked']}")
+              print(f"**Internal links:** {data['stats']['internal_links']}")
+              print(f"**External links:** {data['stats']['external_links']}")
+              print(f"**Broken internal links:** {data['stats']['broken_internal']}")
+              print(f"**Broken external links:** {data['stats']['broken_external']}")
+              if data['errors']:
+                  print('\n### Errors:')
+                  for error in data['errors'][:10]:
+                      print(f"- {error['file']}:{error['line']} - {error['message']}")
+                      if error.get('link'):
+                          print(f"  Link: {error['link']}")
+          PYEOF
           fi
       
       - name: Upload link report
@@ -209,24 +209,24 @@ with open('link-report.json') as f:
         run: |
           if [ -f toc-report.json ]; then
             echo "## TOC Validation Report" >> $GITHUB_STEP_SUMMARY
-            python3 -c "
-import json
-with open('toc-report.json') as f:
-    data = json.load(f)
-    print(f\"**Navigation entries:** {data['stats']['nav_entries']}\")
-    print(f\"**Files in navigation:** {data['stats']['files_in_nav']}\")
-    print(f\"**Files on disk:** {data['stats']['files_on_disk']}\")
-    print(f\"**Missing files:** {data['stats']['missing_files']}\")
-    print(f\"**Orphaned important files:** {data['stats']['orphaned_files']}\")
-    if data['errors']:
-        print('\n### Errors:')
-        for error in data['errors'][:10]:
-            print(f\"- [{error['file']}] {error['message']}\")
-    if data['warnings']:
-        print('\n### Warnings:')
-        for warning in data['warnings'][:10]:
-            print(f\"- [{warning['file']}] {warning['message']}\")
-            " >> $GITHUB_STEP_SUMMARY
+            python3 << 'PYEOF' >> $GITHUB_STEP_SUMMARY
+          import json
+          with open('toc-report.json') as f:
+              data = json.load(f)
+              print(f"**Navigation entries:** {data['stats']['nav_entries']}")
+              print(f"**Files in navigation:** {data['stats']['files_in_nav']}")
+              print(f"**Files on disk:** {data['stats']['files_on_disk']}")
+              print(f"**Missing files:** {data['stats']['missing_files']}")
+              print(f"**Orphaned important files:** {data['stats']['orphaned_files']}")
+              if data['errors']:
+                  print('\n### Errors:')
+                  for error in data['errors'][:10]:
+                      print(f"- [{error['file']}] {error['message']}")
+              if data['warnings']:
+                  print('\n### Warnings:')
+                  for warning in data['warnings'][:10]:
+                      print(f"- [{warning['file']}] {warning['message']}")
+          PYEOF
           fi
       
       - name: Upload TOC report
