@@ -1,0 +1,146 @@
+# syntax=docker/dockerfile:1.6
+# ============================================================================
+# Ethics AI Framework - Multi-Stage Production Dockerfile
+# ============================================================================
+# Optimized for production deployment with security best practices
+# ============================================================================
+
+# ============================================================================
+# Stage 1: Base Python Environment
+# ============================================================================
+FROM python:3.11-slim-bookworm AS base
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    DEBIAN_FRONTEND=noninteractive
+
+# Create non-root user for security
+RUN groupadd -r ethicsai --gid=1000 && \
+    useradd -r -g ethicsai --uid=1000 --home-dir=/app --shell=/bin/bash ethicsai
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# ============================================================================
+# Stage 2: Dependencies Builder
+# ============================================================================
+FROM base AS builder
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy requirements
+WORKDIR /build
+COPY examples/24_moral_philosophy_debates/requirements.txt .
+
+# Install Python dependencies
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install -r requirements.txt && \
+    # Install production server
+    pip install gunicorn gevent && \
+    # Install monitoring and observability
+    pip install prometheus-client opentelemetry-api opentelemetry-sdk && \
+    # Install health check utilities
+    pip install httpx && \
+    # Clean up
+    find /opt/venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true && \
+    find /opt/venv -type f -name "*.pyc" -delete
+
+# ============================================================================
+# Stage 3: Application
+# ============================================================================
+FROM base AS application
+
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Set working directory
+WORKDIR /app
+
+# Copy application code
+COPY examples/24_moral_philosophy_debates/ /app/
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/data /app/models /var/lib/ethics-ai && \
+    chown -R ethicsai:ethicsai /app /var/lib/ethics-ai
+
+# Security: Remove unnecessary files
+RUN find /app -type f -name "*.md" -delete && \
+    find /app -type f -name "test_*.py" -delete && \
+    find /app -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+
+# ============================================================================
+# Stage 4: Production Runtime
+# ============================================================================
+FROM application AS production
+
+# Switch to non-root user
+USER ethicsai
+
+# Set production environment variables
+ENV PYTHONPATH=/app \
+    SERVICE_PORT=8080 \
+    METRICS_PORT=8081 \
+    THEMIS_HOST=themisdb \
+    THEMIS_PORT=8529 \
+    LOG_LEVEL=info \
+    WORKERS=4
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:${SERVICE_PORT}/health || exit 1
+
+# Expose ports
+EXPOSE ${SERVICE_PORT} ${METRICS_PORT}
+
+# Labels for metadata
+LABEL org.opencontainers.image.title="ThemisDB Ethics AI Framework" \
+      org.opencontainers.image.description="Production-ready ethical AI framework with moral philosophy reasoning" \
+      org.opencontainers.image.vendor="ThemisDB" \
+      org.opencontainers.image.version="1.0.0" \
+      org.opencontainers.image.licenses="MIT"
+
+# Default command: Run with gunicorn for production
+CMD ["gunicorn", \
+     "--bind", "0.0.0.0:8080", \
+     "--workers", "4", \
+     "--worker-class", "gevent", \
+     "--timeout", "120", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-", \
+     "--log-level", "info", \
+     "main:app"]
+
+# ============================================================================
+# Stage 5: Development Runtime (Optional)
+# ============================================================================
+FROM application AS development
+
+USER ethicsai
+
+ENV PYTHONPATH=/app \
+    SERVICE_PORT=8080 \
+    METRICS_PORT=8081 \
+    LOG_LEVEL=debug \
+    DEVELOPMENT=true
+
+EXPOSE ${SERVICE_PORT} ${METRICS_PORT}
+
+# Development: Run with auto-reload
+CMD ["python", "main.py"]
