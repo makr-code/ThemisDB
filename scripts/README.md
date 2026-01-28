@@ -95,6 +95,46 @@ Scripts for managing LLM models and running inferencing benchmarks:
 
 See [LLM Benchmarking Guide](../docs/LLM_BENCHMARKING_GUIDE.md) for details.
 
+### Documentation Validation Scripts (New in v1.4.0+)
+
+Scripts for automated documentation quality assurance and validation:
+
+- **`docs-lint.py`** - Lint markdown documentation for structure and syntax issues
+- **`link-check.py`** - Validate internal and external links
+- **`toc-check.py`** - Validate table of contents in MkDocs configuration
+- **`validate-docs.sh`** - Run all documentation validation checks
+
+**Features:**
+- Heading hierarchy validation
+- Markdown syntax checking
+- Link validation (internal and external)
+- TOC consistency checking
+- File naming convention validation
+- Cross-reference validation
+
+**Quick Start:**
+```bash
+# Run all validation checks
+./scripts/validate-docs.sh
+
+# Run individual checks
+python3 scripts/docs-lint.py
+python3 scripts/link-check.py
+python3 scripts/toc-check.py
+
+# Generate JSON reports for CI/CD
+python3 scripts/docs-lint.py --format json --output lint-report.json
+```
+
+**CI/CD Integration:**
+- Automated via `.github/workflows/documentation-validation.yml`
+- Runs on PRs and pushes to main/develop branches
+- Blocks merge if validation fails
+
+**Documentation:**
+- [Documentation Validation Guide (English)](../docs/DOCUMENTATION_VALIDATION.md)
+- [Dokumentations-Validierung (Deutsch)](../docs/de/DOKUMENTATIONS_VALIDIERUNG.md)
+
 ## Usage
 
 Each script includes documentation in the header comments. Run scripts with `-h` or `--help` for usage information where applicable.
