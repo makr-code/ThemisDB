@@ -2,7 +2,7 @@
 
 **Projekt:** ThemisDB  
 **Kategorie:** Research Documentation  
-**Letzte Aktualisierung:** 27. Januar 2026
+**Letzte Aktualisierung:** 27. Januar 2026 (v3.0)
 
 ---
 
@@ -27,7 +27,7 @@ Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technisch
    - LLM System-Prompts
    - **Status:** ✅ Design Proof-of-Concept (11. Januar 2026)
 
-3. **[GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)** 🆕
+3. **[GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)**
    - Graph Neural Networks für Databases
    - GNN-basierte Indexierungs-Methoden
    - Graph-Aware Embeddings für Query-Optimierung
@@ -35,6 +35,12 @@ Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technisch
    - Implementierungs-Roadmap und Empfehlungen
    - **Status:** ✅ Abgeschlossen (27. Januar 2026)
 
+4. **[KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)** 🆕
+   - Knowledge Graph Embeddings für ThemisDB
+   - RotatE, QuatE, ComplEx Methoden-Vergleich
+   - Temporal KG Embeddings (TComplEx, TeMP)
+   - Multi-Relational Learning Ansätze
+   - Integrations-Roadmap und Empfehlungen
 4. **[HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)** 🆕
    - Dense-Sparse Hybridmethoden (BM25 + Vector Search)
    - Cross-Modal Retrieval (CLIP, ALIGN, BLIP)
@@ -73,6 +79,17 @@ Fokus-Bereiche:
 
 **Dokument:** [GNN_BASED_INDEXING_AND_EMBEDDINGS.md](GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
 
+### 3. Knowledge Graph Embeddings
+
+> **"Welche Knowledge Graph Embedding-Methoden eignen sich am besten für ThemisDB, insbesondere für komplexe und temporale Graph-Strukturen?"**
+
+Fokus-Bereiche:
+- **RotatE, QuatE, ComplEx:** State-of-the-Art Embedding-Methoden
+- **Temporal KG Embeddings:** TComplEx, TeMP für zeitabhängige Wissensgraphen
+- **Multi-Relational Learning:** CompGCN, MetaR für heterogene Relationen
+- **Production-Integration:** ONNX Runtime, Vector Search, LLM Integration
+
+**Dokument:** [KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)
 ### 3. Hybrid Search Optimization
 
 > **"Wie können Dense- und Sparse-Ansätze kombiniert werden für optimale Suchperformance?"**
@@ -278,6 +295,30 @@ json McpServer::toolGetSchema(const json& args) {
 
 **Empfehlung:** ✅ **GRÜNES LICHT** für GNN-Integration. Die Investition ist gerechtfertigt durch signifikante Performance-Verbesserungen und neue Produktfeatures.
 
+### Knowledge Graph Embeddings
+
+1. **Beste Baseline:**
+   - **RotatE** bietet exzellente Performance bei geringem Ressourcenaufwand
+   - Robuste Modellierung aller wichtigen Relationstypen
+   - 10-100x schnellere Subgraph-Queries möglich
+
+2. **Höchste Expressivität:**
+   - **QuatE** ermöglicht komplexe Beziehungen durch Quaternionen-Algebra
+   - Best-in-Class für komplexe Relationen
+   - Höherer Rechenaufwand als RotatE
+
+3. **Temporale Daten:**
+   - **TComplEx** ist essentiell für zeitabhängige Knowledge Graphs
+   - State-of-the-Art für evolvierende Wissensgraphen
+   - Natürliche Erweiterung von ComplEx
+
+4. **Implementierungs-Roadmap:**
+   - **Phase 1 (Q2 2026):** RotatE + ComplEx - 2 Monate
+   - **Phase 2 (Q3 2026):** TComplEx + QuatE - 3 Monate
+   - **Phase 3 (Q4 2026+):** CompGCN/MetaR - 2 Monate
+   - **Gesamt:** ~10,000 LOC, 7 Monate
+
+**Empfehlung:** ✅ **GRÜNES LICHT** für KG Embedding Integration. ThemisDB ist ideal positioniert durch bestehende Vector Search, GPU Support, und LLM Integration.
 ### Hybrid Search Optimization
 
 1. **Essentiell für moderne Suche:**
@@ -316,6 +357,11 @@ json McpServer::toolGetSchema(const json& args) {
 3. **Proof-of-Concept:** GNN Training Pipeline (Python/PyTorch)
 4. **Prototype:** ONNX Inference Integration in C++
 
+**KG Embeddings Research:**
+1. **Lesen:** [KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)
+2. **Evaluation:** Vergleich von RotatE, QuatE, ComplEx für ThemisDB Use Cases
+3. **Proof-of-Concept:** RotatE Training Pipeline und Link Prediction
+4. **Prototype:** ONNX Integration für Embedding Inference
 **Hybrid Search:**
 1. **Lesen:** [HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)
 2. **Spike:** BM25 Proof-of-Concept in RocksDB (1 Sprint)
@@ -335,6 +381,11 @@ json McpServer::toolGetSchema(const json& args) {
 3. **Sprint Planning:** 10 Monate für vollständige GNN-Integration
 4. **Milestone:** "GNN-Enhanced ThemisDB v1.6"
 
+**KG Embeddings Integration:**
+1. **Team-Aufbau:** 2-3 ML Engineers für KG Embeddings
+2. **Infrastruktur:** GPU-Ressourcen (bestehende LoRA-RAID nutzbar)
+3. **Sprint Planning:** 7 Monate für vollständige KG Embedding Integration
+4. **Milestone:** "KG Embedding-Enhanced ThemisDB v1.5"
 **Hybrid Search:**
 1. **Priorisierung:** Hybrid Search als P0 Feature für v1.5
 2. **Sprint Planning:** 3-4 Monate für Phase 1 (BM25 + RRF)
@@ -344,6 +395,7 @@ json McpServer::toolGetSchema(const json& args) {
 ### Für Community
 
 1. **Feedback:** Welche Features sind am wichtigsten?
+2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing und KG Embeddings
 2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing und Hybrid Search
 3. **Testing:** Beta-Testing für neue Features
 4. **Benchmarks:** BEIR und MTEB Evaluation Results
@@ -363,6 +415,7 @@ json McpServer::toolGetSchema(const json& args) {
 - [Vector Search Documentation](../features/) (if exists)
 - [LoRA-RAID System](../../LORA_ADAPTER_IMPLEMENTATION_COMPLETE.md)
 - [GPU Acceleration Guide](../performance/)
+- [Knowledge Graph Embeddings Research](./KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)
 
 **Hybrid Search:**
 - [Vector Operations Guide](../de/features/features_vector_ops.md)
@@ -395,6 +448,9 @@ json McpServer::toolGetSchema(const json& args) {
 - Marcus et al. (2019): "Neo: A Learned Query Optimizer"
 - Sun et al. (2020): "Neural Subgraph Matching"
 - Hamilton et al. (2017): "GraphSAGE: Inductive Representation Learning"
+- Sun et al. (2019): "RotatE: Knowledge Graph Embedding by Relational Rotation"
+- Zhang et al. (2019): "Quaternion Knowledge Graph Embeddings"
+- Trouillon et al. (2016): "Complex Embeddings for Simple Link Prediction"
 - Cormack et al. (2009): "Reciprocal Rank Fusion"
 - Khattab & Zaharia (2020): "ColBERT: Contextualized Late Interaction"
 - Radford et al. (2021): "CLIP: Learning Transferable Visual Models"
@@ -412,6 +468,7 @@ json McpServer::toolGetSchema(const json& args) {
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
+| 2026-01-27 | 3.0 | KG Embeddings Research hinzugefügt |
 | 2026-01-27 | 3.0 | Hybrid Search Optimization Research hinzugefügt |
 | 2026-01-27 | 2.0 | GNN Research hinzugefügt, README umstrukturiert |
 | 2026-01-11 | 1.0 | Initiale Research Documentation (Agentic AI) |
