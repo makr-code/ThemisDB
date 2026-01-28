@@ -1,0 +1,136 @@
+# Documentation Validation Configuration
+#
+# This file contains configuration options for the documentation validation tools.
+# Copy this file to .docs-validation.yml in your project root to customize behavior.
+
+# Documentation Linter Configuration
+lint:
+  # Paths to lint (relative to project root)
+  paths:
+    - docs
+    - compendium
+  
+  # Patterns to exclude from linting
+  exclude:
+    - ARCHIVED
+    - archive
+    - node_modules
+    - .git
+    - site
+    - build
+    - __pycache__
+    - output
+  
+  # Fail build on warnings
+  fail_on_warnings: false
+  
+  # Checks to enable/disable
+  checks:
+    heading_hierarchy: true
+    markdown_syntax: true
+    file_naming: true
+    required_sections: true
+    trailing_whitespace: true
+
+# Link Checker Configuration
+links:
+  # Paths to check
+  paths:
+    - docs
+    - compendium
+  
+  # Patterns to exclude
+  exclude:
+    - ARCHIVED
+    - archive
+  
+  # Check external links (may be slow)
+  check_external: false
+  
+  # Timeout for external link checks (seconds)
+  external_timeout: 5
+  
+  # Retry failed requests
+  retry_count: 3
+  
+  # Ignore patterns for external links
+  ignore_patterns:
+    - "^https://github.com/.*/issues/[0-9]+$"
+    - "^https://github.com/.*/pull/[0-9]+$"
+    - "^http://localhost"
+    - "^http://127\\.0\\.0\\.1"
+  
+  # Status codes to consider as "alive"
+  alive_status_codes:
+    - 200
+    - 206
+    - 301
+    - 302
+    - 307
+    - 308
+    - 400  # Bad request but link exists
+    - 401  # Unauthorized but link exists
+    - 403  # Forbidden but link exists
+    - 405  # Method not allowed but link exists
+    - 429  # Rate limited but link exists
+
+# TOC Validator Configuration
+toc:
+  # MkDocs configuration files to validate
+  configs:
+    - mkdocs.yml
+    - compendium/mkdocs-compendium.yml
+  
+  # Patterns to exclude from file scanning
+  exclude:
+    - ARCHIVED
+    - archive
+    - node_modules
+  
+  # Files to always warn about if not in navigation
+  important_files:
+    - README.md
+    - index.md
+    - INDEX.md
+    - Home.md
+  
+  # Warn about duplicate navigation entries
+  check_duplicates: true
+
+# Reporting Configuration
+reporting:
+  # Output format (text or json)
+  format: text
+  
+  # Maximum errors to display in reports (0 = unlimited)
+  max_errors: 50
+  
+  # Maximum warnings to display in reports (0 = unlimited)
+  max_warnings: 50
+  
+  # Include file statistics in reports
+  include_stats: true
+  
+  # Colorize output (for terminal)
+  colorize: true
+
+# GitHub Actions Integration
+ci:
+  # Enable/disable specific jobs
+  jobs:
+    docs_lint: true
+    link_check: true
+    external_link_check: false  # Only on main/develop by default
+    toc_validation: true
+  
+  # Upload artifacts
+  upload_artifacts: true
+  
+  # Comment on pull requests with results
+  pr_comments: false  # Requires write permissions
+  
+  # Block merge on validation failure
+  required_checks:
+    - "Documentation Linting"
+    - "Link Validation"
+    - "TOC Validation"
