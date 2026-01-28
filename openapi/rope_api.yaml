@@ -1,0 +1,744 @@
+openapi: 3.0.0
+info:
+  title: ThemisDB RoPE API
+  version: 1.0.0
+  description: |
+    REST API for Rotary Position Embeddings (RoPE) in ThemisDB.
+    
+    RoPE enables position-aware vector embeddings for sequential and relational data:
+    - Sequential embeddings: Position-based rotation for ordered data (documents, time-series)
+    - Relational embeddings: Relation-type based rotation for knowledge graphs
+    - Batch operations: Efficient bulk insertion with rotation
+    
+    ## Features
+    - Configuration management for RoPE parameters
+    - Position-aware entity addition and search
+    - Relational rotation for knowledge graph entities
+    - Batch operations for high-throughput scenarios
+    - Statistics and monitoring
+    
+    ## Authentication
+    All endpoints support the standard ThemisDB authentication mechanisms:
+    - Bearer token authentication
+    - API key authentication
+    - Custom headers (X-User-ID, X-Tenant-ID)
+    
+    ## Rate Limiting
+    - Configuration endpoints: 10 requests/minute
+    - Data operations: 1000 requests/minute
+    - Batch operations: 100 requests/minute
+
+servers:
+  - url: http://localhost:8529
+    description: Local development server
+  - url: https://api.themisdb.io
+    description: Production server
+
+paths:
+  /api/v1/vector-index/{index_name}/rope/config:
+    post:
+      summary: Enable and configure RoPE for a vector index
+      description: |
+        Enables Rotary Position Embeddings for the specified vector index with the given configuration.
+        The configuration must be valid (even hidden_dim, valid rotation pairs).
+      operationId: configureRope
+      tags:
+        - RoPE Configuration
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RotationConfig'
+            examples:
+              standard:
+                summary: Standard configuration for 768-dim embeddings
+                value:
+                  hidden_dim: 768
+                  num_rotation_pairs: 384
+                  base_theta: 10000.0
+                  normalize_after: false
+              small:
+                summary: Configuration for smaller embeddings
+                value:
+                  hidden_dim: 128
+                  num_rotation_pairs: 64
+                  base_theta: 10000.0
+      responses:
+        '200':
+          description: RoPE configuration applied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigResponse'
+        '400':
+          description: Invalid configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                odd_dimension:
+                  value:
+                    error: true
+                    message: "Invalid RoPE configuration: hidden_dim must be a positive even number"
+                    status_code: 400
+        '404':
+          description: Vector index not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+    
+    get:
+      summary: Get current RoPE configuration
+      description: Returns the current RoPE configuration for the specified vector index.
+      operationId: getRopeConfig
+      tags:
+        - RoPE Configuration
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      responses:
+        '200':
+          description: Current RoPE configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    example: true
+                  config:
+                    $ref: '#/components/schemas/RotationConfig'
+        '404':
+          description: RoPE not enabled for this index
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+    
+    delete:
+      summary: Disable RoPE for the vector index
+      description: Disables Rotary Position Embeddings for the specified vector index.
+      operationId: disableRope
+      tags:
+        - RoPE Configuration
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      responses:
+        '200':
+          description: RoPE disabled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "RoPE disabled for index 'documents'"
+        '404':
+          description: Vector index not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+
+  /api/v1/vector-index/{index_name}/rope/add:
+    post:
+      summary: Add entity with positional rotation
+      description: |
+        Adds an entity to the vector index with rotation applied based on the position parameter.
+        The embedding vector is rotated before storage, enabling position-aware similarity search.
+      operationId: addEntityWithRotation
+      tags:
+        - RoPE Operations
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEntityRequest'
+            examples:
+              document:
+                summary: Add a document with position
+                value:
+                  entity:
+                    id: doc123
+                    embedding: [0.1, 0.2, 0.3]
+                    content: "Medical document about diabetes"
+                    metadata:
+                      category: medical
+                      author: Dr. Smith
+                  vector_field: embedding
+                  position: 42
+      responses:
+        '200':
+          description: Entity added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Entity added with rotation
+                  entity_id:
+                    type: string
+                    example: doc123
+                  position:
+                    type: integer
+                    example: 42
+        '400':
+          description: Invalid request or RoPE not configured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+
+  /api/v1/vector-index/{index_name}/rope/add-relational:
+    post:
+      summary: Add entity with relational rotation
+      description: |
+        Adds an entity to the vector index with rotation applied based on the relation type.
+        Useful for knowledge graph embeddings where entities are related by specific relations.
+      operationId: addEntityWithRelationalRotation
+      tags:
+        - RoPE Operations
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: kg_entities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRelationalEntityRequest'
+            examples:
+              parent_child:
+                summary: Add entity with parent relation
+                value:
+                  entity:
+                    id: entity_a
+                    embedding: [0.1, 0.2, 0.3]
+                    name: Entity A
+                  vector_field: embedding
+                  relation_type: parent_of
+      responses:
+        '200':
+          description: Entity added successfully with relational rotation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Entity added with relational rotation
+                  entity_id:
+                    type: string
+                    example: entity_a
+                  relation_type:
+                    type: string
+                    example: parent_of
+        '400':
+          description: Invalid request or RoPE not configured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+
+  /api/v1/vector-index/{index_name}/rope/search:
+    post:
+      summary: Search with rotation-aware query
+      description: |
+        Performs k-NN search with the query vector rotated based on the position parameter.
+        Returns entities whose rotated embeddings are most similar to the rotated query.
+      operationId: searchWithRotation
+      tags:
+        - RoPE Operations
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+            examples:
+              basic_search:
+                summary: Search for similar documents at position 100
+                value:
+                  query: [0.1, 0.2, 0.3]
+                  k: 10
+                  position: 100
+              filtered_search:
+                summary: Search with metadata filter
+                value:
+                  query: [0.1, 0.2, 0.3]
+                  k: 10
+                  position: 100
+                  filters:
+                    field: category
+                    value: medical
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Invalid request or RoPE not configured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+
+  /api/v1/vector-index/{index_name}/rope/batch-add:
+    post:
+      summary: Batch add entities with rotation
+      description: |
+        Adds multiple entities to the vector index with rotation applied to each.
+        More efficient than individual add operations for bulk insertion.
+      operationId: batchAddWithRotation
+      tags:
+        - RoPE Operations
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchAddRequest'
+            examples:
+              sequential_docs:
+                summary: Add sequential documents
+                value:
+                  entities:
+                    - entity:
+                        id: doc1
+                        embedding: [0.1, 0.2, 0.3]
+                      position: 0
+                    - entity:
+                        id: doc2
+                        embedding: [0.4, 0.5, 0.6]
+                      position: 1
+                  vector_field: embedding
+      responses:
+        '200':
+          description: Batch add completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Batch add completed
+                  inserted:
+                    type: integer
+                    example: 100
+                  errors:
+                    type: integer
+                    example: 0
+                  total:
+                    type: integer
+                    example: 100
+        '400':
+          description: Invalid request or RoPE not configured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+
+  /api/v1/vector-index/{index_name}/rope/stats:
+    get:
+      summary: Get RoPE statistics
+      description: |
+        Returns statistics about RoPE usage for the specified vector index,
+        including configuration, entity counts, and performance metrics.
+      operationId: getRopeStats
+      tags:
+        - RoPE Monitoring
+      parameters:
+        - name: index_name
+          in: path
+          required: true
+          description: Name of the vector index
+          schema:
+            type: string
+            example: documents
+      responses:
+        '200':
+          description: RoPE statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsResponse'
+        '404':
+          description: Vector index not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
+        - apiKeyAuth: []
+
+components:
+  schemas:
+    RotationConfig:
+      type: object
+      required:
+        - hidden_dim
+        - num_rotation_pairs
+      properties:
+        hidden_dim:
+          type: integer
+          minimum: 2
+          description: Embedding dimension (must be even)
+          example: 768
+        num_rotation_pairs:
+          type: integer
+          minimum: 1
+          description: Number of 2D rotation pairs (must be <= hidden_dim/2)
+          example: 384
+        base_theta:
+          type: number
+          default: 10000.0
+          description: Base frequency for rotation angles
+          example: 10000.0
+        normalize_after:
+          type: boolean
+          default: false
+          description: Apply L2 normalization after rotation
+          example: false
+    
+    ConfigResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: "RoPE configuration enabled for index 'documents'"
+        config:
+          allOf:
+            - $ref: '#/components/schemas/RotationConfig'
+            - type: object
+              properties:
+                theta_cache_size:
+                  type: integer
+                  description: Number of precomputed theta values
+                  example: 384
+    
+    AddEntityRequest:
+      type: object
+      required:
+        - entity
+        - position
+      properties:
+        entity:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: Unique entity identifier
+              example: doc123
+            embedding:
+              type: array
+              items:
+                type: number
+              description: Vector embedding
+              example: [0.1, 0.2, 0.3]
+          additionalProperties: true
+        vector_field:
+          type: string
+          default: embedding
+          description: Name of the field containing the vector
+          example: embedding
+        position:
+          type: integer
+          minimum: 0
+          description: Position for rotation
+          example: 42
+    
+    AddRelationalEntityRequest:
+      type: object
+      required:
+        - entity
+        - relation_type
+      properties:
+        entity:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: Unique entity identifier
+              example: entity_a
+            embedding:
+              type: array
+              items:
+                type: number
+              description: Vector embedding
+              example: [0.1, 0.2, 0.3]
+          additionalProperties: true
+        vector_field:
+          type: string
+          default: embedding
+          description: Name of the field containing the vector
+          example: embedding
+        relation_type:
+          type: string
+          description: Type of relation for rotation
+          example: parent_of
+    
+    SearchRequest:
+      type: object
+      required:
+        - query
+        - position
+      properties:
+        query:
+          type: array
+          items:
+            type: number
+          description: Query vector
+          example: [0.1, 0.2, 0.3]
+        k:
+          type: integer
+          minimum: 1
+          default: 10
+          description: Number of results to return
+          example: 10
+        position:
+          type: integer
+          minimum: 0
+          description: Position for query rotation
+          example: 100
+        filters:
+          type: object
+          description: Optional metadata filters
+          properties:
+            field:
+              type: string
+              example: category
+            value:
+              type: string
+              example: medical
+    
+    SearchResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: doc123
+              distance:
+                type: number
+                example: 0.123
+              position:
+                type: integer
+                example: 42
+              metadata:
+                type: object
+                additionalProperties: true
+        query_time_ms:
+          type: number
+          example: 5.2
+        rotation_enabled:
+          type: boolean
+          example: true
+        k:
+          type: integer
+          example: 10
+        count:
+          type: integer
+          example: 10
+    
+    BatchAddRequest:
+      type: object
+      required:
+        - entities
+      properties:
+        entities:
+          type: array
+          items:
+            type: object
+            required:
+              - entity
+              - position
+            properties:
+              entity:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: string
+                  embedding:
+                    type: array
+                    items:
+                      type: number
+                additionalProperties: true
+              position:
+                type: integer
+        vector_field:
+          type: string
+          default: embedding
+          example: embedding
+    
+    StatsResponse:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: true
+        config:
+          $ref: '#/components/schemas/RotationConfig'
+        statistics:
+          type: object
+          properties:
+            total_rotated_entities:
+              type: integer
+              example: 10000
+            avg_rotation_time_us:
+              type: number
+              example: 1.5
+            relational_rotations:
+              type: integer
+              example: 500
+            adapters_loaded:
+              type: array
+              items:
+                type: string
+              example: ["medical", "legal"]
+    
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Error description
+        status_code:
+          type: integer
+          example: 400
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+tags:
+  - name: RoPE Configuration
+    description: Configure and manage RoPE settings for vector indices
+  - name: RoPE Operations
+    description: Add entities and perform searches with rotation
+  - name: RoPE Monitoring
+    description: Monitor RoPE usage and performance
