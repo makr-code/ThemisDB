@@ -573,6 +573,12 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Vector API Handler initialized");
     
+    // Initialize RoPE API Handler
+    rope_api_ = std::make_unique<themis::server::RopeApiHandler>(
+        storage_, vector_index_, auth_
+    );
+    THEMIS_INFO("RoPE API Handler initialized");
+    
     // Initialize Spatial API Handler
     spatial_api_ = std::make_unique<themis::server::SpatialApiHandler>(
         storage_, spatial_index_, auth_
@@ -1387,6 +1393,15 @@ namespace {
         VectorIndexConfigGet,
         VectorIndexConfigPut,
         VectorIndexStatsGet,
+        // RoPE endpoints
+        RopeConfigPost,
+        RopeConfigGet,
+        RopeConfigDelete,
+        RopeAddPost,
+        RopeAddRelationalPost,
+        RopeSearchPost,
+        RopeBatchAddPost,
+        RopeStatsGet,
         TransactionPost,
         TransactionBeginPost,
         TransactionCommitPost,
@@ -1589,6 +1604,17 @@ namespace {
         if (target == "/vector/index/config" && method == http::verb::get) return Route::VectorIndexConfigGet;
         if (target == "/vector/index/config" && method == http::verb::put) return Route::VectorIndexConfigPut;
     if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        // RoPE endpoints - /api/v1/vector-index/{index_name}/rope/*
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/config") != std::string::npos) {
+            if (method == http::verb::post) return Route::RopeConfigPost;
+            if (method == http::verb::get) return Route::RopeConfigGet;
+            if (method == http::verb::delete_) return Route::RopeConfigDelete;
+        }
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add-relational") != std::string::npos && method == http::verb::post) return Route::RopeAddRelationalPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/add") != std::string::npos && method == http::verb::post) return Route::RopeAddPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/search") != std::string::npos && method == http::verb::post) return Route::RopeSearchPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/batch-add") != std::string::npos && method == http::verb::post) return Route::RopeBatchAddPost;
+        if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/stats") != std::string::npos && method == http::verb::get) return Route::RopeStatsGet;
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
@@ -2175,6 +2201,62 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = vector_api_->handleIndexStats(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
+            break;
+        case Route::RopeConfigPost:
+            if (rope_api_) {
+                response = rope_api_->handleConfigPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeConfigGet:
+            if (rope_api_) {
+                response = rope_api_->handleConfigGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeConfigDelete:
+            if (rope_api_) {
+                response = rope_api_->handleConfigDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeAddPost:
+            if (rope_api_) {
+                response = rope_api_->handleAddPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeAddRelationalPost:
+            if (rope_api_) {
+                response = rope_api_->handleAddRelationalPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeSearchPost:
+            if (rope_api_) {
+                response = rope_api_->handleSearchPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeBatchAddPost:
+            if (rope_api_) {
+                response = rope_api_->handleBatchAddPost(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
+            }
+            break;
+        case Route::RopeStatsGet:
+            if (rope_api_) {
+                response = rope_api_->handleStatsGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "RoPE API not available", req);
             }
             break;
         case Route::KeysListGet:
