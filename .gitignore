@@ -332,3 +332,10 @@ qlora_poc_output/
 # Temporary test directories
 test_plugin_standalone/
 build-test/
+
+# Documentation validation reports (generated, not committed)
+*-report.json
+lint-report.json
+link-report.json
+toc-report.json
+validation-report.json
