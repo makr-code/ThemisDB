@@ -6,25 +6,25 @@ This directory contains YAML-based philosophy profiles for the Ethics AI Plugin.
 
 ### Classical Philosophy Schools (10)
 
-1. **kant.yaml** - Kantian Ethics (Deontological)
-2. **utilitarianism.yaml** - Utilitarian Ethics (Consequentialist)
-3. **contractualism.yaml** - Contractualist Ethics
+1. **kant.yaml** - Immanuel Kant: Kantian Ethics (Deontological)
+2. **utilitarianism.yaml** - Mill/Bentham: Utilitarian Ethics (Consequentialist)
+3. **contractualism.yaml** - Rawls/Scanlon: Contractualist Ethics
 4. **rationalism.yaml** - Rationalist Ethics
-5. **socratic.yaml** - Socratic Ethics (Virtue Ethics)
-6. **arendt.yaml** - Arendtian Political Philosophy
-7. **dilthey.yaml** - Dilthey's Hermeneutic Philosophy
-8. **marx.yaml** - Marxist Philosophy
-9. **nietzsche.yaml** - Nietzschean Philosophy
-10. **schopenhauer.yaml** - Schopenhauerian Philosophy
+5. **socratic.yaml** - Socrates: Socratic Ethics (Virtue Ethics)
+6. **arendt.yaml** - Hannah Arendt: Political Philosophy
+7. **dilthey.yaml** - Wilhelm Dilthey: Hermeneutic Philosophy
+8. **marx.yaml** - Karl Marx: Marxist Philosophy
+9. **nietzsche.yaml** - Friedrich Nietzsche: Nietzschean Philosophy
+10. **schopenhauer.yaml** - Arthur Schopenhauer: Schopenhauerian Philosophy
 
 ### Applied Ethics Schools (6) - NEW
 
-11. **business_ethics.yaml** - Business and Corporate Ethics
-12. **scientific_ethics.yaml** - Research and Scientific Ethics
-13. **political_ethics.yaml** - Political and Governance Ethics
-14. **social_ethics.yaml** - Social Welfare and Community Ethics
-15. **environmental_ethics.yaml** - Environmental and Ecological Ethics
-16. **technology_ethics.yaml** - Technology and AI Ethics
+11. **adam_smith.yaml** - Adam Smith: Business and Corporate Ethics
+12. **merton.yaml** - Robert K. Merton: Research and Scientific Ethics
+13. **rawls.yaml** - John Rawls: Political and Governance Ethics
+14. **durkheim.yaml** - Émile Durkheim: Social Welfare and Community Ethics
+15. **leopold.yaml** - Aldo Leopold: Environmental and Ecological Ethics
+16. **wiener.yaml** - Norbert Wiener: Technology and AI Ethics
 
 **Total: 16 Philosophy Schools**
 
@@ -93,7 +93,7 @@ if (auto* count = std::get_if<size_t>(&result)) {
 ```cpp
 auto decision = ethics_plugin->makeDecision(
     "Should we outsource manufacturing to reduce costs?",
-    {"business_ethics", "utilitarianism", "kant"},
+    {"adam_smith", "utilitarianism", "kant"},
     "business",
     true  // use RAG
 );
@@ -103,7 +103,7 @@ auto decision = ethics_plugin->makeDecision(
 ```cpp
 auto decision = ethics_plugin->makeDecision(
     "Should we publish dual-use research with potential weapons applications?",
-    {"scientific_ethics", "kant", "utilitarian"},
+    {"merton", "kant", "utilitarianism"},
     "research",
     true
 );
@@ -113,7 +113,7 @@ auto decision = ethics_plugin->makeDecision(
 ```cpp
 auto decision = ethics_plugin->makeDecision(
     "Should we implement universal basic income?",
-    {"political_ethics", "social_ethics", "rawls"},
+    {"rawls", "durkheim"},
     "policy",
     true
 );
@@ -123,7 +123,7 @@ auto decision = ethics_plugin->makeDecision(
 ```cpp
 auto decision = ethics_plugin->makeDecision(
     "Should we ban single-use plastics?",
-    {"environmental_ethics", "utilitarianism"},
+    {"leopold", "utilitarianism"},
     "environment",
     true
 );
@@ -133,7 +133,7 @@ auto decision = ethics_plugin->makeDecision(
 ```cpp
 auto decision = ethics_plugin->makeDecision(
     "Should we deploy facial recognition in public spaces?",
-    {"technology_ethics", "kant", "political_ethics"},
+    {"wiener", "kant", "rawls"},
     "technology",
     true
 );
@@ -176,22 +176,22 @@ To add a new philosophy school:
 ### Applied Ethics by Domain
 
 #### Business & Economics
-- **Business Ethics**: Corporate responsibility, stakeholder theory, sustainability, CSR
+- **Adam Smith** (adam_smith.yaml): Corporate responsibility, stakeholder theory, sustainability, CSR
 
 #### Science & Research
-- **Scientific Ethics**: Research integrity, reproducibility, responsible innovation, peer review
+- **Robert K. Merton** (merton.yaml): Research integrity, reproducibility, responsible innovation, peer review
 
 #### Politics & Governance
-- **Political Ethics**: Justice as fairness, deliberative democracy, political legitimacy, human rights
+- **John Rawls** (rawls.yaml): Justice as fairness, deliberative democracy, political legitimacy, human rights
 
 #### Society & Community
-- **Social Ethics**: Social solidarity, capability approach, collective responsibility, welfare
+- **Émile Durkheim** (durkheim.yaml): Social solidarity, capability approach, collective responsibility, welfare
 
 #### Environment & Sustainability
-- **Environmental Ethics**: Land ethic, precautionary principle, intergenerational justice, intrinsic value
+- **Aldo Leopold** (leopold.yaml): Land ethic, precautionary principle, intergenerational justice, intrinsic value
 
 #### Technology & AI
-- **Technology Ethics**: Algorithmic fairness, digital rights, privacy, value-sensitive design
+- **Norbert Wiener** (wiener.yaml): Algorithmic fairness, digital rights, privacy, value-sensitive design
 
 ## Language Support
 
