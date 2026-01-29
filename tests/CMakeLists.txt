@@ -263,6 +263,38 @@ else()
     message(STATUS "Consensus Module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_consensus_module.cpp")
 endif()
 
+# Raft Consensus Adapter Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raft_consensus_adapter.cpp")
+    message(STATUS "Adding Raft Consensus Adapter tests")
+    
+    add_executable(test_raft_consensus_adapter
+        test_raft_consensus_adapter.cpp
+    )
+    
+    target_link_libraries(test_raft_consensus_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    
+    target_compile_definitions(test_raft_consensus_adapter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME RaftConsensusAdapterTests COMMAND test_raft_consensus_adapter)
+    
+    set_tests_properties(RaftConsensusAdapterTests PROPERTIES
+        LABELS "sharding;consensus;raft;adapter;unit"
+        TIMEOUT 120
+    )
+    
+    message(STATUS "  Raft Consensus Adapter: State conversion, log operations, membership changes")
+else()
+    message(STATUS "Raft Consensus Adapter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_consensus_adapter.cpp")
+endif()
+
 # ============================================================================
 # Property Graph Tests
 # ============================================================================
