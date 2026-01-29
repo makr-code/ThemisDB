@@ -150,6 +150,10 @@ void PhilosophyLoader::clear() {
     profiles_.clear();
 }
 
+std::map<std::string, PhilosophyProfile> PhilosophyLoader::getAllProfiles() const {
+    return profiles_;
+}
+
 } // namespace ethics
 } // namespace plugins
 } // namespace themis

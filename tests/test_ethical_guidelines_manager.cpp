@@ -1,4 +1,5 @@
 #include "llm/ethical_guidelines_manager.h"
+#include "plugins/ethics_ai/ethics_ai_types.h"
 #include <gtest/gtest.h>
 #include <fstream>
 
@@ -218,6 +219,124 @@ TEST_F(EthicalGuidelinesManagerTest, AsimovLawsFoundation) {
     EXPECT_NE(augmented.find("Asimov"), std::string::npos);
     EXPECT_NE(augmented.find("Second Law"), std::string::npos) 
         << "Should reference Asimov's Second Law (autonomy)";
+}
+
+// ═══════════════════════════════════════════════════════════
+// Plugin Integration Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(EthicalGuidelinesManagerTest, RegisterPhilosophy) {
+    // Create a test philosophy profile
+    themis::plugins::ethics::PhilosophyProfile profile;
+    profile.school_id = "test_philosophy";
+    profile.name = "Test Philosophy School";
+    profile.main_theses.push_back("Test thesis 1");
+    profile.main_theses.push_back("Test thesis 2");
+    
+    // Register the philosophy
+    bool success = manager_->registerPhilosophy("test_philosophy", profile);
+    EXPECT_TRUE(success);
+    
+    // Verify it's in the registered list
+    auto registered = manager_->getRegisteredPhilosophies();
+    EXPECT_GT(registered.size(), 0);
+    
+    bool found = false;
+    for (const auto& school_id : registered) {
+        if (school_id == "test_philosophy") {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(EthicalGuidelinesManagerTest, RegisterPhilosophyInvalidEmpty) {
+    // Try to register with empty school_id
+    themis::plugins::ethics::PhilosophyProfile profile;
+    profile.name = "Test";
+    
+    bool success = manager_->registerPhilosophy("", profile);
+    EXPECT_FALSE(success);
+}
+
+TEST_F(EthicalGuidelinesManagerTest, RegisterPhilosophyInvalidName) {
+    // Try to register with empty name
+    themis::plugins::ethics::PhilosophyProfile profile;
+    profile.school_id = "test";
+    profile.name = "";  // Empty name
+    
+    bool success = manager_->registerPhilosophy("test", profile);
+    EXPECT_FALSE(success);
+}
+
+TEST_F(EthicalGuidelinesManagerTest, MergePhilosophies) {
+    // Create multiple philosophy profiles
+    std::map<std::string, themis::plugins::ethics::PhilosophyProfile> profiles;
+    
+    themis::plugins::ethics::PhilosophyProfile profile1;
+    profile1.school_id = "stoicism";
+    profile1.name = "Stoicism";
+    profile1.main_theses.push_back("Accept what you cannot control");
+    profiles["stoicism"] = profile1;
+    
+    themis::plugins::ethics::PhilosophyProfile profile2;
+    profile2.school_id = "existentialism";
+    profile2.name = "Existentialism";
+    profile2.main_theses.push_back("Existence precedes essence");
+    profiles["existentialism"] = profile2;
+    
+    // Merge profiles
+    size_t count = manager_->mergePhilosophies(profiles);
+    EXPECT_EQ(count, 2);
+    
+    // Verify both are registered
+    auto registered = manager_->getRegisteredPhilosophies();
+    EXPECT_GE(registered.size(), 2);
+    
+    bool found_stoicism = false;
+    bool found_existentialism = false;
+    for (const auto& school_id : registered) {
+        if (school_id == "stoicism") found_stoicism = true;
+        if (school_id == "existentialism") found_existentialism = true;
+    }
+    EXPECT_TRUE(found_stoicism);
+    EXPECT_TRUE(found_existentialism);
+}
+
+TEST_F(EthicalGuidelinesManagerTest, GetRegisteredPhilosophies) {
+    // Initially should be empty or have base philosophies
+    auto registered_before = manager_->getRegisteredPhilosophies();
+    size_t initial_count = registered_before.size();
+    
+    // Register a new philosophy
+    themis::plugins::ethics::PhilosophyProfile profile;
+    profile.school_id = "pragmatism";
+    profile.name = "Pragmatism";
+    profile.main_theses.push_back("Truth is what works");
+    
+    manager_->registerPhilosophy("pragmatism", profile);
+    
+    // Should now have one more
+    auto registered_after = manager_->getRegisteredPhilosophies();
+    EXPECT_EQ(registered_after.size(), initial_count + 1);
+}
+
+TEST_F(EthicalGuidelinesManagerTest, MinimalModeStillWorks) {
+    // Test that manager works without any plugin registrations
+    // This tests backward compatibility
+    
+    std::string text = "Is this ethical? What should I do?";
+    auto result = manager_->detectEthicalContext(text, "en");
+    
+    // Should still detect ethical context
+    EXPECT_TRUE(result.has_ethical_context);
+    EXPECT_GT(result.confidence, 0.6f);
+    
+    // Should still augment prompts
+    std::string original = "You are a helpful assistant.";
+    std::string augmented = manager_->augmentPrompt(original, result);
+    EXPECT_GT(augmented.length(), original.length());
 }
 
 } // namespace test
