@@ -697,6 +697,12 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("WAL API Handler initialized");
 
+    // Initialize Ethics AI API Handler
+    ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
+        storage_, query_api_->getQueryEngine(), auth_
+    );
+    THEMIS_INFO("Ethics AI API Handler initialized");
+
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
         try {
@@ -1796,6 +1802,24 @@ http::response<http::string_body> HttpServer::routeRequest(
         recordLatency(duration);
         span.setStatus(false, "rate_limited");
         return *rate_limit_response;
+    }
+
+    // Early routing for Ethics AI API
+    {
+        std::string path_only = target;
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+            if (ethics_api_) {
+                http::response<http::string_body> response = ethics_api_->handle(req, target);
+                applyGovernanceHeaders(req, response);
+                auto end = std::chrono::steady_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                recordLatency(duration);
+                span.setStatus(true);
+                return response;
+            }
+        }
     }
 
     http::response<http::string_body> response;

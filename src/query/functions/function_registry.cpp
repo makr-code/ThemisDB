@@ -45,6 +45,7 @@
 #ifdef THEMIS_ENABLE_LLM
 #include "query/functions/lora_functions.h"
 #endif
+#include "query/functions/ethics_functions.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -91,6 +92,10 @@ void registerBuiltinFunctions() {
         // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
         registerLoRAFunctions(registry);
 #endif
+        
+        // Ethics AI functions (ethical decision-making and evaluation)
+        // Includes: ETHICS_MAKE_DECISION, ETHICS_EVALUATE, ETHICS_GET_ARGUMENTS, ETHICS_FIND_SIMILAR_DILEMMAS, etc.
+        registerEthicsFunctions(registry);
     } catch (const std::exception& ex) {
         // Re-throw with more context - will be caught by FunctionRegistryInitializer
         std::cerr << "registerBuiltinFunctions() exception: " << ex.what() << std::endl;
