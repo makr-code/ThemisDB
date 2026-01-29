@@ -32,6 +32,9 @@ private:
     std::map<std::string, std::string> config_;
     bool initialized_;
     
+    // Integration with core system
+    void* ethical_guidelines_manager_ = nullptr;  // EthicalGuidelinesManager* (forward declared)
+    
     // Metrics
     struct Metrics {
         size_t total_debates = 0;
@@ -112,6 +115,23 @@ public:
             auto phil_dir_it = config_.find("philosophy_dir");
             if (phil_dir_it != config_.end()) {
                 loadPhilosophyProfiles(phil_dir_it->second);
+            }
+            
+            // Register philosophies with EthicalGuidelinesManager if available
+            if (ethical_guidelines_manager_ && philosophy_loader_) {
+                // Forward declare to avoid circular dependency
+                namespace llm = themis::llm;
+                auto* manager = static_cast<llm::EthicalGuidelinesManager*>(ethical_guidelines_manager_);
+                
+                auto all_profiles = philosophy_loader_->getAllProfiles();
+                if (!all_profiles.empty()) {
+                    size_t registered = manager->mergePhilosophies(all_profiles);
+                    // Note: Using printf since logger might not be available in plugin context
+                    // In production, this would use the plugin's logging mechanism
+                    if (registered > 0) {
+                        // Successfully registered - manager will log details
+                    }
+                }
             }
             
             initialized_ = true;
@@ -452,6 +472,10 @@ public:
             return std::nullopt;
         }
         return it->second;
+    }
+    
+    void setEthicalGuidelinesManager(void* manager) override {
+        ethical_guidelines_manager_ = manager;
     }
 };
 

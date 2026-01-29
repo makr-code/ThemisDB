@@ -65,6 +65,15 @@ public:
      */
     size_t count() const { return profiles_.size(); }
     
+    /**
+     * @brief Get all loaded philosophy profiles
+     * @return Map of school_id -> PhilosophyProfile
+     * 
+     * Returns all philosophy profiles loaded by this loader.
+     * Used by plugin to register profiles with EthicalGuidelinesManager.
+     */
+    std::map<std::string, PhilosophyProfile> getAllProfiles() const;
+    
 private:
     std::map<std::string, PhilosophyProfile> profiles_;
     

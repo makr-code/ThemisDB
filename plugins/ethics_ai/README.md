@@ -89,6 +89,84 @@ The plugin will be installed to:
 - Metadata: `/usr/local/lib/themisdb/plugins/ethics_ai_plugin.json`
 - Philosophy Profiles: `/usr/local/lib/themisdb/plugins/ethics_ai/philosophies/`
 
+## Integration with EthicalGuidelinesManager
+
+The Ethics AI Plugin integrates with ThemisDB's base `EthicalGuidelinesManager` to provide extended philosophical perspectives. This follows a **layered architecture** where the base system provides minimal functionality, and the plugin extends it.
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────┐
+│  EthicalGuidelinesManager (Minimal Base)        │
+│  - Loads config/ethical_guidelines.yaml         │
+│  - 5 core philosophical perspectives            │
+│  - Public API: registerPhilosophy(),            │
+│    mergePhilosophies(), getRegisteredPhilosophies() │
+└──────────────────┬────────────────────────────┘
+                   │ (extended by)
+┌──────────────────▼────────────────────────────┐
+│  EthicsAIPlugin (Extension Layer)              │
+│  - Loads 16+ philosophy profiles from YAML     │
+│  - Registers profiles with manager on init     │
+│  - Manager transparently uses all philosophies │
+└─────────────────────────────────────────────────┘
+```
+
+### How It Works
+
+1. **Base System (Minimal Mode)**: The `EthicalGuidelinesManager` loads basic ethical guidelines from `config/ethical_guidelines.yaml`. It works standalone without any plugins.
+
+2. **Plugin Registration**: When the Ethics AI Plugin initializes, it:
+   - Loads philosophy profiles from `plugins/ethics_ai/philosophies/*.yaml`
+   - Calls `setEthicalGuidelinesManager()` to receive a reference to the manager
+   - Calls `manager->mergePhilosophies()` to register all loaded profiles
+   - The manager now has access to 16+ comprehensive philosophy profiles
+
+3. **Transparent Integration**: The manager's methods like `detectEthicalContext()` and `augmentPrompt()` transparently benefit from the extended philosophy set.
+
+### Code Example
+
+```cpp
+#include "llm/ethical_guidelines_manager.h"
+#include "plugins/ethics_ai/ethics_ai_plugin_interface.h"
+
+// Create the base manager
+auto manager = std::make_unique<llm::EthicalGuidelinesManager>(
+    "config/ethical_guidelines.yaml"
+);
+
+// Load the Ethics AI Plugin
+auto& plugin_manager = PluginManager::instance();
+auto result = plugin_manager.loadPlugin("EthicsAI");
+
+if (auto* plugin_ptr = std::get_if<IThemisPlugin*>(&result)) {
+    auto* ethics_plugin = static_cast<ethics::IEthicsAIPlugin*>(
+        (*plugin_ptr)->getInstance()
+    );
+    
+    // Wire the plugin to the manager
+    ethics_plugin->setEthicalGuidelinesManager(manager.get());
+    
+    // Initialize plugin with philosophy directory
+    std::string config = R"({"philosophy_dir": "plugins/ethics_ai/philosophies"})";
+    ethics_plugin->initialize(config.c_str());
+    
+    // Now the manager has access to all plugin philosophies!
+    auto schools = manager->getRegisteredPhilosophies();
+    std::cout << "Total philosophies: " << schools.size() << std::endl;
+    // Output: Total philosophies: 16+ (base + plugin)
+}
+```
+
+### Benefits of This Integration
+
+✅ **Non-Breaking**: Existing code continues to work without modification
+✅ **Minimal Base**: Core system works standalone without plugins
+✅ **Extensible**: Plugins can add new philosophies dynamically
+✅ **Transparent**: Manager APIs automatically benefit from plugin philosophies
+✅ **Thread-Safe**: Registration is protected by mutex
+✅ **Graceful Degradation**: If plugin fails to load, base system still works
+
 ## Usage
 
 ### Loading the Plugin

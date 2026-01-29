@@ -269,6 +269,19 @@ public:
      * @return Configuration value or nullopt if not found
      */
     virtual std::optional<std::string> getConfig(const std::string& key) const = 0;
+    
+    // ========== Integration with Core System ==========
+    
+    /**
+     * @brief Set reference to EthicalGuidelinesManager for plugin integration
+     * @param manager Pointer to EthicalGuidelinesManager
+     * 
+     * This method is called by the core system to establish the integration
+     * between the plugin and the base ethical guidelines system. The plugin
+     * can then register its philosophy profiles with the manager during
+     * initialization.
+     */
+    virtual void setEthicalGuidelinesManager(void* manager) = 0;
 };
 
 } // namespace ethics

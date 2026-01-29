@@ -1,4 +1,5 @@
 #include "llm/ethical_guidelines_manager.h"
+#include "plugins/ethics_ai/ethics_ai_types.h"
 #include "utils/logger.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
@@ -580,6 +581,67 @@ Analyze the above text and context. Respond in JSON format:
     result.has_ethical_context = false;
     
     return result;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Plugin Integration API Implementation
+// ═══════════════════════════════════════════════════════════
+
+bool EthicalGuidelinesManager::registerPhilosophy(
+    const std::string& school_id,
+    const themis::plugins::ethics::PhilosophyProfile& profile) {
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (school_id.empty()) {
+        LogWarning("Cannot register philosophy with empty school_id");
+        return false;
+    }
+    
+    // Validate profile has minimum required fields
+    if (profile.name.empty()) {
+        LogWarning("Cannot register philosophy '{}' with empty name", school_id);
+        return false;
+    }
+    
+    // Check if already registered
+    if (philosophy_profiles_.find(school_id) != philosophy_profiles_.end()) {
+        LogInfo("Philosophy '{}' already registered, updating", school_id);
+    }
+    
+    // Store the profile
+    philosophy_profiles_[school_id] = profile;
+    
+    LogInfo("Registered philosophy profile: {} ({})", school_id, profile.name);
+    return true;
+}
+
+size_t EthicalGuidelinesManager::mergePhilosophies(
+    const std::map<std::string, themis::plugins::ethics::PhilosophyProfile>& profiles) {
+    
+    size_t registered_count = 0;
+    
+    for (const auto& [school_id, profile] : profiles) {
+        if (registerPhilosophy(school_id, profile)) {
+            registered_count++;
+        }
+    }
+    
+    LogInfo("Merged {} philosophy profiles into EthicalGuidelinesManager", registered_count);
+    return registered_count;
+}
+
+std::vector<std::string> EthicalGuidelinesManager::getRegisteredPhilosophies() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<std::string> schools;
+    schools.reserve(philosophy_profiles_.size());
+    
+    for (const auto& [school_id, profile] : philosophy_profiles_) {
+        schools.push_back(school_id);
+    }
+    
+    return schools;
 }
 
 } // namespace llm
