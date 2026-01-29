@@ -78,10 +78,10 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/plugins/ethics_ai
     FILES_MATCHING PATTERN "*.h"
 )
 
-# Install philosophy profiles
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/examples/24_moral_philosophy_debates/philosophies
+# Install philosophy profiles (from plugin directory)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/philosophies
     DESTINATION lib/themisdb/plugins/ethics_ai/
-    FILES_MATCHING PATTERN "*.yaml" PATTERN "*.yml"
+    FILES_MATCHING PATTERN "*.yaml" PATTERN "*.yml" PATTERN "*.md"
 )
 
 # Install plugin metadata
@@ -94,5 +94,10 @@ configure_file(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ethics_ai_plugin.json
     DESTINATION lib/themisdb/plugins/
 )
+
+# Build examples (optional)
+if(THEMIS_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 message(STATUS "Ethics AI Plugin configuration complete")
