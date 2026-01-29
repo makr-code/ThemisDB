@@ -56,6 +56,7 @@
 #include "server/classification_api_handler.h"
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
+#include "server/ethics_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
 #else
@@ -668,6 +669,9 @@ private:
     
     // Error API Handler
     std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
+    
+    // Ethics AI API Handler (ethical decision-making and evaluation)
+    std::unique_ptr<themis::server::EthicsApiHandler> ethics_api_;
     
     // Health/Error Service (separate port)
     std::unique_ptr<themis::server::HealthErrorService> health_error_service_;
