@@ -1,19 +1,31 @@
 #include "argument_store.h"
+#include "ethics_base_entity_adapter.h"
+#include "storage/rocksdb_wrapper.h"
+#include "query/query_engine.h"
 #include <algorithm>
 
 namespace themis {
 namespace plugins {
 namespace ethics {
 
-Status ArgumentStore::initialize(const std::map<std::string, std::string>& config) {
+Status ArgumentStore::initialize(
+    std::shared_ptr<RocksDBWrapper> storage,
+    std::shared_ptr<query::QueryEngine> query_engine) {
+    
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (initialized_) {
         return Status::Error("ArgumentStore already initialized");
     }
     
-    // TODO: Initialize actual storage managers when integrating with ThemisDB
-    // For now, just use in-memory storage
+    if (!storage) {
+        // Standalone mode - use in-memory storage for testing
+        standalone_mode_ = true;
+    } else {
+        storage_ = storage;
+        query_engine_ = query_engine;
+        standalone_mode_ = false;
+    }
     
     initialized_ = true;
     return Status::OK();
@@ -30,14 +42,27 @@ Status ArgumentStore::storeArgument(const EthicalArgument& argument, bool store_
         return Status::Error("Argument ID cannot be empty");
     }
     
-    // Store in memory (placeholder for actual multi-model storage)
-    arguments_[argument.id] = argument;
+    if (standalone_mode_) {
+        // Standalone mode - use in-memory storage
+        arguments_[argument.id] = argument;
+        return Status::OK();
+    }
     
-    // TODO: Store in actual storage models:
-    // - Graph: argument relationships (counters, supports)
-    // - Relational: argument metadata
-    // - Vector: embeddings (if store_vector is true)
-    // - Timeline: creation events
+    // Convert to BaseEntity
+    BaseEntity entity = EthicsBaseEntityAdapter::toBaseEntity(argument);
+    
+    // Store in RocksDB with proper key format
+    std::string key = EthicsBaseEntityAdapter::makeArgumentKey(argument.id);
+    auto blob = entity.serialize();
+    
+    // Use ThemisDB storage directly
+    storage_->put(key, blob);
+    
+    // TODO: When vector support is integrated:
+    // if (store_vector && !argument.content.empty()) {
+    //     // Generate embedding and store in vector index
+    //     // This will use ThemisDB's vector index manager
+    // }
     
     return Status::OK();
 }
@@ -51,12 +76,28 @@ std::variant<EthicalArgument, Status> ArgumentStore::getArgument(
         return Status::Error("ArgumentStore not initialized");
     }
     
-    auto it = arguments_.find(argument_id);
-    if (it == arguments_.end()) {
+    if (standalone_mode_) {
+        // Standalone mode - use in-memory storage
+        auto it = arguments_.find(argument_id);
+        if (it == arguments_.end()) {
+            return Status::Error("Argument not found: " + argument_id);
+        }
+        return it->second;
+    }
+    
+    // Load from RocksDB as BaseEntity
+    std::string key = EthicsBaseEntityAdapter::makeArgumentKey(argument_id);
+    auto blob = storage_->get(key);
+    
+    if (!blob) {
         return Status::Error("Argument not found: " + argument_id);
     }
     
-    return it->second;
+    // Deserialize BaseEntity
+    BaseEntity entity = BaseEntity::deserialize(argument_id, *blob);
+    
+    // Convert back to EthicalArgument
+    return EthicsBaseEntityAdapter::fromBaseEntity(entity);
 }
 
 std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsByPhilosophy(
@@ -70,69 +111,86 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
         return Status::Error("ArgumentStore not initialized");
     }
     
-    std::vector<EthicalArgument> results;
-    
-    for (const auto& kv : arguments_) {
-        const auto& arg = kv.second;
+    if (standalone_mode_) {
+        // Standalone mode - scan in-memory storage
+        std::vector<EthicalArgument> results;
         
-        // Filter by philosophy school
-        if (arg.philosophy_school != philosophy_school) {
-            continue;
+        for (const auto& kv : arguments_) {
+            const auto& arg = kv.second;
+            
+            if (arg.philosophy_school != philosophy_school) {
+                continue;
+            }
+            
+            if (!argument_types.empty()) {
+                bool type_match = false;
+                for (const auto& type : argument_types) {
+                    if (arg.argument_type == type) {
+                        type_match = true;
+                        break;
+                    }
+                }
+                if (!type_match) continue;
+            }
+            
+            results.push_back(arg);
+            
+            if (results.size() >= limit) {
+                break;
+            }
         }
         
-        // Filter by argument types if specified
+        return results;
+    }
+    
+    // TODO: Use AQL query when query_engine_ is available:
+    // - FOR arg IN ethics_arguments FILTER arg.philosophy_school == @school ...
+    // For now, scan the key prefix
+    
+    std::vector<EthicalArgument> results;
+    std::string prefix = "entity:ethics_arguments:";
+    
+    // Scan RocksDB with prefix
+    storage_->scan(prefix, [&](const std::string& key, const std::vector<uint8_t>& value) {
+        if (results.size() >= limit) {
+            return false; // Stop iteration
+        }
+        
+        // Extract PK from key
+        std::string pk = key.substr(prefix.length());
+        
+        // Deserialize BaseEntity
+        BaseEntity entity = BaseEntity::deserialize(pk, value);
+        
+        // Check philosophy school filter
+        auto school = entity.getFieldAsString("philosophy_school");
+        if (!school || *school != philosophy_school) {
+            return true; // Continue
+        }
+        
+        // Check argument type filter
         if (!argument_types.empty()) {
+            auto type_str = entity.getFieldAsString("argument_type");
+            if (!type_str) return true;
+            
+            ArgumentType type = stringToArgumentType(*type_str);
             bool type_match = false;
-            for (const auto& type : argument_types) {
-                if (arg.argument_type == type) {
+            for (const auto& filter_type : argument_types) {
+                if (type == filter_type) {
                     type_match = true;
                     break;
                 }
             }
-            if (!type_match) continue;
+            if (!type_match) return true;
         }
         
-        results.push_back(arg);
+        // Convert and add to results
+        results.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));
         
-        if (results.size() >= limit) {
-            break;
-        }
-    }
+        return true; // Continue
+    });
     
     return results;
-}
-
-Status ArgumentStore::storeChain(const ArgumentChain& chain) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (!initialized_) {
-        return Status::Error("ArgumentStore not initialized");
-    }
-    
-    if (chain.id.empty()) {
-        return Status::Error("Chain ID cannot be empty");
-    }
-    
-    chains_[chain.id] = chain;
-    
-    // TODO: Store in graph storage for traversal
-    
-    return Status::OK();
-}
-
-std::variant<ArgumentChain, Status> ArgumentStore::getChain(const std::string& chain_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (!initialized_) {
-        return Status::Error("ArgumentStore not initialized");
-    }
-    
-    auto it = chains_.find(chain_id);
-    if (it == chains_.end()) {
-        return Status::Error("Chain not found: " + chain_id);
-    }
-    
-    return it->second;
 }
 
 Status ArgumentStore::storeDecision(const EthicalDecision& decision) {
@@ -146,9 +204,18 @@ Status ArgumentStore::storeDecision(const EthicalDecision& decision) {
         return Status::Error("Decision ID cannot be empty");
     }
     
-    decisions_[decision.decision_id] = decision;
+    if (standalone_mode_) {
+        decisions_[decision.decision_id] = decision;
+        return Status::OK();
+    }
     
-    // TODO: Store in relational and timeline storage
+    // Convert to BaseEntity
+    BaseEntity entity = EthicsBaseEntityAdapter::toBaseEntity(decision);
+    
+    // Store in RocksDB
+    std::string key = EthicsBaseEntityAdapter::makeDecisionKey(decision.decision_id);
+    auto blob = entity.serialize();
+    storage_->put(key, blob);
     
     return Status::OK();
 }
@@ -162,22 +229,104 @@ std::variant<EthicalDecision, Status> ArgumentStore::getDecision(
         return Status::Error("ArgumentStore not initialized");
     }
     
-    auto it = decisions_.find(decision_id);
-    if (it == decisions_.end()) {
+    if (standalone_mode_) {
+        auto it = decisions_.find(decision_id);
+        if (it == decisions_.end()) {
+            return Status::Error("Decision not found: " + decision_id);
+        }
+        return it->second;
+    }
+    
+    // Load from RocksDB
+    std::string key = EthicsBaseEntityAdapter::makeDecisionKey(decision_id);
+    auto blob = storage_->get(key);
+    
+    if (!blob) {
         return Status::Error("Decision not found: " + decision_id);
     }
     
-    return it->second;
+    // Deserialize BaseEntity
+    BaseEntity entity = BaseEntity::deserialize(decision_id, *blob);
+    
+    // Convert back to EthicalDecision
+    return EthicsBaseEntityAdapter::fromBaseEntity(entity, true);
+}
+
+Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile& profile) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!initialized_) {
+        return Status::Error("ArgumentStore not initialized");
+    }
+    
+    if (profile.school.empty()) {
+        return Status::Error("Profile school cannot be empty");
+    }
+    
+    if (standalone_mode_) {
+        profiles_[profile.school] = profile;
+        return Status::OK();
+    }
+    
+    // Convert to BaseEntity
+    BaseEntity entity = EthicsBaseEntityAdapter::toBaseEntity(profile);
+    
+    // Store in RocksDB
+    std::string key = EthicsBaseEntityAdapter::makeProfileKey(profile.school);
+    auto blob = entity.serialize();
+    storage_->put(key, blob);
+    
+    return Status::OK();
+}
+
+std::variant<PhilosophyProfile, Status> ArgumentStore::getPhilosophyProfile(
+    const std::string& school) {
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!initialized_) {
+        return Status::Error("ArgumentStore not initialized");
+    }
+    
+    if (standalone_mode_) {
+        auto it = profiles_.find(school);
+        if (it == profiles_.end()) {
+            return Status::Error("Profile not found: " + school);
+        }
+        return it->second;
+    }
+    
+    // Load from RocksDB
+    std::string key = EthicsBaseEntityAdapter::makeProfileKey(school);
+    auto blob = storage_->get(key);
+    
+    if (!blob) {
+        return Status::Error("Profile not found: " + school);
+    }
+    
+    // Deserialize BaseEntity
+    BaseEntity entity = BaseEntity::deserialize(school, *blob);
+    
+    // Convert back to PhilosophyProfile
+    return EthicsBaseEntityAdapter::fromBaseEntityToProfile(entity);
 }
 
 void ArgumentStore::shutdown() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // TODO: Shutdown actual storage managers
+    if (!initialized_) {
+        return;
+    }
     
+    // Clear references (storage is managed externally)
+    storage_.reset();
+    query_engine_.reset();
+    
+    // Clear in-memory data
     arguments_.clear();
-    chains_.clear();
     decisions_.clear();
+    profiles_.clear();
+    
     initialized_ = false;
 }
 
