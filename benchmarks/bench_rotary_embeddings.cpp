@@ -144,9 +144,12 @@ static void BM_VectorIndex_AddWithoutRotation(benchmark::State& state) {
     std::filesystem::remove_all(test_dir);
     std::filesystem::create_directories(test_dir);
     
-    RocksDBWrapper db;
-    auto open_status = db.open(test_dir.string());
-    if (!open_status.ok) {
+    RocksDBWrapper::Config config;
+    config.db_path = test_dir.string();
+    config.create_if_missing = true;
+    
+    RocksDBWrapper db(config);
+    if (!db.open()) {
         state.SkipWithError("Failed to open database");
         return;
     }
@@ -187,9 +190,12 @@ static void BM_VectorIndex_AddWithRotation(benchmark::State& state) {
     std::filesystem::remove_all(test_dir);
     std::filesystem::create_directories(test_dir);
     
-    RocksDBWrapper db;
-    auto open_status = db.open(test_dir.string());
-    if (!open_status.ok) {
+    RocksDBWrapper::Config db_config;
+    db_config.db_path = test_dir.string();
+    db_config.create_if_missing = true;
+    
+    RocksDBWrapper db(db_config);
+    if (!db.open()) {
         state.SkipWithError("Failed to open database");
         return;
     }
@@ -202,13 +208,13 @@ static void BM_VectorIndex_AddWithRotation(benchmark::State& state) {
     }
     
     // Enable rotary embeddings
-    RotationConfig config;
-    config.hidden_dim = 128;
-    config.num_rotation_pairs = 64;
-    config.base_theta = 10000.0;
-    config.computeThetaCache();
+    RotationConfig rope_config;
+    rope_config.hidden_dim = 128;
+    rope_config.num_rotation_pairs = 64;
+    rope_config.base_theta = 10000.0;
+    rope_config.computeThetaCache();
     
-    auto rope_status = vector_mgr.setRotaryEmbeddingConfig(config);
+    auto rope_status = vector_mgr.setRotaryEmbeddingConfig(rope_config);
     if (!rope_status.ok) {
         state.SkipWithError("Failed to enable rotary embeddings");
         return;
@@ -249,9 +255,12 @@ static void BM_VectorIndex_SearchWithRotation(benchmark::State& state) {
     std::filesystem::remove_all(test_dir);
     std::filesystem::create_directories(test_dir);
     
-    RocksDBWrapper db;
-    auto open_status = db.open(test_dir.string());
-    if (!open_status.ok) {
+    RocksDBWrapper::Config db_config;
+    db_config.db_path = test_dir.string();
+    db_config.create_if_missing = true;
+    
+    RocksDBWrapper db(db_config);
+    if (!db.open()) {
         state.SkipWithError("Failed to open database");
         return;
     }
@@ -264,13 +273,13 @@ static void BM_VectorIndex_SearchWithRotation(benchmark::State& state) {
     }
     
     // Enable rotary embeddings
-    RotationConfig config;
-    config.hidden_dim = 128;
-    config.num_rotation_pairs = 64;
-    config.base_theta = 10000.0;
-    config.computeThetaCache();
+    RotationConfig rope_config;
+    rope_config.hidden_dim = 128;
+    rope_config.num_rotation_pairs = 64;
+    rope_config.base_theta = 10000.0;
+    rope_config.computeThetaCache();
     
-    auto rope_status = vector_mgr.setRotaryEmbeddingConfig(config);
+    auto rope_status = vector_mgr.setRotaryEmbeddingConfig(rope_config);
     if (!rope_status.ok) {
         state.SkipWithError("Failed to enable rotary embeddings");
         return;

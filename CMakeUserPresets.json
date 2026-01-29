@@ -9,17 +9,9 @@
       "hidden": false,
       "inherits": "windows-ninja-msvc-release",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe",
-        "CMAKE_MAKE_PROGRAM": "ninja.exe",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_GPU": "OFF"
-      },
-      "environment": {
-        "VCPKG_ROOT": "${sourceDir}/vcpkg"
       }
     }
   ],
