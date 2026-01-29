@@ -294,8 +294,3 @@ TEST_F(ConsensusModuleTest, WaitForCommitTimeout) {
     
     module->stop();
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

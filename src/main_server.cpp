@@ -103,7 +103,7 @@ static bool initializeMimalloc() {
         #ifdef _WIN32
         // Try to load mimalloc DLL - it may not always be available in PATH
         // but should be in the same directory as themis_server.exe
-        HMODULE mimalloc_handle = LoadLibrary("mimalloc.dll");
+        HMODULE mimalloc_handle = ::LoadLibraryA("mimalloc.dll");
         if (mimalloc_handle) {
             // Successfully loaded - now we can use mimalloc functions if needed
             // The DLL exports functions like mi_malloc, mi_free, etc.

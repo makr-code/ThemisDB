@@ -34,9 +34,12 @@ inline Target safe_cast(const Source& source) noexcept {
                   "Target must be trivially copyable");
     static_assert(std::is_trivially_copyable_v<Source>,
                   "Source must be trivially copyable");
-    
+
+    using DecayedSource = std::remove_cv_t<Source>;
+    DecayedSource temp = source; // copy to drop cv qualifiers safely
+
     Target result;
-    std::memcpy(&result, &source, sizeof(Target));
+    std::memcpy(&result, &temp, sizeof(Target));
     return result;
 }
 

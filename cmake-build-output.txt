@@ -1,0 +1,344 @@
+-- The CXX compiler identification is MSVC 19.44.35220.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- ThemisDB 1.4.1 (1.4.1-dev)
+-- MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd) [shared triplet]
+-- Using VCToolsInstallDir from environment: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\
+-- Added MSVC Standard Library includes: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\/include
+-- Added MSVC lib path: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\/lib/x64
+-- LTCG enabled: /GL (compile) + /LTCG:INCREMENTAL (link)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: MSVC 19.44.35220.0
+-- ==========================================
+-- Platform Detection:
+--   Target Architecture: x86_64
+--   Target Platform: windows
+--   Target Triplet: x64-windows
+--   System: Windows 10.0.26100
+--   Processor: AMD64
+-- ==========================================
+-- Applying architecture optimizations for x86_64...
+--   x86_64 optimization: AVX2 + FMA (native, flags set in CompilerOptions.cmake)
+-- ==========================================
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring COMMUNITY edition...
+--   Hardware limits: Up to 8 GB GPU VRAM, 5 nodes, 1 GB cache
+--   Features: Core + optional LLM/gRPC/GPU
+-- ==========================================
+-- Feature Configuration:
+-- ==========================================
+--   LLM: Enabled
+--     Content ingestion: Enabled
+--   Network Protocols:
+--     gRPC: Enabled
+--     HTTP Server: Enabled
+--   GPU Acceleration: Disabled
+--   Security & Enterprise:
+--   Development Tools:
+--     Unit tests: Enabled
+--     Benchmarks: Enabled
+--     mimalloc: Enabled
+--   >> Auto-enabling Phase 1 performance optimizations
+--   Performance Optimizations:
+--     AVX2: Enabled
+--     Phase 1:
+--       RCU Index: Enabled
+--       LIRS Cache: Enabled
+-- ==========================================
+-- ==========================================
+-- Edition-Feature Matrix Validation
+-- ==========================================
+-- Validating features against COMMUNITY edition matrix:
+--   THEMIS_ENABLE_LLM: ALLOWED (ON)
+--   THEMIS_ENABLE_GPU: ALLOWED (OFF)
+--   THEMIS_ENABLE_CUDA: ALLOWED (OFF)
+--   THEMIS_ENABLE_GRPC: ALLOWED (ON)
+--   THEMIS_ENABLE_TRACING: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP2: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP3: ALLOWED (OFF)
+--   THEMIS_ENABLE_WEBSOCKET: ALLOWED (OFF)
+--   THEMIS_ENABLE_MQTT: ALLOWED (OFF)
+--   THEMIS_ENABLE_POSTGRES_WIRE: ALLOWED (OFF)
+--   THEMIS_ENABLE_MCP: ALLOWED (OFF)
+--   THEMIS_ENABLE_SSE: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISKANN: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISTRIBUTED_TRAINING: ALLOWED (OFF)
+-- ==========================================
+-- Edition-Feature Matrix Validation: Complete
+-- ==========================================
+-- ==========================================
+-- vcpkg Configuration
+-- ==========================================
+-- Binary cache: Enabled (default local cache)
+--   Location: C:\Users\mkrueger\AppData\Local/vcpkg/archives
+--   Mode: Read-Write
+-- vcpkg root: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\vcpkg (from VCPKG_ROOT)
+CMake Warning at cmake/VcpkgConfiguration.cmake:86 (message):
+  CMAKE_TOOLCHAIN_FILE already set to:
+  C:\VCC\themis\vcpkg\scripts\buildsystems\vcpkg.cmake
+Call Stack (most recent call first):
+  CMakeLists.txt:71 (include)
+
+
+CMake Warning at cmake/VcpkgConfiguration.cmake:87 (message):
+    Expected: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\vcpkg/scripts/buildsystems/vcpkg.cmake
+Call Stack (most recent call first):
+  CMakeLists.txt:71 (include)
+
+
+CMake Warning at cmake/VcpkgConfiguration.cmake:88 (message):
+    vcpkg may not be properly configured.
+Call Stack (most recent call first):
+  CMakeLists.txt:71 (include)
+
+
+-- vcpkg feature: llm
+-- vcpkg feature: rpc (gRPC, protobuf)
+-- Active vcpkg features: llm;rpc
+-- Validating dependency requirements...
+-- ==========================================
+-- vcpkg configuration complete
+-- ==========================================
+-- OpenSSL found: 3.6.0
+-- Found ZLIB: optimized;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/lib/zlib.lib;debug;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/debug/lib/zlibd.lib (found suitable version "1.3.1", minimum required is "1.3")
+-- ZLIB found: 1.3.1
+-- zstd found - enabling Zstandard compression
+-- RocksDB found
+-- simdjson found
+-- TBB found
+-- fmt found
+-- spdlog found
+-- nlohmann_json found
+-- Could NOT find boost_filesystem (missing: boost_filesystem_DIR)
+-- Boost found: 1.86.0
+-- Threads found
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found
+-- Protobuf found: 25.1.0
+-- gRPC found
+-- GTest found - tests enabled
+-- Google Benchmark found - benchmarks enabled
+-- Prometheus C++ client found - metrics enabled
+-- CURL found - enabling HTTP client features
+-- cpp-httplib found - enabling built-in HTTP server
+-- MessagePack found - enabling binary buffer protocol
+-- Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF or Windows platform)
+-- Arrow not found - Parquet export disabled
+-- yaml-cpp found
+-- hnswlib found - enabling HNSW vector search
+-- mimalloc found - enabling high-performance memory allocation
+-- The C compiler identification is MSVC 19.44.35220.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found for LLM support
+CMAKE_BUILD_TYPE=Release
+-- The ASM compiler identification is MSVC
+CMake Warning (dev) at C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineASMCompiler.cmake:234 (message):
+  Policy CMP194 is not set: MSVC is not an assembler for language ASM.  Run
+  "cmake --help-policy CMP194" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  llama.cpp/ggml/CMakeLists.txt:2 (project)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found assembler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: AMD64
+-- CMAKE_GENERATOR_PLATFORM: 
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: /arch:AVX2 GGML_AVX2;GGML_FMA;GGML_F16C
+-- ggml version: 0.9.5
+-- ggml commit:  8cc0ba957
+-- llama.cpp configured as subdirectory - enabling LLM plugin support
+-- Google Benchmark found
+-- ============================================
+-- ThemisDB Dependencies Summary
+-- ============================================
+-- Required: OpenSSL, RocksDB, gRPC, Protobuf, GTest
+-- Optional: CURL, Arrow, Parquet, mimalloc, OpenTelemetry
+-- Protocols: HTTP/2=OFF, HTTP/3=OFF
+-- Features: LLM=ON, GPU=OFF, CUDA=OFF
+-- ============================================
+-- Validating platform requirements...
+--   Building for Windows platform
+-- Platform validation: OK
+-- Validating edition constraints...
+-- Edition validation: OK
+-- Validating feature dependencies...
+--   gRPC enabled - inter-shard communication available
+-- Feature validation: OK
+--   Total features enabled: 0 GPU backend(s)
+--   Key features: LLM, gRPC
+-- Configuring ThemisDB benchmark suite
+-- Google Benchmark found - building benchmarks
+-- LoRA framework benchmarks not found at C:/VCC/themis/benchmarks/bench_lora_framework.cpp
+-- Adding Multi-LoRA fusion benchmarks
+-- Adding LoRA auto-binding benchmarks
+--   LoRA auto-binding: Auto-binding, context switching, caching, eviction
+-- Fused kernels benchmarks skipped (CUDA/HIP not enabled)
+-- Fused LoRA kernels benchmarks skipped (CUDA/HIP not enabled)
+-- Adding Snapshot Manager benchmarks
+-- Adding Multi-GPU LoRA Advanced benchmarks
+--   Multi-GPU LoRA: resource-aware eviction, dynamic scheduling, migration
+-- Backend Comparison benchmarks skipped (GPU disabled or file missing)
+-- Found Google Benchmark: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/share/benchmark
+-- Performance benchmarks enabled:
+--   - benchmark_mimalloc
+--   - benchmark_huge_pages
+--   - benchmark_rcu_index
+--   - benchmark_lirs_cache
+-- 
+-- Run benchmarks with:
+--   ./build/benchmarks/benchmark_mimalloc
+--   ./build/benchmarks/benchmark_huge_pages
+--   ./build/benchmarks/benchmark_rcu_index
+--   ./build/benchmarks/benchmark_lirs_cache
+-- Adding RAG Ethics benchmarks
+-- Adding Knowledge Gap Detector Phase 2 benchmarks
+--   Knowledge Gap Detector Phase 2: Token probability, perplexity, self-consistency, FLARE
+-- Adding Advanced Patterns benchmarks
+--   Advanced Patterns: Parallel scalability, sharding strategy, read/write ratios
+-- Adding Distributed Coordinator benchmarks
+--   Distributed Coordinator: Leader election, task scheduling, failover
+-- Adding Storage Performance benchmarks
+--   Storage: mimalloc, huge pages, RCU index
+-- Adding OLAP Performance benchmarks
+--   OLAP: Aggregations, GROUP BY, filters at scale
+-- Adding Embedding Cache Performance benchmarks
+--   Embedding Cache: HNSW, hit/miss, batch operations
+-- Adding LLM Inference Performance benchmarks
+--   LLM: Inference, LoRA adapters, throughput
+-- Benchmarks configured successfully
+--   - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding
+--   - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding
+--   - Or use: make run_benchmark_lora_auto_binding
+--   - Build all benchmarks with: cmake --build . --target bench_lora_framework
+--   - Run all benchmarks with: ./benchmarks/bench_lora_framework
+--   - Or use: make run_benchmarks
+--   - Performance benchmarks: bench_storage_performance, bench_olap_performance,
+--     bench_embedding_cache_performance, bench_llm_inference_performance
+-- Found ZLIB: optimized;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/lib/zlib.lib;debug;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/debug/lib/zlibd.lib (found suitable version "1.3.1", minimum required is "1.1.2")
+-- libzip found - Archive processing available
+-- Office support enabled - libzip and pugixml found
+-- Auto-enabling Phase 1 performance optimizations for tests/benchmarks
+--   (Disable with: cmake -DTHEMIS_PERF_AUTO_ENABLE=OFF)
+-- Enabling mimalloc allocator optimization (+10-20% performance)
+-- Found mimalloc: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/share/mimalloc
+-- Windows: Disabling mimalloc-redirect DLL to prevent loader crash
+-- Enabling RCU index optimization (+200-500% read performance)
+-- RCU: Read-Copy-Update for lock-free reads in read-heavy workloads
+-- Enabling LIRS cache optimization (+30-40% cache hit rate)
+-- LIRS: Low Inter-reference Recency Set for scan-resistant caching
+-- Edition: COMMUNITY - GPU limited to 24GB, up to 5 nodes
+--   GPU Backend: Vulkan=OFF (cross-platform), CUDA=OFF (NVIDIA-only)
+--   LLM Support: ON
+-- No license file specified, using default community license: C:/VCC/themis/config/license_community_default.json
+-- Embedding license data from: C:/VCC/themis/config/license_community_default.json
+--   Organization:     ThemisDB Community
+--   License Key:      THEMIS-COMMUNITY-OPENSOURCE
+--   Edition:          COMMUNITY
+--   Expiry Date:      9999-12-31
+--   Max Nodes:        5
+--   Build Timestamp:  2026-01-27 08:54:02 UTC
+-- RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage
+-- yaml-cpp found via CONFIG
+-- LLM support enabled - integrating llama.cpp
+-- llama.cpp already available as target (from find_package) - skipping add_subdirectory
+-- Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)
+-- gRPC found - enabling LLM gRPC service
+-- Building ThemisDB as monolithic themis_core library
+-- Boost.Geometry enabled for exact geometry checks
+-- Office support linked: libzip and pugixml
+-- Kerberos/GSSAPI authentication enabled
+-- Timestamp Authority (RFC 3161): Enabled with OpenSSL and CURL
+-- mimalloc linked to themis_core
+-- RCU Index enabled (+200-500% read performance)
+-- LIRS Cache enabled (+30-40% hit rate improvement)
+-- HTTP/REST server enabled
+-- gRPC support enabled (inter-shard communication)
+-- gRPC and Protobuf found - linking to themis_core (with reflection)
+-- Skipping LoRA GPU sources (THEMIS_ENABLE_GPU=OFF)
+-- LLM Vision: disabled (set -DTHEMIS_ENABLE_VISION=ON to enable)
+-- LLM Plugin: Linked llama.cpp library
+-- LLM Plugin: Source files added to themis_core
+--   - Ollama-style lazy model loading enabled
+--   - vLLM-style multi-LoRA management enabled
+--   - LoRA Adapter Framework enabled (Issue #319)
+--     * Full CRUD operations with BaseEntity storage
+--     * Enterprise security (AES-256-GCM + Ed25519)
+--     * Async job management for training/loading
+--     * Complete audit trail for compliance
+--   - Async inference engine enabled (independent threading)
+--   - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)
+--     * ModelMetadataCache (ConcurrentCache)
+--     * LoRAMetadataCache (ConcurrentCache)
+--     * PagedBlockManager (foundation for PagedAttention v1.4.0)
+--     * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)
+--     * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)
+-- Pruned mimalloc libs from themis_server link libraries
+-- Configuring ThemisDB test suite
+-- MSVC Runtime: MultiThreaded$<$<CONFIG:Debug>:Debug>DLL
+-- GTest found - building unified test binary
+-- Building 479 test files after feature gating
+-- Multi-GPU LoRA Advanced tests not found at C:/VCC/themis/tests/test_multi_gpu_lora_advanced.cpp
+-- Distributed Coordinator tests not found at C:/VCC/themis/tests/test_distributed_coordinator.cpp
+-- Adding Consensus Module tests
+--   Consensus Module: Raft, Gossip, Paxos implementations
+-- Adding Property Graph tests
+--   Property Graph: edge cascade deletion, node/edge management
+-- Adding HTTP Client Pool tests
+--   HTTP Client Pool: striped locking, stale connection removal, timeouts
+-- Adding gRPC Channel Pool tests
+--   gRPC Channel Pool: channel reuse, keepalive, stale pruning
+-- Adding Batch Operation Manager tests
+--   Batch Operation Manager: adaptive sizing, queue management
+-- Adding HNSW Parameter Tuner tests
+--   HNSW Parameter Tuner: adaptive efSearch, memory optimization
+-- Adding Enhanced Query Cache tests
+--   Enhanced Query Cache: TBB concurrent hash map, TTL, LRU eviction
+-- Adding RPC Geospatial Query tests
+--   RPC Geo Query: intersects, within, near spatial queries
+-- Adding Index Maintenance tests
+--   Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics
+-- Adding GraphQL parser tests
+--   GraphQL Parser: query parsing, arguments, validation
+-- Adding Fulltext Phrase and Fuzzy Search tests
+--   Fulltext: phrase matching, fuzzy search with Levenshtein distance
+-- Adding RocksDBWrapper comprehensive tests
+--   RocksDBWrapper Comprehensive: CRUD, transactions, MVCC, backup/restore, iterators, column families
+-- Adding PITR Manager comprehensive tests
+--   PITR Manager Comprehensive: point-in-time recovery, changefeed replay, snapshots, consistency
+-- Adding Vector Index comprehensive tests
+--   Vector Index Comprehensive: HNSW, distance metrics, filtered search, persistence, concurrency
+-- Adding Transaction Manager comprehensive tests
+--   Transaction Manager Comprehensive: ACID, isolation levels, deadlock detection, 2PC, savepoints
+-- Adding Utilities comprehensive tests
+--   Utilities Comprehensive: error handling, PII detection, stemming, OLAP engine
+-- Adding Graph Index comprehensive tests
+--   Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs
+-- Tests configured successfully
+-- Plugin Hot-Plug Monitoring Benchmark: Enabled
+-- Documentation database generation enabled
+--   Output: C:/VCC/themis/build-msvc-ninja-release/data/docs.db
+--   Size: ~2-3 MB (1151 documents)
+-- ==========================================
+-- ThemisDB 1.4.1 (1.4.1-dev)
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring done (9.2s)
+-- Generating done (2.2s)
+-- Build files have been written to: C:/VCC/themis/build-msvc-ninja-release
+Configuration successful. Now building...
+ninja: fatal: invalid -j parameter
+Build failed!

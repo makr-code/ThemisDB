@@ -6,6 +6,7 @@
 #include <cmath>
 #include <random>
 #include <numeric>
+#include <fstream>
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
@@ -38,7 +39,15 @@ namespace {
 }
 
 MultiLoRAManager::MultiLoRAManager(const Config& config)
-    : config_(config) {
+    : config_(config), 
+      next_round_robin_gpu_(0),
+      eviction_thread_(nullptr),
+      total_vram_bytes_(0),
+      cache_hits_(0),
+      cache_misses_(0),
+      evictions_(0),
+      switches_(0) {
+    
     spdlog::info("MultiLoRAManager initialized (vLLM-style):");
     spdlog::info("  Max LoRA VRAM: {} MB", config_.max_lora_vram_mb);
     spdlog::info("  Max LoRA slots: {}", config_.max_lora_slots);
@@ -50,20 +59,50 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
                      quantizationModeToString(config_.quantization.mode));
     }
     
+    // Validate configuration
+    if (config_.max_lora_vram_mb == 0) {
+        spdlog::warn("Max LoRA VRAM is 0, setting to 1024 MB");
+        config_.max_lora_vram_mb = 1024;
+    }
+    if (config_.max_lora_slots == 0) {
+        spdlog::warn("Max LoRA slots is 0, setting to 32");
+        config_.max_lora_slots = 32;
+    }
+    
     // Initialize multi-GPU support (v1.4.0)
-    if (config_.multi_gpu.enabled && !config_.multi_gpu.devices.empty()) {
-        spdlog::info("  Multi-GPU: enabled");
-        spdlog::info("    Strategy: {}", 
-                     config_.multi_gpu.strategy == MultiGPUStrategy::ROUND_ROBIN ? "ROUND_ROBIN" :
-                     config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL ? "DATA_PARALLEL" :
-                     config_.multi_gpu.strategy == MultiGPUStrategy::MODEL_PARALLEL ? "MODEL_PARALLEL" : "UNKNOWN");
-        spdlog::info("    Devices: {} GPUs", config_.multi_gpu.devices.size());
-        spdlog::info("    Peer transfer: {}", config_.multi_gpu.enable_peer_transfer ? "enabled" : "disabled");
-        
-        // Initialize per-GPU tracking
-        for (int gpu_id : config_.multi_gpu.devices) {
-            gpu_vram_usage_[gpu_id] = 0;
-            spdlog::debug("    GPU {} initialized", gpu_id);
+    if (config_.multi_gpu.enabled) {
+        if (config_.multi_gpu.devices.empty()) {
+            spdlog::warn("Multi-GPU enabled but no devices specified, disabling");
+            config_.multi_gpu.enabled = false;
+        } else {
+            // Validate device list
+            if (config_.multi_gpu.max_vram_per_gpu_mb == 0) {
+                spdlog::warn("max_vram_per_gpu_mb is 0, setting to 8192 MB");
+                config_.multi_gpu.max_vram_per_gpu_mb = 8192;
+            }
+            if (config_.multi_gpu.load_balance_threshold <= 0.0f || config_.multi_gpu.load_balance_threshold > 1.0f) {
+                spdlog::warn("Invalid load_balance_threshold, setting to 0.8");
+                config_.multi_gpu.load_balance_threshold = 0.8f;
+            }
+            
+            spdlog::info("  Multi-GPU: enabled");
+            spdlog::info("    Strategy: {}", 
+                         config_.multi_gpu.strategy == MultiGPUStrategy::ROUND_ROBIN ? "ROUND_ROBIN" :
+                         config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL ? "DATA_PARALLEL" :
+                         config_.multi_gpu.strategy == MultiGPUStrategy::MODEL_PARALLEL ? "MODEL_PARALLEL" : "UNKNOWN");
+            spdlog::info("    Devices: {} GPUs", config_.multi_gpu.devices.size());
+            spdlog::info("    Max VRAM per GPU: {} MB", config_.multi_gpu.max_vram_per_gpu_mb);
+            spdlog::info("    Peer transfer: {}", config_.multi_gpu.enable_peer_transfer ? "enabled" : "disabled");
+            
+            // Initialize per-GPU tracking for ALL specified devices
+            for (int gpu_id : config_.multi_gpu.devices) {
+                if (gpu_id < 0 || gpu_id > 255) {
+                    spdlog::error("Invalid GPU ID: {}, skipping", gpu_id);
+                    continue;
+                }
+                gpu_vram_usage_[gpu_id] = 0;
+                spdlog::debug("    GPU {} initialized", gpu_id);
+            }
         }
     } else {
         spdlog::info("  Multi-GPU: disabled (single GPU mode)");
@@ -77,9 +116,11 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
 }
 
 MultiLoRAManager::~MultiLoRAManager() {
-    // Stop eviction thread first
+    // CRITICAL: Stop eviction thread FIRST (before taking any locks)
+    // to avoid deadlock where destructor holds lock and thread waits for it
     stopEvictionThread();
     
+    // Now safe to take lock for cleanup
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Unload all LoRAs with proper cleanup
@@ -638,33 +679,33 @@ size_t MultiLoRAManager::evictLRU(size_t target_vram_mb) {
 }
 
 size_t MultiLoRAManager::evictExpired() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto now = std::chrono::system_clock::now();
-    size_t evicted = 0;
-    
     std::vector<std::string> to_evict;
-    
-    for (const auto& [id, lora] : loras_) {
-        if (lora->keep_loaded) {
-            continue;  // Skip pinned LoRAs
-        }
-        
-        auto age = std::chrono::duration_cast<std::chrono::seconds>(
-            now - lora->last_used
-        );
-        
-        if (age > config_.lora_ttl) {
-            to_evict.push_back(id);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto now = std::chrono::system_clock::now();
+
+        for (const auto& [id, lora] : loras_) {
+            if (lora->keep_loaded) {
+                continue;  // Skip pinned LoRAs
+            }
+
+            auto age = std::chrono::duration_cast<std::chrono::seconds>(
+                now - lora->last_used
+            );
+
+            if (age > config_.lora_ttl) {
+                to_evict.push_back(id);
+            }
         }
     }
-    
+
+    size_t evicted = 0;
     for (const auto& id : to_evict) {
         spdlog::info("Evicting expired LoRA: {}", id);
-        unloadLoRA(id, true);
+        unloadLoRA(id, true);  // unloadLoRA manages locking
         evicted++;
     }
-    
+
     return evicted;
 }
 
@@ -880,109 +921,166 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         return false;
     }
     
-    auto start_time = std::chrono::high_resolution_clock::now();
-    
-    // Simulate loading weights from the LoRA file
-    // In production, these would be loaded from the actual LoRA weights file
-    size_t num_weights = lora->original_vram_bytes / sizeof(float);
-    std::vector<float> weights = simulateWeights(num_weights);
-    
-    // Apply quantization based on mode
-    if (config_.quantization.mode == QuantizationMode::INT8) {
-        quantizeINT8(lora, weights);
-    } else if (config_.quantization.mode == QuantizationMode::INT4) {
-        quantizeINT4(lora, weights);
-    } else {
+    try {
+        auto start_time = std::chrono::high_resolution_clock::now();
+        
+        // Simulate loading weights from the LoRA file
+        // In production, these would be loaded from the actual LoRA weights file
+        size_t num_weights = lora->original_vram_bytes / sizeof(float);
+        std::vector<float> weights = simulateWeights(num_weights);
+        
+        // Check if weights allocation failed
+        if (weights.empty()) {
+            spdlog::warn("Failed to simulate weights for LoRA: {}", lora->lora_id);
+            return false;
+        }
+        
+        // Apply quantization based on mode
+        if (config_.quantization.mode == QuantizationMode::INT8) {
+            quantizeINT8(lora, weights);
+        } else if (config_.quantization.mode == QuantizationMode::INT4) {
+            quantizeINT4(lora, weights);
+        } else {
+            return false;
+        }
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        spdlog::debug("Quantization completed in {} ms", duration.count());
+        
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Quantization failed for LoRA {}: {}", lora->lora_id, e.what());
         return false;
     }
-    
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-    
-    spdlog::debug("Quantization completed in {} ms", duration.count());
-    
-    return true;
 }
 
 void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& weights) {
     // INT8 quantization: 4× memory reduction (FP32 → INT8)
     // Uses symmetric quantization: Q = round(x / scale) where scale = max(abs(x)) / INT8_MAX_VALUE
     
-    size_t num_weights = weights.size();
-    size_t num_channels = config_.quantization.per_channel ? lora->rank : 1;
-    size_t weights_per_channel = num_weights / num_channels;
-    
-    lora->scale_factors.resize(num_channels);
-    lora->quantized_weights.resize(num_weights);  // INT8: 1 byte per weight
-    
-    // Calibrate scale factors
-    calibrateScales(weights, lora->scale_factors);
-    
-    // Quantize weights
-    for (size_t ch = 0; ch < num_channels; ++ch) {
-        float scale = lora->scale_factors[ch];
-        size_t offset = ch * weights_per_channel;
-        
-        for (size_t i = 0; i < weights_per_channel && (offset + i) < num_weights; ++i) {
-            float w = weights[offset + i];
-            // Quantize: Q = round(x / scale), clamped to [-INT8_MAX_VALUE, INT8_MAX_VALUE]
-            int8_t quantized = static_cast<int8_t>(
-                std::max(-INT8_MAX_VALUE, std::min(INT8_MAX_VALUE, std::round(w / scale)))
-            );
-            // Store as unsigned byte: add zero-point to map signed range to unsigned [0,254]
-            // Quantized range [-127,127] + zero-point 127 = [0,254]
-            // During dequantization: x = (Q - INT8_ZERO_POINT) * scale
-            lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + INT8_ZERO_POINT);
-        }
+    if (!lora) {
+        spdlog::error("quantizeINT8: null lora pointer");
+        return;
     }
     
-    // Update metadata
-    lora->is_quantized = true;
-    lora->quantization_mode = QuantizationMode::INT8;
-    lora->vram_bytes = num_weights + lora->scale_factors.size() * sizeof(float);  // INT8 weights + scales
+    size_t num_weights = weights.size();
+    if (num_weights == 0) {
+        spdlog::error("quantizeINT8: empty weights vector");
+        return;
+    }
     
-    spdlog::debug("INT8 quantization: {} channels, {} weights per channel", 
-                  num_channels, weights_per_channel);
+    size_t num_channels = config_.quantization.per_channel ? lora->rank : 1;
+    if (num_channels == 0) {
+        spdlog::error("quantizeINT8: invalid num_channels: {}", num_channels);
+        num_channels = 1;
+    }
+    
+    size_t weights_per_channel = num_weights / num_channels;
+    
+    try {
+        lora->scale_factors.resize(num_channels);
+        lora->quantized_weights.resize(num_weights);  // INT8: 1 byte per weight
+        
+        // Calibrate scale factors
+        calibrateScales(weights, lora->scale_factors);
+        
+        // Validate scales
+        for (size_t ch = 0; ch < num_channels; ++ch) {
+            if (lora->scale_factors[ch] < MIN_SCALE_EPSILON) {
+                lora->scale_factors[ch] = MIN_SCALE_EPSILON;
+            }
+        }
+        
+        // Quantize weights
+        for (size_t ch = 0; ch < num_channels; ++ch) {
+            float scale = lora->scale_factors[ch];
+            if (scale < MIN_SCALE_EPSILON) scale = MIN_SCALE_EPSILON;
+            
+            size_t offset = ch * weights_per_channel;
+            
+            for (size_t i = 0; i < weights_per_channel && (offset + i) < num_weights; ++i) {
+                float w = weights[offset + i];
+                // Quantize: Q = round(x / scale), clamped to [-INT8_MAX_VALUE, INT8_MAX_VALUE]
+                int8_t quantized = static_cast<int8_t>(
+                    std::max(-INT8_MAX_VALUE, std::min(INT8_MAX_VALUE, std::round(w / scale)))
+                );
+                // Store as unsigned byte: add zero-point to map signed range to unsigned [0,254]
+                // Quantized range [-127,127] + zero-point 127 = [0,254]
+                // During dequantization: x = (Q - INT8_ZERO_POINT) * scale
+                lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + INT8_ZERO_POINT);
+            }
+        }
+        
+        // Update metadata
+        lora->is_quantized = true;
+        lora->quantization_mode = QuantizationMode::INT8;
+        lora->vram_bytes = num_weights + lora->scale_factors.size() * sizeof(float);  // INT8 weights + scales
+        
+        spdlog::debug("INT8 quantization: {} channels, {} weights per channel", 
+                      num_channels, weights_per_channel);
+    } catch (const std::exception& e) {
+        spdlog::error("INT8 quantization failed: {}", e.what());
+        lora->is_quantized = false;
+    }
 }
 
 void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& weights) {
     // INT4 quantization: 8× memory reduction (FP32 → INT4)
     // Uses group-based quantization for better accuracy
     
+    if (!lora) {
+        spdlog::error("quantizeINT4: null lora pointer");
+        return;
+    }
+    
     size_t num_weights = weights.size();
+    if (num_weights == 0) {
+        spdlog::error("quantizeINT4: empty weights vector");
+        return;
+    }
+    
     int group_size = config_.quantization.group_size > 0 ? config_.quantization.group_size : 128;
+    if (group_size <= 0) {
+        spdlog::error("quantizeINT4: invalid group_size: {}", group_size);
+        group_size = 128;
+    }
+    
     size_t num_groups = (num_weights + group_size - 1) / group_size;
     
-    lora->scale_factors.resize(num_groups);
-    lora->quantized_weights.resize((num_weights + 1) / 2, 0);  // INT4: 0.5 bytes per weight (packed), initialize to 0
-    
-    // Quantize per group
-    for (size_t g = 0; g < num_groups; ++g) {
-        size_t start_idx = g * group_size;
-        size_t end_idx = std::min(start_idx + group_size, num_weights);
-        size_t group_len = end_idx - start_idx;
+    try {
+        lora->scale_factors.resize(num_groups);
+        lora->quantized_weights.resize((num_weights + 1) / 2, 0);  // INT4: 0.5 bytes per weight (packed), initialize to 0
         
-        // Calculate scale for this group
-        float max_abs = 0.0f;
-        for (size_t i = start_idx; i < end_idx; ++i) {
-            max_abs = std::max(max_abs, std::abs(weights[i]));
-        }
-        lora->scale_factors[g] = max_abs / INT4_MAX_VALUE;  // 4-bit: [-INT4_MAX_VALUE, INT4_MAX_VALUE]
-        
-        float scale = lora->scale_factors[g];
-        if (scale < MIN_SCALE_EPSILON) scale = MIN_SCALE_EPSILON;  // Avoid division by zero
-        
-        // Quantize group
-        for (size_t i = 0; i < group_len; ++i) {
-            size_t idx = start_idx + i;
-            float w = weights[idx];
+        // Quantize per group
+        for (size_t g = 0; g < num_groups; ++g) {
+            size_t start_idx = g * group_size;
+            size_t end_idx = std::min(start_idx + (size_t)group_size, num_weights);
+            size_t group_len = end_idx - start_idx;
             
-            // Quantize: Q = round(x / scale), clamped to [-INT4_MAX_VALUE, INT4_MAX_VALUE]
-            int8_t quantized = static_cast<int8_t>(
-                std::max(-INT4_MAX_VALUE, std::min(INT4_MAX_VALUE, std::round(w / scale)))
-            );
+            // Calculate scale for this group
+            float max_abs = 0.0f;
+            for (size_t i = start_idx; i < end_idx; ++i) {
+                max_abs = std::max(max_abs, std::abs(weights[i]));
+            }
             
-            // Pack two 4-bit values into one byte, offset from [-7,7] to [0,14]
+            // Calculate and validate scale
+            float scale = (max_abs > 0.0f) ? (max_abs / INT4_MAX_VALUE) : MIN_SCALE_EPSILON;
+            if (scale < MIN_SCALE_EPSILON) scale = MIN_SCALE_EPSILON;  // Avoid division by zero
+            lora->scale_factors[g] = scale;
+            
+            // Quantize group
+            for (size_t i = 0; i < group_len; ++i) {
+                size_t idx = start_idx + i;
+                float w = weights[idx];
+                
+                // Quantize: Q = round(x / scale), clamped to [-INT4_MAX_VALUE, INT4_MAX_VALUE]
+                int8_t quantized = static_cast<int8_t>(
+                    std::max(-INT4_MAX_VALUE, std::min(INT4_MAX_VALUE, std::round(w / scale)))
+                );
+                
+                // Pack two 4-bit values into one byte, offset from [-7,7] to [0,14]
             // During dequantization: x = (Q - INT4_ZERO_POINT) * scale
             size_t byte_idx = idx / 2;
             if (idx % 2 == 0) {
@@ -990,23 +1088,43 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
             } else {
                 lora->quantized_weights[byte_idx] |= ((quantized + INT4_ZERO_POINT) & 0x0F) << 4;  // Upper 4 bits
             }
+            }
         }
+        
+        // Update metadata
+        lora->is_quantized = true;
+        lora->quantization_mode = QuantizationMode::INT4;
+        lora->vram_bytes = lora->quantized_weights.size() + lora->scale_factors.size() * sizeof(float);
+        
+        spdlog::debug("INT4 quantization: {} groups, {} group size", num_groups, group_size);
+    } catch (const std::exception& e) {
+        spdlog::error("INT4 quantization failed: {}", e.what());
+        lora->is_quantized = false;
     }
-    
-    // Update metadata
-    lora->is_quantized = true;
-    lora->quantization_mode = QuantizationMode::INT4;
-    lora->vram_bytes = lora->quantized_weights.size() + lora->scale_factors.size() * sizeof(float);
-    
-    spdlog::debug("INT4 quantization: {} groups, {} group size", num_groups, group_size);
 }
 
 void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::vector<float>& scales) {
     // Calibrate scale factors for quantization
     // Uses symmetric quantization: scale = max(abs(x)) / max_quantized_value
     
+    if (scales.empty() || weights.empty()) {
+        spdlog::error("calibrateScales: empty scales ({}) or weights ({}) vector", 
+                      scales.size(), weights.size());
+        return;
+    }
+    
     size_t num_channels = scales.size();
     size_t weights_per_channel = weights.size() / num_channels;
+    
+    if (weights_per_channel == 0) {
+        spdlog::error("calibrateScales: weights_per_channel is 0 (weights.size={}, num_channels={})", 
+                      weights.size(), num_channels);
+        // Default scale to epsilon
+        for (auto& scale : scales) {
+            scale = MIN_SCALE_EPSILON;
+        }
+        return;
+    }
     
     for (size_t ch = 0; ch < num_channels; ++ch) {
         size_t offset = ch * weights_per_channel;
@@ -1021,10 +1139,24 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
         // For INT8: max_quantized = INT8_MAX_VALUE
         // For INT4: max_quantized = INT4_MAX_VALUE
         float max_quantized = (config_.quantization.mode == QuantizationMode::INT8) ? INT8_MAX_VALUE : INT4_MAX_VALUE;
-        scales[ch] = max_abs / max_quantized;
+        if (max_quantized <= 0.0f) {
+            spdlog::error("calibrateScales: invalid max_quantized: {}", max_quantized);
+            max_quantized = INT8_MAX_VALUE;  // Fallback
+        }
         
-        // Avoid division by zero
+        if (max_abs > 0.0f) {
+            scales[ch] = max_abs / max_quantized;
+        } else {
+            scales[ch] = MIN_SCALE_EPSILON;
+        }
+        
+        // Ensure scale is valid
         if (scales[ch] < MIN_SCALE_EPSILON) {
+            scales[ch] = MIN_SCALE_EPSILON;
+        }
+        if (!std::isfinite(scales[ch])) {
+            spdlog::warn("calibrateScales: non-finite scale at channel {}: {}, resetting to epsilon", 
+                        ch, scales[ch]);
             scales[ch] = MIN_SCALE_EPSILON;
         }
     }
@@ -1034,15 +1166,34 @@ std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
     // Simulate LoRA weights for testing
     // In production, these would be loaded from the actual LoRA weights file
     
-    std::vector<float> weights(count);
-    std::mt19937 gen(SIMULATION_SEED);  // Fixed seed for reproducibility
-    std::normal_distribution<float> dist(0.0f, LORA_WEIGHT_STDDEV);  // Mean=0, typical LoRA distribution
+    // Limit allocation to prevent OOM in tests
+    // Cap at 100MB per allocation to avoid memory exhaustion
+    const size_t MAX_ALLOCATION_SIZE = 100 * 1024 * 1024 / sizeof(float);  // 100 MB
+    size_t actual_count = std::min(count, MAX_ALLOCATION_SIZE);
     
-    for (size_t i = 0; i < count; ++i) {
-        weights[i] = dist(gen);
+    try {
+        // Directly allocate with size to avoid multiple reallocations in loop
+        std::vector<float> weights(actual_count);
+        
+        std::mt19937 gen(SIMULATION_SEED);  // Fixed seed for reproducibility
+        std::normal_distribution<float> dist(0.0f, LORA_WEIGHT_STDDEV);  // Mean=0, typical LoRA distribution
+        
+        // Fill allocated vector directly
+        for (size_t i = 0; i < actual_count; ++i) {
+            weights[i] = dist(gen);
+        }
+        
+        if (count != actual_count) {
+            spdlog::debug("Simulated weights: requested={} (capped to {}) bytes, allocated={} floats", 
+                         count, actual_count, actual_count);
+        }
+        return weights;
+    } catch (const std::bad_alloc& e) {
+        spdlog::error("Failed to allocate simulated weights (requested: {}, actual: {}): {}", 
+                      count, actual_count, e.what());
+        // Return empty vector as fallback - caller should handle this
+        return std::vector<float>();
     }
-    
-    return weights;
 }
 
 // Multi-GPU support methods (v1.4.0)
@@ -1208,6 +1359,13 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         return 0;  // Default GPU
     }
     
+    // Validate that devices list is not corrupted
+    if (next_round_robin_gpu_ >= config_.multi_gpu.devices.size()) {
+        spdlog::error("next_round_robin_gpu_ {} out of bounds (devices.size()={}), resetting to 0", 
+                      next_round_robin_gpu_, config_.multi_gpu.devices.size());
+        next_round_robin_gpu_ = 0;
+    }
+    
     // Pre-compute max VRAM per GPU in bytes to avoid repeated multiplication
     const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
     
@@ -1217,6 +1375,12 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
             int selected_gpu = config_.multi_gpu.devices[next_round_robin_gpu_];
             next_round_robin_gpu_ = (next_round_robin_gpu_ + 1) % config_.multi_gpu.devices.size();
             
+            // Validate GPU is in tracking map
+            if (gpu_vram_usage_.find(selected_gpu) == gpu_vram_usage_.end()) {
+                spdlog::error("Selected GPU {} not in tracking map, initializing", selected_gpu);
+                gpu_vram_usage_[selected_gpu] = 0;
+            }
+            
             // Check if GPU has capacity
             if (gpu_vram_usage_[selected_gpu] + vram_bytes <= max_vram_per_gpu_bytes) {
                 return selected_gpu;
@@ -1224,28 +1388,58 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
             
             // Try other GPUs if selected one is full
             for (int gpu_id : config_.multi_gpu.devices) {
+                if (gpu_vram_usage_.find(gpu_id) == gpu_vram_usage_.end()) {
+                    spdlog::error("GPU {} not in tracking map, initializing", gpu_id);
+                    gpu_vram_usage_[gpu_id] = 0;
+                }
                 if (gpu_vram_usage_[gpu_id] + vram_bytes <= max_vram_per_gpu_bytes) {
                     return gpu_id;
                 }
             }
             
-            spdlog::warn("All GPUs are near capacity, using GPU {} anyway", selected_gpu);
-            return selected_gpu;
+            // ALL GPUs are full - this is a critical error, not just a warning
+            spdlog::error("All {} GPUs are at capacity, cannot load LoRA (required: {} bytes)", 
+                         config_.multi_gpu.devices.size(), vram_bytes);
+            return -1;  // Signal error instead of continuing
         }
         
         case MultiGPUStrategy::DATA_PARALLEL: {
             // For data parallel, we'll replicate on all GPUs
             // Return first GPU as primary
-            return config_.multi_gpu.devices[0];
+            int primary_gpu = config_.multi_gpu.devices[0];
+            if (gpu_vram_usage_.find(primary_gpu) == gpu_vram_usage_.end()) {
+                spdlog::error("Primary GPU {} not in tracking map, initializing", primary_gpu);
+                gpu_vram_usage_[primary_gpu] = 0;
+            }
+            return primary_gpu;
         }
         
         case MultiGPUStrategy::MODEL_PARALLEL: {
             // For model parallel, select GPU with most free space
+            if (config_.multi_gpu.devices.empty()) {
+                spdlog::error("MODEL_PARALLEL strategy selected but no devices configured");
+                return 0;
+            }
+            
             int best_gpu = config_.multi_gpu.devices[0];
+            
+            // Initialize if not in map
+            if (gpu_vram_usage_.find(best_gpu) == gpu_vram_usage_.end()) {
+                spdlog::error("Best GPU {} not in tracking map, initializing", best_gpu);
+                gpu_vram_usage_[best_gpu] = 0;
+            }
+            
             size_t max_free = max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu];
             
             for (size_t i = 1; i < config_.multi_gpu.devices.size(); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
+                
+                // Initialize if not in map
+                if (gpu_vram_usage_.find(gpu_id) == gpu_vram_usage_.end()) {
+                    spdlog::error("GPU {} not in tracking map, initializing", gpu_id);
+                    gpu_vram_usage_[gpu_id] = 0;
+                }
+                
                 size_t free = max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id];
                 if (free > max_free) {
                     max_free = free;
@@ -1257,6 +1451,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         }
         
         default:
+            spdlog::error("Unknown GPU placement strategy");
             return 0;
     }
 }
@@ -1416,6 +1611,14 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
 ) {
     // Already locked by caller
     
+    // Validate that LoRA file exists
+    std::ifstream file_check(lora_path, std::ios::binary);
+    if (!file_check.good()) {
+        spdlog::error("LoRA file not found: {} for adapter {}", lora_path, lora_id);
+        return nullptr;
+    }
+    file_check.close();
+    
     spdlog::info("Loading LoRA: {} from {} (placement: {})", 
                  lora_id, lora_path, placement == GPUPlacement::MULTI_GPU ? "MULTI_GPU" : "SINGLE_GPU");
     
@@ -1462,6 +1665,10 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     } else {
         // Single GPU placement
         int gpu_id = selectGPUForLoRA(lora->vram_bytes);
+        if (gpu_id < 0) {
+            spdlog::error("Failed to select GPU for LoRA {}", lora_id);
+            return nullptr;
+        }
         if (!loadLoRAOnGPU(lora.get(), gpu_id)) {
             spdlog::error("Failed to load LoRA on GPU {}", gpu_id);
             return nullptr;
@@ -1528,11 +1735,13 @@ void MultiLoRAManager::evictionWorker() {
     
     while (eviction_thread_running_.load()) {
         // Sleep with condition variable for responsive shutdown
-        std::unique_lock<std::mutex> lock(mutex_);
-        eviction_cv_.wait_for(lock, check_interval, [this]() {
-            return !eviction_thread_running_.load();
-        });
-        lock.unlock();
+        {
+            std::unique_lock<std::mutex> lock(mutex_);
+            eviction_cv_.wait_for(lock, check_interval, [this]() {
+                return !eviction_thread_running_.load();
+            });
+            // lock automatically released when exiting scope
+        }
         
         if (!eviction_thread_running_.load()) {
             break;
@@ -1546,11 +1755,14 @@ void MultiLoRAManager::evictionWorker() {
             }
             
             // Also check memory pressure and proactively evict if needed
-            lock.lock();
-            size_t vram_usage_pct = (config_.max_lora_vram_mb > 0) 
-                ? (total_vram_bytes_ / (1024 * 1024) * 100 / config_.max_lora_vram_mb)
-                : 0;
-            lock.unlock();
+            size_t vram_usage_pct = 0;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                vram_usage_pct = (config_.max_lora_vram_mb > 0) 
+                    ? (total_vram_bytes_ / (1024 * 1024) * 100 / config_.max_lora_vram_mb)
+                    : 0;
+                // lock automatically released when exiting scope
+            }
             
             // If VRAM usage is above 80%, proactively evict some LRU adapters
             if (vram_usage_pct > 80) {

@@ -5,9 +5,49 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# CRITICAL: Select MSVC CRT runtime consistently with vcpkg triplet
-# - x64-windows-static     -> /MT  (MultiThreaded)
-# - other triplets (shared)-> /MD  (MultiThreadedDLL)
+# ════════════════════════════════════════════════════════════════════════════
+# CRITICAL MSVC SETUP - Must come FIRST before any other compiler setup!
+# ════════════════════════════════════════════════════════════════════════════
+if(MSVC)
+    # Setup MSVC toolset directory
+    if(DEFINED ENV{VCToolsInstallDir})
+        set(_VC_TOOLS_DIR "$ENV{VCToolsInstallDir}")
+        string(REGEX REPLACE "\\\\$" "" _VC_TOOLS_DIR "${_VC_TOOLS_DIR}")
+    else()
+        set(_VC_TOOLS_DIR "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207")
+    endif()
+    
+    set(_WIN_SDK_VERSION "10.0.22621.0")
+    set(_WIN_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
+    
+    # Use include_directories() instead of /I flags - cleaner and no escaping issues
+    # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
+    include_directories(
+        "${_VC_TOOLS_DIR}/include"
+        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+    )
+    
+    message(STATUS "MSVC Include Paths Added (EARLY):")
+    message(STATUS "  - ${_VC_TOOLS_DIR}/include")
+    message(STATUS "  - ${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/{ucrt,shared,um}")
+    
+    # Add lib paths for linker
+    link_directories(
+        "${_VC_TOOLS_DIR}/lib/x64"
+        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
+        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
+    )
+    
+    message(STATUS "MSVC Library Paths Added:")
+    message(STATUS "  - ${_VC_TOOLS_DIR}/lib/x64")
+    message(STATUS "  - ${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/{ucrt,um}/x64")
+endif()
+
+# ════════════════════════════════════════════════════════════════════════════
+# MSVC CRT Runtime Selection
+# ════════════════════════════════════════════════════════════════════════════
 if(MSVC)
     # Set policy CMP0091 to use MSVC_RUNTIME_LIBRARY
     if(POLICY CMP0091)
@@ -52,33 +92,46 @@ if(THEMIS_ENABLE_CUDA)
     message(STATUS "CUDA Language Enabled")
 endif()
 
-# Compiler-specific options
+# ════════════════════════════════════════════════════════════════════════════
+# General Compiler Options
+# ════════════════════════════════════════════════════════════════════════════
 if(MSVC)
-    # Windows MSVC compiler options
+    # Windows MSVC compiler options (include paths already added above)
     add_compile_options(
         /W4              # Warning level 4
         /WX-             # Don't treat warnings as errors (unless THEMIS_STRICT_BUILD)
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
-        /EHa             # Exception handling (C++ + SEH) - Required for _set_se_translator()
+        /EHsc            # Exception handling (C++ only, not SEH)
     )
     
-    # Fix for missing standard library headers (when VSDevCmd not initialized)
-    # Include standard MSVC toolset paths explicitly
-    if(DEFINED ENV{VCToolsInstallDir})
-        set(_VC_TOOLS_DIR "$ENV{VCToolsInstallDir}")
-    else()
-        # Fallback: discover MSVC installation
-        get_filename_component(_VC_TOOLS_DIR 
-            "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VC7;17.0]" ABSOLUTE)
+    # Also use include_directories for good measure
+    include_directories(
+        "${_VC_TOOLS_DIR}/include"
+        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+    )
+    
+    # Add Windows SDK and MSVC runtime library paths
+    set(_WIN_SDK_LIB_PATH "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64")
+    set(_WIN_SDK_UCRT_LIB_PATH "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64")
+    
+    if(EXISTS "${_WIN_SDK_LIB_PATH}")
+        link_directories("${_WIN_SDK_LIB_PATH}")
+        message(STATUS "Added Windows SDK lib path: ${_WIN_SDK_LIB_PATH}")
     endif()
     
-    if(_VC_TOOLS_DIR)
-        message(STATUS "MSVC VC Tools Directory: ${_VC_TOOLS_DIR}")
-        include_directories("${_VC_TOOLS_DIR}include")
-    else()
-        message(WARNING "Could not locate MSVC VC Tools directory for standard library includes")
+    if(EXISTS "${_WIN_SDK_UCRT_LIB_PATH}")
+        link_directories("${_WIN_SDK_UCRT_LIB_PATH}")
+        message(STATUS "Added Windows SDK UCRT lib path: ${_WIN_SDK_UCRT_LIB_PATH}")
+    endif()
+    
+    # Add MSVC runtime lib path
+    if(_VC_TOOLS_DIR AND EXISTS "${_VC_TOOLS_DIR}/lib/x64")
+        link_directories("${_VC_TOOLS_DIR}/lib/x64")
+        message(STATUS "Added MSVC lib path: ${_VC_TOOLS_DIR}/lib/x64")
     endif()
     
     # Release-specific options for SIMD optimization

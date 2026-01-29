@@ -176,6 +176,35 @@ target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_BUILD=1
 )
 
+# Copy DLLs to test directory on Windows after build
+if(WIN32)
+    # Copy DLLs from themis_core directory
+    add_custom_command(TARGET themis_tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo "Copying DLLs to test directory..."
+    )
+    
+    # Copy llama.cpp and runtime DLLs if they exist
+    if(EXISTS "${CMAKE_BINARY_DIR}/bin")
+        add_custom_command(TARGET themis_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_BINARY_DIR}/bin"
+                "$<TARGET_FILE_DIR:themis_tests>"
+            COMMENT "Copying llama.cpp DLLs to test directory"
+        )
+    endif()
+    
+    # Copy vcpkg runtime DLLs
+    if(EXISTS "${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin")
+        file(GLOB VCPKG_RUNTIME_DLLS "${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin/*.dll")
+        if(VCPKG_RUNTIME_DLLS)
+            add_custom_command(TARGET themis_tests POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy ${VCPKG_RUNTIME_DLLS} "$<TARGET_FILE_DIR:themis_tests>"
+                COMMENT "Copying vcpkg runtime DLLs to test directory"
+            )
+        endif()
+    endif()
+endif()
+
 add_test(NAME AllTests COMMAND themis_tests)
 set_tests_properties(AllTests PROPERTIES
     LABELS "all;unified"
