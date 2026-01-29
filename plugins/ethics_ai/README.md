@@ -4,14 +4,19 @@
 
 The Ethics AI Plugin is a native C++ implementation of the Ethical AI Framework for ThemisDB. It provides comprehensive ethical decision-making capabilities based on multiple philosophical schools, RAG-based context retrieval, and 5-dimension evaluation metrics.
 
+**Now Integrated with ThemisDB Architecture** ✅
+- Uses **BaseEntity** for unified storage (no SQL tables)
+- Uses **AQL** for all queries (ThemisDB native)
+- **Direct integration** with ThemisDB storage (no wrappers)
+
 **Key Features:**
-- Multi-philosophy ethical debates (Kant, Utilitarianism, Virtue Ethics, etc.)
-- RAG-based context retrieval using 7 AQL query patterns
-- Argument chain management and tracking
+- Multi-philosophy ethical debates (10 schools: Kant, Utilitarianism, Virtue Ethics, etc.)
+- RAG-based context retrieval using AQL query patterns
+- Argument chain management with graph traversal
 - Decision synthesis with confidence scoring
 - 5-dimension evaluation metrics (Quality, Consistency, Fairness, Alignment, Transparency)
-- Multi-model storage integration (Graph, Relational, Vector, Timeline)
-- YAML-based philosophy profile system
+- BaseEntity storage integration (Graph, Relational, Vector, Timeline)
+- YAML-based philosophy profile system (10 complete profiles)
 - Prometheus metrics export
 - JSON dashboard data
 
@@ -21,12 +26,39 @@ The Ethics AI Plugin is a native C++ implementation of the Ethical AI Framework 
 
 ```
 EthicsAIPlugin
-├── PhilosophyLoader      - Loads philosophy profiles from YAML
-├── ArgumentStore         - Multi-model storage for arguments/decisions
-├── RAGContextEngine      - 7-pattern context retrieval engine
-├── EthicalDiscourseEngine - Debate orchestration and decision synthesis
-└── EthicsEvaluator       - 5-dimension evaluation system
+├── PhilosophyLoader         - Loads philosophy profiles from YAML
+├── ArgumentStore            - BaseEntity storage for arguments/decisions
+│   ├── Uses ThemisDB RocksDBWrapper directly
+│   └── AQL query execution via QueryEngine
+├── RAGContextEngine         - AQL-based context retrieval
+├── EthicalDiscourseEngine   - Debate orchestration and synthesis
+└── EthicsEvaluator          - 5-dimension evaluation system
+
+ThemisDB Integration:
+├── BaseEntity               - Unified storage format
+├── AQL Queries              - All data access via AQL
+├── RocksDBWrapper           - Direct storage access
+└── QueryEngine              - AQL execution
 ```
+
+### BaseEntity Storage
+
+All ethics data is stored as ThemisDB BaseEntity instances:
+
+```cpp
+// Collections (not SQL tables):
+ethics_arguments   - Ethical arguments
+ethics_decisions   - Decision records
+ethics_debates     - Debate sessions
+ethics_profiles    - Philosophy profiles
+
+// Keys follow ThemisDB pattern:
+entity:ethics_arguments:{id}
+entity:ethics_decisions:{id}
+entity:ethics_profiles:{school}
+```
+
+See `THEMISDB_ARCHITECTURE_INTEGRATION.md` for detailed integration guide.
 
 ## Installation
 
