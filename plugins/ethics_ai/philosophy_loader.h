@@ -1,0 +1,77 @@
+#pragma once
+
+#include "plugins/ethics_ai/ethics_ai_types.h"
+#include <map>
+#include <string>
+#include <memory>
+
+namespace themis {
+namespace plugins {
+namespace ethics {
+
+/**
+ * @brief Philosophy Profile Loader
+ * 
+ * Loads and manages philosophy profiles from YAML files.
+ * Provides caching and validation of philosophy definitions.
+ */
+class PhilosophyLoader {
+public:
+    PhilosophyLoader() = default;
+    ~PhilosophyLoader() = default;
+    
+    /**
+     * @brief Load philosophy profiles from a directory
+     * @param directory Path to directory containing YAML files
+     * @return Number of profiles loaded or error
+     */
+    std::variant<size_t, Status> loadFromDirectory(const std::string& directory);
+    
+    /**
+     * @brief Load a single philosophy profile from file
+     * @param filepath Path to YAML file
+     * @return Status indicating success/failure
+     */
+    Status loadFromFile(const std::string& filepath);
+    
+    /**
+     * @brief Get a philosophy profile by ID
+     * @param school_id School identifier
+     * @return Profile or error
+     */
+    std::variant<PhilosophyProfile, Status> getProfile(const std::string& school_id) const;
+    
+    /**
+     * @brief Check if a profile is loaded
+     * @param school_id School identifier
+     * @return true if profile exists
+     */
+    bool hasProfile(const std::string& school_id) const;
+    
+    /**
+     * @brief Get list of all loaded school IDs
+     * @return Vector of school IDs
+     */
+    std::vector<std::string> getSchoolIds() const;
+    
+    /**
+     * @brief Clear all loaded profiles
+     */
+    void clear();
+    
+    /**
+     * @brief Get count of loaded profiles
+     * @return Number of profiles
+     */
+    size_t count() const { return profiles_.size(); }
+    
+private:
+    std::map<std::string, PhilosophyProfile> profiles_;
+    
+    // Helper to parse YAML content
+    Status parseYAML(const std::string& content, PhilosophyProfile& profile);
+};
+
+} // namespace ethics
+} // namespace plugins
+} // namespace themis

@@ -1,0 +1,351 @@
+# Ethics AI Plugin - Native C++ Implementation
+
+## Overview
+
+The Ethics AI Plugin is a native C++ implementation of the Ethical AI Framework for ThemisDB. It provides comprehensive ethical decision-making capabilities based on multiple philosophical schools, RAG-based context retrieval, and 5-dimension evaluation metrics.
+
+**Key Features:**
+- Multi-philosophy ethical debates (Kant, Utilitarianism, Virtue Ethics, etc.)
+- RAG-based context retrieval using 7 AQL query patterns
+- Argument chain management and tracking
+- Decision synthesis with confidence scoring
+- 5-dimension evaluation metrics (Quality, Consistency, Fairness, Alignment, Transparency)
+- Multi-model storage integration (Graph, Relational, Vector, Timeline)
+- YAML-based philosophy profile system
+- Prometheus metrics export
+- JSON dashboard data
+
+**Note:** This is a **native C++ implementation** without Python dependencies. The original Python-based framework can be found in `examples/24_moral_philosophy_debates/`.
+
+## Architecture
+
+```
+EthicsAIPlugin
+├── PhilosophyLoader      - Loads philosophy profiles from YAML
+├── ArgumentStore         - Multi-model storage for arguments/decisions
+├── RAGContextEngine      - 7-pattern context retrieval engine
+├── EthicalDiscourseEngine - Debate orchestration and decision synthesis
+└── EthicsEvaluator       - 5-dimension evaluation system
+```
+
+## Installation
+
+### Build Requirements
+
+- C++17 or later
+- CMake 3.20+
+- yaml-cpp (optional, for YAML philosophy profiles)
+- nlohmann/json (for JSON serialization)
+
+### Building the Plugin
+
+```bash
+mkdir build && cd build
+cmake .. -DTHEMIS_BUILD_ETHICS_AI_PLUGIN=ON
+cmake --build . --target ethics_ai_plugin
+```
+
+### Installation
+
+```bash
+cmake --install . --prefix /usr/local
+```
+
+The plugin will be installed to:
+- Binary: `/usr/local/lib/themisdb/plugins/ethics_ai_plugin.so` (or `.dll`/`.dylib`)
+- Headers: `/usr/local/include/plugins/ethics_ai/`
+- Metadata: `/usr/local/lib/themisdb/plugins/ethics_ai_plugin.json`
+- Philosophy Profiles: `/usr/local/lib/themisdb/plugins/ethics_ai/philosophies/`
+
+## Usage
+
+### Loading the Plugin
+
+```cpp
+#include "plugins/plugin_manager.h"
+#include "plugins/ethics_ai/ethics_ai_plugin_interface.h"
+
+using namespace themis::plugins;
+
+// Get plugin manager
+auto& manager = PluginManager::instance();
+
+// Scan plugin directory
+manager.scanPluginDirectory("lib/themisdb/plugins");
+
+// Load the plugin
+auto result = manager.loadPlugin("EthicsAI");
+if (auto* plugin_ptr = std::get_if<IThemisPlugin*>(&result)) {
+    auto* ethics_plugin = static_cast<ethics::IEthicsAIPlugin*>(
+        (*plugin_ptr)->getInstance()
+    );
+    
+    // Use the plugin...
+}
+```
+
+### Basic Example: Making an Ethical Decision
+
+```cpp
+#include "plugins/ethics_ai/ethics_ai_plugin_interface.h"
+
+using namespace themis::plugins::ethics;
+
+// Assuming ethics_plugin is already loaded...
+
+// Initialize a debate
+auto debate_result = ethics_plugin->initializeDebate(
+    "Should an autonomous vehicle prioritize passenger safety over pedestrian safety?",
+    {"kant", "utilitarianism", "virtue_ethics"},
+    "autonomous_systems"
+);
+
+if (auto* debate = std::get_if<DebateInitialization>(&debate_result)) {
+    std::cout << "Debate initialized: " << debate->debate_id << std::endl;
+}
+
+// Make a decision
+auto decision_result = ethics_plugin->makeDecision(
+    "Should an autonomous vehicle prioritize passenger safety over pedestrian safety?",
+    {"kant", "utilitarianism", "virtue_ethics"},
+    "autonomous_systems",
+    true  // use RAG context
+);
+
+if (auto* decision = std::get_if<EthicalDecision>(&decision_result)) {
+    std::cout << "Decision: " << decision->decision_text << std::endl;
+    std::cout << "Confidence: " << decision->confidence << std::endl;
+    std::cout << "Consensus: " << decision->consensus_level << std::endl;
+    
+    // Evaluate the decision
+    auto eval_result = ethics_plugin->evaluateDecision(*decision, {});
+    if (auto* eval = std::get_if<EthicsEvaluationResult>(&eval_result)) {
+        std::cout << "Overall Score: " << eval->overall_score << std::endl;
+        std::cout << "Decision Quality: " << eval->decision_quality_score << std::endl;
+        std::cout << "Consistency: " << eval->consistency_score << std::endl;
+        std::cout << "Fairness: " << eval->fairness_score << std::endl;
+        std::cout << "Alignment: " << eval->alignment_score << std::endl;
+        std::cout << "Transparency: " << eval->transparency_score << std::endl;
+    }
+}
+```
+
+### Working with Arguments
+
+```cpp
+// Create an ethical argument
+EthicalArgument argument;
+argument.id = "arg_001";
+argument.philosophy_school = "kant";
+argument.argument_type = ArgumentType::PRO;
+argument.content = "All persons have inherent dignity and must be treated as ends in themselves.";
+argument.principle_basis = {"categorical_imperative", "human_dignity"};
+argument.strength = ArgumentStrength::STRONG;
+
+// Store the argument
+auto status = ethics_plugin->storeArgument(argument, true);
+if (status.isOK()) {
+    std::cout << "Argument stored successfully" << std::endl;
+}
+
+// Retrieve arguments by philosophy
+auto args_result = ethics_plugin->getArgumentsByPhilosophy(
+    "kant",
+    {ArgumentType::PRO, ArgumentType::CONTRA},
+    20
+);
+
+if (auto* args = std::get_if<std::vector<EthicalArgument>>(&args_result)) {
+    for (const auto& arg : *args) {
+        std::cout << "Argument: " << arg.content << std::endl;
+    }
+}
+```
+
+### Using RAG Context
+
+```cpp
+// Build RAG context for a dilemma
+auto rag_result = ethics_plugin->buildRAGContext(
+    "Should we prioritize privacy or security in data collection?",
+    {"kant", "utilitarianism", "virtue_ethics"},
+    "data_privacy"
+);
+
+if (auto* context = std::get_if<RAGContext>(&rag_result)) {
+    std::cout << "Similar dilemmas: " << context->similar_dilemmas.size() << std::endl;
+    std::cout << "Best practices: " << context->best_practices.size() << std::endl;
+    
+    // Access philosophy-specific arguments
+    for (const auto& [school, arg_ids] : context->philosophy_arguments) {
+        std::cout << school << " has " << arg_ids.size() << " arguments" << std::endl;
+    }
+}
+```
+
+### Philosophy Profile Management
+
+```cpp
+// Load philosophy profiles from directory
+auto load_result = ethics_plugin->loadPhilosophyProfiles(
+    "lib/themisdb/plugins/ethics_ai/philosophies"
+);
+
+if (auto* count = std::get_if<size_t>(&load_result)) {
+    std::cout << "Loaded " << *count << " philosophy profiles" << std::endl;
+}
+
+// List loaded philosophies
+auto schools = ethics_plugin->listPhilosophySchools();
+for (const auto& school : schools) {
+    std::cout << "Philosophy: " << school << std::endl;
+}
+
+// Get a specific profile
+auto profile_result = ethics_plugin->getPhilosophyProfile("kant");
+if (auto* profile = std::get_if<PhilosophyProfile>(&profile_result)) {
+    std::cout << "Name: " << profile->name << std::endl;
+    std::cout << "Main Theses:" << std::endl;
+    for (const auto& thesis : profile->main_theses) {
+        std::cout << "  - " << thesis << std::endl;
+    }
+}
+```
+
+### Monitoring and Metrics
+
+```cpp
+// Get Prometheus metrics
+std::string prometheus_metrics = ethics_plugin->getPrometheusMetrics();
+std::cout << prometheus_metrics << std::endl;
+
+// Get dashboard JSON
+std::string dashboard_json = ethics_plugin->getDashboardJSON();
+std::cout << dashboard_json << std::endl;
+
+// Get statistics
+auto stats = ethics_plugin->getStatistics();
+for (const auto& [key, value] : stats) {
+    std::cout << key << ": " << value << std::endl;
+}
+```
+
+## Configuration
+
+The plugin can be configured via JSON configuration:
+
+```json
+{
+  "philosophy_dir": "lib/themisdb/plugins/ethics_ai/philosophies",
+  "rag_enabled": true,
+  "vector_search_enabled": true,
+  "graph_traversal_enabled": true,
+  "monitoring_enabled": true,
+  "default_similarity_threshold": 0.65,
+  "default_rag_limit": 10,
+  "default_argument_limit": 20
+}
+```
+
+Pass configuration during initialization:
+
+```cpp
+std::string config = R"({
+    "philosophy_dir": "/path/to/philosophies",
+    "rag_enabled": true
+})";
+
+plugin->initialize(config.c_str());
+```
+
+## Philosophy Profiles
+
+Philosophy profiles are defined in YAML format. Example structure:
+
+```yaml
+school_id: kant
+name: Kantian Ethics
+main_theses:
+  - "Act only according to that maxim by which you can at the same time will that it should become a universal law"
+  - "Treat humanity, whether in your own person or that of another, always as an end and never as a means only"
+secondary_theses:
+  - "Respect for rational agency"
+  - "Moral autonomy and self-legislation"
+decision_framework:
+  primary_test: "Categorical Imperative universalizability"
+  secondary_test: "Respect for persons as ends-in-themselves"
+strengths:
+  - "Clear moral principles"
+  - "Universal applicability"
+weaknesses:
+  - "Can be rigid in edge cases"
+  - "May conflict with consequences"
+```
+
+## API Reference
+
+See header files in `include/plugins/ethics_ai/` for detailed API documentation:
+
+- `ethics_ai_types.h` - Core data structures
+- `ethics_ai_plugin_interface.h` - Main plugin interface
+
+## Testing
+
+```bash
+# Run unit tests
+ctest -R ethics_ai
+
+# Run specific test
+./build/tests/test_ethics_ai_plugin
+```
+
+## Future Enhancements
+
+### Phase 1 (Complete)
+- [x] Core data structures
+- [x] Plugin interface
+- [x] Philosophy loader
+- [x] Argument store (in-memory)
+- [x] RAG context engine (stub)
+- [x] Discourse engine (basic)
+- [x] Evaluator (5 dimensions)
+- [x] Plugin implementation
+
+### Phase 2 (Planned)
+- [ ] Integration with actual ThemisDB storage managers
+- [ ] Full AQL query implementation for RAG patterns
+- [ ] Vector embedding generation
+- [ ] Graph traversal implementation
+- [ ] Timeline tracking
+- [ ] Comprehensive test suite
+- [ ] Performance benchmarks
+
+### Phase 3 (Future)
+- [ ] Prompt optimization framework
+- [ ] LoRa training integration
+- [ ] Advanced evaluation metrics
+- [ ] Real-time monitoring dashboard
+- [ ] Production deployment tools
+
+## Contributing
+
+Contributions are welcome! Please ensure:
+
+1. Code follows C++17 standards
+2. All tests pass
+3. Documentation is updated
+4. No Python dependencies introduced
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Related
+
+- Original Python implementation: `examples/24_moral_philosophy_debates/`
+- Plugin system documentation: `docs/plugins/`
+- ThemisDB documentation: `docs/`
+
+## Contact
+
+For questions or issues, please contact the ThemisDB team or open an issue on GitHub.
