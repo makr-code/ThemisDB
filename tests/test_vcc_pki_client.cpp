@@ -28,22 +28,28 @@ std::string generate_test_certificate(int days_before_now, int days_after_now) {
         return "";
     }
     
-    BN_set_word(e, RSA_F4);
-    RSA_generate_key_ex(rsa, 2048, e, nullptr);
+    if (BN_set_word(e, RSA_F4) != 1) {
+        EVP_PKEY_free(pkey);
+        RSA_free(rsa);
+        BN_free(e);
+        return "";
+    }
     
-#if OPENSSL_VERSION_NUMBER < 0x30000000L
+    if (RSA_generate_key_ex(rsa, 2048, e, nullptr) != 1) {
+        EVP_PKEY_free(pkey);
+        RSA_free(rsa);
+        BN_free(e);
+        return "";
+    }
+    
     EVP_PKEY_assign_RSA(pkey, rsa);
     rsa = nullptr;  // owned by pkey now
-#else
-    EVP_PKEY_assign_RSA(pkey, rsa);
-    rsa = nullptr;
-#endif
     
     // Create X.509 certificate
     X509* x509 = X509_new();
     if (!x509) {
         EVP_PKEY_free(pkey);
-        if (e) BN_free(e);
+        BN_free(e);
         return "";
     }
     
@@ -74,7 +80,20 @@ std::string generate_test_certificate(int days_before_now, int days_after_now) {
     
     // Convert to PEM string
     BIO* bio = BIO_new(BIO_s_mem());
-    PEM_write_bio_X509(bio, x509);
+    if (!bio) {
+        X509_free(x509);
+        EVP_PKEY_free(pkey);
+        BN_free(e);
+        return "";
+    }
+    
+    if (PEM_write_bio_X509(bio, x509) != 1) {
+        BIO_free(bio);
+        X509_free(x509);
+        EVP_PKEY_free(pkey);
+        BN_free(e);
+        return "";
+    }
     
     BUF_MEM* mem = nullptr;
     BIO_get_mem_ptr(bio, &mem);

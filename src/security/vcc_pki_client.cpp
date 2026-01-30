@@ -26,8 +26,12 @@ static int64_t asn1_time_to_milliseconds(const ASN1_TIME* asn1_time) {
     }
     
     // Convert struct tm to time_t (seconds since epoch)
-    // Note: timegm is used for UTC time, mktime would use local time
+    // Platform-specific: timegm (POSIX) vs _mkgmtime (Windows)
+#ifdef _WIN32
+    time_t time_seconds = _mkgmtime(&time_tm);
+#else
     time_t time_seconds = timegm(&time_tm);
+#endif
     
     if (time_seconds == -1) {
         return 0;
@@ -338,7 +342,18 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     // Extract serial number (ID)
     ASN1_INTEGER* serial = X509_get_serialNumber(x509);
     BIGNUM* bn = ASN1_INTEGER_to_BN(serial, nullptr);
+    if (!bn) {
+        X509_free(x509);
+        throw std::runtime_error("Failed to convert certificate serial number");
+    }
+    
     char* hex = BN_bn2hex(bn);
+    if (!hex) {
+        BN_free(bn);
+        X509_free(x509);
+        throw std::runtime_error("Failed to convert serial number to hex");
+    }
+    
     cert.id = hex;
     OPENSSL_free(hex);
     BN_free(bn);
