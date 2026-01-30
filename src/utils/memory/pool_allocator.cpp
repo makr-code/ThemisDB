@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <map>
 #include <mutex>
+#include <stdexcept>
+#include <limits>
 
 namespace themis {
 namespace memory {
@@ -351,6 +353,10 @@ struct SlabAllocator::Slab {
     Slab(size_t obj_size, size_t obj_count)
         : object_size(obj_size), object_count(obj_count), 
           free_count(obj_count), next(nullptr) {
+        // Check for integer overflow: object_size * object_count
+        if (obj_count > 0 && obj_size > SIZE_MAX / obj_count) {
+            throw std::overflow_error("Slab allocation size overflow: object_size * object_count exceeds SIZE_MAX");
+        }
         memory = new uint8_t[object_size * object_count];
         std::memset(memory, 0, object_size * object_count);
         free_map.resize(object_count, true);

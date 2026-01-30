@@ -7,6 +7,8 @@
 #include <thread>
 #include <chrono>
 #include <cstring>
+#include <stdexcept>
+#include <limits>
 
 using namespace themis::memory;
 
@@ -232,6 +234,32 @@ TEST(SlabAllocatorTest, Reset) {
     ASSERT_TRUE(reset_result.has_value());
     
     EXPECT_EQ(allocator.getSlabCount(), 0);
+}
+
+TEST(SlabAllocatorTest, OverflowProtection) {
+    // Test that creating a slab with sizes that would overflow throws an exception
+    // SIZE_MAX / 2 + 1 objects of size SIZE_MAX / 2 + 1 would overflow
+    size_t large_size = SIZE_MAX / 2 + 1;
+    
+    // This should throw std::overflow_error during construction
+    EXPECT_THROW({
+        SlabAllocator allocator(large_size, large_size);
+    }, std::overflow_error);
+    
+    // Also test with even larger values
+    EXPECT_THROW({
+        SlabAllocator allocator(SIZE_MAX, 2);
+    }, std::overflow_error);
+    
+    // Test edge case: SIZE_MAX with 1 object should work
+    EXPECT_NO_THROW({
+        SlabAllocator allocator(SIZE_MAX, 1);
+    });
+    
+    // Test edge case: 1 byte with SIZE_MAX objects should work
+    EXPECT_NO_THROW({
+        SlabAllocator allocator(1, SIZE_MAX);
+    });
 }
 
 // ============================================================================
