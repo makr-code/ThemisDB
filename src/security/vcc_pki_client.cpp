@@ -7,8 +7,35 @@
 #include <stdexcept>
 #include <cstring>
 #include <algorithm>
+#include <chrono>
 
 namespace themis {
+
+// Helper function to convert ASN1_TIME to milliseconds since epoch
+static int64_t asn1_time_to_milliseconds(const ASN1_TIME* asn1_time) {
+    if (!asn1_time) {
+        return 0;
+    }
+    
+    struct tm time_tm;
+    std::memset(&time_tm, 0, sizeof(time_tm));
+    
+    // Convert ASN1_TIME to struct tm
+    if (ASN1_TIME_to_tm(asn1_time, &time_tm) != 1) {
+        return 0;
+    }
+    
+    // Convert struct tm to time_t (seconds since epoch)
+    // Note: timegm is used for UTC time, mktime would use local time
+    time_t time_seconds = timegm(&time_tm);
+    
+    if (time_seconds == -1) {
+        return 0;
+    }
+    
+    // Convert seconds to milliseconds
+    return static_cast<int64_t>(time_seconds) * 1000;
+}
 
 // ────────────────────────────────────────────────────────────────────────────
 // X509Certificate Implementation
@@ -328,16 +355,23 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     X509_NAME_oneline(issuer, issuer_buf, sizeof(issuer_buf));
     cert.issuer = issuer_buf;
     
-    // Extract validity period
-    // Note: not_before and not_after would be used for proper time conversion
-    // Currently using placeholder values
-    (void)X509_get_notBefore(x509);  // Suppress unused warning
-    (void)X509_get_notAfter(x509);   // Suppress unused warning
+    // Extract validity period and convert to milliseconds
+    const ASN1_TIME* not_before = X509_get0_notBefore(x509);
+    const ASN1_TIME* not_after = X509_get0_notAfter(x509);
     
-    // Convert ASN1_TIME to milliseconds (simplified)
-    // Production: Use ASN1_TIME_to_tm() for proper conversion
-    cert.not_before_ms = 0; // Placeholder
-    cert.not_after_ms = 0;  // Placeholder
+    cert.not_before_ms = asn1_time_to_milliseconds(not_before);
+    cert.not_after_ms = asn1_time_to_milliseconds(not_after);
+    
+    // Plausibility checks for certificate validity
+    if (cert.not_before_ms == 0 || cert.not_after_ms == 0) {
+        X509_free(x509);
+        throw std::runtime_error("Failed to parse certificate validity dates");
+    }
+    
+    if (cert.not_before_ms >= cert.not_after_ms) {
+        X509_free(x509);
+        throw std::runtime_error("Invalid certificate validity period: not_before >= not_after");
+    }
     
     cert.pem = pem;
     
