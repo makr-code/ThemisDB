@@ -646,6 +646,19 @@ graph TB
 - 📚 [Archived Docs](docs/ARCHIVED/README.md) - Historical documentation (superseded)
 - ✅ **Status**: Core 100% production-ready, Integration 95% complete
 
+**Audit Reports:**
+- 📋 [**v1.4.1 Audit Reports**](docs/audit-reports/v1.4.1/README.md) - **Complete audit package for v1.4.1**
+  - [Executive Summary](docs/audit-reports/v1.4.1/EXECUTIVE_SUMMARY.md) - Overall audit opinion: ✅ **APPROVED WITH CONDITIONS** (89.3/100)
+  - [Code Quality Audit](docs/audit-reports/v1.4.1/CODE_QUALITY_AUDIT.md) - SAST analysis, TODO inventory, metrics (89/100)
+  - [Security Controls Audit](docs/audit-reports/v1.4.1/SECURITY_CONTROLS_AUDIT.md) - 58 controls assessed (90/100)
+  - [Test Coverage Audit](docs/audit-reports/v1.4.1/TEST_COVERAGE_AUDIT.md) - Unit 87%, Integration 95%, E2E 72% (88/100)
+  - [Compliance Audit](docs/audit-reports/v1.4.1/COMPLIANCE_AUDIT.md) - ISO 27001, NIST, OWASP, BSI C5, SOC 2, GDPR (95/100)
+  - [Findings & Risks](docs/audit-reports/v1.4.1/FINDINGS_AND_RISKS.md) - 62 findings: 3 critical, 7 high, 22 medium, 30 low
+  - [Performance Audit](docs/audit-reports/v1.4.1/PERFORMANCE_AND_RELIABILITY_AUDIT.md) - 45K writes/s, 123K reads/s (92/100)
+- 🔒 [Audit Framework](docs/audit-framework/README.md) - Comprehensive audit methodology and tools
+- 📊 **Compliance**: 95.3% across 428 controls (ISO 27001, NIST, OWASP, BSI C5, SOC 2, GDPR)
+- 🎯 **Status**: Production-ready with v1.4.2 remediation required (3 critical findings)
+
 > **📚 Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 
 ---
