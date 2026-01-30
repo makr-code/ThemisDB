@@ -1147,7 +1147,14 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
         return createErrorResponse(http::status::bad_request, "Invalid feedback endpoint");
     }
     
-    std::string feedback_id{target.substr(prefix.length())};
+    // Extract ID, stopping at query parameters if present
+    std::string_view id_part = target.substr(prefix.length());
+    size_t query_pos = id_part.find('?');
+    if (query_pos != std::string_view::npos) {
+        id_part = id_part.substr(0, query_pos);
+    }
+    
+    std::string feedback_id{id_part};
     
     if (feedback_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing feedback ID");

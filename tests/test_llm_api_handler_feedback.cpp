@@ -20,6 +20,9 @@ namespace themis {
 namespace server {
 namespace test {
 
+// Namespace aliases for Boost.Beast HTTP types
+namespace http = boost::beast::http;
+
 /**
  * @brief Test fixture for LLM API Handler with FeedbackStore integration
  */
