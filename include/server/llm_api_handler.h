@@ -14,6 +14,7 @@ namespace llm {
 class ILLMPlugin;
 class LLMPluginManager;
 class AsyncInferenceEngine;
+class FeedbackStore;
 }
 namespace auth {
 class JWTValidator;
@@ -83,6 +84,13 @@ public:
      * @param lora_handler LoRA API handler instance
      */
     void setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler);
+    
+    /**
+     * @brief Set FeedbackStore for persisting user feedback
+     * 
+     * @param feedback_store FeedbackStore instance
+     */
+    void setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store);
     
     /**
      * @brief Handle LLM API request
@@ -191,6 +199,7 @@ private:
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
     std::shared_ptr<LoRAApiHandler> lora_handler_;
+    std::shared_ptr<llm::FeedbackStore> feedback_store_;
 };
 
 } // namespace themis::server

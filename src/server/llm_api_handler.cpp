@@ -58,6 +58,10 @@ void LLMApiHandler::setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler)
     lora_handler_ = std::move(lora_handler);
 }
 
+void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store) {
+    feedback_store_ = std::move(feedback_store);
+}
+
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     
@@ -1109,28 +1113,21 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
             feedback.adapter_version = json_value_to<std::string>(body->at("adapter_version"));
         }
         
-        // TODO: Integrate with actual FeedbackStore
-        // This requires passing a RocksDB instance to LLMApiHandler
-        // For now, return a placeholder response
-        // 
-        // Example integration:
-        // if (feedback_store_) {
-        //     auto stored = feedback_store_->createFeedback(feedback);
-        //     json response_data = stored.toJson();
-        //     response_data["message"] = "Feedback recorded successfully";
-        //     return createJsonResponse(response_data, http::status::created);
-        // }
+        // Integrate with FeedbackStore
+        if (!feedback_store_) {
+            return createErrorResponse(
+                http::status::service_unavailable, 
+                "FeedbackStore not available",
+                "FeedbackStore has not been configured for this handler"
+            );
+        }
         
-        // Placeholder response
-        json response_data = {
-            {"id", "feedback-" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count())},
-            {"type", type_str},
-            {"question", feedback.question},
-            {"answer", feedback.answer},
-            {"validation_status", "pending"},
-            {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
-            {"message", "Feedback recorded successfully (placeholder - FeedbackStore integration pending)"}
-        };
+        // Store feedback using FeedbackStore
+        auto stored = feedback_store_->createFeedback(feedback);
+        
+        // Convert to JSON response
+        json response_data = stored.toJson();
+        response_data["message"] = "Feedback recorded successfully";
         
         return createJsonResponse(response_data, http::status::created);
         
@@ -1150,23 +1147,41 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
         return createErrorResponse(http::status::bad_request, "Invalid feedback endpoint");
     }
     
-    std::string feedback_id{target.substr(prefix.length())};
+    // Extract ID, stopping at query parameters if present
+    std::string_view id_part = target.substr(prefix.length());
+    size_t query_pos = id_part.find('?');
+    if (query_pos != std::string_view::npos) {
+        id_part = id_part.substr(0, query_pos);
+    }
+    
+    std::string feedback_id{id_part};
     
     if (feedback_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing feedback ID");
     }
     
-    // Placeholder response
-    json response_data = {
-        {"id", feedback_id},
-        {"type", "positive"},
-        {"question", "Example question"},
-        {"answer", "Example answer"},
-        {"validation_status", "approved"},
-        {"created_at", std::chrono::system_clock::now().time_since_epoch().count()},
-        {"message", "This is a placeholder response - feedback store not yet initialized"}
-    };
+    // Check if FeedbackStore is available
+    if (!feedback_store_) {
+        return createErrorResponse(
+            http::status::service_unavailable, 
+            "FeedbackStore not available",
+            "FeedbackStore has not been configured for this handler"
+        );
+    }
     
+    // Get feedback from store
+    auto feedback = feedback_store_->getFeedback(feedback_id);
+    
+    if (!feedback) {
+        return createErrorResponse(
+            http::status::not_found, 
+            "Feedback not found",
+            "No feedback with ID: " + feedback_id
+        );
+    }
+    
+    // Convert to JSON and return
+    json response_data = feedback->toJson();
     return createJsonResponse(response_data);
 }
 
@@ -1213,26 +1228,54 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
         }
     }
     
-    // Placeholder response
-    json feedback_array = json::array();
+    // Check if FeedbackStore is available
+    if (!feedback_store_) {
+        return createErrorResponse(
+            http::status::service_unavailable, 
+            "FeedbackStore not available",
+            "FeedbackStore has not been configured for this handler"
+        );
+    }
     
-    // Add a few example entries
-    for (size_t i = 0; i < std::min(limit, size_t(3)); i++) {
-        feedback_array.push_back({
-            {"id", "feedback-" + std::to_string(i)},
-            {"type", i % 2 == 0 ? "positive" : "negative"},
-            {"question", "Example question " + std::to_string(i)},
-            {"answer", "Example answer " + std::to_string(i)},
-            {"validation_status", "approved"},
-            {"created_at", std::chrono::system_clock::now().time_since_epoch().count() - i * 1000}
-        });
+    // Build list options
+    llm::FeedbackStore::ListOptions options;
+    options.limit = limit;
+    
+    // Apply type filter
+    if (!type_filter.empty()) {
+        if (type_filter == "positive") {
+            options.filter_type = llm::FeedbackType::POSITIVE;
+        } else if (type_filter == "negative") {
+            options.filter_type = llm::FeedbackType::NEGATIVE;
+        }
+    }
+    
+    // Apply status filter
+    if (!status_filter.empty()) {
+        if (status_filter == "pending") {
+            options.filter_status = llm::ValidationStatus::PENDING;
+        } else if (status_filter == "approved") {
+            options.filter_status = llm::ValidationStatus::APPROVED;
+        } else if (status_filter == "rejected") {
+            options.filter_status = llm::ValidationStatus::REJECTED;
+        } else if (status_filter == "flagged") {
+            options.filter_status = llm::ValidationStatus::FLAGGED;
+        }
+    }
+    
+    // Get feedback list from store
+    auto feedback_list = feedback_store_->listFeedback(options);
+    
+    // Convert to JSON array
+    json feedback_array = json::array();
+    for (const auto& feedback : feedback_list) {
+        feedback_array.push_back(feedback.toJson());
     }
     
     json response_data = {
         {"feedback", feedback_array},
         {"count", feedback_array.size()},
-        {"limit", limit},
-        {"message", "This is a placeholder response - feedback store not yet initialized"}
+        {"limit", limit}
     };
     
     return createJsonResponse(response_data);
@@ -1241,18 +1284,29 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
 http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
     const http::request<http::string_body>& req) {
     
-    // Placeholder statistics
+    // Check if FeedbackStore is available
+    if (!feedback_store_) {
+        return createErrorResponse(
+            http::status::service_unavailable, 
+            "FeedbackStore not available",
+            "FeedbackStore has not been configured for this handler"
+        );
+    }
+    
+    // Get stats from store
+    auto stats = feedback_store_->getStats();
+    
+    // Convert to JSON
     json response_data = {
-        {"total_feedback", 0},
-        {"positive_count", 0},
-        {"negative_count", 0},
-        {"pending_validation", 0},
-        {"approved_count", 0},
-        {"rejected_count", 0},
-        {"unused_for_training", 0},
-        {"used_for_training", 0},
-        {"positive_ratio", 0.0},
-        {"message", "This is a placeholder response - feedback store not yet initialized"}
+        {"total_feedback", stats.total_feedback},
+        {"positive_count", stats.positive_count},
+        {"negative_count", stats.negative_count},
+        {"pending_validation", stats.pending_validation},
+        {"approved_count", stats.approved_count},
+        {"rejected_count", stats.rejected_count},
+        {"unused_for_training", stats.unused_for_training},
+        {"used_for_training", stats.used_for_training},
+        {"positive_ratio", stats.positive_ratio}
     };
     
     return createJsonResponse(response_data);
