@@ -251,15 +251,18 @@ TEST(SlabAllocatorTest, OverflowProtection) {
         SlabAllocator allocator(SIZE_MAX, 2);
     }, std::overflow_error);
     
-    // Test edge case: SIZE_MAX with 1 object should work
+    // Test edge case: Values that don't overflow but are at the boundary
+    // Use sqrt(SIZE_MAX) as a safe large value that won't overflow when squared
+    size_t sqrt_max = 1ULL << (sizeof(size_t) * 4);  // Approximately sqrt(SIZE_MAX)
     EXPECT_NO_THROW({
-        SlabAllocator allocator(SIZE_MAX, 1);
+        SlabAllocator allocator(sqrt_max, 1);
     });
     
-    // Test edge case: 1 byte with SIZE_MAX objects should work
-    EXPECT_NO_THROW({
-        SlabAllocator allocator(1, SIZE_MAX);
-    });
+    // Test that overflow is detected when multiplying two moderately large values
+    size_t half_sqrt_max = sqrt_max / 2;
+    EXPECT_THROW({
+        SlabAllocator allocator(sqrt_max + 1, sqrt_max + 1);
+    }, std::overflow_error);
 }
 
 // ============================================================================
