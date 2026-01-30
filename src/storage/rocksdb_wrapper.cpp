@@ -54,6 +54,10 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     , read_options_(std::move(other.read_options_))
     , write_options_(std::move(other.write_options_)) {
     
+    // RACE CONDITION FIX: Lock mutex BEFORE checking/setting is_being_moved_ flag
+    // This prevents another thread from accessing cf_handles_ between flag-set and lock
+    std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
+    
     #ifdef THEMIS_DEBUG_THREADING
     // ✅ DEBUG: Mark source object as being moved
     // In debug mode, we fail fast on concurrent move operations
@@ -64,8 +68,6 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     }
     #endif
     
-    // RACE CONDITION FIX #1: Protect cf_handles_ during move
-    std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
     cf_handles_ = std::move(other.cf_handles_);
     
     #ifdef THEMIS_DEBUG_THREADING
@@ -80,6 +82,13 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
 
 RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     if (this != &other) {
+        // Close our existing resources
+        close();
+        
+        // RACE CONDITION FIX: Lock mutex BEFORE checking/setting is_being_moved_ flags
+        // This prevents another thread from accessing cf_handles_ between flag-set and lock
+        std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
+        
         #ifdef THEMIS_DEBUG_THREADING
         // ✅ CRITICAL: Synchronize on both objects
         // Fail fast in debug mode if concurrent operations detected
@@ -97,9 +106,6 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
         }
         #endif
         
-        // Close our existing resources
-        close();
-        
         // Move ownership from other
         config_ = std::move(other.config_);
         db_ = std::move(other.db_);
@@ -109,8 +115,6 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
         read_options_ = std::move(other.read_options_);
         write_options_ = std::move(other.write_options_);
         
-        // RACE CONDITION FIX #1: Protect cf_handles_ during move
-        std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
         cf_handles_ = std::move(other.cf_handles_);
         
         // Clear source object's state to prevent double-free
