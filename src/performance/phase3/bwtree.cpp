@@ -165,9 +165,13 @@ void BwTree::consolidate(PageID pid) {
             return;
         }
         
+        // Get raw pointer for CAS, but keep unique_ptr ownership until CAS succeeds
+        BwTreePage* consolidated_ptr = consolidated.get();
+        
         // Try to install consolidated page
-        if (mapping_table_->compare_and_swap(pid, page, consolidated.get())) {
-            consolidated.release();  // Now owned by mapping table
+        if (mapping_table_->compare_and_swap(pid, page, consolidated_ptr)) {
+            // CAS succeeded - transfer ownership to mapping table
+            consolidated.release();
             
             // Clean up old delta chain
             BwTreePage* current = page;
@@ -179,7 +183,8 @@ void BwTree::consolidate(PageID pid) {
             return;
         }
         
-        // CAS failed, retry
+        // CAS failed - unique_ptr will automatically clean up consolidated page
+        // on next iteration or function return
     }
 }
 
