@@ -54,15 +54,19 @@ bool BwTree::insert(int64_t key, const std::string& value) {
     // Simplified insert: always inserts into root for now
     // In full implementation, would traverse tree to find correct leaf
     
+    bool consolidation_attempted = false;
+    
     while (true) {
         BwTreePage* page = mapping_table_->get(root_pid_);
         if (!page) {
             return false;
         }
         
-        // Check if consolidation is needed before inserting
-        if (count_delta_chain_length(page) >= DELTA_CHAIN_THRESHOLD) {
+        // Check if consolidation is needed (only once per insert operation)
+        if (!consolidation_attempted && 
+            count_delta_chain_length(page) >= DELTA_CHAIN_THRESHOLD) {
             consolidate(root_pid_);
+            consolidation_attempted = true;
             // Continue to insert after consolidation attempt
             continue;
         }
@@ -147,14 +151,9 @@ BwTree::Stats BwTree::get_stats() const {
     stats.num_deltas = 0;
     stats.consolidations = 0;
     
-    // Count deltas in root page
+    // Count deltas in root page using the helper function
     BwTreePage* page = mapping_table_->get(root_pid_);
-    while (page) {
-        if (page->type != PageType::LEAF) {
-            stats.num_deltas++;
-        }
-        page = page->next_delta.load(std::memory_order_acquire);
-    }
+    stats.num_deltas = count_delta_chain_length(page);
     
     return stats;
 }
@@ -180,13 +179,21 @@ void BwTree::consolidate(PageID pid) {
             // CAS succeeded - transfer ownership to mapping table
             consolidated.release();
             
-            // Clean up old delta chain
-            BwTreePage* current = page;
-            while (current) {
-                BwTreePage* next = current->next_delta.load(std::memory_order_acquire);
-                delete current;
-                current = next;
-            }
+            // TODO: Clean up old delta chain with proper memory reclamation
+            // The old delta chain (starting at 'page') should be deleted, but
+            // concurrent readers might still be accessing it. A production
+            // implementation would use epoch-based reclamation or hazard pointers
+            // to safely reclaim memory. For now, we leak the old chain to avoid
+            // use-after-free bugs.
+            // 
+            // OLD UNSAFE CODE (commented out to prevent use-after-free):
+            // BwTreePage* current = page;
+            // while (current) {
+            //     BwTreePage* next = current->next_delta.load(std::memory_order_acquire);
+            //     delete current;
+            //     current = next;
+            // }
+            
             return;
         }
         
@@ -264,8 +271,11 @@ size_t BwTree::count_delta_chain_length(BwTreePage* page) const {
     BwTreePage* current = page;
     
     while (current) {
-        if (current->type != PageType::LEAF) {
-            count++;  // Count delta records, not the base page
+        // Count only delta types, not base pages (LEAF/INNER)
+        if (current->type == PageType::DELTA_INSERT || 
+            current->type == PageType::DELTA_DELETE ||
+            current->type == PageType::DELTA_SPLIT) {
+            count++;
         }
         current = current->next_delta.load(std::memory_order_acquire);
     }

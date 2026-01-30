@@ -253,7 +253,9 @@ TEST(BwTreeTest, MixedConcurrentOperations) {
     EXPECT_EQ(insert_count.load(), 50);
 }
 
-// Test for double-free bug fix: concurrent operations with CAS failures
+// Test for double-free bug fix: concurrent operations with high contention
+// This test creates many concurrent inserts which will trigger consolidation
+// when delta chains exceed the threshold, testing the ownership transfer fix
 TEST(BwTreeTest, ConcurrentConsolidationSafety) {
     BwTree tree;
     
@@ -281,7 +283,8 @@ TEST(BwTreeTest, ConcurrentConsolidationSafety) {
         });
     }
     
-    // Reader threads - trigger apply_deltas() which uses the consolidation code path
+    // Reader threads - trigger apply_deltas() in search operations
+    // This creates temporary consolidated views for reading
     for (int t = 0; t < 4; t++) {
         threads.emplace_back([&tree, &stop]() {
             int count = 0;
