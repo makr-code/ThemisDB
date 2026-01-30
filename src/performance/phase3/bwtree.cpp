@@ -60,6 +60,13 @@ bool BwTree::insert(int64_t key, const std::string& value) {
             return false;
         }
         
+        // Check if consolidation is needed before inserting
+        if (count_delta_chain_length(page) >= DELTA_CHAIN_THRESHOLD) {
+            consolidate(root_pid_);
+            // Continue to insert after consolidation attempt
+            continue;
+        }
+        
         // Create delta insert record
         auto delta = new DeltaInsert(key, value);
         delta->next_delta.store(page, std::memory_order_relaxed);
@@ -250,6 +257,20 @@ std::unique_ptr<LeafPage> BwTree::apply_deltas(BwTreePage* page) const {
     }
     
     return result;
+}
+
+size_t BwTree::count_delta_chain_length(BwTreePage* page) const {
+    size_t count = 0;
+    BwTreePage* current = page;
+    
+    while (current) {
+        if (current->type != PageType::LEAF) {
+            count++;  // Count delta records, not the base page
+        }
+        current = current->next_delta.load(std::memory_order_acquire);
+    }
+    
+    return count;
 }
 
 } // namespace phase3

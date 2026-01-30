@@ -281,7 +281,7 @@ TEST(BwTreeTest, ConcurrentConsolidationSafety) {
         });
     }
     
-    // Reader threads - trigger apply_deltas() which could race with consolidation
+    // Reader threads - trigger apply_deltas() which uses the consolidation code path
     for (int t = 0; t < 4; t++) {
         threads.emplace_back([&tree, &stop]() {
             int count = 0;
@@ -310,6 +310,29 @@ TEST(BwTreeTest, ConcurrentConsolidationSafety) {
     // Verify tree is still functional
     std::string value;
     EXPECT_TRUE(tree.search(5, value));
+}
+
+// Test that consolidation is triggered when delta chain gets too long
+TEST(BwTreeTest, AutomaticConsolidation) {
+    BwTree tree;
+    
+    // Insert enough records to trigger consolidation threshold
+    // The threshold is 10 deltas per the constant in bwtree.h
+    for (int i = 0; i < 15; i++) {
+        EXPECT_TRUE(tree.insert(1, "value_" + std::to_string(i)));
+    }
+    
+    // Get stats to verify consolidation happened
+    auto stats = tree.get_stats();
+    
+    // After 15 inserts with threshold of 10, we should have triggered
+    // at least one consolidation, so delta count should be < 15
+    EXPECT_LT(stats.num_deltas, 15u);
+    
+    // Verify the tree still works correctly after consolidation
+    std::string value;
+    EXPECT_TRUE(tree.search(1, value));
+    EXPECT_EQ(value, "value_14");  // Last inserted value
 }
 
 
