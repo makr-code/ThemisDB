@@ -1,6 +1,19 @@
 # ThemisDB Use Case Guides
 
-This directory contains comprehensive, production-ready guides for building real-world applications with ThemisDB. Each guide includes architecture diagrams, complete schema examples, query patterns, performance optimization strategies, and best practices.
+> **Production-ready guides** for building real-world applications with ThemisDB's multi-model database and AI capabilities.
+
+---
+
+## 📋 Quick Navigation
+
+| Use Case | Best For | Difficulty | Est. Time |
+|----------|----------|------------|-----------|
+| [🛒 E-Commerce](#1-e-commerce-platform-) | Online retail, marketplaces | ⭐⭐ Intermediate | 2-3 hours |
+| [📡 IoT & Sensors](#2-iot--sensor-networks-) | Industrial IoT, smart devices | ⭐⭐⭐ Advanced | 3-4 hours |
+| [🤖 RAG & LLM](#3-rag--llm-applications-) | AI chatbots, search systems | ⭐⭐⭐ Advanced | 3-4 hours |
+| [🏢 SaaS Multi-Tenancy](#4-saas-multi-tenancy-) | B2B platforms, enterprise apps | ⭐⭐⭐ Advanced | 3-4 hours |
+
+---
 
 ## Available Use Cases
 

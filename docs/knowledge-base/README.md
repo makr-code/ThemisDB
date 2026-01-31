@@ -1,6 +1,23 @@
 # ThemisDB Knowledge Base
 
-Welcome to the ThemisDB Knowledge Base - your comprehensive resource for troubleshooting, optimizing, and operating ThemisDB in production environments.
+> **Your comprehensive resource** for troubleshooting, optimizing, and operating ThemisDB in production environments.
+
+---
+
+## 🚨 Quick Problem Solver
+
+**What's your issue?**
+
+| Problem | Solution Guide | Est. Time |
+|---------|---------------|-----------|
+| Database won't start | [Troubleshooting → Startup Issues](TROUBLESHOOTING.md#database-wont-start) | 5-15 min |
+| Queries are slow | [Performance Tips → Query Optimization](PERFORMANCE_TIPS.md#query-optimization-techniques) | 15-30 min |
+| Need to upgrade | [Migration Guides → Version Upgrades](MIGRATION_GUIDES.md#upgrading-between-versions) | 30-60 min |
+| Data corruption | [Backup & Recovery → Restore Procedures](BACKUP_RECOVERY.md#restore-procedures) | 20-45 min |
+| High memory usage | [Troubleshooting → Memory Problems](TROUBLESHOOTING.md#memory-problems) | 10-20 min |
+| Understanding logs | [Log Analysis → Error Interpretation](LOG_ANALYSIS.md#error-interpretation) | 15-25 min |
+
+---
 
 ## 📚 Available Guides
 

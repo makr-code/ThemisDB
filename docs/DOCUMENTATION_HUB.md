@@ -1,6 +1,21 @@
 # 📚 ThemisDB Documentation Hub
 
-Welcome to the **ThemisDB Documentation Hub** - your central starting point for all ThemisDB documentation, tutorials, use cases, and certification programs.
+> **Welcome to the ThemisDB Documentation Hub** - your comprehensive guide to mastering ThemisDB's multi-model database platform with AI/LLM capabilities.
+
+---
+
+## 🚀 Quick Access
+
+| Category | Description | Start Here |
+|----------|-------------|------------|
+| 🎯 **Beginners** | New to ThemisDB? Start here! | [Quick Start →](../QUICKSTART.md) |
+| 💡 **Use Cases** | Real-world application guides | [Browse Use Cases →](use-cases/README.md) |
+| 🎓 **Tutorials** | Hands-on learning paths | [View Tutorials →](tutorials/README.md) |
+| 🏆 **Certification** | Professional certifications | [Get Certified →](certification/README.md) |
+| 📚 **Knowledge Base** | Troubleshooting & tips | [Search KB →](knowledge-base/README.md) |
+| 📖 **API Docs** | Complete API reference | [API Reference →](api/API_REFERENCE.md) |
+
+---
 
 ## 🎯 Quick Navigation
 
@@ -130,6 +145,118 @@ Become a certified ThemisDB expert:
 - [Troubleshooting](knowledge-base/TROUBLESHOOTING.md) - Common issues
 - [Performance Profiling](de/performance/performance_memory.md) - Identify bottlenecks
 - [Log Analysis](knowledge-base/LOG_ANALYSIS.md) - Understanding logs
+
+## 🗺️ Documentation Navigation Map
+
+### Learning Journey Paths
+
+```mermaid
+graph TB
+    START[Start Here] --> LEVEL{Experience Level?}
+    
+    LEVEL -->|Beginner| QS[Quick Start]
+    LEVEL -->|Intermediate| TUTORIALS[Tutorials]
+    LEVEL -->|Advanced| KB[Knowledge Base]
+    
+    QS --> INSTALL[Installation]
+    QS --> FIRST[First Steps]
+    QS --> EXAMPLES[Simple Examples]
+    
+    TUTORIALS --> CRUD[CRUD Operations]
+    TUTORIALS --> SCHEMA[Schema Design]
+    TUTORIALS --> BATCH[Batch Operations]
+    TUTORIALS --> BP[Best Practices]
+    
+    KB --> PERF[Performance Tuning]
+    KB --> TROUBLE[Troubleshooting]
+    KB --> MIGRATE[Migration Guides]
+    
+    EXAMPLES --> UC[Use Cases]
+    BP --> UC
+    
+    UC --> ECOMMERCE[E-Commerce]
+    UC --> IOT[IoT/Sensors]
+    UC --> RAG[RAG/LLM]
+    UC --> SAAS[SaaS Multi-tenant]
+    
+    MIGRATE --> CERT[Certification]
+    PERF --> CERT
+    UC --> CERT
+    
+    CERT --> FUND[Fundamentals]
+    CERT --> QUERY[Query Expert]
+    CERT --> OPS[Operations]
+    CERT --> SEC[Security]
+    
+    style START fill:#e1f5ff
+    style UC fill:#ffe1e1
+    style CERT fill:#e1ffe1
+    style KB fill:#fff3cd
+```
+
+### Documentation Structure Overview
+
+```
+📚 ThemisDB Documentation
+│
+├── 🚀 Getting Started
+│   ├── Quick Start (5 min)
+│   ├── Installation Guide
+│   └── First Steps Tutorial
+│
+├── 💡 Use Cases (Real-World Applications)
+│   ├── 🛒 E-Commerce Platform
+│   ├── 📡 IoT & Sensor Networks
+│   ├── 🤖 RAG & LLM Applications
+│   └── 🏢 SaaS Multi-Tenancy
+│
+├── 🎓 Tutorials (Step-by-Step Guides)
+│   ├── Getting Started Tutorial
+│   ├── CRUD Operations
+│   ├── Batch Operations
+│   ├── Schema Design
+│   ├── Best Practices
+│   ├── Interactive Examples
+│   └── Video Tutorials
+│
+├── 🏆 Certification Program
+│   ├── Fundamentals Certification
+│   ├── Query Expert Certification
+│   ├── Operations Certification
+│   └── Security Certification
+│
+├── 📚 Knowledge Base (Problem Solving)
+│   ├── FAQ
+│   ├── Troubleshooting Guide
+│   ├── Performance Tips
+│   ├── Migration Guides
+│   ├── Backup & Recovery
+│   └── Log Analysis
+│
+├── 📖 Core Documentation
+│   ├── Architecture
+│   ├── AQL Query Language
+│   ├── API Reference
+│   ├── Security
+│   └── Features
+│
+└── 🛠️ Operations
+    ├── Deployment
+    ├── Monitoring
+    ├── Performance
+    └── High Availability
+```
+
+### Quick Reference by Topic
+
+| Topic | Beginner | Intermediate | Advanced |
+|-------|----------|--------------|----------|
+| **Installation** | [Quick Start](../QUICKSTART.md) | [Docker Guide](DOCKER_BUILD_GUIDE.md) | [Build from Source](../CONTRIBUTING.md) |
+| **Queries** | [Getting Started](tutorials/GETTING_STARTED_TUTORIAL.md) | [AQL Syntax](de/aql/aql_syntax.md) | [Query Optimization](knowledge-base/PERFORMANCE_TIPS.md) |
+| **Data Modeling** | [CRUD Tutorial](tutorials/CRUD_TUTORIAL.md) | [Schema Design](tutorials/SCHEMA_DESIGN.md) | [Multi-Model Guide](de/guides/guides_multimodel.md) |
+| **Performance** | [Best Practices](tutorials/BEST_PRACTICES.md) | [Performance Tips](knowledge-base/PERFORMANCE_TIPS.md) | [Benchmarking](../benchmarks/README.md) |
+| **Operations** | [Configuration](de/deployment/CONFIGURATION_GUIDE.md) | [Monitoring](de/deployment/MONITORING_GUIDE.md) | [HA Setup](de/deployment/HA_GUIDE.md) |
+| **Security** | [Security Basics](de/security/security_implementation.md) | [RBAC Setup](de/security/authorization.md) | [Security Certification](certification/SECURITY_CERTIFICATION.md) |
 
 ## 🌟 Featured Content
 
