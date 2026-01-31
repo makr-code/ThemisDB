@@ -17,7 +17,11 @@
     { "name": "libzip" },
     { "name": "pugixml" },
     { "name": "crc32c" },
-    { "name": "tl-expected" }
+    { "name": "tl-expected" },
+    { 
+      "name": "ffmpeg", 
+      "features": ["avcodec", "avformat", "swscale", "avfilter"]
+    }
   ],
   "features": {
     "gpu": {

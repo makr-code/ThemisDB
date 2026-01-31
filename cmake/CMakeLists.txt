@@ -1232,6 +1232,12 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/geo_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
@@ -2018,6 +2024,12 @@ if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
     target_link_libraries(themis_core PUBLIC mimalloc-static)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# FFmpeg support for video processing (optional)
+if(FFMPEG_FOUND)
+    target_link_libraries(themis_core PUBLIC FFmpeg::avformat)
+    message(STATUS "FFmpeg linked to themis_core - real video processing enabled")
 endif()
 
 # ============================================================================

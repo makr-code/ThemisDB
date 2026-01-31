@@ -295,6 +295,35 @@ endif()
 
 # (zstd is handled earlier, before RocksDB)
 
+# FFmpeg (video processing - optional for content plugins)
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+    pkg_check_modules(FFMPEG QUIET 
+        libavformat 
+        libavcodec 
+        libswscale 
+        libavutil
+    )
+    if(FFMPEG_FOUND)
+        message(STATUS "FFmpeg found via pkg-config - enabling real video processing")
+        add_compile_definitions(THEMIS_HAS_FFMPEG=1)
+        
+        # Create imported targets for FFmpeg libraries
+        if(NOT TARGET FFmpeg::avformat)
+            add_library(FFmpeg::avformat INTERFACE IMPORTED)
+            set_target_properties(FFmpeg::avformat PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${FFMPEG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${FFMPEG_LIBRARIES}"
+            )
+        endif()
+    else()
+        message(STATUS "FFmpeg not found - video processor will use simulation mode")
+        message(STATUS "Install with: apt-get install libavformat-dev libavcodec-dev libswscale-dev libavutil-dev")
+    endif()
+else()
+    message(STATUS "pkg-config not found - skipping FFmpeg detection")
+endif()
+
 # HNSW library (vector indexing)
 find_package(hnswlib QUIET CONFIG)
 if(hnswlib_FOUND AND NOT THEMIS_ENABLE_GPU)
