@@ -185,7 +185,7 @@ auto decisions = graph_manager_->findNodesConnectedBy(
 auto similar_cases = vector_index_->searchKnn(
     "ethics_scenarios",
     current_scenario_embedding,
-    k=5,
+    5,  // k: number of neighbors
     VectorIndexManager::Metric::COSINE
 );
 ```

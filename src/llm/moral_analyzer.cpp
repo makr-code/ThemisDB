@@ -700,6 +700,10 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     const EthicalDecision& decision,
     const std::vector<float>& scenario_embedding
 ) {
+    // NOTE: In production, pass user_id as parameter for proper audit attribution
+    // For now, use system identifier (can be customized in production deployment)
+    std::string user_id = "ethics_system";  // TODO: Accept as parameter
+    
     // 1. GRAPH STORAGE: Store full decision structure with reasoning chains
     BaseEntity decision_entity(decision.decision_id);
     decision_entity.setField("type", "decision");
@@ -788,7 +792,7 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     if (decision_auditor_) {
         AIDecisionAudit audit;
         audit.decision_id = decision.decision_id;
-        audit.user_id = "ethics_system";  // In production: actual user ID
+        audit.user_id = user_id;  // Use configurable user_id
         audit.session_id = decision.graph_id;
         audit.timestamp = std::chrono::system_clock::now();
         audit.query = "Ethical scenario: " + decision.scenario_id;
@@ -850,7 +854,31 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
 }
 
 std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& decision) {
+    /**
+     * Basic keyword extraction from ethical decision
+     * 
+     * Strategy:
+     * - Extract significant words from principles and reasoning
+     * - Filter common stopwords (limited list - could be expanded)
+     * - Add philosophy, action, and metric-based tags
+     * - No stemming or lemmatization (future enhancement)
+     * - Case-insensitive matching
+     * 
+     * Limitations:
+     * - Basic tokenization (space-separated only)
+     * - Limited stopword list (can be extended as needed)
+     * - No linguistic processing (no stemming, NER, etc.)
+     * - English-only (no locale support)
+     */
+    
     std::vector<std::string> keywords;
+    
+    // Common English stopwords (basic list - can be expanded)
+    static const std::unordered_set<std::string> stopwords = {
+        "should", "would", "could", "their", "there", "where",
+        "this", "that", "with", "from", "about", "have", "been",
+        "will", "what", "when", "which", "them", "then", "than"
+    };
     
     // Add philosophy as keyword
     keywords.push_back(decision.philosophy);
@@ -864,16 +892,19 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
         std::istringstream iss(principle);
         std::string word;
         while (iss >> word) {
-            // Convert to lowercase
-            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+            // Convert to lowercase (locale-agnostic for ASCII)
+            for (auto& c : word) {
+                if (c >= 'A' && c <= 'Z') {
+                    c = c - 'A' + 'a';
+                }
+            }
             
             // Remove punctuation
-            word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
+            word.erase(std::remove_if(word.begin(), word.end(), 
+                [](unsigned char c) { return std::ispunct(c); }), word.end());
             
-            // Add if significant (longer than 4 chars, not common stopwords)
-            if (word.length() > 4 && 
-                word != "should" && word != "would" && word != "could" && 
-                word != "their" && word != "there" && word != "where") {
+            // Add if significant (longer than 4 chars, not stopword)
+            if (word.length() > 4 && stopwords.find(word) == stopwords.end()) {
                 keywords.push_back(word);
             }
         }
