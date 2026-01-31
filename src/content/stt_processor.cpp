@@ -12,8 +12,10 @@
 #include "content/stt_processor.h"
 #include <algorithm>
 #include <cstring>
+#include <cstdint>
 #include <sstream>
 #include <chrono>
+#include <limits>
 
 // Conditional Whisper.cpp include
 #ifdef THEMIS_ENABLE_WHISPER
@@ -474,7 +476,13 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
     uint16_t bits_per_sample = 0;
     bool fmt_found = false;
     
-    while (offset + 8 <= wav_data.size()) {
+    // Limit iterations to prevent infinite loops with malicious files
+    constexpr size_t MAX_CHUNKS = 1000;
+    size_t chunk_count = 0;
+    
+    while (offset + 8 <= wav_data.size() && chunk_count < MAX_CHUNKS) {
+        chunk_count++;
+        
         // Read chunk identifier
         if (wav_data[offset] == 'f' && wav_data[offset + 1] == 'm' && 
             wav_data[offset + 2] == 't' && wav_data[offset + 3] == ' ') {
@@ -500,10 +508,19 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
         
         // Skip unknown chunk
         uint32_t chunk_size = readUInt32LE(offset + 4);
+        
+        // Check for integer overflow before adding
+        if (chunk_size > wav_data.size() - offset - 8) {
+            throw std::runtime_error("Chunk size extends beyond file boundary");
+        }
+        
         offset += 8 + chunk_size;
         
         // Chunks are word-aligned (2 bytes)
         if (chunk_size % 2 != 0) {
+            if (offset >= wav_data.size()) {
+                break;
+            }
             offset++;
         }
     }
@@ -536,7 +553,12 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
     uint32_t data_size = 0;
     size_t data_offset = 0;
     
-    while (offset + 8 <= wav_data.size()) {
+    // Reset chunk counter for data chunk search
+    chunk_count = 0;
+    
+    while (offset + 8 <= wav_data.size() && chunk_count < MAX_CHUNKS) {
+        chunk_count++;
+        
         if (wav_data[offset] == 'd' && wav_data[offset + 1] == 'a' && 
             wav_data[offset + 2] == 't' && wav_data[offset + 3] == 'a') {
             
@@ -548,10 +570,19 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
         
         // Skip unknown chunk
         uint32_t chunk_size = readUInt32LE(offset + 4);
+        
+        // Check for integer overflow before adding
+        if (chunk_size > wav_data.size() - offset - 8) {
+            throw std::runtime_error("Chunk size extends beyond file boundary");
+        }
+        
         offset += 8 + chunk_size;
         
         // Chunks are word-aligned
         if (chunk_size % 2 != 0) {
+            if (offset >= wav_data.size()) {
+                break;
+            }
             offset++;
         }
     }
@@ -566,7 +597,18 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
     
     // Extract PCM samples based on format
     size_t bytes_per_sample = bits_per_sample / 8;
-    size_t num_samples = data_size / (bytes_per_sample * num_channels);
+    
+    // Validate that bytes_per_sample * num_channels doesn't overflow
+    if (bytes_per_sample > 0 && num_channels > SIZE_MAX / bytes_per_sample) {
+        throw std::runtime_error("Integer overflow in sample size calculation");
+    }
+    
+    size_t bytes_per_frame = bytes_per_sample * num_channels;
+    if (bytes_per_frame == 0) {
+        throw std::runtime_error("Invalid frame size: 0");
+    }
+    
+    size_t num_samples = data_size / bytes_per_frame;
     
     pcm_data.reserve(num_samples);
     
@@ -582,26 +624,33 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
             if (audio_format == 1) {  // PCM
                 if (bits_per_sample == 8) {
                     // 8-bit PCM is unsigned (0-255)
+                    if (sample_offset >= wav_data.size()) {
+                        throw std::runtime_error("Sample offset out of bounds");
+                    }
                     uint8_t val = wav_data[sample_offset];
                     sample = (val - 128) / 128.0f;
                 } else if (bits_per_sample == 16) {
-                    // 16-bit PCM is signed
+                    // 16-bit PCM is signed (readUInt16LE already does bounds check)
                     int16_t val = static_cast<int16_t>(readUInt16LE(sample_offset));
                     sample = val / 32768.0f;
                 } else if (bits_per_sample == 24) {
                     // 24-bit PCM is signed
+                    if (sample_offset + 3 > wav_data.size()) {
+                        throw std::runtime_error("24-bit sample extends beyond buffer");
+                    }
+                    // Use explicit casting to avoid sign extension issues
                     int32_t val = static_cast<int32_t>(
-                        wav_data[sample_offset] |
-                        (wav_data[sample_offset + 1] << 8) |
-                        (wav_data[sample_offset + 2] << 16)
+                        static_cast<uint32_t>(wav_data[sample_offset]) |
+                        (static_cast<uint32_t>(wav_data[sample_offset + 1]) << 8) |
+                        (static_cast<uint32_t>(wav_data[sample_offset + 2]) << 16)
                     );
                     // Sign-extend from 24-bit to 32-bit
                     if (val & 0x800000) {
-                        val |= 0xFF000000;
+                        val |= ~0xFFFFFF;  // Sign extend properly
                     }
                     sample = val / 8388608.0f;
                 } else if (bits_per_sample == 32) {
-                    // 32-bit PCM is signed
+                    // 32-bit PCM is signed (readUInt32LE already does bounds check)
                     int32_t val = static_cast<int32_t>(readUInt32LE(sample_offset));
                     sample = val / 2147483648.0f;
                 } else {
