@@ -539,7 +539,7 @@ bool PluginSecurityVerifier::checkCRL(const std::string& certificate) {
         X509_get_ext_d2i(cert, NID_crl_distribution_points, nullptr, nullptr)
     );
     
-    bool result = true;  // Assume valid if no CRL endpoints found
+    bool result = false;
     
     if (crldp) {
         // For now, we just verify that CRL distribution points exist
@@ -556,6 +556,9 @@ bool PluginSecurityVerifier::checkCRL(const std::string& certificate) {
         result = (num_points > 0);  // Has CRL endpoints configured
         
         sk_DIST_POINT_pop_free(crldp, DIST_POINT_free);
+    } else {
+        // No CRL endpoints - if revocation checking is required, this should fail
+        result = !policy_.checkRevocation;
     }
     
     X509_free(cert);
@@ -583,7 +586,7 @@ bool PluginSecurityVerifier::checkOCSP(const std::string& certificate) {
     // Extract OCSP responder URLs from certificate
     STACK_OF(OPENSSL_STRING)* ocsp_list = X509_get1_ocsp(cert);
     
-    bool result = true;  // Assume valid if no OCSP configured
+    bool result = false;
     
     if (ocsp_list) {
         // For now, we just verify that OCSP URLs exist
@@ -601,6 +604,9 @@ bool PluginSecurityVerifier::checkOCSP(const std::string& certificate) {
         result = (num_urls > 0);  // Has OCSP responders configured
         
         X509_email_free(ocsp_list);
+    } else {
+        // No OCSP configured - if revocation checking is required, this should fail
+        result = !policy_.checkRevocation;
     }
     
     X509_free(cert);
@@ -1069,8 +1075,19 @@ bool EnhancedPluginSecurityVerifier::verifyAuthenticodeSignature(
     const std::string& plugin_path,
     VerificationResult& result
 ) {
-    // Convert to wide string for Windows API
-    std::wstring wide_path(plugin_path.begin(), plugin_path.end());
+    // Convert UTF-8 string to wide string for Windows API
+    int wide_len = MultiByteToWideChar(CP_UTF8, 0, plugin_path.c_str(), 
+                                       static_cast<int>(plugin_path.length()), 
+                                       nullptr, 0);
+    if (wide_len == 0) {
+        result.error_message = "Failed to convert path to wide string";
+        return false;
+    }
+    
+    std::wstring wide_path(wide_len, L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, plugin_path.c_str(), 
+                       static_cast<int>(plugin_path.length()), 
+                       &wide_path[0], wide_len);
     
     // Setup WINTRUST_FILE_INFO structure
     WINTRUST_FILE_INFO file_info = {};
@@ -1128,10 +1145,22 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(
     const std::string& plugin_path,
     VerificationResult& result
 ) {
-    // Use codesign utility to verify code signature
-    // In production, would use Security framework APIs directly
+    // Validate plugin_path to prevent injection
+    if (plugin_path.find('\'') != std::string::npos || 
+        plugin_path.find('\"') != std::string::npos ||
+        plugin_path.find(';') != std::string::npos ||
+        plugin_path.find('&') != std::string::npos ||
+        plugin_path.find('|') != std::string::npos ||
+        plugin_path.find('`') != std::string::npos ||
+        plugin_path.find('$') != std::string::npos) {
+        result.error_message = "Invalid characters in plugin path";
+        return false;
+    }
     
-    std::string command = "/usr/bin/codesign --verify --verbose=2 \"" + plugin_path + "\" 2>&1";
+    // Use codesign utility to verify code signature
+    // In production, would use Security framework APIs directly (SecCodeCopySigningInformation)
+    
+    std::string command = "/usr/bin/codesign --verify --verbose=2 '" + plugin_path + "' 2>&1";
     
     FILE* pipe = popen(command.c_str(), "r");
     if (!pipe) {
@@ -1170,6 +1199,18 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
     const std::string& plugin_path,
     VerificationResult& result
 ) {
+    // Validate plugin_path to prevent injection
+    if (plugin_path.find('\'') != std::string::npos || 
+        plugin_path.find('\"') != std::string::npos ||
+        plugin_path.find(';') != std::string::npos ||
+        plugin_path.find('&') != std::string::npos ||
+        plugin_path.find('|') != std::string::npos ||
+        plugin_path.find('`') != std::string::npos ||
+        plugin_path.find('$') != std::string::npos) {
+        result.error_message = "Invalid characters in plugin path";
+        return false;
+    }
+    
     // Check for GPG signature file (.sig or .asc)
     std::vector<std::string> sig_extensions = {".sig", ".asc", ".gpg"};
     std::string sig_file;
@@ -1188,7 +1229,8 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
     }
     
     // Use gpg to verify signature
-    std::string command = "gpg --verify \"" + sig_file + "\" \"" + plugin_path + "\" 2>&1";
+    // In production, would use GPGME library for safer API access
+    std::string command = "gpg --verify '" + sig_file + "' '" + plugin_path + "' 2>&1";
     
     FILE* pipe = popen(command.c_str(), "r");
     if (!pipe) {

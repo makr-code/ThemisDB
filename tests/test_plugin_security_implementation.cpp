@@ -7,7 +7,7 @@
 #include <filesystem>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
-#include <openssl/rsa.h>
+#include <openssl/evp.h>
 
 using namespace themis::acceleration;
 
@@ -34,14 +34,28 @@ protected:
     }
     
     void generateTestCertificate() {
-        // Generate RSA key pair
-        RSA* rsa = RSA_new();
-        BIGNUM* bn = BN_new();
-        BN_set_word(bn, RSA_F4);
-        RSA_generate_key_ex(rsa, 2048, bn, nullptr);
+        // Generate RSA key pair using EVP API (OpenSSL 3.0+ compatible)
+        EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
+        if (!ctx) {
+            return;
+        }
         
-        EVP_PKEY* pkey = EVP_PKEY_new();
-        EVP_PKEY_assign_RSA(pkey, rsa);
+        if (EVP_PKEY_keygen_init(ctx) <= 0) {
+            EVP_PKEY_CTX_free(ctx);
+            return;
+        }
+        
+        if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, 2048) <= 0) {
+            EVP_PKEY_CTX_free(ctx);
+            return;
+        }
+        
+        EVP_PKEY* pkey = nullptr;
+        if (EVP_PKEY_keygen(ctx, &pkey) <= 0) {
+            EVP_PKEY_CTX_free(ctx);
+            return;
+        }
+        EVP_PKEY_CTX_free(ctx);
         
         // Create X.509 certificate
         X509* x509 = X509_new();
@@ -76,7 +90,6 @@ protected:
         BIO_free(bio);
         X509_free(x509);
         EVP_PKEY_free(pkey);
-        BN_free(bn);
     }
     
     std::filesystem::path test_dir_;
@@ -94,11 +107,8 @@ TEST_F(PluginSecurityImplementationTest, VerifyCertificateChain_SelfSigned) {
     // Self-signed cert should fail chain validation (unless in trusted store)
     bool result = verifier.verifyCertificateChain(test_cert_pem_);
     
-    // Result depends on whether self-signed certs are in trusted store
-    // Just verify the function executes without crashing
-    EXPECT_NO_THROW({
-        verifier.verifyCertificateChain(test_cert_pem_);
-    });
+    // Self-signed certs not in trust store should fail
+    EXPECT_FALSE(result);
 }
 
 // Test: Certificate chain validation with empty certificate
