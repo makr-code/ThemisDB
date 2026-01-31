@@ -462,7 +462,7 @@ TEST_F(STTWavPcmTest, RejectInvalidBitsPerSample) {
 TEST_F(STTWavPcmTest, RejectTruncatedDataChunk) {
     auto wav = createWavHeader(16000, 1, 16, 10);  // Claims 10 samples
     
-    // But only add 1 sample
+    // But only provide 1 sample
     writeInt16LE(wav, 0);
     
     EXPECT_THROW({
