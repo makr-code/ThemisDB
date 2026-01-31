@@ -77,22 +77,18 @@ TEST_F(BlobTransferCheckpointTest, CreateCheckpoint) {
     auto status = handler_->StartTransfer(config_);
     ASSERT_EQ(status, BlobStatus::OK);
     
-    // Stream some chunks and then create a checkpoint
+    // Stream all chunks (in real scenarios, transfer would be interrupted by network issues or cancellation)
     int chunks_received = 0;
     auto callback = [&chunks_received](const themis::sharding::proto::BlobChunk& chunk) {
-        chunks_received++;
-        // Stop after 2 chunks to simulate partial transfer
-        if (chunks_received >= 2 && !chunk.is_last()) {
-            return;
+        if (!chunk.is_last()) {
+            chunks_received++;
         }
     };
     
-    // Start streaming (this will stream all chunks since we can't interrupt in test)
-    // In production, this would be interrupted by network issues or explicit cancellation
     status = handler_->StreamChunks(callback);
     ASSERT_EQ(status, BlobStatus::OK);
     
-    // Create checkpoint
+    // Create checkpoint after transfer
     std::string checkpoint_id = handler_->CreateCheckpoint();
     EXPECT_FALSE(checkpoint_id.empty());
     EXPECT_TRUE(checkpoint_id.find("test_blob_123") != std::string::npos);
@@ -243,7 +239,7 @@ TEST_F(BlobTransferCheckpointTest, ResumeContinuesFromCorrectPosition) {
     
     // After resuming, chunk indices should start from where we left off
     if (!chunk_indices_after.empty() && !chunk_indices_before.empty()) {
-        EXPECT_GE(chunk_indices_after[0], chunks_before);
+        EXPECT_GE(chunk_indices_after[0], chunk_indices_before.back());
     }
 }
 

@@ -1,4 +1,5 @@
 #include "server/rpc/blob_transfer_handler.h"
+#include "utils/logger.h"
 #include <zstd.h>
 #include <lz4.h>
 // #include <crc32c/crc32c.h>  // TODO: Missing vcpkg package
@@ -201,8 +202,8 @@ public:
         // Persist checkpoint to file
         BlobStatus status = SaveCheckpoint();
         if (status != BlobStatus::OK) {
-            // Return empty string on error, but still return the ID for memory-only checkpoint
-            return checkpoint_.checkpoint_id;
+            // Return empty string on persistence failure
+            return "";
         }
         
         return checkpoint_.checkpoint_id;
@@ -347,7 +348,12 @@ private:
     std::string GetCheckpointPath(const std::string& checkpoint_id) const {
         // Store checkpoints in /tmp/themis_blob_checkpoints/
         fs::path checkpoint_dir = "/tmp/themis_blob_checkpoints";
-        fs::create_directories(checkpoint_dir);
+        std::error_code ec;
+        fs::create_directories(checkpoint_dir, ec);
+        if (ec) {
+            // Failed to create directory, but return path anyway
+            // SaveCheckpoint will handle the error
+        }
         return (checkpoint_dir / (checkpoint_id + ".json")).string();
     }
     
@@ -368,6 +374,7 @@ private:
             std::string checkpoint_path = GetCheckpointPath(checkpoint_.checkpoint_id);
             std::ofstream checkpoint_file(checkpoint_path);
             if (!checkpoint_file) {
+                THEMIS_ERROR("Failed to open checkpoint file for writing: {}", checkpoint_path);
                 return BlobStatus::ERROR_IO_ERROR;
             }
             
@@ -376,6 +383,7 @@ private:
             
             return BlobStatus::OK;
         } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to save checkpoint: {}", e.what());
             return BlobStatus::ERROR_IO_ERROR;
         }
     }
@@ -385,11 +393,13 @@ private:
             std::string checkpoint_path = GetCheckpointPath(checkpoint_id);
             
             if (!fs::exists(checkpoint_path)) {
+                THEMIS_ERROR("Checkpoint file not found: {}", checkpoint_path);
                 return BlobStatus::ERROR_RESUME_FAILED;
             }
             
             std::ifstream checkpoint_file(checkpoint_path);
             if (!checkpoint_file) {
+                THEMIS_ERROR("Failed to open checkpoint file for reading: {}", checkpoint_path);
                 return BlobStatus::ERROR_IO_ERROR;
             }
             
@@ -399,6 +409,8 @@ private:
             
             // Validate and load checkpoint data
             if (checkpoint_json["checkpoint_id"] != checkpoint_id) {
+                THEMIS_ERROR("Checkpoint ID mismatch: expected {}, got {}", 
+                            checkpoint_id, checkpoint_json["checkpoint_id"].get<std::string>());
                 return BlobStatus::ERROR_RESUME_FAILED;
             }
             
@@ -409,6 +421,8 @@ private:
             // Validate source path matches
             std::string stored_source_path = checkpoint_json["source_path"];
             if (stored_source_path != config_.source_path) {
+                THEMIS_ERROR("Source path mismatch: expected {}, got {}", 
+                            config_.source_path, stored_source_path);
                 return BlobStatus::ERROR_RESUME_FAILED;
             }
             
@@ -418,6 +432,7 @@ private:
             
             return BlobStatus::OK;
         } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to load checkpoint {}: {}", checkpoint_id, e.what());
             return BlobStatus::ERROR_RESUME_FAILED;
         }
     }
