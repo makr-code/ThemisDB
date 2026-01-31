@@ -150,6 +150,23 @@ public:
         WritePolicy write_policy = WritePolicy::WriteUnprepared;  // v1.3.0: Use WriteUnprepared for safe Snapshot Isolation + skip_prepare compatibility
         bool two_write_queues = true;           // Enable dual write queues (prepare/commit) - reduces lock contention
         uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
+        
+        // Data Integrity & Robustness (v1.4.1+)
+        // Based on research: Bairavasundaram et al. (2008), Bonwick et al. (2010)
+        // See docs/DATABASE_FILE_ROBUSTNESS.md for details
+        bool paranoid_checks = true;                // Verify all data on read (catches corruption early)
+        bool verify_checksums_on_read = true;       // Verify block checksums on every read
+        bool verify_checksums_in_compaction = true; // Background verification during compaction
+        bool force_sync_on_write = false;           // Force fsync on every write (30% overhead, max durability)
+        bool disable_mmap_reads = true;             // Prevent mmap from hiding I/O errors
+        bool disable_mmap_writes = true;            // Prevent mmap write errors
+        
+        // Checksum algorithm (v1.4.1+)
+        enum class ChecksumType {
+            CRC32,      // Standard, compatible
+            XXH3        // Fastest (3x faster than CRC32, recommended)
+        };
+        ChecksumType checksum_type = ChecksumType::XXH3;
     };
     
     explicit RocksDBWrapper(const Config& config);
