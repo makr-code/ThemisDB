@@ -10,13 +10,22 @@ theme:
   language: de
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.instant
+    - navigation.instant.prefetch
     - navigation.sections
     - navigation.expand
+    - navigation.path
+    - navigation.indexes
     - navigation.top
+    - navigation.tracking
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - toc.integrate
   palette:
     - scheme: default
       primary: indigo
@@ -74,34 +83,38 @@ markdown_extensions:
 nav:
 - 🏠 Home: de/README.md
 - 📚 Documentation Hub: DOCUMENTATION_HUB.md
+- 📑 Category Index: CATEGORY_INDEX.md
 - ❓ FAQ: FAQ.md
 - 🚀 Quick Start: ../QUICKSTART.md
 - 📖 Examples Index: EXAMPLES_INDEX_NEW.md
 - 💡 Use Cases:
-  - E-Commerce: use-cases/ECOMMERCE_USE_CASE.md
-  - IoT & Sensors: use-cases/IOT_USE_CASE.md
-  - RAG & LLM: use-cases/RAG_LLM_USE_CASE.md
-  - SaaS Multi-Tenancy: use-cases/SAAS_USE_CASE.md
+  - Overview: use-cases/README.md
+  - 🛒 E-Commerce Platform: use-cases/ECOMMERCE_USE_CASE.md
+  - 📡 IoT & Sensor Networks: use-cases/IOT_USE_CASE.md
+  - 🤖 RAG & LLM Applications: use-cases/RAG_LLM_USE_CASE.md
+  - 🏢 SaaS Multi-Tenancy: use-cases/SAAS_USE_CASE.md
 - 🎓 Tutorials:
-  - Getting Started: tutorials/GETTING_STARTED_TUTORIAL.md
-  - CRUD Operations: tutorials/CRUD_TUTORIAL.md
-  - Batch Operations: tutorials/BATCH_OPERATIONS.md
-  - Schema Design: tutorials/SCHEMA_DESIGN.md
-  - Best Practices: tutorials/BEST_PRACTICES.md
-  - Interactive Examples: tutorials/INTERACTIVE_EXAMPLES.md
-  - Video Tutorials: tutorials/VIDEO_TUTORIALS.md
-- 🏆 Certification:
+  - Overview: tutorials/README.md
+  - 🎯 Getting Started: tutorials/GETTING_STARTED_TUTORIAL.md
+  - 📝 CRUD Operations: tutorials/CRUD_TUTORIAL.md
+  - 📦 Batch Operations: tutorials/BATCH_OPERATIONS.md
+  - 🏗️ Schema Design: tutorials/SCHEMA_DESIGN.md
+  - ⭐ Best Practices: tutorials/BEST_PRACTICES.md
+  - 💻 Interactive Examples: tutorials/INTERACTIVE_EXAMPLES.md
+  - 🎥 Video Tutorials: tutorials/VIDEO_TUTORIALS.md
+- 🏆 Certification Program:
   - Overview: certification/README.md
-  - Fundamentals: certification/FUNDAMENTALS_CERTIFICATION.md
-  - Query Expert: certification/QUERY_CERTIFICATION.md
-  - Operations: certification/OPERATIONS_CERTIFICATION.md
-  - Security: certification/SECURITY_CERTIFICATION.md
+  - 📘 Fundamentals Certification: certification/FUNDAMENTALS_CERTIFICATION.md
+  - 🔍 Query Expert Certification: certification/QUERY_CERTIFICATION.md
+  - ⚙️ Operations Certification: certification/OPERATIONS_CERTIFICATION.md
+  - 🔒 Security Certification: certification/SECURITY_CERTIFICATION.md
 - 📚 Knowledge Base:
-  - Troubleshooting: knowledge-base/TROUBLESHOOTING.md
-  - Performance Tips: knowledge-base/PERFORMANCE_TIPS.md
-  - Migration Guides: knowledge-base/MIGRATION_GUIDES.md
-  - Backup & Recovery: knowledge-base/BACKUP_RECOVERY.md
-  - Log Analysis: knowledge-base/LOG_ANALYSIS.md
+  - Overview: knowledge-base/README.md
+  - 🔧 Troubleshooting Guide: knowledge-base/TROUBLESHOOTING.md
+  - ⚡ Performance Tuning Tips: knowledge-base/PERFORMANCE_TIPS.md
+  - 🔄 Migration & Upgrade Guides: knowledge-base/MIGRATION_GUIDES.md
+  - 💾 Backup & Recovery: knowledge-base/BACKUP_RECOVERY.md
+  - 📊 Log Analysis: knowledge-base/LOG_ANALYSIS.md
 - BLAULICHT STRATEGIE: de/BLAULICHT_STRATEGIE.md
 - DOCUMENTATION INDEX: de/DOCUMENTATION_INDEX.md
 - DOCUMENTATION UPDATE PLAN: de/DOCUMENTATION_UPDATE_PLAN.md
