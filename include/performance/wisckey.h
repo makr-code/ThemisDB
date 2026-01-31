@@ -63,7 +63,9 @@ public:
     void sync();
     
     // Garbage collection (optional, for future optimization)
-    void compact(const std::vector<ValueAddress>& live_addresses);
+    // Compacts the log by copying only live values to a new log file.
+    // Updates the addresses vector in-place with new offsets.
+    void compact(std::vector<ValueAddress>& live_addresses);
 
 private:
     std::string log_path_;
