@@ -458,8 +458,9 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_
         throw std::runtime_error("Invalid WAV file: missing RIFF header");
     }
     
-    uint32_t file_size = readUInt32LE(4);
-    (void)file_size; // May be used for validation in the future
+    // Note: file_size field could be used for validation but is not strictly required
+    // since we already validate chunk boundaries explicitly below
+    readUInt32LE(4);  // Read file_size for format compliance (currently unused)
     
     if (wav_data[8] != 'W' || wav_data[9] != 'A' || wav_data[10] != 'V' || wav_data[11] != 'E') {
         throw std::runtime_error("Invalid WAV file: missing WAVE format identifier");

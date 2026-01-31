@@ -16,6 +16,9 @@ using namespace themis::content;
 
 class STTWavPcmTest : public ::testing::Test {
 protected:
+    // WAV format constants
+    static constexpr size_t DATA_CHUNK_HEADER_SIZE = 8;  // 'data' identifier (4 bytes) + size field (4 bytes)
+    
     void SetUp() override {
         processor = std::make_unique<STTProcessor>();
     }
@@ -266,13 +269,13 @@ TEST_F(STTWavPcmTest, AcceptDifferentSampleRates) {
     // Test that different sample rates are accepted
     // (resampling should be done by convertToWav16kHz, but extractPCMData should accept any rate)
     
-    for (uint32_t rate : {8000u, 11025u, 22050u, 44100u, 48000u}) {
-        auto wav = createWavHeader(rate, 1, 16, 1);
+    for (uint32_t sample_rate : {8000u, 11025u, 22050u, 44100u, 48000u}) {
+        auto wav = createWavHeader(sample_rate, 1, 16, 1);
         writeInt16LE(wav, 16384);
         
         auto pcm = processor->extractPCMData(wav);
-        ASSERT_EQ(pcm.size(), 1) << "Failed for sample rate " << rate;
-        EXPECT_NEAR(pcm[0], 0.5f, 0.01f) << "Failed for sample rate " << rate;
+        ASSERT_EQ(pcm.size(), 1) << "Failed for sample rate " << sample_rate;
+        EXPECT_NEAR(pcm[0], 0.5f, 0.01f) << "Failed for sample rate " << sample_rate;
     }
 }
 
@@ -286,7 +289,7 @@ TEST_F(STTWavPcmTest, HandleExtraChunksBeforeData) {
     
     // But before adding data, insert the LIST chunk at position before data
     // Find data chunk position (should be at end of header)
-    auto data_pos = wav.size() - 8;  // Position before "data" identifier
+    auto data_pos = wav.size() - DATA_CHUNK_HEADER_SIZE;  // Position before "data" identifier
     
     // Insert a LIST chunk before data
     std::vector<uint8_t> list_chunk;
