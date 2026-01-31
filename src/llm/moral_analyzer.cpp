@@ -621,7 +621,12 @@ MoralAnalyzer::EthicalDecision MoralAnalyzer::synthesizeDecision(
     for (const auto& [_, path] : paths) {
         total_confidence += path.confidence;
     }
-    synthesized.confidence = total_confidence / paths.size();
+    // Guard against division by zero
+    if (!paths.empty()) {
+        synthesized.confidence = total_confidence / paths.size();
+    } else {
+        synthesized.confidence = 0.0;
+    }
     
     // Generate synthesis reasoning
     std::ostringstream oss;
@@ -814,17 +819,22 @@ double MoralAnalyzer::scoreActionByPrinciples(
     std::transform(action_lower.begin(), action_lower.end(), 
                    action_lower.begin(), ::tolower);
     
+    // Deterministic scoring based on keyword matches
+    int matches = 0;
     for (const auto& principle : principles) {
-        if (action_lower.find(principle) != std::string::npos) {
-            score += 0.1;
+        std::string principle_lower = principle;
+        std::transform(principle_lower.begin(), principle_lower.end(),
+                      principle_lower.begin(), ::tolower);
+        if (action_lower.find(principle_lower) != std::string::npos) {
+            matches++;
         }
     }
     
-    // Add some randomness for demonstration
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_real_distribution<> dis(-0.1, 0.1);
-    score += dis(gen);
+    // Adjust score based on match ratio (deterministic, reproducible)
+    if (!principles.empty()) {
+        double match_ratio = static_cast<double>(matches) / principles.size();
+        score = 0.5 + (match_ratio * 0.4);  // Range: 0.5 to 0.9
+    }
     
     return std::min(1.0, std::max(0.0, score));
 }
@@ -842,15 +852,20 @@ std::map<std::string, double> MoralAnalyzer::calculateStakeholderImpacts(
     // - Domain-specific impact assessment
     // - LLM-based impact prediction
     
+    // Use deterministic impact calculation for reproducible/auditable decisions
     for (const auto& [stakeholder_type, count] : scenario.stakeholders) {
-        // Base impact proportional to stakeholder count
+        // Base impact proportional to stakeholder count (deterministic)
         double impact = static_cast<double>(count) / 10.0;
         
-        // Add some variation
-        static std::random_device rd;
-        static std::mt19937 gen(rd());
-        static std::uniform_real_distribution<> dis(-0.2, 0.2);
-        impact += dis(gen);
+        // Check if action mentions this stakeholder type (simple heuristic)
+        std::string action_lower = action;
+        std::string stakeholder_lower = stakeholder_type;
+        std::transform(action_lower.begin(), action_lower.end(), action_lower.begin(), ::tolower);
+        std::transform(stakeholder_lower.begin(), stakeholder_lower.end(), stakeholder_lower.begin(), ::tolower);
+        
+        if (action_lower.find(stakeholder_lower) != std::string::npos) {
+            impact *= 1.5;  // Directly mentioned stakeholders have higher impact
+        }
         
         impacts[stakeholder_type] = std::min(1.0, std::max(-1.0, impact));
     }
