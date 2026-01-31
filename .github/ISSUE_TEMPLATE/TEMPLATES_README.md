@@ -4,6 +4,27 @@ This directory contains GitHub issue templates for various components and migrat
 
 ## 📋 Template Categories
 
+### 🔒 Security Attack Vector Templates (NEW - v1.4.1)
+
+**Purpose:** Track findings from systematic attack vector analysis framework
+
+Specialized templates for security attack vectors organized by category:
+
+- **`security_network_attack.md`** - Network-level attack vectors (HTTP smuggling, SSRF, WebSocket, gRPC, MQTT)
+- **`security_authentication_attack.md`** - Authentication/authorization attack vectors (JWT, session, RBAC, IDOR)
+- **`security_injection_attack.md`** - Injection attack vectors (AQL, NoSQL, command, LLM prompt injection)
+- **`security_crypto_attack.md`** - Cryptographic attack vectors (weak ciphers, key management, padding oracle)
+- **`security_distributed_attack.md`** - Distributed system attack vectors (consensus, MVCC, shard attacks)
+
+**Related Workflows:**
+- `.github/workflows/attack-vector-analysis.yml` - Automated attack vector analysis
+- `.github/workflows/security-scan.yml` - Security scanning (OWASP ZAP, AFL++, CodeQL)
+- `.github/workflows/fuzzing.yml` - Fuzzing tests for injection vectors
+
+**Documentation:**
+- `docs/de/security/ANGRIFFSVEKTOREN_ANALYSE_RUNBOOK.md` - Analysis runbook
+- `docs/de/security/ATTACK_VECTOR_ANALYSIS_FRAMEWORK.md` - Framework documentation
+
 ### 🌐 Distributed Sharding Templates (NEW - v1.4)
 
 **See:** `SHARDING_TEMPLATES_README.md` for complete documentation
