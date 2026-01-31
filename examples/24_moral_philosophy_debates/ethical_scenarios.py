@@ -16,7 +16,7 @@ from typing import List, Dict, Optional, Any
 from enum import Enum
 
 
-class DifficuiltyLevel(Enum):
+class DifficultyLevel(Enum):
     """Difficulty levels for ethical scenarios"""
     BASIC = "basic"
     INTERMEDIATE = "intermediate"
@@ -65,7 +65,7 @@ class EthicalScenario:
     title: str
     description: str
     domain: EthicalDomain
-    difficulty: DifficuiltyLevel
+    difficulty: DifficultyLevel
     stakeholders: List[Stakeholder]
     possible_actions: List[PossibleAction]
     relevant_principles: List[str]
@@ -88,7 +88,7 @@ TROLLEY_CLASSIC = EthicalScenario(
     where only one person is tied. Do you pull the lever?
     """,
     domain=EthicalDomain.SOCIAL,
-    difficulty=DifficuiltyLevel.BASIC,
+    difficulty=DifficultyLevel.BASIC,
     stakeholders=[
         Stakeholder(
             type="people_on_main_track",
@@ -157,7 +157,7 @@ TROLLEY_FAT_MAN = EthicalScenario(
     people, but killing the large person. Do you push them?
     """,
     domain=EthicalDomain.SOCIAL,
-    difficulty=DifficuiltyLevel.INTERMEDIATE,
+    difficulty=DifficultyLevel.INTERMEDIATE,
     stakeholders=[
         Stakeholder(
             type="people_on_track",
@@ -214,7 +214,7 @@ AV_PASSENGER_VS_PEDESTRIAN = EthicalScenario(
     What should the vehicle be programmed to do?
     """,
     domain=EthicalDomain.AUTONOMOUS_SYSTEMS,
-    difficulty=DifficuiltyLevel.INTERMEDIATE,
+    difficulty=DifficultyLevel.INTERMEDIATE,
     stakeholders=[
         Stakeholder(
             type="passenger",
@@ -284,7 +284,7 @@ AV_YOUNG_VS_OLD = EthicalScenario(
     Should the vehicle consider age in its decision?
     """,
     domain=EthicalDomain.AUTONOMOUS_SYSTEMS,
-    difficulty=DifficuiltyLevel.ADVANCED,
+    difficulty=DifficultyLevel.ADVANCED,
     stakeholders=[
         Stakeholder(
             type="elderly_person",
@@ -348,7 +348,7 @@ ORGAN_TRANSPLANT_DILEMMA = EthicalScenario(
     to save the five. Should they?
     """,
     domain=EthicalDomain.MEDICAL,
-    difficulty=DifficuiltyLevel.INTERMEDIATE,
+    difficulty=DifficultyLevel.INTERMEDIATE,
     stakeholders=[
         Stakeholder(
             type="healthy_patient",
@@ -417,7 +417,7 @@ TRIAGE_VENTILATOR_SHORTAGE = EthicalScenario(
     How should the hospital allocate ventilators?
     """,
     domain=EthicalDomain.MEDICAL,
-    difficulty=DifficuiltyLevel.ADVANCED,
+    difficulty=DifficultyLevel.ADVANCED,
     stakeholders=[
         Stakeholder(
             type="elderly_patients",
@@ -497,7 +497,7 @@ LAW_ENFORCEMENT_DATA_REQUEST = EthicalScenario(
     Should the company provide the data?
     """,
     domain=EthicalDomain.PRIVACY,
-    difficulty=DifficuiltyLevel.INTERMEDIATE,
+    difficulty=DifficultyLevel.INTERMEDIATE,
     stakeholders=[
         Stakeholder(
             type="users",
@@ -590,7 +590,7 @@ AI_HIRING_BIAS = EthicalScenario(
     What should they do?
     """,
     domain=EthicalDomain.AI_ETHICS,
-    difficulty=DifficuiltyLevel.INTERMEDIATE,
+    difficulty=DifficultyLevel.INTERMEDIATE,
     stakeholders=[
         Stakeholder(
             type="male_candidates",
@@ -686,15 +686,15 @@ SCENARIOS_BY_DOMAIN = {
 }
 
 SCENARIOS_BY_DIFFICULTY = {
-    DifficuiltyLevel.BASIC: [TROLLEY_CLASSIC],
-    DifficuiltyLevel.INTERMEDIATE: [
+    DifficultyLevel.BASIC: [TROLLEY_CLASSIC],
+    DifficultyLevel.INTERMEDIATE: [
         TROLLEY_FAT_MAN,
         AV_PASSENGER_VS_PEDESTRIAN,
         ORGAN_TRANSPLANT_DILEMMA,
         LAW_ENFORCEMENT_DATA_REQUEST,
         AI_HIRING_BIAS
     ],
-    DifficuiltyLevel.ADVANCED: [
+    DifficultyLevel.ADVANCED: [
         AV_YOUNG_VS_OLD,
         TRIAGE_VENTILATOR_SHORTAGE
     ],
@@ -712,7 +712,7 @@ def get_scenarios_by_domain(domain: EthicalDomain) -> List[EthicalScenario]:
     return SCENARIOS_BY_DOMAIN.get(domain, [])
 
 
-def get_scenarios_by_difficulty(difficulty: DifficuiltyLevel) -> List[EthicalScenario]:
+def get_scenarios_by_difficulty(difficulty: DifficultyLevel) -> List[EthicalScenario]:
     """Get all scenarios for a specific difficulty level"""
     return SCENARIOS_BY_DIFFICULTY.get(difficulty, [])
 
