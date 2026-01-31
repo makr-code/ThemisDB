@@ -648,13 +648,20 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                 sws_scale(sws_ctx, frame->data, frame->linesize, 0, frame->height,
                          rgb_frame->data, rgb_frame->linesize);
                 
-                // Copy RGB data row by row to handle potential padding in linesize
+                // Copy RGB data - optimize for case without padding
                 thumbnail.resize(thumb_width * thumb_height * 3);
                 uint8_t* dst = thumbnail.data();
                 const uint8_t* src = rgb_frame->data[0];
                 const int row_size = thumb_width * 3;
-                for (int y = 0; y < thumb_height; y++) {
-                    memcpy(dst + y * row_size, src + y * rgb_frame->linesize[0], row_size);
+                
+                if (rgb_frame->linesize[0] == row_size) {
+                    // No padding - single fast copy
+                    memcpy(dst, src, thumbnail.size());
+                } else {
+                    // Handle padding - copy row by row
+                    for (int y = 0; y < thumb_height; y++) {
+                        memcpy(dst + y * row_size, src + y * rgb_frame->linesize[0], row_size);
+                    }
                 }
                 
                 av_frame_free(&rgb_frame);
