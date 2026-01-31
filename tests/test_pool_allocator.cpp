@@ -7,6 +7,8 @@
 #include <thread>
 #include <chrono>
 #include <cstring>
+#include <stdexcept>
+#include <limits>
 
 using namespace themis::memory;
 
@@ -232,6 +234,35 @@ TEST(SlabAllocatorTest, Reset) {
     ASSERT_TRUE(reset_result.has_value());
     
     EXPECT_EQ(allocator.getSlabCount(), 0);
+}
+
+TEST(SlabAllocatorTest, OverflowProtection) {
+    // Test that creating a slab with sizes that would overflow throws an exception
+    // SIZE_MAX / 2 + 1 objects of size SIZE_MAX / 2 + 1 would overflow
+    size_t large_size = SIZE_MAX / 2 + 1;
+    
+    // This should throw std::overflow_error during construction
+    EXPECT_THROW({
+        SlabAllocator allocator(large_size, large_size);
+    }, std::overflow_error);
+    
+    // Also test with even larger values
+    EXPECT_THROW({
+        SlabAllocator allocator(SIZE_MAX, 2);
+    }, std::overflow_error);
+    
+    // Test edge case: Values that don't overflow but are at the boundary
+    // Use sqrt(SIZE_MAX) as a safe large value that won't overflow when squared
+    size_t sqrt_max = 1ULL << (sizeof(size_t) * 4);  // Approximately sqrt(SIZE_MAX)
+    EXPECT_NO_THROW({
+        SlabAllocator allocator(sqrt_max, 1);
+    });
+    
+    // Test that overflow is detected when multiplying two moderately large values
+    size_t half_sqrt_max = sqrt_max / 2;
+    EXPECT_THROW({
+        SlabAllocator allocator(sqrt_max + 1, sqrt_max + 1);
+    }, std::overflow_error);
 }
 
 // ============================================================================
