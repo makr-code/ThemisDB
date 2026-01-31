@@ -608,6 +608,69 @@ graph TB
 
 ## Documentation
 
+> **📚 Complete Documentation Hub:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
+
+### 🎯 Documentation Quick Access
+
+| Category | Description | Link |
+|----------|-------------|------|
+| 📑 **Category Index** | Browse all docs by category | [View Index →](docs/CATEGORY_INDEX.md) |
+| 🚀 **Quick Start** | 5-minute setup guide | [Get Started →](QUICKSTART.md) |
+| 💡 **Use Cases** | E-Commerce, IoT, RAG/LLM, SaaS | [Browse →](docs/use-cases/README.md) |
+| 🎓 **Tutorials** | Hands-on learning paths | [Learn →](docs/tutorials/README.md) |
+| 🏆 **Certification** | Professional certifications | [Get Certified →](docs/certification/README.md) |
+| 📚 **Knowledge Base** | Troubleshooting & tips | [Search →](docs/knowledge-base/README.md) |
+
+### Documentation Structure
+
+```mermaid
+graph TB
+    HUB[📚 Documentation Hub]
+    
+    HUB --> START[🚀 Getting Started]
+    HUB --> USECASE[💡 Use Cases]
+    HUB --> TUTORIAL[🎓 Tutorials]
+    HUB --> CERT[🏆 Certification]
+    HUB --> KB[📚 Knowledge Base]
+    HUB --> CORE[📖 Core Docs]
+    
+    START --> QS[Quick Start]
+    START --> INSTALL[Installation]
+    START --> FIRST[First Steps]
+    
+    USECASE --> ECOM[E-Commerce]
+    USECASE --> IOT[IoT & Sensors]
+    USECASE --> RAG[RAG & LLM]
+    USECASE --> SAAS[SaaS Multi-Tenancy]
+    
+    TUTORIAL --> CRUD[CRUD Operations]
+    TUTORIAL --> SCHEMA[Schema Design]
+    TUTORIAL --> BP[Best Practices]
+    TUTORIAL --> VIDEO[Video Tutorials]
+    
+    CERT --> FUND[Fundamentals]
+    CERT --> QUERY[Query Expert]
+    CERT --> OPS[Operations]
+    CERT --> SEC[Security]
+    
+    KB --> TROUBLE[Troubleshooting]
+    KB --> PERF[Performance Tips]
+    KB --> MIG[Migration Guides]
+    KB --> BACKUP[Backup & Recovery]
+    
+    CORE --> ARCH[Architecture]
+    CORE --> AQL[AQL Language]
+    CORE --> API[API Reference]
+    CORE --> SECURITY[Security]
+    
+    style HUB fill:#e1f5ff
+    style USECASE fill:#ffe1e1
+    style CERT fill:#e1ffe1
+    style KB fill:#fff3cd
+```
+
+### 📖 Core Documentation Categories
+
 **Getting Started:**
 - 🚀 [Quick Start](#quick-start) - Get up and running in 5 minutes
 - 🐳 [Docker Deployment](docs/de/deployment/DOCKER_DEPLOYMENT.md) - Container-based deployment
@@ -658,8 +721,6 @@ graph TB
 - 🔒 [Audit Framework](docs/audit-framework/README.md) - Comprehensive audit methodology and tools
 - 📊 **Compliance**: 95.3% across 428 controls (ISO 27001, NIST, OWASP, BSI C5, SOC 2, GDPR)
 - 🎯 **Status**: Production-ready with v1.4.2 remediation required (3 critical findings)
-
-> **📚 Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 
 ---
 
