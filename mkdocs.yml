@@ -83,6 +83,7 @@ markdown_extensions:
 nav:
 - 🏠 Home: de/README.md
 - 📚 Documentation Hub: DOCUMENTATION_HUB.md
+- 🗺️ Navigation Guide: DOCUMENTATION_NAVIGATION_GUIDE.md
 - 📑 Category Index: CATEGORY_INDEX.md
 - ❓ FAQ: FAQ.md
 - 🚀 Quick Start: ../QUICKSTART.md
