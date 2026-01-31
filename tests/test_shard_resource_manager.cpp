@@ -160,8 +160,8 @@ TEST_F(ShardResourceManagerTest, GetPeerResource) {
 }
 
 #ifndef _WIN32
-// Linux-specific test for /proc/stat parsing robustness
-TEST_F(ShardResourceManagerTest, CpuUsageParsingRobustness) {
+// Linux-specific test to verify CPU usage returns valid percentage
+TEST_F(ShardResourceManagerTest, CpuUsageReturnsValidPercentage) {
     ShardResourceManager manager("shard1", gossip_manager_);
     
     // Test that getCpuUsage() doesn't crash and returns a valid value
