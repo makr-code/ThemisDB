@@ -1,7 +1,9 @@
 #pragma once
 
 #include "index/property_graph.h"
+#include "index/vector_index.h"
 #include "llm/ethical_guidelines_manager.h"
+#include "llm/ai_decision_auditor.h"
 #include "storage/base_entity.h"
 #include <string>
 #include <vector>
@@ -148,10 +150,14 @@ public:
      * 
      * @param db RocksDB wrapper for storage
      * @param ethical_guidelines Optional ethical guidelines manager
+     * @param vector_index Optional vector index for similarity search
+     * @param decision_auditor Optional auditor for compliance logging
      */
     explicit MoralAnalyzer(
         RocksDBWrapper& db,
-        std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines = nullptr
+        std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines = nullptr,
+        std::shared_ptr<VectorIndexManager> vector_index = nullptr,
+        std::shared_ptr<AIDecisionAuditor> decision_auditor = nullptr
     );
     
     /**
@@ -366,18 +372,22 @@ public:
     );
     
     /**
-     * @brief Store decision in ThemisDB for future reference
+     * @brief Store decision in multi-model architecture with audit trail
      * 
-     * Stores in:
-     * - Property graph for reasoning chain
-     * - Relational for metadata and queries
-     * - Vector for similarity search
-     * - Timeline for temporal analysis
+     * Stores decision across:
+     * - Graph: Full reasoning chains and decision structure
+     * - Vector: Scenario embeddings for similarity search
+     * - Relational: Keywords and metadata for structured queries
+     * - Audit Trail: Complete compliance logging
      * 
-     * @param decision The decision to store
+     * @param decision The ethical decision to store
+     * @param scenario_embedding Optional embedding vector for similarity search
      * @return Status indicating success or failure
      */
-    Status storeDecision(const EthicalDecision& decision);
+    Status storeDecision(
+        const EthicalDecision& decision,
+        const std::vector<float>& scenario_embedding = {}
+    );
     
     /**
      * @brief Export decision graph as DOT format for visualization
@@ -408,8 +418,15 @@ private:
     RocksDBWrapper& db_;
     std::unique_ptr<PropertyGraphManager> graph_manager_;
     std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines_;
+    std::shared_ptr<VectorIndexManager> vector_index_;
+    std::shared_ptr<AIDecisionAuditor> decision_auditor_;
     
     // Helper methods
+    
+    /**
+     * @brief Extract keywords from decision for relational storage
+     */
+    std::vector<std::string> extractKeywords(const EthicalDecision& decision);
     
     /**
      * @brief Add scenario node to graph

@@ -3,14 +3,23 @@
 #include <algorithm>
 #include <cmath>
 #include <random>
+#include <chrono>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {
 
+using json = nlohmann::json;
+
 MoralAnalyzer::MoralAnalyzer(
     RocksDBWrapper& db,
-    std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines
-) : db_(db), ethical_guidelines_(ethical_guidelines) {
+    std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines,
+    std::shared_ptr<VectorIndexManager> vector_index,
+    std::shared_ptr<AIDecisionAuditor> decision_auditor
+) : db_(db), 
+    ethical_guidelines_(ethical_guidelines),
+    vector_index_(vector_index),
+    decision_auditor_(decision_auditor) {
     graph_manager_ = std::make_unique<PropertyGraphManager>(db);
 }
 
@@ -688,9 +697,10 @@ MoralAnalyzer::retrieveSimilarScenarios(
 }
 
 MoralAnalyzer::Status MoralAnalyzer::storeDecision(
-    const EthicalDecision& decision
+    const EthicalDecision& decision,
+    const std::vector<float>& scenario_embedding
 ) {
-    // Store decision node in graph
+    // 1. GRAPH STORAGE: Store full decision structure with reasoning chains
     BaseEntity decision_entity(decision.decision_id);
     decision_entity.setField("type", "decision");
     decision_entity.setField("scenario_id", decision.scenario_id);
@@ -700,10 +710,27 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     decision_entity.setField("confidence", decision.confidence);
     decision_entity.setField("_labels", std::vector<std::string>{"Decision"});
     
+    // Add principle citations to graph
+    decision_entity.setField("principle_citations", decision.principle_citations);
+    
+    // Add alternative perspectives
+    json alt_perspectives_json = json::object();
+    for (const auto& [phil, perspective] : decision.alternative_perspectives) {
+        alt_perspectives_json[phil] = perspective;
+    }
+    decision_entity.setField("alternative_perspectives", alt_perspectives_json.dump());
+    
+    // Add metrics
+    decision_entity.setField("metric_consistency", decision.metrics.consistency);
+    decision_entity.setField("metric_fairness", decision.metrics.fairness);
+    decision_entity.setField("metric_transparency", decision.metrics.transparency);
+    decision_entity.setField("metric_feasibility", decision.metrics.feasibility);
+    decision_entity.setField("metric_long_term_impact", decision.metrics.long_term_impact);
+    
     auto [status, _] = graph_manager_->addNode(decision_entity, decision.graph_id);
     
     if (!status.ok) {
-        return Status::Error("Failed to store decision: " + status.message);
+        return Status::Error("Failed to store decision in graph: " + status.message);
     }
     
     // Create edge: decision -> based_on -> scenario
@@ -715,10 +742,154 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     auto [edge_status, __] = graph_manager_->addEdge(based_on_edge, decision.graph_id);
     
     if (!edge_status.ok) {
-        return Status::Error("Failed to store decision edge");
+        return Status::Error("Failed to store decision edge in graph");
+    }
+    
+    // 2. VECTOR STORAGE: Store scenario embedding for similarity search
+    if (vector_index_ && !scenario_embedding.empty()) {
+        BaseEntity vector_entity(decision.scenario_id + "_embedding");
+        vector_entity.setField("embedding", scenario_embedding);
+        vector_entity.setField("scenario_id", decision.scenario_id);
+        vector_entity.setField("decision_id", decision.decision_id);
+        vector_entity.setField("philosophy", decision.philosophy);
+        vector_entity.setField("domain", "ethics_scenarios");
+        
+        auto vec_status = vector_index_->addEntity(vector_entity, "embedding");
+        if (!vec_status.ok) {
+            // Log warning but don't fail - vector storage is optional
+            // In production: Log to monitoring system
+        }
+    }
+    
+    // 3. RELATIONAL STORAGE: Store keywords and metadata for structured queries
+    auto keywords = extractKeywords(decision);
+    
+    BaseEntity metadata_entity("decision_metadata_" + decision.decision_id);
+    metadata_entity.setField("decision_id", decision.decision_id);
+    metadata_entity.setField("scenario_id", decision.scenario_id);
+    metadata_entity.setField("philosophy", decision.philosophy);
+    metadata_entity.setField("recommended_action", decision.recommended_action);
+    metadata_entity.setField("confidence", decision.confidence);
+    metadata_entity.setField("keywords", keywords);
+    metadata_entity.setField("timestamp", std::chrono::system_clock::now().time_since_epoch().count());
+    metadata_entity.setField("principle_count", static_cast<int>(decision.principle_citations.size()));
+    metadata_entity.setField("metrics_avg", 
+        (decision.metrics.consistency + decision.metrics.fairness + 
+         decision.metrics.transparency + decision.metrics.feasibility + 
+         decision.metrics.long_term_impact) / 5.0);
+    
+    auto metadata_status = db_.put("ethics_metadata:" + decision.decision_id, 
+                                     metadata_entity.serialize());
+    if (!metadata_status.ok) {
+        return Status::Error("Failed to store decision metadata: " + metadata_status.message);
+    }
+    
+    // 4. AUDIT TRAIL: Log decision for compliance and transparency
+    if (decision_auditor_) {
+        AIDecisionAudit audit;
+        audit.decision_id = decision.decision_id;
+        audit.user_id = "ethics_system";  // In production: actual user ID
+        audit.session_id = decision.graph_id;
+        audit.timestamp = std::chrono::system_clock::now();
+        audit.query = "Ethical scenario: " + decision.scenario_id;
+        
+        // Context
+        json context_json;
+        context_json["scenario_id"] = decision.scenario_id;
+        context_json["philosophy"] = decision.philosophy;
+        context_json["graph_id"] = decision.graph_id;
+        context_json["principles"] = decision.principle_citations;
+        audit.context = context_json;
+        
+        // Model information
+        audit.model_name = "MoralAnalyzer";
+        audit.model_version = "1.0";
+        json model_params;
+        model_params["philosophy"] = decision.philosophy;
+        model_params["metrics"] = {
+            {"consistency", decision.metrics.consistency},
+            {"fairness", decision.metrics.fairness},
+            {"transparency", decision.metrics.transparency},
+            {"feasibility", decision.metrics.feasibility},
+            {"long_term_impact", decision.metrics.long_term_impact}
+        };
+        audit.model_params = model_params;
+        
+        // Output
+        audit.response = decision.recommended_action;
+        audit.confidence_score = static_cast<float>(decision.confidence);
+        
+        // Collect alternatives
+        for (const auto& [phil, perspective] : decision.alternative_perspectives) {
+            audit.alternatives.push_back(phil + ": " + perspective);
+        }
+        
+        // Explainability
+        audit.explanation = decision.reasoning;
+        audit.reasoning_steps = decision.principle_citations;
+        
+        json key_factors;
+        key_factors["action"] = decision.recommended_action;
+        key_factors["confidence"] = decision.confidence;
+        key_factors["principles_applied"] = decision.principle_citations.size();
+        key_factors["keywords"] = keywords;
+        audit.key_factors = key_factors;
+        
+        // Human review flag for low confidence decisions
+        audit.requires_human_review = (decision.confidence < 0.7);
+        
+        // Log the audit entry
+        auto audit_status = decision_auditor_->logDecision(audit);
+        if (!audit_status.ok) {
+            // Log warning but don't fail - audit is important but shouldn't block
+            // In production: Alert monitoring system
+        }
     }
     
     return Status::OK();
+}
+
+std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& decision) {
+    std::vector<std::string> keywords;
+    
+    // Add philosophy as keyword
+    keywords.push_back(decision.philosophy);
+    
+    // Add action as keyword
+    keywords.push_back(decision.recommended_action);
+    
+    // Extract keywords from principles
+    for (const auto& principle : decision.principle_citations) {
+        // Simple keyword extraction: split on spaces and take significant words
+        std::istringstream iss(principle);
+        std::string word;
+        while (iss >> word) {
+            // Convert to lowercase
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+            
+            // Remove punctuation
+            word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
+            
+            // Add if significant (longer than 4 chars, not common stopwords)
+            if (word.length() > 4 && 
+                word != "should" && word != "would" && word != "could" && 
+                word != "their" && word != "there" && word != "where") {
+                keywords.push_back(word);
+            }
+        }
+    }
+    
+    // Add metrics as keywords if they're notable
+    if (decision.metrics.consistency > 0.8) keywords.push_back("high_consistency");
+    if (decision.metrics.fairness > 0.8) keywords.push_back("high_fairness");
+    if (decision.metrics.feasibility > 0.8) keywords.push_back("highly_feasible");
+    if (decision.metrics.long_term_impact > 0.8) keywords.push_back("high_impact");
+    
+    // Remove duplicates
+    std::sort(keywords.begin(), keywords.end());
+    keywords.erase(std::unique(keywords.begin(), keywords.end()), keywords.end());
+    
+    return keywords;
 }
 
 std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id) {
