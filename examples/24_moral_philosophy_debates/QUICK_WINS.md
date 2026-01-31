@@ -245,6 +245,23 @@ std::string toJSON(const EthicalDecision& decision) {
     return j.dump(2);  // Pretty print with 2-space indent
 }
 
+std::string escapeCSV(const std::string& value) {
+    // Escape quotes and wrap in quotes if contains comma, quote, or newline
+    if (value.find(',') != std::string::npos || 
+        value.find('"') != std::string::npos || 
+        value.find('\n') != std::string::npos) {
+        std::string escaped = value;
+        // Escape quotes by doubling them
+        size_t pos = 0;
+        while ((pos = escaped.find('"', pos)) != std::string::npos) {
+            escaped.replace(pos, 1, "\"\"");
+            pos += 2;
+        }
+        return "\"" + escaped + "\"";
+    }
+    return value;
+}
+
 std::string toCSV(const std::vector<EthicalDecision>& decisions) {
     std::stringstream ss;
     
@@ -254,8 +271,8 @@ std::string toCSV(const std::vector<EthicalDecision>& decisions) {
     
     // Rows
     for (const auto& d : decisions) {
-        ss << d.decision_id << "," << d.scenario_id << ","
-           << d.recommended_action << "," << d.confidence << ","
+        ss << escapeCSV(d.decision_id) << "," << escapeCSV(d.scenario_id) << ","
+           << escapeCSV(d.recommended_action) << "," << d.confidence << ","
            << d.metrics.consistency << "," << d.metrics.fairness << ","
            << d.metrics.transparency << "," << d.metrics.feasibility << ","
            << d.metrics.long_term_impact << "\n";
@@ -419,6 +436,12 @@ DecisionComparison compareDecisions(
     const std::map<std::string, EthicalDecision>& philosophy_decisions
 ) {
     DecisionComparison comparison;
+    
+    // Guard against empty input
+    if (philosophy_decisions.empty()) {
+        comparison.divergence_score = 0.0;
+        return comparison;
+    }
     
     // Collect all recommendations
     std::set<std::string> all_actions;
