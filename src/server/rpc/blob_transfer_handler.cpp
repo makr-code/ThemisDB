@@ -8,6 +8,7 @@
 #include <chrono>
 #include <filesystem>
 #include <iomanip>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace rpc {
@@ -51,6 +52,20 @@ public:
         std::vector<char> buffer(config_.chunk_size_mb * 1024 * 1024);
         uint32_t chunk_index = 0;
         uint64_t file_offset = 0;
+        
+        // Resume: Skip already transferred chunks
+        if (checkpoint_.transferred_chunks > 0) {
+            chunk_index = checkpoint_.transferred_chunks;
+            file_offset = checkpoint_.transferred_bytes;
+            transferred_bytes_ = checkpoint_.transferred_bytes;
+            transferred_chunks_ = checkpoint_.transferred_chunks;
+            
+            // Seek to the resume position
+            file.seekg(file_offset, std::ios::beg);
+            if (!file) {
+                return BlobStatus::ERROR_RESUME_FAILED;
+            }
+        }
         
         while (file.read(buffer.data(), buffer.size()) || file.gcount() > 0) {
             if (cancelled_) {
@@ -182,11 +197,33 @@ public:
         checkpoint_.transferred_bytes = transferred_bytes_;
         checkpoint_.transferred_chunks = transferred_chunks_;
         checkpoint_.checkpoint_id = GenerateCheckpointId();
+        
+        // Persist checkpoint to file
+        BlobStatus status = SaveCheckpoint();
+        if (status != BlobStatus::OK) {
+            // Return empty string on error, but still return the ID for memory-only checkpoint
+            return checkpoint_.checkpoint_id;
+        }
+        
         return checkpoint_.checkpoint_id;
     }
     
     BlobStatus ResumeTransfer(const std::string& checkpoint_id) {
-        // TODO: Load checkpoint state
+        // Load checkpoint state from file
+        BlobStatus status = LoadCheckpoint(checkpoint_id);
+        if (status != BlobStatus::OK) {
+            return status;
+        }
+        
+        // Validate checkpoint data
+        if (checkpoint_.checkpoint_id != checkpoint_id) {
+            return BlobStatus::ERROR_RESUME_FAILED;
+        }
+        
+        // Restore state
+        transferred_bytes_ = checkpoint_.transferred_bytes;
+        transferred_chunks_ = checkpoint_.transferred_chunks;
+        
         return BlobStatus::OK;
     }
     
@@ -305,6 +342,84 @@ private:
         auto timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
             now.time_since_epoch()).count();
         return config_.blob_id + "_" + std::to_string(timestamp);
+    }
+    
+    std::string GetCheckpointPath(const std::string& checkpoint_id) const {
+        // Store checkpoints in /tmp/themis_blob_checkpoints/
+        fs::path checkpoint_dir = "/tmp/themis_blob_checkpoints";
+        fs::create_directories(checkpoint_dir);
+        return (checkpoint_dir / (checkpoint_id + ".json")).string();
+    }
+    
+    BlobStatus SaveCheckpoint() {
+        try {
+            nlohmann::json checkpoint_json;
+            checkpoint_json["checkpoint_id"] = checkpoint_.checkpoint_id;
+            checkpoint_json["blob_id"] = config_.blob_id;
+            checkpoint_json["source_path"] = config_.source_path;
+            checkpoint_json["dest_path"] = config_.dest_path;
+            checkpoint_json["transferred_bytes"] = checkpoint_.transferred_bytes;
+            checkpoint_json["transferred_chunks"] = checkpoint_.transferred_chunks;
+            checkpoint_json["total_bytes"] = total_bytes_;
+            checkpoint_json["total_chunks"] = total_chunks_;
+            checkpoint_json["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            
+            std::string checkpoint_path = GetCheckpointPath(checkpoint_.checkpoint_id);
+            std::ofstream checkpoint_file(checkpoint_path);
+            if (!checkpoint_file) {
+                return BlobStatus::ERROR_IO_ERROR;
+            }
+            
+            checkpoint_file << checkpoint_json.dump(2);
+            checkpoint_file.close();
+            
+            return BlobStatus::OK;
+        } catch (const std::exception& e) {
+            return BlobStatus::ERROR_IO_ERROR;
+        }
+    }
+    
+    BlobStatus LoadCheckpoint(const std::string& checkpoint_id) {
+        try {
+            std::string checkpoint_path = GetCheckpointPath(checkpoint_id);
+            
+            if (!fs::exists(checkpoint_path)) {
+                return BlobStatus::ERROR_RESUME_FAILED;
+            }
+            
+            std::ifstream checkpoint_file(checkpoint_path);
+            if (!checkpoint_file) {
+                return BlobStatus::ERROR_IO_ERROR;
+            }
+            
+            nlohmann::json checkpoint_json;
+            checkpoint_file >> checkpoint_json;
+            checkpoint_file.close();
+            
+            // Validate and load checkpoint data
+            if (checkpoint_json["checkpoint_id"] != checkpoint_id) {
+                return BlobStatus::ERROR_RESUME_FAILED;
+            }
+            
+            checkpoint_.checkpoint_id = checkpoint_json["checkpoint_id"];
+            checkpoint_.transferred_bytes = checkpoint_json["transferred_bytes"];
+            checkpoint_.transferred_chunks = checkpoint_json["transferred_chunks"];
+            
+            // Validate source path matches
+            std::string stored_source_path = checkpoint_json["source_path"];
+            if (stored_source_path != config_.source_path) {
+                return BlobStatus::ERROR_RESUME_FAILED;
+            }
+            
+            // Restore total counts
+            total_bytes_ = checkpoint_json["total_bytes"];
+            total_chunks_ = checkpoint_json["total_chunks"];
+            
+            return BlobStatus::OK;
+        } catch (const std::exception& e) {
+            return BlobStatus::ERROR_RESUME_FAILED;
+        }
     }
     
     struct Checkpoint {
