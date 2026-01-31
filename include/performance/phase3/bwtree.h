@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include <string>
 
 namespace themis {
 namespace performance {
@@ -95,11 +96,17 @@ private:
     PageID root_pid_;
     std::atomic<PageID> next_pid_{1};
     
+    // Delta consolidation threshold
+    static constexpr size_t DELTA_CHAIN_THRESHOLD = 10;
+    
     // Delta consolidation
     void consolidate(PageID pid);
     
     // Helper: Apply deltas to get consolidated page
     std::unique_ptr<LeafPage> apply_deltas(BwTreePage* page) const;
+    
+    // Helper: Count delta chain length
+    size_t count_delta_chain_length(BwTreePage* page) const;
 };
 
 } // namespace phase3
