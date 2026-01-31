@@ -2029,7 +2029,6 @@ endif()
 # FFmpeg support for video processing (optional)
 if(FFMPEG_FOUND)
     target_link_libraries(themis_core PUBLIC FFmpeg::avformat)
-    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_FFMPEG)
     message(STATUS "FFmpeg linked to themis_core - real video processing enabled")
 endif()
 

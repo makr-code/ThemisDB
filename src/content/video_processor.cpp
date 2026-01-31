@@ -380,12 +380,14 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
 MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint8_t>& blob) {
     MediaExtractionData data;
     
-    // Write blob to temporary file (FFmpeg needs a file path or custom IO)
-    std::string temp_path = std::filesystem::temp_directory_path() / 
-                            ("themis_video_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    // Create unique temporary file path to avoid race conditions
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string unique_id = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) + 
+                           "_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+    std::string temp_path = (temp_dir / ("themis_video_" + unique_id)).string();
     
     try {
-        std::ofstream temp_file(temp_path, std::ios::binary);
+        std::ofstream temp_file(temp_path, std::ios::binary | std::ios::trunc);
         if (!temp_file) {
             throw std::runtime_error("Failed to create temporary file");
         }
@@ -446,7 +448,15 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
             else if (codecpar->codec_type == AVMEDIA_TYPE_AUDIO && data.audio_codec.empty()) {
                 // Audio stream
                 data.sample_rate = codecpar->sample_rate;
-                data.channels = codecpar->channels;
+                
+                // Get number of channels (handle both old and new FFmpeg API)
+                #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(59, 24, 100)
+                    // FFmpeg 5.1+ uses ch_layout
+                    data.channels = codecpar->ch_layout.nb_channels;
+                #else
+                    // Older FFmpeg uses channels field
+                    data.channels = codecpar->channels;
+                #endif
                 
                 // Get codec name
                 const AVCodec* codec = avcodec_find_decoder(codecpar->codec_id);
@@ -475,12 +485,14 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
 std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<uint8_t>& blob) {
     std::vector<uint8_t> thumbnail;
     
-    // Write blob to temporary file
-    std::string temp_path = std::filesystem::temp_directory_path() / 
-                            ("themis_thumb_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    // Create unique temporary file path to avoid race conditions
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string unique_id = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) + 
+                           "_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+    std::string temp_path = (temp_dir / ("themis_thumb_" + unique_id)).string();
     
     try {
-        std::ofstream temp_file(temp_path, std::ios::binary);
+        std::ofstream temp_file(temp_path, std::ios::binary | std::ios::trunc);
         if (!temp_file) {
             throw std::runtime_error("Failed to create temporary file");
         }
@@ -602,10 +614,14 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                 sws_scale(sws_ctx, frame->data, frame->linesize, 0, frame->height,
                          rgb_frame->data, rgb_frame->linesize);
                 
-                // Create simple PPM format (can be converted to JPEG later)
-                // For now, we'll just store raw RGB data
+                // Copy RGB data row by row to handle potential padding in linesize
                 thumbnail.resize(thumb_width * thumb_height * 3);
-                memcpy(thumbnail.data(), rgb_frame->data[0], thumbnail.size());
+                uint8_t* dst = thumbnail.data();
+                const uint8_t* src = rgb_frame->data[0];
+                const int row_size = thumb_width * 3;
+                for (int y = 0; y < thumb_height; y++) {
+                    memcpy(dst + y * row_size, src + y * rgb_frame->linesize[0], row_size);
+                }
                 
                 av_frame_free(&rgb_frame);
                 sws_freeContext(sws_ctx);
