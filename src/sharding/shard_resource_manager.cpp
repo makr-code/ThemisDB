@@ -482,6 +482,11 @@ float ShardResourceManager::getCpuUsage() const {
     
     ss >> cpu_label >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
     
+    // Validate that all fields were successfully parsed
+    if (ss.fail()) {
+        return 0.0f;
+    }
+    
     uint64_t total = user + nice + system + idle + iowait + irq + softirq + steal;
     uint64_t total_idle = idle + iowait;
     

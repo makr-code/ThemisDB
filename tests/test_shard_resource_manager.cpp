@@ -158,3 +158,25 @@ TEST_F(ShardResourceManagerTest, GetPeerResource) {
     auto missing = manager.getPeerResource("shard999");
     EXPECT_FALSE(missing.has_value());
 }
+
+#ifndef _WIN32
+// Linux-specific test for /proc/stat parsing robustness
+TEST_F(ShardResourceManagerTest, CpuUsageParsingRobustness) {
+    ShardResourceManager manager("shard1", gossip_manager_);
+    
+    // Test that getCpuUsage() doesn't crash and returns a valid value
+    // even on systems with different /proc/stat formats
+    auto snapshot = manager.getCurrentSnapshot();
+    
+    // CPU usage should be a valid percentage (0-100)
+    EXPECT_GE(snapshot.cpu_usage_percent, 0.0f);
+    EXPECT_LE(snapshot.cpu_usage_percent, 100.0f);
+    
+    // Call it again to ensure differential calculation works
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    auto snapshot2 = manager.getCurrentSnapshot();
+    
+    EXPECT_GE(snapshot2.cpu_usage_percent, 0.0f);
+    EXPECT_LE(snapshot2.cpu_usage_percent, 100.0f);
+}
+#endif
