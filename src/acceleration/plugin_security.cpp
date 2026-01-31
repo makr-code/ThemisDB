@@ -542,18 +542,25 @@ bool PluginSecurityVerifier::checkCRL(const std::string& certificate) {
     bool result = false;
     
     if (crldp) {
-        // For now, we just verify that CRL distribution points exist
-        // Full CRL download and verification would require HTTP client integration
-        // which is beyond the scope of this minimal implementation
-        
-        // In production, you would:
-        // 1. Download CRL from each distribution point
-        // 2. Verify CRL signature
-        // 3. Check if certificate serial number is in revoked list
-        // 4. Check CRL validity period
-        
         int num_points = sk_DIST_POINT_num(crldp);
-        result = (num_points > 0);  // Has CRL endpoints configured
+        
+        if (num_points > 0) {
+            // CRL endpoints exist but actual checking not implemented
+            // In production, you would:
+            // 1. Download CRL from each distribution point
+            // 2. Verify CRL signature
+            // 3. Check if certificate serial number is in revoked list
+            // 4. Check CRL validity period
+            
+            // If revocation checking is required, fail since we can't actually check
+            if (policy_.checkRevocation) {
+                result = false;  // Fail safe - actual CRL checking not implemented
+            } else {
+                result = true;  // Revocation checking disabled, so pass
+            }
+        } else {
+            result = !policy_.checkRevocation;
+        }
         
         sk_DIST_POINT_pop_free(crldp, DIST_POINT_free);
     } else {
@@ -589,19 +596,26 @@ bool PluginSecurityVerifier::checkOCSP(const std::string& certificate) {
     bool result = false;
     
     if (ocsp_list) {
-        // For now, we just verify that OCSP URLs exist
-        // Full OCSP checking would require HTTP client and OCSP protocol implementation
-        // which is beyond the scope of this minimal implementation
-        
-        // In production, you would:
-        // 1. Build OCSP request with certificate serial number
-        // 2. Send OCSP request to responder URL
-        // 3. Verify OCSP response signature
-        // 4. Check certificate status (good/revoked/unknown)
-        // 5. Validate OCSP response timestamp
-        
         int num_urls = sk_OPENSSL_STRING_num(ocsp_list);
-        result = (num_urls > 0);  // Has OCSP responders configured
+        
+        if (num_urls > 0) {
+            // OCSP URLs exist but actual checking not implemented
+            // In production, you would:
+            // 1. Build OCSP request with certificate serial number
+            // 2. Send OCSP request to responder URL
+            // 3. Verify OCSP response signature
+            // 4. Check certificate status (good/revoked/unknown)
+            // 5. Validate OCSP response timestamp
+            
+            // If revocation checking is required, fail since we can't actually check
+            if (policy_.checkRevocation) {
+                result = false;  // Fail safe - actual OCSP checking not implemented
+            } else {
+                result = true;  // Revocation checking disabled, so pass
+            }
+        } else {
+            result = !policy_.checkRevocation;
+        }
         
         X509_email_free(ocsp_list);
     } else {
@@ -901,11 +915,12 @@ bool EnhancedPluginSecurityVerifier::verifyFullChain(
                 // Check OCSP
                 bool ocsp_ok = basic_verifier.checkOCSP(metadata->signature.signingCertificate);
                 
-                // Certificate is not revoked if either CRL or OCSP check passes
-                result.certificate_not_revoked = (crl_ok || ocsp_ok);
+                // Both CRL and OCSP must pass if revocation checking is required
+                // This ensures we don't have a weak link in the security chain
+                result.certificate_not_revoked = (crl_ok && ocsp_ok);
                 
                 if (!result.certificate_not_revoked) {
-                    result.error_message = "Certificate revocation check failed";
+                    result.error_message = "Certificate revocation check failed or not implemented";
                     return false;
                 }
             } else {
@@ -1146,19 +1161,24 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(
     VerificationResult& result
 ) {
     // Validate plugin_path to prevent injection
+    // NOTE: This is a basic validation. For production use, consider using
+    // Security framework's SecStaticCodeCheckValidity API directly instead of
+    // shelling out to avoid any potential shell injection risks.
     if (plugin_path.find('\'') != std::string::npos || 
         plugin_path.find('\"') != std::string::npos ||
         plugin_path.find(';') != std::string::npos ||
         plugin_path.find('&') != std::string::npos ||
         plugin_path.find('|') != std::string::npos ||
         plugin_path.find('`') != std::string::npos ||
-        plugin_path.find('$') != std::string::npos) {
+        plugin_path.find('$') != std::string::npos ||
+        plugin_path.find('\n') != std::string::npos ||
+        plugin_path.find('\r') != std::string::npos) {
         result.error_message = "Invalid characters in plugin path";
         return false;
     }
     
     // Use codesign utility to verify code signature
-    // In production, would use Security framework APIs directly (SecCodeCopySigningInformation)
+    // TODO: Replace with Security framework APIs (SecStaticCodeCheckValidity) for better security
     
     std::string command = "/usr/bin/codesign --verify --verbose=2 '" + plugin_path + "' 2>&1";
     
@@ -1200,13 +1220,17 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
     VerificationResult& result
 ) {
     // Validate plugin_path to prevent injection
+    // NOTE: This is a basic validation. For production use, consider using
+    // GPGME library for safer API access instead of shelling out.
     if (plugin_path.find('\'') != std::string::npos || 
         plugin_path.find('\"') != std::string::npos ||
         plugin_path.find(';') != std::string::npos ||
         plugin_path.find('&') != std::string::npos ||
         plugin_path.find('|') != std::string::npos ||
         plugin_path.find('`') != std::string::npos ||
-        plugin_path.find('$') != std::string::npos) {
+        plugin_path.find('$') != std::string::npos ||
+        plugin_path.find('\n') != std::string::npos ||
+        plugin_path.find('\r') != std::string::npos) {
         result.error_message = "Invalid characters in plugin path";
         return false;
     }
@@ -1229,7 +1253,7 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
     }
     
     // Use gpg to verify signature
-    // In production, would use GPGME library for safer API access
+    // TODO: Replace with GPGME library for safer API access
     std::string command = "gpg --verify '" + sig_file + "' '" + plugin_path + "' 2>&1";
     
     FILE* pipe = popen(command.c_str(), "r");
