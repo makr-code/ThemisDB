@@ -2,13 +2,13 @@
 
 **Last Updated**: January 31, 2026
 
-This document outlines **genuinely new** high-impact improvements specific to the ethical AI module. Items already present in ThemisDB have been removed.
+This document outlines **genuinely new** high-impact improvements specific to the ethical AI module. Items already present in ThemisDB or handled by Granada monitoring have been removed.
 
 ---
 
-## ❌ Already Exists in ThemisDB
+## ❌ Already Exists in ThemisDB or Handled by Granada
 
-The following items from the original quick wins list **already exist** in ThemisDB and should NOT be reimplemented:
+The following items from the original quick wins list **already exist** in ThemisDB or are handled by Granada monitoring and should NOT be reimplemented:
 
 ### 1. **Caching Layer** ✅ EXISTS
 - **Location**: `include/cache/` directory with multiple cache implementations
@@ -29,6 +29,11 @@ The following items from the original quick wins list **already exist** in Themi
 - **Location**: `clients/` directory with multiple language clients
 - **Available**: Go, Rust, Python, JavaScript, TypeScript, Java, C#, Ruby, Swift, PHP clients
 - **Status**: Extensive client library ecosystem already exists
+
+### 5. **Visualization & Monitoring** ✅ GRANADA HANDLES
+- **System**: Granada monitoring infrastructure
+- **Rationale**: Visualization and monitoring are handled by Granada, not part of the database layer
+- **Status**: Database should focus on data operations; monitoring/visualization delegated to Granada
 
 ---
 
@@ -88,61 +93,7 @@ std::vector<std::string> recommendPhilosophies(const EthicalScenario& scenario) 
 
 ---
 
-### Quick Win #2: Ethics Decision Confidence Visualization (Effort: 2-3 days)
-
-**Problem**: Users can't quickly assess ethical decision quality.
-
-**Why New**: While general visualization exists, ethics-specific confidence with risk thresholds for human review is new.
-
-**Solution**: ASCII visualization with ethics-specific risk indicators.
-
-**Implementation**:
-```cpp
-std::string visualizeEthicsConfidence(const EthicalDecision& decision) {
-    std::stringstream ss;
-    
-    // Overall confidence bar
-    int bar_length = 50;
-    int filled = static_cast<int>(decision.confidence * bar_length);
-    ss << "Confidence: [";
-    for (int i = 0; i < bar_length; ++i) {
-        ss << (i < filled ? "█" : "░");
-    }
-    ss << "] " << std::fixed << std::setprecision(1) 
-       << (decision.confidence * 100) << "%\n";
-    
-    // Ethics metrics breakdown
-    ss << "\nEthics Metrics:\n";
-    ss << "  Consistency:     " << makeBar(decision.metrics.consistency, 20) << "\n";
-    ss << "  Fairness:        " << makeBar(decision.metrics.fairness, 20) << "\n";
-    ss << "  Transparency:    " << makeBar(decision.metrics.transparency, 20) << "\n";
-    ss << "  Long-term Impact:" << makeBar(decision.metrics.long_term_impact, 20) << "\n";
-    
-    // Ethics-specific risk indicators
-    if (decision.confidence < 0.7) {
-        ss << "\n⚠️  LOW CONFIDENCE - Human ethical review required\n";
-    }
-    if (decision.metrics.fairness < 0.6) {
-        ss << "⚠️  FAIRNESS CONCERN - Check for bias in stakeholder treatment\n";
-    }
-    if (decision.alternative_perspectives.size() > 2) {
-        ss << "ℹ️  HIGH PHILOSOPHICAL DIVERGENCE - Consider multi-stakeholder dialogue\n";
-    }
-    
-    return ss.str();
-}
-```
-
-**Impact**: 
-- Instant ethics-specific feedback
-- Clear HITL triggers
-- No UI framework required
-
-**Effort**: 2-3 days
-
----
-
-### Quick Win #3: Ethical Scenario Templates Library (Effort: 2-3 days)
+### Quick Win #2: Ethical Scenario Templates Library (Effort: 2-3 days)
 
 **Problem**: Creating ethical scenarios from scratch is time-consuming and error-prone.
 
@@ -209,7 +160,7 @@ public:
 
 ---
 
-### Quick Win #4: Ethics Decision Comparison & Divergence Analysis (Effort: 2-3 days)
+### Quick Win #3: Ethics Decision Comparison & Divergence Analysis (Effort: 2-3 days)
 
 **Problem**: Hard to compare philosophical outputs and identify consensus/conflict.
 
@@ -315,7 +266,7 @@ std::string formatComparison(const EthicsComparisonResult& comp) {
 
 ---
 
-### Quick Win #5: Ethics-Specific CSV Export (Effort: 1 day)
+### Quick Win #4: Ethics-Specific CSV Export (Effort: 1 day)
 
 **Problem**: Need ethics-specific CSV format for compliance reporting.
 
@@ -368,7 +319,6 @@ std::string exportEthicsCSV(const std::vector<EthicalDecision>& decisions) {
 | Quick Win | Effort | Impact | Status |
 |-----------|--------|--------|--------|
 | Philosophy Recommender | 1-2 days | Medium | ✅ New |
-| Confidence Visualization | 2-3 days | High | ✅ New |
 | Scenario Templates | 2-3 days | High | ✅ New |
 | Decision Comparison | 2-3 days | High | ✅ New |
 | Ethics CSV Export | 1 day | Medium | ✅ New |
@@ -376,15 +326,15 @@ std::string exportEthicsCSV(const std::vector<EthicalDecision>& decisions) {
 | ~~Batch Processing~~ | N/A | N/A | ❌ Exists |
 | ~~JSON Export~~ | N/A | N/A | ❌ Exists |
 | ~~CLI Tool~~ | N/A | N/A | ❌ Exists |
+| ~~Confidence Visualization~~ | N/A | N/A | ❌ Granada Handles |
 
-**Total Effort**: 1.5-2 weeks for 5 genuinely new features
+**Total Effort**: 1-1.5 weeks for 4 genuinely new features
 
 **Recommended Priority Order**:
 1. **Scenario Templates** (biggest productivity gain)
 2. **Decision Comparison** (critical for HITL)
-3. **Confidence Visualization** (immediate UX improvement)
-4. **Philosophy Recommender** (reduces friction)
-5. **Ethics CSV Export** (compliance requirement)
+3. **Philosophy Recommender** (reduces friction)
+4. **Ethics CSV Export** (compliance requirement)
 
 ---
 
@@ -394,7 +344,7 @@ std::string exportEthicsCSV(const std::vector<EthicalDecision>& decisions) {
 - High-impact features for production use
 - Enables proper ethical analysis workflow
 
-**Week 2**: Confidence Visualization + Philosophy Recommender + CSV Export
+**Week 1.5-2**: Philosophy Recommender + CSV Export
 - Completes the UX and compliance needs
 - Polish and integration testing
 
@@ -402,23 +352,23 @@ std::string exportEthicsCSV(const std::vector<EthicalDecision>& decisions) {
 
 ## 📝 Key Changes from Original
 
-**Removed (Already Exist)**:
+**Removed (Already Exist or Handled Elsewhere)**:
 - ❌ Caching Layer - ThemisDB has extensive cache infrastructure
 - ❌ Batch Processing - `AdaptiveBatcher` already handles this
 - ❌ JSON Export - Standard across ThemisDB with `toJSON()` methods
 - ❌ CLI Tool - Multiple client libraries already exist
+- ❌ Confidence Visualization - Granada monitoring system handles visualization and monitoring
 
 **Kept (Genuinely New)**:
 - ✅ Philosophy Recommender - Ethics-specific, not in `EthicalGuidelinesManager`
-- ✅ Confidence Visualization - Ethics-specific risk thresholds
 - ✅ Scenario Templates - Ethics dilemma templates are domain-specific
 - ✅ Decision Comparison - Philosophical divergence analysis is unique
 - ✅ Ethics CSV Export - Compliance-focused format
 
 **Impact**: 
-- Reduced effort from 2-3 weeks to 1.5-2 weeks
-- Focused on genuinely new features
-- No duplicate work
+- Reduced effort from 2-3 weeks to 1-1.5 weeks
+- Focused on genuinely new features that don't overlap with existing infrastructure
+- No duplicate work with ThemisDB or Granada monitoring
 - Better integration with existing ThemisDB infrastructure
 
 ---
