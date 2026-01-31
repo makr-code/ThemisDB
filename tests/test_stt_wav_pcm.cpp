@@ -549,7 +549,7 @@ TEST_F(STTWavPcmTest, ClampOutOfRangeFloats) {
 // Real-world Format Tests
 // ============================================================================
 
-TEST_F(STTWavPcmTest, CD_QualityAudio) {
+TEST_F(STTWavPcmTest, CDQualityAudio) {
     // CD quality: 44.1kHz, stereo, 16-bit
     auto wav = createWavHeader(44100, 2, 16, 2);
     
@@ -567,7 +567,7 @@ TEST_F(STTWavPcmTest, CD_QualityAudio) {
     EXPECT_NEAR(pcm[1], 0.0f, 0.01f);
 }
 
-TEST_F(STTWavPcmTest, TelephoneQualityAudio) {
+TEST_F(STTWavPcmTest, TelephoneQuality) {
     // Telephone quality: 8kHz, mono, 8-bit
     auto wav = createWavHeader(8000, 1, 8, 4);
     
@@ -585,7 +585,7 @@ TEST_F(STTWavPcmTest, TelephoneQualityAudio) {
     EXPECT_NEAR(pcm[3], 0.99f, 0.01f);
 }
 
-TEST_F(STTWavPcmTest, StudioQualityAudio) {
+TEST_F(STTWavPcmTest, StudioQuality) {
     // Studio quality: 96kHz, mono, 24-bit
     auto wav = createWavHeader(96000, 1, 24, 2);
     
