@@ -161,11 +161,12 @@ TEST_F(ShardResourceManagerTest, GetPeerResource) {
 
 #ifndef _WIN32
 // Linux-specific test to verify CPU usage returns valid percentage
+// Note: This tests the happy path. Error path (malformed /proc/stat) is validated
+// via unit test of parsing logic (see standalone test_proc_stat_parsing.cpp)
 TEST_F(ShardResourceManagerTest, CpuUsageReturnsValidPercentage) {
     ShardResourceManager manager("shard1", gossip_manager_);
     
-    // Test that getCpuUsage() doesn't crash and returns a valid value
-    // even on systems with different /proc/stat formats
+    // Test that getCpuUsage() returns a valid value within expected range
     auto snapshot = manager.getCurrentSnapshot();
     
     // CPU usage should be a valid percentage (0-100)
