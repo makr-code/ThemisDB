@@ -376,7 +376,22 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
 }
 
 #ifdef THEMIS_HAS_FFMPEG
-// FFmpeg-based metadata extraction
+/**
+ * @brief Extract video metadata using FFmpeg libraries
+ * 
+ * This function uses libavformat and libavcodec to extract real metadata from video files.
+ * It opens the video file, retrieves stream information, and extracts:
+ * - Container format and duration
+ * - Video stream: width, height, codec, framerate
+ * - Audio stream: codec, sample rate, channels
+ * 
+ * @param blob Raw video file data
+ * @return MediaExtractionData containing all extracted metadata
+ * @throws std::runtime_error if video cannot be opened or processed
+ * 
+ * @note This function creates a temporary file for FFmpeg processing.
+ *       The temporary file is automatically cleaned up on success or error.
+ */
 MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint8_t>& blob) {
     MediaExtractionData data;
     
@@ -481,7 +496,26 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
     return data;
 }
 
-// FFmpeg-based thumbnail generation
+/**
+ * @brief Generate video thumbnail using FFmpeg libraries
+ * 
+ * This function uses libavformat, libavcodec, and libswscale to generate a thumbnail:
+ * 1. Opens the video file with FFmpeg
+ * 2. Seeks to 10% of the video duration (or first keyframe)
+ * 3. Decodes a frame using the appropriate video codec
+ * 4. Scales the frame to the configured thumbnail size (maintains aspect ratio)
+ * 5. Converts color space from YUV to RGB24
+ * 6. Returns raw RGB data (can be encoded to JPEG/PNG later)
+ * 
+ * @param blob Raw video file data
+ * @return std::vector<uint8_t> containing raw RGB24 thumbnail data (width*height*3 bytes)
+ * @throws std::runtime_error if video cannot be opened, decoded, or scaled
+ * 
+ * @note The returned data is in RGB24 format with no padding.
+ *       Each pixel is 3 bytes (R, G, B) in row-major order.
+ * @note This function creates a temporary file for FFmpeg processing.
+ *       The temporary file is automatically cleaned up on success or error.
+ */
 std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<uint8_t>& blob) {
     std::vector<uint8_t> thumbnail;
     
