@@ -1,54 +1,54 @@
-# GPU VRAM Allocation Best Practices for LLM Inferencing in ThemisDB
+# GPU VRAM Allocation Best Practices for LLM Inferencing
 
 ## Introduction
-This document outlines best practices for allocating VRAM in GPU for Large Language Model (LLM) inferencing within ThemisDB. Efficient VRAM allocation can significantly impact model performance, reduce latency, and enhance throughput. This document draws upon extensive scientific research, practical benchmarks, and configuration templates to assist users in optimizing their setup.
+Low Level Memory Management is critical for performance in Large Language Models (LLM) inference. Proper GPU VRAM allocation ensures optimal model performance, avoiding memory bottlenecks and latency issues.
 
-## Importance of VRAM in LLM Inferencing
-VRAM is critical for the following reasons:
-1. **Model Size**: Larger models require more memory.
-2. **Batch Processing**: Allocating sufficient VRAM allows for processing multiple inputs simultaneously, improving throughput.
-3. **Latency Reduction**: Optimal VRAM allocation mitigates delays during model inference.
+## 1. Scientific Foundations
+Understanding the theoretical underpinnings of GPU memory management is essential. This section discusses the architecture of GPU memory, memory bandwidth, and how these factors influence model performance.
 
-## Scientific Research on VRAM Allocation
-Several studies suggest optimal allocation strategies:
-- **Memory Footprint Calculation**: Determining the memory required for model weights, activations, and gradients.
-- **Operating Costs**: Balancing the costs of GPU instances against performance gains from optimized VRAM allocation.
+### Key Points:
+- **Memory Bandwidth**: The rate at which data can be read from or written to the GPU memory.
+- **Latency**: Time delay during data processing, influenced by accessing global vs. shared memory.
 
-### Memory Calculation Formula
-To optimize VRAM allocation:
-- **Total Memory Requirement (TMR)** = (Model Parameters + Activations + Gradients + Overheads)
+## 2. Practical Calculations
+Calculate the required VRAM for different model sizes and batch processing using the following formula:
 
-Where:
-- **Model Parameters** = Size of the model weights (in bytes)
-- **Activations** = Memory used for storing intermediate outputs
-- **Gradients** = Memory needed if backpropagation is involved (for training scenarios)
-- **Overheads** = Additional memory for OS and software requirements
+\[
+\text{VRAM Required} = \text{Model Size} + (\text{Batch Size} \times \text{Input Size}) + \text{Overhead}
+\]
 
-## ThemisDB Implementation Details
-ThemisDB leverages optimized memory allocation techniques for handling LLM types. The following configurations are recommended:
-- **Default VRAM Allocation**: Start with a base allocation equal to the model's size and scale according to workload requirements.
-- **Dynamic Memory Management**: Implement dynamic adjustments based on real-time monitoring of VRAM uses. This can optimize performance in varying workload conditions.
+### Example Calculation:
+- Model Size: 500MB
+- Batch Size: 32
+- Input Size: 2MB
+- Overhead: 100MB
+- **Total VRAM Needed**: 500 + (32 x 2) + 100 = 605MB
 
-### Example Configuration Template
+## 3. ThemisDB Integration
+Discuss how to optimize VRAM for ThemisDB's specific use cases, such as handling multiple queries and maintaining persistence.
+
+### Best Practices:
+- **Model Partitioning**: Distributing models across GPUs to reduce VRAM load.
+- **Lazy Loading**: Loading models into VRAM only when required.
+
+## 4. Benchmarks
+Provide relevant benchmarks comparing performance between different VRAM allocations using popular LLMs.
+
+### Performance Metrics:
+- Inference Time
+- Memory Utilization
+- Throughput
+
+## 5. Configuration Templates
+Templates for common configurations tailored for different hardware setups.
+
+### Example Configuration:
 ```yaml
-# ThemisDB LLM Configuration
-llm:
-  model_path: "path/to/model"  
-  vram_allocation:
-    default: 8GB  # Adjust based on the GPU availability
-    dynamic_adjustment: true
+settings:
+  model: "LLM_Model"
+  batch_size: 16
+  vram_allocation: "max" # Options: "max", "balanced"
 ```
 
-## Benchmarks
-Recent benchmarks show significant performance improvements with optimized VRAM settings. For instance:
-- **Model A** achieved 15% faster inference times when VRAM was allocated efficiently compared to default settings.
-- **Model B** demonstrated a 25% increase in throughput using batch sizes adjusted to available VRAM.
-
 ## Conclusion
-Optimizing VRAM allocation is crucial for efficient LLM inferencing in ThemisDB. By following the outlined best practices and leveraging the provided benchmarks, users can maximize their GPU utilization and improve performance outcomes.
-
-### References
-- [Research Paper 1](#) - A comprehensive study on VRAM allocation.
-- [Research Paper 2](#) - Performance benchmarks across various model sizes.
-
-For further assistance, please refer to the ThemisDB documentation or community forums.
+Effective VRAM allocation strategies can drastically improve LLM inferencing speeds and performance. By adhering to these best practices, users can maximize their hardware capabilities.
