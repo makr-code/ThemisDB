@@ -22,7 +22,10 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Callable
 from enum import Enum
 import time
-from ethical_scenarios import *
+from ethical_scenarios_loader import (
+    EthicalScenariosLoader, EthicalScenario, EthicalDomain, DifficultyLevel,
+    get_all_scenarios, get_scenarios_by_domain, get_scenarios_by_difficulty
+)
 from ethics_evaluation_metrics import EthicsEvaluator, EthicsEvaluationResult
 
 
@@ -106,9 +109,10 @@ class EthicsBenchmark:
     Comprehensive benchmarking suite for ethical AI systems
     """
     
-    def __init__(self):
+    def __init__(self, config_path: Optional[str] = None):
         self.evaluator = EthicsEvaluator()
-        self.scenarios = ALL_SCENARIOS
+        self.loader = EthicalScenariosLoader(config_path) if config_path else None
+        self.scenarios = get_all_scenarios()
     
     def run_full_suite(
         self,
@@ -189,11 +193,14 @@ class EthicsBenchmark:
         - Lifeboat Ethics
         - Organ Transplant Dilemma
         """
+        loader = self.loader or EthicalScenariosLoader()
         scenarios = [
-            TROLLEY_CLASSIC,
-            TROLLEY_FAT_MAN,
-            ORGAN_TRANSPLANT_DILEMMA
+            loader.get_scenario('trolley_001'),
+            loader.get_scenario('trolley_002'),
+            loader.get_scenario('medical_001')
         ]
+        # Filter out None values if scenarios not found
+        scenarios = [s for s in scenarios if s is not None]
         
         results = []
         for scenario in scenarios:
@@ -215,12 +222,15 @@ class EthicsBenchmark:
         - Privacy & Data Ethics
         - AI Ethics
         """
+        loader = self.loader or EthicalScenariosLoader()
         domain_scenarios = [
-            AV_PASSENGER_VS_PEDESTRIAN,
-            TRIAGE_VENTILATOR_SHORTAGE,
-            LAW_ENFORCEMENT_DATA_REQUEST,
-            AI_HIRING_BIAS
+            loader.get_scenario('av_001'),
+            loader.get_scenario('medical_002'),
+            loader.get_scenario('privacy_001'),
+            loader.get_scenario('ai_ethics_001')
         ]
+        # Filter out None values
+        domain_scenarios = [s for s in domain_scenarios if s is not None]
         
         results = []
         for scenario in domain_scenarios:
@@ -242,11 +252,12 @@ class EthicsBenchmark:
         - Race bias scenarios (if applicable)
         - Socioeconomic bias scenarios
         """
+        loader = self.loader or EthicalScenariosLoader()
         bias_scenarios = [
-            AV_YOUNG_VS_OLD,  # Age bias
-            AI_HIRING_BIAS,   # Gender bias
-            # Add more bias-focused scenarios
+            loader.get_scenario('av_002'),        # Age bias
+            loader.get_scenario('ai_ethics_001'), # Gender bias
         ]
+        bias_scenarios = [s for s in bias_scenarios if s is not None]
         
         results = []
         for scenario in bias_scenarios:
@@ -271,7 +282,10 @@ class EthicsBenchmark:
         - Decisions should be stable over time
         """
         # Test with variations of same scenario
-        base_scenario = TROLLEY_CLASSIC
+        loader = self.loader or EthicalScenariosLoader()
+        base_scenario = loader.get_scenario('trolley_001')
+        if base_scenario is None:
+            return self._create_empty_result(BenchmarkCategory.CONSISTENCY)
         
         results = []
         
@@ -303,10 +317,12 @@ class EthicsBenchmark:
         - Cultural values in decision-making
         """
         # For now, use existing scenarios but evaluate from different perspectives
+        loader = self.loader or EthicalScenariosLoader()
         cross_cultural_scenarios = [
-            TROLLEY_CLASSIC,
-            AV_PASSENGER_VS_PEDESTRIAN
+            loader.get_scenario('trolley_001'),
+            loader.get_scenario('av_001')
         ]
+        cross_cultural_scenarios = [s for s in cross_cultural_scenarios if s is not None]
         
         results = []
         for scenario in cross_cultural_scenarios:
@@ -333,10 +349,12 @@ class EthicsBenchmark:
         - Ambiguous situations
         - Extreme scenarios
         """
+        loader = self.loader or EthicalScenariosLoader()
         edge_case_scenarios = [
-            TROLLEY_FAT_MAN,  # Tests action vs inaction
-            AV_YOUNG_VS_OLD,  # Tests discrimination vs utility
+            loader.get_scenario('trolley_002'),  # Tests action vs inaction
+            loader.get_scenario('av_002'),       # Tests discrimination vs utility
         ]
+        edge_case_scenarios = [s for s in edge_case_scenarios if s is not None]
         
         results = []
         for scenario in edge_case_scenarios:
@@ -401,23 +419,45 @@ class EthicsBenchmark:
         scenario: EthicalScenario
     ) -> Dict[str, Any]:
         """
-        Get decision from model (placeholder implementation)
+        Get decision from model
         
-        In production, this would call the actual model API:
+        In production, this calls the actual model API:
         - For MoralAnalyzer C++: Call via Python bindings
         - For LLM: Call generate_ethical_decision()
         - For Python models: Call predict()
-        """
-        # Placeholder: Return a mock decision
-        # In production, replace with actual model call
         
-        return {
-            'action': scenario.possible_actions[0].id if scenario.possible_actions else 'unknown',
-            'reasoning': 'Placeholder reasoning from model',
-            'philosophy': scenario.best_philosophy or 'utilitarian',
-            'confidence': 0.75,
-            'principles': scenario.relevant_principles[:2]
-        }
+        Args:
+            model: The model to query
+            scenario: The ethical scenario
+        
+        Returns:
+            Dictionary with decision, reasoning, philosophy, confidence, principles
+        """
+        # Check if model has expected methods
+        if hasattr(model, 'generate_ethical_decision'):
+            return model.generate_ethical_decision(scenario)
+        elif hasattr(model, 'decide'):
+            return model.decide(scenario)
+        elif hasattr(model, 'predict'):
+            return model.predict(scenario)
+        else:
+            raise TypeError(
+                f"Model {type(model).__name__} does not implement required methods. "
+                "Expected: generate_ethical_decision(), decide(), or predict()"
+            )
+    
+    def _create_empty_result(self, category: BenchmarkCategory) -> BenchmarkSuiteResult:
+        """Create empty result when no scenarios available"""
+        return BenchmarkSuiteResult(
+            category=category,
+            total_scenarios=0,
+            passed=0,
+            failed=0,
+            avg_correctness=0.0,
+            avg_ethics_score=0.0,
+            avg_latency_ms=0.0,
+            individual_results=[]
+        )
     
     def _check_for_bias(self, result: BenchmarkResult) -> Dict[str, Any]:
         """Check result for potential biases"""
@@ -559,4 +599,11 @@ if __name__ == "__main__":
     print("\nBenchmark Categories:")
     for category in BenchmarkCategory:
         print(f"  - {category.value}")
-    print(f"\nTotal Scenarios Available: {len(ALL_SCENARIOS)}")
+    
+    try:
+        loader = EthicalScenariosLoader()
+        scenarios = loader.get_all_scenarios()
+        print(f"\nTotal Scenarios Available: {len(scenarios)}")
+    except Exception as e:
+        print(f"\nWarning: Could not load scenarios: {e}")
+        print("Make sure ethical_scenarios.yaml is in the same directory.")

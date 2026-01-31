@@ -391,9 +391,12 @@ MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateDeontological(
     };
     
     // Check if action respects these principles
+    // NOTE: This uses keyword-based scoring. In production, replace with:
+    // - LLM-based semantic analysis
+    // - Integration with EthicalGuidelinesManager
+    // - Rule-based reasoning engine
     double score = 0.0;
     for (const auto& principle : kant_principles) {
-        // Simplified scoring - in production, use NLP/LLM analysis
         double principle_score = scoreActionByPrinciples(action, {principle}, "kant");
         
         if (principle_score > 0.5) {
@@ -513,8 +516,12 @@ std::vector<MoralAnalyzer::PredictedOutcome> MoralAnalyzer::predictOutcomes(
 ) {
     std::vector<PredictedOutcome> outcomes;
     
-    // Simplified outcome prediction
-    // In production, use historical data, ML models, or LLM reasoning
+    // NOTE: Basic outcome prediction for demonstration.
+    // In production, replace with:
+    // - Historical case database lookups
+    // - Causal inference models
+    // - LLM-based outcome prediction
+    // - Domain-specific predictive models
     
     PredictedOutcome positive;
     positive.description = "Positive outcome of " + action;
@@ -793,8 +800,12 @@ double MoralAnalyzer::scoreActionByPrinciples(
     const std::vector<std::string>& principles,
     const std::string& philosophy
 ) {
-    // Simplified scoring - in production, use NLP/LLM analysis
-    // For now, use simple heuristics
+    // NOTE: Basic keyword-based scoring for demonstration.
+    // In production, replace with:
+    // - LLM semantic similarity
+    // - Trained classification model
+    // - Integration with EthicalGuidelinesManager
+    // - Philosophy-specific reasoning rules
     
     double score = 0.5;  // Neutral baseline
     
@@ -824,7 +835,13 @@ std::map<std::string, double> MoralAnalyzer::calculateStakeholderImpacts(
 ) {
     std::map<std::string, double> impacts;
     
-    // Simplified impact calculation
+    // NOTE: Basic impact calculation for demonstration.
+    // In production, replace with:
+    // - Stakeholder analysis models
+    // - Historical outcome data
+    // - Domain-specific impact assessment
+    // - LLM-based impact prediction
+    
     for (const auto& [stakeholder_type, count] : scenario.stakeholders) {
         // Base impact proportional to stakeholder count
         double impact = static_cast<double>(count) / 10.0;
