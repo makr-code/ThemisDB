@@ -4,6 +4,7 @@
 #include "index/vector_index.h"
 #include "llm/ethical_guidelines_manager.h"
 #include "llm/ai_decision_auditor.h"
+#include "llm/inference_engine_enhanced.h"
 #include "storage/base_entity.h"
 #include <string>
 #include <vector>
@@ -152,12 +153,14 @@ public:
      * @param ethical_guidelines Optional ethical guidelines manager
      * @param vector_index Optional vector index for similarity search
      * @param decision_auditor Optional auditor for compliance logging
+     * @param llm_engine Optional LLM inference engine for semantic analysis
      */
     explicit MoralAnalyzer(
         RocksDBWrapper& db,
         std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines = nullptr,
         std::shared_ptr<VectorIndexManager> vector_index = nullptr,
-        std::shared_ptr<AIDecisionAuditor> decision_auditor = nullptr
+        std::shared_ptr<AIDecisionAuditor> decision_auditor = nullptr,
+        std::shared_ptr<InferenceEngineEnhanced> llm_engine = nullptr
     );
     
     /**
@@ -315,19 +318,46 @@ public:
      * philosophical frameworks. Uses rule-based keyword matching to identify
      * which philosophies are most relevant.
      * 
-     * Rules:
-     * - "duty", "obligation" → Kantian deontology
-     * - "greatest good", "utility", "consequences" → Utilitarianism
-     * - "character", "virtue", "excellence" → Virtue ethics
-     * - "care", "relationship", "compassion" → Care ethics
-     * - "justice", "fairness", "rights" → Rawlsian justice
+     * Uses multi-modal detection:
+     * 1. Keyword matching (regex) for explicit terms:
+     *    - "duty", "obligation" → Kantian deontology
+     *    - "greatest good", "utility", "consequences" → Utilitarianism
+     *    - "character", "virtue", "excellence" → Virtue ethics
+     *    - "care", "relationship", "compassion" → Care ethics
+     *    - "justice", "fairness", "rights" → Rawlsian justice
+     * 2. Domain-specific heuristics
+     * 3. LLM semantic analysis for implicit ethical implications (optional)
+     * 
+     * The LLM component can detect ethical concerns without direct keyword markers,
+     * such as power dynamics, vulnerability, and subtle moral tensions.
      * 
      * Falls back to multi-philosophy ensemble if no clear match.
      * 
      * @param scenario The ethical scenario to analyze
+     * @param use_llm Whether to use LLM for semantic analysis (default: true)
      * @return Vector of recommended philosophy names (ordered by relevance)
      */
     std::vector<std::string> recommendPhilosophies(
+        const EthicalScenario& scenario,
+        bool use_llm = true
+    );
+    
+    /**
+     * @brief Use LLM to detect implicit ethical implications
+     * 
+     * Analyzes scenarios for ethical concerns that lack direct keyword markers:
+     * - Implicit moral tensions (fairness without "fair", harm without "harm")
+     * - Power dynamics and vulnerability contexts
+     * - Domain-specific ethical questions (medical consent, AI bias, data privacy)
+     * - Cultural and contextual nuances
+     * 
+     * This complements regex/keyword matching by using NLP and semantic understanding
+     * to identify subtle ethical dimensions that traditional pattern matching might miss.
+     * 
+     * @param scenario The ethical scenario to analyze
+     * @return Pair of Status and vector of detected philosophies with confidence
+     */
+    std::pair<Status, std::vector<std::string>> detectEthicalImplicationsViaLLM(
         const EthicalScenario& scenario
     );
     
@@ -443,6 +473,7 @@ private:
     std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<AIDecisionAuditor> decision_auditor_;
+    std::shared_ptr<InferenceEngineEnhanced> llm_engine_;  // For semantic analysis
     
     // Helper methods
     

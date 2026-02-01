@@ -15,11 +15,13 @@ MoralAnalyzer::MoralAnalyzer(
     RocksDBWrapper& db,
     std::shared_ptr<EthicalGuidelinesManager> ethical_guidelines,
     std::shared_ptr<VectorIndexManager> vector_index,
-    std::shared_ptr<AIDecisionAuditor> decision_auditor
+    std::shared_ptr<AIDecisionAuditor> decision_auditor,
+    std::shared_ptr<InferenceEngineEnhanced> llm_engine
 ) : db_(db), 
     ethical_guidelines_(ethical_guidelines),
     vector_index_(vector_index),
-    decision_auditor_(decision_auditor) {
+    decision_auditor_(decision_auditor),
+    llm_engine_(llm_engine) {
     graph_manager_ = std::make_unique<PropertyGraphManager>(db);
 }
 
@@ -1120,7 +1122,8 @@ bool MoralAnalyzer::validateScenario(const EthicalScenario& scenario) {
 }
 
 std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
-    const EthicalScenario& scenario
+    const EthicalScenario& scenario,
+    bool use_llm
 ) {
     std::vector<std::string> recommendations;
     
@@ -1203,6 +1206,21 @@ std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
         }
     }
     
+    // Use LLM for semantic analysis of implicit ethical implications
+    if (use_llm && llm_engine_) {
+        auto [status, llm_recommendations] = detectEthicalImplicationsViaLLM(scenario);
+        if (status.ok) {
+            // Merge LLM recommendations with keyword-based ones
+            for (const auto& rec : llm_recommendations) {
+                if (std::find(recommendations.begin(), recommendations.end(), rec) == 
+                    recommendations.end()) {
+                    recommendations.push_back(rec);
+                }
+            }
+        }
+        // NOTE: If LLM fails, we continue with keyword-based recommendations
+    }
+    
     // If no clear match, recommend multi-philosophy ensemble
     if (recommendations.empty()) {
         recommendations.push_back("kant");
@@ -1219,6 +1237,119 @@ std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
     }
     
     return unique_recs;
+}
+
+std::pair<MoralAnalyzer::Status, std::vector<std::string>> 
+MoralAnalyzer::detectEthicalImplicationsViaLLM(
+    const EthicalScenario& scenario
+) {
+    if (!llm_engine_) {
+        return {Status::Error("LLM engine not available"), {}};
+    }
+    
+    // Construct prompt for ethical implication detection
+    std::stringstream prompt;
+    prompt << "Analyze the following ethical scenario and identify implicit moral concerns "
+           << "that may not be explicitly stated with keywords like 'duty', 'harm', or 'fairness'.\n\n"
+           << "Scenario Description: " << scenario.description << "\n"
+           << "Domain: " << scenario.domain << "\n\n"
+           << "Identify:\n"
+           << "1. Implicit power dynamics or vulnerabilities\n"
+           << "2. Contextual ethical tensions (even without explicit ethical keywords)\n"
+           << "3. Domain-specific ethical concerns (e.g., medical consent, AI bias, privacy)\n"
+           << "4. Cultural or social nuances that raise ethical questions\n\n"
+           << "For each ethical concern, suggest the most relevant philosophical framework:\n"
+           << "- Kantian deontology (for duty, rights, respect for persons)\n"
+           << "- Utilitarian consequentialism (for outcomes, maximizing welfare)\n"
+           << "- Virtue ethics (for character, moral excellence)\n"
+           << "- Care ethics (for relationships, empathy, vulnerability)\n"
+           << "- Rawlsian justice (for fairness, equality, rights)\n\n"
+           << "Respond in JSON format: {\"philosophies\": [\"kant\", \"utilitarian\", ...], "
+           << "\"reasoning\": \"explanation of detected implications\"}\n";
+    
+    // Create LLM request
+    InferenceEngineEnhanced::EnhancedInferenceRequest request;
+    request.base_request.prompt = prompt.str();
+    request.base_request.max_tokens = 500;
+    request.base_request.temperature = 0.3;  // Lower temperature for more focused analysis
+    request.base_request.top_p = 0.9;
+    request.priority = 5;  // Medium priority
+    request.allow_caching = true;  // Cache similar scenario analyses
+    
+    try {
+        // Submit request and wait for response
+        auto handle = llm_engine_->submit(request);
+        auto response = llm_engine_->wait(handle);
+        
+        if (!response.success) {
+            return {Status::Error("LLM inference failed: " + response.error_message), {}};
+        }
+        
+        // Parse JSON response
+        try {
+            json response_json = json::parse(response.generated_text);
+            
+            if (!response_json.contains("philosophies")) {
+                return {Status::Error("LLM response missing 'philosophies' field"), {}};
+            }
+            
+            std::vector<std::string> philosophies;
+            for (const auto& phil : response_json["philosophies"]) {
+                std::string phil_str = phil.get<std::string>();
+                
+                // Validate philosophy names
+                if (phil_str == "kant" || phil_str == "utilitarian" || 
+                    phil_str == "virtue" || phil_str == "care_ethics" || 
+                    phil_str == "rawls") {
+                    philosophies.push_back(phil_str);
+                }
+            }
+            
+            // Log reasoning for audit trail
+            if (response_json.contains("reasoning") && decision_auditor_) {
+                std::string reasoning = response_json["reasoning"].get<std::string>();
+                // NOTE: In production, log this to audit trail for transparency
+                // decision_auditor_->logReasoning(scenario.id, "llm_detection", reasoning);
+            }
+            
+            return {Status::OK(), philosophies};
+            
+        } catch (const json::exception& e) {
+            // If JSON parsing fails, try simple text extraction
+            std::vector<std::string> fallback_philosophies;
+            std::string text = response.generated_text;
+            std::transform(text.begin(), text.end(), text.begin(), ::tolower);
+            
+            // Simple keyword extraction from LLM response
+            if (text.find("kant") != std::string::npos || 
+                text.find("deontolog") != std::string::npos) {
+                fallback_philosophies.push_back("kant");
+            }
+            if (text.find("utilitarian") != std::string::npos || 
+                text.find("consequential") != std::string::npos) {
+                fallback_philosophies.push_back("utilitarian");
+            }
+            if (text.find("virtue") != std::string::npos) {
+                fallback_philosophies.push_back("virtue");
+            }
+            if (text.find("care") != std::string::npos) {
+                fallback_philosophies.push_back("care_ethics");
+            }
+            if (text.find("rawls") != std::string::npos || 
+                text.find("justice") != std::string::npos) {
+                fallback_philosophies.push_back("rawls");
+            }
+            
+            if (!fallback_philosophies.empty()) {
+                return {Status::OK(), fallback_philosophies};
+            }
+            
+            return {Status::Error("Failed to parse LLM response: " + std::string(e.what())), {}};
+        }
+        
+    } catch (const std::exception& e) {
+        return {Status::Error("LLM request exception: " + std::string(e.what())), {}};
+    }
 }
 
 } // namespace llm
