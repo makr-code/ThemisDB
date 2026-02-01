@@ -363,8 +363,8 @@ BENCHMARK_F(VRAMBenchmark, Throughput_BatchedInference)(benchmark::State& state)
     size_t tokens_per_iteration = batch_size * 100;  // Simulate 100 tokens per request
     
     for (auto _ : state) {
-        // Simulate inference
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
+        // Simulate inference work (not actual GPU operations in this stub)
+        // In real implementation, would perform actual inference
         benchmark::DoNotOptimize(plan);
     }
     

@@ -98,6 +98,14 @@ size_t MixedPrecisionInference::calculateModelSize(
     PrecisionMode precision
 ) {
     auto info = getPrecisionInfo(precision);
+    
+    // Handle fractional bytes for Q4 and Q3
+    if (precision == PrecisionMode::Q4) {
+        return num_parameters / 2;  // 0.5 bytes per parameter
+    } else if (precision == PrecisionMode::Q3) {
+        return (num_parameters * 3) / 8;  // 0.375 bytes per parameter
+    }
+    
     return num_parameters * info.bytes_per_param;
 }
 
@@ -138,14 +146,14 @@ MixedPrecisionInference::getPrecisionInfo(PrecisionMode precision) {
         case PrecisionMode::Q4:
             info.accuracy_retention = 0.95f;
             info.memory_reduction = 0.875f;
-            info.bytes_per_param = 0;  // Actually 0.5, but using 0 for integer arithmetic
+            info.bytes_per_param = 1;  // Will be handled specially: 0.5 bytes
             info.description = "4-bit quantization";
             break;
             
         case PrecisionMode::Q3:
             info.accuracy_retention = 0.90f;
             info.memory_reduction = 0.9125f;
-            info.bytes_per_param = 0;  // Actually 0.375
+            info.bytes_per_param = 1;  // Will be handled specially: 0.375 bytes
             info.description = "3-bit quantization (experimental)";
             break;
             

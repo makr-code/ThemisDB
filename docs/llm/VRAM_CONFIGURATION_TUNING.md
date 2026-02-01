@@ -252,7 +252,7 @@ optimization:
 kv_cache_gb = context_length * batch_size * kv_bytes_per_token / (1024**3)
 
 # Example (Llama-2-7B, FP16):
-kv_bytes_per_token = 2 * 32 * 8 * 128 * 2 = 131,072 bytes ≈ 128 KB
+kv_bytes_per_token = 2 * 32 * 8 * 128 * 2 = 131,072 bytes = 128 KB
 kv_cache_8k_batch8 = 8192 * 8 * 128KB / (1024**3) ≈ 8 GB
 ```
 
