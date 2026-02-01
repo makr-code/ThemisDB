@@ -86,8 +86,18 @@ protected:
                                     const std::string& content_id = "") {
         json spec;
         
-        // Content metadata
-        std::string cid = content_id.empty() ? "test-content-" + std::to_string(std::rand()) : content_id;
+        // Content metadata - use more predictable ID generation for tests
+        std::string cid;
+        if (content_id.empty()) {
+            // Use timestamp-based ID for better uniqueness in tests
+            auto now = std::chrono::system_clock::now();
+            auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now.time_since_epoch()).count();
+            cid = "test-content-" + std::to_string(timestamp);
+        } else {
+            cid = content_id;
+        }
+        
         spec["content"] = {
             {"id", cid},
             {"mime_type", "text/plain"},

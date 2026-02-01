@@ -661,7 +661,14 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     }
                 }
             }
-        } catch (...) {}
+        } catch (const std::exception& e) {
+            // Config parsing failed - continue with defaults (auto_fulltext_index = false)
+            // This is acceptable as the feature is opt-in
+            THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
+        } catch (...) {
+            // Unknown error during config parsing - continue with defaults
+            THEMIS_DEBUG("Unknown error parsing content config for fulltext index");
+        }
         
         // Ensure fulltext index exists if auto-indexing is enabled
         if (auto_fulltext_index && secondary_index_) {
@@ -692,6 +699,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 }
                 
                 // Add to fulltext index if enabled and text is present
+                // Note: BaseEntity for fulltext uses chunk ID as PK and includes text field
                 if (auto_fulltext_index && secondary_index_ && !c.text.empty()) {
                     BaseEntity chunk_entity = BaseEntity::fromFields(
                         c.id,
@@ -709,6 +717,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 }
                 
                 // Embedding in VectorIndex einfügen (falls vorhanden)
+                // Note: BaseEntity for vector index uses "chunks:" prefix and includes embedding
                 if (!c.embedding.empty() && vector_index_) {
                     if (vector_index_->getDimension() == 0) {
                         (void)vector_index_->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
