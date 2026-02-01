@@ -2,7 +2,7 @@
 
 **Projekt:** ThemisDB  
 **Kategorie:** Research Documentation  
-**Letzte Aktualisierung:** 27. Januar 2026 (v3.0)
+**Letzte Aktualisierung:** 1. Februar 2026 (v3.1)
 
 ---
 
@@ -41,13 +41,22 @@ Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technisch
    - Temporal KG Embeddings (TComplEx, TeMP)
    - Multi-Relational Learning Ansätze
    - Integrations-Roadmap und Empfehlungen
-4. **[HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)** 🆕
+5. **[HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)**
    - Dense-Sparse Hybridmethoden (BM25 + Vector Search)
    - Cross-Modal Retrieval (CLIP, ALIGN, BLIP)
    - Multi-Vector Representations (ColBERT, Poly-Encoders)
    - Fusion-Strategien (RRF, Linear Combination)
    - ThemisDB Integration Roadmap
    - **Status:** ✅ Abgeschlossen (27. Januar 2026)
+
+6. **[LEARNED_INDEX_STRUCTURES_RESEARCH.md](LEARNED_INDEX_STRUCTURES_RESEARCH.md)** 🆕
+   - Neural Approximate Nearest Neighbor (NANN)
+   - Learning to Hash (Deep Hashing, SONG)
+   - Learned Space Partitioning (ScaNN, IVF optimization)
+   - GNN-Enhanced HNSW Navigation
+   - Hybrid Learned/Traditional Indexes
+   - Integration mit LearnedQuantizer, LoRA-RAID, GPU Support
+   - **Status:** ✅ Abgeschlossen (1. Februar 2026)
 
 ---
 
@@ -90,7 +99,8 @@ Fokus-Bereiche:
 - **Production-Integration:** ONNX Runtime, Vector Search, LLM Integration
 
 **Dokument:** [KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)
-### 3. Hybrid Search Optimization
+
+### 4. Hybrid Search Optimization
 
 > **"Wie können Dense- und Sparse-Ansätze kombiniert werden für optimale Suchperformance?"**
 
@@ -101,6 +111,19 @@ Fokus-Bereiche:
 - **Production Implementation:** API Design, Performance Optimization
 
 **Dokument:** [HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)
+
+### 5. Learned Index Structures
+
+> **"Können Learned Index Structures die Vector Search Performance von ThemisDB signifikant verbessern?"**
+
+Fokus-Bereiche:
+- **Neural Approximate Nearest Neighbor (NANN):** End-to-end trainierte Modelle für k-NN
+- **Learning to Hash:** Deep Hashing (SONG, HashNet) für kompakte binäre Codes
+- **Learned Space Partitioning:** ScaNN, neuronale IVF-Optimierung
+- **GNN-Enhanced HNSW:** Learned routing in HNSW graphs (+5-10% recall)
+- **Production Integration:** ONNX Runtime, LibTorch, GPU acceleration mit LoRA-RAID
+
+**Dokument:** [LEARNED_INDEX_STRUCTURES_RESEARCH.md](LEARNED_INDEX_STRUCTURES_RESEARCH.md)
 
 ---
 
@@ -455,12 +478,19 @@ json McpServer::toolGetSchema(const json& args) {
 - Khattab & Zaharia (2020): "ColBERT: Contextualized Late Interaction"
 - Radford et al. (2021): "CLIP: Learning Transferable Visual Models"
 
+**Learned Index Structures:**
+- [SONG Implementation](https://github.com/amazon-science/nearest-neighbor-search) - GPU-optimized learned hashing
+- [Learned Index Structures](https://github.com/learnedsystems/RMI) - Original RMI implementation
+- [PyTorch](https://pytorch.org/) - Deep learning framework
+- [ONNX Runtime](https://onnxruntime.ai/) - Fast inference
+- [ANN Benchmarks](http://ann-benchmarks.com/) - Comprehensive evaluation
+
 ---
 
 **Erstellt:** 11. Januar 2026  
-**Letzte Aktualisierung:** 27. Januar 2026  
+**Letzte Aktualisierung:** 1. Februar 2026  
 **Autor:** Research Team  
-**Version:** 3.0
+**Version:** 3.1
 
 ---
 
@@ -468,6 +498,7 @@ json McpServer::toolGetSchema(const json& args) {
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
+| 2026-02-01 | 3.1 | Learned Index Structures Research hinzugefügt |
 | 2026-01-27 | 3.0 | KG Embeddings Research hinzugefügt |
 | 2026-01-27 | 3.0 | Hybrid Search Optimization Research hinzugefügt |
 | 2026-01-27 | 2.0 | GNN Research hinzugefügt, README umstrukturiert |
