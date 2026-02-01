@@ -187,7 +187,98 @@ Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kom
 
 ---
 
-### 🆕 Columnar Storage Enhancement Templates (2026-01-22)
+### 🔒 Security & Compliance Templates (2026-02-01)
+
+#### security_compliance_systematic_investigation.md (🆕 NEW)
+**Status:** Available  
+**Description:** Comprehensive template for systematic, repeatable security and compliance investigations of the ThemisDB codebase  
+**Priority:** P1 (High - for quarterly audits)  
+**Effort:** Variable (2-8 weeks depending on scope)  
+**Labels:** `security`, `compliance`, `code-audit`, `systematic-investigation`
+
+**Use Cases:**
+- Quarterly Security Audits
+- Pre-Release Security Reviews
+- Compliance Audits (BSI C5, ISO 27001, GDPR, NIS2)
+- Post-Incident Security Reviews
+- Pre-Penetration Test Assessments
+- Security Status Documentation for Stakeholders
+
+**Key Features:**
+- **12 Comprehensive Analysis Categories:**
+  1. Authentication & Authorization
+  2. Cryptography & Key Management
+  3. Input Validation & Injection Prevention
+  4. Network Security & Protocol Implementations
+  5. Audit Logging & Monitoring
+  6. Data Protection & Privacy
+  7. Access Control & Data Isolation
+  8. Dependency & Supply Chain Security
+  9. Secure Coding Practices
+  10. Deployment & Configuration Security
+  11. Distributed System Security
+  12. AI/LLM Security
+
+- **Compliance Framework Integration:**
+  - BSI C5 (Cloud Computing Compliance Criteria Catalogue)
+  - ISO/IEC 27001 (Information Security Management)
+  - DSGVO/GDPR (Datenschutz-Grundverordnung)
+  - NIS2 (Network and Information Security Directive)
+  - eIDAS, SOC 2, HIPAA, PCI DSS
+
+- **Integrated Tool Commands:**
+  - Static Analysis: CodeQL, clang-tidy, cppcheck, Semgrep
+  - Dynamic Analysis: AFL++ Fuzzing, ASAN, TSAN, Valgrind
+  - Security Scanning: Trivy, Gitleaks, OWASP ZAP
+  - Compliance: Comprehensive Code Audit Script
+
+- **CVSS 3.1 Scoring & Risk Assessment**
+- **Remediation Planning (Immediate/Short-Term/Long-Term)**
+- **Testing & Validation Checklists**
+- **Metrics & Timeline Tracking**
+- **Documentation Update Planning**
+
+**Examples:**
+```bash
+# Quarterly Security Audit Q1 2026
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: Q1 2026 Security Audit" \
+  --label "security,compliance,code-audit,systematic-investigation,high"
+
+# Pre-Release Security Review
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: v1.5.0 Pre-Release Security Review" \
+  --label "security,compliance,code-audit,systematic-investigation,release,critical"
+
+# BSI C5 Compliance Audit
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: BSI C5 Compliance Audit 2026" \
+  --label "security,compliance,code-audit,systematic-investigation,bsi-c5,high"
+
+# Post-Incident Security Review
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: Post-Incident Security Review (INC-2026-001)" \
+  --label "security,compliance,code-audit,systematic-investigation,incident,critical"
+```
+
+**Benefits:**
+- ✅ **Repeatable:** Standardized process for regular audits
+- ✅ **Comprehensive:** All security-relevant areas covered
+- ✅ **Compliance-Ready:** Direct mapping to compliance standards
+- ✅ **Tool-Integrated:** Concrete commands for automation
+- ✅ **Traceable:** Complete documentation and metrics
+- ✅ **Team-Friendly:** Clear responsibilities and milestones
+
+**Related Documentation:**
+- [SECURITY.md](../../SECURITY.md)
+- [Security Templates Guide](SECURITY_TEMPLATES_GUIDE.md)
+- [Full Audit Checklist](../../docs/de/compliance/compliance_full_checklist.md)
+- [Security Hardening Guide](../../docs/security/security_hardening.md)
+- [Compliance Audit TODO](../../docs/de/compliance/compliance_audit_todo.md)
+
+---
+
+### 🚨 Security Attack Vector Templates
 
 #### columnar-lz4-snappy-compression.md (📋 PLANNED)
 **Status:** Planned  

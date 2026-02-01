@@ -1,6 +1,6 @@
 # Security Attack Vector Issue Templates Guide
 
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Category:** 🔒 Security  
 **Status:** Active
 
@@ -8,9 +8,88 @@
 
 ## Übersicht
 
-Diese Anleitung beschreibt die Verwendung der GitHub Issue Templates für Sicherheits-Angriffsvektoren in ThemisDB. Die Templates sind Teil des systematischen Angriffsvektoren-Analyse-Frameworks.
+Diese Anleitung beschreibt die Verwendung der GitHub Issue Templates für Sicherheits-Angriffsvektoren und systematische Compliance-Untersuchungen in ThemisDB. Die Templates sind Teil des systematischen Angriffsvektoren-Analyse-Frameworks.
 
 ## 📋 Verfügbare Templates
+
+### 0. 🔒 Systematic Security & Compliance Investigation (`security_compliance_systematic_investigation.md`)
+
+**Verwendung:** Für systematische, wiederholbare Untersuchungen der gesamten ThemisDB-Codebasis auf sicherheits- und compliance-relevante Themen
+
+**Abgedeckte Bereiche (12 Kategorien):**
+- Authentication & Authorization (RBAC, Session Management, MFA)
+- Cryptography & Key Management (AES-256, HSM, TLS 1.3)
+- Input Validation & Injection Prevention (AQL, NoSQL, Command Injection)
+- Network Security & Protocol Implementations (HTTP, WebSocket, gRPC, MQTT)
+- Audit Logging & Monitoring (65+ Events, SIEM Integration)
+- Data Protection & Privacy (GDPR, Encryption, Data Minimization)
+- Access Control & Data Isolation (Multi-Tenancy, ABAC/RBAC)
+- Dependency & Supply Chain Security (SBOM, CVE Scanning)
+- Secure Coding Practices (Memory Safety, Concurrency, RAII)
+- Deployment & Configuration Security (Docker, Kubernetes, Helm)
+- Distributed System Security (Consensus, Sharding, Replication)
+- AI/LLM Security (Prompt Injection, Model Poisoning, Knowledge Graph Protection)
+
+**Compliance-Frameworks:**
+- BSI C5 (Cloud Computing Compliance Criteria Catalogue)
+- ISO/IEC 27001 (Information Security Management)
+- DSGVO/GDPR (Datenschutz-Grundverordnung)
+- NIS2 (Network and Information Security Directive)
+- eIDAS, SOC 2, HIPAA, PCI DSS
+
+**Wann verwenden:**
+- Regelmäßige Security Audits (z.B. quartalsweise, vor Major Releases)
+- Compliance-Prüfungen (BSI C5, ISO 27001, GDPR)
+- Pre-Release Security Reviews
+- Nach größeren Architektur-Änderungen
+- Vor Penetrationstests (Pre-Assessment)
+- Nach Security-Incidents (Post-Incident Review)
+- Onboarding neuer Security-Teammitglieder
+- Dokumentation des Security-Status für Stakeholder
+
+**Integrierte Tools:**
+- Static Analysis: CodeQL, clang-tidy, cppcheck, Semgrep
+- Dynamic Analysis: AFL++ Fuzzing, ASAN, TSAN, Valgrind
+- Security Scanning: Trivy, Gitleaks, OWASP ZAP
+- Compliance: Comprehensive Code Audit Script
+
+**Beispiel:**
+```bash
+# Issue erstellen für Q1 2026 Security Audit
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: Q1 2026 Security Audit" \
+  --label "security,compliance,code-audit,systematic-investigation,high"
+
+# Issue erstellen für Pre-Release Review (v1.5.0)
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: v1.5.0 Pre-Release Security Review" \
+  --label "security,compliance,code-audit,systematic-investigation,release,critical"
+
+# Issue erstellen für BSI C5 Compliance Check
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: BSI C5 Compliance Audit 2026" \
+  --label "security,compliance,code-audit,systematic-investigation,bsi-c5,high"
+```
+
+**Template-Struktur:**
+- **12 detaillierte Analysekategorien** mit spezifischen Prüfpunkten
+- **Compliance-Framework-Mapping** (BSI C5, ISO 27001, GDPR, NIS2)
+- **Tool-Integration** mit konkreten Commands
+- **CVSS 3.1 Scoring** für Risk Assessment
+- **Remediation Plan** (Immediate/Short-Term/Long-Term)
+- **Testing & Validation** Checklisten
+- **Metrics & Timeline** für Tracking
+- **Dokumentations-Updates** Planung
+
+**Vorteile:**
+- ✅ **Wiederholbar**: Standardisierter Prozess für regelmäßige Audits
+- ✅ **Umfassend**: Alle sicherheitsrelevanten Bereiche abgedeckt
+- ✅ **Compliance-Ready**: Direkte Mappings zu Standards
+- ✅ **Tool-Integriert**: Konkrete Commands für Automatisierung
+- ✅ **Nachvollziehbar**: Vollständige Dokumentation und Metrics
+- ✅ **Team-Freundlich**: Klare Verantwortlichkeiten und Milestones
+
+---
 
 ### 1. 🌐 Network Attack Vector (`security_network_attack.md`)
 
@@ -341,4 +420,5 @@ Bei Fragen zu den Templates:
 
 | Version | Datum | Änderung | Autor |
 |---------|-------|----------|-------|
+| 1.1.0 | 2026-02-01 | Added Systematic Security & Compliance Investigation Template | Security Team |
 | 1.0.0 | 2026-01-31 | Initial Release | Security Team |
