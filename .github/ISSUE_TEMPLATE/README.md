@@ -1,8 +1,53 @@
 # GitHub Issues Templates für ThemisDB
 
-Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, Distributed Training Enhancements, Columnar Storage Optimizations, und Research/Paper-Recherche.
+Dieses Verzeichnis enthält Issue-Templates für standardisierte Aufgaben im Kompendium-Projekt, LoRA-Trainings-Implementation, RAG-Enhancements, Error Handling Migration, Distributed Training Enhancements, Columnar Storage Optimizations, Security & Compliance Audits, und Research/Paper-Recherche.
 
 ## Verfügbare Templates
+
+### 🔒 Security & Compliance Templates (2026-02-01)
+
+#### security_compliance_systematic_investigation.md (🆕 NEW)
+**Status:** Available  
+**Description:** Comprehensive template for systematic, repeatable security and compliance investigations of the ThemisDB codebase  
+**Priority:** P1 (High - for quarterly audits)  
+**Effort:** Variable (2-8 weeks depending on scope)  
+**Labels:** `security`, `compliance`, `code-audit`, `systematic-investigation`
+
+**Use Cases:**
+- Quarterly Security Audits
+- Pre-Release Security Reviews
+- Compliance Audits (BSI C5, ISO 27001, GDPR, NIS2)
+- Post-Incident Security Reviews
+- Pre-Penetration Test Assessments
+- Security Status Documentation for Stakeholders
+
+**Key Features:**
+- **12 Comprehensive Analysis Categories** covering all security-relevant areas
+- **Compliance Framework Integration** (BSI C5, ISO 27001, GDPR, NIS2, eIDAS, SOC 2, HIPAA, PCI DSS)
+- **Integrated Tool Commands** (CodeQL, clang-tidy, cppcheck, Semgrep, AFL++, ASAN, Trivy, Gitleaks, OWASP ZAP)
+- **CVSS 3.1 Scoring & Risk Assessment**
+- **Remediation Planning** (Immediate/Short-Term/Long-Term)
+- **Testing & Validation Checklists**
+- **Metrics & Timeline Tracking**
+
+**Examples:**
+```bash
+# Quarterly Security Audit
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: Q1 2026 Security Audit" \
+  --label "security,compliance,code-audit,systematic-investigation,high"
+
+# Pre-Release Security Review
+gh issue create --template security_compliance_systematic_investigation.md \
+  --title "[Security/Compliance] Systematic Investigation: v1.5.0 Pre-Release Security Review" \
+  --label "security,compliance,code-audit,systematic-investigation,release,critical"
+```
+
+**Documentation:**
+- [Example Usage Guide](SYSTEMATIC_INVESTIGATION_EXAMPLE.md) - 6 detailed scenarios with commands
+- [Security Templates Guide](SECURITY_TEMPLATES_GUIDE.md) - Complete guide for all security templates
+
+---
 
 ### 🔬 Research & Paper Investigation Templates (2026-01-27)
 
