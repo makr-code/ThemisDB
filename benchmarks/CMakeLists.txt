@@ -997,6 +997,50 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rotary_embeddings.cpp")
     message(STATUS "  Rotary Embeddings: Single rotation, batch, relational, VectorIndex integration")
 endif()
 
+# ============================================================================
+# GPU VRAM Allocation Benchmarks (NEW - vLLM-inspired)
+# ============================================================================
+
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vram_allocation.cpp")
+    message(STATUS "Adding GPU VRAM Allocation benchmarks")
+    
+    add_executable(bench_gpu_vram_allocation
+        bench_gpu_vram_allocation.cpp
+    )
+    
+    target_link_libraries(bench_gpu_vram_allocation PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+    
+    target_compile_definitions(bench_gpu_vram_allocation PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_gpu_vram_allocation PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+    
+    install(TARGETS bench_gpu_vram_allocation
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    
+    message(STATUS "  GPU VRAM: Allocation planning, paged KV-cache, multi-GPU, mixed precision")
+else()
+    message(STATUS "GPU VRAM allocation benchmarks skipped (LLM disabled or file missing)")
+endif()
+
 message(STATUS "Benchmarks configured successfully")
 message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
 message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")
@@ -1005,4 +1049,4 @@ message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lo
 message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")
 message(STATUS "  - Performance benchmarks: bench_storage_performance, bench_olap_performance,")
-message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance, bench_rotary_embeddings")
+message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance, bench_rotary_embeddings, bench_gpu_vram_allocation")
