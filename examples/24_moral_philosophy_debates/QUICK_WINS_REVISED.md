@@ -99,48 +99,65 @@ std::vector<std::string> recommendPhilosophies(const EthicalScenario& scenario) 
 
 **Why New**: Ethics-specific templates for moral dilemmas don't exist in ThemisDB's general template system.
 
-**Solution**: Pre-built templates for common ethical domains.
+**Solution**: Leverage existing philosophy YAMLs from `philosophies/` directory and create scenario templates with ThemisDB security features.
+
+**Existing Resources to Leverage**:
+- **Philosophy Templates**: `philosophies/kant.yaml`, `utilitarianism.yaml`, `nietzsche.yaml`, etc. with comprehensive structure (theses, decision_framework, strengths/weaknesses)
+- **Security Features**: `SecuritySignatureManager` for signed/verified YAMLs with PKI support and ed25519 signatures
 
 **Implementation**:
 ```yaml
-# ethics_scenario_templates.yaml - NEW FILE
-templates:
-  - id: medical_triage
-    name: "Medical Resource Allocation"
-    domain: healthcare
-    description_template: "A hospital has {resource_count} {resource_type}(s) but {patient_count} patients need them. Patients have different survival probabilities: {patient_details}"
-    stakeholders_template:
-      - name: "high_survival_patients"
-        count_placeholder: "{high_survival_count}"
-      - name: "low_survival_patients"
-        count_placeholder: "{low_survival_count}"
-    principles: ["fairness", "utilitarian_calculation", "duty_of_care"]
-    
-  - id: autonomous_vehicle
-    name: "Self-Driving Car Dilemma"
-    domain: autonomous_systems
-    description_template: "An autonomous vehicle is about to hit {obstacle_count} {obstacle_type}(s). It can swerve but would endanger {passenger_count} passenger(s)."
-    stakeholders_template:
-      - name: "pedestrians"
-        count_placeholder: "{obstacle_count}"
-      - name: "passengers"
-        count_placeholder: "{passenger_count}"
-    principles: ["trolley_problem", "duty_vs_utility", "legal_compliance"]
+# scenario_templates/medical_triage.yaml - NEW FILE (signed with SecuritySignatureManager)
+# This YAML will be signed using ThemisDB's PKI infrastructure
+metadata:
+  template_id: medical_triage
+  name: "Medical Resource Allocation"
+  domain: healthcare
+  version: "1.0.0"
+  signature: "{{GENERATED_BY_SecuritySignatureManager}}"  # ed25519 signature
+  
+scenario_template:
+  description: "A hospital has {resource_count} {resource_type}(s) but {patient_count} patients need them."
+  stakeholders:
+    - type: "high_survival_patients"
+      count: "{high_survival_count}"
+      survival_probability: "{high_survival_prob}"
+    - type: "low_survival_patients"
+      count: "{low_survival_count}"
+      survival_probability: "{low_survival_prob}"
+  
+  applicable_philosophies:
+    - kant  # References existing philosophies/kant.yaml
+    - utilitarian
+    - virtue
+  
+  principles: ["fairness", "utilitarian_calculation", "duty_of_care"]
 ```
 
-**C++ Interface**:
+**C++ Interface** (integrates with SecuritySignatureManager):
 ```cpp
-// NEW CLASS
+// NEW CLASS - Uses existing ThemisDB security infrastructure
 class EthicsTemplateManager {
 public:
+    EthicsTemplateManager(
+        std::shared_ptr<storage::SecuritySignatureManager> signature_mgr
+    );
+    
     struct Template {
         std::string id;
         std::string name;
         std::string domain;
         std::string description_template;
-        std::vector<std::string> placeholders;
+        std::vector<std::string> applicable_philosophies;  // References philosophies/*.yaml
         std::vector<std::string> principles;
+        bool signature_valid = false;  // Verified by SecuritySignatureManager
     };
+    
+    // Load and verify signed template YAML
+    std::pair<Status, Template> loadTemplate(
+        const std::string& template_path,
+        bool verify_signature = true
+    );
     
     EthicalScenario createFromTemplate(
         const std::string& template_id,
@@ -148,6 +165,9 @@ public:
     );
     
     std::vector<Template> listTemplates(const std::string& domain = "");
+
+private:
+    std::shared_ptr<storage::SecuritySignatureManager> signature_manager_;
 };
 ```
 
