@@ -1119,5 +1119,107 @@ bool MoralAnalyzer::validateScenario(const EthicalScenario& scenario) {
     return true;
 }
 
+std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
+    const EthicalScenario& scenario
+) {
+    std::vector<std::string> recommendations;
+    
+    // Convert description to lowercase for case-insensitive matching
+    std::string desc_lower = scenario.description;
+    std::transform(desc_lower.begin(), desc_lower.end(), 
+                   desc_lower.begin(), ::tolower);
+    
+    // Convert domain to lowercase
+    std::string domain_lower = scenario.domain;
+    std::transform(domain_lower.begin(), domain_lower.end(),
+                   domain_lower.begin(), ::tolower);
+    
+    // Helper lambda for checking if text contains a keyword
+    auto contains = [](const std::string& text, const std::string& keyword) {
+        return text.find(keyword) != std::string::npos;
+    };
+    
+    // Rule-based recommendations based on keywords
+    
+    // Deontological (Kantian) ethics - duty, rules, obligations
+    if (contains(desc_lower, "duty") || contains(desc_lower, "obligation") ||
+        contains(desc_lower, "rule") || contains(desc_lower, "principle") ||
+        contains(desc_lower, "categorical") || contains(desc_lower, "universal")) {
+        recommendations.push_back("kant");
+    }
+    
+    // Consequentialist (Utilitarian) ethics - outcomes, utility, greatest good
+    if (contains(desc_lower, "greatest good") || contains(desc_lower, "utility") ||
+        contains(desc_lower, "consequence") || contains(desc_lower, "outcome") ||
+        contains(desc_lower, "maximize") || contains(desc_lower, "benefit") ||
+        contains(desc_lower, "harm")) {
+        recommendations.push_back("utilitarian");
+    }
+    
+    // Virtue ethics - character, virtue, excellence
+    if (contains(desc_lower, "character") || contains(desc_lower, "virtue") ||
+        contains(desc_lower, "excellence") || contains(desc_lower, "wisdom") ||
+        contains(desc_lower, "courage") || contains(desc_lower, "integrity")) {
+        recommendations.push_back("virtue");
+    }
+    
+    // Care ethics - relationships, care, compassion
+    if (contains(desc_lower, "care") || contains(desc_lower, "relationship") ||
+        contains(desc_lower, "compassion") || contains(desc_lower, "empathy") ||
+        contains(desc_lower, "nurture") || contains(desc_lower, "connection")) {
+        recommendations.push_back("care_ethics");
+    }
+    
+    // Rawlsian justice - fairness, justice, rights, equality
+    if (contains(desc_lower, "justice") || contains(desc_lower, "fairness") ||
+        contains(desc_lower, "right") || contains(desc_lower, "equality") ||
+        contains(desc_lower, "equal") || contains(desc_lower, "impartial")) {
+        recommendations.push_back("rawls");
+    }
+    
+    // Domain-specific recommendations
+    if (contains(domain_lower, "medical") || contains(domain_lower, "healthcare")) {
+        // Medical ethics often involves care ethics and deontology
+        if (std::find(recommendations.begin(), recommendations.end(), "care_ethics") == 
+            recommendations.end()) {
+            recommendations.push_back("care_ethics");
+        }
+    }
+    
+    if (contains(domain_lower, "autonomous") || contains(domain_lower, "ai") ||
+        contains(domain_lower, "technology")) {
+        // Technology ethics often involves consequentialism
+        if (std::find(recommendations.begin(), recommendations.end(), "utilitarian") == 
+            recommendations.end()) {
+            recommendations.push_back("utilitarian");
+        }
+    }
+    
+    if (contains(domain_lower, "legal") || contains(domain_lower, "justice")) {
+        // Legal ethics involves Rawlsian justice
+        if (std::find(recommendations.begin(), recommendations.end(), "rawls") == 
+            recommendations.end()) {
+            recommendations.push_back("rawls");
+        }
+    }
+    
+    // If no clear match, recommend multi-philosophy ensemble
+    if (recommendations.empty()) {
+        recommendations.push_back("kant");
+        recommendations.push_back("utilitarian");
+        recommendations.push_back("virtue");
+    }
+    
+    // Remove duplicates while preserving order
+    std::vector<std::string> unique_recs;
+    for (const auto& rec : recommendations) {
+        if (std::find(unique_recs.begin(), unique_recs.end(), rec) == unique_recs.end()) {
+            unique_recs.push_back(rec);
+        }
+    }
+    
+    return unique_recs;
+}
+
 } // namespace llm
 } // namespace themis

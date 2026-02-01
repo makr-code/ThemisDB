@@ -309,6 +309,29 @@ public:
     );
     
     /**
+     * @brief Recommend philosophies for an ethical scenario (Quick Win #1)
+     * 
+     * Analyzes scenario description and context to recommend appropriate
+     * philosophical frameworks. Uses rule-based keyword matching to identify
+     * which philosophies are most relevant.
+     * 
+     * Rules:
+     * - "duty", "obligation" → Kantian deontology
+     * - "greatest good", "utility", "consequences" → Utilitarianism
+     * - "character", "virtue", "excellence" → Virtue ethics
+     * - "care", "relationship", "compassion" → Care ethics
+     * - "justice", "fairness", "rights" → Rawlsian justice
+     * 
+     * Falls back to multi-philosophy ensemble if no clear match.
+     * 
+     * @param scenario The ethical scenario to analyze
+     * @return Vector of recommended philosophy names (ordered by relevance)
+     */
+    std::vector<std::string> recommendPhilosophies(
+        const EthicalScenario& scenario
+    );
+    
+    /**
      * @brief Synthesize decision from multiple reasoning paths
      * 
      * Combines multiple philosophical perspectives using:
