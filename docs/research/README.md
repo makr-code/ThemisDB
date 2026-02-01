@@ -49,6 +49,15 @@ Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technisch
    - ThemisDB Integration Roadmap
    - **Status:** ✅ Abgeschlossen (27. Januar 2026)
 
+5. **[PRODUCT_QUANTIZATION_RESEARCH.md](PRODUCT_QUANTIZATION_RESEARCH.md)** 🆕
+   - Comprehensive Product Quantization (PQ) research
+   - Current ThemisDB PQ implementation analysis (Standard PQ, Residual PQ, Binary Quantization)
+   - PQ variants: OPQ, Polysemous Codes, Additive Quantization, Cartesian k-means
+   - State-of-the-art research: ScaNN, RaBitQ, Deep Learning-based PQ
+   - Performance benchmarking and recommendations
+   - Implementation roadmap for OPQ, SIMD optimization, and Polysemous Codes
+   - **Status:** ✅ Abgeschlossen (1. Februar 2026)
+
 ---
 
 ## 🎯 Forschungsthemen
@@ -90,7 +99,8 @@ Fokus-Bereiche:
 - **Production-Integration:** ONNX Runtime, Vector Search, LLM Integration
 
 **Dokument:** [KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)
-### 3. Hybrid Search Optimization
+
+### 4. Hybrid Search Optimization
 
 > **"Wie können Dense- und Sparse-Ansätze kombiniert werden für optimale Suchperformance?"**
 
@@ -101,6 +111,20 @@ Fokus-Bereiche:
 - **Production Implementation:** API Design, Performance Optimization
 
 **Dokument:** [HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)
+
+### 5. Product Quantization Research
+
+> **"Welche Product Quantization (PQ) Varianten können die Vector Compression in ThemisDB weiter verbessern?"**
+
+Fokus-Bereiche:
+- **Current Implementation:** Standard PQ (32:1 compression, 95-98% recall@10)
+- **Residual & Binary Quantization:** Already implemented in v1.4.1
+- **Optimized PQ (OPQ):** +5-10% recall improvement via rotation learning
+- **Polysemous Codes:** 2-5x faster filtering with dual interpretation
+- **SIMD Optimization:** 2-3x speedup for asymmetric distance computation
+- **Benchmarking:** SIFT1M, GIST1M evaluation plan
+
+**Dokument:** [PRODUCT_QUANTIZATION_RESEARCH.md](PRODUCT_QUANTIZATION_RESEARCH.md)
 
 ---
 
@@ -339,6 +363,27 @@ json McpServer::toolGetSchema(const json& args) {
 
 **Empfehlung:** ✅ **P0-PRIORITÄT** für Hybrid Search (Phase 1). Schließt Feature-Gap zu Weaviate/Vespa und ist Industry Standard.
 
+### Product Quantization Optimization
+
+1. **Solid Foundation Already in Place:**
+   - ✅ **Standard PQ** implemented in v1.3.0 (32:1 compression, 95-98% recall@10)
+   - ✅ **Residual PQ (2-stage)** in v1.4.1 (97-99% recall@10)
+   - ✅ **Binary Quantization** in v1.4.1 (256:1 compression, for filtering)
+   - ThemisDB exceeds its initial targets (2-4x query speedup)
+
+2. **High-Priority Improvements:**
+   - **Optimized PQ (OPQ):** +5-10% recall improvement via rotation learning
+   - **SIMD Optimization:** 2-3x speedup for asymmetric distance computation
+   - **Polysemous Codes:** 2-5x faster filtering with Hamming distance
+
+3. **Implementierungs-Roadmap:**
+   - **Phase 1 (2-3 Wochen):** OPQ Prototype - ~1000 LOC
+   - **Phase 2 (1-2 Wochen):** SIMD Optimization - ~500 LOC
+   - **Phase 3 (1-2 Wochen):** Polysemous Codes - ~800 LOC
+   - **Gesamt:** ~2300 LOC, 2 Monate
+
+**Empfehlung:** ✅ **HIGH PRIORITY** für OPQ + SIMD Optimization. Quick wins mit bewährten Methoden aus FAISS.
+
 ---
 
 ## 📚 Nächste Schritte
@@ -362,11 +407,19 @@ json McpServer::toolGetSchema(const json& args) {
 2. **Evaluation:** Vergleich von RotatE, QuatE, ComplEx für ThemisDB Use Cases
 3. **Proof-of-Concept:** RotatE Training Pipeline und Link Prediction
 4. **Prototype:** ONNX Integration für Embedding Inference
+
 **Hybrid Search:**
 1. **Lesen:** [HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)
 2. **Spike:** BM25 Proof-of-Concept in RocksDB (1 Sprint)
 3. **Design:** Hybrid Search API Design Review
 4. **Benchmark:** BEIR Evaluation Setup
+
+**Product Quantization:**
+1. **Lesen:** [PRODUCT_QUANTIZATION_RESEARCH.md](PRODUCT_QUANTIZATION_RESEARCH.md)
+2. **Evaluation:** OPQ vs Polysemous Codes für ThemisDB Use Cases
+3. **Proof-of-Concept:** OPQ Rotation Learning (Eigen3)
+4. **SIMD Optimization:** AVX2 ADC implementation
+5. **Benchmark:** SIFT1M evaluation (standardized comparison)
 
 ### Für Product Owner
 
@@ -392,13 +445,18 @@ json McpServer::toolGetSchema(const json& args) {
 3. **Cross-Modal:** 4 Monate für Phase 2 (CLIP Integration)
 4. **Milestone:** "Hybrid Search ThemisDB v1.5"
 
+**Product Quantization:**
+1. **Priorisierung:** OPQ + SIMD als High-Priority Features für v1.5
+2. **Sprint Planning:** 2 Monate für OPQ, SIMD, und Polysemous Codes
+3. **Benchmarking:** SIFT1M evaluation für standardisierte Vergleiche
+4. **Milestone:** "Optimized Vector Compression ThemisDB v1.5"
+
 ### Für Community
 
 1. **Feedback:** Welche Features sind am wichtigsten?
-2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing und KG Embeddings
-2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing und Hybrid Search
+2. **Use Cases:** Konkrete Anwendungsszenarien für GNN-Indexing, KG Embeddings, und Hybrid Search
 3. **Testing:** Beta-Testing für neue Features
-4. **Benchmarks:** BEIR und MTEB Evaluation Results
+4. **Benchmarks:** BEIR, MTEB, und SIFT1M Evaluation Results
 
 ---
 
@@ -454,13 +512,18 @@ json McpServer::toolGetSchema(const json& args) {
 - Cormack et al. (2009): "Reciprocal Rank Fusion"
 - Khattab & Zaharia (2020): "ColBERT: Contextualized Late Interaction"
 - Radford et al. (2021): "CLIP: Learning Transferable Visual Models"
+- Jégou et al. (2011): "Product Quantization for Nearest Neighbor Search" (PAMI)
+- Ge et al. (2014): "Optimized Product Quantization" (CVPR)
+- Douze et al. (2016): "Polysemous Codes" (ECCV)
+- Guo et al. (2020): "ScaNN: Anisotropic Vector Quantization" (ICML)
+- Gao & Long (2024): "RaBitQ: Quantization with Theoretical Error Bound" (SIGMOD)
 
 ---
 
 **Erstellt:** 11. Januar 2026  
-**Letzte Aktualisierung:** 27. Januar 2026  
+**Letzte Aktualisierung:** 1. Februar 2026  
 **Autor:** Research Team  
-**Version:** 3.0
+**Version:** 4.0
 
 ---
 
@@ -468,6 +531,7 @@ json McpServer::toolGetSchema(const json& args) {
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
+| 2026-02-01 | 4.0 | Product Quantization Research hinzugefügt |
 | 2026-01-27 | 3.0 | KG Embeddings Research hinzugefügt |
 | 2026-01-27 | 3.0 | Hybrid Search Optimization Research hinzugefügt |
 | 2026-01-27 | 2.0 | GNN Research hinzugefügt, README umstrukturiert |
