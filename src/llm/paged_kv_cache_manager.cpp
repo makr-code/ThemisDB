@@ -175,14 +175,25 @@ bool PagedKVCacheManager::isBlockAvailable(int block_id) const {
            blocks_[block_id].ref_count > 0;
 }
 
-PagedKVCacheManager::Block 
-PagedKVCacheManager::getBlock(int block_id) const {
+PagedKVCacheManager::BlockInfo 
+PagedKVCacheManager::getBlockInfo(int block_id) const {
     if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
-        return blocks_[block_id];
+        const auto& block = blocks_[block_id];
+        BlockInfo info;
+        info.block_id = block.block_id;
+        info.device_ptr = block.device_ptr;
+        info.ref_count = block.ref_count.load();
+        info.is_pinned = block.is_pinned;
+        info.parent_sequence_id = block.parent_sequence_id;
+        return info;
     }
     
-    Block invalid;
+    BlockInfo invalid;
     invalid.block_id = -1;
+    invalid.device_ptr = nullptr;
+    invalid.ref_count = 0;
+    invalid.is_pinned = false;
+    invalid.parent_sequence_id = 0;
     return invalid;
 }
 

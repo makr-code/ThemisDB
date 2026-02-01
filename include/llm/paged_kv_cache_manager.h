@@ -54,6 +54,29 @@ public:
         uint64_t parent_sequence_id;  // For CoW tracking
         
         Block() : ref_count(0), is_pinned(false), parent_sequence_id(0) {}
+        
+        // Delete copy operations due to atomic
+        Block(const Block&) = delete;
+        Block& operator=(const Block&) = delete;
+        
+        // Move operations
+        Block(Block&& other) noexcept 
+            : block_id(other.block_id)
+            , device_ptr(other.device_ptr)
+            , ref_count(other.ref_count.load())
+            , is_pinned(other.is_pinned)
+            , parent_sequence_id(other.parent_sequence_id) {}
+        
+        Block& operator=(Block&& other) noexcept {
+            if (this != &other) {
+                block_id = other.block_id;
+                device_ptr = other.device_ptr;
+                ref_count.store(other.ref_count.load());
+                is_pinned = other.is_pinned;
+                parent_sequence_id = other.parent_sequence_id;
+            }
+            return *this;
+        }
     };
 
     /**
@@ -158,12 +181,23 @@ public:
     bool isBlockAvailable(int block_id) const;
 
     /**
+     * @brief Block information (copy-safe)
+     */
+    struct BlockInfo {
+        int block_id;
+        void* device_ptr = nullptr;
+        int ref_count;
+        bool is_pinned;
+        uint64_t parent_sequence_id;
+    };
+    
+    /**
      * @brief Get block information
      * 
      * @param block_id Block ID
-     * @return Block metadata
+     * @return Block information
      */
-    Block getBlock(int block_id) const;
+    BlockInfo getBlockInfo(int block_id) const;
 
     /**
      * @brief Defragment memory
