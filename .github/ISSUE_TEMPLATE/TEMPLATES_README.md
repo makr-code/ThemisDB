@@ -4,6 +4,43 @@ This directory contains GitHub issue templates for various components and migrat
 
 ## 📋 Template Categories
 
+### 🔄 Systematic Component Review Templates (NEW - v1.4.1)
+
+**Purpose:** Repeatable templates for systematic review of ThemisDB components covering best practices, state-of-the-art research, documentation, roadmap, security, and compliance.
+
+**Master Template:**
+- **`SYSTEMATIC_COMPONENT_REVIEW_TEMPLATE.md`** - Comprehensive template for any ThemisDB component with all review sections
+
+**Specialized Templates:**
+- **`core_database_component_review.md`** - For core database components (Storage, Transaction, Query, Index, AQL)
+- **`ai_llm_component_review.md`** - For AI/LLM components (LLM Engine, Embeddings, RAG, Voice, Ethics)
+- **`distributed_systems_component_review.md`** - For distributed systems (Sharding, Replication, Consensus, CDC)
+- **`network_api_component_review.md`** - For network & API components (HTTP, gRPC, WebSocket, MQTT, PostgreSQL Wire, GraphQL)
+
+**Key Features of Systematic Review Templates:**
+- ✅ **Best Practices Analysis** - Code quality, design patterns, modern standards
+- ✅ **State of the Art** - Research papers, competitive analysis, technology trends
+- ✅ **Documentation Review** - Code docs, user docs, developer docs, gaps identification
+- ✅ **Developer Roadmap** - Current state, technical debt, short/medium/long-term plans
+- ✅ **Security & Compliance** - Threat modeling, vulnerability assessment, regulatory compliance (BSI C5, ISO 27001, DSGVO, NIS2)
+- ✅ **Performance Analysis** - Current metrics, bottlenecks, optimization opportunities
+- ✅ **Testing & Quality** - Test coverage, test types, testing gaps
+- ✅ **Dependencies & Integration** - External/internal dependencies, integration points
+- ✅ **Metrics & KPIs** - Code metrics, quality metrics, operational metrics
+- ✅ **Action Items** - Prioritized action items with owners and due dates
+
+**Usage:**
+1. Choose the appropriate specialized template for your component area
+2. Fill in all relevant sections thoroughly
+3. Conduct research on state-of-the-art solutions
+4. Document findings, gaps, and recommendations
+5. Create prioritized action items
+6. Schedule next review date (recommended: quarterly)
+
+**Related Documentation:**
+- `docs/de/compliance/compliance_full_checklist.md` - Full compliance checklist
+- `docs/de/security/ANGRIFFSVEKTOREN_ANALYSE_RUNBOOK.md` - Security analysis runbook
+
 ### 🔒 Security Attack Vector Templates (NEW - v1.4.1)
 
 **Purpose:** Track findings from systematic attack vector analysis framework
