@@ -35,12 +35,14 @@ Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technisch
    - Implementierungs-Roadmap und Empfehlungen
    - **Status:** ✅ Abgeschlossen (27. Januar 2026)
 
-4. **[KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)** 🆕
+4. **[KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md](KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md)**
    - Knowledge Graph Embeddings für ThemisDB
    - RotatE, QuatE, ComplEx Methoden-Vergleich
    - Temporal KG Embeddings (TComplEx, TeMP)
    - Multi-Relational Learning Ansätze
    - Integrations-Roadmap und Empfehlungen
+   - **Status:** ✅ Abgeschlossen (27. Januar 2026)
+
 5. **[HYBRID_SEARCH_OPTIMIZATION.md](HYBRID_SEARCH_OPTIMIZATION.md)**
    - Dense-Sparse Hybridmethoden (BM25 + Vector Search)
    - Cross-Modal Retrieval (CLIP, ALIGN, BLIP)
