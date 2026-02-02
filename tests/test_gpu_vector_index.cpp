@@ -375,28 +375,30 @@ TEST_F(GPUVectorIndexTest, SetterValidation) {
     ASSERT_TRUE(index.addVector(testIds[0], testVectors[0]));
     
     // Try to set invalid efSearch - should be ignored
+    // Note: Since efSearch is not exposed via getStatistics(), we verify
+    // that the index continues to function correctly after invalid calls
     index.setEfSearch(-10);
-    // Index should still work after invalid call
     EXPECT_TRUE(index.addVector(testIds[1], testVectors[1]));
     
     index.setEfSearch(0);
-    // Index should still work
     EXPECT_TRUE(index.addVector(testIds[2], testVectors[2]));
+    
+    // Try to set efSearch above threshold - should be reset to default
+    index.setEfSearch(3000);
+    EXPECT_TRUE(index.addVector("test_extra", testVectors[3]));
     
     // Try to set invalid batch size - should be ignored or clamped
     index.setBatchSize(-100);
-    // Index should still work
     auto results = index.search(queryVector, 2);
     EXPECT_EQ(results.size(), 2);
     
     index.setBatchSize(0);
-    // Index should still work
     results = index.search(queryVector, 2);
     EXPECT_EQ(results.size(), 2);
     
-    // Test upper bound - should be clamped
+    // Test upper bound - should be clamped to 10000
+    // Note: Since batchSize is not exposed, we verify index continues to work
     index.setBatchSize(20000);
-    // Index should still work
     results = index.search(queryVector, 2);
     EXPECT_EQ(results.size(), 2);
     

@@ -57,10 +57,10 @@ public:
             config.efSearch = 64;
         }
         if (config.batchSize <= 0 || config.batchSize > 10000) {
-            std::cerr << "Warning: batchSize " << config.batchSize << " outside recommended range [1-10000], using default 512" << std::endl;
-            config.batchSize = 512;
+            std::cerr << "Warning: batchSize " << config.batchSize << " outside valid range [1-10000], clamping to valid range" << std::endl;
+            config.batchSize = (config.batchSize <= 0) ? 512 : 10000;
         }
-        if (config.maxVRAM_MB == 0 || config.maxVRAM_MB > 1048576) { // Max 1TB
+        if (config.maxVRAM_MB <= 0 || config.maxVRAM_MB > 1048576) { // Max 1TB
             std::cerr << "Warning: maxVRAM_MB " << config.maxVRAM_MB << " invalid, using default 8192 MB" << std::endl;
             config.maxVRAM_MB = 8192;
         }
@@ -433,7 +433,9 @@ void GPUVectorIndex::setEfSearch(int ef) {
         return;
     }
     if (ef > 2000) {
-        std::cerr << "Warning: efSearch " << ef << " exceeds recommended range (1-2000), may impact performance" << std::endl;
+        std::cerr << "Warning: efSearch " << ef << " exceeds recommended range (1-2000), using default 64" << std::endl;
+        pImpl->config.efSearch = 64;
+        return;
     }
     pImpl->config.efSearch = ef;
 }
