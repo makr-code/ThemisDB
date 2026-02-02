@@ -629,7 +629,7 @@ run_container_scan() {
         
         echo "### 4.1 Dockerfile Configuration Scan" >> "$REPORT_FILE"
         echo "" >> "$REPORT_FILE"
-        echo "**Scanned:** \`$(basename "$(dirname "$dockerfile_path)")/$(basename "$dockerfile_path")\`" >> "$REPORT_FILE"
+        echo "**Scanned:** \`$(basename "$(dirname "$dockerfile_path")")/$(basename "$dockerfile_path")\`" >> "$REPORT_FILE"
         echo "**Report:** \`container/dockerfile-scan.txt\`" >> "$REPORT_FILE"
         echo "" >> "$REPORT_FILE"
         
