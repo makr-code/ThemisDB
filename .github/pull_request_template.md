@@ -81,6 +81,73 @@ cd build && ctest --output-on-failure
 - [ ] API documentation updated (if applicable)
 - [ ] Code comments added/updated
 
+### 📝 Documentation Review Checklist
+
+<!-- Complete this checklist for all PRs with code changes -->
+<!-- See docs/PR_DOCUMENTATION_CHECKLIST.md for detailed guidelines -->
+
+#### Documentation Impact Assessment
+
+- [ ] This PR changes **no** documentation requirements (skip to sign-off below)
+- [ ] This PR affects existing documentation (complete checklist below)
+- [ ] This PR requires new documentation (complete checklist below)
+
+**Affected Areas** (check all that apply):
+- [ ] User-facing features
+- [ ] API/Interface changes
+- [ ] Configuration options
+- [ ] Command-line tools
+- [ ] Installation/deployment
+- [ ] Architecture/design
+- [ ] Performance characteristics
+- [ ] Security considerations
+- [ ] Migration/upgrade path
+
+#### Documentation Updates Made
+
+**Updated Files:**
+- [ ] Main README.md (if applicable)
+- [ ] User documentation in `/docs/`
+- [ ] API documentation (code comments/OpenAPI)
+- [ ] Example code in `/examples/`
+- [ ] Configuration examples in `/config/`
+- [ ] CHANGELOG.md entry
+- [ ] Migration guides (if breaking change)
+
+**Documentation Links:**
+<!-- Provide links to updated documentation files -->
+- 
+- 
+
+#### Accuracy & Completeness
+
+- [ ] All code examples compile and run
+- [ ] Command-line examples are tested
+- [ ] Configuration examples are valid
+- [ ] All new features/API changes are documented
+- [ ] Prerequisites are listed
+- [ ] Common use cases are covered
+
+#### Quality & Review
+
+- [ ] Language is clear and concise
+- [ ] Examples are helpful and realistic
+- [ ] Follows documentation style guide
+- [ ] Documentation reviewed by at least one person
+- [ ] Documentation builds without errors (`mkdocs build --strict`)
+- [ ] Links validated (no broken links)
+
+#### Documentation Sign-Off
+
+- [ ] ✅ All required documentation is complete and reviewed
+- [ ] 📋 Documentation debt tracked in issues (list issue numbers below)
+- [ ] 🚫 No documentation required (explain why below)
+
+**Explanation/Notes:**
+<!-- If no documentation required or documentation debt exists, explain here -->
+
+**Full Checklist:** See [docs/PR_DOCUMENTATION_CHECKLIST.md](../docs/PR_DOCUMENTATION_CHECKLIST.md) for detailed guidelines
+
 ## Branch Strategy Compliance
 
 <!-- Ensure your PR follows the Git Flow branching strategy -->
