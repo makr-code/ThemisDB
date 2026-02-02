@@ -55,6 +55,12 @@ jobs:
 
       - name: Build
         run: cargo build --verbose --all-features
+      
+      - name: Install cargo2junit for test reporting
+        if: env.ACT != 'true'
+        run: cargo install cargo2junit || true
+        continue-on-error: true
+        working-directory: .
 
       - name: Run tests
         run: |
@@ -63,14 +69,12 @@ jobs:
             cargo build --verbose
             exit 0
           fi
-          cargo test --verbose --all-features -- -Z unstable-options --format json --report-time | cargo2junit > test-results.xml || cargo test --verbose --all-features
+          if command -v cargo2junit &> /dev/null; then
+            cargo test --verbose --all-features -- -Z unstable-options --format json --report-time | cargo2junit > test-results.xml || cargo test --verbose --all-features
+          else
+            cargo test --verbose --all-features
+          fi
         continue-on-error: true
-      
-      - name: Install cargo2junit for test reporting
-        if: env.ACT != 'true'
-        run: cargo install cargo2junit || true
-        continue-on-error: true
-        working-directory: .
       
       - name: Upload Test Results
         if: always() && env.ACT != 'true'

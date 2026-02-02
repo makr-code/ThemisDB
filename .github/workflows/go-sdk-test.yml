@@ -50,6 +50,11 @@ jobs:
 
       - name: Build
         run: go build -v ./...
+      
+      - name: Install go-junit-report for test reporting
+        if: env.ACT != 'true'
+        run: go install github.com/jstemmer/go-junit-report/v2@latest
+        continue-on-error: true
 
       - name: Run tests
         run: |
@@ -58,12 +63,11 @@ jobs:
             go build -v ./...
             exit 0
           fi
-          go test -v -race -coverprofile=coverage.out -covermode=atomic ./... 2>&1 | go-junit-report -set-exit-code > test-results.xml || true
-        continue-on-error: true
-      
-      - name: Install go-junit-report for test reporting
-        if: env.ACT != 'true'
-        run: go install github.com/jstemmer/go-junit-report/v2@latest
+          if command -v go-junit-report &> /dev/null; then
+            go test -v -race -coverprofile=coverage.out -covermode=atomic ./... 2>&1 | go-junit-report -set-exit-code > test-results.xml || true
+          else
+            go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+          fi
         continue-on-error: true
       
       - name: Upload Test Results
