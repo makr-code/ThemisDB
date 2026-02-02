@@ -40,6 +40,11 @@ Diese Templates helfen bei der strukturierten Erstellung von Issues für verschi
 - **`ai-review-testing-quality.md`** - Test-Coverage & Qualitätssicherung / Test coverage & quality assurance
 - **`ai-review-documentation-audit.md`** - Dokumentations-Vollständigkeit & Qualität / Documentation completeness & quality
 - **`ai-review-migration-planning.md`** - Migration-Planung & Risikobewertung / Migration planning & risk assessment
+- **`ai-review-code-quality.md`** - Code-Qualität & Technical Debt / Code quality & technical debt (NEU)
+- **`ai-review-dependency-audit.md`** - Abhängigkeiten & Lizenz-Compliance / Dependencies & license compliance (NEU)
+
+#### Incident-Management / Incident Management (NEU / NEW)
+- **`incident-postmortem.md`** - Incident Post-Mortem Analyse / Incident post-mortem analysis
 
 **Was wird überprüft? / What is reviewed?**
 - ✅ Best Practices & Code-Qualität / Best practices & code quality
@@ -208,12 +213,13 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 | Kategorie / Category | Anzahl / Count | Zweck / Purpose |
 |----------------------|----------------|-----------------|
 | 👥 User-Facing | 4 | Bugs, Features, Dokumentation |
-| 🤖 AI Reviews | 14 | Systematische Komponenten- & Prozess-Reviews |
+| 🤖 AI Reviews | 16 | Systematische Komponenten- & Prozess-Reviews |
+| 🚨 Incident Management | 1 | Post-Mortem Analysen |
 | 🔒 Security | 6 | Sicherheit & Compliance |
 | 🔬 Research | 5 | Forschung & State-of-the-Art |
 | ⚙️ Implementation Tasks | 19 | Feature-Implementierungen |
 | 📚 Documentation | 11 | Guides & Beispiele (in `_guides/`) |
-| **Gesamt / Total** | **59** | |
+| **Gesamt / Total** | **62** | |
 
 ## 🆕 Neue Features / New Features (2026-02-02)
 
@@ -228,12 +234,16 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
   - Test-Qualität / Testing quality
   - Dokumentations-Audit / Documentation audit
   - Migrations-Planung / Migration planning
+  - Code-Qualität & Technical Debt (NEU)
+  - Abhängigkeiten & Lizenz-Compliance (NEU)
 ✅ **3 neue Kern-Technologie-Review-Templates** / 3 new core technology review templates:
   - RocksDB Storage Backend
   - Base Entities Framework
   - llama.cpp Integration
 ✅ **1 neues Infrastruktur-Review-Template** / 1 new infrastructure review template:
   - Hardware Resources (CPU, GPU, RAM, VRAM, Storage)
+✅ **1 neues Incident-Management-Template** / 1 new incident management template:
+  - Incident Post-Mortem Analyse
 
 ## ❓ Hilfe benötigt? / Need Help?
 
@@ -243,7 +253,7 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 
 ---
 
-**Version:** 2.2.0  
+**Version:** 2.3.0  
 **Letzte Aktualisierung / Last Updated:** 2026-02-02  
 **Gepflegt von / Maintained by:** ThemisDB Core Team
 
@@ -255,3 +265,4 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 - ✅ 5 neue AI-Review-Templates hinzugefügt / 5 new AI review templates added (Performance, API, Testing, Docs, Migration)
 - ✅ 3 neue Kern-Technologie-Templates hinzugefügt / 3 new core technology templates added (RocksDB, Base Entities, llama.cpp)
 - ✅ 1 neues Infrastruktur-Template hinzugefügt / 1 new infrastructure template added (Hardware Resources)
+- ✅ 3 neue erweiterte Templates hinzugefügt / 3 new extended templates added (Code Quality, Dependency Audit, Incident Post-Mortem)
