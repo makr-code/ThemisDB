@@ -52,15 +52,15 @@ public:
         Backend backend = Backend::AUTO;
         DistanceMetric metric = DistanceMetric::COSINE;
         
-        // HNSW parameters
-        int M = 16;                    // Number of connections per layer
-        int efConstruction = 200;      // Construction time accuracy
-        int efSearch = 64;             // Query time accuracy
+        // HNSW parameters (validated to safe ranges, invalid values auto-corrected)
+        int M = 16;                    // Number of connections per layer (range: 1-256)
+        int efConstruction = 200;      // Construction time accuracy (range: 1-2000)
+        int efSearch = 64;             // Query time accuracy (range: 1-2000)
         
-        // GPU-specific
-        int batchSize = 512;           // Batch size for parallel search
-        size_t maxVRAM_MB = 8192;      // Max VRAM usage in MB
-        int deviceId = 0;              // GPU device ID
+        // GPU-specific (validated, invalid values auto-corrected)
+        int batchSize = 512;           // Batch size for parallel search (range: 1-10000)
+        size_t maxVRAM_MB = 8192;      // Max VRAM usage in MB (range: 1-1048576)
+        int deviceId = 0;              // GPU device ID (range: 0-16)
         bool enableMultiGPU = false;   // Enable multi-GPU support
         
         // Memory optimization
@@ -87,14 +87,20 @@ public:
     };
     
     // Constructor
+    // Config parameters are validated and auto-corrected to safe defaults if invalid
     explicit GPUVectorIndex(const Config& config = Config{});
     ~GPUVectorIndex();
     
     // Initialization
+    // @param dimension Vector dimension (must be > 0 and <= 10000)
+    // @return true on success, false if dimension is invalid or backend initialization fails
     bool initialize(int dimension);
     void shutdown();
     
     // Vector operations
+    // @param id Unique identifier for the vector (cannot be empty)
+    // @param vector Vector data (must match initialized dimension, no NaN/Inf values allowed)
+    // @return true on success, false if validation fails or index not initialized
     bool addVector(const std::string& id, const std::vector<float>& vector);
     bool addVectorBatch(const std::vector<std::string>& ids, 
                        const std::vector<std::vector<float>>& vectors);
@@ -102,6 +108,9 @@ public:
     bool updateVector(const std::string& id, const std::vector<float>& vector);
     
     // Search operations
+    // @param query Query vector (must match initialized dimension, no NaN/Inf values allowed)
+    // @param k Number of nearest neighbors to return (must be > 0)
+    // @return Search results sorted by distance, empty vector on validation failure
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k);
     std::vector<std::vector<SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
@@ -112,7 +121,9 @@ public:
     bool loadIndex(const std::string& path);
     
     // Configuration
+    // @param ef efSearch parameter (must be > 0, recommended range: 1-2000)
     void setEfSearch(int ef);
+    // @param size Batch size (must be > 0, recommended range: 1-10000)
     void setBatchSize(int size);
     Backend getActiveBackend() const;
     Statistics getStatistics() const;
