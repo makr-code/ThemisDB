@@ -159,8 +159,8 @@ public:
 private:
     std::shared_ptr<ITokenizer> tokenizer_;
     GPUDataLoaderConfig config_;
-    VRAMAllocator* allocator_;
-    bool owns_allocator_ = false;
+    std::unique_ptr<VRAMAllocator> allocator_;
+    VRAMAllocator* external_allocator_ = nullptr;  // Non-owning pointer for externally-provided allocator
     
     std::vector<InstructionDataSample> samples_;
     std::vector<size_t> indices_;  // For shuffling
