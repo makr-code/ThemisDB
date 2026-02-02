@@ -4,6 +4,7 @@
 #include <string>
 #include <random>
 #include <cmath>
+#include <limits>
 
 using namespace themis::index;
 
@@ -250,6 +251,156 @@ TEST_F(GPUVectorIndexTest, Statistics) {
     EXPECT_EQ(stats.numVectors, numVectors);
     EXPECT_EQ(stats.dimension, dimension);
     EXPECT_GT(stats.avgQueryTimeMs, 0.0);
+    
+    index.shutdown();
+}
+
+// Input validation tests
+TEST_F(GPUVectorIndexTest, InvalidDimension) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    GPUVectorIndex index(config);
+    
+    // Test negative dimension
+    EXPECT_FALSE(index.initialize(-1));
+    
+    // Test zero dimension
+    EXPECT_FALSE(index.initialize(0));
+    
+    // Test extremely large dimension
+    EXPECT_FALSE(index.initialize(100000));
+}
+
+TEST_F(GPUVectorIndexTest, EmptyVectorId) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Try to add vector with empty ID
+    EXPECT_FALSE(index.addVector("", testVectors[0]));
+}
+
+TEST_F(GPUVectorIndexTest, DimensionMismatch) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Try to add vector with wrong dimension
+    std::vector<float> wrongDimVector(dimension + 10, 1.0f);
+    EXPECT_FALSE(index.addVector("test_wrong", wrongDimVector));
+    
+    // Try to search with wrong dimension
+    auto results = index.search(wrongDimVector, 5);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(GPUVectorIndexTest, InvalidKValue) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Search with k=0 should return empty results
+    auto results = index.search(queryVector, 0);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(GPUVectorIndexTest, NonFiniteValues) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Try to add vector with NaN
+    std::vector<float> nanVector(dimension, 1.0f);
+    nanVector[0] = std::numeric_limits<float>::quiet_NaN();
+    EXPECT_FALSE(index.addVector("test_nan", nanVector));
+    
+    // Try to add vector with Infinity
+    std::vector<float> infVector(dimension, 1.0f);
+    infVector[0] = std::numeric_limits<float>::infinity();
+    EXPECT_FALSE(index.addVector("test_inf", infVector));
+    
+    // Add valid vectors first
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Try to search with NaN query
+    std::vector<float> nanQuery(dimension, 1.0f);
+    nanQuery[0] = std::numeric_limits<float>::quiet_NaN();
+    auto results = index.search(nanQuery, 5);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(GPUVectorIndexTest, ConfigValidation) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    // Set invalid values - should be auto-corrected
+    config.M = -1;
+    config.efConstruction = 0;
+    config.efSearch = -10;
+    config.batchSize = 0;
+    config.maxVRAM_MB = 0;
+    config.deviceId = -5;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Index should still work with corrected values
+    ASSERT_TRUE(index.addVector(testIds[0], testVectors[0]));
+    
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, SetterValidation) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Set valid values first
+    index.setEfSearch(100);
+    index.setBatchSize(256);
+    
+    // Add a test vector to ensure index works
+    ASSERT_TRUE(index.addVector(testIds[0], testVectors[0]));
+    
+    // Try to set invalid efSearch - should be ignored
+    // Note: Since efSearch is not exposed via getStatistics(), we verify
+    // that the index continues to function correctly after invalid calls
+    index.setEfSearch(-10);
+    EXPECT_TRUE(index.addVector(testIds[1], testVectors[1]));
+    
+    index.setEfSearch(0);
+    EXPECT_TRUE(index.addVector(testIds[2], testVectors[2]));
+    
+    // Try to set efSearch above threshold - should be reset to default
+    index.setEfSearch(3000);
+    EXPECT_TRUE(index.addVector("test_extra", testVectors[3]));
+    
+    // Try to set invalid batch size - should be ignored or clamped
+    index.setBatchSize(-100);
+    auto results = index.search(queryVector, 2);
+    EXPECT_EQ(results.size(), 2);
+    
+    index.setBatchSize(0);
+    results = index.search(queryVector, 2);
+    EXPECT_EQ(results.size(), 2);
+    
+    // Test upper bound - should be clamped to 10000
+    // Note: Since batchSize is not exposed, we verify index continues to work
+    index.setBatchSize(20000);
+    results = index.search(queryVector, 2);
+    EXPECT_EQ(results.size(), 2);
     
     index.shutdown();
 }
