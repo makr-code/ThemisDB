@@ -1,138 +1,167 @@
+# Pull Request - ThemisDB
+
 ## Description
 
 <!-- Provide a clear and concise description of your changes -->
 
-## Type of Change
-
-<!-- Mark the relevant option with an [x] -->
-
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
+### Type of Change
+- [ ] 🐛 Bug fix (non-breaking change that fixes an issue)
+- [ ] ✨ New feature (non-breaking change that adds functionality)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to change)
 - [ ] 📝 Documentation update
-- [ ] ♻️ Code refactoring (no functional changes)
 - [ ] ⚡ Performance improvement
-- [ ] ✅ Test addition or update
-- [ ] 🔧 Configuration change
-- [ ] 🎨 UI/UX change
+- [ ] 🔒 Security fix
+- [ ] 🧪 Test improvement
 
-## Related Issues
-
-<!-- Link to related issues using #issue_number -->
-
-Closes #
-Relates to #
-
-## Changes Made
-
-<!-- List the key changes made in this PR -->
-
-- 
-- 
-- 
-
-## Testing
-
-<!-- Describe the tests you ran and how to reproduce them -->
-
-### Test Environment
-- **OS**: <!-- e.g., Ubuntu 22.04, Windows 11, macOS 13 -->
-- **Compiler**: <!-- e.g., GCC 11, MSVC 2019, Clang 14 -->
-- **Build Type**: <!-- e.g., Release, Debug -->
-
-### Test Results
-- [ ] All existing tests pass
-- [ ] New tests added for changes
-- [ ] Manual testing performed
-
-### Test Commands
-```bash
-# Commands used to test the changes
-cmake -B build -DTHEMIS_BUILD_TESTS=ON
-cmake --build build
-cd build && ctest --output-on-failure
-```
-
-## Checklist
-
-<!-- Verify all items before submitting -->
-
-- [ ] My code follows the [coding standards](../CODING_STANDARDS.md)
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have updated the documentation accordingly
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published
-
-## Code Quality
-
-- [ ] Code builds without errors
-- [ ] Code builds without warnings
-- [ ] Static analysis (cppcheck) passes
-- [ ] No memory leaks detected
-- [ ] Code follows C++17 standards
-
-## Documentation
-
-- [ ] README.md updated (if applicable)
-- [ ] CHANGELOG.md updated
-- [ ] API documentation updated (if applicable)
-- [ ] Code comments added/updated
-
-## Branch Strategy Compliance
-
-<!-- Ensure your PR follows the Git Flow branching strategy -->
-
-- [ ] PR targets the correct branch (`develop` for features, `main` for releases/hotfixes)
-- [ ] Branch naming follows convention (e.g., `feature/`, `bugfix/`, `hotfix/`, `release/`)
-- [ ] No direct commits to `main` or `develop`
-
-## Performance Impact
-
-<!-- If applicable, describe any performance implications -->
-
-- [ ] No significant performance impact
-- [ ] Performance improvement (describe below)
-- [ ] Performance regression (justify below)
-
-**Performance Notes:**
-<!-- Add performance benchmarks or profiling results if applicable -->
-
-## Breaking Changes
-
-<!-- If this PR introduces breaking changes, describe them here -->
-
-**Breaking Change Details:**
-<!-- Explain what breaks and how users should migrate -->
-
-## Security Considerations
-
-- [ ] No security implications
-- [ ] Security review required
-- [ ] Dependencies updated to secure versions
-
-## Additional Notes
-
-<!-- Any additional information that reviewers should know -->
-
-## Screenshots/Logs
-
-<!-- If applicable, add screenshots or logs to help explain your changes -->
+### Related Issues
+<!-- Link related issues: Fixes #123, Closes #456, Relates to #789 -->
 
 ---
 
-**For Maintainers:**
+## Changes Made
 
-### Review Checklist
-- [ ] Code quality acceptable
-- [ ] Tests adequate
-- [ ] Documentation complete
-- [ ] No security concerns
-- [ ] Ready to merge
+<!-- List the key changes in this PR -->
 
-### Merge Strategy
-- [ ] **Squash and merge** (✅ Recommended for feature/bugfix PRs - cleaner history)
-- [ ] Merge commit (Only for release/hotfix branches)
-- [ ] Rebase and merge
+- 
+- 
+- 
+
+---
+
+## Testing Checklist
+
+### Basic Testing
+- [ ] Code compiles without errors
+- [ ] All existing tests pass
+- [ ] New tests added for new functionality
+- [ ] Test coverage maintained or improved (≥80% target)
+
+### Code Quality
+- [ ] Code follows project coding standards
+- [ ] No compiler warnings introduced
+- [ ] Static analysis checks pass (cppcheck, clang-tidy)
+- [ ] No merge conflicts with base branch
+
+### Security Checklist
+- [ ] No hardcoded secrets or credentials
+- [ ] Input validation implemented for user inputs
+- [ ] No SQL/AQL injection vulnerabilities
+- [ ] Appropriate error handling (no sensitive data in errors)
+- [ ] Authentication/authorization checked if applicable
+- [ ] Security-sensitive changes reviewed by security team
+
+### Documentation
+- [ ] Code comments added for complex logic
+- [ ] API documentation updated (if applicable)
+- [ ] README.md updated (if applicable)
+- [ ] CHANGELOG.md updated with changes
+- [ ] Migration guide provided for breaking changes
+
+---
+
+## Audit & Compliance (Auto-checked by CI)
+
+The following will be automatically verified by the `audit-check` workflow:
+
+### Automated Checks (CI)
+- 🔍 SAST (Static Analysis) - cppcheck, clang-tidy
+- 🔐 Secret Scanning - gitleaks
+- 📊 Test Coverage - gcov
+- 🐳 Container Security - Trivy (if Docker changes)
+- 🔒 Dependency Vulnerabilities
+
+### For Security-Sensitive Changes
+If this PR involves authentication, encryption, input validation, or sensitive data:
+- [ ] Security design review requested
+- [ ] Threat modeling updated (if architectural changes)
+- [ ] Security tests added
+- [ ] OWASP ASVS requirements checked
+
+---
+
+## Performance Impact
+
+- [ ] No performance degradation (benchmarks run if applicable)
+- [ ] Performance improvements documented with metrics
+- [ ] N/A - No performance-critical changes
+
+---
+
+## Deployment Considerations
+
+- [ ] No database migrations required
+- [ ] Database migrations documented and tested
+- [ ] Configuration changes documented
+- [ ] Backward compatible with previous version
+- [ ] Breaking changes documented in CHANGELOG.md
+
+---
+
+## Additional Notes
+
+<!-- Any additional information reviewers should know -->
+
+---
+
+## Reviewer Checklist
+
+<!-- For reviewers - check these items during review -->
+
+### Code Review
+- [ ] Code logic is correct and efficient
+- [ ] Error handling is appropriate
+- [ ] Resource management (memory, connections) is proper
+- [ ] Thread safety considered (if applicable)
+- [ ] Security best practices followed
+
+### Testing Review
+- [ ] Test cases cover edge cases
+- [ ] Tests are maintainable and clear
+- [ ] Integration tests included for cross-module changes
+- [ ] Performance tests added for critical paths
+
+### Documentation Review
+- [ ] Documentation is clear and accurate
+- [ ] API changes properly documented
+- [ ] Examples provided where helpful
+
+---
+
+## Audit Gate Status
+
+<!-- Filled automatically by CI -->
+
+**Audit Check Status:** 🔄 Running / ✅ Passed / ❌ Failed / ⚠️ Warnings
+
+**Key Findings:**
+<!-- CI will comment with any security or quality findings -->
+
+---
+
+## Pre-Merge Checklist
+
+Before merging, ensure:
+- [ ] All CI checks pass (audit-check, build-and-test)
+- [ ] At least one approving review from maintainer
+- [ ] All review comments addressed
+- [ ] Branch is up-to-date with base branch
+- [ ] No merge conflicts
+- [ ] All audit findings resolved or documented
+
+---
+
+## Release Notes
+
+<!-- If this should be included in release notes, provide a user-facing description -->
+
+```markdown
+### Added / Changed / Fixed / Security
+- 
+```
+
+---
+
+**For more information:**
+- [Contributing Guide](../CONTRIBUTING.md)
+- [Audit Framework](../docs/audit-framework/README.md)
+- [Security Policy](../SECURITY.md)
