@@ -1,0 +1,2 @@
+# Audit reports directory - contains generated security scan reports
+# Reports are excluded from git via .gitignore
