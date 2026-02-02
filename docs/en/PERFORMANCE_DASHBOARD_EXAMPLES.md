@@ -123,7 +123,7 @@ Release Performance Trend
     | *    *    
 35K |*    
     |_________________________________
-    2024-01  Feb   Mar   Apr   May
+    Jan      Feb   Mar   Apr   May
     
 Legend: * = Release
 ```

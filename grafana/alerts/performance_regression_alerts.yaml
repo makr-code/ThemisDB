@@ -35,7 +35,10 @@ groups:
           (
             (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 1h)
             / themisdb_benchmark_throughput_ops offset 1h * 100
-          ) < -10 and < -20
+          ) < -10 and (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 1h)
+            / themisdb_benchmark_throughput_ops offset 1h * 100
+          ) >= -20
         for: 10m
         labels:
           severity: warning
@@ -57,7 +60,10 @@ groups:
           (
             (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 2h)
             / themisdb_benchmark_throughput_ops offset 2h * 100
-          ) < -5 and < -10
+          ) < -5 and (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 2h)
+            / themisdb_benchmark_throughput_ops offset 2h * 100
+          ) >= -10
         for: 15m
         labels:
           severity: info
