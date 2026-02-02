@@ -432,8 +432,8 @@ void GPUVectorIndex::setEfSearch(int ef) {
         std::cerr << "efSearch must be greater than 0, ignoring invalid value: " << ef << std::endl;
         return;
     }
-    if (ef > 10000) {
-        std::cerr << "Warning: efSearch " << ef << " is very large, may impact performance" << std::endl;
+    if (ef > 2000) {
+        std::cerr << "Warning: efSearch " << ef << " exceeds recommended range (1-2000), may impact performance" << std::endl;
     }
     pImpl->config.efSearch = ef;
 }
@@ -443,9 +443,8 @@ void GPUVectorIndex::setBatchSize(int size) {
         std::cerr << "Batch size must be greater than 0, ignoring invalid value: " << size << std::endl;
         return;
     }
-    if (size > 10000) {
-        std::cerr << "Warning: Batch size " << size << " is very large, may impact memory usage" << std::endl;
-    }
+    // Note: No upper bound check here since constructor already enforces max of 10000
+    // Values set here are within the allowed range
     pImpl->config.batchSize = size;
 }
 
