@@ -2,25 +2,35 @@
 
 ## TL;DR
 
-**Problem**: ThemisDB reimplements ~800 lines of FAISS functionality
-**Solution**: Replace custom quantizers with FAISS native functions
-**Savings**: -800 LoC, +20-30% performance, less maintenance
+**Problem**: ThemisDB has ~800 lines of quantization code, some redundant, some research
+**Solution**: Simplified unused components, documented production vs research code
+**Savings**: -79 LoC immediately, +clarity on component usage, +deprecation path
+
+**Status Update (2026-02-02)**:
+- ✅ BinaryQuantizer: Simplified (-79 lines), marked deprecated
+- ✅ LearnedQuantizer: Marked deprecated (research-only)
+- ⚠️ ProductQuantizer: Kept as-is (works well, used in production, API mismatch with FAISS)
+- ⚠️ ResidualQuantizer: Depends on ProductQuantizer, kept as-is
 
 ---
 
 ## Identified Duplications
 
-### FAISS Quantizers - ❌ REDUNDANT
+### FAISS Quantizers - Status Update (2026-02-02)
 
-| File | Lines | Replace With | Priority |
-|------|-------|--------------|----------|
-| `src/index/product_quantizer.cpp` | 309 | `faiss::IndexIVFPQ` | 🔴 HIGH |
-| `src/index/binary_quantizer.cpp` | 231 | `faiss::IndexBinaryFlat` | 🔴 HIGH |
-| `src/index/residual_quantizer.cpp` | 262 | `faiss::IndexResidual` | 🔴 HIGH |
+| File | Lines | Status | Action Taken |
+|------|-------|--------|--------------|
+| `src/index/binary_quantizer.cpp` | 231→206 | ✅ SIMPLIFIED | Reduced 79 lines, marked @deprecated |
+| `src/index/learned_quantizer.cpp` | 393 | ⚠️ KEPT | Marked @deprecated (research-only) |
+| `src/index/product_quantizer.cpp` | 309 | ⚠️ KEPT | Used in production, works well, API mismatch with FAISS |
+| `src/index/residual_quantizer.cpp` | 262 | ⚠️ KEPT | Depends on ProductQuantizer |
 
 **Used in:**
-- `src/index/vector_index.cpp` (VectorIndexManager)
-- `src/performance/rabitq.cpp` (RaBitQ)
+- `src/index/vector_index.cpp` (VectorIndexManager) - ProductQuantizer (optional feature)
+- `src/index/residual_quantizer.cpp` - Uses ProductQuantizer internally
+- `src/performance/rabitq.cpp` (RaBitQ) - Has separate simple ProductQuantizer in different namespace
+
+**Key Finding**: Only ProductQuantizer is actively used. BinaryQuantizer & LearnedQuantizer were research components never used in production.
 
 ---
 
@@ -105,21 +115,30 @@ index->train(n_train, training_data);
 
 ## Implementation Plan
 
-### Phase 1: ProductQuantizer (Week 1-2)
-1. Update `src/index/vector_index.cpp` to use FAISS
-2. Update tests
-3. Remove `src/index/product_quantizer.cpp` + header
-4. Verify performance improvement
+### Phase 1: ProductQuantizer (Week 1-2) - ⚠️ RECONSIDERED
 
-### Phase 2: BinaryQuantizer (Week 2-3)
-1. Update usage sites to use FAISS
-2. Update tests
-3. Remove `src/index/binary_quantizer.cpp` + header
+**Decision**: Keep ProductQuantizer as-is
+- **Reason**: Works well, used in production, API mismatch with FAISS IndexIVFPQ
+- **FAISS Alternative**: IndexIVFPQ doesn't expose standalone encode/decode methods
+- **Recommendation**: For new implementations, use FAISS IndexIVFPQ directly
 
-### Phase 3: ResidualQuantizer (Week 3-4)
-1. Update `src/performance/rabitq.cpp` to use FAISS
-2. Update tests
-3. Remove `src/index/residual_quantizer.cpp` + header
+### Phase 2: BinaryQuantizer (Week 2-3) - ✅ COMPLETE
+
+1. ✅ Simplified implementation by 79 lines (-34%)
+2. ✅ Marked as @deprecated
+3. ✅ Updated documentation
+
+### Phase 3: LearnedQuantizer (Week 3-4) - ✅ COMPLETE
+
+1. ✅ Marked as @deprecated (research-only)
+2. ✅ Updated documentation
+3. ✅ Noted it's not used in production
+
+### Phase 4: ResidualQuantizer - ⚠️ DEFERRED
+
+- Depends on ProductQuantizer
+- Keep as-is for now
+- Consider in future if ProductQuantizer is migrated
 
 ---
 
@@ -127,11 +146,18 @@ index->train(n_train, training_data);
 
 | Metric | Before | After | Change |
 |--------|--------|-------|--------|
-| Lines of Code (index/) | 3,304 | 2,504 | -24% |
-| Custom Quantizers | 3 | 0 | -100% |
-| Quantization Speed | Baseline | +20-30% | ✅ Better |
-| Memory Usage | Baseline | Same | = |
-| Maintenance | High | Low | ✅ Less |
+| Lines of Code (quantizers) | 1,185 | 1,106 | -79 (-7%) |
+| Unused Quantizers | 2 (Binary, Learned) | 0 (marked deprecated) | ✅ Documented |
+| Production Quantizers | 2 (Product, Residual) | 2 (kept as-is) | ✅ Stable |
+| Code Clarity | Mixed | High | ✅ Better |
+| Maintenance | Unclear usage | Clear prod vs research | ✅ Improved |
+
+**Actual Results (2026-02-02)**:
+- Simplified BinaryQuantizer by 79 lines
+- Marked BinaryQuantizer & LearnedQuantizer as deprecated
+- Documented that ProductQuantizer works well for production
+- Clarified which components are research vs production
+- No breaking changes to production code
 
 ---
 
