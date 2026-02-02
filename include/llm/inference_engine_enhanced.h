@@ -1,6 +1,6 @@
 #pragma once
 
-#include "llm/async_inference_engine.h"
+#include "llm/inference_handle.h"
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
