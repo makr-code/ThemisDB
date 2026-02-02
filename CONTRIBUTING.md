@@ -30,7 +30,7 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | [🏷️ Issue Labels](#️-issue-labels) | GitHub label system |
 | [🐛 Reporting Bugs](#-reporting-bugs) | Bug report guidelines |
 | [💡 Feature Requests](#-feature-requests) | Suggesting enhancements |
-| [📝 Documentation](#documentation) | Documentation guidelines and archival |
+| [📝 Documentation](#documentation) | Living documentation and continuous review process |
 | [📦 Package Maintenance](#-package-maintenance) | Platform packaging |
 
 ---
@@ -947,17 +947,78 @@ Any other relevant information
 
 ## Documentation
 
-- **Architecture docs**: `docs/architecture.md`, `docs/design/`
-- **API docs**: Generated from code comments, `docs/apis/`
-- **User guides**: `docs/*.md`
-- **Deployment**: `docs/deployment.md`
-- **Packaging**: `docs/packaging.md`, `docs/PACKAGING-QUICKREF.md`
+ThemisDB follows a **Living Documentation** approach where documentation evolves with the codebase through continuous review and improvement.
 
-**Updating documentation:**
-- Keep docs in sync with code changes
-- Use clear, concise language
-- Include code examples where appropriate
-- Update `mkdocs.yml` if adding new pages
+### Documentation Structure
+
+- **Architecture docs**: `docs/architecture/`
+- **API docs**: `docs/api/`
+- **User guides**: `docs/`
+- **Examples**: `examples/`
+- **Compendium**: `compendium/`
+- **Translations**: `docs/de/`, `docs/fr/`, `docs/es/`, `docs/ja/`
+
+### Documentation Requirements
+
+**All PRs with code changes must include documentation updates:**
+- [ ] Complete the [PR Documentation Checklist](docs/PR_DOCUMENTATION_CHECKLIST.md)
+- [ ] Update affected documentation files
+- [ ] Add/update code examples if applicable
+- [ ] Update CHANGELOG.md
+- [ ] Ensure documentation builds successfully (`mkdocs build --strict`)
+
+**Documentation must be:**
+- **Accurate** - Reflects current implementation
+- **Complete** - Covers all features and use cases
+- **Clear** - Easy to understand for target audience
+- **Tested** - Code examples compile and run
+- **Maintained** - Regularly reviewed and updated
+
+### Continuous Review Process
+
+Documentation is reviewed at multiple levels:
+
+1. **PR Review** (Every PR with code changes)
+   - Documentation changes reviewed alongside code
+   - At least one reviewer verifies accuracy
+   - Must pass before merge
+
+2. **Monthly Reviews** (First Monday of each month)
+   - Quick check of recent changes
+   - Identify and fix quick wins
+   - Track documentation debt
+
+3. **Quarterly Reviews** (Start of each quarter)
+   - Comprehensive documentation audit
+   - Test all examples
+   - Update translations
+   - Archive outdated content
+
+4. **Release Reviews** (Before each release)
+   - Verify release documentation
+   - Update version references
+   - Validate migration guides
+
+**Review schedule and process:** [docs/DOCUMENTATION_REVIEW_SCHEDULE.md](docs/DOCUMENTATION_REVIEW_SCHEDULE.md)
+
+### Documentation Guidelines
+
+**Writing style:**
+- Use active voice ("Configure the database..." not "The database can be configured...")
+- Be specific with values and examples
+- Provide working code examples
+- Explain prerequisites clearly
+- Keep language clear and concise
+
+**Quality standards:**
+```bash
+# Before submitting PR:
+mkdocs build --strict              # Verify build
+./scripts/check-links.sh           # Validate links
+./scripts/test-examples.sh         # Test examples (if available)
+```
+
+**Complete documentation guidelines:** [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
 
 ### Documentation Archival
 
