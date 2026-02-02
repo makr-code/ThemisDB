@@ -40,8 +40,11 @@ Diese Templates helfen bei der strukturierten Erstellung von Issues für verschi
 - **`ai-review-testing-quality.md`** - Test-Coverage & Qualitätssicherung / Test coverage & quality assurance
 - **`ai-review-documentation-audit.md`** - Dokumentations-Vollständigkeit & Qualität / Documentation completeness & quality
 - **`ai-review-migration-planning.md`** - Migration-Planung & Risikobewertung / Migration planning & risk assessment
-- **`ai-review-code-quality.md`** - Code-Qualität & Technical Debt / Code quality & technical debt (NEU)
-- **`ai-review-dependency-audit.md`** - Abhängigkeiten & Lizenz-Compliance / Dependencies & license compliance (NEU)
+- **`ai-review-code-quality.md`** - Code-Qualität & Technical Debt / Code quality & technical debt
+- **`ai-review-dependency-audit.md`** - Abhängigkeiten & Lizenz-Compliance / Dependencies & license compliance
+- **`ai-review-accessibility.md`** - Barrierefreiheit & WCAG-Compliance / Accessibility & WCAG compliance (NEU)
+- **`ai-review-localization.md`** - Lokalisierung & Internationalisierung / Localization & i18n (NEU)
+- **`ai-review-cost-optimization.md`** - Kosten-Optimierung & Ressourcen-Effizienz / Cost optimization & resource efficiency (NEU)
 
 #### Incident-Management / Incident Management (NEU / NEW)
 - **`incident-postmortem.md`** - Incident Post-Mortem Analyse / Incident post-mortem analysis
@@ -213,13 +216,13 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 | Kategorie / Category | Anzahl / Count | Zweck / Purpose |
 |----------------------|----------------|-----------------|
 | 👥 User-Facing | 4 | Bugs, Features, Dokumentation |
-| 🤖 AI Reviews | 16 | Systematische Komponenten- & Prozess-Reviews |
+| 🤖 AI Reviews | 19 | Systematische Komponenten- & Prozess-Reviews |
 | 🚨 Incident Management | 1 | Post-Mortem Analysen |
 | 🔒 Security | 6 | Sicherheit & Compliance |
 | 🔬 Research | 5 | Forschung & State-of-the-Art |
 | ⚙️ Implementation Tasks | 19 | Feature-Implementierungen |
 | 📚 Documentation | 11 | Guides & Beispiele (in `_guides/`) |
-| **Gesamt / Total** | **62** | |
+| **Gesamt / Total** | **65** | |
 
 ## 🆕 Neue Features / New Features (2026-02-02)
 
@@ -234,8 +237,11 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
   - Test-Qualität / Testing quality
   - Dokumentations-Audit / Documentation audit
   - Migrations-Planung / Migration planning
-  - Code-Qualität & Technical Debt (NEU)
-  - Abhängigkeiten & Lizenz-Compliance (NEU)
+  - Code-Qualität & Technical Debt
+  - Abhängigkeiten & Lizenz-Compliance
+  - Barrierefreiheit & WCAG-Compliance (NEU)
+  - Lokalisierung & Internationalisierung (NEU)
+  - Kosten-Optimierung & Ressourcen-Effizienz (NEU)
 ✅ **3 neue Kern-Technologie-Review-Templates** / 3 new core technology review templates:
   - RocksDB Storage Backend
   - Base Entities Framework
@@ -253,7 +259,7 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 
 ---
 
-**Version:** 2.3.0  
+**Version:** 2.4.0  
 **Letzte Aktualisierung / Last Updated:** 2026-02-02  
 **Gepflegt von / Maintained by:** ThemisDB Core Team
 
@@ -266,3 +272,4 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 - ✅ 3 neue Kern-Technologie-Templates hinzugefügt / 3 new core technology templates added (RocksDB, Base Entities, llama.cpp)
 - ✅ 1 neues Infrastruktur-Template hinzugefügt / 1 new infrastructure template added (Hardware Resources)
 - ✅ 3 neue erweiterte Templates hinzugefügt / 3 new extended templates added (Code Quality, Dependency Audit, Incident Post-Mortem)
+- ✅ 3 neue Medium-Priority-Templates hinzugefügt / 3 new medium-priority templates added (Accessibility, Localization, Cost Optimization)
