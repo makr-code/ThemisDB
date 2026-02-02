@@ -159,6 +159,12 @@ public:
         }
     }
     
+    // Helper function to validate finite values in a vector
+    bool validateVectorFinite(const std::vector<float>& vector) const {
+        return !std::any_of(vector.begin(), vector.end(), 
+                           [](float v) { return !std::isfinite(v); });
+    }
+    
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         if (!initialized) {
             std::cerr << "Index not initialized" << std::endl;
@@ -174,11 +180,9 @@ public:
             return false;
         }
         // Check for NaN or infinity values
-        for (size_t i = 0; i < vector.size(); ++i) {
-            if (!std::isfinite(vector[i])) {
-                std::cerr << "Vector contains non-finite values (NaN or Inf)" << std::endl;
-                return false;
-            }
+        if (!validateVectorFinite(vector)) {
+            std::cerr << "Vector contains non-finite values (NaN or Inf)" << std::endl;
+            return false;
         }
         
         // Check if ID already exists
@@ -236,11 +240,9 @@ public:
             return {};
         }
         // Check for NaN or infinity in query
-        for (size_t i = 0; i < query.size(); ++i) {
-            if (!std::isfinite(query[i])) {
-                std::cerr << "Query contains non-finite values (NaN or Inf)" << std::endl;
-                return {};
-            }
+        if (!validateVectorFinite(query)) {
+            std::cerr << "Query contains non-finite values (NaN or Inf)" << std::endl;
+            return {};
         }
         
         auto startTime = std::chrono::steady_clock::now();
