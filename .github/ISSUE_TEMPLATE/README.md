@@ -89,6 +89,11 @@ Diese Templates helfen bei der strukturierten Erstellung von Issues für verschi
 
 **Spezifische Feature- und Implementierungs-Templates:**
 
+#### Datenbank-Kern / Database Core (NEU / NEW)
+- **`task-database-backup-restore.md`** - Backup & Wiederherstellung / Backup & restore
+- **`task-database-replication.md`** - Datenbank-Replikation / Database replication
+- **`task-database-query-optimizer.md`** - Query-Optimizer / Query optimizer
+
 #### Verteilte Systeme / Distributed Systems
 - **`task-consensus-implementation.md`** - Konsens-Implementierung (Raft/Paxos/Gossip)
 - **`task-transaction-implementation.md`** - Transaktionsprotokolle (2PC/3PC/SAGA)
@@ -220,9 +225,9 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 | 🚨 Incident Management | 1 | Post-Mortem Analysen |
 | 🔒 Security | 6 | Sicherheit & Compliance |
 | 🔬 Research | 5 | Forschung & State-of-the-Art |
-| ⚙️ Implementation Tasks | 19 | Feature-Implementierungen |
+| ⚙️ Implementation Tasks | 22 | Feature-Implementierungen (inkl. 3 neue DB-Tasks) |
 | 📚 Documentation | 11 | Guides & Beispiele (in `_guides/`) |
-| **Gesamt / Total** | **65** | |
+| **Gesamt / Total** | **68** | |
 
 ## 🆕 Neue Features / New Features (2026-02-02)
 
@@ -250,6 +255,10 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
   - Hardware Resources (CPU, GPU, RAM, VRAM, Storage)
 ✅ **1 neues Incident-Management-Template** / 1 new incident management template:
   - Incident Post-Mortem Analyse
+✅ **3 neue Datenbank-Kern-Task-Templates** / 3 new database core task templates (NEU):
+  - Backup & Restore Implementation
+  - Database Replication
+  - Query Optimizer
 
 ## ❓ Hilfe benötigt? / Need Help?
 
@@ -259,7 +268,7 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 
 ---
 
-**Version:** 2.4.0  
+**Version:** 2.5.0  
 **Letzte Aktualisierung / Last Updated:** 2026-02-02  
 **Gepflegt von / Maintained by:** ThemisDB Core Team
 
@@ -273,3 +282,4 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 - ✅ 1 neues Infrastruktur-Template hinzugefügt / 1 new infrastructure template added (Hardware Resources)
 - ✅ 3 neue erweiterte Templates hinzugefügt / 3 new extended templates added (Code Quality, Dependency Audit, Incident Post-Mortem)
 - ✅ 3 neue Medium-Priority-Templates hinzugefügt / 3 new medium-priority templates added (Accessibility, Localization, Cost Optimization)
+- ✅ 3 neue Datenbank-Kern-Task-Templates hinzugefügt / 3 new database core task templates added (Backup/Restore, Replication, Query Optimizer)
