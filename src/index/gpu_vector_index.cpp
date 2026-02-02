@@ -5,6 +5,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
+#include <unordered_map>
 
 namespace themis {
 namespace index {

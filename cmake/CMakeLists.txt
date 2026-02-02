@@ -1572,6 +1572,11 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/embedding_provider.cpp
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
+    # GPU VRAM Allocation (vLLM-inspired)
+    ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/multi_gpu_memory_coordinator.cpp
+    ../src/llm/paged_kv_cache_manager.cpp
+    ../src/llm/mixed_precision_inference.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
@@ -2716,6 +2721,25 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
+    
+    # GPU Vector Index Test
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(test_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 endif()
 
 # Benchmarks
@@ -3078,6 +3102,20 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    
+    # GPU Vector Index benchmark
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(bench_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_gpu_vector_index.cpp
+        )
+        
+        target_link_libraries(bench_gpu_vector_index
+            PRIVATE
+                themis_core
+                benchmark::benchmark
+                benchmark::benchmark_main
+        )
+    endif()
 
     # GNN Embeddings benchmark
     add_executable(bench_gnn_embeddings
