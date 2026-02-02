@@ -77,7 +77,7 @@ class BaselineManager:
             filepath = self.develop_dir / "latest.json"
         else:
             # For feature branches, save with timestamp
-            timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             safe_branch = branch.replace("/", "_").replace("\\", "_")
             filepath = self.baselines_dir / f"{safe_branch}_{timestamp}.json"
         
