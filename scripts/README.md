@@ -135,6 +135,84 @@ python3 scripts/docs-lint.py --format json --output lint-report.json
 - [Documentation Validation Guide (English)](../docs/DOCUMENTATION_VALIDATION.md)
 - [Dokumentations-Validierung (Deutsch)](../docs/de/DOKUMENTATIONS_VALIDIERUNG.md)
 
+### Security & Compliance Scripts
+
+Scripts for security auditing and compliance verification:
+
+#### Comprehensive Code Audit
+
+- **`comprehensive-code-audit.sh`** - Systematic security and compliance audit script
+
+**Purpose:** Automate comprehensive security analysis covering SAST, dependency scanning, secret detection, container security, and dynamic analysis.
+
+**Compliance Coverage:**
+- BSI C5 (Cloud Computing Compliance Criteria Catalogue)
+- ISO/IEC 27001 (Information Security Management)
+- DSGVO/GDPR (EU Data Protection Regulation)
+- NIS2 (Network and Information Security Directive)
+- OWASP ASVS (Application Security Verification Standard)
+- NIST Cybersecurity Framework
+
+**Features:**
+- Static Application Security Testing (SAST)
+  - cppcheck - C++ static analysis
+  - clang-tidy - Modern C++ linting and security checks
+  - Semgrep - Pattern-based security scanning
+- Dependency & Supply Chain Security
+  - Trivy - Vulnerability scanning
+  - vcpkg dependency inventory
+- Secret Detection
+  - Gitleaks - Credential and API key detection
+- Container Security
+  - Dockerfile security analysis
+- Dynamic Analysis
+  - Integration with Valgrind, ASAN, TSAN
+  - Recommendations for runtime testing
+
+**Quick Start:**
+```bash
+# Full comprehensive audit
+./scripts/comprehensive-code-audit.sh
+
+# Quick audit (skip time-consuming checks)
+AUDIT_QUICK=1 ./scripts/comprehensive-code-audit.sh
+
+# Audit specific categories
+./scripts/comprehensive-code-audit.sh --skip-dependencies --skip-dynamic
+
+# Continue even if issues found
+./scripts/comprehensive-code-audit.sh --continue-on-error
+
+# View all options
+./scripts/comprehensive-code-audit.sh --help
+```
+
+**Output:**
+- Audit results directory: `audit-results-<timestamp>/`
+- Comprehensive report: `audit-results-<timestamp>/comprehensive-audit-report.md`
+- Category-specific reports in subdirectories (sast/, dependencies/, secrets/, etc.)
+
+**CI/CD Integration:**
+- Referenced in security audit workflows
+- Can be triggered manually via GitHub Actions
+
+**Documentation:**
+- [SECURITY.md](../SECURITY.md) - Security scanning section
+- [Security Compliance Investigation Template](../.github/ISSUE_TEMPLATE/security-compliance-investigation.md)
+- [Full Audit Checklist](../docs/de/compliance/compliance_full_checklist.md)
+- [Audit TODO List](../docs/de/compliance/compliance_audit_todo.md)
+
+**Prerequisites:**
+```bash
+# Ubuntu/Debian
+sudo apt-get install cmake git build-essential cppcheck clang-tidy
+
+# Install optional tools for full coverage
+# Trivy - https://aquasecurity.github.io/trivy/
+# Gitleaks - https://github.com/gitleaks/gitleaks
+# Semgrep - https://semgrep.dev/
+```
+
 ## Usage
 
 Each script includes documentation in the header comments. Run scripts with `-h` or `--help` for usage information where applicable.
