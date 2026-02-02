@@ -391,17 +391,25 @@ $ grep -r "new \|delete " src/llm/lora_framework/gpu_data_loader.cpp src/llm/lor
 
 ### Priority 2: Short-term Improvements (Next Sprint)
 
-1. **Add Alignment Assertions in GPU Code** 📋
+1. **Add Alignment Assertions in GPU Code** ✅ COMPLETED
    - File: `src/llm/lora_framework/gpu_lora_layers.cpp`
-   - Action: Add runtime alignment verification before reinterpret_cast
-   - Example:
+   - Action: Added runtime alignment verification before all reinterpret_cast operations
+   - Implementation:
      ```cpp
-     assert(performance::is_aligned<alignof(float)>(input.data()));
+     assert(performance::is_aligned<alignof(float)>(input.data()) && 
+            "Input tensor must be float-aligned for GPU operations");
      ```
+   - Status: All 28 reinterpret_cast uses now have alignment assertions
+   - Benefit: Catches alignment violations early on ARM and other strict platforms
 
-2. **Document Reinterpret Cast Safety** 📋
-   - Add comments documenting why each reinterpret_cast is safe
-   - Reference alignment guarantees where applicable
+2. **Document Reinterpret Cast Safety** ✅ COMPLETED
+   - Files: `src/llm/lora_framework/gpu_lora_layers.cpp`, `src/llm/model_loader.cpp`
+   - Action: Added comprehensive comments documenting why each reinterpret_cast is safe
+   - Documentation includes:
+     - GPU tensors: Guaranteed float alignment via cudaMalloc/hipMalloc
+     - llama.cpp: Standard C API type-erasure pattern with opaque handles
+     - Safety guarantees and assumptions clearly stated
+   - Status: All reinterpret_cast uses are now documented
 
 ### Priority 3: Long-term Improvements
 
