@@ -26,6 +26,7 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | [🚀 Getting Started](#-getting-started) | Set up development environment |
 | [💻 Development Workflow](#-development-workflow) | Branching and committing |
 | [✅ Code Quality Standards](#-code-quality-standards) | Enforced quality checks |
+| [📋 License Compliance](#-license-compliance) | License policy and compliance |
 | [🔄 Pull Request Process](#-pull-request-process) | Submitting changes |
 | [🏷️ Issue Labels](#️-issue-labels) | GitHub label system |
 | [🐛 Reporting Bugs](#-reporting-bugs) | Bug report guidelines |
@@ -643,6 +644,39 @@ start coverage/html/index.html     # Windows
 - Environment variables
 - `.env.example` templates (never `.env`)
 - Configuration placeholders (`YOUR_API_KEY_HERE`)
+
+### 📋 License Compliance
+
+> [!IMPORTANT]
+> **All dependencies must comply with ThemisDB's license policy!**  
+> The automated license compliance workflow blocks PRs with incompatible licenses.
+
+**License Policy:**
+- **Allowed:** MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unlicense, CC0-1.0, MPL-2.0
+- **Warning (Weak Copyleft):** LGPL-2.1, LGPL-3.0, EPL-1.0, EPL-2.0 (acceptable with dynamic linking)
+- **Blocked (Strong Copyleft):** GPL-2.0, GPL-3.0, AGPL-3.0
+- **Blocked:** Proprietary, Commercial, UNLICENSED
+
+**Before adding dependencies:**
+
+1. **Check the license** - Verify it's in the allowed list
+2. **Review `.license-policy.json`** - Consult the policy file
+3. **Document in PR** - Mention the license in your pull request
+
+**If your PR is blocked:**
+- **Option A:** Replace the dependency with a compatible alternative (preferred)
+- **Option B:** Request an exception by creating an issue with label `license-exception`
+
+**Automated Checks:**
+- ✅ Runs on every PR that changes dependencies
+- 📊 Monthly audit on the first of each month
+- 🔍 Scans `vcpkg.json`, `package.json`, and other dependency files
+- 💬 Posts results as PR comment with detailed violations
+
+**Documentation:**
+- [Full License Compliance Process](docs/de/compliance/license-compliance.md) (German)
+- [License Compliance Process](docs/en/compliance/license-compliance.md) (English)
+- [License Policy File](.license-policy.json)
 
 ### 🎨 Code Style
 
