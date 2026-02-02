@@ -26,6 +26,11 @@ Diese Templates helfen bei der strukturierten Erstellung von Issues für verschi
 - **`ai-review-distributed-systems.md`** - Sharding, Replication, Consensus, CDC
 - **`ai-review-network-api.md`** - HTTP, gRPC, WebSocket, MQTT, PostgreSQL Wire
 
+#### Kern-Technologie-Reviews / Core Technology Reviews (NEU / NEW)
+- **`ai-review-rocksdb-storage.md`** - RocksDB Storage Backend / RocksDB storage backend
+- **`ai-review-base-entities.md`** - Base Entities Framework / Base entities framework
+- **`ai-review-llama-cpp.md`** - llama.cpp LLM Integration / llama.cpp integration
+
 #### Qualitäts- & Prozess-Reviews / Quality & Process Reviews (NEU / NEW)
 - **`ai-review-performance-optimization.md`** - Performance-Analyse & Optimierungs-Review / Performance analysis & optimization
 - **`ai-review-api-design.md`** - API-Design-Konsistenz & Best Practices / API design consistency & best practices
@@ -180,7 +185,7 @@ Alle Guides und Dokumentation befinden sich im **`_guides/`** Unterverzeichnis: 
 
 ## 🔄 Empfohlene Review-Häufigkeit / Recommended Review Frequency
 
-- **Quartalsweise / Quarterly** - Kern-Komponenten (Storage, Transaction, Query, Security)
+- **Quartalsweise / Quarterly** - Kern-Komponenten (Storage, Transaction, Query, Security, RocksDB, Base Entities, llama.cpp)
 - **Halbjährlich / Bi-annual** - Stabile Komponenten
 - **Nach großen Änderungen / After major changes** - Neue Features, Refactoring
 - **Vor Releases / Pre-release** - Komponenten mit signifikanten Änderungen
@@ -200,12 +205,12 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 | Kategorie / Category | Anzahl / Count | Zweck / Purpose |
 |----------------------|----------------|-----------------|
 | 👥 User-Facing | 4 | Bugs, Features, Dokumentation |
-| 🤖 AI Reviews | 10 | Systematische Komponenten- & Prozess-Reviews |
+| 🤖 AI Reviews | 13 | Systematische Komponenten- & Prozess-Reviews |
 | 🔒 Security | 6 | Sicherheit & Compliance |
 | 🔬 Research | 5 | Forschung & State-of-the-Art |
 | ⚙️ Implementation Tasks | 19 | Feature-Implementierungen |
 | 📚 Documentation | 11 | Guides & Beispiele (in `_guides/`) |
-| **Gesamt / Total** | **55** | |
+| **Gesamt / Total** | **58** | |
 
 ## 🆕 Neue Features / New Features (2026-02-02)
 
@@ -220,6 +225,10 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
   - Test-Qualität / Testing quality
   - Dokumentations-Audit / Documentation audit
   - Migrations-Planung / Migration planning
+✅ **3 neue Kern-Technologie-Review-Templates** / 3 new core technology review templates:
+  - RocksDB Storage Backend
+  - Base Entities Framework
+  - llama.cpp Integration
 
 ## ❓ Hilfe benötigt? / Need Help?
 
@@ -229,7 +238,7 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 
 ---
 
-**Version:** 2.0.0  
+**Version:** 2.1.0  
 **Letzte Aktualisierung / Last Updated:** 2026-02-02  
 **Gepflegt von / Maintained by:** ThemisDB Core Team
 
@@ -239,3 +248,4 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 - ✅ Verbesserte Template-Beschreibungen / Enhanced template descriptions
 - ✅ Klarere Kategorisierung / Clearer categorization
 - ✅ 5 neue AI-Review-Templates hinzugefügt / 5 new AI review templates added (Performance, API, Testing, Docs, Migration)
+- ✅ 3 neue Kern-Technologie-Templates hinzugefügt / 3 new core technology templates added (RocksDB, Base Entities, llama.cpp)
