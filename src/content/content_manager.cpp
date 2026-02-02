@@ -637,6 +637,52 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
         int embedding_dim = 0;
+        
+        // Load fulltext index configuration from DB: key config:content
+        bool auto_fulltext_index = false;
+        SecondaryIndexManager::FulltextConfig fulltext_config;
+        try {
+            if (auto cfgv = storage_->get("config:content")) {
+                std::string s(cfgv->begin(), cfgv->end());
+                json cj = json::parse(s);
+                auto_fulltext_index = cj.value("auto_fulltext_index", false);
+                
+                // Parse fulltext config if present
+                if (cj.contains("fulltext_config") && cj["fulltext_config"].is_object()) {
+                    auto ftcfg = cj["fulltext_config"];
+                    fulltext_config.stemming_enabled = ftcfg.value("stemming_enabled", false);
+                    fulltext_config.language = ftcfg.value("language", "none");
+                    fulltext_config.stopwords_enabled = ftcfg.value("stopwords_enabled", false);
+                    fulltext_config.normalize_umlauts = ftcfg.value("normalize_umlauts", false);
+                    if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
+                        for (const auto& sw : ftcfg["stopwords"]) {
+                            if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
+                        }
+                    }
+                }
+            }
+        } catch (const std::exception& e) {
+            // Config parsing failed - continue with defaults (auto_fulltext_index = false)
+            // This is acceptable as the feature is opt-in
+            THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
+        } catch (...) {
+            // Unknown error during config parsing - continue with defaults
+            THEMIS_DEBUG("Unknown error parsing content config for fulltext index");
+        }
+        
+        // Ensure fulltext index exists if auto-indexing is enabled
+        if (auto_fulltext_index && secondary_index_) {
+            if (!secondary_index_->hasFulltextIndex("chunk", "text")) {
+                auto ft_status = secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
+                if (ft_status.ok) {
+                    THEMIS_INFO("Created fulltext index for chunk.text with language={}, stemming={}", 
+                               fulltext_config.language, fulltext_config.stemming_enabled);
+                } else {
+                    THEMIS_WARN("Failed to create fulltext index for chunk.text: {}", ft_status.message);
+                }
+            }
+        }
+        
         if (spec.contains("chunks") && spec["chunks"].is_array()) {
             int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
             for (const auto& jc : spec["chunks"]) {
@@ -651,7 +697,27 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 if (!storage_->put(ckey, std::vector<uint8_t>(cjson.begin(), cjson.end()))) {
                     return Status::Error("failed to store chunk meta");
                 }
+                
+                // Add to fulltext index if enabled and text is present
+                // Note: BaseEntity for fulltext uses chunk ID as PK and includes text field
+                if (auto_fulltext_index && secondary_index_ && !c.text.empty()) {
+                    BaseEntity chunk_entity = BaseEntity::fromFields(
+                        c.id,
+                        BaseEntity::FieldMap{
+                            {"content_id", c.content_id},
+                            {"text", c.text},
+                            {"seq_num", static_cast<int64_t>(c.seq_num)},
+                            {"chunk_type", c.chunk_type}
+                        }
+                    );
+                    auto idx_status = secondary_index_->put("chunk", chunk_entity);
+                    if (!idx_status.ok) {
+                        THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, idx_status.message);
+                    }
+                }
+                
                 // Embedding in VectorIndex einfügen (falls vorhanden)
+                // Note: BaseEntity for vector index uses "chunks:" prefix and includes embedding
                 if (!c.embedding.empty() && vector_index_) {
                     if (vector_index_->getDimension() == 0) {
                         (void)vector_index_->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
@@ -1326,6 +1392,13 @@ Status ContentManager::deleteContent(const std::string& content_id) {
         // Remove vector object if present
         if (vector_index_) {
             vector_index_->removeByPk(std::string("chunks:") + c.id);
+        }
+        // Remove from fulltext index if present
+        if (secondary_index_ && secondary_index_->hasFulltextIndex("chunk", "text")) {
+            auto erase_status = secondary_index_->erase("chunk", c.id);
+            if (!erase_status.ok) {
+                THEMIS_WARN("Failed to remove chunk {} from fulltext index: {}", c.id, erase_status.message);
+            }
         }
     }
     storage_->del(std::string("content_chunks:") + id);
