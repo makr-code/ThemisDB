@@ -285,12 +285,12 @@ Bei Fragen zur Lizenz-Compliance:
 
 ## Weiterführende Ressourcen
 
-- [Lizenz-Policy (.license-policy.json)](.license-policy.json)
-- [License Compliance Workflow](.github/workflows/license-compliance.yml)
-- [Security Scanning Workflow](.github/workflows/security-scan.yml)
-- [SBOM Workflow](.github/workflows/sbom.yml)
-- [CONTRIBUTING.md](../../CONTRIBUTING.md)
-- [SECURITY.md](../../SECURITY.md)
+- [Lizenz-Policy (.license-policy.json)](../../../.license-policy.json)
+- [License Compliance Workflow](../../../.github/workflows/license-compliance.yml)
+- [Security Scanning Workflow](../../../.github/workflows/security-scan.yml)
+- [SBOM Workflow](../../../.github/workflows/sbom.yml)
+- [CONTRIBUTING.md](../../../CONTRIBUTING.md)
+- [SECURITY.md](../../../SECURITY.md)
 
 ---
 
