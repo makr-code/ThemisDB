@@ -42,13 +42,49 @@ public:
     std::unique_ptr<CUDAVectorIndexBackend> cudaBackend;
     std::unique_ptr<HIPVectorIndexBackend> hipBackend;
     
-    Impl(const Config& cfg) : config(cfg) {}
+    Impl(const Config& cfg) : config(cfg) {
+        // Validate configuration parameters
+        if (config.M <= 0 || config.M > 256) {
+            std::cerr << "Warning: M parameter " << config.M << " outside recommended range [1-256], using default 16" << std::endl;
+            config.M = 16;
+        }
+        if (config.efConstruction <= 0 || config.efConstruction > 2000) {
+            std::cerr << "Warning: efConstruction " << config.efConstruction << " outside recommended range [1-2000], using default 200" << std::endl;
+            config.efConstruction = 200;
+        }
+        if (config.efSearch <= 0 || config.efSearch > 2000) {
+            std::cerr << "Warning: efSearch " << config.efSearch << " outside recommended range [1-2000], using default 64" << std::endl;
+            config.efSearch = 64;
+        }
+        if (config.batchSize <= 0 || config.batchSize > 10000) {
+            std::cerr << "Warning: batchSize " << config.batchSize << " outside recommended range [1-10000], using default 512" << std::endl;
+            config.batchSize = 512;
+        }
+        if (config.maxVRAM_MB == 0 || config.maxVRAM_MB > 1048576) { // Max 1TB
+            std::cerr << "Warning: maxVRAM_MB " << config.maxVRAM_MB << " invalid, using default 8192 MB" << std::endl;
+            config.maxVRAM_MB = 8192;
+        }
+        if (config.deviceId < 0 || config.deviceId > 16) {
+            std::cerr << "Warning: deviceId " << config.deviceId << " outside valid range [0-16], using default 0" << std::endl;
+            config.deviceId = 0;
+        }
+    }
     
     ~Impl() {
         shutdown();
     }
     
     bool initialize(int dim) {
+        // Validate dimension
+        if (dim <= 0) {
+            std::cerr << "Invalid dimension: " << dim << " (must be > 0)" << std::endl;
+            return false;
+        }
+        if (dim > 10000) {
+            std::cerr << "Dimension " << dim << " exceeds maximum supported (10000)" << std::endl;
+            return false;
+        }
+        
         dimension = dim;
         stats.dimension = dim;
         
@@ -124,8 +160,25 @@ public:
     }
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
-        if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
+        if (!initialized) {
+            std::cerr << "Index not initialized" << std::endl;
             return false;
+        }
+        if (id.empty()) {
+            std::cerr << "Vector ID cannot be empty" << std::endl;
+            return false;
+        }
+        if (vector.size() != static_cast<size_t>(dimension)) {
+            std::cerr << "Vector dimension mismatch: expected " << dimension 
+                     << ", got " << vector.size() << std::endl;
+            return false;
+        }
+        // Check for NaN or infinity values
+        for (size_t i = 0; i < vector.size(); ++i) {
+            if (!std::isfinite(vector[i])) {
+                std::cerr << "Vector contains non-finite values (NaN or Inf)" << std::endl;
+                return false;
+            }
         }
         
         // Check if ID already exists
@@ -170,8 +223,24 @@ public:
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
-        if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+        if (vectorData.empty()) {
             return {};
+        }
+        if (query.size() != static_cast<size_t>(dimension)) {
+            std::cerr << "Query dimension mismatch: expected " << dimension 
+                     << ", got " << query.size() << std::endl;
+            return {};
+        }
+        if (k == 0) {
+            std::cerr << "k must be greater than 0" << std::endl;
+            return {};
+        }
+        // Check for NaN or infinity in query
+        for (size_t i = 0; i < query.size(); ++i) {
+            if (!std::isfinite(query[i])) {
+                std::cerr << "Query contains non-finite values (NaN or Inf)" << std::endl;
+                return {};
+            }
         }
         
         auto startTime = std::chrono::steady_clock::now();
@@ -359,10 +428,24 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 }
 
 void GPUVectorIndex::setEfSearch(int ef) {
+    if (ef <= 0) {
+        std::cerr << "efSearch must be greater than 0, ignoring invalid value: " << ef << std::endl;
+        return;
+    }
+    if (ef > 10000) {
+        std::cerr << "Warning: efSearch " << ef << " is very large, may impact performance" << std::endl;
+    }
     pImpl->config.efSearch = ef;
 }
 
 void GPUVectorIndex::setBatchSize(int size) {
+    if (size <= 0) {
+        std::cerr << "Batch size must be greater than 0, ignoring invalid value: " << size << std::endl;
+        return;
+    }
+    if (size > 10000) {
+        std::cerr << "Warning: Batch size " << size << " is very large, may impact memory usage" << std::endl;
+    }
     pImpl->config.batchSize = size;
 }
 
