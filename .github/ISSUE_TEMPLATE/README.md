@@ -19,11 +19,19 @@ Diese Templates helfen bei der strukturierten Erstellung von Issues für verschi
 
 **Wiederholbare Templates für regelmäßige Komponenten-Reviews (quartalsweise empfohlen):**
 
+#### Komponenten-Reviews / Component Reviews
 - **`ai-review-component-template.md`** - Universal-Template für jede Komponente / Universal template for any component
 - **`ai-review-database-components.md`** - Storage, Transaction, Query, Index, AQL
 - **`ai-review-llm-components.md`** - LLM, Embeddings, RAG, Voice, Ethics
 - **`ai-review-distributed-systems.md`** - Sharding, Replication, Consensus, CDC
 - **`ai-review-network-api.md`** - HTTP, gRPC, WebSocket, MQTT, PostgreSQL Wire
+
+#### Qualitäts- & Prozess-Reviews / Quality & Process Reviews (NEU / NEW)
+- **`ai-review-performance-optimization.md`** - Performance-Analyse & Optimierungs-Review / Performance analysis & optimization
+- **`ai-review-api-design.md`** - API-Design-Konsistenz & Best Practices / API design consistency & best practices
+- **`ai-review-testing-quality.md`** - Test-Coverage & Qualitätssicherung / Test coverage & quality assurance
+- **`ai-review-documentation-audit.md`** - Dokumentations-Vollständigkeit & Qualität / Documentation completeness & quality
+- **`ai-review-migration-planning.md`** - Migration-Planung & Risikobewertung / Migration planning & risk assessment
 
 **Was wird überprüft? / What is reviewed?**
 - ✅ Best Practices & Code-Qualität / Best practices & code quality
@@ -192,12 +200,12 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 | Kategorie / Category | Anzahl / Count | Zweck / Purpose |
 |----------------------|----------------|-----------------|
 | 👥 User-Facing | 4 | Bugs, Features, Dokumentation |
-| 🤖 AI Reviews | 5 | Systematische Komponenten-Reviews |
+| 🤖 AI Reviews | 10 | Systematische Komponenten- & Prozess-Reviews |
 | 🔒 Security | 6 | Sicherheit & Compliance |
 | 🔬 Research | 5 | Forschung & State-of-the-Art |
 | ⚙️ Implementation Tasks | 19 | Feature-Implementierungen |
 | 📚 Documentation | 11 | Guides & Beispiele (in `_guides/`) |
-| **Gesamt / Total** | **50** | |
+| **Gesamt / Total** | **55** | |
 
 ## 🆕 Neue Features / New Features (2026-02-02)
 
@@ -206,6 +214,12 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 ✅ **Verbesserte Beschreibungen** in jedem Template / Enhanced descriptions in each template
 ✅ **Bilinguale Unterstützung** (Deutsch/English) / Bilingual support (German/English)
 ✅ **Schnellauswahl-Guide** für einfache Template-Auswahl / Quick selection guide for easy template choice
+✅ **5 neue wiederholbare AI-Review-Templates** / 5 new repeatable AI review templates:
+  - Performance-Optimierung / Performance optimization
+  - API-Design / API design
+  - Test-Qualität / Testing quality
+  - Dokumentations-Audit / Documentation audit
+  - Migrations-Planung / Migration planning
 
 ## ❓ Hilfe benötigt? / Need Help?
 
@@ -224,3 +238,4 @@ Templates folgen einem klaren Präfix-System: / Templates follow a clear prefix 
 - ✅ Dokumentation nach `_guides/` verschoben / Documentation moved to `_guides/`
 - ✅ Verbesserte Template-Beschreibungen / Enhanced template descriptions
 - ✅ Klarere Kategorisierung / Clearer categorization
+- ✅ 5 neue AI-Review-Templates hinzugefügt / 5 new AI review templates added (Performance, API, Testing, Docs, Migration)
