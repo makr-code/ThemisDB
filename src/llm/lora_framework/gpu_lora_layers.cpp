@@ -1,8 +1,10 @@
 #include "llm/lora_framework/gpu_lora_layers.h"
 #include "llm/lora_framework/flash_lora.h"
+#include "performance/alignment_helpers.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cmath>
+#include <cassert>
 
 // Include fused kernel headers
 #ifdef THEMIS_ENABLE_CUDA
@@ -103,7 +105,18 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
             auto batch_size = input.shape()[0];
             GPUTensor output({batch_size, out_dim_}, device_);
             
-            // Get raw pointers
+            // Get raw pointers for GPU kernel
+            // Safety: GPUTensor guarantees proper float alignment for GPU memory
+            // All GPU tensors are allocated with cudaMalloc which provides proper alignment
+            assert(performance::is_aligned<alignof(float)>(input.data()) && 
+                   "Input tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(B_->data()) && 
+                   "B tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(A_->data()) && 
+                   "A tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(output.data()) && 
+                   "Output tensor must be float-aligned for GPU operations");
+            
             const float* input_ptr = reinterpret_cast<const float*>(input.data());
             const float* B_ptr = reinterpret_cast<const float*>(B_->data());
             const float* A_ptr = reinterpret_cast<const float*>(A_->data());
@@ -130,7 +143,18 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
             auto batch_size = input.shape()[0];
             GPUTensor output({batch_size, out_dim_}, device_);
             
-            // Get raw pointers
+            // Get raw pointers for GPU kernel
+            // Safety: GPUTensor guarantees proper float alignment for GPU memory
+            // All GPU tensors are allocated with hipMalloc which provides proper alignment
+            assert(performance::is_aligned<alignof(float)>(input.data()) && 
+                   "Input tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(B_->data()) && 
+                   "B tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(A_->data()) && 
+                   "A tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(output.data()) && 
+                   "Output tensor must be float-aligned for GPU operations");
+            
             const float* input_ptr = reinterpret_cast<const float*>(input.data());
             const float* B_ptr = reinterpret_cast<const float*>(B_->data());
             const float* A_ptr = reinterpret_cast<const float*>(A_->data());
@@ -217,7 +241,24 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
             B_->ensure_grad();
             GPUTensor grad_input({batch_size, in_dim_}, device_);
             
-            // Get raw pointers
+            // Get raw pointers for GPU kernel
+            // Safety: GPUTensor guarantees proper float alignment for GPU memory
+            // All GPU tensors (including gradients) are allocated with cudaMalloc
+            assert(performance::is_aligned<alignof(float)>(input_for_backward.data()) && 
+                   "Input tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(B_->data()) && 
+                   "B tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(A_->data()) && 
+                   "A tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(grad_output.data()) && 
+                   "Grad output tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(A_->grad->data()) && 
+                   "Grad A tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(B_->grad->data()) && 
+                   "Grad B tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(grad_input.data()) && 
+                   "Grad input tensor must be float-aligned for GPU operations");
+            
             const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());
             const float* B_ptr = reinterpret_cast<const float*>(B_->data());
             const float* A_ptr = reinterpret_cast<const float*>(A_->data());
@@ -248,7 +289,24 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
             B_->ensure_grad();
             GPUTensor grad_input({batch_size, in_dim_}, device_);
             
-            // Get raw pointers
+            // Get raw pointers for GPU kernel
+            // Safety: GPUTensor guarantees proper float alignment for GPU memory
+            // All GPU tensors (including gradients) are allocated with hipMalloc
+            assert(performance::is_aligned<alignof(float)>(input_for_backward.data()) && 
+                   "Input tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(B_->data()) && 
+                   "B tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(A_->data()) && 
+                   "A tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(grad_output.data()) && 
+                   "Grad output tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(A_->grad->data()) && 
+                   "Grad A tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(B_->grad->data()) && 
+                   "Grad B tensor must be float-aligned for GPU operations");
+            assert(performance::is_aligned<alignof(float)>(grad_input.data()) && 
+                   "Grad input tensor must be float-aligned for GPU operations");
+            
             const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());
             const float* B_ptr = reinterpret_cast<const float*>(B_->data());
             const float* A_ptr = reinterpret_cast<const float*>(A_->data());
