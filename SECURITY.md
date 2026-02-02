@@ -279,28 +279,51 @@ For significant vulnerabilities, we will coordinate **CVE assignment with MITRE*
 | **cppcheck** | Additional C++ security checks | ✅ CI/CD |
 | **Trivy** | Container image vulnerability scanning | ✅ CI/CD |
 | **OWASP ZAP** | Dynamic application security testing | 🚧 Planned |
+| **Comprehensive Audit** | Systematic security & compliance audit | ✅ Available |
 
 ### Run Scans Locally
 
 <details>
-<summary><b>Windows (PowerShell)</b></summary>
+<summary><b>Comprehensive Security Audit (Recommended)</b></summary>
 
-```powershell
-.\security-scan.ps1
+Run a systematic security audit covering SAST, dependency scanning, secret detection, and more:
+
+```bash
+# Full audit (requires tools: cppcheck, clang-tidy, trivy, gitleaks, semgrep)
+./scripts/comprehensive-code-audit.sh
+
+# Quick audit (skip time-consuming checks)
+AUDIT_QUICK=1 ./scripts/comprehensive-code-audit.sh
+
+# Audit with specific categories
+./scripts/comprehensive-code-audit.sh --skip-dependencies --skip-dynamic
+
+# View all options
+./scripts/comprehensive-code-audit.sh --help
 ```
+
+**Audit Report:** Results are saved in `audit-results-<timestamp>/comprehensive-audit-report.md`
+
+**Compliance Coverage:** BSI C5, ISO 27001, DSGVO, NIS2, OWASP ASVS, NIST CSF
 
 </details>
 
 <details>
-<summary><b>Linux/WSL</b></summary>
+<summary><b>Individual Security Tools</b></summary>
 
 ```bash
-# If the script exists
-./security-scan.ps1
-
-# Or use tools directly:
+# Secret detection
 gitleaks detect --source . --verbose
+
+# Static analysis
 cppcheck --enable=warning,style --inconclusive ./src ./include
+clang-tidy src/**/*.cpp -- -std=c++20
+
+# Dependency scanning
+trivy fs --scanners vuln,secret,misconfig .
+
+# Semgrep patterns
+semgrep --config=auto src/ include/
 ```
 
 </details>
