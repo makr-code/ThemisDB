@@ -69,10 +69,13 @@ grep -r "ProductQuantizer\|BinaryQuantizer\|ResidualQuantizer" src/ include/
 
 // After
 #include <faiss/IndexIVFPQ.h>      // For ProductQuantizer
+#include <memory>                  // For std::unique_ptr
 // OR
 #include <faiss/IndexBinaryFlat.h> // For BinaryQuantizer
+#include <memory>                  // For std::unique_ptr
 // OR
 #include <faiss/IndexResidual.h>   // For ResidualQuantizer
+#include <memory>                  // For std::unique_ptr
 ```
 
 #### Step 2: Replace Implementation
@@ -88,7 +91,7 @@ quantizer_->train(training_vectors);
 auto codes = quantizer_->encode(vector);
 
 // ✅ NEW CODE (FAISS native)
-faiss::IndexIVFPQ* index = new faiss::IndexIVFPQ(
+auto index = std::make_unique<faiss::IndexIVFPQ>(
     dimension_,  // dim
     1024,        // nlist (clusters)
     8,           // m (subquantizers)
@@ -269,7 +272,7 @@ If migration fails or causes issues:
 
 **ProductQuantizer:**
 ```cpp
-faiss::IndexIVFPQ(dimension, nlist, m, nbits);
+auto index = std::make_unique<faiss::IndexIVFPQ>(dimension, nlist, m, nbits);
 // dimension: vector dimensionality
 // nlist: number of clusters (try sqrt(N))
 // m: number of subquantizers (dim % m must be 0)
@@ -278,13 +281,13 @@ faiss::IndexIVFPQ(dimension, nlist, m, nbits);
 
 **BinaryQuantizer:**
 ```cpp
-faiss::IndexBinaryFlat(dimension);
+auto index = std::make_unique<faiss::IndexBinaryFlat>(dimension);
 // dimension: vector dimensionality (in bits)
 ```
 
 **ResidualQuantizer:**
 ```cpp
-faiss::IndexResidual(dimension, num_stages, num_centroids);
+auto index = std::make_unique<faiss::IndexResidual>(dimension, num_stages, num_centroids);
 // dimension: vector dimensionality
 // num_stages: number of residual stages
 // num_centroids: centroids per stage
