@@ -107,9 +107,10 @@ std::vector<uint8_t> BinaryQuantizer::encode(const std::vector<float>& vector) c
     std::vector<uint8_t> codes(num_bytes, 0);
     
     for (int d = 0; d < dimension_; d++) {
-        float centered = config_.center_values 
-            ? input[d] - mean_values_[d]
-            : input[d];
+        float centered = input[d];
+        if (config_.center_values && !mean_values_.empty()) {
+            centered -= mean_values_[d];
+        }
         
         if (centered >= 0.0f) {
             int byte_idx = d / 8;
@@ -138,7 +139,7 @@ std::vector<float> BinaryQuantizer::decode(const std::vector<uint8_t>& codes) co
         
         // Reconstruct: bit ? +scale : -scale, then add mean
         float value = bit ? scale_ : -scale_;
-        if (config_.center_values) {
+        if (config_.center_values && !mean_values_.empty()) {
             value += mean_values_[d];
         }
         result[d] = value;
@@ -194,13 +195,20 @@ float BinaryQuantizer::computeNorm(const std::vector<float>& vector) const {
 }
 
 int BinaryQuantizer::popcount(uint8_t byte) const {
-    // Count number of set bits (popcount)
-    int count = 0;
-    while (byte) {
-        count += byte & 1;
-        byte >>= 1;
-    }
-    return count;
+    // Use compiler intrinsic for optimized popcount if available
+    #ifdef __GNUC__
+        return __builtin_popcount(byte);
+    #elif defined(_MSC_VER)
+        return __popcnt(byte);
+    #else
+        // Fallback: bit-by-bit count
+        int count = 0;
+        while (byte) {
+            count += byte & 1;
+            byte >>= 1;
+        }
+        return count;
+    #endif
 }
 
 } // namespace themis

@@ -5,23 +5,17 @@
 #include <cstdint>
 #include <memory>
 
-// Forward declare FAISS types to avoid header pollution
-#ifdef THEMIS_GPU_ENABLED
-namespace faiss {
-    class ProductQuantizer;
-}
-#endif
-
 namespace themis {
 
 /**
  * @brief Product Quantization for Vector Compression
  * 
- * MIGRATED TO FAISS NATIVE IMPLEMENTATION (v1.4.1)
- * This is now a thin wrapper around FAISS's ProductQuantizer for optimal performance.
- * 
- * Implements Product Quantization (PQ) for compressing high-dimensional vectors
+ * Custom implementation of Product Quantization (PQ) for compressing high-dimensional vectors
  * from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).
+ * 
+ * NOTE: FAISS migration considered but NOT performed due to API mismatch.
+ * FAISS's IndexIVFPQ doesn't expose standalone encode/decode methods needed by this interface.
+ * For new implementations, consider using FAISS IndexIVFPQ directly if integrated search is acceptable.
  * 
  * @sources
  * - Algorithm: Product Quantization
@@ -30,11 +24,10 @@ namespace themis {
  *          IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI)
  * - DOI: 10.1109/TPAMI.2010.57
  * - URL: https://hal.inria.fr/inria-00514462
- * - Implementation: FAISS library (Meta AI Research) - Native optimized implementation
- * - ThemisDB Wrapper: Maintains API compatibility with RocksDB storage and ACID transactions
+ * - Implementation: Custom ThemisDB implementation with RocksDB storage and ACID transactions
+ * - FAISS Alternative: faiss::IndexIVFPQ (integrated search, not standalone encode/decode)
  * 
  * Part of ThemisDB v1.3.0 - Feature #7: Vector Quantization
- * Migrated to FAISS native: v1.4.1 - Reduces code by ~300 lines, improves performance
  */
 class ProductQuantizer {
 public:
