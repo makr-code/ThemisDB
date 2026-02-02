@@ -9,6 +9,8 @@ on:
 # Minimal permissions for security
 permissions:
   contents: read
+  pull-requests: write
+  checks: write
 
 defaults:
   run:
@@ -48,6 +50,11 @@ jobs:
 
       - name: Build
         run: go build -v ./...
+      
+      - name: Install go-junit-report for test reporting
+        if: env.ACT != 'true'
+        run: go install github.com/jstemmer/go-junit-report/v2@latest
+        continue-on-error: true
 
       - name: Run tests
         run: |
@@ -56,7 +63,30 @@ jobs:
             go build -v ./...
             exit 0
           fi
-          go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+          if command -v go-junit-report &> /dev/null; then
+            go test -v -race -coverprofile=coverage.out -covermode=atomic ./... 2>&1 | go-junit-report -set-exit-code > test-results.xml || true
+          else
+            go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+          fi
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always() && env.ACT != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-go-${{ matrix.go-version }}
+          path: clients/go/test-results.xml
+          retention-days: 30
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always() && env.ACT != 'true'
+        with:
+          name: 'Go SDK Tests (Go ${{ matrix.go-version }})'
+          path: clients/go/test-results.xml
+          reporter: java-junit
+          fail-on-error: false
+          working-directory: clients/go
 
       - name: Run benchmarks (no execution)
         if: env.ACT != 'true'

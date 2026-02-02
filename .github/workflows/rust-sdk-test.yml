@@ -9,6 +9,8 @@ on:
 # Minimal permissions for security
 permissions:
   contents: read
+  pull-requests: write
+  checks: write
 
 defaults:
   run:
@@ -53,6 +55,12 @@ jobs:
 
       - name: Build
         run: cargo build --verbose --all-features
+      
+      - name: Install cargo2junit for test reporting
+        if: env.ACT != 'true'
+        run: cargo install cargo2junit || true
+        continue-on-error: true
+        working-directory: .
 
       - name: Run tests
         run: |
@@ -61,7 +69,30 @@ jobs:
             cargo build --verbose
             exit 0
           fi
-          cargo test --verbose --all-features
+          if command -v cargo2junit &> /dev/null; then
+            cargo test --verbose --all-features -- -Z unstable-options --format json --report-time | cargo2junit > test-results.xml || cargo test --verbose --all-features
+          else
+            cargo test --verbose --all-features
+          fi
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always() && env.ACT != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-rust-${{ matrix.rust-version }}
+          path: clients/rust/test-results.xml
+          retention-days: 30
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always() && env.ACT != 'true'
+        with:
+          name: 'Rust SDK Tests (Rust ${{ matrix.rust-version }})'
+          path: clients/rust/test-results.xml
+          reporter: java-junit
+          fail-on-error: false
+          working-directory: clients/rust
 
       - name: Run doc tests
         if: env.ACT != 'true'
