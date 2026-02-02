@@ -9,6 +9,8 @@ on:
 # Minimal permissions for security
 permissions:
   contents: read
+  pull-requests: write
+  checks: write
 
 defaults:
   run:
@@ -57,11 +59,30 @@ jobs:
             exit 0
           fi
           if [ -d "tests" ] && [ -n "$(ls -A tests/)" ]; then
-            pytest tests/ -v --tb=short
+            pytest tests/ -v --tb=short --junit-xml=test-results.xml
           else
             echo "No tests found, running import test only"
             python -c "import themis; print('Import successful')"
           fi
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always() && env.ACT != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-python-${{ matrix.python-version }}
+          path: clients/python/test-results.xml
+          retention-days: 30
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always() && env.ACT != 'true'
+        with:
+          name: 'Python SDK Tests (Python ${{ matrix.python-version }})'
+          path: clients/python/test-results.xml
+          reporter: java-junit
+          fail-on-error: false
+          working-directory: clients/python
 
       - name: Lint with ruff (if available)
         if: env.ACT != 'true'
