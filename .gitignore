@@ -339,3 +339,8 @@ lint-report.json
 link-report.json
 toc-report.json
 validation-report.json
+
+# Performance regression test files
+test_regression_report.*
+test_metrics.prom
+benchmarks/test_*.json
