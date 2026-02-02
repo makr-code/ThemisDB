@@ -146,7 +146,7 @@ cd build && ctest --output-on-failure
 **Explanation/Notes:**
 <!-- If no documentation required or documentation debt exists, explain here -->
 
-**Full Checklist:** See [docs/PR_DOCUMENTATION_CHECKLIST.md](../docs/PR_DOCUMENTATION_CHECKLIST.md) for detailed guidelines
+**Full Checklist:** See [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md) for detailed guidelines
 
 ## Branch Strategy Compliance
 

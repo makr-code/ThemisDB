@@ -176,7 +176,7 @@ Links:
 
 Found a problem in the docs? Use the **Documentation Issue** template:
 
-1. Go to [Issues → New Issue](https://github.com/makr-code/ThemisDB/issues/new/choose)
+1. Go to Issues → New Issue
 2. Select "Documentation Issue"
 3. Fill in:
    - What page/section
@@ -189,7 +189,7 @@ Found a problem in the docs? Use the **Documentation Issue** template:
 
 Have an idea to improve the docs? Use the **Documentation Improvement** template:
 
-1. Go to [Issues → New Issue](https://github.com/makr-code/ThemisDB/issues/new/choose)
+1. Go to Issues → New Issue
 2. Select "Documentation Improvement"
 3. Fill in:
    - What should be added
