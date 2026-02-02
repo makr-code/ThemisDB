@@ -269,19 +269,28 @@ run_cppcheck() {
     local output_file="${AUDIT_DIR}/sast/cppcheck-report.xml"
     local text_file="${AUDIT_DIR}/sast/cppcheck-output.txt"
     
-    cppcheck \
+    # Build cppcheck command with optional suppressions
+    local cppcheck_cmd="cppcheck \
         --enable=all \
         --std=c++20 \
         --language=c++ \
-        --platform=unix64 \
-        --suppressions-list="${PROJECT_ROOT}/.cppcheck-suppressions" \
+        --platform=unix64"
+    
+    # Add suppressions file if it exists
+    if [ -f "${PROJECT_ROOT}/.cppcheck-suppressions" ]; then
+        cppcheck_cmd="$cppcheck_cmd \
+        --suppressions-list=\"${PROJECT_ROOT}/.cppcheck-suppressions\""
+    fi
+    
+    cppcheck_cmd="$cppcheck_cmd \
         --inline-suppr \
         --xml \
         --xml-version=2 \
-        --output-file="$output_file" \
-        -I "${PROJECT_ROOT}/include/" \
-        "${PROJECT_ROOT}/src/" \
-        2>&1 | tee "$text_file"
+        --output-file=\"$output_file\" \
+        -I \"${PROJECT_ROOT}/include/\" \
+        \"${PROJECT_ROOT}/src/\""
+    
+    eval "$cppcheck_cmd" 2>&1 | tee "$text_file"
     
     local exit_status=$?
     
@@ -329,10 +338,14 @@ run_clang_tidy() {
     
     local output_file="${AUDIT_DIR}/sast/clang-tidy-output.txt"
     
+    # Configurable file limit (default: 50, can be set via environment)
+    local file_limit=${CLANG_TIDY_FILE_LIMIT:-50}
+    print_info "Analyzing up to $file_limit files (set CLANG_TIDY_FILE_LIMIT to change)"
+    
     # Find C++ source files
     find "${PROJECT_ROOT}/src" "${PROJECT_ROOT}/include" \
         -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.hpp" \) \
-        2>/dev/null | head -n 50 | \
+        2>/dev/null | head -n "$file_limit" | \
         xargs -I {} clang-tidy -p "${PROJECT_ROOT}/build" {} \
         2>&1 | tee "$output_file" || true
     
@@ -616,7 +629,7 @@ run_container_scan() {
         
         echo "### 4.1 Dockerfile Configuration Scan" >> "$REPORT_FILE"
         echo "" >> "$REPORT_FILE"
-        echo "**Scanned:** \`$(basename $(dirname $dockerfile_path))/$(basename $dockerfile_path)\`" >> "$REPORT_FILE"
+        echo "**Scanned:** \`$(basename "$(dirname "$dockerfile_path)")/$(basename "$dockerfile_path")\`" >> "$REPORT_FILE"
         echo "**Report:** \`container/dockerfile-scan.txt\`" >> "$REPORT_FILE"
         echo "" >> "$REPORT_FILE"
         
@@ -734,10 +747,10 @@ EOF
 
 ## References
 
-- [SECURITY.md](../SECURITY.md)
-- [Compliance Checklist](../docs/de/compliance/compliance_full_checklist.md)
-- [Security Documentation](../docs/security/)
-- [Issue Template](.github/ISSUE_TEMPLATE/security-compliance-investigation.md)
+- [SECURITY.md](${PROJECT_ROOT}/SECURITY.md)
+- [Compliance Checklist](${PROJECT_ROOT}/docs/de/compliance/compliance_full_checklist.md)
+- [Security Documentation](${PROJECT_ROOT}/docs/security/)
+- [Issue Template](${PROJECT_ROOT}/.github/ISSUE_TEMPLATE/security-compliance-investigation.md)
 
 ---
 
