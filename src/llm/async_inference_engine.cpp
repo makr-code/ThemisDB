@@ -8,15 +8,6 @@ namespace themis {
 namespace llm {
 
 // ═══════════════════════════════════════════════════════════
-// InferenceHandle Implementation
-// ═══════════════════════════════════════════════════════════
-
-void InferenceHandle::cancel() {
-    // Mark as cancelled - worker will check this
-    spdlog::info("Cancellation requested for inference: {}", request_id_);
-}
-
-// ═══════════════════════════════════════════════════════════
 // AsyncInferenceEngine Implementation
 // ═══════════════════════════════════════════════════════════
 

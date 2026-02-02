@@ -1,0 +1,419 @@
+# Performance Regression Alert Rules for ThemisDB
+# Monitoring und Alerting für Performance-Metriken und Regressions-Erkennung
+
+groups:
+  - name: performance_regressions
+    interval: 1m
+    rules:
+      # Critical Performance Regression - >20% Degradation
+      - alert: CriticalPerformanceRegression
+        expr: |
+          (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 1h)
+            / themisdb_benchmark_throughput_ops offset 1h * 100
+          ) < -20
+        for: 5m
+        labels:
+          severity: critical
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Critical performance regression detected in {{$labels.benchmark}}"
+          description: |
+            Benchmark {{$labels.benchmark}} on branch {{$labels.branch}} has degraded by more than 20%.
+            Current: {{ $value | humanize }}%
+            Branch: {{$labels.branch}}
+            Hardware: {{$labels.hardware}}
+            
+            Please investigate immediately.
+          runbook_url: "https://github.com/makr-code/ThemisDB/blob/main/docs/runbooks/performance_regression.md"
+          dashboard_url: "https://grafana.example.com/d/themisdb-performance-dashboard"
+
+      # Major Performance Regression - 10-20% Degradation
+      - alert: MajorPerformanceRegression
+        expr: |
+          (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 1h)
+            / themisdb_benchmark_throughput_ops offset 1h * 100
+          ) < -10 and (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 1h)
+            / themisdb_benchmark_throughput_ops offset 1h * 100
+          ) >= -20
+        for: 10m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Major performance regression detected in {{$labels.benchmark}}"
+          description: |
+            Benchmark {{$labels.benchmark}} on branch {{$labels.branch}} has degraded by 10-20%.
+            Current: {{ $value | humanize }}%
+            Branch: {{$labels.branch}}
+            
+            Review recommended.
+          runbook_url: "https://github.com/makr-code/ThemisDB/blob/main/docs/runbooks/performance_regression.md"
+
+      # Minor Performance Regression - 5-10% Degradation
+      - alert: MinorPerformanceRegression
+        expr: |
+          (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 2h)
+            / themisdb_benchmark_throughput_ops offset 2h * 100
+          ) < -5 and (
+            (themisdb_benchmark_throughput_ops - themisdb_benchmark_throughput_ops offset 2h)
+            / themisdb_benchmark_throughput_ops offset 2h * 100
+          ) >= -10
+        for: 15m
+        labels:
+          severity: info
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Minor performance regression in {{$labels.benchmark}}"
+          description: |
+            Benchmark {{$labels.benchmark}} has degraded by 5-10%.
+            Current: {{ $value | humanize }}%
+            Branch: {{$labels.branch}}
+
+  - name: latency_thresholds
+    interval: 1m
+    rules:
+      # P99 Latency Threshold Exceeded
+      - alert: HighP99Latency
+        expr: |
+          histogram_quantile(0.99, 
+            sum(rate(themisdb_benchmark_latency_ms_bucket[5m])) by (le, benchmark, branch)
+          ) > 100
+        for: 5m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "P99 latency exceeds 100ms for {{$labels.benchmark}}"
+          description: |
+            P99 latency is {{ $value | humanize }}ms for {{$labels.benchmark}}.
+            Threshold: 100ms
+            Branch: {{$labels.branch}}
+            
+            This may impact user experience.
+
+      # Critical P99 Latency Threshold
+      - alert: CriticalP99Latency
+        expr: |
+          histogram_quantile(0.99, 
+            sum(rate(themisdb_benchmark_latency_ms_bucket[5m])) by (le, benchmark, branch)
+          ) > 500
+        for: 2m
+        labels:
+          severity: critical
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Critical P99 latency for {{$labels.benchmark}}"
+          description: |
+            P99 latency is {{ $value | humanize }}ms for {{$labels.benchmark}}.
+            Critical threshold (500ms) exceeded!
+            Branch: {{$labels.branch}}
+            
+            Immediate action required.
+
+      # P95 Latency Regression
+      - alert: P95LatencyRegression
+        expr: |
+          (
+            histogram_quantile(0.95, sum(rate(themisdb_benchmark_latency_ms_bucket[5m])) by (le, benchmark, branch))
+            -
+            histogram_quantile(0.95, sum(rate(themisdb_benchmark_latency_ms_bucket[5m] offset 1h)) by (le, benchmark, branch))
+          ) > 10
+        for: 10m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "P95 latency increased by >10ms for {{$labels.benchmark}}"
+          description: |
+            P95 latency increased by {{ $value | humanize }}ms.
+            Benchmark: {{$labels.benchmark}}
+            Branch: {{$labels.branch}}
+
+  - name: error_rate_monitoring
+    interval: 1m
+    rules:
+      # High Error Rate
+      - alert: HighBenchmarkErrorRate
+        expr: |
+          (
+            sum(rate(themisdb_benchmark_errors_total[5m])) by (benchmark, branch)
+            /
+            sum(rate(themisdb_benchmark_requests_total[5m])) by (benchmark, branch)
+          ) * 100 > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "High error rate in benchmark {{$labels.benchmark}}"
+          description: |
+            Error rate is {{ $value | humanize }}% for {{$labels.benchmark}}.
+            Threshold: 5%
+            Branch: {{$labels.branch}}
+            
+            Please investigate errors.
+
+      # Critical Error Rate
+      - alert: CriticalBenchmarkErrorRate
+        expr: |
+          (
+            sum(rate(themisdb_benchmark_errors_total[5m])) by (benchmark, branch)
+            /
+            sum(rate(themisdb_benchmark_requests_total[5m])) by (benchmark, branch)
+          ) * 100 > 10
+        for: 2m
+        labels:
+          severity: critical
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Critical error rate in benchmark {{$labels.benchmark}}"
+          description: |
+            Error rate is {{ $value | humanize }}% for {{$labels.benchmark}}.
+            Critical threshold (10%) exceeded!
+            Branch: {{$labels.branch}}
+            
+            Immediate action required.
+
+  - name: throughput_monitoring
+    interval: 1m
+    rules:
+      # Throughput Below Baseline
+      - alert: ThroughputBelowBaseline
+        expr: |
+          themisdb_benchmark_throughput_ops{benchmark="crud"} < 30000
+        for: 10m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Throughput below baseline for CRUD operations"
+          description: |
+            CRUD throughput is {{ $value | humanize }} ops/sec.
+            Baseline: 45000 ops/sec
+            Current is below 30000 ops/sec threshold.
+            Branch: {{$labels.branch}}
+
+      # Write Throughput Degradation
+      - alert: WriteThroughputDegradation
+        expr: |
+          (
+            rate(themisdb_benchmark_throughput_ops{benchmark="write"}[5m])
+            -
+            rate(themisdb_benchmark_throughput_ops{benchmark="write"}[5m] offset 1h)
+          ) < -5000
+        for: 10m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Write throughput degraded by >5000 ops/sec"
+          description: |
+            Write throughput decreased by {{ $value | humanize }} ops/sec.
+            Branch: {{$labels.branch}}
+
+      # Read Throughput Degradation
+      - alert: ReadThroughputDegradation
+        expr: |
+          (
+            rate(themisdb_benchmark_throughput_ops{benchmark="read"}[5m])
+            -
+            rate(themisdb_benchmark_throughput_ops{benchmark="read"}[5m] offset 1h)
+          ) < -10000
+        for: 10m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Read throughput degraded by >10000 ops/sec"
+          description: |
+            Read throughput decreased by {{ $value | humanize }} ops/sec.
+            Branch: {{$labels.branch}}
+
+  - name: llm_performance_monitoring
+    interval: 1m
+    rules:
+      # LLM Token Generation Slowdown
+      - alert: LLMTokenGenerationSlowdown
+        expr: |
+          (
+            rate(llm_tokens_generated_total[5m])
+            -
+            rate(llm_tokens_generated_total[5m] offset 30m)
+          ) < -100
+        for: 10m
+        labels:
+          severity: warning
+          component: llm
+          team: ai
+        annotations:
+          summary: "LLM token generation rate decreased for {{$labels.model_id}}"
+          description: |
+            Token generation rate decreased by {{ $value | humanize }} tokens/sec.
+            Model: {{$labels.model_id}}
+            Branch: {{$labels.branch}}
+
+      # LLM First Token Latency High
+      - alert: LLMFirstTokenLatencyHigh
+        expr: |
+          histogram_quantile(0.95, 
+            sum(rate(llm_first_token_latency_ms_bucket[5m])) by (le, model_id)
+          ) > 200
+        for: 5m
+        labels:
+          severity: warning
+          component: llm
+          team: ai
+        annotations:
+          summary: "High first token latency for {{$labels.model_id}}"
+          description: |
+            P95 first token latency is {{ $value | humanize }}ms.
+            Threshold: 200ms
+            Model: {{$labels.model_id}}
+
+  - name: vector_search_monitoring
+    interval: 1m
+    rules:
+      # Vector Search Performance Degradation
+      - alert: VectorSearchSlowdown
+        expr: |
+          (
+            rate(themisdb_benchmark_vector_search_ops[5m])
+            -
+            rate(themisdb_benchmark_vector_search_ops[5m] offset 1h)
+          ) < -1000
+        for: 10m
+        labels:
+          severity: warning
+          component: vector_search
+          team: performance
+        annotations:
+          summary: "Vector search performance degraded"
+          description: |
+            Vector search throughput decreased by {{ $value | humanize }} ops/sec.
+            Index type: {{$labels.index_type}}
+            Branch: {{$labels.branch}}
+
+  - name: branch_comparison_monitoring
+    interval: 5m
+    rules:
+      # Branch Performance Divergence
+      - alert: BranchPerformanceDivergence
+        expr: |
+          abs(
+            avg(themisdb_benchmark_throughput_ops{branch="main"})
+            -
+            avg(themisdb_benchmark_throughput_ops{branch="develop"})
+          ) > 5000
+        for: 30m
+        labels:
+          severity: info
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Performance divergence between main and develop branches"
+          description: |
+            Main and develop branches show significant performance difference.
+            Difference: {{ $value | humanize }} ops/sec
+            
+            Review recent changes.
+
+  - name: benchmark_health
+    interval: 1m
+    rules:
+      # No Benchmark Data
+      - alert: NoBenchmarkData
+        expr: |
+          absent(themisdb_benchmark_throughput_ops) == 1
+        for: 15m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "No benchmark data received"
+          description: |
+            No benchmark metrics have been received for 15 minutes.
+            
+            Check if benchmark jobs are running.
+
+      # Benchmark Run Failures
+      - alert: BenchmarkRunFailures
+        expr: |
+          (
+            sum(rate(themisdb_benchmark_runs_total{status="failed"}[5m]))
+            /
+            sum(rate(themisdb_benchmark_runs_total[5m]))
+          ) * 100 > 20
+        for: 5m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "High benchmark failure rate"
+          description: |
+            {{ $value | humanize }}% of benchmark runs are failing.
+            
+            Check benchmark infrastructure and logs.
+
+  - name: release_performance_tracking
+    interval: 5m
+    rules:
+      # New Release Performance Regression
+      - alert: NewReleasePerformanceRegression
+        expr: |
+          (
+            avg(themisdb_benchmark_throughput_ops{release=~"v.*"})
+            -
+            avg(themisdb_benchmark_throughput_ops{release=~"v.*"} offset 7d)
+          ) < -2000
+        for: 30m
+        labels:
+          severity: warning
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Performance regression in new release {{$labels.release}}"
+          description: |
+            New release shows {{ $value | humanize }} ops/sec degradation.
+            Release: {{$labels.release}}
+            
+            Consider investigating before wider deployment.
+
+  - name: hardware_comparison_alerts
+    interval: 5m
+    rules:
+      # Hardware Performance Anomaly
+      - alert: HardwarePerformanceAnomaly
+        expr: |
+          abs(
+            avg(themisdb_benchmark_throughput_ops{hardware!=""}) by (hardware)
+            -
+            avg(avg_over_time(themisdb_benchmark_throughput_ops{hardware!=""}[1d])) by (hardware)
+          ) > 10000
+        for: 20m
+        labels:
+          severity: info
+          component: benchmarks
+          team: performance
+        annotations:
+          summary: "Performance anomaly on {{$labels.hardware}}"
+          description: |
+            Hardware {{$labels.hardware}} shows {{ $value | humanize }} ops/sec deviation from daily average.
+            
+            Check hardware health and configuration.

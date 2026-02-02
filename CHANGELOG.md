@@ -28,6 +28,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Configurable Modules**: Optional modules can be excluded via CMake options
 - **Backward Compatibility**: Monolithic build remains default; modular enabled with `-DTHEMIS_BUILD_MODULAR=ON`
 
+### Changed
+
+- **BinaryQuantizer Simplified**: Reduced implementation by 79 lines (-34%)
+  - Marked as `@deprecated` - NOT used in production code
+  - Recommends using FAISS `IndexBinaryFlat` for production workloads
+  - Maintains API compatibility for existing tests
+  - Part of FAISS migration initiative (see `LIBRARY_USAGE_ANALYSIS.md`)
+
+- **LearnedQuantizer Marked as Research/Deprecated**: 393 lines
+  - Marked as `@deprecated` - NOT used in production code
+  - Research implementation for vector compression studies
+  - Maintained for experimental workloads only
+  - Part of code cleanup initiative (see `LIBRARY_USAGE_ANALYSIS.md`)
+
 ### Fixed
 
 - **Windows Build Issues**: Resolves COFF symbol limit (>65,000 symbols) by splitting into smaller modules
