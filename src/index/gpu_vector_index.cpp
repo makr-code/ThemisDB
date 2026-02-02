@@ -443,8 +443,11 @@ void GPUVectorIndex::setBatchSize(int size) {
         std::cerr << "Batch size must be greater than 0, ignoring invalid value: " << size << std::endl;
         return;
     }
-    // Note: No upper bound check here since constructor already enforces max of 10000
-    // Values set here are within the allowed range
+    if (size > 10000) {
+        std::cerr << "Batch size " << size << " exceeds maximum (10000), clamping to 10000" << std::endl;
+        pImpl->config.batchSize = 10000;
+        return;
+    }
     pImpl->config.batchSize = size;
 }
 

@@ -367,17 +367,38 @@ TEST_F(GPUVectorIndexTest, SetterValidation) {
     GPUVectorIndex index(config);
     ASSERT_TRUE(index.initialize(dimension));
     
-    // Try to set invalid efSearch - should be ignored
-    index.setEfSearch(-10);
-    index.setEfSearch(0);
-    
-    // Try to set invalid batch size - should be ignored
-    index.setBatchSize(-100);
-    index.setBatchSize(0);
-    
-    // Set valid values
+    // Set valid values first
     index.setEfSearch(100);
     index.setBatchSize(256);
+    
+    // Add a test vector to ensure index works
+    ASSERT_TRUE(index.addVector(testIds[0], testVectors[0]));
+    
+    // Try to set invalid efSearch - should be ignored
+    index.setEfSearch(-10);
+    // Index should still work after invalid call
+    EXPECT_TRUE(index.addVector(testIds[1], testVectors[1]));
+    
+    index.setEfSearch(0);
+    // Index should still work
+    EXPECT_TRUE(index.addVector(testIds[2], testVectors[2]));
+    
+    // Try to set invalid batch size - should be ignored or clamped
+    index.setBatchSize(-100);
+    // Index should still work
+    auto results = index.search(queryVector, 2);
+    EXPECT_EQ(results.size(), 2);
+    
+    index.setBatchSize(0);
+    // Index should still work
+    results = index.search(queryVector, 2);
+    EXPECT_EQ(results.size(), 2);
+    
+    // Test upper bound - should be clamped
+    index.setBatchSize(20000);
+    // Index should still work
+    results = index.search(queryVector, 2);
+    EXPECT_EQ(results.size(), 2);
     
     index.shutdown();
 }
