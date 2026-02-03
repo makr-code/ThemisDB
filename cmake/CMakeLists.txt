@@ -1296,6 +1296,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
+    ../src/utils/thread_pool_manager.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
@@ -2546,6 +2547,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE
