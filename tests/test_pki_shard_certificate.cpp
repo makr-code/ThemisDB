@@ -235,7 +235,7 @@ TEST(PKIShardCertificateTest, TokenRangeValidation) {
     info.token_range_end = 100;
     EXPECT_FALSE(PKIShardCertificate::validateWithMode(info, ValidationMode::STRICT));
     
-    // Edge case: start == end (invalid unless end is 0)
+    // Edge case: start == end and non-zero (invalid)
     info.token_range_start = 500;
     info.token_range_end = 500;
     EXPECT_FALSE(PKIShardCertificate::validateWithMode(info, ValidationMode::STRICT));

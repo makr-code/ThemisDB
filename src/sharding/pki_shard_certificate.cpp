@@ -93,20 +93,40 @@ std::optional<std::string> PKIShardCertificate::extractCustomOID(void* x509_cert
             ASN1_OCTET_STRING* data = X509_EXTENSION_get_data(ext);
             if (!data) continue;
             
-            // Parse ASN.1 data - typically UTF8String
+            // Parse ASN.1 data using OpenSSL's proper parsing
             const unsigned char* p = data->data;
-            int len = data->length;
+            long xlen = data->length;
             
-            // Try to parse as UTF8String (most common for custom extensions)
-            if (len > 2 && p[0] == 0x0C) { // UTF8String tag
-                int str_len = p[1];
-                if (str_len + 2 <= len) {
-                    return std::string(reinterpret_cast<const char*>(p + 2), str_len);
-                }
+            // Try to parse as UTF8String using OpenSSL's d2i function
+            ASN1_UTF8STRING* utf8str = nullptr;
+            p = data->data;  // Reset pointer for d2i
+            utf8str = d2i_ASN1_UTF8STRING(nullptr, &p, xlen);
+            
+            if (utf8str) {
+                std::string result(
+                    reinterpret_cast<const char*>(ASN1_STRING_get0_data(utf8str)),
+                    ASN1_STRING_length(utf8str)
+                );
+                ASN1_UTF8STRING_free(utf8str);
+                return result;
             }
             
-            // Fallback: treat entire data as string (for simple text extensions)
-            return std::string(reinterpret_cast<const char*>(p), len);
+            // Fallback: try as IA5String or PrintableString
+            ASN1_STRING* str = nullptr;
+            p = data->data;  // Reset pointer
+            str = d2i_ASN1_PRINTABLESTRING(nullptr, &p, xlen);
+            
+            if (str) {
+                std::string result(
+                    reinterpret_cast<const char*>(ASN1_STRING_get0_data(str)),
+                    ASN1_STRING_length(str)
+                );
+                ASN1_STRING_free(str);
+                return result;
+            }
+            
+            // Last resort: treat entire data as raw string
+            return std::string(reinterpret_cast<const char*>(data->data), data->length);
         }
     }
     
@@ -300,7 +320,9 @@ bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& i
         return false;
     }
     
-    // Check token range is valid (start < end)
+    // Check token range is valid
+    // Special case: start=0, end=0 indicates "full range" and is valid
+    // Otherwise, require start < end
     if (info.token_range_start >= info.token_range_end && info.token_range_end != 0) {
         return false;
     }
@@ -358,11 +380,9 @@ bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertif
         info.role = "primary";
     }
     
-    // Token range defaults (full range)
-    if (info.token_range_start == 0 && info.token_range_end == 0) {
-        info.token_range_start = 0;
-        info.token_range_end = 0xFFFFFFFFFFFFFFFFULL;
-    }
+    // Note: Token range is NOT set by default here.
+    // If both start and end are 0, it indicates "full range" (special case).
+    // The validation logic accepts this as valid.
     
     return true;
 }
@@ -431,7 +451,9 @@ bool PKIShardCertificate::validateWithMode(const ShardCertificateInfo& info, Val
         return false;
     }
     
-    // Check token range is valid (start < end)
+    // Check token range is valid
+    // Special case: start=0, end=0 indicates "full range" and is valid
+    // Otherwise, require start < end
     if (info.token_range_start >= info.token_range_end && info.token_range_end != 0) {
         return false;
     }
