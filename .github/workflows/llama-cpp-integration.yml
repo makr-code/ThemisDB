@@ -135,12 +135,12 @@ jobs:
       
       - name: Configure CMake
         run: |
+          # Note: Flash Attention is auto-enabled for Release builds in Dependencies.cmake
+          # Only Continuous Batching needs explicit enabling
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DTHEMIS_ENABLE_LLM=ON \
-            -DTHEMIS_BUILD_TESTS=ON \
-            -DLLAMA_FLASH_ATTN=ON \
-            -DLLAMA_CONTINUOUS_BATCHING=ON
+            -DTHEMIS_BUILD_TESTS=ON
       
       - name: Build
         run: cmake --build build --parallel $(nproc)
@@ -198,12 +198,11 @@ jobs:
       
       - name: Configure & Build (Release)
         run: |
+          # Flash Attention and Continuous Batching are auto-enabled for Release builds
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_ENABLE_LLM=ON \
-            -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DLLAMA_FLASH_ATTN=ON \
-            -DLLAMA_CONTINUOUS_BATCHING=ON
+            -DTHEMIS_BUILD_BENCHMARKS=ON
           
           cmake --build build --parallel $(nproc)
       
@@ -260,13 +259,16 @@ jobs:
     
     strategy:
       matrix:
-        feature:
-          - name: "Flash Attention"
-            flag: "LLAMA_FLASH_ATTN=ON"
-          - name: "Continuous Batching"
-            flag: "LLAMA_CONTINUOUS_BATCHING=ON"
-          - name: "Multi-GPU Support"
-            flag: "LLAMA_CUDA=OFF"  # CPU-only for CI
+        config:
+          - name: "Release with optimizations"
+            build_type: "Release"
+            # Flash Attention auto-enabled, Continuous Batching auto-enabled
+          - name: "Debug without Flash Attention"
+            build_type: "Debug"
+            # Flash Attention auto-disabled, Continuous Batching still enabled
+          - name: "Release with explicit CPU-only"
+            build_type: "Release"
+            extra_flags: "-DLLAMA_CUDA=OFF -DLLAMA_METAL=OFF"
     
     steps:
       - name: Checkout code
@@ -281,21 +283,21 @@ jobs:
             librocksdb-dev libgrpc++-dev protobuf-compiler-grpc \
             libtbb-dev libzstd-dev libomp-dev
       
-      - name: Test ${{ matrix.feature.name }}
+      - name: Test ${{ matrix.config.name }}
         run: |
-          echo "Testing feature: ${{ matrix.feature.name }}"
+          echo "Testing configuration: ${{ matrix.config.name }}"
           
-          cmake -B build-${{ matrix.feature.name }} -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
+          cmake -B build-test -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
             -DTHEMIS_ENABLE_LLM=ON \
-            -D${{ matrix.feature.flag }}
+            ${{ matrix.config.extra_flags }}
           
-          cmake --build build-${{ matrix.feature.name }} --parallel $(nproc) || {
-            echo "❌ Build failed with ${{ matrix.feature.name }}"
+          cmake --build build-test --parallel $(nproc) || {
+            echo "❌ Build failed with configuration: ${{ matrix.config.name }}"
             exit 1
           }
           
-          echo "✅ ${{ matrix.feature.name }} build successful"
+          echo "✅ ${{ matrix.config.name }} build successful"
   
   # ===========================================================================
   # Integration Summary
