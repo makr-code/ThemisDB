@@ -5,6 +5,45 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-02-03
+
+### Added
+- **RFC 3161 Timestamp Authority (TSA) - PRODUCTION READY** 🎉
+  - Full RFC 3161 client implementation with OpenSSL cryptographic operations
+  - Integration with external TSA providers (FreeTSA, DigiCert, Sectigo)
+  - eIDAS compliance support for qualified electronic timestamps
+  - Long-term validation (LTV) for 30-year timestamp retention
+  - Comprehensive TSA setup guide (`docs/en/security/TSA_SETUP.md`)
+  - Configuration management via `config/timestamp_authority.yaml`
+  - CMake option `THEMIS_USE_OPENSSL_TSA` to control TSA mode (default: ON)
+  - Build-time and runtime warnings when stub mode is active
+  - Support for SHA-256, SHA-384, SHA-512 hash algorithms
+  - Certificate chain validation and verification
+  - 10+ comprehensive tests for RFC 3161 compliance
+
+### Changed
+- TSA implementation now uses OpenSSL by default (was stub in v1.4.1)
+- Improved CMake configuration for security features
+- Enhanced security feature reporting in build system
+
+### Fixed
+- **FIND-003 (CRITICAL):** RFC 3161 Timestamp Authority implementation complete
+  - Resolves eIDAS compliance gap for qualified electronic timestamps
+  - Enables legally binding digital signatures in EU
+  - Supports long-term signature validation for regulated industries
+
+### Security
+- Enabled cryptographic timestamps for audit trails and document signing
+- Added eIDAS-compliant timestamp validation
+- Improved certificate chain verification for TSA responses
+
+### Documentation
+- Added comprehensive TSA setup guide (400+ lines)
+- Documented integration with multiple TSA providers
+- Added troubleshooting guide for common TSA issues
+- Updated compliance documentation for eIDAS and ETSI EN 319 422
+
+---
 ---
 
 ## [1.4.0] - TBD
