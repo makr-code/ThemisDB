@@ -349,6 +349,13 @@ private:
     );
     
     /**
+     * @brief Generate MVCC commit timestamp ensuring external consistency
+     * @param txn Transaction to generate timestamp for
+     * @return Commit timestamp that is definitely after snapshot timestamp
+     */
+    int64_t generateCommitTimestamp(const CrossShardTransaction& txn);
+    
+    /**
      * @brief Persist transaction state to durable storage
      */
     bool persistTransactionState(

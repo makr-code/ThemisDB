@@ -801,31 +801,7 @@ bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& 
     txn.state = TransactionState::COMMITTING;
     
     // Generate commit timestamp using TrueTime for MVCC guarantees
-    // Wait until snapshot_timestamp is definitely in the past to ensure
-    // external consistency (reads at snapshot_timestamp will see this commit)
-    int64_t commit_timestamp;
-    if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                      txn.isolation_level == IsolationLevel::SERIALIZABLE)) {
-        auto tt_now = truetime_->now();
-        commit_timestamp = tt_now.earliest.count();
-        
-        // Wait until the commit timestamp is definitely after the snapshot timestamp
-        // This ensures external consistency: if T1 commits before T2 starts, T2 sees T1's writes
-        if (commit_timestamp <= txn.snapshot_timestamp) {
-            truetime_->waitUntil(std::chrono::nanoseconds(txn.snapshot_timestamp + 1));
-            tt_now = truetime_->now();
-            commit_timestamp = tt_now.earliest.count();
-        }
-        
-        spdlog::info("Percolator transaction {} using TrueTime commit timestamp {} "
-                    "(snapshot: {}, uncertainty: {}ns)",
-                    txn.transaction_id, commit_timestamp, txn.snapshot_timestamp,
-                    truetime_->getUncertainty().count());
-    } else {
-        commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-    }
+    int64_t commit_timestamp = generateCommitTimestamp(txn);
     
     // Store commit timestamp in transaction for recovery
     txn.commit_timestamp = commit_timestamp;
@@ -1002,23 +978,7 @@ bool CrossShardTransactionCoordinator::sendCommit(
     // Otherwise generate one
     int64_t commit_timestamp = txn.commit_timestamp;
     if (commit_timestamp == 0) {
-        // Generate commit timestamp using TrueTime if available
-        if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                          txn.isolation_level == IsolationLevel::SERIALIZABLE)) {
-            auto tt_now = truetime_->now();
-            commit_timestamp = tt_now.earliest.count();
-            
-            // Ensure commit timestamp is after snapshot timestamp
-            if (commit_timestamp <= txn.snapshot_timestamp) {
-                truetime_->waitUntil(std::chrono::nanoseconds(txn.snapshot_timestamp + 1));
-                tt_now = truetime_->now();
-                commit_timestamp = tt_now.earliest.count();
-            }
-        } else {
-            commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count();
-        }
+        commit_timestamp = generateCommitTimestamp(txn);
         
         // Store for consistency across all participants
         txn.commit_timestamp = commit_timestamp;
@@ -1446,6 +1406,38 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 transaction_id);
 }
 
+int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
+    const CrossShardTransaction& txn
+) {
+    int64_t commit_timestamp;
+    
+    // Use TrueTime for MVCC isolation levels
+    if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                      txn.isolation_level == IsolationLevel::SERIALIZABLE)) {
+        auto tt_now = truetime_->now();
+        commit_timestamp = tt_now.earliest.count();
+        
+        // Wait until the commit timestamp is definitely after the snapshot timestamp
+        // This ensures external consistency: if T1 commits before T2 starts, T2 sees T1's writes
+        if (txn.snapshot_timestamp > 0 && commit_timestamp <= txn.snapshot_timestamp) {
+            truetime_->waitUntil(std::chrono::nanoseconds(txn.snapshot_timestamp + 1));
+            tt_now = truetime_->now();
+            commit_timestamp = tt_now.earliest.count();
+        }
+        
+        spdlog::debug("Generated MVCC commit timestamp {} (snapshot: {}, uncertainty: {}ns)",
+                     commit_timestamp, txn.snapshot_timestamp,
+                     truetime_->getUncertainty().count());
+    } else {
+        // Fallback to system time for other isolation levels
+        commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+    }
+    
+    return commit_timestamp;
+}
+
 bool CrossShardTransactionCoordinator::persistTransactionState(
     const std::string& transaction_id,
     TransactionState state
@@ -1565,13 +1557,9 @@ std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::loadPending
                     // Update existing transaction state
                     it->second.state = state;
                     
-                    // Update MVCC timestamps if present
-                    if (log_entry.contains("snapshot_timestamp")) {
-                        it->second.snapshot_timestamp = log_entry["snapshot_timestamp"];
-                    }
-                    if (log_entry.contains("commit_timestamp")) {
-                        it->second.commit_timestamp = log_entry["commit_timestamp"];
-                    }
+                    // Update MVCC timestamps (use value() with default for consistency)
+                    it->second.snapshot_timestamp = log_entry.value("snapshot_timestamp", 0L);
+                    it->second.commit_timestamp = log_entry.value("commit_timestamp", 0L);
                     
                     // Update participant states
                     if (log_entry.contains("participants")) {
