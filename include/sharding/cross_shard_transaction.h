@@ -6,6 +6,7 @@
 
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -77,6 +78,10 @@ struct CrossShardTransaction {
     std::chrono::system_clock::time_point end_time;
     std::map<std::string, ShardParticipant> participants;  // Shard ID -> participant
     nlohmann::json metadata;                 // Additional metadata
+    
+    // MVCC timestamps for snapshot isolation
+    int64_t snapshot_timestamp = 0;          // Read timestamp (start of transaction)
+    int64_t commit_timestamp = 0;            // Commit timestamp (end of transaction)
     
     // Compensation data (for SAGA)
     std::map<std::string, nlohmann::json> compensations;
@@ -158,7 +163,8 @@ class CrossShardTransactionCoordinator {
 public:
     explicit CrossShardTransactionCoordinator(
         const CrossShardTransactionConfig& config,
-        std::shared_ptr<ConsensusModule> consensus
+        std::shared_ptr<ConsensusModule> consensus,
+        std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr
     );
     
     ~CrossShardTransactionCoordinator();
@@ -362,6 +368,7 @@ private:
     
     CrossShardTransactionConfig config_;
     std::shared_ptr<ConsensusModule> consensus_;
+    std::shared_ptr<themis::sharding::TrueTime> truetime_;
     
     // Transaction log file
     std::string transaction_log_path_;

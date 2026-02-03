@@ -75,6 +75,8 @@ bool CrossShardTransactionCoordinator::sendAbort(...)
   "state": 2,
   "protocol": 0,
   "isolation_level": 3,
+  "snapshot_timestamp": 1706952000123456789,
+  "commit_timestamp": 1706952001234567890,
   "participants": [
     {
       "shard_id": "shard_1",
@@ -100,7 +102,75 @@ bool CrossShardTransactionCoordinator::sendAbort(...)
 - COMMITTING → COMMITTED
 - Any state → ABORTING → ABORTED
 
-### 4. Coordinator Failure Recovery
+### 4. MVCC Snapshot Isolation with TrueTime
+
+**Implementation:** Cross-shard transaction coordinator now integrates TrueTime for secure MVCC guarantees
+
+**Key Features:**
+- **Snapshot Timestamps:** Each transaction receives a globally consistent snapshot timestamp at BEGIN
+- **Commit Timestamps:** Transactions receive a commit timestamp that ensures external consistency
+- **TrueTime Integration:** Uses Google Spanner-inspired TrueTime API for uncertainty-bounded timestamps
+- **Wait Mechanism:** Ensures commit timestamps are definitely after snapshot timestamps
+
+**Timestamp Assignment:**
+
+```cpp
+// Snapshot timestamp (at transaction start)
+auto tt_now = truetime_->now();
+txn.snapshot_timestamp = tt_now.latest.count();  // Use latest bound for reads
+
+// Commit timestamp (at transaction commit)
+tt_now = truetime_->now();
+txn.commit_timestamp = tt_now.earliest.count();  // Use earliest bound for writes
+
+// Wait if necessary to ensure external consistency
+if (commit_timestamp <= snapshot_timestamp) {
+    truetime_->waitUntil(snapshot_timestamp + 1);
+}
+```
+
+**MVCC Guarantees:**
+
+| Guarantee | Implementation |
+|-----------|----------------|
+| **Snapshot Isolation** | All reads see a consistent snapshot at `snapshot_timestamp` |
+| **External Consistency** | If T1 commits before T2 starts, T2 sees T1's writes |
+| **Causality** | Commit timestamps respect happens-before relationships |
+| **No Dirty Reads** | Transactions only see committed data |
+| **No Lost Updates** | Concurrent writes are detected and serialized |
+
+**Example Transaction Flow:**
+
+```cpp
+// Transaction T1
+T1.snapshot_timestamp = 1000  // Reads as-of time 1000
+// ... perform reads and writes ...
+T1.commit_timestamp = 1100    // Commits at time 1100
+
+// Transaction T2 (starts after T1 commits)
+T2.snapshot_timestamp = 1150  // Guaranteed > 1100
+// T2 will see T1's writes because 1150 > 1100
+```
+
+**Configuration:**
+
+```cpp
+// Optional: Provide TrueTime instance for MVCC
+auto truetime = std::make_shared<themis::sharding::TrueTime>(config);
+CrossShardTransactionCoordinator coordinator(config, consensus, truetime);
+
+// If TrueTime not provided, coordinator creates one automatically
+// with default uncertainty of 1ms
+```
+
+**Benefits:**
+- ✅ Secure transfer guarantees across shards
+- ✅ Consistent snapshots without distributed locking
+- ✅ External consistency for causal ordering
+- ✅ Support for read-only transactions without locks
+- ✅ Recovery-safe (timestamps persisted in transaction log)
+
+### 5. Coordinator Failure Recovery
 
 **Method:** `recoverFromFailure()`
 
@@ -121,7 +191,7 @@ bool CrossShardTransactionCoordinator::sendAbort(...)
 4. Persist final state to log
 5. Log recovery statistics (recovered count, aborted count)
 
-### 5. Deadlock Detection
+### 6. Deadlock Detection
 
 **Wait-For Graph Construction:**
 ```
@@ -153,7 +223,7 @@ Victim: T2 (younger, started later)
 Action: Abort T2, T1 can proceed
 ```
 
-### 6. SAGA Compensation Engine
+### 7. SAGA Compensation Engine
 
 **Execution Model:**
 ```
@@ -193,7 +263,7 @@ Backward: CompN-1 → ... → Comp2 → Comp1 (reverse order)
 }
 ```
 
-### 7. Error Handling
+### 8. Error Handling
 
 **Retry Strategies:**
 - **Prepare:** Retry on transient network errors
