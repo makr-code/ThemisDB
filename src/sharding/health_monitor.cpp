@@ -12,8 +12,13 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
     // Create default HTTP client pool
     utils::HTTPClientPool::Config pool_config;
-    pool_config.connect_timeout = std::chrono::duration_cast<std::chrono::seconds>(config_.health_check_timeout);
-    pool_config.request_timeout = std::chrono::duration_cast<std::chrono::seconds>(config_.health_check_timeout);
+    // Convert timeout to seconds, ensuring minimum of 1 second
+    auto timeout_seconds = std::max(
+        std::chrono::seconds(1),
+        std::chrono::duration_cast<std::chrono::seconds>(config_.health_check_timeout)
+    );
+    pool_config.connect_timeout = timeout_seconds;
+    pool_config.request_timeout = timeout_seconds;
     pool_config.max_connections = 20;
     http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_config);
 }
@@ -340,7 +345,7 @@ bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
     try {
         // Construct full URL: endpoint + health_check_path
         std::string url = endpoint;
-        if (url.back() == '/' && !config_.health_check_path.empty() && config_.health_check_path[0] == '/') {
+        if (!url.empty() && url.back() == '/' && !config_.health_check_path.empty() && config_.health_check_path[0] == '/') {
             url = url.substr(0, url.length() - 1);  // Remove trailing slash
         }
         url += config_.health_check_path;

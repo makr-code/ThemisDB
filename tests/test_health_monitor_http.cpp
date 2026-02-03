@@ -186,15 +186,15 @@ protected:
         
         // Create HTTP client pool
         utils::HTTPClientPool::Config pool_config;
-        pool_config.connect_timeout = 2s;
-        pool_config.request_timeout = 2s;
+        pool_config.connect_timeout = 5s;  // Longer than health_check_timeout to allow proper health check timeout detection
+        pool_config.request_timeout = 5s;
         pool_config.max_connections = 10;
         http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_config);
         
         // Configure health monitor
         HealthMonitorConfig config;
-        config.heartbeat_interval = 500ms;
-        config.health_check_timeout = 1000ms;
+        config.heartbeat_interval = 500ms;  // Controls frequency of health checks
+        config.health_check_timeout = 1000ms;  // Timeout for individual health check requests
         config.max_consecutive_failures = 3;
         config.successes_for_recovery = 3;
         config.health_check_path = "/health";
@@ -369,13 +369,15 @@ TEST_F(HealthMonitorHTTPTest, ResponseTimeRecorded) {
 TEST_F(HealthMonitorHTTPTest, ConsecutiveFailuresCounted) {
     mock_server_->setResponseCode(500);
     
-    // Simulate multiple consecutive failures
-    auto result1 = health_monitor_->checkNodeHealth("node1", getTestEndpoint());
-    EXPECT_EQ(result1.consecutive_failures, 0);  // First failure
+    // Note: The consecutive_failures counter is managed by performHealthChecks(),
+    // which runs in the monitoring loop and tracks state across multiple checks.
+    // The checkNodeHealth() method returns the immediate result, and the counter
+    // is updated by the monitoring loop based on the history of checks.
     
-    // Note: The consecutive_failures counter is managed by performHealthChecks
-    // which runs in the monitoring loop. For unit testing checkNodeHealth,
-    // we verify it returns SUSPECT status on failure.
+    auto result = health_monitor_->checkNodeHealth("node1", getTestEndpoint());
+    
+    // First check should return SUSPECT status on failure
+    EXPECT_EQ(result.status, HealthStatus::SUSPECT);
 }
 
 TEST_F(HealthMonitorHTTPTest, HealthCheckPathUsed) {
