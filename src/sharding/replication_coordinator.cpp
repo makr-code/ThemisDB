@@ -1,4 +1,5 @@
 #include "sharding/replication_coordinator.h"
+#include "sharding/exceptions.h"
 #include "utils/logger.h"
 #include <algorithm>
 
@@ -23,76 +24,100 @@ WriteResult ReplicationCoordinator::waitForReplication(
     WriteResult result;
     result.success = false;
 
-    if (!enabled_ || !shipper_) {
-        // Coordinator disabled or no shipper; treat as ONE (local only)
-        result.success = true;
-        result.replicas_acknowledged = 1; // Primary
-        result.replicas_required = 1;
-        return result;
-    }
-
-    size_t total_replicas = getReplicaCount() + 1; // +1 for primary
-    size_t required = calculateRequiredReplicas(concern.level, total_replicas);
-    result.replicas_required = required;
-
-    // If only primary required (ONE), return immediately
-    if (concern.level == WriteConcern::ONE) {
-        result.success = true;
-        result.replicas_acknowledged = 1;
-        return result;
-    }
-
-    auto start = std::chrono::steady_clock::now();
-    std::string lsn_key = entry_lsn.toString();
-
-    // Register pending write
-    {
-        std::lock_guard<std::mutex> lock(pending_mutex_);
-        pending_writes_.try_emplace(lsn_key, entry_lsn, concern, 1);
-    }
-
-    // Wait for acknowledgments with timeout
-    std::unique_lock<std::mutex> lock(pending_mutex_);
-    bool met_concern = pending_cv_.wait_for(
-        lock,
-        concern.timeout,
-        [this, &lsn_key, required, total_replicas]() {
-            auto it = pending_writes_.find(lsn_key);
-            if (it == pending_writes_.end()) return false;
-            return hasMetConcern(it->second, total_replicas);
+    try {
+        if (!enabled_ || !shipper_) {
+            // Coordinator disabled or no shipper; treat as ONE (local only)
+            result.success = true;
+            result.replicas_acknowledged = 1; // Primary
+            result.replicas_required = 1;
+            return result;
         }
-    );
 
-    auto end = std::chrono::steady_clock::now();
-    result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        size_t total_replicas = getReplicaCount() + 1; // +1 for primary
+        size_t required = calculateRequiredReplicas(concern.level, total_replicas);
+        result.replicas_required = required;
 
-    // Check final status
-    auto it = pending_writes_.find(lsn_key);
-    if (it != pending_writes_.end()) {
-        result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
-        it->second.completed = true;
+        // If only primary required (ONE), return immediately
+        if (concern.level == WriteConcern::ONE) {
+            result.success = true;
+            result.replicas_acknowledged = 1;
+            return result;
+        }
+
+        auto start = std::chrono::steady_clock::now();
+        std::string lsn_key = entry_lsn.toString();
+
+        // Register pending write
+        {
+            std::lock_guard<std::mutex> lock(pending_mutex_);
+            pending_writes_.try_emplace(lsn_key, entry_lsn, concern, 1);
+        }
+
+        // Wait for acknowledgments with timeout
+        std::unique_lock<std::mutex> lock(pending_mutex_);
+        bool met_concern = false;
+        try {
+            met_concern = pending_cv_.wait_for(
+                lock,
+                concern.timeout,
+                [this, &lsn_key, required, total_replicas]() {
+                    auto it = pending_writes_.find(lsn_key);
+                    if (it == pending_writes_.end()) return false;
+                    return hasMetConcern(it->second, total_replicas);
+                }
+            );
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Exception during replication wait: {}", e.what());
+            result.error = "Replication wait interrupted: " + std::string(e.what());
+            pending_writes_.erase(lsn_key);
+            return result;
+        }
+
+        auto end = std::chrono::steady_clock::now();
+        result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+        // Check final status
+        auto it = pending_writes_.find(lsn_key);
+        if (it != pending_writes_.end()) {
+            result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
+            it->second.completed = true;
+        } else {
+            // Shouldn't happen, but handle gracefully
+            THEMIS_WARN("Pending write entry disappeared for LSN {}", lsn_key);
+            result.error = "Replication tracking lost";
+            return result;
+        }
+
+        if (met_concern) {
+            result.success = true;
+            THEMIS_DEBUG("Write concern {} met for LSN {} ({}/{} replicas, {}ms)",
+                         toString(concern.level), lsn_key,
+                         result.replicas_acknowledged, required, result.latency.count());
+        } else {
+            result.error = "Write concern timeout: only " +
+                          std::to_string(result.replicas_acknowledged) + "/" +
+                          std::to_string(required) + " replicas acknowledged within " +
+                          std::to_string(concern.timeout.count()) + "ms";
+            THEMIS_WARN("{}", result.error);
+        }
+
+        // Cleanup this entry
+        pending_writes_.erase(lsn_key);
+
+        // Periodic cleanup of old entries
+        cleanupPendingWrites();
+
+        return result;
+        
+    } catch (const ReplicationException& e) {
+        THEMIS_ERROR("Replication exception: {}", e.what());
+        result.error = e.what();
+        return result;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Unexpected exception in waitForReplication: {}", e.what());
+        result.error = "Internal error: " + std::string(e.what());
+        return result;
     }
-
-    if (met_concern) {
-        result.success = true;
-        THEMIS_DEBUG("Write concern {} met for LSN {} ({}/{} replicas, {}ms)",
-                     toString(concern.level), lsn_key,
-                     result.replicas_acknowledged, required, result.latency.count());
-    } else {
-        result.error = "Write concern timeout: only " +
-                      std::to_string(result.replicas_acknowledged) + "/" +
-                      std::to_string(required) + " replicas acknowledged within " +
-                      std::to_string(concern.timeout.count()) + "ms";
-        THEMIS_WARN("{}", result.error);
-    }
-
-    // Cleanup this entry
-    pending_writes_.erase(lsn_key);
-
-    // Periodic cleanup of old entries
-    cleanupPendingWrites();
-
-    return result;
 }
 
 void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id, const LSN& lsn) {

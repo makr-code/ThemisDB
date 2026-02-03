@@ -4,6 +4,7 @@
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
+#include "sharding/exceptions.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
@@ -239,109 +240,257 @@ bool CrossShardTransactionCoordinator::addParticipant(
     return true;
 }
 
-bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
+Result<void> CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
+    ErrorContext ctx("prepare", "CrossShardTransactionCoordinator");
+    ctx.transaction_id = transaction_id;
     
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    if (txn.state != TransactionState::ACTIVE) {
-        spdlog::error("Transaction {} is not active", transaction_id);
-        return false;
-    }
-    
-    txn.state = TransactionState::PREPARING;
-    persistTransactionState(transaction_id, TransactionState::PREPARING);
-    lock.unlock();
-    
-    // Send prepare requests to all participants
-    bool all_prepared = true;
-    for (auto& [shard_id, participant] : txn.participants) {
-        bool prepared = sendPrepare(shard_id, transaction_id);
+    try {
+        std::unique_lock<std::mutex> lock(transactions_mutex_);
         
-        lock.lock();
-        participant.prepared = prepared;
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return Err(DistributedSystemError::TRANSACTION_NOT_FOUND, 
+                      "Transaction not found", ctx);
+        }
+        
+        auto& txn = it->second;
+        if (txn.state != TransactionState::ACTIVE) {
+            spdlog::error("Transaction {} is not active", transaction_id);
+            return Err(DistributedSystemError::TRANSACTION_CONFLICT, 
+                      "Transaction is not in active state", ctx);
+        }
+        
+        if (txn.participants.empty()) {
+            return Err(DistributedSystemError::INVALID_ARGUMENT,
+                      "No participants for transaction", ctx);
+        }
+        
+        txn.state = TransactionState::PREPARING;
+        persistTransactionState(transaction_id, TransactionState::PREPARING);
         lock.unlock();
         
-        if (!prepared) {
-            all_prepared = false;
-            participant.error_message = "Prepare failed";
-            spdlog::error("Prepare failed for shard {} in transaction {}", 
-                         shard_id, transaction_id);
+        // Send prepare requests to all participants
+        bool all_prepared = true;
+        std::string error_msg;
+        for (auto& [shard_id, participant] : txn.participants) {
+            try {
+                bool prepared = sendPrepare(shard_id, transaction_id);
+                
+                lock.lock();
+                participant.prepared = prepared;
+                lock.unlock();
+                
+                if (!prepared) {
+                    all_prepared = false;
+                    error_msg = "Prepare failed for shard " + shard_id;
+                    participant.error_message = "Prepare failed";
+                    spdlog::error("Prepare failed for shard {} in transaction {}", 
+                                 shard_id, transaction_id);
+                }
+            } catch (const NetworkException& e) {
+                all_prepared = false;
+                error_msg = "Network error for shard " + shard_id + ": " + e.what();
+                lock.lock();
+                participant.error_message = e.what();
+                lock.unlock();
+                spdlog::error("Network error preparing shard {}: {}", shard_id, e.what());
+            } catch (const std::exception& e) {
+                all_prepared = false;
+                error_msg = "Error for shard " + shard_id + ": " + e.what();
+                lock.lock();
+                participant.error_message = e.what();
+                lock.unlock();
+                spdlog::error("Error preparing shard {}: {}", shard_id, e.what());
+            }
         }
+        
+        lock.lock();
+        if (all_prepared) {
+            txn.state = TransactionState::PREPARED;
+            persistTransactionState(transaction_id, TransactionState::PREPARED);
+            spdlog::info("Transaction {} prepared successfully", transaction_id);
+        } else {
+            txn.state = TransactionState::ACTIVE;  // Roll back to active
+            lock.unlock();
+            return Err(DistributedSystemError::PREPARE_VOTE_REJECTED,
+                      error_msg.empty() ? "Insufficient YES votes from participants" : error_msg, 
+                      ctx);
+        }
+        lock.unlock();
+        
+        // Replicate prepare state via consensus
+        if (consensus_) {
+            try {
+                consensus_->propose("PREPARE_TRANSACTION", {
+                    {"transaction_id", transaction_id},
+                    {"state", static_cast<int>(TransactionState::PREPARED)}
+                });
+            } catch (const ConsensusException& e) {
+                spdlog::error("Consensus error replicating prepare state: {}", e.what());
+                return Err(e.error(), e.what(), ctx);
+            } catch (const std::exception& e) {
+                spdlog::error("Error replicating prepare state: {}", e.what());
+                return Err(DistributedSystemError::CONSENSUS_FAILED, e.what(), ctx);
+            }
+        }
+        
+        return Ok();
+        
+    } catch (const TransactionException& e) {
+        return Err(e.error(), e.what(), ctx);
+    } catch (const ThemisDBException& e) {
+        return Err(e.error(), e.what(), ctx);
+    } catch (const std::exception& e) {
+        spdlog::error("Unexpected error in prepare: {}", e.what());
+        return Err(DistributedSystemError::INTERNAL_ERROR, e.what(), ctx);
     }
-    
-    lock.lock();
-    if (all_prepared) {
-        txn.state = TransactionState::PREPARED;
-        persistTransactionState(transaction_id, TransactionState::PREPARED);
-        spdlog::info("Transaction {} prepared successfully", transaction_id);
-    } else {
-        txn.state = TransactionState::ACTIVE;  // Roll back to active
-    }
-    lock.unlock();
-    
-    // Replicate prepare state via consensus
-    if (consensus_ && all_prepared) {
-        consensus_->propose("PREPARE_TRANSACTION", {
-            {"transaction_id", transaction_id},
-            {"state", static_cast<int>(TransactionState::PREPARED)}
-        });
-    }
-    
-    return all_prepared;
 }
 
-bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id) {
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
+Result<void> CrossShardTransactionCoordinator::commit(const std::string& transaction_id) {
+    ErrorContext ctx("commit", "CrossShardTransactionCoordinator");
+    ctx.transaction_id = transaction_id;
     
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    
-    // Execute protocol-specific commit
-    bool success = false;
-    lock.unlock();
-    
-    switch (txn.protocol) {
-        case TransactionProtocol::TWO_PHASE_COMMIT:
-            success = execute2PC(txn);
-            break;
-        case TransactionProtocol::THREE_PHASE_COMMIT:
-            success = execute3PC(txn);
-            break;
-        case TransactionProtocol::PERCOLATOR:
-            success = executePercolator(txn);
-            break;
-        case TransactionProtocol::SAGA:
-            // SAGA commit handled by executeSaga
-            spdlog::error("SAGA transactions should use executeSaga method");
-            return false;
-        default:
-            spdlog::error("Unknown transaction protocol");
-            return false;
-    }
-    
-    lock.lock();
-    if (success) {
-        txn.state = TransactionState::COMMITTED;
-        txn.end_time = std::chrono::system_clock::now();
-        committed_transactions_++;
-        persistTransactionState(transaction_id, TransactionState::COMMITTED);
+    try {
+        std::unique_lock<std::mutex> lock(transactions_mutex_);
         
-        // Update lifecycle manager
-        lifecycle_manager_->transitionState(transaction_id, TransactionState::COMMITTED);
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return Err(DistributedSystemError::TRANSACTION_NOT_FOUND, 
+                      "Transaction not found", ctx);
+        }
         
-        spdlog::info("Transaction {} committed successfully", transaction_id);
-    } else {
+        auto& txn = it->second;
+        
+        // Execute protocol-specific commit
+        bool success = false;
+        lock.unlock();
+        
+        try {
+            switch (txn.protocol) {
+                case TransactionProtocol::TWO_PHASE_COMMIT:
+                    success = execute2PC(txn);
+                    break;
+                case TransactionProtocol::THREE_PHASE_COMMIT:
+                    success = execute3PC(txn);
+                    break;
+                case TransactionProtocol::PERCOLATOR:
+                    success = executePercolator(txn);
+                    break;
+                case TransactionProtocol::SAGA:
+                    spdlog::error("SAGA transactions should use executeSaga method");
+                    return Err(DistributedSystemError::INVALID_ARGUMENT,
+                              "SAGA transactions should use executeSaga method", ctx);
+                default:
+                    spdlog::error("Unknown transaction protocol");
+                    return Err(DistributedSystemError::INVALID_CONFIGURATION,
+                              "Unknown transaction protocol", ctx);
+            }
+        } catch (const NetworkException& e) {
+            spdlog::error("Network error during commit: {}", e.what());
+            lock.lock();
+            txn.state = TransactionState::ABORTED;
+            txn.end_time = std::chrono::system_clock::now();
+            aborted_transactions_++;
+            lock.unlock();
+            return Err(e.error(), e.what(), ctx);
+        } catch (const ConsensusException& e) {
+            spdlog::error("Consensus error during commit: {}", e.what());
+            lock.lock();
+            txn.state = TransactionState::ABORTED;
+            txn.end_time = std::chrono::system_clock::now();
+            aborted_transactions_++;
+            lock.unlock();
+            return Err(e.error(), e.what(), ctx);
+        }
+        
+        lock.lock();
+        if (success) {
+            txn.state = TransactionState::COMMITTED;
+            txn.end_time = std::chrono::system_clock::now();
+            committed_transactions_++;
+            persistTransactionState(transaction_id, TransactionState::COMMITTED);
+            
+            // Update lifecycle manager
+            lifecycle_manager_->transitionState(transaction_id, TransactionState::COMMITTED);
+            
+            spdlog::info("Transaction {} committed successfully", transaction_id);
+        } else {
+            txn.state = TransactionState::ABORTED;
+            txn.end_time = std::chrono::system_clock::now();
+            aborted_transactions_++;
+            persistTransactionState(transaction_id, TransactionState::ABORTED);
+            
+            // Update lifecycle manager
+            lifecycle_manager_->transitionState(transaction_id, TransactionState::ABORTED);
+            
+            spdlog::error("Transaction {} commit failed, aborted", transaction_id);
+            lock.unlock();
+            return Err(DistributedSystemError::COMMIT_FAILED,
+                      "Transaction commit failed", ctx);
+        }
+        lock.unlock();
+        
+        // Replicate final state via consensus
+        if (consensus_) {
+            try {
+                consensus_->propose("FINALIZE_TRANSACTION", {
+                    {"transaction_id", transaction_id},
+                    {"state", static_cast<int>(txn.state)}
+                });
+            } catch (const std::exception& e) {
+                spdlog::error("Error replicating commit state: {}", e.what());
+                // Don't fail commit if replication fails - transaction is already committed
+            }
+        }
+        
+        return Ok();
+        
+    } catch (const TransactionException& e) {
+        return Err(e.error(), e.what(), ctx);
+    } catch (const ThemisDBException& e) {
+        return Err(e.error(), e.what(), ctx);
+    } catch (const std::exception& e) {
+        spdlog::error("Unexpected error in commit: {}", e.what());
+        return Err(DistributedSystemError::INTERNAL_ERROR, e.what(), ctx);
+    }
+}
+
+Result<void> CrossShardTransactionCoordinator::abort(const std::string& transaction_id) {
+    ErrorContext ctx("abort", "CrossShardTransactionCoordinator");
+    ctx.transaction_id = transaction_id;
+    
+    try {
+        std::unique_lock<std::mutex> lock(transactions_mutex_);
+        
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return Err(DistributedSystemError::TRANSACTION_NOT_FOUND,
+                      "Transaction not found", ctx);
+        }
+        
+        auto& txn = it->second;
+        txn.state = TransactionState::ABORTING;
+        persistTransactionState(transaction_id, TransactionState::ABORTING);
+        lock.unlock();
+        
+        // Send abort requests to all participants
+        for (auto& [shard_id, participant] : txn.participants) {
+            try {
+                sendAbort(shard_id, transaction_id);
+                participant.aborted = true;
+            } catch (const NetworkException& e) {
+                spdlog::warn("Network error aborting shard {}: {}", shard_id, e.what());
+                // Continue aborting other participants even if one fails
+            } catch (const std::exception& e) {
+                spdlog::warn("Error aborting shard {}: {}", shard_id, e.what());
+                // Continue aborting other participants
+            }
+        }
+        
+        lock.lock();
         txn.state = TransactionState::ABORTED;
         txn.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
@@ -350,62 +499,32 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         // Update lifecycle manager
         lifecycle_manager_->transitionState(transaction_id, TransactionState::ABORTED);
         
-        spdlog::error("Transaction {} commit failed, aborted", transaction_id);
+        lock.unlock();
+        
+        // Replicate abort state via consensus
+        if (consensus_) {
+            try {
+                consensus_->propose("ABORT_TRANSACTION", {
+                    {"transaction_id", transaction_id},
+                    {"state", static_cast<int>(TransactionState::ABORTED)}
+                });
+            } catch (const std::exception& e) {
+                spdlog::error("Error replicating abort state: {}", e.what());
+                // Don't fail abort if replication fails
+            }
+        }
+        
+        spdlog::info("Transaction {} aborted", transaction_id);
+        return Ok();
+        
+    } catch (const TransactionException& e) {
+        return Err(e.error(), e.what(), ctx);
+    } catch (const ThemisDBException& e) {
+        return Err(e.error(), e.what(), ctx);
+    } catch (const std::exception& e) {
+        spdlog::error("Unexpected error in abort: {}", e.what());
+        return Err(DistributedSystemError::INTERNAL_ERROR, e.what(), ctx);
     }
-    lock.unlock();
-    
-    // Replicate final state via consensus
-    if (consensus_) {
-        consensus_->propose("FINALIZE_TRANSACTION", {
-            {"transaction_id", transaction_id},
-            {"state", static_cast<int>(txn.state)}
-        });
-    }
-    
-    return success;
-}
-
-bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) {
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
-    
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    txn.state = TransactionState::ABORTING;
-    persistTransactionState(transaction_id, TransactionState::ABORTING);
-    lock.unlock();
-    
-    // Send abort requests to all participants
-    for (auto& [shard_id, participant] : txn.participants) {
-        sendAbort(shard_id, transaction_id);
-        participant.aborted = true;
-    }
-    
-    lock.lock();
-    txn.state = TransactionState::ABORTED;
-    txn.end_time = std::chrono::system_clock::now();
-    aborted_transactions_++;
-    persistTransactionState(transaction_id, TransactionState::ABORTED);
-    
-    // Update lifecycle manager
-    lifecycle_manager_->transitionState(transaction_id, TransactionState::ABORTED);
-    
-    lock.unlock();
-    
-    // Replicate abort state via consensus
-    if (consensus_) {
-        consensus_->propose("ABORT_TRANSACTION", {
-            {"transaction_id", transaction_id},
-            {"state", static_cast<int>(TransactionState::ABORTED)}
-        });
-    }
-    
-    spdlog::info("Transaction {} aborted", transaction_id);
-    return true;
 }
 
 bool CrossShardTransactionCoordinator::executeSaga(

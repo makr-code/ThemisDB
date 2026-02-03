@@ -1,5 +1,9 @@
 #include "sharding/health_monitor.h"
+<<<<<<< HEAD
 #include "sharding/thread_pool_manager.h"
+=======
+#include "sharding/exceptions.h"
+>>>>>>> origin/copilot/review-distributed-systems-components
 #include <algorithm>
 
 namespace themis::sharding {
@@ -88,24 +92,38 @@ HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id,
     result.node_id = node_id;
     result.last_check = std::chrono::steady_clock::now();
     
-    // Perform actual HTTP health check
-    auto start = std::chrono::steady_clock::now();
-    
-    bool check_passed = performHealthCheck(endpoint);
-    
-    auto elapsed = std::chrono::steady_clock::now() - start;
-    result.response_time = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
-    
-    if (!check_passed || result.response_time > config_.health_check_timeout) {
-        result.status = HealthStatus::SUSPECT;
-        if (result.response_time > config_.health_check_timeout) {
-            result.error_message = "Health check timeout";
+    try {
+        // Perform actual HTTP health check
+        auto start = std::chrono::steady_clock::now();
+        
+        bool check_passed = performHealthCheck(endpoint);
+        
+        auto elapsed = std::chrono::steady_clock::now() - start;
+        result.response_time = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+        
+        if (!check_passed || result.response_time > config_.health_check_timeout) {
+            result.status = HealthStatus::SUSPECT;
+            if (result.response_time > config_.health_check_timeout) {
+                result.error_message = "Health check timeout";
+            } else {
+                result.error_message = "Health check failed";
+            }
+            failed_health_checks_++;
         } else {
-            result.error_message = "Health check failed";
+            result.status = HealthStatus::HEALTHY;
         }
+    } catch (const TimeoutException& e) {
+        result.status = HealthStatus::SUSPECT;
+        result.error_message = "Timeout: " + std::string(e.what());
         failed_health_checks_++;
-    } else {
-        result.status = HealthStatus::HEALTHY;
+    } catch (const NetworkException& e) {
+        result.status = HealthStatus::SUSPECT;
+        result.error_message = "Network error: " + std::string(e.what());
+        failed_health_checks_++;
+    } catch (const std::exception& e) {
+        result.status = HealthStatus::SUSPECT;
+        result.error_message = "Error: " + std::string(e.what());
+        failed_health_checks_++;
     }
     
     return result;
@@ -181,97 +199,107 @@ HealthMonitor::Statistics HealthMonitor::getStatistics() const {
 
 void HealthMonitor::monitoringLoop() {
     while (running_) {
-        performHealthChecks();
+        try {
+            performHealthChecks();
+        } catch (const std::exception& e) {
+            // Log error but don't crash the monitoring thread
+            // In production, this would use proper logging
+        }
         std::this_thread::sleep_for(config_.heartbeat_interval);
     }
 }
 
 void HealthMonitor::performHealthChecks() {
-    // Check all active primaries
-    auto primaries = primary_coordinator_->getActivePrimaries();
-    
-    for (const auto& primary : primaries) {
-        if (primary.endpoint.empty()) {
-            continue;  // No endpoint configured
-        }
+    try {
+        // Check all active primaries
+        auto primaries = primary_coordinator_->getActivePrimaries();
         
-        auto result = checkNodeHealth(primary.node_id, primary.endpoint);
-        
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            
-            // Get previous status if it exists
-            auto it = health_statuses_.find(primary.node_id);
-            HealthStatus previous_status = HealthStatus::HEALTHY;
-            uint32_t prev_consecutive_failures = 0;
-            uint32_t prev_consecutive_successes = 0;
-            
-            if (it != health_statuses_.end()) {
-                previous_status = it->second.status;
-                prev_consecutive_failures = it->second.consecutive_failures;
-                prev_consecutive_successes = it->second.consecutive_successes;
+        for (const auto& primary : primaries) {
+            if (primary.endpoint.empty()) {
+                continue;  // No endpoint configured
             }
             
-            // Update consecutive counters based on result
+            auto result = checkNodeHealth(primary.node_id, primary.endpoint);
+            
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                
+                // Get previous status if it exists
+                auto it = health_statuses_.find(primary.node_id);
+                HealthStatus previous_status = HealthStatus::HEALTHY;
+                uint32_t prev_consecutive_failures = 0;
+                uint32_t prev_consecutive_successes = 0;
+                
+                if (it != health_statuses_.end()) {
+                    previous_status = it->second.status;
+                    prev_consecutive_failures = it->second.consecutive_failures;
+                    prev_consecutive_successes = it->second.consecutive_successes;
+                }
+                
+                // Update consecutive counters based on result
+                if (result.status == HealthStatus::HEALTHY) {
+                    result.consecutive_failures = 0;
+                    result.consecutive_successes = prev_consecutive_successes + 1;
+                } else {
+                    result.consecutive_failures = prev_consecutive_failures + 1;
+                    result.consecutive_successes = 0;
+                }
+                
+                // State machine transitions
+                if (previous_status == HealthStatus::HEALTHY && result.consecutive_failures >= 1) {
+                    result.status = HealthStatus::SUSPECT;
+                } else if ((previous_status == HealthStatus::SUSPECT || previous_status == HealthStatus::HEALTHY) && 
+                           result.consecutive_failures >= config_.max_consecutive_failures) {
+                    result.status = HealthStatus::DOWN;
+                } else if (previous_status == HealthStatus::DOWN && result.consecutive_successes >= 1) {
+                    result.status = HealthStatus::RECOVERING;
+                } else if (previous_status == HealthStatus::RECOVERING && 
+                           result.consecutive_successes >= config_.successes_for_recovery) {
+                    result.status = HealthStatus::HEALTHY;
+                } else if (previous_status == HealthStatus::RECOVERING && result.consecutive_failures >= 1) {
+                    // Failed during recovery, go back to DOWN
+                    result.status = HealthStatus::DOWN;
+                } else {
+                    // Maintain previous status if no transition
+                    result.status = previous_status;
+                }
+                
+                // Update health status
+                health_statuses_[primary.node_id] = result;
+                
+                // Handle node failure if marked DOWN
+                if (result.status == HealthStatus::DOWN && previous_status != HealthStatus::DOWN) {
+                    handleNodeFailure(primary.node_id);
+                }
+            }
+            
+            // Update primary coordinator heartbeat
             if (result.status == HealthStatus::HEALTHY) {
-                result.consecutive_failures = 0;
-                result.consecutive_successes = prev_consecutive_successes + 1;
-            } else {
-                result.consecutive_failures = prev_consecutive_failures + 1;
-                result.consecutive_successes = 0;
+                primary_coordinator_->updateHeartbeat(primary.node_id, primary.last_known_lsn);
             }
+        }
+        
+        // Check replicas (from topology)
+        auto all_shards = topology_->getAllShards();
+        for (const auto& shard_id : all_shards) {
+            auto replica_set = topology_->getReplicaSet(shard_id);
+            if (!replica_set) continue;
             
-            // State machine transitions
-            if (previous_status == HealthStatus::HEALTHY && result.consecutive_failures >= 1) {
-                result.status = HealthStatus::SUSPECT;
-            } else if ((previous_status == HealthStatus::SUSPECT || previous_status == HealthStatus::HEALTHY) && 
-                       result.consecutive_failures >= config_.max_consecutive_failures) {
-                result.status = HealthStatus::DOWN;
-            } else if (previous_status == HealthStatus::DOWN && result.consecutive_successes >= 1) {
-                result.status = HealthStatus::RECOVERING;
-            } else if (previous_status == HealthStatus::RECOVERING && 
-                       result.consecutive_successes >= config_.successes_for_recovery) {
+            for (const auto& replica_id : replica_set->replicas) {
+                // In production: check replica health via HTTP
+                // For now, mark all replicas as healthy (mock)
+                HealthCheckResult result;
+                result.node_id = replica_id;
                 result.status = HealthStatus::HEALTHY;
-            } else if (previous_status == HealthStatus::RECOVERING && result.consecutive_failures >= 1) {
-                // Failed during recovery, go back to DOWN
-                result.status = HealthStatus::DOWN;
-            } else {
-                // Maintain previous status if no transition
-                result.status = previous_status;
-            }
-            
-            // Update health status
-            health_statuses_[primary.node_id] = result;
-            
-            // Handle node failure if marked DOWN
-            if (result.status == HealthStatus::DOWN && previous_status != HealthStatus::DOWN) {
-                handleNodeFailure(primary.node_id);
+                result.last_check = std::chrono::steady_clock::now();
+                
+                std::lock_guard<std::mutex> lock(mutex_);
+                health_statuses_[replica_id] = result;
             }
         }
-        
-        // Update primary coordinator heartbeat
-        if (result.status == HealthStatus::HEALTHY) {
-            primary_coordinator_->updateHeartbeat(primary.node_id, primary.last_known_lsn);
-        }
-    }
-    
-    // Check replicas (from topology)
-    auto all_shards = topology_->getAllShards();
-    for (const auto& shard_id : all_shards) {
-        auto replica_set = topology_->getReplicaSet(shard_id);
-        if (!replica_set) continue;
-        
-        for (const auto& replica_id : replica_set->replicas) {
-            // In production: check replica health via HTTP
-            // For now, mark all replicas as healthy (mock)
-            HealthCheckResult result;
-            result.node_id = replica_id;
-            result.status = HealthStatus::HEALTHY;
-            result.last_check = std::chrono::steady_clock::now();
-            
-            std::lock_guard<std::mutex> lock(mutex_);
-            health_statuses_[replica_id] = result;
-        }
+    } catch (const std::exception& e) {
+        // Log error but don't crash
+        // In production, this would use proper logging
     }
 }
 
