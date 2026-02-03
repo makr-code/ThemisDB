@@ -10,7 +10,45 @@
 
 Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technische Analysen für ThemisDB.
 
+### 🆕 **GPU-Optimized Vector Indexing Research** (Februar 2026)
+
+**Dokument:** [GPU_VECTOR_INDEXING_RESEARCH.md](GPU_VECTOR_INDEXING_RESEARCH.md)  
+**Status:** ✅ Research Complete - Planning Phase  
+**Priority:** P0 (Q2 2026)  
+**Timeline:** 8-10 weeks implementation
+
+Comprehensive research on GPU-accelerated vector indexing approaches for ThemisDB:
+
+**Coverage:**
+- 7 GPU indexing approaches (Brute-Force✅, IVF✅, HNSW⏳, PQ⏳, Multi-GPU⏳, Tensor Cores⏳, Hybrid⏳)
+- 5 state-of-the-art papers (FAISS, CAGRA, SONG, ScaNN, NGT-QG)
+- Benchmark plan (SIFT1M, Deep1B, Text Embeddings, Production)
+- 5-phase implementation roadmap (Environment Setup → Production Readiness)
+- TCO analysis: 2-10x cost reduction vs CPU clusters
+
+**Expected Outcomes:**
+- **10-50x performance improvement** for batch queries (1,800 → 20,000+ QPS)
+- **5-10x faster** index construction (30 min → 3 min for 10M vectors)
+- **Linear scaling** to 2-4 GPUs (80-90% efficiency)
+- **Lower TCO:** $35K GPU vs $80K CPU cluster (3-year projection)
+
+**Current Status:**
+- ✅ CUDA vector kernels implemented
+- ✅ FAISS GPU backend integrated
+- ✅ Brute-force GPU search operational
+- ⏳ Advanced GPU indexes (HNSW, Multi-GPU) planned
+
+---
+
 ### Verfügbare Dokumente
+
+0. **[GPU_VECTOR_INDEXING_RESEARCH.md](GPU_VECTOR_INDEXING_RESEARCH.md)** 🆕🔥
+   - GPU-Optimized Vector Indexing Research
+   - 7 GPU acceleration approaches (Brute-Force, IVF, HNSW, PQ, Multi-GPU, Tensor Cores, Hybrid)
+   - State-of-the-art papers (FAISS, CAGRA, SONG, ScaNN, NGT-QG)
+   - Benchmark plan and implementation roadmap (5 phases, 8-10 weeks)
+   - TCO analysis: 2-10x cost reduction, 10-50x performance improvement
+   - **Status:** ✅ Research Complete (1. Februar 2026)
 
 1. **[AGENTIC_AI_SELF_AWARENESS_RESEARCH.md](AGENTIC_AI_SELF_AWARENESS_RESEARCH.md)**
    - Umfassende Recherche zu vorhandenen und fehlenden Funktionen
@@ -500,6 +538,7 @@ json McpServer::toolGetSchema(const json& args) {
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
+| 2026-02-01 | 3.1 | GPU Vector Indexing Research hinzugefügt |
 | 2026-02-01 | 3.1 | Learned Index Structures Research hinzugefügt |
 | 2026-01-27 | 3.0 | KG Embeddings Research hinzugefügt |
 | 2026-01-27 | 3.0 | Hybrid Search Optimization Research hinzugefügt |

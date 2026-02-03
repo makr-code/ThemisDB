@@ -210,6 +210,27 @@ bool HSMProvider::initialize(){
     }
     initialized_ = true;
     THEMIS_INFO("HSMProvider init (real_ready={})", impl_->real_ready?"true":"false");
+    
+    // Security warning if using fallback stub
+    if (!impl_->real_ready) {
+        THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
+        THEMIS_WARN("║  ⚠️  HSM FALLBACK STUB ACTIVE - INSECURE CONFIGURATION  ⚠️   ║");
+        THEMIS_WARN("╠═══════════════════════════════════════════════════════════════╣");
+        THEMIS_WARN("║  Real PKCS#11 HSM connection failed.                         ║");
+        THEMIS_WARN("║  Master keys are NOT protected by hardware security.         ║");
+        THEMIS_WARN("║  This configuration is NOT SECURE for production!            ║");
+        THEMIS_WARN("║                                                               ║");
+        THEMIS_WARN("║  Fix HSM configuration immediately:                          ║");
+        THEMIS_WARN("║  - Check library_path: {}",
+                     config_.library_path.empty() ? "NOT SET" : config_.library_path);
+        THEMIS_WARN("║  - Check HSM PIN: {}",
+                     config_.pin.empty() ? "NOT SET" : "SET");
+        THEMIS_WARN("║  - Verify HSM device is connected and accessible             ║");
+        THEMIS_WARN("║                                                               ║");
+        THEMIS_WARN("║  See: docs/security/HSM_PRODUCTION_SETUP.md                  ║");
+        THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
+    }
+    
     return true;
 }
 
@@ -700,6 +721,28 @@ void HSMProvider::resetStats() {
     impl_->total_sign_time_us.store(0, std::memory_order_relaxed);
     impl_->total_verify_time_us.store(0, std::memory_order_relaxed);
     impl_->pool_round_robin_hits.store(0, std::memory_order_relaxed);
+}
+
+bool HSMProvider::isStubProvider() const {
+    // False if real HSM is active, true if fallback stub
+    return !impl_->real_ready;
+}
+
+void HSMProvider::periodicSecurityCheck() {
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    
+    if (!initialized_) return;
+    
+    // If using stub fallback (no real HSM), log security warning
+    if (!impl_->real_ready) {
+        THEMIS_ERROR("⚠️  HSM SECURITY WARNING: PKCS#11 fallback stub active!");
+        THEMIS_ERROR("Real HSM connection failed. Keys are NOT hardware-protected.");
+        THEMIS_ERROR("Compliance impact: NIST SP 800-53 SC-12, PCI DSS 3.6, GDPR Art. 32");
+        THEMIS_ERROR("Check HSM configuration: library_path={}, pin={}", 
+                     config_.library_path.empty() ? "NOT SET" : config_.library_path,
+                     config_.pin.empty() ? "NOT SET" : "SET");
+        THEMIS_ERROR("See: docs/security/HSM_PRODUCTION_SETUP.md");
+    }
 }
 
 } } // namespace themis::security

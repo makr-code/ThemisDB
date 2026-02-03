@@ -12,10 +12,10 @@ GPUDataLoader::GPUDataLoader(
     std::shared_ptr<ITokenizer> tokenizer,
     const GPUDataLoaderConfig& config,
     VRAMAllocator* allocator
-) : tokenizer_(tokenizer), config_(config), allocator_(allocator) {
+) : tokenizer_(tokenizer), config_(config), external_allocator_(allocator) {
     
     // Create allocator if not provided
-    if (!allocator_) {
+    if (!external_allocator_) {
         acceleration::BackendType backend = acceleration::BackendType::CUDA;
         if (config_.target_device.type == DeviceType::HIP) {
             backend = acceleration::BackendType::HIP;
@@ -25,8 +25,7 @@ GPUDataLoader::GPUDataLoader(
             backend = acceleration::BackendType::DIRECTX;
         }
         
-        allocator_ = new VRAMAllocator(backend);
-        owns_allocator_ = true;
+        allocator_ = std::make_unique<VRAMAllocator>(backend);
     }
     
     spdlog::info("GPUDataLoader initialized:");
@@ -39,43 +38,35 @@ GPUDataLoader::GPUDataLoader(
 
 GPUDataLoader::~GPUDataLoader() {
     stopPrefetching();
-    
-    if (owns_allocator_ && allocator_) {
-        delete allocator_;
-    }
+    // allocator_ is automatically cleaned up by unique_ptr
 }
 
 GPUDataLoader::GPUDataLoader(GPUDataLoader&& other) noexcept
     : tokenizer_(std::move(other.tokenizer_))
     , config_(other.config_)
-    , allocator_(other.allocator_)
-    , owns_allocator_(other.owns_allocator_)
+    , allocator_(std::move(other.allocator_))
+    , external_allocator_(other.external_allocator_)
     , samples_(std::move(other.samples_))
     , indices_(std::move(other.indices_))
     , current_batch_(other.current_batch_)
 {
-    other.allocator_ = nullptr;
-    other.owns_allocator_ = false;
+    other.external_allocator_ = nullptr;
 }
 
 GPUDataLoader& GPUDataLoader::operator=(GPUDataLoader&& other) noexcept {
     if (this != &other) {
         stopPrefetching();
         
-        if (owns_allocator_ && allocator_) {
-            delete allocator_;
-        }
-        
+        // unique_ptr automatically handles cleanup
         tokenizer_ = std::move(other.tokenizer_);
         config_ = other.config_;
-        allocator_ = other.allocator_;
-        owns_allocator_ = other.owns_allocator_;
+        allocator_ = std::move(other.allocator_);
+        external_allocator_ = other.external_allocator_;
         samples_ = std::move(other.samples_);
         indices_ = std::move(other.indices_);
         current_batch_ = other.current_batch_;
         
-        other.allocator_ = nullptr;
-        other.owns_allocator_ = false;
+        other.external_allocator_ = nullptr;
     }
     return *this;
 }
@@ -168,8 +159,10 @@ size_t GPUDataLoader::num_batches() const {
 GPUDataLoader::MemoryStats GPUDataLoader::get_memory_stats() const {
     MemoryStats stats;
     
-    if (allocator_) {
-        auto allocator_stats = allocator_->get_stats();
+    // Get stats from whichever allocator is in use
+    VRAMAllocator* active_allocator = external_allocator_ ? external_allocator_ : allocator_.get();
+    if (active_allocator) {
+        auto allocator_stats = active_allocator->get_stats();
         stats.gpu_memory_bytes = allocator_stats.allocated_bytes;
     }
     

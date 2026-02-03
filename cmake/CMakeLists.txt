@@ -1249,6 +1249,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
+    ../src/cache/bounded_lru_cache.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     
@@ -1296,6 +1297,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
+    ../src/utils/thread_pool_manager.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
@@ -1349,9 +1351,11 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/urn.cpp
     ../src/sharding/consistent_hash.cpp
     ../src/sharding/shard_topology.cpp
+    ../src/sharding/metadata_shard.cpp
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp
+    ../src/sharding/mtls_connection_pool.cpp
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
@@ -1572,6 +1576,11 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/embedding_provider.cpp
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
+    # GPU VRAM Allocation (vLLM-inspired)
+    ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/multi_gpu_memory_coordinator.cpp
+    ../src/llm/paged_kv_cache_manager.cpp
+    ../src/llm/mixed_precision_inference.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
@@ -2541,6 +2550,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE
@@ -2714,6 +2724,25 @@ if(THEMIS_BUILD_TESTS)
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
             EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    # GPU Vector Index Test
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(test_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
         )
     endif()
 endif()
@@ -3078,6 +3107,20 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    
+    # GPU Vector Index benchmark
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(bench_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_gpu_vector_index.cpp
+        )
+        
+        target_link_libraries(bench_gpu_vector_index
+            PRIVATE
+                themis_core
+                benchmark::benchmark
+                benchmark::benchmark_main
+        )
+    endif()
 
     # GNN Embeddings benchmark
     add_executable(bench_gnn_embeddings

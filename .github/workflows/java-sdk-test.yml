@@ -9,6 +9,8 @@ on:
 # Minimal permissions for security
 permissions:
   contents: read
+  pull-requests: write
+  checks: write
 
 defaults:
   run:
@@ -56,6 +58,25 @@ jobs:
             exit 0
           fi
           mvn test -B
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-java-${{ matrix.java-version }}
+          path: clients/java/target/surefire-reports/*.xml
+          retention-days: 30
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always() && env.ACT != 'true'
+        with:
+          name: 'Java SDK Tests (Java ${{ matrix.java-version }})'
+          path: clients/java/target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: false
+          working-directory: clients/java
 
       - name: Generate test report
         if: always()
