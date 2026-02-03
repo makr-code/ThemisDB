@@ -5,6 +5,7 @@
 #define THEMISDB_SHARDING_METADATA_SHARD_H
 
 #include "sharding/consensus_module.h"
+#include "cache/bounded_lru_cache.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -49,6 +50,19 @@ struct MetadataEntry {
             {"updated_at", std::chrono::duration_cast<std::chrono::milliseconds>(
                 updated_at.time_since_epoch()).count()}
         };
+    }
+    
+    static MetadataEntry fromJson(const nlohmann::json& j) {
+        MetadataEntry entry;
+        entry.key = j["key"];
+        entry.value = j["value"];
+        entry.version = j["version"];
+        entry.partition = static_cast<MetadataPartitionKey>(j["partition"]);
+        entry.created_at = std::chrono::system_clock::time_point(
+            std::chrono::milliseconds(j["created_at"]));
+        entry.updated_at = std::chrono::system_clock::time_point(
+            std::chrono::milliseconds(j["updated_at"]));
+        return entry;
     }
 };
 
@@ -204,9 +218,8 @@ private:
     mutable std::mutex storage_mutex_;
     std::map<MetadataPartitionKey, std::map<std::string, MetadataEntry>> storage_;
     
-    // Cache
-    mutable std::mutex cache_mutex_;
-    std::map<std::string, MetadataEntry> cache_;  // key = partition:key
+    // Cache - replaced with BoundedLRUCache
+    std::unique_ptr<themis::cache::BoundedLRUCache> cache_;
     
     // Subscriptions
     mutable std::mutex subscriptions_mutex_;
