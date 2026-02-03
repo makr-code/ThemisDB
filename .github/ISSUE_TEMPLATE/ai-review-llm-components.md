@@ -7,6 +7,48 @@ assignees: ''
 ---
 
 <!-- 
+====================================================================================================
+📖 AI AGENT GUIDANCE - LLM/AI COMPONENTS
+====================================================================================================
+
+LLM/AI COMPONENT REVIEW REQUIREMENTS:
+
+1. **MODEL EVALUATION REQUIRED**:
+   - Test inference: measure tokens/sec, latency (TTFT, p99)
+   - Evaluate quality: perplexity, BLEU, ROUGE (if applicable)
+   - Test with multiple model sizes: 7B, 13B, 70B
+   - Benchmark quantization: FP16 vs Q4 vs Q8 performance
+
+2. **VECTOR SEARCH VALIDATION**:
+   - Measure recall@k at different dataset sizes (1M, 10M, 100M vectors)
+   - Test similarity metrics: cosine, L2, dot product
+   - Profile index build time and memory usage
+   - Compare with FAISS/Weaviate benchmarks
+
+3. **RAG PIPELINE ASSESSMENT**:
+   - Test retrieval precision/recall
+   - Measure end-to-end latency (retrieval + generation)
+   - Verify context utilization
+   - Test hallucination detection
+
+4. **SECURITY & ETHICS**:
+   - Test for prompt injection vulnerabilities (OWASP LLM Top 10)
+   - Measure bias across demographic groups
+   - Check for PII leakage in embeddings
+   - Verify toxicity detection
+
+5. **RESEARCH REQUIREMENTS**:
+   - Cite 5-10 recent papers (last 3 years preferred)
+   - Compare with state-of-the-art: GPT-4, Claude, Llama 3
+   - Reference specific techniques: Flash Attention, GPTQ, LoRA
+   - Include DOI/arXiv links
+
+📚 **REQUIRED READING**: `.github/ISSUE_TEMPLATE/_guides/AI_AGENT_REVIEW_GUIDE.md`
+
+====================================================================================================
+-->
+
+<!-- 
 Dies ist eine spezialisierte Vorlage für AI/LLM Components wie:
 - LLM Engine (src/llm/)
 - Embeddings & Vector Search (src/embeddings/)

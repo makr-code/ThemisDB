@@ -7,6 +7,48 @@ assignees: ''
 ---
 
 <!-- 
+====================================================================================================
+📖 AI AGENT GUIDANCE - COST OPTIMIZATION
+====================================================================================================
+
+COST OPTIMIZATION REVIEW REQUIREMENTS:
+
+1. **QUANTIFIED SAVINGS REQUIRED**:
+   - Calculate exact savings: "Reduce X from $Y to $Z = $W savings/month"
+   - Prioritize by ROI: savings per effort hour
+   - Document quick wins: high savings, low effort
+   - Project annual impact: monthly savings × 12
+
+2. **RESOURCE UTILIZATION METRICS**:
+   - Measure actual utilization: CPU%, memory%, storage%
+   - Identify idle resources: <25% utilization
+   - Find over-provisioned instances: specs vs actual usage
+   - Calculate waste: provisioned - used
+
+3. **BENCHMARKING**:
+   - Compare costs: AWS vs Azure vs GCP for same workload
+   - Instance comparison: M5 vs C5 vs R5 for workload profile
+   - Reserved vs on-demand vs spot pricing analysis
+   - Storage tiers: hot vs warm vs cold data
+
+4. **OPTIMIZATION OPPORTUNITIES**:
+   - Right-sizing: list instances with recommendations
+   - Shutdown schedules: dev/staging non-business hours
+   - Reserved capacity: predict stable workload for commitments
+   - Architecture changes: serverless, containers, etc.
+
+5. **ACTION ITEMS WITH SAVINGS**:
+   - Each item: Current cost, New cost, Savings, Effort, Risk
+   - Prioritize: (Savings / Effort) ratio
+   - Group by: P0 (>$1K/mo), P1 ($500-1K), P2 (<$500)
+   - Include implementation steps
+
+📚 **REQUIRED READING**: `.github/ISSUE_TEMPLATE/_guides/AI_AGENT_REVIEW_GUIDE.md`
+
+====================================================================================================
+-->
+
+<!-- 
 Wiederholbare Template für Cost Optimization & Resource Efficiency Reviews
 Repeatable template for cost optimization and resource efficiency reviews
 Empfohlene Häufigkeit: Quartalsweise / Recommended frequency: Quarterly
