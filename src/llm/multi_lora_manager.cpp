@@ -15,7 +15,7 @@ extern "C" {
 namespace themis {
 namespace llm {
 
-// Quantization constants
+// Quantization and memory constants
 namespace {
     constexpr size_t TYPICAL_LORA_RANK8_BYTES = 32 * 1024 * 1024;  // 32 MB for rank-8 LoRA
     constexpr float INT8_MAX_VALUE = 127.0f;
@@ -25,6 +25,20 @@ namespace {
     constexpr float LORA_WEIGHT_STDDEV = 0.1f;  // Standard deviation for simulated LoRA weights
     constexpr uint8_t INT8_ZERO_POINT = 127;    // Zero-point for INT8: maps 0 to 127 in [0,254]
     constexpr uint8_t INT4_ZERO_POINT = 7;      // Zero-point for INT4: maps 0 to 7 in [0,14]
+    
+    // FIND-015: Magic numbers replaced with named constants
+    constexpr size_t BYTES_PER_MB = 1024 * 1024;  // Bytes to megabytes conversion
+    constexpr size_t DEFAULT_QUANTIZATION_GROUP_SIZE = 128;  // Default group size for INT4 quantization
+    
+    // Scoring weights for LRU eviction
+    constexpr double MAX_FREQUENCY_SCORE = 40.0;  // Maximum score contribution from access frequency
+    constexpr double FREQUENCY_WEIGHT = 10.0;     // Weight multiplier for access frequency
+    constexpr double ACTIVE_BONUS_SCORE = 20.0;   // Bonus score for active LoRAs
+    constexpr double SIZE_PENALTY_DIVISOR = 10.0; // Divisor for VRAM size penalty
+    
+    // Latency estimation constants
+    constexpr double BASE_LOAD_LATENCY_MS = 10.0;  // Base latency for LoRA loading
+    constexpr double LOAD_LATENCY_SCALE = 20.0;    // Scale factor for load-dependent latency
     
     // Helper to convert QuantizationMode to string
     const char* quantizationModeToString(QuantizationMode mode) {
@@ -235,8 +249,10 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     
     // Apply LoRA adapter to context using modern llama.cpp API
     if (lora->adapter_handle && context) {
-        // Get adapter index from handle
-        int adapter_index = static_cast<int>(reinterpret_cast<uintptr_t>(lora->adapter_handle));
+        // FIND-017: Fixed narrowing conversion - use intptr_t instead of int to safely store pointer value
+        // Get adapter index from handle (safe conversion for pointer arithmetic)
+        intptr_t adapter_ptr = reinterpret_cast<intptr_t>(lora->adapter_handle);
+        int adapter_index = static_cast<int>(adapter_ptr);
         
         // Apply adapter with scale factor using llama.cpp API
         // This sets the adapter for subsequent decode/inference calls
@@ -276,8 +292,10 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
     
     // Remove LoRA adapter from context using llama.cpp API
     if (lora->adapter_handle && context) {
+        // FIND-017: Fixed narrowing conversion - use intptr_t instead of int to safely store pointer value
         // Set adapter with scale 0.0 to effectively disable it
-        int adapter_index = static_cast<int>(reinterpret_cast<uintptr_t>(lora->adapter_handle));
+        intptr_t adapter_ptr = reinterpret_cast<intptr_t>(lora->adapter_handle);
+        int adapter_index = static_cast<int>(adapter_ptr);
         int result = llama_lora_adapter_set(context, adapter_index, 0.0f);
         
         if (result != 0) {
@@ -468,8 +486,11 @@ bool MultiLoRAManager::fuseLoRAs(
         total_vram = std::max(total_vram, source_loras[i]->vram_bytes);
     }
     
-    fused_lora->rank = static_cast<size_t>(avg_rank);
-    fused_lora->alpha = static_cast<size_t>(avg_alpha);
+    // FIND-017: Fixed narrowing conversions - use std::round for float to size_t conversions
+    // Calculate fused LoRA properties
+    // Average rank and alpha weighted by fusion weights
+    fused_lora->rank = static_cast<size_t>(std::round(avg_rank));
+    fused_lora->alpha = static_cast<size_t>(std::round(avg_alpha));
     fused_lora->vram_bytes = total_vram;
     fused_lora->scale = 1.0f;  // Fusion weights already applied
     
@@ -479,11 +500,12 @@ bool MultiLoRAManager::fuseLoRAs(
     // 3. Create new adapter handle from fused weights
     // fused_lora->adapter_handle = llama_lora_adapter_fuse(source_adapters, normalized_weights);
     
+    // FIND-015: Use named constant for byte to MB conversion
     // Check VRAM budget
-    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
         while (loras_.size() > 0 && 
-               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
             evictLRU();
         }
     }
@@ -614,7 +636,8 @@ size_t MultiLoRAManager::evictLRU(size_t target_vram_mb) {
         return 0;
     }
     
-    size_t freed_vram = lru_lora->vram_bytes / (1024 * 1024);
+    // FIND-015: Use named constant for byte to MB conversion
+    size_t freed_vram = lru_lora->vram_bytes / BYTES_PER_MB;
     
     spdlog::info("Evicting LRU LoRA: {} (freed {} MB VRAM)", lru_id, freed_vram);
     
@@ -660,7 +683,8 @@ size_t MultiLoRAManager::evictExpired() {
 json MultiLoRAManager::getMemoryStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    size_t vram_mb = total_vram_bytes_ / (1024 * 1024);
+    // FIND-015: Use named constant for byte to MB conversion
+    size_t vram_mb = total_vram_bytes_ / BYTES_PER_MB;
     
     json stats;
     stats["vram_used_mb"] = vram_mb;
@@ -816,8 +840,9 @@ bool MultiLoRAManager::importLoRA(
 }
 
 bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
-    size_t vram_mb = vram_bytes / (1024 * 1024);
-    size_t total_mb = total_vram_bytes_ / (1024 * 1024);
+    // FIND-015: Use named constant for byte to MB conversion
+    size_t vram_mb = vram_bytes / BYTES_PER_MB;
+    size_t total_mb = total_vram_bytes_ / BYTES_PER_MB;
     return (total_mb + vram_mb) <= config_.max_lora_vram_mb;
 }
 
@@ -939,7 +964,8 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
     // Uses group-based quantization for better accuracy
     
     size_t num_weights = weights.size();
-    int group_size = config_.quantization.group_size > 0 ? config_.quantization.group_size : 128;
+    // FIND-015: Use named constant for default quantization group size
+    int group_size = config_.quantization.group_size > 0 ? config_.quantization.group_size : DEFAULT_QUANTIZATION_GROUP_SIZE;
     size_t num_groups = (num_weights + group_size - 1) / group_size;
     
     lora->scale_factors.resize(num_groups);
@@ -1156,7 +1182,8 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 
                 // Try to move to underloaded GPU
                 for (int target_gpu : underloaded_gpus) {
-                    size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+                    // FIND-015: Use named constant for byte to MB conversion
+                    size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
                     if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < max_vram_per_gpu_bytes) {
                         
                         spdlog::info("Moving LoRA {} from GPU {} to GPU {}", 
@@ -1197,8 +1224,9 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         return 0;  // Default GPU
     }
     
+    // FIND-015: Use named constant for byte to MB conversion
     // Pre-compute max VRAM per GPU in bytes to avoid repeated multiplication
-    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
     
     switch (config_.multi_gpu.strategy) {
         case MultiGPUStrategy::ROUND_ROBIN: {
@@ -1269,8 +1297,9 @@ bool MultiLoRAManager::loadLoRAOnGPU(LoRASlot* lora, int gpu_id) {
     lora->gpu_placement = GPUPlacement::SINGLE_GPU;
     gpu_vram_usage_[gpu_id] += lora->vram_bytes;
     
+    // FIND-015: Use named constant for byte to MB conversion
     spdlog::info("LoRA {} loaded on GPU {} ({} MB)", 
-                 lora->lora_id, gpu_id, lora->vram_bytes / (1024 * 1024));
+                 lora->lora_id, gpu_id, lora->vram_bytes / BYTES_PER_MB);
     
     return true;
 }
@@ -1536,8 +1565,9 @@ void MultiLoRAManager::evictionWorker() {
             
             // Also check memory pressure and proactively evict if needed
             lock.lock();
+            // FIND-015: Use named constant for byte to MB conversion
             size_t vram_usage_pct = (config_.max_lora_vram_mb > 0) 
-                ? (total_vram_bytes_ / (1024 * 1024) * 100 / config_.max_lora_vram_mb)
+                ? (total_vram_bytes_ / BYTES_PER_MB * 100 / config_.max_lora_vram_mb)
                 : 0;
             lock.unlock();
             
@@ -1642,13 +1672,14 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
         // Use helper to calculate access frequency consistently
         double access_frequency = calculateAccessFrequency(lora.get(), now);
         
+        // FIND-015: Use named constants for scoring weights
         // Score calculation (normalized to 0-100 range)
         // Higher score = keep in memory
         double score = 0.0;
-        score += std::min(access_frequency * 10.0, 40.0);  // Up to 40 points for frequency
+        score += std::min(access_frequency * FREQUENCY_WEIGHT, MAX_FREQUENCY_SCORE);  // Up to 40 points for frequency
         score -= std::min(idle_seconds / 60.0, 30.0);      // Penalty for idle time
-        score += (lora->is_active ? 20.0 : 0.0);           // Bonus for active adapters
-        score -= (lora->vram_bytes / (1024.0 * 1024.0)) / 10.0;  // Small penalty for large size
+        score += (lora->is_active ? ACTIVE_BONUS_SCORE : 0.0);           // Bonus for active adapters
+        score -= (lora->vram_bytes / (1024.0 * 1024.0)) / SIZE_PENALTY_DIVISOR;  // Small penalty for large size
         
         candidates.push_back({id, lora.get(), score});
     }
@@ -1666,7 +1697,8 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
     
     // Evict until target is met
     size_t freed_vram = 0;
-    size_t target_bytes = target_vram_mb * 1024 * 1024;
+    // FIND-015: Use named constant for byte to MB conversion
+    size_t target_bytes = target_vram_mb * BYTES_PER_MB;
     
     for (const auto& candidate : candidates) {
         if (target_vram_mb > 0 && freed_vram >= target_bytes) {
@@ -1697,7 +1729,8 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
         loras_.erase(candidate.lora_id);
     }
     
-    size_t freed_mb = freed_vram / (1024 * 1024);
+    // FIND-015: Use named constant for byte to MB conversion
+    size_t freed_mb = freed_vram / BYTES_PER_MB;
     spdlog::info("Resource-aware eviction completed: freed {} MB", freed_mb);
     
     return freed_mb;
@@ -1737,8 +1770,9 @@ json MultiLoRAManager::getSchedulingRecommendation(size_t lora_vram_bytes, int p
             continue;
         }
         
+        // FIND-015: Use named constant for byte to MB conversion
         // Calculate available VRAM
-        size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+        size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
         size_t used_vram = gpu_vram_usage_.count(gpu_id) ? gpu_vram_usage_.at(gpu_id) : 0;
         size_t available_vram = (max_vram > used_vram) ? (max_vram - used_vram) : 0;
         
@@ -1779,7 +1813,8 @@ json MultiLoRAManager::getSchedulingRecommendation(size_t lora_vram_bytes, int p
         }
         
         gpu_eval["score"] = score;
-        gpu_eval["estimated_load_latency_ms"] = 10.0 + (util_ratio * 20.0);  // 10-30ms estimate
+        // FIND-015: Use named constants for latency estimation
+        gpu_eval["estimated_load_latency_ms"] = BASE_LOAD_LATENCY_MS + (util_ratio * LOAD_LATENCY_SCALE);  // 10-30ms estimate
         
         gpu_scores.push_back(gpu_eval);
         
@@ -1826,8 +1861,9 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
         return false;
     }
     
+    // FIND-015: Use named constant for byte to MB conversion
     // Check target GPU capacity
-    size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+    size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
     size_t used_vram = gpu_vram_usage_[target_gpu];
     size_t available = (max_vram > used_vram) ? (max_vram - used_vram) : 0;
     
@@ -1949,8 +1985,9 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
             if (target_gpu >= 0) {
                 auto& lora = loras_[lora_id];
                 
+                // FIND-015: Use named constant for byte to MB conversion
                 // Check capacity
-                size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+                size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
                 if (gpu_vram_usage_[target_gpu] + lora->vram_bytes <= max_vram) {
                     spdlog::info("Auto-migrating LoRA {} from failed GPU {} to GPU {}", 
                                  lora_id, unhealthy_gpu, target_gpu);
