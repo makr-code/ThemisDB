@@ -508,8 +508,18 @@ std::optional<CrossShardTransaction> CrossShardTransactionCoordinator::getTransa
 bool CrossShardTransactionCoordinator::isDeadlocked(
     const std::string& transaction_id
 ) const {
-    // Simplified deadlock check
-    // In production, this would check the wait-for graph
+    // Build wait-for graph
+    auto graph = buildWaitForGraph();
+    
+    // Check if transaction_id is part of a cycle
+    std::set<std::string> visited;
+    std::set<std::string> rec_stack;
+    
+    // Start DFS from the given transaction
+    if (graph.find(transaction_id) != graph.end()) {
+        return detectCycle(graph, transaction_id, visited, rec_stack);
+    }
+    
     return false;
 }
 
@@ -1070,17 +1080,54 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
         // Build wait-for graph
         auto graph = buildWaitForGraph();
         
-        // Detect cycles
+        if (graph.empty()) {
+            continue;  // No active transactions with potential conflicts
+        }
+        
+        // Detect cycles using DFS
         std::set<std::string> visited;
         std::set<std::string> rec_stack;
+        std::vector<std::string> deadlocked_txns;
         
         for (const auto& [node, _] : graph) {
-            if (detectCycle(graph, node, visited, rec_stack)) {
-                spdlog::warn("Deadlock detected involving transaction {}", node);
-                deadlocked_transactions_++;
+            if (visited.find(node) == visited.end()) {
+                if (detectCycle(graph, node, visited, rec_stack)) {
+                    // Found a cycle - all nodes in rec_stack are part of the deadlock
+                    for (const auto& txn_id : rec_stack) {
+                        deadlocked_txns.push_back(txn_id);
+                    }
+                    break;  // Handle one deadlock at a time
+                }
+            }
+        }
+        
+        if (!deadlocked_txns.empty()) {
+            spdlog::warn("Deadlock detected involving {} transactions", 
+                        deadlocked_txns.size());
+            
+            deadlocked_transactions_++;
+            
+            // Select victim: choose the youngest transaction (most recent start time)
+            std::string victim_id;
+            std::chrono::system_clock::time_point latest_start;
+            
+            {
+                std::lock_guard<std::mutex> lock(transactions_mutex_);
                 
-                // Abort youngest transaction in cycle
-                abort(node);
+                for (const auto& txn_id : deadlocked_txns) {
+                    auto it = transactions_.find(txn_id);
+                    if (it != transactions_.end()) {
+                        if (victim_id.empty() || it->second.start_time > latest_start) {
+                            victim_id = txn_id;
+                            latest_start = it->second.start_time;
+                        }
+                    }
+                }
+            }
+            
+            if (!victim_id.empty()) {
+                spdlog::warn("Aborting transaction {} to resolve deadlock", victim_id);
+                abort(victim_id);
             }
         }
     }
@@ -1092,7 +1139,79 @@ std::map<std::string, std::vector<std::string>>
 CrossShardTransactionCoordinator::buildWaitForGraph() const {
     std::map<std::string, std::vector<std::string>> graph;
     
-    // Placeholder - would build actual wait-for graph from lock information
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    
+    // Build wait-for graph from active transactions
+    // Transaction A waits for B if:
+    // 1. Both are active or preparing
+    // 2. They have overlapping participants
+    // 3. A started after B
+    
+    std::vector<std::string> active_txn_ids;
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::ACTIVE ||
+            txn.state == TransactionState::PREPARING) {
+            active_txn_ids.push_back(txn_id);
+        }
+    }
+    
+    // For each pair of active transactions, check for potential conflicts
+    for (size_t i = 0; i < active_txn_ids.size(); ++i) {
+        const auto& txn_a_id = active_txn_ids[i];
+        const auto& txn_a = transactions_.at(txn_a_id);
+        
+        for (size_t j = i + 1; j < active_txn_ids.size(); ++j) {
+            const auto& txn_b_id = active_txn_ids[j];
+            const auto& txn_b = transactions_.at(txn_b_id);
+            
+            // Check if transactions have overlapping participants
+            bool has_overlap = false;
+            for (const auto& [shard_id_a, _] : txn_a.participants) {
+                if (txn_b.participants.find(shard_id_a) != txn_b.participants.end()) {
+                    has_overlap = true;
+                    break;
+                }
+            }
+            
+            if (has_overlap) {
+                // Determine wait-for relationship based on start time
+                // Younger transaction waits for older transaction
+                if (txn_a.start_time < txn_b.start_time) {
+                    // B waits for A
+                    graph[txn_b_id].push_back(txn_a_id);
+                    spdlog::trace("Wait-for edge: {} -> {}", txn_b_id, txn_a_id);
+                } else {
+                    // A waits for B
+                    graph[txn_a_id].push_back(txn_b_id);
+                    spdlog::trace("Wait-for edge: {} -> {}", txn_a_id, txn_b_id);
+                }
+            }
+        }
+    }
+    
+    // Add additional wait-for edges based on prepare status
+    // If a transaction is in PREPARING state and another has overlapping
+    // participants in ACTIVE state, the ACTIVE waits for PREPARING
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::PREPARING) {
+            for (const auto& [other_id, other_txn] : transactions_) {
+                if (other_id == txn_id) continue;
+                if (other_txn.state != TransactionState::ACTIVE) continue;
+                
+                // Check for overlapping participants
+                for (const auto& [shard_id, _] : txn.participants) {
+                    if (other_txn.participants.find(shard_id) != 
+                        other_txn.participants.end()) {
+                        graph[other_id].push_back(txn_id);
+                        spdlog::trace("Wait-for edge (prepare): {} -> {}", other_id, txn_id);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    spdlog::debug("Built wait-for graph with {} nodes", graph.size());
     
     return graph;
 }
