@@ -34,6 +34,19 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
+HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
+                             std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                             std::shared_ptr<ReplicaTopology> topology,
+                             std::shared_ptr<utils::HTTPClientPool> http_pool,
+                             std::shared_ptr<utils::ThreadPoolManager> thread_pool)
+    : config_(config),
+      primary_coordinator_(primary_coordinator),
+      topology_(topology),
+      http_pool_(http_pool),
+      thread_pool_(thread_pool),
+      last_failover_time_(std::chrono::steady_clock::time_point::min()) {
+}
+
 HealthMonitor::~HealthMonitor() {
     stop();
 }
@@ -43,9 +56,21 @@ void HealthMonitor::start() {
         return;  // Already running
     }
     
-    monitor_thread_ = std::thread([this]() {
-        monitoringLoop();
-    });
+    // If thread pool is available, use it to schedule health checks
+    if (thread_pool_) {
+        // Schedule periodic health check task on thread pool
+        thread_pool_->submitTask(
+            utils::ThreadPoolManager::PoolType::IO,
+            [this]() { monitoringLoop(); },
+            "HealthMonitor::monitoringLoop",
+            utils::Task::Priority::NORMAL
+        );
+    } else {
+        // Fallback to dedicated thread (backward compatibility)
+        monitor_thread_ = std::thread([this]() {
+            monitoringLoop();
+        });
+    }
 }
 
 void HealthMonitor::stop() {
