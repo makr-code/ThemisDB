@@ -8,6 +8,7 @@
 #include <chrono>
 #include <functional>
 #include <random>
+#include <thread>
 
 namespace themisdb {
 namespace sharding {
