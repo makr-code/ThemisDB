@@ -157,6 +157,7 @@ bool TransactionLifecycleManager::isTerminalState(TransactionState state) const 
 }
 
 void TransactionLifecycleManager::removeTransaction(const std::string& txn_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
     transactions_.erase(txn_id);
 }
 

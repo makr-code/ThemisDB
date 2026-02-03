@@ -104,14 +104,20 @@ void ThreadPoolManager::workerThread() {
         }
         
         if (task) {
+            // Use RAII to ensure active_threads_ is decremented even if exception occurs
             ++active_threads_;
+            struct ThreadGuard {
+                std::atomic<size_t>& counter;
+                ThreadGuard(std::atomic<size_t>& c) : counter(c) {}
+                ~ThreadGuard() { --counter; }
+            } guard(active_threads_);
+            
             try {
                 task();
                 ++completed_tasks_;
             } catch (...) {
                 // Swallow exceptions to prevent thread termination
             }
-            --active_threads_;
             
             // Notify that queue space is available
             cv_.notify_one();

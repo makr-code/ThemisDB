@@ -396,6 +396,7 @@ private:
     // Background thread
     std::atomic<bool> running_;
     std::thread deadlock_detection_thread_;
+    std::thread cleanup_thread_;
     
     // Statistics
     std::atomic<uint64_t> total_transactions_;

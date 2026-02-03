@@ -95,9 +95,11 @@ bool CrossShardTransactionCoordinator::start() {
     }
     
     // Start periodic cleanup of completed transactions and timeout checking
-    std::thread([this]() {
+    cleanup_thread_ = std::thread([this]() {
         while (running_.load()) {
             std::this_thread::sleep_for(std::chrono::seconds(60));
+            
+            if (!running_.load()) break;
             
             if (lifecycle_manager_) {
                 // Reap timed-out transactions
@@ -113,7 +115,7 @@ bool CrossShardTransactionCoordinator::start() {
                 }
             }
         }
-    }).detach();
+    });
     
     spdlog::info("Cross-shard transaction coordinator started");
     return true;
@@ -128,6 +130,10 @@ void CrossShardTransactionCoordinator::stop() {
     
     if (deadlock_detection_thread_.joinable()) {
         deadlock_detection_thread_.join();
+    }
+    
+    if (cleanup_thread_.joinable()) {
+        cleanup_thread_.join();
     }
     
     spdlog::info("Cross-shard transaction coordinator stopped");
