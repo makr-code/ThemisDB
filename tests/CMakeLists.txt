@@ -94,6 +94,12 @@ if(NOT THEMIS_ENABLE_LLM)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_FLASH_ATTENTION)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_flash_attention.*\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"
