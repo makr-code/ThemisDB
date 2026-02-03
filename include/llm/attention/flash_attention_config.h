@@ -1,0 +1,87 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <cmath>
+
+namespace themis {
+namespace llm {
+namespace attention {
+
+/**
+ * @brief Configuration for Flash Attention v3
+ * 
+ * Supports multiple backends (CUDA SM86/SM90, Vulkan, HIP, CPU)
+ * and various optimization strategies.
+ */
+struct FlashAttentionConfig {
+    // Tensor dimensions
+    int batch_size = 1;
+    int seq_len = 2048;
+    int num_heads = 32;
+    int head_dim = 128;
+    int num_kv_heads = 8;  // For Grouped Query Attention (GQA)
+    
+    // Attention parameters
+    float dropout_p = 0.0f;
+    bool use_causal_mask = true;
+    float scale = 0.0f;  // 1/sqrt(head_dim), auto-computed if 0
+    
+    // Flash Attention versions
+    bool enable_flash_v2 = true;
+    bool enable_flash_v3 = true;  // SM90 only (H100, RTX 6000 Ada)
+    
+    // Optimization flags
+    bool enable_kernel_fusion = true;
+    bool enable_async_copy = true;
+    bool enable_tensor_cores = true;
+    bool enable_warp_specialization = true;
+    
+    // KV-Cache options
+    bool use_paged_kv_cache = true;
+    size_t kv_block_size = 16;  // Tokens per block
+    size_t num_kv_blocks = 4096;
+    bool enable_prefix_caching = true;
+    
+    // Performance tuning
+    int tile_size = 64;
+    int block_size = 256;
+    int num_warps = 8;
+    
+    // Quantization
+    enum class QuantType {
+        FP32,
+        FP16,
+        BF16,
+        INT8,
+        Q4
+    };
+    QuantType quant_type = QuantType::FP16;
+    
+    // Compute defaults
+    FlashAttentionConfig() {
+        // Auto-compute scale if not set
+        if (scale == 0.0f) {
+            scale = 1.0f / std::sqrt(static_cast<float>(head_dim));
+        }
+    }
+};
+
+/**
+ * @brief Memory statistics for attention operations
+ */
+struct AttentionMemoryStats {
+    size_t total_memory_bytes = 0;
+    size_t kv_cache_bytes = 0;
+    size_t activation_bytes = 0;
+    size_t workspace_bytes = 0;
+    
+    size_t blocks_used = 0;
+    size_t blocks_free = 0;
+    double fragmentation_rate = 0.0;
+    double prefix_sharing_ratio = 0.0;
+};
+
+} // namespace attention
+} // namespace llm
+} // namespace themis
