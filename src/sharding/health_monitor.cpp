@@ -1,4 +1,5 @@
 #include "sharding/health_monitor.h"
+#include "sharding/thread_pool_manager.h"
 #include <algorithm>
 
 namespace themis::sharding {
@@ -34,6 +35,19 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
+HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
+                             std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                             std::shared_ptr<ReplicaTopology> topology,
+                             std::shared_ptr<utils::HTTPClientPool> http_pool,
+                             std::shared_ptr<themisdb::sharding::ThreadPoolManager> thread_pool)
+    : config_(config),
+      primary_coordinator_(primary_coordinator),
+      topology_(topology),
+      http_pool_(http_pool),
+      thread_pool_(thread_pool),
+      last_failover_time_(std::chrono::steady_clock::time_point::min()) {
+}
+
 HealthMonitor::~HealthMonitor() {
     stop();
 }
@@ -43,9 +57,17 @@ void HealthMonitor::start() {
         return;  // Already running
     }
     
-    monitor_thread_ = std::thread([this]() {
-        monitoringLoop();
-    });
+    if (thread_pool_) {
+        // Use centralized thread pool
+        thread_pool_->submit([this]() {
+            monitoringLoop();
+        });
+    } else {
+        // Fallback to dedicated thread for backward compatibility
+        monitor_thread_ = std::thread([this]() {
+            monitoringLoop();
+        });
+    }
 }
 
 void HealthMonitor::stop() {

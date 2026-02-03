@@ -312,6 +312,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
+    ../src/sharding/metadata_shard.cpp
     
     # Raft consensus
     ../src/sharding/raft_configuration.cpp
