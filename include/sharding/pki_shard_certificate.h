@@ -10,6 +10,48 @@
 namespace themis::sharding {
 
 /**
+ * OID Registry for ThemisDB Custom Extensions
+ * 
+ * Defines the custom OID hierarchy for certificate extensions.
+ * Uses private enterprise number space: 1.3.6.1.4.1.99999
+ */
+struct OIDRegistry {
+    // Base OID for ThemisDB (Private Enterprise Number)
+    static constexpr const char* COMPANY_ID = "1.3.6.1.4.1.99999";
+    static constexpr const char* PRODUCT_OID = "themisdb";
+    
+    // Custom OIDs for certificate extensions
+    static constexpr const char* SHARD_ID_OID = "1.3.6.1.4.1.99999.1.1";
+    static constexpr const char* REGION_OID = "1.3.6.1.4.1.99999.1.2";
+    static constexpr const char* ROLE_OID = "1.3.6.1.4.1.99999.1.3";
+    static constexpr const char* NODE_AUTH_EKU = "1.3.6.1.4.1.99999.2.1";
+};
+
+/**
+ * Certificate Validation Modes
+ * 
+ * Controls how strictly certificate validation is performed.
+ */
+enum class ValidationMode {
+    STRICT,      // Require custom OID, reject CN fallback (production multi-tenant)
+    COMPATIBLE,  // Try OID first, fallback to CN (transition mode)
+    LEGACY       // Only CN extraction (not recommended, single-tenant only)
+};
+
+/**
+ * Multi-Identity Structure
+ * 
+ * Represents complete identity information from certificate.
+ */
+struct ShardIdentity {
+    std::string shard_id;        // From custom OID or CN fallback
+    std::string region;          // From region OID
+    std::string role;            // From role OID (node/client/admin)
+    std::vector<std::string> sans; // Subject Alternative Names (all types)
+    bool from_oid;               // True if extracted from OID, false if from CN
+};
+
+/**
  * Shard Certificate Information
  * 
  * Represents X.509 certificate extensions specific to shard identity.
@@ -34,12 +76,14 @@ struct ShardCertificateInfo {
     
     // Custom X.509 Extensions for Sharding
     std::string shard_id;              // Shard identifier (e.g., "shard_001")
+    std::string region;                // Region from custom OID (e.g., "us-east-1")
     std::string datacenter;            // Datacenter location (e.g., "dc1")
     std::string rack;                  // Rack location (e.g., "rack01")
     uint64_t token_range_start;        // Hash range start
     uint64_t token_range_end;          // Hash range end
     std::vector<std::string> capabilities; // read, write, replicate, admin
-    std::string role;                  // primary, replica
+    std::string role;                  // primary, replica, node, client, admin
+    bool shard_id_from_oid = false;    // True if shard_id extracted from custom OID
     
     /**
      * Check if certificate has a specific capability
@@ -112,13 +156,46 @@ public:
      * @return true if certificate is valid for shard use
      */
     static bool validateShardCertificate(const ShardCertificateInfo& info);
+    
+    /**
+     * Validate certificate with specific mode
+     * @param info Certificate info to validate
+     * @param mode Validation mode (STRICT, COMPATIBLE, LEGACY)
+     * @return true if certificate is valid according to mode
+     */
+    static bool validateWithMode(const ShardCertificateInfo& info, ValidationMode mode);
+    
+    /**
+     * Extract multi-identity information from certificate
+     * @param cert_path Path to certificate
+     * @return ShardIdentity if successful, nullopt otherwise
+     */
+    static std::optional<ShardIdentity> extractIdentity(const std::string& cert_path);
+    
+    /**
+     * Validate Extended Key Usage (EKU) for node authentication
+     * @param cert_path Path to certificate
+     * @return true if certificate has proper EKU for database node authentication
+     */
+    static bool validateEKU(const std::string& cert_path);
 
 private:
     /**
+     * Extract custom OID value from certificate
+     * @param x509_cert X509 certificate pointer
+     * @param oid_string OID to extract (e.g., "1.3.6.1.4.1.99999.1.1")
+     * @return OID value as string if found, nullopt otherwise
+     */
+    static std::optional<std::string> extractCustomOID(void* x509_cert, const std::string& oid_string);
+    
+    /**
      * Parse custom X.509 extensions
      * Internal helper to extract shard-specific extensions
+     * @param x509_cert X509 certificate pointer
+     * @param info Certificate info to populate
+     * @param mode Validation mode for OID vs CN fallback
      */
-    static bool parseCustomExtensions(void* x509_cert, ShardCertificateInfo& info);
+    static bool parseCustomExtensions(void* x509_cert, ShardCertificateInfo& info, ValidationMode mode = ValidationMode::COMPATIBLE);
     
     /**
      * Parse Subject Alternative Names

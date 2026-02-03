@@ -66,6 +66,53 @@ namespace {
     }
 }
 
+std::optional<std::string> PKIShardCertificate::extractCustomOID(void* x509_cert_ptr, const std::string& oid_string) {
+    X509* cert = static_cast<X509*>(x509_cert_ptr);
+    if (!cert) {
+        return std::nullopt;
+    }
+    
+    // Convert OID string to ASN1_OBJECT
+    auto oid = utils::ASN1ObjectPtr(OBJ_txt2obj(oid_string.c_str(), 0));
+    if (!oid) {
+        return std::nullopt;
+    }
+    
+    // Find extension in certificate by OID
+    int ext_count = X509_get_ext_count(cert);
+    for (int i = 0; i < ext_count; i++) {
+        X509_EXTENSION* ext = X509_get_ext(cert, i);
+        if (!ext) continue;
+        
+        ASN1_OBJECT* ext_oid = X509_EXTENSION_get_object(ext);
+        if (!ext_oid) continue;
+        
+        // Compare OIDs
+        if (OBJ_cmp(ext_oid, oid.get()) == 0) {
+            // Extract value from extension
+            ASN1_OCTET_STRING* data = X509_EXTENSION_get_data(ext);
+            if (!data) continue;
+            
+            // Parse ASN.1 data - typically UTF8String
+            const unsigned char* p = data->data;
+            int len = data->length;
+            
+            // Try to parse as UTF8String (most common for custom extensions)
+            if (len > 2 && p[0] == 0x0C) { // UTF8String tag
+                int str_len = p[1];
+                if (str_len + 2 <= len) {
+                    return std::string(reinterpret_cast<const char*>(p + 2), str_len);
+                }
+            }
+            
+            // Fallback: treat entire data as string (for simple text extensions)
+            return std::string(reinterpret_cast<const char*>(p), len);
+        }
+    }
+    
+    return std::nullopt;
+}
+
 bool ShardCertificateInfo::isValidNow() const {
     // For Phase 2, we'll implement a simple check
     // In production, this should parse not_before/not_after and compare with current time
@@ -135,9 +182,8 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     parseSAN(cert.get(), info);
     
     // Parse custom extensions (shard-specific)
-    // Note: In Phase 2, we're providing the structure
-    // Actual custom OID parsing would be implemented in production
-    parseCustomExtensions(cert.get(), info);
+    // Uses COMPATIBLE mode by default (try OID first, fallback to CN)
+    parseCustomExtensions(cert.get(), info, ValidationMode::COMPATIBLE);
     
     return info;
 }
@@ -262,35 +308,61 @@ bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& i
     return true;
 }
 
-bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertificateInfo& info) {
+bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertificateInfo& info, ValidationMode mode) {
     X509* cert = static_cast<X509*>(x509_cert_ptr);
-    (void)cert; // Future: parse custom X.509 extensions
-    
-    // Note: In Phase 2, we're providing the structure for custom extension parsing
-    // In production, this would parse actual custom OIDs (e.g., 1.3.6.1.4.1.XXXXX)
-    // and extract shard-specific information
-    
-    // For now, we'll extract shard_id from CN if it follows the pattern "shard-XXX"
-    if (info.subject_cn.find("shard-") == 0) {
-        // Extract shard ID from CN (e.g., "shard-001.themis.local" -> "shard_001")
-        size_t dot_pos = info.subject_cn.find('.');
-        std::string shard_name = info.subject_cn.substr(0, dot_pos);
-        // Replace dash with underscore
-        for (char& c : shard_name) {
-            if (c == '-') c = '_';
-        }
-        info.shard_id = shard_name;
+    if (!cert) {
+        return false;
     }
     
-    // Default capabilities for Phase 2
-    info.capabilities = {"read", "write"};
+    // Try to extract shard_id from custom OID first
+    auto oid_shard_id = extractCustomOID(cert, OIDRegistry::SHARD_ID_OID);
+    if (oid_shard_id) {
+        info.shard_id = *oid_shard_id;
+        info.shard_id_from_oid = true;
+    }
     
-    // Default role
-    info.role = "primary";
+    // Try to extract region from custom OID
+    auto oid_region = extractCustomOID(cert, OIDRegistry::REGION_OID);
+    if (oid_region) {
+        info.region = *oid_region;
+    }
+    
+    // Try to extract role from custom OID
+    auto oid_role = extractCustomOID(cert, OIDRegistry::ROLE_OID);
+    if (oid_role) {
+        info.role = *oid_role;
+    }
+    
+    // Fallback to CN extraction if OID not found and mode allows
+    if (info.shard_id.empty() && mode != ValidationMode::STRICT) {
+        if (info.subject_cn.find("shard-") == 0) {
+            // Extract shard ID from CN (e.g., "shard-001.themis.local" -> "shard_001")
+            size_t dot_pos = info.subject_cn.find('.');
+            std::string shard_name = info.subject_cn.substr(0, dot_pos);
+            // Replace dash with underscore
+            for (char& c : shard_name) {
+                if (c == '-') c = '_';
+            }
+            info.shard_id = shard_name;
+            info.shard_id_from_oid = false;
+        }
+    }
+    
+    // Default capabilities if not provided
+    if (info.capabilities.empty()) {
+        info.capabilities = {"read", "write"};
+    }
+    
+    // Default role if not set
+    if (info.role.empty()) {
+        info.role = "primary";
+    }
     
     // Token range defaults (full range)
-    info.token_range_start = 0;
-    info.token_range_end = 0xFFFFFFFFFFFFFFFFULL;
+    if (info.token_range_start == 0 && info.token_range_end == 0) {
+        info.token_range_start = 0;
+        info.token_range_end = 0xFFFFFFFFFFFFFFFFULL;
+    }
     
     return true;
 }
@@ -336,6 +408,102 @@ bool PKIShardCertificate::parseSAN(void* x509_cert_ptr, ShardCertificateInfo& in
     
     GENERAL_NAMES_free(san_names);
     return true;
+}
+
+bool PKIShardCertificate::validateWithMode(const ShardCertificateInfo& info, ValidationMode mode) {
+    // Check validity dates
+    if (!info.isValidNow()) {
+        return false;
+    }
+    
+    // Check shard ID is present
+    if (info.shard_id.empty()) {
+        return false;
+    }
+    
+    // STRICT mode: Require OID-based extraction
+    if (mode == ValidationMode::STRICT && !info.shard_id_from_oid) {
+        return false;
+    }
+    
+    // Check at least one capability
+    if (info.capabilities.empty()) {
+        return false;
+    }
+    
+    // Check token range is valid (start < end)
+    if (info.token_range_start >= info.token_range_end && info.token_range_end != 0) {
+        return false;
+    }
+    
+    return true;
+}
+
+std::optional<ShardIdentity> PKIShardCertificate::extractIdentity(const std::string& cert_path) {
+    auto info = parseCertificate(cert_path);
+    if (!info) {
+        return std::nullopt;
+    }
+    
+    ShardIdentity identity;
+    identity.shard_id = info->shard_id;
+    identity.region = info->region;
+    identity.role = info->role;
+    identity.from_oid = info->shard_id_from_oid;
+    
+    // Collect all SANs into a single vector
+    identity.sans.insert(identity.sans.end(), info->san_dns.begin(), info->san_dns.end());
+    identity.sans.insert(identity.sans.end(), info->san_ip.begin(), info->san_ip.end());
+    identity.sans.insert(identity.sans.end(), info->san_uri.begin(), info->san_uri.end());
+    
+    return identity;
+}
+
+bool PKIShardCertificate::validateEKU(const std::string& cert_path) {
+    auto pem_data = readFile(cert_path);
+    if (!pem_data) {
+        return false;
+    }
+    
+    auto bio = utils::make_bio_mem_buf(pem_data->c_str(), static_cast<int>(pem_data->size()));
+    if (!bio) {
+        return false;
+    }
+    
+    auto cert = utils::read_x509_from_bio(bio.get());
+    if (!cert) {
+        return false;
+    }
+    
+    // Get Extended Key Usage extension
+    EXTENDED_KEY_USAGE* eku = static_cast<EXTENDED_KEY_USAGE*>(
+        X509_get_ext_d2i(cert.get(), NID_ext_key_usage, nullptr, nullptr)
+    );
+    
+    if (!eku) {
+        // No EKU extension, accept (compatibility mode)
+        return true;
+    }
+    
+    // Check if custom node authentication OID is present
+    auto node_auth_oid = utils::ASN1ObjectPtr(OBJ_txt2obj(OIDRegistry::NODE_AUTH_EKU, 0));
+    if (!node_auth_oid) {
+        EXTENDED_KEY_USAGE_free(eku);
+        return false;
+    }
+    
+    bool found = false;
+    int eku_count = sk_ASN1_OBJECT_num(eku);
+    for (int i = 0; i < eku_count; i++) {
+        ASN1_OBJECT* oid = sk_ASN1_OBJECT_value(eku, i);
+        if (OBJ_cmp(oid, node_auth_oid.get()) == 0) {
+            found = true;
+            break;
+        }
+    }
+    
+    EXTENDED_KEY_USAGE_free(eku);
+    return found;
 }
 
 } // namespace themis::sharding
