@@ -1397,6 +1397,9 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/gossip_consensus_adapter.cpp
     ../src/sharding/paxos_consensus.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/error_handling.cpp
+    ../src/sharding/exceptions.cpp
+    ../src/sharding/retry_strategy.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
@@ -2558,6 +2561,39 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(themis_tests_critical
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # ERROR HANDLING TESTS (for distributed systems reliability)
+    add_executable(test_error_handling
+        ${THEMIS_ROOT_DIR}/tests/test_error_handling.cpp
+    )
+    target_link_libraries(test_error_handling
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_error_handling
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_error_handling>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_retry_strategy
+        ${THEMIS_ROOT_DIR}/tests/test_retry_strategy.cpp
+    )
+    target_link_libraries(test_retry_strategy
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_retry_strategy
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_retry_strategy>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

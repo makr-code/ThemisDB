@@ -7,6 +7,7 @@
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "sharding/error_handling.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -215,23 +216,23 @@ public:
     /**
      * @brief Prepare transaction (2PC/3PC phase 1)
      * @param transaction_id Transaction ID
-     * @return true if all participants prepared successfully
+     * @return Result indicating success or error details
      */
-    bool prepare(const std::string& transaction_id);
+    Result<void> prepare(const std::string& transaction_id);
     
     /**
      * @brief Commit transaction
      * @param transaction_id Transaction ID
-     * @return true if committed successfully
+     * @return Result indicating success or error details
      */
-    bool commit(const std::string& transaction_id);
+    Result<void> commit(const std::string& transaction_id);
     
     /**
      * @brief Abort transaction
      * @param transaction_id Transaction ID
-     * @return true if aborted successfully
+     * @return Result indicating success or error details
      */
-    bool abort(const std::string& transaction_id);
+    Result<void> abort(const std::string& transaction_id);
     
     /**
      * @brief Execute a SAGA transaction
