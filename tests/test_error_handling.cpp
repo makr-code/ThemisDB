@@ -135,7 +135,8 @@ TEST_F(ErrorHandlingTest, ValueOrThrowError) {
 // Test ErrorContext construction
 TEST_F(ErrorHandlingTest, ErrorContextConstruction) {
     ErrorContext ctx1;
-    EXPECT_FALSE(ctx1.operation_name.empty() || true);  // Default constructed
+    // Default constructed context should have empty operation name
+    EXPECT_TRUE(ctx1.operation_name.empty());
     
     ErrorContext ctx2("my_operation");
     EXPECT_EQ(ctx2.operation_name, "my_operation");
