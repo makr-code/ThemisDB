@@ -405,3 +405,432 @@ TEST_F(SchemaManagerTest, PerformanceCacheHitRate) {
     std::cout << "Second call (cache hit): " << duration_second << "µs" << std::endl;
     std::cout << "Speedup: " << (double)duration_first / duration_second << "x" << std::endl;
 }
+
+// ============================================================================
+// Custom Schema Management Tests (PUT/PATCH)
+// ============================================================================
+
+TEST_F(SchemaManagerTest, SetCustomSchema) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    // Create custom schema
+    SchemaManager::TableSchema schema;
+    schema.name = "products";
+    schema.type = "relational";
+    
+    SchemaManager::PropertyInfo prop1;
+    prop1.name = "id";
+    prop1.type = "integer";
+    prop1.indexed = true;
+    prop1.nullable = false;
+    schema.properties.push_back(prop1);
+    
+    SchemaManager::PropertyInfo prop2;
+    prop2.name = "name";
+    prop2.type = "string";
+    prop2.nullable = true;
+    schema.properties.push_back(prop2);
+    
+    SchemaManager::IndexInfo idx;
+    idx.name = "id";
+    idx.type = "regular";
+    idx.unique = true;
+    idx.columns.push_back("id");
+    schema.indexes.push_back(idx);
+    
+    // Store custom schema
+    bool success = schema_mgr.setTableSchema("products", schema);
+    ASSERT_TRUE(success) << "Should successfully store custom schema";
+    
+    // Verify schema was stored
+    auto table_opt = schema_mgr.getTable("products");
+    ASSERT_TRUE(table_opt.has_value()) << "Should find custom schema";
+    EXPECT_EQ(table_opt->name, "products");
+    EXPECT_EQ(table_opt->type, "relational");
+    EXPECT_EQ(table_opt->properties.size(), 2);
+    EXPECT_EQ(table_opt->indexes.size(), 1);
+}
+
+TEST_F(SchemaManagerTest, CustomSchemaPersistence) {
+    // Create and store custom schema
+    {
+        SchemaManager schema_mgr(*db_, index_mgr_.get());
+        
+        SchemaManager::TableSchema schema;
+        schema.name = "customers";
+        schema.type = "document";
+        
+        SchemaManager::PropertyInfo prop;
+        prop.name = "email";
+        prop.type = "string";
+        schema.properties.push_back(prop);
+        
+        bool success = schema_mgr.setTableSchema("customers", schema);
+        ASSERT_TRUE(success);
+    }
+    
+    // Create new SchemaManager instance - should load persisted schema
+    {
+        SchemaManager schema_mgr2(*db_, index_mgr_.get());
+        
+        auto table_opt = schema_mgr2.getTable("customers");
+        ASSERT_TRUE(table_opt.has_value()) << "Custom schema should be loaded from storage";
+        EXPECT_EQ(table_opt->name, "customers");
+        EXPECT_EQ(table_opt->type, "document");
+        EXPECT_EQ(table_opt->properties.size(), 1);
+        EXPECT_EQ(table_opt->properties[0].name, "email");
+    }
+}
+
+TEST_F(SchemaManagerTest, PatchSchemaAddProperty) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    // Create initial schema
+    SchemaManager::TableSchema schema;
+    schema.name = "items";
+    schema.type = "relational";
+    
+    SchemaManager::PropertyInfo prop1;
+    prop1.name = "id";
+    prop1.type = "integer";
+    schema.properties.push_back(prop1);
+    
+    schema_mgr.setTableSchema("items", schema);
+    
+    // Patch: add new property
+    nlohmann::json updates;
+    updates["properties"] = nlohmann::json::array();
+    updates["properties"].push_back({
+        {"name", "description"},
+        {"type", "string"},
+        {"nullable", true}
+    });
+    
+    bool success = schema_mgr.patchTableSchema("items", updates);
+    ASSERT_TRUE(success) << "Patch should succeed";
+    
+    // Verify patch was applied
+    auto table_opt = schema_mgr.getTable("items");
+    ASSERT_TRUE(table_opt.has_value());
+    EXPECT_EQ(table_opt->properties.size(), 2);
+    
+    bool found_description = false;
+    for (const auto& prop : table_opt->properties) {
+        if (prop.name == "description") {
+            found_description = true;
+            EXPECT_EQ(prop.type, "string");
+            EXPECT_TRUE(prop.nullable);
+        }
+    }
+    EXPECT_TRUE(found_description) << "Should find new 'description' property";
+}
+
+TEST_F(SchemaManagerTest, PatchSchemaUpdateType) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    // Create initial schema
+    SchemaManager::TableSchema schema;
+    schema.name = "records";
+    schema.type = "relational";
+    schema_mgr.setTableSchema("records", schema);
+    
+    // Patch: change type
+    nlohmann::json updates;
+    updates["type"] = "document";
+    
+    bool success = schema_mgr.patchTableSchema("records", updates);
+    ASSERT_TRUE(success);
+    
+    // Verify update
+    auto table_opt = schema_mgr.getTable("records");
+    ASSERT_TRUE(table_opt.has_value());
+    EXPECT_EQ(table_opt->type, "document");
+}
+
+TEST_F(SchemaManagerTest, PatchNonExistentTable) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    nlohmann::json updates;
+    updates["type"] = "document";
+    
+    bool success = schema_mgr.patchTableSchema("nonexistent", updates);
+    EXPECT_FALSE(success) << "Patch should fail for non-existent table";
+}
+
+TEST_F(SchemaManagerTest, DeleteCustomSchema) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    // Create custom schema
+    SchemaManager::TableSchema schema;
+    schema.name = "temp_table";
+    schema.type = "relational";
+    schema_mgr.setTableSchema("temp_table", schema);
+    
+    // Verify it exists
+    auto table_opt1 = schema_mgr.getTable("temp_table");
+    ASSERT_TRUE(table_opt1.has_value());
+    
+    // Delete it
+    bool deleted = schema_mgr.deleteTableSchema("temp_table");
+    EXPECT_TRUE(deleted) << "Should successfully delete custom schema";
+    
+    // Verify it's gone
+    auto table_opt2 = schema_mgr.getTable("temp_table");
+    EXPECT_FALSE(table_opt2.has_value()) << "Deleted schema should not be found";
+}
+
+TEST_F(SchemaManagerTest, DeleteNonExistentSchema) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    bool deleted = schema_mgr.deleteTableSchema("nonexistent");
+    EXPECT_FALSE(deleted) << "Delete should return false for non-existent schema";
+}
+
+// ============================================================================
+// Schema Validation Tests
+// ============================================================================
+
+TEST_F(SchemaManagerTest, ValidateEmptyTableName) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "";  // Invalid: empty name
+    schema.type = "relational";
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_FALSE(error.empty()) << "Should reject empty table name";
+    EXPECT_NE(error.find("name is required"), std::string::npos);
+}
+
+TEST_F(SchemaManagerTest, ValidateInvalidTableName) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "table@name!";  // Invalid: special characters
+    schema.type = "relational";
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_FALSE(error.empty()) << "Should reject invalid characters in table name";
+    EXPECT_NE(error.find("invalid characters"), std::string::npos);
+}
+
+TEST_F(SchemaManagerTest, ValidateInvalidTableType) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "test";
+    schema.type = "invalid_type";  // Invalid type
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_FALSE(error.empty()) << "Should reject invalid table type";
+    EXPECT_NE(error.find("Invalid table type"), std::string::npos);
+}
+
+TEST_F(SchemaManagerTest, ValidateDuplicatePropertyNames) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "test";
+    schema.type = "relational";
+    
+    SchemaManager::PropertyInfo prop1;
+    prop1.name = "id";
+    prop1.type = "integer";
+    schema.properties.push_back(prop1);
+    
+    SchemaManager::PropertyInfo prop2;
+    prop2.name = "id";  // Duplicate name
+    prop2.type = "string";
+    schema.properties.push_back(prop2);
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_FALSE(error.empty()) << "Should reject duplicate property names";
+    EXPECT_NE(error.find("Duplicate property name"), std::string::npos);
+}
+
+TEST_F(SchemaManagerTest, ValidateInvalidPropertyType) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "test";
+    schema.type = "relational";
+    
+    SchemaManager::PropertyInfo prop;
+    prop.name = "field";
+    prop.type = "invalid_type";  // Invalid type
+    schema.properties.push_back(prop);
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_FALSE(error.empty()) << "Should reject invalid property type";
+    EXPECT_NE(error.find("Invalid property type"), std::string::npos);
+}
+
+TEST_F(SchemaManagerTest, ValidateIndexReferencesNonExistentProperty) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "test";
+    schema.type = "relational";
+    
+    SchemaManager::PropertyInfo prop;
+    prop.name = "id";
+    prop.type = "integer";
+    schema.properties.push_back(prop);
+    
+    SchemaManager::IndexInfo idx;
+    idx.name = "email_idx";
+    idx.type = "regular";
+    idx.columns.push_back("email");  // References non-existent property
+    schema.indexes.push_back(idx);
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_FALSE(error.empty()) << "Should reject index referencing non-existent property";
+    EXPECT_NE(error.find("non-existent property"), std::string::npos);
+}
+
+TEST_F(SchemaManagerTest, ValidateValidSchema) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    SchemaManager::TableSchema schema;
+    schema.name = "valid_table";
+    schema.type = "relational";
+    
+    SchemaManager::PropertyInfo prop;
+    prop.name = "id";
+    prop.type = "integer";
+    schema.properties.push_back(prop);
+    
+    SchemaManager::IndexInfo idx;
+    idx.name = "id_idx";
+    idx.type = "regular";
+    idx.columns.push_back("id");
+    schema.indexes.push_back(idx);
+    
+    std::string error = schema_mgr.validateSchema(schema);
+    EXPECT_TRUE(error.empty()) << "Valid schema should pass validation, but got: " << error;
+}
+
+// ============================================================================
+// JSON Parsing Tests
+// ============================================================================
+
+TEST_F(SchemaManagerTest, ParseTableSchemaFromJSON) {
+    nlohmann::json j = {
+        {"name", "users"},
+        {"type", "relational"},
+        {"properties", {
+            {
+                {"name", "id"},
+                {"type", "integer"},
+                {"indexed", true},
+                {"nullable", false}
+            },
+            {
+                {"name", "email"},
+                {"type", "string"}
+            }
+        }},
+        {"indexes", {
+            {
+                {"name", "id_idx"},
+                {"type", "regular"},
+                {"unique", true},
+                {"columns", {"id"}}
+            }
+        }}
+    };
+    
+    auto schema = SchemaManager::parseTableSchema(j);
+    
+    EXPECT_EQ(schema.name, "users");
+    EXPECT_EQ(schema.type, "relational");
+    EXPECT_EQ(schema.properties.size(), 2);
+    EXPECT_EQ(schema.indexes.size(), 1);
+    
+    // Check first property
+    EXPECT_EQ(schema.properties[0].name, "id");
+    EXPECT_EQ(schema.properties[0].type, "integer");
+    EXPECT_TRUE(schema.properties[0].indexed);
+    EXPECT_FALSE(schema.properties[0].nullable);
+    
+    // Check index
+    EXPECT_EQ(schema.indexes[0].name, "id_idx");
+    EXPECT_TRUE(schema.indexes[0].unique);
+    EXPECT_EQ(schema.indexes[0].columns.size(), 1);
+    EXPECT_EQ(schema.indexes[0].columns[0], "id");
+}
+
+TEST_F(SchemaManagerTest, ParseTableSchemaMinimal) {
+    nlohmann::json j = {
+        {"name", "simple_table"}
+    };
+    
+    auto schema = SchemaManager::parseTableSchema(j);
+    
+    EXPECT_EQ(schema.name, "simple_table");
+    EXPECT_EQ(schema.type, "relational");  // Default type
+    EXPECT_EQ(schema.properties.size(), 0);
+    EXPECT_EQ(schema.indexes.size(), 0);
+}
+
+TEST_F(SchemaManagerTest, ParseTableSchemaMissingName) {
+    nlohmann::json j = {
+        {"type", "relational"}
+    };
+    
+    EXPECT_THROW({
+        auto schema = SchemaManager::parseTableSchema(j);
+    }, std::runtime_error) << "Should throw when name is missing";
+}
+
+TEST_F(SchemaManagerTest, ParseTableSchemaInvalidJSON) {
+    nlohmann::json j = {
+        {"name", "test"},
+        {"properties", "not_an_array"}  // Invalid: should be array
+    };
+    
+    // Should not throw, but properties should be empty
+    auto schema = SchemaManager::parseTableSchema(j);
+    EXPECT_EQ(schema.name, "test");
+    EXPECT_EQ(schema.properties.size(), 0);
+}
+
+// ============================================================================
+// Integration Tests
+// ============================================================================
+
+TEST_F(SchemaManagerTest, CustomSchemaOverridesDiscovered) {
+    // Insert actual data
+    BaseEntity user1 = BaseEntity::fromFields("u1", {
+        {"name", std::string("Alice")},
+        {"age", int64_t(30)}
+    });
+    db_->put("users:u1", user1.serialize());
+    
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+    
+    // Get discovered schema
+    auto discovered = schema_mgr.getTable("users");
+    ASSERT_TRUE(discovered.has_value());
+    auto discovered_prop_count = discovered->properties.size();
+    
+    // Create custom schema with different properties
+    SchemaManager::TableSchema custom_schema;
+    custom_schema.name = "users";
+    custom_schema.type = "document";  // Different type
+    
+    SchemaManager::PropertyInfo prop;
+    prop.name = "email";  // Different property
+    prop.type = "string";
+    custom_schema.properties.push_back(prop);
+    
+    schema_mgr.setTableSchema("users", custom_schema);
+    
+    // Get schema again - should return custom schema
+    auto custom = schema_mgr.getTable("users");
+    ASSERT_TRUE(custom.has_value());
+    EXPECT_EQ(custom->type, "document") << "Custom schema should override discovered";
+    EXPECT_EQ(custom->properties.size(), 1) << "Should have custom properties, not discovered";
+    EXPECT_EQ(custom->properties[0].name, "email");
+}
+
