@@ -1009,3 +1009,83 @@ A: ~5-8 Stunden (Recherche, Prompt, Generierung, Validierung, Testing)
 **Erstellt:** 13. Januar 2026  
 **Status:** Aktiv & verfügbar  
 **Letzte Aktualisierung:** 13. Januar 2026
+
+---
+
+## 🤖 AI Agent Review Guide (2026-02-03)
+
+### AI_AGENT_REVIEW_GUIDE.md (🆕 NEW)
+**Status:** Available  
+**Description:** Master guide for AI agents conducting systematic component reviews  
+**Purpose:** Enable AI to perform precise code analysis, documentation validation, research integration, and roadmap derivation
+
+**Key Features:**
+- **Core Principles**: Precision over breadth, actionable insights, research-backed analysis, doc-code consistency
+- **4 Methodologies**:
+  1. Source Code Analysis (4-step process with bash commands)
+  2. Documentation-Code Consistency Verification
+  3. Scientific Paper Research Protocol
+  4. Implementation Roadmap Derivation
+- **Structured Output Formats**: Examples for findings, paper summaries, roadmap items
+- **Quality Standards**: Checklists ensuring reviews are actionable and evidence-based
+- **Advanced Techniques**: Domain-specific guidance for distributed systems, AI/LLM, databases
+
+**Enhanced Templates:**
+All AI review templates now include:
+- AI Agent Guidance section with specific requirements
+- Initial Analysis Commands section (bash scripts to run first)
+- Detailed finding format requirements with examples
+- Research protocol (minimum 5-10 papers with DOIs)
+- Documentation verification procedures
+- Roadmap derivation methodology
+
+**Enhanced Templates List:**
+1. `ai-review-component-template.md` - General component reviews
+2. `ai-review-testing-quality.md` - Test coverage and quality
+3. `ai-review-llm-components.md` - LLM/AI component reviews
+4. `ai-review-distributed-systems.md` - Distributed systems reviews
+5. `ai-review-migration-planning.md` - Migration planning
+6. `ai-review-cost-optimization.md` - Cost optimization reviews
+
+**Example Good Finding:**
+```markdown
+### Performance Finding: Inefficient Loop in Query Executor
+**Severity:** High
+**Location:** `src/query/executor.cpp:234-256`
+**Evidence:**
+[Code snippet showing O(n²) complexity]
+**Impact:** 45% of query execution time
+**Root Cause:** Nested iteration without indexing
+**Recommendation:** Build index map for O(1) lookup
+**References:** [Paper DOI on query optimization]
+**Priority:** P1 | **Effort:** 3-5 days
+```
+
+**Quality Requirements:**
+- ✅ Every finding: file:line reference + code evidence
+- ✅ 5-10+ papers cited with DOIs and relevance
+- ✅ All documentation examples compiled and tested
+- ✅ Quantified metrics (coverage %, performance data)
+- ✅ Clear action items with priorities and estimates
+
+**Usage:**
+```bash
+# Human reviewers: Read for systematic review methodology
+# AI agents: Follow step-by-step before conducting reviews
+
+# Review the guide:
+cat .github/ISSUE_TEMPLATE/_guides/AI_AGENT_REVIEW_GUIDE.md
+
+# Use enhanced templates:
+gh issue create --template ai-review-component-template.md \
+  --title "[COMPONENT-REVIEW] Storage Layer - Q1 2026"
+```
+
+**Documentation:**
+- [AI Agent Review Guide](AI_AGENT_REVIEW_GUIDE.md) - Complete methodology guide
+- [Template Enhancements](../ai-review-*.md) - Enhanced review templates
+
+---
+
+**Updated:** 2026-02-03  
+**Maintained by:** ThemisDB Core Team
