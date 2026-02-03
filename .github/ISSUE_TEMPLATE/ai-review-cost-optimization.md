@@ -65,7 +65,7 @@ Empfohlene Häufigkeit: Quartalsweise / Recommended frequency: Quarterly
 
 ## 💵 Cost Overview / Kosten-Übersicht
 
-### Total Costs / Gesamt kosten
+### Total Costs / Gesamtkosten
 - **Total Monthly Cost:** <!-- $ amount -->
 - **Total Annual Cost:** <!-- $ amount projected -->
 - **Cost Trend:** <!-- ↗️ Increasing, ↘️ Decreasing, → Stable -->
