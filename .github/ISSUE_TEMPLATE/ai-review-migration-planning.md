@@ -7,6 +7,48 @@ assignees: ''
 ---
 
 <!-- 
+====================================================================================================
+📖 AI AGENT GUIDANCE - MIGRATION PLANNING
+====================================================================================================
+
+MIGRATION REVIEW REQUIREMENTS:
+
+1. **IMPACT QUANTIFICATION REQUIRED**:
+   - Count affected files: grep -r "old_api\|deprecated_pattern"
+   - Estimate LOC changes: use git diff or cloc
+   - Identify breaking changes: API signatures, behavior changes
+   - List affected users/integrations
+
+2. **RISK ASSESSMENT**:
+   - Identify high-risk changes: data migration, wire protocol changes
+   - Document rollback procedures with exact steps
+   - Estimate rollback time (minutes/hours)
+   - Create rollback test plan
+
+3. **RESEARCH SIMILAR MIGRATIONS**:
+   - How did PostgreSQL/MongoDB/etc handle similar migrations?
+   - Reference specific version migrations: "PostgreSQL 11→12 migration"
+   - Cite migration postmortems: "Lessons learned from X migration"
+   - Document best practices from industry
+
+4. **TESTING STRATEGY**:
+   - Define test matrix: old API compat, new API, performance
+   - Plan canary testing: X% rollout steps
+   - Create validation criteria: what makes migration successful?
+   - Estimate test effort (person-days)
+
+5. **PHASED APPROACH**:
+   - Define phases with clear deliverables
+   - Each phase: success criteria, timeline, rollback point
+   - Dependencies between phases
+   - Parallel run strategy if applicable
+
+📚 **REQUIRED READING**: `.github/ISSUE_TEMPLATE/_guides/AI_AGENT_REVIEW_GUIDE.md`
+
+====================================================================================================
+-->
+
+<!-- 
 Wiederholbare Template für Migration-Planning-Reviews
 Repeatable template for migration planning reviews
 Verwendung: Vor großen Refactorings, Library-Upgrades, Architektur-Änderungen

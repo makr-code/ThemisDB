@@ -7,6 +7,48 @@ assignees: ''
 ---
 
 <!-- 
+====================================================================================================
+📖 AI AGENT GUIDANCE - READ THIS FIRST
+====================================================================================================
+
+TESTING REVIEW REQUIREMENTS:
+
+1. **QUANTITATIVE ANALYSIS REQUIRED**:
+   - Run coverage tools: gcov, lcov, or similar
+   - Measure exact coverage: line%, branch%, function%
+   - Identify untested code paths with file:line references
+   - Count tests by type: unit, integration, e2e, performance, security
+
+2. **TEST EXECUTION**:
+   - Run ALL tests: ctest -V or equivalent
+   - Identify flaky tests: run multiple times, document failure patterns
+   - Measure execution times: identify slow tests (>1s)
+   - Profile test suite: where is time spent?
+
+3. **GAP IDENTIFICATION**:
+   - List specific untested functions with file:line
+   - Identify missing test types (e.g., no security tests for auth module)
+   - Document edge cases not covered
+   - Find error paths without tests
+
+4. **ACTIONABLE OUTPUT**:
+   - Each gap must have: priority, effort estimate, test type needed
+   - Provide specific test case descriptions
+   - Estimate coverage improvement per action item
+   - Group by: Critical (P0), High (P1), Medium (P2)
+
+📚 **REQUIRED READING**: `.github/ISSUE_TEMPLATE/_guides/AI_AGENT_REVIEW_GUIDE.md`
+
+🎯 **QUALITY STANDARDS**:
+- Coverage data from actual runs (not estimates)
+- Specific untested functions/branches identified  
+- Test gap analysis with evidence
+- Clear action items with coverage improvement targets
+
+====================================================================================================
+-->
+
+<!-- 
 Wiederholbare Template für Test-Coverage und Quality-Reviews
 Repeatable template for test coverage and quality reviews
 Empfohlene Häufigkeit: Quartalsweise / Recommended frequency: Quarterly
@@ -19,6 +61,82 @@ Empfohlene Häufigkeit: Quartalsweise / Recommended frequency: Quarterly
 **Review Period:** <!-- z.B. Q1 2026, Version 1.4.x -->
 **Reviewer(s):** <!-- Namen der Reviewer -->
 **Previous Review:** <!-- Datum des letzten Reviews -->
+
+---
+
+## 🤖 AI Agent: Test Analysis Commands
+
+<!-- Execute these commands first to gather test metrics -->
+
+### Discover Tests
+```bash
+# Find all test files
+find tests/ -name "*test*.cpp" -o -name "*_test.cpp" -o -name "test_*.cpp" | wc -l
+find tests/ -type f | head -30
+
+# Count test executables
+find . -type f -executable -name "*test*" | wc -l
+
+# Identify test frameworks used
+grep -r "TEST\|TEST_F\|SCENARIO\|DESCRIBE" tests/ | head -5
+```
+
+### Run Tests & Measure Coverage
+```bash
+# Run all tests
+ctest -V 2>&1 | tee test-output.txt
+
+# Count total tests
+grep -c "Test.*Passed\|Test.*Failed" test-output.txt
+
+# Identify failures
+grep "Test.*Failed" test-output.txt
+
+# Run with coverage (if configured)
+cmake -DCMAKE_BUILD_TYPE=Coverage ..
+make coverage
+# Or: lcov --capture --directory . --output-file coverage.info
+
+# Generate coverage report
+lcov --list coverage.info
+# Or: genhtml coverage.info --output-directory coverage-report
+```
+
+### Measure Test Performance
+```bash
+# Find slow tests (>1 second)
+ctest -V 2>&1 | grep -E "Test #.*sec" | awk '$NF > 1.0'
+
+# Measure total test suite time
+time ctest
+
+# Profile tests
+# valgrind --tool=callgrind ./tests/specific_test
+```
+
+### Analyze Test Quality
+```bash
+# Find tests without assertions
+grep -L "ASSERT\|EXPECT\|REQUIRE\|CHECK" tests/*.cpp
+
+# Find empty test files
+find tests/ -name "*.cpp" -size -100c
+
+# Check for test isolation (shared state)
+grep -r "static.*=" tests/ | grep -v "static const"
+```
+
+### Security & Fuzz Testing
+```bash
+# Find fuzz tests
+find fuzz/ -name "*.cpp" | wc -l
+
+# Find security tests
+grep -r "security\|auth\|injection\|xss" tests/
+
+# Check for AddressSanitizer/UBSan usage
+grep -r "ASAN\|UBSAN\|TSAN" CMakeLists.txt
+```
 
 ---
 
