@@ -1249,6 +1249,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
+    ../src/cache/bounded_lru_cache.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     
@@ -1349,6 +1350,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/urn.cpp
     ../src/sharding/consistent_hash.cpp
     ../src/sharding/shard_topology.cpp
+    ../src/sharding/metadata_shard.cpp
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp

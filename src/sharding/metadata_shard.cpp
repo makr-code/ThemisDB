@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 
-namespace themis {
+namespace themisdb {
 namespace sharding {
 
 // Helper function to create cache key
@@ -459,4 +459,4 @@ size_t MetadataShardRouter::hashKey(const std::string& key) const {
 }
 
 } // namespace sharding
-} // namespace themis
+} // namespace themisdb

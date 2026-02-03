@@ -2,6 +2,7 @@
 // Licensed under MIT License
 
 #include "cache/bounded_lru_cache.h"
+#include <mutex>
 
 namespace themis {
 namespace cache {

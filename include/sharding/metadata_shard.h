@@ -230,10 +230,10 @@ private:
     std::atomic<bool> running_;
     
     // Statistics
-    std::atomic<uint64_t> total_reads_;
-    std::atomic<uint64_t> total_writes_;
-    std::atomic<uint64_t> cache_hits_;
-    std::atomic<uint64_t> cache_misses_;
+    mutable std::atomic<uint64_t> total_reads_;
+    mutable std::atomic<uint64_t> total_writes_;
+    mutable std::atomic<uint64_t> cache_hits_;
+    mutable std::atomic<uint64_t> cache_misses_;
 };
 
 /**
@@ -309,8 +309,8 @@ private:
     std::map<std::string, std::shared_ptr<MetadataShard>> shards_;
     
     // Statistics
-    std::atomic<uint64_t> total_operations_;
-    std::atomic<uint64_t> routing_errors_;
+    mutable std::atomic<uint64_t> total_operations_;
+    mutable std::atomic<uint64_t> routing_errors_;
 };
 
 } // namespace sharding
