@@ -22,7 +22,8 @@ log() {
     local level="$1"
     shift
     local message="$@"
-    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
+    # Use portable timestamp format (without milliseconds)
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     echo "[${timestamp}] [${level}] ${message}" | tee -a "${LOG_FILE}"
 }
 
@@ -536,7 +537,7 @@ review_user() {
 ---
 
 **Report Version:** 1.0  
-**Generated At:** $(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
+**Generated At:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 EOF
     
     log "INFO" "User review generated: ${report_file}"
