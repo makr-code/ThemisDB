@@ -333,6 +333,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/multi_primary_coordinator.cpp
     ../src/sharding/health_monitor.cpp
     ../src/sharding/truetime.cpp
+    ../src/sharding/distributed_time_coordinator.cpp
     
     # Distributed transactions
     ../src/sharding/distributed_transaction.cpp
