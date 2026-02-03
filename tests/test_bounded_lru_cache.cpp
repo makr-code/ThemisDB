@@ -241,3 +241,28 @@ TEST_F(BoundedLRUCacheTest, EmptyHitRatio) {
     auto stats = cache->getStatistics();
     EXPECT_DOUBLE_EQ(stats.hit_ratio(), 0.0);
 }
+
+TEST_F(BoundedLRUCacheTest, RemoveEntry) {
+    cache->put("key1", {{"value", 1}});
+    cache->put("key2", {{"value", 2}});
+    cache->put("key3", {{"value", 3}});
+    
+    auto stats = cache->getStatistics();
+    EXPECT_EQ(stats.current_size, 3);
+    
+    // Remove key2
+    EXPECT_TRUE(cache->remove("key2"));
+    
+    stats = cache->getStatistics();
+    EXPECT_EQ(stats.current_size, 2);
+    
+    // Verify removed
+    EXPECT_FALSE(cache->get("key2").has_value());
+    
+    // Verify others still present
+    EXPECT_TRUE(cache->get("key1").has_value());
+    EXPECT_TRUE(cache->get("key3").has_value());
+    
+    // Removing non-existent key should return false
+    EXPECT_FALSE(cache->remove("nonexistent"));
+}

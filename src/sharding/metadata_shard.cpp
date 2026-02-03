@@ -309,9 +309,7 @@ std::optional<MetadataEntry> MetadataShard::getCachedEntry(
 void MetadataShard::invalidateCache(MetadataPartitionKey partition, const std::string& key) {
     if (cache_) {
         std::string cache_key = makeCacheKey(partition, key);
-        // Note: BoundedLRUCache doesn't have a remove method, so we can't explicitly invalidate.
-        // The entry will expire based on TTL or be evicted by LRU policy.
-        // For now, we'll just let it naturally expire.
+        cache_->remove(cache_key);
     }
 }
 

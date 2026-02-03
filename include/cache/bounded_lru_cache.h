@@ -62,6 +62,13 @@ public:
     void put(const std::string& key, const nlohmann::json& value);
     
     /**
+     * @brief Remove entry from cache
+     * @param key Key to remove
+     * @return true if entry was found and removed
+     */
+    bool remove(const std::string& key);
+    
+    /**
      * @brief Evict LRU entry if at capacity
      * @return true if an entry was evicted
      */

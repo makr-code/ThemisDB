@@ -89,6 +89,21 @@ void BoundedLRUCache::put(const std::string& key, const nlohmann::json& value) {
     addToFront(node);
 }
 
+bool BoundedLRUCache::remove(const std::string& key) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    
+    auto it = cache_.find(key);
+    if (it == cache_.end()) {
+        return false;
+    }
+    
+    auto node = it->second;
+    removeNode(node);
+    cache_.erase(it);
+    
+    return true;
+}
+
 bool BoundedLRUCache::evictLRUIfNeeded() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
