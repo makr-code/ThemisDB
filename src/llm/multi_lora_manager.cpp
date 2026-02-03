@@ -6,6 +6,7 @@
 #include <cmath>
 #include <random>
 #include <numeric>
+#include <limits>  // For std::numeric_limits (range validation)
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
@@ -249,9 +250,17 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     
     // Apply LoRA adapter to context using modern llama.cpp API
     if (lora->adapter_handle && context) {
-        // FIND-017: Fixed narrowing conversion - use intptr_t instead of int to safely store pointer value
+        // FIND-017: Fixed narrowing conversion with range validation
         // Get adapter index from handle (safe conversion for pointer arithmetic)
         intptr_t adapter_ptr = reinterpret_cast<intptr_t>(lora->adapter_handle);
+        
+        // Validate that the pointer value fits in int (llama.cpp API constraint)
+        if (adapter_ptr < std::numeric_limits<int>::min() || 
+            adapter_ptr > std::numeric_limits<int>::max()) {
+            spdlog::error("LoRA adapter handle out of range for int conversion");
+            return false;
+        }
+        
         int adapter_index = static_cast<int>(adapter_ptr);
         
         // Apply adapter with scale factor using llama.cpp API
@@ -292,9 +301,18 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
     
     // Remove LoRA adapter from context using llama.cpp API
     if (lora->adapter_handle && context) {
-        // FIND-017: Fixed narrowing conversion - use intptr_t instead of int to safely store pointer value
+        // FIND-017: Fixed narrowing conversion with range validation
         // Set adapter with scale 0.0 to effectively disable it
         intptr_t adapter_ptr = reinterpret_cast<intptr_t>(lora->adapter_handle);
+        
+        // Validate that the pointer value fits in int (llama.cpp API constraint)
+        if (adapter_ptr < std::numeric_limits<int>::min() || 
+            adapter_ptr > std::numeric_limits<int>::max()) {
+            spdlog::warn("LoRA adapter handle out of range for int conversion, marking inactive");
+            lora->is_active = false;
+            return true;  // Mark as inactive even if we can't call the API
+        }
+        
         int adapter_index = static_cast<int>(adapter_ptr);
         int result = llama_lora_adapter_set(context, adapter_index, 0.0f);
         
