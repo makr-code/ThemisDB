@@ -446,7 +446,9 @@ bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) 
         if (source_load.has_value()) {
             // Estimate data for this recommendation
             uint64_t token_range_size = rec.token_range_end - rec.token_range_start;
-            double range_proportion = static_cast<double>(token_range_size) / UINT64_MAX;
+            // Use double precision for full token space
+            double range_proportion = static_cast<double>(token_range_size) / 
+                                      (static_cast<double>(UINT64_MAX) + 1.0);
             uint64_t estimated_bytes = static_cast<uint64_t>(
                 source_load->total_bytes * range_proportion
             );
@@ -661,10 +663,12 @@ uint64_t AutoRebalancer::estimateDataMovement(const LoadImbalanceResult::Rebalan
     }
     
     // Calculate proportion of token range being moved
+    // Note: Token space is conceptually UINT64_MAX + 1, but we approximate with double
     uint64_t token_range_size = op.token_range_end - op.token_range_start;
-    uint64_t total_token_space = UINT64_MAX;  // Assuming full 64-bit token space
     
-    double range_proportion = static_cast<double>(token_range_size) / total_token_space;
+    // Use double precision to handle the full range
+    double range_proportion = static_cast<double>(token_range_size) / 
+                              (static_cast<double>(UINT64_MAX) + 1.0);
     
     // Estimate bytes to move based on source shard's total bytes
     uint64_t estimated_bytes = static_cast<uint64_t>(

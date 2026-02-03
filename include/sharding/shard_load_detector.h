@@ -72,8 +72,8 @@ struct LoadImbalanceResult {
         double expected_load_reduction_percent;
         std::string justification;
         
-        // Aliases for compatibility
-        std::string reason() const { return justification; }
+        // Aliases for API compatibility - use consistent field names in new code
+        const std::string& reason() const { return justification; }
         double estimated_improvement() const { return expected_load_reduction_percent; }
     };
     std::vector<RebalanceRecommendation> recommendations;

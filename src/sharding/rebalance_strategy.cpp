@@ -113,7 +113,7 @@ RebalanceImpact LoadBalancingStrategy::estimateImpact(
     
     // Calculate risk level based on load difference
     double load_difference = std::abs(source->cpu_usage - target->cpu_usage);
-    impact.risk_level = std::min(1.0, load_difference / 100.0);
+    impact.risk_level = std::min(1.0, load_difference);  // Already 0-1 range
     
     return impact;
 }
@@ -294,7 +294,14 @@ CostOptimizationStrategy::generatePlan(
     }
     
     // Only recommend rebalance if imbalance is significant
-    double imbalance_ratio = most_loaded->cpu_usage / (least_loaded->cpu_usage + 0.01);
+    // Handle zero CPU case explicitly
+    double imbalance_ratio;
+    if (least_loaded->cpu_usage < 1e-6) {
+        // If least loaded is effectively zero, consider it highly imbalanced
+        imbalance_ratio = 10.0;  // High imbalance
+    } else {
+        imbalance_ratio = most_loaded->cpu_usage / least_loaded->cpu_usage;
+    }
     
     if (imbalance_ratio > 2.0) {  // More than 2x difference
         LoadImbalanceResult::RebalanceRecommendation rec;
