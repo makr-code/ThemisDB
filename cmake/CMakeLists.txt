@@ -1355,6 +1355,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp
+    ../src/sharding/mtls_connection_pool.cpp
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
