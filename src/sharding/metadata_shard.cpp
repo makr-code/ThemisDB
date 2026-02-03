@@ -241,9 +241,10 @@ void MetadataShard::cacheEntry(const MetadataEntry& entry) {
     std::string cache_key = std::to_string(static_cast<int>(entry.partition)) + ":" + entry.key;
     cache_[cache_key] = entry;
     
-    // Simple cache eviction if over limit
+    // Simple size-based eviction (not true LRU, but simpler and sufficient)
+    // For production, consider using a proper LRU cache structure
     if (cache_.size() > config_.cache_size) {
-        // Remove oldest entry (first in map)
+        // Remove first entry (arbitrary, not LRU semantic)
         cache_.erase(cache_.begin());
     }
 }
@@ -267,6 +268,10 @@ std::optional<MetadataEntry> MetadataShard::getCachedEntry(
     // Check TTL
     auto age = std::chrono::system_clock::now() - it->second.updated_at;
     if (age > config_.cache_ttl) {
+        // Note: This modification in a const method is acceptable because:
+        // 1. cache_mutex_ is mutable
+        // 2. This is an implementation detail (cache cleanup)
+        // 3. Logically const from caller's perspective
         cache_.erase(it);
         return std::nullopt;
     }
