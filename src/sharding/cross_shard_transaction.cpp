@@ -2,9 +2,13 @@
 // Licensed under MIT License
 
 #include "sharding/cross_shard_transaction.h"
+#include "sharding/shard_rpc_client.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
+#include <fstream>
+#include <thread>
+#include <chrono>
 
 namespace themisdb {
 namespace sharding {
@@ -20,6 +24,7 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     , committed_transactions_(0)
     , aborted_transactions_(0)
     , deadlocked_transactions_(0)
+    , transaction_log_path_("/tmp/themisdb_transaction_log.jsonl")
 {
 }
 
@@ -30,6 +35,12 @@ CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
 bool CrossShardTransactionCoordinator::initialize() {
     if (!consensus_) {
         spdlog::error("Consensus module required for cross-shard transactions");
+        return false;
+    }
+    
+    // Attempt to recover from any previous coordinator failure
+    if (!recoverFromFailure()) {
+        spdlog::error("Failed to recover from previous coordinator failure");
         return false;
     }
     
@@ -93,6 +104,9 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     
     transactions_[transaction_id] = txn;
     total_transactions_++;
+    
+    // Persist transaction state
+    persistTransactionState(transaction_id, TransactionState::ACTIVE);
     
     // Replicate transaction metadata via consensus
     if (consensus_) {
@@ -159,6 +173,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     }
     
     txn.state = TransactionState::PREPARING;
+    persistTransactionState(transaction_id, TransactionState::PREPARING);
     lock.unlock();
     
     // Send prepare requests to all participants
@@ -181,6 +196,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     lock.lock();
     if (all_prepared) {
         txn.state = TransactionState::PREPARED;
+        persistTransactionState(transaction_id, TransactionState::PREPARED);
         spdlog::info("Transaction {} prepared successfully", transaction_id);
     } else {
         txn.state = TransactionState::ACTIVE;  // Roll back to active
@@ -237,11 +253,13 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         txn.state = TransactionState::COMMITTED;
         txn.end_time = std::chrono::system_clock::now();
         committed_transactions_++;
+        persistTransactionState(transaction_id, TransactionState::COMMITTED);
         spdlog::info("Transaction {} committed successfully", transaction_id);
     } else {
         txn.state = TransactionState::ABORTED;
         txn.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
+        persistTransactionState(transaction_id, TransactionState::ABORTED);
         spdlog::error("Transaction {} commit failed, aborted", transaction_id);
     }
     lock.unlock();
@@ -268,6 +286,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     auto& txn = it->second;
     txn.state = TransactionState::ABORTING;
+    persistTransactionState(transaction_id, TransactionState::ABORTING);
     lock.unlock();
     
     // Send abort requests to all participants
@@ -280,6 +299,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     txn.state = TransactionState::ABORTED;
     txn.end_time = std::chrono::system_clock::now();
     aborted_transactions_++;
+    persistTransactionState(transaction_id, TransactionState::ABORTED);
     lock.unlock();
     
     // Replicate abort state via consensus
@@ -1205,6 +1225,270 @@ void CrossShardTransactionCoordinator::executeCompensations(
     
     spdlog::info("Compensation execution completed for SAGA transaction {}", 
                 transaction_id);
+}
+
+bool CrossShardTransactionCoordinator::persistTransactionState(
+    const std::string& transaction_id,
+    TransactionState state
+) {
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    
+    auto it = transactions_.find(transaction_id);
+    if (it == transactions_.end()) {
+        spdlog::error("Cannot persist state for non-existent transaction {}", transaction_id);
+        return false;
+    }
+    
+    const auto& txn = it->second;
+    
+    try {
+        // Open transaction log file in append mode
+        std::ofstream log_file(transaction_log_path_, std::ios::app);
+        if (!log_file.is_open()) {
+            spdlog::error("Failed to open transaction log file: {}", transaction_log_path_);
+            return false;
+        }
+        
+        // Create log entry
+        nlohmann::json log_entry = {
+            {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count()},
+            {"transaction_id", transaction_id},
+            {"state", static_cast<int>(state)},
+            {"protocol", static_cast<int>(txn.protocol)},
+            {"isolation_level", static_cast<int>(txn.isolation_level)}
+        };
+        
+        // Add participant information
+        nlohmann::json participants_json = nlohmann::json::array();
+        for (const auto& [shard_id, participant] : txn.participants) {
+            participants_json.push_back({
+                {"shard_id", shard_id},
+                {"endpoint", participant.endpoint},
+                {"prepared", participant.prepared},
+                {"committed", participant.committed},
+                {"aborted", participant.aborted}
+            });
+        }
+        log_entry["participants"] = participants_json;
+        
+        // Write log entry as a single line (JSONL format)
+        log_file << log_entry.dump() << std::endl;
+        log_file.close();
+        
+        spdlog::debug("Persisted transaction {} state: {}", 
+                     transaction_id, static_cast<int>(state));
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to persist transaction state: {}", e.what());
+        return false;
+    }
+}
+
+std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::loadPendingTransactions() {
+    std::vector<CrossShardTransaction> pending_transactions;
+    
+    try {
+        std::ifstream log_file(transaction_log_path_);
+        if (!log_file.is_open()) {
+            spdlog::info("No transaction log file found at {}", transaction_log_path_);
+            return pending_transactions;
+        }
+        
+        std::string line;
+        std::map<std::string, CrossShardTransaction> txn_map;
+        
+        // Read all log entries
+        while (std::getline(log_file, line)) {
+            if (line.empty()) continue;
+            
+            try {
+                auto log_entry = nlohmann::json::parse(line);
+                
+                std::string txn_id = log_entry["transaction_id"];
+                int state_int = log_entry["state"];
+                TransactionState state = static_cast<TransactionState>(state_int);
+                
+                // Check if we've seen this transaction before
+                auto it = txn_map.find(txn_id);
+                if (it == txn_map.end()) {
+                    // New transaction
+                    CrossShardTransaction txn;
+                    txn.transaction_id = txn_id;
+                    txn.protocol = static_cast<TransactionProtocol>(log_entry["protocol"].get<int>());
+                    txn.isolation_level = static_cast<IsolationLevel>(log_entry["isolation_level"].get<int>());
+                    txn.state = state;
+                    
+                    // Restore participants
+                    if (log_entry.contains("participants")) {
+                        for (const auto& p : log_entry["participants"]) {
+                            ShardParticipant participant;
+                            participant.shard_id = p["shard_id"];
+                            participant.endpoint = p["endpoint"];
+                            participant.prepared = p.value("prepared", false);
+                            participant.committed = p.value("committed", false);
+                            participant.aborted = p.value("aborted", false);
+                            
+                            txn.participants[participant.shard_id] = participant;
+                        }
+                    }
+                    
+                    txn_map[txn_id] = txn;
+                } else {
+                    // Update existing transaction state
+                    it->second.state = state;
+                    
+                    // Update participant states
+                    if (log_entry.contains("participants")) {
+                        for (const auto& p : log_entry["participants"]) {
+                            std::string shard_id = p["shard_id"];
+                            auto& participant = it->second.participants[shard_id];
+                            participant.prepared = p.value("prepared", false);
+                            participant.committed = p.value("committed", false);
+                            participant.aborted = p.value("aborted", false);
+                        }
+                    }
+                }
+                
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to parse log entry: {}", e.what());
+                continue;
+            }
+        }
+        
+        log_file.close();
+        
+        // Filter for pending transactions (not in final state)
+        for (const auto& [txn_id, txn] : txn_map) {
+            if (txn.state != TransactionState::COMMITTED && 
+                txn.state != TransactionState::ABORTED) {
+                pending_transactions.push_back(txn);
+                spdlog::info("Found pending transaction: {} in state {}", 
+                           txn_id, static_cast<int>(txn.state));
+            }
+        }
+        
+        spdlog::info("Loaded {} pending transactions from log", pending_transactions.size());
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to load pending transactions: {}", e.what());
+    }
+    
+    return pending_transactions;
+}
+
+bool CrossShardTransactionCoordinator::recoverFromFailure() {
+    spdlog::info("Starting coordinator recovery from failure");
+    
+    // Load pending transactions from log
+    auto pending = loadPendingTransactions();
+    
+    if (pending.empty()) {
+        spdlog::info("No pending transactions to recover");
+        return true;
+    }
+    
+    spdlog::info("Recovering {} pending transactions", pending.size());
+    
+    int recovered = 0;
+    int aborted = 0;
+    
+    for (auto& txn : pending) {
+        spdlog::info("Recovering transaction {} in state {}", 
+                    txn.transaction_id, static_cast<int>(txn.state));
+        
+        // Restore transaction to in-memory map
+        {
+            std::lock_guard<std::mutex> lock(transactions_mutex_);
+            transactions_[txn.transaction_id] = txn;
+        }
+        
+        // Apply recovery logic based on state
+        switch (txn.state) {
+            case TransactionState::ACTIVE:
+            case TransactionState::PREPARING:
+                // Transaction was in progress but not prepared
+                // Safe to abort
+                spdlog::info("Aborting unprepared transaction {}", txn.transaction_id);
+                abort(txn.transaction_id);
+                aborted++;
+                break;
+                
+            case TransactionState::PREPARED:
+                // All participants prepared - we can commit or abort
+                // For safety, try to commit if all participants are prepared
+                spdlog::info("Attempting to commit prepared transaction {}", txn.transaction_id);
+                if (commit(txn.transaction_id)) {
+                    recovered++;
+                } else {
+                    spdlog::warn("Failed to commit prepared transaction {}, aborting", 
+                               txn.transaction_id);
+                    abort(txn.transaction_id);
+                    aborted++;
+                }
+                break;
+                
+            case TransactionState::COMMITTING:
+                // Commit was in progress - try to complete it
+                spdlog::info("Completing commit for transaction {}", txn.transaction_id);
+                
+                // Send commit to any participants that haven't committed yet
+                {
+                    bool all_committed = true;
+                    for (auto& [shard_id, participant] : txn.participants) {
+                        if (!participant.committed) {
+                            bool success = sendCommit(shard_id, txn.transaction_id);
+                            if (success) {
+                                std::lock_guard<std::mutex> lock(transactions_mutex_);
+                                transactions_[txn.transaction_id].participants[shard_id].committed = true;
+                            } else {
+                                all_committed = false;
+                            }
+                        }
+                    }
+                    
+                    if (all_committed) {
+                        std::lock_guard<std::mutex> lock(transactions_mutex_);
+                        transactions_[txn.transaction_id].state = TransactionState::COMMITTED;
+                        transactions_[txn.transaction_id].end_time = std::chrono::system_clock::now();
+                        committed_transactions_++;
+                        persistTransactionState(txn.transaction_id, TransactionState::COMMITTED);
+                        recovered++;
+                    } else {
+                        spdlog::warn("Could not complete all commits for transaction {}", 
+                                   txn.transaction_id);
+                        aborted++;
+                    }
+                }
+                break;
+                
+            case TransactionState::ABORTING:
+                // Abort was in progress - complete it
+                spdlog::info("Completing abort for transaction {}", txn.transaction_id);
+                abort(txn.transaction_id);
+                aborted++;
+                break;
+                
+            case TransactionState::COMMITTED:
+            case TransactionState::ABORTED:
+                // Already in final state
+                recovered++;
+                break;
+                
+            case TransactionState::UNKNOWN:
+            default:
+                // Unknown state - abort for safety
+                spdlog::error("Transaction {} in unknown state, aborting", txn.transaction_id);
+                abort(txn.transaction_id);
+                aborted++;
+                break;
+        }
+    }
+    
+    spdlog::info("Recovery complete: {} recovered, {} aborted", recovered, aborted);
+    return true;
 }
 
 } // namespace sharding

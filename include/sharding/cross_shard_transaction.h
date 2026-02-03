@@ -339,8 +339,29 @@ private:
         const std::vector<nlohmann::json>& compensations
     );
     
+    /**
+     * @brief Persist transaction state to durable storage
+     */
+    bool persistTransactionState(
+        const std::string& transaction_id,
+        TransactionState state
+    );
+    
+    /**
+     * @brief Load pending transactions from durable storage
+     */
+    std::vector<CrossShardTransaction> loadPendingTransactions();
+    
+    /**
+     * @brief Recover coordinator state after failure
+     */
+    bool recoverFromFailure();
+    
     CrossShardTransactionConfig config_;
     std::shared_ptr<ConsensusModule> consensus_;
+    
+    // Transaction log file
+    std::string transaction_log_path_;
     
     // State
     mutable std::mutex transactions_mutex_;
