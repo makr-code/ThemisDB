@@ -39,8 +39,8 @@ public:
      * @brief Configuration for DistributedTimeCoordinator
      */
     struct Config {
-        // Uncertainty added to each timestamp (default: 1ms)
-        int64_t base_uncertainty_ns = 1'000'000;
+        // Uncertainty added to each timestamp (default: 1ms = 1e6 ns)
+        int64_t base_uncertainty_ns = 1000000;
         
         // Enable sync-free mode (all timestamps from log index)
         bool use_log_index_only = true;

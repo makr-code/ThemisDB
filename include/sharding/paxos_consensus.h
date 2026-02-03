@@ -235,8 +235,8 @@ private:
     
     // Paxos instances (one per log slot)
     std::map<uint64_t, PaxosInstance> instances_;
-    uint64_t next_slot_;
-    uint64_t commit_index_;
+    std::atomic<uint64_t> next_slot_;
+    std::atomic<uint64_t> commit_index_;
     
     // Proposal queue
     std::mutex proposal_mutex_;

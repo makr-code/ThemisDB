@@ -89,7 +89,7 @@ protected:
         mock_consensus_ = std::make_shared<MockConsensusModule>();
         
         DistributedTimeCoordinator::Config config;
-        config.base_uncertainty_ns = 1'000'000; // 1ms
+        config.base_uncertainty_ns = 1000000; // 1ms (1e6 ns)
         config.use_log_index_only = true;
         
         coordinator_ = std::make_unique<DistributedTimeCoordinator>(
@@ -120,7 +120,7 @@ TEST_F(DistributedTimeCoordinatorTest, NowReturnsValidInterval) {
     auto interval = coordinator_->now();
     
     EXPECT_EQ(interval.logical_timestamp, 100);
-    EXPECT_EQ(interval.uncertainty_ns, 1'000'000); // 1ms
+    EXPECT_EQ(interval.uncertainty_ns, 1000000); // 1ms (1e6 ns)
     EXPECT_GT(interval.system_time_ns, 0);
 }
 
@@ -224,7 +224,7 @@ TEST_F(DistributedTimeCoordinatorTest, LargeLogIndex) {
 
 TEST_F(DistributedTimeCoordinatorTest, CustomUncertainty) {
     DistributedTimeCoordinator::Config config;
-    config.base_uncertainty_ns = 5'000'000; // 5ms
+    config.base_uncertainty_ns = 5000000; // 5ms (5e6 ns)
     
     auto custom_coordinator = std::make_unique<DistributedTimeCoordinator>(
         mock_consensus_, config
@@ -233,5 +233,5 @@ TEST_F(DistributedTimeCoordinatorTest, CustomUncertainty) {
     mock_consensus_->setLastLogIndex(100);
     auto interval = custom_coordinator->now();
     
-    EXPECT_EQ(interval.uncertainty_ns, 5'000'000);
+    EXPECT_EQ(interval.uncertainty_ns, 5000000);
 }

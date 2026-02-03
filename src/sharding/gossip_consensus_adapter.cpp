@@ -180,6 +180,8 @@ uint64_t GossipConsensusAdapter::getCommitIndex() const {
 
 uint64_t GossipConsensusAdapter::getLastLogIndex() const {
     uint64_t next = next_log_index_.load();
+    // Return last assigned log index (next - 1)
+    // If next is 0, return 0 to avoid underflow
     return next > 0 ? next - 1 : 0;
 }
 

@@ -109,7 +109,7 @@ std::optional<uint64_t> PaxosConsensus::propose(
     
     // Create log entry
     ConsensusLogEntry entry;
-    entry.index = next_slot_++;
+    entry.index = next_slot_.fetch_add(1);
     entry.term = current_round_;
     entry.operation = operation;
     entry.data = data;
@@ -159,7 +159,7 @@ std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
     std::vector<ConsensusLogEntry> result;
     std::lock_guard<std::mutex> lock(proposal_mutex_);
     
-    uint64_t end = end_index.value_or(commit_index_);
+    uint64_t end = end_index.value_or(commit_index_.load());
     
     for (uint64_t i = start_index; i <= end; ++i) {
         auto it = committed_log_.find(i);
@@ -172,11 +172,12 @@ std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
 }
 
 uint64_t PaxosConsensus::getCommitIndex() const {
-    return commit_index_;
+    return commit_index_.load();
 }
 
 uint64_t PaxosConsensus::getLastLogIndex() const {
-    return next_slot_ > 0 ? next_slot_ - 1 : 0;
+    uint64_t next = next_slot_.load();
+    return next > 0 ? next - 1 : 0;
 }
 
 bool PaxosConsensus::addNode(
@@ -240,8 +241,8 @@ bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
 ConsensusStats PaxosConsensus::getStats() const {
     ConsensusStats stats{};
     stats.current_term = current_round_;
-    stats.commit_index = commit_index_;
-    stats.last_applied = commit_index_;
+    stats.commit_index = commit_index_.load();
+    stats.last_applied = commit_index_.load();
     stats.state = state_.load();
     stats.current_leader = current_leader_;
     stats.cluster_size = cluster_nodes_.size();
@@ -410,8 +411,9 @@ void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
     {
         std::lock_guard<std::mutex> lock(proposal_mutex_);
         committed_log_[slot] = value;
-        if (slot > commit_index_) {
-            commit_index_ = slot;
+        uint64_t current_commit = commit_index_.load();
+        if (slot > current_commit) {
+            commit_index_.store(slot);
         }
     }
     
