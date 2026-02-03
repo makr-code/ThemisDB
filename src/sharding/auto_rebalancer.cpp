@@ -2,6 +2,11 @@
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/data_migrator.h"
+#include "sharding/rebalance_executor.h"
+#include "sharding/data_movement_coordinator.h"
+#include "sharding/rebalance_strategy.h"
+#include "sharding/rebalance_approval_manager.h"
+#include "sharding/rebalance_metrics.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <sstream>
@@ -35,6 +40,34 @@ AutoRebalancer::AutoRebalancer(
     migrator_(migrator),
     config_(config),
     last_check_time_(std::chrono::system_clock::time_point::min()) {
+    
+    // Initialize new components
+    RebalanceExecutor::Config executor_config;
+    executor_config.operation_timeout = std::chrono::milliseconds(600000);
+    executor_config.max_retries = 3;
+    executor_config.require_approval = config_.require_manual_approval;
+    executor_ = std::make_shared<RebalanceExecutor>(executor_config);
+    
+    DataMovementCoordinator::Config coordinator_config;
+    coordinator_config.batch_size = config_.batch_size;
+    coordinator_config.verify_checksums = config_.verify_data;
+    movement_coordinator_ = std::make_shared<DataMovementCoordinator>(coordinator_config);
+    movement_coordinator_->setMetrics(metrics_);
+    
+    // Set up executor dependencies
+    executor_->setDataMovementCoordinator(movement_coordinator_);
+    executor_->setShardTopology(topology_);
+    
+    // Initialize strategy (using LoadBalancingStrategy by default)
+    strategy_ = std::make_shared<LoadBalancingStrategy>();
+    
+    // Initialize approval manager
+    ApprovalMode mode = config_.require_manual_approval ? 
+        ApprovalMode::MANUAL_APPROVE : ApprovalMode::AUTO_APPROVE;
+    approval_manager_ = std::make_shared<RebalanceApprovalManager>(mode);
+    
+    // Initialize metrics
+    rebalance_metrics_ = std::make_shared<RebalanceMetrics>();
     
     THEMIS_INFO("AutoRebalancer initialized with check_interval={}s, max_concurrent={}",
                config_.check_interval.count() / 1000, config_.max_concurrent_operations);
@@ -400,14 +433,60 @@ bool AutoRebalancer::canTriggerRebalance() const {
 
 bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) const {
     // Check if total data movement is within limits
-    // Simplified - in production, calculate actual data size
     
     if (imbalance.recommendations.empty()) {
         return false;
     }
     
-    // For now, allow if we have reasonable recommendations
-    return imbalance.recommendations.size() <= config_.max_concurrent_operations * 2;
+    // Calculate total data to be moved
+    uint64_t total_bytes_to_move = 0;
+    for (const auto& rec : imbalance.recommendations) {
+        // Get source shard load to estimate data size
+        auto source_load = load_detector_->getShardLoad(rec.source_shard);
+        if (source_load.has_value()) {
+            // Estimate data for this recommendation
+            uint64_t token_range_size = rec.token_range_end - rec.token_range_start;
+            // Use double precision for full token space
+            double range_proportion = static_cast<double>(token_range_size) / 
+                                      (static_cast<double>(UINT64_MAX) + 1.0);
+            uint64_t estimated_bytes = static_cast<uint64_t>(
+                source_load->total_bytes * range_proportion
+            );
+            total_bytes_to_move += estimated_bytes;
+        }
+    }
+    
+    // Get total cluster storage
+    auto all_loads = load_detector_->getAllShardLoads();
+    uint64_t total_cluster_bytes = 0;
+    for (const auto& [shard_id, load] : all_loads) {
+        total_cluster_bytes += load.total_bytes;
+    }
+    
+    // Calculate percentage of cluster data to be moved
+    double movement_percent = 0.0;
+    if (total_cluster_bytes > 0) {
+        movement_percent = (static_cast<double>(total_bytes_to_move) / total_cluster_bytes) * 100.0;
+    }
+    
+    THEMIS_INFO("Safety check: {} bytes to move ({:.2f}% of cluster), limit is {:.2f}%",
+                total_bytes_to_move, movement_percent, config_.max_data_movement_percent);
+    
+    // Check against configured limit
+    if (movement_percent > config_.max_data_movement_percent) {
+        THEMIS_WARN("Data movement exceeds safety limit: {:.2f}% > {:.2f}%",
+                    movement_percent, config_.max_data_movement_percent);
+        return false;
+    }
+    
+    // Check recommendation count
+    if (imbalance.recommendations.size() > config_.max_concurrent_operations * 2) {
+        THEMIS_WARN("Too many recommendations: {} > {}",
+                    imbalance.recommendations.size(), config_.max_concurrent_operations * 2);
+        return false;
+    }
+    
+    return true;
 }
 
 void AutoRebalancer::cleanupCompletedOperations() {
@@ -562,7 +641,83 @@ nlohmann::json AutoRebalancer::getStatistics() const {
         stats["seconds_since_last_check"] = elapsed.count();
     }
     
+    // Add rebalance metrics if available
+    if (rebalance_metrics_) {
+        stats["rebalance_metrics"] = rebalance_metrics_->getStatsJson();
+    }
+    
     return stats;
+}
+
+uint64_t AutoRebalancer::estimateDataMovement(const LoadImbalanceResult::RebalanceRecommendation& op) {
+    auto span = Tracer::startSpan("AutoRebalancer.estimateDataMovement");
+    span.setAttribute("source_shard", op.source_shard);
+    span.setAttribute("target_shard", op.target_shard);
+    
+    // Get shard load metrics to estimate actual data size
+    auto source_load = load_detector_->getShardLoad(op.source_shard);
+    
+    if (!source_load.has_value()) {
+        THEMIS_WARN("Cannot estimate data movement: source shard {} not found", op.source_shard);
+        return 0;
+    }
+    
+    // Calculate proportion of token range being moved
+    // Note: Token space is conceptually UINT64_MAX + 1, but we approximate with double
+    uint64_t token_range_size = op.token_range_end - op.token_range_start;
+    
+    // Use double precision to handle the full range
+    double range_proportion = static_cast<double>(token_range_size) / 
+                              (static_cast<double>(UINT64_MAX) + 1.0);
+    
+    // Estimate bytes to move based on source shard's total bytes
+    uint64_t estimated_bytes = static_cast<uint64_t>(
+        source_load->total_bytes * range_proportion
+    );
+    
+    THEMIS_INFO("Estimated data movement: {} bytes ({:.2f}% of source shard)",
+                estimated_bytes, range_proportion * 100.0);
+    
+    span.setAttribute("estimated_bytes", static_cast<int64_t>(estimated_bytes));
+    
+    return estimated_bytes;
+}
+
+bool AutoRebalancer::rollbackRebalance(const std::string& operation_id) {
+    auto span = Tracer::startSpan("AutoRebalancer.rollbackRebalance");
+    span.setAttribute("operation_id", operation_id);
+    
+    THEMIS_INFO("Attempting to rollback rebalance operation: {}", operation_id);
+    
+    if (!executor_) {
+        THEMIS_ERROR("No executor configured for rollback");
+        span.recordError("No executor available");
+        return false;
+    }
+    
+    // Use executor to rollback the operation
+    bool rolled_back = executor_->rollback(operation_id);
+    
+    if (rolled_back) {
+        THEMIS_INFO("Rebalance operation {} rolled back successfully", operation_id);
+        
+        // Record in metrics
+        if (rebalance_metrics_) {
+            rebalance_metrics_->recordOperationRolledBack(operation_id);
+        }
+        
+        if (metrics_) {
+            metrics_->incrementCounter("themis_rebalance_operations_rolled_back_total");
+        }
+        
+        span.setAttribute("success", true);
+    } else {
+        THEMIS_ERROR("Failed to rollback rebalance operation: {}", operation_id);
+        span.recordError("Rollback failed");
+        span.setAttribute("success", false);
+    }
+    
+    return rolled_back;
 }
 
 } // namespace sharding

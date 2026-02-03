@@ -3,6 +3,11 @@
 
 #include "sharding/shard_load_detector.h"
 #include "sharding/rebalance_operation.h"
+#include "sharding/rebalance_executor.h"
+#include "sharding/data_movement_coordinator.h"
+#include "sharding/rebalance_strategy.h"
+#include "sharding/rebalance_approval_manager.h"
+#include "sharding/rebalance_metrics.h"
 #include <string>
 #include <memory>
 #include <thread>
@@ -148,12 +153,43 @@ public:
      */
     nlohmann::json getStatistics() const;
     
+    /**
+     * Estimate data movement size for operation
+     * @param op Operation to estimate
+     * @return Estimated bytes to move, or 0 if cannot estimate
+     */
+    uint64_t estimateDataMovement(const LoadImbalanceResult::RebalanceRecommendation& op);
+    
+    /**
+     * Rollback a rebalance operation
+     * @param operation_id Operation identifier
+     * @return true if rollback successful
+     */
+    bool rollbackRebalance(const std::string& operation_id);
+    
+    /**
+     * Get rebalance executor (for testing)
+     */
+    std::shared_ptr<RebalanceExecutor> getExecutor() const { return executor_; }
+    
+    /**
+     * Get rebalance metrics
+     */
+    std::shared_ptr<RebalanceMetrics> getMetrics() const { return rebalance_metrics_; }
+
 private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<ShardLoadDetector> load_detector_;
     std::shared_ptr<PrometheusMetrics> metrics_;
     std::shared_ptr<DataMigrator> migrator_;
     Config config_;
+    
+    // New components for enhanced rebalancing
+    std::shared_ptr<RebalanceExecutor> executor_;
+    std::shared_ptr<DataMovementCoordinator> movement_coordinator_;
+    std::shared_ptr<RebalanceStrategy> strategy_;
+    std::shared_ptr<RebalanceApprovalManager> approval_manager_;
+    std::shared_ptr<RebalanceMetrics> rebalance_metrics_;
     
     // Threading
     std::atomic<bool> running_{false};
