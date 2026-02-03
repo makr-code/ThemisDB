@@ -10,9 +10,13 @@ namespace themis {
 /**
  * @brief Learned Quantization with Adaptive Threshold Learning
  * 
+ * RESEARCH IMPLEMENTATION - NOT USED IN PRODUCTION (v1.4.1)
+ * 
  * Implements learned quantization that adapts quantization thresholds to the actual
  * data distribution, achieving better compression-accuracy trade-offs than fixed
  * quantization schemes. Uses Lloyd's algorithm to learn optimal thresholds per dimension.
+ * 
+ * @deprecated NOT USED IN PRODUCTION CODE. Research implementation for vector compression studies.
  * 
  * @sources
  * - Algorithm: Learned Quantization / Adaptive Quantization

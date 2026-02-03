@@ -1,4 +1,5 @@
 #include "sharding/mtls_client.h"
+#include "sharding/mtls_connection_pool.h"
 #include "sharding/pki_shard_certificate.h"
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -26,6 +27,17 @@ struct MTLSClient::Impl {
 MTLSClient::MTLSClient(const Config& config)
     : config_(config), impl_(std::make_unique<Impl>()) {
     initSSLContext();
+    
+    // Initialize connection pool manager if enabled
+    if (config_.use_connection_pool) {
+        MTLSConnectionPoolManager::Config pool_config;
+        pool_config.endpoint_config.min_connections = config_.pool_min_connections;
+        pool_config.endpoint_config.max_connections = config_.pool_max_connections;
+        pool_config.endpoint_config.connection_ttl = std::chrono::seconds(config_.pool_connection_ttl_s);
+        pool_config.endpoint_config.idle_timeout = std::chrono::seconds(config_.pool_idle_timeout_s);
+        
+        pool_manager_ = std::make_shared<MTLSConnectionPoolManager>(pool_config);
+    }
 }
 
 MTLSClient::~MTLSClient() = default;
@@ -246,6 +258,20 @@ void MTLSClient::reset() {
     // Recreate IO context and SSL context
     impl_ = std::make_unique<Impl>();
     initSSLContext();
+    
+    // Reset connection pool if enabled
+    if (pool_manager_) {
+        pool_manager_->shutdown();
+        
+        // Reinitialize pool manager
+        MTLSConnectionPoolManager::Config pool_config;
+        pool_config.endpoint_config.min_connections = config_.pool_min_connections;
+        pool_config.endpoint_config.max_connections = config_.pool_max_connections;
+        pool_config.endpoint_config.connection_ttl = std::chrono::seconds(config_.pool_connection_ttl_s);
+        pool_config.endpoint_config.idle_timeout = std::chrono::seconds(config_.pool_idle_timeout_s);
+        
+        pool_manager_ = std::make_shared<MTLSConnectionPoolManager>(pool_config);
+    }
 }
 
 bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
@@ -316,6 +342,39 @@ std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string&
     }
     
     return {host, port};
+}
+
+nlohmann::json MTLSClient::getPoolStatistics() const {
+    nlohmann::json result = nlohmann::json::object();
+    
+    if (!pool_manager_) {
+        result["enabled"] = false;
+        result["message"] = "Connection pool not enabled";
+        return result;
+    }
+    
+    auto stats = pool_manager_->getStatistics();
+    
+    result["enabled"] = true;
+    result["total_active"] = stats.total_active_connections;
+    result["total_idle"] = stats.total_idle_connections;
+    result["endpoints_cached"] = stats.cached_endpoint_pools;
+    
+    // Add per-endpoint statistics
+    nlohmann::json endpoints = nlohmann::json::object();
+    for (const auto& [endpoint, endpoint_stats] : stats.per_endpoint_stats) {
+        nlohmann::json ep_stats;
+        ep_stats["active"] = endpoint_stats.active_connections;
+        ep_stats["idle"] = endpoint_stats.idle_connections;
+        ep_stats["total_created"] = endpoint_stats.total_created;
+        ep_stats["failed"] = endpoint_stats.connections_failed;
+        ep_stats["utilization_percent"] = endpoint_stats.utilization_percent;
+        
+        endpoints[endpoint] = ep_stats;
+    }
+    result["per_endpoint"] = endpoints;
+    
+    return result;
 }
 
 } // namespace themis::sharding

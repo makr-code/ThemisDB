@@ -222,6 +222,14 @@ uint64_t RaftConsensusAdapter::getCommitIndex() const {
     return raft_->getRaftState().getLog().getCommitIndex();
 }
 
+uint64_t RaftConsensusAdapter::getLastLogIndex() const {
+    if (!raft_) {
+        return 0;
+    }
+    
+    return raft_->getRaftState().getLog().getLastLogIndex();
+}
+
 bool RaftConsensusAdapter::addNode(
     const std::string& node_id,
     const std::string& endpoint

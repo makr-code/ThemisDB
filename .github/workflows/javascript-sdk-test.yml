@@ -9,6 +9,8 @@ on:
 # Minimal permissions for security
 permissions:
   contents: read
+  pull-requests: write
+  checks: write
 
 defaults:
   run:
@@ -58,7 +60,26 @@ jobs:
             npm run build
             exit 0
           fi
-          npm test || echo "Tests completed with warnings"
+          npm test -- --reporter=json --reporter-options output=test-results.json || echo "Tests completed with warnings"
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always() && env.ACT != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-javascript-${{ matrix.node-version }}
+          path: clients/javascript/test-results.json
+          retention-days: 30
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always() && env.ACT != 'true'
+        with:
+          name: 'JavaScript/TypeScript SDK Tests (Node.js ${{ matrix.node-version }})'
+          path: clients/javascript/test-results.json
+          reporter: mocha-json
+          fail-on-error: false
+          working-directory: clients/javascript
 
       - name: Check types
         run: npx tsc --noEmit

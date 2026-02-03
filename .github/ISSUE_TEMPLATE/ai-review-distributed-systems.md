@@ -7,6 +7,48 @@ assignees: ''
 ---
 
 <!-- 
+====================================================================================================
+📖 AI AGENT GUIDANCE - DISTRIBUTED SYSTEMS
+====================================================================================================
+
+DISTRIBUTED SYSTEMS REVIEW REQUIREMENTS:
+
+1. **CONSENSUS VERIFICATION**:
+   - Verify Raft implementation against paper: Ongaro & Ousterhout (2014)
+   - Test leader election: measure election timeout, split-brain prevention
+   - Validate log replication: check append-only property, log compaction
+   - Test failure scenarios: network partitions, node crashes
+
+2. **CAP THEOREM ANALYSIS**:
+   - Identify ThemisDB's position: CP vs AP
+   - Document consistency guarantees: strong, eventual, causal?
+   - Test partition tolerance: what happens during network split?
+   - Measure availability: MTBF, MTTR, RPO, RTO
+
+3. **PERFORMANCE METRICS REQUIRED**:
+   - Replication lag: p50, p95, p99 in milliseconds
+   - Cross-shard query latency vs single-shard
+   - Consensus commit latency: 2PC overhead
+   - Throughput: ops/sec with 1 node vs 3 nodes vs 5 nodes
+
+4. **FAILURE MODE TESTING**:
+   - Use Jepsen-style testing if possible
+   - Test: node crash, network partition, clock skew, disk failure
+   - Verify: no data loss, no split-brain, recovery time
+   - Document: any consistency violations found
+
+5. **RESEARCH REQUIREMENTS**:
+   - Compare with: Spanner, CockroachDB, TiDB, YugabyteDB
+   - Cite papers: Raft, Paxos, 2PC, Chain Replication
+   - Reference specific implementations from open-source systems
+   - Minimum 5-10 papers on consensus, replication, sharding
+
+📚 **REQUIRED READING**: `.github/ISSUE_TEMPLATE/_guides/AI_AGENT_REVIEW_GUIDE.md`
+
+====================================================================================================
+-->
+
+<!-- 
 Dies ist eine spezialisierte Vorlage für Distributed Systems Components wie:
 - Sharding (src/sharding/)
 - Replication (src/replication/)

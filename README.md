@@ -4,8 +4,10 @@
   
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
+  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml)
   [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
+  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Version](https://img.shields.io/badge/version-1.4.1--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
@@ -824,6 +826,29 @@ CHIMERA Suite features:
 - Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
 
 Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
+
+### Performance Dashboard & Monitoring
+
+ThemisDB includes a **comprehensive Performance Dashboard** for visualizing benchmark trends, detecting regressions, and monitoring performance across releases and branches.
+
+**Features:**
+- 📊 **Real-time Grafana Dashboard** - Throughput, latency, error rates
+- 🔍 **Automatic Regression Detection** - CI/CD integration with configurable thresholds
+- 📈 **Historical Tracking** - Performance trends over time
+- 🌿 **Branch Comparisons** - Compare main, develop, and feature branches
+- 🏷️ **Release Tracking** - Performance evolution across versions
+- 🖥️ **Hardware Comparison** - Test on different configurations
+- 🚨 **Alerts & Notifications** - Slack/Email alerts for regressions
+
+**Quick Start:**
+```bash
+# Start dashboard
+cd grafana && docker-compose up -d
+
+# Access at http://localhost:3000 (admin/admin)
+```
+
+**📊 [Performance Dashboard Documentation](grafana/PERFORMANCE_DASHBOARD_README.md)** | **[Quick Start Guide](docs/en/PERFORMANCE_DASHBOARD_QUICKSTART.md)** | **[Example Charts](docs/en/PERFORMANCE_DASHBOARD_EXAMPLES.md)**
 
 ---
 

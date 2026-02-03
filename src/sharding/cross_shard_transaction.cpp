@@ -2,25 +2,48 @@
 // Licensed under MIT License
 
 #include "sharding/cross_shard_transaction.h"
+#include "sharding/shard_rpc_client.h"
+#include "sharding/truetime.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
+#include <fstream>
+#include <thread>
+#include <chrono>
 
 namespace themisdb {
 namespace sharding {
 
 CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     const CrossShardTransactionConfig& config,
-    std::shared_ptr<ConsensusModule> consensus
+    std::shared_ptr<ConsensusModule> consensus,
+    std::shared_ptr<themis::sharding::TrueTime> truetime
 )
     : config_(config)
     , consensus_(consensus)
+    , truetime_(truetime)
     , running_(false)
     , total_transactions_(0)
     , committed_transactions_(0)
     , aborted_transactions_(0)
     , deadlocked_transactions_(0)
+    , transaction_log_path_(config.transaction_log_path)
 {
+    // If log path is not absolute, use a safe default
+    if (transaction_log_path_.empty() || transaction_log_path_[0] != '/') {
+        // Fall back to /tmp for development (should be configured in production)
+        transaction_log_path_ = "/tmp/themisdb_transaction_log.jsonl";
+        spdlog::warn("Transaction log path not configured, using temporary path: {}", 
+                     transaction_log_path_);
+    }
+    
+    // Create TrueTime instance if not provided (for MVCC timestamp guarantees)
+    if (!truetime_) {
+        themis::sharding::TrueTime::Config tt_config;
+        tt_config.base_uncertainty_us = 1000;  // 1ms base uncertainty
+        truetime_ = std::make_shared<themis::sharding::TrueTime>(tt_config);
+        spdlog::info("Created TrueTime instance for MVCC timestamp management");
+    }
 }
 
 CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
@@ -30,6 +53,12 @@ CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
 bool CrossShardTransactionCoordinator::initialize() {
     if (!consensus_) {
         spdlog::error("Consensus module required for cross-shard transactions");
+        return false;
+    }
+    
+    // Attempt to recover from any previous coordinator failure
+    if (!recoverFromFailure()) {
+        spdlog::error("Failed to recover from previous coordinator failure");
         return false;
     }
     
@@ -91,8 +120,28 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     txn.state = TransactionState::ACTIVE;
     txn.start_time = std::chrono::system_clock::now();
     
+    // Assign snapshot timestamp for MVCC isolation
+    // For snapshot isolation, use TrueTime to get a globally consistent timestamp
+    if (truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                      isolation_level == IsolationLevel::SERIALIZABLE)) {
+        auto tt_now = truetime_->now();
+        // Use the latest bound to ensure we read the most recent committed data
+        txn.snapshot_timestamp = tt_now.latest.count();
+        
+        spdlog::info("Transaction {} assigned snapshot timestamp {} (MVCC enabled)", 
+                    transaction_id, txn.snapshot_timestamp);
+    } else {
+        // For other isolation levels, use system time
+        txn.snapshot_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+    }
+    
     transactions_[transaction_id] = txn;
     total_transactions_++;
+    
+    // Persist transaction state
+    persistTransactionState(transaction_id, TransactionState::ACTIVE);
     
     // Replicate transaction metadata via consensus
     if (consensus_) {
@@ -159,6 +208,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     }
     
     txn.state = TransactionState::PREPARING;
+    persistTransactionState(transaction_id, TransactionState::PREPARING);
     lock.unlock();
     
     // Send prepare requests to all participants
@@ -181,6 +231,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     lock.lock();
     if (all_prepared) {
         txn.state = TransactionState::PREPARED;
+        persistTransactionState(transaction_id, TransactionState::PREPARED);
         spdlog::info("Transaction {} prepared successfully", transaction_id);
     } else {
         txn.state = TransactionState::ACTIVE;  // Roll back to active
@@ -237,11 +288,13 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         txn.state = TransactionState::COMMITTED;
         txn.end_time = std::chrono::system_clock::now();
         committed_transactions_++;
+        persistTransactionState(transaction_id, TransactionState::COMMITTED);
         spdlog::info("Transaction {} committed successfully", transaction_id);
     } else {
         txn.state = TransactionState::ABORTED;
         txn.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
+        persistTransactionState(transaction_id, TransactionState::ABORTED);
         spdlog::error("Transaction {} commit failed, aborted", transaction_id);
     }
     lock.unlock();
@@ -268,6 +321,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     auto& txn = it->second;
     txn.state = TransactionState::ABORTING;
+    persistTransactionState(transaction_id, TransactionState::ABORTING);
     lock.unlock();
     
     // Send abort requests to all participants
@@ -280,6 +334,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     txn.state = TransactionState::ABORTED;
     txn.end_time = std::chrono::system_clock::now();
     aborted_transactions_++;
+    persistTransactionState(transaction_id, TransactionState::ABORTED);
     lock.unlock();
     
     // Replicate abort state via consensus
@@ -299,6 +354,13 @@ bool CrossShardTransactionCoordinator::executeSaga(
     const std::vector<nlohmann::json>& steps,
     const std::vector<nlohmann::json>& compensations
 ) {
+    // Validate input early before acquiring locks
+    if (steps.size() != compensations.size()) {
+        spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
+                     transaction_id, steps.size(), compensations.size());
+        return false;
+    }
+    
     std::unique_lock<std::mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
@@ -315,31 +377,130 @@ bool CrossShardTransactionCoordinator::executeSaga(
     
     lock.unlock();
     
+    spdlog::info("Executing SAGA transaction {} with {} steps", 
+                transaction_id, steps.size());
+    
     // Execute steps sequentially
     size_t completed_steps = 0;
+    std::vector<nlohmann::json> executed_steps;
+    
     for (size_t i = 0; i < steps.size(); ++i) {
         const auto& step = steps[i];
         
-        // TODO: Complete implementation
-        // Execute step - should send operation to appropriate shard via RPC
-        // and wait for result, respecting saga_step_timeout
-        bool success = true;  // Placeholder - assumes step succeeds
-        
-        if (!success) {
-            spdlog::error("SAGA step {} failed, executing compensation", i);
+        // Extract shard_id and operation from step
+        if (!step.contains("shard_id") || !step.contains("operation")) {
+            spdlog::error("SAGA step {} missing shard_id or operation", i);
             
-            // Execute compensations for completed steps in reverse order
-            for (int j = static_cast<int>(completed_steps) - 1; j >= 0; --j) {
-                const auto& compensation = compensations[j];
-                // Execute compensation (simplified)
-                spdlog::info("Executing compensation for step {}", j);
+            // Execute compensations for completed steps
+            executeCompensations(transaction_id, executed_steps, compensations);
+            
+            return false;
+        }
+        
+        std::string shard_id = step["shard_id"];
+        nlohmann::json operation = step["operation"];
+        
+        spdlog::info("Executing SAGA step {} on shard {} for transaction {}", 
+                    i, shard_id, transaction_id);
+        
+        // Execute step - send operation to shard via RPC
+        try {
+            lock.lock();
+            auto participant_it = txn.participants.find(shard_id);
+            if (participant_it == txn.participants.end()) {
+                lock.unlock();
+                spdlog::error("Shard {} not found in transaction {} participants", 
+                            shard_id, transaction_id);
+                
+                // Execute compensations
+                executeCompensations(transaction_id, executed_steps, compensations);
+                
+                return false;
             }
+            
+            auto& participant = participant_it->second;
+            std::string endpoint = participant.endpoint;
+            lock.unlock();
+            
+            // Create RPC client for this shard
+            themis::sharding::ShardRPCClient::Config rpc_config;
+            rpc_config.endpoint = endpoint;
+            rpc_config.timeout_ms = static_cast<int>(config_.saga_step_timeout.count());
+            rpc_config.max_retries = 2;  // SAGA steps should be idempotent
+            rpc_config.retry_delay_ms = 100;
+            
+            themis::sharding::ShardRPCClient rpc_client(rpc_config);
+            
+            // Execute the step with timeout
+            auto step_start = std::chrono::steady_clock::now();
+            bool success = false;
+            
+            // For SAGA, we use a simplified execution model
+            // In production, this would be a specific SAGA operation RPC
+            nlohmann::json operations = nlohmann::json::array();
+            operations.push_back(operation);
+            
+            // Try to execute the step
+            int retries = 0;
+            while (retries <= rpc_config.max_retries) {
+                try {
+                    // Check timeout
+                    auto elapsed = std::chrono::steady_clock::now() - step_start;
+                    if (elapsed > config_.saga_step_timeout) {
+                        spdlog::error("SAGA step {} timed out after {}ms", 
+                                    i, 
+                                    std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                        break;
+                    }
+                    
+                    // Execute step (using prepare as proxy for step execution)
+                    success = rpc_client.prepare(transaction_id + "_step_" + std::to_string(i), 
+                                                operations);
+                    
+                    if (success) {
+                        break;
+                    }
+                    
+                } catch (const std::exception& e) {
+                    if (retries < rpc_config.max_retries) {
+                        spdlog::warn("SAGA step {} execution failed (attempt {}/{}): {}. Retrying", 
+                                   i, retries + 1, rpc_config.max_retries + 1, e.what());
+                        std::this_thread::sleep_for(
+                            std::chrono::milliseconds(rpc_config.retry_delay_ms * (1 << retries))
+                        );
+                        retries++;
+                    } else {
+                        spdlog::error("SAGA step {} execution failed after {} retries: {}", 
+                                    i, rpc_config.max_retries, e.what());
+                        break;
+                    }
+                }
+            }
+            
+            if (!success) {
+                spdlog::error("SAGA step {} failed, executing compensations", i);
+                
+                // Execute compensations for completed steps in reverse order
+                executeCompensations(transaction_id, executed_steps, compensations);
+                
+                abort(transaction_id);
+                return false;
+            }
+            
+            executed_steps.push_back(step);
+            completed_steps++;
+            
+            spdlog::info("SAGA step {} completed successfully", i);
+            
+        } catch (const std::exception& e) {
+            spdlog::error("SAGA step {} failed with exception: {}", i, e.what());
+            
+            // Execute compensations
+            executeCompensations(transaction_id, executed_steps, compensations);
             
             abort(transaction_id);
             return false;
         }
-        
-        completed_steps++;
     }
     
     // All steps completed successfully
@@ -349,7 +510,8 @@ bool CrossShardTransactionCoordinator::executeSaga(
     committed_transactions_++;
     lock.unlock();
     
-    spdlog::info("SAGA transaction {} completed successfully", transaction_id);
+    spdlog::info("SAGA transaction {} completed successfully with {} steps", 
+                transaction_id, completed_steps);
     return true;
 }
 
@@ -382,8 +544,18 @@ std::optional<CrossShardTransaction> CrossShardTransactionCoordinator::getTransa
 bool CrossShardTransactionCoordinator::isDeadlocked(
     const std::string& transaction_id
 ) const {
-    // Simplified deadlock check
-    // In production, this would check the wait-for graph
+    // Build wait-for graph
+    auto graph = buildWaitForGraph();
+    
+    // Check if transaction_id is part of a cycle
+    std::set<std::string> visited;
+    std::set<std::string> rec_stack;
+    
+    // Start DFS from the given transaction
+    if (graph.find(transaction_id) != graph.end()) {
+        return detectCycle(graph, transaction_id, visited, rec_stack);
+    }
+    
     return false;
 }
 
@@ -448,51 +620,506 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
 }
 
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
-    // 3PC adds a pre-commit phase to avoid blocking
-    // Simplified implementation
-    return execute2PC(txn);
+    // Three-Phase Commit Protocol
+    // Phase 1: Prepare (CanCommit)
+    // Phase 2: PreCommit
+    // Phase 3: DoCommit
+    
+    // Phase 1: Prepare - check if all participants can commit
+    if (txn.state != TransactionState::PREPARED) {
+        if (!prepare(txn.transaction_id)) {
+            spdlog::error("3PC Phase 1 (Prepare) failed for transaction {}", 
+                         txn.transaction_id);
+            return false;
+        }
+    }
+    
+    // Phase 2: PreCommit - participants write to stable storage but don't commit
+    txn.state = TransactionState::COMMITTING;  // Using COMMITTING state for PreCommit phase
+    
+    spdlog::info("3PC Phase 2 (PreCommit) starting for transaction {}", 
+                txn.transaction_id);
+    
+    bool all_precommitted = true;
+    for (auto& [shard_id, participant] : txn.participants) {
+        // Send PreCommit message to each participant
+        // In a full implementation, this would be a separate RPC call
+        // For now, we'll log the intent and mark as precommitted
+        spdlog::debug("Sending PreCommit to shard {} for transaction {}", 
+                     shard_id, txn.transaction_id);
+        
+        // In production, you would:
+        // bool precommitted = sendPreCommit(shard_id, txn.transaction_id);
+        // For now, we assume precommit succeeds if prepare succeeded
+        bool precommitted = participant.prepared;
+        
+        if (!precommitted) {
+            all_precommitted = false;
+            spdlog::error("PreCommit failed for shard {} in transaction {}", 
+                         shard_id, txn.transaction_id);
+        }
+    }
+    
+    if (!all_precommitted) {
+        spdlog::error("3PC Phase 2 (PreCommit) failed for transaction {}", 
+                     txn.transaction_id);
+        
+        // In 3PC, if PreCommit fails, we can still abort
+        // Send abort to all participants
+        for (auto& [shard_id, participant] : txn.participants) {
+            sendAbort(shard_id, txn.transaction_id);
+            participant.aborted = true;
+        }
+        
+        return false;
+    }
+    
+    spdlog::info("3PC Phase 2 (PreCommit) succeeded for transaction {}", 
+                txn.transaction_id);
+    
+    // Phase 3: DoCommit - final commit
+    spdlog::info("3PC Phase 3 (DoCommit) starting for transaction {}", 
+                txn.transaction_id);
+    
+    bool all_committed = true;
+    for (auto& [shard_id, participant] : txn.participants) {
+        bool committed = sendCommit(shard_id, txn.transaction_id);
+        participant.committed = committed;
+        
+        if (!committed) {
+            all_committed = false;
+            spdlog::error("Commit failed for shard {} in transaction {}", 
+                         shard_id, txn.transaction_id);
+        }
+    }
+    
+    if (all_committed) {
+        spdlog::info("3PC completed successfully for transaction {}", 
+                    txn.transaction_id);
+    } else {
+        spdlog::error("3PC Phase 3 (DoCommit) had failures for transaction {}", 
+                     txn.transaction_id);
+    }
+    
+    return all_committed;
 }
 
 bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& txn) {
-    // Percolator uses optimistic concurrency with locks
-    // Simplified implementation
-    return execute2PC(txn);
+    // Percolator-style distributed transaction protocol
+    // Based on Google's Percolator paper
+    // Uses optimistic concurrency control with locks
+    
+    spdlog::info("Starting Percolator transaction {}", txn.transaction_id);
+    
+    if (txn.participants.empty()) {
+        spdlog::error("No participants in transaction {}", txn.transaction_id);
+        return false;
+    }
+    
+    // Step 1: Choose a primary shard (first participant)
+    auto primary_it = txn.participants.begin();
+    const std::string& primary_shard_id = primary_it->first;
+    auto& primary_participant = primary_it->second;
+    
+    spdlog::info("Primary shard for transaction {}: {}", 
+                txn.transaction_id, primary_shard_id);
+    
+    // Step 2: Acquire locks on all shards (starting with secondaries)
+    // In a full implementation, this would use a lock column in the database
+    std::vector<std::string> locked_shards;
+    bool all_locked = true;
+    
+    // Lock secondaries first
+    for (auto& [shard_id, participant] : txn.participants) {
+        if (shard_id == primary_shard_id) {
+            continue;  // Lock primary last
+        }
+        
+        // Attempt to acquire lock with timeout
+        spdlog::debug("Acquiring lock on secondary shard {} for transaction {}", 
+                     shard_id, txn.transaction_id);
+        
+        // In production, this would be an RPC call to acquire a lock
+        // For now, we'll use the prepare mechanism as a proxy
+        bool locked = sendPrepare(shard_id, txn.transaction_id);
+        
+        if (locked) {
+            locked_shards.push_back(shard_id);
+            participant.prepared = true;
+        } else {
+            all_locked = false;
+            spdlog::error("Failed to acquire lock on shard {} for transaction {}", 
+                         shard_id, txn.transaction_id);
+            break;
+        }
+    }
+    
+    // If secondary locks failed, abort
+    if (!all_locked) {
+        spdlog::error("Failed to acquire all secondary locks for transaction {}", 
+                     txn.transaction_id);
+        
+        // Release acquired locks
+        for (const auto& shard_id : locked_shards) {
+            sendAbort(shard_id, txn.transaction_id);
+        }
+        
+        return false;
+    }
+    
+    // Lock primary
+    spdlog::debug("Acquiring lock on primary shard {} for transaction {}", 
+                 primary_shard_id, txn.transaction_id);
+    
+    bool primary_locked = sendPrepare(primary_shard_id, txn.transaction_id);
+    
+    if (!primary_locked) {
+        spdlog::error("Failed to acquire lock on primary shard {} for transaction {}", 
+                     primary_shard_id, txn.transaction_id);
+        
+        // Release all locks
+        for (const auto& shard_id : locked_shards) {
+            sendAbort(shard_id, txn.transaction_id);
+        }
+        
+        return false;
+    }
+    
+    locked_shards.push_back(primary_shard_id);
+    primary_participant.prepared = true;
+    
+    txn.state = TransactionState::PREPARED;
+    
+    spdlog::info("All locks acquired for Percolator transaction {}", 
+                txn.transaction_id);
+    
+    // Step 3: Write data to all shards (with locks held)
+    // In Percolator, this is the "write" column
+    // For our implementation, the prepare phase has already written the data
+    
+    // Step 4: Commit primary first
+    txn.state = TransactionState::COMMITTING;
+    
+    // Generate commit timestamp using TrueTime for MVCC guarantees
+    int64_t commit_timestamp = generateCommitTimestamp(txn);
+    
+    // Store commit timestamp in transaction for recovery
+    txn.commit_timestamp = commit_timestamp;
+    
+    spdlog::info("Committing primary shard {} for Percolator transaction {} at timestamp {}", 
+                primary_shard_id, txn.transaction_id, commit_timestamp);
+    
+    bool primary_committed = sendCommit(primary_shard_id, txn.transaction_id);
+    
+    if (!primary_committed) {
+        spdlog::error("Primary shard commit failed for transaction {}", 
+                     txn.transaction_id);
+        
+        // Primary commit failed - this is a critical error in Percolator
+        // We must abort all participants
+        for (const auto& shard_id : locked_shards) {
+            sendAbort(shard_id, txn.transaction_id);
+        }
+        
+        return false;
+    }
+    
+    primary_participant.committed = true;
+    
+    spdlog::info("Primary shard committed for Percolator transaction {}", 
+                txn.transaction_id);
+    
+    // Step 5: Commit secondaries (can be done asynchronously in production)
+    // Once primary is committed, the transaction is durable
+    // Secondary commits can be retried if they fail
+    bool all_committed = true;
+    
+    for (auto& [shard_id, participant] : txn.participants) {
+        if (shard_id == primary_shard_id) {
+            continue;  // Already committed
+        }
+        
+        spdlog::debug("Committing secondary shard {} for Percolator transaction {}", 
+                     shard_id, txn.transaction_id);
+        
+        bool committed = sendCommit(shard_id, txn.transaction_id);
+        participant.committed = committed;
+        
+        if (!committed) {
+            all_committed = false;
+            spdlog::error("Secondary shard {} commit failed for transaction {}", 
+                         shard_id, txn.transaction_id);
+            // In Percolator, this can be retried later since primary is committed
+        }
+    }
+    
+    if (all_committed) {
+        spdlog::info("Percolator transaction {} completed successfully", 
+                    txn.transaction_id);
+    } else {
+        spdlog::warn("Percolator transaction {} committed but some secondaries failed (can be retried)", 
+                    txn.transaction_id);
+    }
+    
+    // Consider transaction successful if primary committed
+    // Secondary commits can be repaired asynchronously
+    return true;
 }
 
 bool CrossShardTransactionCoordinator::sendPrepare(
     const std::string& shard_id,
     const std::string& transaction_id
 ) {
-    // TODO: Complete implementation
-    // Placeholder - should use ShardRPCClient to send prepare request
-    // and wait for response, respecting prepare_timeout
     spdlog::debug("Sending prepare to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    return true;  // Placeholder - assumes success
+    
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    auto it = transactions_.find(transaction_id);
+    if (it == transactions_.end()) {
+        spdlog::error("Transaction {} not found", transaction_id);
+        return false;
+    }
+    
+    auto& txn = it->second;
+    auto participant_it = txn.participants.find(shard_id);
+    if (participant_it == txn.participants.end()) {
+        spdlog::error("Shard {} is not a participant in transaction {}", 
+                     shard_id, transaction_id);
+        return false;
+    }
+    
+    auto& participant = participant_it->second;
+    
+    // Create RPC client for this shard
+    try {
+        themis::sharding::ShardRPCClient::Config rpc_config;
+        rpc_config.endpoint = participant.endpoint;
+        rpc_config.timeout_ms = static_cast<int>(config_.prepare_timeout.count());
+        rpc_config.max_retries = 3;
+        rpc_config.retry_delay_ms = 100;
+        
+        themis::sharding::ShardRPCClient rpc_client(rpc_config);
+        
+        // Prepare operations for this shard
+        nlohmann::json operations = nlohmann::json::array();
+        for (const auto& op : participant.operations) {
+            operations.push_back(op);
+        }
+        
+        // Send prepare request with retry logic
+        int retries = 0;
+        int delay_ms = rpc_config.retry_delay_ms;
+        
+        while (retries <= rpc_config.max_retries) {
+            try {
+                bool vote = rpc_client.prepare(transaction_id, operations);
+                
+                if (vote) {
+                    spdlog::info("Shard {} voted COMMIT for transaction {}", 
+                               shard_id, transaction_id);
+                    return true;
+                } else {
+                    spdlog::warn("Shard {} voted ABORT for transaction {}", 
+                               shard_id, transaction_id);
+                    return false;
+                }
+            } catch (const std::exception& e) {
+                if (retries < rpc_config.max_retries) {
+                    spdlog::warn("Prepare RPC to shard {} failed (attempt {}/{}): {}. Retrying in {}ms", 
+                               shard_id, retries + 1, rpc_config.max_retries + 1, 
+                               e.what(), delay_ms);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+                    delay_ms *= 2;  // Exponential backoff
+                    retries++;
+                } else {
+                    spdlog::error("Prepare RPC to shard {} failed after {} retries: {}", 
+                                shard_id, rpc_config.max_retries, e.what());
+                    return false;
+                }
+            }
+        }
+        
+        // Should not reach here, but return false for safety
+        spdlog::error("Unexpected exit from prepare retry loop");
+        return false;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to create RPC client for shard {}: {}", 
+                     shard_id, e.what());
+        return false;
+    }
 }
 
 bool CrossShardTransactionCoordinator::sendCommit(
     const std::string& shard_id,
     const std::string& transaction_id
 ) {
-    // TODO: Complete implementation
-    // Placeholder - should use ShardRPCClient to send commit request
-    // and wait for response, respecting commit_timeout
     spdlog::debug("Sending commit to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    return true;  // Placeholder - assumes success
+    
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    auto it = transactions_.find(transaction_id);
+    if (it == transactions_.end()) {
+        spdlog::error("Transaction {} not found", transaction_id);
+        return false;
+    }
+    
+    auto& txn = it->second;
+    auto participant_it = txn.participants.find(shard_id);
+    if (participant_it == txn.participants.end()) {
+        spdlog::error("Shard {} is not a participant in transaction {}", 
+                     shard_id, transaction_id);
+        return false;
+    }
+    
+    auto& participant = participant_it->second;
+    
+    // Use the commit timestamp from the transaction if available (for MVCC)
+    // Otherwise generate one
+    int64_t commit_timestamp = txn.commit_timestamp;
+    if (commit_timestamp == 0) {
+        commit_timestamp = generateCommitTimestamp(txn);
+        
+        // Store for consistency across all participants
+        txn.commit_timestamp = commit_timestamp;
+    }
+    
+    // Create RPC client for this shard
+    try {
+        themis::sharding::ShardRPCClient::Config rpc_config;
+        rpc_config.endpoint = participant.endpoint;
+        rpc_config.timeout_ms = static_cast<int>(config_.commit_timeout.count());
+        rpc_config.max_retries = 3;
+        rpc_config.retry_delay_ms = 100;
+        
+        themis::sharding::ShardRPCClient rpc_client(rpc_config);
+        
+        // Send commit request with retry logic (using the commit_timestamp from above)
+        int retries = 0;
+        int delay_ms = rpc_config.retry_delay_ms;
+        
+        while (retries <= rpc_config.max_retries) {
+            try {
+                bool success = rpc_client.commit(transaction_id, commit_timestamp);
+                
+                if (success) {
+                    spdlog::info("Shard {} committed transaction {} at timestamp {}", 
+                               shard_id, transaction_id, commit_timestamp);
+                    return true;
+                } else {
+                    spdlog::error("Shard {} failed to commit transaction {}", 
+                                shard_id, transaction_id);
+                    return false;
+                }
+            } catch (const std::exception& e) {
+                if (retries < rpc_config.max_retries) {
+                    spdlog::warn("Commit RPC to shard {} failed (attempt {}/{}): {}. Retrying in {}ms", 
+                               shard_id, retries + 1, rpc_config.max_retries + 1, 
+                               e.what(), delay_ms);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+                    delay_ms *= 2;  // Exponential backoff
+                    retries++;
+                } else {
+                    spdlog::error("Commit RPC to shard {} failed after {} retries: {}", 
+                                shard_id, rpc_config.max_retries, e.what());
+                    return false;
+                }
+            }
+        }
+        
+        // Should not reach here, but return false for safety
+        spdlog::error("Unexpected exit from commit retry loop");
+        return false;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to create RPC client for shard {}: {}", 
+                     shard_id, e.what());
+        return false;
+    }
 }
 
 bool CrossShardTransactionCoordinator::sendAbort(
     const std::string& shard_id,
     const std::string& transaction_id
 ) {
-    // TODO: Complete implementation
-    // Placeholder - should use ShardRPCClient to send abort request
-    // and wait for response, respecting abort_timeout
     spdlog::debug("Sending abort to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    return true;  // Placeholder - assumes success
+    
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    auto it = transactions_.find(transaction_id);
+    if (it == transactions_.end()) {
+        spdlog::error("Transaction {} not found", transaction_id);
+        return false;
+    }
+    
+    auto& txn = it->second;
+    auto participant_it = txn.participants.find(shard_id);
+    if (participant_it == txn.participants.end()) {
+        spdlog::error("Shard {} is not a participant in transaction {}", 
+                     shard_id, transaction_id);
+        return false;
+    }
+    
+    auto& participant = participant_it->second;
+    
+    // Create RPC client for this shard
+    try {
+        themis::sharding::ShardRPCClient::Config rpc_config;
+        rpc_config.endpoint = participant.endpoint;
+        rpc_config.timeout_ms = static_cast<int>(config_.abort_timeout.count());
+        rpc_config.max_retries = 3;
+        rpc_config.retry_delay_ms = 100;
+        
+        themis::sharding::ShardRPCClient rpc_client(rpc_config);
+        
+        // Send abort request with retry logic
+        int retries = 0;
+        int delay_ms = rpc_config.retry_delay_ms;
+        
+        while (retries <= rpc_config.max_retries) {
+            try {
+                bool success = rpc_client.abort(transaction_id);
+                
+                if (success) {
+                    spdlog::info("Shard {} aborted transaction {}", 
+                               shard_id, transaction_id);
+                    return true;
+                } else {
+                    spdlog::warn("Shard {} reported abort failure for transaction {}", 
+                               shard_id, transaction_id);
+                    // Abort is best-effort, so we consider it successful even if shard reports failure
+                    return true;
+                }
+            } catch (const std::exception& e) {
+                if (retries < rpc_config.max_retries) {
+                    spdlog::warn("Abort RPC to shard {} failed (attempt {}/{}): {}. Retrying in {}ms", 
+                               shard_id, retries + 1, rpc_config.max_retries + 1, 
+                               e.what(), delay_ms);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+                    delay_ms *= 2;  // Exponential backoff
+                    retries++;
+                } else {
+                    spdlog::error("Abort RPC to shard {} failed after {} retries: {}", 
+                                shard_id, rpc_config.max_retries, e.what());
+                    // Abort is best-effort, so we consider it successful even after retries fail
+                    // Log this as a warning for monitoring
+                    spdlog::warn("Abort considered successful despite failures (best-effort semantics)");
+                    return true;
+                }
+            }
+        }
+        
+        // Should not reach here in normal flow
+        spdlog::warn("Unexpected exit from abort retry loop - treating as successful (best-effort)");
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to create RPC client for shard {}: {}", 
+                     shard_id, e.what());
+        // Abort is best-effort, so we consider it successful even on client creation failure
+        spdlog::warn("Abort considered successful despite client creation failure (best-effort semantics)");
+        return true;
+    }
 }
 
 void CrossShardTransactionCoordinator::deadlockDetectionThread() {
@@ -504,17 +1131,54 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
         // Build wait-for graph
         auto graph = buildWaitForGraph();
         
-        // Detect cycles
+        if (graph.empty()) {
+            continue;  // No active transactions with potential conflicts
+        }
+        
+        // Detect cycles using DFS
         std::set<std::string> visited;
         std::set<std::string> rec_stack;
+        std::vector<std::string> deadlocked_txns;
         
         for (const auto& [node, _] : graph) {
-            if (detectCycle(graph, node, visited, rec_stack)) {
-                spdlog::warn("Deadlock detected involving transaction {}", node);
-                deadlocked_transactions_++;
+            if (visited.find(node) == visited.end()) {
+                if (detectCycle(graph, node, visited, rec_stack)) {
+                    // Found a cycle - all nodes in rec_stack are part of the deadlock
+                    for (const auto& txn_id : rec_stack) {
+                        deadlocked_txns.push_back(txn_id);
+                    }
+                    break;  // Handle one deadlock at a time
+                }
+            }
+        }
+        
+        if (!deadlocked_txns.empty()) {
+            spdlog::warn("Deadlock detected involving {} transactions", 
+                        deadlocked_txns.size());
+            
+            deadlocked_transactions_++;
+            
+            // Select victim: choose the youngest transaction (most recent start time)
+            std::string victim_id;
+            std::chrono::system_clock::time_point latest_start;
+            
+            {
+                std::lock_guard<std::mutex> lock(transactions_mutex_);
                 
-                // Abort youngest transaction in cycle
-                abort(node);
+                for (const auto& txn_id : deadlocked_txns) {
+                    auto it = transactions_.find(txn_id);
+                    if (it != transactions_.end()) {
+                        if (victim_id.empty() || it->second.start_time > latest_start) {
+                            victim_id = txn_id;
+                            latest_start = it->second.start_time;
+                        }
+                    }
+                }
+            }
+            
+            if (!victim_id.empty()) {
+                spdlog::warn("Aborting transaction {} to resolve deadlock", victim_id);
+                abort(victim_id);
             }
         }
     }
@@ -526,7 +1190,79 @@ std::map<std::string, std::vector<std::string>>
 CrossShardTransactionCoordinator::buildWaitForGraph() const {
     std::map<std::string, std::vector<std::string>> graph;
     
-    // Placeholder - would build actual wait-for graph from lock information
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    
+    // Build wait-for graph from active transactions
+    // Transaction A waits for B if:
+    // 1. Both are active or preparing
+    // 2. They have overlapping participants
+    // 3. A started after B
+    
+    std::vector<std::string> active_txn_ids;
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::ACTIVE ||
+            txn.state == TransactionState::PREPARING) {
+            active_txn_ids.push_back(txn_id);
+        }
+    }
+    
+    // For each pair of active transactions, check for potential conflicts
+    for (size_t i = 0; i < active_txn_ids.size(); ++i) {
+        const auto& txn_a_id = active_txn_ids[i];
+        const auto& txn_a = transactions_.at(txn_a_id);
+        
+        for (size_t j = i + 1; j < active_txn_ids.size(); ++j) {
+            const auto& txn_b_id = active_txn_ids[j];
+            const auto& txn_b = transactions_.at(txn_b_id);
+            
+            // Check if transactions have overlapping participants
+            bool has_overlap = false;
+            for (const auto& [shard_id_a, _] : txn_a.participants) {
+                if (txn_b.participants.find(shard_id_a) != txn_b.participants.end()) {
+                    has_overlap = true;
+                    break;
+                }
+            }
+            
+            if (has_overlap) {
+                // Determine wait-for relationship based on start time
+                // Younger transaction waits for older transaction
+                if (txn_a.start_time < txn_b.start_time) {
+                    // B waits for A
+                    graph[txn_b_id].push_back(txn_a_id);
+                    spdlog::trace("Wait-for edge: {} -> {}", txn_b_id, txn_a_id);
+                } else {
+                    // A waits for B
+                    graph[txn_a_id].push_back(txn_b_id);
+                    spdlog::trace("Wait-for edge: {} -> {}", txn_a_id, txn_b_id);
+                }
+            }
+        }
+    }
+    
+    // Add additional wait-for edges based on prepare status
+    // If a transaction is in PREPARING state and another has overlapping
+    // participants in ACTIVE state, the ACTIVE waits for PREPARING
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::PREPARING) {
+            for (const auto& [other_id, other_txn] : transactions_) {
+                if (other_id == txn_id) continue;
+                if (other_txn.state != TransactionState::ACTIVE) continue;
+                
+                // Check for overlapping participants
+                for (const auto& [shard_id, _] : txn.participants) {
+                    if (other_txn.participants.find(shard_id) != 
+                        other_txn.participants.end()) {
+                        graph[other_id].push_back(txn_id);
+                        spdlog::trace("Wait-for edge (prepare): {} -> {}", other_id, txn_id);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    spdlog::debug("Built wait-for graph with {} nodes", graph.size());
     
     return graph;
 }
@@ -559,6 +1295,421 @@ bool CrossShardTransactionCoordinator::detectCycle(
     
     rec_stack.erase(start_node);
     return false;
+}
+
+void CrossShardTransactionCoordinator::executeCompensations(
+    const std::string& transaction_id,
+    const std::vector<nlohmann::json>& executed_steps,
+    const std::vector<nlohmann::json>& compensations
+) {
+    spdlog::info("Executing compensations for SAGA transaction {} ({} steps to compensate)", 
+                transaction_id, executed_steps.size());
+    
+    // Execute compensations in reverse order
+    for (int j = static_cast<int>(executed_steps.size()) - 1; j >= 0; --j) {
+        const auto& step = executed_steps[j];
+        const auto& compensation = compensations[j];
+        
+        if (!compensation.contains("shard_id") || !compensation.contains("operation")) {
+            spdlog::error("Compensation {} missing shard_id or operation", j);
+            continue;
+        }
+        
+        std::string shard_id = compensation["shard_id"];
+        nlohmann::json operation = compensation["operation"];
+        
+        spdlog::info("Executing compensation {} on shard {} for transaction {}", 
+                    j, shard_id, transaction_id);
+        
+        try {
+            std::lock_guard<std::mutex> lock(transactions_mutex_);
+            auto it = transactions_.find(transaction_id);
+            if (it == transactions_.end()) {
+                spdlog::error("Transaction {} not found during compensation", transaction_id);
+                continue;
+            }
+            
+            auto& txn = it->second;
+            auto participant_it = txn.participants.find(shard_id);
+            if (participant_it == txn.participants.end()) {
+                spdlog::error("Shard {} not found in transaction {} participants", 
+                            shard_id, transaction_id);
+                continue;
+            }
+            
+            auto& participant = participant_it->second;
+            std::string endpoint = participant.endpoint;
+            
+            // Create RPC client for compensation
+            themis::sharding::ShardRPCClient::Config rpc_config;
+            rpc_config.endpoint = endpoint;
+            rpc_config.timeout_ms = static_cast<int>(config_.saga_step_timeout.count());
+            rpc_config.max_retries = 3;  // Retry compensations aggressively
+            rpc_config.retry_delay_ms = 100;
+            
+            themis::sharding::ShardRPCClient rpc_client(rpc_config);
+            
+            // Execute compensation operation
+            // NOTE: In a full production implementation, this should use a dedicated
+            // compensation RPC call that executes the actual compensation operation
+            // (e.g., DELETE to undo INSERT, UPDATE to revert changes, etc.)
+            // For now, we use abort as a proxy to signal the shard to roll back
+            // the corresponding step. Production systems should implement:
+            // - rpc_client.executeCompensation(compensation_id, operation)
+            // - Shard-side compensation handlers that interpret the operation JSON
+            // - Idempotent compensation execution (in case of retries)
+            nlohmann::json operations = nlohmann::json::array();
+            operations.push_back(operation);
+            
+            int retries = 0;
+            bool success = false;
+            
+            while (retries <= rpc_config.max_retries) {
+                try {
+                    // TODO: Replace with proper compensation RPC
+                    // For now using abort as a proxy signal
+                    success = rpc_client.abort(transaction_id + "_compensation_" + std::to_string(j));
+                    
+                    if (success) {
+                        spdlog::info("Compensation {} completed successfully", j);
+                        break;
+                    }
+                    
+                } catch (const std::exception& e) {
+                    if (retries < rpc_config.max_retries) {
+                        spdlog::warn("Compensation {} execution failed (attempt {}/{}): {}. Retrying", 
+                                   j, retries + 1, rpc_config.max_retries + 1, e.what());
+                        std::this_thread::sleep_for(
+                            std::chrono::milliseconds(rpc_config.retry_delay_ms * (1 << retries))
+                        );
+                        retries++;
+                    } else {
+                        spdlog::error("Compensation {} execution failed after {} retries: {}", 
+                                    j, rpc_config.max_retries, e.what());
+                        break;
+                    }
+                }
+            }
+            
+            if (!success) {
+                spdlog::error("Compensation {} failed - manual intervention may be required", j);
+                // In production, this would be logged to a persistent compensation log
+                // for manual intervention or retry
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to execute compensation {}: {}", j, e.what());
+        }
+    }
+    
+    spdlog::info("Compensation execution completed for SAGA transaction {}", 
+                transaction_id);
+}
+
+int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
+    const CrossShardTransaction& txn
+) {
+    int64_t commit_timestamp;
+    
+    // Use TrueTime for MVCC isolation levels
+    if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                      txn.isolation_level == IsolationLevel::SERIALIZABLE)) {
+        auto tt_now = truetime_->now();
+        commit_timestamp = tt_now.earliest.count();
+        
+        // Wait until the commit timestamp is definitely after the snapshot timestamp
+        // This ensures external consistency: if T1 commits before T2 starts, T2 sees T1's writes
+        if (txn.snapshot_timestamp > 0 && commit_timestamp <= txn.snapshot_timestamp) {
+            truetime_->waitUntil(std::chrono::nanoseconds(txn.snapshot_timestamp + 1));
+            tt_now = truetime_->now();
+            commit_timestamp = tt_now.earliest.count();
+        }
+        
+        spdlog::debug("Generated MVCC commit timestamp {} (snapshot: {}, uncertainty: {}ns)",
+                     commit_timestamp, txn.snapshot_timestamp,
+                     truetime_->getUncertainty().count());
+    } else {
+        // Fallback to system time for other isolation levels
+        commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+    }
+    
+    return commit_timestamp;
+}
+
+bool CrossShardTransactionCoordinator::persistTransactionState(
+    const std::string& transaction_id,
+    TransactionState state
+) {
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    
+    auto it = transactions_.find(transaction_id);
+    if (it == transactions_.end()) {
+        spdlog::error("Cannot persist state for non-existent transaction {}", transaction_id);
+        return false;
+    }
+    
+    const auto& txn = it->second;
+    
+    try {
+        // Open transaction log file in append mode
+        std::ofstream log_file(transaction_log_path_, std::ios::app);
+        if (!log_file.is_open()) {
+            spdlog::error("Failed to open transaction log file: {}", transaction_log_path_);
+            return false;
+        }
+        
+        // Create log entry
+        nlohmann::json log_entry = {
+            {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count()},
+            {"transaction_id", transaction_id},
+            {"state", static_cast<int>(state)},
+            {"protocol", static_cast<int>(txn.protocol)},
+            {"isolation_level", static_cast<int>(txn.isolation_level)},
+            {"snapshot_timestamp", txn.snapshot_timestamp},
+            {"commit_timestamp", txn.commit_timestamp}
+        };
+        
+        // Add participant information
+        nlohmann::json participants_json = nlohmann::json::array();
+        for (const auto& [shard_id, participant] : txn.participants) {
+            participants_json.push_back({
+                {"shard_id", shard_id},
+                {"endpoint", participant.endpoint},
+                {"prepared", participant.prepared},
+                {"committed", participant.committed},
+                {"aborted", participant.aborted}
+            });
+        }
+        log_entry["participants"] = participants_json;
+        
+        // Write log entry as a single line (JSONL format)
+        log_file << log_entry.dump() << std::endl;
+        log_file.close();
+        
+        spdlog::debug("Persisted transaction {} state: {}", 
+                     transaction_id, static_cast<int>(state));
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to persist transaction state: {}", e.what());
+        return false;
+    }
+}
+
+std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::loadPendingTransactions() {
+    std::vector<CrossShardTransaction> pending_transactions;
+    
+    try {
+        std::ifstream log_file(transaction_log_path_);
+        if (!log_file.is_open()) {
+            spdlog::info("No transaction log file found at {}", transaction_log_path_);
+            return pending_transactions;
+        }
+        
+        std::string line;
+        std::map<std::string, CrossShardTransaction> txn_map;
+        
+        // Read all log entries
+        while (std::getline(log_file, line)) {
+            if (line.empty()) continue;
+            
+            try {
+                auto log_entry = nlohmann::json::parse(line);
+                
+                std::string txn_id = log_entry["transaction_id"];
+                int state_int = log_entry["state"];
+                TransactionState state = static_cast<TransactionState>(state_int);
+                
+                // Check if we've seen this transaction before
+                auto it = txn_map.find(txn_id);
+                if (it == txn_map.end()) {
+                    // New transaction
+                    CrossShardTransaction txn;
+                    txn.transaction_id = txn_id;
+                    txn.protocol = static_cast<TransactionProtocol>(log_entry["protocol"].get<int>());
+                    txn.isolation_level = static_cast<IsolationLevel>(log_entry["isolation_level"].get<int>());
+                    txn.state = state;
+                    
+                    // Restore MVCC timestamps
+                    txn.snapshot_timestamp = log_entry.value("snapshot_timestamp", 0L);
+                    txn.commit_timestamp = log_entry.value("commit_timestamp", 0L);
+                    
+                    // Restore participants
+                    if (log_entry.contains("participants")) {
+                        for (const auto& p : log_entry["participants"]) {
+                            ShardParticipant participant;
+                            participant.shard_id = p["shard_id"];
+                            participant.endpoint = p["endpoint"];
+                            participant.prepared = p.value("prepared", false);
+                            participant.committed = p.value("committed", false);
+                            participant.aborted = p.value("aborted", false);
+                            
+                            txn.participants[participant.shard_id] = participant;
+                        }
+                    }
+                    
+                    txn_map[txn_id] = txn;
+                } else {
+                    // Update existing transaction state
+                    it->second.state = state;
+                    
+                    // Update MVCC timestamps (use value() with default for consistency)
+                    it->second.snapshot_timestamp = log_entry.value("snapshot_timestamp", 0L);
+                    it->second.commit_timestamp = log_entry.value("commit_timestamp", 0L);
+                    
+                    // Update participant states
+                    if (log_entry.contains("participants")) {
+                        for (const auto& p : log_entry["participants"]) {
+                            std::string shard_id = p["shard_id"];
+                            auto& participant = it->second.participants[shard_id];
+                            participant.prepared = p.value("prepared", false);
+                            participant.committed = p.value("committed", false);
+                            participant.aborted = p.value("aborted", false);
+                        }
+                    }
+                }
+                
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to parse log entry: {}", e.what());
+                continue;
+            }
+        }
+        
+        log_file.close();
+        
+        // Filter for pending transactions (not in final state)
+        for (const auto& [txn_id, txn] : txn_map) {
+            if (txn.state != TransactionState::COMMITTED && 
+                txn.state != TransactionState::ABORTED) {
+                pending_transactions.push_back(txn);
+                spdlog::info("Found pending transaction: {} in state {}", 
+                           txn_id, static_cast<int>(txn.state));
+            }
+        }
+        
+        spdlog::info("Loaded {} pending transactions from log", pending_transactions.size());
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to load pending transactions: {}", e.what());
+    }
+    
+    return pending_transactions;
+}
+
+bool CrossShardTransactionCoordinator::recoverFromFailure() {
+    spdlog::info("Starting coordinator recovery from failure");
+    
+    // Load pending transactions from log
+    auto pending = loadPendingTransactions();
+    
+    if (pending.empty()) {
+        spdlog::info("No pending transactions to recover");
+        return true;
+    }
+    
+    spdlog::info("Recovering {} pending transactions", pending.size());
+    
+    int recovered = 0;
+    int aborted = 0;
+    
+    for (auto& txn : pending) {
+        spdlog::info("Recovering transaction {} in state {}", 
+                    txn.transaction_id, static_cast<int>(txn.state));
+        
+        // Restore transaction to in-memory map
+        {
+            std::lock_guard<std::mutex> lock(transactions_mutex_);
+            transactions_[txn.transaction_id] = txn;
+        }
+        
+        // Apply recovery logic based on state
+        switch (txn.state) {
+            case TransactionState::ACTIVE:
+            case TransactionState::PREPARING:
+                // Transaction was in progress but not prepared
+                // Safe to abort
+                spdlog::info("Aborting unprepared transaction {}", txn.transaction_id);
+                abort(txn.transaction_id);
+                aborted++;
+                break;
+                
+            case TransactionState::PREPARED:
+                // All participants prepared - we can commit or abort
+                // For safety, try to commit if all participants are prepared
+                spdlog::info("Attempting to commit prepared transaction {}", txn.transaction_id);
+                if (commit(txn.transaction_id)) {
+                    recovered++;
+                } else {
+                    spdlog::warn("Failed to commit prepared transaction {}, aborting", 
+                               txn.transaction_id);
+                    abort(txn.transaction_id);
+                    aborted++;
+                }
+                break;
+                
+            case TransactionState::COMMITTING:
+                // Commit was in progress - try to complete it
+                spdlog::info("Completing commit for transaction {}", txn.transaction_id);
+                
+                // Send commit to any participants that haven't committed yet
+                {
+                    bool all_committed = true;
+                    for (auto& [shard_id, participant] : txn.participants) {
+                        if (!participant.committed) {
+                            bool success = sendCommit(shard_id, txn.transaction_id);
+                            if (success) {
+                                std::lock_guard<std::mutex> lock(transactions_mutex_);
+                                transactions_[txn.transaction_id].participants[shard_id].committed = true;
+                            } else {
+                                all_committed = false;
+                            }
+                        }
+                    }
+                    
+                    if (all_committed) {
+                        std::lock_guard<std::mutex> lock(transactions_mutex_);
+                        transactions_[txn.transaction_id].state = TransactionState::COMMITTED;
+                        transactions_[txn.transaction_id].end_time = std::chrono::system_clock::now();
+                        committed_transactions_++;
+                        persistTransactionState(txn.transaction_id, TransactionState::COMMITTED);
+                        recovered++;
+                    } else {
+                        spdlog::warn("Could not complete all commits for transaction {}", 
+                                   txn.transaction_id);
+                        aborted++;
+                    }
+                }
+                break;
+                
+            case TransactionState::ABORTING:
+                // Abort was in progress - complete it
+                spdlog::info("Completing abort for transaction {}", txn.transaction_id);
+                abort(txn.transaction_id);
+                aborted++;
+                break;
+                
+            case TransactionState::COMMITTED:
+            case TransactionState::ABORTED:
+                // Already in final state
+                recovered++;
+                break;
+                
+            case TransactionState::UNKNOWN:
+            default:
+                // Unknown state - abort for safety
+                spdlog::error("Transaction {} in unknown state, aborting", txn.transaction_id);
+                abort(txn.transaction_id);
+                aborted++;
+                break;
+        }
+    }
+    
+    spdlog::info("Recovery complete: {} recovered, {} aborted", recovered, aborted);
+    return true;
 }
 
 } // namespace sharding

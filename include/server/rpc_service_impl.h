@@ -6,6 +6,7 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <chrono>
 
 /**
  * @file rpc_service_impl.h
@@ -17,6 +18,7 @@
 
 namespace themis {
 class RocksDBWrapper;  // Forward declaration
+class AuthMiddleware;  // Forward declaration
 namespace index {
 class SpatialIndexManager;  // Forward declaration
 }
@@ -37,8 +39,10 @@ class ThemisRPCService {
 public:
     explicit ThemisRPCService(
         RocksDBWrapper* storage,
-        themis::index::SpatialIndexManager* spatial_index = nullptr
-    ) : storage_(storage), spatial_index_(spatial_index) {}
+        themis::index::SpatialIndexManager* spatial_index = nullptr,
+        std::shared_ptr<AuthMiddleware> auth = nullptr,
+        const std::chrono::steady_clock::time_point* start_time = nullptr
+    ) : storage_(storage), spatial_index_(spatial_index), auth_(auth), start_time_(start_time) {}
     
     /**
      * @brief Handle GET operation
@@ -178,6 +182,8 @@ public:
 private:
     RocksDBWrapper* storage_;
     themis::index::SpatialIndexManager* spatial_index_;
+    std::shared_ptr<AuthMiddleware> auth_;
+    const std::chrono::steady_clock::time_point* start_time_;
     
     /**
      * @brief Verify authentication token from context

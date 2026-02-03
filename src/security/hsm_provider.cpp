@@ -36,8 +36,22 @@ HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 bool HSMProvider::initialize() {
     if (initialized_) return true;
     initialized_ = true;
-    THEMIS_WARN("HSMProvider STUB initialized (label='{}') - NOT SECURE for production!", config_.key_label);
-    THEMIS_WARN("For production, build with -DTHEMIS_ENABLE_HSM_REAL=ON and configure PKCS#11 HSM");
+    
+    // CRITICAL SECURITY WARNING: Stub provider active
+    THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
+    THEMIS_WARN("║  ⚠️  INSECURE CONFIGURATION: HSM STUB PROVIDER ACTIVE!  ⚠️   ║");
+    THEMIS_WARN("╠═══════════════════════════════════════════════════════════════╣");
+    THEMIS_WARN("║  Master keys are NOT protected by hardware security.         ║");
+    THEMIS_WARN("║  This configuration is for DEVELOPMENT ONLY.                 ║");
+    THEMIS_WARN("║                                                               ║");
+    THEMIS_WARN("║  Production deployment REQUIRES real HSM configuration:      ║");
+    THEMIS_WARN("║  - Build with -DTHEMIS_ENABLE_HSM_REAL=ON                    ║");
+    THEMIS_WARN("║  - Configure PKCS#11 HSM (Luna, CloudHSM, etc.)             ║");
+    THEMIS_WARN("║  - Or use cloud KMS (AWS KMS, Azure Key Vault, GCP KMS)     ║");
+    THEMIS_WARN("║                                                               ║");
+    THEMIS_WARN("║  See: docs/security/HSM_PRODUCTION_SETUP.md                  ║");
+    THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
+    
     return true;
 }
 
@@ -117,6 +131,21 @@ HSMPerformanceStats HSMProvider::getStats() const {
 
 void HSMProvider::resetStats() {
     // Stub: no-op
+}
+
+bool HSMProvider::isStubProvider() const {
+    // Always true for stub implementation
+    return true;
+}
+
+void HSMProvider::periodicSecurityCheck() {
+    if (!initialized_) return;
+    
+    // Log ERROR-level warning for production monitoring
+    THEMIS_ERROR("⚠️  HSM SECURITY WARNING: Using stub provider in production!");
+    THEMIS_ERROR("Master keys are NOT hardware-protected. Configure proper HSM immediately.");
+    THEMIS_ERROR("Compliance impact: NIST SP 800-53 SC-12, PCI DSS 3.6, GDPR Art. 32");
+    THEMIS_ERROR("See: docs/security/HSM_PRODUCTION_SETUP.md");
 }
 
 // HSMPKIClient

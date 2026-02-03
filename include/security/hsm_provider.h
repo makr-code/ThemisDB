@@ -218,6 +218,18 @@ public:
      */
     void resetStats();
 
+    /**
+     * Check if using stub provider (insecure development mode)
+     * @return true if stub provider is active, false if real HSM
+     */
+    bool isStubProvider() const;
+
+    /**
+     * Perform periodic security check and log warnings if stub is active
+     * Should be called periodically (e.g., every 5 minutes) from server
+     */
+    void periodicSecurityCheck();
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

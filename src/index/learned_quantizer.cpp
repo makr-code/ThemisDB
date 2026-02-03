@@ -49,7 +49,7 @@ LearnedQuantizer::Status LearnedQuantizer::train(
         return Status::Error("Training vector dimension mismatch");
     }
     
-    THEMIS_INFO("LearnedQuantizer::train - Training with {} vectors, dim={}, bits={}, mode={}",
+    THEMIS_INFO("LearnedQuantizer::train - Training with {} vectors, dim={}, bits={}, mode={} (RESEARCH ONLY - deprecated)",
                 training_vectors.size(), dimension_, config_.bits_per_dimension,
                 config_.per_dimension ? "per-dimension" : "per-block");
     

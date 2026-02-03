@@ -1249,6 +1249,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
+    ../src/cache/bounded_lru_cache.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     
@@ -1296,6 +1297,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
+    ../src/utils/thread_pool_manager.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
@@ -1349,9 +1351,11 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/urn.cpp
     ../src/sharding/consistent_hash.cpp
     ../src/sharding/shard_topology.cpp
+    ../src/sharding/metadata_shard.cpp
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp
+    ../src/sharding/mtls_connection_pool.cpp
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
@@ -2546,6 +2550,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE

@@ -31,6 +31,11 @@ LazyModelLoader::~LazyModelLoader() {
         spdlog::info("Unloading model: {}", id);
         
         // Free llama.cpp resources if they exist
+        // Safety: reinterpret_cast is safe here because:
+        // 1. These are opaque C API handles from llama.cpp
+        // 2. Handles were originally cast TO void* when stored (type-erasing pattern)
+        // 3. We're now casting them back to their original types for proper cleanup
+        // 4. llama_free and llama_free_model expect the original pointer types
         if (model->context_handle) {
             llama_free(reinterpret_cast<llama_context*>(model->context_handle));
             model->context_handle = nullptr;
@@ -323,6 +328,7 @@ bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     spdlog::info("Unloading model: {}", model_id);
 
     // Free llama.cpp resources
+    // Safety: reinterpret_cast safe - recovering original types from type-erased C API handles
     if (it->second->context_handle) {
         llama_free(reinterpret_cast<llama_context*>(it->second->context_handle));
         it->second->context_handle = nullptr;
@@ -713,6 +719,9 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->ram_mb = ram_mb;
 
     // Store opaque handles
+    // Safety: reinterpret_cast safe for type-erasure of C API handles
+    // These pointers will be cast back to their original types when needed
+    // Standard pattern for interfacing with C libraries that use opaque handles
     model->model_handle = reinterpret_cast<void*>(lmodel);
     model->context_handle = reinterpret_cast<void*>(lctx);
 
