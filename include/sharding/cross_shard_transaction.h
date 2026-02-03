@@ -7,6 +7,7 @@
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "sharding/transaction_lifecycle_manager.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -379,6 +380,9 @@ private:
     
     // Transaction log file
     std::string transaction_log_path_;
+    
+    // Resource management
+    std::unique_ptr<TransactionLifecycleManager> lifecycle_manager_;
     
     // State
     mutable std::mutex transactions_mutex_;

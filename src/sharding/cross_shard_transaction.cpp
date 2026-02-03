@@ -44,6 +44,19 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
         truetime_ = std::make_shared<themis::sharding::TrueTime>(tt_config);
         spdlog::info("Created TrueTime instance for MVCC timestamp management");
     }
+    
+    // Initialize transaction lifecycle manager with resource limits
+    TransactionLifecycleManager::Config lifecycle_config{
+        .max_pending = 10000,  // From ResourceLimits
+        .ttl = config_.transaction_timeout,
+        .on_timeout = [this](const std::string& txn_id) {
+            spdlog::warn("Transaction {} timed out, aborting", txn_id);
+            abort(txn_id);
+        }
+    };
+    lifecycle_manager_ = std::make_unique<TransactionLifecycleManager>(lifecycle_config);
+    spdlog::info("Transaction lifecycle manager initialized with max_pending={}, ttl={}ms",
+                 lifecycle_config.max_pending, lifecycle_config.ttl.count());
 }
 
 CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
@@ -81,6 +94,27 @@ bool CrossShardTransactionCoordinator::start() {
         );
     }
     
+    // Start periodic cleanup of completed transactions and timeout checking
+    std::thread([this]() {
+        while (running_.load()) {
+            std::this_thread::sleep_for(std::chrono::seconds(60));
+            
+            if (lifecycle_manager_) {
+                // Reap timed-out transactions
+                size_t reaped = lifecycle_manager_->reapTimedOutTransactions();
+                if (reaped > 0) {
+                    spdlog::info("Reaped {} timed-out transactions", reaped);
+                }
+                
+                // Clean up completed transactions
+                size_t cleaned = lifecycle_manager_->cleanupCompletedTransactions();
+                if (cleaned > 0) {
+                    spdlog::debug("Cleaned up {} completed transactions", cleaned);
+                }
+            }
+        }
+    }).detach();
+    
     spdlog::info("Cross-shard transaction coordinator started");
     return true;
 }
@@ -104,6 +138,13 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     TransactionProtocol protocol,
     IsolationLevel isolation_level
 ) {
+    // Check lifecycle manager limits first
+    if (!lifecycle_manager_->registerTransaction(transaction_id)) {
+        spdlog::error("Failed to register transaction {}: limit exceeded or already exists", 
+                     transaction_id);
+        return false;
+    }
+    
     std::lock_guard<std::mutex> lock(transactions_mutex_);
     
     // Check if transaction already exists
@@ -289,12 +330,20 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         txn.end_time = std::chrono::system_clock::now();
         committed_transactions_++;
         persistTransactionState(transaction_id, TransactionState::COMMITTED);
+        
+        // Update lifecycle manager
+        lifecycle_manager_->transitionState(transaction_id, TransactionState::COMMITTED);
+        
         spdlog::info("Transaction {} committed successfully", transaction_id);
     } else {
         txn.state = TransactionState::ABORTED;
         txn.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
         persistTransactionState(transaction_id, TransactionState::ABORTED);
+        
+        // Update lifecycle manager
+        lifecycle_manager_->transitionState(transaction_id, TransactionState::ABORTED);
+        
         spdlog::error("Transaction {} commit failed, aborted", transaction_id);
     }
     lock.unlock();
@@ -335,6 +384,10 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     txn.end_time = std::chrono::system_clock::now();
     aborted_transactions_++;
     persistTransactionState(transaction_id, TransactionState::ABORTED);
+    
+    // Update lifecycle manager
+    lifecycle_manager_->transitionState(transaction_id, TransactionState::ABORTED);
+    
     lock.unlock();
     
     // Replicate abort state via consensus
