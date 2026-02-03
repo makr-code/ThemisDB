@@ -12,6 +12,7 @@
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/replica_topology.h"
 #include "utils/http_client_pool.h"
+#include "utils/thread_pool_manager.h"
 
 namespace themis::sharding {
 
@@ -103,6 +104,13 @@ public:
                   std::shared_ptr<ReplicaTopology> topology,
                   std::shared_ptr<utils::HTTPClientPool> http_pool);
     
+    // Constructor with custom HTTP client pool and ThreadPoolManager
+    HealthMonitor(const HealthMonitorConfig& config,
+                  std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                  std::shared_ptr<ReplicaTopology> topology,
+                  std::shared_ptr<utils::HTTPClientPool> http_pool,
+                  std::shared_ptr<utils::ThreadPoolManager> thread_pool);
+    
     ~HealthMonitor();
     
     /**
@@ -172,10 +180,11 @@ private:
     std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator_;
     std::shared_ptr<ReplicaTopology> topology_;
     std::shared_ptr<utils::HTTPClientPool> http_pool_;
+    std::shared_ptr<utils::ThreadPoolManager> thread_pool_;
     
     mutable std::mutex mutex_;
     std::atomic<bool> running_{false};
-    std::thread monitor_thread_;
+    std::thread monitor_thread_;  // Kept for backward compatibility, but can be removed later
     
     std::map<std::string, HealthCheckResult> health_statuses_;
     std::vector<FailoverEvent> failover_history_;
