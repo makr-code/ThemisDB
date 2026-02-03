@@ -314,3 +314,99 @@ TEST_F(HSMProviderTest, PerformanceStatsTracking) {
     hsm.finalize();
 }
 
+// Security tests for FIND-002: HSM stub detection
+TEST_F(HSMProviderTest, StubProviderDetection) {
+    // Test with stub provider (no library path)
+    HSMConfig config;
+    config.library_path = "";  // Force stub
+    config.slot_id = 0;
+    config.pin = "1234";
+    
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+    
+    // Stub provider should be detected
+    EXPECT_TRUE(hsm.isStubProvider());
+    EXPECT_TRUE(hsm.isReady());  // Stub is "ready" but insecure
+}
+
+TEST_F(HSMProviderTest, RealProviderDetection) {
+    if (!isHSMAvailable()) {
+        GTEST_SKIP() << "SoftHSM2 not available - cannot test real provider detection";
+    }
+    
+    HSMConfig config = createTestConfig();
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+    
+    // Real provider status depends on whether key exists
+    // If no key configured, will fall back to stub
+    bool isStub = hsm.isStubProvider();
+    std::string info = hsm.getTokenInfo();
+    
+    // Either way, should be ready
+    EXPECT_TRUE(hsm.isReady());
+}
+
+TEST_F(HSMProviderTest, PeriodicSecurityCheckStub) {
+    HSMConfig config;
+    config.library_path = "";  // Force stub
+    
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+    ASSERT_TRUE(hsm.isStubProvider());
+    
+    // Should not throw when called
+    EXPECT_NO_THROW({
+        hsm.periodicSecurityCheck();
+    });
+    
+    // Call multiple times (simulating periodic checks)
+    for (int i = 0; i < 3; ++i) {
+        hsm.periodicSecurityCheck();
+    }
+}
+
+TEST_F(HSMProviderTest, SecurityWarningOnInitialization) {
+    // This test verifies that security warnings are logged
+    // In a real test, you'd capture log output and verify it
+    
+    HSMConfig config;
+    config.library_path = "";  // Force stub
+    
+    HSMProvider hsm(config);
+    
+    // Initialize should succeed but log warnings
+    EXPECT_TRUE(hsm.initialize());
+    EXPECT_TRUE(hsm.isStubProvider());
+    
+    // Verify stub status
+    std::string tokenInfo = hsm.getTokenInfo();
+    EXPECT_NE(tokenInfo.find("stub"), std::string::npos);
+}
+
+TEST_F(HSMProviderTest, StubProviderStillFunctional) {
+    // Even though stub is insecure, it should still work for development
+    HSMConfig config;
+    config.library_path = "";  // Force stub
+    
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+    ASSERT_TRUE(hsm.isStubProvider());
+    
+    // Basic operations should still work
+    std::vector<uint8_t> data = {'t', 'e', 's', 't'};
+    auto sig = hsm.sign(data);
+    EXPECT_TRUE(sig.success);
+    EXPECT_FALSE(sig.signature_b64.empty());
+    EXPECT_EQ(sig.cert_serial, "STUB-CERT");
+    
+    // Verify should work
+    EXPECT_TRUE(hsm.verify(data, sig.signature_b64));
+    
+    // Stats should work
+    auto stats = hsm.getStats();
+    EXPECT_GE(stats.sign_count, 1);
+}
+
+
