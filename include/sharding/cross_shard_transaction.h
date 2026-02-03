@@ -138,6 +138,9 @@ struct CrossShardTransactionConfig {
     
     // Transaction timeout
     std::chrono::milliseconds transaction_timeout{30000};
+    
+    // Transaction log path (defaults to /var/lib/themisdb/transaction_log.jsonl)
+    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl";
 };
 
 /**

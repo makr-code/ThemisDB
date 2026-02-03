@@ -24,8 +24,15 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     , committed_transactions_(0)
     , aborted_transactions_(0)
     , deadlocked_transactions_(0)
-    , transaction_log_path_("/tmp/themisdb_transaction_log.jsonl")
+    , transaction_log_path_(config.transaction_log_path)
 {
+    // If log path is not absolute, use a safe default
+    if (transaction_log_path_.empty() || transaction_log_path_[0] != '/') {
+        // Fall back to /tmp for development (should be configured in production)
+        transaction_log_path_ = "/tmp/themisdb_transaction_log.jsonl";
+        spdlog::warn("Transaction log path not configured, using temporary path: {}", 
+                     transaction_log_path_);
+    }
 }
 
 CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
@@ -319,6 +326,13 @@ bool CrossShardTransactionCoordinator::executeSaga(
     const std::vector<nlohmann::json>& steps,
     const std::vector<nlohmann::json>& compensations
 ) {
+    // Validate input early before acquiring locks
+    if (steps.size() != compensations.size()) {
+        spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
+                     transaction_id, steps.size(), compensations.size());
+        return false;
+    }
+    
     std::unique_lock<std::mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
@@ -330,12 +344,6 @@ bool CrossShardTransactionCoordinator::executeSaga(
     auto& txn = it->second;
     if (txn.protocol != TransactionProtocol::SAGA) {
         spdlog::error("Transaction {} is not a SAGA transaction", transaction_id);
-        return false;
-    }
-    
-    if (steps.size() != compensations.size()) {
-        spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
-                     transaction_id, steps.size(), compensations.size());
         return false;
     }
     
@@ -902,6 +910,8 @@ bool CrossShardTransactionCoordinator::sendPrepare(
             }
         }
         
+        // Should not reach here, but return false for safety
+        spdlog::error("Unexpected exit from prepare retry loop");
         return false;
         
     } catch (const std::exception& e) {
@@ -983,6 +993,8 @@ bool CrossShardTransactionCoordinator::sendCommit(
             }
         }
         
+        // Should not reach here, but return false for safety
+        spdlog::error("Unexpected exit from commit retry loop");
         return false;
         
     } catch (const std::exception& e) {
@@ -1056,17 +1068,22 @@ bool CrossShardTransactionCoordinator::sendAbort(
                     spdlog::error("Abort RPC to shard {} failed after {} retries: {}", 
                                 shard_id, rpc_config.max_retries, e.what());
                     // Abort is best-effort, so we consider it successful even after retries fail
+                    // Log this as a warning for monitoring
+                    spdlog::warn("Abort considered successful despite failures (best-effort semantics)");
                     return true;
                 }
             }
         }
         
-        return true;  // Abort is best-effort
+        // Should not reach here in normal flow
+        spdlog::warn("Unexpected exit from abort retry loop - treating as successful (best-effort)");
+        return true;
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to create RPC client for shard {}: {}", 
                      shard_id, e.what());
         // Abort is best-effort, so we consider it successful even on client creation failure
+        spdlog::warn("Abort considered successful despite client creation failure (best-effort semantics)");
         return true;
     }
 }
@@ -1299,6 +1316,14 @@ void CrossShardTransactionCoordinator::executeCompensations(
             themis::sharding::ShardRPCClient rpc_client(rpc_config);
             
             // Execute compensation operation
+            // NOTE: In a full production implementation, this should use a dedicated
+            // compensation RPC call that executes the actual compensation operation
+            // (e.g., DELETE to undo INSERT, UPDATE to revert changes, etc.)
+            // For now, we use abort as a proxy to signal the shard to roll back
+            // the corresponding step. Production systems should implement:
+            // - rpc_client.executeCompensation(compensation_id, operation)
+            // - Shard-side compensation handlers that interpret the operation JSON
+            // - Idempotent compensation execution (in case of retries)
             nlohmann::json operations = nlohmann::json::array();
             operations.push_back(operation);
             
@@ -1307,7 +1332,8 @@ void CrossShardTransactionCoordinator::executeCompensations(
             
             while (retries <= rpc_config.max_retries) {
                 try {
-                    // Execute compensation (using abort as proxy for compensation execution)
+                    // TODO: Replace with proper compensation RPC
+                    // For now using abort as a proxy signal
                     success = rpc_client.abort(transaction_id + "_compensation_" + std::to_string(j));
                     
                     if (success) {
