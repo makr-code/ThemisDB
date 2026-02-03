@@ -182,6 +182,14 @@ public:
         const http::request<http::string_body>& req);
 
 private:
+    /// Extract and validate table name from schema URL
+    /// @param target URL target path
+    /// @param table_name Output parameter for extracted table name
+    /// @return Empty string on success, error message on failure
+    std::string extractAndValidateSchemaTableName(
+        const std::string& target,
+        std::string& table_name) const;
+
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     SchemaManager* schema_mgr_;  // Non-owning pointer

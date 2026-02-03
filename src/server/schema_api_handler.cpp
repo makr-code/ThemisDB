@@ -251,6 +251,35 @@ http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
     }
 }
 
+std::string SchemaApiHandler::extractAndValidateSchemaTableName(
+    const std::string& target,
+    std::string& table_name) const
+{
+    const std::string prefix = "/api/v1/schema/";
+    
+    // Check URL format
+    if (target.find(prefix) != 0 || target == "/api/v1/schema/" || 
+        target == "/api/v1/schema/tables" || target.find("/api/v1/schema/tables/") == 0) {
+        return "Invalid URL format. Use: /api/v1/schema/:tablename";
+    }
+    
+    // Extract table name
+    table_name = target.substr(prefix.length());
+    
+    // Remove query string if present
+    size_t query_pos = table_name.find('?');
+    if (query_pos != std::string::npos) {
+        table_name = table_name.substr(0, query_pos);
+    }
+    
+    // Validate table name is not empty
+    if (table_name.empty()) {
+        return "Table name is required";
+    }
+    
+    return "";  // Success
+}
+
 http::response<http::string_body> SchemaApiHandler::handlePutSchema(
     const http::request<http::string_body>& req
 ) {
@@ -270,33 +299,14 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
             return res;
         }
 
-        // Extract table name from path: /api/v1/schema/:tablename
-        std::string target = std::string(req.target());
-        std::string prefix = "/api/v1/schema/";
+        // Extract and validate table name from URL
+        std::string table_name;
+        std::string url_error = extractAndValidateSchemaTableName(req.target(), table_name);
         
-        if (target.find(prefix) != 0 || target == "/api/v1/schema/" || 
-            target == "/api/v1/schema/tables" || target.find("/api/v1/schema/tables/") == 0) {
+        if (!url_error.empty()) {
             json error_resp;
             error_resp["status"] = "error";
-            error_resp["message"] = "Invalid URL format. Use: PUT /api/v1/schema/:tablename";
-            res.body() = error_resp.dump();
-            res.result(http::status::bad_request);
-            res.prepare_payload();
-            return res;
-        }
-        
-        std::string table_name = target.substr(prefix.length());
-        
-        // Remove query string if present
-        size_t query_pos = table_name.find('?');
-        if (query_pos != std::string::npos) {
-            table_name = table_name.substr(0, query_pos);
-        }
-        
-        if (table_name.empty()) {
-            json error_resp;
-            error_resp["status"] = "error";
-            error_resp["message"] = "Table name is required";
+            error_resp["message"] = url_error;
             res.body() = error_resp.dump();
             res.result(http::status::bad_request);
             res.prepare_payload();
@@ -419,33 +429,14 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
             return res;
         }
 
-        // Extract table name from path: /api/v1/schema/:tablename
-        std::string target = std::string(req.target());
-        std::string prefix = "/api/v1/schema/";
+        // Extract and validate table name from URL
+        std::string table_name;
+        std::string url_error = extractAndValidateSchemaTableName(req.target(), table_name);
         
-        if (target.find(prefix) != 0 || target == "/api/v1/schema/" || 
-            target == "/api/v1/schema/tables" || target.find("/api/v1/schema/tables/") == 0) {
+        if (!url_error.empty()) {
             json error_resp;
             error_resp["status"] = "error";
-            error_resp["message"] = "Invalid URL format. Use: PATCH /api/v1/schema/:tablename";
-            res.body() = error_resp.dump();
-            res.result(http::status::bad_request);
-            res.prepare_payload();
-            return res;
-        }
-        
-        std::string table_name = target.substr(prefix.length());
-        
-        // Remove query string if present
-        size_t query_pos = table_name.find('?');
-        if (query_pos != std::string::npos) {
-            table_name = table_name.substr(0, query_pos);
-        }
-        
-        if (table_name.empty()) {
-            json error_resp;
-            error_resp["status"] = "error";
-            error_resp["message"] = "Table name is required";
+            error_resp["message"] = url_error;
             res.body() = error_resp.dump();
             res.result(http::status::bad_request);
             res.prepare_payload();

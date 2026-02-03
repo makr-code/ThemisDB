@@ -451,7 +451,7 @@ TEST_F(SchemaManagerTest, SetCustomSchema) {
     EXPECT_EQ(table_opt->indexes.size(), 1);
 }
 
-TEST_F(SchemaManagerTest, CustomSchemaPersistence) {
+TEST_F(SchemaManagerTest, CustomSchemaPersistedAcrossInstances) {
     // Create and store custom schema
     {
         SchemaManager schema_mgr(*db_, index_mgr_.get());

@@ -735,7 +735,9 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
             spdlog::warn("SchemaManager: Table '{}' not found for patch", table_name);
             return false;
         }
-        // Copy discovered schema to custom schemas for modification
+        // Promote discovered schema to custom schema for modification
+        // This allows PATCH to work on both auto-discovered and custom schemas.
+        // Once promoted, the custom schema will override discovery in future calls.
         custom_schemas_[std::string(table_name)] = cache_it->second;
         custom_it = custom_schemas_.find(std::string(table_name));
     }
@@ -866,7 +868,7 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
     
     // Validate table name (alphanumeric, underscores, hyphens only)
     for (char c : schema.name) {
-        if (!std::isalnum(c) && c != '_' && c != '-') {
+        if (!std::isalnum(static_cast<unsigned char>(c)) && c != '_' && c != '-') {
             return "Table name contains invalid characters (use alphanumeric, _, -)";
         }
     }
