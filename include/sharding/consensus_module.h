@@ -209,6 +209,12 @@ public:
     virtual uint64_t getCommitIndex() const = 0;
     
     /**
+     * @brief Get the last log index (highest index in the log)
+     * @return The index of the last entry in the log
+     */
+    virtual uint64_t getLastLogIndex() const = 0;
+    
+    /**
      * @brief Add a node to the cluster
      * @param node_id ID of the new node
      * @param endpoint Network endpoint of the new node

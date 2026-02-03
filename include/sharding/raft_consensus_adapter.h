@@ -54,6 +54,7 @@ public:
     ) override;
     
     uint64_t getCommitIndex() const override;
+    uint64_t getLastLogIndex() const override;
     
     bool addNode(
         const std::string& node_id,

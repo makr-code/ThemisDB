@@ -175,6 +175,10 @@ uint64_t PaxosConsensus::getCommitIndex() const {
     return commit_index_;
 }
 
+uint64_t PaxosConsensus::getLastLogIndex() const {
+    return next_slot_ > 0 ? next_slot_ - 1 : 0;
+}
+
 bool PaxosConsensus::addNode(
     const std::string& node_id,
     const std::string& endpoint

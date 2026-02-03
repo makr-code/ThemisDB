@@ -178,6 +178,11 @@ uint64_t GossipConsensusAdapter::getCommitIndex() const {
     return commit_index_.load();
 }
 
+uint64_t GossipConsensusAdapter::getLastLogIndex() const {
+    uint64_t next = next_log_index_.load();
+    return next > 0 ? next - 1 : 0;
+}
+
 bool GossipConsensusAdapter::addNode(
     const std::string& node_id,
     const std::string& endpoint
