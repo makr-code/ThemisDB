@@ -172,6 +172,12 @@ For detailed encryption documentation, please refer to the German documentation:
 - [security_hsm.md](../../de/security/security_hsm.md) - HSM integration
 - [KEY_LIFECYCLE_MANAGEMENT.md](../../de/security/KEY_LIFECYCLE_MANAGEMENT.md) - Key lifecycle management
 
+### 🔐 PKI & Certificate Management
+
+- **[PKI_CUSTOM_OID_CERTIFICATE_VALIDATION.md](PKI_CUSTOM_OID_CERTIFICATE_VALIDATION.md)** - Production-grade PKI certificate validation with custom OID parsing ⭐ **NEW**
+- [pki_lora_encryption.md](pki_lora_encryption.md) - PKI encryption for LoRa networks
+- [KERBEROS_AUTHENTICATION.md](KERBEROS_AUTHENTICATION.md) - Kerberos authentication integration
+
 ### 🛡️ Security Operations
 
 - [security_hardening.md](../../de/security/security_hardening.md) - Hardening guide
