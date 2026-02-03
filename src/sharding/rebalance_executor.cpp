@@ -5,6 +5,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
+#include <thread>
 
 namespace themis {
 namespace sharding {
