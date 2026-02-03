@@ -315,7 +315,7 @@ This Security Awareness Training program addresses **FIND-027 (Limited Security 
 |-------|-------|------------|
 | **January** | Password Security | Password audit, manager rollout |
 | **February** | Phishing Awareness | Phishing simulation, email tips |
-| **March** | Data Privacy** | GDPR awareness, clean desk audit |
+| **March** | Data Privacy | GDPR awareness, clean desk audit |
 | **April** | Physical Security | Badge audit, tailgating drill |
 | **May** | Secure Communication | Email encryption training |
 | **June** | Incident Response | Tabletop exercise |
