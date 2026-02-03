@@ -57,6 +57,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- **PKI Custom OID Certificate Validation**: Production-grade certificate validation for multi-tenant deployments
+  - **Custom OID parsing** from X.509 certificate extensions using private OID namespace (`1.3.6.1.4.1.99999.*`)
+  - **Three validation modes**: STRICT (OID-required), COMPATIBLE (OID-preferred with CN fallback), LEGACY (CN-only)
+  - **OID registry** for shard_id, region, role extraction with cryptographic binding
+  - **Extended Key Usage (EKU)** validation for node authentication
+  - **Multi-identity support** via `ShardIdentity` struct aggregating OID fields and SANs
+  - **CN spoofing prevention** in STRICT mode for enhanced multi-tenant security
+  - **Backward compatible** with existing CN-based certificates (COMPATIBLE mode default)
+  - Proper ASN.1 parsing using OpenSSL's `d2i_ASN1_UTF8STRING`/`d2i_ASN1_PRINTABLESTRING` for multi-byte length encoding
+  - 14 comprehensive unit tests covering OID parsing, validation modes, security scenarios
+  - Migration path: COMPATIBLE → issue OID certificates → enable STRICT mode
+  - Documentation: [PKI Custom OID Certificate Validation](docs/en/security/PKI_CUSTOM_OID_CERTIFICATE_VALIDATION.md)
+  - Addresses critical security gap in distributed sharding PKI subsystem
+  
 - **API Versioning and Compatibility Strategy**: Comprehensive API versioning infrastructure
   - **Accept-Version header** support for REST APIs to specify desired API version
   - **API-Version response header** indicating the API version used to process the request

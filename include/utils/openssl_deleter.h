@@ -22,6 +22,7 @@
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
+#include <openssl/objects.h>
 
 namespace themis {
 namespace utils {
@@ -79,6 +80,13 @@ struct BIGNUMDeleter {
     }
 };
 
+/// Deleter for ASN1_OBJECT
+struct ASN1ObjectDeleter {
+    void operator()(ASN1_OBJECT* obj) const noexcept {
+        if (obj) ASN1_OBJECT_free(obj);
+    }
+};
+
 // ============================================================================
 // RAII Wrappers using unique_ptr
 // ============================================================================
@@ -103,6 +111,9 @@ using RSAPtr = std::unique_ptr<RSA, RSADeleter>;
 
 /// RAII wrapper for BIGNUM
 using BIGNUMPtr = std::unique_ptr<BIGNUM, BIGNUMDeleter>;
+
+/// RAII wrapper for ASN1_OBJECT
+using ASN1ObjectPtr = std::unique_ptr<ASN1_OBJECT, ASN1ObjectDeleter>;
 
 // ============================================================================
 // Helper Functions
