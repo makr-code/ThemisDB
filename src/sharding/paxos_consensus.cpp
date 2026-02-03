@@ -300,12 +300,29 @@ void PaxosConsensus::runProposer() {
         
         if (!running_.load()) break;
         
-        // Process pending proposals
+        // Process pending proposals with retry logic
+        std::vector<uint64_t> failed_slots;
+        
         for (auto it = pending_proposals_.begin(); it != pending_proposals_.end();) {
             auto& [slot, entry] = *it;
             
             lock.unlock();
-            bool success = executePreparePhase(slot, entry);
+            
+            // Retry logic: attempt proposal up to 3 times
+            bool success = false;
+            const int max_retries = 3;
+            
+            for (int retry = 0; retry < max_retries && running_.load(); ++retry) {
+                if (retry > 0) {
+                    spdlog::debug("Node {} retrying proposal for slot {} (attempt {}/{})",
+                                 node_id_, slot, retry + 1, max_retries);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100 * retry));
+                }
+                
+                success = executePreparePhase(slot, entry);
+                if (success) break;
+            }
+            
             lock.lock();
             
             if (success) {
@@ -313,7 +330,14 @@ void PaxosConsensus::runProposer() {
             } else {
                 ++it;
                 failed_proposals_++;
+                failed_slots.push_back(slot);
             }
+        }
+        
+        // Log failed proposals
+        for (uint64_t slot : failed_slots) {
+            spdlog::warn("Node {} failed to get consensus for slot {} after retries",
+                        node_id_, slot);
         }
     }
     
@@ -405,10 +429,22 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     // In multi-node: Send prepare(proposal) to all acceptors
     instance.prepare_promises.insert(node_id_);
     
+    // Simulate timeout for collecting promises
+    auto start_time = std::chrono::steady_clock::now();
+    
     // For now, simulate other nodes accepting
-    // In real implementation: Wait for quorum of promises via RPC
+    // In real implementation: Send RPC with timeout and wait for quorum of promises
     for (const auto& node : cluster_nodes_) {
         if (node != node_id_) {
+            // Check if we've exceeded timeout
+            auto elapsed = std::chrono::steady_clock::now() - start_time;
+            if (elapsed > config_.paxos_prepare_timeout) {
+                spdlog::warn("Node {} prepare phase timed out for slot {} after {}ms",
+                           node_id_, slot,
+                           std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                break;
+            }
+            
             // Simulate promise from other nodes
             // In production: Send RPC and wait for response
             instance.prepare_promises.insert(node);
@@ -417,8 +453,8 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     
     // Check if we have quorum
     if (!hasQuorum(instance.prepare_promises.size())) {
-        spdlog::warn("Node {} failed to get quorum in prepare phase for slot {}",
-                    node_id_, slot);
+        spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
+                    node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
         return false;
     }
     
@@ -440,6 +476,8 @@ bool PaxosConsensus::executeAcceptPhase(
     const ConsensusLogEntry& value
 ) {
     // Phase 2a: Send accept requests to all acceptors
+    auto start_time = std::chrono::steady_clock::now();
+    
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         
@@ -459,13 +497,22 @@ bool PaxosConsensus::executeAcceptPhase(
     }
     
     // In real implementation: Send accept(proposal, value) to all acceptors via RPC
-    // For now, simulate other nodes accepting
+    // For now, simulate other nodes accepting with timeout
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         auto& instance = instances_[slot];
         
         for (const auto& node : cluster_nodes_) {
             if (node != node_id_) {
+                // Check if we've exceeded timeout
+                auto elapsed = std::chrono::steady_clock::now() - start_time;
+                if (elapsed > config_.paxos_accept_timeout) {
+                    spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
+                               node_id_, slot,
+                               std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                    break;
+                }
+                
                 // Simulate acceptance from other nodes
                 // In production: Send RPC and wait for response
                 instance.accept_acks.insert(node);
@@ -474,8 +521,8 @@ bool PaxosConsensus::executeAcceptPhase(
         
         // Phase 2b: Check if we have quorum of accepts
         if (!hasQuorum(instance.accept_acks.size())) {
-            spdlog::warn("Node {} failed to get quorum in accept phase for slot {}",
-                        node_id_, slot);
+            spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
+                        node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
             return false;
         }
         
