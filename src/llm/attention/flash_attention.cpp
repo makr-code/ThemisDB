@@ -133,7 +133,7 @@ FlashAttention::FlashAttention(Backend backend, const FlashAttentionConfig& conf
     
     if (!impl_) {
         throw std::runtime_error("Failed to create backend: " + 
-                                std::string(getBackendName(backend_)));
+                                std::string(::themis::llm::attention::getBackendName(backend_)));
     }
 }
 
