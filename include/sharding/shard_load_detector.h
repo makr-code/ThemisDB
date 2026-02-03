@@ -71,6 +71,10 @@ struct LoadImbalanceResult {
         uint64_t token_range_end;
         double expected_load_reduction_percent;
         std::string justification;
+        
+        // Aliases for compatibility
+        std::string reason() const { return justification; }
+        double estimated_improvement() const { return expected_load_reduction_percent; }
     };
     std::vector<RebalanceRecommendation> recommendations;
     

@@ -11,6 +11,28 @@ namespace themis {
 namespace sharding {
 
 /**
+ * Simplified shard load structure for strategy planning
+ */
+struct ShardLoad {
+    std::string shard_id;
+    double cpu_usage;
+    double memory_usage;
+    uint64_t request_rate;
+    uint64_t storage_bytes;
+    
+    // Convert from ShardLoadMetrics
+    static ShardLoad fromMetrics(const ShardLoadMetrics& metrics) {
+        ShardLoad load;
+        load.shard_id = metrics.shard_id;
+        load.cpu_usage = metrics.cpu_usage_percent / 100.0;  // Normalize to 0-1
+        load.memory_usage = metrics.memory_usage_mb / (16 * 1024.0);  // Normalize assuming 16GB max
+        load.request_rate = metrics.requests_per_sec;
+        load.storage_bytes = metrics.total_bytes;
+        return load;
+    }
+};
+
+/**
  * Impact assessment for a rebalance operation
  */
 struct RebalanceImpact {
