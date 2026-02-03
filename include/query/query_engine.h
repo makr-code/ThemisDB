@@ -362,12 +362,58 @@ public:
         int maxDepth,
         TraversalDirection direction,
         const std::string& graphId = "default"
+    /**
+     * @brief Execute a general graph traversal query
+     * @param startVertex Starting vertex primary key
+     * @param minDepth Minimum traversal depth
+     * @param maxDepth Maximum traversal depth (limits recursion)
+     * @param direction Traversal direction (OUTBOUND, INBOUND, or ANY)
+     * @param graphId Graph identifier (default: "default")
+     * @return Vector of traversal results containing visited vertices and paths
+     * 
+     * Performs breadth-first or depth-first graph traversal starting from the given vertex.
+     * Results include the full path and depth information for each reachable vertex.
+     */
+    Result<std::vector<TraversalResult>> executeGeneralTraversal(
+        const std::string& startVertex,
+        int minDepth,
+        int maxDepth,
+        TraversalDirection direction,
+        const std::string& graphId = "default"
     ) const;
 
-    // Führt alle Gleichheitsprädikate parallel über Sekundärindizes aus und schneidet die PK-Mengen
+    /**
+     * @brief Execute conjunctive (AND) query and return full entities
+     * @param q Conjunctive query with equality predicates
+     * @return Vector of matching BaseEntity objects
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * Executes all equality predicates in parallel using secondary indexes,
+     * then intersects the result sets to find matching primary keys.
+     * Finally loads and returns the full entity data for each match.
+     */
     Result<std::vector<BaseEntity>> executeAndEntities(const ConjunctiveQuery& q) const;
+    
+    /**
+     * @brief Execute conjunctive (AND) query and return only primary keys
+     * @param q Conjunctive query with equality predicates
+     * @return Vector of matching primary keys
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * More efficient than executeAndEntities when only primary keys are needed.
+     * Supports fulltext search, fuzzy search, spatial queries, and traditional predicates.
+     */
     Result<std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
 
+    /**
+     * @brief Variant of executeAndKeys with BM25 scoring support
+     * @param q Conjunctive query with optional fulltext predicates
+     * @return KeysWithScores containing primary keys and optional BM25 relevance scores
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * For fulltext queries, includes BM25 relevance scores in the result.
+     * Useful for ranking search results by relevance.
+     */
     // Variant with BM25 score support for FULLTEXT queries
     struct KeysWithScores {
         std::vector<std::string> keys;
@@ -375,34 +421,105 @@ public:
     };
     Result<KeysWithScores> executeAndKeysWithScores(const ConjunctiveQuery& q) const;
 
+    /**
+     * @brief Execute disjunctive (OR) query and return primary keys
+     * @param q Disjunctive query (union of multiple conjunctive queries)
+     * @return Vector of matching primary keys (deduplicated union)
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * Executes each disjunct (AND block) separately and unions the results.
+     */
     // OR-Queries: Union von mehreren AND-Blöcken
     Result<std::vector<std::string>> executeOrKeys(const DisjunctiveQuery& q) const;
+    
+    /**
+     * @brief Execute disjunctive (OR) query and return full entities
+     * @param q Disjunctive query (union of multiple conjunctive queries)
+     * @return Vector of matching BaseEntity objects (deduplicated)
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     */
     Result<std::vector<BaseEntity>> executeOrEntities(const DisjunctiveQuery& q) const;
+    /**
+     * @brief Execute OR query with fallback to full table scan
+     * @param q Disjunctive query
+     * @param optimize Enable query optimization (default: true)
+     * @return Vector of matching primary keys
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * Falls back to full table scan if no suitable indexes are available.
+     */
     // Varianten mit Fallback (nutzen Full-Scan, wenn kein Index vorhanden ist)
     Result<std::vector<std::string>> executeOrKeysWithFallback(
         const DisjunctiveQuery& q,
         bool optimize = true
     ) const;
+    
+    /**
+     * @brief Execute OR query with fallback, returning full entities
+     * @param q Disjunctive query
+     * @param optimize Enable query optimization (default: true)
+     * @return Vector of matching BaseEntity objects
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     */
     Result<std::vector<BaseEntity>> executeOrEntitiesWithFallback(
         const DisjunctiveQuery& q,
         bool optimize = true
     ) const;
 
+    /**
+     * @brief Execute predicates sequentially in specified order
+     * @param table Table name
+     * @param orderedPredicates Equality predicates in execution order (from optimizer)
+     * @return Vector of matching primary keys
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * Used by the query optimizer to execute predicates in optimal order
+     * (e.g., most selective predicates first).
+     */
     // Sequenzielles Ausführen in vorgegebener Reihenfolge (z. B. vom Optimizer)
     Result<std::vector<std::string>> executeAndKeysSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
+    
+    /**
+     * @brief Execute predicates sequentially, returning full entities
+     * @param table Table name
+     * @param orderedPredicates Equality predicates in execution order
+     * @return Vector of matching BaseEntity objects
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     */
     Result<std::vector<BaseEntity>> executeAndEntitiesSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
     ) const;
 
+    /**
+     * @brief Execute AND query with fallback to full table scan
+     * @param q Conjunctive query
+     * @param optimize Enable query optimization (default: true)
+     * @return Vector of matching primary keys
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     * More flexible than executeAndKeys - falls back to full scan if indexes unavailable.
+     */
     // Varianten mit Fallback (nutzen Full-Scan, wenn kein Index vorhanden ist)
     Result<std::vector<std::string>> executeAndKeysWithFallback(
         const ConjunctiveQuery& q,
         bool optimize = true
     ) const;
+    
+    /**
+     * @brief Execute AND query with fallback, returning full entities
+     * @param q Conjunctive query
+     * @param optimize Enable query optimization (default: true)
+     * @return Vector of matching BaseEntity objects
+     * 
+     * FIND-016: Added Doxygen documentation for public API
+     */
     Result<std::vector<BaseEntity>> executeAndEntitiesWithFallback(
         const ConjunctiveQuery& q,
         bool optimize = true
