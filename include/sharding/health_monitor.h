@@ -184,7 +184,8 @@ private:
     
     mutable std::mutex mutex_;
     std::atomic<bool> running_{false};
-    std::thread monitor_thread_;  // Kept for backward compatibility, but can be removed later
+    // TODO(v2.0): Remove monitor_thread_ once all clients migrate to ThreadPoolManager
+    std::thread monitor_thread_;  // Kept for backward compatibility
     
     std::map<std::string, HealthCheckResult> health_statuses_;
     std::vector<FailoverEvent> failover_history_;

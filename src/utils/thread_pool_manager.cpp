@@ -39,8 +39,8 @@ void ThreadPool::workerLoop() {
                 continue;
             }
             
-            // Get highest priority task
-            // In production: use priority queue
+            // Get next task (FIFO for now)
+            // TODO: Implement priority queue for proper priority-based scheduling
             task = task_queue_.front();
             task_queue_.pop();
         }
@@ -112,10 +112,8 @@ ThreadPool::Statistics ThreadPool::getStatistics() const {
     stats.total_executed = total_executed_.load();
     stats.total_failed = total_failed_.load();
     
-    if (stats.total_executed > 0) {
-        // In production: track execution times properly
-        stats.average_task_latency_ms = 0.0;
-    }
+    // TODO: Implement proper task latency tracking by storing execution times
+    stats.average_task_latency_ms = 0.0;
     
     return stats;
 }
