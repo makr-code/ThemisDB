@@ -330,6 +330,15 @@ private:
         std::set<std::string>& rec_stack
     );
     
+    /**
+     * @brief Execute compensations for SAGA transaction
+     */
+    void executeCompensations(
+        const std::string& transaction_id,
+        const std::vector<nlohmann::json>& executed_steps,
+        const std::vector<nlohmann::json>& compensations
+    );
+    
     CrossShardTransactionConfig config_;
     std::shared_ptr<ConsensusModule> consensus_;
     
