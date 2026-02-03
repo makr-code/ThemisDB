@@ -300,12 +300,30 @@ void PaxosConsensus::runProposer() {
         
         if (!running_.load()) break;
         
-        // Process pending proposals
+        // Process pending proposals with retry logic
+        std::vector<uint64_t> failed_slots;
+        
         for (auto it = pending_proposals_.begin(); it != pending_proposals_.end();) {
             auto& [slot, entry] = *it;
             
             lock.unlock();
-            bool success = executePreparePhase(slot, entry);
+            
+            // Retry logic: attempt proposal up to 3 times
+            bool success = false;
+            const int max_retries = 3;
+            
+            for (int retry = 0; retry < max_retries && running_.load(); ++retry) {
+                if (retry > 0) {
+                    spdlog::debug("Node {} retrying proposal for slot {} (attempt {}/{})",
+                                 node_id_, slot, retry + 1, max_retries);
+                    // Exponential backoff: 100ms, 200ms, 400ms
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << retry)));
+                }
+                
+                success = executePreparePhase(slot, entry);
+                if (success) break;
+            }
+            
             lock.lock();
             
             if (success) {
@@ -313,7 +331,14 @@ void PaxosConsensus::runProposer() {
             } else {
                 ++it;
                 failed_proposals_++;
+                failed_slots.push_back(slot);
             }
+        }
+        
+        // Log failed proposals
+        for (uint64_t slot : failed_slots) {
+            spdlog::warn("Node {} failed to get consensus for slot {} after retries",
+                        node_id_, slot);
         }
     }
     
@@ -336,7 +361,20 @@ void PaxosConsensus::runLearner() {
     
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        // Learner logic would track accepted values
+        
+        // Learner tracks accepted values and determines when consensus is reached
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        
+        // Check for newly committed instances
+        for (auto& [slot, instance] : instances_) {
+            if (instance.is_committed && committed_log_.find(slot) == committed_log_.end()) {
+                // This instance just reached consensus
+                spdlog::debug("Learner detected committed value at slot {}", slot);
+                
+                // Update committed log (done via broadcastCommit)
+                // Learner's job is to track and apply committed values
+            }
+        }
     }
     
     spdlog::debug("Paxos learner thread stopped");
@@ -373,15 +411,63 @@ void PaxosConsensus::leaderElectionThread() {
 }
 
 bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry& value) {
-    // Simplified prepare phase
+    // Phase 1a: Generate unique proposal number and send prepare requests
     auto proposal = generateProposalNumber();
     
-    // In a real implementation, this would send prepare requests to all nodes
-    // and wait for a quorum of promises
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // Get or create instance for this slot
+    auto& instance = instances_[slot];
+    instance.slot = slot;
+    instance.prepare_promises.clear();
+    
+    spdlog::debug("Node {} executing prepare phase for slot {} with proposal {}/{}",
+                 node_id_, slot, proposal.round, proposal.node_id);
     
     total_prepares_++;
     
-    // Execute accept phase
+    // In a single-node simulation, we always promise to ourselves
+    // In multi-node: Send prepare(proposal) to all acceptors
+    instance.prepare_promises.insert(node_id_);
+    
+    // Simulate timeout for collecting promises
+    auto start_time = std::chrono::steady_clock::now();
+    
+    // For now, simulate other nodes accepting
+    // In real implementation: Send RPC with timeout and wait for quorum of promises
+    for (const auto& node : cluster_nodes_) {
+        if (node != node_id_) {
+            // Check if we've exceeded timeout
+            auto elapsed = std::chrono::steady_clock::now() - start_time;
+            if (elapsed > config_.paxos_prepare_timeout) {
+                spdlog::warn("Node {} prepare phase timed out for slot {} after {}ms",
+                           node_id_, slot,
+                           std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                break;
+            }
+            
+            // Simulate promise from other nodes
+            // In production: Send RPC and wait for response
+            instance.prepare_promises.insert(node);
+        }
+    }
+    
+    // Check if we have quorum
+    if (!hasQuorum(instance.prepare_promises.size())) {
+        spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
+                    node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
+        return false;
+    }
+    
+    spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
+                 node_id_, instance.prepare_promises.size(), 
+                 cluster_nodes_.size(), slot);
+    
+    // Phase 1b complete: We have quorum of promises
+    // If any acceptor returned a previously accepted value, use the one with highest ballot
+    // For now, we use our proposed value since we're simulating
+    
+    // Move to accept phase
     return executeAcceptPhase(slot, proposal, value);
 }
 
@@ -390,13 +476,68 @@ bool PaxosConsensus::executeAcceptPhase(
     const ProposalNumber& proposal,
     const ConsensusLogEntry& value
 ) {
-    // Simplified accept phase
-    // In a real implementation, this would send accept requests to all nodes
-    // and wait for a quorum of acceptances
+    // Phase 2a: Send accept requests to all acceptors
+    auto start_time = std::chrono::steady_clock::now();
+    
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        
+        auto& instance = instances_[slot];
+        instance.accept_acks.clear();
+        
+        spdlog::debug("Node {} executing accept phase for slot {} with proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
+    }
     
     total_accepts_++;
     
-    // Mark as committed
+    // Accept on self (we're also an acceptor)
+    if (handleAccept(slot, proposal, value)) {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        instances_[slot].accept_acks.insert(node_id_);
+    }
+    
+    // In real implementation: Send accept(proposal, value) to all acceptors via RPC
+    // For now, simulate other nodes accepting with timeout
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        auto& instance = instances_[slot];
+        
+        for (const auto& node : cluster_nodes_) {
+            if (node != node_id_) {
+                // Check if we've exceeded timeout
+                auto elapsed = std::chrono::steady_clock::now() - start_time;
+                if (elapsed > config_.paxos_accept_timeout) {
+                    spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
+                               node_id_, slot,
+                               std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                    break;
+                }
+                
+                // Simulate acceptance from other nodes
+                // In production: Send RPC and wait for response
+                instance.accept_acks.insert(node);
+            }
+        }
+        
+        // Phase 2b: Check if we have quorum of accepts
+        if (!hasQuorum(instance.accept_acks.size())) {
+            spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
+                        node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
+            return false;
+        }
+        
+        spdlog::debug("Node {} got quorum ({}/{}) in accept phase for slot {}",
+                     node_id_, instance.accept_acks.size(),
+                     cluster_nodes_.size(), slot);
+        
+        // Quorum reached - value is chosen
+        instance.is_committed = true;
+        instance.accepted_value = value;
+        instance.accepted_proposal = proposal;
+    }
+    
+    // Broadcast commit to all learners
     broadcastCommit(slot, value);
     
     return true;
@@ -434,7 +575,9 @@ bool PaxosConsensus::hasQuorum(size_t count) const {
 }
 
 ProposalNumber PaxosConsensus::generateProposalNumber() {
-    return ProposalNumber{current_round_++, node_id_};
+    // Increment round and generate unique proposal number
+    uint64_t round = ++current_round_;
+    return ProposalNumber{round, node_id_};
 }
 
 bool PaxosConsensus::loadPersistentState() {
@@ -454,8 +597,28 @@ bool PaxosConsensus::savePersistentState() {
 }
 
 bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {
-    // Simplified prepare handler
-    return true;
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // Get or create instance for this slot
+    auto& instance = instances_[slot];
+    
+    // Phase 1b: Promise not to accept proposals with lower ballot
+    if (proposal > instance.promised_proposal) {
+        // Update promised proposal
+        instance.promised_proposal = proposal;
+        
+        spdlog::debug("Node {} promised slot {} to proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
+        
+        // Return true (promise granted)
+        // In a real implementation, we would also return the previously accepted value
+        return true;
+    }
+    
+    // Reject if we've already promised to a higher proposal
+    spdlog::debug("Node {} rejected prepare for slot {} - already promised to higher proposal",
+                 node_id_, slot);
+    return false;
 }
 
 bool PaxosConsensus::handleAccept(
@@ -463,8 +626,27 @@ bool PaxosConsensus::handleAccept(
     const ProposalNumber& proposal,
     const ConsensusLogEntry& value
 ) {
-    // Simplified accept handler
-    return true;
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // Get or create instance for this slot
+    auto& instance = instances_[slot];
+    
+    // Phase 2b: Accept proposal if it's >= our promised proposal
+    if (proposal >= instance.promised_proposal) {
+        // Accept the proposal
+        instance.accepted_proposal = proposal;
+        instance.accepted_value = value;
+        
+        spdlog::debug("Node {} accepted slot {} with proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
+        
+        return true;
+    }
+    
+    // Reject if proposal number is lower than promised
+    spdlog::debug("Node {} rejected accept for slot {} - proposal too low",
+                 node_id_, slot);
+    return false;
 }
 
 void PaxosConsensus::handleCommit(uint64_t slot, const ConsensusLogEntry& value) {
