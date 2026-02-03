@@ -357,6 +357,13 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/shard_durability.cpp
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
+    
+    # Resource management
+    ../src/sharding/connection_pool.cpp
+    ../src/sharding/thread_pool_manager.cpp
+    ../src/sharding/transaction_lifecycle_manager.cpp
+    ../src/sharding/wal_retention_manager.cpp
+    ../src/sharding/resource_monitor.cpp
 )
 
 set(THEMIS_LLM_SOURCES
