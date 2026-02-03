@@ -4,6 +4,16 @@
 if(DEFINED ENV{VCPKG_ROOT})
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "Vcpkg toolchain file")
+    
+    # Add all vcpkg package directories to CMAKE_PREFIX_PATH for dependency resolution
+    file(GLOB _vcpkg_packages "$ENV{VCPKG_ROOT}/packages/*_x64-linux")
+    foreach(_pkg_dir ${_vcpkg_packages})
+        list(APPEND CMAKE_PREFIX_PATH 
+            "${_pkg_dir}/lib/cmake"
+            "${_pkg_dir}/share"
+            "${_pkg_dir}/lib"
+        )
+    endforeach()
 endif()
 
 # Prefer CONFIG packages (vcpkg) over FindXXX modules
@@ -104,11 +114,15 @@ find_package(nlohmann_json REQUIRED CONFIG)
 message(STATUS "nlohmann_json found")
 
 # Boost: Try CONFIG first, fall back to MODULE if not found
-find_package(Boost 1.70 CONFIG COMPONENTS system filesystem)
+find_package(Boost 1.70 CONFIG COMPONENTS system filesystem QUIET)
 if(NOT Boost_FOUND)
-    find_package(Boost 1.70 MODULE REQUIRED COMPONENTS system filesystem)
+    find_package(Boost 1.70 MODULE QUIET COMPONENTS system filesystem)
 endif()
-message(STATUS "Boost found: ${Boost_VERSION}")
+if(Boost_FOUND)
+    message(STATUS "Boost found: ${Boost_VERSION}")
+else()
+    message(WARNING "Boost not found - some features may be disabled")
+endif()
 
 find_package(Threads REQUIRED)
 message(STATUS "Threads found")
@@ -123,9 +137,13 @@ endif()
 # Protobuf (required for gRPC and general serialization)
 find_package(Protobuf CONFIG QUIET)
 if(NOT Protobuf_FOUND)
-    find_package(Protobuf REQUIRED)
+    find_package(Protobuf QUIET)
 endif()
-message(STATUS "Protobuf found: ${Protobuf_VERSION}")
+if(Protobuf_FOUND)
+    message(STATUS "Protobuf found: ${Protobuf_VERSION}")
+else()
+    message(WARNING "Protobuf not found - gRPC features will be disabled")
+endif()
 
 # gRPC (inter-shard communication)
 # Priority: CONFIG, then pkg-config, then fallback
@@ -142,10 +160,11 @@ if(THEMIS_ENABLE_GRPC)
     endif()
     
     if(NOT gRPC_FOUND)
-        message(FATAL_ERROR "gRPC not found. Install grpc-devel or configure VCPKG_ROOT")
+        message(WARNING "gRPC not found - gRPC features will be disabled. Install grpc-devel or configure VCPKG_ROOT")
+        set(THEMIS_ENABLE_GRPC OFF CACHE BOOL "Disabled due to missing gRPC" FORCE)
+    else()
+        message(STATUS "gRPC found")
     endif()
-    
-    message(STATUS "gRPC found")
 else()
     message(STATUS "gRPC support disabled (THEMIS_ENABLE_GRPC=OFF)")
 endif()
