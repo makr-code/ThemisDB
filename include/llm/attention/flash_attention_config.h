@@ -20,7 +20,14 @@ struct FlashAttentionConfig {
     int seq_len = 2048;
     int num_heads = 32;
     int head_dim = 128;
-    int num_kv_heads = 8;  // For Grouped Query Attention (GQA)
+    
+    // Grouped Query Attention (GQA) support
+    // num_kv_heads should divide num_heads evenly
+    // - Standard MHA: num_kv_heads = num_heads (e.g., 32 = 32)
+    // - GQA: num_kv_heads < num_heads (e.g., 8 < 32, ratio 4:1)
+    // - MQA: num_kv_heads = 1 (single KV head for all query heads)
+    // Llama 2/3 uses GQA with ratio 4:1 (32 query heads, 8 KV heads)
+    int num_kv_heads = 8;
     
     // Attention parameters
     float dropout_p = 0.0f;

@@ -25,6 +25,7 @@ namespace cuda {
 constexpr int BLOCK_SIZE = 256;
 constexpr int TILE_SIZE = 64;
 constexpr int WARP_SIZE = 32;
+constexpr int MAX_HEAD_DIM = 128;  // Maximum supported head dimension
 
 /**
  * @brief Flash Attention v2 forward kernel (SM86+)
@@ -54,6 +55,9 @@ __global__ void flash_attention_fwd_kernel_fp32(
     
     if (q_idx >= seq_len) return;
     
+    // Ensure head_dim doesn't exceed max supported size
+    if (head_dim > MAX_HEAD_DIM) return;
+    
     // Base offsets
     int qkv_offset = (batch * num_heads + head) * seq_len * head_dim;
     const float* Q_head = Q + qkv_offset;
@@ -62,13 +66,13 @@ __global__ void flash_attention_fwd_kernel_fp32(
     float* O_head = O + qkv_offset;
     
     // Load query vector for this thread
-    float q_vec[128];  // Max head_dim
-    for (int d = 0; d < head_dim && d < 128; ++d) {
+    float q_vec[MAX_HEAD_DIM];
+    for (int d = 0; d < head_dim; ++d) {
         q_vec[d] = Q_head[q_idx * head_dim + d];
     }
     
     // Accumulator for output
-    float out_vec[128] = {0.0f};
+    float out_vec[MAX_HEAD_DIM] = {0.0f};
     float max_score = -1e10f;
     float sum_exp = 0.0f;
     
@@ -81,7 +85,7 @@ __global__ void flash_attention_fwd_kernel_fp32(
         
         // Compute Q * K^T
         float score = 0.0f;
-        for (int d = 0; d < head_dim && d < 128; ++d) {
+        for (int d = 0; d < head_dim; ++d) {
             float k_val = K_head[k_idx * head_dim + d];
             score += q_vec[d] * k_val;
         }
@@ -96,14 +100,14 @@ __global__ void flash_attention_fwd_kernel_fp32(
         
         // Update output with correction
         float attn_weight = exp_score;
-        for (int d = 0; d < head_dim && d < 128; ++d) {
+        for (int d = 0; d < head_dim; ++d) {
             out_vec[d] = out_vec[d] * correction + attn_weight * V_head[k_idx * head_dim + d];
         }
     }
     
     // Normalize and write output
     float norm = 1.0f / (sum_exp + 1e-10f);
-    for (int d = 0; d < head_dim && d < 128; ++d) {
+    for (int d = 0; d < head_dim; ++d) {
         O_head[q_idx * head_dim + d] = out_vec[d] * norm;
     }
 }
@@ -132,6 +136,9 @@ __global__ void flash_attention_fwd_kernel_fp16(
     
     if (q_idx >= seq_len) return;
     
+    // Ensure head_dim doesn't exceed max supported size
+    if (head_dim > MAX_HEAD_DIM) return;
+    
     int qkv_offset = (batch * num_heads + head) * seq_len * head_dim;
     const __half* Q_head = Q + qkv_offset;
     const __half* K_head = K + qkv_offset;
@@ -139,7 +146,7 @@ __global__ void flash_attention_fwd_kernel_fp16(
     __half* O_head = O + qkv_offset;
     
     // Accumulate in FP32 for numerical stability
-    float out_vec[128] = {0.0f};
+    float out_vec[MAX_HEAD_DIM] = {0.0f};
     float max_score = -1e10f;
     float sum_exp = 0.0f;
     
@@ -149,7 +156,7 @@ __global__ void flash_attention_fwd_kernel_fp16(
         }
         
         float score = 0.0f;
-        for (int d = 0; d < head_dim && d < 128; ++d) {
+        for (int d = 0; d < head_dim; ++d) {
             float q_val = __half2float(Q_head[q_idx * head_dim + d]);
             float k_val = __half2float(K_head[k_idx * head_dim + d]);
             score += q_val * k_val;
@@ -163,14 +170,14 @@ __global__ void flash_attention_fwd_kernel_fp16(
         sum_exp = sum_exp * correction + exp_score;
         
         float attn_weight = exp_score;
-        for (int d = 0; d < head_dim && d < 128; ++d) {
+        for (int d = 0; d < head_dim; ++d) {
             float v_val = __half2float(V_head[k_idx * head_dim + d]);
             out_vec[d] = out_vec[d] * correction + attn_weight * v_val;
         }
     }
     
     float norm = 1.0f / (sum_exp + 1e-10f);
-    for (int d = 0; d < head_dim && d < 128; ++d) {
+    for (int d = 0; d < head_dim; ++d) {
         O_head[q_idx * head_dim + d] = __float2half(out_vec[d] * norm);
     }
 }

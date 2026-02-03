@@ -235,23 +235,34 @@ AttentionMemoryStats FlashAttention::getMemoryStats() const {
     return AttentionMemoryStats{};
 }
 
+// Expected speedup constants based on hardware benchmarks
+namespace {
+    constexpr double SPEEDUP_CUDA_SM90 = 30.0;  // H100: 30x vs standard attention
+    constexpr double SPEEDUP_CUDA_SM86 = 5.0;   // RTX 4090/A100: 5x
+    constexpr double SPEEDUP_CUDA_SM80 = 4.0;   // A100 (early): 4x
+    constexpr double SPEEDUP_VULKAN = 3.75;     // Vulkan: 3.75x
+    constexpr double SPEEDUP_HIP_MI300 = 8.0;   // MI300: 8x
+    constexpr double SPEEDUP_HIP_RDNA = 4.0;    // RDNA: 4x
+    constexpr double SPEEDUP_CPU = 1.0;         // CPU: no speedup
+}
+
 double FlashAttention::getExpectedSpeedup() const {
     // Expected speedup based on backend and hardware
     switch (backend_) {
         case Backend::CUDA_SM90:
-            return 30.0;  // H100: 30x vs standard attention
+            return SPEEDUP_CUDA_SM90;
         case Backend::CUDA_SM86:
-            return 5.0;   // RTX 4090/A100: 5x
+            return SPEEDUP_CUDA_SM86;
         case Backend::CUDA_SM80:
-            return 4.0;   // A100 (early): 4x
+            return SPEEDUP_CUDA_SM80;
         case Backend::VULKAN:
-            return 3.75;  // Vulkan: 3.75x
+            return SPEEDUP_VULKAN;
         case Backend::HIP_MI300:
-            return 8.0;   // MI300: 8x
+            return SPEEDUP_HIP_MI300;
         case Backend::HIP_RDNA:
-            return 4.0;   // RDNA: 4x
+            return SPEEDUP_HIP_RDNA;
         case Backend::CPU:
-            return 1.0;   // CPU: no speedup
+            return SPEEDUP_CPU;
         default:
             return 1.0;
     }

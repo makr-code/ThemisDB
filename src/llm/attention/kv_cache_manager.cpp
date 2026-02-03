@@ -233,7 +233,10 @@ void KVCacheManager::freeBlock(int block_id) {
 
 size_t KVCacheManager::calculateBlockSize() const {
     // block_size * num_layers * num_kv_heads * head_dim * 2 (K and V)
-    return config_.kv_block_size * config_.head_dim * config_.num_kv_heads * 2;
+    // Note: Assuming num_layers from a typical transformer (e.g., 32 layers)
+    // In production, this should be passed via config
+    size_t num_layers = 32;  // TODO: Add to config
+    return config_.kv_block_size * num_layers * config_.head_dim * config_.num_kv_heads * 2;
 }
 
 } // namespace attention
