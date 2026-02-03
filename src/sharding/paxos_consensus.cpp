@@ -316,7 +316,8 @@ void PaxosConsensus::runProposer() {
                 if (retry > 0) {
                     spdlog::debug("Node {} retrying proposal for slot {} (attempt {}/{})",
                                  node_id_, slot, retry + 1, max_retries);
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100 * retry));
+                    // Exponential backoff: 100ms, 200ms, 400ms
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << retry)));
                 }
                 
                 success = executePreparePhase(slot, entry);
@@ -631,7 +632,7 @@ bool PaxosConsensus::handleAccept(
     auto& instance = instances_[slot];
     
     // Phase 2b: Accept proposal if it's >= our promised proposal
-    if (proposal.round >= instance.promised_proposal.round) {
+    if (proposal >= instance.promised_proposal) {
         // Accept the proposal
         instance.accepted_proposal = proposal;
         instance.accepted_value = value;
