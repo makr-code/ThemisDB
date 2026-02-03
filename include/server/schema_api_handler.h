@@ -137,6 +137,50 @@ public:
     http::response<http::string_body> handleGetCapabilities(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Create or update table schema
+     * PUT /api/v1/schema/:tablename
+     * 
+     * Stores custom schema definition for a table.
+     * Validates schema structure and persists to database.
+     * 
+     * Request: JSON schema definition
+     * {
+     *   "name": "users",
+     *   "type": "relational",
+     *   "properties": [
+     *     {"name": "id", "type": "integer", "indexed": true},
+     *     {"name": "name", "type": "string", "nullable": true}
+     *   ],
+     *   "indexes": [
+     *     {"name": "id", "type": "regular", "unique": true, "columns": ["id"]}
+     *   ]
+     * }
+     * 
+     * Response: Success or validation error
+     */
+    http::response<http::string_body> handlePutSchema(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief Partially update table schema
+     * PATCH /api/v1/schema/:tablename
+     * 
+     * Updates specific fields of existing schema without replacing entire schema.
+     * Only provided fields are updated, others remain unchanged.
+     * 
+     * Request: Partial JSON schema
+     * {
+     *   "properties": [
+     *     {"name": "email", "type": "string", "indexed": true}
+     *   ]
+     * }
+     * 
+     * Response: Success or validation error
+     */
+    http::response<http::string_body> handlePatchSchema(
+        const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;

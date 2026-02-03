@@ -251,5 +251,267 @@ http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
     }
 }
 
+http::response<http::string_body> SchemaApiHandler::handlePutSchema(
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+
+    try {
+        if (!schema_mgr_) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Schema manager not available";
+            res.body() = error_resp.dump();
+            res.result(http::status::service_unavailable);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Extract table name from path: /api/v1/schema/:tablename
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/v1/schema/";
+        
+        if (target.find(prefix) != 0 || target == "/api/v1/schema/" || 
+            target == "/api/v1/schema/tables" || target.find("/api/v1/schema/tables/") == 0) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Invalid URL format. Use: PUT /api/v1/schema/:tablename";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+        
+        std::string table_name = target.substr(prefix.length());
+        
+        // Remove query string if present
+        size_t query_pos = table_name.find('?');
+        if (query_pos != std::string::npos) {
+            table_name = table_name.substr(0, query_pos);
+        }
+        
+        if (table_name.empty()) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Table name is required";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Parse request body
+        if (req.body().empty()) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Request body is required";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        json schema_json;
+        try {
+            schema_json = json::parse(req.body());
+        } catch (const json::exception& e) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = std::string("Invalid JSON: ") + e.what();
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Ensure name matches URL
+        if (schema_json.contains("name") && schema_json["name"].is_string()) {
+            std::string schema_name = schema_json["name"].get<std::string>();
+            if (schema_name != table_name) {
+                json error_resp;
+                error_resp["status"] = "error";
+                error_resp["message"] = "Schema name in body must match table name in URL";
+                res.body() = error_resp.dump();
+                res.result(http::status::bad_request);
+                res.prepare_payload();
+                return res;
+            }
+        } else {
+            // Add name if not present
+            schema_json["name"] = table_name;
+        }
+
+        // Parse schema
+        SchemaManager::TableSchema schema;
+        try {
+            schema = SchemaManager::parseTableSchema(schema_json);
+        } catch (const std::exception& e) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = std::string("Failed to parse schema: ") + e.what();
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Store schema
+        bool success = schema_mgr_->setTableSchema(table_name, schema);
+        
+        if (!success) {
+            // Get validation error
+            std::string validation_error = schema_mgr_->validateSchema(schema);
+            
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = validation_error.empty() ? 
+                "Failed to store schema" : validation_error;
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        json response;
+        response["status"] = "success";
+        response["message"] = "Schema stored successfully";
+        response["table_name"] = table_name;
+        
+        res.body() = response.dump(2);
+        res.result(http::status::created);
+        res.prepare_payload();
+        
+        spdlog::info("Schema API: Stored schema for table '{}'", table_name);
+        return res;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Schema API error (put schema): {}", e.what());
+        
+        json error_resp;
+        error_resp["status"] = "error";
+        error_resp["message"] = std::string("Internal error: ") + e.what();
+        res.body() = error_resp.dump();
+        res.result(http::status::internal_server_error);
+        res.prepare_payload();
+        return res;
+    }
+}
+
+http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+
+    try {
+        if (!schema_mgr_) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Schema manager not available";
+            res.body() = error_resp.dump();
+            res.result(http::status::service_unavailable);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Extract table name from path: /api/v1/schema/:tablename
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/v1/schema/";
+        
+        if (target.find(prefix) != 0 || target == "/api/v1/schema/" || 
+            target == "/api/v1/schema/tables" || target.find("/api/v1/schema/tables/") == 0) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Invalid URL format. Use: PATCH /api/v1/schema/:tablename";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+        
+        std::string table_name = target.substr(prefix.length());
+        
+        // Remove query string if present
+        size_t query_pos = table_name.find('?');
+        if (query_pos != std::string::npos) {
+            table_name = table_name.substr(0, query_pos);
+        }
+        
+        if (table_name.empty()) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Table name is required";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Parse request body
+        if (req.body().empty()) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Request body is required";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        json updates;
+        try {
+            updates = json::parse(req.body());
+        } catch (const json::exception& e) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = std::string("Invalid JSON: ") + e.what();
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        // Apply patch
+        bool success = schema_mgr_->patchTableSchema(table_name, updates);
+        
+        if (!success) {
+            json error_resp;
+            error_resp["status"] = "error";
+            error_resp["message"] = "Failed to patch schema. Table may not exist or updates are invalid.";
+            res.body() = error_resp.dump();
+            res.result(http::status::bad_request);
+            res.prepare_payload();
+            return res;
+        }
+
+        json response;
+        response["status"] = "success";
+        response["message"] = "Schema updated successfully";
+        response["table_name"] = table_name;
+        
+        res.body() = response.dump(2);
+        res.prepare_payload();
+        
+        spdlog::info("Schema API: Patched schema for table '{}'", table_name);
+        return res;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Schema API error (patch schema): {}", e.what());
+        
+        json error_resp;
+        error_resp["status"] = "error";
+        error_resp["message"] = std::string("Internal error: ") + e.what();
+        res.body() = error_resp.dump();
+        res.result(http::status::internal_server_error);
+        res.prepare_payload();
+        return res;
+    }
+}
+
 } // namespace server
 } // namespace themis
