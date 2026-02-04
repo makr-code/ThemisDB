@@ -459,6 +459,8 @@ private:
     http::response<http::string_body> handleSchemaGetFull(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaGetTables(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaGetTable(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaPut(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaPatch(const http::request<http::string_body>& req);
 
     // Utility methods
     http::response<http::string_body> makeResponse(

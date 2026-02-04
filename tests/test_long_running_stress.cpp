@@ -73,6 +73,11 @@ TEST(LongRunningStressTest, MemoryPressureHandling) {
 
 /**
  * @brief Test system behavior under sustained write load
+ * 
+ * FIND-019 Note: This test is timing-sensitive. If it becomes flaky:
+ * - Use relative performance comparison instead of absolute thresholds
+ * - Calculate baseline performance and use percentage-based assertions
+ * - Use statistical analysis (p95, p99 latencies) over multiple runs
  */
 TEST(LongRunningStressTest, SustainedWriteLoad) {
     constexpr int DURATION_MS = 500;

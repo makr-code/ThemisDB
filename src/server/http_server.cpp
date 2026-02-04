@@ -1497,6 +1497,8 @@ namespace {
     SchemaGetFull,            // GET /api/v1/schema
     SchemaGetTables,          // GET /api/v1/schema/tables
     SchemaGetTable,           // GET /api/v1/schema/tables/:name
+    SchemaPut,                // PUT /api/v1/schema/:tablename
+    SchemaPatch,              // PATCH /api/v1/schema/:tablename
        
     // Error API
     ErrorApiListGet,          // GET /api/v1/errors
@@ -1729,6 +1731,11 @@ namespace {
     if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
     if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
     if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
+    if (path_only.rfind("/api/v1/schema/", 0) == 0 && path_only != "/api/v1/schema/" && 
+        path_only != "/api/v1/schema/tables" && path_only.find("/api/v1/schema/tables/") != 0) {
+        if (method == http::verb::put) return Route::SchemaPut;
+        if (method == http::verb::patch) return Route::SchemaPatch;
+    }
 
         return Route::NotFound;
     }
@@ -2587,6 +2594,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SchemaGetTable:
             response = handleSchemaGetTable(req);
+            break;
+        case Route::SchemaPut:
+            response = handleSchemaPut(req);
+            break;
+        case Route::SchemaPatch:
+            response = handleSchemaPatch(req);
             break;
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
@@ -7604,6 +7617,26 @@ http::response<http::string_body> HttpServer::handleSchemaGetTable(
             "Schema API not available", req);
     }
     return schema_api_handler_->handleGetTable(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaPut(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handlePutSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaPatch(
+    const http::request<http::string_body>& req
+) {
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handlePatchSchema(req);
 }
 
 } // namespace server

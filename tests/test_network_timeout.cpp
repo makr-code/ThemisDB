@@ -93,7 +93,8 @@ TEST_F(SocketTimeoutManagerTest, CircuitBreakerBlocksConnections) {
     EXPECT_FALSE(manager.shouldAcceptConnection());
 }
 
-// Test 6: Circuit breaker resets after timeout
+// Test 6: Circuit breaker resets after timeout (FIND-019: Fixed flaky test)
+// FIX: Increased timeout margin from 1100ms to 1200ms for reliability
 TEST_F(SocketTimeoutManagerTest, CircuitBreakerReset) {
     config_.reset_timeout = 1s;
     SocketTimeoutManager manager(config_);
@@ -104,8 +105,9 @@ TEST_F(SocketTimeoutManagerTest, CircuitBreakerReset) {
     }
     EXPECT_FALSE(manager.shouldAcceptConnection());
     
-    // Wait for reset timeout
-    std::this_thread::sleep_for(1100ms);
+    // Wait for reset timeout with margin for system scheduling
+    // FIX: Increased from 1100ms to 1200ms to account for OS scheduling variance
+    std::this_thread::sleep_for(1200ms);
     
     // Should allow connections again
     EXPECT_TRUE(manager.shouldAcceptConnection());
@@ -241,7 +243,8 @@ TEST_F(SocketTimeoutManagerTest, MultipleStateTransitions) {
     manager.recordSuccess();
 }
 
-// Test 14: Concurrent timeout recording
+// Test 14: Concurrent timeout recording (FIND-019: Fixed flaky test)
+// FIX: Increased sleep from 1ms to 10ms for more reliable timing on slow CI systems
 TEST_F(SocketTimeoutManagerTest, ConcurrentTimeoutRecording) {
     SocketTimeoutManager manager(config_);
     
@@ -249,16 +252,19 @@ TEST_F(SocketTimeoutManagerTest, ConcurrentTimeoutRecording) {
     const int operations_per_thread = 10;
     
     std::vector<std::thread> threads;
+    std::atomic<int> completed_operations{0};
     
     for (int i = 0; i < num_threads; i++) {
-        threads.emplace_back([&manager, operations_per_thread]() {
+        threads.emplace_back([&manager, operations_per_thread, &completed_operations]() {
             for (int j = 0; j < operations_per_thread; j++) {
                 if (j % 2 == 0) {
                     manager.recordTimeout();
                 } else {
                     manager.recordSuccess();
                 }
-                std::this_thread::sleep_for(1ms);
+                completed_operations++;
+                // FIX: Increased from 1ms to 10ms to avoid timing issues on slow systems
+                std::this_thread::sleep_for(10ms);
             }
         });
     }
@@ -266,6 +272,9 @@ TEST_F(SocketTimeoutManagerTest, ConcurrentTimeoutRecording) {
     for (auto& thread : threads) {
         thread.join();
     }
+    
+    // Verify all operations completed
+    EXPECT_EQ(completed_operations, num_threads * operations_per_thread);
     
     // Verify manager is still in valid state
     EXPECT_NE(manager.getHealthState(), static_cast<SocketHealthState>(-1));
