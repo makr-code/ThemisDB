@@ -55,37 +55,48 @@ auto snapshot_result = backup_mgr->createSnapshot(
 
 ### 2. Observability Module
 
-#### HealthCheck Interface
-Located in `include/observability/healthcheck.h` and `src/observability/healthcheck.cpp`
+#### Existing Health Check Systems (No Duplicates)
 
-**Features:**
-- System-wide health checking
-- Component-specific health checks (database, network, storage, memory, replication, LLM)
-- Kubernetes liveness/readiness probe support
-- Health status aggregation
+ThemisDB already has comprehensive health check systems in place:
+
+1. **`sharding::HealthCheckSystem`** - Located in `include/sharding/health_check.h`
+   - Shard and cluster health monitoring
+   - Certificate validity checks
+   - Storage capacity monitoring
+   - Network connectivity checks
+   - Response time tracking
+
+2. **`sharding::HealthMonitor`** - Located in `include/sharding/health_monitor.h`
+   - Node health monitoring with auto-failover
+   - State machine: HEALTHY → SUSPECT → DOWN → RECOVERING
+   - Auto-promotion of standby nodes
+   - Event logging for audit trail
+
+3. **`server::HealthErrorService`** - Located in `include/server/health_error_service.h`
+   - HTTP health check endpoint (port 9090)
+   - Error introspection API
+   - Minimal dependencies for reliability
 
 **Example Usage:**
 ```cpp
-#include "observability/healthcheck.h"
+#include "sharding/health_check.h"
+#include "server/health_error_service.h"
 
-ThemisHealthCheck health_check;
+// Cluster health monitoring
+sharding::HealthCheckSystem::Config config;
+sharding::HealthCheckSystem health_system(config);
+auto cluster_health = health_system.checkClusterHealth(shard_endpoints);
 
-// Comprehensive system health check
-auto report = health_check.checkSystemHealth();
-std::cout << "Overall Status: " << statusToString(report.overall_status) << std::endl;
-std::cout << "Healthy: " << report.healthy_count << std::endl;
-std::cout << "Degraded: " << report.degraded_count << std::endl;
+// HTTP health endpoint
+server::HealthErrorService::Config http_config;
+http_config.port = 9090;
+server::HealthErrorService health_service(http_config);
+health_service.start();
 
-// Check specific component
-auto db_health = health_check.checkComponent("database");
-std::cout << db_health.message << std::endl;
-
-// Kubernetes probes
-bool ready = health_check.isReady();   // Readiness probe
-bool alive = health_check.isAlive();   // Liveness probe
+// Access via HTTP: curl http://localhost:9090/health
 ```
 
-#### Alertmanager Integration (Stub)
+#### Alertmanager Integration (Stub) - NEW
 Located in `include/observability/alertmanager.h` and `src/observability/alertmanager.cpp`
 
 **Features:**
@@ -126,8 +137,10 @@ alertmanager.silenceAlert(alert.alert_id, 60);
 ## Testing
 
 ### Test Files
-1. `tests/test_gap008_backup_automation.cpp` - Backup automation tests
-2. `tests/test_gap008_observability.cpp` - Observability tests
+1. `tests/test_gap008_backup_automation.cpp` - Backup automation tests (11 test cases)
+2. `tests/test_gap008_observability.cpp` - Alertmanager integration tests (10 test cases)
+
+**Note:** Health check functionality is tested via existing test suites for the health check systems mentioned above.
 
 ### Running Tests
 ```bash
@@ -169,7 +182,10 @@ spec:
               mountPath: /data
 ```
 
-### Health Check Probes
+### Health Check Probes (Using Existing Infrastructure)
+
+ThemisDB provides health endpoints via `server::HealthErrorService` on port 9090:
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -181,17 +197,19 @@ spec:
     image: themisdb/themisdb:latest
     livenessProbe:
       httpGet:
-        path: /health/alive
-        port: 8080
+        path: /health
+        port: 9090
       initialDelaySeconds: 30
       periodSeconds: 10
     readinessProbe:
       httpGet:
-        path: /health/ready
-        port: 8080
+        path: /health
+        port: 9090
       initialDelaySeconds: 10
       periodSeconds: 5
 ```
+
+For cluster-wide health monitoring, use `sharding::HealthCheckSystem` programmatically.
 
 ## Architecture
 

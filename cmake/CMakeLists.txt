@@ -1443,9 +1443,8 @@ set(THEMIS_CORE_SOURCES
     # Network
     ../src/network/wire_protocol_server.cpp
     
-    # Observability (GAP-008: Enhanced observability)
+    # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
-    ../src/observability/healthcheck.cpp
     ../src/observability/alertmanager.cpp
     
     # GraphQL API (conditional)

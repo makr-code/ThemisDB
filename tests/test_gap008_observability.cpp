@@ -3,12 +3,15 @@
  * @brief Example tests for GAP-008 Observability features
  * 
  * Tests the new observability features:
- * - HealthCheck interface
  * - Alertmanager integration (stub)
+ * 
+ * Note: HealthCheck functionality is provided by existing systems:
+ * - sharding::HealthCheckSystem (shard/cluster health)
+ * - sharding::HealthMonitor (node health with auto-failover)
+ * - server::HealthErrorService (HTTP health endpoint)
  */
 
 #include <gtest/gtest.h>
-#include "observability/healthcheck.h"
 #include "observability/alertmanager.h"
 #include <thread>
 #include <chrono>
@@ -18,111 +21,6 @@ using namespace std::chrono_literals;
 namespace themis {
 namespace observability {
 namespace test {
-
-// ============================================================================
-// HealthCheck Tests
-// ============================================================================
-
-class GAP008HealthCheckTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        health_check_ = std::make_unique<ThemisHealthCheck>();
-    }
-    
-    void TearDown() override {
-        health_check_.reset();
-    }
-    
-    std::unique_ptr<ThemisHealthCheck> health_check_;
-};
-
-TEST_F(GAP008HealthCheckTest, SystemHealthCheckReturnsReport) {
-    auto report = health_check_->checkSystemHealth();
-    
-    // Check that report is populated
-    EXPECT_NE(report.overall_status, HealthStatus::UNKNOWN);
-    EXPECT_FALSE(report.component_checks.empty());
-    
-    // Should have multiple component checks
-    EXPECT_GE(report.component_checks.size(), 3u);
-    
-    // Check that counts are reasonable
-    EXPECT_GE(report.healthy_count + report.degraded_count + 
-              report.unhealthy_count + report.unknown_count, 0);
-    
-    // Report time should be recent
-    auto now = std::chrono::system_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::seconds>(
-        now - report.report_time).count();
-    EXPECT_LE(diff, 5); // Should be within 5 seconds
-}
-
-TEST_F(GAP008HealthCheckTest, CheckIndividualComponents) {
-    // Test checking individual components
-    auto db_result = health_check_->checkComponent("database");
-    EXPECT_EQ(db_result.component_name, "database");
-    EXPECT_NE(db_result.status, HealthStatus::UNKNOWN);
-    EXPECT_FALSE(db_result.message.empty());
-    EXPECT_GE(db_result.response_time_ms, 0.0);
-    
-    auto network_result = health_check_->checkComponent("network");
-    EXPECT_EQ(network_result.component_name, "network");
-    
-    auto storage_result = health_check_->checkComponent("storage");
-    EXPECT_EQ(storage_result.component_name, "storage");
-}
-
-TEST_F(GAP008HealthCheckTest, CheckUnknownComponentReturnsUnknown) {
-    auto result = health_check_->checkComponent("nonexistent_component");
-    
-    EXPECT_EQ(result.component_name, "nonexistent_component");
-    EXPECT_EQ(result.status, HealthStatus::UNKNOWN);
-    EXPECT_NE(result.message.find("Unknown component"), std::string::npos);
-}
-
-TEST_F(GAP008HealthCheckTest, HealthEndpointIsValid) {
-    std::string endpoint = health_check_->getHealthEndpoint();
-    
-    EXPECT_FALSE(endpoint.empty());
-    EXPECT_EQ(endpoint, "/health");
-}
-
-TEST_F(GAP008HealthCheckTest, LivenessProbeReturnsTrue) {
-    // Liveness should be true by default
-    EXPECT_TRUE(health_check_->isAlive());
-}
-
-TEST_F(GAP008HealthCheckTest, ReadinessProbeAfterHealthCheck) {
-    // Initially readiness may be false
-    // After a health check, it should be updated
-    auto report = health_check_->checkSystemHealth();
-    
-    // Readiness should be true if system is healthy or degraded (operational)
-    bool ready = health_check_->isReady();
-    if (report.overall_status == HealthStatus::HEALTHY || 
-        report.overall_status == HealthStatus::DEGRADED) {
-        EXPECT_TRUE(ready);
-    } else if (report.overall_status == HealthStatus::UNHEALTHY) {
-        EXPECT_FALSE(ready);
-    }
-    // For UNKNOWN status, readiness is implementation-dependent
-}
-
-TEST_F(GAP008HealthCheckTest, ComponentCheckResponseTime) {
-    auto result = health_check_->checkComponent("database");
-    
-    // Response time should be measured
-    EXPECT_GE(result.response_time_ms, 0.0);
-    EXPECT_LT(result.response_time_ms, 1000.0); // Should be fast (< 1 second)
-}
-
-TEST_F(GAP008HealthCheckTest, ComponentCheckHasDetails) {
-    auto result = health_check_->checkComponent("database");
-    
-    // Details should be populated
-    EXPECT_FALSE(result.details.empty());
-    EXPECT_TRUE(result.details.count("status") > 0);
-}
 
 // ============================================================================
 // Alertmanager Tests
@@ -174,11 +72,9 @@ TEST_F(GAP008AlertmanagerTest, SendAlertLogsAlert) {
     alert.labels["component"] = "database";
     alert.labels["instance"] = "themisdb-0";
     
-    // Should log alert (stub implementation)
-    auto result = alertmanager_->sendAlert(alert);
-    
     // Stub implementation logs alerts and returns success (when disabled)
     // Since alertmanager is disabled in test setup, it should succeed
+    auto result = alertmanager_->sendAlert(alert);
     EXPECT_TRUE(result.has_value());
 }
 

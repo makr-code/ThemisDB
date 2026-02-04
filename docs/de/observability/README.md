@@ -27,14 +27,6 @@ Das Observability-Modul bietet umfassende Überwachungs- und Analysefunktionen f
 **Version:** v1.4.1-dev  
 **Status:** ✅ Base Structure Implementiert
 
-### HealthCheck Interface
-Neue systemweite Health-Check-Funktionen:
-- Komponentenspezifische Gesundheitsprüfungen (Datenbank, Netzwerk, Speicher, etc.)
-- Kubernetes Liveness/Readiness Probe Support
-- Aggregierte Systemgesundheitsberichte
-
-**Siehe:** [GAP-008 Dokumentation](../features/GAP-008_Observability_Backup_Automation.md)
-
 ### Alertmanager Integration (Stub)
 Alert-Management-Interface für Prometheus Alertmanager:
 - Alert-Erstellung und -Verwaltung
@@ -42,6 +34,14 @@ Alert-Management-Interface für Prometheus Alertmanager:
 - Alert Status Tracking (FIRING, RESOLVED, SILENCED)
 
 **Siehe:** [GAP-008 Dokumentation](../features/GAP-008_Observability_Backup_Automation.md)
+
+### Bestehende Health Check Systeme
+ThemisDB verfügt bereits über umfassende Health Check Systeme:
+1. **`sharding::HealthCheckSystem`** - Shard/Cluster Gesundheitsüberwachung
+2. **`sharding::HealthMonitor`** - Node Health mit Auto-Failover
+3. **`server::HealthErrorService`** - HTTP Health Endpoint (Port 9090)
+
+**Keine Duplikate** - GAP-008 nutzt diese bestehenden Systeme.
 
 ---
 
