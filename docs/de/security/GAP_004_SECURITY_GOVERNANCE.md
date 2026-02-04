@@ -1,41 +1,45 @@
-# GAP-004: Security & Governance - Implementierungsübersicht
+# GAP-004: Security & Governance - Implementierungsübersicht (Aktualisiert)
 
-**Status:** ✅ Basisimplementierung abgeschlossen  
+**Status:** ✅ Basisimplementierung abgeschlossen (ohne Duplikate)  
 **Datum:** 4. Februar 2026  
-**Version:** 1.0
+**Version:** 2.0 (Dedupliziert)
 
 ---
 
 ## 🎯 Übersicht
 
-Dieses Dokument beschreibt die Implementierung von GAP-004: Security & Governance für ThemisDB. Das Ziel war es, eine solide Grundstruktur für RBAC-Policies, Governance-Regeln und PKI/Signatur-Funktionen zu schaffen.
+Dieses Dokument beschreibt die finalisierte Implementierung von GAP-004: Security & Governance für ThemisDB. Nach Analyse vorhandener Strukturen wurden Duplikate entfernt und eine klare Integration mit bestehenden Systemen definiert.
 
 ---
 
 ## 📋 Implementierte Komponenten
 
-### 1. PolicyManager & PolicyRule
+### 1. PolicyManager & PolicyRule (NEU)
 
 **Dateien:**
 - `include/governance/policy_manager.h`
 - `src/governance/policy_manager.cpp`
+- `tests/test_policy_manager.cpp`
 
 **Funktionalität:**
 - `PolicyRule`: Struktur für einzelne Governance-Regeln
-  - Ressourcen- und Aktionsmuster (mit Wildcard-Unterstützung)
+  - Ressourcen- und Aktionsmuster (mit Wildcard-Unterstützung: `data/*`, `*`)
   - Rollenbasierte Zugriffssteuerung
   - Verschlüsselungs- und Signaturanforderungen
   - Export- und Cache-Berechtigungen
   - Datenaufbewahrungsfristen (Retention)
   - Audit-Anforderungen
+  - Prioritätsbasierte Regelauswahl
   
 - `PolicyManager`: Verwaltung von Policy-Regeln
-  - Hinzufügen, Entfernen, Abrufen von Regeln
+  - CRUD-Operationen für Regeln
   - Regelauswertung basierend auf Ressource, Aktion und Benutzerrollen
-  - Aggregation mehrerer Regeln (restriktivste Einstellungen gewinnen)
-  - Persistierung (Speichern/Laden von JSON-Dateien)
+  - Multi-Regel-Aggregation (restriktivste Einstellungen gewinnen)
+  - JSON-Persistierung
   - Validierung von Regelkonflikten
-  - Statistiken und Export-Funktionen
+  - Statistiken
+
+**Zweck:** Ergänzt PolicyEngine mit granularer RBAC-Funktionalität
 
 **Beispiel:**
 ```cpp
@@ -46,9 +50,11 @@ rule.id = "rule_001";
 rule.name = "Sensitive Data Protection";
 rule.resources = {"data/sensitive/*"};
 rule.actions = {"*"};
+rule.required_roles = {"operator", "admin"};
 rule.require_encryption = true;
 rule.allow_export = false;
 rule.retention_days = 90;
+rule.priority = 100;
 
 manager.addRule(rule);
 
@@ -65,309 +71,235 @@ if (decision.require_encryption) {
 
 ---
 
-### 2. Profile & ProfileManager
+## 🔗 Integration mit bestehenden Systemen
 
-**Dateien:**
-- `include/governance/policy_manager.h` (Profile-Strukturen)
-- `src/governance/policy_manager.cpp`
+### Integration: PolicyManager + PolicyEngine + RBAC
 
-**Funktionalität:**
-- `Profile`: Benutzer- oder Entitätsprofil
-  - Klassifizierungslevel (z.B. "offen", "vs-nfd", "geheim", "streng-geheim")
-  - Zugewiesene Rollen
-  - Benutzerdefinierte Attribute
-  - Ressourcen-Whitelist/Blacklist
-  - Export- und Cache-Berechtigungen
-  
-- `ProfileManager`: Verwaltung von Profilen
-  - Hinzufügen, Entfernen, Abrufen von Profilen
-  - Suche nach Klassifizierungslevel
-  - Persistierung (Speichern/Laden von JSON-Dateien)
-  - Import/Export-Funktionen
+ThemisDB hat bereits mehrere Governance- und Sicherheitssysteme. PolicyManager ergänzt diese:
 
-**Beispiel:**
+**Existing Systems:**
+1. **PolicyEngine** (`governance/policy_engine.h`) - VS-Klassifizierungsbasierte Policies
+2. **RBAC** (`security/rbac.h`) - Rollenbasierte Zugriffskontrolle
+3. **User/UserRoleStore** (`security/rbac.h`) - Benutzerverwaltung
+4. **PKIKeyProvider** (`security/pki_key_provider.h`) - Produktions-PKI
+5. **SigningService** (`security/signing.h`) - Signatur-Operationen
+
+**Integration Example:**
 ```cpp
-ProfileManager manager;
+#include "governance/policy_manager.h"
+#include "governance/policy_engine.h"
+#include "security/rbac.h"
+#include "security/pki_key_provider.h"
+#include "security/signing.h"
 
-Profile profile;
-profile.profile_id = "user_alice";
-profile.name = "Alice Smith";
-profile.classification_level = "vs-nfd";
-profile.roles = {"operator", "analyst"};
-profile.can_export_data = true;
+// Setup components
+PolicyEngine policy_engine;
+policy_engine.loadFromYAML("governance_config.yaml");
 
-manager.addProfile(profile);
-```
+PolicyManager policy_manager;
+policy_manager.loadRules("rbac_rules.json");
 
----
+RBAC rbac(rbac_config);
+UserRoleStore user_store;
 
-### 3. PKI-Stubs
+// PKI und Signatur (existierende Implementierungen)
+auto pki_provider = std::make_shared<PKIKeyProvider>(
+    cert_path, key_path, db, "themis-service"
+);
+auto signing_service = createKeyProviderSigningService(pki_provider);
 
-**Dateien:**
-- `include/security/pki_stub.h`
-- `src/security/pki_stub.cpp`
+// Evaluate access for a request
+std::string user_id = "alice@example.com";
+std::string resource = "data/sensitive/users";
+std::string action = "read";
 
-**Funktionalität:**
-- `PKIManager`: Stub-Implementierung für PKI-Funktionen
-  - Schlüsselpaar-Generierung (Stub)
-  - CSR-Generierung (Stub)
-  - Zertifikatssignierung (Stub)
-  - Zertifikatsverifizierung (Stub)
-  - Zertifikatsrückruf (Stub)
-  - Zertifikatsanalyse (Stub)
-  - Public-Key-Export (Stub)
+// 1. Get user roles from RBAC
+auto user_roles = user_store.getUserRoles(user_id);
 
-**Hinweis:** Alle Methoden sind als Stubs implementiert und geben Platzhalter-Werte zurück. Eine echte PKI-Implementierung ist für spätere Phasen geplant.
-
-**Beispiel:**
-```cpp
-auto pki = SecurityManagerFactory::createPKIManager(true);
-
-if (pki->isStub()) {
-    // Warnung: Stub-Implementierung aktiv
+// 2. Check RBAC permissions
+if (!rbac.checkPermission(user_roles, "data", action)) {
+    // Access denied by RBAC
+    return HTTP_403_FORBIDDEN;
 }
 
-auto key_id = pki->generateKeyPair(2048);
-auto csr = pki->generateCSR(key_id, "CN=example.com");
+// 3. Evaluate PolicyManager rules
+auto pm_decision = policy_manager.evaluatePolicy(resource, action, user_roles);
+if (!pm_decision.allowed) {
+    // Access denied by PolicyManager rules
+    return HTTP_403_FORBIDDEN;
+}
+
+// 4. Apply PolicyEngine classification policies
+std::unordered_map<std::string, std::string> headers = {
+    {"X-Classification", "geheim"}
+};
+auto pe_decision = policy_engine.evaluate(headers, "/api/data");
+
+// 5. Combine decisions
+bool require_encryption = pm_decision.require_encryption || 
+                          pe_decision.require_content_encryption;
+bool allow_export = pm_decision.allow_export && pe_decision.export_allowed;
+
+// 6. Apply encryption if required
+if (require_encryption) {
+    // Use existing PKI infrastructure
+    auto key = pki_provider->getKey("data-encryption-key");
+    // ... encrypt data
+}
+
+// Access granted with applied policies
+return HTTP_200_OK;
 ```
 
 ---
 
-### 4. Signatur-Stubs
+## 🚫 Entfernte Duplikate
 
-**Dateien:**
-- `include/security/pki_stub.h`
-- `src/security/pki_stub.cpp`
+Nach der Analyse wurden folgende Komponenten als Duplikate identifiziert und entfernt:
 
-**Funktionalität:**
-- `SignatureManager`: Stub-Implementierung für Signaturfunktionen
-  - Datensignierung (Stub)
-  - Signaturverifikation (Stub)
-  - Detached Signatures (Stub)
-  - Zeitstempel-Signaturen (Stub)
-  - Unterstützte Algorithmen (Stub-Liste)
+### 1. PKI-Stubs (ENTFERNT)
 
-**Hinweis:** Alle Methoden sind als Stubs implementiert. Verifikationen geben immer `true` zurück, Signaturen sind Platzhalter.
+**Entfernte Dateien:**
+- ~~`include/security/pki_stub.h`~~
+- ~~`src/security/pki_stub.cpp`~~
+- ~~`tests/test_pki_stub.cpp`~~
 
-**Beispiel:**
+**Grund:** ThemisDB hat bereits produktionsreife PKI-Infrastruktur:
+- **PKIKeyProvider** - 3-Tier Key Hierarchy mit VCC-PKI Integration
+- **VCCPKIClient** - PKI-Client für Zertifikatsoperationen
+- **PKIShardCertificate** - Shard-zu-Shard-Zertifikate
+
+**Verwendung statt Stubs:**
 ```cpp
-auto sig = SecurityManagerFactory::createSignatureManager(true);
+// Verwende existierenden PKIKeyProvider
+auto pki = std::make_shared<PKIKeyProvider>(
+    cert_path, private_key_path, db, "themis-service", true
+);
 
+// Zertifikatsoperationen via PKIKeyProvider
+auto key = pki->getKey("encryption-key");
+```
+
+### 2. Signatur-Stubs (ENTFERNT)
+
+**Entfernte Dateien:**
+- ~~SignatureManager in `pki_stub.h/.cpp`~~
+
+**Grund:** ThemisDB hat bereits umfassende Signatur-Infrastruktur:
+- **SigningService** - Interface für Signaturoperationen
+- **SigningProvider** - KeyProvider-integriertes Signing
+- **CMSSigning** - CMS/PKCS#7 Signaturen
+- **VaultSigningProvider** - HashiCorp Vault Integration
+
+**Verwendung statt Stubs:**
+```cpp
+// Verwende existierenden SigningService
+auto signing_svc = createKeyProviderSigningService(pki_provider);
+
+// Signatur-Operationen
 std::vector<uint8_t> data = {/* ... */};
-auto signature = sig->sign(data, "key_001", "RSA-SHA256");
+auto sig_result = signing_svc->sign(data, "signing-key");
 
-if (sig->verify(data, signature, public_key, "RSA-SHA256")) {
-    // Signatur gültig (im Stub immer true)
+if (signing_svc->verify(data, sig_result.signature, "signing-key")) {
+    // Signatur gültig
 }
+```
+
+### 3. Profile & ProfileManager (ENTFERNT)
+
+**Entfernte Komponenten:**
+- ~~`Profile` struct~~
+- ~~`ProfileManager` class~~
+- ~~ProfileManager tests~~
+
+**Grund:** Duplikat der existierenden `User` struct und `UserRoleStore`:
+- **User** (`security/rbac.h`) - Hat bereits user_id, roles, attributes
+- **UserRoleStore** - Verwaltung von Benutzern und Rollen
+
+**Verwendung statt Profile:**
+```cpp
+// Verwende existierende RBAC-Strukturen
+UserRoleStore user_store;
+
+User user;
+user.user_id = "alice@example.com";
+user.roles = {"operator", "analyst"};
+user.attributes = {
+    {"classification_level", "vs-nfd"},
+    {"department", "engineering"}
+};
+
+user_store.setUser(user);
+
+// Rolle zuweisen
+user_store.assignRole("alice@example.com", "admin");
+
+// Rollen abrufen
+auto roles = user_store.getUserRoles("alice@example.com");
 ```
 
 ---
 
 ## 🧪 Unit-Tests
 
-**Test-Dateien:**
-- `tests/test_policy_manager.cpp` - PolicyManager und ProfileManager Tests
-- `tests/test_pki_stub.cpp` - PKI und Signatur Stub Tests
+**Test-Datei:** `tests/test_policy_manager.cpp`
 
-**Test-Abdeckung:**
+**Test-Abdeckung (20 Tests):**
 - PolicyManager:
-  - Hinzufügen/Entfernen/Abrufen von Regeln
-  - Regelauswahl basierend auf Ressourcen und Aktionen
-  - Wildcard-Matching
-  - Rollenbasierte Filterung
-  - Policy-Evaluation mit mehreren Regeln
-  - Persistierung (Speichern/Laden)
-  - Validierung
-  - Statistiken
-
-- ProfileManager:
-  - Hinzufügen/Entfernen/Abrufen von Profilen
-  - Suche nach Klassifizierung
-  - Persistierung
-
-- PKI/Signatur Stubs:
-  - Alle Stub-Methoden
-  - Factory-Pattern
-  - Stub-Erkennung
+  - ✅ Hinzufügen/Entfernen/Abrufen von Regeln
+  - ✅ Regelauswahl basierend auf Ressourcen und Aktionen
+  - ✅ Wildcard-Matching (`data/*`, `*`)
+  - ✅ Rollenbasierte Filterung
+  - ✅ Policy-Evaluation mit mehreren Regeln
+  - ✅ Regel-Aggregation (OR für Requirements, AND für Permissions)
+  - ✅ Persistierung (Speichern/Laden JSON)
+  - ✅ Validierung
+  - ✅ Statistiken
+  - ✅ Import/Export
 
 **Test-Ausführung:**
 ```bash
-# Build mit Tests
-cmake --build build --target themis_tests
-
-# Tests ausführen
-./build/themis_tests --gtest_filter="PolicyManager*:ProfileManager*:PKIManager*:SignatureManager*"
+./build/themis_tests --gtest_filter="PolicyManager*"
 ```
 
 ---
 
-## 📚 Integration mit bestehendem System
+## 📊 Zusammenfassung
 
-### Governance-Hierarchie
+### Neue Komponenten (Behalten)
+1. ✅ **PolicyManager** - RBAC-Regel-Engine (komplementär zu PolicyEngine)
+2. ✅ **PolicyRule** - Regelstruktur mit Patterns und Priorities
 
-```
-governance/
-├── policy_engine.h/.cpp       (Bestehend - Klassifizierung & Enforcement)
-└── policy_manager.h/.cpp      (NEU - RBAC & Governance-Regeln)
-```
+### Verwendung bestehender Systeme (Statt Duplikate)
+1. ✅ **PKIKeyProvider** statt PKI-Stubs
+2. ✅ **SigningService** statt Signatur-Stubs
+3. ✅ **User/UserRoleStore** statt Profile/ProfileManager
 
-### Security-Hierarchie
+### Code-Statistiken
+- **PolicyManager:** ~370 Zeilen C++ (Header + Implementation)
+- **Tests:** ~300 Zeilen (20 Tests)
+- **Dokumentation:** ~400 Zeilen
 
-```
-security/
-├── rbac.h/.cpp                (Bestehend - Rollenbasierte Zugriffskontrolle)
-├── pki_key_provider.h/.cpp    (Bestehend - PKI für Schlüsselverwaltung)
-└── pki_stub.h/.cpp            (NEU - PKI/Signatur-Stubs)
-```
+### Entfernte Duplikate
+- ~~PKI-Stubs:~~ 386 Zeilen entfernt
+- ~~Signatur-Stubs:~~ (Teil von PKI-Stubs)
+- ~~Profile/ProfileManager:~~ 210 Zeilen entfernt
 
----
-
-## 🔄 Roadmap & Nächste Schritte
-
-### Phase 1: Basisstruktur (✅ Abgeschlossen)
-- [x] PolicyManager und PolicyRule implementiert
-- [x] ProfileManager und Profile-Strukturen implementiert
-- [x] PKI-Stubs implementiert
-- [x] Signatur-Stubs implementiert
-- [x] Unit-Tests geschrieben
-- [x] Dokumentation erstellt
-
-### Phase 2: Integration (🔄 Geplant)
-- [ ] Integration mit bestehendem `PolicyEngine`
-- [ ] Integration mit `RBAC`-System
-- [ ] Policy-basierte Zugriffskontrollen in API-Endpunkten
-- [ ] Audit-Logging für Policy-Entscheidungen
-- [ ] YAML-Konfigurationsdateien für Policies
-
-### Phase 3: PKI-Implementierung (🔄 Geplant)
-- [ ] Echte PKI-Implementierung mit OpenSSL
-- [ ] Integration mit externen CAs
-- [ ] Certificate Pinning
-- [ ] CRL/OCSP-Unterstützung
-- [ ] HSM-Integration für PKI-Operationen
-
-### Phase 4: Signatur-Implementierung (🔄 Geplant)
-- [ ] Echte Signatur-Implementierung
-- [ ] Zeitstempel-Server-Integration (TSA)
-- [ ] Langzeit-Signaturverifikation
-- [ ] Multi-Signatur-Unterstützung
-- [ ] Qualified Electronic Signatures (eIDAS)
-
-### Phase 5: Enterprise-Features (🔄 Geplant)
-- [ ] Policy-Versionierung
-- [ ] Policy-Rollback
-- [ ] Policy-Templates
-- [ ] Compliance-Reports
-- [ ] Policy-Konflikt-Auflösung
-
----
-
-## 🔍 Technische Details
-
-### Regelauswertung
-
-Die Regelauswertung folgt diesem Algorithmus:
-
-1. **Regelauswahl**: Finde alle Regeln, die auf Ressource und Aktion zutreffen
-2. **Rollenfilterung**: Filtere Regeln basierend auf Benutzerrollen
-3. **Sortierung**: Sortiere nach Priorität (höchste zuerst)
-4. **Aggregation**: Kombiniere Effekte mehrerer Regeln
-   - OR-Logik für Anforderungen (wenn eine Regel etwas erfordert, ist es erforderlich)
-   - AND-Logik für Berechtigungen (wenn eine Regel etwas verbietet, ist es verboten)
-   - MIN-Logik für Retention (kürzeste Aufbewahrungsfrist gewinnt)
-   - Strengste Redaktion gewinnt
-
-### Wildcard-Matching
-
-- `*` matcht alles
-- `data/*` matcht alles, was mit `data/` beginnt
-- Keine Regex-Unterstützung (bewusste Entscheidung für Einfachheit)
-
-### Thread-Safety
-
-- `PolicyManager` und `ProfileManager` verwenden `std::mutex` für Thread-Sicherheit
-- Alle öffentlichen Methoden sind thread-safe
-
----
-
-## 📊 Metriken
-
-**Code-Statistiken:**
-- PolicyManager: ~600 Zeilen C++
-- PKI/Signatur Stubs: ~300 Zeilen C++
-- Unit-Tests: ~600 Zeilen C++
-- Dokumentation: ~400 Zeilen Markdown
-
-**Test-Ergebnisse:**
-- PolicyManager: 15+ Tests, alle bestanden
-- ProfileManager: 5+ Tests, alle bestanden
-- PKI-Stubs: 7+ Tests, alle bestanden
-- Signatur-Stubs: 6+ Tests, alle bestanden
-
----
-
-## 🛡️ Sicherheitshinweise
-
-**Wichtig:**
-- Die PKI- und Signatur-Funktionen sind aktuell **Stubs** und dürfen **nicht in Produktion** verwendet werden
-- Alle Stub-Methoden loggen Warnungen, wenn sie aufgerufen werden
-- Signaturverifikationen geben im Stub-Modus immer `true` zurück
-- Für Produktionsumgebungen müssen echte Implementierungen verwendet werden
-
-**Empfehlungen:**
-- Verwenden Sie die bestehende `PKIKeyProvider`-Implementierung für echte PKI-Operationen
-- Verwenden Sie `ManifestSigner` und `CMSSigning` für echte Signaturen
-- Konfigurieren Sie Policies mit restriktiven Standardeinstellungen
-- Aktivieren Sie Audit-Logging für alle Policy-Entscheidungen
-
----
-
-## 📝 Beispiel-Konfiguration
-
-**Beispiel Policy-Konfiguration (JSON):**
-```json
-{
-  "version": "1.0",
-  "rules": [
-    {
-      "id": "rule_001",
-      "name": "Sensitive Data Protection",
-      "description": "Protect sensitive user data",
-      "classification_level": "geheim",
-      "enabled": true,
-      "resources": ["data/users/*", "data/payments/*"],
-      "actions": ["*"],
-      "required_roles": ["operator", "admin"],
-      "require_encryption": true,
-      "require_signature": false,
-      "allow_export": false,
-      "allow_cache": false,
-      "retention_days": 90,
-      "redaction_level": "strict",
-      "audit_access": true,
-      "audit_changes": true,
-      "priority": 100
-    }
-  ]
-}
-```
+**Netto-Code-Reduktion:** ~600 Zeilen durch Deduplizierung
 
 ---
 
 ## 🔗 Verwandte Dokumente
 
+- [PolicyEngine Dokumentation](../../../include/governance/policy_engine.h)
 - [RBAC Dokumentation](../../../include/security/rbac.h)
-- [Policy Engine Dokumentation](../../../include/governance/policy_engine.h)
-- [Security Overview](security_overview.md)
-- [GAPS_STUBS_SUMMARY.md](../development/GAPS_STUBS_SUMMARY.md)
+- [PKIKeyProvider Dokumentation](../../../include/security/pki_key_provider.h)
+- [SigningService Dokumentation](../../../include/security/signing.h)
+- [GAP-004 Roadmap](GAP_004_ROADMAP.md)
+- [GAPS_STUBS_SUMMARY](../development/GAPS_STUBS_SUMMARY.md)
 
 ---
 
-## 👥 Autoren
-
-- GitHub Copilot AI (Implementierung)
-- ThemisDB Security Team (Review)
-
----
-
-**Letzte Aktualisierung:** 4. Februar 2026
+**Erstellt:** 4. Februar 2026  
+**Aktualisiert:** 4. Februar 2026 (Deduplizierung)  
+**Status:** ✅ Bereit für Integration
