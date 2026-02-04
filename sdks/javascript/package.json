@@ -1,0 +1,45 @@
+{
+  "name": "@themisdb/client",
+  "version": "0.1.0-dev",
+  "description": "Official JavaScript/TypeScript client for ThemisDB",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src tests --ext .ts",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "themisdb",
+    "database",
+    "client",
+    "typescript",
+    "llm",
+    "graph-database"
+  ],
+  "author": "ThemisDB Team",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/makr-code/ThemisDB.git",
+    "directory": "sdks/javascript"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

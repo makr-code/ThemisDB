@@ -1,0 +1,32 @@
+[package]
+name = "themisdb-client"
+version = "0.1.0-dev"
+edition = "2021"
+rust-version = "1.70"
+authors = ["ThemisDB Team"]
+description = "Official Rust client for ThemisDB"
+license = "Apache-2.0"
+repository = "https://github.com/makr-code/ThemisDB"
+documentation = "https://docs.rs/themisdb-client"
+keywords = ["themisdb", "database", "client", "async", "llm"]
+categories = ["database", "api-bindings"]
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "stream"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+url = "2.5"
+
+[dev-dependencies]
+tokio-test = "0.4"
+wiremock = "0.5"
+
+[lib]
+name = "themisdb_client"
+path = "src/lib.rs"
+
+[[example]]
+name = "basic"
+path = "examples/basic.rs"
