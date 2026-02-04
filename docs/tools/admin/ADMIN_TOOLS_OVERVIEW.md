@@ -70,7 +70,7 @@ Manages encryption keys and automates key rotation procedures to maintain securi
 - Certificate renewal and management
 - Key lifecycle audit and reporting
 
-**Documentation**: [key-rotation-dashboard.md](key-rotation-dashboard.md) *(to be created)*
+**Documentation**: [key-rotation-dashboard.md](key-rotation-dashboard.md)
 
 #### 3. Compliance Reports (Themis.ComplianceReports)
 
@@ -132,7 +132,7 @@ Generates comprehensive compliance reports for various regulatory frameworks and
 - Customer compliance documentation
 - Continuous compliance monitoring
 
-**Documentation**: [compliance-reports.md](compliance-reports.md) *(to be created)*
+**Documentation**: [compliance-reports.md](compliance-reports.md)
 
 ### Data Management Tools
 
