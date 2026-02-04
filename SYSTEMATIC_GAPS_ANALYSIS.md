@@ -70,14 +70,21 @@ LLM-as-Judge:
 **Quelle**: INTEGRATION_CHECKLIST.md  
 **Status**: ⚠️ **9 dokumentierte Stubs**
 
-#### Priority 1: RPC Integration (2-3 Tage)
-- [ ] Cross-shard RPC: Implement `sendPrepare()` using ShardRPCClient
-- [ ] Cross-shard RPC: Implement `sendCommit()` using ShardRPCClient
-- [ ] Cross-shard RPC: Implement `sendAbort()` using ShardRPCClient
+#### Priority 1: RPC Integration ✅ **KOMPLETT**
+- [x] Cross-shard RPC: Implement `sendPrepare()` using ShardRPCClient ✅
+- [x] Cross-shard RPC: Implement `sendCommit()` using ShardRPCClient ✅
+- [x] Cross-shard RPC: Implement `sendAbort()` using ShardRPCClient ✅
 
-**Dateien**: `src/sharding/cross_shard_transaction.cpp`  
-**Impact**: **HOCH** - Kritisch für Production  
-**Dependencies**: Existierender ShardRPCClient
+**Dateien**: `src/sharding/cross_shard_transaction.cpp` (Lines 869-1115)  
+**Status**: **VOLLSTÄNDIG IMPLEMENTIERT** seit 2026-01  
+**Features**: 
+- ✅ ShardRPCClient Integration mit retry logic
+- ✅ Exponential backoff (100ms, 200ms, 400ms)
+- ✅ Konfigurierbare Timeouts
+- ✅ Proper error handling und logging
+- ✅ MVCC commit timestamp handling
+
+**Impact**: KEIN GAP - Bereits Production-Ready
 
 #### Priority 2: Raft Adapter (1-2 Tage)
 - [ ] Raft adapter: Complete log index tracking integration

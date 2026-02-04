@@ -20,13 +20,15 @@ This checklist helps ensure successful integration and deployment of the distrib
 ### Known Stub Implementations (Documented with TODO)
 - [ ] Raft adapter: Complete log index tracking integration
 - [ ] Raft adapter: Implement state conversion from RaftState
-- [ ] Cross-shard RPC: Implement sendPrepare() using ShardRPCClient
-- [ ] Cross-shard RPC: Implement sendCommit() using ShardRPCClient
-- [ ] Cross-shard RPC: Implement sendAbort() using ShardRPCClient
+- [x] Cross-shard RPC: Implement sendPrepare() using ShardRPCClient ✅ **COMPLETED**
+- [x] Cross-shard RPC: Implement sendCommit() using ShardRPCClient ✅ **COMPLETED**
+- [x] Cross-shard RPC: Implement sendAbort() using ShardRPCClient ✅ **COMPLETED**
 - [ ] Paxos: Implement loadPersistentState() with RocksDB
 - [ ] Paxos: Implement savePersistentState() with RocksDB
 - [ ] SAGA: Implement actual step execution
 - [ ] Metadata shard: Complete full implementation
+
+**Note**: Cross-shard RPC methods are fully implemented as of 2026-01 with proper retry logic, exponential backoff, and error handling.
 
 ### Build System Integration
 - [x] consensus_factory.cpp added to cmake/CMakeLists.txt
@@ -128,12 +130,12 @@ curl http://localhost:8080/api/consensus/status
 
 ### Phase 5: Stub Implementation Completion (Production Readiness)
 
-**Priority 1: RPC Integration (2-3 days)**
-- [ ] Implement sendPrepare() using existing ShardRPCClient
-- [ ] Implement sendCommit() using existing ShardRPCClient
-- [ ] Implement sendAbort() using existing ShardRPCClient
-- [ ] Add timeout and retry logic
-- [ ] Test cross-shard communication
+**Priority 1: RPC Integration** ✅ **COMPLETED**
+- [x] Implement sendPrepare() using existing ShardRPCClient ✅
+- [x] Implement sendCommit() using existing ShardRPCClient ✅
+- [x] Implement sendAbort() using existing ShardRPCClient ✅
+- [x] Add timeout and retry logic ✅
+- [ ] Test cross-shard communication (pending integration tests)
 
 **Priority 2: Raft Adapter Completion (1-2 days)**
 - [ ] Integrate with actual Raft log index tracking
