@@ -51,8 +51,7 @@ public:
             int64_t,
             double,
             std::string,
-            bool,
-            int64_t  // timestamp as int64
+            bool
         >> data;
         std::vector<bool> null_bitmap;  // Track null values
     };
@@ -74,7 +73,7 @@ public:
      * @param row_data Vector of values for each column
      */
     void appendRow(const std::vector<std::variant<
-        std::nullptr_t, int64_t, double, std::string, bool, int64_t>>& row_data);
+        std::nullptr_t, int64_t, double, std::string, bool>>& row_data);
 
     /**
      * @brief Get number of rows

@@ -7,7 +7,7 @@ namespace themis {
 namespace analytics {
 
 void ArrowRecordBatch::appendRow(const std::vector<std::variant<
-    std::nullptr_t, int64_t, double, std::string, bool, int64_t>>& row_data) {
+    std::nullptr_t, int64_t, double, std::string, bool>>& row_data) {
     
     if (row_data.size() != columns_.size()) {
         throw std::runtime_error(
