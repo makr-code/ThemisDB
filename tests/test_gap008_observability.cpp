@@ -95,11 +95,17 @@ TEST_F(GAP008HealthCheckTest, LivenessProbeReturnsTrue) {
 TEST_F(GAP008HealthCheckTest, ReadinessProbeAfterHealthCheck) {
     // Initially readiness may be false
     // After a health check, it should be updated
-    health_check_->checkSystemHealth();
+    auto report = health_check_->checkSystemHealth();
     
-    // Readiness should be based on health status
+    // Readiness should be true if system is healthy or degraded (operational)
     bool ready = health_check_->isReady();
-    EXPECT_TRUE(ready || !ready); // Just verify it returns a boolean
+    if (report.overall_status == HealthStatus::HEALTHY || 
+        report.overall_status == HealthStatus::DEGRADED) {
+        EXPECT_TRUE(ready);
+    } else if (report.overall_status == HealthStatus::UNHEALTHY) {
+        EXPECT_FALSE(ready);
+    }
+    // For UNKNOWN status, readiness is implementation-dependent
 }
 
 TEST_F(GAP008HealthCheckTest, ComponentCheckResponseTime) {
@@ -171,9 +177,9 @@ TEST_F(GAP008AlertmanagerTest, SendAlertLogsAlert) {
     // Should log alert (stub implementation)
     auto result = alertmanager_->sendAlert(alert);
     
-    // Result should indicate success or not implemented
-    // For stub, we just verify it doesn't crash
-    EXPECT_TRUE(result.has_value() || !result.has_value());
+    // Stub implementation logs alerts and returns success (when disabled)
+    // Since alertmanager is disabled in test setup, it should succeed
+    EXPECT_TRUE(result.has_value());
 }
 
 TEST_F(GAP008AlertmanagerTest, ResolveAlertReturnsSuccess) {
@@ -190,8 +196,8 @@ TEST_F(GAP008AlertmanagerTest, ResolveAlertReturnsSuccess) {
     // Then resolve it
     auto result = alertmanager_->resolveAlert("alert_002");
     
-    // Should succeed (even if stub)
-    EXPECT_TRUE(result.has_value() || !result.has_value());
+    // Stub implementation should succeed for disabled alertmanager
+    EXPECT_TRUE(result.has_value());
 }
 
 TEST_F(GAP008AlertmanagerTest, SilenceAlertWorks) {
@@ -206,7 +212,8 @@ TEST_F(GAP008AlertmanagerTest, SilenceAlertWorks) {
     // Silence for 60 minutes
     auto result = alertmanager_->silenceAlert("alert_003", 60);
     
-    EXPECT_TRUE(result.has_value() || !result.has_value());
+    // Stub implementation should succeed for disabled alertmanager
+    EXPECT_TRUE(result.has_value());
 }
 
 TEST_F(GAP008AlertmanagerTest, GetActiveAlertsReturnsVector) {
@@ -267,9 +274,9 @@ TEST_F(GAP008AlertmanagerTest, AlertSeverityLevels) {
         alert.status = AlertStatus::FIRING;
         alert.message = "Test message";
         
-        // Should handle all severity levels
+        // Should handle all severity levels successfully (stub implementation)
         auto result = alertmanager_->sendAlert(alert);
-        EXPECT_TRUE(result.has_value() || !result.has_value());
+        EXPECT_TRUE(result.has_value());
     }
 }
 
@@ -293,8 +300,8 @@ TEST_F(GAP008AlertmanagerTest, AlertWithLabelsAndAnnotations) {
     
     auto result = alertmanager_->sendAlert(alert);
     
-    // Should handle labels and annotations
-    EXPECT_TRUE(result.has_value() || !result.has_value());
+    // Should handle labels and annotations successfully (stub implementation)
+    EXPECT_TRUE(result.has_value());
 }
 
 } // namespace test
