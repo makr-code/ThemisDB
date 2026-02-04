@@ -278,6 +278,69 @@ curl http://localhost:8080/metrics
 - 📚 **[Examples Index](docs/EXAMPLES_INDEX.md)** - Browse 37+ examples by feature
 - 🎓 **[Learning Paths](docs/EXAMPLES_INDEX.md#-learning-paths)** - Guided paths for different roles
 
+### Schema Management API
+
+ThemisDB provides a comprehensive Schema Manager for database introspection and schema customization:
+
+```bash
+# Get all table schemas
+curl http://localhost:8080/api/v1/schema
+
+# Get specific table schema
+curl http://localhost:8080/api/v1/schema/tables/users
+
+# Create/update custom schema
+curl -X PUT http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "products",
+    "type": "relational",
+    "properties": [
+      {"name": "id", "type": "integer", "indexed": true, "nullable": false},
+      {"name": "name", "type": "string", "nullable": true},
+      {"name": "price", "type": "double", "nullable": false}
+    ],
+    "indexes": [
+      {"name": "id", "type": "regular", "unique": true, "columns": ["id"]}
+    ]
+  }'
+
+# Partial update (PATCH)
+curl -X PATCH http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "properties": [
+      {"name": "description", "type": "string", "nullable": true}
+    ]
+  }'
+
+# Get database capabilities
+curl http://localhost:8080/api/v1/capabilities
+```
+
+**Supported Schema Types:**
+- `relational` - Traditional table with structured columns
+- `document` - Flexible document/JSON storage
+- `graph_node` - Graph database nodes
+- `graph_edge` - Graph database edges/relationships
+- `vector` - Vector embeddings for AI/ML
+
+**Supported Property Types:**
+- `string`, `integer`, `double`, `boolean`, `vector`, `binary`, `null`
+
+**Supported Index Types:**
+- `regular`, `range`, `sparse`, `geo`, `ttl`, `fulltext`, `composite`
+
+**Features:**
+- ✅ Automatic schema discovery from data
+- ✅ Custom schema definitions with validation
+- ✅ Partial updates (PATCH)
+- ✅ Persistent storage in RocksDB
+- ✅ Thread-safe caching with 60s TTL
+- ✅ Comprehensive validation (names, types, references)
+
+> **📖 More Info:** [Operations Handbook - Schema Management](docs/operations/OPERATIONS_HANDBOOK.md#schema-management)
+
 ---
 
 ## Core Capabilities
