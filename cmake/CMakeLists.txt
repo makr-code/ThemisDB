@@ -831,13 +831,24 @@ if(NOT TARGET RocksDB::rocksdb AND NOT TARGET RocksDB::rocksdb-shared)
 endif()
 
 # Core packages via vcpkg (or system where available)
-find_package(simdjson CONFIG REQUIRED)
-find_package(TBB CONFIG REQUIRED)
+find_package(simdjson CONFIG QUIET)
+if(NOT simdjson_FOUND)
+    message(WARNING "simdjson not found - some features may be disabled")
+endif()
+
+find_package(TBB CONFIG QUIET)
+if(NOT TBB_FOUND)
+    message(WARNING "TBB not found - will use fallback threading")
+endif()
+
 find_package(Arrow CONFIG QUIET)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost QUIET COMPONENTS system)
+if(NOT Boost_FOUND)
+    message(WARNING "Boost not found - some features may be disabled")
+endif()
 
 # yaml-cpp might be found via PkgConfig or CONFIG
 find_package(yaml-cpp CONFIG QUIET)
@@ -877,9 +888,13 @@ if(TARGET yaml-cpp::yaml-cpp)
 endif()
 
 # Defensive check: Ensure Boost::system target exists after find_package
-if(NOT TARGET Boost::system)
-    message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
-                        "Ensure Boost was found and the 'system' component is available.")
+if(Boost_FOUND)
+    if(NOT TARGET Boost::system)
+        message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
+                            "Ensure Boost was found and the 'system' component is available.")
+    endif()
+else()
+    message(WARNING "Boost not available - network features may be disabled")
 endif()
 # Optional ZSTD for content compression wrappers
 # Note: ZSTD packages may expose different target names depending on the build system

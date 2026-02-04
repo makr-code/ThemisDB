@@ -19,6 +19,12 @@ class LatencyTracker;
  * Aggregates metrics from all subsystems (TSStore, Query Engine, Sharding, Cache, etc.)
  * and exposes them in Prometheus text format via /metrics endpoint.
  * 
+ * Thread-Safety:
+ * - All public methods are thread-safe
+ * - Counter and gauge operations are protected by mutex during map insertion
+ * - Histogram operations are fully synchronized
+ * - Safe for concurrent access from multiple threads
+ * 
  * Thread-safe singleton pattern for global access.
  */
 class MetricsCollector {
