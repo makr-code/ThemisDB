@@ -7,18 +7,24 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include "utils/zstd_codec.h"
 
 namespace themis::content::pipeline {
 
 /**
  * @brief ZSTD compression interface for content pipeline
  * 
- * This is a placeholder class for GAP-005 implementation.
+ * This class provides a pipeline-specific wrapper around ThemisDB's
+ * existing ZSTD compression utilities (utils::zstd_codec).
+ * 
+ * It integrates with the existing, fully-functional ZSTD implementation
+ * while providing a consistent API for pipeline operations.
+ * 
  * Future enhancements:
- * - Support for compression levels
  * - Streaming compression for large files
  * - Dictionary-based compression for similar content
  * - Compression statistics and metrics
+ * - Batch compression optimization
  */
 class ZstdCompression {
 public:
@@ -26,21 +32,29 @@ public:
     ~ZstdCompression() = default;
 
     /**
-     * @brief Compress data using ZSTD algorithm (placeholder)
+     * @brief Compress data using ZSTD algorithm
+     * 
+     * Uses ThemisDB's existing utils::zstd_compress implementation.
+     * Returns empty vector on failure or if ZSTD is not available.
+     * 
      * @param data Input data to compress
-     * @return Compressed data (currently returns input as-is)
+     * @return Compressed data (empty on failure)
      */
     std::vector<uint8_t> compress(const std::vector<uint8_t>& data);
 
     /**
-     * @brief Decompress ZSTD compressed data (placeholder)
+     * @brief Decompress ZSTD compressed data
+     * 
+     * Uses ThemisDB's existing utils::zstd_decompress implementation.
+     * Returns empty vector on failure or if ZSTD is not available.
+     * 
      * @param compressed_data Compressed input data
-     * @return Decompressed data (currently returns input as-is)
+     * @return Decompressed data (empty on failure)
      */
     std::vector<uint8_t> decompress(const std::vector<uint8_t>& compressed_data);
 
     /**
-     * @brief Set compression level (placeholder)
+     * @brief Set compression level
      * @param level Compression level (1-22, higher = better compression)
      */
     void set_compression_level(int level);

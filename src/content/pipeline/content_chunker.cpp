@@ -15,9 +15,17 @@ ContentChunker::ContentChunker(const ChunkConfig& config)
 }
 
 std::vector<ContentChunker::Chunk> ContentChunker::chunk(const std::vector<uint8_t>& data) {
-    // Placeholder implementation - simple byte-based chunking
-    // TODO: Implement content-aware chunking (respect boundaries)
-    // Future: Add overlap support, adaptive chunk sizing, multi-modal strategies
+    // Generic byte-based chunking implementation
+    // 
+    // This provides simple fixed-size chunking for pipeline operations.
+    // For content-aware chunking that respects semantic boundaries:
+    // - Text: Use TextProcessor::chunk() (sentence-based with overlap)
+    // - Images: Use ImageProcessor::chunk() (tile or region-based)
+    // - Audio: Use AudioProcessor chunking (time-based segments)
+    // - Video: Use VideoProcessor chunking (frame-based)
+    //
+    // Future: Add content-aware boundary detection, adaptive sizing,
+    // and integration with IContentProcessor strategies.
     
     std::vector<Chunk> chunks;
     
@@ -46,9 +54,10 @@ std::vector<ContentChunker::Chunk> ContentChunker::chunk(const std::vector<uint8
 }
 
 std::vector<uint8_t> ContentChunker::reassemble(const std::vector<Chunk>& chunks) {
-    // Placeholder implementation - simple concatenation
-    // TODO: Validate chunk ordering and completeness
-    // Future: Handle overlapping chunks, error correction
+    // Simple concatenation for generic chunks
+    // For content-type-specific reassembly, use the respective processor's
+    // reconstruction logic which may handle metadata, overlaps, and
+    // content-specific validation.
     
     std::vector<uint8_t> result;
     

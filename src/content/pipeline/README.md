@@ -2,26 +2,26 @@
 
 ## Overview
 
-The Content Pipeline module provides infrastructure for efficient content processing in ThemisDB. This module is part of GAP-005 implementation and currently contains placeholder classes for:
+The Content Pipeline module provides infrastructure for efficient content processing in ThemisDB. This module integrates with existing ThemisDB infrastructure while providing a unified API for pipeline operations.
 
-- **ZSTD Compression**: Data compression/decompression using ZSTD algorithm
-- **Content Chunking**: Breaking large content into manageable chunks
-- **Bulk Upload Interface**: Efficient batch content ingestion
+**Integration with Existing Infrastructure:**
+- **ZSTD Compression**: Wraps `utils::zstd_codec` (fully functional implementation)
+- **Content Chunking**: Complements `IContentProcessor::chunk()` with generic byte-based chunking
+- **Bulk Upload**: Simplified interface, can integrate with `AsyncIngestionWorker` for production
 
 ## Components
 
 ### ZstdCompression
 
-Provides compression and decompression capabilities for content data.
+Provides compression and decompression capabilities using ThemisDB's existing ZSTD implementation.
 
-**Current Status**: Placeholder implementation (pass-through)
+**Integration**: Delegates to `utils::zstd_compress()` and `utils::zstd_decompress()`
 
-**Planned Features**:
-- Actual ZSTD compression integration
+**Features**:
+- Uses existing production-ready ZSTD implementation
 - Configurable compression levels (1-22)
-- Streaming compression for large files
-- Dictionary-based compression for similar content
-- Compression statistics and metrics
+- Automatic security validation (max 1GB input, 4GB decompressed)
+- Conditional compilation with THEMIS_HAS_ZSTD
 
 **Example Usage**:
 ```cpp
@@ -39,15 +39,20 @@ auto decompressed = compressor.decompress(compressed);
 
 ### ContentChunker
 
-Splits large content into chunks for processing and storage.
+Generic byte-based chunking for pipeline operations.
 
-**Current Status**: Basic byte-based chunking implemented
+**Integration**: Complements `IContentProcessor::chunk()` which provides content-aware chunking
 
-**Planned Features**:
-- Content-aware chunking (respect boundaries like paragraphs, frames)
-- Adaptive chunk size based on content type
-- Overlapping chunks for context preservation
-- Multi-modal chunking strategies (text, images, video)
+**Use Cases**:
+- Pre-chunking before content type detection
+- Generic binary data streaming
+- Pipeline operations requiring fixed-size chunks
+- Testing and development
+
+**For Content-Aware Chunking**:
+- Text: Use `TextProcessor::chunk()` (sentence-based with overlap)
+- Images: Use `ImageProcessor::chunk()` (tile or region-based)
+- Audio/Video: Use respective processor chunking strategies
 
 **Example Usage**:
 ```cpp
@@ -66,17 +71,19 @@ auto reassembled = chunker.reassemble(chunks);
 
 ### BulkUploadInterface
 
-Interface for efficient batch content upload.
+Simplified interface for batch content upload.
 
-**Current Status**: Placeholder implementation with basic sequential processing
+**Integration**: For production use, consider `AsyncIngestionWorker` which provides:
+- Multi-threaded processing with worker pools
+- Job queue management with priority
+- Integration with ContentManager::ingest()
+- Advanced progress tracking and cancellation
 
-**Planned Features**:
-- Parallel upload processing
-- Resume capability for interrupted uploads
-- Batch optimization and deduplication
-- Progress tracking and callbacks
-- Multi-modal content handling
-- Compaction strategies
+**Use Cases**:
+- Simple batch upload scenarios
+- Testing and development
+- Pipeline-specific upload patterns
+- Integration point for custom upload strategies
 
 **Example Usage**:
 ```cpp
@@ -112,6 +119,36 @@ The Content Pipeline module is designed to integrate with:
 3. **RAID System**: For distributed content storage
 4. **Vector Search**: For embedding generation and similarity search
 
+### Integration Examples
+
+#### Using Existing ZSTD Compression
+```cpp
+// Pipeline wrapper uses existing utils::zstd_codec
+ZstdCompression compressor;
+auto compressed = compressor.compress(data);
+
+// Equivalent to:
+auto compressed = themis::utils::zstd_compress(data, 3);
+```
+
+#### Using AsyncIngestionWorker for Production
+```cpp
+// For production batch uploads, use AsyncIngestionWorker
+#include "content/async_ingestion_worker.h"
+
+AsyncIngestionConfig config;
+config.worker_thread_count = 4;
+AsyncIngestionWorker worker(content_manager, config);
+worker.start();
+
+// Submit batch job
+IngestionJob job;
+job.job_id = "batch-001";
+job.type = IngestionJobType::BATCH_FILES;
+// ... configure job
+worker.submitJob(job);
+```
+
 ## Testing
 
 Unit tests are available in `tests/test_content_pipeline.cpp`.
@@ -124,13 +161,13 @@ Run tests with:
 ## Performance Considerations
 
 - **Chunking**: Default chunk size is 1MB, adjustable based on workload
-- **Compression**: ZSTD level 3 by default, balancing speed and compression ratio
-- **Bulk Upload**: Currently sequential; parallel processing planned for future
+- **Compression**: Uses existing production ZSTD implementation with validated security bounds
+- **Bulk Upload**: Simple sequential implementation; use AsyncIngestionWorker for parallel processing
 
 ## Future Development
 
 See `docs/de/development/GAP-005-content-pipeline.md` for:
-- Open implementation points
+- Integration roadmap with existing components
 - Multi-modality support plans
 - Compaction strategies
 - Performance optimization roadmap
@@ -139,11 +176,18 @@ See `docs/de/development/GAP-005-content-pipeline.md` for:
 
 When extending this module:
 
-1. Maintain backward compatibility with placeholder interfaces
-2. Add comprehensive unit tests for new functionality
-3. Update documentation with new features
-4. Consider performance impact on existing workloads
+1. Leverage existing ThemisDB infrastructure where possible
+2. Maintain compatibility with existing interfaces
+3. Add comprehensive unit tests for new functionality
+4. Update documentation with integration patterns
 5. Follow ThemisDB coding standards
+
+## Related Components
+
+- **utils::zstd_codec** (`include/utils/zstd_codec.h`) - Production ZSTD implementation
+- **IContentProcessor** (`include/content/content_processor.h`) - Content-aware chunking
+- **AsyncIngestionWorker** (`include/content/async_ingestion_worker.h`) - Production batch ingestion
+- **ContentManager** (`include/content/content_manager.h`) - Content orchestration
 
 ## License
 

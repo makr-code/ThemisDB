@@ -13,12 +13,33 @@ namespace themis::content::pipeline {
 /**
  * @brief Content chunking mechanism for processing large files
  * 
- * This is a placeholder class for GAP-005 implementation.
+ * This class provides generic byte-based chunking for content pipeline
+ * operations. It complements ThemisDB's existing content processor system
+ * (IContentProcessor::chunk()) which provides content-type-specific
+ * chunking strategies.
+ * 
+ * Relationship to existing infrastructure:
+ * - IContentProcessor::chunk() - Content-aware chunking (text sentences,
+ *   image regions, audio segments) with type-specific metadata
+ * - ContentChunker - Generic binary chunking for pipeline operations,
+ *   useful for raw data processing, pre-processing, and streaming
+ * 
+ * Use cases:
+ * - Pre-chunking before content type detection
+ * - Generic binary data streaming
+ * - Pipeline operations requiring fixed-size chunks
+ * - Testing and development scenarios
+ * 
+ * For content-aware chunking with semantic boundaries:
+ * - Text: Use TextProcessor::chunk() (sentence-based with overlap)
+ * - Images: Use ImageProcessor::chunk() (tile-based or region-based)
+ * - Audio/Video: Use respective processor chunking strategies
+ * 
  * Future enhancements:
- * - Content-aware chunking (respect boundaries like paragraphs, frames)
+ * - Content-aware boundary detection
  * - Adaptive chunk size based on content type
  * - Overlapping chunks for context preservation
- * - Multi-modal chunking strategies
+ * - Integration adapter for IContentProcessor strategies
  */
 class ContentChunker {
 public:
@@ -46,14 +67,18 @@ public:
     ~ContentChunker() = default;
 
     /**
-     * @brief Split content into chunks (placeholder)
+     * @brief Split content into chunks
+     * 
+     * Generic byte-based chunking. For content-aware chunking
+     * that respects semantic boundaries, use IContentProcessor::chunk().
+     * 
      * @param data Input data to chunk
      * @return Vector of chunks
      */
     std::vector<Chunk> chunk(const std::vector<uint8_t>& data);
 
     /**
-     * @brief Reconstruct original content from chunks (placeholder)
+     * @brief Reconstruct original content from chunks
      * @param chunks Vector of chunks to reassemble
      * @return Reconstructed data
      */

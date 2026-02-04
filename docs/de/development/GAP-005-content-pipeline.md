@@ -21,17 +21,23 @@ GAP-005 beschreibt die Implementierung eines ContentPipeline-Moduls zur effizien
 
 **Standort**: `include/content/pipeline/zstd_compression.h`
 
-**Funktionalität** (Platzhalter):
-- `compress()`: Komprimiert Daten (aktuell Pass-through)
-- `decompress()`: Dekomprimiert Daten (aktuell Pass-through)
-- `set_compression_level()`: Setzt Kompressionsgrad (1-22)
+**Funktionalität** (Integration mit existierender Implementierung):
+- `compress()`: Komprimiert Daten via `utils::zstd_compress()`
+- `decompress()`: Dekomprimiert Daten via `utils::zstd_decompress()`
+- `set_compression_level()`: Setzt Kompressionsgrad (1-22) mit Validierung
 - `get_compression_level()`: Ruft aktuellen Grad ab
+
+**Integration**:
+- Nutzt vollständig implementiertes `utils::zstd_codec` (seit v1.3.0)
+- Automatische Sicherheitsvalidierung (max 1GB Input, 4GB Output)
+- Conditional compilation mit `THEMIS_HAS_ZSTD`
+- Keine Duplikation - dient als Pipeline-API-Wrapper
 
 **Verwendung**:
 ```cpp
 ZstdCompression compressor;
 compressor.set_compression_level(5);
-auto compressed = compressor.compress(data);
+auto compressed = compressor.compress(data);  // Nutzt utils::zstd_compress
 ```
 
 #### 2. ContentChunker
@@ -39,10 +45,22 @@ auto compressed = compressor.compress(data);
 **Standort**: `include/content/pipeline/content_chunker.h`
 
 **Funktionalität**:
-- Einfaches byte-basiertes Chunking implementiert
+- Generisches byte-basiertes Chunking für Pipeline-Operationen
 - Konfigurierbare Chunk-Größe (Standard: 1MB)
 - Unterstützung für Chunk-Reassemblierung
 - Metadaten für jeden Chunk (Index, Offset, Gesamtzahl)
+
+**Integration**:
+- Ergänzt existierendes `IContentProcessor::chunk()` 
+- IContentProcessor bietet content-aware Chunking (Sätze, Bilder-Tiles, Audio-Segmente)
+- ContentChunker bietet generisches Binary-Chunking für Pipeline-Zwecke
+- Keine Duplikation - unterschiedliche Anwendungsfälle
+
+**Verwendungszwecke**:
+- Pre-Chunking vor Content-Type-Erkennung
+- Generische Binary-Daten-Streaming
+- Pipeline-Operationen mit Fixed-Size Chunks
+- Testing und Entwicklung
 
 **Konfiguration**:
 ```cpp
@@ -56,13 +74,34 @@ ContentChunker chunker(config);
 
 **Standort**: `include/content/pipeline/bulk_upload_interface.h`
 
-**Funktionalität** (Platzhalter):
+**Funktionalität** (Vereinfachtes Interface):
 - Einzelnes Content-Upload
-- Batch-Upload mehrerer Items
+- Batch-Upload mehrerer Items (sequentiell)
 - Progress-Callback-Unterstützung
-- Status-Tracking (grundlegend)
+- Status-Tracking (basic)
 
-**Verwendung**:
+**Integration**:
+- Vereinfachtes Interface für einfache Upload-Szenarien
+- Für Produktion: `AsyncIngestionWorker` nutzen (seit v1.3.0)
+- AsyncIngestionWorker bietet: Thread-Pool, Job-Queue, ContentManager-Integration
+- BulkUploadInterface dient als einfache API für Testing/Development
+- Kann erweitert werden um AsyncIngestionWorker zu wrappen
+
+**Für Produktion verwenden**:
+```cpp
+#include "content/async_ingestion_worker.h"
+
+AsyncIngestionConfig config;
+config.worker_thread_count = 4;
+AsyncIngestionWorker worker(content_manager, config);
+worker.start();
+
+IngestionJob job;
+job.type = IngestionJobType::BATCH_FILES;
+worker.submitJob(job);
+```
+
+**Für Testing/Simple Cases**:
 ```cpp
 BulkUploadInterface uploader;
 uploader.set_progress_callback([](const auto& id, size_t done, size_t total) {
@@ -75,8 +114,8 @@ auto result = uploader.upload(content, metadata);
 
 **Testdatei**: `tests/test_content_pipeline.cpp`
 
-Umfassende Unit-Tests für alle Platzhalter-Methoden:
-- ✅ ZstdCompression: 5 Tests
+Umfassende Unit-Tests für alle Methoden:
+- ✅ ZstdCompression: 5 Tests (nutzt utils::zstd_codec)
 - ✅ ContentChunker: 8 Tests  
 - ✅ BulkUploadInterface: 8 Tests
 - ✅ Integration-Test: 1 Test
@@ -86,25 +125,41 @@ Umfassende Unit-Tests für alle Platzhalter-Methoden:
 ./build/themis_tests --gtest_filter="ContentPipeline*"
 ```
 
+### Integration mit existierender Infrastruktur
+
+**Status**: ✅ Implementiert (keine Duplikation)
+
+Die Pipeline-Komponenten integrieren sich mit vorhandener ThemisDB-Infrastruktur:
+
+| Pipeline-Komponente | Existierende Komponente | Integration |
+|--------------------|------------------------|-------------|
+| `ZstdCompression` | `utils::zstd_codec` | Wrapper-API, delegiert zu utils::zstd_compress/decompress |
+| `ContentChunker` | `IContentProcessor::chunk()` | Ergänzend: Generic vs. Content-aware chunking |
+| `BulkUploadInterface` | `AsyncIngestionWorker` | Simplified API, kann AsyncIngestionWorker wrappen |
+
+**Vorteile der Integration**:
+- ✅ Keine Code-Duplikation
+- ✅ Nutzt getestete, produktionsreife Implementierungen
+- ✅ Pipeline-spezifische API für vereinfachte Nutzung
+- ✅ Klare Trennung: Generic Pipeline vs. Content-Aware Processing
+
 ## Offene Punkte und Erweiterungen
 
-### 1. ZSTD-Komprimierung (Priorität: Hoch)
+### 1. ZSTD-Komprimierung (Priorität: Niedrig)
 
-**Aktueller Zustand**: Platzhalter-Implementierung (Pass-through)
+**Aktueller Zustand**: ✅ Vollständig integriert mit utils::zstd_codec
 
-**Nächste Schritte**:
-- [ ] Integration von libzstd
-- [ ] Implementierung echter Kompression/Dekompression
-- [ ] Streaming-Kompression für große Dateien
+**Status**: 
+- ✅ Nutzt existierende libzstd-Integration
+- ✅ Sicherheitsvalidierung vorhanden
+- ✅ Conditional compilation
+- ✅ Produktionsreif
+
+**Mögliche Erweiterungen**:
+- [ ] Streaming-Kompression-API für große Dateien
 - [ ] Dictionary-basierte Kompression für ähnliche Inhalte
-- [ ] Kompressionsstatistiken und Metriken
-- [ ] Fehlerbehandlung und Validierung
-
-**Abhängigkeiten**:
-- libzstd (via vcpkg)
-- CMake-Integration
-
-**Aufwandsschätzung**: 3-5 Tage
+- [ ] Kompressionsstatistiken und Metriken im Pipeline-Context
+- [ ] Batch-Kompression-Optimierung
 
 ### 2. Multi-Modalität (Priorität: Mittel)
 

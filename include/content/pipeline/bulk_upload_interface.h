@@ -15,12 +15,27 @@ namespace themis::content::pipeline {
 /**
  * @brief Bulk upload interface for efficient content ingestion
  * 
- * This is a placeholder class for GAP-005 implementation.
+ * This class provides a simplified, pipeline-specific interface for
+ * batch content upload operations. It can be used as a facade or
+ * integrated with ThemisDB's AsyncIngestionWorker for production use.
+ * 
+ * For production deployments, consider using AsyncIngestionWorker directly
+ * (include/content/async_ingestion_worker.h) which provides:
+ * - Multi-threaded processing with configurable worker pools
+ * - Job queue management with priority support
+ * - Advanced progress tracking and cancellation
+ * - Archive extraction and batch file processing
+ * 
+ * This interface is designed for:
+ * - Simple batch upload scenarios
+ * - Testing and development
+ * - Pipeline-specific upload patterns
+ * - Integration point for custom upload strategies
+ * 
  * Future enhancements:
- * - Parallel upload processing
+ * - Integration adapter for AsyncIngestionWorker
  * - Resume capability for interrupted uploads
  * - Batch optimization and deduplication
- * - Progress tracking and callbacks
  * - Multi-modal content handling
  * - Compaction strategies
  */
@@ -69,7 +84,11 @@ public:
     virtual ~BulkUploadInterface() = default;
 
     /**
-     * @brief Upload a single content item (placeholder)
+     * @brief Upload a single content item
+     * 
+     * Simple implementation for basic use cases. For production with
+     * ContentManager integration, consider AsyncIngestionWorker.
+     * 
      * @param content Content data to upload
      * @param metadata Content metadata
      * @return Upload result
@@ -78,7 +97,11 @@ public:
                                 const ContentMetadata& metadata);
 
     /**
-     * @brief Upload multiple content items in batch (placeholder)
+     * @brief Upload multiple content items in batch
+     * 
+     * Simple sequential implementation. For parallel processing,
+     * use AsyncIngestionWorker with BATCH_FILES job type.
+     * 
      * @param contents Vector of content data to upload
      * @param metadata_list Vector of metadata for each content item
      * @return Vector of upload results
@@ -95,6 +118,10 @@ public:
 
     /**
      * @brief Cancel an ongoing upload operation
+     * 
+     * Note: Current simple implementation doesn't support cancellation.
+     * Use AsyncIngestionWorker for advanced cancellation support.
+     * 
      * @param content_id ID of the content to cancel
      * @return true if cancellation was successful
      */
@@ -102,6 +129,10 @@ public:
 
     /**
      * @brief Get status of an upload operation
+     * 
+     * Note: Current implementation doesn't track status persistently.
+     * Use AsyncIngestionWorker for comprehensive status tracking.
+     * 
      * @param content_id ID of the content
      * @return Current upload status
      */
