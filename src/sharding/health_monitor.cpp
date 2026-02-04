@@ -1,9 +1,6 @@
 #include "sharding/health_monitor.h"
-<<<<<<< HEAD
 #include "sharding/thread_pool_manager.h"
-=======
 #include "sharding/exceptions.h"
->>>>>>> origin/copilot/review-distributed-systems-components
 #include <algorithm>
 
 namespace themis::sharding {
