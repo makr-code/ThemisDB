@@ -7,6 +7,7 @@
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "sharding/transaction_lifecycle_manager.h"
 #include "sharding/error_handling.h"
 #include <string>
 #include <vector>
@@ -381,6 +382,9 @@ private:
     // Transaction log file
     std::string transaction_log_path_;
     
+    // Resource management
+    std::unique_ptr<TransactionLifecycleManager> lifecycle_manager_;
+    
     // State
     mutable std::mutex transactions_mutex_;
     std::map<std::string, CrossShardTransaction> transactions_;
@@ -390,9 +394,13 @@ private:
     std::function<void(const std::string&, TransactionState, TransactionState)> 
         on_state_change_callback_;
     
+    // Resource management
+    std::unique_ptr<TransactionLifecycleManager> lifecycle_manager_;
+    
     // Background thread
     std::atomic<bool> running_;
     std::thread deadlock_detection_thread_;
+    std::thread cleanup_thread_;
     
     // Statistics
     std::atomic<uint64_t> total_transactions_;

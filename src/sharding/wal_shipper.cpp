@@ -1,5 +1,6 @@
 #include "sharding/wal_shipper.h"
 #include "sharding/prometheus_metrics.h"
+#include "sharding/thread_pool_manager.h"
 #include "utils/zstd_codec.h"
 #include <algorithm>
 #include <iostream>
@@ -9,6 +10,25 @@ namespace themis::sharding {
 WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
                        const WALShipperConfig& config)
     : wal_manager_(wal_manager), config_(config) {
+    
+    if (!wal_manager_) {
+        throw std::invalid_argument("WAL manager cannot be null");
+    }
+    
+    // Create mTLS client if certificates provided
+    if (!config_.cert_path.empty()) {
+        MTLSClient::Config mtls_config;
+        mtls_config.cert_path = config_.cert_path;
+        mtls_config.key_path = config_.key_path;
+        mtls_config.ca_cert_path = config_.ca_cert_path;
+        mtls_client_ = std::make_shared<MTLSClient>(mtls_config);
+    }
+}
+
+WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
+                       const WALShipperConfig& config,
+                       std::shared_ptr<themisdb::sharding::ThreadPoolManager> thread_pool)
+    : wal_manager_(wal_manager), config_(config), thread_pool_(thread_pool) {
     
     if (!wal_manager_) {
         throw std::invalid_argument("WAL manager cannot be null");
@@ -51,7 +71,16 @@ void WALShipper::start() {
     }
     
     running_ = true;
-    shipper_thread_ = std::make_unique<std::thread>(&WALShipper::shippingLoop, this);
+    
+    if (thread_pool_) {
+        // Use centralized thread pool
+        thread_pool_->submit([this]() {
+            shippingLoop();
+        });
+    } else {
+        // Fallback to dedicated thread for backward compatibility
+        shipper_thread_ = std::make_unique<std::thread>(&WALShipper::shippingLoop, this);
+    }
 }
 
 void WALShipper::stop() {

@@ -42,6 +42,13 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
+// Forward declaration
+namespace themisdb {
+namespace sharding {
+    class WALRetentionManager;
+}
+}
+
 namespace themis::sharding {
 
 /**
@@ -228,6 +235,9 @@ private:
     
     // Write buffer
     std::vector<uint8_t> write_buffer_;
+    
+    // Resource management
+    std::unique_ptr<themisdb::sharding::WALRetentionManager> retention_manager_;
     
     // Statistics
     std::atomic<uint64_t> total_entries_{0};

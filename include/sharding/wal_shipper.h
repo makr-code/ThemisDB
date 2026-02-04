@@ -2,6 +2,7 @@
 
 #include "sharding/wal_manager.h"
 #include "sharding/mtls_client.h"
+#include "sharding/thread_pool_manager.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -98,6 +99,12 @@ class WALShipper {
 public:
     WALShipper(std::shared_ptr<WALManager> wal_manager,
                const WALShipperConfig& config);
+    
+    // Constructor with thread pool
+    WALShipper(std::shared_ptr<WALManager> wal_manager,
+               const WALShipperConfig& config,
+               std::shared_ptr<themisdb::sharding::ThreadPoolManager> thread_pool);
+    
     ~WALShipper();
     
     /**
@@ -183,6 +190,7 @@ public:
 private:
     WALShipperConfig config_;
     std::shared_ptr<WALManager> wal_manager_;
+    std::shared_ptr<themisdb::sharding::ThreadPoolManager> thread_pool_;
     
     // Replicas
     mutable std::mutex replicas_mutex_;
@@ -190,7 +198,7 @@ private:
     
     // Shipping thread
     std::atomic<bool> running_{false};
-    std::unique_ptr<std::thread> shipper_thread_;
+    std::unique_ptr<std::thread> shipper_thread_;  // Legacy, kept for backward compatibility
     std::mutex cv_mutex_;
     std::condition_variable cv_;
     

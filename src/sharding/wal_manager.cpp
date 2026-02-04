@@ -1,4 +1,5 @@
 #include "sharding/wal_manager.h"
+#include "sharding/wal_retention_manager.h"
 #include <filesystem>
 #include <chrono>
 #include <sstream>
@@ -142,11 +143,31 @@ WALManager::WALManager(const WALManagerConfig& config)
         fs::create_directories(config_.wal_directory);
     }
     
+    // Initialize retention manager
+    themisdb::sharding::WALRetentionManager::Config retention_config{
+        .max_segment_size = config_.segment_size,
+        .max_total_size = config_.segment_size * config_.max_segments,
+        .retention_time = std::chrono::hours(24),
+        .on_segment_ready_for_deletion = [this](const std::string& segment_id) {
+            // Parse segment number and delete file
+            try {
+                uint64_t segment_num = std::stoull(segment_id);
+                std::filesystem::remove(getSegmentPath(segment_num));
+            } catch (...) {
+                // Log error but continue
+            }
+        }
+    };
+    retention_manager_ = std::make_unique<themisdb::sharding::WALRetentionManager>(retention_config);
+    
     // Load existing segments
     loadExistingSegments();
     
     // Open current segment
     openSegment(current_lsn_.segment);
+    
+    // Register current segment with retention manager
+    retention_manager_->registerSegment(std::to_string(current_lsn_.segment));
 }
 
 WALManager::~WALManager() {
@@ -188,6 +209,14 @@ LSN WALManager::append(const WALEntry& entry) {
     // Flush if configured or buffer full
     if (config_.sync_on_write || write_buffer_.size() >= config_.write_buffer_size) {
         flush();
+    }
+    
+    // Update segment size in retention manager
+    if (retention_manager_) {
+        retention_manager_->updateSegmentSize(
+            std::to_string(current_lsn_.segment), 
+            current_lsn_.offset
+        );
     }
     
     return result_lsn;

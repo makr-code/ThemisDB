@@ -312,6 +312,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
+    ../src/sharding/metadata_shard.cpp
     
     # Raft consensus
     ../src/sharding/raft_configuration.cpp
@@ -357,6 +358,13 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/shard_durability.cpp
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
+    
+    # Resource management
+    ../src/sharding/connection_pool.cpp
+    ../src/sharding/thread_pool_manager.cpp
+    ../src/sharding/transaction_lifecycle_manager.cpp
+    ../src/sharding/wal_retention_manager.cpp
+    ../src/sharding/resource_monitor.cpp
 )
 
 set(THEMIS_LLM_SOURCES
