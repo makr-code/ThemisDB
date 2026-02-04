@@ -211,11 +211,13 @@ void MetricsCollector::reset() {
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
     counters_[key]++;
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
     gauges_[key].store(value);
 }
 
