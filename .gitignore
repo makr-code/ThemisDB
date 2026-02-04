@@ -352,3 +352,14 @@ audit-results-*/*-report.xml
 audit-results-*/*/clang-tidy-report.txt
 audit-results-*/*/cppcheck-report.txt
 audit-results-*/*/gitleaks-report.json
+
+# Audit Reports (generated files from audit framework)
+build/.audit-reports/*.html
+build/.audit-reports/*.xml
+build/.audit-reports/*.json
+build/.audit-reports/*.txt
+build/.audit-reports/*.log
+
+# Keep the audit directory structure
+!build/.audit-reports/.gitkeep
+!build/.audit-reports/README.md
