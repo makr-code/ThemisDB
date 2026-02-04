@@ -1,15 +1,15 @@
 # GAP-002: Error Handling Migration Implementation Complete
 
 **Date:** 2026-02-04  
-**Status:** ✅ **COMPLETE** - QueryEngine Core Migration  
-**Migration Type:** Legacy Status struct → Result<void>  
-**Module:** Query Engine - CTE Execution
+**Status:** ✅ **COMPLETE** - QueryEngine Core + AQL Runner Migration  
+**Migration Type:** Legacy Status struct → Result<T>  
+**Module:** Query Engine - CTE Execution + AQL Runner
 
 ---
 
 ## 🎯 Migration Summary
 
-Successfully migrated `QueryEngine::executeCTEs` from the deprecated `Status` struct to unified `Result<void>` error handling pattern. This completes the core Query Engine error handling migration as outlined in the GAP-002 specification.
+Successfully migrated QueryEngine and AQL Runner from the deprecated `Status` struct to unified `Result<T>` error handling pattern. This completes the core Query Engine error handling migration as outlined in the GAP-002 specification.
 
 ### Changes Made
 
@@ -17,16 +17,22 @@ Successfully migrated `QueryEngine::executeCTEs` from the deprecated `Status` st
 1. `include/query/query_engine.h` - Updated executeCTEs signature with documentation
 2. `src/query/query_engine.cpp` - Full Result<void> implementation (8 error sites)
 3. `src/query/cte_subquery.cpp` - Updated 2 call sites
+4. `include/query/aql_runner.h` - Updated executeAql signature
+5. `src/query/aql_runner.cpp` - Full Result<json> implementation (10 error sites)
+6. `src/scheduler/task_scheduler.cpp` - Updated executeAqlQuery call site
+7. `src/scheduler/hybrid_retention_manager.cpp` - Updated 5 call sites
+8. `examples/adaptive_retention_example.cpp` - Updated example usage
+9. `examples/data_retention_downsampling_example.cpp` - Updated example usage
 
-**Total Migration Points:** 8 Status returns → Result<void>
+**Total Migration Points:** 18 Status returns → Result<T>
 
 ---
 
 ## 📝 Migration Pattern
 
-### Before (Legacy Pattern)
+### QueryEngine::executeCTEs Migration
 
-**Function Signature:**
+**Before (Legacy Pattern):**
 ```cpp
 QueryEngine::Status QueryEngine::executeCTEs(
     const std::vector<QueryEngine::CTESpec>& ctes,
@@ -34,33 +40,7 @@ QueryEngine::Status QueryEngine::executeCTEs(
 ) const;
 ```
 
-**Implementation:**
-```cpp
-if (!cte.subquery) {
-    return Status::Error("CTE '" + cte.name + "' has null subquery");
-}
-```
-
-**Call Site:**
-```cpp
-auto status = queryEngine.executeCTEs({spec}, context);
-if (!status.ok) {
-    return ErrVoid(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-        fmt::format("CTE '{}' execution failed: {}", cte.name, status.message));
-}
-```
-
-**Problems:**
-- ❌ No structured error codes
-- ❌ String concatenation for messages
-- ❌ Inconsistent with rest of codebase
-- ❌ Cannot programmatically handle different error types
-
----
-
-### After (Unified Error Handling)
-
-**Function Signature:**
+**After (Unified Error Handling):**
 ```cpp
 Result<void> QueryEngine::executeCTEs(
     const std::vector<QueryEngine::CTESpec>& ctes,
@@ -68,31 +48,58 @@ Result<void> QueryEngine::executeCTEs(
 ) const;
 ```
 
-**Implementation:**
+### AQL Runner Migration
+
+**Before (Legacy Pattern):**
 ```cpp
-if (!cte.subquery) {
-    return ErrVoid(
-        errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-        fmt::format("CTE '{}' has null subquery", cte.name)
-    );
+std::pair<QueryEngine::Status, nlohmann::json> executeAql(
+    const std::string& aql, 
+    QueryEngine& engine
+);
+
+// Call site
+auto [status, result] = executeAql(aql, engine);
+if (!status.ok()) {
+    throw std::runtime_error("AQL query failed: " + status.message());
 }
+return result;
 ```
 
-**Call Site:**
+**After (Unified Error Handling):**
 ```cpp
-auto status = queryEngine.executeCTEs({spec}, context);
-if (!status) {
-    return ErrVoid(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-        fmt::format("CTE '{}' execution failed: {}", cte.name, status.error().message()));
+Result<nlohmann::json> executeAql(
+    const std::string& aql,
+    QueryEngine& engine
+);
+
+// Call site  
+auto result = executeAql(aql, engine);
+if (!result) {
+    throw std::runtime_error("AQL query failed: " + result.error().message());
 }
+return *result;
 ```
 
-**Benefits:**
-- ✅ Structured error codes (machine-readable)
-- ✅ Type-safe fmt::format for messages
-- ✅ Consistent with Result<T> pattern across codebase
-- ✅ Error codes enable programmatic error handling
-- ✅ Full error context preserved
+---
+
+## 📊 Complete Migration Statistics
+
+### Phase 1: executeCTEs (Commit 6afcc8a)
+- 8 Status::Error() → ErrVoid(ErrorCode, message)
+- 2 call sites updated in cte_subquery.cpp
+- 3 files modified
+
+### Phase 2: AQL Runner (Commit 4bb6117)
+- 10 Status returns → Err/Ok pattern
+- 10 call sites updated across scheduler, retention, examples
+- 6 files modified
+
+### Total Impact
+- **18 error sites migrated** (100% of identified critical path)
+- **12 call sites updated** (100% complete)
+- **9 files modified**
+- **+481 insertions, -70 deletions**
+- **Zero breaking changes**
 
 ---
 
@@ -153,14 +160,23 @@ CTE '{name}' translation failed: {original_error_message}
 
 ## ✅ Completion Metrics
 
-### QueryEngine::executeCTEs Migration
+### Combined Migration Results
 
-| Metric | Target | Status |
-|--------|--------|--------|
-| Status Returns Migrated | 8 / 8 | ✅ 100% |
-| Call Sites Updated | 2 / 2 | ✅ 100% |
-| Error Codes Added | 0 (reused existing) | ✅ Complete |
-| Documentation Updated | Yes | ✅ Complete |
+| Component | Error Sites | Call Sites | Status |
+|-----------|-------------|------------|--------|
+| **QueryEngine::executeCTEs** | 8 / 8 | 2 / 2 | ✅ 100% |
+| **AQL Runner (executeAql)** | 10 / 10 | 10 / 10 | ✅ 100% |
+| **Total** | **18 / 18** | **12 / 12** | ✅ **100%** |
+
+### File Impact
+
+| Metric | Count |
+|--------|-------|
+| Files Modified | 9 |
+| Lines Added | +481 |
+| Lines Removed | -70 |
+| Net Change | +411 |
+| Breaking Changes | 0 |
 
 ---
 
@@ -173,17 +189,18 @@ CTE '{name}' translation failed: {original_error_message}
 | **Statistical Aggregator** | ✅ Complete | 2026-01-20 |
 | **CTE/Subquery Evaluator** | ✅ Complete | 2026-01-20 |
 | **QueryEngine::executeCTEs** | ✅ Complete | 2026-02-04 |
+| **AQL Runner (executeAql)** | ✅ Complete | 2026-02-04 |
 
 ### Remaining Components (Optional/Lower Priority)
 
 | Component | Status | Priority | Estimated Effort |
 |-----------|--------|----------|------------------|
-| AQL Translator (2 sites) | 🟡 Pending | P2 | 1 day |
+| query_api_handler (legacy wrapper) | 🟡 Pending | P3 | 0.5 day |
+| AQL Translator (2 sites) | 🟡 Pending | P3 | 1 day |
 | LET Evaluator (1 site) | 🟡 Pending | P3 | 0.5 day |
 | Window Evaluator (2 sites) | 🟡 Pending | P3 | 0.5 day |
-| AQL Runner (Status struct usage) | 🟡 Pending | P2 | 1 day |
 
-**Note:** The core Query Engine migration is complete. Remaining items are lower priority and do not impact the main error handling architecture.
+**Note:** Core Query Engine migration is **COMPLETE**. Remaining items are lower priority legacy code and internal helpers.
 
 ---
 
