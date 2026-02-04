@@ -1,0 +1,23 @@
+name: Gap Implementation
+description: A template for gap implementations.
+
+# Gap Implementation
+
+## Purpose
+Describe the purpose of the gap implementation.
+
+## Background
+Provide background information relevant to the gap implementation.
+
+## Details
+- **Gap Title**: 
+- **Assumptions**: 
+- **Requirements**: 
+
+## Implementation Steps
+1. 
+2. 
+3. 
+
+## Testing
+Describe how to test the gap implementation.
