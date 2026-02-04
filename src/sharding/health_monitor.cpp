@@ -1,9 +1,6 @@
 #include "sharding/health_monitor.h"
 #include <algorithm>
 
-// Note: In production, use real HTTP client (Boost.Asio, libcurl, etc.)
-// For now, we simulate health checks
-
 namespace themis::sharding {
 
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
@@ -12,6 +9,41 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
     : config_(config),
       primary_coordinator_(primary_coordinator),
       topology_(topology),
+      last_failover_time_(std::chrono::steady_clock::time_point::min()) {
+    // Create default HTTP client pool
+    utils::HTTPClientPool::Config pool_config;
+    // Convert timeout to seconds, ensuring minimum of 1 second
+    auto timeout_seconds = std::max(
+        std::chrono::seconds(1),
+        std::chrono::duration_cast<std::chrono::seconds>(config_.health_check_timeout)
+    );
+    pool_config.connect_timeout = timeout_seconds;
+    pool_config.request_timeout = timeout_seconds;
+    pool_config.max_connections = 20;
+    http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_config);
+}
+
+HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
+                             std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                             std::shared_ptr<ReplicaTopology> topology,
+                             std::shared_ptr<utils::HTTPClientPool> http_pool)
+    : config_(config),
+      primary_coordinator_(primary_coordinator),
+      topology_(topology),
+      http_pool_(http_pool),
+      last_failover_time_(std::chrono::steady_clock::time_point::min()) {
+}
+
+HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
+                             std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
+                             std::shared_ptr<ReplicaTopology> topology,
+                             std::shared_ptr<utils::HTTPClientPool> http_pool,
+                             std::shared_ptr<utils::ThreadPoolManager> thread_pool)
+    : config_(config),
+      primary_coordinator_(primary_coordinator),
+      topology_(topology),
+      http_pool_(http_pool),
+      thread_pool_(thread_pool),
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
@@ -24,9 +56,21 @@ void HealthMonitor::start() {
         return;  // Already running
     }
     
-    monitor_thread_ = std::thread([this]() {
-        monitoringLoop();
-    });
+    // If thread pool is available, use it to schedule health checks
+    if (thread_pool_) {
+        // Schedule periodic health check task on thread pool
+        thread_pool_->submitTask(
+            utils::ThreadPoolManager::PoolType::IO,
+            [this]() { monitoringLoop(); },
+            "HealthMonitor::monitoringLoop",
+            utils::Task::Priority::NORMAL
+        );
+    } else {
+        // Fallback to dedicated thread (backward compatibility)
+        monitor_thread_ = std::thread([this]() {
+            monitoringLoop();
+        });
+    }
 }
 
 void HealthMonitor::stop() {
@@ -41,27 +85,27 @@ void HealthMonitor::stop() {
 
 HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id, 
                                                  const std::string& endpoint) {
-    (void)endpoint;
     total_health_checks_++;
     
     HealthCheckResult result;
     result.node_id = node_id;
     result.last_check = std::chrono::steady_clock::now();
     
-    // Simulate HTTP health check (in production: use real HTTP client)
+    // Perform actual HTTP health check
     auto start = std::chrono::steady_clock::now();
     
-    // TODO: Replace with actual HTTP GET to endpoint + config_.health_check_path
-    // Example: GET http://primary1:8765/health
-    // For now, simulate success
-    bool check_passed = true;  // Simulate success
+    bool check_passed = performHealthCheck(endpoint);
     
     auto elapsed = std::chrono::steady_clock::now() - start;
     result.response_time = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
     
     if (!check_passed || result.response_time > config_.health_check_timeout) {
         result.status = HealthStatus::SUSPECT;
-        result.error_message = "Health check timeout or failed";
+        if (result.response_time > config_.health_check_timeout) {
+            result.error_message = "Health check timeout";
+        } else {
+            result.error_message = "Health check failed";
+        }
         failed_health_checks_++;
     } else {
         result.status = HealthStatus::HEALTHY;
@@ -159,24 +203,51 @@ void HealthMonitor::performHealthChecks() {
         {
             std::lock_guard<std::mutex> lock(mutex_);
             
-            // Update consecutive failures
-            if (auto it = health_statuses_.find(primary.node_id); it != health_statuses_.end()) {
-                if (result.status != HealthStatus::HEALTHY) {
-                    result.consecutive_failures = it->second.consecutive_failures + 1;
-                } else {
-                    result.consecutive_failures = 0;
-                }
+            // Get previous status if it exists
+            auto it = health_statuses_.find(primary.node_id);
+            HealthStatus previous_status = HealthStatus::HEALTHY;
+            uint32_t prev_consecutive_failures = 0;
+            uint32_t prev_consecutive_successes = 0;
+            
+            if (it != health_statuses_.end()) {
+                previous_status = it->second.status;
+                prev_consecutive_failures = it->second.consecutive_failures;
+                prev_consecutive_successes = it->second.consecutive_successes;
+            }
+            
+            // Update consecutive counters based on result
+            if (result.status == HealthStatus::HEALTHY) {
+                result.consecutive_failures = 0;
+                result.consecutive_successes = prev_consecutive_successes + 1;
+            } else {
+                result.consecutive_failures = prev_consecutive_failures + 1;
+                result.consecutive_successes = 0;
+            }
+            
+            // State machine transitions
+            if (previous_status == HealthStatus::HEALTHY && result.consecutive_failures >= 1) {
+                result.status = HealthStatus::SUSPECT;
+            } else if ((previous_status == HealthStatus::SUSPECT || previous_status == HealthStatus::HEALTHY) && 
+                       result.consecutive_failures >= config_.max_consecutive_failures) {
+                result.status = HealthStatus::DOWN;
+            } else if (previous_status == HealthStatus::DOWN && result.consecutive_successes >= 1) {
+                result.status = HealthStatus::RECOVERING;
+            } else if (previous_status == HealthStatus::RECOVERING && 
+                       result.consecutive_successes >= config_.successes_for_recovery) {
+                result.status = HealthStatus::HEALTHY;
+            } else if (previous_status == HealthStatus::RECOVERING && result.consecutive_failures >= 1) {
+                // Failed during recovery, go back to DOWN
+                result.status = HealthStatus::DOWN;
+            } else {
+                // Maintain previous status if no transition
+                result.status = previous_status;
             }
             
             // Update health status
             health_statuses_[primary.node_id] = result;
             
-            // Check if node should be marked DOWN
-            if (result.consecutive_failures >= config_.max_consecutive_failures) {
-                result.status = HealthStatus::DOWN;
-                health_statuses_[primary.node_id] = result;
-                
-                // Handle failure (may trigger auto-failover)
+            // Handle node failure if marked DOWN
+            if (result.status == HealthStatus::DOWN && previous_status != HealthStatus::DOWN) {
                 handleNodeFailure(primary.node_id);
             }
         }
@@ -288,6 +359,48 @@ void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     // Keep only last 100 events
     if (failover_history_.size() > 100) {
         failover_history_.erase(failover_history_.begin());
+    }
+}
+
+bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
+    if (!http_pool_) {
+        return false;  // No HTTP pool available
+    }
+    
+    try {
+        // Construct full URL: endpoint + health_check_path
+        std::string url = endpoint;
+        if (!url.empty() && url.back() == '/' && !config_.health_check_path.empty() && config_.health_check_path[0] == '/') {
+            url = url.substr(0, url.length() - 1);  // Remove trailing slash
+        }
+        url += config_.health_check_path;
+        
+        // Ensure URL has protocol
+        if (url.find("://") == std::string::npos) {
+            url = "http://" + url;
+        }
+        
+        // Perform HTTP GET request with timeout
+        auto future = http_pool_->get(url);
+        
+        // Wait for response with timeout
+        auto status = future.wait_for(config_.health_check_timeout);
+        
+        if (status == std::future_status::timeout) {
+            return false;  // Timeout
+        }
+        
+        auto response = future.get();
+        
+        // Check response status code
+        // 200-299: Healthy
+        // 500+: Unhealthy
+        // Connection errors: Unhealthy (exception thrown)
+        return response.isSuccess();
+        
+    } catch (const std::exception& e) {
+        // Connection error, timeout, or other exception
+        return false;
     }
 }
 

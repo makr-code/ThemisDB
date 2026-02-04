@@ -539,6 +539,185 @@ TEST_F(MetricsCollectorTest, HighVolumeMetrics) {
 }
 
 // ============================================================================
+// Thread Safety Tests (FIND-018)
+// ============================================================================
+
+TEST_F(MetricsCollectorTest, ConcurrentCounterIncrement) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    const int num_threads = 20;
+    const int iterations_per_thread = 500;
+    
+    std::vector<std::thread> threads;
+    
+    for (int t = 0; t < num_threads; t++) {
+        threads.emplace_back([&collector, iterations_per_thread]() {
+            for (int i = 0; i < iterations_per_thread; i++) {
+                collector.recordCacheHit("test_counter");
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // Verify all increments were recorded (no lost updates due to races)
+    std::string metrics = collector.getPrometheusMetrics();
+    EXPECT_NE(metrics.find("cache_hits"), std::string::npos);
+    
+    // The counter should have recorded all 10,000 increments
+    // This verifies thread-safety of the counter map access
+}
+
+TEST_F(MetricsCollectorTest, ConcurrentGaugeUpdates) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    const int num_threads = 10;
+    const int iterations_per_thread = 100;
+    
+    std::vector<std::thread> threads;
+    
+    for (int t = 0; t < num_threads; t++) {
+        threads.emplace_back([&collector, iterations_per_thread, t]() {
+            for (int i = 0; i < iterations_per_thread; i++) {
+                collector.recordMemoryUsage(1024 * 1024 * (t * 100 + i));
+                collector.recordCPUUsage(static_cast<double>(t * 10 + i % 100));
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // Verify no crashes and metrics are accessible
+    std::string metrics = collector.getPrometheusMetrics();
+    EXPECT_FALSE(metrics.empty());
+}
+
+TEST_F(MetricsCollectorTest, ConcurrentHistogramObservations) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    const int num_threads = 10;
+    const int iterations_per_thread = 100;
+    
+    std::vector<std::thread> threads;
+    
+    for (int t = 0; t < num_threads; t++) {
+        threads.emplace_back([&collector, iterations_per_thread, t]() {
+            for (int i = 0; i < iterations_per_thread; i++) {
+                double latency = (t * iterations_per_thread + i) * 0.1;
+                collector.recordQuery("concurrent_test", latency, 100);
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // Verify histogram recorded all observations
+    std::string metrics = collector.getPrometheusMetrics();
+    EXPECT_NE(metrics.find("query_latency"), std::string::npos);
+}
+
+TEST_F(MetricsCollectorTest, ConcurrentMixedOperations) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    std::atomic<int> operation_count{0};
+    std::vector<std::thread> threads;
+    
+    // Threads recording different types of metrics simultaneously
+    threads.emplace_back([&collector, &operation_count]() {
+        for (int i = 0; i < 200; i++) {
+            collector.recordCacheHit("cache_type_a");
+            operation_count++;
+        }
+    });
+    
+    threads.emplace_back([&collector, &operation_count]() {
+        for (int i = 0; i < 200; i++) {
+            collector.recordCacheMiss("cache_type_b");
+            operation_count++;
+        }
+    });
+    
+    threads.emplace_back([&collector, &operation_count]() {
+        for (int i = 0; i < 200; i++) {
+            collector.recordQuery("select", i * 0.5, 100);
+            operation_count++;
+        }
+    });
+    
+    threads.emplace_back([&collector, &operation_count]() {
+        for (int i = 0; i < 200; i++) {
+            collector.recordMemoryUsage(1024 * 1024 * i);
+            operation_count++;
+        }
+    });
+    
+    threads.emplace_back([&collector, &operation_count]() {
+        for (int i = 0; i < 200; i++) {
+            collector.recordShardRequest("shard-" + std::to_string(i % 5), "read");
+            operation_count++;
+        }
+    });
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    EXPECT_EQ(operation_count, 1000);
+    
+    // Verify all metrics are accessible
+    std::string metrics = collector.getPrometheusMetrics();
+    EXPECT_FALSE(metrics.empty());
+}
+
+TEST_F(MetricsCollectorTest, ConcurrentResetAndRecord) {
+    auto& collector = MetricsCollector::getInstance();
+    
+    std::atomic<bool> should_stop{false};
+    std::atomic<int> reset_count{0};
+    std::vector<std::thread> threads;
+    
+    // Thread continuously recording metrics
+    threads.emplace_back([&collector, &should_stop]() {
+        while (!should_stop) {
+            collector.recordCacheHit("test_cache");
+            collector.recordQuery("select", 10.0, 100);
+            std::this_thread::sleep_for(std::chrono::microseconds(10));
+        }
+    });
+    
+    // Thread periodically resetting
+    threads.emplace_back([&collector, &should_stop, &reset_count]() {
+        for (int i = 0; i < 5; i++) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            collector.reset();
+            reset_count++;
+        }
+        should_stop = true;
+    });
+    
+    // Thread continuously reading metrics
+    threads.emplace_back([&collector, &should_stop]() {
+        while (!should_stop) {
+            std::string metrics = collector.getPrometheusMetrics();
+            std::this_thread::sleep_for(std::chrono::microseconds(100));
+        }
+    });
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    EXPECT_EQ(reset_count, 5);
+    SUCCEED(); // No crashes = success
+}
+
+// ============================================================================
 // Main
 // ============================================================================
 

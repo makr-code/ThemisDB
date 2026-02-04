@@ -143,7 +143,26 @@ jobs:
       - name: Run Complete Test Suite
         run: |
           cd build
-          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 600 -j $(nproc)
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --output-junit test-results.xml --timeout 600 -j $(nproc)
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-ubuntu-22
+          path: build/test-results.xml
+          retention-days: 90
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: 'Build & Test - Ubuntu 22.04'
+          path: build/test-results.xml
+          reporter: java-junit
+          fail-on-error: true
+          max-annotations: 50
 
       - name: Run Static Analysis
         if: always()
@@ -212,7 +231,26 @@ jobs:
       - name: Run Complete Test Suite
         run: |
           cd build
-          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 600
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --output-junit test-results.xml --timeout 600
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-windows
+          path: build/test-results.xml
+          retention-days: 90
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: 'Build & Test - Windows Latest'
+          path: build/test-results.xml
+          reporter: java-junit
+          fail-on-error: true
+          max-annotations: 50
 
       - name: Upload test results
         if: always()
@@ -275,7 +313,26 @@ jobs:
       - name: Run Complete Test Suite
         run: |
           cd build
-          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 600
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --output-junit test-results.xml --timeout 600
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-macos
+          path: build/test-results.xml
+          retention-days: 90
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: 'Build & Test - macOS Latest'
+          path: build/test-results.xml
+          reporter: java-junit
+          fail-on-error: true
+          max-annotations: 50
 
       - name: Upload test results
         if: always()

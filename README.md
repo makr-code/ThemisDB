@@ -4,8 +4,10 @@
   
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
+  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml)
   [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
+  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Version](https://img.shields.io/badge/version-1.4.1--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
@@ -275,6 +277,69 @@ curl http://localhost:8080/metrics
 - 🚀 **[10-Minute Quickstart](docs/EXAMPLES_QUICKSTART.md)** - Hello World and CRUD operations
 - 📚 **[Examples Index](docs/EXAMPLES_INDEX.md)** - Browse 37+ examples by feature
 - 🎓 **[Learning Paths](docs/EXAMPLES_INDEX.md#-learning-paths)** - Guided paths for different roles
+
+### Schema Management API
+
+ThemisDB provides a comprehensive Schema Manager for database introspection and schema customization:
+
+```bash
+# Get all table schemas
+curl http://localhost:8080/api/v1/schema
+
+# Get specific table schema
+curl http://localhost:8080/api/v1/schema/tables/users
+
+# Create/update custom schema
+curl -X PUT http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "products",
+    "type": "relational",
+    "properties": [
+      {"name": "id", "type": "integer", "indexed": true, "nullable": false},
+      {"name": "name", "type": "string", "nullable": true},
+      {"name": "price", "type": "double", "nullable": false}
+    ],
+    "indexes": [
+      {"name": "id", "type": "regular", "unique": true, "columns": ["id"]}
+    ]
+  }'
+
+# Partial update (PATCH)
+curl -X PATCH http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "properties": [
+      {"name": "description", "type": "string", "nullable": true}
+    ]
+  }'
+
+# Get database capabilities
+curl http://localhost:8080/api/v1/capabilities
+```
+
+**Supported Schema Types:**
+- `relational` - Traditional table with structured columns
+- `document` - Flexible document/JSON storage
+- `graph_node` - Graph database nodes
+- `graph_edge` - Graph database edges/relationships
+- `vector` - Vector embeddings for AI/ML
+
+**Supported Property Types:**
+- `string`, `integer`, `double`, `boolean`, `vector`, `binary`, `null`
+
+**Supported Index Types:**
+- `regular`, `range`, `sparse`, `geo`, `ttl`, `fulltext`, `composite`
+
+**Features:**
+- ✅ Automatic schema discovery from data
+- ✅ Custom schema definitions with validation
+- ✅ Partial updates (PATCH)
+- ✅ Persistent storage in RocksDB
+- ✅ Thread-safe caching with 60s TTL
+- ✅ Comprehensive validation (names, types, references)
+
+> **📖 More Info:** [Operations Handbook - Schema Management](docs/operations/OPERATIONS_HANDBOOK.md#schema-management)
 
 ---
 
@@ -824,6 +889,29 @@ CHIMERA Suite features:
 - Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
 
 Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
+
+### Performance Dashboard & Monitoring
+
+ThemisDB includes a **comprehensive Performance Dashboard** for visualizing benchmark trends, detecting regressions, and monitoring performance across releases and branches.
+
+**Features:**
+- 📊 **Real-time Grafana Dashboard** - Throughput, latency, error rates
+- 🔍 **Automatic Regression Detection** - CI/CD integration with configurable thresholds
+- 📈 **Historical Tracking** - Performance trends over time
+- 🌿 **Branch Comparisons** - Compare main, develop, and feature branches
+- 🏷️ **Release Tracking** - Performance evolution across versions
+- 🖥️ **Hardware Comparison** - Test on different configurations
+- 🚨 **Alerts & Notifications** - Slack/Email alerts for regressions
+
+**Quick Start:**
+```bash
+# Start dashboard
+cd grafana && docker-compose up -d
+
+# Access at http://localhost:3000 (admin/admin)
+```
+
+**📊 [Performance Dashboard Documentation](grafana/PERFORMANCE_DASHBOARD_README.md)** | **[Quick Start Guide](docs/en/PERFORMANCE_DASHBOARD_QUICKSTART.md)** | **[Example Charts](docs/en/PERFORMANCE_DASHBOARD_EXAMPLES.md)**
 
 ---
 

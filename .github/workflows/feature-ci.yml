@@ -18,6 +18,7 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
+  checks: write
 
 env:
   BUILD_TYPE: Release
@@ -123,7 +124,26 @@ jobs:
         run: |
           BUILD_DIR="${BUILD_DIR:-build}"
           cd "$BUILD_DIR"
-          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 300 -j $(nproc)
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --output-junit test-results.xml --timeout 300 -j $(nproc)
+        continue-on-error: true
+      
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-feature
+          path: build/test-results.xml
+          retention-days: 30
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: 'Feature/Bugfix CI Tests'
+          path: build/test-results.xml
+          reporter: java-junit
+          fail-on-error: true
+          max-annotations: 50
 
       - name: Build Summary
         if: always()

@@ -384,7 +384,11 @@ git push origin hotfix/1.3.5-security-fix  # Re-push to trigger
 | Release packages | Release CI | 30 days | Release candidates |
 | Hotfix packages | Hotfix CI | 30 days | Emergency fixes |
 | Production artifacts | Main CI | 90 days | Production binaries |
-| Code quality reports | All | 7-30 days | Quality tracking |
+| Test results | All CI workflows | 30-90 days | Test analysis and debugging |
+| Coverage reports | Main/Develop CI | 30 days | Code coverage tracking |
+| Code quality reports | All CI workflows | 7-30 days | Static analysis results |
+
+**Note:** Test result artifacts include JUnit XML reports for all test suites. See [CI_TEST_REPORTING.md](CI_TEST_REPORTING.md) for details on test reporting infrastructure.
 
 ---
 

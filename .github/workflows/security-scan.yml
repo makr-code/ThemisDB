@@ -161,7 +161,7 @@ jobs:
             trivy-report.json
           retention-days: 30
 
-  # License Compliance Check
+  # License Compliance Check - Enhanced with policy enforcement
   license-check:
     name: License Compliance
     runs-on: ubuntu-latest
@@ -169,24 +169,46 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check vcpkg.json licenses
+      - name: Check for license policy
         run: |
           echo "### License Compliance Check" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
+          if [ -f ".license-policy.json" ]; then
+            echo "✅ License policy file found" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "#### Allowed Licenses" >> $GITHUB_STEP_SUMMARY
+            if command -v jq &> /dev/null; then
+              jq -r '.policy.allowed[]' .license-policy.json | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "⚠️ License policy file not found (.license-policy.json)" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Check vcpkg.json licenses
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### vcpkg Dependencies" >> $GITHUB_STEP_SUMMARY
+          
           if [ -f "vcpkg.json" ]; then
-            echo "#### vcpkg Dependencies" >> $GITHUB_STEP_SUMMARY
-            echo '```json' >> $GITHUB_STEP_SUMMARY
-            cat vcpkg.json | head -50 >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
+            if command -v jq &> /dev/null; then
+              echo "**Direct dependencies:**" >> $GITHUB_STEP_SUMMARY
+              jq -r '.dependencies[] | if type == "string" then "- \(.)" else "- \(.name)" end' vcpkg.json >> $GITHUB_STEP_SUMMARY
+            else
+              echo '```json' >> $GITHUB_STEP_SUMMARY
+              cat vcpkg.json | head -50 >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
           fi
           
-          # Check for license files
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### License Files Found" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           find . -name "LICENSE*" -o -name "COPYING*" | head -20 >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ For detailed license compliance scanning, see the [License Compliance workflow](${{ github.server_url }}/${{ github.repository }}/actions/workflows/license-compliance.yml)" >> $GITHUB_STEP_SUMMARY
 
   # Security Summary Report
   security-summary:

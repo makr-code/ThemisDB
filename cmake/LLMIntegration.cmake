@@ -74,4 +74,21 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/fewshot_optimizer.cpp
         ../src/llm/meta_prompt_generator.cpp
     )
+    
+    # Flash Attention v3 Integration
+    if(THEMIS_ENABLE_FLASH_ATTENTION)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/attention/flash_attention.cpp
+            ../src/llm/attention/kv_cache_manager.cpp
+        )
+        
+        # CUDA backend for Flash Attention
+        if(THEMIS_ENABLE_CUDA)
+            list(APPEND THEMIS_CORE_SOURCES
+                ../src/llm/attention/cuda/flash_attention_cuda.cu
+            )
+        endif()
+        
+        message(STATUS "Flash Attention v3: Enabled")
+    endif()
 endif()

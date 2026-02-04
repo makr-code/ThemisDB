@@ -61,7 +61,9 @@ struct MultiGPUConfig {
     std::vector<int> devices;                    // GPU device IDs to use (e.g., {0, 1, 2, 3})
     MultiGPUStrategy strategy = MultiGPUStrategy::ROUND_ROBIN;
     bool enable_peer_transfer = false;           // GPUDirect P2P
-    size_t max_vram_per_gpu_mb = 24 * 1024;     // Max VRAM per GPU (default: 24GB)
+    // FIND-015: Use named constant for default max VRAM per GPU
+    static constexpr size_t DEFAULT_MAX_VRAM_PER_GPU_MB = 24 * 1024;  // 24GB default
+    size_t max_vram_per_gpu_mb = DEFAULT_MAX_VRAM_PER_GPU_MB;         // Max VRAM per GPU
     
     // Load balancing
     bool enable_load_balancing = true;
