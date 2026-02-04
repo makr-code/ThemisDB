@@ -73,7 +73,7 @@ std::shared_ptr<IExpressionEvaluator> VectorIndexManager::getExpressionEvaluator
 
 // Advanced Vector Index Integration (v1.5.0+)
 VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const AdvancedIndexConfig& config) {
-	if (config.enabled && dim_ > 0) {
+	if (config.enabled && !objectName_.empty()) {
 		return Status::Error("Cannot enable advanced index after init() has been called. Call setAdvancedIndexConfig() before init()");
 	}
 	
@@ -504,14 +504,16 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 				if (fs::exists(advanced_path)) {
 					if (advanced_index_->load(advanced_path)) {
 						THEMIS_INFO("Advanced vector index loaded from '{}'", advanced_path);
-						return Status::OK();
 					} else {
 						THEMIS_WARN("Failed to load advanced index from '{}', will create new", advanced_path);
 					}
 				}
 			}
 			
-			// Skip standard HNSW initialization if using advanced index
+			// When using advanced index, skip standard HNSW initialization
+			// but still perform other initialization tasks if needed in the future
+			THEMIS_INFO("Using advanced vector index, skipping standard HNSW initialization");
+			useHnsw_ = false;  // Explicitly mark HNSW as disabled
 			return Status::OK();
 			
 		} catch (const std::exception& e) {
