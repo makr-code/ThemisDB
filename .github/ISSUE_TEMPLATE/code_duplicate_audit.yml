@@ -8,7 +8,7 @@ body:
       value: |
         # Code Duplicate & Incomplete Implementation Audit
         
-        ![ThemisDB Logo](../../docs/logo.png)
+        > **Note:** Logo reference: `docs/logo.png` (to be added)
         
         ## Zweck
         Dieses Template dient der systematischen Suche nach:
