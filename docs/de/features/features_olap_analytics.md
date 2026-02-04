@@ -408,16 +408,63 @@ m.percentile_value = 95.0;  // 95. Perzentil
 - Keine automatische View-Auswahl
 - Keine parallele Aggregation (single-threaded)
 
+## Data Export
+
+### Arrow Export (GAP-003) - 🚧 Phase 1 Complete
+
+OLAP-Ergebnisse können in verschiedene Formate exportiert werden:
+
+```cpp
+#include "analytics/arrow_export.h"
+#include "analytics/analytics_export.h"
+
+// OLAP Query ausführen
+auto result = engine.execute(query);
+
+// Zu RecordBatch konvertieren
+ArrowRecordBatch batch;
+batch.addColumn({"dimension", ArrowRecordBatch::DataType::STRING, false});
+batch.addColumn({"measure", ArrowRecordBatch::DataType::DOUBLE, false});
+
+for (const auto& row : result.rows) {
+    // Konvertiere OLAP Result zu RecordBatch
+    // ... (Implementierung folgt in Phase 2)
+}
+
+// Export zu JSON oder CSV
+auto exporter = ExporterFactory::createDefaultExporter();
+ExportOptions options;
+options.format = ExportFormat::JSON;
+
+auto export_result = exporter->exportToFile(batch, "analytics.json", options);
+```
+
+**Unterstützte Formate:**
+- ✅ JSON (vollständig implementiert)
+- ✅ CSV (vollständig implementiert)
+- ⚠️ Arrow IPC (Placeholder für Phase 2)
+- ⚠️ Parquet (geplant für Phase 2)
+
+Siehe [GAP-003 Dokumentation](../analytics/GAP_003_ARROW_ANALYTICS.md) für Details zur Arrow-Integration.
+
 ## Roadmap
 
 - [ ] Persistente Columnar Storage
 - [ ] Parallel Aggregation
 - [ ] Automatic View Selection
 - [ ] Incremental View Refresh
-- [ ] Apache Arrow Integration
+- [x] Analytics Export Interface (GAP-003 Phase 1)
+- [ ] Apache Arrow C++ Integration (GAP-003 Phase 2)
+- [ ] Parquet Format Support
 - [ ] GPU-beschleunigte Aggregation
+
+## Siehe auch
+
+- [GAP-003: Arrow Analytics](../analytics/GAP_003_ARROW_ANALYTICS.md)
+- [Analytics Module README](../../../src/analytics/README.md)
+- [OLAP Guide](../analytics/olap_guide.md)
 
 ---
 
-**Letzte Aktualisierung:** 30. November 2025  
+**Letzte Aktualisierung:** 04. Februar 2026  
 **Maintainer:** ThemisDB Team
