@@ -1,22 +1,31 @@
 # Graph Advanced Features
 
-This directory contains advanced graph analytics and query features for ThemisDB. These modules extend the basic graph query capabilities with sophisticated algorithms for path analysis, centrality metrics, and community detection.
+This directory contains advanced graph analytics and query features for ThemisDB. These modules extend the basic graph query capabilities with sophisticated algorithms for path analysis.
 
-## Status: GAP-006 Implementation (Stub Phase)
+## Status: GAP-006 Implementation (Partial)
 
 **Current Version:** Stub/Placeholder Implementation  
 **Implementation Date:** February 2026  
-**Status:** Interface definitions complete, full implementations planned for future releases
+**Status:** PathConstraints stub complete; Centrality and Community Detection already implemented in GraphAnalytics
 
-These modules provide complete interface definitions and documentation but return `NOT_IMPLEMENTED` errors. They serve as:
-- Clear interface contracts for future implementations
-- Documentation of planned features
-- Foundation for incremental development
-- API stability for dependent code
+## Important Note on Existing Implementations
 
-## Modules Overview
+**Centrality and Community Detection algorithms are already fully implemented** in the `GraphAnalytics` class:
+- **Location:** `include/index/graph_analytics.h` and `src/index/graph_analytics.cpp`
+- **Implemented Algorithms:**
+  - ✅ Degree Centrality
+  - ✅ PageRank
+  - ✅ Betweenness Centrality (Brandes' algorithm)
+  - ✅ Closeness Centrality
+  - ✅ Louvain Community Detection
+  - ✅ Label Propagation Community Detection
+  - ✅ K-Shortest Paths (Yen's algorithm)
 
-### 1. Path Constraints (`path_constraints.h/cpp`)
+**Use the existing `GraphAnalytics` class for these features instead of waiting for future implementations.**
+
+## New Module: Path Constraints
+
+### Path Constraints (`path_constraints.h/cpp`)
 
 Advanced path finding with complex constraint specifications.
 
@@ -49,84 +58,77 @@ constraints.requireAcyclic();
 - Network security path enumeration
 - Knowledge graph reasoning with constraints
 
-### 2. Centrality Algorithms (`centrality_algorithms.h/cpp`)
+## Using Existing Graph Analytics
 
-Graph analytics algorithms to identify important nodes.
+For centrality and community detection, use the fully-implemented `GraphAnalytics` class:
 
-**Algorithms:**
-- **Degree Centrality**: Connection count
-- **Betweenness Centrality**: Bridge importance (Brandes' algorithm)
-- **Closeness Centrality**: Average distance to all nodes
-- **Eigenvector Centrality**: Importance via important neighbors
-- **PageRank**: Google's web page ranking algorithm
-- **Katz Centrality**: Weighted paths of all lengths
-
-**Example Usage:**
+**Example: Centrality Analysis**
 ```cpp
-#include "graph/centrality_algorithms.h"
+#include "index/graph_analytics.h"
 
-using namespace themis::graph;
+GraphAnalytics analytics(graph_manager);
 
-CentralityAlgorithms analytics(graph_manager);
+// Get all node IDs
+std::vector<std::string> node_ids = {"user1", "user2", "user3"};
 
-CentralityAlgorithms::CentralityConfig config;
-config.normalized = true;
-config.damping_factor = 0.85;  // For PageRank
+// PageRank
+auto [status, ranks] = analytics.pageRank(node_ids, 0.85, 100, 1e-6);
+if (status.ok) {
+    for (const auto& [node, score] : ranks) {
+        std::cout << node << ": " << score << std::endl;
+    }
+}
 
-// Future: Full implementation will enable
-// auto result = analytics.computePageRank(config);
-// auto top_nodes = analytics.getTopCentralNodes(
-//     CentralityType::PAGERANK, 10, config);
+// Betweenness Centrality
+auto [st2, betweenness] = analytics.betweennessCentrality(node_ids);
+
+// Degree Centrality
+auto [st3, degrees] = analytics.degreeCentrality(node_ids);
 ```
 
-**Use Cases:**
-- Social network influencer identification
-- Transportation hub analysis
-- Protein interaction network analysis
-- Citation network analysis
-- Infrastructure vulnerability assessment
-
-### 3. Community Detection (`community_detection.h/cpp`)
-
-Graph clustering algorithms to discover communities.
-
-**Algorithms:**
-- **Louvain Method**: Fast modularity optimization
-- **Label Propagation**: Near-linear time clustering
-- **Girvan-Newman**: Hierarchical edge betweenness clustering
-- **Leiden Algorithm**: Improved Louvain with quality guarantees
-- **Spectral Clustering**: Eigenvalue-based partitioning
-- **K-Clique Percolation**: Overlapping community detection
-
-**Example Usage:**
+**Example: Community Detection**
 ```cpp
-#include "graph/community_detection.h"
+#include "index/graph_analytics.h"
 
-using namespace themis::graph;
+GraphAnalytics analytics(graph_manager);
+std::vector<std::string> node_ids = {"user1", "user2", "user3"};
 
-CommunityDetection detector(graph_manager);
+// Louvain Method
+auto [status, communities] = analytics.louvainCommunities(node_ids);
+if (status.ok) {
+    for (const auto& [node, community_id] : communities) {
+        std::cout << node << " -> Community " << community_id << std::endl;
+    }
+}
 
-CommunityDetection::DetectionConfig config;
-config.resolution = 1.0;
-config.min_community_size = 3;
-
-// Future: Full implementation will enable
-// auto result = detector.detectWithLouvain(config);
-// auto metrics = detector.computeMetrics(result);
+// Label Propagation
+auto [st2, communities2] = analytics.labelPropagationCommunities(node_ids, 100);
 ```
 
-**Use Cases:**
-- Social network community discovery
-- Market segmentation
-- Biological network module detection
-- Document clustering
-- Fraud ring detection
+**Example: K-Shortest Paths**
+```cpp
+#include "index/graph_analytics.h"
+
+GraphAnalytics analytics(graph_manager);
+
+// Find 5 shortest paths from A to B
+auto [status, paths] = analytics.kShortestPaths("A", "B", 5);
+if (status.ok) {
+    for (size_t i = 0; i < paths.size(); ++i) {
+        std::cout << "Path " << i+1 << ": ";
+        for (const auto& vertex : paths[i].vertices) {
+            std::cout << vertex << " ";
+        }
+        std::cout << "(length: " << paths[i].length << ")" << std::endl;
+    }
+}
+```
 
 ## Integration with Existing Systems
 
 ### Graph Query Optimizer Integration
 
-These advanced features integrate with the existing `GraphQueryOptimizer`:
+Path constraints can enhance query optimization:
 
 ```cpp
 #include "graph/graph_query_optimizer.h"
@@ -146,17 +148,17 @@ auto plan = optimizer.optimizeShortestPath("A", "B", query_constraints);
 
 ### Graph Index Manager Integration
 
-All modules integrate with `GraphIndexManager` for graph data access:
-
 ```cpp
 #include "index/graph_index.h"
+#include "index/graph_analytics.h"
 
 GraphIndexManager graph_manager(db);
 
-// Modules use graph_manager for data access
-CentralityAlgorithms analytics(graph_manager);
-CommunityDetection detector(graph_manager);
+// Use GraphAnalytics for centrality and community detection
+GraphAnalytics analytics(graph_manager);
 ```
+
+## Planned Implementation Timeline
 
 ## Planned Implementation Timeline
 
@@ -165,24 +167,6 @@ CommunityDetection detector(graph_manager);
 - Add constrained BFS/DFS
 - Integrate with query optimizer
 - Add comprehensive tests
-
-### Phase 2: Centrality Algorithms (Q3 2026)
-- Implement degree and betweenness centrality
-- Add PageRank with configurable parameters
-- Optimize for large graphs (parallel/distributed)
-- Add result caching
-
-### Phase 3: Community Detection (Q4 2026)
-- Implement Louvain method
-- Add label propagation
-- Implement quality metrics
-- Add visualization support
-
-### Phase 4: Advanced Features (2027)
-- GPU acceleration for centrality algorithms
-- Distributed algorithms for massive graphs
-- Incremental/dynamic updates
-- Machine learning integration
 
 ## Algorithm Complexity
 
@@ -193,38 +177,30 @@ CommunityDetection detector(graph_manager);
 | Constrained BFS | O(V + E) × f(constraints) | O(V) |
 | Constrained DFS | O(V + E) × f(constraints) | O(V) |
 
-### Centrality Algorithms
+### Existing GraphAnalytics (Already Implemented)
 | Algorithm | Time Complexity | Space Complexity |
 |-----------|----------------|------------------|
 | Degree | O(V + E) | O(V) |
 | Betweenness | O(V × E) | O(V + E) |
 | Closeness | O(V²) or O(V × E) | O(V) |
-| Eigenvector | O(iterations × E) | O(V) |
 | PageRank | O(iterations × E) | O(V) |
-
-### Community Detection
-| Algorithm | Time Complexity | Space Complexity |
-|-----------|----------------|------------------|
 | Louvain | O(E × log V) | O(V + E) |
 | Label Propagation | O(E) | O(V) |
-| Girvan-Newman | O(E² × V) | O(V + E) |
-| Leiden | O(E × log V) | O(V + E) |
-| Spectral | O(V³) | O(V²) |
+| K-Shortest Paths | O(K × E × log V) | O(V + E) |
 
 ## Performance Considerations
 
-### Scalability
-- **Small Graphs** (< 10K nodes): All algorithms perform well
-- **Medium Graphs** (10K-1M nodes): Louvain, Label Propagation recommended
-- **Large Graphs** (> 1M nodes): Consider sampling or approximation
-- **Massive Graphs** (> 10M nodes): Distributed implementations required
-
-### Optimization Strategies
+### Path Constraints (Future Implementation)
 1. **Index Utilization**: Leverage graph indices for neighbor access
 2. **Caching**: Cache intermediate results (adjacency, paths)
 3. **Parallelization**: Use multi-threading for independent operations
 4. **Approximation**: Trade accuracy for speed on large graphs
-5. **GPU Acceleration**: Offload computation for suitable algorithms
+
+### GraphAnalytics (Current Implementation)
+- Optimized batch lookups (10-100× faster for large graphs)
+- Pre-allocated maps to avoid rehashing
+- Efficient adjacency structure building
+- See `src/index/graph_analytics.cpp` for implementation details
 
 ## Error Handling
 
@@ -296,6 +272,7 @@ Part of ThemisDB - Multi-Model Database System
 
 ## Related Documentation
 
+- [Graph Analytics](../include/index/graph_analytics.h) - **Existing centrality and community detection implementations**
 - [Graph Query Optimizer](./README.md) - Existing graph query optimization
 - [Graph Index](../include/index/graph_index.h) - Core graph storage
 - [Error Handling](../include/utils/expected.h) - Result<T> pattern
@@ -303,16 +280,20 @@ Part of ThemisDB - Multi-Model Database System
 
 ## Future Enhancements
 
-### Advanced Features
-- **Temporal Community Detection**: Track community evolution over time
-- **Weighted Algorithms**: Support for edge/node weights
-- **Directed Graph Support**: Specialized algorithms for directed graphs
+### Path Constraints (Planned)
+- Constraint validation algorithms
+- Constrained BFS/DFS traversal
+- Integration with query optimizer
+- Performance optimization for large graphs
+
+### Additional Graph Features
+- **Temporal Path Analysis**: Time-aware path constraints
+- **Weighted Constraints**: Support for edge/node weights
 - **Approximate Algorithms**: Fast approximations for massive graphs
-- **Streaming Algorithms**: Incremental updates for dynamic graphs
+- **Streaming Constraints**: Real-time constraint evaluation
 
 ### Integration Features
-- **AQL Integration**: Native query language support
-- **Visualization**: Graph rendering and community visualization
-- **Export**: JSON/CSV export of analysis results
-- **Monitoring**: Real-time metrics and progress tracking
-- **Caching**: Intelligent caching of frequently computed metrics
+- **AQL Integration**: Native query language support for constraints
+- **Visualization**: Path visualization with constraint highlighting
+- **Export**: JSON/CSV export of constrained path results
+- **Monitoring**: Real-time metrics for constraint evaluation
