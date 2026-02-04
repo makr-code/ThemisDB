@@ -10,6 +10,11 @@
 
 1. [Overview](#overview)
 2. [Access Management](#access-management)
+3. [Incident Response](#incident-response)
+4. [Disaster Recovery](#disaster-recovery)
+5. [Logging & Monitoring](#logging--monitoring)
+6. [Compliance & Audit](#compliance--audit)
+7. [Automation & CI/CD](#automation--cicd)
 3. [Schema Management](#schema-management)
 4. [Incident Response](#incident-response)
 5. [Disaster Recovery](#disaster-recovery)
