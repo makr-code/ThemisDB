@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 #include <string>
 
@@ -40,7 +41,8 @@ public:
         size_t original_offset; // Offset in original content
     };
 
-    explicit ContentChunker(const ChunkConfig& config = ChunkConfig{});
+    ContentChunker();
+    explicit ContentChunker(const ChunkConfig& config);
     ~ContentChunker() = default;
 
     /**

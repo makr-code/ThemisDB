@@ -6,6 +6,10 @@
 
 namespace themis::content::pipeline {
 
+ContentChunker::ContentChunker()
+    : config_() {
+}
+
 ContentChunker::ContentChunker(const ChunkConfig& config)
     : config_(config) {
 }
