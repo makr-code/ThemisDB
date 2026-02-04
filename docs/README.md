@@ -44,6 +44,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[🆕 External Libraries Analysis](de/reports/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
 - **[🆕 Library Interactions](de/reports/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
 - **[Source Code Audit](de/development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
+- **[🆕 Code Duplicate Audit Template](../.github/ISSUE_TEMPLATE/code_duplicate_audit.yml)** - **NEU:** Systematisches Issue-Template für Code-Duplikat-Audits und unvollständige Implementierungen (CI-fähig)
 - **[Documentation Index](de/DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
 - **[Documentation Verification](reports/documentation_verification_report.md)** - Verifizierung Dokumentation ↔ Code
 
