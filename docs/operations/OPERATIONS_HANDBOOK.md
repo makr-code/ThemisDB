@@ -10,11 +10,12 @@
 
 1. [Overview](#overview)
 2. [Access Management](#access-management)
-3. [Incident Response](#incident-response)
-4. [Disaster Recovery](#disaster-recovery)
-5. [Logging & Monitoring](#logging--monitoring)
-6. [Compliance & Audit](#compliance--audit)
-7. [Automation & CI/CD](#automation--cicd)
+3. [Schema Management](#schema-management)
+4. [Incident Response](#incident-response)
+5. [Disaster Recovery](#disaster-recovery)
+6. [Logging & Monitoring](#logging--monitoring)
+7. [Compliance & Audit](#compliance--audit)
+8. [Automation & CI/CD](#automation--cicd)
 
 ---
 
@@ -102,6 +103,430 @@ All access changes must be documented in:
 - **Change Log:** `logs/access-changes.log`
 - **Audit Trail:** `logs/audit.log`
 - **Compliance Dashboard:** Grafana metrics
+
+---
+
+## Schema Management
+
+### Overview
+
+ThemisDB provides comprehensive schema introspection and management capabilities. The Schema Manager enables operators and developers to:
+- Discover existing table schemas automatically
+- Define custom schemas for validation and documentation
+- Update schemas with partial modifications
+- Query schema information via REST API
+
+**Version:** 1.5.0+  
+**Feature Tag:** Schema Registry (GAP #001)
+
+### REST API Endpoints
+
+#### GET /api/v1/schema
+
+**Description:** Retrieve complete database schema including all tables and relationships.
+
+**Response:**
+```json
+{
+  "status": "success",
+  "metadata": {
+    "version": "1.5.0",
+    "table_count": 15,
+    "total_rows": 125000,
+    "capabilities": ["graph", "vector_search", "timeseries", ...],
+    "last_refresh": "2026-02-03 15:30:45"
+  },
+  "tables": [
+    {
+      "name": "users",
+      "type": "relational",
+      "properties": [...],
+      "indexes": [...],
+      "estimated_row_count": 10000
+    }
+  ],
+  "relationships": [...]
+}
+```
+
+**Usage:**
+```bash
+curl http://localhost:8080/api/v1/schema
+```
+
+#### GET /api/v1/schema/tables
+
+**Description:** List all tables with summary information.
+
+**Response:**
+```json
+{
+  "status": "success",
+  "tables": [
+    {
+      "name": "users",
+      "type": "relational",
+      "estimated_row_count": 10000,
+      "property_count": 12,
+      "index_count": 3
+    }
+  ]
+}
+```
+
+**Usage:**
+```bash
+curl http://localhost:8080/api/v1/schema/tables
+```
+
+#### GET /api/v1/schema/tables/:name
+
+**Description:** Get detailed schema for a specific table.
+
+**Response:**
+```json
+{
+  "status": "success",
+  "table": {
+    "name": "users",
+    "type": "relational",
+    "properties": [
+      {
+        "name": "id",
+        "type": "integer",
+        "indexed": true,
+        "nullable": false,
+        "index_type": "regular"
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "indexed": true,
+        "nullable": false
+      },
+      {
+        "name": "created_at",
+        "type": "integer",
+        "indexed": false,
+        "nullable": true
+      }
+    ],
+    "indexes": [
+      {
+        "name": "id",
+        "type": "regular",
+        "unique": true,
+        "columns": ["id"]
+      },
+      {
+        "name": "email",
+        "type": "regular",
+        "unique": true,
+        "columns": ["email"]
+      }
+    ],
+    "estimated_row_count": 10000
+  }
+}
+```
+
+**Usage:**
+```bash
+curl http://localhost:8080/api/v1/schema/tables/users
+```
+
+#### PUT /api/v1/schema/:tablename
+
+**Description:** Create or update a custom schema definition.
+
+**Request Body:**
+```json
+{
+  "name": "products",
+  "type": "relational",
+  "properties": [
+    {
+      "name": "id",
+      "type": "integer",
+      "indexed": true,
+      "nullable": false
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "price",
+      "type": "double",
+      "nullable": false
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "nullable": true
+    }
+  ],
+  "indexes": [
+    {
+      "name": "id",
+      "type": "regular",
+      "unique": true,
+      "columns": ["id"]
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Schema stored successfully",
+  "table_name": "products"
+}
+```
+
+**Usage:**
+```bash
+curl -X PUT http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d @schema.json
+```
+
+**Validation:**
+- Table name: alphanumeric, underscore, hyphen only
+- Table type: `relational`, `document`, `graph_node`, `graph_edge`, `vector`
+- Property types: `string`, `integer`, `double`, `boolean`, `vector`, `binary`, `null`
+- Index types: `regular`, `range`, `sparse`, `geo`, `ttl`, `fulltext`, `composite`
+- Index columns must reference existing properties
+- No duplicate property or index names
+
+#### PATCH /api/v1/schema/:tablename
+
+**Description:** Partially update an existing schema. Only specified fields are modified.
+
+**Request Body:**
+```json
+{
+  "properties": [
+    {
+      "name": "category",
+      "type": "string",
+      "indexed": true,
+      "nullable": true
+    }
+  ],
+  "indexes": [
+    {
+      "name": "category",
+      "type": "regular",
+      "unique": false,
+      "columns": ["category"]
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Schema updated successfully",
+  "table_name": "products"
+}
+```
+
+**Usage:**
+```bash
+curl -X PATCH http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{"properties":[{"name":"category","type":"string"}]}'
+```
+
+**Behavior:**
+- Creates table if it doesn't exist (promotes discovered schema to custom)
+- Merges properties: new properties added, existing properties updated
+- Merges indexes: new indexes added, existing indexes updated
+- Does not remove existing properties/indexes (use PUT for full replacement)
+
+#### GET /api/v1/capabilities
+
+**Description:** Get database capabilities and enabled features.
+
+**Response:**
+```json
+{
+  "status": "success",
+  "version": "1.5.0",
+  "capabilities": [
+    "multi-model",
+    "transactions",
+    "secondary-indexes",
+    "fulltext-search",
+    "graph",
+    "vector_search",
+    "geo",
+    "mcp",
+    "grpc"
+  ]
+}
+```
+
+**Usage:**
+```bash
+curl http://localhost:8080/api/v1/capabilities
+```
+
+### Operational Procedures
+
+#### Schema Discovery
+
+**Automatic Discovery:**
+- Schema Manager automatically scans RocksDB keys to discover tables
+- Properties detected by sampling up to 100 entities per table
+- Index metadata retrieved from SecondaryIndexManager
+- Row counts estimated via key iteration
+- Results cached for 60 seconds (configurable)
+
+**Manual Cache Refresh:**
+```bash
+# Force refresh via API (requires admin access)
+curl -X POST http://localhost:8080/api/v1/admin/schema/refresh
+```
+
+#### Schema Persistence
+
+**Storage Location:**
+- Custom schemas: `config:schema:{table_name}` in RocksDB
+- Loaded automatically on SchemaManager initialization
+- Persisted immediately on PUT/PATCH operations
+
+**Backup:**
+```bash
+# Backup all custom schemas
+curl http://localhost:8080/api/v1/schema > schemas_backup.json
+
+# Restore specific schema
+curl -X PUT http://localhost:8080/api/v1/schema/users \
+  -H "Content-Type: application/json" \
+  -d @schemas_backup.json
+```
+
+#### Schema Validation Best Practices
+
+**Pre-Deployment Validation:**
+1. Export schemas from development: `GET /api/v1/schema`
+2. Validate in staging environment
+3. Review for consistency and correctness
+4. Deploy to production using PUT endpoints
+
+**Schema Version Control:**
+```bash
+# Save schema to version control
+curl http://localhost:8080/api/v1/schema/users > schemas/users.json
+
+# Commit to git
+git add schemas/users.json
+git commit -m "Add users table schema"
+```
+
+### Troubleshooting
+
+#### Schema Not Found
+
+**Symptom:** `GET /api/v1/schema/tables/mytable` returns `"status": "error"`, `"message": "Table not found"`
+
+**Possible Causes:**
+1. Table doesn't exist in database
+2. No data has been inserted yet
+3. Cache hasn't refreshed since table creation
+
+**Resolution:**
+```bash
+# Check if table has data
+curl http://localhost:8080/entities?table=mytable
+
+# Force cache refresh
+curl -X POST http://localhost:8080/api/v1/admin/schema/refresh
+
+# Create custom schema explicitly
+curl -X PUT http://localhost:8080/api/v1/schema/mytable \
+  -H "Content-Type: application/json" \
+  -d '{"name":"mytable","type":"relational","properties":[]}'
+```
+
+#### Validation Errors
+
+**Symptom:** `PUT /api/v1/schema` returns validation error
+
+**Common Errors:**
+- `"Table name contains invalid characters"` - Use only alphanumeric, `_`, `-`
+- `"Invalid table type"` - Must be one of: relational, document, graph_node, graph_edge, vector
+- `"Duplicate property name"` - Property names must be unique
+- `"Index references non-existent property"` - Index columns must exist in properties list
+- `"Invalid property type"` - Must be: string, integer, double, boolean, vector, binary, null
+
+**Resolution:**
+Review schema definition against validation rules and correct errors.
+
+#### Performance Issues
+
+**Symptom:** Schema discovery takes >1 second
+
+**Possible Causes:**
+1. Large number of tables (>100)
+2. Tables with many entities (>100K rows)
+3. Complex property structures
+
+**Mitigation:**
+```bash
+# Increase cache TTL to reduce refresh frequency
+# Configure in themis.conf:
+schema_cache_ttl_seconds: 300  # 5 minutes instead of 60 seconds
+
+# Reduce sample size for property discovery
+# Configure in themis.conf:
+schema_property_sample_size: 50  # Default: 100
+```
+
+### Monitoring & Metrics
+
+**Key Metrics:**
+- `schema_cache_hits` - Cache hit rate (target: >90%)
+- `schema_cache_miss` - Cache misses triggering rebuild
+- `schema_discovery_duration_ms` - Discovery time (target: <100ms)
+- `schema_validation_errors` - Failed PUT/PATCH attempts
+- `schema_custom_count` - Number of custom schemas
+
+**Grafana Dashboard:**
+```
+Dashboard: ThemisDB Schema Management
+URL: https://grafana.example.com/d/schema-mgmt
+```
+
+**Alerts:**
+- Discovery time >500ms for 5 consecutive requests
+- Cache hit rate <80% for 10 minutes
+- Validation error rate >10% of PUT/PATCH requests
+
+### Security Considerations
+
+**Access Control:**
+- GET endpoints: Requires authenticated user (any role)
+- PUT/PATCH endpoints: Requires `schema:write` permission
+- Recommended: Limit schema write access to DBA and DevOps roles
+
+**Audit Logging:**
+All schema operations logged to audit trail:
+```
+[2026-02-03 15:30:45] USER=admin ACTION=schema_put TABLE=products STATUS=success
+[2026-02-03 15:31:12] USER=developer ACTION=schema_patch TABLE=orders STATUS=validation_error
+```
+
+**Rate Limiting:**
+- GET requests: 1000 req/min per user
+- PUT/PATCH requests: 100 req/min per user (to prevent abuse)
 
 ---
 
