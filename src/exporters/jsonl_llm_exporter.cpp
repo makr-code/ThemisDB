@@ -336,21 +336,28 @@ double JSONLLLMExporter::calculateWeight(const BaseEntity& entity) {
                     now - timestamp_tp
                 ).count();
                 
-                // Calculate freshness factor using exponential decay
-                // Age in days: divide hours by 24
-                double age_days = age / 24.0;
-                
-                // Decay factor: newer data gets weight closer to 1.0
-                // Data older than 365 days gets significantly reduced weight
-                // Using formula: freshness = exp(-age_days / decay_constant)
-                // where decay_constant = 180 (half-life of ~6 months)
-                double freshness_factor = std::exp(-age_days / 180.0);
-                
-                // Apply freshness factor (multiply by 0.5 to 1.0 range)
-                // Very fresh data (< 1 week): ~1.0x
-                // 6 month old data: ~0.5x
-                // 1+ year old data: ~0.25x
-                calculated_weight *= (0.5 + 0.5 * freshness_factor);
+                // Validate timestamp is not in the future
+                if (age < 0) {
+                    THEMIS_WARN("Timestamp '{}' is in the future, skipping freshness calculation", 
+                               *timestamp_str);
+                    // Skip freshness calculation for future timestamps
+                } else {
+                    // Calculate freshness factor using exponential decay
+                    // Age in days: divide hours by 24
+                    double age_days = age / 24.0;
+                    
+                    // Decay factor: newer data gets weight closer to 1.0
+                    // Data older than 365 days gets significantly reduced weight
+                    // Using formula: freshness = exp(-age_days / decay_constant)
+                    // where decay_constant = 180 (half-life of ~6 months)
+                    double freshness_factor = std::exp(-age_days / 180.0);
+                    
+                    // Apply freshness factor (multiply by 0.5 to 1.0 range)
+                    // Very fresh data (< 1 week): ~1.0x
+                    // 6 month old data: ~0.5x
+                    // 1+ year old data: ~0.25x
+                    calculated_weight *= (0.5 + 0.5 * freshness_factor);
+                }
                 
             } catch (const std::exception& e) {
                 // If timestamp parsing fails, log warning and use default weight

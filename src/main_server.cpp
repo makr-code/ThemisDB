@@ -1159,9 +1159,9 @@ int main(int argc, char* argv[]) {
                                     auto now_time_t = std::chrono::system_clock::to_time_t(now);
                                     std::tm tm_buf;
                                     #ifdef _WIN32
-                                    localtime_s(&tm_buf, &now_time_t);
+                                    gmtime_s(&tm_buf, &now_time_t);
                                     #else
-                                    localtime_r(&now_time_t, &tm_buf);
+                                    gmtime_r(&now_time_t, &tm_buf);
                                     #endif
                                     
                                     std::ostringstream date_str;

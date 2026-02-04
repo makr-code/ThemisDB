@@ -830,7 +830,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
     }
     
     // Step 6: Notify all other replicas of new leader via listeners
-    notifyListeners([&replica_id, old_role, current_sequence](IReplicationListener& l) {
+    notifyListeners([&replica_id](IReplicationListener& l) {
         l.onLeaderElected(replica_id);
     });
     
