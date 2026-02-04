@@ -552,7 +552,17 @@ public:
         std::shared_ptr<query::Query> subquery;
         bool should_materialize = false;
     };
-    Status executeCTEs(
+    
+    /**
+     * @brief Execute Common Table Expressions (CTEs) and store results in context
+     * 
+     * GAP-002: Migrated from Status to Result<void> for unified error handling
+     * 
+     * @param ctes Vector of CTE specifications to execute
+     * @param context Evaluation context where CTE results will be stored
+     * @return Result<void> indicating success or error with context
+     */
+    Result<void> executeCTEs(
         const std::vector<CTESpec>& ctes,
         EvaluationContext& context
     ) const;
