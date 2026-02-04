@@ -22,10 +22,14 @@ Implementierung einer erweiterbaren Analytics-Infrastruktur mit Fokus auf:
 
 1. **RecordBatch-Export**: Strukturierte Schnittstelle für spaltenorientierte Datenexporte
 2. **OLAP-Pfad**: Optimierter Datenpfad für analytische Workloads
-3. **Erweiterbarkeit**: Design für zukünftige Apache Arrow Integration
+3. **Erweiterbarkeit**: Design für zukünftige **optionale** Apache Arrow Integration
 4. **Testbarkeit**: Vollständige Test-Abdeckung der Schnittstellen
 
-**Wichtig:** Keine echte Arrow-Abhängigkeit in Phase 1, nur Interface-Design und Erweiterbarkeitsnachweis.
+**Wichtig:** 
+- ✅ Keine Arrow-Abhängigkeit in Phase 1, nur Interface-Design und Erweiterbarkeitsnachweis
+- ✅ **Apache Arrow bleibt in Phase 2 OPTIONAL** via Feature-Flag `THEMIS_ENABLE_ARROW`
+- ✅ ThemisDB funktioniert vollständig ohne Apache Arrow (JSON/CSV Export immer verfügbar)
+- ✅ Arrow-Integration nur für Performance-Optimierungen und native Arrow-Formate
 
 ## 📊 Status
 
@@ -126,6 +130,46 @@ docs/de/analytics/
 2. **Open/Closed**: Erweiterbar für neue Formate ohne Änderung bestehender Implementierungen
 3. **Dependency Inversion**: Abstrakte Interfaces statt konkreter Implementierungen
 4. **Factory Pattern**: Zentrale Instanziierung von Exportern
+5. **Optional Dependencies**: Apache Arrow ist optional, nicht erforderlich
+
+## 🔧 Build-Konfiguration
+
+### Standard-Build (OHNE Apache Arrow)
+
+```bash
+# Standard-Build - Analytics funktioniert vollständig ohne Arrow
+cmake -B build -S . -DTHEMIS_BUILD_TESTS=ON
+cmake --build build
+
+# Export-Funktionen verfügbar:
+# ✅ JSON Export
+# ✅ CSV Export
+# ⚠️ Arrow IPC → Fallback auf JSON
+# ⚠️ Parquet → Fallback auf CSV
+```
+
+### Mit Apache Arrow (Phase 2 - OPTIONAL)
+
+```bash
+# Optional Arrow aktivieren (nur für native Arrow-Formate)
+cmake -B build -S . \
+    -DTHEMIS_BUILD_TESTS=ON \
+    -DTHEMIS_ENABLE_ARROW=ON
+
+cmake --build build
+
+# Export-Funktionen verfügbar:
+# ✅ JSON Export
+# ✅ CSV Export
+# ✅ Arrow IPC (nativ mit Zero-copy)
+# ✅ Parquet (nativ mit Kompression)
+```
+
+### Empfehlung
+
+**Für die meisten Anwender:** Standard-Build ohne Arrow ist ausreichend.  
+**Für Performance-kritische Anwendungen:** Arrow-Build für Zero-copy Operationen.  
+**Für externe Tool-Integration:** Arrow-Build für native Arrow-Formate (Pandas, DuckDB).
 
 ## 💻 Code-Beispiele
 
@@ -283,58 +327,102 @@ ctest -R arrow_export --verbose
 
 ## 🔄 Phase 2: Apache Arrow Integration (📋 Geplant)
 
+### ⚠️ Wichtig: Apache Arrow bleibt OPTIONAL
+
+**Apache Arrow wird als optionale Feature-Flag implementiert:**
+- ThemisDB bleibt ohne Arrow voll funktionsfähig
+- Stub-Implementierung (JSON/CSV) ist immer verfügbar
+- Arrow wird nur aktiviert wenn `THEMIS_ENABLE_ARROW=ON`
+- Zero-copy Optimierungen nur mit Arrow-Flag
+- Fallback auf Stub-Implementation wenn Arrow nicht verfügbar
+
 ### Ziele
 
-1. **Arrow C++ Library Integration**
-   - Arrow als vcpkg-Dependency hinzufügen
-   - Arrow Headers und Libraries einbinden
-   - CMake-Konfiguration anpassen
+1. **Arrow C++ Library Integration (OPTIONAL)**
+   - Arrow als optionale vcpkg-Dependency
+   - Arrow Headers und Libraries nur bei aktiviertem Flag
+   - CMake-Konfiguration mit Feature-Flag `THEMIS_ENABLE_ARROW`
 
-2. **Echter Arrow RecordBatch**
-   - Migration von Placeholder zu `arrow::RecordBatch`
-   - Arrow Memory Pool Integration
-   - Zero-copy Operationen
+2. **Echter Arrow RecordBatch (OPTIONAL)**
+   - Migration von Placeholder zu `arrow::RecordBatch` nur bei aktiviertem Flag
+   - Arrow Memory Pool Integration (optional)
+   - Zero-copy Operationen (nur mit Arrow)
 
-3. **Arrow IPC Format**
-   - Arrow IPC Reader/Writer
+3. **Arrow IPC Format (OPTIONAL)**
+   - Arrow IPC Reader/Writer (nur mit Arrow-Flag)
    - Arrow Flight Integration (optional)
-   - Streaming IPC
+   - Streaming IPC (nur mit Arrow)
 
-4. **Parquet Support**
-   - Parquet Writer für Archivierung
-   - Parquet Reader für Imports
+4. **Parquet Support (OPTIONAL)**
+   - Parquet Writer für Archivierung (nur mit Arrow-Flag)
+   - Parquet Reader für Imports (optional)
    - Kompression (Snappy, ZSTD)
 
-5. **Performance-Optimierungen**
-   - SIMD-beschleunigte Operationen
+5. **Performance-Optimierungen (OPTIONAL)**
+   - SIMD-beschleunigte Operationen (nur mit Arrow)
    - Parallele Datenverarbeitung
-   - Memory-mapped Files
+   - Memory-mapped Files (nur mit Arrow)
 
 ### Technische Anforderungen
 
 ```cmake
-# vcpkg.json additions
+# CMake Feature Flag (NEU)
+option(THEMIS_ENABLE_ARROW "Enable Apache Arrow integration (optional)" OFF)
+
+# vcpkg.json additions (NUR wenn THEMIS_ENABLE_ARROW=ON)
 {
   "dependencies": [
-    "arrow",
     {
       "name": "arrow",
+      "platform": "!(windows & arm)",
       "features": ["parquet", "ipc", "compute"]
     }
   ]
 }
+
+# CMakeLists.txt Integration
+if(THEMIS_ENABLE_ARROW)
+    find_package(Arrow REQUIRED)
+    target_compile_definitions(themis_core PRIVATE THEMIS_HAS_ARROW)
+    target_link_libraries(themis_core PRIVATE Arrow::arrow_shared)
+endif()
 ```
 
 ### Migration Path
 
 ```cpp
-// Phase 1 (aktuell):
-themis::analytics::ArrowRecordBatch batch;
+// Phase 1 (aktuell - IMMER verfügbar):
+themis::analytics::ArrowRecordBatch batch;  // Stub-Implementation
 
-// Phase 2 (geplant):
-std::shared_ptr<arrow::RecordBatch> batch;
-auto themis_batch = themis::analytics::ArrowAdapter::wrap(batch);
+// Phase 2 (geplant - NUR mit THEMIS_ENABLE_ARROW=ON):
+#ifdef THEMIS_HAS_ARROW
+    std::shared_ptr<arrow::RecordBatch> arrow_batch;
+    auto themis_batch = themis::analytics::ArrowAdapter::wrap(arrow_batch);
+#else
+    // Fallback auf Stub-Implementation
+    themis::analytics::ArrowRecordBatch batch;
+#endif
+
+// Export funktioniert IMMER (mit und ohne Arrow):
+auto exporter = ExporterFactory::createDefaultExporter();
+// -> Verwendet Arrow-Exporter wenn verfügbar, sonst Stub-Exporter
 ```
+
+### Fallback-Strategie
+
+**Ohne Arrow-Flag (`THEMIS_ENABLE_ARROW=OFF`):**
+- ✅ JSON Export funktioniert
+- ✅ CSV Export funktioniert
+- ⚠️ Arrow IPC Format → Fallback auf JSON
+- ⚠️ Parquet Format → Fallback auf CSV
+- ⚠️ Keine Zero-copy Optimierungen
+
+**Mit Arrow-Flag (`THEMIS_ENABLE_ARROW=ON`):**
+- ✅ JSON Export funktioniert
+- ✅ CSV Export funktioniert
+- ✅ Arrow IPC Format (nativ)
+- ✅ Parquet Format (nativ)
+- ✅ Zero-copy Optimierungen
 
 ## 📚 Verwendung
 

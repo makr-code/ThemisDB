@@ -34,9 +34,10 @@ See [OLAP Guide](../../docs/de/analytics/olap_guide.md) for detailed documentati
 
 ### 2. Arrow Export (`arrow_export.h`, `analytics_export.h`)
 
-**Status:** ⚠️ Stub Implementation (GAP-003)
+**Status:** ⚠️ Stub Implementation (GAP-003)  
+**Apache Arrow:** Optional (not required, can be enabled via `THEMIS_ENABLE_ARROW` flag)
 
-The Arrow Export module provides interfaces for exporting analytics data to various formats, with a design that supports future Apache Arrow integration.
+The Arrow Export module provides interfaces for exporting analytics data to various formats, with a design that supports **optional** Apache Arrow integration.
 
 **Current Features:**
 - `ArrowRecordBatch`: Placeholder class representing columnar data
@@ -44,12 +45,17 @@ The Arrow Export module provides interfaces for exporting analytics data to vari
 - `StubAnalyticsExporter`: Reference implementation supporting JSON and CSV export
 - Export to file, string, or streaming with callbacks
 
-**Supported Export Formats:**
-- ✅ JSON (implemented)
-- ✅ CSV (implemented)
-- ⚠️ Arrow IPC (placeholder)
-- ⚠️ Arrow Parquet (placeholder)
-- ⚠️ Arrow Feather (placeholder)
+**Supported Export Formats (WITHOUT Arrow dependency):**
+- ✅ JSON (fully implemented, always available)
+- ✅ CSV (fully implemented, always available)
+- ⚠️ Arrow IPC (placeholder, will fallback to JSON if Arrow not enabled)
+- ⚠️ Arrow Parquet (placeholder, will fallback to CSV if Arrow not enabled)
+- ⚠️ Arrow Feather (placeholder, will fallback to JSON if Arrow not enabled)
+
+**Optional Apache Arrow Integration (Phase 2):**
+- When `THEMIS_ENABLE_ARROW=ON` is set, native Arrow formats will be used
+- When `THEMIS_ENABLE_ARROW=OFF` (default), stub implementation provides JSON/CSV export
+- The module remains fully functional without Apache Arrow
 
 **Usage Example:**
 ```cpp
@@ -80,14 +86,15 @@ if (result.status == ExportStatus::SUCCESS) {
 }
 ```
 
-**Future Development:**
-- Real Apache Arrow integration (Arrow C++ library)
-- Zero-copy data transfer
-- Parquet file format support
-- Inter-process communication with Arrow IPC
-- Integration with external analytics tools (Pandas, DuckDB, etc.)
+**Future Development (Optional):**
+- Real Apache Arrow integration via `THEMIS_ENABLE_ARROW` flag (optional dependency)
+- Zero-copy data transfer (only with Arrow enabled)
+- Parquet file format support (only with Arrow enabled)
+- Inter-process communication with Arrow IPC (only with Arrow enabled)
+- Integration with external analytics tools like Pandas, DuckDB (only with Arrow enabled)
+- **Important:** All core functionality remains available without Apache Arrow
 
-See [GAP-003 Documentation](../../docs/de/analytics/GAP_003_ARROW_ANALYTICS.md) for the implementation plan.
+See [GAP-003 Documentation](../../docs/de/analytics/GAP_003_ARROW_ANALYTICS.md) for the implementation plan with optional Arrow integration.
 
 ### 3. Process Mining (`process_mining.h`, `process_mining.cpp`)
 
@@ -197,20 +204,21 @@ docs/de/analytics/
 - [x] Basic export interfaces
 - [x] JSON and CSV export
 
-### Phase 2: Arrow Integration (⚠️ In Progress - GAP-003)
+### Phase 2: Optional Arrow Integration (⚠️ In Progress - GAP-003)
 - [x] Arrow RecordBatch placeholder
 - [x] Export interface design
-- [x] Stub implementation
-- [ ] Real Apache Arrow C++ integration
-- [ ] Arrow IPC format support
-- [ ] Parquet writer integration
+- [x] Stub implementation (always available)
+- [ ] Optional Apache Arrow C++ integration via `THEMIS_ENABLE_ARROW` flag
+- [ ] Arrow IPC format support (optional, requires Arrow flag)
+- [ ] Parquet writer integration (optional, requires Arrow flag)
+- **Note:** Core functionality remains available without Apache Arrow
 
 ### Phase 3: Advanced Features (📋 Planned)
-- [ ] Zero-copy data transfer
-- [ ] Streaming aggregations
-- [ ] Incremental materialized views
-- [ ] GPU-accelerated analytics
-- [ ] Integration with external analytics tools
+- [ ] Zero-copy data transfer (optional, with Arrow)
+- [ ] Streaming aggregations (available without Arrow)
+- [ ] Incremental materialized views (available without Arrow)
+- [ ] GPU-accelerated analytics (optional feature)
+- [ ] Integration with external analytics tools (optional, enhanced with Arrow)
 
 ## Contributing
 

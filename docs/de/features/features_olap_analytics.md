@@ -412,7 +412,9 @@ m.percentile_value = 95.0;  // 95. Perzentil
 
 ### Arrow Export (GAP-003) - 🚧 Phase 1 Complete
 
-OLAP-Ergebnisse können in verschiedene Formate exportiert werden:
+**Apache Arrow Integration: OPTIONAL** (via `THEMIS_ENABLE_ARROW` flag)
+
+OLAP-Ergebnisse können in verschiedene Formate exportiert werden. Die Export-Funktionalität ist **immer verfügbar**, auch ohne Apache Arrow:
 
 ```cpp
 #include "analytics/arrow_export.h"
@@ -431,7 +433,7 @@ for (const auto& row : result.rows) {
     // ... (Implementierung folgt in Phase 2)
 }
 
-// Export zu JSON oder CSV
+// Export zu JSON oder CSV (IMMER verfügbar)
 auto exporter = ExporterFactory::createDefaultExporter();
 ExportOptions options;
 options.format = ExportFormat::JSON;
@@ -439,13 +441,15 @@ options.format = ExportFormat::JSON;
 auto export_result = exporter->exportToFile(batch, "analytics.json", options);
 ```
 
-**Unterstützte Formate:**
-- ✅ JSON (vollständig implementiert)
-- ✅ CSV (vollständig implementiert)
-- ⚠️ Arrow IPC (Placeholder für Phase 2)
-- ⚠️ Parquet (geplant für Phase 2)
+**Unterstützte Formate (ohne Arrow-Abhängigkeit):**
+- ✅ JSON (vollständig implementiert, immer verfügbar)
+- ✅ CSV (vollständig implementiert, immer verfügbar)
+- ⚠️ Arrow IPC (Placeholder für Phase 2, optional mit `THEMIS_ENABLE_ARROW=ON`)
+- ⚠️ Parquet (geplant für Phase 2, optional mit `THEMIS_ENABLE_ARROW=ON`)
 
-Siehe [GAP-003 Dokumentation](../analytics/GAP_003_ARROW_ANALYTICS.md) für Details zur Arrow-Integration.
+**Wichtig:** ThemisDB funktioniert **komplett ohne Apache Arrow**. Arrow ist eine optionale Erweiterung für Performance-Optimierungen und native Arrow-Formate.
+
+Siehe [GAP-003 Dokumentation](../analytics/GAP_003_ARROW_ANALYTICS.md) für Details zur optionalen Arrow-Integration.
 
 ## Roadmap
 
@@ -454,9 +458,9 @@ Siehe [GAP-003 Dokumentation](../analytics/GAP_003_ARROW_ANALYTICS.md) für Deta
 - [ ] Automatic View Selection
 - [ ] Incremental View Refresh
 - [x] Analytics Export Interface (GAP-003 Phase 1)
-- [ ] Apache Arrow C++ Integration (GAP-003 Phase 2)
-- [ ] Parquet Format Support
-- [ ] GPU-beschleunigte Aggregation
+- [ ] Apache Arrow C++ Integration - **OPTIONAL** (GAP-003 Phase 2, via `THEMIS_ENABLE_ARROW`)
+- [ ] Parquet Format Support - **OPTIONAL** (benötigt Arrow)
+- [ ] GPU-beschleunigte Aggregation - **OPTIONAL**
 
 ## Siehe auch
 
