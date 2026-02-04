@@ -363,19 +363,19 @@ void example_configurable_adaptive(TaskScheduler& scheduler, QueryEngine* query_
                 << "RETURN {hour: hour, cv: cv, resolution: resolution}";
             
             // Execute query
-            auto [status, result] = executeAql(aql.str(), *query_engine);
+            auto result = executeAql(aql.str(), *query_engine);
             
-            if (!status.ok()) {
+            if (!result) {
                 return nlohmann::json{
                     {"status", "error"},
-                    {"message", status.message()}
+                    {"message", result.error().message()}
                 };
             }
             
             return nlohmann::json{
                 {"status", "success"},
                 {"policy", params},
-                {"result", result}
+                {"result", *result}
             };
         }
     );
