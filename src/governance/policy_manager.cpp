@@ -1,0 +1,542 @@
+#include "governance/policy_manager.h"
+#include "utils/logger.h"
+
+#include <algorithm>
+#include <fstream>
+#include <chrono>
+#include <yaml-cpp/yaml.h>
+
+namespace themis {
+namespace governance {
+
+// ========== PolicyRule Implementation ==========
+
+nlohmann::json PolicyRule::toJson() const {
+    nlohmann::json j;
+    j["id"] = id;
+    j["name"] = name;
+    j["description"] = description;
+    j["classification_level"] = classification_level;
+    j["enabled"] = enabled;
+    j["resources"] = resources;
+    j["actions"] = actions;
+    j["required_roles"] = required_roles;
+    j["require_encryption"] = require_encryption;
+    j["require_signature"] = require_signature;
+    j["allow_export"] = allow_export;
+    j["allow_cache"] = allow_cache;
+    j["retention_days"] = retention_days;
+    j["redaction_level"] = redaction_level;
+    j["audit_access"] = audit_access;
+    j["audit_changes"] = audit_changes;
+    j["priority"] = priority;
+    j["created_by"] = created_by;
+    j["created_at"] = created_at;
+    j["updated_at"] = updated_at;
+    return j;
+}
+
+PolicyRule PolicyRule::fromJson(const nlohmann::json& j) {
+    PolicyRule rule;
+    if (j.contains("id")) rule.id = j["id"].get<std::string>();
+    if (j.contains("name")) rule.name = j["name"].get<std::string>();
+    if (j.contains("description")) rule.description = j["description"].get<std::string>();
+    if (j.contains("classification_level")) rule.classification_level = j["classification_level"].get<std::string>();
+    if (j.contains("enabled")) rule.enabled = j["enabled"].get<bool>();
+    if (j.contains("resources")) rule.resources = j["resources"].get<std::vector<std::string>>();
+    if (j.contains("actions")) rule.actions = j["actions"].get<std::vector<std::string>>();
+    if (j.contains("required_roles")) rule.required_roles = j["required_roles"].get<std::vector<std::string>>();
+    if (j.contains("require_encryption")) rule.require_encryption = j["require_encryption"].get<bool>();
+    if (j.contains("require_signature")) rule.require_signature = j["require_signature"].get<bool>();
+    if (j.contains("allow_export")) rule.allow_export = j["allow_export"].get<bool>();
+    if (j.contains("allow_cache")) rule.allow_cache = j["allow_cache"].get<bool>();
+    if (j.contains("retention_days")) rule.retention_days = j["retention_days"].get<int>();
+    if (j.contains("redaction_level")) rule.redaction_level = j["redaction_level"].get<std::string>();
+    if (j.contains("audit_access")) rule.audit_access = j["audit_access"].get<bool>();
+    if (j.contains("audit_changes")) rule.audit_changes = j["audit_changes"].get<bool>();
+    if (j.contains("priority")) rule.priority = j["priority"].get<int>();
+    if (j.contains("created_by")) rule.created_by = j["created_by"].get<std::string>();
+    if (j.contains("created_at")) rule.created_at = j["created_at"].get<int64_t>();
+    if (j.contains("updated_at")) rule.updated_at = j["updated_at"].get<int64_t>();
+    return rule;
+}
+
+bool PolicyRule::appliesTo(const std::string& resource, const std::string& action) const {
+    if (!enabled) {
+        return false;
+    }
+    
+    // Check resource match
+    bool resource_match = resources.empty(); // Empty means all resources
+    for (const auto& pattern : resources) {
+        if (pattern == "*" || pattern == resource) {
+            resource_match = true;
+            break;
+        }
+        // Simple wildcard matching: "data/*" matches "data/anything"
+        if (pattern.back() == '*' && pattern.size() > 1) {
+            std::string prefix = pattern.substr(0, pattern.size() - 1);
+            if (resource.find(prefix) == 0) {
+                resource_match = true;
+                break;
+            }
+        }
+    }
+    
+    if (!resource_match) {
+        return false;
+    }
+    
+    // Check action match
+    bool action_match = actions.empty(); // Empty means all actions
+    for (const auto& pattern : actions) {
+        if (pattern == "*" || pattern == action) {
+            action_match = true;
+            break;
+        }
+    }
+    
+    return action_match;
+}
+
+// ========== PolicyManager Implementation ==========
+
+PolicyManager::PolicyManager() = default;
+
+bool PolicyManager::loadRules(const std::string& path) {
+    try {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            THEMIS_WARN("Policy file not found: {}", path);
+            return false;
+        }
+        
+        nlohmann::json j;
+        file >> j;
+        
+        return importRules(j);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to load policy rules from {}: {}", path, e.what());
+        return false;
+    }
+}
+
+bool PolicyManager::saveRules(const std::string& path) {
+    try {
+        std::ofstream file(path);
+        if (!file.is_open()) {
+            THEMIS_ERROR("Failed to open file for writing: {}", path);
+            return false;
+        }
+        
+        nlohmann::json j = exportRules();
+        file << j.dump(2);
+        
+        THEMIS_INFO("Saved {} policy rules to {}", rules_.size(), path);
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to save policy rules to {}: {}", path, e.what());
+        return false;
+    }
+}
+
+void PolicyManager::addRule(const PolicyRule& rule) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    rules_[rule.id] = rule;
+    THEMIS_DEBUG("Added policy rule: {} ({})", rule.id, rule.name);
+}
+
+void PolicyManager::removeRule(const std::string& rule_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    rules_.erase(rule_id);
+    THEMIS_DEBUG("Removed policy rule: {}", rule_id);
+}
+
+std::optional<PolicyRule> PolicyManager::getRule(const std::string& rule_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = rules_.find(rule_id);
+    if (it != rules_.end()) {
+        return it->second;
+    }
+    return std::nullopt;
+}
+
+std::vector<PolicyRule> PolicyManager::listRules() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<PolicyRule> result;
+    result.reserve(rules_.size());
+    for (const auto& [id, rule] : rules_) {
+        result.push_back(rule);
+    }
+    return result;
+}
+
+std::vector<PolicyRule> PolicyManager::findApplicableRules(
+    const std::string& resource,
+    const std::string& action,
+    const std::vector<std::string>& user_roles
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<PolicyRule> applicable;
+    
+    for (const auto& [id, rule] : rules_) {
+        if (!rule.appliesTo(resource, action)) {
+            continue;
+        }
+        
+        // Check if user has required roles
+        if (!rule.required_roles.empty()) {
+            bool has_role = false;
+            for (const auto& required_role : rule.required_roles) {
+                for (const auto& user_role : user_roles) {
+                    if (required_role == user_role || required_role == "*") {
+                        has_role = true;
+                        break;
+                    }
+                }
+                if (has_role) break;
+            }
+            if (!has_role) {
+                continue;
+            }
+        }
+        
+        applicable.push_back(rule);
+    }
+    
+    // Sort by priority (highest first)
+    std::sort(applicable.begin(), applicable.end(),
+              [](const PolicyRule& a, const PolicyRule& b) {
+                  return a.priority > b.priority;
+              });
+    
+    return applicable;
+}
+
+PolicyManager::PolicyDecision PolicyManager::evaluatePolicy(
+    const std::string& resource,
+    const std::string& action,
+    const std::vector<std::string>& user_roles
+) const {
+    auto applicable_rules = findApplicableRules(resource, action, user_roles);
+    return aggregateRules(applicable_rules);
+}
+
+PolicyManager::PolicyDecision PolicyManager::aggregateRules(
+    const std::vector<PolicyRule>& rules
+) const {
+    PolicyDecision decision;
+    
+    if (rules.empty()) {
+        // Default permissive policy
+        decision.allowed = true;
+        return decision;
+    }
+    
+    // Aggregate effects from all applicable rules
+    // More restrictive settings take precedence
+    for (const auto& rule : rules) {
+        decision.applied_rules.push_back(rule.id);
+        
+        // Use highest classification level
+        if (decision.classification_level.empty() || 
+            rule.classification_level > decision.classification_level) {
+            decision.classification_level = rule.classification_level;
+        }
+        
+        // OR logic for requirements (if any rule requires, it's required)
+        decision.require_encryption = decision.require_encryption || rule.require_encryption;
+        decision.require_signature = decision.require_signature || rule.require_signature;
+        decision.audit_access = decision.audit_access || rule.audit_access;
+        decision.audit_changes = decision.audit_changes || rule.audit_changes;
+        
+        // AND logic for permissions (if any rule denies, it's denied)
+        decision.allow_export = decision.allow_export && rule.allow_export;
+        decision.allow_cache = decision.allow_cache && rule.allow_cache;
+        
+        // Use shortest retention period
+        decision.retention_days = std::min(decision.retention_days, rule.retention_days);
+        
+        // Use strictest redaction level
+        if (rule.redaction_level == "strict" || 
+            (rule.redaction_level == "standard" && decision.redaction_level == "none")) {
+            decision.redaction_level = rule.redaction_level;
+        }
+    }
+    
+    return decision;
+}
+
+PolicyManager::ValidationResult PolicyManager::validateRules() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    ValidationResult result;
+    result.valid = true;
+    
+    // Check for duplicate IDs
+    std::unordered_map<std::string, int> id_counts;
+    for (const auto& [id, rule] : rules_) {
+        id_counts[id]++;
+    }
+    
+    for (const auto& [id, count] : id_counts) {
+        if (count > 1) {
+            result.valid = false;
+            result.errors.push_back("Duplicate rule ID: " + id);
+        }
+    }
+    
+    // Check for conflicting rules (same resource/action but different effects)
+    for (const auto& [id1, rule1] : rules_) {
+        for (const auto& [id2, rule2] : rules_) {
+            if (id1 >= id2) continue; // Avoid duplicate checks
+            
+            // Simple conflict detection: same resources and actions but different encryption requirements
+            if (rule1.resources == rule2.resources && 
+                rule1.actions == rule2.actions &&
+                rule1.require_encryption != rule2.require_encryption) {
+                result.warnings.push_back("Potential conflict between rules " + id1 + " and " + id2);
+            }
+        }
+    }
+    
+    return result;
+}
+
+PolicyManager::PolicyStats PolicyManager::getStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    PolicyStats stats;
+    stats.total_rules = static_cast<int>(rules_.size());
+    
+    for (const auto& [id, rule] : rules_) {
+        if (rule.enabled) {
+            stats.enabled_rules++;
+        } else {
+            stats.disabled_rules++;
+        }
+        
+        stats.rules_by_classification[rule.classification_level]++;
+    }
+    
+    return stats;
+}
+
+nlohmann::json PolicyManager::exportRules() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    nlohmann::json j;
+    j["version"] = "1.0";
+    j["rules"] = nlohmann::json::array();
+    
+    for (const auto& [id, rule] : rules_) {
+        j["rules"].push_back(rule.toJson());
+    }
+    
+    return j;
+}
+
+bool PolicyManager::importRules(const nlohmann::json& j) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    try {
+        if (!j.contains("rules")) {
+            THEMIS_ERROR("Invalid policy JSON: missing 'rules' field");
+            return false;
+        }
+        
+        rules_.clear();
+        
+        for (const auto& rule_json : j["rules"]) {
+            PolicyRule rule = PolicyRule::fromJson(rule_json);
+            rules_[rule.id] = rule;
+        }
+        
+        THEMIS_INFO("Imported {} policy rules", rules_.size());
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to import policy rules: {}", e.what());
+        return false;
+    }
+}
+
+bool PolicyManager::matchPattern(const std::string& pattern, const std::string& value) const {
+    if (pattern == "*") {
+        return true;
+    }
+    if (pattern == value) {
+        return true;
+    }
+    // Simple wildcard matching
+    if (pattern.back() == '*' && pattern.size() > 1) {
+        std::string prefix = pattern.substr(0, pattern.size() - 1);
+        return value.find(prefix) == 0;
+    }
+    return false;
+}
+
+// ========== Profile Implementation ==========
+
+nlohmann::json Profile::toJson() const {
+    nlohmann::json j;
+    j["profile_id"] = profile_id;
+    j["name"] = name;
+    j["classification_level"] = classification_level;
+    j["roles"] = roles;
+    j["attributes"] = attributes;
+    j["can_export_data"] = can_export_data;
+    j["can_use_cache"] = can_use_cache;
+    j["allowed_resources"] = allowed_resources;
+    j["denied_resources"] = denied_resources;
+    j["created_by"] = created_by;
+    j["created_at"] = created_at;
+    j["updated_at"] = updated_at;
+    return j;
+}
+
+Profile Profile::fromJson(const nlohmann::json& j) {
+    Profile profile;
+    if (j.contains("profile_id")) profile.profile_id = j["profile_id"].get<std::string>();
+    if (j.contains("name")) profile.name = j["name"].get<std::string>();
+    if (j.contains("classification_level")) profile.classification_level = j["classification_level"].get<std::string>();
+    if (j.contains("roles")) profile.roles = j["roles"].get<std::vector<std::string>>();
+    if (j.contains("attributes")) profile.attributes = j["attributes"].get<std::unordered_map<std::string, std::string>>();
+    if (j.contains("can_export_data")) profile.can_export_data = j["can_export_data"].get<bool>();
+    if (j.contains("can_use_cache")) profile.can_use_cache = j["can_use_cache"].get<bool>();
+    if (j.contains("allowed_resources")) profile.allowed_resources = j["allowed_resources"].get<std::vector<std::string>>();
+    if (j.contains("denied_resources")) profile.denied_resources = j["denied_resources"].get<std::vector<std::string>>();
+    if (j.contains("created_by")) profile.created_by = j["created_by"].get<std::string>();
+    if (j.contains("created_at")) profile.created_at = j["created_at"].get<int64_t>();
+    if (j.contains("updated_at")) profile.updated_at = j["updated_at"].get<int64_t>();
+    return profile;
+}
+
+// ========== ProfileManager Implementation ==========
+
+ProfileManager::ProfileManager() = default;
+
+bool ProfileManager::loadProfiles(const std::string& path) {
+    try {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            THEMIS_WARN("Profile file not found: {}", path);
+            return false;
+        }
+        
+        nlohmann::json j;
+        file >> j;
+        
+        return importProfiles(j);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to load profiles from {}: {}", path, e.what());
+        return false;
+    }
+}
+
+bool ProfileManager::saveProfiles(const std::string& path) {
+    try {
+        std::ofstream file(path);
+        if (!file.is_open()) {
+            THEMIS_ERROR("Failed to open file for writing: {}", path);
+            return false;
+        }
+        
+        nlohmann::json j = exportProfiles();
+        file << j.dump(2);
+        
+        THEMIS_INFO("Saved {} profiles to {}", profiles_.size(), path);
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to save profiles to {}: {}", path, e.what());
+        return false;
+    }
+}
+
+void ProfileManager::addProfile(const Profile& profile) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    profiles_[profile.profile_id] = profile;
+    THEMIS_DEBUG("Added profile: {} ({})", profile.profile_id, profile.name);
+}
+
+void ProfileManager::removeProfile(const std::string& profile_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    profiles_.erase(profile_id);
+    THEMIS_DEBUG("Removed profile: {}", profile_id);
+}
+
+std::optional<Profile> ProfileManager::getProfile(const std::string& profile_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = profiles_.find(profile_id);
+    if (it != profiles_.end()) {
+        return it->second;
+    }
+    return std::nullopt;
+}
+
+std::vector<Profile> ProfileManager::listProfiles() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<Profile> result;
+    result.reserve(profiles_.size());
+    for (const auto& [id, profile] : profiles_) {
+        result.push_back(profile);
+    }
+    return result;
+}
+
+std::vector<Profile> ProfileManager::findProfilesByClassification(
+    const std::string& classification
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<Profile> result;
+    
+    for (const auto& [id, profile] : profiles_) {
+        if (profile.classification_level == classification) {
+            result.push_back(profile);
+        }
+    }
+    
+    return result;
+}
+
+nlohmann::json ProfileManager::exportProfiles() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    nlohmann::json j;
+    j["version"] = "1.0";
+    j["profiles"] = nlohmann::json::array();
+    
+    for (const auto& [id, profile] : profiles_) {
+        j["profiles"].push_back(profile.toJson());
+    }
+    
+    return j;
+}
+
+bool ProfileManager::importProfiles(const nlohmann::json& j) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    try {
+        if (!j.contains("profiles")) {
+            THEMIS_ERROR("Invalid profile JSON: missing 'profiles' field");
+            return false;
+        }
+        
+        profiles_.clear();
+        
+        for (const auto& profile_json : j["profiles"]) {
+            Profile profile = Profile::fromJson(profile_json);
+            profiles_[profile.profile_id] = profile;
+        }
+        
+        THEMIS_INFO("Imported {} profiles", profiles_.size());
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to import profiles: {}", e.what());
+        return false;
+    }
+}
+
+} // namespace governance
+} // namespace themis
