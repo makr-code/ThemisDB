@@ -1,23 +1,15 @@
 #include "index/product_quantizer.h"
 #include "utils/logger.h"
-
-// FAISS includes (conditional)
-#ifdef THEMIS_HAS_FAISS
-    #include <faiss/impl/ProductQuantizer.h>
-#endif
-
 #include <algorithm>
 #include <random>
 #include <cmath>
 #include <limits>
 #include <numeric>
-#include <stdexcept>
-#include <cstring>
 
 namespace themis {
 
 ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
-    : dimension_(dimension), config_(config), trained_(false) {
+    : dimension_(dimension), config_(config) {
     
     if (dimension_ % config_.num_subquantizers != 0) {
         throw std::invalid_argument(
@@ -26,33 +18,12 @@ ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
     
     subvector_dim_ = dimension_ / config_.num_subquantizers;
     
-#ifdef THEMIS_HAS_FAISS
-    // Use FAISS ProductQuantizer
-    // Parameters: dimension, M (num_subquantizers), nbits (8 for 256 centroids)
-    faiss_pq_ = std::make_unique<faiss::ProductQuantizer>(
-        static_cast<size_t>(dimension_),
-        static_cast<size_t>(config_.num_subquantizers),
-        8  // 8 bits = 256 centroids
-    );
-    
-    THEMIS_INFO("ProductQuantizer created with FAISS backend: dim={}, M={}, dsub={}",
-                dimension_, config_.num_subquantizers, subvector_dim_);
-#else
-    // Fallback: Pre-allocate codebooks for custom implementation
+    // Pre-allocate codebooks
     codebooks_.resize(config_.num_subquantizers);
     for (auto& codebook : codebooks_) {
         codebook.resize(config_.num_centroids, std::vector<float>(subvector_dim_));
     }
-    
-    THEMIS_INFO("ProductQuantizer created with fallback implementation: dim={}, M={}, dsub={}",
-                dimension_, config_.num_subquantizers, subvector_dim_);
-#endif
 }
-
-ProductQuantizer::~ProductQuantizer() = default;
-
-ProductQuantizer::ProductQuantizer(ProductQuantizer&&) noexcept = default;
-ProductQuantizer& ProductQuantizer::operator=(ProductQuantizer&&) noexcept = default;
 
 ProductQuantizer::Status ProductQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
@@ -65,35 +36,9 @@ ProductQuantizer::Status ProductQuantizer::train(
         return Status::Error("Training vector dimension mismatch");
     }
     
-    THEMIS_INFO("ProductQuantizer::train - Training with {} vectors, dim={}, M={}",
+    THEMIS_INFO("ProductQuantizer::train - Training with {} vectors, dim={}, subquantizers={}",
                 training_vectors.size(), dimension_, config_.num_subquantizers);
     
-#ifdef THEMIS_HAS_FAISS
-    try {
-        // Convert training vectors to contiguous array for FAISS
-        std::vector<float> training_data;
-        training_data.reserve(training_vectors.size() * dimension_);
-        
-        for (const auto& vec : training_vectors) {
-            training_data.insert(training_data.end(), vec.begin(), vec.end());
-        }
-        
-        // Train FAISS ProductQuantizer
-        faiss_pq_->train(training_vectors.size(), training_data.data());
-        
-        trained_ = true;
-        
-        THEMIS_INFO("ProductQuantizer::train (FAISS) - Training complete. Compression: {:.1f}x",
-                    getCompressionRatio());
-        
-        return Status::OK();
-        
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("ProductQuantizer::train (FAISS) - Training failed: {}", e.what());
-        return Status::Error(std::string("FAISS training failed: ") + e.what());
-    }
-#else
-    // Fallback: Custom K-means training
     // Train each subquantizer independently
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
         int start_dim = sq * subvector_dim_;
@@ -118,16 +63,15 @@ ProductQuantizer::Status ProductQuantizer::train(
     }
     
     trained_ = true;
-    THEMIS_INFO("ProductQuantizer::train (fallback) - Training complete. Compression: {:.1f}x",
+    THEMIS_INFO("ProductQuantizer::train - Training complete. Compression ratio: {:.1f}x",
                 getCompressionRatio());
     
     return Status::OK();
-#endif
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) const {
     if (!trained_) {
-        THEMIS_WARN("ProductQuantizer::encode - Quantizer not trained");
+        THEMIS_WARN("ProductQuantizer::encode - Quantizer not trained, returning empty");
         return {};
     }
     
@@ -137,20 +81,6 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
         return {};
     }
     
-#ifdef THEMIS_HAS_FAISS
-    std::vector<uint8_t> codes(config_.num_subquantizers);
-    
-    try {
-        // FAISS compute_codes: (input data, output codes, num_vectors)
-        faiss_pq_->compute_codes(vector.data(), codes.data(), 1);
-        return codes;
-        
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("ProductQuantizer::encode (FAISS) - Encoding failed: {}", e.what());
-        return {};
-    }
-#else
-    // Fallback: Custom encoding
     std::vector<uint8_t> codes;
     codes.reserve(config_.num_subquantizers);
     
@@ -168,7 +98,6 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
     }
     
     return codes;
-#endif
 }
 
 std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) const {
@@ -182,20 +111,6 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
         return {};
     }
     
-#ifdef THEMIS_HAS_FAISS
-    std::vector<float> decoded(dimension_);
-    
-    try {
-        // FAISS decode: (input codes, output data, num_vectors)
-        faiss_pq_->decode(codes.data(), decoded.data(), 1);
-        return decoded;
-        
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("ProductQuantizer::decode (FAISS) - Decoding failed: {}", e.what());
-        return {};
-    }
-#else
-    // Fallback: Custom decoding
     std::vector<float> reconstructed;
     reconstructed.reserve(dimension_);
     
@@ -207,42 +122,38 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
     }
     
     return reconstructed;
-#endif
 }
 
 float ProductQuantizer::computeAsymmetricDistance(
     const std::vector<float>& query,
     const std::vector<uint8_t>& codes) const {
     
-    if (!trained_) {
+    if (!trained_ || codes.size() != static_cast<size_t>(config_.num_subquantizers)) {
         return std::numeric_limits<float>::max();
     }
     
-    if (query.size() != static_cast<size_t>(dimension_)) {
-        THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Query dimension mismatch");
-        return std::numeric_limits<float>::max();
+    float total_distance = 0.0f;
+    
+    // Compute distance for each subvector
+    for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
+        int start_dim = sq * subvector_dim_;
+        uint8_t code = codes[sq];
+        
+        // Extract query subvector
+        std::vector<float> query_subvec(
+            query.begin() + start_dim,
+            query.begin() + start_dim + subvector_dim_
+        );
+        
+        // Get centroid and compute distance
+        const auto& centroid = codebooks_[sq][code];
+        float subvec_distance = l2Distance(query_subvec, centroid);
+        
+        // Sum squared distances (L2 distance squared)
+        total_distance += subvec_distance * subvec_distance;
     }
     
-    if (codes.size() != static_cast<size_t>(config_.num_subquantizers)) {
-        THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Code size mismatch");
-        return std::numeric_limits<float>::max();
-    }
-    
-    // For both FAISS and fallback, decode and compute L2 distance
-    // FAISS has optimized SDC tables but for API simplicity we use decode
-    auto decoded = decode(codes);
-    if (decoded.empty()) {
-        return std::numeric_limits<float>::max();
-    }
-    
-    // Compute L2 distance
-    float distance = 0.0f;
-    for (size_t i = 0; i < query.size(); ++i) {
-        float diff = query[i] - decoded[i];
-        distance += diff * diff;
-    }
-    
-    return std::sqrt(distance);
+    return std::sqrt(total_distance);
 }
 
 float ProductQuantizer::getCompressionRatio() const {
@@ -257,9 +168,6 @@ size_t ProductQuantizer::getMemoryUsage() const {
     // Codebooks: num_subquantizers * num_centroids * subvector_dim * sizeof(float)
     return config_.num_subquantizers * config_.num_centroids * subvector_dim_ * sizeof(float);
 }
-
-#ifndef THEMIS_HAS_FAISS
-// Fallback implementations for non-FAISS builds
 
 std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     const std::vector<std::vector<float>>& subvector_data) const {
@@ -397,7 +305,5 @@ float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vecto
     
     return std::sqrt(sum);
 }
-
-#endif // !THEMIS_HAS_FAISS
 
 } // namespace themis

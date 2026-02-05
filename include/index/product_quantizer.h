@@ -5,29 +5,35 @@
 #include <cstdint>
 #include <memory>
 
+// Forward declare FAISS types
+namespace faiss {
+    class ProductQuantizer;
+}
+
 namespace themis {
 
 /**
- * @brief Product Quantization for Vector Compression
+ * @brief Product Quantization for Vector Compression (FAISS-based)
  * 
- * Custom implementation of Product Quantization (PQ) for compressing high-dimensional vectors
+ * FAISS-native implementation of Product Quantization (PQ) for compressing high-dimensional vectors
  * from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).
  * 
- * NOTE: FAISS migration considered but NOT performed due to API mismatch.
- * FAISS's IndexIVFPQ doesn't expose standalone encode/decode methods needed by this interface.
- * For new implementations, consider using FAISS IndexIVFPQ directly if integrated search is acceptable.
+ * This implementation uses FAISS's optimized ProductQuantizer with SIMD acceleration
+ * and potential GPU support, replacing the previous custom implementation.
  * 
  * @sources
- * - Algorithm: Product Quantization
- * - Paper: Jégou, H., Douze, M., & Schmid, C. (2011). 
- *          "Product Quantization for Nearest Neighbor Search"
- *          IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI)
+ * - Library: FAISS (Facebook AI Similarity Search)
+ * - Repository: https://github.com/facebookresearch/faiss
+ * - License: MIT
+ * - FAISS Class: faiss::ProductQuantizer (faiss/impl/ProductQuantizer.h)
+ * - Algorithm: Jégou, H., Douze, M., & Schmid, C. (2011). 
+ *   "Product Quantization for Nearest Neighbor Search"
+ *   IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI)
  * - DOI: 10.1109/TPAMI.2010.57
  * - URL: https://hal.inria.fr/inria-00514462
- * - Implementation: Custom ThemisDB implementation with RocksDB storage and ACID transactions
- * - FAISS Alternative: faiss::IndexIVFPQ (integrated search, not standalone encode/decode)
  * 
- * Part of ThemisDB v1.3.0 - Feature #7: Vector Quantization
+ * Part of ThemisDB v1.4.2 - Migration to FAISS native quantizers
+ * Previous: Custom implementation (v1.3.0-v1.4.1)
  */
 class ProductQuantizer {
 public:
@@ -59,6 +65,16 @@ public:
      * @param config Configuration parameters
      */
     explicit ProductQuantizer(int dimension, const Config& config);
+    
+    ~ProductQuantizer();
+    
+    // Prevent copying due to unique_ptr/FAISS internals
+    ProductQuantizer(const ProductQuantizer&) = delete;
+    ProductQuantizer& operator=(const ProductQuantizer&) = delete;
+    
+    // Allow moving
+    ProductQuantizer(ProductQuantizer&&) noexcept;
+    ProductQuantizer& operator=(ProductQuantizer&&) noexcept;
 
     /**
      * @brief Train quantizer using K-means on training vectors
@@ -118,28 +134,25 @@ private:
     Config config_;
     bool trained_ = false;
 
-    // Codebooks: [subquantizer_idx][centroid_idx][subvector_dim]
+    // FAISS ProductQuantizer (when FAISS is available)
+    // Falls back to custom implementation when FAISS is not available
+    std::unique_ptr<faiss::ProductQuantizer> faiss_pq_;
+    
+    // Fallback: Custom codebooks for non-FAISS builds
+    // [subquantizer_idx][centroid_idx][subvector_dim]
     std::vector<std::vector<std::vector<float>>> codebooks_;
 
-    /**
-     * @brief Run K-means on subvector data
-     * @param subvector_data All subvectors for one subquantizer
-     * @return Centroids for this subquantizer
-     */
+#ifndef THEMIS_HAS_FAISS
+    // Fallback implementations for non-FAISS builds
     std::vector<std::vector<float>> runKMeans(
         const std::vector<std::vector<float>>& subvector_data) const;
-
-    /**
-     * @brief Find nearest centroid for a subvector
-     */
+    
     uint8_t findNearestCentroid(
         const std::vector<float>& subvector,
         const std::vector<std::vector<float>>& centroids) const;
-
-    /**
-     * @brief Compute L2 distance between two vectors
-     */
+    
     static float l2Distance(const std::vector<float>& a, const std::vector<float>& b);
+#endif
 };
 
 } // namespace themis
