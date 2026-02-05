@@ -29,7 +29,7 @@
 | 387 | `docs/de/development/todo.md` - Master TODO list with 387 tasks |
 | 220 | `docs/de/development/DOCUMENTATION_RENEWAL_TODO.md` - Documentation renewal tasks |
 | 107 | `docs/research/IMPLEMENTATION_CHECKLIST.md` - Research implementation checklist |
-| 107 | `docs/GITHUB_ISSUES_TEMPLATE.md` - GitHub issues template |
+| 107 | `.github/ISSUE_TEMPLATE/feature_block_planned_issues.md` - GitHub issues template |
 | 95 | `docs/de/tools/GIS_VIEWER_ROADMAP.md` - GIS viewer roadmap |
 | 87 | `docs/de/projects/RAG_LLM_PROGRAMMIERHILFE.md` - RAG LLM programming help |
 | 68 | `docs/de/reports/DOCUMENTATION_TODO.md` - Documentation TODO report |

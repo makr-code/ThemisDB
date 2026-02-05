@@ -1,12 +1,14 @@
 // Graph Query Optimizer implementation
 
 #include "graph/graph_query_optimizer.h"
+#include "graph/path_constraints.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
 #include <queue>
 #include <unordered_set>
 #include <chrono>
+#include <sstream>
 
 namespace themis {
 namespace graph {
@@ -196,6 +198,95 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
+    
+    return Ok(plan);
+}
+
+Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConstrainedPath(
+    std::string_view start_vertex,
+    std::string_view end_vertex,
+    const PathConstraints& constraints) {
+    
+    OptimizationPlan plan;
+    plan.pattern = QueryPattern::ALL_PATHS; // Constrained paths can find multiple paths
+    
+    // Analyze constraints to select best algorithm
+    const auto& constraint_list = constraints.getConstraints();
+    
+    bool has_min_length = false;
+    bool has_max_length = false;
+    bool has_required_nodes = false;
+    bool has_forbidden_nodes = false;
+    bool requires_unique = false;
+    
+    size_t min_length = 0;
+    size_t max_length = 100; // Default max
+    
+    for (const auto& constraint : constraint_list) {
+        switch (constraint.type) {
+            case PathConstraints::ConstraintType::MIN_LENGTH:
+                has_min_length = true;
+                if (constraint.int_value) min_length = *constraint.int_value;
+                break;
+            case PathConstraints::ConstraintType::MAX_LENGTH:
+                has_max_length = true;
+                if (constraint.int_value) max_length = *constraint.int_value;
+                break;
+            case PathConstraints::ConstraintType::REQUIRED_NODE:
+                has_required_nodes = true;
+                break;
+            case PathConstraints::ConstraintType::FORBIDDEN_NODE:
+                has_forbidden_nodes = true;
+                break;
+            case PathConstraints::ConstraintType::UNIQUE_NODES:
+            case PathConstraints::ConstraintType::NO_CYCLES:
+                requires_unique = true;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    // Select algorithm based on constraints
+    size_t estimated_depth = has_max_length ? max_length : estimateDepth(QueryPattern::ALL_PATHS, QueryConstraints());
+    
+    // For constrained paths, BFS is usually best for exploring breadth
+    // DFS might be better for deep paths with min_length requirements
+    if (has_min_length && min_length > 5) {
+        plan.algorithm = TraversalAlgorithm::DFS;
+    } else if (has_required_nodes) {
+        // Required nodes benefit from BFS to find shortest paths first
+        plan.algorithm = TraversalAlgorithm::BFS;
+    } else {
+        plan.algorithm = TraversalAlgorithm::BFS; // Default to BFS
+    }
+    
+    // Estimate cost based on constraint complexity
+    double constraint_complexity = 1.0;
+    constraint_complexity += constraint_list.size() * 0.1; // Each constraint adds overhead
+    if (has_required_nodes) constraint_complexity *= 1.5; // Required nodes are expensive
+    if (requires_unique) constraint_complexity *= 1.2; // Uniqueness tracking overhead
+    
+    plan.estimated_cost = estimateCost(plan.algorithm, estimated_depth, QueryConstraints()) * constraint_complexity;
+    plan.estimated_nodes_explored = static_cast<size_t>(
+        std::pow(statistics_.avg_branching_factor, estimated_depth) * constraint_complexity);
+    plan.estimated_time_ms = plan.estimated_cost * 0.15; // Constrained paths are slower
+    
+    plan.use_index = statistics_.has_edge_index;
+    plan.use_cache = statistics_.has_adjacency_cache;
+    plan.enable_early_termination = has_max_length; // Can terminate early with max length
+    plan.enable_parallel = false; // PathConstraints implementation doesn't support parallel yet
+    
+    // Generate explanation
+    std::ostringstream oss;
+    oss << "Constrained path finding from '" << start_vertex << "' to '" << end_vertex << "'\n";
+    oss << "Algorithm: " << (plan.algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << "\n";
+    oss << "Constraints: " << constraint_list.size() << " active\n";
+    oss << "Estimated depth: " << estimated_depth << "\n";
+    oss << "Estimated cost: " << plan.estimated_cost << "\n";
+    if (has_min_length) oss << "Min length: " << min_length << "\n";
+    if (has_max_length) oss << "Max length: " << max_length << "\n";
+    plan.explanation = oss.str();
     
     return Ok(plan);
 }
