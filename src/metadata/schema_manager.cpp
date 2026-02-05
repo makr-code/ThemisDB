@@ -847,10 +847,9 @@ bool SchemaManager::deleteTableSchema(std::string_view table_name) {
     
     // Remove from RocksDB
     std::string key = "config:schema:" + std::string(table_name);
-    auto result = db_.del(key);
+    bool result = db_.del(key);
     if (!result) {
-        spdlog::warn("SchemaManager: Failed to delete schema from storage: {}", 
-                     result.error().message());
+        spdlog::warn("SchemaManager: Failed to delete schema from storage for table '{}'", table_name);
     }
     
     // Rebuild cache to reflect discovered schema (if any)
@@ -1096,10 +1095,9 @@ void SchemaManager::saveCustomSchema(std::string_view table_name, const TableSch
         json j = schema.toJSON();
         std::string value = j.dump();
         
-        auto result = db_.put(key, std::vector<uint8_t>(value.begin(), value.end()));
+                bool result = db_.put(key, std::vector<uint8_t>(value.begin(), value.end()));
         if (!result) {
-            spdlog::error("SchemaManager: Failed to save schema for '{}': {}", 
-                         table_name, result.error().message());
+            spdlog::error("SchemaManager: Failed to save schema for '{}'", table_name);
         } else {
             spdlog::debug("SchemaManager: Saved custom schema for '{}'", table_name);
         }

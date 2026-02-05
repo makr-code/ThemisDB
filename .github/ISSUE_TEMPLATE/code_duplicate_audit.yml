@@ -1,0 +1,132 @@
+name: Code Duplicate & Incomplete Implementation Audit
+description: Systematische Prüfung auf Doppelgänger-Strukturen und unvollständige Implementierungen im Source Code
+title: "[AUDIT] Code Duplicate/Incomplete Implementation Review - [Layer]"
+labels: ["audit", "code-quality", "technical-debt"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Code Duplicate & Incomplete Implementation Audit
+        
+        > **Note:** Logo reference: `docs/logo.png` (to be added)
+        
+        ## Zweck
+        Dieses Template dient der systematischen Suche nach:
+        - **Doppelgänger-Strukturen**: Duplicate oder redundante Implementierungen
+        - **Unvollständige Implementierungen**: Fehlende oder unfertige Features
+        - **Inkonsistenzen**: Abweichende Implementierungsmuster
+        
+        ## Prüfpfad (von innen nach außen)
+        1. **RocksDB Storage Layer** - Storage, LSM-Tree, MVCC
+        2. **Core Layer** - Base, Utils, Transaction
+        3. **API Layer** - Server, REST APIs, Handlers
+        4. **Plugins** - Plugin-System, Erweiterungen
+        5. **Query & Analytics** - AQL, Query Engine, Analytics
+        6. **Distribution** - Sharding, Replication
+        7. **Acceleration** - GPU, CUDA, Vulkan
+        8. **Content Processing** - Content, Importers, Exporters
+        9. **Search & Index** - Vector, Fulltext, Graph
+        10. **Specialized Modules** - LLM, Geo, Timeseries, etc.
+        
+        > **Hinweis für CI**: Dieses Template ist für regelmäßige, automatisierte Code-Reviews konzipiert.
+        > Verwenden Sie Labels und CI-Relevanz-Checkbox zur Priorisierung.
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Layer / Modul
+      description: Welcher Layer oder Modul wurde geprüft?
+      options:
+        - RocksDB Storage Layer (storage/)
+        - Core Layer (core/, base/, utils/, transaction/)
+        - API Layer (server/, api/)
+        - Plugins (plugins/)
+        - Query & Analytics (aql/, query/, analytics/)
+        - Distribution (sharding/, replication/)
+        - Acceleration (gpu/, acceleration/)
+        - Content Processing (content/, importers/, exporters/)
+        - Search & Index (search/, index/, graph/)
+        - LLM Module (llm/, rag/)
+        - Geo Module (geo/)
+        - Timeseries Module (timeseries/, temporal/)
+        - Auth & Security (auth/, security/)
+        - Network & CDC (network/, cdc/)
+        - Other / Multiple Layers
+    validations:
+      required: true
+
+  - type: textarea
+    id: duplicates_found
+    attributes:
+      label: Gefundene Doppelgänger / Unvollständige Implementierungen
+      description: |
+        Beschreiben Sie die gefundenen Duplikate oder unvollständigen Implementierungen.
+        - Art des Problems (Duplikat, fehlende Implementierung, inkonsistente Muster)
+        - Betroffene Komponenten
+        - Schweregrad (Kritisch, Hoch, Mittel, Niedrig)
+      placeholder: |
+        **Problem**: Doppelte Request-Queue Implementierung
+        **Komponenten**: AsyncInferenceEngine, InferenceEngineEnhanced
+        **Schweregrad**: Mittel
+        **Details**: Beide Klassen implementieren Worker-Threads und Request-Queues mit ähnlicher Logik...
+    validations:
+      required: true
+
+  - type: textarea
+    id: source_references
+    attributes:
+      label: Quellverweise
+      description: |
+        Geben Sie präzise Verweise auf den betroffenen Code an.
+        Format: Dateipfad:Zeilennummer oder Dateipfad:Zeilenbereich
+      placeholder: |
+        - src/llm/async_inference_engine.cpp:45-120
+        - src/llm/inference_engine_enhanced.cpp:150-230
+        - include/llm/async_inference_engine.h:30-55
+      value: |
+        - 
+    validations:
+      required: true
+
+  - type: textarea
+    id: recommended_actions
+    attributes:
+      label: Empfohlene Maßnahmen
+      description: |
+        Welche Maßnahmen empfehlen Sie zur Behebung?
+        - Refactoring-Ansätze
+        - Code-Konsolidierung
+        - Vervollständigung fehlender Features
+        - Priorität und Aufwandsschätzung
+      placeholder: |
+        1. **Shared Interface extrahieren**: InferenceHandle in separates Header auslagern
+        2. **Dokumentation**: Use-Cases der beiden Engines klarer dokumentieren
+        3. **Tests**: Integration-Tests für beide Engines hinzufügen
+        4. **Aufwand**: 2-3 Stunden, Priorität: Mittel
+      value: |
+        1. 
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: ci_relevant
+    attributes:
+      label: CI-Relevanz
+      description: Ist dieses Problem für Continuous Integration relevant?
+      options:
+        - label: Blockiert CI/CD Pipeline
+        - label: Beeinträchtigt Code-Qualität Metriken
+        - label: Sicherheitsrelevant
+        - label: Performance-relevant
+        - label: Sollte in regelmäßigen Code-Reviews geprüft werden
+        - label: Erfordert Breaking Changes
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Zusätzlicher Kontext
+      description: Weitere relevante Informationen, Screenshots, Diagramme, etc.
+      placeholder: |
+        - Bezug zu Issues/PRs
+        - Historischer Kontext
+        - Abhängigkeiten zu anderen Modulen
