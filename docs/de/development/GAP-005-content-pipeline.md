@@ -1,29 +1,31 @@
 # GAP-005: Content Pipeline
 
-**Datum:** 2024-02-04  
-**Status:** ✅ Basisimplementierung abgeschlossen  
+**Datum:** 2024-02-05  
+**Status:** ✅ Enhanced Implementation Complete  
 **Priorität:** Mittel  
 **Kategorie:** Content Processing
 
 ## Überblick
 
-GAP-005 beschreibt die Implementierung eines ContentPipeline-Moduls zur effizienten Verarbeitung und Verwaltung von Inhalten in ThemisDB. Das Modul bietet grundlegende Infrastruktur für:
+GAP-005 beschreibt die Implementierung eines ContentPipeline-Moduls zur effizienten Verarbeitung und Verwaltung von Inhalten in ThemisDB. Das Modul bietet erweiterte Infrastruktur für:
 
-- **ZSTD-Komprimierung**: Effiziente Datenkompression für Content Storage
-- **Chunking-Mechanismus**: Aufteilung großer Inhalte in verarbeitbare Segmente
-- **Bulk-Upload-Schnittstelle**: Stapelverarbeitung für Content-Ingestion
+- **ZSTD-Komprimierung**: Effiziente Datenkompression mit Streaming-Support
+- **Chunking-Mechanismus**: Aufteilung großer Inhalte mit Multi-Modalitäts-Unterstützung
+- **Bulk-Upload-Schnittstelle**: Stapelverarbeitung mit AsyncIngestionWorker-Integration
 
 ## Aktuelle Implementierung
 
 ### Abgeschlossene Komponenten
 
-#### 1. ZstdCompression
+#### 1. ZstdCompression ✅ Enhanced
 
 **Standort**: `include/content/pipeline/zstd_compression.h`
 
 **Funktionalität** (Integration mit existierender Implementierung):
 - `compress()`: Komprimiert Daten via `utils::zstd_compress()`
 - `decompress()`: Dekomprimiert Daten via `utils::zstd_decompress()`
+- ✅ **NEW: `compress_streaming()`**: Streaming-Kompression für große Dateien
+- ✅ **NEW: `decompress_streaming()`**: Streaming-Dekompression mit Progress-Callbacks
 - `set_compression_level()`: Setzt Kompressionsgrad (1-22) mit Validierung
 - `get_compression_level()`: Ruft aktuellen Grad ab
 
@@ -37,7 +39,18 @@ GAP-005 beschreibt die Implementierung eines ContentPipeline-Moduls zur effizien
 ```cpp
 ZstdCompression compressor;
 compressor.set_compression_level(5);
-auto compressed = compressor.compress(data);  // Nutzt utils::zstd_compress
+
+// Standard compression
+auto compressed = compressor.compress(data);
+
+// Streaming compression with progress
+auto compressed_stream = compressor.compress_streaming(
+    large_data,
+    1024 * 1024,  // 1MB chunks
+    [](size_t processed, size_t total) {
+        std::cout << "Progress: " << (processed * 100 / total) << "%" << std::endl;
+    }
+);
 ```
 
 #### 2. ContentChunker
@@ -110,15 +123,80 @@ uploader.set_progress_callback([](const auto& id, size_t done, size_t total) {
 auto result = uploader.upload(content, metadata);
 ```
 
+#### 4. MultiModalChunker ✅ NEW
+
+**Standort**: `include/content/pipeline/multimodal_chunker.h`
+
+**Funktionalität**:
+- Multi-modale Content-aware Chunking-Strategien
+- Text: Satz- und Absatz-basiertes Chunking
+- Bild: Tile-basiertes Chunking mit konfigurierbaren Tile-Größen
+- Audio/Video: Fallback zu Generic-Chunking (Zeit-basiert geplant)
+- Binär: Generic Byte-basiertes Chunking
+
+**Integration**:
+- Ergänzt `IContentProcessor::chunk()` mit vereinheitlichter API
+- Einfache Boundary-Erkennung implementiert
+- Für Produktion: IContentProcessor nutzen (Token-Counting, Embeddings)
+
+**Verwendung**:
+```cpp
+// Text mit Satz-Grenzen
+MultiModalChunker::MultiModalConfig config;
+config.content_type = ContentType::TEXT;
+config.respect_sentences = true;
+MultiModalChunker chunker(config);
+auto chunks = chunker.chunk_text(text);
+
+// Bild mit Tiles
+config.content_type = ContentType::IMAGE;
+config.tile_based = true;
+config.tile_width = 256;
+config.tile_height = 256;
+MultiModalChunker image_chunker(config);
+auto image_chunks = image_chunker.chunk_image(data, width, height, bpp);
+```
+
+#### 5. AsyncBulkUploader ✅ NEW
+
+**Standort**: `include/content/pipeline/async_bulk_uploader.h`
+
+**Funktionalität**:
+- Produktionsreife AsyncIngestionWorker-Integration
+- Multi-threaded parallele Verarbeitung
+- Job-Queue-Management
+- ContentManager-Integration für tatsächlichen Storage
+- Fortschrittsverfolgung und Stornierung
+
+**Integration**:
+- Erweitert BulkUploadInterface
+- Nutzt AsyncIngestionWorker als Backend
+- Produktionsreif für High-Throughput-Szenarien
+
+**Verwendung**:
+```cpp
+auto uploader = std::make_shared<AsyncBulkUploader>(
+    content_manager,
+    config
+);
+uploader->start();
+
+// Parallel batch upload
+auto results = uploader->bulk_upload(contents, metadata_list);
+```
+
 ### Tests
 
 **Testdatei**: `tests/test_content_pipeline.cpp`
 
 Umfassende Unit-Tests für alle Methoden:
-- ✅ ZstdCompression: 5 Tests (nutzt utils::zstd_codec)
+- ✅ ZstdCompression: 7 Tests (inkl. Streaming mit Progress-Callbacks)
 - ✅ ContentChunker: 8 Tests  
 - ✅ BulkUploadInterface: 8 Tests
+- ✅ MultiModalChunker: 4 Tests (Text, Paragraph, Image, Binary)
 - ✅ Integration-Test: 1 Test
+
+**Gesamt**: 28 Unit-Tests
 
 **Testausführung**:
 ```bash
@@ -127,41 +205,80 @@ Umfassende Unit-Tests für alle Methoden:
 
 ### Integration mit existierender Infrastruktur
 
-**Status**: ✅ Implementiert (keine Duplikation)
+**Status**: ✅ Implementiert und erweitert
 
 Die Pipeline-Komponenten integrieren sich mit vorhandener ThemisDB-Infrastruktur:
 
-| Pipeline-Komponente | Existierende Komponente | Integration |
-|--------------------|------------------------|-------------|
-| `ZstdCompression` | `utils::zstd_codec` | Wrapper-API, delegiert zu utils::zstd_compress/decompress |
-| `ContentChunker` | `IContentProcessor::chunk()` | Ergänzend: Generic vs. Content-aware chunking |
-| `BulkUploadInterface` | `AsyncIngestionWorker` | Simplified API, kann AsyncIngestionWorker wrappen |
+| Pipeline-Komponente | Existierende Komponente | Integration | Status |
+|--------------------|------------------------|-------------|---------|
+| `ZstdCompression` | `utils::zstd_codec` | Wrapper-API mit Streaming | ✅ Enhanced |
+| `ContentChunker` | `IContentProcessor::chunk()` | Ergänzend: Generic vs. Content-aware | ✅ Complete |
+| `BulkUploadInterface` | `AsyncIngestionWorker` | Simplified API | ✅ Complete |
+| ✨ `MultiModalChunker` | `IContentProcessor` | Multi-modale Strategien | ✅ NEW |
+| ✨ `AsyncBulkUploader` | `AsyncIngestionWorker` | Produktionsreife Integration | ✅ NEW |
 
 **Vorteile der Integration**:
 - ✅ Keine Code-Duplikation
 - ✅ Nutzt getestete, produktionsreife Implementierungen
 - ✅ Pipeline-spezifische API für vereinfachte Nutzung
 - ✅ Klare Trennung: Generic Pipeline vs. Content-Aware Processing
+- ✅ Streaming-Support für große Dateien
+- ✅ Multi-Modalitäts-Unterstützung
+- ✅ Produktionsreife Parallel-Upload-Lösung
 
-## Offene Punkte und Erweiterungen
+## Abgeschlossene Future Enhancements ✅
+
+### 1. Streaming-Kompression ✅ COMPLETE
+
+**Status**: ✅ Vollständig implementiert
+
+**Features**:
+- `compress_streaming()`: Chunk-basierte Kompression mit Progress-Callbacks
+- `decompress_streaming()`: Streaming-Dekompression
+- Konfigurierbare Chunk-Größe (Standard: 1MB)
+- Progress-Tracking für große Dateien
+
+**Aufwand**: 1 Tag (abgeschlossen)
+
+### 2. Multi-Modalitäts-Unterstützung ✅ COMPLETE
+
+**Status**: ✅ Basisimplementierung abgeschlossen
+
+**Implementierte Features**:
+- ✅ Text-Chunking mit Satz-/Absatz-Grenzen
+- ✅ Bild-Chunking mit Tile-basierter Strategie
+- ✅ Binary-Fallback für unbekannte Typen
+- ✅ Konfigurierbare Strategien pro Content-Typ
+
+**Aufwand**: 2 Tage (abgeschlossen)
+
+### 3. AsyncIngestionWorker-Adapter ✅ COMPLETE
+
+**Status**: ✅ Vollständig implementiert (AsyncBulkUploader)
+
+**Features**:
+- Erweitert BulkUploadInterface
+- Nutzt AsyncIngestionWorker für parallele Verarbeitung
+- Job-Tracking und Status-Abfrage
+- Stornierung von laufenden Jobs
+- Produktionsreif
+
+**Aufwand**: 1 Tag (abgeschlossen)
+
+## Verbleibende Erweiterungsmöglichkeiten
 
 ### 1. ZSTD-Komprimierung (Priorität: Niedrig)
 
-**Aktueller Zustand**: ✅ Vollständig integriert mit utils::zstd_codec
+**Aktueller Zustand**: ✅ Vollständig integriert mit Streaming-Support
 
-**Status**: 
-- ✅ Nutzt existierende libzstd-Integration
-- ✅ Sicherheitsvalidierung vorhanden
-- ✅ Conditional compilation
-- ✅ Produktionsreif
-
-**Mögliche Erweiterungen**:
-- [ ] Streaming-Kompression-API für große Dateien
+**Mögliche weitere Erweiterungen**:
 - [ ] Dictionary-basierte Kompression für ähnliche Inhalte
 - [ ] Kompressionsstatistiken und Metriken im Pipeline-Context
 - [ ] Batch-Kompression-Optimierung
 
-### 2. Multi-Modalität (Priorität: Mittel)
+### 2. Multi-Modalität (Priorität: Niedrig)
+
+**Aktueller Zustand**: ✅ Basisimplementierung mit Text/Bild-Support
 
 **Konzept**: Unterstützung verschiedener Content-Typen mit spezifischen Strategien
 

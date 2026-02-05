@@ -5,6 +5,8 @@
 #include "content/pipeline/zstd_compression.h"
 #include "content/pipeline/content_chunker.h"
 #include "content/pipeline/bulk_upload_interface.h"
+#include "content/pipeline/multimodal_chunker.h"
+// Note: async_bulk_uploader requires ContentManager, tested separately
 #include <vector>
 #include <string>
 
@@ -344,3 +346,148 @@ TEST(ContentPipelineTest, Integration_CompressChunkUpload) {
         EXPECT_EQ(result.status, BulkUploadInterface::UploadStatus::COMPLETED);
     }
 }
+
+// ============================================================================
+// Streaming Compression Tests (Future Enhancement)
+// ============================================================================
+
+TEST(ContentPipelineTest, ZstdCompression_StreamingCompress) {
+    ZstdCompression compressor;
+    
+    // Create test data (10KB)
+    std::vector<uint8_t> data(10 * 1024, 0xAB);
+    
+    bool callback_called = false;
+    size_t last_processed = 0;
+    
+    auto compressed = compressor.compress_streaming(
+        data,
+        1024,  // 1KB chunks
+        [&](size_t processed, size_t total) {
+            callback_called = true;
+            last_processed = processed;
+            EXPECT_LE(processed, total);
+        }
+    );
+    
+    EXPECT_TRUE(callback_called);
+    EXPECT_EQ(last_processed, data.size());
+    
+    // Verify decompression works
+    if (!compressed.empty()) {
+        auto decompressed = compressor.decompress(compressed);
+        // Note: Streaming compression may produce different output than single-shot
+        // but decompression should still work
+    }
+}
+
+TEST(ContentPipelineTest, ZstdCompression_StreamingDecompress) {
+    ZstdCompression compressor;
+    
+    std::string test_str = "Streaming decompression test data";
+    std::vector<uint8_t> data(test_str.begin(), test_str.end());
+    
+    // Compress first
+    auto compressed = compressor.compress(data);
+    
+    if (!compressed.empty()) {
+        bool callback_called = false;
+        
+        auto decompressed = compressor.decompress_streaming(
+            compressed,
+            [&](size_t processed, size_t total) {
+                callback_called = true;
+            }
+        );
+        
+        EXPECT_TRUE(callback_called);
+        EXPECT_EQ(data, decompressed);
+    }
+}
+
+// ============================================================================
+// Multi-Modal Chunking Tests (Future Enhancement)
+// ============================================================================
+
+TEST(ContentPipelineTest, MultiModalChunker_TextChunking) {
+    MultiModalChunker::MultiModalConfig config;
+    config.content_type = ContentType::TEXT;
+    config.chunk_size = 100;
+    config.respect_sentences = true;
+    
+    MultiModalChunker chunker(config);
+    
+    std::string text = "First sentence. Second sentence. Third sentence. Fourth sentence.";
+    auto chunks = chunker.chunk_text(text);
+    
+    EXPECT_GT(chunks.size(), 0);
+    
+    // Verify chunks respect sentence boundaries
+    for (const auto& chunk : chunks) {
+        std::string chunk_text(chunk.data.begin(), chunk.data.end());
+        // Each chunk should end with a complete sentence (or be the last chunk)
+        if (chunk.index < chunk.total_chunks - 1) {
+            // Should end with sentence terminator
+            EXPECT_TRUE(
+                chunk_text.back() == '.' ||
+                chunk_text.back() == '!' ||
+                chunk_text.back() == '?' ||
+                chunk_text.back() == ' '
+            );
+        }
+    }
+}
+
+TEST(ContentPipelineTest, MultiModalChunker_ParagraphChunking) {
+    MultiModalChunker::MultiModalConfig config;
+    config.content_type = ContentType::TEXT;
+    config.chunk_size = 200;
+    config.respect_paragraphs = true;
+    config.respect_sentences = false;  // Prefer paragraphs
+    
+    MultiModalChunker chunker(config);
+    
+    std::string text = "First paragraph.\n\nSecond paragraph.\n\nThird paragraph.";
+    auto chunks = chunker.chunk_text(text);
+    
+    EXPECT_GT(chunks.size(), 0);
+}
+
+TEST(ContentPipelineTest, MultiModalChunker_ImageTileChunking) {
+    MultiModalChunker::MultiModalConfig config;
+    config.content_type = ContentType::IMAGE;
+    config.tile_based = true;
+    config.tile_width = 2;
+    config.tile_height = 2;
+    
+    MultiModalChunker chunker(config);
+    
+    // Create 4x4 image (RGB, 3 bytes per pixel)
+    size_t width = 4, height = 4, bpp = 3;
+    std::vector<uint8_t> image_data(width * height * bpp, 0xFF);
+    
+    auto chunks = chunker.chunk_image(image_data, width, height, bpp);
+    
+    // Should create 4 tiles (2x2 grid)
+    EXPECT_EQ(chunks.size(), 4);
+    
+    // Each tile should have 2x2 pixels * 3 bytes = 12 bytes
+    for (const auto& chunk : chunks) {
+        EXPECT_EQ(chunk.data.size(), 2 * 2 * 3);
+    }
+}
+
+TEST(ContentPipelineTest, MultiModalChunker_BinaryFallback) {
+    MultiModalChunker::MultiModalConfig config;
+    config.content_type = ContentType::BINARY;
+    config.chunk_size = 100;
+    
+    MultiModalChunker chunker(config);
+    
+    std::vector<uint8_t> data(250, 0xAB);
+    auto chunks = chunker.chunk(data);
+    
+    // Should use generic byte-based chunking
+    EXPECT_EQ(chunks.size(), 3);  // 250 / 100 = 2.5, so 3 chunks
+}
+

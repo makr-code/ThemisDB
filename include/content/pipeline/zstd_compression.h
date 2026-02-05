@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <functional>
 #include "utils/zstd_codec.h"
 
 namespace themis::content::pipeline {
@@ -20,14 +21,20 @@ namespace themis::content::pipeline {
  * It integrates with the existing, fully-functional ZSTD implementation
  * while providing a consistent API for pipeline operations.
  * 
- * Future enhancements:
+ * Features:
+ * - Single-shot compression/decompression
  * - Streaming compression for large files
- * - Dictionary-based compression for similar content
- * - Compression statistics and metrics
- * - Batch compression optimization
+ * - Configurable compression levels
+ * - Progress callbacks for streaming operations
  */
 class ZstdCompression {
 public:
+    /**
+     * @brief Stream processing callback
+     * Called during streaming operations with processed bytes
+     */
+    using StreamCallback = std::function<void(size_t processed, size_t total)>;
+
     ZstdCompression() = default;
     ~ZstdCompression() = default;
 
@@ -52,6 +59,37 @@ public:
      * @return Decompressed data (empty on failure)
      */
     std::vector<uint8_t> decompress(const std::vector<uint8_t>& compressed_data);
+
+    /**
+     * @brief Streaming compression for large files
+     * 
+     * Compresses data in chunks with optional progress callback.
+     * Useful for files larger than available memory.
+     * 
+     * @param data Input data to compress
+     * @param chunk_size Size of chunks to process (default 1MB)
+     * @param callback Optional progress callback
+     * @return Compressed data (empty on failure)
+     */
+    std::vector<uint8_t> compress_streaming(
+        const std::vector<uint8_t>& data,
+        size_t chunk_size = 1024 * 1024,
+        StreamCallback callback = nullptr
+    );
+
+    /**
+     * @brief Streaming decompression for large files
+     * 
+     * Decompresses data with optional progress callback.
+     * 
+     * @param compressed_data Compressed input data
+     * @param callback Optional progress callback
+     * @return Decompressed data (empty on failure)
+     */
+    std::vector<uint8_t> decompress_streaming(
+        const std::vector<uint8_t>& compressed_data,
+        StreamCallback callback = nullptr
+    );
 
     /**
      * @brief Set compression level
