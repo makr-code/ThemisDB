@@ -10,6 +10,13 @@
 namespace themis {
 namespace governance {
 
+// Helper function to get current time in milliseconds
+static int64_t getCurrentTimeMs() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+}
+
 // ========== PolicyReview Implementation ==========
 
 nlohmann::json PolicyReview::toJson() const {
@@ -69,7 +76,7 @@ ReviewScheduler::ReviewSchedule ReviewScheduler::ReviewSchedule::fromJson(const 
 void ReviewScheduler::setSchedule(const std::string& rule_id, int review_period_days) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    auto now = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    auto now = getCurrentTimeMs();
     
     ReviewSchedule schedule;
     schedule.rule_id = rule_id;
@@ -121,7 +128,7 @@ std::vector<std::string> ReviewScheduler::getRulesDueForReview(int64_t current_t
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_time == 0) {
-        current_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        current_time = getCurrentTimeMs();
     }
     
     std::vector<std::string> due_rules;
@@ -141,7 +148,7 @@ std::vector<std::string> ReviewScheduler::getOverdueReviews(int64_t current_time
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_time == 0) {
-        current_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        current_time = getCurrentTimeMs();
     }
     
     std::vector<std::string> overdue_rules;
@@ -166,7 +173,7 @@ void ReviewScheduler::markAsReviewed(const std::string& rule_id, int64_t review_
     auto it = schedules_.find(rule_id);
     if (it != schedules_.end()) {
         if (review_time == 0) {
-            review_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+            review_time = getCurrentTimeMs();
         }
         
         it->second.last_review_date = review_time;
@@ -245,7 +252,7 @@ std::string ReviewWorkflow::createReview(
     review.status = "pending";
     review.reviewer = reviewer;
     review.requester = requester;
-    review.created_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    review.created_at = getCurrentTimeMs();
     review.due_date = review.created_at + (static_cast<int64_t>(days_to_complete) * 24 * 60 * 60 * 1000);
     review.completed_at = 0;
     
@@ -328,7 +335,7 @@ bool ReviewWorkflow::approveReview(const std::string& review_id, const std::stri
     
     it->second.status = "approved";
     it->second.review_notes = notes;
-    it->second.completed_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    it->second.completed_at = getCurrentTimeMs();
     
     THEMIS_INFO("Approved review {} for rule {}", review_id, it->second.rule_id);
     return true;
@@ -351,7 +358,7 @@ bool ReviewWorkflow::rejectReview(const std::string& review_id, const std::strin
     it->second.status = "rejected";
     it->second.rejection_reason = reason;
     it->second.review_notes = notes;
-    it->second.completed_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    it->second.completed_at = getCurrentTimeMs();
     
     THEMIS_INFO("Rejected review {} for rule {}: {}", review_id, it->second.rule_id, reason);
     return true;
@@ -380,7 +387,7 @@ std::vector<PolicyReview> ReviewWorkflow::getOverdueReviews(int64_t current_time
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_time == 0) {
-        current_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        current_time = getCurrentTimeMs();
     }
     
     std::vector<PolicyReview> result;
@@ -410,7 +417,7 @@ bool ReviewWorkflow::cancelReview(const std::string& review_id) {
     }
     
     it->second.status = "cancelled";
-    it->second.completed_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    it->second.completed_at = getCurrentTimeMs();
     
     THEMIS_INFO("Cancelled review {}", review_id);
     return true;
@@ -544,7 +551,7 @@ std::vector<std::string> PolicyExpiration::getExpiredRules(int64_t current_time)
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_time == 0) {
-        current_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        current_time = getCurrentTimeMs();
     }
     
     std::vector<std::string> expired_rules;
@@ -564,7 +571,7 @@ std::vector<PolicyExpiration::ExpirationWarning> PolicyExpiration::getRulesExpir
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_time == 0) {
-        current_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        current_time = getCurrentTimeMs();
     }
     
     std::vector<ExpirationWarning> warnings;
@@ -610,7 +617,7 @@ std::vector<std::string> PolicyExpiration::processExpirations(PolicyManager& pol
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_time == 0) {
-        current_time = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        current_time = getCurrentTimeMs();
     }
     
     std::vector<std::string> disabled_rules;
@@ -844,7 +851,7 @@ std::string NotificationManager::createNotification(
     notification.recipient = recipient;
     notification.subject = subject;
     notification.message = message;
-    notification.created_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    notification.created_at = getCurrentTimeMs();
     notification.sent = false;
     notification.sent_at = 0;
     
@@ -882,7 +889,7 @@ void NotificationManager::markAsSent(const std::string& notification_id) {
     auto it = notifications_.find(notification_id);
     if (it != notifications_.end()) {
         it->second.sent = true;
-        it->second.sent_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        it->second.sent_at = getCurrentTimeMs();
         
         THEMIS_DEBUG("Marked notification {} as sent", notification_id);
     }

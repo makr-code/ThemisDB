@@ -9,7 +9,9 @@ using namespace themis::governance;
 // ========== Helper Functions ==========
 
 int64_t getCurrentTime() {
-    return std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
 }
 
 int64_t getTimeOffset(int days) {
