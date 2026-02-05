@@ -295,3 +295,63 @@ TEST_F(PolicyManagerTest, ExportAndImportRules) {
     ASSERT_TRUE(imported_rule.has_value());
     EXPECT_EQ(imported_rule->name, "Export Test Rule");
 }
+
+TEST_F(PolicyManagerTest, LoadRulesFromYAML) {
+    // Create a temporary YAML file
+    auto yaml_path = test_dir / "test_rules.yaml";
+    std::ofstream yaml_file(yaml_path.string());
+    yaml_file << R"(
+rules:
+  - id: "yaml_rule_001"
+    name: "YAML Test Rule"
+    description: "Test loading from YAML"
+    classification_level: "vs-nfd"
+    enabled: true
+    resources:
+      - "data/test/*"
+    actions:
+      - "read"
+      - "write"
+    required_roles:
+      - "tester"
+    require_encryption: true
+    allow_export: false
+    retention_days: 180
+    priority: 75
+  - id: "yaml_rule_002"
+    name: "YAML Test Rule 2"
+    enabled: false
+    resources:
+      - "keys/*"
+    actions:
+      - "*"
+)";
+    yaml_file.close();
+    
+    // Load from YAML
+    auto yaml_manager = std::make_unique<PolicyManager>();
+    ASSERT_TRUE(yaml_manager->loadRules(yaml_path.string()));
+    
+    // Verify loaded rules
+    auto rule1 = yaml_manager->getRule("yaml_rule_001");
+    ASSERT_TRUE(rule1.has_value());
+    EXPECT_EQ(rule1->name, "YAML Test Rule");
+    EXPECT_EQ(rule1->classification_level, "vs-nfd");
+    EXPECT_TRUE(rule1->enabled);
+    EXPECT_EQ(rule1->resources.size(), 1);
+    EXPECT_EQ(rule1->resources[0], "data/test/*");
+    EXPECT_EQ(rule1->actions.size(), 2);
+    EXPECT_TRUE(rule1->require_encryption);
+    EXPECT_FALSE(rule1->allow_export);
+    EXPECT_EQ(rule1->retention_days, 180);
+    EXPECT_EQ(rule1->priority, 75);
+    
+    auto rule2 = yaml_manager->getRule("yaml_rule_002");
+    ASSERT_TRUE(rule2.has_value());
+    EXPECT_EQ(rule2->name, "YAML Test Rule 2");
+    EXPECT_FALSE(rule2->enabled);
+    
+    // Verify rule count
+    auto all_rules = yaml_manager->listRules();
+    EXPECT_EQ(all_rules.size(), 2);
+}

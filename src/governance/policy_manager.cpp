@@ -105,17 +105,78 @@ PolicyManager::PolicyManager() = default;
 
 bool PolicyManager::loadRules(const std::string& path) {
     try {
-        std::ifstream file(path);
-        if (!file.is_open()) {
-            THEMIS_WARN("Policy file not found: {}", path);
-            return false;
+        // Detect file type by extension
+        bool is_yaml = (path.substr(path.find_last_of(".") + 1) == "yaml" || 
+                        path.substr(path.find_last_of(".") + 1) == "yml");
+        
+        if (is_yaml) {
+            // Load from YAML
+            YAML::Node config = YAML::LoadFile(path);
+            
+            if (!config["rules"]) {
+                THEMIS_ERROR("YAML file missing 'rules' field: {}", path);
+                return false;
+            }
+            
+            std::lock_guard<std::mutex> lock(mutex_);
+            rules_.clear();
+            
+            const auto& rules_node = config["rules"];
+            for (const auto& rule_node : rules_node) {
+                PolicyRule rule;
+                
+                if (rule_node["id"]) rule.id = rule_node["id"].as<std::string>();
+                if (rule_node["name"]) rule.name = rule_node["name"].as<std::string>();
+                if (rule_node["description"]) rule.description = rule_node["description"].as<std::string>();
+                if (rule_node["classification_level"]) rule.classification_level = rule_node["classification_level"].as<std::string>();
+                if (rule_node["enabled"]) rule.enabled = rule_node["enabled"].as<bool>();
+                
+                if (rule_node["resources"]) {
+                    rule.resources = rule_node["resources"].as<std::vector<std::string>>();
+                }
+                if (rule_node["actions"]) {
+                    rule.actions = rule_node["actions"].as<std::vector<std::string>>();
+                }
+                if (rule_node["required_roles"]) {
+                    rule.required_roles = rule_node["required_roles"].as<std::vector<std::string>>();
+                }
+                
+                if (rule_node["require_encryption"]) rule.require_encryption = rule_node["require_encryption"].as<bool>();
+                if (rule_node["require_signature"]) rule.require_signature = rule_node["require_signature"].as<bool>();
+                if (rule_node["allow_export"]) rule.allow_export = rule_node["allow_export"].as<bool>();
+                if (rule_node["allow_cache"]) rule.allow_cache = rule_node["allow_cache"].as<bool>();
+                if (rule_node["retention_days"]) rule.retention_days = rule_node["retention_days"].as<int>();
+                if (rule_node["redaction_level"]) rule.redaction_level = rule_node["redaction_level"].as<std::string>();
+                if (rule_node["audit_access"]) rule.audit_access = rule_node["audit_access"].as<bool>();
+                if (rule_node["audit_changes"]) rule.audit_changes = rule_node["audit_changes"].as<bool>();
+                if (rule_node["priority"]) rule.priority = rule_node["priority"].as<int>();
+                if (rule_node["created_by"]) rule.created_by = rule_node["created_by"].as<std::string>();
+                if (rule_node["created_at"]) rule.created_at = rule_node["created_at"].as<int64_t>();
+                if (rule_node["updated_at"]) rule.updated_at = rule_node["updated_at"].as<int64_t>();
+                
+                rules_[rule.id] = rule;
+            }
+            
+            THEMIS_INFO("Loaded {} policy rules from YAML: {}", rules_.size(), path);
+            return true;
+            
+        } else {
+            // Load from JSON
+            std::ifstream file(path);
+            if (!file.is_open()) {
+                THEMIS_WARN("Policy file not found: {}", path);
+                return false;
+            }
+            
+            nlohmann::json j;
+            file >> j;
+            
+            return importRules(j);
         }
         
-        nlohmann::json j;
-        file >> j;
-        
-        return importRules(j);
-        
+    } catch (const YAML::Exception& e) {
+        THEMIS_ERROR("Failed to load policy rules from YAML {}: {}", path, e.what());
+        return false;
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to load policy rules from {}: {}", path, e.what());
         return false;
