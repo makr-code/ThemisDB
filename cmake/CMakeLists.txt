@@ -1362,6 +1362,10 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/policy_manager.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/compliance_reporting.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
