@@ -706,7 +706,7 @@ nlohmann::json ComplianceReporter::ChangeHistoryReport::toJson() const {
         change_json["version"] = change.version;
         change_json["timestamp"] = change.timestamp;
         change_json["modified_by"] = change.modified_by;
-        change_json["description"] = change.change_description;
+        change_json["change_description"] = change.change_description;
         change_json["rule"] = change.rule.toJson();
         changes_json.push_back(change_json);
     }
