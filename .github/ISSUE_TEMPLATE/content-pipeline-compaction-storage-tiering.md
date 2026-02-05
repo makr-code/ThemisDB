@@ -2,7 +2,7 @@
 name: Content Pipeline - Compaction-Strategien & Storage-Tiering
 about: Issues für Optimierung von Speicherung und Performance durch intelligente Content-Verdichtung und Storage-Management
 title: '[CONTENT-PIPELINE] Compaction & Storage-Tiering: '
-labels: ['enhancement', 'future', 'content-pipeline', 'storage', 'performance']
+labels: ['type:enhancement', 'milestone:future', 'area:content-processing', 'area:storage', 'area:performance']
 assignees: ''
 ---
 
@@ -34,7 +34,7 @@ assignees: ''
 
 **Priorität:** Hoch
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`, `type:performance`
 
 **Lösungsansatz:**
 - Hash-Berechnung (SHA-256) für Content
@@ -52,7 +52,7 @@ assignees: ''
 
 **Priorität:** Hoch
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`
 
 **Lösungsansatz:**
 - CAS-Interface und -Implementierung
@@ -70,7 +70,7 @@ assignees: ''
 
 **Priorität:** Mittel
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`, `type:performance`
 
 **Lösungsansatz:**
 - Integration von xdelta3 oder zstd-patch
@@ -88,7 +88,7 @@ assignees: ''
 
 **Priorität:** Hoch
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`
 
 **Lösungsansatz:**
 - Thread-safe Reference Counter
@@ -108,7 +108,7 @@ assignees: ''
 
 **Priorität:** Mittel
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`
 
 **Lösungsansatz:**
 - StorageTier-Enum und -Konfiguration
@@ -126,7 +126,7 @@ assignees: ''
 
 **Priorität:** Mittel
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`, `type:performance`
 
 **Lösungsansatz:**
 - Access-Statistics-Sammlung
@@ -144,7 +144,7 @@ assignees: ''
 
 **Priorität:** Niedrig
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`, `type:performance`
 
 **Lösungsansatz:**
 - Tier-spezifische Kompressionsprofile
@@ -162,7 +162,7 @@ assignees: ''
 
 **Priorität:** Niedrig
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`
 
 **Lösungsansatz:**
 - Cost-Model-Konfiguration pro Tier
@@ -182,7 +182,7 @@ assignees: ''
 
 **Priorität:** Mittel
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `type:performance`
 
 **Lösungsansatz:**
 - Content-Similarity-Detection
@@ -200,7 +200,7 @@ assignees: ''
 
 **Priorität:** Niedrig
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `type:performance`
 
 **Lösungsansatz:**
 - Training-Dataset-Sammlung
@@ -218,7 +218,7 @@ assignees: ''
 
 **Priorität:** Hoch
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `type:performance`
 
 **Lösungsansatz:**
 - Task-Queue für Batch-Operations
@@ -236,7 +236,7 @@ assignees: ''
 
 **Priorität:** Mittel
 
-**Labels:** `enhancement`, `future`, `content-pipeline`, `storage`, `performance`
+**Labels:** `type:enhancement`, `milestone:future`, `area:content-processing`, `area:storage`, `type:performance`
 
 **Lösungsansatz:**
 - Sequentielles Read-Pattern-Detection
