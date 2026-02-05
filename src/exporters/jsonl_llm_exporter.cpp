@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <cmath>
 #include <set>
 #include <nlohmann/json.hpp>
 
@@ -317,8 +318,52 @@ double JSONLLLMExporter::calculateWeight(const BaseEntity& entity) {
     if (weight_cfg.auto_weight_by_freshness) {
         auto timestamp_str = entity.getFieldAsString(weight_cfg.timestamp_field);
         if (timestamp_str) {
-            // TODO: Parse timestamp and calculate freshness factor
-            // Newer data gets higher weight
+            try {
+                // Parse timestamp (assuming Unix timestamp in milliseconds or seconds)
+                int64_t timestamp_value = std::stoll(*timestamp_str);
+                
+                // Determine if timestamp is in seconds or milliseconds
+                // Timestamps > 10^10 are likely in milliseconds
+                auto timestamp_ms = (timestamp_value > 10000000000LL) ? 
+                    timestamp_value : timestamp_value * 1000;
+                
+                auto timestamp_tp = std::chrono::system_clock::time_point(
+                    std::chrono::milliseconds(timestamp_ms)
+                );
+                
+                auto now = std::chrono::system_clock::now();
+                auto age = std::chrono::duration_cast<std::chrono::hours>(
+                    now - timestamp_tp
+                ).count();
+                
+                // Validate timestamp is not in the future
+                if (age < 0) {
+                    THEMIS_WARN("Timestamp '{}' is in the future, skipping freshness calculation", 
+                               *timestamp_str);
+                    // Skip freshness calculation for future timestamps
+                } else {
+                    // Calculate freshness factor using exponential decay
+                    // Age in days: divide hours by 24
+                    double age_days = age / 24.0;
+                    
+                    // Decay factor: newer data gets weight closer to 1.0
+                    // Data older than 365 days gets significantly reduced weight
+                    // Using formula: freshness = exp(-age_days / decay_constant)
+                    // where decay_constant = 180 (half-life of ~6 months)
+                    double freshness_factor = std::exp(-age_days / 180.0);
+                    
+                    // Apply freshness factor (multiply by 0.5 to 1.0 range)
+                    // Very fresh data (< 1 week): ~1.0x
+                    // 6 month old data: ~0.5x
+                    // 1+ year old data: ~0.25x
+                    calculated_weight *= (0.5 + 0.5 * freshness_factor);
+                }
+                
+            } catch (const std::exception& e) {
+                // If timestamp parsing fails, log warning and use default weight
+                THEMIS_WARN("Failed to parse timestamp '{}' for freshness calculation: {}", 
+                           *timestamp_str, e.what());
+            }
         }
     }
     

@@ -3248,7 +3248,6 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 
 Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
-    const std::string& variable,
     const std::string& startVertex,
     int minDepth,
     int maxDepth,

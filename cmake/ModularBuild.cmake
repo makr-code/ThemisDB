@@ -466,8 +466,9 @@ set(THEMIS_NETWORK_SOURCES
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
     
-    # Observability
+    # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
+    ../src/observability/alertmanager.cpp
 )
 
 set(THEMIS_GEO_SOURCES
