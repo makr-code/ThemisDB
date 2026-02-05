@@ -263,6 +263,24 @@ public:
     const std::vector<ExecutionStats>& getExecutionHistory() const { 
         return execution_history_; 
     }
+    
+    /**
+     * @brief Optimize constrained path query using PathConstraints
+     * 
+     * Generates an optimization plan for path finding with complex constraints.
+     * This method bridges PathConstraints with the query optimizer to select
+     * the best traversal strategy based on constraint types.
+     * 
+     * @param start_vertex Starting node
+     * @param end_vertex Target node
+     * @param constraints PathConstraints object with all constraint specifications
+     * @return Optimization plan with recommended algorithm and cost estimates
+     */
+    Result<OptimizationPlan> optimizeConstrainedPath(
+        std::string_view start_vertex,
+        std::string_view end_vertex,
+        const class PathConstraints& constraints
+    );
 
 private:
     GraphIndexManager& graph_manager_;

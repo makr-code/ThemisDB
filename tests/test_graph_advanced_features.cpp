@@ -10,6 +10,7 @@
  */
 
 #include "graph/path_constraints.h"
+#include "graph/graph_query_optimizer.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -201,6 +202,34 @@ void test_path_finding(themis::RocksDBWrapper& storage) {
     std::cout << "  ✓ Path finding tests passed" << std::endl;
 }
 
+void test_optimizer_integration(themis::RocksDBWrapper& storage) {
+    std::cout << "Testing GraphQueryOptimizer integration..." << std::endl;
+    
+    auto graph_mgr = setupTestGraph(storage);
+    themis::graph::GraphQueryOptimizer optimizer(*graph_mgr);
+    themis::graph::PathConstraints constraints(graph_mgr.get());
+    
+    // Add some constraints
+    constraints.addMinLength(2);
+    constraints.addMaxLength(5);
+    constraints.requireUniqueNodes();
+    
+    // Test optimization
+    auto plan_result = optimizer.optimizeConstrainedPath("A", "D", constraints);
+    assert(plan_result.has_value());
+    
+    auto& plan = *plan_result;
+    assert(!plan.explanation.empty());
+    assert(plan.estimated_cost > 0);
+    
+    std::cout << "  Optimization plan generated:" << std::endl;
+    std::cout << "    Algorithm: " << (plan.algorithm == themis::graph::GraphQueryOptimizer::TraversalAlgorithm::BFS ? "BFS" : "DFS") << std::endl;
+    std::cout << "    Estimated cost: " << plan.estimated_cost << std::endl;
+    std::cout << "    Estimated time: " << plan.estimated_time_ms << "ms" << std::endl;
+    
+    std::cout << "  ✓ Optimizer integration tests passed" << std::endl;
+}
+
 int main() {
     std::cout << "\n=== GAP-006 Graph Advanced Features Tests ===" << std::endl;
     std::cout << "Testing PathConstraints implementation...\n" << std::endl;
@@ -227,6 +256,9 @@ int main() {
         
         // Test path finding
         test_path_finding(storage);
+        
+        // Test optimizer integration
+        test_optimizer_integration(storage);
         
         // Cleanup
         storage.close();
