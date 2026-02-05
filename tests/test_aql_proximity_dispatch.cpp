@@ -48,12 +48,12 @@ TEST_F(AQLProximityDispatchTest, ExecuteProximityHybrid) {
         LIMIT 5
         RETURN doc
     )";
-    auto [status, jsonRes] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok) << status.message;
-    ASSERT_EQ(jsonRes["type"], "content_geo");
-    ASSERT_TRUE(jsonRes.contains("results"));
-    ASSERT_GE(jsonRes["results"].size(), 1);
+    auto jsonRes = executeAql(aql, *engine);
+    ASSERT_TRUE(jsonRes.has_value()) << jsonRes.error().message();
+    ASSERT_EQ((*jsonRes)["type"], "content_geo");
+    ASSERT_TRUE(jsonRes->contains("results"));
+    ASSERT_GE((*jsonRes)["results"].size(), 1);
     // Ensure geo_distance present
-    auto first = jsonRes["results"][0];
+    auto first = (*jsonRes)["results"][0];
     ASSERT_TRUE(first.contains("geo_distance"));
 }

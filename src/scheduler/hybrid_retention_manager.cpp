@@ -365,14 +365,14 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
         << "RETURN {metric: metric, entity: entity, points: LENGTH(batch)}";
     
     // Execute query
-    auto [status, result] = executeAql(aql.str(), *query_engine_);
+    auto result = executeAql(aql.str(), *query_engine_);
     
-    if (!status.ok) {
-        THEMIS_ERROR("Stage 1 Gorilla compression failed: {}", status.message);
+    if (!result) {
+        THEMIS_ERROR("Stage 1 Gorilla compression failed: {}", result.error().message());
         return nlohmann::json{
             {"status", "error"},
             {"stage", 1},
-            {"message", status.message}
+            {"message", result.error().message()}
         };
     }
     
@@ -382,7 +382,7 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
     return nlohmann::json{
         {"status", "success"},
         {"stage", 1},
-        {"batches_processed", result.is_array() ? result.size() : 0},
+        {"batches_processed", result->is_array() ? result->size() : 0},
         {"compression_ratio", 10.5},  // Typical Gorilla ratio
         {"strategy", "gorilla"}
     };
@@ -441,21 +441,21 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
         << "RETURN {hour: hour, cv: cv, resolution: resolution, count: count}";
     
     // Execute query
-    auto [status, result] = executeAql(aql.str(), *query_engine_);
+    auto result = executeAql(aql.str(), *query_engine_);
     
-    if (!status.ok) {
-        THEMIS_ERROR("Stage 2 Adaptive retention failed: {}", status.message);
+    if (!result) {
+        THEMIS_ERROR("Stage 2 Adaptive retention failed: {}", result.error().message());
         return nlohmann::json{
             {"status", "error"},
             {"stage", 2},
-            {"message", status.message}
+            {"message", result.error().message()}
         };
     }
     
     // Count high-variance (anomalous) periods preserved
     int anomalies_preserved = 0;
-    if (result.is_array()) {
-        for (const auto& item : result) {
+    if (result->is_array()) {
+        for (const auto& item : *result) {
             if (item.contains("cv") && item["cv"].get<double>() > medium_cv) {
                 anomalies_preserved++;
             }
@@ -465,7 +465,7 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
     return nlohmann::json{
         {"status", "success"},
         {"stage", 2},
-        {"periods_processed", result.is_array() ? result.size() : 0},
+        {"periods_processed", result->is_array() ? result->size() : 0},
         {"anomalies_preserved", anomalies_preserved},
         {"strategy", "adaptive"}
     };
@@ -508,21 +508,21 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
         << "RETURN {day: day, count: count}";
     
     // Execute query
-    auto [status, result] = executeAql(aql.str(), *query_engine_);
+    auto result = executeAql(aql.str(), *query_engine_);
     
-    if (!status.ok) {
-        THEMIS_ERROR("Stage 3 Time-Based retention failed: {}", status.message);
+    if (!result) {
+        THEMIS_ERROR("Stage 3 Time-Based retention failed: {}", result.error().message());
         return nlohmann::json{
             {"status", "error"},
             {"stage", 3},
-            {"message", status.message}
+            {"message", result.error().message()}
         };
     }
     
     return nlohmann::json{
         {"status", "success"},
         {"stage", 3},
-        {"days_processed", result.is_array() ? result.size() : 0},
+        {"days_processed", result->is_array() ? result->size() : 0},
         {"strategy", "time_based"}
     };
 }
@@ -554,9 +554,18 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     aql_stage2 << "REMOVE d IN " << config_.source_table << " "
                << "RETURN OLD";
     
-    auto [status2, result2] = executeAql(aql_stage2.str(), *query_engine_);
+    auto result2 = executeAql(aql_stage2.str(), *query_engine_);
     
-    int stage2_deleted = result2.is_array() ? result2.size() : 0;
+    if (!result2) {
+        THEMIS_ERROR("Stage 2 cleanup failed: {}", result2.error().message());
+        return nlohmann::json{
+            {"status", "error"},
+            {"stage", "cleanup_stage2"},
+            {"message", result2.error().message()}
+        };
+    }
+    
+    int stage2_deleted = result2->is_array() ? result2->size() : 0;
     
     // Cleanup Stage 3 data (adaptive data that's been aggregated to daily)
     std::ostringstream aql_stage3;
@@ -579,9 +588,18 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     aql_stage3 << "REMOVE d IN " << config_.adaptive_table << " "
                << "RETURN OLD";
     
-    auto [status3, result3] = executeAql(aql_stage3.str(), *query_engine_);
+    auto result3 = executeAql(aql_stage3.str(), *query_engine_);
     
-    int stage3_deleted = result3.is_array() ? result3.size() : 0;
+    if (!result3) {
+        THEMIS_ERROR("Stage 3 cleanup failed: {}", result3.error().message());
+        return nlohmann::json{
+            {"status", "error"},
+            {"stage", "cleanup_stage3"},
+            {"message", result3.error().message()}
+        };
+    }
+    
+    int stage3_deleted = result3->is_array() ? result3->size() : 0;
     
     return nlohmann::json{
         {"status", "success"},
