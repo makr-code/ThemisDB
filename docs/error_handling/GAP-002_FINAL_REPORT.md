@@ -93,11 +93,11 @@ Result<nlohmann::json> calculatePercentile(...);          // Structured
 - Added AQL Runner statistics
 
 ### Total Impact
-- **Files Modified:** 10
-- **Lines Changed:** +481 insertions, -70 deletions
+- **Files Modified:** 10 (core) + 4 (tests)
+- **Lines Changed:** +481 insertions, -70 deletions (core code)
 - **Error Sites Migrated:** 28+
-- **Call Sites Updated:** 12+
-- **Breaking Changes:** 0 (backward compatible)
+- **Call Sites Updated:** 12+ (core) + 9 (tests)
+- **Breaking Changes:** 1 (executeAql signature change requires caller updates)
 
 ---
 
@@ -130,7 +130,14 @@ The legacy `QueryEngine::Status` struct is **intentionally retained** in the cod
 - External API clients may still expect Status responses
 - HTTP handlers translate Result<T> → Status for external compatibility
 - Internal code is fully migrated to Result<T>
-- No breaking changes for existing API consumers
+- Minimizes breaking changes for existing API consumers
+
+**Breaking Change:**
+- The `executeAql` function signature changed from `std::pair<Status, json>` to `Result<json>`
+- **Impact:** All direct callers of executeAql must update their code
+- **Migration:** Change from `auto [status, result] = executeAql(...)` to `auto result = executeAql(...)`
+- **Affected:** Test files and internal callers (TaskScheduler, HybridRetentionManager, examples)
+- **Fixed:** All test files and internal callers have been updated in this PR
 
 ### nullptr Returns in Helper Functions
 

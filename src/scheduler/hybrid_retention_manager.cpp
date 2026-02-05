@@ -556,7 +556,16 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     
     auto result2 = executeAql(aql_stage2.str(), *query_engine_);
     
-    int stage2_deleted = (result2 && result2->is_array()) ? result2->size() : 0;
+    if (!result2) {
+        THEMIS_ERROR("Stage 2 cleanup failed: {}", result2.error().message());
+        return nlohmann::json{
+            {"status", "error"},
+            {"stage", "cleanup_stage2"},
+            {"message", result2.error().message()}
+        };
+    }
+    
+    int stage2_deleted = result2->is_array() ? result2->size() : 0;
     
     // Cleanup Stage 3 data (adaptive data that's been aggregated to daily)
     std::ostringstream aql_stage3;
@@ -581,7 +590,16 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     
     auto result3 = executeAql(aql_stage3.str(), *query_engine_);
     
-    int stage3_deleted = (result3 && result3->is_array()) ? result3->size() : 0;
+    if (!result3) {
+        THEMIS_ERROR("Stage 3 cleanup failed: {}", result3.error().message());
+        return nlohmann::json{
+            {"status", "error"},
+            {"stage", "cleanup_stage3"},
+            {"message", result3.error().message()}
+        };
+    }
+    
+    int stage3_deleted = result3->is_array() ? result3->size() : 0;
     
     return nlohmann::json{
         {"status", "success"},

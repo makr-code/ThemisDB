@@ -213,11 +213,12 @@ CTE '{name}' translation failed: {original_error_message}
 - ✅ Result<T> infrastructure (utils/expected.h)
 - ✅ Statistical Aggregator
 
-### No Breaking Changes
+### Breaking Changes
 
-- Legacy `QueryEngine::Status` struct still exists (deprecated)
-- Backward compatibility maintained
-- No API changes required for existing code
+- **executeAql signature changed:** From `std::pair<Status, json>` to `Result<json>`
+- **Impact:** All direct callers must update from `auto [status, result] = executeAql(...)` to `auto result = executeAql(...)`
+- **Mitigated:** All internal callers and test files updated in this PR
+- **Backward compatibility:** Status struct retained (deprecated) for API layer in query_api_handler.cpp
 
 ---
 
