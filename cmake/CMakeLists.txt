@@ -1210,6 +1210,9 @@ set(THEMIS_CORE_SOURCES
     ../src/server/policy_manager_api_handler.cpp
     ../src/server/policy_versioning_api_handler.cpp
     ../src/server/policy_template_api_handler.cpp
+    ../src/server/compliance_reporting_api_handler.cpp
+    ../src/server/policy_validation_api_handler.cpp
+    ../src/server/review_scheduling_api_handler.cpp
     ../src/server/prompt_api_handler.cpp
     ../src/server/graph_api_handler.cpp
     ../src/server/index_api_handler.cpp
