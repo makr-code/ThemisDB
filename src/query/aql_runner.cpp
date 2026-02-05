@@ -118,7 +118,6 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         }
         
         auto result = engine.executeGeneralTraversal(
-            tv.variable,
             tv.startVertex,
             tv.minDepth,
             tv.maxDepth,
@@ -127,7 +126,10 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         );
         
         if (!result) {
-            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error", "traversal_failed"}, {"message", result.error().message()}} };
+            nlohmann::json error_json;
+            error_json["error"] = "traversal_failed";
+            error_json["message"] = result.error().message();
+            return { QueryEngine::Status::Error(result.error().message()), error_json };
         }
         
         auto results = std::move(*result);
