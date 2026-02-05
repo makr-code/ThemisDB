@@ -1457,6 +1457,8 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    ../src/analytics/arrow_export.cpp
+    ../src/analytics/analytics_export.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
