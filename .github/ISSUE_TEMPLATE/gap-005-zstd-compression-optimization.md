@@ -175,8 +175,8 @@ zstd_dictionary:
   training:
     min_samples: 100           # Minimum samples for training
     max_samples: 10000         # Maximum samples to use
-    dictionary_size: 110KB     # Target dictionary size
-    sample_size: 1MB           # Size of each sample
+    dictionary_size: 112640    # Target dictionary size in bytes (110 KiB)
+    sample_size: 1048576       # Size of each sample in bytes (1 MiB)
   management:
     cache_size: 10             # Number of dictionaries to cache
     storage_path: "/var/lib/themisdb/dictionaries"
@@ -351,7 +351,7 @@ public:
 
 ```prometheus
 # Compression operations total
-themisdb_compression_operations_total{type="compress",content_type="text",level="3"} 1234
+themisdb_compression_operations_total{operation_type="compress",content_type="text",level="3"} 1234
 
 # Compression ratio histogram
 themisdb_compression_ratio{content_type="text"} 0.35
@@ -561,7 +561,7 @@ public:
 batch_compression:
   enabled: true
   parallelization:
-    thread_pool_size: 0        # 0 = auto (CPU cores)
+    thread_pool_size: 0        # 0 = auto (uses std::thread::hardware_concurrency)
     max_concurrent_items: 16   # Max items in flight
     work_stealing: true        # Enable work stealing
   shared_dictionary:
