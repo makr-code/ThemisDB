@@ -57,7 +57,7 @@ This PR successfully implements three advanced vector quantization techniques fo
 ✅ `docs/VECTOR_COMPRESSION_QUANTIZATION_RESEARCH.md` (32,000 words)  
 ✅ `docs/VECTOR_COMPRESSION_PERFORMANCE_COMPARISON.md` (11,600 words)  
 ✅ `docs/VECTOR_COMPRESSION_IMPLEMENTATION_SUMMARY.md` (11,900 words)  
-✅ `docs/VECTOR_QUANTIZATION_FUTURE_OPTIMIZATIONS.md` (3,400 words)
+✅ `.github/ISSUE_TEMPLATE/feature_block_vector_quantization.md` (3,400 words)
 
 ### Build System (1 file)
 ✅ `cmake/CMakeLists.txt` (3 lines added)
