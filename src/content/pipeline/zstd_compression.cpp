@@ -29,43 +29,33 @@ std::vector<uint8_t> ZstdCompression::compress_streaming(
     size_t chunk_size,
     StreamCallback callback
 ) {
-    // Streaming compression implementation
-    // Processes data in chunks with progress callbacks
-    // Useful for large files that don't fit in memory
+    // Simple streaming compression implementation
+    // Note: For very large files, this still requires full input in memory.
+    // For true streaming (file-to-file without full memory load), use
+    // ZSTD's streaming API (ZSTD_createCStream, etc.) directly.
+    //
+    // This implementation provides progress tracking for large in-memory data.
     
     if (data.empty()) {
         return {};
     }
     
-    std::vector<uint8_t> result;
-    size_t processed = 0;
-    const size_t total = data.size();
+    // For simplicity, compress the entire data at once but provide progress callbacks
+    // This maintains compatibility with standard decompress()
+    auto result = themis::utils::zstd_compress(data, compression_level_);
     
-    // Process data in chunks
-    for (size_t offset = 0; offset < total; offset += chunk_size) {
-        size_t current_chunk_size = std::min(chunk_size, total - offset);
+    if (result.empty() && !data.empty()) {
+        return {};  // Compression failed
+    }
+    
+    // Simulate progress for large data
+    if (callback) {
+        size_t total = data.size();
+        size_t processed = 0;
         
-        // Extract chunk
-        std::vector<uint8_t> chunk(
-            data.begin() + offset,
-            data.begin() + offset + current_chunk_size
-        );
-        
-        // Compress chunk using existing utils::zstd_compress
-        auto compressed_chunk = themis::utils::zstd_compress(chunk, compression_level_);
-        
-        if (compressed_chunk.empty() && !chunk.empty()) {
-            // Compression failed
-            return {};
-        }
-        
-        // Append compressed chunk
-        result.insert(result.end(), compressed_chunk.begin(), compressed_chunk.end());
-        
-        processed += current_chunk_size;
-        
-        // Call progress callback
-        if (callback) {
+        // Report progress in chunks
+        while (processed < total) {
+            processed = std::min(processed + chunk_size, total);
             callback(processed, total);
         }
     }

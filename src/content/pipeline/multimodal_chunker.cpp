@@ -75,6 +75,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
     std::string current_chunk;
     size_t chunk_index = 0;
     size_t start_offset = 0;
+    size_t current_chunk_start = 0;  // Track where current chunk data starts
     
     for (size_t boundary : boundaries) {
         std::string segment = text.substr(start_offset, boundary - start_offset);
@@ -84,14 +85,16 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
             ContentChunker::Chunk chunk;
             chunk.data = std::vector<uint8_t>(current_chunk.begin(), current_chunk.end());
             chunk.index = chunk_index++;
-            chunk.original_offset = start_offset - current_chunk.size();
+            chunk.original_offset = current_chunk_start;  // Correct offset tracking
             chunks.push_back(std::move(chunk));
             
             // Start new chunk with overlap
             if (config_.overlap > 0 && current_chunk.size() > config_.overlap) {
                 current_chunk = current_chunk.substr(current_chunk.size() - config_.overlap);
+                current_chunk_start = start_offset - config_.overlap;  // Account for overlap
             } else {
                 current_chunk.clear();
+                current_chunk_start = start_offset;  // New chunk starts here
             }
         }
         
@@ -104,7 +107,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
         ContentChunker::Chunk chunk;
         chunk.data = std::vector<uint8_t>(current_chunk.begin(), current_chunk.end());
         chunk.index = chunk_index;
-        chunk.original_offset = start_offset - current_chunk.size();
+        chunk.original_offset = current_chunk_start;  // Correct offset for final chunk
         chunks.push_back(std::move(chunk));
     }
     

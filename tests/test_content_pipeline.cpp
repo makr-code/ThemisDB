@@ -362,7 +362,7 @@ TEST(ContentPipelineTest, ZstdCompression_StreamingCompress) {
     
     auto compressed = compressor.compress_streaming(
         data,
-        1024,  // 1KB chunks
+        1024,  // 1KB chunks (for progress tracking)
         [&](size_t processed, size_t total) {
             callback_called = true;
             last_processed = processed;
@@ -373,11 +373,10 @@ TEST(ContentPipelineTest, ZstdCompression_StreamingCompress) {
     EXPECT_TRUE(callback_called);
     EXPECT_EQ(last_processed, data.size());
     
-    // Verify decompression works
+    // Verify decompression works (streaming compress produces standard ZSTD frame)
     if (!compressed.empty()) {
         auto decompressed = compressor.decompress(compressed);
-        // Note: Streaming compression may produce different output than single-shot
-        // but decompression should still work
+        EXPECT_EQ(data, decompressed);  // Should match original
     }
 }
 
