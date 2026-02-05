@@ -2,7 +2,7 @@
 name: Next Steps - Integration, Tests & Benchmarks (Roadmap)
 about: Implementation tasks for Content Pipeline Production-Readiness from GAP-005 Roadmap
 title: '[ROADMAP] '
-labels: enhancement, content-pipeline, roadmap
+labels: type:enhancement, area:content-processing, priority:P1
 assignees: ''
 ---
 
@@ -22,7 +22,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Integration aller Pipeline-Komponenten in ContentManager für produktive Nutzung.
 
-**Labels:** `enhancement`, `content-pipeline`, `integration`
+**Labels:** `type:enhancement`, `area:content-processing`
 
 **Priorität:** 🔴 Hoch
 
@@ -40,7 +40,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Integration mit RAID-System für verteilte Chunk-Storage.
 
-**Labels:** `enhancement`, `content-pipeline`, `storage`, `integration`
+**Labels:** `type:enhancement`, `area:content-processing`, `area:storage`
 
 **Priorität:** 🟡 Mittel
 
@@ -58,7 +58,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Integration mit Vector-Search für Embedding-basierte Suche über Chunks.
 
-**Labels:** `enhancement`, `content-pipeline`, `ai`, `integration`
+**Labels:** `type:enhancement`, `area:content-processing`, `area:llm`
 
 **Priorität:** 🟡 Mittel
 
@@ -78,7 +78,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Umfassende E2E-Tests vom Upload bis zur Retrieval.
 
-**Labels:** `testing`, `content-pipeline`
+**Labels:** `type:test`, `area:content-processing`
 
 **Priorität:** 🔴 Hoch
 
@@ -96,7 +96,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Load-Tests für Bulk-Upload unter hoher Last.
 
-**Labels:** `testing`, `content-pipeline`, `performance`
+**Labels:** `type:test`, `area:content-processing`, `area:performance`
 
 **Priorität:** 🔴 Hoch
 
@@ -114,7 +114,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Chaos-Engineering-Tests für Resilienz-Validierung.
 
-**Labels:** `testing`, `content-pipeline`, `stability`
+**Labels:** `type:test`, `area:content-processing`
 
 **Priorität:** 🟡 Mittel
 
@@ -132,7 +132,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Tests mit real-world Content verschiedener Typen und Formate.
 
-**Labels:** `testing`, `content-pipeline`, `multimodal`
+**Labels:** `type:test`, `area:content-processing`
 
 **Priorität:** 🟡 Mittel
 
@@ -152,7 +152,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Systematische Benchmarks für alle Pipeline-Komponenten.
 
-**Labels:** `testing`, `content-pipeline`, `performance`
+**Labels:** `type:test`, `area:content-processing`, `area:performance`
 
 **Priorität:** 🔴 Hoch
 
@@ -170,7 +170,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Benchmarks verschiedener Kompressionseinstellungen und -Algorithmen.
 
-**Labels:** `testing`, `content-pipeline`, `performance`
+**Labels:** `type:test`, `area:content-processing`, `area:performance`
 
 **Priorität:** 🟡 Mittel
 
@@ -188,7 +188,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Messung von Storage-Savings durch Dedup, Compression, Tiering.
 
-**Labels:** `testing`, `content-pipeline`, `storage`, `performance`
+**Labels:** `type:test`, `area:content-processing`, `area:storage`, `area:performance`
 
 **Priorität:** 🟡 Mittel
 
@@ -206,7 +206,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Performance-Messungen für verschiedene Upload-Szenarien.
 
-**Labels:** `testing`, `content-pipeline`, `performance`
+**Labels:** `type:test`, `area:content-processing`, `area:performance`
 
 **Priorität:** 🔴 Hoch
 
@@ -224,7 +224,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 
 **Beschreibung:** Vergleichende Benchmarks mit ähnlichen Systemen (S3, MinIO, etc.).
 
-**Labels:** `testing`, `content-pipeline`, `performance`
+**Labels:** `type:test`, `area:content-processing`, `area:performance`
 
 **Priorität:** 🟢 Niedrig
 
