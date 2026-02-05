@@ -289,17 +289,33 @@ auto roles = user_store.getUserRoles("alice@example.com");
 
 ---
 
-## 🔗 Verwandte Dokumente
+## 📚 Weitere Ressourcen
 
-- [PolicyEngine Dokumentation](../../../include/governance/policy_engine.h)
+### Dokumentation
+- **[GAP-004 API Reference](GAP_004_API_REFERENCE.md)** - Vollständige API-Referenz für HTTP-Endpunkte und C++ APIs
+- **[GAP-004 Configuration Guide](GAP_004_CONFIGURATION_GUIDE.md)** - Ausführliche Konfigurationsanleitung mit Beispielen
+- **[GAP-004 Roadmap](GAP_004_ROADMAP.md)** - 5-Phasen Entwicklungsplan
+- **[GAPS_STUBS_SUMMARY](../development/GAPS_STUBS_SUMMARY.md)** - GAP-Analyse Status
+
+### Code-Referenzen
+- [PolicyEngine Dokumentation](../../../include/server/policy_engine.h)
+- [PolicyManager Header](../../../include/governance/policy_manager.h)
+- [PolicyCoordinator Header](../../../include/governance/policy_coordinator.h)
+- [PolicyManagerApiHandler Header](../../../include/server/policy_manager_api_handler.h)
 - [RBAC Dokumentation](../../../include/security/rbac.h)
 - [PKIKeyProvider Dokumentation](../../../include/security/pki_key_provider.h)
 - [SigningService Dokumentation](../../../include/security/signing.h)
-- [GAP-004 Roadmap](GAP_004_ROADMAP.md)
-- [GAPS_STUBS_SUMMARY](../development/GAPS_STUBS_SUMMARY.md)
+
+### Beispiele
+- [Beispiel-Konfiguration](../../../config/policies/example_rules.yaml)
+- [Konfigurationsschema](../../../config/policies/README.md)
+- [Unit Tests](../../../tests/test_policy_manager.cpp)
+- [Integration Tests](../../../tests/test_policy_coordinator.cpp)
+- [E2E Tests](../../../tests/test_policy_integration_e2e.cpp)
+- [API Handler Tests](../../../tests/test_policy_manager_api_handler.cpp)
 
 ---
 
 **Erstellt:** 4. Februar 2026  
-**Aktualisiert:** 4. Februar 2026 (Deduplizierung)  
-**Status:** ✅ Bereit für Integration
+**Aktualisiert:** 5. Februar 2026 (Phase 2 Complete)  
+**Status:** ✅ Phase 1 & Phase 2 abgeschlossen - Bereit für Integration
