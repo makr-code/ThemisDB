@@ -4,6 +4,8 @@
 
 ThemisDB includes a comprehensive suite of **30+ tools and utilities** for administration, operations, development, and data ingestion. This index provides a centralized reference to all available tools, organized by category with quick links to detailed documentation.
 
+**For Admin Tools:** See [Admin Tools Overview](tools/admin/ADMIN_TOOLS_OVERVIEW.md) for a comprehensive guide to administrative tools including PII management, key rotation, and compliance reporting.
+
 ## Quick Reference Table
 
 | Tool | Category | Purpose | Platform | Documentation |
@@ -33,9 +35,9 @@ ThemisDB includes a comprehensive suite of **30+ tools and utilities** for admin
 | Themis.AqlQueryBuilder | Admin | Visual AQL query builder | .NET 8.0 | [Guide](tools/admin/aql-query-builder.md) |
 | Themis.AuditLogViewer | Admin | Browse and filter audit logs | .NET 8.0 | [Guide](tools/admin/audit-log-viewer.md) |
 | Themis.PIIManager | Admin | Manage PII data | .NET 8.0 | [Guide](tools/admin/pii-manager.md) |
-| Themis.KeyRotationDashboard | Admin | Manage encryption keys | .NET 8.0 | [Guide](tools/admin/key-rotation-dashboard.md) |
+| Themis.KeyRotationDashboard | Admin | Manage encryption keys (🚧 In Dev) | .NET 8.0 | [Guide](tools/admin/key-rotation-dashboard.md) |
 | Themis.ClassificationDashboard | Admin | Data classification management | .NET 8.0 | [Guide](tools/admin/classification-dashboard.md) |
-| Themis.ComplianceReports | Admin | Generate compliance reports | .NET 8.0 | [Guide](tools/admin/compliance-reports.md) |
+| Themis.ComplianceReports | Admin | Generate compliance reports (🚧 In Dev) | .NET 8.0 | [Guide](tools/admin/compliance-reports.md) |
 | Themis.RetentionManager | Admin | Configure retention policies | .NET 8.0 | [Guide](tools/admin/retention-manager.md) |
 | Themis.GISViewer.ControlPanel | Admin | Geospatial data visualization | .NET 8.0 | [Guide](tools/admin/gis-viewer-control-panel.md) |
 | Themis.ImpactAnalysisViewer | Admin | Analyze query impact | .NET 8.0 | [Guide](tools/admin/impact-analysis-viewer.md) |
@@ -52,12 +54,14 @@ Desktop applications for database administration tasks.
 
 **Requirements:** .NET 8.0+, Windows/Linux/macOS
 
+**📖 [Complete Admin Tools Overview](tools/admin/ADMIN_TOOLS_OVERVIEW.md)** - Comprehensive guide including PII, key rotation, and compliance features
+
 1. **[Themis.AqlQueryBuilder](tools/admin/aql-query-builder.md)** - Visual query builder for AQL (Advanced Query Language)
 2. **[Themis.AuditLogViewer](tools/admin/audit-log-viewer.md)** - Browse, filter, and export audit logs
-3. **[Themis.PIIManager](tools/admin/pii-manager.md)** - Detect and manage personally identifiable information
-4. **[Themis.KeyRotationDashboard](tools/admin/key-rotation-dashboard.md)** - Manage and rotate encryption keys
+3. **[Themis.PIIManager](tools/admin/pii-manager.md)** - Detect and manage personally identifiable information (✅ Available)
+4. **[Themis.KeyRotationDashboard](tools/admin/key-rotation-dashboard.md)** - Manage and rotate encryption keys (🚧 Under Development)
 5. **[Themis.ClassificationDashboard](tools/admin/classification-dashboard.md)** - Configure data classification rules
-6. **[Themis.ComplianceReports](tools/admin/compliance-reports.md)** - Generate GDPR, eIDAS, and custom compliance reports
+6. **[Themis.ComplianceReports](tools/admin/compliance-reports.md)** - Generate GDPR, HIPAA, PCI-DSS, and other compliance reports (🚧 Under Development)
 7. **[Themis.RetentionManager](tools/admin/retention-manager.md)** - Configure and monitor data retention policies
 8. **[Themis.GISViewer.ControlPanel](tools/admin/gis-viewer-control-panel.md)** - Visualize and query geospatial data
 9. **[Themis.ImpactAnalysisViewer](tools/admin/impact-analysis-viewer.md)** - Analyze query performance and resource impact
