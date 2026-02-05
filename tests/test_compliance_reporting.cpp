@@ -3,6 +3,7 @@
 #include "governance/policy_manager.h"
 #include <chrono>
 #include <fstream>
+#include <filesystem>
 
 using namespace themis::governance;
 
@@ -406,7 +407,10 @@ TEST_F(ComplianceReportingTest, ComplianceGapDetector_ComplianceStatusToJson) {
 TEST_F(ComplianceReportingTest, ComplianceGapDetector_LoadRequirements) {
     ComplianceGapDetector detector;
     
-    // Create a test file
+    // Create a test file in portable temp directory
+    auto temp_dir = std::filesystem::temp_directory_path();
+    auto test_file = temp_dir / "test_requirements.json";
+    
     nlohmann::json j;
     j["requirements"] = nlohmann::json::array();
     nlohmann::json req_json;
@@ -416,16 +420,19 @@ TEST_F(ComplianceReportingTest, ComplianceGapDetector_LoadRequirements) {
     req_json["required_resources"] = {"data/test"};
     j["requirements"].push_back(req_json);
     
-    std::ofstream file("/tmp/test_requirements.json");
+    std::ofstream file(test_file);
     file << j.dump(2);
     file.close();
     
-    bool loaded = detector.loadRequirements("/tmp/test_requirements.json");
+    bool loaded = detector.loadRequirements(test_file.string());
     
     EXPECT_TRUE(loaded);
     
     auto exported = detector.exportRequirements();
     EXPECT_EQ(exported["requirements"].size(), 1);
+    
+    // Clean up
+    std::filesystem::remove(test_file);
 }
 
 // ========== ComplianceReporter Tests ==========
