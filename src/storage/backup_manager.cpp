@@ -1379,4 +1379,143 @@ std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& b
     }
 }
 
+// ============================================================================
+// GAP-008: Cloud Backup & Snapshot Scheduling (Stub Implementation)
+// ============================================================================
+
+Result<std::string> BackupManager::scheduleBackup(
+    const std::string& schedule_cron,
+    const std::string& backup_type,
+    const BackupOptions& options) {
+    
+    THEMIS_WARN("scheduleBackup is a stub - K8s CronJob integration not yet implemented");
+    THEMIS_INFO("Schedule request: cron={}, type={}, storage={}", 
+                schedule_cron, backup_type, 
+                static_cast<int>(options.storage));
+    
+    // TODO: Implement K8s CronJob creation or internal scheduler
+    // For now, return a placeholder schedule ID
+    std::string schedule_id = "schedule_" + getTimestamp();
+    
+    return Error{
+        ErrorCode::NOT_IMPLEMENTED,
+        "Backup scheduling not yet implemented. Use K8s CronJob or systemd timer.",
+        "BackupManager::scheduleBackup"
+    };
+}
+
+Result<void> BackupManager::cancelScheduledBackup(const std::string& schedule_id) {
+    THEMIS_WARN("cancelScheduledBackup is a stub - not yet implemented");
+    THEMIS_INFO("Cancel request for schedule: {}", schedule_id);
+    
+    // TODO: Implement K8s CronJob deletion or internal scheduler cancellation
+    return Error{
+        ErrorCode::NOT_IMPLEMENTED,
+        "Backup schedule cancellation not yet implemented",
+        "BackupManager::cancelScheduledBackup"
+    };
+}
+
+std::vector<std::pair<std::string, std::string>> BackupManager::listScheduledBackups() {
+    THEMIS_WARN("listScheduledBackups is a stub - not yet implemented");
+    
+    // TODO: Implement K8s CronJob listing or internal scheduler query
+    return {};
+}
+
+Result<std::string> BackupManager::uploadBackupToCloud(
+    const std::string& local_backup_path,
+    const std::string& cloud_uri,
+    const BackupOptions& options) {
+    
+    THEMIS_WARN("uploadBackupToCloud is a stub - cloud integration not yet implemented");
+    THEMIS_INFO("Upload request: local={}, cloud={}, storage={}", 
+                local_backup_path, cloud_uri, 
+                static_cast<int>(options.storage));
+    
+    // TODO: Implement cloud provider SDK integration
+    // - AWS S3 SDK for s3:// URIs
+    // - Azure Storage SDK for azure:// URIs
+    // - Google Cloud Storage SDK for gs:// URIs
+    
+    // For now, check if local backup exists
+    namespace fs = std::filesystem;
+    std::error_code ec;
+    if (!fs::exists(local_backup_path, ec)) {
+        return Error{
+            ErrorCode::FILE_NOT_FOUND,
+            "Local backup path does not exist: " + local_backup_path,
+            "BackupManager::uploadBackupToCloud"
+        };
+    }
+    
+    return Error{
+        ErrorCode::NOT_IMPLEMENTED,
+        "Cloud backup upload not yet implemented. "
+        "Planned: S3, Azure Blob Storage, GCS integration",
+        "BackupManager::uploadBackupToCloud"
+    };
+}
+
+Result<void> BackupManager::restoreFromCloud(
+    const std::string& cloud_uri,
+    const std::string& local_restore_path,
+    const BackupOptions& options) {
+    
+    THEMIS_WARN("restoreFromCloud is a stub - cloud integration not yet implemented");
+    THEMIS_INFO("Restore request: cloud={}, local={}, storage={}", 
+                cloud_uri, local_restore_path, 
+                static_cast<int>(options.storage));
+    
+    // TODO: Implement cloud provider SDK integration for download
+    return Error{
+        ErrorCode::NOT_IMPLEMENTED,
+        "Cloud backup restore not yet implemented. "
+        "Planned: S3, Azure Blob Storage, GCS integration",
+        "BackupManager::restoreFromCloud"
+    };
+}
+
+Result<std::string> BackupManager::createSnapshot(
+    const std::string& snapshot_name,
+    const std::string& storage_class) {
+    
+    THEMIS_WARN("createSnapshot is a stub - K8s VolumeSnapshot integration not yet implemented");
+    THEMIS_INFO("Snapshot request: name={}, storage_class={}", 
+                snapshot_name, storage_class);
+    
+    // TODO: Implement Kubernetes VolumeSnapshot creation
+    // - Create VolumeSnapshot resource
+    // - Wait for snapshot to be ready
+    // - Return snapshot handle
+    
+    return Error{
+        ErrorCode::NOT_IMPLEMENTED,
+        "K8s VolumeSnapshot creation not yet implemented. "
+        "Planned: CSI snapshot integration for cloud providers",
+        "BackupManager::createSnapshot"
+    };
+}
+
+Result<void> BackupManager::restoreFromSnapshot(
+    const std::string& snapshot_id,
+    const std::string& restore_pvc) {
+    
+    THEMIS_WARN("restoreFromSnapshot is a stub - K8s VolumeSnapshot restore not yet implemented");
+    THEMIS_INFO("Restore request: snapshot={}, pvc={}", 
+                snapshot_id, restore_pvc);
+    
+    // TODO: Implement Kubernetes VolumeSnapshot restore
+    // - Create new PVC from VolumeSnapshot
+    // - Attach to pod
+    // - Perform data verification
+    
+    return Error{
+        ErrorCode::NOT_IMPLEMENTED,
+        "K8s VolumeSnapshot restore not yet implemented. "
+        "Planned: Create PVC from snapshot, automatic pod restart",
+        "BackupManager::restoreFromSnapshot"
+    };
+}
+
 } // namespace themis
