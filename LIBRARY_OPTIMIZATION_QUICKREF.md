@@ -16,21 +16,25 @@
 
 ## Identified Duplications
 
-### FAISS Quantizers - Status Update (2026-02-02)
+### FAISS Quantizers - Migration Complete (2026-02-05)
 
 | File | Lines | Status | Action Taken |
 |------|-------|--------|--------------|
-| `src/index/binary_quantizer.cpp` | 231→206 | ✅ SIMPLIFIED | Reduced 79 lines, marked @deprecated |
-| `src/index/learned_quantizer.cpp` | 393 | ⚠️ KEPT | Marked @deprecated (research-only) |
-| `src/index/product_quantizer.cpp` | 309 | ⚠️ KEPT | Used in production, works well, API mismatch with FAISS |
-| `src/index/residual_quantizer.cpp` | 262 | ⚠️ KEPT | Depends on ProductQuantizer |
+| `src/index/binary_quantizer.cpp` | 206 | ⚠️ KEPT | Deprecated (research-only), not migrated |
+| `src/index/learned_quantizer.cpp` | 393 | ⚠️ KEPT | Deprecated (research-only), not migrated |
+| `src/index/product_quantizer.cpp` | 309→413 | ✅ MIGRATED | Uses faiss::ProductQuantizer with fallback |
+| `src/index/residual_quantizer.cpp` | 262 | ✅ INDIRECT | Benefits through ProductQuantizer composition |
+
+**Migration Status**:
+- ProductQuantizer: MIGRATED to FAISS native implementation with conditional compilation
+- ResidualQuantizer: AUTOMATICALLY benefits (uses ProductQuantizer internally)
+- BinaryQuantizer: NOT migrated (deprecated, research-only)
+- API Compatibility: MAINTAINED (no breaking changes)
 
 **Used in:**
 - `src/index/vector_index.cpp` (VectorIndexManager) - ProductQuantizer (optional feature)
 - `src/index/residual_quantizer.cpp` - Uses ProductQuantizer internally
 - `src/performance/rabitq.cpp` (RaBitQ) - Has separate simple ProductQuantizer in different namespace
-
-**Key Finding**: Only ProductQuantizer is actively used. BinaryQuantizer & LearnedQuantizer were research components never used in production.
 
 ---
 

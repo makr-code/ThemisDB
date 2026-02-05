@@ -44,6 +44,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated compliance documentation for eIDAS and ETSI EN 319 422
 
 ---
+
+## [1.4.2] - 2026-02-05
+
+### Changed
+- **Vector Quantization Migration to FAISS**
+  - ProductQuantizer now uses FAISS native implementation when available
+  - Maintains API compatibility with existing code
+  - Provides fallback implementation for non-FAISS builds
+  - ResidualQuantizer automatically benefits through composition
+  - Expected performance improvements through FAISS SIMD optimizations
+
+### Improved
+- Reduced quantization code complexity by leveraging FAISS library
+- Better maintainability through external library usage
+- Conditional compilation support for FAISS availability
+
 ---
 
 ## [1.4.0] - TBD
