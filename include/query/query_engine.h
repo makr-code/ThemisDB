@@ -355,13 +355,6 @@ public:
     // General graph traversal (non-shortest path)
     // Performs BFS with depth filtering and direction support
     // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
-    Result<std::vector<TraversalResult>> executeGeneralTraversal(
-        const std::string& variable,
-        const std::string& startVertex,
-        int minDepth,
-        int maxDepth,
-        TraversalDirection direction,
-        const std::string& graphId = "default"
     /**
      * @brief Execute a general graph traversal query
      * @param startVertex Starting vertex primary key
@@ -552,7 +545,17 @@ public:
         std::shared_ptr<query::Query> subquery;
         bool should_materialize = false;
     };
-    Status executeCTEs(
+    
+    /**
+     * @brief Execute Common Table Expressions (CTEs) and store results in context
+     * 
+     * GAP-002: Migrated from Status to Result<void> for unified error handling
+     * 
+     * @param ctes Vector of CTE specifications to execute
+     * @param context Evaluation context where CTE results will be stored
+     * @return Result<void> indicating success or error with context
+     */
+    Result<void> executeCTEs(
         const std::vector<CTESpec>& ctes,
         EvaluationContext& context
     ) const;

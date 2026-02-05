@@ -1,6 +1,7 @@
 ﻿// Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include "index/advanced_vector_index.h"
 #include "index/rotary_embeddings.h"
 #include "index/product_quantizer.h"
 #include "index/secondary_index.h"
@@ -68,6 +69,30 @@ void VectorIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvalu
 
 std::shared_ptr<IExpressionEvaluator> VectorIndexManager::getExpressionEvaluator() const {
 	return expression_evaluator_;
+}
+
+// Advanced Vector Index Integration (v1.5.0+)
+VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const AdvancedIndexConfig& config) {
+	if (config.enabled && !objectName_.empty()) {
+		return Status::Error("Cannot enable advanced index after init() has been called. Call setAdvancedIndexConfig() before init()");
+	}
+	
+	advanced_config_ = config;
+	
+	if (config.enabled) {
+		THEMIS_INFO("Advanced vector indexing enabled: type={}, nlist={}, nprobe={}, use_pq={}, gpu={}",
+		           static_cast<int>(config.index_type), config.nlist, config.nprobe, 
+		           config.use_pq, config.use_gpu);
+		
+		#ifndef THEMIS_GPU_ENABLED
+		THEMIS_WARN("Advanced vector indexing requires THEMIS_GPU_ENABLED (FAISS support). "
+		            "Falling back to standard HNSW indexing.");
+		advanced_config_.enabled = false;
+		return Status::Error("Advanced indexing requires FAISS support (THEMIS_GPU_ENABLED not defined)");
+		#endif
+	}
+	
+	return Status::OK();
 }
 
 // Helper: Log audit event if audit logger is configured
@@ -170,6 +195,26 @@ void VectorIndexManager::loadHnswOptimizationConfig_() {
 VectorIndexManager::Status VectorIndexManager::shutdown() {
 	// Flush pending encrypted batch writes before shutdown
 	flushEncBatch();
+	
+	// Save advanced index if enabled
+	#ifdef THEMIS_GPU_ENABLED
+	if (advanced_index_ && !savePath_.empty()) {
+		try {
+			namespace fs = std::filesystem;
+			std::string advanced_path = savePath_ + "/advanced";
+			fs::create_directories(advanced_path);
+			
+			if (advanced_index_->save(advanced_path)) {
+				THEMIS_INFO("Advanced vector index saved to '{}'", advanced_path);
+			} else {
+				THEMIS_WARN("Failed to save advanced vector index to '{}'", advanced_path);
+			}
+		} catch (const std::exception& e) {
+			THEMIS_WARN("Exception while saving advanced index: {}", e.what());
+		}
+	}
+	#endif
+	
 	if (autoSave_ && !savePath_.empty() && !objectName_.empty() && useHnsw_) {
 		THEMIS_INFO("VectorIndexManager::shutdown - Auto-saving index for '{}' to '{}'", objectName_, savePath_);
 		auto status = saveIndex(savePath_);
@@ -418,6 +463,67 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		savePath_ = savePath;
 		autoSave_ = true;
 	}
+
+	// Initialize Advanced Vector Index if enabled
+	#ifdef THEMIS_GPU_ENABLED
+	if (advanced_config_.enabled) {
+		try {
+			AdvancedVectorIndex::Config faiss_config;
+			faiss_config.nlist = advanced_config_.nlist;
+			faiss_config.nprobe = advanced_config_.nprobe;
+			faiss_config.use_pq = advanced_config_.use_pq;
+			faiss_config.pq_m = advanced_config_.pq_m;
+			faiss_config.pq_nbits = advanced_config_.pq_nbits;
+			faiss_config.use_gpu = advanced_config_.use_gpu;
+			faiss_config.gpu_device = advanced_config_.gpu_device;
+			faiss_config.train_size = advanced_config_.train_size;
+			
+			// Map index type
+			switch (advanced_config_.index_type) {
+				case AdvancedIndexConfig::Type::IVF_FLAT:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_FLAT;
+					break;
+				case AdvancedIndexConfig::Type::IVF_PQ:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_PQ;
+					break;
+				case AdvancedIndexConfig::Type::HNSW_FLAT:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::HNSW_FLAT;
+					break;
+				case AdvancedIndexConfig::Type::IVF_HNSW_PQ:
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_HNSW_PQ;
+					break;
+			}
+			
+			advanced_index_ = std::make_unique<AdvancedVectorIndex>(dim, faiss_config);
+			THEMIS_INFO("Advanced vector index initialized for '{}'", objectName_);
+			
+			// Load existing index if available
+			if (!savePath_.empty()) {
+				namespace fs = std::filesystem;
+				std::string advanced_path = savePath_ + "/advanced";
+				if (fs::exists(advanced_path)) {
+					if (advanced_index_->load(advanced_path)) {
+						THEMIS_INFO("Advanced vector index loaded from '{}'", advanced_path);
+					} else {
+						THEMIS_WARN("Failed to load advanced index from '{}', will create new", advanced_path);
+					}
+				}
+			}
+			
+			// When using advanced index, skip standard HNSW initialization
+			// but still perform other initialization tasks if needed in the future
+			THEMIS_INFO("Using advanced vector index, skipping standard HNSW initialization");
+			useHnsw_ = false;  // Explicitly mark HNSW as disabled
+			return Status::OK();
+			
+		} catch (const std::exception& e) {
+			THEMIS_ERROR("Failed to initialize advanced vector index: {}", e.what());
+			advanced_index_.reset();
+			advanced_config_.enabled = false;
+			// Fall through to standard HNSW initialization
+		}
+	}
+	#endif
 
 	// Versuche Index zu laden, falls vorhanden (savePath kann aus Param oder vorheriger Konfiguration stammen)
 	if (!savePath_.empty()) {

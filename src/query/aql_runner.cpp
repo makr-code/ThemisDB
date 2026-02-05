@@ -10,7 +10,8 @@ static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
     return instance;
 }
 
-std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
+// GAP-002: Migrated from std::pair<Status, json> to Result<json>
+Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     // NLP Pre-processing (PR #317 Integration Phase 1)
     // This provides query analysis for optimization and caching
     auto& nlp = getNlpAnalyzer();
@@ -23,21 +24,30 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
     query::AQLParser parser;
     auto parseResult = parser.parse(aql);
     if (!parseResult) {
-        return std::make_pair(QueryEngine::Status::Error(parseResult.error().message()), nlohmann::json{{"error","parse"}});
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            parseResult.error().message()
+        );
     }
     
     // Translate to internal query representation
     auto query_ptr = parseResult.value();
     auto tr = AQLTranslator::translate(query_ptr);
     if (!tr.success) {
-        return std::make_pair(QueryEngine::Status::Error(tr.error_message), nlohmann::json{{"error","translate"}});
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            tr.error_message
+        );
     }
     
     // Vector+Geo hybrid dispatch
     if (tr.vector_geo.has_value()) {
         auto result = engine.executeVectorGeoQuery(*tr.vector_geo);
         if (!result) {
-            return std::make_pair(QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","query_execution"}});
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                result.error().message()
+            );
         }
         auto res = *result;
         nlohmann::json arr = nlohmann::json::array();
@@ -48,13 +58,16 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
                 {"entity", r.entity}
             });
         }
-        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","vector_geo"},{"results", arr}}));
+        return Ok(nlohmann::json({{"type","vector_geo"},{"results", arr}}));
     }
     // Content+Geo hybrid dispatch (FULLTEXT + PROXIMITY)
     if (tr.content_geo.has_value()) {
         auto result = engine.executeContentGeoQuery(*tr.content_geo);
         if (!result) {
-            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","query_execution"}} };
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                result.error().message()
+            );
         }
         auto res = *result;
         nlohmann::json arr = nlohmann::json::array();
@@ -67,21 +80,24 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
             arr.push_back(std::move(row));
         }
-        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json::object({{"type","content_geo"},{"results", arr}}));
+        return Ok(nlohmann::json::object({{"type","content_geo"},{"results", arr}}));
     }
 
     // Disjunctive OR query
     if (tr.disjunctive.has_value()) {
         auto result = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
         if (!result) {
-            return std::make_pair(QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}});
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                result.error().message()
+            );
         }
         auto ents = std::move(*result);
         nlohmann::json arr = nlohmann::json::array();
         for (auto& e : ents) {
             arr.push_back(nlohmann::json::parse(e.toJson()));
         }
-        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","or"},{"results", arr}}));
+        return Ok(nlohmann::json({{"type","or"},{"results", arr}}));
     }
 
     // Traversal / Shortest Path dispatch
@@ -91,12 +107,15 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = ""; // edge_type placeholder
             auto result = engine.executeRecursivePathQuery(rq);
             if (!result) {
-                return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}} };
+                return Err<nlohmann::json>(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    result.error().message()
+                );
             }
             auto paths = std::move(*result);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
-            return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","shortest_path"},{"paths", arr}}));
+            return Ok(nlohmann::json({{"type","shortest_path"},{"paths", arr}}));
         }
         
         // General traversal (non-shortest path)
@@ -118,7 +137,6 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         }
         
         auto result = engine.executeGeneralTraversal(
-            tv.variable,
             tv.startVertex,
             tv.minDepth,
             tv.maxDepth,
@@ -127,7 +145,14 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         );
         
         if (!result) {
-            return { QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error", "traversal_failed"}, {"message", result.error().message()}} };
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                result.error().message()
+            );
+            nlohmann::json error_json;
+            error_json["error"] = "traversal_failed";
+            error_json["message"] = result.error().message();
+            return { QueryEngine::Status::Error(result.error().message()), error_json };
         }
         
         auto results = std::move(*result);
@@ -144,7 +169,7 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             arr.push_back(std::move(item));
         }
         
-        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","traversal"},{"results", arr}}));
+        return Ok(nlohmann::json({{"type","traversal"},{"results", arr}}));
     }
 
     // Join query
@@ -152,21 +177,27 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         auto& j = *tr.join;
         auto result = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
         if (!result) {
-            return std::make_pair(QueryEngine::Status{false, result.error().message()}, nlohmann::json{});
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                result.error().message()
+            );
         }
         auto rows = std::move(*result);
-        return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","join"},{"results", rows}}));
+        return Ok(nlohmann::json({{"type","join"},{"results", rows}}));
     }
 
     // Conjunctive (default) query
     auto result = engine.executeAndEntitiesWithFallback(tr.query, true);
     if (!result) {
-        return std::make_pair(QueryEngine::Status::Error(result.error().message()), nlohmann::json{{"error","execution"}});
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            result.error().message()
+        );
     }
     auto entities = std::move(*result);
     nlohmann::json arr = nlohmann::json::array();
     for (auto& e : entities) arr.push_back(nlohmann::json::parse(e.toJson()));
-    return std::make_pair(QueryEngine::Status::OK(), nlohmann::json({{"type","and"},{"results", arr}}));
+    return Ok(nlohmann::json({{"type","and"},{"results", arr}}));
 }
 
 } // namespace themis

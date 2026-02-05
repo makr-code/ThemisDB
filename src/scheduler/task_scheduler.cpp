@@ -542,13 +542,13 @@ nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {
     auto span = Tracer::startSpan("TaskScheduler.executeAqlQuery");
     span.setAttribute("aql", aql);
     
-    auto [status, result] = executeAql(aql, *query_engine_);
+    auto result = executeAql(aql, *query_engine_);
     
-    if (!status.ok()) {
-        throw std::runtime_error("AQL query failed: " + status.message());
+    if (!result) {
+        throw std::runtime_error("AQL query failed: " + result.error().message());
     }
     
-    return result;
+    return *result;
 }
 
 nlohmann::json TaskScheduler::executeFunction(const std::string& name, const nlohmann::json& params) {

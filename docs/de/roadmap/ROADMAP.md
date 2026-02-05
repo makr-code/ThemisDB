@@ -149,9 +149,18 @@ v1.3.0 ✅        │                  │                  │
 
 ## Future Milestones
 
-### v1.4.0 - Production Hardening (Q1 2026) 📋
+### v1.4.0 - Production Hardening (Q1 2026) 🚧
 
 **Theme:** Reliability, Performance, and Scale
+
+**Completed Features:**
+- ✅ **GAP-006: Graph & Vector Advanced Features** (February 2026)
+  - Path Constraints for complex graph queries
+  - Centrality Algorithms (PageRank, Betweenness, etc.)
+  - Community Detection (Louvain, Leiden, etc.)
+  - Approximate Radius Search for vectors
+  - Multi-Vector Search with fusion strategies
+  - Complete interface definitions (stub implementations)
 
 **Planned Features:**
 - 📋 **Query Optimizer v2**

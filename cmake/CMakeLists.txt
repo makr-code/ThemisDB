@@ -1262,6 +1262,13 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     
+    # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/content_chunker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
+    
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
@@ -1443,8 +1450,9 @@ set(THEMIS_CORE_SOURCES
     # Network
     ../src/network/wire_protocol_server.cpp
     
-    # Observability
+    # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
+    ../src/observability/alertmanager.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1457,6 +1465,8 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    ../src/analytics/arrow_export.cpp
+    ../src/analytics/analytics_export.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots

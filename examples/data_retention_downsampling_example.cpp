@@ -302,19 +302,19 @@ void example_configurable_retention(TaskScheduler& scheduler, QueryEngine* query
                 << "RETURN {metric: metric, count: count}";
             
             // Execute query
-            auto [status, result] = executeAql(aql.str(), *query_engine);
+            auto result = executeAql(aql.str(), *query_engine);
             
-            if (!status.ok()) {
+            if (!result) {
                 return nlohmann::json{
                     {"status", "error"},
-                    {"message", status.message()}
+                    {"message", result.error().message()}
                 };
             }
             
             return nlohmann::json{
                 {"status", "success"},
                 {"policy", params},
-                {"result", result}
+                {"result", *result}
             };
         }
     );
