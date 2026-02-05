@@ -1368,6 +1368,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_coordinator.cpp
     ../src/governance/policy_version_history.cpp
     ../src/governance/policy_manager_versioned.cpp
+    ../src/governance/policy_template.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
