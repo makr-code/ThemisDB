@@ -355,7 +355,8 @@ void RocksDBWrapper::configureOptions() {
     read_options_->verify_checksums = config_.verify_checksums_on_read;
     
     // Verify checksums during background compaction (no read overhead)
-    options_->verify_checksums_in_compaction = config_.verify_checksums_in_compaction;
+    // Note: verify_checksums_in_compaction is not available in RocksDB 8.9
+    // options_->verify_checksums_in_compaction = config_.verify_checksums_in_compaction;
     
     // Force fsync on every write for maximum durability (~30% write overhead)
     // Recommended for financial data or critical writes
