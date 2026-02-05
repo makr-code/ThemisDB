@@ -25,6 +25,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TSA implementation now uses OpenSSL by default (was stub in v1.4.1)
 - Improved CMake configuration for security features
 - Enhanced security feature reporting in build system
+- **FAISS Migration Assessment Complete** ✅
+  - Documented that AdvancedVectorIndex uses FAISS natively (IVF+PQ, HNSW, GPU)
+  - Clarified that FAISS is the PRIMARY vector indexing solution for production
+  - Custom quantizers (ProductQuantizer, ResidualQuantizer) serve as fallback only
+  - Simplified BinaryQuantizer (-79 lines) and marked as deprecated
+  - Marked LearnedQuantizer as deprecated (research-only)
+  - Updated `LIBRARY_USAGE_ANALYSIS.md` and `LIBRARY_OPTIMIZATION_QUICKREF.md`
 
 ### Fixed
 - **FIND-003 (CRITICAL):** RFC 3161 Timestamp Authority implementation complete
