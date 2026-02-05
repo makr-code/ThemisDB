@@ -6,6 +6,8 @@ Index implementations for ThemisDB's multi-model database.
 
 - Adaptive index
 - Vector index (HNSW)
+- **Approximate radius search (NEW - GAP-006)**
+- Multi-vector search (stub)
 - Graph index
 - Property graph
 - Secondary indexes
@@ -14,6 +16,7 @@ Index implementations for ThemisDB's multi-model database.
 ## Features
 
 - HNSW-based vector similarity search
+- **Radius-based vector search** (find all within distance threshold)
 - Graph traversal indexing
 - Property graph model support
 - Adaptive index selection
@@ -24,6 +27,7 @@ Index implementations for ThemisDB's multi-model database.
 For index documentation, see:
 - [Adaptive Index](../../docs/src/index/adaptive_index.cpp.md)
 - [Vector Index](../../docs/src/index/vector_index.cpp.md)
+- [Approximate Radius Search](../../docs/src/index/approximate_radius_search.cpp.md) *(NEW)*
 - [Graph Index](../../docs/src/index/graph_index.cpp.md)
 - [Property Graph](../../docs/src/index/property_graph.cpp.md)
 - [Secondary Index](../../docs/src/index/secondary_index.cpp.md)
