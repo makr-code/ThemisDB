@@ -1450,8 +1450,9 @@ set(THEMIS_CORE_SOURCES
     # Network
     ../src/network/wire_protocol_server.cpp
     
-    # Observability
+    # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
+    ../src/observability/alertmanager.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1464,6 +1465,8 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    ../src/analytics/arrow_export.cpp
+    ../src/analytics/analytics_export.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots

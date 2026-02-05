@@ -355,13 +355,6 @@ public:
     // General graph traversal (non-shortest path)
     // Performs BFS with depth filtering and direction support
     // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
-    Result<std::vector<TraversalResult>> executeGeneralTraversal(
-        const std::string& variable,
-        const std::string& startVertex,
-        int minDepth,
-        int maxDepth,
-        TraversalDirection direction,
-        const std::string& graphId = "default"
     /**
      * @brief Execute a general graph traversal query
      * @param startVertex Starting vertex primary key

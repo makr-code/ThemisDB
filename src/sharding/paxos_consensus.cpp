@@ -4,6 +4,7 @@
 #include "sharding/paxos_consensus.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
+#include <cstring>  // for strerror
 
 namespace themisdb {
 namespace sharding {
@@ -587,19 +588,187 @@ ProposalNumber PaxosConsensus::generateProposalNumber() {
 }
 
 bool PaxosConsensus::loadPersistentState() {
-    // TODO: Complete implementation
-    // Should load current_round_, next_slot_, commit_index_,
-    // instances_, and committed_log_ from persistent storage (e.g., RocksDB)
-    // For now, returns false indicating no state to load
-    return false;  // Placeholder - no persistent state loaded
+    if (config_.data_dir.empty()) {
+        spdlog::warn("No data directory configured for Paxos persistence");
+        return false;
+    }
+    
+    try {
+        std::string state_file = config_.data_dir + "/paxos_state_" + node_id_ + ".json";
+        std::ifstream file(state_file);
+        
+        if (!file.is_open()) {
+            spdlog::info("No persistent state file found at {}, starting fresh", state_file);
+            return false;
+        }
+        
+        nlohmann::json state_json;
+        file >> state_json;
+        file.close();
+        
+        // Load basic state
+        if (state_json.contains("current_round")) {
+            current_round_ = state_json["current_round"].get<uint64_t>();
+        }
+        
+        if (state_json.contains("next_slot")) {
+            next_slot_.store(state_json["next_slot"].get<uint64_t>());
+        }
+        
+        if (state_json.contains("commit_index")) {
+            commit_index_.store(state_json["commit_index"].get<uint64_t>());
+        }
+        
+        // Load Paxos instances
+        if (state_json.contains("instances")) {
+            for (const auto& [slot_str, instance_json] : state_json["instances"].items()) {
+                uint64_t slot = std::stoull(slot_str);
+                PaxosInstance& instance = instances_[slot];
+                
+                instance.slot = slot;
+                
+                if (instance_json.contains("promised_proposal")) {
+                    const auto& promised = instance_json["promised_proposal"];
+                    instance.promised_proposal.round = promised["round"].get<uint64_t>();
+                    instance.promised_proposal.node_id = promised["node_id"].get<std::string>();
+                }
+                
+                if (instance_json.contains("accepted_proposal")) {
+                    const auto& accepted = instance_json["accepted_proposal"];
+                    instance.accepted_proposal.round = accepted["round"].get<uint64_t>();
+                    instance.accepted_proposal.node_id = accepted["node_id"].get<std::string>();
+                }
+                
+                if (instance_json.contains("accepted_value")) {
+                    const auto& value_json = instance_json["accepted_value"];
+                    instance.accepted_value.log_index = value_json["log_index"].get<uint64_t>();
+                    instance.accepted_value.term = value_json["term"].get<uint64_t>();
+                    instance.accepted_value.operation = value_json["operation"].get<std::string>();
+                    instance.accepted_value.data = value_json["data"];
+                }
+                
+                if (instance_json.contains("is_committed")) {
+                    instance.is_committed = instance_json["is_committed"].get<bool>();
+                }
+            }
+        }
+        
+        // Load committed log
+        if (state_json.contains("committed_log")) {
+            for (const auto& [index_str, entry_json] : state_json["committed_log"].items()) {
+                uint64_t index = std::stoull(index_str);
+                ConsensusLogEntry& entry = committed_log_[index];
+                
+                entry.log_index = entry_json["log_index"].get<uint64_t>();
+                entry.term = entry_json["term"].get<uint64_t>();
+                entry.operation = entry_json["operation"].get<std::string>();
+                entry.data = entry_json["data"];
+            }
+        }
+        
+        spdlog::info("Loaded Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
+                     current_round_, next_slot_.load(), commit_index_.load(), 
+                     instances_.size(), committed_log_.size());
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to load Paxos persistent state: {}", e.what());
+        return false;
+    }
 }
 
 bool PaxosConsensus::savePersistentState() {
-    // TODO: Complete implementation
-    // Should save current_round_, next_slot_, commit_index_,
-    // instances_, and committed_log_ to persistent storage (e.g., RocksDB)
-    // For now, returns true indicating save succeeded (no-op)
-    return true;  // Placeholder - no persistent state saved
+    if (config_.data_dir.empty()) {
+        spdlog::warn("No data directory configured for Paxos persistence");
+        return false;
+    }
+    
+    try {
+        nlohmann::json state_json;
+        
+        // Save basic state
+        state_json["current_round"] = current_round_;
+        state_json["next_slot"] = next_slot_.load();
+        state_json["commit_index"] = commit_index_.load();
+        
+        // Save Paxos instances
+        nlohmann::json instances_json = nlohmann::json::object();
+        for (const auto& [slot, instance] : instances_) {
+            nlohmann::json instance_json;
+            
+            instance_json["slot"] = instance.slot;
+            instance_json["is_committed"] = instance.is_committed;
+            
+            // Save promised proposal
+            if (instance.promised_proposal.round > 0) {
+                instance_json["promised_proposal"] = {
+                    {"round", instance.promised_proposal.round},
+                    {"node_id", instance.promised_proposal.node_id}
+                };
+            }
+            
+            // Save accepted proposal
+            if (instance.accepted_proposal.round > 0) {
+                instance_json["accepted_proposal"] = {
+                    {"round", instance.accepted_proposal.round},
+                    {"node_id", instance.accepted_proposal.node_id}
+                };
+                
+                // Save accepted value
+                instance_json["accepted_value"] = {
+                    {"log_index", instance.accepted_value.log_index},
+                    {"term", instance.accepted_value.term},
+                    {"operation", instance.accepted_value.operation},
+                    {"data", instance.accepted_value.data}
+                };
+            }
+            
+            instances_json[std::to_string(slot)] = instance_json;
+        }
+        state_json["instances"] = instances_json;
+        
+        // Save committed log
+        nlohmann::json committed_log_json = nlohmann::json::object();
+        for (const auto& [index, entry] : committed_log_) {
+            committed_log_json[std::to_string(index)] = {
+                {"log_index", entry.log_index},
+                {"term", entry.term},
+                {"operation", entry.operation},
+                {"data", entry.data}
+            };
+        }
+        state_json["committed_log"] = committed_log_json;
+        
+        // Write to file atomically (write to temp, then rename)
+        std::string state_file = config_.data_dir + "/paxos_state_" + node_id_ + ".json";
+        std::string temp_file = state_file + ".tmp";
+        
+        std::ofstream file(temp_file);
+        if (!file.is_open()) {
+            spdlog::error("Failed to open temporary state file: {}", temp_file);
+            return false;
+        }
+        
+        file << state_json.dump(2);  // Pretty print with 2-space indent
+        file.close();
+        
+        // Atomic rename
+        if (std::rename(temp_file.c_str(), state_file.c_str()) != 0) {
+            spdlog::error("Failed to rename temporary state file: {}", strerror(errno));
+            return false;
+        }
+        
+        spdlog::debug("Saved Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
+                      current_round_, next_slot_.load(), commit_index_.load(),
+                      instances_.size(), committed_log_.size());
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to save Paxos persistent state: {}", e.what());
+        return false;
+    }
 }
 
 bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {
