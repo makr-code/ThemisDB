@@ -134,16 +134,17 @@ private:
     Config config_;
     bool trained_ = false;
 
+#ifdef THEMIS_HAS_FAISS
     // FAISS ProductQuantizer (when FAISS is available)
-    // Falls back to custom implementation when FAISS is not available
     std::unique_ptr<faiss::ProductQuantizer> faiss_pq_;
-    
+#else
     // Fallback: Custom codebooks for non-FAISS builds
     // [subquantizer_idx][centroid_idx][subvector_dim]
     std::vector<std::vector<std::vector<float>>> codebooks_;
+#endif
 
 #ifndef THEMIS_HAS_FAISS
-    // Fallback implementations for non-FAISS builds
+    // Fallback implementations used when FAISS is not available
     std::vector<std::vector<float>> runKMeans(
         const std::vector<std::vector<float>>& subvector_data) const;
     

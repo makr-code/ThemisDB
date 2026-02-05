@@ -146,7 +146,8 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
         return codes;
         
     } catch (const std::exception& e) {
-        THEMIS_ERROR("ProductQuantizer::encode (FAISS) - Encoding failed: {}", e.what());
+        THEMIS_ERROR("ProductQuantizer::encode (FAISS) - Encoding failed for vector size {}: {}", 
+                     vector.size(), e.what());
         return {};
     }
 #else
@@ -191,7 +192,8 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
         return decoded;
         
     } catch (const std::exception& e) {
-        THEMIS_ERROR("ProductQuantizer::decode (FAISS) - Decoding failed: {}", e.what());
+        THEMIS_ERROR("ProductQuantizer::decode (FAISS) - Decoding failed for {} codes: {}", 
+                     codes.size(), e.what());
         return {};
     }
 #else
@@ -229,7 +231,8 @@ float ProductQuantizer::computeAsymmetricDistance(
     }
     
     // For both FAISS and fallback, decode and compute L2 distance
-    // FAISS has optimized SDC tables but for API simplicity we use decode
+    // TODO: Use FAISS SDC (Symmetric Distance Computation) tables for better performance
+    // via compute_distance_table() and compute_sdc() methods
     auto decoded = decode(codes);
     if (decoded.empty()) {
         return std::numeric_limits<float>::max();
@@ -259,7 +262,7 @@ size_t ProductQuantizer::getMemoryUsage() const {
 }
 
 #ifndef THEMIS_HAS_FAISS
-// Fallback implementations for non-FAISS builds
+// Fallback implementations used when FAISS is not available
 
 std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     const std::vector<std::vector<float>>& subvector_data) const {
