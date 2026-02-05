@@ -103,7 +103,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 **Lösungsansatz:**
 - Load-Test-Framework (k6/Gatling)
 - Realistic-Load-Scenarios
-- Resource-Monitoring während Tests
+- Ressourcen-Monitoring während Tests
 - Bottleneck-Identifikation
 
 **Aufwand:** 3-4 Tage
@@ -229,7 +229,7 @@ Dieses Issue-Template basiert auf Gruppe 6 "Nächste Schritte – Integration, T
 **Priorität:** 🟢 Niedrig
 
 **Lösungsansatz:**
-- Vergleichbare System-Setup
+- Vergleichbares System-Setup
 - Standardisierte Test-Scenarios
 - Fair-Comparison-Methodologie
 - Benchmark-Report
