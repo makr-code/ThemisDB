@@ -1,6 +1,7 @@
 # ThemisDB - Gaps, Stubs und Simulationen: Zusammenfassung
 
-**Stand:** 16. Dezember 2025  
+**Stand:** 4. Februar 2026  
+**Letzte Aktualisierung:** GAP-004 Security & Governance implementiert  
 **Vollständiger Bericht:** [`CODE_REVIEW_2025-12.md`](CODE_REVIEW_2025-12.md)
 
 ---
@@ -13,6 +14,24 @@
 - 🟡 **5% Feature Gaps** - Teilimplementierungen und TODOs
 
 **Wichtigste Erkenntnis:** ThemisDB ist **produktionsbereit** für die meisten Use Cases. Stubs sind bewusste Design-Entscheidungen mit funktionierenden Alternativen.
+
+---
+
+## 🆕 Neueste Updates (Februar 2026)
+
+### GAP-004: Security & Governance (✅ Abgeschlossen)
+
+**Implementiert:**
+- ✅ PolicyManager & PolicyRule für RBAC-Policies und Governance-Regeln
+- ✅ ProfileManager & Profile für Benutzer-/Entitätsprofile
+- ✅ PKI-Stubs (PKIManager) mit Factory-Pattern
+- ✅ Signatur-Stubs (SignatureManager) mit Basis-Funktionalität
+- ✅ Umfassende Unit-Tests für alle neuen Komponenten
+- ✅ Dokumentation in `docs/de/security/GAP_004_SECURITY_GOVERNANCE.md`
+
+**Status:** Basisstruktur vollständig implementiert und getestet. PKI- und Signatur-Funktionen sind bewusste Stubs für zukünftige Erweiterungen.
+
+**Siehe:** [GAP-004 Implementierungsübersicht](../security/GAP_004_SECURITY_GOVERNANCE.md)
 
 ---
 
