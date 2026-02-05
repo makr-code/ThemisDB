@@ -1207,6 +1207,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
+    ../src/server/policy_manager_api_handler.cpp
+    ../src/server/policy_versioning_api_handler.cpp
     ../src/server/prompt_api_handler.cpp
     ../src/server/graph_api_handler.cpp
     ../src/server/index_api_handler.cpp
@@ -1362,6 +1364,10 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/policy_manager.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/policy_version_history.cpp
+    ../src/governance/policy_manager_versioned.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
