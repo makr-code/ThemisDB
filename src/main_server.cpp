@@ -53,6 +53,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+#include <filesystem>
 #include <cstdlib>
 #include <csignal>
 #include <memory>
@@ -1139,23 +1141,72 @@ int main(int argc, char* argv[]) {
                                 // Regular entity archival
                                 THEMIS_INFO("[Retention] Archive entity {}", entity_id);
                                 
-                                // Audit log the archival action
                                 try {
-                                    nlohmann::json audit_event;
-                                    audit_event["action"] = "RETENTION_ARCHIVE";
-                                    audit_event["entity_id"] = entity_id;
-                                    audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
-                                        std::chrono::system_clock::now().time_since_epoch()
+                                    // Retrieve the entity data before archival
+                                    auto entity_opt = db_ptr->get(entity_id);
+                                    if (!entity_opt) {
+                                        THEMIS_WARN("[Retention] Entity {} not found for archival", entity_id);
+                                        return false;
+                                    }
+                                    
+                                    // Create cold storage directory if it doesn't exist
+                                    std::filesystem::path cold_storage_dir = "data/cold_storage";
+                                    std::filesystem::create_directories(cold_storage_dir);
+                                    
+                                    // Export entity to JSONL format in cold storage
+                                    // Group archived entities by date for efficient storage management
+                                    auto now = std::chrono::system_clock::now();
+                                    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+                                    std::tm tm_buf;
+                                    #ifdef _WIN32
+                                    gmtime_s(&tm_buf, &now_time_t);
+                                    #else
+                                    gmtime_r(&now_time_t, &tm_buf);
+                                    #endif
+                                    
+                                    std::ostringstream date_str;
+                                    date_str << std::put_time(&tm_buf, "%Y%m%d");
+                                    std::string archive_file = (cold_storage_dir / ("archived_entities_" + date_str.str() + ".jsonl")).string();
+                                    
+                                    // Append entity to archive file
+                                    std::ofstream archive_ofs(archive_file, std::ios::app);
+                                    if (!archive_ofs.is_open()) {
+                                        THEMIS_ERROR("[Retention] Failed to open archive file: {}", archive_file);
+                                        return false;
+                                    }
+                                    
+                                    // Write entity as JSON line
+                                    nlohmann::json archived_entity;
+                                    archived_entity["entity_id"] = entity_id;
+                                    archived_entity["data"] = *entity_opt;
+                                    archived_entity["archived_timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                        now.time_since_epoch()
                                     ).count();
-                                    audit_event["classification"] = "retention_lifecycle";
-                                    audit_logger->logEvent(audit_event);
-                                } catch (...) {
-                                    THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
+                                    archive_ofs << archived_entity.dump() << "\n";
+                                    archive_ofs.close();
+                                    
+                                    // Audit log the archival action
+                                    try {
+                                        nlohmann::json audit_event;
+                                        audit_event["action"] = "RETENTION_ARCHIVE";
+                                        audit_event["entity_id"] = entity_id;
+                                        audit_event["archive_path"] = archive_file;
+                                        audit_event["timestamp"] = std::chrono::duration_cast<std::chrono::seconds>(
+                                            now.time_since_epoch()
+                                        ).count();
+                                        audit_event["classification"] = "retention_lifecycle";
+                                        audit_logger->logEvent(audit_event);
+                                    } catch (...) {
+                                        THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
+                                    }
+                                    
+                                    THEMIS_INFO("[Retention] Successfully archived entity {} to {}", entity_id, archive_file);
+                                    return true;
+                                    
+                                } catch (const std::exception& e) {
+                                    THEMIS_ERROR("[Retention] Failed to archive entity {}: {}", entity_id, e.what());
+                                    return false;
                                 }
-                                
-                                // TODO: Move to cold storage (e.g., export to S3, tape, or separate DB)
-                                // For now, mark as archived or export to file
-                                return true;
                             };
                             
                             auto purge_handler = [db_ptr, audit_logger, main_audit_logger, audit_purged, retention_mgr](const std::string& entity_id) -> bool {
