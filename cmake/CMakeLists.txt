@@ -1148,8 +1148,6 @@ set(THEMIS_CORE_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/index/vector_index.cpp
-    ../src/index/multi_vector_search.cpp
-    ../src/index/approximate_radius_search.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
