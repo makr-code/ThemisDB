@@ -20,7 +20,7 @@ This document was an implementation summary for Kerberos/GSSAPI authentication. 
 ## See Also
 
 - [Security Documentation](../../SECURITY.md)
-- [Kerberos Future Issues](../../KERBEROS_FUTURE_ISSUES.md) (for planned enhancements)
+- [Kerberos Future Issues](../../.github/ISSUE_TEMPLATE/feature_block_kerberos_enhancements.md) (for planned enhancements)
 
 ---
 
