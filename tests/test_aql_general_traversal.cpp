@@ -100,17 +100,17 @@ TEST_F(AQLGeneralTraversalTest, BasicOutboundTraversal) {
         RETURN v
     )";
 
-    auto [status, result] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok);
+    auto result = executeAql(aql, *engine);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
-    ASSERT_TRUE(result.contains("type"));
-    EXPECT_EQ(result["type"], "traversal");
+    ASSERT_TRUE(result->contains("type"));
+    EXPECT_EQ((*result)["type"], "traversal");
     
-    ASSERT_TRUE(result.contains("results"));
-    ASSERT_TRUE(result["results"].is_array());
+    ASSERT_TRUE(result->contains("results"));
+    ASSERT_TRUE((*result)["results"].is_array());
     
     // Should find users at depth 1 (bob, eve) and depth 2 (charlie, dave)
-    auto results = result["results"];
+    auto results = (*result)["results"];
     EXPECT_GE(results.size(), 2);
     
     // Verify we have results at different depths
@@ -131,12 +131,12 @@ TEST_F(AQLGeneralTraversalTest, MinDepthFiltering) {
         RETURN v
     )";
 
-    auto [status, result] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok);
+    auto result = executeAql(aql, *engine);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
-    ASSERT_TRUE(result.contains("results"));
+    ASSERT_TRUE(result->contains("results"));
     
-    auto results = result["results"];
+    auto results = (*result)["results"];
     
     // All results should be at depth >= 2
     for (const auto& item : results) {
@@ -154,12 +154,12 @@ TEST_F(AQLGeneralTraversalTest, InboundDirection) {
         RETURN v
     )";
 
-    auto [status, result] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok);
+    auto result = executeAql(aql, *engine);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
-    ASSERT_TRUE(result.contains("results"));
+    ASSERT_TRUE(result->contains("results"));
     
-    auto results = result["results"];
+    auto results = (*result)["results"];
     
     // Should find users going backwards from dave
     // Depth 1: charlie, eve
@@ -185,12 +185,12 @@ TEST_F(AQLGeneralTraversalTest, AnyDirection) {
         RETURN v
     )";
 
-    auto [status, result] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok);
+    auto result = executeAql(aql, *engine);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
-    ASSERT_TRUE(result.contains("results"));
+    ASSERT_TRUE(result->contains("results"));
     
-    auto results = result["results"];
+    auto results = (*result)["results"];
     
     // Should find alice (inbound) and charlie (outbound)
     EXPECT_GE(results.size(), 2);
@@ -211,11 +211,11 @@ TEST_F(AQLGeneralTraversalTest, PathAndEdgeTracking) {
         FOR v IN 2..2 OUTBOUND "users/alice" GRAPH "social"
         RETURN v
     )";
-    auto [status, result] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok) << status.message;
-    ASSERT_TRUE(result.contains("results"));
+    auto result = executeAql(aql, *engine);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result->contains("results"));
     
-    auto results = result["results"];
+    auto results = (*result)["results"];
     ASSERT_GE(results.size(), 1);
     
     // Check the first result
@@ -241,11 +241,11 @@ TEST_F(AQLGeneralTraversalTest, DepthZeroIncludesStart) {
         FOR v IN 0..1 OUTBOUND "users/alice" GRAPH "social"
         RETURN v
     )";
-    auto [status, result] = executeAql(aql, *engine);
-    ASSERT_TRUE(status.ok) << status.message;
-    ASSERT_TRUE(result.contains("results"));
+    auto result = executeAql(aql, *engine);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result->contains("results"));
     
-    auto results = result["results"];
+    auto results = (*result)["results"];
     
     // Should include alice herself at depth 0
     bool foundAliceAtDepth0 = false;
