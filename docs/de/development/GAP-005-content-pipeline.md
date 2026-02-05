@@ -507,6 +507,7 @@ class ContentManager {
 - **Tests**: `tests/test_content_pipeline.cpp`
 - **README**: `src/content/pipeline/README.md`
 - **CMake**: `cmake/CMakeLists.txt` (Zeile 1265+)
+- **Future Issues Template**: `docs/de/development/GAP-005-Future-Issues-Template.md` - Strukturierte Issue-Vorlagen für geplante Features
 
 ## Maintainer
 
@@ -516,6 +517,11 @@ class ContentManager {
 
 ## Changelog
 
+- **2026-02-05**: Future Issues Template erstellt
+  - Strukturierte Issue-Vorlagen für 60 geplante Features
+  - Thematische Gruppierung in 6 Kategorien
+  - Detaillierte Beschreibungen, Labels und Lösungsansätze
+  - Siehe: `docs/de/development/GAP-005-Future-Issues-Template.md`
 - **2024-02-04**: Initiale Implementierung (GAP-005)
   - Platzhalter-Klassen erstellt
   - Unit-Tests implementiert
