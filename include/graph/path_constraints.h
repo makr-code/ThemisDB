@@ -8,6 +8,10 @@
 #include <unordered_set>
 
 namespace themis {
+
+// Forward declaration
+class GraphIndexManager;
+
 namespace graph {
 
 /**
@@ -73,6 +77,16 @@ public:
     };
 
     PathConstraints() = default;
+    
+    /**
+     * @brief Construct with GraphIndexManager for path finding
+     */
+    explicit PathConstraints(GraphIndexManager* graph_mgr);
+    
+    /**
+     * @brief Set GraphIndexManager for path finding operations
+     */
+    void setGraphManager(GraphIndexManager* graph_mgr);
 
     /**
      * @brief Add a minimum path length constraint
@@ -164,6 +178,7 @@ private:
     std::unordered_set<std::string> required_nodes_;
     std::unordered_set<std::string> forbidden_edges_;
     std::unordered_set<std::string> required_edges_;
+    GraphIndexManager* graph_mgr_ = nullptr;
 };
 
 } // namespace graph

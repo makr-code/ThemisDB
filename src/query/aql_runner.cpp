@@ -149,10 +149,6 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
                 errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                 result.error().message()
             );
-            nlohmann::json error_json;
-            error_json["error"] = "traversal_failed";
-            error_json["message"] = result.error().message();
-            return { QueryEngine::Status::Error(result.error().message()), error_json };
         }
         
         auto results = std::move(*result);

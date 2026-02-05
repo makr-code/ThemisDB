@@ -1397,23 +1397,20 @@ Result<std::string> BackupManager::scheduleBackup(
     // For now, return a placeholder schedule ID
     std::string schedule_id = "schedule_" + getTimestamp();
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
-        "Backup scheduling not yet implemented. Use K8s CronJob or systemd timer.",
-        "BackupManager::scheduleBackup"
-    };
+    return tl::unexpected(Error(
+        errors::ErrorCode::ERR_UNKNOWN,
+        "Backup scheduling not yet implemented. Use K8s CronJob or systemd timer."
+    ));
 }
 
 Result<void> BackupManager::cancelScheduledBackup(const std::string& schedule_id) {
     THEMIS_WARN("cancelScheduledBackup is a stub - not yet implemented");
     THEMIS_INFO("Cancel request for schedule: {}", schedule_id);
     
-    // TODO: Implement K8s CronJob deletion or internal scheduler cancellation
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
-        "Backup schedule cancellation not yet implemented",
-        "BackupManager::cancelScheduledBackup"
-    };
+    return tl::unexpected(Error(
+        errors::ErrorCode::ERR_UNKNOWN,
+        "Backup schedule cancellation not yet implemented"
+    ));
 }
 
 std::vector<std::pair<std::string, std::string>> BackupManager::listScheduledBackups() {
@@ -1442,19 +1439,17 @@ Result<std::string> BackupManager::uploadBackupToCloud(
     namespace fs = std::filesystem;
     std::error_code ec;
     if (!fs::exists(local_backup_path, ec)) {
-        return Error{
-            ErrorCode::FILE_NOT_FOUND,
-            "Local backup path does not exist: " + local_backup_path,
-            "BackupManager::uploadBackupToCloud"
-        };
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Local backup path does not exist: " + local_backup_path
+        ));
     }
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
+    return tl::unexpected(Error(
+        errors::ErrorCode::ERR_UNKNOWN,
         "Cloud backup upload not yet implemented. "
-        "Planned: S3, Azure Blob Storage, GCS integration",
-        "BackupManager::uploadBackupToCloud"
-    };
+        "Planned: S3, Azure Blob Storage, GCS integration"
+    ));
 }
 
 Result<void> BackupManager::restoreFromCloud(
@@ -1468,12 +1463,11 @@ Result<void> BackupManager::restoreFromCloud(
                 static_cast<int>(options.storage));
     
     // TODO: Implement cloud provider SDK integration for download
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
+    return tl::unexpected(Error(
+        errors::ErrorCode::ERR_UNKNOWN,
         "Cloud backup restore not yet implemented. "
-        "Planned: S3, Azure Blob Storage, GCS integration",
-        "BackupManager::restoreFromCloud"
-    };
+        "Planned: S3, Azure Blob Storage, GCS integration"
+    ));
 }
 
 Result<std::string> BackupManager::createSnapshot(
@@ -1489,12 +1483,11 @@ Result<std::string> BackupManager::createSnapshot(
     // - Wait for snapshot to be ready
     // - Return snapshot handle
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
+    return tl::unexpected(Error(
+        errors::ErrorCode::ERR_UNKNOWN,
         "K8s VolumeSnapshot creation not yet implemented. "
-        "Planned: CSI snapshot integration for cloud providers",
-        "BackupManager::createSnapshot"
-    };
+        "Planned: CSI snapshot integration for cloud providers"
+    ));
 }
 
 Result<void> BackupManager::restoreFromSnapshot(
@@ -1510,12 +1503,11 @@ Result<void> BackupManager::restoreFromSnapshot(
     // - Attach to pod
     // - Perform data verification
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
+    return tl::unexpected(Error(
+        errors::ErrorCode::ERR_UNKNOWN,
         "K8s VolumeSnapshot restore not yet implemented. "
-        "Planned: Create PVC from snapshot, automatic pod restart",
-        "BackupManager::restoreFromSnapshot"
-    };
+        "Planned: Create PVC from snapshot, automatic pod restart"
+    ));
 }
 
 } // namespace themis
