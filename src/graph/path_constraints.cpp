@@ -1,6 +1,6 @@
 #include "graph/path_constraints.h"
 #include "index/graph_index.h"
-#include "core/error_registry.h"
+#include "utils/error_registry.h"
 #include <sstream>
 #include <queue>
 #include <unordered_map>
