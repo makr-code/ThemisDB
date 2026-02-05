@@ -113,11 +113,17 @@ void test_approximate_radius_search() {
         std::cout << "    Estimation ratio: " << ratio << std::endl;
     }
     
-    // Test 6: searchById (should return NOT_IMPLEMENTED)
-    std::cout << "  Test 6: Search by ID (not yet implemented)..." << std::endl;
-    auto search_by_id_result = radius_search.searchById("vec_123", config);
-    assert(!search_by_id_result.has_value());
-    std::cout << "    searchById correctly returns NOT_IMPLEMENTED" << std::endl;
+    // Test 6: searchById (should now work)
+    std::cout << "  Test 6: Search by ID..." << std::endl;
+    auto search_by_id_result = radius_search.searchById("vec1", config);
+    assert(search_by_id_result.has_value());
+    std::cout << "    searchById successfully found " << search_by_id_result.value().results.size() << " results" << std::endl;
+    
+    // Test with non-existent ID
+    auto search_by_id_missing = radius_search.searchById("nonexistent_vec", config);
+    assert(!search_by_id_missing.has_value());
+    assert(search_by_id_missing.error().code == themis::ErrorRegistry::ErrorCode::NOT_FOUND);
+    std::cout << "    searchById correctly handles missing ID" << std::endl;
     
     // Test 7: Statistics
     std::cout << "  Test 7: Statistics tracking..." << std::endl;
@@ -231,7 +237,7 @@ int main() {
         test_multi_vector_search();
         
         std::cout << "\n✓ All tests passed!" << std::endl;
-        std::cout << "Note: ApproximateRadiusSearch is now implemented." << std::endl;
+        std::cout << "Note: ApproximateRadiusSearch is fully implemented including searchById." << std::endl;
         std::cout << "MultiVectorSearch remains as stub implementation." << std::endl;
         
         return 0;
