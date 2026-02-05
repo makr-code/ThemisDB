@@ -43,11 +43,72 @@ struct PolicyRule {
     int64_t created_at = 0;                            // Unix timestamp
     int64_t updated_at = 0;                            // Unix timestamp
     
+    // Versioning (Phase 5)
+    std::string version = "1.0.0";                     // Semantic version (major.minor.patch)
+    std::string last_modified_by;                      // User who last modified the rule
+    std::string change_description;                    // Description of last change
+    
     nlohmann::json toJson() const;
     static PolicyRule fromJson(const nlohmann::json& j);
     
     /// Check if rule applies to a resource/action combination
     bool appliesTo(const std::string& resource, const std::string& action) const;
+};
+
+/// PolicyVersionHistory manages historical versions of policy rules
+class PolicyVersionHistory {
+public:
+    struct VersionRecord {
+        std::string version;                           // Semantic version
+        PolicyRule rule;                               // Snapshot of the rule at this version
+        int64_t timestamp;                             // When this version was created
+        std::string modified_by;                       // User who created this version
+        std::string change_description;                // Description of changes
+        
+        nlohmann::json toJson() const;
+        static VersionRecord fromJson(const nlohmann::json& j);
+    };
+    
+    /// Add a new version of a rule to history
+    void addVersion(const std::string& rule_id, const VersionRecord& record);
+    
+    /// Get all versions of a rule
+    std::vector<VersionRecord> getVersions(const std::string& rule_id) const;
+    
+    /// Get a specific version of a rule
+    std::optional<VersionRecord> getVersion(const std::string& rule_id, const std::string& version) const;
+    
+    /// Get the latest version of a rule
+    std::optional<VersionRecord> getLatestVersion(const std::string& rule_id) const;
+    
+    /// Compare two versions and return differences
+    struct VersionDiff {
+        std::string field;
+        std::string old_value;
+        std::string new_value;
+    };
+    std::vector<VersionDiff> compareVersions(const std::string& rule_id, 
+                                              const std::string& version1, 
+                                              const std::string& version2) const;
+    
+    /// Get audit trail for a rule (all changes)
+    std::vector<VersionRecord> getAuditTrail(const std::string& rule_id, 
+                                              int64_t start_time = 0, 
+                                              int64_t end_time = INT64_MAX) const;
+    
+    /// Export history as JSON
+    nlohmann::json exportHistory() const;
+    
+    /// Import history from JSON
+    bool importHistory(const nlohmann::json& j);
+    
+    /// Clear history for a rule
+    void clearHistory(const std::string& rule_id);
+    
+private:
+    mutable std::mutex mutex_;
+    // Map: rule_id -> list of version records (sorted by timestamp)
+    std::unordered_map<std::string, std::vector<VersionRecord>> history_;
 };
 
 /// PolicyManager manages governance rules and RBAC policies
@@ -132,15 +193,55 @@ public:
     /// Import rules from JSON
     bool importRules(const nlohmann::json& j);
     
+    // ========== Phase 5: Versioning & History ==========
+    
+    /// Update a rule (creates a new version in history)
+    bool updateRule(const std::string& rule_id, const PolicyRule& updated_rule, 
+                    const std::string& modified_by, const std::string& change_description);
+    
+    /// Get version history for a rule
+    std::vector<PolicyVersionHistory::VersionRecord> getRuleVersions(const std::string& rule_id) const;
+    
+    /// Get a specific version of a rule
+    std::optional<PolicyVersionHistory::VersionRecord> getRuleVersion(
+        const std::string& rule_id, const std::string& version) const;
+    
+    /// Rollback a rule to a specific version
+    bool rollbackToVersion(const std::string& rule_id, const std::string& version, 
+                           const std::string& modified_by);
+    
+    /// Rollback a rule to the previous version
+    bool rollbackToPreviousVersion(const std::string& rule_id, const std::string& modified_by);
+    
+    /// Preview changes that would occur if rolling back to a version
+    std::vector<PolicyVersionHistory::VersionDiff> previewRollback(
+        const std::string& rule_id, const std::string& target_version) const;
+    
+    /// Compare two versions of a rule
+    std::vector<PolicyVersionHistory::VersionDiff> compareRuleVersions(
+        const std::string& rule_id, const std::string& version1, const std::string& version2) const;
+    
+    /// Get audit trail for a rule
+    std::vector<PolicyVersionHistory::VersionRecord> getAuditTrail(
+        const std::string& rule_id, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
+    
+    /// Query audit trail by user
+    std::vector<PolicyVersionHistory::VersionRecord> getAuditTrailByUser(
+        const std::string& user, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
+    
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, PolicyRule> rules_;
+    PolicyVersionHistory version_history_;             // Version history manager
     
     /// Helper: match pattern with wildcards
     bool matchPattern(const std::string& pattern, const std::string& value) const;
     
     /// Helper: aggregate effects from multiple rules
     PolicyDecision aggregateRules(const std::vector<PolicyRule>& rules) const;
+    
+    /// Helper: increment semantic version
+    std::string incrementVersion(const std::string& current_version, int level = 2) const; // 0=major, 1=minor, 2=patch
 };
 
 } // namespace governance
