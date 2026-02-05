@@ -103,14 +103,11 @@ ApproximateRadiusSearch::search(
     search_result.computation_time_ms = 
         std::chrono::duration<float, std::milli>(end - start).count();
     
-    // Update statistics
+    // Update statistics using numerically stable incremental mean
     stats_.total_searches++;
-    stats_.avg_results_per_search = 
-        (stats_.avg_results_per_search * (stats_.total_searches - 1) + results.size()) / 
-        stats_.total_searches;
-    stats_.avg_time_ms = 
-        (stats_.avg_time_ms * (stats_.total_searches - 1) + search_result.computation_time_ms) / 
-        stats_.total_searches;
+    double n = static_cast<double>(stats_.total_searches);
+    stats_.avg_results_per_search += (results.size() - stats_.avg_results_per_search) / n;
+    stats_.avg_time_ms += (search_result.computation_time_ms - stats_.avg_time_ms) / n;
     
     return search_result;
 }
@@ -184,17 +181,20 @@ ApproximateRadiusSearch::searchWithTargetCount(
                         "Target count must be positive");
     }
     
+    // Constants for binary search
+    constexpr float MIN_SEARCH_RADIUS = 0.01f;
+    constexpr float RADIUS_MULTIPLIER = 2.0f;
+    constexpr int MAX_SEARCH_ITERATIONS = 10;
+    constexpr float TARGET_TOLERANCE = 0.2f;  // 20% tolerance on target count
+    
     // Binary search on radius to find the right value that gives ~target_count results
-    float min_radius = 0.01f;
-    float max_radius = config.radius * 2.0f;  // Start with double the configured radius
+    float min_radius = MIN_SEARCH_RADIUS;
+    float max_radius = config.radius * RADIUS_MULTIPLIER;
     float best_radius = config.radius;
     SearchResult best_result;
     size_t best_count_diff = std::numeric_limits<size_t>::max();
     
-    const int max_iterations = 10;
-    const float tolerance = 0.2f;  // 20% tolerance on target count
-    
-    for (int iter = 0; iter < max_iterations; ++iter) {
+    for (int iter = 0; iter < MAX_SEARCH_ITERATIONS; ++iter) {
         float test_radius = (min_radius + max_radius) / 2.0f;
         
         SearchConfig test_config = config;
@@ -220,7 +220,7 @@ ApproximateRadiusSearch::searchWithTargetCount(
         
         // Check if we're within tolerance
         float ratio = static_cast<float>(actual_count) / static_cast<float>(target_count);
-        if (ratio >= (1.0f - tolerance) && ratio <= (1.0f + tolerance)) {
+        if (ratio >= (1.0f - TARGET_TOLERANCE) && ratio <= (1.0f + TARGET_TOLERANCE)) {
             // Truncate to exact target count if needed
             if (best_result.results.size() > static_cast<size_t>(target_count)) {
                 best_result.results.resize(target_count);
@@ -256,6 +256,11 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     float radius,
     Metric metric) {
     
+    // Constants for sampling estimation
+    constexpr size_t MAX_SAMPLE_SIZE = 100;
+    constexpr size_t MIN_SAMPLE_SIZE = 10;
+    constexpr size_t SAMPLE_PERCENTAGE = 10;  // 10% of total
+    
     // Validate inputs
     if (query_vector.empty()) {
         return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
@@ -284,8 +289,9 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     }
     
     // Sample-based estimation
-    // Sample up to 100 vectors or 10% of total, whichever is smaller
-    size_t sample_size = std::min(size_t(100), std::max(size_t(10), total_vectors / 10));
+    // Sample up to MAX_SAMPLE_SIZE vectors or SAMPLE_PERCENTAGE of total, whichever is smaller
+    size_t sample_size = std::min(MAX_SAMPLE_SIZE, 
+                                   std::max(MIN_SAMPLE_SIZE, total_vectors / SAMPLE_PERCENTAGE));
     
     // Perform a KNN search to get sample vectors
     auto [status, sample_results] = vector_manager_.searchKnn(query_vector, sample_size, nullptr);

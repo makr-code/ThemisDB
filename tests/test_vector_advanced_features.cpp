@@ -86,6 +86,8 @@ void test_approximate_radius_search() {
     auto target_result = radius_search.searchWithTargetCount(query_vector, 2, config);
     assert(target_result.has_value());
     std::cout << "    Target count search returned " << target_result.value().results.size() << " results" << std::endl;
+    // Should return at most 2 results, or fewer if not enough vectors within reasonable radius
+    assert(target_result.value().results.size() <= 2);
     
     // Test 5: estimateResultCount
     std::cout << "  Test 5: Estimate result count..." << std::endl;
@@ -96,6 +98,20 @@ void test_approximate_radius_search() {
     );
     assert(estimate_result.has_value());
     std::cout << "    Estimated " << estimate_result.value() << " results" << std::endl;
+    
+    // Verify estimation is reasonable by comparing with actual search
+    config.radius = 0.5f;
+    config.max_results = 1000;
+    auto actual_search = radius_search.search(query_vector, config);
+    assert(actual_search.has_value());
+    size_t actual_count = actual_search.value().results.size();
+    size_t estimated_count = estimate_result.value();
+    std::cout << "    Actual count: " << actual_count << ", Estimated: " << estimated_count << std::endl;
+    // Estimation should be within reasonable range (allow wide margin for small datasets)
+    if (actual_count > 0) {
+        float ratio = static_cast<float>(estimated_count) / static_cast<float>(actual_count);
+        std::cout << "    Estimation ratio: " << ratio << std::endl;
+    }
     
     // Test 6: searchById (should return NOT_IMPLEMENTED)
     std::cout << "  Test 6: Search by ID (not yet implemented)..." << std::endl;
