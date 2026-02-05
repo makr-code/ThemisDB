@@ -407,9 +407,9 @@ TEST_F(ComplianceReportingTest, ComplianceGapDetector_ComplianceStatusToJson) {
 TEST_F(ComplianceReportingTest, ComplianceGapDetector_LoadRequirements) {
     ComplianceGapDetector detector;
     
-    // Create a test file in portable temp directory
+    // Create a test file in portable temp directory with unique name
     auto temp_dir = std::filesystem::temp_directory_path();
-    auto test_file = temp_dir / "test_requirements.json";
+    auto test_file = temp_dir / ("test_requirements_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) + ".json");
     
     nlohmann::json j;
     j["requirements"] = nlohmann::json::array();
