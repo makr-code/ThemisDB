@@ -997,19 +997,16 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
     report.start_time = start_time;
     report.end_time = end_time;
     
-    auto history_json = policy_mgr.getVersionHistory().exportHistory();
+    // Get all rules and their version histories
+    auto all_rules = policy_mgr.listRules();
     
-    for (const auto& [rule_id, versions] : history_json.items()) {
-        if (versions.is_array()) {
-            for (const auto& version_json : versions) {
-                auto record = PolicyVersionHistory::VersionRecord::fromJson(version_json);
-                
-                // Filter by time range
-                if (record.timestamp >= start_time && record.timestamp <= end_time) {
-                    report.changes.push_back(record);
-                    report.changes_by_user[record.modified_by]++;
-                }
-            }
+    for (const auto& rule : all_rules) {
+        // Get audit trail for each rule
+        auto versions = policy_mgr.getAuditTrail(rule.id, start_time, end_time);
+        
+        for (const auto& version : versions) {
+            report.changes.push_back(version);
+            report.changes_by_user[version.modified_by]++;
         }
     }
     
