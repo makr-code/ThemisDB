@@ -126,7 +126,7 @@ ThemisDB compared to other vector databases:
 
 **ThemisDB Unique Advantages:**
 1. Only multi-model database with native FAISS GPU acceleration
-2. Only vector database with full ACID transactional guarantees
+2. Full ACID transactional guarantees for vector operations via RocksDB integration (to our knowledge as of February 2026)
 3. Flexible architecture with graceful degradation
 4. Research-backed design with academic paper citations
 

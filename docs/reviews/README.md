@@ -25,9 +25,9 @@ Each review follows a standardized template covering:
 
 Major components are reviewed on a 6-month cycle:
 
-- **Q1 2026**: Base Entities ✅, Core Storage, Vector Indexing ✅
+- **Q1 2026**: Base Entities ✅, Core Storage, Vector Indexing ✅, Transaction Management
 - **Q2 2026**: Query Engine, Indexes (Secondary, Graph)
-- **Q3 2026**: Transaction Management, MVCC
+- **Q3 2026**: MVCC
 - **Q4 2026**: Module System, Plugin Architecture
 
 ## Review Process

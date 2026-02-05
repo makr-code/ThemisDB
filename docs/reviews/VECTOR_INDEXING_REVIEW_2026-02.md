@@ -700,7 +700,7 @@ auto similar_patterns = vectorIndex.search(pattern_embedding, k=10);
 
 **Unique Differentiators:**
 1. **Only multi-model database** with native FAISS GPU acceleration
-2. **Only vector database** with ACID transactional guarantees
+2. **Full ACID transactional guarantees for vector operations** via RocksDB integration (to our knowledge as of February 2026)
 3. **Flexible architecture** supporting FAISS, HNSW, custom quantizers
 4. **Research-driven** with academic paper citations and validation
 
