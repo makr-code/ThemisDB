@@ -706,8 +706,8 @@ nlohmann::json ComplianceReporter::ChangeHistoryReport::toJson() const {
         change_json["version"] = change.version;
         change_json["timestamp"] = change.timestamp;
         change_json["modified_by"] = change.modified_by;
-        change_json["description"] = change.description;
-        change_json["rule_snapshot"] = change.rule_snapshot.toJson();
+        change_json["description"] = change.change_description;
+        change_json["rule"] = change.rule.toJson();
         changes_json.push_back(change_json);
     }
     
@@ -727,7 +727,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toCSV() const {
         csv << change.version << ",";
         csv << change.timestamp << ",";
         csv << change.modified_by << ",";
-        csv << "\"" << change.description << "\"\n";
+        csv << "\"" << change.change_description << "\"\n";
     }
     
     csv << "\nSummary\n";
@@ -763,7 +763,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toHTML() const {
         html << "<tr><td>" << change.version << "</td>";
         html << "<td>" << change.timestamp << "</td>";
         html << "<td>" << change.modified_by << "</td>";
-        html << "<td>" << change.description << "</td></tr>";
+        html << "<td>" << change.change_description << "</td></tr>";
     }
     html << "</table>";
     
@@ -999,27 +999,15 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
     
     auto history_json = policy_mgr.getVersionHistory().exportHistory();
     
-    if (history_json.contains("history")) {
-        for (const auto& [rule_id, versions] : history_json["history"].items()) {
-            if (versions.is_array()) {
-                for (const auto& version_json : versions) {
-                    PolicyVersionHistory::VersionRecord record;
-                    if (version_json.contains("version")) 
-                        record.version = version_json["version"].get<std::string>();
-                    if (version_json.contains("timestamp")) 
-                        record.timestamp = version_json["timestamp"].get<int64_t>();
-                    if (version_json.contains("modified_by")) 
-                        record.modified_by = version_json["modified_by"].get<std::string>();
-                    if (version_json.contains("description")) 
-                        record.description = version_json["description"].get<std::string>();
-                    if (version_json.contains("rule_snapshot"))
-                        record.rule_snapshot = PolicyRule::fromJson(version_json["rule_snapshot"]);
-                    
-                    // Filter by time range
-                    if (record.timestamp >= start_time && record.timestamp <= end_time) {
-                        report.changes.push_back(record);
-                        report.changes_by_user[record.modified_by]++;
-                    }
+    for (const auto& [rule_id, versions] : history_json.items()) {
+        if (versions.is_array()) {
+            for (const auto& version_json : versions) {
+                auto record = PolicyVersionHistory::VersionRecord::fromJson(version_json);
+                
+                // Filter by time range
+                if (record.timestamp >= start_time && record.timestamp <= end_time) {
+                    report.changes.push_back(record);
+                    report.changes_by_user[record.modified_by]++;
                 }
             }
         }
