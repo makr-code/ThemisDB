@@ -133,14 +133,6 @@ TEST_F(BinaryQuantizerTest, ForceCustomBackend) {
     auto status = bq.train(training_vectors_);
     EXPECT_TRUE(status.ok);
 }
-    EXPECT_EQ(decoded.size(), test_vector.size());
-    
-    // Decoded values should be ±scale
-    for (float val : decoded) {
-        EXPECT_TRUE(std::abs(val - bq.getScale()) < 0.1f || 
-                   std::abs(val + bq.getScale()) < 0.1f);
-    }
-}
 
 TEST_F(BinaryQuantizerTest, CompressionRatio) {
     BinaryQuantizer::Config config;
