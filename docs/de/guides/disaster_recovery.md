@@ -600,10 +600,10 @@ Pflegen Sie eine Notfallkontaktliste:
 
 ### E. Zusätzliche Ressourcen
 
-- [Named Snapshots Dokumentation](features_snapshots.md)
-- [PITR Feature-Leitfaden](features_pitr.md)
-- [Backup Best Practices](../operations/backup_best_practices.md)
-- [Sicherheitsrichtlinien](../security/security_guidelines.md)
+- [Named Snapshots Dokumentation](../features/features_snapshots.md)
+- [PITR Feature-Leitfaden](../features/features_pitr.md)
+- Backup Best Practices
+- Sicherheitsrichtlinien
 
 ---
 

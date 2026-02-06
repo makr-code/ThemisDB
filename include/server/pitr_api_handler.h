@@ -1,10 +1,17 @@
 #ifndef THEMIS_PITR_API_HANDLER_H
 #define THEMIS_PITR_API_HANDLER_H
 
+#ifndef THEMIS_ENABLE_HTTP_SERVER
+#define THEMIS_ENABLE_HTTP_SERVER 1
+#endif
+
 #include "storage/pitr_manager.h"
-#include <httplib.h>
 #include <memory>
 #include <nlohmann/json.hpp>
+
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+#include <httplib.h>
+#endif
 
 namespace themis {
 namespace server {
@@ -35,11 +42,16 @@ public:
     PITRApiHandler(PITRApiHandler&&) = default;
     PITRApiHandler& operator=(PITRApiHandler&&) = default;
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
      * @brief Register routes with HTTP server
      * @param server HTTP server instance
+     * 
+     * Note: This method is for future use when HTTP server migration from Beast to cpp-httplib is complete.
+     * Currently, routes are registered via the Route enum in HttpServer::routeRequest.
      */
     void registerRoutes(httplib::Server& server);
+#endif
 
 private:
     PITRManager& pitr_manager_;

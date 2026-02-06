@@ -600,8 +600,8 @@ Maintain an emergency contact list:
 
 ### E. Additional Resources
 
-- [Named Snapshots Documentation](features_snapshots.md)
-- [PITR Feature Guide](features_pitr.md)
+- [Named Snapshots Documentation](../features/features_snapshots.md)
+- [PITR Feature Guide](../features/features_pitr.md)
 - [Backup Best Practices](../operations/backup_best_practices.md)
 - [Security Guidelines](../security/security_guidelines.md)
 

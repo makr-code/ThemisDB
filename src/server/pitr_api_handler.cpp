@@ -9,6 +9,7 @@ PITRApiHandler::PITRApiHandler(PITRManager& pitr_manager)
     : pitr_manager_(pitr_manager) {
 }
 
+#ifdef THEMIS_ENABLE_HTTP_SERVER
 void PITRApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/restore/pitr - Restore operation
     server.Post("/api/v1/restore/pitr", [this](const httplib::Request& req, httplib::Response& res) {
@@ -27,6 +28,7 @@ void PITRApiHandler::registerRoutes(httplib::Server& server) {
 
     spdlog::info("PITR API routes registered");
 }
+#endif
 
 void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Response& res) {
     try {
@@ -52,18 +54,30 @@ void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Respons
             options = parseRestoreOptions(body["options"]);
         }
         
-        // Execute restore based on type
+        // Execute restore based on type with explicit type validation
         PITRManager::Status status;
         
         if (type == "sequence") {
+            if (!target["value"].is_number_unsigned()) {
+                sendError(res, 400, "Value for sequence target must be a positive integer");
+                return;
+            }
             uint64_t sequence = target["value"];
             status = pitr_manager_.restoreToSequence(sequence, options);
         }
         else if (type == "tag") {
+            if (!target["value"].is_string()) {
+                sendError(res, 400, "Value for tag target must be a string");
+                return;
+            }
             std::string tag_name = target["value"];
             status = pitr_manager_.restoreToTag(tag_name, options);
         }
         else if (type == "timestamp") {
+            if (!target["value"].is_number_integer()) {
+                sendError(res, 400, "Value for timestamp target must be an integer (milliseconds since epoch)");
+                return;
+            }
             int64_t timestamp_ms = target["value"];
             status = pitr_manager_.restoreToTimestamp(timestamp_ms, options);
         }
@@ -133,9 +147,14 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
         
         // For preview, we use the main restore with dry_run=true
         // This allows preview to work with all target types (sequence, tag, timestamp)
+        // All target types now return consistent RestorePreview-like structure
         PITRManager::Status status;
         
         if (type == "sequence") {
+            if (!target["value"].is_number_unsigned()) {
+                sendError(res, 400, "Value for sequence target must be a positive integer");
+                return;
+            }
             uint64_t sequence = target["value"];
             // Use previewRestore method which is more efficient for sequence-based preview
             auto preview = pitr_manager_.previewRestore(sequence, options);
@@ -153,6 +172,10 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
             sendJson(res, response, 200);
         }
         else if (type == "tag") {
+            if (!target["value"].is_string()) {
+                sendError(res, 400, "Value for tag target must be a string");
+                return;
+            }
             std::string tag_name = target["value"];
             status = pitr_manager_.restoreToTag(tag_name, options);
             
@@ -161,21 +184,39 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
                 return;
             }
             
-            // Convert status to preview-style response
+            // Convert status to consistent preview-style response matching sequence format
             if (status.progress.has_value()) {
                 auto& prog = status.progress.value();
                 json response = {
-                    {"ok", true},
-                    {"message", "Preview completed (dry-run)"},
+                    {"target_sequence", 0},  // Unknown for tag-based preview
+                    {"current_sequence", 0},  // Unknown for tag-based preview
                     {"events_to_replay", prog.total_events},
-                    {"current_table", prog.current_table}
+                    {"affected_tables", std::vector<std::string>()},  // Not available in dry-run mode
+                    {"affected_keys", std::vector<std::string>()},    // Not available in dry-run mode
+                    {"estimated_duration_sec", 0},  // Not calculated in dry-run mode
+                    {"estimated_size_bytes", 0},    // Not calculated in dry-run mode
+                    {"message", "Preview completed (dry-run mode)"}
                 };
                 sendJson(res, response, 200);
             } else {
-                sendJson(res, {{"ok", true}, {"message", "Preview completed"}}, 200);
+                json response = {
+                    {"target_sequence", 0},
+                    {"current_sequence", 0},
+                    {"events_to_replay", 0},
+                    {"affected_tables", std::vector<std::string>()},
+                    {"affected_keys", std::vector<std::string>()},
+                    {"estimated_duration_sec", 0},
+                    {"estimated_size_bytes", 0},
+                    {"message", "Preview completed"}
+                };
+                sendJson(res, response, 200);
             }
         }
         else if (type == "timestamp") {
+            if (!target["value"].is_number_integer()) {
+                sendError(res, 400, "Value for timestamp target must be an integer (milliseconds since epoch)");
+                return;
+            }
             int64_t timestamp_ms = target["value"];
             status = pitr_manager_.restoreToTimestamp(timestamp_ms, options);
             
@@ -184,18 +225,32 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
                 return;
             }
             
-            // Convert status to preview-style response
+            // Convert status to consistent preview-style response matching sequence format
             if (status.progress.has_value()) {
                 auto& prog = status.progress.value();
                 json response = {
-                    {"ok", true},
-                    {"message", "Preview completed (dry-run)"},
+                    {"target_sequence", 0},  // Unknown for timestamp-based preview
+                    {"current_sequence", 0},  // Unknown for timestamp-based preview
                     {"events_to_replay", prog.total_events},
-                    {"current_table", prog.current_table}
+                    {"affected_tables", std::vector<std::string>()},  // Not available in dry-run mode
+                    {"affected_keys", std::vector<std::string>()},    // Not available in dry-run mode
+                    {"estimated_duration_sec", 0},  // Not calculated in dry-run mode
+                    {"estimated_size_bytes", 0},    // Not calculated in dry-run mode
+                    {"message", "Preview completed (dry-run mode)"}
                 };
                 sendJson(res, response, 200);
             } else {
-                sendJson(res, {{"ok", true}, {"message", "Preview completed"}}, 200);
+                json response = {
+                    {"target_sequence", 0},
+                    {"current_sequence", 0},
+                    {"events_to_replay", 0},
+                    {"affected_tables", std::vector<std::string>()},
+                    {"affected_keys", std::vector<std::string>()},
+                    {"estimated_duration_sec", 0},
+                    {"estimated_size_bytes", 0},
+                    {"message", "Preview completed"}
+                };
+                sendJson(res, response, 200);
             }
         }
         else {
