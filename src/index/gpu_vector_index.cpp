@@ -193,6 +193,12 @@ public:
             return {};
         }
         
+        // CUDA backend only supports L2 and COSINE metrics
+        // Fall back to CPU for INNER_PRODUCT
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            return searchCPU(query, k);
+        }
+        
         auto startTime = std::chrono::steady_clock::now();
         
         // Update flattened vector cache if dirty (performance optimization)
@@ -205,6 +211,9 @@ public:
             flatVectorCacheDirty = false;
         }
         
+        // Clamp k to number of vectors to prevent out-of-bounds access
+        const size_t effectiveK = std::min(k, vectorData.size());
+        
         // Use CUDA backend for batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
         auto gpuResults = cudaBackend->batchKnnSearch(
@@ -213,8 +222,8 @@ public:
             dimension,
             flatVectorCache.data(),
             vectorData.size(),
-            k,
-            useL2  // Only L2, not inner product
+            effectiveK,
+            useL2
         );
         
         std::vector<SearchResult> results;
@@ -225,6 +234,88 @@ public:
                     results.push_back({vectorIds[idx], dist});
                 }
             }
+        }
+        
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+        
+        return results;
+    }
+    
+    std::vector<std::vector<SearchResult>> searchBatchGPU(
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        
+        if (!cudaBackend || vectorData.empty() || queries.empty()) {
+            return {};
+        }
+        
+        // Check if any query uses INNER_PRODUCT (not supported by CUDA)
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            // Fall back to CPU for all queries
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(queries.size());
+            for (const auto& query : queries) {
+                results.push_back(searchCPU(query, k));
+            }
+            return results;
+        }
+        
+        auto startTime = std::chrono::steady_clock::now();
+        
+        // Update flattened vector cache if dirty
+        if (flatVectorCacheDirty) {
+            flatVectorCache.clear();
+            flatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
+            }
+            flatVectorCacheDirty = false;
+        }
+        
+        // Flatten query vectors for GPU transfer
+        std::vector<float> flatQueries;
+        flatQueries.reserve(queries.size() * dimension);
+        for (const auto& query : queries) {
+            if (query.size() != static_cast<size_t>(dimension)) {
+                // Skip invalid queries or fall back to CPU for all
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& q : queries) {
+                    results.push_back(searchCPU(q, k));
+                }
+                return results;
+            }
+            flatQueries.insert(flatQueries.end(), query.begin(), query.end());
+        }
+        
+        // Clamp k to number of vectors
+        const size_t effectiveK = std::min(k, vectorData.size());
+        
+        // Use CUDA backend for true batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto gpuResults = cudaBackend->batchKnnSearch(
+            flatQueries.data(),
+            queries.size(),  // Multiple queries
+            dimension,
+            flatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            useL2
+        );
+        
+        // Convert GPU results to SearchResult format
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(gpuResults.size());
+        
+        for (const auto& queryResults : gpuResults) {
+            std::vector<SearchResult> batch;
+            batch.reserve(queryResults.size());
+            for (const auto& [idx, dist] : queryResults) {
+                if (idx < vectorIds.size()) {
+                    batch.push_back({vectorIds[idx], dist});
+                }
+            }
+            results.push_back(std::move(batch));
         }
         
         auto endTime = std::chrono::steady_clock::now();
@@ -361,6 +452,16 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     
+    if (!pImpl->initialized || queries.empty()) {
+        return {};
+    }
+    
+    // Use GPU batch search if CUDA backend is active
+    if (pImpl->activeBackend == Backend::CUDA && pImpl->cudaBackend) {
+        return pImpl->searchBatchGPU(queries, k);
+    }
+    
+    // Fall back to CPU: process queries sequentially
     std::vector<std::vector<SearchResult>> results;
     results.reserve(queries.size());
     
@@ -405,7 +506,30 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
-    if (backend == Backend::CPU || backend == Backend::AUTO) {
+    if (backend == Backend::CPU) {
+        pImpl->activeBackend = Backend::CPU;
+        pImpl->stats.activeBackend = Backend::CPU;
+        pImpl->stats.isGPUActive = false;
+        return true;
+    }
+    
+    if (backend == Backend::AUTO) {
+        // Re-run backend selection: prefer CUDA if available, otherwise fall back to CPU
+        if (!pImpl->cudaBackend) {
+            pImpl->cudaBackend = std::make_unique<acceleration::CUDAVectorBackend>();
+            if (!pImpl->cudaBackend->initialize()) {
+                pImpl->cudaBackend.reset();
+            }
+        }
+        
+        if (pImpl->cudaBackend && pImpl->cudaBackend->isAvailable()) {
+            pImpl->activeBackend = Backend::CUDA;
+            pImpl->stats.activeBackend = Backend::CUDA;
+            pImpl->stats.isGPUActive = true;
+            return true;
+        }
+        
+        // CUDA not available; use CPU as fallback
         pImpl->activeBackend = Backend::CPU;
         pImpl->stats.activeBackend = Backend::CPU;
         pImpl->stats.isGPUActive = false;

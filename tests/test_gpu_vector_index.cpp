@@ -309,13 +309,23 @@ TEST_F(GPUVectorIndexTest, CUDABackendAvailability) {
     tempIndex.initialize(dimension);
     auto backends = tempIndex.getAvailableBackends();
     
+    // CPU must always be available
+    EXPECT_NE(std::find(backends.begin(), backends.end(), 
+                       GPUVectorIndex::Backend::CPU), backends.end());
+    
     bool cudaAvailable = std::find(backends.begin(), backends.end(), 
                                    GPUVectorIndex::Backend::CUDA) != backends.end();
     
     if (cudaAvailable) {
         std::cout << "CUDA backend is available for testing" << std::endl;
+        
+        // If CUDA is listed as available, switching to it should succeed
+        EXPECT_TRUE(tempIndex.switchBackend(GPUVectorIndex::Backend::CUDA));
     } else {
         std::cout << "CUDA backend not available (expected in CI without GPU)" << std::endl;
+        
+        // If CUDA is not available, switching to it should fail (unless fallback is allowed)
+        // This is acceptable behavior
     }
     
     tempIndex.shutdown();
@@ -462,6 +472,102 @@ TEST_F(GPUVectorIndexTest, CUDABatchSearch) {
     }
     
     index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDACosineMetric) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CUDA;
+    config.metric = GPUVectorIndex::DistanceMetric::COSINE;
+    config.allowCPUFallback = true;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Add vectors
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Search with COSINE metric
+    size_t k = 5;
+    auto results = index.search(queryVector, k);
+    
+    EXPECT_LE(results.size(), k);
+    if (!results.empty()) {
+        // Results should be sorted by distance
+        for (size_t i = 1; i < results.size(); ++i) {
+            EXPECT_LE(results[i-1].distance, results[i].distance);
+        }
+    }
+    
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDAInnerProductFallback) {
+    // Test that INNER_PRODUCT falls back to CPU when CUDA is requested
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CUDA;
+    config.metric = GPUVectorIndex::DistanceMetric::INNER_PRODUCT;
+    config.allowCPUFallback = true;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Add vectors
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Search with INNER_PRODUCT metric
+    // This should work but will use CPU fallback internally
+    size_t k = 5;
+    auto results = index.search(queryVector, k);
+    
+    EXPECT_LE(results.size(), k);
+    if (!results.empty()) {
+        // Results should be sorted by distance
+        for (size_t i = 1; i < results.size(); ++i) {
+            EXPECT_LE(results[i-1].distance, results[i].distance);
+        }
+    }
+    
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDACosineCPUComparison) {
+    // Compare CUDA and CPU results for COSINE metric
+    GPUVectorIndex::Config cpuConfig;
+    cpuConfig.backend = GPUVectorIndex::Backend::CPU;
+    cpuConfig.metric = GPUVectorIndex::DistanceMetric::COSINE;
+    
+    GPUVectorIndex::Config cudaConfig;
+    cudaConfig.backend = GPUVectorIndex::Backend::CUDA;
+    cudaConfig.metric = GPUVectorIndex::DistanceMetric::COSINE;
+    cudaConfig.allowCPUFallback = true;
+    
+    GPUVectorIndex cpuIndex(cpuConfig);
+    GPUVectorIndex cudaIndex(cudaConfig);
+    
+    ASSERT_TRUE(cpuIndex.initialize(dimension));
+    ASSERT_TRUE(cudaIndex.initialize(dimension));
+    
+    // Add same vectors to both
+    ASSERT_TRUE(cpuIndex.addVectorBatch(testIds, testVectors));
+    ASSERT_TRUE(cudaIndex.addVectorBatch(testIds, testVectors));
+    
+    // Search with both backends
+    size_t k = 5;
+    auto cpuResults = cpuIndex.search(queryVector, k);
+    auto cudaResults = cudaIndex.search(queryVector, k);
+    
+    // If CUDA is active, results should match
+    if (cudaIndex.getActiveBackend() == GPUVectorIndex::Backend::CUDA) {
+        EXPECT_EQ(cpuResults.size(), cudaResults.size());
+        
+        for (size_t i = 0; i < std::min(cpuResults.size(), cudaResults.size()); ++i) {
+            EXPECT_EQ(cpuResults[i].id, cudaResults[i].id);
+            EXPECT_NEAR(cpuResults[i].distance, cudaResults[i].distance, 1e-3f);
+        }
+    }
+    
+    cpuIndex.shutdown();
+    cudaIndex.shutdown();
 }
 
 int main(int argc, char** argv) {

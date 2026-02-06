@@ -57,11 +57,13 @@ public:
         int batchSize = 512;           // Batch size for parallel search
         
         // GPU-specific configuration (CUDA backend)
-        int deviceId = 0;               // GPU device ID (default: 0)
-        size_t maxVRAM_MB = 8192;       // Maximum VRAM usage in MB
-        bool useMixedPrecision = false; // Enable FP16/TF32 (CUDA only)
-        bool enableTensorCores = false; // Enable Tensor Core acceleration (CUDA only)
-        bool enableUnifiedMemory = false; // Use unified memory (CUDA only)
+        // NOTE: The following CUDA-specific fields are reserved for future enhancements
+        // and are currently not implemented. They are provided for forward compatibility.
+        int deviceId = 0;                 // [RESERVED] GPU device ID (default: 0, not implemented in v2.1)
+        size_t maxVRAM_MB = 8192;         // [RESERVED] Maximum VRAM usage in MB (not implemented in v2.1)
+        bool useMixedPrecision = false;   // [RESERVED] Enable FP16/TF32 (not implemented in v2.1)
+        bool enableTensorCores = false;   // [RESERVED] Enable Tensor Core acceleration (not implemented in v2.1)
+        bool enableUnifiedMemory = false; // [RESERVED] Use unified memory (not implemented in v2.1)
         
         // Fallback configuration
         bool allowCPUFallback = true;  // Fall back to CPU if GPU unavailable
