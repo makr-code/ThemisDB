@@ -561,6 +561,12 @@ private:
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
     
     // Snapshot Manager (Named Snapshots feature)
+    std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
+    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    
+    // PITR Manager (Point-in-Time Recovery feature)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<server::PITRApiHandler> pitr_api_handler_;
     std::unique_ptr<SnapshotManager> snapshot_manager_;
     
     // Diff Engine and API Handler (Phase 2 MVCC features)

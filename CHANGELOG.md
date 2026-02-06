@@ -5,6 +5,36 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Git-Like Features Integration** 🎉
+  - **SnapshotManager Re-enabled**: Named snapshots for MVCC are now fully operational
+    - 5 REST endpoints for snapshot/tag management
+    - Integration with DiffEngine for tag-based diffs
+    - Persistent snapshot storage in RocksDB
+  - **PITR API Handler**: Point-in-Time Recovery REST API integration
+    - POST `/api/v1/pitr/restore/sequence` - Restore to specific sequence number
+    - POST `/api/v1/pitr/restore/tag` - Restore to named snapshot tag
+    - POST `/api/v1/pitr/restore/timestamp` - Restore to timestamp
+    - POST `/api/v1/pitr/preview` - Preview restore operation (dry-run)
+    - GET `/api/v1/pitr/progress` - Get current restore progress
+  - **DiffEngine Enhanced**: Now accepts optional SnapshotManager for tag-based diffs
+
+### Changed
+- Updated DiffEngine initialization to support SnapshotManager reference
+- HTTP server now properly converts between Beast and httplib types for git-feature endpoints
+
+### Fixed
+- Re-enabled previously disabled SnapshotManager due to incomplete type issues
+- Added proper error handling with default case in PITR progress phase conversion
+
+### Documentation
+- Added `GIT_FEATURES_INTEGRATION_STATUS.md` documenting integration status
+- Documented that BranchManager and MergeEngine are pending (separate draft PRs)
+
+---
+
 ## [1.5.0] - 2026-02-03
 
 ### Added
