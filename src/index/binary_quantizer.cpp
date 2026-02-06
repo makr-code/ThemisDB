@@ -225,17 +225,12 @@ int BinaryQuantizer::popcount(uint8_t byte) const {
 }
 
 size_t BinaryQuantizer::getMemoryUsage() const {
-    size_t base_size = sizeof(BinaryQuantizer) + mean_values_.capacity() * sizeof(float);
-#ifdef THEMIS_HAS_FAISS
-    if (use_faiss_) {
-        // Approximate FAISS overhead
-        base_size += getEncodedSize() * 10;
-    }
-#endif
-    return base_size;
+    return sizeof(BinaryQuantizer) + mean_values_.capacity() * sizeof(float);
 }
 
 const char* BinaryQuantizer::getBackend() const {
+    // NOTE: This is a placeholder. Actual FAISS integration not yet implemented.
+    // Currently reports configuration preference, not actual backend in use.
 #ifdef THEMIS_HAS_FAISS
     return use_faiss_ ? "faiss" : "custom";
 #else

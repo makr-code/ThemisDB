@@ -21,51 +21,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Certificate chain validation and verification
   - 10+ comprehensive tests for RFC 3161 compliance
 
-- **Complete FAISS Quantizer Modernization (#1079)** 🚀
-  - **Conditional FAISS Support**: All quantizers now support optional FAISS acceleration
-    - `ProductQuantizer`: FAISS K-means for 20-30% faster training
-    - `BinaryQuantizer`: FAISS binary operations for optimized operations
-    - `ResidualQuantizer`: Leverages FAISS-accelerated ProductQuantizer per stage
-  - **Backend Selection**: New `prefer_faiss` configuration option
-    - Defaults to `true` when FAISS is available
-    - Graceful fallback to custom implementation when FAISS unavailable
-  - **Runtime Inspection**: New `getBackend()` method reports active backend ("faiss" or "custom")
-  - **Build System**: Enhanced `THEMIS_HAS_FAISS` conditional compilation
-    - Auto-detection via CMake
-    - Works with and without FAISS installation
-    - No breaking changes for existing code
-  - **Documentation**: New `docs/QUANTIZATION.md` - Comprehensive quantization architecture guide
-    - Detailed algorithm descriptions
-    - Performance comparisons (FAISS vs custom)
-    - Migration guide from custom to FAISS-accelerated
-    - Runtime behavior matrix
-    - Code examples for all quantizers
+- **FAISS Quantizer Infrastructure Preparation (#1079)** 🔧
+  - **Infrastructure Added**: Preparation for future FAISS integration
+    - `ProductQuantizer`: Added `prefer_faiss` config flag and `getBackend()` method
+    - `BinaryQuantizer`: Added `prefer_faiss` config flag and `getBackend()` method  
+    - `ResidualQuantizer`: Documentation updated for future FAISS benefits
+  - **Backend Reporting**: New `getBackend()` method for runtime inspection
+    - Returns "faiss" or "custom" based on configuration (placeholder for future implementation)
+    - Note: Currently all operations use custom implementation regardless of flag setting
+  - **Build System**: Uses existing `THEMIS_HAS_FAISS` conditional compilation
+  - **Documentation**: New `docs/QUANTIZATION.md` - Quantization architecture guide
+    - Algorithm descriptions for all quantizers
+    - Custom implementation details
+    - Build configuration instructions
+  - **Status**: Infrastructure complete, actual FAISS code integration pending
 
 ### Changed
 - TSA implementation now uses OpenSSL by default (was stub in v1.4.1)
 - Improved CMake configuration for security features
 - Enhanced security feature reporting in build system
-- **ProductQuantizer**: Updated from v1.3.0 to v1.5.0 with FAISS integration
-- **BinaryQuantizer**: Updated from v1.4.1 (deprecated) to v1.5.0 with FAISS support
-- **ResidualQuantizer**: Updated from v1.4.1 to v1.5.0 with FAISS-accelerated composition
-- **FAISS Migration Complete** ✅
+- **Quantizer Infrastructure Updated**: Added FAISS preparation infrastructure
+  - ProductQuantizer: Added `prefer_faiss` flag and `getBackend()` method (actual FAISS integration pending)
+  - BinaryQuantizer: Added `prefer_faiss` flag and `getBackend()` method (actual FAISS integration pending)
+  - ResidualQuantizer: Documentation updated
+- **FAISS Production Status** ✅
   - Documented that AdvancedVectorIndex uses FAISS natively (IVF+PQ, HNSW, GPU)
   - Clarified that FAISS is the PRIMARY vector indexing solution for production
-  - Custom quantizers now support optional FAISS acceleration with fallback
-  - Simplified BinaryQuantizer (-79 lines) and enhanced with conditional FAISS support
+  - Custom quantizers have infrastructure for future FAISS integration
   - Marked LearnedQuantizer as deprecated (research-only)
   - Updated `LIBRARY_USAGE_ANALYSIS.md` and `LIBRARY_OPTIMIZATION_QUICKREF.md`
 
 ### Performance Improvements
-- **20-30% faster ProductQuantizer training** with FAISS backend
-- **30% faster ResidualQuantizer training** (via FAISS ProductQuantizer)
-- Zero overhead when FAISS not available (custom fallback maintained)
+- No performance changes in this release (FAISS integration infrastructure only)
 
 ### Backward Compatibility
 - ✅ All existing quantization code continues to work without changes
-- ✅ API remains unchanged (new options are optional)
-- ✅ Default behavior preserves existing functionality with performance boost
-- ✅ Graceful degradation when FAISS unavailable
+- ✅ New config options are optional and don't change behavior
+- ✅ No breaking changes
 
 ### Fixed
 - **FIND-003 (CRITICAL):** RFC 3161 Timestamp Authority implementation complete

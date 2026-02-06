@@ -11,14 +11,12 @@ namespace themis {
 /**
  * @brief Residual Quantization for High-Accuracy Vector Compression
  * 
- * v1.5.0 - Multi-stage quantization with FAISS-accelerated ProductQuantizer
- * 
  * Implements multi-stage residual quantization that iteratively quantizes the
  * residual (error) from the previous stage. This hierarchical approach achieves
  * better accuracy than single-stage quantization at the same compression ratio.
  * 
- * Each stage uses ProductQuantizer, which can optionally leverage FAISS acceleration
- * when THEMIS_HAS_FAISS is defined, providing up to 30% faster training.
+ * Each stage uses ProductQuantizer. Note: FAISS integration is not yet implemented
+ * in ProductQuantizer, so all stages use custom K-means implementation.
  * 
  * @sources
  * - Algorithm: Residual Vector Quantization (RVQ)

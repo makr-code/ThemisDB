@@ -322,6 +322,8 @@ float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vecto
 }
 
 const char* ProductQuantizer::getBackend() const {
+    // NOTE: This is a placeholder. Actual FAISS integration not yet implemented.
+    // Currently reports configuration preference, not actual backend in use.
 #ifdef THEMIS_HAS_FAISS
     return use_faiss_ ? "faiss" : "custom";
 #else
