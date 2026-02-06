@@ -31,8 +31,11 @@ namespace index {
 class GPUVectorIndex {
 public:
     enum class Backend {
-        AUTO,       // Auto-detect best available (currently CPU-only)
-        CPU         // CPU-only implementation (default)
+        AUTO,       // Auto-detect best available backend
+        CPU,        // CPU-only implementation (default)
+        CUDA,       // NVIDIA CUDA backend (v2.1)
+        VULKAN,     // Vulkan compute backend (v2.2 - planned)
+        HIP         // AMD HIP backend (v2.3 - planned)
     };
     
     enum class DistanceMetric {
@@ -53,11 +56,15 @@ public:
         // Batch processing
         int batchSize = 512;           // Batch size for parallel search
         
-        // Memory optimization
-        bool useMixedPrecision = false; // Reserved for future GPU support
+        // GPU-specific configuration (CUDA backend)
+        int deviceId = 0;               // GPU device ID (default: 0)
+        size_t maxVRAM_MB = 8192;       // Maximum VRAM usage in MB
+        bool useMixedPrecision = false; // Enable FP16/TF32 (CUDA only)
+        bool enableTensorCores = false; // Enable Tensor Core acceleration (CUDA only)
+        bool enableUnifiedMemory = false; // Use unified memory (CUDA only)
         
-        // Fallback (always enabled in current version)
-        bool allowCPUFallback = true;  // Always uses CPU in current version
+        // Fallback configuration
+        bool allowCPUFallback = true;  // Fall back to CPU if GPU unavailable
     };
     
     struct SearchResult {

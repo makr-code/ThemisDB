@@ -1,11 +1,13 @@
 #include "index/gpu_vector_index.h"
 #include "acceleration/compute_backend.h"
+#include "acceleration/cuda_backend.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
 #include <unordered_map>
+#include <memory>
 
 namespace themis {
 namespace index {
@@ -26,6 +28,9 @@ public:
     std::vector<std::vector<float>> vectorData;
     std::unordered_map<std::string, size_t> idToIndex;
     
+    // GPU backend (CUDA)
+    std::unique_ptr<acceleration::CUDAVectorBackend> cudaBackend;
+    
     // Statistics
     Statistics stats;
     std::chrono::steady_clock::time_point lastQueryTime;
@@ -42,17 +47,59 @@ public:
         dimension = dim;
         stats.dimension = dim;
         
-        // Current version uses CPU-only implementation
-        activeBackend = Backend::CPU;
-        std::cout << "GPUVectorIndex: Using CPU backend (GPU support planned for v2.x)\n";
+        // Determine which backend to use
+        Backend requestedBackend = config.backend;
         
-        stats.activeBackend = activeBackend;
+        // Try CUDA backend if requested or AUTO
+        if (requestedBackend == Backend::CUDA || requestedBackend == Backend::AUTO) {
+            cudaBackend = std::make_unique<acceleration::CUDAVectorBackend>();
+            if (cudaBackend->isAvailable() && cudaBackend->initialize()) {
+                activeBackend = Backend::CUDA;
+                stats.activeBackend = Backend::CUDA;
+                stats.isGPUActive = true;
+                
+                auto caps = cudaBackend->getCapabilities();
+                std::cout << "GPUVectorIndex: Using CUDA backend\n";
+                std::cout << "  Device: " << caps.deviceName << "\n";
+                std::cout << "  Memory: " << (caps.maxMemoryBytes / (1024*1024*1024)) << " GB\n";
+                
+                initialized = true;
+                return true;
+            } else {
+                // CUDA not available
+                cudaBackend.reset();
+                if (requestedBackend == Backend::CUDA) {
+                    // User explicitly requested CUDA but it's not available
+                    if (config.allowCPUFallback) {
+                        std::cout << "GPUVectorIndex: CUDA not available, falling back to CPU\n";
+                    } else {
+                        std::cerr << "GPUVectorIndex: CUDA not available and CPU fallback disabled\n";
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        // Fall back to CPU
+        activeBackend = Backend::CPU;
+        stats.activeBackend = Backend::CPU;
         stats.isGPUActive = false;
+        
+        if (requestedBackend == Backend::AUTO) {
+            std::cout << "GPUVectorIndex: Using CPU backend (no GPU available)\n";
+        } else {
+            std::cout << "GPUVectorIndex: Using CPU backend\n";
+        }
+        
         initialized = true;
         return true;
     }
     
     void shutdown() {
+        if (cudaBackend) {
+            cudaBackend->shutdown();
+            cudaBackend.reset();
+        }
         initialized = false;
     }
     
@@ -135,6 +182,48 @@ public:
         return results;
     }
     
+    std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
+        if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            return {};
+        }
+        
+        auto startTime = std::chrono::steady_clock::now();
+        
+        // Flatten vector data for GPU transfer
+        std::vector<float> flatVectors;
+        flatVectors.reserve(vectorData.size() * dimension);
+        for (const auto& vec : vectorData) {
+            flatVectors.insert(flatVectors.end(), vec.begin(), vec.end());
+        }
+        
+        // Use CUDA backend for batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto gpuResults = cudaBackend->batchKnnSearch(
+            query.data(),
+            1,  // Single query
+            dimension,
+            flatVectors.data(),
+            vectorData.size(),
+            k,
+            useL2 || config.metric == DistanceMetric::INNER_PRODUCT  // L2 for both L2 and IP
+        );
+        
+        std::vector<SearchResult> results;
+        if (!gpuResults.empty() && !gpuResults[0].empty()) {
+            results.reserve(gpuResults[0].size());
+            for (const auto& [idx, dist] : gpuResults[0]) {
+                if (idx < vectorIds.size()) {
+                    results.push_back({vectorIds[idx], dist});
+                }
+            }
+        }
+        
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+        
+        return results;
+    }
+    
     float computeDistance(const float* a, const float* b, int dim) {
         switch (config.metric) {
             case DistanceMetric::L2: {
@@ -189,7 +278,14 @@ public:
     
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
-        backends.push_back(Backend::CPU); // Only CPU available in current version
+        backends.push_back(Backend::CPU); // CPU always available
+        
+        // Check if CUDA is available
+        auto cudaTest = std::make_unique<acceleration::CUDAVectorBackend>();
+        if (cudaTest->isAvailable()) {
+            backends.push_back(Backend::CUDA);
+        }
+        
         return backends;
     }
 };
@@ -245,8 +341,11 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
         return {};
     }
     
-    // For now, use CPU implementation
-    // GPU implementations will be added in specialized backend files
+    // Use GPU backend if active, otherwise fall back to CPU
+    if (pImpl->activeBackend == Backend::CUDA && pImpl->cudaBackend) {
+        return pImpl->searchGPU(query, k);
+    }
+    
     return pImpl->searchCPU(query, k);
 }
 
@@ -297,13 +396,32 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
-    // Only CPU backend is available in current version
     if (backend == Backend::CPU || backend == Backend::AUTO) {
         pImpl->activeBackend = Backend::CPU;
         pImpl->stats.activeBackend = Backend::CPU;
         pImpl->stats.isGPUActive = false;
         return true;
     }
+    
+    if (backend == Backend::CUDA) {
+        // Try to initialize CUDA backend if not already initialized
+        if (!pImpl->cudaBackend) {
+            pImpl->cudaBackend = std::make_unique<acceleration::CUDAVectorBackend>();
+            if (!pImpl->cudaBackend->initialize()) {
+                pImpl->cudaBackend.reset();
+                return false;
+            }
+        }
+        
+        if (pImpl->cudaBackend && pImpl->cudaBackend->isAvailable()) {
+            pImpl->activeBackend = Backend::CUDA;
+            pImpl->stats.activeBackend = Backend::CUDA;
+            pImpl->stats.isGPUActive = true;
+            return true;
+        }
+        return false;
+    }
+    
     return false;
 }
 
