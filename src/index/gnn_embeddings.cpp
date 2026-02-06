@@ -6,6 +6,7 @@
 #include <cmath>
 #include <chrono>
 #include <numeric>
+#include <unordered_set>
 
 namespace themis {
 
@@ -105,34 +106,68 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
 std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
     std::string_view node_pk,
     std::string_view graph_id,
-    int /*hop_count*/
+    int hop_count
 ) const {
-    // For MVP: 1-hop neighbors only
-    // TODO: Extend to multi-hop for deeper GNN context
-    std::vector<std::string> neighbors;
+    // Multi-hop neighbor collection with BFS
+    if (hop_count <= 0) hop_count = 1;
+    if (hop_count > 5) hop_count = 5;  // Cap at 5 hops to prevent explosion
     
-    // Get outgoing neighbors
-    std::ostringstream outPrefix;
-    outPrefix << "graph:out:" << graph_id << ":" << node_pk << ":";
+    std::vector<std::string> all_neighbors;
+    std::unordered_set<std::string> visited;
+    std::vector<std::string> current_level;
+    current_level.push_back(std::string(node_pk));
+    visited.insert(std::string(node_pk));
     
-    db_.scanPrefix(outPrefix.str(), [&neighbors](std::string_view /*key*/, std::string_view val) {
-        std::string neighbor(val);
-        neighbors.push_back(neighbor);
-        return true;
-    });
+    // BFS for multi-hop neighbors
+    for (int hop = 0; hop < hop_count; ++hop) {
+        std::vector<std::string> next_level;
+        
+        for (const auto& node : current_level) {
+            // Get outgoing neighbors
+            std::ostringstream outPrefix;
+            outPrefix << "graph:out:" << graph_id << ":" << node << ":";
+            
+            db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+                std::string neighbor(val);
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    next_level.push_back(neighbor);
+                    all_neighbors.push_back(neighbor);
+                }
+                return true;
+            });
+            
+            // Also get incoming neighbors for undirected graph treatment
+            std::ostringstream inPrefix;
+            inPrefix << "graph:in:" << graph_id << ":" << node << ":";
+            
+            db_.scanPrefix(inPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+                std::string neighbor(val);
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    next_level.push_back(neighbor);
+                    all_neighbors.push_back(neighbor);
+                }
+                return true;
+            });
+        }
+        
+        current_level = std::move(next_level);
+        if (current_level.empty()) break;  // No more neighbors
+    }
     
-    return neighbors;
+    return all_neighbors;
 }
 
 std::pair<GNNEmbeddingManager::Status, std::vector<float>>
 GNNEmbeddingManager::computeEmbedding_(
     std::string_view model_name,
     const std::vector<float>& features,
-    const std::vector<std::string>& /*neighbor_ids*/,
-    std::string_view /*graph_id*/
+    const std::vector<std::string>& neighbor_ids,
+    std::string_view graph_id
 ) const {
-    // MVP: Simple feature-based embedding with neighbor aggregation
-    // Production: Call external GNN model (Python bridge or native inference)
+    // Enhanced GNN-style embedding with neighbor aggregation
+    // Strategy: Aggregate neighbor features with self features (GraphSAGE-style)
     
     auto modelIt = models_.find(std::string(model_name));
     if (modelIt == models_.end()) {
@@ -142,18 +177,56 @@ GNNEmbeddingManager::computeEmbedding_(
     const auto& modelInfo = modelIt->second;
     int target_dim = modelInfo.embedding_dim;
     
-    // Simple aggregation strategy for MVP:
-    // 1. Use node features as base
-    // 2. Aggregate neighbor features (mean pooling)
-    // 3. Normalize to target dimension
-    
     std::vector<float> embedding(target_dim, 0.0f);
     
-    // Copy features (truncate or pad to target dimension)
+    // 1. Start with self features (truncate or pad to target dimension)
     size_t copy_size = std::min(features.size(), static_cast<size_t>(target_dim));
     std::copy(features.begin(), features.begin() + copy_size, embedding.begin());
     
-    // Normalize
+    // 2. Aggregate neighbor features (mean pooling)
+    if (!neighbor_ids.empty()) {
+        std::vector<float> neighbor_aggregate(target_dim, 0.0f);
+        int valid_neighbors = 0;
+        
+        // Limit number of neighbors to prevent excessive computation
+        size_t max_neighbors = std::min(neighbor_ids.size(), size_t(50));
+        
+        for (size_t i = 0; i < max_neighbors; ++i) {
+            // Load neighbor node to extract its features
+            std::ostringstream nodeKeyOss;
+            nodeKeyOss << "node:" << graph_id << ":" << neighbor_ids[i];
+            std::string nodeKey = nodeKeyOss.str();
+            
+            auto blob = db_.get(nodeKey);
+            if (!blob.has_value()) continue;
+            
+            BaseEntity neighbor = BaseEntity::deserialize(neighbor_ids[i], *blob);
+            std::vector<float> neighbor_features = extractFeatures_(neighbor, {});
+            
+            // Aggregate features
+            for (size_t j = 0; j < std::min(neighbor_features.size(), static_cast<size_t>(target_dim)); ++j) {
+                neighbor_aggregate[j] += neighbor_features[j];
+            }
+            valid_neighbors++;
+        }
+        
+        // Average neighbor features
+        if (valid_neighbors > 0) {
+            for (float& val : neighbor_aggregate) {
+                val /= static_cast<float>(valid_neighbors);
+            }
+            
+            // Combine self features and neighbor features (weighted mean)
+            float self_weight = 0.7f;  // Give more weight to self features
+            float neighbor_weight = 0.3f;
+            
+            for (size_t i = 0; i < embedding.size(); ++i) {
+                embedding[i] = self_weight * embedding[i] + neighbor_weight * neighbor_aggregate[i];
+            }
+        }
+    }
+    
+    // 3. Normalize to unit length
     float norm = 0.0f;
     for (float val : embedding) {
         norm += val * val;
