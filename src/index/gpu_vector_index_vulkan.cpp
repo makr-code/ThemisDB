@@ -23,8 +23,28 @@
 namespace themis {
 namespace index {
 
-// Forward declare for PIMPL
-class VulkanVectorIndexBackend;
+/**
+ * @brief Vulkan backend implementation for GPU vector indexing (forward declaration)
+ */
+class VulkanVectorIndexBackend {
+public:
+    explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
+    ~VulkanVectorIndexBackend();
+    
+    bool initialize(int dimension);
+    void shutdown();
+    bool uploadVectors(const std::vector<std::vector<float>>& vectors);
+    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
+    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
+    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
+        const std::vector<std::vector<float>>& queries, size_t k);
+    GPUVectorIndex::Statistics getStatistics() const;
+    bool isInitialized() const;
+    
+private:
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
+};
 
 /**
  * @brief Implementation class for Vulkan backend
