@@ -58,10 +58,6 @@ public:
      */
     void registerRoutes(httplib::Server& server);
 
-public:
-    transaction::MergeEngine& merge_engine_;
-    transaction::SnapshotManager& snapshot_manager_;
-
     /**
      * @brief Handle POST /api/v1/merge
      * 
@@ -115,6 +111,8 @@ public:
     void handleCanFastForward(const httplib::Request& req, httplib::Response& res);
 
 private:
+    transaction::MergeEngine& merge_engine_;
+    transaction::SnapshotManager& snapshot_manager_;
     /**
      * @brief Parse merge options from request body
      */

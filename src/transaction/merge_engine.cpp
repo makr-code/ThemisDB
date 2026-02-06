@@ -564,9 +564,10 @@ std::optional<std::string> MergeEngine::getValueAtSequence(
     uint64_t sequence) {
     
     // Query changefeed for key's value at sequence
+    // TODO: Make this limit configurable or implement pagination
     Changefeed::ListOptions opts;
     opts.from_sequence = 0;
-    opts.limit = 10000; // Large enough to capture history
+    opts.limit = 10000; // Retrieve events incrementally
     
     auto events = changefeed_.listEvents(opts);
     

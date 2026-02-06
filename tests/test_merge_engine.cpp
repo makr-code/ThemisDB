@@ -90,8 +90,8 @@ TEST_F(MergeEngineTest, FastForwardMerge) {
     // Source branch: Add new user
     auto source_seq = recordPut("users:3", "Charlie");
     
-    // Target: No changes from base (same as base)
-    auto target_seq = base_seq + 1; // Still at base state
+    // Target: No changes from base (still at base state)
+    auto target_seq = base_seq;
     
     // Should be able to fast-forward
     EXPECT_TRUE(merge_engine_->canFastForward(base_seq, source_seq, target_seq));
