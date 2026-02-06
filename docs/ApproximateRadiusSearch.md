@@ -4,19 +4,21 @@
 
 ApproximateRadiusSearch provides HNSW-based vector similarity search for finding all vectors within a specified distance threshold. This document serves as the complete reference for implementation, API usage, testing, and deployment.
 
-**Status**: Production Ready (4/5 APIs functional)  
-**Version**: 1.4.0-alpha  
+**Status**: Production-Ready Beta (5/5 APIs functional)  
+**Version**: 1.5.0-beta  
 **Last Updated**: February 2026
 
 ## Implementation Status
+
+All core methods are fully implemented and tested:
 
 | API Method | Status | Description |
 |------------|--------|-------------|
 | `search()` | ✅ COMPLETE | Core HNSW-based radius search |
 | `searchById()` | ✅ COMPLETE | ID-based vector lookup with caching |
 | `batchSearch()` | ✅ COMPLETE | Multi-query batch processing |
-| `searchWithTargetCount()` | ✅ COMPLETE | Adaptive radius targeting |
-| `estimateResultCount()` | ✅ COMPLETE | Fast result estimation |
+| `searchWithTargetCount()` | ✅ COMPLETE | Adaptive radius targeting with binary search |
+| `estimateResultCount()` | ✅ COMPLETE | Sample-based result estimation |
 
 ### Core Algorithm
 
