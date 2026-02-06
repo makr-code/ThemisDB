@@ -6,6 +6,7 @@
 #include <functional>
 #include <stdexcept>
 #include <iostream>
+#include <iomanip>
 #include <unordered_map>
 #include <sstream>
 
@@ -340,6 +341,24 @@ public:
         return stats;
     }
     
+    /**
+     * Rebalance vectors across GPUs
+     * 
+     * NOTE: Current implementation is a placeholder for v2.4.
+     * Full rebalancing with data migration will be implemented in v2.5+
+     * with NCCL/RCCL support for efficient GPU-to-GPU transfers.
+     * 
+     * For now, this method:
+     * 1. Validates that rebalancing is possible
+     * 2. Logs current load distribution
+     * 3. Returns success if system is operational
+     * 
+     * Future implementation will:
+     * - Collect all vectors from all GPUs
+     * - Redistribute according to partition strategy
+     * - Transfer vectors using P2P or NCCL/RCCL
+     * - Update routing tables
+     */
     bool rebalance() {
         if (!initialized || gpuIndices.size() <= 1) {
             return false;
@@ -348,19 +367,38 @@ public:
         std::cout << "MultiGPUVectorIndex: Rebalancing vectors across " 
                   << gpuIndices.size() << " GPUs...\n";
         
-        // Collect all vectors from all GPUs
-        std::vector<std::pair<std::string, std::vector<float>>> allVectors;
-        
-        for (auto& [id, gpuIdx] : vectorToGPU) {
-            // Note: In production, we would need to implement a method to get vectors
-            // For now, this is a placeholder showing the rebalancing logic structure
-            (void)gpuIdx;  // Suppress unused warning
+        // Get current load distribution
+        std::vector<size_t> vectorsPerGPU;
+        for (const auto& gpuIndex : gpuIndices) {
+            auto stats = gpuIndex->getStatistics();
+            vectorsPerGPU.push_back(stats.numVectors);
+            std::cout << "  GPU " << gpuIndex->getActiveBackend() 
+                     << ": " << stats.numVectors << " vectors\n";
         }
         
-        // Redistribute according to current partition strategy
-        // This is a simplified version - production would implement actual data transfer
+        // Calculate load imbalance
+        size_t maxVectors = *std::max_element(vectorsPerGPU.begin(), vectorsPerGPU.end());
+        size_t minVectors = *std::min_element(vectorsPerGPU.begin(), vectorsPerGPU.end());
+        size_t totalVectors = 0;
+        for (size_t count : vectorsPerGPU) {
+            totalVectors += count;
+        }
         
-        std::cout << "Rebalancing complete\n";
+        if (totalVectors > 0) {
+            double avgVectors = static_cast<double>(totalVectors) / gpuIndices.size();
+            double imbalance = (maxVectors - minVectors) / avgVectors;
+            std::cout << "  Load imbalance: " << std::fixed << std::setprecision(1) 
+                     << (imbalance * 100.0) << "%\n";
+            
+            if (imbalance < 0.1) {  // Less than 10% imbalance
+                std::cout << "  Load is already well balanced, no action needed\n";
+            } else {
+                std::cout << "  NOTE: Full rebalancing with data migration will be "
+                         << "implemented in v2.5+\n";
+            }
+        }
+        
+        std::cout << "Rebalancing check complete\n";
         return true;
     }
 };

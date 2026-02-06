@@ -135,7 +135,9 @@ index.addGPU(4);
 // Remove GPU
 index.removeGPU(2);
 
-// Rebalance load
+// Check load balance and get recommendations
+// Note: rebalance() in v2.4 checks load distribution but does not
+// migrate data. Full rebalancing will be implemented in v2.5+
 index.rebalance();
 
 // Change partition strategy
@@ -144,6 +146,11 @@ index.setPartitionStrategy(MultiGPUVectorIndex::PartitionStrategy::HASH_BASED);
 // Adjust search parameters
 index.setEfSearch(128);
 ```
+
+**Note on Rebalancing**: The `rebalance()` method in v2.4 performs load analysis
+and reports current distribution but does not migrate vectors between GPUs. Full
+rebalancing with data migration will be implemented in v2.5+ with NCCL/RCCL support
+for efficient GPU-to-GPU transfers.
 
 ### Monitoring
 
@@ -353,13 +360,38 @@ Run tests with:
 ## Future Enhancements (v2.5+)
 
 Potential future improvements:
-- [ ] NCCL/RCCL integration for faster communication
-- [ ] Peer-to-peer (P2P) direct GPU transfers
-- [ ] Dynamic load balancing with live migration
-- [ ] Query partitioning (in addition to data partitioning)
-- [ ] Asynchronous operations
-- [ ] GPU memory pooling
-- [ ] Advanced fault recovery
+- [ ] **Full Rebalancing with Data Migration**: Complete implementation of vector redistribution
+  - GPU-to-GPU data transfers using P2P or NCCL/RCCL
+  - Automatic rebalancing based on load thresholds
+  - Minimal downtime during rebalancing
+- [ ] **NCCL/RCCL Integration**: Faster communication primitives
+  - Collective operations (AllReduce, Broadcast, AllGather)
+  - Ring topology for scalability
+  - Optimized for high-bandwidth interconnects (NVLink)
+- [ ] **Peer-to-Peer (P2P)**: Direct GPU transfers
+  - Enable P2P access between GPUs
+  - Bypass host memory for transfers
+  - Optimize for NVLink-connected GPUs
+- [ ] **Dynamic Load Balancing**: Adaptive workload distribution
+  - Real-time GPU utilization monitoring
+  - Automatic migration of hot vectors
+  - Query routing based on GPU load
+- [ ] **Query Partitioning**: Distribute queries in addition to data
+  - Partition large query batches across GPUs
+  - Reduce per-GPU query load
+  - Improve latency for batch operations
+- [ ] **Asynchronous Operations**: Non-blocking API
+  - Async search operations
+  - Background rebalancing
+  - Overlapped compute and communication
+- [ ] **GPU Memory Pooling**: Efficient memory management
+  - Shared memory pool across GPUs
+  - Automatic memory rebalancing
+  - Reduce fragmentation
+
+**Note**: These enhancements require additional infrastructure and hardware features
+that are not implemented in v2.4. The current implementation provides a solid
+foundation for these future improvements.
 
 ## References
 
