@@ -78,25 +78,26 @@ GPUVectorIndex
 **Current Features** (v2.1):
 - ✅ L2 distance computation on GPU
 - ✅ Cosine distance computation on GPU
-- ✅ Inner product distance on GPU
+- ⚠️ Inner product: Falls back to CPU (not supported by CUDA kernels)
 - ✅ Top-k selection (bitonic sort)
-- ✅ Batch query support
+- ✅ Batch query support (true GPU batching)
 - ✅ Async kernel launches
 - ✅ Device memory management
 - ✅ Stream synchronization
 - ✅ Automatic backend selection
 - ✅ CPU fallback on GPU unavailable
 - ✅ Performance optimization (cached vectors)
+- ✅ k value clamping for safety
 
 **Configuration Options**:
 ```cpp
 GPUVectorIndex::Config config;
 config.backend = GPUVectorIndex::Backend::CUDA;  // Use CUDA
-config.deviceId = 0;                              // GPU device ID
-config.maxVRAM_MB = 8192;                        // VRAM limit (MB)
-config.useMixedPrecision = false;                // FP16/TF32 (future)
-config.enableTensorCores = false;                // Tensor Cores (future)
-config.allowCPUFallback = true;                  // Fallback to CPU
+config.deviceId = 0;                              // [RESERVED] Not implemented in v2.1
+config.maxVRAM_MB = 8192;                        // [RESERVED] Not implemented in v2.1
+config.useMixedPrecision = false;                // [RESERVED] Not implemented in v2.1
+config.enableTensorCores = false;                // [RESERVED] Not implemented in v2.1
+config.allowCPUFallback = true;                  // Fallback to CPU (implemented)
 ```
 
 **Performance** (observed):

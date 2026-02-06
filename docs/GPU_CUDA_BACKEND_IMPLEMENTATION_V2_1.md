@@ -23,30 +23,33 @@ ThemisDB v2.1 introduces CUDA GPU acceleration for vector similarity search, pro
    - Graceful CPU fallback when GPU unavailable
 
 2. **GPU Operations**
-   - L2 (Euclidean) distance computation on GPU
-   - Cosine distance computation on GPU
-   - Inner product distance computation on GPU
-   - Top-k selection using bitonic sort
-   - Batch search optimization
+   - L2 (Euclidean) distance computation on GPU ✅
+   - Cosine distance computation on GPU ✅
+   - Inner product: Falls back to CPU ⚠️ (CUDA kernels only support L2/COSINE)
+   - Top-k selection using bitonic sort ✅
+   - True GPU batch search optimization ✅
 
 3. **Performance Optimizations**
    - Cached flattened vector data
    - Dirty flag to minimize allocations
+   - k value clamping for safety
    - Async kernel launches via CUDA streams
    - Device memory management
 
 4. **Testing**
-   - 6 comprehensive CUDA test cases
-   - CPU vs GPU result validation
+   - 9 comprehensive CUDA test cases
+   - CPU vs GPU result validation (L2 and COSINE)
    - Backend switching tests
+   - Inner product CPU fallback test
    - Batch search tests
    - All tests support CPU fallback
 
 5. **Documentation**
    - Updated GPU architecture documentation
    - Comprehensive usage examples
-   - Configuration best practices
+   - Configuration best practices (marked reserved fields)
    - Performance guidelines
+   - Documented actual limitations
 
 ### What Was NOT Implemented (Future Work)
 
@@ -313,12 +316,14 @@ make test_gpu_vector_index
 2. **Input Validation**
    - Vector dimensions validated before GPU transfer
    - Query size validated against database dimension
-   - k value bounded by number of vectors
+   - k value clamped to number of vectors (prevents out-of-bounds GPU access)
+   - Invalid queries handled gracefully
 
 3. **Memory Safety**
    - RAII patterns for GPU memory
    - No manual memory management in user code
    - Automatic cleanup on errors
+   - k clamping prevents GPU memory corruption
 
 ## CI/CD Compatibility
 
@@ -390,21 +395,30 @@ if (queryBatchSize >= 64) {
    - PCIe transfer overhead dominates
    - Use batch queries for GPU benefits
 
-2. **Memory Constraints**
+2. **Distance Metrics**
+   - CUDA backend only supports L2 and COSINE
+   - INNER_PRODUCT automatically falls back to CPU
+   - This is by design - CUDA kernels implement L2/COSINE only
+
+3. **Configuration Options**
+   - `deviceId`, `maxVRAM_MB`, `useMixedPrecision`, etc. are reserved
+   - These options are not implemented in v2.1
+   - Provided for forward compatibility only
+
+4. **Memory Constraints**
    - Large databases may not fit in VRAM
    - No automatic data partitioning yet
    - Future: Unified memory support
 
-3. **Backend Support**
+5. **Backend Support**
    - Only CUDA implemented in v2.1
    - Vulkan and HIP planned for v2.2+
    - Windows CUDA paths may need additional work
 
-4. **Feature Support**
-   - No mixed precision yet (FP16, TF32)
-   - No Tensor Core support yet
-   - No CUDA graphs yet
-   - No multi-GPU support yet
+6. **k Value Constraints**
+   - k is clamped to number of indexed vectors
+   - Top-k kernel works best with small k values (< 1024)
+   - Large k may use more shared memory
 
 ## Future Enhancements
 
