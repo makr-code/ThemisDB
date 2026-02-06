@@ -27,11 +27,12 @@ namespace vector {
  * - Multi-aspect similarity (title + content + tags)
  * - Query expansion with multiple reformulations
  * - Ensemble retrieval methods
+ * - Hybrid vector + keyword search
  * 
- * This is a stub implementation for GAP-006. Future implementations will
- * provide efficient algorithms for complex multi-vector queries.
- * 
- * @note This is a placeholder implementation. Real algorithms to be added in future releases.
+ * Implementation Status: Production-Ready Beta
+ * All core methods are fully implemented with multiple fusion strategies.
+ * Supports: Linear Combination, Reciprocal Rank Fusion (RRF), Rank Fusion (Borda),
+ * Max/Min/Avg Score fusion, and weight optimization via grid search.
  * 
  * @references
  * - Fox, E. A., & Shaw, J. A. (1994). "Combination of multiple searches" (CombSUM, CombMNZ)
@@ -109,8 +110,6 @@ public:
      * @brief Search with multiple query vectors
      * 
      * Combines results from multiple query vectors using specified fusion strategy.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
      */
     Result<MultiSearchResult> search(
         const MultiQuery& query,
@@ -121,9 +120,7 @@ public:
      * @brief Search across multiple vector fields in items
      * 
      * Each item has multiple vector fields (e.g., title_embedding, content_embedding).
-     * Combines scores across fields.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Combines scores across fields using the specified fusion strategy.
      */
     Result<MultiSearchResult> searchMultiField(
         const std::vector<float>& query_vector,
@@ -135,8 +132,7 @@ public:
      * @brief Query expansion: Search with multiple query reformulations
      * 
      * Useful for query expansion where multiple variants of the query are generated.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Combines results from all variants using the specified fusion strategy.
      */
     Result<MultiSearchResult> searchWithExpansion(
         const std::vector<std::vector<float>>& query_variants,
@@ -146,9 +142,8 @@ public:
     /**
      * @brief Hybrid search: Combine vector search with keyword/filter scores
      * 
-     * Fuses vector similarity with other scoring signals.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Fuses vector similarity with other scoring signals (e.g., BM25, TF-IDF).
+     * Supports configurable weighting between vector and keyword scores.
      */
     Result<MultiSearchResult> hybridSearch(
         const std::vector<float>& query_vector,
@@ -159,9 +154,7 @@ public:
     /**
      * @brief Batch multi-vector search
      * 
-     * Process multiple multi-vector queries efficiently.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Process multiple multi-vector queries efficiently in sequence.
      */
     Result<std::vector<MultiSearchResult>> batchSearch(
         const std::vector<MultiQuery>& queries,
@@ -172,8 +165,7 @@ public:
      * @brief Optimize fusion weights using training data
      * 
      * Learn optimal weights for linear combination from labeled examples.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Uses grid search optimization with NDCG@10 as the objective function.
      */
     Result<std::vector<float>> optimizeWeights(
         const std::vector<MultiQuery>& queries,

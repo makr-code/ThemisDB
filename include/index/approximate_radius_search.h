@@ -26,11 +26,12 @@ namespace vector {
  * - Max results limiting for performance
  * - Quality guarantees (recall threshold)
  * - Integration with existing vector indices
+ * - Adaptive target count search with binary search optimization
+ * - Sample-based result count estimation
+ * - Comprehensive statistics tracking
  * 
- * This is a stub implementation for GAP-006. Future implementations will
- * provide efficient algorithms for large-scale radius searches.
- * 
- * @note This is a placeholder implementation. Real algorithms to be added in future releases.
+ * Implementation Status: Production-Ready Beta
+ * All core methods are fully implemented and tested.
  * 
  * @references
  * - Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using HNSW"
@@ -88,8 +89,6 @@ public:
      * @param query_vector The query vector
      * @param config Search configuration
      * @return Search results or error
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
      */
     Result<SearchResult> search(
         const std::vector<float>& query_vector,
@@ -100,8 +99,6 @@ public:
      * @brief Search for vectors within radius using vector ID
      * 
      * Convenience method that looks up the query vector by ID.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
      */
     Result<SearchResult> searchById(
         std::string_view query_id,
@@ -110,8 +107,6 @@ public:
 
     /**
      * @brief Batch radius search for multiple query vectors
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
      */
     Result<std::vector<SearchResult>> batchSearch(
         const std::vector<std::vector<float>>& query_vectors,
@@ -121,9 +116,8 @@ public:
     /**
      * @brief Search with dynamic radius adjustment
      * 
-     * Automatically adjusts radius to return approximately target_count results.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Automatically adjusts radius to return approximately target_count results
+     * using binary search optimization.
      */
     Result<SearchResult> searchWithTargetCount(
         const std::vector<float>& query_vector,
@@ -134,9 +128,8 @@ public:
     /**
      * @brief Estimate result count for a given radius
      * 
-     * Useful for query planning and UI feedback.
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Uses sample-based estimation to predict how many results would be
+     * returned for a given radius. Useful for query planning and UI feedback.
      */
     Result<size_t> estimateResultCount(
         const std::vector<float>& query_vector,
@@ -146,8 +139,6 @@ public:
 
     /**
      * @brief Get statistics about radius search performance
-     * 
-     * @note Stub implementation - returns error indicating not yet implemented
      */
     struct Statistics {
         size_t total_searches = 0;
