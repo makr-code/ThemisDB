@@ -7,9 +7,10 @@
 
 using namespace themis::index;
 
-// NOTE: This example demonstrates CPU-based vector indexing in v1.5.x
-// GPU backends (CUDA, Vulkan, HIP) were removed and are planned for v2.x
-// See docs/FUTURE_GPU_SUPPORT.md for GPU roadmap
+// NOTE: This example demonstrates GPU-accelerated vector indexing in v2.3+
+// HIP backend (AMD GPUs) is available when compiled with THEMIS_ENABLE_HIP=ON
+// CUDA backend (NVIDIA GPUs) is planned for v2.4
+// See docs/GPU_SUPPORT_ROADMAP.md for GPU capabilities and performance
 
 // Generate random vectors for demonstration
 std::vector<std::vector<float>> generateVectors(size_t count, int dimension) {
@@ -35,12 +36,35 @@ void printBackendInfo(const GPUVectorIndex& index) {
         case GPUVectorIndex::Backend::CPU:
             std::cout << "Backend: CPU (SIMD-optimized)\n";
             break;
+        case GPUVectorIndex::Backend::HIP:
+            std::cout << "Backend: HIP (AMD GPU)\n";
+            break;
+        case GPUVectorIndex::Backend::CUDA:
+            std::cout << "Backend: CUDA (NVIDIA GPU)\n";
+            break;
+        case GPUVectorIndex::Backend::VULKAN:
+            std::cout << "Backend: Vulkan (Cross-platform GPU)\n";
+            break;
         case GPUVectorIndex::Backend::AUTO:
-            std::cout << "Backend: AUTO (defaults to CPU in v1.5.x)\n";
+            std::cout << "Backend: AUTO (auto-selected)\n";
             break;
         default:
             std::cout << "Backend: Unknown\n";
     }
+    
+    // Print available backends
+    auto available = index.getAvailableBackends();
+    std::cout << "Available backends: ";
+    for (auto b : available) {
+        switch (b) {
+            case GPUVectorIndex::Backend::CPU: std::cout << "CPU "; break;
+            case GPUVectorIndex::Backend::HIP: std::cout << "HIP "; break;
+            case GPUVectorIndex::Backend::CUDA: std::cout << "CUDA "; break;
+            case GPUVectorIndex::Backend::VULKAN: std::cout << "Vulkan "; break;
+            default: break;
+        }
+    }
+    std::cout << "\n";
 }
 
 void printStatistics(const GPUVectorIndex::Statistics& stats) {
@@ -301,6 +325,146 @@ void demonstrateDistanceMetrics() {
     }
 }
 
+void demonstrateHIPBackend() {
+    std::cout << "\n======================================\n";
+    std::cout << "Example 5: HIP/AMD GPU Backend\n";
+    std::cout << "======================================\n";
+    
+#ifdef THEMIS_ENABLE_HIP
+    std::cout << "HIP backend is enabled in this build\n";
+    
+    // Check if HIP backend is available
+    GPUVectorIndex testIndex;
+    auto available = testIndex.getAvailableBackends();
+    bool hipAvailable = false;
+    for (auto b : available) {
+        if (b == GPUVectorIndex::Backend::HIP) {
+            hipAvailable = true;
+            break;
+        }
+    }
+    
+    if (!hipAvailable) {
+        std::cout << "HIP backend not available (no AMD GPU detected)\n";
+        std::cout << "Skipping HIP-specific examples\n";
+        return;
+    }
+    
+    std::cout << "AMD GPU detected! Running HIP examples...\n";
+    
+    int dimension = 128;
+    int numVectors = 10000;
+    
+    // Generate test data
+    auto vectors = generateVectors(numVectors, dimension);
+    std::vector<std::string> ids;
+    for (int i = 0; i < numVectors; ++i) {
+        ids.push_back("vec_" + std::to_string(i));
+    }
+    
+    // Example 5.1: Explicit HIP backend configuration
+    std::cout << "\n--- Example 5.1: Explicit HIP Configuration ---\n";
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::HIP;
+        config.deviceId = 0;              // Select first AMD GPU
+        config.waveSize = 0;              // Auto-detect (32 for RDNA, 64 for CDNA)
+        config.enableRocBLAS = false;     // Use custom kernels
+        config.allowCPUFallback = true;   // Enable CPU fallback
+        config.metric = GPUVectorIndex::DistanceMetric::COSINE;
+        
+        GPUVectorIndex index(config);
+        index.initialize(dimension);
+        
+        // Add vectors
+        index.addVectorBatch(ids, vectors);
+        
+        printBackendInfo(index);
+        
+        // Single query (GPU slower due to PCIe overhead)
+        auto query = generateVectors(1, dimension)[0];
+        auto start = std::chrono::steady_clock::now();
+        auto results = index.search(query, 10);
+        auto end = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        
+        std::cout << "\nSingle query time: " << (duration.count() / 1000.0) << " ms\n";
+        std::cout << "Top 3 results:\n";
+        for (int i = 0; i < std::min(3, (int)results.size()); ++i) {
+            std::cout << "  " << (i+1) << ". " << results[i].id 
+                      << " (distance: " << results[i].distance << ")\n";
+        }
+        
+        index.shutdown();
+    }
+    
+    // Example 5.2: Batch search performance (GPU advantage)
+    std::cout << "\n--- Example 5.2: Batch Search Performance ---\n";
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::HIP;
+        config.metric = GPUVectorIndex::DistanceMetric::L2;
+        
+        GPUVectorIndex index(config);
+        index.initialize(dimension);
+        index.addVectorBatch(ids, vectors);
+        
+        // Generate batch of queries
+        std::vector<int> batchSizes = {1, 16, 64, 256, 512};
+        
+        std::cout << "Batch size performance (10000 vectors, dim=128):\n";
+        for (int batchSize : batchSizes) {
+            auto queries = generateVectors(batchSize, dimension);
+            
+            auto start = std::chrono::steady_clock::now();
+            auto results = index.searchBatch(queries, 10);
+            auto end = std::chrono::steady_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            
+            double qps = (batchSize * 1000.0) / duration.count();
+            std::cout << "  Batch " << std::setw(3) << batchSize << ": " 
+                      << std::setw(5) << duration.count() << " ms"
+                      << " (" << std::fixed << std::setprecision(0) << qps << " QPS)\n";
+        }
+        
+        index.shutdown();
+    }
+    
+    // Example 5.3: Backend switching
+    std::cout << "\n--- Example 5.3: Dynamic Backend Switching ---\n";
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::AUTO;  // Start with auto-detection
+        
+        GPUVectorIndex index(config);
+        index.initialize(dimension);
+        index.addVectorBatch(ids, vectors);
+        
+        std::cout << "Initial backend:\n";
+        printBackendInfo(index);
+        
+        // Switch to CPU
+        std::cout << "\nSwitching to CPU backend...\n";
+        if (index.switchBackend(GPUVectorIndex::Backend::CPU)) {
+            printBackendInfo(index);
+        }
+        
+        // Switch back to HIP
+        std::cout << "\nSwitching back to HIP backend...\n";
+        if (index.switchBackend(GPUVectorIndex::Backend::HIP)) {
+            printBackendInfo(index);
+        }
+        
+        index.shutdown();
+    }
+    
+#else
+    std::cout << "HIP backend not compiled in this build\n";
+    std::cout << "To enable HIP support, rebuild with: -DTHEMIS_ENABLE_HIP=ON\n";
+    std::cout << "See docs/GPU_SUPPORT_ROADMAP.md for setup instructions\n";
+#endif
+}
+
 int main() {
     std::cout << "========================================\n";
     std::cout << "GPU Vector Index Examples\n";
@@ -312,6 +476,7 @@ int main() {
         demonstrateBatchSearch();
         demonstrateBackendComparison();
         demonstrateDistanceMetrics();
+        demonstrateHIPBackend();  // New HIP-specific examples
         
         std::cout << "\n========================================\n";
         std::cout << "All examples completed successfully!\n";
