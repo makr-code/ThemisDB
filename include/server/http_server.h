@@ -57,6 +57,9 @@
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
 #include "server/ethics_api_handler.h"
+#include "server/snapshot_api_handler.h"
+#include "server/diff_api_handler.h"
+#include "server/pitr_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
 #else
@@ -93,6 +96,7 @@ class AdaptiveIndexManager;
 class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
+class PITRManager;
 
 namespace analytics {
 class DiffEngine;
@@ -100,6 +104,7 @@ class DiffEngine;
 
 namespace server {
 class DiffApiHandler;
+class PITRApiHandler;
 }
 
 namespace sharding {
@@ -561,6 +566,10 @@ private:
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
     std::unique_ptr<DiffApiHandler> diff_api_handler_;
+    
+    // PITR Manager and API Handler (Phase 3 MVCC features)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<PITRApiHandler> pitr_api_handler_;
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE
