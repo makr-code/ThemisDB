@@ -57,9 +57,6 @@
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
 #include "server/ethics_api_handler.h"
-#include "server/snapshot_api_handler.h"
-#include "server/diff_api_handler.h"
-#include "server/pitr_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
 #else
