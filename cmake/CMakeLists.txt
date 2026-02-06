@@ -1207,6 +1207,12 @@ set(THEMIS_CORE_SOURCES
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
+    ../src/server/policy_manager_api_handler.cpp
+    ../src/server/policy_versioning_api_handler.cpp
+    ../src/server/policy_template_api_handler.cpp
+    ../src/server/compliance_reporting_api_handler.cpp
+    ../src/server/policy_validation_api_handler.cpp
+    ../src/server/review_scheduling_api_handler.cpp
     ../src/server/prompt_api_handler.cpp
     ../src/server/graph_api_handler.cpp
     ../src/server/index_api_handler.cpp
@@ -1367,6 +1373,13 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_coordinator.cpp
     ../src/governance/compliance_reporting.cpp
     ../src/governance/policy_validation.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/policy_version_history.cpp
+    ../src/governance/policy_manager_versioned.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/compliance_reporter.cpp
+    ../src/governance/policy_validator.cpp
+    ../src/governance/review_scheduler.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp

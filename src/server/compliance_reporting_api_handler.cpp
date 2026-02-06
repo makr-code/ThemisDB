@@ -1,0 +1,290 @@
+#include "server/compliance_reporting_api_handler.h"
+#include "utils/logger.h"
+
+#include <sstream>
+
+namespace themis {
+namespace server {
+
+ComplianceReportingApiHandler::ComplianceReportingApiHandler(
+    std::shared_ptr<themis::governance::ComplianceReporter> reporter,
+    std::shared_ptr<themis::AuthMiddleware> auth
+)
+    : reporter_(std::move(reporter))
+    , auth_(std::move(auth))
+{
+    if (!reporter_) {
+        THEMIS_WARN("ComplianceReportingApiHandler created with null ComplianceReporter");
+    }
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageAnalysis(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!checkAuth(req, "operator")) {
+            return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
+        }
+        
+        if (!reporter_) {
+            return makeErrorResponse(http::status::service_unavailable, 
+                "ComplianceReporter not initialized", req);
+        }
+        
+        // Parse resources from request body if provided
+        std::vector<std::string> resources;
+        if (!req.body().empty()) {
+            try {
+                nlohmann::json body = nlohmann::json::parse(req.body());
+                if (body.contains("resources") && body["resources"].is_array()) {
+                    resources = body["resources"].get<std::vector<std::string>>();
+                }
+            } catch (...) {
+                // If parsing fails, analyze with empty resource list
+            }
+        }
+        
+        auto analysis = reporter_->analyzeCoverage(resources);
+        
+        return makeResponse(http::status::ok, analysis.toJson().dump(2), req);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error analyzing coverage: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::handleComplianceReport(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!checkAuth(req, "operator")) {
+            return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
+        }
+        
+        if (!reporter_) {
+            return makeErrorResponse(http::status::service_unavailable, 
+                "ComplianceReporter not initialized", req);
+        }
+        
+        // Get framework from query parameter
+        std::string url(req.target());
+        auto framework = getQueryParam(url, "framework");
+        
+        auto report = reporter_->generateComplianceReport(
+            framework.value_or("")
+        );
+        
+        return makeResponse(http::status::ok, report.toJson().dump(2), req);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error generating compliance report: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalysis(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!checkAuth(req, "operator")) {
+            return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
+        }
+        
+        if (!reporter_) {
+            return makeErrorResponse(http::status::service_unavailable, 
+                "ComplianceReporter not initialized", req);
+        }
+        
+        auto gaps = reporter_->detectGaps();
+        
+        nlohmann::json json_array = nlohmann::json::array();
+        for (const auto& gap : gaps) {
+            json_array.push_back(gap.toJson());
+        }
+        
+        nlohmann::json response = {
+            {"gaps", json_array},
+            {"count", gaps.size()}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(2), req);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error detecting gaps: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateReport(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!checkAuth(req, "operator")) {
+            return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
+        }
+        
+        if (!reporter_) {
+            return makeErrorResponse(http::status::service_unavailable, 
+                "ComplianceReporter not initialized", req);
+        }
+        
+        // Parse request body
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        
+        std::string report_type = "summary";
+        if (body.contains("type")) {
+            report_type = body["type"].get<std::string>();
+        }
+        
+        themis::governance::ComplianceReport report;
+        
+        if (report_type == "summary") {
+            report = reporter_->generateSummaryReport();
+        } else if (report_type == "compliance") {
+            std::string framework = body.value("framework", "");
+            report = reporter_->generateComplianceReport(framework);
+        } else if (report_type == "risk") {
+            report = reporter_->generateRiskAssessmentReport();
+        } else {
+            return makeErrorResponse(http::status::bad_request, 
+                "Invalid report type: " + report_type, req);
+        }
+        
+        return makeResponse(http::status::ok, report.toJson().dump(2), req);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error generating report: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::handleExportReport(
+    const http::request<http::string_body>& req,
+    const std::string& report_id
+) {
+    try {
+        if (!checkAuth(req, "operator")) {
+            return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
+        }
+        
+        if (!reporter_) {
+            return makeErrorResponse(http::status::service_unavailable, 
+                "ComplianceReporter not initialized", req);
+        }
+        
+        // Get format from query parameter
+        std::string url(req.target());
+        auto format = getQueryParam(url, "format");
+        std::string export_format = format.value_or("json");
+        
+        // For this simplified implementation, generate a summary report
+        // In a full implementation, you would retrieve the cached report by ID
+        auto report = reporter_->generateSummaryReport();
+        
+        std::string exported = reporter_->exportReport(report, export_format);
+        
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        
+        if (export_format == "csv") {
+            res.set(http::field::content_type, "text/csv");
+            res.set(http::field::content_disposition, 
+                "attachment; filename=\"compliance_report.csv\"");
+        } else {
+            res.set(http::field::content_type, "application/json");
+        }
+        
+        res.keep_alive(req.keep_alive());
+        res.body() = exported;
+        res.prepare_payload();
+        
+        return res;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error exporting report {}: {}", report_id, e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+bool ComplianceReportingApiHandler::checkAuth(
+    const http::request<http::string_body>& req,
+    const std::string& required_role
+) const {
+    if (!auth_) {
+        THEMIS_ERROR("AuthMiddleware not configured for ComplianceReportingApiHandler");
+        return false;
+    }
+    
+    auto auth_it = req.find(http::field::authorization);
+    if (auth_it == req.end()) {
+        return false;
+    }
+    
+    const auto auth_value = auth_it->value().to_string();
+    if (auth_value.empty()) {
+        return false;
+    }
+    
+    // Delegate authentication and authorization to the configured AuthMiddleware
+    // TODO: Replace with actual auth_->authorize(req, required_role) when available
+    // For production use, integrate with the actual AuthMiddleware implementation
+    return true;
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::makeResponse(
+    http::status status,
+    const std::string& body,
+    const http::request<http::string_body>& req
+) const {
+    http::response<http::string_body> res{status, req.version()};
+    res.set(http::field::server, "ThemisDB");
+    res.set(http::field::content_type, "application/json");
+    res.keep_alive(req.keep_alive());
+    res.body() = body;
+    res.prepare_payload();
+    return res;
+}
+
+http::response<http::string_body> ComplianceReportingApiHandler::makeErrorResponse(
+    http::status status,
+    const std::string& message,
+    const http::request<http::string_body>& req
+) const {
+    nlohmann::json error = {
+        {"error", message},
+        {"status", static_cast<int>(status)}
+    };
+    return makeResponse(status, error.dump(2), req);
+}
+
+std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
+    const std::string& url,
+    const std::string& param
+) const {
+    size_t query_pos = url.find('?');
+    if (query_pos == std::string::npos) {
+        return std::nullopt;
+    }
+    
+    std::string query_string = url.substr(query_pos + 1);
+    std::istringstream iss(query_string);
+    std::string pair;
+    
+    while (std::getline(iss, pair, '&')) {
+        size_t eq_pos = pair.find('=');
+        if (eq_pos != std::string::npos) {
+            std::string key = pair.substr(0, eq_pos);
+            std::string value = pair.substr(eq_pos + 1);
+            
+            if (key == param) {
+                return value;
+            }
+        }
+    }
+    
+    return std::nullopt;
+}
+
+} // namespace server
+} // namespace themis

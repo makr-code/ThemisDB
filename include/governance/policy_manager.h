@@ -45,6 +45,8 @@ struct PolicyRule {
     
     // Versioning (Phase 5)
     std::string version = "1.0.0";                     // Semantic version (major.minor.patch)
+    // Versioning (GAP-004 Phase 5)
+    std::string version = "1.0.0";                     // Semantic version
     std::string last_modified_by;                      // User who last modified the rule
     std::string change_description;                    // Description of last change
     

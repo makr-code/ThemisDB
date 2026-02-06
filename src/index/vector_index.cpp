@@ -2656,4 +2656,34 @@ VectorIndexManager::searchWithRotation(
 	}
 }
 
+std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_view pk) const {
+	// Check cache first
+	std::string pkStr(pk);
+	auto it = cache_.find(pkStr);
+	if (it != cache_.end()) {
+		return it->second;
+	}
+	
+	// Load from RocksDB storage
+	std::string key = makeObjectKey(pk);
+	auto blob = db_.get(key);
+	if (!blob) {
+		return std::nullopt;
+	}
+	
+	try {
+		BaseEntity e = BaseEntity::deserialize(pkStr, *blob);
+		auto vecOpt = e.extractVector("embedding");
+		if (!vecOpt) {
+			return std::nullopt;
+		}
+		
+		// Update cache for future lookups
+		cache_[pkStr] = *vecOpt;
+		return *vecOpt;
+	} catch (...) {
+		return std::nullopt;
+	}
+}
+
 } // namespace themis
