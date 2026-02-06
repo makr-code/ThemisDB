@@ -790,14 +790,426 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
+## Visual Architecture Diagrams
+
+### Component Interaction Diagram
+
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        C1[HTTP/REST Client]
+        C2[gRPC Client]
+        C3[WebSocket Client]
+        C4[PostgreSQL Client]
+    end
+    
+    subgraph "API Layer - themis::server::"
+        API[API Gateway]
+        AUTH[Authentication]
+        RATE[Rate Limiter]
+    end
+    
+    subgraph "Query Layer - themis::query::"
+        PARSER[AQL Parser]
+        OPT[Query Optimizer]
+        EXEC[Execution Engine]
+    end
+    
+    subgraph "Index Layer - themis::index::"
+        VIDX[Vector Index HNSW]
+        GIDX[Graph Index]
+        SIDX[Spatial Index]
+    end
+    
+    subgraph "Storage Layer - themis::storage::"
+        ROCKS[RocksDB Engine]
+        BLOB[Blob Storage]
+        CACHE[Cache Manager]
+    end
+    
+    subgraph "LLM Layer - themis::llm::"
+        LLM[Llama.cpp Engine]
+        LORA[LoRA Framework]
+        EMB[Embeddings]
+    end
+    
+    subgraph "Distributed Layer - themis::sharding::"
+        RAFT[Raft Consensus]
+        SHARD[Shard Router]
+        COORD[Coordinator]
+    end
+    
+    C1 & C2 & C3 & C4 --> API
+    API --> AUTH --> RATE
+    RATE --> PARSER --> OPT --> EXEC
+    EXEC --> VIDX & GIDX & SIDX
+    EXEC --> LLM
+    VIDX & GIDX & SIDX --> ROCKS
+    ROCKS --> BLOB
+    ROCKS <--> CACHE
+    LLM --> LORA --> EMB
+    ROCKS <--> RAFT
+    RAFT --> SHARD --> COORD
+```
+
+### Data Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Gateway
+    participant Auth as Authentication
+    participant Parser as Query Parser
+    participant Optimizer as Query Optimizer
+    participant Executor as Execution Engine
+    participant Index as Index Layer
+    participant Storage as Storage Engine
+    participant Replication as Replication
+    
+    Client->>API: HTTP/gRPC Request
+    API->>Auth: Validate Credentials
+    Auth-->>API: Token Valid
+    API->>Parser: Parse Query
+    Parser-->>API: AST
+    API->>Optimizer: Optimize Query
+    Optimizer-->>API: Execution Plan
+    API->>Executor: Execute Plan
+    Executor->>Index: Lookup Data
+    Index->>Storage: Read/Write
+    Storage->>Replication: Replicate (if write)
+    Storage-->>Index: Data
+    Index-->>Executor: Results
+    Executor-->>API: Response
+    API-->>Client: JSON/Binary Response
+```
+
+### Namespace Dependency Graph
+
+```mermaid
+graph LR
+    subgraph "Core"
+        CORE[themis::core]
+        UTILS[themis::utils]
+        BASE[themis::base]
+    end
+    
+    subgraph "Storage"
+        STORAGE[themis::storage]
+        CACHE[themis::cache]
+        INDEX[themis::index]
+    end
+    
+    subgraph "Query"
+        QUERY[themis::query]
+        FUNCTIONS[themis::query::functions]
+    end
+    
+    subgraph "API"
+        SERVER[themis::server]
+        AUTH[themis::auth]
+        NETWORK[themis::network]
+    end
+    
+    subgraph "Advanced"
+        LLM[themis::llm]
+        LORA[themis::llm::lora_framework]
+        SHARDING[themis::sharding]
+        GRAPH[themis::graph]
+    end
+    
+    CORE --> UTILS
+    STORAGE --> CORE
+    CACHE --> STORAGE
+    INDEX --> STORAGE
+    QUERY --> STORAGE
+    QUERY --> INDEX
+    FUNCTIONS --> QUERY
+    SERVER --> AUTH
+    SERVER --> QUERY
+    AUTH --> CORE
+    NETWORK --> CORE
+    LLM --> STORAGE
+    LORA --> LLM
+    SHARDING --> STORAGE
+    SHARDING --> NETWORK
+    GRAPH --> INDEX
+```
+
+---
+
+## Dependency Management
+
+### Core Dependencies
+
+| Dependency | Purpose | Version | License |
+|------------|---------|---------|---------|
+| **RocksDB** | Storage engine | 8.x+ | Apache 2.0 |
+| **Boost** | C++ libraries (ASIO, Beast) | 1.82+ | Boost |
+| **llama.cpp** | LLM inference | Latest | MIT |
+| **OpenSSL** | TLS/Encryption | 3.x | Apache 2.0 |
+| **gRPC** | RPC framework | 1.50+ | Apache 2.0 |
+| **Protobuf** | Serialization | 3.21+ | BSD |
+| **FAISS** | Vector search | 1.7+ | MIT |
+
+### Optional Dependencies (by Edition)
+
+**COMMUNITY:**
+- `libcurl` - HTTP client
+- `yaml-cpp` - Configuration parsing
+
+**ENTERPRISE:**
+- **CUDA** - NVIDIA GPU acceleration
+- **HIP** - AMD GPU acceleration  
+- **Vulkan** - Cross-platform GPU compute
+- **NCCL/RCCL** - Multi-GPU communication
+
+**HYPERSCALER:**
+- Additional cloud SDK integrations
+- Advanced monitoring libraries
+
+### Build System
+
+```cmake
+# Edition selection
+cmake -B build -DTHEMISDB_EDITION=ENTERPRISE
+
+# Feature flags
+-DENABLE_LLM=ON          # LLM integration
+-DENABLE_GPU=ON          # GPU acceleration
+-DENABLE_ENCRYPTION=ON   # Field encryption
+-DENABLE_SHARDING=ON     # Distributed mode
+```
+
+See `cmake/editions/` and `cmake/features/` for detailed options.
+
+---
+
+## Common Development Patterns
+
+### Adding a New Query Function
+
+**Location:** `src/query/functions/` and `include/query/functions/`
+
+```cpp
+// 1. Define in header (include/query/functions/my_functions.h)
+namespace themis::query::functions {
+    
+class MyFunction : public FunctionInterface {
+public:
+    Value execute(const std::vector<Value>& args) override;
+    std::string getName() const override { return "MY_FUNC"; }
+    size_t getMinArgs() const override { return 1; }
+};
+
+} // namespace themis::query::functions
+
+// 2. Implement (src/query/functions/my_functions.cpp)
+namespace themis::query::functions {
+
+Value MyFunction::execute(const std::vector<Value>& args) {
+    // Implementation
+    return result;
+}
+
+} // namespace themis::query::functions
+
+// 3. Register in function registry
+REGISTER_FUNCTION(MyFunction);
+```
+
+### Adding a New API Handler
+
+**Location:** `src/server/` and `include/server/`
+
+```cpp
+// 1. Create handler (include/server/my_api_handler.h)
+namespace themis::server {
+
+class MyApiHandler : public ApiHandlerInterface {
+public:
+    void handleRequest(const Request& req, Response& resp) override;
+    std::string getPath() const override { return "/api/v1/myendpoint"; }
+};
+
+} // namespace themis::server
+
+// 2. Register in server initialization
+server.registerHandler(std::make_unique<MyApiHandler>());
+```
+
+### Adding a New Index Type
+
+**Location:** `src/index/` and `include/index/`
+
+```cpp
+// 1. Implement index interface
+namespace themis::index {
+
+class MyIndex : public IndexInterface {
+public:
+    void insert(const Key& key, const Value& value) override;
+    std::vector<Value> search(const Query& query) override;
+    void remove(const Key& key) override;
+};
+
+} // namespace themis::index
+
+// 2. Register index type
+REGISTER_INDEX_TYPE("my_index", MyIndex);
+```
+
+---
+
+## Troubleshooting Guide
+
+### Build Issues
+
+**Problem:** CMake configuration fails
+```bash
+# Solution: Update vcpkg and dependencies
+cd vcpkg && git pull
+./bootstrap-vcpkg.sh
+./vcpkg install
+```
+
+**Problem:** Linker errors with RocksDB
+```bash
+# Solution: Clean and rebuild with verbose output
+rm -rf build/
+cmake -B build -DCMAKE_VERBOSE_MAKEFILE=ON
+cmake --build build -j$(nproc) 2>&1 | tee build.log
+```
+
+### Runtime Issues
+
+**Problem:** GPU not detected
+```bash
+# Check GPU availability
+nvidia-smi  # NVIDIA
+rocm-smi    # AMD
+
+# Enable GPU in config
+echo "gpu_enabled: true" >> config/themisdb.yml
+```
+
+**Problem:** Out of memory during vector indexing
+```bash
+# Adjust cache size in config
+vector_cache_size_mb: 2048
+max_batch_size: 1000
+```
+
+### Performance Tuning
+
+**Query Performance:**
+- Check query plan with `EXPLAIN` command
+- Verify appropriate indices exist
+- Monitor with `PROFILE` command
+- Review slow query log
+
+**Storage Performance:**
+- Adjust RocksDB compaction settings
+- Enable compression (LZ4/Zstd)
+- Monitor disk I/O with `iostat`
+- Check cache hit rates
+
+**Replication Performance:**
+- Tune Raft heartbeat interval
+- Adjust batch size for writes
+- Monitor network latency
+- Use async replication for reads
+
+---
+
+## Glossary
+
+| Term | Definition |
+|------|------------|
+| **AQL** | Advanced Query Language - ThemisDB's SQL-like query language |
+| **HNSW** | Hierarchical Navigable Small World - Vector search algorithm |
+| **LoRA** | Low-Rank Adaptation - Efficient LLM fine-tuning method |
+| **MVCC** | Multi-Version Concurrency Control - Transaction isolation technique |
+| **SAGA** | Sequence of transactions for distributed operations |
+| **Raft** | Consensus algorithm for leader-based replication |
+| **Paxos** | Consensus algorithm for leaderless replication |
+| **KV-Cache** | Key-Value cache for LLM inference optimization |
+| **Flash Attention** | Memory-efficient attention mechanism for transformers |
+| **Sharding** | Horizontal data partitioning across nodes |
+| **RBAC** | Role-Based Access Control |
+| **CDC** | Change Data Capture - Track data modifications |
+| **PITR** | Point-In-Time Recovery |
+| **WAL** | Write-Ahead Log |
+| **LSM** | Log-Structured Merge-tree (RocksDB storage structure) |
+
+---
+
+## Frequently Asked Questions
+
+### General
+
+**Q: What makes ThemisDB different from other databases?**  
+A: Native multi-model support (relational, graph, vector, document) with integrated LLM capabilities, all with full ACID transactions.
+
+**Q: Can I use ThemisDB without the LLM features?**  
+A: Yes, LLM features are optional. Use MINIMAL or COMMUNITY editions for traditional database functionality.
+
+**Q: Is ThemisDB production-ready?**  
+A: Yes, version 1.4+ is production-ready with comprehensive testing, monitoring, and enterprise features.
+
+### Architecture
+
+**Q: How does ThemisDB handle distributed transactions?**  
+A: Using the SAGA pattern with compensation actions, coordinated via Raft/Paxos consensus.
+
+**Q: What consensus algorithms are supported?**  
+A: Raft (leader-based), Paxos (leaderless), and Gossip (eventual consistency) - selectable based on requirements.
+
+**Q: How is data partitioned across shards?**  
+A: Hash-based or range-based partitioning, with support for custom partition functions.
+
+### Performance
+
+**Q: What are the performance characteristics?**  
+A: 45K writes/s, 120K reads/s (single node). Linear scale-out to 100+ nodes. GPU acceleration provides 5x speedup for vector operations.
+
+**Q: How much memory does ThemisDB require?**  
+A: Minimum 4GB for MINIMAL edition, 16GB recommended for ENTERPRISE with LLM features.
+
+**Q: Can ThemisDB handle petabyte-scale data?**  
+A: Yes, with blob storage backends (S3, Azure) and horizontal sharding.
+
+### Development
+
+**Q: What languages can I use to interact with ThemisDB?**  
+A: C++, Python, JavaScript/TypeScript, Java, Go, Rust - with official client libraries.
+
+**Q: How do I contribute to ThemisDB?**  
+A: See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Follow namespace patterns and add tests for new features.
+
+**Q: Where can I find code examples?**  
+A: Check the `examples/` directory and [online documentation](https://makr-code.github.io/ThemisDB/).
+
+---
+
 ## Additional Resources
 
 - **[README.md](README.md)**: Project overview and quick start
 - **[QUICKSTART.md](QUICKSTART.md)**: Getting started guide
 - **[CHANGELOG.md](CHANGELOG.md)**: Version history and release notes
 - **[Documentation](https://makr-code.github.io/ThemisDB/)**: Full online documentation
+- **[CONTRIBUTING.md](CONTRIBUTING.md)**: Contribution guidelines
+- **[SECURITY.md](SECURITY.md)**: Security policies and reporting
 - **[API Reference](docs/api/)**: API documentation
 - **[Examples](examples/)**: Code examples and tutorials
+- **[BRANCHING_STRATEGY.md](docs/BRANCHING_STRATEGY.md)**: Git workflow guide
+- **[BENCHMARK_RUNBOOK.md](docs/BENCHMARK_RUNBOOK.md)**: Performance testing guide
+
+### Related Documentation
+
+- **[00_DOCUMENTATION_INDEX.md](docs/00_DOCUMENTATION_INDEX.md)**: Complete documentation index
+- **[VECTOR_INDEXING_ARCHITECTURE.md](VECTOR_INDEXING_ARCHITECTURE.md)**: Vector search deep dive
+- **[DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md](DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md)**: Sharding details
+- **[LLM_LORA_IMPLEMENTATION_STATUS.md](docs/LLM_LORA_IMPLEMENTATION_STATUS.md)**: LLM integration status
 
 ---
 
