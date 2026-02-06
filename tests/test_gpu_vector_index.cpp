@@ -299,6 +299,171 @@ TEST_F(GPUVectorIndexTest, DISABLED_PerformanceBenchmark) {
     index.shutdown();
 }
 
+// ============================================================================
+// CUDA Backend Tests (v2.1+)
+// ============================================================================
+
+TEST_F(GPUVectorIndexTest, CUDABackendAvailability) {
+    // Check if CUDA backend is available
+    GPUVectorIndex tempIndex(GPUVectorIndex::Config{});
+    tempIndex.initialize(dimension);
+    auto backends = tempIndex.getAvailableBackends();
+    
+    bool cudaAvailable = std::find(backends.begin(), backends.end(), 
+                                   GPUVectorIndex::Backend::CUDA) != backends.end();
+    
+    if (cudaAvailable) {
+        std::cout << "CUDA backend is available for testing" << std::endl;
+    } else {
+        std::cout << "CUDA backend not available (expected in CI without GPU)" << std::endl;
+    }
+    
+    tempIndex.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDABackendInitialization) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CUDA;
+    config.allowCPUFallback = true;  // Allow fallback in environments without GPU
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Check active backend (could be CPU if CUDA not available)
+    auto activeBackend = index.getActiveBackend();
+    EXPECT_TRUE(activeBackend == GPUVectorIndex::Backend::CUDA || 
+                activeBackend == GPUVectorIndex::Backend::CPU);
+    
+    auto stats = index.getStatistics();
+    std::cout << "Active backend: " << (stats.isGPUActive ? "GPU" : "CPU") << std::endl;
+    
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDASearch) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CUDA;
+    config.metric = GPUVectorIndex::DistanceMetric::L2;
+    config.allowCPUFallback = true;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Add vectors
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Search
+    size_t k = 10;
+    auto results = index.search(queryVector, k);
+    
+    EXPECT_LE(results.size(), k);
+    if (!results.empty()) {
+        // Results should be sorted by distance
+        for (size_t i = 1; i < results.size(); ++i) {
+            EXPECT_LE(results[i-1].distance, results[i].distance);
+        }
+    }
+    
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDACPUResultComparison) {
+    // Compare CUDA and CPU results for consistency
+    GPUVectorIndex::Config cpuConfig;
+    cpuConfig.backend = GPUVectorIndex::Backend::CPU;
+    cpuConfig.metric = GPUVectorIndex::DistanceMetric::L2;
+    
+    GPUVectorIndex::Config cudaConfig;
+    cudaConfig.backend = GPUVectorIndex::Backend::CUDA;
+    cudaConfig.metric = GPUVectorIndex::DistanceMetric::L2;
+    cudaConfig.allowCPUFallback = true;
+    
+    GPUVectorIndex cpuIndex(cpuConfig);
+    GPUVectorIndex cudaIndex(cudaConfig);
+    
+    ASSERT_TRUE(cpuIndex.initialize(dimension));
+    ASSERT_TRUE(cudaIndex.initialize(dimension));
+    
+    // Add same vectors to both
+    ASSERT_TRUE(cpuIndex.addVectorBatch(testIds, testVectors));
+    ASSERT_TRUE(cudaIndex.addVectorBatch(testIds, testVectors));
+    
+    // Search with both backends
+    size_t k = 5;
+    auto cpuResults = cpuIndex.search(queryVector, k);
+    auto cudaResults = cudaIndex.search(queryVector, k);
+    
+    // If CUDA is active, results should match (within floating point tolerance)
+    if (cudaIndex.getActiveBackend() == GPUVectorIndex::Backend::CUDA) {
+        EXPECT_EQ(cpuResults.size(), cudaResults.size());
+        
+        for (size_t i = 0; i < std::min(cpuResults.size(), cudaResults.size()); ++i) {
+            EXPECT_EQ(cpuResults[i].id, cudaResults[i].id);
+            EXPECT_NEAR(cpuResults[i].distance, cudaResults[i].distance, 1e-4f);
+        }
+    }
+    
+    cpuIndex.shutdown();
+    cudaIndex.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDABackendSwitching) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::AUTO;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Add vectors
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Try switching to CPU
+    EXPECT_TRUE(index.switchBackend(GPUVectorIndex::Backend::CPU));
+    EXPECT_EQ(index.getActiveBackend(), GPUVectorIndex::Backend::CPU);
+    
+    // Search should work with CPU
+    auto cpuResults = index.search(queryVector, 5);
+    EXPECT_FALSE(cpuResults.empty());
+    
+    // Try switching to CUDA (may not be available)
+    bool cudaSwitch = index.switchBackend(GPUVectorIndex::Backend::CUDA);
+    if (cudaSwitch) {
+        EXPECT_EQ(index.getActiveBackend(), GPUVectorIndex::Backend::CUDA);
+        
+        // Search should work with CUDA
+        auto cudaResults = index.search(queryVector, 5);
+        EXPECT_FALSE(cudaResults.empty());
+    }
+    
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, CUDABatchSearch) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CUDA;
+    config.allowCPUFallback = true;
+    
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    
+    // Add vectors
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    
+    // Create multiple queries
+    std::vector<std::vector<float>> queries = {queryVector, testVectors[0], testVectors[1]};
+    
+    // Batch search
+    size_t k = 5;
+    auto results = index.searchBatch(queries, k);
+    
+    EXPECT_EQ(results.size(), queries.size());
+    for (const auto& queryResults : results) {
+        EXPECT_LE(queryResults.size(), k);
+    }
+    
+    index.shutdown();
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
