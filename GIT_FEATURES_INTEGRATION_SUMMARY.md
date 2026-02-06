@@ -70,7 +70,7 @@ GET  /api/v1/pitr/progress          - Get restore progress
 
 **Impact:** Enables tag-based diff operations (e.g., "show changes between v1.0 and v2.0")
 
-**Location:** `src/server/http_server.cpp` line 301
+**Location:** `src/server/http_server.cpp` line 306
 
 ---
 
