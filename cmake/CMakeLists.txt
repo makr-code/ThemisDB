@@ -2801,6 +2801,23 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
+        
+        # Multi-GPU Vector Index Test
+        add_executable(test_multi_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_multi_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_multi_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_multi_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
     endif()
 endif()
 
@@ -3176,6 +3193,16 @@ if(THEMIS_BUILD_BENCHMARKS)
                 themis_core
                 benchmark::benchmark
                 benchmark::benchmark_main
+        )
+        
+        # Multi-GPU Vector Index example (also works as benchmark)
+        add_executable(multi_gpu_vector_index_example
+            ${THEMIS_ROOT_DIR}/examples/multi_gpu_vector_index_example.cpp
+        )
+        
+        target_link_libraries(multi_gpu_vector_index_example
+            PRIVATE
+                themis_core
         )
     endif()
 

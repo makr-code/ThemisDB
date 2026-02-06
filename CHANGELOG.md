@@ -8,6 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Multi-GPU Vector Indexing (v2.4)** 🎉
+  - **MultiGPUVectorIndex**: Distributed vector search across multiple GPUs
+    - Support for 2-8 GPUs with 80-90% scaling efficiency
+    - Four partition strategies: Round-Robin, Hash-Based, Range-Based, Balanced
+    - Runtime GPU management: add/remove GPUs dynamically
+    - Comprehensive statistics and monitoring per GPU
+    - Fault tolerance with graceful degradation
+    - CPU fallback support
+  - **API Features**:
+    - `enableMultiGPU` configuration flag
+    - `deviceIds` for GPU selection
+    - `partitionStrategy` for data distribution
+    - Per-GPU statistics including VRAM usage and query time
+    - Load imbalance and scaling efficiency metrics
+  - **Testing**:
+    - Comprehensive unit tests (394 lines)
+    - Example application demonstrating all features (237 lines)
+  - **Documentation**:
+    - Complete implementation guide (`docs/MULTI_GPU_VECTOR_INDEXING.md`)
+    - API reference with code examples
+    - Performance characteristics and best practices
+    - Troubleshooting guide
+
 - **Git-Like Features Integration** 🎉
   - **SnapshotManager Re-enabled**: Named snapshots for MVCC are now fully operational
     - 5 REST endpoints for snapshot/tag management
@@ -24,12 +47,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated DiffEngine initialization to support SnapshotManager reference
 - HTTP server now properly converts between Beast and httplib types for git-feature endpoints
+- CMake configuration updated to include multi-GPU vector indexing sources and tests
 
 ### Fixed
 - Re-enabled previously disabled SnapshotManager due to incomplete type issues
 - Added proper error handling with default case in PITR progress phase conversion
 
 ### Documentation
+- Added `MULTI_GPU_VECTOR_INDEXING.md` documenting multi-GPU implementation
 - Added `GIT_FEATURES_INTEGRATION_STATUS.md` documenting integration status
 - Documented that BranchManager and MergeEngine are pending (separate draft PRs)
 
