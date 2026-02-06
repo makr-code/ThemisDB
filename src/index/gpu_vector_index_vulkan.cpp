@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -102,9 +103,7 @@ public:
      * @brief Shutdown and cleanup Vulkan resources
      */
     void shutdown() {
-        if (!initialized_) {
-            return;
-        }
+        // Always clean up resources, even if initialization failed
         
         // Clear pipelines
         l2_pipeline_.reset();
@@ -373,8 +372,35 @@ public:
      */
     bool createPipelines() {
         try {
-            // Shaders are compiled to build/shaders/vector_index/ by CMake
-            std::string shaderDir = "shaders/vector_index/";
+            // Try multiple shader search paths
+            std::vector<std::string> searchPaths = {
+                "shaders/vector_index/",                    // Build directory
+                "../shaders/vector_index/",                 // One level up
+                "share/themis/shaders/vector_index/",       // Install directory
+                "/usr/share/themis/shaders/vector_index/",  // System install
+                "/usr/local/share/themis/shaders/vector_index/"  // Local install
+            };
+            
+            std::string shaderDir;
+            for (const auto& path : searchPaths) {
+                std::string testPath = path + "l2_distance.comp.spv";
+                std::ifstream testFile(testPath);
+                if (testFile.good()) {
+                    shaderDir = path;
+                    break;
+                }
+            }
+            
+            if (shaderDir.empty()) {
+                std::cerr << "VulkanVectorIndexBackend: Failed to locate shader directory\n";
+                std::cerr << "Searched paths:\n";
+                for (const auto& path : searchPaths) {
+                    std::cerr << "  - " << path << "\n";
+                }
+                return false;
+            }
+            
+            std::cout << "VulkanVectorIndexBackend: Using shader directory: " << shaderDir << "\n";
             
             // Create L2 distance pipeline
             std::string l2ShaderPath = shaderDir + "l2_distance.comp.spv";

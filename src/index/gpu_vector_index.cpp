@@ -44,6 +44,7 @@ public:
     // Backend implementations
     #ifdef THEMIS_ENABLE_VULKAN
     std::unique_ptr<VulkanVectorIndexBackend> vulkanBackend;
+    bool gpuDataDirty = false;  // Track if GPU needs re-upload
     #endif
     
     // Statistics
@@ -177,10 +178,10 @@ public:
         
         stats.numVectors = vectorData.size();
         
-        // Update GPU backend if active
+        // Mark GPU data as dirty (will upload before next search)
         #ifdef THEMIS_ENABLE_VULKAN
         if (activeBackend == Backend::VULKAN && vulkanBackend) {
-            vulkanBackend->uploadVectors(vectorData);
+            gpuDataDirty = true;
         }
         #endif
         
@@ -208,6 +209,14 @@ public:
         idToIndex.erase(id);
         
         stats.numVectors = vectorData.size();
+        
+        // Mark GPU data as dirty (will upload before next search)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            gpuDataDirty = true;
+        }
+        #endif
+        
         return true;
     }
     
@@ -215,6 +224,14 @@ public:
         if (!initialized) {
             return {};
         }
+        
+        // Upload GPU data if dirty
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend && gpuDataDirty) {
+            vulkanBackend->uploadVectors(vectorData);
+            gpuDataDirty = false;
+        }
+        #endif
         
         // Try GPU backend first if active
         #ifdef THEMIS_ENABLE_VULKAN
@@ -281,7 +298,8 @@ public:
                     float diff = a[i] - b[i];
                     sum += diff * diff;
                 }
-                return sum;
+                return std::sqrt(sum);  // Return actual L2 distance (not squared)
+            }
             }
             case DistanceMetric::COSINE: {
                 float dot = 0.0f, normA = 0.0f, normB = 0.0f;
@@ -436,7 +454,19 @@ GPUVectorIndex::Backend GPUVectorIndex::getActiveBackend() const {
 }
 
 GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
-    return pImpl->stats;
+    auto stats = pImpl->stats;
+    
+    // Merge Vulkan backend statistics if active
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        auto vulkanStats = pImpl->vulkanBackend->getStatistics();
+        stats.vramUsageBytes = vulkanStats.vramUsageBytes;
+        stats.avgQueryTimeMs = vulkanStats.avgQueryTimeMs;
+        stats.throughputQPS = vulkanStats.throughputQPS;
+    }
+    #endif
+    
+    return stats;
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
@@ -456,9 +486,12 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
         return true;
     }
     
-    // Shutdown current backend
+    // Save current state
     int dim = pImpl->dimension;
-    auto vectors = pImpl->vectorData;
+    auto ids = pImpl->vectorIds;  // Save IDs
+    auto vectors = pImpl->vectorData;  // Save vectors
+    
+    // Shutdown current backend
     pImpl->shutdown();
     
     // Switch to new backend
@@ -467,9 +500,11 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
         return false;
     }
     
-    // Restore vectors
+    // Restore vectors with saved IDs
     for (size_t i = 0; i < vectors.size(); ++i) {
-        pImpl->addVector(pImpl->vectorIds[i], vectors[i]);
+        if (i < ids.size()) {
+            pImpl->addVector(ids[i], vectors[i]);
+        }
     }
     
     return true;

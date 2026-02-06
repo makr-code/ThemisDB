@@ -14,9 +14,9 @@ namespace index {
  * GPU-Accelerated Vector Index
  * 
  * Provides GPU-accelerated vector similarity search with multiple backend support:
- * - Vulkan: Cross-platform GPU compute (NVIDIA, AMD, Intel, Apple via MoltenVK)
- * - CUDA: NVIDIA GPUs (planned for v2.1)
- * - HIP: AMD GPUs (planned for v2.3)
+ * - Vulkan: Cross-platform GPU compute (NVIDIA, AMD, Intel, Apple via MoltenVK) - v2.2
+ * - CUDA: NVIDIA GPUs (planned)
+ * - HIP: AMD GPUs (planned)
  * - CPU: Fallback with SIMD acceleration
  * 
  * Features:
@@ -35,9 +35,9 @@ public:
     enum class Backend {
         AUTO,       // Auto-detect best available backend
         CPU,        // CPU-only implementation (default)
-        VULKAN,     // Vulkan compute backend (cross-platform GPU)
-        CUDA,       // CUDA backend (NVIDIA GPUs, planned for v2.1)
-        HIP         // HIP backend (AMD GPUs, planned for v2.3)
+        VULKAN,     // Vulkan compute backend (cross-platform GPU) - v2.2
+        CUDA,       // CUDA backend (NVIDIA GPUs, planned)
+        HIP         // HIP backend (AMD GPUs, planned)
     };
     
     enum class DistanceMetric {
@@ -61,8 +61,8 @@ public:
         // GPU-specific options
         int deviceId = 0;              // GPU device ID (0 = default)
         bool enableValidation = false; // Enable GPU validation layers (debug)
-        size_t maxVRAM_MB = 0;         // Max VRAM usage in MB (0 = auto)
-        uint32_t workgroupSize = 256;  // Compute workgroup size (Vulkan/CUDA)
+        size_t maxVRAM_MB = 0;         // Max VRAM usage in MB (0 = auto, not yet implemented)
+        uint32_t workgroupSize = 256;  // Compute workgroup size (not yet implemented)
         
         // Memory optimization
         bool useMixedPrecision = false; // Enable FP16/TF32 (GPU backends)
