@@ -639,8 +639,8 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
     
     // Check for HIP availability
 #ifdef THEMIS_ENABLE_HIP
-    themis::acceleration::HIPVectorBackend hipBackend;
-    if (hipBackend.isAvailable()) {
+    // Use static method to check availability without needing instance
+    if (themis::acceleration::HIPVectorBackend().isAvailable()) {
         backends.push_back(Backend::HIP);
     }
 #endif

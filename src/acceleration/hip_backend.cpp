@@ -112,6 +112,7 @@ __global__ void computeCosineDistanceKernel(
 
 // Top-K selection kernel using parallel reduction
 // Selects k nearest neighbors for each query
+// Note: Uses bubble sort for simplicity. For k > 32, consider heap-based or radix select.
 __global__ void topKSelectionKernel(
     const float* __restrict__ distances,
     uint32_t* __restrict__ indices,
@@ -134,7 +135,8 @@ __global__ void topKSelectionKernel(
         queryTopK[i] = queryDistances[i];
     }
     
-    // Sort initial k elements (simple bubble sort for small k)
+    // Sort initial k elements (bubble sort works well for small k < 32)
+    // TODO: For larger k, consider heap-based selection or radix select
     for (int i = 0; i < k - 1; i++) {
         for (int j = 0; j < k - i - 1; j++) {
             if (queryTopK[j] > queryTopK[j + 1]) {
@@ -493,9 +495,11 @@ HIPVectorBackend::DeviceInfo HIPVectorBackend::getDeviceInfo() const {
         info.totalMemory = impl_->deviceProps.totalGlobalMem;
         info.waveSize = impl_->deviceProps.warpSize;
         info.gcnArchName = impl_->deviceProps.gcnArchName;
-        // Check for extended precision support
-        info.supportsFP16 = true;  // Most AMD GPUs support FP16
-        info.supportsInt8 = true;  // Most AMD GPUs support Int8
+        
+        // Note: Assuming FP16 and Int8 support for all ROCm-supported GPUs (RDNA2+, CDNA+)
+        // All GPUs supported by ROCm 5.0+ have these capabilities
+        info.supportsFP16 = true;
+        info.supportsInt8 = true;
     }
     return info;
 }
@@ -525,6 +529,7 @@ std::vector<HIPVectorBackend::DeviceInfo> HIPVectorBackend::getAvailableDevices(
             info.totalMemory = prop.totalGlobalMem;
             info.waveSize = prop.warpSize;
             info.gcnArchName = prop.gcnArchName;
+            // All ROCm 5.0+ supported GPUs have FP16 and Int8 capabilities
             info.supportsFP16 = true;
             info.supportsInt8 = true;
             devices.push_back(info);
