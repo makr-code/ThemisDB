@@ -7,6 +7,21 @@
 #include <iostream>
 #include <unordered_map>
 
+#ifdef THEMIS_ENABLE_VULKAN
+#include "llm/lora_framework/vulkan_context.h"
+#include "llm/lora_framework/vulkan_buffer.h"
+#include "llm/lora_framework/vulkan_pipeline.h"
+#endif
+
+// Forward declare Vulkan backend
+#ifdef THEMIS_ENABLE_VULKAN
+namespace themis {
+namespace index {
+class VulkanVectorIndexBackend;
+}
+}
+#endif
+
 namespace themis {
 namespace index {
 
@@ -26,6 +41,11 @@ public:
     std::vector<std::vector<float>> vectorData;
     std::unordered_map<std::string, size_t> idToIndex;
     
+    // Backend implementations
+    #ifdef THEMIS_ENABLE_VULKAN
+    std::unique_ptr<VulkanVectorIndexBackend> vulkanBackend;
+    #endif
+    
     // Statistics
     Statistics stats;
     std::chrono::steady_clock::time_point lastQueryTime;
@@ -42,19 +62,100 @@ public:
         dimension = dim;
         stats.dimension = dim;
         
-        // Current version uses CPU-only implementation
-        activeBackend = Backend::CPU;
-        std::cout << "GPUVectorIndex: Using CPU backend (GPU support planned for v2.x)\n";
+        // Determine which backend to use
+        Backend requestedBackend = config.backend;
+        if (requestedBackend == Backend::AUTO) {
+            requestedBackend = selectBestBackend();
+        }
+        
+        // Try to initialize requested backend
+        bool backendInitialized = false;
+        
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (requestedBackend == Backend::VULKAN) {
+            backendInitialized = initializeVulkanBackend(dim);
+            if (backendInitialized) {
+                activeBackend = Backend::VULKAN;
+                stats.isGPUActive = true;
+                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
+            }
+        }
+        #endif
+        
+        // Fall back to CPU if requested backend failed or not available
+        if (!backendInitialized) {
+            if (requestedBackend != Backend::CPU && !config.allowCPUFallback) {
+                std::cerr << "GPUVectorIndex: Requested backend not available and CPU fallback disabled\n";
+                return false;
+            }
+            
+            activeBackend = Backend::CPU;
+            stats.isGPUActive = false;
+            if (requestedBackend != Backend::CPU) {
+                std::cout << "GPUVectorIndex: Falling back to CPU backend\n";
+            } else {
+                std::cout << "GPUVectorIndex: Using CPU backend\n";
+            }
+        }
         
         stats.activeBackend = activeBackend;
-        stats.isGPUActive = false;
         initialized = true;
         return true;
     }
     
     void shutdown() {
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (vulkanBackend) {
+            vulkanBackend.reset();
+        }
+        #endif
         initialized = false;
     }
+    
+    Backend selectBestBackend() {
+        // Try Vulkan first (cross-platform)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (isVulkanAvailable()) {
+            return Backend::VULKAN;
+        }
+        #endif
+        
+        // Fall back to CPU
+        return Backend::CPU;
+    }
+    
+    #ifdef THEMIS_ENABLE_VULKAN
+    bool isVulkanAvailable() {
+        // Check if Vulkan is available by trying to create a context
+        try {
+            lora::vulkan::VulkanContext testContext;
+            return testContext.is_available();
+        } catch (...) {
+            return false;
+        }
+    }
+    
+    bool initializeVulkanBackend(int dim) {
+        try {
+            vulkanBackend = std::make_unique<VulkanVectorIndexBackend>(config);
+            if (!vulkanBackend->initialize(dim)) {
+                vulkanBackend.reset();
+                return false;
+            }
+            
+            // Upload existing vectors to GPU
+            if (!vectorData.empty()) {
+                return vulkanBackend->uploadVectors(vectorData);
+            }
+            
+            return true;
+        } catch (const std::exception& e) {
+            std::cerr << "GPUVectorIndex: Vulkan initialization failed: " << e.what() << "\n";
+            vulkanBackend.reset();
+            return false;
+        }
+    }
+    #endif
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
@@ -75,6 +176,14 @@ public:
         }
         
         stats.numVectors = vectorData.size();
+        
+        // Update GPU backend if active
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            vulkanBackend->uploadVectors(vectorData);
+        }
+        #endif
+        
         return true;
     }
     
@@ -100,6 +209,27 @@ public:
         
         stats.numVectors = vectorData.size();
         return true;
+    }
+    
+    std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
+        if (!initialized) {
+            return {};
+        }
+        
+        // Try GPU backend first if active
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            auto results = vulkanBackend->search(query, k);
+            if (!results.empty()) {
+                return results;
+            }
+            // Fall through to CPU if GPU search fails
+            std::cerr << "GPUVectorIndex: Vulkan search failed, falling back to CPU\n";
+        }
+        #endif
+        
+        // Use CPU implementation
+        return searchCPU(query, k);
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
@@ -189,7 +319,14 @@ public:
     
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
-        backends.push_back(Backend::CPU); // Only CPU available in current version
+        backends.push_back(Backend::CPU); // Always available
+        
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (isVulkanAvailable()) {
+            backends.push_back(Backend::VULKAN);
+        }
+        #endif
+        
         return backends;
     }
 };
@@ -245,9 +382,7 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
         return {};
     }
     
-    // For now, use CPU implementation
-    // GPU implementations will be added in specialized backend files
-    return pImpl->searchCPU(query, k);
+    return pImpl->search(query, k);
 }
 
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
@@ -297,7 +432,40 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
-    // Only CPU backend is available in current version
+    if (!pImpl->initialized) {
+        return false;
+    }
+    
+    // Can't switch if backend is not available
+    auto available = getAvailableBackends();
+    if (std::find(available.begin(), available.end(), backend) == available.end()) {
+        std::cerr << "GPUVectorIndex: Requested backend not available\n";
+        return false;
+    }
+    
+    // Already using this backend
+    if (pImpl->activeBackend == backend) {
+        return true;
+    }
+    
+    // Shutdown current backend
+    int dim = pImpl->dimension;
+    auto vectors = pImpl->vectorData;
+    pImpl->shutdown();
+    
+    // Switch to new backend
+    pImpl->config.backend = backend;
+    if (!pImpl->initialize(dim)) {
+        return false;
+    }
+    
+    // Restore vectors
+    for (size_t i = 0; i < vectors.size(); ++i) {
+        pImpl->addVector(pImpl->vectorIds[i], vectors[i]);
+    }
+    
+    return true;
+}
     if (backend == Backend::CPU || backend == Backend::AUTO) {
         pImpl->activeBackend = Backend::CPU;
         pImpl->stats.activeBackend = Backend::CPU;
@@ -310,6 +478,37 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
 std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() const {
     return pImpl->getAvailableBackends();
 }
+
+// =============================================================================
+// Vulkan Backend Implementation
+// =============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+// Include the Vulkan backend implementation
+// The actual implementation is in gpu_vector_index_vulkan.cpp
+
+/**
+ * @brief Vulkan backend implementation for GPU vector indexing
+ */
+class VulkanVectorIndexBackend {
+public:
+    explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
+    ~VulkanVectorIndexBackend();
+    
+    bool initialize(int dimension);
+    void shutdown();
+    bool uploadVectors(const std::vector<std::vector<float>>& vectors);
+    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
+    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
+        const std::vector<std::vector<float>>& queries, size_t k);
+    GPUVectorIndex::Statistics getStatistics() const;
+    bool isInitialized() const;
+    
+private:
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
+};
+#endif
 
 } // namespace index
 } // namespace themis
