@@ -2,10 +2,13 @@
 // Provides GPU acceleration using AMD ROCm/HIP platform
 // Compatible with AMD Radeon GPUs
 
+#include "acceleration/hip_backend.h"
 #include "acceleration/compute_backend.h"
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <algorithm>
+#include <cstring>
 
 #ifdef THEMIS_ENABLE_HIP
 #include <hip/hip_runtime.h>
@@ -107,61 +110,160 @@ __global__ void computeCosineDistanceKernel(
     distances[qIdx * numVectors + vIdx] = 1.0f - cosineSim;
 }
 
+// Top-K selection kernel using parallel reduction
+// Selects k nearest neighbors for each query
+__global__ void topKSelectionKernel(
+    const float* __restrict__ distances,
+    uint32_t* __restrict__ indices,
+    float* __restrict__ topKDistances,
+    int numQueries,
+    int numVectors,
+    int k
+) {
+    int qIdx = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    if (qIdx >= numQueries) return;
+    
+    const float* queryDistances = distances + qIdx * numVectors;
+    uint32_t* queryIndices = indices + qIdx * k;
+    float* queryTopK = topKDistances + qIdx * k;
+    
+    // Initialize with first k elements
+    for (int i = 0; i < k && i < numVectors; i++) {
+        queryIndices[i] = i;
+        queryTopK[i] = queryDistances[i];
+    }
+    
+    // Sort initial k elements (simple bubble sort for small k)
+    for (int i = 0; i < k - 1; i++) {
+        for (int j = 0; j < k - i - 1; j++) {
+            if (queryTopK[j] > queryTopK[j + 1]) {
+                float tmpDist = queryTopK[j];
+                queryTopK[j] = queryTopK[j + 1];
+                queryTopK[j + 1] = tmpDist;
+                
+                uint32_t tmpIdx = queryIndices[j];
+                queryIndices[j] = queryIndices[j + 1];
+                queryIndices[j + 1] = tmpIdx;
+            }
+        }
+    }
+    
+    // Process remaining elements
+    for (int i = k; i < numVectors; i++) {
+        float dist = queryDistances[i];
+        
+        // If this distance is smaller than largest in top-k, insert it
+        if (dist < queryTopK[k - 1]) {
+            int insertPos = k - 1;
+            
+            // Find insertion position
+            while (insertPos > 0 && dist < queryTopK[insertPos - 1]) {
+                insertPos--;
+            }
+            
+            // Shift elements
+            for (int j = k - 1; j > insertPos; j--) {
+                queryTopK[j] = queryTopK[j - 1];
+                queryIndices[j] = queryIndices[j - 1];
+            }
+            
+            // Insert new element
+            queryTopK[insertPos] = dist;
+            queryIndices[insertPos] = i;
+        }
+    }
+}
+
+// ============================================================================
+// HIPBackendImpl - Internal implementation
+// ============================================================================
+
+struct HIPBackendImpl {
+    bool initialized = false;
+    int deviceId = 0;
+    hipStream_t stream = nullptr;
+    HIPVectorBackend::HIPConfig config;
+    
+    // Device properties
+    hipDeviceProp_t deviceProps;
+    
+    ~HIPBackendImpl() {
+        if (initialized && stream) {
+            hipStreamDestroy(stream);
+        }
+    }
+};
+
 // ============================================================================
 // HIPVectorBackend Implementation
 // ============================================================================
 
-class HIPVectorBackend : public IVectorBackend {
-public:
-    HIPVectorBackend() = default;
-    ~HIPVectorBackend() override { shutdown(); }
+HIPVectorBackend::HIPVectorBackend()
+    : impl_(std::make_unique<HIPBackendImpl>()) {
+}
+
+HIPVectorBackend::HIPVectorBackend(const HIPConfig& config)
+    : impl_(std::make_unique<HIPBackendImpl>()) {
+    impl_->config = config;
+}
+
+HIPVectorBackend::~HIPVectorBackend() {
+    shutdown();
+}
+
+const char* HIPVectorBackend::name() const noexcept {
+    return "HIP";
+}
+
+BackendType HIPVectorBackend::type() const noexcept {
+    return BackendType::HIP;
+}
+
+bool HIPVectorBackend::isAvailable() const noexcept {
+    int deviceCount = 0;
+    hipError_t error = hipGetDeviceCount(&deviceCount);
+    return (error == hipSuccess && deviceCount > 0);
+}
+
+BackendCapabilities HIPVectorBackend::getCapabilities() const {
+    BackendCapabilities caps;
+    caps.supportsVectorOps = true;
+    caps.supportsGraphOps = false;
+    caps.supportsGeoOps = false;
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync = true;
     
-    const char* name() const noexcept override { return "HIP"; }
-    BackendType type() const noexcept override { return BackendType::HIP; }
-    
-    bool isAvailable() const noexcept override {
-        int deviceCount = 0;
-        hipError_t error = hipGetDeviceCount(&deviceCount);
-        return (error == hipSuccess && deviceCount > 0);
+    if (impl_->initialized) {
+        caps.deviceName = std::string(impl_->deviceProps.name) + " (HIP)";
+        caps.maxMemoryBytes = impl_->deviceProps.totalGlobalMem;
+        caps.computeUnits = impl_->deviceProps.multiProcessorCount;
+    } else {
+        caps.deviceName = "AMD GPU (HIP - not initialized)";
     }
     
-    BackendCapabilities getCapabilities() const override {
-        BackendCapabilities caps;
-        caps.supportsVectorOps = true;
-        caps.supportsGraphOps = false;
-        caps.supportsGeoOps = false;
-        caps.supportsBatchProcessing = true;
-        caps.supportsAsync = true;
-        
-        if (initialized_) {
-            hipDeviceProp_t prop;
-            hipGetDeviceProperties(&prop, deviceId_);
-            caps.deviceName = std::string(prop.name) + " (HIP)";
-            caps.totalMemory = prop.totalGlobalMem;
-            caps.maxBatchSize = 10000;
-        } else {
-            caps.deviceName = "AMD GPU (HIP - not initialized)";
-        }
-        
-        return caps;
+    return caps;
+}
+
+bool HIPVectorBackend::initialize() {
+    if (impl_->initialized) return true;
+    
+    std::cout << "HIP Backend: Initializing..." << std::endl;
+    
+    int deviceCount = 0;
+    HIP_CHECK(hipGetDeviceCount(&deviceCount));
+    
+    if (deviceCount == 0) {
+        std::cerr << "No HIP-capable AMD GPUs found" << std::endl;
+        return false;
     }
     
-    bool initialize() override {
-        if (initialized_) return true;
-        
-        std::cout << "HIP Backend: Initializing..." << std::endl;
-        
-        int deviceCount = 0;
-        HIP_CHECK(hipGetDeviceCount(&deviceCount));
-        
-        if (deviceCount == 0) {
-            std::cerr << "No HIP-capable AMD GPUs found" << std::endl;
-            return false;
-        }
-        
-        // Select device with most compute units
-        int bestDevice = 0;
+    // Select device
+    int deviceId = impl_->config.deviceId;
+    if (deviceId < 0 || deviceId >= deviceCount) {
+        // Auto-select device with most compute units
         int maxCUs = 0;
+        deviceId = 0;
         
         for (int i = 0; i < deviceCount; i++) {
             hipDeviceProp_t prop;
@@ -171,147 +273,282 @@ public:
             
             if (prop.multiProcessorCount > maxCUs) {
                 maxCUs = prop.multiProcessorCount;
-                bestDevice = i;
+                deviceId = i;
             }
         }
-        
-        deviceId_ = bestDevice;
-        HIP_CHECK(hipSetDevice(deviceId_));
-        
-        hipDeviceProp_t prop;
-        hipGetDeviceProperties(&prop, deviceId_);
-        
-        std::cout << "HIP Backend: Selected device " << deviceId_ 
-                  << " (" << prop.name << ")" << std::endl;
-        std::cout << "  Compute Units: " << prop.multiProcessorCount << std::endl;
-        std::cout << "  Global Memory: " << (prop.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
-        std::cout << "  Warp Size: " << prop.warpSize << std::endl;
-        
-        // Create stream for async operations
-        HIP_CHECK(hipStreamCreate(&stream_));
-        
-        initialized_ = true;
-        return true;
     }
     
-    void shutdown() override {
-        if (initialized_) {
-            hipStreamDestroy(stream_);
-            initialized_ = false;
-        }
+    impl_->deviceId = deviceId;
+    HIP_CHECK(hipSetDevice(impl_->deviceId));
+    HIP_CHECK(hipGetDeviceProperties(&impl_->deviceProps, impl_->deviceId));
+    
+    std::cout << "HIP Backend: Selected device " << impl_->deviceId 
+              << " (" << impl_->deviceProps.name << ")" << std::endl;
+    std::cout << "  Compute Units: " << impl_->deviceProps.multiProcessorCount << std::endl;
+    std::cout << "  Global Memory: " << (impl_->deviceProps.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
+    std::cout << "  Warp Size: " << impl_->deviceProps.warpSize << std::endl;
+    std::cout << "  GCN Arch: " << impl_->deviceProps.gcnArchName << std::endl;
+    
+    // Auto-detect wave size if not specified
+    if (impl_->config.waveSize == 0) {
+        impl_->config.waveSize = impl_->deviceProps.warpSize;
+        std::cout << "  Auto-detected Wave Size: " << impl_->config.waveSize << std::endl;
     }
     
-    std::vector<float> computeDistances(
-        const float* queries,
-        size_t numQueries,
-        size_t dim,
-        const float* vectors,
-        size_t numVectors,
-        bool useL2 = true
-    ) override {
-        if (!initialized_) {
-            std::cerr << "HIP backend not initialized" << std::endl;
-            return {};
+    // Create stream for async operations
+    HIP_CHECK(hipStreamCreate(&impl_->stream));
+    
+    impl_->initialized = true;
+    return true;
+}
+
+void HIPVectorBackend::shutdown() {
+    if (impl_->initialized) {
+        if (impl_->stream) {
+            hipStreamDestroy(impl_->stream);
+            impl_->stream = nullptr;
         }
+        impl_->initialized = false;
+    }
+}
+
+std::vector<float> HIPVectorBackend::computeDistances(
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    bool useL2
+) {
+    if (!impl_->initialized) {
+        std::cerr << "HIP backend not initialized" << std::endl;
+        return {};
+    }
+    
+    // Allocate device memory
+    float *d_queries = nullptr, *d_vectors = nullptr, *d_distances = nullptr;
+    
+    size_t queriesSize = numQueries * dim * sizeof(float);
+    size_t vectorsSize = numVectors * dim * sizeof(float);
+    size_t distancesSize = numQueries * numVectors * sizeof(float);
+    
+    try {
+        HIP_CHECK_THROW(hipMalloc(&d_queries, queriesSize));
+        HIP_CHECK_THROW(hipMalloc(&d_vectors, vectorsSize));
+        HIP_CHECK_THROW(hipMalloc(&d_distances, distancesSize));
         
-        // Allocate device memory
-        float *d_queries = nullptr, *d_vectors = nullptr, *d_distances = nullptr;
+        // Copy data to device
+        HIP_CHECK_THROW(hipMemcpy(d_queries, queries, queriesSize, hipMemcpyHostToDevice));
+        HIP_CHECK_THROW(hipMemcpy(d_vectors, vectors, vectorsSize, hipMemcpyHostToDevice));
         
-        size_t queriesSize = numQueries * dim * sizeof(float);
-        size_t vectorsSize = numVectors * dim * sizeof(float);
-        size_t distancesSize = numQueries * numVectors * sizeof(float);
+        // Launch kernel
+        dim3 blockSize(16, 16);
+        dim3 gridSize(
+            (numVectors + blockSize.x - 1) / blockSize.x,
+            (numQueries + blockSize.y - 1) / blockSize.y
+        );
         
-        try {
-            HIP_CHECK_THROW(hipMalloc(&d_queries, queriesSize));
-            HIP_CHECK_THROW(hipMalloc(&d_vectors, vectorsSize));
-            HIP_CHECK_THROW(hipMalloc(&d_distances, distancesSize));
-            
-            // Copy data to device
-            HIP_CHECK_THROW(hipMemcpy(d_queries, queries, queriesSize, hipMemcpyHostToDevice));
-            HIP_CHECK_THROW(hipMemcpy(d_vectors, vectors, vectorsSize, hipMemcpyHostToDevice));
-            
-            // Launch kernel
-            dim3 blockSize(16, 16);
-            dim3 gridSize(
-                (numVectors + blockSize.x - 1) / blockSize.x,
-                (numQueries + blockSize.y - 1) / blockSize.y
+        if (useL2) {
+            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                d_queries, d_vectors, d_distances,
+                numQueries, numVectors, dim
             );
-            
-            if (useL2) {
-                hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, stream_,
-                    d_queries, d_vectors, d_distances,
-                    numQueries, numVectors, dim
-                );
-            } else {
-                hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, stream_,
-                    d_queries, d_vectors, d_distances,
-                    numQueries, numVectors, dim
-                );
-            }
-            
-            HIP_CHECK_THROW(hipStreamSynchronize(stream_));
-            
-            // Copy results back
-            std::vector<float> distances(numQueries * numVectors);
-            HIP_CHECK_THROW(hipMemcpy(distances.data(), d_distances, distancesSize, hipMemcpyDeviceToHost));
-            
-            // Cleanup
-            hipFree(d_queries);
-            hipFree(d_vectors);
-            hipFree(d_distances);
-            
-            return distances;
-            
-        } catch (const std::exception& e) {
-            if (d_queries) hipFree(d_queries);
-            if (d_vectors) hipFree(d_vectors);
-            if (d_distances) hipFree(d_distances);
-            std::cerr << "HIP computeDistances error: " << e.what() << std::endl;
-            return {};
+        } else {
+            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                d_queries, d_vectors, d_distances,
+                numQueries, numVectors, dim
+            );
         }
+        
+        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
+        
+        // Copy results back
+        std::vector<float> distances(numQueries * numVectors);
+        HIP_CHECK_THROW(hipMemcpy(distances.data(), d_distances, distancesSize, hipMemcpyDeviceToHost));
+        
+        // Cleanup
+        hipFree(d_queries);
+        hipFree(d_vectors);
+        hipFree(d_distances);
+        
+        return distances;
+        
+    } catch (const std::exception& e) {
+        if (d_queries) hipFree(d_queries);
+        if (d_vectors) hipFree(d_vectors);
+        if (d_distances) hipFree(d_distances);
+        std::cerr << "HIP computeDistances error: " << e.what() << std::endl;
+        return {};
+    }
+}
+
+std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnSearch(
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    size_t k,
+    bool useL2
+) {
+    if (!impl_->initialized) {
+        std::cerr << "HIP backend not initialized" << std::endl;
+        return {};
     }
     
-    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
-        const float* queries,
-        size_t numQueries,
-        size_t dim,
-        const float* vectors,
-        size_t numVectors,
-        size_t k,
-        bool useL2 = true
-    ) override {
-        // Compute all distances first
-        auto distances = computeDistances(queries, numQueries, dim, vectors, numVectors, useL2);
+    // Allocate device memory
+    float *d_queries = nullptr, *d_vectors = nullptr, *d_distances = nullptr;
+    uint32_t *d_indices = nullptr;
+    float *d_topKDistances = nullptr;
+    
+    size_t queriesSize = numQueries * dim * sizeof(float);
+    size_t vectorsSize = numVectors * dim * sizeof(float);
+    size_t distancesSize = numQueries * numVectors * sizeof(float);
+    size_t topKSize = numQueries * k * sizeof(float);
+    size_t indicesSize = numQueries * k * sizeof(uint32_t);
+    
+    try {
+        HIP_CHECK_THROW(hipMalloc(&d_queries, queriesSize));
+        HIP_CHECK_THROW(hipMalloc(&d_vectors, vectorsSize));
+        HIP_CHECK_THROW(hipMalloc(&d_distances, distancesSize));
+        HIP_CHECK_THROW(hipMalloc(&d_indices, indicesSize));
+        HIP_CHECK_THROW(hipMalloc(&d_topKDistances, topKSize));
         
-        if (distances.empty()) {
-            return {};
+        // Copy data to device
+        HIP_CHECK_THROW(hipMemcpy(d_queries, queries, queriesSize, hipMemcpyHostToDevice));
+        HIP_CHECK_THROW(hipMemcpy(d_vectors, vectors, vectorsSize, hipMemcpyHostToDevice));
+        
+        // Launch distance kernel
+        dim3 blockSize(16, 16);
+        dim3 gridSize(
+            (numVectors + blockSize.x - 1) / blockSize.x,
+            (numQueries + blockSize.y - 1) / blockSize.y
+        );
+        
+        if (useL2) {
+            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                d_queries, d_vectors, d_distances,
+                numQueries, numVectors, dim
+            );
+        } else {
+            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                d_queries, d_vectors, d_distances,
+                numQueries, numVectors, dim
+            );
         }
         
-        // CPU-based top-k selection (could be optimized with HIP kernel)
-        std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
+        // Launch top-k selection kernel
+        int threadsPerBlock = 256;
+        int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
+        hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream,
+            d_distances, d_indices, d_topKDistances,
+            numQueries, numVectors, k
+        );
+        
+        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
+        
+        // Copy results back
+        std::vector<uint32_t> indices(numQueries * k);
+        std::vector<float> topKDistances(numQueries * k);
+        HIP_CHECK_THROW(hipMemcpy(indices.data(), d_indices, indicesSize, hipMemcpyDeviceToHost));
+        HIP_CHECK_THROW(hipMemcpy(topKDistances.data(), d_topKDistances, topKSize, hipMemcpyDeviceToHost));
+        
+        // Cleanup
+        hipFree(d_queries);
+        hipFree(d_vectors);
+        hipFree(d_distances);
+        hipFree(d_indices);
+        hipFree(d_topKDistances);
+        
+        // Format results
+        std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         for (size_t q = 0; q < numQueries; q++) {
-            std::vector<std::pair<uint32_t, float>> distPairs;
-            distPairs.reserve(numVectors);
-            
-            for (size_t v = 0; v < numVectors; v++) {
-                distPairs.emplace_back(v, distances[q * numVectors + v]);
+            results[q].reserve(k);
+            for (size_t i = 0; i < k; i++) {
+                results[q].emplace_back(indices[q * k + i], topKDistances[q * k + i]);
             }
-            
-            std::partial_sort(distPairs.begin(), distPairs.begin() + k, distPairs.end(),
-                [](const auto& a, const auto& b) { return a.second < b.second; });
-            
-            results[q].assign(distPairs.begin(), distPairs.begin() + k);
         }
         
         return results;
+        
+    } catch (const std::exception& e) {
+        if (d_queries) hipFree(d_queries);
+        if (d_vectors) hipFree(d_vectors);
+        if (d_distances) hipFree(d_distances);
+        if (d_indices) hipFree(d_indices);
+        if (d_topKDistances) hipFree(d_topKDistances);
+        std::cerr << "HIP batchKnnSearch error: " << e.what() << std::endl;
+        return {};
     }
+}
 
-private:
-    bool initialized_ = false;
-    int deviceId_ = 0;
-    hipStream_t stream_ = nullptr;
-};
+// HIP-specific methods
+
+HIPVectorBackend::DeviceInfo HIPVectorBackend::getDeviceInfo() const {
+    DeviceInfo info;
+    if (impl_->initialized) {
+        info.name = impl_->deviceProps.name;
+        info.computeUnits = impl_->deviceProps.multiProcessorCount;
+        info.totalMemory = impl_->deviceProps.totalGlobalMem;
+        info.waveSize = impl_->deviceProps.warpSize;
+        info.gcnArchName = impl_->deviceProps.gcnArchName;
+        // Check for extended precision support
+        info.supportsFP16 = true;  // Most AMD GPUs support FP16
+        info.supportsInt8 = true;  // Most AMD GPUs support Int8
+    }
+    return info;
+}
+
+void HIPVectorBackend::setConfig(const HIPConfig& config) {
+    impl_->config = config;
+}
+
+HIPVectorBackend::HIPConfig HIPVectorBackend::getConfig() const {
+    return impl_->config;
+}
+
+std::vector<HIPVectorBackend::DeviceInfo> HIPVectorBackend::getAvailableDevices() {
+    std::vector<DeviceInfo> devices;
+    
+    int deviceCount = 0;
+    if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
+        return devices;
+    }
+    
+    for (int i = 0; i < deviceCount; i++) {
+        hipDeviceProp_t prop;
+        if (hipGetDeviceProperties(&prop, i) == hipSuccess) {
+            DeviceInfo info;
+            info.name = prop.name;
+            info.computeUnits = prop.multiProcessorCount;
+            info.totalMemory = prop.totalGlobalMem;
+            info.waveSize = prop.warpSize;
+            info.gcnArchName = prop.gcnArchName;
+            info.supportsFP16 = true;
+            info.supportsInt8 = true;
+            devices.push_back(info);
+        }
+    }
+    
+    return devices;
+}
+
+std::string HIPVectorBackend::getHIPVersion() {
+    int runtimeVersion = 0;
+    if (hipRuntimeGetVersion(&runtimeVersion) == hipSuccess) {
+        int major = runtimeVersion / 10000000;
+        int minor = (runtimeVersion / 100000) % 100;
+        int patch = runtimeVersion % 100000;
+        return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
+    }
+    return "unknown";
+}
+
+std::string HIPVectorBackend::getROCmVersion() {
+    // ROCm version is typically extracted from HIP version
+    return getHIPVersion();
+}
 
 } // namespace acceleration
 } // namespace themis
