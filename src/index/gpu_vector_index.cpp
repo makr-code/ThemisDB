@@ -414,11 +414,51 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     
+    if (!pImpl->initialized) {
+        return {};
+    }
+    
+    // Upload GPU data if dirty
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend && pImpl->gpuDataDirty) {
+        pImpl->vulkanBackend->uploadVectors(pImpl->vectorData);
+        pImpl->gpuDataDirty = false;
+    }
+    #endif
+    
+    // Try GPU backend batch search first if active
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        auto batchIndices = pImpl->vulkanBackend->searchBatchIndices(queries, k);
+        if (!batchIndices.empty()) {
+            // Map indices to IDs for all results
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(batchIndices.size());
+            
+            for (const auto& queryIndices : batchIndices) {
+                std::vector<SearchResult> queryResults;
+                queryResults.reserve(queryIndices.size());
+                
+                for (const auto& [distance, index] : queryIndices) {
+                    if (index < pImpl->vectorIds.size()) {
+                        queryResults.push_back({pImpl->vectorIds[index], distance});
+                    }
+                }
+                results.push_back(std::move(queryResults));
+            }
+            
+            return results;
+        }
+        std::cerr << "GPUVectorIndex: Vulkan batch search failed, falling back to CPU\n";
+    }
+    #endif
+    
+    // CPU fallback - process each query
     std::vector<std::vector<SearchResult>> results;
     results.reserve(queries.size());
     
     for (const auto& query : queries) {
-        results.push_back(search(query, k));
+        results.push_back(pImpl->searchCPU(query, k));
     }
     
     return results;
