@@ -233,6 +233,26 @@ public:
      */
     bool isRestoreInProgress() const;
 
+    /**
+     * @brief Get sequence number for a named tag
+     * 
+     * @param tag_name Tag identifier
+     * @return Sequence number if tag exists, nullopt otherwise
+     * 
+     * Useful for API clients that want to convert tags to sequences.
+     */
+    std::optional<uint64_t> getSequenceForTag(const std::string& tag_name) const;
+
+    /**
+     * @brief Get sequence number for a timestamp
+     * 
+     * @param timestamp_ms Unix timestamp in milliseconds
+     * @return Latest sequence number <= timestamp, nullopt if no events found
+     * 
+     * Useful for API clients that want to convert timestamps to sequences.
+     */
+    std::optional<uint64_t> getSequenceForTimestamp(int64_t timestamp_ms) const;
+
 private:
     RocksDBWrapper* db_;
     Changefeed* changefeed_;

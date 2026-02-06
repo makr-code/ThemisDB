@@ -124,43 +124,32 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
         auto options = parseRestoreOptions(body);
         
         // Get target sequence based on restore type
-        uint64_t target_sequence = 0;
+        std::optional<uint64_t> target_sequence_opt;
         
         if (restore_type == "sequence") {
             try {
-                target_sequence = std::stoull(target);
+                target_sequence_opt = std::stoull(target);
             } catch (const std::exception& e) {
                 sendError(res, 400, "Invalid sequence number", e.what());
                 return;
             }
         } else if (restore_type == "tag") {
             // Get sequence from tag
-            auto status = pitr_manager_.restoreToTag(target, options);
-            // This is a bit hacky - we should have a getTagSequence method
-            // For now, we'll do a dry-run to get the target sequence
-            options.dry_run = true;
-            status = pitr_manager_.restoreToTag(target, options);
-            if (!status.ok) {
-                sendError(res, 404, "Tag not found or invalid", status.message);
-                return;
-            }
-            // Extract sequence from progress (if available)
-            if (status.progress.has_value()) {
-                // We need to get the target sequence from the tag
-                // For now, return error asking user to use sequence directly
-                sendError(res, 400, "Preview for tags not fully implemented", 
-                         "Please convert tag to sequence first");
+            target_sequence_opt = pitr_manager_.getSequenceForTag(target);
+            if (!target_sequence_opt.has_value()) {
+                sendError(res, 404, "Tag not found", "Tag '" + target + "' does not exist");
                 return;
             }
         } else if (restore_type == "timestamp") {
             try {
                 int64_t timestamp_ms = std::stoll(target);
                 // Find sequence for timestamp
-                auto status = pitr_manager_.restoreToTimestamp(timestamp_ms, options);
-                // Similar issue as with tags
-                sendError(res, 400, "Preview for timestamps not fully implemented", 
-                         "Please convert timestamp to sequence first");
-                return;
+                target_sequence_opt = pitr_manager_.getSequenceForTimestamp(timestamp_ms);
+                if (!target_sequence_opt.has_value()) {
+                    sendError(res, 404, "No events found for timestamp", 
+                             "No changefeed events found at or before the specified timestamp");
+                    return;
+                }
             } catch (const std::exception& e) {
                 sendError(res, 400, "Invalid timestamp", e.what());
                 return;
@@ -172,7 +161,7 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
         }
         
         // Get preview
-        auto preview = pitr_manager_.previewRestore(target_sequence, options);
+        auto preview = pitr_manager_.previewRestore(target_sequence_opt.value(), options);
         
         // Build response
         json response = previewToJson(preview);
