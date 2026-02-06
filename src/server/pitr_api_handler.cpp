@@ -220,6 +220,10 @@ json PITRApiHandler::progressToJson(const PITRManager::RestoreProgress& progress
         case PITRManager::RestoreProgress::Phase::ROLLED_BACK:
             phase_str = "ROLLED_BACK";
             break;
+        default:
+            phase_str = "UNKNOWN";
+            spdlog::error("Unknown restore progress phase: {}", static_cast<int>(progress.phase));
+            break;
     }
     
     j["phase"] = phase_str;
