@@ -137,7 +137,7 @@ public:
      * 
      * @param config Cache configuration
      */
-    explicit QueryCache(const Config& config = Config());
+    explicit QueryCache(const Config& config);
     
     /**
      * @brief Destructor - cleanup resources

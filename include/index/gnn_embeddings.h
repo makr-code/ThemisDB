@@ -210,6 +210,14 @@ public:
 
     // ===== Model Management =====
 
+    /// Aggregation strategy for neighbor features
+    enum class AggregationStrategy {
+        MEAN_POOLING,      // Average neighbor features (default)
+        MAX_POOLING,       // Max pooling across neighbors
+        SUM_POOLING,       // Sum neighbor features
+        ATTENTION          // Weighted aggregation (simplified)
+    };
+
     /// Register GNN model for embedding generation
     /// @param model_name Model identifier
     /// @param model_type "gcn", "graphsage", "gat", "gin", "custom"
@@ -234,8 +242,18 @@ public:
         int embedding_dim;
         std::string config;
         int64_t registered_at;
+        AggregationStrategy aggregation = AggregationStrategy::MEAN_POOLING;
     };
     std::pair<Status, ModelInfo> getModelInfo(std::string_view model_name) const;
+
+    /// Set aggregation strategy for a model
+    /// @param model_name Model identifier
+    /// @param strategy Aggregation strategy
+    /// @return Status
+    Status setAggregationStrategy(
+        std::string_view model_name,
+        AggregationStrategy strategy
+    );
 
     // ===== Batch Operations =====
 

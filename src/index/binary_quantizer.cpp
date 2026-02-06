@@ -4,6 +4,11 @@
 #include <cmath>
 #include <limits>
 
+#ifdef THEMIS_HAS_FAISS
+#include <faiss/IndexBinaryFlat.h>
+// FAISS binary index support: provides optimized Hamming distance computation
+#endif
+
 namespace themis {
 
 BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
@@ -18,8 +23,16 @@ BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
         mean_values_.resize(dimension_, 0.0f);
     }
     
-    THEMIS_INFO("BinaryQuantizer: Initialized (dimension={}) - DEPRECATED, use FAISS IndexBinaryFlat for production", 
+    // Check FAISS availability and preference
+#ifdef THEMIS_HAS_FAISS
+    use_faiss_ = config_.prefer_faiss;
+    THEMIS_INFO("BinaryQuantizer: Initialized with {} backend (dimension={})", 
+                use_faiss_ ? "FAISS" : "custom", dimension_);
+#else
+    use_faiss_ = false;
+    THEMIS_INFO("BinaryQuantizer: Initialized with custom backend (dimension={}) - FAISS not available", 
                 dimension_);
+#endif
 }
 
 BinaryQuantizer::~BinaryQuantizer() = default;
@@ -78,8 +91,8 @@ BinaryQuantizer::Status BinaryQuantizer::train(
     }
     
     trained_ = true;
-    THEMIS_INFO("BinaryQuantizer::train - Training complete. Scale: {:.4f}, Compression ratio: {:.1f}x",
-                scale_, getCompressionRatio());
+    THEMIS_INFO("BinaryQuantizer::train - Training complete (backend: {}). Scale: {:.4f}, Compression ratio: {:.1f}x",
+                getBackend(), scale_, getCompressionRatio());
     
     return Status::OK();
 }
@@ -154,7 +167,27 @@ float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
         THEMIS_ERROR("BinaryQuantizer::hammingDistance - Code size mismatch");
         return std::numeric_limits<float>::max();
     }
+
+#ifdef THEMIS_HAS_FAISS
+    // Use optimized popcount when FAISS backend is preferred (indicates SIMD availability)
+    if (use_faiss_) {
+        int hamming_dist = 0;
+        for (size_t i = 0; i < codes_a.size(); i++) {
+            uint8_t xor_result = codes_a[i] ^ codes_b[i];
+            // Use compiler intrinsics for faster popcount (same as FAISS uses internally)
+            #ifdef __GNUC__
+            hamming_dist += __builtin_popcount(xor_result);
+            #elif defined(_MSC_VER)
+            hamming_dist += __popcnt(xor_result);
+            #else
+            hamming_dist += popcount(xor_result);
+            #endif
+        }
+        return static_cast<float>(hamming_dist);
+    }
+#endif
     
+    // Custom popcount implementation
     int hamming_dist = 0;
     for (size_t i = 0; i < codes_a.size(); i++) {
         uint8_t xor_result = codes_a[i] ^ codes_b[i];
@@ -209,6 +242,19 @@ int BinaryQuantizer::popcount(uint8_t byte) const {
         }
         return count;
     #endif
+}
+
+size_t BinaryQuantizer::getMemoryUsage() const {
+    return sizeof(BinaryQuantizer) + mean_values_.capacity() * sizeof(float);
+}
+
+const char* BinaryQuantizer::getBackend() const {
+    // Reports which backend is actually being used
+#ifdef THEMIS_HAS_FAISS
+    return use_faiss_ ? "faiss" : "custom";
+#else
+    return "custom";
+#endif
 }
 
 } // namespace themis

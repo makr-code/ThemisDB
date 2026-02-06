@@ -192,6 +192,18 @@ bool PITRManager::isRestoreInProgress() const {
            progress_.phase != RestoreProgress::Phase::ROLLED_BACK;
 }
 
+std::optional<uint64_t> PITRManager::getSequenceForTag(const std::string& tag_name) const {
+    auto snapshot = snapshot_mgr_->getTag(tag_name);
+    if (snapshot.has_value()) {
+        return snapshot->sequence_number;
+    }
+    return std::nullopt;
+}
+
+std::optional<uint64_t> PITRManager::getSequenceForTimestamp(int64_t timestamp_ms) const {
+    return findSequenceForTimestamp(timestamp_ms);
+}
+
 std::optional<uint64_t> PITRManager::findSequenceForTimestamp(int64_t timestamp_ms) const {
     // Get all events
     auto events = changefeed_->listEvents();
