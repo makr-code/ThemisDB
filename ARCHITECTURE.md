@@ -23,11 +23,11 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **analytics/** | Process mining, OLAP, diff engine, NLP analysis | OlapEngine, DiffEngine, ProcessAnalyzer |
 | **api/** | GraphQL API, HTTP server setup | GraphQLAPI |
 | **aql/** | AQL-specific handlers and assistant functions | LlmAqlHandler, DocsAssistant |
-| **auth/** | Authentication (JWT, GSSAPI, MFA) | JwtValidator, GssapiAuthenticator |
+| **auth/** | Authentication (JWT, GSSAPI, MFA) | JWTValidator, GSSAPIAuthenticator |
 | **base/** | Core module loader and initialization | ModuleLoader |
 | **cache/** | Semantic caching, query caching, embedding caching | SemanticCache, AdaptiveQueryCache |
 | **cdc/** | Change Data Capture and changefeeds | ChangeFeed, ChangeBuffer |
-| **chimera/** | Adapter factory for database compatibility | ChimisDbAdapter |
+| **chimera/** | Adapter factory for database compatibility | ThemisDBAdapter, IDatabaseAdapter |
 | **content/** | Multimodal ingestion (PDF, images, audio, video, CAD) | ContentManager, AsyncIngestionWorker |
 | **core/** | Security initialization, concerns context (logging, tracing) | ConcernsContext, SecurityInit |
 | **exporters/** | Data export in various formats | JsonlLlmExporter |
@@ -53,7 +53,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **sharding/** | Horizontal scaling, consensus (Raft/Paxos/Gossip) | ShardRouter, RaftConsensus, DistributedCoordinator |
 | **storage/** | RocksDB wrapper, compression, blob storage, transactions | StorageEngine, BlobStorageManager |
 | **temporal/** | Conflict resolution for temporal data | TemporalConflictResolver |
-| **timeseries/** | Time series compression (Gorilla), aggregates, retention | TimeSeriesManager, GorilaCompression |
+| **timeseries/** | Time series compression (Gorilla), aggregates, retention | TimeSeriesManager, GorillaEncoder, GorillaDecoder |
 | **transaction/** | ACID transactions, SAGA pattern, branching | TransactionManager, SagaManager |
 | **updates/** | Hot reload, manifest management, version control | HotReloadEngine, ReleaseManifest |
 | **utils/** | Logging, PII detection, compression, utilities | Logger, PiiDetector, Serialization |
@@ -311,7 +311,8 @@ Policy enforcement and regulatory compliance:
 ### Hierarchy
 
 ```
-themis::                          # Root namespace (all ThemisDB code)
+themis::                          # Primary root namespace (most components)
+themisdb::                        # Secondary root namespace (sharding, replication, some query functions)
 ├── query::
 │   ├── functions::               # Query functions (12+ categories)
 │   │   ├── vector_functions
@@ -761,10 +762,10 @@ ctest --test-dir build
 ### Running Locally
 ```bash
 # Start server
-./build/themisdb --config config/themisdb.yml
+./build/themisdb --config config/config.yaml
 
 # Or with Docker
-docker-compose up -d
+docker-compose -f docker/docker-compose.yml up -d
 ```
 
 ### Testing
@@ -944,7 +945,7 @@ graph LR
 | Dependency | Purpose | Version | License |
 |------------|---------|---------|---------|
 | **RocksDB** | Storage engine | 8.x+ | Apache 2.0 |
-| **Boost** | C++ libraries (ASIO, Beast) | 1.82+ | Boost |
+| **Boost** | C++ libraries (ASIO, Beast) | 1.70+ | Boost |
 | **llama.cpp** | LLM inference | Latest | MIT |
 | **OpenSSL** | TLS/Encryption | 3.x | Apache 2.0 |
 | **gRPC** | RPC framework | 1.50+ | Apache 2.0 |
@@ -971,7 +972,7 @@ graph LR
 
 ```cmake
 # Edition selection
-cmake -B build -DTHEMISDB_EDITION=ENTERPRISE
+cmake -B build -DTHEMIS_EDITION=ENTERPRISE
 
 # Feature flags
 -DENABLE_LLM=ON          # LLM integration
@@ -1088,15 +1089,22 @@ cmake --build build -j$(nproc) 2>&1 | tee build.log
 nvidia-smi  # NVIDIA
 rocm-smi    # AMD
 
-# Enable GPU in config
-echo "gpu_enabled: true" >> config/themisdb.yml
+# Enable GPU for vector indexing in config/config.yaml
+vector_index:
+  use_gpu: true
 ```
 
 **Problem:** Out of memory during vector indexing
-```bash
-# Adjust cache size in config
-vector_cache_size_mb: 2048
-max_batch_size: 1000
+```yaml
+# Adjust vector index and storage cache settings in config/config.yaml
+vector_index:
+  # Reduce concurrency or segment size if you see OOM during indexing
+  max_concurrent_builds: 4
+  max_segment_size_mb: 256
+
+rocksdb:
+  # Increase block cache if you have enough RAM to reduce read amplification
+  block_cache_size_mb: 2048
 ```
 
 ### Performance Tuning
