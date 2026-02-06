@@ -78,7 +78,13 @@ ProductQuantizer::Status ProductQuantizer::train(
             training_data.insert(training_data.end(), vec.begin(), vec.end());
         }
         
+        // Validate data size (development safety check)
+        if (training_data.size() != training_vectors.size() * static_cast<size_t>(dimension_)) {
+            return Status::Error("Training data size mismatch during conversion");
+        }
+        
         // Train FAISS ProductQuantizer
+        THEMIS_DEBUG("ProductQuantizer::train - Starting FAISS training");
         faiss_pq_->train(training_vectors.size(), training_data.data());
         
         trained_ = true;
@@ -231,7 +237,7 @@ float ProductQuantizer::computeAsymmetricDistance(
     }
     
 #ifdef THEMIS_HAS_FAISS
-    // Use FAISS optimized SDC (Symmetric Distance Computation) for better performance
+    // Use FAISS optimized ADC (Asymmetric Distance Computation) for better performance
     try {
         // Compute distance table for query
         std::vector<float> dis_table(config_.num_subquantizers * config_.num_centroids);
@@ -246,12 +252,14 @@ float ProductQuantizer::computeAsymmetricDistance(
         return std::sqrt(distance);
         
     } catch (const std::exception& e) {
-        THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance (FAISS SDC) - Failed: {}", e.what());
+        THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance (FAISS ADC) - Failed: {}", e.what());
+        THEMIS_DEBUG("Falling back to decode-based distance computation");
         // Fallthrough to decode method
     }
 #endif
     
     // Fallback: decode and compute L2 distance
+    // This path is used when: FAISS unavailable, FAISS ADC fails, or explicit fallback mode
     auto decoded = decode(codes);
     if (decoded.empty()) {
         return std::numeric_limits<float>::max();
@@ -276,6 +284,9 @@ float ProductQuantizer::getCompressionRatio() const {
 }
 
 size_t ProductQuantizer::getMemoryUsage() const {
+    // Returns theoretical codebook memory usage
+    // Note: When using FAISS backend, actual memory may differ due to
+    // FAISS internal structures, alignment, and metadata
     // Codebooks: num_subquantizers * num_centroids * subvector_dim * sizeof(float)
     return config_.num_subquantizers * config_.num_centroids * subvector_dim_ * sizeof(float);
 }

@@ -119,11 +119,17 @@ ThemisDB ProductQuantizer API (unchanged)
 
 FAISS detection in `cmake/Dependencies.cmake`:
 ```cmake
-find_package(faiss QUIET)
-if(faiss_FOUND)
-    add_compile_definitions(THEMIS_HAS_FAISS=1)
+# Note: Currently requires THEMIS_ENABLE_CUDA to be ON
+if(THEMIS_ENABLE_CUDA)
+    find_package(faiss QUIET)
+    if(faiss_FOUND)
+        message(STATUS "FAISS found - enabling GPU vector search")
+        add_compile_definitions(THEMIS_HAS_FAISS=1)
+    endif()
 endif()
 ```
+
+**Current Limitation**: FAISS support requires CUDA to be enabled. CPU-only FAISS builds are not yet supported in the CMake configuration but can be added in future updates.
 
 ### vcpkg Integration
 
@@ -178,10 +184,11 @@ If issues arise:
 ### Short Term
 
 1. ✅ **Performance Benchmarking**: Existing benchmarks in `bench_product_quantization.cpp`
-2. ✅ **SDC Optimization**: Implemented FAISS distance tables (commit in progress)
-3. 📋 **GPU Acceleration**: Architecture ready, requires THEMIS_ENABLE_CUDA flag
-   - Can leverage `faiss::gpu::GpuProductQuantizer` when GPU enabled
+2. ✅ **ADC Optimization**: Implemented FAISS Asymmetric Distance Computation tables
+3. 📋 **GPU Acceleration**: Architecture ready (future enhancement)
+   - Can leverage `faiss::gpu::GpuProductQuantizer` when implemented
    - Conditional compilation already supports GPU backend
+   - Requires implementation of GPU resource management
 
 ### Long Term
 

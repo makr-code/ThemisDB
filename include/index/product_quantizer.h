@@ -13,13 +13,14 @@ namespace faiss {
 namespace themis {
 
 /**
- * @brief Product Quantization for Vector Compression (FAISS-based)
+ * @brief Product Quantization for Vector Compression (FAISS-native with fallback)
  * 
- * FAISS-native implementation of Product Quantization (PQ) for compressing high-dimensional vectors
- * from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).
+ * FAISS-native implementation with fallback for Product Quantization (PQ) for compressing 
+ * high-dimensional vectors from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).
  * 
- * This implementation uses FAISS's optimized ProductQuantizer with SIMD acceleration
- * and potential GPU support, replacing the previous custom implementation.
+ * This implementation uses FAISS's optimized ProductQuantizer when available (THEMIS_HAS_FAISS),
+ * providing better performance through SIMD optimizations and potential GPU acceleration.
+ * Falls back to custom K-means implementation when FAISS is not available.
  * 
  * @sources
  * - Library: FAISS (Facebook AI Similarity Search)

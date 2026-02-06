@@ -1,10 +1,10 @@
 # ProductQuantizer Performance Optimization Guide
 
-## FAISS SDC Optimization (Completed)
+## FAISS ADC Optimization (Completed)
 
-### What is SDC?
+### What is ADC?
 
-FAISS SDC (Symmetric Distance Computation) uses precomputed distance tables for faster asymmetric distance computation. Instead of decoding quantized vectors and computing L2 distance, it directly looks up distances from a table.
+FAISS ADC (Asymmetric Distance Computation) uses precomputed distance tables for faster distance computation between full-precision queries and quantized codes. Instead of decoding quantized vectors and computing L2 distance, it directly looks up distances from a precomputed table.
 
 ### Implementation
 
@@ -16,11 +16,12 @@ The `computeAsymmetricDistance()` method now uses FAISS's optimized path when av
     std::vector<float> dis_table(M * ksub);
     faiss_pq_->compute_distance_table(query.data(), dis_table.data());
     
-    // Sum distances using precomputed table
+    // Sum squared distances using precomputed table
     float distance = 0.0f;
     for (int i = 0; i < M; ++i) {
         distance += dis_table[i * ksub + codes[i]];
     }
+    distance = std::sqrt(distance);
 #endif
 ```
 
@@ -43,14 +44,16 @@ cd build/benchmarks
 Compare FAISS vs fallback by building with/without GPU feature:
 
 ```bash
-# With FAISS
-cmake -DTHEMIS_BUILD_GPU=ON ..
+# With FAISS (requires CUDA enabled)
+cmake -DTHEMIS_ENABLE_GPU=ON -DTHEMIS_ENABLE_CUDA=ON ..
 ./bench_product_quantization
 
 # Without FAISS (fallback)
-cmake -DTHEMIS_BUILD_GPU=OFF ..
+cmake -DTHEMIS_ENABLE_GPU=OFF ..
 ./bench_product_quantization
 ```
+
+**Note**: FAISS support currently requires CUDA to be enabled. CPU-only FAISS builds are not yet supported in the CMake configuration.
 
 ## GPU Acceleration (Architecture Ready)
 
@@ -58,7 +61,7 @@ cmake -DTHEMIS_BUILD_GPU=OFF ..
 
 ✅ **Architecture supports GPU acceleration**
 - Conditional compilation via `THEMIS_ENABLE_CUDA`
-- Can use `faiss::gpu::GpuProductQuantizer` when GPU enabled
+- **Future enhancement**: Can use `faiss::gpu::GpuProductQuantizer` when implemented
 - Requires FAISS GPU build and CUDA toolkit
 
 ### Enabling GPU Acceleration
@@ -116,12 +119,12 @@ Based on FAISS benchmarks:
 
 | Operation | Custom | FAISS CPU | FAISS GPU | Speedup |
 |-----------|--------|-----------|-----------|---------|
-| Training (10k vectors) | 850ms | 640ms | 120ms | 7.1x |
-| Encoding (1k vectors) | 45ms | 34ms | 12ms | 3.8x |
-| Asymmetric Distance | 0.8µs | 0.5µs | 0.05µs | 16x |
-| Memory Usage | 6.2MB | 6.2MB | 6.2MB + VRAM | Same |
+| Training (10k vectors) | ~850ms | ~640ms | ~120ms | ~7.1x |
+| Encoding (1k vectors) | ~45ms | ~34ms | ~12ms | ~3.8x |
+| Asymmetric Distance | ~0.8µs | ~0.5µs | ~0.05µs | ~16x |
+| Memory Usage | ~6.2MB | ~6.2MB | ~6.2MB + VRAM | Same |
 
-*Benchmarks on: Intel i9-12900K, RTX 3090, 128D vectors, 8 subquantizers*
+*Estimated performance based on typical hardware (Intel i9-12900K, RTX 3090, 128D vectors, 8 subquantizers). Actual performance varies by hardware and dataset. Run `/benchmarks/bench_product_quantization.cpp` for precise measurements in your environment.*
 
 ## Best Practices
 

@@ -63,9 +63,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Expected performance improvements through FAISS SIMD optimizations
 
 ### Added
-- **FAISS SDC Optimization**: Implemented Symmetric Distance Computation tables
+- **FAISS ADC Optimization**: Implemented Asymmetric Distance Computation tables
   - ~40% faster asymmetric distance computation with FAISS
-  - Uses precomputed distance tables instead of decode + L2 distance
+  - Uses precomputed asymmetric distance tables instead of decode + L2 distance
   - Automatic fallback to decode method on error or when FAISS unavailable
 - **Performance Documentation**: Added `docs/PRODUCT_QUANTIZER_OPTIMIZATION.md`
   - Detailed benchmarking guidelines
