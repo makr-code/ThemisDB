@@ -306,7 +306,11 @@ HttpServer::HttpServer(
         
         // Initialize PITRManager and PITRApiHandler (Phase 3 MVCC features)
         // Note: PITRManager can work without SnapshotManager for sequence/timestamp restore
-        pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), nullptr);
+        pitr_manager_ = std::make_unique<PITRManager>(
+            storage_.get(), 
+            changefeed_.get(), 
+            nullptr  /* snapshot_manager - disabled, will be enabled when SnapshotManager is re-enabled */
+        );
         pitr_api_handler_ = std::make_unique<PITRApiHandler>(*pitr_manager_);
         THEMIS_INFO("PITRManager initialized (without snapshot support)");
         
@@ -1611,7 +1615,7 @@ namespace {
     if (path_only == "/api/v1/restore/preview" && method == http::verb::post) return Route::PITRPreviewPost;
     if (path_only == "/api/v1/restore/progress" && method == http::verb::get) return Route::PITRProgressGet;
     
-        // Sprint B endpoints
+    // Sprint B endpoints - Time Series
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
     if (target == "/ts/query" && method == http::verb::post) return Route::TimeSeriesQuery;
     if (target == "/ts/aggregate" && method == http::verb::post) return Route::TimeSeriesAggregate;
