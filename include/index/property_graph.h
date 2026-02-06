@@ -247,6 +247,21 @@ public:
         std::string_view graph_id = "default"
     ) const;
 
+    // ===== Graph Analytics =====
+
+    /// PageRank computation for node importance ranking
+    /// @param graph_id Target graph
+    /// @param damping_factor Damping factor (default 0.85)
+    /// @param max_iterations Maximum iterations (default 100)
+    /// @param tolerance Convergence tolerance (default 1e-6)
+    /// @return Pair of Status and map of node_pk -> PageRank score
+    std::pair<Status, std::map<std::string, double>> computePageRank(
+        std::string_view graph_id = "default",
+        double damping_factor = 0.85,
+        int max_iterations = 100,
+        double tolerance = 1e-6
+    ) const;
+
 private:
     RocksDBWrapper& db_;
 

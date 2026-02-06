@@ -491,3 +491,50 @@ TEST_F(GNNEmbeddingTest, NeighborAggregationImpactsEmbedding) {
     EXPECT_LT(similarity, 0.99f);
     EXPECT_GT(similarity, 0.5f);
 }
+
+TEST_F(GNNEmbeddingTest, AggregationStrategies_ProduceDifferentEmbeddings) {
+    createTestGraph();
+    
+    // Register models with different aggregation strategies
+    gem->registerModel("model_mean", "feature", 64);
+    gem->setAggregationStrategy("model_mean", GNNEmbeddingManager::AggregationStrategy::MEAN_POOLING);
+    
+    gem->registerModel("model_max", "feature", 64);
+    gem->setAggregationStrategy("model_max", GNNEmbeddingManager::AggregationStrategy::MAX_POOLING);
+    
+    gem->registerModel("model_sum", "feature", 64);
+    gem->setAggregationStrategy("model_sum", GNNEmbeddingManager::AggregationStrategy::SUM_POOLING);
+    
+    // Generate embeddings with different strategies
+    gem->updateNodeEmbedding("person1", "g1", "model_mean");
+    gem->updateNodeEmbedding("person1", "g1", "model_max");
+    gem->updateNodeEmbedding("person1", "g1", "model_sum");
+    
+    // Get embeddings
+    auto [status_mean, emb_mean] = gem->getNodeEmbedding("person1", "g1", "model_mean");
+    auto [status_max, emb_max] = gem->getNodeEmbedding("person1", "g1", "model_max");
+    auto [status_sum, emb_sum] = gem->getNodeEmbedding("person1", "g1", "model_sum");
+    
+    ASSERT_TRUE(status_mean.ok);
+    ASSERT_TRUE(status_max.ok);
+    ASSERT_TRUE(status_sum.ok);
+    
+    // Embeddings should be different due to different aggregation strategies
+    // Compare mean vs max
+    float sim_mean_max = 0.0f;
+    for (size_t i = 0; i < emb_mean.embedding.size(); ++i) {
+        sim_mean_max += emb_mean.embedding[i] * emb_max.embedding[i];
+    }
+    
+    // Compare mean vs sum
+    float sim_mean_sum = 0.0f;
+    for (size_t i = 0; i < emb_mean.embedding.size(); ++i) {
+        sim_mean_sum += emb_mean.embedding[i] * emb_sum.embedding[i];
+    }
+    
+    // Embeddings should be similar but not identical
+    EXPECT_LT(sim_mean_max, 0.99f);
+    EXPECT_LT(sim_mean_sum, 0.99f);
+    EXPECT_GT(sim_mean_max, 0.5f);  // Still reasonably similar
+    EXPECT_GT(sim_mean_sum, 0.5f);
+}

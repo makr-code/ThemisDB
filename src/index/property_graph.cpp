@@ -1142,4 +1142,110 @@ PropertyGraphManager::getIncomingEdges(
     return {Status::OK(), edges};
 }
 
+// ===== Graph Analytics =====
+
+std::pair<PropertyGraphManager::Status, std::map<std::string, double>>
+PropertyGraphManager::computePageRank(
+    std::string_view graph_id,
+    double damping_factor,
+    int max_iterations,
+    double tolerance
+) const {
+    if (!db_.isOpen()) {
+        return {Status::Error("computePageRank: Database not open"), {}};
+    }
+
+    // Collect all nodes in the graph
+    std::vector<std::string> nodes;
+    std::ostringstream nodePrefix;
+    nodePrefix << "node:" << graph_id << ":";
+    
+    db_.scanPrefix(nodePrefix.str(), [&nodes, &nodePrefix](std::string_view key, std::string_view /*val*/) {
+        std::string keyStr(key);
+        // Extract node PK from key: node:<graph_id>:<pk>
+        size_t prefixLen = nodePrefix.str().size();
+        if (keyStr.size() > prefixLen) {
+            std::string pk = keyStr.substr(prefixLen);
+            nodes.push_back(pk);
+        }
+        return true;
+    });
+    
+    if (nodes.empty()) {
+        return {Status::Error("computePageRank: No nodes in graph"), {}};
+    }
+    
+    size_t N = nodes.size();
+    
+    // Build adjacency information
+    // outgoing_count: number of outgoing edges from each node
+    // incoming_nodes: for each node, which nodes point to it
+    std::unordered_map<std::string, int> outgoing_count;
+    std::unordered_map<std::string, std::vector<std::string>> incoming_nodes;
+    
+    // Initialize
+    for (const auto& node : nodes) {
+        outgoing_count[node] = 0;
+        incoming_nodes[node] = {};
+    }
+    
+    // Count outgoing edges and build incoming edge lists
+    for (const auto& node : nodes) {
+        std::ostringstream outPrefix;
+        outPrefix << "graph:out:" << graph_id << ":" << node << ":";
+        
+        db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            std::string to_node(val);
+            outgoing_count[node]++;
+            incoming_nodes[to_node].push_back(node);
+            return true;
+        });
+    }
+    
+    // Initialize PageRank scores (uniform distribution)
+    std::map<std::string, double> pagerank;
+    std::map<std::string, double> pagerank_new;
+    
+    double initial_score = 1.0 / N;
+    for (const auto& node : nodes) {
+        pagerank[node] = initial_score;
+        pagerank_new[node] = 0.0;
+    }
+    
+    // Iterate until convergence or max iterations
+    bool converged = false;
+    for (int iter = 0; iter < max_iterations && !converged; ++iter) {
+        // Compute new PageRank scores
+        for (const auto& node : nodes) {
+            double sum = 0.0;
+            
+            // Sum contributions from incoming nodes
+            for (const auto& in_node : incoming_nodes[node]) {
+                int out_count = outgoing_count[in_node];
+                if (out_count > 0) {
+                    sum += pagerank[in_node] / out_count;
+                }
+            }
+            
+            // PageRank formula: PR(node) = (1-d)/N + d * sum(PR(in_node) / out_degree(in_node))
+            pagerank_new[node] = (1.0 - damping_factor) / N + damping_factor * sum;
+        }
+        
+        // Check convergence
+        double diff = 0.0;
+        for (const auto& node : nodes) {
+            diff += std::abs(pagerank_new[node] - pagerank[node]);
+        }
+        
+        if (diff < tolerance) {
+            converged = true;
+        }
+        
+        // Update scores
+        pagerank = pagerank_new;
+    }
+    
+    return {Status::OK(), pagerank};
+}
+
 } // namespace themis

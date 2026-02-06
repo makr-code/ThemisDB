@@ -829,3 +829,117 @@ TEST_F(PropertyGraphTest, GetIncomingEdges_ReturnsCorrectEdges) {
     EXPECT_TRUE(foundAC);
     EXPECT_TRUE(foundBC);
 }
+
+TEST_F(PropertyGraphTest, ComputePageRank_SimpleGraph) {
+    // Create a simple graph: A -> B, A -> C, B -> C
+    // C should have highest PageRank as it has most incoming edges
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeAC("edgeAC");
+    edgeAC.setField("id", "edgeAC");
+    edgeAC.setField("_from", "nodeA");
+    edgeAC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeAC);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    // Compute PageRank
+    auto [status, scores] = pgm_->computePageRank();
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // All nodes should have scores
+    EXPECT_EQ(scores.size(), 3u);
+    EXPECT_TRUE(scores.find("nodeA") != scores.end());
+    EXPECT_TRUE(scores.find("nodeB") != scores.end());
+    EXPECT_TRUE(scores.find("nodeC") != scores.end());
+    
+    // Scores should sum to approximately 1.0
+    double sum = scores["nodeA"] + scores["nodeB"] + scores["nodeC"];
+    EXPECT_NEAR(sum, 1.0, 0.01);
+    
+    // NodeC should have highest score (2 incoming edges)
+    EXPECT_GT(scores["nodeC"], scores["nodeA"]);
+    EXPECT_GT(scores["nodeC"], scores["nodeB"]);
+    
+    // All scores should be positive
+    EXPECT_GT(scores["nodeA"], 0.0);
+    EXPECT_GT(scores["nodeB"], 0.0);
+    EXPECT_GT(scores["nodeC"], 0.0);
+}
+
+TEST_F(PropertyGraphTest, ComputePageRank_ChainGraph) {
+    // Create a chain: A -> B -> C -> D
+    // D should have highest PageRank due to flow through chain
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity nodeD("nodeD");
+    nodeD.setField("id", "nodeD");
+    pgm_->addNode(nodeD);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    BaseEntity edgeCD("edgeCD");
+    edgeCD.setField("id", "edgeCD");
+    edgeCD.setField("_from", "nodeC");
+    edgeCD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeCD);
+    
+    // Compute PageRank
+    auto [status, scores] = pgm_->computePageRank();
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // All nodes should have scores
+    EXPECT_EQ(scores.size(), 4u);
+    
+    // Scores should sum to approximately 1.0
+    double sum = 0.0;
+    for (const auto& [node, score] : scores) {
+        sum += score;
+    }
+    EXPECT_NEAR(sum, 1.0, 0.01);
+    
+    // All scores should be positive
+    for (const auto& [node, score] : scores) {
+        EXPECT_GT(score, 0.0);
+    }
+}

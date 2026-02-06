@@ -167,7 +167,7 @@ GNNEmbeddingManager::computeEmbedding_(
     std::string_view graph_id
 ) const {
     // Enhanced GNN-style embedding with neighbor aggregation
-    // Strategy: Aggregate neighbor features with self features (GraphSAGE-style)
+    // Supports multiple aggregation strategies
     
     auto modelIt = models_.find(std::string(model_name));
     if (modelIt == models_.end()) {
@@ -183,14 +183,15 @@ GNNEmbeddingManager::computeEmbedding_(
     size_t copy_size = std::min(features.size(), static_cast<size_t>(target_dim));
     std::copy(features.begin(), features.begin() + copy_size, embedding.begin());
     
-    // 2. Aggregate neighbor features (mean pooling)
+    // 2. Aggregate neighbor features based on strategy
     if (!neighbor_ids.empty()) {
         std::vector<float> neighbor_aggregate(target_dim, 0.0f);
-        int valid_neighbors = 0;
         
         // Limit number of neighbors to prevent excessive computation
         size_t max_neighbors = std::min(neighbor_ids.size(), size_t(50));
         
+        // Collect neighbor features
+        std::vector<std::vector<float>> neighbor_features_list;
         for (size_t i = 0; i < max_neighbors; ++i) {
             // Load neighbor node to extract its features
             std::ostringstream nodeKeyOss;
@@ -203,17 +204,87 @@ GNNEmbeddingManager::computeEmbedding_(
             BaseEntity neighbor = BaseEntity::deserialize(neighbor_ids[i], *blob);
             std::vector<float> neighbor_features = extractFeatures_(neighbor, {});
             
-            // Aggregate features
-            for (size_t j = 0; j < std::min(neighbor_features.size(), static_cast<size_t>(target_dim)); ++j) {
-                neighbor_aggregate[j] += neighbor_features[j];
+            // Pad/truncate to target dimension
+            if (neighbor_features.size() < static_cast<size_t>(target_dim)) {
+                neighbor_features.resize(target_dim, 0.0f);
+            } else if (neighbor_features.size() > static_cast<size_t>(target_dim)) {
+                neighbor_features.resize(target_dim);
             }
-            valid_neighbors++;
+            
+            neighbor_features_list.push_back(neighbor_features);
         }
         
-        // Average neighbor features
-        if (valid_neighbors > 0) {
-            for (float& val : neighbor_aggregate) {
-                val /= static_cast<float>(valid_neighbors);
+        if (!neighbor_features_list.empty()) {
+            // Apply aggregation strategy
+            switch (modelInfo.aggregation) {
+                case AggregationStrategy::MEAN_POOLING:
+                    // Average neighbor features
+                    for (const auto& nf : neighbor_features_list) {
+                        for (size_t j = 0; j < nf.size(); ++j) {
+                            neighbor_aggregate[j] += nf[j];
+                        }
+                    }
+                    for (float& val : neighbor_aggregate) {
+                        val /= static_cast<float>(neighbor_features_list.size());
+                    }
+                    break;
+                    
+                case AggregationStrategy::MAX_POOLING:
+                    // Max pooling across neighbors
+                    std::fill(neighbor_aggregate.begin(), neighbor_aggregate.end(), 
+                             -std::numeric_limits<float>::infinity());
+                    for (const auto& nf : neighbor_features_list) {
+                        for (size_t j = 0; j < nf.size(); ++j) {
+                            neighbor_aggregate[j] = std::max(neighbor_aggregate[j], nf[j]);
+                        }
+                    }
+                    // Replace -inf with 0
+                    for (float& val : neighbor_aggregate) {
+                        if (std::isinf(val)) val = 0.0f;
+                    }
+                    break;
+                    
+                case AggregationStrategy::SUM_POOLING:
+                    // Sum neighbor features
+                    for (const auto& nf : neighbor_features_list) {
+                        for (size_t j = 0; j < nf.size(); ++j) {
+                            neighbor_aggregate[j] += nf[j];
+                        }
+                    }
+                    break;
+                    
+                case AggregationStrategy::ATTENTION:
+                    // Simplified attention: weight by similarity to self features
+                    std::vector<float> attention_weights;
+                    float weight_sum = 0.0f;
+                    
+                    for (const auto& nf : neighbor_features_list) {
+                        // Compute dot product similarity
+                        float similarity = 0.0f;
+                        for (size_t j = 0; j < std::min(nf.size(), embedding.size()); ++j) {
+                            similarity += nf[j] * embedding[j];
+                        }
+                        similarity = std::exp(similarity);  // Softmax-like
+                        attention_weights.push_back(similarity);
+                        weight_sum += similarity;
+                    }
+                    
+                    // Normalize weights
+                    if (weight_sum > 0.0f) {
+                        for (float& w : attention_weights) {
+                            w /= weight_sum;
+                        }
+                    }
+                    
+                    // Weighted aggregation
+                    for (size_t i = 0; i < neighbor_features_list.size(); ++i) {
+                        const auto& nf = neighbor_features_list[i];
+                        float weight = attention_weights[i];
+                        for (size_t j = 0; j < nf.size(); ++j) {
+                            neighbor_aggregate[j] += weight * nf[j];
+                        }
+                    }
+                    break;
             }
             
             // Combine self features and neighbor features (weighted mean)
@@ -686,6 +757,19 @@ GNNEmbeddingManager::getModelInfo(std::string_view model_name) const {
         return {Status::Error("Model not found"), {}};
     }
     return {Status::OK(), it->second};
+}
+
+GNNEmbeddingManager::Status GNNEmbeddingManager::setAggregationStrategy(
+    std::string_view model_name,
+    AggregationStrategy strategy
+) {
+    auto it = models_.find(std::string(model_name));
+    if (it == models_.end()) {
+        return Status::Error("Model not found");
+    }
+    
+    it->second.aggregation = strategy;
+    return Status::OK();
 }
 
 // ===== Batch Operations =====
