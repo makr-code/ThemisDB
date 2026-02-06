@@ -355,3 +355,359 @@ rules:
     auto all_rules = yaml_manager->listRules();
     EXPECT_EQ(all_rules.size(), 2);
 }
+
+// ========== Phase 5: Versioning Tests ==========
+
+TEST_F(PolicyManagerTest, UpdateRuleCreatesVersion) {
+    PolicyRule rule;
+    rule.id = "rule_v001";
+    rule.name = "Original Name";
+    rule.description = "Original description";
+    rule.version = "1.0.0";
+    rule.require_encryption = false;
+    
+    manager->addRule(rule);
+    
+    // Update the rule
+    PolicyRule updated_rule = rule;
+    updated_rule.name = "Updated Name";
+    updated_rule.require_encryption = true;
+    
+    ASSERT_TRUE(manager->updateRule("rule_v001", updated_rule, "user1", "Updated encryption requirement"));
+    
+    // Check that the current rule has the updated values
+    auto current = manager->getRule("rule_v001");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_EQ(current->name, "Updated Name");
+    EXPECT_TRUE(current->require_encryption);
+    EXPECT_EQ(current->version, "1.0.1"); // Patch version incremented
+    EXPECT_EQ(current->last_modified_by, "user1");
+    
+    // Check that the old version is in history
+    auto versions = manager->getRuleVersions("rule_v001");
+    EXPECT_GE(versions.size(), 1);
+}
+
+TEST_F(PolicyManagerTest, GetVersionHistory) {
+    PolicyRule rule;
+    rule.id = "rule_v002";
+    rule.name = "Version Test";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    // Make multiple updates
+    for (int i = 1; i <= 3; i++) {
+        PolicyRule updated = rule;
+        updated.name = "Version " + std::to_string(i);
+        manager->updateRule("rule_v002", updated, "user1", "Update " + std::to_string(i));
+    }
+    
+    auto versions = manager->getRuleVersions("rule_v002");
+    EXPECT_EQ(versions.size(), 3); // 3 versions saved before updates
+}
+
+TEST_F(PolicyManagerTest, GetSpecificVersion) {
+    PolicyRule rule;
+    rule.id = "rule_v003";
+    rule.name = "Original";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    PolicyRule updated = rule;
+    updated.name = "Updated";
+    manager->updateRule("rule_v003", updated, "user1", "First update");
+    
+    auto version_record = manager->getRuleVersion("rule_v003", "1.0.0");
+    ASSERT_TRUE(version_record.has_value());
+    EXPECT_EQ(version_record->rule.name, "Original");
+    EXPECT_EQ(version_record->version, "1.0.0");
+}
+
+TEST_F(PolicyManagerTest, RollbackToVersion) {
+    PolicyRule rule;
+    rule.id = "rule_v004";
+    rule.name = "Original";
+    rule.require_encryption = false;
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    // Update twice
+    PolicyRule updated1 = rule;
+    updated1.name = "Update 1";
+    updated1.require_encryption = true;
+    manager->updateRule("rule_v004", updated1, "user1", "First update");
+    
+    PolicyRule updated2 = updated1;
+    updated2.name = "Update 2";
+    manager->updateRule("rule_v004", updated2, "user1", "Second update");
+    
+    // Rollback to version 1.0.0
+    ASSERT_TRUE(manager->rollbackToVersion("rule_v004", "1.0.0", "admin"));
+    
+    auto current = manager->getRule("rule_v004");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_EQ(current->name, "Original");
+    EXPECT_FALSE(current->require_encryption);
+    EXPECT_EQ(current->last_modified_by, "admin");
+}
+
+TEST_F(PolicyManagerTest, RollbackToPreviousVersion) {
+    PolicyRule rule;
+    rule.id = "rule_v005";
+    rule.name = "Version 1";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    PolicyRule updated1 = rule;
+    updated1.name = "Version 2";
+    manager->updateRule("rule_v005", updated1, "user1", "Update to v2");
+    
+    PolicyRule updated2 = updated1;
+    updated2.name = "Version 3";
+    manager->updateRule("rule_v005", updated2, "user1", "Update to v3");
+    
+    // Rollback to previous version (v2)
+    ASSERT_TRUE(manager->rollbackToPreviousVersion("rule_v005", "admin"));
+    
+    auto current = manager->getRule("rule_v005");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_EQ(current->name, "Version 2");
+}
+
+TEST_F(PolicyManagerTest, PreviewRollback) {
+    PolicyRule rule;
+    rule.id = "rule_v006";
+    rule.name = "Current";
+    rule.description = "Current desc";
+    rule.require_encryption = true;
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    PolicyRule updated = rule;
+    updated.name = "Updated";
+    updated.description = "Updated desc";
+    updated.require_encryption = false;
+    manager->updateRule("rule_v006", updated, "user1", "Update");
+    
+    auto diffs = manager->previewRollback("rule_v006", "1.0.0");
+    EXPECT_GT(diffs.size(), 0);
+    
+    bool found_name_diff = false;
+    bool found_encryption_diff = false;
+    
+    for (const auto& diff : diffs) {
+        if (diff.field == "name") {
+            EXPECT_EQ(diff.old_value, "Updated");
+            EXPECT_EQ(diff.new_value, "Current");
+            found_name_diff = true;
+        }
+        if (diff.field == "require_encryption") {
+            EXPECT_EQ(diff.old_value, "false");
+            EXPECT_EQ(diff.new_value, "true");
+            found_encryption_diff = true;
+        }
+    }
+    
+    EXPECT_TRUE(found_name_diff);
+    EXPECT_TRUE(found_encryption_diff);
+}
+
+TEST_F(PolicyManagerTest, CompareVersions) {
+    PolicyRule rule;
+    rule.id = "rule_v007";
+    rule.name = "Version 1";
+    rule.priority = 10;
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    PolicyRule updated1 = rule;
+    updated1.name = "Version 2";
+    updated1.priority = 20;
+    manager->updateRule("rule_v007", updated1, "user1", "Update 1");
+    
+    PolicyRule updated2 = updated1;
+    updated2.name = "Version 3";
+    updated2.priority = 30;
+    manager->updateRule("rule_v007", updated2, "user1", "Update 2");
+    
+    auto diffs = manager->compareRuleVersions("rule_v007", "1.0.0", "1.0.1");
+    EXPECT_GT(diffs.size(), 0);
+    
+    bool found_name = false;
+    bool found_priority = false;
+    
+    for (const auto& diff : diffs) {
+        if (diff.field == "name") {
+            EXPECT_EQ(diff.old_value, "Version 1");
+            EXPECT_EQ(diff.new_value, "Version 2");
+            found_name = true;
+        }
+        if (diff.field == "priority") {
+            EXPECT_EQ(diff.old_value, "10");
+            EXPECT_EQ(diff.new_value, "20");
+            found_priority = true;
+        }
+    }
+    
+    EXPECT_TRUE(found_name);
+    EXPECT_TRUE(found_priority);
+}
+
+TEST_F(PolicyManagerTest, GetAuditTrail) {
+    PolicyRule rule;
+    rule.id = "rule_v008";
+    rule.name = "Audit Test";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    // Make several updates
+    for (int i = 1; i <= 5; i++) {
+        PolicyRule updated = rule;
+        updated.name = "Update " + std::to_string(i);
+        manager->updateRule("rule_v008", updated, "user1", "Change " + std::to_string(i));
+    }
+    
+    auto trail = manager->getAuditTrail("rule_v008");
+    EXPECT_EQ(trail.size(), 5);
+    
+    // Verify trail is sorted by timestamp
+    for (size_t i = 1; i < trail.size(); i++) {
+        EXPECT_LE(trail[i-1].timestamp, trail[i].timestamp);
+    }
+}
+
+TEST_F(PolicyManagerTest, GetAuditTrailByTimeRange) {
+    PolicyRule rule;
+    rule.id = "rule_v009";
+    rule.name = "Time Range Test";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    auto now = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    // Make updates
+    PolicyRule updated = rule;
+    updated.name = "Updated";
+    manager->updateRule("rule_v009", updated, "user1", "Update");
+    
+    // Get trail with time range that includes the update
+    auto trail = manager->getAuditTrail("rule_v009", 0, now + 100);
+    EXPECT_GE(trail.size(), 1);
+}
+
+TEST_F(PolicyManagerTest, GetAuditTrailByUser) {
+    PolicyRule rule1;
+    rule1.id = "rule_v010";
+    rule1.name = "User Test 1";
+    rule1.version = "1.0.0";
+    
+    PolicyRule rule2;
+    rule2.id = "rule_v011";
+    rule2.name = "User Test 2";
+    rule2.version = "1.0.0";
+    
+    manager->addRule(rule1);
+    manager->addRule(rule2);
+    
+    // User1 makes updates to both rules
+    PolicyRule updated1 = rule1;
+    updated1.name = "Updated by user1";
+    manager->updateRule("rule_v010", updated1, "user1", "Update by user1");
+    manager->updateRule("rule_v011", updated1, "user1", "Update by user1");
+    
+    // User2 makes update to rule1
+    PolicyRule updated2 = updated1;
+    updated2.name = "Updated by user2";
+    manager->updateRule("rule_v010", updated2, "user2", "Update by user2");
+    
+    auto user1_trail = manager->getAuditTrailByUser("user1");
+    EXPECT_EQ(user1_trail.size(), 2); // user1 made 2 updates
+    
+    auto user2_trail = manager->getAuditTrailByUser("user2");
+    EXPECT_EQ(user2_trail.size(), 1); // user2 made 1 update
+}
+
+TEST_F(PolicyManagerTest, VersionIncrementLogic) {
+    PolicyRule rule;
+    rule.id = "rule_v012";
+    rule.name = "Version Increment Test";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    // First update: 1.0.0 -> 1.0.1
+    PolicyRule updated1 = rule;
+    updated1.name = "Update 1";
+    manager->updateRule("rule_v012", updated1, "user1", "Patch update");
+    
+    auto current1 = manager->getRule("rule_v012");
+    ASSERT_TRUE(current1.has_value());
+    EXPECT_EQ(current1->version, "1.0.1");
+    
+    // Second update: 1.0.1 -> 1.0.2
+    PolicyRule updated2 = updated1;
+    updated2.name = "Update 2";
+    manager->updateRule("rule_v012", updated2, "user1", "Another patch");
+    
+    auto current2 = manager->getRule("rule_v012");
+    ASSERT_TRUE(current2.has_value());
+    EXPECT_EQ(current2->version, "1.0.2");
+}
+
+TEST_F(PolicyManagerTest, RollbackPreservesVersion) {
+    PolicyRule rule;
+    rule.id = "rule_v013";
+    rule.name = "Original";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    // Update to 1.0.1
+    PolicyRule updated = rule;
+    updated.name = "Updated";
+    manager->updateRule("rule_v013", updated, "user1", "Update");
+    
+    // Rollback creates a new version (doesn't revert version number)
+    manager->rollbackToVersion("rule_v013", "1.0.0", "admin");
+    
+    auto current = manager->getRule("rule_v013");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_EQ(current->name, "Original"); // Content restored
+    EXPECT_EQ(current->version, "1.0.2"); // But version continues incrementing
+}
+
+TEST_F(PolicyManagerTest, UpdateNonExistentRule) {
+    PolicyRule rule;
+    rule.id = "nonexistent";
+    rule.name = "Test";
+    
+    bool result = manager->updateRule("nonexistent", rule, "user1", "Update");
+    EXPECT_FALSE(result);
+}
+
+TEST_F(PolicyManagerTest, RollbackNonExistentRule) {
+    bool result = manager->rollbackToVersion("nonexistent", "1.0.0", "user1");
+    EXPECT_FALSE(result);
+}
+
+TEST_F(PolicyManagerTest, RollbackToNonExistentVersion) {
+    PolicyRule rule;
+    rule.id = "rule_v014";
+    rule.name = "Test";
+    rule.version = "1.0.0";
+    
+    manager->addRule(rule);
+    
+    bool result = manager->rollbackToVersion("rule_v014", "99.99.99", "user1");
+    EXPECT_FALSE(result);
+}
+

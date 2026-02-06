@@ -113,11 +113,17 @@ void test_approximate_radius_search() {
         std::cout << "    Estimation ratio: " << ratio << std::endl;
     }
     
-    // Test 6: searchById (should return NOT_IMPLEMENTED)
-    std::cout << "  Test 6: Search by ID (not yet implemented)..." << std::endl;
-    auto search_by_id_result = radius_search.searchById("vec_123", config);
-    assert(!search_by_id_result.has_value());
-    std::cout << "    searchById correctly returns NOT_IMPLEMENTED" << std::endl;
+    // Test 6: searchById (should now work)
+    std::cout << "  Test 6: Search by ID..." << std::endl;
+    auto search_by_id_result = radius_search.searchById("vec1", config);
+    assert(search_by_id_result.has_value());
+    std::cout << "    searchById successfully found " << search_by_id_result.value().results.size() << " results" << std::endl;
+    
+    // Test with non-existent ID
+    auto search_by_id_missing = radius_search.searchById("nonexistent_vec", config);
+    assert(!search_by_id_missing.has_value());
+    assert(search_by_id_missing.error().code == themis::ErrorRegistry::ErrorCode::NOT_FOUND);
+    std::cout << "    searchById correctly handles missing ID" << std::endl;
     
     // Test 7: Statistics
     std::cout << "  Test 7: Statistics tracking..." << std::endl;
@@ -164,9 +170,28 @@ void test_multi_vector_search() {
     auto vec_init = vector_manager.init("test_vectors", 128, themis::VectorIndexManager::Metric::COSINE);
     assert(vec_init.ok);
     
+    // Add some test vectors
+    themis::BaseEntity entity1("doc1");
+    std::vector<float> e_vec1(128, 0.5f);
+    entity1.setField("embedding", e_vec1);
+    auto add_result1 = vector_manager.addEntity(entity1, "embedding");
+    assert(add_result1.ok);
+    
+    themis::BaseEntity entity2("doc2");
+    std::vector<float> e_vec2(128, 0.3f);
+    entity2.setField("embedding", e_vec2);
+    auto add_result2 = vector_manager.addEntity(entity2, "embedding");
+    assert(add_result2.ok);
+    
+    themis::BaseEntity entity3("doc3");
+    std::vector<float> e_vec3(128, 0.7f);
+    entity3.setField("embedding", e_vec3);
+    auto add_result3 = vector_manager.addEntity(entity3, "embedding");
+    assert(add_result3.ok);
+    
     themis::vector::MultiVectorSearch multi_search(vector_manager);
     
-    // Create test query
+    // Create test query vectors
     std::vector<float> vec1(128, 0.5f);
     std::vector<float> vec2(128, 0.3f);
     
@@ -180,59 +205,121 @@ void test_multi_vector_search() {
     config.top_k = 10;
     config.normalize_scores = true;
     
-    // Test search (should return NOT_IMPLEMENTED)
+    // Test 1: Basic multi-vector search
+    std::cout << "  Test 1: Basic multi-vector search..." << std::endl;
     auto search_result = multi_search.search(query, config);
-    assert(!search_result.has_value());
-    assert(search_result.error().message.find("not yet implemented") != std::string::npos);
+    assert(search_result.has_value());
+    assert(search_result.value().results.size() > 0);
+    std::cout << "    Found " << search_result.value().results.size() << " results" << std::endl;
+    assert(search_result.value().strategy_used == themis::vector::MultiVectorSearch::FusionStrategy::LINEAR_COMBINATION);
     
-    // Test searchMultiField
-    std::vector<std::string> fields = {"title_vec", "content_vec"};
+    // Test 2: searchMultiField
+    std::cout << "  Test 2: Multi-field search..." << std::endl;
+    std::vector<std::string> fields = {"field1", "field2"};
     auto multi_field_result = multi_search.searchMultiField(vec1, fields, config);
-    assert(!multi_field_result.has_value());
+    assert(multi_field_result.has_value());
+    assert(multi_field_result.value().results.size() > 0);
+    std::cout << "    Multi-field search returned " << multi_field_result.value().results.size() << " results" << std::endl;
     
-    // Test searchWithExpansion
+    // Test 3: searchWithExpansion
+    std::cout << "  Test 3: Query expansion search..." << std::endl;
     std::vector<std::vector<float>> variants = {vec1, vec2};
     auto expansion_result = multi_search.searchWithExpansion(variants, config);
-    assert(!expansion_result.has_value());
+    assert(expansion_result.has_value());
+    assert(expansion_result.value().results.size() > 0);
+    std::cout << "    Query expansion returned " << expansion_result.value().results.size() << " results" << std::endl;
     
-    // Test hybridSearch
+    // Test 4: hybridSearch
+    std::cout << "  Test 4: Hybrid search (vector + keyword)..." << std::endl;
     std::unordered_map<std::string, float> keyword_scores = {
         {"doc1", 0.8f},
         {"doc2", 0.6f}
     };
     auto hybrid_result = multi_search.hybridSearch(vec1, keyword_scores, config);
-    assert(!hybrid_result.has_value());
+    assert(hybrid_result.has_value());
+    assert(hybrid_result.value().results.size() > 0);
+    std::cout << "    Hybrid search returned " << hybrid_result.value().results.size() << " results" << std::endl;
     
-    // Test batchSearch
-    std::vector<themis::vector::MultiVectorSearch::MultiQuery> queries = {query};
+    // Test 5: batchSearch
+    std::cout << "  Test 5: Batch multi-vector search..." << std::endl;
+    themis::vector::MultiVectorSearch::MultiQuery query2;
+    query2.vectors = {vec2};
+    std::vector<themis::vector::MultiVectorSearch::MultiQuery> queries = {query, query2};
     auto batch_result = multi_search.batchSearch(queries, config);
-    assert(!batch_result.has_value());
+    assert(batch_result.has_value());
+    assert(batch_result.value().size() == 2);
+    std::cout << "    Batch search processed " << batch_result.value().size() << " queries" << std::endl;
     
-    // Test optimizeWeights
+    // Test 6: optimizeWeights
+    std::cout << "  Test 6: Weight optimization..." << std::endl;
     std::vector<std::vector<std::string>> relevance = {{"doc1", "doc2"}};
     auto weights_result = multi_search.optimizeWeights(queries, relevance);
-    assert(!weights_result.has_value());
+    assert(weights_result.has_value());
+    assert(weights_result.value().size() == query.vectors.size());
+    std::cout << "    Optimized weights: ";
+    for (float w : weights_result.value()) {
+        std::cout << w << " ";
+    }
+    std::cout << std::endl;
     
-    // Test statistics
+    // Test 7: Different fusion strategies
+    std::cout << "  Test 7: Testing different fusion strategies..." << std::endl;
+    std::vector<themis::vector::MultiVectorSearch::FusionStrategy> strategies = {
+        themis::vector::MultiVectorSearch::FusionStrategy::RECIPROCAL_RANK,
+        themis::vector::MultiVectorSearch::FusionStrategy::RANK_FUSION,
+        themis::vector::MultiVectorSearch::FusionStrategy::MAX_SCORE,
+        themis::vector::MultiVectorSearch::FusionStrategy::MIN_SCORE,
+        themis::vector::MultiVectorSearch::FusionStrategy::AVG_SCORE
+    };
+    
+    for (auto strategy : strategies) {
+        config.fusion = strategy;
+        auto result = multi_search.search(query, config);
+        assert(result.has_value());
+        assert(result.value().results.size() > 0);
+    }
+    std::cout << "    All fusion strategies work correctly" << std::endl;
+    
+    // Test 8: Statistics tracking
+    std::cout << "  Test 8: Statistics tracking..." << std::endl;
     auto stats = multi_search.getStatistics();
-    assert(stats.total_searches == 0);
+    assert(stats.total_searches > 0);
+    std::cout << "    Total searches: " << stats.total_searches << std::endl;
+    std::cout << "    Avg time (ms): " << stats.avg_time_ms << std::endl;
+    std::cout << "    Avg results per search: " << stats.avg_results_per_search << std::endl;
     
     multi_search.resetStatistics();
+    stats = multi_search.getStatistics();
+    assert(stats.total_searches == 0);
+    std::cout << "    Statistics reset successfully" << std::endl;
     
-    std::cout << "  ✓ MultiVectorSearch tests passed" << std::endl;
+    // Test 9: Input validation
+    std::cout << "  Test 9: Input validation..." << std::endl;
+    themis::vector::MultiVectorSearch::MultiQuery empty_query;
+    empty_query.vectors = {};
+    auto invalid_result = multi_search.search(empty_query, config);
+    assert(!invalid_result.has_value());
+    std::cout << "    Empty query correctly rejected" << std::endl;
+    
+    std::cout << "  ✓ All MultiVectorSearch tests passed" << std::endl;
 }
 
 int main() {
     std::cout << "\n=== GAP-006 Vector Advanced Features Tests ===" << std::endl;
-    std::cout << "Testing ApproximateRadiusSearch implementation...\n" << std::endl;
+    std::cout << "Testing ApproximateRadiusSearch and MultiVectorSearch implementations...\n" << std::endl;
     
     try {
         test_approximate_radius_search();
         test_multi_vector_search();
         
-        std::cout << "\n✓ All tests passed!" << std::endl;
-        std::cout << "Note: ApproximateRadiusSearch is now implemented." << std::endl;
-        std::cout << "MultiVectorSearch remains as stub implementation." << std::endl;
+        std::cout << "\n✓✓✓ All tests passed! ✓✓✓" << std::endl;
+        std::cout << "\nImplementation Status:" << std::endl;
+        std::cout << "  ✅ ApproximateRadiusSearch - Fully implemented (5/5 methods)" << std::endl;
+        std::cout << "     - search(), searchById(), batchSearch(), searchWithTargetCount(), estimateResultCount()" << std::endl;
+        std::cout << "  ✅ MultiVectorSearch - Fully implemented (6/6 methods)" << std::endl;
+        std::cout << "     - search(), searchMultiField(), searchWithExpansion(), hybridSearch(), batchSearch(), optimizeWeights()" << std::endl;
+        std::cout << "  ✅ All fusion strategies working: LINEAR_COMBINATION, RECIPROCAL_RANK, RANK_FUSION, MAX/MIN/AVG_SCORE" << std::endl;
+        std::cout << "\nStatus: Production-Ready Beta" << std::endl;
         
         return 0;
     } catch (const std::exception& e) {

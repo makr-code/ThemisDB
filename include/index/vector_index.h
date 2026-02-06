@@ -299,6 +299,10 @@ public:
     bool isHnswEnabled() const { return useHnsw_; }
         std::string getSavePath() const { return savePath_; }
     
+    /// Get vector by primary key (for searchById support)
+    /// Returns nullopt if vector doesn't exist
+    std::optional<std::vector<float>> getVectorByPk(std::string_view pk) const;
+    
     // Encryption configuration (Phase 1)
     bool isVectorEncryptionEnabled() const;
     void setVectorEncryptionEnabled(bool enabled);

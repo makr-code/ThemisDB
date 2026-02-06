@@ -117,31 +117,15 @@ ApproximateRadiusSearch::searchById(
     std::string_view query_id,
     const SearchConfig& config) {
     
-    // Lookup vector from cache/storage
-    auto objectName = vector_manager_.getObjectName();
-    if (objectName.empty()) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_STATE,
-                        "VectorIndexManager not initialized");
+    // Lookup vector from VectorIndexManager
+    auto vectorOpt = vector_manager_.getVectorByPk(query_id);
+    if (!vectorOpt) {
+        return makeError(ErrorRegistry::ErrorCode::NOT_FOUND,
+                        "Vector with ID '" + std::string(query_id) + "' not found");
     }
     
-    // Try to find in cache or load from storage
-    std::string key = std::string(objectName) + ":" + std::string(query_id);
-    
-    // Use the VectorIndexManager's internal storage to get entity
-    // We need to access the database through VectorIndexManager
-    // For now, we'll get vector through a KNN search with k=1 to find if ID exists
-    // Then do full scan to find the actual vector
-    
-    // Alternative: Get all PKs and check if query_id exists
-    std::vector<float> query_vector;
-    
-    // Since VectorIndexManager doesn't expose a direct "get vector by ID" method,
-    // we need to use the underlying RocksDB. However, to keep changes minimal,
-    // we'll return an error for now and note this limitation
-    
-    return makeError(ErrorRegistry::ErrorCode::NOT_IMPLEMENTED,
-                    "searchById requires vector lookup by ID. "
-                    "Please use search() with the vector directly for now.");
+    // Perform radius search with the retrieved vector
+    return search(*vectorOpt, config);
 }
 
 Result<std::vector<ApproximateRadiusSearch::SearchResult>> 
