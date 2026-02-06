@@ -1154,7 +1154,7 @@ A: Native multi-model support (relational, graph, vector, document) with integra
 A: Yes, LLM features are optional. Use MINIMAL or COMMUNITY editions for traditional database functionality.
 
 **Q: Is ThemisDB production-ready?**  
-A: Yes, version 1.4+ is production-ready with comprehensive testing, monitoring, and enterprise features.
+A: ThemisDB is designed as a production-ready multi-model database with comprehensive testing, monitoring, and enterprise features. Currently at v1.5.0-dev. See [CHANGELOG.md](CHANGELOG.md) for version-specific details and [README.md](README.md) for current production status.
 
 ### Architecture
 
