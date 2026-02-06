@@ -131,46 +131,77 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
         }
         options.dry_run = true;  // Force dry-run for preview
         
-        // Get target sequence based on type
-        uint64_t target_sequence = 0;
+        // For preview, we use the main restore with dry_run=true
+        // This allows preview to work with all target types (sequence, tag, timestamp)
+        PITRManager::Status status;
         
         if (type == "sequence") {
-            target_sequence = target["value"];
+            uint64_t sequence = target["value"];
+            // Use previewRestore method which is more efficient for sequence-based preview
+            auto preview = pitr_manager_.previewRestore(sequence, options);
+            
+            json response = {
+                {"target_sequence", preview.target_sequence},
+                {"current_sequence", preview.current_sequence},
+                {"events_to_replay", preview.events_to_replay},
+                {"affected_tables", preview.affected_tables},
+                {"affected_keys", preview.affected_keys},
+                {"estimated_duration_sec", preview.estimated_duration_sec},
+                {"estimated_size_bytes", preview.estimated_size_bytes}
+            };
+            
+            sendJson(res, response, 200);
         }
         else if (type == "tag") {
             std::string tag_name = target["value"];
-            // Use preview with tag requires converting tag to sequence first
-            // This is a simplified approach - in production, you might want to handle this differently
-            sendError(res, 501, "Preview by tag not yet implemented. Use sequence or timestamp.");
-            return;
+            status = pitr_manager_.restoreToTag(tag_name, options);
+            
+            if (!status.ok) {
+                sendError(res, 400, fmt::format("Preview failed: {}", status.message));
+                return;
+            }
+            
+            // Convert status to preview-style response
+            if (status.progress.has_value()) {
+                auto& prog = status.progress.value();
+                json response = {
+                    {"ok", true},
+                    {"message", "Preview completed (dry-run)"},
+                    {"events_to_replay", prog.total_events},
+                    {"current_table", prog.current_table}
+                };
+                sendJson(res, response, 200);
+            } else {
+                sendJson(res, {{"ok", true}, {"message", "Preview completed"}}, 200);
+            }
         }
         else if (type == "timestamp") {
             int64_t timestamp_ms = target["value"];
-            // Convert timestamp to sequence (requires access to changefeed)
-            // Simplified: return error for now
-            sendError(res, 501, "Preview by timestamp not yet implemented. Use sequence.");
-            return;
+            status = pitr_manager_.restoreToTimestamp(timestamp_ms, options);
+            
+            if (!status.ok) {
+                sendError(res, 400, fmt::format("Preview failed: {}", status.message));
+                return;
+            }
+            
+            // Convert status to preview-style response
+            if (status.progress.has_value()) {
+                auto& prog = status.progress.value();
+                json response = {
+                    {"ok", true},
+                    {"message", "Preview completed (dry-run)"},
+                    {"events_to_replay", prog.total_events},
+                    {"current_table", prog.current_table}
+                };
+                sendJson(res, response, 200);
+            } else {
+                sendJson(res, {{"ok", true}, {"message", "Preview completed"}}, 200);
+            }
         }
         else {
             sendError(res, 400, fmt::format("Invalid target type: '{}'. Must be 'sequence', 'tag', or 'timestamp'", type));
             return;
         }
-        
-        // Get preview
-        auto preview = pitr_manager_.previewRestore(target_sequence, options);
-        
-        // Build response
-        json response = {
-            {"target_sequence", preview.target_sequence},
-            {"current_sequence", preview.current_sequence},
-            {"events_to_replay", preview.events_to_replay},
-            {"affected_tables", preview.affected_tables},
-            {"affected_keys", preview.affected_keys},
-            {"estimated_duration_sec", preview.estimated_duration_sec},
-            {"estimated_size_bytes", preview.estimated_size_bytes}
-        };
-        
-        sendJson(res, response, 200);
         
     } catch (const json::exception& e) {
         sendError(res, 400, fmt::format("Invalid JSON: {}", e.what()));
