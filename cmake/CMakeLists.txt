@@ -1369,6 +1369,10 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/compliance_reporting.cpp
+    ../src/governance/policy_validation.cpp
     ../src/governance/policy_coordinator.cpp
     ../src/governance/policy_version_history.cpp
     ../src/governance/policy_manager_versioned.cpp
