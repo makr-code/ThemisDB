@@ -56,6 +56,7 @@
 #include "llm/prompt_manager.h"
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
+#include "transaction/branch_manager.h"
 #include <algorithm>
 
 // Sprint B features
@@ -74,6 +75,8 @@
 #include "server/snapshot_api_handler.h"
 #include "server/pitr_api_handler.h"
 #include "server/diff_api_handler.h"
+#include "server/pitr_api_handler.h"
+#include "server/branch_api_handler.h"
 #include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 #include "analytics/diff_engine.h"
@@ -303,9 +306,28 @@ HttpServer::HttpServer(
         
         // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
         // Pass SnapshotManager for tag-based diff support
+        snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
+        THEMIS_INFO("SnapshotManager initialized");
+        
+        // Initialize BranchManager (Phase 4 - Persistent Branches)
+        branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
+        branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
+        THEMIS_INFO("BranchManager initialized");
+        
+        // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
         diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
         diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
         THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
+        
+        // Initialize PITRManager and PITRApiHandler (Phase 3 MVCC features)
+        // Note: PITRManager can work without SnapshotManager for sequence/timestamp restore
+        pitr_manager_ = std::make_unique<PITRManager>(
+            storage_.get(), 
+            changefeed_.get(), 
+            nullptr  /* snapshot_manager - TODO: Enable when SnapshotManager Beast migration is complete */
+        );
+        pitr_api_handler_ = std::make_unique<PITRApiHandler>(*pitr_manager_);
+        THEMIS_INFO("PITRManager initialized (without snapshot support)");
         
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
@@ -1504,6 +1526,19 @@ namespace {
     PITRRestoreTimestampPost,   // POST /api/v1/pitr/restore/timestamp
     PITRPreviewPost,            // POST /api/v1/pitr/preview
     PITRProgressGet,            // GET /api/v1/pitr/progress
+    // PITR API (Phase 3 MVCC)
+    PITRRestorePost,            // POST /api/v1/restore/pitr
+    PITRPreviewPost,            // POST /api/v1/restore/preview
+    PITRProgressGet,            // GET /api/v1/restore/progress
+    // Branch API (Phase 4 MVCC - Optional)
+    BranchesPost,               // POST /api/v1/branches
+    BranchesGet,                // GET /api/v1/branches
+    BranchesActiveGet,          // GET /api/v1/branches/active
+    BranchesStatsGet,           // GET /api/v1/branches/stats
+    BranchGet,                  // GET /api/v1/branches/:name
+    BranchSwitchPost,           // POST /api/v1/branches/:name/switch
+    BranchDelete,               // DELETE /api/v1/branches/:name
+    BranchesMergePost,          // POST /api/v1/branches/merge
        
     // Schema API
     SchemaGetFull,            // GET /api/v1/schema
@@ -1611,6 +1646,20 @@ namespace {
     if (path_only == "/api/v1/pitr/restore/timestamp" && method == http::verb::post) return Route::PITRRestoreTimestampPost;
     if (path_only == "/api/v1/pitr/preview" && method == http::verb::post) return Route::PITRPreviewPost;
     if (path_only == "/api/v1/pitr/progress" && method == http::verb::get) return Route::PITRProgressGet;
+    if (path_only == "/api/v1/restore/pitr" && method == http::verb::post) return Route::PITRRestorePost;
+    if (path_only == "/api/v1/restore/preview" && method == http::verb::post) return Route::PITRPreviewPost;
+    if (path_only == "/api/v1/restore/progress" && method == http::verb::get) return Route::PITRProgressGet;
+    
+    // Sprint B endpoints - Time Series
+    // Branch API endpoints
+    if (path_only == "/api/v1/branches" && method == http::verb::post) return Route::BranchesPost;
+    if (path_only == "/api/v1/branches" && method == http::verb::get) return Route::BranchesGet;
+    if (path_only == "/api/v1/branches/active" && method == http::verb::get) return Route::BranchesActiveGet;
+    if (path_only == "/api/v1/branches/stats" && method == http::verb::get) return Route::BranchesStatsGet;
+    if (path_only == "/api/v1/branches/merge" && method == http::verb::post) return Route::BranchesMergePost;
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && path_only.rfind("/switch") == path_only.length() - 7 && method == http::verb::post) return Route::BranchSwitchPost;
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::get) return Route::BranchGet;
+    if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::delete_) return Route::BranchDelete;
     
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
@@ -2199,11 +2248,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         
         // PITR API
         case Route::PITRRestoreSequencePost:
+        case Route::PITRRestorePost:
             if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 pitr_api_handler_->handleRestoreToSequence(httplib_req, httplib_res);
+                pitr_api_handler_->handleRestore(httplib_req, httplib_res);
                 // Convert cpp-httplib → Beast types
                 response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
@@ -2212,11 +2263,13 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PITRRestoreTagPost:
+        case Route::PITRPreviewPost:
             if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 pitr_api_handler_->handleRestoreToTag(httplib_req, httplib_res);
+                pitr_api_handler_->handlePreview(httplib_req, httplib_res);
                 // Convert cpp-httplib → Beast types
                 response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
@@ -2225,11 +2278,13 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::PITRRestoreTimestampPost:
+        case Route::PITRProgressGet:
             if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
                 pitr_api_handler_->handleRestoreToTimestamp(httplib_req, httplib_res);
+                pitr_api_handler_->handleGetProgress(httplib_req, httplib_res);
                 // Convert cpp-httplib → Beast types
                 response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
             } else {
@@ -2261,6 +2316,93 @@ http::response<http::string_body> HttpServer::routeRequest(
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "PITR API not available (requires CDC feature)", req);
+        // Branch API handlers
+        case Route::BranchesPost:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleCreateBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleListBranches(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesActiveGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleGetActiveBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesStatsGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleGetStats(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchGet:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleGetBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchSwitchPost:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleSwitchBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchDelete:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleDeleteBranch(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
+            }
+            break;
+        case Route::BranchesMergePost:
+            if (branch_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                branch_api_handler_->handleMergeBranches(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Branch API not available", req);
             }
             break;
         
