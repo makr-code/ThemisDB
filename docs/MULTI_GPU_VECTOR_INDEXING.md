@@ -2,11 +2,13 @@
 
 ## Overview
 
-This document describes the implementation of multi-GPU support for ThemisDB vector indexing (v2.4). The multi-GPU feature enables distributed vector search across multiple GPUs for improved throughput and scalability.
+This document describes the multi-GPU vector indexing API implemented in ThemisDB v2.4.
 
-**Status**: ✅ Implemented (v2.4)  
-**Dependencies**: GPU vector indexing (v2.1-2.3)  
-**Target Performance**: 80-90% scaling efficiency with 2-8 GPUs
+**Important Note**: The current v2.4 implementation provides the **API surface and partition/merge scaffolding** for multi-GPU vector indexing. Execution currently uses the existing GPUVectorIndex backend, which is **CPU-only**. Actual GPU execution with NCCL/RCCL collectives and device-to-device transfers will be available in v2.5+ when GPU backends are enabled.
+
+**Status**: ✅ API Implemented (v2.4), GPU Execution Pending (v2.5+)  
+**Dependencies**: GPU vector indexing backends (v2.5+)  
+**Current Execution**: CPU-based via GPUVectorIndex partitions
 
 ## Architecture
 
@@ -44,28 +46,36 @@ This document describes the implementation of multi-GPU support for ThemisDB vec
 
 ### Phase 1: Foundation & Configuration ✅
 
-- [x] Multi-GPU configuration structures
-- [x] Device enumeration and selection
-- [x] Context management for multiple GPUs
-- [x] Fault tolerance with graceful degradation
+**Current Status (v2.4)**: API scaffolding and logical partitioning implemented. Actual multi-GPU execution pending GPU backends (v2.5+).
+
+- [x] Multi-GPU API and configuration structures
+- [x] Logical device selection (configuration only, no actual GPU enumeration yet)
+- [x] Partition context management (logical, CPU-based execution)
+- [x] Fault tolerance design with graceful degradation
 
 ### Phase 2: Data Partitioning ✅
 
-- [x] Round-robin distribution
-- [x] Hash-based partitioning
-- [x] Range-based partitioning
-- [x] Balanced load distribution
-- [x] Query broadcast to all GPUs
-- [x] Result aggregation and merging
+**Current Status (v2.4)**: Partition logic implemented, executes on CPU via GPUVectorIndex (currently CPU-only).
+
+- [x] Round-robin distribution (logical partitioning)
+- [x] Hash-based partitioning (logical partitioning)
+- [x] Range-based partitioning (logical partitioning)
+- [x] Balanced load distribution (logical partitioning)
+- [x] Query fan-out to all partitions
+- [x] Result aggregation and top-k merging
 
 ### Phase 3: API Integration ✅
 
+**Current Status (v2.4)**: Complete API surface, ready for GPU backend integration in v2.5+.
+
 - [x] Complete multi-GPU API
 - [x] Configuration options (enableMultiGPU, deviceIds, partitionStrategy)
-- [x] Runtime control (add/remove GPU, rebalance)
-- [x] Comprehensive statistics
+- [x] Runtime control (add/remove partition, load analysis via rebalance)
+- [x] Per-partition statistics (ready for GPU metrics in v2.5+)
 
 ### Phase 4: Testing ✅
+
+**Current Status (v2.4)**: Tests validate API and partition/merge logic on CPU.
 
 - [x] Unit tests for all operations
 - [x] Partition strategy tests

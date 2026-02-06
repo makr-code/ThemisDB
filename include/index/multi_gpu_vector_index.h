@@ -11,22 +11,28 @@ namespace themis {
 namespace index {
 
 /**
- * Multi-GPU Vector Index
+ * Multi-GPU Vector Index API (v2.4)
  * 
- * Extends GPUVectorIndex to support distributed vector search across multiple GPUs.
+ * Provides a multi-device API and scaffolding for distributed vector search.
  * 
- * Features:
- * - Load distribution across 2-8 GPUs
- * - Multiple partitioning strategies (round-robin, hash-based, range-based)
- * - Collective operations (AllReduce, Broadcast, AllGather)
- * - Automatic workload balancing
+ * **Current Status (v2.4)**: This implementation provides the API surface and
+ * partitioning/merge logic for multi-GPU vector indexing. The underlying
+ * GPUVectorIndex currently uses CPU-only execution. Full GPU acceleration with
+ * NCCL/RCCL collectives and device-to-device transfers will be available in v2.5+.
+ * 
+ * Features (v2.4):
+ * - Multi-device API with partition strategies (round-robin, hash-based, range-based, balanced)
+ * - Query fan-out and top-k result merging
+ * - Runtime device management (add/remove)
+ * - Per-partition statistics and monitoring
  * - Fault tolerance with graceful degradation
- * - Support for CUDA (NCCL) and HIP (RCCL) backends
+ * - CPU fallback support
  * 
- * Performance Targets:
- * - 2 GPUs: 1.8x speedup (90% efficiency)
- * - 4 GPUs: 3.4x speedup (85% efficiency)
- * - 8 GPUs: 6.4x speedup (80% efficiency)
+ * Planned (v2.5+):
+ * - Actual GPU execution on multiple devices
+ * - NCCL (NVIDIA) and RCCL (AMD) collective operations
+ * - Peer-to-peer GPU transfers
+ * - Dynamic load balancing with data migration
  * 
  * @version v2.4
  * @see docs/FUTURE_GPU_SUPPORT.md
@@ -88,28 +94,28 @@ public:
      * Per-GPU statistics
      */
     struct GPUStatistics {
-        int deviceId;
-        size_t numVectors;
-        size_t vramUsageBytes;
-        double avgQueryTimeMs;
-        double utilizationPercent;
-        bool isActive;
-        bool hasFailed;
+        int deviceId = 0;
+        size_t numVectors = 0;
+        size_t vramUsageBytes = 0;
+        double avgQueryTimeMs = 0.0;
+        double utilizationPercent = 0.0;
+        bool isActive = false;
+        bool hasFailed = false;
     };
 
     /**
      * Aggregated multi-GPU statistics
      */
     struct Statistics {
-        size_t totalVectors;
-        size_t totalDimension;
-        size_t numActiveGPUs;
-        size_t numFailedGPUs;
+        size_t totalVectors = 0;
+        size_t totalDimension = 0;
+        size_t numActiveGPUs = 0;
+        size_t numFailedGPUs = 0;
         std::vector<GPUStatistics> perGPUStats;
-        double avgQueryTimeMs;
-        double throughputQPS;
-        double scalingEfficiency;  // Actual speedup / ideal speedup
-        double loadImbalance;      // Max load / avg load - 1.0
+        double avgQueryTimeMs = 0.0;
+        double throughputQPS = 0.0;
+        double scalingEfficiency = 0.0;  // Actual speedup / ideal speedup
+        double loadImbalance = 0.0;      // Max load / avg load - 1.0
     };
 
     /**

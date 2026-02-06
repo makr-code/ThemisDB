@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <unordered_map>
 #include <sstream>
+#include <limits>
 
 namespace themis {
 namespace index {
@@ -142,7 +143,7 @@ public:
             
             case PartitionStrategy::BALANCED: {
                 // Choose GPU with fewest vectors
-                size_t minVectors = SIZE_MAX;
+                size_t minVectors = std::numeric_limits<size_t>::max();
                 int selectedGPU = 0;
                 
                 for (size_t i = 0; i < gpuIndices.size(); ++i) {
@@ -369,11 +370,11 @@ public:
         
         // Get current load distribution
         std::vector<size_t> vectorsPerGPU;
-        for (const auto& gpuIndex : gpuIndices) {
-            auto stats = gpuIndex->getStatistics();
+        for (size_t i = 0; i < gpuIndices.size(); ++i) {
+            auto stats = gpuIndices[i]->getStatistics();
             vectorsPerGPU.push_back(stats.numVectors);
-            std::cout << "  GPU " << gpuIndex->getActiveBackend() 
-                     << ": " << stats.numVectors << " vectors\n";
+            std::cout << "  Partition " << i << " (Device " << activeDeviceIds[i] 
+                     << "): " << stats.numVectors << " vectors\n";
         }
         
         // Calculate load imbalance
@@ -484,11 +485,27 @@ bool MultiGPUVectorIndex::removeGPU(int deviceId) {
     
     size_t idx = std::distance(pImpl->activeDeviceIds.begin(), it);
     
+    // Clean up and adjust vector-to-GPU mappings
+    // Remove mappings for vectors that were on the removed GPU, and
+    // decrement GPU indices for GPUs that were after the removed one.
+    auto mapIt = pImpl->vectorToGPU.begin();
+    while (mapIt != pImpl->vectorToGPU.end()) {
+        auto &gpuIndexRef = mapIt->second;
+        if (gpuIndexRef == static_cast<int>(idx)) {
+            // This vector was assigned to the removed GPU; drop the mapping.
+            mapIt = pImpl->vectorToGPU.erase(mapIt);
+            continue;
+        }
+        if (gpuIndexRef > static_cast<int>(idx)) {
+            // Shift indices down to account for the erased GPU slot.
+            --gpuIndexRef;
+        }
+        ++mapIt;
+    }
+    
     // Remove GPU index
     pImpl->gpuIndices.erase(pImpl->gpuIndices.begin() + idx);
     pImpl->activeDeviceIds.erase(it);
-    
-    // TODO: Redistribute vectors from removed GPU
     
     return true;
 }

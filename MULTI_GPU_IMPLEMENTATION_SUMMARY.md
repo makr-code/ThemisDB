@@ -1,8 +1,26 @@
 # Multi-GPU Vector Indexing Implementation Summary
 
+## ⚠️ Important: Current Implementation Status
+
+**v2.4 provides the multi-GPU API and partition/merge scaffolding.** The current implementation executes on CPU using the existing GPUVectorIndex backend (which is CPU-only). Actual multi-GPU execution with hardware GPU offload, NCCL/RCCL collectives, and P2P transfers will be implemented in v2.5+ when GPU backends are enabled.
+
+**What's in v2.4:**
+- Complete multi-GPU API surface
+- Partition strategies and query fan-out/merge logic
+- Per-partition statistics and monitoring framework
+- Fault tolerance design
+- **Execution**: CPU-based (via multiple GPUVectorIndex instances)
+
+**What's coming in v2.5+:**
+- Actual GPU kernel execution on multiple devices
+- NCCL/RCCL collective operations
+- Peer-to-peer GPU transfers
+- Device-to-device data migration
+- Real GPU metrics (VRAM, utilization, etc.)
+
 ## Overview
 
-Successfully implemented comprehensive multi-GPU support for ThemisDB vector indexing (v2.4), enabling distributed vector search across 2-8 GPUs with automatic load distribution, fault tolerance, and runtime management.
+Successfully implemented comprehensive multi-GPU API for ThemisDB vector indexing (v2.4), providing the foundation for distributed vector search across 2-8 GPUs with automatic load distribution, fault tolerance, and runtime management.
 
 ## Implementation Status: ✅ COMPLETE
 
@@ -161,7 +179,7 @@ std::cout << "Scaling Efficiency: " << (stats.scalingEfficiency * 100) << "%\n";
 ## Build Requirements
 
 - CMake 3.20+
-- C++20 compiler
+- C++20 compiler (repository standard)
 - `THEMIS_ENABLE_GPU=ON`
 - `THEMIS_ENABLE_VECTOR_SEARCH=ON`
 
