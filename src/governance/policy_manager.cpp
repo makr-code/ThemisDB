@@ -33,6 +33,9 @@ nlohmann::json PolicyRule::toJson() const {
     j["created_by"] = created_by;
     j["created_at"] = created_at;
     j["updated_at"] = updated_at;
+    j["version"] = version;
+    j["last_modified_by"] = last_modified_by;
+    j["change_description"] = change_description;
     return j;
 }
 
@@ -58,6 +61,9 @@ PolicyRule PolicyRule::fromJson(const nlohmann::json& j) {
     if (j.contains("created_by")) rule.created_by = j["created_by"].get<std::string>();
     if (j.contains("created_at")) rule.created_at = j["created_at"].get<int64_t>();
     if (j.contains("updated_at")) rule.updated_at = j["updated_at"].get<int64_t>();
+    if (j.contains("version")) rule.version = j["version"].get<std::string>();
+    if (j.contains("last_modified_by")) rule.last_modified_by = j["last_modified_by"].get<std::string>();
+    if (j.contains("change_description")) rule.change_description = j["change_description"].get<std::string>();
     return rule;
 }
 

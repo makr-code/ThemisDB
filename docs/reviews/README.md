@@ -19,14 +19,15 @@ Each review follows a standardized template covering:
 ### 2026-02 Reviews
 
 - [Base Entities Framework Review](BASE_ENTITIES_REVIEW_2026-02.md) - Comprehensive review of the BaseEntity storage abstraction and multi-model support
+- [Vector Indexing Component Review](VECTOR_INDEXING_REVIEW_2026-02.md) - Comprehensive review of vector indexing with FAISS integration, GPU acceleration, and quantization
 
 ## Review Schedule
 
 Major components are reviewed on a 6-month cycle:
 
-- **Q1 2026**: Base Entities, Core Storage
-- **Q2 2026**: Query Engine, Indexes
-- **Q3 2026**: Transaction Management, MVCC
+- **Q1 2026**: Base Entities ✅, Core Storage, Vector Indexing ✅, Transaction Management
+- **Q2 2026**: Query Engine, Indexes (Secondary, Graph)
+- **Q3 2026**: MVCC
 - **Q4 2026**: Module System, Plugin Architecture
 
 ## Review Process
@@ -63,4 +64,5 @@ To create a new review:
 ---
 
 **Maintained by:** ThemisDB Core Team  
-**Last Updated:** 2026-02-02
+**Last Updated:** 2026-02-05  
+**Reviews Completed:** 2/4 (Q1 2026: Base Entities ✅, Vector Indexing ✅)
