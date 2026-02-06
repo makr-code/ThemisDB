@@ -210,6 +210,10 @@ private:
     analytics::DiffEngine& diff_engine_;
     SnapshotManager& snapshot_manager_;
     Changefeed& changefeed_;
+    
+    // Configurable limit for history retrieval in getValueAtSequence()
+    // Can be adjusted based on expected changefeed size
+    static constexpr size_t DEFAULT_HISTORY_LIMIT = 10000;
 
     /**
      * @brief Detect conflicts between source and target changes

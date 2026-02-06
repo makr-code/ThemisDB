@@ -113,6 +113,8 @@ public:
 private:
     transaction::MergeEngine& merge_engine_;
     transaction::SnapshotManager& snapshot_manager_;
+
+#ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
      * @brief Parse merge options from request body
      */
@@ -127,10 +129,6 @@ private:
      * @brief Create success response with JSON body
      */
     void sendJson(httplib::Response& res, const json& data, int status_code = 200) const;
-#else
-private:
-    transaction::MergeEngine& merge_engine_;
-    transaction::SnapshotManager& snapshot_manager_;
 #endif
 };
 
