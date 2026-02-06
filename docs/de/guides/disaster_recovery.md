@@ -602,8 +602,8 @@ Pflegen Sie eine Notfallkontaktliste:
 
 - [Named Snapshots Dokumentation](../features/features_snapshots.md)
 - [PITR Feature-Leitfaden](../features/features_pitr.md)
-- Backup Best Practices
-- Sicherheitsrichtlinien
+- Backup Best Practices (siehe Englische Dokumentation)
+- Sicherheitsrichtlinien (siehe [Security Dokumentation](../security/))
 
 ---
 
