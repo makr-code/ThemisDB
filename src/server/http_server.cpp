@@ -309,7 +309,7 @@ HttpServer::HttpServer(
         pitr_manager_ = std::make_unique<PITRManager>(
             storage_.get(), 
             changefeed_.get(), 
-            nullptr  /* snapshot_manager - disabled, will be enabled when SnapshotManager is re-enabled */
+            nullptr  /* snapshot_manager - TODO: Enable when SnapshotManager Beast migration is complete */
         );
         pitr_api_handler_ = std::make_unique<PITRApiHandler>(*pitr_manager_);
         THEMIS_INFO("PITRManager initialized (without snapshot support)");
