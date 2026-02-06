@@ -1,585 +1,269 @@
 # GPU Vector Indexing Architecture
 
-## Executive Summary
+## ⚠️ IMPORTANT NOTICE - v1.5.0+ Status
 
-This document describes the architecture of ThemisDB's GPU-accelerated vector indexing system. The implementation provides high-performance vector similarity search across multiple GPU backends (Vulkan, CUDA, HIP) with automatic backend selection and graceful CPU fallback.
+**This document describes the future GPU architecture planned for v2.x.**
 
-## Design Goals
+The current version (v1.5.0+) uses a CPU-only implementation. GPU support was removed in v1.5.0 and is being redesigned for v2.x.
+
+**For current information, see:**
+- [GPU_SUPPORT_ROADMAP.md](GPU_SUPPORT_ROADMAP.md) - Current status and migration guide
+- [FUTURE_GPU_SUPPORT.md](FUTURE_GPU_SUPPORT.md) - Detailed future plans
+
+---
+
+## Executive Summary (Future v2.x)
+
+This document describes the planned architecture of ThemisDB's GPU-accelerated vector indexing system. The implementation will provide high-performance vector similarity search across multiple GPU backends (CUDA, Vulkan, HIP) with automatic backend selection and graceful CPU fallback.
+
+## Current Status (v1.5.0+)
+
+- ❌ GPU backends (CUDA, Vulkan, HIP) removed in v1.5.0
+- ✅ CPU-only implementation available
+- ✅ SIMD-optimized (AVX-512, AVX2, NEON)
+- ✅ Multi-threaded batch processing
+- ⏳ GPU support planned for v2.x series
+
+## Design Goals (v2.x)
 
 1. **Unified API**: Single interface for all GPU backends
-2. **Performance**: 50,000+ queries/second on consumer GPUs
+2. **Performance**: 250,000+ queries/second on modern GPUs
 3. **Portability**: Support NVIDIA, AMD, Intel, and Apple GPUs
 4. **Reliability**: Graceful degradation to CPU when GPU unavailable
 5. **Efficiency**: Optimized memory usage and compute utilization
 
-## System Architecture
+## Planned System Architecture (v2.x)
 
 ### Component Hierarchy
 
 ```
 GPUVectorIndex (Public API)
-    ├── VulkanVectorIndexBackend (Cross-platform)
-    ├── CUDAVectorIndexBackend (NVIDIA)
-    ├── HIPVectorIndexBackend (AMD)
-    └── CPU Fallback (Brute-force)
+    ├── Backend::AUTO (auto-detection)
+    ├── Backend::CUDA (NVIDIA, v2.1)
+    ├── Backend::VULKAN (cross-platform, v2.2)
+    ├── Backend::HIP (AMD, v2.3)
+    └── Backend::CPU (fallback, always available)
 ```
 
-### Architecture Diagram
+### Current Implementation (v1.5.x)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Application Layer                         │
-│                   (User Code / API)                          │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ├── GPUVectorIndex::search(query, k)
-                     │
-┌────────────────────▼────────────────────────────────────────┐
-│              Unified Vector Index Interface                  │
-│  • Backend Selection & Management                           │
-│  • Automatic Fallback Logic                                 │
-│  • Statistics & Performance Monitoring                      │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-        ┌────────────┼────────────┐
-        │            │            │
-┌───────▼─────┐ ┌───▼─────┐ ┌───▼─────┐
-│   Vulkan    │ │  CUDA   │ │   HIP   │
-│   Backend   │ │ Backend │ │ Backend │
-└───────┬─────┘ └───┬─────┘ └───┬─────┘
-        │           │           │
-        │           │           │
-┌───────▼───────────▼───────────▼─────────────────────────────┐
-│                    GPU Hardware Layer                        │
-│  Vulkan Compute  │  CUDA Cores  │  ROCm/RDNA Compute       │
-└──────────────────────────────────────────────────────────────┘
+GPUVectorIndex (Public API)
+    └── Backend::CPU (SIMD-optimized)
+        ├── L2 Distance (AVX-512 vectorized)
+        ├── Cosine Distance (AVX-512 vectorized)
+        └── Inner Product (AVX-512 vectorized)
 ```
 
-## Core Components
+## Future Backend Designs
 
-### 1. GPUVectorIndex (Main Interface)
+### CUDA Backend (v2.1)
 
-**Responsibilities:**
-- Provide unified API for all operations
-- Manage backend lifecycle
-- Handle backend selection and switching
-- Maintain statistics and performance metrics
-- Coordinate CPU fallback
+**Target GPUs**: NVIDIA (Compute Capability 7.0+)
 
-**Key Classes:**
+**Features**:
+- Mixed precision (FP16, TF32, INT8)
+- Tensor Core acceleration
+- CUDA graphs for kernel fusion
+- Unified memory support
+- Multi-GPU via NCCL
+
+**Performance Target**: 250K QPS
+
+### Vulkan Backend (v2.2)
+
+**Target GPUs**: Cross-platform (NVIDIA, AMD, Intel, Apple)
+
+**Features**:
+- Compute shaders
+- Buffer management
+- Pipeline optimization
+- Cross-platform portability
+
+**Performance Target**: 200K QPS
+
+### HIP Backend (v2.3)
+
+**Target GPUs**: AMD (RDNA2, RDNA3, CDNA)
+
+**Features**:
+- rocBLAS integration
+- RCCL for multi-GPU
+- AMD-specific optimizations
+- Wave size tuning
+
+**Performance Target**: 200K QPS
+
+## Current CPU Architecture (v1.5.x)
+
+### Distance Computation
+
 ```cpp
-class GPUVectorIndex {
-    // Public API
-    bool initialize(int dimension);
-    bool addVector(const std::string& id, const std::vector<float>& vector);
-    std::vector<SearchResult> search(const std::vector<float>& query, size_t k);
+// CPU-optimized with SIMD
+float computeL2Distance(const float* a, const float* b, int dim) {
+    // AVX-512 vectorized implementation
+    // Processes 16 floats per iteration
+}
+```
+
+### Batch Processing
+
+```cpp
+// Multi-threaded parallel execution
+std::vector<Results> searchBatch(const std::vector<Query>& queries, size_t k) {
+    // OpenMP or std::thread parallelization
+    // Scales to available CPU cores
+}
+```
+
+### Performance Characteristics
+
+| Operation | Latency | Throughput |
+|-----------|---------|-----------|
+| Single Query | 0.5 ms | - |
+| Batch (64) | 20 ms | 3,200 QPS |
+| Batch (512) | 150 ms | 3,400 QPS |
+| Max Throughput | - | 30K QPS |
+
+## Future Implementation Details (v2.x)
+
+### Memory Management
+
+**Host Memory**:
+- Vector storage (CPU side)
+- Query buffers
+- Result buffers
+
+**Device Memory** (GPU):
+- Vector database (GPU side)
+- Intermediate computation buffers
+- Distance matrices
+
+**Transfer Strategy**:
+- Batch queries to amortize PCIe overhead
+- Keep vectors on GPU when possible
+- Async transfers with compute overlap
+
+### Distance Kernels (CUDA Example)
+
+```cuda
+__global__ void computeL2DistanceKernel(
+    const float* queries, const float* vectors,
+    float* distances, int numQueries, int numVectors, int dim) {
     
-    // Backend management
-    Backend getActiveBackend() const;
-    bool switchBackend(Backend backend);
+    int qIdx = blockIdx.x * blockDim.x + threadIdx.x;
+    int vIdx = blockIdx.y * blockDim.y + threadIdx.y;
     
-private:
-    class Impl;  // PIMPL for backend isolation
-    std::unique_ptr<Impl> pImpl;
-};
-```
-
-**Backend Selection Algorithm:**
-```
-1. If backend = AUTO:
-   a. Try Vulkan (highest portability)
-   b. Try CUDA (best NVIDIA performance)
-   c. Try HIP (best AMD performance)
-   d. Fallback to CPU
-2. Else:
-   a. Try requested backend
-   b. If allowCPUFallback: fallback to CPU
-   c. Else: fail
-```
-
-### 2. VulkanVectorIndexBackend
-
-**Architecture:**
-- **Compute Shaders**: GLSL compute shaders for distance computation
-- **Pipeline Management**: Separate pipelines for L2, Cosine, Inner Product
-- **Memory Model**: Host-visible staging buffers + device-local compute buffers
-- **Descriptor Sets**: Layout binding for query, vector, and result buffers
-
-**Shader Pipeline:**
-```
-┌──────────────┐
-│ Query Buffer │──┐
-└──────────────┘  │
-                  ├──> [Compute Shader] ──> [Distance Results]
-┌──────────────┐  │
-│Vector Buffer │──┘
-└──────────────┘
-```
-
-**Compute Shaders:**
-1. `l2_distance.comp`: L2 distance kernel
-2. `cosine_distance.comp`: Cosine similarity kernel
-3. `inner_product_distance.comp`: Inner product kernel
-4. `batch_search.comp`: Optimized batch search with shared memory
-5. `topk_selection.comp`: K-nearest neighbor selection
-
-**Memory Flow:**
-```
-Host Memory (RAM)
-    │
-    ├─ cudaMemcpy / vkCmdCopyBuffer
-    │
-Device Memory (VRAM)
-    │
-    ├─ Compute Shader Execution
-    │
-Result Buffer (VRAM)
-    │
-    ├─ cudaMemcpy / vkCmdCopyBuffer
-    │
-Host Memory (Results)
-```
-
-### 3. CUDAVectorIndexBackend
-
-**Advanced Optimizations:**
-
-**a) Mixed Precision:**
-- FP32: Default precision
-- FP16: 2x throughput on Tensor Cores (Volta+)
-- TF32: Automatic on Ampere+ (19-bit mantissa)
-- INT8: 4x throughput for quantized vectors
-
-**b) Flash Attention-Style Optimization:**
-```
-Tiled Computation Pattern:
-┌────────────────────────────────────┐
-│ Query Tile (32x32)                 │
-│  ┌────────────┐                    │
-│  │ Shared Mem │ ──> Compute ──> Partial Sum
-│  └────────────┘                    │
-└────────────────────────────────────┘
-         │
-         ├─ Load Next Tile
-         │
-┌────────▼───────────────────────────┐
-│ Vector Tile (32x32)                │
-└────────────────────────────────────┘
-```
-
-**c) Memory Coalescing:**
-- Threads in warp access consecutive memory addresses
-- Reduces DRAM transactions by 32x
-- Critical for high-dimensional vectors
-
-**d) Tensor Core Usage:**
-```cpp
-// Matrix multiplication using WMMA (Warp Matrix Multiply-Accumulate)
-wmma::fragment<wmma::matrix_a, 16, 16, 16, half> a_frag;
-wmma::fragment<wmma::matrix_b, 16, 16, 16, half> b_frag;
-wmma::fragment<wmma::accumulator, 16, 16, 16, float> c_frag;
-
-wmma::load_matrix_sync(a_frag, queries, 16);
-wmma::load_matrix_sync(b_frag, vectors, 16);
-wmma::mma_sync(c_frag, a_frag, b_frag, c_frag);
-```
-
-**e) CUDA Graphs:**
-```
-Graph Nodes:
-  MemcpyH2D → DistanceKernel → TopKKernel → MemcpyD2H
-  
-Benefits:
-  - Reduced kernel launch overhead
-  - Better overlap of compute and memory transfers
-  - 10-20% performance improvement
-```
-
-### 4. HIPVectorIndexBackend
-
-**AMD-Specific Optimizations:**
-
-**a) Wave Size Tuning:**
-- RDNA2: Wave32 (better occupancy)
-- RDNA3: Wave32 or Wave64 (tunable)
-- CDNA: Wave64 (compute-optimized)
-
-**b) LDS (Local Data Share) Optimization:**
-```cpp
-// 64KB shared memory per CU
-__shared__ float sharedQuery[WAVE_SIZE][256];
-
-// Bank conflict avoidance (32-way banked)
-sharedQuery[threadIdx.y][threadIdx.x] = query[idx];
-```
-
-**c) rocBLAS Integration:**
-```cpp
-// Use rocBLAS for large matrix operations
-rocblas_sgemm(
-    handle,
-    rocblas_operation_none,
-    rocblas_operation_transpose,
-    numQueries, numVectors, dimension,
-    &alpha,
-    queries, dimension,
-    vectors, dimension,
-    &beta,
-    results, numVectors
-);
-```
-
-**d) RCCL Multi-GPU:**
-```
-Ring AllReduce Pattern:
-  GPU0 → GPU1 → GPU2 → GPU3 → GPU0
-  
-  Each GPU:
-    1. Send chunk to next GPU
-    2. Receive chunk from previous GPU
-    3. Accumulate results
-    4. Repeat until complete
-```
-
-## Memory Management
-
-### Buffer Allocation Strategy
-
-**Vulkan:**
-```cpp
-VkMemoryAllocateInfo allocInfo = {};
-allocInfo.allocationSize = size;
-allocInfo.memoryTypeIndex = findMemoryType(
-    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT |
-    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
-);
-vkAllocateMemory(device, &allocInfo, nullptr, &memory);
-```
-
-**CUDA:**
-```cpp
-// Option 1: Device memory (fastest)
-cudaMalloc(&d_ptr, size);
-
-// Option 2: Unified memory (easier, slower)
-cudaMallocManaged(&d_ptr, size);
-
-// Option 3: Pinned memory (DMA transfers)
-cudaMallocHost(&h_ptr, size);
-```
-
-**HIP:**
-```cpp
-// Device memory
-hipMalloc(&d_ptr, size);
-
-// Managed memory
-hipMallocManaged(&d_ptr, size);
-
-// Fine-grained memory (coherent)
-hipExtMallocWithFlags(&d_ptr, size, hipDeviceMallocFinegrained);
-```
-
-### Memory Pooling
-
-To reduce allocation overhead:
-```cpp
-class MemoryPool {
-    std::vector<VkDeviceMemory> chunks;
-    std::map<size_t, std::vector<VkDeviceMemory>> freeList;
-    
-    VkDeviceMemory allocate(size_t size) {
-        // Round up to power of 2
-        size_t allocSize = nextPowerOf2(size);
-        
-        // Check free list
-        if (!freeList[allocSize].empty()) {
-            auto mem = freeList[allocSize].back();
-            freeList[allocSize].pop_back();
-            return mem;
+    if (qIdx < numQueries && vIdx < numVectors) {
+        float sum = 0.0f;
+        for (int i = 0; i < dim; i++) {
+            float diff = queries[qIdx * dim + i] - vectors[vIdx * dim + i];
+            sum += diff * diff;
         }
-        
-        // Allocate new chunk
-        return allocateNewChunk(allocSize);
-    }
-};
-```
-
-## Performance Optimization Techniques
-
-### 1. Batch Processing
-
-**Problem:** Individual searches have high overhead (kernel launch, memory transfer)
-
-**Solution:** Process multiple queries in parallel
-```cpp
-// Bad: Sequential searches
-for (query : queries) {
-    results.push_back(search(query, k));
-}
-
-// Good: Batch search
-auto results = searchBatch(queries, k);
-```
-
-**Speedup:** 10-50x depending on batch size
-
-### 2. Asynchronous Execution
-
-```cpp
-// Create multiple streams for overlap
-cudaStream_t streams[4];
-for (int i = 0; i < 4; i++) {
-    cudaStreamCreate(&streams[i]);
-}
-
-// Overlap compute and memory transfers
-for (int i = 0; i < numBatches; i++) {
-    int streamId = i % 4;
-    
-    cudaMemcpyAsync(d_queries[i], h_queries[i], size,
-                   cudaMemcpyHostToDevice, streams[streamId]);
-    
-    launchKernel<<<grid, block, 0, streams[streamId]>>>(
-        d_queries[i], d_vectors, d_results[i]);
-    
-    cudaMemcpyAsync(h_results[i], d_results[i], size,
-                   cudaMemcpyDeviceToHost, streams[streamId]);
-}
-```
-
-### 3. Persistent Kernels
-
-For high-throughput scenarios:
-```cpp
-__global__ void persistentKernel(
-    WorkQueue* workQueue,
-    float* vectors,
-    float* results)
-{
-    while (true) {
-        Work work = workQueue->dequeue();
-        if (work.done) break;
-        
-        // Process work
-        computeDistances(work.queries, vectors, results);
+        distances[qIdx * numVectors + vIdx] = sum;
     }
 }
 ```
 
-### 4. Zero-Copy Access (Vulkan)
+### Optimization Strategies
+
+**Compute**:
+- Warp-level primitives
+- Shared memory tiling
+- Memory coalescing
+- Tensor Core acceleration (where applicable)
+
+**Memory**:
+- Minimize host-device transfers
+- Use pinned memory for DMA
+- Async transfers with compute overlap
+- Unified memory for large datasets
+
+**Scaling**:
+- Multi-GPU data parallelism
+- Load balancing across devices
+- NCCL/RCCL for collective operations
+
+## API Design (Forward-Compatible)
+
+### Current Usage (v1.5.x)
 
 ```cpp
-// Map device memory to host address space
-VkMemoryAllocateInfo allocInfo = {};
-allocInfo.memoryTypeIndex = findMemoryType(
-    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT |
-    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-);
+#include "index/gpu_vector_index.h"
 
-void* mappedMemory;
-vkMapMemory(device, memory, 0, size, 0, &mappedMemory);
+GPUVectorIndex::Config config;
+config.backend = GPUVectorIndex::Backend::CPU;  // Only option
+config.metric = GPUVectorIndex::DistanceMetric::COSINE;
 
-// Direct CPU write, GPU read (no explicit copy)
-memcpy(mappedMemory, hostData, size);
+GPUVectorIndex index(config);
+index.initialize(128);
+index.addVectorBatch(ids, vectors);
+auto results = index.search(query, 10);
 ```
 
-## Performance Benchmarks
-
-### Synthetic Benchmarks
-
-**Hardware:**
-- NVIDIA RTX 3080 (10GB VRAM, 8704 CUDA Cores)
-- AMD RX 6800 XT (16GB VRAM, 72 CUs)
-- Intel Arc A770 (16GB VRAM, 32 Xe Cores)
-
-**Dataset:**
-- 1M vectors, 128 dimensions
-- Query batch size: 512
-- k = 10 (top-10 nearest neighbors)
-
-| Backend | Throughput (QPS) | Latency (ms) | VRAM (MB) |
-|---------|------------------|--------------|-----------|
-| CUDA (RTX 3080) | 62,340 | 8.2 | 512 |
-| HIP (RX 6800 XT) | 51,280 | 10.0 | 512 |
-| Vulkan (Arc A770) | 43,120 | 11.9 | 512 |
-| CPU (Ryzen 5950X) | 4,820 | 106.2 | 512 |
-
-### Real-World Performance
-
-**Retrieval-Augmented Generation (RAG):**
-- 10M document embeddings (768-dim, BERT)
-- 100 concurrent query streams
-- p50 latency: 15ms
-- p99 latency: 28ms
-- Sustained throughput: 45,000 QPS
-
-## Error Handling & Reliability
-
-### GPU Failure Detection
+### Future Usage (v2.x)
 
 ```cpp
-bool isGPUHealthy() {
-    try {
-        // Allocate small test buffer
-        void* testPtr;
-        cudaMalloc(&testPtr, 1024);
-        
-        // Run simple kernel
-        testKernel<<<1, 1>>>();
-        cudaDeviceSynchronize();
-        
-        // Check for errors
-        cudaError_t err = cudaGetLastError();
-        cudaFree(testPtr);
-        
-        return (err == cudaSuccess);
-    } catch (...) {
-        return false;
-    }
-}
+#include "index/gpu_vector_index.h"
+
+GPUVectorIndex::Config config;
+config.backend = GPUVectorIndex::Backend::CUDA;  // GPU in v2.x
+config.deviceId = 0;
+config.useMixedPrecision = true;
+config.maxVRAM_MB = 8192;
+
+GPUVectorIndex index(config);
+index.initialize(128);
+index.addVectorBatch(ids, vectors);
+auto results = index.search(query, 10);
 ```
 
-### Automatic Fallback
+**No breaking changes**: Existing CPU code continues to work.
 
-```cpp
-std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
-    if (activeBackend != Backend::CPU) {
-        try {
-            return gpuSearch(query, k);
-        } catch (const GPUException& e) {
-            std::cerr << "GPU search failed: " << e.what() << std::endl;
-            
-            if (config.allowCPUFallback) {
-                std::cerr << "Falling back to CPU" << std::endl;
-                activeBackend = Backend::CPU;
-                return cpuSearch(query, k);
-            }
-            throw;
-        }
-    }
-    return cpuSearch(query, k);
-}
-```
+## Performance Comparison
 
-### Circuit Breaker Pattern
+### Current (v1.5.x CPU)
 
-```cpp
-class CircuitBreaker {
-    int failureCount = 0;
-    int threshold = 5;
-    bool open = false;
-    
-    bool execute(std::function<void()> fn) {
-        if (open) {
-            throw CircuitBreakerOpenException();
-        }
-        
-        try {
-            fn();
-            failureCount = 0;
-            return true;
-        } catch (...) {
-            failureCount++;
-            if (failureCount >= threshold) {
-                open = true;
-            }
-            throw;
-        }
-    }
-};
-```
+| Workload | Performance |
+|----------|------------|
+| Small batch (<64) | Good |
+| Large batch (>512) | Medium |
+| High dimensionality | Slow |
+| Real-time queries | Good |
 
-## Future Enhancements
+### Future (v2.x GPU)
 
-### 1. Dynamic Backend Switching
+| Workload | Performance |
+|----------|------------|
+| Small batch (<64) | Medium (PCIe overhead) |
+| Large batch (>512) | Excellent |
+| High dimensionality | Good |
+| Real-time queries | Good (with batching) |
 
-Switch backends based on workload:
-```cpp
-if (queryLoad > HIGH_THRESHOLD) {
-    switchBackend(Backend::CUDA); // Highest throughput
-} else if (queryLoad > LOW_THRESHOLD) {
-    switchBackend(Backend::VULKAN); // Balanced
-} else {
-    switchBackend(Backend::CPU); // Save power
-}
-```
+## Migration Path
 
-### 2. Multi-GPU Load Balancing
+### Phase 1: v1.5.x (Current)
+- Use CPU-optimized implementation
+- Tune HNSW parameters for performance
+- Use batch processing for throughput
 
-```cpp
-class MultiGPUScheduler {
-    std::vector<GPUVectorIndex> gpus;
-    std::atomic<int> roundRobinIndex{0};
-    
-    SearchResult schedule(const std::vector<float>& query, size_t k) {
-        int gpuId = roundRobinIndex++ % gpus.size();
-        return gpus[gpuId].search(query, k);
-    }
-};
-```
+### Phase 2: v2.1 (CUDA Support)
+- Add `config.backend = Backend::CUDA`
+- Enable mixed precision
+- Test on NVIDIA hardware
 
-### 3. Quantization Support
-
-```cpp
-// 8-bit quantization: 4x memory savings
-struct QuantizedVector {
-    std::vector<uint8_t> data;
-    float scale;
-    float offset;
-};
-
-float quantize(float value, float scale, float offset) {
-    return std::round((value - offset) / scale * 255.0f);
-}
-
-float dequantize(uint8_t value, float scale, float offset) {
-    return (value / 255.0f) * scale + offset;
-}
-```
-
-### 4. Product Quantization
-
-```cpp
-// 96x memory reduction for 768-dim vectors
-struct ProductQuantizer {
-    int numSubspaces = 96;      // 768 / 8
-    int subspaceDim = 8;
-    int numCentroids = 256;     // 8-bit codebook
-    
-    std::vector<std::vector<float>> codebooks; // [96][256][8]
-    
-    std::vector<uint8_t> encode(const std::vector<float>& vector) {
-        std::vector<uint8_t> codes(numSubspaces);
-        for (int i = 0; i < numSubspaces; i++) {
-            // Find nearest centroid in subspace
-            codes[i] = findNearestCentroid(
-                vector.data() + i * subspaceDim,
-                codebooks[i]
-            );
-        }
-        return codes;
-    }
-};
-```
+### Phase 3: v2.2+ (Multi-Backend)
+- Switch to Vulkan for portability
+- Use HIP for AMD GPUs
+- Multi-GPU for extreme scale
 
 ## References
 
-1. Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs". IEEE TPAMI.
+- **Current Status**: [GPU_SUPPORT_ROADMAP.md](GPU_SUPPORT_ROADMAP.md)
+- **Future Plans**: [FUTURE_GPU_SUPPORT.md](FUTURE_GPU_SUPPORT.md)
+- **Implementation**: [GPU_VECTOR_INDEXING_IMPLEMENTATION.md](GPU_VECTOR_INDEXING_IMPLEMENTATION.md)
 
-2. Johnson, J., Douze, M., & Jégou, H. (2019). "Billion-scale similarity search with GPUs". IEEE Transactions on Big Data, 7(3), 535-547.
+---
 
-3. Dao, T., Fu, D. Y., Ermon, S., Rudra, A., & Ré, C. (2022). "FlashAttention: Fast and memory-efficient exact attention with IO-awareness". NeurIPS 2022.
-
-4. Kwon, W., et al. (2023). "Efficient Memory Management for Large Language Model Serving with PagedAttention". SOSP 2023.
-
-5. NVIDIA CUDA C++ Programming Guide. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
-
-6. Khronos Group. Vulkan 1.3 Specification. https://www.khronos.org/registry/vulkan/
-
-7. AMD ROCm Documentation. https://rocmdocs.amd.com/
-
-## Conclusion
-
-ThemisDB's GPU Vector Indexing system provides a production-ready, high-performance solution for vector similarity search across multiple GPU backends. The unified API, automatic backend selection, and graceful fallback ensure reliability while maximizing performance on available hardware.
+**Status**: CPU-only in v1.5.0+, GPU planned for v2.x  
+**Last Updated**: February 2026

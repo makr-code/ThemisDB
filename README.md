@@ -24,7 +24,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 
 - 🔒 **ACID Transactions** - Full snapshot isolation with MVCC
 - 🔍 **Multi-Model** - Relational, Graph, Vector, Document in one database
-- 🚀 **High Performance** - 45K writes/s, 120K reads/s, GPU-accelerated vector search
+- 🚀 **High Performance** - 45K writes/s, 120K reads/s, CPU-optimized vector search (GPU planned for v2.x)
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
@@ -438,7 +438,7 @@ graph TB
 ### Multi-Model Database
 - **Relational**: SQL-like queries with secondary indexes
 - **Graph**: BFS, Dijkstra, A* traversals with path constraints
-- **Vector**: HNSW and FAISS for similarity search (GPU-accelerated)
+- **Vector**: HNSW and FAISS for similarity search (CPU-optimized, GPU via FAISS)
 - **Document**: JSON storage with flexible schema
 - **Time-Series**: Gorilla compression, continuous aggregates
 
