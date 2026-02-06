@@ -93,6 +93,7 @@ class AdaptiveIndexManager;
 class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
+class PITRManager;
 
 namespace analytics {
 class DiffEngine;
@@ -100,6 +101,7 @@ class DiffEngine;
 
 namespace server {
 class DiffApiHandler;
+class PITRApiHandler;
 }
 
 namespace sharding {
@@ -556,6 +558,10 @@ private:
     // Snapshot Manager (Named Snapshots feature)
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
     std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    
+    // PITR Manager (Point-in-Time Recovery feature)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<server::PITRApiHandler> pitr_api_handler_;
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;

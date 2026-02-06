@@ -72,10 +72,12 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/pitr_api_handler.h"
 #include "server/diff_api_handler.h"
 #include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 #include "analytics/diff_engine.h"
+#include "storage/pitr_manager.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
@@ -293,6 +295,11 @@ HttpServer::HttpServer(
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
         snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
+        
+        // Initialize PITRManager (Point-in-Time Recovery feature)
+        pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
+        pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
+        THEMIS_INFO("PITRManager initialized");
         
         // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
         // Pass SnapshotManager for tag-based diff support
@@ -1490,6 +1497,13 @@ namespace {
     DiffGet,                    // GET /api/v1/diff
     DiffCacheStatsGet,          // GET /api/v1/diff/cache/stats
     DiffCacheClear,             // DELETE /api/v1/diff/cache
+    
+    // PITR API (Point-in-Time Recovery)
+    PITRRestoreSequencePost,    // POST /api/v1/pitr/restore/sequence
+    PITRRestoreTagPost,         // POST /api/v1/pitr/restore/tag
+    PITRRestoreTimestampPost,   // POST /api/v1/pitr/restore/timestamp
+    PITRPreviewPost,            // POST /api/v1/pitr/preview
+    PITRProgressGet,            // GET /api/v1/pitr/progress
        
     // Schema API
     SchemaGetFull,            // GET /api/v1/schema
@@ -1590,6 +1604,13 @@ namespace {
     if (path_only == "/api/v1/diff" && method == http::verb::get) return Route::DiffGet;
     if (path_only == "/api/v1/diff/cache/stats" && method == http::verb::get) return Route::DiffCacheStatsGet;
     if (path_only == "/api/v1/diff/cache" && method == http::verb::delete_) return Route::DiffCacheClear;
+    
+    // PITR API endpoints
+    if (path_only == "/api/v1/pitr/restore/sequence" && method == http::verb::post) return Route::PITRRestoreSequencePost;
+    if (path_only == "/api/v1/pitr/restore/tag" && method == http::verb::post) return Route::PITRRestoreTagPost;
+    if (path_only == "/api/v1/pitr/restore/timestamp" && method == http::verb::post) return Route::PITRRestoreTimestampPost;
+    if (path_only == "/api/v1/pitr/preview" && method == http::verb::post) return Route::PITRPreviewPost;
+    if (path_only == "/api/v1/pitr/progress" && method == http::verb::get) return Route::PITRProgressGet;
     
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
@@ -2173,6 +2194,73 @@ http::response<http::string_body> HttpServer::routeRequest(
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Diff API not available (requires CDC feature)", req);
+            }
+            break;
+        
+        // PITR API
+        case Route::PITRRestoreSequencePost:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handleRestoreToSequence(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::PITRRestoreTagPost:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handleRestoreToTag(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::PITRRestoreTimestampPost:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handleRestoreToTimestamp(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::PITRPreviewPost:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handlePreviewRestore(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
+            }
+            break;
+        case Route::PITRProgressGet:
+            if (pitr_api_handler_) {
+                // Convert Beast → cpp-httplib types
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                pitr_api_handler_->handleGetProgress(httplib_req, httplib_res);
+                // Convert cpp-httplib → Beast types
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "PITR API not available (requires CDC feature)", req);
             }
             break;
         
