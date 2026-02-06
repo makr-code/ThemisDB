@@ -206,6 +206,7 @@ private:
     mutable std::mutex cache_mutex_;
     static constexpr std::chrono::seconds CACHE_TTL{300}; // 5 minutes
     static constexpr size_t MAX_CACHE_SIZE = 100;
+    static constexpr size_t MAX_DIFF_LIMIT = 1000000; // Maximum allowed limit
     
     /**
      * @brief Process changefeed events and categorize them
