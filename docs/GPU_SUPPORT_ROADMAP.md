@@ -20,11 +20,12 @@ This document provides guidance for users who need GPU acceleration for vector i
 ✅ **HIP/ROCm Backend (AMD GPUs)** - v2.3
 - Full support for AMD Radeon GPUs (RDNA2, RDNA3)
 - Full support for AMD Instinct GPUs (CDNA, CDNA2, CDNA3)
-- Distance computation kernels (L2, Cosine, Inner Product)
+- Distance computation kernels (L2, Cosine)
 - GPU-accelerated batch search with top-k selection
 - Architecture-specific optimizations (Wave32/Wave64)
 - Automatic device detection and selection
 - CPU fallback for robustness
+- Note: Inner Product metric currently uses CPU fallback
 
 ✅ **CPU Backend** - Always available
 - SIMD-optimized (AVX-512, AVX2, NEON)
@@ -66,9 +67,8 @@ Added HIP/ROCm support:
 | Batch (64) | 3.5 ms | 5.7x | Sweet spot |
 | Batch (512) | 18 ms | 8.3x | Maximum throughput |
 | Throughput | 200K+ QPS | 6.7x | Batch processing |
-| Index Build | 18 sec (1M vectors) | 3.3x | One-time benefit |
 
-**Note**: GPU is faster for batch operations (64+ queries). Single queries are better on CPU due to transfer overhead.
+**Note**: GPU is faster for batch operations (64+ queries). Single queries are better on CPU due to transfer overhead. GPU-accelerated index building is planned but not yet implemented.
 
 ## Migration Guide
 

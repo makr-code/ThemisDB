@@ -9,6 +9,7 @@
 #include <memory>
 #include <algorithm>
 #include <cstring>
+#include <stdexcept>
 
 #ifdef THEMIS_ENABLE_HIP
 #include <hip/hip_runtime.h>
@@ -67,7 +68,8 @@ __global__ void computeL2DistanceKernel(
         sum += diff * diff;
     }
     
-    distances[qIdx * numVectors + vIdx] = sqrtf(sum);
+    // Return squared distance to match CPU implementation
+    distances[qIdx * numVectors + vIdx] = sum;
 }
 
 // Compute Cosine distance kernel
@@ -398,6 +400,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         return {};
     }
     
+    // Validate and clamp k to prevent out-of-bounds access
+    if (k == 0 || numVectors == 0 || numQueries == 0) {
+        return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
+    }
+    
+    size_t effectiveK = std::min(k, numVectors);
+    
     // Allocate device memory
     float *d_queries = nullptr, *d_vectors = nullptr, *d_distances = nullptr;
     uint32_t *d_indices = nullptr;
@@ -406,8 +415,8 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
     size_t queriesSize = numQueries * dim * sizeof(float);
     size_t vectorsSize = numVectors * dim * sizeof(float);
     size_t distancesSize = numQueries * numVectors * sizeof(float);
-    size_t topKSize = numQueries * k * sizeof(float);
-    size_t indicesSize = numQueries * k * sizeof(uint32_t);
+    size_t topKSize = numQueries * effectiveK * sizeof(float);
+    size_t indicesSize = numQueries * effectiveK * sizeof(uint32_t);
     
     try {
         HIP_CHECK_THROW(hipMalloc(&d_queries, queriesSize));
@@ -445,14 +454,14 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         
         hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream,
             d_distances, d_indices, d_topKDistances,
-            numQueries, numVectors, k
+            numQueries, numVectors, effectiveK
         );
         
         HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
         
         // Copy results back
-        std::vector<uint32_t> indices(numQueries * k);
-        std::vector<float> topKDistances(numQueries * k);
+        std::vector<uint32_t> indices(numQueries * effectiveK);
+        std::vector<float> topKDistances(numQueries * effectiveK);
         HIP_CHECK_THROW(hipMemcpy(indices.data(), d_indices, indicesSize, hipMemcpyDeviceToHost));
         HIP_CHECK_THROW(hipMemcpy(topKDistances.data(), d_topKDistances, topKSize, hipMemcpyDeviceToHost));
         
@@ -466,9 +475,9 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         // Format results
         std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         for (size_t q = 0; q < numQueries; q++) {
-            results[q].reserve(k);
-            for (size_t i = 0; i < k; i++) {
-                results[q].emplace_back(indices[q * k + i], topKDistances[q * k + i]);
+            results[q].reserve(effectiveK);
+            for (size_t i = 0; i < effectiveK; i++) {
+                results[q].emplace_back(indices[q * effectiveK + i], topKDistances[q * effectiveK + i]);
             }
         }
         

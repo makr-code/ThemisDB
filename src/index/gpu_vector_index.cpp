@@ -112,6 +112,26 @@ public:
                     return false;
                 }
             }
+        } else if (requestedBackend == Backend::VULKAN) {
+#ifdef THEMIS_ENABLE_VULKAN
+            // Vulkan backend not yet implemented
+            std::cerr << "GPUVectorIndex: Vulkan backend not yet implemented\n";
+            if (config.allowCPUFallback) {
+                activeBackend = Backend::CPU;
+                std::cout << "GPUVectorIndex: Falling back to CPU\n";
+            } else {
+                std::cerr << "GPUVectorIndex: Vulkan backend requested but not implemented\n";
+                return false;
+            }
+#else
+            if (config.allowCPUFallback) {
+                activeBackend = Backend::CPU;
+                std::cout << "GPUVectorIndex: Vulkan unavailable, falling back to CPU\n";
+            } else {
+                std::cerr << "GPUVectorIndex: Vulkan backend requested but not available\n";
+                return false;
+            }
+#endif
         } else {
             // CPU backend explicitly requested
             activeBackend = Backend::CPU;
@@ -262,6 +282,16 @@ public:
             return {};
         }
         
+        // HIP backend currently only supports L2 and Cosine metrics
+        // Inner Product falls back to CPU
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            if (config.allowCPUFallback) {
+                return searchCPU(query, k);
+            }
+            std::cerr << "HIP backend does not support INNER_PRODUCT metric\n";
+            return {};
+        }
+        
         auto startTime = std::chrono::steady_clock::now();
         
         // Flatten vector data for GPU
@@ -312,6 +342,21 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
 #ifdef THEMIS_ENABLE_HIP
         if (!hipBackend || vectorData.empty() || queries.empty()) {
+            return {};
+        }
+        
+        // HIP backend currently only supports L2 and Cosine metrics
+        // Inner Product falls back to CPU
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            if (config.allowCPUFallback) {
+                std::vector<std::vector<SearchResult>> cpuResults;
+                cpuResults.reserve(queries.size());
+                for (const auto& query : queries) {
+                    cpuResults.push_back(searchCPU(query, k));
+                }
+                return cpuResults;
+            }
+            std::cerr << "HIP backend does not support INNER_PRODUCT metric\n";
             return {};
         }
         
@@ -581,8 +626,6 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     if (pImpl->activeBackend == backend) {
         return true;
     }
-    
-    Backend oldBackend = pImpl->activeBackend;
     
     // Try to switch to requested backend
     if (backend == Backend::HIP) {

@@ -20,9 +20,7 @@ struct HIPBackendImpl;
  * - L2 and Cosine distance computation on GPU
  * - Batch KNN search with parallel top-k selection
  * - Asynchronous operations via HIP streams
- * - Memory pool management
  * - Architecture-specific optimizations (Wave32/Wave64)
- * - Optional rocBLAS integration
  * 
  * Hardware Requirements:
  * - AMD GPU with ROCm support (RDNA2+, CDNA)

@@ -14,18 +14,21 @@ namespace index {
  * GPU-Accelerated Vector Index
  * 
  * Supports multiple GPU backends:
- * - CPU: Optimized CPU-only implementation (fallback)
- * - CUDA: NVIDIA GPU acceleration (v2.1)
- * - Vulkan: Cross-platform GPU compute (v2.2)  
- * - HIP: AMD GPU acceleration via ROCm (v2.3)
+ * - CPU: Optimized CPU-only implementation (always available)
+ * - HIP: AMD GPU acceleration via ROCm (v2.3, production-ready)
+ * - CUDA: NVIDIA GPU acceleration (planned for v2.4)
+ * - Vulkan: Cross-platform GPU compute (planned for v2.2)
  * 
  * Features:
  * - CPU-optimized vector search with SIMD acceleration
  * - Multi-threaded batch processing
- * - GPU-accelerated distance computation (CUDA, Vulkan, HIP)
+ * - GPU-accelerated distance computation (L2, Cosine) via HIP
  * - Production-ready performance (30K+ QPS on CPU, 200K+ QPS on GPU)
  * - Full API compatibility with CPU VectorIndexManager
  * - Automatic backend selection and CPU fallback
+ * 
+ * Note: GPU backend support depends on build-time configuration.
+ * HIP backend requires ROCm 5.0+ and compatible AMD GPU hardware.
  * 
  * @sources
  * - HNSW Algorithm: Malkov & Yashunin (2018) - IEEE TPAMI

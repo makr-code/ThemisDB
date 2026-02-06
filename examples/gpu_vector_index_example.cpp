@@ -419,11 +419,16 @@ void demonstrateHIPBackend() {
             auto start = std::chrono::steady_clock::now();
             auto results = index.searchBatch(queries, 10);
             auto end = std::chrono::steady_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
             
-            double qps = (batchSize * 1000.0) / duration.count();
+            double duration_ms = duration_us.count() / 1000.0;
+            double qps = 0.0;
+            if (duration_us.count() > 0) {
+                qps = (batchSize * 1000000.0) / duration_us.count();
+            }
+            
             std::cout << "  Batch " << std::setw(3) << batchSize << ": " 
-                      << std::setw(5) << duration.count() << " ms"
+                      << std::setw(7) << std::fixed << std::setprecision(2) << duration_ms << " ms"
                       << " (" << std::fixed << std::setprecision(0) << qps << " QPS)\n";
         }
         
