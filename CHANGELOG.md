@@ -63,6 +63,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Marked LearnedQuantizer as deprecated (research-only)
   - Updated `LIBRARY_USAGE_ANALYSIS.md` and `LIBRARY_OPTIMIZATION_QUICKREF.md`
 
+### Removed
+- **GPU Vector Index Stubs (CLEANUP)** 🧹
+  - Removed incomplete GPU backend implementations (~1500 LOC)
+    - `src/index/gpu_vector_index_cuda.cpp` (384 lines, 3 TODOs)
+    - `src/index/gpu_vector_index_vulkan.cpp` (385 lines, 6 TODOs)
+    - `src/index/gpu_vector_index_hip.cpp` (419 lines, 4 TODOs)
+    - `src/index/gpu_vector_index_kernels.cu` (CUDA kernels)
+    - `src/index/gpu_vector_index_hip_kernels.cpp` (HIP kernels)
+  - Removed GPU backend classes from public API
+  - Removed GPU-specific CMake configuration
+  - **Rationale**: These were research stubs with 65+ TODO comments and no functional GPU acceleration
+  - **Current Status**: `GPUVectorIndex` now uses CPU-only implementation (SIMD-optimized)
+  - **Future Plans**: Proper GPU support planned for v2.x series (see `docs/FUTURE_GPU_SUPPORT.md`)
+
 ### Fixed
 - **FIND-003 (CRITICAL):** RFC 3161 Timestamp Authority implementation complete
   - Resolves eIDAS compliance gap for qualified electronic timestamps
@@ -78,6 +92,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added comprehensive TSA setup guide (400+ lines)
 - Documented integration with multiple TSA providers
 - Added troubleshooting guide for common TSA issues
+- **Added GPU Support Roadmap Documentation**
+  - `docs/FUTURE_GPU_SUPPORT.md` - Detailed GPU roadmap for v2.x
+  - `docs/GPU_SUPPORT_ROADMAP.md` - User migration guide
+  - Updated `docs/GPU_VECTOR_INDEXING.md` - CPU-only status notice
+  - Updated `docs/GPU_VECTOR_INDEXING_ARCHITECTURE.md` - Future architecture
+  - Updated `README.md` - Clarified CPU-only vector indexing status
 - Updated compliance documentation for eIDAS and ETSI EN 319 422
 
 ---

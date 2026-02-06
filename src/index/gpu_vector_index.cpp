@@ -10,11 +10,6 @@
 namespace themis {
 namespace index {
 
-// Forward declarations for backend implementations
-class VulkanVectorIndexBackend;
-class CUDAVectorIndexBackend;
-class HIPVectorIndexBackend;
-
 // =============================================================================
 // GPUVectorIndex::Impl
 // =============================================================================
@@ -37,11 +32,6 @@ public:
     size_t queryCount = 0;
     double totalQueryTimeMs = 0.0;
     
-    // Backend implementations
-    std::unique_ptr<VulkanVectorIndexBackend> vulkanBackend;
-    std::unique_ptr<CUDAVectorIndexBackend> cudaBackend;
-    std::unique_ptr<HIPVectorIndexBackend> hipBackend;
-    
     Impl(const Config& cfg) : config(cfg) {}
     
     ~Impl() {
@@ -52,75 +42,18 @@ public:
         dimension = dim;
         stats.dimension = dim;
         
-        // Detect and initialize best backend
-        if (config.backend == Backend::AUTO) {
-            if (tryInitializeBackend(Backend::VULKAN)) {
-                activeBackend = Backend::VULKAN;
-            } else if (tryInitializeBackend(Backend::CUDA)) {
-                activeBackend = Backend::CUDA;
-            } else if (tryInitializeBackend(Backend::HIP)) {
-                activeBackend = Backend::HIP;
-            } else {
-                activeBackend = Backend::CPU;
-                std::cout << "GPU backends not available, falling back to CPU\n";
-            }
-        } else {
-            if (!tryInitializeBackend(config.backend)) {
-                if (config.allowCPUFallback) {
-                    activeBackend = Backend::CPU;
-                    std::cout << "Requested backend not available, falling back to CPU\n";
-                } else {
-                    return false;
-                }
-            } else {
-                activeBackend = config.backend;
-            }
-        }
+        // Current version uses CPU-only implementation
+        activeBackend = Backend::CPU;
+        std::cout << "GPUVectorIndex: Using CPU backend (GPU support planned for v2.x)\n";
         
         stats.activeBackend = activeBackend;
-        stats.isGPUActive = (activeBackend != Backend::CPU);
+        stats.isGPUActive = false;
         initialized = true;
         return true;
     }
     
     void shutdown() {
-        if (vulkanBackend) vulkanBackend->shutdown();
-        if (cudaBackend) cudaBackend->shutdown();
-        if (hipBackend) hipBackend->shutdown();
         initialized = false;
-    }
-    
-    bool tryInitializeBackend(Backend backend) {
-        try {
-            switch (backend) {
-#ifdef THEMIS_ENABLE_VULKAN
-                case Backend::VULKAN:
-                    if (!vulkanBackend) {
-                        vulkanBackend = std::make_unique<VulkanVectorIndexBackend>();
-                    }
-                    return vulkanBackend->initialize(dimension, config);
-#endif
-#ifdef THEMIS_ENABLE_CUDA
-                case Backend::CUDA:
-                    if (!cudaBackend) {
-                        cudaBackend = std::make_unique<CUDAVectorIndexBackend>();
-                    }
-                    return cudaBackend->initialize(dimension, config);
-#endif
-#ifdef THEMIS_ENABLE_HIP
-                case Backend::HIP:
-                    if (!hipBackend) {
-                        hipBackend = std::make_unique<HIPVectorIndexBackend>();
-                    }
-                    return hipBackend->initialize(dimension, config);
-#endif
-                default:
-                    return false;
-            }
-        } catch (const std::exception& e) {
-            std::cerr << "Backend initialization failed: " << e.what() << std::endl;
-            return false;
-        }
     }
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
@@ -256,18 +189,7 @@ public:
     
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
-        backends.push_back(Backend::CPU); // Always available
-        
-#ifdef THEMIS_ENABLE_VULKAN
-        backends.push_back(Backend::VULKAN);
-#endif
-#ifdef THEMIS_ENABLE_CUDA
-        backends.push_back(Backend::CUDA);
-#endif
-#ifdef THEMIS_ENABLE_HIP
-        backends.push_back(Backend::HIP);
-#endif
-        
+        backends.push_back(Backend::CPU); // Only CPU available in current version
         return backends;
     }
 };
@@ -375,10 +297,11 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
-    if (pImpl->tryInitializeBackend(backend)) {
-        pImpl->activeBackend = backend;
-        pImpl->stats.activeBackend = backend;
-        pImpl->stats.isGPUActive = (backend != Backend::CPU);
+    // Only CPU backend is available in current version
+    if (backend == Backend::CPU || backend == Backend::AUTO) {
+        pImpl->activeBackend = Backend::CPU;
+        pImpl->stats.activeBackend = Backend::CPU;
+        pImpl->stats.isGPUActive = false;
         return true;
     }
     return false;

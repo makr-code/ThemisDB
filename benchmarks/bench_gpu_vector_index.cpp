@@ -5,6 +5,10 @@
 
 using namespace themis::index;
 
+// NOTE: GPU benchmarks (CUDA, Vulkan, HIP) are disabled in v1.5.x.
+// GPU backends were removed - see docs/FUTURE_GPU_SUPPORT.md for roadmap.
+// Only CPU benchmarks are available in this version.
+
 // Helper function to generate random vectors
 std::vector<std::vector<float>> generateRandomVectors(size_t count, int dimension, int seed = 42) {
     std::mt19937 gen(seed);
@@ -55,6 +59,9 @@ static void BM_IndexBuild_CPU(benchmark::State& state) {
     state.SetLabel(std::to_string(dimension) + "D, " + std::to_string(numVectors) + " vectors");
 }
 
+// GPU benchmarks disabled in v1.5.x - backends removed
+// Will be re-enabled in v2.x when GPU support is added
+#if 0
 #ifdef THEMIS_ENABLE_CUDA
 static void BM_IndexBuild_CUDA(benchmark::State& state) {
     int dimension = state.range(0);
@@ -86,6 +93,7 @@ static void BM_IndexBuild_CUDA(benchmark::State& state) {
     state.SetLabel(std::to_string(dimension) + "D, " + std::to_string(numVectors) + " vectors");
 }
 #endif
+#endif  // GPU benchmarks disabled
 
 // =============================================================================
 // Search Benchmarks
@@ -126,6 +134,7 @@ static void BM_Search_CPU(benchmark::State& state) {
                   std::to_string(numVectors) + " vectors, k=" + std::to_string(k));
 }
 
+#if 0  // GPU benchmarks disabled in v1.5.x
 #ifdef THEMIS_ENABLE_CUDA
 static void BM_Search_CUDA(benchmark::State& state) {
     int dimension = state.range(0);
@@ -165,6 +174,7 @@ static void BM_Search_CUDA(benchmark::State& state) {
                   std::to_string(numVectors) + " vectors, k=" + std::to_string(k));
 }
 #endif
+#endif  // GPU benchmarks disabled
 
 // =============================================================================
 // Batch Search Benchmarks
@@ -206,6 +216,7 @@ static void BM_BatchSearch_CPU(benchmark::State& state) {
                   std::to_string(numVectors) + " vectors, batch=" + std::to_string(batchSize));
 }
 
+#if 0  // GPU benchmarks disabled in v1.5.x
 #ifdef THEMIS_ENABLE_CUDA
 static void BM_BatchSearch_CUDA(benchmark::State& state) {
     int dimension = state.range(0);
@@ -246,6 +257,7 @@ static void BM_BatchSearch_CUDA(benchmark::State& state) {
                   std::to_string(numVectors) + " vectors, batch=" + std::to_string(batchSize));
 }
 #endif
+#endif  // GPU benchmarks disabled
 
 // =============================================================================
 // Distance Metric Benchmarks
@@ -319,6 +331,7 @@ BENCHMARK(BM_IndexBuild_CPU)
     ->Args({768, 1000})
     ->Unit(benchmark::kMillisecond);
 
+#if 0  // GPU benchmarks disabled in v1.5.x
 #ifdef THEMIS_ENABLE_CUDA
 BENCHMARK(BM_IndexBuild_CUDA)
     ->Args({128, 1000})
@@ -327,6 +340,7 @@ BENCHMARK(BM_IndexBuild_CUDA)
     ->Args({768, 1000})
     ->Unit(benchmark::kMillisecond);
 #endif
+#endif  // GPU benchmarks disabled
 
 // Single query search
 BENCHMARK(BM_Search_CPU)
@@ -336,6 +350,7 @@ BENCHMARK(BM_Search_CPU)
     ->Args({768, 1000, 10})
     ->Unit(benchmark::kMicrosecond);
 
+#if 0  // GPU benchmarks disabled in v1.5.x
 #ifdef THEMIS_ENABLE_CUDA
 BENCHMARK(BM_Search_CUDA)
     ->Args({128, 1000, 10})
@@ -344,6 +359,7 @@ BENCHMARK(BM_Search_CUDA)
     ->Args({768, 1000, 10})
     ->Unit(benchmark::kMicrosecond);
 #endif
+#endif  // GPU benchmarks disabled
 
 // Batch search
 BENCHMARK(BM_BatchSearch_CPU)
@@ -353,6 +369,7 @@ BENCHMARK(BM_BatchSearch_CPU)
     ->Args({384, 10000, 100})
     ->Unit(benchmark::kMillisecond);
 
+#if 0  // GPU benchmarks disabled in v1.5.x
 #ifdef THEMIS_ENABLE_CUDA
 BENCHMARK(BM_BatchSearch_CUDA)
     ->Args({128, 10000, 10})
@@ -361,6 +378,7 @@ BENCHMARK(BM_BatchSearch_CUDA)
     ->Args({384, 10000, 100})
     ->Unit(benchmark::kMillisecond);
 #endif
+#endif  // GPU benchmarks disabled
 
 // Distance metrics
 BENCHMARK(BM_DistanceMetric_L2)
