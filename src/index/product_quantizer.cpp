@@ -230,9 +230,28 @@ float ProductQuantizer::computeAsymmetricDistance(
         return std::numeric_limits<float>::max();
     }
     
-    // For both FAISS and fallback, decode and compute L2 distance
-    // TODO: Use FAISS SDC (Symmetric Distance Computation) tables for better performance
-    // via compute_distance_table() and compute_sdc() methods
+#ifdef THEMIS_HAS_FAISS
+    // Use FAISS optimized SDC (Symmetric Distance Computation) for better performance
+    try {
+        // Compute distance table for query
+        std::vector<float> dis_table(config_.num_subquantizers * config_.num_centroids);
+        faiss_pq_->compute_distance_table(query.data(), dis_table.data());
+        
+        // Compute distance using precomputed table
+        float distance = 0.0f;
+        for (int i = 0; i < config_.num_subquantizers; ++i) {
+            distance += dis_table[i * config_.num_centroids + codes[i]];
+        }
+        
+        return std::sqrt(distance);
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance (FAISS SDC) - Failed: {}", e.what());
+        // Fallthrough to decode method
+    }
+#endif
+    
+    // Fallback: decode and compute L2 distance
     auto decoded = decode(codes);
     if (decoded.empty()) {
         return std::numeric_limits<float>::max();

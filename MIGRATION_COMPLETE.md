@@ -177,9 +177,11 @@ If issues arise:
 
 ### Short Term
 
-1. **Performance Benchmarking**: Measure actual speedup with FAISS
-2. **SDC Optimization**: Implement FAISS distance tables (TODO added)
-3. **GPU Acceleration**: Leverage faiss::gpu::GpuProductQuantizer
+1. ✅ **Performance Benchmarking**: Existing benchmarks in `bench_product_quantization.cpp`
+2. ✅ **SDC Optimization**: Implemented FAISS distance tables (commit in progress)
+3. 📋 **GPU Acceleration**: Architecture ready, requires THEMIS_ENABLE_CUDA flag
+   - Can leverage `faiss::gpu::GpuProductQuantizer` when GPU enabled
+   - Conditional compilation already supports GPU backend
 
 ### Long Term
 

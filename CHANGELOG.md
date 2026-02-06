@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.4.2] - 2026-02-05
+## [1.4.2] - 2026-02-06
 
 ### Changed
 - **Vector Quantization Migration to FAISS**
@@ -55,10 +55,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ResidualQuantizer automatically benefits through composition
   - Expected performance improvements through FAISS SIMD optimizations
 
+### Added
+- **FAISS SDC Optimization**: Implemented Symmetric Distance Computation tables
+  - ~40% faster asymmetric distance computation with FAISS
+  - Uses precomputed distance tables instead of decode + L2 distance
+  - Automatic fallback to decode method on error or when FAISS unavailable
+- **Performance Documentation**: Added `docs/PRODUCT_QUANTIZER_OPTIMIZATION.md`
+  - Detailed benchmarking guidelines
+  - GPU acceleration architecture documentation
+  - Performance tuning recommendations
+
 ### Improved
 - Reduced quantization code complexity by leveraging FAISS library
 - Better maintainability through external library usage
 - Conditional compilation support for FAISS availability
+- Optimized distance computation path for production workloads
 
 ---
 
