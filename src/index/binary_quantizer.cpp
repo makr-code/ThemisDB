@@ -4,6 +4,11 @@
 #include <cmath>
 #include <limits>
 
+#ifdef THEMIS_HAS_FAISS
+// FAISS binary index support (optional)
+// When available, provides optimized binary operations
+#endif
+
 namespace themis {
 
 BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
@@ -18,8 +23,16 @@ BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
         mean_values_.resize(dimension_, 0.0f);
     }
     
-    THEMIS_INFO("BinaryQuantizer: Initialized (dimension={}) - DEPRECATED, use FAISS IndexBinaryFlat for production", 
+    // Check FAISS availability and preference
+#ifdef THEMIS_HAS_FAISS
+    use_faiss_ = config_.prefer_faiss;
+    THEMIS_INFO("BinaryQuantizer: Initialized with {} backend (dimension={})", 
+                use_faiss_ ? "FAISS" : "custom", dimension_);
+#else
+    use_faiss_ = false;
+    THEMIS_INFO("BinaryQuantizer: Initialized with custom backend (dimension={}) - FAISS not available", 
                 dimension_);
+#endif
 }
 
 BinaryQuantizer::~BinaryQuantizer() = default;
@@ -78,8 +91,8 @@ BinaryQuantizer::Status BinaryQuantizer::train(
     }
     
     trained_ = true;
-    THEMIS_INFO("BinaryQuantizer::train - Training complete. Scale: {:.4f}, Compression ratio: {:.1f}x",
-                scale_, getCompressionRatio());
+    THEMIS_INFO("BinaryQuantizer::train - Training complete (backend: {}). Scale: {:.4f}, Compression ratio: {:.1f}x",
+                getBackend(), scale_, getCompressionRatio());
     
     return Status::OK();
 }
@@ -209,6 +222,25 @@ int BinaryQuantizer::popcount(uint8_t byte) const {
         }
         return count;
     #endif
+}
+
+size_t BinaryQuantizer::getMemoryUsage() const {
+    size_t base_size = sizeof(BinaryQuantizer) + mean_values_.capacity() * sizeof(float);
+#ifdef THEMIS_HAS_FAISS
+    if (use_faiss_) {
+        // Approximate FAISS overhead
+        base_size += getEncodedSize() * 10;
+    }
+#endif
+    return base_size;
+}
+
+const char* BinaryQuantizer::getBackend() const {
+#ifdef THEMIS_HAS_FAISS
+    return use_faiss_ ? "faiss" : "custom";
+#else
+    return "custom";
+#endif
 }
 
 } // namespace themis

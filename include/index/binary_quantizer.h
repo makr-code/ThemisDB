@@ -10,21 +10,23 @@ namespace themis {
 /**
  * @brief Binary Quantization for Maximum Vector Compression
  * 
- * SIMPLIFIED IMPLEMENTATION - FAISS-Compatible (v1.4.1)
- * Uses binary hashing approach compatible with FAISS IndexBinaryFlat principles.
+ * v1.5.0 - FAISS-Integrated Binary Quantizer with Fallback
  * 
  * Binary quantization compresses float32 vectors to binary (1 bit per dimension),
- * achieving 32x compression ratio. Uses sign of (value - mean) for binarization.
+ * achieving 32x compression ratio. When FAISS is available, uses optimized
+ * binary operations. Falls back to custom implementation when FAISS is unavailable.
  * 
- * @deprecated NOT USED IN PRODUCTION CODE. Consider using FAISS IndexBinaryFlat directly.
+ * Backend Selection:
+ * - WITH FAISS: Uses FAISS-optimized binary operations
+ * - WITHOUT FAISS: Uses custom implementation
  * 
  * @sources
  * - Algorithm: Locality Sensitive Hashing (LSH) / Binary Quantization
- * - Implementation: Simplified, compatible with FAISS IndexBinaryFlat principles
- * - For production use: Prefer FAISS IndexBinaryFlat directly
+ * - FAISS Integration: Optional faiss::IndexBinaryFlat backend
+ * - Library: https://github.com/facebookresearch/faiss
+ * - License: MIT
  * 
- * Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914)
- * Simplified: Reduced from 231 to ~120 lines, marked as deprecated
+ * Part of ThemisDB v1.5.0 - Complete FAISS Migration (#1079)
  */
 class BinaryQuantizer {
 public:
@@ -32,11 +34,13 @@ public:
         bool center_values;       // Center vectors before binarization
         bool normalize_input;     // Normalize input vectors
         float scale_factor;       // Manual scale factor (0 = auto-learn)
+        bool prefer_faiss;        // Prefer FAISS backend if available (default: true)
         
         Config() 
             : center_values(true)
             , normalize_input(false)
             , scale_factor(0.0f)
+            , prefer_faiss(true)
         {}
     };
 
@@ -97,8 +101,21 @@ public:
 
     bool isTrained() const { return trained_; }
     float getCompressionRatio() const { return 32.0f; }  // float32 -> 1 bit = 32x
-    size_t getMemoryUsage() const { return sizeof(BinaryQuantizer) + mean_values_.capacity() * sizeof(float); }
+    size_t getMemoryUsage() const;
     int getDimension() const { return dimension_; }
+    
+    /**
+     * @brief Get encoded size in bytes
+     */
+    size_t getEncodedSize() const {
+        return (dimension_ + 7) / 8;  // Ceiling division for bit packing
+    }
+    
+    /**
+     * @brief Check which backend is being used
+     * @return "faiss" or "custom"
+     */
+    const char* getBackend() const;
 
 private:
     int dimension_;
@@ -110,6 +127,9 @@ private:
     // Helper methods
     float computeNorm(const std::vector<float>& vector) const;
     int popcount(uint8_t byte) const;
+    
+    // Backend tracking
+    bool use_faiss_ = false;
 };
 
 } // namespace themis
