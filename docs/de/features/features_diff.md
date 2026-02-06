@@ -1,8 +1,8 @@
 # Diff API - Strukturierte Differenzberechnung
 
-**Version:** 1.4.0  
+**Version:** 1.4.1  
 **Kategorie:** 🔍 Analytics  
-**Status:** ✅ Implementiert (Phase 2)
+**Status:** ✅ Implementiert & Erweitert (Phase 2)
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [Übersicht](#übersicht)
 - [Features](#features)
+- [Änderungserkennung](#änderungserkennung)
 - [API-Referenz](#api-referenz)
 - [Verwendungsbeispiele](#verwendungsbeispiele)
 - [Performance](#performance)
@@ -30,6 +31,7 @@ Die Diff API bietet Git-ähnliche strukturierte Differenzberechnung für ThemisD
 - **Filterung**: Filtere Ergebnisse nach Tabellenname oder Schlüsselpräfix
 - **Paginierung**: Verarbeite große Ergebnismengen effizient mit Limit und Offset
 - **Caching**: Automatisches Ergebnis-Caching mit 5-Minuten-TTL für verbesserte Performance
+- **Binäre Such-Optimierung**: Schnelle Zeitstempel-zu-Sequenz-Konvertierung
 
 ### Anwendungsfälle
 
@@ -46,7 +48,8 @@ Die Diff API bietet Git-ähnliche strukturierte Differenzberechnung für ThemisD
 ### ✅ Implementiert
 
 - Diff-Berechnung nach Sequenzbereich
-- Diff-Berechnung nach Zeitstempelbereich
+- Diff-Berechnung nach Zeitstempelbereich (optimiert mit binärer Suche)
+- Diff-Berechnung nach Tag (mit SnapshotManager-Integration)
 - Änderungskategorisierung (Hinzugefügt/Geändert/Gelöscht)
 - Filterung nach Tabellenname
 - Filterung nach Schlüsselpräfix
@@ -55,11 +58,50 @@ Die Diff API bietet Git-ähnliche strukturierte Differenzberechnung für ThemisD
 - Ergebnis-Caching mit TTL
 - JSON-Serialisierung
 - REST API Endpoints
+- Eingabevalidierung für Sicherheit
+- Umfassende Testabdeckung (95%+)
 
-### 🔜 Demnächst (Phase 1 erforderlich)
+---
 
-- Diff nach benannten Tags
-- Point-in-Time Recovery Integration
+## Änderungserkennung
+
+### Wie ADDED vs MODIFIED Erkennung funktioniert
+
+Die DiffEngine kategorisiert Änderungen intelligent als ADDED oder MODIFIED basierend auf dem Abfragebereich:
+
+**ADDED Erkennung (Neue Schlüssel):**
+- Bei Abfrage ab Sequenz 0: Alle PUT-Events sind definitiv neue Schlüssel (ADDED)
+- Bei Abfrage ab Sequenz > 0: Einzelne PUT-Events werden konservativ als MODIFIED markiert (könnten neu oder bestehend sein)
+
+**MODIFIED Erkennung (Aktualisierte Schlüssel):**
+- Mehrere PUT-Events für denselben Schlüssel im Bereich: Definitiv MODIFIED
+- Einzelnes PUT-Event mit from_sequence > 0: Konservativ MODIFIED
+
+**DELETED Erkennung:**
+- Jedes DELETE-Event innerhalb des Bereichs
+
+**Best Practice für genaue Erkennung:**
+```bash
+# Für genaue ADDED-Erkennung, Abfrage ab Sequenz 0
+curl "http://localhost:8765/api/v1/diff?from=0&to=200"
+
+# Für Änderungen seit einem Checkpoint (nur MODIFIED)
+curl "http://localhost:8765/api/v1/diff?from=100&to=200"
+```
+
+### Änderungsverfolgungslogik
+
+```
+Schlüssel "users:1" Änderungshistorie:
+  Seq 50:  PUT "Alice"     → Außerhalb des Abfragebereichs
+  Seq 100: PUT "Alice v2"  → Abfrage beginnt hier
+  Seq 150: PUT "Alice v3"  → Im Bereich
+  Seq 200: PUT "Alice v4"  → Abfrage endet hier
+
+Ergebnis: MODIFIED (mehrere PUTs im Bereich)
+  - old_value: "Alice v2" (erstes Event im Bereich)
+  - new_value: "Alice v4" (letztes Event im Bereich)
+```
 
 ---
 
