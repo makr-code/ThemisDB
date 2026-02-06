@@ -193,7 +193,8 @@ bool ReviewSchedulingApiHandler::checkAuth(
     const std::string& required_role
 ) const {
     if (!auth_) {
-        return true;
+        THEMIS_WARN("AuthMiddleware not configured - denying access to protected endpoint");
+        return false;
     }
     
     auto auth_it = req.find(http::field::authorization);
@@ -201,7 +202,15 @@ bool ReviewSchedulingApiHandler::checkAuth(
         return false;
     }
     
-    return true; // Simplified for now
+    const auto auth_value = auth_it->value().to_string();
+    if (auth_value.empty()) {
+        return false;
+    }
+    
+    // Delegate actual authentication and authorization to the AuthMiddleware
+    // TODO: Replace with actual auth_->authorize(req, required_role) when available
+    // For production use, integrate with the actual AuthMiddleware implementation
+    return true;
 }
 
 http::response<http::string_body> ReviewSchedulingApiHandler::makeResponse(

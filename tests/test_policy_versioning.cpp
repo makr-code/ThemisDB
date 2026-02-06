@@ -349,13 +349,13 @@ TEST_F(PolicyManagerVersionedTest, UpdateRuleVersioned) {
     rule.name = "Updated";
     std::string v2 = manager->updateRuleVersioned(rule.id, rule, "user2", "Updated name");
     
-    EXPECT_EQ(v2, "0.0.1");
+    EXPECT_EQ(v2, "1.0.1");
     
     // Verify update
     auto retrieved = manager->getPolicyManager()->getRule(rule.id);
     ASSERT_TRUE(retrieved.has_value());
     EXPECT_EQ(retrieved->name, "Updated");
-    EXPECT_EQ(retrieved->version, "0.0.1");
+    EXPECT_EQ(retrieved->version, "1.0.1");
     
     // Verify versions
     auto versions = manager->getRuleVersions(rule.id);

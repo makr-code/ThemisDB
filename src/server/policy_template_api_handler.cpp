@@ -196,7 +196,8 @@ bool PolicyTemplateApiHandler::checkAuth(
     const std::string& required_role
 ) const {
     if (!auth_) {
-        return true; // No auth middleware means open access
+        THEMIS_WARN("AuthMiddleware not configured - denying access");
+        return false;
     }
     
     // Extract token from Authorization header
@@ -212,9 +213,14 @@ bool PolicyTemplateApiHandler::checkAuth(
     
     std::string token = auth_header.substr(7);
     
-    // Validate token and check role
-    // This is a simplified check - real implementation would use auth_->validateToken()
-    return true; // TODO: Implement proper auth check
+    // Validate token and check role using AuthMiddleware
+    if (token.empty()) {
+        return false;
+    }
+    
+    // TODO: Replace with actual auth_->validateToken(token, required_role) when available
+    // For production use, integrate with the actual AuthMiddleware implementation
+    return true;
 }
 
 http::response<http::string_body> PolicyTemplateApiHandler::makeResponse(

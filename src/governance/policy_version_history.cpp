@@ -137,7 +137,8 @@ std::optional<PolicyRuleVersion> PolicyVersionHistory::getVersion(
 }
 
 std::string PolicyVersionHistory::getLatestVersion(const std::string& rule_id) const {
-    // Note: mutex not locked here because this is called from recordVersion which already holds lock
+    // Note: This method assumes the caller already holds the mutex lock
+    // It is called from recordVersion which holds the lock
     
     auto it = versions_.find(rule_id);
     if (it == versions_.end() || it->second.empty()) {
@@ -163,13 +164,12 @@ VersionDiff PolicyVersionHistory::compareVersions(
     const std::string& version1,
     const std::string& version2
 ) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
     VersionDiff diff;
     diff.rule_id = rule_id;
     diff.version1 = version1;
     diff.version2 = version2;
     
+    // Get versions without holding the lock to avoid deadlock
     auto v1 = getVersion(rule_id, version1);
     auto v2 = getVersion(rule_id, version2);
     
@@ -332,7 +332,14 @@ std::string PolicyVersionHistory::incrementVersion(const std::string& current_ve
     int major = 0, minor = 0, patch = 0;
     std::sscanf(current_version.c_str(), "%d.%d.%d", &major, &minor, &patch);
     
-    // Increment patch version
+    // For new rules (0.0.0), start with 1.0.0
+    if (major == 0 && minor == 0 && patch == 0) {
+        return "1.0.0";
+    }
+    
+    // Otherwise increment patch version
+    // Note: To increment major or minor versions, use explicit versioning
+    // This is the default auto-increment behavior for regular updates
     patch++;
     
     // Format new version

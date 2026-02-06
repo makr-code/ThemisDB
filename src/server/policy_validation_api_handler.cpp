@@ -133,7 +133,8 @@ bool PolicyValidationApiHandler::checkAuth(
     const std::string& required_role
 ) const {
     if (!auth_) {
-        return true;
+        THEMIS_WARN("AuthMiddleware not configured - denying request for role '{}'", required_role);
+        return false;
     }
     
     auto auth_it = req.find(http::field::authorization);
@@ -141,7 +142,16 @@ bool PolicyValidationApiHandler::checkAuth(
         return false;
     }
     
-    return true; // Simplified for now
+    const auto auth_value = auth_it->value().to_string();
+    if (auth_value.empty()) {
+        return false;
+    }
+    
+    // Further validation (e.g., token verification and role checks)
+    // should be performed by the configured AuthMiddleware
+    // TODO: Replace with actual auth_->authorize(req, required_role) when available
+    // For production use, integrate with the actual AuthMiddleware implementation
+    return true;
 }
 
 http::response<http::string_body> PolicyValidationApiHandler::makeResponse(

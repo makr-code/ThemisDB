@@ -44,18 +44,20 @@ std::string PolicyManagerWithVersioning::addRuleVersioned(
     new_rule.created_by = user;
     new_rule.last_modified_by = user;
     new_rule.change_description = change_description;
-    new_rule.version = "1.0.0";
     
-    // Add rule to policy manager
-    policy_manager_->addRule(new_rule);
-    
-    // Record version
+    // Record version first to get the correct version number
     std::string version = version_history_->recordVersion(
         new_rule.id,
         new_rule,
         user,
         change_description
     );
+    
+    // Set the version on the rule before adding to policy manager
+    new_rule.version = version;
+    
+    // Add rule to policy manager
+    policy_manager_->addRule(new_rule);
     
     // Record audit
     recordAudit(new_rule.id, "create", user, "", version);
