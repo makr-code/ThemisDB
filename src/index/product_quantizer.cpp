@@ -14,6 +14,12 @@
 #include <stdexcept>
 #include <cstring>
 
+#ifdef THEMIS_HAS_FAISS
+#include <faiss/Clustering.h>
+#include <faiss/IndexFlat.h>
+// FAISS ProductQuantizer support: provides faster K-means training with SIMD optimizations
+#endif
+
 namespace themis {
 
 ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
@@ -27,6 +33,16 @@ ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
     subvector_dim_ = dimension_ / config_.num_subquantizers;
     
 #ifdef THEMIS_HAS_FAISS
+    use_faiss_ = config_.prefer_faiss;
+    THEMIS_INFO("ProductQuantizer: Initialized with {} acceleration (dimension={}, subquantizers={})",
+                use_faiss_ ? "FAISS" : "custom", dimension_, config_.num_subquantizers);
+#else
+    use_faiss_ = false;
+    THEMIS_INFO("ProductQuantizer: Initialized with custom implementation (dimension={}, subquantizers={}) - FAISS not available",
+                dimension_, config_.num_subquantizers);
+#endif
+    
+    // Pre-allocate codebooks
     // Use FAISS ProductQuantizer
     // Parameters: dimension, M (num_subquantizers), nbits (8 for 256 centroids)
     faiss_pq_ = std::make_unique<faiss::ProductQuantizer>(
@@ -124,6 +140,8 @@ ProductQuantizer::Status ProductQuantizer::train(
     }
     
     trained_ = true;
+    THEMIS_INFO("ProductQuantizer::train - Training complete (backend: {}). Compression ratio: {:.1f}x",
+                getBackend(), getCompressionRatio());
     THEMIS_INFO("ProductQuantizer::train (fallback) - Training complete. Compression: {:.1f}x",
                 getCompressionRatio());
     
@@ -306,6 +324,56 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         // Return existing samples as centroids
         return subvector_data;
     }
+
+#ifdef THEMIS_HAS_FAISS
+    // Use FAISS K-means when available and preferred
+    if (use_faiss_) {
+        try {
+            THEMIS_DEBUG("ProductQuantizer::runKMeans - Using FAISS K-means (faster)");
+            
+            // Convert data to FAISS format (flat array)
+            std::vector<float> flat_data;
+            flat_data.reserve(num_samples * subvector_dim_);
+            for (const auto& vec : subvector_data) {
+                flat_data.insert(flat_data.end(), vec.begin(), vec.end());
+            }
+            
+            // Create FAISS clustering object
+            faiss::Clustering clustering(subvector_dim_, k);
+            clustering.niter = config_.max_iterations;
+            clustering.verbose = false;
+            
+            // Create index for clustering
+            faiss::IndexFlatL2 index(subvector_dim_);
+            
+            // Run FAISS K-means
+            clustering.train(num_samples, flat_data.data(), index);
+            
+            // Extract centroids from FAISS result
+            std::vector<std::vector<float>> centroids;
+            centroids.reserve(k);
+            const float* centroid_data = clustering.centroids.data();
+            
+            for (int i = 0; i < k; ++i) {
+                std::vector<float> centroid(subvector_dim_);
+                for (int d = 0; d < subvector_dim_; ++d) {
+                    centroid[d] = centroid_data[i * subvector_dim_ + d];
+                }
+                centroids.push_back(std::move(centroid));
+            }
+            
+            THEMIS_DEBUG("ProductQuantizer::runKMeans - FAISS K-means completed successfully");
+            return centroids;
+            
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ProductQuantizer::runKMeans - FAISS K-means failed: {}, falling back to custom", e.what());
+            // Fall through to custom implementation
+        }
+    }
+#endif
+    
+    // Custom K-means implementation (fallback)
+    THEMIS_DEBUG("ProductQuantizer::runKMeans - Using custom K-means implementation");
     
     // Initialize centroids randomly (k-means++)
     std::vector<std::vector<float>> centroids;
@@ -431,6 +499,14 @@ float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vecto
     return std::sqrt(sum);
 }
 
+const char* ProductQuantizer::getBackend() const {
+    // Reports which backend is actually being used for training
+#ifdef THEMIS_HAS_FAISS
+    return use_faiss_ ? "faiss" : "custom";
+#else
+    return "custom";
+#endif
+}
 #endif // !THEMIS_HAS_FAISS
 
 } // namespace themis
