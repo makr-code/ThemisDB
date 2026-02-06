@@ -7,6 +7,10 @@
 
 using namespace themis::index;
 
+// NOTE: This example demonstrates CPU-based vector indexing in v1.5.x
+// GPU backends (CUDA, Vulkan, HIP) were removed and are planned for v2.x
+// See docs/FUTURE_GPU_SUPPORT.md for GPU roadmap
+
 // Generate random vectors for demonstration
 std::vector<std::vector<float>> generateVectors(size_t count, int dimension) {
     std::mt19937 gen(42);
@@ -28,17 +32,11 @@ void printBackendInfo(const GPUVectorIndex& index) {
     std::cout << "\n=== Active Backend ===\n";
     
     switch (backend) {
-        case GPUVectorIndex::Backend::VULKAN:
-            std::cout << "Backend: Vulkan (Cross-platform)\n";
-            break;
-        case GPUVectorIndex::Backend::CUDA:
-            std::cout << "Backend: CUDA (NVIDIA)\n";
-            break;
-        case GPUVectorIndex::Backend::HIP:
-            std::cout << "Backend: HIP (AMD ROCm)\n";
-            break;
         case GPUVectorIndex::Backend::CPU:
-            std::cout << "Backend: CPU (Fallback)\n";
+            std::cout << "Backend: CPU (SIMD-optimized)\n";
+            break;
+        case GPUVectorIndex::Backend::AUTO:
+            std::cout << "Backend: AUTO (defaults to CPU in v1.5.x)\n";
             break;
         default:
             std::cout << "Backend: Unknown\n";

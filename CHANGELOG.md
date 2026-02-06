@@ -5,6 +5,36 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Git-Like Features Integration** 🎉
+  - **SnapshotManager Re-enabled**: Named snapshots for MVCC are now fully operational
+    - 5 REST endpoints for snapshot/tag management
+    - Integration with DiffEngine for tag-based diffs
+    - Persistent snapshot storage in RocksDB
+  - **PITR API Handler**: Point-in-Time Recovery REST API integration
+    - POST `/api/v1/pitr/restore/sequence` - Restore to specific sequence number
+    - POST `/api/v1/pitr/restore/tag` - Restore to named snapshot tag
+    - POST `/api/v1/pitr/restore/timestamp` - Restore to timestamp
+    - POST `/api/v1/pitr/preview` - Preview restore operation (dry-run)
+    - GET `/api/v1/pitr/progress` - Get current restore progress
+  - **DiffEngine Enhanced**: Now accepts optional SnapshotManager for tag-based diffs
+
+### Changed
+- Updated DiffEngine initialization to support SnapshotManager reference
+- HTTP server now properly converts between Beast and httplib types for git-feature endpoints
+
+### Fixed
+- Re-enabled previously disabled SnapshotManager due to incomplete type issues
+- Added proper error handling with default case in PITR progress phase conversion
+
+### Documentation
+- Added `GIT_FEATURES_INTEGRATION_STATUS.md` documenting integration status
+- Documented that BranchManager and MergeEngine are pending (separate draft PRs)
+
+---
+
 ## [1.5.0] - 2026-02-03
 
 ### Added
@@ -33,6 +63,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Marked LearnedQuantizer as deprecated (research-only)
   - Updated `LIBRARY_USAGE_ANALYSIS.md` and `LIBRARY_OPTIMIZATION_QUICKREF.md`
 
+### Removed
+- **GPU Vector Index Stubs (CLEANUP)** 🧹
+  - Removed incomplete GPU backend implementations (~1500 LOC)
+    - `src/index/gpu_vector_index_cuda.cpp` (384 lines, 3 TODOs)
+    - `src/index/gpu_vector_index_vulkan.cpp` (385 lines, 6 TODOs)
+    - `src/index/gpu_vector_index_hip.cpp` (419 lines, 4 TODOs)
+    - `src/index/gpu_vector_index_kernels.cu` (CUDA kernels)
+    - `src/index/gpu_vector_index_hip_kernels.cpp` (HIP kernels)
+  - Removed GPU backend classes from public API
+  - Removed GPU-specific CMake configuration
+  - **Rationale**: These were research stubs with 65+ TODO comments and no functional GPU acceleration
+  - **Current Status**: `GPUVectorIndex` now uses CPU-only implementation (SIMD-optimized)
+  - **Future Plans**: Proper GPU support planned for v2.x series (see `docs/FUTURE_GPU_SUPPORT.md`)
+
 ### Fixed
 - **FIND-003 (CRITICAL):** RFC 3161 Timestamp Authority implementation complete
   - Resolves eIDAS compliance gap for qualified electronic timestamps
@@ -48,9 +92,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added comprehensive TSA setup guide (400+ lines)
 - Documented integration with multiple TSA providers
 - Added troubleshooting guide for common TSA issues
+- **Added GPU Support Roadmap Documentation**
+  - `docs/FUTURE_GPU_SUPPORT.md` - Detailed GPU roadmap for v2.x
+  - `docs/GPU_SUPPORT_ROADMAP.md` - User migration guide
+  - Updated `docs/GPU_VECTOR_INDEXING.md` - CPU-only status notice
+  - Updated `docs/GPU_VECTOR_INDEXING_ARCHITECTURE.md` - Future architecture
+  - Updated `README.md` - Clarified CPU-only vector indexing status
 - Updated compliance documentation for eIDAS and ETSI EN 319 422
 
 ---
+
+## [1.4.2] - 2026-02-06
+
+### Changed
+- **Vector Quantization Migration to FAISS**
+  - ProductQuantizer now uses FAISS native implementation when available
+  - Maintains API compatibility with existing code
+  - Provides fallback implementation for non-FAISS builds
+  - ResidualQuantizer automatically benefits through composition
+  - Expected performance improvements through FAISS SIMD optimizations
+
+### Added
+- **FAISS ADC Optimization**: Implemented Asymmetric Distance Computation tables
+  - ~40% faster asymmetric distance computation with FAISS
+  - Uses precomputed asymmetric distance tables instead of decode + L2 distance
+  - Automatic fallback to decode method on error or when FAISS unavailable
+- **Performance Documentation**: Added `docs/PRODUCT_QUANTIZER_OPTIMIZATION.md`
+  - Detailed benchmarking guidelines
+  - GPU acceleration architecture documentation
+  - Performance tuning recommendations
+
+### Improved
+- Reduced quantization code complexity by leveraging FAISS library
+- Better maintainability through external library usage
+- Conditional compilation support for FAISS availability
+- Optimized distance computation path for production workloads
+
 ---
 
 ## [1.4.0] - TBD

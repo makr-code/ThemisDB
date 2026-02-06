@@ -93,6 +93,11 @@ class AdaptiveIndexManager;
 class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
+class PITRManager;
+
+namespace transaction {
+class BranchManager;
+}
 
 namespace analytics {
 class DiffEngine;
@@ -100,6 +105,8 @@ class DiffEngine;
 
 namespace server {
 class DiffApiHandler;
+class PITRApiHandler;
+class BranchApiHandler;
 }
 
 namespace sharding {
@@ -553,14 +560,25 @@ private:
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
     
-    // Snapshot Manager (Named Snapshots feature) - TEMPORARILY DISABLED
-    // std::unique_ptr<SnapshotManager> snapshot_manager_;
-    // std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
-    // TODO: Re-enable after resolving incomplete type errors
+    // Snapshot Manager (Named Snapshots feature)
+    std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
+    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    
+    // PITR Manager (Point-in-Time Recovery feature)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<server::PITRApiHandler> pitr_api_handler_;
+    std::unique_ptr<SnapshotManager> snapshot_manager_;
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
     std::unique_ptr<DiffApiHandler> diff_api_handler_;
+    
+    // PITR Manager and API Handler (Phase 3 MVCC features)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<PITRApiHandler> pitr_api_handler_;
+    // Branch Manager and API Handler (Phase 4 MVCC features - Optional)
+    std::unique_ptr<transaction::BranchManager> branch_manager_;
+    std::unique_ptr<BranchApiHandler> branch_api_handler_;
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE
