@@ -146,9 +146,9 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
     }
     
     // Validate options
-    if (options.limit > 1000000) { // Sanity check: max 1M results
+    if (options.limit > MAX_DIFF_LIMIT) {
         throw std::invalid_argument(
-            fmt::format("Limit too large: {} (max: 1000000)", options.limit)
+            fmt::format("Limit too large: {} (max: {})", options.limit, MAX_DIFF_LIMIT)
         );
     }
     
