@@ -188,8 +188,8 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
             if (status.progress.has_value()) {
                 auto& prog = status.progress.value();
                 json response = {
-                    {"target_sequence", 0},  // Unknown for tag-based preview
-                    {"current_sequence", 0},  // Unknown for tag-based preview
+                    {"target_sequence", 0},  // Not available in dry-run mode
+                    {"current_sequence", 0},  // Not available in dry-run mode
                     {"events_to_replay", prog.total_events},
                     {"affected_tables", std::vector<std::string>()},  // Not available in dry-run mode
                     {"affected_keys", std::vector<std::string>()},    // Not available in dry-run mode
@@ -229,8 +229,8 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
             if (status.progress.has_value()) {
                 auto& prog = status.progress.value();
                 json response = {
-                    {"target_sequence", 0},  // Unknown for timestamp-based preview
-                    {"current_sequence", 0},  // Unknown for timestamp-based preview
+                    {"target_sequence", 0},  // Not available in dry-run mode
+                    {"current_sequence", 0},  // Not available in dry-run mode
                     {"events_to_replay", prog.total_events},
                     {"affected_tables", std::vector<std::string>()},  // Not available in dry-run mode
                     {"affected_keys", std::vector<std::string>()},    // Not available in dry-run mode

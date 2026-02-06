@@ -1,10 +1,6 @@
 #ifndef THEMIS_PITR_API_HANDLER_H
 #define THEMIS_PITR_API_HANDLER_H
 
-#ifndef THEMIS_ENABLE_HTTP_SERVER
-#define THEMIS_ENABLE_HTTP_SERVER 1
-#endif
-
 #include "storage/pitr_manager.h"
 #include <memory>
 #include <nlohmann/json.hpp>
