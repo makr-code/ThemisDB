@@ -486,10 +486,14 @@ TEST_F(GNNEmbeddingTest, NeighborAggregationImpactsEmbedding) {
         similarity += emb1.embedding[i] * emb2.embedding[i];
     }
     
-    // Similarity should not be 1.0 (not identical)
-    // but should be reasonably high (>0.5) since nodes have same features
-    EXPECT_LT(similarity, 0.99f);
-    EXPECT_GT(similarity, 0.5f);
+    // Test thresholds for embedding similarity
+    // High threshold (0.99): embeddings should not be identical
+    // Low threshold (0.5): embeddings should be reasonably similar since nodes have same features
+    constexpr float SIMILARITY_HIGH_THRESHOLD = 0.99f;
+    constexpr float SIMILARITY_LOW_THRESHOLD = 0.5f;
+    
+    EXPECT_LT(similarity, SIMILARITY_HIGH_THRESHOLD);
+    EXPECT_GT(similarity, SIMILARITY_LOW_THRESHOLD);
 }
 
 TEST_F(GNNEmbeddingTest, AggregationStrategies_ProduceDifferentEmbeddings) {
@@ -532,9 +536,15 @@ TEST_F(GNNEmbeddingTest, AggregationStrategies_ProduceDifferentEmbeddings) {
         sim_mean_sum += emb_mean.embedding[i] * emb_sum.embedding[i];
     }
     
+    // Test thresholds for aggregation strategy differences
+    // High threshold (0.99): embeddings should not be identical
+    // Low threshold (0.5): embeddings should still be reasonably similar
+    constexpr float AGGREGATION_SIMILARITY_HIGH_THRESHOLD = 0.99f;
+    constexpr float AGGREGATION_SIMILARITY_LOW_THRESHOLD = 0.5f;
+    
     // Embeddings should be similar but not identical
-    EXPECT_LT(sim_mean_max, 0.99f);
-    EXPECT_LT(sim_mean_sum, 0.99f);
-    EXPECT_GT(sim_mean_max, 0.5f);  // Still reasonably similar
-    EXPECT_GT(sim_mean_sum, 0.5f);
+    EXPECT_LT(sim_mean_max, AGGREGATION_SIMILARITY_HIGH_THRESHOLD);
+    EXPECT_LT(sim_mean_sum, AGGREGATION_SIMILARITY_HIGH_THRESHOLD);
+    EXPECT_GT(sim_mean_max, AGGREGATION_SIMILARITY_LOW_THRESHOLD);
+    EXPECT_GT(sim_mean_sum, AGGREGATION_SIMILARITY_LOW_THRESHOLD);
 }

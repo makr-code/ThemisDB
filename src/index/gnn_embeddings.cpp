@@ -231,16 +231,15 @@ GNNEmbeddingManager::computeEmbedding_(
                     
                 case AggregationStrategy::MAX_POOLING:
                     // Max pooling across neighbors
-                    std::fill(neighbor_aggregate.begin(), neighbor_aggregate.end(), 
-                             -std::numeric_limits<float>::infinity());
-                    for (const auto& nf : neighbor_features_list) {
-                        for (size_t j = 0; j < nf.size(); ++j) {
-                            neighbor_aggregate[j] = std::max(neighbor_aggregate[j], nf[j]);
+                    // Initialize with first neighbor's values for better edge case handling
+                    if (!neighbor_features_list.empty()) {
+                        neighbor_aggregate = neighbor_features_list.front();
+                        for (size_t idx = 1; idx < neighbor_features_list.size(); ++idx) {
+                            const auto& nf = neighbor_features_list[idx];
+                            for (size_t j = 0; j < nf.size(); ++j) {
+                                neighbor_aggregate[j] = std::max(neighbor_aggregate[j], nf[j]);
+                            }
                         }
-                    }
-                    // Replace -inf with 0
-                    for (float& val : neighbor_aggregate) {
-                        if (std::isinf(val)) val = 0.0f;
                     }
                     break;
                     
@@ -255,8 +254,14 @@ GNNEmbeddingManager::computeEmbedding_(
                     
                 case AggregationStrategy::ATTENTION:
                     // Simplified attention: weight by similarity to self features
+                    // Use numerically stable softmax with log-sum-exp trick
                     std::vector<float> attention_weights;
                     float weight_sum = 0.0f;
+                    
+                    // First pass: compute raw similarities and track maximum for numerical stability
+                    std::vector<float> raw_similarities;
+                    raw_similarities.reserve(neighbor_features_list.size());
+                    float max_similarity = -std::numeric_limits<float>::infinity();
                     
                     for (const auto& nf : neighbor_features_list) {
                         // Compute dot product similarity
@@ -264,9 +269,18 @@ GNNEmbeddingManager::computeEmbedding_(
                         for (size_t j = 0; j < std::min(nf.size(), embedding.size()); ++j) {
                             similarity += nf[j] * embedding[j];
                         }
-                        similarity = std::exp(similarity);  // Softmax-like
-                        attention_weights.push_back(similarity);
-                        weight_sum += similarity;
+                        raw_similarities.push_back(similarity);
+                        if (similarity > max_similarity) {
+                            max_similarity = similarity;
+                        }
+                    }
+                    
+                    // Second pass: apply numerically stable softmax (subtract max before exp)
+                    for (float raw_similarity : raw_similarities) {
+                        float stabilized = raw_similarity - max_similarity;
+                        float weight = std::exp(stabilized);
+                        attention_weights.push_back(weight);
+                        weight_sum += weight;
                     }
                     
                     // Normalize weights

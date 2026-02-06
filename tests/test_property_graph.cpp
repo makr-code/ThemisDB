@@ -874,17 +874,17 @@ TEST_F(PropertyGraphTest, ComputePageRank_SimpleGraph) {
     EXPECT_TRUE(scores.find("nodeC") != scores.end());
     
     // Scores should sum to approximately 1.0
-    double sum = scores["nodeA"] + scores["nodeB"] + scores["nodeC"];
+    double sum = scores.at("nodeA") + scores.at("nodeB") + scores.at("nodeC");
     EXPECT_NEAR(sum, 1.0, 0.01);
     
     // NodeC should have highest score (2 incoming edges)
-    EXPECT_GT(scores["nodeC"], scores["nodeA"]);
-    EXPECT_GT(scores["nodeC"], scores["nodeB"]);
+    EXPECT_GT(scores.at("nodeC"), scores.at("nodeA"));
+    EXPECT_GT(scores.at("nodeC"), scores.at("nodeB"));
     
     // All scores should be positive
-    EXPECT_GT(scores["nodeA"], 0.0);
-    EXPECT_GT(scores["nodeB"], 0.0);
-    EXPECT_GT(scores["nodeC"], 0.0);
+    EXPECT_GT(scores.at("nodeA"), 0.0);
+    EXPECT_GT(scores.at("nodeB"), 0.0);
+    EXPECT_GT(scores.at("nodeC"), 0.0);
 }
 
 TEST_F(PropertyGraphTest, ComputePageRank_ChainGraph) {
