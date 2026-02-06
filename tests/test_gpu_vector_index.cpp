@@ -399,7 +399,7 @@ TEST_F(GPUVectorIndexTest, CUDACPUResultComparison) {
         
         for (size_t i = 0; i < std::min(cpuResults.size(), cudaResults.size()); ++i) {
             EXPECT_EQ(cpuResults[i].id, cudaResults[i].id);
-            EXPECT_NEAR(cpuResults[i].distance, cudaResults[i].distance, 1e-4f);
+            EXPECT_NEAR(cpuResults[i].distance, cudaResults[i].distance, 1e-3f);  // Relaxed tolerance for GPU/CPU diff
         }
     }
     

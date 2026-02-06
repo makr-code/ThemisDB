@@ -34,8 +34,8 @@ public:
         AUTO,       // Auto-detect best available backend
         CPU,        // CPU-only implementation (default)
         CUDA,       // NVIDIA CUDA backend (v2.1)
-        VULKAN,     // Vulkan compute backend (v2.2 - planned)
-        HIP         // AMD HIP backend (v2.3 - planned)
+        VULKAN,     // Vulkan compute backend (v2.2 - reserved/unimplemented)
+        HIP         // AMD HIP backend (v2.3 - reserved/unimplemented)
     };
     
     enum class DistanceMetric {

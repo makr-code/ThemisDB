@@ -31,6 +31,10 @@ public:
     // GPU backend (CUDA)
     std::unique_ptr<acceleration::CUDAVectorBackend> cudaBackend;
     
+    // Cached flattened vector data for GPU (performance optimization)
+    std::vector<float> flatVectorCache;
+    bool flatVectorCacheDirty = true;
+    
     // Statistics
     Statistics stats;
     std::chrono::steady_clock::time_point lastQueryTime;
@@ -122,6 +126,7 @@ public:
         }
         
         stats.numVectors = vectorData.size();
+        flatVectorCacheDirty = true;  // Mark cache as dirty
         return true;
     }
     
@@ -146,6 +151,7 @@ public:
         idToIndex.erase(id);
         
         stats.numVectors = vectorData.size();
+        flatVectorCacheDirty = true;  // Mark cache as dirty
         return true;
     }
     
@@ -189,11 +195,14 @@ public:
         
         auto startTime = std::chrono::steady_clock::now();
         
-        // Flatten vector data for GPU transfer
-        std::vector<float> flatVectors;
-        flatVectors.reserve(vectorData.size() * dimension);
-        for (const auto& vec : vectorData) {
-            flatVectors.insert(flatVectors.end(), vec.begin(), vec.end());
+        // Update flattened vector cache if dirty (performance optimization)
+        if (flatVectorCacheDirty) {
+            flatVectorCache.clear();
+            flatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
+            }
+            flatVectorCacheDirty = false;
         }
         
         // Use CUDA backend for batch KNN search
@@ -202,10 +211,10 @@ public:
             query.data(),
             1,  // Single query
             dimension,
-            flatVectors.data(),
+            flatVectorCache.data(),
             vectorData.size(),
             k,
-            useL2 || config.metric == DistanceMetric::INNER_PRODUCT  // L2 for both L2 and IP
+            useL2  // Only L2, not inner product
         );
         
         std::vector<SearchResult> results;
