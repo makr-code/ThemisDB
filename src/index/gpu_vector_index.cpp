@@ -7,6 +7,15 @@
 #include <iostream>
 #include <unordered_map>
 
+// Include GPU backend headers
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/hip_backend.h"
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#endif
+
 namespace themis {
 namespace index {
 
@@ -26,6 +35,14 @@ public:
     std::vector<std::vector<float>> vectorData;
     std::unordered_map<std::string, size_t> idToIndex;
     
+    // GPU backend
+#ifdef THEMIS_ENABLE_HIP
+    std::unique_ptr<themis::acceleration::HIPVectorBackend> hipBackend;
+#endif
+#ifdef THEMIS_ENABLE_CUDA
+    std::unique_ptr<themis::acceleration::CUDAVectorBackend> cudaBackend;
+#endif
+    
     // Statistics
     Statistics stats;
     std::chrono::steady_clock::time_point lastQueryTime;
@@ -42,18 +59,121 @@ public:
         dimension = dim;
         stats.dimension = dim;
         
-        // Current version uses CPU-only implementation
-        activeBackend = Backend::CPU;
-        std::cout << "GPUVectorIndex: Using CPU backend (GPU support planned for v2.x)\n";
+        // Attempt to initialize GPU backend based on config
+        Backend requestedBackend = config.backend;
+        
+        if (requestedBackend == Backend::AUTO) {
+            // Auto-detect best available backend
+#ifdef THEMIS_ENABLE_HIP
+            if (initializeHIP()) {
+                activeBackend = Backend::HIP;
+                std::cout << "GPUVectorIndex: Auto-selected HIP backend (AMD GPU)\n";
+            } else
+#endif
+#ifdef THEMIS_ENABLE_CUDA  
+            if (initializeCUDA()) {
+                activeBackend = Backend::CUDA;
+                std::cout << "GPUVectorIndex: Auto-selected CUDA backend (NVIDIA GPU)\n";
+            } else
+#endif
+            {
+                activeBackend = Backend::CPU;
+                std::cout << "GPUVectorIndex: Using CPU backend (no GPU available)\n";
+            }
+        } else if (requestedBackend == Backend::HIP) {
+#ifdef THEMIS_ENABLE_HIP
+            if (initializeHIP()) {
+                activeBackend = Backend::HIP;
+                std::cout << "GPUVectorIndex: Using HIP backend (AMD GPU)\n";
+            } else
+#endif
+            {
+                if (config.allowCPUFallback) {
+                    activeBackend = Backend::CPU;
+                    std::cout << "GPUVectorIndex: HIP unavailable, falling back to CPU\n";
+                } else {
+                    std::cerr << "GPUVectorIndex: HIP backend requested but not available\n";
+                    return false;
+                }
+            }
+        } else if (requestedBackend == Backend::CUDA) {
+#ifdef THEMIS_ENABLE_CUDA
+            if (initializeCUDA()) {
+                activeBackend = Backend::CUDA;
+                std::cout << "GPUVectorIndex: Using CUDA backend (NVIDIA GPU)\n";
+            } else
+#endif
+            {
+                if (config.allowCPUFallback) {
+                    activeBackend = Backend::CPU;
+                    std::cout << "GPUVectorIndex: CUDA unavailable, falling back to CPU\n";
+                } else {
+                    std::cerr << "GPUVectorIndex: CUDA backend requested but not available\n";
+                    return false;
+                }
+            }
+        } else {
+            // CPU backend explicitly requested
+            activeBackend = Backend::CPU;
+            std::cout << "GPUVectorIndex: Using CPU backend (explicitly requested)\n";
+        }
         
         stats.activeBackend = activeBackend;
-        stats.isGPUActive = false;
+        stats.isGPUActive = (activeBackend != Backend::CPU);
         initialized = true;
         return true;
     }
     
     void shutdown() {
+        // Shutdown GPU backends
+#ifdef THEMIS_ENABLE_HIP
+        if (hipBackend) {
+            hipBackend->shutdown();
+            hipBackend.reset();
+        }
+#endif
+#ifdef THEMIS_ENABLE_CUDA
+        if (cudaBackend) {
+            cudaBackend->shutdown();
+            cudaBackend.reset();
+        }
+#endif
         initialized = false;
+    }
+    
+    // GPU backend initialization helpers
+    bool initializeHIP() {
+#ifdef THEMIS_ENABLE_HIP
+        try {
+            themis::acceleration::HIPVectorBackend::HIPConfig hipConfig;
+            hipConfig.deviceId = config.deviceId;
+            hipConfig.waveSize = config.waveSize;
+            hipConfig.enableRocBLAS = config.enableRocBLAS;
+            hipConfig.maxVRAM_MB = config.maxVRAM_MB;
+            
+            hipBackend = std::make_unique<themis::acceleration::HIPVectorBackend>(hipConfig);
+            
+            if (hipBackend->isAvailable() && hipBackend->initialize()) {
+                return true;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "HIP initialization failed: " << e.what() << std::endl;
+        }
+#endif
+        return false;
+    }
+    
+    bool initializeCUDA() {
+#ifdef THEMIS_ENABLE_CUDA
+        try {
+            // Similar CUDA initialization would go here
+            // For now, return false as CUDA backend is not implemented in this PR
+            return false;
+        } catch (const std::exception& e) {
+            std::cerr << "CUDA initialization failed: " << e.what() << std::endl;
+        }
+#endif
+        return false;
     }
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
@@ -133,6 +253,128 @@ public:
         updateQueryStats(startTime, endTime);
         
         return results;
+    }
+    
+    // GPU-accelerated search (HIP)
+    std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
+#ifdef THEMIS_ENABLE_HIP
+        if (!hipBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            return {};
+        }
+        
+        auto startTime = std::chrono::steady_clock::now();
+        
+        // Flatten vector data for GPU
+        std::vector<float> flatVectors(vectorData.size() * dimension);
+        for (size_t i = 0; i < vectorData.size(); ++i) {
+            std::copy(vectorData[i].begin(), vectorData[i].end(), 
+                     flatVectors.begin() + i * dimension);
+        }
+        
+        // Use GPU batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto results = hipBackend->batchKnnSearch(
+            query.data(), 1, dimension,
+            flatVectors.data(), vectorData.size(),
+            k, useL2
+        );
+        
+        if (results.empty()) {
+            // GPU failed, fall back to CPU if allowed
+            if (config.allowCPUFallback) {
+                std::cerr << "HIP search failed, falling back to CPU\n";
+                return searchCPU(query, k);
+            }
+            return {};
+        }
+        
+        // Convert results to SearchResult format
+        std::vector<SearchResult> searchResults;
+        searchResults.reserve(k);
+        for (const auto& [idx, dist] : results[0]) {
+            if (idx < vectorIds.size()) {
+                searchResults.push_back({vectorIds[idx], dist});
+            }
+        }
+        
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+        
+        return searchResults;
+#else
+        // HIP not available, use CPU
+        return searchCPU(query, k);
+#endif
+    }
+    
+    // Batch search with GPU acceleration
+    std::vector<std::vector<SearchResult>> searchBatchHIP(
+        const std::vector<std::vector<float>>& queries, size_t k) {
+#ifdef THEMIS_ENABLE_HIP
+        if (!hipBackend || vectorData.empty() || queries.empty()) {
+            return {};
+        }
+        
+        // Flatten queries
+        std::vector<float> flatQueries(queries.size() * dimension);
+        for (size_t i = 0; i < queries.size(); ++i) {
+            if (queries[i].size() != static_cast<size_t>(dimension)) {
+                return {}; // Invalid query dimensions
+            }
+            std::copy(queries[i].begin(), queries[i].end(), 
+                     flatQueries.begin() + i * dimension);
+        }
+        
+        // Flatten vector data for GPU
+        std::vector<float> flatVectors(vectorData.size() * dimension);
+        for (size_t i = 0; i < vectorData.size(); ++i) {
+            std::copy(vectorData[i].begin(), vectorData[i].end(), 
+                     flatVectors.begin() + i * dimension);
+        }
+        
+        // Use GPU batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto results = hipBackend->batchKnnSearch(
+            flatQueries.data(), queries.size(), dimension,
+            flatVectors.data(), vectorData.size(),
+            k, useL2
+        );
+        
+        if (results.empty()) {
+            // GPU failed, fall back to CPU if allowed
+            if (config.allowCPUFallback) {
+                std::cerr << "HIP batch search failed, falling back to CPU\n";
+                std::vector<std::vector<SearchResult>> cpuResults;
+                cpuResults.reserve(queries.size());
+                for (const auto& query : queries) {
+                    cpuResults.push_back(searchCPU(query, k));
+                }
+                return cpuResults;
+            }
+            return {};
+        }
+        
+        // Convert results to SearchResult format
+        std::vector<std::vector<SearchResult>> searchResults(queries.size());
+        for (size_t q = 0; q < queries.size(); ++q) {
+            searchResults[q].reserve(k);
+            for (const auto& [idx, dist] : results[q]) {
+                if (idx < vectorIds.size()) {
+                    searchResults[q].push_back({vectorIds[idx], dist});
+                }
+            }
+        }
+        
+        return searchResults;
+#else
+        // HIP not available, use CPU
+        std::vector<std::vector<SearchResult>> cpuResults;
+        cpuResults.reserve(queries.size());
+        for (const auto& query : queries) {
+            cpuResults.push_back(searchCPU(query, k));
+        }
+        return cpuResults;
+#endif
     }
     
     float computeDistance(const float* a, const float* b, int dim) {
@@ -245,22 +487,56 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
         return {};
     }
     
-    // For now, use CPU implementation
-    // GPU implementations will be added in specialized backend files
-    return pImpl->searchCPU(query, k);
+    // Use appropriate backend
+    switch (pImpl->activeBackend) {
+        case Backend::HIP:
+            return pImpl->searchHIP(query, k);
+        case Backend::CUDA:
+            // CUDA backend not implemented in this PR
+            if (pImpl->config.allowCPUFallback) {
+                return pImpl->searchCPU(query, k);
+            }
+            return {};
+        case Backend::CPU:
+        case Backend::AUTO:
+        default:
+            return pImpl->searchCPU(query, k);
+    }
 }
 
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     
-    std::vector<std::vector<SearchResult>> results;
-    results.reserve(queries.size());
-    
-    for (const auto& query : queries) {
-        results.push_back(search(query, k));
+    if (!pImpl->initialized) {
+        return {};
     }
     
-    return results;
+    // Use appropriate backend
+    switch (pImpl->activeBackend) {
+        case Backend::HIP:
+            return pImpl->searchBatchHIP(queries, k);
+        case Backend::CUDA:
+            // CUDA backend not implemented in this PR
+            if (pImpl->config.allowCPUFallback) {
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& query : queries) {
+                    results.push_back(search(query, k));
+                }
+                return results;
+            }
+            return {};
+        case Backend::CPU:
+        case Backend::AUTO:
+        default:
+            // CPU fallback
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(queries.size());
+            for (const auto& query : queries) {
+                results.push_back(pImpl->searchCPU(query, k));
+            }
+            return results;
+    }
 }
 
 bool GPUVectorIndex::buildIndex() {
@@ -297,18 +573,84 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
-    // Only CPU backend is available in current version
-    if (backend == Backend::CPU || backend == Backend::AUTO) {
+    if (!pImpl->initialized) {
+        return false;
+    }
+    
+    // Don't switch if already using requested backend
+    if (pImpl->activeBackend == backend) {
+        return true;
+    }
+    
+    Backend oldBackend = pImpl->activeBackend;
+    
+    // Try to switch to requested backend
+    if (backend == Backend::HIP) {
+#ifdef THEMIS_ENABLE_HIP
+        if (pImpl->initializeHIP()) {
+            pImpl->activeBackend = Backend::HIP;
+            pImpl->stats.activeBackend = Backend::HIP;
+            pImpl->stats.isGPUActive = true;
+            std::cout << "Switched to HIP backend\n";
+            return true;
+        }
+#endif
+        std::cerr << "Cannot switch to HIP backend (not available)\n";
+        return false;
+    } else if (backend == Backend::CUDA) {
+#ifdef THEMIS_ENABLE_CUDA
+        if (pImpl->initializeCUDA()) {
+            pImpl->activeBackend = Backend::CUDA;
+            pImpl->stats.activeBackend = Backend::CUDA;
+            pImpl->stats.isGPUActive = true;
+            std::cout << "Switched to CUDA backend\n";
+            return true;
+        }
+#endif
+        std::cerr << "Cannot switch to CUDA backend (not available)\n";
+        return false;
+    } else if (backend == Backend::CPU || backend == Backend::AUTO) {
+        // Shutdown GPU backends when switching to CPU
+#ifdef THEMIS_ENABLE_HIP
+        if (pImpl->hipBackend) {
+            pImpl->hipBackend->shutdown();
+        }
+#endif
+#ifdef THEMIS_ENABLE_CUDA
+        if (pImpl->cudaBackend) {
+            pImpl->cudaBackend->shutdown();
+        }
+#endif
         pImpl->activeBackend = Backend::CPU;
         pImpl->stats.activeBackend = Backend::CPU;
         pImpl->stats.isGPUActive = false;
+        std::cout << "Switched to CPU backend\n";
         return true;
     }
+    
     return false;
 }
 
 std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() const {
-    return pImpl->getAvailableBackends();
+    std::vector<Backend> backends;
+    
+    // CPU is always available
+    backends.push_back(Backend::CPU);
+    
+    // Check for HIP availability
+#ifdef THEMIS_ENABLE_HIP
+    themis::acceleration::HIPVectorBackend hipBackend;
+    if (hipBackend.isAvailable()) {
+        backends.push_back(Backend::HIP);
+    }
+#endif
+    
+    // Check for CUDA availability
+#ifdef THEMIS_ENABLE_CUDA
+    // CUDA backend check would go here when implemented
+#endif
+    
+    return backends;
 }
 
 } // namespace index
