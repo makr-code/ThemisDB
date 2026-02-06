@@ -138,9 +138,17 @@ DiffEngine::DiffResult DiffEngine::computeDiff(
     uint64_t to_sequence,
     const DiffOptions& options) {
     
+    // Validate sequence range
     if (from_sequence >= to_sequence) {
         throw std::invalid_argument(
             fmt::format("Invalid sequence range: from={} >= to={}", from_sequence, to_sequence)
+        );
+    }
+    
+    // Validate options
+    if (options.limit > 1000000) { // Sanity check: max 1M results
+        throw std::invalid_argument(
+            fmt::format("Limit too large: {} (max: 1000000)", options.limit)
         );
     }
     
@@ -330,34 +338,31 @@ DiffEngine::DiffResult DiffEngine::processEvents(
                 result.stats.deleted_count++;
             } else if (last_event.type == Changefeed::ChangeEventType::EVENT_PUT) {
                 // Key was added or modified
-                // Note: Without querying changefeed history before from_sequence,
-                // we cannot definitively distinguish between ADDED and MODIFIED.
-                // This implementation conservatively assumes MODIFIED for all PUT events
-                // in the diff range. For more accurate categorization, the caller should
-                // use a from_sequence of 0 or query the full changefeed history.
-                // TODO: Consider adding a flag to enable expensive history lookup for
-                // accurate ADDED vs MODIFIED classification.
-                if (key_event_list.size() == 1 && first_event.type == Changefeed::ChangeEventType::EVENT_PUT) {
-                    // Single PUT event - likely MODIFIED (could be ADDED if key didn't exist before)
-                    change.type = ChangeType::MODIFIED;
-                    change.new_value = last_event.value;
+                change.new_value = last_event.value;
+                
+                if (key_event_list.size() == 1) {
+                    // Single PUT event in range
+                    // Check if this is the first event for this key by querying before from_sequence
+                    // For now, we check if from_sequence is 0 to determine if it's truly ADDED
+                    // Otherwise, conservatively mark as MODIFIED
                     
-                    // Try to get old value from earlier event
-                    if (key_event_list.size() > 1) {
-                        auto& earlier = key_event_list[key_event_list.size() - 2];
-                        if (earlier.value.has_value()) {
-                            change.old_value = earlier.value;
-                        }
+                    // If from_sequence is 0, this is definitely ADDED (new key)
+                    if (result.from_sequence == 0) {
+                        change.type = ChangeType::ADDED;
+                        result.added.push_back(change);
+                        result.stats.added_count++;
+                    } else {
+                        // Could be ADDED or MODIFIED - conservatively assume MODIFIED
+                        // Old value unknown (would need to query history before from_sequence)
+                        change.type = ChangeType::MODIFIED;
+                        result.modified.push_back(change);
+                        result.stats.modified_count++;
                     }
-                    
-                    result.modified.push_back(change);
-                    result.stats.modified_count++;
                 } else {
-                    // Multiple events for same key
+                    // Multiple events for same key - definitely MODIFIED
                     change.type = ChangeType::MODIFIED;
-                    change.new_value = last_event.value;
                     
-                    // Get old value from first event
+                    // Get old value from first event in range
                     if (first_event.value.has_value()) {
                         change.old_value = first_event.value;
                     }
@@ -464,35 +469,57 @@ std::pair<uint64_t, uint64_t> DiffEngine::findSequenceRange(
     int64_t from_timestamp,
     int64_t to_timestamp) const {
     
-    // Fetch all events and find the ones matching the timestamp range
+    // Fetch all events (Note: This could be optimized with index on timestamps)
     Changefeed::ListOptions opts;
     opts.from_sequence = 0;
     opts.limit = 0; // No limit
     
     auto all_events = changefeed_.listEvents(opts);
     
+    if (all_events.empty()) {
+        spdlog::warn("No events available for timestamp range [{}, {}]", from_timestamp, to_timestamp);
+        return {0, 0};
+    }
+    
+    // Binary search for from_timestamp
+    auto from_it = std::lower_bound(all_events.begin(), all_events.end(), from_timestamp,
+        [](const Changefeed::ChangeEvent& event, int64_t ts) {
+            return event.timestamp_ms < ts;
+        });
+    
+    // Binary search for to_timestamp  
+    auto to_it = std::upper_bound(all_events.begin(), all_events.end(), to_timestamp,
+        [](int64_t ts, const Changefeed::ChangeEvent& event) {
+            return ts < event.timestamp_ms;
+        });
+    
     uint64_t from_seq = 0;
     uint64_t to_seq = 0;
     
-    bool found_start = false;
-    for (const auto& event : all_events) {
-        if (!found_start && event.timestamp_ms > from_timestamp) {
-            from_seq = event.sequence > 0 ? event.sequence - 1 : 0;
-            found_start = true;
-        }
-        
-        if (event.timestamp_ms <= to_timestamp) {
-            to_seq = event.sequence;
-        } else {
-            break;
-        }
+    // Set from_sequence (just before the first event in range)
+    if (from_it != all_events.end()) {
+        from_seq = from_it->sequence > 0 ? from_it->sequence - 1 : 0;
     }
     
-    // If no events found in range, return empty range
-    if (!found_start || to_seq == 0) {
+    // Set to_sequence (last event within range)
+    if (to_it != all_events.begin()) {
+        --to_it; // Move back to last event within range
+        to_seq = to_it->sequence;
+    }
+    
+    // Validate range
+    if (from_seq >= to_seq && to_seq > 0) {
         spdlog::warn("No events found in timestamp range [{}, {}]", from_timestamp, to_timestamp);
         return {0, 0};
     }
+    
+    if (to_seq == 0) {
+        spdlog::warn("No events found in timestamp range [{}, {}]", from_timestamp, to_timestamp);
+        return {0, 0};
+    }
+    
+    spdlog::debug("Timestamp range [{}, {}] maps to sequence range [{}, {}]",
+                  from_timestamp, to_timestamp, from_seq, to_seq);
     
     return {from_seq, to_seq};
 }
