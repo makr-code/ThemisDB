@@ -1501,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
 if(THEMIS_ENABLE_HTTP_SERVER)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/server/diff_api_handler.cpp
+        ../src/server/pitr_api_handler.cpp
     )
 endif()
 
