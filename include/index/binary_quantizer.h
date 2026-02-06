@@ -103,6 +103,7 @@ public:
     float getCompressionRatio() const { return 32.0f; }  // float32 -> 1 bit = 32x
     size_t getMemoryUsage() const;
     int getDimension() const { return dimension_; }
+    float getScale() const { return scale_; }  // Get learned scale factor
     
     /**
      * @brief Get encoded size in bytes
