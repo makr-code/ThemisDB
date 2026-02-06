@@ -78,6 +78,50 @@ curl -X POST http://localhost:8080/api/v1/restore/pitr \
 curl http://localhost:8080/api/v1/restore/progress
 ```
 
+### gRPC API Support
+
+ThemisDB PITR also provides gRPC API for binary server communication. This is useful for:
+- High-performance applications requiring binary protocol
+- Microservices architectures using gRPC
+- Cross-language client implementations
+
+**gRPC Service:** `themis.core.PITRService`
+
+**Example (using grpcurl):**
+```bash
+# Create snapshot via gRPC
+grpcurl -plaintext -d '{
+  "tag_name": "before_migration_2026_01",
+  "description": "Before Q1 2026 schema migration",
+  "created_by": "admin"
+}' localhost:50051 themis.core.PITRService/CreateSnapshot
+
+# Preview restore via gRPC
+grpcurl -plaintext -d '{
+  "restore_type": "TAG",
+  "target": "before_migration_2026_01"
+}' localhost:50051 themis.core.PITRService/PreviewRestore
+
+# Execute restore via gRPC
+grpcurl -plaintext -d '{
+  "restore_type": "TAG",
+  "target": "before_migration_2026_01",
+  "dry_run": false,
+  "create_backup": true
+}' localhost:50051 themis.core.PITRService/ExecuteRestore
+```
+
+**Available gRPC Methods:**
+- `CreateSnapshot` - Create named snapshot
+- `ListSnapshots` - List all snapshots
+- `GetSnapshot` - Get snapshot details
+- `DeleteSnapshot` - Delete snapshot
+- `PreviewRestore` - Preview restore operation
+- `ExecuteRestore` - Execute restore
+- `GetRestoreProgress` - Get restore progress
+
+See [proto/themis_core.proto](../../../proto/themis_core.proto) for full message definitions.
+
 ### Emergency Contact
 
 - **On-Call Team:** pagerduty@themisdb.com

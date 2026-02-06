@@ -452,6 +452,7 @@ set(THEMIS_NETWORK_SOURCES
     
     # gRPC support (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
     
     # Advanced protocols (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>

@@ -301,3 +301,171 @@ message DatabaseStats {
   int64 transactions_per_second = 5;
   int64 queries_per_second = 6;
 }
+
+// Point-in-Time Recovery (PITR) Service - added v1.5.0
+service PITRService {
+  // Create a named snapshot (tag) at current point in time
+  rpc CreateSnapshot(CreateSnapshotRequest) returns (CreateSnapshotResponse);
+  
+  // List all named snapshots
+  rpc ListSnapshots(ListSnapshotsRequest) returns (ListSnapshotsResponse);
+  
+  // Get details of a specific snapshot
+  rpc GetSnapshot(GetSnapshotRequest) returns (GetSnapshotResponse);
+  
+  // Delete a named snapshot
+  rpc DeleteSnapshot(DeleteSnapshotRequest) returns (DeleteSnapshotResponse);
+  
+  // Preview a restore operation (dry-run)
+  rpc PreviewRestore(PreviewRestoreRequest) returns (PreviewRestoreResponse);
+  
+  // Execute a point-in-time restore operation
+  rpc ExecuteRestore(ExecuteRestoreRequest) returns (ExecuteRestoreResponse);
+  
+  // Get progress of an ongoing restore operation
+  rpc GetRestoreProgress(GetRestoreProgressRequest) returns (GetRestoreProgressResponse);
+}
+
+// PITR Messages
+
+message CreateSnapshotRequest {
+  string tag_name = 1;       // Unique name for the snapshot
+  string description = 2;    // Human-readable description
+  string created_by = 3;     // User/system that created the snapshot
+}
+
+message CreateSnapshotResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  SnapshotInfo snapshot = 3;
+}
+
+message ListSnapshotsRequest {
+  uint64 limit = 1;          // Maximum number of snapshots to return (0 = all)
+  string sort_by = 2;        // Sort field: "timestamp", "sequence", "name"
+  bool ascending = 3;        // Sort direction
+}
+
+message ListSnapshotsResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  repeated SnapshotInfo snapshots = 3;
+}
+
+message GetSnapshotRequest {
+  string tag_name = 1;
+}
+
+message GetSnapshotResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  SnapshotInfo snapshot = 3;
+}
+
+message DeleteSnapshotRequest {
+  string tag_name = 1;
+}
+
+message DeleteSnapshotResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  string message = 3;
+}
+
+message PreviewRestoreRequest {
+  enum RestoreType {
+    SEQUENCE = 0;    // Restore to specific sequence number
+    TAG = 1;         // Restore to named snapshot
+    TIMESTAMP = 2;   // Restore to specific timestamp
+  }
+  
+  RestoreType restore_type = 1;
+  string target = 2;                    // Sequence number, tag name, or timestamp (as string)
+  repeated string tables = 3;           // Optional: selective table restore
+}
+
+message PreviewRestoreResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  RestorePreview preview = 3;
+}
+
+message ExecuteRestoreRequest {
+  enum RestoreType {
+    SEQUENCE = 0;
+    TAG = 1;
+    TIMESTAMP = 2;
+  }
+  
+  RestoreType restore_type = 1;
+  string target = 2;
+  bool dry_run = 3;                     // Preview only, don't apply
+  bool create_backup = 4;               // Auto-backup before restore
+  bool abort_on_first_error = 5;        // Stop on first error
+  repeated string tables = 6;           // Optional: selective table restore
+  uint64 max_events_to_replay = 7;      // Optional: limit events (0 = unlimited)
+  string backup_tag = 8;                // Tag name for auto-backup
+}
+
+message ExecuteRestoreResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  string status = 3;                    // "completed", "in_progress", "dry_run_completed"
+  string message = 4;
+  RestoreProgress progress = 5;
+}
+
+message GetRestoreProgressRequest {
+  // Empty - gets current restore progress
+}
+
+message GetRestoreProgressResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  bool in_progress = 3;
+  string message = 4;
+  RestoreProgress progress = 5;
+}
+
+// PITR Data Types
+
+message SnapshotInfo {
+  string tag_name = 1;
+  uint64 sequence_number = 2;
+  int64 timestamp_ms = 3;
+  string description = 4;
+  string created_by = 5;
+}
+
+message RestorePreview {
+  uint64 target_sequence = 1;
+  uint64 current_sequence = 2;
+  uint64 events_to_replay = 3;
+  repeated string affected_tables = 4;
+  repeated string affected_keys = 5;      // Sample of keys (first 100)
+  int64 estimated_duration_sec = 6;
+  uint64 estimated_size_bytes = 7;
+}
+
+message RestoreProgress {
+  enum Phase {
+    NOT_STARTED = 0;
+    CREATING_BACKUP = 1;
+    VALIDATING = 2;
+    REPLAYING_EVENTS = 3;
+    COMMITTING = 4;
+    COMPLETED = 5;
+    FAILED = 6;
+    ROLLED_BACK = 7;
+  }
+  
+  Phase phase = 1;
+  uint64 events_processed = 2;
+  uint64 total_events = 3;
+  string current_table = 4;
+  string last_error = 5;
+  int64 start_time_ms = 6;
+  int64 end_time_ms = 7;
+  double progress_percent = 8;
+  int64 elapsed_ms = 9;
+}

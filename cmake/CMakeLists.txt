@@ -1233,6 +1233,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/policy_engine.cpp
     ../src/server/auth_middleware.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
     
     # LLM integration (server/API/grpc) is added conditionally below
     ../src/server/rate_limiter.cpp
