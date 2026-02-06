@@ -61,12 +61,14 @@ public:
             context_ = std::make_unique<lora::vulkan::VulkanContext>();
             
             // Initialize with device ID and validation (debug mode only)
-            bool enableValidation = false;
+            bool enableValidation = config_.enableValidation;
             #ifdef _DEBUG
-            enableValidation = true;
+            if (!enableValidation) {
+                enableValidation = true; // Force validation in debug
+            }
             #endif
             
-            if (!context_->initialize(0, enableValidation)) {
+            if (!context_->initialize(config_.deviceId, enableValidation)) {
                 std::cerr << "VulkanVectorIndexBackend: Failed to initialize Vulkan context\n";
                 return false;
             }
@@ -79,8 +81,12 @@ public:
                       << VK_VERSION_MINOR(props.apiVersion) << "."
                       << VK_VERSION_PATCH(props.apiVersion) << "\n";
             
-            // TODO: Create compute pipelines for each distance metric
-            // This will be implemented in the next phase
+            // Create compute pipelines for distance metrics
+            if (!createPipelines()) {
+                std::cerr << "VulkanVectorIndexBackend: Failed to create compute pipelines\n";
+                shutdown();
+                return false;
+            }
             
             initialized_ = true;
             return true;
@@ -162,22 +168,139 @@ public:
     }
     
     /**
-     * @brief Search for nearest neighbors using Vulkan compute
+     * @brief Search for nearest neighbors using Vulkan compute (returns indices)
      * @param query Query vector
      * @param k Number of nearest neighbors
-     * @return Search results
+     * @return Pairs of (distance, index) sorted by distance
      */
-    std::vector<GPUVectorIndex::SearchResult> search(
+    std::vector<std::pair<float, size_t>> searchIndices(
         const std::vector<float>& query, size_t k) {
         
         if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
             return {};
         }
         
-        // TODO: Implement Vulkan compute-based search
-        // For now, fall back to CPU implementation
-        std::cerr << "VulkanVectorIndexBackend: GPU compute search not yet implemented, falling back to CPU\n";
-        return {};
+        if (num_vectors_ == 0) {
+            return {};
+        }
+        
+        try {
+            auto startTime = std::chrono::steady_clock::now();
+            
+            // Create or update query buffer
+            size_t querySize = dimension_ * sizeof(float);
+            if (!query_buffer_ || query_buffer_->size() < querySize) {
+                query_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
+                    context_.get(), querySize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
+            }
+            query_buffer_->upload(query.data(), querySize);
+            
+            // Create or update distance buffer
+            size_t distanceSize = num_vectors_ * sizeof(float);
+            if (!distance_buffer_ || distance_buffer_->size() < distanceSize) {
+                distance_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
+                    context_.get(), distanceSize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
+            }
+            
+            // Select pipeline based on distance metric
+            lora::vulkan::VulkanComputePipeline* pipeline = nullptr;
+            switch (config_.metric) {
+                case GPUVectorIndex::DistanceMetric::L2:
+                    pipeline = l2_pipeline_.get();
+                    break;
+                case GPUVectorIndex::DistanceMetric::COSINE:
+                    pipeline = cosine_pipeline_.get();
+                    break;
+                case GPUVectorIndex::DistanceMetric::INNER_PRODUCT:
+                    pipeline = inner_product_pipeline_.get();
+                    break;
+                default:
+                    std::cerr << "VulkanVectorIndexBackend: Unknown distance metric\n";
+                    return {};
+            }
+            
+            if (!pipeline || !pipeline->is_ready()) {
+                std::cerr << "VulkanVectorIndexBackend: Pipeline not ready\n";
+                return {};
+            }
+            
+            // Bind buffers to descriptor sets
+            pipeline->bind_buffer(0, *query_buffer_);      // Query vectors
+            pipeline->bind_buffer(1, *vector_buffer_);     // Database vectors
+            pipeline->bind_buffer(2, *distance_buffer_);   // Output distances
+            
+            // Set push constants
+            struct PushConstants {
+                uint32_t numQueries;
+                uint32_t numVectors;
+                uint32_t dimension;
+            } pushConstants = {
+                1,                        // Single query
+                static_cast<uint32_t>(num_vectors_),
+                static_cast<uint32_t>(dimension_)
+            };
+            pipeline->set_push_constants(&pushConstants, sizeof(PushConstants));
+            
+            // Dispatch compute shader
+            // Local size is 16x16, so we need to dispatch enough workgroups
+            uint32_t workgroupsX = (num_vectors_ + 15) / 16;
+            uint32_t workgroupsY = 1; // Single query
+            pipeline->dispatch(workgroupsX, workgroupsY, 1);
+            
+            // Wait for completion
+            pipeline->wait();
+            
+            // Download results
+            std::vector<float> distances(num_vectors_);
+            distance_buffer_->download(distances.data(), distanceSize);
+            
+            // Find top-k
+            std::vector<std::pair<float, size_t>> distanceIndices;
+            distanceIndices.reserve(num_vectors_);
+            for (size_t i = 0; i < num_vectors_; ++i) {
+                distanceIndices.emplace_back(distances[i], i);
+            }
+            
+            // Partial sort to get top-k
+            size_t topK = std::min(k, num_vectors_);
+            std::partial_sort(distanceIndices.begin(), 
+                            distanceIndices.begin() + topK, 
+                            distanceIndices.end(),
+                            [](const auto& a, const auto& b) { return a.first < b.first; });
+            
+            // Keep only top-k
+            distanceIndices.resize(topK);
+            
+            auto endTime = std::chrono::steady_clock::now();
+            updateQueryStats(startTime, endTime);
+            
+            return distanceIndices;
+            
+        } catch (const std::exception& e) {
+            std::cerr << "VulkanVectorIndexBackend: Search error: " << e.what() << "\n";
+            return {};
+        }
+    }
+    
+    /**
+     * @brief Search for nearest neighbors using Vulkan compute
+     * @param query Query vector
+     * @param k Number of nearest neighbors
+     * @return Search results (without IDs, to be filled by main implementation)
+     */
+    std::vector<GPUVectorIndex::SearchResult> search(
+        const std::vector<float>& query, size_t k) {
+        
+        auto indices = searchIndices(query, k);
+        
+        // Convert to SearchResult format (IDs will be filled by main implementation)
+        std::vector<GPUVectorIndex::SearchResult> results;
+        results.reserve(indices.size());
+        for (const auto& [distance, index] : indices) {
+            results.push_back({"", distance});
+        }
+        
+        return results;
     }
     
     /**
@@ -221,7 +344,74 @@ public:
         return initialized_;
     }
 
-private:
+    /**
+     * @brief Update query statistics
+     */
+    void updateQueryStats(const std::chrono::steady_clock::time_point& start,
+                         const std::chrono::steady_clock::time_point& end) const {
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        double queryTimeMs = duration.count() / 1000.0;
+        
+        // Simple exponential moving average
+        if (avg_query_time_ms_ == 0.0) {
+            avg_query_time_ms_ = queryTimeMs;
+        } else {
+            avg_query_time_ms_ = 0.9 * avg_query_time_ms_ + 0.1 * queryTimeMs;
+        }
+        
+        // Estimate throughput based on query time
+        if (avg_query_time_ms_ > 0.0) {
+            throughput_qps_ = 1000.0 / avg_query_time_ms_;
+        }
+    }
+    
+    /**
+     * @brief Create compute pipelines for distance metrics
+     */
+    bool createPipelines() {
+        try {
+            // Shaders are compiled to build/shaders/vector_index/ by CMake
+            std::string shaderDir = "shaders/vector_index/";
+            
+            // Create L2 distance pipeline
+            std::string l2ShaderPath = shaderDir + "l2_distance.comp.spv";
+            l2_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
+                context_.get(), l2ShaderPath);
+            
+            // Push constants: numQueries, numVectors, dimension
+            size_t pushConstantSize = sizeof(uint32_t) * 3;
+            if (!l2_pipeline_->create(pushConstantSize)) {
+                std::cerr << "VulkanVectorIndexBackend: Failed to create L2 distance pipeline\n";
+                return false;
+            }
+            
+            // Create Cosine distance pipeline
+            std::string cosineShaderPath = shaderDir + "cosine_distance.comp.spv";
+            cosine_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
+                context_.get(), cosineShaderPath);
+            if (!cosine_pipeline_->create(pushConstantSize)) {
+                std::cerr << "VulkanVectorIndexBackend: Failed to create Cosine distance pipeline\n";
+                return false;
+            }
+            
+            // Create Inner Product distance pipeline
+            std::string innerProductShaderPath = shaderDir + "inner_product_distance.comp.spv";
+            inner_product_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
+                context_.get(), innerProductShaderPath);
+            if (!inner_product_pipeline_->create(pushConstantSize)) {
+                std::cerr << "VulkanVectorIndexBackend: Failed to create Inner Product pipeline\n";
+                return false;
+            }
+            
+            std::cout << "VulkanVectorIndexBackend: All compute pipelines created successfully\n";
+            return true;
+            
+        } catch (const std::exception& e) {
+            std::cerr << "VulkanVectorIndexBackend: Pipeline creation error: " << e.what() << "\n";
+            return false;
+        }
+    }
+    
     /**
      * @brief Calculate VRAM usage
      */
@@ -280,6 +470,11 @@ void VulkanVectorIndexBackend::shutdown() {
 
 bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>& vectors) {
     return pImpl->uploadVectors(vectors);
+}
+
+std::vector<std::pair<float, size_t>> VulkanVectorIndexBackend::searchIndices(
+    const std::vector<float>& query, size_t k) {
+    return pImpl->searchIndices(query, k);
 }
 
 std::vector<GPUVectorIndex::SearchResult> VulkanVectorIndexBackend::search(

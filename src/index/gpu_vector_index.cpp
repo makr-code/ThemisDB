@@ -219,8 +219,16 @@ public:
         // Try GPU backend first if active
         #ifdef THEMIS_ENABLE_VULKAN
         if (activeBackend == Backend::VULKAN && vulkanBackend) {
-            auto results = vulkanBackend->search(query, k);
-            if (!results.empty()) {
+            auto indices = vulkanBackend->searchIndices(query, k);
+            if (!indices.empty()) {
+                // Map indices to IDs
+                std::vector<SearchResult> results;
+                results.reserve(indices.size());
+                for (const auto& [distance, index] : indices) {
+                    if (index < vectorIds.size()) {
+                        results.push_back({vectorIds[index], distance});
+                    }
+                }
                 return results;
             }
             // Fall through to CPU if GPU search fails
@@ -498,6 +506,7 @@ public:
     bool initialize(int dimension);
     void shutdown();
     bool uploadVectors(const std::vector<std::vector<float>>& vectors);
+    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
     std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
