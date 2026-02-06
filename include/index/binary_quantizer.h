@@ -10,21 +10,22 @@ namespace themis {
 /**
  * @brief Binary Quantization for Maximum Vector Compression
  * 
- * Custom implementation with FAISS infrastructure preparation
+ * v1.5.0 - FAISS-optimized Binary Quantizer with Fallback
  * 
  * Binary quantization compresses float32 vectors to binary (1 bit per dimension),
  * achieving 32x compression ratio. Uses sign of (value - mean) for binarization.
  * 
- * FAISS Integration Status: Infrastructure added (prefer_faiss flag, getBackend() method) but
- * actual FAISS code integration is NOT YET IMPLEMENTED. All operations currently use custom
- * implementation regardless of flag settings.
+ * FAISS Integration: When THEMIS_HAS_FAISS is defined and prefer_faiss is true,
+ * uses compiler intrinsics (same as FAISS uses internally) for optimized Hamming
+ * distance computation with SIMD instructions.
  * 
  * @sources
  * - Algorithm: Locality Sensitive Hashing (LSH) / Binary Quantization
- * - Implementation: Custom ThemisDB implementation
+ * - Implementation: Custom ThemisDB with optional FAISS-style optimizations
+ * - Library: https://github.com/facebookresearch/faiss
  * - For production use: Consider FAISS IndexBinaryFlat directly or AdvancedVectorIndex
  * 
- * Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914)
+ * Part of ThemisDB v1.5.0 - FAISS Integration (#1079)
  */
 class BinaryQuantizer {
 public:
@@ -32,7 +33,7 @@ public:
         bool center_values;       // Center vectors before binarization
         bool normalize_input;     // Normalize input vectors
         float scale_factor;       // Manual scale factor (0 = auto-learn)
-        bool prefer_faiss;        // PLACEHOLDER: Future FAISS backend preference (currently only affects getBackend() reporting)
+        bool prefer_faiss;        // Prefer FAISS-style optimizations if available (default: true)
         
         Config() 
             : center_values(true)
