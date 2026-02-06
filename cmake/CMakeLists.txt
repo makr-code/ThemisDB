@@ -1172,6 +1172,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
+    ../src/transaction/merge_engine.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1493,12 +1494,16 @@ set(THEMIS_CORE_SOURCES
     
     # Phase 2: Diff Engine
     ../src/analytics/diff_engine.cpp
+    
+    # Phase 5: Three-Way Merge
+    ../src/transaction/merge_engine.cpp
 )
 
 # HTTP Server API handlers (only if HTTP server enabled)
 if(THEMIS_ENABLE_HTTP_SERVER)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/server/diff_api_handler.cpp
+        ../src/server/merge_api_handler.cpp
     )
 endif()
 
