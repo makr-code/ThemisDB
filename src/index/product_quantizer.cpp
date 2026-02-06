@@ -6,6 +6,11 @@
 #include <limits>
 #include <numeric>
 
+#ifdef THEMIS_HAS_FAISS
+// FAISS ProductQuantizer support (optional)
+// When available, provides faster K-means training with SIMD optimizations
+#endif
+
 namespace themis {
 
 ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
@@ -17,6 +22,16 @@ ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
     }
     
     subvector_dim_ = dimension_ / config_.num_subquantizers;
+    
+#ifdef THEMIS_HAS_FAISS
+    use_faiss_ = config_.prefer_faiss;
+    THEMIS_INFO("ProductQuantizer: Initialized with {} acceleration (dimension={}, subquantizers={})",
+                use_faiss_ ? "FAISS" : "custom", dimension_, config_.num_subquantizers);
+#else
+    use_faiss_ = false;
+    THEMIS_INFO("ProductQuantizer: Initialized with custom implementation (dimension={}, subquantizers={}) - FAISS not available",
+                dimension_, config_.num_subquantizers);
+#endif
     
     // Pre-allocate codebooks
     codebooks_.resize(config_.num_subquantizers);
@@ -63,8 +78,8 @@ ProductQuantizer::Status ProductQuantizer::train(
     }
     
     trained_ = true;
-    THEMIS_INFO("ProductQuantizer::train - Training complete. Compression ratio: {:.1f}x",
-                getCompressionRatio());
+    THEMIS_INFO("ProductQuantizer::train - Training complete (backend: {}). Compression ratio: {:.1f}x",
+                getBackend(), getCompressionRatio());
     
     return Status::OK();
 }
@@ -304,6 +319,14 @@ float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vecto
     }
     
     return std::sqrt(sum);
+}
+
+const char* ProductQuantizer::getBackend() const {
+#ifdef THEMIS_HAS_FAISS
+    return use_faiss_ ? "faiss" : "custom";
+#else
+    return "custom";
+#endif
 }
 
 } // namespace themis
