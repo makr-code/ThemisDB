@@ -474,14 +474,6 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     
     return true;
 }
-    if (backend == Backend::CPU || backend == Backend::AUTO) {
-        pImpl->activeBackend = Backend::CPU;
-        pImpl->stats.activeBackend = Backend::CPU;
-        pImpl->stats.isGPUActive = false;
-        return true;
-    }
-    return false;
-}
 
 std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() const {
     return pImpl->getAvailableBackends();

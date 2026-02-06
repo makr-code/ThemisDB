@@ -329,7 +329,7 @@ public:
         GPUVectorIndex::Statistics stats;
         stats.numVectors = num_vectors_;
         stats.dimension = dimension_;
-        stats.activeBackend = GPUVectorIndex::Backend::CPU; // Will be VULKAN once implemented
+        stats.activeBackend = GPUVectorIndex::Backend::VULKAN;  // Vulkan backend
         stats.isGPUActive = initialized_;
         stats.vramUsageBytes = calculateVRAMUsage();
         stats.avgQueryTimeMs = avg_query_time_ms_;
@@ -346,6 +346,9 @@ public:
 
     /**
      * @brief Update query statistics
+     * 
+     * Note: This method is const because it only updates cached statistics
+     * (marked mutable) and doesn't modify the logical state of the backend.
      */
     void updateQueryStats(const std::chrono::steady_clock::time_point& start,
                          const std::chrono::steady_clock::time_point& end) const {
