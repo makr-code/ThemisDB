@@ -16,6 +16,10 @@ namespace simd {
 // Cache line size constant for prefetching optimization
 constexpr std::size_t CACHE_LINE_SIZE = 64;
 
+// Prefetch distance: 4 cache lines ahead (256 bytes = 64 floats)
+// Optimal for hiding memory latency in streaming operations
+constexpr std::size_t PREFETCH_DISTANCE = 64;
+
 static inline float scalar_l2_sq(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
@@ -31,11 +35,8 @@ static inline float avx512_l2_sq(const float* a, const float* b, std::size_t dim
     __m512 acc = _mm512_setzero_ps();
     const std::size_t step = 16;
     
-    // Prefetch distance: 4 cache lines ahead (256 bytes = 64 floats)
-    constexpr std::size_t PREFETCH_DISTANCE = 64;
-    
     for (; i + step <= dim; i += step) {
-        // Prefetch data 4 cache lines ahead for both arrays
+        // Prefetch data ahead for both arrays
         if (i + PREFETCH_DISTANCE < dim) {
             _mm_prefetch(reinterpret_cast<const char*>(a + i + PREFETCH_DISTANCE), _MM_HINT_T0);
             _mm_prefetch(reinterpret_cast<const char*>(b + i + PREFETCH_DISTANCE), _MM_HINT_T0);
@@ -60,11 +61,8 @@ static inline float avx2_l2_sq(const float* a, const float* b, std::size_t dim) 
     __m256 acc1 = _mm256_setzero_ps();
     const std::size_t step = 16;
     
-    // Prefetch distance: 4 cache lines ahead (256 bytes = 64 floats)
-    constexpr std::size_t PREFETCH_DISTANCE = 64;
-    
     for (; i + step <= dim; i += step) {
-        // Prefetch data 4 cache lines ahead for both arrays
+        // Prefetch data ahead for both arrays
         if (i + PREFETCH_DISTANCE < dim) {
             _mm_prefetch(reinterpret_cast<const char*>(a + i + PREFETCH_DISTANCE), _MM_HINT_T0);
             _mm_prefetch(reinterpret_cast<const char*>(b + i + PREFETCH_DISTANCE), _MM_HINT_T0);
@@ -94,9 +92,6 @@ static inline float neon_l2_sq(const float* a, const float* b, std::size_t dim) 
     float32x4_t acc0 = vdupq_n_f32(0.0f);
     float32x4_t acc1 = vdupq_n_f32(0.0f);
     const std::size_t step = 8;
-    
-    // Prefetch distance: 4 cache lines ahead (256 bytes = 64 floats)
-    constexpr std::size_t PREFETCH_DISTANCE = 64;
     
     // Process 8 floats at a time (2x NEON registers)
     for (; i + step <= dim; i += step) {
@@ -162,12 +157,28 @@ float l2_distance(const float* a, const float* b, std::size_t dim) {
     return std::sqrt(d2);
 }
 
-// Batch compute L2 squared distances - optimized for cache locality
+// Batch compute L2 squared distances - optimized with explicit prefetching
 void batch_l2_distance_sq(const float* query, const float* database, 
                           std::size_t n, std::size_t dim, float* distances) {
-    // Process multiple database vectors to improve cache utilization
-    // Query vector stays in L1 cache while database vectors are streamed
+    // Process multiple database vectors with explicit prefetching
+    // Query vector will be hot in L1 cache after first iteration
     for (std::size_t i = 0; i < n; ++i) {
+        // Prefetch next database vector while computing current one
+        // This hides memory latency by overlapping compute and memory access
+        if (i + 1 < n) {
+            const float* next_vec = database + (i + 1) * dim;
+            #if defined(__AVX2__) || defined(__AVX512F__)
+            _mm_prefetch(reinterpret_cast<const char*>(next_vec), _MM_HINT_T0);
+            if (dim > 16) {
+                _mm_prefetch(reinterpret_cast<const char*>(next_vec + 16), _MM_HINT_T0);
+            }
+            #elif defined(__aarch64__)
+            __builtin_prefetch(next_vec, 0, 3);
+            if (dim > 16) {
+                __builtin_prefetch(next_vec + 16, 0, 3);
+            }
+            #endif
+        }
         distances[i] = l2_distance_sq(query, database + i * dim, dim);
     }
 }

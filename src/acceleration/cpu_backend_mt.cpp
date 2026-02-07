@@ -191,9 +191,9 @@ public:
             float* result = &distances[q * numVectors];
             
             if (useL2 && enableSIMD_) {
-                // Use optimized batch function for better cache utilization
+                // Compute squared distances with batch optimization
                 themis::simd::batch_l2_distance_sq(query, vectors, numVectors, dim, result);
-                // Convert squared distances to actual distances
+                // Convert to actual distances in same loop - better cache locality
                 for (size_t v = 0; v < numVectors; ++v) {
                     result[v] = std::sqrt(result[v]);
                 }
