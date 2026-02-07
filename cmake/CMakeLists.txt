@@ -1107,6 +1107,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1843,6 +1844,10 @@ if(THEMIS_ENABLE_LLM)
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
+        
+        # Model Deployment Plugin (Ollama-inspired, production-ready)
+        ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
+        ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
