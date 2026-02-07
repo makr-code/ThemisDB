@@ -7,7 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Documentation Consolidation for Beta/RC** 📚
+  - Archived 70+ historical documents (GAP analyses, old roadmaps, TODO lists, implementation summaries)
+  - Organized archives into structured directories: gaps/, roadmaps/, todos/, implementation-summaries/
+  - Updated documentation index to reflect current Beta/RC-ready status (v1.5.0-dev)
+  - Streamlined navigation and removed outdated references
+  - See [docs/ARCHIVED/README.md](docs/ARCHIVED/README.md) for archive index
+
 ### Added
+- **HSM Security Warning System (FIND-002)** 🔒
+  - **Startup Warning Banner**: Prominent warning displayed when stub HSM provider is active
+    - 80-character ASCII box with clear security messaging
+    - Directs users to HSM production setup documentation
+    - Can be suppressed in development with `--allow-stub-hsm` flag
+  - **Periodic Security Logging**: ERROR-level warnings logged every 5 minutes when stub HSM is active
+    - Persistent reminder of insecure configuration
+    - Helps prevent accidental production deployment with stub provider
+  - **Prometheus Metrics**: HSM security status exposed via `/metrics` endpoint
+    - `themis_hsm_insecure_config`: Gauge indicating insecure configuration (0=secure, 1=insecure)
+    - `themis_hsm_provider_type{provider="stub|real"}`: Provider type information
+    - `hsm_security_stub_active`: Legacy metric name for backward compatibility
+    - `hsm_compliance_status{standard="..."}`: Compliance status for NIST, ISO, PCI DSS, GDPR
+  - **Command-Line Flag**: `--allow-stub-hsm` flag for development environments
+    - Suppresses warning banner and periodic logging
+    - Documented in help output (`--help`)
+  - **Documentation Updates**:
+    - QUICKSTART.md now includes prominent HSM security warning at top
+    - Configuration examples show HSM settings with warnings
+    - References to `docs/security/HSM_PRODUCTION_SETUP.md` throughout
+  - **Compliance**: Addresses critical security finding FIND-002 from v1.4.1 audit
+    - Prevents master encryption keys from being unprotected in production
+    - Supports NIST SP 800-53 SC-12, ISO 27001 A.8.24, PCI DSS 3.6, GDPR Art. 32
+
+### Changed
+- main_server.cpp now initializes HSM provider at startup and validates security configuration
+- Prometheus metrics endpoint (`/metrics`) now includes HSM security metrics
+- Help output (`--help`) now lists `--allow-stub-hsm` flag
+
 - **Multi-GPU Vector Indexing API (v2.4)** 🎉
   - **MultiGPUVectorIndex**: Multi-device API and partition/merge scaffolding for distributed vector search
     - Logical support for 2-8 devices via index partitioning (round-robin, hash-based, range-based, balanced)

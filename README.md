@@ -10,7 +10,7 @@
   [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Version](https://img.shields.io/badge/version-1.4.1--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
+  [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 

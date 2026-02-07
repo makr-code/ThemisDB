@@ -2,6 +2,37 @@
 
 Get ThemisDB up and running in 5 minutes! 🚀
 
+## ⚠️ SECURITY WARNING - HSM Configuration
+
+**CRITICAL:** ThemisDB defaults to a **stub HSM provider** for development convenience. This is **INSECURE** and must be changed for production deployments.
+
+### What's at Risk?
+- Master encryption keys are stored **without hardware protection**
+- **All encrypted data can be compromised** if an attacker gains system access
+- **Compliance violations**: NIST SP 800-53, ISO 27001, PCI DSS, GDPR
+
+### For Production Deployments:
+
+1. **Configure a real HSM provider** before production use:
+   - PKCS#11 HSM (Thales Luna, AWS CloudHSM, etc.)
+   - AWS KMS
+   - Azure Key Vault
+   - GCP Cloud KMS
+
+2. **See the complete setup guide**: [docs/security/HSM_PRODUCTION_SETUP.md](docs/security/HSM_PRODUCTION_SETUP.md)
+
+3. **For development** (to suppress warnings): Use `--allow-stub-hsm` flag
+   ```bash
+   ./themis_server --allow-stub-hsm
+   ```
+
+### Detection
+ThemisDB will display a **prominent warning banner** at startup if stub HSM is active:
+- Logs ERROR-level warnings every 5 minutes
+- Exposes `themis_hsm_insecure_config` metric in `/metrics`
+
+---
+
 ## Prerequisites
 
 - **Docker** (recommended) OR
@@ -31,7 +62,7 @@ docker run -d \
 # Check health
 curl http://localhost:8080/health
 
-# Expected response: {"status":"ok","version":"1.4.1-dev"}
+# Expected response: {"status":"ok","version":"1.5.0-dev"}
 ```
 
 ### 3. Your First Query
@@ -159,6 +190,11 @@ logging:
   file: "./logs/themis.log"
 
 security:
+  # ⚠️ WARNING: Configure HSM for production!
+  # See: docs/security/HSM_PRODUCTION_SETUP.md
+  hsm:
+    provider: stub  # DEVELOPMENT ONLY - CHANGE FOR PRODUCTION
+  
   tls:
     enabled: true
     cert_file: "./certs/server.crt"
