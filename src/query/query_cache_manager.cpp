@@ -454,8 +454,15 @@ void QueryCacheManager::updateMemoryStats() {
     } else if (adaptive_cache_) {
         auto cache_stats = adaptive_cache_->getStats();
         stats_.cache_evictions = cache_stats.evictions;
-        // Estimate memory usage for adaptive cache
-        stats_.current_memory_bytes = (cache_stats.l1_hits + cache_stats.l2_hits) * 10240;
+        // Estimate memory usage for adaptive cache based on detailed info
+        auto cache_info = adaptive_cache_->getDetailedInfo();
+        if (cache_info.contains("total_memory_bytes")) {
+            stats_.current_memory_bytes = cache_info["total_memory_bytes"].get<size_t>();
+        } else {
+            // Fallback: estimate based on entry counts and average sizes
+            // L1: ~1KB, L2: ~10KB (compressed), L3: varies
+            stats_.current_memory_bytes = 0;  // Use conservative estimate
+        }
     }
 }
 

@@ -157,17 +157,18 @@ void WorkloadCacheStrategy::recordQuery(
         // Update existing pattern
         auto& pattern = it->second;
         pattern.last_accessed = std::chrono::system_clock::now();
+        int64_t count = pattern.access_count;
         pattern.access_count++;
         
-        // Update running averages
+        // Update cumulative averages (proper weighted average)
         pattern.result_size_bytes = 
-            (pattern.result_size_bytes + characteristics.result_size_bytes) / 2;
+            (pattern.result_size_bytes * count + characteristics.result_size_bytes) / (count + 1);
         pattern.execution_time_ms = 
-            (pattern.execution_time_ms + characteristics.execution_time_ms) / 2;
+            (pattern.execution_time_ms * count + characteristics.execution_time_ms) / (count + 1);
         pattern.rows_scanned = 
-            (pattern.rows_scanned + characteristics.rows_scanned) / 2;
+            (pattern.rows_scanned * count + characteristics.rows_scanned) / (count + 1);
         pattern.rows_returned = 
-            (pattern.rows_returned + characteristics.rows_returned) / 2;
+            (pattern.rows_returned * count + characteristics.rows_returned) / (count + 1);
     }
     
     // Update global stats
@@ -356,10 +357,13 @@ std::chrono::seconds WorkloadCacheStrategy::calculateTTL(
     } else {
         // Scale between min and max based on frequency
         // Use logarithmic scale for better distribution
+        // Pre-computed constants to avoid redundant computation
+        static constexpr double LOG_MIN = 0.04139268515822508;  // std::log10(0.1 + 1.0)
+        static constexpr double LOG_MAX = 1.0413926851582251;   // std::log10(10.0 + 1.0)
+        static constexpr double LOG_RANGE = LOG_MAX - LOG_MIN;
+        
         double log_freq = std::log10(freq + 1.0);
-        double log_min = std::log10(0.1 + 1.0);
-        double log_max = std::log10(10.0 + 1.0);
-        double ratio = (log_freq - log_min) / (log_max - log_min);
+        double ratio = (log_freq - LOG_MIN) / LOG_RANGE;
         ratio = std::clamp(ratio, 0.0, 1.0);
         
         // Inverse relationship: higher frequency = lower TTL

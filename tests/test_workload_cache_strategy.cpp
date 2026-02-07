@@ -260,7 +260,7 @@ TEST_F(WorkloadCacheStrategyTest, ShouldCache_TooLarge) {
     WorkloadCacheStrategy strategy(config_);
     
     QueryCharacteristics char_;
-    char_.result_size_bytes = 200 * 1024 * 1024;  // 200MB - too large
+    char_.result_size_bytes = 200 * 1024 * 1024;  // 200MB - 2x over 100MB limit
     char_.execution_time_ms = 1000;
     
     EXPECT_FALSE(strategy.shouldCache(char_));

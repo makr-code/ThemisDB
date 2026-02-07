@@ -52,9 +52,10 @@ struct QueryCharacteristics {
     double frequency_per_minute() const {
         auto duration = std::chrono::duration_cast<std::chrono::minutes>(
             last_accessed - first_seen);
-        return duration.count() > 0 
-            ? static_cast<double>(access_count) / duration.count() 
-            : 0.0;
+        // Handle case where query was just added (duration ~0)
+        // Use minimum duration of 1 minute to avoid division by zero
+        int64_t duration_min = std::max(duration.count(), int64_t(1));
+        return static_cast<double>(access_count) / duration_min;
     }
 };
 

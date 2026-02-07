@@ -16,9 +16,9 @@ query_cache:
     min_samples: 100
     detection_window_sec: 300  # Frequent re-detection
     
-    # Auto-adjust cache configuration based on detected patterns
-    auto_adjust: true
-    adjustment_interval_sec: 600  # Adjust every 10 minutes
+    # Note: auto_adjust feature is planned for future release
+    # Currently, cache configuration is selected based on detected workload
+    # but manual adjustment of thresholds is required
   
   # Adaptive cache configuration (3-tier) - Balanced settings
   adaptive:
