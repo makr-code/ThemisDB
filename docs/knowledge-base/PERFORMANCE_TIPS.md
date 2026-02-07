@@ -1386,7 +1386,10 @@ for (int i = 0; i < n; i++) {
 }
 
 // BEST: Aligned and sequential with prefetching
-alignas(64) float vectors[n * dim];  // 64-byte cache line alignment
+// Use aligned allocation for large arrays
+std::vector<float> vectors(n * dim);  // Standard container
+// Or for guaranteed alignment:
+auto* aligned_data = static_cast<float*>(std::aligned_alloc(64, n * dim * sizeof(float)));
 // SIMD functions automatically prefetch 4 cache lines ahead
 ```
 

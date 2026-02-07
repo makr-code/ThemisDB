@@ -1,4 +1,5 @@
 #include "utils/simd_distance.h"
+#include <algorithm>
 #include <cstddef>
 #include <cmath>
 

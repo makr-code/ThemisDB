@@ -16,13 +16,15 @@ float l2_distance(const float* a, const float* b, std::size_t dim);
 // relative ordering is required. Also SIMD-optimized when available.
 float l2_distance_sq(const float* a, const float* b, std::size_t dim);
 
-// Batch compute L2 distances from single query vector to multiple database vectors.
-// More efficient than calling l2_distance_sq in a loop due to better cache utilization.
+// Batch compute squared L2 distances (without sqrt) from a single query vector
+// to multiple database vectors. More efficient than calling l2_distance_sq in a
+// loop due to better cache utilization. Callers who need true Euclidean
+// distances should apply sqrt to each output value.
 // query: single query vector of length dim
 // database: n database vectors stored contiguously (n * dim floats)
 // n: number of database vectors
 // dim: vector dimension
-// distances: output array of n distances (must be pre-allocated)
+// distances: output array of n squared distances (must be pre-allocated)
 void batch_l2_distance_sq(const float* query, const float* database, 
                           std::size_t n, std::size_t dim, float* distances);
 
