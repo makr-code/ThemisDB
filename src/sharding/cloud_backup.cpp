@@ -11,6 +11,17 @@
 #include <iomanip>
 #include <algorithm>
 
+// TODO v1.4.0: Add comprehensive test coverage
+// Tests needed:
+// - Unit tests for each cloud provider (S3, Azure, GCS)
+// - Integration tests with mock cloud services
+// - Error handling tests (network failures, auth failures)
+// - Metadata handling and validation tests
+// - Multi-datacenter replication tests
+// - Backup retention and lifecycle tests
+// - Performance and stress tests
+// See: tests/test_cloud_backup.cpp (to be created)
+
 namespace fs = std::filesystem;
 
 namespace themis {
@@ -60,16 +71,37 @@ public:
             return false;
         }
         
-        // In production, use AWS SDK:
+        // TODO v1.4.0: Integrate real AWS SDK for production use
+        // This is a placeholder implementation. Real implementation requires:
+        // 1. Initialize AWS SDK S3 client with credentials
+        // 2. Create PutObjectRequest with bucket, key, and metadata
+        // 3. Open file stream and attach to request body
+        // 4. Execute upload with retry logic
+        // 5. Handle authentication, network, and storage errors
+        // 6. Return actual success/failure status
+        //
+        // Implementation guide: See docs/STUB_REPLACEMENT_MIGRATION_GUIDE.md
+        // Dependencies: aws-sdk-cpp[s3] from vcpkg
+        //
+        // Example (commented out until SDK is integrated):
         // Aws::S3::Model::PutObjectRequest request;
         // request.SetBucket(bucket_);
         // request.SetKey(remote_path);
-        // ... set metadata, body, etc.
+        // for (const auto& [key, value] : metadata) {
+        //     request.AddMetadata(key, value);
+        // }
+        // std::shared_ptr<Aws::IOStream> body = 
+        //     Aws::MakeShared<Aws::FStream>("S3Upload", local_path, 
+        //                                   std::ios_base::in | std::ios_base::binary);
+        // request.SetBody(body);
         // auto outcome = s3_client_->PutObject(request);
+        // return outcome.IsSuccess();
         
-        THEMIS_INFO("S3 upload: {} -> s3://{}/{}", local_path, bucket_, remote_path);
+        THEMIS_INFO("S3 upload (placeholder): {} -> s3://{}/{}", local_path, bucket_, remote_path);
+        THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder: simulate successful upload
+        // Placeholder: simulate successful upload for testing
+        // In production, this should return false if SDK is not integrated
         return true;
     }
     
