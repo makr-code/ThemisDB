@@ -9,6 +9,21 @@
 #include <unordered_map>
 #include <memory>
 
+#ifdef THEMIS_ENABLE_VULKAN
+#include "llm/lora_framework/vulkan_context.h"
+#include "llm/lora_framework/vulkan_buffer.h"
+#include "llm/lora_framework/vulkan_pipeline.h"
+#endif
+
+// Forward declare Vulkan backend
+#ifdef THEMIS_ENABLE_VULKAN
+namespace themis {
+namespace index {
+class VulkanVectorIndexBackend;
+}
+}
+#endif
+
 namespace themis {
 namespace index {
 
@@ -28,12 +43,11 @@ public:
     std::vector<std::vector<float>> vectorData;
     std::unordered_map<std::string, size_t> idToIndex;
     
-    // GPU backend (CUDA)
-    std::unique_ptr<acceleration::CUDAVectorBackend> cudaBackend;
-    
-    // Cached flattened vector data for GPU (performance optimization)
-    std::vector<float> flatVectorCache;
-    bool flatVectorCacheDirty = true;
+    // Backend implementations
+    #ifdef THEMIS_ENABLE_VULKAN
+    std::unique_ptr<VulkanVectorIndexBackend> vulkanBackend;
+    bool gpuDataDirty = false;  // Track if GPU needs re-upload
+    #endif
     
     // Statistics
     Statistics stats;
@@ -53,59 +67,98 @@ public:
         
         // Determine which backend to use
         Backend requestedBackend = config.backend;
+        if (requestedBackend == Backend::AUTO) {
+            requestedBackend = selectBestBackend();
+        }
         
-        // Try CUDA backend if requested or AUTO
-        if (requestedBackend == Backend::CUDA || requestedBackend == Backend::AUTO) {
-            cudaBackend = std::make_unique<acceleration::CUDAVectorBackend>();
-            if (cudaBackend->isAvailable() && cudaBackend->initialize()) {
-                activeBackend = Backend::CUDA;
-                stats.activeBackend = Backend::CUDA;
+        // Try to initialize requested backend
+        bool backendInitialized = false;
+        
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (requestedBackend == Backend::VULKAN) {
+            backendInitialized = initializeVulkanBackend(dim);
+            if (backendInitialized) {
+                activeBackend = Backend::VULKAN;
                 stats.isGPUActive = true;
-                
-                auto caps = cudaBackend->getCapabilities();
-                std::cout << "GPUVectorIndex: Using CUDA backend\n";
-                std::cout << "  Device: " << caps.deviceName << "\n";
-                std::cout << "  Memory: " << (caps.maxMemoryBytes / (1024*1024*1024)) << " GB\n";
-                
-                initialized = true;
-                return true;
+                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
+            }
+        }
+        #endif
+        
+        // Fall back to CPU if requested backend failed or not available
+        if (!backendInitialized) {
+            if (requestedBackend != Backend::CPU && !config.allowCPUFallback) {
+                std::cerr << "GPUVectorIndex: Requested backend not available and CPU fallback disabled\n";
+                return false;
+            }
+            
+            activeBackend = Backend::CPU;
+            stats.isGPUActive = false;
+            if (requestedBackend != Backend::CPU) {
+                std::cout << "GPUVectorIndex: Falling back to CPU backend\n";
             } else {
-                // CUDA not available
-                cudaBackend.reset();
-                if (requestedBackend == Backend::CUDA) {
-                    // User explicitly requested CUDA but it's not available
-                    if (config.allowCPUFallback) {
-                        std::cout << "GPUVectorIndex: CUDA not available, falling back to CPU\n";
-                    } else {
-                        std::cerr << "GPUVectorIndex: CUDA not available and CPU fallback disabled\n";
-                        return false;
-                    }
-                }
+                std::cout << "GPUVectorIndex: Using CPU backend\n";
             }
         }
         
-        // Fall back to CPU
-        activeBackend = Backend::CPU;
-        stats.activeBackend = Backend::CPU;
-        stats.isGPUActive = false;
-        
-        if (requestedBackend == Backend::AUTO) {
-            std::cout << "GPUVectorIndex: Using CPU backend (no GPU available)\n";
-        } else {
-            std::cout << "GPUVectorIndex: Using CPU backend\n";
-        }
-        
+        stats.activeBackend = activeBackend;
         initialized = true;
         return true;
     }
     
     void shutdown() {
-        if (cudaBackend) {
-            cudaBackend->shutdown();
-            cudaBackend.reset();
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (vulkanBackend) {
+            vulkanBackend.reset();
         }
+        #endif
         initialized = false;
     }
+    
+    Backend selectBestBackend() {
+        // Try Vulkan first (cross-platform)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (isVulkanAvailable()) {
+            return Backend::VULKAN;
+        }
+        #endif
+        
+        // Fall back to CPU
+        return Backend::CPU;
+    }
+    
+    #ifdef THEMIS_ENABLE_VULKAN
+    bool isVulkanAvailable() {
+        // Check if Vulkan is available by trying to create a context
+        try {
+            lora::vulkan::VulkanContext testContext;
+            return testContext.is_available();
+        } catch (...) {
+            return false;
+        }
+    }
+    
+    bool initializeVulkanBackend(int dim) {
+        try {
+            vulkanBackend = std::make_unique<VulkanVectorIndexBackend>(config);
+            if (!vulkanBackend->initialize(dim)) {
+                vulkanBackend.reset();
+                return false;
+            }
+            
+            // Upload existing vectors to GPU
+            if (!vectorData.empty()) {
+                return vulkanBackend->uploadVectors(vectorData);
+            }
+            
+            return true;
+        } catch (const std::exception& e) {
+            std::cerr << "GPUVectorIndex: Vulkan initialization failed: " << e.what() << "\n";
+            vulkanBackend.reset();
+            return false;
+        }
+    }
+    #endif
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
@@ -126,7 +179,14 @@ public:
         }
         
         stats.numVectors = vectorData.size();
-        flatVectorCacheDirty = true;  // Mark cache as dirty
+        
+        // Mark GPU data as dirty (will upload before next search)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            gpuDataDirty = true;
+        }
+        #endif
+        
         return true;
     }
     
@@ -151,8 +211,52 @@ public:
         idToIndex.erase(id);
         
         stats.numVectors = vectorData.size();
-        flatVectorCacheDirty = true;  // Mark cache as dirty
+        
+        // Mark GPU data as dirty (will upload before next search)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            gpuDataDirty = true;
+        }
+        #endif
+        
         return true;
+    }
+    
+    std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
+        if (!initialized) {
+            return {};
+        }
+        
+        // Upload GPU data if dirty
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend && gpuDataDirty) {
+            vulkanBackend->uploadVectors(vectorData);
+            gpuDataDirty = false;
+        }
+        #endif
+        
+        // Try GPU backend first if active
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            auto indices = vulkanBackend->searchIndices(query, k);
+            if (!indices.empty()) {
+                // Map indices to IDs
+                std::vector<SearchResult> results;
+                results.reserve(indices.size());
+                for (const auto& [distance, index] : indices) {
+                    if (index < vectorIds.size()) {
+                        results.push_back({vectorIds[index], distance});
+                    }
+                }
+                return results;
+            }
+            // Fall through to CPU if GPU search fails
+            std::cerr << "GPUVectorIndex: Vulkan search failed, falling back to CPU\n";
+        }
+        #endif
+        
+        // Use CPU implementation
+        return searchCPU(query, k);
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
@@ -332,7 +436,8 @@ public:
                     float diff = a[i] - b[i];
                     sum += diff * diff;
                 }
-                return sum;
+                return std::sqrt(sum);  // Return actual L2 distance (not squared)
+            }
             }
             case DistanceMetric::COSINE: {
                 float dot = 0.0f, normA = 0.0f, normB = 0.0f;
@@ -378,13 +483,13 @@ public:
     
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
-        backends.push_back(Backend::CPU); // CPU always available
+        backends.push_back(Backend::CPU); // Always available
         
-        // Check if CUDA is available
-        auto cudaTest = std::make_unique<acceleration::CUDAVectorBackend>();
-        if (cudaTest->isAvailable()) {
-            backends.push_back(Backend::CUDA);
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (isVulkanAvailable()) {
+            backends.push_back(Backend::VULKAN);
         }
+        #endif
         
         return backends;
     }
@@ -441,32 +546,57 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
         return {};
     }
     
-    // Use GPU backend if active, otherwise fall back to CPU
-    if (pImpl->activeBackend == Backend::CUDA && pImpl->cudaBackend) {
-        return pImpl->searchGPU(query, k);
-    }
-    
-    return pImpl->searchCPU(query, k);
+    return pImpl->search(query, k);
 }
 
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     
-    if (!pImpl->initialized || queries.empty()) {
+    if (!pImpl->initialized) {
         return {};
     }
     
-    // Use GPU batch search if CUDA backend is active
-    if (pImpl->activeBackend == Backend::CUDA && pImpl->cudaBackend) {
-        return pImpl->searchBatchGPU(queries, k);
+    // Upload GPU data if dirty
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend && pImpl->gpuDataDirty) {
+        pImpl->vulkanBackend->uploadVectors(pImpl->vectorData);
+        pImpl->gpuDataDirty = false;
     }
+    #endif
     
-    // Fall back to CPU: process queries sequentially
+    // Try GPU backend batch search first if active
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        auto batchIndices = pImpl->vulkanBackend->searchBatchIndices(queries, k);
+        if (!batchIndices.empty()) {
+            // Map indices to IDs for all results
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(batchIndices.size());
+            
+            for (const auto& queryIndices : batchIndices) {
+                std::vector<SearchResult> queryResults;
+                queryResults.reserve(queryIndices.size());
+                
+                for (const auto& [distance, index] : queryIndices) {
+                    if (index < pImpl->vectorIds.size()) {
+                        queryResults.push_back({pImpl->vectorIds[index], distance});
+                    }
+                }
+                results.push_back(std::move(queryResults));
+            }
+            
+            return results;
+        }
+        std::cerr << "GPUVectorIndex: Vulkan batch search failed, falling back to CPU\n";
+    }
+    #endif
+    
+    // CPU fallback - process each query
     std::vector<std::vector<SearchResult>> results;
     results.reserve(queries.size());
     
     for (const auto& query : queries) {
-        results.push_back(search(query, k));
+        results.push_back(pImpl->searchCPU(query, k));
     }
     
     return results;
@@ -502,65 +632,97 @@ GPUVectorIndex::Backend GPUVectorIndex::getActiveBackend() const {
 }
 
 GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
-    return pImpl->stats;
+    auto stats = pImpl->stats;
+    
+    // Merge Vulkan backend statistics if active
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        auto vulkanStats = pImpl->vulkanBackend->getStatistics();
+        stats.vramUsageBytes = vulkanStats.vramUsageBytes;
+        stats.avgQueryTimeMs = vulkanStats.avgQueryTimeMs;
+        stats.throughputQPS = vulkanStats.throughputQPS;
+    }
+    #endif
+    
+    return stats;
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
-    if (backend == Backend::CPU) {
-        pImpl->activeBackend = Backend::CPU;
-        pImpl->stats.activeBackend = Backend::CPU;
-        pImpl->stats.isGPUActive = false;
-        return true;
-    }
-    
-    if (backend == Backend::AUTO) {
-        // Re-run backend selection: prefer CUDA if available, otherwise fall back to CPU
-        if (!pImpl->cudaBackend) {
-            pImpl->cudaBackend = std::make_unique<acceleration::CUDAVectorBackend>();
-            if (!pImpl->cudaBackend->initialize()) {
-                pImpl->cudaBackend.reset();
-            }
-        }
-        
-        if (pImpl->cudaBackend && pImpl->cudaBackend->isAvailable()) {
-            pImpl->activeBackend = Backend::CUDA;
-            pImpl->stats.activeBackend = Backend::CUDA;
-            pImpl->stats.isGPUActive = true;
-            return true;
-        }
-        
-        // CUDA not available; use CPU as fallback
-        pImpl->activeBackend = Backend::CPU;
-        pImpl->stats.activeBackend = Backend::CPU;
-        pImpl->stats.isGPUActive = false;
-        return true;
-    }
-    
-    if (backend == Backend::CUDA) {
-        // Try to initialize CUDA backend if not already initialized
-        if (!pImpl->cudaBackend) {
-            pImpl->cudaBackend = std::make_unique<acceleration::CUDAVectorBackend>();
-            if (!pImpl->cudaBackend->initialize()) {
-                pImpl->cudaBackend.reset();
-                return false;
-            }
-        }
-        
-        if (pImpl->cudaBackend && pImpl->cudaBackend->isAvailable()) {
-            pImpl->activeBackend = Backend::CUDA;
-            pImpl->stats.activeBackend = Backend::CUDA;
-            pImpl->stats.isGPUActive = true;
-            return true;
-        }
+    if (!pImpl->initialized) {
         return false;
     }
     
-    return false;
+    // Can't switch if backend is not available
+    auto available = getAvailableBackends();
+    if (std::find(available.begin(), available.end(), backend) == available.end()) {
+        std::cerr << "GPUVectorIndex: Requested backend not available\n";
+        return false;
+    }
+    
+    // Already using this backend
+    if (pImpl->activeBackend == backend) {
+        return true;
+    }
+    
+    // Save current state
+    int dim = pImpl->dimension;
+    auto ids = pImpl->vectorIds;  // Save IDs
+    auto vectors = pImpl->vectorData;  // Save vectors
+    
+    // Shutdown current backend
+    pImpl->shutdown();
+    
+    // Switch to new backend
+    pImpl->config.backend = backend;
+    if (!pImpl->initialize(dim)) {
+        return false;
+    }
+    
+    // Restore vectors with saved IDs
+    for (size_t i = 0; i < vectors.size(); ++i) {
+        if (i < ids.size()) {
+            pImpl->addVector(ids[i], vectors[i]);
+        }
+    }
+    
+    return true;
 }
 
 std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() const {
     return pImpl->getAvailableBackends();
 }
+
+// =============================================================================
+// Vulkan Backend Implementation
+// =============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+// Include the Vulkan backend implementation
+// The actual implementation is in gpu_vector_index_vulkan.cpp
+
+/**
+ * @brief Vulkan backend implementation for GPU vector indexing
+ */
+class VulkanVectorIndexBackend {
+public:
+    explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
+    ~VulkanVectorIndexBackend();
+    
+    bool initialize(int dimension);
+    void shutdown();
+    bool uploadVectors(const std::vector<std::vector<float>>& vectors);
+    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
+    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
+    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
+        const std::vector<std::vector<float>>& queries, size_t k);
+    GPUVectorIndex::Statistics getStatistics() const;
+    bool isInitialized() const;
+    
+private:
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
+};
+#endif
 
 } // namespace index
 } // namespace themis
