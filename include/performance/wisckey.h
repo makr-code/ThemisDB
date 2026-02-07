@@ -58,7 +58,10 @@ public:
     std::optional<std::string> read(const ValueAddress& addr);
     
     // Get current log size in bytes
-    uint64_t size() const { return current_offset_; }
+    uint64_t size() const { 
+        std::shared_lock<std::shared_mutex> lock(rw_mutex_);
+        return current_offset_; 
+    }
     
     // Sync log to disk
     void sync();

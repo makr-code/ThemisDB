@@ -53,17 +53,36 @@ public:
             return;
         }
         
-        // Get thread-local buffer
-        thread_local ThreadLocalMetricsBuffer buffer;
+        // Get thread-local buffer with RAII deregistration wrapper
+        struct BufferWrapper {
+            ThreadLocalMetricsBuffer buffer;
+            CycleMetricsCollector* collector;
+            bool registered = false;
+            
+            BufferWrapper(CycleMetricsCollector* c) : collector(c) {}
+            
+            ~BufferWrapper() {
+                if (registered) {
+                    // Mark buffer as invalid and deregister on thread exit
+                    buffer.invalidate();
+                    collector->deregisterThreadBuffer(&buffer);
+                }
+            }
+        };
+        
+        thread_local BufferWrapper wrapper(this);
+        
+        // Register buffer on first use
+        if (!wrapper.registered) {
+            registerThreadBuffer(&wrapper.buffer);
+            wrapper.registered = true;
+        }
         
         // Record to buffer
-        if (!buffer.recordOperation(operation_name, metrics)) {
+        if (!wrapper.buffer.recordOperation(operation_name, metrics)) {
             // Buffer full - metric dropped
             dropped_metrics_.fetch_add(1, std::memory_order_relaxed);
         }
-        
-        // Register this thread's buffer for draining
-        registerThreadBuffer(&buffer);
     }
 
     /**
@@ -147,6 +166,11 @@ private:
         std::lock_guard<std::mutex> lock(buffers_mutex_);
         thread_buffers_.insert(buffer);
     }
+    
+    void deregisterThreadBuffer(ThreadLocalMetricsBuffer* buffer) {
+        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        thread_buffers_.erase(buffer);
+    }
 
     void exportLoop() {
         while (running_.load(std::memory_order_acquire)) {
@@ -178,8 +202,9 @@ private:
         // Lock released - drain buffers without holding the lock
         
         // Drain all buffers lock-free (each buffer is lock-free SPSC)
+        // Buffer validity is checked in drain() to prevent use-after-free
         for (auto* buffer : buffers_snapshot) {
-            if (buffer) {
+            if (buffer && buffer->is_valid()) {
                 buffer->drain(new_metrics);
             }
         }

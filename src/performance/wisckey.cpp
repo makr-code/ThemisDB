@@ -60,7 +60,9 @@ ValueAddress ValueLog::append(const std::string& value) {
 }
 
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
-    std::shared_lock<std::shared_mutex> lock(rw_mutex_);  // Shared lock for concurrent reads
+    // Exclusive lock required: std::fstream is not thread-safe for concurrent seekg/read
+    // Concurrent calls to seekg() would corrupt the file position state
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);
     
     log_file_->seekg(addr.offset);
     std::string value(addr.size, '\0');
