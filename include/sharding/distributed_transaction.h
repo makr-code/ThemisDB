@@ -50,7 +50,6 @@ struct DistributedTransaction {
     std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
     std::vector<TransactionParticipant> participants;  // Participating shards
     nlohmann::json operations;            // Operations to execute
-    uint32_t prepare_retry_count;         // Number of prepare retries
     uint32_t commit_retry_count;          // Number of commit retries
     std::string error_detail;             // Detailed error message
     
@@ -58,7 +57,6 @@ struct DistributedTransaction {
         : state(TransactionState::ACTIVE)
         , start_time(0)
         , commit_time(0)
-        , prepare_retry_count(0)
         , commit_retry_count(0) {}
 };
 

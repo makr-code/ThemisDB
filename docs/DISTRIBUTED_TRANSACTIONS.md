@@ -394,24 +394,27 @@ Transaction lifecycle events are logged:
 
 1. **Coordinator Single Point of Failure**: No coordinator replication (planned for future)
 2. **Blocking Protocol**: 2PC is blocking if coordinator fails (3PC planned)
-3. **Manual Intervention for Some Failures**: While automatic retry handles transient failures, persistent coordinator crashes may require manual recovery
+3. **Limited In-Doubt Transaction Recovery**: While PREPARED state is logged to WAL for audit trail, automatic completion of in-doubt transactions (querying participants and completing commit/abort after coordinator crash) is not yet implemented and may require manual intervention
 
 ### Recent Enhancements (v1.5.0)
 
 ✅ **Automatic Commit Phase Retry**: Exponential backoff with configurable retry limits  
 ✅ **Enhanced Error Context**: Detailed error messages from all participants  
-✅ **Recovery Logging**: Transaction state persisted for recovery on coordinator restart  
+✅ **Recovery Logging**: Transaction states (PREPARED and COMMITTED) persisted to WAL  
+✅ **Recovery Audit Trail**: Coordinator can verify successfully committed transactions on restart  
 ✅ **Improved Observability**: Better logging and error tracking throughout 2PC phases  
 
 ### Future Enhancements
 
+- [ ] Complete in-doubt transaction recovery (query participants and complete commit/abort)
 - [ ] Three-Phase Commit (3PC) for non-blocking guarantee
 - [ ] Coordinator replication and failover
-- [ ] Automatic coordinator recovery from persistent storage
+- [ ] Participant health monitoring with heartbeat mechanism
 - [ ] Optimistic concurrency control
 - [ ] Distributed deadlock detection
 - [ ] Saga pattern support for long-running transactions
 - [ ] Circuit breaker pattern for participant health monitoring
+- [ ] Dedicated WALEntryType::PREPARE_TX for better semantic clarity
 
 ## References
 

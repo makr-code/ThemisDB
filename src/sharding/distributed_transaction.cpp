@@ -592,13 +592,13 @@ void DistributedTransactionCoordinator::logPreparedStateForRecovery(
         return; // WAL not enabled
     }
     
-    // Create PREPARED state log entry for in-doubt transaction recovery
+    // Log PREPARED state with minimal metadata for audit trail
+    // Operations are not included as they're already at participants
     nlohmann::json prepared_data = {
         {"transaction_id", txn.transaction_id},
         {"state", static_cast<int>(TransactionState::PREPARED)},
         {"start_time", txn.start_time.count()},
-        {"participants", nlohmann::json::array()},
-        {"operations", txn.operations}
+        {"participants", nlohmann::json::array()}
     };
     
     for (const auto& participant : txn.participants) {
@@ -609,10 +609,12 @@ void DistributedTransactionCoordinator::logPreparedStateForRecovery(
         });
     }
     
-    // Write PREPARED state to WAL
+    // Write PREPARED state to WAL for audit trail
+    // Note: Using CHECKPOINT type for PREPARED state as a temporary solution
+    // until WALEntryType is extended with a dedicated PREPARE_TX type
     try {
         WALEntry entry;
-        entry.type = WALEntryType::BEGIN_TX; // Using BEGIN_TX for PREPARED state
+        entry.type = WALEntryType::CHECKPOINT; // CHECKPOINT used as marker for PREPARED state
         entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count();
@@ -643,7 +645,7 @@ void DistributedTransactionCoordinator::recoverTransactions() {
         LSN oldest_lsn = wal_manager_->getOldestLSN();
         LSN current_lsn = wal_manager_->getCurrentLSN();
         
-        if (oldest_lsn >= current_lsn) {
+        if (oldest_lsn > current_lsn) {
             THEMIS_INFO("No transactions to recover");
             return;
         }
@@ -652,7 +654,10 @@ void DistributedTransactionCoordinator::recoverTransactions() {
         
         THEMIS_INFO("Found {} WAL entries to process", entries.size());
         
-        // Process committed transactions
+        // Process committed transactions for recovery audit
+        // Note: This implementation logs transactions after successful commit,
+        // so PREPARED state recovery (completing in-doubt transactions) is not
+        // currently implemented. PREPARED logging serves as an audit trail.
         int recovered_count = 0;
         for (const auto& entry : entries) {
             if (entry.type == WALEntryType::COMMIT_TX) {
@@ -662,22 +667,23 @@ void DistributedTransactionCoordinator::recoverTransactions() {
                     int state_int = entry.data["state"];
                     TransactionState state = static_cast<TransactionState>(state_int);
                     
-                    // Only recover transactions that were committed
+                    // Only process successfully committed transactions
                     if (state == TransactionState::COMMITTED) {
                         THEMIS_INFO("Recovered committed transaction: {}", txn_id);
                         recovered_count++;
                         
-                        // Transaction was committed successfully, no action needed
-                        // The participants have already applied the changes
+                        // Transaction was committed successfully
+                        // Participants have already applied changes
                     }
-                    // Note: PREPARED state would require querying participants
-                    // and completing the commit, but in our current implementation
-                    // we only log after successful commit
                     
                 } catch (const std::exception& e) {
                     THEMIS_ERROR("Failed to recover transaction from WAL entry: {}", e.what());
                 }
             }
+            // Note: PREPARED state entries (logged as BEGIN_TX) are currently
+            // used for audit trail only. Full in-doubt transaction recovery
+            // (querying participants and completing commit/abort) will be
+            // implemented in a future enhancement.
         }
         
         THEMIS_INFO("Transaction recovery complete - recovered {} transactions", 
