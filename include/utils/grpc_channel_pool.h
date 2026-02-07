@@ -97,6 +97,23 @@ public:
      */
     void pruneStaleChannels();
     
+    /**
+     * @brief Warm up pool for target
+     * 
+     * Pre-creates minimum number of channels in advance for faster
+     * initial request handling. Useful for production deployments
+     * to avoid cold-start latency.
+     * 
+     * @param target Target address (e.g., "localhost:50051")
+     * @param credentials Channel credentials (optional)
+     * @param num_channels Number of channels to pre-create (default: half of max)
+     */
+    void warmup(
+        const std::string& target,
+        std::shared_ptr<grpc::ChannelCredentials> credentials = nullptr,
+        size_t num_channels = 0
+    );
+    
 private:
     /**
      * @brief Pooled channel with metadata

@@ -1472,6 +1472,7 @@ set(THEMIS_CORE_SOURCES
     
     # Network
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_connection_pool.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
