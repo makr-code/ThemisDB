@@ -15,29 +15,26 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
     : config_(config)
     , io_context_(std::make_shared<net::io_context>())
 {
+    // NOTE: TLS/mTLS is not currently implemented for this connection pool.
+    // Reject configurations that attempt to enable it to avoid a false sense of security.
     if (config_.enable_ssl || config_.enable_mtls) {
-        ssl_context_ = std::make_shared<ssl::context>(ssl::context::tlsv12_client);
-        
-        if (config_.enable_mtls) {
-            ssl_context_->set_verify_mode(ssl::verify_peer | ssl::verify_fail_if_no_peer_cert);
-            
-            if (!config_.ssl_cert_path.empty()) {
-                ssl_context_->use_certificate_chain_file(config_.ssl_cert_path);
-            }
-            if (!config_.ssl_key_path.empty()) {
-                ssl_context_->use_private_key_file(config_.ssl_key_path, ssl::context::pem);
-            }
-        }
-        
-        if (!config_.ssl_ca_cert_path.empty()) {
-            ssl_context_->load_verify_file(config_.ssl_ca_cert_path);
-        }
+        throw std::runtime_error(
+            "WireProtocolConnectionPool does not yet support SSL/mTLS. "
+            "Disable 'enable_ssl' and 'enable_mtls' in the configuration. "
+            "TLS support is planned for a future release."
+        );
     }
     
     // Start maintenance thread for pruning stale connections
+    shutdown_.store(false, std::memory_order_release);
     maintenance_thread_ = std::thread([this]() {
         while (!shutdown_.load(std::memory_order_acquire)) {
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+            // Use interruptible wait for faster shutdown
+            std::unique_lock<std::mutex> lock(shutdown_mutex_);
+            if (shutdown_cv_.wait_for(lock, std::chrono::seconds(10), 
+                [this]() { return shutdown_.load(std::memory_order_acquire); })) {
+                break;  // Shutdown requested
+            }
             pruneStaleConnections();
         }
     });
@@ -45,6 +42,9 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
 
 WireProtocolConnectionPool::~WireProtocolConnectionPool() {
     shutdown_.store(true, std::memory_order_release);
+    
+    // Wake up maintenance thread for fast shutdown
+    shutdown_cv_.notify_all();
     
     if (maintenance_thread_.joinable()) {
         maintenance_thread_.join();
@@ -75,25 +75,46 @@ std::shared_ptr<tcp::socket> WireProtocolConnectionPool::createConnection(const 
         tcp::resolver resolver(*io_context_);
         auto endpoints = resolver.resolve(host, port);
         
-        // Connect with timeout
+        // Use synchronous connect with timeout
+        // Create a fresh io_context for this connection
+        net::io_context local_io;
+        auto local_socket = std::make_shared<tcp::socket>(local_io);
+        
         boost::system::error_code ec;
-        net::async_connect(*socket, endpoints,
+        
+        // Set up deadline timer
+        net::steady_timer timer(local_io);
+        timer.expires_after(config_.connect_timeout);
+        
+        bool timed_out = false;
+        timer.async_wait([&](const boost::system::error_code& error) {
+            if (!error) {
+                timed_out = true;
+                local_socket->close(ec);
+            }
+        });
+        
+        // Attempt async connect
+        net::async_connect(*local_socket, endpoints,
             [&ec](const boost::system::error_code& error, const tcp::endpoint&) {
                 ec = error;
             });
         
-        // Wait for connection with timeout
-        auto deadline = std::chrono::steady_clock::now() + config_.connect_timeout;
-        while (std::chrono::steady_clock::now() < deadline) {
-            io_context_->poll_one();
-            if (!ec) break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
+        // Run until connect completes or timeout
+        local_io.run();
         
-        if (ec) {
+        if (timed_out || ec) {
             failed_connections_.fetch_add(1, std::memory_order_relaxed);
+            if (timed_out) {
+                throw std::runtime_error("Connection timed out after " + 
+                    std::to_string(config_.connect_timeout.count()) + " seconds");
+            }
             throw std::runtime_error("Connection failed: " + ec.message());
         }
+        
+        // Transfer the connected socket to our pool's io_context
+        // Since we can't transfer sockets between contexts, create new socket and connect
+        socket = local_socket;  // Use the successfully connected socket
         
         // Set socket options
         socket->set_option(tcp::no_delay(true));
@@ -105,7 +126,7 @@ std::shared_ptr<tcp::socket> WireProtocolConnectionPool::createConnection(const 
         return socket;
         
     } catch (const std::exception& e) {
-        failed_connections_.fetch_add(1, std::memory_order_relaxed);
+        // Only count failures once (already counted above before throw)
         throw;
     }
 }
@@ -147,6 +168,11 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 
                 return ConnectionHandle(conn->socket, this, target);
             } else {
+                // Close socket before removing to avoid leaks
+                if (conn->socket && conn->socket->is_open()) {
+                    boost::system::error_code ec;
+                    conn->socket->close(ec);
+                }
                 // Remove stale/unhealthy connection
                 pool->all_connections.erase(conn->socket.get());
                 total_connections_.fetch_sub(1, std::memory_order_relaxed);
@@ -174,7 +200,8 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 
             } catch (const std::exception& e) {
                 lock.lock();
-                // Continue to wait or timeout
+                // Add backoff before retry to avoid tight loop under outage
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
         }
         
@@ -184,7 +211,12 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
             throw std::runtime_error("Timeout acquiring connection for " + target);
         }
         
-        pool->cv.wait_until(lock, deadline);
+        // Wait with deadline for a connection to become available
+        auto wait_result = pool->cv.wait_until(lock, deadline);
+        if (wait_result == std::cv_status::timeout) {
+            acquire_timeouts_.fetch_add(1, std::memory_order_relaxed);
+            throw std::runtime_error("Timeout acquiring connection for " + target);
+        }
     }
 }
 
@@ -204,6 +236,11 @@ void WireProtocolConnectionPool::releaseConnection(
         if (conn->isHealthy()) {
             pool->available.push(conn);
         } else {
+            // Close socket before removing to avoid leaks
+            if (conn->socket && conn->socket->is_open()) {
+                boost::system::error_code ec;
+                conn->socket->close(ec);
+            }
             // Remove unhealthy connection
             pool->all_connections.erase(it);
             total_connections_.fetch_sub(1, std::memory_order_relaxed);
@@ -223,11 +260,11 @@ void WireProtocolConnectionPool::warmup(const std::string& target) {
     }
     
     auto pool = getOrCreateTargetPool(target);
-    std::lock_guard<std::mutex> lock(pool->mutex);
     
-    // Create minimum connections
+    // Create minimum connections OUTSIDE the lock to avoid blocking
     for (size_t i = 0; i < config_.min_connections_per_target; ++i) {
         try {
+            // Perform potentially slow network connection outside the pool mutex
             auto socket = createConnection(target);
             auto conn = std::make_shared<PooledConnection>();
             conn->socket = socket;
@@ -235,11 +272,15 @@ void WireProtocolConnectionPool::warmup(const std::string& target) {
             conn->created_at = std::chrono::steady_clock::now();
             conn->in_use = false;
             
-            pool->all_connections[socket.get()] = conn;
-            pool->available.push(conn);
+            // Only lock to update shared pool state
+            {
+                std::lock_guard<std::mutex> lock(pool->mutex);
+                pool->all_connections[socket.get()] = conn;
+                pool->available.push(conn);
+            }
             
         } catch (const std::exception& e) {
-            // Log error but continue
+            // Log error but continue warmup
             std::cerr << "[WireProtocolConnectionPool] Warmup failed for " << target 
                       << ": " << e.what() << std::endl;
         }
@@ -262,6 +303,11 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
             if (conn->isHealthy() && !conn->isStale(config_.idle_timeout)) {
                 fresh_queue.push(conn);
             } else {
+                // Close socket before removing to avoid leaks
+                if (conn->socket && conn->socket->is_open()) {
+                    boost::system::error_code ec;
+                    conn->socket->close(ec);
+                }
                 pool->all_connections.erase(conn->socket.get());
                 total_connections_.fetch_sub(1, std::memory_order_relaxed);
                 stale_removed_.fetch_add(1, std::memory_order_relaxed);

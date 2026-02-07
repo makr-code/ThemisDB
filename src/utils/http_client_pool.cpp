@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <regex>
+#include <algorithm>
 
 namespace themis {
 namespace utils {
@@ -306,7 +307,10 @@ void HTTPClientPool::warmup(size_t num_connections) {
         
         // Create additional connections up to target
         for (size_t j = current_count; j < target_count; ++j) {
-            if (total_connections_.load() >= config_.max_connections) {
+            // Use atomic reserve like acquireConnection to avoid exceeding max
+            size_t current_total = total_connections_.fetch_add(1);
+            if (current_total >= config_.max_connections) {
+                total_connections_.fetch_sub(1);  // Roll back
                 break;
             }
             
@@ -318,9 +322,9 @@ void HTTPClientPool::warmup(size_t num_connections) {
                 pooled->last_used = std::chrono::steady_clock::now();
                 
                 stripe->connections.push_back(pooled);
-                total_connections_.fetch_add(1);
                 connections_created_.fetch_add(1, std::memory_order_relaxed);
             } catch (const std::exception&) {
+                total_connections_.fetch_sub(1);  // Roll back on failure
                 // Stop warmup on first failure to avoid cascading errors
                 break;
             }

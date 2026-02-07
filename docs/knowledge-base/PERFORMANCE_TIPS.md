@@ -916,11 +916,11 @@ setInterval(() => {
 
 ---
 
-### Server-Side Connection Pooling
+### Client-Side Connection Pooling
 
 **Wire Protocol Connection Pool (C++):**
 
-ThemisDB now includes native server-side connection pooling for the Wire Protocol, gRPC, and HTTP protocols:
+ThemisDB provides client-side connection pooling helpers for the Wire Protocol, gRPC, and HTTP protocols to efficiently reuse outbound connections from your application to the server:
 
 ```cpp
 #include "network/wire_protocol_connection_pool.h"
@@ -934,7 +934,8 @@ config.max_connections_per_target = 20;
 config.idle_timeout = std::chrono::seconds(60);
 config.connect_timeout = std::chrono::seconds(5);
 config.acquire_timeout = std::chrono::seconds(10);
-config.enable_ssl = true;
+// NOTE: SSL/TLS is not yet implemented for wire protocol
+config.enable_ssl = false;
 config.enable_warmup = true;
 
 // Create pool
@@ -1022,15 +1023,15 @@ if (response.isSuccess()) {
 
 **Configuration File:**
 
-ThemisDB supports YAML-based connection pool configuration. See `config/connection_pool_config.yaml` for recommended settings:
+See `config/connection_pool_config.yaml` for example connection pool presets and recommended settings. These are reference configurations that can be adapted to your application's connection pool initialization code:
 
 ```yaml
-# Production balanced workload
+# Production balanced workload (example - adapt to your code)
 production:
   wire_protocol:
     max_connections_per_target: 20
     enable_warmup: true
-    enable_ssl: true
+    enable_ssl: false  # TLS not yet implemented for wire protocol
     
   grpc:
     max_channels_per_target: 10

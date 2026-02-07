@@ -192,7 +192,8 @@ All recommendations from `PERFORMANCE_TIPS.md` have been followed:
 WireProtocolConnectionPool::Config config;
 config.max_connections_per_target = 20;
 config.enable_warmup = true;
-config.enable_ssl = true;
+// NOTE: SSL/TLS is not yet implemented for wire protocol
+config.enable_ssl = false;
 
 auto pool = std::make_unique<WireProtocolConnectionPool>(config);
 pool->warmup("localhost:8766");

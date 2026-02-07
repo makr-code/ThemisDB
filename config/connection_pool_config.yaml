@@ -119,14 +119,16 @@ wire_protocol:
   keepalive_interval: 30
   
   # Enable SSL/TLS
+  # NOTE: TLS is not yet implemented for wire protocol - keep disabled
   # Default: false
   enable_ssl: false
   
   # Enable mutual TLS (client certificates)
+  # NOTE: TLS is not yet implemented for wire protocol - keep disabled
   # Default: false
   enable_mtls: false
   
-  # SSL certificate paths (when SSL/mTLS enabled)
+  # SSL certificate paths (reserved for future TLS support)
   ssl_cert_path: ""
   ssl_key_path: ""
   ssl_ca_cert_path: ""
@@ -252,7 +254,7 @@ production:
   wire_protocol:
     max_connections_per_target: 20
     enable_warmup: true
-    enable_ssl: true
+    enable_ssl: false  # NOTE: TLS not yet supported for wire protocol
   mtls:
     min_connections_per_endpoint: 5
     max_connections_per_endpoint: 50

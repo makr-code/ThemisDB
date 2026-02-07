@@ -12,6 +12,7 @@
 #include <chrono>
 #include <atomic>
 #include <string>
+#include <thread>
 #include <unordered_map>
 
 namespace themis {
@@ -61,11 +62,11 @@ public:
     explicit WireProtocolConnectionPool(const Config& config = Config{});
     ~WireProtocolConnectionPool();
     
-    // Disable copy, allow move
+    // Disable copy and move (maintenance thread captures this)
     WireProtocolConnectionPool(const WireProtocolConnectionPool&) = delete;
     WireProtocolConnectionPool& operator=(const WireProtocolConnectionPool&) = delete;
-    WireProtocolConnectionPool(WireProtocolConnectionPool&&) = default;
-    WireProtocolConnectionPool& operator=(WireProtocolConnectionPool&&) = default;
+    WireProtocolConnectionPool(WireProtocolConnectionPool&&) = delete;
+    WireProtocolConnectionPool& operator=(WireProtocolConnectionPool&&) = delete;
     
     /**
      * @brief Pooled connection handle (RAII)
@@ -117,6 +118,15 @@ public:
         size_t connections_created = 0;
         size_t connections_reused = 0;
         size_t keepalive_checks_sent = 0;
+        
+        /**
+         * @brief Calculate connection reuse rate (0.0 - 1.0)
+         */
+        double getReuseRate() const {
+            size_t total = connections_created + connections_reused;
+            if (total == 0) return 0.0;
+            return static_cast<double>(connections_reused) / static_cast<double>(total);
+        }
     };
     
     Stats getStats() const;
@@ -204,6 +214,8 @@ private:
     // Background thread for maintenance
     std::thread maintenance_thread_;
     std::atomic<bool> shutdown_{false};
+    std::mutex shutdown_mutex_;
+    std::condition_variable shutdown_cv_;
     
     // Statistics
     std::atomic<size_t> total_connections_{0};
