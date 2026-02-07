@@ -6,6 +6,10 @@
 
 ---
 
+> 🚀 **Quick Reference:** Für eine Schnellreferenz mit den wichtigsten Konfigurationen siehe: [SoC Quick Reference Card](THEMIS_SOC_QUICKREF.md)
+
+---
+
 ## 📋 Inhaltsverzeichnis
 
 - [Überblick](#überblick)

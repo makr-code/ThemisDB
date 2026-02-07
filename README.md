@@ -733,6 +733,46 @@ ThemisDB includes comprehensive safe-fail mechanisms for production reliability:
 
 ---
 
+## Edge AI & SoC Deployment
+
+ThemisDB supports native LLM integration with **llama.cpp** on System-on-Chip (SoC) devices for edge AI deployments.
+
+### 🎯 Supported Platforms
+
+- **Raspberry Pi 4/5** - ARM64, NEON-optimized
+- **Orange Pi 5 / Rock 5B** - ARM Mali GPU, NPU acceleration
+- **NVIDIA Jetson** - CUDA GPU acceleration
+- **AI Accelerators** - Coral TPU, Hailo, Intel NCS2
+
+### 🚀 Quick Setup Example (Raspberry Pi 5)
+
+```yaml
+# config/config-rpi5-llm.yaml
+llm:
+  enabled: true
+  model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
+  n_ctx: 4096
+  n_threads: 4
+  flash_attention: true  # NEON-optimized
+```
+
+**Performance:** ~2-3 tokens/second (Phi-3-Mini 3.8B)
+
+### 📚 Documentation
+
+- **[🌟 Complete SoC Guide](docs/de/deployment/THEMIS_LLAMA_CPP_SOC_GUIDE.md)** - Comprehensive guide (German)
+- **[⚡ Quick Reference](docs/de/deployment/THEMIS_SOC_QUICKREF.md)** - Fast configuration reference
+- **[🔧 Raspberry Pi Tuning](docs/de/deployment/deployment_raspberry_tuning.md)** - System optimization
+
+**Key Features:**
+- ✅ Local AI inference without cloud dependency
+- ✅ Data sovereignty and privacy
+- ✅ 10-50x more energy efficient than desktop GPUs
+- ✅ Models: TinyLlama (1B), Phi-3 (3.8B), Mistral (7B)
+- ✅ RAG, embeddings, chat, and text generation
+
+---
+
 ## Documentation
 
 > **📚 Complete Documentation Hub:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
