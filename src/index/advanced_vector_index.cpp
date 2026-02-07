@@ -57,9 +57,22 @@ bool AdvancedVectorIndex::initializeIndex() {
                     config_.pq_nbits
                 );
                 ivf_pq->nprobe = config_.nprobe;
+                
+                // v1.5.x: Enable ADC tables for ~40% faster search
+                if (config_.use_adc_tables) {
+                    ivf_pq->use_precomputed_table = 1; // Enable ADC distance tables
+                    if (config_.polysemous_ht > 0) {
+                        ivf_pq->polysemous_ht = config_.polysemous_ht;
+                        THEMIS_INFO("Enabled polysemous hash tables: ht={}", 
+                                   config_.polysemous_ht);
+                    }
+                    THEMIS_INFO("Enabled ADC tables for IVF+PQ (v1.5.x optimization)");
+                }
+                
                 idx = ivf_pq;
-                THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}",
-                           config_.nlist, config_.pq_m, config_.pq_nbits);
+                THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}, adc={}",
+                           config_.nlist, config_.pq_m, config_.pq_nbits, 
+                           config_.use_adc_tables);
                 break;
             }
             
