@@ -98,6 +98,39 @@ public:
         size_t free_blocks;
         size_t num_sequences;
         double fragmentation_rate;
+        size_t shared_blocks;
+        double prefix_sharing_ratio;
+    };
+
+    /**
+     * @brief Cache type for workload adaptation
+     */
+    enum class CacheType {
+        STANDARD,           // Standard paged cache
+        PREFIX_OPTIMIZED,   // Optimized for high prefix reuse (RAG workloads)
+        STREAMING           // Optimized for streaming/generation workloads
+    };
+
+    /**
+     * @brief Workload pattern detected from access patterns
+     */
+    enum class WorkloadPattern {
+        UNKNOWN,
+        HIGH_PREFIX_REUSE,  // Many sequences share prefixes (RAG)
+        LOW_PREFIX_REUSE,   // Few sequences share prefixes (generation)
+        MIXED               // Mixed workload
+    };
+
+    /**
+     * @brief Workload metrics for dynamic cache selection
+     */
+    struct WorkloadMetrics {
+        size_t total_sequences = 0;
+        size_t sequences_with_shared_prefix = 0;
+        double avg_prefix_length = 0.0;
+        double prefix_reuse_ratio = 0.0;
+        WorkloadPattern detected_pattern = WorkloadPattern::UNKNOWN;
+    };
         double prefix_sharing_ratio;
         size_t bytes_per_block;
         size_t total_memory_bytes;
@@ -215,6 +248,49 @@ public:
      */
     double calculatePrefixSavings() const;
 
+    /**
+     * @brief Get current cache type
+     * @return Current cache type
+     */
+    CacheType getCacheType() const;
+
+    /**
+     * @brief Set cache type (manual override)
+     * 
+     * Manually sets cache type for testing or explicit control.
+     * 
+     * @param type Cache type to set
+     */
+    void setCacheType(CacheType type);
+
+    /**
+     * @brief Analyze workload and adapt cache type
+     * 
+     * Analyzes current access patterns and switches cache type
+     * if workload pattern has changed significantly.
+     * 
+     * @return true if cache type was changed
+     */
+    bool analyzeAndAdaptCacheType();
+
+    /**
+     * @brief Get current workload metrics
+     * 
+     * @return Workload metrics
+     */
+    WorkloadMetrics getWorkloadMetrics() const;
+
+    /**
+     * @brief Enable automatic cache type adaptation
+     * 
+     * When enabled, cache manager periodically analyzes workload
+     * and switches cache type automatically.
+     * 
+     * @param enable true to enable automatic adaptation
+     * @param check_interval_sequences Analyze after N sequences (default: 100)
+     */
+    void setAutomaticAdaptation(bool enable, size_t check_interval_sequences = 100);
+
 private:
     Config config_;
     
@@ -232,11 +308,21 @@ private:
     std::atomic<size_t> total_blocks_allocated_{0};
     std::atomic<size_t> total_blocks_shared_{0};
     
+    // Workload adaptation
+    CacheType current_cache_type_{CacheType::STANDARD};
+    bool auto_adaptation_enabled_{false};
+    size_t adaptation_check_interval_{100};
+    size_t sequences_since_last_check_{0};
+    WorkloadMetrics workload_metrics_;
+    
     // Helper methods
     void initializeBlocks();
     int getFreeBlock();
     void releaseBlock(int block_id);
     size_t calculateBlockMemorySize() const;
+    void updateWorkloadMetrics();
+    WorkloadPattern detectWorkloadPattern() const;
+    CacheType selectOptimalCacheType(WorkloadPattern pattern) const;
 };
 
 } // namespace llm
