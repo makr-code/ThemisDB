@@ -117,6 +117,55 @@ ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
 
 ---
 
+## 🚀 GPU VECTOR INDEXING ROADMAP (NEU - 2026-02-07)
+
+### GPU Acceleration Implementation Plan (v2.x Series)
+
+ThemisDB is implementing GPU-accelerated vector indexing across multiple backends for significant performance improvements. GPU stubs were removed in v1.5.0 as incomplete; v2.x will deliver production-ready GPU support.
+
+**Master Tracking:**
+- [GPU_MASTER_TRACKING.md](GPU_MASTER_TRACKING.md) - **Master tracking document** (comprehensive roadmap, timelines, metrics)
+
+**Core Documentation:**
+- [FUTURE_GPU_SUPPORT.md](FUTURE_GPU_SUPPORT.md) - Detailed GPU roadmap and technical rationale
+- [GPU_SUPPORT_ROADMAP.md](GPU_SUPPORT_ROADMAP.md) - User migration guide and API examples
+- [GPU_VECTOR_INDEXING_ARCHITECTURE.md](GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Technical architecture and design
+
+**Backend-Specific Docs:**
+- [GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md](GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md) - CUDA backend (v2.1, Q3 2026)
+- [VULKAN_BACKEND_GUIDE.md](VULKAN_BACKEND_GUIDE.md) - Vulkan backend (v2.2, Q4 2026)
+- [MULTI_GPU_VECTOR_INDEXING.md](MULTI_GPU_VECTOR_INDEXING.md) - Multi-GPU support (v2.4, Q2 2027)
+
+**Implementation Status:**
+- [GPU_VECTOR_INDEXING_IMPLEMENTATION.md](GPU_VECTOR_INDEXING_IMPLEMENTATION.md) - Implementation progress
+- [GPU_VECTOR_INDEXING_PR_SUMMARY.md](GPU_VECTOR_INDEXING_PR_SUMMARY.md) - PR summaries and changelogs
+- [VULKAN_IMPLEMENTATION_SUMMARY.md](VULKAN_IMPLEMENTATION_SUMMARY.md) - Vulkan implementation details
+- [MULTI_GPU_IMPLEMENTATION_SUMMARY.md](../MULTI_GPU_IMPLEMENTATION_SUMMARY.md) - Multi-GPU scaffolding status
+
+**Issue Templates:**
+- `.github/ISSUE_TEMPLATE/gpu-master-tracking.md` - Master epic tracking issue
+- `.github/ISSUE_TEMPLATE/gpu-cuda-implementation.md` - CUDA backend (v2.1)
+- `.github/ISSUE_TEMPLATE/gpu-vulkan-implementation.md` - Vulkan backend (v2.2)
+- `.github/ISSUE_TEMPLATE/gpu-hip-implementation.md` - HIP/ROCm backend (v2.3)
+- `.github/ISSUE_TEMPLATE/gpu-multi-gpu-support.md` - Multi-GPU (v2.4)
+
+**Roadmap Timeline:**
+- **v2.1 (Q3 2026)**: CUDA Backend → 250K QPS, 10x speedup (NVIDIA GPUs)
+- **v2.2 (Q4 2026)**: Vulkan Backend → 200K QPS (cross-platform: NVIDIA, AMD, Intel, Apple)
+- **v2.3 (Q1 2027)**: HIP Backend → 200K QPS (AMD GPUs optimized)
+- **v2.4 (Q2 2027)**: Multi-GPU → 1.6M QPS (8 GPUs, NCCL/RCCL)
+
+**Key Features:**
+- ✅ Comprehensive roadmap with timelines and success metrics
+- ✅ Multi-backend support (CUDA, Vulkan, HIP)
+- ✅ Performance targets: 5-10x speedup for batch operations
+- ✅ Cross-platform compatibility (Linux, Windows, macOS)
+- ✅ Backward compatible API (CPU fallback always available)
+- ✅ Complete issue templates for all phases
+- ✅ Risk mitigation and resource planning
+
+---
+
 ## 🐳 DOCKER RAID CLUSTER DOCUMENTATION (NEU - 2026-01-04)
 
 ### RAID Setup and Troubleshooting
