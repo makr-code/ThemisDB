@@ -1,5 +1,6 @@
 #include "llm/llm_prefix_cache.h"
 #include "cache/embedding_cache.h"
+#include "utils/clock.h"
 #include <unordered_map>
 #include <mutex>
 #include <algorithm>
@@ -20,6 +21,9 @@ class LLMPrefixCache::Impl {
 public:
     explicit Impl(const std::string& name, const Config& cfg)
         : cache_name_(name), config_(cfg) {
+        // Use provided clock or default to system clock
+        clock_ = config_.clock ? config_.clock : utils::getSystemClock();
+        
         // Initialize EmbeddingCache for HNSW-based similarity search
         if (cfg.enable_kv_caching) {
             try {
@@ -56,7 +60,7 @@ public:
         entry.token_ids = tokens;
         entry.embedding = embedding;
         entry.usage_count = 1;
-        entry.last_used = std::chrono::system_clock::now();
+        entry.last_used = clock_->now();
         
         if (config_.enable_kv_caching && !precomputed_kv.empty()) {
             entry.precomputed_kv = precomputed_kv;
@@ -89,7 +93,7 @@ public:
         if (it != cache_.end()) {
             if (!isExpired(it->second)) {
                 it->second.usage_count++;
-                it->second.last_used = std::chrono::system_clock::now();
+                it->second.last_used = clock_->now();
                 stats_.hits++;
                 updateLookupTime(start);
                 return it->second;
@@ -107,7 +111,7 @@ public:
                 auto it = cache_.find(similar_prefix);
                 if (it != cache_.end() && !isExpired(it->second)) {
                     it->second.usage_count++;
-                    it->second.last_used = std::chrono::system_clock::now();
+                    it->second.last_used = clock_->now();
                     // Update average similarity before incrementing hits
                     stats_.avg_similarity = (stats_.avg_similarity * stats_.hits + similar_entry->last_similarity) 
                                           / (stats_.hits + 1);
@@ -137,7 +141,7 @@ public:
             for (auto& [key, entry] : cache_) {
                 if (entry.prefix == best_match->prefix) {
                     entry.usage_count++;
-                    entry.last_used = std::chrono::system_clock::now();
+                    entry.last_used = clock_->now();
                     break;
                 }
             }
@@ -188,7 +192,7 @@ public:
         auto it = cache_.find(prefix);
         if (it != cache_.end()) {
             it->second.usage_count++;
-            it->second.last_used = std::chrono::system_clock::now();
+            it->second.last_used = clock_->now();
         }
     }
     
@@ -226,7 +230,7 @@ public:
     
 private:
     bool isExpired(const PrefixCacheEntry& entry) const {
-        auto now = std::chrono::system_clock::now();
+        auto now = clock_->now();
         auto age = std::chrono::duration_cast<std::chrono::seconds>(now - entry.last_used);
         return age.count() > config_.ttl_seconds;
     }
@@ -277,6 +281,7 @@ private:
     
     std::string cache_name_;
     Config config_;
+    std::shared_ptr<utils::Clock> clock_;
     std::unordered_map<std::string, PrefixCacheEntry> cache_;
     mutable std::mutex mutex_;
     PrefixCacheStatistics stats_;

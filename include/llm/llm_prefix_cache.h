@@ -5,6 +5,7 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include "utils/clock.h"
 
 namespace themis {
 namespace llm {
@@ -65,6 +66,7 @@ public:
         size_t min_prefix_length = 20;       // Minimum prefix length to cache
         int ttl_seconds = 7200;              // 2 hours TTL
         bool enable_kv_caching = true;       // Precompute KV cache
+        std::shared_ptr<utils::Clock> clock = nullptr;  // Injectable clock (uses SystemClock if null)
     };
     
     explicit LLMPrefixCache(const std::string& cache_name, const Config& config);

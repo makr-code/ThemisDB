@@ -120,6 +120,15 @@ PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     
     sequence_tables_[seq_id] = table;
     
+    // Check if we should analyze workload for adaptation
+    if (auto_adaptation_enabled_) {
+        sequences_since_last_check_++;
+        if (sequences_since_last_check_ >= adaptation_check_interval_) {
+            analyzeAndAdaptCacheType();
+            sequences_since_last_check_ = 0;
+        }
+    }
+    
     return table;
 }
 
@@ -160,6 +169,9 @@ PagedKVCacheManager::getMemoryStats() const {
     
     // Calculate prefix sharing ratio
     stats.prefix_sharing_ratio = calculatePrefixSavings() / 100.0;
+    
+    // Populate shared_blocks count
+    stats.shared_blocks = total_blocks_shared_.load();
     
     // Calculate memory usage
     stats.bytes_per_block = calculateBlockMemorySize();
@@ -203,16 +215,6 @@ size_t PagedKVCacheManager::defragment() {
     return 0;
 }
 
-double PagedKVCacheManager::calculatePrefixSavings() const {
-    if (total_blocks_allocated_ == 0) {
-        return 0.0;
-    }
-    
-    double savings = (static_cast<double>(total_blocks_shared_) / 
-                     static_cast<double>(total_blocks_allocated_)) * 100.0;
-    return savings;
-}
-
 int PagedKVCacheManager::getFreeBlock() {
     if (free_block_ids_.empty()) {
         return -1;
@@ -243,6 +245,117 @@ size_t PagedKVCacheManager::calculateBlockMemorySize() const {
     //                    num_kv_heads × head_dim × bytes_per_element
     return config_.block_size * config_.num_layers * 2 * 
            config_.num_kv_heads * config_.head_dim * config_.bytes_per_element;
+}
+
+double PagedKVCacheManager::calculatePrefixSavings() const {
+    size_t total_allocated = total_blocks_allocated_.load();
+    size_t shared = total_blocks_shared_.load();
+    
+    if (total_allocated == 0) return 0.0;
+    
+    return (static_cast<double>(shared) / total_allocated) * 100.0;
+}
+
+PagedKVCacheManager::CacheType PagedKVCacheManager::getCacheType() const {
+    return current_cache_type_;
+}
+
+void PagedKVCacheManager::setCacheType(CacheType type) {
+    current_cache_type_ = type;
+}
+
+bool PagedKVCacheManager::analyzeAndAdaptCacheType() {
+    updateWorkloadMetrics();
+    
+    WorkloadPattern detected = detectWorkloadPattern();
+    workload_metrics_.detected_pattern = detected;
+    
+    CacheType optimal = selectOptimalCacheType(detected);
+    
+    if (optimal != current_cache_type_) {
+        current_cache_type_ = optimal;
+        // NOTE: Cache type is currently a metric/hint only. Future work will wire this
+        // into actual allocation/eviction behavior (e.g., adjusting block allocation 
+        // strategies, prefix sharing aggressiveness, or eviction policies based on type).
+        return true;
+    }
+    
+    return false;
+}
+
+PagedKVCacheManager::WorkloadMetrics PagedKVCacheManager::getWorkloadMetrics() const {
+    return workload_metrics_;
+}
+
+void PagedKVCacheManager::setAutomaticAdaptation(bool enable, size_t check_interval_sequences) {
+    auto_adaptation_enabled_ = enable;
+    adaptation_check_interval_ = check_interval_sequences;
+    sequences_since_last_check_ = 0;
+}
+
+void PagedKVCacheManager::updateWorkloadMetrics() {
+    workload_metrics_.total_sequences = sequence_tables_.size();
+    
+    // Reset metrics to avoid stale values
+    workload_metrics_.sequences_with_shared_prefix = 0;
+    workload_metrics_.prefix_reuse_ratio = 0.0;
+    workload_metrics_.avg_prefix_length = 0.0;
+    
+    if (workload_metrics_.total_sequences == 0) {
+        return;  // Nothing to compute
+    }
+    
+    size_t sequences_with_prefix = 0;
+    size_t total_prefix_length = 0;
+    
+    for (const auto& [seq_id, table] : sequence_tables_) {
+        if (table.is_prefix_cached) {
+            sequences_with_prefix++;
+            // Estimate prefix length from shared blocks
+            for (int block_id : table.block_ids) {
+                if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
+                    if (blocks_[block_id].ref_count.load() > 1) {
+                        total_prefix_length += config_.block_size;
+                    }
+                }
+            }
+        }
+    }
+    
+    workload_metrics_.sequences_with_shared_prefix = sequences_with_prefix;
+    workload_metrics_.prefix_reuse_ratio = 
+        static_cast<double>(sequences_with_prefix) / workload_metrics_.total_sequences;
+    
+    if (sequences_with_prefix > 0) {
+        workload_metrics_.avg_prefix_length = 
+            static_cast<double>(total_prefix_length) / sequences_with_prefix;
+    }
+}
+
+PagedKVCacheManager::WorkloadPattern PagedKVCacheManager::detectWorkloadPattern() const {
+    const double HIGH_REUSE_THRESHOLD = 0.6;  // 60% prefix reuse
+    const double LOW_REUSE_THRESHOLD = 0.2;   // 20% prefix reuse
+    
+    if (workload_metrics_.prefix_reuse_ratio >= HIGH_REUSE_THRESHOLD) {
+        return WorkloadPattern::HIGH_PREFIX_REUSE;
+    } else if (workload_metrics_.prefix_reuse_ratio <= LOW_REUSE_THRESHOLD) {
+        return WorkloadPattern::LOW_PREFIX_REUSE;
+    } else {
+        return WorkloadPattern::MIXED;
+    }
+}
+
+PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(WorkloadPattern pattern) const {
+    switch (pattern) {
+        case WorkloadPattern::HIGH_PREFIX_REUSE:
+            return CacheType::PREFIX_OPTIMIZED;
+        case WorkloadPattern::LOW_PREFIX_REUSE:
+            return CacheType::STREAMING;
+        case WorkloadPattern::MIXED:
+        case WorkloadPattern::UNKNOWN:
+        default:
+            return CacheType::STANDARD;
+    }
 }
 
 } // namespace llm
