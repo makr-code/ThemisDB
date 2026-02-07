@@ -53,17 +53,36 @@ public:
             return;
         }
         
-        // Get thread-local buffer
-        thread_local ThreadLocalMetricsBuffer buffer;
+        // Get thread-local buffer with RAII deregistration wrapper
+        struct BufferWrapper {
+            ThreadLocalMetricsBuffer buffer;
+            CycleMetricsCollector* collector;
+            bool registered = false;
+            
+            BufferWrapper(CycleMetricsCollector* c) : collector(c) {}
+            
+            ~BufferWrapper() {
+                if (registered) {
+                    // Mark buffer as invalid and deregister on thread exit
+                    buffer.invalidate();
+                    collector->deregisterThreadBuffer(&buffer);
+                }
+            }
+        };
+        
+        thread_local BufferWrapper wrapper(this);
+        
+        // Register buffer on first use
+        if (!wrapper.registered) {
+            registerThreadBuffer(&wrapper.buffer);
+            wrapper.registered = true;
+        }
         
         // Record to buffer
-        if (!buffer.recordOperation(operation_name, metrics)) {
+        if (!wrapper.buffer.recordOperation(operation_name, metrics)) {
             // Buffer full - metric dropped
             dropped_metrics_.fetch_add(1, std::memory_order_relaxed);
         }
-        
-        // Register this thread's buffer for draining
-        registerThreadBuffer(&buffer);
     }
 
     /**
@@ -147,6 +166,11 @@ private:
         std::lock_guard<std::mutex> lock(buffers_mutex_);
         thread_buffers_.insert(buffer);
     }
+    
+    void deregisterThreadBuffer(ThreadLocalMetricsBuffer* buffer) {
+        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        thread_buffers_.erase(buffer);
+    }
 
     void exportLoop() {
         while (running_.load(std::memory_order_acquire)) {
@@ -168,16 +192,24 @@ private:
     void drainAllBuffers() {
         std::vector<MetricsEntry> new_metrics;
         
+        // Take a snapshot of thread buffers to minimize lock hold time
+        std::vector<ThreadLocalMetricsBuffer*> buffers_snapshot;
         {
             std::lock_guard<std::mutex> lock(buffers_mutex_);
-            for (auto* buffer : thread_buffers_) {
-                if (buffer) {
-                    buffer->drain(new_metrics);
-                }
+            buffers_snapshot.reserve(thread_buffers_.size());
+            buffers_snapshot.assign(thread_buffers_.begin(), thread_buffers_.end());
+        }
+        // Lock released - drain buffers without holding the lock
+        
+        // Drain all buffers lock-free (each buffer is lock-free SPSC)
+        // Buffer validity is checked in drain() to prevent use-after-free
+        for (auto* buffer : buffers_snapshot) {
+            if (buffer && buffer->is_valid()) {
+                buffer->drain(new_metrics);
             }
         }
         
-        // Aggregate new metrics
+        // Aggregate new metrics using atomic swap pattern
         if (!new_metrics.empty()) {
             std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);
             

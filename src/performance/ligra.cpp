@@ -84,18 +84,79 @@ Frontier LigraProcessor::process_edges(
     const EdgeFunc& func
 ) {
     Frontier next_frontier(num_vertices_);
-    std::mutex frontier_mutex;
     
-    process_vertices(frontier, [&](NodeID src) {
-        if (src >= adj_list.size()) return;
+    // Use lock-free atomic operations for frontier updates in sparse mode
+    // Check current frontier size to determine strategy
+    if (frontier.is_dense_mode() || frontier.size() > num_vertices_ * 0.1) {
+        // For dense mode or large frontiers, switch to dense representation
+        next_frontier.switch_to_dense();
+        std::vector<std::atomic<bool>> atomic_dense(num_vertices_);
+        for (size_t i = 0; i < num_vertices_; i++) {
+            atomic_dense[i].store(false, std::memory_order_relaxed);
+        }
         
-        for (NodeID dst : adj_list[src]) {
-            if (func(src, dst)) {
-                std::lock_guard<std::mutex> lock(frontier_mutex);
-                next_frontier.add(dst);
+        process_vertices(frontier, [&](NodeID src) {
+            if (src >= adj_list.size()) return;
+            
+            for (NodeID dst : adj_list[src]) {
+                if (func(src, dst)) {
+                    atomic_dense[dst].store(true, std::memory_order_relaxed);
+                }
+            }
+        });
+        
+        // Rebuild frontier from atomic results
+        // Note: switch_to_dense() resizes dense_set_ if needed, so no clear() beforehand
+        next_frontier.switch_to_dense();
+        for (size_t i = 0; i < num_vertices_; i++) {
+            if (atomic_dense[i].load(std::memory_order_relaxed)) {
+                next_frontier.add(i);
             }
         }
-    });
+    } else {
+        // For sparse mode, use thread-local buffers to avoid lock contention
+        std::vector<std::vector<NodeID>> thread_buffers(num_threads_);
+        
+        // Modified process to pass thread index to avoid hash collisions
+        const auto& active = frontier.get_sparse();
+        std::vector<std::thread> threads;
+        size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
+        
+        auto it = active.begin();
+        for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {
+            auto chunk_end = it;
+            for (size_t i = 0; i < chunk_size && chunk_end != active.end(); i++) {
+                ++chunk_end;
+            }
+            
+            // Pass thread index explicitly to avoid hash collision races
+            threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {
+                for (auto v_it = it; v_it != chunk_end; ++v_it) {
+                    NodeID src = *v_it;
+                    if (src >= adj_list.size()) continue;
+                    
+                    for (NodeID dst : adj_list[src]) {
+                        if (func(src, dst)) {
+                            thread_buffers[t].push_back(dst);  // Collision-free thread index
+                        }
+                    }
+                }
+            });
+            
+            it = chunk_end;
+        }
+        
+        for (auto& thread : threads) {
+            thread.join();
+        }
+        
+        // Merge thread-local frontiers into next_frontier
+        for (const auto& buffer : thread_buffers) {
+            for (NodeID v : buffer) {
+                next_frontier.add(v);
+            }
+        }
+    }
     
     return next_frontier;
 }
