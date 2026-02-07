@@ -569,7 +569,8 @@ int main(int argc, char* argv[]) {
         // Configure RocksDB
         RocksDBWrapper::Config db_config;
         db_config.db_path = db_path;
-        db_config.memtable_size_mb = 128;
+        // v1.5.0: Increased defaults for write-amplification optimization
+        db_config.memtable_size_mb = 512;       // Increased from 128MB
         db_config.block_cache_size_mb = 512;
         db_config.enable_wal = true;
         db_config.enable_blobdb = false;
@@ -1591,9 +1592,14 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("💾 DATABASE CONFIGURATION:");
         THEMIS_INFO("  Database Path:           {}", db_config.db_path);
         THEMIS_INFO("  Memtable Size:           {} MB ({})", db_config.memtable_size_mb, 
-                    (db_config.memtable_size_mb >= 256 ? "aggressive" : (db_config.memtable_size_mb >= 128 ? "balanced" : "conservative")));
+                    (db_config.memtable_size_mb >= 512 ? "write-optimized (v1.5.0)" : 
+                     db_config.memtable_size_mb >= 256 ? "aggressive" : 
+                     db_config.memtable_size_mb >= 128 ? "balanced" : "conservative"));
+        THEMIS_INFO("  Max Write Buffers:       {} ({})", db_config.max_write_buffer_number,
+                    (db_config.max_write_buffer_number >= 6 ? "high-throughput" : "standard"));
         THEMIS_INFO("  Block Cache Size:        {} MB ({})", db_config.block_cache_size_mb,
                     (db_config.block_cache_size_mb >= 512 ? "high-performance" : (db_config.block_cache_size_mb >= 256 ? "balanced" : "low-latency")));
+        THEMIS_INFO("  Async I/O:               {}", (db_config.enable_async_io ? "yes (scan optimization)" : "no"));
         THEMIS_INFO("  WAL Enabled:             {}", (db_config.enable_wal ? "yes (crash recovery)" : "no (speed mode)"));
         THEMIS_INFO("  BlobDB Enabled:          {}", (db_config.enable_blobdb ? "yes (large objects)" : "no"));
         THEMIS_INFO("");
@@ -1675,7 +1681,9 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("");
         
         THEMIS_INFO("📈 OPTIMIZATION PROFILE:");
-        if (db_config.memtable_size_mb >= 256 && db_config.block_cache_size_mb >= 512) {
+        if (db_config.memtable_size_mb >= 512 && db_config.block_cache_size_mb >= 512) {
+            THEMIS_INFO("  → WRITE-OPTIMIZED MODE (v1.5.0: low write-amplification)");
+        } else if (db_config.memtable_size_mb >= 256 && db_config.block_cache_size_mb >= 512) {
             THEMIS_INFO("  → HIGH-THROUGHPUT MODE (writes + analytics)");
         } else if (db_config.memtable_size_mb >= 128 && db_config.block_cache_size_mb >= 256) {
             THEMIS_INFO("  → BALANCED MODE (general purpose)");
