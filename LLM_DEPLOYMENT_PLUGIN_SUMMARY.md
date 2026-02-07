@@ -22,7 +22,7 @@ This document summarizes the implementation of the LLM Deployment Plugin for The
    - Ollama REST API client (pull, list, show, tags)
    - HTTP/HTTPS direct downloads with progress tracking
    - Local filesystem source support
-   - Resume capability for interrupted downloads
+   - Planned: Resume capability for interrupted downloads (not yet implemented)
    - ~550 lines of production code
 
 3. **Checksum Utilities** (`include/utils/checksum_utils.h`, `src/utils/checksum_utils.cpp`)

@@ -139,7 +139,7 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     model_filename += ".gguf";
     
     fs::path output_path = fs::path(config.download_dir) / model_filename;
-    std::string temp_path = output_path.string() + ".tmp";
+    // Note: temp_path would be used for export-to-file flow when implemented
 
     // Prepare Ollama API endpoint for pulling
     std::string pull_url = config.ollama_url + "/api/pull";
@@ -246,13 +246,14 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
 
     // NOTE: Ollama model export to GGUF is not currently implemented.
     // Ollama stores models in a content-addressable blob format that requires
-    // additional work to convert to GGUF. Users should use Ollama CLI to export.
+    // additional work to convert to GGUF.
     LOG_ERROR("Ollama model export to GGUF is not implemented");
-    LOG_ERROR("Workaround: Use 'ollama show {} --modelfile' to export manually", config.model_name);
+    LOG_ERROR("Workaround: Download GGUF files directly from model providers (e.g., Hugging Face)");
     
     result.success = false;
     result.error_message = "Ollama model export to GGUF format is not supported. "
-                          "Use Ollama CLI: ollama show " + config.model_name + " --modelfile";
+                          "Download GGUF files directly from model providers (e.g., Hugging Face) "
+                          "and configure them as local or http/https sources.";
     return result;
 #else
     ModelDownloadResult result;

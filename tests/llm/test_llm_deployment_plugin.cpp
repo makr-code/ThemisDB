@@ -97,7 +97,8 @@ TEST_F(LLMDeploymentPluginTest, PluginInitialization) {
 constexpr size_t MIN_VALID_MODEL_SIZE_BYTES = 1024 * 1024;
 
 TEST(ModelDownloaderTest, IsModelAvailable) {
-    std::string test_file = "/tmp/test_model.gguf";
+    auto temp_dir = fs::temp_directory_path();
+    std::string test_file = (temp_dir / "test_model.gguf").string();
     
     // Create test file larger than minimum size
     {
@@ -236,12 +237,14 @@ TEST_F(LLMDeploymentPluginTest, OfflineModeRejectsDownload) {
 // ============================================================================
 
 TEST(ModelDownloaderTest, LoadModelConfigFromYAML) {
-    std::string config_path = "/tmp/test_models_config.yaml";
+    auto temp_dir = fs::temp_directory_path();
+    std::string config_path = (temp_dir / "test_models_config.yaml").string();
+    std::string models_dir = (temp_dir / "models").string();
+    
     std::ofstream config_file(config_path);
-    config_file << R"(
-ollama_url: http://test-server:11434
-download_dir: /tmp/models
-models:
+    config_file << "ollama_url: http://test-server:11434\n";
+    config_file << "download_dir: " << models_dir << "\n";
+    config_file << R"(models:
   llama2:7b:
     use_cache: true
     timeout_seconds: 300
@@ -253,7 +256,7 @@ models:
     ASSERT_TRUE(config.has_value());
     EXPECT_EQ(config->model_name, "llama2:7b");
     EXPECT_EQ(config->ollama_url, "http://test-server:11434");
-    EXPECT_EQ(config->download_dir, "/tmp/models");
+    EXPECT_EQ(config->download_dir, models_dir);
     EXPECT_TRUE(config->use_cache);
     EXPECT_EQ(config->timeout_seconds, 300);
     
@@ -262,7 +265,9 @@ models:
 }
 
 TEST(ModelDownloaderTest, LoadModelConfigNotFound) {
-    std::string config_path = "/tmp/test_models_config2.yaml";
+    auto temp_dir = fs::temp_directory_path();
+    std::string config_path = (temp_dir / "test_models_config2.yaml").string();
+    
     std::ofstream config_file(config_path);
     config_file << R"(
 models:

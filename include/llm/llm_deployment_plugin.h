@@ -156,9 +156,9 @@ public:
      * @brief Deploy a model (download if needed, verify, make available)
      * 
      * This is the main entry point for model deployment. It:
-     * 1. Checks if model exists locally (if cache enabled)
-     * 2. Downloads from configured sources if needed
-     * 3. Verifies integrity (checksum)
+     * 1. Checks if model exists locally in cache directory
+     * 2. Downloads from configured sources if needed (respecting deployment mode)
+     * 3. Verifies integrity (checksum) if verify_checksums is enabled
      * 4. Makes model available for loading
      * 5. Updates status tracking
      * 6. Logs to audit log
@@ -249,7 +249,6 @@ public:
      * 
      * Removes models that:
      * - Haven't been used for max_model_age_days
-     * - Exceed version retention limit
      * - Would reduce cache size below max_cache_size_gb
      * 
      * @return Number of models removed

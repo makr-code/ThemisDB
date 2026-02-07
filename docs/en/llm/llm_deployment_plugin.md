@@ -14,10 +14,13 @@ The Ollama model export functionality is currently in development. When using th
 - ✅ Get model manifests via `/api/show`
 - ⚠️ Model export to GGUF format is not yet fully implemented
 
-**Workaround**: Use Ollama CLI to manually export models to GGUF format:
-```bash
-ollama show <model-name> --modelfile > model.gguf
-```
+**Current Status**: Ollama does not currently provide a supported way to export GGUF binaries via the CLI. The `--modelfile` flag prints a text Modelfile, not a GGUF file.
+
+**Workaround**: To use GGUF models with this plugin:
+- Download GGUF model files (`*.gguf`) directly from model providers (e.g., Hugging Face)
+- Configure those files as `local` or `http`/`https` sources in your deployment configuration
+
+For official Ollama export guidance, refer to: https://github.com/ollama/ollama/tree/main/docs
 
 ### User Context Tracking
 
