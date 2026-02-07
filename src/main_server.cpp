@@ -41,6 +41,9 @@
 #include "utils/pki_client.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "security/hsm_provider.h"
+#include "security/hsm_security_checker.h"
+#include "security/hsm_security_metrics.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
 #include "themis/build_info.h"
@@ -92,6 +95,12 @@ static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
 #endif
 
 static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
+
+// HSM security warning thread
+static std::thread g_hsm_warning_thread;
+static std::atomic<bool> g_hsm_warning_thread_running{false};
+// Global HSM provider (non-static for external access from monitoring_api_handler)
+std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
 
 // ============================================================================
 // Lazy Mimalloc Initialization (after CRT startup)
@@ -194,6 +203,64 @@ void windows_se_translator(unsigned int code, EXCEPTION_POINTERS* pExp) {
 }
 #endif
 
+// ============================================================================
+// HSM Security Warning Thread
+// ============================================================================
+/**
+ * Periodic HSM security warning thread
+ * Logs ERROR-level warnings every 5 minutes when stub HSM is active
+ */
+void hsmSecurityWarningLoop() {
+    using namespace std::chrono;
+    const auto warning_interval = minutes(5);
+    const auto warning_interval_seconds = duration_cast<seconds>(warning_interval).count();
+    
+    while (g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
+        // Sleep for 5 minutes in 1-second increments to allow quick shutdown
+        for (int i = 0; i < static_cast<int>(warning_interval_seconds) &&
+                g_hsm_warning_thread_running.load(std::memory_order_relaxed); ++i) {
+            std::this_thread::sleep_for(seconds(1));
+        }
+        
+        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) break;
+        
+        // Perform HSM security check
+        if (g_hsm_provider) {
+            g_hsm_provider->periodicSecurityCheck();
+            
+            // Additional check using HSMSecurityChecker
+            std::string warning = themis::security::HSMSecurityChecker::getPeriodicWarning(*g_hsm_provider);
+            if (!warning.empty()) {
+                THEMIS_ERROR("[SECURITY] {}", warning);
+            }
+        }
+    }
+}
+
+/**
+ * Start HSM security warning thread
+ */
+void startHSMWarningThread() {
+    if (g_hsm_provider && !g_hsm_warning_thread_running.load()) {
+        g_hsm_warning_thread_running.store(true, std::memory_order_release);
+        g_hsm_warning_thread = std::thread(hsmSecurityWarningLoop);
+        THEMIS_INFO("HSM security warning thread started (5-minute interval)");
+    }
+}
+
+/**
+ * Stop HSM security warning thread
+ */
+void stopHSMWarningThread() {
+    if (g_hsm_warning_thread_running.load()) {
+        g_hsm_warning_thread_running.store(false, std::memory_order_release);
+        if (g_hsm_warning_thread.joinable()) {
+            g_hsm_warning_thread.join();
+        }
+        THEMIS_INFO("HSM security warning thread stopped");
+    }
+}
+
 int main(int argc, char* argv[]) {
 #ifdef _WIN32
     // Install structured exception handler FIRST
@@ -208,15 +275,16 @@ int main(int argc, char* argv[]) {
     auto print_usage = [](const char* prog) {
         std::cout << "Usage: " << prog << " [options]\n"
                   << "Options:\n"
-                  << "  --db PATH       Database path (default: ./data/themis_server)\n"
-                  << "  --host HOST     Server host (default: 0.0.0.0)\n"
-                  << "  --port PORT     Server port (default: 8765)\n"
-                  << "  --threads N     Number of worker threads (default: auto)\n"
-                  << "  --config FILE   Load server/storage config from JSON or YAML file\n"
-                  << "  --version, -v   Show version information and exit\n"
-                  << "  --build-info    Show build configuration details and exit\n"
-                  << "  --license-info  Show embedded license information and exit\n"
-                  << "  --help, -h      Show this help message\n";
+                  << "  --db PATH         Database path (default: ./data/themis_server)\n"
+                  << "  --host HOST       Server host (default: 0.0.0.0)\n"
+                  << "  --port PORT       Server port (default: 8765)\n"
+                  << "  --threads N       Number of worker threads (default: auto)\n"
+                  << "  --config FILE     Load server/storage config from JSON or YAML file\n"
+                  << "  --allow-stub-hsm  Allow insecure stub HSM provider (development only)\n"
+                  << "  --version, -v     Show version information and exit\n"
+                  << "  --build-info      Show build configuration details and exit\n"
+                  << "  --license-info    Show embedded license information and exit\n"
+                  << "  --help, -h        Show this help message\n";
     };
 
     bool show_build_info = false;
@@ -554,6 +622,117 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Database opened successfully");
+        
+        // ═══════════════════════════════════════════════════════════════════
+        // HSM Security Integration (FIND-002)
+        // ═══════════════════════════════════════════════════════════════════
+        // Initialize HSM provider and perform security validation
+        THEMIS_INFO("Initializing HSM security...");
+        
+        // Load HSM config from security.yaml or main config
+        themis::security::HSMConfig hsm_config;
+        bool hsm_config_loaded = false;
+        
+        // Try to load from security.yaml first
+        for (const auto& security_config_path : {
+                std::string("./config/security.yaml"),
+                std::string("./config/security.yml"),
+                std::string("/etc/themisdb/security.yaml")}) {
+            auto sec_cfg = load_config(security_config_path);
+            if (sec_cfg && sec_cfg->contains("hsm")) {
+                const auto& hsm = (*sec_cfg)["hsm"];
+                if (hsm.contains("provider")) {
+                    std::string provider = hsm["provider"].get<std::string>();
+                    // For now, we support stub and pkcs11
+                    // stub provider means empty library_path
+                    if (provider == "stub") {
+                        hsm_config.library_path = "";  // Empty = stub provider
+                    } else if (provider == "pkcs11" && hsm.contains("pkcs11")) {
+                        const auto& pkcs11 = hsm["pkcs11"];
+                        hsm_config.library_path = pkcs11.value("library_path", std::string());
+                        hsm_config.slot_id = pkcs11.value("slot_id", 0);
+                        hsm_config.pin = pkcs11.value("pin", std::string());
+                        hsm_config.token_label = pkcs11.value("token_label", std::string());
+                        hsm_config.key_label = pkcs11.value("key_label", std::string("themis-signing-key"));
+                    }
+                    hsm_config_loaded = true;
+                    THEMIS_INFO("HSM configuration loaded from {}", security_config_path);
+                    break;
+                }
+            }
+        }
+        
+        // Fall back to main config if security.yaml not found
+        if (!hsm_config_loaded && cfg && cfg->contains("hsm")) {
+            const auto& hsm = (*cfg)["hsm"];
+            if (hsm.contains("provider")) {
+                std::string provider = hsm["provider"].get<std::string>();
+                if (provider == "stub") {
+                    hsm_config.library_path = "";
+                } else if (provider == "pkcs11" && hsm.contains("pkcs11")) {
+                    const auto& pkcs11 = hsm["pkcs11"];
+                    hsm_config.library_path = pkcs11.value("library_path", std::string());
+                    hsm_config.slot_id = pkcs11.value("slot_id", 0);
+                    hsm_config.pin = pkcs11.value("pin", std::string());
+                }
+                hsm_config_loaded = true;
+                THEMIS_INFO("HSM configuration loaded from main config");
+            }
+        }
+        
+        // Create HSM provider (defaults to stub if no config)
+        g_hsm_provider = std::make_shared<themis::security::HSMProvider>(hsm_config);
+        
+        if (!g_hsm_provider->initialize()) {
+            THEMIS_WARN("HSM provider initialization failed, using stub provider");
+        }
+        
+        // Display HSM status
+        THEMIS_INFO("HSM Provider Status:");
+        THEMIS_INFO("  Provider Type: {}", g_hsm_provider->isStubProvider() ? "stub (DEVELOPMENT ONLY)" : "real HSM");
+        THEMIS_INFO("  Token Info: {}", g_hsm_provider->getTokenInfo());
+        THEMIS_INFO("  Production Mode: {}", themis::security::HSMSecurityChecker::isProductionMode() ? "YES" : "NO");
+        
+        // Perform startup security validation
+        if (g_hsm_provider->isStubProvider()) {
+            // Check if --allow-stub-hsm flag is present
+            bool allow_stub = themis::security::HSMSecurityChecker::hasAllowStubFlag(argc, argv);
+            
+            if (!allow_stub) {
+                // Display startup warning banner
+                THEMIS_WARN("╔════════════════════════════════════════════════════════════════════════════╗");
+                THEMIS_WARN("║  ⚠️  WARNING: INSECURE HSM CONFIGURATION DETECTED                          ║");
+                THEMIS_WARN("║                                                                            ║");
+                THEMIS_WARN("║  The HSM provider is set to 'stub' which is DEVELOPMENT ONLY.              ║");
+                THEMIS_WARN("║  Master encryption keys are NOT protected by hardware security.            ║");
+                THEMIS_WARN("║                                                                            ║");
+                THEMIS_WARN("║  FOR PRODUCTION USE:                                                       ║");
+                THEMIS_WARN("║  - Configure a real HSM provider (PKCS#11, AWS KMS, Azure Key Vault)       ║");
+                THEMIS_WARN("║  - See: docs/security/HSM_PRODUCTION_SETUP.md                              ║");
+                THEMIS_WARN("║                                                                            ║");
+                THEMIS_WARN("║  To suppress this warning in development, use: --allow-stub-hsm            ║");
+                THEMIS_WARN("╚════════════════════════════════════════════════════════════════════════════╝");
+                
+                // Start periodic warning thread (every 5 minutes)
+                startHSMWarningThread();
+            } else {
+                THEMIS_WARN("HSM stub provider allowed by --allow-stub-hsm flag (DEVELOPMENT ONLY)");
+            }
+        } else {
+            THEMIS_INFO("HSM provider is hardware-backed - production ready");
+        }
+        
+        // Validate production safety (will fail startup if stub in production without flag)
+        if (!themis::security::HSMSecurityChecker::validateProductionSafety(*g_hsm_provider, argc, argv)) {
+            THEMIS_CRITICAL("Server startup aborted due to HSM security violation");
+            // Clean up warning thread if it was started
+            stopHSMWarningThread();
+            if (g_hsm_provider) {
+                g_hsm_provider->finalize();
+                g_hsm_provider.reset();
+            }
+            return 1;
+        }
         
         // Create index managers
         THEMIS_INFO("Initializing index managers...");
@@ -1620,6 +1799,16 @@ int main(int argc, char* argv[]) {
         
         // Step 5: Clear shared pointers
         THEMIS_INFO("[5/5] Releasing resources...");
+        
+        // Stop HSM warning thread
+        stopHSMWarningThread();
+        
+        // Finalize HSM provider
+        if (g_hsm_provider) {
+            g_hsm_provider->finalize();
+            g_hsm_provider.reset();
+        }
+        
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server.reset();
 #endif

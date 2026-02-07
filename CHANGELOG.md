@@ -7,7 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Documentation Consolidation for Beta/RC** 📚
+  - Archived 70+ historical documents (GAP analyses, old roadmaps, TODO lists, implementation summaries)
+  - Organized archives into structured directories: gaps/, roadmaps/, todos/, implementation-summaries/
+  - Updated documentation index to reflect current Beta/RC-ready status (v1.5.0-dev)
+  - Streamlined navigation and removed outdated references
+  - See [docs/ARCHIVED/README.md](docs/ARCHIVED/README.md) for archive index
+
 ### Added
+- **HSM Security Warning System (FIND-002)** 🔒
+  - **Startup Warning Banner**: Prominent warning displayed when stub HSM provider is active
+    - 80-character ASCII box with clear security messaging
+    - Directs users to HSM production setup documentation
+    - Can be suppressed in development with `--allow-stub-hsm` flag
+  - **Periodic Security Logging**: ERROR-level warnings logged every 5 minutes when stub HSM is active
+    - Persistent reminder of insecure configuration
+    - Helps prevent accidental production deployment with stub provider
+  - **Prometheus Metrics**: HSM security status exposed via `/metrics` endpoint
+    - `themis_hsm_insecure_config`: Gauge indicating insecure configuration (0=secure, 1=insecure)
+    - `themis_hsm_provider_type{provider="stub|real"}`: Provider type information
+    - `hsm_security_stub_active`: Legacy metric name for backward compatibility
+    - `hsm_compliance_status{standard="..."}`: Compliance status for NIST, ISO, PCI DSS, GDPR
+  - **Command-Line Flag**: `--allow-stub-hsm` flag for development environments
+    - Suppresses warning banner and periodic logging
+    - Documented in help output (`--help`)
+  - **Documentation Updates**:
+    - QUICKSTART.md now includes prominent HSM security warning at top
+    - Configuration examples show HSM settings with warnings
+    - References to `docs/security/HSM_PRODUCTION_SETUP.md` throughout
+  - **Compliance**: Addresses critical security finding FIND-002 from v1.4.1 audit
+    - Prevents master encryption keys from being unprotected in production
+    - Supports NIST SP 800-53 SC-12, ISO 27001 A.8.24, PCI DSS 3.6, GDPR Art. 32
+
+### Changed
+- main_server.cpp now initializes HSM provider at startup and validates security configuration
+- Prometheus metrics endpoint (`/metrics`) now includes HSM security metrics
+- Help output (`--help`) now lists `--allow-stub-hsm` flag
+
 - **Multi-GPU Vector Indexing API (v2.4)** 🎉
   - **MultiGPUVectorIndex**: Multi-device API and partition/merge scaffolding for distributed vector search
     - Logical support for 2-8 devices via index partitioning (round-robin, hash-based, range-based, balanced)
@@ -55,6 +92,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added proper error handling with default case in PITR progress phase conversion
 
 ### Documentation
+- **GPU Master Tracking Document** 📋
+  - Added `docs/GPU_MASTER_TRACKING.md` - Comprehensive master tracking document for GPU implementation roadmap (v2.x series)
+  - Complete timeline and deliverables for all GPU backends (CUDA, Vulkan, HIP, Multi-GPU)
+  - Performance targets, quality metrics, and success criteria
+  - Risk mitigation strategies and resource planning
+  - Cross-references to all GPU documentation: `FUTURE_GPU_SUPPORT.md`, `GPU_SUPPORT_ROADMAP.md`, `GPU_VECTOR_INDEXING_ARCHITECTURE.md`
+  - Updated `docs/00_DOCUMENTATION_INDEX.md` with new GPU Vector Indexing section
 - Added `MULTI_GPU_VECTOR_INDEXING.md` documenting multi-GPU implementation
 - Added `GIT_FEATURES_INTEGRATION_STATUS.md` documenting integration status
 - Documented that BranchManager and MergeEngine are pending (separate draft PRs)

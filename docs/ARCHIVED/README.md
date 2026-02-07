@@ -1,21 +1,39 @@
-# Archived LLM Documentation
+# ThemisDB Documentation Archive
 
-**Archive Date:** January 19, 2026  
-**Reason:** Conflicting or outdated information superseded by comprehensive code audit
+**Archive Updated:** February 7, 2026  
+**Version Status:** 1.5.0-dev (Alpha, targeting Beta/RC)
 
 ---
 
 ## Purpose of This Archive
 
-This directory contains documentation that has been **superseded** by the comprehensive code audit conducted on January 19, 2026. These documents are preserved for historical reference but **should not be used** for current implementation status.
+This directory contains archived documentation from various development phases of ThemisDB. These documents are preserved for historical reference but are no longer actively maintained or should not be used for current implementation status.
 
-**Current Source of Truth:** `docs/LLM_CORE_STATUS_MASTER.md`
+**Current Documentation Hub:** [docs/00_DOCUMENTATION_INDEX.md](../00_DOCUMENTATION_INDEX.md)
+
+---
+
+## Archive Structure
+
+### 📁 `/gaps/`
+GAP (Gap Analysis Program) documents from various development phases. These identified missing features and planned implementations that have since been completed or superseded.
+
+### 📁 `/roadmaps/`
+Historical roadmap documents showing the planned evolution of ThemisDB features. Current roadmap information is in [CHANGELOG.md](../../CHANGELOG.md) and release notes.
+
+### 📁 `/todos/`
+TODO lists and task tracking documents from earlier development phases. Current tasks are tracked via GitHub Issues and Projects.
+
+### 📁 `/implementation-summaries/`
+Implementation summary documents from completed features and migrations. These provide historical context for major system changes.
 
 ---
 
 ## Archived Documents
 
-### 1. EXECUTIVE_SUMMARY_GAPS_ANALYSIS.md
+### LLM Documentation Archive (January 19, 2026)
+
+#### 1. EXECUTIVE_SUMMARY_GAPS_ANALYSIS.md
 
 **Original Date:** January 15, 2026  
 **Status:** ❌ **OUTDATED - Do Not Use**
@@ -53,6 +71,28 @@ This document was an **investigation report** identifying work to be done, not a
 **Reason:** Would contradict current LoRA framework status
 
 **Superseded By:** `docs/LLM_CORE_STATUS_MASTER.md` Section 5
+
+### GAP, Roadmap, and TODO Archive (February 7, 2026)
+
+#### GAP Analysis Documents
+Historical gap analysis documents moved to `/gaps/` subdirectory. These identified missing features during development that have been completed.
+
+**Current Status Tracking:** GitHub Issues and Milestones
+
+#### Roadmap Documents  
+Historical roadmaps moved to `/roadmaps/` subdirectory. These planned feature evolution across versions.
+
+**Current Roadmap:** [CHANGELOG.md](../../CHANGELOG.md) and [Release Notes](../../docs/)
+
+#### TODO Documents
+Task lists and planning documents moved to `/todos/` subdirectory.
+
+**Current Task Tracking:** GitHub Issues and Project Boards
+
+#### Implementation Summaries
+Historical implementation summaries moved to `/implementation-summaries/` subdirectory.
+
+**Current Documentation:** Feature-specific docs in main docs tree
 
 ---
 

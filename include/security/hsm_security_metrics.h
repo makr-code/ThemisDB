@@ -37,6 +37,12 @@ public:
         oss << "hsm_security_stub_active " << (hsm.isStubProvider() ? "1" : "0") << "\n";
         oss << "\n";
         
+        // HSM insecure configuration metric (alias for compatibility)
+        oss << "# HELP themis_hsm_insecure_config Indicates if HSM is in insecure configuration (0=secure, 1=insecure)\n";
+        oss << "# TYPE themis_hsm_insecure_config gauge\n";
+        oss << "themis_hsm_insecure_config " << (hsm.isStubProvider() ? "1" : "0") << "\n";
+        oss << "\n";
+        
         // HSM security warnings counter
         oss << "# HELP hsm_security_warnings_total Total number of HSM security warnings issued\n";
         oss << "# TYPE hsm_security_warnings_total counter\n";
@@ -44,9 +50,15 @@ public:
         oss << "\n";
         
         // HSM provider type info metric
-        oss << "# HELP hsm_provider_type HSM provider type information\n";
-        oss << "# TYPE hsm_provider_type gauge\n";
+        oss << "# HELP themis_hsm_provider_type HSM provider type information\n";
+        oss << "# TYPE themis_hsm_provider_type gauge\n";
         std::string provider_type = hsm.isStubProvider() ? "stub" : "real";
+        oss << "themis_hsm_provider_type{provider=\"" << provider_type << "\"} 1\n";
+        oss << "\n";
+        
+        // Also export the original metric name for backward compatibility
+        oss << "# HELP hsm_provider_type HSM provider type information (deprecated, use themis_hsm_provider_type)\n";
+        oss << "# TYPE hsm_provider_type gauge\n";
         oss << "hsm_provider_type{provider=\"" << provider_type << "\"} 1\n";
         oss << "\n";
         

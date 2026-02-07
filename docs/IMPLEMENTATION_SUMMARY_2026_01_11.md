@@ -5,7 +5,7 @@
 
 This document summarizes the implementation of source code tasks identified in recent commits, specifically focusing on:
 1. Documentation Database Automation (from `TODO_DOCS_DATABASE_BUILD.md`)
-2. Example Applications Status (from `examples/TODO.md`)
+2. Example Applications Status (from `docs/ARCHIVED/todos/TODO.md`, now archived)
 
 ---
 
@@ -176,7 +176,7 @@ All 10 planned example applications are **FULLY IMPLEMENTED**:
 10. ✅ **10_drone_image_analysis** - Drone image analysis with AI
 
 **Files Updated**:
-- `examples/TODO.md` - Updated status from TODO to IMPLEMENTED for all examples
+- `docs/ARCHIVED/todos/TODO.md` - Updated status from TODO to IMPLEMENTED for all examples (now archived)
 
 ---
 
@@ -197,7 +197,7 @@ All 10 planned example applications are **FULLY IMPLEMENTED**:
   - 1 test file (11,668 characters)
 - **Files Modified**: 3
   - CMakeLists.txt (+95 lines)
-  - examples/TODO.md (status updates)
+  - docs/ARCHIVED/todos/TODO.md (status updates, archived)
   - TODO_DOCS_DATABASE_BUILD.md (status updates)
 - **Total New Code**: ~31,300 characters
 
@@ -399,7 +399,7 @@ The implementation provides a robust, well-tested, and well-documented foundatio
 
 ### Modified Files (3):
 1. `CMakeLists.txt`
-2. `examples/TODO.md`
+2. `docs/ARCHIVED/todos/TODO.md` (archived)
 3. `TODO_DOCS_DATABASE_BUILD.md`
 
 ---
