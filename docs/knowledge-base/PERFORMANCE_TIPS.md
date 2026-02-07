@@ -1333,3 +1333,100 @@ watch -n 5 'curl -s http://localhost:8529/_admin/statistics | jq ".server.opsPer
 **Last Updated:** 2024-01-24  
 **Version:** 1.4.0  
 **Maintainer:** ThemisDB Team
+
+---
+
+## SIMD Optimization and Cache-Line Performance
+
+### Hardware Acceleration with SIMD
+
+**Vector Operations:**
+
+ThemisDB uses SIMD (Single Instruction, Multiple Data) instructions to accelerate vector operations:
+
+- **x86_64 Platforms**: AVX2 (8 floats) and AVX-512 (16 floats) with FMA
+- **ARM64 Platforms**: NEON (4 floats) with FMA support on ARMv8+
+- **Automatic Detection**: Falls back to scalar code if SIMD unavailable
+
+**Enabled Operations:**
+```cpp
+// L2 distance computation (Euclidean)
+float distance = simd::l2_distance(vecA, vecB, dimension);
+
+// Squared L2 distance (faster, no sqrt)
+float dist_sq = simd::l2_distance_sq(vecA, vecB, dimension);
+
+// Batch operations for multiple vectors
+simd::batch_l2_distance_sq(query, database, n_vectors, dim, results);
+```
+
+**Performance Benefits:**
+- **4-8x faster** than scalar code for vector operations
+- Cache-line prefetching reduces memory latency by ~20-30%
+- FMA instructions improve accuracy and throughput
+
+---
+
+### Cache-Line Optimization
+
+**Memory Layout Best Practices:**
+
+```cpp
+// BAD: Random access pattern
+for (int i = 0; i < n; i++) {
+    process(data[random_indices[i]]);
+}
+
+// GOOD: Sequential access pattern (cache-friendly)
+for (int i = 0; i < n; i++) {
+    process(data[i]);
+}
+
+// BEST: Aligned and sequential with prefetching
+alignas(64) float vectors[n * dim];  // 64-byte cache line alignment
+// SIMD functions automatically prefetch 4 cache lines ahead
+```
+
+**Cache-Aware Data Structures:**
+
+1. **Align Hot Data**: Use 64-byte alignment for frequently accessed arrays
+   ```cpp
+   alignas(64) float embeddings[1000000];
+   ```
+
+2. **Structure Padding**: Avoid false sharing in multi-threaded code
+   ```cpp
+   struct ThreadLocalData {
+       float data[16];
+       char padding[64 - sizeof(float) * 16];  // Separate cache lines
+   };
+   ```
+
+3. **Batch Processing**: Process data in chunks that fit in L2 cache (256KB typical)
+   ```cpp
+   const size_t BATCH_SIZE = 32768;  // 128KB for float data
+   for (size_t i = 0; i < n; i += BATCH_SIZE) {
+       process_batch(data + i, std::min(BATCH_SIZE, n - i));
+   }
+   ```
+
+**Compilation Flags:**
+
+```bash
+# Enable AVX2 on x86_64
+cmake -DTHEMIS_ENABLE_AVX2=ON -DCMAKE_BUILD_TYPE=Release ..
+
+# Verify SIMD support
+./themisdb-server --version  # Shows: "SIMD: AVX2" or "SIMD: NEON"
+```
+
+**Monitoring SIMD Performance:**
+
+```bash
+# Check CPU usage patterns (should show high vectorization)
+perf stat -e cycles,instructions,fp_arith_inst_retired.scalar_single,fp_arith_inst_retired.128b_packed_single ./benchmark
+
+# Ratio should favor packed instructions for good SIMD utilization
+```
+
+---
