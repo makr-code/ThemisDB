@@ -680,7 +680,8 @@ rocksdb:
 # Check RocksDB block cache hit rate (should increase with prefetch)
 curl http://localhost:8529/_admin/statistics | jq '.rocksdb.block_cache_hit_rate'
 
-# Monitor memory bandwidth usage
+# Monitor memory bandwidth usage (run from project build directory)
+cd build/benchmarks
 perf stat -e cache-references,cache-misses,cycles,instructions ./bench_random_access_prefetch
 
 # Expected improvement: 15-30% fewer cache misses

@@ -723,7 +723,8 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
         // Prefetch upcoming values at stride intervals to avoid redundant prefetch
         if (config_.enable_cpu_prefetch && keys.size() >= config_.prefetch_min_batch_size) {
             // Prefetch multiple items ahead based on prefetch_distance
-            size_t highest_prefetched = last_prefetched_index;
+            // Initialize to current position to handle cases where no valid prefetches occur
+            size_t highest_prefetched = i;
             for (size_t d = 1; d <= config_.prefetch_distance; ++d) {
                 size_t prefetch_idx = i + d;
                 if (prefetch_idx < keys.size() && prefetch_idx > last_prefetched_index) {
@@ -734,7 +735,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
                 }
             }
             // Update tracking after all prefetches for this iteration
-            last_prefetched_index = highest_prefetched;
+            last_prefetched_index = std::max(last_prefetched_index, highest_prefetched);
         }
         
         if (statuses[i].ok()) {
