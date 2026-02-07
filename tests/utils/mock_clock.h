@@ -13,6 +13,11 @@ namespace utils {
  * - Manually advance time with advance()
  * - Sleep operations immediately advance mock time
  * - No actual sleeping or waiting
+ * 
+ * Thread Safety: This mock is NOT thread-safe. It is designed for
+ * single-threaded test scenarios where time control is explicit.
+ * Do not share MockClock instances across threads without external
+ * synchronization.
  */
 class MockClock : public Clock {
 public:

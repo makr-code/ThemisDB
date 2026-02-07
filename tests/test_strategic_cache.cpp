@@ -130,7 +130,11 @@ TEST_F(StrategicCacheWithLRUTest, HitRateTracking) {
 }
 
 TEST_F(StrategicCacheWithLRUTest, TTLExpiration) {
-    // Get a timestamp from the past for testing TTL
+    // Testing strategy: Create an entry with a past timestamp to simulate expiration
+    // without waiting. The cache checks if (current_time - timestamp) > TTL.
+    // By creating an entry with timestamp 200ms in the past and TTL of 100ms,
+    // the entry should be immediately expired when accessed.
+    
     auto past_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now().time_since_epoch() - std::chrono::milliseconds(200)
     ).count();
@@ -144,7 +148,7 @@ TEST_F(StrategicCacheWithLRUTest, TTLExpiration) {
     EXPECT_FALSE(cache->get("key1").has_value()) 
         << "Entry should be expired (timestamp 200ms old, TTL 100ms)";
     
-    // Now test with fresh entry
+    // Now test with fresh entry to verify non-expired case
     auto now_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now().time_since_epoch()
     ).count();
