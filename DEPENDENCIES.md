@@ -217,7 +217,237 @@ cd ..
 - [CMake FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html)
 - [ThemisDB Build Guide](BUILD.md)
 
+## Cloud Storage Dependencies (GAP-008)
+
+### AWS SDK for C++
+
+**Purpose**: AWS S3 integration for cloud backup automation
+
+**Management Strategy**: 
+- vcpkg package manager
+- Optional feature: `cloud-storage`
+- Components: s3, transfer
+
+**Installation**:
+```bash
+vcpkg install aws-sdk-cpp[s3,transfer]
+```
+
+**CMake Configuration**:
+```bash
+cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON ..
+```
+
+**Features Enabled**:
+- S3 bucket operations (create, list, delete)
+- Object upload/download with multipart support
+- Transfer manager for efficient large file uploads
+- IAM role-based authentication
+- Server-side encryption (SSE-S3, SSE-KMS)
+
+**Why Optional?**
+- Large dependency (~200MB compiled)
+- Not required for core database functionality
+- Only needed for cloud backup features
+- Alternative: local filesystem backups
+
+### Azure Storage SDK for C++
+
+**Purpose**: Azure Blob Storage integration for cloud backup automation
+
+**Management Strategy**:
+- vcpkg package manager
+- Optional feature: `cloud-storage`
+
+**Installation**:
+```bash
+vcpkg install azure-storage-cpp
+```
+
+**CMake Configuration**:
+```bash
+cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON ..
+```
+
+**Features Enabled**:
+- Azure Blob container operations
+- Block blob upload/download
+- Blob lifecycle management
+- Shared Access Signature (SAS) authentication
+- Azure Active Directory authentication
+
+**Why Optional?**
+- Only needed for Azure cloud deployments
+- Alternative cloud providers available (AWS, GCS)
+- Local filesystem backups work without it
+
+### Google Cloud C++ SDK
+
+**Purpose**: Google Cloud Storage integration for cloud backup automation
+
+**Management Strategy**:
+- vcpkg package manager
+- Optional feature: `cloud-storage`
+- Component: storage
+
+**Installation**:
+```bash
+vcpkg install google-cloud-cpp[storage]
+```
+
+**CMake Configuration**:
+```bash
+cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON ..
+```
+
+**Features Enabled**:
+- GCS bucket operations
+- Object upload/download
+- Resumable uploads for large files
+- Service account authentication
+- Customer-managed encryption keys (CMEK)
+
+**Why Optional?**
+- Only needed for Google Cloud deployments
+- Alternative cloud providers available (AWS, Azure)
+- Local filesystem backups work without it
+
+### Enabling Cloud Storage Support
+
+To enable all cloud storage backends:
+
+```bash
+# Install dependencies via vcpkg
+vcpkg install aws-sdk-cpp[s3,transfer] azure-storage-cpp google-cloud-cpp[storage]
+
+# Configure CMake with cloud storage enabled
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+
+# Build
+cmake --build build
+```
+
+### Enabling Individual Cloud Providers
+
+You can install only the cloud provider(s) you need:
+
+**AWS S3 only**:
+```bash
+vcpkg install aws-sdk-cpp[s3,transfer]
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+```
+
+**Azure Blob only**:
+```bash
+vcpkg install azure-storage-cpp
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+```
+
+**Google Cloud Storage only**:
+```bash
+vcpkg install google-cloud-cpp[storage]
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+```
+
+The build system will automatically detect which SDKs are available and enable the corresponding features.
+
+### Cloud Storage Architecture
+
+```
+┌─────────────────────────────────────────┐
+│         BackupManager                   │
+│  (include/storage/backup_manager.h)    │
+└─────────────┬───────────────────────────┘
+              │
+              ├──► Local Filesystem
+              │
+              ├──► AWS S3 (if THEMIS_HAS_AWS_SDK)
+              │    └─ aws-sdk-cpp
+              │
+              ├──► Azure Blob (if THEMIS_HAS_AZURE_STORAGE)
+              │    └─ azure-storage-cpp
+              │
+              └──► Google Cloud Storage (if THEMIS_HAS_GCS_SDK)
+                   └─ google-cloud-cpp
+```
+
+### Security Considerations
+
+1. **Credentials**: Never hardcode cloud credentials. Use:
+   - AWS: IAM roles, AWS_PROFILE, or AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY env vars
+   - Azure: Managed Identity, AZURE_STORAGE_ACCOUNT/AZURE_STORAGE_KEY env vars
+   - GCS: Service account JSON, GOOGLE_APPLICATION_CREDENTIALS env var
+
+2. **Encryption**: All cloud backups should use:
+   - Encryption in transit (TLS/HTTPS)
+   - Encryption at rest (provider-managed or customer-managed keys)
+
+3. **Access Control**: Use least-privilege principle:
+   - AWS: IAM policies with s3:PutObject, s3:GetObject only
+   - Azure: Storage Account keys or SAS tokens with limited scope
+   - GCS: Service account with storage.objects.create/get permissions only
+
+### Troubleshooting
+
+**"AWS SDK not found"**:
+```bash
+# Verify installation
+vcpkg list | grep aws-sdk-cpp
+
+# If not installed:
+vcpkg install aws-sdk-cpp[s3,transfer]
+
+# Rebuild
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+```
+
+**"Azure Storage SDK not found"**:
+```bash
+# Verify installation
+vcpkg list | grep azure-storage-cpp
+
+# If not installed:
+vcpkg install azure-storage-cpp
+
+# Rebuild
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+```
+
+**"Google Cloud SDK not found"**:
+```bash
+# Verify installation
+vcpkg list | grep google-cloud-cpp
+
+# If not installed:
+vcpkg install google-cloud-cpp[storage]
+
+# Rebuild
+cmake -B build -S . -DTHEMIS_ENABLE_CLOUD_STORAGE=ON
+```
+
+### Performance Considerations
+
+- **Upload Speed**: All SDKs support multipart/resumable uploads for large files
+- **Network Overhead**: Cloud uploads add ~10-100ms latency depending on region
+- **Memory Usage**: Each SDK adds ~50-200MB to memory footprint
+- **Recommendation**: Enable only the cloud provider(s) you need
+
+### Compatibility
+
+- **AWS SDK C++**: Requires C++11 or later, OpenSSL
+- **Azure Storage C++**: Requires C++11 or later, libcurl, OpenSSL
+- **Google Cloud C++**: Requires C++14 or later, gRPC, Protobuf
+
+All SDKs are cross-platform (Linux, Windows, macOS).
+
 ## Changelog
+
+### 2026-02-07
+- **GAP-008 Implementation**: Added cloud storage dependencies
+- Added AWS SDK C++, Azure Storage C++, Google Cloud C++ to vcpkg.json
+- Created cloud-storage feature for optional installation
+- Updated cmake/Dependencies.cmake with cloud storage detection
+- Added comprehensive documentation for cloud storage setup
 
 ### 2024-02-03
 - **CRITICAL FIX (PR #1022)**: Pinned llama.cpp to commit `b4313`

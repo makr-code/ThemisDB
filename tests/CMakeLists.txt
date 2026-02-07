@@ -835,6 +835,67 @@ else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
 endif()
 
+# Cloud Storage Backup Comprehensive Tests (GAP-008)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.cpp")
+    message(STATUS "Adding Cloud Storage Backup comprehensive tests (GAP-008)")
+    
+    add_executable(test_cloud_storage_backup_comprehensive
+        test_cloud_storage_backup_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    
+    # Add cloud storage SDK dependencies if available
+    if(TARGET aws-cpp-sdk-s3)
+        target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
+            aws-cpp-sdk-s3
+            aws-cpp-sdk-transfer
+        )
+        target_compile_definitions(test_cloud_storage_backup_comprehensive PRIVATE
+            THEMIS_HAS_AWS_SDK=1
+        )
+    endif()
+    
+    if(TARGET azure-storage-cpp)
+        target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
+            azure-storage-cpp
+        )
+        target_compile_definitions(test_cloud_storage_backup_comprehensive PRIVATE
+            THEMIS_HAS_AZURE_STORAGE=1
+        )
+    endif()
+    
+    if(TARGET google-cloud-cpp::storage)
+        target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
+            google-cloud-cpp::storage
+        )
+        target_compile_definitions(test_cloud_storage_backup_comprehensive PRIVATE
+            THEMIS_HAS_GCS_SDK=1
+        )
+    endif()
+    
+    target_compile_definitions(test_cloud_storage_backup_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    add_test(NAME CloudStorageBackupComprehensiveTests COMMAND test_cloud_storage_backup_comprehensive)
+    
+    set_tests_properties(CloudStorageBackupComprehensiveTests PROPERTIES
+        LABELS "backup;cloud;storage;s3;azure;gcs;comprehensive;unit"
+        TIMEOUT 180
+    )
+    
+    message(STATUS "  Cloud Storage Backup: AWS S3, Azure Blob, Google Cloud Storage interfaces")
+else()
+    message(STATUS "Cloud Storage Backup comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.cpp")
+endif()
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================
