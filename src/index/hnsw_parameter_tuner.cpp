@@ -103,34 +103,88 @@ void HnswParameterTuner::resetStats() {
     recall_count_ = 0;
 }
 
-int HnswParameterTuner::getRecommendedM(size_t dataset_size) {
+int HnswParameterTuner::getRecommendedM(size_t dataset_size, WorkloadType workload) {
     // Based on HNSW paper recommendations and empirical results
+    // Adjusted for workload-specific requirements per PERFORMANCE_TIPS.md
     
+    int base_M = 16;
+    
+    // Base M selection based on dataset size
     if (dataset_size < 10000) {
-        return 8;  // Small datasets: lower M for faster construction
+        base_M = 8;
     } else if (dataset_size < 100000) {
-        return 16; // Medium datasets: balanced M
+        base_M = 16;
     } else if (dataset_size < 1000000) {
-        return 24; // Large datasets: higher M for better connectivity
+        base_M = 24;
     } else {
-        return 32; // Very large datasets: max M for optimal recall
+        base_M = 32;
+    }
+    
+    // Workload-specific adjustments
+    switch (workload) {
+        case WorkloadType::OLTP:
+            // OLTP: Prioritize write throughput and low latency
+            // Reduce M for faster inserts, acceptable recall trade-off
+            return std::max(8, base_M - 4);
+            
+        case WorkloadType::ANALYTICS:
+            // Analytics: Maximize recall, tolerate higher memory/latency
+            // Increase M for better graph connectivity
+            return std::min(48, base_M + 8);
+            
+        case WorkloadType::RAG:
+            // RAG: Balance recall and latency, medium-high M
+            return std::min(40, base_M + 4);
+            
+        case WorkloadType::BATCH_INSERT:
+            // Batch insert: Optimize for fast bulk loading
+            return std::max(8, base_M - 6);
+            
+        case WorkloadType::MIXED:
+        default:
+            // Balanced configuration
+            return base_M;
     }
 }
 
-int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M) {
+int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M, WorkloadType workload) {
     // ef_construction should be roughly 10-20x M for good recall
-    // Scale with dataset size
+    // Scale with dataset size and adjust for workload
     
     int base_ef = M * 12;
     
+    // Dataset size scaling
     if (dataset_size < 10000) {
-        return base_ef;
+        base_ef = base_ef;
     } else if (dataset_size < 100000) {
-        return static_cast<int>(base_ef * 1.5);
+        base_ef = static_cast<int>(base_ef * 1.5);
     } else if (dataset_size < 1000000) {
-        return base_ef * 2;
+        base_ef = base_ef * 2;
     } else {
-        return base_ef * 3;
+        base_ef = base_ef * 3;
+    }
+    
+    // Workload-specific adjustments
+    switch (workload) {
+        case WorkloadType::OLTP:
+            // OLTP: Prioritize insert speed, reduce ef_construction
+            return static_cast<int>(base_ef * 0.7);
+            
+        case WorkloadType::ANALYTICS:
+            // Analytics: Maximize index quality for better query performance
+            return static_cast<int>(base_ef * 1.3);
+            
+        case WorkloadType::RAG:
+            // RAG: High-quality index for accurate retrieval
+            return static_cast<int>(base_ef * 1.2);
+            
+        case WorkloadType::BATCH_INSERT:
+            // Batch insert: Fast construction, can rebuild later if needed
+            return static_cast<int>(base_ef * 0.6);
+            
+        case WorkloadType::MIXED:
+        default:
+            return base_ef;
     }
 }
 
@@ -184,8 +238,37 @@ void HnswParameterTuner::adapt() {
 
 int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
     // Base efSearch calculation: scale with k and log(dataset_size)
+    // Adjusted for workload-specific requirements
     
     double base_ef = k * 2.0; // Start with 2x k
+    
+    // Workload-specific multipliers
+    switch (config_.workload) {
+        case WorkloadType::OLTP:
+            // OLTP: Minimize efSearch for lower latency
+            base_ef = k * 1.5;
+            break;
+            
+        case WorkloadType::ANALYTICS:
+            // Analytics: Higher efSearch for better recall
+            base_ef = k * 3.0;
+            break;
+            
+        case WorkloadType::RAG:
+            // RAG: Balance between speed and accuracy
+            base_ef = k * 2.5;
+            break;
+            
+        case WorkloadType::BATCH_INSERT:
+            // Batch insert: Not applicable for search, use default
+            base_ef = k * 2.0;
+            break;
+            
+        case WorkloadType::MIXED:
+        default:
+            base_ef = k * 2.0;
+            break;
+    }
     
     // Scale with dataset size (logarithmically)
     if (dataset_size > 10000) {
@@ -196,6 +279,82 @@ int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
     // Clamp to configured range
     int ef = static_cast<int>(base_ef);
     return std::clamp(ef, config_.ef_search_min, config_.ef_search_max);
+}
+
+HnswParameterTuner::Config HnswParameterTuner::getWorkloadOptimizedConfig(
+    size_t dataset_size,
+    WorkloadType workload) {
+    
+    Config config;
+    config.workload = workload;
+    
+    // Set M and ef_construction based on workload
+    config.M = getRecommendedM(dataset_size, workload);
+    config.ef_construction = getRecommendedEfConstruction(dataset_size, config.M, workload);
+    
+    // Workload-specific runtime parameters
+    switch (workload) {
+        case WorkloadType::OLTP:
+            // OLTP: Low latency, acceptable recall
+            config.ef_search_min = 16;
+            config.ef_search_max = 128;
+            config.ef_search_default = 32;
+            config.target_recall = 0.90;  // Slightly lower for speed
+            config.target_latency = std::chrono::milliseconds(5);  // Aggressive latency target
+            config.adaptive = true;
+            config.scale_with_dataset = true;
+            break;
+            
+        case WorkloadType::ANALYTICS:
+            // Analytics: High recall, tolerate higher latency
+            config.ef_search_min = 64;
+            config.ef_search_max = 512;
+            config.ef_search_default = 128;
+            config.target_recall = 0.98;  // High recall requirement
+            config.target_latency = std::chrono::milliseconds(50);  // More relaxed latency
+            config.adaptive = true;
+            config.scale_with_dataset = true;
+            break;
+            
+        case WorkloadType::RAG:
+            // RAG: Balance speed and accuracy for LLM applications
+            config.ef_search_min = 32;
+            config.ef_search_max = 256;
+            config.ef_search_default = 64;
+            config.target_recall = 0.95;  // High but not maximum recall
+            config.target_latency = std::chrono::milliseconds(15);
+            config.adaptive = true;
+            config.scale_with_dataset = true;
+            break;
+            
+        case WorkloadType::BATCH_INSERT:
+            // Batch insert: Optimize for throughput
+            config.ef_search_min = 32;
+            config.ef_search_max = 256;
+            config.ef_search_default = 64;
+            config.target_recall = 0.92;
+            config.target_latency = std::chrono::milliseconds(10);
+            config.adaptive = false;  // Don't adapt during bulk insert
+            config.scale_with_dataset = false;
+            break;
+            
+        case WorkloadType::MIXED:
+        default:
+            // Mixed: Balanced configuration
+            config.ef_search_min = 32;
+            config.ef_search_max = 512;
+            config.ef_search_default = 64;
+            config.target_recall = 0.95;
+            config.target_latency = std::chrono::milliseconds(10);
+            config.adaptive = true;
+            config.scale_with_dataset = true;
+            break;
+    }
+    
+    // Common settings
+    config.stats_window_size = 1000;
+    
+    return config;
 }
 
 // HnswMemoryOptimizer implementation
