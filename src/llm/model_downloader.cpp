@@ -6,6 +6,10 @@
 #include <chrono>
 #include <filesystem>
 #include <iomanip>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <cstdlib>
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
@@ -23,9 +27,9 @@ namespace fs = std::filesystem;
 namespace themis {
 namespace llm {
 
-#ifdef THEMIS_ENABLE_CURL
 namespace {
 
+#ifdef THEMIS_ENABLE_CURL
 // CURL callback for writing data to file
 size_t writeFileCallback(void* ptr, size_t size, size_t nmemb, FILE* stream) {
     size_t written = fwrite(ptr, size, nmemb, stream);
@@ -240,17 +244,15 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
         return result;
     }
 
-    // Now export the model to GGUF format
-    if (!exportOllamaModel(config.ollama_url, config.model_name, output_path.string())) {
-        result.error_message = "Failed to export model to GGUF format";
-        LOG_ERROR("{}", result.error_message);
-        return result;
-    }
-
-    result.success = true;
-    result.model_path = output_path.string();
-    result.file_size_bytes = fs::file_size(output_path);
-
+    // NOTE: Ollama model export to GGUF is not currently implemented.
+    // Ollama stores models in a content-addressable blob format that requires
+    // additional work to convert to GGUF. Users should use Ollama CLI to export.
+    LOG_ERROR("Ollama model export to GGUF is not implemented");
+    LOG_ERROR("Workaround: Use 'ollama show {} --modelfile' to export manually", config.model_name);
+    
+    result.success = false;
+    result.error_message = "Ollama model export to GGUF format is not supported. "
+                          "Use Ollama CLI: ollama show " + config.model_name + " --modelfile";
     return result;
 #else
     ModelDownloadResult result;
@@ -452,6 +454,12 @@ ModelDownloadResult ModelDownloader::downloadFromURL(const std::string& url,
 
     // Move temp file to final location
     try {
+        // Remove existing destination if present to avoid rename failure
+        if (fs::exists(output_path)) {
+            LOG_WARN("Destination file already exists, removing: {}", output_path);
+            fs::remove(output_path);
+        }
+        
         fs::rename(temp_path, output_path);
     } catch (const std::exception& e) {
         result.error_message = std::string("Failed to rename temp file: ") + e.what();

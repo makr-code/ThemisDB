@@ -34,12 +34,20 @@ std::string timeToISO8601(const std::chrono::system_clock::time_point& tp) {
     return std::string(buf);
 }
 
-// Parse ISO 8601 string to time_point
+// Parse ISO 8601 string to time_point (expects UTC timestamps with 'Z' suffix)
 std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
     std::tm tm_val = {};
     std::istringstream ss(iso);
     ss >> std::get_time(&tm_val, "%Y-%m-%dT%H:%M:%S");
-    return std::chrono::system_clock::from_time_t(std::mktime(&tm_val));
+    
+    // Use timegm for UTC conversion (POSIX) or _mkgmtime (Windows)
+    #ifdef _WIN32
+        time_t time_t_val = _mkgmtime(&tm_val);
+    #else
+        time_t time_t_val = timegm(&tm_val);
+    #endif
+    
+    return std::chrono::system_clock::from_time_t(time_t_val);
 }
 
 } // anonymous namespace
@@ -90,7 +98,7 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
         }
     }
     
-    // Load model registry from BaseEntity storage or filesystem
+    // Load model registry from filesystem (BaseEntity loading not yet implemented)
     loadModelRegistry();
     
     LOG_INFO("LLM Deployment Plugin initialized (mode: {}, cache: {})", 
@@ -253,16 +261,41 @@ ModelDownloadResult LLMDeploymentPlugin::downloadModel(const std::string& model_
         result = downloader_->downloadFromURL(source->location, output_path, progress_callback);
     }
     else if (source->type == "local") {
-        // Copy from local filesystem
-        std::string src_path = source->location;
+        // Local filesystem source - support both directory and direct file paths
+        LOG_INFO("Copying model from local filesystem: {}", source->location);
+        
         std::string dst_path = getModelPath(model_id);
+        fs::path src_path(source->location);
         
         try {
+            // If the configured location is a directory, append the model filename
+            if (fs::is_directory(src_path)) {
+                // Use the destination filename derived from model_id
+                fs::path dst_filename = fs::path(dst_path).filename();
+                src_path /= dst_filename;
+                LOG_DEBUG("Resolved directory source to file: {}", src_path.string());
+            }
+            
+            // Validate that the resolved source path exists and is a regular file
+            if (!fs::exists(src_path)) {
+                result.error_message = "Local model source path does not exist: " + src_path.string();
+                LOG_ERROR("{}", result.error_message);
+                return result;
+            }
+            if (!fs::is_regular_file(src_path)) {
+                result.error_message = "Local model source path is not a file: " + src_path.string();
+                LOG_ERROR("{}", result.error_message);
+                return result;
+            }
+            
+            // Copy file
             fs::copy_file(src_path, dst_path, fs::copy_options::overwrite_existing);
+            
             result.success = true;
             result.model_path = dst_path;
             result.file_size_bytes = fs::file_size(dst_path);
-            LOG_INFO("Copied model from local source: {} -> {}", src_path, dst_path);
+            LOG_INFO("Copied model from local source: {} -> {}", src_path.string(), dst_path);
+            
         } catch (const std::exception& e) {
             result.error_message = std::string("Failed to copy local model: ") + e.what();
             LOG_ERROR("{}", result.error_message);
@@ -782,6 +815,7 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
         source.type = "ollama";
         source.location = config_.ollama_url;
         source.priority = 0;
+        LOG_DEBUG("No sources configured, using default Ollama source for model '{}'", model_id);
         return source;
     }
     
@@ -793,7 +827,10 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
               });
     
     // Return first source (highest priority)
-    // In a more sophisticated implementation, we could check availability
+    // TODO(enhancement): In the future, this could check if model_id exists
+    // in each source's model list and select the best match
+    LOG_DEBUG("Selected source '{}' (priority {}) for model '{}'",
+              sorted_sources[0].type, sorted_sources[0].priority, model_id);
     return sorted_sources[0];
 }
 
@@ -803,8 +840,17 @@ std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const
     std::replace(filename.begin(), filename.end(), ':', '_');
     std::replace(filename.begin(), filename.end(), '/', '_');
     
-    // Add .gguf extension if not present
-    if (filename.find('.') == std::string::npos) {
+    // Check if filename already has a known model file extension
+    fs::path temp_path{filename};
+    std::string ext = temp_path.extension().string();
+    std::transform(ext.begin(), ext.end(), ext.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    
+    bool has_known_extension = (ext == ".gguf" || ext == ".bin" || 
+                                ext == ".safetensors" || ext == ".onnx");
+    
+    // Add .gguf extension if no known extension is present
+    if (!has_known_extension) {
         filename += ".gguf";
     }
     

@@ -53,7 +53,7 @@ The audit logging system currently logs all operations with a "system" user. For
   - Audit trail for all operations
   - Version management
   - Progress tracking for downloads
-  - Resume capability for interrupted downloads
+  - Planned: Resume capability for interrupted downloads (not yet implemented)
 
 ## Configuration
 

@@ -7,6 +7,8 @@
 #include "llm/llm_deployment_plugin.h"
 #include "llm/model_downloader.h"
 #include <filesystem>
+#include <fstream>
+#include <vector>
 
 using namespace themis::llm;
 namespace fs = std::filesystem;
@@ -14,7 +16,10 @@ namespace fs = std::filesystem;
 class LLMDeploymentPluginTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_dir_ = "/tmp/themis_test_models";
+        // Use portable temp directory with unique subdirectory per test
+        fs::path temp_base = fs::temp_directory_path();
+        test_dir_ = (temp_base / "themis_test_models_deployment").string();
+        
         if (fs::exists(test_dir_)) {
             fs::remove_all(test_dir_);
         }
