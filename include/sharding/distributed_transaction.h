@@ -5,6 +5,7 @@
 #define THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
 
 #include "sharding/truetime.h"
+#include "sharding/wal_manager.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -176,6 +177,9 @@ private:
     std::shared_ptr<TrueTime> truetime_;
     Config config_;
     
+    // Write-Ahead Log for transaction recovery
+    std::unique_ptr<WALManager> wal_manager_;
+    
     mutable std::mutex mutex_;
     std::map<std::string, DistributedTransaction> transactions_;
     
@@ -258,6 +262,12 @@ private:
      * @param txn Distributed transaction
      */
     void logTransactionForRecovery(const DistributedTransaction& txn);
+    
+    /**
+     * @brief Log prepared state for recovery (for in-doubt transaction handling)
+     * @param txn Distributed transaction
+     */
+    void logPreparedStateForRecovery(const DistributedTransaction& txn);
     
     /**
      * @brief Recover in-doubt transactions from log
