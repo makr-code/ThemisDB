@@ -61,11 +61,18 @@ if(THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP)
     )
 endif()
 
-# GPU Vector Index implementation (CPU-only in current version)
+# GPU Vector Index implementation
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/index/gpu_vector_index.cpp
     )
+    
+    # Vulkan backend for GPU Vector Index
+    if(THEMIS_ENABLE_VULKAN)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/index/gpu_vector_index_vulkan.cpp
+        )
+    endif()
 endif()
 
 # Memory management for multi-GPU scenarios
