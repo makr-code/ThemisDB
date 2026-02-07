@@ -631,6 +631,6 @@ themisdb backup restore --name production-20250207
 
 ---
 
-**Last Updated**: February 2026  
+**Last Updated**: February 7, 2026  
 **Version**: 1.0  
 **Maintainer**: ThemisDB Team

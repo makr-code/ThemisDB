@@ -814,5 +814,5 @@ For questions or support, contact the ThemisDB team or visit our documentation a
 ---
 
 **Version**: 1.0  
-**Last Updated**: February 2026  
+**Last Updated**: February 7, 2026  
 **Maintainer**: ThemisDB Team
