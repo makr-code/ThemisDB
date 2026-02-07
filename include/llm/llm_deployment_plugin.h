@@ -2,6 +2,9 @@
 
 #include "llm/model_downloader.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/llm_model_storage.h"
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -46,6 +49,11 @@ struct DeploymentConfig {
     std::string cache_directory = "./models";
     bool enable_cache = true;
     size_t max_cache_size_gb = 100;  // Maximum cache size in GB
+    
+    // BaseEntity storage (RocksDB integration)
+    bool use_base_entity_storage = true;  // Store models in RocksDB as BaseEntity
+    std::shared_ptr<RocksDBWrapper> db;   // RocksDB instance
+    std::string collection_name = "llm_models";  // Collection name in RocksDB
     
     // Model sources (checked in priority order)
     std::vector<ModelSource> sources;
@@ -293,6 +301,7 @@ public:
     
 private:
     DeploymentConfig config_;
+    std::shared_ptr<LLMModelStorage> model_storage_;  // BaseEntity storage for models
     std::unique_ptr<ModelDownloader> downloader_;
     std::vector<ModelStatus> model_registry_;
     std::vector<AuditEntry> audit_log_;
@@ -306,6 +315,12 @@ private:
     bool verifyChecksum(const std::string& file_path, 
                         const std::string& expected_checksum,
                         const std::string& checksum_type);
+    
+    // BaseEntity storage helpers
+    bool saveModelToStorage(const ModelStatus& status, const std::string& file_path);
+    std::optional<LLMModelMetadata> loadModelFromStorage(const std::string& model_id);
+    bool updateModelInStorage(const std::string& model_id, const ModelStatus& status);
+    bool deleteModelFromStorage(const std::string& model_id);
 };
 
 } // namespace llm

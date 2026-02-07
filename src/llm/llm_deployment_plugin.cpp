@@ -51,6 +51,23 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     : config_(config), downloader_(std::make_unique<ModelDownloader>()) {
     
+    // Initialize BaseEntity storage if enabled
+    if (config_.use_base_entity_storage && config_.db) {
+        LLMModelStorage::Config storage_config;
+        storage_config.db = config_.db;
+        storage_config.collection_name = config_.collection_name;
+        storage_config.enable_encryption = false;  // Can be configured later
+        storage_config.enable_signatures = true;
+        storage_config.use_blob_storage = true;
+        storage_config.inline_threshold_mb = 100;  // Store large models in blob storage
+        
+        model_storage_ = std::make_shared<LLMModelStorage>(storage_config);
+        LOG_INFO("LLM Deployment Plugin: BaseEntity storage initialized (collection: {})", 
+                 config_.collection_name);
+    } else {
+        LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (no BaseEntity storage)");
+    }
+    
     // Create cache directory if it doesn't exist
     if (!fs::exists(config_.cache_directory)) {
         try {
@@ -73,7 +90,7 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
         }
     }
     
-    // Load model registry
+    // Load model registry from BaseEntity storage or filesystem
     loadModelRegistry();
     
     LOG_INFO("LLM Deployment Plugin initialized (mode: {}, cache: {})", 
@@ -162,7 +179,17 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
             status.checksum_type = "sha256";
         }
         
-        // Update registry
+        // Store in BaseEntity storage (RocksDB)
+        if (config_.use_base_entity_storage && model_storage_) {
+            bool stored = saveModelToStorage(status, model_path);
+            if (stored) {
+                LOG_INFO("Model metadata stored in RocksDB: {}", model_id);
+            } else {
+                LOG_WARN("Failed to store model metadata in RocksDB: {}", model_id);
+            }
+        }
+        
+        // Update registry (filesystem fallback)
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
                                [&](const ModelStatus& s) { return s.model_id == model_id; });
         
@@ -814,6 +841,150 @@ bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
     }
     
     return match;
+}
+
+// ============================================================================
+// BaseEntity Storage Integration
+// ============================================================================
+
+bool LLMDeploymentPlugin::saveModelToStorage(const ModelStatus& status, const std::string& file_path) {
+    if (!model_storage_) {
+        LOG_WARN("BaseEntity storage not initialized, skipping storage save");
+        return false;
+    }
+    
+    try {
+        // Convert ModelStatus to LLMModelMetadata
+        LLMModelMetadata metadata;
+        metadata.model_id = status.model_id;
+        metadata.model_name = status.model_id;
+        metadata.version = status.version;
+        metadata.file_path = status.model_path;
+        metadata.format = status.format;
+        metadata.size_bytes = status.size_bytes;
+        metadata.checksum = status.checksum;
+        metadata.last_used = status.last_used_at;
+        metadata.created_at = status.downloaded_at;
+        
+        // Extract metadata from custom metadata field
+        if (status.metadata.contains("architecture")) {
+            metadata.architecture = status.metadata["architecture"];
+        }
+        if (status.metadata.contains("quantization")) {
+            metadata.quantization = status.metadata["quantization"];
+        }
+        if (status.metadata.contains("parameter_count")) {
+            metadata.parameter_count = status.metadata["parameter_count"];
+        }
+        if (status.metadata.contains("context_length")) {
+            metadata.context_length = status.metadata["context_length"];
+        }
+        if (status.metadata.contains("capabilities")) {
+            metadata.capabilities = status.metadata["capabilities"].get<std::vector<std::string>>();
+        }
+        if (status.metadata.contains("languages")) {
+            metadata.languages = status.metadata["languages"].get<std::vector<std::string>>();
+        }
+        if (status.metadata.contains("tags")) {
+            metadata.tags = status.metadata["tags"].get<std::vector<std::string>>();
+        }
+        if (status.metadata.contains("source")) {
+            metadata.source = status.metadata["source"];
+        }
+        if (status.metadata.contains("source_url")) {
+            metadata.source_url = status.metadata["source_url"];
+        }
+        if (status.metadata.contains("license")) {
+            metadata.license = status.metadata["license"];
+        }
+        
+        // Store custom metadata
+        metadata.custom_metadata = status.metadata;
+        
+        // Optionally load model file data for blob storage
+        std::optional<std::vector<uint8_t>> model_data;
+        if (config_.use_base_entity_storage && fs::exists(file_path)) {
+            size_t file_size = fs::file_size(file_path);
+            
+            // Only load into memory if below threshold (100MB default)
+            if (file_size < 100 * 1024 * 1024) {
+                std::ifstream file(file_path, std::ios::binary);
+                std::vector<uint8_t> data(file_size);
+                file.read(reinterpret_cast<char*>(data.data()), file_size);
+                model_data = std::move(data);
+                LOG_DEBUG("Loaded model file into memory for blob storage: {} bytes", file_size);
+            } else {
+                LOG_INFO("Model file too large for inline storage, using file path only: {} MB", 
+                         file_size / (1024 * 1024));
+            }
+        }
+        
+        // Store in BaseEntity
+        bool success = model_storage_->storeModel(metadata, model_data);
+        if (success) {
+            LOG_INFO("Model stored in BaseEntity storage: {}", status.model_id);
+        } else {
+            LOG_ERROR("Failed to store model in BaseEntity storage: {}", status.model_id);
+        }
+        
+        return success;
+        
+    } catch (const std::exception& e) {
+        LOG_ERROR("Exception while saving model to storage: {}", e.what());
+        return false;
+    }
+}
+
+std::optional<LLMModelMetadata> LLMDeploymentPlugin::loadModelFromStorage(const std::string& model_id) {
+    if (!model_storage_) {
+        return std::nullopt;
+    }
+    
+    try {
+        return model_storage_->loadModel(model_id);
+    } catch (const std::exception& e) {
+        LOG_ERROR("Exception while loading model from storage: {}", e.what());
+        return std::nullopt;
+    }
+}
+
+bool LLMDeploymentPlugin::updateModelInStorage(const std::string& model_id, const ModelStatus& status) {
+    if (!model_storage_) {
+        return false;
+    }
+    
+    try {
+        // Convert ModelStatus to LLMModelMetadata
+        LLMModelMetadata metadata;
+        metadata.model_id = status.model_id;
+        metadata.model_name = status.model_id;
+        metadata.version = status.version;
+        metadata.file_path = status.model_path;
+        metadata.format = status.format;
+        metadata.size_bytes = status.size_bytes;
+        metadata.checksum = status.checksum;
+        metadata.last_used = status.last_used_at;
+        metadata.custom_metadata = status.metadata;
+        
+        return model_storage_->updateModel(model_id, metadata);
+        
+    } catch (const std::exception& e) {
+        LOG_ERROR("Exception while updating model in storage: {}", e.what());
+        return false;
+    }
+}
+
+bool LLMDeploymentPlugin::deleteModelFromStorage(const std::string& model_id) {
+    if (!model_storage_) {
+        return false;
+    }
+    
+    try {
+        return model_storage_->deleteModel(model_id);
+    } catch (const std::exception& e) {
+        LOG_ERROR("Exception while deleting model from storage: {}", e.what());
+        return false;
+    }
 }
 
 } // namespace llm
