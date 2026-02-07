@@ -86,7 +86,8 @@ Frontier LigraProcessor::process_edges(
     Frontier next_frontier(num_vertices_);
     
     // Use lock-free atomic operations for frontier updates in sparse mode
-    if (frontier.is_dense_mode() || next_frontier.size() > num_vertices_ * 0.1) {
+    // Check current frontier size to determine strategy
+    if (frontier.is_dense_mode() || frontier.size() > num_vertices_ * 0.1) {
         // For dense mode or large frontiers, switch to dense representation
         next_frontier.switch_to_dense();
         std::vector<std::atomic<bool>> atomic_dense(num_vertices_);
@@ -114,25 +115,29 @@ Frontier LigraProcessor::process_edges(
         }
     } else {
         // For sparse mode, use thread-local buffers to avoid lock contention
-        std::vector<std::vector<NodeID>> thread_local_frontiers(num_threads_);
-        std::atomic<size_t> thread_counter(0);
+        std::vector<std::vector<NodeID>> thread_buffers(num_threads_);
         
-        process_vertices(frontier, [&](NodeID src) {
+        // Thread index is derived from the worker thread context
+        // Each thread writes to its own buffer without synchronization
+        process_vertices(frontier, [&, buffers = &thread_buffers](NodeID src) {
             if (src >= adj_list.size()) return;
             
-            // Get thread-local buffer (no lock needed)
-            size_t thread_id = thread_counter.fetch_add(1, std::memory_order_relaxed) % num_threads_;
+            // Get thread-local buffer using thread ID hash
+            // This avoids atomic operations on a shared counter
+            size_t tid = std::hash<std::thread::id>{}(std::this_thread::get_id()) % num_threads_;
             
             for (NodeID dst : adj_list[src]) {
                 if (func(src, dst)) {
-                    thread_local_frontiers[thread_id].push_back(dst);
+                    (*buffers)[tid].push_back(dst);
                 }
             }
         });
         
-        // Merge thread-local frontiers (only locked once at the end)
-        for (const auto& local_frontier : thread_local_frontiers) {
-            for (NodeID v : local_frontier) {
+        // Merge thread-local frontiers into next_frontier
+        // Note: If Frontier::add() has internal locking, this is unavoidable
+        // but still better than locking on every edge (O(threads) vs O(edges))
+        for (const auto& buffer : thread_buffers) {
+            for (NodeID v : buffer) {
                 next_frontier.add(v);
             }
         }

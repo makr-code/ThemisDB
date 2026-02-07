@@ -967,7 +967,7 @@ counter.fetch_add(1, std::memory_order_seq_cst);
 | Optimization | Component | Improvement |
 |--------------|-----------|-------------|
 | Thread-local buffers | Metrics collection | 90% less contention |
-| std::shared_mutex | WiscKey value log | 30x read throughput |
+| std::shared_mutex | WiscKey value log | 10-50x read throughput |
 | Lock-free frontier | Ligra graph processing | 100x fewer lock ops |
 | RCU indexes | Vector search | 5ns → 2ns read latency |
 
