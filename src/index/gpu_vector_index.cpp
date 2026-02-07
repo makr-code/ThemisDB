@@ -35,6 +35,10 @@ public:
     std::vector<std::vector<float>> vectorData;
     std::unordered_map<std::string, size_t> idToIndex;
     
+    // Cached flattened vector data for GPU
+    std::vector<float> cachedFlatVectors;
+    bool flatVectorsCacheValid = false;
+    
     // GPU backend
 #ifdef THEMIS_ENABLE_HIP
     std::unique_ptr<themis::acceleration::HIPVectorBackend> hipBackend;
@@ -196,6 +200,25 @@ public:
         return false;
     }
     
+    // Helper to invalidate cached flattened vectors
+    void invalidateFlatVectorsCache() {
+        flatVectorsCacheValid = false;
+    }
+    
+    // Helper to get or build flattened vectors for GPU
+    const std::vector<float>& getFlatVectors() {
+        if (!flatVectorsCacheValid || cachedFlatVectors.size() != vectorData.size() * dimension) {
+            // Rebuild cache
+            cachedFlatVectors.resize(vectorData.size() * dimension);
+            for (size_t i = 0; i < vectorData.size(); ++i) {
+                std::copy(vectorData[i].begin(), vectorData[i].end(), 
+                         cachedFlatVectors.begin() + i * dimension);
+            }
+            flatVectorsCacheValid = true;
+        }
+        return cachedFlatVectors;
+    }
+    
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
             return false;
@@ -213,6 +236,9 @@ public:
             vectorData.push_back(vector);
             idToIndex[id] = index;
         }
+        
+        // Invalidate cache since vector data changed
+        invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
         return true;
@@ -237,6 +263,9 @@ public:
         vectorIds.pop_back();
         vectorData.pop_back();
         idToIndex.erase(id);
+        
+        // Invalidate cache since vector data changed
+        invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
         return true;
@@ -294,12 +323,8 @@ public:
         
         auto startTime = std::chrono::steady_clock::now();
         
-        // Flatten vector data for GPU
-        std::vector<float> flatVectors(vectorData.size() * dimension);
-        for (size_t i = 0; i < vectorData.size(); ++i) {
-            std::copy(vectorData[i].begin(), vectorData[i].end(), 
-                     flatVectors.begin() + i * dimension);
-        }
+        // Use cached flattened vectors for GPU (avoids O(N·dim) overhead per query)
+        const std::vector<float>& flatVectors = getFlatVectors();
         
         // Use GPU batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
@@ -370,12 +395,8 @@ public:
                      flatQueries.begin() + i * dimension);
         }
         
-        // Flatten vector data for GPU
-        std::vector<float> flatVectors(vectorData.size() * dimension);
-        for (size_t i = 0; i < vectorData.size(); ++i) {
-            std::copy(vectorData[i].begin(), vectorData[i].end(), 
-                     flatVectors.begin() + i * dimension);
-        }
+        // Use cached flattened vectors for GPU (avoids O(N·dim) overhead per batch)
+        const std::vector<float>& flatVectors = getFlatVectors();
         
         // Use GPU batch KNN search
         bool useL2 = (config.metric == DistanceMetric::L2);
