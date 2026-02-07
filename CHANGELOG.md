@@ -9,21 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **v1.5.x Query Optimizer Production Integration** 🎯
-  - **Shard Metadata Integration**: Replace hardcoded row estimates with actual shard metadata
-    - `DistributedQueryCostModel::getShardRowCount()` queries MetadataShard for accurate cardinality
+  - **Shard Metadata Integration (preparatory)**: Integration point for metadata-backed row estimates
+    - `DistributedQueryCostModel::getShardRowCount()` replaces hardcoded 10K constant with dynamic estimates
+    - Currently uses hash-based heuristic; full MetadataShard integration planned for v1.5.1
+    - Provides foundation for accurate cardinality estimation in distributed queries
     - Integrates with existing sharding infrastructure
-    - Enables accurate cost estimation for distributed queries
   - **Predicate-based Selectivity Estimation**: Calculate query selectivity from predicates
     - `DistributedQueryCostModel::calculatePredicateSelectivity()` analyzes query patterns
     - Histogram-based estimation framework (extensible)
     - Column-specific heuristics: ID columns (0.1%), status (20%), names (5%)
     - Combined predicates use product of individual selectivities
     - Bounded selectivity: [0.01%, 100%]
-  - **Network Latency Monitoring**: Real-time latency measurement for distributed queries
-    - `DistributedQueryCostModel::measureShardLatency()` integrates with PrometheusMetrics
-    - Latency-aware join strategy selection
+  - **Network Latency Monitoring (preparatory)**: Integration point for latency-aware query planning
+    - `DistributedQueryCostModel::measureShardLatency()` provides latency integration hook
+    - Currently uses naming-convention heuristics; Prometheus integration planned for v1.5.1
+    - Enables locality detection (< 1ms latency threshold)
     - Network-aware parallelism optimization
-    - Shard location awareness: local (~0.1ms), same-DC (~2ms), remote (~10ms)
+    - Foundation for latency-aware join strategies
   - **Comprehensive Integration Tests**: `tests/test_optimizer_v1_5_x_integration.cpp`
     - Tests for shard metadata integration
     - Tests for selectivity calculation

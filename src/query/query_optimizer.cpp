@@ -15,6 +15,7 @@
 #include <memory>
 #include <cmath>
 #include <thread>
+#include <functional>
 
 namespace themis {
 
@@ -287,7 +288,8 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 		// v1.5.x Production Integration: Measure real network latency
 		info.network_latency_ms = distributed_model_->measureShardLatency(shard_id);
 		
-		info.is_local = (shard_id == available_shards[0]);
+		// Determine locality from latency measurement (< 1ms = local)
+		info.is_local = (info.network_latency_ms < 1.0);
 		
 		shard_infos.push_back(info);
 	}
@@ -357,7 +359,7 @@ bool QueryOptimizer::DistributedQueryCostModel::shouldPrunePartition(
     // based on selectivity and shard metadata
     
     if (selectivity >= 0.9) {
-        // High selectivity - don't prune
+        // Low filtering / near full scan - don't prune
         return false;
     }
     
@@ -390,6 +392,11 @@ size_t QueryOptimizer::DistributedQueryCostModel::getOptimalParallelism(
         return 1;
     }
     
+    // Ensure available_threads is at least 1
+    if (available_threads == 0) {
+        available_threads = 1;
+    }
+    
     // For local shards, we can be more aggressive with parallelism
     size_t local_shards = 0;
     for (const auto& shard : shards) {
@@ -400,7 +407,8 @@ size_t QueryOptimizer::DistributedQueryCostModel::getOptimalParallelism(
     
     // If mostly remote shards, limit parallelism to avoid overwhelming network
     if (local_shards < num_shards / 2) {
-        return std::min({num_shards, available_threads / 2, size_t(16)});
+        size_t remote_parallelism = std::max(size_t(1), available_threads / 2);
+        return std::min({num_shards, remote_parallelism, size_t(16)});
     }
     
     // For local shards, use more aggressive parallelism

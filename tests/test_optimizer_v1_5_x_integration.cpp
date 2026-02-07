@@ -9,6 +9,7 @@
 #include "query/query_optimizer.h"
 #include "index/secondary_index.h"
 #include "index/advanced_vector_index.h"
+#include "storage/rocksdb_wrapper.h"
 #include <vector>
 #include <string>
 #include <random>
@@ -22,11 +23,13 @@ using namespace themis;
 class DistributedCostModelTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        secIdx = std::make_unique<SecondaryIndexManager>();
+        dbWrapper = std::make_unique<RocksDBWrapper>();
+        secIdx = std::make_unique<SecondaryIndexManager>(*dbWrapper);
         optimizer = std::make_unique<QueryOptimizer>(*secIdx);
         optimizer->enableAdaptiveOptimization(true);
     }
     
+    std::unique_ptr<RocksDBWrapper> dbWrapper;
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<QueryOptimizer> optimizer;
 };
@@ -272,11 +275,4 @@ TEST_F(DistributedCostModelTest, FullPipelineIntegration) {
     EXPECT_FALSE(plan.join_strategy.empty());
 }
 
-// ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif // THEMIS_GPU_ENABLED

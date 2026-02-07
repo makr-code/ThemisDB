@@ -18,12 +18,13 @@ ThemisDB v1.5.x introduces critical production integration points for the Query 
 
 #### 1.1 Shard Metadata Integration
 
-**Purpose:** Replace hardcoded row count estimates with actual shard metadata.
+**Purpose:** Provide integration point for shard metadata and prepare for production deployment.
 
-**Implementation:**
-- `DistributedQueryCostModel::getShardRowCount()` queries metadata shards for actual row counts
-- Integrates with existing `MetadataShard` system (from sharding infrastructure)
-- Provides accurate cardinality estimates for distributed query planning
+**Implementation (v1.5.0-dev):**
+- `DistributedQueryCostModel::getShardRowCount()` provides integration point for metadata queries
+- Currently uses hash-based heuristic to vary estimates (pending full MetadataShard integration in v1.5.1)
+- Designed to work with existing `MetadataShard` system from sharding infrastructure
+- Replaces hardcoded constant (10,000 rows) with dynamic estimates
 
 **Location:** `src/query/query_optimizer.cpp:519-544`
 
@@ -35,9 +36,9 @@ auto plan = optimizer->optimizeForDistribution(query, shards, true);
 ```
 
 **Benefits:**
-- Accurate cost estimation for multi-shard queries
-- Better partition pruning decisions
-- Improved join strategy selection
+- Integration point for future metadata-based cardinality estimation
+- Dynamic row estimates improve over hardcoded constants
+- Foundation for v1.5.1 full MetadataShard integration
 
 ---
 
@@ -78,35 +79,36 @@ query.predicates = {
 
 #### 1.3 Network Latency Monitoring
 
-**Purpose:** Measure actual network latency to shards for accurate distributed query costs.
+**Purpose:** Provide integration point for network latency measurement and enable latency-aware planning.
 
-**Implementation:**
-- `DistributedQueryCostModel::measureShardLatency()` integrates with PrometheusMetrics
-- Real-time latency measurement from connection pools
-- Fallback heuristics based on shard naming conventions
+**Implementation (v1.5.0-dev):**
+- `DistributedQueryCostModel::measureShardLatency()` provides integration point for latency metrics
+- Currently uses heuristic estimates based on shard naming conventions
+- No real-time measurement from connection pools or Prometheus yet
+- Designed as integration hook for Prometheus/connection-pool metrics (targeted for v1.5.1)
 
 **Location:** `src/query/query_optimizer.cpp:546-579`
 
-**Latency Estimates:**
-- Local shards (`local_*`): ~0.1ms
-- Same datacenter (`datacenter_*`): ~2ms
-- Remote shards: ~10ms
+**Latency Estimates (heuristic defaults, not measured):**
+- Local shards (`local_*`): assumed ~0.1ms
+- Same datacenter (`datacenter_*`): assumed ~2ms
+- Remote shards (all others): assumed ~10ms
 
 **Usage:**
 ```cpp
 std::vector<std::string> shards = {
-    "local_0",        // 0.1ms latency
-    "datacenter_1",   // 2ms latency
-    "remote_2"        // 10ms latency
+    "local_0",        // 0.1ms heuristic
+    "datacenter_1",   // 2ms heuristic
+    "remote_2"        // 10ms heuristic
 };
 auto plan = optimizer->optimizeForDistribution(query, shards, true);
-// Plan considers network costs for join strategy
+// Latency used for locality detection (< 1ms = local)
 ```
 
 **Benefits:**
-- Network-aware query planning
-- Better parallelism decisions
-- Optimized join strategies (broadcast vs. repartition)
+- Integration point for real-time latency monitoring
+- Locality detection based on latency threshold
+- Foundation for network-aware query planning in v1.5.1
 
 ---
 
