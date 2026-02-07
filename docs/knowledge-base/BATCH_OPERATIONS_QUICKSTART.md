@@ -164,7 +164,7 @@ bulk_load_with_monitoring(data)
 2. **Don't disable WAL in production**
    ```python
    # Bad - data loss on crash
-   options = {"disable_wal": true}  # Only for benchmarks!
+   options = {"disable_wal": True}  # Only for benchmarks!
    ```
 
 3. **Don't ignore errors**

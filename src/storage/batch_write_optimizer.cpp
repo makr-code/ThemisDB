@@ -16,6 +16,14 @@ BatchWriteOptimizer::BatchWriteOptimizer(const Config& config)
     : config_(config)
 {
     validateConfig(config_);
+    
+    // Log warnings once during initialization
+    if (config_.durability == DurabilityMode::NoSync) {
+        THEMIS_WARN("BatchWriteOptimizer: NoSync mode active - risk of data loss!");
+    }
+    if (config_.disable_wal) {
+        THEMIS_WARN("BatchWriteOptimizer: WAL disabled - data cannot be recovered!");
+    }
 }
 
 BatchWriteOptimizer::~BatchWriteOptimizer() = default;
@@ -40,14 +48,14 @@ rocksdb::WriteOptions BatchWriteOptimizer::getOptimizedWriteOptions(
         case DurabilityMode::NoSync:
             opts.sync = false;
             opts.disableWAL = false;  // Keep WAL for recovery
-            THEMIS_WARN("BatchWriteOptimizer: NoSync mode active - risk of data loss!");
+            // Warning logged during initialization
             break;
     }
     
     // Disable WAL entirely if configured (maximum speed, no durability)
     if (config_.disable_wal) {
         opts.disableWAL = true;
-        THEMIS_WARN("BatchWriteOptimizer: WAL disabled - data cannot be recovered!");
+        // Warning logged during initialization
     }
     
     // Low-priority writes don't block normal operations

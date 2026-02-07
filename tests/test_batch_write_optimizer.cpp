@@ -155,19 +155,19 @@ TEST_F(BatchWriteOptimizerTest, ConcurrentRecordBatchWriteSafe) {
     BatchWriteOptimizer optimizer;
     
     // Test thread safety by recording from multiple threads
-    std::vector<std::thread> threads;
+    std::vector<std::thread> worker_threads;
     const int num_threads = 10;
     const int writes_per_thread = 100;
     
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([&optimizer, writes_per_thread]() {
+        worker_threads.emplace_back([&optimizer, writes_per_thread]() {
             for (int j = 0; j < writes_per_thread; ++j) {
                 optimizer.recordBatchWrite(10, 1.0);
             }
         });
     }
     
-    for (auto& t : threads) {
+    for (auto& t : worker_threads) {
         t.join();
     }
     
