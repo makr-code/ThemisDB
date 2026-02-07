@@ -936,7 +936,7 @@ std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 									  const std::vector<std::string>* whitelist) const {
 	// Cache-aware optimized implementation with prefetching and partial sort
-	// v1.6.0 Enhancement: Cache-blocking for 1536D vectors
+	// Cache Optimization: Cache-blocking for 1536D vectors
 	// - Block size: 8 vectors (~48KB) to fit in L1 cache
 	// - Prefetch ahead: 2 blocks (16 vectors) into L2 cache
 	// - Multi-level prefetch: start, middle, and end of each 1536D vector
@@ -1087,9 +1087,9 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							// Use prefetch lambda defined earlier in this function
 							prefetch(&vec.front());
 							// Prefetch middle and end of 1536D vector (spans 6KB / ~96 cache lines)
-							if (vec.size() >= 384) prefetch(&vec[384]);
-							if (vec.size() >= 768) prefetch(&vec[768]);
-							if (vec.size() >= 1152) prefetch(&vec[1152]);
+							if (vec.size() > 384) prefetch(&vec[384]);
+							if (vec.size() > 768) prefetch(&vec[768]);
+							if (vec.size() > 1152) prefetch(&vec[1152]);
 						}
 					}
 				}

@@ -1,6 +1,6 @@
 // SIMD distance calculations for vector embeddings
 // 
-// CACHE OPTIMIZATION (v1.6.0):
+// CACHE OPTIMIZATION:
 // - Prefetch hints for 1536D vectors (OpenAI ada-002 embeddings)
 // - Prefetch distance: 64 floats (256 bytes) ahead into L2 cache
 // - Reduces L2/L3 cache misses by ~10-20% for large batch operations

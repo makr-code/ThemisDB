@@ -17,7 +17,7 @@ struct EmbeddingCacheImpl;  // Forward declaration for pimpl
  * 
  * v1.2.0 Feature: Cost reduction through embedding reuse
  * v1.3.0 Update: Real vector index integration with HNSW
- * v1.6.0 Optimization: Cache-aligned storage for 1536D vectors
+ * v1.5.0+ Optimization: Cache-aligned storage for 1536D vectors
  * 
  * Benefits:
  * - 70-90% cost reduction (avoid redundant OpenAI API calls)
@@ -88,10 +88,7 @@ public:
      * Uses HNSW ANN search if enabled, otherwise brute-force cosine similarity.
      * Returns cache hit if similarity >= threshold and entry not expired.
      * 
-     * Accepts both aligned and unaligned vectors for flexibility.
-     * If an unaligned vector is provided, it will be used directly (slight perf penalty).
-     * 
-     * @param query_embedding Query embedding vector (can be aligned or unaligned)
+     * @param query_embedding Query embedding vector
      * @return Cached entry if similarity > threshold
      */
     std::optional<CacheEntry> query(const std::vector<float>& query_embedding);
@@ -101,10 +98,10 @@ public:
      * 
      * Evicts oldest entry (LRU) if cache is full.
      * Adds to HNSW index if enabled.
-     * The embedding will be stored in aligned memory for efficient SIMD operations.
+     * The embedding will be stored internally in aligned memory for efficient SIMD operations.
      * 
      * @param query_text Original query text
-     * @param embedding Embedding vector (will be copied to aligned storage)
+     * @param embedding Embedding vector (will be copied to aligned storage internally)
      * @param metadata Optional JSON metadata
      */
     bool store(const std::string& query_text, 

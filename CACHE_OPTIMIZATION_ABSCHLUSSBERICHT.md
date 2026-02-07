@@ -1,7 +1,6 @@
 # Cache-Miss Optimierungen für 1536D Vektordaten - Abschlussbericht
 
 **Projekt:** ThemisDB Cache-Optimierung  
-**Version:** 1.6.0  
 **Branch:** copilot/optimize-cache-miss-risk  
 **Datum:** 2026-02-07  
 **Status:** ✅ ABGESCHLOSSEN

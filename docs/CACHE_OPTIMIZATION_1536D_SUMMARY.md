@@ -1,8 +1,7 @@
 # Cache-Miss Optimization for 1536D Vector Data - Implementation Summary
 
-**Version:** 1.6.0  
-**Date:** 2026-02-07  
-**Branch:** copilot/optimize-cache-miss-risk
+**Branch:** copilot/optimize-cache-miss-risk  
+**Date:** 2026-02-07
 
 ## Objective
 
@@ -133,17 +132,17 @@ Minimize cache-miss risk for 1536-dimensional vector data (OpenAI ada-002, GPT-4
 ### Basic Usage
 
 ```cpp
-#include "cache/aligned_vector_allocator.h"
+#include <vector>
 
-// Create aligned embedding vector
-themis::cache::AlignedVector<float> embedding(1536);
+// Create embedding storage
+std::vector<float> embedding(1536);
 
 // Fill from model output
 for (size_t i = 0; i < 1536; ++i) {
     embedding[i] = model_output[i];
 }
 
-// Store in cache (benefits from alignment automatically)
+// Store in cache (internally uses aligned storage for SIMD optimization)
 embedding_cache.store("my_query", embedding);
 ```
 

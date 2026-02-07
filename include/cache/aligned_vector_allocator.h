@@ -1,7 +1,7 @@
 // ThemisDB Aligned Vector Allocator
 // Cache-line aligned allocator for high-dimensional embedding vectors
 //
-// CACHE OPTIMIZATION (v1.6.0):
+// CACHE OPTIMIZATION:
 // - 32-byte alignment for AVX2/AVX-512 SIMD operations
 // - Reduces unaligned load penalties in distance calculations
 // - Optimized for 1536D vectors (OpenAI ada-002 embeddings)
@@ -16,6 +16,8 @@
 #include <cstddef>
 #include <limits>
 #include <memory>
+#include <vector>
+#include <type_traits>
 #include "performance/allocator.h"
 
 namespace themis {

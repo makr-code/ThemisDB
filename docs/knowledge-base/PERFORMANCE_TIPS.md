@@ -563,17 +563,17 @@ ThemisDB v1.6.0 introduces targeted cache optimizations for 1536-dimensional emb
 **Usage Example:**
 
 ```cpp
-#include "cache/aligned_vector_allocator.h"
+#include <vector>
 
-// Create cache-aligned embedding storage
-themis::cache::AlignedVector<float> embedding(1536);
+// Create embedding storage
+std::vector<float> embedding(1536);
 
 // Fill embedding from model
 for (size_t i = 0; i < 1536; ++i) {
     embedding[i] = model_output[i];
 }
 
-// Store in cache (automatically benefits from alignment)
+// Store in cache (internally uses aligned storage for SIMD optimization)
 cache.store("query_key", embedding);
 ```
 
@@ -585,9 +585,6 @@ cache:
     # Cache size (affects how many 1536D vectors fit in memory)
     # Each 1536D vector = ~6KB, so 100k vectors = ~600MB
     max_entries: 100000
-    
-    # Use aligned allocator (recommended for SIMD performance)
-    use_aligned_storage: true
     
     # Enable HNSW index for fast ANN search
     use_vector_index: true
