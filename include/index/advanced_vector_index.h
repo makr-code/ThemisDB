@@ -43,7 +43,7 @@ public:
         
         // ADC (Asymmetric Distance Computation) Parameters (v1.5.x)
         bool use_adc_tables = true;    // Enable ADC tables for ~40% faster search
-        bool polysemous_ht = 0;        // Polysemous codes for early termination
+        int polysemous_ht = 0;         // Polysemous codes for early termination (0=disabled)
         
         // GPU Settings
         bool use_gpu = false;          // Use GPU acceleration

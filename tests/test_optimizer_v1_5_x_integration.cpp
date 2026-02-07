@@ -11,6 +11,7 @@
 #include "index/advanced_vector_index.h"
 #include <vector>
 #include <string>
+#include <random>
 
 using namespace themis;
 
@@ -183,10 +184,14 @@ TEST(FaissADCTables, PerformanceImprovement) {
     const size_t num_vectors = 1000;
     const size_t k = 10;
     
+    // Use fixed seed for reproducible tests
+    std::mt19937 rng(42);
+    std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+    
     // Generate random training data
     std::vector<float> training_data(num_vectors * dimension);
     for (auto& val : training_data) {
-        val = static_cast<float>(rand()) / RAND_MAX;
+        val = dist(rng);
     }
     
     // Index WITH ADC tables (v1.5.x default)
@@ -202,7 +207,7 @@ TEST(FaissADCTables, PerformanceImprovement) {
     // Search
     std::vector<float> query(dimension);
     for (auto& val : query) {
-        val = static_cast<float>(rand()) / RAND_MAX;
+        val = dist(rng);
     }
     
     auto result = index_with_adc.search(query.data(), k);

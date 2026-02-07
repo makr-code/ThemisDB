@@ -70,7 +70,7 @@ bool AdvancedVectorIndex::initializeIndex() {
                 }
                 
                 idx = ivf_pq;
-                THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}, adc={}",
+                THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}, adc={}", 
                            config_.nlist, config_.pq_m, config_.pq_nbits, 
                            config_.use_adc_tables);
                 break;
