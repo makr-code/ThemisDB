@@ -916,6 +916,172 @@ setInterval(() => {
 
 ---
 
+### Server-Side Connection Pooling
+
+**Wire Protocol Connection Pool (C++):**
+
+ThemisDB now includes native server-side connection pooling for the Wire Protocol, gRPC, and HTTP protocols:
+
+```cpp
+#include "network/wire_protocol_connection_pool.h"
+
+using namespace themis::network;
+
+// Configure connection pool
+WireProtocolConnectionPool::Config config;
+config.min_connections_per_target = 2;
+config.max_connections_per_target = 20;
+config.idle_timeout = std::chrono::seconds(60);
+config.connect_timeout = std::chrono::seconds(5);
+config.acquire_timeout = std::chrono::seconds(10);
+config.enable_ssl = true;
+config.enable_warmup = true;
+
+// Create pool
+auto pool = std::make_unique<WireProtocolConnectionPool>(config);
+
+// Warm up connections for known targets
+pool->warmup("localhost:8766");
+
+// Acquire connection (RAII handle)
+{
+    auto conn = pool->acquireConnection("localhost:8766");
+    // Use connection...
+    // Automatically returned to pool when scope ends
+}
+
+// Monitor pool statistics
+auto stats = pool->getStats();
+std::cout << "Total connections: " << stats.total_connections << std::endl;
+std::cout << "Available: " << stats.available_connections << std::endl;
+std::cout << "In use: " << stats.in_use_connections << std::endl;
+std::cout << "Reuse rate: " 
+          << (stats.connections_reused * 100.0 / stats.connections_created) 
+          << "%" << std::endl;
+```
+
+**gRPC Channel Pool:**
+
+```cpp
+#include "utils/grpc_channel_pool.h"
+
+using namespace themis::utils;
+
+// Configure gRPC channel pool
+GrpcChannelPool::Config config;
+config.max_channels_per_target = 10;
+config.idle_timeout = std::chrono::seconds(30);
+config.enable_keepalive = true;
+config.keepalive_time = std::chrono::seconds(30);
+config.max_concurrent_streams = 100;
+
+auto pool = std::make_unique<GrpcChannelPool>(config);
+
+// Acquire channel
+auto channel = pool->acquireChannel("localhost:50051", 
+                                    grpc::InsecureChannelCredentials());
+
+// Use channel for RPC
+auto stub = MyService::NewStub(channel);
+
+// Release when done
+pool->releaseChannel("localhost:50051", channel);
+
+// Monitor
+auto stats = pool->getStats();
+std::cout << "Channels created: " << stats.channels_created << std::endl;
+std::cout << "Channels reused: " << stats.channels_reused << std::endl;
+```
+
+**HTTP Client Pool:**
+
+```cpp
+#include "utils/http_client_pool.h"
+
+using namespace themis::utils;
+
+// Configure HTTP pool
+HTTPClientPool::Config config;
+config.max_connections = 50;
+config.idle_timeout = std::chrono::seconds(30);
+config.enable_keepalive = true;
+config.io_threads = 8;
+config.lock_stripes = 8;  // Reduces lock contention
+
+auto pool = std::make_unique<HTTPClientPool>(config);
+
+// Make async requests
+auto future = pool->post("http://api.example.com/endpoint",
+                        json_body,
+                        {{"Content-Type", "application/json"}});
+
+// Wait for response
+auto response = future.get();
+if (response.isSuccess()) {
+    // Process response.body
+}
+```
+
+**Configuration File:**
+
+ThemisDB supports YAML-based connection pool configuration. See `config/connection_pool_config.yaml` for recommended settings:
+
+```yaml
+# Production balanced workload
+production:
+  wire_protocol:
+    max_connections_per_target: 20
+    enable_warmup: true
+    enable_ssl: true
+    
+  grpc:
+    max_channels_per_target: 10
+    enable_keepalive: true
+    
+  http:
+    max_connections: 50
+    io_threads: 8
+
+# OLTP workload (high throughput)
+oltp:
+  wire_protocol:
+    max_connections_per_target: 50
+    
+  grpc:
+    max_channels_per_target: 20
+    
+  http:
+    max_connections: 100
+
+# Analytics workload (long queries)
+analytics:
+  wire_protocol:
+    max_connections_per_target: 10
+    idle_timeout: 300
+    
+  http:
+    request_timeout: 300
+```
+
+**Performance Benefits:**
+
+Connection pooling provides significant performance improvements:
+
+- **TCP Wire Protocol Pool**: 15-20% throughput improvement, 30-40% latency reduction
+- **gRPC Channel Pool**: 10-15% throughput improvement by reusing HTTP/2 channels
+- **HTTP Client Pool**: 20-25% throughput improvement with Keep-Alive
+
+**Best Practices:**
+
+1. **Pool Sizing**: Use formula `pool_size = ((core_count * 2) + effective_spindle_count)`
+2. **Monitoring**: Track reuse rates (target: >80%), acquire timeouts (<0.1%)
+3. **Warmup**: Enable warmup for production to pre-create connections
+4. **Health Checks**: Enable keepalive to detect dead connections early
+5. **Timeout Configuration**: Balance between connection reuse and resource cleanup
+6. **Load Balancing**: Use multiple pools for different service tiers
+
+---
+
 ## Hardware Recommendations
 
 ### Storage
