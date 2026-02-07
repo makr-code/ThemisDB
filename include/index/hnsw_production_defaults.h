@@ -13,11 +13,13 @@ namespace index {
  * - Vector dimensionality
  * - Target recall vs latency trade-off
  * - Hardware capabilities
+ * - Workload type (OLTP, Analytics, Mixed, RAG)
  * 
  * Based on:
  * - HNSW paper (Malkov & Yashunin, 2018)
  * - ThemisDB benchmark results (BENCHMARK_RESULTS_COMPLETE_2025.md)
  * - Production deployments and A/B testing
+ * - PERFORMANCE_TIPS.md workload optimization guidelines
  */
 class HnswProductionDefaults {
 public:
@@ -25,6 +27,14 @@ public:
         LATENCY_OPTIMIZED,    // Min latency, ~95% recall
         BALANCED,             // Balanced latency/recall, ~97% recall
         RECALL_OPTIMIZED      // Max recall, ~99% recall, higher latency
+    };
+    
+    enum class WorkloadType {
+        OLTP,           // High-throughput, low-latency point queries
+        ANALYTICS,      // Large batch queries, complex aggregations
+        MIXED,          // Combination of OLTP and analytics
+        RAG,            // Retrieval-Augmented Generation workloads
+        BATCH_INSERT    // Bulk data loading optimization
     };
     
     struct HnswParams {
@@ -44,16 +54,30 @@ public:
     };
     
     /**
-     * @brief Get recommended parameters for dataset
+     * @brief Get recommended parameters for dataset and workload
      * @param dataset_size Expected number of vectors
      * @param dimension Vector dimensionality
      * @param profile Performance profile
+     * @param workload Workload type for optimization
      * @return Optimized HNSW parameters
      */
     static HnswParams getRecommendedParams(
         size_t dataset_size,
         size_t dimension,
-        PerformanceProfile profile = PerformanceProfile::BALANCED);
+        PerformanceProfile profile = PerformanceProfile::BALANCED,
+        WorkloadType workload = WorkloadType::MIXED);
+    
+    /**
+     * @brief Get workload-specific optimized parameters
+     * @param dataset_size Expected number of vectors
+     * @param dimension Vector dimensionality
+     * @param workload Workload type
+     * @return Parameters optimized for the specific workload
+     */
+    static HnswParams getWorkloadOptimizedParams(
+        size_t dataset_size,
+        size_t dimension,
+        WorkloadType workload);
     
     /**
      * @brief Get M parameter based on dataset size

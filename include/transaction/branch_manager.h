@@ -12,7 +12,16 @@
 #include <nlohmann/json.hpp>
 
 namespace themis {
+
+// Forward declaration
+namespace analytics {
+class DiffEngine;
+}
+
 namespace transaction {
+
+// Forward declaration
+class MergeEngine;
 
 using json = nlohmann::json;
 
@@ -100,11 +109,13 @@ public:
      * @param db Reference to RocksDB wrapper
      * @param changefeed Reference to Changefeed for sequence numbers
      * @param snapshot_manager Reference to SnapshotManager for tag resolution
+     * @param merge_engine Optional reference to MergeEngine for 3-way merges
      */
     explicit BranchManager(
         RocksDBWrapper& db, 
         Changefeed& changefeed,
-        SnapshotManager& snapshot_manager
+        SnapshotManager& snapshot_manager,
+        MergeEngine* merge_engine = nullptr
     );
     
     ~BranchManager() = default;
@@ -114,6 +125,12 @@ public:
     BranchManager& operator=(const BranchManager&) = delete;
     BranchManager(BranchManager&&) = default;
     BranchManager& operator=(BranchManager&&) = default;
+    
+    /**
+     * @brief Set MergeEngine for non-fast-forward merge support
+     * @param merge_engine Pointer to MergeEngine instance
+     */
+    void setMergeEngine(MergeEngine* merge_engine);
 
     /**
      * @brief Create a new branch
@@ -247,6 +264,7 @@ private:
     RocksDBWrapper& db_;
     Changefeed& changefeed_;
     SnapshotManager& snapshot_manager_;
+    MergeEngine* merge_engine_;  // Optional pointer for 3-way merge support
     
     mutable std::mutex mutex_;
     std::string active_branch_;

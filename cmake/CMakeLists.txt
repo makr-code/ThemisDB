@@ -1137,6 +1137,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/backup_manager.cpp
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/batch_write_optimizer.cpp
     
     ../src/metadata/schema_manager.cpp
     ../src/server/schema_api_handler.cpp
@@ -1472,6 +1473,7 @@ set(THEMIS_CORE_SOURCES
     
     # Network
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_connection_pool.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
@@ -2625,6 +2627,7 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
         ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_batch_write_optimizer.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE

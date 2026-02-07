@@ -1,0 +1,231 @@
+// ThemisDB Wire Protocol Connection Pool
+// Client-side connection pooling for Wire Protocol connections
+
+#pragma once
+
+#include <boost/asio.hpp>
+#include <boost/asio/ssl.hpp>
+#include <memory>
+#include <mutex>
+#include <queue>
+#include <condition_variable>
+#include <chrono>
+#include <atomic>
+#include <string>
+#include <thread>
+#include <unordered_map>
+
+namespace themis {
+namespace network {
+
+namespace net = boost::asio;
+namespace ssl = net::ssl;
+using tcp = net::ip::tcp;
+
+/**
+ * @brief Wire Protocol Connection Pool for client-side pooling
+ * 
+ * Provides:
+ * - TCP connection pooling (reduce handshake overhead)
+ * - Keep-Alive support
+ * - Per-target connection pooling
+ * - Automatic reconnection
+ * - Connection health checks
+ * - Thread-safe access
+ * 
+ * Performance Benefits:
+ * - Reduces TCP handshake overhead (3-way handshake)
+ * - Reuses authenticated sessions
+ * - Better throughput under high concurrency
+ * - Lower latency for subsequent requests
+ * 
+ * @see docs/knowledge-base/PERFORMANCE_TIPS.md (Connection Pooling section)
+ */
+class WireProtocolConnectionPool {
+public:
+    struct Config {
+        size_t min_connections_per_target = 2;        ///< Minimum connections per target
+        size_t max_connections_per_target = 20;       ///< Maximum connections per target
+        std::chrono::seconds idle_timeout{60};        ///< Connection idle timeout
+        std::chrono::seconds connect_timeout{5};      ///< Connection timeout
+        std::chrono::seconds acquire_timeout{10};     ///< Timeout for acquiring connection
+        std::chrono::seconds keepalive_interval{30};  ///< Keepalive ping interval
+        bool enable_ssl = false;                      ///< Enable SSL/TLS
+        bool enable_mtls = false;                     ///< Enable mutual TLS
+        std::string ssl_cert_path;                    ///< Client certificate path
+        std::string ssl_key_path;                     ///< Client key path
+        std::string ssl_ca_cert_path;                 ///< CA certificate path
+        size_t max_retries = 3;                       ///< Max connection retry attempts
+        bool enable_warmup = true;                    ///< Pre-create min connections on startup
+    };
+    
+    explicit WireProtocolConnectionPool(const Config& config = Config{});
+    ~WireProtocolConnectionPool();
+    
+    // Disable copy and move (maintenance thread captures this)
+    WireProtocolConnectionPool(const WireProtocolConnectionPool&) = delete;
+    WireProtocolConnectionPool& operator=(const WireProtocolConnectionPool&) = delete;
+    WireProtocolConnectionPool(WireProtocolConnectionPool&&) = delete;
+    WireProtocolConnectionPool& operator=(WireProtocolConnectionPool&&) = delete;
+    
+    /**
+     * @brief Pooled connection handle (RAII)
+     * 
+     * Automatically returns connection to pool when destroyed.
+     */
+    class ConnectionHandle {
+    public:
+        ConnectionHandle(
+            std::shared_ptr<tcp::socket> socket,
+            WireProtocolConnectionPool* pool,
+            const std::string& target
+        );
+        ~ConnectionHandle();
+        
+        // Disable copy, allow move
+        ConnectionHandle(const ConnectionHandle&) = delete;
+        ConnectionHandle& operator=(const ConnectionHandle&) = delete;
+        ConnectionHandle(ConnectionHandle&& other) noexcept;
+        ConnectionHandle& operator=(ConnectionHandle&& other) noexcept;
+        
+        tcp::socket& socket() { return *socket_; }
+        bool isValid() const { return socket_ && socket_->is_open(); }
+        
+    private:
+        std::shared_ptr<tcp::socket> socket_;
+        WireProtocolConnectionPool* pool_;
+        std::string target_;
+    };
+    
+    /**
+     * @brief Acquire a connection for the given target
+     * @param target Target address (e.g., "localhost:8766")
+     * @return Connection handle (RAII)
+     * @throws std::runtime_error if unable to acquire connection
+     */
+    ConnectionHandle acquireConnection(const std::string& target);
+    
+    /**
+     * @brief Get pool statistics
+     */
+    struct Stats {
+        size_t total_connections = 0;
+        size_t available_connections = 0;
+        size_t in_use_connections = 0;
+        size_t stale_connections_removed = 0;
+        size_t failed_connections = 0;
+        size_t acquire_timeouts = 0;
+        size_t connections_created = 0;
+        size_t connections_reused = 0;
+        size_t keepalive_checks_sent = 0;
+        
+        /**
+         * @brief Calculate connection reuse rate (0.0 - 1.0)
+         */
+        double getReuseRate() const {
+            size_t total = connections_created + connections_reused;
+            if (total == 0) return 0.0;
+            return static_cast<double>(connections_reused) / static_cast<double>(total);
+        }
+    };
+    
+    Stats getStats() const;
+    
+    /**
+     * @brief Warm up pool for target
+     * Creates minimum number of connections in advance
+     */
+    void warmup(const std::string& target);
+    
+    /**
+     * @brief Clear all pooled connections
+     */
+    void clear();
+    
+    /**
+     * @brief Prune stale connections from pool
+     */
+    void pruneStaleConnections();
+    
+private:
+    /**
+     * @brief Pooled connection with metadata
+     */
+    struct PooledConnection {
+        std::shared_ptr<tcp::socket> socket;
+        std::chrono::steady_clock::time_point last_used;
+        std::chrono::steady_clock::time_point created_at;
+        bool in_use = false;
+        bool authenticated = false;
+        
+        bool isStale(std::chrono::seconds timeout) const {
+            auto now = std::chrono::steady_clock::now();
+            return std::chrono::duration_cast<std::chrono::seconds>(now - last_used) > timeout;
+        }
+        
+        bool isHealthy() const {
+            return socket && socket->is_open();
+        }
+    };
+    
+    /**
+     * @brief Per-target connection pool
+     */
+    struct TargetPool {
+        std::mutex mutex;
+        std::condition_variable cv;
+        std::queue<std::shared_ptr<PooledConnection>> available;
+        std::unordered_map<tcp::socket*, std::shared_ptr<PooledConnection>> all_connections;
+        size_t active_count = 0;
+    };
+    
+    /**
+     * @brief Parse target string into host and port
+     */
+    std::pair<std::string, std::string> parseTarget(const std::string& target);
+    
+    /**
+     * @brief Create new connection for target
+     */
+    std::shared_ptr<tcp::socket> createConnection(const std::string& target);
+    
+    /**
+     * @brief Release connection back to pool
+     */
+    void releaseConnection(const std::string& target, std::shared_ptr<tcp::socket> socket);
+    
+    /**
+     * @brief Get or create target pool
+     */
+    std::shared_ptr<TargetPool> getOrCreateTargetPool(const std::string& target);
+    
+    /**
+     * @brief Perform connection health check
+     */
+    bool performHealthCheck(tcp::socket& socket);
+    
+    Config config_;
+    std::shared_ptr<net::io_context> io_context_;
+    std::shared_ptr<ssl::context> ssl_context_;
+    
+    mutable std::mutex pools_mutex_;
+    std::unordered_map<std::string, std::shared_ptr<TargetPool>> target_pools_;
+    
+    // Background thread for maintenance
+    std::thread maintenance_thread_;
+    std::atomic<bool> shutdown_{false};
+    std::mutex shutdown_mutex_;
+    std::condition_variable shutdown_cv_;
+    
+    // Statistics
+    std::atomic<size_t> total_connections_{0};
+    std::atomic<size_t> connections_created_{0};
+    std::atomic<size_t> connections_reused_{0};
+    std::atomic<size_t> stale_removed_{0};
+    std::atomic<size_t> failed_connections_{0};
+    std::atomic<size_t> acquire_timeouts_{0};
+    std::atomic<size_t> keepalive_checks_{0};
+};
+
+} // namespace network
+} // namespace themis

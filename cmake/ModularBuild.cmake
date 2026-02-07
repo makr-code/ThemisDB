@@ -202,6 +202,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/cte_cache.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/workload_cache_strategy.cpp
+    ../src/query/query_cache_manager.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -467,6 +469,7 @@ set(THEMIS_NETWORK_SOURCES
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_connection_pool.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp

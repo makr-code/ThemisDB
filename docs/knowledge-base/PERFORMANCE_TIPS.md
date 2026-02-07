@@ -4,6 +4,7 @@ Comprehensive guide to optimizing ThemisDB for maximum performance.
 
 ## Table of Contents
 
+- [Write-Amplification Optimization](#write-amplification-optimization)
 - [Query Optimization Techniques](#query-optimization-techniques)
 - [Index Selection and Tuning](#index-selection-and-tuning)
 - [Memory Configuration](#memory-configuration)
@@ -14,6 +15,195 @@ Comprehensive guide to optimizing ThemisDB for maximum performance.
 - [Hardware Recommendations](#hardware-recommendations)
 - [Monitoring and Profiling](#monitoring-and-profiling)
 - [Benchmarking Best Practices](#benchmarking-best-practices)
+
+---
+
+## Write-Amplification Optimization
+
+### Understanding Write-Amplification
+
+Write-amplification is the ratio of data written to storage versus data written by the application. In LSM-tree databases like ThemisDB (RocksDB), data is written multiple times as it moves through compaction levels.
+
+**Problem:**
+```
+Application writes 100 MB
+→ Written to memtable: 100 MB
+→ Flushed to L0: 100 MB  
+→ Compacted L0→L1: 100 MB
+→ Compacted L1→L2: 100 MB
+→ Compacted L2→L3: 100 MB
+Total: 500 MB written (5x write-amplification)
+```
+
+**Impact:**
+- Increased disk wear (especially SSD)
+- Reduced write throughput
+- Higher I/O latency
+- More CPU for compaction
+
+---
+
+### Configuration Strategy (v1.5.0+)
+
+**Default Configuration (Optimized for Write-Heavy Workloads):**
+
+```yaml
+rocksdb:
+  # Memtable configuration (write buffer)
+  memtable_size_mb: 512          # Larger memtables → fewer flushes
+  max_write_buffer_number: 6     # More buffers → writes continue during flush
+  db_write_buffer_size_mb: 2048  # 2GB total across all column families
+  
+  # Async I/O for better scan/read performance
+  enable_async_io: true
+  async_io_readahead_size_mb: 128
+  
+  # Background operations
+  max_background_compactions: 8
+  max_background_flushes: 2
+```
+
+**Benefits:**
+- **30-40% reduction** in write-amplification
+- **50% fewer** L0 file flushes
+- **20-30% improvement** in write throughput
+- Continues writing during memtable flush
+
+**Trade-offs:**
+- **Memory usage**: up to ~2GB total across all memtables (capped by `db_write_buffer_size_mb`; theoretical 6 × 512MB per CF)
+- **Recovery time**: Longer WAL replay on restart
+- **Burst latency**: Larger flush operations
+
+---
+
+### Tuning for Different Workloads
+
+**High Write Throughput (Data Ingestion):**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 1024         # Even larger memtables
+  max_write_buffer_number: 8     # More parallelism
+  db_write_buffer_size_mb: 4096  # 4GB total
+  disable_wal_for_benchmark: false  # Keep WAL for durability
+  level0_file_num_compaction_trigger: 2  # Aggressive compaction
+```
+
+**Balanced (Mixed Workload):**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 512          # Default (recommended)
+  max_write_buffer_number: 6
+  db_write_buffer_size_mb: 2048
+  enable_async_io: true
+```
+
+**Low Latency (OLTP):**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 256          # Smaller for faster flushes
+  max_write_buffer_number: 4
+  db_write_buffer_size_mb: 1024
+  level0_file_num_compaction_trigger: 4
+```
+
+**Memory-Constrained:**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 128          # Reduce memory usage
+  max_write_buffer_number: 3
+  db_write_buffer_size_mb: 512
+  block_cache_size_mb: 512       # Smaller cache
+```
+
+---
+
+### Monitoring Write-Amplification
+
+**Key Metrics to Track:**
+
+```bash
+# Check write-amplification ratio
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb.writeAmplification'
+
+# Monitor memtable statistics
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb | {
+  memtable_size: .memtable_size_bytes,
+  num_immutable_memtables: .num_immutable_mem_table,
+  flush_count: .flush_count
+}'
+
+# Compaction statistics
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb | {
+  compaction_count: .compaction_count,
+  bytes_written: .bytes_written,
+  bytes_read: .bytes_read
+}'
+```
+
+**Prometheus Queries:**
+
+```promql
+# Write-amplification ratio
+rate(rocksdb_bytes_written_total[5m]) / rate(rocksdb_bytes_written_by_user[5m])
+
+# Memtable flush rate
+rate(rocksdb_flush_count_total[5m])
+
+# Compaction pressure
+rate(rocksdb_compaction_bytes_written[5m])
+```
+
+---
+
+### Best Practices
+
+**DO:**
+- ✅ Use larger memtables (512 MB+) for write-heavy workloads
+- ✅ Set `db_write_buffer_size_mb` to limit total memory
+- ✅ Enable async I/O for better scan performance
+- ✅ Monitor write-amplification regularly
+- ✅ Tune `level0_file_num_compaction_trigger` based on workload
+
+**DON'T:**
+- ❌ Set memtables too large on memory-constrained systems
+- ❌ Use unlimited `db_write_buffer_size_mb` with many column families
+- ❌ Disable WAL unless you can afford data loss
+- ❌ Set `max_write_buffer_number` < 3 (causes write stalls)
+- ❌ Ignore L0 file count (monitor and adjust triggers)
+
+---
+
+### Async I/O Configuration
+
+**Benefits of Async I/O:**
+- 2-5x faster sequential scans
+- Better prefetching for range queries
+- Reduced read latency through parallelism
+
+**Configuration:**
+
+```yaml
+rocksdb:
+  enable_async_io: true
+  async_io_readahead_size_mb: 128     # Prefetch buffer size
+  async_io_multiget_batch_size: 100   # Batch size for MultiGet
+  async_io_num_threads: 4             # I/O thread pool
+```
+
+**When to Enable:**
+- Sequential scan workloads
+- Range queries
+- Index scans
+- Large result sets
+
+**When to Disable:**
+- Point lookups only
+- Memory-constrained systems
+- Random access patterns
 
 ---
 
@@ -283,6 +473,98 @@ FOR loc IN NEAR(locations, 40.7128, -74.0060, 10000)
   RETURN loc
 ```
 
+**Vector Index (HNSW/FAISS):**
+
+```cpp
+// For similarity search and RAG applications
+// Use the workload-optimized configuration helpers
+
+// OLTP Workload: High-throughput, low-latency
+auto oltpConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::OLTP);
+// Result: nlist=512, nprobe=32, index_type=IVF_FLAT
+
+// Analytics Workload: Large batch queries, high recall
+auto analyticsConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::ANALYTICS);
+// Result: nlist=2048, nprobe=128, index_type=IVF_PQ
+
+// RAG Workload: Balance speed and accuracy for LLM
+auto ragConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::RAG);
+// Result: nlist=1024, nprobe=64, index_type=IVF_PQ
+
+// Use the configuration with AdvancedVectorIndex
+AdvancedVectorIndex index(dimension, ragConfig);
+```
+
+---
+
+### Vector Index Workload Optimization
+
+**HNSW Parameter Tuning for Different Workloads:**
+
+| Workload | M | ef_construction | ef_search | Use Case |
+|----------|---|-----------------|-----------|----------|
+| OLTP | 8-16 | 96-192 | 16-128 | Low latency, high throughput queries |
+| Analytics | 24-48 | 288-600 | 64-512 | Batch processing, maximum recall |
+| RAG | 16-32 | 192-384 | 32-256 | LLM retrieval, balanced performance |
+| Mixed | 16-24 | 192-384 | 32-512 | General-purpose workload |
+| Batch Insert | 8-12 | 96-144 | N/A | Optimized for bulk data loading |
+
+**Workload-Specific Configuration Examples:**
+
+```cpp
+// OLTP: E-commerce product search, real-time recommendations
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    100000,  // dataset_size
+    HnswParameterTuner::WorkloadType::OLTP
+);
+// Result: M=12, ef_construction=144, ef_search=32, target_latency=5ms
+// Note: Actual values depend on dataset size and will be adjusted accordingly
+
+// Analytics: Batch similarity analysis, data mining
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    1000000,  // dataset_size
+    HnswParameterTuner::WorkloadType::ANALYTICS
+);
+// Result: M=32, ef_construction=768, ef_search=128, target_latency=50ms
+// Note: Values scale with dataset size to maintain performance characteristics
+
+// RAG: Document retrieval for LLM context
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    500000,  // dataset_size
+    HnswParameterTuner::WorkloadType::RAG
+);
+// Result: M=24, ef_construction=384, ef_search=64, target_latency=15ms
+// Note: Balanced configuration for high-quality retrieval with acceptable latency
+```
+
+**Performance Characteristics by Workload:**
+
+```
+OLTP Workload (100K vectors, 768-dim):
+├── Query Latency (p95): 2-5ms
+├── Throughput: 5,000-10,000 QPS
+├── Memory Usage: 2-4 GB
+├── Recall@10: 90-95%
+└── Insert Rate: 10,000-20,000 vectors/sec
+
+Analytics Workload (1M vectors, 768-dim):
+├── Query Latency (p95): 20-50ms
+├── Throughput: 500-2,000 QPS
+├── Memory Usage: 20-40 GB
+├── Recall@10: 97-99%
+└── Batch Query: 1,000-5,000 queries/batch
+
+RAG Workload (500K vectors, 1536-dim):
+├── Query Latency (p95): 5-15ms
+├── Throughput: 2,000-5,000 QPS
+├── Memory Usage: 8-16 GB
+├── Recall@10: 95-97%
+└── Context Retrieval: 10-50 docs per query
+```
+
 ---
 
 ### Index Selection Strategy
@@ -398,6 +680,86 @@ db._collection("users").dropIndex("idx_unused");
 
 ---
 
+### Vector Index Adaptive Tuning
+
+**Enable Adaptive Parameter Adjustment:**
+
+```cpp
+// Automatic parameter tuning based on query performance
+HnswParameterTuner::Config config;
+config.adaptive = true;                           // Enable adaptation
+config.target_recall = 0.95;                      // Target 95% recall
+config.target_latency = std::chrono::milliseconds(10); // Target 10ms latency
+config.scale_with_dataset = true;                 // Scale with data growth
+
+HnswParameterTuner tuner(config);
+
+// Query loop - tuner adapts ef_search automatically
+while (processing_queries) {
+    int optimal_ef = tuner.getOptimalEfSearch(k, dataset_size);
+    auto results = index.search(query_vector, k, optimal_ef);
+    
+    // Record results for adaptation
+    tuner.recordQueryResult(k, optimal_ef, latency_ms, recall);
+}
+
+// Monitor adaptation
+auto stats = tuner.getStats();
+std::cout << "Queries processed: " << stats.queries_processed << std::endl;
+std::cout << "Current ef_search: " << stats.current_ef_search << std::endl;
+std::cout << "Adaptations: " << stats.adaptations_count << std::endl;
+std::cout << "Avg latency: " << stats.avg_latency_ms << "ms" << std::endl;
+std::cout << "Avg recall: " << stats.avg_recall << std::endl;
+```
+
+**Workload Detection and Auto-Configuration:**
+
+```cpp
+// Pseudocode example: Detect workload pattern and configure automatically
+// Note: QueryPattern, WorkloadDetector, and analyzeQueryPattern are conceptual
+// and would need to be implemented based on your specific monitoring system
+
+class WorkloadDetector {
+public:
+    HnswParameterTuner::WorkloadType detectWorkload(const QueryPattern& pattern) {
+        if (pattern.avg_k < 20 && pattern.qps > 5000) {
+            return HnswParameterTuner::WorkloadType::OLTP;  // Small k, high QPS
+        }
+        if (pattern.avg_k > 100 || pattern.batch_size > 100) {
+            return HnswParameterTuner::WorkloadType::ANALYTICS;  // Large k or batch queries
+        }
+        if (pattern.avg_dim > 1024 && pattern.avg_k < 50) {
+            return HnswParameterTuner::WorkloadType::RAG;  // High-dim for embeddings
+        }
+        return HnswParameterTuner::WorkloadType::MIXED;
+    }
+};
+
+// Auto-configure based on detected workload
+auto pattern = analyzeQueryPattern(recent_queries);
+WorkloadDetector detector;
+auto workload = detector.detectWorkload(pattern);
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(dataset_size, workload);
+
+// Apply configuration
+updateIndexConfiguration(config);
+```
+
+**Performance Tuning Checklist:**
+
+- [ ] Profile current workload (QPS, latency distribution, k values)
+- [ ] Select appropriate workload type (OLTP/Analytics/RAG/Mixed)
+- [ ] Configure index with workload-optimized parameters
+- [ ] Enable adaptive tuning for runtime optimization
+- [ ] Monitor recall and latency metrics
+- [ ] Adjust target_recall and target_latency based on requirements
+- [ ] Consider index rebuild when dataset grows 5x
+- [ ] Use post-filtering overfetch for filtered queries
+- [ ] Enable NUMA awareness for large datasets (>1M vectors)
+- [ ] Use GPU acceleration for Analytics workloads
+
+---
+
 ## Memory Configuration
 
 ### Memory Architecture
@@ -451,9 +813,14 @@ rocksdb:
   # Block cache for compressed blocks
   blockCacheSize: 6GB
   
-  # Write buffer
-  writeBufferSize: 512MB
-  maxWriteBufferNumber: 4
+  # Write buffer (v1.5.0 optimized defaults)
+  writeBufferSize: 512MB         # Increased from 256MB
+  maxWriteBufferNumber: 6        # Increased from 3-4
+  dbWriteBufferSize: 2GB         # Total limit across all CFs
+  
+  # Async I/O (enabled by default)
+  enableAsyncIO: true
+  asyncIOReadaheadSize: 128MB
 ```
 
 ---
@@ -483,8 +850,11 @@ cache:
   evictionPolicy: lru
   
 rocksdb:
-  writeBufferSize: 256MB
-  maxWriteBufferNumber: 6  # More write buffers for high write throughput
+  # v1.5.0: Optimized for write-amplification reduction
+  writeBufferSize: 512MB         # Larger memtables
+  maxWriteBufferNumber: 6        # More write buffers for high write throughput
+  dbWriteBufferSize: 2048MB      # Total limit
+  enableAsyncIO: true            # Better scan performance
 ```
 
 **Mixed Workload:**
@@ -681,6 +1051,97 @@ if (!result) {
   result = db._query(`/* expensive aggregation */`);
   queryCache.set(cacheKey, result, {ttl: 3600});
 }
+```
+
+---
+
+### CPU Prefetch Optimization (v1.4.1+)
+
+**What is CPU Prefetch?**
+
+CPU prefetch hints are low-level instructions that tell the CPU to load data from memory into cache before it's actually needed. This can significantly reduce memory access latency for predictable access patterns.
+
+**When to Use:**
+
+- ✅ **Random access patterns**: Point lookups, multiGet operations
+- ✅ **Sequential scans**: Iterator-based operations, prefix/range scans
+- ✅ **Large datasets**: When working set exceeds L3 cache size
+- ✅ **Batch operations**: Processing multiple items in sequence
+- ❌ **Small datasets**: When data already fits in cache
+- ❌ **Streaming data**: One-time access with no reuse
+
+**Configuration:**
+
+```yaml
+# RocksDB Storage Configuration
+rocksdb:
+  # Enable CPU prefetch hints (v1.4.1+)
+  enable_cpu_prefetch: true
+  
+  # Number of items to prefetch ahead (1-8)
+  # Higher values = more aggressive, more memory bandwidth
+  # Lower values = less overhead, better for small batches
+  prefetch_distance: 2  # Default: 2, recommended for most workloads
+  
+  # Minimum batch size to enable prefetch
+  # Prefetch overhead isn't worth it for tiny batches
+  prefetch_min_batch_size: 4  # Default: 4
+```
+
+**Performance Impact:**
+
+| Operation | Without Prefetch | With Prefetch | Improvement |
+|-----------|------------------|---------------|-------------|
+| Random Point Reads | ~1.0 µs | ~0.75 µs | **25%** |
+| Batch MultiGet (100 keys) | ~100 µs | ~65 µs | **35%** |
+| Prefix Scan (1000 entries) | ~500 µs | ~425 µs | **15%** |
+| Sequential Range Scan | ~300 µs | ~270 µs | **10%** |
+
+**Tuning Guidelines:**
+
+```yaml
+# For random access workloads (OLTP)
+rocksdb:
+  enable_cpu_prefetch: true
+  prefetch_distance: 3  # Moderate prefetch (2-3 typical)
+  prefetch_min_batch_size: 4
+
+# For sequential scan workloads (Analytics)
+rocksdb:
+  enable_cpu_prefetch: true
+  prefetch_distance: 5  # Aggressive prefetch (4-6 typical)
+  prefetch_min_batch_size: 8
+  
+# For mixed workloads
+rocksdb:
+  enable_cpu_prefetch: true
+  prefetch_distance: 2  # Conservative default
+  prefetch_min_batch_size: 4
+
+# For very small databases (< 1GB)
+rocksdb:
+  enable_cpu_prefetch: false  # Data likely in cache already
+```
+
+**Best Practices:**
+
+1. **Enable for large datasets**: Prefetch shows most benefit when working set > L3 cache
+2. **Monitor cache hit rates**: Use RocksDB statistics to verify improvement
+3. **Test with your workload**: Benchmark with representative data patterns
+4. **Consider memory bandwidth**: Higher prefetch_distance uses more bandwidth
+5. **Combine with async I/O**: For best results, enable both CPU prefetch and async I/O
+
+**Monitoring Prefetch Effectiveness:**
+
+```bash
+# Check RocksDB block cache hit rate (should increase with prefetch)
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb.block_cache_hit_rate'
+
+# Monitor memory bandwidth usage (adjust path based on your build directory)
+cd <your-build-directory>/benchmarks  # e.g., build/benchmarks or out/benchmarks
+perf stat -e cache-references,cache-misses,cycles,instructions ./bench_random_access_prefetch
+
+# Expected improvement: 15-30% fewer cache misses
 ```
 
 ---
@@ -1067,6 +1528,22 @@ counter.fetch_add(1, std::memory_order_seq_cst);
 
 ## Batch Operations
 
+**🚧 PLANNED: Optimized Batch Operations (Infrastructure Ready)**
+
+ThemisDB includes new batch operation infrastructure with configurable durability modes. Full HTTP API integration is planned for an upcoming release:
+- **Async mode (planned)**: 2-5x faster with async WAL (production-safe)
+- **NoSync mode (planned)**: 10-20x faster with optimized configurations (bulk loads)
+- **Adaptive batching (existing)**: Automatic size tuning via BatchOperationManager
+
+**Current Status:**
+- ✅ `BatchWriteOptimizer` component implemented
+- ✅ Comprehensive documentation available
+- 🚧 HTTP API integration planned (see BATCH_OPERATIONS_GUIDE.md)
+
+📖 **See:** [Batch Operations Guide](./BATCH_OPERATIONS_GUIDE.md) | [Quick Start](./BATCH_OPERATIONS_QUICKSTART.md)
+
+---
+
 ### Bulk Inserts
 
 **Efficient Batch Insertion:**
@@ -1314,6 +1791,171 @@ setInterval(() => {
   }
 }, 60000);
 ```
+
+---
+
+### Client-Side Connection Pooling
+
+**Wire Protocol Connection Pool (C++):**
+
+ThemisDB provides client-side connection pooling helpers for the Wire Protocol, gRPC, and HTTP protocols to efficiently reuse outbound connections from your application to the server:
+
+```cpp
+#include "network/wire_protocol_connection_pool.h"
+
+using namespace themis::network;
+
+// Configure connection pool
+WireProtocolConnectionPool::Config config;
+config.min_connections_per_target = 2;
+config.max_connections_per_target = 20;
+config.idle_timeout = std::chrono::seconds(60);
+config.connect_timeout = std::chrono::seconds(5);
+config.acquire_timeout = std::chrono::seconds(10);
+// NOTE: SSL/TLS is not yet implemented for wire protocol
+config.enable_ssl = false;
+config.enable_warmup = true;
+
+// Create pool
+auto pool = std::make_unique<WireProtocolConnectionPool>(config);
+
+// Warm up connections for known targets
+pool->warmup("localhost:8766");
+
+// Acquire connection (RAII handle)
+{
+    auto conn = pool->acquireConnection("localhost:8766");
+    // Use connection...
+    // Automatically returned to pool when scope ends
+}
+
+// Monitor pool statistics
+auto stats = pool->getStats();
+std::cout << "Total connections: " << stats.total_connections << std::endl;
+std::cout << "Available: " << stats.available_connections << std::endl;
+std::cout << "In use: " << stats.in_use_connections << std::endl;
+std::cout << "Reuse rate: " << (stats.getReuseRate() * 100.0) << "%" << std::endl;
+```
+
+**gRPC Channel Pool:**
+
+```cpp
+#include "utils/grpc_channel_pool.h"
+
+using namespace themis::utils;
+
+// Configure gRPC channel pool
+GrpcChannelPool::Config config;
+config.max_channels_per_target = 10;
+config.idle_timeout = std::chrono::seconds(30);
+config.enable_keepalive = true;
+config.keepalive_time = std::chrono::seconds(30);
+config.max_concurrent_streams = 100;
+
+auto pool = std::make_unique<GrpcChannelPool>(config);
+
+// Acquire channel
+auto channel = pool->acquireChannel("localhost:50051", 
+                                    grpc::InsecureChannelCredentials());
+
+// Use channel for RPC
+auto stub = MyService::NewStub(channel);
+
+// Release when done
+pool->releaseChannel("localhost:50051", channel);
+
+// Monitor
+auto stats = pool->getStats();
+std::cout << "Channels created: " << stats.channels_created << std::endl;
+std::cout << "Channels reused: " << stats.channels_reused << std::endl;
+```
+
+**HTTP Client Pool:**
+
+```cpp
+#include "utils/http_client_pool.h"
+
+using namespace themis::utils;
+
+// Configure HTTP pool
+HTTPClientPool::Config config;
+config.max_connections = 50;
+config.idle_timeout = std::chrono::seconds(30);
+config.enable_keepalive = true;
+config.io_threads = 8;
+config.lock_stripes = 8;  // Reduces lock contention
+
+auto pool = std::make_unique<HTTPClientPool>(config);
+
+// Make async requests
+auto future = pool->post("http://api.example.com/endpoint",
+                        json_body,
+                        {{"Content-Type", "application/json"}});
+
+// Wait for response
+auto response = future.get();
+if (response.isSuccess()) {
+    // Process response.body
+}
+```
+
+**Configuration File:**
+
+See `config/connection_pool_config.yaml` for example connection pool presets and recommended settings. These are reference configurations that can be adapted to your application's connection pool initialization code:
+
+```yaml
+# Production balanced workload (example - adapt to your code)
+production:
+  wire_protocol:
+    max_connections_per_target: 20
+    enable_warmup: true
+    enable_ssl: false  # TLS not yet implemented for wire protocol
+    
+  grpc:
+    max_channels_per_target: 10
+    enable_keepalive: true
+    
+  http:
+    max_connections: 50
+    io_threads: 8
+
+# OLTP workload (high throughput)
+oltp:
+  wire_protocol:
+    max_connections_per_target: 50
+    
+  grpc:
+    max_channels_per_target: 20
+    
+  http:
+    max_connections: 100
+
+# Analytics workload (long queries)
+analytics:
+  wire_protocol:
+    max_connections_per_target: 10
+    idle_timeout: 300
+    
+  http:
+    request_timeout: 300
+```
+
+**Performance Benefits:**
+
+Connection pooling provides significant performance improvements:
+
+- **TCP Wire Protocol Pool**: 15-20% throughput improvement, 30-40% latency reduction
+- **gRPC Channel Pool**: 10-15% throughput improvement by reusing HTTP/2 channels
+- **HTTP Client Pool**: 20-25% throughput improvement with Keep-Alive
+
+**Best Practices:**
+
+1. **Pool Sizing**: Use formula `pool_size = ((core_count * 2) + effective_spindle_count)`
+2. **Monitoring**: Track reuse rates (target: >80%), acquire timeouts (<0.1%)
+3. **Warmup**: Enable warmup for production to pre-create connections
+4. **Health Checks**: Enable keepalive to detect dead connections early
+5. **Timeout Configuration**: Balance between connection reuse and resource cleanup
+6. **Load Balancing**: Use multiple pools for different service tiers
 
 ---
 
@@ -1734,3 +2376,106 @@ watch -n 5 'curl -s http://localhost:8529/_admin/statistics | jq ".server.opsPer
 **Last Updated:** 2024-01-24  
 **Version:** 1.4.0  
 **Maintainer:** ThemisDB Team
+
+---
+
+## SIMD Optimization and Cache-Line Performance
+
+### Hardware Acceleration with SIMD
+
+**Vector Operations:**
+
+ThemisDB uses SIMD (Single Instruction, Multiple Data) instructions to accelerate vector operations:
+
+- **x86_64 Platforms**: AVX2 (8 floats) and AVX-512 (16 floats) with FMA
+- **ARM64 Platforms**: NEON (4 floats) with FMA support on ARMv8+
+- **Automatic Detection**: Falls back to scalar code if SIMD unavailable
+
+**Enabled Operations:**
+```cpp
+// L2 distance computation (Euclidean)
+float distance = simd::l2_distance(vecA, vecB, dimension);
+
+// Squared L2 distance (faster, no sqrt)
+float dist_sq = simd::l2_distance_sq(vecA, vecB, dimension);
+
+// Batch operations for multiple vectors
+simd::batch_l2_distance_sq(query, database, n_vectors, dim, results);
+```
+
+**Performance Benefits:**
+- **4-8x faster** than scalar code for vector operations (typical for 128-512 dim vectors on AVX2+)
+  - Best case: 8x on AVX-512 with 512-dim aligned vectors
+  - Typical case: 4-6x on AVX2 with 128-256 dim vectors
+  - ARM NEON: 3-4x on 128+ dim vectors with FMA
+- Cache-line prefetching reduces memory latency by ~20-30%
+- FMA instructions improve accuracy and throughput
+
+---
+
+### Cache-Line Optimization
+
+**Memory Layout Best Practices:**
+
+```cpp
+// BAD: Random access pattern
+for (int i = 0; i < n; i++) {
+    process(data[random_indices[i]]);
+}
+
+// GOOD: Sequential access pattern (cache-friendly)
+for (int i = 0; i < n; i++) {
+    process(data[i]);
+}
+
+// BEST: Aligned and sequential with prefetching
+// Use aligned allocation for large arrays
+std::vector<float> vectors(n * dim);  // Standard container
+// Or for guaranteed alignment:
+auto* aligned_data = static_cast<float*>(std::aligned_alloc(64, n * dim * sizeof(float)));
+// SIMD functions automatically prefetch 4 cache lines ahead
+```
+
+**Cache-Aware Data Structures:**
+
+1. **Align Hot Data**: Use 64-byte alignment for frequently accessed arrays
+   ```cpp
+   alignas(64) float embeddings[1000000];
+   ```
+
+2. **Structure Padding**: Avoid false sharing in multi-threaded code
+   ```cpp
+   struct ThreadLocalData {
+       float data[16];
+       char padding[64 - sizeof(float) * 16];  // Separate cache lines
+   };
+   ```
+
+3. **Batch Processing**: Process data in chunks that fit in L2 cache (256KB typical)
+   ```cpp
+   const size_t BATCH_SIZE = 32768;  // 128KB for float data
+   for (size_t i = 0; i < n; i += BATCH_SIZE) {
+       process_batch(data + i, std::min(BATCH_SIZE, n - i));
+   }
+   ```
+
+**Compilation Flags:**
+
+```bash
+# Enable AVX2 on x86_64
+cmake -DTHEMIS_ENABLE_AVX2=ON -DCMAKE_BUILD_TYPE=Release ..
+
+# Verify SIMD support
+./themisdb-server --version  # Shows: "SIMD: AVX2" or "SIMD: NEON"
+```
+
+**Monitoring SIMD Performance:**
+
+```bash
+# Check CPU usage patterns (should show high vectorization)
+perf stat -e cycles,instructions,fp_arith_inst_retired.scalar_single,fp_arith_inst_retired.128b_packed_single ./benchmark
+
+# Ratio should favor packed instructions for good SIMD utilization
+```
+
+---

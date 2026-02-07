@@ -156,3 +156,77 @@ TEST(HnswMemoryOptimizerTest, PrefetchNodes) {
     // Should not crash
     HnswMemoryOptimizer::prefetchNodes(node_ids);
 }
+
+// Workload-specific tests
+TEST(HnswParameterTunerWorkloadTest, OLTPWorkload) {
+    size_t dataset_size = 100000;
+    auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+        dataset_size, HnswParameterTuner::WorkloadType::OLTP);
+    
+    // OLTP should prioritize low latency
+    EXPECT_LE(config.M, 16);  // Lower M for faster writes
+    EXPECT_LE(config.ef_search_max, 128);  // Lower max for speed
+    EXPECT_LE(config.target_latency.count(), 10);  // Aggressive latency target
+    EXPECT_TRUE(config.adaptive);
+}
+
+TEST(HnswParameterTunerWorkloadTest, AnalyticsWorkload) {
+    size_t dataset_size = 100000;
+    auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+        dataset_size, HnswParameterTuner::WorkloadType::ANALYTICS);
+    
+    // Analytics should prioritize high recall
+    EXPECT_GE(config.M, 16);  // Higher M for better connectivity
+    EXPECT_GE(config.ef_search_max, 256);  // Higher max for recall
+    EXPECT_GE(config.target_recall, 0.97);  // High recall requirement
+    EXPECT_TRUE(config.adaptive);
+}
+
+TEST(HnswParameterTunerWorkloadTest, RAGWorkload) {
+    size_t dataset_size = 100000;
+    auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+        dataset_size, HnswParameterTuner::WorkloadType::RAG);
+    
+    // RAG should balance speed and accuracy
+    EXPECT_GE(config.M, 16);
+    EXPECT_LE(config.M, 32);
+    EXPECT_GE(config.target_recall, 0.94);
+    EXPECT_LE(config.target_recall, 0.96);
+    EXPECT_TRUE(config.adaptive);
+}
+
+TEST(HnswParameterTunerWorkloadTest, BatchInsertWorkload) {
+    size_t dataset_size = 100000;
+    auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+        dataset_size, HnswParameterTuner::WorkloadType::BATCH_INSERT);
+    
+    // Batch insert should optimize for throughput
+    EXPECT_LE(config.M, 12);  // Lower M for faster construction
+    EXPECT_FALSE(config.adaptive);  // No adaptation during bulk load
+}
+
+TEST(HnswParameterTunerWorkloadTest, WorkloadMInfluencesRecommendations) {
+    size_t dataset_size = 100000;
+    
+    int m_oltp = HnswParameterTuner::getRecommendedM(
+        dataset_size, HnswParameterTuner::WorkloadType::OLTP);
+    int m_analytics = HnswParameterTuner::getRecommendedM(
+        dataset_size, HnswParameterTuner::WorkloadType::ANALYTICS);
+    
+    // Analytics should recommend higher M than OLTP
+    EXPECT_GT(m_analytics, m_oltp);
+}
+
+TEST(HnswParameterTunerWorkloadTest, WorkloadEfConstructionInfluencesRecommendations) {
+    size_t dataset_size = 100000;
+    int M = 16;
+    
+    int ef_oltp = HnswParameterTuner::getRecommendedEfConstruction(
+        dataset_size, M, HnswParameterTuner::WorkloadType::OLTP);
+    int ef_analytics = HnswParameterTuner::getRecommendedEfConstruction(
+        dataset_size, M, HnswParameterTuner::WorkloadType::ANALYTICS);
+    
+    // Analytics should recommend higher ef_construction than OLTP
+    EXPECT_GT(ef_analytics, ef_oltp);
+    EXPECT_GE(ef_oltp, M * 8);  // Should still be reasonable
+}
