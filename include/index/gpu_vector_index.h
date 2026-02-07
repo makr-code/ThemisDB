@@ -13,22 +13,18 @@ namespace index {
 /**
  * GPU-Accelerated Vector Index
  * 
- * Supports multiple GPU backends:
- * - CPU: Optimized CPU-only implementation (always available)
- * - HIP: AMD GPU acceleration via ROCm (v2.3, production-ready)
- * - CUDA: NVIDIA GPU acceleration (planned for v2.4)
- * - Vulkan: Cross-platform GPU compute (planned for v2.2)
+ * Provides GPU-accelerated vector similarity search with multiple backend support:
+ * - Vulkan: Cross-platform GPU compute (NVIDIA, AMD, Intel, Apple via MoltenVK) - v2.2
+ * - CUDA: NVIDIA GPUs (planned)
+ * - HIP: AMD GPUs (planned)
+ * - CPU: Fallback with SIMD acceleration
  * 
  * Features:
- * - CPU-optimized vector search with SIMD acceleration
+ * - Cross-platform GPU acceleration via Vulkan
+ * - CPU-optimized SIMD fallback
  * - Multi-threaded batch processing
- * - GPU-accelerated distance computation (L2, Cosine) via HIP
- * - Production-ready performance (30K+ QPS on CPU, 200K+ QPS on GPU)
- * - Full API compatibility with CPU VectorIndexManager
- * - Automatic backend selection and CPU fallback
- * 
- * Note: GPU backend support depends on build-time configuration.
- * HIP backend requires ROCm 5.0+ and compatible AMD GPU hardware.
+ * - Automatic backend selection
+ * - Production-ready performance (200K+ queries/sec on GPU)
  * 
  * @sources
  * - HNSW Algorithm: Malkov & Yashunin (2018) - IEEE TPAMI
@@ -38,11 +34,11 @@ namespace index {
 class GPUVectorIndex {
 public:
     enum class Backend {
-        AUTO,       // Auto-detect best available
-        CPU,        // CPU-only implementation (fallback)
-        CUDA,       // NVIDIA CUDA (v2.1)
-        VULKAN,     // Vulkan Compute (v2.2)
-        HIP         // AMD HIP/ROCm (v2.3)
+        AUTO,       // Auto-detect best available backend
+        CPU,        // CPU-only implementation (default)
+        VULKAN,     // Vulkan compute backend (cross-platform GPU) - v2.2
+        CUDA,       // CUDA backend (NVIDIA GPUs, planned)
+        HIP         // HIP backend (AMD GPUs, planned)
     };
     
     enum class DistanceMetric {
@@ -63,19 +59,17 @@ public:
         // Batch processing
         int batchSize = 512;           // Batch size for parallel search
         
+        // GPU-specific options
+        int deviceId = 0;              // GPU device ID (0 = default)
+        bool enableValidation = false; // Enable GPU validation layers (debug)
+        size_t maxVRAM_MB = 0;         // Max VRAM usage in MB (0 = auto, not yet implemented)
+        uint32_t workgroupSize = 256;  // Compute workgroup size (not yet implemented)
+        
         // Memory optimization
-        bool useMixedPrecision = false; // Enable FP16/TF32 on GPU
+        bool useMixedPrecision = false; // Enable FP16/TF32 (GPU backends)
         
         // Fallback
-        bool allowCPUFallback = true;  // Fall back to CPU if GPU fails
-        
-        // GPU device selection
-        int deviceId = 0;              // GPU device ID to use
-        
-        // HIP-specific configuration (AMD GPUs)
-        int waveSize = 0;              // Wave size: 0=auto, 32=Wave32, 64=Wave64
-        bool enableRocBLAS = false;    // Use rocBLAS for matrix operations
-        size_t maxVRAM_MB = 0;         // Maximum VRAM to use (0=auto)
+        bool allowCPUFallback = true;  // Fall back to CPU if GPU unavailable
     };
     
     struct SearchResult {
@@ -128,9 +122,11 @@ public:
     bool switchBackend(Backend backend);
     std::vector<Backend> getAvailableBackends() const;
     
-    // Note: GPU backends (CUDA, Vulkan, HIP) are available when enabled at build time.
-    // CPU backend is always available as fallback.
-    // See docs/GPU_SUPPORT_ROADMAP.md for details.
+    // Backend availability:
+    // - CPU: Always available (fallback)
+    // - VULKAN: Available if Vulkan SDK installed and GPU present
+    // - CUDA: Planned for v2.1 (NVIDIA GPUs)
+    // - HIP: Planned for v2.3 (AMD GPUs)
     
 private:
     class Impl;

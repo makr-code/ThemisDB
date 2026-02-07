@@ -1,11 +1,28 @@
 #include "index/gpu_vector_index.h"
 #include "acceleration/compute_backend.h"
+#include "acceleration/cuda_backend.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
 #include <unordered_map>
+#include <memory>
+
+#ifdef THEMIS_ENABLE_VULKAN
+#include "llm/lora_framework/vulkan_context.h"
+#include "llm/lora_framework/vulkan_buffer.h"
+#include "llm/lora_framework/vulkan_pipeline.h"
+#endif
+
+// Forward declare Vulkan backend
+#ifdef THEMIS_ENABLE_VULKAN
+namespace themis {
+namespace index {
+class VulkanVectorIndexBackend;
+}
+}
+#endif
 
 // Include GPU backend headers
 #ifdef THEMIS_ENABLE_HIP
@@ -35,17 +52,11 @@ public:
     std::vector<std::vector<float>> vectorData;
     std::unordered_map<std::string, size_t> idToIndex;
     
-    // Cached flattened vector data for GPU
-    std::vector<float> cachedFlatVectors;
-    bool flatVectorsCacheValid = false;
-    
-    // GPU backend
-#ifdef THEMIS_ENABLE_HIP
-    std::unique_ptr<themis::acceleration::HIPVectorBackend> hipBackend;
-#endif
-#ifdef THEMIS_ENABLE_CUDA
-    std::unique_ptr<themis::acceleration::CUDAVectorBackend> cudaBackend;
-#endif
+    // Backend implementations
+    #ifdef THEMIS_ENABLE_VULKAN
+    std::unique_ptr<VulkanVectorIndexBackend> vulkanBackend;
+    bool gpuDataDirty = false;  // Track if GPU needs re-upload
+    #endif
     
     // Statistics
     Statistics stats;
@@ -63,161 +74,100 @@ public:
         dimension = dim;
         stats.dimension = dim;
         
-        // Attempt to initialize GPU backend based on config
+        // Determine which backend to use
         Backend requestedBackend = config.backend;
-        
         if (requestedBackend == Backend::AUTO) {
-            // Auto-detect best available backend
-#ifdef THEMIS_ENABLE_HIP
-            if (initializeHIP()) {
-                activeBackend = Backend::HIP;
-                std::cout << "GPUVectorIndex: Auto-selected HIP backend (AMD GPU)\n";
-            } else
-#endif
-#ifdef THEMIS_ENABLE_CUDA  
-            if (initializeCUDA()) {
-                activeBackend = Backend::CUDA;
-                std::cout << "GPUVectorIndex: Auto-selected CUDA backend (NVIDIA GPU)\n";
-            } else
-#endif
-            {
-                activeBackend = Backend::CPU;
-                std::cout << "GPUVectorIndex: Using CPU backend (no GPU available)\n";
+            requestedBackend = selectBestBackend();
+        }
+        
+        // Try to initialize requested backend
+        bool backendInitialized = false;
+        
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (requestedBackend == Backend::VULKAN) {
+            backendInitialized = initializeVulkanBackend(dim);
+            if (backendInitialized) {
+                activeBackend = Backend::VULKAN;
+                stats.isGPUActive = true;
+                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
             }
-        } else if (requestedBackend == Backend::HIP) {
-#ifdef THEMIS_ENABLE_HIP
-            if (initializeHIP()) {
-                activeBackend = Backend::HIP;
-                std::cout << "GPUVectorIndex: Using HIP backend (AMD GPU)\n";
-            } else
-#endif
-            {
-                if (config.allowCPUFallback) {
-                    activeBackend = Backend::CPU;
-                    std::cout << "GPUVectorIndex: HIP unavailable, falling back to CPU\n";
-                } else {
-                    std::cerr << "GPUVectorIndex: HIP backend requested but not available\n";
-                    return false;
-                }
-            }
-        } else if (requestedBackend == Backend::CUDA) {
-#ifdef THEMIS_ENABLE_CUDA
-            if (initializeCUDA()) {
-                activeBackend = Backend::CUDA;
-                std::cout << "GPUVectorIndex: Using CUDA backend (NVIDIA GPU)\n";
-            } else
-#endif
-            {
-                if (config.allowCPUFallback) {
-                    activeBackend = Backend::CPU;
-                    std::cout << "GPUVectorIndex: CUDA unavailable, falling back to CPU\n";
-                } else {
-                    std::cerr << "GPUVectorIndex: CUDA backend requested but not available\n";
-                    return false;
-                }
-            }
-        } else if (requestedBackend == Backend::VULKAN) {
-#ifdef THEMIS_ENABLE_VULKAN
-            // Vulkan backend not yet implemented
-            std::cerr << "GPUVectorIndex: Vulkan backend not yet implemented\n";
-            if (config.allowCPUFallback) {
-                activeBackend = Backend::CPU;
-                std::cout << "GPUVectorIndex: Falling back to CPU\n";
-            } else {
-                std::cerr << "GPUVectorIndex: Vulkan backend requested but not implemented\n";
+        }
+        #endif
+        
+        // Fall back to CPU if requested backend failed or not available
+        if (!backendInitialized) {
+            if (requestedBackend != Backend::CPU && !config.allowCPUFallback) {
+                std::cerr << "GPUVectorIndex: Requested backend not available and CPU fallback disabled\n";
                 return false;
             }
-#else
-            if (config.allowCPUFallback) {
-                activeBackend = Backend::CPU;
-                std::cout << "GPUVectorIndex: Vulkan unavailable, falling back to CPU\n";
-            } else {
-                std::cerr << "GPUVectorIndex: Vulkan backend requested but not available\n";
-                return false;
-            }
-#endif
-        } else {
-            // CPU backend explicitly requested
+            
             activeBackend = Backend::CPU;
-            std::cout << "GPUVectorIndex: Using CPU backend (explicitly requested)\n";
+            stats.isGPUActive = false;
+            if (requestedBackend != Backend::CPU) {
+                std::cout << "GPUVectorIndex: Falling back to CPU backend\n";
+            } else {
+                std::cout << "GPUVectorIndex: Using CPU backend\n";
+            }
         }
         
         stats.activeBackend = activeBackend;
-        stats.isGPUActive = (activeBackend != Backend::CPU);
         initialized = true;
         return true;
     }
     
     void shutdown() {
-        // Shutdown GPU backends
-#ifdef THEMIS_ENABLE_HIP
-        if (hipBackend) {
-            hipBackend->shutdown();
-            hipBackend.reset();
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (vulkanBackend) {
+            vulkanBackend.reset();
         }
-#endif
-#ifdef THEMIS_ENABLE_CUDA
-        if (cudaBackend) {
-            cudaBackend->shutdown();
-            cudaBackend.reset();
-        }
-#endif
+        #endif
         initialized = false;
     }
     
-    // GPU backend initialization helpers
-    bool initializeHIP() {
-#ifdef THEMIS_ENABLE_HIP
-        try {
-            themis::acceleration::HIPVectorBackend::HIPConfig hipConfig;
-            hipConfig.deviceId = config.deviceId;
-            hipConfig.waveSize = config.waveSize;
-            hipConfig.enableRocBLAS = config.enableRocBLAS;
-            hipConfig.maxVRAM_MB = config.maxVRAM_MB;
-            
-            hipBackend = std::make_unique<themis::acceleration::HIPVectorBackend>(hipConfig);
-            
-            if (hipBackend->isAvailable() && hipBackend->initialize()) {
-                return true;
-            }
-        } catch (const std::exception& e) {
-            std::cerr << "HIP initialization failed: " << e.what() << std::endl;
+    Backend selectBestBackend() {
+        // Try Vulkan first (cross-platform)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (isVulkanAvailable()) {
+            return Backend::VULKAN;
         }
-#endif
-        return false;
+        #endif
+        
+        // Fall back to CPU
+        return Backend::CPU;
     }
     
-    bool initializeCUDA() {
-#ifdef THEMIS_ENABLE_CUDA
+    #ifdef THEMIS_ENABLE_VULKAN
+    bool isVulkanAvailable() {
+        // Check if Vulkan is available by trying to create a context
         try {
-            // Similar CUDA initialization would go here
-            // For now, return false as CUDA backend is not implemented in this PR
+            lora::vulkan::VulkanContext testContext;
+            return testContext.is_available();
+        } catch (...) {
             return false;
-        } catch (const std::exception& e) {
-            std::cerr << "CUDA initialization failed: " << e.what() << std::endl;
         }
-#endif
-        return false;
     }
     
-    // Helper to invalidate cached flattened vectors
-    void invalidateFlatVectorsCache() {
-        flatVectorsCacheValid = false;
-    }
-    
-    // Helper to get or build flattened vectors for GPU
-    const std::vector<float>& getFlatVectors() {
-        if (!flatVectorsCacheValid || cachedFlatVectors.size() != vectorData.size() * dimension) {
-            // Rebuild cache
-            cachedFlatVectors.resize(vectorData.size() * dimension);
-            for (size_t i = 0; i < vectorData.size(); ++i) {
-                std::copy(vectorData[i].begin(), vectorData[i].end(), 
-                         cachedFlatVectors.begin() + i * dimension);
+    bool initializeVulkanBackend(int dim) {
+        try {
+            vulkanBackend = std::make_unique<VulkanVectorIndexBackend>(config);
+            if (!vulkanBackend->initialize(dim)) {
+                vulkanBackend.reset();
+                return false;
             }
-            flatVectorsCacheValid = true;
+            
+            // Upload existing vectors to GPU
+            if (!vectorData.empty()) {
+                return vulkanBackend->uploadVectors(vectorData);
+            }
+            
+            return true;
+        } catch (const std::exception& e) {
+            std::cerr << "GPUVectorIndex: Vulkan initialization failed: " << e.what() << "\n";
+            vulkanBackend.reset();
+            return false;
         }
-        return cachedFlatVectors;
     }
+    #endif
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
@@ -241,6 +191,14 @@ public:
         invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
+        
+        // Mark GPU data as dirty (will upload before next search)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            gpuDataDirty = true;
+        }
+        #endif
+        
         return true;
     }
     
@@ -268,7 +226,52 @@ public:
         invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
+        
+        // Mark GPU data as dirty (will upload before next search)
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            gpuDataDirty = true;
+        }
+        #endif
+        
         return true;
+    }
+    
+    std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
+        if (!initialized) {
+            return {};
+        }
+        
+        // Upload GPU data if dirty
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend && gpuDataDirty) {
+            vulkanBackend->uploadVectors(vectorData);
+            gpuDataDirty = false;
+        }
+        #endif
+        
+        // Try GPU backend first if active
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (activeBackend == Backend::VULKAN && vulkanBackend) {
+            auto indices = vulkanBackend->searchIndices(query, k);
+            if (!indices.empty()) {
+                // Map indices to IDs
+                std::vector<SearchResult> results;
+                results.reserve(indices.size());
+                for (const auto& [distance, index] : indices) {
+                    if (index < vectorIds.size()) {
+                        results.push_back({vectorIds[index], distance});
+                    }
+                }
+                return results;
+            }
+            // Fall through to CPU if GPU search fails
+            std::cerr << "GPUVectorIndex: Vulkan search failed, falling back to CPU\n";
+        }
+        #endif
+        
+        // Use CPU implementation
+        return searchCPU(query, k);
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
@@ -304,150 +307,140 @@ public:
         return results;
     }
     
-    // GPU-accelerated search (HIP)
-    std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
-#ifdef THEMIS_ENABLE_HIP
-        if (!hipBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+    std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
+        if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
             return {};
+        }
+        
+        // CUDA backend only supports L2 and COSINE metrics
+        // Fall back to CPU for INNER_PRODUCT
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            return searchCPU(query, k);
         }
         
         auto startTime = std::chrono::steady_clock::now();
         
-        // Use cached flattened vectors for GPU (avoids O(N·dim) overhead per query)
-        const std::vector<float>& flatVectors = getFlatVectors();
-        
-        // Map metric to HIP backend metric
-        themis::acceleration::HIPVectorBackend::DistanceMetric hipMetric;
-        switch (config.metric) {
-            case DistanceMetric::L2:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::L2;
-                break;
-            case DistanceMetric::COSINE:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
-                break;
-            case DistanceMetric::INNER_PRODUCT:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::INNER_PRODUCT;
-                break;
-            default:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
-                break;
+        // Update flattened vector cache if dirty (performance optimization)
+        if (flatVectorCacheDirty) {
+            flatVectorCache.clear();
+            flatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
+            }
+            flatVectorCacheDirty = false;
         }
         
-        // Use GPU batch KNN search with metric support
-        auto results = hipBackend->batchKnnSearchWithMetric(
-            query.data(), 1, dimension,
-            flatVectors.data(), vectorData.size(),
-            k, hipMetric
+        // Clamp k to number of vectors to prevent out-of-bounds access
+        const size_t effectiveK = std::min(k, vectorData.size());
+        
+        // Use CUDA backend for batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto gpuResults = cudaBackend->batchKnnSearch(
+            query.data(),
+            1,  // Single query
+            dimension,
+            flatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            useL2
         );
         
-        if (results.empty()) {
-            // GPU failed, fall back to CPU if allowed
-            if (config.allowCPUFallback) {
-                std::cerr << "HIP search failed, falling back to CPU\n";
-                return searchCPU(query, k);
-            }
-            return {};
-        }
-        
-        // Convert results to SearchResult format
-        std::vector<SearchResult> searchResults;
-        searchResults.reserve(k);
-        for (const auto& [idx, dist] : results[0]) {
-            if (idx < vectorIds.size()) {
-                searchResults.push_back({vectorIds[idx], dist});
+        std::vector<SearchResult> results;
+        if (!gpuResults.empty() && !gpuResults[0].empty()) {
+            results.reserve(gpuResults[0].size());
+            for (const auto& [idx, dist] : gpuResults[0]) {
+                if (idx < vectorIds.size()) {
+                    results.push_back({vectorIds[idx], dist});
+                }
             }
         }
         
         auto endTime = std::chrono::steady_clock::now();
         updateQueryStats(startTime, endTime);
         
-        return searchResults;
-#else
-        // HIP not available, use CPU
-        return searchCPU(query, k);
-#endif
+        return results;
     }
     
-    // Batch search with GPU acceleration
-    std::vector<std::vector<SearchResult>> searchBatchHIP(
+    std::vector<std::vector<SearchResult>> searchBatchGPU(
         const std::vector<std::vector<float>>& queries, size_t k) {
-#ifdef THEMIS_ENABLE_HIP
-        if (!hipBackend || vectorData.empty() || queries.empty()) {
+        
+        if (!cudaBackend || vectorData.empty() || queries.empty()) {
             return {};
         }
         
-        // Flatten queries
-        std::vector<float> flatQueries(queries.size() * dimension);
-        for (size_t i = 0; i < queries.size(); ++i) {
-            if (queries[i].size() != static_cast<size_t>(dimension)) {
-                return {}; // Invalid query dimensions
+        // Check if any query uses INNER_PRODUCT (not supported by CUDA)
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            // Fall back to CPU for all queries
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(queries.size());
+            for (const auto& query : queries) {
+                results.push_back(searchCPU(query, k));
             }
-            std::copy(queries[i].begin(), queries[i].end(), 
-                     flatQueries.begin() + i * dimension);
+            return results;
         }
         
-        // Use cached flattened vectors for GPU (avoids O(N·dim) overhead per batch)
-        const std::vector<float>& flatVectors = getFlatVectors();
+        auto startTime = std::chrono::steady_clock::now();
         
-        // Map metric to HIP backend metric
-        themis::acceleration::HIPVectorBackend::DistanceMetric hipMetric;
-        switch (config.metric) {
-            case DistanceMetric::L2:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::L2;
-                break;
-            case DistanceMetric::COSINE:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
-                break;
-            case DistanceMetric::INNER_PRODUCT:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::INNER_PRODUCT;
-                break;
-            default:
-                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
-                break;
+        // Update flattened vector cache if dirty
+        if (flatVectorCacheDirty) {
+            flatVectorCache.clear();
+            flatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
+            }
+            flatVectorCacheDirty = false;
         }
         
-        // Use GPU batch KNN search with metric support
-        auto results = hipBackend->batchKnnSearchWithMetric(
-            flatQueries.data(), queries.size(), dimension,
-            flatVectors.data(), vectorData.size(),
-            k, hipMetric
+        // Flatten query vectors for GPU transfer
+        std::vector<float> flatQueries;
+        flatQueries.reserve(queries.size() * dimension);
+        for (const auto& query : queries) {
+            if (query.size() != static_cast<size_t>(dimension)) {
+                // Skip invalid queries or fall back to CPU for all
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& q : queries) {
+                    results.push_back(searchCPU(q, k));
+                }
+                return results;
+            }
+            flatQueries.insert(flatQueries.end(), query.begin(), query.end());
+        }
+        
+        // Clamp k to number of vectors
+        const size_t effectiveK = std::min(k, vectorData.size());
+        
+        // Use CUDA backend for true batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto gpuResults = cudaBackend->batchKnnSearch(
+            flatQueries.data(),
+            queries.size(),  // Multiple queries
+            dimension,
+            flatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            useL2
         );
         
-        if (results.empty()) {
-            // GPU failed, fall back to CPU if allowed
-            if (config.allowCPUFallback) {
-                std::cerr << "HIP batch search failed, falling back to CPU\n";
-                std::vector<std::vector<SearchResult>> cpuResults;
-                cpuResults.reserve(queries.size());
-                for (const auto& query : queries) {
-                    cpuResults.push_back(searchCPU(query, k));
-                }
-                return cpuResults;
-            }
-            return {};
-        }
+        // Convert GPU results to SearchResult format
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(gpuResults.size());
         
-        // Convert results to SearchResult format
-        std::vector<std::vector<SearchResult>> searchResults(queries.size());
-        for (size_t q = 0; q < queries.size(); ++q) {
-            searchResults[q].reserve(k);
-            for (const auto& [idx, dist] : results[q]) {
+        for (const auto& queryResults : gpuResults) {
+            std::vector<SearchResult> batch;
+            batch.reserve(queryResults.size());
+            for (const auto& [idx, dist] : queryResults) {
                 if (idx < vectorIds.size()) {
-                    searchResults[q].push_back({vectorIds[idx], dist});
+                    batch.push_back({vectorIds[idx], dist});
                 }
             }
+            results.push_back(std::move(batch));
         }
         
-        return searchResults;
-#else
-        // HIP not available, use CPU
-        std::vector<std::vector<SearchResult>> cpuResults;
-        cpuResults.reserve(queries.size());
-        for (const auto& query : queries) {
-            cpuResults.push_back(searchCPU(query, k));
-        }
-        return cpuResults;
-#endif
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+        
+        return results;
     }
     
     float computeDistance(const float* a, const float* b, int dim) {
@@ -458,7 +451,8 @@ public:
                     float diff = a[i] - b[i];
                     sum += diff * diff;
                 }
-                return sum;
+                return std::sqrt(sum);  // Return actual L2 distance (not squared)
+            }
             }
             case DistanceMetric::COSINE: {
                 float dot = 0.0f, normA = 0.0f, normB = 0.0f;
@@ -504,7 +498,14 @@ public:
     
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
-        backends.push_back(Backend::CPU); // Only CPU available in current version
+        backends.push_back(Backend::CPU); // Always available
+        
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (isVulkanAvailable()) {
+            backends.push_back(Backend::VULKAN);
+        }
+        #endif
+        
         return backends;
     }
 };
@@ -560,21 +561,7 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
         return {};
     }
     
-    // Use appropriate backend
-    switch (pImpl->activeBackend) {
-        case Backend::HIP:
-            return pImpl->searchHIP(query, k);
-        case Backend::CUDA:
-            // CUDA backend not implemented in this PR
-            if (pImpl->config.allowCPUFallback) {
-                return pImpl->searchCPU(query, k);
-            }
-            return {};
-        case Backend::CPU:
-        case Backend::AUTO:
-        default:
-            return pImpl->searchCPU(query, k);
-    }
+    return pImpl->search(query, k);
 }
 
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
@@ -582,6 +569,49 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
     
     if (!pImpl->initialized) {
         return {};
+    }
+    
+    // Upload GPU data if dirty
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend && pImpl->gpuDataDirty) {
+        pImpl->vulkanBackend->uploadVectors(pImpl->vectorData);
+        pImpl->gpuDataDirty = false;
+    }
+    #endif
+    
+    // Try GPU backend batch search first if active
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        auto batchIndices = pImpl->vulkanBackend->searchBatchIndices(queries, k);
+        if (!batchIndices.empty()) {
+            // Map indices to IDs for all results
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(batchIndices.size());
+            
+            for (const auto& queryIndices : batchIndices) {
+                std::vector<SearchResult> queryResults;
+                queryResults.reserve(queryIndices.size());
+                
+                for (const auto& [distance, index] : queryIndices) {
+                    if (index < pImpl->vectorIds.size()) {
+                        queryResults.push_back({pImpl->vectorIds[index], distance});
+                    }
+                }
+                results.push_back(std::move(queryResults));
+            }
+            
+            return results;
+        }
+        std::cerr << "GPUVectorIndex: Vulkan batch search failed, falling back to CPU\n";
+    }
+    #endif
+    
+    // CPU fallback - process each query
+    std::vector<std::vector<SearchResult>> results;
+    results.reserve(queries.size());
+    
+    for (const auto& query : queries) {
+        results.push_back(pImpl->searchCPU(query, k));
     }
     
     // Use appropriate backend
@@ -642,7 +672,19 @@ GPUVectorIndex::Backend GPUVectorIndex::getActiveBackend() const {
 }
 
 GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
-    return pImpl->stats;
+    auto stats = pImpl->stats;
+    
+    // Merge Vulkan backend statistics if active
+    #ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        auto vulkanStats = pImpl->vulkanBackend->getStatistics();
+        stats.vramUsageBytes = vulkanStats.vramUsageBytes;
+        stats.avgQueryTimeMs = vulkanStats.avgQueryTimeMs;
+        stats.throughputQPS = vulkanStats.throughputQPS;
+    }
+    #endif
+    
+    return stats;
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
@@ -650,56 +692,40 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
         return false;
     }
     
-    // Don't switch if already using requested backend
+    // Can't switch if backend is not available
+    auto available = getAvailableBackends();
+    if (std::find(available.begin(), available.end(), backend) == available.end()) {
+        std::cerr << "GPUVectorIndex: Requested backend not available\n";
+        return false;
+    }
+    
+    // Already using this backend
     if (pImpl->activeBackend == backend) {
         return true;
     }
     
-    // Try to switch to requested backend
-    if (backend == Backend::HIP) {
-#ifdef THEMIS_ENABLE_HIP
-        if (pImpl->initializeHIP()) {
-            pImpl->activeBackend = Backend::HIP;
-            pImpl->stats.activeBackend = Backend::HIP;
-            pImpl->stats.isGPUActive = true;
-            std::cout << "Switched to HIP backend\n";
-            return true;
-        }
-#endif
-        std::cerr << "Cannot switch to HIP backend (not available)\n";
+    // Save current state
+    int dim = pImpl->dimension;
+    auto ids = pImpl->vectorIds;  // Save IDs
+    auto vectors = pImpl->vectorData;  // Save vectors
+    
+    // Shutdown current backend
+    pImpl->shutdown();
+    
+    // Switch to new backend
+    pImpl->config.backend = backend;
+    if (!pImpl->initialize(dim)) {
         return false;
-    } else if (backend == Backend::CUDA) {
-#ifdef THEMIS_ENABLE_CUDA
-        if (pImpl->initializeCUDA()) {
-            pImpl->activeBackend = Backend::CUDA;
-            pImpl->stats.activeBackend = Backend::CUDA;
-            pImpl->stats.isGPUActive = true;
-            std::cout << "Switched to CUDA backend\n";
-            return true;
-        }
-#endif
-        std::cerr << "Cannot switch to CUDA backend (not available)\n";
-        return false;
-    } else if (backend == Backend::CPU || backend == Backend::AUTO) {
-        // Shutdown GPU backends when switching to CPU
-#ifdef THEMIS_ENABLE_HIP
-        if (pImpl->hipBackend) {
-            pImpl->hipBackend->shutdown();
-        }
-#endif
-#ifdef THEMIS_ENABLE_CUDA
-        if (pImpl->cudaBackend) {
-            pImpl->cudaBackend->shutdown();
-        }
-#endif
-        pImpl->activeBackend = Backend::CPU;
-        pImpl->stats.activeBackend = Backend::CPU;
-        pImpl->stats.isGPUActive = false;
-        std::cout << "Switched to CPU backend\n";
-        return true;
     }
     
-    return false;
+    // Restore vectors with saved IDs
+    for (size_t i = 0; i < vectors.size(); ++i) {
+        if (i < ids.size()) {
+            pImpl->addVector(ids[i], vectors[i]);
+        }
+    }
+    
+    return true;
 }
 
 std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() const {
@@ -723,6 +749,38 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
     
     return backends;
 }
+
+// =============================================================================
+// Vulkan Backend Implementation
+// =============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+// Include the Vulkan backend implementation
+// The actual implementation is in gpu_vector_index_vulkan.cpp
+
+/**
+ * @brief Vulkan backend implementation for GPU vector indexing
+ */
+class VulkanVectorIndexBackend {
+public:
+    explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
+    ~VulkanVectorIndexBackend();
+    
+    bool initialize(int dimension);
+    void shutdown();
+    bool uploadVectors(const std::vector<std::vector<float>>& vectors);
+    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
+    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
+    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
+        const std::vector<std::vector<float>>& queries, size_t k);
+    GPUVectorIndex::Statistics getStatistics() const;
+    bool isInitialized() const;
+    
+private:
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
+};
+#endif
 
 } // namespace index
 } // namespace themis
