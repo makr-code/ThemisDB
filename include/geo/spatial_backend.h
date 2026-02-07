@@ -50,5 +50,8 @@ using RegisterGeoPluginFn = void(*)(IGeoRegistry*);
 // Get the Boost CPU backend (if available)
 ISpatialComputeBackend* getBoostCpuBackend();
 
+// Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
+ISpatialComputeBackend* getProductionGpuBackend();
+
 } // namespace geo
 } // namespace themis
