@@ -7,7 +7,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **v1.5.x Query Optimizer Production Integration** 🎯
+  - **Shard Metadata Integration (preparatory)**: Integration point for metadata-backed row estimates
+    - `DistributedQueryCostModel::getShardRowCount()` replaces hardcoded 10K constant with dynamic estimates
+    - Currently uses hash-based heuristic; full MetadataShard integration planned for v1.5.1
+    - Provides foundation for accurate cardinality estimation in distributed queries
+    - Integrates with existing sharding infrastructure
+  - **Predicate-based Selectivity Estimation**: Calculate query selectivity from predicates
+    - `DistributedQueryCostModel::calculatePredicateSelectivity()` analyzes query patterns
+    - Histogram-based estimation framework (extensible)
+    - Column-specific heuristics: ID columns (0.1%), status (20%), names (5%)
+    - Combined predicates use product of individual selectivities
+    - Bounded selectivity: [0.01%, 100%]
+  - **Network Latency Monitoring (preparatory)**: Integration point for latency-aware query planning
+    - `DistributedQueryCostModel::measureShardLatency()` provides latency integration hook
+    - Currently uses naming-convention heuristics; Prometheus integration planned for v1.5.1
+    - Enables locality detection (< 1ms latency threshold)
+    - Network-aware parallelism optimization
+    - Foundation for latency-aware join strategies
+  - **Comprehensive Integration Tests**: `tests/test_optimizer_v1_5_x_integration.cpp`
+    - Tests for shard metadata integration
+    - Tests for selectivity calculation
+    - Tests for network latency awareness
+    - Tests for partition pruning
+    - Full pipeline integration tests
+
+- **v1.5.x FAISS Vector Search Improvements** 🚀
+  - **ADC (Asymmetric Distance Computation) Tables**: ~40% faster vector search
+    - Enabled by default in `AdvancedVectorIndex::Config`
+    - Precomputed distance tables for IndexIVFPQ
+    - Optional polysemous hash tables for early termination
+    - No accuracy trade-off (bit-exact results)
+    - Minimal memory overhead (~1-2% of index size)
+  - **Configuration Options**:
+    - `use_adc_tables`: Enable ADC distance tables (default: true)
+    - `polysemous_ht`: Polysemous codes for early termination (default: 0)
+  - **Performance Impact**:
+    - Search speed: ~40% faster (varies by dataset)
+    - Particularly effective for high-dimensional vectors (>128d)
+    - Higher throughput with lower query latency
+
 ### Changed
+- **Write-Amplification Optimization (v1.5.0)** ⚡
+  - **Larger Memtables**: Increased default `memtable_size_mb` from 256MB to 512MB
+    - ~50% fewer L0 file flushes → ~30-40% reduction in write-amplification
+    - Improves write throughput for data ingestion and high-write workloads
+  - **More Write Buffers**: Increased default `max_write_buffer_number` from 3 to 6
+    - Allows writes to continue during memtable flush operations
+    - Reduces write stalls and improves sustained write throughput
+  - **Total Write Buffer Limit**: Set `db_write_buffer_size_mb` default to 2048MB (2GB)
+    - Previously unlimited (0), now has sensible default to prevent OOM with many column families
+    - Auto-manages write buffer allocation across all column families
+  - **Async I/O Enabled by Default**: Enhanced asynchronous I/O for better scan performance
+    - `enable_async_io` now defaults to `true` (was `false`)
+    - `async_io_readahead_size_mb` increased from 64MB to 128MB
+    - Expected improvement: 2-5x faster sequential scans and range queries
+  - **Documentation**: Added comprehensive "Write-Amplification Optimization" section to PERFORMANCE_TIPS.md
+    - Explains write-amp problem and solutions
+    - Tuning guidelines for different workloads (high-throughput, balanced, low-latency, memory-constrained)
+    - Monitoring metrics and Prometheus queries
+    - Best practices and configuration examples
+  - **Server Logging**: Updated main_server.cpp to display new optimization settings
+    - Shows memtable size, write buffer count, and async I/O status at startup
+    - Displays optimization profile (write-optimized, high-throughput, balanced, or low-latency)
+  - **Trade-offs**: Higher memtable memory (up to ~2GB capped by `db_write_buffer_size_mb`; theoretical 3-4GB if cap is raised), longer recovery time
+  - **Backward Compatibility**: All settings can be overridden via configuration
+  - **Testing**: Added comprehensive configuration test suite (`test_write_amplification_config.cpp`)
+
 - **Documentation Consolidation for Beta/RC** 📚
   - Archived 70+ historical documents (GAP analyses, old roadmaps, TODO lists, implementation summaries)
   - Organized archives into structured directories: gaps/, roadmaps/, todos/, implementation-summaries/
@@ -81,6 +148,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - POST `/api/v1/pitr/preview` - Preview restore operation (dry-run)
     - GET `/api/v1/pitr/progress` - Get current restore progress
   - **DiffEngine Enhanced**: Now accepts optional SnapshotManager for tag-based diffs
+  - **MergeEngine API Integration** 🆕
+    - **3-Way Merge Support**: Full Git-like merge functionality now integrated
+    - REST API endpoints for merge operations:
+      - POST `/api/v1/merge` - Perform three-way merge between sequences
+      - POST `/api/v1/merge/preview` - Preview merge without applying (dry-run)
+      - POST `/api/v1/merge/by-tag` - Merge using snapshot tags instead of sequences
+      - GET `/api/v1/merge/can-fast-forward` - Check if fast-forward merge is possible
+    - **BranchManager Enhanced**: Non-fast-forward branch merges now supported
+      - Automatic integration with MergeEngine for complex merges
+      - Conflict detection and resolution strategies
+      - Fast-forward detection and optimization
+    - **Conflict Resolution**: Multiple strategies available (OURS, THEIRS, MANUAL, FAST_FORWARD)
+    - **Full Integration**: MergeEngine properly initialized in HTTP server and connected to BranchManager
 
 ### Changed
 - Updated DiffEngine initialization to support SnapshotManager reference

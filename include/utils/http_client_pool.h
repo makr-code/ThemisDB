@@ -143,6 +143,17 @@ public:
         size_t stale_connections_removed = 0;
         size_t acquire_timeouts = 0;
         size_t requests_served = 0;
+        size_t connections_created = 0;
+        size_t connections_reused = 0;
+        
+        /**
+         * @brief Calculate connection reuse rate (0.0 - 1.0)
+         */
+        double getReuseRate() const {
+            size_t total = connections_created + connections_reused;
+            if (total == 0) return 0.0;
+            return static_cast<double>(connections_reused) / static_cast<double>(total);
+        }
     };
     
     Stats getStats() const;
@@ -151,6 +162,16 @@ public:
      * @brief Clear all pooled connections
      */
     void clear();
+    
+    /**
+     * @brief Warm up pool with minimum connections
+     * 
+     * Pre-creates connections to reduce cold-start latency.
+     * Useful for production deployments.
+     * 
+     * @param num_connections Number of connections to pre-create
+     */
+    void warmup(size_t num_connections);
     
 private:
     /**
@@ -209,6 +230,8 @@ private:
     std::atomic<size_t> requests_served_{0};
     std::atomic<size_t> stale_removed_{0};
     std::atomic<size_t> acquire_timeouts_{0};
+    std::atomic<size_t> connections_created_{0};
+    std::atomic<size_t> connections_reused_{0};
     std::atomic<bool> shutdown_{false};
     mutable std::atomic<size_t> round_robin_{0};
 };
