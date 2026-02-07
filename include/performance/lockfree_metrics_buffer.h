@@ -146,10 +146,11 @@ struct MetricsEntry {
 };
 
 /**
- * @brief Thread-local metrics buffer
+ * @brief Thread-local metrics buffer with automatic deregistration
  * 
  * Each thread has its own buffer to avoid contention.
  * Background thread periodically drains all buffers.
+ * RAII wrapper ensures buffer is deregistered when thread exits.
  */
 class ThreadLocalMetricsBuffer {
 public:
@@ -180,11 +181,14 @@ public:
      */
     template<typename Container>
     size_t drain(Container& output) {
-        size_t count = 0;
         MetricsEntry entry;
-        while (buffer_.tryPop(entry)) {
-            output.push_back(std::move(entry));
-            ++count;
+        size_t count = 0;
+        // Only drain if buffer is still valid (not being destroyed)
+        if (valid_.load(std::memory_order_acquire)) {
+            while (buffer_.tryPop(entry)) {
+                output.push_back(std::move(entry));
+                ++count;
+            }
         }
         return count;
     }
@@ -219,9 +223,24 @@ public:
     size_t size() const noexcept {
         return buffer_.size();
     }
+    
+    /**
+     * @brief Mark buffer as invalid (being destroyed)
+     */
+    void invalidate() noexcept {
+        valid_.store(false, std::memory_order_release);
+    }
+    
+    /**
+     * @brief Check if buffer is valid
+     */
+    bool is_valid() const noexcept {
+        return valid_.load(std::memory_order_acquire);
+    }
 
 private:
     BufferType buffer_;
+    std::atomic<bool> valid_{true};
 };
 
 } // namespace performance

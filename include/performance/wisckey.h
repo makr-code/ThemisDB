@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <shared_mutex>
 #include <memory>
 #include <fstream>
 #include <optional>
@@ -57,7 +58,10 @@ public:
     std::optional<std::string> read(const ValueAddress& addr);
     
     // Get current log size in bytes
-    uint64_t size() const { return current_offset_; }
+    uint64_t size() const { 
+        std::shared_lock<std::shared_mutex> lock(rw_mutex_);
+        return current_offset_; 
+    }
     
     // Sync log to disk
     void sync();
@@ -71,7 +75,7 @@ private:
     std::string log_path_;
     std::unique_ptr<std::fstream> log_file_;
     uint64_t current_offset_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex rw_mutex_;  // Reader-writer lock for concurrent reads
 };
 
 /// WiscKey storage engine wrapper
