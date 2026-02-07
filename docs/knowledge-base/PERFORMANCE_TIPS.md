@@ -332,6 +332,7 @@ auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
     HnswParameterTuner::WorkloadType::OLTP
 );
 // Result: M=12, ef_construction=144, ef_search=32, target_latency=5ms
+// Note: Actual values depend on dataset size and will be adjusted accordingly
 
 // Analytics: Batch similarity analysis, data mining
 auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
@@ -339,6 +340,7 @@ auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
     HnswParameterTuner::WorkloadType::ANALYTICS
 );
 // Result: M=32, ef_construction=768, ef_search=128, target_latency=50ms
+// Note: Values scale with dataset size to maintain performance characteristics
 
 // RAG: Document retrieval for LLM context
 auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
@@ -346,6 +348,7 @@ auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
     HnswParameterTuner::WorkloadType::RAG
 );
 // Result: M=24, ef_construction=384, ef_search=64, target_latency=15ms
+// Note: Balanced configuration for high-quality retrieval with acceptable latency
 ```
 
 **Performance Characteristics by Workload:**

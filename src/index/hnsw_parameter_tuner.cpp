@@ -157,13 +157,13 @@ int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M,
     
     // Dataset size scaling
     if (dataset_size < 10000) {
-        base_ef = base_ef;
+        // Small datasets: keep base value
     } else if (dataset_size < 100000) {
         base_ef = static_cast<int>(base_ef * 1.5);
     } else if (dataset_size < 1000000) {
-        base_ef = base_ef * 2;
+        base_ef = static_cast<int>(base_ef * 2.0);
     } else {
-        base_ef = base_ef * 3;
+        base_ef = static_cast<int>(base_ef * 3.0);
     }
     
     // Workload-specific adjustments
