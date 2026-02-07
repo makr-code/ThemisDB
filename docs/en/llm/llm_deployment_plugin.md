@@ -4,6 +4,27 @@
 
 The LLM Deployment Plugin provides production-ready model deployment capabilities for ThemisDB, inspired by Ollama. It enables enterprise-grade model lifecycle management with support for offline/online/auto deployment modes, comprehensive caching, integrity verification, and audit logging.
 
+## Current Limitations
+
+### Ollama Model Export
+
+The Ollama model export functionality is currently in development. When using the Ollama source type, the plugin can:
+- ✅ Pull models via Ollama's `/api/pull` endpoint
+- ✅ List available models via `/api/tags`
+- ✅ Get model manifests via `/api/show`
+- ⚠️ Model export to GGUF format is not yet fully implemented
+
+**Workaround**: Use Ollama CLI to manually export models to GGUF format:
+```bash
+ollama show <model-name> --modelfile > model.gguf
+```
+
+### User Context Tracking
+
+The audit logging system currently logs all operations with a "system" user. For full enterprise audit compliance, user context tracking needs to be implemented to capture the actual user or service account initiating operations.
+
+**Future Enhancement**: Integration with ThemisDB's authentication system to capture user identity.
+
 ## Features
 
 ### Core Capabilities

@@ -263,6 +263,16 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
 bool ModelDownloader::exportOllamaModel(const std::string& ollama_url, 
                                         const std::string& model_name,
                                         const std::string& output_path) {
+    // NOTE: Ollama model export to GGUF format is not yet fully implemented.
+    // This is a known limitation. Ollama uses content-addressable storage
+    // with complex blob management that requires additional implementation.
+    //
+    // Current workaround: Use Ollama CLI to manually export models:
+    //   ollama show <model-name> --modelfile > model.gguf
+    //
+    // Future enhancement: Implement proper blob extraction from Ollama's
+    // storage directory (~/.ollama/models on Linux/Mac)
+    
 #ifdef THEMIS_ENABLE_CURL
     // Use Ollama's show endpoint to get model blob/layers info
     std::string show_url = ollama_url + "/api/show";
