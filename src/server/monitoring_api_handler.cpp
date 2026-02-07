@@ -4,11 +4,16 @@
 #include "server/auth_middleware.h"
 #include "metadata/schema_manager.h"
 #include "plugins/plugin_manager.h"
+#include "security/hsm_provider.h"
+#include "security/hsm_security_metrics.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <ctime>
+
+// External reference to global HSM provider (defined in main_server.cpp)
+extern std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
 
 namespace themis {
 namespace server {
@@ -536,6 +541,19 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         } catch (...) {
             // If tracing metrics fail, log and continue
             THEMIS_WARN("Failed to collect tracing metrics");
+        }
+        
+        // HSM Security Metrics (FIND-002)
+        try {
+            if (g_hsm_provider) {
+                std::string hsm_metrics = themis::security::HSMSecurityMetrics::exportMetrics(*g_hsm_provider);
+                out += "\n# === HSM Security Metrics ===\n";
+                out += hsm_metrics;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to collect HSM security metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting HSM security metrics");
         }
 
         // Return Prometheus format response
