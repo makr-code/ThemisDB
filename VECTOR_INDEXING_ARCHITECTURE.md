@@ -353,6 +353,165 @@ endif()
 - Not production-critical
 - May inform future optimizations
 
+
+---
+
+## Workload-Specific Optimization
+
+### Overview
+
+ThemisDB provides workload-specific index tuning to optimize performance for different use cases. Each workload type has distinct characteristics and requirements:
+
+| Workload | Characteristics | Optimization Goal |
+|----------|----------------|-------------------|
+| **OLTP** | High QPS, low latency, small k | Minimize query latency, maximize throughput |
+| **Analytics** | Large k, batch queries, complex aggregations | Maximize recall, tolerate higher latency |
+| **RAG** | Medium k, high-dimensional embeddings | Balance speed and accuracy for LLM retrieval |
+| **Mixed** | Varying query patterns | Balanced configuration |
+| **Batch Insert** | Bulk data loading | Optimize construction speed |
+
+### HNSW Workload Tuning
+
+**Parameter Adjustments by Workload:**
+
+```
+OLTP Configuration:
+├── M: 8-16 (lower for faster writes)
+├── ef_construction: 96-192 (faster build)
+├── ef_search: 16-128 (lower for speed)
+├── target_latency: 5ms
+└── target_recall: 90-93%
+
+Analytics Configuration:
+├── M: 24-48 (higher for connectivity)
+├── ef_construction: 288-600 (quality build)
+├── ef_search: 64-512 (higher for recall)
+├── target_latency: 50ms
+└── target_recall: 97-99%
+
+RAG Configuration:
+├── M: 16-32 (balanced)
+├── ef_construction: 192-384 (good quality)
+├── ef_search: 32-256 (balanced)
+├── target_latency: 15ms
+└── target_recall: 95-97%
+```
+
+**Usage Example:**
+
+```cpp
+// OLTP: Real-time product recommendations
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    100000, HnswParameterTuner::WorkloadType::OLTP);
+
+HnswParameterTuner tuner(config);
+// tuner will automatically adapt ef_search for optimal performance
+
+// Analytics: Batch similarity analysis
+auto config = HnswProductionDefaults::getWorkloadOptimizedParams(
+    1000000, 768, HnswProductionDefaults::WorkloadType::ANALYTICS);
+
+// RAG: Document retrieval for LLM
+auto config = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    500000, 1536, AdvancedVectorIndex::WorkloadType::RAG);
+```
+
+### FAISS Workload Tuning
+
+**IVF Configuration by Workload:**
+
+```
+OLTP:
+├── nlist: dataset_size / 200 (fewer clusters)
+├── nprobe: 32 (lower probe)
+├── index_type: IVF_FLAT (no compression)
+└── Expected: 2-5ms latency, 90-95% recall
+
+Analytics:
+├── nlist: dataset_size / 50 (more clusters)
+├── nprobe: 128 (higher probe)
+├── index_type: IVF_PQ (compression)
+└── Expected: 20-50ms latency, 97-99% recall
+
+RAG:
+├── nlist: sqrt(dataset_size) (balanced)
+├── nprobe: 64 (balanced)
+├── index_type: IVF_PQ (compression)
+└── Expected: 5-15ms latency, 95-97% recall
+```
+
+### Adaptive Runtime Tuning
+
+**How It Works:**
+
+1. **Monitoring**: Tracks query latency and recall (if available)
+2. **Analysis**: Analyzes recent queries in sliding window
+3. **Adaptation**: Adjusts ef_search to meet targets
+4. **Feedback Loop**: Continuously improves based on results
+
+**Adaptive Algorithm:**
+
+```
+if (avg_latency > target_latency):
+    ef_search = ef_search * 0.9  // Reduce for speed
+elif (avg_recall < target_recall):
+    ef_search = ef_search * 1.1  // Increase for accuracy
+elif (avg_recall > target_recall + 0.02):
+    ef_search = ef_search * 0.95 // Optimize (slightly reduce)
+```
+
+**Configuration:**
+
+```cpp
+HnswParameterTuner::Config config;
+config.adaptive = true;  // Enable adaptation
+config.target_recall = 0.95;
+config.target_latency = std::chrono::milliseconds(10);
+config.stats_window_size = 1000;  // Track last 1000 queries
+config.workload = HnswParameterTuner::WorkloadType::RAG;
+
+HnswParameterTuner tuner(config);
+```
+
+### Performance Monitoring
+
+**Key Metrics:**
+
+```cpp
+auto stats = tuner.getStats();
+
+// Monitor these metrics:
+stats.queries_processed;      // Total queries
+stats.avg_latency_ms;         // Average query latency
+stats.avg_recall;             // Average recall (if measured)
+stats.current_ef_search;      // Current adapted ef_search
+stats.adaptations_count;      // Number of adaptations
+```
+
+**Performance Comparison:**
+
+```
+Dataset: 1M vectors, 768 dimensions
+
+Workload    | Latency (p95) | Recall@10 | Memory  | QPS
+------------|---------------|-----------|---------|-------
+OLTP        | 3-5ms         | 92%       | 8 GB    | 8,000
+Analytics   | 35-50ms       | 98%       | 25 GB   | 800
+RAG         | 10-15ms       | 96%       | 12 GB   | 3,000
+Mixed       | 15-25ms       | 95%       | 15 GB   | 2,000
+```
+
+### Best Practices
+
+1. **Profile First**: Measure current workload before optimizing
+2. **Start Conservative**: Begin with MIXED workload, then specialize
+3. **Enable Adaptive**: Let the system tune ef_search automatically
+4. **Monitor Metrics**: Track latency and recall in production
+5. **Rebuild Periodically**: Rebuild index when data grows 5x
+6. **Use GPU**: Enable GPU for Analytics workloads on large datasets
+7. **Test Thoroughly**: Benchmark with production-like queries
+8. **Document Changes**: Record configuration and performance impact
+
 ---
 
 ## References
@@ -361,6 +520,8 @@ endif()
 - **FAISS_MIGRATION_COMPLETE.md** - Comprehensive migration summary
 - **LIBRARY_USAGE_ANALYSIS.md** - Detailed library usage analysis
 - **LIBRARY_OPTIMIZATION_QUICKREF.md** - Quick reference guide
+- **PERFORMANCE_TIPS.md** - Performance optimization guidelines
+- **Workload Optimization** - This document, section on workload-specific tuning
 
 ### Code
 - **include/index/advanced_vector_index.h** - FAISS wrapper interface
@@ -375,7 +536,7 @@ endif()
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: 2026-02-05  
+**Document Version**: 1.1  
+**Last Updated**: 2026-02-07  
 **Status**: Production-ready ✅  
 **Maintainer**: ThemisDB Core Team

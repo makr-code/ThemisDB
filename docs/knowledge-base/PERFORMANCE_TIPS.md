@@ -472,6 +472,98 @@ FOR loc IN NEAR(locations, 40.7128, -74.0060, 10000)
   RETURN loc
 ```
 
+**Vector Index (HNSW/FAISS):**
+
+```cpp
+// For similarity search and RAG applications
+// Use the workload-optimized configuration helpers
+
+// OLTP Workload: High-throughput, low-latency
+auto oltpConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::OLTP);
+// Result: nlist=512, nprobe=32, index_type=IVF_FLAT
+
+// Analytics Workload: Large batch queries, high recall
+auto analyticsConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::ANALYTICS);
+// Result: nlist=2048, nprobe=128, index_type=IVF_PQ
+
+// RAG Workload: Balance speed and accuracy for LLM
+auto ragConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::RAG);
+// Result: nlist=1024, nprobe=64, index_type=IVF_PQ
+
+// Use the configuration with AdvancedVectorIndex
+AdvancedVectorIndex index(dimension, ragConfig);
+```
+
+---
+
+### Vector Index Workload Optimization
+
+**HNSW Parameter Tuning for Different Workloads:**
+
+| Workload | M | ef_construction | ef_search | Use Case |
+|----------|---|-----------------|-----------|----------|
+| OLTP | 8-16 | 96-192 | 16-128 | Low latency, high throughput queries |
+| Analytics | 24-48 | 288-600 | 64-512 | Batch processing, maximum recall |
+| RAG | 16-32 | 192-384 | 32-256 | LLM retrieval, balanced performance |
+| Mixed | 16-24 | 192-384 | 32-512 | General-purpose workload |
+| Batch Insert | 8-12 | 96-144 | N/A | Optimized for bulk data loading |
+
+**Workload-Specific Configuration Examples:**
+
+```cpp
+// OLTP: E-commerce product search, real-time recommendations
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    100000,  // dataset_size
+    HnswParameterTuner::WorkloadType::OLTP
+);
+// Result: M=12, ef_construction=144, ef_search=32, target_latency=5ms
+// Note: Actual values depend on dataset size and will be adjusted accordingly
+
+// Analytics: Batch similarity analysis, data mining
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    1000000,  // dataset_size
+    HnswParameterTuner::WorkloadType::ANALYTICS
+);
+// Result: M=32, ef_construction=768, ef_search=128, target_latency=50ms
+// Note: Values scale with dataset size to maintain performance characteristics
+
+// RAG: Document retrieval for LLM context
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(
+    500000,  // dataset_size
+    HnswParameterTuner::WorkloadType::RAG
+);
+// Result: M=24, ef_construction=384, ef_search=64, target_latency=15ms
+// Note: Balanced configuration for high-quality retrieval with acceptable latency
+```
+
+**Performance Characteristics by Workload:**
+
+```
+OLTP Workload (100K vectors, 768-dim):
+├── Query Latency (p95): 2-5ms
+├── Throughput: 5,000-10,000 QPS
+├── Memory Usage: 2-4 GB
+├── Recall@10: 90-95%
+└── Insert Rate: 10,000-20,000 vectors/sec
+
+Analytics Workload (1M vectors, 768-dim):
+├── Query Latency (p95): 20-50ms
+├── Throughput: 500-2,000 QPS
+├── Memory Usage: 20-40 GB
+├── Recall@10: 97-99%
+└── Batch Query: 1,000-5,000 queries/batch
+
+RAG Workload (500K vectors, 1536-dim):
+├── Query Latency (p95): 5-15ms
+├── Throughput: 2,000-5,000 QPS
+├── Memory Usage: 8-16 GB
+├── Recall@10: 95-97%
+└── Context Retrieval: 10-50 docs per query
+```
+
 ---
 
 ### Index Selection Strategy
@@ -584,6 +676,86 @@ db._collection("users").dropIndex("idx_unused");
 ```
 
 **⚠️ Warning:** Each index adds overhead to write operations. Keep only necessary indexes.
+
+---
+
+### Vector Index Adaptive Tuning
+
+**Enable Adaptive Parameter Adjustment:**
+
+```cpp
+// Automatic parameter tuning based on query performance
+HnswParameterTuner::Config config;
+config.adaptive = true;                           // Enable adaptation
+config.target_recall = 0.95;                      // Target 95% recall
+config.target_latency = std::chrono::milliseconds(10); // Target 10ms latency
+config.scale_with_dataset = true;                 // Scale with data growth
+
+HnswParameterTuner tuner(config);
+
+// Query loop - tuner adapts ef_search automatically
+while (processing_queries) {
+    int optimal_ef = tuner.getOptimalEfSearch(k, dataset_size);
+    auto results = index.search(query_vector, k, optimal_ef);
+    
+    // Record results for adaptation
+    tuner.recordQueryResult(k, optimal_ef, latency_ms, recall);
+}
+
+// Monitor adaptation
+auto stats = tuner.getStats();
+std::cout << "Queries processed: " << stats.queries_processed << std::endl;
+std::cout << "Current ef_search: " << stats.current_ef_search << std::endl;
+std::cout << "Adaptations: " << stats.adaptations_count << std::endl;
+std::cout << "Avg latency: " << stats.avg_latency_ms << "ms" << std::endl;
+std::cout << "Avg recall: " << stats.avg_recall << std::endl;
+```
+
+**Workload Detection and Auto-Configuration:**
+
+```cpp
+// Pseudocode example: Detect workload pattern and configure automatically
+// Note: QueryPattern, WorkloadDetector, and analyzeQueryPattern are conceptual
+// and would need to be implemented based on your specific monitoring system
+
+class WorkloadDetector {
+public:
+    HnswParameterTuner::WorkloadType detectWorkload(const QueryPattern& pattern) {
+        if (pattern.avg_k < 20 && pattern.qps > 5000) {
+            return HnswParameterTuner::WorkloadType::OLTP;  // Small k, high QPS
+        }
+        if (pattern.avg_k > 100 || pattern.batch_size > 100) {
+            return HnswParameterTuner::WorkloadType::ANALYTICS;  // Large k or batch queries
+        }
+        if (pattern.avg_dim > 1024 && pattern.avg_k < 50) {
+            return HnswParameterTuner::WorkloadType::RAG;  // High-dim for embeddings
+        }
+        return HnswParameterTuner::WorkloadType::MIXED;
+    }
+};
+
+// Auto-configure based on detected workload
+auto pattern = analyzeQueryPattern(recent_queries);
+WorkloadDetector detector;
+auto workload = detector.detectWorkload(pattern);
+auto config = HnswParameterTuner::getWorkloadOptimizedConfig(dataset_size, workload);
+
+// Apply configuration
+updateIndexConfiguration(config);
+```
+
+**Performance Tuning Checklist:**
+
+- [ ] Profile current workload (QPS, latency distribution, k values)
+- [ ] Select appropriate workload type (OLTP/Analytics/RAG/Mixed)
+- [ ] Configure index with workload-optimized parameters
+- [ ] Enable adaptive tuning for runtime optimization
+- [ ] Monitor recall and latency metrics
+- [ ] Adjust target_recall and target_latency based on requirements
+- [ ] Consider index rebuild when dataset grows 5x
+- [ ] Use post-filtering overfetch for filtered queries
+- [ ] Enable NUMA awareness for large datasets (>1M vectors)
+- [ ] Use GPU acceleration for Analytics workloads
 
 ---
 

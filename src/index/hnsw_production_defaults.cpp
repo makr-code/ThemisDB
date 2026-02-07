@@ -13,32 +13,108 @@ namespace index {
 HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
     size_t dataset_size,
     size_t dimension,
-    PerformanceProfile profile) {
+    PerformanceProfile profile,
+    WorkloadType workload) {
     
     HnswParams params;
     
-    // Get M based on dataset size
+    // Get M based on dataset size and workload
     params.M = getRecommendedM(dataset_size);
+    
+    // Apply workload-specific adjustments to M
+    switch (workload) {
+        case WorkloadType::OLTP:
+            params.M = std::max(8, params.M - 4);  // Reduce for faster writes
+            break;
+        case WorkloadType::ANALYTICS:
+            params.M = std::min(48, params.M + 8);  // Increase for better recall
+            break;
+        case WorkloadType::RAG:
+            params.M = std::min(40, params.M + 4);  // Balance recall and speed
+            break;
+        case WorkloadType::BATCH_INSERT:
+            params.M = std::max(8, params.M - 6);  // Optimize for bulk loading
+            break;
+        case WorkloadType::MIXED:
+        default:
+            // Keep default M
+            break;
+    }
     
     // Set max_M and max_M0 based on M
     params.max_M = params.M;
     params.max_M0 = params.M * 2;  // Layer 0 has more connections
     
-    // Set ef_construction
+    // Set ef_construction with workload adjustments
     params.ef_construction = getRecommendedEfConstruction(params.M, dataset_size);
     
-    // Set ef_search based on profile
-    params.ef_search = getRecommendedEfSearch(10, profile);  // Default k=10
+    switch (workload) {
+        case WorkloadType::OLTP:
+            params.ef_construction = static_cast<int>(params.ef_construction * 0.7);
+            break;
+        case WorkloadType::ANALYTICS:
+            params.ef_construction = static_cast<int>(params.ef_construction * 1.3);
+            break;
+        case WorkloadType::RAG:
+            params.ef_construction = static_cast<int>(params.ef_construction * 1.2);
+            break;
+        case WorkloadType::BATCH_INSERT:
+            params.ef_construction = static_cast<int>(params.ef_construction * 0.6);
+            break;
+        case WorkloadType::MIXED:
+        default:
+            // Keep default ef_construction
+            break;
+    }
+    
+    // Set ef_search based on profile and workload
+    int base_k = 10;  // Default k
+    params.ef_search = getRecommendedEfSearch(base_k, profile);
+    
+    switch (workload) {
+        case WorkloadType::OLTP:
+            params.ef_search = std::max(16, static_cast<int>(params.ef_search * 0.8));
+            break;
+        case WorkloadType::ANALYTICS:
+            params.ef_search = std::min(512, static_cast<int>(params.ef_search * 1.5));
+            break;
+        case WorkloadType::RAG:
+            params.ef_search = std::min(256, static_cast<int>(params.ef_search * 1.2));
+            break;
+        case WorkloadType::BATCH_INSERT:
+            // ef_search less relevant for batch insert
+            break;
+        case WorkloadType::MIXED:
+        default:
+            // Keep default ef_search
+            break;
+    }
     
     // Set level multiplier (standard HNSW formula)
     params.ml = 1.0 / std::log(static_cast<double>(params.M));
     
-    // Set initial capacity (reserve 20% growth headroom)
-    params.initial_capacity = static_cast<size_t>(dataset_size * 1.2);
+    // Set initial capacity (reserve growth headroom)
+    switch (workload) {
+        case WorkloadType::BATCH_INSERT:
+            params.initial_capacity = static_cast<size_t>(dataset_size * 1.5);  // More headroom
+            break;
+        case WorkloadType::OLTP:
+            params.initial_capacity = static_cast<size_t>(dataset_size * 1.3);  // Expect growth
+            break;
+        default:
+            params.initial_capacity = static_cast<size_t>(dataset_size * 1.2);
+            break;
+    }
     
-    // Enable optimizations based on dataset size and hardware
+    // Enable optimizations based on dataset size, hardware, and workload
     params.use_prefetch = (dataset_size > MEDIUM_DATASET);
     params.numa_aware = (dataset_size > LARGE_DATASET);
+    
+    // Workload-specific optimization flags
+    if (workload == WorkloadType::ANALYTICS) {
+        params.use_prefetch = true;  // Always prefetch for analytics
+        params.numa_aware = (dataset_size > MEDIUM_DATASET);  // More aggressive NUMA
+    }
     
     // Adjust for dimensionality
     if (dimension > 512) {
@@ -49,6 +125,36 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
     }
     
     return params;
+}
+
+HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedParams(
+    size_t dataset_size,
+    size_t dimension,
+    WorkloadType workload) {
+    
+    // Select appropriate performance profile based on workload
+    PerformanceProfile profile;
+    
+    switch (workload) {
+        case WorkloadType::OLTP:
+            profile = PerformanceProfile::LATENCY_OPTIMIZED;
+            break;
+        case WorkloadType::ANALYTICS:
+            profile = PerformanceProfile::RECALL_OPTIMIZED;
+            break;
+        case WorkloadType::RAG:
+            profile = PerformanceProfile::BALANCED;
+            break;
+        case WorkloadType::BATCH_INSERT:
+            profile = PerformanceProfile::LATENCY_OPTIMIZED;  // Fast inserts
+            break;
+        case WorkloadType::MIXED:
+        default:
+            profile = PerformanceProfile::BALANCED;
+            break;
+    }
+    
+    return getRecommendedParams(dataset_size, dimension, profile, workload);
 }
 
 int HnswProductionDefaults::getRecommendedM(size_t dataset_size) {
