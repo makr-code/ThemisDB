@@ -45,6 +45,7 @@ class NCCLVectorBackend::Impl {
 public:
     Config config;
     ncclComm_t comm = nullptr;
+    std::vector<ncclComm_t> allComms;  // Store all communicators to properly destroy them
     bool initialized = false;
     Statistics stats;
     
@@ -80,10 +81,10 @@ public:
         
         // Initialize NCCL communicator
         // Note: In production, this would use ncclCommInitRank with a unique ID
-        // For now, we use ncclCommInitAll for simplicity
-        ncclComm_t comms[config.worldSize];
-        NCCL_CHECK(ncclCommInitAll(comms, config.worldSize, config.deviceIds.data()));
-        comm = comms[config.rank];
+        // For now, we use ncclCommInitAll for simplicity in single-process multi-GPU setup
+        allComms.resize(config.worldSize);
+        NCCL_CHECK(ncclCommInitAll(allComms.data(), config.worldSize, config.deviceIds.data()));
+        comm = allComms[config.rank];
         
         // Enable P2P access if requested
         if (config.enableP2P) {
@@ -102,8 +103,14 @@ public:
     }
     
     void shutdown() {
-        if (initialized && comm != nullptr) {
-            ncclCommDestroy(comm);
+        if (initialized) {
+            // Destroy all communicators created by ncclCommInitAll
+            for (auto& c : allComms) {
+                if (c != nullptr) {
+                    ncclCommDestroy(c);
+                }
+            }
+            allComms.clear();
             comm = nullptr;
             initialized = false;
         }
@@ -118,9 +125,26 @@ public:
                 cudaDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
                     cudaSetDevice(config.deviceIds[i]);
-                    cudaDeviceEnablePeerAccess(config.deviceIds[j], 0);
+                    cudaError_t err = cudaDeviceEnablePeerAccess(config.deviceIds[j], 0);
+                    if (err == cudaErrorPeerAccessAlreadyEnabled) {
+                        // Clear the sticky error state
+                        cudaGetLastError();
+                    } else if (err != cudaSuccess) {
+                        std::cerr << "CUDA error: " << cudaGetErrorString(err)
+                                  << " at " << __FILE__ << ":" << __LINE__ << std::endl;
+                        return false;
+                    }
+                    
                     cudaSetDevice(config.deviceIds[j]);
-                    cudaDeviceEnablePeerAccess(config.deviceIds[i], 0);
+                    err = cudaDeviceEnablePeerAccess(config.deviceIds[i], 0);
+                    if (err == cudaErrorPeerAccessAlreadyEnabled) {
+                        // Clear the sticky error state
+                        cudaGetLastError();
+                    } else if (err != cudaSuccess) {
+                        std::cerr << "CUDA error: " << cudaGetErrorString(err)
+                                  << " at " << __FILE__ << ":" << __LINE__ << std::endl;
+                        return false;
+                    }
                 }
             }
         }
@@ -358,46 +382,39 @@ bool NCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* loc
                                    size_t k, int root, cudaStream_t stream) {
     if (!pImpl->initialized) return false;
     
-    // First, gather all local top-k results to root
-    size_t totalSize = localK * pImpl->config.worldSize;
+    int rank = pImpl->config.rank;
+    size_t worldSize = pImpl->config.worldSize;
     
-    // Allocate temporary buffers on root
-    uint32_t* allIndices = nullptr;
-    float* allDistances = nullptr;
-    
-    if (pImpl->config.rank == root) {
-        CUDA_CHECK(cudaMalloc(&allIndices, totalSize * sizeof(uint32_t)));
-        CUDA_CHECK(cudaMalloc(&allDistances, totalSize * sizeof(float)));
+    // Validate that requested k does not exceed the locally available top-k
+    if (k > localK) {
+        std::cerr << "NCCLVectorBackend::mergeTopK: requested k (" << k
+                  << ") exceeds localK (" << localK << ")." << std::endl;
+        return false;
     }
     
-    // Gather indices
-    pImpl->startTiming();
-    // Note: NCCL doesn't have direct support for uint32_t, so we'd need to cast or use AllGather differently
-    // For now, we'll use a simplified approach with AllGather on floats
-    
-    // In production, this would:
-    // 1. AllGather all local top-k results
-    // 2. On root, perform a k-way merge to get global top-k
-    // 3. Optionally broadcast global top-k back to all ranks
-    
-    // Simplified implementation: just gather distances and use AllGather
-    if (pImpl->config.rank == root) {
-        // Would perform merge here
-        // For now, just copy local results as placeholder
-        CUDA_CHECK(cudaMemcpy(globalIndices, localIndices, k * sizeof(uint32_t), 
+    // Single-process case: safe and meaningful to just copy local results
+    if (worldSize == 1) {
+        if (k == 0) {
+            // Nothing to do, but this is a valid no-op
+            return true;
+        }
+        
+        pImpl->startTiming();
+        // Copy local top-k to global buffers on the single rank
+        CUDA_CHECK(cudaMemcpy(globalIndices, localIndices, k * sizeof(uint32_t),
                               cudaMemcpyDeviceToDevice));
         CUDA_CHECK(cudaMemcpy(globalDistances, localDistances, k * sizeof(float),
                               cudaMemcpyDeviceToDevice));
+        pImpl->recordCollective();
+        return true;
     }
     
-    pImpl->recordCollective();
-    
-    if (pImpl->config.rank == root) {
-        cudaFree(allIndices);
-        cudaFree(allDistances);
-    }
-    
-    return true;
+    // Distributed mergeTopK is not yet implemented. Avoid claiming success.
+    std::cerr << "NCCLVectorBackend::mergeTopK: distributed merge (worldSize = "
+              << worldSize << ") is not implemented yet." << std::endl;
+    (void)root;   // suppress unused parameter warning until implemented
+    (void)stream; // suppress unused parameter warning until implemented
+    return false;
 }
 
 NCCLVectorBackend::Statistics NCCLVectorBackend::getStatistics() const {

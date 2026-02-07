@@ -45,6 +45,7 @@ class RCCLVectorBackend::Impl {
 public:
     Config config;
     rcclComm_t comm = nullptr;
+    std::vector<rcclComm_t> allComms;  // Store all communicators to properly destroy them
     bool initialized = false;
     Statistics stats;
     
@@ -80,10 +81,10 @@ public:
         
         // Initialize RCCL communicator
         // Note: In production, this would use rcclCommInitRank with a unique ID
-        // For now, we use rcclCommInitAll for simplicity
-        rcclComm_t comms[config.worldSize];
-        RCCL_CHECK(rcclCommInitAll(comms, config.worldSize, config.deviceIds.data()));
-        comm = comms[config.rank];
+        // For now, we use rcclCommInitAll for simplicity in single-process multi-GPU setup
+        allComms.resize(config.worldSize);
+        RCCL_CHECK(rcclCommInitAll(allComms.data(), config.worldSize, config.deviceIds.data()));
+        comm = allComms[config.rank];
         
         // Enable P2P access if requested
         if (config.enableP2P) {
@@ -102,8 +103,14 @@ public:
     }
     
     void shutdown() {
-        if (initialized && comm != nullptr) {
-            rcclCommDestroy(comm);
+        if (initialized) {
+            // Destroy all communicators created by rcclCommInitAll
+            for (auto& c : allComms) {
+                if (c != nullptr) {
+                    rcclCommDestroy(c);
+                }
+            }
+            allComms.clear();
             comm = nullptr;
             initialized = false;
         }
@@ -118,9 +125,26 @@ public:
                 hipDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
                     hipSetDevice(config.deviceIds[i]);
-                    hipDeviceEnablePeerAccess(config.deviceIds[j], 0);
+                    hipError_t err = hipDeviceEnablePeerAccess(config.deviceIds[j], 0);
+                    if (err == hipErrorPeerAccessAlreadyEnabled) {
+                        // Clear the sticky error state
+                        (void)hipGetLastError();
+                    } else if (err != hipSuccess) {
+                        std::cerr << "HIP error: " << hipGetErrorString(err)
+                                  << " at " << __FILE__ << ":" << __LINE__ << std::endl;
+                        return false;
+                    }
+                    
                     hipSetDevice(config.deviceIds[j]);
-                    hipDeviceEnablePeerAccess(config.deviceIds[i], 0);
+                    err = hipDeviceEnablePeerAccess(config.deviceIds[i], 0);
+                    if (err == hipErrorPeerAccessAlreadyEnabled) {
+                        // Clear the sticky error state
+                        (void)hipGetLastError();
+                    } else if (err != hipSuccess) {
+                        std::cerr << "HIP error: " << hipGetErrorString(err)
+                                  << " at " << __FILE__ << ":" << __LINE__ << std::endl;
+                        return false;
+                    }
                 }
             }
         }
@@ -358,46 +382,39 @@ bool RCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* loc
                                    size_t k, int root, hipStream_t stream) {
     if (!pImpl->initialized) return false;
     
-    // First, gather all local top-k results to root
-    size_t totalSize = localK * pImpl->config.worldSize;
+    int rank = pImpl->config.rank;
+    size_t worldSize = pImpl->config.worldSize;
     
-    // Allocate temporary buffers on root
-    uint32_t* allIndices = nullptr;
-    float* allDistances = nullptr;
-    
-    if (pImpl->config.rank == root) {
-        HIP_CHECK(hipMalloc(&allIndices, totalSize * sizeof(uint32_t)));
-        HIP_CHECK(hipMalloc(&allDistances, totalSize * sizeof(float)));
+    // Validate that requested k does not exceed the locally available top-k
+    if (k > localK) {
+        std::cerr << "RCCLVectorBackend::mergeTopK: requested k (" << k
+                  << ") exceeds localK (" << localK << ")." << std::endl;
+        return false;
     }
     
-    // Gather indices
-    pImpl->startTiming();
-    // Note: RCCL doesn't have direct support for uint32_t, so we'd need to cast or use AllGather differently
-    // For now, we'll use a simplified approach with AllGather on floats
-    
-    // In production, this would:
-    // 1. AllGather all local top-k results
-    // 2. On root, perform a k-way merge to get global top-k
-    // 3. Optionally broadcast global top-k back to all ranks
-    
-    // Simplified implementation: just gather distances and use AllGather
-    if (pImpl->config.rank == root) {
-        // Would perform merge here
-        // For now, just copy local results as placeholder
-        HIP_CHECK(hipMemcpy(globalIndices, localIndices, k * sizeof(uint32_t), 
+    // Single-process case: safe and meaningful to just copy local results
+    if (worldSize == 1) {
+        if (k == 0) {
+            // Nothing to do, but this is a valid no-op
+            return true;
+        }
+        
+        pImpl->startTiming();
+        // Copy local top-k to global buffers on the single rank
+        HIP_CHECK(hipMemcpy(globalIndices, localIndices, k * sizeof(uint32_t),
                             hipMemcpyDeviceToDevice));
         HIP_CHECK(hipMemcpy(globalDistances, localDistances, k * sizeof(float),
                             hipMemcpyDeviceToDevice));
+        pImpl->recordCollective();
+        return true;
     }
     
-    pImpl->recordCollective();
-    
-    if (pImpl->config.rank == root) {
-        hipFree(allIndices);
-        hipFree(allDistances);
-    }
-    
-    return true;
+    // Distributed mergeTopK is not yet implemented. Avoid claiming success.
+    std::cerr << "RCCLVectorBackend::mergeTopK: distributed merge (worldSize = "
+              << worldSize << ") is not implemented yet." << std::endl;
+    (void)root;   // suppress unused parameter warning until implemented
+    (void)stream; // suppress unused parameter warning until implemented
+    return false;
 }
 
 RCCLVectorBackend::Statistics RCCLVectorBackend::getStatistics() const {

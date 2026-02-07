@@ -6,18 +6,20 @@
 #include <string>
 #include <cstdint>
 
+// Forward declarations - defined differently based on RCCL availability
 #ifdef THEMIS_ENABLE_RCCL
-// Forward declarations to avoid including RCCL headers
 struct rcclComm;
 typedef rcclComm* rcclComm_t;
 struct ihipStream_t;
 typedef ihipStream_t* hipStream_t;
+#else
+// Stub typedefs for CPU-only builds
+typedef void* rcclComm_t;
+typedef void* hipStream_t;
 #endif
 
 namespace themis {
 namespace acceleration {
-
-#ifdef THEMIS_ENABLE_RCCL
 
 /**
  * RCCL Vector Backend for Multi-GPU Communication on AMD GPUs
@@ -25,7 +27,10 @@ namespace acceleration {
  * Provides collective operations and peer-to-peer transfers for multi-GPU
  * vector indexing using AMD RCCL (ROCm Communication Collectives Library).
  * 
- * Features:
+ * When THEMIS_ENABLE_RCCL is not defined, provides stub implementations
+ * that always return false, allowing CPU-only builds to compile and link.
+ * 
+ * Features (when RCCL is enabled):
  * - AllReduce for distributed distance computations
  * - Broadcast for index synchronization
  * - P2P transfers for direct GPU-to-GPU communication
@@ -228,8 +233,6 @@ private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
 };
-
-#endif // THEMIS_ENABLE_RCCL
 
 } // namespace acceleration
 } // namespace themis

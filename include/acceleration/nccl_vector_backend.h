@@ -6,18 +6,20 @@
 #include <string>
 #include <cstdint>
 
+// Forward declarations - defined differently based on NCCL availability
 #ifdef THEMIS_ENABLE_NCCL
-// Forward declarations to avoid including NCCL headers
 struct ncclComm;
 typedef ncclComm* ncclComm_t;
 struct cudaStream_st;
 typedef cudaStream_st* cudaStream_t;
+#else
+// Stub typedefs for CPU-only builds
+typedef void* ncclComm_t;
+typedef void* cudaStream_t;
 #endif
 
 namespace themis {
 namespace acceleration {
-
-#ifdef THEMIS_ENABLE_NCCL
 
 /**
  * NCCL Vector Backend for Multi-GPU Communication
@@ -25,7 +27,10 @@ namespace acceleration {
  * Provides collective operations and peer-to-peer transfers for multi-GPU
  * vector indexing using NVIDIA NCCL (NVIDIA Collective Communications Library).
  * 
- * Features:
+ * When THEMIS_ENABLE_NCCL is not defined, provides stub implementations
+ * that always return false, allowing CPU-only builds to compile and link.
+ * 
+ * Features (when NCCL is enabled):
  * - AllReduce for distributed distance computations
  * - Broadcast for index synchronization
  * - P2P transfers for direct GPU-to-GPU communication
@@ -227,8 +232,6 @@ private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
 };
-
-#endif // THEMIS_ENABLE_NCCL
 
 } // namespace acceleration
 } // namespace themis
