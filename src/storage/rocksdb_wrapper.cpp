@@ -158,7 +158,8 @@ void RocksDBWrapper::configureOptions() {
     // Larger memtable_size_mb (512MB default) → fewer flushes → less write-amp
     // More max_write_buffer_number (6 default) → writes continue during flush
     // Expected improvement: ~30-40% reduction in write-amplification
-    // Trade-off: Higher memory usage (~3-4GB for 6 buffers × 512MB)
+    // Trade-off: Higher memory usage (theoretical ~3GB for 6 × 512MB per CF,
+    // but db_write_buffer_size_mb=2048 caps total memtable memory at ~2GB across all CFs)
     options_->write_buffer_size = config_.memtable_size_mb * 1024 * 1024;
     options_->max_write_buffer_number = config_.max_write_buffer_number;
     options_->min_write_buffer_number_to_merge = config_.min_write_buffer_number_to_merge;

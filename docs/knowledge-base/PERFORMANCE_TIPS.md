@@ -69,7 +69,7 @@ rocksdb:
 - Continues writing during memtable flush
 
 **Trade-offs:**
-- **Memory usage**: ~3-4 GB for memtables (6 × 512 MB)
+- **Memory usage**: up to ~2GB total across all memtables (capped by `db_write_buffer_size_mb`; theoretical 6 × 512MB per CF)
 - **Recovery time**: Longer WAL replay on restart
 - **Burst latency**: Larger flush operations
 

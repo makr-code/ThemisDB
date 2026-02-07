@@ -29,7 +29,7 @@ This resulted in:
 - ~30-40% reduction in write-amplification
 - Better write throughput for data ingestion
 
-**Trade-off:** Higher memory usage (~2GB per column family with 6 buffers)
+**Trade-off:** Higher memory usage (theoretical ~2GB per CF with 6 × 512MB buffers; actual total capped at 2GB across all CFs by `db_write_buffer_size_mb`)
 
 ### 2. More Write Buffers (6 default)
 **Before:** `max_write_buffer_number = 3`  
@@ -40,7 +40,7 @@ This resulted in:
 - Reduced write stalls
 - Better sustained write throughput
 
-**Trade-off:** Higher memory usage (6 × 512MB = 3GB per CF)
+**Trade-off:** Higher memory usage (theoretical 6 × 512MB = 3GB per CF; under default `db_write_buffer_size_mb=2048` DB-wide cap, total memtable memory across all CFs is limited to ~2GB)
 
 ### 3. Total Write Buffer Limit (2GB)
 **Before:** `db_write_buffer_size_mb = 0` (unlimited)  
@@ -77,9 +77,9 @@ This resulted in:
 - **Point lookups:** No change (cached in block cache)
 
 ### Memory Usage
-- **Memtables:** 3-4GB per column family (6 × 512MB)
+- **Memtables:** Up to ~2GB total across all CFs (capped by `db_write_buffer_size_mb`; theoretical 3-4GB per CF if cap is raised/disabled)
 - **Readahead buffers:** 128MB per concurrent scan
-- **Total typical increase:** 4-6GB
+- **Total typical increase:** ~2-3GB with default settings
 
 ## Configuration Examples
 

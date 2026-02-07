@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Server Logging**: Updated main_server.cpp to display new optimization settings
     - Shows memtable size, write buffer count, and async I/O status at startup
     - Displays optimization profile (write-optimized, high-throughput, balanced, or low-latency)
-  - **Trade-offs**: Higher memory usage (~3-4GB for memtables), longer recovery time
+  - **Trade-offs**: Higher memtable memory (up to ~2GB capped by `db_write_buffer_size_mb`; theoretical 3-4GB if cap is raised), longer recovery time
   - **Backward Compatibility**: All settings can be overridden via configuration
   - **Testing**: Added comprehensive configuration test suite (`test_write_amplification_config.cpp`)
 

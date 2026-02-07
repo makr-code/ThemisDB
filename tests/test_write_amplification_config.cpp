@@ -7,6 +7,7 @@
 #include <gtest/gtest.h>
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <chrono>
 
 namespace fs = std::filesystem;
 using themis::RocksDBWrapper;
@@ -143,10 +144,4 @@ TEST_F(WriteAmplificationConfigTest, AsyncIOFunctionality) {
     
     // Verify async I/O is enabled
     EXPECT_TRUE(wrapper.isAsyncIOEnabled());
-}
-
-// Main function for standalone execution
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
