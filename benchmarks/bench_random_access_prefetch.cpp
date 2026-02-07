@@ -93,7 +93,9 @@ public:
         config.db_path = test_db_path_;
         config.memtable_size_mb = 128;
         config.block_cache_size_mb = 256;
-        config.enable_wal = false;  // Disable WAL for faster benchmark setup
+        // NOTE: WAL disabled for faster benchmark setup only
+        // Production benchmarks should enable WAL (enable_wal = true) for realistic measurements
+        config.enable_wal = false;
         config.enable_cpu_prefetch = (state.range(0) == 1);  // Control prefetch via parameter
         config.prefetch_distance = 2;
         config.prefetch_min_batch_size = 4;

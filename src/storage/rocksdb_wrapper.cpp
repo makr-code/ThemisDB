@@ -716,12 +716,20 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     
     // v1.4.1: CPU prefetch hints for improved random access performance
     // Prefetch values incrementally as we process them to hide memory latency
+    // We only prefetch each position once by checking if it hasn't been prefetched yet
+    size_t next_prefetch_index = 0;
+    
     for (size_t i = 0; i < keys.size(); ++i) {
-        // Prefetch upcoming value strings during result processing
+        // Prefetch upcoming values at stride intervals to avoid redundant prefetch
         if (config_.enable_cpu_prefetch && keys.size() >= config_.prefetch_min_batch_size) {
-            for (size_t d = 1; d <= config_.prefetch_distance && (i + d) < keys.size(); ++d) {
-                if (statuses[i + d].ok() && !values[i + d].empty()) {
-                    performance::prefetch(values[i + d].data(), performance::PrefetchHint::T0);
+            // Only prefetch if we haven't already prefetched this position
+            for (size_t d = 1; d <= config_.prefetch_distance; ++d) {
+                size_t prefetch_idx = i + d;
+                if (prefetch_idx < keys.size() && prefetch_idx > next_prefetch_index) {
+                    if (statuses[prefetch_idx].ok() && !values[prefetch_idx].empty()) {
+                        performance::prefetch(values[prefetch_idx].data(), performance::PrefetchHint::T0);
+                    }
+                    next_prefetch_index = prefetch_idx;
                 }
             }
         }
