@@ -125,24 +125,24 @@ Added comprehensive workflow testing:
 
 ## Files Created
 
-### Unit Tests (3 files, 1,526 lines)
-1. `tests/test_policy_engine_comprehensive.cpp` - 516 lines
-2. `tests/test_gpu_stubs_comprehensive.cpp` - 481 lines
-3. `tests/test_rbac_comprehensive.cpp` - 529 lines
+### Unit Tests (3 files, 1,554 lines)
+1. `tests/test_policy_engine_comprehensive.cpp` - 538 lines
+2. `tests/test_gpu_stubs_comprehensive.cpp` - 496 lines
+3. `tests/test_rbac_comprehensive.cpp` - 520 lines
 
-### Benchmarks (4 files, 2,023 lines)
-1. `benchmarks/bench_multithreading_comprehensive.cpp` - 458 lines
-2. `benchmarks/bench_latency_comprehensive.cpp` - 507 lines
-3. `benchmarks/bench_scalability_comprehensive.cpp` - 476 lines
-4. `benchmarks/bench_edge_cases_comprehensive.cpp` - 582 lines
+### Benchmarks (4 files, 2,006 lines)
+1. `benchmarks/bench_multithreading_comprehensive.cpp` - 449 lines
+2. `benchmarks/bench_latency_comprehensive.cpp` - 501 lines
+3. `benchmarks/bench_scalability_comprehensive.cpp` - 461 lines
+4. `benchmarks/bench_edge_cases_comprehensive.cpp` - 595 lines
 
-### Integration Tests (1 file, 420 lines)
-1. `tests/integration/end_to_end/storage_pipeline_e2e_test.cpp` - 420 lines
+### Integration Tests (1 file, 468 lines)
+1. `tests/integration/end_to_end/storage_pipeline_e2e_test.cpp` - 468 lines
 
-### Documentation (1 file)
-1. `tests/TEST_ENHANCEMENT_SUMMARY.md` - This file
+### Documentation (1 file, 268 lines)
+1. `tests/TEST_ENHANCEMENT_SUMMARY.md` - 268 lines (this file)
 
-**Total: 9 files, 3,969 lines of new test code**
+**Total: 9 files, 4,296 lines of new test code**
 
 ## Test Coverage Improvements
 

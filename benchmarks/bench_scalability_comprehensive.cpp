@@ -3,7 +3,7 @@
  * @brief Comprehensive scalability benchmarks measuring performance across different data sizes
  * 
  * Tests:
- * - Data size scaling (1K, 10K, 100K, 1M records)
+ * - Data size scaling (1K, 10K, 100K records)
  * - Memory bounds and pressure
  * - Query performance with growing datasets
  * - Index scaling behavior
@@ -218,7 +218,8 @@ BENCHMARK_REGISTER_F(ScalabilityBenchFixture, UpdateWrite_ScalingDataSize)
 // ============================================================================
 
 static void BM_LargeRecordInsertion(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_large_records";
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    auto db_path = std::filesystem::temp_directory_path() / ("bench_large_records_" + std::to_string(timestamp));
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 

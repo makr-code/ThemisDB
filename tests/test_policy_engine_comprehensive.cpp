@@ -219,9 +219,9 @@ TEST_F(PolicyEngineComprehensiveTest, CaseSensitiveMatching_Enforced) {
     // Exact match should work
     EXPECT_TRUE(pe.authorize("User1", "Read", "/Data").allowed);
     
-    // Different case should not match (if case-sensitive)
+    // Different case should not match (case-sensitive, deny by default)
     auto decision = pe.authorize("user1", "read", "/data");
-    // Behavior depends on implementation - document it
+    EXPECT_FALSE(decision.allowed);
 }
 
 TEST_F(PolicyEngineComprehensiveTest, IPPrefixMatching_Works) {

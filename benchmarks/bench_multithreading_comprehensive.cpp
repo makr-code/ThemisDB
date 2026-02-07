@@ -406,7 +406,8 @@ BENCHMARK(BM_BatchInsert_MultiThread)
 static void BM_MaxThreadStress(benchmark::State& state) {
     auto& env = MultiThreadBenchEnv::instance();
     auto db = env.getDB();
-    const int num_threads = std::thread::hardware_concurrency();
+    auto hc = std::thread::hardware_concurrency();
+    const int num_threads = (hc == 0) ? 1 : static_cast<int>(hc);
 
     for (auto _ : state) {
         std::vector<std::thread> threads;

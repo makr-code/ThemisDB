@@ -19,11 +19,18 @@
 #include <filesystem>
 #include <random>
 #include <limits>
+#include <chrono>
 
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 
 using namespace themis;
+
+// Helper to create unique temp directory names
+static std::string getUniqueTempPath(const std::string& base_name) {
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    return base_name + "_" + std::to_string(timestamp);
+}
 
 // ============================================================================
 // Deterministic RNG
@@ -58,7 +65,7 @@ public:
 // ============================================================================
 
 static void BM_ReadFromEmptyDatabase(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_empty_read";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_empty_read");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -126,7 +133,7 @@ BENCHMARK(BM_FirstInsertToEmptyDatabase)
 // ============================================================================
 
 static void BM_SingleElementDatabase(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_single_elem";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_single_elem");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -162,7 +169,7 @@ BENCHMARK(BM_SingleElementDatabase)
 // ============================================================================
 
 static void BM_MinMaxIntegerValues(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_minmax";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_minmax");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -194,7 +201,7 @@ BENCHMARK(BM_MinMaxIntegerValues)
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_EmptyStringValues(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_empty_str";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_empty_str");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -229,7 +236,7 @@ BENCHMARK(BM_EmptyStringValues)
 // ============================================================================
 
 static void BM_VeryShortKeys(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_short_keys";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_short_keys");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -259,7 +266,7 @@ BENCHMARK(BM_VeryShortKeys)
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_VeryLongKeys(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_long_keys";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_long_keys");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -290,7 +297,7 @@ BENCHMARK(BM_VeryLongKeys)
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_MaximumValueSize(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_max_value";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_max_value");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -330,7 +337,7 @@ BENCHMARK(BM_MaximumValueSize)
 // ============================================================================
 
 static void BM_DuplicateKeyWrites(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_dup_keys";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_dup_keys");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -367,7 +374,7 @@ BENCHMARK(BM_DuplicateKeyWrites)
 // ============================================================================
 
 static void BM_SpecialCharacterKeys(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_special_keys";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_special_keys");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -414,7 +421,7 @@ BENCHMARK(BM_SpecialCharacterKeys)
 // ============================================================================
 
 static void BM_RapidSuccessiveWrites(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_rapid_writes";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_rapid_writes");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -448,7 +455,7 @@ BENCHMARK(BM_RapidSuccessiveWrites)
     ->Unit(benchmark::kMillisecond);
 
 static void BM_RapidSuccessiveReads(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_rapid_reads";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_rapid_reads");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -490,7 +497,7 @@ BENCHMARK(BM_RapidSuccessiveReads)
 // ============================================================================
 
 static void BM_AlternatingWriteRead(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_alternating";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_alternating");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -533,7 +540,7 @@ BENCHMARK(BM_AlternatingWriteRead)
 // ============================================================================
 
 static void BM_ZeroValues(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_zero";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_zero");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 
@@ -564,7 +571,7 @@ BENCHMARK(BM_ZeroValues)
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_NegativeValues(benchmark::State& state) {
-    auto db_path = std::filesystem::temp_directory_path() / "bench_negative";
+    auto db_path = std::filesystem::temp_directory_path() / getUniqueTempPath("bench_negative");
     std::filesystem::remove_all(db_path);
     std::filesystem::create_directories(db_path);
 

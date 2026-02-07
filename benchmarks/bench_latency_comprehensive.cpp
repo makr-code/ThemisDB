@@ -155,7 +155,6 @@ public:
     }
 
     void TearDown(const ::benchmark::State& state) override {
-        reportLatencyStats(state);
         db_.reset();
         std::filesystem::remove_all(db_path_);
     }
@@ -176,17 +175,18 @@ protected:
         }
     }
 
-    void reportLatencyStats(const ::benchmark::State& state) const {
+    void setLatencyCounters(benchmark::State& state) {
         auto stats = latency_tracker_.calculateStats();
         if (stats.count > 0) {
-            const_cast<benchmark::State&>(state).counters["P50_us"] = stats.p50_us;
-            const_cast<benchmark::State&>(state).counters["P95_us"] = stats.p95_us;
-            const_cast<benchmark::State&>(state).counters["P99_us"] = stats.p99_us;
-            const_cast<benchmark::State&>(state).counters["P99.9_us"] = stats.p99_9_us;
-            const_cast<benchmark::State&>(state).counters["Min_us"] = stats.min_us;
-            const_cast<benchmark::State&>(state).counters["Max_us"] = stats.max_us;
-            const_cast<benchmark::State&>(state).counters["Mean_us"] = stats.mean_us;
+            state.counters["P50_us"] = stats.p50_us;
+            state.counters["P95_us"] = stats.p95_us;
+            state.counters["P99_us"] = stats.p99_us;
+            state.counters["P99.9_us"] = stats.p99_9_us;
+            state.counters["Min_us"] = stats.min_us;
+            state.counters["Max_us"] = stats.max_us;
+            state.counters["Mean_us"] = stats.mean_us;
         }
+        latency_tracker_.reset();
     }
 };
 
@@ -212,6 +212,7 @@ BENCHMARK_F(LatencyBenchFixture, ReadLatency_SmallValues)(benchmark::State& stat
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 BENCHMARK_F(LatencyBenchFixture, ReadLatency_LargeValues)(benchmark::State& state) {
@@ -240,6 +241,7 @@ BENCHMARK_F(LatencyBenchFixture, ReadLatency_LargeValues)(benchmark::State& stat
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 // ============================================================================
@@ -286,6 +288,7 @@ BENCHMARK_F(LatencyBenchFixture, WriteLatency_LargeValues)(benchmark::State& sta
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 // ============================================================================
@@ -321,6 +324,7 @@ BENCHMARK_F(LatencyBenchFixture, MixedLatency_70Read30Write)(benchmark::State& s
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 // ============================================================================
@@ -345,6 +349,7 @@ BENCHMARK_F(LatencyBenchFixture, SequentialReadLatency)(benchmark::State& state)
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 BENCHMARK_F(LatencyBenchFixture, RandomReadLatency)(benchmark::State& state) {
@@ -365,6 +370,7 @@ BENCHMARK_F(LatencyBenchFixture, RandomReadLatency)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 // ============================================================================
@@ -423,6 +429,7 @@ BENCHMARK_F(LatencyBenchFixture, CacheHitLatency)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 BENCHMARK_F(LatencyBenchFixture, CacheMissLatency)(benchmark::State& state) {
@@ -452,6 +459,7 @@ BENCHMARK_F(LatencyBenchFixture, CacheMissLatency)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 // ============================================================================
@@ -477,6 +485,7 @@ BENCHMARK_F(LatencyBenchFixture, TinyValueLatency)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
 
 BENCHMARK_F(LatencyBenchFixture, HugeValueLatency)(benchmark::State& state) {
@@ -498,4 +507,5 @@ BENCHMARK_F(LatencyBenchFixture, HugeValueLatency)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    setLatencyCounters(state);
 }
