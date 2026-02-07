@@ -55,10 +55,10 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     }
     
     queries_processed_.fetch_add(1);
-    total_latency_.fetch_add(latency_ms);
+    total_latency_ += latency_ms;
     
     if (recall >= 0.0) {
-        total_recall_.fetch_add(recall);
+        total_recall_ += recall;
         recall_count_++;
     }
     
@@ -75,6 +75,8 @@ void HnswParameterTuner::updateConfig(const Config& config) {
 }
 
 HnswParameterTuner::Stats HnswParameterTuner::getStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     Stats stats;
     stats.queries_processed = queries_processed_.load();
     stats.current_ef_search = current_ef_search_.load();
@@ -82,10 +84,10 @@ HnswParameterTuner::Stats HnswParameterTuner::getStats() const {
     
     size_t count = queries_processed_.load();
     if (count > 0) {
-        stats.avg_latency_ms = total_latency_.load() / count;
+        stats.avg_latency_ms = total_latency_ / count;
         
         if (recall_count_ > 0) {
-            stats.avg_recall = total_recall_.load() / recall_count_;
+            stats.avg_recall = total_recall_ / recall_count_;
         }
     }
     
@@ -98,8 +100,8 @@ void HnswParameterTuner::resetStats() {
     recent_queries_.clear();
     queries_processed_.store(0);
     adaptations_count_.store(0);
-    total_latency_.store(0.0);
-    total_recall_.store(0.0);
+    total_latency_ = 0.0;
+    total_recall_ = 0.0;
     recall_count_ = 0;
 }
 

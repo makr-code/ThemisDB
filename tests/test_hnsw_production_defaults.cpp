@@ -249,3 +249,88 @@ TEST(HnswRuntimeAdapter, GetOverfetchMultiplierVeryLowSelectivity) {
     EXPECT_GE(mult, 10.0);
     EXPECT_LE(mult, 20.0);
 }
+
+// ============================================================================
+// Workload-specific Tests
+// ============================================================================
+
+TEST(HnswProductionDefaultsWorkload, OLTPWorkload) {
+    auto params = HnswProductionDefaults::getWorkloadOptimizedParams(
+        100000, 768, HnswProductionDefaults::WorkloadType::OLTP);
+    
+    // OLTP should prioritize low latency and fast writes
+    EXPECT_LE(params.M, 16);  // Lower M for faster construction
+    EXPECT_LE(params.ef_search, 128);  // Lower ef_search for speed
+    EXPECT_TRUE(params.use_prefetch);
+}
+
+TEST(HnswProductionDefaultsWorkload, AnalyticsWorkload) {
+    auto params = HnswProductionDefaults::getWorkloadOptimizedParams(
+        100000, 768, HnswProductionDefaults::WorkloadType::ANALYTICS);
+    
+    // Analytics should prioritize high recall
+    EXPECT_GE(params.M, 16);  // Higher M for better connectivity
+    EXPECT_GE(params.ef_construction, 200);  // Higher quality index
+    EXPECT_GE(params.ef_search, 64);  // Higher ef_search for recall
+}
+
+TEST(HnswProductionDefaultsWorkload, RAGWorkload) {
+    auto params = HnswProductionDefaults::getWorkloadOptimizedParams(
+        100000, 768, HnswProductionDefaults::WorkloadType::RAG);
+    
+    // RAG should balance speed and accuracy
+    EXPECT_GE(params.M, 16);
+    EXPECT_LE(params.M, 40);
+    EXPECT_GE(params.ef_search, 32);
+    EXPECT_LE(params.ef_search, 256);
+}
+
+TEST(HnswProductionDefaultsWorkload, BatchInsertWorkload) {
+    auto params = HnswProductionDefaults::getWorkloadOptimizedParams(
+        100000, 768, HnswProductionDefaults::WorkloadType::BATCH_INSERT);
+    
+    // Batch insert should optimize for fast construction
+    EXPECT_LE(params.M, 12);  // Lower M for faster bulk loading
+    EXPECT_GE(params.initial_capacity, static_cast<size_t>(100000 * 1.3));  // More headroom
+}
+
+TEST(HnswProductionDefaultsWorkload, MixedWorkload) {
+    auto params = HnswProductionDefaults::getWorkloadOptimizedParams(
+        100000, 768, HnswProductionDefaults::WorkloadType::MIXED);
+    
+    // Mixed should be balanced
+    EXPECT_GE(params.M, 12);
+    EXPECT_LE(params.M, 24);
+    EXPECT_GE(params.ef_search, 32);
+    EXPECT_LE(params.ef_search, 256);
+}
+
+TEST(HnswProductionDefaultsWorkload, WorkloadInfluencesParameters) {
+    size_t dataset_size = 100000;
+    size_t dimension = 768;
+    
+    auto oltp = HnswProductionDefaults::getWorkloadOptimizedParams(
+        dataset_size, dimension, HnswProductionDefaults::WorkloadType::OLTP);
+    
+    auto analytics = HnswProductionDefaults::getWorkloadOptimizedParams(
+        dataset_size, dimension, HnswProductionDefaults::WorkloadType::ANALYTICS);
+    
+    // Analytics should have higher M and ef values than OLTP
+    EXPECT_GT(analytics.M, oltp.M);
+    EXPECT_GT(analytics.ef_construction, oltp.ef_construction);
+}
+
+TEST(HnswProductionDefaultsWorkload, WorkloadWithPerformanceProfile) {
+    size_t dataset_size = 100000;
+    size_t dimension = 768;
+    
+    // Test that workload parameter is used correctly
+    auto params = HnswProductionDefaults::getRecommendedParams(
+        dataset_size, dimension,
+        HnswProductionDefaults::PerformanceProfile::BALANCED,
+        HnswProductionDefaults::WorkloadType::OLTP);
+    
+    // Should show OLTP characteristics
+    EXPECT_LE(params.M, 16);
+    EXPECT_LE(params.initial_capacity, static_cast<size_t>(dataset_size * 1.4));
+}

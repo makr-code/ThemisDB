@@ -164,13 +164,13 @@ private:
     // Current adapted efSearch
     std::atomic<int> current_ef_search_;
     
-    // Statistics
+    // Statistics (using mutex for double atomicity in C++17)
     std::vector<QueryStats> recent_queries_;
     std::atomic<size_t> queries_processed_{0};
     std::atomic<size_t> adaptations_count_{0};
-    std::atomic<double> total_latency_{0.0};
-    std::atomic<double> total_recall_{0.0};
-    size_t recall_count_{0};
+    double total_latency_{0.0};  // Protected by mutex_
+    double total_recall_{0.0};   // Protected by mutex_
+    size_t recall_count_{0};     // Protected by mutex_
 };
 
 /**
