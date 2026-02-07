@@ -311,27 +311,33 @@ public:
             return {};
         }
         
-        // HIP backend currently only supports L2 and Cosine metrics
-        // Inner Product falls back to CPU
-        if (config.metric == DistanceMetric::INNER_PRODUCT) {
-            if (config.allowCPUFallback) {
-                return searchCPU(query, k);
-            }
-            std::cerr << "HIP backend does not support INNER_PRODUCT metric\n";
-            return {};
-        }
-        
         auto startTime = std::chrono::steady_clock::now();
         
         // Use cached flattened vectors for GPU (avoids O(N·dim) overhead per query)
         const std::vector<float>& flatVectors = getFlatVectors();
         
-        // Use GPU batch KNN search
-        bool useL2 = (config.metric == DistanceMetric::L2);
-        auto results = hipBackend->batchKnnSearch(
+        // Map metric to HIP backend metric
+        themis::acceleration::HIPVectorBackend::DistanceMetric hipMetric;
+        switch (config.metric) {
+            case DistanceMetric::L2:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::L2;
+                break;
+            case DistanceMetric::COSINE:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
+                break;
+            case DistanceMetric::INNER_PRODUCT:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::INNER_PRODUCT;
+                break;
+            default:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
+                break;
+        }
+        
+        // Use GPU batch KNN search with metric support
+        auto results = hipBackend->batchKnnSearchWithMetric(
             query.data(), 1, dimension,
             flatVectors.data(), vectorData.size(),
-            k, useL2
+            k, hipMetric
         );
         
         if (results.empty()) {
@@ -370,21 +376,6 @@ public:
             return {};
         }
         
-        // HIP backend currently only supports L2 and Cosine metrics
-        // Inner Product falls back to CPU
-        if (config.metric == DistanceMetric::INNER_PRODUCT) {
-            if (config.allowCPUFallback) {
-                std::vector<std::vector<SearchResult>> cpuResults;
-                cpuResults.reserve(queries.size());
-                for (const auto& query : queries) {
-                    cpuResults.push_back(searchCPU(query, k));
-                }
-                return cpuResults;
-            }
-            std::cerr << "HIP backend does not support INNER_PRODUCT metric\n";
-            return {};
-        }
-        
         // Flatten queries
         std::vector<float> flatQueries(queries.size() * dimension);
         for (size_t i = 0; i < queries.size(); ++i) {
@@ -398,12 +389,28 @@ public:
         // Use cached flattened vectors for GPU (avoids O(N·dim) overhead per batch)
         const std::vector<float>& flatVectors = getFlatVectors();
         
-        // Use GPU batch KNN search
-        bool useL2 = (config.metric == DistanceMetric::L2);
-        auto results = hipBackend->batchKnnSearch(
+        // Map metric to HIP backend metric
+        themis::acceleration::HIPVectorBackend::DistanceMetric hipMetric;
+        switch (config.metric) {
+            case DistanceMetric::L2:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::L2;
+                break;
+            case DistanceMetric::COSINE:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
+                break;
+            case DistanceMetric::INNER_PRODUCT:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::INNER_PRODUCT;
+                break;
+            default:
+                hipMetric = themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
+                break;
+        }
+        
+        // Use GPU batch KNN search with metric support
+        auto results = hipBackend->batchKnnSearchWithMetric(
             flatQueries.data(), queries.size(), dimension,
             flatVectors.data(), vectorData.size(),
-            k, useL2
+            k, hipMetric
         );
         
         if (results.empty()) {

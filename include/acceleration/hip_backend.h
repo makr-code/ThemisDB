@@ -17,7 +17,7 @@ struct HIPBackendImpl;
  * Compatible with AMD Radeon GPUs (RDNA2, RDNA3) and AMD Instinct GPUs (CDNA).
  * 
  * Features:
- * - L2 and Cosine distance computation on GPU
+ * - L2, Cosine, and Inner Product distance computation on GPU
  * - Batch KNN search with parallel top-k selection
  * - Asynchronous operations via HIP streams
  * - Architecture-specific optimizations (Wave32/Wave64)
@@ -87,6 +87,23 @@ public:
         size_t k,
         bool useL2 = true
     ) override;
+    
+    // Extended metric-aware batch KNN search
+    enum class DistanceMetric {
+        L2,
+        COSINE,
+        INNER_PRODUCT
+    };
+    
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearchWithMetric(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        DistanceMetric metric
+    );
     
     // HIP-specific methods
     

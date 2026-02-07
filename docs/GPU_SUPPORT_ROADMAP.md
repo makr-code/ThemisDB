@@ -20,12 +20,11 @@ This document provides guidance for users who need GPU acceleration for vector i
 ✅ **HIP/ROCm Backend (AMD GPUs)** - v2.3
 - Full support for AMD Radeon GPUs (RDNA2, RDNA3)
 - Full support for AMD Instinct GPUs (CDNA, CDNA2, CDNA3)
-- Distance computation kernels (L2, Cosine)
+- Distance computation kernels (L2, Cosine, Inner Product)
 - GPU-accelerated batch search with top-k selection
 - Architecture-specific optimizations (Wave32/Wave64)
 - Automatic device detection and selection
 - CPU fallback for robustness
-- Note: Inner Product metric currently uses CPU fallback
 
 ✅ **CPU Backend** - Always available
 - SIMD-optimized (AVX-512, AVX2, NEON)

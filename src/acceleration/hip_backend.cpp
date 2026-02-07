@@ -112,6 +112,35 @@ __global__ void computeCosineDistanceKernel(
     distances[qIdx * numVectors + vIdx] = 1.0f - cosineSim;
 }
 
+// Compute Inner Product distance kernel
+// Inner Product similarity: dot(a, b), distance = max(0, -dot(a, b))
+__global__ void computeInnerProductDistanceKernel(
+    const float* __restrict__ queries,
+    const float* __restrict__ vectors,
+    float* __restrict__ distances,
+    int numQueries,
+    int numVectors,
+    int dim
+) {
+    int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
+    int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    if (qIdx >= numQueries || vIdx >= numVectors) return;
+    
+    const float* query = queries + qIdx * dim;
+    const float* vector = vectors + vIdx * dim;
+    
+    float dotProduct = 0.0f;
+    
+    #pragma unroll 4
+    for (int i = 0; i < dim; i++) {
+        dotProduct += query[i] * vector[i];
+    }
+    
+    // Distance is max(0, -dot) for inner product
+    distances[qIdx * numVectors + vIdx] = fmaxf(0.0f, -dotProduct);
+}
+
 // Top-K selection kernel using parallel reduction
 // Selects k nearest neighbors for each query
 // Note: Uses bubble sort for simplicity. For k > 32, consider heap-based or radix select.
@@ -358,6 +387,7 @@ std::vector<float> HIPVectorBackend::computeDistances(
                 numQueries, numVectors, dim
             );
         } else {
+            // Cosine distance kernel (default for non-L2)
             hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
                 d_queries, d_vectors, d_distances,
                 numQueries, numVectors, dim
@@ -395,6 +425,20 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
     size_t k,
     bool useL2
 ) {
+    // Delegate to metric-aware version
+    return batchKnnSearchWithMetric(queries, numQueries, dim, vectors, numVectors, k, 
+                                     useL2 ? DistanceMetric::L2 : DistanceMetric::COSINE);
+}
+
+std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnSearchWithMetric(
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    size_t k,
+    DistanceMetric metric
+) {
     if (!impl_->initialized) {
         std::cerr << "HIP backend not initialized" << std::endl;
         return {};
@@ -429,23 +473,32 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         HIP_CHECK_THROW(hipMemcpy(d_queries, queries, queriesSize, hipMemcpyHostToDevice));
         HIP_CHECK_THROW(hipMemcpy(d_vectors, vectors, vectorsSize, hipMemcpyHostToDevice));
         
-        // Launch distance kernel
+        // Launch distance kernel based on metric
         dim3 blockSize(16, 16);
         dim3 gridSize(
             (numVectors + blockSize.x - 1) / blockSize.x,
             (numQueries + blockSize.y - 1) / blockSize.y
         );
         
-        if (useL2) {
-            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
-                d_queries, d_vectors, d_distances,
-                numQueries, numVectors, dim
-            );
-        } else {
-            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
-                d_queries, d_vectors, d_distances,
-                numQueries, numVectors, dim
-            );
+        switch (metric) {
+            case DistanceMetric::L2:
+                hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                    d_queries, d_vectors, d_distances,
+                    numQueries, numVectors, dim
+                );
+                break;
+            case DistanceMetric::COSINE:
+                hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                    d_queries, d_vectors, d_distances,
+                    numQueries, numVectors, dim
+                );
+                break;
+            case DistanceMetric::INNER_PRODUCT:
+                hipLaunchKernelGGL(computeInnerProductDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                    d_queries, d_vectors, d_distances,
+                    numQueries, numVectors, dim
+                );
+                break;
         }
         
         // Launch top-k selection kernel
