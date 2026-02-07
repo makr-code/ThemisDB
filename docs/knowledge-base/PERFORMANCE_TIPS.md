@@ -286,27 +286,25 @@ FOR loc IN NEAR(locations, 40.7128, -74.0060, 10000)
 
 ```cpp
 // For similarity search and RAG applications
-VectorIndexManager::AdvancedIndexConfig config;
+// Use the workload-optimized configuration helpers
 
 // OLTP Workload: High-throughput, low-latency
-config.workload = WorkloadType::OLTP;
-config.nlist = 512;      // Fewer clusters for speed
-config.nprobe = 32;      // Lower probe for latency
-config.use_pq = false;   // No compression for speed
+auto oltpConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::OLTP);
+// Result: nlist=512, nprobe=32, index_type=IVF_FLAT
 
 // Analytics Workload: Large batch queries, high recall
-config.workload = WorkloadType::ANALYTICS;
-config.nlist = 2048;     // More clusters for accuracy
-config.nprobe = 128;     // Higher probe for recall
-config.use_pq = true;    // Compression for large datasets
+auto analyticsConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::ANALYTICS);
+// Result: nlist=2048, nprobe=128, index_type=IVF_PQ
 
 // RAG Workload: Balance speed and accuracy for LLM
-config.workload = WorkloadType::RAG;
-config.nlist = 1024;     // Balanced clustering
-config.nprobe = 64;      // Balanced probe
-config.use_pq = true;    // Compression for memory efficiency
+auto ragConfig = AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    dataset_size, dimension, AdvancedVectorIndex::WorkloadType::RAG);
+// Result: nlist=1024, nprobe=64, index_type=IVF_PQ
 
-vectorIndexManager.setAdvancedIndexConfig(config);
+// Use the configuration with AdvancedVectorIndex
+AdvancedVectorIndex index(dimension, ragConfig);
 ```
 
 ---
@@ -526,25 +524,29 @@ std::cout << "Avg recall: " << stats.avg_recall << std::endl;
 **Workload Detection and Auto-Configuration:**
 
 ```cpp
-// Detect workload pattern and configure automatically
+// Pseudocode example: Detect workload pattern and configure automatically
+// Note: QueryPattern, WorkloadDetector, and analyzeQueryPattern are conceptual
+// and would need to be implemented based on your specific monitoring system
+
 class WorkloadDetector {
 public:
-    WorkloadType detectWorkload(const QueryPattern& pattern) {
+    HnswParameterTuner::WorkloadType detectWorkload(const QueryPattern& pattern) {
         if (pattern.avg_k < 20 && pattern.qps > 5000) {
-            return WorkloadType::OLTP;  // Small k, high QPS
+            return HnswParameterTuner::WorkloadType::OLTP;  // Small k, high QPS
         }
         if (pattern.avg_k > 100 || pattern.batch_size > 100) {
-            return WorkloadType::ANALYTICS;  // Large k or batch queries
+            return HnswParameterTuner::WorkloadType::ANALYTICS;  // Large k or batch queries
         }
         if (pattern.avg_dim > 1024 && pattern.avg_k < 50) {
-            return WorkloadType::RAG;  // High-dim for embeddings
+            return HnswParameterTuner::WorkloadType::RAG;  // High-dim for embeddings
         }
-        return WorkloadType::MIXED;
+        return HnswParameterTuner::WorkloadType::MIXED;
     }
 };
 
 // Auto-configure based on detected workload
 auto pattern = analyzeQueryPattern(recent_queries);
+WorkloadDetector detector;
 auto workload = detector.detectWorkload(pattern);
 auto config = HnswParameterTuner::getWorkloadOptimizedConfig(dataset_size, workload);
 

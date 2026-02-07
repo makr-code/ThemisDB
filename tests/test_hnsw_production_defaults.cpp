@@ -256,12 +256,12 @@ TEST(HnswRuntimeAdapter, GetOverfetchMultiplierVeryLowSelectivity) {
 
 TEST(HnswProductionDefaultsWorkload, OLTPWorkload) {
     auto params = HnswProductionDefaults::getWorkloadOptimizedParams(
-        100000, 768, HnswProductionDefaults::WorkloadType::OLTP);
+        150000, 768, HnswProductionDefaults::WorkloadType::OLTP);
     
     // OLTP should prioritize low latency and fast writes
     EXPECT_LE(params.M, 16);  // Lower M for faster construction
     EXPECT_LE(params.ef_search, 128);  // Lower ef_search for speed
-    EXPECT_TRUE(params.use_prefetch);
+    EXPECT_TRUE(params.use_prefetch);  // Dataset > MEDIUM_DATASET enables prefetch
 }
 
 TEST(HnswProductionDefaultsWorkload, AnalyticsWorkload) {

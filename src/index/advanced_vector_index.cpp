@@ -408,8 +408,11 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
             break;
     }
     
-    // PQ parameters based on dimension and workload
-    if (config.use_pq) {
+    // PQ parameters based on dimension and workload (only for PQ-based indices)
+    if (config.index_type == Config::Type::IVF_PQ || 
+        config.index_type == Config::Type::IVF_HNSW_PQ) {
+        config.use_pq = true;
+        
         // pq_m should divide dimension evenly
         if (workload == WorkloadType::ANALYTICS || workload == WorkloadType::RAG) {
             // Higher compression for these workloads
@@ -424,11 +427,15 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
         }
         
         config.pq_nbits = 8;  // Standard 8 bits
+    } else {
+        config.use_pq = false;  // No PQ for IVF_FLAT or HNSW_FLAT
     }
     
-    // Training size recommendations
-    config.train_size = std::max(size_t(30 * config.nlist), 
-                                 std::min(size_t(100000), dataset_size / 10));
+    // Training size recommendations (only set if not already set by workload)
+    if (config.train_size == 0) {
+        config.train_size = std::max(size_t(30 * config.nlist), 
+                                     std::min(size_t(100000), dataset_size / 10));
+    }
     
     // GPU usage recommendations
     if (workload == WorkloadType::ANALYTICS || dataset_size > 1000000) {

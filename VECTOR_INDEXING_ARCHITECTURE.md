@@ -468,7 +468,7 @@ config.adaptive = true;  // Enable adaptation
 config.target_recall = 0.95;
 config.target_latency = std::chrono::milliseconds(10);
 config.stats_window_size = 1000;  // Track last 1000 queries
-config.workload = WorkloadType::RAG;
+config.workload = HnswParameterTuner::WorkloadType::RAG;
 
 HnswParameterTuner tuner(config);
 ```
