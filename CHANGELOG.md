@@ -8,6 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Multi-GPU Vector Indexing API (v2.4)** 🎉
+  - **MultiGPUVectorIndex**: Multi-device API and partition/merge scaffolding for distributed vector search
+    - Logical support for 2-8 devices via index partitioning (round-robin, hash-based, range-based, balanced)
+    - Query fan-out and centralized top-k merge logic for aggregating per-partition results
+    - Designed for future distributed search across multiple GPUs once GPU backends are available
+    - **Current execution**: Uses CPU-based GPUVectorIndex backend (no actual multi-GPU execution yet)
+    - Fault-tolerant design with graceful degradation when partitions are unavailable
+    - **GPU execution and collectives**: Planned for v2.5+ (NCCL/RCCL, P2P transfers, actual GPU offload)
+  - **API Features (scaffolding)**:
+    - `enableMultiGPU` configuration flag for multi-device indexing
+    - `deviceIds` parameter for future GPU selection (configuration only, no GPU enumeration in v2.4)
+    - `partitionStrategy` option for data distribution across logical partitions
+    - Per-partition statistics with hooks for future per-GPU metrics (VRAM, utilization)
+    - Load imbalance and scaling efficiency metrics computed over logical partitions
+  - **Testing**:
+    - Unit tests covering partitioning/merge logic and API behavior (394 lines)
+    - Tests validate API correctness on CPU, ready for GPU backend integration
+    - Example application demonstrating configuration and partition behavior (237 lines)
+  - **Documentation**:
+    - Complete API guide (`docs/MULTI_GPU_VECTOR_INDEXING.md`) with current CPU-only status clearly noted
+    - API reference with code examples and notes on planned GPU backends (v2.5+)
+    - Discussion of anticipated performance characteristics once GPU support lands
+    - Troubleshooting guide noting current limitations (no GPU execution, no NCCL/RCCL yet)
+
 - **Git-Like Features Integration** 🎉
   - **SnapshotManager Re-enabled**: Named snapshots for MVCC are now fully operational
     - 5 REST endpoints for snapshot/tag management
@@ -24,12 +48,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated DiffEngine initialization to support SnapshotManager reference
 - HTTP server now properly converts between Beast and httplib types for git-feature endpoints
+- CMake configuration updated to include multi-GPU vector indexing sources and tests
 
 ### Fixed
 - Re-enabled previously disabled SnapshotManager due to incomplete type issues
 - Added proper error handling with default case in PITR progress phase conversion
 
 ### Documentation
+- Added `MULTI_GPU_VECTOR_INDEXING.md` documenting multi-GPU implementation
 - Added `GIT_FEATURES_INTEGRATION_STATUS.md` documenting integration status
 - Documented that BranchManager and MergeEngine are pending (separate draft PRs)
 

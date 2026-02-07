@@ -65,6 +65,7 @@ endif()
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/index/gpu_vector_index.cpp
+        ../src/index/multi_gpu_vector_index.cpp
     )
     
     # Vulkan backend for GPU Vector Index
