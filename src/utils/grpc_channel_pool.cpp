@@ -224,5 +224,46 @@ std::shared_ptr<GrpcChannelPool::TargetPool> GrpcChannelPool::getOrCreateTargetP
     return pool;
 }
 
+void GrpcChannelPool::warmup(
+    const std::string& target,
+    std::shared_ptr<grpc::ChannelCredentials> credentials,
+    size_t num_channels
+) {
+    if (shutdown_.load()) {
+        return;
+    }
+    
+    // Default to half of max channels if not specified
+    if (num_channels == 0) {
+        num_channels = config_.max_channels_per_target / 2;
+    }
+    
+    // Cap at max channels
+    num_channels = std::min(num_channels, config_.max_channels_per_target);
+    
+    auto pool = getOrCreateTargetPool(target);
+    std::lock_guard<std::mutex> lock(pool->mutex);
+    
+    // Create channels up to the requested amount
+    for (size_t i = pool->all_channels.size(); i < num_channels; ++i) {
+        try {
+            auto channel = createChannel(target, credentials);
+            auto pooled_channel = std::make_shared<PooledChannel>();
+            pooled_channel->channel = channel;
+            pooled_channel->in_use = false;
+            pooled_channel->last_used = std::chrono::steady_clock::now();
+            
+            pool->all_channels[channel] = pooled_channel;
+            pool->available.push(pooled_channel);
+            
+            total_channels_.fetch_add(1);
+            channels_created_.fetch_add(1);
+        } catch (const std::exception&) {
+            // Continue warmup even if some channels fail
+            break;
+        }
+    }
+}
+
 } // namespace utils
 } // namespace themis
