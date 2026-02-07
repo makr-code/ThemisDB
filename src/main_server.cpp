@@ -213,13 +213,13 @@ void hsmSecurityWarningLoop() {
     using namespace std::chrono;
     const auto warning_interval = minutes(5);
     
-    while (g_hsm_warning_thread_running.load(std::memory_order_acquire)) {
+    while (g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
         // Sleep for 5 minutes in 1-second increments to allow quick shutdown
-        for (int i = 0; i < 300 && g_hsm_warning_thread_running.load(); ++i) {
+        for (int i = 0; i < 300 && g_hsm_warning_thread_running.load(std::memory_order_relaxed); ++i) {
             std::this_thread::sleep_for(seconds(1));
         }
         
-        if (!g_hsm_warning_thread_running.load()) break;
+        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) break;
         
         // Perform HSM security check
         if (g_hsm_provider) {
