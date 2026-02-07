@@ -1066,7 +1066,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		} else {
 			// Cache-blocking optimization for 1536D vectors
 			// Process cache entries in blocks to improve temporal locality
-			// For 1536D float vectors (6KB each), process ~5 vectors per L1 cache block
+			// For 1536D float vectors (6KB each), process 8 vectors at a time (~48KB per block)
 			constexpr size_t BLOCK_SIZE = 8;  // Process 8 vectors at a time
 			constexpr size_t PREFETCH_AHEAD = 2;  // Prefetch 2 blocks ahead
 			
@@ -1084,6 +1084,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 					for (size_t i = prefetch_start; i < prefetch_end; ++i) {
 						const auto& vec = cache_ptrs[i]->second;
 						if (!vec.empty()) {
+							// Use prefetch lambda defined earlier in this function
 							prefetch(&vec.front());
 							// Prefetch middle and end of 1536D vector (spans 6KB / ~96 cache lines)
 							if (vec.size() >= 384) prefetch(&vec[384]);
