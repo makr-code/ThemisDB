@@ -31,7 +31,7 @@ docker run -d \
 # Check health
 curl http://localhost:8080/health
 
-# Expected response: {"status":"ok","version":"1.4.1-dev"}
+# Expected response: {"status":"ok","version":"1.5.0-dev"}
 ```
 
 ### 3. Your First Query

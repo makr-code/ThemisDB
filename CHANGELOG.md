@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Documentation Consolidation for Beta/RC** 📚
+  - Archived 70+ historical documents (GAP analyses, old roadmaps, TODO lists, implementation summaries)
+  - Organized archives into structured directories: gaps/, roadmaps/, todos/, implementation-summaries/
+  - Updated documentation index to reflect current Beta/RC-ready status (v1.5.0-dev)
+  - Streamlined navigation and removed outdated references
+  - See [docs/ARCHIVED/README.md](docs/ARCHIVED/README.md) for archive index
+
 ### Added
 - **Multi-GPU Vector Indexing API (v2.4)** 🎉
   - **MultiGPUVectorIndex**: Multi-device API and partition/merge scaffolding for distributed vector search
