@@ -52,7 +52,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Concurrency-Tests erfolgreich
 - [ ] Performance-Benchmarks erfüllt (Target: 45K writes/s)
 - [ ] Deadlock-Detection funktioniert
-- [ ] **Tests**: `tests/transaction/` (automatisiert)
+- [ ] **Tests**: `test_transaction_*.cpp`, `test_mvcc.cpp` (automatisiert, CTest-Targets: `ctest -R transaction`)
 - [ ] **Automatisierbar**: Unit-Tests, Integration-Tests, Performance-Tests
 
 #### Multi-Model Support (Relational/Graph/Vector/Document)
@@ -63,7 +63,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Vector-Search getestet (Target: 10ms Latenz bei 1M Vektoren)
 - [ ] Document-Operations validiert
 - [ ] Cross-Model-Queries funktionieren
-- [ ] **Tests**: `tests/multi_model/` (automatisiert)
+- [ ] **Tests**: `test_graph_*.cpp`, `test_vector_*.cpp`, `test_query_*.cpp` (automatisiert, CTest-Targets: `ctest -R "graph|vector|query"`)
 - [ ] **Automatisierbar**: API-Tests, Query-Validation
 
 #### Storage Layer (RocksDB)
@@ -74,7 +74,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Backup/Restore getestet
 - [ ] Data-Corruption Detection aktiv (99.99% Target)
 - [ ] Disk I/O Performance akzeptabel
-- [ ] **Tests**: `tests/storage/` (automatisiert)
+- [ ] **Tests**: `tests/integration/storage/`, `test_rocksdb_*.cpp`, `test_backup_*.cpp` (automatisiert, CTest-Targets: `ctest -R "storage|rocksdb|backup"`)
 - [ ] **Automatisierbar**: Storage-Tests, Corruption-Detection-Tests
 
 ### 1.2 AI/LLM Features
@@ -87,7 +87,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Inference-API stabil
 - [ ] Performance-Targets erreicht
 - [ ] Memory-Management optimiert
-- [ ] **Tests**: `tests/llm/` (automatisiert)
+- [ ] **Tests**: `tests/llm/`, `tests/integration/llm/`, `test_llm_*.cpp` (automatisiert, CTest-Targets: `ctest -R llm`)
 - [ ] **Automatisierbar**: Model-Loading-Tests, Inference-Tests
 - [ ] **GAP-Status**: Dokumentiert in `LLAMA_CPP_INTEGRATION_REVIEW_2026_Q1.md`
 
@@ -98,7 +98,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Index-Building performant
 - [ ] Similarity-Search korrekt
 - [ ] Multi-GPU API scaffolded (CPU-only in v2.4)
-- [ ] **Tests**: `tests/vector/` (automatisiert)
+- [ ] **Tests**: `test_vector_*.cpp`, `test_gpu_vector_*.cpp`, `test_multi_gpu_*.cpp` (automatisiert, CTest-Targets: `ctest -R vector`)
 - [ ] **Automatisierbar**: Vector-Search-Tests, Performance-Benchmarks
 - [ ] **GAP-Status**: GPU-Backend für v2.5+ geplant
 
@@ -108,7 +108,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Adapter-Loading funktioniert
 - [ ] Fine-Tuning Support getestet
 - [ ] Memory-Footprint akzeptabel
-- [ ] **Tests**: `tests/lora/` (automatisiert)
+- [ ] **Tests**: `test_lora_*.cpp` (automatisiert, CTest-Targets: `ctest -R lora`)
 - [ ] **Automatisierbar**: Adapter-Tests
 - [ ] **Status-Dokument**: `LORA_ADAPTER_IMPLEMENTATION_COMPLETE.md`
 
@@ -121,7 +121,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Data-Distribution korrekt
 - [ ] Rebalancing getestet
 - [ ] Consensus-Algorithmen stabil (Raft/Gossip/Paxos)
-- [ ] **Tests**: `tests/sharding/` (automatisiert)
+- [ ] **Tests**: `test_sharding_*.cpp`, `test_shard_*.cpp`, `test_consensus_*.cpp` (automatisiert, CTest-Targets: `ctest -R "sharding|shard|consensus"`)
 - [ ] **Automatisierbar**: Sharding-Tests, Rebalancing-Tests
 - [ ] **Status-Dokument**: `DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md`
 
@@ -132,7 +132,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] SAGA Pattern implementiert
 - [ ] Failure-Handling robust
 - [ ] Performance akzeptabel
-- [ ] **Tests**: `tests/cross_shard/` (automatisiert)
+- [ ] **Tests**: `test_cross_shard_*.cpp`, `test_multi_shard_*.cpp`, `test_saga_*.cpp` (automatisiert, CTest-Targets: `ctest -R "cross_shard|saga"`)
 - [ ] **Automatisierbar**: Transaction-Tests, Failure-Tests
 - [ ] **Status-Dokument**: `CROSS_SHARD_TRANSACTION_IMPLEMENTATION.md`
 
@@ -142,7 +142,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] OpenTelemetry Integration funktioniert
 - [ ] Trace-Propagation korrekt
 - [ ] Performance-Impact minimal (<1%)
-- [ ] **Tests**: `tests/tracing/` (automatisiert)
+- [ ] **Tests**: `test_distributed_tracing.cpp`, `test_tracing_*.cpp` (automatisiert, CTest-Targets: `ctest -R tracing`)
 - [ ] **Automatisierbar**: Trace-Validation-Tests
 - [ ] **Status-Dokument**: `DISTRIBUTED_TRACING_IMPLEMENTATION.md`
 
@@ -155,7 +155,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] OpenAPI Spec aktuell
 - [ ] Rate-Limiting funktioniert
 - [ ] Error-Handling konsistent
-- [ ] **Tests**: `tests/api/http/` (automatisiert)
+- [ ] **Tests**: `test_http_*.cpp` (automatisiert, CTest-Targets: `ctest -R http`)
 - [ ] **Automatisierbar**: API-Tests, OpenAPI-Validation
 
 #### gRPC API
@@ -164,7 +164,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Proto-Definitionen aktuell
 - [ ] Streaming funktioniert
 - [ ] Error-Handling korrekt
-- [ ] **Tests**: `tests/api/grpc/` (automatisiert)
+- [ ] **Tests**: `test_grpc_*.cpp`, `tests/integration/rpc/` (automatisiert, CTest-Targets: `ctest -R grpc`)
 - [ ] **Automatisierbar**: gRPC-Tests, Proto-Validation
 
 #### WebSocket API
@@ -173,7 +173,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Connection-Handling stabil
 - [ ] Message-Framing korrekt
 - [ ] Reconnection-Logic funktioniert
-- [ ] **Tests**: `tests/api/websocket/` (automatisiert)
+- [ ] **Tests**: `test_websocket_*.cpp` (automatisiert, CTest-Targets: `ctest -R websocket`)
 - [ ] **Automatisierbar**: WebSocket-Tests
 
 #### GraphQL API
@@ -182,7 +182,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Schema aktuell
 - [ ] Resolvers funktionieren
 - [ ] Subscriptions getestet
-- [ ] **Tests**: `tests/api/graphql/` (automatisiert)
+- [ ] **Tests**: `test_graphql*.cpp` (automatisiert, CTest-Targets: `ctest -R graphql`)
 - [ ] **Automatisierbar**: GraphQL-Schema-Tests, Query-Tests
 
 #### PostgreSQL Wire Protocol
@@ -191,7 +191,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Connection-Handshake funktioniert
 - [ ] Query-Execution korrekt
 - [ ] Type-Mapping vollständig
-- [ ] **Tests**: `tests/protocols/postgresql/` (automatisiert)
+- [ ] **Tests**: `test_postgres_*.cpp` (automatisiert, CTest-Targets: `ctest -R postgres`)
 - [ ] **Automatisierbar**: Protocol-Tests
 
 ### 1.5 Security Features
@@ -202,7 +202,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Certificate-Management funktioniert
 - [ ] Cipher-Suites korrekt konfiguriert
 - [ ] Performance-Impact akzeptabel
-- [ ] **Tests**: `tests/security/tls/` (automatisiert)
+- [ ] **Tests**: `tests/security/`, `test_mtls_*.cpp`, `test_encryption*.cpp` (automatisiert, CTest-Targets: `ctest -R "tls|mtls|encryption"`)
 - [ ] **Automatisierbar**: TLS-Tests, Certificate-Validation
 
 #### RBAC (Role-Based Access Control)
@@ -211,7 +211,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Role-Management funktioniert
 - [ ] Permission-Checks korrekt
 - [ ] Inheritance-Model getestet
-- [ ] **Tests**: `tests/security/rbac/` (automatisiert)
+- [ ] **Tests**: `tests/security/`, `test_access_control.cpp`, `test_auth_*.cpp` (automatisiert, CTest-Targets: `ctest -R "access|auth|rbac"`)
 - [ ] **Automatisierbar**: RBAC-Tests, Permission-Tests
 
 #### Field-Level Encryption
@@ -220,7 +220,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Encryption/Decryption funktioniert
 - [ ] Key-Management sicher
 - [ ] Performance-Impact dokumentiert
-- [ ] **Tests**: `tests/security/encryption/` (automatisiert)
+- [ ] **Tests**: `tests/security/`, `test_encryption*.cpp`, `test_field_encryption*.cpp` (automatisiert, CTest-Targets: `ctest -R encryption`)
 - [ ] **Automatisierbar**: Encryption-Tests
 
 #### Audit Logging
@@ -230,7 +230,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Log-Format konsistent
 - [ ] Log-Rotation funktioniert
 - [ ] Retention-Policy implementiert
-- [ ] **Tests**: `tests/security/audit/` (automatisiert)
+- [ ] **Tests**: `tests/security/`, `test_audit_*.cpp` (automatisiert, CTest-Targets: `ctest -R audit`)
 - [ ] **Automatisierbar**: Audit-Log-Tests
 - [ ] **Status-Dokument**: `AUDIT_LOG_RETENTION_IMPLEMENTATION.md`
 
@@ -242,7 +242,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Plugin-Loading funktioniert
 - [ ] Hot-Reload getestet
 - [ ] Sandbox-Isolation aktiv
-- [ ] **Tests**: `tests/plugins/` (automatisiert)
+- [ ] **Tests**: `test_plugin_*.cpp` (automatisiert, CTest-Targets: `ctest -R plugin`)
 - [ ] **Automatisierbar**: Plugin-Tests
 - [ ] **Status-Dokument**: `PLUGIN_SECURITY_IMPLEMENTATION.md`
 
@@ -252,7 +252,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Ethics-Checks funktionieren
 - [ ] Policy-Management getestet
 - [ ] Performance-Impact akzeptabel
-- [ ] **Tests**: `tests/plugins/ethics/` (automatisiert)
+- [ ] **Tests**: `test_ethics_*.cpp` (automatisiert, CTest-Targets: `ctest -R ethics`)
 - [ ] **Automatisierbar**: Ethics-Tests
 - [ ] **Status-Dokument**: `ETHICS_PLUGIN_INTEGRATION_SUMMARY.md`
 
@@ -264,7 +264,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Circuit-Breaking funktioniert
 - [ ] Threshold-Configuration korrekt
 - [ ] Recovery-Logic getestet
-- [ ] **Tests**: `tests/resilience/circuit_breaker/` (automatisiert)
+- [ ] **Tests**: `test_circuit_breaker.cpp` (automatisiert, CTest-Targets: `ctest -R circuit`)
 - [ ] **Automatisierbar**: Circuit-Breaker-Tests
 
 #### Auto-Retry Logic
@@ -273,7 +273,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Exponential-Backoff funktioniert
 - [ ] Max-Retry konfigurierbar
 - [ ] Idempotency gewährleistet
-- [ ] **Tests**: `tests/resilience/retry/` (automatisiert)
+- [ ] **Tests**: `test_transaction_retry.cpp`, `test_auto_failover_*.cpp` (automatisiert, CTest-Targets: `ctest -R retry`)
 - [ ] **Automatisierbar**: Retry-Tests
 
 #### Health Checks
@@ -282,7 +282,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Liveness-Probe funktioniert
 - [ ] Readiness-Probe funktioniert
 - [ ] Startup-Probe funktioniert (K8s)
-- [ ] **Tests**: `tests/health/` (automatisiert)
+- [ ] **Tests**: `test_health_*.cpp` (automatisiert, CTest-Targets: `ctest -R health`)
 - [ ] **Automatisierbar**: Health-Check-Tests
 
 #### Automated Backup
@@ -291,7 +291,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] Backup-Scheduling funktioniert
 - [ ] Incremental-Backups getestet
 - [ ] Restore-Procedure validiert
-- [ ] **Tests**: `tests/backup/` (automatisiert)
+- [ ] **Tests**: `test_backup_*.cpp`, `test_enhanced_backup.cpp` (automatisiert, CTest-Targets: `ctest -R backup`)
 - [ ] **Automatisierbar**: Backup/Restore-Tests
 
 ### 1.8 GAP-Analyse & Roadmap
@@ -371,15 +371,15 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] **Flaky Tests identifiziert und gefixt**: ✅
 - [ ] **Test-Execution-Time**: `[X Minuten]` (Ziel: <30 Min)
 
-**Test-Suites**:
-- [ ] Core Database Tests: `tests/core/`
-- [ ] Transaction Tests: `tests/transaction/`
-- [ ] Multi-Model Tests: `tests/multi_model/`
-- [ ] Storage Tests: `tests/storage/`
-- [ ] API Tests: `tests/api/`
-- [ ] Security Tests: `tests/security/`
-- [ ] Plugin Tests: `tests/plugins/`
-- [ ] Distributed Systems Tests: `tests/sharding/`
+**Test-Suites / CTest-Targets**:
+- [ ] Integration Tests: `tests/integration/` (`ctest -R integration`)
+- [ ] Security Tests: `tests/security/` (`ctest -R security`)
+- [ ] Performance Tests: `tests/performance/` (`ctest -R performance`)
+- [ ] LLM / AI Tests: `tests/llm/` (`ctest -R llm`)
+- [ ] Analytics Tests: `tests/analytics/` (`ctest -R analytics`)
+- [ ] Database Tests: `tests/db/` (`ctest -R "transaction|mvcc|query"`)
+- [ ] Geo Tests: `tests/geo/` (`ctest -R geo`)
+- [ ] Temporal Tests: `tests/temporal/` (`ctest -R temporal`)
 
 **Automatisierbar**: CTest, Coverage-Reports (gcov/lcov), CI/CD Integration
 
@@ -392,10 +392,11 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 - [ ] **Test-Execution-Time**: `[X Minuten]`
 
 **Integration-Test-Suites**:
-- [ ] API Integration: `tests/integration/api/`
-- [ ] Database Integration: `tests/integration/database/`
-- [ ] Distributed Systems: `tests/integration/distributed/`
-- [ ] Plugin Integration: `tests/integration/plugins/`
+- [ ] RPC Integration: `tests/integration/rpc/`
+- [ ] Security Integration: `tests/integration/security/`
+- [ ] Storage / Database Integration: `tests/integration/storage/`
+- [ ] End-to-End / Distributed Workflows: `tests/integration/end_to_end/`
+- [ ] LLM / Plugin Integration: `tests/integration/llm/`
 
 **Automatisierbar**: Integration-Test-Framework, CI/CD Integration
 
@@ -728,7 +729,7 @@ Diese Checkliste stellt eine systematische und vollständige Überprüfung aller
 
 **Automatisierbar**: Link-Checker, Code-Example-Tester, Spell-Checker
 
-**Konfiguration**: `.markdown-link-check.json`, `docs-validation.example.yml`
+**Konfiguration**: `docs/.markdown-link-check.json`, `.docs-validation.example.yml`
 
 ---
 
@@ -1235,7 +1236,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Build & Test
         run: ./scripts/build_and_test.sh
