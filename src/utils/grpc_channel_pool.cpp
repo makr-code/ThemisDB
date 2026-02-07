@@ -259,7 +259,7 @@ void GrpcChannelPool::warmup(
             total_channels_.fetch_add(1);
             channels_created_.fetch_add(1);
         } catch (const std::exception&) {
-            // Continue warmup even if some channels fail
+            // Stop warmup on first failure to avoid cascading errors
             break;
         }
     }

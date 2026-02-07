@@ -321,7 +321,7 @@ void HTTPClientPool::warmup(size_t num_connections) {
                 total_connections_.fetch_add(1);
                 connections_created_.fetch_add(1, std::memory_order_relaxed);
             } catch (const std::exception&) {
-                // Continue warmup even if some connections fail
+                // Stop warmup on first failure to avoid cascading errors
                 break;
             }
         }

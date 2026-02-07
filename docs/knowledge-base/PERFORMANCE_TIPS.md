@@ -955,9 +955,7 @@ auto stats = pool->getStats();
 std::cout << "Total connections: " << stats.total_connections << std::endl;
 std::cout << "Available: " << stats.available_connections << std::endl;
 std::cout << "In use: " << stats.in_use_connections << std::endl;
-std::cout << "Reuse rate: " 
-          << (stats.connections_reused * 100.0 / stats.connections_created) 
-          << "%" << std::endl;
+std::cout << "Reuse rate: " << (stats.getReuseRate() * 100.0) << "%" << std::endl;
 ```
 
 **gRPC Channel Pool:**

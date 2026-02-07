@@ -150,9 +150,9 @@ public:
          * @brief Calculate connection reuse rate (0.0 - 1.0)
          */
         double getReuseRate() const {
-            if (connections_created == 0) return 0.0;
-            return static_cast<double>(connections_reused) / 
-                   static_cast<double>(connections_created + connections_reused);
+            size_t total = connections_created + connections_reused;
+            if (total == 0) return 0.0;
+            return static_cast<double>(connections_reused) / static_cast<double>(total);
         }
     };
     
