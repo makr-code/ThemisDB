@@ -312,6 +312,8 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
         Device device = ctx_.get_device(i);
         
         for (size_t j = 0; j < params.size(); ++j) {
+            // Flag to track if GPU update succeeded
+            // Enables per-parameter fallback to CPU if GPU kernel fails
             bool gpu_update_successful = false;
             
 #ifdef THEMIS_ENABLE_CUDA
