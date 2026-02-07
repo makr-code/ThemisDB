@@ -17,7 +17,8 @@
 #include <cstdint>
 
 // Platform-specific includes for prefetch instructions
-#if defined(_MSC_VER)
+// Note: clang-cl defines _MSC_VER but should use __builtin_prefetch
+#if defined(_MSC_VER) && !defined(__clang__)
     #include <xmmintrin.h>  // _mm_prefetch on MSVC
 #endif
 
@@ -78,7 +79,7 @@ enum class PrefetchHint {
 inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noexcept {
     if (!ptr) return;  // Safe no-op for null pointers
     
-    #if defined(_MSC_VER)
+    #if defined(_MSC_VER) && !defined(__clang__)
         // MSVC: Use _mm_prefetch with locality hints
         // _MM_HINT_T0 = fetch to L1, _MM_HINT_T1 = L2, _MM_HINT_T2 = L3, _MM_HINT_NTA = non-temporal
         switch (hint) {
@@ -119,7 +120,7 @@ inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
 inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noexcept {
     if (!ptr) return;
     
-    #if defined(_MSC_VER)
+    #if defined(_MSC_VER) && !defined(__clang__)
         // MSVC doesn't distinguish read/write in _mm_prefetch
         prefetch(ptr, hint);
     #elif defined(__GNUC__) || defined(__clang__)

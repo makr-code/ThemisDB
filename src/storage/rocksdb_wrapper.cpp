@@ -17,6 +17,7 @@
 #include <rocksdb/utilities/checkpoint.h>
 #include <rocksdb/utilities/backup_engine.h> // v1.1.0: Incremental Backup
 #include <filesystem>
+#include <algorithm>  // For std::max, std::min
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <iostream> // For debugging

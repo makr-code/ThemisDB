@@ -646,13 +646,13 @@ rocksdb:
 # For random access workloads (OLTP)
 rocksdb:
   enable_cpu_prefetch: true
-  prefetch_distance: 2-3  # Moderate prefetch
+  prefetch_distance: 3  # Moderate prefetch (2-3 typical)
   prefetch_min_batch_size: 4
 
 # For sequential scan workloads (Analytics)
 rocksdb:
   enable_cpu_prefetch: true
-  prefetch_distance: 4-6  # Aggressive prefetch
+  prefetch_distance: 5  # Aggressive prefetch (4-6 typical)
   prefetch_min_batch_size: 8
   
 # For mixed workloads

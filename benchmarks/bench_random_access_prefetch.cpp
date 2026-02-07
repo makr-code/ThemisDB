@@ -29,6 +29,9 @@
 #include <string>
 #include <random>
 #include <cstring>
+#include <cstdint>
+#include <memory>
+#include <stdexcept>
 #include <filesystem>
 
 using namespace themis;
