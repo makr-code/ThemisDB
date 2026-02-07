@@ -238,12 +238,16 @@ vcpkg install aws-sdk-cpp[s3,transfer]
 cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON ..
 ```
 
-**Features Enabled**:
+**Planned ThemisDB Features (using AWS SDK)**:
 - S3 bucket operations (create, list, delete)
 - Object upload/download with multipart support
 - Transfer manager for efficient large file uploads
 - IAM role-based authentication
 - Server-side encryption (SSE-S3, SSE-KMS)
+
+> **Note**: ThemisDB's cloud backup APIs are currently stubs ("not yet implemented").  
+> The features above describe capabilities of the AWS SDK that will be integrated  
+> in future releases, not functionality that is fully available today.
 
 **Why Optional?**
 - Large dependency (~200MB compiled)
@@ -269,12 +273,16 @@ vcpkg install azure-storage-cpp
 cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON ..
 ```
 
-**Features Enabled**:
+**Planned ThemisDB Features (using Azure SDK)**:
 - Azure Blob container operations
 - Block blob upload/download
 - Blob lifecycle management
 - Shared Access Signature (SAS) authentication
 - Azure Active Directory authentication
+
+> **Note**: ThemisDB's cloud backup APIs are currently stubs ("not yet implemented").  
+> The features above describe capabilities of the Azure Storage SDK that will be  
+> integrated in future releases, not functionality that is fully available today.
 
 **Why Optional?**
 - Only needed for Azure cloud deployments
@@ -300,12 +308,16 @@ vcpkg install google-cloud-cpp[storage]
 cmake -DTHEMIS_ENABLE_CLOUD_STORAGE=ON ..
 ```
 
-**Features Enabled**:
+**Planned ThemisDB Features (using Google Cloud SDK)**:
 - GCS bucket operations
 - Object upload/download
 - Resumable uploads for large files
 - Service account authentication
 - Customer-managed encryption keys (CMEK)
+
+> **Note**: ThemisDB's cloud backup APIs are currently stubs ("not yet implemented").  
+> The features above describe capabilities of the Google Cloud Storage SDK that will  
+> be integrated in future releases, not functionality that is fully available today.
 
 **Why Optional?**
 - Only needed for Google Cloud deployments

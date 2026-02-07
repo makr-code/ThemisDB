@@ -844,7 +844,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.c
     )
     
     target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
-        ${TEST_LIBS}
+        GTest::gtest
         themis_core
         RocksDB::rocksdb
         spdlog::spdlog
