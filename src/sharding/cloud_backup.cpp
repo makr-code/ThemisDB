@@ -197,23 +197,46 @@ public:
             return false;
         }
         
+        // TODO v1.4.0: Integrate real Azure SDK
         // In production, use Azure SDK:
         // Azure::Storage::Blobs::BlockBlobClient blob_client(...);
         // blob_client.UploadFrom(local_path);
         
-        THEMIS_INFO("Azure upload: {} -> {}/{}/{}", 
+        THEMIS_INFO("Azure upload (placeholder): {} -> {}/{}/{}", 
                    local_path, account_name_, container_, remote_path);
+        THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        return true;
+        // Placeholder behavior: return false to indicate SDK not integrated
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            THEMIS_INFO("Mock mode enabled - simulating successful upload");
+            return true;
+        }
+        
+        THEMIS_ERROR("Azure upload failed: Azure SDK not integrated");
+        return false;
     }
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
         
-        THEMIS_INFO("Azure download: {}/{}/{} -> {}", 
+        THEMIS_INFO("Azure download (placeholder): {}/{}/{} -> {}", 
                    account_name_, container_, remote_path, local_path);
+        THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        return true;
+        // Placeholder behavior: return false to indicate SDK not integrated
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            THEMIS_INFO("Mock mode enabled - simulating successful download");
+            // Create empty file to simulate download
+            std::ofstream file(local_path);
+            file << "Mock backup file - replace with real Azure SDK integration\n";
+            file.close();
+            return true;
+        }
+        
+        THEMIS_ERROR("Azure download failed: Azure SDK not integrated");
+        return false;
     }
     
     bool deleteObject(const std::string& remote_path) override {
@@ -260,21 +283,44 @@ public:
             return false;
         }
         
+        // TODO v1.4.0: Integrate real GCS SDK
         // In production, use GCS SDK:
         // google::cloud::storage::Client client(...);
         // client.UploadFile(local_path, bucket_, remote_path);
         
-        THEMIS_INFO("GCS upload: {} -> gs://{}/{}", local_path, bucket_, remote_path);
+        THEMIS_INFO("GCS upload (placeholder): {} -> gs://{}/{}", local_path, bucket_, remote_path);
+        THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        return true;
+        // Placeholder behavior: return false to indicate SDK not integrated
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            THEMIS_INFO("Mock mode enabled - simulating successful upload");
+            return true;
+        }
+        
+        THEMIS_ERROR("GCS upload failed: GCS SDK not integrated");
+        return false;
     }
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
         
-        THEMIS_INFO("GCS download: gs://{}/{} -> {}", bucket_, remote_path, local_path);
+        THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
+        THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        return true;
+        // Placeholder behavior: return false to indicate SDK not integrated
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            THEMIS_INFO("Mock mode enabled - simulating successful download");
+            // Create empty file to simulate download
+            std::ofstream file(local_path);
+            file << "Mock backup file - replace with real GCS SDK integration\n";
+            file.close();
+            return true;
+        }
+        
+        THEMIS_ERROR("GCS download failed: GCS SDK not integrated");
+        return false;
     }
     
     bool deleteObject(const std::string& remote_path) override {
