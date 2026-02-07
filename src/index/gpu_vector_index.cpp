@@ -24,6 +24,15 @@ class VulkanVectorIndexBackend;
 }
 #endif
 
+// Include GPU backend headers
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/hip_backend.h"
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#endif
+
 namespace themis {
 namespace index {
 
@@ -178,6 +187,9 @@ public:
             idToIndex[id] = index;
         }
         
+        // Invalidate cache since vector data changed
+        invalidateFlatVectorsCache();
+        
         stats.numVectors = vectorData.size();
         
         // Mark GPU data as dirty (will upload before next search)
@@ -209,6 +221,9 @@ public:
         vectorIds.pop_back();
         vectorData.pop_back();
         idToIndex.erase(id);
+        
+        // Invalidate cache since vector data changed
+        invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
         
@@ -599,7 +614,32 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
         results.push_back(pImpl->searchCPU(query, k));
     }
     
-    return results;
+    // Use appropriate backend
+    switch (pImpl->activeBackend) {
+        case Backend::HIP:
+            return pImpl->searchBatchHIP(queries, k);
+        case Backend::CUDA:
+            // CUDA backend not implemented in this PR
+            if (pImpl->config.allowCPUFallback) {
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& query : queries) {
+                    results.push_back(search(query, k));
+                }
+                return results;
+            }
+            return {};
+        case Backend::CPU:
+        case Backend::AUTO:
+        default:
+            // CPU fallback
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(queries.size());
+            for (const auto& query : queries) {
+                results.push_back(pImpl->searchCPU(query, k));
+            }
+            return results;
+    }
 }
 
 bool GPUVectorIndex::buildIndex() {
@@ -689,7 +729,25 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
 }
 
 std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() const {
-    return pImpl->getAvailableBackends();
+    std::vector<Backend> backends;
+    
+    // CPU is always available
+    backends.push_back(Backend::CPU);
+    
+    // Check for HIP availability
+#ifdef THEMIS_ENABLE_HIP
+    // Use static method to check availability without needing instance
+    if (themis::acceleration::HIPVectorBackend().isAvailable()) {
+        backends.push_back(Backend::HIP);
+    }
+#endif
+    
+    // Check for CUDA availability
+#ifdef THEMIS_ENABLE_CUDA
+    // CUDA backend check would go here when implemented
+#endif
+    
+    return backends;
 }
 
 // =============================================================================

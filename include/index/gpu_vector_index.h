@@ -29,6 +29,7 @@ namespace index {
  * @sources
  * - HNSW Algorithm: Malkov & Yashunin (2018) - IEEE TPAMI
  * - FAISS: Johnson et al. (2019) - IEEE Transactions on Big Data
+ * - ROCm/HIP: https://rocm.docs.amd.com/
  */
 class GPUVectorIndex {
 public:
