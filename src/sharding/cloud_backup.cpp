@@ -100,9 +100,18 @@ public:
         THEMIS_INFO("S3 upload (placeholder): {} -> s3://{}/{}", local_path, bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder: simulate successful upload for testing
-        // In production, this should return false if SDK is not integrated
-        return true;
+        // Placeholder behavior: return false to indicate SDK not integrated
+        // When AWS SDK is integrated, replace this with actual upload logic
+        // For testing/development only: set environment variable THEMIS_CLOUD_BACKUP_MOCK=1
+        // to simulate successful uploads
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            THEMIS_INFO("Mock mode enabled - simulating successful upload");
+            return true;
+        }
+        
+        THEMIS_ERROR("S3 upload failed: AWS SDK not integrated");
+        return false;
     }
     
     bool download(const std::string& remote_path,
@@ -114,10 +123,22 @@ public:
         // request.SetKey(remote_path);
         // auto outcome = s3_client_->GetObject(request);
         
-        THEMIS_INFO("S3 download: s3://{}/{} -> {}", bucket_, remote_path, local_path);
+        THEMIS_INFO("S3 download (placeholder): s3://{}/{} -> {}", bucket_, remote_path, local_path);
+        THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder: simulate successful download
-        return true;
+        // Placeholder behavior: return false to indicate SDK not integrated
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            THEMIS_INFO("Mock mode enabled - simulating successful download");
+            // Create empty file to simulate download
+            std::ofstream file(local_path);
+            file << "Mock backup file - replace with real AWS SDK integration\n";
+            file.close();
+            return true;
+        }
+        
+        THEMIS_ERROR("S3 download failed: AWS SDK not integrated");
+        return false;
     }
     
     bool deleteObject(const std::string& remote_path) override {
@@ -131,8 +152,18 @@ public:
     }
     
     bool exists(const std::string& remote_path) override {
-        THEMIS_INFO("S3 exists check: s3://{}/{}", bucket_, remote_path);
-        return false;
+        THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
+        
+        // Placeholder behavior: return false to indicate SDK not integrated
+        // In mock mode, check if we have a record of this upload
+        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
+        if (mock_env && std::string(mock_env) == "1") {
+            // In mock mode, assume existence based on previous uploads
+            // Real implementation would query S3
+            return false;  // Conservative: assume not exists
+        }
+        
+        return false;  // SDK not integrated, cannot check existence
     }
     
     std::string name() const override {

@@ -236,10 +236,6 @@ public:
             return out;
         }
         
-        // Allocate device memory
-        uint8_t* d_results = nullptr;
-        cudaMalloc(&d_results, in.count * sizeof(uint8_t));
-        
         // TODO v1.4.0: Complete CUDA implementation with geometry data processing
         // The full implementation requires:
         // 1. Upload query geometry and candidate MBRs to GPU device memory
@@ -247,24 +243,15 @@ public:
         // 3. Download results back to CPU host memory
         // 4. Handle memory allocation failures and device errors
         //
-        // Current implementation is a skeleton demonstrating the structure.
-        // For production use until v1.4.0, the CPU-parallel backend provides
-        // a working alternative with good performance (12.5x speedup).
+        // Current status: CUDA infrastructure is ready, but geometry processing
+        // is not yet implemented. For production use until v1.4.0, this backend
+        // falls back to CPU-parallel processing which provides good performance.
         
-        const int threads_per_block = 256;
-        const int num_blocks = (in.count + threads_per_block - 1) / threads_per_block;
+        THEMIS_WARN("CUDA batch operations not yet complete - falling back to CPU-parallel");
         
-        // Kernel launch will be enabled in v1.4.0 when geometry data structures are ready
-        // cuda_batch_intersects_kernel<<<num_blocks, threads_per_block>>>(
-        //     d_query_mbr, d_candidate_mbrs, d_results, in.count);
-        
-        // Copy results back
-        cudaMemcpy(out.mask.data(), d_results, in.count * sizeof(uint8_t), 
-                  cudaMemcpyDeviceToHost);
-        
-        cudaFree(d_results);
-        
-        return out;
+        // Fall back to CPU-parallel backend for actual computation
+        CpuParallelBackend cpu_fallback;
+        return cpu_fallback.batchIntersects(in);
     }
     
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
@@ -360,10 +347,11 @@ public:
         // Roadmap: Full implementation planned for v1.4.0
         // Current fallback: CPU-parallel backend provides working alternative
         
-        THEMIS_WARN("OpenCL batch operations not yet implemented - falling back to CPU");
-        std::fill(out.mask.begin(), out.mask.end(), 0);
+        THEMIS_WARN("OpenCL batch operations not yet implemented - falling back to CPU-parallel");
         
-        return out;
+        // Fall back to CPU-parallel backend for actual computation
+        CpuParallelBackend cpu_fallback;
+        return cpu_fallback.batchIntersects(in);
     }
     
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
