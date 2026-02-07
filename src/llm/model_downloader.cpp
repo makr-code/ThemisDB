@@ -23,9 +23,9 @@ namespace fs = std::filesystem;
 namespace themis {
 namespace llm {
 
+#ifdef THEMIS_ENABLE_CURL
 namespace {
 
-#ifdef THEMIS_ENABLE_CURL
 // CURL callback for writing data to file
 size_t writeFileCallback(void* ptr, size_t size, size_t nmemb, FILE* stream) {
     size_t written = fwrite(ptr, size, nmemb, stream);
@@ -66,13 +66,7 @@ size_t writeStringCallback(void* contents, size_t size, size_t nmemb, std::strin
 }
 #endif
 
-
-#ifdef THEMIS_ENABLE_CURL
-// CURL callback for writing data to file
-size_t writeFileCallback(void* ptr, size_t size, size_t nmemb, FILE* stream) {
-    size_t written = fwrite(ptr, size, nmemb, stream);
-    return written;
-}
+} // anonymous namespace
 
 // ============================================================================
 // ModelDownloader Implementation
