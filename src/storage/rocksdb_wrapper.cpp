@@ -716,22 +716,25 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     
     // v1.4.1: CPU prefetch hints for improved random access performance
     // Prefetch values incrementally as we process them to hide memory latency
-    // We only prefetch each position once by checking if it hasn't been prefetched yet
-    size_t next_prefetch_index = 0;
+    // Track the highest index we've prefetched to avoid redundant operations
+    size_t last_prefetched_index = 0;
     
     for (size_t i = 0; i < keys.size(); ++i) {
         // Prefetch upcoming values at stride intervals to avoid redundant prefetch
         if (config_.enable_cpu_prefetch && keys.size() >= config_.prefetch_min_batch_size) {
-            // Only prefetch if we haven't already prefetched this position
+            // Prefetch multiple items ahead based on prefetch_distance
+            size_t highest_prefetched = last_prefetched_index;
             for (size_t d = 1; d <= config_.prefetch_distance; ++d) {
                 size_t prefetch_idx = i + d;
-                if (prefetch_idx < keys.size() && prefetch_idx > next_prefetch_index) {
+                if (prefetch_idx < keys.size() && prefetch_idx > last_prefetched_index) {
                     if (statuses[prefetch_idx].ok() && !values[prefetch_idx].empty()) {
                         performance::prefetch(values[prefetch_idx].data(), performance::PrefetchHint::T0);
+                        highest_prefetched = prefetch_idx;
                     }
-                    next_prefetch_index = prefetch_idx;
                 }
             }
+            // Update tracking after all prefetches for this iteration
+            last_prefetched_index = highest_prefetched;
         }
         
         if (statuses[i].ok()) {
