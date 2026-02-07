@@ -148,6 +148,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - POST `/api/v1/pitr/preview` - Preview restore operation (dry-run)
     - GET `/api/v1/pitr/progress` - Get current restore progress
   - **DiffEngine Enhanced**: Now accepts optional SnapshotManager for tag-based diffs
+  - **MergeEngine API Integration** 🆕
+    - **3-Way Merge Support**: Full Git-like merge functionality now integrated
+    - REST API endpoints for merge operations:
+      - POST `/api/v1/merge` - Perform three-way merge between sequences
+      - POST `/api/v1/merge/preview` - Preview merge without applying (dry-run)
+      - POST `/api/v1/merge/by-tag` - Merge using snapshot tags instead of sequences
+      - GET `/api/v1/merge/can-fast-forward` - Check if fast-forward merge is possible
+    - **BranchManager Enhanced**: Non-fast-forward branch merges now supported
+      - Automatic integration with MergeEngine for complex merges
+      - Conflict detection and resolution strategies
+      - Fast-forward detection and optimization
+    - **Conflict Resolution**: Multiple strategies available (OURS, THEIRS, MANUAL, FAST_FORWARD)
+    - **Full Integration**: MergeEngine properly initialized in HTTP server and connected to BranchManager
 
 ### Changed
 - Updated DiffEngine initialization to support SnapshotManager reference

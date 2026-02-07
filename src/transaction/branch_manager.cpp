@@ -1,7 +1,9 @@
 #include "transaction/branch_manager.h"
+#include "transaction/merge_engine.h"
 #include <regex>
 #include <algorithm>
 #include <stdexcept>
+#include <fmt/format.h>
 
 namespace themis {
 namespace transaction {
@@ -56,10 +58,12 @@ json BranchManager::MergeResult::toJson() const {
 BranchManager::BranchManager(
     RocksDBWrapper& db,
     Changefeed& changefeed,
-    SnapshotManager& snapshot_manager
+    SnapshotManager& snapshot_manager,
+    MergeEngine* merge_engine
 ) : db_(db),
     changefeed_(changefeed),
     snapshot_manager_(snapshot_manager),
+    merge_engine_(merge_engine),
     active_branch_(DEFAULT_BRANCH) {
     
     // Load active branch from storage
@@ -84,6 +88,11 @@ BranchManager::BranchManager(
         auto data = serialize(default_branch);
         db_.put(makeKey(DEFAULT_BRANCH), data);
     }
+}
+
+void BranchManager::setMergeEngine(MergeEngine* merge_engine) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    merge_engine_ = merge_engine;
 }
 
 // Create branch
@@ -288,6 +297,11 @@ BranchManager::MergeResult BranchManager::mergeBranches(
     uint64_t source_seq = source->creation_sequence;
     uint64_t target_seq = target->creation_sequence;
     
+    // Determine common ancestor sequence (simple heuristic: use the earlier of the two)
+    // Note: For divergent branches, ideally we'd track the actual divergence point
+    // For now, this simple approach works for basic linear branch histories
+    uint64_t base_seq = std::min(source_seq, target_seq);
+    
     // Check if fast-forward is possible
     if (options.fast_forward && source_seq >= target_seq) {
         // Fast-forward merge: just update target sequence
@@ -297,10 +311,39 @@ BranchManager::MergeResult BranchManager::mergeBranches(
         return result;
     }
     
-    // For now, we only support fast-forward merges
-    // Full 3-way merge would require diff analysis and conflict resolution
+    // Attempt 3-way merge if MergeEngine is available
+    if (merge_engine_) {
+        try {
+            // Use MergeEngine for 3-way merge
+            transaction::MergeEngine::MergeOptions merge_opts;
+            merge_opts.strategy = transaction::MergeEngine::MergeStrategy::MANUAL;
+            merge_opts.fail_on_conflict = options.abort_on_conflict;
+            
+            auto merge_result = merge_engine_->merge(base_seq, source_seq, target_seq, merge_opts);
+            
+            // Convert MergeEngine result to BranchManager result
+            result.success = merge_result.success;
+            result.message = merge_result.message;
+            result.merged_sequence = merge_result.result_sequence;
+            
+            // Extract conflict keys
+            for (const auto& conflict : merge_result.conflicts) {
+                result.conflicts.push_back(conflict.key);
+            }
+            
+            return result;
+        } catch (const std::exception& e) {
+            result.success = false;
+            result.message = fmt::format("Merge failed: {}", e.what());
+            return result;
+        }
+    }
+    
+    // Fallback: MergeEngine not available
     result.success = false;
-    result.message = "Non-fast-forward merge not yet implemented. Use force merge or rebase source branch.";
+    result.message = "Non-fast-forward merge not yet implemented. "
+                     "Use force merge or rebase source branch. "
+                     "(MergeEngine not initialized)";
     
     return result;
 }
