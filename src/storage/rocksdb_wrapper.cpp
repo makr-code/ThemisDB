@@ -1,6 +1,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
+#include "performance/prefetch_hints.h"
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -16,6 +17,7 @@
 #include <rocksdb/utilities/checkpoint.h>
 #include <rocksdb/utilities/backup_engine.h> // v1.1.0: Incremental Backup
 #include <filesystem>
+#include <algorithm>  // For std::max, std::min
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <iostream> // For debugging
@@ -719,7 +721,35 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(*read_options_, rock_keys, &values);
 
     results.reserve(keys.size());
+    
+    // v1.4.1: CPU prefetch hints for improved random access performance
+    // Prefetch values incrementally as we process them to hide memory latency
+    // Track the highest index we've prefetched to avoid redundant operations
+    size_t last_prefetched_index = 0;
+    
     for (size_t i = 0; i < keys.size(); ++i) {
+        // Prefetch upcoming values at stride intervals to avoid redundant prefetch
+        if (config_.enable_cpu_prefetch && keys.size() >= config_.prefetch_min_batch_size) {
+            // Prefetch multiple items ahead based on prefetch_distance
+            // Initialize to current position (i) to handle edge case where no valid
+            // prefetches occur (e.g., all upcoming values are empty or have failed status)
+            size_t highest_prefetched = i;
+            
+            for (size_t d = 1; d <= config_.prefetch_distance; ++d) {
+                size_t prefetch_idx = i + d;
+                if (prefetch_idx < keys.size() && prefetch_idx > last_prefetched_index) {
+                    if (statuses[prefetch_idx].ok() && !values[prefetch_idx].empty()) {
+                        performance::prefetch(values[prefetch_idx].data(), performance::PrefetchHint::T0);
+                        highest_prefetched = prefetch_idx;
+                    }
+                }
+            }
+            
+            // Update tracking with the highest index we successfully prefetched
+            // Using max ensures we never move backwards even if no prefetches occurred
+            last_prefetched_index = std::max(last_prefetched_index, highest_prefetched);
+        }
+        
         if (statuses[i].ok()) {
             std::vector<uint8_t> value(values[i].begin(), values[i].end());
             results.emplace_back(std::move(value));
@@ -1106,9 +1136,24 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
     
     rocksdb::Slice prefix_slice(prefix.data(), prefix.size());
     
+    // v1.4.1: CPU prefetch hints for iterator scanning
+    // We only prefetch the key and value data itself, not beyond bounds
+    // This helps with cache line loading for sequential access patterns
     for (it->Seek(prefix_slice); it->Valid() && it->key().starts_with(prefix_slice); it->Next()) {
         std::string_view key(it->key().data(), it->key().size());
         std::string_view value(it->value().data(), it->value().size());
+        
+        // Prefetch current key and value into cache before callback processing
+        // This overlaps memory access with callback computation for better pipelining
+        if (config_.enable_cpu_prefetch) {
+            performance::prefetch(key.data(), performance::PrefetchHint::T0);
+            if (value.size() > 0) {
+                // Prefetch value data (up to 256 bytes to avoid excessive bandwidth)
+                performance::prefetch_range(value.data(), 
+                                           std::min<size_t>(value.size(), 256),
+                                           performance::PrefetchHint::T0);
+            }
+        }
         
         if (!callback(key, value)) {
             break; // Stop iteration if callback returns false
@@ -1138,9 +1183,21 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     rocksdb::Slice start_slice(start_key.data(), start_key.size());
     rocksdb::Slice end_slice(end_key.data(), end_key.size());
     
+    // v1.4.1: CPU prefetch hints for range scanning
     for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
         std::string_view key(it->key().data(), it->key().size());
         std::string_view value(it->value().data(), it->value().size());
+        
+        // Prefetch current entry data into cache for better locality
+        if (config_.enable_cpu_prefetch) {
+            performance::prefetch(key.data(), performance::PrefetchHint::T0);
+            if (value.size() > 0) {
+                // Prefetch value data (limit to avoid excessive bandwidth usage)
+                performance::prefetch_range(value.data(),
+                                           std::min<size_t>(value.size(), 256),
+                                           performance::PrefetchHint::T0);
+            }
+        }
         
         if (!callback(key, value)) {
             break;

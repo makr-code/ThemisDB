@@ -138,6 +138,15 @@ public:
         size_t async_io_readahead_size_mb = 128;        // Increased from 64MB for better throughput
         int async_io_multiget_batch_size = 100;         // MultiGet batch size
         int async_io_num_threads = 4;                   // Async I/O thread pool size
+        
+        // v1.4.1: CPU-level Prefetch Hints for Random Access Performance
+        // Software prefetch hints to improve cache hit rates for random access patterns
+        // Based on research: Chen, T-F., Baer, J-L. (1995) "Effective Hardware-Based Data Prefetching for 
+        // High-Performance Processors", IEEE Transactions on Computers, vol. 44, no. 5, pp. 609-623.
+        // DOI: 10.1109/12.381947
+        bool enable_cpu_prefetch = true;                // Enable CPU prefetch hints
+        size_t prefetch_distance = 2;                   // Items to prefetch ahead (1-8, default: 2)
+        size_t prefetch_min_batch_size = 4;             // Minimum batch size to enable prefetch
 
         // Compression (best-effort; depends on RocksDB build)
         // Values: "none", "lz4", "zstd", "snappy", "zlib", "bzip2", "lz4hc"
