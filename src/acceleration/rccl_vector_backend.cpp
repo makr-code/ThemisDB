@@ -460,7 +460,7 @@ bool RCCLVectorBackend::allReduce(const float*, float*, size_t, ReductionOp, voi
 bool RCCLVectorBackend::broadcast(float*, size_t, int, void*) { return false; }
 bool RCCLVectorBackend::allGather(const float*, float*, size_t, void*) { return false; }
 bool RCCLVectorBackend::reduce(const float*, float*, size_t, ReductionOp, int, void*) { return false; }
-bool RCCLVectorBackend::reduceScatter(const float*, size_t, ReductionOp, void*) { return false; }
+bool RCCLVectorBackend::reduceScatter(const float*, float*, size_t, ReductionOp, void*) { return false; }
 bool RCCLVectorBackend::p2pSend(const float*, size_t, int, void*) { return false; }
 bool RCCLVectorBackend::p2pRecv(float*, size_t, int, void*) { return false; }
 bool RCCLVectorBackend::enableP2PAccess(int, int) { return false; }
