@@ -140,6 +140,11 @@ cudaError_t launch_fp16_matmul_kernel(
     // Implement using cuBLAS with Tensor Core support
     // This uses cublasGemmEx with CUDA_R_16F for FP16 computation
     
+    // Note: This function creates a cuBLAS handle on every call for API simplicity.
+    // For performance-critical code with many matmul operations, consider using
+    // the lower-level cuBLAS API directly with a pre-created handle, or use the
+    // CublasHandle wrapper class and cublas_matmul() for FP32 operations.
+    
     // Create cuBLAS handle
     cublasHandle_t handle;
     cublasStatus_t cublas_status = cublasCreate(&handle);
@@ -166,6 +171,10 @@ cudaError_t launch_fp16_matmul_kernel(
     // Perform matrix multiplication: C = alpha * A * B + beta * C
     // Note: cuBLAS uses column-major order, so we compute B^T * A^T = (A * B)^T
     // then effectively get C = A * B in row-major
+    // 
+    // Alpha is converted from float to __half for the cuBLAS API.
+    // This is intentional - the function signature uses float for API consistency,
+    // and the conversion is precise enough for the scaling factor.
     float beta = 0.0f;  // Don't accumulate into C
     const __half alpha_fp16 = __float2half(alpha);
     const __half beta_fp16 = __float2half(beta);
