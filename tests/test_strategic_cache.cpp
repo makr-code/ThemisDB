@@ -130,22 +130,31 @@ TEST_F(StrategicCacheWithLRUTest, HitRateTracking) {
 }
 
 TEST_F(StrategicCacheWithLRUTest, TTLExpiration) {
-    CacheEntry entry("value1", 1, 
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now().time_since_epoch()
-        ).count());
+    // Get a timestamp from the past for testing TTL
+    auto past_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now().time_since_epoch() - std::chrono::milliseconds(200)
+    ).count();
+    
+    CacheEntry entry("value1", 1, past_time);
 
-    // Put with 50ms TTL
-    cache->put("key1", entry, 50);
+    // Put with 100ms TTL (but entry timestamp is already 200ms old)
+    cache->put("key1", entry, 100);
 
+    // Should be expired immediately since entry timestamp + TTL < now
+    EXPECT_FALSE(cache->get("key1").has_value()) 
+        << "Entry should be expired (timestamp 200ms old, TTL 100ms)";
+    
+    // Now test with fresh entry
+    auto now_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()
+    ).count();
+    
+    CacheEntry entry2("value2", 1, now_time);
+    cache->put("key2", entry2, 50);
+    
     // Should be available immediately
-    EXPECT_TRUE(cache->get("key1").has_value());
-
-    // Wait for expiration
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-    // Should be expired now
-    EXPECT_FALSE(cache->get("key1").has_value());
+    EXPECT_TRUE(cache->get("key2").has_value()) 
+        << "Fresh entry should be immediately available";
 }
 
 TEST_F(StrategicCacheWithLRUTest, GetEvictionStrategy) {
