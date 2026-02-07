@@ -796,6 +796,63 @@ cudaError_t launch_sequence_mean_kernel(
     return cudaSuccess;
 }
 
+/**
+ * @brief SGD parameter update kernel
+ * 
+ * Performs in-place SGD update: param = param - learning_rate * grad
+ */
+__global__ void sgd_update_kernel(
+    float* params,
+    const float* grads,
+    float learning_rate,
+    size_t size
+) {
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < size) {
+        params[idx] -= learning_rate * grads[idx];
+    }
+}
+
+cudaError_t launch_sgd_update_kernel(
+    float* params,
+    const float* grads,
+    float learning_rate,
+    size_t size,
+    cudaStream_t stream
+) {
+    if (!params || !grads || size == 0) {
+        return cudaErrorInvalidValue;
+    }
+    
+    // Launch configuration
+    const int threads_per_block = 256;
+    const int num_blocks = (size + threads_per_block - 1) / threads_per_block;
+    
+    // Launch kernel
+    if (stream) {
+        sgd_update_kernel<<<num_blocks, threads_per_block, 0, stream>>>(
+            params, grads, learning_rate, size
+        );
+    } else {
+        sgd_update_kernel<<<num_blocks, threads_per_block>>>(
+            params, grads, learning_rate, size
+        );
+    }
+    
+    // Check for launch errors
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        return err;
+    }
+    
+    // Synchronize if no stream
+    if (!stream) {
+        return cudaDeviceSynchronize();
+    }
+    
+    return cudaSuccess;
+}
+
 } // namespace cuda
 } // namespace lora
 } // namespace llm

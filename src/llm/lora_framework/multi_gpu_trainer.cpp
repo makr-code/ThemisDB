@@ -1,4 +1,6 @@
 #include "llm/lora_framework/multi_gpu_trainer.h"
+#include "llm/lora_framework/cuda_kernels.h"
+#include "llm/lora_framework/hip_kernels.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <fstream>
@@ -299,7 +301,7 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
     // so all GPUs have identical gradients. We update each GPU's parameters
     // independently with the same gradient values.
     //
-    // Real implementation would use GPU kernels for efficiency:
+    // Use GPU kernels for efficient parameter updates on each GPU:
     // - Launch kernel: param[i] -= lr * grad[i]
     // - No CPU roundtrip needed
     
@@ -307,12 +309,71 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
         auto& gpu_layer = layer.get_layer(i);
         auto params = gpu_layer.parameters();
         auto grads = gpu_layer.gradients();
+        Device device = ctx_.get_device(i);
         
         for (size_t j = 0; j < params.size(); ++j) {
-            // TODO: Replace with GPU kernel for efficiency
-            // Current implementation: download, update on CPU, upload
-            // GPU kernel would do: param[i] -= lr * grad[i] directly on GPU
-            
+#ifdef THEMIS_ENABLE_CUDA
+            if (device.type == DeviceType::CUDA) {
+                // Use CUDA kernel for efficient GPU-side update
+                void* param_ptr = params[j]->gpu_ptr();
+                void* grad_ptr = grads[j]->gpu_ptr();
+                size_t size = params[j]->size();
+                
+                if (param_ptr && grad_ptr && size > 0) {
+                    cudaError_t err = cuda::launch_sgd_update_kernel(
+                        static_cast<float*>(param_ptr),
+                        static_cast<const float*>(grad_ptr),
+                        config_.learning_rate,
+                        size,
+                        nullptr  // Use default stream
+                    );
+                    
+                    if (err != cudaSuccess) {
+                        spdlog::warn("CUDA SGD kernel failed for GPU {}, param {}: {}", 
+                                     i, j, cudaGetErrorString(err));
+                        // Fall back to CPU update
+                        goto cpu_fallback;
+                    }
+                } else {
+                    spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
+                    goto cpu_fallback;
+                }
+                continue;  // Skip CPU fallback
+            }
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+            if (device.type == DeviceType::HIP) {
+                // Use HIP kernel for efficient GPU-side update
+                void* param_ptr = params[j]->gpu_ptr();
+                void* grad_ptr = grads[j]->gpu_ptr();
+                size_t size = params[j]->size();
+                
+                if (param_ptr && grad_ptr && size > 0) {
+                    hipError_t err = hip::launch_sgd_update_kernel(
+                        static_cast<float*>(param_ptr),
+                        static_cast<const float*>(grad_ptr),
+                        config_.learning_rate,
+                        size,
+                        nullptr  // Use default stream
+                    );
+                    
+                    if (err != hipSuccess) {
+                        spdlog::warn("HIP SGD kernel failed for GPU {}, param {}: {}", 
+                                     i, j, hipGetErrorString(err));
+                        // Fall back to CPU update
+                        goto cpu_fallback;
+                    }
+                } else {
+                    spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
+                    goto cpu_fallback;
+                }
+                continue;  // Skip CPU fallback
+            }
+#endif
+
+cpu_fallback:
+            // CPU fallback for non-GPU devices or if GPU kernel failed
             auto param_data = params[j]->cpu_data();
             auto grad_data = grads[j]->cpu_data();
             
