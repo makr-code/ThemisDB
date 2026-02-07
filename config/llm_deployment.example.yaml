@@ -51,14 +51,14 @@ deployment:
       location: "http://localhost:11434"
       priority: 100
     
-    # Local filesystem source
+    # Local filesystem source (can be directory or full file path)
     - type: local
-      location: "/mnt/models"
+      location: "/mnt/models"  # Directory - model filename will be appended automatically
       priority: 90
     
-    # HTTPS source with checksum verification
+    # HTTPS source with checksum verification (must be direct file URL)
     - type: https
-      location: "https://models.example.com/llama2-7b-q4.gguf"
+      location: "https://models.example.com/llama2-7b-q4.gguf"  # Direct file URL required
       checksum_type: sha256
       checksum_value: "<your-sha256-checksum-here>"  # Replace with actual SHA256 hash
       priority: 80
@@ -67,6 +67,11 @@ deployment:
     - type: http
       location: "http://internal-model-server/models/mistral-7b.gguf"
       priority: 70
+
+# NOTE: The current implementation requires:
+# - For local sources: directories (model filename appended) or full file paths
+# - For HTTP/HTTPS: direct URLs to model files, NOT base URLs like "https://huggingface.co"
+# Base URLs would attempt to download the homepage and fail.
 
 # ═══════════════════════════════════════════════════════════
 # Model Definitions

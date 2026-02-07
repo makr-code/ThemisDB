@@ -2,7 +2,8 @@
 
 #include "llm/model_downloader.h"
 #include "llm/llm_plugin_interface.h"
-#include "llm/llm_model_storage.h"
+// NOTE: LLMModelStorage is forward-declared to avoid link dependency until implementation exists
+// #include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include <string>
@@ -16,6 +17,10 @@ namespace themis {
 namespace llm {
 
 using json = nlohmann::json;
+
+// Forward declaration to avoid linker errors until llm_model_storage.cpp is implemented
+class LLMModelStorage;
+struct LLMModelMetadata;
 
 /**
  * @brief Deployment mode for LLM models

@@ -38,12 +38,11 @@ deployment:
       location: "http://localhost:11434"
       priority: 100
     
-    # HuggingFace European mirrors
-    - type: https
-      location: "https://huggingface.co"
-      priority: 90
+    # NOTE: Base URLs like "https://huggingface.co" cannot be used directly.
+    # The current implementation expects direct file URLs or directories.
+    # For HuggingFace models, use local mirrors or configure per-model URLs.
     
-    # Local European data centers
+    # Local European data centers (directory path - model filename appended automatically)
     - type: local
       location: "/mnt/eu-models"
       priority: 95

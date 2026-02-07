@@ -38,20 +38,18 @@ deployment:
       location: "http://localhost:11434"
       priority: 100
     
-    # HuggingFace (primary source for research models)
-    - type: https
-      location: "https://huggingface.co"
-      priority: 95
+    # NOTE: Base URLs like "https://huggingface.co" or "https://github.com" cannot be used directly.
+    # The current implementation treats source.location as a direct file/directory path,
+    # not a base URL for model resolution. Using base URLs would attempt to download
+    # the homepage and fail.
+    #
+    # WORKAROUND: Use local model directories or configure specific model file URLs
+    # under individual model definitions in the `models:` section (future enhancement).
     
-    # University model repository
+    # University model repository (directory path - model filename appended automatically)
     - type: local
       location: "/research/models"
       priority: 90
-    
-    # GitHub research repositories
-    - type: https
-      location: "https://github.com"
-      priority: 80
 
 # ═══════════════════════════════════════════════════════════
 # Academic & Research Model Definitions

@@ -59,15 +59,18 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
 LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     : config_(config), downloader_(std::make_unique<ModelDownloader>()) {
     
+    // NOTE: BaseEntity storage integration is prepared but disabled until
+    // llm_model_storage.cpp is implemented to avoid linker errors
+    /*
     // Initialize BaseEntity storage if enabled
     if (config_.use_base_entity_storage && config_.db) {
         LLMModelStorage::Config storage_config;
         storage_config.db = config_.db;
         storage_config.collection_name = config_.collection_name;
-        storage_config.enable_encryption = false;  // Can be configured later
+        storage_config.enable_encryption = false;
         storage_config.enable_signatures = true;
         storage_config.use_blob_storage = true;
-        storage_config.inline_threshold_mb = 100;  // Store large models in blob storage
+        storage_config.inline_threshold_mb = 100;
         
         model_storage_ = std::make_shared<LLMModelStorage>(storage_config);
         LOG_INFO("LLM Deployment Plugin: BaseEntity storage initialized (collection: {})", 
@@ -75,6 +78,9 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
     } else {
         LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (no BaseEntity storage)");
     }
+    */
+    
+    LOG_INFO("LLM Deployment Plugin: Filesystem-only mode (BaseEntity storage TODO)");
     
     // Create cache directory if it doesn't exist
     if (!fs::exists(config_.cache_directory)) {
@@ -187,7 +193,8 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
             status.checksum_type = "sha256";
         }
         
-        // Store in BaseEntity storage (RocksDB)
+        // Store in BaseEntity storage (RocksDB) - TODO: Uncomment when llm_model_storage.cpp exists
+        /*
         if (config_.use_base_entity_storage && model_storage_) {
             bool stored = saveModelToStorage(status, model_path);
             if (stored) {
@@ -196,6 +203,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
                 LOG_WARN("Failed to store model metadata in RocksDB: {}", model_id);
             }
         }
+        */
         
         // Update registry (filesystem fallback)
         auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
