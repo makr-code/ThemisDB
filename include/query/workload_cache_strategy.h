@@ -6,6 +6,7 @@
 #include <atomic>
 #include <unordered_map>
 #include <mutex>
+#include <algorithm>
 #include <nlohmann/json.hpp>
 #include "query/query_cache.h"
 #include "cache/adaptive_query_cache.h"
@@ -20,7 +21,7 @@ namespace query {
  * - OLTP: High-frequency, small results, short TTL
  * - OLAP: Low-frequency, large results, long TTL
  * - MIXED: Adaptive behavior based on query patterns
- * - STREAMING: No caching (real-time data)
+ * - STREAMING: Minimal caching with very short TTL (real-time data)
  */
 enum class WorkloadType {
     OLTP,         // Online Transaction Processing - frequent small queries

@@ -2,6 +2,8 @@
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
+#include <cmath>
+#include <random>
 
 namespace themis {
 namespace query {
@@ -142,40 +144,56 @@ void WorkloadCacheStrategy::recordQuery(
     const std::string& query_fingerprint,
     const QueryCharacteristics& characteristics
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Update or create query pattern entry
-    auto it = query_patterns_.find(query_fingerprint);
-    if (it == query_patterns_.end()) {
-        // New query pattern
-        QueryCharacteristics new_char = characteristics;
-        new_char.first_seen = std::chrono::system_clock::now();
-        new_char.last_accessed = new_char.first_seen;
-        new_char.access_count = 1;
-        query_patterns_[query_fingerprint] = new_char;
-    } else {
-        // Update existing pattern
-        auto& pattern = it->second;
-        pattern.last_accessed = std::chrono::system_clock::now();
-        int64_t count = pattern.access_count;
-        pattern.access_count++;
-        
-        // Update cumulative averages (proper weighted average)
-        pattern.result_size_bytes = 
-            (pattern.result_size_bytes * count + characteristics.result_size_bytes) / (count + 1);
-        pattern.execution_time_ms = 
-            (pattern.execution_time_ms * count + characteristics.execution_time_ms) / (count + 1);
-        pattern.rows_scanned = 
-            (pattern.rows_scanned * count + characteristics.rows_scanned) / (count + 1);
-        pattern.rows_returned = 
-            (pattern.rows_returned * count + characteristics.rows_returned) / (count + 1);
+    // Apply sampling rate
+    if (config_.enable_workload_detection && config_.detection_sample_rate < 1.0) {
+        static thread_local std::mt19937 rng(std::random_device{}());
+        static thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
+        if (dist(rng) > config_.detection_sample_rate) {
+            return;  // Skip this query based on sampling rate
+        }
     }
     
-    // Update global stats
-    stats_.total_queries++;
+    bool should_detect = false;
     
-    // Trigger workload detection if needed
-    if (config_.enable_workload_detection && shouldRunDetection()) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        // Update or create query pattern entry
+        auto it = query_patterns_.find(query_fingerprint);
+        if (it == query_patterns_.end()) {
+            // New query pattern
+            QueryCharacteristics new_char = characteristics;
+            new_char.first_seen = std::chrono::system_clock::now();
+            new_char.last_accessed = new_char.first_seen;
+            new_char.access_count = 1;
+            query_patterns_[query_fingerprint] = new_char;
+        } else {
+            // Update existing pattern
+            auto& pattern = it->second;
+            pattern.last_accessed = std::chrono::system_clock::now();
+            int64_t count = pattern.access_count;
+            pattern.access_count++;
+            
+            // Update cumulative averages (proper weighted average)
+            pattern.result_size_bytes = 
+                (pattern.result_size_bytes * count + characteristics.result_size_bytes) / (count + 1);
+            pattern.execution_time_ms = 
+                (pattern.execution_time_ms * count + characteristics.execution_time_ms) / (count + 1);
+            pattern.rows_scanned = 
+                (pattern.rows_scanned * count + characteristics.rows_scanned) / (count + 1);
+            pattern.rows_returned = 
+                (pattern.rows_returned * count + characteristics.rows_returned) / (count + 1);
+        }
+        
+        // Update global stats
+        stats_.total_queries++;
+        
+        // Check if workload detection should run (without holding lock)
+        should_detect = config_.enable_workload_detection && shouldRunDetection();
+    }
+    
+    // Trigger workload detection if needed (outside the lock to avoid deadlock)
+    if (should_detect) {
         detectWorkload();
     }
 }
@@ -344,26 +362,34 @@ std::chrono::seconds WorkloadCacheStrategy::calculateTTL(
     // Adaptive TTL based on frequency
     double freq = characteristics.frequency_per_minute();
     
+    // Use config thresholds instead of hard-coded values
+    double high_freq_threshold = config.high_frequency_threshold > 0 
+        ? config.high_frequency_threshold 
+        : 10.0;
+    double low_freq_threshold = config.low_frequency_threshold > 0 
+        ? config.low_frequency_threshold 
+        : 0.1;
+    
     // High frequency = shorter TTL (data changes more often)
     // Low frequency = longer TTL (expensive to recompute)
     std::chrono::seconds ttl;
     
-    if (freq > 10.0) {
+    if (freq > high_freq_threshold) {
         // High frequency: short TTL
         ttl = config.min_ttl;
-    } else if (freq < 0.1) {
+    } else if (freq < low_freq_threshold) {
         // Low frequency: long TTL
         ttl = config.max_ttl;
     } else {
         // Scale between min and max based on frequency
         // Use logarithmic scale for better distribution
-        // Pre-computed constants to avoid redundant computation
-        static constexpr double LOG_MIN = 0.04139268515822508;  // std::log10(0.1 + 1.0)
-        static constexpr double LOG_MAX = 1.0413926851582251;   // std::log10(10.0 + 1.0)
-        static constexpr double LOG_RANGE = LOG_MAX - LOG_MIN;
+        // Compute log values based on actual thresholds
+        double log_min = std::log10(low_freq_threshold + 1.0);
+        double log_max = std::log10(high_freq_threshold + 1.0);
+        double log_range = log_max - log_min;
         
         double log_freq = std::log10(freq + 1.0);
-        double ratio = (log_freq - LOG_MIN) / LOG_RANGE;
+        double ratio = (log_freq - log_min) / log_range;
         ratio = std::clamp(ratio, 0.0, 1.0);
         
         // Inverse relationship: higher frequency = lower TTL

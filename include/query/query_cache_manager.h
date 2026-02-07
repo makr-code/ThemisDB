@@ -4,6 +4,9 @@
 #include <string>
 #include <optional>
 #include <chrono>
+#include <map>
+#include <vector>
+#include <mutex>
 #include <nlohmann/json.hpp>
 #include "query/query_cache.h"
 #include "cache/adaptive_query_cache.h"

@@ -115,17 +115,19 @@ std::optional<nlohmann::json> QueryCacheManager::get(
     }
     
     auto start = std::chrono::steady_clock::now();
-    std::string fingerprint = generateFingerprint(query, params);
     
     std::optional<nlohmann::json> result;
     
     // Try to get from cache
     if (basic_cache_) {
+        // For basic cache, let it compute the fingerprint internally
         auto cache_result = basic_cache_->get(query, params);
         if (cache_result.has_value() && cache_result->found) {
             result = cache_result->result;
         }
     } else if (adaptive_cache_) {
+        // For adaptive cache, we need the fingerprint
+        std::string fingerprint = generateFingerprint(query, params);
         auto cache_entry = adaptive_cache_->get(fingerprint);
         if (cache_entry.has_value()) {
             result = cache_entry->result;
@@ -139,10 +141,9 @@ std::optional<nlohmann::json> QueryCacheManager::get(
     updateHitStats(hit, duration_us);
     
     if (hit) {
-        THEMIS_DEBUG("Cache HIT: query fingerprint={}, lookup_time={}us",
-                    fingerprint.substr(0, 16), duration_us);
+        THEMIS_DEBUG("Cache HIT: lookup_time={}us", duration_us);
     } else {
-        THEMIS_DEBUG("Cache MISS: query fingerprint={}", fingerprint.substr(0, 16));
+        THEMIS_DEBUG("Cache MISS");
     }
     
     reportStatsIfNeeded();
@@ -290,10 +291,9 @@ void QueryCacheManager::clear() {
     }
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
+    size_t max_mem = stats_.max_memory_bytes;  // Preserve max memory before reset
     stats_ = CacheStatistics();
-    stats_.max_memory_bytes = config_.cache_type == Config::CacheType::BASIC
-        ? basic_cache_->getConfig().max_memory_bytes
-        : 0;
+    stats_.max_memory_bytes = max_mem;  // Restore preserved value
     
     THEMIS_INFO("Query cache cleared");
 }
@@ -314,9 +314,18 @@ void QueryCacheManager::warmCache(const std::map<std::string, nlohmann::json>& q
         char_.last_accessed = char_.first_seen;
         
         // Store with long TTL for warmed entries
+        nlohmann::json params = nlohmann::json::object();
+        
         if (adaptive_cache_) {
-            nlohmann::json params = nlohmann::json::object();
             if (adaptive_cache_->put(fingerprint, params, result)) {
+                warmed++;
+            }
+        } else if (basic_cache_) {
+            // For basic cache, we need a query string (use fingerprint as placeholder)
+            std::vector<std::string> deps;
+            auto put_result = basic_cache_->put(fingerprint, params, result, deps, 
+                                               std::chrono::seconds(3600));
+            if (put_result.has_value()) {
                 warmed++;
             }
         }
