@@ -97,6 +97,7 @@ class PITRManager;
 
 namespace transaction {
 class BranchManager;
+class MergeEngine;
 }
 
 namespace analytics {
@@ -107,6 +108,7 @@ namespace server {
 class DiffApiHandler;
 class PITRApiHandler;
 class BranchApiHandler;
+class MergeApiHandler;
 }
 
 namespace sharding {
@@ -579,6 +581,10 @@ private:
     // Branch Manager and API Handler (Phase 4 MVCC features - Optional)
     std::unique_ptr<transaction::BranchManager> branch_manager_;
     std::unique_ptr<BranchApiHandler> branch_api_handler_;
+    
+    // Merge Engine and API Handler (Phase 5 MVCC features - 3-Way Merge)
+    std::unique_ptr<transaction::MergeEngine> merge_engine_;
+    std::unique_ptr<MergeApiHandler> merge_api_handler_;
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE

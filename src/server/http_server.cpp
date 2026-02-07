@@ -57,6 +57,8 @@
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
 #include "transaction/branch_manager.h"
+#include "transaction/merge_engine.h"
+#include "analytics/diff_engine.h"
 #include <algorithm>
 
 // Sprint B features
@@ -77,6 +79,7 @@
 #include "server/diff_api_handler.h"
 #include "server/pitr_api_handler.h"
 #include "server/branch_api_handler.h"
+#include "server/merge_api_handler.h"
 #include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 #include "analytics/diff_engine.h"
@@ -314,20 +317,19 @@ HttpServer::HttpServer(
         branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
         THEMIS_INFO("BranchManager initialized");
         
-        // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
+        // Initialize DiffEngine (required for MergeEngine)
         diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
         diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
         THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
         
-        // Initialize PITRManager and PITRApiHandler (Phase 3 MVCC features)
-        // Note: PITRManager can work without SnapshotManager for sequence/timestamp restore
-        pitr_manager_ = std::make_unique<PITRManager>(
-            storage_.get(), 
-            changefeed_.get(), 
-            nullptr  /* snapshot_manager - TODO: Enable when SnapshotManager Beast migration is complete */
-        );
-        pitr_api_handler_ = std::make_unique<PITRApiHandler>(*pitr_manager_);
-        THEMIS_INFO("PITRManager initialized (without snapshot support)");
+        // Initialize MergeEngine and MergeApiHandler (Phase 5 - 3-Way Merge)
+        merge_engine_ = std::make_unique<transaction::MergeEngine>(*diff_engine_, *snapshot_manager_, *changefeed_);
+        merge_api_handler_ = std::make_unique<MergeApiHandler>(*merge_engine_, *snapshot_manager_);
+        THEMIS_INFO("MergeEngine initialized for 3-way merge support");
+        
+        // Connect MergeEngine to BranchManager for non-fast-forward merges
+        branch_manager_->setMergeEngine(merge_engine_.get());
+        THEMIS_INFO("BranchManager connected to MergeEngine for 3-way merge support");
         
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
@@ -1539,6 +1541,12 @@ namespace {
     BranchSwitchPost,           // POST /api/v1/branches/:name/switch
     BranchDelete,               // DELETE /api/v1/branches/:name
     BranchesMergePost,          // POST /api/v1/branches/merge
+    
+    // Merge API routes
+    MergePost,                  // POST /api/v1/merge
+    MergePreviewPost,           // POST /api/v1/merge/preview
+    MergeByTagPost,             // POST /api/v1/merge/by-tag
+    MergeCanFastForwardGet,     // GET /api/v1/merge/can-fast-forward
        
     // Schema API
     SchemaGetFull,            // GET /api/v1/schema
@@ -1660,6 +1668,12 @@ namespace {
     if (path_only.rfind("/api/v1/branches/", 0) == 0 && path_only.rfind("/switch") == path_only.length() - 7 && method == http::verb::post) return Route::BranchSwitchPost;
     if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::get) return Route::BranchGet;
     if (path_only.rfind("/api/v1/branches/", 0) == 0 && method == http::verb::delete_) return Route::BranchDelete;
+    
+    // Merge API routes
+    if (path_only == "/api/v1/merge" && method == http::verb::post) return Route::MergePost;
+    if (path_only == "/api/v1/merge/preview" && method == http::verb::post) return Route::MergePreviewPost;
+    if (path_only == "/api/v1/merge/by-tag" && method == http::verb::post) return Route::MergeByTagPost;
+    if (path_only == "/api/v1/merge/can-fast-forward" && method == http::verb::get) return Route::MergeCanFastForwardGet;
     
         // Sprint B endpoints
     if (target == "/ts/put" && method == http::verb::post) return Route::TimeSeriesPut;
@@ -2403,6 +2417,52 @@ http::response<http::string_body> HttpServer::routeRequest(
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Branch API not available", req);
+            }
+            break;
+        
+        // Merge API handlers
+        case Route::MergePost:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleMerge(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        case Route::MergePreviewPost:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleMergePreview(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        case Route::MergeByTagPost:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleMergeByTag(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
+            }
+            break;
+        case Route::MergeCanFastForwardGet:
+            if (merge_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                merge_api_handler_->handleCanFastForward(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Merge API not available", req);
             }
             break;
         
