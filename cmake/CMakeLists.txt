@@ -137,6 +137,8 @@ option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+option(THEMIS_ENABLE_NCCL "Enable NCCL for NVIDIA multi-GPU (v2.5+)" OFF)
+option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
@@ -2815,6 +2817,23 @@ if(THEMIS_BUILD_TESTS)
         gtest_discover_tests(test_multi_gpu_vector_index
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # NCCL/RCCL Collective Backends Test (v2.5+)
+        add_executable(test_collective_backends
+            ${THEMIS_ROOT_DIR}/tests/test_collective_backends.cpp
+        )
+        target_link_libraries(test_collective_backends
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_collective_backends
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
