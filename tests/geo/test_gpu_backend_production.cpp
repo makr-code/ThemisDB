@@ -4,6 +4,9 @@
 #include <memory>
 #include <vector>
 #include <chrono>
+#include <cstring>
+#include <thread>
+#include <atomic>
 
 using namespace themis::geo;
 
@@ -233,9 +236,13 @@ TEST_F(GpuBackendProductionTest, ThreadSafety) {
     
     std::vector<std::thread> threads;
     std::atomic<int> success_count{0};
+    std::atomic<bool> exception_occurred{false};
+    std::string exception_message;
+    std::mutex exception_mutex;
     
     for (int t = 0; t < num_threads; ++t) {
-        threads.emplace_back([this, &success_count, calls_per_thread]() {
+        threads.emplace_back([this, &success_count, &exception_occurred, 
+                             &exception_message, &exception_mutex, calls_per_thread]() {
             for (int i = 0; i < calls_per_thread; ++i) {
                 SpatialBatchInputs inputs;
                 inputs.count = 10;
@@ -245,8 +252,18 @@ TEST_F(GpuBackendProductionTest, ThreadSafety) {
                     if (results.mask.size() == 10) {
                         success_count++;
                     }
+                } catch (const std::exception& e) {
+                    // Capture first exception message for diagnostics
+                    if (!exception_occurred.exchange(true)) {
+                        std::lock_guard<std::mutex> lock(exception_mutex);
+                        exception_message = e.what();
+                    }
                 } catch (...) {
-                    // Test fails if exception thrown
+                    // Capture unknown exception
+                    if (!exception_occurred.exchange(true)) {
+                        std::lock_guard<std::mutex> lock(exception_mutex);
+                        exception_message = "Unknown exception";
+                    }
                 }
             }
         });
@@ -257,6 +274,9 @@ TEST_F(GpuBackendProductionTest, ThreadSafety) {
     }
     
     // All calls should succeed
+    if (exception_occurred.load()) {
+        FAIL() << "Exception in thread: " << exception_message;
+    }
     EXPECT_EQ(success_count.load(), num_threads * calls_per_thread);
 }
 

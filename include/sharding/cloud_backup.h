@@ -46,8 +46,12 @@ struct CloudBackupConfig {
     std::chrono::hours retention_period{24 * 7};  // 7 days default
     
     // Compression and encryption
-    bool enable_compression = true;
-    bool enable_encryption = true;
+    // NOTE: These flags are currently not applied by the coordinator/provider implementations
+    // and are reserved for future use (v1.4.0). Callers MUST NOT assume backups are compressed
+    // or encrypted unless they verify the underlying implementation enforces these settings.
+    // When v1.4.0 is released with real SDK integration, these features will be implemented.
+    bool enable_compression = false;
+    bool enable_encryption = false;
     std::string encryption_key;
 };
 

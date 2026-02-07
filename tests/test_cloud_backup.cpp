@@ -17,9 +17,16 @@ using namespace themis::sharding;
 class CloudBackupTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        // Create unique temporary paths for each test
+        auto temp_base = std::filesystem::temp_directory_path();
+        auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+        
+        db_path_ = temp_base / ("test_cloud_backup_db_" + std::to_string(timestamp));
+        local_backup_dir_ = temp_base / ("test_backups_" + std::to_string(timestamp));
+        
         // Create temporary database for testing
         RocksDBWrapper::Config db_config;
-        db_config.db_path = "test_cloud_backup_db";
+        db_config.db_path = db_path_.string();
         db_config.memtable_size_mb = 16;
         db_config.block_cache_size_mb = 16;
         
@@ -49,9 +56,14 @@ protected:
         backup_manager_.reset();
         db_.reset();
         
-        std::filesystem::remove_all("test_cloud_backup_db");
+        // Clean up temporary directories
+        std::filesystem::remove_all(db_path_);
+        std::filesystem::remove_all(local_backup_dir_);
         unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
     }
+    
+    std::filesystem::path db_path_;
+    std::filesystem::path local_backup_dir_;
     
     std::unique_ptr<RocksDBWrapper> db_;
     std::shared_ptr<BackupManager> backup_manager_;
@@ -66,7 +78,7 @@ TEST_F(CloudBackupTest, CreateCoordinatorS3) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -81,7 +93,7 @@ TEST_F(CloudBackupTest, CreateCoordinatorAzure) {
     config.provider = "azure";
     config.azure_account = "testaccount";
     config.azure_container = "backups";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -96,7 +108,7 @@ TEST_F(CloudBackupTest, CreateCoordinatorGCS) {
     config.provider = "gcs";
     config.gcs_project_id = "test-project";
     config.gcs_bucket = "test-bucket";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -111,7 +123,7 @@ TEST_F(CloudBackupTest, CreateBackupMockMode) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -130,7 +142,7 @@ TEST_F(CloudBackupTest, ListBackups) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -155,7 +167,7 @@ TEST_F(CloudBackupTest, GetBackupInfo) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -177,7 +189,7 @@ TEST_F(CloudBackupTest, GetNonExistentBackupInfo) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -193,7 +205,7 @@ TEST_F(CloudBackupTest, DeleteBackup) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -221,7 +233,7 @@ TEST_F(CloudBackupTest, DeleteNonExistentBackup) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -237,7 +249,7 @@ TEST_F(CloudBackupTest, SetReplicationTarget) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -258,7 +270,7 @@ TEST_F(CloudBackupTest, EnableContinuousReplication) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -279,7 +291,7 @@ TEST_F(CloudBackupTest, DisableContinuousReplication) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -301,7 +313,7 @@ TEST_F(CloudBackupTest, MultipleBackups) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -324,7 +336,7 @@ TEST_F(CloudBackupTest, BackupWithCompression) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     config.enable_compression = true;
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
@@ -342,7 +354,7 @@ TEST_F(CloudBackupTest, BackupWithEncryption) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     config.enable_encryption = true;
     config.encryption_key = "test-encryption-key-32bytes!!!";
     
@@ -364,7 +376,7 @@ TEST_F(CloudBackupTest, WithoutMockModeFails) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
@@ -386,7 +398,7 @@ TEST_F(CloudBackupTest, RestoreBackupMockMode) {
     config.provider = "s3";
     config.s3_bucket = "test-bucket";
     config.s3_region = "us-east-1";
-    config.local_backup_dir = "/tmp/test_backups";
+    config.local_backup_dir = local_backup_dir_.string();
     
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
