@@ -59,6 +59,16 @@ public:
     };
 
     /**
+     * Communication backend for multi-GPU operations
+     */
+    enum class CommBackend {
+        AUTO,       // Auto-detect (NCCL for NVIDIA, RCCL for AMD, fallback to CPU)
+        NCCL,       // NVIDIA NCCL (CUDA only)
+        RCCL,       // AMD RCCL (HIP only)
+        CPU         // CPU-based communication (no GPU collectives)
+    };
+    
+    /**
      * Multi-GPU configuration
      */
     struct Config {
@@ -72,6 +82,12 @@ public:
         PartitionStrategy partitionStrategy = PartitionStrategy::ROUND_ROBIN;
         LoadBalancingMode loadBalancing = LoadBalancingMode::STATIC;
         bool enableP2P = true;  // Enable peer-to-peer transfers
+        
+        // Communication backend (v2.5+)
+        CommBackend commBackend = CommBackend::AUTO;
+        bool enableNVLink = true;   // Use NVIDIA NVLink if available
+        bool enableXGMI = true;     // Use AMD Infinity Fabric if available
+        size_t commBufferSizeMB = 256;  // Communication buffer size
         
         // HNSW parameters (per GPU)
         int M = 16;
@@ -162,6 +178,13 @@ public:
     void setLoadBalancingMode(LoadBalancingMode mode);
     void setEfSearch(int ef);
     PartitionStrategy getPartitionStrategy() const;
+    
+    // Communication backend control (v2.5+)
+    CommBackend getCommBackend() const;
+    bool isCollectiveOpsAvailable() const;
+    bool isP2PTransferAvailable() const;
+    bool isNVLinkAvailable() const;
+    bool isXGMIAvailable() const;
 
 private:
     class Impl;
