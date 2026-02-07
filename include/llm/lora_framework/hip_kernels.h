@@ -243,6 +243,26 @@ hipError_t launch_sequence_mean_kernel(
     hipStream_t stream = nullptr
 );
 
+/**
+ * @brief HIP kernel launcher for SGD parameter update
+ * 
+ * Performs in-place SGD parameter update on GPU:
+ * param = param - learning_rate * grad
+ * 
+ * @param params Parameter tensor (device pointer, in/out)
+ * @param grads Gradient tensor (device pointer)
+ * @param learning_rate Learning rate
+ * @param size Number of elements
+ * @param stream HIP stream for async execution
+ */
+hipError_t launch_sgd_update_kernel(
+    float* params,
+    const float* grads,
+    float learning_rate,
+    size_t size,
+    hipStream_t stream = nullptr
+);
+
 } // namespace hip
 } // namespace lora
 } // namespace llm

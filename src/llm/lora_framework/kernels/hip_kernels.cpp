@@ -789,6 +789,63 @@ hipError_t launch_sequence_mean_kernel(
     return hipSuccess;
 }
 
+/**
+ * @brief SGD parameter update kernel
+ * 
+ * Performs in-place SGD update: param = param - learning_rate * grad
+ */
+__global__ void sgd_update_kernel(
+    float* params,
+    const float* grads,
+    float learning_rate,
+    size_t size
+) {
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < size) {
+        params[idx] -= learning_rate * grads[idx];
+    }
+}
+
+hipError_t launch_sgd_update_kernel(
+    float* params,
+    const float* grads,
+    float learning_rate,
+    size_t size,
+    hipStream_t stream
+) {
+    if (!params || !grads || size == 0) {
+        return hipErrorInvalidValue;
+    }
+    
+    // Launch configuration
+    const int threads_per_block = 256;
+    const int num_blocks = (size + threads_per_block - 1) / threads_per_block;
+    
+    // Launch kernel
+    if (stream) {
+        hipLaunchKernelGGL(sgd_update_kernel, 
+            dim3(num_blocks), dim3(threads_per_block), 0, stream,
+            params, grads, learning_rate, size);
+    } else {
+        hipLaunchKernelGGL(sgd_update_kernel, 
+            dim3(num_blocks), dim3(threads_per_block), 0, 0,
+            params, grads, learning_rate, size);
+    }
+    
+    // Check for launch errors
+    hipError_t err = hipGetLastError();
+    if (err != hipSuccess) {
+        return err;
+    }
+    
+    // Synchronize if no stream
+    if (!stream) {
+        return hipDeviceSynchronize();
+    }
+    
+    return hipSuccess;
+}
+
 } // namespace hip
 } // namespace lora
 } // namespace llm
