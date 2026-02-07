@@ -1107,6 +1107,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
+    ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp

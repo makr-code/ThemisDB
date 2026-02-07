@@ -1,5 +1,6 @@
 #include "llm/model_downloader.h"
 #include "utils/logger.h"
+#include "utils/checksum_utils.h"
 #include <fstream>
 #include <sstream>
 #include <chrono>
@@ -15,7 +16,6 @@
 #include <curl/curl.h>
 #endif
 
-#include <openssl/sha.h>
 #include <yaml-cpp/yaml.h>
 
 namespace fs = std::filesystem;
@@ -66,35 +66,13 @@ size_t writeStringCallback(void* contents, size_t size, size_t nmemb, std::strin
 }
 #endif
 
-// Calculate SHA256 checksum of a file
-std::string calculateSHA256(const std::string& file_path) {
-    std::ifstream file(file_path, std::ios::binary);
-    if (!file.is_open()) {
-        return "";
-    }
 
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-
-    constexpr size_t buffer_size = 32768;
-    std::vector<char> buffer(buffer_size);
-
-    while (file.read(buffer.data(), buffer_size) || file.gcount() > 0) {
-        SHA256_Update(&sha256, buffer.data(), file.gcount());
-    }
-
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_Final(hash, &sha256);
-
-    std::ostringstream oss;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
-    }
-
-    return oss.str();
+#ifdef THEMIS_ENABLE_CURL
+// CURL callback for writing data to file
+size_t writeFileCallback(void* ptr, size_t size, size_t nmemb, FILE* stream) {
+    size_t written = fwrite(ptr, size, nmemb, stream);
+    return written;
 }
-
-} // anonymous namespace
 
 // ============================================================================
 // ModelDownloader Implementation
@@ -363,24 +341,17 @@ bool ModelDownloader::exportOllamaModel(const std::string& ollama_url,
         #endif
 
         if (ollama_models_dir.empty() || !fs::exists(ollama_models_dir)) {
-            LOG_WARN("Could not locate Ollama models directory, creating stub file");
-            // Create a stub file for testing purposes
-            std::ofstream stub(output_path);
-            stub << "# Stub model file for testing\n";
-            stub << "# In production, this would be the actual GGUF model\n";
-            stub.close();
-            return true;
+            LOG_ERROR("Could not locate Ollama models directory. Ollama may not be installed or accessible.");
+            return false;
         }
 
         // Try to find the model blob
         // Ollama uses content-addressable storage with SHA256 digests
         if (model_info.contains("details") && model_info["details"].contains("parent_model")) {
-            // This is a complex case - for now, create a placeholder
-            LOG_WARN("Model export using Ollama's blob storage is not yet fully implemented");
-            std::ofstream placeholder(output_path);
-            placeholder << "# Model placeholder\n";
-            placeholder.close();
-            return true;
+            // Complex model with parent - requires proper blob handling
+            LOG_ERROR("Model export using Ollama's blob storage is not yet fully implemented");
+            LOG_ERROR("Please use Ollama's native tools to export this model, or wait for full implementation");
+            return false;
         }
 
     } catch (const json::exception& e) {
@@ -388,7 +359,8 @@ bool ModelDownloader::exportOllamaModel(const std::string& ollama_url,
         return false;
     }
 
-    return true;
+    LOG_ERROR("Model export from Ollama is not yet fully implemented. Use Ollama CLI to export the model manually.");
+    return false;
 #else
     LOG_ERROR("CURL support not enabled");
     return false;

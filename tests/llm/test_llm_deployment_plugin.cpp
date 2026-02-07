@@ -88,13 +88,16 @@ TEST_F(LLMDeploymentPluginTest, PluginInitialization) {
 // Model Downloader Tests
 // ============================================================================
 
+// Minimum valid model size (models must be at least 1MB)
+constexpr size_t MIN_VALID_MODEL_SIZE_BYTES = 1024 * 1024;
+
 TEST(ModelDownloaderTest, IsModelAvailable) {
     std::string test_file = "/tmp/test_model.gguf";
     
-    // Create test file
+    // Create test file larger than minimum size
     {
         std::ofstream file(test_file, std::ios::binary);
-        std::vector<char> data(2 * 1024 * 1024, 'x');  // 2MB of data
+        std::vector<char> data(2 * MIN_VALID_MODEL_SIZE_BYTES, 'x');
         file.write(data.data(), data.size());
     }
     
