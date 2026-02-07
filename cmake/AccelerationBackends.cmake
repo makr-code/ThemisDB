@@ -33,12 +33,24 @@ if(THEMIS_ENABLE_CUDA)
     )
 endif()
 
+# NCCL vector backend for multi-GPU vector indexing (v2.5+)
+# Always compile to provide stub implementations for CPU-only builds
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/acceleration/nccl_vector_backend.cpp
+)
+
 # RCCL backend (AMD multi-GPU)
 if(THEMIS_ENABLE_HIP)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/llm/lora_framework/rccl_backend.cpp
     )
 endif()
+
+# RCCL vector backend for multi-GPU vector indexing (v2.5+)
+# Always compile to provide stub implementations for CPU-only builds
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/acceleration/rccl_vector_backend.cpp
+)
 
 # Intel OneAPI backend
 if(THEMIS_ENABLE_ONEAPI)

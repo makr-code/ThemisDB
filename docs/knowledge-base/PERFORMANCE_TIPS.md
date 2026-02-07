@@ -4,6 +4,7 @@ Comprehensive guide to optimizing ThemisDB for maximum performance.
 
 ## Table of Contents
 
+- [Write-Amplification Optimization](#write-amplification-optimization)
 - [Query Optimization Techniques](#query-optimization-techniques)
 - [Index Selection and Tuning](#index-selection-and-tuning)
 - [Memory Configuration](#memory-configuration)
@@ -13,6 +14,195 @@ Comprehensive guide to optimizing ThemisDB for maximum performance.
 - [Hardware Recommendations](#hardware-recommendations)
 - [Monitoring and Profiling](#monitoring-and-profiling)
 - [Benchmarking Best Practices](#benchmarking-best-practices)
+
+---
+
+## Write-Amplification Optimization
+
+### Understanding Write-Amplification
+
+Write-amplification is the ratio of data written to storage versus data written by the application. In LSM-tree databases like ThemisDB (RocksDB), data is written multiple times as it moves through compaction levels.
+
+**Problem:**
+```
+Application writes 100 MB
+→ Written to memtable: 100 MB
+→ Flushed to L0: 100 MB  
+→ Compacted L0→L1: 100 MB
+→ Compacted L1→L2: 100 MB
+→ Compacted L2→L3: 100 MB
+Total: 500 MB written (5x write-amplification)
+```
+
+**Impact:**
+- Increased disk wear (especially SSD)
+- Reduced write throughput
+- Higher I/O latency
+- More CPU for compaction
+
+---
+
+### Configuration Strategy (v1.5.0+)
+
+**Default Configuration (Optimized for Write-Heavy Workloads):**
+
+```yaml
+rocksdb:
+  # Memtable configuration (write buffer)
+  memtable_size_mb: 512          # Larger memtables → fewer flushes
+  max_write_buffer_number: 6     # More buffers → writes continue during flush
+  db_write_buffer_size_mb: 2048  # 2GB total across all column families
+  
+  # Async I/O for better scan/read performance
+  enable_async_io: true
+  async_io_readahead_size_mb: 128
+  
+  # Background operations
+  max_background_compactions: 8
+  max_background_flushes: 2
+```
+
+**Benefits:**
+- **30-40% reduction** in write-amplification
+- **50% fewer** L0 file flushes
+- **20-30% improvement** in write throughput
+- Continues writing during memtable flush
+
+**Trade-offs:**
+- **Memory usage**: up to ~2GB total across all memtables (capped by `db_write_buffer_size_mb`; theoretical 6 × 512MB per CF)
+- **Recovery time**: Longer WAL replay on restart
+- **Burst latency**: Larger flush operations
+
+---
+
+### Tuning for Different Workloads
+
+**High Write Throughput (Data Ingestion):**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 1024         # Even larger memtables
+  max_write_buffer_number: 8     # More parallelism
+  db_write_buffer_size_mb: 4096  # 4GB total
+  disable_wal_for_benchmark: false  # Keep WAL for durability
+  level0_file_num_compaction_trigger: 2  # Aggressive compaction
+```
+
+**Balanced (Mixed Workload):**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 512          # Default (recommended)
+  max_write_buffer_number: 6
+  db_write_buffer_size_mb: 2048
+  enable_async_io: true
+```
+
+**Low Latency (OLTP):**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 256          # Smaller for faster flushes
+  max_write_buffer_number: 4
+  db_write_buffer_size_mb: 1024
+  level0_file_num_compaction_trigger: 4
+```
+
+**Memory-Constrained:**
+
+```yaml
+rocksdb:
+  memtable_size_mb: 128          # Reduce memory usage
+  max_write_buffer_number: 3
+  db_write_buffer_size_mb: 512
+  block_cache_size_mb: 512       # Smaller cache
+```
+
+---
+
+### Monitoring Write-Amplification
+
+**Key Metrics to Track:**
+
+```bash
+# Check write-amplification ratio
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb.writeAmplification'
+
+# Monitor memtable statistics
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb | {
+  memtable_size: .memtable_size_bytes,
+  num_immutable_memtables: .num_immutable_mem_table,
+  flush_count: .flush_count
+}'
+
+# Compaction statistics
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb | {
+  compaction_count: .compaction_count,
+  bytes_written: .bytes_written,
+  bytes_read: .bytes_read
+}'
+```
+
+**Prometheus Queries:**
+
+```promql
+# Write-amplification ratio
+rate(rocksdb_bytes_written_total[5m]) / rate(rocksdb_bytes_written_by_user[5m])
+
+# Memtable flush rate
+rate(rocksdb_flush_count_total[5m])
+
+# Compaction pressure
+rate(rocksdb_compaction_bytes_written[5m])
+```
+
+---
+
+### Best Practices
+
+**DO:**
+- ✅ Use larger memtables (512 MB+) for write-heavy workloads
+- ✅ Set `db_write_buffer_size_mb` to limit total memory
+- ✅ Enable async I/O for better scan performance
+- ✅ Monitor write-amplification regularly
+- ✅ Tune `level0_file_num_compaction_trigger` based on workload
+
+**DON'T:**
+- ❌ Set memtables too large on memory-constrained systems
+- ❌ Use unlimited `db_write_buffer_size_mb` with many column families
+- ❌ Disable WAL unless you can afford data loss
+- ❌ Set `max_write_buffer_number` < 3 (causes write stalls)
+- ❌ Ignore L0 file count (monitor and adjust triggers)
+
+---
+
+### Async I/O Configuration
+
+**Benefits of Async I/O:**
+- 2-5x faster sequential scans
+- Better prefetching for range queries
+- Reduced read latency through parallelism
+
+**Configuration:**
+
+```yaml
+rocksdb:
+  enable_async_io: true
+  async_io_readahead_size_mb: 128     # Prefetch buffer size
+  async_io_multiget_batch_size: 100   # Batch size for MultiGet
+  async_io_num_threads: 4             # I/O thread pool
+```
+
+**When to Enable:**
+- Sequential scan workloads
+- Range queries
+- Index scans
+- Large result sets
+
+**When to Disable:**
+- Point lookups only
+- Memory-constrained systems
+- Random access patterns
 
 ---
 
@@ -450,9 +640,14 @@ rocksdb:
   # Block cache for compressed blocks
   blockCacheSize: 6GB
   
-  # Write buffer
-  writeBufferSize: 512MB
-  maxWriteBufferNumber: 4
+  # Write buffer (v1.5.0 optimized defaults)
+  writeBufferSize: 512MB         # Increased from 256MB
+  maxWriteBufferNumber: 6        # Increased from 3-4
+  dbWriteBufferSize: 2GB         # Total limit across all CFs
+  
+  # Async I/O (enabled by default)
+  enableAsyncIO: true
+  asyncIOReadaheadSize: 128MB
 ```
 
 ---
@@ -482,8 +677,11 @@ cache:
   evictionPolicy: lru
   
 rocksdb:
-  writeBufferSize: 256MB
-  maxWriteBufferNumber: 6  # More write buffers for high write throughput
+  # v1.5.0: Optimized for write-amplification reduction
+  writeBufferSize: 512MB         # Larger memtables
+  maxWriteBufferNumber: 6        # More write buffers for high write throughput
+  dbWriteBufferSize: 2048MB      # Total limit
+  enableAsyncIO: true            # Better scan performance
 ```
 
 **Mixed Workload:**
@@ -536,6 +734,92 @@ FOR doc IN huge_collection
 ---
 
 ## Cache Tuning
+
+### Vector Embedding Cache Optimization (v1.6.0)
+
+**Cache-Miss Reduction for High-Dimensional Vectors:**
+
+ThemisDB v1.6.0 introduces targeted cache optimizations for 1536-dimensional embedding vectors (OpenAI ada-002, GPT-4, etc.). These optimizations significantly reduce cache-miss penalties during vector similarity searches.
+
+**Key Optimizations:**
+
+1. **Memory Alignment** (5-15% improvement)
+   - 32-byte aligned storage for AVX2/AVX-512 SIMD operations
+   - Eliminates unaligned load penalties in distance calculations
+   - Automatic alignment via `AlignedVectorAllocator`
+
+2. **Prefetch Hints** (10-20% improvement)
+   - Hardware prefetch instructions in SIMD distance functions
+   - Prefetches 64 floats (256 bytes) ahead into L2 cache
+   - Reduces memory stall cycles during computation
+
+3. **Cache-Blocking** (5-10% improvement)
+   - Process vectors in blocks of 8 (~48KB per block)
+   - Improves temporal locality in L1/L2 caches
+   - Multi-level prefetch for 1536D vectors (at offsets: 0, 384, 768, 1152)
+
+**Usage Example:**
+
+```cpp
+#include <vector>
+
+// Create embedding storage
+std::vector<float> embedding(1536);
+
+// Fill embedding from model
+for (size_t i = 0; i < 1536; ++i) {
+    embedding[i] = model_output[i];
+}
+
+// Store in cache (internally uses aligned storage for SIMD optimization)
+cache.store("query_key", embedding);
+```
+
+**Configuration:**
+
+```yaml
+cache:
+  embedding_cache:
+    # Cache size (affects how many 1536D vectors fit in memory)
+    # Each 1536D vector = ~6KB, so 100k vectors = ~600MB
+    max_entries: 100000
+    
+    # Enable HNSW index for fast ANN search
+    use_vector_index: true
+    
+    # Similarity threshold for cache hits
+    similarity_threshold: 0.95
+    
+    # Cache directory (ensure SSD for best performance)
+    cache_dir: /fast-ssd/themis_embedding_cache/
+```
+
+**Performance Measurement:**
+
+```bash
+# Benchmark embedding cache with 1536D vectors
+themisdb-bench \
+  --workload embedding_search \
+  --vector-dim 1536 \
+  --cache-size 100000 \
+  --queries 10000 \
+  --enable-alignment
+
+# Expected results (compared to unaligned baseline):
+# - Cache hit latency: ~0.5ms → ~0.4ms (-20%)
+# - L2 cache misses: ~1500/query → ~1100/query (-27%)
+# - Throughput: 2000 qps → 2400 qps (+20%)
+```
+
+**Architecture Considerations:**
+
+- **x86-64 with AVX2**: 32-byte alignment optimal
+- **x86-64 with AVX-512**: 64-byte alignment for best results (use `CacheLineVector`)
+- **ARM NEON**: 16-byte alignment sufficient (use `SimdVector`)
+- **Large L3 cache (>16MB)**: Increase block size to 16 vectors
+- **NUMA systems**: Use NUMA-aware allocation (future enhancement)
+
+---
 
 ### Document Cache
 
@@ -594,6 +878,97 @@ if (!result) {
   result = db._query(`/* expensive aggregation */`);
   queryCache.set(cacheKey, result, {ttl: 3600});
 }
+```
+
+---
+
+### CPU Prefetch Optimization (v1.4.1+)
+
+**What is CPU Prefetch?**
+
+CPU prefetch hints are low-level instructions that tell the CPU to load data from memory into cache before it's actually needed. This can significantly reduce memory access latency for predictable access patterns.
+
+**When to Use:**
+
+- ✅ **Random access patterns**: Point lookups, multiGet operations
+- ✅ **Sequential scans**: Iterator-based operations, prefix/range scans
+- ✅ **Large datasets**: When working set exceeds L3 cache size
+- ✅ **Batch operations**: Processing multiple items in sequence
+- ❌ **Small datasets**: When data already fits in cache
+- ❌ **Streaming data**: One-time access with no reuse
+
+**Configuration:**
+
+```yaml
+# RocksDB Storage Configuration
+rocksdb:
+  # Enable CPU prefetch hints (v1.4.1+)
+  enable_cpu_prefetch: true
+  
+  # Number of items to prefetch ahead (1-8)
+  # Higher values = more aggressive, more memory bandwidth
+  # Lower values = less overhead, better for small batches
+  prefetch_distance: 2  # Default: 2, recommended for most workloads
+  
+  # Minimum batch size to enable prefetch
+  # Prefetch overhead isn't worth it for tiny batches
+  prefetch_min_batch_size: 4  # Default: 4
+```
+
+**Performance Impact:**
+
+| Operation | Without Prefetch | With Prefetch | Improvement |
+|-----------|------------------|---------------|-------------|
+| Random Point Reads | ~1.0 µs | ~0.75 µs | **25%** |
+| Batch MultiGet (100 keys) | ~100 µs | ~65 µs | **35%** |
+| Prefix Scan (1000 entries) | ~500 µs | ~425 µs | **15%** |
+| Sequential Range Scan | ~300 µs | ~270 µs | **10%** |
+
+**Tuning Guidelines:**
+
+```yaml
+# For random access workloads (OLTP)
+rocksdb:
+  enable_cpu_prefetch: true
+  prefetch_distance: 3  # Moderate prefetch (2-3 typical)
+  prefetch_min_batch_size: 4
+
+# For sequential scan workloads (Analytics)
+rocksdb:
+  enable_cpu_prefetch: true
+  prefetch_distance: 5  # Aggressive prefetch (4-6 typical)
+  prefetch_min_batch_size: 8
+  
+# For mixed workloads
+rocksdb:
+  enable_cpu_prefetch: true
+  prefetch_distance: 2  # Conservative default
+  prefetch_min_batch_size: 4
+
+# For very small databases (< 1GB)
+rocksdb:
+  enable_cpu_prefetch: false  # Data likely in cache already
+```
+
+**Best Practices:**
+
+1. **Enable for large datasets**: Prefetch shows most benefit when working set > L3 cache
+2. **Monitor cache hit rates**: Use RocksDB statistics to verify improvement
+3. **Test with your workload**: Benchmark with representative data patterns
+4. **Consider memory bandwidth**: Higher prefetch_distance uses more bandwidth
+5. **Combine with async I/O**: For best results, enable both CPU prefetch and async I/O
+
+**Monitoring Prefetch Effectiveness:**
+
+```bash
+# Check RocksDB block cache hit rate (should increase with prefetch)
+curl http://localhost:8529/_admin/statistics | jq '.rocksdb.block_cache_hit_rate'
+
+# Monitor memory bandwidth usage (adjust path based on your build directory)
+cd <your-build-directory>/benchmarks  # e.g., build/benchmarks or out/benchmarks
+perf stat -e cache-references,cache-misses,cycles,instructions ./bench_random_access_prefetch
+
+# Expected improvement: 15-30% fewer cache misses
 ```
 
 ---

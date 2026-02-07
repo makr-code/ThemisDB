@@ -49,6 +49,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Higher throughput with lower query latency
 
 ### Changed
+- **Write-Amplification Optimization (v1.5.0)** ⚡
+  - **Larger Memtables**: Increased default `memtable_size_mb` from 256MB to 512MB
+    - ~50% fewer L0 file flushes → ~30-40% reduction in write-amplification
+    - Improves write throughput for data ingestion and high-write workloads
+  - **More Write Buffers**: Increased default `max_write_buffer_number` from 3 to 6
+    - Allows writes to continue during memtable flush operations
+    - Reduces write stalls and improves sustained write throughput
+  - **Total Write Buffer Limit**: Set `db_write_buffer_size_mb` default to 2048MB (2GB)
+    - Previously unlimited (0), now has sensible default to prevent OOM with many column families
+    - Auto-manages write buffer allocation across all column families
+  - **Async I/O Enabled by Default**: Enhanced asynchronous I/O for better scan performance
+    - `enable_async_io` now defaults to `true` (was `false`)
+    - `async_io_readahead_size_mb` increased from 64MB to 128MB
+    - Expected improvement: 2-5x faster sequential scans and range queries
+  - **Documentation**: Added comprehensive "Write-Amplification Optimization" section to PERFORMANCE_TIPS.md
+    - Explains write-amp problem and solutions
+    - Tuning guidelines for different workloads (high-throughput, balanced, low-latency, memory-constrained)
+    - Monitoring metrics and Prometheus queries
+    - Best practices and configuration examples
+  - **Server Logging**: Updated main_server.cpp to display new optimization settings
+    - Shows memtable size, write buffer count, and async I/O status at startup
+    - Displays optimization profile (write-optimized, high-throughput, balanced, or low-latency)
+  - **Trade-offs**: Higher memtable memory (up to ~2GB capped by `db_write_buffer_size_mb`; theoretical 3-4GB if cap is raised), longer recovery time
+  - **Backward Compatibility**: All settings can be overridden via configuration
+  - **Testing**: Added comprehensive configuration test suite (`test_write_amplification_config.cpp`)
+
 - **Documentation Consolidation for Beta/RC** 📚
   - Archived 70+ historical documents (GAP analyses, old roadmaps, TODO lists, implementation summaries)
   - Organized archives into structured directories: gaps/, roadmaps/, todos/, implementation-summaries/

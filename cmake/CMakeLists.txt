@@ -137,6 +137,8 @@ option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+option(THEMIS_ENABLE_NCCL "Enable NCCL for NVIDIA multi-GPU (v2.5+)" OFF)
+option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
@@ -1741,6 +1743,13 @@ if(THEMIS_ENABLE_CUDA)
     target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
     target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
     
+    # Link NCCL if available
+    if(NCCL_FOUND)
+        target_include_directories(themis_core PRIVATE ${NCCL_INCLUDE_DIRS})
+        target_link_libraries(themis_core PRIVATE ${NCCL_LIBRARIES})
+        message(STATUS "NCCL libraries linked: ${NCCL_LIBRARIES}")
+    endif()
+    
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
     message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
@@ -2443,6 +2452,14 @@ if(THEMIS_ENABLE_LLM)
         list(APPEND THEMIS_CORE_SOURCES
             ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels (AMD)
         )
+        
+        # Link RCCL if available
+        if(RCCL_FOUND)
+            target_include_directories(themis_core PRIVATE ${RCCL_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE ${RCCL_LIBRARIES})
+            message(STATUS "RCCL libraries linked: ${RCCL_LIBRARIES}")
+        endif()
+        
         message(STATUS "LoRA: HIP kernels enabled (AMD ROCm support)")
     endif()
     
@@ -2815,6 +2832,22 @@ if(THEMIS_BUILD_TESTS)
         gtest_discover_tests(test_multi_gpu_vector_index
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # NCCL/RCCL Collective Backends Test (v2.5+)
+        add_executable(test_collective_backends
+            ${THEMIS_ROOT_DIR}/tests/test_collective_backends.cpp
+        )
+        target_link_libraries(test_collective_backends
+            PRIVATE
+                themis_core
+                GTest::gtest
+        )
+        gtest_discover_tests(test_collective_backends
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
