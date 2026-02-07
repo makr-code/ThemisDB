@@ -991,6 +991,9 @@ ThemisDB follows a **Living Documentation** approach where documentation evolves
 - **Examples**: `examples/`
 - **Compendium**: `compendium/`
 - **Translations**: `docs/de/`, `docs/fr/`, `docs/es/`, `docs/ja/`
+- **Archived docs**: `docs/ARCHIVED/` - Historical development documents (GAP analyses, old roadmaps, completed implementations)
+
+> **Note:** Historical development documents (GAP analyses, roadmaps, TODO lists, implementation summaries) have been archived to `docs/ARCHIVED/`. See [docs/ARCHIVED/README.md](docs/ARCHIVED/README.md) for the complete archive index.
 
 ### Documentation Requirements
 
