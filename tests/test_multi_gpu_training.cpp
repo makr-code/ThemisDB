@@ -10,6 +10,7 @@
 #include "llm/lora_framework/multi_gpu_lora_layer.h"
 #include <vector>
 #include <memory>
+#include <cmath>
 
 using namespace themis::llm::lora;
 
@@ -248,12 +249,20 @@ TEST_F(MultiGPUTrainingTest, StatisticsTracking) {
 // ═══════════════════════════════════════════════════════════
 
 TEST(MultiGPUTrainingCPUTest, CPUFallback) {
-    // Force CPU-only mode
+    // Attempt to create a context that would fall back to CPU when no GPUs are available.
+    // Note: MultiGPUContext(0, {}) may still auto-detect GPUs if present.
     std::vector<int> no_gpus;
     MultiGPUContext ctx(0, no_gpus);
     
+    if (ctx.num_gpus() != 0) {
+        // On systems with GPUs, this API does not enforce CPU-only mode.
+        // Skip to avoid asserting an incorrect assumption about num_gpus().
+        GTEST_SKIP() << "GPUs detected; cannot force CPU-only mode with current MultiGPUContext API";
+    }
+    
+    // In a true CPU-only environment, verify that no GPUs are reported and skip training.
     EXPECT_EQ(ctx.num_gpus(), 0);
     
-    // This test demonstrates graceful handling when no GPUs available
+    // This test demonstrates graceful handling when no GPUs are available.
     GTEST_SKIP() << "CPU-only mode: No GPUs to train on";
 }

@@ -318,6 +318,9 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
             
 #ifdef THEMIS_ENABLE_CUDA
             if (device.type == DeviceType::CUDA && !gpu_update_successful) {
+                // Set the active CUDA device before launching the kernel
+                cudaSetDevice(device.id);
+                
                 // Use CUDA kernel for efficient GPU-side update
                 void* param_ptr = params[j]->gpu_ptr();
                 void* grad_ptr = grads[j]->gpu_ptr();
@@ -346,6 +349,9 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
 
 #ifdef THEMIS_ENABLE_HIP
             if (device.type == DeviceType::HIP && !gpu_update_successful) {
+                // Set the active HIP device before launching the kernel
+                hipSetDevice(device.id);
+                
                 // Use HIP kernel for efficient GPU-side update
                 void* param_ptr = params[j]->gpu_ptr();
                 void* grad_ptr = grads[j]->gpu_ptr();

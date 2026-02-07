@@ -53,7 +53,7 @@ Complete multi-GPU training with hardware acceleration, NCCL/RCCL collectives, a
 **Replaced Stubs:**
 - ❌ Hardcoded 24GB VRAM → ✅ Actual VRAM queries
 - ❌ Simulated GPU properties → ✅ Real device properties
-- ❌ Fake health status → ✅ Actual device health checks
+- ⚠️ Health status: Placeholder values (temperature, utilization) → Planned: Real device health checks via NVML/ROCm SMI
 
 ### 2. P2P GPU-to-GPU Transfers ✅
 **File**: `src/llm/multi_gpu_memory_coordinator.cpp`
