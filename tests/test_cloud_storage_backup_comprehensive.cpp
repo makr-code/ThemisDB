@@ -405,12 +405,15 @@ TEST_F(CloudStorageBackupTest, RestoreBackupFromAzureBlob) {
 }
 
 /**
- * Intent: Test Azure Blob lifecycle management
+ * Intent: Test Azure Blob lifecycle management configuration
  * 
  * This test validates:
- * 1. Backups can be tiered to Cool/Archive storage after retention period
- * 2. Old backups can be automatically deleted based on retention policy
- * 3. Lifecycle rules are applied correctly
+ * 1. Lifecycle configuration options are accepted
+ * 2. Tier transition settings can be specified
+ * 3. Retention/deletion policies can be configured
+ * 
+ * Note: This tests acceptance of lifecycle configuration options,
+ * not the actual lifecycle behaviors (which require Azure integration).
  */
 TEST_F(CloudStorageBackupTest, AzureBlobLifecycleManagement) {
     if (!isCloudProviderAvailable("azure")) {
@@ -825,7 +828,8 @@ TEST_F(CloudStorageBackupTest, EncryptionBeforeUpload) {
     BackupOptions options;
     options.storage = StorageBackend::S3;
     options.encrypt = true;
-    options.encryption_key = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"; // 64 hex chars = 32 bytes
+    // Use clearly fake test key (not a predictable pattern)
+    options.encryption_key = "deadbeefcafebabedeadbeefcafebabedeadbeefcafebabedeadbeefcafebabe"; // 64 hex chars = 32 bytes (TEST KEY ONLY)
     
     auto result = backup_mgr_->uploadBackupToCloud(
         local_backup,
@@ -877,12 +881,15 @@ TEST_F(CloudStorageBackupTest, ServerSideEncryption) {
 }
 
 /**
- * Intent: Test access control and IAM integration
+ * Intent: Test configuration acceptance for IAM/SAS/Service Account authentication
  * 
  * This test validates:
- * 1. IAM roles can be used for authentication (no explicit credentials)
- * 2. SAS tokens work for Azure
- * 3. Service accounts work for GCS
+ * 1. IAM role configuration is accepted (AWS)
+ * 2. SAS token configuration is accepted (Azure)
+ * 3. Service account configuration is accepted (GCS)
+ * 
+ * Note: This tests configuration acceptance only, not functional authentication.
+ * Actual authentication requires valid credentials and cloud environment.
  */
 TEST_F(CloudStorageBackupTest, IAMAuthentication) {
     std::string local_backup = createLocalBackup();
@@ -898,7 +905,8 @@ TEST_F(CloudStorageBackupTest, IAMAuthentication) {
     // Test Azure SAS token
     BackupOptions azure_options;
     azure_options.storage = StorageBackend::AZURE;
-    azure_options.cloud_config["sas_token"] = "?sv=2020-08-04&ss=b&srt=sco&sp=rwdlac&se=...";
+    // Use obviously fake placeholder to avoid confusion with real SAS tokens
+    azure_options.cloud_config["sas_token"] = "EXAMPLE_SAS_TOKEN_NOT_FOR_PRODUCTION_USE";
     
     auto azure_result = backup_mgr_->uploadBackupToCloud(
         local_backup, "azure://test/sas_backup", azure_options);
