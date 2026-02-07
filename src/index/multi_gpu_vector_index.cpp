@@ -1,5 +1,7 @@
 #include "index/multi_gpu_vector_index.h"
 #include "index/gpu_vector_index.h"
+#include "acceleration/nccl_vector_backend.h"
+#include "acceleration/rccl_vector_backend.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -29,6 +31,15 @@ public:
     std::vector<int> activeDeviceIds;
     std::vector<int> failedDeviceIds;
     
+    // Communication backend (v2.5+)
+#ifdef THEMIS_ENABLE_NCCL
+    std::unique_ptr<acceleration::NCCLVectorBackend> ncclBackend;
+#endif
+#ifdef THEMIS_ENABLE_RCCL
+    std::unique_ptr<acceleration::RCCLVectorBackend> rcclBackend;
+#endif
+    CommBackend activeCommBackend = CommBackend::CPU;
+    
     // Vector routing information
     std::unordered_map<std::string, int> vectorToGPU;  // Maps vector ID to GPU index
     
@@ -56,6 +67,12 @@ public:
         std::cout << "MultiGPUVectorIndex: Initializing with " << config.deviceIds.size() 
                   << " GPUs\n";
         
+        // Initialize communication backend first (v2.5+)
+        if (!initializeCommBackend()) {
+            std::cerr << "Warning: Communication backend initialization failed, using CPU fallback\n";
+            activeCommBackend = CommBackend::CPU;
+        }
+        
         // Initialize GPU indices
         for (int deviceId : config.deviceIds) {
             if (!initializeGPU(deviceId)) {
@@ -77,8 +94,94 @@ public:
         }
         
         std::cout << "Successfully initialized " << activeDeviceIds.size() << " GPUs\n";
+        std::cout << "Communication backend: " << getCommBackendName() << "\n";
         initialized = true;
         return true;
+    }
+    
+    bool initializeCommBackend() {
+        // Determine which communication backend to use
+        CommBackend targetBackend = config.commBackend;
+        
+        if (targetBackend == CommBackend::AUTO) {
+            // Auto-detect: try NCCL, then RCCL, then CPU
+#ifdef THEMIS_ENABLE_NCCL
+            if (acceleration::NCCLVectorBackend::isNCCLAvailable()) {
+                targetBackend = CommBackend::NCCL;
+            } else
+#endif
+#ifdef THEMIS_ENABLE_RCCL
+            if (acceleration::RCCLVectorBackend::isRCCLAvailable()) {
+                targetBackend = CommBackend::RCCL;
+            } else
+#endif
+            {
+                targetBackend = CommBackend::CPU;
+            }
+        }
+        
+        // Initialize the selected backend
+        bool success = false;
+        
+        switch (targetBackend) {
+#ifdef THEMIS_ENABLE_NCCL
+            case CommBackend::NCCL: {
+                ncclBackend = std::make_unique<acceleration::NCCLVectorBackend>();
+                acceleration::NCCLVectorBackend::Config ncclConfig;
+                ncclConfig.worldSize = static_cast<int>(config.deviceIds.size());
+                ncclConfig.rank = 0;  // In real multi-process setup, this would vary
+                ncclConfig.deviceIds = config.deviceIds;
+                ncclConfig.enableP2P = config.enableP2P;
+                ncclConfig.enableNVLink = config.enableNVLink;
+                ncclConfig.bufferSizeMB = config.commBufferSizeMB;
+                
+                success = ncclBackend->initialize(ncclConfig);
+                if (success) {
+                    activeCommBackend = CommBackend::NCCL;
+                    std::cout << "NCCL backend initialized (version: " 
+                             << acceleration::NCCLVectorBackend::getNCCLVersionString() << ")\n";
+                }
+                break;
+            }
+#endif
+#ifdef THEMIS_ENABLE_RCCL
+            case CommBackend::RCCL: {
+                rcclBackend = std::make_unique<acceleration::RCCLVectorBackend>();
+                acceleration::RCCLVectorBackend::Config rcclConfig;
+                rcclConfig.worldSize = static_cast<int>(config.deviceIds.size());
+                rcclConfig.rank = 0;  // In real multi-process setup, this would vary
+                rcclConfig.deviceIds = config.deviceIds;
+                rcclConfig.enableP2P = config.enableP2P;
+                rcclConfig.enableXGMI = config.enableXGMI;
+                rcclConfig.bufferSizeMB = config.commBufferSizeMB;
+                
+                success = rcclBackend->initialize(rcclConfig);
+                if (success) {
+                    activeCommBackend = CommBackend::RCCL;
+                    std::cout << "RCCL backend initialized (version: " 
+                             << acceleration::RCCLVectorBackend::getRCCLVersionString() << ")\n";
+                }
+                break;
+            }
+#endif
+            case CommBackend::CPU:
+            default:
+                activeCommBackend = CommBackend::CPU;
+                success = true;
+                std::cout << "Using CPU-based communication (no GPU collectives)\n";
+                break;
+        }
+        
+        return success;
+    }
+    
+    std::string getCommBackendName() const {
+        switch (activeCommBackend) {
+            case CommBackend::NCCL: return "NCCL (NVIDIA)";
+            case CommBackend::RCCL: return "RCCL (AMD)";
+            case CommBackend::CPU: return "CPU";
+            default: return "Unknown";
+        }
     }
     
     bool initializeGPU(int deviceId) {
@@ -543,6 +646,57 @@ void MultiGPUVectorIndex::setEfSearch(int ef) {
 
 MultiGPUVectorIndex::PartitionStrategy MultiGPUVectorIndex::getPartitionStrategy() const {
     return pImpl->config.partitionStrategy;
+}
+
+// Communication backend control (v2.5+)
+MultiGPUVectorIndex::CommBackend MultiGPUVectorIndex::getCommBackend() const {
+    return pImpl->activeCommBackend;
+}
+
+bool MultiGPUVectorIndex::isCollectiveOpsAvailable() const {
+#if defined(THEMIS_ENABLE_NCCL) || defined(THEMIS_ENABLE_RCCL)
+    return (pImpl->activeCommBackend == CommBackend::NCCL || 
+            pImpl->activeCommBackend == CommBackend::RCCL);
+#else
+    return false;
+#endif
+}
+
+bool MultiGPUVectorIndex::isP2PTransferAvailable() const {
+    if (!pImpl->config.enableP2P) return false;
+    
+#ifdef THEMIS_ENABLE_NCCL
+    if (pImpl->activeCommBackend == CommBackend::NCCL && pImpl->ncclBackend) {
+        return pImpl->ncclBackend->isP2PEnabled();
+    }
+#endif
+#ifdef THEMIS_ENABLE_RCCL
+    if (pImpl->activeCommBackend == CommBackend::RCCL && pImpl->rcclBackend) {
+        return pImpl->rcclBackend->isP2PEnabled();
+    }
+#endif
+    
+    return false;
+}
+
+bool MultiGPUVectorIndex::isNVLinkAvailable() const {
+#ifdef THEMIS_ENABLE_NCCL
+    if (pImpl->activeCommBackend == CommBackend::NCCL && pImpl->ncclBackend) {
+        auto stats = pImpl->ncclBackend->getStatistics();
+        return stats.nvlinkAvailable;
+    }
+#endif
+    return false;
+}
+
+bool MultiGPUVectorIndex::isXGMIAvailable() const {
+#ifdef THEMIS_ENABLE_RCCL
+    if (pImpl->activeCommBackend == CommBackend::RCCL && pImpl->rcclBackend) {
+        auto stats = pImpl->rcclBackend->getStatistics();
+        return stats.xgmiAvailable;
+    }
+#endif
+    return false;
 }
 
 } // namespace index
