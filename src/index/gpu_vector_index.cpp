@@ -1,11 +1,13 @@
 #include "index/gpu_vector_index.h"
 #include "acceleration/compute_backend.h"
+#include "acceleration/cuda_backend.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
 #include <unordered_map>
+#include <memory>
 
 #ifdef THEMIS_ENABLE_VULKAN
 #include "llm/lora_framework/vulkan_context.h"
@@ -282,6 +284,142 @@ public:
         results.reserve(topK);
         for (size_t i = 0; i < topK; ++i) {
             results.push_back({vectorIds[distances[i].second], distances[i].first});
+        }
+        
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+        
+        return results;
+    }
+    
+    std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
+        if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            return {};
+        }
+        
+        // CUDA backend only supports L2 and COSINE metrics
+        // Fall back to CPU for INNER_PRODUCT
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            return searchCPU(query, k);
+        }
+        
+        auto startTime = std::chrono::steady_clock::now();
+        
+        // Update flattened vector cache if dirty (performance optimization)
+        if (flatVectorCacheDirty) {
+            flatVectorCache.clear();
+            flatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
+            }
+            flatVectorCacheDirty = false;
+        }
+        
+        // Clamp k to number of vectors to prevent out-of-bounds access
+        const size_t effectiveK = std::min(k, vectorData.size());
+        
+        // Use CUDA backend for batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto gpuResults = cudaBackend->batchKnnSearch(
+            query.data(),
+            1,  // Single query
+            dimension,
+            flatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            useL2
+        );
+        
+        std::vector<SearchResult> results;
+        if (!gpuResults.empty() && !gpuResults[0].empty()) {
+            results.reserve(gpuResults[0].size());
+            for (const auto& [idx, dist] : gpuResults[0]) {
+                if (idx < vectorIds.size()) {
+                    results.push_back({vectorIds[idx], dist});
+                }
+            }
+        }
+        
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+        
+        return results;
+    }
+    
+    std::vector<std::vector<SearchResult>> searchBatchGPU(
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        
+        if (!cudaBackend || vectorData.empty() || queries.empty()) {
+            return {};
+        }
+        
+        // Check if any query uses INNER_PRODUCT (not supported by CUDA)
+        if (config.metric == DistanceMetric::INNER_PRODUCT) {
+            // Fall back to CPU for all queries
+            std::vector<std::vector<SearchResult>> results;
+            results.reserve(queries.size());
+            for (const auto& query : queries) {
+                results.push_back(searchCPU(query, k));
+            }
+            return results;
+        }
+        
+        auto startTime = std::chrono::steady_clock::now();
+        
+        // Update flattened vector cache if dirty
+        if (flatVectorCacheDirty) {
+            flatVectorCache.clear();
+            flatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
+            }
+            flatVectorCacheDirty = false;
+        }
+        
+        // Flatten query vectors for GPU transfer
+        std::vector<float> flatQueries;
+        flatQueries.reserve(queries.size() * dimension);
+        for (const auto& query : queries) {
+            if (query.size() != static_cast<size_t>(dimension)) {
+                // Skip invalid queries or fall back to CPU for all
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& q : queries) {
+                    results.push_back(searchCPU(q, k));
+                }
+                return results;
+            }
+            flatQueries.insert(flatQueries.end(), query.begin(), query.end());
+        }
+        
+        // Clamp k to number of vectors
+        const size_t effectiveK = std::min(k, vectorData.size());
+        
+        // Use CUDA backend for true batch KNN search
+        bool useL2 = (config.metric == DistanceMetric::L2);
+        auto gpuResults = cudaBackend->batchKnnSearch(
+            flatQueries.data(),
+            queries.size(),  // Multiple queries
+            dimension,
+            flatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            useL2
+        );
+        
+        // Convert GPU results to SearchResult format
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(gpuResults.size());
+        
+        for (const auto& queryResults : gpuResults) {
+            std::vector<SearchResult> batch;
+            batch.reserve(queryResults.size());
+            for (const auto& [idx, dist] : queryResults) {
+                if (idx < vectorIds.size()) {
+                    batch.push_back({vectorIds[idx], dist});
+                }
+            }
+            results.push_back(std::move(batch));
         }
         
         auto endTime = std::chrono::steady_clock::now();
