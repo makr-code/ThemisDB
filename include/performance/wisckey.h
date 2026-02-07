@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <shared_mutex>
 #include <memory>
 #include <fstream>
 #include <optional>
@@ -71,7 +72,7 @@ private:
     std::string log_path_;
     std::unique_ptr<std::fstream> log_file_;
     uint64_t current_offset_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex rw_mutex_;  // Reader-writer lock for concurrent reads
 };
 
 /// WiscKey storage engine wrapper

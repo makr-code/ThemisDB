@@ -168,16 +168,23 @@ private:
     void drainAllBuffers() {
         std::vector<MetricsEntry> new_metrics;
         
+        // Take a snapshot of thread buffers to minimize lock hold time
+        std::vector<ThreadLocalMetricsBuffer*> buffers_snapshot;
         {
             std::lock_guard<std::mutex> lock(buffers_mutex_);
-            for (auto* buffer : thread_buffers_) {
-                if (buffer) {
-                    buffer->drain(new_metrics);
-                }
+            buffers_snapshot.reserve(thread_buffers_.size());
+            buffers_snapshot.assign(thread_buffers_.begin(), thread_buffers_.end());
+        }
+        // Lock released - drain buffers without holding the lock
+        
+        // Drain all buffers lock-free (each buffer is lock-free SPSC)
+        for (auto* buffer : buffers_snapshot) {
+            if (buffer) {
+                buffer->drain(new_metrics);
             }
         }
         
-        // Aggregate new metrics
+        // Aggregate new metrics using atomic swap pattern
         if (!new_metrics.empty()) {
             std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);
             

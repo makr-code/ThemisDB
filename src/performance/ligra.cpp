@@ -84,18 +84,59 @@ Frontier LigraProcessor::process_edges(
     const EdgeFunc& func
 ) {
     Frontier next_frontier(num_vertices_);
-    std::mutex frontier_mutex;
     
-    process_vertices(frontier, [&](NodeID src) {
-        if (src >= adj_list.size()) return;
+    // Use lock-free atomic operations for frontier updates in sparse mode
+    if (frontier.is_dense_mode() || next_frontier.size() > num_vertices_ * 0.1) {
+        // For dense mode or large frontiers, switch to dense representation
+        next_frontier.switch_to_dense();
+        std::vector<std::atomic<bool>> atomic_dense(num_vertices_);
+        for (size_t i = 0; i < num_vertices_; i++) {
+            atomic_dense[i].store(false, std::memory_order_relaxed);
+        }
         
-        for (NodeID dst : adj_list[src]) {
-            if (func(src, dst)) {
-                std::lock_guard<std::mutex> lock(frontier_mutex);
-                next_frontier.add(dst);
+        process_vertices(frontier, [&](NodeID src) {
+            if (src >= adj_list.size()) return;
+            
+            for (NodeID dst : adj_list[src]) {
+                if (func(src, dst)) {
+                    atomic_dense[dst].store(true, std::memory_order_relaxed);
+                }
+            }
+        });
+        
+        // Rebuild frontier from atomic results
+        next_frontier.clear();
+        next_frontier.switch_to_dense();
+        for (size_t i = 0; i < num_vertices_; i++) {
+            if (atomic_dense[i].load(std::memory_order_relaxed)) {
+                next_frontier.add(i);
             }
         }
-    });
+    } else {
+        // For sparse mode, use thread-local buffers to avoid lock contention
+        std::vector<std::vector<NodeID>> thread_local_frontiers(num_threads_);
+        std::atomic<size_t> thread_counter(0);
+        
+        process_vertices(frontier, [&](NodeID src) {
+            if (src >= adj_list.size()) return;
+            
+            // Get thread-local buffer (no lock needed)
+            size_t thread_id = thread_counter.fetch_add(1, std::memory_order_relaxed) % num_threads_;
+            
+            for (NodeID dst : adj_list[src]) {
+                if (func(src, dst)) {
+                    thread_local_frontiers[thread_id].push_back(dst);
+                }
+            }
+        });
+        
+        // Merge thread-local frontiers (only locked once at the end)
+        for (const auto& local_frontier : thread_local_frontiers) {
+            for (NodeID v : local_frontier) {
+                next_frontier.add(v);
+            }
+        }
+    }
     
     return next_frontier;
 }

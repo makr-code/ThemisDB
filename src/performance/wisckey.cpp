@@ -44,7 +44,7 @@ ValueLog::~ValueLog() {
 }
 
 ValueAddress ValueLog::append(const std::string& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for writes
     
     ValueAddress addr;
     addr.offset = current_offset_;
@@ -60,7 +60,7 @@ ValueAddress ValueLog::append(const std::string& value) {
 }
 
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(rw_mutex_);  // Shared lock for concurrent reads
     
     log_file_->seekg(addr.offset);
     std::string value(addr.size, '\0');
@@ -74,12 +74,12 @@ std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
 }
 
 void ValueLog::sync() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for sync
     log_file_->flush();
 }
 
 void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for compaction
     
     if (live_addresses.empty()) {
         return;
