@@ -18,10 +18,9 @@
 llm:
   enabled: true
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  n_batch: 128
-  cache_size_mb: 512
+  context_size: 4096
+  threads: 4
+  enable_caching: true
 ```
 
 **Empfohlene Modelle:** Phi-3-Mini (3.8B), Qwen-2.5 (3B)  
@@ -34,10 +33,9 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
-  n_ctx: 2048
-  n_threads: 4
-  n_batch: 64
-  cache_size_mb: 128
+  context_size: 2048
+  threads: 4
+  enable_caching: true
 ```
 
 **Empfohlene Modelle:** TinyLlama (1.1B), Phi-3-Mini (3.8B)  
@@ -50,12 +48,10 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/mistral-7b-instruct.Q4_K_M.gguf"
-  n_ctx: 8192
-  n_threads: 8
-  n_gpu_layers: 25  # Mali GPU
-  n_batch: 256
-  cache_size_mb: 1024
-  gpu_backend: "clblast"
+  context_size: 8192
+  threads: 8
+  gpu_layers: 25  # Mali GPU Offloading
+  enable_caching: true
 ```
 
 **Empfohlene Modelle:** Mistral-7B, Llama-3.1 (8B)  
@@ -68,11 +64,10 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  n_gpu_layers: 32  # CUDA
-  n_batch: 256
-  gpu_backend: "cuda"
+  context_size: 4096
+  threads: 4
+  gpu_layers: 32  # CUDA Offloading
+  enable_caching: true
 ```
 
 **Empfohlene Modelle:** Phi-3-Mini (3.8B), Mistral-7B  
@@ -166,23 +161,23 @@ sudo systemctl start themisdb
 # Health Check
 curl http://localhost:8080/health
 
-# LLM-Anfrage
-curl -X POST http://localhost:8080/api/v1/llm/generate \
+# LLM-Anfrage (mit Bearer Token)
+# Hinweis: Ersetzen Sie YOUR_JWT_TOKEN mit einem gültigen Token
+curl -X POST http://localhost:8080/api/v1/llm/inference \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
     "prompt": "Write a hello world program in Python",
     "max_tokens": 100,
     "temperature": 0.7
   }'
 
-# Chat
-curl -X POST http://localhost:8080/api/v1/llm/chat \
+# Chat (mit Bearer Token)
+curl -X POST http://localhost:8080/api/v1/llm/inference \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
-    "messages": [
-      {"role": "system", "content": "Du bist ein hilfreicher Assistent."},
-      {"role": "user", "content": "Was ist ThemisDB?"}
-    ],
+    "prompt": "Du bist ein hilfreicher Assistent. Was ist ThemisDB?",
     "max_tokens": 150
   }'
 ```
@@ -208,13 +203,11 @@ curl -X POST http://localhost:8080/api/v1/llm/chat \
 ```yaml
 # Lösung 1: Kleinere Kontextgröße
 llm:
-  n_ctx: 1024  # statt 2048
+  context_size: 1024  # statt 2048
+  model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
 
 # Lösung 2: Swap aktivieren
 # Siehe System-Optimierung oben
-
-# Lösung 3: Kleineres Modell
-model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
 ```
 
 ### Problem: Langsame Inferenz
@@ -252,10 +245,14 @@ wget <model-url>
 ### Google Coral TPU (USB)
 
 ```bash
-# Installation
-echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | \
+# Installation (mit modernem Keyring)
+sudo mkdir -p /usr/share/keyrings
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+  sudo gpg --dearmor -o /usr/share/keyrings/coral-edgetpu-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/coral-edgetpu-archive-keyring.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main" | \
   sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
 sudo apt update && sudo apt install -y libedgetpu1-std
 
 # ThemisDB Config
@@ -287,7 +284,8 @@ llm:
 # RKNN Runtime
 git clone https://github.com/rockchip-linux/rknn-toolkit2.git
 cd rknn-toolkit2/rknpu2
-sudo dpkg -i runtime/RK3588/Linux/librknn_api/aarch64/librknnrt.so
+sudo cp runtime/RK3588/Linux/librknn_api/aarch64/librknnrt.so /usr/lib/
+sudo ldconfig
 
 # ThemisDB Config
 llm:

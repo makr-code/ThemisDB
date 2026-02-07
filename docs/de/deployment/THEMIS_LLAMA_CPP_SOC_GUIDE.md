@@ -354,36 +354,27 @@ llm:
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
   
   # Kontextgröße (abhängig von RAM)
-  n_ctx: 2048  # Raspberry Pi 4 (4GB): 2048
-               # Raspberry Pi 5 (8GB): 4096
-               # Orange Pi 5 (16GB): 8192
+  context_size: 2048  # Raspberry Pi 4 (4GB): 2048
+                      # Raspberry Pi 5 (8GB): 4096
+                      # Orange Pi 5 (16GB): 8192
   
   # CPU-Threads (Anzahl Kerne)
-  n_threads: 4  # Raspberry Pi: 4
-                # Orange Pi 5: 8
+  threads: 4  # Raspberry Pi: 4
+              # Orange Pi 5: 8
   
   # GPU-Layers (nur mit GPU)
-  n_gpu_layers: 0  # CPU-only: 0
-                   # Mali GPU: 20-30
-                   # CUDA GPU: 30-35
+  gpu_layers: 0  # CPU-only: 0
+                 # Mali GPU: 20-30
+                 # CUDA GPU: 30-35
   
-  # Batch-Größe
-  n_batch: 128  # Kleiner für weniger RAM
-  
-  # Inference-Optionen
+  # Inference-Optionen (für API-Anfragen)
   temperature: 0.7
   top_p: 0.9
   top_k: 40
   repeat_penalty: 1.1
   
   # Caching
-  enable_prompt_cache: true
-  cache_size_mb: 256  # Abhängig von verfügbarem RAM
-  
-  # Performance-Tuning
-  flash_attention: true  # Aktiviert für NEON-optimierte Attention
-  mlock: false  # Auf false für SoC (Swap erlauben)
-  mmap: true    # Memory-mapped I/O für große Modelle
+  enable_caching: true  # Enable response caching
 ```
 
 #### Hardware-spezifische Konfigurationen
@@ -393,13 +384,10 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
-  n_ctx: 2048
-  n_threads: 4
-  n_gpu_layers: 0
-  n_batch: 64
-  cache_size_mb: 128
-  mlock: false
-  mmap: true
+  context_size: 2048
+  threads: 4
+  gpu_layers: 0
+  enable_caching: true
 ```
 
 **Raspberry Pi 5 (8GB)**
@@ -407,13 +395,10 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  n_gpu_layers: 0
-  n_batch: 128
-  cache_size_mb: 512
-  mlock: false
-  mmap: true
+  context_size: 4096
+  threads: 4
+  gpu_layers: 0
+  enable_caching: true
 ```
 
 **Orange Pi 5 Plus (16GB) mit Mali GPU**
@@ -421,14 +406,10 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/mistral-7b-instruct.Q4_K_M.gguf"
-  n_ctx: 8192
-  n_threads: 8
-  n_gpu_layers: 25  # Mali GPU Offloading
-  n_batch: 256
-  cache_size_mb: 1024
-  mlock: false
-  mmap: true
-  gpu_backend: "clblast"  # OpenCL für Mali
+  context_size: 8192
+  threads: 8
+  gpu_layers: 25  # Mali GPU Offloading
+  enable_caching: true
 ```
 
 **Jetson Nano (4GB) mit CUDA**
@@ -436,14 +417,10 @@ llm:
 llm:
   enabled: true
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  n_gpu_layers: 32  # CUDA Offloading
-  n_batch: 256
-  cache_size_mb: 512
-  mlock: false
-  mmap: true
-  gpu_backend: "cuda"
+  context_size: 4096
+  threads: 4
+  gpu_layers: 32  # CUDA Offloading
+  enable_caching: true
 ```
 
 ---
@@ -465,11 +442,14 @@ llm:
 
 **Integration:**
 ```bash
-# Edge TPU Runtime installieren
-echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | \
+# Edge TPU Runtime installieren (mit modernem Keyring)
+sudo mkdir -p /usr/share/keyrings
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+  sudo gpg --dearmor -o /usr/share/keyrings/coral-edgetpu-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/coral-edgetpu-archive-keyring.gpg] https://packages.cloud.google.com/apt coral-edgetpu-stable main" | \
   sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
 
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo apt update
 sudo apt install -y libedgetpu1-std python3-pycoral
 
@@ -567,7 +547,10 @@ cmake -DTHEMIS_ENABLE_LLM=ON \
 # RKNN-Toolkit installieren
 git clone https://github.com/rockchip-linux/rknn-toolkit2.git
 cd rknn-toolkit2/rknpu2
-sudo dpkg -i runtime/RK3588/Linux/librknn_api/aarch64/librknnrt.so
+
+# Runtime Library installieren
+sudo cp runtime/RK3588/Linux/librknn_api/aarch64/librknnrt.so /usr/lib/
+sudo ldconfig
 
 # ThemisDB mit RKNN-Support
 cmake -DTHEMIS_ENABLE_LLM=ON \
@@ -593,10 +576,9 @@ llm:
   enabled: true
   
   # Haupt-Modell auf CPU
-  backend: "llamacpp"
   model_path: "/data/models/phi-3-mini.Q4_K_M.gguf"
-  n_threads: 4
-  n_gpu_layers: 0
+  threads: 4
+  gpu_layers: 0
   
   # Embeddings auf TPU/NPU auslagern
   embeddings:
@@ -674,17 +656,20 @@ cmake -DLLAMA_NATIVE=ON ..
 
 ```yaml
 # config.yaml
+# Hinweis: Flash Attention ist eine llama.cpp-interne Optimierung
+# die automatisch aktiviert wird, wenn mit ARM NEON kompiliert.
+# Keine explizite Konfiguration in der YAML erforderlich.
 llm:
-  flash_attention: true
-  paged_kv_cache: true
+  context_size: 4096
+  enable_caching: true
 ```
 
 #### Prompt-Caching
 
 ```yaml
 llm:
-  enable_prompt_cache: true
-  cache_size_mb: 512
+  enable_caching: true  # Aktiviert Response-Caching
+```
 ```
 
 Dies cached häufige System-Prompts und spart ~30-50% Rechenzeit.
@@ -693,8 +678,9 @@ Dies cached häufige System-Prompts und spart ~30-50% Rechenzeit.
 
 ```yaml
 llm:
-  n_ctx: 2048  # Kleinerer Context = weniger RAM
-  n_batch: 128  # Größerer Batch = schneller, mehr RAM
+  context_size: 2048  # Kleinerer Context = weniger RAM
+  # Hinweis: Batch-Größe und andere Performance-Tuning-Parameter
+  # werden intern von llama.cpp verwaltet
 ```
 
 ### Modell-Optimierungen
@@ -742,9 +728,11 @@ echo ""
 # Start Zeit
 START=$(date +%s%N)
 
-# Inference via ThemisDB API
-curl -X POST http://localhost:8080/api/v1/llm/generate \
+# Inference via ThemisDB API (mit Bearer Token)
+# Hinweis: Ersetzen Sie YOUR_JWT_TOKEN mit einem gültigen Token
+curl -X POST http://localhost:8080/api/v1/llm/inference \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
     "prompt": "'"$PROMPT"'",
     "max_tokens": 100,
@@ -914,17 +902,13 @@ storage:
   
 llm:
   enabled: true
-  backend: "llamacpp"
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  n_gpu_layers: 0
-  n_batch: 128
+  context_size: 4096
+  threads: 4
+  gpu_layers: 0
   temperature: 0.7
   top_p: 0.9
-  enable_prompt_cache: true
-  cache_size_mb: 512
-  flash_attention: true
+  enable_caching: true
 
 vector_search:
   enabled: true
@@ -978,11 +962,9 @@ server:
 
 llm:
   enabled: true
-  backend: "llamacpp"
   model_path: "/data/models/all-MiniLM-L6-v2.gguf"
-  n_ctx: 512
-  n_threads: 8
-  n_batch: 64
+  context_size: 512
+  threads: 8
   
   # NPU für Embeddings
   embeddings:
@@ -1020,13 +1002,12 @@ server:
 
 llm:
   enabled: true
-  backend: "llamacpp"
+  llm:
+  enabled: true
   model_path: "/data/models/llava-phi-3-mini.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  n_gpu_layers: 32  # CUDA Offloading
-  n_batch: 256
-  gpu_backend: "cuda"
+  context_size: 4096
+  threads: 4
+  gpu_layers: 32  # CUDA Offloading
   
   # Vision-Encoder
   vision:
@@ -1056,29 +1037,25 @@ server:
   max_connections: 20
 
 llm:
+  llm:
   enabled: true
-  backend: "llamacpp"
   model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
-  n_ctx: 2048
-  n_threads: 4
-  n_gpu_layers: 0
-  n_batch: 64
+  context_size: 2048
+  threads: 4
+  gpu_layers: 0
   temperature: 0.8
   top_p: 0.9
-  enable_prompt_cache: true
-  cache_size_mb: 128
+  enable_caching: true
 ```
 
 **Test:**
 ```bash
-# Chat-Anfrage
-curl -X POST http://localhost:8080/api/v1/llm/chat \
+# Chat-Anfrage (mit Bearer Token)
+curl -X POST http://localhost:8080/api/v1/llm/inference \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
-    "messages": [
-      {"role": "system", "content": "Du bist ein hilfreicher Assistent."},
-      {"role": "user", "content": "Erkläre mir Quantencomputing in einfachen Worten."}
-    ],
+    "prompt": "Du bist ein hilfreicher Assistent. Erkläre mir Quantencomputing in einfachen Worten.",
     "max_tokens": 150
   }'
 ```
@@ -1153,15 +1130,12 @@ curl -X POST http://localhost:8080/api/v1/llm/chat \
 ```yaml
 # Kleinere Kontextgröße
 llm:
-  n_ctx: 1024  # statt 2048 oder 4096
-
-# Kleineres Modell
-model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
-
-# Swap aktivieren
+  context_size: 1024  # statt 2048 oder 4096
+  model_path: "/data/models/tinyllama-1.1b.Q4_K_M.gguf"
 ```
 
 ```bash
+# Swap aktivieren
 sudo dphys-swapfile swapoff
 sudo nano /etc/dphys-swapfile
 # CONF_SWAPSIZE=4096
@@ -1198,13 +1172,8 @@ echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governo
 ```
 
 ```yaml
-# Kleineres Batch
-llm:
-  n_batch: 64  # statt 128
-
-# Flash Attention
-llm:
-  flash_attention: true
+# Hinweis: Diese Optionen werden intern von llama.cpp verwaltet
+# Keine YAML-Config erforderlich
 ```
 
 ### Problem 3: Modell lädt nicht
@@ -1288,11 +1257,7 @@ over_voltage=-2
 ```yaml
 # Threads reduzieren
 llm:
-  n_threads: 2  # statt 4
-
-# Batch-Größe reduzieren
-llm:
-  n_batch: 32  # statt 128
+  threads: 2  # statt 4
 ```
 
 ### Problem 6: Coral TPU wird nicht erkannt
@@ -1346,13 +1311,14 @@ llm:
 
 Spart 30-50% Rechenzeit bei wiederkehrenden System-Prompts.
 
-### 4. Batch-Processing
+### 4. Caching aktivieren
 
 ```yaml
 llm:
-  n_batch: 128  # Optimal für RPi 5
-  n_batch: 64   # Für RPi 4
+  enable_caching: true
 ```
+
+Spart 30-50% Rechenzeit bei wiederkehrenden Prompts.
 
 ### 5. SSD statt SD-Karte
 
@@ -1475,8 +1441,8 @@ sudo systemctl start themisdb
 
 - [ThemisDB Hauptdokumentation](https://makr-code.github.io/ThemisDB/)
 - [Raspberry Pi Tuning Guide](deployment_raspberry_tuning.md)
-- [ARM Build Guide](../ARM_RASPBERRY_PI_BUILD.md)
-- [LLM Testing Guide](../TESTING_GUIDE_LLM.md)
+- [ARM Build Guide](../../build-guide/BUILD_ARM.md)
+- [LLM Testing Guide](../../TESTING_GUIDE_LLM.md)
 
 ### llama.cpp Ressourcen
 
@@ -1532,8 +1498,8 @@ vcgencmd measure_temp >> system_info.txt 2>/dev/null || echo "N/A" >> system_inf
 # ThemisDB-Version
 ./themis_server --version >> system_info.txt
 
-# Benchmark ausführen
-./scripts/benchmark-llm.sh > benchmark_results.txt
+# Benchmark ausführen (verwenden Sie existierende Benchmark-Tools)
+./scripts/test-llama-integration.sh > benchmark_results.txt
 
 # Issue öffnen mit Ergebnissen
 ```

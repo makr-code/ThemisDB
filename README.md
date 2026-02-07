@@ -751,9 +751,9 @@ ThemisDB supports native LLM integration with **llama.cpp** on System-on-Chip (S
 llm:
   enabled: true
   model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
-  n_ctx: 4096
-  n_threads: 4
-  flash_attention: true  # NEON-optimized
+  context_size: 4096
+  threads: 4
+  enable_caching: true
 ```
 
 **Performance:** ~2-3 tokens/second (Phi-3-Mini 3.8B)
