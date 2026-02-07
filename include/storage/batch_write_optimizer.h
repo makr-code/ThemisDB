@@ -5,10 +5,7 @@
 #include <vector>
 #include <atomic>
 #include <chrono>
-
-namespace rocksdb {
-    class WriteOptions;
-}
+#include <rocksdb/options.h>
 
 namespace themis {
 
@@ -61,12 +58,6 @@ public:
         /// Disable WAL entirely (NoSync + skip WAL)
         /// Only for bulk loads where data can be reconstructed
         bool disable_wal = false;
-        
-        /// Memtable insertion hints
-        bool allow_concurrent_memtable_write = true;
-        
-        /// Hint that writes are sequential (improves compaction)
-        bool sequential_write_hint = false;
     };
     
     explicit BatchWriteOptimizer(const Config& config = Config{});
@@ -75,10 +66,9 @@ public:
     /**
      * @brief Get optimized WriteOptions for batch operations
      * 
-     * @param estimated_batch_size Hint for batch size (adjusts internal buffers)
      * @return Configured WriteOptions optimized for batching
      */
-    rocksdb::WriteOptions getOptimizedWriteOptions(size_t estimated_batch_size = 1000) const;
+    rocksdb::WriteOptions getOptimizedWriteOptions() const;
     
     /**
      * @brief Get statistics since optimizer creation

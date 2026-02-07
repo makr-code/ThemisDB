@@ -666,12 +666,17 @@ console.log('Cache warming complete');
 
 ## Batch Operations
 
-**🚀 NEW: Optimized Batch Operations (v1.5.0)**
+**🚧 PLANNED: Optimized Batch Operations (Infrastructure Ready)**
 
-ThemisDB now includes enhanced batch operations with configurable durability modes for maximum throughput:
-- **2-5x faster** with async WAL (production-safe)
-- **10-50x faster** with optimized configurations (bulk loads)
-- **Adaptive batching** with automatic size tuning
+ThemisDB includes new batch operation infrastructure with configurable durability modes. Full HTTP API integration is planned for an upcoming release:
+- **Async mode (planned)**: 2-5x faster with async WAL (production-safe)
+- **NoSync mode (planned)**: 10-20x faster with optimized configurations (bulk loads)
+- **Adaptive batching (existing)**: Automatic size tuning via BatchOperationManager
+
+**Current Status:**
+- ✅ `BatchWriteOptimizer` component implemented
+- ✅ Comprehensive documentation available
+- 🚧 HTTP API integration planned (see BATCH_OPERATIONS_GUIDE.md)
 
 📖 **See:** [Batch Operations Guide](./BATCH_OPERATIONS_GUIDE.md) | [Quick Start](./BATCH_OPERATIONS_QUICKSTART.md)
 

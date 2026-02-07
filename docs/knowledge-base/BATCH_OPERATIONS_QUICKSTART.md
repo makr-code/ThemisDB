@@ -1,14 +1,20 @@
 # Batch Operations Quick Start
 
-This document provides quick examples for using ThemisDB's optimized batch operations.
+This document provides quick examples for using ThemisDB's batch operations.
+
+**Status Note:**
+- ✅ Batch endpoints (`/entities/batch`, `/vector/batch_insert`) are available
+- 🚧 Durability options (`options` parameter) are planned but not yet implemented
+- ✅ C++ `BatchWriteOptimizer` API is available now
 
 ## Quick Examples
 
-### 1. Basic Batch Insert (Python)
+### 1. Basic Batch Insert (Python) - Current API
 
 ```python
 import requests
 import json
+import time
 
 # Batch insert 1000 users
 users = [
@@ -25,18 +31,24 @@ operations = [
     for user in users
 ]
 
+start_time = time.time()
 response = requests.post(
     "http://localhost:8529/entities/batch",
     json={"operations": operations}
 )
+elapsed = time.time() - start_time
 
-print(f"✅ Inserted {response.json()['succeeded']} users")
-print(f"⚡ Throughput: {response.json()['throughput_ops_per_sec']:.1f} ops/sec")
+result = response.json()
+throughput = result['succeeded'] / elapsed if elapsed > 0 else 0
+
+print(f"✅ Inserted {result['succeeded']} users")
+print(f"⚡ Throughput: {throughput:.1f} ops/sec (client-measured)")
 ```
 
-### 2. Batch Update with Options (curl)
+### 2. Batch Update (curl) - Current API
 
 ```bash
+# Current API - no options parameter yet
 curl -X POST http://localhost:8529/entities/batch \
   -H "Content-Type: application/json" \
   -d '{
@@ -44,10 +56,7 @@ curl -X POST http://localhost:8529/entities/batch \
       {"op": "put", "key": "users:1", "blob": "{\"status\":\"active\"}"},
       {"op": "put", "key": "users:2", "blob": "{\"status\":\"active\"}"},
       {"op": "delete", "key": "users:3"}
-    ],
-    "options": {
-      "durability": "async"
-    }
+    ]
   }'
 ```
 
@@ -290,15 +299,19 @@ loader.load_entities(users, "users")
 
 ## Monitoring
 
-### Check Batch Statistics
+🚧 **Planned**: HTTP monitoring endpoints are planned for a future release.
 
-```bash
-curl http://localhost:8529/_admin/statistics/batch | jq .
+### C++ Statistics (Available Now)
+
+```cpp
+auto stats = optimizer.getStats();
+std::cout << "Throughput: " << stats.throughput_items_per_sec << " items/sec\n";
 ```
 
-### Prometheus Metrics
+### Prometheus Metrics (Planned)
 
 ```promql
+# Planned - not yet implemented
 # Batch throughput
 rate(themisdb_batch_items_total[1m])
 

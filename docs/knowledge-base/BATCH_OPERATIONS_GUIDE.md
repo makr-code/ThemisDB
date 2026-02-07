@@ -2,31 +2,35 @@
 
 ## Overview
 
-This guide describes the optimized batch operations introduced in ThemisDB v1.5.0 to significantly improve write throughput for bulk inserts and updates.
+This guide describes the batch operations optimization infrastructure introduced in ThemisDB v1.5.0 to significantly improve write throughput for bulk inserts and updates.
 
-**Performance Gains:**
+**Status:**
+- ✅ **Implemented**: `BatchWriteOptimizer` component with configurable durability modes
+- ✅ **Implemented**: Comprehensive documentation and testing
+- 🚧 **Planned**: HTTP API integration to accept durability options
+
+**Target Performance Gains (when HTTP API integration is complete):**
 - **2-5x faster** with async WAL (production-safe)
 - **10-50x faster** with WAL disabled (bulk loads only)
-- **100x faster** for vector batch inserts with BufferManager
 
 ## Architecture
 
 ### Components
 
-1. **BatchWriteOptimizer** (`include/storage/batch_write_optimizer.h`)
+1. **BatchWriteOptimizer** (`include/storage/batch_write_optimizer.h`) ✅ **Implemented**
    - Configurable write durability modes
    - Statistics tracking
    - Use-case based recommendations
 
-2. **BatchOperationManager** (`include/utils/batch_operation_manager.h`)
+2. **BatchOperationManager** (`include/utils/batch_operation_manager.h`) ✅ **Existing**
    - Adaptive batch sizing
    - Automatic flushing based on time/size
    - Thread-safe queuing
 
-3. **Optimized Batch Endpoints**
-   - `/entities/batch` - Entity batch operations
-   - `/vector/batch_insert` - Vector batch inserts
-   - `/api/v1/documents/batch` - Document batch operations
+3. **Batch Endpoints** 🚧 **Planned Integration**
+   - `/entities/batch` - Entity batch operations (exists, durability options planned)
+   - `/vector/batch_insert` - Vector batch inserts (exists, durability options planned)
+   - `/api/v1/documents/batch` - Document batch operations (planned)
 
 ### Durability Modes
 
@@ -35,14 +39,42 @@ This guide describes the optimized batch operations introduced in ThemisDB v1.5.
 | **Sync** | Every batch | Yes | 1x (baseline) | Maximum | Critical transactions |
 | **Async** | OS buffered | Yes | 2-5x | High | Production (recommended) |
 | **NoSync** | None | Yes | 10-20x | Medium | Bulk loads |
-| **NoWAL** | None | No | 10-50x | None | Benchmarks only |
+| **NoWAL**\* | None | No | 10-50x | None | Benchmarks only |
+
+\* Note: "NoWAL" is implemented as `durability: NoSync` with `disable_wal: true`
 
 ## Usage Examples
 
-### 1. Entity Batch Insert (Production)
+### C++ API (Available Now)
+
+```cpp
+#include "storage/batch_write_optimizer.h"
+
+// Production: 2-5x faster, durability maintained
+auto config = BatchWriteOptimizer::recommendedConfigForUseCase("production");
+BatchWriteOptimizer optimizer(config);
+
+// Get optimized write options
+auto write_opts = optimizer.getOptimizedWriteOptions();
+
+// Use with existing WriteBatch
+auto batch = storage->createWriteBatch();
+// ... add operations to batch
+batch->commit(write_opts);  // Optimized!
+
+// Track performance
+optimizer.recordBatchWrite(num_items, latency_ms);
+auto stats = optimizer.getStats();
+std::cout << "Throughput: " << stats.throughput_items_per_sec << " items/sec\n";
+```
+
+### HTTP API (Planned - Example)
+
+🚧 **Note**: The following HTTP API examples show the planned interface. Current endpoints do not yet accept `options` parameters.
 
 ```bash
-# Async mode - recommended for production
+# PLANNED: Entity batch with durability options
+# Current: Options parameter not yet supported
 curl -X POST http://localhost:8529/entities/batch \
   -H "Content-Type: application/json" \
   -d '{
@@ -293,29 +325,25 @@ storage:
 
 ### Batch Operation Metrics
 
-```bash
-# Get batch operation statistics
-curl http://localhost:8529/_admin/statistics/batch
+🚧 **Planned**: Batch operation metrics endpoints are planned for a future release.
 
-# Response
-{
-  "batch_writes": {
-    "total_batches": 12580,
-    "total_items": 2516000,
-    "avg_batch_size": 200.0,
-    "avg_latency_ms": 15.2,
-    "throughput_items_per_sec": 13157.9,
-    "success_rate": 0.998
-  },
-  "write_optimizer": {
-    "mode": "async",
-    "wal_enabled": true,
-    "fsync_per_batch": false
-  }
-}
+**Current Status:**
+- Statistics can be tracked via `BatchWriteOptimizer::getStats()` in C++ code
+- HTTP metrics endpoint planned but not yet implemented
+
+**Example C++ Statistics:**
+```cpp
+auto stats = optimizer.getStats();
+std::cout << "Total batches: " << stats.total_batches_written << "\n";
+std::cout << "Total items: " << stats.total_items_written << "\n";
+std::cout << "Avg batch size: " << stats.avg_batch_size << "\n";
+std::cout << "Avg latency: " << stats.avg_latency_ms << " ms\n";
+std::cout << "Throughput: " << stats.throughput_items_per_sec << " items/sec\n";
 ```
 
-### Prometheus Metrics
+### Prometheus Metrics (Planned)
+
+🚧 The following Prometheus metrics are planned but not yet implemented:
 
 ```promql
 # Batch operation throughput

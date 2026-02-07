@@ -2,8 +2,10 @@
 """
 Batch Operations Performance Benchmark
 
-This script benchmarks different batch operation modes to demonstrate
-the performance improvements in ThemisDB v1.5.0.
+This script benchmarks batch operations in ThemisDB.
+
+NOTE: Durability mode selection via HTTP API is planned but not yet implemented.
+      This benchmark currently tests different batch sizes only.
 
 Requirements:
     pip install requests
@@ -22,7 +24,8 @@ from typing import List, Dict
 THEMISDB_URL = "http://localhost:8529"
 NUM_ITEMS = 10000
 BATCH_SIZES = [100, 500, 1000, 5000]
-DURABILITY_MODES = ["sync", "async"]  # "no_sync" not tested for safety
+# Note: Durability modes not yet supported via HTTP API
+# Future: DURABILITY_MODES = ["sync", "async", "no_sync"]
 
 
 def generate_test_data(count: int) -> List[Dict]:
@@ -39,9 +42,11 @@ def generate_test_data(count: int) -> List[Dict]:
     ]
 
 
-def batch_insert(entities: List[Dict], batch_size: int, durability: str) -> Dict:
+def batch_insert(entities: List[Dict], batch_size: int) -> Dict:
     """
-    Perform batch insert with specified configuration.
+    Perform batch insert with specified batch size.
+    
+    Note: Durability options not yet supported via HTTP API.
     
     Returns:
         dict: Statistics including throughput and latency
@@ -67,12 +72,7 @@ def batch_insert(entities: List[Dict], batch_size: int, durability: str) -> Dict
         try:
             response = requests.post(
                 f"{THEMISDB_URL}/entities/batch",
-                json={
-                    "operations": batch,
-                    "options": {
-                        "durability": durability
-                    }
-                },
+                json={"operations": batch},  # Options not yet supported
                 timeout=30
             )
             response.raise_for_status()
@@ -119,24 +119,24 @@ def print_results(results: Dict[str, Dict]):
     print("="*80)
     
     # Print header
-    print(f"\n{'Mode':<10} {'Batch Size':<12} {'Throughput':<20} {'Latency':<15} {'Success Rate'}")
+    print(f"\n{'Batch Size':<12} {'Throughput':<20} {'Latency':<15} {'Success Rate'}")
     print("-"*80)
     
     # Print results
     for key, stats in sorted(results.items()):
-        mode, batch_size = key.split("_")
+        batch_size = key
         throughput = f"{stats['avg_throughput']:.1f} items/sec"
         latency = f"{stats['avg_latency_ms']:.1f} ms"
         success_rate = f"{stats['total_succeeded']/stats['total_items']*100:.1f}%"
         
-        print(f"{mode:<10} {batch_size:<12} {throughput:<20} {latency:<15} {success_rate}")
+        print(f"{batch_size:<12} {throughput:<20} {latency:<15} {success_rate}")
     
     # Print comparison
     print("\n" + "="*80)
-    print("Performance Comparison (vs sync mode, batch_size=100)")
+    print("Performance Comparison (vs batch_size=100)")
     print("="*80)
     
-    baseline_key = "sync_100"
+    baseline_key = "100"
     if baseline_key in results:
         baseline_throughput = results[baseline_key]['avg_throughput']
         
@@ -145,8 +145,7 @@ def print_results(results: Dict[str, Dict]):
                 continue
             
             speedup = stats['avg_throughput'] / baseline_throughput
-            mode, batch_size = key.split("_")
-            print(f"{mode:<10} (batch={batch_size:<5}): {speedup:6.2f}x faster")
+            print(f"batch={key:<5}: {speedup:6.2f}x faster")
     
     print("="*80)
 
@@ -183,26 +182,28 @@ def main():
     
     # Run benchmarks
     results = {}
-    total_tests = len(BATCH_SIZES) * len(DURABILITY_MODES)
+    total_tests = len(BATCH_SIZES)
     current_test = 0
     
-    for durability in DURABILITY_MODES:
-        for batch_size in BATCH_SIZES:
-            current_test += 1
-            key = f"{durability}_{batch_size}"
-            
-            print(f"\n[{current_test}/{total_tests}] Testing: {durability} mode, batch_size={batch_size}")
-            print(f"  ⏳ Inserting {NUM_ITEMS:,} items...")
-            
-            stats = batch_insert(entities, batch_size, durability)
-            results[key] = stats
-            
-            print(f"  ✅ Completed in {stats['total_time_sec']:.2f}s")
-            print(f"  ⚡ Throughput: {stats['avg_throughput']:.1f} items/sec")
-            print(f"  ⏱️  Avg latency: {stats['avg_latency_ms']:.1f} ms/batch")
-            
-            # Small delay between tests
-            time.sleep(1)
+    print("\nNote: Durability mode selection not yet available via HTTP API.")
+    print("      Testing different batch sizes only.\n")
+    
+    for batch_size in BATCH_SIZES:
+        current_test += 1
+        key = str(batch_size)
+        
+        print(f"[{current_test}/{total_tests}] Testing: batch_size={batch_size}")
+        print(f"  ⏳ Inserting {NUM_ITEMS:,} items...")
+        
+        stats = batch_insert(entities, batch_size)
+        results[key] = stats
+        
+        print(f"  ✅ Completed in {stats['total_time_sec']:.2f}s")
+        print(f"  ⚡ Throughput: {stats['avg_throughput']:.1f} items/sec")
+        print(f"  ⏱️  Avg latency: {stats['avg_latency_ms']:.1f} ms/batch")
+        
+        # Small delay between tests
+        time.sleep(1)
     
     # Print results
     print_results(results)
@@ -212,9 +213,10 @@ def main():
     
     print("\n✅ Benchmark complete!")
     print("\n💡 Tips:")
-    print("   - Use async mode for production (2-5x faster than sync)")
-    print("   - Batch size of 500-1000 is optimal for most workloads")
-    print("   - See docs/knowledge-base/BATCH_OPERATIONS_GUIDE.md for more details")
+    print("   - Larger batch sizes generally provide better throughput")
+    print("   - Optimal batch size depends on your workload and data size")
+    print("   - Future: Durability mode selection will enable 2-50x improvements")
+    print("   - See docs/knowledge-base/BATCH_OPERATIONS_GUIDE.md for C++ API")
 
 
 if __name__ == "__main__":

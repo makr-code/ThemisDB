@@ -1,6 +1,10 @@
 #include <gtest/gtest.h>
 #include "storage/batch_write_optimizer.h"
 #include <rocksdb/options.h>
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <iostream>
 
 using namespace themis;
 
@@ -15,7 +19,6 @@ TEST_F(BatchWriteOptimizerTest, DefaultConfigIsAsync) {
     BatchWriteOptimizer::Config config;
     EXPECT_EQ(config.durability, BatchWriteOptimizer::DurabilityMode::Async);
     EXPECT_FALSE(config.disable_wal);
-    EXPECT_TRUE(config.allow_concurrent_memtable_write);
 }
 
 TEST_F(BatchWriteOptimizerTest, SyncModeEnablesSyncWrites) {
@@ -100,7 +103,6 @@ TEST_F(BatchWriteOptimizerTest, RecommendedConfigForProduction) {
     
     EXPECT_EQ(config.durability, BatchWriteOptimizer::DurabilityMode::Async);
     EXPECT_FALSE(config.disable_wal);
-    EXPECT_TRUE(config.allow_concurrent_memtable_write);
 }
 
 TEST_F(BatchWriteOptimizerTest, RecommendedConfigForBulkLoad) {
@@ -108,8 +110,6 @@ TEST_F(BatchWriteOptimizerTest, RecommendedConfigForBulkLoad) {
     
     EXPECT_EQ(config.durability, BatchWriteOptimizer::DurabilityMode::NoSync);
     EXPECT_FALSE(config.disable_wal);  // Keep WAL for safety
-    EXPECT_TRUE(config.allow_concurrent_memtable_write);
-    EXPECT_TRUE(config.sequential_write_hint);
 }
 
 TEST_F(BatchWriteOptimizerTest, RecommendedConfigForBenchmark) {
@@ -117,7 +117,6 @@ TEST_F(BatchWriteOptimizerTest, RecommendedConfigForBenchmark) {
     
     EXPECT_EQ(config.durability, BatchWriteOptimizer::DurabilityMode::NoSync);
     EXPECT_TRUE(config.disable_wal);  // Maximum speed
-    EXPECT_TRUE(config.allow_concurrent_memtable_write);
 }
 
 TEST_F(BatchWriteOptimizerTest, RecommendedConfigForCritical) {
@@ -125,7 +124,6 @@ TEST_F(BatchWriteOptimizerTest, RecommendedConfigForCritical) {
     
     EXPECT_EQ(config.durability, BatchWriteOptimizer::DurabilityMode::Sync);
     EXPECT_FALSE(config.disable_wal);
-    EXPECT_TRUE(config.allow_concurrent_memtable_write);
 }
 
 TEST_F(BatchWriteOptimizerTest, RecommendedConfigForUnknownUseCaseDefaultsToProduction) {

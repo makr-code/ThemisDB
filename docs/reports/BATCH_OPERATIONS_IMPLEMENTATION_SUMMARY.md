@@ -285,21 +285,21 @@ themisdb_batch_durability_mode
 
 ### Documentation
 
-- [Batch Operations Guide](./docs/knowledge-base/BATCH_OPERATIONS_GUIDE.md)
-- [Batch Operations Quick Start](./docs/knowledge-base/BATCH_OPERATIONS_QUICKSTART.md)
-- [Performance Tips](./docs/knowledge-base/PERFORMANCE_TIPS.md)
-- [Architecture](./ARCHITECTURE.md)
+- [Batch Operations Guide](../knowledge-base/BATCH_OPERATIONS_GUIDE.md)
+- [Batch Operations Quick Start](../knowledge-base/BATCH_OPERATIONS_QUICKSTART.md)
+- [Performance Tips](../knowledge-base/PERFORMANCE_TIPS.md)
+- [Architecture](../../ARCHITECTURE.md)
 
 ### Related Work
 
-- [Batch Processing Opportunities](./docs/de/reports/BATCH_PROCESSING_OPPORTUNITIES.md) - Analysis document
-- [VectorAutoBuffer](./include/index/vector_auto_buffer.h) - Similar pattern for vectors
-- [TSAutoBuffer](./include/timeseries/ts_auto_buffer.h) - Similar pattern for time series
+- [Batch Processing Opportunities](../de/reports/BATCH_PROCESSING_OPPORTUNITIES.md) - Analysis document
+- [VectorAutoBuffer](../../include/index/vector_auto_buffer.h) - Similar pattern for vectors
+- [TSAutoBuffer](../../include/timeseries/ts_auto_buffer.h) - Similar pattern for time series
 
 ### External References
 
 - [RocksDB Write Performance](https://github.com/facebook/rocksdb/wiki/Write-Performance)
-- [Batch Insert Performance Results](./docs/reports/BATCH_INSERT_PERFORMANCE_RESULTS.md)
+- [Batch Insert Performance Results](BATCH_INSERT_PERFORMANCE_RESULTS.md)
 
 ## Success Metrics
 

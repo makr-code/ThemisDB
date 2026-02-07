@@ -1,22 +1,11 @@
 #include "storage/batch_write_optimizer.h"
-#include <rocksdb/options.h>
-#include <iostream>
-
-// Simple logging macros for standalone compilation
-#ifndef THEMIS_WARN
-#define THEMIS_WARN(msg) std::cerr << "⚠️  " << msg << std::endl
-#endif
-#ifndef THEMIS_INFO
-#define THEMIS_INFO(msg) std::cout << "ℹ️  " << msg << std::endl
-#endif
+#include "utils/logger.h"
 
 namespace themis {
 
 BatchWriteOptimizer::BatchWriteOptimizer(const Config& config)
     : config_(config)
 {
-    validateConfig(config_);
-    
     // Log warnings once during initialization
     if (config_.durability == DurabilityMode::NoSync) {
         THEMIS_WARN("BatchWriteOptimizer: NoSync mode active - risk of data loss!");
@@ -28,9 +17,7 @@ BatchWriteOptimizer::BatchWriteOptimizer(const Config& config)
 
 BatchWriteOptimizer::~BatchWriteOptimizer() = default;
 
-rocksdb::WriteOptions BatchWriteOptimizer::getOptimizedWriteOptions(
-    size_t estimated_batch_size
-) const {
+rocksdb::WriteOptions BatchWriteOptimizer::getOptimizedWriteOptions() const {
     rocksdb::WriteOptions opts;
     
     // Configure WAL syncing based on durability mode
@@ -111,23 +98,18 @@ BatchWriteOptimizer::Config BatchWriteOptimizer::recommendedConfigForUseCase(
     if (use_case == "production") {
         config.durability = DurabilityMode::Async;
         config.disable_wal = false;
-        config.allow_concurrent_memtable_write = true;
         
     } else if (use_case == "bulk_load") {
         config.durability = DurabilityMode::NoSync;
         config.disable_wal = false;  // Keep WAL for safety
-        config.allow_concurrent_memtable_write = true;
-        config.sequential_write_hint = true;
         
     } else if (use_case == "benchmark") {
         config.durability = DurabilityMode::NoSync;
         config.disable_wal = true;  // Maximum speed
-        config.allow_concurrent_memtable_write = true;
         
     } else if (use_case == "critical") {
         config.durability = DurabilityMode::Sync;
         config.disable_wal = false;
-        config.allow_concurrent_memtable_write = true;
         
     } else {
         // Default: production-safe
@@ -138,18 +120,7 @@ BatchWriteOptimizer::Config BatchWriteOptimizer::recommendedConfigForUseCase(
 }
 
 void BatchWriteOptimizer::validateConfig(const Config& config) {
-    if (config.disable_wal) {
-        THEMIS_WARN("⚠️  BatchWriteOptimizer: WAL disabled!");
-        THEMIS_WARN("    Data will be lost on crash/power failure");
-        THEMIS_WARN("    Only use for bulk loads or benchmarks");
-    }
-    
-    if (config.durability == DurabilityMode::NoSync && !config.disable_wal) {
-        THEMIS_WARN("⚠️  BatchWriteOptimizer: NoSync mode active");
-        THEMIS_WARN("    WAL writes not fsynced - data may be lost on crash");
-        THEMIS_WARN("    Recommended for bulk loads only");
-    }
-    
+    // Validation logic only - warnings logged in constructor
     if (config.durability == DurabilityMode::Sync) {
         THEMIS_INFO("BatchWriteOptimizer: Sync mode - maximum durability, lower throughput");
     }
