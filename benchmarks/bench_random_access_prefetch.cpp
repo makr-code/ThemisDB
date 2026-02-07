@@ -311,7 +311,7 @@ static void BM_Prefetch_Range_Benefit(benchmark::State& state) {
     bool use_prefetch = (state.range(0) == 1);
     
     for (auto _ : state) {
-        volatile uint64_t sum = 0;
+        uint64_t sum = 0;  // Use DoNotOptimize instead of volatile
         const uint64_t* ptr = reinterpret_cast<const uint64_t*>(data.data());
         size_t count = SIZE / sizeof(uint64_t);
         
