@@ -16,8 +16,9 @@ namespace simd {
 // Cache line size constant for prefetching optimization
 constexpr std::size_t CACHE_LINE_SIZE = 64;
 
-// Prefetch distance: 4 cache lines ahead (256 bytes = 64 floats)
-// Optimal for hiding memory latency in streaming operations
+// Prefetch distance in number of floats to prefetch ahead
+// 64 floats = 256 bytes = 4 cache lines ahead
+// This distance is optimal for hiding memory latency in streaming operations
 constexpr std::size_t PREFETCH_DISTANCE = 64;
 
 static inline float scalar_l2_sq(const float* a, const float* b, std::size_t dim) {
@@ -164,18 +165,17 @@ void batch_l2_distance_sq(const float* query, const float* database,
     // Query vector will be hot in L1 cache after first iteration
     for (std::size_t i = 0; i < n; ++i) {
         // Prefetch next database vector while computing current one
-        // This hides memory latency by overlapping compute and memory access
+        // Prefetch first cache line and additional lines based on dimension
         if (i + 1 < n) {
             const float* next_vec = database + (i + 1) * dim;
+            const std::size_t cache_lines_to_prefetch = (dim * sizeof(float) + CACHE_LINE_SIZE - 1) / CACHE_LINE_SIZE;
             #if defined(__AVX2__) || defined(__AVX512F__)
-            _mm_prefetch(reinterpret_cast<const char*>(next_vec), _MM_HINT_T0);
-            if (dim > 16) {
-                _mm_prefetch(reinterpret_cast<const char*>(next_vec + 16), _MM_HINT_T0);
+            for (std::size_t cl = 0; cl < std::min(cache_lines_to_prefetch, std::size_t(4)); ++cl) {
+                _mm_prefetch(reinterpret_cast<const char*>(next_vec + cl * (CACHE_LINE_SIZE / sizeof(float))), _MM_HINT_T0);
             }
             #elif defined(__aarch64__)
-            __builtin_prefetch(next_vec, 0, 3);
-            if (dim > 16) {
-                __builtin_prefetch(next_vec + 16, 0, 3);
+            for (std::size_t cl = 0; cl < std::min(cache_lines_to_prefetch, std::size_t(4)); ++cl) {
+                __builtin_prefetch(next_vec + cl * (CACHE_LINE_SIZE / sizeof(float)), 0, 3);
             }
             #endif
         }
