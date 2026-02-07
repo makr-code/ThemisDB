@@ -212,10 +212,37 @@ private:
             bool is_local = false;
         };
         
-        bool shouldPrunePartition(const ShardInfo& info, size_t total_shards, double selectivity) const { return false; }
-        size_t getOptimalParallelism(const std::vector<ShardInfo>& shards, size_t available_threads) const { 
-            return std::min(available_threads, size_t(8)); 
-        }
+        /**
+         * @brief Determine if a partition should be pruned based on selectivity
+         * Production implementation - uses actual shard metadata
+         */
+        bool shouldPrunePartition(const ShardInfo& info, size_t total_shards, double selectivity) const;
+        
+        /**
+         * @brief Get optimal parallelism for distributed query
+         * Production implementation - considers shard count and hardware
+         */
+        size_t getOptimalParallelism(const std::vector<ShardInfo>& shards, size_t available_threads) const;
+        
+        /**
+         * @brief Get shard metadata for row count estimation
+         * Integrates with MetadataShard system (v1.5.x)
+         */
+        size_t getShardRowCount(const std::string& shard_id, const std::string& table) const;
+        
+        /**
+         * @brief Measure network latency to a shard
+         * Integrates with PrometheusMetrics system (v1.5.x)
+         */
+        double measureShardLatency(const std::string& shard_id) const;
+        
+        /**
+         * @brief Calculate predicate selectivity from query predicates
+         * Histogram-based estimation (v1.5.x)
+         */
+        double calculatePredicateSelectivity(
+            const std::vector<PredicateEq>& predicates,
+            const std::string& table) const;
     };
     
     class MultiIndexOptimizer {
