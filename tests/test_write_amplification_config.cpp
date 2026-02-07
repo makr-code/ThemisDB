@@ -14,7 +14,11 @@ using themis::RocksDBWrapper;
 class WriteAmplificationConfigTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/test_write_amp_config_" + 
+        // Use test name + timestamp for unique path to avoid collisions
+        auto test_info = ::testing::UnitTest::GetInstance()->current_test_info();
+        std::string test_name = std::string(test_info->test_case_name()) + "_" + 
+                                std::string(test_info->name());
+        test_db_path_ = "./data/" + test_name + "_" + 
                        std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
         fs::create_directories(test_db_path_);
     }
@@ -133,7 +137,8 @@ TEST_F(WriteAmplificationConfigTest, AsyncIOFunctionality) {
     
     // Test async scan
     auto results = wrapper.scanWithAsyncIO("async_key_", 50);
-    EXPECT_GE(results.size(), 0) << "Async scan should return results";
+    // Note: scanWithAsyncIO may return 0-50 results depending on implementation
+    // Just verify it doesn't crash and respects the limit
     EXPECT_LE(results.size(), 50) << "Async scan should respect limit";
     
     // Verify async I/O is enabled
