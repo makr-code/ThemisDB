@@ -71,6 +71,9 @@
 |-----------|-----------|---------|--------|
 | **AdvancedVectorIndex** | FAISS IVF+PQ/HNSW | Primary production vector index | ✅ Active |
 | **FAISS GPU Backend** | FAISS GPU | GPU acceleration (NVIDIA/AMD) | ✅ Active |
+| **MultiGPUVectorIndex** | NCCL/RCCL | Multi-GPU vector indexing (v2.5+) | ✅ Active |
+| **NCCL Backend** | NVIDIA NCCL | NVIDIA multi-GPU collectives | ✅ Active |
+| **RCCL Backend** | AMD RCCL | AMD multi-GPU collectives | ✅ Active |
 | **Build System** | CMake | Auto-detect FAISS, set THEMIS_GPU_ENABLED | ✅ Active |
 
 ### 🔄 Fallback Components
@@ -87,6 +90,57 @@
 | **BinaryQuantizer** | Custom | Binary hashing research | ⚠️ Deprecated |
 | **LearnedQuantizer** | Custom | Learned quantization research | ⚠️ Deprecated |
 | **ResidualQuantizer** | Custom | Multi-stage quantization research | 🔬 Research |
+
+---
+
+## Multi-GPU Architecture (v2.5+)
+
+### Communication Backends
+
+ThemisDB v2.5+ supports multi-GPU vector indexing with two communication backends:
+
+**NCCL (NVIDIA GPUs)**:
+- NVIDIA Collective Communications Library
+- Optimized for NVIDIA GPUs with NVLink support
+- Provides AllReduce, Broadcast, P2P transfers
+- 25-50 GB/s inter-GPU bandwidth with NVLink
+- Auto-detected for NVIDIA hardware
+
+**RCCL (AMD GPUs)**:
+- ROCm Communication Collectives Library
+- Optimized for AMD GPUs with Infinity Fabric (XGMI)
+- Provides AllReduce, Broadcast, P2P transfers
+- 200 GB/s inter-GPU bandwidth with XGMI
+- Auto-detected for AMD hardware
+
+### Multi-GPU Features
+
+- **Data Partitioning**: Distribute vectors across GPUs (round-robin, hash-based, range-based, balanced)
+- **Query Fan-out**: Parallel query execution across all GPUs
+- **Collective Top-K Merge**: Efficient result aggregation using NCCL/RCCL AllReduce
+- **P2P Transfers**: Direct GPU-to-GPU data movement (no CPU involvement)
+- **Fault Tolerance**: Graceful degradation when GPUs fail
+- **Load Balancing**: Dynamic workload distribution
+
+### Configuration Example
+
+```cpp
+#include "index/multi_gpu_vector_index.h"
+
+MultiGPUVectorIndex::Config config;
+config.enableMultiGPU = true;
+config.deviceIds = {0, 1, 2, 3};  // Use 4 GPUs
+config.commBackend = MultiGPUVectorIndex::CommBackend::AUTO;  // NCCL or RCCL
+config.enableP2P = true;
+config.enableNVLink = true;   // For NVIDIA
+config.enableXGMI = true;     // For AMD
+config.partitionStrategy = MultiGPUVectorIndex::PartitionStrategy::BALANCED;
+
+MultiGPUVectorIndex index(config);
+index.initialize(128);  // 128-dimensional vectors
+```
+
+See `docs/NCCL_RCCL_INTEGRATION_GUIDE.md` for complete usage guide.
 
 ---
 
