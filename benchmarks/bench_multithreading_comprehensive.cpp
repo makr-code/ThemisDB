@@ -76,7 +76,7 @@ public:
         std::lock_guard<std::mutex> lock(init_mutex_);
         if (initialized_) return;
 
-        db_path_ = std::filesystem::temp_directory_path() / "bench_multithread";
+        db_path_ = std::filesystem::temp_directory_path() / ("bench_multithread_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
 
@@ -87,7 +87,8 @@ public:
         cfg.disable_wal_for_benchmark = true;
         cfg.allow_concurrent_memtable_write = true;
         cfg.enable_pipelined_write = true;
-        cfg.max_background_jobs = std::thread::hardware_concurrency();
+        auto hc = std::thread::hardware_concurrency();
+        cfg.max_background_jobs = (hc == 0) ? 1u : hc;
 
         db_ = std::make_shared<RocksDBWrapper>(cfg);
         if (!db_->open()) {
@@ -446,5 +447,3 @@ static void BM_MaxThreadStress(benchmark::State& state) {
 BENCHMARK(BM_MaxThreadStress)
     ->Unit(benchmark::kMillisecond)
     ->UseRealTime();
-
-BENCHMARK_MAIN();

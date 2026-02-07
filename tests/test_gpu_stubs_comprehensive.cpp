@@ -8,6 +8,9 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <mutex>
+#include <string>
+#include <algorithm>
 
 // Mock GPU types for testing
 namespace themis {
@@ -466,20 +469,13 @@ TEST(GPUErrorHandling, NullPointerDeallocation_Handled) {
     GPUMemoryManager::MemoryBlock null_block{nullptr, 0, 0};
     // Should handle gracefully without crash
     bool result = manager.deallocate(null_block);
-    // Implementation may choose to return true (no-op) or false (invalid)
+    // Expect false for invalid block
+    EXPECT_FALSE(result);
 }
 
-TEST(GPUErrorHandling, DeallocateAfterManagerDestruction_Safe) {
-    GPUMemoryManager::MemoryBlock block;
-    {
-        GPUMemoryManagerStub manager;
-        manager.initialize(0);
-        block = manager.allocate(1024);
-        // Manager goes out of scope
-    }
-    // Using block after manager is destroyed - in real code would be unsafe
-    // This test documents the behavior
-}
+// NOTE: Using GPUMemoryManager::MemoryBlock after its managing GPUMemoryManagerStub
+// instance has been destroyed is undefined behavior in real-world code and is
+// intentionally not tested here. Any such usage should be avoided.
 
 TEST(GPUErrorHandling, ExtremeFragmentation_Handled) {
     GPUMemoryManagerStub manager;

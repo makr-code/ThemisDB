@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 #include "server/policy_engine.h"
 
 using themis::PolicyEngine;
@@ -15,7 +16,7 @@ namespace fs = std::filesystem;
 class PolicyEngineComprehensiveTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_dir_ = fs::temp_directory_path() / "policy_engine_test";
+        test_dir_ = fs::temp_directory_path() / ("policy_engine_test_" + std::to_string(reinterpret_cast<uintptr_t>(this)));
         fs::create_directories(test_dir_);
     }
 
@@ -69,18 +70,20 @@ TEST_F(PolicyEngineComprehensiveTest, DenyPolicy_OverridesDefault) {
     EXPECT_EQ(decision.policy_id, "deny-delete");
 }
 
-TEST_F(PolicyEngineComprehensiveTest, EmptyResourceList_NeverMatches) {
+TEST_F(PolicyEngineComprehensiveTest, EmptyResourceList_MatchesAnyResource) {
     PolicyEngine pe;
     PolicyEngine::Policy p;
     p.id = "empty-resources";
     p.subjects.insert("user1");
     p.actions.insert("read");
-    // resources is empty
+    // resources is empty -> no resource restriction (matches any resource path)
     p.effect_allow = true;
     pe.addPolicy(p);
 
     auto decision = pe.authorize("user1", "read", "/any/path");
-    EXPECT_TRUE(decision.allowed); // Should fall back to default allow
+    EXPECT_TRUE(decision.allowed);
+    EXPECT_EQ(decision.policy_id, "empty-resources");
+    EXPECT_FALSE(decision.reason.empty());
 }
 
 TEST_F(PolicyEngineComprehensiveTest, MultipleMatchingPolicies_FirstMatchWins) {
@@ -145,7 +148,7 @@ TEST_F(PolicyEngineComprehensiveTest, LoadInvalidYaml_ReturnsFalse) {
     EXPECT_FALSE(err.empty());
 }
 
-TEST_F(PolicyEngineComprehensiveTest, SaveToReadOnlyLocation_ReturnsFalse) {
+TEST_F(PolicyEngineComprehensiveTest, SaveToInvalidLocation_ReturnsFalse) {
     PolicyEngine pe;
     PolicyEngine::Policy p;
     p.id = "test";
@@ -154,10 +157,14 @@ TEST_F(PolicyEngineComprehensiveTest, SaveToReadOnlyLocation_ReturnsFalse) {
     p.resources.push_back("/data");
     pe.addPolicy(p);
 
+    // Use a directory path under the temporary test directory as the "file" path.
+    // Attempting to save to a directory is guaranteed to fail across platforms.
+    auto invalid_path = test_dir_ / "not_a_file";
+    fs::create_directories(invalid_path);
+
     std::string err;
-    bool result = pe.saveToFile("/root/impossible/path.json", &err);
+    bool result = pe.saveToFile(invalid_path.string(), &err);
     EXPECT_FALSE(result);
-    // Error message may or may not be set depending on implementation
 }
 
 TEST_F(PolicyEngineComprehensiveTest, RemoveNonExistentPolicy_ReturnsFalse) {
@@ -233,9 +240,9 @@ TEST_F(PolicyEngineComprehensiveTest, IPPrefixMatching_Works) {
     EXPECT_TRUE(pe.authorize("user1", "read", "/secure", "192.168.1.1").allowed);
     EXPECT_TRUE(pe.authorize("user1", "read", "/secure", "10.0.0.1").allowed);
     
-    // Non-matching IP
+    // Non-matching IP should be denied
     auto decision = pe.authorize("user1", "read", "/secure", "8.8.8.8");
-    // Should be denied if IP doesn't match
+    EXPECT_FALSE(decision.allowed);
 }
 
 TEST_F(PolicyEngineComprehensiveTest, EmptyIPPrefixList_IgnoresIPCheck) {
@@ -268,9 +275,9 @@ TEST_F(PolicyEngineComprehensiveTest, ResourcePrefixMatching_Works) {
     EXPECT_TRUE(pe.authorize("user1", "read", "/data/file1").allowed);
     EXPECT_TRUE(pe.authorize("user1", "read", "/data/subdir/file2").allowed);
     
-    // Should not match /datafile (no slash)
+    // Should not match /datafile (no slash) and thus be denied (no matching policy => deny)
     auto decision = pe.authorize("user1", "read", "/datafile");
-    // Behavior depends on exact prefix matching implementation
+    EXPECT_FALSE(decision.allowed);
 }
 
 TEST_F(PolicyEngineComprehensiveTest, MultipleActions_SinglePolicy) {
@@ -289,9 +296,9 @@ TEST_F(PolicyEngineComprehensiveTest, MultipleActions_SinglePolicy) {
     EXPECT_TRUE(pe.authorize("user1", "write", "/data").allowed);
     EXPECT_TRUE(pe.authorize("user1", "delete", "/data").allowed);
     
-    // Other action should not match
+    // Other action should be denied (no matching policy => deny)
     auto decision = pe.authorize("user1", "admin", "/data");
-    EXPECT_TRUE(decision.allowed); // Default allow
+    EXPECT_FALSE(decision.allowed);
 }
 
 TEST_F(PolicyEngineComprehensiveTest, MultipleSubjects_SinglePolicy) {
@@ -310,9 +317,9 @@ TEST_F(PolicyEngineComprehensiveTest, MultipleSubjects_SinglePolicy) {
     EXPECT_TRUE(pe.authorize("user2", "read", "/shared").allowed);
     EXPECT_TRUE(pe.authorize("user3", "read", "/shared").allowed);
     
-    // Other user should use default
+    // Other user should be denied by default when policies exist
     auto decision = pe.authorize("user4", "read", "/shared");
-    EXPECT_TRUE(decision.allowed); // Default allow
+    EXPECT_FALSE(decision.allowed); // Default deny
 }
 
 // ============================================================================
@@ -521,6 +528,11 @@ TEST_F(PolicyEngineComprehensiveTest, DuplicatePolicyId_BothAdded) {
     pe.addPolicy(p2);
 
     auto policies = pe.listPolicies();
-    // Behavior depends on implementation - should handle duplicates gracefully
-    EXPECT_GE(policies.size(), 1);
+    // Both policies should be added (current implementation allows duplicates)
+    EXPECT_EQ(policies.size(), 2);
+    
+    // First matching policy should be used
+    auto decision = pe.authorize("user1", "read", "/data1");
+    EXPECT_TRUE(decision.allowed);
+    EXPECT_EQ(decision.policy_id, "duplicate");
 }

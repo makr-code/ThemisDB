@@ -63,10 +63,10 @@ Created scientifically rigorous benchmarks with deterministic behavior and compr
 
 #### Scalability Benchmarks (`bench_scalability_comprehensive.cpp`)
 - **476 lines** testing performance across data sizes
-- **Data Size Scaling**: 1K, 10K, 100K, 1M records
+- **Data Size Scaling**: 1K, 10K, 100K records
 - **Large Records**: 1KB to 1MB per record
 - **Batch Sizes**: 1 to 10,000 operations per batch
-- **Query Complexity**: Full scans, range queries
+- **Query Complexity**: Full scans (up to 10K), range queries
 - **Memory Pressure**: Limited memtable and cache simulation
 - **Continuous Growth**: Performance over time with growing dataset
 - **Write Patterns**: Append, update, mixed operations
@@ -167,7 +167,12 @@ Added comprehensive workflow testing:
 ## Usage Examples
 
 ### Running Comprehensive Unit Tests
+
+**Note:** These tests need to be added to the CMake build configuration first. See the CMakeLists.txt files in tests/ and tests/integration/ directories for integration instructions.
+
 ```bash
+# After adding to CMakeLists.txt and building:
+
 # Run PolicyEngine tests
 ./build/tests/test_policy_engine_comprehensive
 
@@ -179,7 +184,12 @@ Added comprehensive workflow testing:
 ```
 
 ### Running Benchmarks
+
+**Note:** These benchmarks need to be added to benchmarks/CMakeLists.txt. The benchmarks link against benchmark::benchmark_main, so BENCHMARK_MAIN() has been removed from all benchmark files.
+
 ```bash
+# After adding to CMakeLists.txt and building:
+
 # Multi-threading benchmarks
 ./build/benchmarks/bench_multithreading_comprehensive --benchmark_filter=".*"
 
@@ -194,7 +204,12 @@ Added comprehensive workflow testing:
 ```
 
 ### Running E2E Integration Tests
+
+**Note:** This test needs to be added to tests/integration/CMakeLists.txt.
+
 ```bash
+# After adding to CMakeLists.txt and building:
+
 # Storage pipeline E2E test
 ./build/tests/storage_pipeline_e2e_test
 ```
@@ -218,8 +233,8 @@ Added comprehensive workflow testing:
 #### Scalability
 - **1K records**: Fast operations (<1ms)
 - **10K records**: Still fast (<10ms for most operations)
-- **100K records**: Noticeable but acceptable (<100ms)
-- **1M records**: Requires optimization for specific workloads
+- **100K records**: Acceptable performance (<100ms for most operations)
+- **Note**: The benchmarks test up to 100K records (not 1M as initially documented)
 
 ## Future Enhancements
 

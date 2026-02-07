@@ -20,6 +20,11 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <optional>
+#include <unordered_map>
+#include <mutex>
+#include <iostream>
+#include <random>
 
 // Mock storage interfaces for testing
 namespace themis {
@@ -225,9 +230,12 @@ TEST_F(StoragePipelineE2ETest, ConcurrentReadWrite) {
 
     // Reader threads
     for (int t = 0; t < num_reader_threads; ++t) {
-        threads.emplace_back([this, initial_keys, &keep_running, &read_count]() {
+        threads.emplace_back([this, t, initial_keys, &keep_running, &read_count]() {
+            // Per-thread deterministic RNG
+            std::mt19937 rng(42 + t);
+            std::uniform_int_distribution<int> dist(0, initial_keys - 1);
             while (keep_running) {
-                int key_id = rand() % initial_keys;
+                int key_id = dist(rng);
                 std::string key = "concurrent_key_" + std::to_string(key_id);
                 auto value = storage_->read(key);
                 if (value.has_value()) {
@@ -260,7 +268,6 @@ TEST_F(StoragePipelineE2ETest, ConcurrentReadWrite) {
 
     EXPECT_GT(read_count, 0);
     EXPECT_GT(write_count, 0);
-    std::cout << "Completed " << read_count << " reads and " << write_count << " writes" << std::endl;
 }
 
 /**
@@ -387,11 +394,6 @@ TEST_F(StoragePipelineE2ETest, RapidOperationsStress) {
 
     EXPECT_GT(write_count, 0);
     EXPECT_GT(read_count, 0);
-    std::cout << "Stress test completed: " 
-              << write_count << " writes, "
-              << read_count << " reads, "
-              << update_count << " updates, "
-              << delete_count << " deletes" << std::endl;
 }
 
 /**

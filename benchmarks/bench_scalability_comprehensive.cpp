@@ -18,6 +18,7 @@
 #include <filesystem>
 #include <random>
 #include <algorithm>
+#include <stdexcept>
 
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -458,5 +459,3 @@ static void BM_ContinuousGrowth(benchmark::State& state) {
 BENCHMARK(BM_ContinuousGrowth)
     ->Unit(benchmark::kMillisecond)
     ->Iterations(10);  // Run 10 iterations to show growth trend
-
-BENCHMARK_MAIN();

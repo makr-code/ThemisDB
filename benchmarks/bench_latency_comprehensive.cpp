@@ -17,6 +17,7 @@
 #include <random>
 #include <algorithm>
 #include <chrono>
+#include <mutex>
 
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -71,9 +72,15 @@ public:
 
         // Percentiles
         auto percentile = [&](double p) -> double {
-            size_t idx = static_cast<size_t>(p * sorted.size());
-            if (idx >= sorted.size()) idx = sorted.size() - 1;
-            return sorted[idx];
+            if (sorted.empty()) {
+                return 0.0;
+            }
+            // Use p * (n - 1) with linear interpolation between neighboring points
+            const double pos = p * static_cast<double>(sorted.size() - 1);
+            const size_t idx_lower = static_cast<size_t>(pos);
+            const size_t idx_upper = (idx_lower + 1 < sorted.size()) ? idx_lower + 1 : idx_lower;
+            const double weight = pos - static_cast<double>(idx_lower);
+            return sorted[idx_lower] * (1.0 - weight) + sorted[idx_upper] * weight;
         };
 
         stats.p50_us = percentile(0.50);
@@ -492,5 +499,3 @@ BENCHMARK_F(LatencyBenchFixture, HugeValueLatency)(benchmark::State& state) {
 
     state.SetItemsProcessed(state.iterations());
 }
-
-BENCHMARK_MAIN();
