@@ -49,11 +49,16 @@ struct DistributedTransaction {
     std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
     std::vector<TransactionParticipant> participants;  // Participating shards
     nlohmann::json operations;            // Operations to execute
+    uint32_t prepare_retry_count;         // Number of prepare retries
+    uint32_t commit_retry_count;          // Number of commit retries
+    std::string error_detail;             // Detailed error message
     
     DistributedTransaction()
         : state(TransactionState::ACTIVE)
         , start_time(0)
-        , commit_time(0) {}
+        , commit_time(0)
+        , prepare_retry_count(0)
+        , commit_retry_count(0) {}
 };
 
 /**
@@ -77,6 +82,10 @@ public:
         bool enable_read_only_opt = true;      // Enable read-only optimization
         uint64_t rpc_timeout_ms = 5000;        // RPC timeout per shard call
         uint32_t max_retries = 3;              // RPC retry attempts
+        uint32_t max_commit_retries = 5;       // Max commit phase retries (higher for durability)
+        uint64_t retry_backoff_base_ms = 100;  // Base delay for exponential backoff
+        uint64_t max_backoff_ms = 5000;        // Maximum backoff delay
+        bool enable_recovery_log = true;       // Enable transaction recovery logging
     };
     
     /**
@@ -229,6 +238,31 @@ private:
      * @brief Clean up old transactions
      */
     void cleanupOldTransactions();
+    
+    /**
+     * @brief Calculate backoff delay for retries using exponential backoff
+     * @param retry_count Current retry attempt count
+     * @return Delay in milliseconds
+     */
+    uint64_t calculateBackoffDelay(uint32_t retry_count) const;
+    
+    /**
+     * @brief Retry commit operation with exponential backoff
+     * @param txn Distributed transaction
+     * @return True if committed successfully after retries
+     */
+    bool retryCommitPhase(DistributedTransaction& txn);
+    
+    /**
+     * @brief Log transaction state for recovery
+     * @param txn Distributed transaction
+     */
+    void logTransactionForRecovery(const DistributedTransaction& txn);
+    
+    /**
+     * @brief Recover in-doubt transactions from log
+     */
+    void recoverTransactions();
 };
 
 } // namespace themis::sharding

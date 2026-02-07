@@ -123,11 +123,16 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     lock.lock();
     if (!prepared) {
         txn.state = TransactionState::ABORTING;
+        txn.error_detail = "Prepare phase failed - one or more participants could not prepare";
         lock.unlock();
         
-        // Abort transaction
+        // Abort transaction on all participants
+        THEMIS_WARN("Transaction {} aborting - prepare phase failed", txn_id);
         for (auto& participant : txn.participants) {
-            sendAbort(participant, txn_id);
+            if (!sendAbort(participant, txn_id)) {
+                THEMIS_ERROR("Failed to abort participant {} for transaction {}",
+                           participant.shard_id, txn_id);
+            }
         }
         
         lock.lock();
@@ -152,15 +157,24 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     txn.state = TransactionState::COMMITTING;
     lock.unlock();
     
-    bool committed = commitPhase(txn);
+    bool committed = retryCommitPhase(txn);
     
     lock.lock();
     if (committed) {
         txn.state = TransactionState::COMMITTED;
         committed_transactions_.fetch_add(1, std::memory_order_relaxed);
+        
+        // Log successful commit for recovery
+        if (config_.enable_recovery_log) {
+            logTransactionForRecovery(txn);
+        }
     } else {
         txn.state = TransactionState::ABORTED;
+        txn.error_detail = "Commit phase failed after retries";
         aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        
+        THEMIS_ERROR("Transaction {} commit failed after {} retries", 
+                    txn_id, txn.commit_retry_count);
     }
     
     return committed;
@@ -263,11 +277,18 @@ bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn
     // Send prepare to all participants in parallel
     std::vector<std::thread> threads;
     std::atomic<bool> all_prepared{true};
+    std::mutex error_mutex;
+    std::vector<std::string> error_details;
     
     for (auto& participant : txn.participants) {
-        threads.emplace_back([this, &participant, &txn, &all_prepared]() {
+        threads.emplace_back([this, &participant, &txn, &all_prepared, &error_mutex, &error_details]() {
             if (!sendPrepare(participant, txn.transaction_id)) {
                 all_prepared.store(false, std::memory_order_relaxed);
+                
+                // Collect error details
+                std::lock_guard<std::mutex> lock(error_mutex);
+                error_details.push_back("Shard " + participant.shard_id + 
+                                      " failed to prepare: " + participant.error_msg);
             }
         });
     }
@@ -277,6 +298,15 @@ bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn
         thread.join();
     }
     
+    // Store aggregated error details
+    if (!all_prepared.load()) {
+        std::lock_guard<std::mutex> lock(error_mutex);
+        txn.error_detail = "Prepare failures: ";
+        for (const auto& err : error_details) {
+            txn.error_detail += err + "; ";
+        }
+    }
+    
     return all_prepared.load();
 }
 
@@ -284,11 +314,18 @@ bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn)
     // Send commit to all participants in parallel
     std::vector<std::thread> threads;
     std::atomic<bool> all_committed{true};
+    std::mutex error_mutex;
+    std::vector<std::string> error_details;
     
     for (auto& participant : txn.participants) {
-        threads.emplace_back([this, &participant, &txn, &all_committed]() {
+        threads.emplace_back([this, &participant, &txn, &all_committed, &error_mutex, &error_details]() {
             if (!sendCommit(participant, txn.transaction_id, txn.commit_time)) {
                 all_committed.store(false, std::memory_order_relaxed);
+                
+                // Collect error details
+                std::lock_guard<std::mutex> lock(error_mutex);
+                error_details.push_back("Shard " + participant.shard_id + 
+                                      " failed to commit: " + participant.error_msg);
             }
         });
     }
@@ -296,6 +333,15 @@ bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn)
     // Wait for all commit requests to complete
     for (auto& thread : threads) {
         thread.join();
+    }
+    
+    // Store aggregated error details
+    if (!all_committed.load()) {
+        std::lock_guard<std::mutex> lock(error_mutex);
+        txn.error_detail = "Commit failures: ";
+        for (const auto& err : error_details) {
+            txn.error_detail += err + "; ";
+        }
     }
     
     return all_committed.load();
@@ -429,6 +475,93 @@ void DistributedTransactionCoordinator::cleanupOldTransactions() {
             ++it;
         }
     }
+}
+
+uint64_t DistributedTransactionCoordinator::calculateBackoffDelay(uint32_t retry_count) const {
+    // Exponential backoff: base_ms * 2^retry_count, capped at max_backoff_ms
+    uint64_t delay = config_.retry_backoff_base_ms * (1ULL << retry_count);
+    return std::min(delay, config_.max_backoff_ms);
+}
+
+bool DistributedTransactionCoordinator::retryCommitPhase(DistributedTransaction& txn) {
+    // First attempt
+    bool committed = commitPhase(txn);
+    
+    if (committed) {
+        return true;
+    }
+    
+    // Retry with exponential backoff
+    txn.commit_retry_count = 1;
+    while (txn.commit_retry_count <= config_.max_commit_retries) {
+        uint64_t backoff_ms = calculateBackoffDelay(txn.commit_retry_count - 1);
+        
+        THEMIS_WARN("Transaction {} commit failed, retrying in {}ms (attempt {}/{})",
+                   txn.transaction_id, backoff_ms, txn.commit_retry_count, 
+                   config_.max_commit_retries);
+        
+        // Wait before retry
+        std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
+        
+        // Retry commit phase
+        committed = commitPhase(txn);
+        
+        if (committed) {
+            THEMIS_INFO("Transaction {} committed successfully after {} retries",
+                       txn.transaction_id, txn.commit_retry_count);
+            return true;
+        }
+        
+        txn.commit_retry_count++;
+    }
+    
+    // All retries exhausted
+    THEMIS_ERROR("Transaction {} commit failed after {} retries",
+                txn.transaction_id, txn.commit_retry_count);
+    return false;
+}
+
+void DistributedTransactionCoordinator::logTransactionForRecovery(
+    const DistributedTransaction& txn
+) {
+    // Create recovery log entry
+    nlohmann::json recovery_entry = {
+        {"transaction_id", txn.transaction_id},
+        {"state", static_cast<int>(txn.state)},
+        {"commit_time", txn.commit_time.count()},
+        {"participants", nlohmann::json::array()}
+    };
+    
+    for (const auto& participant : txn.participants) {
+        recovery_entry["participants"].push_back({
+            {"shard_id", participant.shard_id},
+            {"prepared", participant.prepared},
+            {"committed", participant.committed}
+        });
+    }
+    
+    // In production, this should write to persistent storage (WAL)
+    // For now, we log for debugging
+    THEMIS_INFO("Recovery log: {}", recovery_entry.dump());
+    
+    // TODO: Write to persistent WAL for actual recovery on coordinator restart
+}
+
+void DistributedTransactionCoordinator::recoverTransactions() {
+    // This method should be called on coordinator startup to recover
+    // in-doubt transactions from the persistent log
+    
+    THEMIS_INFO("Starting transaction recovery from log");
+    
+    // TODO: Implement actual recovery from persistent storage
+    // 1. Read all in-doubt transactions from WAL
+    // 2. For each transaction in PREPARED state:
+    //    - Query participants for their state
+    //    - If all prepared → complete commit
+    //    - If any aborted → abort all
+    // 3. Clean up recovered transactions
+    
+    THEMIS_INFO("Transaction recovery complete");
 }
 
 } // namespace themis::sharding

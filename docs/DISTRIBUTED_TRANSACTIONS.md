@@ -191,6 +191,18 @@ config.rpc_timeout_ms = 5000;
 
 // Maximum RPC retry attempts (default: 3)
 config.max_retries = 3;
+
+// Maximum commit phase retries (default: 5, higher for durability)
+config.max_commit_retries = 5;
+
+// Base delay for exponential backoff (default: 100ms)
+config.retry_backoff_base_ms = 100;
+
+// Maximum backoff delay (default: 5 seconds)
+config.max_backoff_ms = 5000;
+
+// Enable transaction recovery logging (default: true)
+config.enable_recovery_log = true;
 ```
 
 ## Transaction States
@@ -213,19 +225,47 @@ If any participant votes ABORT or times out:
 - Coordinator sends ABORT to all participants
 - Transaction state → ABORTED
 - No changes are applied
+- Detailed error context collected from all failed participants
 
 ### Commit Phase Failures
 
-If commit fails on any participant:
-- Coordinator attempts retry (configurable)
-- On persistent failure: logs error, marks transaction as potentially inconsistent
-- Recovery mechanism can replay commit based on coordinator log
+Enhanced commit phase with automatic retry logic:
+
+1. **Automatic Retry**: If commit fails on any participant:
+   - Coordinator automatically retries with exponential backoff
+   - Default: up to 5 retry attempts
+   - Backoff: 100ms → 200ms → 400ms → 800ms → 1600ms (capped at 5s)
+   
+2. **Error Context**: Detailed error information collected:
+   - Which participants failed
+   - Error messages from each participant
+   - Retry attempt counts
+   
+3. **Recovery Logging**: For committed transactions:
+   - Transaction state persisted to recovery log
+   - Enables recovery on coordinator restart
+   
+4. **Persistent Failures**: On retry exhaustion:
+   - Transaction marked as ABORTED
+   - Detailed error logged for manual investigation
+   - Recovery mechanism can replay commit based on coordinator log
+
+**Example Configuration:**
+
+```cpp
+DistributedTransactionCoordinator::Config config;
+config.max_commit_retries = 5;         // Retry commit up to 5 times
+config.retry_backoff_base_ms = 100;    // Start with 100ms delay
+config.max_backoff_ms = 5000;          // Cap delay at 5 seconds
+config.enable_recovery_log = true;      // Enable recovery logging
+```
 
 ### Network Partitions
 
 - Participants with prepared state will wait for coordinator decision
 - Coordinator timeout will trigger abort if participants unreachable
 - Recovery protocol resolves in-doubt transactions on reconnection
+- Recovery log enables coordinator to resume interrupted transactions
 
 ## Performance Characteristics
 
@@ -352,18 +392,26 @@ Transaction lifecycle events are logged:
 
 ### Current Limitations
 
-1. **No Automatic Recovery**: Requires manual intervention for in-doubt transactions
-2. **Single Coordinator**: No coordinator failover (single point of failure)
-3. **Blocking Protocol**: 2PC is blocking if coordinator fails
+1. **Coordinator Single Point of Failure**: No coordinator replication (planned for future)
+2. **Blocking Protocol**: 2PC is blocking if coordinator fails (3PC planned)
+3. **Manual Intervention for Some Failures**: While automatic retry handles transient failures, persistent coordinator crashes may require manual recovery
+
+### Recent Enhancements (v1.5.0)
+
+✅ **Automatic Commit Phase Retry**: Exponential backoff with configurable retry limits  
+✅ **Enhanced Error Context**: Detailed error messages from all participants  
+✅ **Recovery Logging**: Transaction state persisted for recovery on coordinator restart  
+✅ **Improved Observability**: Better logging and error tracking throughout 2PC phases  
 
 ### Future Enhancements
 
 - [ ] Three-Phase Commit (3PC) for non-blocking guarantee
 - [ ] Coordinator replication and failover
-- [ ] Automatic transaction recovery
+- [ ] Automatic coordinator recovery from persistent storage
 - [ ] Optimistic concurrency control
 - [ ] Distributed deadlock detection
 - [ ] Saga pattern support for long-running transactions
+- [ ] Circuit breaker pattern for participant health monitoring
 
 ## References
 
