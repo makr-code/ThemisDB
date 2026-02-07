@@ -345,7 +345,15 @@ TEST_F(KVCacheReuseTest, HighFrequencyPattern) {
         "Third low frequency prefix for diversity in test patterns"
     };
     
-    std::vector<float> embedding(128, 0.1f);
+    // Use distinct embeddings per prefix to avoid false positive cache hits
+    std::vector<std::vector<float>> embeddings;
+    for (size_t i = 0; i < high_freq_prefixes.size() + low_freq_prefixes.size(); ++i) {
+        std::vector<float> embedding(128);
+        for (size_t j = 0; j < 128; ++j) {
+            embedding[j] = 0.1f + static_cast<float>(i) * 0.05f + static_cast<float>(j) * 0.001f;
+        }
+        embeddings.push_back(embedding);
+    }
     
     // Simulate 100 queries following Zipfian-like distribution
     int high_freq_count = 0;
@@ -354,19 +362,22 @@ TEST_F(KVCacheReuseTest, HighFrequencyPattern) {
     for (int i = 0; i < 100; ++i) {
         // 80% of queries use high-frequency prefixes
         if (i % 5 != 0) {
-            std::string prefix = high_freq_prefixes[i % high_freq_prefixes.size()];
-            auto result = cache.get(prefix, embedding);
+            size_t prefix_idx = i % high_freq_prefixes.size();
+            std::string prefix = high_freq_prefixes[prefix_idx];
+            auto result = cache.get(prefix, embeddings[prefix_idx]);
             if (!result.has_value()) {
-                cache.put(prefix, {i}, embedding);
+                cache.put(prefix, {i}, embeddings[prefix_idx]);
             } else {
                 high_freq_count++;
             }
         } else {
             // 20% use low-frequency prefixes
-            std::string prefix = low_freq_prefixes[i % low_freq_prefixes.size()];
-            auto result = cache.get(prefix, embedding);
+            size_t prefix_idx = i % low_freq_prefixes.size();
+            size_t embedding_idx = high_freq_prefixes.size() + prefix_idx;
+            std::string prefix = low_freq_prefixes[prefix_idx];
+            auto result = cache.get(prefix, embeddings[embedding_idx]);
             if (!result.has_value()) {
-                cache.put(prefix, {i}, embedding);
+                cache.put(prefix, {i}, embeddings[embedding_idx]);
             } else {
                 low_freq_count++;
             }
@@ -417,7 +428,16 @@ TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
         prefixes.push_back("Prefix " + std::to_string(i) + " for Zipfian distribution test pattern");
     }
     
-    std::vector<float> embedding(64, 0.1f);
+    // Use distinct embeddings per prefix
+    std::vector<std::vector<float>> embeddings;
+    for (int i = 0; i < 20; ++i) {
+        std::vector<float> embedding(64);
+        for (int j = 0; j < 64; ++j) {
+            embedding[j] = 0.1f + static_cast<float>(i) * 0.02f + static_cast<float>(j) * 0.001f;
+        }
+        embeddings.push_back(embedding);
+    }
+    
     std::vector<int> access_counts(20, 0);
     
     // Simulate Zipfian distribution: access frequency decreases with rank
@@ -438,9 +458,9 @@ TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
         
         access_counts[idx]++;
         
-        auto result = cache.get(prefixes[idx], embedding);
+        auto result = cache.get(prefixes[idx], embeddings[idx]);
         if (!result.has_value()) {
-            cache.put(prefixes[idx], {idx}, embedding);
+            cache.put(prefixes[idx], {idx}, embeddings[idx]);
         }
     }
     

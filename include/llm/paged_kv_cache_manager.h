@@ -104,6 +104,10 @@ public:
 
     /**
      * @brief Cache type for workload adaptation
+     * 
+     * NOTE: Cache type is currently tracked as a metric/hint. Future implementation
+     * will wire this into actual allocation/eviction behavior (e.g., block allocation
+     * strategies, prefix sharing aggressiveness, eviction policies).
      */
     enum class CacheType {
         STANDARD,           // Standard paged cache

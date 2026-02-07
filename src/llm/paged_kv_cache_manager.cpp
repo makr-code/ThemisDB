@@ -170,6 +170,9 @@ PagedKVCacheManager::getMemoryStats() const {
     // Calculate prefix sharing ratio
     stats.prefix_sharing_ratio = calculatePrefixSavings() / 100.0;
     
+    // Populate shared_blocks count
+    stats.shared_blocks = total_blocks_shared_.load();
+    
     // Calculate memory usage
     stats.bytes_per_block = calculateBlockMemorySize();
     stats.total_memory_bytes = stats.total_blocks * stats.bytes_per_block;
@@ -210,16 +213,6 @@ size_t PagedKVCacheManager::defragment() {
     // Stub implementation - would compact memory
     // In production, would reorganize blocks to reduce fragmentation
     return 0;
-}
-
-double PagedKVCacheManager::calculatePrefixSavings() const {
-    if (total_blocks_allocated_ == 0) {
-        return 0.0;
-    }
-    
-    double savings = (static_cast<double>(total_blocks_shared_) / 
-                     static_cast<double>(total_blocks_allocated_)) * 100.0;
-    return savings;
 }
 
 int PagedKVCacheManager::getFreeBlock() {
@@ -281,6 +274,9 @@ bool PagedKVCacheManager::analyzeAndAdaptCacheType() {
     
     if (optimal != current_cache_type_) {
         current_cache_type_ = optimal;
+        // NOTE: Cache type is currently a metric/hint only. Future work will wire this
+        // into actual allocation/eviction behavior (e.g., adjusting block allocation 
+        // strategies, prefix sharing aggressiveness, or eviction policies based on type).
         return true;
     }
     
@@ -300,6 +296,15 @@ void PagedKVCacheManager::setAutomaticAdaptation(bool enable, size_t check_inter
 void PagedKVCacheManager::updateWorkloadMetrics() {
     workload_metrics_.total_sequences = sequence_tables_.size();
     
+    // Reset metrics to avoid stale values
+    workload_metrics_.sequences_with_shared_prefix = 0;
+    workload_metrics_.prefix_reuse_ratio = 0.0;
+    workload_metrics_.avg_prefix_length = 0.0;
+    
+    if (workload_metrics_.total_sequences == 0) {
+        return;  // Nothing to compute
+    }
+    
     size_t sequences_with_prefix = 0;
     size_t total_prefix_length = 0;
     
@@ -317,15 +322,13 @@ void PagedKVCacheManager::updateWorkloadMetrics() {
         }
     }
     
-    if (workload_metrics_.total_sequences > 0) {
-        workload_metrics_.sequences_with_shared_prefix = sequences_with_prefix;
-        workload_metrics_.prefix_reuse_ratio = 
-            static_cast<double>(sequences_with_prefix) / workload_metrics_.total_sequences;
-        
-        if (sequences_with_prefix > 0) {
-            workload_metrics_.avg_prefix_length = 
-                static_cast<double>(total_prefix_length) / sequences_with_prefix;
-        }
+    workload_metrics_.sequences_with_shared_prefix = sequences_with_prefix;
+    workload_metrics_.prefix_reuse_ratio = 
+        static_cast<double>(sequences_with_prefix) / workload_metrics_.total_sequences;
+    
+    if (sequences_with_prefix > 0) {
+        workload_metrics_.avg_prefix_length = 
+            static_cast<double>(total_prefix_length) / sequences_with_prefix;
     }
 }
 

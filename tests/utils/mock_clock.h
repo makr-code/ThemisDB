@@ -1,7 +1,6 @@
 #pragma once
 
 #include "utils/clock.h"
-#include <atomic>
 
 namespace themis {
 namespace utils {

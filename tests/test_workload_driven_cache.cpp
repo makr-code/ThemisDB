@@ -139,21 +139,23 @@ TEST_F(WorkloadDrivenCacheTest, AutomaticAdaptationEnabled) {
     uint64_t parent_id = 1;
     manager.addSequence(parent_id, 100);
     
-    // Add 15 sequences with prefix sharing
-    for (uint64_t i = 2; i <= 16; ++i) {
+    // Verify initial state
+    EXPECT_EQ(manager.getCacheType(), PagedKVCacheManager::CacheType::STANDARD);
+    
+    // Add 9 more sequences with prefix sharing (total 10, triggers first check)
+    for (uint64_t i = 2; i <= 10; ++i) {
         manager.enablePrefixCaching(i, parent_id, 80);
-        manager.addSequence(i + 100, 100);  // Dummy sequence to trigger counter
+        manager.addSequence(i + 100, 100);
     }
     
-    // After 10 sequences, should automatically adapt
-    // Note: exact behavior depends on when counter triggers
+    // After 10 sequences with 90% prefix reuse (9 of 10), should switch to PREFIX_OPTIMIZED
     auto metrics = manager.getWorkloadMetrics();
-    
-    // Metrics should be updated
-    EXPECT_GT(metrics.total_sequences, 0);
-    
-    // Cache type may have adapted to PREFIX_OPTIMIZED
-    // (depends on whether analysis was triggered)
+    EXPECT_GT(metrics.total_sequences, 10);
+    EXPECT_GE(metrics.prefix_reuse_ratio, 0.6) << "Should have high prefix reuse ratio";
+    EXPECT_EQ(metrics.detected_pattern, PagedKVCacheManager::WorkloadPattern::HIGH_PREFIX_REUSE)
+        << "Should detect high prefix reuse pattern";
+    EXPECT_EQ(manager.getCacheType(), PagedKVCacheManager::CacheType::PREFIX_OPTIMIZED)
+        << "Cache type should adapt to PREFIX_OPTIMIZED after detecting high prefix reuse";
 }
 
 // ============================================================================
