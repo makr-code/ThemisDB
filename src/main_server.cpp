@@ -99,7 +99,8 @@ static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
 // HSM security warning thread
 static std::thread g_hsm_warning_thread;
 static std::atomic<bool> g_hsm_warning_thread_running{false};
-static std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
+// Global HSM provider (non-static for external access from monitoring_api_handler)
+std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
 
 // ============================================================================
 // Lazy Mimalloc Initialization (after CRT startup)
@@ -212,10 +213,12 @@ void windows_se_translator(unsigned int code, EXCEPTION_POINTERS* pExp) {
 void hsmSecurityWarningLoop() {
     using namespace std::chrono;
     const auto warning_interval = minutes(5);
+    const auto warning_interval_seconds = duration_cast<seconds>(warning_interval).count();
     
     while (g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
         // Sleep for 5 minutes in 1-second increments to allow quick shutdown
-        for (int i = 0; i < 300 && g_hsm_warning_thread_running.load(std::memory_order_relaxed); ++i) {
+        for (int i = 0; i < static_cast<int>(warning_interval_seconds) &&
+                g_hsm_warning_thread_running.load(std::memory_order_relaxed); ++i) {
             std::this_thread::sleep_for(seconds(1));
         }
         
@@ -722,6 +725,12 @@ int main(int argc, char* argv[]) {
         // Validate production safety (will fail startup if stub in production without flag)
         if (!themis::security::HSMSecurityChecker::validateProductionSafety(*g_hsm_provider, argc, argv)) {
             THEMIS_CRITICAL("Server startup aborted due to HSM security violation");
+            // Clean up warning thread if it was started
+            stopHSMWarningThread();
+            if (g_hsm_provider) {
+                g_hsm_provider->finalize();
+                g_hsm_provider.reset();
+            }
             return 1;
         }
         

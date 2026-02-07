@@ -31,7 +31,7 @@
 **Created**:
 1. `tests/test_hsm_startup_integration.cpp` - Integration tests (257 lines)
 2. `docs/testing/HSM_SECURITY_WARNING_MANUAL_TESTS.md` - Manual test guide
-3. `docs/implementation/HSM_SECURITY_WARNING_IMPLEMENTATION_SUMMARY.md` - This file
+3. `docs/implementation/HSM_SECURITY_WARNING_SUMMARY.md` - This file
 
 ---
 

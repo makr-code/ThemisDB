@@ -13,6 +13,7 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <optional>
 
 using namespace themis::security;
 
@@ -28,28 +29,35 @@ using namespace themis::security;
 class HSMStartupIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Save original environment
-        saved_prod_mode_ = std::getenv("THEMIS_PRODUCTION_MODE");
-        saved_environment_ = std::getenv("THEMIS_ENVIRONMENT");
+        // Save original environment (store copies to avoid pointer invalidation)
+        const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+        if (prod_mode) {
+            saved_prod_mode_ = std::string(prod_mode);
+        }
+        
+        const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+        if (environment) {
+            saved_environment_ = std::string(environment);
+        }
     }
     
     void TearDown() override {
         // Restore original environment
-        if (saved_prod_mode_) {
-            setenv("THEMIS_PRODUCTION_MODE", saved_prod_mode_, 1);
+        if (saved_prod_mode_.has_value()) {
+            setenv("THEMIS_PRODUCTION_MODE", saved_prod_mode_->c_str(), 1);
         } else {
             unsetenv("THEMIS_PRODUCTION_MODE");
         }
         
-        if (saved_environment_) {
-            setenv("THEMIS_ENVIRONMENT", saved_environment_, 1);
+        if (saved_environment_.has_value()) {
+            setenv("THEMIS_ENVIRONMENT", saved_environment_->c_str(), 1);
         } else {
             unsetenv("THEMIS_ENVIRONMENT");
         }
     }
     
-    const char* saved_prod_mode_;
-    const char* saved_environment_;
+    std::optional<std::string> saved_prod_mode_;
+    std::optional<std::string> saved_environment_;
 };
 
 /**
@@ -124,22 +132,29 @@ TEST_F(HSMStartupIntegrationTest, PeriodicWarning_StubActive_ReturnsMessage) {
 }
 
 /**
- * Test periodic warning is empty with real HSM
+ * Test periodic warning is empty with real HSM.
+ *
+ * This test requires a real HSM library to be available. The path to the
+ * library must be provided via the THEMIS_REAL_HSM_LIBRARY environment
+ * variable. If the variable is not set, the test is skipped.
  */
 TEST_F(HSMStartupIntegrationTest, PeriodicWarning_RealHSM_NoMessage) {
     setenv("THEMIS_PRODUCTION_MODE", "true", 1);
     
-    // Note: This test requires a real HSM library to work properly
-    // For now, just test that stub provider gives a warning
+    const char* real_hsm_lib = std::getenv("THEMIS_REAL_HSM_LIBRARY");
+    if (!real_hsm_lib || std::string(real_hsm_lib).empty()) {
+        GTEST_SKIP() << "Real HSM library not configured; set THEMIS_REAL_HSM_LIBRARY to run this test.";
+    }
+    
     HSMConfig config;
-    config.library_path = "";  // Stub
+    config.library_path = real_hsm_lib;
     
     HSMProvider hsm(config);
     hsm.initialize();
     
-    // In production with stub, should have warning
+    // With a real HSM in production mode, there should be no periodic warning
     std::string warning = HSMSecurityChecker::getPeriodicWarning(hsm);
-    EXPECT_FALSE(warning.empty());
+    EXPECT_TRUE(warning.empty());
 }
 
 /**
