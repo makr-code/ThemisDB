@@ -1,6 +1,14 @@
 #include "storage/batch_write_optimizer.h"
-#include "utils/logger.h"
 #include <rocksdb/options.h>
+#include <iostream>
+
+// Simple logging macros for standalone compilation
+#ifndef THEMIS_WARN
+#define THEMIS_WARN(msg) std::cerr << "⚠️  " << msg << std::endl
+#endif
+#ifndef THEMIS_INFO
+#define THEMIS_INFO(msg) std::cout << "ℹ️  " << msg << std::endl
+#endif
 
 namespace themis {
 
