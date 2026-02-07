@@ -297,7 +297,9 @@ BranchManager::MergeResult BranchManager::mergeBranches(
     uint64_t source_seq = source->creation_sequence;
     uint64_t target_seq = target->creation_sequence;
     
-    // Determine common ancestor sequence (simpl: use the earlier of the two)
+    // Determine common ancestor sequence (simple heuristic: use the earlier of the two)
+    // Note: For divergent branches, ideally we'd track the actual divergence point
+    // For now, this simple approach works for basic linear branch histories
     uint64_t base_seq = std::min(source_seq, target_seq);
     
     // Check if fast-forward is possible

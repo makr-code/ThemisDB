@@ -317,12 +317,12 @@ HttpServer::HttpServer(
         branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
         THEMIS_INFO("BranchManager initialized");
         
-        // Initialize DiffEngine (required for MergeEngine)
+        // Initialize DiffEngine (Phase 2 MVCC features - required for MergeEngine)
         diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
         diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
         THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
         
-        // Initialize MergeEngine and MergeApiHandler (Phase 5 - 3-Way Merge)
+        // Initialize MergeEngine and MergeApiHandler (Phase 5 MVCC features - 3-Way Merge)
         merge_engine_ = std::make_unique<transaction::MergeEngine>(*diff_engine_, *snapshot_manager_, *changefeed_);
         merge_api_handler_ = std::make_unique<MergeApiHandler>(*merge_engine_, *snapshot_manager_);
         THEMIS_INFO("MergeEngine initialized for 3-way merge support");
