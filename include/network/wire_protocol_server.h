@@ -21,6 +21,7 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class TransactionManager;
+class ProcessGraphManager;
 
 namespace network {
 
@@ -84,7 +85,8 @@ public:
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<GraphIndexManager> graph_index,
         std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<TransactionManager> tx_manager
+        std::shared_ptr<TransactionManager> tx_manager,
+        std::shared_ptr<ProcessGraphManager> process_graph = nullptr
     );
 
     ~WireProtocolServer();
@@ -157,6 +159,7 @@ private:
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
+    std::shared_ptr<ProcessGraphManager> process_graph_;
 
     // Networking (SEPARATE from HTTP server!)
     std::unique_ptr<net::io_context> io_context_;  // Dedicated IO context
@@ -235,6 +238,9 @@ private:
     void handleVectorSearch();
     void handleGeoQuery();
     void handleTimeseriesQuery();
+    void handleBpmnStartProcess();
+    void handleBpmnTaskComplete();
+    void handleBpmnQueryInstance();
     void handlePing();
     void handleClose();
 
