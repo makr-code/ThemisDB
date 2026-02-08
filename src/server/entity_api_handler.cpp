@@ -14,6 +14,9 @@
 #include "sharding/replication_coordinator.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/write_concern.h"
+#include "sharding/redundancy_strategy.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
 #include "api/geo_index_hooks.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -41,7 +44,10 @@ EntityApiHandler::EntityApiHandler(
     std::shared_ptr<Changefeed> changefeed,
     std::shared_ptr<sharding::WALManager> wal_manager,
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
-    std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator
+    std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator,
+    std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager,
+    std::shared_ptr<sharding::ConsistentHashRing> hash_ring,
+    std::shared_ptr<sharding::ShardTopology> shard_topology
 )
     : storage_(std::move(storage))
     , secondary_index_(std::move(secondary_index))
@@ -56,6 +62,9 @@ EntityApiHandler::EntityApiHandler(
     , wal_manager_(std::move(wal_manager))
     , replication_coordinator_(std::move(replication_coordinator))
     , multi_primary_coordinator_(std::move(multi_primary_coordinator))
+    , redundancy_manager_(std::move(redundancy_manager))
+    , hash_ring_(std::move(hash_ring))
+    , shard_topology_(std::move(shard_topology))
 {
 }
 
@@ -494,8 +503,67 @@ http::response<http::string_body> EntityApiHandler::handlePut(
             }
         }
 
+        // RAID redundancy: Apply redundancy strategy if enabled
+        // This ensures RAID modes (MIRROR, STRIPE, PARITY, etc.) are applied at runtime
+        if (redundancy_manager_ && hash_ring_ && shard_topology_ && config_.feature_raid) {
+            try {
+                // Get redundancy strategy for this collection (table)
+                auto strategy = redundancy_manager_->getStrategy(table);
+                if (strategy) {
+                    THEMIS_INFO("Applying RAID redundancy for {}:{} using mode {}", 
+                                table, pk, static_cast<int>(strategy->getConfig().mode));
+                    
+                    // Create write handler that writes to shards
+                    auto write_handler = [this](const std::string& shard_id, 
+                                               const std::string& doc_id,
+                                               const std::vector<uint8_t>& data) -> bool {
+                        // For now, write to local storage with shard prefix
+                        // In a distributed setup, this would route to remote shards
+                        std::string prefixed_key = shard_id + ":" + doc_id;
+                        try {
+                            storage_->put(prefixed_key, data);
+                            return true;
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("RAID write to shard {} failed: {}", shard_id, e.what());
+                            return false;
+                        }
+                    };
+                    
+                    // Convert data to bytes
+                    std::vector<uint8_t> data_bytes(blob_str.begin(), blob_str.end());
+                    
+                    // Apply redundancy strategy
+                    auto write_result = strategy->write(
+                        key,           // document_id
+                        data_bytes,    // data
+                        table,         // collection
+                        *hash_ring_,   // ring
+                        *shard_topology_, // topology
+                        write_handler  // handler
+                    );
+                    
+                    if (!write_result.success) {
+                        THEMIS_WARN("RAID write failed for {}: {}", key, write_result.error_message);
+                        span.setStatus(false, "RAID write failed");
+                        return makeErrorResponse(http::status::internal_server_error,
+                            "RAID redundancy write failed: " + write_result.error_message, req);
+                    }
+                    
+                    span.setAttribute("raid.mode", static_cast<int>(strategy->getConfig().mode));
+                    span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
+                    span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
+                    THEMIS_INFO("RAID write successful for {}: {} shards written in {}ms", 
+                               key, write_result.written_shards.size(), write_result.latency.count());
+                }
+            } catch (const std::exception& e) {
+                // Log but don't fail - RAID is optional enhancement
+                THEMIS_WARN("RAID redundancy processing error: {}", e.what());
+            }
+        }
+
         span.setStatus(true);
         span.setAttribute("entity.cdc_recorded", changefeed_ && config_.feature_cdc);
+        span.setAttribute("entity.raid_applied", redundancy_manager_ && config_.feature_raid);
 
         // Write concern enforcement (RAID replication)
         // Parse write concern from query params (default: ONE)

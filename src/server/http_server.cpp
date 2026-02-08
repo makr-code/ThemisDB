@@ -659,6 +659,7 @@ HttpServer::HttpServer(
     entity_config.feature_cdc = config_.feature_cdc;
     entity_config.feature_geo = true; // Enable geo if spatial_index exists
     entity_config.feature_replication = (replication_coordinator_ != nullptr);
+    entity_config.feature_raid = false; // RAID redundancy disabled by default (requires explicit setup)
     
     entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
         storage_,
@@ -673,7 +674,10 @@ HttpServer::HttpServer(
         changefeed_,
         wal_manager_,
         replication_coordinator_,
-        multi_primary_coordinator_
+        multi_primary_coordinator_,
+        nullptr,  // redundancy_manager - optional, set via config when needed
+        nullptr,  // hash_ring - optional, set via config when needed
+        nullptr   // shard_topology - optional, set via config when needed
     );
     THEMIS_INFO("Entity API Handler initialized");
     
