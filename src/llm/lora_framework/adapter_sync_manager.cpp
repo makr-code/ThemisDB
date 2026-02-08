@@ -374,7 +374,7 @@ private:
             
             for (const auto& shard : shards) {
                 if (shard.shard_id == peer_shard_id) {
-                    peer_endpoint = shard.endpoint;
+                    peer_endpoint = shard.primary_endpoint;
                     break;
                 }
             }
