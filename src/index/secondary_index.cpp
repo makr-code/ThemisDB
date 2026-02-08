@@ -796,10 +796,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 			// Add new spatial index entry
 			bool spatial_updated = api::GeoIndexHooks::onEntityPutAtomic(
 				batch, spatial_index_mgr_, std::string(table), pk, serialized_entity);
-			// onEntityPutAtomic returns false if no spatial data or index not available
-			// This is expected behavior - spatial indexing is optional
+			
+			// onEntityPutAtomic returning false can mean:
+			// 1. No spatial data in entity (common - not all entities have geometry)
+			// 2. Spatial index not available for table (expected - not all tables indexed)
+			// 3. Internal indexing failure (hook logs WARN with details)
+			// Spatial indexing is optional, so we continue even if it returns false.
 			if (!spatial_updated) {
-				THEMIS_DEBUG("No spatial data for {}:{} or spatial index not available", table, pk);
+				THEMIS_DEBUG("Spatial index not updated for {}:{}", table, pk);
 			}
 		} catch (const std::exception& e) {
 			// Spatial index failures should be logged but not fail the transaction

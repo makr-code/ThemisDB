@@ -65,7 +65,11 @@ public:
         return out;
     }
     
-    // Improved exact check with fallback to MBR
+    // Improved exact check with conservative false negatives to avoid false positives
+    // NOTE: This implementation has limitations:
+    // - Polygon-polygon checks only test vertex containment, not edge-edge intersections
+    // - May return false for geometries that actually intersect at edges
+    // - For production use with complex geometries, use Boost.Geometry backend
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         try {
             // Point-Point intersection

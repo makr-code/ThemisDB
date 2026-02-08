@@ -906,8 +906,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     std::stringstream ss(numericOnly);
                     double minx, miny, maxx, maxy;
                     if (!(ss >> minx >> miny >> maxx >> maxy)) {
-                        return;
+                        return; // Parse failed
                     }
+                    
+                    // Validate bbox is valid (min <= max)
+                    if (minx > maxx || miny > maxy) {
+                        THEMIS_WARN("Invalid bbox: min must be <= max (minx={}, maxx={}, miny={}, maxy={})",
+                                   minx, maxx, miny, maxy);
+                        return; // Invalid bbox
+                    }
+                    
                     out_min = std::make_pair(minx, miny);
                     out_max = std::make_pair(maxx, maxy);
                 };
