@@ -505,6 +505,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
 
         // RAID redundancy: Apply redundancy strategy if enabled
         // This ensures RAID modes (MIRROR, STRIPE, PARITY, etc.) are applied at runtime
+        bool raid_applied = false;
         if (redundancy_manager_ && hash_ring_ && shard_topology_ && config_.feature_raid) {
             try {
                 // Get redundancy strategy for this collection (table)
@@ -521,8 +522,11 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         // In a distributed setup, this would route to remote shards
                         std::string prefixed_key = shard_id + ":" + doc_id;
                         try {
-                            storage_->put(prefixed_key, data);
-                            return true;
+                            bool ok = storage_->put(prefixed_key, data);
+                            if (!ok) {
+                                THEMIS_WARN("RAID write to shard {} failed: storage->put returned false", shard_id);
+                            }
+                            return ok;
                         } catch (const std::exception& e) {
                             THEMIS_WARN("RAID write to shard {} failed: {}", shard_id, e.what());
                             return false;
@@ -542,18 +546,21 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         write_handler  // handler
                     );
                     
+                    // RAID is best-effort: log and record in tracing, but do not fail the request
+                    // Primary write has already been committed via secondary_index_->put()
                     if (!write_result.success) {
                         THEMIS_WARN("RAID write failed for {}: {}", key, write_result.error_message);
-                        span.setStatus(false, "RAID write failed");
-                        return makeErrorResponse(http::status::internal_server_error,
-                            "RAID redundancy write failed: " + write_result.error_message, req);
+                        span.setAttribute("raid.success", false);
+                        span.setAttribute("raid.error_message", write_result.error_message);
+                    } else {
+                        raid_applied = true;  // Only set to true when actually successful
+                        span.setAttribute("raid.success", true);
+                        span.setAttribute("raid.mode", static_cast<int>(strategy->getConfig().mode));
+                        span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
+                        span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
+                        THEMIS_INFO("RAID write successful for {}: {} shards written in {}ms", 
+                                   key, write_result.written_shards.size(), write_result.latency.count());
                     }
-                    
-                    span.setAttribute("raid.mode", static_cast<int>(strategy->getConfig().mode));
-                    span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
-                    span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
-                    THEMIS_INFO("RAID write successful for {}: {} shards written in {}ms", 
-                               key, write_result.written_shards.size(), write_result.latency.count());
                 }
             } catch (const std::exception& e) {
                 // Log but don't fail - RAID is optional enhancement
@@ -563,7 +570,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
 
         span.setStatus(true);
         span.setAttribute("entity.cdc_recorded", changefeed_ && config_.feature_cdc);
-        span.setAttribute("entity.raid_applied", redundancy_manager_ && config_.feature_raid);
+        span.setAttribute("entity.raid_applied", raid_applied);
 
         // Write concern enforcement (RAID replication)
         // Parse write concern from query params (default: ONE)

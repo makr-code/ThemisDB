@@ -54,10 +54,19 @@ if (redundancy_manager_ && hash_ring_ && shard_topology_ && config_.feature_raid
 
 ### Configuration
 
-RAID redundancy is **disabled by default** and requires explicit configuration:
+⚠️ **IMPORTANT:** RAID redundancy is **disabled by default** and requires **manual code wiring**.
+
+The configuration file `config/raid_entity_config.example.yaml` is **aspirational** - these settings are NOT automatically parsed by `main_server.cpp` or `HttpServer`. To enable RAID, you must:
+
+1. **Manually initialize components** in `main_server.cpp`
+2. **Pass them to HttpServer** (or extend constructor to accept them)
+3. **Set `feature_raid = true`** in `EntityApiConfig`
+
+**Example configuration (not automatically loaded):**
 
 ```yaml
 # config/raid_entity_config.example.yaml
+# ⚠️  Manual wiring required - not automatically parsed
 entity_api:
   feature_raid: true
 
@@ -70,7 +79,7 @@ raid:
       write_concern: MAJORITY
 ```
 
-### Initialization
+### Initialization (Required Manual Steps)
 
 To enable RAID at startup, initialize the components in `main_server.cpp`:
 
@@ -106,9 +115,21 @@ A comprehensive integration test has been created:
 
 RAID operations are traced and logged:
 
-- Span attributes: `raid.mode`, `raid.shards_written`, `raid.latency_ms`
+- Span attributes: `raid.mode`, `raid.shards_written`, `raid.latency_ms`, `raid.success`
 - Logs: Info-level logs for successful RAID writes
-- Warnings: Logged but don't fail requests if RAID optional
+- Warnings: Logged but don't fail requests (RAID is best-effort after primary write)
+
+### Performance Considerations
+
+⚠️ **Thread Exhaustion Risk:** The current `RedundancyStrategy::write()` implementation spawns `std::async(std::launch::async, ...)` tasks for each target shard (see `writeMirror()`). Under high load with RAID enabled, this can create unbounded threads and exhaust system resources.
+
+**Mitigation Strategies:**
+1. Use an existing thread pool or task executor instead of unbounded `std::async`
+2. Limit concurrent RAID operations via semaphore or rate limiting
+3. Configure write concern to reduce replication factor (e.g., `MAJORITY` instead of `ALL`)
+4. Monitor thread count and adjust load balancing accordingly
+
+**Note:** This is a known limitation that should be addressed before enabling RAID in high-throughput production environments.
 
 ---
 

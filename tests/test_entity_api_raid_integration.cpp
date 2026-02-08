@@ -28,26 +28,30 @@ using namespace themis::sharding;
 class EntityApiRaidIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create temporary directory for test database
-        test_db_path_ = std::filesystem::temp_directory_path() / "test_entity_api_raid_db";
+        // Create temporary directory for test database with unique suffix
+        test_db_path_ = std::filesystem::temp_directory_path() / 
+                       ("themis_raid_test_" + std::to_string(std::time(nullptr)) + "_" + std::to_string(getpid()));
         std::filesystem::create_directories(test_db_path_);
         
         // Initialize storage
-        storage_ = std::make_shared<RocksDBWrapper>(test_db_path_.string());
+        RocksDBWrapper::Config config;
+        config.db_path = test_db_path_.string();
+        storage_ = std::make_shared<RocksDBWrapper>(config);
+        storage_->open();
         
-        // Initialize indexes
-        secondary_index_ = std::make_shared<SecondaryIndexManager>(storage_);
-        graph_index_ = std::make_shared<GraphIndexManager>(storage_);
+        // Initialize indexes (they take RocksDBWrapper& not shared_ptr)
+        secondary_index_ = std::make_shared<SecondaryIndexManager>(*storage_);
+        graph_index_ = std::make_shared<GraphIndexManager>(*storage_);
         
         // Initialize transaction manager
-        tx_manager_ = std::make_shared<TransactionManager>(storage_);
+        tx_manager_ = std::make_shared<TransactionManager>(*storage_);
         
         // Initialize encryption components
         field_encryption_ = std::make_shared<FieldEncryption>();
-        key_provider_ = std::make_shared<themis::security::MockKeyProvider>();
+        key_provider_ = std::make_shared<themis::MockKeyProvider>();
         
-        // Initialize auth middleware (disabled for testing)
-        auth_ = std::make_shared<themis::AuthMiddleware>(storage_);
+        // Initialize auth middleware (default constructor)
+        auth_ = std::make_shared<themis::AuthMiddleware>();
         
         // Initialize RAID components
         hash_ring_ = std::make_shared<ConsistentHashRing>(100);
@@ -83,7 +87,7 @@ protected:
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
     std::shared_ptr<FieldEncryption> field_encryption_;
-    std::shared_ptr<themis::security::KeyProvider> key_provider_;
+    std::shared_ptr<themis::KeyProvider> key_provider_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     std::shared_ptr<ConsistentHashRing> hash_ring_;
     std::shared_ptr<ShardTopology> shard_topology_;
