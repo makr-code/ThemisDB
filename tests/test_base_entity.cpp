@@ -295,15 +295,23 @@ TEST_F(BaseEntityTest, CacheInvalidationOnSetBlob) {
 
 TEST_F(BaseEntityTest, SafeUInt64Conversion) {
     BaseEntity::FieldMap fields;
-    // Test that very large uint values are handled safely
-    // We can't directly test UINT64 from the public API, but we ensure
-    // that INT64_MAX values work correctly
+    // NOTE: BaseEntity::Value uses int64_t, not uint64_t, as a design choice
+    // This test verifies that INT64_MAX values work correctly within that constraint
+    // The actual UINT64→INT64 clamping logic is tested indirectly through binary 
+    // deserialization paths (which would trigger the bounds checking in parseBinary())
     fields["large_number"] = int64_t(9223372036854775807LL); // INT64_MAX
     
     BaseEntity entity("test", fields);
     auto value = entity.getFieldAsInt("large_number");
     ASSERT_TRUE(value.has_value());
     EXPECT_EQ(*value, 9223372036854775807LL);
+    
+    // Verify serialization/deserialization round-trip for large values
+    auto blob = entity.serialize();
+    BaseEntity deserialized = BaseEntity::deserialize("test", blob);
+    auto roundtrip_value = deserialized.getFieldAsInt("large_number");
+    ASSERT_TRUE(roundtrip_value.has_value());
+    EXPECT_EQ(*roundtrip_value, 9223372036854775807LL);
 }
 
 TEST_F(BaseEntityTest, NonNegativeRotationPosition) {
