@@ -152,30 +152,34 @@ if (use_aggregates && agg_manager_) {
 - [x] **Fixed async read flow (header -> payload -> dispatch)**
 - [x] **Timestamp conversion (ns ↔ ms) with validation**
 - [x] **Support for both raw query and aggregation paths**
-- [x] **Time bucketing for aggregated results**
+- [x] **Basic time bucketing** (single bucket over full range when using aggregations)
 - [x] Integration pattern with TSStore::query() and TSStore::aggregate()
-- [x] Integration pattern with ContinuousAggregateManager
 - [x] Error handling for missing TSStore, parse failures, query failures
 - [x] Wire frame response structure with proper byte ordering
 - [x] **Comprehensive test coverage (protobuf helpers + integration)**
+- [x] **Working asyncWriteResponse implementation**
 
 ### 🎯 Production Features
 - ✅ **No protobuf library dependency** - Manual wire format implementation
 - ✅ **Request validation** - Collection name, timestamp ranges, aggregation types
 - ✅ **Performance tracking** - Query execution time measurement
 - ✅ **Multiple aggregation types** - AVG, SUM, MIN, MAX, COUNT
-- ✅ **Flexible bucketing** - Configurable time bucket sizes
+- ✅ **Basic bucketing** - Single bucket per aggregation request (multi-bucket requires raw data grouping)
 - ✅ **Detailed stats** - Total data points, buckets returned, data density
 - ✅ **Error codes** - Specific error codes for different failure scenarios
 - ✅ **Safe error handling** - Try-catch blocks with fallback messages
+- ✅ **Async write loop** - Proper response sending with write queue management
 
 ### 📋 Optional Enhancements (Future)
+- [ ] **Multi-bucket aggregation** - Requires querying raw data and grouping by time windows
 - [ ] Tag filter mapping - Map protobuf filters to TSStore tag_filter JSON
-- [ ] Advanced bucketing - Multiple bucket strategies (sliding windows, etc.)
+- [ ] Advanced bucketing - Sliding windows, overlapping buckets, etc.
 - [ ] Query caching - Cache frequently accessed time ranges
 - [ ] Compression - LZ4 compression for large responses
 - [ ] Streaming - Stream large result sets incrementally
+- [ ] Checksum verification - Read and verify optional 4-byte checksums
 - [ ] Authentication/authorization - Verify user has permission to query metric
+- [ ] ContinuousAggregateManager integration - Use pre-computed aggregates when available
 
 ## AQL Integration Gaps
 
@@ -283,14 +287,33 @@ To properly integrate timeseries with AQL, the following would be needed:
 
 ## Client Compatibility
 
-All existing native clients will work with this production-ready server-side implementation:
+The wire protocol implementation is now complete, but **client compatibility needs verification**:
 
-- ✅ **Python** (`clients/python/themis/themis_native.py`) - **Ready for production use**
-- ✅ **TypeScript** (`clients/typescript/src/themis-client.ts`) - **Ready for production use**
-- ✅ **Java** (`clients/java/src/main/java/com/themisdb/client/ThemisDBClient.java`) - **Ready for production use**
-- ✅ **Rust** (`clients/rust/src/themis_client.rs`) - **Ready for production use**
+- ⚠️ **Python** (`clients/python/themis/themis_native.py`) - Needs verification against protobuf wire format
+- ⚠️ **TypeScript** (`clients/typescript/src/themis-client.ts`) - Needs verification against protobuf wire format
+- ⚠️ **Java** (`clients/java/src/main/java/com/themisdb/client/ThemisDBClient.java`) - Needs verification
+- ⚠️ **Rust** (`clients/rust/src/themis_client.rs`) - Needs verification
 
-**Status**: All clients can now send TimeSeriesQueryRequest and receive TimeSeriesQueryResponse with actual data. No client-side changes needed.
+**Note**: Server implementation follows protobuf wire format specification. Clients must send TimeSeriesQueryRequest messages in protobuf wire format (varint encoding, field tags, etc.) and parse TimeSeriesQueryResponse accordingly. Some clients may currently use JSON or different wire formats and will need updates to match the protobuf implementation.
+
+## Known Limitations
+
+### Current Limitations (Minor - Optional Enhancements)
+1. **Tag Filters**: Protobuf filter field parsing is skipped (complex map type) - future enhancement
+2. **Multi-bucket Aggregation**: Currently returns single bucket over full range when aggregation requested. Multi-bucket grouping requires querying raw data points and grouping by time windows - future enhancement  
+3. **Checksum Handling**: Optional 4-byte checksums not currently read/verified - future enhancement
+4. **Streaming**: Large result sets returned in single response - could implement cursor-based streaming
+5. **ContinuousAggregateManager**: Integration pattern shown but not actively used in handler - future optimization
+
+### Resolved Issues (From Code Review)
+- ✅ **CMake Build** - wire_protocol_helpers.cpp added to build system
+- ✅ **Payload Offset Bug** - Fixed to read from bytes 8-11 (not 6-9)
+- ✅ **Stale Buffer** - payload_buffer now cleared when payload_size==0
+- ✅ **AsyncWriteResponse** - Implemented proper async write loop
+- ✅ **Endianness** - Fixed fixed64/fixed32 to use little-endian (protobuf spec)
+- ✅ **Aggregation Detection** - Use bucket_size_ns (not aggregation!=0) to detect requests
+
+**Core functionality is production-ready.** Remaining items are optional enhancements.
 
 ## References
 
@@ -302,6 +325,16 @@ All existing native clients will work with this production-ready server-side imp
 
 ## Changelog
 
+### 2026-02-08 - Critical Bug Fixes from Code Review ✅
+- Fixed CMake build system (added wire_protocol_helpers.cpp)
+- Fixed payload length offset bug (bytes 8-11, not 6-9)
+- Fixed stale payload buffer issue
+- Implemented proper asyncWriteResponse with write loop
+- Fixed endianness for fixed64/fixed32 (little-endian per protobuf spec)
+- Fixed aggregation detection (use bucket_size_ns, not aggregation!=0)
+- Updated documentation to clarify bucketing limitations
+- Clarified ContinuousAggregateManager integration status
+
 ### 2026-02-08 - Production-Ready Implementation ✅
 - **BREAKING CHANGE**: Upgraded from MVP to production-ready
 - Added complete protobuf wire format parser/serializer (no library dependency)
@@ -310,7 +343,7 @@ All existing native clients will work with this production-ready server-side imp
 - Fixed async read flow (header -> payload -> dispatch)
 - Added timestamp conversion (ns ↔ ms) with validation
 - Implemented both raw query and aggregation paths
-- Added time bucketing for aggregated results
+- Added basic time bucketing for aggregated results
 - Added comprehensive test coverage (protobuf + integration)
 - Removed all MVP placeholders and TODOs
 
