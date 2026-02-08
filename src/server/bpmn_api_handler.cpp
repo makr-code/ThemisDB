@@ -254,7 +254,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
         json request = json::parse(req.body());
         json variables = request.value("variables", json::object());
         
-        // Extract auth context for assignee
+        // Extract auth context for assignee (future use: could be stored in history/audit)
         auto ctx = extractAuthContext(req);
         std::string assignee = ctx.user_id.empty() ? "unknown" : ctx.user_id;
         

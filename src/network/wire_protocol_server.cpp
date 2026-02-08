@@ -478,7 +478,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
             for (const auto& token : instance.tokens) {
                 if (token.state == ProcessToken::State::READY || 
                     token.state == ProcessToken::State::ACTIVE) {
-                    active_tasks.push_back(token.token_id);
+                    active_tasks.push_back(instance_id + ":" + token.current_node);
                 }
             }
             response["active_task_ids"] = active_tasks;
