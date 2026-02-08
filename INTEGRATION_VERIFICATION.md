@@ -279,9 +279,9 @@ $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
 ### Conditional Compilation
 
 The build system properly handles feature flags:
-- When `THEMIS_ENABLE_HTTP_SERVER=OFF`: HTTP server and handlers are not compiled
+- When `THEMIS_ENABLE_HTTP_SERVER=OFF`: HTTP server sources (e.g., listener and request loop wiring) are not compiled, but API handler classes remain compiled and available
 - When `THEMIS_ENABLE_GRPC=OFF`: gRPC service is not compiled
-- Handlers are always compiled (used by other protocols)
+- API handlers are compiled independently of `THEMIS_ENABLE_HTTP_SERVER` (shared by HTTP, gRPC, and internal callers)
 
 ## Security Considerations
 
@@ -302,22 +302,24 @@ The build system properly handles feature flags:
 ### WalGrpcService
 **Production-Ready Security** (mTLS/TLS Support Added):
 - **mTLS Mode**: Mutual TLS with client certificate verification (recommended for production)
-- **TLS Mode**: Server-side TLS only (client certificates optional)
+- **TLS Mode**: Server-side TLS with optional client certificate verification
 - **Development Mode**: InsecureServerCredentials (⚠️ Not for production)
 - **Certificate Management**: Supports PEM format certificates and keys
-- **Client Verification**: Configurable CA certificate for client authentication
-- **Fallback Behavior**: Automatically falls back to insecure mode if certificate loading fails (with error logging)
+- **Client Verification**: Configurable CA certificate for client authentication (required for mTLS mode)
+- **Fail-Fast Behavior**: Server refuses to start when mTLS is enabled but misconfigured, preventing insecure fallback
 - Input validation for all requests
 - Error handling with proper gRPC status codes
 - Maximum message size limits (100 MB send/receive)
 
 **Security Best Practices**:
 1. Always enable mTLS in production environments
-2. Use strong certificate authorities and keep CA certificates secure
-3. Rotate certificates regularly (recommended: 90-day validity)
-4. Store private keys securely with restricted file permissions (e.g., 0600)
-5. Monitor certificate expiration and renew proactively
-6. Use client certificate verification for zero-trust security model
+2. CA certificate is required when client certificate verification is enabled
+3. Use strong certificate authorities and keep CA certificates secure
+4. Rotate certificates regularly (recommended: 90-day validity)
+5. Store private keys securely with restricted file permissions (e.g., 0600)
+6. Monitor certificate expiration and renew proactively
+7. Use client certificate verification for zero-trust security model
+8. Server will not fall back to insecure mode if TLS configuration fails
 
 ## Performance Characteristics
 

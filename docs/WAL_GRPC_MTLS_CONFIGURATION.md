@@ -16,24 +16,25 @@ The WAL gRPC service supports mutual TLS (mTLS) for secure production deployment
 
 ⚠️ **Warning**: Development mode transmits data in plaintext and should never be used in production.
 
-### 2. Server-side TLS (One-way authentication)
-Server presents a certificate to clients, but clients are not required to authenticate.
+### 2. Server-side TLS (Optional client authentication)
+Server presents a certificate to clients. Clients can optionally present certificates that will be verified if provided.
 
 ```bash
 export THEMIS_WAL_GRPC_ENABLE_MTLS=true
 export THEMIS_WAL_GRPC_CERT_PATH=/etc/themis/certs/server.crt
 export THEMIS_WAL_GRPC_KEY_PATH=/etc/themis/certs/server.key
+export THEMIS_WAL_GRPC_CA_CERT_PATH=/etc/themis/certs/ca.crt  # Optional but recommended
 export THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT=false
 ```
 
 ### 3. Mutual TLS (Two-way authentication) - **Recommended for Production**
-Both server and clients authenticate each other using certificates.
+Both server and clients authenticate each other using certificates. CA certificate is required for client verification.
 
 ```bash
 export THEMIS_WAL_GRPC_ENABLE_MTLS=true
 export THEMIS_WAL_GRPC_CERT_PATH=/etc/themis/certs/server.crt
 export THEMIS_WAL_GRPC_KEY_PATH=/etc/themis/certs/server.key
-export THEMIS_WAL_GRPC_CA_CERT_PATH=/etc/themis/certs/ca.crt
+export THEMIS_WAL_GRPC_CA_CERT_PATH=/etc/themis/certs/ca.crt  # Required for mTLS
 export THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT=true
 ```
 
@@ -44,12 +45,13 @@ export THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT=true
 | `THEMIS_WAL_GRPC_ENABLE_MTLS` | No | `false` | Enable mTLS/TLS for the WAL gRPC service |
 | `THEMIS_WAL_GRPC_CERT_PATH` | Yes* | - | Path to server certificate (PEM format) |
 | `THEMIS_WAL_GRPC_KEY_PATH` | Yes* | - | Path to server private key (PEM format) |
-| `THEMIS_WAL_GRPC_CA_CERT_PATH` | No | - | Path to CA certificate for client verification |
+| `THEMIS_WAL_GRPC_CA_CERT_PATH` | Yes** | - | Path to CA certificate for client verification |
 | `THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT` | No | `true` | Require and verify client certificates |
 | `THEMIS_WAL_GRPC_HOST` | No | `0.0.0.0` | Network interface to bind to |
 | `THEMIS_WAL_GRPC_PORT` | No | `50051` | Port to listen on |
 
-\* Required when `THEMIS_WAL_GRPC_ENABLE_MTLS=true`
+\* Required when `THEMIS_WAL_GRPC_ENABLE_MTLS=true`  
+\*\* Required when `THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT=true` (mutual TLS mode); optional when `REQUIRE_CLIENT_CERT=false` (server-side TLS mode)
 
 ## Certificate Generation
 
@@ -264,13 +266,34 @@ grpcurl -cacert ca.crt \
 
 ## Troubleshooting
 
+### TLS Configuration Error - Server Won't Start
+```
+[ERROR] WAL gRPC: Failed to configure mTLS: ... Server will NOT start to avoid insecure fallback in production.
+[ERROR] WAL gRPC: Fix the TLS configuration or set THEMIS_WAL_GRPC_ENABLE_MTLS=false for development.
+[ERROR] WAL gRPC Apply service NOT started due to TLS configuration errors
+```
+
+**Cause**: When `THEMIS_WAL_GRPC_ENABLE_MTLS=true`, the server will refuse to start if TLS configuration is invalid. This prevents accidental downgrade to insecure mode in production.
+
+**Solution**: 
+- Verify all required environment variables are set correctly
+- Check that certificate files exist and are readable by the ThemisDB process
+- For mutual TLS (`REQUIRE_CLIENT_CERT=true`), ensure `CA_CERT_PATH` is configured
+- To run in development mode without TLS, set `THEMIS_WAL_GRPC_ENABLE_MTLS=false`
+
 ### Certificate Not Found
 ```
-[ERROR] WAL gRPC: Failed to load mTLS certificates: Failed to read file: ...
-[WARN] WAL gRPC: Using insecure credentials due to mTLS configuration error
+[ERROR] WAL gRPC: Failed to configure mTLS: Failed to read file: ...
 ```
 
 **Solution**: Verify file paths and permissions. Ensure the files exist and are readable by the ThemisDB process.
+
+### Missing CA Certificate for Mutual TLS
+```
+[ERROR] WAL gRPC: Failed to configure mTLS: THEMIS_WAL_GRPC_CA_CERT_PATH is required when THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT is true
+```
+
+**Solution**: When `THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT=true`, the `THEMIS_WAL_GRPC_CA_CERT_PATH` must be set to verify client certificates.
 
 ### Certificate Validation Failed
 ```
@@ -298,6 +321,8 @@ grpcurl -cacert ca.crt \
 6. **Use Production CAs**: Avoid self-signed certificates in production
 7. **Enable mTLS**: Always require client certificates in production
 8. **Audit Logs**: Monitor certificate validation failures
+9. **Fail-Fast Configuration**: The server refuses to start when TLS is misconfigured, preventing accidental insecure fallback
+10. **Required CA Certificate**: Always configure CA certificate when using mutual TLS to avoid trusting public CAs
 
 ## References
 
