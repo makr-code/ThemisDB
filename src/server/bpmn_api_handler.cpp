@@ -254,10 +254,6 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
         json request = json::parse(req.body());
         json variables = request.value("variables", json::object());
         
-        // Extract auth context for assignee (future use: could be stored in history/audit)
-        auto ctx = extractAuthContext(req);
-        std::string assignee = ctx.user_id.empty() ? "unknown" : ctx.user_id;
-        
         // Task ID format: "instance_id:node_id"
         std::string instance_id;
         std::string node_id;
@@ -416,6 +412,8 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
                 for (const auto& node : token.visited_nodes) {
                     json event;
                     event["event_type"] = "node_visited";
+                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
+                    // only token creation time. Future enhancement: add visit timestamp tracking.
                     event["timestamp_ns"] = token.created_at_ms * 1000000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;

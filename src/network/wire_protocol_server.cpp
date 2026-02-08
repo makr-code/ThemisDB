@@ -416,8 +416,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     try {
         // Parse JSON payload
         // Expected format: { "process_definition_key": "...", "variables": {...}, "business_key": "..." }
-        std::string payload_str(payload_buffer_.begin(), payload_buffer_.end());
-        json request = json::parse(payload_str);
+        json request = parsePayloadJson(payload_buffer_);
 
         std::string process_key = request.value("process_definition_key", "");
         json variables = request.value("variables", json::object());
@@ -515,8 +514,7 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     try {
         // Parse JSON payload
         // Expected format: { "task_id": "...", "variables": {...}, "assignee": "..." }
-        std::string payload_str(payload_buffer_.begin(), payload_buffer_.end());
-        json request = json::parse(payload_str);
+        json request = parsePayloadJson(payload_buffer_);
 
         std::string task_id = request.value("task_id", "");
         json variables = request.value("variables", json::object());
@@ -603,8 +601,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
     try {
         // Parse JSON payload
         // Expected format: { "process_instance_id": "...", "include_variables": true/false, "include_history": true/false }
-        std::string payload_str(payload_buffer_.begin(), payload_buffer_.end());
-        json request = json::parse(payload_str);
+        json request = parsePayloadJson(payload_buffer_);
 
         std::string instance_id = request.value("process_instance_id", "");
         bool include_variables = request.value("include_variables", true);
@@ -679,6 +676,8 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
                 for (const auto& node : token.visited_nodes) {
                     json event;
                     event["event_type"] = "node_visited";
+                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
+                    // only token creation time. Future enhancement: add visit timestamp tracking.
                     event["timestamp_ns"] = token.created_at_ms * 1000000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
