@@ -20,6 +20,14 @@
 #include <memory>
 #include <string>
 #include <filesystem>
+#include <ctime>
+
+#ifdef _WIN32
+#include <process.h>
+#define getpid _getpid
+#else
+#include <unistd.h>
+#endif
 
 using namespace themis;
 using namespace themis::server;
@@ -72,11 +80,11 @@ protected:
     }
     
     void TearDown() override {
-        // Cleanup test database
-        storage_.reset();
+        // Destroy managers that may hold references into storage_ before resetting storage_
         secondary_index_.reset();
         graph_index_.reset();
         tx_manager_.reset();
+        storage_.reset();
         
         std::filesystem::remove_all(test_db_path_);
     }

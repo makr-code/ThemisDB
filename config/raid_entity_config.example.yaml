@@ -12,16 +12,19 @@
 # Documentation: See docs/PRODUCTION_READINESS_RAID_HTTP_GRPC.md
 
 # =============================================================================
-# Entity API Configuration
+# NOTE: The server does NOT parse the `entity_api` section from YAML.
+# Runtime RAID control is via `raid.enabled` in the `raid` section below.
+# The `entity_api` section here is DOCUMENTATION-ONLY to illustrate features.
 # =============================================================================
 entity_api:
-  # Enable RAID-style redundancy for entity writes
-  # Default: false (automatically enabled if raid.enabled = true and components configured)
+  # Illustrative flag for "Entity API RAID feature" (NOT PARSED BY SERVER)
+  # Real runtime control is via `raid.enabled` (see below)
   feature_raid: true
   
-  # Enable other optional features
-  feature_cdc: true       # Change data capture
-  feature_geo: true       # Geo/spatial indexing
+  # Illustrative toggles for other optional Entity API features (NOT PARSED)
+  # Actual feature flags must be provided under `features.*` in main config
+  feature_cdc: true          # Change data capture
+  feature_geo: true          # Geo/spatial indexing
   feature_replication: true  # WAL replication and write concerns
 
 # =============================================================================

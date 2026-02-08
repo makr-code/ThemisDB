@@ -36,6 +36,9 @@
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
 #include "sharding/replica_topology.h"
+#include "sharding/redundancy_strategy.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -1091,24 +1094,27 @@ int main(int argc, char* argv[]) {
             }
             hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_nodes);
 
-            // Add shards to hash ring
+            // Create shard topology
+            shard_topology = std::make_shared<themis::sharding::ShardTopology>();
+
+            // Add shards to hash ring and topology
             if (cfg->contains("sharding") && (*cfg)["sharding"].contains("shards")) {
                 const auto& shards = (*cfg)["sharding"]["shards"];
                 for (const auto& shard : shards) {
                     if (shard.contains("id")) {
                         std::string shard_id = shard["id"].get<std::string>();
                         hash_ring->addNode(shard_id);
-                        THEMIS_INFO("  Added shard to hash ring: {}", shard_id);
+                        shard_topology->addShard(shard_id);
+                        THEMIS_INFO("  Added shard to hash ring and topology: {}", shard_id);
                     }
                 }
             } else {
                 // Default: add local shard
-                hash_ring->addNode("shard-0");
-                THEMIS_INFO("  Added default shard to hash ring: shard-0");
+                const std::string default_shard_id = "shard-0";
+                hash_ring->addNode(default_shard_id);
+                shard_topology->addShard(default_shard_id);
+                THEMIS_INFO("  Added default shard to hash ring and topology: {}", default_shard_id);
             }
-
-            // Create shard topology
-            shard_topology = std::make_shared<themis::sharding::ShardTopology>();
 
             // Create redundancy manager
             redundancy_manager = std::make_shared<themis::sharding::CollectionRedundancyManager>();

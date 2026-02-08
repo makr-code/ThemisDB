@@ -511,7 +511,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                 // Get redundancy strategy for this collection (table)
                 auto strategy = redundancy_manager_->getStrategy(table);
                 if (strategy) {
-                    THEMIS_INFO("Applying RAID redundancy for {}:{} using mode {}", 
+                    THEMIS_DEBUG("Applying RAID redundancy for {}:{} using mode {}", 
                                 table, pk, static_cast<int>(strategy->getConfig().mode));
                     
                     // Create write handler that writes to shards
@@ -533,8 +533,9 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         }
                     };
                     
-                    // Convert data to bytes
-                    std::vector<uint8_t> data_bytes(blob_str.begin(), blob_str.end());
+                    // Convert data to bytes using the same serialized representation as the primary write
+                    std::string serialized_entity = entity.serialize();
+                    std::vector<uint8_t> data_bytes(serialized_entity.begin(), serialized_entity.end());
                     
                     // Apply redundancy strategy
                     auto write_result = strategy->write(
@@ -558,7 +559,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         span.setAttribute("raid.mode", static_cast<int>(strategy->getConfig().mode));
                         span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
                         span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
-                        THEMIS_INFO("RAID write successful for {}: {} shards written in {}ms", 
+                        THEMIS_DEBUG("RAID write successful for {}: {} shards written in {}ms", 
                                    key, write_result.written_shards.size(), write_result.latency.count());
                     }
                 }

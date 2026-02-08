@@ -63,15 +63,14 @@ The configuration file `config/raid_entity_config.example.yaml` settings are **a
 3. **Configure shards** in the `sharding.shards` section
 4. **Configure per-collection RAID modes** in `raid.collections`
 
+**Note:** The `entity_api` section in the example config is **documentation-only** and not parsed by the server. RAID is controlled by `raid.enabled`.
+
 **Example configuration:**
 
 ```yaml
 # config/raid_entity_config.example.yaml
-entity_api:
-  feature_raid: true
-
 raid:
-  enabled: true
+  enabled: true  # This is the actual runtime control
   default:
     mode: MIRROR
     replication_factor: 3
