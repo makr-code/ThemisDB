@@ -204,6 +204,7 @@ private:
     // Lazy-parsed field cache (shared_ptr für Copy-Semantik)
     mutable std::shared_ptr<FieldMap> field_cache_;
     mutable bool cache_valid_ = false;
+    mutable bool parse_failed_ = false;  // Track parse failure to avoid retry spam
     
     // Geo support (optional, cross-cutting capability)
     std::optional<Blob> geometry_;                      // EWKB blob

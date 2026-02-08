@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include "utils/serialization.h"
 
 using namespace themis;
 
@@ -297,8 +298,6 @@ TEST_F(BaseEntityTest, SafeUInt64Conversion) {
     BaseEntity::FieldMap fields;
     // NOTE: BaseEntity::Value uses int64_t, not uint64_t, as a design choice
     // This test verifies that INT64_MAX values work correctly within that constraint
-    // The actual UINT64→INT64 clamping logic is tested indirectly through binary 
-    // deserialization paths (which would trigger the bounds checking in parseBinary())
     fields["large_number"] = int64_t(9223372036854775807LL); // INT64_MAX
     
     BaseEntity entity("test", fields);
@@ -314,6 +313,40 @@ TEST_F(BaseEntityTest, SafeUInt64Conversion) {
     EXPECT_EQ(*roundtrip_value, 9223372036854775807LL);
 }
 
+TEST_F(BaseEntityTest, UINT64OverflowClamping) {
+    // Test UINT64 overflow clamping by crafting a binary blob with UINT64 > INT64_MAX
+    utils::Serialization::Encoder encoder;
+    encoder.beginObject(1);
+    encoder.encodeString("overflow_field");
+    encoder.encodeUInt64(18446744073709551615ULL);  // UINT64_MAX
+    encoder.endObject();
+    
+    auto blob = encoder.finish();
+    BaseEntity entity = BaseEntity::deserialize("test", blob);
+    
+    // Value should be clamped to INT64_MAX
+    auto value = entity.getFieldAsInt("overflow_field");
+    ASSERT_TRUE(value.has_value());
+    EXPECT_EQ(*value, std::numeric_limits<int64_t>::max());
+}
+
+TEST_F(BaseEntityTest, UINT32SafeConversion) {
+    // Test UINT32 conversion (UINT32_MAX < INT64_MAX, so no clamping needed)
+    utils::Serialization::Encoder encoder;
+    encoder.beginObject(1);
+    encoder.encodeString("uint32_field");
+    encoder.encodeUInt32(4294967295U);  // UINT32_MAX
+    encoder.endObject();
+    
+    auto blob = encoder.finish();
+    BaseEntity entity = BaseEntity::deserialize("test", blob);
+    
+    // UINT32_MAX fits in int64_t without clamping
+    auto value = entity.getFieldAsInt("uint32_field");
+    ASSERT_TRUE(value.has_value());
+    EXPECT_EQ(*value, 4294967295LL);
+}
+
 TEST_F(BaseEntityTest, NonNegativeRotationPosition) {
     BaseEntity entity("test");
     entity.setField("embedding_rotation_pos", int64_t(5));
@@ -327,4 +360,5 @@ TEST_F(BaseEntityTest, NonNegativeRotationPosition) {
     auto bad_pos = entity.getRotationPosition("bad");
     EXPECT_FALSE(bad_pos.has_value());
 }
+
 

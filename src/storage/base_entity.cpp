@@ -48,6 +48,11 @@ void BaseEntity::ensureCache() const {
         return;
     }
     
+    // If parse previously failed, don't retry to avoid log spam and CPU churn
+    if (parse_failed_) {
+        return;
+    }
+    
     if (blob_.empty()) {
         field_cache_ = std::make_shared<FieldMap>();
         cache_valid_ = true;
@@ -64,14 +69,16 @@ void BaseEntity::ensureCache() const {
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to parse entity blob (format={}): {}", 
                      format_ == Format::JSON ? "JSON" : "BINARY", e.what());
-        // Don't mark cache as valid on parse failure - allow retry
+        // Mark parse as failed to prevent repeated retries and log spam
+        parse_failed_ = true;
         field_cache_ = std::make_shared<FieldMap>();
-        cache_valid_ = false;
+        cache_valid_ = true;  // Cache is valid (empty) to prevent retries
     }
 }
 
 void BaseEntity::invalidateCache() {
     cache_valid_ = false;
+    parse_failed_ = false;  // Reset parse failure flag on explicit invalidation
     field_cache_.reset();
 }
 
@@ -326,7 +333,14 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     fields[field_name] = decoder.decodeInt64();
                     break;
                     
-                case utils::Serialization::TypeTag::UINT32:
+                case utils::Serialization::TypeTag::UINT32: {
+                    // UINT32 uses 4 bytes - must use decodeUInt32() not decodeUInt64()
+                    uint32_t uint_val = decoder.decodeUInt32();
+                    // Safe to convert UINT32 to INT64 - UINT32_MAX < INT64_MAX
+                    fields[field_name] = static_cast<int64_t>(uint_val);
+                    break;
+                }
+                    
                 case utils::Serialization::TypeTag::UINT64: {
                     uint64_t uint_val = decoder.decodeUInt64();
                     // DESIGN LIMITATION: BaseEntity::Value only supports int64_t, not uint64_t
@@ -361,10 +375,11 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     break;
                     
                 default:
-                    // Log warning for unknown types instead of silently skipping
-                    THEMIS_WARN("Skipping unknown type tag {} for field '{}'", 
-                               static_cast<int>(type), field_name);
-                    break;
+                    // Fail fast on unknown or unsupported type tags to avoid decoder desynchronization
+                    // Continuing after unknown tag can cause subsequent reads to go out of bounds
+                    THEMIS_ERROR("Unknown or unsupported type tag {} for field '{}'. Cannot safely continue parsing.",
+                                static_cast<int>(type), field_name);
+                    throw std::runtime_error("Unknown type tag encountered while parsing BaseEntity binary blob");
             }
         }
         
