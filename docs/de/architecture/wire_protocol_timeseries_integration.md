@@ -158,27 +158,28 @@ if (use_aggregates && agg_manager_) {
 - [x] Wire frame response structure with proper byte ordering
 - [x] **Comprehensive test coverage (protobuf helpers + integration)**
 - [x] **Working asyncWriteResponse implementation**
+- [x] **Checksum handling with SKIP_CHECKSUM flag support**
+- [x] **Multi-bucket aggregation with raw data grouping**
 
 ### 🎯 Production Features
 - ✅ **No protobuf library dependency** - Manual wire format implementation
 - ✅ **Request validation** - Collection name, timestamp ranges, aggregation types
 - ✅ **Performance tracking** - Query execution time measurement
 - ✅ **Multiple aggregation types** - AVG, SUM, MIN, MAX, COUNT
-- ✅ **Basic bucketing** - Single bucket per aggregation request (multi-bucket requires raw data grouping)
+- ✅ **Multi-bucket aggregation** - Queries raw data and groups by time windows
+- ✅ **Checksum handling** - Reads and honors SKIP_CHECKSUM flag
 - ✅ **Detailed stats** - Total data points, buckets returned, data density
 - ✅ **Error codes** - Specific error codes for different failure scenarios
 - ✅ **Safe error handling** - Try-catch blocks with fallback messages
 - ✅ **Async write loop** - Proper response sending with write queue management
 
 ### 📋 Optional Enhancements (Future)
-- [ ] **Multi-bucket aggregation** - Requires querying raw data and grouping by time windows
 - [ ] Tag filter mapping - Map protobuf filters to TSStore tag_filter JSON
-- [ ] Advanced bucketing - Sliding windows, overlapping buckets, etc.
+- [ ] Advanced bucketing strategies - Sliding windows, overlapping buckets
 - [ ] Query caching - Cache frequently accessed time ranges
 - [ ] Compression - LZ4 compression for large responses
 - [ ] Streaming - Stream large result sets incrementally
-- [ ] Checksum verification - Read and verify optional 4-byte checksums
-- [ ] Authentication/authorization - Verify user has permission to query metric
+- [ ] Checksum verification - Verify checksum against header + payload (currently just consumed)
 - [ ] ContinuousAggregateManager integration - Use pre-computed aggregates when available
 
 ## AQL Integration Gaps
@@ -300,20 +301,21 @@ The wire protocol implementation is now complete, but **client compatibility nee
 
 ### Current Limitations (Minor - Optional Enhancements)
 1. **Tag Filters**: Protobuf filter field parsing is skipped (complex map type) - future enhancement
-2. **Multi-bucket Aggregation**: Currently returns single bucket over full range when aggregation requested. Multi-bucket grouping requires querying raw data points and grouping by time windows - future enhancement  
-3. **Checksum Handling**: Optional 4-byte checksums not currently read/verified - future enhancement
-4. **Streaming**: Large result sets returned in single response - could implement cursor-based streaming
-5. **ContinuousAggregateManager**: Integration pattern shown but not actively used in handler - future optimization
+2. **Checksum Verification**: Checksums are read but not verified against payload - future enhancement
+3. **Streaming**: Large result sets returned in single response - could implement cursor-based streaming
+4. **ContinuousAggregateManager**: Integration pattern shown but not actively used in handler - future optimization
 
-### Resolved Issues (From Code Review)
+### Resolved Issues (From Code Review + Future Enhancements)
 - ✅ **CMake Build** - wire_protocol_helpers.cpp added to build system
 - ✅ **Payload Offset Bug** - Fixed to read from bytes 8-11 (not 6-9)
 - ✅ **Stale Buffer** - payload_buffer now cleared when payload_size==0
 - ✅ **AsyncWriteResponse** - Implemented proper async write loop
 - ✅ **Endianness** - Fixed fixed64/fixed32 to use little-endian (protobuf spec)
 - ✅ **Aggregation Detection** - Use bucket_size_ns (not aggregation!=0) to detect requests
+- ✅ **Checksum Handling** - Now reads checksums with SKIP_CHECKSUM flag support
+- ✅ **Multi-bucket Aggregation** - Implemented with raw data grouping by time windows
 
-**Core functionality is production-ready.** Remaining items are optional enhancements.
+**Core functionality is fully production-ready.** Remaining items are minor optional enhancements.
 
 ## References
 
@@ -325,6 +327,15 @@ The wire protocol implementation is now complete, but **client compatibility nee
 
 ## Changelog
 
+### 2026-02-08 - Future Enhancements Implemented ✅
+- Implemented checksum handling with SKIP_CHECKSUM flag support
+- Implemented multi-bucket aggregation with raw data grouping
+- Parse flags from wire frame header (bytes 6-7)
+- Read optional 4-byte checksum after payload
+- Query raw data points and group by time windows for bucketing
+- Apply aggregation functions (AVG, SUM, MIN, MAX, COUNT) per bucket
+- Calculate proper min/max/count statistics per bucket
+
 ### 2026-02-08 - Critical Bug Fixes from Code Review ✅
 - Fixed CMake build system (added wire_protocol_helpers.cpp)
 - Fixed payload length offset bug (bytes 8-11, not 6-9)
@@ -332,7 +343,7 @@ The wire protocol implementation is now complete, but **client compatibility nee
 - Implemented proper asyncWriteResponse with write loop
 - Fixed endianness for fixed64/fixed32 (little-endian per protobuf spec)
 - Fixed aggregation detection (use bucket_size_ns, not aggregation!=0)
-- Updated documentation to clarify bucketing limitations
+- Updated documentation to clarify limitations
 - Clarified ContinuousAggregateManager integration status
 
 ### 2026-02-08 - Production-Ready Implementation ✅
