@@ -849,6 +849,11 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
 
 bool RocksDBWrapper::WriteBatchWithIndexWrapper::commit() {
     if (!db_ || !batch_) return false;
+    
+    // DESIGN NOTE: WriteBatchWithIndex uses direct DB write (not Transaction) for performance
+    // This is intentional - batch operations provide atomicity without MVCC overhead
+    // For full MVCC isolation, use TransactionWrapper instead
+    
     // WriteBatchWithIndex inherits from WriteBatch - cast to parent
     rocksdb::WriteBatch* wb = dynamic_cast<rocksdb::WriteBatch*>(batch_.get());
     if (!wb) return false;
@@ -1105,6 +1110,11 @@ std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransac
 
 bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
     if (!db_) return false;
+    
+    // DESIGN NOTE: WriteBatch uses direct DB write (not Transaction) for performance
+    // This is intentional - batch operations provide atomicity without MVCC overhead
+    // Batch operations are atomic at the RocksDB level but do not participate in
+    // transaction isolation. For full MVCC isolation, use TransactionWrapper instead.
     
     rocksdb::Status status = db_->Write(*write_options_, batch);
     return status.ok();

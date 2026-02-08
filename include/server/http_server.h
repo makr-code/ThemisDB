@@ -330,10 +330,7 @@ private:
     // moved to MonitoringApiHandler
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);  // Old content-specific metrics (deprecated)
     http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
+    // Entity handlers moved to EntityApiHandler (entity_api_)
     // Query handlers moved to QueryApiHandler
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
@@ -348,9 +345,8 @@ private:
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
-    // Admin: Backup & Restore
-    http::response<http::string_body> handleAdminBackup(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleAdminRestore(const http::request<http::string_body>& req);
+    // Admin handlers moved to AdminApiHandler (admin_api_)
+    // Previously: handleAdminBackup, handleAdminRestore
 
     // Content API endpoints
     http::response<http::string_body> handleContentImport(const http::request<http::string_body>& req);
