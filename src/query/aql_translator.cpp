@@ -975,7 +975,31 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             return nullptr;
         };
         
-        // Helper to collect all non-FULLTEXT predicates from AND tree
+        // Helper to recursively find ST_* spatial function in AND tree
+        std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findSpatial;
+        findSpatial = [&](const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
+            if (!e) return nullptr;
+            
+            if (e->getType() == ASTNodeType::FunctionCall) {
+                auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
+                std::string name = fc->name;
+                std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+                if (name.compare(0, 3, "st_") == 0) return fc;
+            }
+            
+            if (e->getType() == ASTNodeType::BinaryOp) {
+                auto bo = std::static_pointer_cast<BinaryOpExpr>(e);
+                if (bo->op == BinaryOperator::And) {
+                    auto left = findSpatial(bo->left);
+                    if (left) return left;
+                    return findSpatial(bo->right);
+                }
+            }
+            
+            return nullptr;
+        };
+        
+        // Helper to collect all non-FULLTEXT and non-spatial predicates from AND tree
         std::function<void(const std::shared_ptr<Expression>&, std::vector<std::shared_ptr<Expression>>&)> collectNonFulltext;
         collectNonFulltext = [&](const std::shared_ptr<Expression>& e, std::vector<std::shared_ptr<Expression>>& preds) {
             if (!e) return;
@@ -984,10 +1008,10 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
                 std::string name = fc->name;
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                if (name != "fulltext") {
-                    preds.push_back(e); // Non-FULLTEXT function
+                if (name != "fulltext" && name.compare(0, 3, "st_") != 0) {
+                    preds.push_back(e); // Non-FULLTEXT, non-spatial function
                 }
-                // Skip FULLTEXT itself
+                // Skip FULLTEXT and ST_* themselves
                 return;
             }
             
@@ -1057,6 +1081,139 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     
                     continue; // Successfully handled FULLTEXT AND <predicates>
+                }
+                
+                // Check for ST_* spatial predicate in AND combination
+                auto spatialFunc = findSpatial(filter->condition);
+                
+                if (spatialFunc) {
+                    // Parse ST_* spatial function part
+                    std::string funcName = spatialFunc->name;
+                    std::transform(funcName.begin(), funcName.end(), funcName.begin(), ::tolower);
+                    
+                    PredicateSpatial::Operation operation;
+                    if (funcName == "st_intersects") {
+                        operation = PredicateSpatial::Operation::Intersects;
+                    } else if (funcName == "st_within") {
+                        operation = PredicateSpatial::Operation::Within;
+                    } else if (funcName == "st_contains") {
+                        operation = PredicateSpatial::Operation::Contains;
+                    } else if (funcName == "st_dwithin") {
+                        operation = PredicateSpatial::Operation::DWithin;
+                    } else {
+                        return TranslationResult::Error("Unsupported spatial function: " + funcName);
+                    }
+                    
+                    // Parse ST_*(column, geometry [, distance])
+                    if (operation == PredicateSpatial::Operation::DWithin) {
+                        if (spatialFunc->arguments.size() != 3) {
+                            return TranslationResult::Error("ST_DWithin() requires 3 arguments: ST_DWithin(column, geometry, distance)");
+                        }
+                    } else {
+                        if (spatialFunc->arguments.size() != 2) {
+                            return TranslationResult::Error(funcName + "() requires 2 arguments: " + funcName + "(column, geometry)");
+                        }
+                    }
+                    
+                    // Extract column (must be field access: doc.location)
+                    if (spatialFunc->arguments[0]->getType() != ASTNodeType::FieldAccess) {
+                        return TranslationResult::Error(funcName + "() first argument must be field access (e.g., doc.location)");
+                    }
+                    std::string column = extractColumnName(spatialFunc->arguments[0]);
+                    
+                    // Store query geometry expression for runtime evaluation
+                    auto queryGeomExpr = spatialFunc->arguments[1];
+                    
+                    // Extract optional distance for ST_DWithin
+                    std::optional<double> distance;
+                    if (operation == PredicateSpatial::Operation::DWithin) {
+                        if (spatialFunc->arguments[2]->getType() != ASTNodeType::Literal) {
+                            return TranslationResult::Error("ST_DWithin() distance must be numeric literal");
+                        }
+                        auto distLiteral = std::static_pointer_cast<LiteralExpr>(spatialFunc->arguments[2]);
+                        if (std::holds_alternative<int64_t>(distLiteral->value)) {
+                            distance = static_cast<double>(std::get<int64_t>(distLiteral->value));
+                        } else if (std::holds_alternative<double>(distLiteral->value)) {
+                            distance = std::get<double>(distLiteral->value);
+                        } else {
+                            return TranslationResult::Error("ST_DWithin() distance must be numeric");
+                        }
+                    }
+                    
+                    // Compute bbox from queryGeomExpr for index filtering
+                    std::optional<std::pair<double, double>> bbox_min;
+                    std::optional<std::pair<double, double>> bbox_max;
+                    
+                    // Helper to parse a simple bbox literal (reuse from earlier)
+                    auto parseSimpleBbox = [](const std::string &text,
+                                               std::optional<std::pair<double, double>> &out_min,
+                                               std::optional<std::pair<double, double>> &out_max) {
+                        // Extract numeric values from string like [[10.0,50.0],[11.0,51.0]]
+                        std::string numericOnly;
+                        numericOnly.reserve(text.size());
+                        for (char c : text) {
+                            if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
+                                c == '.' || c == 'e' || c == 'E') {
+                                numericOnly.push_back(c);
+                            } else {
+                                numericOnly.push_back(' ');
+                            }
+                        }
+
+                        std::stringstream ss(numericOnly);
+                        double minx, miny, maxx, maxy;
+                        if (!(ss >> minx >> miny >> maxx >> maxy)) {
+                            return; // Parse failed
+                        }
+                        
+                        // Validate bbox is valid (min <= max)
+                        if (minx > maxx || miny > maxy) {
+                            THEMIS_WARN("Invalid bbox: min must be <= max (minx={}, maxx={}, miny={}, maxy={})",
+                                       minx, maxx, miny, maxy);
+                            return; // Invalid bbox
+                        }
+                        
+                        out_min = std::make_pair(minx, miny);
+                        out_max = std::make_pair(maxx, maxy);
+                    };
+                    
+                    // Try to extract simple bbox for literal geometry expressions
+                    if (queryGeomExpr->getType() == ASTNodeType::Literal) {
+                        auto lit = std::static_pointer_cast<LiteralExpr>(queryGeomExpr);
+                        if (std::holds_alternative<std::string>(lit->value)) {
+                            const std::string &geojson = std::get<std::string>(lit->value);
+                            parseSimpleBbox(geojson, bbox_min, bbox_max);
+                        }
+                    }
+                    
+                    // Only set spatial predicate if we have a valid bbox
+                    if (bbox_min && bbox_max) {
+                        query.spatialPredicate = PredicateSpatial{
+                            column,
+                            operation,
+                            queryGeomExpr,
+                            distance,
+                            bbox_min,
+                            bbox_max
+                        };
+                        
+                        // Collect all non-spatial predicates
+                        std::vector<std::shared_ptr<Expression>> predicateExprs;
+                        collectNonFulltext(filter->condition, predicateExprs);
+                        
+                        // Extract each predicate
+                        for (const auto& predExpr : predicateExprs) {
+                            if (!extractPredicates(predExpr, query.predicates, query.rangePredicates, error)) {
+                                return TranslationResult::Error("Filter translation failed: " + error);
+                            }
+                        }
+                        
+                        continue; // Successfully handled ST_* AND <predicates>
+                    } else {
+                        // Cannot compute bbox - log warning and fall through to normal processing
+                        THEMIS_WARN("Spatial predicate {} in AND requires bbox but could not compute from expression", 
+                                    funcName);
+                    }
                 }
             }
         }
