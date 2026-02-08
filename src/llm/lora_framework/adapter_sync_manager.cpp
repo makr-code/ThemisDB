@@ -1,5 +1,6 @@
 #include "llm/lora_framework/adapter_sync_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
+#include "sharding/secure_transport_client.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <mutex>
@@ -41,6 +42,30 @@ public:
         spdlog::info("  Auto-sync: {}", config_.enable_auto_sync);
         spdlog::info("  Max retries: {}", config_.max_retries);
         spdlog::info("  Metrics: {}", config_.enable_metrics);
+        
+        // Initialize transport client if certificates provided
+        if (!config_.cert_path.empty()) {
+            sharding::SecureTransportClient::Config transport_config;
+            transport_config.cert_path = config_.cert_path;
+            transport_config.key_path = config_.key_path;
+            transport_config.ca_cert_path = config_.ca_cert_path;
+            transport_config.max_retries = config_.max_retries;
+            transport_config.retry_delay_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                config_.retry_delay
+            ).count();
+            
+            if (config_.enable_compression) {
+                transport_config.compression = sharding::SecureTransportClient::Config::CompressionType::Zstd;
+                transport_config.compression_level = config_.compression_level;
+            } else {
+                transport_config.compression = sharding::SecureTransportClient::Config::CompressionType::None;
+            }
+            
+            transport_client_ = std::make_shared<sharding::SecureTransportClient>(transport_config);
+            spdlog::info("  Transport: mTLS + compression enabled");
+        } else {
+            spdlog::warn("  Transport: No certificates configured, sync will fail");
+        }
         
 #ifdef THEMIS_HAS_PROMETHEUS
         if (config_.enable_metrics) {
@@ -336,19 +361,90 @@ private:
         const AdapterWeights& weights,
         const AdapterMetadata& metadata
     ) {
-        // In a real implementation, this would:
-        // 1. Serialize adapter data
-        // 2. Send via RPC to peer shard
-        // 3. Wait for acknowledgment
-        // 4. Handle retries
+        if (!transport_client_ || !transport_client_->isReady()) {
+            spdlog::error("Transport client not ready for syncing adapter {} to peer {}",
+                         adapter_id, peer_shard_id);
+            return false;
+        }
         
-        // For now, just log the operation
-        spdlog::debug("Syncing adapter {} to peer {}", adapter_id, peer_shard_id);
-        
-        // Simulate success (in production, use actual RPC)
-        stats_.bytes_transferred += weights.data.size();
-        
-        return true;  // Assume success for now
+        try {
+            // Get peer endpoint from topology
+            auto shards = topology_->getHealthyShards();
+            std::string peer_endpoint;
+            
+            for (const auto& shard : shards) {
+                if (shard.shard_id == peer_shard_id) {
+                    peer_endpoint = shard.endpoint;
+                    break;
+                }
+            }
+            
+            if (peer_endpoint.empty()) {
+                spdlog::error("Peer shard {} not found in topology", peer_shard_id);
+                return false;
+            }
+            
+            // Prepare payload with metadata and weights
+            sharding::SecureTransportClient::Payload payload;
+            
+            // Serialize weights data
+            payload.data = std::string(weights.data.begin(), weights.data.end());
+            payload.content_type = "application/octet-stream";
+            
+            // Add integrity checks
+            payload.checksum = metadata.checksum;
+            payload.signature = metadata.signature;
+            
+            // Add metadata
+            payload.metadata = nlohmann::json{
+                {"adapter_id", adapter_id},
+                {"version", metadata.version},
+                {"base_model", metadata.base_model},
+                {"description", metadata.description},
+                {"training_samples", metadata.training_samples},
+                {"validation_accuracy", metadata.validation_accuracy},
+                {"created_at", std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    metadata.created_at.time_since_epoch()).count()},
+                {"updated_at", std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    metadata.updated_at.time_since_epoch()).count()},
+                {"size_bytes", weights.size_bytes},
+                {"format", weights.format},
+                {"hyperparameters", weights.hyperparameters.toJSON()},
+                {"custom_metadata", metadata.custom_metadata}
+            };
+            
+            // Perform transfer
+            spdlog::info("Syncing adapter {} ({} bytes) to peer {} at {}",
+                        adapter_id, weights.data.size(), peer_shard_id, peer_endpoint);
+            
+            auto result = transport_client_->transfer(
+                peer_endpoint,
+                "/api/v1/lora/receive",
+                payload
+            );
+            
+            if (result.success) {
+                spdlog::info("Successfully synced adapter {} to peer {} "
+                           "(sent {} bytes, compressed to {}, ratio: {:.2f}x, retries: {})",
+                           adapter_id, peer_shard_id,
+                           result.bytes_sent, result.bytes_compressed,
+                           result.compression_ratio, result.retry_count);
+                
+                // Update statistics
+                stats_.bytes_transferred += result.bytes_sent;
+                
+                return true;
+            } else {
+                spdlog::error("Failed to sync adapter {} to peer {}: {}",
+                            adapter_id, peer_shard_id, result.error);
+                return false;
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Exception while syncing adapter {} to peer {}: {}",
+                         adapter_id, peer_shard_id, e.what());
+            return false;
+        }
     }
     
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -446,6 +542,7 @@ private:
     std::shared_ptr<LoRAStorageService> storage_service_;
     std::shared_ptr<sharding::ShardTopology> topology_;
     std::shared_ptr<AdapterConsistencyChecker> consistency_checker_;
+    std::shared_ptr<sharding::SecureTransportClient> transport_client_;
     
     std::atomic<bool> running_;
     std::thread sync_thread_;

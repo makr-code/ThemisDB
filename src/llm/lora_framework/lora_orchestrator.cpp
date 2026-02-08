@@ -56,6 +56,10 @@ public:
     std::unordered_map<std::string, std::vector<std::string>> versions;
     std::unordered_map<std::string, JobInfo> jobs;
     std::vector<EventCallback> callbacks;
+    
+    // Component instances for cross-shard sync
+    std::shared_ptr<LoRAStorageService> storage_service;
+    std::shared_ptr<AdapterConsistencyChecker> consistency_checker;
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& /*config*/) : impl_(std::make_unique<Impl>()) {
@@ -448,6 +452,14 @@ MultiLoRAManager* LoRAOrchestrator::getMultiLoRAManager() {
 
 void LoRAOrchestrator::enableAdvancedFeatures(bool enable) {
     impl_->advanced_enabled = enable;
+}
+
+std::shared_ptr<LoRAStorageService> LoRAOrchestrator::getStorageService() const {
+    return impl_->storage_service;
+}
+
+std::shared_ptr<AdapterConsistencyChecker> LoRAOrchestrator::getConsistencyChecker() const {
+    return impl_->consistency_checker;
 }
 
 } // namespace lora

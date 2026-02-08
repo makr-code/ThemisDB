@@ -5,6 +5,8 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"
+#include "llm/lora_framework/adapter_consistency_checker.h"
+#include "utils/zstd_codec.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -102,6 +104,11 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     // Inference endpoint
     else if (target == "/api/v1/llm/lora/query" && method == http::verb::post) {
         return handleLoRAQuery(req);
+    }
+    
+    // Cross-shard sync endpoint
+    else if (target == "/api/v1/lora/receive" && method == http::verb::post) {
+        return handleReceiveAdapter(req);
     }
     
     // Health & monitoring endpoints
@@ -912,6 +919,190 @@ std::string LoRAApiHandler::extractPathParameter(
     }
     
     return param;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Cross-Shard Sync Endpoint
+// ═══════════════════════════════════════════════════════════
+
+http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
+    const http::request<http::string_body>& req) {
+    
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    
+    try {
+        // Extract metadata
+        if (!body->contains("metadata")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'metadata' field");
+        }
+        
+        if (!body->contains("data")) {
+            return createErrorResponse(http::status::bad_request, "Missing 'data' field");
+        }
+        
+        auto& metadata_json = body->at("metadata");
+        
+        // Extract adapter ID
+        std::string adapter_id = metadata_json.at("adapter_id").get<std::string>();
+        std::string version = metadata_json.at("version").get<std::string>();
+        std::string base_model = metadata_json.at("base_model").get<std::string>();
+        
+        // Extract and decode binary data
+        std::string data_str;
+        if (body->at("data").is_binary()) {
+            auto binary_data = body->at("data").get_binary();
+            data_str = std::string(binary_data.begin(), binary_data.end());
+        } else {
+            return createErrorResponse(http::status::bad_request, "Data must be binary");
+        }
+        
+        // Check if data is compressed
+        bool compressed = false;
+        std::string compression = body->value("compression", "none");
+        
+        std::vector<uint8_t> weights_data;
+        if (compression == "zstd") {
+            // Decompress data
+            auto decompressed = utils::zstd_decompress(
+                std::vector<uint8_t>(data_str.begin(), data_str.end())
+            );
+            if (decompressed.empty()) {
+                return createErrorResponse(
+                    http::status::bad_request,
+                    "Failed to decompress data"
+                );
+            }
+            weights_data = decompressed;
+            compressed = true;
+        } else {
+            weights_data = std::vector<uint8_t>(data_str.begin(), data_str.end());
+        }
+        
+        // Verify integrity checks if present
+        if (body->contains("checksum")) {
+            std::string expected_checksum = body->at("checksum").get<std::string>();
+            
+            // Calculate checksum and verify
+            auto consistency_checker = orchestrator_->getConsistencyChecker();
+            if (consistency_checker) {
+                std::string actual_checksum = consistency_checker->calculateChecksum(weights_data);
+                if (actual_checksum != expected_checksum) {
+                    return createErrorResponse(
+                        http::status::bad_request,
+                        "Checksum verification failed",
+                        "Data integrity check failed"
+                    );
+                }
+            }
+        }
+        
+        if (body->contains("signature")) {
+            std::string signature = body->at("signature").get<std::string>();
+            
+            // Verify signature
+            auto consistency_checker = orchestrator_->getConsistencyChecker();
+            if (consistency_checker) {
+                if (!consistency_checker->verifySignature(weights_data, signature)) {
+                    return createErrorResponse(
+                        http::status::bad_request,
+                        "Signature verification failed",
+                        "Data authenticity check failed"
+                    );
+                }
+            }
+        }
+        
+        // Build AdapterWeights structure
+        llm::lora::AdapterWeights weights;
+        weights.data = weights_data;
+        weights.size_bytes = weights_data.size();
+        weights.format = metadata_json.value("format", "safetensors");
+        
+        if (metadata_json.contains("hyperparameters")) {
+            weights.hyperparameters = llm::lora::LoRAHyperparameters::fromJSON(
+                metadata_json["hyperparameters"]
+            );
+        }
+        
+        // Build AdapterMetadata structure
+        llm::lora::AdapterMetadata metadata;
+        metadata.adapter_id = adapter_id;
+        metadata.version = version;
+        metadata.base_model = base_model;
+        metadata.description = metadata_json.value("description", "");
+        metadata.training_samples = metadata_json.value("training_samples", 0);
+        metadata.validation_accuracy = metadata_json.value("validation_accuracy", 0.0f);
+        
+        if (metadata_json.contains("checksum")) {
+            metadata.checksum = metadata_json["checksum"].get<std::string>();
+        }
+        if (metadata_json.contains("signature")) {
+            metadata.signature = metadata_json["signature"].get<std::string>();
+        }
+        
+        // Parse timestamps
+        if (metadata_json.contains("created_at")) {
+            auto created_ns = metadata_json["created_at"].get<uint64_t>();
+            metadata.created_at = std::chrono::system_clock::time_point(
+                std::chrono::nanoseconds(created_ns)
+            );
+        }
+        if (metadata_json.contains("updated_at")) {
+            auto updated_ns = metadata_json["updated_at"].get<uint64_t>();
+            metadata.updated_at = std::chrono::system_clock::time_point(
+                std::chrono::nanoseconds(updated_ns)
+            );
+        }
+        
+        if (metadata_json.contains("custom_metadata")) {
+            metadata.custom_metadata = metadata_json["custom_metadata"];
+        }
+        
+        // Store the adapter via storage service
+        auto storage_service = orchestrator_->getStorageService();
+        if (!storage_service) {
+            return createErrorResponse(
+                http::status::internal_server_error,
+                "Storage service not available"
+            );
+        }
+        
+        bool stored = storage_service->storeAdapter(adapter_id, weights, metadata);
+        
+        if (stored) {
+            json response_data = {
+                {"adapter_id", adapter_id},
+                {"version", version},
+                {"status", "received"},
+                {"bytes_received", weights_data.size()},
+                {"compressed", compressed},
+                {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()}
+            };
+            
+            return createJsonResponse(response_data, http::status::created);
+        } else {
+            return createErrorResponse(
+                http::status::internal_server_error,
+                "Failed to store adapter"
+            );
+        }
+        
+    } catch (const json::exception& e) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "JSON parsing error",
+            e.what()
+        );
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Internal server error",
+            e.what()
+        );
+    }
 }
 
 } // namespace themis::server
